@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QpMO3-0000dS-7W
+	(envelope-from <sgw@linux.intel.com>) id 1QpMO3-0000dX-JD
 	for openembedded-core@lists.openembedded.org;
 	Fri, 05 Aug 2011 17:32:35 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 05 Aug 2011 08:28:08 -0700
+	by orsmga101.jf.intel.com with ESMTP; 05 Aug 2011 08:28:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,323,1309762800"; d="scan'208";a="34926368"
+X-IronPort-AV: E=Sophos;i="4.67,323,1309762800"; d="scan'208";a="34926370"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.76])
 	by orsmga002.jf.intel.com with ESMTP; 05 Aug 2011 08:28:08 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Aug 2011 08:27:54 -0700
-Message-Id: <dfcd152043b9fcfc21ddd57d82cf966b0a60179e.1312557813.git.sgw@linux.intel.com>
+Date: Fri,  5 Aug 2011 08:27:55 -0700
+Message-Id: <5edcb56c6c7ff3684438edec22436566955763d7.1312557813.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1312557813.git.sgw@linux.intel.com>
 References: <cover.1312557813.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1312557813.git.sgw@linux.intel.com>
 References: <cover.1312557813.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 04/14] coreutils: Fix build on uclibc
+Subject: [CONSOLIDATED PULL 05/14] libmusicbrainz: utilize base_libdir when configured
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,81 +33,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2011 15:32:35 -0000
+X-List-Received-Date: Fri, 05 Aug 2011 15:32:36 -0000
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Kumar Gala <galak@kernel.crashing.org>
 
-coreutils has getloadavg.m4 of its own. So we need
-to make sure that we remove the portions which look
-into hardcoded /usr/local/lib paths. These tests are
-only for AIX so we dont lose much
+Pass $libdir through when we configure to support a location
+other than /lib.  We also have to tweak the cmake files to allow $libdir
+to even be set.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
 ---
- .../remove-usr-local-lib-from-m4.patch             |   31 ++++++++++++++++++++
- meta/recipes-core/coreutils/coreutils_8.12.bb      |    6 ++-
- 2 files changed, 35 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/coreutils/coreutils-8.12/remove-usr-local-lib-from-m4.patch
+ .../allow-libdir-override.patch                    |   19 +++++++++++++++++++
+ .../musicbrainz/libmusicbrainz_3.0.3.bb            |    7 +++++--
+ 2 files changed, 24 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-multimedia/musicbrainz/libmusicbrainz-3.0.3/allow-libdir-override.patch
 
-diff --git a/meta/recipes-core/coreutils/coreutils-8.12/remove-usr-local-lib-from-m4.patch b/meta/recipes-core/coreutils/coreutils-8.12/remove-usr-local-lib-from-m4.patch
+diff --git a/meta/recipes-multimedia/musicbrainz/libmusicbrainz-3.0.3/allow-libdir-override.patch b/meta/recipes-multimedia/musicbrainz/libmusicbrainz-3.0.3/allow-libdir-override.patch
 new file mode 100644
-index 0000000..aac097a
+index 0000000..88f414a
 --- /dev/null
-+++ b/meta/recipes-core/coreutils/coreutils-8.12/remove-usr-local-lib-from-m4.patch
-@@ -0,0 +1,31 @@
-+We have problem using hardcoded directories like /usr/local here
-+which will be checked for cross builds. This is a special case which
-+is valid for AIX only. We do not have AIX as one of our supported
-+build host or target. Therefore we get rid of the hardcoded paths
-+and make life easier for cross compilation process.
++++ b/meta/recipes-multimedia/musicbrainz/libmusicbrainz-3.0.3/allow-libdir-override.patch
+@@ -0,0 +1,19 @@
++Allow LIB_INSTALL_DIR to be set by the the cmake configure invocation.  We dont
++easily have a way of determining something that patches ${LIB_SUFFIX} so we'll
++set LIB_INSTALL_DIR.
 +
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
 +
-+Upstream-Status: Inappropriate [Upstream does care for AIX while we may not]
-+
-+Index: coreutils-8.12/m4/getloadavg.m4
++Index: libmusicbrainz-3.0.3/CMakeLists.txt
 +===================================================================
-+--- coreutils-8.12.orig/m4/getloadavg.m4	2011-08-03 14:03:59.982197767 -0700
-++++ coreutils-8.12/m4/getloadavg.m4	2011-08-03 14:04:20.402197763 -0700
-+@@ -44,16 +44,6 @@ AC_CHECK_FUNC([getloadavg], [],
-+        [LIBS="-lutil $LIBS" gl_have_func=yes])
-+    fi
++--- libmusicbrainz-3.0.3.orig/CMakeLists.txt
+++++ libmusicbrainz-3.0.3/CMakeLists.txt
++@@ -26,7 +26,7 @@ FIND_PACKAGE(DiscId)
++ SET(LIB_SUFFIX "" CACHE STRING "Define suffix of directory name (32/64)")
++ SET(EXEC_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX} CACHE PATH "Installation prefix for executables and object code libraries" FORCE)
++ SET(BIN_INSTALL_DIR ${EXEC_INSTALL_PREFIX}/bin CACHE PATH "Installation prefix for user executables" FORCE)
++-SET(LIB_INSTALL_DIR ${EXEC_INSTALL_PREFIX}/lib${LIB_SUFFIX} CACHE PATH  "Installation prefix for object code libraries" FORCE)
+++SET(LIB_INSTALL_DIR ${EXEC_INSTALL_PREFIX}/lib${LIB_SUFFIX} CACHE PATH  "Installation prefix for object code libraries")
++ SET(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include CACHE PATH "Installation prefix for C header files" FORCE)
 + 
-+-   if test $gl_have_func = no; then
-+-     # There is a commonly available library for RS/6000 AIX.
-+-     # Since it is not a standard part of AIX, it might be installed locally.
-+-     gl_getloadavg_LIBS=$LIBS
-+-     LIBS="-L/usr/local/lib $LIBS"
-+-     AC_CHECK_LIB([getloadavg], [getloadavg],
-+-                  [LIBS="-lgetloadavg $LIBS" gl_have_func=yes],
-+-                  [LIBS=$gl_getloadavg_LIBS])
-+-   fi
-+-
-+    # Set up the replacement function if necessary.
-+    if test $gl_have_func = no; then
-+      AC_LIBOBJ([getloadavg])
-diff --git a/meta/recipes-core/coreutils/coreutils_8.12.bb b/meta/recipes-core/coreutils/coreutils_8.12.bb
-index 00746b9..0004ce7 100644
---- a/meta/recipes-core/coreutils/coreutils_8.12.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.12.bb
-@@ -7,13 +7,15 @@ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
- LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
-                     file://src/ls.c;startline=5;endline=16;md5=e1a509558876db58fb6667ba140137ad"
++ CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/libmusicbrainz3.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/libmusicbrainz3.pc)
+diff --git a/meta/recipes-multimedia/musicbrainz/libmusicbrainz_3.0.3.bb b/meta/recipes-multimedia/musicbrainz/libmusicbrainz_3.0.3.bb
+index d6fb2f4..4814b6d 100644
+--- a/meta/recipes-multimedia/musicbrainz/libmusicbrainz_3.0.3.bb
++++ b/meta/recipes-multimedia/musicbrainz/libmusicbrainz_3.0.3.bb
+@@ -6,12 +6,15 @@ LIC_FILES_CHKSUM = "file://COPYING.txt;md5=fbc093901857fcd118f065f900982c24 \
+                     file://include/musicbrainz3/includes.h;beginline=1;endline=21;md5=9ab2846573f560cea7561da472803a72"
+ DEPENDS = "expat neon"
+ 
 -PR = "r2"
 +PR = "r3"
- DEPENDS = "gmp"
- DEPENDS_virtclass-native = ""
  
- inherit autotools gettext
+ SRC_URI = "http://ftp.musicbrainz.org/pub/musicbrainz/${BPN}-${PV}.tar.gz \
+-           file://fix_build_issue_for_gcc_4.5.0.patch "
++           file://fix_build_issue_for_gcc_4.5.0.patch \
++           file://allow-libdir-override.patch "
  
--SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.gz"
-+SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.gz \
-+           file://remove-usr-local-lib-from-m4.patch \
-+          "
+ SRC_URI[md5sum] = "f4824d0a75bdeeef1e45cc88de7bb58a"
+ SRC_URI[sha256sum] = "7fd459a9fd05be9faec60a9a21caa9a1e9fda03147d58d8c7c95f33582a738c5"
  
- SRC_URI[md5sum] = "fce7999953a67243d00d75cc86dbcaa6"
- SRC_URI[sha256sum] = "9e233a62c98a3378a7b0483d2ae3d662dbaf6cd3917d3830d3514665e12a85c8"
+ inherit cmake pkgconfig
++
++EXTRA_OECMAKE = "-DLIB_INSTALL_DIR:PATH=${libdir}"
 -- 
 1.7.3.4
 
