@@ -1,33 +1,38 @@
 Received: from [93.97.173.237] (helo=tim.rpsys.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QpNAa-0005FJ-Kj for openembedded-core@lists.openembedded.org;
-	Fri, 05 Aug 2011 18:22:44 +0200
+	id 1QpNDM-0005Kh-Tk for openembedded-core@lists.openembedded.org;
+	Fri, 05 Aug 2011 18:25:37 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p75GIKHS013773
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p75GLCgm014005
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 5 Aug 2011 17:18:20 +0100
+	Fri, 5 Aug 2011 17:21:12 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 13123-09 for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Aug 2011 17:18:16 +0100 (BST)
+	id 13839-02 for <openembedded-core@lists.openembedded.org>;
+	Fri,  5 Aug 2011 17:21:08 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p75GIDV9013767
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p75GL5BQ013999
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 5 Aug 2011 17:18:14 +0100
+	Fri, 5 Aug 2011 17:21:06 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <cover.1312557813.git.sgw@linux.intel.com>
-References: <cover.1312557813.git.sgw@linux.intel.com>
-Date: Fri, 05 Aug 2011 17:17:51 +0100
-Message-ID: <1312561071.14274.132.camel@rex>
+In-Reply-To: <1312560464.14274.128.camel@rex>
+References: <cover.1312469789.git.nitin.a.kamble@intel.com>
+	<e5fc6a2b0a315f9ade50a7f357b98068c38d49e3.1312469789.git.nitin.a.kamble@intel.com>
+	<aa5a0621a4d7110828517949f4c07221e62b068c.1312469790.git.nitin.a.kamble@intel.com>
+	<CA+M6bXnGxvjb7y23xss2epiaMXW3CWAK5Hq2ixPqM8iyATXuCA@mail.gmail.com>
+	<9DA5872FEF993D41B7173F58FCF6BE94DE85F57C@orsmsx504.amr.corp.intel.com>
+	<1312560464.14274.128.camel@rex>
+Date: Fri, 05 Aug 2011 17:20:43 +0100
+Message-ID: <1312561243.14274.133.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [CONSOLIDATED PULL 00/14]
+Subject: Re: [PATCH 10/10] local.conf.sample: make BBMASK assignment weak
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,54 +47,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2011 16:22:44 -0000
+X-List-Received-Date: Fri, 05 Aug 2011 16:25:37 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-08-05 at 08:27 -0700, Saul Wold wrote:
-> Richard,
+On Fri, 2011-08-05 at 17:07 +0100, Richard Purdie wrote:
+> On Thu, 2011-08-04 at 15:54 -0700, Kamble, Nitin A wrote:
+> > 
+> > > -----Original Message-----
+> > > From: openembedded-core-bounces@lists.openembedded.org
+> > > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> > > Tom Rini
+> > > Sent: Thursday, August 04, 2011 3:53 PM
+> > > To: Patches and discussions about the oe-core layer
+> > > Subject: Re: [OE-core] [PATCH 10/10] local.conf.sample: make BBMASK
+> > > assignment weak
+> > > 
+> > > On Thu, Aug 4, 2011 at 8:01 AM,  <nitin.a.kamble@intel.com> wrote:
+> > > > From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> > > >
+> > > > So that it can be overridden by layers if needed.
+> > > >
+> > > > Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> > > > ---
+> > > >  meta-yocto/conf/local.conf.sample |    2 +-
+> > > >  1 files changed, 1 insertions(+), 1 deletions(-)
+> > > >
+> > > > diff --git a/meta-yocto/conf/local.conf.sample b/meta-
+> > > yocto/conf/local.conf.sample
+> > > > index 3e71b0a..4acec37 100644
+> > > > --- a/meta-yocto/conf/local.conf.sample
+> > > > +++ b/meta-yocto/conf/local.conf.sample
+> > > > @@ -39,7 +39,7 @@ DISTRO ?= "poky"
+> > > >
+> > > >  # BBMASK is a regular expression that can be used to tell BitBake to
+> > > ignore
+> > > >  # certain recipes.
+> > > > -BBMASK = ""
+> > > > +BBMASK ?= ""
+> > > >
+> > > >  # EXTRA_IMAGE_FEATURES allows extra packages to be added to the
+> > > generated images
+> > > >  # (Some of these are automatically added to certain image types)
+> > > 
+> > > In oe.dev we just dropped this from local.conf iirc since a real
+> > > assignmnet was overriding a useful setting we provided.  IMHO, we
+> > > should do the same here (or at least comment it out).
+> > 
+> > I agree. We should comment it out.
 > 
-> This Set includes changes multilib and ppc64, you may want to
-> review the ppc64 changes.
-> 
-> Thanks
-> 	Sau!
-> 
-> The following changes since commit 8a731122e7811275f20065ba27645b97fadf362d:
-> 
->   eglibc: Fix patch merge breakage (2011-08-04 15:41:08 +0100)
-> 
-> are available in the git repository at:
->   git://git.openembedded.org/openembedded-core-contrib sgw/stage
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-> 
-> Beth Flanagan (1):
->   buildstats.bbclass: Adding disk io measurement
-> 
-> Khem Raj (3):
->   autoconf: Remove patch=1 from SRC_URI
->   autoconf: Remove code checking for hardcoded /usr/local
->   coreutils: Fix build on uclibc
-> 
-> Kumar Gala (7):
->   libmusicbrainz: utilize base_libdir when configured
->   libproxy: utilize libdir when configured
->   prelink: Add lib64 dirs to prelink.conf
->   tune/arch-powerpc64: include arch-powerpc.inc to keep things in sync
->   gcc-4.6: Add support for the e5500 PowerPC core
->   image-mklibs.bbclass: Add powerpc64 arch support
->   image-mklibs.bbclass: Utilize ${base_libdir} instead of static /lib
-> 
-> Mark Hatle (1):
->   libzypp: Increase the size of the arch compat table
-> 
-> Saul Wold (2):
->   dpkg: Update to use perlnative
->   linux-yocto_3.0: Fix SRC_URI to use yoctoproject.org
+> I agree too.
 
-Merged to master since most of these have been floating around for a
-while and undergone a few rounds of review. The ppc64s look good, thanks
-Kumar for working through the details!
+To save more respin and so forth I went ahead and merged that change.
 
 Cheers,
 
