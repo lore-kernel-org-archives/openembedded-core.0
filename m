@@ -1,24 +1,24 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1QpGex-0008Fl-3r
+	(envelope-from <lianhao.lu@intel.com>) id 1QpHoh-0001bE-9n
 	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Aug 2011 11:25:39 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QpGai-0005Fu-63
-	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Aug 2011 11:21:17 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 05 Aug 2011 10:21:15 +0100
-In-Reply-To: <c9f3ca9552ecf8d0c3bd1128ee7a915bfb7776f6.1312523858.git.jiajun.xu@intel.com>
-References: <cover.1312523858.git.jiajun.xu@intel.com>
-	<c9f3ca9552ecf8d0c3bd1128ee7a915bfb7776f6.1312523858.git.jiajun.xu@intel.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1312536076.6733.8.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/1] libsdl: Add libSDL.so into Sato image
+	Fri, 05 Aug 2011 12:39:47 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 05 Aug 2011 03:35:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,322,1309762800"; d="scan'208";a="38181884"
+Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.146])
+	by fmsmga001.fm.intel.com with ESMTP; 05 Aug 2011 03:35:21 -0700
+From: Lianhao Lu <lianhao.lu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  5 Aug 2011 18:37:12 +0800
+Message-Id: <70399181518329ce158a37400198c5f4dcb92e0f.1312540193.git.lianhao.lu@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <8f296f721bbda3e9df8a80422cd876b9d52712f8.1312540193.git.lianhao.lu@intel.com>
+References: <8f296f721bbda3e9df8a80422cd876b9d52712f8.1312540193.git.lianhao.lu@intel.com>
+In-Reply-To: <cover.1312540193.git.lianhao.lu@intel.com>
+References: <cover.1312540193.git.lianhao.lu@intel.com>
+Subject: [PATCH 2/6] tcp-wrappers: Using ${PN} in PACKAGES.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,20 +33,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2011 09:25:39 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 05 Aug 2011 10:39:47 -0000
 
-On Fri, 2011-08-05 at 14:11 +0800, Jiajun Xu wrote:
-> -                --disable-video-opengl --enable-input-events --enable-pthreads \
-> +                --enable-input-events --enable-pthreads \
+[YOCTO #1334]
+Using ${PN} instead of tcp-wrappers in PACKAGES and FILES_*, since the
+FILES_tcp-wrappers would be overwritten by FILES_${PN} when the variable
+name gets expansioned.
 
-If you're enabling OpenGL, doesn't it need to DEPEND on the GL/GLES
-libraries?  Also, if this is going to break for folks who don't
-have/want GL then it probably needs to be a DISTRO_FEATURE or something.
+Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+---
+ .../tcp-wrappers/tcp-wrappers_7.6.bb               |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
 
-p.
-
+diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
+index 1aeb9ff..3eecd4d 100644
+--- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
++++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
+@@ -8,12 +8,12 @@ LIC_FILES_CHKSUM = "file://DISCLAIMER;md5=071bd69cb78b18888ea5e3da5c3127fa"
+ PR ="r0"
+ 
+ 
+-PACKAGES = "${PN}-dbg libwrap libwrap-doc libwrap-dev tcp-wrappers tcp-wrappers-doc"
++PACKAGES = "${PN}-dbg libwrap libwrap-doc libwrap-dev ${PN} ${PN}-doc"
+ FILES_libwrap = "${base_libdir}/lib*.so.*"
+ FILES_libwrap-doc = "${mandir}/man3 ${mandir}/man5"
+ FILES_libwrap-dev = "${libdir}/lib*.so ${libdir}/lib*.a ${includedir}"
+-FILES_tcp-wrappers = "${bindir}"
+-FILES_tcp-wrappers-doc = "${mandir}/man8"
++FILES_${PN} = "${sbindir}"
++FILES_${PN}-doc = "${mandir}/man8"
+ 
+ SRC_URI = "ftp://ftp.porcupine.org/pub/security/tcp_wrappers_${PV}.tar.gz \
+            file://00_man_quoting.diff \
+-- 
+1.7.0.4
 
 
 
