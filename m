@@ -1,36 +1,27 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QpEm3-0005EG-9e
+	(envelope-from <philb@gnu.org>) id 1QpFFb-0005kd-86
 	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Aug 2011 09:24:51 +0200
-Received: by fxg11 with SMTP id 11so1722290fxg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Aug 2011 00:20:27 -0700 (PDT)
-Received: by 10.223.91.147 with SMTP id n19mr1543273fam.53.1312528826882;
-	Fri, 05 Aug 2011 00:20:26 -0700 (PDT)
-Received: from [178.231.145.45] ([178.231.145.45])
-	by mx.google.com with ESMTPS id o7sm793425fah.12.2011.08.05.00.20.24
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 05 Aug 2011 00:20:25 -0700 (PDT)
-References: <1312196922-20019-1-git-send-email-koen@dominion.thruhere.net>
-	<4E3B542C.1070306@linux.intel.com>
-	<ADE3B9A3-1B0B-4ECA-A472-D241AA542051@dominion.thruhere.net>
-	<4E3B8082.5010909@linux.intel.com>
-	<DF702E9E-8D68-4088-9178-E4C7B22EC0C4@dominion.thruhere.net>
-	<CABcZANmC-K=S7E0vL_4B1ys4VA_OV_r8CHpk2DNFDY0wU+7cCw@mail.gmail.com>
-	<58CFE121-CAEA-4ADD-AC97-6A03DDBA56C3@dominion.thruhere.net>
-	<CABcZANng3sQzeLdBrk47a9O-8EzWVkAN0W8EUKLXvMinLNRUVw@mail.gmail.com>
-In-Reply-To: <CABcZANng3sQzeLdBrk47a9O-8EzWVkAN0W8EUKLXvMinLNRUVw@mail.gmail.com>
-Mime-Version: 1.0 (iPhone Mail 8L1)
-Message-Id: <B3D3959D-96B0-475A-94AC-71A26378CAFA@dominion.thruhere.net>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: iPhone Mail (8L1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Fri, 5 Aug 2011 09:16:43 +0200
+	Fri, 05 Aug 2011 09:55:23 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QpFBN-0005DX-0Q
+	for openembedded-core@lists.openembedded.org;
+	Fri, 05 Aug 2011 09:51:01 +0200
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gtk-icon-cache bbclass: only add runtime dependencies on hicolor-icon-theme when installing icons
+In-Reply-To: <9DA5872FEF993D41B7173F58FCF6BE94DE85F4F7@orsmsx504.amr.corp.intel.com>
+References: <e5fc6a2b0a315f9ade50a7f357b98068c38d49e3.1312469789.git.nitin.a.kamble@intel.com>
+	<2c351319afd13acfca1283104172729925cfb696.1312469790.git.nitin.a.kamble@intel.com>
+	<1312495032.3169.6.camel@lenovo.internal.reciva.com>
+	<9DA5872FEF993D41B7173F58FCF6BE94DE85F4F7@orsmsx504.amr.corp.intel.com>
+Date: Fri, 05 Aug 2011 08:50:54 +0100
+Message-ID: <1312530654.3169.12.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.3 
+Subject: Re: [PATCH 09/10] x86 tune inc files: add x32 abi tune parameters
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,62 +36,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2011 07:24:51 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+X-List-Received-Date: Fri, 05 Aug 2011 07:55:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Thu, 2011-08-04 at 15:18 -0700, Kamble, Nitin A wrote:
+> 
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> > Phil Blundell
+> > Sent: Thursday, August 04, 2011 2:57 PM
+> > To: Patches and discussions about the oe-core layer
+> > Subject: Re: [OE-core] [PATCH 09/10] x86 tune inc files: add x32 abi
+> > tune parameters
+> > 
+> > On Thu, 2011-08-04 at 08:01 -0700, nitin.a.kamble@intel.com wrote:
+> > >  # ELF32 ABI
+> > >  TUNEVALID[m32] = "IA32 ELF32 standard ABI"
+> > > -TUNECONFLICTS[m32] = "m64"
+> > > +TUNECONFLICTS[m32] = "m64 mx32"
+> > >  TUNE_ARCH .= "${@bb.utils.contains("TUNE_FEATURES", "m32",
+> > "${X86ARCH32}", "" ,d)}"
+> > > +ABIEXTENSION .= "${@bb.utils.contains("TUNE_FEATURES", "m32", "32",
+> > "" ,d)}"
+> > >  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "m32", "-m32",
+> > "", d)}"
+> > 
+> > This is going to cause TARGET_OS to change for everyone using the i586
+> > ABI, right?  That doesn't seem like it is either necessary or
+> > desirable,
+> > and it isn't mentioned in the checkin comment either.
+> 
+> Correct, this will change the TARGET_OS from linux_gnu to linux_gnu32. And it is also applicable for x86-64 machine set with x86 tune. This change is be needed if multiple tunes are built from the same build directory. If such situation is not important then the ABIEXTENSION part can be dropped.
 
+Well, if you build i686 and x32 in the same tree they will already be
+disambiguated through TARGET_ARCH.  Likewise i686 and x86-64 already
+works for the same reason.  So, the only possible conflict is between
+x86-64 and x32, and setting ABIEXTENSION for x32 (only) would be
+sufficient to avoid that.
 
-Op 5 aug. 2011 om 09:00 heeft Chris Larson <clarson@kergoth.com> het volgend=
-e geschreven:
+Though, I do wonder whether x32 ought to just have its own TARGET_ARCH
+value rather than trying to disambiguate it through TARGET_OS hackery.
 
-> On Thu, Aug 4, 2011 at 10:55 PM, Koen Kooi <koen@dominion.thruhere.net> wr=
-ote:
->> Op 5 aug. 2011, om 07:51 heeft Chris Larson het volgende geschreven:
->>=20
->>> On Thu, Aug 4, 2011 at 10:48 PM, Koen Kooi <koen@dominion.thruhere.net> w=
-rote:
->>>>=20
->>>> Op 5 aug. 2011, om 07:32 heeft Saul Wold het volgende geschreven:
->>>>=20
->>>>> On 08/04/2011 10:28 PM, Koen Kooi wrote:
->>>>>>=20
->>>>>> Op 5 aug. 2011, om 04:23 heeft Saul Wold het volgende geschreven:
->>>>>>=20
->>>>>>> On 08/01/2011 04:08 AM, Koen Kooi wrote:
->>>>>>>> Tested with gnome-icon-theme and libsoup recipes on angstrom.
->>>>>>>>=20
->>>=20
->>> Can someone explain why this patch added the dependency to the global
->>> RDEPENDS, rather than the RDEPENDS_<pkg> for the pkg in question?
->>=20
->> Ah, I assumed it was local to 'pkg' when iterating over packages.
->>=20
->> So should it be:
->>=20
->> rdepends =3D bb.data.getVar('RDEPENDS_%s' % pkg, d, 1)
->>=20
->> [..]
->>=20
->> bb.data.setVar('RDEPENDS_%s' % pkg, rdepends, d)
->=20
-> Perhaps it is, I haven't read the code that closely. I just noticed
-> that the pkg_postinst below did use the pkg suffix, and assumed.
+p.
 
-I'll test when I get back home later today
-
-
-> --=20
-> Christopher Larson
-> clarson at kergoth dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Maintainer - Tslib
-> Senior Software Engineer, Mentor Graphics
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
