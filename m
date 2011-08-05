@@ -1,41 +1,34 @@
-Received: from mail-iy0-f171.google.com ([209.85.210.171])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QpOLP-0007bZ-6k
+	(envelope-from <koen@dominion.thruhere.net>) id 1QpOM6-0007dn-VD
 	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Aug 2011 19:37:59 +0200
-Received: by iyf13 with SMTP id 13so5484595iyf.16
+	Fri, 05 Aug 2011 19:38:43 +0200
+Received: by wyf19 with SMTP id 19so427359wyf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Aug 2011 10:33:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:x-enigmail-version:content-type
-	:content-transfer-encoding;
-	bh=e1Hz9HevDuurMmaT4patZANTJtDpNqWsGGfIyfmcNlY=;
-	b=ZrBh/1v0wUlgdvTkt7dqtH5u7Z8sBufHiyy0Y4O6rADy61LiVpX6ktq4ZwC3oVkiYd
-	jJjLucCVswqa/0s28hVYUSuj3C8lqBoP6NHCobyf2K+6VXFruztH+F1sUkUuoWwFc0NY
-	x97IASMpHcx+Slgk4HgWpmJ3Dxv28bvQL9Hsk=
-Received: by 10.42.154.131 with SMTP id q3mr2047919icw.312.1312565613344;
-	Fri, 05 Aug 2011 10:33:33 -0700 (PDT)
-Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
-	[99.57.141.118])
-	by mx.google.com with ESMTPS id q13sm2154413ibi.60.2011.08.05.10.33.32
-	(version=SSLv3 cipher=OTHER); Fri, 05 Aug 2011 10:33:32 -0700 (PDT)
-Message-ID: <4E3C295C.6060700@gmail.com>
-Date: Fri, 05 Aug 2011 10:33:16 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:6.0) Gecko/20110801 Thunderbird/6.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <CAGiJk9dWLc6TqMRfG4nqfgHbBHnRVb3V7b_QQwH9UPjip1aNeg@mail.gmail.com>
-	<CAGiJk9e01+q-P51iknAFut7jWgSP4NrzLoNDKAjM-wC+=7U+4w@mail.gmail.com>
-	<4E396097.1000207@gmail.com>
-	<CAGiJk9fsRGZiA92vpOcT8X95KscOg-vFxqdB7hcW16MOSk0PWQ@mail.gmail.com>
-	<4E3ABA58.9040408@gmail.com>
-	<CAGiJk9eZgic_cL23CEJYq+++OW3233cdhpehwhsJkwo4=1yr9Q@mail.gmail.com>
-In-Reply-To: <CAGiJk9eZgic_cL23CEJYq+++OW3233cdhpehwhsJkwo4=1yr9Q@mail.gmail.com>
-X-Enigmail-Version: 1.2pre
-Subject: Re: Error running QEMU with oe-core / angstrom console-image, hwclock: can't open '/dev/misc/rtc' : No such file or directory
+	Fri, 05 Aug 2011 10:34:18 -0700 (PDT)
+Received: by 10.216.171.149 with SMTP id r21mr770334wel.85.1312565658133;
+	Fri, 05 Aug 2011 10:34:18 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id a14sm1977696wed.9.2011.08.05.10.34.16
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 05 Aug 2011 10:34:17 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1312561654.14274.136.camel@rex>
+Date: Fri, 5 Aug 2011 19:34:11 +0200
+Message-Id: <4918F139-8FB2-436C-91DB-E487D7F979A9@dominion.thruhere.net>
+References: <1312196922-20019-1-git-send-email-koen@dominion.thruhere.net>
+	<4E3B542C.1070306@linux.intel.com>
+	<ADE3B9A3-1B0B-4ECA-A472-D241AA542051@dominion.thruhere.net>
+	<4E3B8082.5010909@linux.intel.com>
+	<DF702E9E-8D68-4088-9178-E4C7B22EC0C4@dominion.thruhere.net>
+	<CABcZANmC-K=S7E0vL_4B1ys4VA_OV_r8CHpk2DNFDY0wU+7cCw@mail.gmail.com>
+	<58CFE121-CAEA-4ADD-AC97-6A03DDBA56C3@dominion.thruhere.net>
+	<1312561654.14274.136.camel@rex>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1244.3)
+Subject: Re: [PATCH] gtk-icon-cache bbclass: only add runtime dependencies on hicolor-icon-theme when installing icons
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,176 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2011 17:37:59 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
-
-On 08/04/2011 10:25 PM, Samuel Stirtzel wrote:
-> 2011/8/4 Khem Raj <raj.khem@gmail.com>:
->> On 08/04/2011 01:08 AM, Samuel Stirtzel wrote:
->>> 
->>> 2011/8/3 Khem Raj<raj.khem@gmail.com>:
->>>> 
->>>> There is a smart script in scripts/ dir that you could use 
->>>> something like this
->>>> 
->>>> runqemu 
->>>> /var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>
->>>> 
-/var/oe-core/tmp-eglibc/deploy/images/qemuarm/console-image-qemuarm.ext2
->>>> 
->>>> and it will setup everything (even networking) for you
->>>> 
->>> Already tried this one, but for some unknown reasons it doesn't 
->>> work, I get the following output: - 
->>> samuel@S-Linux:/var/oe-core/setup-scripts$ runqemu 
->>> /var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin
->>> 
->>> /var/oe-core/tmp-eglibc/deploy/images/qemuarm/console-image-qemuarm.ext2
->>>
->>>
->>>
->>>
->>>
->>>
->>>
->>> 
-Set MACHINE to [qemuarm] based on kernel
->>> [/var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin]
->>>
->>>
->>>
->>>
->>>
->>>
->>>
->>>
->>> 
-Continuing with the following parameters:
->>> KERNEL: 
->>> [/var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin]
->>>
->>>
->>>
->>>
->>>
->>>
->>>
->>> 
-ROOTFS:
->>> [/var/oe-core/tmp-eglibc/deploy/images/qemuarm/console-image-qemuarm.ext2]
->>>
->>>
->>>
->>>
->>>
->>>
->>>
->>> 
-FSTYPE: [ext2]
->>> Setting up tap interface under sudo [sudo] password for samuel: 
->>> sudo runqemu-ifup<gid>  <native-sysroot-basedir> 
->>> samuel@S-Linux:/var/oe-core/setup-scripts$
->> 
->> A fix for this problem has been committed to oe-core already. 
->> Update and retry
->> 
-> After i updated my oe-core files the script still won't work for me. 
-> The new output is:: - 
-> samuel@S-Stirtzel-Linux:/var/oe-core/setup-scripts$ runqemu 
-> /var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin 
-> /var/oe-core/tmp-eglibc/deploy/images/qemuarm/console-image-qemuarm.ext2
->
->
->
->
->
->
->
-> 
-Set MACHINE to [qemuarm] based on kernel
-> [/var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin]
-> 
-> Continuing with the following parameters: KERNEL: 
-> [/var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin] 
-> ROOTFS: 
-> [/var/oe-core/tmp-eglibc/deploy/images/qemuarm/console-image-qemuarm.ext2]
->
->
->
->
->
->
->
-> 
-FSTYPE: [ext2]
-> Setting up tap interface under sudo [sudo] password for samuel: 
-> Acquiring lockfile for tap0... Error: Unable to support this 
-> combination of options
-
-It means QEMUOPTIONS is empty in your case because you are sing ext2
-image. It supports ext3 and btrfs
-
-but it should be easy to add ext2 to mix. Can you try something like below
-
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index c15632d..64635df 100755
-- --- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -277,7 +277,7 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" =
-"qemuarmv6" -o "$MACHINE" = "qemuarm
-     MACHINE_SUBTYPE=versatilepb
-     QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
-     # QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -force-pointer"
-- -    if [ "$FSTYPE" = "ext3" -o "$FSTYPE" = "btrfs" ]; then
-+    if [ "$FSTYPE" = "ext3" -o "$FSTYPE" = "btrfs" -o "$FSTYPE" =
-"ext2" ]; then
-         KERNCMDLINE="root=/dev/sda rw console=ttyAMA0,115200
-console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY hi
-         QEMUOPTIONS="$QEMU_NETWORK_CMD -M versatilepb -hda $ROOTFS
-- -no-reboot $QEMU_UI_OPTIONS"
-     fi
+X-List-Received-Date: Fri, 05 Aug 2011 17:38:43 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
-> Set 'tap0' nonpersistent Releasing lockfile of preconfigured tap 
-> device 'tap0' -
-> 
-> This error was not created from the runqemu script itself. Maybe the
->  runqemu-initial script was expecting other options?
-> 
-> 
-> Regards Samuel
-> 
-> _______________________________________________ Openembedded-core 
-> mailing list Openembedded-core@lists.openembedded.org 
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Op 5 aug. 2011, om 18:27 heeft Richard Purdie het volgende geschreven:
 
+> On Fri, 2011-08-05 at 07:55 +0200, Koen Kooi wrote:
+>> Op 5 aug. 2011, om 07:51 heeft Chris Larson het volgende geschreven:
+>>=20
+>>> On Thu, Aug 4, 2011 at 10:48 PM, Koen Kooi =
+<koen@dominion.thruhere.net> wrote:
+>>>>=20
+>>>> Op 5 aug. 2011, om 07:32 heeft Saul Wold het volgende geschreven:
+>>>>=20
+>>>>> On 08/04/2011 10:28 PM, Koen Kooi wrote:
+>>>>>>=20
+>>>>>> Op 5 aug. 2011, om 04:23 heeft Saul Wold het volgende geschreven:
+>>>>>>=20
+>>>>>>> On 08/01/2011 04:08 AM, Koen Kooi wrote:
+>>>>>>>> Tested with gnome-icon-theme and libsoup recipes on angstrom.
+>>>>>>>>=20
+>>>=20
+>>> Can someone explain why this patch added the dependency to the =
+global
+>>> RDEPENDS, rather than the RDEPENDS_<pkg> for the pkg in question?
+>>=20
+>> Ah, I assumed it was local to 'pkg' when iterating over packages.
+>>=20
+>> So should it be:
+>>=20
+>> rdepends =3D bb.data.getVar('RDEPENDS_%s' % pkg, d, 1)
+>>=20
+>> [..]
+>>=20
+>> bb.data.setVar('RDEPENDS_%s' % pkg, rdepends, d)
+>>=20
+>> ?
+>=20
+> Yes, it should.
 
-- --
->
->
->
->
->
->
-> 
-- -Khem
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.11 (GNU/Linux)
-
-iEYEARECAAYFAk48KVsACgkQuwUzVZGdMxSNaACffDYUHfK9qKdnYNdzCJCGr+3W
-lqoAn2AFkMaezl4MLN7WbaE/zDjvu4vR
-=pUFt
------END PGP SIGNATURE-----
+patch on its way :)=
 
 
