@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QpMO3-0000dV-2F
+	(envelope-from <sgw@linux.intel.com>) id 1QpMO3-0000dS-7W
 	for openembedded-core@lists.openembedded.org;
 	Fri, 05 Aug 2011 17:32:35 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP; 05 Aug 2011 08:28:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,323,1309762800"; d="scan'208";a="34926362"
+X-IronPort-AV: E=Sophos;i="4.67,323,1309762800"; d="scan'208";a="34926368"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.76])
 	by orsmga002.jf.intel.com with ESMTP; 05 Aug 2011 08:28:08 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Aug 2011 08:27:53 -0700
-Message-Id: <6996bce61f65251c7a47a3c3bce2d609ebfe2872.1312557813.git.sgw@linux.intel.com>
+Date: Fri,  5 Aug 2011 08:27:54 -0700
+Message-Id: <dfcd152043b9fcfc21ddd57d82cf966b0a60179e.1312557813.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1312557813.git.sgw@linux.intel.com>
 References: <cover.1312557813.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1312557813.git.sgw@linux.intel.com>
 References: <cover.1312557813.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 03/14] autoconf: Remove code checking for hardcoded /usr/local
+Subject: [CONSOLIDATED PULL 04/14] coreutils: Fix build on uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,26 +37,24 @@ X-List-Received-Date: Fri, 05 Aug 2011 15:32:35 -0000
 
 From: Khem Raj <raj.khem@gmail.com>
 
-This code is only relevant for AIX and causes
-problems with OE QA sniffer which detects -L/usr/local/lib
-on linker commandline during cross compile and rightly barfs
-
-This only happens when getloadavg() is not found in libc
-so we do not reach that code with eglibc but only with uclibc
+coreutils has getloadavg.m4 of its own. So we need
+to make sure that we remove the portions which look
+into hardcoded /usr/local/lib paths. These tests are
+only for AIX so we dont lose much
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../autoconf/remove-usr-local-lib-from-m4.patch    |   29 ++++++++++++++++++++
- meta/recipes-devtools/autoconf/autoconf_2.68.bb    |    3 +-
- 2 files changed, 31 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/autoconf/autoconf/remove-usr-local-lib-from-m4.patch
+ .../remove-usr-local-lib-from-m4.patch             |   31 ++++++++++++++++++++
+ meta/recipes-core/coreutils/coreutils_8.12.bb      |    6 ++-
+ 2 files changed, 35 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/coreutils/coreutils-8.12/remove-usr-local-lib-from-m4.patch
 
-diff --git a/meta/recipes-devtools/autoconf/autoconf/remove-usr-local-lib-from-m4.patch b/meta/recipes-devtools/autoconf/autoconf/remove-usr-local-lib-from-m4.patch
+diff --git a/meta/recipes-core/coreutils/coreutils-8.12/remove-usr-local-lib-from-m4.patch b/meta/recipes-core/coreutils/coreutils-8.12/remove-usr-local-lib-from-m4.patch
 new file mode 100644
-index 0000000..55d2e2f
+index 0000000..aac097a
 --- /dev/null
-+++ b/meta/recipes-devtools/autoconf/autoconf/remove-usr-local-lib-from-m4.patch
-@@ -0,0 +1,29 @@
++++ b/meta/recipes-core/coreutils/coreutils-8.12/remove-usr-local-lib-from-m4.patch
+@@ -0,0 +1,31 @@
 +We have problem using hardcoded directories like /usr/local here
 +which will be checked for cross builds. This is a special case which
 +is valid for AIX only. We do not have AIX as one of our supported
@@ -66,46 +64,50 @@ index 0000000..55d2e2f
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +
 +Upstream-Status: Inappropriate [Upstream does care for AIX while we may not]
-+Index: autoconf-2.68/lib/autoconf/functions.m4
++
++Index: coreutils-8.12/m4/getloadavg.m4
 +===================================================================
-+--- autoconf-2.68.orig/lib/autoconf/functions.m4	2010-09-22 14:52:19.000000000 -0700
-++++ autoconf-2.68/lib/autoconf/functions.m4	2011-08-03 11:57:05.822199513 -0700
-+@@ -749,15 +749,6 @@ if test $ac_have_func = no; then
-+     [LIBS="-lutil $LIBS" ac_have_func=yes ac_cv_func_getloadavg_setgid=yes])
-+ fi
++--- coreutils-8.12.orig/m4/getloadavg.m4	2011-08-03 14:03:59.982197767 -0700
+++++ coreutils-8.12/m4/getloadavg.m4	2011-08-03 14:04:20.402197763 -0700
++@@ -44,16 +44,6 @@ AC_CHECK_FUNC([getloadavg], [],
++        [LIBS="-lutil $LIBS" gl_have_func=yes])
++    fi
 + 
-+-if test $ac_have_func = no; then
-+-  # There is a commonly available library for RS/6000 AIX.
-+-  # Since it is not a standard part of AIX, it might be installed locally.
-+-  ac_getloadavg_LIBS=$LIBS
-+-  LIBS="-L/usr/local/lib $LIBS"
-+-  AC_CHECK_LIB(getloadavg, getloadavg,
-+-	       [LIBS="-lgetloadavg $LIBS"], [LIBS=$ac_getloadavg_LIBS])
-+-fi
++-   if test $gl_have_func = no; then
++-     # There is a commonly available library for RS/6000 AIX.
++-     # Since it is not a standard part of AIX, it might be installed locally.
++-     gl_getloadavg_LIBS=$LIBS
++-     LIBS="-L/usr/local/lib $LIBS"
++-     AC_CHECK_LIB([getloadavg], [getloadavg],
++-                  [LIBS="-lgetloadavg $LIBS" gl_have_func=yes],
++-                  [LIBS=$gl_getloadavg_LIBS])
++-   fi
 +-
-+ # Make sure it is really in the library, if we think we found it,
-+ # otherwise set up the replacement function.
-+ AC_CHECK_FUNCS(getloadavg, [],
-diff --git a/meta/recipes-devtools/autoconf/autoconf_2.68.bb b/meta/recipes-devtools/autoconf/autoconf_2.68.bb
-index 3b196a6..c6209a3 100644
---- a/meta/recipes-devtools/autoconf/autoconf_2.68.bb
-+++ b/meta/recipes-devtools/autoconf/autoconf_2.68.bb
-@@ -1,6 +1,6 @@
- require autoconf.inc
++    # Set up the replacement function if necessary.
++    if test $gl_have_func = no; then
++      AC_LIBOBJ([getloadavg])
+diff --git a/meta/recipes-core/coreutils/coreutils_8.12.bb b/meta/recipes-core/coreutils/coreutils_8.12.bb
+index 00746b9..0004ce7 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.12.bb
++++ b/meta/recipes-core/coreutils/coreutils_8.12.bb
+@@ -7,13 +7,15 @@ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
+ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
+                     file://src/ls.c;startline=5;endline=16;md5=e1a509558876db58fb6667ba140137ad"
+-PR = "r2"
++PR = "r3"
+ DEPENDS = "gmp"
+ DEPENDS_virtclass-native = ""
  
--PR = "r1"
-+PR = "r2"
+ inherit autotools gettext
  
- PARALLEL_MAKE = ""
+-SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.gz"
++SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.gz \
++           file://remove-usr-local-lib-from-m4.patch \
++          "
  
-@@ -16,6 +16,7 @@ SRC_URI += "file://autoreconf-include.patch \
- 	    file://autoheader-nonfatal-warnings.patch \
- 	    ${@['file://path_prog_fixes.patch', ''][bb.data.inherits_class('native', d)]} \
-             file://config_site.patch \
-+            file://remove-usr-local-lib-from-m4.patch \
-            "
- 
- SRC_URI[md5sum] = "864d785215aa60d627c91fcb21b05b07"
+ SRC_URI[md5sum] = "fce7999953a67243d00d75cc86dbcaa6"
+ SRC_URI[sha256sum] = "9e233a62c98a3378a7b0483d2ae3d662dbaf6cd3917d3830d3514665e12a85c8"
 -- 
 1.7.3.4
 
