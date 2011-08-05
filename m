@@ -1,31 +1,19 @@
-Received: from mail-gw0-f47.google.com ([74.125.83.47])
+Received: from gate.crashing.org ([63.228.1.57]
+	ident=[U2FsdGVkX18X7P3Q79flXLe28Jpc++FM5SU7kIBENgA=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QpQZm-0005hl-6C
+	(envelope-from <galak@kernel.crashing.org>) id 1QpQnn-0005zN-5U
 	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Aug 2011 22:00:58 +0200
-Received: by gwb11 with SMTP id 11so861141gwb.6
+	Fri, 05 Aug 2011 22:15:27 +0200
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p75KB2VS025075
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Aug 2011 12:56:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=/Q6A11D9SLWUY9Fa7AswIfCWkPKirU+tTbggs2X4aqg=;
-	b=QzaY8K5JqKN8yQZY5MESltPjAqUuRb5nS8pa5U2O1AyThuWF+/c43MS3j7QrEhoIJ5
-	9pw9R23hs2RMEpWrim9cjHUF+lZaRwcetxTT/frP9eE+sa6D1PGvqW7iZPWcU2aBmXXh
-	iizrS3MVvNSa479hk9A5q1HGnCg4nYcE4yTqY=
-Received: by 10.142.232.4 with SMTP id e4mr2344712wfh.446.1312574192263;
-	Fri, 05 Aug 2011 12:56:32 -0700 (PDT)
-Received: from localhost.localdomain
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id s7sm467711pbj.53.2011.08.05.12.56.30
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 05 Aug 2011 12:56:31 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	Fri, 5 Aug 2011 15:11:02 -0500
+From: Kumar Gala <galak@kernel.crashing.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Aug 2011 12:56:17 -0700
-Message-Id: <1312574177-20210-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.4.1
-Cc: Daniel Lazzari <dlazzari@leapfrog.com>
-Subject: [PATCH V2] defaultsetup: Use .= to add TCLIBCAPPEND to TMPDIR
+Date: Fri,  5 Aug 2011 15:11:01 -0500
+Message-Id: <1312575061-27569-1-git-send-email-galak@kernel.crashing.org>
+X-Mailer: git-send-email 1.5.6.5
+Subject: [PATCH] tune-ppce5500: Add a tune file for PowerPC e5500 core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,36 +28,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2011 20:00:58 -0000
+X-List-Received-Date: Fri, 05 Aug 2011 20:15:27 -0000
 
-From: Daniel Lazzari <dlazzari@leapfrog.com>
-
-Lazily appending causes a bug where wrong cache is
-cleared when BB_SRCREV_POLICY = "clear".
-
-Tested with qemuarm on uclibc/eglibc in same build dir
-
-Signed-off-by: Daniel Lazzari Jr <dlazzari@leapfrog.com>
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
 ---
- meta/conf/distro/defaultsetup.conf |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/conf/machine/include/tune-ppce5500.inc |   14 ++++++++++++++
+ 1 files changed, 14 insertions(+), 0 deletions(-)
+ create mode 100644 meta/conf/machine/include/tune-ppce5500.inc
 
-diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/defaultsetup.conf
-index 919ed00..1a29778 100644
---- a/meta/conf/distro/defaultsetup.conf
-+++ b/meta/conf/distro/defaultsetup.conf
-@@ -11,7 +11,7 @@ require conf/distro/include/tclibc-${TCLIBC}.inc
- 
- # Allow single libc distros to disable this code
- TCLIBCAPPEND ?= "-${TCLIBC}"
--TMPDIR_append = "${TCLIBCAPPEND}"
-+TMPDIR .= "${TCLIBCAPPEND}"
- 
- CACHE = "${TMPDIR}/cache/${TCMODE}-${TCLIBC}${@['', '/' + str(bb.data.getVar('MACHINE', d, 1))][bool(bb.data.getVar('MACHINE', d, 1))]}${@['', '/' + str(bb.data.getVar('SDKMACHINE', d, 1))][bool(bb.data.getVar('SDKMACHINE', d, 1))]}"
- 
+diff --git a/meta/conf/machine/include/tune-ppce5500.inc b/meta/conf/machine/include/tune-ppce5500.inc
+new file mode 100644
+index 0000000..8e6403d
+--- /dev/null
++++ b/meta/conf/machine/include/tune-ppce5500.inc
+@@ -0,0 +1,14 @@
++DEFAULTTUNE ?= "ppce5500"
++
++require conf/machine/include/powerpc/arch-powerpc64.inc
++
++TUNEVALID[ppce5500] = "Enable ppce5500 specific processor optimizations"
++TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce5500", "-mcpu=e5500", "", d)}"
++TUNE_PKGARCH = "${@bb.utils.contains("TUNE_FEATURES", "ppce5500", "ppce5500", "${PPCPKGARCH}", d)}"
++
++AVAILTUNES += "ppce5500"
++TUNE_FEATURES_tune-ppce5500 = "m64 ppce5500"
++PACKAGE_EXTRA_ARCHS_tune-ppce5500 = "powerpc64 ppce5500"
++
++# glibc configure options to get e5500 specific library (for sqrt)
++GLIBC_EXTRA_OECONF += "--with-cpu=e5500"
 -- 
-1.7.4.1
+1.7.3.4
 
 
 
