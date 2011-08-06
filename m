@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QpabN-0000Nk-CQ
+	(envelope-from <sgw@linux.intel.com>) id 1QpabL-0000Nc-JX
 	for openembedded-core@lists.openembedded.org;
 	Sat, 06 Aug 2011 08:43:18 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 05 Aug 2011 23:38:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,327,1309762800"; d="scan'208";a="35941159"
+X-IronPort-AV: E=Sophos;i="4.67,327,1309762800"; d="scan'208";a="35941158"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.173])
 	by orsmga001.jf.intel.com with ESMTP; 05 Aug 2011 23:38:47 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Aug 2011 23:38:39 -0700
-Message-Id: <698dedcca15e420163562e8baf29d535ee3a5c05.1312612601.git.sgw@linux.intel.com>
+Date: Fri,  5 Aug 2011 23:38:38 -0700
+Message-Id: <1425a3c3cea8c40c16faa25f48e2c6e1612eaed4.1312612601.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1312612601.git.sgw@linux.intel.com>
 References: <cover.1312612601.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1312612601.git.sgw@linux.intel.com>
 References: <cover.1312612601.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 3/9] python-native: Fix a compiler finding issue
+Subject: [CONSOLIDATED PULL 2/9] gst-plugins: partially sync packaging with OE .dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,64 +35,167 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 06 Aug 2011 06:43:19 -0000
 
-From: Mei Lei <lei.mei@intel.com>
+From: Koen Kooi <koen@dominion.thruhere.net>
 
-The CC variable sometimes add option information after compiler name, but python can't get the real compiler name if those information added.
-Fix this issue by dropping the option information when finding compiler name.
+Gst-plugins get 2 extra packages:
 
-Signed-off-by: Mei Lei <lei.mei@intel.com>
+${PN}-apps: helper apps in ${bindir}
+${PN}-meta: meta package that will drag in all plugins, libs and apps ${PN} generates
+
+And all libs are split out and run through debian style renaming if enabled.
+
+The packaging include was split out to be reused by external plugins (e.g. gst-plugin-gl, gst-fluendo-*).
+
+The new package list looks like:
+
+libgstapp-0.10-0_0.10.32-r1_armv7a.ipk
+libgstfft-0.10-0_0.10.32-r1_armv7a.ipk
+[..]
+gst-plugins-base-videorate_0.10.32-r1_armv7a.ipk
+gst-plugins-base-videoscale_0.10.32-r1_armv7a.ipk
+[..]
+gst-plugins-base-meta_0.10.32-r1_armv7a.ipk
+[..]
+gst-plugins-base-apps_0.10.32-r1_armv7a.ipk
+
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- .../python/python-native/unixccompiler.patch       |   20 ++++++++++++++++++++
- .../recipes-devtools/python/python-native_2.6.6.bb |    3 ++-
- 2 files changed, 22 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python-native/unixccompiler.patch
+ .../gstreamer/gst-plugins-bad_0.10.21.bb           |    2 +-
+ .../gstreamer/gst-plugins-base_0.10.32.bb          |    2 +-
+ .../gstreamer/gst-plugins-good_0.10.28.bb          |    2 +-
+ .../gstreamer/gst-plugins-package.inc              |   34 ++++++++++++++++++++
+ .../gstreamer/gst-plugins-ugly_0.10.17.bb          |    2 +-
+ meta/recipes-multimedia/gstreamer/gst-plugins.inc  |   18 +---------
+ 6 files changed, 40 insertions(+), 20 deletions(-)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
 
-diff --git a/meta/recipes-devtools/python/python-native/unixccompiler.patch b/meta/recipes-devtools/python/python-native/unixccompiler.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb
+index 2b8a89c..a7023e3 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+ 
+ DEPENDS += "gst-plugins-base libmusicbrainz tremor librsvg"
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ inherit gettext
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb
+index a9e2b52..82d9afc 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb
+@@ -13,7 +13,7 @@ SRC_URI += " file://gst-plugins-base-tremor.patch"
+ SRC_URI[md5sum] = "2920af2b3162f3d9fbaa7fabc8ed4d38"
+ SRC_URI[sha256sum] = "e9aabfac83f6480896da0686e9c911989f896fbad634821b7771ed84a446172b"
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ inherit gettext
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.28.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.28.bb
+index b9648e3..cca63e9 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.28.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.28.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+ 
+ DEPENDS += "gst-plugins-base gconf cairo jpeg libpng gtk+ zlib libid3tag flac \
+ 	    speex libsoup-2.4"
+-PR = "r0"
++PR = "r1"
+ 
+ inherit gettext
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc b/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
 new file mode 100644
-index 0000000..10a9baf
+index 0000000..796df14
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python-native/unixccompiler.patch
-@@ -0,0 +1,20 @@
-+Upstream-Status: Inappropriate [embedded specific]
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
+@@ -0,0 +1,34 @@
++LIBV = "0.10"
 +
-+# The CC variable,sometimes like:"x86_64-poky-linux-gcc   -m64 --sysroot=/${TMPDIR}/sysroots/qemux86-64", contains option information. 
-+# This will lead to wrong compiler name "qemux86-64" rather than "x86_64-poky-linux-gcc" when python finding the compiler name.
++python populate_packages_prepend () {
++	gst_libdir = bb.data.expand('${libdir}/gstreamer-${LIBV}', d)
++	postinst = bb.data.getVar('plugin_postinst', d, 1)
++	glibdir = bb.data.expand('${libdir}', d)
 +
-+#Signed-off-by: Mei Lei <lei.mei@intel.com>
++	do_split_packages(d, glibdir, '^lib(.*)\.so\.*', 'lib%s', 'gstreamer %s library', extra_depends='', allow_links=True)
++	do_split_packages(d, gst_libdir, 'libgst(.*)\.so$', bb.data.expand('${PN}-%s', d), 'GStreamer plugin for %s', postinst=postinst, extra_depends=bb.data.expand('${PN}',d))
++	do_split_packages(d, gst_libdir, 'libgst(.*)\.l?a$', bb.data.expand('${PN}-%s-dev', d), 'GStreamer plugin for %s (development files)', extra_depends=bb.data.expand('${PN}-dev',d))
++	
++	pn = bb.data.getVar('PN', d, 1)
++	metapkg =  pn + '-meta'
++	bb.data.setVar('ALLOW_EMPTY_' + metapkg, "1", d)
++	bb.data.setVar('FILES_' + metapkg, "", d)
++	blacklist = [ pn + '-locale', pn + '-dev', pn + '-dbg', pn + '-doc' ]
++	metapkg_rdepends = []
++	packages = bb.data.getVar('PACKAGES', d, 1).split()
++	for pkg in packages[1:]:
++		if not pkg in blacklist and not pkg in metapkg_rdepends and not pkg.endswith('-dev') and not pkg.endswith('-dbg') and not pkg.count('locale') and not pkg.count('-static'):
++			metapkg_rdepends.append(pkg)
++	bb.data.setVar('RDEPENDS_' + metapkg, ' '.join(metapkg_rdepends), d)
++	bb.data.setVar('DESCRIPTION_' + metapkg, pn + ' meta package', d)
++}
 +
-+diff --git Python-2.6.6/Lib/distutils/unixccompiler.py Python-2.6.6/Lib/distutils/unixccompiler.py
-+index 6d0b84d..aaf49cb 100644
-+--- Python-2.6.6/Lib/distutils/unixccompiler.py
-++++ Python-2.6.6/Lib/distutils/unixccompiler.py
-+@@ -282,7 +282,7 @@ class UnixCCompiler(CCompiler):
-+         # this time, there's no way to determine this information from
-+         # the configuration data stored in the Python installation, so
-+         # we use this hack.
-+-        compiler = os.path.basename(sysconfig.get_config_var("CC"))
-++        compiler = os.path.basename(sysconfig.get_config_var("CC").split()[0])
-+         if sys.platform[:6] == "darwin":
-+             # MacOSX's linker doesn't understand the -R flag at all
-+             return "-L" + dir
-diff --git a/meta/recipes-devtools/python/python-native_2.6.6.bb b/meta/recipes-devtools/python/python-native_2.6.6.bb
-index 59ed61a..2b00d32 100644
---- a/meta/recipes-devtools/python/python-native_2.6.6.bb
-+++ b/meta/recipes-devtools/python/python-native_2.6.6.bb
-@@ -1,6 +1,6 @@
- require python.inc
- DEPENDS = "openssl-native bzip2-full-native zlib-native readline-native sqlite3-native"
--PR = "${INC_PR}.2"
-+PR = "${INC_PR}.3"
++ALLOW_EMPTY = "1"
++
++PACKAGES += "${PN}-apps ${PN}-meta"
++FILES_${PN}-apps = "${bindir}"
++
++FILES_${PN} = "${datadir}/gstreamer-${LIBV}"
++FILES_${PN}-dbg += "${libdir}/gstreamer-${LIBV}/.debug"
++
++
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb
+index 76e00a5..2a79c2a 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+                     file://gst/mpegstream/gstmpegparse.h;beginline=1;endline=18;md5=ff65467b0c53cdfa98d0684c1bc240a9"
  
- LIC_FILES_CHKSUM = "file://LICENSE;md5=38fdd546420fab09ac6bd3d8a1c83eb6"
+ DEPENDS += "gst-plugins-base libid3tag libmad mpeg2dec liba52 lame"
+-PR = "r0"
++PR = "r1"
  
-@@ -12,6 +12,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.bz2 \
-            file://11-distutils-never-modify-shebang-line.patch \
-            file://12-distutils-prefix-is-inside-staging-area.patch \
-            file://debug.patch \
-+           file://unixccompiler.patch \
-            file://nohostlibs.patch"
- S = "${WORKDIR}/Python-${PV}"
+ inherit gettext
  
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins.inc b/meta/recipes-multimedia/gstreamer/gst-plugins.inc
+index ad6c3a4..b23d399 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins.inc
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins.inc
+@@ -14,13 +14,6 @@ EXTRA_OECONF = "--disable-valgrind --disable-debug --disable-examples "
+ 
+ acpaths = "-I ${S}/common/m4 -I ${S}/m4"
+ 
+-LIBV = "0.10"
+-#FILES_${PN} += "${libdir}/gstreamer-${LIBV}/*.so"
+-#FILES_${PN}-dev += "${libdir}/gstreamer-${LIBV}/*.la ${libdir}/gstreamer-${LIBV}/*.a"
+-FILES_${PN}-dbg += "${libdir}/gstreamer-${LIBV}/.debug"
+-
+-PACKAGES_DYNAMIC = "${PN}-*"
+-
+ # orc.m4 calls pkg-config ----variable=orcc orc-0.4 to get the path to orcc,
+ # resulting in /usr/bin/orcc. Force it to use the staged orcc.
+ do_configure_append() {
+@@ -29,14 +22,7 @@ do_configure_append() {
+  	done
+ }
+ 
+-python populate_packages_prepend () {
+-	gst_libdir = bb.data.expand('${libdir}/gstreamer-${LIBV}', d)
+-	postinst = bb.data.getVar('plugin_postinst', d, 1)
++require gst-plugins-package.inc
+ 
+-#	Can't package separate debug packages yet
+-#	do_split_packages(d, gst_libdir, '\.debug/libgst(.*)\.so$', bb.data.expand('${PN}-%s-dbg', d), 'GStreamer plugin for %s (with debugging symbols)', recursive=True, extra_depends=bb.data.expand('${PN}-dbg', d), match_path=True)
+-	do_split_packages(d, gst_libdir, 'libgst(.*)\.so$', bb.data.expand('${PN}-%s', d), 'GStreamer plugin for %s', postinst=postinst, extra_depends=bb.data.expand('${PN}',d))
+-	do_split_packages(d, gst_libdir, 'libgst(.*)\.l?a$', bb.data.expand('${PN}-%s-dev', d), 'GStreamer plugin for %s (development files)', extra_depends=bb.data.expand('${PN}-dev',d))
+-}
++PACKAGES_DYNAMIC = "${PN}-*"
+ 
+-ALLOW_EMPTY = "1"
 -- 
 1.7.3.4
 
