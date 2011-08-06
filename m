@@ -1,25 +1,20 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1QpUWV-0005Jr-PY
+	(envelope-from <bruce.ashfield@windriver.com>) id 1QpYRF-0001xd-FR
 	for openembedded-core@lists.openembedded.org;
-	Sat, 06 Aug 2011 02:13:52 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 05 Aug 2011 17:09:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,326,1309762800"; 
-   d="scan'208";a="4609828"
-Received: from nbuild1.sc.intel.com ([172.25.110.36])
-	by AZSMGA002.ch.intel.com with ESMTP; 05 Aug 2011 17:09:23 -0700
-From: nitin.a.kamble@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Aug 2011 10:42:59 -0700
-Message-Id: <d6226c2a156d6c9d53237f98385e252c34a1e74d.1312565996.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <8070639def46a42285d7bbd4812692d1dcb8a713.1312565996.git.nitin.a.kamble@intel.com>
-References: <8070639def46a42285d7bbd4812692d1dcb8a713.1312565996.git.nitin.a.kamble@intel.com>
-In-Reply-To: <cover.1312565996.git.nitin.a.kamble@intel.com>
-References: <cover.1312565996.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 3/3] x86 tune inc files: add x32 abi tune parameters
+	Sat, 06 Aug 2011 06:24:41 +0200
+Received: from yow-bashfiel-l1.corp.ad.wrs.com
+	(dhcp-146-223.ottawa.windriver.com [128.224.146.223])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p764K9SF002298;
+	Fri, 5 Aug 2011 21:20:10 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Sat,  6 Aug 2011 00:19:48 -0400
+Message-Id: <cover.1312604261.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
+Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
+	saul.wold@intel.com
+Subject: [PATCH 0/4] Richard/Saul,
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,79 +29,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Aug 2011 00:13:52 -0000
+X-List-Received-Date: Sat, 06 Aug 2011 04:24:41 -0000
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+Here's a collection of fixes that have been cooking here for the week.
+Build, boot and regression testing has been completed. With these the
+3.0 kernel tree is bumped to 3.0.1, and some use cases have been updated
+to support building arbitrary repos (for x32 dev testing) and for 
+building multiple machines (and kernel types) out of a single branch
+(-rt n450 support).
 
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
----
- meta/conf/machine/include/ia32/arch-ia32.inc |   19 +++++++++++++++++--
- meta/conf/machine/include/tune-core2.inc     |    4 ++++
- meta/conf/machine/include/tune-x86_64.inc    |    2 +-
- 3 files changed, 22 insertions(+), 3 deletions(-)
+The patches themselves contain the details.
 
-diff --git a/meta/conf/machine/include/ia32/arch-ia32.inc b/meta/conf/machine/include/ia32/arch-ia32.inc
-index 2709440..96980d2 100644
---- a/meta/conf/machine/include/ia32/arch-ia32.inc
-+++ b/meta/conf/machine/include/ia32/arch-ia32.inc
-@@ -9,13 +9,22 @@ X86ARCH64 ?= "x86_64"
- 
- # ELF32 ABI
- TUNEVALID[m32] = "IA32 ELF32 standard ABI"
--TUNECONFLICTS[m32] = "m64"
-+TUNECONFLICTS[m32] = "m64 mx32"
- TUNE_ARCH .= "${@bb.utils.contains("TUNE_FEATURES", "m32", "${X86ARCH32}", "" ,d)}"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "m32", "-m32", "", d)}"
- 
-+# x32 ABI
-+TUNEVALID[mx32] = "IA32e (x86_64) ELF32 standard ABI"
-+TUNECONFLICTS[mx32] = "m64 m32"
-+TUNE_ARCH .= "${@bb.utils.contains("TUNE_FEATURES", "mx32", "${X86ARCH64}", "" ,d)}"
-+ABIEXTENSION .= "${@bb.utils.contains("TUNE_FEATURES", "mx32", "x32", "" ,d)}"
-+TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "mx32", "-mx32", "", d)}"
-+TUNE_LDARGS += "${@bb.utils.contains("TUNE_FEATURES", "mx32", "-m elf32_x86_64", "", d)}"
-+TUNE_ASARGS += "${@bb.utils.contains("TUNE_FEATURES", "mx32", "-x32", "", d)}"
-+
- # ELF64 ABI
- TUNEVALID[m64] = "IA32e (x86_64) ELF64 standard ABI"
--TUNECONFLICT[m64] = "m32"
-+TUNECONFLICT[m64] = "m32 mx32"
- TUNE_ARCH .= "${@bb.utils.contains("TUNE_FEATURES", "m64", "${X86ARCH64}", "" ,d)}"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "m64", "-m64", "", d)}"
- 
-@@ -31,3 +40,9 @@ AVAILTUNES += "x86-64"
- TUNE_FEATURES_tune-x86-64 ?= "m64"
- BASE_LIB_tune-x86-64 ?= "lib64"
- PACKAGE_EXTRA_ARCHS_tune-x86-64 = "x86_64"
-+
-+AVAILTUNES += "x86-64-x32"
-+TUNE_FEATURES_tune-x86-64-x32 ?= "mx32"
-+BASE_LIB_tune-x86-64-x32 ?= "lib"
-+PACKAGE_EXTRA_ARCHS_tune-x86-64-x32 = "x86_64-x32"
-+TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "mx32", "-x32", "", d)}"
-diff --git a/meta/conf/machine/include/tune-core2.inc b/meta/conf/machine/include/tune-core2.inc
-index 25c2226..78f8f4d 100644
---- a/meta/conf/machine/include/tune-core2.inc
-+++ b/meta/conf/machine/include/tune-core2.inc
-@@ -18,3 +18,7 @@ TUNE_FEATURES_tune-core2-64 ?= "${TUNE_FEATURES_tune-x86-64} core2"
- BASE_LIB_tune-core2-64 ?= "lib64"
- PACKAGE_EXTRA_ARCHS_tune-core2-64 = "${PACKAGE_EXTRA_ARCHS_tune-x86-64} core2-64"
- 
-+AVAILTUNES += "core2-64-x32"
-+TUNE_FEATURES_tune-core2-64-x32 ?= "${TUNE_FEATURES_tune-x86-64-x32} core2"
-+BASE_LIB_tune-core2-64-x32 ?= "lib"
-+PACKAGE_EXTRA_ARCHS_tune-core2-64-x32 = "${PACKAGE_EXTRA_ARCHS_tune-x86-64-x32} core2-64-x32"
-diff --git a/meta/conf/machine/include/tune-x86_64.inc b/meta/conf/machine/include/tune-x86_64.inc
-index 04b0f96..50f20ba 100644
---- a/meta/conf/machine/include/tune-x86_64.inc
-+++ b/meta/conf/machine/include/tune-x86_64.inc
-@@ -1,3 +1,3 @@
- require conf/machine/include/ia32/arch-ia32.inc
- 
--DEFAULTTUNE = "x86-64"
-+DEFAULTTUNE ?= "x86-64"
+build and boot testing was done on the qemu* targets. With these changes
+it should be possible to start switching the prefernce to the 3.0.x
+kernel, and we can begin doing that next week.
+
+The following changes since commit 29208d2e353ba2f0b1c9b5d59014a2ea71dde078:
+
+  local.conf.sample: Comment out BBMASK by default (2011-08-05 17:19:51 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (4):
+  linux-yocto: pass KMACHINE to updateme, not MACHINE
+  linux-yocto: allow configuration of arbitrary branches
+  linux-yocto: update atom-pc preempt-rt definition
+  linux-yocto: merge v3.0.1
+
+ meta/classes/kernel-yocto.bbclass                  |   16 ++++------------
+ .../kern-tools/kern-tools-native_git.bb            |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb       |   14 +++++++-------
+ 3 files changed, 12 insertions(+), 20 deletions(-)
+
 -- 
-1.7.6
+1.7.4.1
 
 
 
