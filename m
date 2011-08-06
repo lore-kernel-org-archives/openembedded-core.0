@@ -1,24 +1,21 @@
 Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX18PvttEjFJ4raPclUDIZP47pDGb6TW1IvQ=])
+	ident=[U2FsdGVkX18RExPoRc76N95aWW/qZhPqmczS9jqq6qw=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1QpnsI-0001Qy-Fu
+	(envelope-from <galak@kernel.crashing.org>) id 1QpnzZ-0001xn-Ag
 	for openembedded-core@lists.openembedded.org;
-	Sat, 06 Aug 2011 22:53:38 +0200
+	Sat, 06 Aug 2011 23:01:09 +0200
 Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p76Kn9wS028214
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 6 Aug 2011 15:49:12 -0500
-Mime-Version: 1.0 (Apple Message framework v1084)
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p76KudAe031833;
+	Sat, 6 Aug 2011 15:56:40 -0500
 From: Kumar Gala <galak@kernel.crashing.org>
-In-Reply-To: <4E3C5DE7.1050601@gmail.com>
-Date: Sat, 6 Aug 2011 15:49:09 -0500
-Message-Id: <23260DD0-C538-496D-AB74-40F7D13A4A17@kernel.crashing.org>
-References: <1312575061-27569-1-git-send-email-galak@kernel.crashing.org>
-	<4E3C5DE7.1050601@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+Date: Sat, 6 Aug 2011 15:56:39 -0500
+Message-Id: <F5D4B029-50F1-47E1-934C-8918DF2624F5@kernel.crashing.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Mime-Version: 1.0 (Apple Message framework v1084)
 X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH] tune-ppce5500: Add a tune file for PowerPC e5500 core
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: multilib theory & practice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,59 +30,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Aug 2011 20:53:39 -0000
+X-List-Received-Date: Sat, 06 Aug 2011 21:01:09 -0000
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
+I'm looking at trying to get multilib working for powerpc.  However I'm =
+a bit lost in how this is suppose to work from a few different =
+perspectives:
 
-On Aug 5, 2011, at 4:17 PM, Khem Raj wrote:
+1. from user perspective (I'm starting with a 64-bit build in /lib64 and =
+adding 32-bit that would be in /lib):
 
-> -----BEGIN PGP SIGNED MESSAGE-----
-> Hash: SHA1
-> 
-> On 08/05/2011 01:11 PM, Kumar Gala wrote:
->> Signed-off-by: Kumar Gala <galak@kernel.crashing.org> --- 
->> meta/conf/machine/include/tune-ppce5500.inc |   14 ++++++++++++++ 1
->> files changed, 14 insertions(+), 0 deletions(-) create mode 100644
->> meta/conf/machine/include/tune-ppce5500.inc
->> 
->> diff --git a/meta/conf/machine/include/tune-ppce5500.inc
->> b/meta/conf/machine/include/tune-ppce5500.inc new file mode 100644 
->> index 0000000..8e6403d --- /dev/null +++
->> b/meta/conf/machine/include/tune-ppce5500.inc @@ -0,0 +1,14 @@ 
->> +DEFAULTTUNE ?= "ppce5500" + +require
->> conf/machine/include/powerpc/arch-powerpc64.inc + 
->> +TUNEVALID[ppce5500] = "Enable ppce5500 specific processor
->> optimizations"
-> 
-> just a nit may be it should read "Enable ppce5500 processor specific
-> optimizations"
-> 
->> +TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce5500",
->> "-mcpu=e5500", "", d)}" +TUNE_PKGARCH =
->> "${@bb.utils.contains("TUNE_FEATURES", "ppce5500", "ppce5500",
->> "${PPCPKGARCH}", d)}" + +AVAILTUNES += "ppce5500" 
->> +TUNE_FEATURES_tune-ppce5500 = "m64 ppce5500" 
->> +PACKAGE_EXTRA_ARCHS_tune-ppce5500 = "powerpc64 ppce5500" + +# glibc
->> configure options to get e5500 specific library (for sqrt) 
->> +GLIBC_EXTRA_OECONF += "--with-cpu=e5500"
-> 
-> hmm so this essentially makes eglibc specific to this processor. Does it
-> build eglibc inside work/ppce5500-oe-linux-gnuspe dir ? or something
-> generic e.g. powerpc64-oe-linux-gnuspe dir ? In case its former then all
-> is well but latter case may not be ok since we may not be able to share
-> eglibc binaries with similar implementations of ppc64 in this case
-> 
-> I am more worried about proliferation into other architectures e.g. arm
-> which has multiple armv7 implementations e.g.
+(i've added in local/conf):
+require conf/multilib.conf
+MULTILIBS =3D "multilib:lib"
+DEFAULTTUNE_virtclass-multilib-lib =3D "powerpc"
 
-On PPC the works dirs are already somewhat 'tune' specific:
+What should this end up producing?  Do I get a 32-bit set of libs built =
+automatically?  What else do I need to do?
 
-build-p5020/tmp/work/p5020_ds-poky-linux
-build-p5020/tmp/work/ppce5500-poky-linux
+2. =46rom a infrastructure point of view:
 
-An eglibc is built in ppce5500-poky-linux
+* Do have a single compiler that is multi-arch or 2 compilers? (not sure =
+how the x86_64 toolchain works today)
+* what areas should I investigate that might need tweaking that are arch =
+specific?
+* should I see different task names for the new multilib builds? (or the =
+32-bit specific builds?)
 
-- k
+- k=
 
 
