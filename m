@@ -1,31 +1,20 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1QpYTG-0005pi-BS
+	(envelope-from <sgw@linux.intel.com>) id 1QpabJ-0000Nc-Su
 	for openembedded-core@lists.openembedded.org;
-	Sat, 06 Aug 2011 06:26:46 +0200
-Received: by yxi19 with SMTP id 19so2090342yxi.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Aug 2011 21:22:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=fAW3aGcfIIlwQWEFZ4VLCn/wSJi5Q5Gzsogj1qIbYpo=;
-	b=ckvhSv2tsuBMVmUo6kUsFxDd7DyinZdqLBKvitnq3cMtypTfL6VBhqiqa0hSN+jCmH
-	SZKJgmtD0U594r18PjCJuBuPF2ir5chIy8NFylx7txCC03Y7YmlINM3L7A0DhfW4A8yv
-	W9XCTnA9KmPcFlBKek1OiVrPMdzigT8nZILAw=
-MIME-Version: 1.0
-Received: by 10.101.160.22 with SMTP id m22mr1791365ano.52.1312604539818; Fri,
-	05 Aug 2011 21:22:19 -0700 (PDT)
-Received: by 10.101.86.1 with HTTP; Fri, 5 Aug 2011 21:22:19 -0700 (PDT)
-In-Reply-To: <cover.1312604261.git.bruce.ashfield@windriver.com>
-References: <cover.1312604261.git.bruce.ashfield@windriver.com>
-Date: Sat, 6 Aug 2011 00:22:19 -0400
-Message-ID: <CADkTA4NzUdZN_9k48mxmjrc0Oi1YRZq=Xony_hvwXsHiDBeivw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: dvhart@linux.intel.com, saul.wold@intel.com,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4] Richard/Saul,
+	Sat, 06 Aug 2011 08:43:14 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 05 Aug 2011 23:38:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,327,1309762800"; d="scan'208";a="35941155"
+Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.173])
+	by orsmga001.jf.intel.com with ESMTP; 05 Aug 2011 23:38:46 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  5 Aug 2011 23:38:36 -0700
+Message-Id: <cover.1312612601.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [CONSOLIDATED PULL 0/9] Roll-up some missed requests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,73 +29,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Aug 2011 04:26:46 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 06 Aug 2011 06:43:14 -0000
 
-Hmm. Sorry about the broken subject on this, it's late and I had a
-git-send-email
-misfire. The contents is fine, I just didn't write the proper subject:
+Richard,
 
-  linux-yocto: update to v3.0.1 (and associated changes).
+This rolls up some missed pulls and includes upgrades to lttng 
+and gdb to address a bug fixed upstream.
 
-Cheers,
+Sau!
 
-Bruce
+The following changes since commit 7a278238d9b08e0315e92d386282cb488cc0c7b4:
 
-On Sat, Aug 6, 2011 at 12:19 AM, Bruce Ashfield
-<bruce.ashfield@windriver.com> wrote:
-> Here's a collection of fixes that have been cooking here for the week.
-> Build, boot and regression testing has been completed. With these the
-> 3.0 kernel tree is bumped to 3.0.1, and some use cases have been updated
-> to support building arbitrary repos (for x32 dev testing) and for
-> building multiple machines (and kernel types) out of a single branch
-> (-rt n450 support).
->
-> The patches themselves contain the details.
->
-> build and boot testing was done on the qemu* targets. With these changes
-> it should be possible to start switching the prefernce to the 3.0.x
-> kernel, and we can begin doing that next week.
->
-> The following changes since commit 29208d2e353ba2f0b1c9b5d59014a2ea71dde0=
-78:
->
-> =A0local.conf.sample: Comment out BBMASK by default (2011-08-05 17:19:51 =
-+0100)
->
-> are available in the git repository at:
-> =A0git://git.pokylinux.org/poky-contrib zedd/kernel
-> =A0http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dzedd/kernel
->
-> Bruce Ashfield (4):
-> =A0linux-yocto: pass KMACHINE to updateme, not MACHINE
-> =A0linux-yocto: allow configuration of arbitrary branches
-> =A0linux-yocto: update atom-pc preempt-rt definition
-> =A0linux-yocto: merge v3.0.1
->
-> =A0meta/classes/kernel-yocto.bbclass =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0|=
- =A0 16 ++++------------
-> =A0.../kern-tools/kern-tools-native_git.bb =A0 =A0 =A0 =A0 =A0 =A0| =A0 =
-=A02 +-
-> =A0meta/recipes-kernel/linux/linux-yocto_3.0.bb =A0 =A0 =A0 | =A0 14 ++++=
-+++-------
-> =A03 files changed, 12 insertions(+), 20 deletions(-)
->
-> --
-> 1.7.4.1
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+  bitbake.conf/powerpc64: Set baselib to 'lib64' for ppc64 (2011-08-05 17:48:23 +0100)
 
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
 
+Koen Kooi (2):
+  gst-plugins: partially sync packaging with OE .dev
+  gtk-icon-cache bbclass: don't assing to global RDEPENDS
 
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+Kumar Gala (1):
+  gcc: use ${base_lib} to match gcc default configuration
+
+Mei Lei (2):
+  python-native: Fix a compiler finding issue
+  apr-util: disable pqsql support to avoid configure error
+
+Saul Wold (4):
+  gdb: Update to 7.3
+  liburcu: Update to 0.6.4
+  lttng-ust: Update to 0.15
+  lttng-control: Update to 0.89
+
+ meta/classes/gtk-icon-cache.bbclass                |    4 +-
+ .../gcc/gcc-cross-intermediate.inc                 |    2 +-
+ meta/recipes-devtools/gdb/gdb-common.inc           |    5 +-
+ ...s-canadian_7.2.bb => gdb-cross-canadian_7.3.bb} |    2 +-
+ .../gdb/{gdb-cross_7.2.bb => gdb-cross_7.3.bb}     |    2 +-
+ meta/recipes-devtools/gdb/gdb.inc                  |    2 +-
+ .../fix_for_build_error_internal_error_call.patch  |   20 --------
+ .../gdb/gdb/gdbserver-cflags-last.diff             |   16 ++++---
+ .../gdb/gdb/kill_arm_map_symbols.patch             |   36 +++++++-------
+ .../gdb/{gdb_7.2.bb => gdb_7.3.bb}                 |    4 +-
+ .../python/python-native/unixccompiler.patch       |   20 ++++++++
+ .../recipes-devtools/python/python-native_2.6.6.bb |    3 +-
+ ...lttng-control_0.88.bb => lttng-control_0.89.bb} |    4 +-
+ .../lttng/lttng-ust/uclibc-sched_getcpu.patch      |   50 --------------------
+ .../lttng/{lttng-ust_0.12.bb => lttng-ust_0.15.bb} |   11 ++---
+ .../gstreamer/gst-plugins-bad_0.10.21.bb           |    2 +-
+ .../gstreamer/gst-plugins-base_0.10.32.bb          |    2 +-
+ .../gstreamer/gst-plugins-good_0.10.28.bb          |    2 +-
+ .../gstreamer/gst-plugins-package.inc              |   34 +++++++++++++
+ .../gstreamer/gst-plugins-ugly_0.10.17.bb          |    2 +-
+ meta/recipes-multimedia/gstreamer/gst-plugins.inc  |   18 +------
+ meta/recipes-support/apr/apr-util_1.3.12.bb        |    3 +-
+ .../liburcu/{liburcu_0.5.4.bb => liburcu_0.6.4.bb} |    5 +--
+ 23 files changed, 107 insertions(+), 142 deletions(-)
+ rename meta/recipes-devtools/gdb/{gdb-cross-canadian_7.2.bb => gdb-cross-canadian_7.3.bb} (87%)
+ rename meta/recipes-devtools/gdb/{gdb-cross_7.2.bb => gdb-cross_7.3.bb} (83%)
+ delete mode 100644 meta/recipes-devtools/gdb/gdb/fix_for_build_error_internal_error_call.patch
+ rename meta/recipes-devtools/gdb/{gdb_7.2.bb => gdb_7.3.bb} (68%)
+ create mode 100644 meta/recipes-devtools/python/python-native/unixccompiler.patch
+ rename meta/recipes-kernel/lttng/{lttng-control_0.88.bb => lttng-control_0.89.bb} (77%)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-ust/uclibc-sched_getcpu.patch
+ rename meta/recipes-kernel/lttng/{lttng-ust_0.12.bb => lttng-ust_0.15.bb} (74%)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
+ rename meta/recipes-support/liburcu/{liburcu_0.5.4.bb => liburcu_0.6.4.bb} (72%)
+
+-- 
+1.7.3.4
+
 
 
