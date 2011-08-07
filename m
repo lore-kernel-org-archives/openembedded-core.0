@@ -1,24 +1,22 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from gate.crashing.org ([63.228.1.57]
+	ident=[U2FsdGVkX18ciHpAeiMftoSWa1Pnj3YrOJrhzLDWHNo=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QpvYm-0008UK-Hk
+	(envelope-from <galak@kernel.crashing.org>) id 1Qq6cX-0005op-W4
 	for openembedded-core@lists.openembedded.org;
-	Sun, 07 Aug 2011 07:06:00 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Aug 2011 22:01:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,331,1309762800"; d="scan'208";a="36580345"
-Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.173])
-	by fmsmga002.fm.intel.com with ESMTP; 06 Aug 2011 22:01:21 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  6 Aug 2011 22:01:17 -0700
-Message-Id: <51def5af12c5e80bf2e4c87936b8e700a27691aa.1312692935.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1312692935.git.sgw@linux.intel.com>
-References: <cover.1312692935.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1312692935.git.sgw@linux.intel.com>
-References: <cover.1312692935.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL (Updated) 15/15] kernel-yocto: add CCACHE_DIR dependency to do_kernel_configme
+	Sun, 07 Aug 2011 18:54:38 +0200
+Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p77Go5K0016782;
+	Sun, 7 Aug 2011 11:50:06 -0500
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Kumar Gala <galak@kernel.crashing.org>
+In-Reply-To: <F5D4B029-50F1-47E1-934C-8918DF2624F5@kernel.crashing.org>
+Date: Sun, 7 Aug 2011 11:50:08 -0500
+Message-Id: <EAE60D3D-2EA6-431D-9075-1C6670B5C35D@kernel.crashing.org>
+References: <F5D4B029-50F1-47E1-934C-8918DF2624F5@kernel.crashing.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: multilib theory & practice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,33 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Aug 2011 05:06:00 -0000
+X-List-Received-Date: Sun, 07 Aug 2011 16:54:38 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-[YOCTO #1350]
 
-Since do_kernel_configme is added before the standard do_configure task
-we needed to add CCACHE_DIR so when the kernel builds it's host configure
-tools the CCACHE_DIR exists.
+On Aug 6, 2011, at 3:56 PM, Kumar Gala wrote:
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/classes/kernel-yocto.bbclass |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+> I'm looking at trying to get multilib working for powerpc.  However =
+I'm a bit lost in how this is suppose to work from a few different =
+perspectives:
+>=20
+> 1. from user perspective (I'm starting with a 64-bit build in /lib64 =
+and adding 32-bit that would be in /lib):
+>=20
+> (i've added in local/conf):
+> require conf/multilib.conf
+> MULTILIBS =3D "multilib:lib"
+> DEFAULTTUNE_virtclass-multilib-lib =3D "powerpc"
+>=20
+> What should this end up producing?  Do I get a 32-bit set of libs =
+built automatically?  What else do I need to do?
+>=20
+> 2. =46rom a infrastructure point of view:
+>=20
+> * Do have a single compiler that is multi-arch or 2 compilers? (not =
+sure how the x86_64 toolchain works today)
+> * what areas should I investigate that might need tweaking that are =
+arch specific?
+> * should I see different task names for the new multilib builds? (or =
+the 32-bit specific builds?)
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index f31ff61..daaee50 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -84,6 +84,7 @@ do_kernel_checkout[dirs] = "${S}"
- 
- addtask kernel_checkout before do_patch after do_unpack
- 
-+do_kernel_configme[dirs] = "${CCACHE_DIR} ${S} ${B}"
- do_kernel_configme() {
- 	echo "[INFO] doing kernel configme"
- 
--- 
-1.7.3.4
+To add to this I'm wondering how we get proper eglibc for 32-bit, how we =
+get proper gcc libs (libgcc, etc).
 
+- k=
 
 
