@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QpvYm-0008Um-FI
+	(envelope-from <sgw@linux.intel.com>) id 1QpvYm-0008UK-Hk
 	for openembedded-core@lists.openembedded.org;
 	Sun, 07 Aug 2011 07:06:00 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 06 Aug 2011 22:01:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,331,1309762800"; d="scan'208";a="36580344"
+X-IronPort-AV: E=Sophos;i="4.67,331,1309762800"; d="scan'208";a="36580345"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.173])
 	by fmsmga002.fm.intel.com with ESMTP; 06 Aug 2011 22:01:21 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  6 Aug 2011 22:01:16 -0700
-Message-Id: <fa0920686e40bac470de9ae37f98f436fa7fd720.1312692935.git.sgw@linux.intel.com>
+Date: Sat,  6 Aug 2011 22:01:17 -0700
+Message-Id: <51def5af12c5e80bf2e4c87936b8e700a27691aa.1312692935.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1312692935.git.sgw@linux.intel.com>
 References: <cover.1312692935.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1312692935.git.sgw@linux.intel.com>
 References: <cover.1312692935.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL (Updated) 14/15] linux-yocto: merge v3.0.1
+Subject: [CONSOLIDATED PULL (Updated) 15/15] kernel-yocto: add CCACHE_DIR dependency to do_kernel_configme
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,42 +35,29 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 07 Aug 2011 05:06:00 -0000
 
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
+[YOCTO #1350]
 
-3.0.1 -stable has been released. This now becomes the baseline for
-the 3.0 linux-yocto tree. As was the policy in the 2.6.34 and
-2.6.37 kernels, the version stays at 3.0 in the recipe.
+Since do_kernel_configme is added before the standard do_configure task
+we needed to add CCACHE_DIR so when the kernel builds it's host configure
+tools the CCACHE_DIR exists.
 
-Build and boot tested on qemu* targets.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-kernel/linux/linux-yocto_3.0.bb |   12 ++++++------
- 1 files changed, 6 insertions(+), 6 deletions(-)
+ meta/classes/kernel-yocto.bbclass |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-index bd08ca6..a7bd67a 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-@@ -14,12 +14,12 @@ KMETA = meta
- LINUX_VERSION ?= "3.0"
- LINUX_VERSION_EXTENSION ?= "-yocto-${LINUX_KERNEL_TYPE}"
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index f31ff61..daaee50 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -84,6 +84,7 @@ do_kernel_checkout[dirs] = "${S}"
  
--SRCREV_machine_qemuarm = "703430f6cd786d9f42fdee1936337ecf1c3d27b5"
--SRCREV_machine_qemumips = "a3bb11ebd7dd1482de334dd71f8e4afe5e2bcd32"
--SRCREV_machine_qemuppc = "582dcc88c7c4d765c03b38ff384210d6efbf7956"
--SRCREV_machine_qemux86 = "099a40c1669d20fdae2846cfd28bf74fd38dacea"
--SRCREV_machine_qemux86-64 = "896b8fd5783a6aac80d1447da5958334f4734845"
--SRCREV_machine = "2d22c15ef4802bc117c5482217c2b2c4d34ab303"
-+SRCREV_machine_qemuarm = "30a2cec4e9d7048681c1d239f49cc935287a7012"
-+SRCREV_machine_qemumips = "f9b9688cefaa87d898394902acfb858d6b0f1e28"
-+SRCREV_machine_qemuppc = "a46a4c356f8bcf7a30d967a1b43633b824cd07a1"
-+SRCREV_machine_qemux86 = "efaab1f75dbc577922c862fa19d45c3f31cb99cb"
-+SRCREV_machine_qemux86-64 = "c30a56850c73c74af2d056d803081a0d829ce35c"
-+SRCREV_machine = "318b059a472128f67119f367f51f11893ee60269"
- SRCREV_meta = "76b3679beff6c640388a609ccf87f46bb7bf0f2b"
+ addtask kernel_checkout before do_patch after do_unpack
  
- PR = "r0"
++do_kernel_configme[dirs] = "${CCACHE_DIR} ${S} ${B}"
+ do_kernel_configme() {
+ 	echo "[INFO] doing kernel configme"
+ 
 -- 
 1.7.3.4
 
