@@ -1,26 +1,20 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QpvXN-0008SM-I7
+	(envelope-from <sgw@linux.intel.com>) id 1QpvYb-0008UB-Rb
 	for openembedded-core@lists.openembedded.org;
-	Sun, 07 Aug 2011 07:04:34 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 06 Aug 2011 22:00:05 -0700
+	Sun, 07 Aug 2011 07:05:50 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 06 Aug 2011 22:01:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,331,1309762800"; d="scan'208";a="35902183"
-Received: from unknown (HELO [10.255.14.173]) ([10.255.14.173])
-	by azsmga001.ch.intel.com with ESMTP; 06 Aug 2011 22:00:04 -0700
-Message-ID: <4E3E1BD4.2070807@linux.intel.com>
-Date: Sat, 06 Aug 2011 22:00:04 -0700
+X-IronPort-AV: E=Sophos;i="4.67,331,1309762800"; d="scan'208";a="36580321"
+Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.173])
+	by fmsmga002.fm.intel.com with ESMTP; 06 Aug 2011 22:01:18 -0700
 From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1312612601.git.sgw@linux.intel.com>	<7492851d3b19ac495e050d0624ddd9ae6ee46f59.1312612601.git.sgw@linux.intel.com>
-	<4E3D4132.9090900@gmail.com>
-In-Reply-To: <4E3D4132.9090900@gmail.com>
-Subject: Re: [CONSOLIDATED PULL 6/9] gdb: Update to 7.3
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  6 Aug 2011 22:01:02 -0700
+Message-Id: <cover.1312692935.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [Updated CONSOLIDATED PULL 00/15] Fixes for M3 and getting master to build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,223 +29,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Aug 2011 05:04:34 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 07 Aug 2011 05:05:50 -0000
 
-On 08/06/2011 06:27 AM, Khem Raj wrote:
-> -----BEGIN PGP SIGNED MESSAGE-----
-> Hash: SHA1
->
-> On 08/05/2011 11:38 PM, Saul Wold wrote:
->> This has one upstream patch removed and a couple rebased
->>
->> Signed-off-by: Saul Wold<sgw@linux.intel.com>  ---
->> meta/recipes-devtools/gdb/gdb-common.inc           |    5 ++-
->> ...s-canadian_7.2.bb =>  gdb-cross-canadian_7.3.bb} |    2 +-
->> .../gdb/{gdb-cross_7.2.bb =>  gdb-cross_7.3.bb}     |    2 +-
->> meta/recipes-devtools/gdb/gdb.inc                  |    2 +-
->> .../fix_for_build_error_internal_error_call.patch  |   20
->> ----------- .../gdb/gdb/gdbserver-cflags-last.diff             |   16
->> +++++---- .../gdb/gdb/kill_arm_map_symbols.patch             |   36
->> ++++++++++---------- .../gdb/{gdb_7.2.bb =>  gdb_7.3.bb}
->> |    4 +-- 8 files changed, 34 insertions(+), 53 deletions(-) rename
->> meta/recipes-devtools/gdb/{gdb-cross-canadian_7.2.bb =>
->> gdb-cross-canadian_7.3.bb} (87%) rename
->> meta/recipes-devtools/gdb/{gdb-cross_7.2.bb =>  gdb-cross_7.3.bb}
->> (83%) delete mode 100644
->> meta/recipes-devtools/gdb/gdb/fix_for_build_error_internal_error_call.patch
->>
->>
-> rename meta/recipes-devtools/gdb/{gdb_7.2.bb =>  gdb_7.3.bb} (68%)
->>
->> diff --git a/meta/recipes-devtools/gdb/gdb-common.inc
->> b/meta/recipes-devtools/gdb/gdb-common.inc index 8ec3735..e9a38b6
->> 100644 --- a/meta/recipes-devtools/gdb/gdb-common.inc +++
->> b/meta/recipes-devtools/gdb/gdb-common.inc @@ -2,7 +2,9 @@
->> DESCRIPTION = "gdb - GNU debugger" HOMEPAGE =
->> "http://www.gnu.org/software/gdb/" LICENSE="GPLv3+" SECTION =
->> "devel" -DEPENDS = "ncurses readline elfutils" +DEPENDS = "ncurses
->> readline elfutils lttng-ust" + +INC_PR = "r2"
->
-> should it be r0 ?
->
-Yes, and no, I changed to INC_PR after already having a regular PR bump
-and did not want to change a breakage by dropping back to r0, but yes it 
-could start that way into master.
+Richard,
 
-Sau!
+This has Bruce's updated Kernel, which has taken a spin on the fuzzy builder,
+along with a fix for M3 BSP failures and a couple of other bug and build fixes.
+I also remembered to include the SRC_URI checksums this time for the recipe 
+updates.
 
->>
->> LIC_FILES_CHKSUM =
->> "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
->> file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674 \ @@ -29,7
->> +31,6 @@ EXPAT = "--without-expat" EXTRA_OECONF = "--disable-gdbtk
->> --disable-tui --disable-x \ --with-curses --disable-multilib
->> --with-system-readline --disable-sim \ ${GDBPROPREFIX}
->> --with-libelf=${STAGING_DIR_TARGET} ${EXPAT} \ -
->> --without-ust \ "
->
-> could you try to see if it builds on uclibc with ust ?
->>
->> GDBPROPREFIX = "--program-prefix=''" diff --git
->> a/meta/recipes-devtools/gdb/gdb-cross-canadian_7.2.bb
->> b/meta/recipes-devtools/gdb/gdb-cross-canadian_7.3.bb similarity
->> index 87% rename from
->> meta/recipes-devtools/gdb/gdb-cross-canadian_7.2.bb rename to
->> meta/recipes-devtools/gdb/gdb-cross-canadian_7.3.bb index
->> ca44b3c..58c20c4 100644 ---
->> a/meta/recipes-devtools/gdb/gdb-cross-canadian_7.2.bb +++
->> b/meta/recipes-devtools/gdb/gdb-cross-canadian_7.3.bb @@ -1,7 +1,7
->> @@ require gdb-common.inc require gdb-cross-canadian.inc
->>
->> -PR = "r1" +PR = "${INC_PR}.0"
->>
->> GDBPROPREFIX = "--program-prefix='${TARGET_PREFIX}'" EXPAT =
->> "--with-expat" diff --git
->> a/meta/recipes-devtools/gdb/gdb-cross_7.2.bb
->> b/meta/recipes-devtools/gdb/gdb-cross_7.3.bb similarity index 83%
->> rename from meta/recipes-devtools/gdb/gdb-cross_7.2.bb rename to
->> meta/recipes-devtools/gdb/gdb-cross_7.3.bb index b5a8bea..9c2ed07
->> 100644 --- a/meta/recipes-devtools/gdb/gdb-cross_7.2.bb +++
->> b/meta/recipes-devtools/gdb/gdb-cross_7.3.bb @@ -3,4 +3,4 @@ require
->> gdb-cross.inc SRC_URI += "file://sim-install-6.6.patch;patch=1" EXPAT
->> = "--with-expat"
->>
->> -PR = "r0" +PR = "${INC_PR}.0" diff --git
->> a/meta/recipes-devtools/gdb/gdb.inc
->> b/meta/recipes-devtools/gdb/gdb.inc index efa3cbf..9f5f34f 100644 ---
->> a/meta/recipes-devtools/gdb/gdb.inc +++
->> b/meta/recipes-devtools/gdb/gdb.inc @@ -4,7 +4,7 @@ inherit gettext
->>
->> SRC_URI += "file://kill_arm_map_symbols.patch \
->> file://gdbserver-cflags-last.diff;striplevel=0 \ -
->> file://fix_for_build_error_internal_error_call.patch " +           "
->> #LDFLAGS_append = " -s" #export CFLAGS_append=" -L${STAGING_LIBDIR}"
->>
->> diff --git
->> a/meta/recipes-devtools/gdb/gdb/fix_for_build_error_internal_error_call.patch
->> b/meta/recipes-devtools/gdb/gdb/fix_for_build_error_internal_error_call.patch
->>
->>
-> deleted file mode 100644
->> index afb1783..0000000 ---
->> a/meta/recipes-devtools/gdb/gdb/fix_for_build_error_internal_error_call.patch
->>
->>
-> +++ /dev/null
->> @@ -1,20 +0,0 @@ -Upstream-Status: Pending - -The prototype of
->> function internall_error has changed. And one place in the code was
->> not synced up with the new prototype, causing build error. This
->> patche fixes that. - -Nitin A Kamble<nitin.a.kamble@intel.com>
->> -2010/11/12 - -Index: gdb-7.2/gdb/gdbserver/linux-i386-ipa.c
->> -===================================================================
->> ---- gdb-7.2.orig/gdb/gdbserver/linux-i386-ipa.c -+++
->> gdb-7.2/gdb/gdbserver/linux-i386-ipa.c -@@ -178,7 +178,7 @@
->> supply_static_tracepoint_registers (stru - 	    } - 	    break; -
->> default: --	    internal_error ("unhandled register size: %d", -+
->> internal_error (__FILE__, __LINE__, "unhandled register size: %d", -
->> i386_st_collect_regmap[i].size); - 	  } -       } diff --git
->> a/meta/recipes-devtools/gdb/gdb/gdbserver-cflags-last.diff
->> b/meta/recipes-devtools/gdb/gdb/gdbserver-cflags-last.diff index
->> 0475a42..8256f17 100644 ---
->> a/meta/recipes-devtools/gdb/gdb/gdbserver-cflags-last.diff +++
->> b/meta/recipes-devtools/gdb/gdb/gdbserver-cflags-last.diff @@ -2,16
->> +2,18 @@ Upstream-Status: Pending
->>
->> Index: gdb/gdbserver/Makefile.in
->> ===================================================================
->> ---- gdb/gdbserver/Makefile.in.orig -+++ gdb/gdbserver/Makefile.in
->> -@@ -89,8 +89,8 @@ WARN_CFLAGS = -Wall +---
->> gdb/gdbserver/Makefile.in.orig	2011-03-09 23:32:02.000000000 -0800
->> ++++ gdb/gdbserver/Makefile.in	2011-08-05 21:16:43.592202579 -0700
->> +@@ -94,10 +94,10 @@ CFLAGS = @CFLAGS@
->>
->> # INTERNAL_CFLAGS is the aggregate of all other *CFLAGS macros.
->> --INTERNAL_CFLAGS =  $(WARN_CFLAGS) ${CFLAGS} ${GLOBAL_CFLAGS} \ --
->> ${PROFILE_CFLAGS} ${INCLUDE_CFLAGS} -+INTERNAL_CFLAGS =
->> $(WARN_CFLAGS) ${GLOBAL_CFLAGS} \ -+	${PROFILE_CFLAGS}
->> ${INCLUDE_CFLAGS} ${CFLAGS} +-INTERNAL_CFLAGS_BASE =  ${CFLAGS}
->> ${GLOBAL_CFLAGS} \ ++INTERNAL_CFLAGS_BASE =  ${GLOBAL_CFLAGS} \ +
->> ${PROFILE_CFLAGS} ${INCLUDE_CFLAGS} + INTERNAL_WARN_CFLAGS =
->> ${INTERNAL_CFLAGS_BASE} $(WARN_CFLAGS) +-INTERNAL_CFLAGS =
->> ${INTERNAL_WARN_CFLAGS} $(WERROR_CFLAGS) ++INTERNAL_CFLAGS =
->> ${INTERNAL_WARN_CFLAGS} $(WERROR_CFLAGS) ${CFLAGS}
->>
->> # LDFLAGS is specifically reserved for setting from the command line
->> # when running make. diff --git
->> a/meta/recipes-devtools/gdb/gdb/kill_arm_map_symbols.patch
->> b/meta/recipes-devtools/gdb/gdb/kill_arm_map_symbols.patch index
->> c1756f7..9fc45b9 100644 ---
->> a/meta/recipes-devtools/gdb/gdb/kill_arm_map_symbols.patch +++
->> b/meta/recipes-devtools/gdb/gdb/kill_arm_map_symbols.patch @@ -1,26
->> +1,26 @@ Upstream-Status: Inappropriate [embedded specific]
->>
->> -Index: gdb-6.3/gdb/arm-tdep.c +Index: gdb-7.3/gdb/arm-tdep.c
->> ===================================================================
->> ---- gdb-6.3.orig/gdb/arm-tdep.c	2004-08-03 02:02:20.000000000 +0000
->> -+++ gdb-6.3/gdb/arm-tdep.c	2005-11-09 15:13:29.000000000 +0000 -@@
->> -2491,6 +2491,19 @@ +--- gdb-7.3.orig/gdb/arm-tdep.c	2011-05-17
->> 14:27:01.000000000 -0700 ++++ gdb-7.3/gdb/arm-tdep.c	2011-08-05
->> 22:29:58.784201850 -0700 +@@ -7806,6 +7806,19 @@ static void
->> arm_elf_make_msymbol_special(asymbol *sym, struct minimal_symbol
->> *msym) { + -+   /* FIXME: We want gdb to ignore the ARM ELF mapping
->> symbols when -+      displaying disassembly so we use this horrible
->> hack here to -+      artifically set their address to the highest
->> possible value. -+      This is wrong of course, and it prevents the
->> symbols from being -+      used for their intended purpose - to
->> distinguish between ARM -+      and THUMB code.  So we ought to find
->> a better way to do this.  */ -+  if (bfd_asymbol_name (sym) -+
->> &&  bfd_asymbol_name (sym)[0] == '$' -+&&  bfd_asymbol_name
->> (sym)[1] != 0 -+&&  bfd_asymbol_name (sym)[2] == 0) -+
->> SYMBOL_VALUE_ADDRESS(msym) = (CORE_ADDR) 0x7ffffffc; ++    /* FIXME:
->> We want gdb to ignore the ARM ELF mapping symbols when ++	displaying
->> disassembly so we use this horrible hack here to ++	artifically set
->> their address to the highest possible value. ++	This is wrong of
->> course, and it prevents the symbols from being ++	used for their
->> intended purpose - to distinguish between ARM ++	and THUMB code.  So
->> we ought to find a better way to do this.  */ ++    if
->> (bfd_asymbol_name (sym) ++	&&  bfd_asymbol_name (sym)[0] == '$' ++	&&
->> bfd_asymbol_name (sym)[1] != 0 ++	&&  bfd_asymbol_name (sym)[2] == 0)
->> ++      SYMBOL_VALUE_ADDRESS(msym) = (CORE_ADDR) 0x7ffffffc; + -   /*
->> Thumb symbols are of type STT_LOPROC, (synonymous with -
->> STT_ARM_TFUNC).  */ -   if (ELF_ST_TYPE (((elf_symbol_type
->> *)sym)->internal_elf_sym.st_info) +   if (ARM_SYM_BRANCH_TYPE
->> (&((elf_symbol_type *)sym)->internal_elf_sym) +       ==
->> ST_BRANCH_TO_THUMB) +     MSYMBOL_SET_SPECIAL (msym); diff --git
->> a/meta/recipes-devtools/gdb/gdb_7.2.bb
->> b/meta/recipes-devtools/gdb/gdb_7.3.bb similarity index 68% rename
->> from meta/recipes-devtools/gdb/gdb_7.2.bb rename to
->> meta/recipes-devtools/gdb/gdb_7.3.bb index 501efb4..5e21858 100644
->> --- a/meta/recipes-devtools/gdb/gdb_7.2.bb +++
->> b/meta/recipes-devtools/gdb/gdb_7.3.bb @@ -4,7 +4,5 @@
->> LIC_FILES_CHKSUM =
->> "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
->> file://COPYING3;md5=d32239bcb673463ab874e80d47fae504 \
->> file://COPYING3.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
->> file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674" -PR = "r0"
->> +PR = "${INC_PR}.0"
->>
->> -SRC_URI[md5sum] = "950b766466bee748e554765c86b8b495"
->> -SRC_URI[sha256sum] =
->> "34919cb51334c8149ae36ed086f35e79fe3fa2b2a85b568d7c0edad20cd972d4"
->
-> I guess the checksums are missing in new recipes
->
-> - --
-> - -Khem
-> -----BEGIN PGP SIGNATURE-----
-> Version: GnuPG v1.4.11 (GNU/Linux)
->
-> iEYEARECAAYFAk49QTEACgkQuwUzVZGdMxR8/gCfXEUfIDxcObKgTe7hc0oMKBNU
-> y5IAn1DG6xVbIA/5Ytksqxp47EsZ0OSY
-> =pAto
-> -----END PGP SIGNATURE-----
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Thanks
+	Sau!
+
+
+The following changes since commit 7a278238d9b08e0315e92d386282cb488cc0c7b4:
+
+  bitbake.conf/powerpc64: Set baselib to 'lib64' for ppc64 (2011-08-05 17:48:23 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Bruce Ashfield (4):
+  linux-yocto: pass KMACHINE to updateme, not MACHINE
+  linux-yocto: allow configuration of arbitrary branches
+  linux-yocto: update atom-pc preempt-rt definition
+  linux-yocto: merge v3.0.1
+
+Koen Kooi (3):
+  gst-plugins: partially sync packaging with OE .dev
+  gtk-icon-cache bbclass: don't assing to global RDEPENDS
+  gtk-icon-cache: fix RDEPENDS append bug
+
+Kumar Gala (1):
+  gcc: use ${base_lib} to match gcc default configuration
+
+Mei Lei (2):
+  python-native: Fix a compiler finding issue
+  apr-util: disable pqsql support to avoid configure error
+
+Saul Wold (5):
+  gdb: Update to 7.3
+  liburcu: Update to 0.6.4
+  lttng-ust: Update to 0.15
+  lttng-control: Update to 0.89
+  kernel-yocto: add CCACHE_DIR dependency to do_kernel_configme
+
+ meta/classes/gtk-icon-cache.bbclass                |    6 +-
+ meta/classes/kernel-yocto.bbclass                  |   17 ++-----
+ .../gcc/gcc-cross-intermediate.inc                 |    2 +-
+ meta/recipes-devtools/gdb/gdb-common.inc           |    8 ++-
+ ...s-canadian_7.2.bb => gdb-cross-canadian_7.3.bb} |    2 +-
+ .../gdb/{gdb-cross_7.2.bb => gdb-cross_7.3.bb}     |    2 +-
+ meta/recipes-devtools/gdb/gdb.inc                  |    2 +-
+ .../fix_for_build_error_internal_error_call.patch  |   20 --------
+ .../gdb/gdb/gdbserver-cflags-last.diff             |   16 ++++---
+ .../gdb/gdb/kill_arm_map_symbols.patch             |   36 +++++++-------
+ .../gdb/{gdb_7.2.bb => gdb_7.3.bb}                 |    4 +-
+ .../python/python-native/unixccompiler.patch       |   20 ++++++++
+ .../recipes-devtools/python/python-native_2.6.6.bb |    3 +-
+ .../kern-tools/kern-tools-native_git.bb            |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb       |   14 +++---
+ ...lttng-control_0.88.bb => lttng-control_0.89.bb} |    6 +-
+ .../lttng/lttng-ust/uclibc-sched_getcpu.patch      |   50 --------------------
+ .../lttng/{lttng-ust_0.12.bb => lttng-ust_0.15.bb} |   13 +++--
+ .../gstreamer/gst-plugins-bad_0.10.21.bb           |    2 +-
+ .../gstreamer/gst-plugins-base_0.10.32.bb          |    2 +-
+ .../gstreamer/gst-plugins-good_0.10.28.bb          |    2 +-
+ .../gstreamer/gst-plugins-package.inc              |   34 +++++++++++++
+ .../gstreamer/gst-plugins-ugly_0.10.17.bb          |    2 +-
+ meta/recipes-multimedia/gstreamer/gst-plugins.inc  |   18 +------
+ meta/recipes-support/apr/apr-util_1.3.12.bb        |    3 +-
+ .../liburcu/{liburcu_0.5.4.bb => liburcu_0.6.4.bb} |    6 +-
+ 26 files changed, 131 insertions(+), 161 deletions(-)
+ rename meta/recipes-devtools/gdb/{gdb-cross-canadian_7.2.bb => gdb-cross-canadian_7.3.bb} (87%)
+ rename meta/recipes-devtools/gdb/{gdb-cross_7.2.bb => gdb-cross_7.3.bb} (83%)
+ delete mode 100644 meta/recipes-devtools/gdb/gdb/fix_for_build_error_internal_error_call.patch
+ rename meta/recipes-devtools/gdb/{gdb_7.2.bb => gdb_7.3.bb} (68%)
+ create mode 100644 meta/recipes-devtools/python/python-native/unixccompiler.patch
+ rename meta/recipes-kernel/lttng/{lttng-control_0.88.bb => lttng-control_0.89.bb} (77%)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-ust/uclibc-sched_getcpu.patch
+ rename meta/recipes-kernel/lttng/{lttng-ust_0.12.bb => lttng-ust_0.15.bb} (74%)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
+ rename meta/recipes-support/liburcu/{liburcu_0.5.4.bb => liburcu_0.6.4.bb} (72%)
+
+-- 
+1.7.3.4
+
 
 
