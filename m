@@ -1,34 +1,33 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QqRCb-0007KA-Vw for openembedded-core@lists.openembedded.org;
-	Mon, 08 Aug 2011 16:53:14 +0200
+	id 1QqRHo-0007QX-Be for openembedded-core@lists.openembedded.org;
+	Mon, 08 Aug 2011 16:58:36 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p78EmlMC003484
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 8 Aug 2011 15:48:47 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p78Es74g003521;
+	Mon, 8 Aug 2011 15:54:07 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 03344-01 for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2011 15:48:43 +0100 (BST)
+	id 03200-02; Mon,  8 Aug 2011 15:54:03 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p78EmeJ4003478
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 8 Aug 2011 15:48:41 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p78ErxED003506
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 8 Aug 2011 15:53:59 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <6CFB9718-52F9-45F5-B157-B0410A70DA08@kernel.crashing.org>
-References: <1312575061-27569-1-git-send-email-galak@kernel.crashing.org>
-	<6CFB9718-52F9-45F5-B157-B0410A70DA08@kernel.crashing.org>
-Date: Mon, 08 Aug 2011 15:48:09 +0100
-Message-ID: <1312814889.14274.206.camel@rex>
+To: Kumar Gala <galak@kernel.crashing.org>
+In-Reply-To: <52EDCE27-1A1D-46F6-884B-168243B0D3D2@kernel.crashing.org>
+References: <F5D4B029-50F1-47E1-934C-8918DF2624F5@kernel.crashing.org>
+	<1312808310.14274.187.camel@rex>
+	<52EDCE27-1A1D-46F6-884B-168243B0D3D2@kernel.crashing.org>
+Date: Mon, 08 Aug 2011 15:53:28 +0100
+Message-ID: <1312815208.14274.211.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] tune-ppce5500: Add a tune file for PowerPC e5500 core
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: multilib theory & practice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,52 +42,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2011 14:53:14 -0000
+X-List-Received-Date: Mon, 08 Aug 2011 14:58:36 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2011-08-08 at 09:39 -0500, Kumar Gala wrote:
-> On Aug 5, 2011, at 3:11 PM, Kumar Gala wrote:
-> 
-> > Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
-> > ---
-> > meta/conf/machine/include/tune-ppce5500.inc |   14 ++++++++++++++
-> > 1 files changed, 14 insertions(+), 0 deletions(-)
-> > create mode 100644 meta/conf/machine/include/tune-ppce5500.inc
+On Mon, 2011-08-08 at 09:32 -0500, Kumar Gala wrote:
+> On Aug 8, 2011, at 7:58 AM, Richard Purdie wrote:
+> > On Sat, 2011-08-06 at 15:56 -0500, Kumar Gala wrote:
+> >> I'm looking at trying to get multilib working for powerpc.  However
+> >> I'm a bit lost in how this is suppose to work from a few different
+> >> perspectives:
+> >> 
+> >> 1. from user perspective (I'm starting with a 64-bit build in /lib64 and adding 32-bit that would be in /lib):
+> >> 
+> >> (i've added in local/conf):
+> >> require conf/multilib.conf
+> >> MULTILIBS = "multilib:lib"
+> >> DEFAULTTUNE_virtclass-multilib-lib = "powerpc"
 > > 
-> > diff --git a/meta/conf/machine/include/tune-ppce5500.inc b/meta/conf/machine/include/tune-ppce5500.inc
-> > new file mode 100644
-> > index 0000000..8e6403d
-> > --- /dev/null
-> > +++ b/meta/conf/machine/include/tune-ppce5500.inc
-> > @@ -0,0 +1,14 @@
-> > +DEFAULTTUNE ?= "ppce5500"
-> > +
-> > +require conf/machine/include/powerpc/arch-powerpc64.inc
-> > +
-> > +TUNEVALID[ppce5500] = "Enable ppce5500 specific processor optimizations"
-> > +TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce5500", "-mcpu=e5500", "", d)}"
-> > +TUNE_PKGARCH = "${@bb.utils.contains("TUNE_FEATURES", "ppce5500", "ppce5500", "${PPCPKGARCH}", d)}"
-> > +
-> > +AVAILTUNES += "ppce5500"
-> > +TUNE_FEATURES_tune-ppce5500 = "m64 ppce5500"
-> > +PACKAGE_EXTRA_ARCHS_tune-ppce5500 = "powerpc64 ppce5500"
-> > +
-> > +# glibc configure options to get e5500 specific library (for sqrt)
-> > +GLIBC_EXTRA_OECONF += "--with-cpu=e5500"
-> > -- 
-> > 1.7.3.4
+> > Rather than use the identifier "lib", I'd use an identifier like "lib32"
+> > which is unlikely to be found in a recipe name. Therefore something
+> > like:
+> > 
+> > require conf/multilib.conf
+> > MULTILIBS = "multilib:lib32"
+> > DEFAULTTUNE_virtclass-multilib-lib32 = "powerpc"
 > 
-> If I want to have a version of this for 32-bit only (or default) and one for 64-bit, how would it be best to handle that?
+> is 'lib32' utilized anywhere else or just to match these things
+> together?  Just want to be clear that I'd expect 32-bit libraries to
+> be in /lib/
 
-I was wondering about this. You really need to make it conditional on
-something, e.g.
+The actual baselib comes from:
 
-GLIBC_EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "m32", ""--with-cpu=e5500", "", d)}"
+BASE_LIB_tune-powerpc = "lib"
 
-however, if you do this you need to ensure that TUNE_PKGARCH is not
-powerpc but something e5500 specific at this point since you are
-enabling e5500 specific optimisations.
+i.e. from the tune you selected so it would be lib unless you overrode
+this value. The "lib32" is just used as an identifier in this scenario.
+
+> >> What should this end up producing?  Do I get a 32-bit set of libs built automatically?  What else do I need to do?
+> > 
+> > This will enable a number of other built targets such as "lib32-bash".
+> > You can also construct images that are mixtures of the various multilibs
+> > (e.g. install both openssl and lib32-openssl).
+> 
+> What would I expect w/regards to RPM or ipk's that are created?  How
+> does one tell the 32-bit vs 64-bit?
+
+It depends on the package backend and what its capabilities are.
+
+Offhand I think we settled on rpms having the same name but being placed
+in a different directory and have the package architecture changed. The
+names of ipks are changed to include the "lib32-" prefix.
+
+> >> 2. From a infrastructure point of view:
+> >> 
+> >> * Do have a single compiler that is multi-arch or 2 compilers? (not sure how the x86_64 toolchain works today)
+> > 
+> > At this point we've gone for 2 compilers. This was a conscious choice to
+> > avoid additional complexity and allow us to get the core functionality
+> > working. We can support merged toolchains at a future date with
+> > appropriate toolchain configuration and ASSUME_PROVIDED declarations.
+> 
+> What would they be called or how are they distinguished?
+
+They're installed into different paths and the lib32- prefix is also
+used for the different targets.
+
+> >> * what areas should I investigate that might need tweaking that are arch specific?
+> > 
+> > There should be very little beyond the places you've already changed
+> > that should need tweaking. The only issues may be due to this being
+> > very new code.
+> > 
+> >> * should I see different task names for the new multilib builds? (or the 32-bit specific builds?)
+> > 
+> > multilib.conf lists the recipes that will become multilib enabled. I've
+> > just merged a patch to extend this list to include the various ones that
+> > have been tested. The ultimate plan is not to require that list and its
+> > just a transition point.
+> 
+> I feel like I tried 'enabling' multilib on ppc and didn't see anything new built for the 32-bit libs.
+
+Did you try something like "bitbake lib32-bash" though?
 
 Cheers,
 
