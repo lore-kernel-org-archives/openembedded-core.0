@@ -1,20 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1QqKSZ-0003Hl-28
+	(envelope-from <dongxiao.xu@intel.com>) id 1QqKSa-0003Hm-Gm
 	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Aug 2011 09:41:15 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 08 Aug 2011 00:36:46 -0700
+	Mon, 08 Aug 2011 09:41:16 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 08 Aug 2011 00:36:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,336,1309762800"; d="scan'208";a="36310021"
+X-IronPort-AV: E=Sophos;i="4.67,336,1309762800"; d="scan'208";a="36154997"
 Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by orsmga001.jf.intel.com with ESMTP; 08 Aug 2011 00:36:45 -0700
+	by azsmga001.ch.intel.com with ESMTP; 08 Aug 2011 00:36:46 -0700
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Aug 2011 15:35:36 +0800
-Message-Id: <cover.1312788761.git.dongxiao.xu@intel.com>
+Date: Mon,  8 Aug 2011 15:35:37 +0800
+Message-Id: <4502eca9e0f5a3714a4a0051e851e4d1ff6a6bfd.1312788761.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.1
-Subject: [PATCH 0/2][PULL] Multilib: Fix bug 1340
+In-Reply-To: <cover.1312788761.git.dongxiao.xu@intel.com>
+References: <cover.1312788761.git.dongxiao.xu@intel.com>
+In-Reply-To: <cover.1312788761.git.dongxiao.xu@intel.com>
+References: <cover.1312788761.git.dongxiao.xu@intel.com>
+Subject: [PATCH 1/2] gnome-doc-utils: Avoid RDEPENDS on bash in native case.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,32 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2011 07:41:15 -0000
+X-List-Received-Date: Mon, 08 Aug 2011 07:41:16 -0000
 
-Hi Richard,
+gnome-doc-utils-native should not RDEPENDS on bash, thus add RDEPENDS
+override to fix the issue.
 
-The following two commits fix the issue that, some normal packages are
-built out when building pure multilib image "lib32-core-image-sato".
+Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+---
+ meta/recipes-gnome/gnome/gnome-doc-utils.inc |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Please help to review and pull.
-
-[YOCTO #1340]
-
-The following changes since commit 7a278238d9b08e0315e92d386282cb488cc0c7b4:
-
-  bitbake.conf/powerpc64: Set baselib to 'lib64' for ppc64 (2011-08-05 17:48:23 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib dxu4/ml2
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/ml2
-
-Dongxiao Xu (2):
-  gnome-doc-utils: Avoid RDEPENDS on bash in native case.
-  module-init-tools-cross: Clean the RDEPENDS value
-
- meta/recipes-gnome/gnome/gnome-doc-utils.inc       |    1 +
- .../module-init-tools-cross_3.16.bb                |    1 +
- 2 files changed, 2 insertions(+), 0 deletions(-)
+diff --git a/meta/recipes-gnome/gnome/gnome-doc-utils.inc b/meta/recipes-gnome/gnome/gnome-doc-utils.inc
+index bd7c615..7c28eab 100644
+--- a/meta/recipes-gnome/gnome/gnome-doc-utils.inc
++++ b/meta/recipes-gnome/gnome/gnome-doc-utils.inc
+@@ -16,5 +16,6 @@ do_install_append() {
+ FILES_${PN} += "${datadir}/xml* ${PYTHON_SITEPACKAGES_DIR}/*"
+ 
+ RDEPENDS_${PN} = "bash"
++RDEPENDS_${PN}_virtclass-native = ""
+ 
+ BBCLASSEXTEND = "native"
+-- 
+1.7.1
 
 
 
