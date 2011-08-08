@@ -1,28 +1,33 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX1/scOJXdvxESM8XINyw0JVZK4UhET8xzAE=])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1QqSrS-00019f-VD
-	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Aug 2011 18:39:31 +0200
-Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p78GZ26n001526
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QqTLW-00025P-SY for openembedded-core@lists.openembedded.org;
+	Mon, 08 Aug 2011 19:10:35 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p78H63n5004659
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 8 Aug 2011 11:35:03 -0500
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Kumar Gala <galak@kernel.crashing.org>
-In-Reply-To: <9C87AA3D-2AE6-4C57-B903-0D939E577BB8@kernel.crashing.org>
-Date: Mon, 8 Aug 2011 11:35:04 -0500
-Message-Id: <97C8882F-7684-4804-A1B2-AE3DF9D0D6B0@kernel.crashing.org>
-References: <1312208500-13381-1-git-send-email-galak@kernel.crashing.org>
-	<1312209045.30326.515.camel@phil-desktop>
-	<4727DFCB-0AA2-43D1-A0CA-58717D815FE8@kernel.crashing.org>
-	<1312214835.30326.528.camel@phil-desktop>
-	<4E36D800.1050906@mentor.com> <1312217833.2344.511.camel@rex>
-	<9C87AA3D-2AE6-4C57-B903-0D939E577BB8@kernel.crashing.org>
+	Mon, 8 Aug 2011 18:06:03 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 04327-03 for <openembedded-core@lists.openembedded.org>;
+	Mon,  8 Aug 2011 18:06:00 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p78H5sx8004653
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 8 Aug 2011 18:05:57 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH] gcc: Add ability for tune files to pass in configure options to gcc
+In-Reply-To: <cover.1312565996.git.nitin.a.kamble@intel.com>
+References: <cover.1312565996.git.nitin.a.kamble@intel.com>
+Date: Mon, 08 Aug 2011 18:05:23 +0100
+Message-ID: <1312823123.14274.228.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 0/3] new x86 ABI x32 V2 patch series
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,60 +42,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2011 16:39:31 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 08 Aug 2011 17:10:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Fri, 2011-08-05 at 10:42 -0700, nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> 
+> These are the commits for the new x86_64 ABI named x32. These are changed 
+> as per the feedback received on the mailing list.
+> 
+> The kernel related commits are dropped from this series as Bruce is pushing
+> them directly.
+> 
+> The following changes since commit da321ee54b26b11e2bd36c889c5568ae62b17ffd:
+> 
+>   linux-yocto: pass KMACHINE to updateme, not MACHINE (2011-08-05 10:00:33 -0700)
+> 
+> are available in the git repository at:
+>   git://git.pokylinux.org/poky-contrib nitin/x32.rebased
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/x32.rebased
+> 
+> Nitin A Kamble (3):
+>   siteinfo.bbclass: add entries for new x86_64 ABI x32 target
+>   insane.bbclass: add entries for linux-gnux32
+>   x86 tune inc files: add x32 abi tune parameters
 
-On Aug 2, 2011, at 8:11 AM, Kumar Gala wrote:
+Merged to master, thanks.
 
->=20
-> On Aug 1, 2011, at 11:57 AM, Richard Purdie wrote:
->=20
->> On Mon, 2011-08-01 at 09:44 -0700, Tom Rini wrote:
->>> On 08/01/2011 09:07 AM, Phil Blundell wrote:
->>>> On Mon, 2011-08-01 at 09:37 -0500, Kumar Gala wrote:
->>>>> Not sure I understand the statement about disambiguate the =
-resulting compilers, on PPC where I intend to utilize this we'd have the =
-toolchains already named something like:
->>>>=20
->>>> The thing about disambiguating was that, if you're going to modify =
-the
->>>> configure opts for gcc-cross based (indirectly) on ${MACHINE} you =
-need
->>>> to consider what happens if you have a single build directory =
-that's
->>>> being used for multiple MACHINEs.
->>>=20
->>> What, I think, Kumar is driving at is why are you saying MACHINE =
-when
->>> it's a per core tune he's doing.  eg, every e5500 would do =
---with-cpu=3De5500
->>=20
->> The question is whether we'd like to get to the point of having more
->> toolchains or less toolchains. I'd personally like to get to the =
-point
->> of less toolchains (e.g. one per arch) rather than more of them. We
->> already pass all the appropriate flags around in the ADT/sdk code and =
-in
->> our own cross builds, we could easily add those to the default target
->> environment too. This would actually make it clearer what is going on =
-to
->> the end user too rather than hiding the details into the gcc
->> compilation.
->>=20
->> So all things considered, I don't think this is the best way to go...
->>=20
->=20
-> How is this done or exported to the user of an ADT/sdk toolchain?
+Richard
 
-I still dont understand the concern here.  GCC is already picking a =
-default for -mcpu, so why is having a tune file pick a better default =
-any issue?
-
-If there is an explicit -mcpu or other options like -mtune, the setting =
-of --with-cpu will get ignored.
-
-- k=
 
 
