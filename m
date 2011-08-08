@@ -1,39 +1,30 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QqVep-00052y-GE for openembedded-core@lists.openembedded.org;
-	Mon, 08 Aug 2011 21:38:39 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p78JYBhI005392
+Received: from mail-iy0-f171.google.com ([209.85.210.171])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1QqXkW-0007qw-QE
+	for openembedded-core@lists.openembedded.org;
+	Mon, 08 Aug 2011 23:52:41 +0200
+Received: by iyf13 with SMTP id 13so11804639iyf.16
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 8 Aug 2011 20:34:11 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 04291-09 for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2011 20:34:07 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p78JY2a3005386
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 8 Aug 2011 20:34:02 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <97C8882F-7684-4804-A1B2-AE3DF9D0D6B0@kernel.crashing.org>
-References: <1312208500-13381-1-git-send-email-galak@kernel.crashing.org>
-	<1312209045.30326.515.camel@phil-desktop>
-	<4727DFCB-0AA2-43D1-A0CA-58717D815FE8@kernel.crashing.org>
-	<1312214835.30326.528.camel@phil-desktop> <4E36D800.1050906@mentor.com>
-	<1312217833.2344.511.camel@rex>
-	<9C87AA3D-2AE6-4C57-B903-0D939E577BB8@kernel.crashing.org>
-	<97C8882F-7684-4804-A1B2-AE3DF9D0D6B0@kernel.crashing.org>
-Date: Mon, 08 Aug 2011 20:33:31 +0100
-Message-ID: <1312832011.14274.242.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] gcc: Add ability for tune files to pass in configure options to gcc
+	Mon, 08 Aug 2011 14:48:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=3csykWXL0DLj9am3tcZxv1JP6OwUBlEmyId7XVXpZP8=;
+	b=FVSfYVKmOPpHovbeOUYvI9VkelQxm8RitJc6nk52ItZ4NQ5Mp6AOwdqvWAfv23KI4X
+	TNVtnG0B6Vqqkhqqwm+ADCCTvflYGrjAdbMpAm2Nwv6fRD2kMJTDaa6EV+xWYC12ZFHa
+	Ykt4jQj9ZgoJrK1CH+ZtRSWWiyPdJeZ8/D6k4=
+Received: by 10.231.55.76 with SMTP id t12mr6263175ibg.28.1312840091608;
+	Mon, 08 Aug 2011 14:48:11 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id n18sm2817929ibg.35.2011.08.08.14.48.10
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 08 Aug 2011 14:48:10 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  8 Aug 2011 14:48:28 -0700
+Message-Id: <1312840108-10685-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.0.4
+Subject: [PATCH] uclibc_0.9.32: Sync mount.h from eglibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,75 +39,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2011 19:38:39 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 08 Aug 2011 21:52:41 -0000
 
-On Mon, 2011-08-08 at 11:35 -0500, Kumar Gala wrote:
-> On Aug 2, 2011, at 8:11 AM, Kumar Gala wrote:
-> 
-> > 
-> > On Aug 1, 2011, at 11:57 AM, Richard Purdie wrote:
-> > 
-> >> On Mon, 2011-08-01 at 09:44 -0700, Tom Rini wrote:
-> >>> On 08/01/2011 09:07 AM, Phil Blundell wrote:
-> >>>> On Mon, 2011-08-01 at 09:37 -0500, Kumar Gala wrote:
-> >>>>> Not sure I understand the statement about disambiguate the resulting compilers, on PPC where I intend to utilize this we'd have the toolchains already named something like:
-> >>>> 
-> >>>> The thing about disambiguating was that, if you're going to modify the
-> >>>> configure opts for gcc-cross based (indirectly) on ${MACHINE} you need
-> >>>> to consider what happens if you have a single build directory that's
-> >>>> being used for multiple MACHINEs.
-> >>> 
-> >>> What, I think, Kumar is driving at is why are you saying MACHINE when
-> >>> it's a per core tune he's doing.  eg, every e5500 would do --with-cpu=e5500
-> >> 
-> >> The question is whether we'd like to get to the point of having more
-> >> toolchains or less toolchains. I'd personally like to get to the point
-> >> of less toolchains (e.g. one per arch) rather than more of them. We
-> >> already pass all the appropriate flags around in the ADT/sdk code and in
-> >> our own cross builds, we could easily add those to the default target
-> >> environment too. This would actually make it clearer what is going on to
-> >> the end user too rather than hiding the details into the gcc
-> >> compilation.
-> >> 
-> >> So all things considered, I don't think this is the best way to go...
-> >> 
-> > 
-> > How is this done or exported to the user of an ADT/sdk toolchain?
-> 
-> I still dont understand the concern here.  GCC is already picking a
-> default for -mcpu, so why is having a tune file pick a better default
-> any issue?
-> 
-> If there is an explicit -mcpu or other options like -mtune, the
-> setting of --with-cpu will get ignored.
+mount.h has few more defines that are being used by newer
+applications such as systemd
 
-There are two sides to this:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../uclibc/uclibc-0.9.32/mount.h-update.patch      |   85 ++++++++++++++++++++
+ meta/recipes-core/uclibc/uclibc_0.9.32.bb          |    3 +-
+ 2 files changed, 87 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-core/uclibc/uclibc-0.9.32/mount.h-update.patch
 
-a) In the ppc case there isn't that much of an issue since the different
-tunes tend to have their own very specific package architectures. It
-likely therefore doesn't matter much if gcc is hardcoded to a given
-default. It would matter more on certain arm combinations I can think of
-depending on what got hardcoded as default.
-
-b) There are very few circumstances you'd ever be in an environment
-where the correct cpu flags weren't getting supplied (and we have sanity
-checks to ensure they do). We want to be heading to wards less
-toolchains, not more toolchains and the more we code into the toolchain,
-the more different toolchain builds we'll need.
-
-Whilst I can see the reason for wanting a), I worry it will mask issues
-where the flags are missing and also cause more toolchain fragmentation
-with people very likely to get the values wrong in the arm case. I'm
-therefore reluctant.
-
-Cheers,
-
-Richard
-
-
-
+diff --git a/meta/recipes-core/uclibc/uclibc-0.9.32/mount.h-update.patch b/meta/recipes-core/uclibc/uclibc-0.9.32/mount.h-update.patch
+new file mode 100644
+index 0000000..3508e0e
+--- /dev/null
++++ b/meta/recipes-core/uclibc/uclibc-0.9.32/mount.h-update.patch
+@@ -0,0 +1,85 @@
++Sync mount.h from glibc this is needed to get missing defines
++that some apps e.g. systemd are depending on
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Upstream-Status: Pending
++
++Index: git/include/sys/mount.h
++===================================================================
++--- git.orig/include/sys/mount.h	2011-07-21 14:37:27.134255747 -0700
+++++ git/include/sys/mount.h	2011-07-21 14:39:53.844470932 -0700
++@@ -1,5 +1,5 @@
++ /* Header file for mounting/unmount Linux filesystems.
++-   Copyright (C) 1996,1997,1998,1999,2000,2004 Free Software Foundation, Inc.
+++   Copyright (C) 1996-2000, 2004, 2010 Free Software Foundation, Inc.
++    This file is part of the GNU C Library.
++ 
++    The GNU C Library is free software; you can redistribute it and/or
++@@ -47,23 +47,46 @@
++ #define MS_REMOUNT	MS_REMOUNT
++   MS_MANDLOCK = 64,		/* Allow mandatory locks on an FS.  */
++ #define MS_MANDLOCK	MS_MANDLOCK
++-  S_WRITE = 128,		/* Write on file/directory/symlink.  */
++-#define S_WRITE		S_WRITE
++-  S_APPEND = 256,		/* Append-only file.  */
++-#define S_APPEND	S_APPEND
++-  S_IMMUTABLE = 512,		/* Immutable file.  */
++-#define S_IMMUTABLE	S_IMMUTABLE
+++  MS_DIRSYNC = 128,		/* Directory modifications are synchronous.  */
+++#define MS_DIRSYNC	MS_DIRSYNC
++   MS_NOATIME = 1024,		/* Do not update access times.  */
++ #define MS_NOATIME	MS_NOATIME
++   MS_NODIRATIME = 2048,		/* Do not update directory access times.  */
++ #define MS_NODIRATIME	MS_NODIRATIME
++   MS_BIND = 4096,		/* Bind directory at different place.  */
++ #define MS_BIND		MS_BIND
+++  MS_MOVE = 8192,
+++#define MS_MOVE		MS_MOVE
+++  MS_REC = 16384,
+++#define MS_REC		MS_REC
+++  MS_SILENT = 32768,
+++#define MS_SILENT	MS_SILENT
+++  MS_POSIXACL = 1 << 16,	/* VFS does not apply the umask.  */
+++#define MS_POSIXACL	MS_POSIXACL
+++  MS_UNBINDABLE = 1 << 17,	/* Change to unbindable.  */
+++#define MS_UNBINDABLE	MS_UNBINDABLE
+++  MS_PRIVATE = 1 << 18,		/* Change to private.  */
+++#define MS_PRIVATE	MS_PRIVATE
+++  MS_SLAVE = 1 << 19,		/* Change to slave.  */
+++#define MS_SLAVE	MS_SLAVE
+++  MS_SHARED = 1 << 20,		/* Change to shared.  */
+++#define MS_SHARED	MS_SHARED
+++  MS_RELATIME = 1 << 21,	/* Update atime relative to mtime/ctime.  */
+++#define MS_RELATIME	MS_RELATIME
+++  MS_KERNMOUNT = 1 << 22,	/* This is a kern_mount call.  */
+++#define MS_KERNMOUNT	MS_KERNMOUNT
+++  MS_I_VERSION =  1 << 23,	/* Update inode I_version field.  */
+++#define MS_I_VERSION	MS_I_VERSION
+++  MS_STRICTATIME = 1 << 24,	/* Always perform atime updates.  */
+++#define MS_STRICTATIME	MS_STRICTATIME
+++  MS_ACTIVE = 1 << 30,
+++#define MS_ACTIVE	MS_ACTIVE
+++  MS_NOUSER = 1 << 31
+++#define MS_NOUSER	MS_NOUSER
++ };
++ 
++ /* Flags that can be altered by MS_REMOUNT  */
++-#define MS_RMT_MASK (MS_RDONLY|MS_SYNCHRONOUS|MS_MANDLOCK|MS_NOATIME \
++-		     |MS_NODIRATIME)
+++#define MS_RMT_MASK (MS_RDONLY|MS_SYNCHRONOUS|MS_MANDLOCK|MS_I_VERSION)
++ 
++ 
++ /* Magic mount flag number. Has to be or-ed to the flag values.  */
++@@ -100,8 +123,10 @@
++ #define MNT_FORCE MNT_FORCE
++   MNT_DETACH = 2,		/* Just detach from the tree.  */
++ #define MNT_DETACH MNT_DETACH
++-  MNT_EXPIRE = 4		/* Mark for expiry.  */
+++  MNT_EXPIRE = 4,		/* Mark for expiry.  */
++ #define MNT_EXPIRE MNT_EXPIRE
+++  UMOUNT_NOFOLLOW = 8		/* Don't follow symlink on umount.  */
+++#define UMOUNT_NOFOLLOW UMOUNT_NOFOLLOW
++ };
++ 
++ 
+diff --git a/meta/recipes-core/uclibc/uclibc_0.9.32.bb b/meta/recipes-core/uclibc/uclibc_0.9.32.bb
+index 8dcb260..235b436 100644
+--- a/meta/recipes-core/uclibc/uclibc_0.9.32.bb
++++ b/meta/recipes-core/uclibc/uclibc_0.9.32.bb
+@@ -1,7 +1,7 @@
+ SRCREV="9152c4d67c763fde5712e2d181d92c0d7e1e2ab9"
+ 
+ require uclibc.inc
+-PR = "${INC_PR}.2"
++PR = "${INC_PR}.3"
+ PROVIDES += "virtual/${TARGET_PREFIX}libc-for-gcc"
+ 
+ SRC_URI = "git://uclibc.org/uClibc.git;branch=${PV};protocol=git \
+@@ -29,5 +29,6 @@ SRC_URI = "git://uclibc.org/uClibc.git;branch=${PV};protocol=git \
+ 	file://uclibc-execvpe.patch \
+ 	file://uclibc_scheduler_update.patch \
+ 	file://sync_file_range2.patch \
++	file://mount.h-update.patch \
+ 	"
+ S = "${WORKDIR}/git"
+-- 
+1.7.4.1
 
 
 
