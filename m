@@ -1,25 +1,27 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX1+kjVK/P/jucyOyDxlQKiDvuMB1DVYBPoQ=])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1QqSDI-0000Ao-C3
+	(envelope-from <mark.hatle@windriver.com>) id 1QqSHj-0000c2-IH
 	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Aug 2011 17:58:00 +0200
-Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p78FrTU6013091
+	Mon, 08 Aug 2011 18:02:35 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p78Fw51g001777
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 8 Aug 2011 10:53:32 -0500
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Kumar Gala <galak@kernel.crashing.org>
-In-Reply-To: <1312814889.14274.206.camel@rex>
-Date: Mon, 8 Aug 2011 10:53:29 -0500
-Message-Id: <507E6F90-7761-4973-B4D0-EFC15FB21CF1@kernel.crashing.org>
-References: <1312575061-27569-1-git-send-email-galak@kernel.crashing.org>
-	<6CFB9718-52F9-45F5-B157-B0410A70DA08@kernel.crashing.org>
-	<1312814889.14274.206.camel@rex>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH] tune-ppce5500: Add a tune file for PowerPC e5500 core
+	Mon, 8 Aug 2011 08:58:06 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Mon, 8 Aug 2011 08:58:05 -0700
+Message-ID: <4E40078C.2060904@windriver.com>
+Date: Mon, 8 Aug 2011 10:58:04 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:5.0) Gecko/20110624 Thunderbird/5.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <20110808113650.GA20162@chargestorm.se>
+In-Reply-To: <20110808113650.GA20162@chargestorm.se>
+Subject: Re: Unrecognized option while building pseudo (target)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,74 +36,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2011 15:58:00 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 08 Aug 2011 16:02:36 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
+pseudo currently only works on IA32 hosts.  It was never really intended to work
+on the target system, but should.
 
-On Aug 8, 2011, at 9:48 AM, Richard Purdie wrote:
+If you think you want pseudo on the target.. you'll have to verify that all of
+the calls are being trapped properly on ARM, as well as modify the build
+instructions to not worry about IA32 specific items.
 
-> On Mon, 2011-08-08 at 09:39 -0500, Kumar Gala wrote:
->> On Aug 5, 2011, at 3:11 PM, Kumar Gala wrote:
->>=20
->>> Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
->>> ---
->>> meta/conf/machine/include/tune-ppce5500.inc |   14 ++++++++++++++
->>> 1 files changed, 14 insertions(+), 0 deletions(-)
->>> create mode 100644 meta/conf/machine/include/tune-ppce5500.inc
->>>=20
->>> diff --git a/meta/conf/machine/include/tune-ppce5500.inc =
-b/meta/conf/machine/include/tune-ppce5500.inc
->>> new file mode 100644
->>> index 0000000..8e6403d
->>> --- /dev/null
->>> +++ b/meta/conf/machine/include/tune-ppce5500.inc
->>> @@ -0,0 +1,14 @@
->>> +DEFAULTTUNE ?=3D "ppce5500"
->>> +
->>> +require conf/machine/include/powerpc/arch-powerpc64.inc
->>> +
->>> +TUNEVALID[ppce5500] =3D "Enable ppce5500 specific processor =
-optimizations"
->>> +TUNE_CCARGS +=3D "${@bb.utils.contains("TUNE_FEATURES", "ppce5500", =
-"-mcpu=3De5500", "", d)}"
->>> +TUNE_PKGARCH =3D "${@bb.utils.contains("TUNE_FEATURES", "ppce5500", =
-"ppce5500", "${PPCPKGARCH}", d)}"
->>> +
->>> +AVAILTUNES +=3D "ppce5500"
->>> +TUNE_FEATURES_tune-ppce5500 =3D "m64 ppce5500"
->>> +PACKAGE_EXTRA_ARCHS_tune-ppce5500 =3D "powerpc64 ppce5500"
->>> +
->>> +# glibc configure options to get e5500 specific library (for sqrt)
->>> +GLIBC_EXTRA_OECONF +=3D "--with-cpu=3De5500"
->>> --=20
->>> 1.7.3.4
->>=20
->> If I want to have a version of this for 32-bit only (or default) and =
-one for 64-bit, how would it be best to handle that?
->=20
-> I was wondering about this. You really need to make it conditional on
-> something, e.g.
->=20
-> GLIBC_EXTRA_OECONF +=3D "${@bb.utils.contains("TUNE_FEATURES", "m32", =
-""--with-cpu=3De5500", "", d)}"
+(Right now, if you change the compilation to not specify the -m32 on arm, I'd
+give pseudo about a 75% chance of working properly on ARM.. but it's never been
+tested there.)
 
-Sorry, I meant for the whole file, not just the GLIBC_EXTRA_OECONF (That =
-has to be done regardless of 32-bit or 64-bit).
+--Mark
 
-> however, if you do this you need to ensure that TUNE_PKGARCH is not
-> powerpc but something e5500 specific at this point since you are
-> enabling e5500 specific optimisations.
+On 8/8/11 6:36 AM, Anders Darander wrote:
+> 
+> Hi,
+> 
+> After updating my work-in-progress to upgrade our internal distro from
+> oe-dev to oe-core, I got a new problem... (At least new to me, as far as
+> I remember I didn't have that problem before the vacation. Otoh, my old
+> build-box is temporarily out of service HW-problems, so this is a new
+> build environment).
+> 
+> The problem is that my cross-compiler, arm-oe-linux-gnueabi-gcc, do not
+> recognize the -m32 option, that the pseudo makefile tries to supply.
+> 
+> Short excerpt of the build log, just to show the call to gcc and its
+> error message:
+> | arm-oe-linux-gnueabi-gcc  -march=armv5te  -mno-thumb -mthumb-interwork
+> -mtune=arm926ej-s
+> --sysroot=/home/anders/oe-build-core/build-ccu/tmp-eglibc/sysroots/ccu
+> -O2 -pipe -g -feliminate-unused-debug-types -pipe -std=gnu99 -Wall -W
+> -Wextra -fPIC -D_LARGEFILE64_SOURCE -D_ATFILE_SOURCE -m32
+> -DPSEUDO_PREFIX='"/usr"' -DPSEUDO_SUFFIX='""' -DPSEUDO_BINDIR='"bin"'
+> -DPSEUDO_LIBDIR='"lib/pseudo/lib"' -DPSEUDO_LOCALSTATEDIR='"var/pseudo"'
+> -DPSEUDO_VERSION='"1.1.1"' -O2 -g
+> -L/home/anders/oe-build-core/build-ccu/tmp-eglibc/sysroots/ccu/usr/lib
+> -I/home/anders/oe-build-core/build-ccu/tmp-eglibc/sysroots/ccu/usr/include
+> -Wl,-R/home/anders/oe-build-core/build-ccu/tmp-eglibc/sysroots/ccu/usr/lib
+> -c -o pseudo_tables.o pseudo_tables.c
+> | cc1: error: unrecognized command line option '-m32'cc1: error:
+> unrecognized command line option '-m32'cc1: error: unrecognized command
+> line option '-m32'cc1: error: unrecognized command line option '-m32'
+> 
+> By commenting out the setting of 'CFLAGS_CODE += -m$(BITS)' in
+> Makefile.in, I can get the build to continue past pseudo.
+> 
+> Any ideas of how I should correctly fix this? Or if I have some other
+> problem in my environment that could cause such a failure....
+> 
+> Cheers,
+> Anders 
+> 
 
-Which it is, or do you mean being more explicit about it via:
-
-TUNE_PKGARCH =3D "ppce5500"
-
-rather than:
-
-TUNE_PKGARCH =3D "${@bb.utils.contains("TUNE_FEATURES", "ppce5500", =
-"ppce5500", "${PPCPKGARCH}", d)}"
-
-- k=
 
 
