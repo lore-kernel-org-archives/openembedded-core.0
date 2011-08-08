@@ -1,26 +1,37 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ke.yu@intel.com>) id 1QqLwN-0007yb-Ga
+	(envelope-from <s.stirtzel@googlemail.com>) id 1QqMC5-0008DI-TL
 	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Aug 2011 11:16:07 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 08 Aug 2011 02:11:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,336,1309762800"; d="scan'208";a="36846685"
-Received: from kyu3-desk.ccr.corp.intel.com (HELO [10.238.154.176])
-	([10.238.154.176])
-	by fmsmga002.fm.intel.com with ESMTP; 08 Aug 2011 02:11:38 -0700
-Message-ID: <4E3FA84A.5030600@intel.com>
-Date: Mon, 08 Aug 2011 17:11:38 +0800
-From: Yu Ke <ke.yu@intel.com>
-User-Agent: Mozilla/5.0 (Windows NT 5.1; rv:5.0) Gecko/20110624 Thunderbird/5.0
+	Mon, 08 Aug 2011 11:32:21 +0200
+Received: by wyf19 with SMTP id 19so1563394wyf.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 08 Aug 2011 02:27:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=GGcFb+a6Y3K3RtmQooLFhilI13A6wVqIJh9gp/MX2gk=;
+	b=elMNKHAC6K3Wn3Q+uWavbd6jyGcjduX2Yk6icdKWoyhucjiUnMwhVFJps7QUcCerNS
+	J1QRVTPHjJ7P5mov9iG2dJILijHTJrRP04uMKHyhB8E+5EEisuTak33uUfGTGRyySTkl
+	Aje60eL3fGTJ15gr7xPmIuCDAgjfQRZ+lcYOs=
 MIME-Version: 1.0
+Received: by 10.227.201.79 with SMTP id ez15mr4345983wbb.76.1312795673061;
+	Mon, 08 Aug 2011 02:27:53 -0700 (PDT)
+Received: by 10.227.2.74 with HTTP; Mon, 8 Aug 2011 02:27:53 -0700 (PDT)
+In-Reply-To: <4E3C295C.6060700@gmail.com>
+References: <CAGiJk9dWLc6TqMRfG4nqfgHbBHnRVb3V7b_QQwH9UPjip1aNeg@mail.gmail.com>
+	<CAGiJk9e01+q-P51iknAFut7jWgSP4NrzLoNDKAjM-wC+=7U+4w@mail.gmail.com>
+	<4E396097.1000207@gmail.com>
+	<CAGiJk9fsRGZiA92vpOcT8X95KscOg-vFxqdB7hcW16MOSk0PWQ@mail.gmail.com>
+	<4E3ABA58.9040408@gmail.com>
+	<CAGiJk9eZgic_cL23CEJYq+++OW3233cdhpehwhsJkwo4=1yr9Q@mail.gmail.com>
+	<4E3C295C.6060700@gmail.com>
+Date: Mon, 8 Aug 2011 11:27:53 +0200
+Message-ID: <CAGiJk9cWvhbcb=c=gj=vg0PKmR8qcVNNgN16_FLwkFOqYYmUig@mail.gmail.com>
+From: Samuel Stirtzel <s.stirtzel@googlemail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <8f296f721bbda3e9df8a80422cd876b9d52712f8.1312540193.git.lianhao.lu@intel.com>
-	<a6ffbc82edee2699f74d9d49676ab8f37acd8658.1312540193.git.lianhao.lu@intel.com>
-In-Reply-To: <a6ffbc82edee2699f74d9d49676ab8f37acd8658.1312540193.git.lianhao.lu@intel.com>
-Subject: Re: [PATCH 5/6] ghostscript: Fixed the incorrect DEPENDS.
+Subject: Re: Error running QEMU with oe-core / angstrom console-image, hwclock: can't open '/dev/misc/rtc' : No such file or directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,60 +46,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2011 09:16:07 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 08 Aug 2011 09:32:22 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-on 2011-8-5 18:37, Lianhao Lu wrote:
-> [YOCTO #1337]
-> Using ghostscript-native instead of ${PN}-native in DEPENDS to correct
-> the invalid DEPENDS in multilib cases.
+2011/8/5 Khem Raj <raj.khem@gmail.com>:
+> It means QEMUOPTIONS is empty in your case because you are sing ext2
+> image. It supports ext3 and btrfs
 >
-> Signed-off-by: Lianhao Lu<lianhao.lu@intel.com>
-> ---
->   .../ghostscript/ghostscript_9.02.bb                |    2 +-
->   1 files changed, 1 insertions(+), 1 deletions(-)
+> but it should be easy to add ext2 to mix. Can you try something like belo=
+w
 >
-> diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.02.bb b/meta/recipes-extended/ghostscript/ghostscript_9.02.bb
-> index 28c6c9e..2e46734 100644
-> --- a/meta/recipes-extended/ghostscript/ghostscript_9.02.bb
-> +++ b/meta/recipes-extended/ghostscript/ghostscript_9.02.bb
-> @@ -17,7 +17,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=d151214b3131251dfc9d858593acbd24"
+> diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+> index c15632d..64635df 100755
+> - --- a/scripts/runqemu-internal
+> +++ b/scripts/runqemu-internal
+> @@ -277,7 +277,7 @@ if [ "$MACHINE" =3D "qemuarm" -o "$MACHINE" =3D
+> "qemuarmv6" -o "$MACHINE" =3D "qemuarm
+> =A0 =A0 MACHINE_SUBTYPE=3Dversatilepb
+> =A0 =A0 QEMU_UI_OPTIONS=3D"$QEMU_UI_OPTIONS"
+> =A0 =A0 # QEMU_UI_OPTIONS=3D"$QEMU_UI_OPTIONS -force-pointer"
+> - - =A0 =A0if [ "$FSTYPE" =3D "ext3" -o "$FSTYPE" =3D "btrfs" ]; then
+> + =A0 =A0if [ "$FSTYPE" =3D "ext3" -o "$FSTYPE" =3D "btrfs" -o "$FSTYPE" =
+=3D
+> "ext2" ]; then
+> =A0 =A0 =A0 =A0 KERNCMDLINE=3D"root=3D/dev/sda rw console=3DttyAMA0,11520=
+0
+> console=3Dtty $KERNEL_NETWORK_CMD mem=3D$QEMU_MEMORY hi
+> =A0 =A0 =A0 =A0 QEMUOPTIONS=3D"$QEMU_NETWORK_CMD -M versatilepb -hda $ROO=
+TFS
+> - -no-reboot $QEMU_UI_OPTIONS"
+> =A0 =A0 fi
 >
->   PR = "r4"
->
-> -DEPENDS = "${PN}-native tiff jpeg fontconfig cups"
-> +DEPENDS = "ghostscript-native tiff jpeg fontconfig cups"
->   DEPENDS_virtclass-native = ""
->
->   SRC_URI_BASE = "http://downloads.ghostscript.com/public/ghostscript-${PV}.tar.bz2"
+This patch didn't work for me, git and patch asserted that it's malformed:
+-
+samuel@S-Stirtzel-Linux:/var/oe-core/setup-scripts/sources/openembedded-cor=
+e$
+git apply /home/samuel/Downloads/runqemu-initial.diff
+fatal: patch with only garbage at line 3
+samuel@S-Stirtzel-Linux:/var/oe-core/setup-scripts/sources/openembedded-cor=
+e$
+patch -p0 < /home/samuel/Downloads/runqemu-initial.diff
+patching file scripts/runqemu-internal
+patch: **** malformed patch at line 6: "qemuarmv6" -o "$MACHINE" =3D "qemua=
+rm
+-
 
-This looks a generic issue to me. i.e. when the dependency ends with 
-"-native", we should make sure it won't has multilib prefix. so the 
-following patch will be more generic. or at least, we should document 
-somewhere that "${PN}-native" dependency is not right.
+After I got this done, executing runqemu shows this error:
+-
+samuel@S-Stirtzel-Linux:/var/oe-core/setup-scripts/sources/openembedded-cor=
+e$
+runqemu /var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin
+/var/oe-core/tmp-eglibc/deploy/images/qemuarm/console-image-qemuarm.ext2
+Set MACHINE to [qemuarm] based on kernel
+[/var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin]
 
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index 6e1669f..c73e5f9 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -43,7 +43,11 @@ python __anonymous () {
-          newdeps = []
-          for dep in deps:
-              if dep.endswith(("-native", "-native-runtime")):
--                newdeps.append(dep)
-+                if dep.startswith(variant):
-+                    # remove the leading MLPREFIX
-+                    newdeps.append(dep[len(variant)+1:])
-+                else:
-+                    newdeps.append(dep)
-              else:
-                  newdeps.append(extend_name(dep))
-          d.setVar(varname, " ".join(newdeps))
+Continuing with the following parameters:
+KERNEL: [/var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin]
+ROOTFS: [/var/oe-core/tmp-eglibc/deploy/images/qemuarm/console-image-qemuar=
+m.ext2]
+FSTYPE: [ext2]
+Setting up tap interface under sudo
+[sudo] password for samuel:
+Acquiring lockfile for tap0...
+/var/oe-core/setup-scripts/sources/openembedded-core/scripts/runqemu-intern=
+al:
+Line 280: [: Too many arguments.
+Error: Unable to support this combination of options
+Set 'tap0' nonpersistent
+Releasing lockfile of preconfigured tap device 'tap0'
+-
 
-comment? if it is Ok, I will submit a patch.
+Ext3 works with the script (reverted the patch), but it seems that i
+can't connect my machine (host) to the internet as long as QEMU runs.
+Can't try if the guest can access the internet or communicate with the
+host since it looks like systemd patches broke some init related
+stuff.
+
 
 Regards
-Ke
+Samuel
 
 
