@@ -1,27 +1,33 @@
-Received: from stoexhubfe01.domain01.net ([83.145.59.140])
+Received: from [93.97.173.237] (helo=tim.rpsys.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1QqOCj-0002RW-W8
-	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Aug 2011 13:41:10 +0200
-Received: from localhost (193.235.91.228) by stoexhubfe01.domain01.net
-	(10.12.10.6) with Microsoft SMTP Server id 8.3.137.0; Mon, 8 Aug 2011
-	13:36:42 +0200
-Date: Mon, 8 Aug 2011 13:36:50 +0200
-From: Anders Darander <anders@chargestorm.se>
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QqPFN-0005f0-FD for openembedded-core@lists.openembedded.org;
+	Mon, 08 Aug 2011 14:47:57 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p78ChToW002686
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 8 Aug 2011 13:43:29 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 02217-03 for <openembedded-core@lists.openembedded.org>;
+	Mon,  8 Aug 2011 13:43:25 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p78ChL8c002680
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 8 Aug 2011 13:43:23 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110808113650.GA20162@chargestorm.se>
-Mail-Followup-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-MIME-Version: 1.0
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-GFI-SMTP-Submission: 1
-Subject: Unrecognized option while building pseudo (target)
+In-Reply-To: <cover.1312692935.git.sgw@linux.intel.com>
+References: <cover.1312692935.git.sgw@linux.intel.com>
+Date: Mon, 08 Aug 2011 13:42:51 +0100
+Message-ID: <1312807371.14274.174.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [Updated CONSOLIDATED PULL 00/15] Fixes for M3 and getting master to build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,51 +42,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2011 11:41:10 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 08 Aug 2011 12:47:57 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Sat, 2011-08-06 at 22:01 -0700, Saul Wold wrote:
+> Richard,
+> 
+> This has Bruce's updated Kernel, which has taken a spin on the fuzzy builder,
+> along with a fix for M3 BSP failures and a couple of other bug and build fixes.
+> I also remembered to include the SRC_URI checksums this time for the recipe 
+> updates.
+> 
+> Thanks
+> 	Sau!
+> 
+> 
+> The following changes since commit 7a278238d9b08e0315e92d386282cb488cc0c7b4:
+> 
+>   bitbake.conf/powerpc64: Set baselib to 'lib64' for ppc64 (2011-08-05 17:48:23 +0100)
+> 
+> are available in the git repository at:
+>   git://git.openembedded.org/openembedded-core-contrib sgw/stage
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+> 
+> Bruce Ashfield (4):
+>   linux-yocto: pass KMACHINE to updateme, not MACHINE
+>   linux-yocto: allow configuration of arbitrary branches
+>   linux-yocto: update atom-pc preempt-rt definition
+>   linux-yocto: merge v3.0.1
+> 
+> Koen Kooi (3):
+>   gst-plugins: partially sync packaging with OE .dev
+>   gtk-icon-cache bbclass: don't assing to global RDEPENDS
+>   gtk-icon-cache: fix RDEPENDS append bug
 
-Hi,
+I squashed these two into one
 
-After updating my work-in-progress to upgrade our internal distro from
-oe-dev to oe-core, I got a new problem... (At least new to me, as far as
-I remember I didn't have that problem before the vacation. Otoh, my old
-build-box is temporarily out of service HW-problems, so this is a new
-build environment).
+> Kumar Gala (1):
+>   gcc: use ${base_lib} to match gcc default configuration
+> 
+> Mei Lei (2):
+>   python-native: Fix a compiler finding issue
+>   apr-util: disable pqsql support to avoid configure error
+> 
+> Saul Wold (5):
+>   gdb: Update to 7.3
+>   liburcu: Update to 0.6.4
+>   lttng-ust: Update to 0.15
+>   lttng-control: Update to 0.89
 
-The problem is that my cross-compiler, arm-oe-linux-gnueabi-gcc, do not
-recognize the -m32 option, that the pseudo makefile tries to supply.
+, fixed the piece in lttng-control that belonged in lttng-ust
 
-Short excerpt of the build log, just to show the call to gcc and its
-error message:
-| arm-oe-linux-gnueabi-gcc  -march=armv5te  -mno-thumb -mthumb-interwork
--mtune=arm926ej-s
---sysroot=/home/anders/oe-build-core/build-ccu/tmp-eglibc/sysroots/ccu
--O2 -pipe -g -feliminate-unused-debug-types -pipe -std=gnu99 -Wall -W
--Wextra -fPIC -D_LARGEFILE64_SOURCE -D_ATFILE_SOURCE -m32
--DPSEUDO_PREFIX='"/usr"' -DPSEUDO_SUFFIX='""' -DPSEUDO_BINDIR='"bin"'
--DPSEUDO_LIBDIR='"lib/pseudo/lib"' -DPSEUDO_LOCALSTATEDIR='"var/pseudo"'
--DPSEUDO_VERSION='"1.1.1"' -O2 -g
--L/home/anders/oe-build-core/build-ccu/tmp-eglibc/sysroots/ccu/usr/lib
--I/home/anders/oe-build-core/build-ccu/tmp-eglibc/sysroots/ccu/usr/include
--Wl,-R/home/anders/oe-build-core/build-ccu/tmp-eglibc/sysroots/ccu/usr/lib
--c -o pseudo_tables.o pseudo_tables.c
-| cc1: error: unrecognized command line option '-m32'cc1: error:
-unrecognized command line option '-m32'cc1: error: unrecognized command
-line option '-m32'cc1: error: unrecognized command line option '-m32'
+>   kernel-yocto: add CCACHE_DIR dependency to do_kernel_configme
 
-By commenting out the setting of 'CFLAGS_CODE += -m$(BITS)' in
-Makefile.in, I can get the build to continue past pseudo.
+and merged them all to master, thanks.
 
-Any ideas of how I should correctly fix this? Or if I have some other
-problem in my environment that could cause such a failure....
+Richard
 
-Cheers,
-Anders 
-
--- 
-Anders Darander
-ChargeStorm AB / EStorm AB
 
 
