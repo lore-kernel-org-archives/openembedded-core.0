@@ -1,25 +1,31 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1QqKSb-0003Hm-Bz
+	(envelope-from <martin.jansa@gmail.com>) id 1QqKlx-0006PM-R3
 	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Aug 2011 09:41:17 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 08 Aug 2011 00:36:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,336,1309762800"; 
-   d="scan'208";a="5003951"
-Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by AZSMGA002.ch.intel.com with ESMTP; 08 Aug 2011 00:36:48 -0700
-From: Dongxiao Xu <dongxiao.xu@intel.com>
+	Mon, 08 Aug 2011 10:01:17 +0200
+Received: by fxg11 with SMTP id 11so4418436fxg.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 08 Aug 2011 00:56:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=AiA1+RdQYlfHK3tAvGEj2O1FvxY/avOpH3IRuAe3YRU=;
+	b=tq5pvqn3eNoZ4wpQPU2XzS8tPRvY7TK6a4s+MaYPsBFdIb2glV7HxOcthSUewpK9FB
+	tH5Eyb7vWbzXl5Wrn1lQQhA6u/VvCvPzWwjpeVGInEPtlHyaAwxdn/PW5gp60p1IY0Dm
+	7eiRdgRI2rgGDA2atysxSKA4wH8E4K1HoUHac=
+Received: by 10.223.159.4 with SMTP id h4mr7353807fax.57.1312790210062;
+	Mon, 08 Aug 2011 00:56:50 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id o18sm3966348fal.23.2011.08.08.00.56.48
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 08 Aug 2011 00:56:49 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Aug 2011 15:35:38 +0800
-Message-Id: <9e9fc650a0e3d3a87601db920e3e71ba52078e44.1312788761.git.dongxiao.xu@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1312788761.git.dongxiao.xu@intel.com>
-References: <cover.1312788761.git.dongxiao.xu@intel.com>
-In-Reply-To: <cover.1312788761.git.dongxiao.xu@intel.com>
-References: <cover.1312788761.git.dongxiao.xu@intel.com>
-Subject: [PATCH 2/2] module-init-tools-cross: Clean the RDEPENDS value
+Date: Mon,  8 Aug 2011 09:56:40 +0200
+Message-Id: <1312790200-7205-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.6
+In-Reply-To: <4E38336B.8010604@linux.intel.com>
+References: <4E38336B.8010604@linux.intel.com>
+Subject: [PATCH 10/10] eglibc: remove PACKAGES from eglibc.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,31 +40,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2011 07:41:17 -0000
+X-List-Received-Date: Mon, 08 Aug 2011 08:01:17 -0000
 
-cross recipes should not RDEPENDS on any package. Cross recipe has no
-"PACKAGES" define, thus clean RDEPENDS_${PN} value to ensure correctness
-in multilib.
+* PACKAGES were defined in eglibc.inc as well as eglibc-package.inc, definition
+  from eglibc.inc was overriden from recipes including eglibc.inc only
 
-Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../module-init-tools-cross_3.16.bb                |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+ meta/recipes-core/eglibc/eglibc.inc |    2 --
+ 1 files changed, 0 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/module-init-tools/module-init-tools-cross_3.16.bb b/meta/recipes-kernel/module-init-tools/module-init-tools-cross_3.16.bb
-index a6c5d21..dee163d 100644
---- a/meta/recipes-kernel/module-init-tools/module-init-tools-cross_3.16.bb
-+++ b/meta/recipes-kernel/module-init-tools/module-init-tools-cross_3.16.bb
-@@ -2,6 +2,7 @@ require module-init-tools.inc
- PR = "r0"
- inherit cross
- PROVIDES += "virtual/${TARGET_PREFIX}depmod"
-+RDEPENDS_${PN} = ""
+diff --git a/meta/recipes-core/eglibc/eglibc.inc b/meta/recipes-core/eglibc/eglibc.inc
+index 1b2e630..0f97f82 100644
+--- a/meta/recipes-core/eglibc/eglibc.inc
++++ b/meta/recipes-core/eglibc/eglibc.inc
+@@ -41,8 +41,6 @@ EGLIBCPARALLELISM := "PARALLELMFLAGS="${PARALLEL_MAKE}""
+ EXTRA_OEMAKE += ${EGLIBCPARALLELISM}
+ PARALLEL_MAKE = ""
  
- SRC_URI[md5sum] = "bc44832c6e41707b8447e2847d2019f5"
- SRC_URI[sha256sum] = "e1f2cdcae64a8effc25e545a5e0bdaf312f816ebbcd0916e4e87450755fab64b"
+-PACKAGES = "glibc catchsegv sln nscd ldd glibc-utils glibc-dev glibc-doc libsegfault glibc-extra-nss glibc-thread-db glibc-pcprofile"
+-
+ OE_FEATURES = "${@features_to_eglibc_settings(d)}"
+ do_configure_prepend() {
+ 	sed -e "s#@BASH@#/bin/sh#" -i ${S}/elf/ldd.bash.in
 -- 
-1.7.1
+1.7.6
 
 
 
