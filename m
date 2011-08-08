@@ -1,30 +1,35 @@
-Received: from mail-gw0-f47.google.com ([74.125.83.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <agnel.joel@gmail.com>) id 1QqUWR-0003TL-Ei
-	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Aug 2011 20:25:57 +0200
-Received: by gwb11 with SMTP id 11so1800288gwb.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QqVWk-0004t6-Hl for openembedded-core@lists.openembedded.org;
+	Mon, 08 Aug 2011 21:30:18 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p78JPoKT005366
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Aug 2011 11:21:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=wrbIlLSqHaA7RoUjAGYawMGyEaNqiHOWzI9EXhqeLfM=;
-	b=wWpvs/z+GlDNkjW/6BMiV4Kw+e8zW9/lIgTtShNw9sIwm6qUe2JERtgTwy/Vgwm1Yy
-	N+HXqR0r6ENHLy2ktjaL3gBAmWGim+f9kM6eBziYiQs2iAmN/aEhSZvQdyfD8IaZT27W
-	Qe16HaDSARqDNit8H0wbpSLsTJPUqZSBPhxYc=
-Received: by 10.150.169.1 with SMTP id r1mr5807520ybe.216.1312827686492;
-	Mon, 08 Aug 2011 11:21:26 -0700 (PDT)
-Received: from localhost.localdomain (dragon.ti.com [192.94.94.33])
-	by mx.google.com with ESMTPS id n9sm1792069ybk.24.2011.08.08.11.21.25
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 08 Aug 2011 11:21:25 -0700 (PDT)
-From: Joel A Fernandes <agnel.joel@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Aug 2011 13:14:34 -0500
-Message-Id: <1312827274-32740-1-git-send-email-agnel.joel@gmail.com>
-X-Mailer: git-send-email 1.7.0.4
-Cc: jdk@ti.com, k-kooi@ti.com
-Subject: [PATCH] linux 3.0: Add patch from OE to set dto to max value to fix MMC timeouts
+	Mon, 8 Aug 2011 20:25:50 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 04327-09 for <openembedded-core@lists.openembedded.org>;
+	Mon,  8 Aug 2011 20:25:47 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p78JPimh005360
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 8 Aug 2011 20:25:45 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <3C6E0A52-0FD9-4951-9D39-4B433F76B20D@kernel.crashing.org>
+References: <F410F4D8-44AB-45D2-9DB5-1122C8F47077@kernel.crashing.org>
+	<1312815314.14274.213.camel@rex>
+	<3C6E0A52-0FD9-4951-9D39-4B433F76B20D@kernel.crashing.org>
+Date: Mon, 08 Aug 2011 20:25:13 +0100
+Message-ID: <1312831513.14274.234.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: how to pass or set specific gcc flags?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,77 +44,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2011 18:25:57 -0000
+X-List-Received-Date: Mon, 08 Aug 2011 19:30:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Joel A Fernandes <agnel.joel@gmail.com>
----
- ...mc-Adjust-dto-to-eliminate-timeout-errors.patch |   33 ++++++++++++++++++++
- recipes-kernel/linux/linux_3.0.bb                  |    3 +-
- 2 files changed, 35 insertions(+), 1 deletions(-)
- create mode 100644 recipes-kernel/linux/linux-3.0/beagle/0006-omap-mmc-Adjust-dto-to-eliminate-timeout-errors.patch
+On Mon, 2011-08-08 at 10:46 -0500, Kumar Gala wrote:
+> On Aug 8, 2011, at 9:55 AM, Richard Purdie wrote:
+> 
+> > On Sun, 2011-08-07 at 12:08 -0500, Kumar Gala wrote:
+> >> We'd like to pass:
+> >> 
+> >> --enable-targets=all
+> >> 
+> >> on ppc when we target a 64-bit platform but happen to build a 32-bit
+> >> toolchain & rootfs, its useful to still have 64-bit support in the
+> >> compiler to build a 64-bit kernel if desired in this scenario.  Also,
+> >> this seems useful for the multilib situation.
+> >> 
+> >> Wondering what the best way of doing this.  Adding something into the
+> >> tune-ppcFOOBAR file but not sure how to do that so it gets picked up
+> >> by the right toolchain pass.  And what do we even override?  I
+> >> suggested adding a GCC_EXTRA_OECONF.
+> > 
+> > I'd caution against this since we don't currently handle packaging of
+> > toolchains directly using multilibs and I suspect the compiler wouldn't
+> > bootstrap properly either.
+> > 
+> > Its not the compiler itself I worry about but pieces like libc and
+> > libgcc.
+> 
+> I dont think they have any issue with --enable-targets on ppc.
 
-diff --git a/recipes-kernel/linux/linux-3.0/beagle/0006-omap-mmc-Adjust-dto-to-eliminate-timeout-errors.patch b/recipes-kernel/linux/linux-3.0/beagle/0006-omap-mmc-Adjust-dto-to-eliminate-timeout-errors.patch
-new file mode 100644
-index 0000000..8cd314c
---- /dev/null
-+++ b/recipes-kernel/linux/linux-3.0/beagle/0006-omap-mmc-Adjust-dto-to-eliminate-timeout-errors.patch
-@@ -0,0 +1,33 @@
-+From bd0b2f97c48aa6aac0c6a494f1c6ba5af5de486b Mon Sep 17 00:00:00 2001
-+From: Steve Sakoman <steve@sakoman.com>
-+Date: Mon, 18 Jul 2011 23:13:41 -0500
-+Subject: [PATCH] omap_hsmmc: Set dto to max value of 14 to avoid SD Card timeouts
-+
-+This fixes MMC errors due to timeouts on certain SD Cards following suggestions
-+to set dto to 14 by Jason Kridner and Steven Kipisz
-+
-+Details of the issue:
-+http://talk.maemo.org/showthread.php?p=1000707#post1000707
-+
-+This fix was originally proposed by Sukumar Ghoral of TI.
-+---
-+ drivers/mmc/host/omap_hsmmc.c |    3 +++
-+ 1 files changed, 3 insertions(+), 0 deletions(-)
-+
-+diff --git a/drivers/mmc/host/omap_hsmmc.c b/drivers/mmc/host/omap_hsmmc.c
-+index 9646a75..7443647 100644
-+--- a/drivers/mmc/host/omap_hsmmc.c
-++++ b/drivers/mmc/host/omap_hsmmc.c
-+@@ -1049,6 +1049,9 @@ static void set_data_timeout(struct omap_hsmmc_host *host,
-+ 			dto = 14;
-+ 	}
-+ 
-++	/* Set dto to max value of 14 to avoid SD Card timeouts */
-++	dto = 14;
-++
-+ 	reg &= ~DTO_MASK;
-+ 	reg |= dto << DTO_SHIFT;
-+ 	OMAP_HSMMC_WRITE(host->base, SYSCTL, reg);
-+-- 
-+1.7.0.4
-+
-diff --git a/recipes-kernel/linux/linux_3.0.bb b/recipes-kernel/linux/linux_3.0.bb
-index f17ebcf..edb8df7 100644
---- a/recipes-kernel/linux/linux_3.0.bb
-+++ b/recipes-kernel/linux/linux_3.0.bb
-@@ -9,7 +9,7 @@ COMPATIBLE_MACHINE = "(beagleboard)"
- SRCREV_pn-${PN} = "94ed5b4788a7cdbe68bc7cb8516972cbebdc8274"
- 
- # The main PR is now using MACHINE_KERNEL_PR, for omap3 see conf/machine/include/omap3.inc
--MACHINE_KERNEL_PR_append = "j"
-+MACHINE_KERNEL_PR_append = "k"
- 
- FILESPATHPKG_prepend = "linux-3.0:"
- 
-@@ -195,6 +195,7 @@ SRC_URI += "git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-3.0.y.git
-             file://beagle/0003-HACK-OMAP3-beagle-switch-to-GPTIMER1.patch \
-             file://beagle/0004-OMAP3-beagle-HACK-add-in-1GHz-OPP.patch \
-             file://beagle/0005-omap3-Add-basic-support-for-720MHz-part.patch \
-+            file://beagle/0006-omap-mmc-Adjust-dto-to-eliminate-timeout-errors.patch \
-             file://madc/0001-Enabling-Hwmon-driver-for-twl4030-madc.patch \
-             file://madc/0002-mfd-twl-core-enable-madc-clock.patch \
-             \
--- 
-1.7.0.4
+No, I'm suggesting the build system can't cope with that, e.g. if there
+are multiple libgcc's produced we have no way to correctly individually
+package them.
+
+> The issue is I'm trying to look at this based on our customer view
+> point.  The majority of our customers that would utilize 64-bit are
+> going to want to start with a 32-bit rootfs and than add some 64-bit
+> bits to it.  Rather than the other way.
+
+Ok, so why not define your multilib the other way around? Start with a
+64 bit system and add 64 bit as the multilib?
+
+> This is one reason I'm asking about how to deal with tune-ppce5500.inc
+> and 32-bit vs 64-bit.
+
+In these cases you need to define 32 and 64 bit tunes and then you can
+select the appropriate tune as needed.
+
+> Now it might be ok short term since we have 2 toolchains, etc for
+> multilib.  However at some point (shortly) we have to address this.
+> 
+> I think the 2 toolchains is UGLY and confusing to customers/users.
+> While I understand it from the point of view on how to take steps to
+> get multilib going it doesn't mean we shouldnt start thinking about
+> how to address these issues.
+
+We've been working on multilb for a while and so far its taken some
+significant work by several people to get things working as they are
+now. We really need to spend some some and stabilise and consolidate
+that work so far at this point.
+
+I'm more than happy to think about consolidating the toolchain pieces,
+its on the future ideas list but I don't believe its appropriate right
+now. I'd like the work done so far to work properly before we try
+enhancing it further.
+
+I'd hope that the toolchains are actually pretty hidden from
+customers/users to, I don't think its as ugly as you're making out and
+actually has some benefits.
+
+Cheers,
+
+Richard
+
+
+
+
 
 
 
