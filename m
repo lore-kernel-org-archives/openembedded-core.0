@@ -1,27 +1,24 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from gate.crashing.org ([63.228.1.57]
+	ident=[U2FsdGVkX1/4g+q54herZIgUSVnJ5WbLMiDRi8vU57A=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QqSHj-0000c2-IH
+	(envelope-from <galak@kernel.crashing.org>) id 1QqSak-0000tV-3K
 	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Aug 2011 18:02:35 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p78Fw51g001777
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 08 Aug 2011 18:22:16 +0200
+Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p78GHXV1025012
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 8 Aug 2011 08:58:06 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 8 Aug 2011 08:58:05 -0700
-Message-ID: <4E40078C.2060904@windriver.com>
-Date: Mon, 8 Aug 2011 10:58:04 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:5.0) Gecko/20110624 Thunderbird/5.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <20110808113650.GA20162@chargestorm.se>
-In-Reply-To: <20110808113650.GA20162@chargestorm.se>
-Subject: Re: Unrecognized option while building pseudo (target)
+	Mon, 8 Aug 2011 11:17:37 -0500
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Kumar Gala <galak@kernel.crashing.org>
+In-Reply-To: <9DA5872FEF993D41B7173F58FCF6BE94DE904276@orsmsx504.amr.corp.intel.com>
+Date: Mon, 8 Aug 2011 11:17:34 -0500
+Message-Id: <6EDCDDBA-A5A5-4452-BFB1-2924310E8EAD@kernel.crashing.org>
+References: <F410F4D8-44AB-45D2-9DB5-1122C8F47077@kernel.crashing.org>
+	<9DA5872FEF993D41B7173F58FCF6BE94DE904276@orsmsx504.amr.corp.intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: how to pass or set specific gcc flags?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,63 +33,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2011 16:02:36 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 08 Aug 2011 16:22:16 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-pseudo currently only works on IA32 hosts.  It was never really intended to work
-on the target system, but should.
+That's passing flags to gcc, I mean passing flags to how gcc is =
+configured
 
-If you think you want pseudo on the target.. you'll have to verify that all of
-the calls are being trapped properly on ARM, as well as modify the build
-instructions to not worry about IA32 specific items.
+- k
 
-(Right now, if you change the compilation to not specify the -m32 on arm, I'd
-give pseudo about a 75% chance of working properly on ARM.. but it's never been
-tested there.)
+On Aug 8, 2011, at 10:53 AM, Kamble, Nitin A wrote:
 
---Mark
-
-On 8/8/11 6:36 AM, Anders Darander wrote:
-> 
-> Hi,
-> 
-> After updating my work-in-progress to upgrade our internal distro from
-> oe-dev to oe-core, I got a new problem... (At least new to me, as far as
-> I remember I didn't have that problem before the vacation. Otoh, my old
-> build-box is temporarily out of service HW-problems, so this is a new
-> build environment).
-> 
-> The problem is that my cross-compiler, arm-oe-linux-gnueabi-gcc, do not
-> recognize the -m32 option, that the pseudo makefile tries to supply.
-> 
-> Short excerpt of the build log, just to show the call to gcc and its
-> error message:
-> | arm-oe-linux-gnueabi-gcc  -march=armv5te  -mno-thumb -mthumb-interwork
-> -mtune=arm926ej-s
-> --sysroot=/home/anders/oe-build-core/build-ccu/tmp-eglibc/sysroots/ccu
-> -O2 -pipe -g -feliminate-unused-debug-types -pipe -std=gnu99 -Wall -W
-> -Wextra -fPIC -D_LARGEFILE64_SOURCE -D_ATFILE_SOURCE -m32
-> -DPSEUDO_PREFIX='"/usr"' -DPSEUDO_SUFFIX='""' -DPSEUDO_BINDIR='"bin"'
-> -DPSEUDO_LIBDIR='"lib/pseudo/lib"' -DPSEUDO_LOCALSTATEDIR='"var/pseudo"'
-> -DPSEUDO_VERSION='"1.1.1"' -O2 -g
-> -L/home/anders/oe-build-core/build-ccu/tmp-eglibc/sysroots/ccu/usr/lib
-> -I/home/anders/oe-build-core/build-ccu/tmp-eglibc/sysroots/ccu/usr/include
-> -Wl,-R/home/anders/oe-build-core/build-ccu/tmp-eglibc/sysroots/ccu/usr/lib
-> -c -o pseudo_tables.o pseudo_tables.c
-> | cc1: error: unrecognized command line option '-m32'cc1: error:
-> unrecognized command line option '-m32'cc1: error: unrecognized command
-> line option '-m32'cc1: error: unrecognized command line option '-m32'
-> 
-> By commenting out the setting of 'CFLAGS_CODE += -m$(BITS)' in
-> Makefile.in, I can get the build to continue past pseudo.
-> 
-> Any ideas of how I should correctly fix this? Or if I have some other
-> problem in my environment that could cause such a failure....
-> 
-> Cheers,
-> Anders 
-> 
+> Kumar,
+> Look at the meta/conf/machine/include/ia32/arch-ia32.inc where we have =
+done special flags passing to gcc & other tools.
+>=20
+> Nitin
+>=20
+>=20
+>> -----Original Message-----
+>> From: openembedded-core-bounces@lists.openembedded.org
+>> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf =
+Of
+>> Kumar Gala
+>> Sent: Sunday, August 07, 2011 10:09 AM
+>> To: Patches and discussions about the oe-core layer
+>> Subject: [OE-core] how to pass or set specific gcc flags?
+>>=20
+>> We'd like to pass:
+>>=20
+>> --enable-targets=3Dall
+>>=20
+>> on ppc when we target a 64-bit platform but happen to build a 32-bit
+>> toolchain & rootfs, its useful to still have 64-bit support in the
+>> compiler to build a 64-bit kernel if desired in this scenario.  Also,
+>> this seems useful for the multilib situation.
+>>=20
+>> Wondering what the best way of doing this.  Adding something into the
+>> tune-ppcFOOBAR file but not sure how to do that so it gets picked up =
+by
+>> the right toolchain pass.  And what do we even override?  I suggested
+>> adding a GCC_EXTRA_OECONF.
+>>=20
+>> - k
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
