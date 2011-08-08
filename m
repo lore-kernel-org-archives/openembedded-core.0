@@ -1,33 +1,33 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QqRHo-0007QX-Be for openembedded-core@lists.openembedded.org;
-	Mon, 08 Aug 2011 16:58:36 +0200
+	id 1QqRJT-0007oa-E9 for openembedded-core@lists.openembedded.org;
+	Mon, 08 Aug 2011 17:00:19 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p78Es74g003521;
-	Mon, 8 Aug 2011 15:54:07 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p78EtqRc003546
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 8 Aug 2011 15:55:52 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 03200-02; Mon,  8 Aug 2011 15:54:03 +0100 (BST)
+	id 03344-02 for <openembedded-core@lists.openembedded.org>;
+	Mon,  8 Aug 2011 15:55:48 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p78ErxED003506
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 8 Aug 2011 15:53:59 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p78Etk9F003540
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 8 Aug 2011 15:55:46 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Kumar Gala <galak@kernel.crashing.org>
-In-Reply-To: <52EDCE27-1A1D-46F6-884B-168243B0D3D2@kernel.crashing.org>
-References: <F5D4B029-50F1-47E1-934C-8918DF2624F5@kernel.crashing.org>
-	<1312808310.14274.187.camel@rex>
-	<52EDCE27-1A1D-46F6-884B-168243B0D3D2@kernel.crashing.org>
-Date: Mon, 08 Aug 2011 15:53:28 +0100
-Message-ID: <1312815208.14274.211.camel@rex>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <F410F4D8-44AB-45D2-9DB5-1122C8F47077@kernel.crashing.org>
+References: <F410F4D8-44AB-45D2-9DB5-1122C8F47077@kernel.crashing.org>
+Date: Mon, 08 Aug 2011 15:55:14 +0100
+Message-ID: <1312815314.14274.213.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: multilib theory & practice
+Subject: Re: how to pass or set specific gcc flags?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,88 +42,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2011 14:58:36 -0000
+X-List-Received-Date: Mon, 08 Aug 2011 15:00:19 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2011-08-08 at 09:32 -0500, Kumar Gala wrote:
-> On Aug 8, 2011, at 7:58 AM, Richard Purdie wrote:
-> > On Sat, 2011-08-06 at 15:56 -0500, Kumar Gala wrote:
-> >> I'm looking at trying to get multilib working for powerpc.  However
-> >> I'm a bit lost in how this is suppose to work from a few different
-> >> perspectives:
-> >> 
-> >> 1. from user perspective (I'm starting with a 64-bit build in /lib64 and adding 32-bit that would be in /lib):
-> >> 
-> >> (i've added in local/conf):
-> >> require conf/multilib.conf
-> >> MULTILIBS = "multilib:lib"
-> >> DEFAULTTUNE_virtclass-multilib-lib = "powerpc"
-> > 
-> > Rather than use the identifier "lib", I'd use an identifier like "lib32"
-> > which is unlikely to be found in a recipe name. Therefore something
-> > like:
-> > 
-> > require conf/multilib.conf
-> > MULTILIBS = "multilib:lib32"
-> > DEFAULTTUNE_virtclass-multilib-lib32 = "powerpc"
+On Sun, 2011-08-07 at 12:08 -0500, Kumar Gala wrote:
+> We'd like to pass:
 > 
-> is 'lib32' utilized anywhere else or just to match these things
-> together?  Just want to be clear that I'd expect 32-bit libraries to
-> be in /lib/
-
-The actual baselib comes from:
-
-BASE_LIB_tune-powerpc = "lib"
-
-i.e. from the tune you selected so it would be lib unless you overrode
-this value. The "lib32" is just used as an identifier in this scenario.
-
-> >> What should this end up producing?  Do I get a 32-bit set of libs built automatically?  What else do I need to do?
-> > 
-> > This will enable a number of other built targets such as "lib32-bash".
-> > You can also construct images that are mixtures of the various multilibs
-> > (e.g. install both openssl and lib32-openssl).
+> --enable-targets=all
 > 
-> What would I expect w/regards to RPM or ipk's that are created?  How
-> does one tell the 32-bit vs 64-bit?
-
-It depends on the package backend and what its capabilities are.
-
-Offhand I think we settled on rpms having the same name but being placed
-in a different directory and have the package architecture changed. The
-names of ipks are changed to include the "lib32-" prefix.
-
-> >> 2. From a infrastructure point of view:
-> >> 
-> >> * Do have a single compiler that is multi-arch or 2 compilers? (not sure how the x86_64 toolchain works today)
-> > 
-> > At this point we've gone for 2 compilers. This was a conscious choice to
-> > avoid additional complexity and allow us to get the core functionality
-> > working. We can support merged toolchains at a future date with
-> > appropriate toolchain configuration and ASSUME_PROVIDED declarations.
+> on ppc when we target a 64-bit platform but happen to build a 32-bit
+> toolchain & rootfs, its useful to still have 64-bit support in the
+> compiler to build a 64-bit kernel if desired in this scenario.  Also,
+> this seems useful for the multilib situation.
 > 
-> What would they be called or how are they distinguished?
+> Wondering what the best way of doing this.  Adding something into the
+> tune-ppcFOOBAR file but not sure how to do that so it gets picked up
+> by the right toolchain pass.  And what do we even override?  I
+> suggested adding a GCC_EXTRA_OECONF.
 
-They're installed into different paths and the lib32- prefix is also
-used for the different targets.
+I'd caution against this since we don't currently handle packaging of
+toolchains directly using multilibs and I suspect the compiler wouldn't
+bootstrap properly either.
 
-> >> * what areas should I investigate that might need tweaking that are arch specific?
-> > 
-> > There should be very little beyond the places you've already changed
-> > that should need tweaking. The only issues may be due to this being
-> > very new code.
-> > 
-> >> * should I see different task names for the new multilib builds? (or the 32-bit specific builds?)
-> > 
-> > multilib.conf lists the recipes that will become multilib enabled. I've
-> > just merged a patch to extend this list to include the various ones that
-> > have been tested. The ultimate plan is not to require that list and its
-> > just a transition point.
-> 
-> I feel like I tried 'enabling' multilib on ppc and didn't see anything new built for the 32-bit libs.
-
-Did you try something like "bitbake lib32-bash" though?
+Its not the compiler itself I worry about but pieces like libc and
+libgcc.
 
 Cheers,
 
