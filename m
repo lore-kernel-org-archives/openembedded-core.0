@@ -1,21 +1,21 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX189UKozk3cCQ84z0dJnst1MB2an8TOho2Y=])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1Qq6uP-0006OU-SM
+	(envelope-from <lei.mei@intel.com>) id 1QqGMm-00015z-0O
 	for openembedded-core@lists.openembedded.org;
-	Sun, 07 Aug 2011 19:13:06 +0200
-Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p77H8dS4025849
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 7 Aug 2011 12:08:39 -0500
-From: Kumar Gala <galak@kernel.crashing.org>
-Date: Sun, 7 Aug 2011 12:08:41 -0500
-Message-Id: <F410F4D8-44AB-45D2-9DB5-1122C8F47077@kernel.crashing.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Apple Message framework v1084)
-X-Mailer: Apple Mail (2.1084)
-Subject: how to pass or set specific gcc flags?
+	Mon, 08 Aug 2011 05:19:00 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 07 Aug 2011 20:14:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,335,1309762800"; d="scan'208";a="35476421"
+Received: from daocaoren-desktop.sh.intel.com (HELO localhost.localdomain)
+	([10.239.47.21])
+	by orsmga002.jf.intel.com with ESMTP; 07 Aug 2011 20:14:30 -0700
+From: Mei Lei <lei.mei@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  8 Aug 2011 11:22:50 +0800
+Message-Id: <cover.1312773154.git.lei.mei@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+Subject: [PATCH 0/1]lsb: Fix hard code libdir issue for multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,24 +30,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Aug 2011 17:13:06 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 08 Aug 2011 03:19:00 -0000
 
-We'd like to pass:
+This pull request fixes some hard coded libdir issues, please review it.
 
---enable-targets=3Dall
+Thanks,
+Lei
 
-on ppc when we target a 64-bit platform but happen to build a 32-bit =
-toolchain & rootfs, its useful to still have 64-bit support in the =
-compiler to build a 64-bit kernel if desired in this scenario.  Also, =
-this seems useful for the multilib situation.
+The following changes since commit 7a278238d9b08e0315e92d386282cb488cc0c7b4:
+  Kumar Gala (1):
+        bitbake.conf/powerpc64: Set baselib to 'lib64' for ppc64
 
-Wondering what the best way of doing this.  Adding something into the =
-tune-ppcFOOBAR file but not sure how to do that so it gets picked up by =
-the right toolchain pass.  And what do we even override?  I suggested =
-adding a GCC_EXTRA_OECONF.
+are available in the git repository at:
 
-- k=
+  git://git.pokylinux.org/poky-contrib lmei3/lsb
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=lmei3/lsb
+
+Mei Lei (1):
+  lsb: Fix hard code libdir issue for multilib
+
+ meta/recipes-extended/lsb/lsb_1.4.bb |   18 +++++++++---------
+ 1 files changed, 9 insertions(+), 9 deletions(-)
+
 
 
