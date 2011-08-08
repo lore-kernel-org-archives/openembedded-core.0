@@ -1,30 +1,20 @@
-Received: from mail-iy0-f171.google.com ([209.85.210.171])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QqJQ4-0001bS-43
+	(envelope-from <dongxiao.xu@intel.com>) id 1QqKSZ-0003Hl-28
 	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Aug 2011 08:34:36 +0200
-Received: by iyf13 with SMTP id 13so10309490iyf.16
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 07 Aug 2011 23:30:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=FjO7QjU5YZic0s27aImGRo6+WBWXWeUDkFUAYXcS7Qc=;
-	b=h5CvjncPSUPaxlRLB/V12VvjU2HhAi8oBXXCzd5+XYlQskVR0EZJt5MS66A+1+CMPv
-	ASXmJGa3SdulOkErw1ng80nOJk9LnLFFQtV3nNmjjiCxMGu3wcnAf28a7hrvjjqxplER
-	g426pYQQO7Dv1JDbHRYtj0T6yyXw6lxXD87AI=
-Received: by 10.42.189.72 with SMTP id dd8mr5421334icb.100.1312785007940;
-	Sun, 07 Aug 2011 23:30:07 -0700 (PDT)
-Received: from localhost.localdomain
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id bq3sm7118333icb.11.2011.08.07.23.30.06
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 07 Aug 2011 23:30:07 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	Mon, 08 Aug 2011 09:41:15 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 08 Aug 2011 00:36:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,336,1309762800"; d="scan'208";a="36310021"
+Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
+	by orsmga001.jf.intel.com with ESMTP; 08 Aug 2011 00:36:45 -0700
+From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  7 Aug 2011 23:30:02 -0700
-Message-Id: <1312785002-3627-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH] scripts/runqemu: Make it run on ubuntu 11.10
+Date: Mon,  8 Aug 2011 15:35:36 +0800
+Message-Id: <cover.1312788761.git.dongxiao.xu@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/2][PULL] Multilib: Fix bug 1340
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,30 +29,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2011 06:34:36 -0000
+X-List-Received-Date: Mon, 08 Aug 2011 07:41:15 -0000
 
-location of libGL has moved in ubuntu 11.10
-so we look for it in the new locations
+Hi Richard,
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- scripts/runqemu |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+The following two commits fix the issue that, some normal packages are
+built out when building pure multilib image "lib32-core-image-sato".
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 9611c64..2b8e88a 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -388,6 +388,7 @@ libgl='no'
- 
- test -e /usr/lib/libGL.so -a -e /usr/lib/libGLU.so && libgl='yes'
- test -e /usr/lib64/libGL.so -a -e /usr/lib64/libGLU.so && libgl='yes'
-+test -e /usr/lib/`uname -i`-linux-gnu/libGL.so -a -e /usr/lib/`uname -i`-linux-gnu/libGLU.so && libgl='yes'
- 
- if [ "$libgl" != 'yes' ]; then
-     echo "You need libGL.so and libGLU.so to exist in your library path to run the QEMU emulator.
--- 
-1.7.5.4
+Please help to review and pull.
+
+[YOCTO #1340]
+
+The following changes since commit 7a278238d9b08e0315e92d386282cb488cc0c7b4:
+
+  bitbake.conf/powerpc64: Set baselib to 'lib64' for ppc64 (2011-08-05 17:48:23 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dxu4/ml2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/ml2
+
+Dongxiao Xu (2):
+  gnome-doc-utils: Avoid RDEPENDS on bash in native case.
+  module-init-tools-cross: Clean the RDEPENDS value
+
+ meta/recipes-gnome/gnome/gnome-doc-utils.inc       |    1 +
+ .../module-init-tools-cross_3.16.bb                |    1 +
+ 2 files changed, 2 insertions(+), 0 deletions(-)
 
 
 
