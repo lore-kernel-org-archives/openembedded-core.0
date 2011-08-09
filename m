@@ -1,37 +1,51 @@
-Received: from mail-iy0-f171.google.com ([209.85.210.171])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Qqbsh-0005Me-MV
+	(envelope-from <dexuan.cui@intel.com>) id 1Qqbu0-0005P0-UE
 	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Aug 2011 04:17:23 +0200
-Received: by iyf13 with SMTP id 13so12185814iyf.16
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Aug 2011 19:12:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:x-enigmail-version:content-type
-	:content-transfer-encoding;
-	bh=H/Zo1nM7tbgX0gL5t+ukn+qn6tBLVzL6kr9uGe+oqDM=;
-	b=AwfGQdN77kJCxVuq1rnzSZNtWLY2uFv8Yk094URSIoxXByFHRuZ9EKgviUjHpgTDCZ
-	4fGiaJumQzXaP6NCAXJY6jgUiMGFoWXrFCWRLSoTIqQTWC/4rl6QG45gqbT0S7AmoKY2
-	FNnrToWOAEFUxv1kOV3no50Y8Erv8HMql9ZdY=
-Received: by 10.231.7.12 with SMTP id b12mr6526817ibb.73.1312855974486;
-	Mon, 08 Aug 2011 19:12:54 -0700 (PDT)
-Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
-	[99.57.141.118])
-	by mx.google.com with ESMTPS id q13sm4642167ibi.60.2011.08.08.19.12.52
-	(version=SSLv3 cipher=OTHER); Mon, 08 Aug 2011 19:12:53 -0700 (PDT)
-Message-ID: <4E4097A3.8090204@gmail.com>
-Date: Mon, 08 Aug 2011 19:12:51 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:6.0) Gecko/20110801 Thunderbird/6.0
+	Tue, 09 Aug 2011 04:18:45 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 08 Aug 2011 19:14:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,340,1309762800"; d="scan'208";a="36512781"
+Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
+	by azsmga001.ch.intel.com with ESMTP; 08 Aug 2011 19:14:12 -0700
+Received: from pgsmsx104.gar.corp.intel.com (10.221.44.91) by
+	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Tue, 9 Aug 2011 10:13:45 +0800
+Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
+	PGSMSX104.gar.corp.intel.com (10.221.44.91) with Microsoft SMTP Server
+	(TLS) id 14.1.323.3; Tue, 9 Aug 2011 10:13:44 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
+	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi; Tue, 9 Aug 2011
+	10:13:43 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, Darren Hart
+	<dvhart@linux.intel.com>
+Date: Tue, 9 Aug 2011 10:13:43 +0800
+Thread-Topic: [OE-core] [PATCH 1/1] oe-init-build-env,
+	scripts/oe-buildenv-internal: add error detecting for $BDIR
+Thread-Index: AcxSrK427eyEX9TDTFyrgIWm2d2wsgACBJmgAOEanAA=
+Message-ID: <1865303E0DED764181A9D882DEF65FB6B5FF85AB28@shsmsx502.ccr.corp.intel.com>
+References: <cover.1312265186.git.dexuan.cui@intel.com>
+	<6def4624e63c8c7cf439dff32cb155dd2bba0ebe.1312265186.git.dexuan.cui@intel.com>
+	<1312285430.2344.582.camel@rex> <4E38C941.30805@linux.intel.com>
+	<1865303E0DED764181A9D882DEF65FB6B304414CE2@shsmsx502.ccr.corp.intel.com>
+	<4E395235.9010709@linux.intel.com>
+	<1865303E0DED764181A9D882DEF65FB6B3044150C6@shsmsx502.ccr.corp.intel.com>
+	<4E3A3562.1060907@linux.intel.com>
+	<1865303E0DED764181A9D882DEF65FB6B3046C9A79@shsmsx502.ccr.corp.intel.com>
+	<4E3AA24A.7050400@linux.intel.com>
+	<1865303E0DED764181A9D882DEF65FB6B3046C9C11@shsmsx502.ccr.corp.intel.com>
+In-Reply-To: <1865303E0DED764181A9D882DEF65FB6B3046C9C11@shsmsx502.ccr.corp.intel.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: zh-CN, en-US
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1312784043-3081-1-git-send-email-raj.khem@gmail.com>
-	<1312845842.14274.282.camel@rex>
-In-Reply-To: <1312845842.14274.282.camel@rex>
-X-Enigmail-Version: 1.2pre
-Subject: Re: [PATCH 1/2] shared-mime-info, avahi, polkit: inherit perlnative
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Phil Blundell <philb@gnu.org>
+Subject: Re: [PATCH 1/1] oe-init-build-env, scripts/oe-buildenv-internal: add error detecting for $BDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,77 +60,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Aug 2011 02:17:23 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Aug 2011 02:18:45 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
+Cui, Dexuan wrote on 2011-08-04:
+> Darren Hart wrote on 2011-08-04:
+>> On 08/04/2011 12:37 AM, Cui, Dexuan wrote: Please remember to include a
+>> description of the problem and the approach taken to fix it. This
+>> eliminates wasted time trying to decipher it later or by people
+>> unfamiliar with the history. This is important even for simple changes.
+>> In this case something like:
+>>=20
+>> " The previous fix for a bug in Ubuntu 10.04 readlink, $COMMIT_ID,
+>> notified the user when a trailing slash was used. As there is no
+>> semantic difference, simply remove any trailing slashes and proceed
+>> without nagging the user. "
+> Thanks! I'll use the description.
+>=20
+>>> diff --git a/scripts/oe-buildenv-internal
+>>=20
+>> This shouldn't be a question. If the documented behavior of readlink
+>> is to return empty when the path doesn't exist, then assume this to
+>> be the case.
+> The latest manual of readlink says readlink should ignore trailing slash.
+>=20
+>> Also, it is a good idea to avoid contractions in printed error messages.
+>>=20
+>> 	echo >&2 "Error: the directory $PARENTDIR does not exist."
+> Ok, I'll change "doesn't" to "does not".
+>=20
+>> Otherwise, this looks good to me.
+> Please review the new patch (I paste it at the end of the mail, too)
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Ddcui/b=
+ug-671&id=3D593e3506f4d4d9f6030100eac8c8e0af7f8ce3eb
+Hi Darren,
+Could you please comment on this new version of patch?
+I sent it out for several days ago. Maybe it was drowned in the mailing lis=
+t.
 
-On 08/08/2011 04:24 PM, Richard Purdie wrote:
-> On Sun, 2011-08-07 at 23:14 -0700, Khem Raj wrote:
->> Otherwise we end up with configure errors like below
->> 
->> | checking for perl... /usr/bin/perl | checking for perl >=
->> 5.8.1... 5.12.4 | checking for XML::Parser... configure: error:
->> XML::Parser perl module is required for intltool | + bbfatal
->> 'oe_runconf failed' | + echo 'ERROR: oe_runconf failed' | ERROR:
->> oe_runconf failed
->> 
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> 
-> We really need to tweak intltool's m4 file so we don't need to add
-> in this ton of dependencies unnecessarily...
-> 
-
-intltool.m4 uses
-
-AC_PATH_PROG(INTLTOOL_PERL,perl)
-
-
-if test -z "$INTLTOOL_PERL"; then
-
-
-   AC_MSG_ERROR([perl not found])
-
-
-fi
-
-
-
-its using AC_PATH_PROG to find perl which is quite right I think.
-We somehow have to make sure that the path to perl-native
-is added into environment which does not happen unless
-we inherit perlnative as of now. and perlnative class is
-
-PATH_prepend = "${STAGING_BINDIR_NATIVE}/perl-native:"
-
-
-DEPENDS += "perl -native"
-
-
-are you proposing that we hardcode path to perl-native in intltool
-macros and assume that perl-native is already built ? or something else
-
-> Cheers,
-> 
-> Richard
-> 
-> 
-> _______________________________________________ Openembedded-core
-> mailing list Openembedded-core@lists.openembedded.org 
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
-- --
-> 
-- -Khem
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.11 (GNU/Linux)
-
-iEYEARECAAYFAk5Al6MACgkQuwUzVZGdMxTdLQCcCEgIWU2zgB5MZ6W2TMItR4ts
-cHoAnR9D/n1wTbSjRWWRBzZiO/OxU08i
-=tD34
------END PGP SIGNATURE-----
+Thanks,
+-- Dexuan
 
 
