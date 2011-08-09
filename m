@@ -1,36 +1,35 @@
-Received: from mail-yi0-f47.google.com ([209.85.218.47])
+Received: from mail-ew0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jkridner@beagleboard.org>) id 1QquMf-0004sZ-OR
+	(envelope-from <agnel.joel@gmail.com>) id 1QquVb-00055N-7a
 	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Aug 2011 00:01:33 +0200
-Received: by yia28 with SMTP id 28so337112yia.6
+	Wed, 10 Aug 2011 00:10:47 +0200
+Received: by ewy5 with SMTP id 5so315268ewy.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Aug 2011 14:57:03 -0700 (PDT)
-Received: by 10.236.178.36 with SMTP id e24mr4324220yhm.212.1312927023755;
-	Tue, 09 Aug 2011 14:57:03 -0700 (PDT)
-Received: from mail-yi0-f47.google.com (mail-yi0-f47.google.com
-	[209.85.218.47])
-	by mx.google.com with ESMTPS id r28sm378617yhm.80.2011.08.09.14.57.02
-	(version=SSLv3 cipher=OTHER); Tue, 09 Aug 2011 14:57:03 -0700 (PDT)
-Received: by yia28 with SMTP id 28so337107yia.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Aug 2011 14:57:02 -0700 (PDT)
+	Tue, 09 Aug 2011 15:06:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=JgXoGiofl/S4i3W7OiiaOr79JHKZ5RkAMWJOJu49QXM=;
+	b=jAlpoJbxq1k66lVbA86PKgJXURo4P3wl6qaka/euZ3uaRlw1cAhitJHHSEik5KAGOY
+	QGuRgLpo6ES0XTN24BXzQaeUJYt0TyR5aJP28PEbU3J0d+LmWVdpyAo/6ei3DLTjXHL8
+	bAsIMyZWWm273A3+5SAXVcM5qbT+X2yPt/GZU=
 MIME-Version: 1.0
-Received: by 10.151.116.21 with SMTP id t21mr2899198ybm.166.1312927022594;
-	Tue, 09 Aug 2011 14:57:02 -0700 (PDT)
-Received: by 10.151.47.16 with HTTP; Tue, 9 Aug 2011 14:57:02 -0700 (PDT)
-In-Reply-To: <CAD=GYpbX24u+Pc7d7OVHjCy_B52pzupexKz=dx40WkyrS3uk4w@mail.gmail.com>
+Received: by 10.213.104.2 with SMTP id m2mr943352ebo.15.1312927577704; Tue, 09
+	Aug 2011 15:06:17 -0700 (PDT)
+Received: by 10.213.114.20 with HTTP; Tue, 9 Aug 2011 15:06:17 -0700 (PDT)
+In-Reply-To: <CA+T6QPmgo-t+5D547ANO=O=nTs4um9Ga=aum3H61Dex4OJ+BqA@mail.gmail.com>
 References: <CAD=GYpYwTkfShO4KhzDfH=xpka3t9SDtqZaunsTN7vi5ESm3Zg@mail.gmail.com>
 	<CA+T6QPmN5HC=HxscTzckcxpGjm7oEnvX4s0Y1Zu+TWJX5RfOvQ@mail.gmail.com>
 	<CAD=GYpbX24u+Pc7d7OVHjCy_B52pzupexKz=dx40WkyrS3uk4w@mail.gmail.com>
-Date: Tue, 9 Aug 2011 17:57:02 -0400
-Message-ID: <CA+T6QPmgo-t+5D547ANO=O=nTs4um9Ga=aum3H61Dex4OJ+BqA@mail.gmail.com>
-From: Jason Kridner <jkridner@beagleboard.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, beagleboard@googlegroups.com
-Cc: steve@sakoman.com, "Kridner, Jason" <jdk@ti.com>, "Kooi,
-	Koen" <k-kooi@ti.com>
-Subject: Re: [meta-ti] Kernel 3.0 meta-ti recipe
+	<CA+T6QPmgo-t+5D547ANO=O=nTs4um9Ga=aum3H61Dex4OJ+BqA@mail.gmail.com>
+Date: Tue, 9 Aug 2011 17:06:17 -0500
+Message-ID: <CAD=GYpaGAQ+-G+MAkC8QhByMagOOxtTMd-x-PnqUBpZTN1483g@mail.gmail.com>
+From: Joel A Fernandes <agnel.joel@gmail.com>
+To: beagleboard@googlegroups.com
+Cc: steve@sakoman.com, "Kooi, Koen" <k-kooi@ti.com>, "Kridner,
+	Jason" <jdk@ti.com>, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [beagleboard] Re: [meta-ti] Kernel 3.0 meta-ti recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,78 +44,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Aug 2011 22:01:33 -0000
+X-List-Received-Date: Tue, 09 Aug 2011 22:10:47 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 9, 2011 at 5:48 PM, Joel A Fernandes <agnel.joel@gmail.com> wro=
-te:
-> Hi Jason,
->
-> Thanks,
->
-> On Tue, Aug 9, 2011 at 3:48 PM, Jason Kridner <jkridner@beagleboard.org> =
-wrote:
->> Adding Steve...
+On Tue, Aug 9, 2011 at 4:57 PM, Jason Kridner <jkridner@beagleboard.org> wr=
+ote:
+> On Tue, Aug 9, 2011 at 5:48 PM, Joel A Fernandes <agnel.joel@gmail.com> w=
+rote:
+>> Hi Jason,
 >>
->> On Tue, Aug 9, 2011 at 4:19 PM, Joel A Fernandes <agnel.joel@gmail.com> =
-wrote:
->>> I am seeing some very erratic memory corruption issues all morning,
->>> both with NFS and MMC cards. The traces are at the end of this email.
+>> Thanks,
+>>
+>> On Tue, Aug 9, 2011 at 3:48 PM, Jason Kridner <jkridner@beagleboard.org>=
+ wrote:
+>>> Adding Steve...
 >>>
->>> I have narrowed down the issue to one of the 13 Sakoman patches:
-...
->>> =A0 =A0 =A0 =A0 =A0 =A0file://sakoman/0009-rtc-twl-Switch-to-using-thre=
-aded-irq.patch \
+>>> On Tue, Aug 9, 2011 at 4:19 PM, Joel A Fernandes <agnel.joel@gmail.com>=
+ wrote:
+>>>> I am seeing some very erratic memory corruption issues all morning,
+>>>> both with NFS and MMC cards. The traces are at the end of this email.
+>>>>
+>>>> I have narrowed down the issue to one of the 13 Sakoman patches:
+> ...
+>>>> =A0 =A0 =A0 =A0 =A0 =A0file://sakoman/0009-rtc-twl-Switch-to-using-thr=
+eaded-irq.patch \
+>>>
+>>> I'm not familiar with the impact or the arguments being passed. =A0If
+>>> some upstream changes happened in this area, this one might be a bit
+>>> dangerous.
+>>>
 >>
->> I'm not familiar with the impact or the arguments being passed. =A0If
->> some upstream changes happened in this area, this one might be a bit
->> dangerous.
->>
+>> This is it! Adding 0009 back causes the same irq problems to show up.
+>> Do we need this patch for now?
 >
-> This is it! Adding 0009 back causes the same irq problems to show up.
-> Do we need this patch for now?
+> I think you can leave it out for now. =A0Are all the other ones back in?
+> =A0Will you be sharing another test image?
+>
 
-I think you can leave it out for now.  Are all the other ones back in?
- Will you be sharing another test image?
+Yes, I could share another image. Its uploading right now.
 
->
-> [ =A0 13.945648] LR is at run_timer_softirq+0x18c/0x22c
-> [..]
-> [ =A0 14.091674] [<c0077744>] (run_timer_softirq+0x18c/0x22c) from
-> [<c0073064>] (__do_softirq+0x6c/0xf4)
-> [ =A0 14.101165] [<c0073064>] (__do_softirq+0x6c/0xf4) from [<c0073228>]
-> (irq_exit+0x40/0x8c)
-> [ =A0 14.109619] [<c0073228>] (irq_exit+0x40/0x8c) from [<c003c064>]
-> (asm_do_IRQ+0x64/0x84)
-> [ =A0 14.117919] [<c003c064>] (asm_do_IRQ+0x64/0x84) from [<c0041278>]
-> (__irq_svc+0x38/0xc0)
-> [ =A0 14.126281] Exception stack(0xc0655f40 to 0xc0655f88)
-> [ =A0 14.131591] 5f40: c065bd80 c067dea0 40000013 40000013 00000c0e
-> 00000000 f3b00000 000039bd
-> [ =A0 14.140136] 5f60: 3dd059da 00000003 ffff70f5 ffff70f5 00000108
-> c0655f88 c0068718 c00915ac
-> [ =A0 14.148681] 5f80: 40000013 ffffffff
-> [ =A0 14.152343] [<c0041278>] (__irq_svc+0x38/0xc0) from [<c00915ac>]
-> (tick_nohz_stop_sched_tick+0x35c/0x3a4)
-> [ =A0 14.162261] [<c00915ac>] (tick_nohz_stop_sched_tick+0x35c/0x3a4)
-> from [<c00425e8>] (cpu_idle+0x1c/0xac)
-> [ =A0 14.172088] [<c00425e8>] (cpu_idle+0x1c/0xac) from [<c0008904>]
-> (start_kernel+0x290/0x2f0)
-> [ =A0 14.180755] [<c0008904>] (start_kernel+0x290/0x2f0) from
-> [<8000803c>] (0x8000803c)
-> [ =A0 14.188659] Code: 00000000 00000000 00000000 c37e0000 (e7f39999)
-> [ =A0 14.195648] ---[ end trace c21d9089cb6595cf ]---
-> [ =A0 14.200469] Kernel panic - not syncing: Fatal exception in interrupt
->
->
-> Thanks,
-> Joel
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+The memory corruption still shows up though once in 3 boots with the
+other 12 patches in so we still have to narrow down, but for now I can
+atleast get it to show the systemd boot messages almost always (and
+then it hangs ofcourse due to a possible issue with systemd)
+
+If you're going to be running it, I would appreciate it if you could
+try to get systemd to show you debug messages using any technique and
+share how you did it. So far I have added bootargs, modified systemd
+configuration and also tried to start systemd using command line
+options from the "init=3D" bootarg but haven't been able to make it show
+anything useful.
+
+Thanks,
+Joel
 
 
