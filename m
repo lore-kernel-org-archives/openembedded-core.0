@@ -1,39 +1,23 @@
-Received: from mail-iy0-f171.google.com ([209.85.210.171])
+Received: from gate.crashing.org ([63.228.1.57])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Qqo8H-0007i6-MD
+	(envelope-from <galak@kernel.crashing.org>) id 1QqoMe-0007vT-Gv
 	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Aug 2011 17:22:18 +0200
-Received: by iyf13 with SMTP id 13so159026iyf.16
+	Tue, 09 Aug 2011 17:37:08 +0200
+Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p79FWdv6001906
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Aug 2011 08:17:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:x-enigmail-version:content-type
-	:content-transfer-encoding;
-	bh=qRg0+/UxRnxkMazye0kKvtQMDmVbvffXe4oEmzSkQDY=;
-	b=w94kpLB/wBdK+KjkHicz9FVaW6epPmAGXPjt3KpCs+Xr4DtgPAD2dhcGL4t8sxOXM+
-	AEUdE04EkDPST0v7LqboBfz7NZ+aZMqLPdjdMwXdFpTZhYbatAcl/17ElhukK6OqlKVo
-	iD6rdL7nOOBH7UE1ezCpEFNr7rE36q05lVIbE=
-Received: by 10.42.151.137 with SMTP id e9mr6150889icw.409.1312903066384;
-	Tue, 09 Aug 2011 08:17:46 -0700 (PDT)
-Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
-	[99.57.141.118])
-	by mx.google.com with ESMTPS id a11sm10695ibg.38.2011.08.09.08.17.44
-	(version=SSLv3 cipher=OTHER); Tue, 09 Aug 2011 08:17:45 -0700 (PDT)
-Message-ID: <4E414F97.2010500@gmail.com>
-Date: Tue, 09 Aug 2011 08:17:43 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:6.0) Gecko/20110801 Thunderbird/6.0
-MIME-Version: 1.0
+	Tue, 9 Aug 2011 10:32:39 -0500
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Kumar Gala <galak@kernel.crashing.org>
+In-Reply-To: <1312898286.14274.298.camel@rex>
+Date: Tue, 9 Aug 2011 10:32:37 -0500
+Message-Id: <2C6C8741-1012-47BC-BDA9-2A02A08C5027@kernel.crashing.org>
+References: <032728F4-C51D-4298-B50C-B1C2C7050E22@kernel.crashing.org>
+	<1312898286.14274.298.camel@rex>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1312784043-3081-1-git-send-email-raj.khem@gmail.com>
-	<1312845842.14274.282.camel@rex> <4E4097A3.8090204@gmail.com>
-	<1312901324.14274.307.camel@rex>
-In-Reply-To: <1312901324.14274.307.camel@rex>
-X-Enigmail-Version: 1.2pre
-Subject: Re: [PATCH 1/2] shared-mime-info, avahi, polkit: inherit perlnative
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: meta-toolchain-sdk failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,30 +32,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Aug 2011 15:22:18 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
+X-List-Received-Date: Tue, 09 Aug 2011 15:37:08 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
-> I was proposing we change AC_PATH_PROG(INTLTOOL_PERL,perl) to 
-> AC_PATH_PROG(INTLTOOL_PERL,nativeperl)
+On Aug 9, 2011, at 8:58 AM, Richard Purdie wrote:
 
-I see. I will test it out and resubmit
+> On Tue, 2011-08-09 at 08:45 -0500, Kumar Gala wrote:
+>> Seeing the following when trying to do a meta-toolchain-sdk build =
+w/latest git.  Guessing we're missing a depend of some sort:
+>>=20
+>> | error: Failed dependencies:
+>> | 	telepathy-python is needed by =
+task-core-standalone-gmae-sdk-target-1.0-r13.ppc64e5500
+>>=20
+>> I think the reset of this is noise:
+>=20
+> It is, yes.
+>=20
+> Did telepathy-python build at all (you can check if any stamps are
+> present)? Are there any packages generated (in the deploy/rpm
+> directory)?
+>=20
+> I'm trying to work out if this wasn't present because it didn't build,
+> because it did build but didn't package correctly or whether the =
+rootfs
+> code just isn't seeing the package...
 
-> 
-> Cheers,
-> 
-> Richard
-> 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.11 (GNU/Linux)
+Seems it build but no package:
 
-iEYEARECAAYFAk5BT5YACgkQuwUzVZGdMxRBJgCfZal6iToBIKUmitPcFGOA/AkE
-z+oAnin/cNDyGxFRUlTiSM59WMKMPZhs
-=TW7i
------END PGP SIGNATURE-----
+=
+build-p5020/tmp/deploy/rpm/ppc64e5500/telepathy-python-dev-0.15.19-r2.ppc6=
+4e5500.rpm
+=
+build-p5020/tmp/deploy/rpm/ppc64e5500/telepathy-python-dbg-0.15.19-r2.ppc6=
+4e5500.rpm
+
+Looking at log.do_package
+
+WARNING: For recipe telepathy-python, the following files were installed =
+but not shipped in any package:
+WARNING:   /usr/lib/python2.6/site-packages/telepathy/__init__.pyo
+WARNING:   /usr/lib/python2.6/site-packages/telepathy/utils.py
+WARNING:   /usr/lib/python2.6/site-packages/telepathy/utils.pyc
+WARNING:   /usr/lib/python2.6/site-packages/telepathy/interfaces.py
+WARNING:   /usr/lib/python2.6/site-packages/telepathy/errors.py
+WARNING:   /usr/lib/python2.6/site-packages/telepathy/_version.pyo
+WARNING:   /usr/lib/python2.6/site-packages/telepathy/__init__.py
+WARNING:   /usr/lib/python2.6/site-packages/telepathy/_version.py
+WARNING:   /usr/lib/python2.6/site-packages/telepathy/__init__.pyc
+WARNING:   /usr/lib/python2.6/site-packages/telepathy/_version.pyc
+WARNING:   /usr/lib/python2.6/site-packages/telepathy/constants.pyc
+...
+
+Since this build is with 64-bit we should be in /usr/lib64 but are not.
+
+I believe there are other python packages that aren't respecting =
+${libdir}
+
+There was a patch to xcb, but that still had issues as for some reason =
+aclocal.m4 is getting regnerated and overriding PYTHON_LIB_PREFIX.
+
+- k
+
 
 
