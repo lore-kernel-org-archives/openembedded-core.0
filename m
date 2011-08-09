@@ -1,33 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QqnB8-0008PH-EL for openembedded-core@lists.openembedded.org;
-	Tue, 09 Aug 2011 16:21:10 +0200
+	id 1QqnCO-0008RJ-Gj for openembedded-core@lists.openembedded.org;
+	Tue, 09 Aug 2011 16:22:28 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p79EGfel014194
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p79EHuBT014203
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Aug 2011 15:16:41 +0100
+	Tue, 9 Aug 2011 15:17:56 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 14042-03 for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Aug 2011 15:16:37 +0100 (BST)
+	id 13359-10 for <openembedded-core@lists.openembedded.org>;
+	Tue,  9 Aug 2011 15:17:52 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p79EGYaG014188
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p79EHoJZ014197
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Aug 2011 15:16:34 +0100
+	Tue, 9 Aug 2011 15:17:50 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <cover.1312788761.git.dongxiao.xu@intel.com>
-References: <cover.1312788761.git.dongxiao.xu@intel.com>
-Date: Tue, 09 Aug 2011 15:16:02 +0100
-Message-ID: <1312899362.14274.301.camel@rex>
+In-Reply-To: <C10D3FB0CD45994C8A51FEC1227CE22F2F9115B69C@shsmsx502.ccr.corp.intel.com>
+References: <1312558875.14274.112.camel@rex>
+	<C10D3FB0CD45994C8A51FEC1227CE22F2F9115B69C@shsmsx502.ccr.corp.intel.com>
+Date: Tue, 09 Aug 2011 15:17:18 +0100
+Message-ID: <1312899438.14274.302.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/2][PULL] Multilib: Fix bug 1340
+Subject: Re: base.bbclass: Ensure PREFERRED_PROVIDER and PREFERRED_VERSION values are set for multilibs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,33 +43,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Aug 2011 14:21:10 -0000
+X-List-Received-Date: Tue, 09 Aug 2011 14:22:28 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2011-08-08 at 15:35 +0800, Dongxiao Xu wrote:
-> Hi Richard,
+On Mon, 2011-08-08 at 16:57 +0800, Lu, Lianhao wrote:
+> Richard Purdie wrote on 2011-08-05:
+> > When running multilib builds its not intuitive for the specificed
+> > versions/providers to be build in one case and the higher version in the other.
+> > This patch mirrors the options unless they're already set.
+> > 
+> > There shouldn't be any effect if the MULTILIBS variable isn't set.
+> > 
+> > [YOCTO #1339]
+> > 
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org> ---
+> > diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass index
+> > ff960cd..4aee847 100644 --- a/meta/classes/base.bbclass +++
+> > b/meta/classes/base.bbclass @@ -139,6 +139,46 @@ def pkgarch_mapping(d):
+> >          if d.getVar("TUNE_PKGARCH", True) == "armv7a-vfp-neon":
+> >              d.setVar("TUNE_PKGARCH", "armv7a")
+> > +def preferred_ml_updates(d):
+> > +    # If any PREFERRED_PROVIDER or PREFERRED_VERSIONS are set,
+> > +    # we need to mirror these variables in the multilib case
+> > +    multilibs = d.getVar('MULTILIBS', True) or ""
+> > +    if not multilibs:
+> > +        return
+> > +
+> > +    prefixes = []
+> > +    for ext in multilibs.split():
+> > +        eext = ext.split(':')
+> > +        if len(eext) > 1 and eext[0] == 'multilib':
+> > +            prefixes.append(eext[1])
+> > +
+> > +    versions = []
+> > +    providers = []
+> > +    for v in d.keys():
+> > +        if v.startswith("PREFERRED_VERSION_"):
+> > +            versions.append(v)
+> > +        if v.startswith("PREFERRED_PROVIDER_"):
+> > +            providers.append(v)
+> > +
+> > +    for v in versions:
+> > +        val = d.getVar(v, False)
+> > +        pkg = v.replace("PREFERRED_VERSION_", "")
+> > +        for p in prefixes:
+> > +            newname = "PREFERRED_VERSION_" + p + "-" + pkg
+> > +            if not d.getVar(newname, False):
+> > +                d.setVar(newname, val)
+> > +
+> > +    for prov in providers:
+> > +        val = d.getVar(prov, False)
+> > +        pkg = prov.replace("PREFERRED_PROVIDER_", "")
+> > +        virt = ""
+> > +        if pkg.startswith("virtual/"):
+> > +             pkg = pkg.replace("virtual/", "")
+> > +             virt = "virtual/"
+> > +        for p in prefixes:
+> > +            newname = "PREFERRED_PROVIDER_" + virt + p + "-" + pkg
+> > +            if not d.getVar(newname, False):
+> > +                d.setVar(newname, p + "-" + val)
 > 
-> The following two commits fix the issue that, some normal packages are
-> built out when building pure multilib image "lib32-core-image-sato".
-> 
-> Please help to review and pull.
-> 
-> [YOCTO #1340]
-> 
-> The following changes since commit 7a278238d9b08e0315e92d386282cb488cc0c7b4:
-> 
->   bitbake.conf/powerpc64: Set baselib to 'lib64' for ppc64 (2011-08-05 17:48:23 +0100)
-> 
-> are available in the git repository at:
->   git://git.pokylinux.org/poky-contrib dxu4/ml2
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/ml2
-> 
-> Dongxiao Xu (2):
->   gnome-doc-utils: Avoid RDEPENDS on bash in native case.
->   module-init-tools-cross: Clean the RDEPENDS value
+> How about the native and nativesdk packages? I think they should not be prefixed.
 
-Merged to master, thanks.
+Agreed. I've merged this with a tweak to stop the preferred
+version/provider code taking effect for native/nativesdk packages.
+
+Cheers,
 
 Richard
 
