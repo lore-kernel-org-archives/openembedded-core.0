@@ -1,51 +1,20 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from outbound.icp-osb-irony-out9.iinet.net.au ([203.59.1.110])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1Qqbu0-0005P0-UE
+	(envelope-from <james@digitalmatter.com.au>) id 1Qqbve-0005Rn-9i
 	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Aug 2011 04:18:45 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 08 Aug 2011 19:14:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,340,1309762800"; d="scan'208";a="36512781"
-Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by azsmga001.ch.intel.com with ESMTP; 08 Aug 2011 19:14:12 -0700
-Received: from pgsmsx104.gar.corp.intel.com (10.221.44.91) by
-	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Tue, 9 Aug 2011 10:13:45 +0800
-Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
-	PGSMSX104.gar.corp.intel.com (10.221.44.91) with Microsoft SMTP Server
-	(TLS) id 14.1.323.3; Tue, 9 Aug 2011 10:13:44 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi; Tue, 9 Aug 2011
-	10:13:43 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, Darren Hart
-	<dvhart@linux.intel.com>
-Date: Tue, 9 Aug 2011 10:13:43 +0800
-Thread-Topic: [OE-core] [PATCH 1/1] oe-init-build-env,
-	scripts/oe-buildenv-internal: add error detecting for $BDIR
-Thread-Index: AcxSrK427eyEX9TDTFyrgIWm2d2wsgACBJmgAOEanAA=
-Message-ID: <1865303E0DED764181A9D882DEF65FB6B5FF85AB28@shsmsx502.ccr.corp.intel.com>
-References: <cover.1312265186.git.dexuan.cui@intel.com>
-	<6def4624e63c8c7cf439dff32cb155dd2bba0ebe.1312265186.git.dexuan.cui@intel.com>
-	<1312285430.2344.582.camel@rex> <4E38C941.30805@linux.intel.com>
-	<1865303E0DED764181A9D882DEF65FB6B304414CE2@shsmsx502.ccr.corp.intel.com>
-	<4E395235.9010709@linux.intel.com>
-	<1865303E0DED764181A9D882DEF65FB6B3044150C6@shsmsx502.ccr.corp.intel.com>
-	<4E3A3562.1060907@linux.intel.com>
-	<1865303E0DED764181A9D882DEF65FB6B3046C9A79@shsmsx502.ccr.corp.intel.com>
-	<4E3AA24A.7050400@linux.intel.com>
-	<1865303E0DED764181A9D882DEF65FB6B3046C9C11@shsmsx502.ccr.corp.intel.com>
-In-Reply-To: <1865303E0DED764181A9D882DEF65FB6B3046C9C11@shsmsx502.ccr.corp.intel.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
-MIME-Version: 1.0
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Phil Blundell <philb@gnu.org>
-Subject: Re: [PATCH 1/1] oe-init-build-env, scripts/oe-buildenv-internal: add error detecting for $BDIR
+	Tue, 09 Aug 2011 04:20:26 +0200
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: Ar4HAJuWQE7LO4Se/2dsb2JhbABDmByPDHeCQCiBKcZthkYEh1qQToMQiD8
+X-IronPort-AV: E=Sophos;i="4.67,340,1309708800"; d="scan'208";a="27009479"
+Received: from unknown (HELO gentoo_vm.DMA.local) ([203.59.132.158])
+	by outbound.icp-osb-irony-out9.iinet.net.au with ESMTP;
+	09 Aug 2011 10:12:49 +0800
+From: James Limbouris <james@digitalmatter.com.au>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  9 Aug 2011 10:04:13 +0800
+Message-Id: <1312855453-23258-1-git-send-email-james@digitalmatter.com.au>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [PATCH] bitbake.conf: Changed PSEUDO_LOCALSTATEDIR assignment to unconditional.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -60,47 +29,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Aug 2011 02:18:45 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 09 Aug 2011 02:20:26 -0000
 
-Cui, Dexuan wrote on 2011-08-04:
-> Darren Hart wrote on 2011-08-04:
->> On 08/04/2011 12:37 AM, Cui, Dexuan wrote: Please remember to include a
->> description of the problem and the approach taken to fix it. This
->> eliminates wasted time trying to decipher it later or by people
->> unfamiliar with the history. This is important even for simple changes.
->> In this case something like:
->>=20
->> " The previous fix for a bug in Ubuntu 10.04 readlink, $COMMIT_ID,
->> notified the user when a trailing slash was used. As there is no
->> semantic difference, simply remove any trailing slashes and proceed
->> without nagging the user. "
-> Thanks! I'll use the description.
->=20
->>> diff --git a/scripts/oe-buildenv-internal
->>=20
->> This shouldn't be a question. If the documented behavior of readlink
->> is to return empty when the path doesn't exist, then assume this to
->> be the case.
-> The latest manual of readlink says readlink should ignore trailing slash.
->=20
->> Also, it is a good idea to avoid contractions in printed error messages.
->>=20
->> 	echo >&2 "Error: the directory $PARENTDIR does not exist."
-> Ok, I'll change "doesn't" to "does not".
->=20
->> Otherwise, this looks good to me.
-> Please review the new patch (I paste it at the end of the mail, too)
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Ddcui/b=
-ug-671&id=3D593e3506f4d4d9f6030100eac8c8e0af7f8ce3eb
-Hi Darren,
-Could you please comment on this new version of patch?
-I sent it out for several days ago. Maybe it was drowned in the mailing lis=
-t.
+The pseudo executable sets the PSEUDO_LOCALSTATEDIR environment variable
+to point to a sysroot location. During an initial cache build, in which
+pseudo is not used as it is being built, the PSEUDO_LOCALSTATEDIR is set
+to a per-package location by bitbake.conf, and baked into the cache.
+If the cache is subsequently invalidated, bitbake may run under pseudo,
+and rebuild it with the sysroot location baked into the cache. This
+results in all packages using the same, persistent db, even on package
+rebuild, which leads to permissions errors. Making the assignment
+unconditional corrects this problem.
 
-Thanks,
--- Dexuan
+Signed-off-by: James Limbouris <james@digitalmatter.com.au>
+---
+ meta/conf/bitbake.conf |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 6f0b42c..9a9ab53 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -557,7 +557,7 @@ SRCPV = "${@bb.fetch2.get_srcrev(d)}"
+ SRC_URI = "file://${FILE}"
+ 
+ # Use pseudo as the fakeroot implementation
+-PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
++PSEUDO_LOCALSTATEDIR = "${WORKDIR}/pseudo/"
+ FAKEROOTENV = "PSEUDO_PREFIX=${STAGING_DIR_NATIVE}${prefix_native} PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_PASSWD=${STAGING_DIR_TARGET} PSEUDO_NOSYMLINKEXP=1 PSEUDO_DISABLED=0"
+ FAKEROOTDIRS = "${PSEUDO_LOCALSTATEDIR}"
+ PREFERRED_PROVIDER_virtual/fakeroot-native ?= "pseudo-native"
+-- 
+1.7.3.4
+
 
 
