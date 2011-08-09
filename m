@@ -1,25 +1,30 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX1/Na8YI3uhF44ErgdsLu1sSw9CyaYoOxSo=])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1QqpZd-0001BH-Iw
-	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Aug 2011 18:54:38 +0200
-Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p79Go72D009213
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QqqcY-000347-Rt for openembedded-core@lists.openembedded.org;
+	Tue, 09 Aug 2011 20:01:43 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p79HvE0p015892
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Aug 2011 11:50:08 -0500
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Kumar Gala <galak@kernel.crashing.org>
-In-Reply-To: <2C6C8741-1012-47BC-BDA9-2A02A08C5027@kernel.crashing.org>
-Date: Tue, 9 Aug 2011 11:50:06 -0500
-Message-Id: <822AACC4-810B-4113-A214-EE283679EA06@kernel.crashing.org>
-References: <032728F4-C51D-4298-B50C-B1C2C7050E22@kernel.crashing.org>
-	<1312898286.14274.298.camel@rex>
-	<2C6C8741-1012-47BC-BDA9-2A02A08C5027@kernel.crashing.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: python automake dirs (was meta-toolchain-sdk failure)
+	Tue, 9 Aug 2011 18:57:14 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 15565-03 for <openembedded-core@lists.openembedded.org>;
+	Tue,  9 Aug 2011 18:57:10 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p79Hv8KL015886
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 9 Aug 2011 18:57:09 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 09 Aug 2011 18:56:35 +0100
+Message-ID: <1312912595.14274.311.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: gcc: Various fixups to ensure consistent gcc builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,165 +39,239 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Aug 2011 16:54:38 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 09 Aug 2011 18:01:43 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+We ensure that:
+* the shared work directory contains PR and ensure PR values are consistent across gcc builds
+* the regexp to handle library directories is in a specific task and run once
+
+This avoids breakage that was seen in incremental builds after commit
+be1f70d68b6b75772ebab8bdff683ddd7c42b0cd where the interpretor could
+become corrupted. This was due to the sed expression corrupting
+the source directory.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/recipes-devtools/gcc/gcc-4.5.1.inc b/meta/recipes-devtools/gcc/gcc-4.5.1.inc
+index 1b21a75..6eb3044 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.5.1.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.5.1.inc
+@@ -1,5 +1,7 @@
+ require gcc-common.inc
+ 
++PR = "r8"
++
+ DEPENDS =+ "mpfr gmp libmpc elfutils"
+ NATIVEDEPS = "mpfr-native gmp-native gettext-native libmpc-native elfutils-native"
+ 
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
+index f952ac8..0a148b4 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.6.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
+@@ -1,6 +1,6 @@
+ require gcc-common.inc
+ 
+-PR = "r4"
++PR = "r7"
+ 
+ # Third digit in PV should be incremented after a minor release
+ # happens from this branch on gcc e.g. currently its 4.6.0
+@@ -73,7 +73,7 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
+ SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch;patch=1 "
+ 
+ #S = "${WORKDIR}/${BRANCH}"
+-S = "${TMPDIR}/work-shared/gcc-${PV}/${BRANCH}"
++S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/${BRANCH}"
+ B = "${WORKDIR}/${BRANCH}/build.${HOST_SYS}.${TARGET_SYS}"
+ 
+ # Language Overrides
+diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
+index 1684e78..52431fa 100644
+--- a/meta/recipes-devtools/gcc/gcc-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-common.inc
+@@ -40,17 +40,18 @@ ${GNU_MIRROR}/gcc/	http://gcc.get-software.com/releases/ \n \
+ gcclibdir = "${libdir}/gcc"
+ BINV = "${PV}"
+ #S = "${WORKDIR}/gcc-${PV}"
+-S = "${TMPDIR}/work-shared/gcc-${PV}/gcc-${PV}"
++S = "${TMPDIR}/work-shared/gcc-${PV}/gcc-${PV}-${PR}"
+ B = "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
+ 
+ # SS means Shared Stamps directory
+-SS = "${TMPDIR}/stamps/work-shared/gcc-${PV}"
++SS = "${TMPDIR}/stamps/work-shared/gcc-${PV}-${PR}"
+ do_fetch[stamp-base] = "${SS}"
+ do_unpack[stamp-base] = "${SS}"
++do_headerfix[stamp-base] = "${SS}"
+ do_patch[stamp-base] = "${SS}"
+ 
+ # SW means Shared Work directory
+-SW = "${TMPDIR}/work-shared/gcc-${PV}"
++SW = "${TMPDIR}/work-shared/gcc-${PV}-${PR}"
+ WORKDIR_task-unpack = "${SW}"
+ WORKDIR_task-patch = "${SW}"
+ 
+@@ -61,7 +62,7 @@ target_prefix ?= "${prefix}"
+ 
+ CLEANFUNCS += "workshared_clean"
+ # The do_clean should be exclusive since share ${S}
+-do_clean[lockfiles] = "${TMPDIR}/stamps/work-shared/gcc-${PV}.clean.lock"
++do_clean[lockfiles] = "${SW}.clean.lock"
+ 
+ python workshared_clean () {
+ 	"""clear the source directory"""
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+index 869d1b6..2ddc3d7 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+@@ -61,9 +61,9 @@ SYSTEMHEADERS = "${target_includedir}"
+ SYSTEMLIBS = "${target_base_libdir}/"
+ SYSTEMLIBS1 = "${target_libdir}/"
+ 
+-do_configure_prepend () {
+-	# Change the default dynamic linker path, only useful for SDK, other's value
+-	# are not changed according to the SYSTEMLIBS_DIR
++do_headerfix () {
++	# Change the default dynamic linker path, in case $base_liddir is non-standard
++	# (e.g. in multilib or sdk cases)
+ 	#
+ 	# We want something like the following:
+ 	# 	#define GLIBC_DYNAMIC_LINKER64 "/lib64/ld-linux-x86-64.so.2"
+@@ -72,7 +72,11 @@ do_configure_prepend () {
+ 	#
+ 	sed -i ${S}/gcc/config/*/linux*.h -e \
+ 		's#\(GLIBC_DYNAMIC_LINKER[^ ]*\) \( *"/lib.*\)/\(.*\)#\1 SYSTEMLIBS_DIR "\3#'
++}
+ 
++addtask headerfix after do_unpack before do_patch
++
++do_configure_prepend () {
+ 	# teach gcc to find correct target includedir when checking libc ssp support
+ 	mkdir -p ${B}/gcc
+ 	echo "NATIVE_SYSTEM_HEADER_DIR = ${SYSTEMHEADERS}" > ${B}/gcc/t-oe
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian_4.5.1.bb b/meta/recipes-devtools/gcc/gcc-cross-canadian_4.5.1.bb
+index 92708d4..da3210f 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross-canadian_4.5.1.bb
++++ b/meta/recipes-devtools/gcc/gcc-cross-canadian_4.5.1.bb
+@@ -5,8 +5,6 @@ require gcc-cross-canadian.inc
+ require gcc-configure-sdk.inc
+ require gcc-package-sdk.inc
+ 
+-PR = "r4"
+-
+ DEPENDS += "gmp-nativesdk mpfr-nativesdk libmpc-nativesdk elfutils-nativesdk"
+ RDEPENDS_${PN} += "mpfr-nativesdk libmpc-nativesdk elfutils-nativesdk"
+ 
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial_4.5.1.bb b/meta/recipes-devtools/gcc/gcc-cross-initial_4.5.1.bb
+index 081b7d6..16d8181 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross-initial_4.5.1.bb
++++ b/meta/recipes-devtools/gcc/gcc-cross-initial_4.5.1.bb
+@@ -1,5 +1,3 @@
+ require gcc-cross_${PV}.bb
+ require gcc-cross-initial.inc
+ 
+-PR = "r4"
+-
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-intermediate_4.5.1.bb b/meta/recipes-devtools/gcc/gcc-cross-intermediate_4.5.1.bb
+index a8473b0..42fd0f0 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross-intermediate_4.5.1.bb
++++ b/meta/recipes-devtools/gcc/gcc-cross-intermediate_4.5.1.bb
+@@ -1,4 +1,3 @@
+ require gcc-cross_${PV}.bb
+ require gcc-cross-intermediate.inc
+-PR = "r5"
+ 
+diff --git a/meta/recipes-devtools/gcc/gcc-cross_4.5.1.bb b/meta/recipes-devtools/gcc/gcc-cross_4.5.1.bb
+index af6daf4..97a0c81 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross_4.5.1.bb
++++ b/meta/recipes-devtools/gcc/gcc-cross_4.5.1.bb
+@@ -1,5 +1,3 @@
+-PR = "r4"
+-
+ require gcc-${PV}.inc
+ require gcc-cross4.inc
+ 
+diff --git a/meta/recipes-devtools/gcc/gcc-cross_csl-arm-2008q1.bb b/meta/recipes-devtools/gcc/gcc-cross_csl-arm-2008q1.bb
+index 3c9a7f8..58eba46 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross_csl-arm-2008q1.bb
++++ b/meta/recipes-devtools/gcc/gcc-cross_csl-arm-2008q1.bb
+@@ -1,5 +1,3 @@
+-PR = "r5"
+-
+ require gcc-csl-arm-2008q1.inc
+ require gcc-cross4.inc
+ require gcc-configure-cross.inc
+diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk-initial_4.5.1.bb b/meta/recipes-devtools/gcc/gcc-crosssdk-initial_4.5.1.bb
+index 9708248..0c9fdd3 100644
+--- a/meta/recipes-devtools/gcc/gcc-crosssdk-initial_4.5.1.bb
++++ b/meta/recipes-devtools/gcc/gcc-crosssdk-initial_4.5.1.bb
+@@ -1,4 +1,2 @@
+ require gcc-cross-initial_${PV}.bb
+ require gcc-crosssdk-initial.inc
+-
+-PR = "r4"
+diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk-intermediate_4.5.1.bb b/meta/recipes-devtools/gcc/gcc-crosssdk-intermediate_4.5.1.bb
+index d235969..1aa588a 100644
+--- a/meta/recipes-devtools/gcc/gcc-crosssdk-intermediate_4.5.1.bb
++++ b/meta/recipes-devtools/gcc/gcc-crosssdk-intermediate_4.5.1.bb
+@@ -1,4 +1,2 @@
+ require gcc-cross-intermediate_${PV}.bb
+ require gcc-crosssdk-intermediate.inc
+-
+-PR = "r4"
+diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk_4.5.1.bb b/meta/recipes-devtools/gcc/gcc-crosssdk_4.5.1.bb
+index bae2389..7430888 100644
+--- a/meta/recipes-devtools/gcc/gcc-crosssdk_4.5.1.bb
++++ b/meta/recipes-devtools/gcc/gcc-crosssdk_4.5.1.bb
+@@ -1,4 +1,2 @@
+ require gcc-cross_${PV}.bb
+ require gcc-crosssdk.inc
+-
+-PR = "r4"
+diff --git a/meta/recipes-devtools/gcc/gcc-csl-arm-2008q1.inc b/meta/recipes-devtools/gcc/gcc-csl-arm-2008q1.inc
+index cb5b087..062f1c5 100644
+--- a/meta/recipes-devtools/gcc/gcc-csl-arm-2008q1.inc
++++ b/meta/recipes-devtools/gcc/gcc-csl-arm-2008q1.inc
+@@ -2,6 +2,7 @@ require gcc-common.inc
+ 
+ BINV = "4.2.3"
+ PV = "4.2.3+csl-arm-2008q1-126"
++PR = "r6"
+ 
+ FILESDIR = "${FILE_DIRNAME}/gcc-csl-arm"
+ 
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb b/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb
+index 0a7056c..bd3bacf 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb
++++ b/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb
+@@ -1,5 +1,3 @@
+-PR = "r6"
+-
+ require gcc-${PV}.inc
+ require gcc-configure-runtime.inc
+ require gcc-package-runtime.inc
+diff --git a/meta/recipes-devtools/gcc/gcc_4.5.1.bb b/meta/recipes-devtools/gcc/gcc_4.5.1.bb
+index f036cb1..4dfb12e 100644
+--- a/meta/recipes-devtools/gcc/gcc_4.5.1.bb
++++ b/meta/recipes-devtools/gcc/gcc_4.5.1.bb
+@@ -1,4 +1,3 @@
+-PR = "r8"
+ require gcc-${PV}.inc
+ require gcc-configure-target.inc
+ require gcc-package-target.inc
+diff --git a/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb b/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb
+index 9fd2b0a..5bb8e58 100644
+--- a/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb
++++ b/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb
+@@ -1,5 +1,3 @@
+-PR = "r5"
+-
+ require gcc-${PV}.inc
+ require gcc-configure-target.inc
+ require gcc-package-target.inc
 
 
-On Aug 9, 2011, at 10:32 AM, Kumar Gala wrote:
-
->=20
-> On Aug 9, 2011, at 8:58 AM, Richard Purdie wrote:
->=20
->> On Tue, 2011-08-09 at 08:45 -0500, Kumar Gala wrote:
->>> Seeing the following when trying to do a meta-toolchain-sdk build =
-w/latest git.  Guessing we're missing a depend of some sort:
->>>=20
->>> | error: Failed dependencies:
->>> | 	telepathy-python is needed by =
-task-core-standalone-gmae-sdk-target-1.0-r13.ppc64e5500
->>>=20
->>> I think the reset of this is noise:
->>=20
->> It is, yes.
->>=20
->> Did telepathy-python build at all (you can check if any stamps are
->> present)? Are there any packages generated (in the deploy/rpm
->> directory)?
->>=20
->> I'm trying to work out if this wasn't present because it didn't =
-build,
->> because it did build but didn't package correctly or whether the =
-rootfs
->> code just isn't seeing the package...
->=20
-> Seems it build but no package:
->=20
-> =
-build-p5020/tmp/deploy/rpm/ppc64e5500/telepathy-python-dev-0.15.19-r2.ppc6=
-4e5500.rpm
-> =
-build-p5020/tmp/deploy/rpm/ppc64e5500/telepathy-python-dbg-0.15.19-r2.ppc6=
-4e5500.rpm
->=20
-> Looking at log.do_package
->=20
-> WARNING: For recipe telepathy-python, the following files were =
-installed but not shipped in any package:
-> WARNING:   /usr/lib/python2.6/site-packages/telepathy/__init__.pyo
-> WARNING:   /usr/lib/python2.6/site-packages/telepathy/utils.py
-> WARNING:   /usr/lib/python2.6/site-packages/telepathy/utils.pyc
-> WARNING:   /usr/lib/python2.6/site-packages/telepathy/interfaces.py
-> WARNING:   /usr/lib/python2.6/site-packages/telepathy/errors.py
-> WARNING:   /usr/lib/python2.6/site-packages/telepathy/_version.pyo
-> WARNING:   /usr/lib/python2.6/site-packages/telepathy/__init__.py
-> WARNING:   /usr/lib/python2.6/site-packages/telepathy/_version.py
-> WARNING:   /usr/lib/python2.6/site-packages/telepathy/__init__.pyc
-> WARNING:   /usr/lib/python2.6/site-packages/telepathy/_version.pyc
-> WARNING:   /usr/lib/python2.6/site-packages/telepathy/constants.pyc
-> ...
->=20
-> Since this build is with 64-bit we should be in /usr/lib64 but are =
-not.
->=20
-> I believe there are other python packages that aren't respecting =
-${libdir}
->=20
-> There was a patch to xcb, but that still had issues as for some reason =
-aclocal.m4 is getting regnerated and overriding PYTHON_LIB_PREFIX.
-
-So the root of this seems to stem from the following in automake's =
-python.m4:
-
-=
-am_cv_python_pythondir=3D$PYTHON_PREFIX/lib/python$PYTHON_VERSION/site-pac=
-kages
-=
-am_cv_python_pyexecdir=3D$PYTHON_EXEC_PREFIX/lib/python$PYTHON_VERSION/sit=
-e-packages
-
-So the question at hand is how to fix this?
-
-Do we patch automake to respect libdir setting for these?
-
-something like:
-
---- python.m4.orig	2011-08-09 11:46:19.511163337 -0500
-+++ python.m4	2011-08-09 11:49:43.623022930 -0500
-@@ -88,12 +88,13 @@
-     [am_cv_python_version=3D`$PYTHON -c "import sys; =
-sys.stdout.write(sys.version[[:3]])"`])
-   AC_SUBST([PYTHON_VERSION], [$am_cv_python_version])
-=20
--  dnl Use the values of $prefix and $exec_prefix for the corresponding
--  dnl values of PYTHON_PREFIX and PYTHON_EXEC_PREFIX.  These are made
-+  dnl Use the values of $prefix, $libdir and $exec_prefix for the =
-corresponding
-+  dnl values of PYTHON_PREFIX PYTHON_LIB_PREFIX, and =
-PYTHON_EXEC_PREFIX.  These are made
-   dnl distinct variables so they can be overridden if need be.  =
-However,
-   dnl general consensus is that you shouldn't need this ability.
-=20
-   AC_SUBST([PYTHON_PREFIX], ['${prefix}'])
-+  AC_SUBST([PYTHON_LIB_PREFIX], ['${libdir}'])
-   AC_SUBST([PYTHON_EXEC_PREFIX], ['${exec_prefix}'])
-=20
-   dnl At times (like when building shared libraries) you may want
-@@ -122,7 +123,7 @@
-        am_py_prefix=3D$prefix
-      fi
-      am_cv_python_pythondir=3D`$PYTHON -c "import sys; from distutils =
-import sysconfig; =
-sys.stdout.write(sysconfig.get_python_lib(0,0,prefix=3D'$am_py_prefix'))" =
-2>/dev/null ||
--     echo "$PYTHON_PREFIX/lib/python$PYTHON_VERSION/site-packages"`
-+     echo "$PYTHON_LIB_PREFIX/python$PYTHON_VERSION/site-packages"`
-      case $am_cv_python_pythondir in
-      $am_py_prefix*)
-        am__strip_prefix=3D`echo "$am_py_prefix" | sed 's|.|.|g'`
-@@ -132,7 +133,7 @@
-        case $am_py_prefix in
-          /usr|/System*) ;;
-          *)
--	  =
-am_cv_python_pythondir=3D$PYTHON_PREFIX/lib/python$PYTHON_VERSION/site-pac=
-kages
-+	  =
-am_cv_python_pythondir=3D$PYTHON_LIB_PREFIX/python$PYTHON_VERSION/site-pac=
-kages
- 	  ;;
-        esac
-        ;;
-@@ -160,7 +161,7 @@
-        am_py_exec_prefix=3D$exec_prefix
-      fi
-      am_cv_python_pyexecdir=3D`$PYTHON -c "import sys; from distutils =
-import sysconfig; =
-sys.stdout.write(sysconfig.get_python_lib(1,0,prefix=3D'$am_py_exec_prefix=
-'))" 2>/dev/null ||
--     echo =
-"$PYTHON_EXEC_PREFIX/lib/python$PYTHON_VERSION/site-packages"`
-+     echo "$PYTHON_LIB_PREFIX/python$PYTHON_VERSION/site-packages"`
-      case $am_cv_python_pyexecdir in
-      $am_py_exec_prefix*)
-        am__strip_prefix=3D`echo "$am_py_exec_prefix" | sed 's|.|.|g'`
-@@ -170,7 +171,7 @@
-        case $am_py_exec_prefix in
-          /usr|/System*) ;;
-          *)
--	   =
-am_cv_python_pyexecdir=3D$PYTHON_EXEC_PREFIX/lib/python$PYTHON_VERSION/sit=
-e-packages
-+	   =
-am_cv_python_pyexecdir=3D$PYTHON_LIB_PREFIX/python$PYTHON_VERSION/site-pac=
-kages
- 	   ;;
-        esac
-        ;;
-
-
-
-- k=
 
 
