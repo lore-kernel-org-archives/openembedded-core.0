@@ -1,20 +1,26 @@
 Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX1+435THBngZPyQOv631HSyAB+q0agyaRSk=])
+	ident=[U2FsdGVkX187WkVVmXxnLWTcNCqbT5k0jOaAMKXe8iM=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1Qqmh6-0007SL-Ja
+	(envelope-from <galak@kernel.crashing.org>) id 1QqmjA-0007W3-LT
 	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Aug 2011 15:50:09 +0200
+	Tue, 09 Aug 2011 15:52:17 +0200
 Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p79Dja5F011844
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Aug 2011 08:45:37 -0500
-From: Kumar Gala <galak@kernel.crashing.org>
-Date: Tue, 9 Aug 2011 08:45:36 -0500
-Message-Id: <032728F4-C51D-4298-B50C-B1C2C7050E22@kernel.crashing.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p79DlESO012734;
+	Tue, 9 Aug 2011 08:47:15 -0500
 Mime-Version: 1.0 (Apple Message framework v1084)
+From: Kumar Gala <galak@kernel.crashing.org>
+In-Reply-To: <1D9E81EA-A7A5-4D30-B310-9385C86506DE@kernel.crashing.org>
+Date: Tue, 9 Aug 2011 08:47:14 -0500
+Message-Id: <C189D018-4F42-4D3C-86EC-69B80F0DEB14@kernel.crashing.org>
+References: <1311858624-3686-1-git-send-email-galak@kernel.crashing.org>	<37BC502A-3FEA-4059-85FB-F6A3F401C3F9@kernel.crashing.org>	<4E3985C8.9070000@linux.intel.com>	<D9C996B9-65E0-4373-90F5-5B5286E05444@kernel.crashing.org>	<1312410888.2344.718.camel@rex>
+	<0BDD06D6-757A-4F43-B38E-95C857324D14@kernel.crashing.org>
+	<4E3A1813.3010906@linux.intel.com>
+	<2706988A-EDF1-4963-AC3D-065238FAF8D9@kernel.crashing.org>
+	<1D9E81EA-A7A5-4D30-B310-9385C86506DE@kernel.crashing.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 X-Mailer: Apple Mail (2.1084)
-Subject: meta-toolchain-sdk failure
+Subject: Re: [PATCH] scripts/oe-buildenv-internal: Add	SOCKS5_{USER, PASSWD} to BB_ENV_EXTRAWHITE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,94 +35,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Aug 2011 13:50:09 -0000
+X-List-Received-Date: Tue, 09 Aug 2011 13:52:17 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-Seeing the following when trying to do a meta-toolchain-sdk build =
-w/latest git.  Guessing we're missing a depend of some sort:
 
-| error: Failed dependencies:
-| 	telepathy-python is needed by =
-task-core-standalone-gmae-sdk-target-1.0-r13.ppc64e5500
+On Aug 5, 2011, at 11:52 AM, Kumar Gala wrote:
 
-I think the reset of this is noise:
+>>>>>>>> On Jul 28, 2011, at 8:10 AM, Kumar Gala wrote:
+>>>>>>>>=20
+>>>>>>>>> If a SOCKS5 gateway is needed for a proxy access like git it =
+might also
+>>>>>>>>> require authentication to the proxy via a password and =
+username.  Adding
+>>>>>>>>> SOCKS5_USER&   SOCKS5_PASSWD to BB_ENV_EXTRAWHITE allow for =
+automation
+>>>>>>>>> of the authentication request to occur when something like a =
+git fetch
+>>>>>>>>> is going through the proxy.
+>>>>>>>>>=20
+>>>>>>>>> Signed-off-by: Kumar Gala<galak@kernel.crashing.org>
+>>>>>>>>> ---
+>>>>>>>>> * Fixes issue with a git fetch request failing to get pass a =
+firewall
+>>>>>>>>>=20
+>>>>>>>>> scripts/oe-buildenv-internal |    2 +-
+>>>>>>>>> 1 files changed, 1 insertions(+), 1 deletions(-)
+>>>>>>>>>=20
+>>>>>>>>> diff --git a/scripts/oe-buildenv-internal =
+b/scripts/oe-buildenv-internal
+>>>>>>>>> index c13fc40..b223292 100755
+>>>>>>>>> --- a/scripts/oe-buildenv-internal
+>>>>>>>>> +++ b/scripts/oe-buildenv-internal
+>>>>>>>>> @@ -55,4 +55,4 @@ unset BITBAKEDIR
+>>>>>>>>> export BUILDDIR
+>>>>>>>>> export PATH
+>>>>>>>>>=20
+>>>>>>>>> -export BB_ENV_EXTRAWHITE=3D"MACHINE DISTRO TCMODE TCLIBC =
+http_proxy ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy =
+SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE =
+BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND"
+>>>>>>>>> +export BB_ENV_EXTRAWHITE=3D"MACHINE DISTRO TCMODE TCLIBC =
+http_proxy ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy =
+SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE =
+BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND SOCKS5_PASSWD =
+SOCSK5_USER"
+>>>>>>>>> --
+>>>>>>>>> 1.7.3.4
+>>>>>>>>=20
+>>>>>>>> Ping on this patch
+>>>>>>>>=20
+>>>>>>> Kumar,
+>>>>>>>=20
+>>>>>>> I think you were asked to modify this patch so that the =
+additinal
+>>>>>> SOCKS5_* do not get into sstate, Paul Eggleton provided the
+>>>>>> BB_HASHSPACE_WHITELIST info.
+>>>>>>>=20
+>>>>>>> Please update this patch
+>>>>>>>=20
+>>>>>>> Thanks
+>>>>>>> 	Sau!
+>>>>>>=20
+>>>>>> =46rom the thread it sounded as if that was NOT needed.  As =
+nothing
+>>>>>> refers to SOCKS5_* we didn't need to add it.  Much like how it =
+doesn't
+>>>>>> have SSH_AGENT_PID or SSH_AUTH_SOCK in it.
+>>>>>=20
+>>>>> It would be good is someone could confirm it but its in the =
+environment
+>>>>> so it likely is needed.
+>>>>=20
+>>>> Not sure I follow.  Confirm what?
+>>>>=20
+>>> Kumar,
+>>>=20
+>>> I think Richard wants you to confirm that the SSH_* and SOCKS5_* =
+information is not stored in the shared state hash.
+>>=20
+>> How?
+>=20
+> Still looking for directions on how to verify this.
 
-| error: LOOP:
-| error: removing dbus-lib-1.4.12-r0.ppc64e5500 "Requires(hint): dbus" =
-from tsort relations.
-| error: removing dbus-1.4.12-r0.ppc64e5500 "Requires: dbus-lib >=3D =
-1.4.12" from tsort relations.
-| error: LOOP:
-| error: removing =
-libcamel-dev-2.30+git1+7337d11aed576e7caaa12b4e881ad8d33668799f-r1.ppc64e5=
-500 "Requires(hint): eds-dbus-dev" from tsort relations.
-| error: removing =
-eds-dbus-dev-2.30+git1+7337d11aed576e7caaa12b4e881ad8d33668799f-r1.ppc64e5=
-500 "Requires(hint): libebook-dev" from tsort relations.
-| error: removing =
-libebook-dev-2.30+git1+7337d11aed576e7caaa12b4e881ad8d33668799f-r1.ppc64e5=
-500 "Requires(hint): libcamel-dev" fromERROR: Function 'do_populate_sdk' =
-failed (see =
-/local/home/galak/git/poky/build-p5020/tmp/work/ppc64e5500-poky-linux/meta=
--toolchain-gmae-1.0-r5/temp/log.do_populate_sdk.23223 for further =
-information)
-|  tsort relations.
-| error: LOOP:
-| error: removing libc6-dev-2.13-r12+svnr14157.ppc64e5500 =
-"Requires(hint): bash-dev" from tsort relations.
-| error: removing bash-dev-4.1-r2.ppc64e5500 "Requires(hint): libc6-dev" =
-from tsort relations.
-| error: LOOP:
-| error: removing eglibc-dbg-2.13-r12+svnr14157.ppc64e5500 =
-"Requires(hint): bash-dbg" from tsort relations.
-| error: removing bash-dbg-4.1-r2.ppc64e5500 "Requires(hint): =
-eglibc-dbg" from tsort relations.
-| error: LOOP:
-| error: removing libudev-164-r3.ppc64e5500 "Requires: udev =3D 164-r3" =
-from tsort relations.
-| error: removing udev-164-r3.ppc64e5500 "Requires: libudev >=3D 164" =
-from tsort relations.
-| error: LOOP:
-| error: removing bluez4-dbg-4.82-r0.ppc64e5500 "Requires(hint): =
-bluez-hcidump-dbg" from tsort relations.
-| error: removing bluez-hcidump-dbg-2.0-r0.ppc64e5500 "Requires(hint): =
-bluez4-dbg" from tsort relations.
-| error: LOOP:
-| error: removing bluez-hcidump-dev-2.0-r0.ppc64e5500 "Requires(hint): =
-bluez4-dev" from tsort relations.
-| error: removing bluez4-dev-4.82-r0.ppc64e5500 "Requires(hint): =
-bluez-hcidump-dev" from tsort relations.
-| error: LOOP:
-| error: removing libcap-dev-2.22-r0.ppc64e5500 "Requires(hint): =
-libpam-dev" from tsort relations.
-| error: removing libpam-dev-1.1.4-r1.ppc64e5500 "Requires(hint): =
-coreutils-dev" from tsort relations.
-| error: removing coreutils-dev-8.12-r3.ppc64e5500 "Requires(hint): =
-libcap-dev" from tsort relations.
-| error: LOOP:
-| error: removing =
-libedata-book-2.30+git1+7337d11aed576e7caaa12b4e881ad8d33668799f-r1.ppc64e=
-5500 "Requires: libebook >=3D =
-2.30+git1+7337d11aed576e7caaa12b4e881ad8d33668799f" from tsort =
-relations.
-| error: removing =
-libebook-2.30+git1+7337d11aed576e7caaa12b4e881ad8d33668799f-r1.ppc64e5500 =
-"Requires(hint): libedata-book" from tsort relations.
-| error: LOOP:
-| error: removing udev-dbg-164-r3.ppc64e5500 "Requires(hint): =
-libudev-dbg" from tsort relations.
-| error: removing libudev-dbg-164-r3.ppc64e5500 "Requires(hint): =
-udev-dbg" from tsort relations.
-| error: LOOP:
-| error: removing =
-libecal-2.30+git1+7337d11aed576e7caaa12b4e881ad8d33668799f-r1.ppc64e5500 =
-"Requires(hint): libedata-cal" from tsort relations.
-| error: removing =
-libedata-cal-2.30+git1+7337d11aed576e7caaa12b4e881ad8d33668799f-r1.ppc64e5=
-500 "Requires: libecal >=3D =
-2.30+git1+7337d11aed576e7caaa12b4e881ad8d33668799f" from tsort =
-relations.
+ping
 
 - k=
 
