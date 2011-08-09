@@ -1,26 +1,21 @@
 Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX187WkVVmXxnLWTcNCqbT5k0jOaAMKXe8iM=])
+	ident=[U2FsdGVkX1/9UYqlC4M6opUShD3cEI2p9giBcO07Vwk=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1QqmjA-0007W3-LT
+	(envelope-from <galak@kernel.crashing.org>) id 1QqmlR-0007Yy-HV
 	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Aug 2011 15:52:17 +0200
+	Tue, 09 Aug 2011 15:54:37 +0200
 Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p79DlESO012734;
-	Tue, 9 Aug 2011 08:47:15 -0500
-Mime-Version: 1.0 (Apple Message framework v1084)
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p79Do8FI014201
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 9 Aug 2011 08:50:09 -0500
 From: Kumar Gala <galak@kernel.crashing.org>
-In-Reply-To: <1D9E81EA-A7A5-4D30-B310-9385C86506DE@kernel.crashing.org>
-Date: Tue, 9 Aug 2011 08:47:14 -0500
-Message-Id: <C189D018-4F42-4D3C-86EC-69B80F0DEB14@kernel.crashing.org>
-References: <1311858624-3686-1-git-send-email-galak@kernel.crashing.org>	<37BC502A-3FEA-4059-85FB-F6A3F401C3F9@kernel.crashing.org>	<4E3985C8.9070000@linux.intel.com>	<D9C996B9-65E0-4373-90F5-5B5286E05444@kernel.crashing.org>	<1312410888.2344.718.camel@rex>
-	<0BDD06D6-757A-4F43-B38E-95C857324D14@kernel.crashing.org>
-	<4E3A1813.3010906@linux.intel.com>
-	<2706988A-EDF1-4963-AC3D-065238FAF8D9@kernel.crashing.org>
-	<1D9E81EA-A7A5-4D30-B310-9385C86506DE@kernel.crashing.org>
+Date: Tue, 9 Aug 2011 08:50:08 -0500
+Message-Id: <CBFDDB2B-BFE3-43CD-A124-253BBBC40898@kernel.crashing.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0 (Apple Message framework v1084)
 X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH] scripts/oe-buildenv-internal: Add	SOCKS5_{USER, PASSWD} to BB_ENV_EXTRAWHITE
+Subject: multiple providers message?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,90 +30,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Aug 2011 13:52:17 -0000
+X-List-Received-Date: Tue, 09 Aug 2011 13:54:38 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
+When trying to build meta-toolchain-sdk I'm seeing (is this ok or needs =
+some fixing):
 
-On Aug 5, 2011, at 11:52 AM, Kumar Gala wrote:
-
->>>>>>>> On Jul 28, 2011, at 8:10 AM, Kumar Gala wrote:
->>>>>>>>=20
->>>>>>>>> If a SOCKS5 gateway is needed for a proxy access like git it =
-might also
->>>>>>>>> require authentication to the proxy via a password and =
-username.  Adding
->>>>>>>>> SOCKS5_USER&   SOCKS5_PASSWD to BB_ENV_EXTRAWHITE allow for =
-automation
->>>>>>>>> of the authentication request to occur when something like a =
-git fetch
->>>>>>>>> is going through the proxy.
->>>>>>>>>=20
->>>>>>>>> Signed-off-by: Kumar Gala<galak@kernel.crashing.org>
->>>>>>>>> ---
->>>>>>>>> * Fixes issue with a git fetch request failing to get pass a =
-firewall
->>>>>>>>>=20
->>>>>>>>> scripts/oe-buildenv-internal |    2 +-
->>>>>>>>> 1 files changed, 1 insertions(+), 1 deletions(-)
->>>>>>>>>=20
->>>>>>>>> diff --git a/scripts/oe-buildenv-internal =
-b/scripts/oe-buildenv-internal
->>>>>>>>> index c13fc40..b223292 100755
->>>>>>>>> --- a/scripts/oe-buildenv-internal
->>>>>>>>> +++ b/scripts/oe-buildenv-internal
->>>>>>>>> @@ -55,4 +55,4 @@ unset BITBAKEDIR
->>>>>>>>> export BUILDDIR
->>>>>>>>> export PATH
->>>>>>>>>=20
->>>>>>>>> -export BB_ENV_EXTRAWHITE=3D"MACHINE DISTRO TCMODE TCLIBC =
-http_proxy ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy =
-SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE =
-BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND"
->>>>>>>>> +export BB_ENV_EXTRAWHITE=3D"MACHINE DISTRO TCMODE TCLIBC =
-http_proxy ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy =
-SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE =
-BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND SOCKS5_PASSWD =
-SOCSK5_USER"
->>>>>>>>> --
->>>>>>>>> 1.7.3.4
->>>>>>>>=20
->>>>>>>> Ping on this patch
->>>>>>>>=20
->>>>>>> Kumar,
->>>>>>>=20
->>>>>>> I think you were asked to modify this patch so that the =
-additinal
->>>>>> SOCKS5_* do not get into sstate, Paul Eggleton provided the
->>>>>> BB_HASHSPACE_WHITELIST info.
->>>>>>>=20
->>>>>>> Please update this patch
->>>>>>>=20
->>>>>>> Thanks
->>>>>>> 	Sau!
->>>>>>=20
->>>>>> =46rom the thread it sounded as if that was NOT needed.  As =
-nothing
->>>>>> refers to SOCKS5_* we didn't need to add it.  Much like how it =
-doesn't
->>>>>> have SSH_AGENT_PID or SSH_AUTH_SOCK in it.
->>>>>=20
->>>>> It would be good is someone could confirm it but its in the =
-environment
->>>>> so it likely is needed.
->>>>=20
->>>> Not sure I follow.  Confirm what?
->>>>=20
->>> Kumar,
->>>=20
->>> I think Richard wants you to confirm that the SSH_* and SOCKS5_* =
-information is not stored in the shared state hash.
->>=20
->> How?
->=20
-> Still looking for directions on how to verify this.
-
-ping
+NOTE: multiple providers are available for runtime libsqlite3-dev =
+(sqlite3, sqlite3-nativesdk)
+NOTE: consider defining a PREFERRED_PROVIDER entry to match =
+libsqlite3-dev
 
 - k=
 
