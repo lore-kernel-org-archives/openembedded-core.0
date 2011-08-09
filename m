@@ -1,27 +1,37 @@
-Received: from smtp25.4emm.com ([69.18.222.26])
+Received: from mail-iy0-f171.google.com ([209.85.210.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <james@digitalmatter.com.au>) id 1QqbaN-0004jw-I4
+	(envelope-from <raj.khem@gmail.com>) id 1Qqbsh-0005Me-MV
 	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Aug 2011 03:58:27 +0200
-Received: from MBX20.4emm.local ([fe80::382d:f6d3:f4de:a97f]) by
-	HUB25.4emm.local ([fe80::2427:17db:eac2:a71%12]) with mapi id
-	14.01.0289.001; Mon, 8 Aug 2011 21:52:54 -0400
-From: James Limbouris <james@digitalmatter.com.au>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] gcc version mismatch in sdk generation
-Thread-Index: AQHMVjS0DvpWAmzNDEmYd66tMQmhkZUTwNsQ
-Date: Tue, 9 Aug 2011 01:52:53 +0000
-Message-ID: <840A81C1B782724A8EB52725BD519EFF1832E3@MBX20.4emm.local>
-References: <840A81C1B782724A8EB52725BD519EFF1832C5@MBX20.4emm.local>
-	<CAMKF1spMJyBDYowk-Bb9szzAM2RuxoRm=GLnURz_qfryePccmw@mail.gmail.com>
-In-Reply-To: <CAMKF1spMJyBDYowk-Bb9szzAM2RuxoRm=GLnURz_qfryePccmw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [203.59.132.158]
+	Tue, 09 Aug 2011 04:17:23 +0200
+Received: by iyf13 with SMTP id 13so12185814iyf.16
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 08 Aug 2011 19:12:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:x-enigmail-version:content-type
+	:content-transfer-encoding;
+	bh=H/Zo1nM7tbgX0gL5t+ukn+qn6tBLVzL6kr9uGe+oqDM=;
+	b=AwfGQdN77kJCxVuq1rnzSZNtWLY2uFv8Yk094URSIoxXByFHRuZ9EKgviUjHpgTDCZ
+	4fGiaJumQzXaP6NCAXJY6jgUiMGFoWXrFCWRLSoTIqQTWC/4rl6QG45gqbT0S7AmoKY2
+	FNnrToWOAEFUxv1kOV3no50Y8Erv8HMql9ZdY=
+Received: by 10.231.7.12 with SMTP id b12mr6526817ibb.73.1312855974486;
+	Mon, 08 Aug 2011 19:12:54 -0700 (PDT)
+Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id q13sm4642167ibi.60.2011.08.08.19.12.52
+	(version=SSLv3 cipher=OTHER); Mon, 08 Aug 2011 19:12:53 -0700 (PDT)
+Message-ID: <4E4097A3.8090204@gmail.com>
+Date: Mon, 08 Aug 2011 19:12:51 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:6.0) Gecko/20110801 Thunderbird/6.0
 MIME-Version: 1.0
-Subject: Re: gcc version mismatch in sdk generation
+To: openembedded-core@lists.openembedded.org
+References: <1312784043-3081-1-git-send-email-raj.khem@gmail.com>
+	<1312845842.14274.282.camel@rex>
+In-Reply-To: <1312845842.14274.282.camel@rex>
+X-Enigmail-Version: 1.2pre
+Subject: Re: [PATCH 1/2] shared-mime-info, avahi, polkit: inherit perlnative
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,75 +46,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Aug 2011 01:58:27 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 09 Aug 2011 02:17:23 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-T24gVHVlc2RheSwgOSBBdWd1c3QgMjAxMSA5OjQwIEFNLCBLaGVtIFJhaiB3cm90ZToNCj4gT24g
-TW9uLCBBdWcgOCwgMjAxMSBhdCA2OjMzIFBNLCBKYW1lcyBMaW1ib3VyaXMNCj4gPGphbWVzQGRp
-Z2l0YWxtYXR0ZXIuY29tLmF1PiB3cm90ZToNCj4gPiBPbiBUdWUgQXVnIDkgMDE6MjU6NTUgQ0VT
-VCAyMDExLCBSaWNoYXJkIFB1cmRpZSB3cm90ZToNCj4gPj5PbiBNb24sIDIwMTEtMDgtMDggYXQg
-MDU6MDIgKzAwMDAsIEphbWVzIExpbWJvdXJpcyB3cm90ZToNCj4gPj4+IEhpLA0KPiA+Pj4NCj4g
-Pj4+IEluIG9lLWNvcmUsIHdpdGggQW5nc3Ryb20gMjAxMC54LCBnZW5lcmF0aW5nIGFuIHNkayB3
-aXRoOg0KPiA+Pj4NCj4gPj4+IGJpdGJha2UgbWV0YS10b29sY2hhaW4tcXRlDQo+ID4+Pg0KPiA+
-Pj4gaXMgZ2l2aW5nIG1lIGEgdG9vbGNoYWluIHdpdGggZ2NjLTQuNi4xIGJpbmFyaWVzIGluIHRo
-ZSBpNjg2DQo+ID4+PiBzeXNyb290LCBidXQNCj4gPj4+IGdjYy00LjUuNCBydW50aW1lIGxpYnJh
-cmllcyBpbiB0aGUgYXJtICh0YXJnZXQpIHN5c3Jvb3QuIFRoZSBzZGsNCj4gPj4+IGNhbid0IGxp
-bmsgdW50aWwgYSBzeW1saW5rIGlzIGluc3RhbGxlZCB0byB0cmljayBpdCBpbnRvIHVzaW5nIHRo
-ZSA0LjUuNCBsaWJyYXJpZXMuDQo+ID4+Pg0KPiA+Pj4gSSd2ZSBjaGVja2VkIHRoZSBwcmVmZXJy
-ZWQgdmVyc2lvbnMsIGJ1dCB0aGV5IHNlZW0gdG8gYmUgc2V0DQo+ID4+PiBjb25zaXN0ZW50bHkg
-aW4gdGhlIGRpc3RvJ3MgY29uZiBmaWxlLCBhdCBsZWFzdCBhcyBmYXIgYXMgSSBjYW4gc2VlLg0K
-PiA+Pj4NCj4gPj4+ICdiaXRiYWtlIC1zIHwgZ3JlcCBnY2MnIGdpdmVzOg0KPiA+Pj4gZ2NjIMKg
-IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIDo0LjUt
-cjM5LjErc3ZucjE3NjY0MA0KPiA+Pj4gZ2NjLWNyb3NzIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
-IMKgIMKgIMKgIMKgIMKgIMKgIMKgIDo0LjUtcjM5LjIrc3ZucjE3NjY0MA0KPiA+Pj4gZ2NjLWNy
-b3NzLWNhbmFkaWFuLWFybSDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoDo0LjUtcjM5LjArc3Zu
-cjE3NjY0MA0KPiA+Pj4gZ2NjLWNyb3NzLWluaXRpYWwgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqAgOjQuNS1yMzkuMCtzdm5yMTc2NjQwDQo+ID4+PiBnY2MtY3Jvc3MtaW50ZXJtZWRp
-YXRlIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgOjQuNS1yMzkuMCtzdm5yMTc2NjQwDQo+ID4+
-PiBnY2MtY3Jvc3NzZGsgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqA6
-NC41LXIzOS4wK3N2bnIxNzY2NDANCj4gPj4+IGdjYy1jcm9zc3Nkay1pbml0aWFsIMKgIMKgIMKg
-IMKgIMKgIMKgIMKgIMKgIMKgIMKgOjQuNS1yMzkuMCtzdm5yMTc2NjQwDQo+ID4+PiBnY2MtY3Jv
-c3NzZGstaW50ZXJtZWRpYXRlIMKgIMKgIMKgIMKgIMKgIMKgIMKgIDo0LjUtcjM5LjArc3ZucjE3
-NjY0MA0KPiA+Pj4gZ2NjLXJ1bnRpbWUgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqAgOjQuNS1yMzkuMStzdm5yMTc2NjQwDQo+ID4+PiBnY2MtcnVudGltZS1uYXRpdmVz
-ZGsgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqA6NC42LjErc3ZucjE3NTQ1NC1yNQ0KPiA+
-Pj4gOjQuNS1yMzkuMStzdm5yMTc2NjQwIGdjY21ha2VkZXANCj4gPj4+IDE6MS4wLjItcjMgbGli
-Z2NjDQo+ID4+PiA6NC41LXIzOS4xK3N2bnIxNzY2NDAgbGliZ2NjLW5hdGl2ZXNkaw0KPiA+Pj4g
-OjQuNi4xK3N2bnIxNzU0NTQtcjMgwqAgwqAgOjQuNS1yMzkuMStzdm5yMTc2NjQwDQo+ID4+DQo+
-ID4+IFRoZSBuYXRpdmVzZGsgYW5kIGNyb3Nzc2RrIHZlcnNpb25zIG5lZWQgdG8gbWF0Y2ggYXQg
-dGhlIHZlcnkgbGVhc3QuDQo+ID4+DQo+ID4+IENoZWVycywNCj4gPj4NCj4gPj4gUmljaGFyZA0K
-PiA+DQo+ID4gWWVzIC0gdGhhdCdzIHdoYXQgaXMgc28gY29uZnVzaW5nLiBUaGV5IHNlZW0gdG8g
-bWF0Y2ggaW4gdGhlIEFuZ3N0cm9tIGNvbmY6DQo+IA0KPiANCj4gd2hhdCBkb2VzIFNES0dDQ1ZF
-UlNJT04gY29udGFpbiA/DQo+IA0KDQpIaSwNCg0KSGVyZSBhcmUgZWRpdGVkIGhpZ2hsaWdodHMg
-ZnJvbSBiaXRiYWtlIC1lIHwgZ3JlcCAtaSBHQ0M6DQoNCiMgUFJFRkVSUkVEX1ZFUlNJT05fZ2Nj
-LWNyb3NzLWludGVybWVkaWF0ZT0ke0FOR1NUUk9NX0dDQ19WRVJTSU9OfQ0KUFJFRkVSUkVEX1ZF
-UlNJT05fZ2NjLWNyb3NzLWludGVybWVkaWF0ZT0iNC41Ig0KDQojIFBSRUZFUlJFRF9WRVJTSU9O
-X2djYy1jcm9zcy1pbml0aWFsPSR7QU5HU1RST01fR0NDX1ZFUlNJT059DQpQUkVGRVJSRURfVkVS
-U0lPTl9nY2MtY3Jvc3MtaW5pdGlhbD0iNC41Ig0KDQojIFNES0dDQ1ZFUlNJT049NC42JQ0KU0RL
-R0NDVkVSU0lPTj0iNC42JSINCg0KIyBHQ0NWRVJTSU9OPTQuNiUNCkdDQ1ZFUlNJT049IjQuNiUi
-DQoNCiMgUFJFRkVSUkVEX1ZFUlNJT05fZ2NjLWNyb3NzPSR7QU5HU1RST01fR0NDX1ZFUlNJT059
-DQpQUkVGRVJSRURfVkVSU0lPTl9nY2MtY3Jvc3M9IjQuNSINCg0KIyBQUkVGRVJSRURfVkVSU0lP
-Tl9nY2MtcnVudGltZS1uYXRpdmVzZGs9JHtBTkdTVFJPTV9HQ0NfVkVSU0lPTn0NClBSRUZFUlJF
-RF9WRVJTSU9OX2djYy1ydW50aW1lLW5hdGl2ZXNkaz0iNC41Ig0KDQojIFBSRUZFUlJFRF9WRVJT
-SU9OX2djYy1jcm9zc3Nkaz0ke0FOR1NUUk9NX0dDQ19WRVJTSU9OfQ0KUFJFRkVSUkVEX1ZFUlNJ
-T05fZ2NjLWNyb3Nzc2RrPSI0LjUiDQoNCiMgUFJFRkVSUkVEX1ZFUlNJT05fbGliZ2NjPSR7QU5H
-U1RST01fR0NDX1ZFUlNJT059DQpQUkVGRVJSRURfVkVSU0lPTl9saWJnY2M9IjQuNSINCg0KIyBQ
-UkVGRVJSRURfVkVSU0lPTl9saWJnY2MtbmF0aXZlc2RrPSR7QU5HU1RST01fR0NDX1ZFUlNJT059
-DQpQUkVGRVJSRURfVkVSU0lPTl9saWJnY2MtbmF0aXZlc2RrPSI0LjUiDQoNCiMgUFJFRkVSUkVE
-X1ZFUlNJT05fZ2NjLWNyb3NzLWNhbmFkaWFuPSR7QU5HU1RST01fR0NDX1ZFUlNJT059DQpQUkVG
-RVJSRURfVkVSU0lPTl9nY2MtY3Jvc3MtY2FuYWRpYW49IjQuNSINCg0KIyBQUkVGRVJSRURfVkVS
-U0lPTl9nY2MtY3Jvc3MtY2FuYWRpYW4tJHtUUkFOU0xBVEVEX1RBUkdFVF9BUkNIfT0ke0dDQ1ZF
-UlNJT059DQpQUkVGRVJSRURfVkVSU0lPTl9nY2MtY3Jvc3MtY2FuYWRpYW4tYXJtPSI0LjYlIg0K
-DQojIFBSRUZFUlJFRF9WRVJTSU9OX2djYy1jcm9zc3Nkay1pbnRlcm1lZGlhdGU9JHtBTkdTVFJP
-TV9HQ0NfVkVSU0lPTn0NClBSRUZFUlJFRF9WRVJTSU9OX2djYy1jcm9zc3Nkay1pbnRlcm1lZGlh
-dGU9IjQuNSINCg0KIyBQUkVGRVJSRURfVkVSU0lPTl9nY2M9JHtBTkdTVFJPTV9HQ0NfVkVSU0lP
-Tn0NClBSRUZFUlJFRF9WRVJTSU9OX2djYz0iNC41Ig0KDQojIFBSRUZFUlJFRF9WRVJTSU9OX2dj
-Yy1jcm9zc3Nkay1pbml0aWFsPSR7QU5HU1RST01fR0NDX1ZFUlNJT059DQpQUkVGRVJSRURfVkVS
-U0lPTl9nY2MtY3Jvc3NzZGstaW5pdGlhbD0iNC41Ig0KDQojIEFOR1NUUk9NX0dDQ19WRVJTSU9O
-PTQuNQ0KQU5HU1RST01fR0NDX1ZFUlNJT049IjQuNSINCg0KIyBQUkVGRVJSRURfVkVSU0lPTl9n
-Y2MtcnVudGltZT0ke0FOR1NUUk9NX0dDQ19WRVJTSU9OfQ0KUFJFRkVSUkVEX1ZFUlNJT05fZ2Nj
-LXJ1bnRpbWU9IjQuNSINCg0KSmFtZXMNCg==
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+On 08/08/2011 04:24 PM, Richard Purdie wrote:
+> On Sun, 2011-08-07 at 23:14 -0700, Khem Raj wrote:
+>> Otherwise we end up with configure errors like below
+>> 
+>> | checking for perl... /usr/bin/perl | checking for perl >=
+>> 5.8.1... 5.12.4 | checking for XML::Parser... configure: error:
+>> XML::Parser perl module is required for intltool | + bbfatal
+>> 'oe_runconf failed' | + echo 'ERROR: oe_runconf failed' | ERROR:
+>> oe_runconf failed
+>> 
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> 
+> We really need to tweak intltool's m4 file so we don't need to add
+> in this ton of dependencies unnecessarily...
+> 
+
+intltool.m4 uses
+
+AC_PATH_PROG(INTLTOOL_PERL,perl)
+
+
+if test -z "$INTLTOOL_PERL"; then
+
+
+   AC_MSG_ERROR([perl not found])
+
+
+fi
+
+
+
+its using AC_PATH_PROG to find perl which is quite right I think.
+We somehow have to make sure that the path to perl-native
+is added into environment which does not happen unless
+we inherit perlnative as of now. and perlnative class is
+
+PATH_prepend = "${STAGING_BINDIR_NATIVE}/perl-native:"
+
+
+DEPENDS += "perl -native"
+
+
+are you proposing that we hardcode path to perl-native in intltool
+macros and assume that perl-native is already built ? or something else
+
+> Cheers,
+> 
+> Richard
+> 
+> 
+> _______________________________________________ Openembedded-core
+> mailing list Openembedded-core@lists.openembedded.org 
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
+- --
+> 
+- -Khem
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+
+iEYEARECAAYFAk5Al6MACgkQuwUzVZGdMxTdLQCcCEgIWU2zgB5MZ6W2TMItR4ts
+cHoAnR9D/n1wTbSjRWWRBzZiO/OxU08i
+=tD34
+-----END PGP SIGNATURE-----
 
 
