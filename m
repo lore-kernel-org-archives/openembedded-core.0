@@ -1,30 +1,30 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QqqdC-00036K-RL for openembedded-core@lists.openembedded.org;
-	Tue, 09 Aug 2011 20:02:23 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p79HvsNA015901
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <kergoth@gmail.com>) id 1QqqpP-0003UZ-1m
+	for openembedded-core@lists.openembedded.org;
+	Tue, 09 Aug 2011 20:14:59 +0200
+Received: by pzk2 with SMTP id 2so479520pzk.34
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Aug 2011 18:57:54 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 15255-07 for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Aug 2011 18:57:50 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p79HvjRZ015895
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Aug 2011 18:57:45 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 09 Aug 2011 18:57:12 +0100
-Message-ID: <1312912632.14274.312.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: populate_sdk: We need to ensure that the SDK sysroot reflects PACKAGE_ARCH
+	Tue, 09 Aug 2011 11:10:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:subject:date:message-id:x-mailer;
+	bh=1fbUvdY4VKE+Cp8LEg1RUT2A4hpK2txpm7u/aK+wR3I=;
+	b=Eqo5NrmAuKmBRa3+zfl3RfIkDFmK1puH/2dCnPt+PELf5jVy8UVJo7t4PNoqIaVlSD
+	qcupmLjmR4pEWdF6YovZ9/oLdTTSFZp1TU+HrXer1YndGGQr2RfukZ+E2gpv1cka6Ldy
+	NK9mYLH3Ub4FSQmRtve6eZXzgvhS3q4nV5Oyc=
+Received: by 10.142.152.3 with SMTP id z3mr6938467wfd.93.1312913428136;
+	Tue, 09 Aug 2011 11:10:28 -0700 (PDT)
+Received: from localhost.localdomain (ip24-251-173-232.ph.ph.cox.net
+	[24.251.173.232])
+	by mx.google.com with ESMTPS id e6sm148739pbm.71.2011.08.09.11.10.25
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 09 Aug 2011 11:10:26 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  9 Aug 2011 11:05:58 -0700
+Message-Id: <cover.1312903901.git.kergoth@gmail.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH(v3) 0/2] Rework the devshell
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,29 +39,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Aug 2011 18:02:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Aug 2011 18:14:59 -0000
 
-If we don't do this, the SDK target sysroot is named generically even
-when it contains package architecture specific optimisations.
+This version addresses the issue brought up by Richard regarding unconditional
+export of variables resulting in checksum changes. This exports the required
+variables specifically within the subprocess for the terminal.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/populate_sdk.bbclass b/meta/classes/populate_sdk.bbclass
-index 0f3591b..8c19e83 100644
---- a/meta/classes/populate_sdk.bbclass
-+++ b/meta/classes/populate_sdk.bbclass
-@@ -5,7 +5,7 @@ SDK_DIR = "${WORKDIR}/sdk"
- SDK_OUTPUT = "${SDK_DIR}/image"
- SDK_DEPLOY = "${TMPDIR}/deploy/sdk"
- 
--SDKTARGETSYSROOT = "${SDKPATH}/sysroots/${TARGET_SYS}"
-+SDKTARGETSYSROOT = "${SDKPATH}/sysroots/${MULTIMACH_TARGET_SYS}"
- 
- TOOLCHAIN_HOST_TASK ?= "task-sdk-host-nativesdk task-cross-canadian-${TRANSLATED_TARGET_ARCH}"
- TOOLCHAIN_TARGET_TASK ?= "task-core-standalone-sdk-target task-core-standalone-sdk-target-dbg"
+A future patch will alter things like the patch resolver to use this.
 
+The following changes since commit ced947e989dfbca8055fe57e14207cb6f1357430:
+
+  qemu: Poke more paths for presence of libgl (2011-08-09 15:21:06 +0100)
+
+are available in the git repository at:
+  git://github.com/kergoth/oe-core devshell
+
+go here for github's branch comparison interface:
+  https://github.com/kergoth/oe-core/compare/master...devshell
+
+Chris Larson (2):
+      Rework how the devshell functions
+      oe.terminal: improve how we spawn screen
+
+ meta/classes/devshell.bbclass |   24 ++-------
+ meta/classes/terminal.bbclass |   40 +++++++++++++++
+ meta/lib/oe/terminal.py       |  106 +++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 152 insertions(+), 18 deletions(-)
+ create mode 100644 meta/classes/terminal.bbclass
+ create mode 100644 meta/lib/oe/terminal.py
+
+-- 
+1.7.5.4
 
 
 
