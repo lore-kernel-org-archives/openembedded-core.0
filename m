@@ -1,21 +1,33 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX1/9UYqlC4M6opUShD3cEI2p9giBcO07Vwk=])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1QqmlR-0007Yy-HV
-	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Aug 2011 15:54:37 +0200
-Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p79Do8FI014201
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Qqmtn-000825-Sd for openembedded-core@lists.openembedded.org;
+	Tue, 09 Aug 2011 16:03:16 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p79Dwlig013961
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Aug 2011 08:50:09 -0500
-From: Kumar Gala <galak@kernel.crashing.org>
-Date: Tue, 9 Aug 2011 08:50:08 -0500
-Message-Id: <CBFDDB2B-BFE3-43CD-A124-253BBBC40898@kernel.crashing.org>
+	Tue, 9 Aug 2011 14:58:47 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 13359-05 for <openembedded-core@lists.openembedded.org>;
+	Tue,  9 Aug 2011 14:58:43 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p79DwdDA013955
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 9 Aug 2011 14:58:39 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Apple Message framework v1084)
-X-Mailer: Apple Mail (2.1084)
-Subject: multiple providers message?
+In-Reply-To: <032728F4-C51D-4298-B50C-B1C2C7050E22@kernel.crashing.org>
+References: <032728F4-C51D-4298-B50C-B1C2C7050E22@kernel.crashing.org>
+Date: Tue, 09 Aug 2011 14:58:06 +0100
+Message-ID: <1312898286.14274.298.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: meta-toolchain-sdk failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,18 +42,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Aug 2011 13:54:38 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 09 Aug 2011 14:03:16 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-When trying to build meta-toolchain-sdk I'm seeing (is this ok or needs =
-some fixing):
+On Tue, 2011-08-09 at 08:45 -0500, Kumar Gala wrote:
+> Seeing the following when trying to do a meta-toolchain-sdk build w/latest git.  Guessing we're missing a depend of some sort:
+> 
+> | error: Failed dependencies:
+> | 	telepathy-python is needed by task-core-standalone-gmae-sdk-target-1.0-r13.ppc64e5500
+> 
+> I think the reset of this is noise:
 
-NOTE: multiple providers are available for runtime libsqlite3-dev =
-(sqlite3, sqlite3-nativesdk)
-NOTE: consider defining a PREFERRED_PROVIDER entry to match =
-libsqlite3-dev
+It is, yes.
 
-- k=
+Did telepathy-python build at all (you can check if any stamps are
+present)? Are there any packages generated (in the deploy/rpm
+directory)?
+
+I'm trying to work out if this wasn't present because it didn't build,
+because it did build but didn't package correctly or whether the rootfs
+code just isn't seeing the package...
+
+Cheers,
+
+Richard
+
 
 
