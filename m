@@ -1,31 +1,32 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Qr8at-0001Q0-VK for openembedded-core@lists.openembedded.org;
-	Wed, 10 Aug 2011 15:13:12 +0200
+	id 1Qr8qE-0001ip-Bq for openembedded-core@lists.openembedded.org;
+	Wed, 10 Aug 2011 15:29:02 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7AD8g9E021717
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7ADOW3s021779
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2011 14:08:42 +0100
+	Wed, 10 Aug 2011 14:24:32 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 20866-08 for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2011 14:08:38 +0100 (BST)
+	id 20864-09 for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Aug 2011 14:24:29 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7AD8V1t021711
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7ADOQmU021773
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2011 14:08:33 +0100
+	Wed, 10 Aug 2011 14:24:27 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <27DA7A3C-0FE9-43CA-963C-F6217A1D2C9F@kernel.crashing.org>
+In-Reply-To: <1312981676.14274.376.camel@rex>
 References: <1312912632.14274.312.camel@rex>
 	<C10D3FB0CD45994C8A51FEC1227CE22F2FA76750B1@shsmsx502.ccr.corp.intel.com>
 	<27DA7A3C-0FE9-43CA-963C-F6217A1D2C9F@kernel.crashing.org>
-Date: Wed, 10 Aug 2011 14:07:56 +0100
-Message-ID: <1312981676.14274.376.camel@rex>
+	<1312981676.14274.376.camel@rex>
+Date: Wed, 10 Aug 2011 14:23:51 +0100
+Message-ID: <1312982631.14274.379.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
@@ -44,40 +45,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2011 13:13:12 -0000
+X-List-Received-Date: Wed, 10 Aug 2011 13:29:02 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-08-10 at 07:59 -0500, Kumar Gala wrote:
-> On Aug 9, 2011, at 11:00 PM, Lu, Lianhao wrote:
-> 
-> > Richard Purdie wrote on 2011-08-10:
-> >> If we don't do this, the SDK target sysroot is named generically even
-> >> when it contains package architecture specific optimisations.
-> >> 
-> >> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org> ---
-> >> diff --git a/meta/classes/populate_sdk.bbclass
-> >> b/meta/classes/populate_sdk.bbclass index 0f3591b..8c19e83 100644 ---
-> >> a/meta/classes/populate_sdk.bbclass +++
-> >> b/meta/classes/populate_sdk.bbclass @@ -5,7 +5,7 @@ SDK_DIR =
-> >> "${WORKDIR}/sdk"
-> >> SDK_OUTPUT = "${SDK_DIR}/image"
-> >> SDK_DEPLOY = "${TMPDIR}/deploy/sdk"
-> >> -SDKTARGETSYSROOT = "${SDKPATH}/sysroots/${TARGET_SYS}"
-> >> +SDKTARGETSYSROOT = "${SDKPATH}/sysroots/${MULTIMACH_TARGET_SYS}"
+On Wed, 2011-08-10 at 14:07 +0100, Richard Purdie wrote:
+> On Wed, 2011-08-10 at 07:59 -0500, Kumar Gala wrote:
+> > On Aug 9, 2011, at 11:00 PM, Lu, Lianhao wrote:
 > > 
-> > In gcc-configure-sdk.inc, it is set "--with-sysroot=${SDKPATH}/sysroots/${TARGET_SYS}". 
-> > Is there any inconsistency?
+> > > Richard Purdie wrote on 2011-08-10:
+> > >> If we don't do this, the SDK target sysroot is named generically even
+> > >> when it contains package architecture specific optimisations.
+> > >> 
+> > >> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org> ---
+> > >> diff --git a/meta/classes/populate_sdk.bbclass
+> > >> b/meta/classes/populate_sdk.bbclass index 0f3591b..8c19e83 100644 ---
+> > >> a/meta/classes/populate_sdk.bbclass +++
+> > >> b/meta/classes/populate_sdk.bbclass @@ -5,7 +5,7 @@ SDK_DIR =
+> > >> "${WORKDIR}/sdk"
+> > >> SDK_OUTPUT = "${SDK_DIR}/image"
+> > >> SDK_DEPLOY = "${TMPDIR}/deploy/sdk"
+> > >> -SDKTARGETSYSROOT = "${SDKPATH}/sysroots/${TARGET_SYS}"
+> > >> +SDKTARGETSYSROOT = "${SDKPATH}/sysroots/${MULTIMACH_TARGET_SYS}"
+> > > 
+> > > In gcc-configure-sdk.inc, it is set "--with-sysroot=${SDKPATH}/sysroots/${TARGET_SYS}". 
+> > > Is there any inconsistency?
+> > 
+> > Binutils might also need updating.
 > 
-> Binutils might also need updating.
+> This is an interesting question. We certainly compile in a default path
+> for the sysroot but we in general always override it from the
+> environment anyway.
+> 
+> As long as the package architectures for the sdk components are correct
+> we should be able to update the defaults. I've not yet checked that
+> though.
 
-This is an interesting question. We certainly compile in a default path
-for the sysroot but we in general always override it from the
-environment anyway.
+This is something which gets built into
+gcc-cross-canadian-${TARGET_ARCH} (i.e i586/armpowerpc). Since we use
+the target libs (inc libgcc) and everything in that package is multiple
+platform enabled, I think the current behaviour is correct. It might
+point an an invalid default sysroot but its up to the package
+architecture specific environment files to correct that. This means the
+one toolchain can be shared over multiple package architectures.
 
-As long as the package architectures for the sdk components are correct
-we should be able to update the defaults. I've not yet checked that
-though.
+I'm open to other views of that but I think what we have there is
+correct and should work with the above change.
 
 Cheers,
 
