@@ -1,19 +1,21 @@
 Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX19s+jIKk+R21Ulxxz599ktvnF7wa39HaBA=])
+	ident=[U2FsdGVkX18/s23XmiwD/os1vgpn1RLDAHqMZgIJAz0=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1Qr0Dt-00069O-8d
+	(envelope-from <galak@kernel.crashing.org>) id 1Qr0LM-0006O1-Oi
 	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Aug 2011 06:16:53 +0200
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p7A4CNI2021651
+	Wed, 10 Aug 2011 06:24:37 +0200
+Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p7A4K7gY025397
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Aug 2011 23:12:23 -0500
+	Tue, 9 Aug 2011 23:20:07 -0500
 From: Kumar Gala <galak@kernel.crashing.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Aug 2011 23:12:23 -0500
-Message-Id: <1312949543-29183-1-git-send-email-galak@kernel.crashing.org>
-X-Mailer: git-send-email 1.5.6.5
-Subject: [PATCH] gcc: move --enable-target-optspace workaround to just gcc-4.5.1
+Date: Tue, 9 Aug 2011 23:20:08 -0500
+Message-Id: <24988974-E702-4404-BEB2-EB8B946BFC5E@kernel.crashing.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0 (Apple Message framework v1084)
+X-Mailer: Apple Mail (2.1084)
+Subject: finding libgcc.a with meta-toolchain-sdk toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,70 +30,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2011 04:16:53 -0000
+X-List-Received-Date: Wed, 10 Aug 2011 04:24:37 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-For ppc we disable '--enable-target-optspace' because of a bug in gcc
-4.5.x.  gcc 4.6.x fixes this issue so no need to do this.
+Trying to build something like u-boot w/the toolchain produced by =
+meta-toolchain-sdk and get the following:
 
-Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
----
- meta/recipes-devtools/gcc/gcc-4.5.1.inc            |    8 ++++++++
- meta/recipes-devtools/gcc/gcc-4.6.inc              |    2 +-
- meta/recipes-devtools/gcc/gcc-configure-common.inc |    7 +------
- 3 files changed, 10 insertions(+), 7 deletions(-)
+$ powerpc-poky-linux-gnuspe-ld -g -Ttext 0x40000 -o hello_world -e =
+hello_world hello_world.o libstubs.o -L. -lgcc
+powerpc-poky-linux-gnuspe-ld: cannot find -lgcc
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.5.1.inc b/meta/recipes-devtools/gcc/gcc-4.5.1.inc
-index 1b21a75..54a2d87 100644
---- a/meta/recipes-devtools/gcc/gcc-4.5.1.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.5.1.inc
-@@ -93,6 +93,14 @@ EXTRA_OECONF_INTERMEDIATE = "--disable-libmudflap \
- 				--disable-libgomp \
- 				--disable-libssp"
- 
-+# disable --enable-target-optspace for powerpc SPE
-+# at -Os libgcc.so.1 creates references into
-+# hidden symbols in libgcc.a which linker complains
-+# when linking shared libraries further in the build like (gnutls)
-+
-+SPECIAL_ARCH_LIST = "powerpc"
-+OPTSPACE = ${@base_contains("SPECIAL_ARCH_LIST", "${TARGET_ARCH}", "", "--enable-target-optspace",d)}
-+
- EXTRA_OECONF_append_linux-uclibc = " --disable-decimal-float "
- EXTRA_OECONF_append_linux-uclibceabi = " --disable-decimal-float "
- EXTRA_OECONF_append_linux-uclibcspe = " --disable-decimal-float "
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
-index f952ac8..0f40ac9 100644
---- a/meta/recipes-devtools/gcc/gcc-4.6.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
-@@ -1,6 +1,6 @@
- require gcc-common.inc
- 
--PR = "r4"
-+PR = "r5"
- 
- # Third digit in PV should be incremented after a minor release
- # happens from this branch on gcc e.g. currently its 4.6.0
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-index 869d1b6..56721ce 100644
---- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-@@ -12,13 +12,8 @@ JAVA_sh3 ?= ""
- # gcc 3.x expects 'f77', 4.0 expects 'f95', 4.1 and 4.2 expect 'fortran'
- FORTRAN ?= ",f77"
- LANGUAGES ?= "c,c++${FORTRAN}${JAVA}"
--# disable --enable-target-optspace for powerpc SPE
--# at -Os libgcc.so.1 creates references into
--# hidden symbols in libgcc.a which linker complains
--# when linking shared libraries further in the build like (gnutls)
- 
--SPECIAL_ARCH_LIST = "powerpc"
--OPTSPACE = ${@base_contains("SPECIAL_ARCH_LIST", "${TARGET_ARCH}", "", "--enable-target-optspace",d)}
-+OPTSPACE ?= "--enable-target-optspace"
- 
- EXTRA_OECONF_BASE ?= ""
- EXTRA_OECONF_PATHS ?= ""
--- 
-1.7.3.4
+If I take on a --verbose I get:
+attempt to open ./libgcc.so failed
+attempt to open ./libgcc.a failed
+attempt to open =
+/opt/poky/1.0+snapshot/sysroots/powerpc-poky-linux-gnuspe/usr/local/lib/li=
+bgcc.so failed
+attempt to open =
+/opt/poky/1.0+snapshot/sysroots/powerpc-poky-linux-gnuspe/usr/local/lib/li=
+bgcc.a failed
+attempt to open =
+/opt/poky/1.0+snapshot/sysroots/powerpc-poky-linux-gnuspe/lib/libgcc.so =
+failed
+attempt to open =
+/opt/poky/1.0+snapshot/sysroots/powerpc-poky-linux-gnuspe/lib/libgcc.a =
+failed
+attempt to open =
+/opt/poky/1.0+snapshot/sysroots/powerpc-poky-linux-gnuspe/usr/lib/libgcc.s=
+o failed
+attempt to open =
+/opt/poky/1.0+snapshot/sysroots/powerpc-poky-linux-gnuspe/usr/lib/libgcc.a=
+ failed
 
+What do we need to tweak so we can find libgcc.a?
+
+- k=
 
 
