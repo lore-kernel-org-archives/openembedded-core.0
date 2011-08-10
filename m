@@ -1,26 +1,33 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-ew0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QrIGo-0002Br-UI
+	(envelope-from <agnel.joel@gmail.com>) id 1QrIIZ-0002EF-UL
 	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Aug 2011 01:33:07 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 10 Aug 2011 16:28:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,353,1309762800"; 
-   d="scan'208";a="5975555"
-Received: from unknown (HELO [10.255.14.248]) ([10.255.14.248])
-	by AZSMGA002.ch.intel.com with ESMTP; 10 Aug 2011 16:28:34 -0700
-Message-ID: <4E431422.2020004@linux.intel.com>
-Date: Wed, 10 Aug 2011 16:28:34 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+	Thu, 11 Aug 2011 01:34:56 +0200
+Received: by ewy5 with SMTP id 5so742117ewy.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Aug 2011 16:30:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=U/laoWJsN7FYsAPItfq0pIyftQ2fdFm2mEBIl3bRw+o=;
+	b=CzyqpljvQo/DNOMkLE/SJFRwA+0xSE/zAE9CoqyN4Ny0B7LhNP42qgZBepFhVVoznK
+	TWuPUtH1ZblngeBYiJv9eYx3NDx+t/dah+QdNAfiRTjufZuAhD3BwrpbdkVI21YYoq3E
+	78HoLjHRDqo8DzmjnooaciH4P7035kpcUOolI=
 MIME-Version: 1.0
+Received: by 10.213.26.219 with SMTP id f27mr378518ebc.76.1313019024781; Wed,
+	10 Aug 2011 16:30:24 -0700 (PDT)
+Received: by 10.213.14.1 with HTTP; Wed, 10 Aug 2011 16:30:24 -0700 (PDT)
+In-Reply-To: <0E977A74-2104-48C7-BE76-E8D5101A794F@dominion.thruhere.net>
+References: <1312659111-22327-1-git-send-email-agnel.joel@gmail.com>
+	<CAD=GYpZGj1DriKV7hO--fb15_5+yrPts-2dx1LtpHG6FE8NpuQ@mail.gmail.com>
+	<0E977A74-2104-48C7-BE76-E8D5101A794F@dominion.thruhere.net>
+Date: Wed, 10 Aug 2011 18:30:24 -0500
+Message-ID: <CAD=GYpYknoYpBDO2ZAmnCnGwiMaEeHVGLSAiHA9Bx0YZGFbKvw@mail.gmail.com>
+From: Joel A Fernandes <agnel.joel@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1311836896.git.lei.mei@intel.com>
-In-Reply-To: <cover.1311836896.git.lei.mei@intel.com>
-Subject: Re: [PATCH 0/1]python-native: Fix a compiler finding issue
+Cc: "Kridner, Jason" <jdk@ti.com>, "Kooi, Koen" <k-kooi@ti.com>
+Subject: Re: [PATCH] ti-codec-engine: Use latest CE and update all dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,45 +42,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2011 23:33:07 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 10 Aug 2011 23:34:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 07/28/2011 12:20 AM, Mei Lei wrote:
-> Hi,
->      This patch will fix an compiler finding issue.
->      The CC variable, its value sometimes like "x86_64-poky-linux-gcc   -m64 --sysroot=/${TMPDIR}/sysroots/qemux86-64", contains option information. This will confuse python when finding the compiler name, wrong compiler name "qemux86-64" were found rather than the "x86_64-poky-linux-gcc".
->      When I fixing python-pycairo multilib dir issue, above issue appeared and block the compile process. Please review it.
->
-> Thanks
-> Lei
->
-> The following changes since commit 819f18f8bc000f13b644edc194d2a12b4ea5fecf:
->    Richard Purdie (1):
->          Move architecture specific TARGET_OS mangling into tune files
->
-> are available in the git repository at:
->
->    git://git.pokylinux.org/poky-contrib lmei3/python-pycairo
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=lmei3/python-pycairo
->
-> Mei Lei (1):
->    python-native: Fix a compiler finding issue
->
->   .../python/python-native/unixccompiler.patch       |   20 ++++++++++++++++++++
->   .../recipes-devtools/python/python-native_2.6.6.bb |    3 ++-
->   2 files changed, 22 insertions(+), 1 deletions(-)
->   create mode 100644 meta/recipes-devtools/python/python-native/unixccompiler.patch
+On Wed, Aug 10, 2011 at 12:29 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
 >
 >
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> Op 10 aug. 2011 om 17:54 heeft Joel A Fernandes <agnel.joel@gmail.com> het volgende geschreven:
 >
-Merged to OE-Core
+>> On Sat, Aug 6, 2011 at 2:31 PM, Joel A Fernandes <agnel.joel@gmail.com> wrote:
+>>> Switch to the latest CE 2.26.02.11 [1] and update all dependencies according to the
+>>> release notes [2]. This makes ti-codec-engine to build without any compilation errors
+>>>
+>>
+>> Can this patch be merged in? It is in sync with the ongoing effort of
+>> the gstreamer-ti import
+>
+> but not with master
 
-Thanks
-	Sau!
+Hi Koen, the patch applies fine to master. Anything else you're referring to?
 
 
