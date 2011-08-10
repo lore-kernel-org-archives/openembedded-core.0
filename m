@@ -1,24 +1,27 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail-ww0-f46.google.com ([74.125.82.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <listas@dorilex.net>) id 1Qr1Mu-0003QW-E6
-	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Aug 2011 07:30:16 +0200
-Received: by pzk2 with SMTP id 2so1604074pzk.34
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Aug 2011 22:25:45 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.142.166.1 with SMTP id o1mr600670wfe.242.1312953945143; Tue,
-	09 Aug 2011 22:25:45 -0700 (PDT)
-Received: by 10.68.50.5 with HTTP; Tue, 9 Aug 2011 22:25:45 -0700 (PDT)
-In-Reply-To: <33AB447FBD802F4E932063B962385B3512D96A8247@shsmsx501.ccr.corp.intel.com>
-References: <1312919065-7554-1-git-send-email-ldorileo@gmail.com>
-	<33AB447FBD802F4E932063B962385B3512D96A8247@shsmsx501.ccr.corp.intel.com>
-Date: Wed, 10 Aug 2011 01:25:45 -0400
-Message-ID: <CAEbFTWdT6m267tfftg5+Fedq3OWFe8E0--5YDuFO1H4BP1qwVQ@mail.gmail.com>
-From: Leandro Dorileo <listas@dorilex.net>
+	(envelope-from <koen@dominion.thruhere.net>)
+	id 1Qr25B-0004po-Tu; Wed, 10 Aug 2011 08:16:01 +0200
+Received: by wwf27 with SMTP id 27so750260wwf.3
+	for <multiple recipients>; Tue, 09 Aug 2011 23:11:32 -0700 (PDT)
+Received: by 10.216.237.144 with SMTP id y16mr6036010weq.114.1312956691921;
+	Tue, 09 Aug 2011 23:11:31 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id g48sm360233wee.37.2011.08.09.23.11.29
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 09 Aug 2011 23:11:30 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAD=GYpbJkU2wcOCjuJTdEHD6kakhbfO_GYgw3ztBiz0iPmAMzQ@mail.gmail.com>
+Date: Wed, 10 Aug 2011 08:11:28 +0200
+Message-Id: <3979FABA-BB9A-4EEA-9C0C-8A80874936F6@dominion.thruhere.net>
+References: <CAD=GYpbJkU2wcOCjuJTdEHD6kakhbfO_GYgw3ztBiz0iPmAMzQ@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] scripts/combo-layer: a simple way to script the como-layer conf
+X-Mailer: Apple Mail (2.1244.3)
+Cc: openembeded-devel <openembedded-devel@lists.openembedded.org>,
+	Jason Kridner <jdk@ti.com>
+Subject: Re: Help with setting up feeds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,80 +36,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2011 05:30:16 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 10 Aug 2011 06:16:02 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-Hi Ke,
 
-On Tue, Aug 9, 2011 at 11:01 PM, Yu, Ke <ke.yu@intel.com> wrote:
-> It looks good to me. You may also want to update the config file descript=
-ion in the "class Configuration". So that user will be aware of the usage.
+Op 10 aug. 2011, om 03:44 heeft Joel A Fernandes het volgende =
+geschreven:
 
-Ok. I've addressed that in a last patch I've sent.
+> Hi,
+>=20
+> I'm trying to setup my own feeds. For this purpose, I have rsync'ed
+> the deploy/ipk directory from my OE core tmp directory to my
+> webserver, and I edited /etc/opkg/base-feed.conf on my board's root
+> filesystem with:
+> src/gz base http://www.hackerbliss.org/joel/feeds/ipk/armv7a/
 
-Thanks for reviewing...
 
-Regards...
-Leandro Dorileo
+Try =
+http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/meta-angstrom/tree/c=
+ontrib/personal-feed.sh
 
->
-> Regards
-> Ke
->
->> -----Original Message-----
->> From: Leandro Dorileo [mailto:ldorileo@gmail.com]
->> Sent: Wednesday, August 10, 2011 3:44 AM
->> To: openembedded-core@lists.openembedded.org
->> Cc: Yu, Ke; Leandro Dorileo
->> Subject: [PATCH] scripts/combo-layer: a simple way to script the como-la=
-yer
->> conf
->>
->> This small patch introduces a a very simple and basic way to script the =
-combo-
->> layer conf file. With that a combo can be shared with no need to change =
-its
->> config - associated to the use of environment variables for example.
->>
->> *Similar* to bitbake it considers every value starting with @ to be a py=
-thon
->> script. So local_repo could be easily configured as:
->>
->> [bitbake]
->> local_repo =3D @os.getenv("LOCAL_REPO_DIR") + "/bitbake"
->>
->> or any more sophisticated python syntax.
->>
->> Signed-off-by: Leandro Dorileo <ldorileo@gmail.com>
->> ---
->> =A0scripts/combo-layer | =A0 =A03 +++
->> =A01 files changed, 3 insertions(+), 0 deletions(-)
->>
->> diff --git a/scripts/combo-layer b/scripts/combo-layer index d129175..3d=
-adf4a
->> 100755
->> --- a/scripts/combo-layer
->> +++ b/scripts/combo-layer
->> @@ -91,6 +91,9 @@ last_revision =3D
->> =A0 =A0 =A0 =A0 =A0for repo in self.parser.sections():
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0self.repos[repo] =3D {}
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0for (name, value) in self.parser.items(repo):
->> + =A0 =A0 =A0 =A0 =A0 =A0 =A0if value.startswith("@"):
->> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0self.repos[repo][name] =3D eval(value.s=
-trip("@"))
->> + =A0 =A0 =A0 =A0 =A0 =A0 =A0else:
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0self.repos[repo][name] =3D value
->>
->> =A0 =A0 =A0def update(self, repo, option, value):
->> --
->> 1.7.2.5
->
->
+>=20
+> Now I created and built the systemd recipe, with the PR bumped. The
+> file is named systemd_v33-r1_armv7a.ipk.
+>=20
+> I rebuilt the index with, bitbake -b package-index.bb and did an =
+rsysnc again.
+>=20
+> Now I did,
+>=20
+> root@joel-laptop:~/repository/beagle/nfs/oe-core# opkg-cl -o . -t .
+> --offline-root . update
+>=20
+> root@joel-laptop:~/repository/beagle/nfs/oe-core# opkg-cl -o . -t .
+> --offline-root . install systemd
+
+Why not install it on the beagle instead of NFS?
+
+>=20
+> The install and configure seems to work, however towards the end I
+> get something like this:
+>=20
+> Configuring kernel-3.0.1+.
+> Configuring update-modules.
+> Configuring kernel-module-ipv6.
+> Configuring systemd.
+> Collected errors:
+> * rm_r: Failed to remove dir ./opkg-23q3XI/opkg-intercept-0Dgf2b: No
+> such file or directory.
+> * opkg_conf_write_status_files: Can't open status file
+> .//usr/lib/opkg/status: No such file or directory.
+> * rm_r: Failed to open dir ./opkg-23q3XI: No such file or directory.
+>=20
+> Also the 'info' command works
+>=20
+> root@joel-laptop:~/repository/beagle/nfs/oe-core# opkg-cl -o . -t .
+> --offline-root . info systemd
+> Package: systemd
+> Version: v33-r1
+> Depends: dbus-systemd, libcap2 (>=3D 2.22), libdbus-1-3 (>=3D 1.4.12),
+> libudev0 (>=3D 173), libwrap0 (>=3D 7.6), udev-systemd, libacl1 (>=3D
+> 2.2.51),
+> [..]
+>=20
+>=20
+> but, the 'status' and 'list_installed' opkg commands don't return =
+anything.
+>=20
+> Any ideas on what I could be doing wrong?
+>=20
+> Thanks,
+> Joel
+>=20
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+
 
 
