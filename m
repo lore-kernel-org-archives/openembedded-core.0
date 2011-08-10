@@ -1,39 +1,19 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from gate.crashing.org ([63.228.1.57]
+	ident=[U2FsdGVkX19s+jIKk+R21Ulxxz599ktvnF7wa39HaBA=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1Qr03D-0005tw-MN
+	(envelope-from <galak@kernel.crashing.org>) id 1Qr0Dt-00069O-8d
 	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Aug 2011 06:05:51 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 09 Aug 2011 21:01:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,348,1309762800"; d="scan'208";a="36990548"
-Received: from pgsmsx603.gar.corp.intel.com ([10.221.43.87])
-	by orsmga001.jf.intel.com with ESMTP; 09 Aug 2011 21:01:20 -0700
-Received: from pgsmsx104.gar.corp.intel.com (10.221.44.91) by
-	pgsmsx603.gar.corp.intel.com (10.221.43.87) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Wed, 10 Aug 2011 12:00:24 +0800
-Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
-	PGSMSX104.gar.corp.intel.com (10.221.44.91) with Microsoft SMTP Server
-	(TLS) id 14.1.323.3; Wed, 10 Aug 2011 12:00:23 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
-	Wed, 10 Aug 2011 12:00:23 +0800
-From: "Lu, Lianhao" <lianhao.lu@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 10 Aug 2011 12:00:22 +0800
-Thread-Topic: [OE-core] populate_sdk: We need to ensure that the SDK sysroot
-	reflects PACKAGE_ARCH
-Thread-Index: AcxWvegMnEqojjCGSGWGR3WA8nrGNwAU6WRw
-Message-ID: <C10D3FB0CD45994C8A51FEC1227CE22F2FA76750B1@shsmsx502.ccr.corp.intel.com>
-References: <1312912632.14274.312.camel@rex>
-In-Reply-To: <1312912632.14274.312.camel@rex>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
-MIME-Version: 1.0
-Subject: Re: populate_sdk: We need to ensure that the SDK sysroot reflects PACKAGE_ARCH
+	Wed, 10 Aug 2011 06:16:53 +0200
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p7A4CNI2021651
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 9 Aug 2011 23:12:23 -0500
+From: Kumar Gala <galak@kernel.crashing.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  9 Aug 2011 23:12:23 -0500
+Message-Id: <1312949543-29183-1-git-send-email-galak@kernel.crashing.org>
+X-Mailer: git-send-email 1.5.6.5
+Subject: [PATCH] gcc: move --enable-target-optspace workaround to just gcc-4.5.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,40 +28,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2011 04:05:51 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 10 Aug 2011 04:16:53 -0000
 
-Richard Purdie wrote on 2011-08-10:
-> If we don't do this, the SDK target sysroot is named generically even
-> when it contains package architecture specific optimisations.
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org> ---
-> diff --git a/meta/classes/populate_sdk.bbclass
-> b/meta/classes/populate_sdk.bbclass index 0f3591b..8c19e83 100644 ---
-> a/meta/classes/populate_sdk.bbclass +++
-> b/meta/classes/populate_sdk.bbclass @@ -5,7 +5,7 @@ SDK_DIR =3D
-> "${WORKDIR}/sdk"
->  SDK_OUTPUT =3D "${SDK_DIR}/image"
->  SDK_DEPLOY =3D "${TMPDIR}/deploy/sdk"
-> -SDKTARGETSYSROOT =3D "${SDKPATH}/sysroots/${TARGET_SYS}"
-> +SDKTARGETSYSROOT =3D "${SDKPATH}/sysroots/${MULTIMACH_TARGET_SYS}"
+For ppc we disable '--enable-target-optspace' because of a bug in gcc
+4.5.x.  gcc 4.6.x fixes this issue so no need to do this.
 
-In gcc-configure-sdk.inc, it is set "--with-sysroot=3D${SDKPATH}/sysroots/$=
-{TARGET_SYS}".=20
-Is there any inconsistency?
+Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
+---
+ meta/recipes-devtools/gcc/gcc-4.5.1.inc            |    8 ++++++++
+ meta/recipes-devtools/gcc/gcc-4.6.inc              |    2 +-
+ meta/recipes-devtools/gcc/gcc-configure-common.inc |    7 +------
+ 3 files changed, 10 insertions(+), 7 deletions(-)
 
-Best Regards,
-Lianhao
-
->  TOOLCHAIN_HOST_TASK ?=3D "task-sdk-host-nativesdk
->  task-cross-canadian-${TRANSLATED_TARGET_ARCH}" TOOLCHAIN_TARGET_TASK ?=
-=3D
->  "task-core-standalone-sdk-target
-> task-core-standalone-sdk-target-dbg"
-
-
+diff --git a/meta/recipes-devtools/gcc/gcc-4.5.1.inc b/meta/recipes-devtools/gcc/gcc-4.5.1.inc
+index 1b21a75..54a2d87 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.5.1.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.5.1.inc
+@@ -93,6 +93,14 @@ EXTRA_OECONF_INTERMEDIATE = "--disable-libmudflap \
+ 				--disable-libgomp \
+ 				--disable-libssp"
+ 
++# disable --enable-target-optspace for powerpc SPE
++# at -Os libgcc.so.1 creates references into
++# hidden symbols in libgcc.a which linker complains
++# when linking shared libraries further in the build like (gnutls)
++
++SPECIAL_ARCH_LIST = "powerpc"
++OPTSPACE = ${@base_contains("SPECIAL_ARCH_LIST", "${TARGET_ARCH}", "", "--enable-target-optspace",d)}
++
+ EXTRA_OECONF_append_linux-uclibc = " --disable-decimal-float "
+ EXTRA_OECONF_append_linux-uclibceabi = " --disable-decimal-float "
+ EXTRA_OECONF_append_linux-uclibcspe = " --disable-decimal-float "
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
+index f952ac8..0f40ac9 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.6.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
+@@ -1,6 +1,6 @@
+ require gcc-common.inc
+ 
+-PR = "r4"
++PR = "r5"
+ 
+ # Third digit in PV should be incremented after a minor release
+ # happens from this branch on gcc e.g. currently its 4.6.0
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+index 869d1b6..56721ce 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+@@ -12,13 +12,8 @@ JAVA_sh3 ?= ""
+ # gcc 3.x expects 'f77', 4.0 expects 'f95', 4.1 and 4.2 expect 'fortran'
+ FORTRAN ?= ",f77"
+ LANGUAGES ?= "c,c++${FORTRAN}${JAVA}"
+-# disable --enable-target-optspace for powerpc SPE
+-# at -Os libgcc.so.1 creates references into
+-# hidden symbols in libgcc.a which linker complains
+-# when linking shared libraries further in the build like (gnutls)
+ 
+-SPECIAL_ARCH_LIST = "powerpc"
+-OPTSPACE = ${@base_contains("SPECIAL_ARCH_LIST", "${TARGET_ARCH}", "", "--enable-target-optspace",d)}
++OPTSPACE ?= "--enable-target-optspace"
+ 
+ EXTRA_OECONF_BASE ?= ""
+ EXTRA_OECONF_PATHS ?= ""
+-- 
+1.7.3.4
 
 
 
