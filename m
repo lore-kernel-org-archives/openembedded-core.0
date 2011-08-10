@@ -1,33 +1,25 @@
-Received: from mail-ew0-f47.google.com ([209.85.215.47])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <agnel.joel@gmail.com>) id 1QrIIZ-0002EF-UL
+	(envelope-from <sgw@linux.intel.com>) id 1QrIeY-0002YZ-Vf
 	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Aug 2011 01:34:56 +0200
-Received: by ewy5 with SMTP id 5so742117ewy.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2011 16:30:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=U/laoWJsN7FYsAPItfq0pIyftQ2fdFm2mEBIl3bRw+o=;
-	b=CzyqpljvQo/DNOMkLE/SJFRwA+0xSE/zAE9CoqyN4Ny0B7LhNP42qgZBepFhVVoznK
-	TWuPUtH1ZblngeBYiJv9eYx3NDx+t/dah+QdNAfiRTjufZuAhD3BwrpbdkVI21YYoq3E
-	78HoLjHRDqo8DzmjnooaciH4P7035kpcUOolI=
+	Thu, 11 Aug 2011 01:57:39 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 10 Aug 2011 16:53:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="37312813"
+Received: from unknown (HELO [10.255.14.248]) ([10.255.14.248])
+	by orsmga001.jf.intel.com with ESMTP; 10 Aug 2011 16:53:07 -0700
+Message-ID: <4E4319E2.30008@linux.intel.com>
+Date: Wed, 10 Aug 2011 16:53:06 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
 MIME-Version: 1.0
-Received: by 10.213.26.219 with SMTP id f27mr378518ebc.76.1313019024781; Wed,
-	10 Aug 2011 16:30:24 -0700 (PDT)
-Received: by 10.213.14.1 with HTTP; Wed, 10 Aug 2011 16:30:24 -0700 (PDT)
-In-Reply-To: <0E977A74-2104-48C7-BE76-E8D5101A794F@dominion.thruhere.net>
-References: <1312659111-22327-1-git-send-email-agnel.joel@gmail.com>
-	<CAD=GYpZGj1DriKV7hO--fb15_5+yrPts-2dx1LtpHG6FE8NpuQ@mail.gmail.com>
-	<0E977A74-2104-48C7-BE76-E8D5101A794F@dominion.thruhere.net>
-Date: Wed, 10 Aug 2011 18:30:24 -0500
-Message-ID: <CAD=GYpYknoYpBDO2ZAmnCnGwiMaEeHVGLSAiHA9Bx0YZGFbKvw@mail.gmail.com>
-From: Joel A Fernandes <agnel.joel@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: "Kridner, Jason" <jdk@ti.com>, "Kooi, Koen" <k-kooi@ti.com>
-Subject: Re: [PATCH] ti-codec-engine: Use latest CE and update all dependencies
+References: <1312840108-10685-1-git-send-email-raj.khem@gmail.com>
+In-Reply-To: <1312840108-10685-1-git-send-email-raj.khem@gmail.com>
+Subject: Re: [PATCH] uclibc_0.9.32: Sync mount.h from eglibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,24 +34,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2011 23:34:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 10 Aug 2011 23:57:39 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 10, 2011 at 12:29 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+On 08/08/2011 02:48 PM, Khem Raj wrote:
+> mount.h has few more defines that are being used by newer
+> applications such as systemd
 >
+> Signed-off-by: Khem Raj<raj.khem@gmail.com>
+> ---
+>   .../uclibc/uclibc-0.9.32/mount.h-update.patch      |   85 ++++++++++++++++++++
+>   meta/recipes-core/uclibc/uclibc_0.9.32.bb          |    3 +-
+>   2 files changed, 87 insertions(+), 1 deletions(-)
+>   create mode 100644 meta/recipes-core/uclibc/uclibc-0.9.32/mount.h-update.patch
 >
-> Op 10 aug. 2011 om 17:54 heeft Joel A Fernandes <agnel.joel@gmail.com> het volgende geschreven:
+> diff --git a/meta/recipes-core/uclibc/uclibc-0.9.32/mount.h-update.patch b/meta/recipes-core/uclibc/uclibc-0.9.32/mount.h-update.patch
+> new file mode 100644
+> index 0000000..3508e0e
+> --- /dev/null
+> +++ b/meta/recipes-core/uclibc/uclibc-0.9.32/mount.h-update.patch
+> @@ -0,0 +1,85 @@
+> +Sync mount.h from glibc this is needed to get missing defines
+> +that some apps e.g. systemd are depending on
+> +
+> +Signed-off-by: Khem Raj<raj.khem@gmail.com>
+> +
+> +Upstream-Status: Pending
+> +
+> +Index: git/include/sys/mount.h
+> +===================================================================
+> +--- git.orig/include/sys/mount.h	2011-07-21 14:37:27.134255747 -0700
+> ++++ git/include/sys/mount.h	2011-07-21 14:39:53.844470932 -0700
+> +@@ -1,5 +1,5 @@
+> + /* Header file for mounting/unmount Linux filesystems.
+> +-   Copyright (C) 1996,1997,1998,1999,2000,2004 Free Software Foundation, Inc.
+> ++   Copyright (C) 1996-2000, 2004, 2010 Free Software Foundation, Inc.
+> +    This file is part of the GNU C Library.
+> +
+> +    The GNU C Library is free software; you can redistribute it and/or
+> +@@ -47,23 +47,46 @@
+> + #define MS_REMOUNT	MS_REMOUNT
+> +   MS_MANDLOCK = 64,		/* Allow mandatory locks on an FS.  */
+> + #define MS_MANDLOCK	MS_MANDLOCK
+> +-  S_WRITE = 128,		/* Write on file/directory/symlink.  */
+> +-#define S_WRITE		S_WRITE
+> +-  S_APPEND = 256,		/* Append-only file.  */
+> +-#define S_APPEND	S_APPEND
+> +-  S_IMMUTABLE = 512,		/* Immutable file.  */
+> +-#define S_IMMUTABLE	S_IMMUTABLE
+> ++  MS_DIRSYNC = 128,		/* Directory modifications are synchronous.  */
+> ++#define MS_DIRSYNC	MS_DIRSYNC
+> +   MS_NOATIME = 1024,		/* Do not update access times.  */
+> + #define MS_NOATIME	MS_NOATIME
+> +   MS_NODIRATIME = 2048,		/* Do not update directory access times.  */
+> + #define MS_NODIRATIME	MS_NODIRATIME
+> +   MS_BIND = 4096,		/* Bind directory at different place.  */
+> + #define MS_BIND		MS_BIND
+> ++  MS_MOVE = 8192,
+> ++#define MS_MOVE		MS_MOVE
+> ++  MS_REC = 16384,
+> ++#define MS_REC		MS_REC
+> ++  MS_SILENT = 32768,
+> ++#define MS_SILENT	MS_SILENT
+> ++  MS_POSIXACL = 1<<  16,	/* VFS does not apply the umask.  */
+> ++#define MS_POSIXACL	MS_POSIXACL
+> ++  MS_UNBINDABLE = 1<<  17,	/* Change to unbindable.  */
+> ++#define MS_UNBINDABLE	MS_UNBINDABLE
+> ++  MS_PRIVATE = 1<<  18,		/* Change to private.  */
+> ++#define MS_PRIVATE	MS_PRIVATE
+> ++  MS_SLAVE = 1<<  19,		/* Change to slave.  */
+> ++#define MS_SLAVE	MS_SLAVE
+> ++  MS_SHARED = 1<<  20,		/* Change to shared.  */
+> ++#define MS_SHARED	MS_SHARED
+> ++  MS_RELATIME = 1<<  21,	/* Update atime relative to mtime/ctime.  */
+> ++#define MS_RELATIME	MS_RELATIME
+> ++  MS_KERNMOUNT = 1<<  22,	/* This is a kern_mount call.  */
+> ++#define MS_KERNMOUNT	MS_KERNMOUNT
+> ++  MS_I_VERSION =  1<<  23,	/* Update inode I_version field.  */
+> ++#define MS_I_VERSION	MS_I_VERSION
+> ++  MS_STRICTATIME = 1<<  24,	/* Always perform atime updates.  */
+> ++#define MS_STRICTATIME	MS_STRICTATIME
+> ++  MS_ACTIVE = 1<<  30,
+> ++#define MS_ACTIVE	MS_ACTIVE
+> ++  MS_NOUSER = 1<<  31
+> ++#define MS_NOUSER	MS_NOUSER
+> + };
+> +
+> + /* Flags that can be altered by MS_REMOUNT  */
+> +-#define MS_RMT_MASK (MS_RDONLY|MS_SYNCHRONOUS|MS_MANDLOCK|MS_NOATIME \
+> +-		     |MS_NODIRATIME)
+> ++#define MS_RMT_MASK (MS_RDONLY|MS_SYNCHRONOUS|MS_MANDLOCK|MS_I_VERSION)
+> +
+> +
+> + /* Magic mount flag number. Has to be or-ed to the flag values.  */
+> +@@ -100,8 +123,10 @@
+> + #define MNT_FORCE MNT_FORCE
+> +   MNT_DETACH = 2,		/* Just detach from the tree.  */
+> + #define MNT_DETACH MNT_DETACH
+> +-  MNT_EXPIRE = 4		/* Mark for expiry.  */
+> ++  MNT_EXPIRE = 4,		/* Mark for expiry.  */
+> + #define MNT_EXPIRE MNT_EXPIRE
+> ++  UMOUNT_NOFOLLOW = 8		/* Don't follow symlink on umount.  */
+> ++#define UMOUNT_NOFOLLOW UMOUNT_NOFOLLOW
+> + };
+> +
+> +
+> diff --git a/meta/recipes-core/uclibc/uclibc_0.9.32.bb b/meta/recipes-core/uclibc/uclibc_0.9.32.bb
+> index 8dcb260..235b436 100644
+> --- a/meta/recipes-core/uclibc/uclibc_0.9.32.bb
+> +++ b/meta/recipes-core/uclibc/uclibc_0.9.32.bb
+> @@ -1,7 +1,7 @@
+>   SRCREV="9152c4d67c763fde5712e2d181d92c0d7e1e2ab9"
 >
->> On Sat, Aug 6, 2011 at 2:31 PM, Joel A Fernandes <agnel.joel@gmail.com> wrote:
->>> Switch to the latest CE 2.26.02.11 [1] and update all dependencies according to the
->>> release notes [2]. This makes ti-codec-engine to build without any compilation errors
->>>
->>
->> Can this patch be merged in? It is in sync with the ongoing effort of
->> the gstreamer-ti import
+>   require uclibc.inc
+> -PR = "${INC_PR}.2"
+> +PR = "${INC_PR}.3"
+>   PROVIDES += "virtual/${TARGET_PREFIX}libc-for-gcc"
 >
-> but not with master
+>   SRC_URI = "git://uclibc.org/uClibc.git;branch=${PV};protocol=git \
+> @@ -29,5 +29,6 @@ SRC_URI = "git://uclibc.org/uClibc.git;branch=${PV};protocol=git \
+>   	file://uclibc-execvpe.patch \
+>   	file://uclibc_scheduler_update.patch \
+>   	file://sync_file_range2.patch \
+> +	file://mount.h-update.patch \
+>   	"
+>   S = "${WORKDIR}/git"
 
-Hi Koen, the patch applies fine to master. Anything else you're referring to?
+Merged into OE-Core
+
+Thanks
+	Sau!
 
 
