@@ -1,29 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QrFIE-00075Y-Ka
-	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Aug 2011 22:22:23 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7AKHphv022883
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QrHQJ-000180-JK for openembedded-core@lists.openembedded.org;
+	Thu, 11 Aug 2011 00:38:52 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7AMYLA7025367
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2011 13:17:51 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 10 Aug 2011 13:17:50 -0700
-Message-ID: <4E42E76E.9090106@windriver.com>
-Date: Wed, 10 Aug 2011 15:17:50 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:5.0) Gecko/20110624 Thunderbird/5.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1312996425-4319-1-git-send-email-galak@kernel.crashing.org>
-	<4E42D9B5.3000906@windriver.com>
-	<F53D689F-80FE-4FD4-BC98-19B64632E89D@kernel.crashing.org>
-In-Reply-To: <F53D689F-80FE-4FD4-BC98-19B64632E89D@kernel.crashing.org>
-Subject: Re: [PATCH v2] tune-ppc: Update to pass glibc configure option to get cpu specific support
+	Wed, 10 Aug 2011 23:34:21 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 24982-03 for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Aug 2011 23:34:17 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7AMYDO5025361
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Aug 2011 23:34:13 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <6FBBF7C4-8FB0-4F64-9C6E-47D402D924C8@kernel.crashing.org>
+References: <6FBBF7C4-8FB0-4F64-9C6E-47D402D924C8@kernel.crashing.org>
+Date: Wed, 10 Aug 2011 23:33:37 +0100
+Message-ID: <1313015617.14274.407.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: multilib warnings?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,103 +42,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2011 20:22:23 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Wed, 10 Aug 2011 22:38:52 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 8/10/11 3:06 PM, Kumar Gala wrote:
-> Why?
+On Wed, 2011-08-10 at 13:04 -0500, Kumar Gala wrote:
+> I feel like I have something not configured correctly.  The setup is as follows:
 > 
-> - k
+> base is ppc64 with 'lib64'.
 > 
-> On Aug 10, 2011, at 2:19 PM, Mark Hatle wrote:
+> # Uncomment the following lines to enable multilib builds
+> require conf/multilib.conf
+> MULTILIBS = "multilib:lib"
+> DEFAULTTUNE_virtclass-multilib-lib = "powerpc"
 > 
->> I don't think the patch is correct.  If these tune files are included, the
->> GLIBC_EXTRA_OECONF is set unconditionally.  It is possible to include the tune
->> files, but not actually use the tunings.  (There are cases where you might want
->> to inherit specific tunings, etc.)
-
-It's general convention.  While it might not make sense in this one case, I do
-expect that tuning will inherit other tunings regularly.
-
-Lets say someone out there invents a variant of the 603e that has altivec.  They
-could create a new tune file..  Then in the tune file they would include the
-ppc603e-tune.inc file, and add a new tune feature for this new processor that
-would enable -maltivec or something like that.
-
-Many cores are derived from other cores and simply have different capabilities
-added to them by compiler or assembler flags....  (This is especially true in
-the ARM and MIPS world, but we should be aware of it and use the same
-conventions on all tune files so things are more consistent.)
-
---Mark
-
->> Instead, I'd suggest you do:
->>
->> GLIBC_EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "ppc603e",
->> "--with-cpu=603e", "", d)}"
->>
->> (and a similar line for the e500mc)
->>
->> --Mark
->>
->> On 8/10/11 12:13 PM, Kumar Gala wrote:
->>> We need --with-cpu based to glibc to get proper support on 603e & e500mc
->>> to pickup proper math libs to deal with sqrt.  These core do not
->>> implement the fsqrt[s] instructions that the normal PPC math libs
->>> utilize.
->>>
->>> This causes use to not set AVAILTUNES specifically to the sub-arch only
->>> as we arent generically compatiable.
->>>
->>> Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
->>> ---
->>> meta/conf/machine/include/tune-ppc603e.inc   |    5 ++++-
->>> meta/conf/machine/include/tune-ppce500mc.inc |    5 ++++-
->>> 2 files changed, 8 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/meta/conf/machine/include/tune-ppc603e.inc b/meta/conf/machine/include/tune-ppc603e.inc
->>> index 9abb694..c673470 100644
->>> --- a/meta/conf/machine/include/tune-ppc603e.inc
->>> +++ b/meta/conf/machine/include/tune-ppc603e.inc
->>> @@ -6,6 +6,9 @@ TUNEVALID[ppc603e] = "Enable ppc603e specific processor optimizations"
->>> TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", "-mcpu=603e", "", d)}"
->>> TUNE_PKGARCH = "${@bb.utils.contains('TUNE_FEATURES', 'ppc603e', 'ppc603e', '${PPCPKGARCH}', d)}"
->>>
->>> -AVAILTUNES += "ppc603e"
->>> +AVAILTUNES = "ppc603e"
->>> TUNE_FEATURES_tune-ppc603e = "m32 ppc603e"
->>> PACKAGE_EXTRA_ARCHS_tune-ppc603e = "powerpc ppc603e"
->>> +
->>> +# glibc configure options to get 603e specific library (for sqrt)
->>> +GLIBC_EXTRA_OECONF += "--with-cpu=603e"
->>> diff --git a/meta/conf/machine/include/tune-ppce500mc.inc b/meta/conf/machine/include/tune-ppce500mc.inc
->>> index b5031f4..cdd87dc 100644
->>> --- a/meta/conf/machine/include/tune-ppce500mc.inc
->>> +++ b/meta/conf/machine/include/tune-ppce500mc.inc
->>> @@ -6,6 +6,9 @@ TUNEVALID[ppce500mc] = "Enable ppce500mc specific processor optimizations"
->>> TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "-mcpu=e500mc", "", d)}"
->>> TUNE_PKGARCH = "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "ppce500mc", "${PPCPKGARCH}", d)}"
->>>
->>> -AVAILTUNES += "ppce500mc"
->>> +AVAILTUNES = "ppce500mc"
->>> TUNE_FEATURES_tune-ppce500mc = "m32 ppce500mc"
->>> PACKAGE_EXTRA_ARCHS_tune-ppce500mc = "powerpc ppce500mc"
->>> +
->>> +# glibc configure options to get e500mc specific library (for sqrt)
->>> +GLIBC_EXTRA_OECONF += "--with-cpu=e500mc"
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> And I get:
 > 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> NOTE: Resolving any missing task queue dependencies
+> NOTE: multiple providers are available for libusb (lib-libusb-compat, libusb-compat)
+> NOTE: consider defining a PREFERRED_PROVIDER entry to match libusb
+> NOTE: Preparing runqueue
+> ERROR: Multiple .bb files are due to be built which each provide virtual/libc (/local/home/galak/git/poky/meta/recipes-core/eglibc/eglibc_2.13.bb virtual:multilib:lib:/local/home/galak/git/poky/meta/recipes-core/eglibc/eglibc_2.13.bb).
+>  This usually means one provides something the other doesn't and should.
+> ERROR: Multiple .bb files are due to be built which each provide virtual/libiconv (/local/home/galak/git/poky/meta/recipes-core/eglibc/eglibc_2.13.bb virtual:multilib:lib:/local/home/galak/git/poky/meta/recipes-core/eglibc/eglibc_2.13.bb).
+>  This usually means one provides something the other doesn't and should.
+> NOTE: Executing SetScene Tasks
+> NOTE: Executing RunQueue Tasks
+
+I did suggest using a more unique string like "lib32" for a reason...
+
+Whilst "lib" should really work, I suspect that we have some code which
+might not function correctly with it and you seem to be confirming that
+suspicion ;-).
+
+Cheers,
+
+Richard
 
 
 
