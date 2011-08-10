@@ -1,27 +1,29 @@
-Received: from mail-ww0-f46.google.com ([74.125.82.46])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>)
-	id 1Qr25B-0004po-Tu; Wed, 10 Aug 2011 08:16:01 +0200
-Received: by wwf27 with SMTP id 27so750260wwf.3
-	for <multiple recipients>; Tue, 09 Aug 2011 23:11:32 -0700 (PDT)
-Received: by 10.216.237.144 with SMTP id y16mr6036010weq.114.1312956691921;
-	Tue, 09 Aug 2011 23:11:31 -0700 (PDT)
+	(envelope-from <koen@dominion.thruhere.net>) id 1Qr27m-00051U-SV
+	for openembedded-core@lists.openembedded.org;
+	Wed, 10 Aug 2011 08:18:43 +0200
+Received: by wyf19 with SMTP id 19so547010wyf.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 09 Aug 2011 23:14:13 -0700 (PDT)
+Received: by 10.227.206.145 with SMTP id fu17mr3466149wbb.108.1312956852009;
+	Tue, 09 Aug 2011 23:14:12 -0700 (PDT)
 Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id g48sm360233wee.37.2011.08.09.23.11.29
+	by mx.google.com with ESMTPS id et16sm488471wbb.2.2011.08.09.23.14.10
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 09 Aug 2011 23:11:30 -0700 (PDT)
+	Tue, 09 Aug 2011 23:14:10 -0700 (PDT)
 Mime-Version: 1.0 (Apple Message framework v1244.3)
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAD=GYpbJkU2wcOCjuJTdEHD6kakhbfO_GYgw3ztBiz0iPmAMzQ@mail.gmail.com>
-Date: Wed, 10 Aug 2011 08:11:28 +0200
-Message-Id: <3979FABA-BB9A-4EEA-9C0C-8A80874936F6@dominion.thruhere.net>
-References: <CAD=GYpbJkU2wcOCjuJTdEHD6kakhbfO_GYgw3ztBiz0iPmAMzQ@mail.gmail.com>
+In-Reply-To: <1312297317.4325.46.camel@phil-desktop>
+Date: Wed, 10 Aug 2011 08:14:08 +0200
+Message-Id: <AD653010-7DD2-4B79-8C80-326646464C00@dominion.thruhere.net>
+References: <1312296431-18991-1-git-send-email-koen@dominion.thruhere.net>
+	<C9D28EB1-CE86-42E9-9825-0A408698FD66@dominion.thruhere.net>
+	<1312297317.4325.46.camel@phil-desktop>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 X-Mailer: Apple Mail (2.1244.3)
-Cc: openembeded-devel <openembedded-devel@lists.openembedded.org>,
-	Jason Kridner <jdk@ti.com>
-Subject: Re: Help with setting up feeds
+Subject: Re: [PATCH] libc-package bbclass: fix binary localedata dependency code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,78 +38,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2011 06:16:02 -0000
+X-List-Received-Date: Wed, 10 Aug 2011 06:18:43 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
+Nitin, any insights on this?
 
-Op 10 aug. 2011, om 03:44 heeft Joel A Fernandes het volgende =
-geschreven:
+Op 2 aug. 2011, om 17:01 heeft Phil Blundell het volgende geschreven:
 
-> Hi,
+> It does look a bit weird.  That code was introduced in 561d8754,
+> ostensibly as a merger of the eglibc and glibc equivalents.  But, the
+> original code from glibc-package.bbclass did:
 >=20
-> I'm trying to setup my own feeds. For this purpose, I have rsync'ed
-> the deploy/ipk directory from my OE core tmp directory to my
-> webserver, and I edited /etc/opkg/base-feed.conf on my board's root
-> filesystem with:
-> src/gz base http://www.hackerbliss.org/joel/feeds/ipk/armv7a/
-
-
-Try =
-http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/meta-angstrom/tree/c=
-ontrib/personal-feed.sh
-
+>       def output_locale_binary_rdepends(name, pkgname, locale, =
+encoding):
+>               m =3D re.match("(.*)\.(.*)", name)
+>               if m:
+>                       glibc_name =3D "%s.%s" % (m.group(1), =
+m.group(2).lower().replace("-",""))
+>               else:
+>                       glibc_name =3D name
+>               bb.data.setVar('RDEPENDS_%s' % pkgname, =
+legitimize_package_name('glibc-binary-localedata-%s' % glibc_name), d)
 >=20
-> Now I created and built the systemd recipe, with the PR bumped. The
-> file is named systemd_v33-r1_armv7a.ipk.
+> ... i.e. it was using the "." separator both for splitting and =
+joining,
+> which seems reasonable.  But somehow when it showed up in
+> libc-package.bbclass it had gotten transmogrified so that it split on
+> "_" but joined with "." as you showed below.  That seems bogus to me.
 >=20
-> I rebuilt the index with, bitbake -b package-index.bb and did an =
-rsysnc again.
+> p.
 >=20
-> Now I did,
+> On Tue, 2011-08-02 at 16:55 +0200, Koen Kooi wrote:
+>> The bug I was seeing was caused by something else, but I'd still like =
+feedback on this patch to find out why the dot vs dash difference exists
+>>=20
+>> Op 2 aug. 2011, om 16:47 heeft Koen Kooi het volgende geschreven:
+>>=20
+>>> When using binary locales rootfs generation fails with:
+>>>=20
+>>> | Unknown package 'locale-base-en-us'.
+>>> | Collected errors:
+>>> |  * opkg_install_cmd: Cannot install package locale-base-en-us.
+>>>=20
+>>> This is due to:
+>>>=20
+>>> $ dpkg-deb -I ipk/armv7a/locale-base-en-us_2.12-r16_armv7a.ipk | =
+grep Depends
+>>> Depends: eglibc-binary-localedata-en.us
+>>>=20
+>>> Note the '.' seperator
+>>>=20
+>>> $ ls ipk/armv7a/ | grep binary-localedata-en | grep us
+>>> eglibc-binary-localedata-en-us_2.12-r16_armv7a.ipk
+>>>=20
+>>> Note the '-' seperator vs the '.' in the locale-base packages.
+>>>=20
+>>> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+>>> ---
+>>> meta/classes/libc-package.bbclass |    2 +-
+>>> 1 files changed, 1 insertions(+), 1 deletions(-)
+>>>=20
+>>> diff --git a/meta/classes/libc-package.bbclass =
+b/meta/classes/libc-package.bbclass
+>>> index de57230..67d08c0 100644
+>>> --- a/meta/classes/libc-package.bbclass
+>>> +++ b/meta/classes/libc-package.bbclass
+>>> @@ -243,7 +243,7 @@ python package_do_split_gconvs () {
+>>> 	def output_locale_binary_rdepends(name, pkgname, locale, =
+encoding):
+>>> 		m =3D re.match("(.*)_(.*)", name)
+>>> 		if m:
+>>> -			libc_name =3D "%s.%s" % (m.group(1), =
+m.group(2).lower().replace("-",""))
+>>> +			libc_name =3D "%s-%s" % (m.group(1), =
+m.group(2).lower().replace("-",""))
+>>> 		else:
+>>> 			libc_name =3D name
+>>> 		bb.data.setVar('RDEPENDS_%s' % pkgname, =
+legitimize_package_name('%s-binary-localedata-%s' \
+>>> --=20
+>>> 1.6.6.1
+>>>=20
+>>=20
+>>=20
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >=20
-> root@joel-laptop:~/repository/beagle/nfs/oe-core# opkg-cl -o . -t .
-> --offline-root . update
 >=20
-> root@joel-laptop:~/repository/beagle/nfs/oe-core# opkg-cl -o . -t .
-> --offline-root . install systemd
-
-Why not install it on the beagle instead of NFS?
-
->=20
-> The install and configure seems to work, however towards the end I
-> get something like this:
->=20
-> Configuring kernel-3.0.1+.
-> Configuring update-modules.
-> Configuring kernel-module-ipv6.
-> Configuring systemd.
-> Collected errors:
-> * rm_r: Failed to remove dir ./opkg-23q3XI/opkg-intercept-0Dgf2b: No
-> such file or directory.
-> * opkg_conf_write_status_files: Can't open status file
-> .//usr/lib/opkg/status: No such file or directory.
-> * rm_r: Failed to open dir ./opkg-23q3XI: No such file or directory.
->=20
-> Also the 'info' command works
->=20
-> root@joel-laptop:~/repository/beagle/nfs/oe-core# opkg-cl -o . -t .
-> --offline-root . info systemd
-> Package: systemd
-> Version: v33-r1
-> Depends: dbus-systemd, libcap2 (>=3D 2.22), libdbus-1-3 (>=3D 1.4.12),
-> libudev0 (>=3D 173), libwrap0 (>=3D 7.6), udev-systemd, libacl1 (>=3D
-> 2.2.51),
-> [..]
->=20
->=20
-> but, the 'status' and 'list_installed' opkg commands don't return =
-anything.
->=20
-> Any ideas on what I could be doing wrong?
->=20
-> Thanks,
-> Joel
 >=20
 > _______________________________________________
 > Openembedded-core mailing list
