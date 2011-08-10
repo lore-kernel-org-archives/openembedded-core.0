@@ -1,33 +1,21 @@
-Received: from mail-vx0-f175.google.com ([209.85.220.175])
+Received: from gate.crashing.org ([63.228.1.57]
+	ident=[U2FsdGVkX19W5NFg0GBK5+oOLLrx5qPNcRa1ocBwNHs=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1QrD9j-0003j5-4z
+	(envelope-from <galak@kernel.crashing.org>) id 1QrDDf-0003p6-Qj
 	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Aug 2011 20:05:27 +0200
-Received: by vxj14 with SMTP id 14so1148353vxj.6
+	Wed, 10 Aug 2011 20:09:32 +0200
+Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p7AI4wIZ018354
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2011 11:00:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding;
-	bh=o6UHrIMJQzw0srQWvk+RH9t7F7ncMVRqxYz1B3Ro94M=;
-	b=hVqtt9sVEUK8vpqbB0Wa0WXM6bf637JjIxnmGwI81z9zpb2Hzx1UoyrDAeMn66dE5d
-	WVebH/fJV39SR3Y53xq/akB54AT2Un2lV8fux1k8PwDQrumwJS0TiXGb7Gd0cnUPO+E1
-	h2bpl2HjHlP4FbmJ7Xt/ti5nh4Ez2kYVwLiD8=
-Received: by 10.52.72.72 with SMTP id b8mr442786vdv.93.1312999256065; Wed, 10
-	Aug 2011 11:00:56 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.52.112.194 with HTTP; Wed, 10 Aug 2011 11:00:36 -0700 (PDT)
-In-Reply-To: <0C67B7D5-11F2-45F4-AD8F-F43F508CD784@kernel.crashing.org>
-References: <0C67B7D5-11F2-45F4-AD8F-F43F508CD784@kernel.crashing.org>
-From: Chris Larson <clarson@kergoth.com>
-Date: Wed, 10 Aug 2011 11:00:36 -0700
-X-Google-Sender-Auth: fDlFScVgdP0-cIlQSq6rYoVAJds
-Message-ID: <CABcZANkd4HHvWTQmT-ti1ejedZ-7MmK_=dT8i0OnziGhe4SczA@mail.gmail.com>
+	Wed, 10 Aug 2011 13:04:59 -0500
+From: Kumar Gala <galak@kernel.crashing.org>
+Date: Wed, 10 Aug 2011 13:04:58 -0500
+Message-Id: <6FBBF7C4-8FB0-4F64-9C6E-47D402D924C8@kernel.crashing.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: sscache signature?
+Mime-Version: 1.0 (Apple Message framework v1084)
+X-Mailer: Apple Mail (2.1084)
+Subject: multilib warnings?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,26 +30,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2011 18:05:27 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 10 Aug 2011 18:09:32 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 10, 2011 at 10:51 AM, Kumar Gala <galak@kernel.crashing.org> wr=
-ote:
-> the yocto wiki references mentions a bitbake-diffsigs
->
-> https://wiki.yoctoproject.org/wiki/Enable_sstate_cache
->
-> but not seeing that. =C2=A0How can one compare signature or try and figur=
-e out why a cache item isn't being reused between cfgs.
->
+I feel like I have something not configured correctly.  The setup is as =
+follows:
 
-It's in the bitbake bin directory alongside bitbake itself.
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+base is ppc64 with 'lib64'.
+
+# Uncomment the following lines to enable multilib builds
+require conf/multilib.conf
+MULTILIBS =3D "multilib:lib"
+DEFAULTTUNE_virtclass-multilib-lib =3D "powerpc"
+
+And I get:
+
+NOTE: Resolving any missing task queue dependencies
+NOTE: multiple providers are available for libusb (lib-libusb-compat, =
+libusb-compat)
+NOTE: consider defining a PREFERRED_PROVIDER entry to match libusb
+NOTE: Preparing runqueue
+ERROR: Multiple .bb files are due to be built which each provide =
+virtual/libc =
+(/local/home/galak/git/poky/meta/recipes-core/eglibc/eglibc_2.13.bb =
+virtual:multilib:lib:/local/home/galak/git/poky/meta/recipes-core/eglibc/e=
+glibc_2.13.bb).
+ This usually means one provides something the other doesn't and should.
+ERROR: Multiple .bb files are due to be built which each provide =
+virtual/libiconv =
+(/local/home/galak/git/poky/meta/recipes-core/eglibc/eglibc_2.13.bb =
+virtual:multilib:lib:/local/home/galak/git/poky/meta/recipes-core/eglibc/e=
+glibc_2.13.bb).
+ This usually means one provides something the other doesn't and should.
+NOTE: Executing SetScene Tasks
+NOTE: Executing RunQueue Tasks
+
+- k=
 
 
