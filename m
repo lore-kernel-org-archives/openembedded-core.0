@@ -1,30 +1,27 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpurdie@rpsys.net>) id 1QrDoL-0004TK-V4
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <mark.hatle@windriver.com>) id 1QrENd-0005Rx-Qq
 	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Aug 2011 20:47:26 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7AIgut0024091
+	Wed, 10 Aug 2011 21:23:54 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7AJJKMa014322
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2011 19:42:56 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 22941-06 for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2011 19:42:52 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7AIgm6f024085
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2011 19:42:49 +0100
-From: Richard Purdie <rpurdie@rpsys.net>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 10 Aug 2011 19:42:12 +0100
-Message-ID: <1313001732.14274.389.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] sstate: Add level 2 debug so its possible to see what sstate is doing
+	Wed, 10 Aug 2011 12:19:20 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 10 Aug 2011 12:19:20 -0700
+Message-ID: <4E42D9B5.3000906@windriver.com>
+Date: Wed, 10 Aug 2011 14:19:17 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:5.0) Gecko/20110624 Thunderbird/5.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1312996425-4319-1-git-send-email-galak@kernel.crashing.org>
+In-Reply-To: <1312996425-4319-1-git-send-email-galak@kernel.crashing.org>
+Subject: Re: [PATCH v2] tune-ppc: Update to pass glibc configure option to get cpu specific support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,63 +36,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2011 18:47:26 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 10 Aug 2011 19:23:54 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-Currently its hard to figure out if/when sstate is checking for possible
-packages to speed up builds. This patch adds level 2 debug output which
-better indicates what files are being searched for an why.
+I don't think the patch is correct.  If these tune files are included, the
+GLIBC_EXTRA_OECONF is set unconditionally.  It is possible to include the tune
+files, but not actually use the tunings.  (There are cases where you might want
+to inherit specific tunings, etc.)
 
-[YOCTO #1259]
+Instead, I'd suggest you do:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index c057cc7..d7631ca 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -477,10 +477,12 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
-     for task in range(len(sq_fn)):
-         sstatefile = bb.data.expand("${SSTATE_DIR}/" + sq_hashfn[task] + "_" + mapping[sq_task[task]] + ".tgz", d)
-         sstatefile = sstatefile.replace("${BB_TASKHASH}", sq_hash[task])
--        #print("Checking for %s" % sstatefile)
-         if os.path.exists(sstatefile):
-+            bb.debug(2, "SState: Found valid sstate file %s" % sstatefile)
-             ret.append(task)
-             continue
-+        else:
-+            bb.debug(2, "SState: Looked for but didn't find file %s" % sstatefile)
- 
-     mirrors = bb.data.getVar("SSTATE_MIRRORS", d, True)
-     if mirrors:
-@@ -492,6 +494,8 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
-         bb.data.setVar('DL_DIR', dldir, localdata)
-         bb.data.setVar('PREMIRRORS', mirrors, localdata)
- 
-+        bb.debug(2, "SState using premirror of: %s" % mirrors)
-+
-         for task in range(len(sq_fn)):
-             if task in ret:
-                 continue
-@@ -501,13 +505,15 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
- 
-             srcuri = "file://" + os.path.basename(sstatefile)
-             bb.data.setVar('SRC_URI', srcuri, localdata)
--            #bb.note(str(srcuri))
-+            bb.debug(2, "SState: Attempting to fetch %s" % srcuri)
- 
-             try:
-                 fetcher = bb.fetch2.Fetch(srcuri.split(), localdata)
-                 fetcher.checkstatus()
-+                bb.debug(2, "SState: Successful fetch test for %s" % srcuri)
-                 ret.append(task)
-             except:
-+                bb.debug(2, "SState: Unsuccessful fetch test for %s" % srcuri)
-                 pass     
- 
-     return ret
+GLIBC_EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "ppc603e",
+"--with-cpu=603e", "", d)}"
 
+(and a similar line for the e500mc)
+
+--Mark
+
+On 8/10/11 12:13 PM, Kumar Gala wrote:
+> We need --with-cpu based to glibc to get proper support on 603e & e500mc
+> to pickup proper math libs to deal with sqrt.  These core do not
+> implement the fsqrt[s] instructions that the normal PPC math libs
+> utilize.
+> 
+> This causes use to not set AVAILTUNES specifically to the sub-arch only
+> as we arent generically compatiable.
+> 
+> Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
+> ---
+>  meta/conf/machine/include/tune-ppc603e.inc   |    5 ++++-
+>  meta/conf/machine/include/tune-ppce500mc.inc |    5 ++++-
+>  2 files changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/conf/machine/include/tune-ppc603e.inc b/meta/conf/machine/include/tune-ppc603e.inc
+> index 9abb694..c673470 100644
+> --- a/meta/conf/machine/include/tune-ppc603e.inc
+> +++ b/meta/conf/machine/include/tune-ppc603e.inc
+> @@ -6,6 +6,9 @@ TUNEVALID[ppc603e] = "Enable ppc603e specific processor optimizations"
+>  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", "-mcpu=603e", "", d)}"
+>  TUNE_PKGARCH = "${@bb.utils.contains('TUNE_FEATURES', 'ppc603e', 'ppc603e', '${PPCPKGARCH}', d)}"
+>  
+> -AVAILTUNES += "ppc603e"
+> +AVAILTUNES = "ppc603e"
+>  TUNE_FEATURES_tune-ppc603e = "m32 ppc603e"
+>  PACKAGE_EXTRA_ARCHS_tune-ppc603e = "powerpc ppc603e"
+> +
+> +# glibc configure options to get 603e specific library (for sqrt)
+> +GLIBC_EXTRA_OECONF += "--with-cpu=603e"
+> diff --git a/meta/conf/machine/include/tune-ppce500mc.inc b/meta/conf/machine/include/tune-ppce500mc.inc
+> index b5031f4..cdd87dc 100644
+> --- a/meta/conf/machine/include/tune-ppce500mc.inc
+> +++ b/meta/conf/machine/include/tune-ppce500mc.inc
+> @@ -6,6 +6,9 @@ TUNEVALID[ppce500mc] = "Enable ppce500mc specific processor optimizations"
+>  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "-mcpu=e500mc", "", d)}"
+>  TUNE_PKGARCH = "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "ppce500mc", "${PPCPKGARCH}", d)}"
+>  
+> -AVAILTUNES += "ppce500mc"
+> +AVAILTUNES = "ppce500mc"
+>  TUNE_FEATURES_tune-ppce500mc = "m32 ppce500mc"
+>  PACKAGE_EXTRA_ARCHS_tune-ppce500mc = "powerpc ppce500mc"
+> +
+> +# glibc configure options to get e500mc specific library (for sqrt)
+> +GLIBC_EXTRA_OECONF += "--with-cpu=e500mc"
 
 
 
