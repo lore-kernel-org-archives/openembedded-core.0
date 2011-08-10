@@ -1,25 +1,23 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@beagleboard.org>) id 1Qr4Ka-0007IU-82
+	(envelope-from <philb@gnu.org>) id 1Qr51E-0000C2-8p
 	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Aug 2011 10:40:04 +0200
-Received: by wwe32 with SMTP id 32so735621wwe.24
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2011 01:35:34 -0700 (PDT)
-Received: by 10.216.37.19 with SMTP id x19mr3550834wea.60.1312965333983;
-	Wed, 10 Aug 2011 01:35:33 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id h13sm428656wee.34.2011.08.10.01.35.32
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 10 Aug 2011 01:35:33 -0700 (PDT)
-From: Koen Kooi <koen@beagleboard.org>
-Date: Wed, 10 Aug 2011 10:35:31 +0200
-Message-Id: <CF0FECEF-6C97-49A5-9829-F016716FB058@beagleboard.org>
+	Wed, 10 Aug 2011 11:24:08 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Qr4wu-0004ot-6l
+	for openembedded-core@lists.openembedded.org;
+	Wed, 10 Aug 2011 11:19:40 +0200
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-X-Mailer: Apple Mail (2.1244.3)
-Subject: QT4 packaging errors
+Date: Wed, 10 Aug 2011 10:19:39 +0100
+In-Reply-To: <24988974-E702-4404-BEB2-EB8B946BFC5E@kernel.crashing.org>
+References: <24988974-E702-4404-BEB2-EB8B946BFC5E@kernel.crashing.org>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1312967980.6733.35.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: finding libgcc.a with meta-toolchain-sdk toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,68 +32,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2011 08:40:04 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 10 Aug 2011 09:24:08 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Tue, 2011-08-09 at 23:20 -0500, Kumar Gala wrote:
+> Trying to build something like u-boot w/the toolchain produced by meta-toolchain-sdk and get the following:
+> 
+> $ powerpc-poky-linux-gnuspe-ld -g -Ttext 0x40000 -o hello_world -e hello_world hello_world.o libstubs.o -L. -lgcc
+> powerpc-poky-linux-gnuspe-ld: cannot find -lgcc
+> 
+>[...]
+>
+> What do we need to tweak so we can find libgcc.a?
 
-This has been sitting on my TODO for way too long now, so I'll just post =
-the errors here and hope someone else finds the time to fix them :)
+The best/easiest fix is to link with gcc rather than calling ld
+directly.  You can use -nostartfiles to suppress crt1.o and the like.
+If you must invoke ld manually for whatever reason then you will have to
+use something like `$(CC) --print-libgcc-file-name` to obtain the path
+to libgcc.
 
-WARNING: For recipe qt4-embedded, the following files were installed but =
-not shipped in any package:
-WARNING:   /usr/imports/Qt/labs/particles/libqmlparticlesplugin.so
-WARNING:   /usr/imports/Qt/labs/particles/qmldir
-WARNING:   =
-/usr/imports/Qt/labs/particles/.debug/libqmlparticlesplugin.so
-WARNING:   /usr/imports/Qt/labs/gestures/libqmlgesturesplugin.so
-WARNING:   /usr/imports/Qt/labs/gestures/qmldir
-WARNING:   /usr/imports/Qt/labs/gestures/.debug/libqmlgesturesplugin.so
-WARNING:   /usr/imports/Qt/labs/folderlistmodel/qmldir
-WARNING:   =
-/usr/imports/Qt/labs/folderlistmodel/libqmlfolderlistmodelplugin.so
-WARNING:   =
-/usr/imports/Qt/labs/folderlistmodel/.debug/libqmlfolderlistmodelplugin.so=
-
-WARNING:   /usr/imports/QtWebKit/libqmlwebkitplugin.so
-WARNING:   /usr/imports/QtWebKit/qmldir
-WARNING:   /usr/imports/QtWebKit/.debug/libqmlwebkitplugin.so
-WARNING:   /usr/bin/uic3
-WARNING:   /usr/bin/.debug/uic3
-WARNING:   /usr/lib/qtopia/plugins/qmltooling/libtcpserver.so
-WARNING:   /usr/lib/qtopia/plugins/qmltooling/.debug/libtcpserver.so
-WARNING:   /usr/lib/.debug/libQtMultimediaE.so
-WARNING:   /usr/lib/.debug/libQtHelpE.so
-WARNING:   /usr/lib/.debug/libQt3SupportE.so
-WARNING:   /usr/lib/.debug/libQtXmlE.so
-WARNING:   /usr/lib/.debug/libQtSvgE.so
-WARNING:   /usr/lib/.debug/libQtSqlE.so
-WARNING:   /usr/lib/.debug/libQtDesignerE.so
-WARNING:   /usr/lib/.debug/libQtDBusE.so
-WARNING:   /usr/lib/.debug/libQtDeclarativeE.so
-WARNING:   /usr/lib/.debug/libQtScriptE.so
-WARNING:   /usr/lib/.debug/libQtCLuceneE.so
-WARNING:   /usr/lib/.debug/libQtXmlPatternsE.so
-WARNING:   /usr/lib/.debug/libQtWebKitE.so
-WARNING:   /usr/lib/.debug/libQtScriptToolsE.so
-WARNING:   /usr/lib/.debug/libQtGuiE.so
-WARNING:   /usr/lib/.debug/libQtNetworkE.so
-WARNING:   /usr/lib/.debug/libQtDesignerComponentsE.so
-WARNING:   /usr/lib/.debug/libQtTestE.so
-WARNING:   /usr/lib/.debug/libQtCoreE.so
-WARNING:   /usr/lib/.debug/libphononE.so
-WARNING:   /usr/lib/fonts/fontdir
-WARNING:   /usr/lib/fonts/README
-WARNING: QA Issue: non debug package contains .debug directory: =
-qt4-embedded-examples path =
-/work/armv7a-angstrom-linux-gnueabi/qt4-embedded-4.7.3-r28.1/packages-spli=
-t/qt4-embedded-examples/usr/bin/qtopia/examples/declarative/cppextensions/=
-networkaccessmanagerfactory/.obj/release-shared-emb-arm/.debug/main.o
+p.
 
 
-regards,
-
-Koen=
 
 
