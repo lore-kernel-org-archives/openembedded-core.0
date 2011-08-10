@@ -1,37 +1,30 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-iy0-f171.google.com ([209.85.210.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ke.yu@intel.com>) id 1Qqz7I-0004MB-JN
+	(envelope-from <raj.khem@gmail.com>) id 1QqzKu-0004dQ-7D
 	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Aug 2011 05:06:01 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 09 Aug 2011 20:01:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,347,1309762800"; d="scan'208";a="36898122"
-Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
-	by azsmga001.ch.intel.com with ESMTP; 09 Aug 2011 20:01:29 -0700
-Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
-	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Wed, 10 Aug 2011 11:01:04 +0800
-Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
-	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
-	Wed, 10 Aug 2011 11:01:03 +0800
-From: "Yu, Ke" <ke.yu@intel.com>
-To: Leandro Dorileo <ldorileo@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 10 Aug 2011 11:01:01 +0800
-Thread-Topic: [PATCH] scripts/combo-layer: a simple way to script the
-	como-layer conf
-Thread-Index: AcxWzRfBSyfaE2JjSruPMGan9GXoegAPCgaA
-Message-ID: <33AB447FBD802F4E932063B962385B3512D96A8247@shsmsx501.ccr.corp.intel.com>
-References: <1312919065-7554-1-git-send-email-ldorileo@gmail.com>
-In-Reply-To: <1312919065-7554-1-git-send-email-ldorileo@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US
-MIME-Version: 1.0
-Subject: Re: [PATCH] scripts/combo-layer: a simple way to script the como-layer conf
+	Wed, 10 Aug 2011 05:20:04 +0200
+Received: by iyf13 with SMTP id 13so319246iyf.16
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 09 Aug 2011 20:15:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=4nM89iGQRyS1xXW+YTy+ZDUdsmuzK4MxkHJOx0mC64s=;
+	b=ZBmMPU44Z00RKGnQ5x7z+fMyTe7PUJYhHtV9xziTUVxajJpn5kKq+8uWBTXGmhcpdR
+	zsNeHp30JFFSLwnblwR+rQZTF/iuJi/4sPPTc73qjw6AVsGXVXoeb59tCbBBkP/wAeOo
+	vVCBqzsXqfUcxKQO7mrUTYeAE65XzKRnzu5+w=
+Received: by 10.42.146.2 with SMTP id h2mr7604693icv.458.1312946132019;
+	Tue, 09 Aug 2011 20:15:32 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id ut6sm771918icb.19.2011.08.09.20.15.30
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 09 Aug 2011 20:15:31 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  9 Aug 2011 20:15:23 -0700
+Message-Id: <1312946123-2982-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH] intltool: Use nativeperl binary for PERL instead of 'perl'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,63 +39,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2011 03:06:01 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 10 Aug 2011 03:20:04 -0000
 
-It looks good to me. You may also want to update the config file descriptio=
-n in the "class Configuration". So that user will be aware of the usage.
+License is GPLv2 change it.
+Defining PERL for native intltool is not needed anymore
 
-Regards
-Ke
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../intltool/intltool-0.40.6/use-nativeperl.patch  |   20 ++++++++++++++++++++
+ meta/recipes-devtools/intltool/intltool.inc        |    3 +--
+ meta/recipes-devtools/intltool/intltool_0.40.6.bb  |    6 ++++--
+ 3 files changed, 25 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-devtools/intltool/intltool-0.40.6/use-nativeperl.patch
 
-> -----Original Message-----
-> From: Leandro Dorileo [mailto:ldorileo@gmail.com]
-> Sent: Wednesday, August 10, 2011 3:44 AM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Yu, Ke; Leandro Dorileo
-> Subject: [PATCH] scripts/combo-layer: a simple way to script the como-lay=
-er
-> conf
->=20
-> This small patch introduces a a very simple and basic way to script the c=
-ombo-
-> layer conf file. With that a combo can be shared with no need to change i=
-ts
-> config - associated to the use of environment variables for example.
->=20
-> *Similar* to bitbake it considers every value starting with @ to be a pyt=
-hon
-> script. So local_repo could be easily configured as:
->=20
-> [bitbake]
-> local_repo =3D @os.getenv("LOCAL_REPO_DIR") + "/bitbake"
->=20
-> or any more sophisticated python syntax.
->=20
-> Signed-off-by: Leandro Dorileo <ldorileo@gmail.com>
-> ---
->  scripts/combo-layer |    3 +++
->  1 files changed, 3 insertions(+), 0 deletions(-)
->=20
-> diff --git a/scripts/combo-layer b/scripts/combo-layer index d129175..3da=
-df4a
-> 100755
-> --- a/scripts/combo-layer
-> +++ b/scripts/combo-layer
-> @@ -91,6 +91,9 @@ last_revision =3D
->          for repo in self.parser.sections():
->              self.repos[repo] =3D {}
->              for (name, value) in self.parser.items(repo):
-> +              if value.startswith("@"):
-> +                self.repos[repo][name] =3D eval(value.strip("@"))
-> +              else:
->                  self.repos[repo][name] =3D value
->=20
->      def update(self, repo, option, value):
-> --
-> 1.7.2.5
+diff --git a/meta/recipes-devtools/intltool/intltool-0.40.6/use-nativeperl.patch b/meta/recipes-devtools/intltool/intltool-0.40.6/use-nativeperl.patch
+new file mode 100644
+index 0000000..5f5fed3
+--- /dev/null
++++ b/meta/recipes-devtools/intltool/intltool-0.40.6/use-nativeperl.patch
+@@ -0,0 +1,20 @@
++OE has perl binary as 'nativeperl' in native sysroot so we look for it
++in order to avoid intltool searching and finding perl from /usr/bin
++on build system which may not have all the modules that it needs.
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Upstream-Status: Inappropriate [OE specific]
++Index: intltool-0.40.6/intltool.m4
++===================================================================
++--- intltool-0.40.6.orig/intltool.m4	2009-02-14 14:12:28.000000000 -0800
+++++ intltool-0.40.6/intltool.m4	2011-08-09 08:07:16.427347846 -0700
++@@ -110,7 +110,7 @@
++     AC_MSG_ERROR([GNU gettext tools not found; required for intltool])
++ fi
++ 
++-AC_PATH_PROG(INTLTOOL_PERL, perl)
+++AC_PATH_PROG(INTLTOOL_PERL, nativeperl)
++ if test -z "$INTLTOOL_PERL"; then
++    AC_MSG_ERROR([perl not found])
++ fi
+diff --git a/meta/recipes-devtools/intltool/intltool.inc b/meta/recipes-devtools/intltool/intltool.inc
+index 1e778b6..7e11fc9 100644
+--- a/meta/recipes-devtools/intltool/intltool.inc
++++ b/meta/recipes-devtools/intltool/intltool.inc
+@@ -1,6 +1,6 @@
+ DESCRIPTION = "Utility scripts for internationalizing XML"
+ SECTION = "devel"
+-LICENSE = "GPL"
++LICENSE = "GPLv2"
+ 
+ URLV="${@'.'.join(bb.data.getVar('PV',d,1).split('.')[0:2])}"
+ SRC_URI = "${GNOME_MIRROR}/intltool/${URLV}/intltool-${PV}.tar.bz2"
+@@ -13,5 +13,4 @@ RRECOMMENDS_${PN}_virtclass-native = ""
+ 
+ inherit autotools pkgconfig perlnative
+ 
+-export PERL_virtclass-native = "/usr/bin/env perl"
+ BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-devtools/intltool/intltool_0.40.6.bb b/meta/recipes-devtools/intltool/intltool_0.40.6.bb
+index c7938e5..40672a9 100644
+--- a/meta/recipes-devtools/intltool/intltool_0.40.6.bb
++++ b/meta/recipes-devtools/intltool/intltool_0.40.6.bb
+@@ -1,9 +1,11 @@
+ require intltool.inc
+ LICENSE="GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+-PR = "r3"
++PR = "r4"
+ 
+-SRC_URI_append = " file://intltool-nowarn-0.40.0.patch"
++SRC_URI_append = " file://intltool-nowarn-0.40.0.patch \
++                   file://use-nativeperl.patch \
++                 "
+ 
+ SRC_URI[md5sum] = "69bc0353323112f42ad4f9cf351bc3e5"
+ SRC_URI[sha256sum] = "4d1e5f8561f09c958e303d4faa885079a5e173a61d28437d0013ff5efc9e3b64"
+-- 
+1.7.5.4
 
 
 
