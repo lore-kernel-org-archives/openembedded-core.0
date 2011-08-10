@@ -1,27 +1,39 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX19S1XTSLVcRSw099BYG0vcVDrWPc+Nr4KU=])
+Received: from mail-yi0-f47.google.com ([209.85.218.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1Qr9lS-0003LO-7j
+	(envelope-from <raj.khem@gmail.com>) id 1QrA65-0003y0-Jm
 	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Aug 2011 16:28:11 +0200
-Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p7AENZG8004306;
-	Wed, 10 Aug 2011 09:23:36 -0500
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Kumar Gala <galak@kernel.crashing.org>
-In-Reply-To: <4E428C20.5030809@mlbassoc.com>
-Date: Wed, 10 Aug 2011 09:23:35 -0500
-Message-Id: <003F5792-C038-4996-9D00-AA9E6F4E5151@kernel.crashing.org>
-References: <1312912632.14274.312.camel@rex>	
-	<C10D3FB0CD45994C8A51FEC1227CE22F2FA76750B1@shsmsx502.ccr.corp.intel.com>	
-	<27DA7A3C-0FE9-43CA-963C-F6217A1D2C9F@kernel.crashing.org>	
-	<1312981676.14274.376.camel@rex> <1312982631.14274.379.camel@rex>	
-	<4E4288F0.2010904@mlbassoc.com> <1312983621.14274.383.camel@rex>
-	<4E428C20.5030809@mlbassoc.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: populate_sdk: We need to ensure that the SDK sysroot reflects PACKAGE_ARCH
+	Wed, 10 Aug 2011 16:49:29 +0200
+Received: by yia28 with SMTP id 28so698672yia.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Aug 2011 07:44:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:x-enigmail-version:content-type
+	:content-transfer-encoding;
+	bh=ErIHXs4rHDT8Hvv+7xO+3RmLN0YKM5uWPp/7WWgBAhc=;
+	b=EaOmLWpbOk5PEbPWJDqS7ZyP7W1HulLV+BkX/Tf5mzg01QWOywHBzhaEYu6vD2/smu
+	XsT/buKGY5mtFP2vOxoWz90TNIbaMGkt6xECTyHeicmV/JOfAbxeCfR9FLQg5xg1dNak
+	bcj3h3xpvub9Z607Usg0/lgmLy/SD0nQp7ndo=
+Received: by 10.42.197.3 with SMTP id ei3mr6912968icb.332.1312987496717;
+	Wed, 10 Aug 2011 07:44:56 -0700 (PDT)
+Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id 3sm771944ibm.27.2011.08.10.07.44.55
+	(version=SSLv3 cipher=OTHER); Wed, 10 Aug 2011 07:44:55 -0700 (PDT)
+Message-ID: <4E429966.3030607@gmail.com>
+Date: Wed, 10 Aug 2011 07:44:54 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:6.0) Gecko/20110801 Thunderbird/6.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <032728F4-C51D-4298-B50C-B1C2C7050E22@kernel.crashing.org>
+	<1312898286.14274.298.camel@rex>
+	<2C6C8741-1012-47BC-BDA9-2A02A08C5027@kernel.crashing.org>
+	<822AACC4-810B-4113-A214-EE283679EA06@kernel.crashing.org>
+In-Reply-To: <822AACC4-810B-4113-A214-EE283679EA06@kernel.crashing.org>
+X-Enigmail-Version: 1.2pre
+Subject: Re: python automake dirs (was meta-toolchain-sdk failure)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,56 +48,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2011 14:28:11 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 10 Aug 2011 14:49:29 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
 
 
-On Aug 10, 2011, at 8:48 AM, Gary Thomas wrote:
+> So the root of this seems to stem from the following in automake's
+> python.m4:
+> 
+> am_cv_python_pythondir=$PYTHON_PREFIX/lib/python$PYTHON_VERSION/site-packages
+>
+> 
+am_cv_python_pyexecdir=$PYTHON_EXEC_PREFIX/lib/python$PYTHON_VERSION/site-packages
+> 
+> So the question at hand is how to fix this?
+> 
+> Do we patch automake to respect libdir setting for these?
+> 
 
-> On 2011-08-10 07:40, Richard Purdie wrote:
->> On Wed, 2011-08-10 at 07:34 -0600, Gary Thomas wrote:
->>> On a related thought to these changes - how does this play if
->>> you use multiple SDKs for different, but somewhat related, =
-architectures?
->>> I'd like to create a simple SDK (just toolchain mostly) using =
-'meta-toolchain'
->>> for both armv5te and armv7a and install them simultaneously on the =
-same
->>> host.  My previous attempts at this fell flat as there were a number =
-of
->>> files marked as "arm" (i.e. not armv5te or arvm7a) that were common =
-between
->>> the two SDK packages, but they didn't seem to be identical.
->>=20
->> This is supposed to work but wouldn't due to the issue and the patch
->> I've proposed. Whether that is the only issue I don't know.
->=20
-> I'll be glad to test this once you've worked it out.
->=20
->>=20
->> Can you remember which files we're talking about here?
->=20
-> Not right off - there were just a ton of directories with only arm in =
-the
-> path that seemed to be architecture dependent.  I think it's all =
-related to
-> TARGET_SYS vs MULTIMACH_TARGET_SYS and how/where they are used.
->=20
->>=20
->>> With these changes, will it be possible to support such sets of =
-multiple
->>> toolchains?  (No, ADT is not the answer - I just want the =
-toolchains)
->>=20
->> ADT uses meta-toolchain-* so its all related.
->=20
-> Fair enough, I just don't want to have to use ADT just to install a =
-toolchain.
+yes seems sane to me
 
-And this is also something we're wanting to work to allow different PPC =
-toolchain variants to live together
+> something like:
+> 
+> --- python.m4.orig	2011-08-09 11:46:19.511163337 -0500 +++ python.m4
+> 2011-08-09 11:49:43.623022930 -0500 @@ -88,12 +88,13 @@ 
+> [am_cv_python_version=`$PYTHON -c "import sys;
+> sys.stdout.write(sys.version[[:3]])"`]) AC_SUBST([PYTHON_VERSION],
+> [$am_cv_python_version])
+> 
+> -  dnl Use the values of $prefix and $exec_prefix for the
+> corresponding -  dnl values of PYTHON_PREFIX and PYTHON_EXEC_PREFIX.
+> These are made +  dnl Use the values of $prefix, $libdir and
+> $exec_prefix for the corresponding +  dnl values of PYTHON_PREFIX
+> PYTHON_LIB_PREFIX, and PYTHON_EXEC_PREFIX.  These are made dnl
+> distinct variables so they can be overridden if need be.  However, 
+> dnl general consensus is that you shouldn't need this ability.
+> 
+> AC_SUBST([PYTHON_PREFIX], ['${prefix}']) +
+> AC_SUBST([PYTHON_LIB_PREFIX], ['${libdir}']) 
+> AC_SUBST([PYTHON_EXEC_PREFIX], ['${exec_prefix}'])
+> 
+> dnl At times (like when building shared libraries) you may want @@
+> -122,7 +123,7 @@ am_py_prefix=$prefix fi 
+> am_cv_python_pythondir=`$PYTHON -c "import sys; from distutils import
+> sysconfig;
+> sys.stdout.write(sysconfig.get_python_lib(0,0,prefix='$am_py_prefix'))"
+> 2>/dev/null || -     echo
+> "$PYTHON_PREFIX/lib/python$PYTHON_VERSION/site-packages"` +     echo
+> "$PYTHON_LIB_PREFIX/python$PYTHON_VERSION/site-packages"` case
+> $am_cv_python_pythondir in $am_py_prefix*) am__strip_prefix=`echo
+> "$am_py_prefix" | sed 's|.|.|g'` @@ -132,7 +133,7 @@ case
+> $am_py_prefix in /usr|/System*) ;; *) -
+> am_cv_python_pythondir=$PYTHON_PREFIX/lib/python$PYTHON_VERSION/site-packages
+>
+> 
++	
+am_cv_python_pythondir=$PYTHON_LIB_PREFIX/python$PYTHON_VERSION/site-packages
+> ;; esac ;; @@ -160,7 +161,7 @@ am_py_exec_prefix=$exec_prefix fi 
+> am_cv_python_pyexecdir=`$PYTHON -c "import sys; from distutils import
+> sysconfig;
+> sys.stdout.write(sysconfig.get_python_lib(1,0,prefix='$am_py_exec_prefix'))"
+> 2>/dev/null || -     echo
+> "$PYTHON_EXEC_PREFIX/lib/python$PYTHON_VERSION/site-packages"` +
+> echo "$PYTHON_LIB_PREFIX/python$PYTHON_VERSION/site-packages"` case
+> $am_cv_python_pyexecdir in $am_py_exec_prefix*) 
+> am__strip_prefix=`echo "$am_py_exec_prefix" | sed 's|.|.|g'` @@
+> -170,7 +171,7 @@ case $am_py_exec_prefix in /usr|/System*) ;; *) -
+> am_cv_python_pyexecdir=$PYTHON_EXEC_PREFIX/lib/python$PYTHON_VERSION/site-packages
+>
+> 
++	
+am_cv_python_pyexecdir=$PYTHON_LIB_PREFIX/python$PYTHON_VERSION/site-packages
+> ;; esac ;;
+> 
+> 
+> 
+> - k _______________________________________________ Openembedded-core
+> mailing list Openembedded-core@lists.openembedded.org 
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-- k=
+
+- --
+> 
+- -Khem
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+
+iEYEARECAAYFAk5CmWUACgkQuwUzVZGdMxRKIwCeIMURyalficv+nODveSc0q1uE
+ldkAnjBjNrI7Un528uulbm4sowLgiclj
+=AyDt
+-----END PGP SIGNATURE-----
 
 
