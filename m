@@ -1,27 +1,28 @@
-Received: from mail-ey0-f173.google.com ([209.85.215.173])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <agnel.joel@gmail.com>)
-	id 1QqxvF-0001vk-2H; Wed, 10 Aug 2011 03:49:29 +0200
-Received: by eyb7 with SMTP id 7so565086eyb.18
-	for <multiple recipients>; Tue, 09 Aug 2011 18:44:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:date:message-id:subject:from:to:cc:content-type;
-	bh=i0sgw2zkGZvNT4acBLCKpJGgmx0hMZBOjWRCNkys4Fk=;
-	b=ZgobFaFZoCcQyAy++XnPOahaMLXVmSua4B1IlNTgOmVdZ02IcB8PF0hKdKunhQcrTt
-	wRd1h09aN1Vhabn+TnMeWUu/0fBc9vcxgSlwmd4GTogxhrw21rjj4kT9L/7pt16sKkZ/
-	thZcT09pz1B3DZ+5Qm2KdstKSKlYmolwXSj/w=
+	(envelope-from <mark.hatle@windriver.com>) id 1Qqy55-0002Dr-EL
+	for openembedded-core@lists.openembedded.org;
+	Wed, 10 Aug 2011 03:59:39 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7A1t7BT007173
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 9 Aug 2011 18:55:07 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 9 Aug 2011 18:55:06 -0700
+Message-ID: <4E41E4F9.60404@windriver.com>
+Date: Tue, 9 Aug 2011 20:55:05 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:5.0) Gecko/20110624 Thunderbird/5.0
 MIME-Version: 1.0
-Received: by 10.213.20.19 with SMTP id d19mr8119ebb.53.1312940698805; Tue, 09
-	Aug 2011 18:44:58 -0700 (PDT)
-Received: by 10.213.114.20 with HTTP; Tue, 9 Aug 2011 18:44:58 -0700 (PDT)
-Date: Tue, 9 Aug 2011 20:44:58 -0500
-Message-ID: <CAD=GYpbJkU2wcOCjuJTdEHD6kakhbfO_GYgw3ztBiz0iPmAMzQ@mail.gmail.com>
-From: Joel A Fernandes <agnel.joel@gmail.com>
-To: openembedded-devel@lists.openembedded.org, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: "Kridner, Jason" <jdk@ti.com>, "Kooi, Koen" <k-kooi@ti.com>
-Subject: Help with setting up feeds
+To: Scott Garman <scott.a.garman@intel.com>
+References: <1312855453-23258-1-git-send-email-james@digitalmatter.com.au>
+	<4E41D1B3.4090703@intel.com>
+In-Reply-To: <4E41D1B3.4090703@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] bitbake.conf: Changed PSEUDO_LOCALSTATEDIR assignment to unconditional.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,61 +37,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2011 01:49:29 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 10 Aug 2011 01:59:39 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 8/9/11 7:32 PM, Scott Garman wrote:
+> On 08/08/2011 07:04 PM, James Limbouris wrote:
+>> The pseudo executable sets the PSEUDO_LOCALSTATEDIR environment variable
+>> to point to a sysroot location. During an initial cache build, in which
+>> pseudo is not used as it is being built, the PSEUDO_LOCALSTATEDIR is set
+>> to a per-package location by bitbake.conf, and baked into the cache.
+>> If the cache is subsequently invalidated, bitbake may run under pseudo,
+>> and rebuild it with the sysroot location baked into the cache. This
+>> results in all packages using the same, persistent db, even on package
+>> rebuild, which leads to permissions errors. Making the assignment
+>> unconditional corrects this problem.
+> 
+> I can't tell if this change would impact the use of useradd.bbclass, 
+> which also sets PSEUDO_LOCALSTATEDIR in certain circumstances. Mark, can 
+> you comment on whether this is a valid concern?
 
-I'm trying to setup my own feeds. For this purpose, I have rsync'ed
-the deploy/ipk directory from my OE core tmp directory to my
-webserver, and I edited /etc/opkg/base-feed.conf on my board's root
-filesystem with:
-src/gz base http://www.hackerbliss.org/joel/feeds/ipk/armv7a/
+I've been trying to figure that out as well.  From what I can tell, as long as
+the value is "${WORKDIR}/pseudo", and it's evaluated at use time -- vs
+immediately.. we should be good, even with the useradd.bbclass.
 
-Now I created and built the systemd recipe, with the PR bumped. The
-file is named systemd_v33-r1_armv7a.ipk.
+(If I remember correctly, the workdir for the useradd still should either be the
+package itself, or the sysroot directory.  That should be changing during the
+various steps, as necessary.)
 
-I rebuilt the index with, bitbake -b package-index.bb and did an rsysnc again.
+Frankly I'm still a little confused as to what is happening differently from the
+"=" to the "?=" case.  My understanding is that one should indicate "it's always
+this value", and the other is "use this value if one has not already been set."
+ Either way we should get the same result, and the same result should end up in
+any caches.  If it's not the same, this might be pointing to a different bug --
+or my understanding of the processing of the variables is wrong.
 
-Now I did,
+So for the purposes of useradd, I don't see a problem here.. I also don't see
+any issues with the general case.. but I do wonder why it's needed for the cache
+to work properly.
 
-root@joel-laptop:~/repository/beagle/nfs/oe-core# opkg-cl -o . -t .
---offline-root . update
+--Mark
 
-root@joel-laptop:~/repository/beagle/nfs/oe-core# opkg-cl -o . -t .
---offline-root . install systemd
+> Scott
+> 
+>>
+>> Signed-off-by: James Limbouris<james@digitalmatter.com.au>
+>> ---
+>>   meta/conf/bitbake.conf |    2 +-
+>>   1 files changed, 1 insertions(+), 1 deletions(-)
+>>
+>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>> index 6f0b42c..9a9ab53 100644
+>> --- a/meta/conf/bitbake.conf
+>> +++ b/meta/conf/bitbake.conf
+>> @@ -557,7 +557,7 @@ SRCPV = "${@bb.fetch2.get_srcrev(d)}"
+>>   SRC_URI = "file://${FILE}"
+>>
+>>   # Use pseudo as the fakeroot implementation
+>> -PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
+>> +PSEUDO_LOCALSTATEDIR = "${WORKDIR}/pseudo/"
+>>   FAKEROOTENV = "PSEUDO_PREFIX=${STAGING_DIR_NATIVE}${prefix_native} PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_PASSWD=${STAGING_DIR_TARGET} PSEUDO_NOSYMLINKEXP=1 PSEUDO_DISABLED=0"
+>>   FAKEROOTDIRS = "${PSEUDO_LOCALSTATEDIR}"
+>>   PREFERRED_PROVIDER_virtual/fakeroot-native ?= "pseudo-native"
+> 
+> 
 
- The install and configure seems to work, however towards the end I
-get something like this:
-
-Configuring kernel-3.0.1+.
-Configuring update-modules.
-Configuring kernel-module-ipv6.
-Configuring systemd.
-Collected errors:
- * rm_r: Failed to remove dir ./opkg-23q3XI/opkg-intercept-0Dgf2b: No
-such file or directory.
- * opkg_conf_write_status_files: Can't open status file
-.//usr/lib/opkg/status: No such file or directory.
- * rm_r: Failed to open dir ./opkg-23q3XI: No such file or directory.
-
-Also the 'info' command works
-
-root@joel-laptop:~/repository/beagle/nfs/oe-core# opkg-cl -o . -t .
---offline-root . info systemd
-Package: systemd
-Version: v33-r1
-Depends: dbus-systemd, libcap2 (>= 2.22), libdbus-1-3 (>= 1.4.12),
-libudev0 (>= 173), libwrap0 (>= 7.6), udev-systemd, libacl1 (>=
-2.2.51),
-[..]
-
-
-but, the 'status' and 'list_installed' opkg commands don't return anything.
-
-Any ideas on what I could be doing wrong?
-
-Thanks,
-Joel
 
 
