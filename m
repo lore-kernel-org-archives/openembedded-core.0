@@ -1,29 +1,37 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail-iy0-f171.google.com ([209.85.210.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Qr27m-00051U-SV
+	(envelope-from <raj.khem@gmail.com>) id 1Qr2jk-0003oe-LR
 	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Aug 2011 08:18:43 +0200
-Received: by wyf19 with SMTP id 19so547010wyf.6
+	Wed, 10 Aug 2011 08:57:56 +0200
+Received: by iyf13 with SMTP id 13so651669iyf.16
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Aug 2011 23:14:13 -0700 (PDT)
-Received: by 10.227.206.145 with SMTP id fu17mr3466149wbb.108.1312956852009;
-	Tue, 09 Aug 2011 23:14:12 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id et16sm488471wbb.2.2011.08.09.23.14.10
+	Tue, 09 Aug 2011 23:53:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=references:in-reply-to:mime-version:content-transfer-encoding
+	:content-type:message-id:cc:x-mailer:from:subject:date:to;
+	bh=sDYIkl2ejEbxyPP5YH/Zs/vjQymK9xoBI+U/QmXGWx8=;
+	b=N4sbZtIAEaOef7IrM/1greAovfkBoStjzcMmPzzLhPAPMlD17s+VqWtz8V4G/uKI1m
+	6PRLQWiilmLkPF1fhSPwVNiqQvVUEAYJIuORv8QSngoB9GbYGvKh1Y/Ka8CW/VHsZ+mX
+	USr8WNOGthDLUMpc8nS87pIEifYtbo/k1wOec=
+Received: by 10.43.132.65 with SMTP id ht1mr6508266icc.5.1312959205100;
+	Tue, 09 Aug 2011 23:53:25 -0700 (PDT)
+Received: from [192.168.1.81] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id n18sm508552ibg.1.2011.08.09.23.53.23
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 09 Aug 2011 23:14:10 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1312297317.4325.46.camel@phil-desktop>
-Date: Wed, 10 Aug 2011 08:14:08 +0200
-Message-Id: <AD653010-7DD2-4B79-8C80-326646464C00@dominion.thruhere.net>
-References: <1312296431-18991-1-git-send-email-koen@dominion.thruhere.net>
-	<C9D28EB1-CE86-42E9-9825-0A408698FD66@dominion.thruhere.net>
-	<1312297317.4325.46.camel@phil-desktop>
+	Tue, 09 Aug 2011 23:53:24 -0700 (PDT)
+References: <24988974-E702-4404-BEB2-EB8B946BFC5E@kernel.crashing.org>
+In-Reply-To: <24988974-E702-4404-BEB2-EB8B946BFC5E@kernel.crashing.org>
+Mime-Version: 1.0 (iPad Mail 8J2)
+Message-Id: <A95A9FE2-E504-42AD-A695-44D25231CE70@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: iPad Mail (8J2)
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 9 Aug 2011 23:54:42 -0700
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1244.3)
-Subject: Re: [PATCH] libc-package bbclass: fix binary localedata dependency code
+Subject: Re: finding libgcc.a with meta-toolchain-sdk toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,101 +46,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2011 06:18:43 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Wed, 10 Aug 2011 06:57:56 -0000
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-Nitin, any insights on this?
 
-Op 2 aug. 2011, om 17:01 heeft Phil Blundell het volgende geschreven:
 
-> It does look a bit weird.  That code was introduced in 561d8754,
-> ostensibly as a merger of the eglibc and glibc equivalents.  But, the
-> original code from glibc-package.bbclass did:
+On Aug 9, 2011, at 9:20 PM, Kumar Gala <galak@kernel.crashing.org> wrote:
+
+> Trying to build something like u-boot w/the toolchain produced by meta-too=
+lchain-sdk and get the following:
 >=20
->       def output_locale_binary_rdepends(name, pkgname, locale, =
-encoding):
->               m =3D re.match("(.*)\.(.*)", name)
->               if m:
->                       glibc_name =3D "%s.%s" % (m.group(1), =
-m.group(2).lower().replace("-",""))
->               else:
->                       glibc_name =3D name
->               bb.data.setVar('RDEPENDS_%s' % pkgname, =
-legitimize_package_name('glibc-binary-localedata-%s' % glibc_name), d)
+> $ powerpc-poky-linux-gnuspe-ld -g -Ttext 0x40000 -o hello_world -e hello_w=
+orld hello_world.o libstubs.o -L. -lgcc
+> powerpc-poky-linux-gnuspe-ld: cannot find -lgcc
+
+You are using ld. If you use gcc driver to do the linking it should do bette=
+r
 >=20
-> ... i.e. it was using the "." separator both for splitting and =
-joining,
-> which seems reasonable.  But somehow when it showed up in
-> libc-package.bbclass it had gotten transmogrified so that it split on
-> "_" but joined with "." as you showed below.  That seems bogus to me.
+> If I take on a --verbose I get:
+> attempt to open ./libgcc.so failed
+> attempt to open ./libgcc.a failed
+> attempt to open /opt/poky/1.0+snapshot/sysroots/powerpc-poky-linux-gnuspe/=
+usr/local/lib/libgcc.so failed
+> attempt to open /opt/poky/1.0+snapshot/sysroots/powerpc-poky-linux-gnuspe/=
+usr/local/lib/libgcc.a failed
+> attempt to open /opt/poky/1.0+snapshot/sysroots/powerpc-poky-linux-gnuspe/=
+lib/libgcc.so failed
+> attempt to open /opt/poky/1.0+snapshot/sysroots/powerpc-poky-linux-gnuspe/=
+lib/libgcc.a failed
+> attempt to open /opt/poky/1.0+snapshot/sysroots/powerpc-poky-linux-gnuspe/=
+usr/lib/libgcc.so failed
+> attempt to open /opt/poky/1.0+snapshot/sysroots/powerpc-poky-linux-gnuspe/=
+usr/lib/libgcc.a failed
 >=20
-> p.
+> What do we need to tweak so we can find libgcc.a?
 >=20
-> On Tue, 2011-08-02 at 16:55 +0200, Koen Kooi wrote:
->> The bug I was seeing was caused by something else, but I'd still like =
-feedback on this patch to find out why the dot vs dash difference exists
->>=20
->> Op 2 aug. 2011, om 16:47 heeft Koen Kooi het volgende geschreven:
->>=20
->>> When using binary locales rootfs generation fails with:
->>>=20
->>> | Unknown package 'locale-base-en-us'.
->>> | Collected errors:
->>> |  * opkg_install_cmd: Cannot install package locale-base-en-us.
->>>=20
->>> This is due to:
->>>=20
->>> $ dpkg-deb -I ipk/armv7a/locale-base-en-us_2.12-r16_armv7a.ipk | =
-grep Depends
->>> Depends: eglibc-binary-localedata-en.us
->>>=20
->>> Note the '.' seperator
->>>=20
->>> $ ls ipk/armv7a/ | grep binary-localedata-en | grep us
->>> eglibc-binary-localedata-en-us_2.12-r16_armv7a.ipk
->>>=20
->>> Note the '-' seperator vs the '.' in the locale-base packages.
->>>=20
->>> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
->>> ---
->>> meta/classes/libc-package.bbclass |    2 +-
->>> 1 files changed, 1 insertions(+), 1 deletions(-)
->>>=20
->>> diff --git a/meta/classes/libc-package.bbclass =
-b/meta/classes/libc-package.bbclass
->>> index de57230..67d08c0 100644
->>> --- a/meta/classes/libc-package.bbclass
->>> +++ b/meta/classes/libc-package.bbclass
->>> @@ -243,7 +243,7 @@ python package_do_split_gconvs () {
->>> 	def output_locale_binary_rdepends(name, pkgname, locale, =
-encoding):
->>> 		m =3D re.match("(.*)_(.*)", name)
->>> 		if m:
->>> -			libc_name =3D "%s.%s" % (m.group(1), =
-m.group(2).lower().replace("-",""))
->>> +			libc_name =3D "%s-%s" % (m.group(1), =
-m.group(2).lower().replace("-",""))
->>> 		else:
->>> 			libc_name =3D name
->>> 		bb.data.setVar('RDEPENDS_%s' % pkgname, =
-legitimize_package_name('%s-binary-localedata-%s' \
->>> --=20
->>> 1.6.6.1
->>>=20
->>=20
->>=20
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->=20
->=20
->=20
+> - k
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
 
 
