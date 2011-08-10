@@ -1,28 +1,40 @@
-Received: from [69.18.222.101] (helo=smtp20.4emm.com)
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <james@digitalmatter.com.au>) id 1QqyG8-0002o0-6d
+	(envelope-from <lianhao.lu@intel.com>) id 1Qqydm-0003Ir-6C
 	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Aug 2011 04:11:04 +0200
-Received: from MBX20.4emm.local ([fe80::382d:f6d3:f4de:a97f]) by
-	HUB20.4emm.local ([fe80::b039:47b9:6dd0:b630%19]) with mapi id
-	14.01.0289.001; Tue, 9 Aug 2011 22:02:20 -0400
-From: James Limbouris <james@digitalmatter.com.au>
+	Wed, 10 Aug 2011 04:35:30 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 09 Aug 2011 19:30:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,347,1309762800"; d="scan'208";a="39946069"
+Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
+	by fmsmga001.fm.intel.com with ESMTP; 09 Aug 2011 19:30:47 -0700
+Received: from pgsmsx101.gar.corp.intel.com (10.221.44.78) by
+	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 10 Aug 2011 10:29:00 +0800
+Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
+	PGSMSX101.gar.corp.intel.com (10.221.44.78) with Microsoft SMTP Server
+	(TLS) id 14.1.323.3; Wed, 10 Aug 2011 10:28:59 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
+	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
+	Wed, 10 Aug 2011 10:28:59 +0800
+From: "Lu, Lianhao" <lianhao.lu@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] bitbake.conf: Changed PSEUDO_LOCALSTATEDIR
-	assignment to unconditional.
-Thread-Index: AQHMVjnZX+Jvlt+5PkG8wRgqH9pj0pUVgK2AgAAW+YD//78+cA==
-Date: Wed, 10 Aug 2011 02:06:32 +0000
-Message-ID: <840A81C1B782724A8EB52725BD519EFF183852@MBX20.4emm.local>
-References: <1312855453-23258-1-git-send-email-james@digitalmatter.com.au>
-	<4E41D1B3.4090703@intel.com> <4E41E4F9.60404@windriver.com>
-In-Reply-To: <4E41E4F9.60404@windriver.com>
-Accept-Language: en-US
+Date: Wed, 10 Aug 2011 10:28:57 +0800
+Thread-Topic: [OE-core] [PATCH 3/3] x86 tune inc files: add x32 abi tune
+	parameters
+Thread-Index: AcxTzSQ5tygQe9HbTe+nc3n2zDiX8gDN5cOw
+Message-ID: <C10D3FB0CD45994C8A51FEC1227CE22F2FA7674FDB@shsmsx502.ccr.corp.intel.com>
+References: <cover.1312565996.git.nitin.a.kamble@intel.com>
+	<d6226c2a156d6c9d53237f98385e252c34a1e74d.1312565996.git.nitin.a.kamble@intel.com>
+In-Reply-To: <d6226c2a156d6c9d53237f98385e252c34a1e74d.1312565996.git.nitin.a.kamble@intel.com>
+Accept-Language: zh-CN, en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [203.59.132.158]
+acceptlanguage: zh-CN, en-US
 MIME-Version: 1.0
-Subject: Re: [PATCH] bitbake.conf: Changed PSEUDO_LOCALSTATEDIR assignment to unconditional.
+Subject: Re: [PATCH 3/3] x86 tune inc files: add x32 abi tune	parameters
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,73 +49,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2011 02:11:04 -0000
+X-List-Received-Date: Wed, 10 Aug 2011 02:35:30 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On Wednesday, 10 August 2011 9:55 AM, Mark Hatle wrote:
-> On 8/9/11 7:32 PM, Scott Garman wrote:
-> > On 08/08/2011 07:04 PM, James Limbouris wrote:
-> >> The pseudo executable sets the PSEUDO_LOCALSTATEDIR environment
-> >> variable to point to a sysroot location. During an initial cache
-> >> build, in which pseudo is not used as it is being built, the
-> >> PSEUDO_LOCALSTATEDIR is set to a per-package location by bitbake.conf,
-> and baked into the cache.
-> >> If the cache is subsequently invalidated, bitbake may run under
-> >> pseudo, and rebuild it with the sysroot location baked into the
-> >> cache. This results in all packages using the same, persistent db,
-> >> even on package rebuild, which leads to permissions errors. Making
-> >> the assignment unconditional corrects this problem.
-> >
-> > I can't tell if this change would impact the use of useradd.bbclass,
-> > which also sets PSEUDO_LOCALSTATEDIR in certain circumstances. Mark,
-> > can you comment on whether this is a valid concern?
+nitin.a.kamble@intel.com wrote on 2011-08-06:
+> From: Nitin A Kamble <nitin.a.kamble@intel.com>
 >=20
-> I've been trying to figure that out as well.  From what I can tell, as lo=
-ng as the
-> value is "${WORKDIR}/pseudo", and it's evaluated at use time -- vs
-> immediately.. we should be good, even with the useradd.bbclass.
+> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> ---
+>  meta/conf/machine/include/ia32/arch-ia32.inc |   19 +++++++++++++++++--
+>  meta/conf/machine/include/tune-core2.inc     |    4 ++++
+>  meta/conf/machine/include/tune-x86_64.inc    |    2 +-
+>  3 files changed, 22 insertions(+), 3 deletions(-)
+> diff --git a/meta/conf/machine/include/ia32/arch-ia32.inc
+> b/meta/conf/machine/include/ia32/arch-ia32.inc index 2709440..96980d2
+> 100644 --- a/meta/conf/machine/include/ia32/arch-ia32.inc +++
+> b/meta/conf/machine/include/ia32/arch-ia32.inc @@ -9,13 +9,22 @@
+> X86ARCH64 ?=3D "x86_64"
 >=20
-> (If I remember correctly, the workdir for the useradd still should either=
- be
-> the package itself, or the sysroot directory.  That should be changing du=
-ring
-> the various steps, as necessary.)
+>  # ELF32 ABI
+>  TUNEVALID[m32] =3D "IA32 ELF32 standard ABI"
+> -TUNECONFLICTS[m32] =3D "m64"
+> +TUNECONFLICTS[m32] =3D "m64 mx32"
+>  TUNE_ARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", "m32",
+>  "${X86ARCH32}", "" ,d)}" TUNE_CCARGS +=3D
+>  "${@bb.utils.contains("TUNE_FEATURES", "m32", "-m32",
+> "", d)}"
 >=20
-> Frankly I'm still a little confused as to what is happening differently f=
-rom the
-> "=3D" to the "?=3D" case.  My understanding is that one should indicate "=
-it's
-> always this value", and the other is "use this value if one has not alrea=
-dy
-> been set."
->  Either way we should get the same result, and the same result should end
-> up in any caches.  If it's not the same, this might be pointing to a diff=
-erent
-> bug -- or my understanding of the processing of the variables is wrong.
+> +# x32 ABI
+> +TUNEVALID[mx32] =3D "IA32e (x86_64) ELF32 standard ABI"
+> +TUNECONFLICTS[mx32] =3D "m64 m32"
+> +TUNE_ARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", "mx32",
+> "${X86ARCH64}", "" ,d)}"
+> +ABIEXTENSION .=3D "${@bb.utils.contains("TUNE_FEATURES", "mx32", "x32",
+> "" ,d)}"
+> +TUNE_CCARGS +=3D "${@bb.utils.contains("TUNE_FEATURES", "mx32",
+> "-mx32", "", d)}"
+> +TUNE_LDARGS +=3D "${@bb.utils.contains("TUNE_FEATURES", "mx32", "-m
+> elf32_x86_64", "", d)}"
+> +TUNE_ASARGS +=3D "${@bb.utils.contains("TUNE_FEATURES", "mx32", "-x32",
+> "", d)}"
+> +
+>  # ELF64 ABI
+>  TUNEVALID[m64] =3D "IA32e (x86_64) ELF64 standard ABI"
+> -TUNECONFLICT[m64] =3D "m32"
+> +TUNECONFLICT[m64] =3D "m32 mx32"
+>  TUNE_ARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", "m64",
+>  "${X86ARCH64}", "" ,d)}" TUNE_CCARGS +=3D
+>  "${@bb.utils.contains("TUNE_FEATURES", "m64", "-m64",
+> "", d)}"
 >=20
-> So for the purposes of useradd, I don't see a problem here.. I also don't=
- see
-> any issues with the general case.. but I do wonder why it's needed for th=
-e
-> cache to work properly.
+> @@ -31,3 +40,9 @@ AVAILTUNES +=3D "x86-64"
+>  TUNE_FEATURES_tune-x86-64 ?=3D "m64"
+>  BASE_LIB_tune-x86-64 ?=3D "lib64"
+>  PACKAGE_EXTRA_ARCHS_tune-x86-64 =3D "x86_64"
+> + +AVAILTUNES +=3D "x86-64-x32" +TUNE_FEATURES_tune-x86-64-x32 ?=3D "mx32=
+"
+> +BASE_LIB_tune-x86-64-x32 ?=3D "lib" +PACKAGE_EXTRA_ARCHS_tune-x86-64-x32
+> =3D "x86_64-x32" +TUNE_PKGARCH .=3D "${@bb.utils.contains("TUNE_FEATURES"=
+,
+> "mx32", +"-x32", "", d)}" diff --git
+> a/meta/conf/machine/include/tune-core2.inc
+> b/meta/conf/machine/include/tune-core2.inc index 25c2226..78f8f4d 100644
+> --- a/meta/conf/machine/include/tune-core2.inc +++
+> b/meta/conf/machine/include/tune-core2.inc @@ -18,3 +18,7 @@
+> TUNE_FEATURES_tune-core2-64 ?=3D "${TUNE_FEATURES_tune-x86-64} core2"
+>  BASE_LIB_tune-core2-64 ?=3D "lib64"
+>  PACKAGE_EXTRA_ARCHS_tune-core2-64 =3D
+> "${PACKAGE_EXTRA_ARCHS_tune-x86-64} core2-64"
 >=20
+> +AVAILTUNES +=3D "core2-64-x32" +TUNE_FEATURES_tune-core2-64-x32 ?=3D
+> "${TUNE_FEATURES_tune-x86-64-x32} core2" +BASE_LIB_tune-core2-64-x32 ?=3D
+> "lib" +PACKAGE_EXTRA_ARCHS_tune-core2-64-x32 =3D
+> "${PACKAGE_EXTRA_ARCHS_tune-x86-64-x32} core2-64-x32" diff --git
+> a/meta/conf/machine/include/tune-x86_64.inc
+> b/meta/conf/machine/include/tune-x86_64.inc index 04b0f96..50f20ba
+> 100644 --- a/meta/conf/machine/include/tune-x86_64.inc +++
+> b/meta/conf/machine/include/tune-x86_64.inc @@ -1,3 +1,3 @@
+>  require conf/machine/include/ia32/arch-ia32.inc
+> -DEFAULTTUNE =3D "x86-64"
+> +DEFAULTTUNE ?=3D "x86-64"
 
-Hi,
+Well, it seems this "?=3D" has no effect here because DEFAULTTUNE is alread=
+y "?=3D"ed in arch-ia32.inc. Now machine qemux86-64 has the incorrect TUNE_=
+ARCH of i586.
 
-The problem is that the pseudo executable sets the environment variable
-before starting its argument (bitbake) up, but we do not always use pseudo
-to start bitbake. So sometimes the variable is set to the sysroot, and some=
-times
-it is set (by the conditional assignment in bitbake.conf) to the workdir.
+Best Regards,
+-Lianhao=20
 
-Usually it is set to the workdir while building the cache, but when the cac=
-he is
-invalidated, the wrapper script most often uses pseudo, setting it to the s=
-ysroot.
-
-James
 
 
 
