@@ -1,25 +1,26 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QrdE9-0003on-Aw
+	(envelope-from <sgw@linux.intel.com>) id 1Qrdxp-0004le-A6
 	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Aug 2011 23:55:45 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 11 Aug 2011 14:51:12 -0700
+	Fri, 12 Aug 2011 00:42:57 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 11 Aug 2011 15:38:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="37665996"
+X-IronPort-AV: E=Sophos;i="4.67,359,1309762800"; 
+   d="scan'208";a="6322809"
 Received: from unknown (HELO [10.255.14.248]) ([10.255.14.248])
-	by orsmga001.jf.intel.com with ESMTP; 11 Aug 2011 14:51:12 -0700
-Message-ID: <4E444ECF.9090704@linux.intel.com>
-Date: Thu, 11 Aug 2011 14:51:11 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 11 Aug 2011 15:38:23 -0700
+Message-ID: <4E4459DE.1000007@linux.intel.com>
+Date: Thu, 11 Aug 2011 15:38:22 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1313043452-28242-1-git-send-email-galak@kernel.crashing.org>
-In-Reply-To: <1313043452-28242-1-git-send-email-galak@kernel.crashing.org>
-Subject: Re: [PATCH v3] tune-ppc: Update to pass glibc configure option to get cpu specific support
+References: <cover.1312195779.git.lianhao.lu@intel.com>
+In-Reply-To: <cover.1312195779.git.lianhao.lu@intel.com>
+Subject: Re: [PATCH BUG #1236 0/3] Unify ldd/ldconfig for all multilib eglibcs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,67 +35,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2011 21:55:45 -0000
+X-List-Received-Date: Thu, 11 Aug 2011 22:42:57 -0000
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/10/2011 11:17 PM, Kumar Gala wrote:
-> We need --with-cpu based to glibc to get proper support on 603e&  e500mc
-> to pickup proper math libs to deal with sqrt.  These core do not
-> implement the fsqrt[s] instructions that the normal PPC math libs
-> utilize.
+On 08/01/2011 04:01 AM, Lianhao Lu wrote:
+> This series of patch allow all the eglibc(s) in the current multilib
+> configuration have the same ldd/ldconfig settings.
 >
-> This causes use to not set AVAILTUNES specifically to the sub-arch only
-> as we arent generically compatiable.
+> We put the dynamic loaders'(ld.so) names in the dictionary of "ld_info_all"
+> defined in the file eglibc-ld.inc. This dictionary is indexed by the
+> TUNENAME. To support a new ABI, new entry should be added into this
+> dictionary along with the new ABI's TUNENAME.
 >
-> Signed-off-by: Kumar Gala<galak@kernel.crashing.org>
-> ---
-> v3:
-> - utilize TUNE_FEATURES for how we set GLIBC_EXTRA_OECONF
+> The information in ld_info_all can be used for both ldd script and ldconfig
+> binary.
 >
->   meta/conf/machine/include/tune-ppc603e.inc   |    5 ++++-
->   meta/conf/machine/include/tune-ppce500mc.inc |    5 ++++-
->   2 files changed, 8 insertions(+), 2 deletions(-)
+> The following changes since commit f94b781695cd8fa387daff16ecbf3987a0883018:
+>    Bruce Ashfield (1):
+>          poky.conf: explicitly referenced preferred linux-yocto version
 >
-> diff --git a/meta/conf/machine/include/tune-ppc603e.inc b/meta/conf/machine/include/tune-ppc603e.inc
-> index 9abb694..44a708a 100644
-> --- a/meta/conf/machine/include/tune-ppc603e.inc
-> +++ b/meta/conf/machine/include/tune-ppc603e.inc
-> @@ -6,6 +6,9 @@ TUNEVALID[ppc603e] = "Enable ppc603e specific processor optimizations"
->   TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", "-mcpu=603e", "", d)}"
->   TUNE_PKGARCH = "${@bb.utils.contains('TUNE_FEATURES', 'ppc603e', 'ppc603e', '${PPCPKGARCH}', d)}"
+> are available in the git repository at:
 >
-> -AVAILTUNES += "ppc603e"
-> +AVAILTUNES = "ppc603e"
->   TUNE_FEATURES_tune-ppc603e = "m32 ppc603e"
->   PACKAGE_EXTRA_ARCHS_tune-ppc603e = "powerpc ppc603e"
-> +
-> +# glibc configure options to get 603e specific library (for sqrt)
-> +GLIBC_EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", "-with-cpu=603e", "", d)}"
-> diff --git a/meta/conf/machine/include/tune-ppce500mc.inc b/meta/conf/machine/include/tune-ppce500mc.inc
-> index b5031f4..9849603 100644
-> --- a/meta/conf/machine/include/tune-ppce500mc.inc
-> +++ b/meta/conf/machine/include/tune-ppce500mc.inc
-> @@ -6,6 +6,9 @@ TUNEVALID[ppce500mc] = "Enable ppce500mc specific processor optimizations"
->   TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "-mcpu=e500mc", "", d)}"
->   TUNE_PKGARCH = "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "ppce500mc", "${PPCPKGARCH}", d)}"
+>    git://git.pokylinux.org/poky-contrib llu/bug1236
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=llu/bug1236
 >
-> -AVAILTUNES += "ppce500mc"
-> +AVAILTUNES = "ppce500mc"
->   TUNE_FEATURES_tune-ppce500mc = "m32 ppce500mc"
->   PACKAGE_EXTRA_ARCHS_tune-ppce500mc = "powerpc ppce500mc"
-> +
-> +# glibc configure options to get e500mc specific library (for sqrt)
-> +GLIBC_EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "-with-cpu=e500mc", "", d)}"
+> Lianhao Lu (3):
+>    utils.bbclass/multilib.conf: Added misc supporting functions.
+>    eglibc: Modify ldd script according to multilib config.
+>    eglibc: Setting KNOWN_INTERPRETER_NAMES for ldconfig.
+>
+>   meta/classes/utils.bbclass                         |   31 ++++++++++++
+>   meta/conf/bitbake.conf                             |    1 +
+>   meta/conf/multilib.conf                            |    6 ++-
+>   .../eglibc/eglibc-2.13/multilib_readlib.patch      |   20 ++++++++
+>   meta/recipes-core/eglibc/eglibc-ld.inc             |   49 ++++++++++++++++++++
+>   meta/recipes-core/eglibc/eglibc.inc                |    1 +
+>   meta/recipes-core/eglibc/eglibc_2.13.bb            |   12 ++++-
+>   7 files changed, 118 insertions(+), 2 deletions(-)
+>   create mode 100644 meta/recipes-core/eglibc/eglibc-2.13/multilib_readlib.patch
+>   create mode 100644 meta/recipes-core/eglibc/eglibc-ld.inc
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
-Kumar,
+Can you please rebase and test this and resend.
 
-This patch is not applying directly it seems that you might have some 
-difference in the TUNE_FEATURES and PACKAGE_EXTRA_ARCHS_ that is 
-throwing things off, have you rebased against master?
-
-Sau!
-
-
+Thanks
+	Sau!
 
 
