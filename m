@@ -1,25 +1,43 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QrIeY-0002YZ-Vf
+	(envelope-from <dongxiao.xu@intel.com>) id 1QrJSP-0003hq-Bf
 	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Aug 2011 01:57:39 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 10 Aug 2011 16:53:07 -0700
+	Thu, 11 Aug 2011 02:49:10 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 10 Aug 2011 17:44:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="37312813"
-Received: from unknown (HELO [10.255.14.248]) ([10.255.14.248])
-	by orsmga001.jf.intel.com with ESMTP; 10 Aug 2011 16:53:07 -0700
-Message-ID: <4E4319E2.30008@linux.intel.com>
-Date: Wed, 10 Aug 2011 16:53:06 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
-MIME-Version: 1.0
+X-IronPort-AV: E=Sophos;i="4.67,353,1309762800"; 
+   d="scan'208";a="5993995"
+Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
+	by AZSMGA002.ch.intel.com with ESMTP; 10 Aug 2011 17:44:36 -0700
+Received: from pgsmsx104.gar.corp.intel.com (10.221.44.91) by
+	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Thu, 11 Aug 2011 08:44:33 +0800
+Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
+	PGSMSX104.gar.corp.intel.com (10.221.44.91) with Microsoft SMTP Server
+	(TLS) id 14.1.323.3; Thu, 11 Aug 2011 08:44:33 +0800
+Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
+	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
+	Thu, 11 Aug 2011 08:44:33 +0800
+From: "Xu, Dongxiao" <dongxiao.xu@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1312840108-10685-1-git-send-email-raj.khem@gmail.com>
-In-Reply-To: <1312840108-10685-1-git-send-email-raj.khem@gmail.com>
-Subject: Re: [PATCH] uclibc_0.9.32: Sync mount.h from eglibc
+Date: Thu, 11 Aug 2011 08:44:32 +0800
+Thread-Topic: [OE-core] [PATCH 5/7] multilib: remove MULTILIB_PACKAGE_ARCHS
+	variable
+Thread-Index: AcxR8pgGWV9VYL3HT6SG22N8IuOmRgATepjgAV/N6CA=
+Message-ID: <D5AB6E638E5A3E4B8F4406B113A5A19A12D70F72A7@shsmsx501.ccr.corp.intel.com>
+References: <cover.1312384552.git.dongxiao.xu@intel.com>
+	<ba3e6c58f74119dcdf1c26cfa6f31ab1383004d1.1312384552.git.dongxiao.xu@intel.com>
+	<4E396A0A.5010205@windriver.com>
+	<D5AB6E638E5A3E4B8F4406B113A5A19A12D7029D0B@shsmsx501.ccr.corp.intel.com>
+In-Reply-To: <D5AB6E638E5A3E4B8F4406B113A5A19A12D7029D0B@shsmsx501.ccr.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+Subject: Re: [PATCH 5/7] multilib: remove MULTILIB_PACKAGE_ARCHS variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,136 +52,204 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2011 23:57:39 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 11 Aug 2011 00:49:10 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 08/08/2011 02:48 PM, Khem Raj wrote:
-> mount.h has few more defines that are being used by newer
-> applications such as systemd
->
-> Signed-off-by: Khem Raj<raj.khem@gmail.com>
-> ---
->   .../uclibc/uclibc-0.9.32/mount.h-update.patch      |   85 ++++++++++++++++++++
->   meta/recipes-core/uclibc/uclibc_0.9.32.bb          |    3 +-
->   2 files changed, 87 insertions(+), 1 deletions(-)
->   create mode 100644 meta/recipes-core/uclibc/uclibc-0.9.32/mount.h-update.patch
->
-> diff --git a/meta/recipes-core/uclibc/uclibc-0.9.32/mount.h-update.patch b/meta/recipes-core/uclibc/uclibc-0.9.32/mount.h-update.patch
-> new file mode 100644
-> index 0000000..3508e0e
-> --- /dev/null
-> +++ b/meta/recipes-core/uclibc/uclibc-0.9.32/mount.h-update.patch
-> @@ -0,0 +1,85 @@
-> +Sync mount.h from glibc this is needed to get missing defines
-> +that some apps e.g. systemd are depending on
-> +
-> +Signed-off-by: Khem Raj<raj.khem@gmail.com>
-> +
-> +Upstream-Status: Pending
-> +
-> +Index: git/include/sys/mount.h
-> +===================================================================
-> +--- git.orig/include/sys/mount.h	2011-07-21 14:37:27.134255747 -0700
-> ++++ git/include/sys/mount.h	2011-07-21 14:39:53.844470932 -0700
-> +@@ -1,5 +1,5 @@
-> + /* Header file for mounting/unmount Linux filesystems.
-> +-   Copyright (C) 1996,1997,1998,1999,2000,2004 Free Software Foundation, Inc.
-> ++   Copyright (C) 1996-2000, 2004, 2010 Free Software Foundation, Inc.
-> +    This file is part of the GNU C Library.
-> +
-> +    The GNU C Library is free software; you can redistribute it and/or
-> +@@ -47,23 +47,46 @@
-> + #define MS_REMOUNT	MS_REMOUNT
-> +   MS_MANDLOCK = 64,		/* Allow mandatory locks on an FS.  */
-> + #define MS_MANDLOCK	MS_MANDLOCK
-> +-  S_WRITE = 128,		/* Write on file/directory/symlink.  */
-> +-#define S_WRITE		S_WRITE
-> +-  S_APPEND = 256,		/* Append-only file.  */
-> +-#define S_APPEND	S_APPEND
-> +-  S_IMMUTABLE = 512,		/* Immutable file.  */
-> +-#define S_IMMUTABLE	S_IMMUTABLE
-> ++  MS_DIRSYNC = 128,		/* Directory modifications are synchronous.  */
-> ++#define MS_DIRSYNC	MS_DIRSYNC
-> +   MS_NOATIME = 1024,		/* Do not update access times.  */
-> + #define MS_NOATIME	MS_NOATIME
-> +   MS_NODIRATIME = 2048,		/* Do not update directory access times.  */
-> + #define MS_NODIRATIME	MS_NODIRATIME
-> +   MS_BIND = 4096,		/* Bind directory at different place.  */
-> + #define MS_BIND		MS_BIND
-> ++  MS_MOVE = 8192,
-> ++#define MS_MOVE		MS_MOVE
-> ++  MS_REC = 16384,
-> ++#define MS_REC		MS_REC
-> ++  MS_SILENT = 32768,
-> ++#define MS_SILENT	MS_SILENT
-> ++  MS_POSIXACL = 1<<  16,	/* VFS does not apply the umask.  */
-> ++#define MS_POSIXACL	MS_POSIXACL
-> ++  MS_UNBINDABLE = 1<<  17,	/* Change to unbindable.  */
-> ++#define MS_UNBINDABLE	MS_UNBINDABLE
-> ++  MS_PRIVATE = 1<<  18,		/* Change to private.  */
-> ++#define MS_PRIVATE	MS_PRIVATE
-> ++  MS_SLAVE = 1<<  19,		/* Change to slave.  */
-> ++#define MS_SLAVE	MS_SLAVE
-> ++  MS_SHARED = 1<<  20,		/* Change to shared.  */
-> ++#define MS_SHARED	MS_SHARED
-> ++  MS_RELATIME = 1<<  21,	/* Update atime relative to mtime/ctime.  */
-> ++#define MS_RELATIME	MS_RELATIME
-> ++  MS_KERNMOUNT = 1<<  22,	/* This is a kern_mount call.  */
-> ++#define MS_KERNMOUNT	MS_KERNMOUNT
-> ++  MS_I_VERSION =  1<<  23,	/* Update inode I_version field.  */
-> ++#define MS_I_VERSION	MS_I_VERSION
-> ++  MS_STRICTATIME = 1<<  24,	/* Always perform atime updates.  */
-> ++#define MS_STRICTATIME	MS_STRICTATIME
-> ++  MS_ACTIVE = 1<<  30,
-> ++#define MS_ACTIVE	MS_ACTIVE
-> ++  MS_NOUSER = 1<<  31
-> ++#define MS_NOUSER	MS_NOUSER
-> + };
-> +
-> + /* Flags that can be altered by MS_REMOUNT  */
-> +-#define MS_RMT_MASK (MS_RDONLY|MS_SYNCHRONOUS|MS_MANDLOCK|MS_NOATIME \
-> +-		     |MS_NODIRATIME)
-> ++#define MS_RMT_MASK (MS_RDONLY|MS_SYNCHRONOUS|MS_MANDLOCK|MS_I_VERSION)
-> +
-> +
-> + /* Magic mount flag number. Has to be or-ed to the flag values.  */
-> +@@ -100,8 +123,10 @@
-> + #define MNT_FORCE MNT_FORCE
-> +   MNT_DETACH = 2,		/* Just detach from the tree.  */
-> + #define MNT_DETACH MNT_DETACH
-> +-  MNT_EXPIRE = 4		/* Mark for expiry.  */
-> ++  MNT_EXPIRE = 4,		/* Mark for expiry.  */
-> + #define MNT_EXPIRE MNT_EXPIRE
-> ++  UMOUNT_NOFOLLOW = 8		/* Don't follow symlink on umount.  */
-> ++#define UMOUNT_NOFOLLOW UMOUNT_NOFOLLOW
-> + };
-> +
-> +
-> diff --git a/meta/recipes-core/uclibc/uclibc_0.9.32.bb b/meta/recipes-core/uclibc/uclibc_0.9.32.bb
-> index 8dcb260..235b436 100644
-> --- a/meta/recipes-core/uclibc/uclibc_0.9.32.bb
-> +++ b/meta/recipes-core/uclibc/uclibc_0.9.32.bb
-> @@ -1,7 +1,7 @@
->   SRCREV="9152c4d67c763fde5712e2d181d92c0d7e1e2ab9"
->
->   require uclibc.inc
-> -PR = "${INC_PR}.2"
-> +PR = "${INC_PR}.3"
->   PROVIDES += "virtual/${TARGET_PREFIX}libc-for-gcc"
->
->   SRC_URI = "git://uclibc.org/uClibc.git;branch=${PV};protocol=git \
-> @@ -29,5 +29,6 @@ SRC_URI = "git://uclibc.org/uClibc.git;branch=${PV};protocol=git \
->   	file://uclibc-execvpe.patch \
->   	file://uclibc_scheduler_update.patch \
->   	file://sync_file_range2.patch \
-> +	file://mount.h-update.patch \
->   	"
->   S = "${WORKDIR}/git"
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Xu, Dongxiao
+> Sent: Thursday, August 04, 2011 9:00 AM
+> To: Patches and discussions about the oe-core layer
+> Subject: Re: [OE-core] [PATCH 5/7] multilib: remove
+> MULTILIB_PACKAGE_ARCHS variable
+>=20
+> Hi Mark,
+>=20
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> Of
+> > Mark Hatle
+> > Sent: Wednesday, August 03, 2011 11:32 PM
+> > To: openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH 5/7] multilib: remove
+> > MULTILIB_PACKAGE_ARCHS variable
+> >
+> > On 8/3/11 10:19 AM, Dongxiao Xu wrote:
+> > > multilib package and normal package shares the same architecture
+> > > deploy folder, thus we do not need the ${MULTILIB_PACKAGE_ARCHS}.
+> >
+> > This is incorrect behavior, at least for RPM.  The folder should have
+> > the pkgarch specific to the tuning used to generate the multilib.
+> > (Behavior may be correct for deb/ipk.)
+>=20
+> Yes, ipk package name is different between normal package and multilib
+> package (tagged with MLPREFIX), so even they are put in the same deploy
+> folder, there should be no problem.
+>=20
+> However for currently for rpm multilib, the normal package and multilib
+> package are in the same folder with same name, thus one will override the
+> other.
+>=20
+> Take "initscript" as an example, the normal rpm package name is:
+> "initscripts-1.0-r127.x86_64.rpm". However the lib32 version of initscrip=
+t's rpm
+> package is also named as "initscripts-1.0-r127.x86_64.rpm", putting in th=
+e
+> same deploy folder: "tmp/deploy/rpm/x86_64".
+>=20
 
-Merged into OE-Core
+Hi Mark,
 
-Thanks
-	Sau!
+Do you have updates on the above issue?
+
+Thanks,
+Dongxiao
+
+
+> I think this should be an issue to fix, also we need to think about how t=
+o co-work
+> with ipk side.
+>=20
+> Thanks,
+> Dongxiao
+>=20
+> >
+> > (If RPM sees two packages with the same .arch, it assumes that it's an
+> > upgrade operation.  If the .arch is different then it goes into the
+> > multilib mode and will be able to install both packages together,
+> > assuming the conflict resolution results in a working --
+> > non-conflicting -- install solution.)
+> >
+> > --Mark
+> >
+> > > CC: Mark Hatle <mark.hatle@windriver.com>
+> > > Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+> > > ---
+> > >  meta/classes/package_rpm.bbclass      |   13 ++-----------
+> > >  meta/classes/populate_sdk_rpm.bbclass |    3 ---
+> > >  meta/classes/rootfs_rpm.bbclass       |    3 ---
+> > >  3 files changed, 2 insertions(+), 17 deletions(-)
+> > >
+> > > diff --git a/meta/classes/package_rpm.bbclass
+> > > b/meta/classes/package_rpm.bbclass
+> > > index abedc68..9d0eeba 100644
+> > > --- a/meta/classes/package_rpm.bbclass
+> > > +++ b/meta/classes/package_rpm.bbclass
+> > > @@ -27,8 +27,7 @@ package_update_index_rpm () {
+> > >
+> > >  	# Update target packages
+> > >  	base_archs=3D"${PACKAGE_ARCHS}"
+> > > -	ml_archs=3D"${MULTILIB_PACKAGE_ARCHS}"
+> > > -	package_update_index_rpm_common "${RPMCONF_TARGET_BASE}"
+> > base_archs ml_archs
+> > > +	package_update_index_rpm_common
+> "${RPMCONF_TARGET_BASE}"
+> > base_archs
+> > >
+> > >  	# Update SDK packages
+> > >  	base_archs=3D"${SDK_PACKAGE_ARCHS}"
+> > > @@ -76,7 +75,7 @@ package_update_index_rpm_common () {  #
+> > > package_generate_rpm_conf () {
+> > >  	# Update target packages
+> > > -	package_generate_rpm_conf_common "${RPMCONF_TARGET_BASE}"
+> > base_archs ml_archs
+> > > +	package_generate_rpm_conf_common
+> "${RPMCONF_TARGET_BASE}"
+> > base_archs
+> > >
+> > >  	# Update SDK packages
+> > >  	package_generate_rpm_conf_common "${RPMCONF_HOST_BASE}"
+> > base_archs
+> > > @@ -203,10 +202,6 @@ package_install_internal_rpm () {
+> > >
+> > >  				archvar=3Dbase_archs
+> > >  				ml_pkg=3D$(echo ${pkg} | sed
+> "s,^${MLPREFIX}\(.*\),\1,")
+> > > -				if [ "${ml_pkg}" !=3D "${pkg}" ]; then
+> > > -					archvar=3Dml_archs
+> > > -				fi
+> > > -
+> > >  				pkg_name=3D$(resolve_package_rpm
+> > ${confbase}-${archvar}.conf ${ml_pkg})
+> > >  				if [ -z "$pkg_name" ]; then
+> > >  					echo "Unable to find package $pkg ($ml_pkg)!"
+> > > @@ -223,10 +218,6 @@ package_install_internal_rpm () {
+> > >
+> > >  			archvar=3Dbase_archs
+> > >  			ml_pkg=3D$(echo ${pkg} | sed "s,^${MLPREFIX}\(.*\),\1,")
+> > > -			if [ "${ml_pkg}" !=3D "${pkg}" ]; then
+> > > -				archvar=3Dml_archs
+> > > -			fi
+> > > -
+> > >  			pkg_name=3D$(resolve_package_rpm
+> ${confbase}-${archvar}.conf
+> > ${ml_pkg})
+> > >  			if [ -z "$pkg_name" ]; then
+> > >  				echo "Unable to find package $pkg ($ml_pkg)!"
+> > > diff --git a/meta/classes/populate_sdk_rpm.bbclass
+> > > b/meta/classes/populate_sdk_rpm.bbclass
+> > > index 5fb0234..f33e4a9 100644
+> > > --- a/meta/classes/populate_sdk_rpm.bbclass
+> > > +++ b/meta/classes/populate_sdk_rpm.bbclass
+> > > @@ -115,7 +115,6 @@ EOF
+> > >  }
+> > >
+> > >  python () {
+> > > -    ml_package_archs =3D ""
+> > >      multilibs =3D d.getVar('MULTILIBS', True) or ""
+> > >      for ext in multilibs.split():
+> > >          eext =3D ext.split(':')
+> > > @@ -125,8 +124,6 @@ python () {
+> > >              localdata.setVar("OVERRIDES", overrides)
+> > >              # TEMP: OVERRIDES isn't working right
+> > >              localdata.setVar("DEFAULTTUNE",
+> > localdata.getVar("DEFAULTTUNE_virtclass-multilib-" + eext[1], False)
+> > or "")
+> > > -            ml_package_archs +=3D localdata.getVar("PACKAGE_ARCHS",
+> > True) or ""
+> > >              #bb.note("ML_PACKAGE_ARCHS %s %s %s" % (eext[1],
+> > localdata.getVar("PACKAGE_ARCHS", True) or "(none)", overrides))
+> > > -    bb.data.setVar('MULTILIB_PACKAGE_ARCHS', ml_package_archs, d)
+> > >  }
+> > >
+> > > diff --git a/meta/classes/rootfs_rpm.bbclass
+> > > b/meta/classes/rootfs_rpm.bbclass index 7c06064..c188d27 100644
+> > > --- a/meta/classes/rootfs_rpm.bbclass
+> > > +++ b/meta/classes/rootfs_rpm.bbclass
+> > > @@ -209,7 +209,6 @@ python () {
+> > >          bb.data.setVar('RPM_PREPROCESS_COMMANDS', '', d)
+> > >          bb.data.setVar('RPM_POSTPROCESS_COMMANDS', '', d)
+> > >
+> > > -    ml_package_archs =3D ""
+> > >      multilibs =3D d.getVar('MULTILIBS', True) or ""
+> > >      for ext in multilibs.split():
+> > >          eext =3D ext.split(':')
+> > > @@ -219,7 +218,5 @@ python () {
+> > >              localdata.setVar("OVERRIDES", overrides)
+> > >              # TEMP: OVERRIDES isn't working right
+> > >              localdata.setVar("DEFAULTTUNE",
+> > localdata.getVar("DEFAULTTUNE_virtclass-multilib-" + eext[1], False)
+> > or "")
+> > > -            ml_package_archs +=3D localdata.getVar("PACKAGE_ARCHS",
+> > True) or ""
+> > >              #bb.note("ML_PACKAGE_ARCHS %s %s %s" % (eext[1],
+> > localdata.getVar("PACKAGE_ARCHS", True) or "(none)", overrides))
+> > > -    bb.data.setVar('MULTILIB_PACKAGE_ARCHS', ml_package_archs, d)
+> > >  }
+> >
+> >
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
