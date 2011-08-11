@@ -1,25 +1,25 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QreR1-0005VL-3e
+	(envelope-from <dvhart@linux.intel.com>) id 1QreR3-0005Vd-W3
 	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Aug 2011 01:13:07 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	Fri, 12 Aug 2011 01:13:12 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP; 11 Aug 2011 16:08:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="36969611"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="37688736"
 Received: from unknown (HELO localhost) ([10.7.199.156])
-	by orsmga002.jf.intel.com with ESMTP; 11 Aug 2011 16:08:31 -0700
+	by orsmga001.jf.intel.com with ESMTP; 11 Aug 2011 16:08:31 -0700
 From: Darren Hart <dvhart@linux.intel.com>
 To: bruce.ashfield@windriver.com, tom.zanussi@intel.com,
 	openembedded-core@lists.openembedded.org
-Date: Thu, 11 Aug 2011 16:08:19 -0700
-Message-Id: <d8d741ad0c13336e0736ea4dbeb9b1212c78dea0.1313092152.git.dvhart@linux.intel.com>
+Date: Thu, 11 Aug 2011 16:08:20 -0700
+Message-Id: <056c7c39be481014131b002efc2c349eb668b81a.1313092152.git.dvhart@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1313092152.git.dvhart@linux.intel.com>
 References: <cover.1313092152.git.dvhart@linux.intel.com>
 In-Reply-To: <cover.1313092152.git.dvhart@linux.intel.com>
 References: <cover.1313092152.git.dvhart@linux.intel.com>
-Subject: [PATCH 06/10] meta-rt: rename minimal-rt images to -rt, drop live image
+Subject: [PATCH 07/10] meta-rt: add an -rt-sdk image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,34 +36,36 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 11 Aug 2011 23:13:12 -0000
 
-Remove "minimal" from the image recipe names for -rt. Additional recipes types
-will be added (-rt-sdk for example) and there is no need to keep so many image
-type descriptors.
-
-Drop the -live image as it is now obsolete.
+Add images including the SDK without the addition of the grapical environment or
+packages.
 
 Signed-off-by: Darren Hart <dvhart@linux.intel.com>
 ---
- .../{core-image-minimal-rt.bb => core-image-rt.bb} |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
- rename meta-rt/images/{core-image-minimal-rt.bb => core-image-rt.bb} (78%)
+ meta-rt/images/core-image-rt-sdk.bb |   15 +++++++++++++++
+ 1 files changed, 15 insertions(+), 0 deletions(-)
+ create mode 100644 meta-rt/images/core-image-rt-sdk.bb
 
-diff --git a/meta-rt/images/core-image-minimal-rt.bb b/meta-rt/images/core-image-rt.bb
-similarity index 78%
-rename from meta-rt/images/core-image-minimal-rt.bb
-rename to meta-rt/images/core-image-rt.bb
-index 32a9b92..e11f159 100644
---- a/meta-rt/images/core-image-minimal-rt.bb
-+++ b/meta-rt/images/core-image-rt.bb
-@@ -2,7 +2,7 @@
- # Copyright (C) 2010 Intel Corporation.
- #
- 
--DESCRIPTION = "Minimal Real-Time Linux Image"
-+DESCRIPTION = "Real-Time Linux Image"
- DEPENDS = "linux-yocto-rt"
- 
- require recipes-core/images/core-image-minimal.bb
+diff --git a/meta-rt/images/core-image-rt-sdk.bb b/meta-rt/images/core-image-rt-sdk.bb
+new file mode 100644
+index 0000000..6e98343
+--- /dev/null
++++ b/meta-rt/images/core-image-rt-sdk.bb
+@@ -0,0 +1,15 @@
++#
++# Copyright (C) 2011 Intel Corporation.
++#
++
++DESCRIPTION = "Real-Time Linux Image with SDK support"
++DEPENDS = "linux-yocto-rt"
++
++require recipes-core/images/core-image-minimal.bb
++
++IMAGE_FEATURES += "dev-pkgs tools-sdk"
++EXTRA_IMAGE_FEATURES += "tools-debug tools-profile tools-testapps debug-tweaks"
++
++IMAGE_INSTALL += "rt-tests"
++
++LICENSE = "MIT"
 -- 
 1.7.6
 
