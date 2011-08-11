@@ -1,36 +1,31 @@
-Received: from mail-gw0-f47.google.com ([74.125.83.47])
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1Qra0j-0005kg-3T
+	(envelope-from <kergoth@gmail.com>) id 1Qra0j-0005kh-5w
 	for openembedded-core@lists.openembedded.org;
 	Thu, 11 Aug 2011 20:29:41 +0200
-Received: by gwb11 with SMTP id 11so1526880gwb.6
+Received: by gyg4 with SMTP id 4so1518653gyg.6
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 11 Aug 2011 11:25:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=CoYlDB2zHPTCL3p09SUWoYZqMZ5psuF51W/tJEV5xBU=;
-	b=n2iLLuEwFcNAf4oz05VbPBq7l+zlfFbSFo+7zEen/UNQ/Nt7c4appllQw2NC4Q9XAB
-	aZjpe20pAzTTKvd2OXxOA1ybSzQGKW9bz5M+VCewO5FwLRxr/5Vq1RPsVQLYWCCQwwMY
-	sQgH0WOIrwK3DKjF4YC4MjXWmHaQHm6TY5dt4=
-Received: by 10.150.254.20 with SMTP id b20mr1017794ybi.91.1313087108824;
-	Thu, 11 Aug 2011 11:25:08 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=GygbPWHTh6hEdgpiVUtNxRJpBMy7e353WphrEJkJZpw=;
+	b=lFPkbcmyrGm3IB9s7jrfG3xSMFXeVaD9aIrcJhq3DGYA3HVBRRijZrh7ishjesYhpJ
+	tuOJADRGLbsR+oNdIFcqr21iKyF5UubBZx6IF7EfXcW0QOSYih3R5Tgh0VLrxcL3UZzM
+	YPKMt94lgZr1wIeXBH0ZEIG01KxVB2gTbqwCk=
+Received: by 10.150.92.17 with SMTP id p17mr984356ybb.440.1313087107067;
+	Thu, 11 Aug 2011 11:25:07 -0700 (PDT)
 Received: from localhost.localdomain (ip24-251-173-232.ph.ph.cox.net
 	[24.251.173.232])
-	by mx.google.com with ESMTPS id f5sm1281063ybd.13.2011.08.11.11.25.07
+	by mx.google.com with ESMTPS id f5sm1281063ybd.13.2011.08.11.11.25.05
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 11 Aug 2011 11:25:08 -0700 (PDT)
+	Thu, 11 Aug 2011 11:25:06 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Aug 2011 11:23:48 -0700
-Message-Id: <1a00f4f19846518abdef1e7eaa238c0797e75189.1313086806.git.chris_larson@mentor.com>
+Date: Thu, 11 Aug 2011 11:23:47 -0700
+Message-Id: <cover.1313086806.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1313086806.git.chris_larson@mentor.com>
-References: <cover.1313086806.git.chris_larson@mentor.com>
-In-Reply-To: <cover.1313086806.git.chris_larson@mentor.com>
-References: <cover.1313086806.git.chris_larson@mentor.com>
 Cc: Chris Larson <chris_larson@mentor.com>
-Subject: [PATCH 1/7] busybox: don't strip the main binary
+Subject: [PATCH 0/7] Miscellaneous fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,39 +44,36 @@ X-List-Received-Date: Thu, 11 Aug 2011 18:29:41 -0000
 
 From: Chris Larson <chris_larson@mentor.com>
 
-With this, we get a useful busybox-dbg package.
+A variety of unrelated fixes I've had local for a while.
 
-Signed-off-by: Chris Larson <chris_larson@mentor.com>
----
+The following changes since commit a752b23767189f2678367e47ca0b41f49c56a631:
+
+  sstate: Add level 2 debug so its possible to see what sstate is doing (2011-08-11 17:19:51 +0100)
+
+are available in the git repository at:
+  github:kergoth/oe-core misc-fixes
+
+go here for github's branch comparison interface:
+  https://github.com/kergoth/oe-core/compare/master...misc-fixes
+
+Chris Larson (7):
+  busybox: don't strip the main binary
+  insane: add linux-gnu to the platform data
+  nativesdk: inherit relocatable
+  sanity: shift the required utils into a variable
+  package: include SECTION in the pkgdata
+  package: allow setting a section for locale packages
+  cross: also empty PACKAGES_DYNAMIC
+
+ meta/classes/cross.bbclass                  |    2 ++
+ meta/classes/insane.bbclass                 |    3 +++
+ meta/classes/nativesdk.bbclass              |    2 ++
+ meta/classes/package.bbclass                |    6 ++++++
+ meta/classes/sanity.bbclass                 |    4 +++-
  meta/recipes-core/busybox/busybox.inc       |    3 ++-
  meta/recipes-core/busybox/busybox_1.18.4.bb |    2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ 7 files changed, 19 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 5eba0ca..d46c135 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -120,7 +120,8 @@ do_configure () {
- 
- do_compile() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
--	base_do_compile
-+	oe_runmake busybox_unstripped
-+	cp busybox_unstripped busybox
- }
- 
- do_install () {
-diff --git a/meta/recipes-core/busybox/busybox_1.18.4.bb b/meta/recipes-core/busybox/busybox_1.18.4.bb
-index d18af6f..b4681a4 100644
---- a/meta/recipes-core/busybox/busybox_1.18.4.bb
-+++ b/meta/recipes-core/busybox/busybox_1.18.4.bb
-@@ -1,5 +1,5 @@
- require busybox.inc
--PR = "r7"
-+PR = "r8"
- 
- SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://udhcpscript.patch \
 -- 
 1.7.4.1
 
