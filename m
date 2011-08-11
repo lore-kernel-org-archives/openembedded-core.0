@@ -1,33 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QrXlH-0002MV-VH for openembedded-core@lists.openembedded.org;
-	Thu, 11 Aug 2011 18:05:36 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7BG15xe032164
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2011 17:01:05 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 31578-07 for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2011 17:01:01 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7BG10DM032158
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2011 17:01:00 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <philb@gnu.org>) id 1QrXmN-0002Of-Jh
+	for openembedded-core@lists.openembedded.org;
+	Thu, 11 Aug 2011 18:06:43 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QrXhx-0006Yn-3V
+	for openembedded-core@lists.openembedded.org;
+	Thu, 11 Aug 2011 18:02:09 +0200
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <0C67B7D5-11F2-45F4-AD8F-F43F508CD784@kernel.crashing.org>
-References: <0C67B7D5-11F2-45F4-AD8F-F43F508CD784@kernel.crashing.org>
-Date: Thu, 11 Aug 2011 17:00:22 +0100
-Message-ID: <1313078422.14274.442.camel@rex>
+Date: Thu, 11 Aug 2011 17:02:08 +0100
+In-Reply-To: <1313078412-6872-1-git-send-email-noor_ahsan@mentor.com>
+References: <1313078412-6872-1-git-send-email-noor_ahsan@mentor.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1313078529.6733.138.camel@phil-desktop>
 Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: sscache signature?
+Subject: Re: [PATCH] bluez4: Added new recipe version 4.96
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,57 +33,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2011 16:05:36 -0000
+X-List-Received-Date: Thu, 11 Aug 2011 16:06:43 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-08-10 at 12:51 -0500, Kumar Gala wrote:
-> the yocto wiki references mentions a bitbake-diffsigs
+On Thu, 2011-08-11 at 21:00 +0500, Noor, Ahsan wrote:
+> From: Noor Ahsan <noor_ahsan@mentor.com>
 > 
-> https://wiki.yoctoproject.org/wiki/Enable_sstate_cache
-> 
-> but not seeing that.  How can one compare signature or try and figure
-> out why a cache item isn't being reused between cfgs.
+> * Added new recipe version 4.96.
 
-What I've been referring to is a process something along the lines of:
+Is there a particular reason why we need both this and the old 4.82?
 
-$ bitbake bash -e | grep BASEHASH | sort > hashbefore
-$ vi ../scripts/oe-buildenv-internal 
-[Add SOCKS5_USER and SOCKS5_DOMAIN to BB_ENV_EXTRAWHITE]
-$ export SOCKS5_USER=bar
-$ cd ..; source oe-init-build-env b2
-$ bitbake bash -e | grep BASEHASH | sort > hashafter
-$ diff -u hashbefore hashafter
-[no differences]
-$ vi conf/local.conf
-[ Add "export SOCKS5_USER" to file ]
-$ bitbake bash -e | grep BASEHASH | sort > hashafter2
-$ diff -u hashbefore hashafter2
-[ Find hashes now changed (which is bad and what we need to avoid ]
-$ vi ./meta/conf/bitbake.conf
-[ Add SOCKS5_USER to BB_HASHBASE_WHIETLIST ]
-$ bitbake bash -e | grep BASEHASH | sort > hashafter3
-$ diff -u hashbefore hashafter2
-[no differences again - good]
-
-which proves the addition of the variable didn't result in changes
-sstate checksums. The bitbake-diffsigs command can be used to find out
-what caused changes but in this case we have a pretty good idea so I
-didn't use it.
-
-As mentioned on irc, adding it to BB_ENV_EXTRAWHITE isn't an issue but
-since its not exported into any of bitbake's execution environment, I'm
-at a loss to understand how this helps you. If you do also export the
-value to include it in bitbake's execution environment it does change
-the hash which is what I worried about and it needs excluding as
-documented above.
-
-Some further investigation is needed to figure out how BB_ENV_EXTRAWHITE
-is enough as it shouldn't be.
-
-Cheers,
-
-Richard
+p.
 
 
 
