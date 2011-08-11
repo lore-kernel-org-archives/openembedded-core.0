@@ -1,31 +1,36 @@
 Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1Qra0j-0005kh-5w
+	(envelope-from <kergoth@gmail.com>) id 1Qra0l-0005kh-Oa
 	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Aug 2011 20:29:41 +0200
-Received: by gyg4 with SMTP id 4so1518653gyg.6
+	Thu, 11 Aug 2011 20:29:43 +0200
+Received: by mail-gy0-f175.google.com with SMTP id 4so1518653gyg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2011 11:25:08 -0700 (PDT)
+	Thu, 11 Aug 2011 11:25:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=GygbPWHTh6hEdgpiVUtNxRJpBMy7e353WphrEJkJZpw=;
-	b=lFPkbcmyrGm3IB9s7jrfG3xSMFXeVaD9aIrcJhq3DGYA3HVBRRijZrh7ishjesYhpJ
-	tuOJADRGLbsR+oNdIFcqr21iKyF5UubBZx6IF7EfXcW0QOSYih3R5Tgh0VLrxcL3UZzM
-	YPKMt94lgZr1wIeXBH0ZEIG01KxVB2gTbqwCk=
-Received: by 10.150.92.17 with SMTP id p17mr984356ybb.440.1313087107067;
-	Thu, 11 Aug 2011 11:25:07 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references;
+	bh=H0HKjdvgCFPi18bcWhy71bNQdaF+dy/bKTQXuMcjbpc=;
+	b=ZDdLhcdi+FfJ4V57H6KJPzjEfXmLToRqMCpxlfztmho7xIzMhsNqUfB9MCcicytDlo
+	L3dX6K//YDUr/hWnsG3Y87Lf7tl2XxymOiECHAFHU+90RmJdhn5cAUNxDqzw0FWpFz78
+	AEOzDiQqGhI3sUsMqVQkd5shXSvKpw77ubIhc=
+Received: by 10.150.150.16 with SMTP id x16mr948807ybd.168.1313087114083;
+	Thu, 11 Aug 2011 11:25:14 -0700 (PDT)
 Received: from localhost.localdomain (ip24-251-173-232.ph.ph.cox.net
 	[24.251.173.232])
-	by mx.google.com with ESMTPS id f5sm1281063ybd.13.2011.08.11.11.25.05
+	by mx.google.com with ESMTPS id f5sm1281063ybd.13.2011.08.11.11.25.13
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 11 Aug 2011 11:25:06 -0700 (PDT)
+	Thu, 11 Aug 2011 11:25:13 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Aug 2011 11:23:47 -0700
-Message-Id: <cover.1313086806.git.chris_larson@mentor.com>
+Date: Thu, 11 Aug 2011 11:23:52 -0700
+Message-Id: <fa77a0a87cbc4da89883767648bd6255e7d788ae.1313086806.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 1.7.4.1
+In-Reply-To: <cover.1313086806.git.chris_larson@mentor.com>
+References: <cover.1313086806.git.chris_larson@mentor.com>
+In-Reply-To: <cover.1313086806.git.chris_larson@mentor.com>
+References: <cover.1313086806.git.chris_larson@mentor.com>
 Cc: Chris Larson <chris_larson@mentor.com>
-Subject: [PATCH 0/7] Miscellaneous fixes
+Subject: [PATCH 5/7] package: include SECTION in the pkgdata
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,40 +45,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2011 18:29:41 -0000
+X-List-Received-Date: Thu, 11 Aug 2011 18:29:43 -0000
 
 From: Chris Larson <chris_larson@mentor.com>
 
-A variety of unrelated fixes I've had local for a while.
+Signed-off-by: Chris Larson <chris_larson@mentor.com>
+---
+ meta/classes/package.bbclass |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-The following changes since commit a752b23767189f2678367e47ca0b41f49c56a631:
-
-  sstate: Add level 2 debug so its possible to see what sstate is doing (2011-08-11 17:19:51 +0100)
-
-are available in the git repository at:
-  github:kergoth/oe-core misc-fixes
-
-go here for github's branch comparison interface:
-  https://github.com/kergoth/oe-core/compare/master...misc-fixes
-
-Chris Larson (7):
-  busybox: don't strip the main binary
-  insane: add linux-gnu to the platform data
-  nativesdk: inherit relocatable
-  sanity: shift the required utils into a variable
-  package: include SECTION in the pkgdata
-  package: allow setting a section for locale packages
-  cross: also empty PACKAGES_DYNAMIC
-
- meta/classes/cross.bbclass                  |    2 ++
- meta/classes/insane.bbclass                 |    3 +++
- meta/classes/nativesdk.bbclass              |    2 ++
- meta/classes/package.bbclass                |    6 ++++++
- meta/classes/sanity.bbclass                 |    4 +++-
- meta/recipes-core/busybox/busybox.inc       |    3 ++-
- meta/recipes-core/busybox/busybox_1.18.4.bb |    2 +-
- 7 files changed, 19 insertions(+), 3 deletions(-)
-
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index bb0ba68..0a954ef 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1051,6 +1051,7 @@ python emit_pkgdata() {
+ 		write_if_exists(sf, pkg, 'RSUGGESTS')
+ 		write_if_exists(sf, pkg, 'RREPLACES')
+ 		write_if_exists(sf, pkg, 'RCONFLICTS')
++		write_if_exists(sf, pkg, 'SECTION')
+ 		write_if_exists(sf, pkg, 'PKG')
+ 		write_if_exists(sf, pkg, 'ALLOW_EMPTY')
+ 		write_if_exists(sf, pkg, 'FILES')
 -- 
 1.7.4.1
 
