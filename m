@@ -1,32 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QrXIg-0001c7-DO for openembedded-core@lists.openembedded.org;
-	Thu, 11 Aug 2011 17:36:02 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7BFVSbI031887;
-	Thu, 11 Aug 2011 16:31:28 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 31583-04; Thu, 11 Aug 2011 16:31:24 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7BFVJ2k031881
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Thu, 11 Aug 2011 16:31:20 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1D98D492-1D74-49DE-A884-C919AFF30BDD@kernel.crashing.org>
-References: <1312484099-29314-1-git-send-email-galak@kernel.crashing.org>
-	<4E437883.90406@intel.com>
-	<1D98D492-1D74-49DE-A884-C919AFF30BDD@kernel.crashing.org>
-Date: Thu, 11 Aug 2011 16:30:41 +0100
-Message-ID: <1313076641.14274.431.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] gcc: use ${base_lib} to match gcc default configuration
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <mark.hatle@windriver.com>) id 1QrXUa-0001jk-3J
+	for openembedded-core@lists.openembedded.org;
+	Thu, 11 Aug 2011 17:48:20 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7BFhlwR003103
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Aug 2011 08:43:47 -0700 (PDT)
+Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Thu, 11 Aug 2011 08:43:46 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 11 Aug 2011 10:46:36 -0500
+Message-ID: <cover.1313077484.git.mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
+MIME-Version: 1.0
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH 0/2] Fix on-target RPM platform mismatch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,26 +33,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2011 15:36:02 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 11 Aug 2011 15:48:20 -0000
+Content-Type: text/plain
 
-On Thu, 2011-08-11 at 01:47 -0500, Kumar Gala wrote:
-> revert this is not acceptable as that will break ppc64 builds.
-> 
-> I think you need to look at 64bithack.patch and if we really should be using it for multilib builds.
+This fixes the Yocto bug #1352.  When trying to install an arm package
+on the target, the platform no longer matched properly.  The platform was
+being set to arm*-oe-linux-gnu, instead of the proper arm*-oe-linux-gnueabi.
 
-This just sounds like gcc totally ignores the the library directory
-we're using and that is plain wrong :(.
+The following changes since commit 87456db10d6e615e5f49453befedaa5957dfe292:
 
-I'd much prefer gcc didn't make assumptions in this case and did what
-were were configuring it to do. That is why there is that 64bit hack
-there and I think gcc should be honouring however we configure the
-library directories, not doing what it thinks is best...
+  package_rpm.bbclass: Update the platform config and --target (2011-08-11 10:42:02 -0500)
 
-Cheers,
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib mhatle/fix_1352
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/fix_1352
 
-Richard
+Mark Hatle (2):
+  rpm: Fix the canonical arch --target processing and cleanup
+  package_rpm.bbclass: Update the platform config and --target
+
+ meta/classes/package_rpm.bbclass                   |   14 ++-
+ .../recipes-devtools/rpm/rpm/export-rpmbag-h.patch |   45 -------
+ meta/recipes-devtools/rpm/rpm/hdraddorappend.patch |   22 ----
+ meta/recipes-devtools/rpm/rpm/rpm-canonarch.patch  |  134 ++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm/rpm-no-loop.patch    |   38 ------
+ meta/recipes-devtools/rpm/rpm/rpm-no-loopmsg.patch |   16 +++
+ meta/recipes-devtools/rpm/rpm/rpm-nrescan.patch    |   17 ---
+ meta/recipes-devtools/rpm/rpm_5.4.0.bb             |    8 +-
+ 8 files changed, 164 insertions(+), 130 deletions(-)
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/export-rpmbag-h.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/hdraddorappend.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-canonarch.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-no-loop.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-no-loopmsg.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-nrescan.patch
+
+-- 
+1.7.3.4
 
 
 
