@@ -1,26 +1,31 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ke.yu@intel.com>) id 1QrOxL-00064I-Ha
+	(envelope-from <koen@dominion.thruhere.net>) id 1QrP0B-00068T-Fv
 	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Aug 2011 08:41:28 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 10 Aug 2011 23:36:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,355,1309762800"; 
-   d="scan'208";a="6062736"
-Received: from kyu3-desk.ccr.corp.intel.com (HELO [10.238.154.176])
-	([10.238.154.176])
-	by AZSMGA002.ch.intel.com with ESMTP; 10 Aug 2011 23:36:52 -0700
-Message-ID: <4E437883.90406@intel.com>
-Date: Thu, 11 Aug 2011 14:36:51 +0800
-From: Yu Ke <ke.yu@intel.com>
-User-Agent: Mozilla/5.0 (Windows NT 5.1; rv:5.0) Gecko/20110624 Thunderbird/5.0
-MIME-Version: 1.0
+	Thu, 11 Aug 2011 08:44:23 +0200
+Received: by wwe32 with SMTP id 32so1522995wwe.24
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Aug 2011 23:39:52 -0700 (PDT)
+Received: by 10.227.173.70 with SMTP id o6mr7823373wbz.38.1313044792134;
+	Wed, 10 Aug 2011 23:39:52 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id em16sm1302007wbb.33.2011.08.10.23.39.50
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 10 Aug 2011 23:39:51 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAD=GYpYknoYpBDO2ZAmnCnGwiMaEeHVGLSAiHA9Bx0YZGFbKvw@mail.gmail.com>
+Date: Thu, 11 Aug 2011 08:39:49 +0200
+Message-Id: <1C656D42-CAB0-49B5-8560-062953852EAE@dominion.thruhere.net>
+References: <1312659111-22327-1-git-send-email-agnel.joel@gmail.com>
+	<CAD=GYpZGj1DriKV7hO--fb15_5+yrPts-2dx1LtpHG6FE8NpuQ@mail.gmail.com>
+	<0E977A74-2104-48C7-BE76-E8D5101A794F@dominion.thruhere.net>
+	<CAD=GYpYknoYpBDO2ZAmnCnGwiMaEeHVGLSAiHA9Bx0YZGFbKvw@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1312484099-29314-1-git-send-email-galak@kernel.crashing.org>
-In-Reply-To: <1312484099-29314-1-git-send-email-galak@kernel.crashing.org>
-Subject: Re: [PATCH] gcc: use ${base_lib} to match gcc default configuration
+X-Mailer: Apple Mail (2.1244.3)
+Cc: Jason Kridner <jdk@ti.com>
+Subject: Re: [PATCH] ti-codec-engine: Use latest CE and update all dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,62 +40,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2011 06:41:28 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 11 Aug 2011 06:44:23 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Hi Kumar,
 
-I just found this patch breaks the qemux86-64 lib64 multilib build.
+Op 11 aug. 2011, om 01:30 heeft Joel A Fernandes het volgende =
+geschreven:
 
-the error log is as below:
+> On Wed, Aug 10, 2011 at 12:29 PM, Koen Kooi =
+<koen@dominion.thruhere.net> wrote:
+>>=20
+>>=20
+>> Op 10 aug. 2011 om 17:54 heeft Joel A Fernandes =
+<agnel.joel@gmail.com> het volgende geschreven:
+>>=20
+>>> On Sat, Aug 6, 2011 at 2:31 PM, Joel A Fernandes =
+<agnel.joel@gmail.com> wrote:
+>>>> Switch to the latest CE 2.26.02.11 [1] and update all dependencies =
+according to the
+>>>> release notes [2]. This makes ti-codec-engine to build without any =
+compilation errors
+>>>>=20
+>>>=20
+>>> Can this patch be merged in? It is in sync with the ongoing effort =
+of
+>>> the gstreamer-ti import
+>>=20
+>> but not with master
+>=20
+> Hi Koen, the patch applies fine to master. Anything else you're =
+referring to?
 
-| mv: cannot stat 
-`/home/kyu3/sdb/multilib2/tmp/work/x86_64-pokymllib64-linux/lib64-gcc-cross-intermediate-4.6.1+svnr175454-r4/image/home/kyu3/sdb/multilib2/tmp/sysroots/x86_64-linux/usr/x86_64-pokymllib64-linux/lib64/*': 
-No such file or directory
-NOTE: package lib64-gcc-cross-intermediate-4.6.1+svnr175454-r4: task 
-do_install: Failed
-ERROR: Task 1557 
-(virtual:multilib:lib64:/home/kyu3/src/poky/meta/recipes-devtools/gcc/gcc-cross-intermediate_4.6.bb, 
-do_install) failed with exit code
-
-the error is caused by command in gcc-cross-intermediate.inc: 
-do_install(): "mv ${D}${exec_prefix}/${TARGET_SYS}/${baselib}/* 
-${D}${target_base_libdir}/"
-
-and the reason is that: ${baselib} is lib64 in multilib case, while the 
-files to be moved is still in ${D}${exec_prefix}/${TARGET_SYS}/lib/*, 
-so mv will fail.
-
-The fix may be either reverting this commit, or putting the file to 
-${baselib} instead of lib. I'd like to get your input before going further.
-
-Regards
-Ke
-
-on 2011-8-5 2:54, Kumar Gala wrote:
-> Rather than tweaking MULTILIB_DIRNAMES&  MULTILIB_OSDIRNAMES like is
-> done for x86-64 via 64bithack.patch.  We can just go with gcc defaults
-> and utilize ${base_lib} for where to find gcc libs.
->
-> Signed-off-by: Kumar Gala<galak@kernel.crashing.org>
-> ---
->   .../gcc/gcc-cross-intermediate.inc                 |    2 +-
->   1 files changed, 1 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc b/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
-> index df5958a..7b1bb38 100644
-> --- a/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
-> @@ -34,7 +34,7 @@ do_compile () {
->   do_install () {
->   	oe_runmake 'DESTDIR=${D}' install
->   	install -d ${D}${target_base_libdir}/
-> -	mv ${D}${exec_prefix}/${TARGET_SYS}/lib/* ${D}${target_base_libdir}/
-> +	mv ${D}${exec_prefix}/${TARGET_SYS}/${baselib}/* ${D}${target_base_libdir}/
->
->   	# We don't really need this (here shares/ contains man/, info/, locale/).
->   	rm -rf ${D}${datadir}/
-
+Yes, the master branch of meta-ti. The patch matches a non-master =
+branch, so applying it would make the layers go out of sync=
 
 
