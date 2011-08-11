@@ -1,24 +1,20 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX1/1GXLs6jhJuozgvaUoJuI5Xj334dE7hnU=])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1QrYGe-00031g-Ra
+	(envelope-from <bruce.ashfield@windriver.com>) id 1QrYIg-00034B-Vn
 	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Aug 2011 18:38:01 +0200
-Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p7BGXRqw003203
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2011 11:33:28 -0500
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Kumar Gala <galak@kernel.crashing.org>
-In-Reply-To: <23a2a8333105b2dcbde8e74bc3fd88841656980d.1313079549.git.sgw@linux.intel.com>
-Date: Thu, 11 Aug 2011 11:33:16 -0500
-Message-Id: <58DA74C3-B734-4611-BA43-1B365E22C58B@kernel.crashing.org>
-References: <cover.1313079549.git.sgw@linux.intel.com>
-	<23a2a8333105b2dcbde8e74bc3fd88841656980d.1313079549.git.sgw@linux.intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [CONSOLIDATED PULL 05/10] python-dir: specify am_cv_python_pythondir & am_cv_python_pyexecdir
+	Thu, 11 Aug 2011 18:40:07 +0200
+Received: from yow-bashfiel-l1.corp.ad.wrs.com
+	(dhcp-146-223.ottawa.windriver.com [128.224.146.223])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7BGZUrr011772;
+	Thu, 11 Aug 2011 09:35:31 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Thu, 11 Aug 2011 12:35:04 -0400
+Message-Id: <cover.1313080337.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
+Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
+	saul.wold@intel.com
+Subject: [PATCH 0/1] linux-yocto: consoliated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,35 +29,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2011 16:38:01 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 11 Aug 2011 16:40:07 -0000
 
+Richard/Saul,
 
-On Aug 11, 2011, at 11:29 AM, Saul Wold wrote:
+Here's the latest linux-yocto pull request. It includes updates
+for rt support (from Darren) as well as some build fixes for 
+various issues we've met along the way.
 
-> From: Kumar Gala <galak@kernel.crashing.org>
->=20
-> autoconf will try and set these to via python.m4:
->=20
-> =
-am_cv_python_pythondir=3D$PYTHON_PREFIX/lib/python$PYTHON_VERSION/site-pac=
-kages
-> =
-am_cv_python_pyexecdir=3D$PYTHON_EXEC_PREFIX/lib/python$PYTHON_VERSION/sit=
-e-packages
->=20
-> However this is problematic as this doesnt respect libdir and where
-> we've actually set python's site package dir to.
->=20
-> Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
-> ---
-> meta/classes/python-dir.bbclass |    3 +++
-> 1 files changed, 3 insertions(+), 0 deletions(-)
+Once this is in place, we are in a position to change the defaults
+for the qemu machines. Speak now if there's a problem with this!
 
-Drop the python patches, Richard wanted us to patch automake,  I've =
-posted a new set of patches for that.
+cc: Darren Hart <dvhart@linux.intel.com>
 
-- k=
+The following changes since commit 786033f53cad2a196ae6f3a05574148578ea3894:
+
+  bb/cooker: only emit ConfigFilePathFound for files which were parsed (2011-08-10 13:38:20 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (1):
+  linux-yocto: update SRCREVs for preempt-rt support + build fixes
+
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb |   14 +++++++-------
+ 1 files changed, 7 insertions(+), 7 deletions(-)
+
+-- 
+1.7.4.1
+
 
 
