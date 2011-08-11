@@ -1,39 +1,24 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from gate.crashing.org ([63.228.1.57]
+	ident=[U2FsdGVkX19P5YJ6M3F7oUVfv4DipOIVS+eEJpg2jmU=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1QrP4x-0006D7-7b
+	(envelope-from <galak@kernel.crashing.org>) id 1QrP7G-0006Gc-LP
 	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Aug 2011 08:49:19 +0200
-Received: by fxg11 with SMTP id 11so1656647fxg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2011 23:44:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=voT0vaeewO6nn9QLgY0bqhlLwFa8CMoUgykwELWsdH8=;
-	b=unsx8hNF55kw7Szb5SV0T3utB6UvHzjPTaiaeMUV/pJuMBRpc2r+avKz+bCUkS7Hts
-	Bj3INS6PA8tiuOHGCtyy9iOCnHUcSom5ZF+plxPzvM4DbKduWaPLa3HojBciIGNOTj5I
-	x9Mo+3+4qJAiCjBJi+F4Gw/F4becwHZwztANg=
-Received: by 10.223.59.208 with SMTP id m16mr12381343fah.47.1313045088231;
-	Wed, 10 Aug 2011 23:44:48 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id x2sm1309571fal.44.2011.08.10.23.44.45
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 10 Aug 2011 23:44:46 -0700 (PDT)
-Date: Thu, 11 Aug 2011 08:44:38 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
+	Thu, 11 Aug 2011 08:51:43 +0200
+Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p7B6lAJg032640;
+	Thu, 11 Aug 2011 01:47:10 -0500
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Kumar Gala <galak@kernel.crashing.org>
+In-Reply-To: <4E437883.90406@intel.com>
+Date: Thu, 11 Aug 2011 01:47:10 -0500
+Message-Id: <1D98D492-1D74-49DE-A884-C919AFF30BDD@kernel.crashing.org>
+References: <1312484099-29314-1-git-send-email-galak@kernel.crashing.org>
+	<4E437883.90406@intel.com>
+To: Yu Ke <ke.yu@intel.com>
+X-Mailer: Apple Mail (2.1084)
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110811064438.GB2214@jama.jama.net>
-References: <1309358918.2551.48.camel@phil-desktop>
-	<1309359293.2551.49.camel@phil-desktop>
-	<A0B5F234-A33C-47D6-AD2E-D6E37479333C@dominion.thruhere.net>
-	<1309360040.2551.56.camel@phil-desktop>
-	<1309360263.2551.59.camel@phil-desktop>
-	<1312973314.6733.37.camel@phil-desktop>
-MIME-Version: 1.0
-In-Reply-To: <1312973314.6733.37.camel@phil-desktop>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: bitbake -b busted again?
+Subject: Re: [PATCH] gcc: use ${base_lib} to match gcc default configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,72 +33,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2011 06:49:19 -0000
-X-Groupsio-MsgNum: 7951
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="BwCQnh7xodEAoBMC"
-Content-Disposition: inline
-
---BwCQnh7xodEAoBMC
+X-List-Received-Date: Thu, 11 Aug 2011 06:51:43 -0000
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 10, 2011 at 11:48:33AM +0100, Phil Blundell wrote:
-> On Wed, 2011-06-29 at 16:11 +0100, Phil Blundell wrote:
-> > Also, it does seem that "bitbake -e -b ..." really is broken.  I get:
-> >=20
-> > ERROR: Command execution failed: Traceback (most recent call last):
-> >   File "/home/pb/oe/bitbake/lib/bb/command.py", line 102, in runAsyncCo=
-mmand
-> >     commandmethod(self.cmds_async, self, options)
-> >   File "/home/pb/oe/bitbake/lib/bb/command.py", line 272, in showEnviro=
-nment
-> >     command.cooker.showEnvironment(bfile)
-> >   File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 259, in showEnviron=
-ment
-> >     fn =3D self.matchFile(buildfile)
-> >   File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 753, in matchFile
-> >     matches =3D self.matchFiles(buildfile)
-> >   File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 736, in matchFiles
-> >     filelist, masked =3D self.collect_bbfiles()
-> >   File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 997, in collect_bbf=
-iles
-> >     files.sort( key=3Dlambda fileitem: self.calc_bbfile_priority(fileit=
-em) )
-> >   File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 997, in <lambda>
-> >     files.sort( key=3Dlambda fileitem: self.calc_bbfile_priority(fileit=
-em) )
-> >   File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 463, in calc_bbfile=
-_priority
-> >     for _, _, regex, pri in self.status.bbfile_config_priorities:
-> > AttributeError: 'NoneType' object has no attribute 'bbfile_config_prior=
-ities'
-> >=20
-> > Using an absolute path to the .bb file doesn't seem to help in this
-> > case, and I also verified that it does build successfully without the
-> > -e.
+revert this is not acceptable as that will break ppc64 builds.
+
+I think you need to look at 64bithack.patch and if we really should be =
+using it for multilib builds.
+
+- k
+
+On Aug 11, 2011, at 1:36 AM, Yu Ke wrote:
+
+> Hi Kumar,
 >=20
-> FWIW, I just re-tested with bitbake master from today and this still
-> seems to be broken.
+> I just found this patch breaks the qemux86-64 lib64 multilib build.
+>=20
+> the error log is as below:
+>=20
+> | mv: cannot stat =
+`/home/kyu3/sdb/multilib2/tmp/work/x86_64-pokymllib64-linux/lib64-gcc-cros=
+s-intermediate-4.6.1+svnr175454-r4/image/home/kyu3/sdb/multilib2/tmp/sysro=
+ots/x86_64-linux/usr/x86_64-pokymllib64-linux/lib64/*': No such file or =
+directory
+> NOTE: package lib64-gcc-cross-intermediate-4.6.1+svnr175454-r4: task =
+do_install: Failed
+> ERROR: Task 1557 =
+(virtual:multilib:lib64:/home/kyu3/src/poky/meta/recipes-devtools/gcc/gcc-=
+cross-intermediate_4.6.bb, do_install) failed with exit code
+>=20
+> the error is caused by command in gcc-cross-intermediate.inc: =
+do_install(): "mv ${D}${exec_prefix}/${TARGET_SYS}/${baselib}/* =
+${D}${target_base_libdir}/"
+>=20
+> and the reason is that: ${baselib} is lib64 in multilib case, while =
+the files to be moved is still in =
+${D}${exec_prefix}/${TARGET_SYS}/lib/*, so mv will fail.
+>=20
+> The fix may be either reverting this commit, or putting the file to =
+${baselib} instead of lib. I'd like to get your input before going =
+further.
+>=20
+> Regards
+> Ke
+>=20
+> on 2011-8-5 2:54, Kumar Gala wrote:
+>> Rather than tweaking MULTILIB_DIRNAMES&  MULTILIB_OSDIRNAMES like is
+>> done for x86-64 via 64bithack.patch.  We can just go with gcc =
+defaults
+>> and utilize ${base_lib} for where to find gcc libs.
+>>=20
+>> Signed-off-by: Kumar Gala<galak@kernel.crashing.org>
+>> ---
+>>  .../gcc/gcc-cross-intermediate.inc                 |    2 +-
+>>  1 files changed, 1 insertions(+), 1 deletions(-)
+>>=20
+>> diff --git a/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc =
+b/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
+>> index df5958a..7b1bb38 100644
+>> --- a/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
+>> +++ b/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
+>> @@ -34,7 +34,7 @@ do_compile () {
+>>  do_install () {
+>>  	oe_runmake 'DESTDIR=3D${D}' install
+>>  	install -d ${D}${target_base_libdir}/
+>> -	mv ${D}${exec_prefix}/${TARGET_SYS}/lib/* =
+${D}${target_base_libdir}/
+>> +	mv ${D}${exec_prefix}/${TARGET_SYS}/${baselib}/* =
+${D}${target_base_libdir}/
+>>=20
+>>  	# We don't really need this (here shares/ contains man/, info/, =
+locale/).
+>>  	rm -rf ${D}${datadir}/
 
-RP's patch makes -e working again, but local files are still not found
-when used with -b. Something like ignoring FILESDIR/FILESPATH..
 
-Regards,
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---BwCQnh7xodEAoBMC
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk5DelYACgkQN1Ujt2V2gBytzQCcCcuvqp0KIUUwRn+UdQzQh85e
-wOQAn1R5r1wm1EQcSloaaygKAeRKNlJd
-=NVvs
------END PGP SIGNATURE-----
-
---BwCQnh7xodEAoBMC--
