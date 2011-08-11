@@ -1,30 +1,27 @@
-Received: from mail-vw0-f47.google.com ([209.85.212.47])
+Received: from gate.crashing.org ([63.228.1.57]
+	ident=[U2FsdGVkX197byZtFEh5mwKh0OqRDPF9iwnsN0OGKQw=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1QraJq-0000fu-Km
+	(envelope-from <galak@kernel.crashing.org>) id 1QraUR-0001Ak-Cy
 	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Aug 2011 20:49:27 +0200
-Received: by vwe42 with SMTP id 42so711050vwe.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2011 11:44:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=+lBkyFfcf9ApKGbi9BMSFvl2mADbkXz0+UAfbuXtdXI=;
-	b=QPgrutDVyhKEXM1puQlqnesoOZNlYjBYEc0GkhE/s/Xgx0pg6VE9lEWH2aN52ElkNI
-	uBxlfRfjY3CBAJCkkbNKEmdCJucZZ9voFPn4k1cvtuqjpTit83hcuNERa6NByzEpCU9H
-	tUKRE0xirtHao03LJd8JhtmIKnEbPpNYBfiZw=
-Received: by 10.52.117.101 with SMTP id kd5mr6768328vdb.364.1313088294187;
-	Thu, 11 Aug 2011 11:44:54 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.52.112.194 with HTTP; Thu, 11 Aug 2011 11:44:34 -0700 (PDT)
-In-Reply-To: <cover.1313086806.git.chris_larson@mentor.com>
-References: <cover.1313086806.git.chris_larson@mentor.com>
-From: Chris Larson <kergoth@gmail.com>
-Date: Thu, 11 Aug 2011 11:44:34 -0700
-Message-ID: <CABcZAN=BMqLMJ9Wk94KvhLYyHJpDRnG2vew9a1qwF29G-K_m8Q@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Chris Larson <chris_larson@mentor.com>
-Subject: Re: [PATCH 0/7] Miscellaneous fixes
+	Thu, 11 Aug 2011 21:00:23 +0200
+Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p7BItkWQ009084;
+	Thu, 11 Aug 2011 13:55:46 -0500
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Kumar Gala <galak@kernel.crashing.org>
+In-Reply-To: <1313088076.14274.461.camel@rex>
+Date: Thu, 11 Aug 2011 13:55:48 -0500
+Message-Id: <13C07736-A436-4459-A5D7-24FEB5726576@kernel.crashing.org>
+References: <1312484099-29314-1-git-send-email-galak@kernel.crashing.org>
+	<4E437883.90406@intel.com>
+	<1D98D492-1D74-49DE-A884-C919AFF30BDD@kernel.crashing.org>
+	<1313076641.14274.431.camel@rex> <1313088076.14274.461.camel@rex>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Khem Raj <raj.khem@gmail.com>
+X-Mailer: Apple Mail (2.1084)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc: use ${base_lib} to match gcc default configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,24 +36,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2011 18:49:27 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 11 Aug 2011 19:00:23 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 11, 2011 at 11:23 AM, Christopher Larson <kergoth@gmail.com> wr=
-ote:
->
-> are available in the git repository at:
-> =C2=A0github:kergoth/oe-core misc-fixes
 
-Erm, forgot to adjust this before sending, the url is
-git://github.com/kergoth/oe-core (I use url insteadOf/pushInsteadOf in
-.gitconfig to use the above url).
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+On Aug 11, 2011, at 1:41 PM, Richard Purdie wrote:
+
+> On Thu, 2011-08-11 at 16:30 +0100, Richard Purdie wrote:
+>> On Thu, 2011-08-11 at 01:47 -0500, Kumar Gala wrote:
+>>> revert this is not acceptable as that will break ppc64 builds.
+>>>=20
+>>> I think you need to look at 64bithack.patch and if we really should =
+be using it for multilib builds.
+>>=20
+>> This just sounds like gcc totally ignores the the library directory
+>> we're using and that is plain wrong :(.
+>>=20
+>> I'd much prefer gcc didn't make assumptions in this case and did what
+>> were were configuring it to do. That is why there is that 64bit hack
+>> there and I think gcc should be honouring however we configure the
+>> library directories, not doing what it thinks is best...
+>=20
+> I did more digging and this really just highlights why we have that
+> 64bit "hack" patch in the first place.
+>=20
+> GCC has internal multilib 'magic' which assumes certain library layout
+> in the 64 bit case. The implication is if you build 64 bit, you cannot
+> have baselib !=3D "lib64". Whilst I can understand this on desktop =
+system,
+> I'd suggest our build system has a better idea what its doing than =
+most
+> and can cope without hardcoding things.
+>=20
+> This is why the default builds in the gcc config are set to "." by =
+that
+> patch, that respects whatever base_libdir is set to. I'd suggest we do
+> this for x86, pcc and mips 64 bit and revert the origin baselib patch,
+> but this time better improve the patch documentation about why this is
+> necessary.
+>=20
+> Cheers,
+>=20
+> Richard
+
+Khem had some feelings on this so I'll let him chime in
+
+- k=
 
 
