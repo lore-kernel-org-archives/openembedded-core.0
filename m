@@ -1,26 +1,24 @@
-Received: from stoexhubfe01.domain01.net ([83.145.59.140])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1QrVM6-0007tS-Ph
+	(envelope-from <philb@gnu.org>) id 1QrW87-0000HE-11
 	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Aug 2011 15:31:26 +0200
-Received: from localhost (193.235.91.228) by stoexhubfe01.domain01.net
-	(10.12.10.6) with Microsoft SMTP Server id 8.3.137.0; Thu, 11 Aug 2011
-	15:26:55 +0200
-Date: Thu, 11 Aug 2011 15:27:03 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20110811132703.GA29758@chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
+	Thu, 11 Aug 2011 16:21:03 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QrW3g-0006TN-Lw
+	for openembedded-core@lists.openembedded.org;
+	Thu, 11 Aug 2011 16:16:28 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 11 Aug 2011 15:16:27 +0100
+In-Reply-To: <20110811132703.GA29758@chargestorm.se>
 References: <1313065027.6733.127.camel@phil-desktop>
-MIME-Version: 1.0
-In-Reply-To: <1313065027.6733.127.camel@phil-desktop>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-GFI-SMTP-Submission: 1
+	<20110811132703.GA29758@chargestorm.se>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1313072188.6733.134.camel@phil-desktop>
+Mime-Version: 1.0
 Subject: Re: X11 as DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -36,44 +34,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2011 13:31:26 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 11 Aug 2011 14:21:03 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* Phil Blundell <philb@gnu.org> [110811 14:17]:
-> Right now, there are a bunch of recipes (e.g. dbus, cairo) which always
-> build against X11 even though the underlying software can work without
-> it.  This makes it somewhat painful to build a display system using
-> clutter (for example) without X.
+On Thu, 2011-08-11 at 15:27 +0200, Anders Darander wrote:
+> The opposite of objections, at least from me... This is something that
+> I've wanted to do for a long time (but I never seem to get the time for
+> it).
+> 
+> Once again, I'm fighting against not only building X-related stuff, but
+> also preventing it from leaking into my image...
 
-> It's also moderately fiddly to stop X11 from leaking in by mistake; you
-> can't just BBMASK the whole of "xorg-*" because things like pixman are
-> still needed by cairo even when not using X11.
+I guess another solution to the leakiness would be to evacuate all the
+X11 recipes to a separate layer (but still within the oe-core repo) so
+that you could enable or disable them en masse.
 
-> So, to combat this, I would like to make X11 be a DISTRO_FEATURE and
-> arrange for:
+p.
 
-> a) libx11 to skip itself; and
-> b) recipes for which x11 is optional to not depend on X stuff 
-> if that feature isn't selected.
 
-> Any objections, better suggestions, ...?
-
-The opposite of objections, at least from me... This is something that
-I've wanted to do for a long time (but I never seem to get the time for
-it).
-
-Once again, I'm fighting against not only building X-related stuff, but
-also preventing it from leaking into my image...
-
-I think making it a distro feature is the best option, and once we get
-this into oe-core, I think we could extend this to some more parts.
-
-Cheers,
-Anders
-
--- 
-Anders Darander
-ChargeStorm AB
 
 
