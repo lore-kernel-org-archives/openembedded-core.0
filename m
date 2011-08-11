@@ -1,36 +1,36 @@
-Received: from mail-yi0-f47.google.com ([209.85.218.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1Qra0r-0005ny-2N
-	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Aug 2011 20:29:49 +0200
-Received: by yia28 with SMTP id 28so1528701yia.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QraH4-0006Gc-6L for openembedded-core@lists.openembedded.org;
+	Thu, 11 Aug 2011 20:46:34 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7BIg3Ld000684
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2011 11:25:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=BONQynslFvq2gPeNI+GuRTXXlVIfnasof/HwD3pESMg=;
-	b=nHsH65CFb7Uf+5IetxwpyYZlP7Bsm5qqlmBBvIsLRdf9Ji3zbpwS8YxPnkBzLeX74n
-	DHL6DgwVuYSkgvjigNMUHcQk6mihRcsweEulthfcT6wSAoaLqTsg3JptPrt86v+1UH6D
-	6tRQhI/bz/finpNLkcAxFg1+Xf9YG9Hi6mz9Q=
-Received: by 10.150.225.18 with SMTP id x18mr970663ybg.273.1313087116701;
-	Thu, 11 Aug 2011 11:25:16 -0700 (PDT)
-Received: from localhost.localdomain (ip24-251-173-232.ph.ph.cox.net
-	[24.251.173.232])
-	by mx.google.com with ESMTPS id f5sm1281063ybd.13.2011.08.11.11.25.15
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 11 Aug 2011 11:25:16 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Aug 2011 11:23:54 -0700
-Message-Id: <25fef457e6d4277ba62ade4a240e5f73039e707a.1313086806.git.chris_larson@mentor.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1313086806.git.chris_larson@mentor.com>
-References: <cover.1313086806.git.chris_larson@mentor.com>
-In-Reply-To: <cover.1313086806.git.chris_larson@mentor.com>
-References: <cover.1313086806.git.chris_larson@mentor.com>
-Cc: Chris Larson <chris_larson@mentor.com>
-Subject: [PATCH 7/7] cross: also empty PACKAGES_DYNAMIC
+	Thu, 11 Aug 2011 19:42:03 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 32410-06 for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Aug 2011 19:41:59 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7BIfsn2000678
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Aug 2011 19:41:55 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <1313076641.14274.431.camel@rex>
+References: <1312484099-29314-1-git-send-email-galak@kernel.crashing.org>
+	<4E437883.90406@intel.com>
+	<1D98D492-1D74-49DE-A884-C919AFF30BDD@kernel.crashing.org>
+	<1313076641.14274.431.camel@rex>
+Date: Thu, 11 Aug 2011 19:41:16 +0100
+Message-ID: <1313088076.14274.461.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] gcc: use ${base_lib} to match gcc default configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,30 +45,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2011 18:29:49 -0000
+X-List-Received-Date: Thu, 11 Aug 2011 18:46:34 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Chris Larson <chris_larson@mentor.com>
+On Thu, 2011-08-11 at 16:30 +0100, Richard Purdie wrote:
+> On Thu, 2011-08-11 at 01:47 -0500, Kumar Gala wrote:
+> > revert this is not acceptable as that will break ppc64 builds.
+> > 
+> > I think you need to look at 64bithack.patch and if we really should be using it for multilib builds.
+> 
+> This just sounds like gcc totally ignores the the library directory
+> we're using and that is plain wrong :(.
+> 
+> I'd much prefer gcc didn't make assumptions in this case and did what
+> were were configuring it to do. That is why there is that 64bit hack
+> there and I think gcc should be honouring however we configure the
+> library directories, not doing what it thinks is best...
 
-Signed-off-by: Chris Larson <chris_larson@mentor.com>
----
- meta/classes/cross.bbclass |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
+I did more digging and this really just highlights why we have that
+64bit "hack" patch in the first place.
 
-diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
-index 519aa0d..5681ab9 100644
---- a/meta/classes/cross.bbclass
-+++ b/meta/classes/cross.bbclass
-@@ -5,6 +5,8 @@ inherit relocatable
- EXCLUDE_FROM_WORLD = "1"
- 
- PACKAGES = ""
-+PACKAGES_DYNAMIC = ""
-+PACKAGES_DYNAMIC_virtclass-native = ""
- 
- HOST_ARCH = "${BUILD_ARCH}"
- HOST_VENDOR = "${BUILD_VENDOR}"
--- 
-1.7.4.1
+GCC has internal multilib 'magic' which assumes certain library layout
+in the 64 bit case. The implication is if you build 64 bit, you cannot
+have baselib != "lib64". Whilst I can understand this on desktop system,
+I'd suggest our build system has a better idea what its doing than most
+and can cope without hardcoding things.
+
+This is why the default builds in the gcc config are set to "." by that
+patch, that respects whatever base_libdir is set to. I'd suggest we do
+this for x86, pcc and mips 64 bit and revert the origin baselib patch,
+but this time better improve the patch documentation about why this is
+necessary.
+
+Cheers,
+
+Richard
 
 
 
