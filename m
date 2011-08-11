@@ -1,33 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QrZzx-0005io-Am for openembedded-core@lists.openembedded.org;
-	Thu, 11 Aug 2011 20:28:53 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7BIOMsG000573
+Received: from mail-gw0-f47.google.com ([74.125.83.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <kergoth@gmail.com>) id 1Qra0j-0005kg-3T
+	for openembedded-core@lists.openembedded.org;
+	Thu, 11 Aug 2011 20:29:41 +0200
+Received: by gwb11 with SMTP id 11so1526880gwb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2011 19:24:22 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 32410-05 for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2011 19:24:18 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7BIOG7k000567
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2011 19:24:16 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <cover.1313079549.git.sgw@linux.intel.com>
-References: <cover.1313079549.git.sgw@linux.intel.com>
-Date: Thu, 11 Aug 2011 19:23:37 +0100
-Message-ID: <1313087018.14274.456.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [CONSOLIDATED PULL 00/10] Various Fixes
+	Thu, 11 Aug 2011 11:25:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references;
+	bh=CoYlDB2zHPTCL3p09SUWoYZqMZ5psuF51W/tJEV5xBU=;
+	b=n2iLLuEwFcNAf4oz05VbPBq7l+zlfFbSFo+7zEen/UNQ/Nt7c4appllQw2NC4Q9XAB
+	aZjpe20pAzTTKvd2OXxOA1ybSzQGKW9bz5M+VCewO5FwLRxr/5Vq1RPsVQLYWCCQwwMY
+	sQgH0WOIrwK3DKjF4YC4MjXWmHaQHm6TY5dt4=
+Received: by 10.150.254.20 with SMTP id b20mr1017794ybi.91.1313087108824;
+	Thu, 11 Aug 2011 11:25:08 -0700 (PDT)
+Received: from localhost.localdomain (ip24-251-173-232.ph.ph.cox.net
+	[24.251.173.232])
+	by mx.google.com with ESMTPS id f5sm1281063ybd.13.2011.08.11.11.25.07
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 11 Aug 2011 11:25:08 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Aug 2011 11:23:48 -0700
+Message-Id: <1a00f4f19846518abdef1e7eaa238c0797e75189.1313086806.git.chris_larson@mentor.com>
+X-Mailer: git-send-email 1.7.4.1
+In-Reply-To: <cover.1313086806.git.chris_larson@mentor.com>
+References: <cover.1313086806.git.chris_larson@mentor.com>
+In-Reply-To: <cover.1313086806.git.chris_larson@mentor.com>
+References: <cover.1313086806.git.chris_larson@mentor.com>
+Cc: Chris Larson <chris_larson@mentor.com>
+Subject: [PATCH 1/7] busybox: don't strip the main binary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,53 +45,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2011 18:28:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 11 Aug 2011 18:29:41 -0000
 
-On Thu, 2011-08-11 at 09:29 -0700, Saul Wold wrote:
-> The following changes since commit a1f87ec65fa1a6d5ce9a010548dbe7c01ab9b711:
-> 
->   eglibc: force GLIBC_EXTRA_OECONF to not be uset for nativesdk (2011-08-10 13:26:22 +0100)
-> 
-> are available in the git repository at:
->   git://git.openembedded.org/openembedded-core-contrib sgw/stage
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-> 
-> Khem Raj (1):
->   scripts/runqemu: Make it run on ubuntu 11.10
-> 
-> Kumar Gala (5):
->   gnome-doc-utils: respect python-dir setting EXTRA_OECONF
->
-> Leandro Dorileo (1):
->   scripts/combo-layer: a simple way to script the combo-layer conf
-> 
-> Richard Purdie (1):
->   gcc: Various fixups to ensure consistent gcc builds
-> 
-> Xiaofeng Yan (1):
->   chkconfig: remove link for update-alternatives to disambiguate
-> 
-> jani.uusi-rantala@nokia.com (1):
->   Magic file path should be given for rpmbuild
+From: Chris Larson <chris_larson@mentor.com>
 
-I've merged these.
+With this, we get a useful busybox-dbg package.
 
->   python-dir: specify am_cv_python_pythondir & am_cv_python_pyexecdir
->   xcb-proto: use python-dir class for proper path setting
->   telepathy-python: utilize python-dir to respect libdir/site-packages
->     path
+Signed-off-by: Chris Larson <chris_larson@mentor.com>
+---
+ meta/recipes-core/busybox/busybox.inc       |    3 ++-
+ meta/recipes-core/busybox/busybox_1.18.4.bb |    2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-I'm waiting on these since I think the m4 changes will improve this.
-
->   gcc: move --enable-target-optspace workaround to just gcc-4.5.1
-
-and this one has issues and dropped at Kumar's request.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index 5eba0ca..d46c135 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -120,7 +120,8 @@ do_configure () {
+ 
+ do_compile() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+-	base_do_compile
++	oe_runmake busybox_unstripped
++	cp busybox_unstripped busybox
+ }
+ 
+ do_install () {
+diff --git a/meta/recipes-core/busybox/busybox_1.18.4.bb b/meta/recipes-core/busybox/busybox_1.18.4.bb
+index d18af6f..b4681a4 100644
+--- a/meta/recipes-core/busybox/busybox_1.18.4.bb
++++ b/meta/recipes-core/busybox/busybox_1.18.4.bb
+@@ -1,5 +1,5 @@
+ require busybox.inc
+-PR = "r7"
++PR = "r8"
+ 
+ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://udhcpscript.patch \
+-- 
+1.7.4.1
 
 
 
