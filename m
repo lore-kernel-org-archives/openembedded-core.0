@@ -1,36 +1,36 @@
-Received: from mail-yi0-f47.google.com ([209.85.218.47])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1Qra0q-0005nV-0R
+	(envelope-from <kergoth@gmail.com>) id 1Qra0q-0005nY-1G
 	for openembedded-core@lists.openembedded.org;
 	Thu, 11 Aug 2011 20:29:48 +0200
-Received: by yia28 with SMTP id 28so1528688yia.6
+Received: by yxi19 with SMTP id 19so1518882yxi.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2011 11:25:15 -0700 (PDT)
+	Thu, 11 Aug 2011 11:25:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=R3k3B0/J5OtTGcpLucW7u9ASuqDaeK+kwiJRTs+yFtA=;
-	b=IK31QvQEAWDs3DF5KocLLLTPCJgcQwVdoAuq5OZLxrzVMg9JOqC3Qhxx84vhVLBHok
-	QMQS7OormughdzQHL6w+NLJNi3Hm4Y74vYKrsxNJV0NC6jmVe707EkD6rZx8mehWSxth
-	KOYQkKu5zKPIwq3ZRW3wtnYJJMAEI4AXm4NFg=
-Received: by 10.150.2.5 with SMTP id 5mr925738ybb.375.1313087115648;
-	Thu, 11 Aug 2011 11:25:15 -0700 (PDT)
+	bh=SPbHVmd29MsVrhntVxAnaRQshSJYk+8201csI/lplx8=;
+	b=oXKsqVyaOVXzYqsDScpIUN+S7MR430I+rFaFW5YzNDlSpC5tFftpJkB7RrQk8cHkdH
+	62tJha9ZXRYNLdAW7q5zeWmTnF80DiBA7uo/oyDTFY6XM/GZzYlde9mkAWYFEY28jfyy
+	v1APnBfJBZfrvZZOzwdU80SuP+vDXvuiQyC1Q=
+Received: by 10.151.1.32 with SMTP id d32mr1013625ybi.26.1313087112979;
+	Thu, 11 Aug 2011 11:25:12 -0700 (PDT)
 Received: from localhost.localdomain (ip24-251-173-232.ph.ph.cox.net
 	[24.251.173.232])
-	by mx.google.com with ESMTPS id f5sm1281063ybd.13.2011.08.11.11.25.14
+	by mx.google.com with ESMTPS id f5sm1281063ybd.13.2011.08.11.11.25.11
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 11 Aug 2011 11:25:14 -0700 (PDT)
+	Thu, 11 Aug 2011 11:25:12 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Aug 2011 11:23:53 -0700
-Message-Id: <642776595a038851117db831a1212c7d0111e979.1313086806.git.chris_larson@mentor.com>
+Date: Thu, 11 Aug 2011 11:23:51 -0700
+Message-Id: <67dc21f29be5212be0051342e3a06adcae58b3cc.1313086806.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1313086806.git.chris_larson@mentor.com>
 References: <cover.1313086806.git.chris_larson@mentor.com>
 In-Reply-To: <cover.1313086806.git.chris_larson@mentor.com>
 References: <cover.1313086806.git.chris_larson@mentor.com>
 Cc: Chris Larson <chris_larson@mentor.com>
-Subject: [PATCH 6/7] package: allow setting a section for locale packages
+Subject: [PATCH 4/7] sanity: shift the required utils into a variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,39 +51,31 @@ From: Chris Larson <chris_larson@mentor.com>
 
 Signed-off-by: Chris Larson <chris_larson@mentor.com>
 ---
- meta/classes/package.bbclass |    5 +++++
- 1 files changed, 5 insertions(+), 0 deletions(-)
+ meta/classes/sanity.bbclass |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 0a954ef..100f465 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -44,6 +44,8 @@ inherit prserv
- PKGD    = "${WORKDIR}/package"
- PKGDEST = "${WORKDIR}/packages-split"
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 999e15d..d50c843 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -2,6 +2,8 @@
+ # Sanity check the users setup for common misconfigurations
+ #
  
-+LOCALE_SECTION ?= ''
++SANITY_REQUIRED_UTILITIES ?= "patch diffstat texi2html makeinfo cvs svn bzip2 tar gzip gawk chrpath wget cpio"
 +
- # rpm is used for the per-file dependency identification
- PACKAGE_DEPENDS += "rpm-native"
+ def raise_sanity_error(msg):
+     bb.fatal(""" Poky's config sanity checker detected a potential misconfiguration.
+     Either fix the cause of this error or at your own risk disable the checker (see sanity.conf).
+@@ -213,7 +215,7 @@ def check_sanity(e):
+     if not check_app_exists('${BUILD_PREFIX}g++', e.data):
+         missing = missing + "C++ Compiler (%sg++)," % data.getVar("BUILD_PREFIX", e.data, True)
  
-@@ -401,6 +403,7 @@ python package_do_split_locales() {
+-    required_utilities = "patch diffstat texi2html makeinfo cvs svn bzip2 tar gzip gawk chrpath wget cpio"
++    required_utilities = e.data.getVar('SANITY_REQUIRED_UTILITIES', True)
  
- 	summary = bb.data.getVar('SUMMARY', d, True) or pn
- 	description = bb.data.getVar('DESCRIPTION', d, True) or "" 
-+        locale_section = bb.data.getVar('LOCALE_SECTION', d, True)
- 	for l in locales:
- 		ln = legitimize_package_name(l)
- 		pkg = pn + '-locale-' + ln
-@@ -410,6 +413,8 @@ python package_do_split_locales() {
- 		bb.data.setVar('RPROVIDES_' + pkg, '%s-locale %s-translation' % (pn, ln), d)
- 		bb.data.setVar('SUMMARY_' + pkg, '%s - %s translations' % (summary, l), d)
- 		bb.data.setVar('DESCRIPTION_' + pkg, '%s  This package contains language translation files for the %s locale.' % (description, l), d)
-+		if locale_section:
-+			bb.data.setVar('SECTION_' + pkg, locale_section, d)
- 
- 	bb.data.setVar('PACKAGES', ' '.join(packages), d)
- 
+     if "qemu-native" in assume_provided:
+         if not check_app_exists("qemu-arm", e.data):
 -- 
 1.7.4.1
 
