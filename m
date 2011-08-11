@@ -1,31 +1,19 @@
-Received: from smtp22.4emm.com ([69.18.222.8])
+Received: from gate.crashing.org ([63.228.1.57]
+	ident=[U2FsdGVkX19rM9PUa+W1lmA+GNfc//B13m+yCfB+u0E=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <james@digitalmatter.com.au>) id 1QrN5Z-0003cW-UR
+	(envelope-from <galak@kernel.crashing.org>) id 1QrOeb-0005eD-7X
 	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Aug 2011 06:41:50 +0200
-Received: from MBX20.4emm.local ([fe80::382d:f6d3:f4de:a97f]) by
-	HUB22.4emm.local ([fe80::1428:544e:162c:c29b%14]) with mapi id
-	14.01.0289.001; Thu, 11 Aug 2011 00:33:05 -0400
-From: James Limbouris <james@digitalmatter.com.au>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] bitbake.conf: Changed PSEUDO_LOCALSTATEDIR
-	assignment to unconditional.
-Thread-Index: AQHMVjnZX+Jvlt+5PkG8wRgqH9pj0pUVgK2AgAAW+YD//78+cIAA634AgADPCRCAAAKvEA==
-Date: Thu, 11 Aug 2011 04:37:19 +0000
-Message-ID: <840A81C1B782724A8EB52725BD519EFF183CF9@MBX20.4emm.local>
-References: <1312855453-23258-1-git-send-email-james@digitalmatter.com.au>
-	<4E41D1B3.4090703@intel.com> <4E41E4F9.60404@windriver.com>
-	<840A81C1B782724A8EB52725BD519EFF183852@MBX20.4emm.local>
-	<1312977970.14274.357.camel@rex>
-	<840A81C1B782724A8EB52725BD519EFF183CDB@MBX20.4emm.local>
-In-Reply-To: <840A81C1B782724A8EB52725BD519EFF183CDB@MBX20.4emm.local>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [203.59.132.158]
-MIME-Version: 1.0
-Subject: Re: [PATCH] bitbake.conf: Changed PSEUDO_LOCALSTATEDIR assignment to unconditional.
+	Thu, 11 Aug 2011 08:22:05 +0200
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p7B6HW50018182
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Aug 2011 01:17:32 -0500
+From: Kumar Gala <galak@kernel.crashing.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Aug 2011 01:17:32 -0500
+Message-Id: <1313043452-28242-1-git-send-email-galak@kernel.crashing.org>
+X-Mailer: git-send-email 1.5.6.5
+Subject: [PATCH v3] tune-ppc: Update to pass glibc configure option to get cpu specific support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,19 +28,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2011 04:41:50 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 11 Aug 2011 06:22:05 -0000
 
->=20
-> Worse, I don't think bitbake.conf is guaranteed to be in the same spot in
-> every layers.conf, so different layers will parse with different environm=
-ents.
->=20
+We need --with-cpu based to glibc to get proper support on 603e & e500mc
+to pickup proper math libs to deal with sqrt.  These core do not
+implement the fsqrt[s] instructions that the normal PPC math libs
+utilize.
 
-Sorry, that last line is wrong. Bitbake.conf always parses last.
+This causes use to not set AVAILTUNES specifically to the sub-arch only
+as we arent generically compatiable.
 
-James
+Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
+---
+v3:
+- utilize TUNE_FEATURES for how we set GLIBC_EXTRA_OECONF
+
+ meta/conf/machine/include/tune-ppc603e.inc   |    5 ++++-
+ meta/conf/machine/include/tune-ppce500mc.inc |    5 ++++-
+ 2 files changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/meta/conf/machine/include/tune-ppc603e.inc b/meta/conf/machine/include/tune-ppc603e.inc
+index 9abb694..44a708a 100644
+--- a/meta/conf/machine/include/tune-ppc603e.inc
++++ b/meta/conf/machine/include/tune-ppc603e.inc
+@@ -6,6 +6,9 @@ TUNEVALID[ppc603e] = "Enable ppc603e specific processor optimizations"
+ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", "-mcpu=603e", "", d)}"
+ TUNE_PKGARCH = "${@bb.utils.contains('TUNE_FEATURES', 'ppc603e', 'ppc603e', '${PPCPKGARCH}', d)}"
+ 
+-AVAILTUNES += "ppc603e"
++AVAILTUNES = "ppc603e"
+ TUNE_FEATURES_tune-ppc603e = "m32 ppc603e"
+ PACKAGE_EXTRA_ARCHS_tune-ppc603e = "powerpc ppc603e"
++
++# glibc configure options to get 603e specific library (for sqrt)
++GLIBC_EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", "-with-cpu=603e", "", d)}"
+diff --git a/meta/conf/machine/include/tune-ppce500mc.inc b/meta/conf/machine/include/tune-ppce500mc.inc
+index b5031f4..9849603 100644
+--- a/meta/conf/machine/include/tune-ppce500mc.inc
++++ b/meta/conf/machine/include/tune-ppce500mc.inc
+@@ -6,6 +6,9 @@ TUNEVALID[ppce500mc] = "Enable ppce500mc specific processor optimizations"
+ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "-mcpu=e500mc", "", d)}"
+ TUNE_PKGARCH = "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "ppce500mc", "${PPCPKGARCH}", d)}"
+ 
+-AVAILTUNES += "ppce500mc"
++AVAILTUNES = "ppce500mc"
+ TUNE_FEATURES_tune-ppce500mc = "m32 ppce500mc"
+ PACKAGE_EXTRA_ARCHS_tune-ppce500mc = "powerpc ppce500mc"
++
++# glibc configure options to get e500mc specific library (for sqrt)
++GLIBC_EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "-with-cpu=e500mc", "", d)}"
+-- 
+1.7.3.4
+
 
 
