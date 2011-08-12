@@ -1,25 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1QrpdY-0001hd-A4
+	(envelope-from <lianhao.lu@intel.com>) id 1Qrpdu-0001mR-Tc
 	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Aug 2011 13:10:48 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7CB6FjI005866
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Aug 2011 04:06:15 -0700 (PDT)
-Received: from [128.224.162.219] (128.224.162.219) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 12 Aug 2011 04:06:14 -0700
-Message-ID: <4E450925.7060101@windriver.com>
-Date: Fri, 12 Aug 2011 19:06:13 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: [RFC] Performance Issue: Build time increases
+	Fri, 12 Aug 2011 13:11:11 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 12 Aug 2011 04:06:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="37139943"
+Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.146])
+	by orsmga002.jf.intel.com with ESMTP; 12 Aug 2011 04:06:37 -0700
+From: Lianhao Lu <lianhao.lu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 12 Aug 2011 19:08:03 +0800
+Message-Id: <cover.1313146924.git.lianhao.lu@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+Subject: [PATCH v2 BUG #1236 0/2] Unify ldd/ldconfig for all multilib eglibcs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,55 +29,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Aug 2011 11:10:48 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 12 Aug 2011 11:11:11 -0000
 
+This is rebase of original patch for bug #1236 to the latest oe-core master.
 
-Hi folks,
+The original pull request is at:
+http://lists.linuxtogo.org/pipermail/openembedded-core/2011-August/007365.html
 
-The build time of core-image-sato increases about 5 ~ 10 minutes than
-the following commit:
+The following changes since commit a92d56058b21913570bb17ae416c3b00afce055e:
+  Kumar Gala (1):
+        gnome-doc-utils: respect python-dir setting EXTRA_OECONF
 
-commit 5af197b55a4b779f1ec93186f0723026949ba2b5
-Author: Liping Ke <liping.ke@intel.com>
-Date:   Fri Jun 3 08:22:40 2011 +0800
+are available in the git repository at:
 
-     cache: Implement multiple extra cache fields request support
+  git://git.yoctoproject.org/poky-contrib llu/bug1236-oecore
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=llu/bug1236-oecore
 
-On my host,
-1) the build time of 5af197b55a4b779f1ec93186f0723026949ba2b5 is:
+Lianhao Lu (2):
+  utils.bbclass/multilib.class: Added misc supporting functions.
+  eglibc: Modify ldd script according to multilib config.
 
-real    208m26.133s
-user    241m29.280s
-sys     47m0.630s
+ meta/classes/multilib.bbclass                      |    7 ++-
+ meta/classes/utils.bbclass                         |   29 +++++++++++
+ meta/conf/bitbake.conf                             |    1 +
+ meta/conf/multilib.conf                            |    3 +
+ .../eglibc/eglibc-2.13/multilib_readlib.patch      |   17 ++++++
+ meta/recipes-core/eglibc/eglibc-ld.inc             |   54 ++++++++++++++++++++
+ meta/recipes-core/eglibc/eglibc.inc                |    1 +
+ meta/recipes-core/eglibc/eglibc_2.13.bb            |   13 ++++-
+ 8 files changed, 123 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.13/multilib_readlib.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-ld.inc
 
-2) and: 068839698fe192d8846c0ed4db65861448e8e524 is:
-
-real    217m39.687s
-user    255m34.150s
-sys     48m21.510s
-
-
-I use the bisect build method to find out which patch causes the time
-increases, but the build time is not stable on my host(Ubuntu 11.04 64bit),
-e.g., the build time of 1) is 208m at the first build, then "git co 
-other_commit" and build it, after about 10 builds, then go back to build
-5af197b55a4b779f1ec, the build time will increases about 8 minutes, I have
-stopped the X and cron, at. This may have relationship with the linux
-distribution and disk.
-
-So I have to restart the build, reboot the machine by two days, and go on the
-build. It would be better if anyone has other good method.
-
-I think that for the next release(e.g., yocto 1.2), we can find a clean and
-stable machine(for the distribution, maybe RHEL is more stable than Ubuntu)
-to check the build time weekly, so that we can notice the performance issue
-early.
-
--- 
-Thanks
-
-Robert
 
 
