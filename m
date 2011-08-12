@@ -1,28 +1,27 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bruce.Ashfield@windriver.com>) id 1QrrzL-0004hB-FS
+	(envelope-from <mark.hatle@windriver.com>) id 1QrsBw-0004pj-Te
 	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Aug 2011 15:41:27 +0200
+	Fri, 12 Aug 2011 15:54:29 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7CDardB027476
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 12 Aug 2011 06:36:53 -0700 (PDT)
-Received: from [128.224.147.214] (128.224.147.214) by ALA-HCA.corp.ad.wrs.com
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7CDntsN029290
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Aug 2011 06:49:55 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 12 Aug 2011 06:36:52 -0700
-Message-ID: <4E452C72.8010506@windriver.com>
-Date: Fri, 12 Aug 2011 09:36:50 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.18) Gecko/20110617 Thunderbird/3.1.11 ThunderBrowse/3.8
+	Fri, 12 Aug 2011 06:49:54 -0700
+Message-ID: <4E452F82.7060208@windriver.com>
+Date: Fri, 12 Aug 2011 08:49:54 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:5.0) Gecko/20110624 Thunderbird/5.0
 MIME-Version: 1.0
-To: Darren Hart <dvhart@linux.intel.com>
-References: <cover.1313092152.git.dvhart@linux.intel.com>
-	<21924dcdc775dde5b7144cf26367663dbc0cfaeb.1313092152.git.dvhart@linux.intel.com>
-	<4E44766F.6090201@windriver.com> <4E449CC4.4080405@linux.intel.com>
-In-Reply-To: <4E449CC4.4080405@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 04/10] meta-rt: add linux-yocto-rt_3.0 recipe
+To: <openembedded-core@lists.openembedded.org>
+References: <1313153364.14274.486.camel@rex>
+In-Reply-To: <1313153364.14274.486.camel@rex>
+Subject: Re: [PATCH] local.conf.sample: Cleanup and improve
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,149 +36,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Aug 2011 13:41:27 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Fri, 12 Aug 2011 13:54:29 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On 11-08-11 11:23 PM, Darren Hart wrote:
->
-> On 08/11/2011 05:40 PM, Bruce Ashfield wrote:
->> On 11-08-11 7:08 PM, Darren Hart wrote:
->>> Add the initial linux-yocto-rt_3.0 recipe.
->>>
->>> TODO: replace the AUTOREV with real commit ids.
->>
->> I think you did this!
->>
->>>
->>> Signed-off-by: Darren Hart<dvhart@linux.intel.com>
->>> Signed-off-by: Bruce Ashfield<bruce.ashfield@windriver.com>
->>> ---
->>>    meta-rt/recipes-kernel/linux/linux-yocto-rt_3.0.bb |   55 ++++++++++++++++++++
->>>    1 files changed, 55 insertions(+), 0 deletions(-)
->>>    create mode 100644 meta-rt/recipes-kernel/linux/linux-yocto-rt_3.0.bb
->>>
->>> diff --git a/meta-rt/recipes-kernel/linux/linux-yocto-rt_3.0.bb b/meta-rt/recipes-kernel/linux/linux-yocto-rt_3.0.bb
->>> new file mode 100644
->>> index 0000000..7eaeb0f
->>> --- /dev/null
->>> +++ b/meta-rt/recipes-kernel/linux/linux-yocto-rt_3.0.bb
->>> @@ -0,0 +1,55 @@
->>> +inherit kernel
->>> +require recipes-kernel/linux/linux-yocto.inc
->>> +
->>> +KMACHINE = "yocto/standard/preempt-rt/base"
->>
->> I just noticed this on the way through, this could likely just
->> be set to "common-pc", all it really is supposed to be
->> is a fallback if a machine specific override doesn't work.
->>
->> (I see that you actually do this in patch 8/10 for 2.6.34 anyway).
->>
->>> +KMACHINE_qemux86  = "common-pc"
->>> +KMACHINE_qemux86-64  = "common-pc-64"
->>> +KMACHINE_qemuarm  = "arm-versatile-926ejs"
->>> +# qemuppc hangs at boot
->>> +#KMACHINE_qemuppc  = "qemu-ppc32"
->>> +# qemumips panics at boot
->>> +#KMACHINE_qemumips = "mti-malta32-be"
->>> +
->>> +KBRANCH = ${KMACHINE}
->>
->> And instead of the above, you could just say:
->>
->> KBRANCH = "yocto/standard/preempt-rt/base"
->>
->> to have a fallback in place that keeps the fetcher chugging along.
->> That's all that the KMACHINE default was doing in the end anyway.
->>
->> Sorry I didn't see this earlier, but seeing it in front of me
->> here, it jumped out.
->>
->> The rest looks good.
->>
->> Bruce
->
-> Rather than resend the entire series, I have updated this patch at the
-> same pull URL. The new patch follows:
+On 8/12/11 7:49 AM, Richard Purdie wrote:
+> local.conf is the first thing anyone new to the project sees. Over time it
+> has built up a ton cruft and isn't even accurate in places.
+>     
+> This patch:
+>   
+> * Moves things to local.conf.sample.extended if a new user is unlikely
+>   to need to immediately care about the options
+> * Reorders the file to be more intuitive to a new user
+> * Moves certain default values to default-distrovars.inc in cases where
+>   most users wouldn't want to change the value
+> * Adds large blocks of text to explain what an option does. There have
+>   been too many cases of a user not realising what some of these
+>   settings do and how they can use them to their advantage (like DL_DIR
+>   for example).
+>     
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> 
+> diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+> index 2ef25e4..c2fd77e 100644
+> --- a/meta/conf/distro/include/default-distrovars.inc
+> +++ b/meta/conf/distro/include/default-distrovars.inc
+...
 
-Ack'd. Looks fine to me.
+> +#
+> +# Package Management configuration
+> +#
+> +# This variable lists which packaging formats to enable. Multiple package backends 
+> +# can be enabled at once and the first item listed in the variable will be used 
+> +# to generate the root filesystems.
+> +# Options are:
+> +#  - 'package_deb' for debian style deb files
+> +#  - 'package_ipk' for ipk files are used by opkg (a debian style embedded package manager)
+> +#  - 'package_rpm' for rpm style packages
+> +# E.g.: PACKAGE_CLASSES ?= "package_rpm package_deb package_ipk"
+> +# We default to rpm:
+> +PACKAGE_CLASSES ?= "package_rpm"
 
-Bruce
+While I certainly advocate package_rpm usage, should we be changing from the
+default of ipk to rpm here?  I'm tempted to say we need to stick w/ ipk for the
+time being...
 
->
->  From 87720452dfcd4e244dd89e43aa39d9d8dc27655e Mon Sep 17 00:00:00 2001
-> Message-Id:<87720452dfcd4e244dd89e43aa39d9d8dc27655e.1313118839.git.dvhart@linux.intel.com>
-> In-Reply-To:<cover.1313118839.git.dvhart@linux.intel.com>
-> References:<cover.1313118839.git.dvhart@linux.intel.com>
-> From: Darren Hart<dvhart@linux.intel.com>
-> Date: Wed, 20 Jul 2011 09:18:09 -0700
-> Subject: [PATCH 04/10] meta-rt: add linux-yocto-rt_3.0 recipe
->
-> Add the initial linux-yocto-rt_3.0 recipe.
->
-> qemumips and qemuppc doesn't work quite yet, so they have been omitted from
-> COMPATIBLE_MACHINE.
->
-> Signed-off-by: Darren Hart<dvhart@linux.intel.com>
-> Signed-off-by: Bruce Ashfield<bruce.ashfield@windriver.com>
-> ---
->   meta-rt/recipes-kernel/linux/linux-yocto-rt_3.0.bb |   46 ++++++++++++++++++++
->   1 files changed, 46 insertions(+), 0 deletions(-)
->   create mode 100644 meta-rt/recipes-kernel/linux/linux-yocto-rt_3.0.bb
->
-> diff --git a/meta-rt/recipes-kernel/linux/linux-yocto-rt_3.0.bb b/meta-rt/recipes-kernel/linux/linux-yocto-rt_3.0.bb
+...
+
+> +#
+> +# Interactive shell configuration
+> +#
+> +# Under certain circumstances the system may need input from you and to do this it 
+> +# can launch an interactive shell. It needs to do this since the build is 
+> +# multithreaded and needs to be able to handle the case where more than one parallel
+> +# process may require the user's attention. The default is to use xterm.
+> +#
+> +# Examples of the occasions this may happen are when resolving patches which cannot
+> +# be applied, to use the devshell or the kernel menuconfig
+> +#
+>  # If you do not use (or have installed) xterm you will need to
+>  # uncomment these variables and set them to the terminal you wish to use
+> -# when resolving patches which cannot be applied
+> -# Supported shell prefixes for *_TERMCMD and *_TERMCMDRUN ARE:
+> +# 
+> +# Supported shell prefixes for *_TERMCMD and *_TERMCMDRUN are:
+>  # GNOME, SCREEN, XTERM and KONSOLE
+>  # Note: currently, Konsole support only works for KDE 3.x due to the way
+>  # newer Konsole versions behave
+>  #TERMCMD = "${XTERM_TERMCMD}"
+>  #TERMCMDRUN = "${XTERM_TERMCMDRUN}"
+> -# Alternatively, if you prefer you can disable patch resolution:
+> +# You can disable interactive patch resolution (tasks will just fail instead) with:
+>  #PATCHRESOLVE = "noop"
+
+Should patch resolution be noop by default?  (I suspect due to my above concern
+w/ ipkg, changing the behavior now is likely a bad idea.)
+
+...
+
+> diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
 > new file mode 100644
-> index 0000000..c8a175d
+> index 0000000..a42774c
 > --- /dev/null
-> +++ b/meta-rt/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-> @@ -0,0 +1,46 @@
-> +inherit kernel
-> +require recipes-kernel/linux/linux-yocto.inc
-> +
-> +KMACHINE = "common-pc"
-> +KMACHINE_qemux86  = "common-pc"
-> +KMACHINE_qemux86-64  = "common-pc-64"
-> +KMACHINE_qemuarm  = "arm-versatile-926ejs"
-> +KMACHINE_qemuppc  = "qemu-ppc32"
-> +KMACHINE_qemumips = "mti-malta32-be"
-> +
-> +KBRANCH = "yocto/standard/preempt-rt/base"
-> +KMETA = meta
-> +
-> +LINUX_VERSION ?= "3.0"
-> +LINUX_KERNEL_TYPE = "preempt-rt"
-> +LINUX_VERSION_EXTENSION ?= "-yocto-${LINUX_KERNEL_TYPE}"
-> +
-> +SRCREV_machine = "7e1e5b6c8a13c615feb0d7b6d37988a094aae98f"
-> +SRCREV_meta = "7782fc673afd6a1c742409896ae787560d96fce8"
-> +
-> +PR = "r0"
-> +PV = "${LINUX_VERSION}+git${SRCPV}"
-> +SRCREV_FORMAT = "meta_machine"
-> +
-> +SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.0.git;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
-> +
-> +# Omit broken machines from COMPATIBLE_MACHINE
-> +#   qemuppc hangs at boot
-> +#   qemumips panics at boot
-> +COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm)"
-> +
-> +# Functionality flags
-> +KERNEL_REVISION_CHECKING ?= "t"
-> +KERNEL_FEATURES=features/netfilter
-> +KERNEL_FEATURES_append=" features/taskstats"
-> +KERNEL_FEATURES_append_qemux86=" cfg/sound"
-> +KERNEL_FEATURES_append_qemux86-64=" cfg/sound"
-> +
-> +YOCTO_KERNEL_META_DATA=t
-> +
-> +# extra tasks
-> +addtask kernel_link_vmlinux after do_compile before do_install
-> +addtask validate_branches before do_patch after do_kernel_checkout
-> +addtask kernel_configcheck after do_configure before do_compile
-> +
-> +require recipes-kernel/linux/linux-tools.inc
+> +++ b/meta/conf/local.conf.sample.extended
+> @@ -0,0 +1,116 @@
 
+...
+
+> +# The following are used to control options related to debugging.
+> +#
+> +# Uncomment this to change the optimization to make debugging easer, at the 
+> +# possible cost of performance.
+> +# DEBUG_BUILD = "1"
+> +#
+> +# Uncomment this to disable the stripping of the installed binaries
+> +# INHIBIT_PACKAGE_STRIP = "1"
+> +#
+> +# Uncomment this to disable the split of the debug information into -dbg files
+> +# INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
+> +#
+> +# When splitting debug information, the following controls the results of the
+> +# file splitting.
+> +#
+> +#  .debug (default):
+> +#    When splitting the debug information will be placed into
+> +#    a .debug directory in the same dirname of the binary produced:
+> +#      /bin/foo -> /bin/.debug/foo
+> +#
+> +#  debug-file-directory:
+> +#    When splitting the debug information will be placed into
+> +#    a central debug-file-directory, /usr/lib/debug:
+> +#      /bin/foo -> /usr/lib/debug/bin/foo.debug
+> +#
+> +#    Any source code referenced in the debug symbols will be copied
+> +#    and made available within the /usr/src/debug directory
+
+May have been a bug in the original.  The "Any source code ..." comment refers
+to both of the above.  It should likely lose two spaces in the indent...
+
+> +#
+> +#PACKAGE_DEBUG_SPLIT_STYLE = '.debug'
+> +# PACKAGE_DEBUG_SPLIT_STYLE = 'debug-file-directory'
+> +
+
+--Mark
 
 
