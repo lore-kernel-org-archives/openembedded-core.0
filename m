@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qrma2-0004dR-VE
+	(envelope-from <sgw@linux.intel.com>) id 1Qrma4-0004e0-UK
 	for openembedded-core@lists.openembedded.org;
 	Fri, 12 Aug 2011 09:55:01 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 12 Aug 2011 00:50:21 -0700
+	by orsmga101.jf.intel.com with ESMTP; 12 Aug 2011 00:50:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="37809722"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="37809727"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.248])
-	by orsmga001.jf.intel.com with ESMTP; 12 Aug 2011 00:50:20 -0700
+	by orsmga001.jf.intel.com with ESMTP; 12 Aug 2011 00:50:21 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Aug 2011 00:50:02 -0700
-Message-Id: <cb110c9f92f19c986f3831579406f7eab0c44a77.1313134270.git.sgw@linux.intel.com>
+Date: Fri, 12 Aug 2011 00:50:05 -0700
+Message-Id: <35ff7b7694d4fca2d844195ad98aad4c3e17ed04.1313134270.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1313134270.git.sgw@linux.intel.com>
 References: <cover.1313134270.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1313134270.git.sgw@linux.intel.com>
 References: <cover.1313134270.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 13/25] xcb-proto: update based on changes to python.m4 in automake
+Subject: [CONSOLIDATED PULL 16/25] meta-rt: refresh linux-yocto-rt recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,112 +35,79 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 12 Aug 2011 07:55:01 -0000
 
-From: Kumar Gala <galak@kernel.crashing.org>
+From: Darren Hart <dvhart@linux.intel.com>
 
-1. We dont need the aclocal patch as this will be handled by automake
-2. We need to update xcb-proto.pc.in to know about ${libdir} since
-   we'll end up with something like:
+Rename the recipe to match the linux-yocto recipe renames using the kernel
+version in the PV portion of the filename.
 
-   pythondir=${libdir}/python2.6/site-packages
+Add the SRCREVs to the recipe as was done with the core linux-yocto recipes.
 
-Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
+Add qemux86 as it is also present in the linux-yocto-2.6.34.git repository.
+
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
 ---
- .../xcb/xcb-proto-1.6/aclocal.patch                |   22 --------------------
- .../xcb/xcb-proto-1.6/xcb-proto-libdir.patch       |   14 ++++++++++++
- meta/recipes-graphics/xcb/xcb-proto.inc            |    2 +-
- meta/recipes-graphics/xcb/xcb-proto_1.6.bb         |    2 +-
- meta/recipes-graphics/xcb/xcb-proto_git.bb         |    2 +-
- 5 files changed, 17 insertions(+), 25 deletions(-)
- delete mode 100644 meta/recipes-graphics/xcb/xcb-proto-1.6/aclocal.patch
- create mode 100644 meta/recipes-graphics/xcb/xcb-proto-1.6/xcb-proto-libdir.patch
+ meta-rt/conf/layer.conf                            |    6 ------
+ ...to-rt_stablegit.bb => linux-yocto-rt_2.6.34.bb} |   12 +++++++++---
+ 2 files changed, 9 insertions(+), 9 deletions(-)
+ rename meta-rt/recipes-kernel/{linux-yocto-rt_stablegit.bb => linux-yocto-rt_2.6.34.bb} (65%)
 
-diff --git a/meta/recipes-graphics/xcb/xcb-proto-1.6/aclocal.patch b/meta/recipes-graphics/xcb/xcb-proto-1.6/aclocal.patch
-deleted file mode 100644
-index 124f146..0000000
---- a/meta/recipes-graphics/xcb/xcb-proto-1.6/aclocal.patch
-+++ /dev/null
-@@ -1,22 +0,0 @@
--Upstream-Status: Inappropriate [configuration]
+diff --git a/meta-rt/conf/layer.conf b/meta-rt/conf/layer.conf
+index 94ebc02..f105405 100644
+--- a/meta-rt/conf/layer.conf
++++ b/meta-rt/conf/layer.conf
+@@ -15,9 +15,3 @@ BBFILE_PRIORITY_rt = "8"
+ # specified kernel providers and leave it up to the kernel recipe to 
+ # determine COMPATIBLE_MACHINE.
+ PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-rt"
 -
--diff -ruN xcb-proto-1.6-orig/aclocal.m4 xcb-proto-1.6/aclocal.m4
----- xcb-proto-1.6-orig/aclocal.m4	2011-07-08 15:45:33.000000000 +0800
--+++ xcb-proto-1.6/aclocal.m4	2011-07-08 15:48:19.000000000 +0800
--@@ -518,6 +518,7 @@
--   dnl general consensus is that you shouldn't need this ability.
-- 
--   AC_SUBST([PYTHON_PREFIX], ['${prefix}'])
--+  AC_SUBST([PYTHON_LIB_PREFIX], ['${libdir}'])
--   AC_SUBST([PYTHON_EXEC_PREFIX], ['${exec_prefix}'])
-- 
--   dnl At times (like when building shared libraries) you may want
--@@ -546,7 +547,7 @@
--        am_py_prefix=$prefix
--      fi
--      am_cv_python_pythondir=`$PYTHON -c "import sys; from distutils import sysconfig; sys.stdout.write(sysconfig.get_python_lib(0,0,prefix='$am_py_prefix'))" 2>/dev/null ||
---     echo "$PYTHON_PREFIX/lib/python$PYTHON_VERSION/site-packages"`
--+     echo "$PYTHON_LIB_PREFIX/python$PYTHON_VERSION/site-packages"`
--      case $am_cv_python_pythondir in
--      $am_py_prefix*)
--        am__strip_prefix=`echo "$am_py_prefix" | sed 's|.|.|g'`
-diff --git a/meta/recipes-graphics/xcb/xcb-proto-1.6/xcb-proto-libdir.patch b/meta/recipes-graphics/xcb/xcb-proto-1.6/xcb-proto-libdir.patch
-new file mode 100644
-index 0000000..708f329
---- /dev/null
-+++ b/meta/recipes-graphics/xcb/xcb-proto-1.6/xcb-proto-libdir.patch
-@@ -0,0 +1,14 @@
-+Upstream-Status: Inappropriate [embedded specific]
+-# preempt_rt SRCREVs, one for meta, one per machine
+-SRCREV_meta_pn-linux-yocto-rt ?= "b0615811ce38836d1ade230e3bdb1efaaa68471f"
+-SRCREV_machine_pn-linux-yocto-rt_qemux86-64 ?= "f49444f06875894389e640bcda6c3f6ceb1f0c3e"
+-SRCREV_machine_pn-linux-yocto-rt_atom-pc ?= "78dacaf8222c9492ba17f652989ef3466423bdc2"
+-
+diff --git a/meta-rt/recipes-kernel/linux-yocto-rt_stablegit.bb b/meta-rt/recipes-kernel/linux-yocto-rt_2.6.34.bb
+similarity index 65%
+rename from meta-rt/recipes-kernel/linux-yocto-rt_stablegit.bb
+rename to meta-rt/recipes-kernel/linux-yocto-rt_2.6.34.bb
+index cba1321..01a6761 100644
+--- a/meta-rt/recipes-kernel/linux-yocto-rt_stablegit.bb
++++ b/meta-rt/recipes-kernel/linux-yocto-rt_2.6.34.bb
+@@ -1,6 +1,7 @@
+ inherit kernel
+ require recipes-kernel/linux/linux-yocto.inc
+ 
++KMACHINE_qemux86  = "common_pc"
+ KMACHINE_qemux86-64  = "common_pc_64"
+ KMACHINE_atom-pc  = "atom-pc"
+ 
+@@ -11,11 +12,16 @@ LINUX_VERSION_EXTENSION ?= "-yocto-${LINUX_KERNEL_TYPE_EXTENSION}"
+ KMETA = wrs_meta
+ KBRANCH = ${KMACHINE}-${LINUX_KERNEL_TYPE}
+ 
+-PR = "r1"
++SRCREV_machine_qemux86 = "439602eb6acd53d9beb8493710310214fc7bd749"
++SRCREV_machine_qemux86-64 = "3c84c45ad3c3592f9c7ff4076de9bee417cd322e"
++SRCREV_machine_atom-pc = "269d71029adcf4d1dbf8441f091d824478d8c87d"
++SRCREV_meta = "e1f85a470934a0cf6abde5d95533e74501822c6b"
 +
-+Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
-+
-+Index: xcb-proto-1.6/xcb-proto.pc.in
-+===================================================================
-+--- xcb-proto-1.6.orig/xcb-proto.pc.in
-++++ xcb-proto-1.6/xcb-proto.pc.in
-+@@ -1,4 +1,5 @@
-+ prefix=@prefix@
-++libdir=@libdir@
-+ datarootdir=@datarootdir@
-+ datadir=@datadir@
-+ xcbincludedir=@xcbincludedir@
-diff --git a/meta/recipes-graphics/xcb/xcb-proto.inc b/meta/recipes-graphics/xcb/xcb-proto.inc
-index 76688c9..85f89be 100644
---- a/meta/recipes-graphics/xcb/xcb-proto.inc
-+++ b/meta/recipes-graphics/xcb/xcb-proto.inc
-@@ -10,7 +10,7 @@ SECTION = "x11/libs"
- LICENSE = "MIT-X"
++PR = "r2"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ SRCREV_FORMAT = "meta_machine"
  
- SRC_URI = "http://xcb.freedesktop.org/dist/xcb-proto-${PV}.tar.bz2 \
--           file://aclocal.patch"
-+           file://xcb-proto-libdir.patch"
+-COMPATIBLE_MACHINE = "(qemux86-64|atom-pc)"
++COMPATIBLE_MACHINE = "(qemux86|qemux86-64|atom-pc)"
  
- inherit autotools pkgconfig
+ # this performs a fixup on the SRCREV for new/undefined BSPs
+ python __anonymous () {
+@@ -25,7 +31,7 @@ python __anonymous () {
+     bb.data.setVar("LINUX_KERNEL_TYPE_EXTENSION", kerntype, d)
+ }
  
-diff --git a/meta/recipes-graphics/xcb/xcb-proto_1.6.bb b/meta/recipes-graphics/xcb/xcb-proto_1.6.bb
-index 1868f1a..9d35596 100644
---- a/meta/recipes-graphics/xcb/xcb-proto_1.6.bb
-+++ b/meta/recipes-graphics/xcb/xcb-proto_1.6.bb
-@@ -4,7 +4,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d763b081cb10c223435b01e00dc0aba7 \
-                     file://src/dri2.xml;beginline=2;endline=28;md5=f8763b13ff432e8597e0d610cf598e65"
+-SRC_URI = "git://git.yoctoproject.org/linux-2.6-windriver.git;protocol=git;nocheckout=1;branch=${KBRANCH},wrs_meta;name=machine,meta"
++SRC_URI = "git://git.yoctoproject.org/linux-yocto-2.6.34.git;protocol=git;nocheckout=1;branch=${KBRANCH},wrs_meta;name=machine,meta"
  
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI[md5sum] = "04313e1d914b44d0e457f6c494fc178b"
- SRC_URI[sha256sum] = "f52bc1159b12496f002404eb5793c01277b20c82cb72c5ff076d7b25da9b5ca2"
-diff --git a/meta/recipes-graphics/xcb/xcb-proto_git.bb b/meta/recipes-graphics/xcb/xcb-proto_git.bb
-index 2711213..4358fee 100644
---- a/meta/recipes-graphics/xcb/xcb-proto_git.bb
-+++ b/meta/recipes-graphics/xcb/xcb-proto_git.bb
-@@ -3,7 +3,7 @@ DEFAULT_PREFERENCE = "-1"
- include xcb-proto.inc
- SRCREV = "d81ca233e98be8fa59e8c90d262c0516944c5a66"
- PV = "1.2+gitr${SRCPV}"
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "git://anongit.freedesktop.org/git/xcb/proto;protocol=git"
- S = "${WORKDIR}/git"
+ # Functionality flags
+ KERNEL_REVISION_CHECKING ?= "t"
 -- 
 1.7.3.4
 
