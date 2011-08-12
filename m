@@ -1,24 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QrfOR-0006py-1S
+Received: from mailout-de.gmx.net ([213.165.64.23])
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <schnitzeltony@gmx.de>) id 1QrfPJ-0006t4-P8
 	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Aug 2011 02:14:31 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 11 Aug 2011 17:09:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,359,1309762800"; d="scan'208";a="40701216"
-Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.248])
-	by fmsmga001.fm.intel.com with ESMTP; 11 Aug 2011 17:09:57 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Fri, 12 Aug 2011 02:15:26 +0200
+Received: (qmail invoked by alias); 12 Aug 2011 00:10:53 -0000
+Received: from p4FDF1A77.dip.t-dialin.net (EHLO localhost.localdomain)
+	[79.223.26.119]
+	by mail.gmx.net (mp051) with SMTP; 12 Aug 2011 02:10:53 +0200
+X-Authenticated: #62780362
+X-Provags-ID: V01U2FsdGVkX18rC+kSkJIrN0hHvfDTN8TzYB2tEW0uGasjG9zXOr
+	C2RV1Zl5To0bPa
+From: Andreas Mueller <schnitzeltony@gmx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Aug 2011 17:09:51 -0700
-Message-Id: <49f7822562b925c4ab476bd9bd9f723e6902f6cd.1313107646.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1313107646.git.sgw@linux.intel.com>
-References: <cover.1313107646.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1313107646.git.sgw@linux.intel.com>
-References: <cover.1313107646.git.sgw@linux.intel.com>
-Subject: [PATCH 1/1] package_rpm: fix up attemptonly code
+Date: Fri, 12 Aug 2011 02:14:10 +0200
+User-Agent: KMail/1.13.7 (Linux/2.6.35.13-92.fc14.x86_64; KDE/4.6.5; x86_64; ;
+	)
+MIME-Version: 1.0
+Message-Id: <201108120214.10933.schnitzeltony@gmx.de>
+X-Y-GMX-Trusted: 0
+Subject: gcc-cross-initial fails for maiden build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,37 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Aug 2011 00:14:31 -0000
+X-List-Received-Date: Fri, 12 Aug 2011 00:15:26 -0000
+Content-Type: Text/Plain;
+  charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-[YOCTO #1366]
+Hi
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/classes/package_rpm.bbclass |    9 ++++++++-
- 1 files changed, 8 insertions(+), 1 deletions(-)
+I just pulled latest metas, deleted all my temp stuff, start build and get
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 59e8d48..5b76c5d 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -249,7 +249,14 @@ package_install_internal_rpm () {
- 		echo "Adding attempt only packages..."
- 		for pkg in ${package_attemptonly} ; do
- 			echo "Processing $pkg..."
--			pkg_name=$(resolve_package_rpm $pkg ${confbase}.conf)
-+
-+			archvar=base_archs
-+			ml_pkg=$(echo ${pkg} | sed "s,^${MLPREFIX}\(.*\),\1,")
-+			if [ "${ml_pkg}" != "${pkg}" ]; then
-+				archvar=ml_archs
-+			fi
-+
-+			pkg_name=$(resolve_package_rpm ${confbase}-${archvar}.conf ${ml_pkg})
- 			if [ -z "$pkg_name" ]; then
- 				echo "Unable to find package $pkg!"
- 				exit 1
--- 
-1.7.3.4
+ERROR: Function 'do_headerfix' failed (see /home/Superandy/tmp/oe-core-
+eglibc/work/armv7a-angstrom-linux-gnueabi/gcc-cross-initial-4.5-
+r40+svnr176640/temp/log.do_headerfix.25304 for further information)
+ERROR: Logfile of failure stored in: /home/Superandy/tmp/oe-core-
+eglibc/work/armv7a-angstrom-linux-gnueabi/gcc-cross-initial-4.5-
+r40+svnr176640/temp/log.do_headerfix.25304
+Log data follows:
+| + do_headerfix
+| + sed -i '/home/Superandy/tmp/oe-core-eglibc/work-shared/gcc-4.5/gcc-4_5-
+branch/gcc/config/*/linux*.h' -e 's#\(GLIBC_DYNAMIC_LINKER[^ ]*\) \( 
+*"/lib.*\)/\(.*\)#\1 SYSTEMLIBS_DIR "\3#'
+| sed: can't read /home/Superandy/tmp/oe-core-eglibc/work-
+shared/gcc-4.5/gcc-4_5-branch/gcc/config/*/linux*.h: No such file or directory
+| ERROR: Function 'do_headerfix' failed (see /home/Superandy/tmp/oe-core-
+eglibc/work/armv7a-angstrom-linux-gnueabi/gcc-cross-initial-4.5-
+r40+svnr176640/temp/log.do_headerfix.25304 for further information)
+NOTE: package gcc-cross-initial-4.5-r40+svnr176640: task do_headerfix: Failed
 
+do_headerfix makes 970af6b09e1d69041b0d82fa56ace19543405eb1 suspicious...
+
+Good night
+
+Andreas
 
 
