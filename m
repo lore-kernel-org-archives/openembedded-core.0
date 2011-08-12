@@ -1,26 +1,36 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-iy0-f171.google.com ([209.85.210.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QrgMW-0007yn-47
+	(envelope-from <raj.khem@gmail.com>) id 1Qrh0G-0008QC-Mq
 	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Aug 2011 03:16:36 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7C1C3UI023498
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 12 Aug 2011 03:57:40 +0200
+Received: by iyf13 with SMTP id 13so562470iyf.16
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2011 18:12:03 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Thu, 11 Aug 2011 18:12:03 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Aug 2011 20:14:58 -0500
-Message-ID: <411f1eab33f06b7d6ffa6b0890f89f531470f895.1313111544.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1313111544.git.mark.hatle@windriver.com>
-References: <cover.1313111544.git.mark.hatle@windriver.com>
+	Thu, 11 Aug 2011 18:53:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:x-enigmail-version:content-type
+	:content-transfer-encoding;
+	bh=+J47pUIZB0BtMmJsz3bYbAeMSGOjfUKNcbxewjB5crY=;
+	b=hXFaBiKnhfq5MH2Dr+3DMUrNT/omF9rtE00LcF2L3abJtbHhkhwZE14y3qpMLZZcom
+	eOKbdXsKN9TUWYH5o2pD9/kXc8XCTmrtJSe10PeojuCZPhNQ/9+egKpqDad3hjRRzthD
+	C5l5vasM6SkvDZLTVf80PR3IkOxyCdUr0brVE=
+Received: by 10.231.55.201 with SMTP id v9mr830724ibg.16.1313113987449;
+	Thu, 11 Aug 2011 18:53:07 -0700 (PDT)
+Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id t14sm1914526ibi.57.2011.08.11.18.53.05
+	(version=SSLv3 cipher=OTHER); Thu, 11 Aug 2011 18:53:06 -0700 (PDT)
+Message-ID: <4E44877E.9000907@gmail.com>
+Date: Thu, 11 Aug 2011 18:53:02 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:6.0) Gecko/20110809 Thunderbird/6.0
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 3/3] package_rpm: Fix attemptonly and suggest packages
+To: openembedded-core@lists.openembedded.org
+References: <201108120214.10933.schnitzeltony@gmx.de>
+In-Reply-To: <201108120214.10933.schnitzeltony@gmx.de>
+X-Enigmail-Version: 1.2pre
+Subject: Re: gcc-cross-initial fails for maiden build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,77 +45,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Aug 2011 01:16:36 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 12 Aug 2011 01:57:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-[YOCTO #1325] [YOCTO #1366]
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
 
-Packages that were in the PACKAGE_ATTEMPTONLY and SUGGESTS were not
-being properly found, which was causing image creation failures.
+On 08/11/2011 05:14 PM, Andreas Mueller wrote:
+> Hi
+> 
+> I just pulled latest metas, deleted all my temp stuff, start build
+> and get
+> 
+> ERROR: Function 'do_headerfix' failed (see
+> /home/Superandy/tmp/oe-core- 
+> eglibc/work/armv7a-angstrom-linux-gnueabi/gcc-cross-initial-4.5- 
+> r40+svnr176640/temp/log.do_headerfix.25304 for further information) 
+> ERROR: Logfile of failure stored in: /home/Superandy/tmp/oe-core- 
+> eglibc/work/armv7a-angstrom-linux-gnueabi/gcc-cross-initial-4.5- 
+> r40+svnr176640/temp/log.do_headerfix.25304 Log data follows: | +
+> do_headerfix | + sed -i
+> '/home/Superandy/tmp/oe-core-eglibc/work-shared/gcc-4.5/gcc-4_5- 
+> branch/gcc/config/*/linux*.h' -e 's#\(GLIBC_DYNAMIC_LINKER[^ ]*\) \(
+>  *"/lib.*\)/\(.*\)#\1 SYSTEMLIBS_DIR "\3#' | sed: can't read
+> /home/Superandy/tmp/oe-core-eglibc/work- 
+> shared/gcc-4.5/gcc-4_5-branch/gcc/config/*/linux*.h: No such file or
+> directory | ERROR: Function 'do_headerfix' failed (see
+> /home/Superandy/tmp/oe-core- 
+> eglibc/work/armv7a-angstrom-linux-gnueabi/gcc-cross-initial-4.5- 
+> r40+svnr176640/temp/log.do_headerfix.25304 for further information) 
+> NOTE: package gcc-cross-initial-4.5-r40+svnr176640: task
+> do_headerfix: Failed
+> 
+> do_headerfix makes 970af6b09e1d69041b0d82fa56ace19543405eb1
+> suspicious...
+> 
 
-In PACKAGE_ATTEMPTONLY, when an item was not found, it caused an
-error.  This should have been a note, followed by skipping the
-package.
+what does ls /home/Superandy/tmp/oe-core-eglibc/work-
+shared/gcc-4.5/gcc-4_5-branch/gcc/config/*/linux*.h
+show?
 
-The SUGGESTS processing was simply broken.  It was using a
-non-existant function, due to an apparently typo.
+this is meta-oe gcc and it might need some tweak to accommodate the new
+changes from oe-core
 
-In addition to the above, the MLPREFIX processing was not being
-done properly, preventing multilib packages from working in this
-with PACKAGE_ATTEMPTONLY.  (SUGGESTS doesn't need this as the names
-are munged when creating the packages.)
+> Good night
+> 
+> Andreas
+> 
+> _______________________________________________ Openembedded-core
+> mailing list Openembedded-core@lists.openembedded.org 
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/classes/package_rpm.bbclass |   25 ++++++++++++++++++++-----
- 1 files changed, 20 insertions(+), 5 deletions(-)
-
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 5c67f69..b15786d 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -257,10 +257,16 @@ package_install_internal_rpm () {
- 		echo "Adding attempt only packages..."
- 		for pkg in ${package_attemptonly} ; do
- 			echo "Processing $pkg..."
--			pkg_name=$(resolve_package_rpm $pkg ${confbase}.conf)
-+			archvar=base_archs
-+			ml_pkg=$(echo ${pkg} | sed "s,^${MLPREFIX}\(.*\),\1,")
-+			if [ "${ml_pkg}" != "${pkg}" ]; then
-+				archvar=ml_archs
-+			fi
-+
-+			pkg_name=$(resolve_package_rpm ${confbase}-${archvar}.conf ${ml_pkg})
- 			if [ -z "$pkg_name" ]; then
--				echo "Unable to find package $pkg!"
--				exit 1
-+				echo "Note: Unable to find package $pkg ($ml_pkg) -- PACKAGE_INSTALL_ATTEMPTONLY"
-+				continue
- 			fi
- 			echo "Attempting $pkg_name..." >> "${WORKDIR}/temp/log.do_${task}_attemptonly.${PID}"
- 			${RPM} --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
-@@ -297,8 +303,17 @@ package_install_internal_rpm () {
- 			# Ohh there was a new one, we'll need to loop again...
- 			loop=1
- 			echo "Processing $pkg..."
--			pkg_name=$(resolve_package $pkg ${confbase}.conf)
--			if [ -z "$pkg_name" ]; then
-+			found=0
-+			for archvar in base_archs ml_archs ; do
-+				pkg_name=$(resolve_package_rpm ${confbase}-${archvar}.conf ${pkg})
-+				if [ -n "$pkg_name" ]; then
-+					found=1
-+					break
-+				fi
-+			done
-+
-+			if [ $found -eq 0 ]; then
-+				echo "Note: Unable to find package $pkg -- suggests"
- 				echo "Unable to find package $pkg." >> "${WORKDIR}/temp/log.do_${task}_recommend.${PID}"
- 				continue
- 			fi
--- 
-1.7.3.4
-
+iEYEARECAAYFAk5Eh30ACgkQuwUzVZGdMxQs0QCdGshUkRYcZrUYSfW+yKUtP4Vz
+jjoAnRcm0ybvfzOkWbik/pKYuT5ukCJ/
+=sin7
+-----END PGP SIGNATURE-----
 
 
