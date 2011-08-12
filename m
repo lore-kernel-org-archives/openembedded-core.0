@@ -1,22 +1,25 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1Qrpdx-0001n3-VY
+	(envelope-from <lianhao.lu@intel.com>) id 1Qrpe0-0001o2-5g
 	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Aug 2011 13:11:14 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 12 Aug 2011 04:06:40 -0700
+	Fri, 12 Aug 2011 13:11:16 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 12 Aug 2011 04:06:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,361,1309762800"; d="scan'208";a="40837869"
+X-IronPort-AV: E=Sophos;i="4.67,361,1309762800"; 
+   d="scan'208";a="6485552"
 Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.146])
-	by fmsmga001.fm.intel.com with ESMTP; 12 Aug 2011 04:06:40 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 12 Aug 2011 04:06:42 -0700
 From: Lianhao Lu <lianhao.lu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Aug 2011 19:08:07 +0800
-Message-Id: <072a8b51ac04e8a2b58246cd4eedff3b6e8befd2.1313146924.git.lianhao.lu@intel.com>
+Date: Fri, 12 Aug 2011 19:08:08 +0800
+Message-Id: <97c4024de968587057456dccd19c1949e062bd79.1313146924.git.lianhao.lu@intel.com>
 X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <072a8b51ac04e8a2b58246cd4eedff3b6e8befd2.1313146924.git.lianhao.lu@intel.com>
+References: <072a8b51ac04e8a2b58246cd4eedff3b6e8befd2.1313146924.git.lianhao.lu@intel.com>
 In-Reply-To: <cover.1313146924.git.lianhao.lu@intel.com>
 References: <cover.1313146924.git.lianhao.lu@intel.com>
-Subject: [PATCH v2 BUG #1236 1/2] utils.bbclass/multilib.class: Added misc supporting functions.
+Subject: [PATCH v2 BUG #1236 2/2] eglibc: Modify ldd script according to multilib config.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,103 +34,170 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Aug 2011 11:11:14 -0000
+X-List-Received-Date: Fri, 12 Aug 2011 11:11:17 -0000
 
-1. Added variable MULTILIB_VARIANTS to store all the instance variants
-for multilib extend.
+Bug fixing [YOCTO #1236].
 
-2. Added function all_multilib_tune_values to collect the variable
-values for all multilib instance.
+1. Collect all the values for RTLDLIST for the current multilib
+configuration to modify the ldd scripts.
 
-3. multilib bbclass handler will save the orignal value of all variables
-defined in MULTILIB_SAVE_VARNAME.
-
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+2. Collect all the values for KNOWN_INTERPRETER_NAMES for the current
+multilib configuration. Set the correct ld.so names for ldconfig to deal
+with the multilib configuration.
 ---
- meta/classes/multilib.bbclass |    7 ++++++-
- meta/classes/utils.bbclass    |   29 +++++++++++++++++++++++++++++
- meta/conf/bitbake.conf        |    1 +
- meta/conf/multilib.conf       |    3 +++
- 4 files changed, 39 insertions(+), 1 deletions(-)
+ .../eglibc/eglibc-2.13/multilib_readlib.patch      |   17 ++++++
+ meta/recipes-core/eglibc/eglibc-ld.inc             |   54 ++++++++++++++++++++
+ meta/recipes-core/eglibc/eglibc.inc                |    1 +
+ meta/recipes-core/eglibc/eglibc_2.13.bb            |   13 ++++-
+ 4 files changed, 84 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.13/multilib_readlib.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-ld.inc
 
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index 6e1669f..571b7be 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -6,7 +6,12 @@ python multilib_virtclass_handler () {
-     variant = e.data.getVar("BBEXTENDVARIANT", True)
-     if cls != "multilib" or not variant:
-         return
-- 
-+    save_var_name=e.data.getVar("MULTILIB_SAVE_VARNAME", True) or ""
-+    for name in save_var_name.split():
-+        val=e.data.getVar(name, True)
-+        if val:
-+            e.data.setVar(name + "_MULTILIB_ORIGINAL", val)
+diff --git a/meta/recipes-core/eglibc/eglibc-2.13/multilib_readlib.patch b/meta/recipes-core/eglibc/eglibc-2.13/multilib_readlib.patch
+new file mode 100644
+index 0000000..1542b1b
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-2.13/multilib_readlib.patch
+@@ -0,0 +1,17 @@
++Upstream-Status: Inappropriate [embedded specific]
 +
-     override = ":virtclass-multilib-" + variant
- 
-     e.data.setVar("MLPREFIX", variant + "-")
-diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-index 8c3a9b8..c66c184 100644
---- a/meta/classes/utils.bbclass
-+++ b/meta/classes/utils.bbclass
-@@ -341,3 +341,32 @@ def base_set_filespath(path, d):
- 		for o in overrides.split(":"):
- 			filespath.append(os.path.join(p, o))
- 	return ":".join(filespath)
++Replace the OECORE_KNOWN_INTERPRETER_NAMES with the value of 
++variable EGLIBC_KNOWN_INTERPRETER_NAMES.
 +
-+def extend_variants(d, var, extend, delim=':'):
-+	"""Return a string of all bb class extend variants for the given extend"""
-+	variants = []
-+	whole = d.getVar(var, True) or ""
-+	for ext in whole.split():
-+		eext = ext.split(delim)
-+		if len(eext) > 1 and eext[0] == extend:
-+			variants.append(eext[1])
-+	return " ".join(variants)
++Lianhao Lu, 08/01/2011
 +
-+def all_multilib_tune_values(d, var, unique=True):
-+	"""Return a string of all ${var} in all multilib tune configuration"""
-+	values = []
-+	value = d.getVar(var, True) or ""
-+	if value != "":
-+		values.append(value)
++--- libc/elf/readlib.c.orig	2011-08-12 17:05:51.864470837 +0800
+++++ libc/elf/readlib.c	2011-08-12 17:06:39.346942074 +0800
++@@ -52,6 +52,7 @@
++ #ifdef SYSDEP_KNOWN_INTERPRETER_NAMES
++   SYSDEP_KNOWN_INTERPRETER_NAMES
++ #endif
+++  OECORE_KNOWN_INTERPRETER_NAMES
++ };
++ 
++ static struct known_names known_libs[] =
+diff --git a/meta/recipes-core/eglibc/eglibc-ld.inc b/meta/recipes-core/eglibc/eglibc-ld.inc
+new file mode 100644
+index 0000000..b3eb46e
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-ld.inc
+@@ -0,0 +1,54 @@
++def ld_append_if_tune_exists(d, infos, dict):
++	tune = d.getVar("DEFAULTTUNE", True) or ""
++	libdir = d.getVar("base_libdir", True) or ""
++	if dict.has_key(tune):
++		infos['ldconfig'].add('{"' + libdir + '/' + dict[tune][0] + '",' + dict[tune][1] + ' }')
++		infos['lddrewrite'].add(libdir+'/'+dict[tune][0])
++
++def eglibc_dl_info(d):
++	ld_info_all = {
++		"mips": ["ld.so.1", "FLAG_ELF_LIBC6"],
++		"mips64-n32": ["ld.so.1", "FLAG_ELF_LIBC6"],
++		"mips64": ["ld.so.1", "FLAG_ELF_LIBC6"],
++		"mipsel": ["ld.so.1", "FLAG_ELF_LIBC6"],
++		"mips64el-n32": ["ld.so.1", "FLAG_ELF_LIBC6"],
++		"mips64el": ["ld.so.1", "FLAG_ELF_LIBC6"],
++		"mips-nf": ["ld.so.1", "FLAG_ELF_LIBC6"],
++		"mips64-nf-n32": ["ld.so.1", "FLAG_ELF_LIBC6"],
++		"mips64-nf": ["ld.so.1", "FLAG_ELF_LIBC6"],
++		"mips64el-nf-n32": ["ld.so.1", "FLAG_ELF_LIBC6"],
++		"mips64el-nf": ["ld.so.1", "FLAG_ELF_LIBC6"],
++		"powerpc": ["ld.so.1", "FLAG_ELF_LIBC6"],
++		"powerpc-nf": ["ld.so.1", "FLAG_ELF_LIBC6"],
++		"powerpc64": ["ld64.so.1", "FLAG_ELF_LIBC6"],
++		"powerpc64-nf": ["ld64.so.1", "FLAG_ELF_LIBC6"],
++		"core2": ["ld-linux.so.2", "FLAG_ELF_LIBC6"],
++		"core2-64": ["ld-linux-x86-64.so.2", "FLAG_ELF_LIBC6"],
++		"x86": ["ld-linux.so.2", "FLAG_ELF_LIBC6"],
++		"x86-64": ["ld-linux-x86-64.so.2", "FLAG_ELF_LIBC6"],
++		"i586": ["ld-linux.so.2", "FLAG_ELF_LIBC6"],
++	}
++
++	infos = {'ldconfig':set(), 'lddrewrite':set()}
++	ld_append_if_tune_exists(d, infos, ld_info_all)
++
++	#DEFAULTTUNE_MULTILIB_ORIGINAL
++	original_tune=d.getVar("DEFAULTTUNE_MULTILIB_ORIGINAL",True)
++	if original_tune:
++		localdata = bb.data.createCopy(d)
++		localdata.setVar("DEFAULTTUNE", original_tune)
++		ld_append_if_tune_exists(localdata, infos, ld_info_all)
++
 +	variants = d.getVar("MULTILIB_VARIANTS", True) or ""
 +	for item in variants.split():
 +		localdata = bb.data.createCopy(d)
 +		overrides = localdata.getVar("OVERRIDES", False) + ":virtclass-multilib-" + item
 +		localdata.setVar("OVERRIDES", overrides)
 +		bb.data.update_data(localdata)
-+		value = localdata.getVar(var, True) or ""
-+		if value != "":
-+			values.append(value)
-+	if unique:
-+		values = set(values)
-+	return " ".join(values)
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 7bb68b8..b309516 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -749,3 +749,4 @@ BB_HASHTASK_WHITELIST ?= "(.*-cross$|.*-native$|.*-cross-initial$|.*-cross-inter
- BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM USER FILESPATH USERNAME STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE"
- 
- MLPREFIX ??= ""
-+MULTILIB_VARIANTS ??= ""
-diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
-index f2a2002..36793d2 100644
---- a/meta/conf/multilib.conf
-+++ b/meta/conf/multilib.conf
-@@ -1,6 +1,9 @@
- 
- baselib = "${@d.getVar('BASE_LIB_tune-' + (d.getVar('DEFAULTTUNE', True) or 'INVALID'), True) or 'lib'}"
- 
-+MULTILIB_VARIANTS = "${@extend_variants(d,'MULTILIBS','multilib')}"
-+MULTILIB_SAVE_VARNAME = "DEFAULTTUNE"
++		ld_append_if_tune_exists(localdata, infos, ld_info_all)
++	infos['ldconfig'] = ','.join(infos['ldconfig'])
++	infos['lddrewrite'] = ' '.join(infos['lddrewrite'])
++	return infos
 +
- MULTILIBS ??= "multilib:lib32"
++EGLIBC_KNOWN_INTERPRETER_NAMES = "${@eglibc_dl_info(d)['ldconfig']}"
++RTLDLIST = "${@eglibc_dl_info(d)['lddrewrite']}"
+diff --git a/meta/recipes-core/eglibc/eglibc.inc b/meta/recipes-core/eglibc/eglibc.inc
+index 9088d02..fe9f8ba 100644
+--- a/meta/recipes-core/eglibc/eglibc.inc
++++ b/meta/recipes-core/eglibc/eglibc.inc
+@@ -1,4 +1,5 @@
+ require eglibc-common.inc
++require eglibc-ld.inc
  
- BBCLASSEXTEND_append_pn-acl = " ${MULTILIBS}"
+ STAGINGCC = "gcc-cross-intermediate"
+ STAGINGCC_virtclass-nativesdk = "gcc-crosssdk-intermediate"
+diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
+index 915eb32..f382448 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.13.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
+@@ -3,7 +3,7 @@ require eglibc.inc
+ SRCREV = "14157"
+ 
+ DEPENDS += "gperf-native"
+-PR = "r12"
++PR = "r13"
+ PR_append = "+svnr${SRCPV}"
+ 
+ EGLIBC_BRANCH="eglibc-2_13"
+@@ -18,6 +18,7 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http
+            file://generate-supported.mk \
+            file://glibc_bug_fix_12454.patch \
+            file://ppc-sqrt.patch \
++           file://multilib_readlib.patch \
+ 	   "
+ LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
+       file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
+@@ -83,6 +84,7 @@ do_move_ports() {
+ 
+ do_patch_append() {
+ 	bb.build.exec_func('do_fix_ia_headers', d)
++	bb.build.exec_func('do_fix_readlib_c', d)
+ }
+ 
+ # We need to ensure that all of the i386 and x86_64 headers are identical
+@@ -172,6 +174,10 @@ do_fix_ia_headers() {
+ 	cp ${S}/sysdeps/unix/sysv/linux/x86_64/sys/user.h ${S}/sysdeps/unix/sysv/linux/i386/sys/user.h
+ }
+ 
++do_fix_readlib_c () {
++	sed -i -e 's#OECORE_KNOWN_INTERPRETER_NAMES#${EGLIBC_KNOWN_INTERPRETER_NAMES}#' ${S}/elf/readlib.c
++}
++
+ do_configure () {
+ # override this function to avoid the autoconf/automake/aclocal/autoheader
+ # calls for now
+@@ -201,6 +207,11 @@ do_compile () {
+ 			rpcgen -h $r -o $h || oewarn "unable to generate header for $r"
+ 		done
+ 	)
++	echo "Adjust ldd script"
++	[ -z "${RTLDLIST}" ] && return
++	sed -i ${B}/elf/ldd -e 's#^\(RTLDLIST=\)"\(.*\)"$#\1\2#'
++	sed -i ${B}/elf/ldd -e 's#^\(RTLDLIST=\)\(.*\)$#\1"${RTLDLIST} \2"#'
++
+ }
+ 
+ require eglibc-package.inc
 -- 
 1.7.0.4
 
