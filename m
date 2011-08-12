@@ -1,23 +1,40 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX18JMKxQ/gdISXP+jTRwxsk/BZ7Z8ndR4wk=])
+Received: from mail-iy0-f171.google.com ([209.85.210.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1Qrtco-0006e4-TL
+	(envelope-from <raj.khem@gmail.com>) id 1Qrtix-0006km-4e
 	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Aug 2011 17:26:19 +0200
-Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p7CFLhkk027548;
-	Fri, 12 Aug 2011 10:21:44 -0500
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Kumar Gala <galak@kernel.crashing.org>
-In-Reply-To: <cover.1313134270.git.sgw@linux.intel.com>
-Date: Fri, 12 Aug 2011 10:21:46 -0500
-Message-Id: <AE257E65-83DE-4D59-BF8F-21DDBE4BE953@kernel.crashing.org>
-References: <cover.1313134270.git.sgw@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Mailer: Apple Mail (2.1084)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [CONSOLIDATED PULL 00/25] Meta-RT reorg and other fixes
+	Fri, 12 Aug 2011 17:32:39 +0200
+Received: by iyf13 with SMTP id 13so1922507iyf.16
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Aug 2011 08:28:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:x-enigmail-version:content-type
+	:content-transfer-encoding;
+	bh=UdJz93ZDYA67H+3G21lNheKYxgCJUf04dgWq5k4ShAk=;
+	b=sD6IsMz3yccIKP9lEx0nZNrdX3wG255wPLI9OTJsaqFCLro24dIEw2mETg7hwuYDKJ
+	pyDEz136VENjj5z/Hne2sr1KEdXtPs6E6X/J9KN+4BkxeK0j2nYDTLMy/bXuJo9I5eFW
+	x2L1W4JFCqnkBjFNXS5Oz8wVuPrf6L6ncpYOw=
+Received: by 10.231.54.104 with SMTP id p40mr2230625ibg.39.1313162885725;
+	Fri, 12 Aug 2011 08:28:05 -0700 (PDT)
+Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id x18sm400971ibe.23.2011.08.12.08.28.04
+	(version=SSLv3 cipher=OTHER); Fri, 12 Aug 2011 08:28:04 -0700 (PDT)
+Message-ID: <4E454683.9040809@gmail.com>
+Date: Fri, 12 Aug 2011 08:28:03 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:6.0) Gecko/20110809 Thunderbird/6.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <346abefc87d21d0cc111ef87a6e48f40c5b6cb0b.1311683981.git.richard.purdie@linuxfoundation.org>
+	<1313064502.14274.418.camel@rex>
+	<1313065783.6733.132.camel@phil-desktop>
+	<1403530.aczy7koY2H@perseus>
+	<1313159724.6733.158.camel@phil-desktop>
+In-Reply-To: <1313159724.6733.158.camel@phil-desktop>
+X-Enigmail-Version: 1.2pre
+Subject: Re: [PATCH 2/3] Add basic Mips core tune config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,75 +49,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Aug 2011 15:26:19 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 12 Aug 2011 15:32:39 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
 
-On Aug 12, 2011, at 2:49 AM, Saul Wold wrote:
+On 08/12/2011 07:35 AM, Phil Blundell wrote:
+> On Thu, 2011-08-11 at 07:49 -0700, Khem Raj wrote:
+>> yeah I think major cpu architecture would be nice to have in
+>> overrides e.g. mips for mipseb and mipsel. We dont need endianness
+>> info since we can deduce that from tune features in todays setup.
+> 
+> I'm not entirely convinced it's wholesome for random recipes to
+> start poking around inside TUNE_FEATURES.  SITEINFO_ENDIANNESS seems
+> like the cleanest way for recipes to get that information.
 
-> Richard,
->=20
-> This set of changes fixes some current master build failures for
-> RPM rootfs (from Mark) and has the Realtime update from Darren and
-> Bruce.
->=20
-> In addition there are some updates from Chris Larson and Kumar =
-cleaning
-> up various tune and multi-lib issues.
->=20
-> They past my review and initial testing.
->=20
-> Sau!
->=20
-> The following changes since commit =
-a92d56058b21913570bb17ae416c3b00afce055e:
->=20
->  gnome-doc-utils: respect python-dir setting EXTRA_OECONF (2011-08-11 =
-19:13:38 +0100)
->=20
-> are available in the git repository at:
->  git://git.openembedded.org/openembedded-core-contrib sgw/stage
->  =
-http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=3Ds=
-gw/stage
->=20
-> Bruce Ashfield (1):
->  linux-yocto: update SRCREVs for preempt-rt support + build fixes
->=20
-> Chris Larson (7):
->  busybox: don't strip the main binary
->  insane: add linux-gnu to the platform data
->  nativesdk: inherit relocatable
->  sanity: shift the required utils into a variable
->  package: include SECTION in the pkgdata
->  package: allow setting a section for locale packages
->  cross: also empty PACKAGES_DYNAMIC
->=20
-> Darren Hart (10):
->  meta-rt: refresh linux-yocto-rt recipe
->  meta-rt: rt-tests v0.73 instead of AUTOREV
->  meta-rt: canonicalize directory structure
->  meta-rt: add linux-yocto-rt_3.0 recipe
->  meta-rt: remove atom-pc support from the main layer
->  meta-rt: rename minimal-rt images to -rt, drop live image
->  meta-rt: add an -rt-sdk image
->  meta-rt: default KMACHINE and SRCREV_machine to avoid parsing errors
->  Move meta-rt recipes to oe-core (meta)
->  recipes-rt: add a README documenting the contents of recipes-rt
->=20
-> Kumar Gala (3):
->  automake: Update for python.m4 to respect libdir
->  xcb-proto: update based on changes to python.m4 in automake
->  tune-ppce5500: Add a set of tune files for PowerPC e5500 core
+yes. for endianness thats better to get it from SITEINFO_ENDIANNESS so
+far TARGET_ARCH was being used which should be improved.
 
-Mind pickup up:
+> 
+> p.
+> 
+> 
+> 
+> _______________________________________________ Openembedded-core
+> mailing list Openembedded-core@lists.openembedded.org 
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
 
-tune-ppc: Update to pass glibc configure option to get cpu specific =
-support
-
-(hopefully v4 applies)
-
-- k=
+iEYEARECAAYFAk5FRoMACgkQuwUzVZGdMxRoSACeLo3/aWiLbQn86+ZoxQDw4rXR
+7zoAnA0TxTF7fDFQgLsgOWqji/KEz7hJ
+=0IKr
+-----END PGP SIGNATURE-----
 
 
