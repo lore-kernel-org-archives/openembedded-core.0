@@ -1,19 +1,27 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX18XkVQl+rE2UP2WzJGfMM8A+BMrz2fXQQc=])
+Received: from vms173019pub.verizon.net ([206.46.173.19])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1Qrjp8-0006nN-8A
+	(envelope-from <denis@denix.org>) id 1QrkLk-0007SW-IY
 	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Aug 2011 06:58:22 +0200
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p7C4rokw009172
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2011 23:53:51 -0500
-From: Kumar Gala <galak@kernel.crashing.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Aug 2011 23:53:50 -0500
-Message-Id: <1313124830-10039-1-git-send-email-galak@kernel.crashing.org>
-X-Mailer: git-send-email 1.5.6.5
-Subject: [PATCH v4] tune-ppc: Update to pass glibc configure option to get cpu specific support
+	Fri, 12 Aug 2011 07:32:04 +0200
+Received: from gandalf.denix.org ([unknown] [108.18.140.4])
+	by vms173019.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0LPS00239SDIU9J7@vms173019.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Thu, 11 Aug 2011 23:27:19 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id A979514AF5D; Fri,
+	12 Aug 2011 00:27:18 -0400 (EDT)
+Date: Fri, 12 Aug 2011 00:27:18 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-id: <20110812042718.GB13857@denix.org>
+References: <201108120214.10933.schnitzeltony@gmx.de>
+	<4E44877E.9000907@gmail.com>
+MIME-version: 1.0
+In-reply-to: <4E44877E.9000907@gmail.com>
+User-Agent: Mutt/1.5.16 (2007-06-09)
+Subject: Re: gcc-cross-initial fails for maiden build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,57 +36,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Aug 2011 04:58:22 -0000
+X-List-Received-Date: Fri, 12 Aug 2011 05:32:04 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-We need --with-cpu based to glibc to get proper support on 603e & e500mc
-to pickup proper math libs to deal with sqrt.  These core do not
-implement the fsqrt[s] instructions that the normal PPC math libs
-utilize.
+On Thu, Aug 11, 2011 at 06:53:02PM -0700, Khem Raj wrote:
+> -----BEGIN PGP SIGNED MESSAGE-----
+> Hash: SHA1
+> 
+> On 08/11/2011 05:14 PM, Andreas Mueller wrote:
+> > Hi
+> > 
+> > I just pulled latest metas, deleted all my temp stuff, start build
+> > and get
+> > 
+> > ERROR: Function 'do_headerfix' failed (see
+> > /home/Superandy/tmp/oe-core- 
+> > eglibc/work/armv7a-angstrom-linux-gnueabi/gcc-cross-initial-4.5- 
+> > r40+svnr176640/temp/log.do_headerfix.25304 for further information) 
+> > ERROR: Logfile of failure stored in: /home/Superandy/tmp/oe-core- 
+> > eglibc/work/armv7a-angstrom-linux-gnueabi/gcc-cross-initial-4.5- 
+> > r40+svnr176640/temp/log.do_headerfix.25304 Log data follows: | +
+> > do_headerfix | + sed -i
+> > '/home/Superandy/tmp/oe-core-eglibc/work-shared/gcc-4.5/gcc-4_5- 
+> > branch/gcc/config/*/linux*.h' -e 's#\(GLIBC_DYNAMIC_LINKER[^ ]*\) \(
+> >  *"/lib.*\)/\(.*\)#\1 SYSTEMLIBS_DIR "\3#' | sed: can't read
+> > /home/Superandy/tmp/oe-core-eglibc/work- 
+> > shared/gcc-4.5/gcc-4_5-branch/gcc/config/*/linux*.h: No such file or
+> > directory | ERROR: Function 'do_headerfix' failed (see
+> > /home/Superandy/tmp/oe-core- 
+> > eglibc/work/armv7a-angstrom-linux-gnueabi/gcc-cross-initial-4.5- 
+> > r40+svnr176640/temp/log.do_headerfix.25304 for further information) 
+> > NOTE: package gcc-cross-initial-4.5-r40+svnr176640: task
+> > do_headerfix: Failed
+> > 
+> > do_headerfix makes 970af6b09e1d69041b0d82fa56ace19543405eb1
+> > suspicious...
+> > 
+> 
+> what does ls /home/Superandy/tmp/oe-core-eglibc/work-
+> shared/gcc-4.5/gcc-4_5-branch/gcc/config/*/linux*.h
+> show?
+> 
+> this is meta-oe gcc and it might need some tweak to accommodate the new
+> changes from oe-core
 
-This causes use to not set AVAILTUNES specifically to the sub-arch only
-as we arent generically compatiable.
+The problem is that it's .../work-shared/gcc-4.5-r40+svnr176640/... instead of 
+just .../work-shared/gcc-4.5/...
 
-Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
----
-v4:
-Clean version against upstream
-
- meta/conf/machine/include/tune-ppc603e.inc   |    5 ++++-
- meta/conf/machine/include/tune-ppce500mc.inc |    5 ++++-
- 2 files changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/meta/conf/machine/include/tune-ppc603e.inc b/meta/conf/machine/include/tune-ppc603e.inc
-index da8114f..c743dde 100644
---- a/meta/conf/machine/include/tune-ppc603e.inc
-+++ b/meta/conf/machine/include/tune-ppc603e.inc
-@@ -6,6 +6,9 @@ TUNEVALID[ppc603e] = "Enable ppc603e specific processor optimizations"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", "-mcpu=603e", "", d)}"
- TUNE_PKGARCH = "${@bb.utils.contains('TUNE_FEATURES', 'ppc603e', 'ppc603e', '${PPCPKGARCH}', d)}"
- 
--AVAILTUNES += "ppc603e"
-+AVAILTUNES = "ppc603e"
- TUNE_FEATURES_tune-ppc603e = "m32 fpu-hard ppc603e"
- PACKAGE_EXTRA_ARCHS_tune-ppc603e = "powerpc ppc603e"
-+
-+# glibc configure options to get 603e specific library (for sqrt)
-+GLIBC_EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", "-with-cpu=603e", "", d)}"
-diff --git a/meta/conf/machine/include/tune-ppce500mc.inc b/meta/conf/machine/include/tune-ppce500mc.inc
-index 64e7bdc..33820ef 100644
---- a/meta/conf/machine/include/tune-ppce500mc.inc
-+++ b/meta/conf/machine/include/tune-ppce500mc.inc
-@@ -6,6 +6,9 @@ TUNEVALID[ppce500mc] = "Enable ppce500mc specific processor optimizations"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "-mcpu=e500mc", "", d)}"
- TUNE_PKGARCH = "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "ppce500mc", "${PPCPKGARCH}", d)}"
- 
--AVAILTUNES += "ppce500mc"
-+AVAILTUNES = "ppce500mc"
- TUNE_FEATURES_tune-ppce500mc = "m32 fpu-hard ppce500mc"
- PACKAGE_EXTRA_ARCHS_tune-ppce500mc = "powerpc ppce500mc"
-+
-+# glibc configure options to get e500mc specific library (for sqrt)
-+GLIBC_EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "-with-cpu=e500mc", "", d)}"
 -- 
-1.7.3.4
-
+Denys
 
 
