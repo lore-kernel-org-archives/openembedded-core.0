@@ -1,25 +1,32 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-gw0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1Qrpe0-0001o2-5g
+	(envelope-from <george.huntingtoniii@gmail.com>) id 1QrqT7-000310-C7
 	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Aug 2011 13:11:16 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 12 Aug 2011 04:06:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,361,1309762800"; 
-   d="scan'208";a="6485552"
-Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.146])
-	by AZSMGA002.ch.intel.com with ESMTP; 12 Aug 2011 04:06:42 -0700
-From: Lianhao Lu <lianhao.lu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Aug 2011 19:08:08 +0800
-Message-Id: <97c4024de968587057456dccd19c1949e062bd79.1313146924.git.lianhao.lu@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <072a8b51ac04e8a2b58246cd4eedff3b6e8befd2.1313146924.git.lianhao.lu@intel.com>
-References: <072a8b51ac04e8a2b58246cd4eedff3b6e8befd2.1313146924.git.lianhao.lu@intel.com>
-In-Reply-To: <cover.1313146924.git.lianhao.lu@intel.com>
-References: <cover.1313146924.git.lianhao.lu@intel.com>
-Subject: [PATCH v2 BUG #1236 2/2] eglibc: Modify ldd script according to multilib config.
+	Fri, 12 Aug 2011 14:04:05 +0200
+Received: by gwb11 with SMTP id 11so1913356gwb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Aug 2011 04:59:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=FM2H1J7SoZU96WnsMf+KSXhk1nEtiNjsMgovGsLDFZw=;
+	b=c7BW3LeYzX12vSHuCVD6pLaQIHjh8NbdLfTMm9mYTf1NoKnpPtLjNX5uLoo5U4jPXH
+	cPFquMYcLkLlS6DPvJKLj2CmSRvQe8OAYlAO8qKZLqNFjzvFG+Cv2a4K0nYzjC2Thma6
+	PgUyvlJHwYeT3gLjnXSWyFLnLh7KdbEGtUmj8=
+MIME-Version: 1.0
+Received: by 10.236.176.97 with SMTP id a61mr2459309yhm.250.1313150370075;
+	Fri, 12 Aug 2011 04:59:30 -0700 (PDT)
+Received: by 10.236.110.3 with HTTP; Fri, 12 Aug 2011 04:59:30 -0700 (PDT)
+In-Reply-To: <201108121147.58438.paul.eggleton@linux.intel.com>
+References: <CAGiJk9fq+p3LcBOOz=V+_kprRppAOR-nOAOW6tgK3zwE78Skwg@mail.gmail.com>
+	<201108121008.03554.paul.eggleton@linux.intel.com>
+	<CAGiJk9dGQ5N0xd+L81Bit-jp4YDYPwSBjNvn5_io38vyH2nREg@mail.gmail.com>
+	<201108121147.58438.paul.eggleton@linux.intel.com>
+Date: Fri, 12 Aug 2011 07:59:30 -0400
+Message-ID: <CAFu+nvEY-=wvh0zn3WgOCNjM0e54Q3LSK2N5jWb6-Yi3hnDZxQ@mail.gmail.com>
+From: "George C. Huntington, III" <george.huntingtoniii@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Questions about the layer structure in OpenEmbedded-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,172 +41,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Aug 2011 11:11:17 -0000
+X-List-Received-Date: Fri, 12 Aug 2011 12:04:05 -0000
+Content-Type: multipart/alternative; boundary=485b397dd10d58543c04aa4da585
 
-Bug fixing [YOCTO #1236].
+--485b397dd10d58543c04aa4da585
+Content-Type: text/plain; charset=UTF-8
 
-1. Collect all the values for RTLDLIST for the current multilib
-configuration to modify the ldd scripts.
+that graphic is nice, could it be included in the wiki?
 
-2. Collect all the values for KNOWN_INTERPRETER_NAMES for the current
-multilib configuration. Set the correct ld.so names for ldconfig to deal
-with the multilib configuration.
----
- .../eglibc/eglibc-2.13/multilib_readlib.patch      |   17 ++++++
- meta/recipes-core/eglibc/eglibc-ld.inc             |   54 ++++++++++++++++++++
- meta/recipes-core/eglibc/eglibc.inc                |    1 +
- meta/recipes-core/eglibc/eglibc_2.13.bb            |   13 ++++-
- 4 files changed, 84 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.13/multilib_readlib.patch
- create mode 100644 meta/recipes-core/eglibc/eglibc-ld.inc
+On Fri, Aug 12, 2011 at 6:47 AM, Paul Eggleton <
+paul.eggleton@linux.intel.com> wrote:
 
-diff --git a/meta/recipes-core/eglibc/eglibc-2.13/multilib_readlib.patch b/meta/recipes-core/eglibc/eglibc-2.13/multilib_readlib.patch
-new file mode 100644
-index 0000000..1542b1b
---- /dev/null
-+++ b/meta/recipes-core/eglibc/eglibc-2.13/multilib_readlib.patch
-@@ -0,0 +1,17 @@
-+Upstream-Status: Inappropriate [embedded specific]
-+
-+Replace the OECORE_KNOWN_INTERPRETER_NAMES with the value of 
-+variable EGLIBC_KNOWN_INTERPRETER_NAMES.
-+
-+Lianhao Lu, 08/01/2011
-+
-+--- libc/elf/readlib.c.orig	2011-08-12 17:05:51.864470837 +0800
-++++ libc/elf/readlib.c	2011-08-12 17:06:39.346942074 +0800
-+@@ -52,6 +52,7 @@
-+ #ifdef SYSDEP_KNOWN_INTERPRETER_NAMES
-+   SYSDEP_KNOWN_INTERPRETER_NAMES
-+ #endif
-++  OECORE_KNOWN_INTERPRETER_NAMES
-+ };
-+ 
-+ static struct known_names known_libs[] =
-diff --git a/meta/recipes-core/eglibc/eglibc-ld.inc b/meta/recipes-core/eglibc/eglibc-ld.inc
-new file mode 100644
-index 0000000..b3eb46e
---- /dev/null
-+++ b/meta/recipes-core/eglibc/eglibc-ld.inc
-@@ -0,0 +1,54 @@
-+def ld_append_if_tune_exists(d, infos, dict):
-+	tune = d.getVar("DEFAULTTUNE", True) or ""
-+	libdir = d.getVar("base_libdir", True) or ""
-+	if dict.has_key(tune):
-+		infos['ldconfig'].add('{"' + libdir + '/' + dict[tune][0] + '",' + dict[tune][1] + ' }')
-+		infos['lddrewrite'].add(libdir+'/'+dict[tune][0])
-+
-+def eglibc_dl_info(d):
-+	ld_info_all = {
-+		"mips": ["ld.so.1", "FLAG_ELF_LIBC6"],
-+		"mips64-n32": ["ld.so.1", "FLAG_ELF_LIBC6"],
-+		"mips64": ["ld.so.1", "FLAG_ELF_LIBC6"],
-+		"mipsel": ["ld.so.1", "FLAG_ELF_LIBC6"],
-+		"mips64el-n32": ["ld.so.1", "FLAG_ELF_LIBC6"],
-+		"mips64el": ["ld.so.1", "FLAG_ELF_LIBC6"],
-+		"mips-nf": ["ld.so.1", "FLAG_ELF_LIBC6"],
-+		"mips64-nf-n32": ["ld.so.1", "FLAG_ELF_LIBC6"],
-+		"mips64-nf": ["ld.so.1", "FLAG_ELF_LIBC6"],
-+		"mips64el-nf-n32": ["ld.so.1", "FLAG_ELF_LIBC6"],
-+		"mips64el-nf": ["ld.so.1", "FLAG_ELF_LIBC6"],
-+		"powerpc": ["ld.so.1", "FLAG_ELF_LIBC6"],
-+		"powerpc-nf": ["ld.so.1", "FLAG_ELF_LIBC6"],
-+		"powerpc64": ["ld64.so.1", "FLAG_ELF_LIBC6"],
-+		"powerpc64-nf": ["ld64.so.1", "FLAG_ELF_LIBC6"],
-+		"core2": ["ld-linux.so.2", "FLAG_ELF_LIBC6"],
-+		"core2-64": ["ld-linux-x86-64.so.2", "FLAG_ELF_LIBC6"],
-+		"x86": ["ld-linux.so.2", "FLAG_ELF_LIBC6"],
-+		"x86-64": ["ld-linux-x86-64.so.2", "FLAG_ELF_LIBC6"],
-+		"i586": ["ld-linux.so.2", "FLAG_ELF_LIBC6"],
-+	}
-+
-+	infos = {'ldconfig':set(), 'lddrewrite':set()}
-+	ld_append_if_tune_exists(d, infos, ld_info_all)
-+
-+	#DEFAULTTUNE_MULTILIB_ORIGINAL
-+	original_tune=d.getVar("DEFAULTTUNE_MULTILIB_ORIGINAL",True)
-+	if original_tune:
-+		localdata = bb.data.createCopy(d)
-+		localdata.setVar("DEFAULTTUNE", original_tune)
-+		ld_append_if_tune_exists(localdata, infos, ld_info_all)
-+
-+	variants = d.getVar("MULTILIB_VARIANTS", True) or ""
-+	for item in variants.split():
-+		localdata = bb.data.createCopy(d)
-+		overrides = localdata.getVar("OVERRIDES", False) + ":virtclass-multilib-" + item
-+		localdata.setVar("OVERRIDES", overrides)
-+		bb.data.update_data(localdata)
-+		ld_append_if_tune_exists(localdata, infos, ld_info_all)
-+	infos['ldconfig'] = ','.join(infos['ldconfig'])
-+	infos['lddrewrite'] = ' '.join(infos['lddrewrite'])
-+	return infos
-+
-+EGLIBC_KNOWN_INTERPRETER_NAMES = "${@eglibc_dl_info(d)['ldconfig']}"
-+RTLDLIST = "${@eglibc_dl_info(d)['lddrewrite']}"
-diff --git a/meta/recipes-core/eglibc/eglibc.inc b/meta/recipes-core/eglibc/eglibc.inc
-index 9088d02..fe9f8ba 100644
---- a/meta/recipes-core/eglibc/eglibc.inc
-+++ b/meta/recipes-core/eglibc/eglibc.inc
-@@ -1,4 +1,5 @@
- require eglibc-common.inc
-+require eglibc-ld.inc
- 
- STAGINGCC = "gcc-cross-intermediate"
- STAGINGCC_virtclass-nativesdk = "gcc-crosssdk-intermediate"
-diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
-index 915eb32..f382448 100644
---- a/meta/recipes-core/eglibc/eglibc_2.13.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
-@@ -3,7 +3,7 @@ require eglibc.inc
- SRCREV = "14157"
- 
- DEPENDS += "gperf-native"
--PR = "r12"
-+PR = "r13"
- PR_append = "+svnr${SRCPV}"
- 
- EGLIBC_BRANCH="eglibc-2_13"
-@@ -18,6 +18,7 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http
-            file://generate-supported.mk \
-            file://glibc_bug_fix_12454.patch \
-            file://ppc-sqrt.patch \
-+           file://multilib_readlib.patch \
- 	   "
- LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
-       file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
-@@ -83,6 +84,7 @@ do_move_ports() {
- 
- do_patch_append() {
- 	bb.build.exec_func('do_fix_ia_headers', d)
-+	bb.build.exec_func('do_fix_readlib_c', d)
- }
- 
- # We need to ensure that all of the i386 and x86_64 headers are identical
-@@ -172,6 +174,10 @@ do_fix_ia_headers() {
- 	cp ${S}/sysdeps/unix/sysv/linux/x86_64/sys/user.h ${S}/sysdeps/unix/sysv/linux/i386/sys/user.h
- }
- 
-+do_fix_readlib_c () {
-+	sed -i -e 's#OECORE_KNOWN_INTERPRETER_NAMES#${EGLIBC_KNOWN_INTERPRETER_NAMES}#' ${S}/elf/readlib.c
-+}
-+
- do_configure () {
- # override this function to avoid the autoconf/automake/aclocal/autoheader
- # calls for now
-@@ -201,6 +207,11 @@ do_compile () {
- 			rpcgen -h $r -o $h || oewarn "unable to generate header for $r"
- 		done
- 	)
-+	echo "Adjust ldd script"
-+	[ -z "${RTLDLIST}" ] && return
-+	sed -i ${B}/elf/ldd -e 's#^\(RTLDLIST=\)"\(.*\)"$#\1\2#'
-+	sed -i ${B}/elf/ldd -e 's#^\(RTLDLIST=\)\(.*\)$#\1"${RTLDLIST} \2"#'
-+
- }
- 
- require eglibc-package.inc
--- 
-1.7.0.4
+> On Friday 12 August 2011 10:31:12 you wrote:
+> > 2011/8/12 Paul Eggleton <paul.eggleton@linux.intel.com>:
+> > > I wrote both of these with input from the community recently, so they
+> > > should be fairly reliable and up-to-date - was there something missing
+> > > that you noticed? Suggestions welcome.
+> >
+> > Maybe these are not from OpenEmbedded (or newer than the update) but I
+> > got additionally items, which where provided by the setup script:
+> > meta-efikamx, meta-openpandora (openpandora may come somewhere from
+> > angstrom) and meta-xilinx.
+>
+> Right, I have now added those to the layer index. Thanks!
+>
+> Cheers,
+> Paul
+>
+> --
+>
+> Paul Eggleton
+> Intel Open Source Technology Centre
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
+--485b397dd10d58543c04aa4da585
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+that graphic is nice, could it be included in the wiki?<br><br><div class=
+=3D"gmail_quote">On Fri, Aug 12, 2011 at 6:47 AM, Paul Eggleton <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:paul.eggleton@linux.intel.com">paul.eggleton=
+@linux.intel.com</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex;">On Friday 12 August 2011 10:31:12 you wrote=
+:<br>
+&gt; 2011/8/12 Paul Eggleton &lt;<a href=3D"mailto:paul.eggleton@linux.inte=
+l.com">paul.eggleton@linux.intel.com</a>&gt;:<br>
+<div class=3D"im">&gt; &gt; I wrote both of these with input from the commu=
+nity recently, so they<br>
+&gt; &gt; should be fairly reliable and up-to-date - was there something mi=
+ssing<br>
+&gt; &gt; that you noticed? Suggestions welcome.<br>
+&gt;<br>
+</div>&gt; Maybe these are not from OpenEmbedded (or newer than the update)=
+ but I<br>
+&gt; got additionally items, which where provided by the setup script:<br>
+&gt; meta-efikamx, meta-openpandora (openpandora may come somewhere from<br=
+>
+&gt; angstrom) and meta-xilinx.<br>
+<br>
+Right, I have now added those to the layer index. Thanks!<br>
+<div><div></div><div class=3D"h5"><br>
+Cheers,<br>
+Paul<br>
+<br>
+--<br>
+<br>
+Paul Eggleton<br>
+Intel Open Source Technology Centre<br>
+<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
+-core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
+o/openembedded-core</a><br>
+</div></div></blockquote></div><br>
 
+--485b397dd10d58543c04aa4da585--
