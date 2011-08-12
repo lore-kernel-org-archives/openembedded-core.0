@@ -1,27 +1,25 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1QrpLt-0000ih-A8
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1QrpdY-0001hd-A4
 	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Aug 2011 12:52:33 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 12 Aug 2011 03:47:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,361,1309762800"; d="scan'208";a="37796611"
-Received: from unknown (HELO helios.localnet) ([10.255.18.64])
-	by azsmga001.ch.intel.com with ESMTP; 12 Aug 2011 03:47:59 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Samuel Stirtzel <s.stirtzel@googlemail.com>
-Date: Fri, 12 Aug 2011 11:47:58 +0100
-User-Agent: KMail/1.13.6 (Linux/2.6.38-10-generic-pae; KDE/4.6.2; i686; ; )
-References: <CAGiJk9fq+p3LcBOOz=V+_kprRppAOR-nOAOW6tgK3zwE78Skwg@mail.gmail.com>
-	<201108121008.03554.paul.eggleton@linux.intel.com>
-	<CAGiJk9dGQ5N0xd+L81Bit-jp4YDYPwSBjNvn5_io38vyH2nREg@mail.gmail.com>
-In-Reply-To: <CAGiJk9dGQ5N0xd+L81Bit-jp4YDYPwSBjNvn5_io38vyH2nREg@mail.gmail.com>
+	Fri, 12 Aug 2011 13:10:48 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7CB6FjI005866
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Aug 2011 04:06:15 -0700 (PDT)
+Received: from [128.224.162.219] (128.224.162.219) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Fri, 12 Aug 2011 04:06:14 -0700
+Message-ID: <4E450925.7060101@windriver.com>
+Date: Fri, 12 Aug 2011 19:06:13 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
 MIME-Version: 1.0
-Message-Id: <201108121147.58438.paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Questions about the layer structure in OpenEmbedded-Core
+Subject: [RFC] Performance Issue: Build time increases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,30 +34,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Aug 2011 10:52:33 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
+X-List-Received-Date: Fri, 12 Aug 2011 11:10:48 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Friday 12 August 2011 10:31:12 you wrote:
-> 2011/8/12 Paul Eggleton <paul.eggleton@linux.intel.com>:
-> > I wrote both of these with input from the community recently, so they
-> > should be fairly reliable and up-to-date - was there something missing
-> > that you noticed? Suggestions welcome.
-> 
-> Maybe these are not from OpenEmbedded (or newer than the update) but I
-> got additionally items, which where provided by the setup script:
-> meta-efikamx, meta-openpandora (openpandora may come somewhere from
-> angstrom) and meta-xilinx.
 
-Right, I have now added those to the layer index. Thanks!
+Hi folks,
 
-Cheers,
-Paul
+The build time of core-image-sato increases about 5 ~ 10 minutes than
+the following commit:
+
+commit 5af197b55a4b779f1ec93186f0723026949ba2b5
+Author: Liping Ke <liping.ke@intel.com>
+Date:   Fri Jun 3 08:22:40 2011 +0800
+
+     cache: Implement multiple extra cache fields request support
+
+On my host,
+1) the build time of 5af197b55a4b779f1ec93186f0723026949ba2b5 is:
+
+real    208m26.133s
+user    241m29.280s
+sys     47m0.630s
+
+2) and: 068839698fe192d8846c0ed4db65861448e8e524 is:
+
+real    217m39.687s
+user    255m34.150s
+sys     48m21.510s
+
+
+I use the bisect build method to find out which patch causes the time
+increases, but the build time is not stable on my host(Ubuntu 11.04 64bit),
+e.g., the build time of 1) is 208m at the first build, then "git co 
+other_commit" and build it, after about 10 builds, then go back to build
+5af197b55a4b779f1ec, the build time will increases about 8 minutes, I have
+stopped the X and cron, at. This may have relationship with the linux
+distribution and disk.
+
+So I have to restart the build, reboot the machine by two days, and go on the
+build. It would be better if anyone has other good method.
+
+I think that for the next release(e.g., yocto 1.2), we can find a clean and
+stable machine(for the distribution, maybe RHEL is more stable than Ubuntu)
+to check the build time weekly, so that we can notice the performance issue
+early.
 
 -- 
+Thanks
 
-Paul Eggleton
-Intel Open Source Technology Centre
+Robert
 
 
