@@ -1,31 +1,27 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Qrudp-0008UA-AC for openembedded-core@lists.openembedded.org;
-	Fri, 12 Aug 2011 18:31:25 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7CGQoVr013663;
-	Fri, 12 Aug 2011 17:26:50 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 12915-09; Fri, 12 Aug 2011 17:26:47 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7CGQjYl013657
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 12 Aug 2011 17:26:46 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga11.intel.com ([192.55.52.93])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <dvhart@linux.intel.com>) id 1QruhK-00009B-H0
+	for openembedded-core@lists.openembedded.org;
+	Fri, 12 Aug 2011 18:35:02 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 12 Aug 2011 09:30:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,363,1309762800"; d="scan'208";a="38832773"
+Received: from unknown (HELO envy.home) ([10.255.14.228])
+	by fmsmga002.fm.intel.com with ESMTP; 12 Aug 2011 09:30:25 -0700
+Message-ID: <4E455522.6040303@linux.intel.com>
+Date: Fri, 12 Aug 2011 09:30:26 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:5.0) Gecko/20110707 Thunderbird/5.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <cover.1313134270.git.sgw@linux.intel.com>
 References: <cover.1313134270.git.sgw@linux.intel.com>
-Date: Fri, 12 Aug 2011 17:26:06 +0100
-Message-ID: <1313166366.14274.512.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: "dvhart@linux.intel.com" <dvhart@linux.intel.com>
-Subject: Re: [CONSOLIDATED PULL 00/25] Meta-RT reorg and other fixes
+	<37738c9649d8a17c9f99713d9cbc4a93c803f977.1313134270.git.sgw@linux.intel.com>
+	<1313165371.14274.509.camel@rex>
+In-Reply-To: <1313165371.14274.509.camel@rex>
+Subject: Re: [CONSOLIDATED PULL 17/25] meta-rt: rt-tests v0.73 instead of AUTOREV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,79 +36,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Aug 2011 16:31:25 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 12 Aug 2011 16:35:02 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-08-12 at 00:49 -0700, Saul Wold wrote:
-> Richard,
-> 
-> This set of changes fixes some current master build failures for
-> RPM rootfs (from Mark) and has the Realtime update from Darren and
-> Bruce.
-> 
-> In addition there are some updates from Chris Larson and Kumar cleaning
-> up various tune and multi-lib issues.
-> 
-> They past my review and initial testing.
-> 
-> Sau!
-> 
-> The following changes since commit a92d56058b21913570bb17ae416c3b00afce055e:
-> 
->   gnome-doc-utils: respect python-dir setting EXTRA_OECONF (2011-08-11 19:13:38 +0100)
-> 
-> are available in the git repository at:
->   git://git.openembedded.org/openembedded-core-contrib sgw/stage
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-> 
-> Bruce Ashfield (1):
->   linux-yocto: update SRCREVs for preempt-rt support + build fixes
-> 
-> Chris Larson (7):
->   busybox: don't strip the main binary
->   insane: add linux-gnu to the platform data
->   nativesdk: inherit relocatable
->   sanity: shift the required utils into a variable
->   package: include SECTION in the pkgdata
->   package: allow setting a section for locale packages
->   cross: also empty PACKAGES_DYNAMIC
-> 
-> Darren Hart (10):
->   meta-rt: refresh linux-yocto-rt recipe
->   meta-rt: rt-tests v0.73 instead of AUTOREV
->   meta-rt: canonicalize directory structure
->   meta-rt: add linux-yocto-rt_3.0 recipe
->   meta-rt: remove atom-pc support from the main layer
->   meta-rt: rename minimal-rt images to -rt, drop live image
->   meta-rt: add an -rt-sdk image
->   meta-rt: default KMACHINE and SRCREV_machine to avoid parsing errors
->   Move meta-rt recipes to oe-core (meta)
->   recipes-rt: add a README documenting the contents of recipes-rt
-> 
-> Kumar Gala (3):
->   automake: Update for python.m4 to respect libdir
->   xcb-proto: update based on changes to python.m4 in automake
->   tune-ppce5500: Add a set of tune files for PowerPC e5500 core
-> 
-> Mark Hatle (3):
->   rpm: Fix the canonical arch --target processing and cleanup
->   package_rpm.bbclass: Update the platform config and --target
->   package_rpm: Fix attemptonly and suggest packages
-> 
-> Mei Lei (1):
->   init-install.sh: Fix make partition and make file system issues
 
-Merged to master in full but Darren needs to sort out the rt-tests v0.73
-business ASAP as per my email now its being enabled by default.
 
-I merged rather than waiting as there were other patches depending on
-that change and it seemed a shame to reject half the patch series on
-that minor detail.
+On 08/12/2011 09:09 AM, Richard Purdie wrote:
+> On Fri, 2011-08-12 at 00:50 -0700, Saul Wold wrote:
+>> From: Darren Hart <dvhart@linux.intel.com>
+>>
+>> AUTOREV is handy is a development aid, but it really shouldn't be used as a
+>> default as it breaks the consistency and repeatability of a build. It also
+>> causes additional fetches which may not be desired or expected.
+>>
+>> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+>> ---
+>>  .../{rt-tests_git.bb => rt-tests_0.73.bb}          |    2 +-
+>>  1 files changed, 1 insertions(+), 1 deletions(-)
+>>  rename meta-rt/recipes-tests/{rt-tests_git.bb => rt-tests_0.73.bb} (97%)
+>>
+>> diff --git a/meta-rt/recipes-tests/rt-tests_git.bb b/meta-rt/recipes-tests/rt-tests_0.73.bb
+>> similarity index 97%
+>> rename from meta-rt/recipes-tests/rt-tests_git.bb
+>> rename to meta-rt/recipes-tests/rt-tests_0.73.bb
+>> index 35af022..6334bcd 100644
+>> --- a/meta-rt/recipes-tests/rt-tests_git.bb
+>> +++ b/meta-rt/recipes-tests/rt-tests_0.73.bb
+>> @@ -6,7 +6,7 @@ LICENSE = "GPLv2 & GPLv2+"
+>>  LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+>>                      file://src/cyclictest/cyclictest.c;beginline=7;endline=9;md5=ce162fe491d19d2ec67dff6dbc938d50 \
+>>                      file://src/pi_tests/pi_stress.c;beginline=6;endline=19;md5=bd426a634a43ec612e9fbf125dfcc949"
+>> -SRCREV = ${AUTOREV}
+>> +SRCREV = v0.73
+>>  PV = "git${SRCPV}"
+>>  PR = "r0"
+> 
+> Sorry, but this is nearly as bad as the system has to hit the network to
+> resolve "v0.73" into a revision. Please can you do something like:
 
-Cheers,
+Duh. Apologies. I'll spin up a fix immediately.
 
-Richard
+--
+Darren
 
+> 
+> # This revision is v0.73
+> SRCREV = "xxx"
+> 
+> which I appreciate is ugly but there is no nice way to do this (and
+> support offline builds).
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
