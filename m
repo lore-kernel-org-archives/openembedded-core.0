@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qrma4-0004e0-UK
+	(envelope-from <sgw@linux.intel.com>) id 1Qrma6-0004dc-0h
 	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Aug 2011 09:55:01 +0200
+	Fri, 12 Aug 2011 09:55:02 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP; 12 Aug 2011 00:50:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="37809727"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="37809732"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.248])
-	by orsmga001.jf.intel.com with ESMTP; 12 Aug 2011 00:50:21 -0700
+	by orsmga001.jf.intel.com with ESMTP; 12 Aug 2011 00:50:22 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Aug 2011 00:50:05 -0700
-Message-Id: <35ff7b7694d4fca2d844195ad98aad4c3e17ed04.1313134270.git.sgw@linux.intel.com>
+Date: Fri, 12 Aug 2011 00:50:07 -0700
+Message-Id: <909c1bcfcd2aebbc2bebf9e724e562e580a83afd.1313134270.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1313134270.git.sgw@linux.intel.com>
 References: <cover.1313134270.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1313134270.git.sgw@linux.intel.com>
 References: <cover.1313134270.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 16/25] meta-rt: refresh linux-yocto-rt recipe
+Subject: [CONSOLIDATED PULL 18/25] meta-rt: canonicalize directory structure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,81 +33,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Aug 2011 07:55:01 -0000
+X-List-Received-Date: Fri, 12 Aug 2011 07:55:02 -0000
 
 From: Darren Hart <dvhart@linux.intel.com>
 
-Rename the recipe to match the linux-yocto recipe renames using the kernel
-version in the PV portion of the filename.
-
-Add the SRCREVs to the recipe as was done with the core linux-yocto recipes.
-
-Add qemux86 as it is also present in the linux-yocto-2.6.34.git repository.
+Use the more standard recipes-*/*/*.bb layout.
 
 Signed-off-by: Darren Hart <dvhart@linux.intel.com>
 ---
- meta-rt/conf/layer.conf                            |    6 ------
- ...to-rt_stablegit.bb => linux-yocto-rt_2.6.34.bb} |   12 +++++++++---
- 2 files changed, 9 insertions(+), 9 deletions(-)
- rename meta-rt/recipes-kernel/{linux-yocto-rt_stablegit.bb => linux-yocto-rt_2.6.34.bb} (65%)
+ meta-rt/conf/layer.conf                            |    5 +++--
+ .../{ => linux}/linux-yocto-rt_2.6.34.bb           |    0
+ .../recipes-tests/{ => rt-tests}/rt-tests_0.73.bb  |    0
+ 3 files changed, 3 insertions(+), 2 deletions(-)
+ rename meta-rt/recipes-kernel/{ => linux}/linux-yocto-rt_2.6.34.bb (100%)
+ rename meta-rt/recipes-tests/{ => rt-tests}/rt-tests_0.73.bb (100%)
 
 diff --git a/meta-rt/conf/layer.conf b/meta-rt/conf/layer.conf
-index 94ebc02..f105405 100644
+index f105405..59f42b6 100644
 --- a/meta-rt/conf/layer.conf
 +++ b/meta-rt/conf/layer.conf
-@@ -15,9 +15,3 @@ BBFILE_PRIORITY_rt = "8"
- # specified kernel providers and leave it up to the kernel recipe to 
- # determine COMPATIBLE_MACHINE.
- PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-rt"
--
--# preempt_rt SRCREVs, one for meta, one per machine
--SRCREV_meta_pn-linux-yocto-rt ?= "b0615811ce38836d1ade230e3bdb1efaaa68471f"
--SRCREV_machine_pn-linux-yocto-rt_qemux86-64 ?= "f49444f06875894389e640bcda6c3f6ceb1f0c3e"
--SRCREV_machine_pn-linux-yocto-rt_atom-pc ?= "78dacaf8222c9492ba17f652989ef3466423bdc2"
--
-diff --git a/meta-rt/recipes-kernel/linux-yocto-rt_stablegit.bb b/meta-rt/recipes-kernel/linux-yocto-rt_2.6.34.bb
-similarity index 65%
-rename from meta-rt/recipes-kernel/linux-yocto-rt_stablegit.bb
-rename to meta-rt/recipes-kernel/linux-yocto-rt_2.6.34.bb
-index cba1321..01a6761 100644
---- a/meta-rt/recipes-kernel/linux-yocto-rt_stablegit.bb
-+++ b/meta-rt/recipes-kernel/linux-yocto-rt_2.6.34.bb
-@@ -1,6 +1,7 @@
- inherit kernel
- require recipes-kernel/linux/linux-yocto.inc
+@@ -5,8 +5,9 @@ RSP_ROOT ?= "sda1"
+ BBPATH := "${BBPATH}:${LAYERDIR}"
  
-+KMACHINE_qemux86  = "common_pc"
- KMACHINE_qemux86-64  = "common_pc_64"
- KMACHINE_atom-pc  = "atom-pc"
- 
-@@ -11,11 +12,16 @@ LINUX_VERSION_EXTENSION ?= "-yocto-${LINUX_KERNEL_TYPE_EXTENSION}"
- KMETA = wrs_meta
- KBRANCH = ${KMACHINE}-${LINUX_KERNEL_TYPE}
- 
--PR = "r1"
-+SRCREV_machine_qemux86 = "439602eb6acd53d9beb8493710310214fc7bd749"
-+SRCREV_machine_qemux86-64 = "3c84c45ad3c3592f9c7ff4076de9bee417cd322e"
-+SRCREV_machine_atom-pc = "269d71029adcf4d1dbf8441f091d824478d8c87d"
-+SRCREV_meta = "e1f85a470934a0cf6abde5d95533e74501822c6b"
+ # We have an images and various recipe-* directories, add to BBFILES
+-BBFILES := "${BBFILES} ${LAYERDIR}/images/*.bb ${LAYERDIR}/images/*.bbappend ${LAYERDIR}/recipes-*/*.bb ${LAYERDIR}/recipes-*/*.bbappend"
+-	
++BBFILES := "${BBFILES} ${LAYERDIR}/images/*.bb ${LAYERDIR}/images/*.bbappend \
++            ${LAYERDIR}/recipes-*/*/*.bb ${LAYERDIR}/recipes-*/*/*.bbappend"
 +
-+PR = "r2"
- PV = "${LINUX_VERSION}+git${SRCPV}"
- SRCREV_FORMAT = "meta_machine"
- 
--COMPATIBLE_MACHINE = "(qemux86-64|atom-pc)"
-+COMPATIBLE_MACHINE = "(qemux86|qemux86-64|atom-pc)"
- 
- # this performs a fixup on the SRCREV for new/undefined BSPs
- python __anonymous () {
-@@ -25,7 +31,7 @@ python __anonymous () {
-     bb.data.setVar("LINUX_KERNEL_TYPE_EXTENSION", kerntype, d)
- }
- 
--SRC_URI = "git://git.yoctoproject.org/linux-2.6-windriver.git;protocol=git;nocheckout=1;branch=${KBRANCH},wrs_meta;name=machine,meta"
-+SRC_URI = "git://git.yoctoproject.org/linux-yocto-2.6.34.git;protocol=git;nocheckout=1;branch=${KBRANCH},wrs_meta;name=machine,meta"
- 
- # Functionality flags
- KERNEL_REVISION_CHECKING ?= "t"
+ BBFILE_COLLECTIONS += "rt"
+ BBFILE_PATTERN_rt := "^${LAYERDIR}/"
+ BBFILE_PRIORITY_rt = "8"
+diff --git a/meta-rt/recipes-kernel/linux-yocto-rt_2.6.34.bb b/meta-rt/recipes-kernel/linux/linux-yocto-rt_2.6.34.bb
+similarity index 100%
+rename from meta-rt/recipes-kernel/linux-yocto-rt_2.6.34.bb
+rename to meta-rt/recipes-kernel/linux/linux-yocto-rt_2.6.34.bb
+diff --git a/meta-rt/recipes-tests/rt-tests_0.73.bb b/meta-rt/recipes-tests/rt-tests/rt-tests_0.73.bb
+similarity index 100%
+rename from meta-rt/recipes-tests/rt-tests_0.73.bb
+rename to meta-rt/recipes-tests/rt-tests/rt-tests_0.73.bb
 -- 
 1.7.3.4
 
