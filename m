@@ -1,16 +1,16 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1Qri02-0001N6-NL
+	(envelope-from <dvhart@linux.intel.com>) id 1QriQ1-0001cs-W0
 	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Aug 2011 05:01:31 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 11 Aug 2011 19:56:57 -0700
+	Fri, 12 Aug 2011 05:28:22 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 11 Aug 2011 20:23:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,360,1309762800"; d="scan'208";a="40736267"
+X-IronPort-AV: E=Sophos;i="4.67,360,1309762800"; d="scan'208";a="38576094"
 Received: from unknown (HELO envy.home) ([10.255.14.213])
-	by fmsmga001.fm.intel.com with ESMTP; 11 Aug 2011 19:56:57 -0700
-Message-ID: <4E449679.40300@linux.intel.com>
-Date: Thu, 11 Aug 2011 19:56:57 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 11 Aug 2011 20:23:48 -0700
+Message-ID: <4E449CC4.4080405@linux.intel.com>
+Date: Thu, 11 Aug 2011 20:23:48 -0700
 From: Darren Hart <dvhart@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:5.0) Gecko/20110707 Thunderbird/5.0
@@ -36,9 +36,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Aug 2011 03:01:31 -0000
+X-List-Received-Date: Fri, 12 Aug 2011 03:28:22 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
+
 
 On 08/11/2011 05:40 PM, Bruce Ashfield wrote:
 > On 11-08-11 7:08 PM, Darren Hart wrote:
@@ -94,10 +95,89 @@ On 08/11/2011 05:40 PM, Bruce Ashfield wrote:
 > here, it jumped out.
 > 
 > The rest looks good.
+> 
+> Bruce
 
-All good points, I'll respin and send out V2.
+Rather than resend the entire series, I have updated this patch at the
+same pull URL. The new patch follows:
 
---
+From 87720452dfcd4e244dd89e43aa39d9d8dc27655e Mon Sep 17 00:00:00 2001
+Message-Id: <87720452dfcd4e244dd89e43aa39d9d8dc27655e.1313118839.git.dvhart@linux.intel.com>
+In-Reply-To: <cover.1313118839.git.dvhart@linux.intel.com>
+References: <cover.1313118839.git.dvhart@linux.intel.com>
+From: Darren Hart <dvhart@linux.intel.com>
+Date: Wed, 20 Jul 2011 09:18:09 -0700
+Subject: [PATCH 04/10] meta-rt: add linux-yocto-rt_3.0 recipe
+
+Add the initial linux-yocto-rt_3.0 recipe.
+
+qemumips and qemuppc doesn't work quite yet, so they have been omitted from
+COMPATIBLE_MACHINE.
+
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta-rt/recipes-kernel/linux/linux-yocto-rt_3.0.bb |   46 ++++++++++++++++++++
+ 1 files changed, 46 insertions(+), 0 deletions(-)
+ create mode 100644 meta-rt/recipes-kernel/linux/linux-yocto-rt_3.0.bb
+
+diff --git a/meta-rt/recipes-kernel/linux/linux-yocto-rt_3.0.bb b/meta-rt/recipes-kernel/linux/linux-yocto-rt_3.0.bb
+new file mode 100644
+index 0000000..c8a175d
+--- /dev/null
++++ b/meta-rt/recipes-kernel/linux/linux-yocto-rt_3.0.bb
+@@ -0,0 +1,46 @@
++inherit kernel
++require recipes-kernel/linux/linux-yocto.inc
++
++KMACHINE = "common-pc"
++KMACHINE_qemux86  = "common-pc"
++KMACHINE_qemux86-64  = "common-pc-64"
++KMACHINE_qemuarm  = "arm-versatile-926ejs"
++KMACHINE_qemuppc  = "qemu-ppc32"
++KMACHINE_qemumips = "mti-malta32-be"
++
++KBRANCH = "yocto/standard/preempt-rt/base"
++KMETA = meta
++
++LINUX_VERSION ?= "3.0"
++LINUX_KERNEL_TYPE = "preempt-rt"
++LINUX_VERSION_EXTENSION ?= "-yocto-${LINUX_KERNEL_TYPE}"
++
++SRCREV_machine = "7e1e5b6c8a13c615feb0d7b6d37988a094aae98f"
++SRCREV_meta = "7782fc673afd6a1c742409896ae787560d96fce8"
++
++PR = "r0"
++PV = "${LINUX_VERSION}+git${SRCPV}"
++SRCREV_FORMAT = "meta_machine"
++
++SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.0.git;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
++
++# Omit broken machines from COMPATIBLE_MACHINE
++#   qemuppc hangs at boot
++#   qemumips panics at boot
++COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm)"
++
++# Functionality flags
++KERNEL_REVISION_CHECKING ?= "t"
++KERNEL_FEATURES=features/netfilter
++KERNEL_FEATURES_append=" features/taskstats"
++KERNEL_FEATURES_append_qemux86=" cfg/sound"
++KERNEL_FEATURES_append_qemux86-64=" cfg/sound"
++
++YOCTO_KERNEL_META_DATA=t
++
++# extra tasks
++addtask kernel_link_vmlinux after do_compile before do_install
++addtask validate_branches before do_patch after do_kernel_checkout
++addtask kernel_configcheck after do_configure before do_compile
++
++require recipes-kernel/linux/linux-tools.inc
+-- 
+1.7.6
+
+
+-- 
 Darren Hart
 Intel Open Source Technology Center
 Yocto Project - Linux Kernel
