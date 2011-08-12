@@ -1,34 +1,28 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Qrv2U-0000TK-TS for openembedded-core@lists.openembedded.org;
-	Fri, 12 Aug 2011 18:56:55 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7CGqMMZ013811
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Aug 2011 17:52:22 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 13071-08 for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Aug 2011 17:52:18 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7CGqGDw013805
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Aug 2011 17:52:16 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1Qrvb2-0001FP-Ho
+	for openembedded-core@lists.openembedded.org;
+	Fri, 12 Aug 2011 19:32:36 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 12 Aug 2011 10:28:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="37247216"
+Received: from unknown (HELO [10.255.14.248]) ([10.255.14.248])
+	by orsmga002.jf.intel.com with ESMTP; 12 Aug 2011 10:28:02 -0700
+Message-ID: <4E4562A1.4050603@linux.intel.com>
+Date: Fri, 12 Aug 2011 10:28:01 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <ffa3108cb68e977a91414eeff183275c92800461.1313167004.git.dvhart@linux.intel.com>
-References: <cover.1313167004.git.dvhart@linux.intel.com>
-	<ffa3108cb68e977a91414eeff183275c92800461.1313167004.git.dvhart@linux.intel.com>
-Date: Fri, 12 Aug 2011 17:51:36 +0100
-Message-ID: <1313167896.14274.515.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/1] rt-tests: use an explicit commit ID
+References: <1313078412-6872-1-git-send-email-noor_ahsan@mentor.com>	<201108121010.51135.paul.eggleton@linux.intel.com>	<B10F3DBD-4A1F-45AE-886D-A08FDDA130E8@dominion.thruhere.net>
+	<201108121129.23973.paul.eggleton@linux.intel.com>
+In-Reply-To: <201108121129.23973.paul.eggleton@linux.intel.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH] bluez4: Added new recipe version 4.96
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,37 +37,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Aug 2011 16:56:55 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 12 Aug 2011 17:32:36 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-08-12 at 09:42 -0700, Darren Hart wrote:
-> Using a tag, like v0.73, forces network access to resolve a
-> commit ID. Use the corresponding commit ID in the recipe.
-> 
-> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-> ---
->  meta/recipes-rt/rt-tests/rt-tests_0.73.bb |    3 ++-
->  1 files changed, 2 insertions(+), 1 deletions(-)
-> 
-> diff --git a/meta/recipes-rt/rt-tests/rt-tests_0.73.bb b/meta/recipes-rt/rt-tests/rt-tests_0.73.bb
-> index 6334bcd..a2cf6be 100644
-> --- a/meta/recipes-rt/rt-tests/rt-tests_0.73.bb
-> +++ b/meta/recipes-rt/rt-tests/rt-tests_0.73.bb
-> @@ -6,7 +6,8 @@ LICENSE = "GPLv2 & GPLv2+"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
->                      file://src/cyclictest/cyclictest.c;beginline=7;endline=9;md5=ce162fe491d19d2ec67dff6dbc938d50 \
->                      file://src/pi_tests/pi_stress.c;beginline=6;endline=19;md5=bd426a634a43ec612e9fbf125dfcc949"
-> -SRCREV = v0.73
-> +# Version v0.73
-> +SRCREV = "81da016fb0f6ab0511fbec81fc8ba1a50398a20d"
->  PV = "git${SRCPV}"
->  PR = "r0"
+On 08/12/2011 03:29 AM, Paul Eggleton wrote:
+> On Friday 12 August 2011 11:11:24 Koen Kooi wrote:
+>> On a more serious note, how does one become a maintainer for a recipe in
+>> OE-core? Bluez4 only seems to get updates when someone tries to update
+>> recipes-connectivity/* and doesn't seem to get actually used or runtime
+>> tested.
+>
+> Surely maintainer or not you can just test and send patches for the BlueZ
+> recipe in OE-core as you would any other recipe? I suspect if you do this
+> often enough you'll become the de-facto maintainer anyway.
+>
+Koen,
 
-Merged to master, thanks.
+Paul is right, and you also have a good point about becoming a 
+maintainer. Currently as you have seen, its mostly the Yocto Team doing 
+updates with some other fixes and updates coming from the community and 
+that these updates are when a team member goes through and does a load 
+of them at once.
 
-Richard
+If you would like to update a recipe, feel free to send tested patches. 
+Moving forward, I will propose a process to the OE-Core TSC that would 
+include some basic requirements of maintainership, so things don't drift 
+into staleness.
+
+Thanks
+	Sau!
 
 
+> Cheers,
+> Paul
+>
 
 
