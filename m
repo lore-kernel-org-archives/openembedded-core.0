@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QskDS-0005Pw-F3
+	(envelope-from <sgw@linux.intel.com>) id 1QskDS-0005Pe-SI
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Aug 2011 01:35:38 +0200
+	Mon, 15 Aug 2011 01:35:39 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 14 Aug 2011 16:30:51 -0700
+	by orsmga101.jf.intel.com with ESMTP; 14 Aug 2011 16:30:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="38387546"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="38387541"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.242])
-	by orsmga001.jf.intel.com with ESMTP; 14 Aug 2011 16:30:51 -0700
+	by orsmga001.jf.intel.com with ESMTP; 14 Aug 2011 16:30:49 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 14 Aug 2011 16:30:44 -0700
-Message-Id: <6233d1155d29f83ae13f8f0d769f2894789f14dd.1313363644.git.sgw@linux.intel.com>
+Date: Sun, 14 Aug 2011 16:30:40 -0700
+Message-Id: <8c997bcd4d53b031d1ee08b53159e538eab1bea0.1313363644.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1313363644.git.sgw@linux.intel.com>
 References: <cover.1313363644.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1313363644.git.sgw@linux.intel.com>
 References: <cover.1313363644.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 10/12] cairo: only use x11 if selected in DISTRO_FEATURES
+Subject: [CONSOLIDATED PULL 06/12] meta-toolchain/environment: Use site config in rootfs.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,33 +35,77 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 14 Aug 2011 23:35:39 -0000
 
-From: Phil Blundell <philb@gnu.org>
+From: Lianhao Lu <lianhao.lu@intel.com>
 
-This makes it possible to build cairo-using apps without X11.
+[YOCTO #892] Use the site config file in rootfs to set up the build
+environment.
 
-Signed-off-by: Phil Blundell <philb@gnu.org>
+Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
 ---
- meta/recipes-graphics/cairo/cairo.inc |    5 +++--
- 1 files changed, 3 insertions(+), 2 deletions(-)
+ meta/classes/populate_sdk.bbclass          |    2 +-
+ meta/recipes-core/meta/meta-environment.bb |    6 +-----
+ meta/recipes-core/meta/meta-toolchain.bb   |    4 +---
+ 3 files changed, 3 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-graphics/cairo/cairo.inc
-index 72aaa03..c983a89 100644
---- a/meta/recipes-graphics/cairo/cairo.inc
-+++ b/meta/recipes-graphics/cairo/cairo.inc
-@@ -10,10 +10,11 @@ HOMEPAGE = "http://cairographics.org"
- BUGTRACKER = "http://bugs.freedesktop.org"
- SECTION = "libs"
- LICENSE = "MPL-1 & LGPLv2.1"
--DEPENDS = "virtual/libx11 libsm libpng fontconfig libxrender pixman glib-2.0"
-+X11DEPENDS = "virtual/libx11 libsm libxrender"
-+DEPENDS = "libpng fontconfig pixman glib-2.0 ${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
+diff --git a/meta/classes/populate_sdk.bbclass b/meta/classes/populate_sdk.bbclass
+index 0f3591b..acb9892 100644
+--- a/meta/classes/populate_sdk.bbclass
++++ b/meta/classes/populate_sdk.bbclass
+@@ -47,7 +47,7 @@ fakeroot do_populate_sdk() {
+ 	ln -s /etc/ld.so.cache ${SDK_OUTPUT}/${SDKPATHNATIVE}/etc/ld.so.cache
  
- #check for TARGET_FPU=soft and inform configure of the result so it can disable some floating points 
- require cairo-fpu.inc
--EXTRA_OECONF += "${@get_cairo_fpu_setting(bb, d)}"
-+EXTRA_OECONF += "${@get_cairo_fpu_setting(bb, d)} ${@base_contains('DISTRO_FEATURES', 'x11', '--with-x', '--without-x', d)}"
+ 	# Setup site file for external use
+-	toolchain_create_sdk_siteconfig ${SDK_OUTPUT}/${SDKPATH}/site-config-${MULTIMACH_TARGET_SYS} ${CONFIG_SITE}
++	toolchain_create_rootfs_siteconfig ${SDK_OUTPUT}/${SDKTARGETSYSROOT} 'false'
  
- inherit autotools pkgconfig
+ 	toolchain_create_sdk_env_script
+ 
+diff --git a/meta/recipes-core/meta/meta-environment.bb b/meta/recipes-core/meta/meta-environment.bb
+index 114727c..b62ec0e 100644
+--- a/meta/recipes-core/meta/meta-environment.bb
++++ b/meta/recipes-core/meta/meta-environment.bb
+@@ -2,13 +2,11 @@ DESCRIPTION = "Package of environment files for SDK"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ LICENSE = "MIT"
+-PR = "r6"
++PR = "r7"
+ 
+ EXCLUDE_FROM_WORLD = "1"
+ 
+ inherit toolchain-scripts
+-# get target config site before inheritting cross-canadian
+-TARGET_CONFIG_SITE := "${@siteinfo_get_files(d)}"
+ REAL_MULTIMACH_TARGET_SYS = "${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}"
+ 
+ SDK_DIR = "${WORKDIR}/sdk"
+@@ -23,8 +21,6 @@ do_generate_content() {
+     rm -rf ${SDK_OUTPUT}
+     mkdir -p ${SDK_OUTPUT}/${SDKPATH}
+ 
+-    toolchain_create_sdk_siteconfig ${SDK_OUTPUT}/${SDKPATH}/site-config-${REAL_MULTIMACH_TARGET_SYS} ${TARGET_CONFIG_SITE}
+-
+     toolchain_create_sdk_env_script_for_installer ${REAL_MULTIMACH_TARGET_SYS}
+ 
+     # Add version information
+diff --git a/meta/recipes-core/meta/meta-toolchain.bb b/meta/recipes-core/meta/meta-toolchain.bb
+index 164d717..1058c68 100644
+--- a/meta/recipes-core/meta/meta-toolchain.bb
++++ b/meta/recipes-core/meta/meta-toolchain.bb
+@@ -1,12 +1,10 @@
+ DESCRIPTION = "Meta package for building a installable toolchain"
+ LICENSE = "MIT"
+ 
+-PR = "r5"
++PR = "r6"
+ 
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+ IMAGETEST ?= "dummy"
+ inherit populate_sdk imagetest-${IMAGETEST}
+-
+-CONFIG_SITE := "${@siteinfo_get_files(d)}"
 -- 
 1.7.6
 
