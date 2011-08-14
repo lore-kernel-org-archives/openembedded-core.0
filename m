@@ -1,36 +1,20 @@
-Received: from mail-iy0-f171.google.com ([209.85.210.171])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Qsisv-0003vu-HJ
+	(envelope-from <sgw@linux.intel.com>) id 1QskDN-0005Pe-C8
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Aug 2011 00:10:21 +0200
-Received: by iyf13 with SMTP id 13so6321018iyf.16
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Aug 2011 15:05:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:x-enigmail-version:content-type
-	:content-transfer-encoding;
-	bh=zTdQhSgbw9oK9woZTrQ+OV5qkAhoBox1uY9ilmCo/s8=;
-	b=XFhigzQDXkhCS+KhPnu4EvK40xBTsWrbO+mwURmVgitwBNuy3T8UebJi4V2eDt37HH
-	mUl3O8bLeLZ3w9S1mQtuqxaFdULRy60tW8qlxIfsPwriy/C1FUbJiafSAZdT2akC9YP0
-	O8HxOGYUc57GI/alw5JjiQjb67Ql9uckafpvA=
-Received: by 10.43.46.70 with SMTP id un6mr3070196icb.361.1313359545414;
-	Sun, 14 Aug 2011 15:05:45 -0700 (PDT)
-Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
-	[99.57.141.118])
-	by mx.google.com with ESMTPS id q13sm3415506ibi.60.2011.08.14.15.05.43
-	(version=SSLv3 cipher=OTHER); Sun, 14 Aug 2011 15:05:44 -0700 (PDT)
-Message-ID: <4E4846B6.9080903@gmail.com>
-Date: Sun, 14 Aug 2011 15:05:42 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:6.0) Gecko/20110809 Thunderbird/6.0
-MIME-Version: 1.0
+	Mon, 15 Aug 2011 01:35:33 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 14 Aug 2011 16:30:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="38387534"
+Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.242])
+	by orsmga001.jf.intel.com with ESMTP; 14 Aug 2011 16:30:48 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <201108142050.37352.paul.eggleton@linux.intel.com>
-In-Reply-To: <201108142050.37352.paul.eggleton@linux.intel.com>
-X-Enigmail-Version: 1.2.1
-Subject: Re: Machine specific sysroot issue
+Date: Sun, 14 Aug 2011 16:30:34 -0700
+Message-Id: <cover.1313363644.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [CONSOLIDATED PULL 00/12] Various Fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,49 +29,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 14 Aug 2011 22:10:21 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 14 Aug 2011 23:35:33 -0000
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
+Richard,
 
-On 08/14/2011 12:50 PM, Paul Eggleton wrote:
-> Hi all,
-> 
-> I've brought over the Opie recipes from OE in preparation for
-> creating a separate layer, and after making a few changes everything
-> compiles OK; however I'm finding that the change to machine-specific
-> sysroots is causing some problems.
-> 
-> libopie2, a non-machine specific package, among other things installs
-> a file called include.pro into ${OPIEDIR}, which is configured to be
->  ${STAGING_DIR_HOST}. In OE-classic ${STAGING_DIR_HOST} is not
-> machine-specific, so if you build libopie2 for machine A then build
-> some other package that needs include.pro for machine B, then
-> everything is fine. In the OE-core case with machine-specific
-> sysroots it's looking for the file in the sysroot for the current
-> machine, which if you've been building for several different machines
->  may not be where it has actually been installed.
-> 
-> What's the correct way to fix this? Is libopie2 now installing this
-> file in the wrong place?
+Please review Lianhao's patch to LDD Scripts, the rest of these
+patches seem correct to me.
 
-I think with shared state it should be able to reuse what was built
-before. It does not share the target sysroot like oe.dev
-as long as the .pro file is part of a package it should be able to stage
-it into machine sysroot and use it without causing a recompile
+Sau!
 
-> 
-> Cheers, Paul
-> 
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.11 (GNU/Linux)
+The following changes since commit d126e22f6b3f27196144f87e22b36ebccd6dea65:
 
-iEYEARECAAYFAk5IRrYACgkQuwUzVZGdMxSvEQCfblKkiL3uZLnwyjI+Nhymj9zf
-zRUAn1BjKeIcTkHXvTFzAr2M5G0UK8qd
-=6zRI
------END PGP SIGNATURE-----
+  rt-tests: use an explicit commit ID (2011-08-12 17:51:18 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Khem Raj (1):
+  intltool: Use nativeperl binary for PERL instead of 'perl'
+
+Lianhao Lu (4):
+  utils.bbclass/multilib.class: Added misc supporting functions.
+  eglibc: Modify ldd script according to multilib config.
+  image: populate site config files into roootfs.
+  meta-toolchain/environment: Use site config in rootfs.
+
+Lin Tong (1):
+  valgrind: supporting on Linux kernel 3.x
+
+Noor Ahsan (1):
+  bluez4: Added new recipe 4.96 and removed 4.82 version
+
+Phil Blundell (5):
+  pixman: remove spurious dependency on libx11
+  libx11: skip self if x11 not in DISTRO_FEATURES
+  cairo: only use x11 if selected in DISTRO_FEATURES
+  dbus: only use x11 if DISTRO_FEATURES has selected it
+  default-distrovars: add x11 to default DISTRO_FEATURES
+
+ meta/classes/image.bbclass                         |    1 +
+ meta/classes/multilib.bbclass                      |    7 ++-
+ meta/classes/populate_sdk.bbclass                  |    2 +-
+ meta/classes/siteinfo.bbclass                      |    4 +-
+ meta/classes/toolchain-scripts.bbclass             |   31 +++++++++--
+ meta/classes/utils.bbclass                         |   29 +++++++++++
+ meta/conf/bitbake.conf                             |    1 +
+ meta/conf/distro/include/default-distrovars.inc    |    2 +-
+ meta/conf/multilib.conf                            |    3 +
+ .../fix-dfutool-usb-declaration-mismatch.patch     |   20 -------
+ .../bluez/bluez4-4.82/hid2hci_usb_init.patch       |   35 -------------
+ .../bluez/bluez4-4.82/sbc-thumb.patch              |   14 -----
+ .../{bluez4-4.82 => bluez4-4.96}/bluetooth.conf    |    0
+ .../bluez/{bluez4_4.82.bb => bluez4_4.96.bb}       |    6 +--
+ meta/recipes-core/dbus/dbus.inc                    |    7 ++-
+ .../eglibc/eglibc-2.13/multilib_readlib.patch      |   17 ++++++
+ meta/recipes-core/eglibc/eglibc-ld.inc             |   54 ++++++++++++++++++++
+ meta/recipes-core/eglibc/eglibc.inc                |    1 +
+ meta/recipes-core/eglibc/eglibc_2.13.bb            |   13 ++++-
+ meta/recipes-core/meta/meta-environment.bb         |    6 +--
+ meta/recipes-core/meta/meta-toolchain.bb           |    4 +-
+ .../intltool/intltool-0.40.6/use-nativeperl.patch  |   20 +++++++
+ meta/recipes-devtools/intltool/intltool.inc        |    3 +-
+ meta/recipes-devtools/intltool/intltool_0.40.6.bb  |    9 +++-
+ .../valgrind-3.6.1/fix_unsupporting_kernel_3.patch |   26 +++++++++
+ meta/recipes-devtools/valgrind/valgrind_3.6.1.bb   |    3 +-
+ meta/recipes-graphics/cairo/cairo.inc              |    5 +-
+ meta/recipes-graphics/xorg-lib/libx11.inc          |    5 ++
+ meta/recipes-graphics/xorg-lib/pixman_0.22.0.bb    |    2 -
+ 29 files changed, 226 insertions(+), 104 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.82/fix-dfutool-usb-declaration-mismatch.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.82/hid2hci_usb_init.patch
+ delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.82/sbc-thumb.patch
+ rename meta/recipes-connectivity/bluez/{bluez4-4.82 => bluez4-4.96}/bluetooth.conf (100%)
+ rename meta/recipes-connectivity/bluez/{bluez4_4.82.bb => bluez4_4.96.bb} (90%)
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.13/multilib_readlib.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-ld.inc
+ create mode 100644 meta/recipes-devtools/intltool/intltool-0.40.6/use-nativeperl.patch
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind-3.6.1/fix_unsupporting_kernel_3.patch
+
+-- 
+1.7.6
+
 
 
