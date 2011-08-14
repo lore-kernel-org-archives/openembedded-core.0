@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QskDT-0005Pw-Hb
+	(envelope-from <sgw@linux.intel.com>) id 1QskDT-0005Pm-PN
 	for openembedded-core@lists.openembedded.org;
 	Mon, 15 Aug 2011 01:35:39 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 14 Aug 2011 16:30:50 -0700
+	by orsmga101.jf.intel.com with ESMTP; 14 Aug 2011 16:30:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="38387544"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="38387548"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.242])
-	by orsmga001.jf.intel.com with ESMTP; 14 Aug 2011 16:30:50 -0700
+	by orsmga001.jf.intel.com with ESMTP; 14 Aug 2011 16:30:51 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 14 Aug 2011 16:30:42 -0700
-Message-Id: <2422dbf97a9d00e61fb64f3aa4e8b260950a48c3.1313363644.git.sgw@linux.intel.com>
+Date: Sun, 14 Aug 2011 16:30:46 -0700
+Message-Id: <108aff34dd4c1a0a705d396a4dc0bb6f643c9b08.1313363644.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1313363644.git.sgw@linux.intel.com>
 References: <cover.1313363644.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1313363644.git.sgw@linux.intel.com>
 References: <cover.1313363644.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 08/12] pixman: remove spurious dependency on libx11
+Subject: [CONSOLIDATED PULL 12/12] default-distrovars: add x11 to default DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,29 +33,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 14 Aug 2011 23:35:39 -0000
+X-List-Received-Date: Sun, 14 Aug 2011 23:35:40 -0000
 
 From: Phil Blundell <philb@gnu.org>
 
-Nothing in pixman actually uses libx11, so no need to DEPEND on it.
-
 Signed-off-by: Phil Blundell <philb@gnu.org>
 ---
- meta/recipes-graphics/xorg-lib/pixman_0.22.0.bb |    2 --
- 1 files changed, 0 insertions(+), 2 deletions(-)
+ meta/conf/distro/include/default-distrovars.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.22.0.bb b/meta/recipes-graphics/xorg-lib/pixman_0.22.0.bb
-index e5472c0..1a33a18 100644
---- a/meta/recipes-graphics/xorg-lib/pixman_0.22.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/pixman_0.22.0.bb
-@@ -13,8 +13,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=14096c769ae0cbb5fcb94ec468be11b3 \
-                     file://pixman/pixman-arm-neon-asm.h;endline=24;md5=9a9cc1e51abbf1da58f4d9528ec9d49b \
-                    "
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index c2fd77e..45b03d5 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -16,7 +16,7 @@ DISTRO_FEATURES_LIBC ?= "ipv4 ipv6 libc-backtrace libc-big-macros libc-bsd libc-
+ 					libc-memusage libc-nis libc-nsswitch libc-rcmd libc-rtld-debug libc-spawn libc-streams libc-sunrpc \
+ 					libc-utmp libc-utmpx libc-wordexp libc-posix-clang-wchar libc-posix-regexp libc-posix-regexp-glibc \
+ 					libc-posix-wchar-io"
+-DISTRO_FEATURES ?= "alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g ${DISTRO_FEATURES_LIBC}"
++DISTRO_FEATURES ?= "alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g x11 ${DISTRO_FEATURES_LIBC}"
  
--DEPENDS = "virtual/libx11"
--
- PE = "1"
- PR = "r0"
+ IMAGE_FEATURES ?= ""
  
 -- 
 1.7.6
