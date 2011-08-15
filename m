@@ -1,24 +1,20 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1Qswal-0007QG-Dr
+	(envelope-from <jiajun.xu@intel.com>) id 1QswcD-0007V3-C7
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Aug 2011 14:48:32 +0200
+	Mon, 15 Aug 2011 14:50:01 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 15 Aug 2011 05:43:54 -0700
+	by orsmga101.jf.intel.com with ESMTP; 15 Aug 2011 05:45:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="37873751"
-Received: from yocto-build3.sh.intel.com ([10.239.48.58])
-	by orsmga002.jf.intel.com with ESMTP; 15 Aug 2011 05:43:53 -0700
-From: edwin.zhai@intel.com
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="37874112"
+Received: from unknown (HELO localhost) ([10.239.48.201])
+	by orsmga002.jf.intel.com with ESMTP; 15 Aug 2011 05:45:24 -0700
+From: Jiajun Xu <jiajun.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Aug 2011 20:40:46 +0800
-Message-Id: <edd51def7cc31eaa3d67f7cc73bf5fded2351f5f.1313411859.git.edwin.zhai@intel.com>
+Date: Mon, 15 Aug 2011 21:04:00 +0800
+Message-Id: <cover.1313413181.git.jiajun.xu@intel.com>
 X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1313411858.git.edwin.zhai@intel.com>
-References: <cover.1313411858.git.edwin.zhai@intel.com>
-In-Reply-To: <cover.1313411858.git.edwin.zhai@intel.com>
-References: <cover.1313411858.git.edwin.zhai@intel.com>
-Subject: [PATCH 2/2] qemu: Make qemu buildable inside qemux86/qemuppc target
+Subject: [PATCH 0/2] Extend target version for libsdl and enable openGL for it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,104 +29,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Aug 2011 12:48:32 -0000
+X-List-Received-Date: Mon, 15 Aug 2011 12:50:01 -0000
 
-From: Zhai Edwin <edwin.zhai@intel.com>
+Some targets need to run 3D games, which requires libsdl. Enable libsdl for target
+and add a flag to check in build time if openGL needed to be built.
 
-It requires libx11 and libGL(if enabled GL) for building, which introduce extra
-dependence in qemuppc target. Futhermore, qemu's GL code is x86-oriented, thus
-some hacks needed for building in qemupcc. For simplicity, just make qemu GL's
-code for native only, so that qemu building is okay in world build.
 
-[YOCTO #1011] got fixed.
+The following changes since commit d126e22f6b3f27196144f87e22b36ebccd6dea65:
 
-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
----
- meta/recipes-devtools/qemu/qemu.inc       |    5 ++---
- meta/recipes-devtools/qemu/qemu_0.14.0.bb |   27 ++++++++++++++++++++++-----
- 2 files changed, 24 insertions(+), 8 deletions(-)
+  rt-tests: use an explicit commit ID (2011-08-12 17:51:18 +0100)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 85476d6..e5414ff 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -1,7 +1,7 @@
- DESCRIPTION = "open source processor emulator"
- HOMEPAGE = "http://qemu.org"
- LICENSE = "GPLv2 & LGPLv2.1"
--DEPENDS = "zlib alsa-lib qemugl"
-+DEPENDS = "zlib alsa-lib virtual/libx11"
- 
- # QEMU_TARGETS is overridable variable
- QEMU_TARGETS ?= "arm i386 mips mipsel mips64 mips64el ppc sh4 x86_64"
-@@ -40,7 +40,7 @@ do_configure_prepend_virtclass-native() {
- 
- do_configure() {
-     ${S}/configure --prefix=${prefix} --sysconfdir=${sysconfdir} --disable-strip ${EXTRA_OECONF}
--    chmod a+x ${S}/target-i386/beginend_funcs.sh
-+    test ! -e ${S}/target-i386/beginend_funcs.sh || chmod a+x ${S}/target-i386/beginend_funcs.sh
- }
- 
- do_install () {
-@@ -50,7 +50,6 @@ do_install () {
- 	install -m 0755 ${WORKDIR}/powerpc_rom.bin ${D}${datadir}/qemu
- }
- 
--SRC_URI_append_virtclass-nativesdk = " file://glflags.patch"
- DEPENDS_virtclass-native = "zlib-native alsa-lib-native"
- DEPENDS_virtclass-nativesdk = "zlib-nativesdk libsdl-nativesdk qemugl-nativesdk"
- RDEPENDS_virtclass-nativesdk = "libsdl-nativesdk"
-diff --git a/meta/recipes-devtools/qemu/qemu_0.14.0.bb b/meta/recipes-devtools/qemu/qemu_0.14.0.bb
-index de12f62..dc9b695 100644
---- a/meta/recipes-devtools/qemu/qemu_0.14.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_0.14.0.bb
-@@ -11,22 +11,39 @@ FILESDIR = "${WORKDIR}"
- SRC_URI = "\
-     http://download.savannah.gnu.org/releases/qemu/qemu-${PV}.tar.gz \
-     file://powerpc_rom.bin \
--    file://qemu-git-qemugl-host.patch \
-     file://no-strip.patch \
--    file://fix-nogl.patch \
--    file://qemugl-allow-glxcontext-release.patch \
-     file://linker-flags.patch \
--    file://init-info.patch \
-     file://qemu-vmware-vga-depth.patch \
--    file://enable-i386-linux-user.patch \
-     file://fix-configure-checks.patch \
-     file://fallback-to-safe-mmap_min_addr.patch \
-     file://spice-qxl-locking-fix-for-qemu-kvm.patch \
-     file://Detect-and-use-GCC-atomic-builtins-for-locking.patch \
-     file://larger_default_ram_size.patch \
-+    "
-+
-+SRC_URI_append_virtclass-native = "\
-+    file://qemu-git-qemugl-host.patch \
-+    file://fix-nogl.patch \
-+    file://qemugl-allow-glxcontext-release.patch \
-+    file://init-info.patch \
-+    file://enable-i386-linux-user.patch \
-     file://qemugl-fix.patch \
-     file://opengl-sdl-fix.patch \
-     "
-+
-+SRC_URI_append_virtclass-nativesdk = "\
-+    file://qemu-git-qemugl-host.patch \
-+    file://fix-nogl.patch \
-+    file://qemugl-allow-glxcontext-release.patch \
-+    file://init-info.patch \
-+    file://enable-i386-linux-user.patch \
-+    file://qemugl-fix.patch \
-+    file://opengl-sdl-fix.patch \
-+    file://glflags.patch \
-+    "
-+
-+#SRC_URI_append_virtclass-nativesdk = " file://glflags.patch"
-+
- SRC_URI[md5sum] = "f9d145d5c09de9f0984ffe9bd1229970"
- SRC_URI[sha256sum] = "ba21e84d7853217830e167dae9999cdbff481189c6a0bb600ac7fb7201453108"
- 
--- 
-1.7.1
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib jxu49/oe-contrib
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jxu49/oe-contrib
+
+Jiajun Xu (2):
+  libsdl: add target version
+  libsdl: enable opengl for libsdl
+
+ ...libsdl-nativesdk_1.2.11.bb => libsdl_1.2.11.bb} |   23 ++++++++++++++-----
+ 1 files changed, 17 insertions(+), 6 deletions(-)
+ rename meta/recipes-graphics/libsdl/{libsdl-nativesdk_1.2.11.bb => libsdl_1.2.11.bb} (64%)
 
 
 
