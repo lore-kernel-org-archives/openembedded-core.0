@@ -1,27 +1,25 @@
-Received: from stoexhubfe02.domain01.net ([83.145.59.141])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1QswGn-0006zx-2U
+	(envelope-from <ke.yu@intel.com>) id 1QswJH-00072s-0X
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Aug 2011 14:27:53 +0200
-Received: from localhost (193.235.91.228) by stoexhubfe02.domain01.net
-	(10.12.10.7) with Microsoft SMTP Server id 8.3.137.0; Mon, 15 Aug 2011
-	14:23:16 +0200
-Date: Mon, 15 Aug 2011 14:23:27 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20110815122327.GA7862@chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <1313164659.6733.163.camel@phil-desktop>
-MIME-Version: 1.0
-In-Reply-To: <1313164659.6733.163.camel@phil-desktop>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-GFI-SMTP-Submission: 1
-Subject: Re: [PATCH] libx11: skip self if x11 not in DISTRO_FEATURES
+	Mon, 15 Aug 2011 14:30:27 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 15 Aug 2011 05:25:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,374,1309762800"; d="scan'208";a="41560219"
+Received: from kyu3-dev32.bj.intel.com (HELO localhost) ([10.238.153.157])
+	by fmsmga001.fm.intel.com with ESMTP; 15 Aug 2011 05:25:49 -0700
+From: Yu Ke <ke.yu@intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Mon, 15 Aug 2011 20:33:54 +0800
+Message-Id: <ea7e8c6075396cc5bc69a3f6ac8d630151ce9e86.1313411289.git.ke.yu@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <cover.1313411289.git.ke.yu@intel.com>
+References: <cover.1313411289.git.ke.yu@intel.com>
+In-Reply-To: <cover.1313411289.git.ke.yu@intel.com>
+References: <cover.1313411289.git.ke.yu@intel.com>
+Subject: [PATCH 1/2] qt4.inc: revise RRECOMMENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,49 +34,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Aug 2011 12:27:53 -0000
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 15 Aug 2011 12:30:27 -0000
 
+using ${QT_BASE_NAME}-dbg as RRECOMMENDS is not correct in qt4-x11-free
+case, because ${QT_BASE_NAME}-dbg i.e. qt4-dbg does not exist
 
-Although, it is already mergerd by Richard, I really like this patch
-series (after testing it).
+this patch fix it by using ${PN}
 
-* Phil Blundell <philb@gnu.org> [110812 17:57]:
-> This stops (most) x11 packages leaking into a non-x11 distro by mistake.
+Signed-off-by: Yu Ke <ke.yu@intel.com>
+---
+ meta/recipes-qt/qt4/qt4.inc |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-Will you submit this to meta-oe also?
-This question might apply to a few of the other patches also.
+diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
+index 881b445..4d26c64 100644
+--- a/meta/recipes-qt/qt4/qt4.inc
++++ b/meta/recipes-qt/qt4/qt4.inc
+@@ -51,7 +51,7 @@ python __anonymous () {
+                   ${includedir}/${QT_DIR_NAME}/%(incname)s
+                   ${libdir}/pkgconfig/%(name)s${QT_LIBINFIX}.pc""" % locals(), d)
+         bb.data.setVar("FILES_%s-dbg" % pkg, "${libdir}/.debug/lib%(name)s${QT_LIBINFIX}.so.*" % locals(), d)
+-        bb.data.setVar("RRECOMMENDS_%s-dbg" % pkg, "${QT_BASE_NAME}-dbg", d)
++        bb.data.setVar("RRECOMMENDS_%s-dbg" % pkg, "${PN}-dbg", d)
+         lib_packages.append(pkg)
+         dev_packages.append("%s-dev" % pkg)
+         dbg_packages.append("%s-dbg" % pkg)
+@@ -68,7 +68,7 @@ python __anonymous () {
+                   ${includedir}/${QT_DIR_NAME}/%(incname)s
+                   ${libdir}/pkgconfig/%(name)s.pc""" % locals(), d)
+         bb.data.setVar("FILES_%s-dbg" % pkg, "${libdir}/.debug/lib%(name)s.so.*" % locals(), d)
+-        bb.data.setVar("RRECOMMENDS_%s-dbg" % pkg, "${QT_BASE_NAME}-dbg", d)
++        bb.data.setVar("RRECOMMENDS_%s-dbg" % pkg, "${PN}-dbg", d)
+         lib_packages.append(pkg)
+         dev_packages.append("%s-dev" % pkg)
+         dbg_packages.append("%s-dbg" % pkg)
+-- 
+1.7.0.4
 
-Cheers,
-Anders
-
-> Signed-off-by: Phil Blundell <philb@gnu.org>
-> ---
->  meta/recipes-graphics/xorg-lib/libx11.inc |    5 +++++
->  1 files changed, 5 insertions(+), 0 deletions(-)
-
-> diff --git a/meta/recipes-graphics/xorg-lib/libx11.inc b/meta/recipes-gra=
-phics/xorg-lib/libx11.inc
-> index c156ce6..455753f 100644
-> --- a/meta/recipes-graphics/xorg-lib/libx11.inc
-> +++ b/meta/recipes-graphics/xorg-lib/libx11.inc
-> @@ -42,3 +42,8 @@ do_compile() {
->  # Multiple libx11 derivatives from from this file and are selected by vi=
-rtual/libx11
->  # A world build should only build the correct version, not all of them.
->  EXCLUDE_FROM_WORLD =3D "1"
-> +
-> +python () {
-> +       if not oe.utils.contains ('DISTRO_FEATURES', 'x11', True, False, =
-d):
-> +		  raise bb.parse.SkipPackage("X11 not enabled for this DISTRO")
-> +}
---=20
-Anders Darander
-ChargeStorm AB		Tel: +46 702 44 84 36
-Laxholmstorget 3	Email: anders@chargestorm.se
-602 21 Norrk=F6ping	Web: www.chargestorm.se
 
 
