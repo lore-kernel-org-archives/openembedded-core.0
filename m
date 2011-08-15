@@ -1,25 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1QsuGJ-0002k7-DH
+	(envelope-from <koen@dominion.thruhere.net>) id 1QsuIj-0002pK-4N
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Aug 2011 12:19:15 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7FAEdTG023233
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 15 Aug 2011 12:21:45 +0200
+Received: by wwe32 with SMTP id 32so3897396wwe.24
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Aug 2011 03:14:39 -0700 (PDT)
-Received: from usp-ub10.corp.ad.wrs.com (128.224.163.66) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Mon, 15 Aug 2011 03:14:38 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 15 Aug 2011 18:18:33 +0800
-Message-ID: <bdd2c02c63135504189aca642d137a097c219706.1313400143.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1313400142.git.liezhi.yang@windriver.com>
-References: <cover.1313400142.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] The Skeleton initscript doesn't work on minimal image
+	Mon, 15 Aug 2011 03:17:09 -0700 (PDT)
+Received: by 10.216.46.75 with SMTP id q53mr3134382web.65.1313403429210;
+	Mon, 15 Aug 2011 03:17:09 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id s49sm3142763wec.25.2011.08.15.03.17.07
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 15 Aug 2011 03:17:08 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <cover.1313402929.git.paul.eggleton@linux.intel.com>
+Date: Mon, 15 Aug 2011 12:17:06 +0200
+Message-Id: <38B4DA61-0BF4-48D8-A7F4-CDC2354755A4@dominion.thruhere.net>
+References: <cover.1313402929.git.paul.eggleton@linux.intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1244.3)
+Subject: Re: [PATCH 0/4] qt4-native, Qt QA fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,45 +36,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Aug 2011 10:19:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 15 Aug 2011 10:21:45 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Fixes bug [YOCTO #1165]
 
-The /etc/init.d/skeleton doesn't work on minimal image, this is
-because of the pidofproc doesn't return "$?" correctly, so store
-$? in the variable status would fix it.
+Op 15 aug. 2011, om 12:12 heeft Paul Eggleton het volgende geschreven:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../initscripts/initscripts-1.0/functions          |    5 +++--
- 1 files changed, 3 insertions(+), 2 deletions(-)
+> Bring over qt4-native from OE and tidy up some QA warnings.
+>=20
+> The following changes since commit =
+d126e22f6b3f27196144f87e22b36ebccd6dea65:
+>=20
+>  rt-tests: use an explicit commit ID (2011-08-12 17:51:18 +0100)
+>=20
+> are available in the git repository at:
+>  git://git.openembedded.org/openembedded-core-contrib paule/qt4-fixes4
+>  =
+http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=3Dp=
+aule/qt4-fixes4
+>=20
+> Paul Eggleton (4):
+>  qt4: replace qt4-tools-native with qt4-native
+>  qt4-native: restore build of uic3, qdbuscpp2xml and qdbusxml2cpp
+>  qt4: package QML plugins and correct their install directory
+>  qt4: delete unpackaged uic3 to avoid unpackaged file warning
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/functions b/meta/recipes-core/initscripts/initscripts-1.0/functions
-index c1eac3e..dd7da2b 100644
---- a/meta/recipes-core/initscripts/initscripts-1.0/functions
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/functions
-@@ -18,7 +18,8 @@ pidofproc () {
- 
- 	# pidof output null when no program is running, so no "2>/dev/null".
- 	pid=`pidof $1`
--	case $? in
-+	status=$?
-+	case $status in
- 	0)
- 		echo $pid
- 		return 0
-@@ -28,7 +29,7 @@ pidofproc () {
- 		exit 127
- 		;;
- 	*)
--		return $?
-+		return $status
- 		;;
- 	esac
- }
--- 
-1.7.1
-
+=46rom a quick look these look good to, I hope to be able to do an =
+actual test later this week=
 
 
