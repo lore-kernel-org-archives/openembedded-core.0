@@ -1,28 +1,27 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from stoexhubfe02.domain01.net ([83.145.59.141])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Qsw1H-0006cY-K9
+	(envelope-from <anders@chargestorm.se>) id 1QswGn-0006zx-2U
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Aug 2011 14:11:51 +0200
-Received: by wyf19 with SMTP id 19so3795571wyf.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Aug 2011 05:07:12 -0700 (PDT)
-Received: by 10.227.133.144 with SMTP id f16mr3386165wbt.97.1313410032533;
-	Mon, 15 Aug 2011 05:07:12 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id fr7sm4503121wbb.56.2011.08.15.05.07.11
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 15 Aug 2011 05:07:11 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1313408815.14274.565.camel@rex>
-Date: Mon, 15 Aug 2011 14:07:10 +0200
-Message-Id: <953A9BB9-C644-449E-96DF-5AFF85AE419A@dominion.thruhere.net>
-References: <47713121-267A-4FB8-800A-FB1BE23B5650@dominion.thruhere.net>
-	<1313408815.14274.565.camel@rex>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1244.3)
-Subject: Re: TypeError: 'bool' object is unsubscriptable ?
+	Mon, 15 Aug 2011 14:27:53 +0200
+Received: from localhost (193.235.91.228) by stoexhubfe02.domain01.net
+	(10.12.10.7) with Microsoft SMTP Server id 8.3.137.0; Mon, 15 Aug 2011
+	14:23:16 +0200
+Date: Mon, 15 Aug 2011 14:23:27 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20110815122327.GA7862@chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <1313164659.6733.163.camel@phil-desktop>
+MIME-Version: 1.0
+In-Reply-To: <1313164659.6733.163.camel@phil-desktop>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-GFI-SMTP-Submission: 1
+Subject: Re: [PATCH] libx11: skip self if x11 not in DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,65 +36,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Aug 2011 12:11:51 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Mon, 15 Aug 2011 12:27:53 -0000
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 
-Op 15 aug. 2011, om 13:46 heeft Richard Purdie het volgende geschreven:
+Although, it is already mergerd by Richard, I really like this patch
+series (after testing it).
 
-> On Mon, 2011-08-15 at 12:48 +0200, Koen Kooi wrote:
->> Since this morning I'm getting errors like this:
->>=20
->> NOTE: Resolving any missing task queue dependencies
->> NOTE: preferred version 1.0.0d of openssl-native not available (for =
-item openssl-native)
->> NOTE: versions of openssl-native available: 0.9.8m 0.9.8r 1.0.0c
->> NOTE: Preparing runqueue
->> NOTE: Executing SetScene Tasks
->> NOTE: Executing RunQueue Tasks
->> NOTE: Running task 4 of 133 (ID: 19, =
-/OE/tentacle/sources/openembedded-core/meta/recipes-devtools/quilt/quilt-n=
-ative_0.48.bb, do_configure)
->> NOTE: Running task 16 of 133 (ID: 49, =
-/OE/tentacle/sources/openembedded-core/meta/recipes-devtools/libtool/libto=
-ol-native_2.4.bb, do_unpack)
->> NOTE: Running task 18 of 133 (ID: 77, =
-virtual:native:/OE/tentacle/sources/openembedded-core/meta/recipes-devtool=
-s/pkgconfig/pkgconfig_0.25.bb, do_unpack)
->> NOTE: Running task 20 of 133 (ID: 21, =
-virtual:native:/OE/tentacle/sources/openembedded-core/meta/recipes-support=
-/sqlite/sqlite3_3.7.7.1.bb, do_unpack)
->> NOTE: package quilt-native-0.48-r0: task do_configure: Started
->> ERROR: Build of do_configure failed
->> ERROR: Traceback (most recent call last):
->>  File "/OE/tentacle/sources/bitbake/lib/bb/build.py", line 366, in =
-exec_task
->>    return _exec_task(fn, task, d, quieterr)
->>  File "/OE/tentacle/sources/bitbake/lib/bb/build.py", line 323, in =
-_exec_task
->>    exec_func(task, localdata)
->>  File "/OE/tentacle/sources/bitbake/lib/bb/build.py", line 171, in =
-exec_func
->>    exec_func_shell(func, d, runfile, cwd=3Dadir)
->>  File "/usr/lib/python2.6/contextlib.py", line 34, in __exit__
->>    self.gen.throw(type, value, traceback)
->>  File "/OE/tentacle/sources/bitbake/lib/bb/utils.py", line 400, in =
-fileslocked
->>    yield
->>  File "/OE/tentacle/sources/bitbake/lib/bb/build.py", line 171, in =
-exec_func
->>    exec_func_shell(func, d, runfile, cwd=3Dadir)
->>  File "/OE/tentacle/sources/bitbake/lib/bb/build.py", line 239, in =
-exec_func_shell
->>    if bb.msg.loggerVerbose[1]:
->> TypeError: 'bool' object is unsubscriptable
->>=20
->> This is with a clean build from scratch in the portion that builds =
-pseudo-native.
->=20
-> Should be fixed now, sorry. Picked the wrong version of patch :/.
+* Phil Blundell <philb@gnu.org> [110812 17:57]:
+> This stops (most) x11 packages leaking into a non-x11 distro by mistake.
 
-Thanks!=
+Will you submit this to meta-oe also?
+This question might apply to a few of the other patches also.
+
+Cheers,
+Anders
+
+> Signed-off-by: Phil Blundell <philb@gnu.org>
+> ---
+>  meta/recipes-graphics/xorg-lib/libx11.inc |    5 +++++
+>  1 files changed, 5 insertions(+), 0 deletions(-)
+
+> diff --git a/meta/recipes-graphics/xorg-lib/libx11.inc b/meta/recipes-gra=
+phics/xorg-lib/libx11.inc
+> index c156ce6..455753f 100644
+> --- a/meta/recipes-graphics/xorg-lib/libx11.inc
+> +++ b/meta/recipes-graphics/xorg-lib/libx11.inc
+> @@ -42,3 +42,8 @@ do_compile() {
+>  # Multiple libx11 derivatives from from this file and are selected by vi=
+rtual/libx11
+>  # A world build should only build the correct version, not all of them.
+>  EXCLUDE_FROM_WORLD =3D "1"
+> +
+> +python () {
+> +       if not oe.utils.contains ('DISTRO_FEATURES', 'x11', True, False, =
+d):
+> +		  raise bb.parse.SkipPackage("X11 not enabled for this DISTRO")
+> +}
+--=20
+Anders Darander
+ChargeStorm AB		Tel: +46 702 44 84 36
+Laxholmstorget 3	Email: anders@chargestorm.se
+602 21 Norrk=F6ping	Web: www.chargestorm.se
 
 
