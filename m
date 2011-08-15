@@ -1,29 +1,34 @@
-Received: from stoexhubfe02.domain01.net ([83.145.59.141])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1Qsx5R-0008I5-Ve
-	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Aug 2011 15:20:14 +0200
-Received: from localhost (193.235.91.228) by stoexhubfe02.domain01.net
-	(10.12.10.7) with Microsoft SMTP Server id 8.3.137.0; Mon, 15 Aug 2011
-	15:15:37 +0200
-Date: Mon, 15 Aug 2011 15:15:47 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20110815131547.GA22184@chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <1313164659.6733.163.camel@phil-desktop>
-	<20110815122327.GA7862@chargestorm.se>
-	<1313413653.6733.175.camel@phil-desktop>
-MIME-Version: 1.0
-In-Reply-To: <1313413653.6733.175.camel@phil-desktop>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-GFI-SMTP-Submission: 1
-Subject: Re: [PATCH] libx11: skip self if x11 not in DISTRO_FEATURES
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Qsx6R-0008Ja-TT for openembedded-core@lists.openembedded.org;
+	Mon, 15 Aug 2011 15:21:16 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7FDGZAu017133;
+	Mon, 15 Aug 2011 14:16:35 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 16444-05; Mon, 15 Aug 2011 14:16:31 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7FDGRrs017127
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 15 Aug 2011 14:16:28 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <4E491589.3030000@linux.intel.com>
+References: <cover.1313328487.git.ke.yu@intel.com>
+	<fdc4b5810c9adedea19d41a7856612201615e99c.1313328487.git.ke.yu@intel.com>
+	<73BE3575-4FA5-4C20-9476-A36B9A5422D7@dominion.thruhere.net>
+	<4E491589.3030000@linux.intel.com>
+Date: Mon, 15 Aug 2011 14:16:25 +0100
+Message-ID: <1313414185.14274.576.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH 1/1] gcc-cross-intermediate: revise the 64bithack.patch for multilib case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,43 +43,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Aug 2011 13:20:14 -0000
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 15 Aug 2011 13:21:16 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* Phil Blundell <philb@gnu.org> [110815 15:07]:
-> On Mon, 2011-08-15 at 14:23 +0200, Anders Darander wrote:
-> > Although, it is already mergerd by Richard, I really like this patch
-> > series (after testing it).
-> >=20
-> > * Phil Blundell <philb@gnu.org> [110812 17:57]:
-> > > This stops (most) x11 packages leaking into a non-x11 distro by mista=
-ke.
-> >=20
-> > Will you submit this to meta-oe also?
-> > This question might apply to a few of the other patches also.
+On Mon, 2011-08-15 at 20:48 +0800, Yu Ke wrote:
+> On 2011/8/15 1:31, Koen Kooi wrote:
+> >
+> > Op 14 aug. 2011, om 15:32 heeft Yu Ke het volgende geschreven:
+> >
+> >> current gcc-cross-intermediate has build failure in qemux86-64 lib64
+> >> multilib case. the reason is that it still use lib instead of lib64
+> >> while do_install use the libdir i.e. lib64
+> >>
+> >> so this patch fix this issue by making gcc honour the libdir.
+> >>
+> >> CC: Kumar Gala<galak@kernel.crashing.org>
+> >> CC: Richard Purdie<richard.purdie@linuxfoundation.org>
+> >>
+> >> Signed-off-by: Yu Ke<ke.yu@intel.com>
+> >> ---
+> >> meta/recipes-devtools/gcc/gcc-4.6.inc             |    2 +-
+> >> meta/recipes-devtools/gcc/gcc-4.6/64bithack.patch |   16 +++++++++-------
+> >
+> > wouldn't gcc 4.5 need a similar change?
+> 
+> yes, gcc 4.5 should also has this change. I will sent out another patch 
+> for this.
 
-> I hadn't planned to (in fact, I hadn't previously realised that meta-oe
-> had its own copy of those files).  If you think that would be a good
-> idea then you're obviously welcome to do so, though.
+Please take a look at:
 
-Ok, then I'll submit such a patch.
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/ml4&id=4de8e0e9c286ff64f1b7fd2e695fe2d62fdadfbd
 
-I didn't really this either, until just before lunch, when I found the
-reason that e.g. libxcb and libx11 still was being built...
+I've updated the patch header and ensured that whichever compiler
+options are used, the compiler works as expected and also applied this
+to mips and pcc.
 
-The short-term solution is to get a similar patch applied to meta-oe.
-The long-term solution, any volunteers?, would be to convert the
-qt4-recipes in meta-to bbappends (if they still are needed).
+Could you also please open a bug about target gcc multilib as mentioned
+in the patch header (targeted at post 1.1).
+
+> just curious question, what is gcc 4.5 for, since gcc 4.6 is already there?
+
+Some people are still using gcc 4.5 for various reasons. It is getting
+to the point we should probably move that to meta-oe though?
 
 Cheers,
-Anders
 
---=20
-Anders Darander
-ChargeStorm AB		Tel: +46 702 44 84 36
-Laxholmstorget 3	Email: anders@chargestorm.se
-602 21 Norrk=F6ping	Web: www.chargestorm.se
+Richard
+
 
 
