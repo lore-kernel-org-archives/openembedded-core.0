@@ -1,40 +1,38 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QszUm-00055V-JL
+	(envelope-from <raj.khem@gmail.com>) id 1QszWC-00058Y-UJ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Aug 2011 17:54:33 +0200
-Received: by yxi19 with SMTP id 19so3148281yxi.6
+	Mon, 15 Aug 2011 17:56:01 +0200
+Received: by gyg4 with SMTP id 4so3177757gyg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Aug 2011 08:49:56 -0700 (PDT)
+	Mon, 15 Aug 2011 08:51:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:x-enigmail-version:content-type
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:x-enigmail-version:content-type
 	:content-transfer-encoding;
-	bh=0Rs0QY6MyDtSuryShCVLFiAq4SFk5iMQ2X3ctNbJ+mk=;
-	b=qTpsQRVbko5k64BIYQ4UHb3tE+bL5vBsPsoqvuoBsEF2NKYV+CrzDPQVFayLgikneZ
-	acg9TyHhKz5Ek4b6K+dv1PdYF50I2bBgyypAiq+3BHA4FSxFxMV+v7xZuMu/d3lkIE2V
-	j/m2Z5FCrKcQCsSyP1LyV0cqT4QBhq3ZH5lwg=
-Received: by 10.100.245.35 with SMTP id s35mr4039204anh.84.1313423396068;
-	Mon, 15 Aug 2011 08:49:56 -0700 (PDT)
+	bh=J/P/FTZ2DnspgSaiyviQpSAaIWnW7wSfizpWN4T3wpw=;
+	b=dMs1XlIaubB/Oa4sdRb7aVsNEOKHuX98BPnaGzUg7YtU06vWqZJFC3YxJ4SW31viJn
+	OHJ3T7mZtraHVWVlP9CHpvbdbR3DLu3E/7+az5QC3DVcd6KDKsARmRLpXvVBUYq17Ysk
+	1CQDyqxgMgPUQqpahkiV0U4uwhGYIwCVrJfv0=
+Received: by 10.101.44.4 with SMTP id w4mr3959080anj.108.1313423483521;
+	Mon, 15 Aug 2011 08:51:23 -0700 (PDT)
 Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
 	[99.57.141.118])
-	by mx.google.com with ESMTPS id c5sm5234142anh.27.2011.08.15.08.49.54
-	(version=SSLv3 cipher=OTHER); Mon, 15 Aug 2011 08:49:55 -0700 (PDT)
-Message-ID: <4E494021.4040907@gmail.com>
-Date: Mon, 15 Aug 2011 08:49:53 -0700
+	by mx.google.com with ESMTPS id h15sm5235680ank.13.2011.08.15.08.51.22
+	(version=SSLv3 cipher=OTHER); Mon, 15 Aug 2011 08:51:22 -0700 (PDT)
+Message-ID: <4E494079.5060607@gmail.com>
+Date: Mon, 15 Aug 2011 08:51:21 -0700
 From: Khem Raj <raj.khem@gmail.com>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:6.0) Gecko/20110809 Thunderbird/6.0
 MIME-Version: 1.0
-To: Yu Ke <ke@linux.intel.com>
-References: <cover.1313328487.git.ke.yu@intel.com>
-	<fdc4b5810c9adedea19d41a7856612201615e99c.1313328487.git.ke.yu@intel.com>
-	<4E47E757.9000408@gmail.com> <4E4913FC.5070108@linux.intel.com>
-In-Reply-To: <4E4913FC.5070108@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+References: <201108142050.37352.paul.eggleton@linux.intel.com>
+	<1313420625.6733.182.camel@phil-desktop>
+	<201108151649.40904.paul.eggleton@linux.intel.com>
+In-Reply-To: <201108151649.40904.paul.eggleton@linux.intel.com>
 X-Enigmail-Version: 1.2.1
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] gcc-cross-intermediate: revise the 64bithack.patch for multilib case
+Subject: Re: Machine specific sysroot issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,45 +47,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Aug 2011 15:54:33 -0000
+X-List-Received-Date: Mon, 15 Aug 2011 15:56:01 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-On 08/15/2011 05:41 AM, Yu Ke wrote:
-> On 2011/8/14 23:18, Khem Raj wrote:
->> -----BEGIN PGP SIGNED MESSAGE----- Hash: SHA1
->> 
->> On 08/14/2011 06:32 AM, Yu Ke wrote:
->>> current gcc-cross-intermediate has build failure in qemux86-64
->>> lib64 multilib case. the reason is that it still use lib instead
->>> of lib64 while do_install use the libdir i.e. lib64
->>> 
->>> so this patch fix this issue by making gcc honour the libdir.
->> 
->> I think similar patch should be done to ppc and mips as well.
-> 
-> According to Kumar, current ppc works just fine in multilib 64bit
-> case. so ppc may not need this kind of patch. I am not sure how is
-> mips. Since i am not familar with mips, i'd like to leave it to other
-> mips expert.
-> 
 
-I guess since mips multilib is not yet there and /lib  is used by o32
-abi even in multilib case things would be simple for mips.
-Would using gcc defaults for x86_64 work ? It might break backward
-compatibility in non multilib case
+> I've sort of figured this out. include.pro is getting installed to
+> the sysroot and not ${D} in do_install (and it's the only file
+> handled this way). I'm guessing that because of this it never gets
+> picked up by sstate.
 
-> Regards Ke
+yes seems the cause to me
+
+> 
+> Cheers, Paul
+> 
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.11 (GNU/Linux)
 
-iEUEARECAAYFAk5JQCAACgkQuwUzVZGdMxQdLwCY1ijPd8bFknmc8OLI9/OUVTZf
-FACfToqH6QXmIRNIuZkIAkYHSSiFaro=
-=pfvK
+iEYEARECAAYFAk5JQHgACgkQuwUzVZGdMxTEQACggmD5qFdYqsfZ0GhbMVE9LMYL
+e2AAnAz5FMDMA5d9F+msjxDulXuQpAY5
+=92OM
 -----END PGP SIGNATURE-----
 
 
