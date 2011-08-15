@@ -1,37 +1,24 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QszWC-00058Y-UJ
+	(envelope-from <philb@gnu.org>) id 1QszWm-0005AV-Fy
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Aug 2011 17:56:01 +0200
-Received: by gyg4 with SMTP id 4so3177757gyg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Aug 2011 08:51:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:x-enigmail-version:content-type
-	:content-transfer-encoding;
-	bh=J/P/FTZ2DnspgSaiyviQpSAaIWnW7wSfizpWN4T3wpw=;
-	b=dMs1XlIaubB/Oa4sdRb7aVsNEOKHuX98BPnaGzUg7YtU06vWqZJFC3YxJ4SW31viJn
-	OHJ3T7mZtraHVWVlP9CHpvbdbR3DLu3E/7+az5QC3DVcd6KDKsARmRLpXvVBUYq17Ysk
-	1CQDyqxgMgPUQqpahkiV0U4uwhGYIwCVrJfv0=
-Received: by 10.101.44.4 with SMTP id w4mr3959080anj.108.1313423483521;
-	Mon, 15 Aug 2011 08:51:23 -0700 (PDT)
-Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
-	[99.57.141.118])
-	by mx.google.com with ESMTPS id h15sm5235680ank.13.2011.08.15.08.51.22
-	(version=SSLv3 cipher=OTHER); Mon, 15 Aug 2011 08:51:22 -0700 (PDT)
-Message-ID: <4E494079.5060607@gmail.com>
-Date: Mon, 15 Aug 2011 08:51:21 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:6.0) Gecko/20110809 Thunderbird/6.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+	Mon, 15 Aug 2011 17:56:36 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>)
+	id 1QszSM-0004x2-9u; Mon, 15 Aug 2011 17:52:02 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Mon, 15 Aug 2011 16:52:01 +0100
+In-Reply-To: <201108151649.40904.paul.eggleton@linux.intel.com>
 References: <201108142050.37352.paul.eggleton@linux.intel.com>
 	<1313420625.6733.182.camel@phil-desktop>
 	<201108151649.40904.paul.eggleton@linux.intel.com>
-In-Reply-To: <201108151649.40904.paul.eggleton@linux.intel.com>
-X-Enigmail-Version: 1.2.1
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1313423522.6733.185.camel@phil-desktop>
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: Machine specific sysroot issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -47,31 +34,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Aug 2011 15:56:01 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 15 Aug 2011 15:56:36 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
-
-
-> I've sort of figured this out. include.pro is getting installed to
-> the sysroot and not ${D} in do_install (and it's the only file
-> handled this way). I'm guessing that because of this it never gets
-> picked up by sstate.
-
-yes seems the cause to me
-
+On Mon, 2011-08-15 at 16:49 +0100, Paul Eggleton wrote:
+> Actually it's just include.pro - everything else gets copied to the sysroot 
+> for the new machine just fine.
 > 
-> Cheers, Paul
-> 
+> I've sort of figured this out. include.pro is getting installed to the sysroot  
+> and not ${D} in do_install (and it's the only file handled this way). 
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.11 (GNU/Linux)
+Oh right.  Yeah, libopie2 certainly shouldn't be doing that.  Any sort
+of direct poking at the sysroot is basically a bad idea nowadays, and if
+include.pro is an important file then presumably you want it in the -dev
+package anyway.
 
-iEYEARECAAYFAk5JQHgACgkQuwUzVZGdMxTEQACggmD5qFdYqsfZ0GhbMVE9LMYL
-e2AAnAz5FMDMA5d9F+msjxDulXuQpAY5
-=92OM
------END PGP SIGNATURE-----
+p.
+
+
 
 
