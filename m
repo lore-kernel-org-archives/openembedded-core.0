@@ -1,33 +1,19 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Qt3S7-0004aX-D5 for openembedded-core@lists.openembedded.org;
-	Mon, 15 Aug 2011 22:08:03 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7FK3QvX020220
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Aug 2011 21:03:26 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 20112-02 for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Aug 2011 21:03:22 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7FK3JEl020171
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Aug 2011 21:03:20 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1313426936.6733.192.camel@phil-desktop>
-References: <1313426936.6733.192.camel@phil-desktop>
-Date: Mon, 15 Aug 2011 21:03:15 +0100
-Message-ID: <1313438595.14274.607.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: fontconfig-2.8.0/fix_pkgconfig.patch
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <bruce.ashfield@windriver.com>) id 1Qt3n1-0004u4-E4
+	for openembedded-core@lists.openembedded.org;
+	Mon, 15 Aug 2011 22:29:39 +0200
+Received: from yow-bashfiel-l1.corp.ad.wrs.com
+	(dhcp-146-223.ottawa.windriver.com [128.224.146.223])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7FKOvC9019821;
+	Mon, 15 Aug 2011 13:24:58 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Mon, 15 Aug 2011 16:24:50 -0400
+Message-Id: <cover.1313439568.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: [PATCH 0/3] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,45 +28,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Aug 2011 20:08:03 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 15 Aug 2011 20:29:39 -0000
 
-On Mon, 2011-08-15 at 17:48 +0100, Phil Blundell wrote:
-> Does anybody know where this patch came from or what it is supposed to
-> be achieving?  As far as I have been able to tell with some limited git
-> archaeology, it seems to have originated from Poky in the
-> fontconfig-2.6.0 sort of timeframe but that's about all I have been able
-> to find out.
-> 
-> The actual content of the patch is:
-> 
-> -Libs.private: @LIBXML2_LIBS@ @EXPAT_LIBS@ @FREETYPE_LIBS@ @ICONV_LIBS@
-> +Libs.private: @LIBXML2_LIBS@ @EXPAT_LIBS@ -L{libdir} -lfreetype @ICONV_LIBS@
-> 
-> ... which, as far as I can tell, is just completely bogus.  The added
-> "-L{libdir}" is causing cmake to blow up if it tries to inspect the
-> private libs for fontconfig to anything that depends on it: it's
-> arguably a bug in cmake that it can't tolerate {} there, but it seems
-> fairly clear that this patch in its current form can't be producing any
-> useful effect.
+Richard/Saul,
 
-The 2.6.0-2.8.0 upgrade seems to have lost the $ character but that was
-a year ago.
+We've had some good mileage on the 3.0.x kernel. I've been building
+and booting these boards for weeks now and the meta-intel based BSPs
+have all been switching over and all of Darren's -rt work was done
+on top of 3.0.
 
-I have some vague memory about autotools doing something nasty to @bar@
-replacements containing shell variables like ${libdir} so this could
-have been to work around that as otherwise you end up with libdir
-hardcoded in to the file in an expanded form.
+So the big part of this pull request is the removal of the explicit
+version preference to 2.6.37. We still have the old versions(s) as
+fallbacks, but it does seem to be time to acknowledge that 3.0.x 
+should be the default kernel.
 
-Assuming autotools does put something sensible into the file, it can
-likely be dropped now.
+As for the timing of the merge, I'll leave this up to you.
 
-Cheers,
+The following changes since commit a21ff559e7c93e9da61104f4a33e42e6004189fd:
 
-Richard
+  Fixup remaining bb.msg.domain users (2011-08-15 17:31:52 +0100)
 
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
 
+Bruce Ashfield (3):
+  linux-yocto: bump version string to 3.0.1
+  qemu: change default kernel to 3.0.x
+  linux-yocto: meta SRCREV bump
+
+ meta/conf/machine/include/qemu.inc           |    1 -
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb |    6 +++---
+ 2 files changed, 3 insertions(+), 4 deletions(-)
+
+-- 
+1.7.4.1
 
 
 
