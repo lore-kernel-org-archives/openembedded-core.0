@@ -1,24 +1,33 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jiajun.xu@intel.com>) id 1Qswev-0007ZG-1Z
+	(envelope-from <ke@linux.intel.com>) id 1QswgC-0007cu-H7
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Aug 2011 14:52:49 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 15 Aug 2011 05:47:10 -0700
+	Mon, 15 Aug 2011 14:54:08 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 15 Aug 2011 05:48:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,374,1309762800"; d="scan'208";a="39637299"
-Received: from unknown (HELO localhost) ([10.239.48.201])
-	by fmsmga002.fm.intel.com with ESMTP; 15 Aug 2011 05:47:09 -0700
-From: Jiajun Xu <jiajun.xu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Aug 2011 21:05:42 +0800
-Message-Id: <34d0c69915195c65e082c2575dc233716bf9ab57.1313413181.git.jiajun.xu@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <075afb79207fbd6b862f7821cf5077ffbf0b71c8.1313413181.git.jiajun.xu@intel.com>
-References: <075afb79207fbd6b862f7821cf5077ffbf0b71c8.1313413181.git.jiajun.xu@intel.com>
-In-Reply-To: <cover.1313413181.git.jiajun.xu@intel.com>
-References: <cover.1313413181.git.jiajun.xu@intel.com>
-Subject: [PATCH 2/2] libsdl: enable opengl for libsdl
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="37874661"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 15 Aug 2011 05:48:26 -0700
+Received: from [10.255.24.155] (kyu3-mobl3.ccr.corp.intel.com [10.255.24.155])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 544B66A4087;
+	Mon, 15 Aug 2011 05:48:19 -0700 (PDT)
+Message-ID: <4E491589.3030000@linux.intel.com>
+Date: Mon, 15 Aug 2011 20:48:09 +0800
+From: Yu Ke <ke@linux.intel.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:5.0) Gecko/20110624 Thunderbird/5.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1313328487.git.ke.yu@intel.com>
+	<fdc4b5810c9adedea19d41a7856612201615e99c.1313328487.git.ke.yu@intel.com>
+	<73BE3575-4FA5-4C20-9476-A36B9A5422D7@dominion.thruhere.net>
+In-Reply-To: <73BE3575-4FA5-4C20-9476-A36B9A5422D7@dominion.thruhere.net>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH 1/1] gcc-cross-intermediate: revise the 64bithack.patch for multilib case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,47 +42,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Aug 2011 12:52:49 -0000
+X-List-Received-Date: Mon, 15 Aug 2011 12:54:08 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-To enable opengl for libsdl, we need DEPENDS on virtual/libgl. Add a check for
-"opengl" in DISTRO_FEATURES and when it's set, "--enable-video-opengl"
-and "virtual/libgl" will be added into EXTRA_CONF and DEPENDS.
+On 2011/8/15 1:31, Koen Kooi wrote:
+>
+> Op 14 aug. 2011, om 15:32 heeft Yu Ke het volgende geschreven:
+>
+>> current gcc-cross-intermediate has build failure in qemux86-64 lib64
+>> multilib case. the reason is that it still use lib instead of lib64
+>> while do_install use the libdir i.e. lib64
+>>
+>> so this patch fix this issue by making gcc honour the libdir.
+>>
+>> CC: Kumar Gala<galak@kernel.crashing.org>
+>> CC: Richard Purdie<richard.purdie@linuxfoundation.org>
+>>
+>> Signed-off-by: Yu Ke<ke.yu@intel.com>
+>> ---
+>> meta/recipes-devtools/gcc/gcc-4.6.inc             |    2 +-
+>> meta/recipes-devtools/gcc/gcc-4.6/64bithack.patch |   16 +++++++++-------
+>
+> wouldn't gcc 4.5 need a similar change?
 
-Signed-off-by: Jiajun Xu <jiajun.xu@intel.com>
-Acked-by: Phil Blundell <philb@gnu.org>
----
- meta/recipes-graphics/libsdl/libsdl_1.2.11.bb |    7 ++++---
- 1 files changed, 4 insertions(+), 3 deletions(-)
+yes, gcc 4.5 should also has this change. I will sent out another patch 
+for this.
 
-diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.11.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.11.bb
-index 7c1c507..f08077d 100644
---- a/meta/recipes-graphics/libsdl/libsdl_1.2.11.bb
-+++ b/meta/recipes-graphics/libsdl/libsdl_1.2.11.bb
-@@ -10,10 +10,10 @@ SECTION = "libs"
- LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=27818cd7fd83877a8e3ef82b82798ef4"
- 
--DEPENDS = "virtual/libx11 libxext libxrandr libxrender"
-+DEPENDS = "${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} virtual/libx11 libxext libxrandr libxrender"
- DEPENDS_virtclass-nativesdk = "libx11-nativesdk libxrandr-nativesdk libxrender-nativesdk libxext-nativesdk"
- 
--PR = "r6"
-+PR = "r7"
- 
- SRC_URI = "http://www.libsdl.org/release/SDL-${PV}.tar.gz \
- 	   file://acinclude.m4 \
-@@ -33,7 +33,8 @@ EXTRA_OECONF = "--disable-static --disable-debug --disable-cdrom --enable-thread
-                 --disable-mintaudio --disable-nasm --enable-video-x11 --disable-video-dga \
-                 --disable-video-fbcon --disable-video-directfb --disable-video-ps2gs \
-                 --disable-video-xbios --disable-video-gem --disable-video-dummy \
--                --disable-video-opengl --enable-input-events --enable-pthreads \
-+                --enable-input-events --enable-pthreads \
-+		${@base_contains('DISTRO_FEATURES', 'opengl', '--enable-video-opengl', '--disable-video-opengl', d)} \
- 		--disable-video-svga \
-                 --disable-video-picogui --disable-video-qtopia --enable-dlopen"
- 
--- 
-1.7.1
+just curious question, what is gcc 4.5 for, since gcc 4.6 is already there?
 
+Regards
+Ke
 
 
