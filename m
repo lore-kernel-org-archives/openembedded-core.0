@@ -1,33 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QsyH3-00023F-1P for openembedded-core@lists.openembedded.org;
-	Mon, 15 Aug 2011 16:36:17 +0200
+	id 1QsyLr-0002BI-Ee for openembedded-core@lists.openembedded.org;
+	Mon, 15 Aug 2011 16:41:15 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7FEVfH1017697
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7FEaaY8017722
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Aug 2011 15:31:41 +0100
+	Mon, 15 Aug 2011 15:36:36 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 17567-02 for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Aug 2011 15:31:37 +0100 (BST)
+	id 17517-04 for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Aug 2011 15:36:32 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7FEVXFO017691
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7FEaU9j017716
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Aug 2011 15:31:33 +0100
+	Mon, 15 Aug 2011 15:36:30 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <4E450925.7060101@windriver.com>
-References: <4E450925.7060101@windriver.com>
-Date: Mon, 15 Aug 2011 15:31:31 +0100
-Message-ID: <1313418691.14274.591.camel@rex>
+In-Reply-To: <6da4b426f8aa96335542deb671a21f99b8e0f398.1313141568.git.xiaofeng.yan@windriver.com>
+References: <cover.1313141568.git.xiaofeng.yan@windriver.com>
+	<6da4b426f8aa96335542deb671a21f99b8e0f398.1313141568.git.xiaofeng.yan@windriver.com>
+Date: Mon, 15 Aug 2011 15:36:28 +0100
+Message-ID: <1313418988.14274.593.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [RFC] Performance Issue: Build time increases
+Subject: Re: [PATCH 1/1] qt3: fix bug 1348
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,68 +43,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Aug 2011 14:36:17 -0000
+X-List-Received-Date: Mon, 15 Aug 2011 14:41:15 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-08-12 at 19:06 +0800, Robert Yang wrote:
-> Hi folks,
+On Fri, 2011-08-12 at 18:18 +0800, Xiaofeng Yan wrote:
+> From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 > 
-> The build time of core-image-sato increases about 5 ~ 10 minutes than
-> the following commit:
+> [YOCTO #1348]
 > 
-> commit 5af197b55a4b779f1ec93186f0723026949ba2b5
-> Author: Liping Ke <liping.ke@intel.com>
-> Date:   Fri Jun 3 08:22:40 2011 +0800
+> The variable is different when building qt-x11-free-native and qt-x11-free. The
+> different cause this bug.
+> $ bitbake qt-x11-free-native -e | grep ^TARGET_OS
+> TARGET_OS="linux"
+> $ bitbake qt-x11-free -e | grep ^TARGET_OS
+> TARGET_OS="linux-gnueabi"
 > 
->      cache: Implement multiple extra cache fields request support
+> So I add a task function before do_configure for linking ${TARGET_OS} to linux-g++.
 > 
-> On my host,
-> 1) the build time of 5af197b55a4b779f1ec93186f0723026949ba2b5 is:
+> Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+> ---
+>  recipes-qt3/qt3/qt-x11-free-common.inc |    8 +++++++-
+>  1 files changed, 7 insertions(+), 1 deletions(-)
 > 
-> real    208m26.133s
-> user    241m29.280s
-> sys     47m0.630s
-> 
-> 2) and: 068839698fe192d8846c0ed4db65861448e8e524 is:
-> 
-> real    217m39.687s
-> user    255m34.150s
-> sys     48m21.510s
-> 
-> 
-> I use the bisect build method to find out which patch causes the time
-> increases, but the build time is not stable on my host(Ubuntu 11.04 64bit),
-> e.g., the build time of 1) is 208m at the first build, then "git co 
-> other_commit" and build it, after about 10 builds, then go back to build
-> 5af197b55a4b779f1ec, the build time will increases about 8 minutes, I have
-> stopped the X and cron, at. This may have relationship with the linux
-> distribution and disk.
-> 
-> So I have to restart the build, reboot the machine by two days, and go on the
-> build. It would be better if anyone has other good method.
-> 
-> I think that for the next release(e.g., yocto 1.2), we can find a clean and
-> stable machine(for the distribution, maybe RHEL is more stable than Ubuntu)
-> to check the build time weekly, so that we can notice the performance issue
-> early.
+> diff --git a/recipes-qt3/qt3/qt-x11-free-common.inc b/recipes-qt3/qt3/qt-x11-free-common.inc
+> index e486c52..9e6cc81 100644
+> --- a/recipes-qt3/qt3/qt-x11-free-common.inc
+> +++ b/recipes-qt3/qt3/qt-x11-free-common.inc
+> @@ -3,7 +3,7 @@ SECTION = "x11/libs"
+>  PRIORITY = "optional"
+>  LICENSE = "GPL | QPL"
+>  HOMEPAGE = "http://www.trolltech.com"
+> -PR = "r0"
+> +PR = "r1"
+>  
+>  S = "${WORKDIR}/qt-x11-free-${PV}"
+>  
+> @@ -24,6 +24,12 @@ EXTRA_ENV = 'QMAKE="${STAGING_BINDIR_NATIVE}/qmake -after INCPATH+=${STAGING_INC
+>               AR="${TARGET_PREFIX}ar cqs" \
+>               MOC="${STAGING_BINDIR_NATIVE}/moc3" UIC="${STAGING_BINDIR_NATIVE}/uic3" MAKE="make -e"'
+>  
+> +do_configure_prepend() {
+> +    if [ ! -L ${QMAKE_MKSPEC_PATH}/${TARGET_OS}-oe-g++ ]; then
+> +        ln -sf ${QMAKE_MKSPEC_PATH}/linux-g++ ${QMAKE_MKSPEC_PATH}/${TARGET_OS}-oe-g++
+> +    fi
+> +}
+> +
+>  do_configure() {
+>  	echo "yes" | ./configure -prefix ${prefix} ${QT_CONFIG_FLAGS} -no-fast \
+>  		-L${STAGING_LIBDIR} -I${STAGING_INCDIR} -I${STAGING_INCDIR}/freetype2 -I${STAGING_INCDIR}/mysql
 
-I think we really need to get to the bottom of why the build times are
-so variable. Do we need to start doing these on a clean distro install?
-is a fresh boot good enough? is there a way we can clear out the VM
-caches and get reproducible times? reformat the build partition?
-
-If that really is just because of the nature of a chaotic system, can we
-get some better representation of build time to use as a benchmark? We
-could really do with finding a faster test (which would hopefully still
-be representative)...
+Thanks, this looks like a better fix to me. I've merged this with an
+updated commit message. The commit message summary needs to state what
+the problem is, not just a bug number.
 
 Cheers,
 
 Richard
-
-
-
 
 
 
