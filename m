@@ -1,24 +1,21 @@
 Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1Qsym3-00039i-3a
+	(envelope-from <philb@gnu.org>) id 1Qsz3B-0003yl-S1
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Aug 2011 17:08:19 +0200
+	Mon, 15 Aug 2011 17:26:02 +0200
 Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
 	helo=[172.30.1.145])
 	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Qsyhd-0004uC-0g
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Qsyyl-0004vC-VD
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Aug 2011 17:03:45 +0200
+	Mon, 15 Aug 2011 17:21:28 +0200
 From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 15 Aug 2011 16:03:44 +0100
-In-Reply-To: <201108142050.37352.paul.eggleton@linux.intel.com>
-References: <201108142050.37352.paul.eggleton@linux.intel.com>
+To: oe-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 15 Aug 2011 16:21:27 +0100
 X-Mailer: Evolution 3.0.2- 
-Message-ID: <1313420625.6733.182.camel@phil-desktop>
+Message-ID: <1313421687.6733.183.camel@phil-desktop>
 Mime-Version: 1.0
-Subject: Re: Machine specific sysroot issue
+Subject: [PATCH] libproxy: remove dependency on X libs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,36 +30,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Aug 2011 15:08:19 -0000
+X-List-Received-Date: Mon, 15 Aug 2011 15:26:02 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sun, 2011-08-14 at 20:50 +0100, Paul Eggleton wrote:
-> libopie2, a non-machine specific package, among other things installs a file 
-> called include.pro into ${OPIEDIR}, which is configured to be 
-> ${STAGING_DIR_HOST}. In OE-classic ${STAGING_DIR_HOST} is not machine-specific, 
-> so if you build libopie2 for machine A then build some other package that 
-> needs include.pro for machine B, then everything is fine. In the OE-core case 
-> with machine-specific sysroots it's looking for the file in the sysroot for the 
-> current machine, which if you've been building for several different machines 
-> may not be where it has actually been installed.
+Nothing in the source refers to libX11 or libXmu so there would appear to be
+no good reason for them to be in DEPENDS.  It looks as though these are perhaps
+a relic from an earlier version which did need those libraries.
 
-I can't immediately think why this should be behaving differently to any
-other library (eglibc for example).  It's quite normal for those
-packages to be architecture-specific and not machine-specific.
+Signed-off-by: Phil Blundell <philb@gnu.org>
+---
+ meta/recipes-support/libproxy/libproxy_0.4.6.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-What I think is meant to happen when you change MACHINE is that
-populate_sysroot will rerun (because ${MACHINE} is factored into the
-stamp for that task) but it will use all the previously cached build
-artifacts from sstate and hence you won't end up having to rebuild
-everything.  It sounds as if that isn't happening in this case for some
-reason, though I can't immediately think what libopie2 might be doing to
-defeat it.
+diff --git a/meta/recipes-support/libproxy/libproxy_0.4.6.bb b/meta/recipes-support/libproxy/libproxy_0.4.6.bb
+index 5ee4979..d907c55 100644
+--- a/meta/recipes-support/libproxy/libproxy_0.4.6.bb
++++ b/meta/recipes-support/libproxy/libproxy_0.4.6.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7d7044444a7b1b116e8783edcdb44ff4 \
+                     file://utils/proxy.c;beginline=1;endline=18;md5=55152a1006d7dafbef32baf9c30a99c0"
+ 
+ 
+-DEPENDS = "virtual/libx11 xmu gconf"
++DEPENDS = "gconf"
+ 
+ SRC_URI = "http://libproxy.googlecode.com/files/libproxy-${PV}.tar.gz"
+ 
+-- 
+1.7.4.1
 
-Is it just include.pro that goes wrong, or does the whole of libopie2 go
-missing from the sysroot when you change MACHINE?
-
-p.
 
 
 
