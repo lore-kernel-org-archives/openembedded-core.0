@@ -1,21 +1,30 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1Qsz3B-0003yl-S1
+	(envelope-from <dbaryshkov@gmail.com>) id 1QszTj-00051M-1d
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Aug 2011 17:26:02 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Qsyyl-0004vC-VD
-	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Aug 2011 17:21:28 +0200
-From: Phil Blundell <philb@gnu.org>
-To: oe-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 15 Aug 2011 16:21:27 +0100
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1313421687.6733.183.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: [PATCH] libproxy: remove dependency on X libs
+	Mon, 15 Aug 2011 17:53:27 +0200
+Received: by wwe32 with SMTP id 32so4119349wwe.24
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Aug 2011 08:48:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=ibiLaevsdhNfX4TBy967ctqmpmQXSPjBTeFzgvG4Nog=;
+	b=D455lo4OlyX6dpoLagU1EtF9pjrHB7LZgIQa+quyMEr9qbYvlb7WeJF7pxSikafUfY
+	OGN7h0HZf5j3Ut5uPLLbmTaUK17Mv60RFCoFxKhdCVU2xYQ+HjAkZR7zt0+f7sPf9pkI
+	e5sdXtrzdXpz3/YMz7ZHp92kS0pHDWbNvfRok=
+Received: by 10.227.199.207 with SMTP id et15mr3587169wbb.56.1313423330748;
+	Mon, 15 Aug 2011 08:48:50 -0700 (PDT)
+Received: from localhost.localdomain ([194.85.238.22])
+	by mx.google.com with ESMTPS id fg5sm4654697wbb.40.2011.08.15.08.48.48
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 15 Aug 2011 08:48:49 -0700 (PDT)
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 15 Aug 2011 19:48:43 +0400
+Message-Id: <1313423323-30335-1-git-send-email-dbaryshkov@gmail.com>
+X-Mailer: git-send-email 1.7.2.5
+Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Subject: [PATCH] libxcb: enable native/nativesdk builds as was done previously in meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,36 +39,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Aug 2011 15:26:02 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 15 Aug 2011 15:53:27 -0000
 
-Nothing in the source refers to libX11 or libXmu so there would appear to be
-no good reason for them to be in DEPENDS.  It looks as though these are perhaps
-a relic from an earlier version which did need those libraries.
-
-Signed-off-by: Phil Blundell <philb@gnu.org>
+Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 ---
- meta/recipes-support/libproxy/libproxy_0.4.6.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/recipes-graphics/xcb/libxcb.inc |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-support/libproxy/libproxy_0.4.6.bb b/meta/recipes-support/libproxy/libproxy_0.4.6.bb
-index 5ee4979..d907c55 100644
---- a/meta/recipes-support/libproxy/libproxy_0.4.6.bb
-+++ b/meta/recipes-support/libproxy/libproxy_0.4.6.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7d7044444a7b1b116e8783edcdb44ff4 \
-                     file://utils/proxy.c;beginline=1;endline=18;md5=55152a1006d7dafbef32baf9c30a99c0"
+diff --git a/meta/recipes-graphics/xcb/libxcb.inc b/meta/recipes-graphics/xcb/libxcb.inc
+index 5044917..015065e 100644
+--- a/meta/recipes-graphics/xcb/libxcb.inc
++++ b/meta/recipes-graphics/xcb/libxcb.inc
+@@ -5,6 +5,8 @@ the protocol, improved threading support, and extensibility."
+ HOMEPAGE = "http://xcb.freedesktop.org"
+ BUGTRACKER = "https://bugs.freedesktop.org/enter_bug.cgi?product=XCB"
  
- 
--DEPENDS = "virtual/libx11 xmu gconf"
-+DEPENDS = "gconf"
- 
- SRC_URI = "http://libproxy.googlecode.com/files/libproxy-${PV}.tar.gz"
++BBCLASSEXTEND = "native nativesdk"
++
+ SECTION = "x11/libs"
+ LICENSE = "MIT-X"
  
 -- 
-1.7.4.1
-
-
+1.7.2.5
 
 
 
