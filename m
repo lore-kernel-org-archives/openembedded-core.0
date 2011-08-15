@@ -1,31 +1,24 @@
-Received: from stoexhub01.domain01.net ([83.145.59.142]
-	helo=stoexhub02.domain01.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1QsxM5-000056-Kr
+Received: from mga03.intel.com ([143.182.124.21])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1QsxWE-0000EC-Fi
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Aug 2011 15:37:25 +0200
-Received: from localhost (193.235.91.228) by stoexhub02.domain01.net
-	(10.12.10.2) with Microsoft SMTP Server id 8.3.137.0; Mon, 15 Aug 2011
-	15:32:47 +0200
-Date: Mon, 15 Aug 2011 15:32:59 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20110815133258.GB22184@chargestorm.se>
-Mail-Followup-To: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
+	Mon, 15 Aug 2011 15:47:54 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 15 Aug 2011 06:43:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,374,1309762800"; d="scan'208";a="38566238"
+Received: from unknown (HELO helios.localnet) ([10.255.18.70])
+	by azsmga001.ch.intel.com with ESMTP; 15 Aug 2011 06:43:16 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Anders Darander <anders@chargestorm.se>
+Date: Mon, 15 Aug 2011 14:43:15 +0100
+User-Agent: KMail/1.13.6 (Linux/2.6.38-10-generic-pae; KDE/4.6.2; i686; ; )
 References: <1313164659.6733.163.camel@phil-desktop>
-	<1313413653.6733.175.camel@phil-desktop>
-	<20110815131547.GA22184@chargestorm.se>
 	<201108151424.01537.paul.eggleton@linux.intel.com>
+	<20110815133258.GB22184@chargestorm.se>
+In-Reply-To: <20110815133258.GB22184@chargestorm.se>
 MIME-Version: 1.0
-In-Reply-To: <201108151424.01537.paul.eggleton@linux.intel.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-GFI-SMTP-Submission: 1
+Message-Id: <201108151443.15654.paul.eggleton@linux.intel.com>
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] libx11: skip self if x11 not in DISTRO_FEATURES
@@ -43,39 +36,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Aug 2011 13:37:25 -0000
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 15 Aug 2011 13:47:54 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
+Content-Transfer-Encoding: 7bit
 
-* Paul Eggleton <paul.eggleton@linux.intel.com> [110815 15:24]:
-> On Monday 15 August 2011 14:15:47 Anders Darander wrote:
-> > The short-term solution is to get a similar patch applied to meta-oe.
-> > The long-term solution, any volunteers?, would be to convert the
-> > qt4-recipes in meta-to bbappends (if they still are needed).
+On Monday 15 August 2011 14:32:59 Anders Darander wrote:
+> I've been struggling with a few other qt4-related issues (one or two
+> RFC-patches will be submitted shortly), that's why I mistakenly wrote
+> qt4.
+> 
+> I meant libx11 (in xorg-lib) in my last e-mail.
 
-s/qt4*/libx11/ in this section.
+Ah yes, I realised this after sending, no worries :)
 
-> I already did this a few weeks ago. The only Qt 4 thing left that is a fu=
-ll=20
-> recipe in meta-oe is qmake2 (for the target).
-
-My apologies... You're of course right, and that change is something I
-appreciate (it makes my life a lot simpler).
-
-I've been struggling with a few other qt4-related issues (one or two
-RFC-patches will be submitted shortly), that's why I mistakenly wrote
-qt4.
-
-I meant libx11 (in xorg-lib) in my last e-mail.
+I definitely agree, anything that's a duplicated recipe in meta-oe ought to be 
+turned into a bbappend. In addition, any newer version in meta-oe of recipes 
+in oe-core ought to just be pushed up to oe-core unless there is a really good 
+reason to do otherwise.
 
 Cheers,
-Anders
+Paul
 
---=20
-Anders Darander
-ChargeStorm AB		Tel: +46 702 44 84 36
-Laxholmstorget 3	Email: anders@chargestorm.se
-602 21 Norrk=F6ping	Web: www.chargestorm.se
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
