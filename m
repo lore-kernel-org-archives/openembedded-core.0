@@ -1,20 +1,22 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jiajun.xu@intel.com>) id 1QswcD-0007V3-C7
+	(envelope-from <jiajun.xu@intel.com>) id 1Qsweu-0007ZE-2J
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Aug 2011 14:50:01 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 15 Aug 2011 05:45:24 -0700
+	Mon, 15 Aug 2011 14:52:48 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 15 Aug 2011 05:47:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="37874112"
+X-IronPort-AV: E=Sophos;i="4.67,374,1309762800"; d="scan'208";a="39637271"
 Received: from unknown (HELO localhost) ([10.239.48.201])
-	by orsmga002.jf.intel.com with ESMTP; 15 Aug 2011 05:45:24 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 15 Aug 2011 05:47:03 -0700
 From: Jiajun Xu <jiajun.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Aug 2011 21:04:00 +0800
-Message-Id: <cover.1313413181.git.jiajun.xu@intel.com>
+Date: Mon, 15 Aug 2011 21:05:41 +0800
+Message-Id: <075afb79207fbd6b862f7821cf5077ffbf0b71c8.1313413181.git.jiajun.xu@intel.com>
 X-Mailer: git-send-email 1.7.1
-Subject: [PATCH 0/2] Extend target version for libsdl and enable openGL for it
+In-Reply-To: <cover.1313413181.git.jiajun.xu@intel.com>
+References: <cover.1313413181.git.jiajun.xu@intel.com>
+Subject: [PATCH 1/2] libsdl: add target version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,27 +31,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Aug 2011 12:50:01 -0000
+X-List-Received-Date: Mon, 15 Aug 2011 12:52:49 -0000
 
-Some targets need to run 3D games, which requires libsdl. Enable libsdl for target
-and add a flag to check in build time if openGL needed to be built.
+Rename libsdl-nativesdk to libsdl to enable target version. libsdl
+is needed in some graphics testing.
 
+Signed-off-by: Jiajun Xu <jiajun.xu@intel.com>
+Acked-by: Phil Blundell <philb@gnu.org>
+---
+ ...libsdl-nativesdk_1.2.11.bb => libsdl_1.2.11.bb} |   20 +++++++++++++++-----
+ 1 files changed, 15 insertions(+), 5 deletions(-)
+ rename meta/recipes-graphics/libsdl/{libsdl-nativesdk_1.2.11.bb => libsdl_1.2.11.bb} (73%)
 
-The following changes since commit d126e22f6b3f27196144f87e22b36ebccd6dea65:
-
-  rt-tests: use an explicit commit ID (2011-08-12 17:51:18 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib jxu49/oe-contrib
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jxu49/oe-contrib
-
-Jiajun Xu (2):
-  libsdl: add target version
-  libsdl: enable opengl for libsdl
-
- ...libsdl-nativesdk_1.2.11.bb => libsdl_1.2.11.bb} |   23 ++++++++++++++-----
- 1 files changed, 17 insertions(+), 6 deletions(-)
- rename meta/recipes-graphics/libsdl/{libsdl-nativesdk_1.2.11.bb => libsdl_1.2.11.bb} (64%)
+diff --git a/meta/recipes-graphics/libsdl/libsdl-nativesdk_1.2.11.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.11.bb
+similarity index 73%
+rename from meta/recipes-graphics/libsdl/libsdl-nativesdk_1.2.11.bb
+rename to meta/recipes-graphics/libsdl/libsdl_1.2.11.bb
+index e64a62e..7c1c507 100644
+--- a/meta/recipes-graphics/libsdl/libsdl-nativesdk_1.2.11.bb
++++ b/meta/recipes-graphics/libsdl/libsdl_1.2.11.bb
+@@ -1,17 +1,25 @@
+-DESCRIPTION = "Simple DirectMedia Layer - native Edition"
++SUMMARY = "Simple DirectMedia Layer"
++DESCRIPTION = "Simple DirectMedia Layer is a cross-platform multimedia \
++library designed to provide low level access to audio, keyboard, mouse, \
++joystick, 3D hardware via OpenGL, and 2D video framebuffer."
+ HOMEPAGE = "http://www.libsdl.org"
++BUGTRACKER = "http://bugzilla.libsdl.org/"
++
+ SECTION = "libs"
+-LICENSE = "LGPLv2.1"
+-DEPENDS = "libx11-nativesdk libxext-nativesdk libxrandr-nativesdk libxrender-nativesdk"
+-RDEPENDS_${PN} = "libx11-nativesdk libxrandr-nativesdk libxrender-nativesdk libxext-nativesdk"
+-PR = "r5"
+ 
++LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=27818cd7fd83877a8e3ef82b82798ef4"
+ 
++DEPENDS = "virtual/libx11 libxext libxrandr libxrender"
++DEPENDS_virtclass-nativesdk = "libx11-nativesdk libxrandr-nativesdk libxrender-nativesdk libxext-nativesdk"
++
++PR = "r6"
++
+ SRC_URI = "http://www.libsdl.org/release/SDL-${PV}.tar.gz \
+ 	   file://acinclude.m4 \
+ 	   file://configure_tweak.patch;patch=1 \
+ 	   file://kernel-asm-page.patch;patch=1 "
++
+ S = "${WORKDIR}/SDL-${PV}"
+ 
+ SRC_URI[md5sum] = "418b42956b7cd103bfab1b9077ccc149"
+@@ -34,3 +42,5 @@ PARALLEL_MAKE = ""
+ do_configure_prepend() {
+ 	cp ${WORKDIR}/acinclude.m4 ${S}/acinclude.m4
+ }
++
++BBCLASSEXTEND = "nativesdk"
+-- 
+1.7.1
 
 
 
