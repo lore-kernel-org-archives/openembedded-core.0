@@ -1,29 +1,32 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Qt3NM-0004UQ-FV
-	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Aug 2011 22:03:08 +0200
-Received: by pzk2 with SMTP id 2so10905641pzk.34
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Qt3S7-0004aX-D5 for openembedded-core@lists.openembedded.org;
+	Mon, 15 Aug 2011 22:08:03 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7FK3QvX020220
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Aug 2011 12:58:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=sMwT33fYFyQVUMMK3YUfkz7sIRTIa4udAWff/fAXmEs=;
-	b=CFLJorHgEfEhC+lHhbkmKJvjDGOf3ccKJwTm5puSLZTHRtZmH3L66CPfpqs6HRlKZS
-	idCrtmPF7S7Qh2jubXDv1KY2KYz/8iDeF5iBJLjj3mcv6f5nKzIiOuJNhrmF3TFftQTe
-	xsYI6RHfaRzZes8RSOqa66/qJwTonp7TYWWS0=
-Received: by 10.142.213.9 with SMTP id l9mr1942833wfg.233.1313438311080; Mon,
-	15 Aug 2011 12:58:31 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.68.46.197 with HTTP; Mon, 15 Aug 2011 12:58:01 -0700 (PDT)
-In-Reply-To: <1313426936.6733.192.camel@phil-desktop>
-References: <1313426936.6733.192.camel@phil-desktop>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 15 Aug 2011 12:58:01 -0700
-Message-ID: <CAMKF1squaeshWFxTdmJ4tM=SBVFXtB3CFNasDFcB4sRwHmqmcw@mail.gmail.com>
+	Mon, 15 Aug 2011 21:03:26 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 20112-02 for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Aug 2011 21:03:22 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7FK3JEl020171
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Aug 2011 21:03:20 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <1313426936.6733.192.camel@phil-desktop>
+References: <1313426936.6733.192.camel@phil-desktop>
+Date: Mon, 15 Aug 2011 21:03:15 +0100
+Message-ID: <1313438595.14274.607.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
 Subject: Re: fontconfig-2.8.0/fix_pkgconfig.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -39,45 +42,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Aug 2011 20:03:08 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 15 Aug 2011 20:08:03 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 15, 2011 at 9:48 AM, Phil Blundell <philb@gnu.org> wrote:
+On Mon, 2011-08-15 at 17:48 +0100, Phil Blundell wrote:
 > Does anybody know where this patch came from or what it is supposed to
-> be achieving? =C2=A0As far as I have been able to tell with some limited =
-git
+> be achieving?  As far as I have been able to tell with some limited git
 > archaeology, it seems to have originated from Poky in the
 > fontconfig-2.6.0 sort of timeframe but that's about all I have been able
 > to find out.
->
+> 
 > The actual content of the patch is:
->
+> 
 > -Libs.private: @LIBXML2_LIBS@ @EXPAT_LIBS@ @FREETYPE_LIBS@ @ICONV_LIBS@
-> +Libs.private: @LIBXML2_LIBS@ @EXPAT_LIBS@ -L{libdir} -lfreetype @ICONV_L=
-IBS@
->
-
-it could be that it was needed to pacify libtool in a cross env but
-may not be needed now
-that libtool knows sysroot.
-
-> ... which, as far as I can tell, is just completely bogus. =C2=A0The adde=
-d
+> +Libs.private: @LIBXML2_LIBS@ @EXPAT_LIBS@ -L{libdir} -lfreetype @ICONV_LIBS@
+> 
+> ... which, as far as I can tell, is just completely bogus.  The added
 > "-L{libdir}" is causing cmake to blow up if it tries to inspect the
 > private libs for fontconfig to anything that depends on it: it's
 > arguably a bug in cmake that it can't tolerate {} there, but it seems
 > fairly clear that this patch in its current form can't be producing any
 > useful effect.
->
-> p.
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+
+The 2.6.0-2.8.0 upgrade seems to have lost the $ character but that was
+a year ago.
+
+I have some vague memory about autotools doing something nasty to @bar@
+replacements containing shell variables like ${libdir} so this could
+have been to work around that as otherwise you end up with libdir
+hardcoded in to the file in an expanded form.
+
+Assuming autotools does put something sensible into the file, it can
+likely be dropped now.
+
+Cheers,
+
+Richard
+
+
+
 
 
