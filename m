@@ -1,23 +1,25 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1QsuGI-0002k6-RT
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1QsuGJ-0002k7-DH
 	for openembedded-core@lists.openembedded.org;
 	Mon, 15 Aug 2011 12:19:15 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7FAEbGx023229
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7FAEdTG023233
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Aug 2011 03:14:37 -0700 (PDT)
+	Mon, 15 Aug 2011 03:14:39 -0700 (PDT)
 Received: from usp-ub10.corp.ad.wrs.com (128.224.163.66) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Mon, 15 Aug 2011 03:14:36 -0700
+	14.1.255.0; Mon, 15 Aug 2011 03:14:38 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 15 Aug 2011 18:18:32 +0800
-Message-ID: <cover.1313400142.git.liezhi.yang@windriver.com>
+Date: Mon, 15 Aug 2011 18:18:33 +0800
+Message-ID: <bdd2c02c63135504189aca642d137a097c219706.1313400143.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.1
+In-Reply-To: <cover.1313400142.git.liezhi.yang@windriver.com>
+References: <cover.1313400142.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] The Skeleton initscript doesn't work on minimal image
+Subject: [PATCH 1/1] The Skeleton initscript doesn't work on minimal image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,33 +37,42 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Mon, 15 Aug 2011 10:19:15 -0000
 Content-Type: text/plain
 
-Testing:
-1) Edit meta/recipes-core/images/core-image-minimal.bb, add "service" to
-   the IMAGE_INSTALL
+Fixes bug [YOCTO #1165]
 
-2) Edit build/conf/local.conf, add "/path/to/poky/meta-skeleton" to the
-   BBLAYERS.
+The /etc/init.d/skeleton doesn't work on minimal image, this is
+because of the pidofproc doesn't return "$?" correctly, so store
+$? in the variable status would fix it.
 
-3) $ bitbake core-image-minimal(or sato)
-
-3) start qemu, and run "/etc/init.d/skeleton start(or status stop ..)",
-   it works well
-
-// Robert
-
-The following changes since commit 30381645eefe4e3222fd3ce45823f143ce2fa82c:
-
-  rt-tests: use an explicit commit ID (2011-08-12 21:07:02 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib robert/initscripts
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/initscripts
-
-Robert Yang (1):
-  The Skeleton initscript doesn't work on minimal image
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  .../initscripts/initscripts-1.0/functions          |    5 +++--
  1 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/functions b/meta/recipes-core/initscripts/initscripts-1.0/functions
+index c1eac3e..dd7da2b 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/functions
++++ b/meta/recipes-core/initscripts/initscripts-1.0/functions
+@@ -18,7 +18,8 @@ pidofproc () {
+ 
+ 	# pidof output null when no program is running, so no "2>/dev/null".
+ 	pid=`pidof $1`
+-	case $? in
++	status=$?
++	case $status in
+ 	0)
+ 		echo $pid
+ 		return 0
+@@ -28,7 +29,7 @@ pidofproc () {
+ 		exit 127
+ 		;;
+ 	*)
+-		return $?
++		return $status
+ 		;;
+ 	esac
+ }
+-- 
+1.7.1
 
 
 
