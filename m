@@ -1,27 +1,30 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-qw0-f47.google.com ([209.85.216.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QtRme-0004zj-3L
+	(envelope-from <raj.khem@gmail.com>) id 1QtSJJ-0005V1-O0
 	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Aug 2011 00:06:52 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 16 Aug 2011 15:02:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="38396465"
-Received: from unknown (HELO [10.255.13.235]) ([10.255.13.235])
-	by orsmga002.jf.intel.com with ESMTP; 16 Aug 2011 15:02:12 -0700
-Message-ID: <4E4AE8E4.1020501@linux.intel.com>
-Date: Tue, 16 Aug 2011 15:02:12 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:5.0) Gecko/20110707 Thunderbird/5.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1313463192-1911-1-git-send-email-aalonso00@gmail.com>
-	<4E4A7FE5.10602@gmail.com>
-	<CAAB-1ywbXiBh0wHqPdPaFVy=eeYMe14H3e4Xk1qzdkQvjn0wMw@mail.gmail.com>
-In-Reply-To: <CAAB-1ywbXiBh0wHqPdPaFVy=eeYMe14H3e4Xk1qzdkQvjn0wMw@mail.gmail.com>
-Subject: Re: [PATCH] rpm: configure with staging native path for magic file
+	Wed, 17 Aug 2011 00:40:37 +0200
+Received: by qwh5 with SMTP id 5so312429qwh.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Aug 2011 15:35:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=Qw4aatBtPep9zajTJhHdWga4LxF75BWBghMofz4ck+g=;
+	b=rplvlVGKJcJ/XTKZJYlZdei+OBqSYeYH/0aWwpiJne6ksWFFaVgZXrIivpUArDceVh
+	ifTMq8HPxYamxbQQShgi4IsIDeOcMvEDMdz+y7ghmFwA7cVUaQvSqBZRxQd+WpsgRp4R
+	yU5EYhLX/CWOdhpirfucjdQf9+AjTQZuB2HKs=
+Received: by 10.52.28.79 with SMTP id z15mr272217vdg.365.1313534158435;
+	Tue, 16 Aug 2011 15:35:58 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id j8sm485777vdv.35.2011.08.16.15.35.57
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 16 Aug 2011 15:35:58 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 16 Aug 2011 15:35:42 -0700
+Message-Id: <cover.1313533911.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/5] Redefine LINKER_HASH_STYLE and uclibc fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,105 +39,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Aug 2011 22:06:52 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 16 Aug 2011 22:40:37 -0000
 
-On 08/16/2011 10:02 AM, Adrian Alonso wrote:
-> Um you are right target rpm with conflict with the search path for the
-> magic file
->
-> So in order to close bug [1358] either apply first proposed patch [1] or
-> update
-> file_5.04.bb <http://file_5.04.bb> to file_5.07.bb <http://file_5.07.bb>
-> that also solves the problem on my F15 dev machine.
+with this patchset, fix the uclibc image fallouts with various recent
+recipe updates
 
-I just verified and the patch from Jani [1] is applied, is there still a 
-problem with OE-Core?
+Modify the way we pass linker hash style so it can be used in multiple
+methods.
 
-I would also welcome the update of file to 5.07.
+Pass information about default linker hash style to gcc configure
+so that it passes the right flags to runtime libraries builds e.g.
+libgcc libstdc++ etc.
 
-Thanks
-	Sau!
+The following changes since commit 3e872751690135178afb3a3f147bd002112c1bac:
 
-> [1] https://lists.yoctoproject.org/pipermail/yocto/2011-August/004486.html
-> [1358] http://bugzilla.pokylinux.org/show_bug.cgi?id=1358
->
->
-> On Tue, Aug 16, 2011 at 9:34 AM, Khem Raj <raj.khem@gmail.com
-> <mailto:raj.khem@gmail.com>> wrote:
->
->     -----BEGIN PGP SIGNED MESSAGE-----
->     Hash: SHA1
->
->     On 08/15/2011 07:53 PM, Adrian Alonso wrote:
->      > * Remove hardcoded system path for path-magic file in order to avoid
->      > potential mistmatch between host and yocto native tools as reported
->      > in yocto mailing list: ---- error: magic_load(ms,
->      > /usr/share/misc/magic) failed: File 5.4 supports only version 7 magic
->      > files. `/usr/share/misc/magic.mgc' is version 8 ---- * Another
->      > solution is to update meta/recipes-devtools/file/file_5.04.bb
->     <http://file_5.04.bb> to a
->      > newer version ie. file_5.07.bb <http://file_5.07.bb>
->      >
->      > Signed-off-by: Adrian Alonso <aalonso00@gmail.com
->     <mailto:aalonso00@gmail.com>> ---
->      > meta/recipes-devtools/rpm/rpm_5.4.0.bb <http://rpm_5.4.0.bb> |
->       4 ++-- 1 files changed, 2
->      > insertions(+), 2 deletions(-)
->      >
->      > diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
->     <http://rpm_5.4.0.bb>
->      > b/meta/recipes-devtools/rpm/rpm_5.4.0.bb <http://rpm_5.4.0.bb>
->     index c0e3208..948ed84
->      > 100644 --- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
->     <http://rpm_5.4.0.bb> +++
->      > b/meta/recipes-devtools/rpm/rpm_5.4.0.bb <http://rpm_5.4.0.bb> @@
->     -45,7 +45,7 @@
->      > LIC_FILES_CHKSUM =
->      > "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1" DEPENDS =
->      > "bzip2 zlib db openssl elfutils expat libpcre attr acl popt
->      > ${extrarpmdeps}" extrarpmdeps = "python perl"
->      > extrarpmdeps_virtclass-native = "" -PR = "r19" +PR = "r20"
->      >
->      > # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It
->      > is needed # in order to extract the distribution SRPM into a format
->      > we can extract... @@ -120,7 +120,7 @@ EXTRA_OECONF = "--verbose \
->      > ${WITH_DB} \ ${WITH_Z} \ --with-file \ -
->      > --with-path-magic=/usr/share/misc/magic \ +
->      > --with-path-magic=${STAGING_DIR_NATIVE}/usr/share/misc/magic.mgc \
->
->     this wont work for target rpm I guess
->
->      > --without-lua \ --without-tcl \ --with-syck=internal \
->
->     -----BEGIN PGP SIGNATURE-----
->     Version: GnuPG v1.4.11 (GNU/Linux)
->
->     iEYEARECAAYFAk5Kf+UACgkQuwUzVZGdMxTmPACgiKm1rdoDPbxVdYhHvCqKEyFJ
->     0A4Anjx/BxnCQm6ZiLKGXOrn2nbFHzyS
->     =jGQc
->     -----END PGP SIGNATURE-----
->
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
->
->
-> --
-> Saludos
-> Adrian Alonso
-> http://aalonso.wordpress.com
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+  tcf-agent: Add openssl to DEPENDS (2011-08-16 15:29:09 -0700)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib kraj/linker-hash-choice
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/linker-hash-choice
+
+Khem Raj (5):
+  conf,recipes: Redefine LINKER_HASH_STYLE
+  gcc-4.6: Use --with-linker-hash-style configure option
+  task-core-tools: Use LTTNGUST variable instead of hardcoding
+    lttng-ust
+  gdb: Add lttng-ust to DEPENDS only for eglibc
+  tcf-agent: Add openssl to DEPENDS
+
+ meta/conf/bitbake.conf                           |    4 ++--
+ meta/conf/distro/include/tcmode-default.inc      |    6 +++++-
+ meta/recipes-core/tasks/task-core-tools.bb       |    6 +++---
+ meta/recipes-core/uclibc/uclibc.inc              |    2 +-
+ meta/recipes-devtools/gcc/gcc-4.6.inc            |    3 ++-
+ meta/recipes-devtools/gdb/gdb-common.inc         |   11 +++++++++--
+ meta/recipes-devtools/tcf-agent/tcf-agent_svn.bb |    4 ++--
+ 7 files changed, 24 insertions(+), 12 deletions(-)
+
+-- 
+1.7.5.4
+
 
 
