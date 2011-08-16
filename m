@@ -1,32 +1,21 @@
-Received: from mail-qy0-f182.google.com ([209.85.216.182])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>) id 1QtHsD-0006p9-GY
+Received: from stoexhub01.domain01.net ([83.145.59.142]
+	helo=stoexhub02.domain01.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <anders@chargestorm.se>) id 1QtKDl-0002GB-F0
 	for openembedded-core@lists.openembedded.org;
-	Tue, 16 Aug 2011 13:31:58 +0200
-Received: by qyk9 with SMTP id 9so4106014qyk.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2011 04:27:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=IPy8DFhimZOwYlDUTo8jhPxqXvBeKQ8kNA8TA/2xjr8=;
-	b=uFuRR9yko9uQbxkTiS/vMmrYMlGAwy9DVENYI1EyhtRUCXsL16SvoNhhfSe+LhDwQg
-	Qep/nDuK11heezeC+09CY5dOr6/StcnQDy+kYoVGSS7hHlnqE5sPUacxrqAenxfx77TP
-	/EZKf1CmIxoFmCjBHBILdHlv/U/4wUZ34eMA8=
+	Tue, 16 Aug 2011 16:02:21 +0200
+Received: from localhost (193.235.91.228) by stoexhub02.domain01.net
+	(10.12.10.2) with Microsoft SMTP Server id 8.3.137.0; Tue, 16 Aug 2011
+	15:57:43 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 16 Aug 2011 15:57:48 +0200
+Message-ID: <0723e2f710db1680c71a1f6f848563cfcc6b3cdc.1313503017.git.anders@chargestorm.se>
+X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <cover.1313503017.git.anders@chargestorm.se>
+References: <cover.1313503017.git.anders@chargestorm.se>
 MIME-Version: 1.0
-Received: by 10.229.133.141 with SMTP id f13mr3330399qct.135.1313494039128;
-	Tue, 16 Aug 2011 04:27:19 -0700 (PDT)
-Received: by 10.229.186.7 with HTTP; Tue, 16 Aug 2011 04:27:19 -0700 (PDT)
-In-Reply-To: <20110816105907.GC10195@jama.jama.net>
-References: <CAGiJk9euxaWGh_=hpspcLH0DtDSAejHZvj_HKLfKrcuvBHn6xQ@mail.gmail.com>
-	<20110816105907.GC10195@jama.jama.net>
-Date: Tue, 16 Aug 2011 13:27:19 +0200
-Message-ID: <CAGiJk9cbjMNPMoCuWQhbKHPS6-o27PTG3ji=PJ3VyAvNWZU6Rw@mail.gmail.com>
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Error building any X11 image: "Nothing PROVIDES 'libxcb-native'"
+X-GFI-SMTP-Submission: 1
+Subject: [PATCH 1/5] qt4: allow a reduction in build time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,63 +30,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Aug 2011 11:31:59 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 16 Aug 2011 14:02:21 -0000
+Content-Type: text/plain
 
-2011/8/16 Martin Jansa <martin.jansa@gmail.com>:
-> On Tue, Aug 16, 2011 at 12:50:51PM +0200, Samuel Stirtzel wrote:
->> Hi,
->> recently all X11 images fail to build for me.
->>
->> The following error shows up (this is from core-image-sato):
->> -
->> ERROR: Nothing PROVIDES 'libxcb-native' (but
->> virtual:native:/var/oe-core/setup-scripts/sources/meta-openembedded/meta=
--oe/recipes-graphics/xorg-lib/libx11_1.4.3.bb
->> DEPENDS on or otherwise requires it)
->> ...
->> Missing or unbuildable dependency chain was: ['core-image-sato',
->> 'task-core-apps-console', 'xf86-video-fbdev', 'xserver-xorg',
->> 'font-util-native', 'mkfontdir-native', 'virtual/libx11-native',
->> 'libxcb-native']
->> -
->> Looks like the DEPENDS are "wrong" and it should refer to libxcb
->> (/var/oe-core/setup-scripts/sources/openembedded-core/meta/recipes-graph=
-ics/xcb/libxcb_1.7.bb)
->> instead of libxcb-native (which is not known by bitbake), but i can't
->> find the commit which changed this DEPENDS.
->>
->> After all I can't find any file that has this DEPENDS, "grep -r
->> libxcb-native *" in my source direcory showed up nothing.
->
-> for some reason
-> http://git.openembedded.org/cgit.cgi/meta-openembedded/commit/?id=3Dceb4a=
-1deaabe81e0acaf9dd179d08736f598203e
-> is missing .bbappend part..
->
-> but you can apply this patch to oe-core instead..
-> http://patches.openembedded.org/patch/9871/
->
-> having libxcb-native directly in oe-core will help recipes-graphics
-> maintainer to copy new libx11 from meta-oe to oe-core.
->
-> Regards,
->
-> --
-> Martin 'JaMa' Jansa =A0 =A0 jabber: Martin.Jansa@gmail.com
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
+When reducing build time by adding QT_DISTRO_FLAGS from the set '-no-gui -nomake tools
+-nomake examples -nomake demos -nomake docs', build failure can occur, due to not building
+all tools.
 
-Ok thanks now everything builds again.
+* Make rm not error out when removing one of the, possibly, non-existing tools.
+* Only try to rename qtdemo, if qtdemo exists.
+* Guard do_split_packages() with an try-except-clause, otherwise we get an error stating
+  that .../phrasebooks/... do not exist.
 
+Signed-off-by: Anders Darander <anders@chargestorm.se>
+---
+ meta/recipes-qt/qt4/qt4.inc |   13 ++++++++-----
+ 1 files changed, 8 insertions(+), 5 deletions(-)
 
-Regards
-Samuel
+diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
+index 0410a92..994ec12 100644
+--- a/meta/recipes-qt/qt4/qt4.inc
++++ b/meta/recipes-qt/qt4/qt4.inc
+@@ -227,7 +227,10 @@ python populate_packages_prepend() {
+  
+         phrasebook_dir = bb.data.expand('${datadir}/${QT_DIR_NAME}/phrasebooks/', d)
+         phrasebook_name = bb.data.expand('${QT_BASE_NAME}-phrasebook-%s', d)
+-        do_split_packages(d, phrasebook_dir, '^(.*)\.qph$', phrasebook_name, '${PN} phrasebook for %s', extra_depends='' )
++        try:
++                do_split_packages(d, phrasebook_dir, '^(.*)\.qph$', phrasebook_name, '${PN} phrasebook for %s', extra_depends='' )
++        except:
++                pass
+  
+         # Package all the plugins and their -dbg version and create a meta package
+         import os
+@@ -278,11 +281,11 @@ do_install() {
+ 
+ 	# These are host binaries, we should only use them in staging
+ 	rm ${D}/${bindir}/qmake
+-	rm ${D}/${bindir}/uic
+-	rm ${D}/${bindir}/uic3
++	rm -f ${D}/${bindir}/uic
++	rm -f ${D}/${bindir}/uic3
+ 	rm ${D}/${bindir}/moc
+ 	rm ${D}/${bindir}/rcc
+-	rm ${D}/${bindir}/lrelease
++	rm -f ${D}/${bindir}/lrelease
+ 
+ 	# fix pkgconfig, libtool and prl files
+ 	sed -i -e s#-L${S}/lib##g \
+@@ -319,6 +322,6 @@ do_install() {
+ 
+ 	#Append an E to the qtdemo file
+ 	if [ -n "${QT_LIBINFIX}" ] ; then
+-		mv ${D}${bindir}/qtdemo ${D}${bindir}/qtdemo${QT_LIBINFIX}
++		[ -f ${D}${bindir}/qtdemo ] && mv ${D}${bindir}/qtdemo ${D}${bindir}/qtdemo${QT_LIBINFIX}
+ 	fi
+ }
+-- 
+1.7.5.4
+
 
 
