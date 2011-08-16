@@ -1,26 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1QtFGb-0001er-Nf
+	(envelope-from <lianhao.lu@intel.com>) id 1QtFUm-00023R-MT
 	for openembedded-core@lists.openembedded.org;
-	Tue, 16 Aug 2011 10:44:58 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7G8eGUm029017
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2011 01:40:16 -0700 (PDT)
-Received: from [128.224.162.219] (128.224.162.219) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 16 Aug 2011 01:40:15 -0700
-Message-ID: <4E4A2CEE.9050401@windriver.com>
-Date: Tue, 16 Aug 2011 16:40:14 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <4E450925.7060101@windriver.com> <1313418691.14274.591.camel@rex>
-In-Reply-To: <1313418691.14274.591.camel@rex>
-Subject: Re: [RFC] Performance Issue: Build time increases
+	Tue, 16 Aug 2011 10:59:36 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 16 Aug 2011 01:54:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="38167599"
+Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.146])
+	by orsmga002.jf.intel.com with ESMTP; 16 Aug 2011 01:54:58 -0700
+From: Lianhao Lu <lianhao.lu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 16 Aug 2011 16:56:06 +0800
+Message-Id: <cover.1313484812.git.lianhao.lu@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+Subject: [PATCH 0/1] multilib related fixed for opkg backend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,88 +29,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Aug 2011 08:44:58 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 16 Aug 2011 08:59:36 -0000
 
+This patch fixed the bug #1345 to allow the opkg backend installing both 
+normal pacakges and multilib packages into the same rootfs.
 
+The following changes since commit 13db5f420ca9bff98561f80d78958278734ad1f4:
+  Zhai Edwin (1):
+        distro-tracking: Update info for gpgme, libassuan, apr... after last upgrade.
 
-On 08/15/2011 10:31 PM, Richard Purdie wrote:
-> On Fri, 2011-08-12 at 19:06 +0800, Robert Yang wrote:
->> Hi folks,
->>
->> The build time of core-image-sato increases about 5 ~ 10 minutes than
->> the following commit:
->>
->> commit 5af197b55a4b779f1ec93186f0723026949ba2b5
->> Author: Liping Ke<liping.ke@intel.com>
->> Date:   Fri Jun 3 08:22:40 2011 +0800
->>
->>       cache: Implement multiple extra cache fields request support
->>
->> On my host,
->> 1) the build time of 5af197b55a4b779f1ec93186f0723026949ba2b5 is:
->>
->> real    208m26.133s
->> user    241m29.280s
->> sys     47m0.630s
->>
->> 2) and: 068839698fe192d8846c0ed4db65861448e8e524 is:
->>
->> real    217m39.687s
->> user    255m34.150s
->> sys     48m21.510s
->>
->>
->> I use the bisect build method to find out which patch causes the time
->> increases, but the build time is not stable on my host(Ubuntu 11.04 64bit),
->> e.g., the build time of 1) is 208m at the first build, then "git co
->> other_commit" and build it, after about 10 builds, then go back to build
->> 5af197b55a4b779f1ec, the build time will increases about 8 minutes, I have
->> stopped the X and cron, at. This may have relationship with the linux
->> distribution and disk.
->>
->> So I have to restart the build, reboot the machine by two days, and go on the
->> build. It would be better if anyone has other good method.
->>
->> I think that for the next release(e.g., yocto 1.2), we can find a clean and
->> stable machine(for the distribution, maybe RHEL is more stable than Ubuntu)
->> to check the build time weekly, so that we can notice the performance issue
->> early.
->
-> I think we really need to get to the bottom of why the build times are
-> so variable. Do we need to start doing these on a clean distro install?
-> is a fresh boot good enough? is there a way we can clear out the VM
+are available in the git repository at:
 
-Hi Richard,
+  git://git.yoctoproject.org/poky-contrib llu/bug1345
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=llu/bug1345
 
-Thanks for you reply, yes, one build one restart(bitbake core-image-sato,
-then restart the computer, and bitbake again) makes the build time stable.
-I'm doing this now.
+Lianhao Lu (1):
+  package(_ipk).bbclass: opkg using ALL_MULTILIB_PACKAGE_ARCHS
 
-// Robert
+ meta/classes/package.bbclass     |   13 ++-----------
+ meta/classes/package_ipk.bbclass |   30 ++++++++----------------------
+ meta/classes/utils.bbclass       |   24 +++++++++++++++++++-----
+ 3 files changed, 29 insertions(+), 38 deletions(-)
 
-> caches and get reproducible times? reformat the build partition?
->
-> If that really is just because of the nature of a chaotic system, can we
-> get some better representation of build time to use as a benchmark? We
-> could really do with finding a faster test (which would hopefully still
-> be representative)...
->
-> Cheers,
->
-> Richard
->
->
->
->
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
 
