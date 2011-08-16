@@ -1,26 +1,25 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1QtFDj-0003TK-H3
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1QtFGb-0001er-Nf
 	for openembedded-core@lists.openembedded.org;
-	Tue, 16 Aug 2011 10:42:00 +0200
+	Tue, 16 Aug 2011 10:44:58 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7G8bLhR028644
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7G8eGUm029017
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2011 01:37:21 -0700 (PDT)
+	Tue, 16 Aug 2011 01:40:16 -0700 (PDT)
 Received: from [128.224.162.219] (128.224.162.219) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 16 Aug 2011 01:37:21 -0700
-Message-ID: <4E4A2C3F.4040309@windriver.com>
-Date: Tue, 16 Aug 2011 16:37:19 +0800
+	Tue, 16 Aug 2011 01:40:15 -0700
+Message-ID: <4E4A2CEE.9050401@windriver.com>
+Date: Tue, 16 Aug 2011 16:40:14 +0800
 From: Robert Yang <liezhi.yang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
 	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
 MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
-References: <4E450925.7060101@windriver.com>
-	<C10D3FB0CD45994C8A51FEC1227CE22F2FA7A17F22@shsmsx502.ccr.corp.intel.com>
-In-Reply-To: <C10D3FB0CD45994C8A51FEC1227CE22F2FA7A17F22@shsmsx502.ccr.corp.intel.com>
+References: <4E450925.7060101@windriver.com> <1313418691.14274.591.camel@rex>
+In-Reply-To: <1313418691.14274.591.camel@rex>
 Subject: Re: [RFC] Performance Issue: Build time increases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -36,15 +35,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Aug 2011 08:42:00 -0000
+X-List-Received-Date: Tue, 16 Aug 2011 08:44:58 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 08/12/2011 08:19 PM, Lu, Lianhao wrote:
-> Robert Yang wrote on 2011-08-12:
->>
+On 08/15/2011 10:31 PM, Richard Purdie wrote:
+> On Fri, 2011-08-12 at 19:06 +0800, Robert Yang wrote:
 >> Hi folks,
 >>
 >> The build time of core-image-sato increases about 5 ~ 10 minutes than
@@ -55,20 +53,7 @@ On 08/12/2011 08:19 PM, Lu, Lianhao wrote:
 >> Date:   Fri Jun 3 08:22:40 2011 +0800
 >>
 >>       cache: Implement multiple extra cache fields request support
->
-> I think this patch only stores extra information in an extra cache. It only affects the parsing time, and I don't think there will be 5 min difference. How about comparing the "bitbake -e" time with and without the patch(by deleting all the cache files before running bitbake).
->
-
-I'm sorry that I didn't describe it clearly, what I meant was that: This patch
-worked correctly, it didn't increase the build time, but other patches after
-this one made the build time increased, we just use this commit as a reference
-point.
-
-// Robert
-
-> Best Regards,
-> -Lianhao
->
+>>
 >> On my host,
 >> 1) the build time of 5af197b55a4b779f1ec93186f0723026949ba2b5 is:
 >>
@@ -84,19 +69,47 @@ point.
 >>
 >>
 >> I use the bisect build method to find out which patch causes the time
->> increases, but the build time is not stable on my host(Ubuntu 11.04
->> 64bit), e.g., the build time of 1) is 208m at the first build, then
->> "git co other_commit" and build it, after about 10 builds, then go
->> back to build 5af197b55a4b779f1ec, the build time will increases about
->> 8 minutes, I have stopped the X and cron, at. This may have relationship with the linux distribution and disk.
+>> increases, but the build time is not stable on my host(Ubuntu 11.04 64bit),
+>> e.g., the build time of 1) is 208m at the first build, then "git co
+>> other_commit" and build it, after about 10 builds, then go back to build
+>> 5af197b55a4b779f1ec, the build time will increases about 8 minutes, I have
+>> stopped the X and cron, at. This may have relationship with the linux
+>> distribution and disk.
 >>
->> So I have to restart the build, reboot the machine by two days, and go
->> on the build. It would be better if anyone has other good method.
+>> So I have to restart the build, reboot the machine by two days, and go on the
+>> build. It would be better if anyone has other good method.
 >>
->> I think that for the next release(e.g., yocto 1.2), we can find a
->> clean and stable machine(for the distribution, maybe RHEL is more
->> stable than Ubuntu) to check the build time weekly, so that we can notice the performance issue early.
->>
+>> I think that for the next release(e.g., yocto 1.2), we can find a clean and
+>> stable machine(for the distribution, maybe RHEL is more stable than Ubuntu)
+>> to check the build time weekly, so that we can notice the performance issue
+>> early.
+>
+> I think we really need to get to the bottom of why the build times are
+> so variable. Do we need to start doing these on a clean distro install?
+> is a fresh boot good enough? is there a way we can clear out the VM
+
+Hi Richard,
+
+Thanks for you reply, yes, one build one restart(bitbake core-image-sato,
+then restart the computer, and bitbake again) makes the build time stable.
+I'm doing this now.
+
+// Robert
+
+> caches and get reproducible times? reformat the build partition?
+>
+> If that really is just because of the nature of a chaotic system, can we
+> get some better representation of build time to use as a benchmark? We
+> could really do with finding a faster test (which would hopefully still
+> be representative)...
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
 >
 >
 >
