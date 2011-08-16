@@ -1,25 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QtKSm-0002em-7m
+	(envelope-from <dexuan.cui@intel.com>) id 1QtKSn-0002er-Dn
 	for openembedded-core@lists.openembedded.org;
 	Tue, 16 Aug 2011 16:17:53 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 16 Aug 2011 07:13:13 -0700
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 16 Aug 2011 07:13:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,380,1309762800"; 
-   d="scan'208";a="7747469"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="38250581"
 Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.36.112])
-	by AZSMGA002.ch.intel.com with ESMTP; 16 Aug 2011 07:13:13 -0700
+	by orsmga002.jf.intel.com with ESMTP; 16 Aug 2011 07:13:14 -0700
 From: Dexuan Cui <dexuan.cui@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Aug 2011 22:13:11 +0800
-Message-Id: <17e0fb707e9ad926058898d39d32168f4e582ed1.1313503778.git.dexuan.cui@intel.com>
+Date: Tue, 16 Aug 2011 22:13:12 +0800
+Message-Id: <a8e7884f83665fc04ff07f8584a1d01635bd2ffb.1313503778.git.dexuan.cui@intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1313503778.git.dexuan.cui@intel.com>
 References: <cover.1313503778.git.dexuan.cui@intel.com>
 In-Reply-To: <cover.1313503778.git.dexuan.cui@intel.com>
 References: <cover.1313503778.git.dexuan.cui@intel.com>
-Subject: [PATCH 01/10] bluez-hcidump: upgrade from 2.0 to 2.1
+Subject: [PATCH 02/10] tcf-agent: add openssl into DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,37 +35,42 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 16 Aug 2011 14:17:53 -0000
 
-[YOCTO #1371]
+[YOCTO #1330]
 
-Recently bluez4 was updated from 4.82 to 4.96 and bluez-hcidump can't build:
-src/hcidump.c:54:24: error: redefinition of 'ntoh64'.
+If tcf-agent's do_compile happens before openssl does populate_root, we'll
+get such a compilation failure:
+framework/channel_tcp.c:34:27: fatal error: openssl/ssl.h: No such file or directory
 
-In 2.1 the duplicated definition of ntoh64 was removed.
+Thanks Kumar Gala for reporting this!
 
 Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+Cc: Kumar Gala <galak@kernel.crashing.org>
 ---
- .../{bluez-hcidump_2.0.bb => bluez-hcidump_2.1.bb} |    4 ++--
+ meta/recipes-devtools/tcf-agent/tcf-agent_svn.bb |    4 ++--
  1 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/bluez/{bluez-hcidump_2.0.bb => bluez-hcidump_2.1.bb} (83%)
 
-diff --git a/meta/recipes-connectivity/bluez/bluez-hcidump_2.0.bb b/meta/recipes-connectivity/bluez/bluez-hcidump_2.1.bb
-similarity index 83%
-rename from meta/recipes-connectivity/bluez/bluez-hcidump_2.0.bb
-rename to meta/recipes-connectivity/bluez/bluez-hcidump_2.1.bb
-index c271ed2..ce84f58 100644
---- a/meta/recipes-connectivity/bluez/bluez-hcidump_2.0.bb
-+++ b/meta/recipes-connectivity/bluez/bluez-hcidump_2.1.bb
-@@ -11,8 +11,8 @@ PR = "r0"
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_svn.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_svn.bb
+index 3f97f69..37591c2 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_svn.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_svn.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://../epl-v10.html;md5=7aa4215a330a0a4f6a1cbf8da1a0879f
  
- SRC_URI = "http://www.kernel.org/pub/linux/bluetooth/bluez-hcidump-${PV}.tar.gz"
+ SRCREV = "1855"
+ PV = "0.0+svnr${SRCPV}"
+-PR = "r0"
++PR = "r1"
  
--SRC_URI[md5sum] = "5c2e3ef0a68b2845047867ba51ff8ac9"
--SRC_URI[sha256sum] = "b3b64fd0b18301df07d3aaf34c037c1e4808b4aaf702294822d62b5424f617fd"
-+SRC_URI[md5sum] = "b160f0672276398344eebe9df1b37a2c"
-+SRC_URI[sha256sum] = "a6cc20b95b6b1a28ff336aad91e124555231628689225c1155e8cd7aac1af86d"
- S = "${WORKDIR}/bluez-hcidump-${PV}"
+ SRC_URI = "svn://dev.eclipse.org/svnroot/dsdp/org.eclipse.tm.tcf/trunk;module=agent;proto=http \
+            http://dev.eclipse.org/svnroot/dsdp/org.eclipse.tm.tcf/trunk/epl-v10.html;name=epl \
+@@ -19,7 +19,7 @@ SRC_URI = "svn://dev.eclipse.org/svnroot/dsdp/org.eclipse.tm.tcf/trunk;module=ag
+ SRC_URI[epl.md5sum] = "7aa4215a330a0a4f6a1cbf8da1a0879f"
+ SRC_URI[epl.sha256sum] = "4fd64aeed340d62a64a8da4b371efe0f6d0d745f4d2dbefacba86c646d36bc72"
  
- EXTRA_OECONF = "--with-bluez-libs=${STAGING_LIBDIR} --with-bluez-includes=${STAGING_INCDIR}"
+-DEPENDS = "util-linux"
++DEPENDS = "util-linux openssl"
+ RDEPENDS_${PN} = "bash"
+ 
+ S = "${WORKDIR}/agent"
 -- 
 1.7.6
 
