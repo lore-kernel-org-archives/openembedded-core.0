@@ -1,30 +1,30 @@
 Received: from mail-ew0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dbaryshkov@gmail.com>) id 1QtEi9-0000mK-Bg
+	(envelope-from <dbaryshkov@gmail.com>) id 1QtElD-0000yJ-A2
 	for openembedded-core@lists.openembedded.org;
-	Tue, 16 Aug 2011 10:09:21 +0200
-Received: by ewy5 with SMTP id 5so2191771ewy.6
+	Tue, 16 Aug 2011 10:12:31 +0200
+Received: by ewy5 with SMTP id 5so2192295ewy.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2011 01:04:44 -0700 (PDT)
+	Tue, 16 Aug 2011 01:07:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=DuGrN0bseYl2XxQBMBV0T14ZazzvbFtfTrUAWyKSW0M=;
-	b=c2utQTB4nwMWGpEc7x9btpoq6FuzJn97Lw8mtj0ps3KG/YWEnDrL0IxKg12UCD0iQ2
-	8Jhef0zEoyk/wIvFqcJb/2ASS8cfSGWJcVLEvC+VQ0T6mUepMPj5zvt7sjDx33/HG6eE
-	bBhLi5o1cpoUAb2PlWUzIHWrVRFPaGZY3ewek=
-Received: by 10.213.22.212 with SMTP id o20mr265670ebb.40.1313481876796;
-	Tue, 16 Aug 2011 01:04:36 -0700 (PDT)
+	bh=ZNQHuiRgO2L/Hmysw2I1Pyfksx8SCS3Fa+hiBS5ddJY=;
+	b=exhHFmqjNVdlzk65CQzuUnd9ah30N+WsvpK1ml9fX6gkWCPSJHpiz73JC1byZLiZzo
+	OgmkTNlEn1+LFoWGtNoUGm/HW7Ja4cpBTx/lbecWBrxFTp5A6cXlSsTM1h4TndA0lXQX
+	3b/U7vYJs7ywp/EnGApaDtbUNRj+zGZo2dcUY=
+Received: by 10.213.13.138 with SMTP id c10mr726014eba.127.1313482071452;
+	Tue, 16 Aug 2011 01:07:51 -0700 (PDT)
 Received: from localhost.localdomain ([194.85.238.22])
-	by mx.google.com with ESMTPS id 76sm2934167eee.42.2011.08.16.01.04.34
+	by mx.google.com with ESMTPS id h15sm2931986eea.62.2011.08.16.01.07.49
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 16 Aug 2011 01:04:35 -0700 (PDT)
+	Tue, 16 Aug 2011 01:07:50 -0700 (PDT)
 From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Aug 2011 12:04:29 +0400
-Message-Id: <1313481869-16652-1-git-send-email-dbaryshkov@gmail.com>
+Date: Tue, 16 Aug 2011 12:07:44 +0400
+Message-Id: <1313482064-18951-1-git-send-email-dbaryshkov@gmail.com>
 X-Mailer: git-send-email 1.7.2.5
 Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Subject: [PATCH] binutils-2.20.1: import several patches from Debian
+Subject: [PATCH V2] binutils-2.20.1: import several patches from Debian
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,38 +39,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Aug 2011 08:09:21 -0000
+X-List-Received-Date: Tue, 16 Aug 2011 08:12:31 -0000
 
 Import several patches from Debian to improve --no-add-needed handling
 vs. weak symbols and branching to weak symbols on arm.
 
 Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 ---
- .../binutils/.binutils_2.20.1.bb.swp               |  Bin 0 -> 4096 bytes
  .../152_arm_branches_to_weak_symbols.patch         |  240 ++++++++++++++++++++
  .../binutils-2.20.1/200_elflink_%B_fixes.patch     |   65 ++++++
  .../201_elflink_improve_noaddneeded_errors.patch   |   70 ++++++
  .../202_elflink_noaddneeded_vs_weak.patch          |   87 +++++++
  .../recipes-devtools/binutils/binutils_2.20.1.bb   |    6 +-
- 6 files changed, 467 insertions(+), 1 deletions(-)
- create mode 100644 meta-oe/recipes-devtools/binutils/.binutils_2.20.1.bb.swp
+ 5 files changed, 467 insertions(+), 1 deletions(-)
  create mode 100644 meta-oe/recipes-devtools/binutils/binutils-2.20.1/152_arm_branches_to_weak_symbols.patch
  create mode 100644 meta-oe/recipes-devtools/binutils/binutils-2.20.1/200_elflink_%B_fixes.patch
  create mode 100644 meta-oe/recipes-devtools/binutils/binutils-2.20.1/201_elflink_improve_noaddneeded_errors.patch
  create mode 100644 meta-oe/recipes-devtools/binutils/binutils-2.20.1/202_elflink_noaddneeded_vs_weak.patch
-
-diff --git a/meta-oe/recipes-devtools/binutils/.binutils_2.20.1.bb.swp b/meta-oe/recipes-devtools/binutils/.binutils_2.20.1.bb.swp
-new file mode 100644
-index 0000000000000000000000000000000000000000..6067470179a28799e82f41a85e864e87bd170f00
-GIT binary patch
-literal 4096
-zcmeIuu?oU45C-6T0YP+^T5)XB#=$3WP*EpcrD={5uuVu(!NrI3sT^&^!L1L_yXiQ7
-zj=N8$m+c{1GXZUl0haOZID;3w_W+d+kGz}rROz%*=z3BB&+kHh+HjAdv57C7w!w36
-z8dsp_6^1-97Hg~|wj0%Ng4|)DE&4>^Js5NIT<W?B`mebPCQ_C$DSOYL00|6KU<50X
-hrQP$3cpgnB=YcxV+ay2&BtQZrKmsH{0wgd@fe!(PGF|`x
-
-literal 0
-HcmV?d00001
 
 diff --git a/meta-oe/recipes-devtools/binutils/binutils-2.20.1/152_arm_branches_to_weak_symbols.patch b/meta-oe/recipes-devtools/binutils/binutils-2.20.1/152_arm_branches_to_weak_symbols.patch
 new file mode 100644
