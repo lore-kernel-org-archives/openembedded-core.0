@@ -1,30 +1,32 @@
-Received: from mail-qw0-f47.google.com ([209.85.216.47])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QtSJJ-0005V1-O0
+	(envelope-from <raj.khem@gmail.com>) id 1QtSJS-0005W0-8U
 	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Aug 2011 00:40:37 +0200
-Received: by qwh5 with SMTP id 5so312429qwh.6
+	Wed, 17 Aug 2011 00:40:46 +0200
+Received: by ywe9 with SMTP id 9so332293ywe.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2011 15:35:59 -0700 (PDT)
+	Tue, 16 Aug 2011 15:36:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=Qw4aatBtPep9zajTJhHdWga4LxF75BWBghMofz4ck+g=;
-	b=rplvlVGKJcJ/XTKZJYlZdei+OBqSYeYH/0aWwpiJne6ksWFFaVgZXrIivpUArDceVh
-	ifTMq8HPxYamxbQQShgi4IsIDeOcMvEDMdz+y7ghmFwA7cVUaQvSqBZRxQd+WpsgRp4R
-	yU5EYhLX/CWOdhpirfucjdQf9+AjTQZuB2HKs=
-Received: by 10.52.28.79 with SMTP id z15mr272217vdg.365.1313534158435;
-	Tue, 16 Aug 2011 15:35:58 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=WXlogdI+H7fkUyOkjw6Fz4qM7zA5eSSxj2S7ZYFb6XU=;
+	b=r34jDohKIN3qE0IyZEv1D82P40/mWS4WxFUtMkN9FCFpOOGln3Vk7IOhTQCTC6PiLT
+	3ROVZX1BX8rUpxmY7Y5KPDTi4R7xdKbIGVS6QoJtZSzSuA7qRArfqlKSeg3hZEyu8YzV
+	UBFR9zi9c4lfnMWqCu1dzprs/KMHvW5xq8WVs=
+Received: by 10.236.175.102 with SMTP id y66mr1099314yhl.28.1313534168175;
+	Tue, 16 Aug 2011 15:36:08 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id j8sm485777vdv.35.2011.08.16.15.35.57
+	by mx.google.com with ESMTPS id c63sm581513yhe.18.2011.08.16.15.36.07
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 16 Aug 2011 15:35:58 -0700 (PDT)
+	Tue, 16 Aug 2011 15:36:07 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Aug 2011 15:35:42 -0700
-Message-Id: <cover.1313533911.git.raj.khem@gmail.com>
+Date: Tue, 16 Aug 2011 15:35:48 -0700
+Message-Id: <fcafbb92c3e07d372066a36e6af2dc13f0a99a1f.1313533911.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH 0/5] Redefine LINKER_HASH_STYLE and uclibc fixes
+In-Reply-To: <cover.1313533911.git.raj.khem@gmail.com>
+References: <cover.1313533911.git.raj.khem@gmail.com>
+Subject: [PATCH 1/5] conf,recipes: Redefine LINKER_HASH_STYLE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,43 +41,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Aug 2011 22:40:37 -0000
+X-List-Received-Date: Tue, 16 Aug 2011 22:40:46 -0000
 
-with this patchset, fix the uclibc image fallouts with various recent
-recipe updates
+LINKER_HASH_STYLE is not set to either sysv or gnu
+depending upon architecture e.g. mips does not support
+gnu hash style among the supported architectures so
+we make sure its set to 'sysv' form mips
 
-Modify the way we pass linker hash style so it can be used in multiple
-methods.
+Linker flags are munged to adhere to renamed variable
 
-Pass information about default linker hash style to gcc configure
-so that it passes the right flags to runtime libraries builds e.g.
-libgcc libstdc++ etc.
+Third option is to set it to 'both' we do
+not do that by default but user can still set it
 
-The following changes since commit 3e872751690135178afb3a3f147bd002112c1bac:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/conf/bitbake.conf                      |    4 ++--
+ meta/conf/distro/include/tcmode-default.inc |    6 +++++-
+ meta/recipes-core/uclibc/uclibc.inc         |    2 +-
+ 3 files changed, 8 insertions(+), 4 deletions(-)
 
-  tcf-agent: Add openssl to DEPENDS (2011-08-16 15:29:09 -0700)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib kraj/linker-hash-choice
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/linker-hash-choice
-
-Khem Raj (5):
-  conf,recipes: Redefine LINKER_HASH_STYLE
-  gcc-4.6: Use --with-linker-hash-style configure option
-  task-core-tools: Use LTTNGUST variable instead of hardcoding
-    lttng-ust
-  gdb: Add lttng-ust to DEPENDS only for eglibc
-  tcf-agent: Add openssl to DEPENDS
-
- meta/conf/bitbake.conf                           |    4 ++--
- meta/conf/distro/include/tcmode-default.inc      |    6 +++++-
- meta/recipes-core/tasks/task-core-tools.bb       |    6 +++---
- meta/recipes-core/uclibc/uclibc.inc              |    2 +-
- meta/recipes-devtools/gcc/gcc-4.6.inc            |    3 ++-
- meta/recipes-devtools/gdb/gdb-common.inc         |   11 +++++++++--
- meta/recipes-devtools/tcf-agent/tcf-agent_svn.bb |    4 ++--
- 7 files changed, 24 insertions(+), 12 deletions(-)
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index b309516..58a604a 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -475,9 +475,9 @@ BUILDSDK_LDFLAGS = "-L${STAGING_LIBDIR} \
+                     -Wl,-rpath-link,${STAGING_DIR_HOST}${base_libdir} \
+                     -Wl,-rpath,${base_libdir} -Wl,-O1"
+ 
+-TARGET_LINK_HASH_STYLE ??= ""
++LINKER_HASH_STYLE ??= "gnu"
+ export LDFLAGS = "${TARGET_LDFLAGS}"
+-export TARGET_LDFLAGS = "-Wl,-O1 ${TARGET_LINK_HASH_STYLE}"
++export TARGET_LDFLAGS = "-Wl,-O1 -Wl,--hash-style=${LINKER_HASH_STYLE}"
+ #export TARGET_LDFLAGS = "-L${STAGING_DIR_TARGET}${libdir} \
+ #                         -Wl,-rpath-link,${STAGING_DIR_TARGET}${libdir} \
+ #                         -Wl,-O1"
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 0d0af38..60f99ac 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -63,5 +63,9 @@ PREFERRED_VERSION_gzip-native ?= "1.4"
+ 
+ # Setup suitable toolchain flags
+ require conf/distro/include/as-needed.inc
+-TARGET_LINK_HASH_STYLE ?= "${@['-Wl,--hash-style=gnu',''][bb.data.getVar('TARGET_ARCH', d, True) in ['mips', 'mipsel', 'mips64', 'mips64el']]}"
+ 
++# mips does not support GNU hash style therefore we hard assign them
++LINKER_HASH_STYLE_mips = "sysv"
++LINKER_HASH_STYLE_mipsel = "sysv"
++LINKER_HASH_STYLE_mips64 = "sysv"
++LINKER_HASH_STYLE_mips64el = "sysv"
+diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
+index 222c34f..ab10f1b 100644
+--- a/meta/recipes-core/uclibc/uclibc.inc
++++ b/meta/recipes-core/uclibc/uclibc.inc
+@@ -201,5 +201,5 @@ do_configure() {
+ 
+ do_install() {
+         oe_runmake PREFIX=${D} install
+-        oe_runmake PREFIX=${D} "SSP_ALL_CFLAGS=${TARGET_LINK_HASH_STYLE}" install_utils
++        oe_runmake PREFIX=${D} "SSP_ALL_CFLAGS=-Wl,--hash-style=${LINKER_HASH_STYLE}" install_utils
+ }
 -- 
 1.7.5.4
 
