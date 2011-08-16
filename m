@@ -1,23 +1,25 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Wenzong.Fan@windriver.com>) id 1QtEZw-0000RW-JO
+	(envelope-from <Wenzong.Fan@windriver.com>) id 1QtEZw-0000RX-MW
 	for openembedded-core@lists.openembedded.org;
-	Tue, 16 Aug 2011 10:00:52 +0200
+	Tue, 16 Aug 2011 10:00:53 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7G7uA95021874
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7G7uB05021877
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2011 00:56:10 -0700 (PDT)
+	Tue, 16 Aug 2011 00:56:11 -0700 (PDT)
 Received: from localhost.localdomain (128.224.162.28) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Tue, 16 Aug 2011 00:56:09 -0700
+	14.1.255.0; Tue, 16 Aug 2011 00:56:11 -0700
 From: <wenzong.fan@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 16 Aug 2011 15:56:13 +0800
-Message-ID: <cover.1313479193.git.wenzong.fan@windriver.com>
+Date: Tue, 16 Aug 2011 15:56:14 +0800
+Message-ID: <14db4cd25c94ed42ef971b2e462d484da8328242.1313479193.git.wenzong.fan@windriver.com>
 X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <cover.1313479193.git.wenzong.fan@windriver.com>
+References: <cover.1313479193.git.wenzong.fan@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] perl-native: Update 'find_perl()' to find the perl wrapper
+Subject: [PATCH 1/1] perl-native: Update 'find_perl()' to find the perl wrapper
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,28 +39,65 @@ Content-Type: text/plain
 
 From: Wenzong Fan <wenzong.fan@windriver.com>
 
-Fix Bugs: [YOCTO #1157] [YOCTO #829]
+[YOCTO #1157] [YOCTO #829]
 
-This happens to the packages which use MakeMaker.pm to generate their
-Makefiles, the path to 'PERL/FULLPERL' should be perl wrapper instead
-of 'perl.real'.
+This is a common issue to the packages which using 'MakeMaker.pm' to
+generate their Makefiles. The function 'find_perl()' in 'MM_Unix.pm'
+will be used to figure out the path/link of 'PERL/FULLPERL', but it
+always find the 'perl.real' instead of perl wrapper.
 
-The following changes since commit a21ff559e7c93e9da61104f4a33e42e6004189fd:
-  Richard Purdie (1):
-        Fixup remaining bb.msg.domain users
+Just update it to find the perl wrapper correctly.
 
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib wenzong/perl
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/perl
-
-Wenzong Fan (1):
-  perl-native: Update 'find_perl()' to find the perl wrapper
-
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+---
  .../perl/perl-5.12.3/MM_Unix.pm.patch              |   12 ++++++++++++
  meta/recipes-devtools/perl/perl-native_5.12.3.bb   |    5 +++--
  2 files changed, 15 insertions(+), 2 deletions(-)
  create mode 100644 meta/recipes-devtools/perl/perl-5.12.3/MM_Unix.pm.patch
+
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/MM_Unix.pm.patch b/meta/recipes-devtools/perl/perl-5.12.3/MM_Unix.pm.patch
+new file mode 100644
+index 0000000..7a6e02d
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.12.3/MM_Unix.pm.patch
+@@ -0,0 +1,12 @@
++--- perl-5.12.3/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm.orig	2011-08-12 16:07:30.000000000 +0800
+++++ perl-5.12.3/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm	2011-08-12 16:08:56.000000000 +0800
++@@ -1019,6 +1019,9 @@
++     }
++ 
++     foreach my $name (@$names){
+++        # Getting MakeMaker.pm use perl wrapper instead of 'perl.real' directly
+++        $name =~ s/perl\.real/perl/ if ($name =~ /perl\.real/);
+++
++         foreach my $dir (@$dirs){
++             next unless defined $dir; # $self->{PERL_SRC} may be undefined
++             my ($abs, $val);
+diff --git a/meta/recipes-devtools/perl/perl-native_5.12.3.bb b/meta/recipes-devtools/perl/perl-native_5.12.3.bb
+index 945ebd4..a8e2346 100644
+--- a/meta/recipes-devtools/perl/perl-native_5.12.3.bb
++++ b/meta/recipes-devtools/perl/perl-native_5.12.3.bb
+@@ -4,7 +4,7 @@ SECTION = "libs"
+ LICENSE = "Artistic|GPL"
+ LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
+ 		    file://Artistic;md5=f921793d03cc6d63ec4b15e9be8fd3f8"
+-PR = "r4"
++PR = "r5"
+ 
+ LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
+                     file://Artistic;md5=f921793d03cc6d63ec4b15e9be8fd3f8"
+@@ -19,7 +19,8 @@ SRC_URI = "http://www.cpan.org/src/5.0/perl-${PV}.tar.gz \
+            file://parallel_build_fix_5.patch \
+            file://parallel_build_fix_6.patch \
+            file://native-nopacklist.patch \
+-           file://native-perlinc.patch"
++           file://native-perlinc.patch \
++           file://MM_Unix.pm.patch"
+ 
+ SRC_URI[md5sum] = "29975a69dce54e47fcd6331c085c6c99"
+ SRC_URI[sha256sum] = "5678bfd5c2cd59253a26171bf3e681235433b00c730eea8a8046e1b225c11d2f"
+-- 
+1.7.0.4
 
 
 
