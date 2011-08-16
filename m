@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1QtFA2-0001iQ-GN
+	(envelope-from <dongxiao.xu@intel.com>) id 1QtFA1-0001iP-Ku
 	for openembedded-core@lists.openembedded.org;
 	Tue, 16 Aug 2011 10:38:13 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 16 Aug 2011 01:33:31 -0700
+	by orsmga101.jf.intel.com with ESMTP; 16 Aug 2011 01:33:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="38827075"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="38827067"
 Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by orsmga001.jf.intel.com with ESMTP; 16 Aug 2011 01:33:30 -0700
+	by orsmga001.jf.intel.com with ESMTP; 16 Aug 2011 01:33:28 -0700
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Aug 2011 16:33:46 +0800
-Message-Id: <9a30ac8118bd52bd4ea078604031b8a611361408.1313482889.git.dongxiao.xu@intel.com>
+Date: Tue, 16 Aug 2011 16:33:44 +0800
+Message-Id: <79564dcf3bc7147c1de2a5542f7cf2b4d6deec7f.1313482889.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1313482889.git.dongxiao.xu@intel.com>
 References: <cover.1313482889.git.dongxiao.xu@intel.com>
 In-Reply-To: <cover.1313482889.git.dongxiao.xu@intel.com>
 References: <cover.1313482889.git.dongxiao.xu@intel.com>
-Subject: [PATCH 3/4] package_rpm: Fix package rename issue in multilib case
+Subject: [PATCH 1/4] rootfs_rpm: Fix DEFAULTTUNE setting in multilib case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,61 +35,34 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 16 Aug 2011 08:38:13 -0000
 
-do_package task will write information into pkgdata and
-do_package_write_rpm will read them out. Take lib32-dates as an example,
-one of its RDEPENDS is li32-gtk+, and PKG_lib32-gtk+ = "libgtk-2.0",
-these info is stored at:
-tmp/pkgdata/x86_64-pokymllib32-linux/runtime/lib32-dates.
+"virtclass-multilib" is set to OVERRIDES in multilib.bbclass, remove the
+duplicated settings here.
 
-Function "mapping_rename_hook" in do_package_write_rpm is to handle
-those renamed packages. However before it executes, translate_vers
-has stripped the multilib prefix out, making it failed to find PKG_gtk+
-value in pkgdata.
-
-This commit moves the strip_multilib out of translate_vers and call it
-after "mapping_rename_hook".
+Besides, DEFAULTTUNE has overrided and it can be directly used.
 
 [YOCTO #1368]
 
 CC: Mark Hatle <mark.hatle@windriver.com>
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
 ---
- meta/classes/package_rpm.bbclass |   14 +++++++-------
- 1 files changed, 7 insertions(+), 7 deletions(-)
+ meta/classes/rootfs_rpm.bbclass |    4 ----
+ 1 files changed, 0 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 7a0c6da..9ef1acd 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -394,7 +394,7 @@ python write_specfile () {
- 							pv = subd['PKGV']
- 							reppv = pv.replace('-', '+')
- 							ver = ver.replace(pv, reppv)
--				newdeps_dict[strip_multilib(dep, d)] = ver
-+				newdeps_dict[dep] = ver
- 			depends = bb.utils.join_deps(newdeps_dict)
- 			bb.data.setVar(varname, depends.strip(), d)
- 
-@@ -516,12 +516,12 @@ python write_specfile () {
- 		# Map the dependencies into their final form
- 		bb.build.exec_func("mapping_rename_hook", localdata)
- 
--		splitrdepends    = bb.data.getVar('RDEPENDS', localdata, True) or ""
--		splitrrecommends = bb.data.getVar('RRECOMMENDS', localdata, True) or ""
--		splitrsuggests   = bb.data.getVar('RSUGGESTS', localdata, True) or ""
--		splitrprovides   = bb.data.getVar('RPROVIDES', localdata, True) or ""
--		splitrreplaces   = bb.data.getVar('RREPLACES', localdata, True) or ""
--		splitrconflicts  = bb.data.getVar('RCONFLICTS', localdata, True) or ""
-+		splitrdepends    = strip_multilib(bb.data.getVar('RDEPENDS', localdata, True), d) or ""
-+		splitrrecommends = strip_multilib(bb.data.getVar('RRECOMMENDS', localdata, True), d) or ""
-+		splitrsuggests   = strip_multilib(bb.data.getVar('RSUGGESTS', localdata, True), d) or ""
-+		splitrprovides   = strip_multilib(bb.data.getVar('RPROVIDES', localdata, True), d) or ""
-+		splitrreplaces   = strip_multilib(bb.data.getVar('RREPLACES', localdata, True), d) or ""
-+		splitrconflicts  = strip_multilib(bb.data.getVar('RCONFLICTS', localdata, True), d) or ""
- 		splitrobsoletes  = []
- 
- 		# For now we need to manually supplement RPROVIDES with any update-alternatives links
+diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
+index 7c06064..7f24b9c 100644
+--- a/meta/classes/rootfs_rpm.bbclass
++++ b/meta/classes/rootfs_rpm.bbclass
+@@ -215,10 +215,6 @@ python () {
+         eext = ext.split(':')
+         if len(eext) > 1 and eext[0] == 'multilib':
+             localdata = bb.data.createCopy(d)
+-            overrides = localdata.getVar("OVERRIDES", False) + ":virtclass-multilib-" + eext[1]
+-            localdata.setVar("OVERRIDES", overrides)
+-            # TEMP: OVERRIDES isn't working right
+-            localdata.setVar("DEFAULTTUNE", localdata.getVar("DEFAULTTUNE_virtclass-multilib-" + eext[1], False) or "")
+             ml_package_archs += localdata.getVar("PACKAGE_ARCHS", True) or ""
+             #bb.note("ML_PACKAGE_ARCHS %s %s %s" % (eext[1], localdata.getVar("PACKAGE_ARCHS", True) or "(none)", overrides))
+     bb.data.setVar('MULTILIB_PACKAGE_ARCHS', ml_package_archs, d)
 -- 
 1.7.1
 
