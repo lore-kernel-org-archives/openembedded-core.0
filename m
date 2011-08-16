@@ -1,24 +1,25 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QtKSp-0002ey-Kk
+	(envelope-from <dexuan.cui@intel.com>) id 1QtKSq-0002el-Vq
 	for openembedded-core@lists.openembedded.org;
-	Tue, 16 Aug 2011 16:17:56 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 16 Aug 2011 07:13:17 -0700
+	Tue, 16 Aug 2011 16:17:57 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 16 Aug 2011 07:13:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,380,1309762800"; d="scan'208";a="40072058"
+X-IronPort-AV: E=Sophos;i="4.67,380,1309762800"; 
+   d="scan'208";a="7747484"
 Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.36.112])
-	by fmsmga002.fm.intel.com with ESMTP; 16 Aug 2011 07:13:17 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 16 Aug 2011 07:13:20 -0700
 From: Dexuan Cui <dexuan.cui@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Aug 2011 22:13:14 +0800
-Message-Id: <705aad1889969236b438d00befd56d289b689b51.1313503778.git.dexuan.cui@intel.com>
+Date: Tue, 16 Aug 2011 22:13:17 +0800
+Message-Id: <b22a8ff43a0da1c8d223157c604cd5e578985490.1313503778.git.dexuan.cui@intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1313503778.git.dexuan.cui@intel.com>
 References: <cover.1313503778.git.dexuan.cui@intel.com>
 In-Reply-To: <cover.1313503778.git.dexuan.cui@intel.com>
 References: <cover.1313503778.git.dexuan.cui@intel.com>
-Subject: [PATCH 04/10] mdadm: upgrade mdadm from 3.2.1 to 3.2.2
+Subject: [PATCH 07/10] xproto: upgrade from 7.0.21 to 7.0.22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,222 +34,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Aug 2011 14:17:56 -0000
-
-Remove the patch since 3.2.2 has integrated it.
+X-List-Received-Date: Tue, 16 Aug 2011 14:17:58 -0000
 
 Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- .../mdadm/fix_for_compilation_with_gcc-4.6.0.patch |  174 --------------------
- .../mdadm/{mdadm_3.2.1.bb => mdadm_3.2.2.bb}       |    9 +-
- 2 files changed, 4 insertions(+), 179 deletions(-)
- delete mode 100644 meta/recipes-extended/mdadm/mdadm/fix_for_compilation_with_gcc-4.6.0.patch
- rename meta/recipes-extended/mdadm/{mdadm_3.2.1.bb => mdadm_3.2.2.bb} (77%)
+ .../{xproto_7.0.21.bb => xproto_7.0.22.bb}         |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-proto/{xproto_7.0.21.bb => xproto_7.0.22.bb} (72%)
 
-diff --git a/meta/recipes-extended/mdadm/mdadm/fix_for_compilation_with_gcc-4.6.0.patch b/meta/recipes-extended/mdadm/mdadm/fix_for_compilation_with_gcc-4.6.0.patch
-deleted file mode 100644
-index f79511b..0000000
---- a/meta/recipes-extended/mdadm/mdadm/fix_for_compilation_with_gcc-4.6.0.patch
-+++ /dev/null
-@@ -1,174 +0,0 @@
--Upstream-Status: Pending
--
--Nitin A Kamble <nitin.a.kamble@intel.com> 2011/05/06
--
--Fix these compilation errors with gcc 4.6.0
--
--| super1.c: In function 'calc_sb_1_csum':
--| super1.c:114:6: error: variable 'i' set but not used [-Werror=unused-but-set-variable]
--| Query.c: In function 'Query':
--| Query.c:38:16: error: variable 'superrno' set but not used [-Werror=unused-but-set-variable]
--| super1.c: In function 'examine_super1':
--| super1.c:390:7: error: variable 'me' set but not used [-Werror=unused-but-set-variable]
--| cc1: all warnings being treated as errors
--| 
--| make: *** [Query.o] Error 1
--| make: *** Waiting for unfinished jobs....
--| mdadm.c: In function 'main':
--| mdadm.c:106:6: error: variable 'auto_update_home' set but not used [-Werror=unused-but-set-variable]
--| mdmon.c: In function 'mdmon':
--| mdmon.c:354:6: error: variable 'ignore' set but not used [-Werror=unused-but-set-variable]
--| cc1: all warnings being treated as errors
--| 
--| make: *** [mdmon.o] Error 1
--| cc1: all warnings being treated as errors
--| 
--| sysfs.c: In function 'sysfs_uevent':
--| sysfs.c:421:6: error: variable 'n' set but not used [-Werror=unused-but-set-variable]
--| cc1: all warnings being treated as errors
--| 
--| make: *** [mdadm.o] Error 1
--| make: *** [super1.o] Error 1
--| cc1: all warnings being treated as errors
--| 
--| make: *** [sysfs.o] Error 1
--| Grow.c: In function 'Grow_reshape':
--| Grow.c:1315:6: error: variable 'changed' set but not used [-Werror=unused-but-set-variable]
--| cc1: all warnings being treated as errors
--| 
--| make: *** [Grow.o] Error 1
--| ERROR: oe_runmake failed
--
--Index: mdadm-3.2.1/Grow.c
--===================================================================
----- mdadm-3.2.1.orig/Grow.c
--+++ mdadm-3.2.1/Grow.c
--@@ -1312,7 +1312,6 @@ int Grow_reshape(char *devname, int fd, 
-- 	char *subarray = NULL;
-- 
-- 	int frozen;
---	int changed = 0;
-- 	char *container = NULL;
-- 	char container_buf[20];
-- 	int cfd = -1;
--@@ -1479,7 +1478,6 @@ int Grow_reshape(char *devname, int fd, 
-- 		if (!quiet)
-- 			fprintf(stderr, Name ": component size of %s has been set to %lluK\n",
-- 				devname, size);
---		changed = 1;
-- 	} else if (array.level != LEVEL_CONTAINER) {
-- 		size = get_component_size(fd)/2;
-- 		if (size == 0)
--Index: mdadm-3.2.1/Query.c
--===================================================================
----- mdadm-3.2.1.orig/Query.c
--+++ mdadm-3.2.1/Query.c
--@@ -35,7 +35,7 @@ int Query(char *dev)
-- 	int fd = open(dev, O_RDONLY);
-- 	int vers;
-- 	int ioctlerr;
---	int superror, superrno;
--+	int superror;
-- 	struct mdinfo info;
-- 	mdu_array_info_t array;
-- 	struct supertype *st = NULL;
--@@ -84,7 +84,6 @@ int Query(char *dev)
-- 	st = guess_super(fd);
-- 	if (st) {
-- 		superror = st->ss->load_super(st, fd, dev);
---		superrno = errno;
-- 	} else
-- 		superror = -1;
-- 	close(fd);
--Index: mdadm-3.2.1/mdadm.c
--===================================================================
----- mdadm-3.2.1.orig/mdadm.c
--+++ mdadm-3.2.1/mdadm.c
--@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
-- 	char *shortopt = short_options;
-- 	int dosyslog = 0;
-- 	int rebuild_map = 0;
---	int auto_update_home = 0;
--+	int __attribute__((__unused__)) auto_update_home = 0;
-- 	char *subarray = NULL;
-- 	char *remove_path = NULL;
-- 	char *udev_filename = NULL;
--Index: mdadm-3.2.1/mdmon.c
--===================================================================
----- mdadm-3.2.1.orig/mdmon.c
--+++ mdadm-3.2.1/mdmon.c
--@@ -351,7 +351,6 @@ static int mdmon(char *devname, int devn
-- 	struct sigaction act;
-- 	int pfd[2];
-- 	int status;
---	int ignore;
-- 	pid_t victim = -1;
-- 	int victim_sock = -1;
-- 
--@@ -459,7 +458,6 @@ static int mdmon(char *devname, int devn
-- 	if (victim >= 0)
-- 		victim_sock = connect_monitor(container->devname);
-- 
---	ignore = chdir("/");
-- 	if (!takeover && victim > 0 && victim_sock >= 0) {
-- 		if (fping_monitor(victim_sock) == 0) {
-- 			fprintf(stderr, "mdmon: %s already managed\n",
--@@ -507,10 +505,8 @@ static int mdmon(char *devname, int devn
-- 	close(0);
-- 	open("/dev/null", O_RDWR);
-- 	close(1);
---	ignore = dup(0);
-- #ifndef DEBUG
-- 	close(2);
---	ignore = dup(0);
-- #endif
-- 
-- 	do_manager(container);
--Index: mdadm-3.2.1/super1.c
--===================================================================
----- mdadm-3.2.1.orig/super1.c
--+++ mdadm-3.2.1/super1.c
--@@ -111,7 +111,6 @@ static unsigned int calc_sb_1_csum(struc
-- 	unsigned long long newcsum;
-- 	int size = sizeof(*sb) + __le32_to_cpu(sb->max_dev)*2;
-- 	unsigned int *isuper = (unsigned int*)sb;
---	int i;
-- 
-- /* make sure I can count... */
-- 	if (offsetof(struct mdp_superblock_1,data_offset) != 128 ||
--@@ -123,7 +122,7 @@ static unsigned int calc_sb_1_csum(struc
-- 	disk_csum = sb->sb_csum;
-- 	sb->sb_csum = 0;
-- 	newcsum = 0;
---	for (i=0; size>=4; size -= 4 ) {
--+	for (; size>=4; size -= 4 ) {
-- 		newcsum += __le32_to_cpu(*isuper);
-- 		isuper++;
-- 	}
--@@ -387,13 +386,10 @@ static void examine_super1(struct supert
-- 	printf("   Array State : ");
-- 	for (d=0; d<__le32_to_cpu(sb->raid_disks) + delta_extra; d++) {
-- 		int cnt = 0;
---		int me = 0;
-- 		unsigned int i;
-- 		for (i=0; i< __le32_to_cpu(sb->max_dev); i++) {
-- 			unsigned int role = __le16_to_cpu(sb->dev_roles[i]);
-- 			if (role == d) {
---				if (i == __le32_to_cpu(sb->dev_number))
---					me = 1;
-- 				cnt++;
-- 			}
-- 		}
--Index: mdadm-3.2.1/sysfs.c
--===================================================================
----- mdadm-3.2.1.orig/sysfs.c
--+++ mdadm-3.2.1/sysfs.c
--@@ -418,7 +418,7 @@ int sysfs_set_num(struct mdinfo *sra, st
-- int sysfs_uevent(struct mdinfo *sra, char *event)
-- {
-- 	char fname[50];
---	int n;
--+	int __attribute__((__unused__)) n;
-- 	int fd;
-- 
-- 	sprintf(fname, "/sys/block/%s/uevent",
-diff --git a/meta/recipes-extended/mdadm/mdadm_3.2.1.bb b/meta/recipes-extended/mdadm/mdadm_3.2.2.bb
-similarity index 77%
-rename from meta/recipes-extended/mdadm/mdadm_3.2.1.bb
-rename to meta/recipes-extended/mdadm/mdadm_3.2.2.bb
-index 80fe520..5d29ae7 100644
---- a/meta/recipes-extended/mdadm/mdadm_3.2.1.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_3.2.2.bb
-@@ -8,13 +8,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
-                     file://mdmon.c;beginline=4;endline=18;md5=af7d8444d9c4d3e5c7caac0d9d34039d \
-                     file://mdadm.h;beglinlne=4;endline=22;md5=462bc9936ac0d3da110191a3f9994161"
+diff --git a/meta/recipes-graphics/xorg-proto/xproto_7.0.21.bb b/meta/recipes-graphics/xorg-proto/xproto_7.0.22.bb
+similarity index 72%
+rename from meta/recipes-graphics/xorg-proto/xproto_7.0.21.bb
+rename to meta/recipes-graphics/xorg-proto/xproto_7.0.22.bb
+index 17b3793..54f8482 100644
+--- a/meta/recipes-graphics/xorg-proto/xproto_7.0.21.bb
++++ b/meta/recipes-graphics/xorg-proto/xproto_7.0.22.bb
+@@ -14,6 +14,6 @@ PE = "1"
+ EXTRA_OECONF_append = " --enable-specs=no"
+ BBCLASSEXTEND = "native nativesdk"
  
--PR = "r1"
-+PR = "r0"
- 
--SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.bz2 \
--	file://fix_for_compilation_with_gcc-4.6.0.patch"
-+SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.bz2"
- 
--SRC_URI[md5sum] = "d1e2549202bd79d9e99f1498d1109530"
--SRC_URI[sha256sum] = "7f68f149c6c0e8893d0b9220ac255b46af08e6a6b81223cab57ed54d628ae125"
-+SRC_URI[md5sum] = "12ee2fbf3beddb60601fb7a4c4905651"
-+SRC_URI[sha256sum] = "0d1a04e688b082bc88846e3f524abd50bc782b6ffc06123140f7d358c8f9b906"
- 
- CFLAGS += "-fno-strict-aliasing"
+-SRC_URI[md5sum] = "c5a93a69b701cf81925fab02b35b0d0e"
+-SRC_URI[sha256sum] = "38ee2f032c3a9e30504593f8b5e6c1161a6629daba93748a71c6f70c16f65548"
++SRC_URI[md5sum] = "da0b0eb2f432b7cc1d665b05422a0457"
++SRC_URI[sha256sum] = "ad8397dd2a3de7249d2f3fb3a49444fef71483d43681285936c11911663817a8"
  
 -- 
 1.7.6
