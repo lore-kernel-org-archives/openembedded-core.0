@@ -1,35 +1,35 @@
 Received: from mail-yi0-f47.google.com ([209.85.218.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QtSJU-0005W2-8x
+	(envelope-from <raj.khem@gmail.com>) id 1QtSJW-0005XZ-87
 	for openembedded-core@lists.openembedded.org;
 	Wed, 17 Aug 2011 00:40:50 +0200
-Received: by yia28 with SMTP id 28so333909yia.6
+Received: by yia28 with SMTP id 28so333929yia.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2011 15:36:10 -0700 (PDT)
+	Tue, 16 Aug 2011 15:36:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=fZ/nG/dTetu8DPxJ9CZzbhiLnoM6cyKl8461zZ6gkRk=;
-	b=PEEGfEP7Q2uOqCGk3B88Lg898mm+mW2w3rxSSod3nCfI5Fnl1xmIbX0hmSvXsq6574
-	gKbnI1ZsGe9W3MPRAjxEHT8pC0MuYSpVKPKrLyzyvqLDOfyN2eCzsSltuf/Nr3Pa6Ysr
-	NqLbRF/bmYE6Mp/FLD5s+r3Mebh0+3CBXHRCs=
-Received: by 10.236.157.102 with SMTP id n66mr1075208yhk.46.1313534170209;
-	Tue, 16 Aug 2011 15:36:10 -0700 (PDT)
+	bh=yz/u5Knj0WXtQJkUiu+Ch3L9+9C3pZqrBwxQUkPF57o=;
+	b=CehuFurAemrlzvTeKTFYSjiYheWwbSjF0sOdcufgby009RXRgaRIJPDU93d7GL+NFJ
+	UbR1tVruqS2XSWwrbkC8mrsLICkCuDSLwdJm7zvFwqznhTzfSKn/O0pcVfN74XWut3PO
+	r4x+3wy8GeNCKDkRtdlgCwoF8RKLrJCCuIMs8=
+Received: by 10.236.136.137 with SMTP id w9mr992253yhi.112.1313534172305;
+	Tue, 16 Aug 2011 15:36:12 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id c63sm581513yhe.18.2011.08.16.15.36.09
+	by mx.google.com with ESMTPS id c63sm581513yhe.18.2011.08.16.15.36.11
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 16 Aug 2011 15:36:09 -0700 (PDT)
+	Tue, 16 Aug 2011 15:36:11 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Aug 2011 15:35:50 -0700
-Message-Id: <0b15f070c107e2d42c52290d15769b786b41ac39.1313533911.git.raj.khem@gmail.com>
+Date: Tue, 16 Aug 2011 15:35:52 -0700
+Message-Id: <ded8261127515a76b256d6c8dcbcbae156a19cff.1313533911.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <fcafbb92c3e07d372066a36e6af2dc13f0a99a1f.1313533911.git.raj.khem@gmail.com>
 References: <fcafbb92c3e07d372066a36e6af2dc13f0a99a1f.1313533911.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1313533911.git.raj.khem@gmail.com>
 References: <cover.1313533911.git.raj.khem@gmail.com>
-Subject: [PATCH 3/5] task-core-tools: Use LTTNGUST variable instead of hardcoding lttng-ust
+Subject: [PATCH 5/5] tcf-agent: Add openssl to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,37 +46,46 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 16 Aug 2011 22:40:50 -0000
 
-This helps build on uclibc where lttng-ust is not included
+It ends in errors like below otherwise
+
+| framework/channel_tcp.c:34:27: fatal error: openssl/ssl.h: No such
+file or directory
+| compilation terminated.
+| make: *** [obj/GNU/Linux/arm/Debug/framework/channel_tcp.o] Error 1
+| make: *** Waiting for unfinished jobs....
+| + die 'oe_runmake failed'
+| + bbfatal 'oe_runmake failed'
+| + echo 'ERROR: oe_runmake failed'
+| ERROR: oe_runmake failed
+| + exit 1
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/tasks/task-core-tools.bb |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/tcf-agent/tcf-agent_svn.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/tasks/task-core-tools.bb b/meta/recipes-core/tasks/task-core-tools.bb
-index b0eb7d4..11ea723 100644
---- a/meta/recipes-core/tasks/task-core-tools.bb
-+++ b/meta/recipes-core/tasks/task-core-tools.bb
-@@ -6,7 +6,7 @@ DESCRIPTION = "Tools tasks for OE-Core"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
--PR = "r10"
-+PR = "r11"
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_svn.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_svn.bb
+index 3f97f69..37591c2 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_svn.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_svn.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://../epl-v10.html;md5=7aa4215a330a0a4f6a1cbf8da1a0879f
  
- PACKAGES = "\
-     task-core-tools-debug \
-@@ -76,8 +76,8 @@ LTTNGUST_libc-uclibc = ""
- # MIPS.
- RDEPENDS_task-core-tools-profile_append_qemux86 = " valgrind lttng-ust ${SYSTEMTAP}"
- RDEPENDS_task-core-tools-profile_append_qemux86-64 = " ${LTTNGUST} ${SYSTEMTAP}"
--RDEPENDS_task-core-tools-profile_append_qemuppc = " lttng-ust ${SYSTEMTAP}"
--RDEPENDS_task-core-tools-profile_append_qemuarm = " lttng-ust"
-+RDEPENDS_task-core-tools-profile_append_qemuppc = " ${LTTNGUST} ${SYSTEMTAP}"
-+RDEPENDS_task-core-tools-profile_append_qemuarm = " ${LTTNGUST}"
+ SRCREV = "1855"
+ PV = "0.0+svnr${SRCPV}"
+-PR = "r0"
++PR = "r1"
  
- RDEPENDS_task-core-tools-testapps = "\
-     blktool \
+ SRC_URI = "svn://dev.eclipse.org/svnroot/dsdp/org.eclipse.tm.tcf/trunk;module=agent;proto=http \
+            http://dev.eclipse.org/svnroot/dsdp/org.eclipse.tm.tcf/trunk/epl-v10.html;name=epl \
+@@ -19,7 +19,7 @@ SRC_URI = "svn://dev.eclipse.org/svnroot/dsdp/org.eclipse.tm.tcf/trunk;module=ag
+ SRC_URI[epl.md5sum] = "7aa4215a330a0a4f6a1cbf8da1a0879f"
+ SRC_URI[epl.sha256sum] = "4fd64aeed340d62a64a8da4b371efe0f6d0d745f4d2dbefacba86c646d36bc72"
+ 
+-DEPENDS = "util-linux"
++DEPENDS = "util-linux openssl"
+ RDEPENDS_${PN} = "bash"
+ 
+ S = "${WORKDIR}/agent"
 -- 
 1.7.5.4
 
