@@ -1,35 +1,27 @@
-Received: from mail-gw0-f47.google.com ([74.125.83.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QtKnA-0003GM-Vs
+	(envelope-from <mark.hatle@windriver.com>) id 1QtL0x-0003kR-9R
 	for openembedded-core@lists.openembedded.org;
-	Tue, 16 Aug 2011 16:38:57 +0200
-Received: by gwb11 with SMTP id 11so3764573gwb.6
+	Tue, 16 Aug 2011 16:53:11 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7GEmV0G022083
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2011 07:34:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:x-enigmail-version:content-type
-	:content-transfer-encoding;
-	bh=OAjdPkH6RNByOf8kyFFBzWxYHZtsK8BsXa4D2ITNz8Q=;
-	b=N3quq7E5UD03oD5WtMbxfjzzYHK2kO4o+acXg+Etm+gXTckPGGNMZCJH03TjHp5RZ4
-	0xkXUAsFMTk+uHrqA2bkK5u+Krvra1ogsvSGHb4AzWotD0Sk83V82141lmi780Jf/6/c
-	qhdLpDZGvTPXUDsaHGiLJV74aEqKHjs52la9o=
-Received: by 10.236.155.65 with SMTP id i41mr1997725yhk.145.1313505257710;
-	Tue, 16 Aug 2011 07:34:17 -0700 (PDT)
-Received: from [172.23.10.27] (natint3.juniper.net [66.129.224.36])
-	by mx.google.com with ESMTPS id f4sm98183yhn.83.2011.08.16.07.34.15
-	(version=SSLv3 cipher=OTHER); Tue, 16 Aug 2011 07:34:16 -0700 (PDT)
-Message-ID: <4E4A7FE5.10602@gmail.com>
-Date: Tue, 16 Aug 2011 07:34:13 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:6.0) Gecko/20110809 Thunderbird/6.0
+	Tue, 16 Aug 2011 07:48:31 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 16 Aug 2011 07:48:31 -0700
+Message-ID: <4E4A833E.6010605@windriver.com>
+Date: Tue, 16 Aug 2011 09:48:30 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:5.0) Gecko/20110624 Thunderbird/5.0
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1313463192-1911-1-git-send-email-aalonso00@gmail.com>
-In-Reply-To: <1313463192-1911-1-git-send-email-aalonso00@gmail.com>
-X-Enigmail-Version: 1.2.1
-Subject: Re: [PATCH] rpm: configure with staging native path for magic file
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1313482889.git.dongxiao.xu@intel.com>
+In-Reply-To: <cover.1313482889.git.dongxiao.xu@intel.com>
+Subject: Re: [PATCH 0/4 v2][PULL] multilib: RPM rootfs related fixes.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,53 +36,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Aug 2011 14:38:57 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 16 Aug 2011 14:53:11 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
-
-On 08/15/2011 07:53 PM, Adrian Alonso wrote:
-> * Remove hardcoded system path for path-magic file in order to avoid
-> potential mistmatch between host and yocto native tools as reported
-> in yocto mailing list: ---- error: magic_load(ms,
-> /usr/share/misc/magic) failed: File 5.4 supports only version 7 magic
-> files. `/usr/share/misc/magic.mgc' is version 8 ---- * Another
-> solution is to update meta/recipes-devtools/file/file_5.04.bb to a 
-> newer version ie. file_5.07.bb
+On 8/16/11 3:33 AM, Dongxiao Xu wrote:
+> Hi Richard and Mark,
 > 
-> Signed-off-by: Adrian Alonso <aalonso00@gmail.com> --- 
-> meta/recipes-devtools/rpm/rpm_5.4.0.bb |    4 ++-- 1 files changed, 2
-> insertions(+), 2 deletions(-)
+> This pull request fixes some multilib issues related with RPM rootfs. Please help to review and pull.
 > 
-> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-> b/meta/recipes-devtools/rpm/rpm_5.4.0.bb index c0e3208..948ed84
-> 100644 --- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb +++
-> b/meta/recipes-devtools/rpm/rpm_5.4.0.bb @@ -45,7 +45,7 @@
-> LIC_FILES_CHKSUM =
-> "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1" DEPENDS =
-> "bzip2 zlib db openssl elfutils expat libpcre attr acl popt
-> ${extrarpmdeps}" extrarpmdeps = "python perl" 
-> extrarpmdeps_virtclass-native = "" -PR = "r19" +PR = "r20"
+> Changes from v1:
+> 1) Remove the original patch "multilib: remove MULTILIB_PACKAGE_ARCHS variable".
+> 2) Add a new patch "rootfs_rpm: Fix DEFAULTTUNE setting in multilib case"
+> 3) For the two package_rpm related patches, The first patch is to change
+>    strip_multilib functionality, and the second patch is to handle the package
+>    rename issue in multilib.
+> 4) Add a new patch "gtk-icon-cache: Adding MLPREFIX when dynamically set
+>    RDEPENDS" to fix the dynamic setting of RDEPENDS in multilib case.
 > 
-> # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It
-> is needed # in order to extract the distribution SRPM into a format
-> we can extract... @@ -120,7 +120,7 @@ EXTRA_OECONF = "--verbose \ 
-> ${WITH_DB} \ ${WITH_Z} \ --with-file \ -
-> --with-path-magic=/usr/share/misc/magic \ +
-> --with-path-magic=${STAGING_DIR_NATIVE}/usr/share/misc/magic.mgc \
+> [YOCTO #1368]
 
-this wont work for target rpm I guess
+I assume this has been tests...
 
-> --without-lua \ --without-tcl \ --with-syck=internal \
+It looks fine here..
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.11 (GNU/Linux)
+Acked-by: Mark Hatle <mark.hatle@windriver.com>
 
-iEYEARECAAYFAk5Kf+UACgkQuwUzVZGdMxTmPACgiKm1rdoDPbxVdYhHvCqKEyFJ
-0A4Anjx/BxnCQm6ZiLKGXOrn2nbFHzyS
-=jGQc
------END PGP SIGNATURE-----
+> Thanks,
+> Dongxiao
+> 
+> The following changes since commit 13db5f420ca9bff98561f80d78958278734ad1f4:
+> 
+>   distro-tracking: Update info for gpgme, libassuan, apr... after last upgrade. (2011-08-15 15:26:04 +0100)
+> 
+> are available in the git repository at:
+>   git://git.pokylinux.org/poky-contrib dxu4/ml
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/ml
+> 
+> Dongxiao Xu (4):
+>   rootfs_rpm: Fix DEFAULTTUNE setting in multilib case
+>   package_rpm: enhance strip_multilib function
+>   package_rpm: Fix package rename issue in multilib case
+>   gtk-icon-cache: Adding MLPREFIX when dynamically set RDEPENDS
+> 
+>  meta/classes/gtk-icon-cache.bbclass |    2 +-
+>  meta/classes/package_rpm.bbclass    |   22 +++++++++++-----------
+>  meta/classes/rootfs_rpm.bbclass     |    4 ----
+>  3 files changed, 12 insertions(+), 16 deletions(-)
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 
 
