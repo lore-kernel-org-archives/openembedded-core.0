@@ -1,25 +1,44 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1QtFVp-0002Su-4H
+	(envelope-from <dexuan.cui@intel.com>) id 1QtG9O-0006Gn-Mw
 	for openembedded-core@lists.openembedded.org;
-	Tue, 16 Aug 2011 11:00:41 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 16 Aug 2011 01:56:03 -0700
+	Tue, 16 Aug 2011 11:41:35 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 16 Aug 2011 02:36:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,379,1309762800"; d="scan'208";a="41863319"
-Received: from unknown (HELO helios.localnet) ([10.255.18.69])
-	by fmsmga001.fm.intel.com with ESMTP; 16 Aug 2011 01:56:02 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Patches and discussions about the oe-core layer"
+X-IronPort-AV: E=Sophos;i="4.67,379,1309762800"; 
+   d="scan'208";a="7678243"
+Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
+	by AZSMGA002.ch.intel.com with ESMTP; 16 Aug 2011 02:36:46 -0700
+Received: from pgsmsx103.gar.corp.intel.com (10.221.44.82) by
+	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Tue, 16 Aug 2011 17:36:06 +0800
+Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
+	PGSMSX103.gar.corp.intel.com (10.221.44.82) with Microsoft SMTP Server
+	(TLS) id 14.1.323.3; Tue, 16 Aug 2011 17:36:06 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
+	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
+	Tue, 16 Aug 2011 17:36:06 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 16 Aug 2011 09:56:02 +0100
-User-Agent: KMail/1.13.6 (Linux/2.6.38-10-generic-pae; KDE/4.6.2; i686; ; )
-References: <4E450925.7060101@windriver.com> <1313418691.14274.591.camel@rex>
-	<4E4A2CEE.9050401@windriver.com>
-In-Reply-To: <4E4A2CEE.9050401@windriver.com>
+Date: Tue, 16 Aug 2011 17:36:04 +0800
+Thread-Topic: [OE-core] [PATCH V2] bluez4: Added new recipe 4.96 and removed
+	4.82 version
+Thread-Index: Acxb1N7ysDCyqX4gRwG5G3peHznrQgABQQNQAAdryoA=
+Message-ID: <1865303E0DED764181A9D882DEF65FB6B733B42FB2@shsmsx502.ccr.corp.intel.com>
+References: <1313136251-32214-1-git-send-email-noor_ahsan@mentor.com>
+	<4E49511C.6050606@linux.intel.com>
+	<1865303E0DED764181A9D882DEF65FB6B6CDB78764@shsmsx502.ccr.corp.intel.com>
+	<20110816052441.GA10195@jama.jama.net>
+	<1865303E0DED764181A9D882DEF65FB6B733B42DCA@shsmsx502.ccr.corp.intel.com>
+In-Reply-To: <1865303E0DED764181A9D882DEF65FB6B733B42DCA@shsmsx502.ccr.corp.intel.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: zh-CN, en-US
 MIME-Version: 1.0
-Message-Id: <201108160956.02075.paul.eggleton@linux.intel.com>
-Subject: Re: [RFC] Performance Issue: Build time increases
+Subject: Re: [PATCH V2] bluez4: Added new recipe 4.96 and removed 4.82 version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,26 +53,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Aug 2011 09:00:41 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 16 Aug 2011 09:41:35 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Tuesday 16 August 2011 09:40:14 Robert Yang wrote:
-> Thanks for you reply, yes, one build one restart(bitbake core-image-sato,
-> then restart the computer, and bitbake again) makes the build time stable.
-> I'm doing this now.
+Cui, Dexuan wrote on 2011-08-16:
+> Martin Jansa wrote on 2011-08-16:
+>> On Tue, Aug 16, 2011 at 10:40:38AM +0800, Cui, Dexuan wrote:
+>>> Saul Wold wrote on 2011-08-16:
+>>>> On 08/12/2011 01:04 AM, Noor, Ahsan wrote:
+>>>>> From: Noor Ahsan<noor_ahsan@mentor.com>
+>>>>> * Added new recipe 4.96 and removed 4.82 version and its files.
+>>>>> Signed-off-by: Noor Ahsan<noor_ahsan@mentor.com>
+>>>> Merged into OE-Core
+>>>=20
+>>> The patch causes a failure:
+>>> NOTE: package bluez-hcidump-2.0-r0: task do_compile: Failed I
+>>> reported
+>>> http://bugzilla.pokylinux.org/show_bug.cgi?id=3D1371 for this.
+>>=20
+>> You need patch from this commit
+>>=20
+>> http://git.openembedded.org/cgit.cgi/meta-openembedded/commit/?id=3D852
+>> ac4b589adb186191ad70a2fa3472d5b351ec4 or upgrade to 2.1
+> Martin, thanks for the suggestion!
+> Yes, I found 2.1 had integrated the fix, so I think we should choose
+> to upgrade the package to 2.1 (I compared the source codes of 2.0 and
+> 2.1 and looks they don't have many differences in other aspects).
+> I'll send out a patch later today.
+This is the patch.
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Ddcui/mas=
+ter&id=3D17e0fb707e9ad926058898d39d32168f4e582ed1
 
-Are you using my scripts (scripts/contrib/test_build_time.sh) ? Much of the 
-initial part of the script is ensuring that caches get cleared out; thus 
-rebooting should not be necessary in order to get stable results.
+I'm testing my branch with other patches. So I'll wait for several hours (2=
+~4 hours) and send out all the patches together. :-)
 
-Cheers,
-Paul
+Thanks,
+-- Dexuan
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
