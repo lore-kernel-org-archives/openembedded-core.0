@@ -1,25 +1,28 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-ww0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1QtKXU-0002zJ-J0
+	(envelope-from <koen@dominion.thruhere.net>) id 1QtKmU-0003EJ-QR
 	for openembedded-core@lists.openembedded.org;
-	Tue, 16 Aug 2011 16:22:44 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 16 Aug 2011 07:18:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,380,1309762800"; d="scan'208";a="40074467"
-Received: from unknown (HELO helios.localnet) ([10.255.18.69])
-	by fmsmga002.fm.intel.com with ESMTP; 16 Aug 2011 07:18:03 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Patches and discussions about the oe-core layer"
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 16 Aug 2011 15:18:02 +0100
-User-Agent: KMail/1.13.6 (Linux/2.6.38-10-generic-pae; KDE/4.6.2; i686; ; )
+	Tue, 16 Aug 2011 16:38:14 +0200
+Received: by wwj26 with SMTP id 26so2230573wwj.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Aug 2011 07:33:36 -0700 (PDT)
+Received: by 10.216.195.212 with SMTP id p62mr4924041wen.30.1313505216826;
+	Tue, 16 Aug 2011 07:33:36 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id g48sm71263wee.13.2011.08.16.07.33.35
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 16 Aug 2011 07:33:35 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <bb23dd3cd4f1325370b9566e2a8359b6b5d1e842.1313503017.git.anders@chargestorm.se>
+Date: Tue, 16 Aug 2011 16:33:31 +0200
+Message-Id: <5AA93A51-0AF1-4B3E-8B9A-7E1A1A8C2C18@dominion.thruhere.net>
 References: <cover.1313503017.git.anders@chargestorm.se>
-	<0723e2f710db1680c71a1f6f848563cfcc6b3cdc.1313503017.git.anders@chargestorm.se>
-In-Reply-To: <0723e2f710db1680c71a1f6f848563cfcc6b3cdc.1313503017.git.anders@chargestorm.se>
-MIME-Version: 1.0
-Message-Id: <201108161518.02244.paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH 1/5] qt4: allow a reduction in build time
+	<bb23dd3cd4f1325370b9566e2a8359b6b5d1e842.1313503017.git.anders@chargestorm.se>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1244.3)
+Subject: Re: [PATCH 4/5] ofono: conditionally enable bluetooth
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,76 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Aug 2011 14:22:44 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 16 Aug 2011 14:38:14 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Tuesday 16 August 2011 14:57:48 Anders Darander wrote:
-> When reducing build time by adding QT_DISTRO_FLAGS from the set '-no-gui
-> -nomake tools -nomake examples -nomake demos -nomake docs', build failure
-> can occur, due to not building all tools.
-> 
-> * Make rm not error out when removing one of the, possibly, non-existing
-> tools. * Only try to rename qtdemo, if qtdemo exists.
-> * Guard do_split_packages() with an try-except-clause, otherwise we get an
-> error stating that .../phrasebooks/... do not exist.
-> 
+
+Op 16 aug. 2011, om 15:57 heeft Anders Darander het volgende geschreven:
+
+> Use DISTRO_FEATURE to conditionally depend on bluez4, as well as =
+enabling bluetooth.
+>=20
 > Signed-off-by: Anders Darander <anders@chargestorm.se>
 > ---
->  meta/recipes-qt/qt4/qt4.inc |   13 ++++++++-----
->  1 files changed, 8 insertions(+), 5 deletions(-)
-> 
-> diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
-> index 0410a92..994ec12 100644
-> --- a/meta/recipes-qt/qt4/qt4.inc
-> +++ b/meta/recipes-qt/qt4/qt4.inc
-> @@ -227,7 +227,10 @@ python populate_packages_prepend() {
-> 
->          phrasebook_dir =
-> bb.data.expand('${datadir}/${QT_DIR_NAME}/phrasebooks/', d)
-> phrasebook_name = bb.data.expand('${QT_BASE_NAME}-phrasebook-%s', d) -    
->    do_split_packages(d, phrasebook_dir, '^(.*)\.qph$', phrasebook_name,
-> '${PN} phrasebook for %s', extra_depends='' ) +        try:
-> +                do_split_packages(d, phrasebook_dir, '^(.*)\.qph$',
-> phrasebook_name, '${PN} phrasebook for %s', extra_depends='' ) +       
-> except:
-> +                pass
-> 
->          # Package all the plugins and their -dbg version and create a meta
-> package import os
-> @@ -278,11 +281,11 @@ do_install() {
-> 
->  	# These are host binaries, we should only use them in staging
->  	rm ${D}/${bindir}/qmake
-> -	rm ${D}/${bindir}/uic
-> -	rm ${D}/${bindir}/uic3
-> +	rm -f ${D}/${bindir}/uic
-> +	rm -f ${D}/${bindir}/uic3
->  	rm ${D}/${bindir}/moc
->  	rm ${D}/${bindir}/rcc
-> -	rm ${D}/${bindir}/lrelease
-> +	rm -f ${D}/${bindir}/lrelease
-> 
->  	# fix pkgconfig, libtool and prl files
->  	sed -i -e s#-L${S}/lib##g \
-> @@ -319,6 +322,6 @@ do_install() {
-> 
->  	#Append an E to the qtdemo file
->  	if [ -n "${QT_LIBINFIX}" ] ; then
-> -		mv ${D}${bindir}/qtdemo ${D}${bindir}/qtdemo${QT_LIBINFIX}
-> +		[ -f ${D}${bindir}/qtdemo ] && mv ${D}${bindir}/qtdemo
-> ${D}${bindir}/qtdemo${QT_LIBINFIX} fi
->  }
+> meta/recipes-connectivity/ofono/ofono.inc     |    3 ++-
+> meta/recipes-connectivity/ofono/ofono_0.50.bb |    1 +
+> meta/recipes-connectivity/ofono/ofono_git.bb  |    4 ++++
+> 3 files changed, 7 insertions(+), 1 deletions(-)
+>=20
+> diff --git a/meta/recipes-connectivity/ofono/ofono.inc =
+b/meta/recipes-connectivity/ofono/ofono.inc
+> index a14b35a..ab233dc 100644
+> --- a/meta/recipes-connectivity/ofono/ofono.inc
+> +++ b/meta/recipes-connectivity/ofono/ofono.inc
+> @@ -7,7 +7,8 @@ LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3Deb723b61539feef013de476e68b5c50a \
+>=20
+> inherit autotools pkgconfig update-rc.d
+>=20
+> -DEPENDS  =3D "dbus glib-2.0 udev bluez4"
+> +BLUEZDEPENDS =3D "bluez4"
+> +DEPENDS  =3D "dbus glib-2.0 udev ${@base_contains('DISTRO_FEATURES', =
+'bluetooth','${BLUEZDEPENDS}', '', d)}"
 
-Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+is that BLUEZDEPENDS helper var really needed?=
 
 
