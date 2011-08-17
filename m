@@ -1,25 +1,24 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1Qtl8A-0001iF-If
+	(envelope-from <koen@dominion.thruhere.net>) id 1QtnAX-0004Yi-LW
 	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Aug 2011 20:46:22 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.3])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Qtl3i-0008H5-7u
-	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Aug 2011 20:41:46 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <8c4bf939c0906cd744debeb85d5d55de622c184e.1313606178.git.paul.eggleton@linux.intel.com>
-References: <cover.1313606178.git.paul.eggleton@linux.intel.com>
-	<8c4bf939c0906cd744debeb85d5d55de622c184e.1313606178.git.paul.eggleton@linux.intel.com>
-Date: Wed, 17 Aug 2011 19:41:37 +0100
-Message-ID: <1313606497.3630.16.camel@lenovo.internal.reciva.com>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.3 
-Subject: Re: [RFC PATCH 1/2] image.bbclass, kernel.bbclass: create warning file about deleting deploydir files
+	Wed, 17 Aug 2011 22:56:57 +0200
+Received: by wyf19 with SMTP id 19so1077257wyf.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Aug 2011 13:52:19 -0700 (PDT)
+Received: by 10.227.11.206 with SMTP id u14mr1240263wbu.51.1313614337833;
+	Wed, 17 Aug 2011 13:52:17 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id fg5sm1211172wbb.40.2011.08.17.13.52.16
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 17 Aug 2011 13:52:17 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 17 Aug 2011 22:52:12 +0200
+Message-Id: <1313614332-8947-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] tcl: fix networking breakage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,24 +33,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2011 18:46:22 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 17 Aug 2011 20:56:57 -0000
 
-On Wed, 2011-08-17 at 19:37 +0100, Paul Eggleton wrote:
-> +Files in the deploy directory will not be re-created automatically if you
-> +delete them. If you do delete a file, you will need to run:
-> +
-> +  bitbake -c clean TARGET
-> +  bitbake TARGET
-> +
-> +where TARGET is the name of the appropriate package or target e.g.
-> +"virtual/kernel" for the kernel, an image, etc.
+Without providing these site entries tcl networking doesn't work on the target.
 
-Doesn't it suffice to run "bitbake -f -c deploy TARGET"?
+Original OE commit:
 
-p.
+commit 0c340037644f87054462f62b50cd397c162615b7
+Author: Koen Kooi <koen@openembedded.org>
+Date:   Wed May 26 13:04:18 2010 +0200
 
+    tcl: add 2 entries to arm-linux site file (possibly only glibc specific, need to check)
+
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-devtools/tcltk/tcl_8.5.9.bb |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-devtools/tcltk/tcl_8.5.9.bb b/meta/recipes-devtools/tcltk/tcl_8.5.9.bb
+index 2eabb4d..1b4ae83 100644
+--- a/meta/recipes-devtools/tcltk/tcl_8.5.9.bb
++++ b/meta/recipes-devtools/tcltk/tcl_8.5.9.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://../license.terms;md5=a47a9be26d03f925fc1fbd2784f27e11
+     file://../win/license.terms;md5=a47a9be26d03f925fc1fbd2784f27e11 \
+     "
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ BASE_SRC_URI = "${SOURCEFORGE_MIRROR}/tcl/tcl${PV}-src.tar.gz \
+                 file://tcl-add-soname.patch"
+@@ -30,7 +30,9 @@ inherit autotools
+ 
+ DEPENDS_virtclass-native = ""
+ 
+-EXTRA_OECONF = "--enable-threads"
++EXTRA_OECONF = "--enable-threads \
++                tcl_cv_api_getaddrinfo=yes \
++               "
+ 
+ do_configure() {
+ 	gnu-configize
+-- 
+1.6.6.1
 
 
 
