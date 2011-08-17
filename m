@@ -1,23 +1,38 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QtXdF-0004lM-Ri
+	(envelope-from <raj.khem@gmail.com>) id 1QtYIV-0001UX-32
 	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Aug 2011 06:21:34 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 16 Aug 2011 21:16:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,237,1312182000"; d="scan'208";a="42161105"
-Received: from unknown (HELO localhost) ([10.255.13.238])
-	by fmsmga001.fm.intel.com with ESMTP; 16 Aug 2011 21:16:55 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Aug 2011 21:16:53 -0700
-Message-Id: <42c1991f83d5faf339628d449c54cb492ffb6344.1313554368.git.dvhart@linux.intel.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <cover.1313554368.git.dvhart@linux.intel.com>
-References: <cover.1313554368.git.dvhart@linux.intel.com>
-Cc: Darren Hart <dvhart@linux.intel.com>
-Subject: [PATCH 1/1] kernel: restore crtsavres.o to enable building external modules on powerpc
+	Wed, 17 Aug 2011 07:04:11 +0200
+Received: by pzk2 with SMTP id 2so524288pzk.34
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Aug 2011 21:59:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=WunOJuQPcM4glBk7C5sOeluMxvuzsI+lGfKUllj/uMU=;
+	b=n9cyNBZZ7XqV1bDp2FAuIB3e7mBRwPVVSEo/mGbLp84jdhEqBGANqX5Pa8FMvGjo93
+	+DKOEPEuHpkxZwOY3J2NxqQ5iBnSNBwDRew6YIl9rqR0VgaS/j6b4OyHGKEBkJTVAFyT
+	8c9Qs9PRC71W1UrqptsH2YTsv81xARu8Fx9MM=
+Received: by 10.142.187.3 with SMTP id k3mr254251wff.233.1313557172121; Tue,
+	16 Aug 2011 21:59:32 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.68.46.197 with HTTP; Tue, 16 Aug 2011 21:59:02 -0700 (PDT)
+In-Reply-To: <CAD=GYpbqB0RzfOoKAfFaPmJgPmTyExHpBUqFEBQE2sz-KH1eBQ@mail.gmail.com>
+References: <1313525796-21604-1-git-send-email-agnel.joel@gmail.com>
+	<23CB1EF8-9ACB-4F95-BE6A-F084E515837A@beagleboard.org>
+	<CAMKF1spbd4NEHoP-aRk6qorPLR079F33JwH8c7BOZpwOwcBRZg@mail.gmail.com>
+	<CAD=GYpbY-DYM77_JV_-8fL2eKKj5Nk1yKp2sL5EErfUdQLq5Qg@mail.gmail.com>
+	<FA0B50F8-A4DD-4C28-9FCB-EB4F63486087@ti.com>
+	<CAD=GYpbqB0RzfOoKAfFaPmJgPmTyExHpBUqFEBQE2sz-KH1eBQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 16 Aug 2011 21:59:02 -0700
+Message-ID: <CAMKF1spBkx6OmN8qfhA5LAS8zU27Ae4Ock3+VjH7XU07oHLmdw@mail.gmail.com>
+To: Joel A Fernandes <agnel.joel@gmail.com>
+Cc: "Kooi, Koen" <k-kooi@ti.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, "Dmytriyenko,
+	Denys" <denys@ti.com>
+Subject: Re: [PATCH] angstrom-task-gnome: Added gedit to task-gnome dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,46 +47,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2011 04:21:34 -0000
+X-List-Received-Date: Wed, 17 Aug 2011 05:04:11 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Fixes [YOCTO #1276]
+On Tue, Aug 16, 2011 at 7:12 PM, Joel A Fernandes <agnel.joel@gmail.com> wr=
+ote:
+> Sorry to bother you but are you sure?
+>
+> "if this is a patch against angstrom on top of oe.dev then it should go
+> to oe-devel list too"
+>
+> meta-angstrom patches are not ontop of oe.dev
+>
 
-As of Linux kernel version 3.0.1, and much earlier, the make clean target
-removes arch/powerpc/lib/crtsavres.o. As this object is present in
-KBUILD_LDFLAGS_MODULE, it is required to build external modules, and should
-therefor not be removed by make clean.
+yes meta-angstrom patches go to angstrom-devel list. No need to send
+them to oe-devel
+or oe-core mls unless there is some change that affects these other layers
 
-While I do not advocate fixing buggy kernels in the generic kernel classes,
-we should probably account for this one in kernel.bbclass as it affects
-such a long list of kernel versions.
-
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-CC: Bruce Ashfield <bruce.ashfield@windriver.com>
-CC: Tom Zanussi <tom.zanussi@intel.com>
----
- meta/classes/kernel.bbclass |    7 +++++++
- 1 files changed, 7 insertions(+), 0 deletions(-)
-
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 7dc9cc6..386b05e 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -159,6 +159,13 @@ kernel_do_install() {
- 	find $kerneldir -path $kerneldir/scripts -prune -o -name "*.[csS]" -exec rm '{}' \;
- 	find $kerneldir/Documentation -name "*.txt" -exec rm '{}' \;
- 
-+	# As of Linux kernel version 3.0.1, the clean target removes
-+	# arch/powerpc/lib/crtsavres.o which is present in
-+	# KBUILD_LDFLAGS_MODULE, making it required to build external modules.
-+	if [ ${ARCH} = "powerpc" ]; then
-+		cp arch/powerpc/lib/crtsavres.o $kerneldir/arch/powerpc/lib/crtsavres.o
-+	fi
-+
- 	# Remove the following binaries which cause strip errors
- 	# during do_package for cross-compiled platforms
- 	bin_files="arch/powerpc/boot/addnote arch/powerpc/boot/hack-coff \
--- 
-1.7.6
-
+> On Tue, Aug 16, 2011 at 8:16 PM, Dmytriyenko, Denys <denys@ti.com> wrote:
+>> He meant angstrom-devel and/or oe-devel, =C2=A0not oe-core.
+>>
+>> Denys
+>>
+>>
+>> ----- Reply message -----
+>> From: "Joel A Fernandes" <agnel.joel@gmail.com>
+>> To: "Khem Raj" <raj.khem@gmail.com>
+>> Cc: "Patches and discussions about the oe-core layer"
+>> <openembedded-core@lists.openembedded.org>, "Kooi, Koen" <k-kooi@ti.com>=
+,
+>> "Dmytriyenko, Denys" <denys@ti.com>
+>> Subject: [OE-core] [PATCH] angstrom-task-gnome: Added gedit to task-gnom=
+e
+>> dependencies
+>> Date: Tue, Aug 16, 2011 18:07
+>>
+>>
+>>
+>> On Tue, Aug 16, 2011 at 6:00 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>> On Tue, Aug 16, 2011 at 2:24 PM, Jason Kridner <jkridner@beagleboard.or=
+g>
+>>> wrote:
+>>>> I see the README says this should be on the OE-core list, but maybe th=
+is
+>>>> should go on the Angstrom list?
+>>>>
+>>>
+>>> it should go to angstrom-devel list in anycase
+>>> if this is a patch against angstrom on top of oe.dev then it should go
+>>> to oe-devel list too. oe-core is not needed
+>>
+>> Hi Khem, just confirming that you mean meta-angstrom patches should go
+>> to both oe-core and angstrom lists?
+>>
+>> Thanks,
+>> Joel
+>>
+>
 
 
