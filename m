@@ -1,35 +1,35 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QthaJ-0002ev-Ix for openembedded-core@lists.openembedded.org;
-	Wed, 17 Aug 2011 16:59:11 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7HEsZpH008080
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2011 15:54:35 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 07811-04 for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2011 15:54:31 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7HEsO53008074
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2011 15:54:27 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <gary@mlbassoc.com>) id 1QtiMb-0006FV-Ks
+	for openembedded-core@lists.openembedded.org;
+	Wed, 17 Aug 2011 17:49:05 +0200
+Received: by mail.chez-thomas.org (Postfix, from userid 999)
+	id 941441660370; Wed, 17 Aug 2011 09:44:27 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by mail.chez-thomas.org (Postfix) with ESMTP id E1CBF1660367;
+	Wed, 17 Aug 2011 09:44:26 -0600 (MDT)
+Message-ID: <4E4BE1DA.1030109@mlbassoc.com>
+Date: Wed, 17 Aug 2011 09:44:26 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc15 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1312912632.14274.312.camel@rex>	
+	<C10D3FB0CD45994C8A51FEC1227CE22F2FA76750B1@shsmsx502.ccr.corp.intel.com>	
+	<27DA7A3C-0FE9-43CA-963C-F6217A1D2C9F@kernel.crashing.org>	
+	<1312981676.14274.376.camel@rex> <1312982631.14274.379.camel@rex>	
+	<4E4288F0.2010904@mlbassoc.com> <1312983621.14274.383.camel@rex>
+	<4E428C20.5030809@mlbassoc.com>
+In-Reply-To: <4E428C20.5030809@mlbassoc.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <20110816063227.GA19899@edwin-gen>
-References: <cover.1313411858.git.edwin.zhai@intel.com>
-	<edd51def7cc31eaa3d67f7cc73bf5fded2351f5f.1313411859.git.edwin.zhai@intel.com>
-	<1313418349.14274.587.camel@rex>  <20110816063227.GA19899@edwin-gen>
-Date: Wed, 17 Aug 2011 15:54:16 +0100
-Message-ID: <1313592856.13995.49.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 2/2] qemu: Make qemu buildable inside qemux86/qemuppc target
+Subject: Re: populate_sdk: We need to ensure that the SDK sysroot reflects PACKAGE_ARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,56 +44,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2011 14:59:12 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 17 Aug 2011 15:49:05 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-08-16 at 14:32 +0800, Zhai, Edwin wrote:
-> On Mon, Aug 15, 2011 at 10:25:49PM +0800, Richard Purdie wrote:
-> > 
-> > The patch is fine but could we change this to something like:
-> > 
-> > # Only use the GL passthrough patches for native/nativesdk versions
-> > $QEMUGLPATCHES = "\
-> >     file://qemu-git-qemugl-host.patch \
-> >     file://fix-nogl.patch \
-> >     file://qemugl-allow-glxcontext-release.patch \
-> >     file://init-info.patch \
-> >     file://enable-i386-linux-user.patch \
-> >     file://qemugl-fix.patch \
-> >     file://opengl-sdl-fix.patch \
-> >     "
-> > 
-> > SRC_URI_append_virtclass-native = "\
-> >     ${QEMUGLPATCHES} \
-> >     "
-> > 
-> > SRC_URI_append_virtclass-nativesdk = "\
-> >     ${QEMUGLPATCHES} \
-> >     file://glflags.patch \
-> >     "
-> > 
-> > which is just a little bit neater. Also, no need for the commented out
-> > line.
-> 
-> RP,
-> Thanks for your comments. I have modified it. Pls. pull @ same branch:
-> 
-> git://git.pokylinux.org/poky-contrib gzhai/master2
-> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/master2
-> 
-> BTW, I saw qemugl_git.bb is extended as "nativesdk", and was curious about it as 
-> qemugl is hacked libgl inside qemu guest, thus should not be related to "native" 
-> case. Any reason? Meet the dependency requirement?
+On 2011-08-10 07:48, Gary Thomas wrote:
+> On 2011-08-10 07:40, Richard Purdie wrote:
+>> On Wed, 2011-08-10 at 07:34 -0600, Gary Thomas wrote:
+>>> On a related thought to these changes - how does this play if
+>>> you use multiple SDKs for different, but somewhat related, architectures?
+>>> I'd like to create a simple SDK (just toolchain mostly) using 'meta-toolchain'
+>>> for both armv5te and armv7a and install them simultaneously on the same
+>>> host. My previous attempts at this fell flat as there were a number of
+>>> files marked as "arm" (i.e. not armv5te or arvm7a) that were common between
+>>> the two SDK packages, but they didn't seem to be identical.
+>>
+>> This is supposed to work but wouldn't due to the issue and the patch
+>> I've proposed. Whether that is the only issue I don't know.
+>
+> I'll be glad to test this once you've worked it out.
+>
 
-I've merged this, thanks.
+Any progress on this yet?  The discussion seems to have died down...
 
-We need the GL code in nativesdk since this ships as part of the SDK/ADT
-toolchain and we want the GL pass through support there.
-
-Cheers,
-
-Richard
-
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
