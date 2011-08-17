@@ -1,27 +1,20 @@
-Received: from stoexhubfe01.domain01.net ([83.145.59.140])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1QtZoK-00057l-Sa
+Received: from stoexhub01.domain01.net ([83.145.59.142]
+	helo=stoexhub02.domain01.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <anders@chargestorm.se>) id 1QtZsu-0005Fi-Je
 	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Aug 2011 08:41:09 +0200
-Received: from localhost (193.235.91.228) by stoexhubfe01.domain01.net
-	(10.12.10.6) with Microsoft SMTP Server id 8.3.137.0; Wed, 17 Aug 2011
-	08:36:30 +0200
-Date: Wed, 17 Aug 2011 08:36:41 +0200
+	Wed, 17 Aug 2011 08:45:52 +0200
+Received: from localhost (193.235.91.228) by stoexhub02.domain01.net
+	(10.12.10.2) with Microsoft SMTP Server id 8.3.137.0; Wed, 17 Aug 2011
+	08:41:14 +0200
 From: Anders Darander <anders@chargestorm.se>
 To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20110817063641.GF7904@chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <cover.1313560883.git.sgw@linux.intel.com>
+Date: Wed, 17 Aug 2011 08:41:20 +0200
+Message-ID: <cover.1313563238.git.anders@chargestorm.se>
+X-Mailer: git-send-email 1.7.5.4
 MIME-Version: 1.0
-In-Reply-To: <cover.1313560883.git.sgw@linux.intel.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.21 (2010-09-15)
 X-GFI-SMTP-Submission: 1
-Subject: Re: [CONSOLIDATED PULL 00/27] Updates and various fixes
+Cc: Anders Darander <anders@chargestorm.se>
+Subject: [PATCH v2 0/5] Miscellaneous fixes: mainly qt- and DISTRO_FEATURES-related
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,26 +29,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2011 06:41:09 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-
-* Saul Wold <sgw@linux.intel.com> [110817 08:27]:
-> The ofono patch from Anders had a question from Koen, so we might
-> want to hold on that one, otherwise it looks OK to me.
+X-List-Received-Date: Wed, 17 Aug 2011 06:45:52 -0000
+Content-Type: text/plain
 
 
-> Anders Darander (5):
->   ofono: conditionally enable bluetooth
+A series with some miscellaneous fixes/changes.
 
-A new version is shortly going out.
-Please update the patch to version 2.
+Patches:
+0001: make it possible to build qt4 while disabling certain parts of it.
+0002: A partial sync of qmake_base.bbclass from meta-oe. Hopefully we should
+      be able to delete qmake_base.bbclass from meta-oe after this sync.
+0003-4: respect wifi and bluetooth in DISTRO_FEATURES while building connman 
+	and ofono.
+0005: increase the likelihood that a rename and modification is detected, 
+      instead of a deleta/add-pair.
 
-Cheers,
-Anders
+Patch 0005 is the patch that is most likely to be controversial. The other 
+patches should be of minor impact, and result in a more consistent build 
+environment (i.e. better respect for DISTRO_FEATURES).
+
+V2: * remove unneccesary helper variable in the ofono-patch.
+    No other changes.
+
+The following changes since commit 13db5f420ca9bff98561f80d78958278734ad1f4:
+
+  distro-tracking: Update info for gpgme, libassuan, apr... after last upgrade. (2011-08-15 15:26:04 +0100)
+
+are available in the git repository at:
+  git://github.com/darander/oe-core qt4-fixes
+  https://github.com/darander/oe-core/tree/qt4-fixes
+
+Anders Darander (5):
+  qt4: allow a reduction in build time
+  qmake_base: add uclibceabi
+  connman: use DISTRO_FEATURES to enable wifi and bluetooth
+  ofono: conditionally enable bluetooth
+  create-pull-request: increase likelihood of detecting a rename
+
+ meta/classes/qmake_base.bbclass                   |    2 +-
+ meta/recipes-connectivity/connman/connman_0.75.bb |    4 ++--
+ meta/recipes-connectivity/ofono/ofono.inc         |    2 +-
+ meta/recipes-connectivity/ofono/ofono_0.50.bb     |    1 +
+ meta/recipes-connectivity/ofono/ofono_git.bb      |    4 ++++
+ meta/recipes-qt/qt4/qt4.inc                       |   13 ++++++++-----
+ scripts/create-pull-request                       |    2 +-
+ 7 files changed, 18 insertions(+), 10 deletions(-)
 
 -- 
-Anders Darander
-ChargeStorm AB	
+1.7.5.4
+
 
 
