@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QtZf6-0004FE-QX
+	(envelope-from <sgw@linux.intel.com>) id 1QtZf7-0004Fx-5Q
 	for openembedded-core@lists.openembedded.org;
 	Wed, 17 Aug 2011 08:31:37 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 16 Aug 2011 23:26:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="39163430"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="39163437"
 Received: from unknown (HELO swold-MOBL.local) ([10.255.15.2])
 	by orsmga001.jf.intel.com with ESMTP; 16 Aug 2011 23:26:55 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Aug 2011 23:26:36 -0700
-Message-Id: <15a369b4e65fc8068ba7fec70ec24b7c23e7950b.1313560883.git.sgw@linux.intel.com>
+Date: Tue, 16 Aug 2011 23:26:38 -0700
+Message-Id: <42ee402fc4ecee9349c1e7ce31c55275f34b121e.1313560883.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1313560883.git.sgw@linux.intel.com>
 References: <cover.1313560883.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1313560883.git.sgw@linux.intel.com>
 References: <cover.1313560883.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 13/27] bluez-hcidump: upgrade from 2.0 to 2.1
+Subject: [CONSOLIDATED PULL 15/27] cronie: upgrade from 1.4.7 to 1.4.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,37 +37,39 @@ X-List-Received-Date: Wed, 17 Aug 2011 06:31:37 -0000
 
 From: Dexuan Cui <dexuan.cui@intel.com>
 
-[YOCTO #1371]
-
-Recently bluez4 was updated from 4.82 to 4.96 and bluez-hcidump can't build:
-src/hcidump.c:54:24: error: redefinition of 'ntoh64'.
-
-In 2.1 the duplicated definition of ntoh64 was removed.
-
 Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- .../{bluez-hcidump_2.0.bb => bluez-hcidump_2.1.bb} |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/bluez/{bluez-hcidump_2.0.bb => bluez-hcidump_2.1.bb} (83%)
+ .../cronie/{cronie_1.4.7.bb => cronie_1.4.8.bb}    |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/cronie/{cronie_1.4.7.bb => cronie_1.4.8.bb} (94%)
 
-diff --git a/meta/recipes-connectivity/bluez/bluez-hcidump_2.0.bb b/meta/recipes-connectivity/bluez/bluez-hcidump_2.1.bb
-similarity index 83%
-rename from meta/recipes-connectivity/bluez/bluez-hcidump_2.0.bb
-rename to meta/recipes-connectivity/bluez/bluez-hcidump_2.1.bb
-index c271ed2..ce84f58 100644
---- a/meta/recipes-connectivity/bluez/bluez-hcidump_2.0.bb
-+++ b/meta/recipes-connectivity/bluez/bluez-hcidump_2.1.bb
-@@ -11,8 +11,8 @@ PR = "r0"
+diff --git a/meta/recipes-extended/cronie/cronie_1.4.7.bb b/meta/recipes-extended/cronie/cronie_1.4.8.bb
+similarity index 94%
+rename from meta/recipes-extended/cronie/cronie_1.4.7.bb
+rename to meta/recipes-extended/cronie/cronie_1.4.8.bb
+index bb715f2..4cfdfad 100644
+--- a/meta/recipes-extended/cronie/cronie_1.4.7.bb
++++ b/meta/recipes-extended/cronie/cronie_1.4.8.bb
+@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=963ea0772a2adbdcd607a9b2ec320c11 \
+ SECTION = "utils"
  
- SRC_URI = "http://www.kernel.org/pub/linux/bluetooth/bluez-hcidump-${PV}.tar.gz"
+ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+-PR = "r3"
++PR = "r0"
  
--SRC_URI[md5sum] = "5c2e3ef0a68b2845047867ba51ff8ac9"
--SRC_URI[sha256sum] = "b3b64fd0b18301df07d3aaf34c037c1e4808b4aaf702294822d62b5424f617fd"
-+SRC_URI[md5sum] = "b160f0672276398344eebe9df1b37a2c"
-+SRC_URI[sha256sum] = "a6cc20b95b6b1a28ff336aad91e124555231628689225c1155e8cd7aac1af86d"
- S = "${WORKDIR}/bluez-hcidump-${PV}"
+ SRC_URI = "https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz \
+            file://crond.init \
+@@ -25,8 +25,8 @@ SRC_URI = "https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz \
+ PAM_SRC_URI = "file://crond_pam_config.patch"
  
- EXTRA_OECONF = "--with-bluez-libs=${STAGING_LIBDIR} --with-bluez-includes=${STAGING_INCDIR}"
+ 
+-SRC_URI[md5sum] = "dfc26c47756d0c40ee27ae3c7ee98e0d"
+-SRC_URI[sha256sum] = "83bae15ae5504454ba74f4142f5db3aa22be594327fea19d2534f65803137fbd"
++SRC_URI[md5sum] = "9b1d2ce6db8d1883e06635f437170657"
++SRC_URI[sha256sum] = "a3b910876f255712f1a5c364b74f34b0ceac9f6f3bbc45e854c5722785f513b3"
+ 
+ inherit autotools update-rc.d
+ 
 -- 
 1.7.6
 
