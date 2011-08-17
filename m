@@ -1,20 +1,21 @@
-Received: from stoexhub01.domain01.net ([83.145.59.142])
+Received: from stoexhubfe02.domain01.net ([83.145.59.141])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1QtZt5-0005IX-Na
+	(envelope-from <anders@chargestorm.se>) id 1QtZt6-0005Ig-Km
 	for openembedded-core@lists.openembedded.org;
 	Wed, 17 Aug 2011 08:46:04 +0200
-Received: from localhost (193.235.91.228) by STOEXHUB01.domain01.net
-	(10.12.10.1) with Microsoft SMTP Server id 8.3.137.0; Wed, 17 Aug 2011
-	08:41:24 +0200
+Received: from localhost (193.235.91.228) by stoexhubfe02.domain01.net
+	(10.12.10.7) with Microsoft SMTP Server id 8.3.137.0; Wed, 17 Aug 2011
+	08:41:26 +0200
 From: Anders Darander <anders@chargestorm.se>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Aug 2011 08:41:27 +0200
-Message-ID: <6edf056ece0c99a30e5ca4c1984c5fdcc16c88fa.1313563238.git.anders@chargestorm.se>
+Date: Wed, 17 Aug 2011 08:41:29 +0200
+Message-ID: <5939992cf015bbf25295bb96090cf77c66ee3918.1313563238.git.anders@chargestorm.se>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <cover.1313563238.git.anders@chargestorm.se>
 References: <cover.1313563238.git.anders@chargestorm.se>
 MIME-Version: 1.0
-Subject: [PATCH v2 3/5] connman: use DISTRO_FEATURES to enable wifi and bluetooth
+X-GFI-SMTP-Submission: 1
+Subject: [PATCH v2 5/5] create-pull-request: increase likelihood of detecting a rename
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,31 +30,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2011 06:46:04 -0000
+X-List-Received-Date: Wed, 17 Aug 2011 06:46:06 -0000
 Content-Type: text/plain
 
-As wifi and bluetooth is set in DISTRO_FEATURES, connman should respect this during configuring.
+Decrease the similarity percentage needed to recognize a delete/add-pair followed by an edit,
+as a rename.
+This make reviewing patches easier.
 
 Signed-off-by: Anders Darander <anders@chargestorm.se>
 ---
- meta/recipes-connectivity/connman/connman_0.75.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ scripts/create-pull-request |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-connectivity/connman/connman_0.75.bb b/meta/recipes-connectivity/connman/connman_0.75.bb
-index aeff439..5a7b284 100644
---- a/meta/recipes-connectivity/connman/connman_0.75.bb
-+++ b/meta/recipes-connectivity/connman/connman_0.75.bb
-@@ -8,8 +8,8 @@ EXTRA_OECONF += "\
-   --enable-threads \
-   --enable-loopback \
-   --enable-ethernet \
--  --enable-wifi \
--  --enable-bluetooth \
-+  ${@base_contains('DISTRO_FEATURES', 'wifi','--enable-wifi', '--disable-wifi', d)} \
-+  ${@base_contains('DISTRO_FEATURES', 'bluetooth','--enable-bluetooth', '--disable-bluetooth', d)} \
-   --enable-dnsproxy \
-   --disable-dhclient \
-   --enable-test \
+diff --git a/scripts/create-pull-request b/scripts/create-pull-request
+index 7d021d3..600fa7a 100755
+--- a/scripts/create-pull-request
++++ b/scripts/create-pull-request
+@@ -166,7 +166,7 @@ mkdir $ODIR
+ 
+ 
+ # Generate the patches and cover letter
+-git format-patch -M --subject-prefix="$PREFIX" -n -o $ODIR --thread=shallow --cover-letter $RELATIVE_TO..$COMMIT_ID > /dev/null
++git format-patch -M40 --subject-prefix="$PREFIX" -n -o $ODIR --thread=shallow --cover-letter $RELATIVE_TO..$COMMIT_ID > /dev/null
+ 
+ 
+ # Customize the cover letter
 -- 
 1.7.5.4
 
