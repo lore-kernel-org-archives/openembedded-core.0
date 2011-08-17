@@ -1,25 +1,36 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-ey0-f173.google.com ([209.85.215.173])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1QtTfX-0007gT-D8
+	(envelope-from <agnel.joel@gmail.com>) id 1QtVgW-00023G-3r
 	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Aug 2011 02:07:41 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 16 Aug 2011 17:02:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,236,1312182000"; 
-   d="scan'208";a="7928890"
-Received: from unknown (HELO scimitar.amr.corp.intel.com) ([10.255.13.244])
-	by AZSMGA002.ch.intel.com with ESMTP; 16 Aug 2011 17:02:59 -0700
-From: Joshua Lock <josh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Aug 2011 17:02:49 -0700
-Message-Id: <43bd6d395732a99058b427739aefdc5dfa0c0e95.1313539219.git.josh@linux.intel.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <cover.1313539219.git.josh@linux.intel.com>
-References: <cover.1313539219.git.josh@linux.intel.com>
-In-Reply-To: <cover.1313539219.git.josh@linux.intel.com>
-References: <cover.1313539219.git.josh@linux.intel.com>
-Subject: [PATCH 1/1] shadow: switch to a fetchable SRC_URI
+	Wed, 17 Aug 2011 04:16:48 +0200
+Received: by eyb7 with SMTP id 7so384098eyb.18
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Aug 2011 19:12:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=9/qgDNaAF5UIaidlIyiUUDAvRDCsfpX6cjSkOcg76Hs=;
+	b=il1PO1p0gr4YXRxYgIpDKOOBG0r+qBrMEyzWB+sP/TvHWmSf65h+8JSirhnQHi+8J7
+	YWqK1dDFUr8BKzPMUAnR9UF55B9qx7huRpTHpdCagLLAHLnMNh5gT9auRDhajz7ILq2I
+	SIOuypFxJZt4A4g/JduCGO2k9Vvn1vhbNq2YQ=
+MIME-Version: 1.0
+Received: by 10.213.26.219 with SMTP id f27mr1069691ebc.76.1313547129996; Tue,
+	16 Aug 2011 19:12:09 -0700 (PDT)
+Received: by 10.213.106.8 with HTTP; Tue, 16 Aug 2011 19:12:09 -0700 (PDT)
+In-Reply-To: <FA0B50F8-A4DD-4C28-9FCB-EB4F63486087@ti.com>
+References: <1313525796-21604-1-git-send-email-agnel.joel@gmail.com>
+	<23CB1EF8-9ACB-4F95-BE6A-F084E515837A@beagleboard.org>
+	<CAMKF1spbd4NEHoP-aRk6qorPLR079F33JwH8c7BOZpwOwcBRZg@mail.gmail.com>
+	<CAD=GYpbY-DYM77_JV_-8fL2eKKj5Nk1yKp2sL5EErfUdQLq5Qg@mail.gmail.com>
+	<FA0B50F8-A4DD-4C28-9FCB-EB4F63486087@ti.com>
+Date: Tue, 16 Aug 2011 21:12:09 -0500
+Message-ID: <CAD=GYpbqB0RzfOoKAfFaPmJgPmTyExHpBUqFEBQE2sz-KH1eBQ@mail.gmail.com>
+From: Joel A Fernandes <agnel.joel@gmail.com>
+To: "Dmytriyenko, Denys" <denys@ti.com>
+Cc: "Kooi, Koen" <k-kooi@ti.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] angstrom-task-gnome: Added gedit to task-gnome dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,45 +45,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2011 00:07:41 -0000
+X-List-Received-Date: Wed, 17 Aug 2011 02:16:48 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Swith the SRC_URI to the one referenced on the sources section of the
-utilities download page (http://pkg-shadow.alioth.debian.org/download.php).
+Sorry to bother you but are you sure?
 
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
----
- .../shadow/shadow-native_4.1.4.3.bb                |    2 +-
- meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+"if this is a patch against angstrom on top of oe.dev then it should go
+to oe-devel list too"
 
-diff --git a/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
-index c4db7ea..485495e 100644
---- a/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
-+++ b/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=08c553a87d4e51bbed50b20e0adcaede \
- 
- PR = "r0"
- 
--SRC_URI = "ftp://pkg-shadow.alioth.debian.org/pub/pkg-shadow/shadow-${PV}.tar.bz2 \
-+SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.bz2 \
-            file://shadow.automake-1.11.patch \
-            file://shadow-4.1.3-dots-in-usernames.patch \
-            file://shadow-4.1.4.2-env-reset-keep-locale.patch \
-diff --git a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-index 70d4cbb..728b8e5 100644
---- a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-+++ b/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-@@ -11,7 +11,7 @@ DEPENDS = "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} = "${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_PLUGINS}', '', d)}"
- PR = "r3"
- 
--SRC_URI = "ftp://pkg-shadow.alioth.debian.org/pub/pkg-shadow/shadow-${PV}.tar.bz2 \
-+SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.bz2 \
-            file://login_defs_pam.sed \
-            ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
-            file://securetty \
--- 
-1.7.6
+meta-angstrom patches are not ontop of oe.dev
 
+On Tue, Aug 16, 2011 at 8:16 PM, Dmytriyenko, Denys <denys@ti.com> wrote:
+> He meant angstrom-devel and/or oe-devel, =A0not oe-core.
+>
+> Denys
+>
+>
+> ----- Reply message -----
+> From: "Joel A Fernandes" <agnel.joel@gmail.com>
+> To: "Khem Raj" <raj.khem@gmail.com>
+> Cc: "Patches and discussions about the oe-core layer"
+> <openembedded-core@lists.openembedded.org>, "Kooi, Koen" <k-kooi@ti.com>,
+> "Dmytriyenko, Denys" <denys@ti.com>
+> Subject: [OE-core] [PATCH] angstrom-task-gnome: Added gedit to task-gnome
+> dependencies
+> Date: Tue, Aug 16, 2011 18:07
+>
+>
+>
+> On Tue, Aug 16, 2011 at 6:00 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>> On Tue, Aug 16, 2011 at 2:24 PM, Jason Kridner <jkridner@beagleboard.org=
+>
+>> wrote:
+>>> I see the README says this should be on the OE-core list, but maybe thi=
+s
+>>> should go on the Angstrom list?
+>>>
+>>
+>> it should go to angstrom-devel list in anycase
+>> if this is a patch against angstrom on top of oe.dev then it should go
+>> to oe-devel list too. oe-core is not needed
+>
+> Hi Khem, just confirming that you mean meta-angstrom patches should go
+> to both oe-core and angstrom lists?
+>
+> Thanks,
+> Joel
+>
 
 
