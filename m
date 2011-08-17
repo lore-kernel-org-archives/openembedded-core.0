@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QtZf8-0004Fx-BJ
+	(envelope-from <sgw@linux.intel.com>) id 1QtZf8-0004F7-Ba
 	for openembedded-core@lists.openembedded.org;
 	Wed, 17 Aug 2011 08:31:38 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 16 Aug 2011 23:26:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="39163455"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="39163457"
 Received: from unknown (HELO swold-MOBL.local) ([10.255.15.2])
-	by orsmga001.jf.intel.com with ESMTP; 16 Aug 2011 23:26:56 -0700
+	by orsmga001.jf.intel.com with ESMTP; 16 Aug 2011 23:26:57 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Aug 2011 23:26:44 -0700
-Message-Id: <8e0e309966576d705c75eb0e82cbf46e57fc0e46.1313560883.git.sgw@linux.intel.com>
+Date: Tue, 16 Aug 2011 23:26:45 -0700
+Message-Id: <4abc11e6b61d9b26d1b4ebc6c249467a47c5de07.1313560883.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1313560883.git.sgw@linux.intel.com>
 References: <cover.1313560883.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1313560883.git.sgw@linux.intel.com>
 References: <cover.1313560883.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 21/27] dri2proto: upgrade from 2.4 to 2.6
+Subject: [CONSOLIDATED PULL 22/27] distro_tracking_fields.inc: update the info for the following recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,99 +37,149 @@ X-List-Received-Date: Wed, 17 Aug 2011 06:31:38 -0000
 
 From: Dexuan Cui <dexuan.cui@intel.com>
 
-The patch has been integrated into 1.4.14 so let's remove it.
+cronie
+mdadm
+freetype
+xproto
+glproto
+dri2proto
+util-macros
 
 Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- .../restore_to_old_xDRI2BufferSwapComplete.patch   |   53 --------------------
- .../{dri2proto_2.4.bb => dri2proto_2.6.bb}         |    7 +--
- 2 files changed, 3 insertions(+), 57 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-proto/dri2proto/restore_to_old_xDRI2BufferSwapComplete.patch
- rename meta/recipes-graphics/xorg-proto/{dri2proto_2.4.bb => dri2proto_2.6.bb} (66%)
+ .../conf/distro/include/distro_tracking_fields.inc |   56 ++++++++++----------
+ 1 files changed, 28 insertions(+), 28 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-proto/dri2proto/restore_to_old_xDRI2BufferSwapComplete.patch b/meta/recipes-graphics/xorg-proto/dri2proto/restore_to_old_xDRI2BufferSwapComplete.patch
-deleted file mode 100644
-index e628f6d..0000000
---- a/meta/recipes-graphics/xorg-proto/dri2proto/restore_to_old_xDRI2BufferSwapComplete.patch
-+++ /dev/null
-@@ -1,53 +0,0 @@
--Upstream-Status: Inappropriate [backport from upstream]
--
--In May, people already reported the mesa-dri build issue when upgrading to
--glproto-1.4.13 and dri2proto-2.4:
--http://lists.freedesktop.org/archives/mesa-dev/2011-May/007331.html
--
--The story is: Jesse tried to change the definitions of some structs
--in glproto, dri2proto and mesa-dri, but the change in mesa-dri side was accepted
--and then reverted, see
--http://cgit.freedesktop.org/mesa/mesa/commit/?id=dc4a3edcf9d414d5098618d5d3b79d8dd90adcc3
--
--so in glproto and driproto's sides, we have to revert the change, too:
--http://cgit.freedesktop.org/xorg/proto/dri2proto/commit/?id=f3c211e1ae183dab5c7529814c9f42af2c29fc6c
--
--We could remove this patch when upgrading to newer glproto, dri2proto and
--mesa-dri in future.
--
--Wed Jun 15 14:33:14 CST 2011
--Dexuan Cui <dexuan.cui@intel.com>
--
---------------------------------------------------------
--
--commit f3c211e1ae183dab5c7529814c9f42af2c29fc6c
--Author: Jesse Barnes <jbarnes@virtuousgeek.org>
--Date:   Thu May 5 09:22:39 2011 -0700
--
--    Revert "dri2proto: make DRI2 swap event match GLX spec"
--    
--    This reverts commit 0ca3778de195a82087d0f07415a1cf8fc94f5b0a.
--    
--    This broke compatibility by renaming existing struct fields.  So revert
--    in favor of a new struct.
--
--diff --git a/dri2proto.h b/dri2proto.h
--index ff76355..9708a4a 100644
----- a/dri2proto.h
--+++ b/dri2proto.h
--@@ -290,13 +290,13 @@ typedef struct {
--     CARD8 pad;
--     CARD16 sequenceNumber B16;
--     CARD16 event_type B16;
---    CARD16 pad2;
--     CARD32 drawable B32;
--     CARD32 ust_hi B32;
--     CARD32 ust_lo B32;
--     CARD32 msc_hi B32;
--     CARD32 msc_lo B32;
---    CARD32 sbc B32;
--+    CARD32 sbc_hi B32;
--+    CARD32 sbc_lo B32;
-- } xDRI2BufferSwapComplete;
-- #define sz_xDRI2BufferSwapComplete 32
-- 
-diff --git a/meta/recipes-graphics/xorg-proto/dri2proto_2.4.bb b/meta/recipes-graphics/xorg-proto/dri2proto_2.6.bb
-similarity index 66%
-rename from meta/recipes-graphics/xorg-proto/dri2proto_2.4.bb
-rename to meta/recipes-graphics/xorg-proto/dri2proto_2.6.bb
-index 4861f7d..99c089a 100644
---- a/meta/recipes-graphics/xorg-proto/dri2proto_2.4.bb
-+++ b/meta/recipes-graphics/xorg-proto/dri2proto_2.6.bb
-@@ -1,5 +1,4 @@
- require xorg-proto-common.inc
--SRC_URI += "file://restore_to_old_xDRI2BufferSwapComplete.patch"
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index c7e5db5..984e330 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -994,13 +994,13 @@ RECIPE_MAINTAINER_pn-quota = "Dongxiao Xu <dongxiao.xu@intel.com>"
  
- SUMMARY = "DRI2: Direct Rendering Infrastructure 2 headers"
+ RECIPE_STATUS_pn-mdadm = "green"
+ RECIPE_DEPENDENCY_CHECK_pn-mdadm = "not done"
+-RECIPE_LATEST_VERSION_pn-mdadm = "3.2.1"
++RECIPE_LATEST_VERSION_pn-mdadm = "3.2.2"
+ RECIPE_NO_OF_PATCHES_pn-mdadm = "0"
+ RECIPE_INTEL_SECTION_pn-mdadm = "base utils"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-mdadm = "1+ months"
+-RECIPE_LATEST_RELEASE_DATE_pn-mdadm = "Mar 28, 2011"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-mdadm = "2+ months"
++RECIPE_LATEST_RELEASE_DATE_pn-mdadm = "Jun 17, 2011"
+ RECIPE_COMMENTS_pn-mdadm = ""
+-RECIPE_LAST_UPDATE_pn-mdadm = "Apr 20, 2011"
++RECIPE_LAST_UPDATE_pn-mdadm = "Aug 16, 2011"
+ RECIPE_MAINTAINER_pn-mdadm = "Dexuan Cui <dexuan.cui@intel.com>"
  
-@@ -11,7 +10,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=2e396fa91834f8786032cad2da5638f3 \
-                     file://dri2proto.h;endline=31;md5=22f28bf68d01b533f26195e94b3ed8ca"
+ RECIPE_STATUS_pn-screen = "green"
+@@ -1986,13 +1986,13 @@ RECIPE_MAINTAINER_pn-cpio = "Scott Garman <scott.a.garman@intel.com>"
  
--PR = "r1"
-+PR = "r0"
+ RECIPE_STATUS_pn-cronie = "green"
+ RECIPE_DEPENDENCY_CHECK_pn-cronie = "not done"
+-RECIPE_LATEST_VERSION_pn-cronie = "1.4.7"
+-RECIPE_MANUAL_CHECK_DATE_pn-cronie = "Apr 11, 2011"
++RECIPE_LATEST_VERSION_pn-cronie = "1.4.8"
++RECIPE_MANUAL_CHECK_DATE_pn-cronie = "Aug 16, 2011"
+ RECIPE_INTEL_SECTION_pn-cronie = "base"
+ RECIPE_NO_OF_PATCHES_pn-cronie = "0"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-cronie = "5 months"
+-RECIPE_LATEST_RELEASE_DATE_pn-cronie = "Mar 17, 2011"
+-RECIPE_LAST_UPDATE_pn-cronie = "Apr 11, 2011"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-cronie = "3 months"
++RECIPE_LATEST_RELEASE_DATE_pn-cronie = "Jun 27, 2011"
++RECIPE_LAST_UPDATE_pn-cronie = "Aug 16, 2011"
+ RECIPE_MAINTAINER_pn-cronie = "Dexuan Cui <dexuan.cui@intel.com>"
  
--SRC_URI[md5sum] = "0cdeb1e95901813385dc9576be272bd3"
--SRC_URI[sha256sum] = "ff156f178d48ab31beeb4be5eb39d5df7540791ba489a8d94c443bb99a2376f1"
-+SRC_URI[md5sum] = "2eb74959684f47c862081099059a11ab"
-+SRC_URI[sha256sum] = "ad82c0b28c19fcd3f91ea1f93956cb666526b41b91f239773b5854b9b1a3b909"
+ RECIPE_STATUS_pn-grep = "green" 
+@@ -3839,13 +3839,13 @@ RECIPE_MAINTAINER_pn-fontsproto = "Dexuan Cui <dexuan.cui@intel.com>"
+ RECIPE_STATUS_pn-glproto = "green"
+ DISTRO_PN_ALIAS_pn-glproto = "Meego=xorg-x11-proto-glproto"
+ RECIPE_DEPENDENCY_CHECK_pn-glproto = "not done"
+-RECIPE_LATEST_VERSION_pn-glproto = "1.4.13"
++RECIPE_LATEST_VERSION_pn-glproto = "1.4.14"
+ RECIPE_NO_OF_PATCHES_pn-glproto = "0"
+ RECIPE_INTEL_SECTION_pn-glproto = "x11/libs"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-glproto = "9 months"
+-RECIPE_LATEST_RELEASE_DATE_pn-glproto = "May 4, 2011"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-glproto = "1+ months"
++RECIPE_LATEST_RELEASE_DATE_pn-glproto = "Jun 29, 2011"
+ RECIPE_COMMENTS_pn-glproto = ""
+-RECIPE_LAST_UPDATE_pn-glproto = "Jun 13, 2011"
++RECIPE_LAST_UPDATE_pn-glproto = "Aug 16, 2011"
+ RECIPE_MAINTAINER_pn-glproto = "Dexuan Cui <dexuan.cui@intel.com>"
+ 
+ RECIPE_STATUS_pn-inputproto = "green"
+@@ -4110,13 +4110,13 @@ RECIPE_MAINTAINER_pn-xineramaproto = "Dexuan Cui <dexuan.cui@intel.com>"
+ RECIPE_STATUS_pn-dri2proto = "green"
+ DISTRO_PN_ALIAS_pn-dri2proto = "Meego=xorg-x11-proto-dri2proto"
+ RECIPE_DEPENDENCY_CHECK_pn-dri2proto = "not done"
+-RECIPE_LATEST_VERSION_pn-dri2proto = "2.4"
++RECIPE_LATEST_VERSION_pn-dri2proto = "2.6"
+ RECIPE_NO_OF_PATCHES_pn-dri2proto = "0"
+ RECIPE_INTEL_SECTION_pn-dri2proto = "x11/libs"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-dri2proto = "1+ years"
+-RECIPE_LATEST_RELEASE_DATE_pn-dri2proto = "May 4, 2011"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-dri2proto = "1+ months"
++RECIPE_LATEST_RELEASE_DATE_pn-dri2proto = "Jun 29, 2011"
+ RECIPE_COMMENTS_pn-dri2proto = ""
+-RECIPE_LAST_UPDATE_pn-dri2proto = "Jun 13, 2011"
++RECIPE_LAST_UPDATE_pn-dri2proto = "Aug 16, 2011"
+ RECIPE_MAINTAINER_pn-dri2proto = "Dexuan Cui <dexuan.cui@intel.com>"
+ 
+ RECIPE_STATUS_pn-xcb-proto = "green"
+@@ -4157,13 +4157,13 @@ RECIPE_MAINTAINER_pn-xf86vidmodeproto = "Dexuan Cui <dexuan.cui@intel.com>"
+ RECIPE_STATUS_pn-xproto = "green"
+ DISTRO_PN_ALIAS_pn-xproto = "Meego=xorg-x11-proto-xproto Fedora=xorg-x11-proto-devel Ubuntu=x11proto-core-dev Debian=x11proto-core-dev Opensuse=xorg-x11-proto-devel Mandriva=x11-proto-devel"
+ RECIPE_DEPENDENCY_CHECK_pn-xproto = "not done"
+-RECIPE_LATEST_VERSION_pn-xproto = "7.0.21"
++RECIPE_LATEST_VERSION_pn-xproto = "7.0.22"
+ RECIPE_NO_OF_PATCHES_pn-xproto = "0"
+ RECIPE_INTEL_SECTION_pn-xproto = "x11/libs"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-xproto = "3+ months"
+-RECIPE_LATEST_RELEASE_DATE_pn-xproto = "Mar 22, 2011"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-xproto = "3 months"
++RECIPE_LATEST_RELEASE_DATE_pn-xproto = "Jun 22, 2011"
+ RECIPE_COMMENTS_pn-xproto = ""
+-RECIPE_LAST_UPDATE_pn-xproto = "Apr 11, 2011"
++RECIPE_LAST_UPDATE_pn-xproto = "Aug 16, 2011"
+ RECIPE_MAINTAINER_pn-xproto = "Dexuan Cui <dexuan.cui@intel.com>"
+ 
+ RECIPE_STATUS_pn-liberation-fonts = "green"
+@@ -4494,12 +4494,12 @@ RECIPE_MAINTAINER_pn-xkeyboard-config = "Dexuan Cui <dexuan.cui@intel.com>"
+ RECIPE_STATUS_pn-util-macros = "green"
+ DISTRO_PN_ALIAS_pn-util-macros = "Meego=xorg-x11-util-macros Fedora=xorg-x11-util-macros Mandriva=x11-util-macros"
+ RECIPE_DEPENDENCY_CHECK_pn-util-macros = "not done"
+-RECIPE_LATEST_VERSION_pn-util-macros = "1.14.0"
++RECIPE_LATEST_VERSION_pn-util-macros = "1.15.0"
+ RECIPE_INTEL_SECTION_pn-util-macros = "x11/utils"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-util-macros = "2+ months"
+-RECIPE_LATEST_RELEASE_DATE_pn-util-macros = "May 27, 2011"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-util-macros = "1 month"
++RECIPE_LATEST_RELEASE_DATE_pn-util-macros = "Jun 23, 2011"
+ RECIPE_COMMENTS_pn-util-macros = ""
+-RECIPE_LAST_UPDATE_pn-util-macros = "Jun 13, 2011"
++RECIPE_LAST_UPDATE_pn-util-macros = "Aug 16, 2011"
+ RECIPE_MAINTAINER_pn-util-macros = "Dexuan Cui <dexuan.cui@intel.com>"
+ 
+ RECIPE_STATUS_pn-fontconfig = "green"
+@@ -4516,14 +4516,14 @@ RECIPE_MAINTAINER_pn-fontconfig = "Dexuan Cui <dexuan.cui@intel.com>"
+ 
+ RECIPE_STATUS_pn-freetype = "green"
+ RECIPE_DEPENDENCY_CHECK_pn-freetype = "not done"
+-RECIPE_LATEST_VERSION_pn-freetype = "2.4.4"
++RECIPE_LATEST_VERSION_pn-freetype = "2.4.6"
+ RECIPE_NO_OF_PATCHES_pn-freetype = "1"
+ RECIPE_PATCH_pn-freetype+no-hardcode = "fix freetype-config.in"
+ RECIPE_INTEL_SECTION_pn-freetype = "libs"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-freetype = "1+ months"
+-RECIPE_LATEST_RELEASE_DATE_pn-freetype = "Nov 28, 2010"
++RECIPE_LATEST_RELEASE_DATE_pn-freetype = "Jul 29, 2011"
+ RECIPE_COMMENTS_pn-freetype = ""
+-RECIPE_LAST_UPDATE_pn-freetype = "Jan 28, 2011"
++RECIPE_LAST_UPDATE_pn-freetype = "Aug 16, 2011"
+ RECIPE_MAINTAINER_pn-freetype = "Dexuan Cui <dexuan.cui@intel.com>"
+ 
+ RECIPE_STATUS_pn-librsvg = "green"
 -- 
 1.7.6
 
