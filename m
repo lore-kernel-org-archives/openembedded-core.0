@@ -1,38 +1,32 @@
 Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QtYIV-0001UX-32
+	(envelope-from <raj.khem@gmail.com>) id 1QtYSW-0001i9-8c
 	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Aug 2011 07:04:11 +0200
-Received: by pzk2 with SMTP id 2so524288pzk.34
+	Wed, 17 Aug 2011 07:14:32 +0200
+Received: by pzk2 with SMTP id 2so540091pzk.34
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2011 21:59:32 -0700 (PDT)
+	Tue, 16 Aug 2011 22:09:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=WunOJuQPcM4glBk7C5sOeluMxvuzsI+lGfKUllj/uMU=;
-	b=n9cyNBZZ7XqV1bDp2FAuIB3e7mBRwPVVSEo/mGbLp84jdhEqBGANqX5Pa8FMvGjo93
-	+DKOEPEuHpkxZwOY3J2NxqQ5iBnSNBwDRew6YIl9rqR0VgaS/j6b4OyHGKEBkJTVAFyT
-	8c9Qs9PRC71W1UrqptsH2YTsv81xARu8Fx9MM=
-Received: by 10.142.187.3 with SMTP id k3mr254251wff.233.1313557172121; Tue,
-	16 Aug 2011 21:59:32 -0700 (PDT)
+	:content-type:content-transfer-encoding;
+	bh=oDwRHqeNmpiI5o5F3uciJNGznNWXNJJX6SJfOOOsxqQ=;
+	b=G/jyBuaJgV6mylsyjs7kahVn3G9st7UmIIWM90/FqQ7eDSHP0ZO9Wgn+GN5x6rNJjc
+	eLwBttsEGAH1y1Y7L1qt2+tE1SvHNRApuxQOf4sr1NIravgfce3LM9vVbs7kmfYefmCH
+	OFPwYAR1coUwGPDDXRfNtEVcT8kh6JBlK+6cM=
+Received: by 10.142.59.21 with SMTP id h21mr251100wfa.404.1313557793093; Tue,
+	16 Aug 2011 22:09:53 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.68.46.197 with HTTP; Tue, 16 Aug 2011 21:59:02 -0700 (PDT)
-In-Reply-To: <CAD=GYpbqB0RzfOoKAfFaPmJgPmTyExHpBUqFEBQE2sz-KH1eBQ@mail.gmail.com>
-References: <1313525796-21604-1-git-send-email-agnel.joel@gmail.com>
-	<23CB1EF8-9ACB-4F95-BE6A-F084E515837A@beagleboard.org>
-	<CAMKF1spbd4NEHoP-aRk6qorPLR079F33JwH8c7BOZpwOwcBRZg@mail.gmail.com>
-	<CAD=GYpbY-DYM77_JV_-8fL2eKKj5Nk1yKp2sL5EErfUdQLq5Qg@mail.gmail.com>
-	<FA0B50F8-A4DD-4C28-9FCB-EB4F63486087@ti.com>
-	<CAD=GYpbqB0RzfOoKAfFaPmJgPmTyExHpBUqFEBQE2sz-KH1eBQ@mail.gmail.com>
+Received: by 10.68.46.197 with HTTP; Tue, 16 Aug 2011 22:09:23 -0700 (PDT)
+In-Reply-To: <1865303E0DED764181A9D882DEF65FB6B884EF8590@shsmsx502.ccr.corp.intel.com>
+References: <cover.1313533911.git.raj.khem@gmail.com>
+	<ded8261127515a76b256d6c8dcbcbae156a19cff.1313533911.git.raj.khem@gmail.com>
+	<1865303E0DED764181A9D882DEF65FB6B884EF8590@shsmsx502.ccr.corp.intel.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 16 Aug 2011 21:59:02 -0700
-Message-ID: <CAMKF1spBkx6OmN8qfhA5LAS8zU27Ae4Ock3+VjH7XU07oHLmdw@mail.gmail.com>
-To: Joel A Fernandes <agnel.joel@gmail.com>
-Cc: "Kooi, Koen" <k-kooi@ti.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, "Dmytriyenko,
-	Denys" <denys@ti.com>
-Subject: Re: [PATCH] angstrom-task-gnome: Added gedit to task-gnome dependencies
+Date: Tue, 16 Aug 2011 22:09:23 -0700
+Message-ID: <CAMKF1soGnFf5SAC_vu=G3G7j=rUh5KVbf=PcL5SqoDXWPn-H8w@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 5/5] tcf-agent: Add openssl to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,63 +41,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2011 05:04:11 -0000
+X-List-Received-Date: Wed, 17 Aug 2011 05:14:32 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 16, 2011 at 7:12 PM, Joel A Fernandes <agnel.joel@gmail.com> wr=
-ote:
-> Sorry to bother you but are you sure?
->
-> "if this is a patch against angstrom on top of oe.dev then it should go
-> to oe-devel list too"
->
-> meta-angstrom patches are not ontop of oe.dev
->
+On Tue, Aug 16, 2011 at 7:44 PM, Cui, Dexuan <dexuan.cui@intel.com> wrote:
+> Khem Raj wrote on 2011-08-17:
+>> It ends in errors like below otherwise
+>>
+>> | framework/channel_tcp.c:34:27: fatal error: openssl/ssl.h: No such
+>> file or directory
+>> | compilation terminated.
+>> | make: *** [obj/GNU/Linux/arm/Debug/framework/channel_tcp.o] Error 1
+>> | make: *** Waiting for unfinished jobs....
+>> | + die 'oe_runmake failed'
+>> | + bbfatal 'oe_runmake failed'
+>> | + echo 'ERROR: oe_runmake failed'
+>> | ERROR: oe_runmake failed
+>> | + exit 1
+>>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>> =C2=A0meta/recipes-devtools/tcf-agent/tcf-agent_svn.bb | =C2=A0 =C2=A04 =
+++--
+>> =C2=A01 files changed, 2 insertions(+), 2 deletions(-)
+>> diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_svn.bb
+>> b/meta/recipes-devtools/tcf-agent/tcf-agent_svn.bb index
+>> 3f97f69..37591c2 100644 ---
+>> a/meta/recipes-devtools/tcf-agent/tcf-agent_svn.bb +++
+>> b/meta/recipes-devtools/tcf-agent/tcf-agent_svn.bb @@ -8,7 +8,7 @@
+>> LIC_FILES_CHKSUM =3D
+>> "file://../epl-v10.html;md5=3D7aa4215a330a0a4f6a1cbf8da1a0879f
+>>
+>> =C2=A0SRCREV =3D "1855"
+>> =C2=A0PV =3D "0.0+svnr${SRCPV}"
+>> -PR =3D "r0"
+>> +PR =3D "r1"
+>>
+>> =C2=A0SRC_URI =3D
+>> "svn://dev.eclipse.org/svnroot/dsdp/org.eclipse.tm.tcf/trunk;module=3Dag
+>> ent;p roto=3Dhttp \
+>>
+>> http://dev.eclipse.org/svnroot/dsdp/org.eclipse.tm.tcf/trunk/epl-v10.h
+>> tml;na me=3Depl \ @@ -19,7 +19,7 @@ SRC_URI =3D
+>> "svn://dev.eclipse.org/svnroot/dsdp/org.eclipse.tm.tcf/trunk;module=3Dag
+>> =C2=A0SRC_URI[epl.md5sum] =3D "7aa4215a330a0a4f6a1cbf8da1a0879f"
+>> =C2=A0SRC_URI[epl.sha256sum] =3D
+>> "4fd64aeed340d62a64a8da4b371efe0f6d0d745f4d2dbefacba86c646d36bc7 2"
+>>
+>> -DEPENDS =3D "util-linux"
+>> +DEPENDS =3D "util-linux openssl"
+>> =C2=A0RDEPENDS_${PN} =3D "bash"
+>>
+>> =C2=A0S =3D "${WORKDIR}/agent"
+> Hi, I have sent out the same patch 8+ hours ago. :-)
 
-yes meta-angstrom patches go to angstrom-devel list. No need to send
-them to oe-devel
-or oe-core mls unless there is some change that affects these other layers
+thanks for doing that
 
-> On Tue, Aug 16, 2011 at 8:16 PM, Dmytriyenko, Denys <denys@ti.com> wrote:
->> He meant angstrom-devel and/or oe-devel, =C2=A0not oe-core.
->>
->> Denys
->>
->>
->> ----- Reply message -----
->> From: "Joel A Fernandes" <agnel.joel@gmail.com>
->> To: "Khem Raj" <raj.khem@gmail.com>
->> Cc: "Patches and discussions about the oe-core layer"
->> <openembedded-core@lists.openembedded.org>, "Kooi, Koen" <k-kooi@ti.com>=
-,
->> "Dmytriyenko, Denys" <denys@ti.com>
->> Subject: [OE-core] [PATCH] angstrom-task-gnome: Added gedit to task-gnom=
-e
->> dependencies
->> Date: Tue, Aug 16, 2011 18:07
->>
->>
->>
->> On Tue, Aug 16, 2011 at 6:00 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>> On Tue, Aug 16, 2011 at 2:24 PM, Jason Kridner <jkridner@beagleboard.or=
-g>
->>> wrote:
->>>> I see the README says this should be on the OE-core list, but maybe th=
-is
->>>> should go on the Angstrom list?
->>>>
->>>
->>> it should go to angstrom-devel list in anycase
->>> if this is a patch against angstrom on top of oe.dev then it should go
->>> to oe-devel list too. oe-core is not needed
->>
->> Hi Khem, just confirming that you mean meta-angstrom patches should go
->> to both oe-core and angstrom lists?
->>
->> Thanks,
->> Joel
->>
+>
+> Thanks,
+> -- Dexuan
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
 
 
