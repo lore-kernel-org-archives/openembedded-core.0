@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QtZf6-0004F7-74
+	(envelope-from <sgw@linux.intel.com>) id 1QtZf6-0004F2-J9
 	for openembedded-core@lists.openembedded.org;
 	Wed, 17 Aug 2011 08:31:36 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 16 Aug 2011 23:26:54 -0700
+	by orsmga102.jf.intel.com with ESMTP; 16 Aug 2011 23:26:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="39163427"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="39163428"
 Received: from unknown (HELO swold-MOBL.local) ([10.255.15.2])
 	by orsmga001.jf.intel.com with ESMTP; 16 Aug 2011 23:26:54 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Aug 2011 23:26:34 -0700
-Message-Id: <110ca8dcaee263bc3c8380bcb91f6ada20655c14.1313560883.git.sgw@linux.intel.com>
+Date: Tue, 16 Aug 2011 23:26:35 -0700
+Message-Id: <b774bf44ef004276da12a83ebd69715c00b596ac.1313560883.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1313560883.git.sgw@linux.intel.com>
 References: <cover.1313560883.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1313560883.git.sgw@linux.intel.com>
 References: <cover.1313560883.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 11/27] linux-yocto: meta SRCREV bump
+Subject: [CONSOLIDATED PULL 12/27] package(_ipk).bbclass: opkg using ALL_MULTILIB_PACKAGE_ARCHS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,31 +33,173 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2011 06:31:36 -0000
+X-List-Received-Date: Wed, 17 Aug 2011 06:31:37 -0000
 
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
+From: Lianhao Lu <lianhao.lu@intel.com>
 
-Bumping the linux-yocto meta SRCREV to pickup new target
-configurations and features.
+[YOCTO #1345]
+The new variable ALL_MULTILIB_PACKAGE_ARCHS contains all the values of
+PACKAGE_ARCHS for each multilib variants. The opkg backend now uses this
+new value insteald of the PACKAGE_ARCHS to update the opkg indexes and
+to generate the opkg configuration files. This allows the normal
+packages and multilib packages may be installed into the same rootfs.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
 ---
- meta/recipes-kernel/linux/linux-yocto_3.0.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/classes/package.bbclass     |   13 ++-----------
+ meta/classes/package_ipk.bbclass |   30 ++++++++----------------------
+ meta/classes/utils.bbclass       |   24 +++++++++++++++++++-----
+ 3 files changed, 29 insertions(+), 38 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-index 132ee0f..44f1ebe 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-@@ -20,7 +20,7 @@ SRCREV_machine_qemuppc = "c0f5dd4ef37b445d8ac73b11dd93e0ffdb7e9f6d"
- SRCREV_machine_qemux86 = "c29beadfd4364aca9358ac0fdb8356c1dbbdacb2"
- SRCREV_machine_qemux86-64 = "d0b814813bce09971c5cbb0d22bacb8842146fa0"
- SRCREV_machine = "ad13129a87957656c18584793abcee51de0e196a"
--SRCREV_meta = "7782fc673afd6a1c742409896ae787560d96fce8"
-+SRCREV_meta = "9da70812ecddee0f7eeb11675f29497cb997275e"
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 100f465..96675de 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -46,6 +46,8 @@ PKGDEST = "${WORKDIR}/packages-split"
  
- PR = "r1"
- PV = "${LINUX_VERSION}+git${SRCPV}"
+ LOCALE_SECTION ?= ''
+ 
++ALL_MULTILIB_PACKAGE_ARCHS = "${@all_multilib_tune_values(d, 'PACKAGE_ARCHS')}"
++
+ # rpm is used for the per-file dependency identification
+ PACKAGE_DEPENDS += "rpm-native"
+ 
+@@ -184,17 +186,6 @@ python () {
+         bb.data.setVarFlag('do_package', 'deptask', " ".join(deps), d)
+     else:
+         d.setVar("PACKAGERDEPTASK", "")
+-
+-    multilib_archs = []
+-    multilibs= d.getVar('MULTILIBS', True) or ""
+-    if multilibs:
+-        for ext in multilibs.split():
+-            eext = ext.split(':')
+-            if len(eext) > 1:
+-                if eext[0] == 'multilib':
+-                    multilib_archs.append('ml' + eext[1])
+-
+-    d.setVar("MULTILIB_ARCHS", ' '.join(multilib_archs))
+ }
+ 
+ def splitfile(file, debugfile, debugsrcdir, d):
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index 8ecf511..e83aff8 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -64,14 +64,13 @@ python package_ipk_install () {
+ package_tryout_install_multilib_ipk() {
+ 	#try install multilib
+ 	multilib_tryout_dirs=""
+-	for arch in ${MULTILIB_ARCHS}; do
+-		local target_rootfs="${MULTILIB_TEMP_ROOTFS}/${arch}"
++	for item in ${MULTILIB_VARIANTS}; do
++		local target_rootfs="${MULTILIB_TEMP_ROOTFS}/${item}"
+ 		local ipkg_args="-f ${INSTALL_CONF_IPK} -o ${target_rootfs} --force_overwrite"
+ 		local selected_pkg=""
+-		#strip the "ml" from package_arch
+-		local pkgarch_prefix="${arch:2}-"
+-		for pkg in "${INSTALL_PACKAGES_MULTILIB_IPK}"; do
+-			if [ ${pkg:0:${#pkgarch_prefix}} == ${pkgarch_prefix} ]; then
++		local pkgname_prefix="${item}-"
++		for pkg in ${INSTALL_PACKAGES_MULTILIB_IPK}; do
++			if [ ${pkg:0:${#pkgname_prefix}} == ${pkgname_prefix} ]; then
+ 			    selected_pkg="${selected_pkg} ${pkg}"
+ 			fi
+ 		done
+@@ -163,7 +162,7 @@ ipk_log_check() {
+ package_update_index_ipk () {
+ 	set -x
+ 
+-	ipkgarchs="${PACKAGE_ARCHS} ${SDK_PACKAGE_ARCHS}"
++	ipkgarchs="${ALL_MULTILIB_PACKAGE_ARCHS} ${SDK_PACKAGE_ARCHS}"
+ 
+ 	if [ ! -z "${DEPLOY_KEEP_PACKAGES}" ]; then
+ 		return
+@@ -203,19 +202,12 @@ package_generate_ipkg_conf () {
+ 	done
+ 
+ 	echo "src oe file:${DEPLOY_DIR_IPK}" >> ${IPKGCONF_TARGET}
+-	ipkgarchs="${PACKAGE_ARCHS}"
++	ipkgarchs="${ALL_MULTILIB_PACKAGE_ARCHS}"
+ 	for arch in $ipkgarchs; do
+ 		if [ -e ${DEPLOY_DIR_IPK}/$arch/Packages ] ; then
+ 		        echo "src oe-$arch file:${DEPLOY_DIR_IPK}/$arch" >> ${IPKGCONF_TARGET}
+ 		fi
+ 	done
+-
+-	multilib_archs="${MULTILIB_ARCHS}"
+-	for arch in $multilib_archs; do
+-		if [ -e ${DEPLOY_DIR_IPK}/$arch/Packages ] ; then
+-		        echo "src oe-$arch file:${DEPLOY_DIR_IPK}/$arch" >> ${IPKGCONF_TARGET}
+-		fi
+-	done
+ }
+ 
+ package_generate_archlist () {
+@@ -226,18 +218,12 @@ package_generate_archlist () {
+ 		priority=$(expr $priority + 5)
+ 	done
+ 
+-	ipkgarchs="${PACKAGE_ARCHS}"
++	ipkgarchs="${ALL_MULTILIB_PACKAGE_ARCHS}"
+ 	priority=1
+ 	for arch in $ipkgarchs; do
+ 		echo "arch $arch $priority" >> ${IPKGCONF_TARGET}
+ 		priority=$(expr $priority + 5)
+ 	done
+-
+-	multilib_archs="${MULTILIB_ARCHS}"
+-	for arch in $multilib_archs; do
+-		echo "arch $arch $priority" >> ${IPKGCONF_TARGET}
+-		priority=$(expr $priority + 5)
+-	done
+ }
+ 
+ python do_package_ipk () {
+diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
+index c66c184..56abdd8 100644
+--- a/meta/classes/utils.bbclass
++++ b/meta/classes/utils.bbclass
+@@ -352,12 +352,16 @@ def extend_variants(d, var, extend, delim=':'):
+ 			variants.append(eext[1])
+ 	return " ".join(variants)
+ 
+-def all_multilib_tune_values(d, var, unique=True):
++def all_multilib_tune_values(d, var, unique = True, need_split = True, delim = ' '):
+ 	"""Return a string of all ${var} in all multilib tune configuration"""
+ 	values = []
+ 	value = d.getVar(var, True) or ""
+ 	if value != "":
+-		values.append(value)
++		if need_split:
++			for item in value.split(delim):
++				values.append(item)
++		else:
++			values.append(value)
+ 	variants = d.getVar("MULTILIB_VARIANTS", True) or ""
+ 	for item in variants.split():
+ 		localdata = bb.data.createCopy(d)
+@@ -366,7 +370,17 @@ def all_multilib_tune_values(d, var, unique=True):
+ 		bb.data.update_data(localdata)
+ 		value = localdata.getVar(var, True) or ""
+ 		if value != "":
+-			values.append(value)
++			if need_split:
++				for item in value.split(delim):
++					values.append(item)
++			else:
++				values.append(value)
+ 	if unique:
+-		values = set(values)
+-	return " ".join(values)
++		#we do this to keep order as much as possible
++		ret = []
++		for value in values:
++			if not value in ret:
++				ret.append(value)
++	else:
++		ret = values
++	return " ".join(ret)
 -- 
 1.7.6
 
