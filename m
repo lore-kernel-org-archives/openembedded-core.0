@@ -1,26 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail2.eads.net ([80.156.45.114] helo=mail.eads.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1Qtcji-0004Cf-RR
-	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Aug 2011 11:48:35 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7H9hulY000371
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	(envelope-from <Wolfgang.Hauser.external@cassidian.com>)
+	id 1Qtcpn-0004L1-E0 for openembedded-core@lists.openembedded.org;
+	Wed, 17 Aug 2011 11:54:51 +0200
+Received: from gsx3072-vs5.mxchg.m.corp ([53.147.176.149])
+	by mail.eads.net (8.13.8/8.13.8/Debian-2) with ESMTP id p7H9oIkw005386
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Aug 2011 02:43:56 -0700 (PDT)
-Received: from localhost (128.224.162.220) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 17 Aug 2011 02:43:55 -0700
-Message-ID: <fc975472f3a265646a5ee7dcd3cc0cf69a566662.1313571206.git.kai.kang@windriver.com>
-In-Reply-To: <cover.1313571206.git.kai.kang@windriver.com>
-References: <cover.1313571206.git.kai.kang@windriver.com>
-Old-Date: Tue, 16 Aug 2011 16:32:27 +0800
-Date: Wed, 17 Aug 2011 17:43:49 +0800
-To: <openembedded-core@lists.openembedded.org>
-From: Kang Kai <kai.kang@windriver.com>
+	Wed, 17 Aug 2011 11:50:19 +0200
+Received: from gsx300a.mxchg.m.corp ([10.43.212.131]) by
+	gsx3072-vs5.mxchg.m.corp with Microsoft SMTPSVC(6.0.3790.4675); 
+	Wed, 17 Aug 2011 11:50:14 +0200
+X-MimeOLE: Produced By Microsoft Exchange V6.5
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.220]
-Subject: [PATCH 1/1] at: make at usable for common user
+Date: Wed, 17 Aug 2011 11:50:14 +0200
+Message-ID: <0C757E680E33864AB113392C7E83F910BE51D9@GSX300A.mxchg.m.corp>
+In-Reply-To: <F5106DA0-C6FF-46B2-8940-C47C6073F0E3@dominion.thruhere.net>
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+Thread-Topic: [OE-core] Problems with generating and installing localepackages
+	of eglibc/glibc
+Thread-Index: AcxcwebdScE9kTk7ScOcDK/+lMkFuwAAC1Ug
+References: <0C757E680E33864AB113392C7E83F910BE51D8@GSX300A.mxchg.m.corp>
+	<F5106DA0-C6FF-46B2-8940-C47C6073F0E3@dominion.thruhere.net>
+From: "Hauser, Wolfgang (external)" <Wolfgang.Hauser.external@cassidian.com>
+To: "Patches and discussions about the oe-core layer"
+	<openembedded-core@lists.openembedded.org>
+X-OriginalArrivalTime: 17 Aug 2011 09:50:14.0258 (UTC)
+	FILETIME=[0FEEAD20:01CC5CC3]
+Subject: Re: Problems with generating and installing localepackages of eglibc/glibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,68 +42,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2011 09:48:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 17 Aug 2011 09:54:51 -0000
+Content-class: urn:content-classes:message
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Kang Kai <kai.kang@windriver.com>
+>> Our questions now:
+>>=20
+>> What was the intention of the changes in the function
+>> "output_locale_binary_rdepends"?
+>> Is there a problem using the old function for our local installation
+?
+>> What language definition patterns (in GLIBC_GENERATE_LOCALES) should
+be
+>> covered by the new function ?
+>> Is this a bug ?
 
-Fixes [Yocto #1297]
+>That looks like the same bug as described in
+http://lists.linuxtogo.org/pipermail/openembedded-core/2011-August/00740
+7.html
 
-The pkg_postinst was added to fix Yocto #675. But it seems not needed
-any more. Remove it then unprivilege user could use at.
+>Nitin said he'd look into it after getting back from vacation:
 
-Signed-off-by: Kang Kai <kai.kang@windriver.com>
----
- meta/recipes-extended/at/at_3.1.12.bb |   26 +++++---------------------
- 1 files changed, 5 insertions(+), 21 deletions(-)
+This is right, this is the solution I would suggest too, I changed it in
+my environment and it works for me.=20
 
-diff --git a/meta/recipes-extended/at/at_3.1.12.bb b/meta/recipes-extended/at/at_3.1.12.bb
-index c76b50e..baf15df 100644
---- a/meta/recipes-extended/at/at_3.1.12.bb
-+++ b/meta/recipes-extended/at/at_3.1.12.bb
-@@ -4,11 +4,14 @@ the system load levels drop to a particular level."
- SECTION = "base"
- LICENSE="GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4325afd396febcb659c36b49533135d4"
--DEPENDS = "flex libpam initscripts \
-+DEPENDS = "flex initscripts \
- 	${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
-+RDEPENDS = "${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_DEPS}', '', d)}"
-+PAM_DEPS = "libpam libpam-runtime pam-plugin-env pam-plugin-limits"
-+
- RCONFLICTS_${PN} = "atd"
- RREPLACES_${PN} = "atd"
--PR = "r5"
-+PR = "r6"
- 
- SRC_URI = "${DEBIAN_MIRROR}/main/a/at/at_${PV}.orig.tar.gz \
-     file://configure.patch \
-@@ -56,23 +59,4 @@ do_install () {
- 	done
- }
- 
--pkg_postinst_${PN} () {
--	if [ "x$D" != "x" ] ; then
--		exit 1
--	fi
--
--	# below is necessary to allow at usable to normal users
--	# now at is has its own /var/spool/at instead of under /var/spool/cron
--	# this way is better to allow setgid on both sides
--	grep "^daemon" /etc/group || groupadd daemon
--	chown root:daemon /usr/bin/at
--	chmod 2755 /usr/bin/at
--
--	chown root:daemon -R /var/spool/at
--	chmod 770 -R /var/spool/at
--
--	chown root:daemon /etc/at.deny
--	chmod 640 /etc/at.deny
--}
--
- PARALLEL_MAKE = ""
--- 
-1.7.5.1.300.gc565c
+But there is the questionable rprovides handling in
+"output_locale_binary_rdepends" of libc-packages.bbclass in oe-core and
+oe.dev
+which have to be examined too.
 
+Thanks for pointing me to that solution.
+
+Regards
+Wolfgang Hauser=20
 
 
