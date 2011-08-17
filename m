@@ -1,20 +1,21 @@
-Received: from stoexhub01.domain01.net ([83.145.59.142]
-	helo=stoexhub02.domain01.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1QtZsu-0005Fi-Je
+Received: from stoexhubfe02.domain01.net ([83.145.59.141])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <anders@chargestorm.se>) id 1QtZsz-0005Gh-FZ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Aug 2011 08:45:52 +0200
-Received: from localhost (193.235.91.228) by stoexhub02.domain01.net
-	(10.12.10.2) with Microsoft SMTP Server id 8.3.137.0; Wed, 17 Aug 2011
-	08:41:14 +0200
+	Wed, 17 Aug 2011 08:45:57 +0200
+Received: from localhost (193.235.91.228) by stoexhubfe02.domain01.net
+	(10.12.10.7) with Microsoft SMTP Server id 8.3.137.0; Wed, 17 Aug 2011
+	08:41:19 +0200
 From: Anders Darander <anders@chargestorm.se>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Aug 2011 08:41:20 +0200
-Message-ID: <cover.1313563238.git.anders@chargestorm.se>
+Date: Wed, 17 Aug 2011 08:41:25 +0200
+Message-ID: <0723e2f710db1680c71a1f6f848563cfcc6b3cdc.1313563238.git.anders@chargestorm.se>
 X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <cover.1313563238.git.anders@chargestorm.se>
+References: <cover.1313563238.git.anders@chargestorm.se>
 MIME-Version: 1.0
 X-GFI-SMTP-Submission: 1
-Cc: Anders Darander <anders@chargestorm.se>
-Subject: [PATCH v2 0/5] Miscellaneous fixes: mainly qt- and DISTRO_FEATURES-related
+Subject: [PATCH v2 1/5] qt4: allow a reduction in build time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,52 +30,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2011 06:45:52 -0000
+X-List-Received-Date: Wed, 17 Aug 2011 06:45:57 -0000
 Content-Type: text/plain
 
+When reducing build time by adding QT_DISTRO_FLAGS from the set '-no-gui -nomake tools
+-nomake examples -nomake demos -nomake docs', build failure can occur, due to not building
+all tools.
 
-A series with some miscellaneous fixes/changes.
+* Make rm not error out when removing one of the, possibly, non-existing tools.
+* Only try to rename qtdemo, if qtdemo exists.
+* Guard do_split_packages() with an try-except-clause, otherwise we get an error stating
+  that .../phrasebooks/... do not exist.
 
-Patches:
-0001: make it possible to build qt4 while disabling certain parts of it.
-0002: A partial sync of qmake_base.bbclass from meta-oe. Hopefully we should
-      be able to delete qmake_base.bbclass from meta-oe after this sync.
-0003-4: respect wifi and bluetooth in DISTRO_FEATURES while building connman 
-	and ofono.
-0005: increase the likelihood that a rename and modification is detected, 
-      instead of a deleta/add-pair.
+Signed-off-by: Anders Darander <anders@chargestorm.se>
+---
+ meta/recipes-qt/qt4/qt4.inc |   13 ++++++++-----
+ 1 files changed, 8 insertions(+), 5 deletions(-)
 
-Patch 0005 is the patch that is most likely to be controversial. The other 
-patches should be of minor impact, and result in a more consistent build 
-environment (i.e. better respect for DISTRO_FEATURES).
-
-V2: * remove unneccesary helper variable in the ofono-patch.
-    No other changes.
-
-The following changes since commit 13db5f420ca9bff98561f80d78958278734ad1f4:
-
-  distro-tracking: Update info for gpgme, libassuan, apr... after last upgrade. (2011-08-15 15:26:04 +0100)
-
-are available in the git repository at:
-  git://github.com/darander/oe-core qt4-fixes
-  https://github.com/darander/oe-core/tree/qt4-fixes
-
-Anders Darander (5):
-  qt4: allow a reduction in build time
-  qmake_base: add uclibceabi
-  connman: use DISTRO_FEATURES to enable wifi and bluetooth
-  ofono: conditionally enable bluetooth
-  create-pull-request: increase likelihood of detecting a rename
-
- meta/classes/qmake_base.bbclass                   |    2 +-
- meta/recipes-connectivity/connman/connman_0.75.bb |    4 ++--
- meta/recipes-connectivity/ofono/ofono.inc         |    2 +-
- meta/recipes-connectivity/ofono/ofono_0.50.bb     |    1 +
- meta/recipes-connectivity/ofono/ofono_git.bb      |    4 ++++
- meta/recipes-qt/qt4/qt4.inc                       |   13 ++++++++-----
- scripts/create-pull-request                       |    2 +-
- 7 files changed, 18 insertions(+), 10 deletions(-)
-
+diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
+index 0410a92..994ec12 100644
+--- a/meta/recipes-qt/qt4/qt4.inc
++++ b/meta/recipes-qt/qt4/qt4.inc
+@@ -227,7 +227,10 @@ python populate_packages_prepend() {
+  
+         phrasebook_dir = bb.data.expand('${datadir}/${QT_DIR_NAME}/phrasebooks/', d)
+         phrasebook_name = bb.data.expand('${QT_BASE_NAME}-phrasebook-%s', d)
+-        do_split_packages(d, phrasebook_dir, '^(.*)\.qph$', phrasebook_name, '${PN} phrasebook for %s', extra_depends='' )
++        try:
++                do_split_packages(d, phrasebook_dir, '^(.*)\.qph$', phrasebook_name, '${PN} phrasebook for %s', extra_depends='' )
++        except:
++                pass
+  
+         # Package all the plugins and their -dbg version and create a meta package
+         import os
+@@ -278,11 +281,11 @@ do_install() {
+ 
+ 	# These are host binaries, we should only use them in staging
+ 	rm ${D}/${bindir}/qmake
+-	rm ${D}/${bindir}/uic
+-	rm ${D}/${bindir}/uic3
++	rm -f ${D}/${bindir}/uic
++	rm -f ${D}/${bindir}/uic3
+ 	rm ${D}/${bindir}/moc
+ 	rm ${D}/${bindir}/rcc
+-	rm ${D}/${bindir}/lrelease
++	rm -f ${D}/${bindir}/lrelease
+ 
+ 	# fix pkgconfig, libtool and prl files
+ 	sed -i -e s#-L${S}/lib##g \
+@@ -319,6 +322,6 @@ do_install() {
+ 
+ 	#Append an E to the qtdemo file
+ 	if [ -n "${QT_LIBINFIX}" ] ; then
+-		mv ${D}${bindir}/qtdemo ${D}${bindir}/qtdemo${QT_LIBINFIX}
++		[ -f ${D}${bindir}/qtdemo ] && mv ${D}${bindir}/qtdemo ${D}${bindir}/qtdemo${QT_LIBINFIX}
+ 	fi
+ }
 -- 
 1.7.5.4
 
