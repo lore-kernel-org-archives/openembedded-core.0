@@ -1,24 +1,24 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1Qtbzu-0007W5-Ij
+	(envelope-from <dongxiao.xu@intel.com>) id 1Qtbzv-0007X5-LR
 	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Aug 2011 11:01:14 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 17 Aug 2011 01:56:35 -0700
+	Wed, 17 Aug 2011 11:01:16 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 17 Aug 2011 01:56:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="38552740"
+X-IronPort-AV: E=Sophos;i="4.68,238,1312182000"; d="scan'208";a="42226583"
 Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by orsmga002.jf.intel.com with ESMTP; 17 Aug 2011 01:56:34 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 17 Aug 2011 01:56:36 -0700
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Aug 2011 16:57:05 +0800
-Message-Id: <e215221ef45e5507ea4b52908f4094f9232132d7.1313571326.git.dongxiao.xu@intel.com>
+Date: Wed, 17 Aug 2011 16:57:06 +0800
+Message-Id: <aac36a6cdc896387cac317282652960943c54a07.1313571326.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1313571326.git.dongxiao.xu@intel.com>
 References: <cover.1313571326.git.dongxiao.xu@intel.com>
 In-Reply-To: <cover.1313571326.git.dongxiao.xu@intel.com>
 References: <cover.1313571326.git.dongxiao.xu@intel.com>
-Subject: [PATCH 1/2] busybox: Change ${PN} to ${BPN} in file names
+Subject: [PATCH 2/2] sysvinit: Change ${PN} to ${BPN} in file names
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,104 +33,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2011 09:01:14 -0000
+X-List-Received-Date: Wed, 17 Aug 2011 09:01:16 -0000
 
-Some files in busybox are named with ${PN}. In multilib case, ${PN}
+Some files in sysvinit are named with ${PN}. In multilib case, ${PN}
 will be prefixed with "lib32-" or "lib64-". Use ${BPN} instead.
 
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- meta/recipes-core/busybox/busybox.inc       |   30 +++++++++++++-------------
- meta/recipes-core/busybox/busybox_1.18.4.bb |    2 +-
- 2 files changed, 16 insertions(+), 16 deletions(-)
+ meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb |   52 ++++++++++++------------
+ 1 files changed, 26 insertions(+), 26 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index d46c135..3f93358 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -29,7 +29,7 @@ INITSCRIPT_NAME_${PN}-mdev = "mdev"
- INITSCRIPT_PARAMS_${PN}-mdev = "start 06 S ."
- INITSCRIPT_NAME_${PN}-udhcpd = "busybox-udhcpd" 
- INITSCRIPT_NAME_${PN}-udhcpc = "busybox-udhcpc" 
--CONFFILES_${PN}-syslog = "${sysconfdir}/syslog.conf.${PN}"
-+CONFFILES_${PN}-syslog = "${sysconfdir}/syslog.conf.${BPN}"
- CONFFILES_${PN}-mdev = "${sysconfdir}/mdev.conf"
+diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+index bda8a51..663e298 100644
+--- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
++++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+@@ -5,7 +5,7 @@ SECTION = "base"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+                     file://COPYRIGHT;endline=15;md5=349c872e0066155e1818b786938876a4"
+-PR = "r4"
++PR = "r5"
  
- RRECOMMENDS_${PN} = "${PN}-syslog ${PN}-udhcpc"
-@@ -152,24 +152,24 @@ do_install () {
- 		install -d ${D}${libdir} ${D}${bindir} ${D}${sbindir}
- 		cat busybox.links | while read FILE; do
- 			NAME=`basename "$FILE"`
--			install -m 0755 "0_lib/$NAME" "${D}$FILE.${PN}"
-+			install -m 0755 "0_lib/$NAME" "${D}$FILE.${BPN}"
- 		done
- 		# add suid bit where needed
- 		for i in `grep -E "APPLET.*_BB_SUID_((MAYBE|REQUIRE))" include/applets.h | grep -v _BB_SUID_DROP | cut -f 3 -d '(' | cut -f 1 -d ','`; do
--			find ${D} -name $i.${PN} -exec chmod a+s {} \;
-+			find ${D} -name $i.${BPN} -exec chmod a+s {} \;
- 		done
- 		install -m 0755 0_lib/libbusybox.so.${PV} ${D}${libdir}/libbusybox.so.${PV}
--		ln -sf sh.${PN} ${D}${base_bindir}/sh
--		ln -sf ln.${PN} ${D}${base_bindir}/ln
--		ln -sf test.${PN} ${D}${bindir}/test
--		if [ -f ${D}/linuxrc.${PN} ]; then
--			mv ${D}/linuxrc.${PN} ${D}/linuxrc
-+		ln -sf sh.${BPN} ${D}${base_bindir}/sh
-+		ln -sf ln.${BPN} ${D}${base_bindir}/ln
-+		ln -sf test.${BPN} ${D}${bindir}/test
-+		if [ -f ${D}/linuxrc.${BPN} ]; then
-+			mv ${D}/linuxrc.${BPN} ${D}/linuxrc
- 		fi
- 	fi
+ RDEPENDS_${PN} = "${PN}-inittab"
  
- 	if grep -q "CONFIG_SYSLOGD=y" ${WORKDIR}/defconfig; then
--		install -m 0755 ${WORKDIR}/syslog ${D}${sysconfdir}/init.d/syslog.${PN}
--		install -m 644 ${WORKDIR}/syslog.conf ${D}${sysconfdir}/syslog.conf.${PN}
-+		install -m 0755 ${WORKDIR}/syslog ${D}${sysconfdir}/init.d/syslog.${BPN}
-+		install -m 644 ${WORKDIR}/syslog.conf ${D}${sysconfdir}/syslog.conf.${BPN}
- 	fi
- 	if grep "CONFIG_CROND=y" ${WORKDIR}/defconfig; then
- 		install -m 0755 ${WORKDIR}/busybox-cron ${D}${sysconfdir}/init.d/
-@@ -193,7 +193,7 @@ do_install () {
- 		install -m 0755 ${WORKDIR}/busybox-udhcpc ${D}${sysconfdir}/init.d/
- 	fi
- 	if grep "CONFIG_INETD=y" ${WORKDIR}/defconfig; then
--		install -m 0755 ${WORKDIR}/inetd ${D}${sysconfdir}/init.d/inetd.${PN}
-+		install -m 0755 ${WORKDIR}/inetd ${D}${sysconfdir}/init.d/inetd.${BPN}
- 		install -m 0644 ${WORKDIR}/inetd.conf ${D}${sysconfdir}/
- 	fi
-         if grep "CONFIG_MDEV=y" ${WORKDIR}/defconfig; then
-@@ -217,8 +217,8 @@ pkg_postinst_${PN} () {
+@@ -65,41 +65,41 @@ do_install () {
+ 		install -d ${D}${sysconfdir}/rc$level.d
+ 		ln -s ../init.d/stop-bootlogd ${D}${sysconfdir}/rc$level.d/S99stop-bootlogd
+ 	done
+-	mv                 ${D}${base_sbindir}/init               ${D}${base_sbindir}/init.${PN}
+-	mv ${D}${base_bindir}/pidof ${D}${base_bindir}/pidof.${PN}
+-	mv ${D}${base_sbindir}/halt ${D}${base_sbindir}/halt.${PN}
+-	mv ${D}${base_sbindir}/reboot ${D}${base_sbindir}/reboot.${PN}
+-	mv ${D}${base_sbindir}/shutdown ${D}${base_sbindir}/shutdown.${PN}
+-	mv ${D}${base_sbindir}/poweroff ${D}${base_sbindir}/poweroff.${PN}
+-	mv ${D}${bindir}/last ${D}${bindir}/last.${PN}
+-	mv ${D}${bindir}/mesg ${D}${bindir}/mesg.${PN}
+-	mv ${D}${bindir}/wall ${D}${bindir}/wall.${PN}
++	mv                 ${D}${base_sbindir}/init               ${D}${base_sbindir}/init.${BPN}
++	mv ${D}${base_bindir}/pidof ${D}${base_bindir}/pidof.${BPN}
++	mv ${D}${base_sbindir}/halt ${D}${base_sbindir}/halt.${BPN}
++	mv ${D}${base_sbindir}/reboot ${D}${base_sbindir}/reboot.${BPN}
++	mv ${D}${base_sbindir}/shutdown ${D}${base_sbindir}/shutdown.${BPN}
++	mv ${D}${base_sbindir}/poweroff ${D}${base_sbindir}/poweroff.${BPN}
++	mv ${D}${bindir}/last ${D}${bindir}/last.${BPN}
++	mv ${D}${bindir}/mesg ${D}${bindir}/mesg.${BPN}
++	mv ${D}${bindir}/wall ${D}${bindir}/wall.${BPN}
  }
  
- pkg_postinst_${PN}-syslog () {
--	update-alternatives --install ${sysconfdir}/init.d/syslog syslog-init syslog.${PN} 50
--	update-alternatives --install ${sysconfdir}/syslog.conf syslog-conf syslog.conf.${PN} 50
-+	update-alternatives --install ${sysconfdir}/init.d/syslog syslog-init syslog.${BPN} 50
-+	update-alternatives --install ${sysconfdir}/syslog.conf syslog-conf syslog.conf.${BPN} 50
+ pkg_postinst_${PN} () {
+-	update-alternatives --install ${base_sbindir}/halt halt halt.${PN} 200
+-	update-alternatives --install ${base_sbindir}/reboot reboot reboot.${PN} 200
+-	update-alternatives --install ${base_sbindir}/shutdown shutdown shutdown.${PN} 200
+-	update-alternatives --install ${base_sbindir}/poweroff poweroff poweroff.${PN} 200
+-	update-alternatives --install ${bindir}/last last last.${PN} 200
+-	update-alternatives --install ${bindir}/mesg mesg mesg.${PN} 200
+-	update-alternatives --install ${bindir}/wall wall wall.${PN} 200
++	update-alternatives --install ${base_sbindir}/halt halt halt.${BPN} 200
++	update-alternatives --install ${base_sbindir}/reboot reboot reboot.${BPN} 200
++	update-alternatives --install ${base_sbindir}/shutdown shutdown shutdown.${BPN} 200
++	update-alternatives --install ${base_sbindir}/poweroff poweroff poweroff.${BPN} 200
++	update-alternatives --install ${bindir}/last last last.${BPN} 200
++	update-alternatives --install ${bindir}/mesg mesg mesg.${BPN} 200
++	update-alternatives --install ${bindir}/wall wall wall.${BPN} 200
  }
  
  pkg_prerm_${PN} () {
-@@ -260,6 +260,6 @@ pkg_prerm_${PN}-syslog () {
- 		fi
- 	fi
- 
--	update-alternatives --remove syslog-init syslog.${PN}
--	update-alternatives --remove syslog-conf syslog.conf.${PN}
-+	update-alternatives --remove syslog-init syslog.${BPN}
-+	update-alternatives --remove syslog-conf syslog.conf.${BPN}
+-	update-alternatives --remove halt halt.${PN}
+-	update-alternatives --remove reboot reboot.${PN}
+-	update-alternatives --remove shutdown shutdown.${PN}
+-	update-alternatives --remove poweroff poweroff.${PN}
+-	update-alternatives --remove last last.${PN}
+-	update-alternatives --remove mesg mesg.${PN}
+-	update-alternatives --remove wall wall.${PN}
++	update-alternatives --remove halt halt.${BPN}
++	update-alternatives --remove reboot reboot.${BPN}
++	update-alternatives --remove shutdown shutdown.${BPN}
++	update-alternatives --remove poweroff poweroff.${BPN}
++	update-alternatives --remove last last.${BPN}
++	update-alternatives --remove mesg mesg.${BPN}
++	update-alternatives --remove wall wall.${BPN}
  }
-diff --git a/meta/recipes-core/busybox/busybox_1.18.4.bb b/meta/recipes-core/busybox/busybox_1.18.4.bb
-index b4681a4..b2053ee 100644
---- a/meta/recipes-core/busybox/busybox_1.18.4.bb
-+++ b/meta/recipes-core/busybox/busybox_1.18.4.bb
-@@ -1,5 +1,5 @@
- require busybox.inc
--PR = "r8"
-+PR = "r9"
  
- SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://udhcpscript.patch \
+ pkg_postinst_sysvinit-pidof () {
+-	update-alternatives --install ${base_bindir}/pidof pidof pidof.${PN} 200
++	update-alternatives --install ${base_bindir}/pidof pidof pidof.${BPN} 200
+ }
+ 
+ pkg_prerm_sysvinit-pidof () {
+-	update-alternatives --remove pidof pidof.${PN}
++	update-alternatives --remove pidof pidof.${BPN}
+ }
 -- 
 1.7.1
 
