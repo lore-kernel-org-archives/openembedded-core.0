@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QtZf9-0004F7-5V
+	(envelope-from <sgw@linux.intel.com>) id 1QtZf9-0004F2-He
 	for openembedded-core@lists.openembedded.org;
 	Wed, 17 Aug 2011 08:31:39 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 16 Aug 2011 23:26:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="39163465"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="39163467"
 Received: from unknown (HELO swold-MOBL.local) ([10.255.15.2])
 	by orsmga001.jf.intel.com with ESMTP; 16 Aug 2011 23:26:58 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Aug 2011 23:26:49 -0700
-Message-Id: <23dc421a0943b13259fe4d86086427bdde8c1ade.1313560883.git.sgw@linux.intel.com>
+Date: Tue, 16 Aug 2011 23:26:50 -0700
+Message-Id: <d89bff4572b506da4418c637cb504bbba27f6bb9.1313560883.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1313560883.git.sgw@linux.intel.com>
 References: <cover.1313560883.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1313560883.git.sgw@linux.intel.com>
 References: <cover.1313560883.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 26/27] ofono: conditionally enable bluetooth
+Subject: [CONSOLIDATED PULL 27/27] create-pull-request: increase likelihood of detecting a rename
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,56 +37,28 @@ X-List-Received-Date: Wed, 17 Aug 2011 06:31:39 -0000
 
 From: Anders Darander <anders@chargestorm.se>
 
-Use DISTRO_FEATURE to conditionally depend on bluez4, as well as enabling bluetooth.
+Decrease the similarity percentage needed to recognize a delete/add-pair followed by an edit,
+as a rename.
+This make reviewing patches easier.
 
 Signed-off-by: Anders Darander <anders@chargestorm.se>
 ---
- meta/recipes-connectivity/ofono/ofono.inc     |    3 ++-
- meta/recipes-connectivity/ofono/ofono_0.50.bb |    1 +
- meta/recipes-connectivity/ofono/ofono_git.bb  |    4 ++++
- 3 files changed, 7 insertions(+), 1 deletions(-)
+ scripts/create-pull-request |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
-index a14b35a..ab233dc 100644
---- a/meta/recipes-connectivity/ofono/ofono.inc
-+++ b/meta/recipes-connectivity/ofono/ofono.inc
-@@ -7,7 +7,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
+diff --git a/scripts/create-pull-request b/scripts/create-pull-request
+index 7d021d3..600fa7a 100755
+--- a/scripts/create-pull-request
++++ b/scripts/create-pull-request
+@@ -166,7 +166,7 @@ mkdir $ODIR
  
- inherit autotools pkgconfig update-rc.d
  
--DEPENDS  = "dbus glib-2.0 udev bluez4"
-+BLUEZDEPENDS = "bluez4"
-+DEPENDS  = "dbus glib-2.0 udev ${@base_contains('DISTRO_FEATURES', 'bluetooth','${BLUEZDEPENDS}', '', d)}"
+ # Generate the patches and cover letter
+-git format-patch -M --subject-prefix="$PREFIX" -n -o $ODIR --thread=shallow --cover-letter $RELATIVE_TO..$COMMIT_ID > /dev/null
++git format-patch -M40 --subject-prefix="$PREFIX" -n -o $ODIR --thread=shallow --cover-letter $RELATIVE_TO..$COMMIT_ID > /dev/null
  
- INITSCRIPT_NAME = "ofono"
- INITSCRIPT_PARAMS = "defaults 22"
-diff --git a/meta/recipes-connectivity/ofono/ofono_0.50.bb b/meta/recipes-connectivity/ofono/ofono_0.50.bb
-index ef4fbf0..b679200 100644
---- a/meta/recipes-connectivity/ofono/ofono_0.50.bb
-+++ b/meta/recipes-connectivity/ofono/ofono_0.50.bb
-@@ -7,6 +7,7 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/ofono/${BPN}-${PV}.tar.bz2 \
  
- EXTRA_OECONF += "\
-     --enable-test \
-+    ${@base_contains('DISTRO_FEATURES', 'bluetooth','--enable-bluetooth', '--disable-bluetooth', d)} \
- "
- 
- SRC_URI[md5sum] = "b2656fd0bbf33f926fc86c1e8915d697"
-diff --git a/meta/recipes-connectivity/ofono/ofono_git.bb b/meta/recipes-connectivity/ofono/ofono_git.bb
-index dbad5a1..f1770c2 100644
---- a/meta/recipes-connectivity/ofono/ofono_git.bb
-+++ b/meta/recipes-connectivity/ofono/ofono_git.bb
-@@ -10,6 +10,10 @@ PR = "r1"
- SRC_URI  = "git://git.kernel.org/pub/scm/network/ofono/ofono.git;protocol=git \
- 	    file://ofono"
- 
-+EXTRA_OECONF += "\
-+    ${@base_contains('DISTRO_FEATURES', 'bluetooth','--enable-bluetooth', '--disable-bluetooth', d)} \
-+"
-+
- do_configure_prepend () {
-   ${S}/bootstrap
- }
+ # Customize the cover letter
 -- 
 1.7.6
 
