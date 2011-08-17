@@ -1,24 +1,28 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from stoexhub01.domain01.net ([83.145.59.142])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QtZf9-0004F2-He
+	(envelope-from <anders@chargestorm.se>) id 1QtZjC-00050E-Fa
 	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Aug 2011 08:31:39 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 16 Aug 2011 23:26:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="39163467"
-Received: from unknown (HELO swold-MOBL.local) ([10.255.15.2])
-	by orsmga001.jf.intel.com with ESMTP; 16 Aug 2011 23:26:58 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Aug 2011 23:26:50 -0700
-Message-Id: <d89bff4572b506da4418c637cb504bbba27f6bb9.1313560883.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <cover.1313560883.git.sgw@linux.intel.com>
-References: <cover.1313560883.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1313560883.git.sgw@linux.intel.com>
-References: <cover.1313560883.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 27/27] create-pull-request: increase likelihood of detecting a rename
+	Wed, 17 Aug 2011 08:35:50 +0200
+Received: from localhost (193.235.91.228) by STOEXHUB01.domain01.net
+	(10.12.10.1) with Microsoft SMTP Server id 8.3.137.0; Wed, 17 Aug 2011
+	08:31:12 +0200
+Date: Wed, 17 Aug 2011 08:31:23 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20110817063123.GE7904@chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <cover.1313503017.git.anders@chargestorm.se>
+	<bb23dd3cd4f1325370b9566e2a8359b6b5d1e842.1313503017.git.anders@chargestorm.se>
+	<5AA93A51-0AF1-4B3E-8B9A-7E1A1A8C2C18@dominion.thruhere.net>
+MIME-Version: 1.0
+In-Reply-To: <5AA93A51-0AF1-4B3E-8B9A-7E1A1A8C2C18@dominion.thruhere.net>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH 4/5] ofono: conditionally enable bluetooth
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,34 +37,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2011 06:31:39 -0000
+X-List-Received-Date: Wed, 17 Aug 2011 06:35:50 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-From: Anders Darander <anders@chargestorm.se>
+* Koen Kooi <koen@dominion.thruhere.net> [110816 16:34]:
+> Op 16 aug. 2011, om 15:57 heeft Anders Darander het volgende geschreven:
 
-Decrease the similarity percentage needed to recognize a delete/add-pair followed by an edit,
-as a rename.
-This make reviewing patches easier.
+> > Use DISTRO_FEATURE to conditionally depend on bluez4, as well as enabling bluetooth.
+> > 
+> > Signed-off-by: Anders Darander <anders@chargestorm.se>
+> > ---
+> > meta/recipes-connectivity/ofono/ofono.inc     |    3 ++-
+> > meta/recipes-connectivity/ofono/ofono_0.50.bb |    1 +
+> > meta/recipes-connectivity/ofono/ofono_git.bb  |    4 ++++
+> > 3 files changed, 7 insertions(+), 1 deletions(-)
+> > 
+> > diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
+> > index a14b35a..ab233dc 100644
+> > --- a/meta/recipes-connectivity/ofono/ofono.inc
+> > +++ b/meta/recipes-connectivity/ofono/ofono.inc
+> > @@ -7,7 +7,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
+> > 
+> > inherit autotools pkgconfig update-rc.d
+> > 
+> > -DEPENDS  = "dbus glib-2.0 udev bluez4"
+> > +BLUEZDEPENDS = "bluez4"
+> > +DEPENDS  = "dbus glib-2.0 udev ${@base_contains('DISTRO_FEATURES', 'bluetooth','${BLUEZDEPENDS}', '', d)}"
 
-Signed-off-by: Anders Darander <anders@chargestorm.se>
----
- scripts/create-pull-request |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+> is that BLUEZDEPENDS helper var really needed?
 
-diff --git a/scripts/create-pull-request b/scripts/create-pull-request
-index 7d021d3..600fa7a 100755
---- a/scripts/create-pull-request
-+++ b/scripts/create-pull-request
-@@ -166,7 +166,7 @@ mkdir $ODIR
- 
- 
- # Generate the patches and cover letter
--git format-patch -M --subject-prefix="$PREFIX" -n -o $ODIR --thread=shallow --cover-letter $RELATIVE_TO..$COMMIT_ID > /dev/null
-+git format-patch -M40 --subject-prefix="$PREFIX" -n -o $ODIR --thread=shallow --cover-letter $RELATIVE_TO..$COMMIT_ID > /dev/null
- 
- 
- # Customize the cover letter
+I'll rework this patch and send an updated pull-request shortly.
+
+Cheers,
+Anders
+
 -- 
-1.7.6
-
+Anders Darander
+ChargeStorm AB	
 
 
