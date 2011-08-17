@@ -1,32 +1,30 @@
-Received: from mail-ew0-f47.google.com ([209.85.215.47])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <agnel.joel@gmail.com>) id 1QtYnL-00026r-6W
+	(envelope-from <saul.wold@intel.com>) id 1QtZMs-0003RP-21
 	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Aug 2011 07:36:03 +0200
-Received: by ewy5 with SMTP id 5so280389ewy.6
+	Wed, 17 Aug 2011 08:12:46 +0200
+Received: from mail-pz0-f45.google.com ([209.85.210.45])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 16 Aug 2011 23:07:01 -0700
+Received: by pzk33 with SMTP id 33so591403pzk.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Aug 2011 22:31:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=8cZmSWKhIAmP5fkQzKzs+bjfHCf1WYw9wnrLAO1RlRI=;
-	b=SKEPqHgU8cVkDBvuk/8l1R1tuIYKeX7MT0sV3DNU4+GRDaN6CY/O4exnoIdqlnIuTn
-	4aBdLtTNQExzLhhO9cMbWmTGDNZ88OWrrGmm7solrfJKvwpQxMP/CeP1RsMRVuMJdloA
-	nTqpZxmZM/wpICvhQmAGw9BaBx9Rq/VKJETbU=
+	Tue, 16 Aug 2011 23:07:01 -0700 (PDT)
+Received: by 10.142.224.9 with SMTP id w9mr298727wfg.124.1313561221045;
+	Tue, 16 Aug 2011 23:07:01 -0700 (PDT)
+Received: from [172.17.180.228] ([206.191.100.2])
+	by mx.google.com with ESMTPS id y11sm351031wfc.11.2011.08.16.23.07.00
+	(version=SSLv3 cipher=OTHER); Tue, 16 Aug 2011 23:07:00 -0700 (PDT)
+Message-ID: <4E4B5A83.50301@intel.com>
+Date: Tue, 16 Aug 2011 23:06:59 -0700
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:5.0) Gecko/20110707 Thunderbird/5.0
 MIME-Version: 1.0
-Received: by 10.213.26.219 with SMTP id f27mr1099120ebc.76.1313559085117; Tue,
-	16 Aug 2011 22:31:25 -0700 (PDT)
-Received: by 10.213.106.8 with HTTP; Tue, 16 Aug 2011 22:31:25 -0700 (PDT)
-In-Reply-To: <CAMKF1srp=45++6LUkqkB7CL9oqthEeGF_8+=siH75SrEpgkczQ@mail.gmail.com>
-References: <1313547374-10263-1-git-send-email-agnel.joel@gmail.com>
-	<CAMKF1srp=45++6LUkqkB7CL9oqthEeGF_8+=siH75SrEpgkczQ@mail.gmail.com>
-Date: Wed, 17 Aug 2011 00:31:25 -0500
-Message-ID: <CAD=GYpaCSZnKTRaM9Q58-a_fTG=2U4a_paqiQgGuOmwBvnZZAQ@mail.gmail.com>
-From: Joel A Fernandes <agnel.joel@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: jdk@ti.com, k-kooi@ti.com
-Subject: Re: [meta-oe] [PATCH] gnome-system-monitor: Add dependency on gnome-icon-theme
+References: <1313550631-26516-1-git-send-email-aalonso00@gmail.com>
+In-Reply-To: <1313550631-26516-1-git-send-email-aalonso00@gmail.com>
+Subject: Re: [PATCH] file: new file version 5.07
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,18 +39,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2011 05:36:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 17 Aug 2011 06:12:46 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 17, 2011 at 12:14 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Tue, Aug 16, 2011 at 7:16 PM, Joel A Fernandes <agnel.joel@gmail.com> wrote:
->> Without this, the configure stage of this recipe fails with pkg-config not finding
->> the gnome-icon-theme package
+On 08/16/2011 08:10 PM, Adrian Alonso wrote:
+> * file version 5.07 also prevents magic file mistmatch
+>    in Fedora 15
+> * related to bug 1358.
+>    http://bugzilla.pokylinux.org/show_bug.cgi?id=1358
 >
-> may be you should bump up the PR to ensure a rebuild
+> Signed-off-by: Adrian Alonso<aalonso00@gmail.com>
 
-Hi Khem, Actually it didn't build to begin with. In this case is it required?
+Adrian, for OE-Core unless there is a reason to keep the older version 
+of a recipe, it should be removed, so please update this patch to remove 
+the older version unless we need to keep 5.04 for some reason?
 
-Thanks
+Sau!
+
+> ---
+>   meta/recipes-devtools/file/file_5.07.bb |   36 +++++++++++++++++++++++++++++++
+>   1 files changed, 36 insertions(+), 0 deletions(-)
+>   create mode 100644 meta/recipes-devtools/file/file_5.07.bb
+>
+> diff --git a/meta/recipes-devtools/file/file_5.07.bb b/meta/recipes-devtools/file/file_5.07.bb
+> new file mode 100644
+> index 0000000..9b5b51f
+> --- /dev/null
+> +++ b/meta/recipes-devtools/file/file_5.07.bb
+> @@ -0,0 +1,36 @@
+> +SUMMARY = "File classification tool"
+> +DESCRIPTION = "File attempts to classify files depending \
+> +on their contents and prints a description if a match is found."
+> +HOMEPAGE = "http://www.darwinsys.com/file/"
+> +SECTION = "console/utils"
+> +
+> +# two clause BSD
+> +LICENSE = "BSD"
+> +LIC_FILES_CHKSUM = "file://COPYING;beginline=2;md5=6a7382872edb68d33e1a9398b6e03188"
+> +
+> +DEPENDS = "zlib file-native"
+> +DEPENDS_virtclass-native = "zlib-native"
+> +PR = "r0"
+> +
+> +SRC_URI = "ftp://ftp.astron.com/pub/file/file-${PV}.tar.gz \
+> +           file://dump \
+> +           file://filesystems"
+> +
+> +SRC_URI[md5sum] = "b8d1f9a8a644067bd0a703cebf3f4858"
+> +SRC_URI[sha256sum] = "c968bfe97d87f9f564728a894d57be2c6bba9a2006763fffff85c5f72a9a3c2f"
+> +
+> +inherit autotools
+> +
+> +do_configure_prepend() {
+> +	cp ${WORKDIR}/dump ${S}/magic/Magdir/
+> +	cp ${WORKDIR}/filesystems ${S}/magic/Magdir/
+> +}
+> +
+> +FILES_${PN} += "${datadir}/misc/*.mgc"
+> +
+> +do_install_append_virtclass-native() {
+> +	create_cmdline_wrapper ${D}/${bindir}/file \
+> +		--magic-file ${datadir}/misc/magic.mgc
+> +}
+> +
+> +BBCLASSEXTEND = "native"
 
 
