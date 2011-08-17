@@ -1,28 +1,20 @@
-Received: from stoexhub01.domain01.net ([83.145.59.142])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1QtkL5-0000bT-9o
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Qtl4J-0001c0-2P
 	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Aug 2011 19:55:39 +0200
-Received: from localhost (85.231.30.150) by STOEXHUB01.domain01.net
-	(10.12.10.1) with Microsoft SMTP Server id 8.3.137.0; Wed, 17 Aug 2011
-	19:51:00 +0200
-Date: Wed, 17 Aug 2011 19:51:11 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20110817175111.GB2222@chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <cover.1313503017.git.anders@chargestorm.se>
-	<0723e2f710db1680c71a1f6f848563cfcc6b3cdc.1313503017.git.anders@chargestorm.se>
-	<1313590095.13995.38.camel@rex>
-MIME-Version: 1.0
-In-Reply-To: <1313590095.13995.38.camel@rex>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 1/5] qt4: allow a reduction in build time
+	Wed, 17 Aug 2011 20:42:23 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 17 Aug 2011 11:37:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,240,1312182000"; d="scan'208";a="39516513"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.255.18.37])
+	by azsmga001.ch.intel.com with ESMTP; 17 Aug 2011 11:37:42 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 17 Aug 2011 19:37:36 +0100
+Message-Id: <cover.1313606178.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [RFC PATCH 0/2] Couple of fixes to help new users
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,37 +29,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Aug 2011 17:55:39 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 17 Aug 2011 18:42:23 -0000
 
-* Richard Purdie <richard.purdie@linuxfoundation.org> [110817 16:09]:
-> On Tue, 2011-08-16 at 15:57 +0200, Anders Darander wrote:
-> >          phrasebook_dir = bb.data.expand('${datadir}/${QT_DIR_NAME}/phrasebooks/', d)
-> >          phrasebook_name = bb.data.expand('${QT_BASE_NAME}-phrasebook-%s', d)
-> > -        do_split_packages(d, phrasebook_dir, '^(.*)\.qph$', phrasebook_name, '${PN} phrasebook for %s', extra_depends='' )
-> > +        try:
-> > +                do_split_packages(d, phrasebook_dir, '^(.*)\.qph$', phrasebook_name, '${PN} phrasebook for %s', extra_depends='' )
-> > +        except:
-> > +                pass
+Please review the following changes for suitability for inclusion. If you have
+any objections or suggestions for improvement, please respond to the patches. If
+you agree with the changes, please provide your Acked-by.
 
-> Please use some actual test here, not a general try/except/pass. This
-> reason is that is some failure we want to know about happens, this will
-> hide it as the code stands.
+The following changes since commit 2e83e6755441cb14bd907d306974338c15173189:
 
-> The rest of the patch is ok, this just needs tweaking.
+  kernel: restore crtsavres.o to enable building external modules on powerpc (2011-08-17 15:46:16 +0100)
 
-An updated patch is available at the same pull tree. I've also sent a
-new pull request titled: [PATCH v3 0/1] Qt4: reduce build time.
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/sanity3
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/sanity3
 
-In this updated version, I'll check if the path in phrasebook_dir
-exists, and depending on this outcome, I'll call do_split_packages.
+Paul Eggleton (2):
+  image.bbclass, kernel.bbclass: create warning file about deleting
+    deploydir files
+  sanity.bbclass: add optional untested host distro warning
 
-Cheers,
-Anders
+ meta/classes/image.bbclass      |    2 +
+ meta/classes/kernel.bbclass     |    2 +
+ meta/classes/sanity.bbclass     |   48 +++++++++++++++++++++++++++++++++++++++
+ meta/files/deploydir_readme.txt |    8 ++++++
+ 4 files changed, 60 insertions(+), 0 deletions(-)
+ create mode 100644 meta/files/deploydir_readme.txt
 
 -- 
-Anders Darander
-ChargeStorm AB	
+1.7.4.1
+
 
 
