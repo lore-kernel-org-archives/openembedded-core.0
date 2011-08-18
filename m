@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qu9hj-0006Z6-HV
+	(envelope-from <sgw@linux.intel.com>) id 1Qu9hk-0006Z6-EY
 	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Aug 2011 23:00:43 +0200
+	Thu, 18 Aug 2011 23:00:44 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 18 Aug 2011 13:56:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,247,1312182000"; d="scan'208";a="39980211"
+X-IronPort-AV: E=Sophos;i="4.68,247,1312182000"; d="scan'208";a="39980228"
 Received: from unknown (HELO swold-MOBL.local) ([10.255.13.226])
-	by azsmga001.ch.intel.com with ESMTP; 18 Aug 2011 13:55:58 -0700
+	by azsmga001.ch.intel.com with ESMTP; 18 Aug 2011 13:56:01 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Aug 2011 13:55:24 -0700
-Message-Id: <811a2cc3d1f9d025f99f7decfa6d3603cb3ca5f2.1313700595.git.sgw@linux.intel.com>
+Date: Thu, 18 Aug 2011 13:55:26 -0700
+Message-Id: <2463e3dd6ec42b3514ffd830608ea2285254eeb2.1313700595.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1313700595.git.sgw@linux.intel.com>
 References: <cover.1313700595.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1313700595.git.sgw@linux.intel.com>
 References: <cover.1313700595.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 05/32] tcl: fix networking breakage
+Subject: [CONSOLIDATED PULL 07/32] busybox: Change ${PN} to ${BPN} in file names
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,49 +33,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Aug 2011 21:00:43 -0000
+X-List-Received-Date: Thu, 18 Aug 2011 21:00:44 -0000
 
-From: Koen Kooi <koen@dominion.thruhere.net>
+From: Dongxiao Xu <dongxiao.xu@intel.com>
 
-Without providing these site entries tcl networking doesn't work on the target.
+Some files in busybox are named with ${PN}. In multilib case, ${PN}
+will be prefixed with "lib32-" or "lib64-". Use ${BPN} instead.
 
-Original OE commit:
-
-commit 0c340037644f87054462f62b50cd397c162615b7
-Author: Koen Kooi <koen@openembedded.org>
-Date:   Wed May 26 13:04:18 2010 +0200
-
-    tcl: add 2 entries to arm-linux site file (possibly only glibc specific, need to check)
-
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- meta/recipes-devtools/tcltk/tcl_8.5.9.bb |    6 ++++--
- 1 files changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-core/busybox/busybox.inc       |   30 +++++++++++++-------------
+ meta/recipes-core/busybox/busybox_1.18.4.bb |    2 +-
+ 2 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.5.9.bb b/meta/recipes-devtools/tcltk/tcl_8.5.9.bb
-index 2eabb4d..1b4ae83 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.5.9.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.5.9.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://../license.terms;md5=a47a9be26d03f925fc1fbd2784f27e11
-     file://../win/license.terms;md5=a47a9be26d03f925fc1fbd2784f27e11 \
-     "
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index d46c135..3f93358 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -29,7 +29,7 @@ INITSCRIPT_NAME_${PN}-mdev = "mdev"
+ INITSCRIPT_PARAMS_${PN}-mdev = "start 06 S ."
+ INITSCRIPT_NAME_${PN}-udhcpd = "busybox-udhcpd" 
+ INITSCRIPT_NAME_${PN}-udhcpc = "busybox-udhcpc" 
+-CONFFILES_${PN}-syslog = "${sysconfdir}/syslog.conf.${PN}"
++CONFFILES_${PN}-syslog = "${sysconfdir}/syslog.conf.${BPN}"
+ CONFFILES_${PN}-mdev = "${sysconfdir}/mdev.conf"
  
--PR = "r1"
-+PR = "r2"
+ RRECOMMENDS_${PN} = "${PN}-syslog ${PN}-udhcpc"
+@@ -152,24 +152,24 @@ do_install () {
+ 		install -d ${D}${libdir} ${D}${bindir} ${D}${sbindir}
+ 		cat busybox.links | while read FILE; do
+ 			NAME=`basename "$FILE"`
+-			install -m 0755 "0_lib/$NAME" "${D}$FILE.${PN}"
++			install -m 0755 "0_lib/$NAME" "${D}$FILE.${BPN}"
+ 		done
+ 		# add suid bit where needed
+ 		for i in `grep -E "APPLET.*_BB_SUID_((MAYBE|REQUIRE))" include/applets.h | grep -v _BB_SUID_DROP | cut -f 3 -d '(' | cut -f 1 -d ','`; do
+-			find ${D} -name $i.${PN} -exec chmod a+s {} \;
++			find ${D} -name $i.${BPN} -exec chmod a+s {} \;
+ 		done
+ 		install -m 0755 0_lib/libbusybox.so.${PV} ${D}${libdir}/libbusybox.so.${PV}
+-		ln -sf sh.${PN} ${D}${base_bindir}/sh
+-		ln -sf ln.${PN} ${D}${base_bindir}/ln
+-		ln -sf test.${PN} ${D}${bindir}/test
+-		if [ -f ${D}/linuxrc.${PN} ]; then
+-			mv ${D}/linuxrc.${PN} ${D}/linuxrc
++		ln -sf sh.${BPN} ${D}${base_bindir}/sh
++		ln -sf ln.${BPN} ${D}${base_bindir}/ln
++		ln -sf test.${BPN} ${D}${bindir}/test
++		if [ -f ${D}/linuxrc.${BPN} ]; then
++			mv ${D}/linuxrc.${BPN} ${D}/linuxrc
+ 		fi
+ 	fi
  
- BASE_SRC_URI = "${SOURCEFORGE_MIRROR}/tcl/tcl${PV}-src.tar.gz \
-                 file://tcl-add-soname.patch"
-@@ -30,7 +30,9 @@ inherit autotools
+ 	if grep -q "CONFIG_SYSLOGD=y" ${WORKDIR}/defconfig; then
+-		install -m 0755 ${WORKDIR}/syslog ${D}${sysconfdir}/init.d/syslog.${PN}
+-		install -m 644 ${WORKDIR}/syslog.conf ${D}${sysconfdir}/syslog.conf.${PN}
++		install -m 0755 ${WORKDIR}/syslog ${D}${sysconfdir}/init.d/syslog.${BPN}
++		install -m 644 ${WORKDIR}/syslog.conf ${D}${sysconfdir}/syslog.conf.${BPN}
+ 	fi
+ 	if grep "CONFIG_CROND=y" ${WORKDIR}/defconfig; then
+ 		install -m 0755 ${WORKDIR}/busybox-cron ${D}${sysconfdir}/init.d/
+@@ -193,7 +193,7 @@ do_install () {
+ 		install -m 0755 ${WORKDIR}/busybox-udhcpc ${D}${sysconfdir}/init.d/
+ 	fi
+ 	if grep "CONFIG_INETD=y" ${WORKDIR}/defconfig; then
+-		install -m 0755 ${WORKDIR}/inetd ${D}${sysconfdir}/init.d/inetd.${PN}
++		install -m 0755 ${WORKDIR}/inetd ${D}${sysconfdir}/init.d/inetd.${BPN}
+ 		install -m 0644 ${WORKDIR}/inetd.conf ${D}${sysconfdir}/
+ 	fi
+         if grep "CONFIG_MDEV=y" ${WORKDIR}/defconfig; then
+@@ -217,8 +217,8 @@ pkg_postinst_${PN} () {
+ }
  
- DEPENDS_virtclass-native = ""
+ pkg_postinst_${PN}-syslog () {
+-	update-alternatives --install ${sysconfdir}/init.d/syslog syslog-init syslog.${PN} 50
+-	update-alternatives --install ${sysconfdir}/syslog.conf syslog-conf syslog.conf.${PN} 50
++	update-alternatives --install ${sysconfdir}/init.d/syslog syslog-init syslog.${BPN} 50
++	update-alternatives --install ${sysconfdir}/syslog.conf syslog-conf syslog.conf.${BPN} 50
+ }
  
--EXTRA_OECONF = "--enable-threads"
-+EXTRA_OECONF = "--enable-threads \
-+                tcl_cv_api_getaddrinfo=yes \
-+               "
+ pkg_prerm_${PN} () {
+@@ -260,6 +260,6 @@ pkg_prerm_${PN}-syslog () {
+ 		fi
+ 	fi
  
- do_configure() {
- 	gnu-configize
+-	update-alternatives --remove syslog-init syslog.${PN}
+-	update-alternatives --remove syslog-conf syslog.conf.${PN}
++	update-alternatives --remove syslog-init syslog.${BPN}
++	update-alternatives --remove syslog-conf syslog.conf.${BPN}
+ }
+diff --git a/meta/recipes-core/busybox/busybox_1.18.4.bb b/meta/recipes-core/busybox/busybox_1.18.4.bb
+index b4681a4..b2053ee 100644
+--- a/meta/recipes-core/busybox/busybox_1.18.4.bb
++++ b/meta/recipes-core/busybox/busybox_1.18.4.bb
+@@ -1,5 +1,5 @@
+ require busybox.inc
+-PR = "r8"
++PR = "r9"
+ 
+ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://udhcpscript.patch \
 -- 
 1.7.6
 
