@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qu9hu-0006oq-IY
+	(envelope-from <sgw@linux.intel.com>) id 1Qu9hw-0006pi-0N
 	for openembedded-core@lists.openembedded.org;
 	Thu, 18 Aug 2011 23:00:56 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 18 Aug 2011 13:56:15 -0700
+	by azsmga101.ch.intel.com with ESMTP; 18 Aug 2011 13:56:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,247,1312182000"; d="scan'208";a="39980322"
+X-IronPort-AV: E=Sophos;i="4.68,247,1312182000"; d="scan'208";a="39980328"
 Received: from unknown (HELO swold-MOBL.local) ([10.255.13.226])
-	by azsmga001.ch.intel.com with ESMTP; 18 Aug 2011 13:56:14 -0700
+	by azsmga001.ch.intel.com with ESMTP; 18 Aug 2011 13:56:15 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Aug 2011 13:55:36 -0700
-Message-Id: <cd8ac78a344da14da6deaf0a436b0eb7a139df41.1313700595.git.sgw@linux.intel.com>
+Date: Thu, 18 Aug 2011 13:55:37 -0700
+Message-Id: <50442971b9d482f578ccfb2723a12b796df87ed0.1313700595.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1313700595.git.sgw@linux.intel.com>
 References: <cover.1313700595.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1313700595.git.sgw@linux.intel.com>
 References: <cover.1313700595.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 17/32] task-core-tools: Use LTTNGUST variable instead of hardcoding lttng-ust
+Subject: [CONSOLIDATED PULL 18/32] gdb: Add lttng-ust to DEPENDS only for eglibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,37 +37,34 @@ X-List-Received-Date: Thu, 18 Aug 2011 21:00:58 -0000
 
 From: Khem Raj <raj.khem@gmail.com>
 
-This helps build on uclibc where lttng-ust is not included
-
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/tasks/task-core-tools.bb |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/gdb/gdb-common.inc |   11 +++++++++--
+ 1 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/tasks/task-core-tools.bb b/meta/recipes-core/tasks/task-core-tools.bb
-index b0eb7d4..11ea723 100644
---- a/meta/recipes-core/tasks/task-core-tools.bb
-+++ b/meta/recipes-core/tasks/task-core-tools.bb
-@@ -6,7 +6,7 @@ DESCRIPTION = "Tools tasks for OE-Core"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
--PR = "r10"
-+PR = "r11"
+diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
+index df6c70f..9879e97 100644
+--- a/meta/recipes-devtools/gdb/gdb-common.inc
++++ b/meta/recipes-devtools/gdb/gdb-common.inc
+@@ -2,9 +2,16 @@ DESCRIPTION = "gdb - GNU debugger"
+ HOMEPAGE = "http://www.gnu.org/software/gdb/"
+ LICENSE="GPLv3+"
+ SECTION = "devel"
+-DEPENDS = "ncurses readline elfutils lttng-ust"
++DEPENDS = "ncurses readline elfutils ${LTTNGUST}"
  
- PACKAGES = "\
-     task-core-tools-debug \
-@@ -76,8 +76,8 @@ LTTNGUST_libc-uclibc = ""
- # MIPS.
- RDEPENDS_task-core-tools-profile_append_qemux86 = " valgrind lttng-ust ${SYSTEMTAP}"
- RDEPENDS_task-core-tools-profile_append_qemux86-64 = " ${LTTNGUST} ${SYSTEMTAP}"
--RDEPENDS_task-core-tools-profile_append_qemuppc = " lttng-ust ${SYSTEMTAP}"
--RDEPENDS_task-core-tools-profile_append_qemuarm = " lttng-ust"
-+RDEPENDS_task-core-tools-profile_append_qemuppc = " ${LTTNGUST} ${SYSTEMTAP}"
-+RDEPENDS_task-core-tools-profile_append_qemuarm = " ${LTTNGUST}"
+-INC_PR = "r2"
++LTTNGUST = "lttng-ust"
++LTTNGUST_libc-uclibc = ""
++LTTNGUST_mips = ""
++LTTNGUST_mipsel = ""
++LTTNGUST_mips64 = ""
++LTTNGUST_mips64el = ""
++
++INC_PR = "r3"
  
- RDEPENDS_task-core-tools-testapps = "\
-     blktool \
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+ 		file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674 \
 -- 
 1.7.6
 
