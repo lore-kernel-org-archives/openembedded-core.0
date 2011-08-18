@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qu9hy-0006pi-Om
+	(envelope-from <sgw@linux.intel.com>) id 1Qu9i0-0006dG-K7
 	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Aug 2011 23:00:59 +0200
+	Thu, 18 Aug 2011 23:01:01 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 18 Aug 2011 13:56:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,247,1312182000"; d="scan'208";a="39980342"
+X-IronPort-AV: E=Sophos;i="4.68,247,1312182000"; d="scan'208";a="39980346"
 Received: from unknown (HELO swold-MOBL.local) ([10.255.13.226])
-	by azsmga001.ch.intel.com with ESMTP; 18 Aug 2011 13:56:17 -0700
+	by azsmga001.ch.intel.com with ESMTP; 18 Aug 2011 13:56:19 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Aug 2011 13:55:40 -0700
-Message-Id: <cda17353980ce57578825767486bcae41bfb3e59.1313700595.git.sgw@linux.intel.com>
+Date: Thu, 18 Aug 2011 13:55:41 -0700
+Message-Id: <34f9f57ae5781d7cb2086a54e6cd96f33dc14aa2.1313700595.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1313700595.git.sgw@linux.intel.com>
 References: <cover.1313700595.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1313700595.git.sgw@linux.intel.com>
 References: <cover.1313700595.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 21/32] initrdscripts: fix init-live.sh
+Subject: [CONSOLIDATED PULL 22/32] curl: Use BPN instead of PN for style like lib${PN}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,48 +33,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Aug 2011 21:01:00 -0000
+X-List-Received-Date: Thu, 18 Aug 2011 21:01:01 -0000
 
-From: Jingdong Lu <jingdong.lu@windriver.com>
+From: Dongxiao Xu <dongxiao.xu@intel.com>
 
-Fix bug: [YOCTO #686]
-Because the variable "ROOT_IMAGE" in init-live.sh is not correct, it fails to
-run when using liveCD. Modify value of "ROOT_IMAGE" to "isolinux/rootfs.img".
-If we want to use liveCD, we also need to add some kernel options related to
-CDROM support when compling kernel.
+When supporting multilib, ${PN} will be extended with MLPREFIX. However
+if a package name contains ${PN} with styles like lib${PN}, such
+extension will cause error. Use BPN in this case.
 
-Signed-off-by: Jingdong Lu <jingdong.lu@windriver.com>
+Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- meta/recipes-core/initrdscripts/files/init-live.sh |    2 +-
- .../initrdscripts/initramfs-live-boot_1.0.bb       |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-support/curl/curl_7.21.7.bb |    8 ++++----
+ 1 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
-index f3e5145..1cd87e8 100644
---- a/meta/recipes-core/initrdscripts/files/init-live.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-live.sh
-@@ -1,7 +1,7 @@
- #!/bin/sh
+diff --git a/meta/recipes-support/curl/curl_7.21.7.bb b/meta/recipes-support/curl/curl_7.21.7.bb
+index 28344e2..2ec4402 100644
+--- a/meta/recipes-support/curl/curl_7.21.7.bb
++++ b/meta/recipes-support/curl/curl_7.21.7.bb
+@@ -45,9 +45,9 @@ PACKAGE_ARCH_${PN}-certs = "all"
  
- ROOT_MOUNT="/rootfs/"
--ROOT_IMAGE=rootfs.img
-+ROOT_IMAGE="isolinux/rootfs.img"
- MOUNT="/bin/mount"
- UMOUNT="/bin/umount"
+ FILES_${PN}-doc = "${mandir}/man1/curl.1"
  
-diff --git a/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
-index 7051cbd..140fb1d 100644
---- a/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
-@@ -3,7 +3,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- SRC_URI = "file://init-live.sh"
+-FILES_lib${PN} = "${libdir}/lib*.so.*"
+-RRECOMMENDS_lib${PN} += "${PN}-certs"
+-FILES_lib${PN}-dev = "${includedir} \
++FILES_lib${BPN} = "${libdir}/lib*.so.*"
++RRECOMMENDS_lib${BPN} += "${PN}-certs"
++FILES_lib${BPN}-dev = "${includedir} \
+                       ${libdir}/lib*.so \
+                       ${libdir}/lib*.a \
+                       ${libdir}/lib*.la \
+@@ -55,7 +55,7 @@ FILES_lib${PN}-dev = "${includedir} \
+                       ${datadir}/aclocal \
+                       ${bindir}/*-config"
  
--PR = "r3"
-+PR = "r4"
+-FILES_lib${PN}-doc = "${mandir}/man3 \
++FILES_lib${BPN}-doc = "${mandir}/man3 \
+                       ${mandir}/man1/curl-config.1"
  
- do_install() {
-         install -m 0755 ${WORKDIR}/init-live.sh ${D}/init
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 1.7.6
 
