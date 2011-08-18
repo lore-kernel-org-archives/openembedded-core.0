@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qu9he-0006Yk-Tx
+	(envelope-from <sgw@linux.intel.com>) id 1Qu9hf-0006Yk-OK
 	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Aug 2011 23:00:39 +0200
+	Thu, 18 Aug 2011 23:00:40 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 18 Aug 2011 13:55:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,247,1312182000"; d="scan'208";a="39980186"
+X-IronPort-AV: E=Sophos;i="4.68,247,1312182000"; d="scan'208";a="39980196"
 Received: from unknown (HELO swold-MOBL.local) ([10.255.13.226])
-	by azsmga001.ch.intel.com with ESMTP; 18 Aug 2011 13:55:56 -0700
+	by azsmga001.ch.intel.com with ESMTP; 18 Aug 2011 13:55:57 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Aug 2011 13:55:21 -0700
-Message-Id: <75e3875341ddc8940e9ee2ccbbb2ec18194a68e6.1313700595.git.sgw@linux.intel.com>
+Date: Thu, 18 Aug 2011 13:55:22 -0700
+Message-Id: <51ef8335df895603e75345a18aaefe2359b2387f.1313700595.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1313700595.git.sgw@linux.intel.com>
 References: <cover.1313700595.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1313700595.git.sgw@linux.intel.com>
 References: <cover.1313700595.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 02/32] sanity.bbclass: add optional untested host distro warning
+Subject: [CONSOLIDATED PULL 03/32] qt4: allow a reduction in build time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,98 +33,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Aug 2011 21:00:39 -0000
+X-List-Received-Date: Thu, 18 Aug 2011 21:00:40 -0000
 
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+From: Anders Darander <anders@chargestorm.se>
 
-SANITY_TESTED_DISTROS, if specified, is expected to be a
-newline-delimited list of distro identifier strings, e.g.
+When reducing build time by adding QT_DISTRO_FLAGS from the set '-no-gui -nomake tools
+-nomake examples -nomake demos -nomake docs', build failure can occur, due to not building
+all tools.
 
-SANITY_TESTED_DISTROS = " \
-        Ubuntu 11.04 \
-        Fedora release 14 (Laughlin) \
-        "
+* Make rm not error out when removing one of the, possibly, non-existing tools.
+* Only try to rename qtdemo, if qtdemo exists.
+* Check if the phrasebook path exists, and only then call do_split_packages()
 
-(spaces, tabs etc. are trimmed)
-
-If SANITY_TESTED_DISTROS is defined, we will attempt to detect the host
-distribution. If the distribution is not in SANITY_TESTED_DISTROS or we
-could not detect the distribution then we show a warning during sanity
-checking.
-
-Provides the mechanism for fixing [YOCTO #1096].
-
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Anders Darander <anders@chargestorm.se>
 ---
- meta/classes/sanity.bbclass |   48 +++++++++++++++++++++++++++++++++++++++++++
- 1 files changed, 48 insertions(+), 0 deletions(-)
+ meta/recipes-qt/qt4/qt4.inc |   13 +++++++------
+ 1 files changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index d50c843..16af029 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -118,6 +118,52 @@ def check_connectivity(d):
+diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
+index 0410a92..5545be7 100644
+--- a/meta/recipes-qt/qt4/qt4.inc
++++ b/meta/recipes-qt/qt4/qt4.inc
+@@ -227,10 +227,11 @@ python populate_packages_prepend() {
+  
+         phrasebook_dir = bb.data.expand('${datadir}/${QT_DIR_NAME}/phrasebooks/', d)
+         phrasebook_name = bb.data.expand('${QT_BASE_NAME}-phrasebook-%s', d)
+-        do_split_packages(d, phrasebook_dir, '^(.*)\.qph$', phrasebook_name, '${PN} phrasebook for %s', extra_depends='' )
++        import os;
++        if os.path.exists(phrasebook_dir):
++                do_split_packages(d, phrasebook_dir, '^(.*)\.qph$', phrasebook_name, '${PN} phrasebook for %s', extra_depends='' )
+  
+         # Package all the plugins and their -dbg version and create a meta package
+-        import os
+         def qtopia_split(path, name, glob):
+                 """
+                 Split the package into a normal and -dbg package and then add the
+@@ -278,11 +279,11 @@ do_install() {
  
-     return retval
+ 	# These are host binaries, we should only use them in staging
+ 	rm ${D}/${bindir}/qmake
+-	rm ${D}/${bindir}/uic
+-	rm ${D}/${bindir}/uic3
++	rm -f ${D}/${bindir}/uic
++	rm -f ${D}/${bindir}/uic3
+ 	rm ${D}/${bindir}/moc
+ 	rm ${D}/${bindir}/rcc
+-	rm ${D}/${bindir}/lrelease
++	rm -f ${D}/${bindir}/lrelease
  
-+def check_supported_distro(e):
-+    tested_distros = e.data.getVar('SANITY_TESTED_DISTROS', True)
-+    if not tested_distros:
-+        return
-+
-+    if os.path.exists("/etc/redhat-release"):
-+        f = open("/etc/redhat-release", "r")
-+        try:
-+            distro = f.readline()
-+        finally:
-+            f.close()
-+    elif os.path.exists("/etc/SuSE-release"):
-+        f = open("/etc/SuSE-release", "r")
-+        try:
-+            distro = f.readline()
-+            # Remove the architecture suffix e.g. (i586)
-+            distro = re.sub(r' \([a-zA-Z0-9\-_]*\)$', '', distro).strip()
-+        finally:
-+            f.close()
-+    else:
-+        # Use LSB method
-+        import subprocess as sub
-+        try:
-+            p = sub.Popen(['lsb_release','-d','-s'],stdout=sub.PIPE,stderr=sub.PIPE)
-+            out, err = p.communicate()
-+            distro = out.rstrip()
-+        except Exception:
-+            distro = None
-+
-+        if not distro:
-+            if os.path.exists("/etc/lsb-release"):
-+                f = open("/etc/lsb-release", "r")
-+                try:
-+                    for line in f:
-+                        lns = line.split('=')
-+                        if lns[0] == "DISTRIB_DESCRIPTION":
-+                            distro = lns[1].strip('"\n')
-+                            break
-+                finally:
-+                    f.close()
-+    if distro:
-+        if distro not in [x.strip() for x in tested_distros.split('\n')]:
-+            bb.warn('Host distribution "%s" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.' % distro)
-+    else:
-+        bb.warn('Host distribution could not be determined; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.')
-+
- def check_sanity(e):
-     from bb import note, error, data, __version__
+ 	# fix pkgconfig, libtool and prl files
+ 	sed -i -e s#-L${S}/lib##g \
+@@ -319,6 +320,6 @@ do_install() {
  
-@@ -249,6 +295,8 @@ def check_sanity(e):
-     if pseudo_msg != "":
-         messages = messages + pseudo_msg + '\n'
- 
-+    check_supported_distro(e)
-+
-     # Check if DISPLAY is set if IMAGETEST is set
-     if not data.getVar( 'DISPLAY', e.data, True ) and data.getVar( 'IMAGETEST', e.data, True ) == 'qemu':
-         messages = messages + 'qemuimagetest needs a X desktop to start qemu, please set DISPLAY correctly (e.g. DISPLAY=:1.0)\n'
+ 	#Append an E to the qtdemo file
+ 	if [ -n "${QT_LIBINFIX}" ] ; then
+-		mv ${D}${bindir}/qtdemo ${D}${bindir}/qtdemo${QT_LIBINFIX}
++		[ -f ${D}${bindir}/qtdemo ] && mv ${D}${bindir}/qtdemo ${D}${bindir}/qtdemo${QT_LIBINFIX}
+ 	fi
+ }
 -- 
 1.7.6
 
