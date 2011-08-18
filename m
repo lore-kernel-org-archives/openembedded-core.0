@@ -1,26 +1,24 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Jingdong.Lu@windriver.com>) id 1QtylU-0000aQ-Hp
-	for Openembedded-core@lists.openembedded.org;
-	Thu, 18 Aug 2011 11:19:56 +0200
+	(envelope-from <Kai.Kang@windriver.com>) id 1Qtyod-0000gJ-DW
+	for openembedded-core@lists.openembedded.org;
+	Thu, 18 Aug 2011 11:23:07 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7I9FC4g020563
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 18 Aug 2011 02:15:12 -0700 (PDT)
-Received: from localhost (128.224.162.156) by ALA-HCA.corp.ad.wrs.com
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7I9IQ54021016
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 18 Aug 2011 02:18:26 -0700 (PDT)
+Received: from localhost (128.224.162.220) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Thu, 18 Aug 2011 02:15:12 -0700
-From: Jingdong.Lu@windriver.com
-To: <Openembedded-core@lists.openembedded.org>
-Date: Thu, 18 Aug 2011 17:00:52 +0800
-Message-ID: <081e010443a3436dbd5415968aeb3ef4383e2686.1313657192.git.jingdong.lu@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1313657192.git.jingdong.lu@windriver.com>
-References: <cover.1313657192.git.jingdong.lu@windriver.com>
+	Thu, 18 Aug 2011 02:18:26 -0700
+Message-ID: <cover.1313636030.git.kai.kang@windriver.com>
+Old-Date: Thu, 18 Aug 2011 10:53:50 +0800
+Date: Thu, 18 Aug 2011 17:18:22 +0800
+To: <sgw@linux.intel.com>
+From: Kang Kai <kai.kang@windriver.com>
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.156]
-Subject: [PATCH 1/1] initrdscripts: fix init-live.sh
+X-Originating-IP: [128.224.162.220]
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/5] bug fix for 1212 and split the previous distro tracking fields commit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,51 +33,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Aug 2011 09:19:56 -0000
+X-List-Received-Date: Thu, 18 Aug 2011 09:23:08 -0000
 Content-Type: text/plain
 
-From: Jingdong Lu <jingdong.lu@windriver.com>
+From: Kang Kai <kai.kang@windriver.com>
 
-Fix bug: [YOCTO #686]
-Because the variable "ROOT_IMAGE" in init-live.sh is not correct, it fails to
-run when using liveCD. Modify value of "ROOT_IMAGE" to "isolinux/rootfs.img".
-If we want to use liveCD, we also need to add some kernel options related to
-CDROM support when compling kernel.
+Hi Saul,
 
-Signed-off-by: Jingdong Lu <jingdong.lu@windriver.com>
----
- meta/recipes-core/initrdscripts/files/init-live.sh |    2 +-
- .../initrdscripts/initramfs-live-boot_1.0.bb       |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+I add a method to check the depencies between eglibc configurable options. When one option
+is set in DISTRO_FEATURES_LIBC then the required options will be set too.
+Fixes [Yocto #1212]
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
-index f3e5145..1cd87e8 100644
---- a/meta/recipes-core/initrdscripts/files/init-live.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-live.sh
-@@ -1,7 +1,7 @@
- #!/bin/sh
- 
- ROOT_MOUNT="/rootfs/"
--ROOT_IMAGE=rootfs.img
-+ROOT_IMAGE="isolinux/rootfs.img"
- MOUNT="/bin/mount"
- UMOUNT="/bin/umount"
- 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
-index 7051cbd..140fb1d 100644
---- a/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
-@@ -3,7 +3,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- SRC_URI = "file://init-live.sh"
- 
--PR = "r3"
-+PR = "r4"
- 
- do_install() {
-         install -m 0755 ${WORKDIR}/init-live.sh ${D}/init
+Split the previous update distro tracking fields commit.
+
+Regards,
+
+The following changes since commit a21ff559e7c93e9da61104f4a33e42e6004189fd:
+
+  Fixup remaining bb.msg.domain users (2011-08-15 17:31:52 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib kangkai/distro
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/distro
+
+Kang Kai (5):
+  eglibc: check dependencies among eglibc options
+  mailx: update license and distro tracking fileds
+  slang: add homepage and update distro tracking fields
+  alsa-tools: update license and add distro tracking fields
+  newt: update distro tracking fields
+
+ meta/conf/distro/include/default-distrovars.inc    |    2 +-
+ .../conf/distro/include/distro_tracking_fields.inc |   29 +++++---
+ meta/recipes-core/eglibc/eglibc-options.inc        |   75 +++++++++++++++++++-
+ meta/recipes-extended/mailx/mailx_12.5.bb          |    4 +-
+ meta/recipes-extended/slang/slang_2.2.4.bb         |    3 +-
+ .../recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb |   11 ++-
+ 6 files changed, 104 insertions(+), 20 deletions(-)
+
 -- 
-1.7.0.4
+1.7.5.1.300.gc565c
 
 
 
