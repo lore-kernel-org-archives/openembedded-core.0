@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qu9hp-0006ZY-5U
+	(envelope-from <sgw@linux.intel.com>) id 1Qu9hp-0006dG-CZ
 	for openembedded-core@lists.openembedded.org;
 	Thu, 18 Aug 2011 23:00:49 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 18 Aug 2011 13:56:10 -0700
+	by azsmga101.ch.intel.com with ESMTP; 18 Aug 2011 13:56:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,247,1312182000"; d="scan'208";a="39980284"
+X-IronPort-AV: E=Sophos;i="4.68,247,1312182000"; d="scan'208";a="39980289"
 Received: from unknown (HELO swold-MOBL.local) ([10.255.13.226])
-	by azsmga001.ch.intel.com with ESMTP; 18 Aug 2011 13:56:09 -0700
+	by azsmga001.ch.intel.com with ESMTP; 18 Aug 2011 13:56:10 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Aug 2011 13:55:32 -0700
-Message-Id: <74027ac474d8d8fd1d62d6367eab30cd48acdf70.1313700595.git.sgw@linux.intel.com>
+Date: Thu, 18 Aug 2011 13:55:33 -0700
+Message-Id: <5eecd3cf496880ef9ac98917881081144c7033ce.1313700595.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1313700595.git.sgw@linux.intel.com>
 References: <cover.1313700595.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1313700595.git.sgw@linux.intel.com>
 References: <cover.1313700595.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 13/32] libxslt: fix packaging of static libraries
+Subject: [CONSOLIDATED PULL 14/32] at: make at usable for common user
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,50 +35,63 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 18 Aug 2011 21:00:49 -0000
 
-From: Phil Blundell <philb@gnu.org>
+From: Kang Kai <kai.kang@windriver.com>
 
-This prevents warnings about .a files being installed but not shipped.
+Fixes [Yocto #1297]
 
-Signed-off-by: Phil Blundell <philb@gnu.org>
+The pkg_postinst was added to fix Yocto #675. But it seems not needed
+any more. Remove it then unprivilege user could use at.
+
+Signed-off-by: Kang Kai <kai.kang@windriver.com>
 ---
- meta/recipes-support/libxslt/libxslt_1.1.26.bb |   15 ++++++++-------
- 1 files changed, 8 insertions(+), 7 deletions(-)
+ meta/recipes-extended/at/at_3.1.12.bb |   26 +++++---------------------
+ 1 files changed, 5 insertions(+), 21 deletions(-)
 
-diff --git a/meta/recipes-support/libxslt/libxslt_1.1.26.bb b/meta/recipes-support/libxslt/libxslt_1.1.26.bb
-index b5f6962..cc64ba7 100644
---- a/meta/recipes-support/libxslt/libxslt_1.1.26.bb
-+++ b/meta/recipes-support/libxslt/libxslt_1.1.26.bb
-@@ -6,8 +6,8 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=0cd9a07afbeb24026c9b03aecfeba458"
+diff --git a/meta/recipes-extended/at/at_3.1.12.bb b/meta/recipes-extended/at/at_3.1.12.bb
+index c76b50e..baf15df 100644
+--- a/meta/recipes-extended/at/at_3.1.12.bb
++++ b/meta/recipes-extended/at/at_3.1.12.bb
+@@ -4,11 +4,14 @@ the system load levels drop to a particular level."
+ SECTION = "base"
+ LICENSE="GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4325afd396febcb659c36b49533135d4"
+-DEPENDS = "flex libpam initscripts \
++DEPENDS = "flex initscripts \
+ 	${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
++RDEPENDS = "${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_DEPS}', '', d)}"
++PAM_DEPS = "libpam libpam-runtime pam-plugin-env pam-plugin-limits"
++
+ RCONFLICTS_${PN} = "atd"
+ RREPLACES_${PN} = "atd"
+-PR = "r5"
++PR = "r6"
  
- SECTION = "libs"
--DEPENDS = "libxml2 (>=2.6.27)"
--PR = "r1"
-+DEPENDS = "libxml2"
-+PR = "r2"
+ SRC_URI = "${DEBIAN_MIRROR}/main/a/at/at_${PV}.orig.tar.gz \
+     file://configure.patch \
+@@ -56,23 +59,4 @@ do_install () {
+ 	done
+ }
  
- SRC_URI = "ftp://xmlsoft.org/libxslt//libxslt-${PV}.tar.gz \
-            file://pkgconfig_fix.patch;patch=1"
-@@ -16,13 +16,14 @@ SRC_URI[md5sum] = "e61d0364a30146aaa3001296f853b2b9"
- SRC_URI[sha256sum] = "55dd52b42861f8a02989d701ef716d6280bfa02971e967c285016f99c66e3db1"
- S = "${WORKDIR}/libxslt-${PV}"
- 
--inherit autotools pkgconfig binconfig
-+inherit autotools pkgconfig binconfig lib_package
- 
- EXTRA_OECONF = "--without-python --without-debug --without-mem-debug --without-crypto"
-+# older versions of this recipe had ${PN}-utils
-+RPROVIDES_${PN}-bin += "${PN}-utils"
-+RCONFLICTS_${PN}-bin += "${PN}-utils"
-+RREPLACES_${PN}-bin += "${PN}-utils"
- 
--PACKAGES = "${PN}-dbg ${PN}-dev ${PN}-utils ${PN} ${PN}-doc ${PN}-locale"
+-pkg_postinst_${PN} () {
+-	if [ "x$D" != "x" ] ; then
+-		exit 1
+-	fi
 -
--FILES_${PN}-dev += "${bindir}/xslt-config"
--FILES_${PN}-utils += "${bindir}"
-+FILES_${PN}-dev += "${bindir}/xsltConf.sh"
- 
- BBCLASSEXTEND = "native"
+-	# below is necessary to allow at usable to normal users
+-	# now at is has its own /var/spool/at instead of under /var/spool/cron
+-	# this way is better to allow setgid on both sides
+-	grep "^daemon" /etc/group || groupadd daemon
+-	chown root:daemon /usr/bin/at
+-	chmod 2755 /usr/bin/at
+-
+-	chown root:daemon -R /var/spool/at
+-	chmod 770 -R /var/spool/at
+-
+-	chown root:daemon /etc/at.deny
+-	chmod 640 /etc/at.deny
+-}
+-
+ PARALLEL_MAKE = ""
 -- 
 1.7.6
 
