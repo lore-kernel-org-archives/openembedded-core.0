@@ -1,25 +1,24 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1Qtyh0-0000Sy-RI
-	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Aug 2011 11:15:15 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 18 Aug 2011 02:08:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,244,1312182000"; 
-   d="scan'208";a="8464499"
-Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by AZSMGA002.ch.intel.com with ESMTP; 18 Aug 2011 02:08:19 -0700
-From: Dongxiao Xu <dongxiao.xu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Aug 2011 17:08:57 +0800
-Message-Id: <748d50ef19a040761727fb553d4addbc18af3d95.1313658393.git.dongxiao.xu@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1313658393.git.dongxiao.xu@intel.com>
-References: <cover.1313658393.git.dongxiao.xu@intel.com>
-In-Reply-To: <cover.1313658393.git.dongxiao.xu@intel.com>
-References: <cover.1313658393.git.dongxiao.xu@intel.com>
-Subject: [PATCH 1/5] curl: Use BPN instead of PN for style like lib${PN}
+	(envelope-from <Jingdong.Lu@windriver.com>) id 1QtylP-0000a6-C5
+	for Openembedded-core@lists.openembedded.org;
+	Thu, 18 Aug 2011 11:19:47 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7I9F7Pe020550
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu, 18 Aug 2011 02:15:07 -0700 (PDT)
+Received: from localhost (128.224.162.156) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Thu, 18 Aug 2011 02:15:07 -0700
+From: Jingdong.Lu@windriver.com
+To: <Openembedded-core@lists.openembedded.org>
+Date: Thu, 18 Aug 2011 17:00:51 +0800
+Message-ID: <cover.1313657192.git.jingdong.lu@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
+MIME-Version: 1.0
+X-Originating-IP: [128.224.162.156]
+Subject: [PATCH 0/1]initrdscripts: fix init-live.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,45 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Aug 2011 09:15:15 -0000
+X-List-Received-Date: Thu, 18 Aug 2011 09:19:47 -0000
+Content-Type: text/plain
 
-When supporting multilib, ${PN} will be extended with MLPREFIX. However
-if a package name contains ${PN} with styles like lib${PN}, such
-extension will cause error. Use BPN in this case.
+From: Jingdong Lu <jingdong.lu@windriver.com>
 
-Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
----
- meta/recipes-support/curl/curl_7.21.7.bb |    8 ++++----
- 1 files changed, 4 insertions(+), 4 deletions(-)
+Fix bug: [YOCTO 686] (partly)
 
-diff --git a/meta/recipes-support/curl/curl_7.21.7.bb b/meta/recipes-support/curl/curl_7.21.7.bb
-index 28344e2..2ec4402 100644
---- a/meta/recipes-support/curl/curl_7.21.7.bb
-+++ b/meta/recipes-support/curl/curl_7.21.7.bb
-@@ -45,9 +45,9 @@ PACKAGE_ARCH_${PN}-certs = "all"
- 
- FILES_${PN}-doc = "${mandir}/man1/curl.1"
- 
--FILES_lib${PN} = "${libdir}/lib*.so.*"
--RRECOMMENDS_lib${PN} += "${PN}-certs"
--FILES_lib${PN}-dev = "${includedir} \
-+FILES_lib${BPN} = "${libdir}/lib*.so.*"
-+RRECOMMENDS_lib${BPN} += "${PN}-certs"
-+FILES_lib${BPN}-dev = "${includedir} \
-                       ${libdir}/lib*.so \
-                       ${libdir}/lib*.a \
-                       ${libdir}/lib*.la \
-@@ -55,7 +55,7 @@ FILES_lib${PN}-dev = "${includedir} \
-                       ${datadir}/aclocal \
-                       ${bindir}/*-config"
- 
--FILES_lib${PN}-doc = "${mandir}/man3 \
-+FILES_lib${BPN}-doc = "${mandir}/man3 \
-                       ${mandir}/man1/curl-config.1"
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
-1.7.1
+"ROOT_IMAGE" is a wrong path and it can't be mounted when using liveCD. So
+modify value of "ROOT_IMAGE" in init-live.sh to "isolinux/rootfs.img".
+If we want to use liveCD, we also need to add some kernel options related to
+CDROM support when compling kernel. 
+
+The following changes since commit a21ff559e7c93e9da61104f4a33e42e6004189fd:
+  Richard Purdie (1):
+        Fixup remaining bb.msg.domain users
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib jingdonglu/bug686
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jingdonglu/bug686
+
+Jingdong Lu (1):
+  initrdscripts: fix init-live.sh
+
+ meta/recipes-core/initrdscripts/files/init-live.sh |    2 +-
+ .../initrdscripts/initramfs-live-boot_1.0.bb       |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 
 
