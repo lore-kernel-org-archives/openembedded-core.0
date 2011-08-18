@@ -1,24 +1,20 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1QtyUh-0008NU-Cg
+	(envelope-from <dongxiao.xu@intel.com>) id 1Qtyeo-0000Ih-PW
 	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Aug 2011 11:02:31 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QtyQ6-0000aB-CC
-	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Aug 2011 10:57:46 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 18 Aug 2011 09:57:45 +0100
-In-Reply-To: <4E4CAE28.8050600@linux.intel.com>
-References: <4E4CAE28.8050600@linux.intel.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1313657866.6733.237.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: [PATCH][RFC] cortexa8: use hard floating point
+	Thu, 18 Aug 2011 11:12:59 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 18 Aug 2011 02:08:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="39592548"
+Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
+	by orsmga001.jf.intel.com with ESMTP; 18 Aug 2011 02:08:18 -0700
+From: Dongxiao Xu <dongxiao.xu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Aug 2011 17:08:56 +0800
+Message-Id: <cover.1313658393.git.dongxiao.xu@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/5][PULL] multilib: Some fixes of improper ${PN}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,33 +29,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Aug 2011 09:02:31 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 18 Aug 2011 09:12:59 -0000
 
-On Wed, 2011-08-17 at 23:16 -0700, Darren Hart wrote:
-> From what I could gather, it makes sense to address using mfloat-abi=hard
-> for the beagleboard in the cortexa8 tune file. Before I submit this as a pull
-> request, I'd appreciate a sanity check from the Beagleboard experts.
-> 
->[...]
->
-> mfloat-abi is currently set to soft for beagleboard (cortexa8) and needs to be
-> set to hard to take advantage of the floating point hardware.
+Hi Richard,
 
-Have you benchmarked this change?  It isn't really true to say that hf
-needs to be set to "take advantage" of the FP hardware; you will still
-get most of the benefit of the VFP without it.  I would be surprised if
-this made much of a difference on any real-world workload.
+This pull request fixes some improper ${PN}, please help to reivew and pull.
 
-Changing -mfloat-abi is (obviously) an ABI change and is definitely not
-the sort of thing to do capriciously.  If you apply the patch in its
-current form then it will make cortexa8 binaries incompatible with
-everything else by default, which is probably not going to be a good
-thing.  I think this ought to be a DISTRO choice not a machine one.
+Thanks,
+Dongxiao
 
-p.
+The following changes since commit 2e83e6755441cb14bd907d306974338c15173189:
 
+  kernel: restore crtsavres.o to enable building external modules on powerpc (2011-08-17 15:46:16 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dxu4/ml
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/ml
+
+Dongxiao Xu (5):
+  curl: Use BPN instead of PN for style like lib${PN}
+  ea-acl: Use BPN instead of PN for style like lib${PN}
+  attr: Use BPN instead of PN for style like lib${PN}
+  acl: Use BPN instead of PN for style like lib${PN}
+  procps: Fix lib path to support multilib
+
+ .../procps/procps-3.2.8/install.patch              |   29 --------------------
+ meta/recipes-extended/procps/procps.inc            |    3 +-
+ meta/recipes-extended/procps/procps_3.2.8.bb       |    8 +++---
+ meta/recipes-support/attr/acl.inc                  |    2 +-
+ meta/recipes-support/attr/attr.inc                 |    2 +-
+ meta/recipes-support/attr/ea-acl.inc               |    6 ++--
+ meta/recipes-support/curl/curl_7.21.7.bb           |    8 +++---
+ 7 files changed, 14 insertions(+), 44 deletions(-)
+ delete mode 100644 meta/recipes-extended/procps/procps-3.2.8/install.patch
 
 
 
