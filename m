@@ -1,26 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1Qtyol-0000gy-MP
+	(envelope-from <Kai.Kang@windriver.com>) id 1Qtyou-0000j8-MB
 	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Aug 2011 11:23:16 +0200
+	Thu, 18 Aug 2011 11:23:25 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7I9IZEk021050
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7I9Idaq021055
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 18 Aug 2011 02:18:35 -0700 (PDT)
+	Thu, 18 Aug 2011 02:18:39 -0700 (PDT)
 Received: from localhost (128.224.162.220) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Thu, 18 Aug 2011 02:18:35 -0700
-Message-ID: <2cadbb83f4f0af765a3d5a9de419698fd62de099.1313636030.git.kai.kang@windriver.com>
+	Thu, 18 Aug 2011 02:18:39 -0700
+Message-ID: <d2b417d2b8c93063b06541fec6e6bb6c476e6f42.1313636030.git.kai.kang@windriver.com>
 In-Reply-To: <cover.1313636030.git.kai.kang@windriver.com>
 References: <cover.1313636030.git.kai.kang@windriver.com>
-Old-Date: Thu, 18 Aug 2011 10:33:55 +0800
-Date: Thu, 18 Aug 2011 17:18:32 +0800
+Old-Date: Thu, 18 Aug 2011 10:38:47 +0800
+Date: Thu, 18 Aug 2011 17:18:35 +0800
 To: <sgw@linux.intel.com>
 From: Kang Kai <kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.220]
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/5] mailx: update license and distro tracking fileds
+Subject: [PATCH 3/5] slang: add homepage and update distro tracking fields
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,54 +35,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Aug 2011 09:23:16 -0000
+X-List-Received-Date: Thu, 18 Aug 2011 09:23:26 -0000
 Content-Type: text/plain
 
 From: Kang Kai <kai.kang@windriver.com>
 
-update mailx license and bump up PR, and update distro tracking fields.
+Add slang homepage and bump up PR.
+Update distro tracking fields.
 
 Signed-off-by: Kang Kai <kai.kang@windriver.com>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |    9 +++++++--
- meta/recipes-extended/mailx/mailx_12.5.bb          |    4 ++--
- 2 files changed, 9 insertions(+), 4 deletions(-)
+ .../conf/distro/include/distro_tracking_fields.inc |    5 +++--
+ meta/recipes-extended/slang/slang_2.2.4.bb         |    3 ++-
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index c7e5db5..ad4cabe 100644
+index ad4cabe..1190359 100644
 --- a/meta/conf/distro/include/distro_tracking_fields.inc
 +++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -5699,8 +5699,13 @@ RECIPE_MAINTAINER_pn-docbook-utils = "Scott Garman <scott.a.garman@intel.com>"
- RECIPE_LATEST_VERSION_pn-task-qte-toolchain-target = "1.0"
- RECIPE_MANUAL_CHECK_DATE_pn-task-qte-toolchain-target = "Feb 28, 2011"
- DISTRO_PN_ALIAS_pn-task-qte-toolchain-target = "Intel"
--RECIPE_LATEST_VERSION_pn-mailx = "12.4"
--RECIPE_MANUAL_CHECK_DATE_pn-mailx = "Feb 28, 2011"
-+
-+RECIPE_STATUS_pn-mailx = "green"
-+RECIPE_LATEST_VERSION_pn-mailx = "12.5"
-+RECIPE_LAST_UPDATE_pn-mailx = "Jul 1, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-mailx = "Jul 28, 2011"
-+RECIPE_MAINTAINER_pn-mailx = "Kai Kang <kai.kang@windriver.com>"
-+
- RECIPE_LATEST_VERSION_pn-libgcc = "4.5.1"
- RECIPE_MANUAL_CHECK_DATE_pn-libgcc = "Feb 28, 2011"
+@@ -5731,8 +5731,9 @@ RECIPE_MAINTAINER_pn-linuxdoc-tools = "Scott Garman <scott.a.garman@intel.com>"
  
-diff --git a/meta/recipes-extended/mailx/mailx_12.5.bb b/meta/recipes-extended/mailx/mailx_12.5.bb
-index 1173b0a..52b906f 100644
---- a/meta/recipes-extended/mailx/mailx_12.5.bb
-+++ b/meta/recipes-extended/mailx/mailx_12.5.bb
-@@ -6,8 +6,8 @@ for MIME, IMAP, POP3, SMTP, and S/MIME."
+ RECIPE_STATUS_pn-slang = "green"
+ RECIPE_LATEST_VERSION_pn-slang = "2.2.4"
+-RECIPE_LAST_UPDATE_pn-slang = "Apr 10, 2011"
+-RECIPE_MANUAL_CHECK_DATE_pn-slang = "Jun 6, 2011"
++RECIPE_LAST_UPDATE_pn-slang = "Jul 28, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-slang = "Jun 28, 2011"
++RECIPE_MAINTAINER_pn-slang = "Kai Kang <kai.kang@windriver.com>"
  
- HOMEPAGE = "http://heirloom.sourceforge.net/mailx.html"
- SECTION = "console/network"
--PR = "r0"
--LICENSE = "GPL"
-+PR = "r1"
-+LICENSE = "BSD & MPL-1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4202a0a62910cf94f7af8a3436a2a2dd"
+ RECIPE_STATUS_pn-libnewt = "green"
+ RECIPE_LATEST_VERSION_pn-libnewt = "0.52.12"
+diff --git a/meta/recipes-extended/slang/slang_2.2.4.bb b/meta/recipes-extended/slang/slang_2.2.4.bb
+index 4bf5737..77e63da 100644
+--- a/meta/recipes-extended/slang/slang_2.2.4.bb
++++ b/meta/recipes-extended/slang/slang_2.2.4.bb
+@@ -7,9 +7,10 @@ The S-Lang library, provided in this package, provides the S-Lang \
+ extension language.  S-Lang's syntax resembles C, which makes it easy \
+ to recode S-Lang procedures in C if you need to."
  
- SRC_URI = "${DEBIAN_MIRROR}/main/h/heirloom-mailx/heirloom-mailx_${PV}.orig.tar.gz;name=archive \
++HOMEPAGE = "http://www.jedsoft.org/slang/"
+ SECTION = "libs"
+ DEPENDS = "pcre"
+-PR = "r5"
++PR = "r6"
+ 
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a52a18a472d4f7e45479b06563717c02"
 -- 
 1.7.5.1.300.gc565c
 
