@@ -1,34 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QuQEG-0004iC-W5 for openembedded-core@lists.openembedded.org;
-	Fri, 19 Aug 2011 16:39:25 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7JEYjvB028370
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <mark.hatle@windriver.com>) id 1QuQIL-0004w9-2y
+	for openembedded-core@lists.openembedded.org;
+	Fri, 19 Aug 2011 16:43:37 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7JEcsaV024112
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2011 15:34:45 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 26909-06 for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2011 15:34:41 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7JEYcXE028364
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2011 15:34:40 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 19 Aug 2011 07:38:54 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Fri, 19 Aug 2011 07:38:54 -0700
+Message-ID: <4E4E757D.3050903@windriver.com>
+Date: Fri, 19 Aug 2011 09:38:53 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:5.0) Gecko/20110624 Thunderbird/5.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <51ef8335df895603e75345a18aaefe2359b2387f.1313700595.git.sgw@linux.intel.com>
-References: <cover.1313700595.git.sgw@linux.intel.com>
-	<51ef8335df895603e75345a18aaefe2359b2387f.1313700595.git.sgw@linux.intel.com>
-Date: Fri, 19 Aug 2011 09:34:35 -0500
-Message-ID: <1313764475.13995.106.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [CONSOLIDATED PULL 03/32] qt4: allow a reduction in build time
+Subject: Prelink question...
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,50 +35,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2011 14:39:25 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 19 Aug 2011 14:43:37 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-08-18 at 13:55 -0700, Saul Wold wrote:
-> From: Anders Darander <anders@chargestorm.se>
-> 
-> When reducing build time by adding QT_DISTRO_FLAGS from the set '-no-gui -nomake tools
-> -nomake examples -nomake demos -nomake docs', build failure can occur, due to not building
-> all tools.
-> 
-> * Make rm not error out when removing one of the, possibly, non-existing tools.
-> * Only try to rename qtdemo, if qtdemo exists.
-> * Check if the phrasebook path exists, and only then call do_split_packages()
-> 
-> Signed-off-by: Anders Darander <anders@chargestorm.se>
-> ---
->  meta/recipes-qt/qt4/qt4.inc |   13 +++++++------
->  1 files changed, 7 insertions(+), 6 deletions(-)
-> 
-> diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
-> index 0410a92..5545be7 100644
-> --- a/meta/recipes-qt/qt4/qt4.inc
-> +++ b/meta/recipes-qt/qt4/qt4.inc
-> @@ -227,10 +227,11 @@ python populate_packages_prepend() {
->   
->          phrasebook_dir = bb.data.expand('${datadir}/${QT_DIR_NAME}/phrasebooks/', d)
->          phrasebook_name = bb.data.expand('${QT_BASE_NAME}-phrasebook-%s', d)
-> -        do_split_packages(d, phrasebook_dir, '^(.*)\.qph$', phrasebook_name, '${PN} phrasebook for %s', extra_depends='' )
-> +        import os;
-> +        if os.path.exists(phrasebook_dir):
-> +                do_split_packages(d, phrasebook_dir, '^(.*)\.qph$', phrasebook_name, '${PN} phrasebook for %s', extra_depends='' )
->   
->          # Package all the plugins and their -dbg version and create a meta package
-> -        import os
+I've been getting reports that people are experiencing crashed with the
+cross-prelinker on 64-bit only filesystems.  This includes both x86_64 and PPC64.
 
-For reference, BitBake assumes that both os and bb are always imported
-so we can likely drop all "import os" references. I'll take this patch
-since its harmless but I did just grep the classes directory and it
-looks like we can clean up those imports a little.
+In the case of the PPC64, there is one or more bug in the cross-prelinker rtld
+emulation which I'm currently working on.
 
-Cheers,
+x86_64 however seems to simply crash on execution.. I've not gathered any
+further information.
 
-Richard
+To work around this, only if you are having problems, in your conf/local.conf
+remove the image-prelink from the USER_CLASSES.
 
+Also if you end up having to remove this, please let me know you are having
+problems and which architecture you are working with.
+
+--Mark
 
 
