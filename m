@@ -1,26 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Jingdong.Lu@windriver.com>) id 1QuLj7-0004RS-Jm
-	for Openembedded-core@lists.openembedded.org;
-	Fri, 19 Aug 2011 11:50:57 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7J9kGub011926
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2011 02:46:16 -0700 (PDT)
-Received: from localhost (128.224.162.156) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Fri, 19 Aug 2011 02:46:16 -0700
-From: Jingdong.Lu@windriver.com
-To: <Openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Aug 2011 17:46:05 +0800
-Message-ID: <b390adb530b4924de621b14df1107f01cc3217d2.1313747056.git.jingdong.lu@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1313747056.git.jingdong.lu@windriver.com>
-References: <cover.1313747056.git.jingdong.lu@windriver.com>
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1QuMNL-0005x0-PO
+	for openembedded-core@lists.openembedded.org;
+	Fri, 19 Aug 2011 12:32:32 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 19 Aug 2011 03:27:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="39999898"
+Received: from unknown (HELO helios.localnet) ([10.255.18.125])
+	by orsmga001.jf.intel.com with ESMTP; 19 Aug 2011 03:27:49 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Phil Blundell <philb@gnu.org>
+Date: Fri, 19 Aug 2011 11:27:48 +0100
+User-Agent: KMail/1.13.6 (Linux/2.6.38-10-generic-pae; KDE/4.6.2; i686; ; )
+References: <cover.1313606178.git.paul.eggleton@linux.intel.com>
+	<8c4bf939c0906cd744debeb85d5d55de622c184e.1313606178.git.paul.eggleton@linux.intel.com>
+	<1313606497.3630.16.camel@lenovo.internal.reciva.com>
+In-Reply-To: <1313606497.3630.16.camel@lenovo.internal.reciva.com>
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.156]
-Subject: [PATCH 1/1] mpc8315e-rdb: add kernel modules to rootfs
+Message-Id: <201108191127.48228.paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 1/2] image.bbclass, kernel.bbclass: create warning file about deleting deploydir files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,31 +36,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2011 09:50:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 19 Aug 2011 10:32:32 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
+Content-Transfer-Encoding: 7bit
 
-From: Jingdong Lu <jingdong.lu@windriver.com>
+On Wednesday 17 August 2011 19:41:37 Phil Blundell wrote:
+> On Wed, 2011-08-17 at 19:37 +0100, Paul Eggleton wrote:
+> > +Files in the deploy directory will not be re-created automatically if
+> > you +delete them. If you do delete a file, you will need to run:
+> > +
+> > +  bitbake -c clean TARGET
+> > +  bitbake TARGET
+> > +
+> > +where TARGET is the name of the appropriate package or target e.g.
+> > +"virtual/kernel" for the kernel, an image, etc.
+> 
+> Doesn't it suffice to run "bitbake -f -c deploy TARGET"?
 
-Fix bug: [YOCTO #817]
-Add kernel modules to rootfs for mpc8315e.
+I guess it would, but I'm not sure we really want to be encouraging users to 
+use -f.
 
-Signed-off-by: Jingdong Lu <jingdong.lu@windriver.com>
----
- meta-yocto/conf/machine/mpc8315e-rdb.conf |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
+Cheers,
+Paul
 
-diff --git a/meta-yocto/conf/machine/mpc8315e-rdb.conf b/meta-yocto/conf/machine/mpc8315e-rdb.conf
-index 172deec..b2c978a 100644
---- a/meta-yocto/conf/machine/mpc8315e-rdb.conf
-+++ b/meta-yocto/conf/machine/mpc8315e-rdb.conf
-@@ -19,3 +19,5 @@ XSERVER = "xserver-kdrive-fbdev"
- UBOOT_ENTRYPOINT = "0x00000000"
- 
- KERNEL_DEVICETREE = "${S}/arch/powerpc/boot/dts/mpc8315erdb.dts"
-+
-+MACHINE_EXTRA_RRECOMMENDS = " kernel-modules"
 -- 
-1.7.0.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
