@@ -1,33 +1,25 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QuRme-0000Gz-HK for openembedded-core@lists.openembedded.org;
-	Fri, 19 Aug 2011 18:19:00 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7JGEKAh030185
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2011 17:14:20 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 28745-04 for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2011 17:14:16 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7JGEDgj030179
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2011 17:14:15 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <philb@gnu.org>) id 1QuRvu-0000V8-DD
+	for openembedded-core@lists.openembedded.org;
+	Fri, 19 Aug 2011 18:28:34 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QuRrP-0002L0-TU
+	for openembedded-core@lists.openembedded.org;
+	Fri, 19 Aug 2011 18:23:56 +0200
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <cover.1313700595.git.sgw@linux.intel.com>
+Date: Fri, 19 Aug 2011 17:23:55 +0100
+In-Reply-To: <788258d226dc94004ce8284a62cf8524bcf4b010.1313700595.git.sgw@linux.intel.com>
 References: <cover.1313700595.git.sgw@linux.intel.com>
-Date: Fri, 19 Aug 2011 09:14:11 -0700
-Message-ID: <1313770451.13995.113.camel@rex>
+	<788258d226dc94004ce8284a62cf8524bcf4b010.1313700595.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1313771035.6733.304.camel@phil-desktop>
 Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [CONSOLIDATED PULL 00/32] Various Fixes, Updates
+Subject: Re: [CONSOLIDATED PULL 16/32] gcc-4.6: Use --with-linker-hash-style configure option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,86 +34,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2011 16:19:00 -0000
+X-List-Received-Date: Fri, 19 Aug 2011 16:28:34 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 On Thu, 2011-08-18 at 13:55 -0700, Saul Wold wrote:
-> The following changes since commit 2e83e6755441cb14bd907d306974338c15173189:
-> 
->   kernel: restore crtsavres.o to enable building external modules on powerpc (2011-08-17 15:46:16 +0100)
-> 
-> are available in the git repository at:
->   git://git.openembedded.org/openembedded-core-contrib sgw/stage
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-> 
-> Adrian Alonso (1):
->   file: new file version 5.07
-> 
-> Anders Darander (3):
->   qt4: allow a reduction in build time
->   qemu: modify search paths for libgl
->   scripts/runqemu: modify search paths for libgl
-> 
-> Dongxiao Xu (7):
->   busybox: Change ${PN} to ${BPN} in file names
->   sysvinit: Change ${PN} to ${BPN} in file names
->   curl: Use BPN instead of PN for style like lib${PN}
->   ea-acl: Use BPN instead of PN for style like lib${PN}
->   attr: Use BPN instead of PN for style like lib${PN}
->   acl: Use BPN instead of PN for style like lib${PN}
->   procps: Fix lib path to support multilib
-> 
-> Jingdong Lu (1):
->   initrdscripts: fix init-live.sh
-> 
-> Joshua Lock (1):
->   glib-2.0: explicitly disable dtrace and systemtap for native varaint
-> 
-> Kang Kai (6):
->   at: make at usable for common user
->   eglibc: check dependencies among eglibc options
->   mailx: update license and distro tracking fileds
->   slang: add homepage and update distro tracking fields
->   alsa-tools: update license and add distro tracking fields
->   newt: update distro tracking fields
-> 
-> Khem Raj (4):
->   conf,recipes: Redefine LINKER_HASH_STYLE
->   gcc-4.6: Use --with-linker-hash-style configure option
->   task-core-tools: Use LTTNGUST variable instead of hardcoding
->     lttng-ust
->   gdb: Add lttng-ust to DEPENDS only for eglibc
-> 
-> Koen Kooi (1):
->   tcl: fix networking breakage
-> 
-> Martin Jansa (2):
->   task-core-boot: allow distribution to override default dev_manager
->     provider with VIRTUAL-RUNTIME_dev_manager
->   bluez4: update recipe from meta-oe
-> 
-> Noor Ahsan (1):
->   mtd-utils: Added recipe of newer version 1.4.4.
-> 
-> Paul Eggleton (2):
->   image.bbclass, kernel.bbclass: create warning file about deleting
->     deploydir files
->   sanity.bbclass: add optional untested host distro warning
-> 
-> Phil Blundell (2):
->   libxkbcommon: new
->   libxslt: fix packaging of static libraries
-> 
-> Wenzong Fan (1):
->   perl-native: Update find_perl to find the perl wrapper
+>  # Third digit in PV should be incremented after a minor release
+>  # happens from this branch on gcc e.g. currently its 4.6.0
+> @@ -90,6 +90,7 @@ EXTRA_OECONF_BASE = " --enable-lto \
+>  			--disable-bootstrap \
+>  			--disable-libgomp \
+>  			--disable-libmudflap \
+> +			--with-linker-hash-style=${LINKER_HASH_STYLE} \
+>  			--enable-cheaders=c_global "
+>  
+>  EXTRA_OECONF_INITIAL = "--disable-libmudflap \
 
-Thanks for putting this together Saul. I've either merged these or
-commented on the mailing list.
+Which gcc did you test this against?  As far as I can tell this patch
+was only applied to the trunk (as of May this year) and not the 4.6
+branch.  The corresponding configury certainly doesn't seem to exist in
+the oe-core build tree that I happen to have lying around in front of
+me, so it isn't apparent that this patch will have any useful effect. 
 
-Cheers,
+p.
 
-Richard
 
 
 
