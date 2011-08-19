@@ -1,24 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qu9iD-0006pi-E2
+	(envelope-from <bruce.ashfield@windriver.com>) id 1QuHZi-0005ju-Fe
 	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Aug 2011 23:01:13 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 18 Aug 2011 13:56:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,247,1312182000"; d="scan'208";a="39980402"
-Received: from unknown (HELO swold-MOBL.local) ([10.255.13.226])
-	by azsmga001.ch.intel.com with ESMTP; 18 Aug 2011 13:56:27 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Aug 2011 13:55:50 -0700
-Message-Id: <ea49dd04c657649bfd1e5958eb2255d9843d580e.1313700595.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <cover.1313700595.git.sgw@linux.intel.com>
-References: <cover.1313700595.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1313700595.git.sgw@linux.intel.com>
-References: <cover.1313700595.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 31/32] newt: update distro tracking fields
+	Fri, 19 Aug 2011 07:24:58 +0200
+Received: from yow-bashfiel-l1.corp.ad.wrs.com
+	(dhcp-146-223.ottawa.windriver.com [128.224.146.223])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7J5KA7r005178;
+	Thu, 18 Aug 2011 22:20:13 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Fri, 19 Aug 2011 01:20:04 -0400
+Message-Id: <e7036174cf607031e13323564f402c7b805e4572.1313730559.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
+In-Reply-To: <cover.1313730559.git.bruce.ashfield@windriver.com>
+References: <cover.1313730559.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1313730559.git.bruce.ashfield@windriver.com>
+References: <cover.1313730559.git.bruce.ashfield@windriver.com>
+Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
+	saul.wold@intel.com
+Subject: [PATCH 1/3] linux-yocto: restoring LINUX_VERSION ?= "3.0"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,38 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Aug 2011 21:01:13 -0000
+X-List-Received-Date: Fri, 19 Aug 2011 05:24:58 -0000
 
-From: Kang Kai <kai.kang@windriver.com>
+There are enough other recipes/layers and users that are currently
+using PREFERRED_VERSION that changing the value to 3.0.x does not
+work at the current time. So we'll restore this to 3.0 and follow
+the same model as previous releases. Using DEFAULT_PREFERENCE and
+other schemes will be considered in the future.
 
-Update newt distro tracking fields
-
-Signed-off-by: Kang Kai <kai.kang@windriver.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |    8 ++++----
- 1 files changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index bce4518..22042b1 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -5736,10 +5736,10 @@ RECIPE_MANUAL_CHECK_DATE_pn-slang = "Jun 28, 2011"
- RECIPE_MAINTAINER_pn-slang = "Kai Kang <kai.kang@windriver.com>"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+index 44f1ebe..5d9871f 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+@@ -11,7 +11,7 @@ KMACHINE_qemuarm  = "yocto/standard/arm-versatile-926ejs"
+ KBRANCH = ${KMACHINE}
+ KMETA = meta
  
- RECIPE_STATUS_pn-libnewt = "green"
--RECIPE_LATEST_VERSION_pn-libnewt = "0.52.12"
--RECIPE_LAST_UPDATE_pn-libnewt = "Aug 06, 2010"
--RECIPE_MANUAL_CHECK_DATE_pn-libnewt = "Jun 4, 2011"
--RECIPE_NO_UPDATE_REASON_pn-libnewt = ""
-+RECIPE_LATEST_VERSION_pn-libnewt = "0.52.13"
-+RECIPE_MAINTAINER_pn-libnewt = "Kai Kang <kai.kang@windriver.com>"
-+RECIPE_LAST_UPDATE_pn-libnewt = "Jul 27, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-libnewt = "Jul 27, 2011"
+-LINUX_VERSION ?= "3.0.1"
++LINUX_VERSION ?= "3.0"
+ LINUX_VERSION_EXTENSION ?= "-yocto-${LINUX_KERNEL_TYPE}"
  
- RECIPE_STATUS_pn-createrepo = "green"
- RECIPE_LATEST_VERSION_pn-createrepo = "0.9.9"
+ SRCREV_machine_qemuarm = "36b4cdddcafc711f0ec9ad97882f23a6443c61b2"
 -- 
-1.7.6
+1.7.4.1
 
 
 
