@@ -1,22 +1,25 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QuXH6-0002aa-SL
+	(envelope-from <dvhart@linux.intel.com>) id 1QuXH8-0002ad-MB
 	for openembedded-core@lists.openembedded.org;
-	Sat, 20 Aug 2011 00:10:49 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Aug 2011 15:06:07 -0700
+	Sat, 20 Aug 2011 00:10:50 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 19 Aug 2011 15:06:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,253,1312182000"; d="scan'208";a="41868770"
+X-IronPort-AV: E=Sophos;i="4.68,253,1312182000"; 
+   d="scan'208";a="9092266"
 Received: from unknown (HELO localhost) ([10.255.13.233])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Aug 2011 15:06:06 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 19 Aug 2011 15:06:08 -0700
 From: Darren Hart <dvhart@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
 Date: Fri, 19 Aug 2011 15:06:05 -0700
-Message-Id: <cover.1313791350.git.dvhart@linux.intel.com>
+Message-Id: <91e2a59d20e1d1992691684fb2dd64a6405ec6e3.1313791350.git.dvhart@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	Darren Hart <dvhart@linux.intel.com>
-Subject: [PATCH 0/3] tune: update arm7a and cortexa8 tune files
+In-Reply-To: <cover.1313791350.git.dvhart@linux.intel.com>
+References: <cover.1313791350.git.dvhart@linux.intel.com>
+Cc: Darren Hart <dvhart@linux.intel.com>,
+	Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH 1/3] tune: add missing closing quote to arch-armv7a.inc for AVAILTUNES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,30 +34,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2011 22:10:49 -0000
+X-List-Received-Date: Fri, 19 Aug 2011 22:10:51 -0000
 
-Correct some typographical errors in the arm7a and cortexa8 files. Add support
-for the hard floating point abi. Leave the default as cortexa8-neon.
+A closing quote was missing for an AVAILTUNES append operation, add it.
 
-These are in preparation to enable hardfp for meta-yocto's beagleboard BSP.
-
-The following changes since commit 8aa14b444f16c4fd0afe93eccd238a8fb2bc0292:
-
-  newt: update distro tracking fields (2011-08-19 09:29:20 -0700)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib dvhart/tune-cortexa8
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dvhart/tune-cortexa8
-
-Darren Hart (3):
-  tune: add missing closing quote to arch-armv7a.inc for AVAILTUNES
-  tune: remove thumb flag from non-thumb cortexa8 tune variables
-  tune: Add hard floating point variants of cortexa8 tunes
-
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+CC: Jason Kridner <jkridner@beagleboard.org>
+CC: Koen Kooi <koen@dominion.thruhere.net>
+---
  meta/conf/machine/include/arm/arch-armv7a.inc |    2 +-
- meta/conf/machine/include/tune-cortexa8.inc   |   20 +++++++++++++++-----
- 2 files changed, 16 insertions(+), 6 deletions(-)
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
+diff --git a/meta/conf/machine/include/arm/arch-armv7a.inc b/meta/conf/machine/include/arm/arch-armv7a.inc
+index 704f86b..d508352 100644
+--- a/meta/conf/machine/include/arm/arch-armv7a.inc
++++ b/meta/conf/machine/include/arm/arch-armv7a.inc
+@@ -20,7 +20,7 @@ PACKAGE_EXTRA_ARCHS_tune-armv7at = "${PACKAGE_EXTRA_ARCHS_tune-armv7t} armv7a ar
+ PACKAGE_EXTRA_ARCHS_tune-armv7at-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} armv7a-vfp-neon armv7at2-vfp-neon"
+ 
+ # VFP Tunes
+-AVAILTUNES += "armv7hf armv7thf armv7hf-neon armv7thf-neon
++AVAILTUNES += "armv7hf armv7thf armv7hf-neon armv7thf-neon"
+ TUNE_FEATURES_tune-armv7ahf ?= "${TUNE_FEATURES_tune-armv7a} callconvention-hard"
+ TUNE_FEATURES_tune-armv7athf ?= "${TUNE_FEATURES_tune-armv7at} callconvention-hard"
+ TUNE_FEATURES_tune-armv7ahf-neon ?= "${TUNE_FEATURES_tune-armv7a-neon} callconvention-hard"
 -- 
 1.7.6
 
