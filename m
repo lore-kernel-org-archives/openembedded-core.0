@@ -1,34 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QuQ8i-0004Io-6y for openembedded-core@lists.openembedded.org;
-	Fri, 19 Aug 2011 16:33:40 +0200
+	id 1QuQBb-0004UZ-Jf for openembedded-core@lists.openembedded.org;
+	Fri, 19 Aug 2011 16:36:39 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7JESxt7028334
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7JEVxOT028361
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2011 15:28:59 +0100
+	Fri, 19 Aug 2011 15:31:59 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 26909-05 for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2011 15:28:55 +0100 (BST)
+	id 26885-05 for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Aug 2011 15:31:55 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7JESlYm028328
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7JEVqTa028355
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2011 15:28:50 +0100
+	Fri, 19 Aug 2011 15:31:55 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <29c8c5dc24923bf819a4965cfcf99bedb0d71c5a.1313700595.git.sgw@linux.intel.com>
+In-Reply-To: <811a2cc3d1f9d025f99f7decfa6d3603cb3ca5f2.1313700595.git.sgw@linux.intel.com>
 References: <cover.1313700595.git.sgw@linux.intel.com>
-	<29c8c5dc24923bf819a4965cfcf99bedb0d71c5a.1313700595.git.sgw@linux.intel.com>
-Date: Fri, 19 Aug 2011 09:28:45 -0500
-Message-ID: <1313764125.13995.102.camel@rex>
+	<811a2cc3d1f9d025f99f7decfa6d3603cb3ca5f2.1313700595.git.sgw@linux.intel.com>
+Date: Fri, 19 Aug 2011 09:31:50 -0500
+Message-ID: <1313764310.13995.103.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [CONSOLIDATED PULL 11/32] mtd-utils: Added recipe of newer version 1.4.4.
+Subject: Re: [CONSOLIDATED PULL 05/32] tcl: fix networking breakage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,48 +43,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2011 14:33:40 -0000
+X-List-Received-Date: Fri, 19 Aug 2011 14:36:39 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 On Thu, 2011-08-18 at 13:55 -0700, Saul Wold wrote:
-> From: Noor Ahsan <noor_ahsan@mentor.com>
+> From: Koen Kooi <koen@dominion.thruhere.net>
 > 
-> * Added recipe of version 1.4.4 and removed 1.4.1 recipe and its patch files.
+> Without providing these site entries tcl networking doesn't work on the target.
 > 
-> Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
+> Original OE commit:
+> 
+> commit 0c340037644f87054462f62b50cd397c162615b7
+> Author: Koen Kooi <koen@openembedded.org>
+> Date:   Wed May 26 13:04:18 2010 +0200
+> 
+>     tcl: add 2 entries to arm-linux site file (possibly only glibc specific, need to check)
+> 
+> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 > ---
->  .../add-exclusion-to-mkfs-jffs2-git-2.patch        |    0
->  .../mtd/{mtd-utils_1.4.1.bb => mtd-utils_1.4.4.bb} |   11 ++++++-----
->  2 files changed, 6 insertions(+), 5 deletions(-)
->  rename meta/recipes-devtools/mtd/{mtd-utils-1.4.1 => mtd-utils-1.4.4}/add-exclusion-to-mkfs-jffs2-git-2.patch (100%)
->  rename meta/recipes-devtools/mtd/{mtd-utils_1.4.1.bb => mtd-utils_1.4.4.bb} (76%)
+>  meta/recipes-devtools/tcltk/tcl_8.5.9.bb |    6 ++++--
+>  1 files changed, 4 insertions(+), 2 deletions(-)
 > 
-> diff --git a/meta/recipes-devtools/mtd/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch b/meta/recipes-devtools/mtd/mtd-utils-1.4.4/add-exclusion-to-mkfs-jffs2-git-2.patch
-> similarity index 100%
-> rename from meta/recipes-devtools/mtd/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch
-> rename to meta/recipes-devtools/mtd/mtd-utils-1.4.4/add-exclusion-to-mkfs-jffs2-git-2.patch
-> diff --git a/meta/recipes-devtools/mtd/mtd-utils_1.4.1.bb b/meta/recipes-devtools/mtd/mtd-utils_1.4.4.bb
-> similarity index 76%
-> rename from meta/recipes-devtools/mtd/mtd-utils_1.4.1.bb
-> rename to meta/recipes-devtools/mtd/mtd-utils_1.4.4.bb
-> index f2de74d..ac9316d 100644
-> --- a/meta/recipes-devtools/mtd/mtd-utils_1.4.1.bb
-> +++ b/meta/recipes-devtools/mtd/mtd-utils_1.4.4.bb
-> @@ -6,12 +6,15 @@ LICENSE = "GPLv2+"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
->                      file://include/common.h;beginline=1;endline=17;md5=ba05b07912a44ea2bf81ce409380049c"
+> diff --git a/meta/recipes-devtools/tcltk/tcl_8.5.9.bb b/meta/recipes-devtools/tcltk/tcl_8.5.9.bb
+> index 2eabb4d..1b4ae83 100644
+> --- a/meta/recipes-devtools/tcltk/tcl_8.5.9.bb
+> +++ b/meta/recipes-devtools/tcltk/tcl_8.5.9.bb
+> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://../license.terms;md5=a47a9be26d03f925fc1fbd2784f27e11
+>      file://../win/license.terms;md5=a47a9be26d03f925fc1fbd2784f27e11 \
+>      "
 >  
-> -SRC_URI = "git://git.infradead.org/mtd-utils.git;protocol=git;tag=3c3674a6e1d3f59554b0ff68ca59be2fd4134e0c \
-> -		file://add-exclusion-to-mkfs-jffs2-git-2.patch;patch=1"
-> +TAG = "v${PV}"
-> +
-> +SRC_URI = "git://git.infradead.org/mtd-utils.git;protocol=git;tag=${TAG} \
-> +           file://add-exclusion-to-mkfs-jffs2-git-2.patch;patch=1"
-> +
+> -PR = "r1"
+> +PR = "r2"
+>  
+>  BASE_SRC_URI = "${SOURCEFORGE_MIRROR}/tcl/tcl${PV}-src.tar.gz \
+>                  file://tcl-add-soname.patch"
+> @@ -30,7 +30,9 @@ inherit autotools
+>  
+>  DEPENDS_virtclass-native = ""
+>  
+> -EXTRA_OECONF = "--enable-threads"
+> +EXTRA_OECONF = "--enable-threads \
+> +                tcl_cv_api_getaddrinfo=yes \
+> +               "
+>  
 
-This will force network lookups to resolve the tag into a revision. We
-need to specify the revision here, a least in OE-Core.
+Why are we adding these in the recipe rather than the site files? I can
+see the reasons why we might but it does seem to be a change in
+behaviour/policy?
 
 Cheers,
 
