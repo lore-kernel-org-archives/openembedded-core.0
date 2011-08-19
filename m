@@ -1,26 +1,34 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1QuQDB-0004em-Tk
-	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Aug 2011 16:38:17 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QuQ8h-0002EX-FA
-	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Aug 2011 16:33:39 +0200
-From: Phil Blundell <philb@gnu.org>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QuQEG-0004iC-W5 for openembedded-core@lists.openembedded.org;
+	Fri, 19 Aug 2011 16:39:25 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7JEYjvB028370
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Aug 2011 15:34:45 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 26909-06 for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Aug 2011 15:34:41 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7JEYcXE028364
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Aug 2011 15:34:40 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Aug 2011 15:33:38 +0100
-In-Reply-To: <1313764041.13995.101.camel@rex>
+In-Reply-To: <51ef8335df895603e75345a18aaefe2359b2387f.1313700595.git.sgw@linux.intel.com>
 References: <cover.1313700595.git.sgw@linux.intel.com>
-	<883d56eb74a8f3b1913e7334c9ea70f2f1e562e9.1313700595.git.sgw@linux.intel.com>
-	<1313764041.13995.101.camel@rex>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1313764419.6733.296.camel@phil-desktop>
+	<51ef8335df895603e75345a18aaefe2359b2387f.1313700595.git.sgw@linux.intel.com>
+Date: Fri, 19 Aug 2011 09:34:35 -0500
+Message-ID: <1313764475.13995.106.camel@rex>
 Mime-Version: 1.0
-Subject: Re: [CONSOLIDATED PULL 12/32] libxkbcommon: new
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [CONSOLIDATED PULL 03/32] qt4: allow a reduction in build time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,19 +43,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2011 14:38:18 -0000
+X-List-Received-Date: Fri, 19 Aug 2011 14:39:25 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-08-19 at 09:27 -0500, Richard Purdie wrote:
-> What isthe version getting set to for this recipe?
+On Thu, 2011-08-18 at 13:55 -0700, Saul Wold wrote:
+> From: Anders Darander <anders@chargestorm.se>
+> 
+> When reducing build time by adding QT_DISTRO_FLAGS from the set '-no-gui -nomake tools
+> -nomake examples -nomake demos -nomake docs', build failure can occur, due to not building
+> all tools.
+> 
+> * Make rm not error out when removing one of the, possibly, non-existing tools.
+> * Only try to rename qtdemo, if qtdemo exists.
+> * Check if the phrasebook path exists, and only then call do_split_packages()
+> 
+> Signed-off-by: Anders Darander <anders@chargestorm.se>
+> ---
+>  meta/recipes-qt/qt4/qt4.inc |   13 +++++++------
+>  1 files changed, 7 insertions(+), 6 deletions(-)
+> 
+> diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
+> index 0410a92..5545be7 100644
+> --- a/meta/recipes-qt/qt4/qt4.inc
+> +++ b/meta/recipes-qt/qt4/qt4.inc
+> @@ -227,10 +227,11 @@ python populate_packages_prepend() {
+>   
+>          phrasebook_dir = bb.data.expand('${datadir}/${QT_DIR_NAME}/phrasebooks/', d)
+>          phrasebook_name = bb.data.expand('${QT_BASE_NAME}-phrasebook-%s', d)
+> -        do_split_packages(d, phrasebook_dir, '^(.*)\.qph$', phrasebook_name, '${PN} phrasebook for %s', extra_depends='' )
+> +        import os;
+> +        if os.path.exists(phrasebook_dir):
+> +                do_split_packages(d, phrasebook_dir, '^(.*)\.qph$', phrasebook_name, '${PN} phrasebook for %s', extra_depends='' )
+>   
+>          # Package all the plugins and their -dbg version and create a meta package
+> -        import os
 
-Just "git" at the moment, which I suppose is a bit suboptimal.  What's
-the recommended string for packages that don't have any upstream
-release?
+For reference, BitBake assumes that both os and bb are always imported
+so we can likely drop all "import os" references. I'll take this patch
+since its harmless but I did just grep the classes directory and it
+looks like we can clean up those imports a little.
 
-p.
+Cheers,
 
+Richard
 
 
 
