@@ -1,33 +1,21 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QuS7Y-00013Z-AP
+	(envelope-from <philb@gnu.org>) id 1QuSQ8-0001eX-16
 	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Aug 2011 18:40:36 +0200
-Received: by pzk2 with SMTP id 2so7056117pzk.34
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2011 09:35:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=5jXOqogI5k5IO95Kbn/WLsOAEOEs8TXSLVxN2YRIphc=;
-	b=CCHFfj3FbXluakjp9b3Z6rdQBOWZZX7suPiqCmgg/ZvAM7vLqQ+pwtdiSP5vCmfsog
-	MnShjcG+y5vthZRRB7O0N53p/f8YojruzxvKeit28WL8ATl6aunrjY40lJth4eeWU441
-	qRz3/9cC1eZq+e0Ujt/1c5PvESO/FfDt0o61I=
-Received: by 10.142.127.1 with SMTP id z1mr399199wfc.62.1313771753209; Fri, 19
-	Aug 2011 09:35:53 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.68.40.168 with HTTP; Fri, 19 Aug 2011 09:35:23 -0700 (PDT)
-In-Reply-To: <1313770386.13995.112.camel@rex>
-References: <cover.1313700595.git.sgw@linux.intel.com>
-	<5e892786b427b2049ddf0e660d57877e24f89385.1313700595.git.sgw@linux.intel.com>
-	<1313745878.6733.259.camel@phil-desktop>
-	<1313763965.13995.100.camel@rex>
-	<4E4E80C9.7010507@gmail.com> <1313770386.13995.112.camel@rex>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 19 Aug 2011 09:35:23 -0700
-Message-ID: <CAMKF1soEegXwf0AxMHeg96+omLHJUDwzAMnPq2gJY9rb+wF5Cg@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [CONSOLIDATED PULL 15/32] conf, recipes: Redefine LINKER_HASH_STYLE
+	Fri, 19 Aug 2011 18:59:48 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QuSLd-0002Mp-Eq
+	for openembedded-core@lists.openembedded.org;
+	Fri, 19 Aug 2011 18:55:09 +0200
+From: Phil Blundell <philb@gnu.org>
+To: oe-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 19 Aug 2011 17:55:08 +0100
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1313772909.6733.306.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: [PATCH] mips32: add mips32el tuning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,42 +30,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2011 16:40:36 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 19 Aug 2011 16:59:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Aug 19, 2011 at 9:13 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2011-08-19 at 08:27 -0700, Khem Raj wrote:
->> > Also, if mips doesn't support this, how is anything at all working at
->> > the moment?
->>
->> see last line in distro/include/tcmode-default.inc
->>
->> TARGET_LINK_HASH_STYLE ?=
->> "${@['-Wl,--hash-style=gnu',''][bb.data.getVar('TARGET_ARCH', d, True)
->> in ['mips', 'mipsel', 'mips64', 'mips64el']]}"
->
-> So given that, why can't we just add TARGET_LINK_HASH_STYLE to gcc's
-> EXTRA_OECONF?
+This makes building for little-endian mips32 slightly more convenient.
 
-if you mean the configure option --with-linker-hash-style then
-yes we can and certainly we can get rid of TARGET_LINK_HASH_STYLE
-altogether then however
-the patch I backported only for gcc 4.6 certainly can be done for 4.5
-and I left it in there mainly for
-prebuilt external toolchains. since we don't control how those
-prebuilt toolchains are configured
+Signed-off-by: Phil Blundell <philb@gnu.org>
+---
+ meta/conf/machine/include/tune-mips32.inc |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
 
->
-> Cheers,
->
-> Richard
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+diff --git a/meta/conf/machine/include/tune-mips32.inc b/meta/conf/machine/include/tune-mips32.inc
+index 45792d8..4a5f0fa 100644
+--- a/meta/conf/machine/include/tune-mips32.inc
++++ b/meta/conf/machine/include/tune-mips32.inc
+@@ -6,6 +6,9 @@ TUNEVALID[mips32] = "Enable mips32 specific processor optimizations"
+ TUNE_CONFLICTS[mips32] = "n64 n32"
+ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "mips32", "-march=mips32", "", d)}"
+ 
+-AVAILTUNES += "mips32"
++AVAILTUNES += "mips32 mips32el"
+ TUNE_FEATURES_tune-mips32 = "${TUNE_FEATURES_tune-mips} mips32"
+ PACKAGE_EXTRA_ARCHS_tune-mips32 = "mips"
++TUNE_FEATURES_tune-mips32el = "${TUNE_FEATURES_tune-mipsel} mips32"
++PACKAGE_EXTRA_ARCHS_tune-mips32el = "mipsel"
++
+-- 
+1.7.4.1
+
+
+
 
 
