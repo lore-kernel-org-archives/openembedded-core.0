@@ -1,26 +1,37 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QuQIL-0004w9-2y
+	(envelope-from <martin.jansa@gmail.com>) id 1QuQK8-00050J-O6
 	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Aug 2011 16:43:37 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7JEcsaV024112
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 19 Aug 2011 16:45:28 +0200
+Received: by fxg11 with SMTP id 11so2200879fxg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2011 07:38:54 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 19 Aug 2011 07:38:54 -0700
-Message-ID: <4E4E757D.3050903@windriver.com>
-Date: Fri, 19 Aug 2011 09:38:53 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:5.0) Gecko/20110624 Thunderbird/5.0
-MIME-Version: 1.0
+	Fri, 19 Aug 2011 07:40:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=wjP5YzziIRGj245H385W4X7Hbg6ahN5XmiW4zMitd1A=;
+	b=m0KeSoW0arvIRtbHlI7Zvz8wTeF6C4+dZR6uvj5YSNqqtBb6qmtMdSxdqoopK1FuCC
+	NVcUbJUV7uU1TcWu9ERI+abMMbePPX1OvnnNg1rf6ukkxzzJZCOHdE03LC2vNmnXbmxA
+	BUUpqehAOyVAELpjhBpMD+9DVEk8PQCR4UL5c=
+Received: by 10.223.55.205 with SMTP id v13mr3012754fag.88.1313764848030;
+	Fri, 19 Aug 2011 07:40:48 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id 22sm2616699fat.41.2011.08.19.07.40.46
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 19 Aug 2011 07:40:47 -0700 (PDT)
+Date: Fri, 19 Aug 2011 16:40:40 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Prelink question...
+Message-ID: <20110819144040.GB22251@jama.jama.net>
+References: <cover.1313700595.git.sgw@linux.intel.com>
+	<883d56eb74a8f3b1913e7334c9ea70f2f1e562e9.1313700595.git.sgw@linux.intel.com>
+	<1313764041.13995.101.camel@rex>
+	<1313764419.6733.296.camel@phil-desktop>
+MIME-Version: 1.0
+In-Reply-To: <1313764419.6733.296.camel@phil-desktop>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [CONSOLIDATED PULL 12/32] libxkbcommon: new
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,25 +46,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2011 14:43:37 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 19 Aug 2011 14:45:28 -0000
+X-Groupsio-MsgNum: 8492
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="pvezYHf7grwyp3Bc"
+Content-Disposition: inline
 
-I've been getting reports that people are experiencing crashed with the
-cross-prelinker on 64-bit only filesystems.  This includes both x86_64 and PPC64.
+--pvezYHf7grwyp3Bc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In the case of the PPC64, there is one or more bug in the cross-prelinker rtld
-emulation which I'm currently working on.
+On Fri, Aug 19, 2011 at 03:33:38PM +0100, Phil Blundell wrote:
+> On Fri, 2011-08-19 at 09:27 -0500, Richard Purdie wrote:
+> > What isthe version getting set to for this recipe?
+>=20
+> Just "git" at the moment, which I suppose is a bit suboptimal.  What's
+> the recommended string for packages that don't have any upstream
+> release?
 
-x86_64 however seems to simply crash on execution.. I've not gathered any
-further information.
+http://cgit.freedesktop.org/xorg/lib/libxkbcommon/tree/configure.ac
+says:
+AC_INIT([libxkbcommon], [0.1.0], [https://bugs.freedesktop.org/enter_bug.cg=
+i?product=3Dxorg])
 
-To work around this, only if you are having problems, in your conf/local.conf
-remove the image-prelink from the USER_CLASSES.
+In such cases I'm using
+PV =3D "0.1.0+gitr${SRCPV}"
 
-Also if you end up having to remove this, please let me know you are having
-problems and which architecture you are working with.
+even when there isn't any 0.1.0 tarball yet
 
---Mark
+problem is when content of such repo is realease as 0.1.0 tarball
+later..
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--pvezYHf7grwyp3Bc
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk5OdegACgkQN1Ujt2V2gBzxrgCfQvdnT7plUCZvfxk0QApxeisz
+P3oAn2mjqD9VeHHWsiYvJ4XiMUD87ECp
+=fIQc
+-----END PGP SIGNATURE-----
+
+--pvezYHf7grwyp3Bc--
