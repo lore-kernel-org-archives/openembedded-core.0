@@ -1,34 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QuQBb-0004UZ-Jf for openembedded-core@lists.openembedded.org;
-	Fri, 19 Aug 2011 16:36:39 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7JEVxOT028361
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2011 15:31:59 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 26885-05 for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2011 15:31:55 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7JEVqTa028355
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2011 15:31:55 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <philb@gnu.org>) id 1QuQDB-0004em-Tk
+	for openembedded-core@lists.openembedded.org;
+	Fri, 19 Aug 2011 16:38:17 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QuQ8h-0002EX-FA
+	for openembedded-core@lists.openembedded.org;
+	Fri, 19 Aug 2011 16:33:39 +0200
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <811a2cc3d1f9d025f99f7decfa6d3603cb3ca5f2.1313700595.git.sgw@linux.intel.com>
+Date: Fri, 19 Aug 2011 15:33:38 +0100
+In-Reply-To: <1313764041.13995.101.camel@rex>
 References: <cover.1313700595.git.sgw@linux.intel.com>
-	<811a2cc3d1f9d025f99f7decfa6d3603cb3ca5f2.1313700595.git.sgw@linux.intel.com>
-Date: Fri, 19 Aug 2011 09:31:50 -0500
-Message-ID: <1313764310.13995.103.camel@rex>
+	<883d56eb74a8f3b1913e7334c9ea70f2f1e562e9.1313700595.git.sgw@linux.intel.com>
+	<1313764041.13995.101.camel@rex>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1313764419.6733.296.camel@phil-desktop>
 Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [CONSOLIDATED PULL 05/32] tcl: fix networking breakage
+Subject: Re: [CONSOLIDATED PULL 12/32] libxkbcommon: new
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,58 +35,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2011 14:36:39 -0000
+X-List-Received-Date: Fri, 19 Aug 2011 14:38:18 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-08-18 at 13:55 -0700, Saul Wold wrote:
-> From: Koen Kooi <koen@dominion.thruhere.net>
-> 
-> Without providing these site entries tcl networking doesn't work on the target.
-> 
-> Original OE commit:
-> 
-> commit 0c340037644f87054462f62b50cd397c162615b7
-> Author: Koen Kooi <koen@openembedded.org>
-> Date:   Wed May 26 13:04:18 2010 +0200
-> 
->     tcl: add 2 entries to arm-linux site file (possibly only glibc specific, need to check)
-> 
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> ---
->  meta/recipes-devtools/tcltk/tcl_8.5.9.bb |    6 ++++--
->  1 files changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-devtools/tcltk/tcl_8.5.9.bb b/meta/recipes-devtools/tcltk/tcl_8.5.9.bb
-> index 2eabb4d..1b4ae83 100644
-> --- a/meta/recipes-devtools/tcltk/tcl_8.5.9.bb
-> +++ b/meta/recipes-devtools/tcltk/tcl_8.5.9.bb
-> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://../license.terms;md5=a47a9be26d03f925fc1fbd2784f27e11
->      file://../win/license.terms;md5=a47a9be26d03f925fc1fbd2784f27e11 \
->      "
->  
-> -PR = "r1"
-> +PR = "r2"
->  
->  BASE_SRC_URI = "${SOURCEFORGE_MIRROR}/tcl/tcl${PV}-src.tar.gz \
->                  file://tcl-add-soname.patch"
-> @@ -30,7 +30,9 @@ inherit autotools
->  
->  DEPENDS_virtclass-native = ""
->  
-> -EXTRA_OECONF = "--enable-threads"
-> +EXTRA_OECONF = "--enable-threads \
-> +                tcl_cv_api_getaddrinfo=yes \
-> +               "
->  
+On Fri, 2011-08-19 at 09:27 -0500, Richard Purdie wrote:
+> What isthe version getting set to for this recipe?
 
-Why are we adding these in the recipe rather than the site files? I can
-see the reasons why we might but it does seem to be a change in
-behaviour/policy?
+Just "git" at the moment, which I suppose is a bit suboptimal.  What's
+the recommended string for packages that don't have any upstream
+release?
 
-Cheers,
+p.
 
-Richard
 
 
 
