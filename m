@@ -1,33 +1,22 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1QuX7u-0002Jq-26
+	(envelope-from <dvhart@linux.intel.com>) id 1QuXH6-0002aa-SL
 	for openembedded-core@lists.openembedded.org;
-	Sat, 20 Aug 2011 00:01:18 +0200
-Received: by yxl11 with SMTP id 11so436188yxl.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2011 14:56:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=0K8wNjl0jfHDDk0+XMSSBDT42dPLWzyYs6qrQkdXib4=;
-	b=QYvV73kTMOdtYxnwqt2eShH/Hazw93bSgff9HJ9iXJ+csph7ozT2s55HqpI/jF0hBv
-	q/bVVAWbDiMweZS1lC4/Zy8bPDjXAO2nT6Eb3kWsuHzHtnPBLV57rpPDANZn6YA38ykh
-	tjTUFy3UKNJXTc/AH3xVUx9U/wATRoeFz3IrM=
-Received: by 10.236.187.70 with SMTP id x46mr1715607yhm.71.1313790995220;
-	Fri, 19 Aug 2011 14:56:35 -0700 (PDT)
-Received: from localhost.localdomain (ip24-251-173-232.ph.ph.cox.net
-	[24.251.173.232])
-	by mx.google.com with ESMTPS id f48sm4310342yhh.56.2011.08.19.14.56.34
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 19 Aug 2011 14:56:34 -0700 (PDT)
-From: Chris Larson <kergoth@gmail.com>
+	Sat, 20 Aug 2011 00:10:49 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 19 Aug 2011 15:06:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,253,1312182000"; d="scan'208";a="41868770"
+Received: from unknown (HELO localhost) ([10.255.13.233])
+	by fmsmga002.fm.intel.com with ESMTP; 19 Aug 2011 15:06:06 -0700
+From: Darren Hart <dvhart@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 Aug 2011 14:56:24 -0700
-Message-Id: <1313790985-3332-2-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <1313790985-3332-1-git-send-email-kergoth@gmail.com>
-References: <1313790985-3332-1-git-send-email-kergoth@gmail.com>
-Cc: Chris Larson <chris_larson@mentor.com>
-Subject: [PATCH 2/3] rpm: be certain we don't prefix our binaries
+Date: Fri, 19 Aug 2011 15:06:05 -0700
+Message-Id: <cover.1313791350.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.7.6
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	Darren Hart <dvhart@linux.intel.com>
+Subject: [PATCH 0/3] tune: update arm7a and cortexa8 tune files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,34 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2011 22:01:18 -0000
+X-List-Received-Date: Fri, 19 Aug 2011 22:10:49 -0000
 
-From: Chris Larson <chris_larson@mentor.com>
+Correct some typographical errors in the arm7a and cortexa8 files. Add support
+for the hard floating point abi. Leave the default as cortexa8-neon.
 
-In certain combinations of build/host/target, they can end up
-inadvertently prefixed, breaking the assumptions in the recipe.
+These are in preparation to enable hardfp for meta-yocto's beagleboard BSP.
 
-Signed-off-by: Chris Larson <chris_larson@mentor.com>
----
- meta/recipes-devtools/rpm/rpm_5.4.0.bb |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+The following changes since commit 8aa14b444f16c4fd0afe93eccd238a8fb2bc0292:
 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-index 0882df7..b805f7d 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-@@ -162,7 +162,8 @@ EXTRA_OECONF = "--verbose \
- 		--enable-maintainer-mode \
- 		--with-path-macros=${rpm_macros} \
- 		--with-path-lib=${libdir}/rpm \
--		--with-bugreport=http://bugzilla.yoctoproject.org"
-+		--with-bugreport=http://bugzilla.yoctoproject.org \
-+		--program-prefix="
- 
- CFLAGS_append = " -DRPM_VENDOR_WINDRIVER -DRPM_VENDOR_POKY"
- 
+  newt: update distro tracking fields (2011-08-19 09:29:20 -0700)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dvhart/tune-cortexa8
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dvhart/tune-cortexa8
+
+Darren Hart (3):
+  tune: add missing closing quote to arch-armv7a.inc for AVAILTUNES
+  tune: remove thumb flag from non-thumb cortexa8 tune variables
+  tune: Add hard floating point variants of cortexa8 tunes
+
+ meta/conf/machine/include/arm/arch-armv7a.inc |    2 +-
+ meta/conf/machine/include/tune-cortexa8.inc   |   20 +++++++++++++++-----
+ 2 files changed, 16 insertions(+), 6 deletions(-)
+
 -- 
-1.7.3.2.430.g208247
+1.7.6
 
 
 
