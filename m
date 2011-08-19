@@ -1,27 +1,29 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1QuMNL-0005x0-PO
+	(envelope-from <martin.jansa@gmail.com>) id 1QuO4c-0008Nu-Lu
 	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Aug 2011 12:32:32 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 19 Aug 2011 03:27:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="39999898"
-Received: from unknown (HELO helios.localnet) ([10.255.18.125])
-	by orsmga001.jf.intel.com with ESMTP; 19 Aug 2011 03:27:49 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Phil Blundell <philb@gnu.org>
-Date: Fri, 19 Aug 2011 11:27:48 +0100
-User-Agent: KMail/1.13.6 (Linux/2.6.38-10-generic-pae; KDE/4.6.2; i686; ; )
-References: <cover.1313606178.git.paul.eggleton@linux.intel.com>
-	<8c4bf939c0906cd744debeb85d5d55de622c184e.1313606178.git.paul.eggleton@linux.intel.com>
-	<1313606497.3630.16.camel@lenovo.internal.reciva.com>
-In-Reply-To: <1313606497.3630.16.camel@lenovo.internal.reciva.com>
-MIME-Version: 1.0
-Message-Id: <201108191127.48228.paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 1/2] image.bbclass, kernel.bbclass: create warning file about deleting deploydir files
+	Fri, 19 Aug 2011 14:21:18 +0200
+Received: by fxg11 with SMTP id 11so2113288fxg.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Aug 2011 05:16:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=1/gRyZ8Imql0HKNuBYUWlYOvur870ORf6wN5QLPmQ6g=;
+	b=cQGzGFpVbLrG0mUJpUkE7Ee3dEiCq+kVTYtb/DB3e4rbrMQ9KXe1xpI/obspZei3tT
+	NyQ0iF2gT3WULyKd6n75wZ1MPD0ZC2p4ea2UwV+qTUQrjzEOh2G6/O/SEFaV294JO4HG
+	acgsuNTuXgsW3OSEycRMAFMvMr5DqRkdVbx04=
+Received: by 10.223.62.134 with SMTP id x6mr1165486fah.39.1313756197888;
+	Fri, 19 Aug 2011 05:16:37 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id r12sm2530326fam.14.2011.08.19.05.16.35
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 19 Aug 2011 05:16:36 -0700 (PDT)
+From: martin.jansa@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 19 Aug 2011 14:16:28 +0200
+Message-Id: <4e4e5424.8c5cdf0a.7d94.ffffbafd@mx.google.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [PATCH] utils.bbclass: skip empty paths when handling FILESEXTRAPATHS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,33 +38,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Aug 2011 10:32:32 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 19 Aug 2011 12:21:18 -0000
 
-On Wednesday 17 August 2011 19:41:37 Phil Blundell wrote:
-> On Wed, 2011-08-17 at 19:37 +0100, Paul Eggleton wrote:
-> > +Files in the deploy directory will not be re-created automatically if
-> > you +delete them. If you do delete a file, you will need to run:
-> > +
-> > +  bitbake -c clean TARGET
-> > +  bitbake TARGET
-> > +
-> > +where TARGET is the name of the appropriate package or target e.g.
-> > +"virtual/kernel" for the kernel, an image, etc.
-> 
-> Doesn't it suffice to run "bitbake -f -c deploy TARGET"?
+From: Martin Jansa <Martin.Jansa@gmail.com>
 
-I guess it would, but I'm not sure we really want to be encouraging users to 
-use -f.
+* if there is multiple .bbappend files with FILESEXTRAPATHS_prepend := "/:"
+  then the one parsed last is causing trailing ':' and that's causing empty element in
+  path = extrapaths.split(:) + path
+* it's hard to keep all .bbappends from foreign layers to follow this rule, so it's better
+  to be able to handle trailing ':'
 
-Cheers,
-Paul
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/utils.bbclass |    5 +++--
+ 1 files changed, 3 insertions(+), 2 deletions(-)
 
+diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
+index 56abdd8..3c2e342 100644
+--- a/meta/classes/utils.bbclass
++++ b/meta/classes/utils.bbclass
+@@ -338,8 +338,9 @@ def base_set_filespath(path, d):
+ 	# The ":" ensures we have an 'empty' override
+ 	overrides = (bb.data.getVar("OVERRIDES", d, 1) or "") + ":"
+ 	for p in path:
+-		for o in overrides.split(":"):
+-			filespath.append(os.path.join(p, o))
++		if p != "": 
++			for o in overrides.split(":"):
++				filespath.append(os.path.join(p, o))
+ 	return ":".join(filespath)
+ 
+ def extend_variants(d, var, extend, delim=':'):
 -- 
+1.7.6
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
