@@ -1,25 +1,25 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Wenzong.Fan@windriver.com>) id 1QugWO-00027A-4A
+	(envelope-from <philb@gnu.org>) id 1QuhOf-0003l2-VX
 	for openembedded-core@lists.openembedded.org;
-	Sat, 20 Aug 2011 10:03:12 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7K7wU4m021707
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Aug 2011 00:58:30 -0700 (PDT)
-Received: from localhost.localdomain (128.224.162.28) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Sat, 20 Aug 2011 00:58:29 -0700
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 20 Aug 2011 15:58:40 +0800
-Message-ID: <fc4770ac723a1fa69bc53a8a887b5892cfb99968.1313826618.git.wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1313826618.git.wenzong.fan@windriver.com>
-References: <cover.1313826618.git.wenzong.fan@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] libpam: Setting suid bit for unix_chkpwd
+	Sat, 20 Aug 2011 10:59:18 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QuhKA-0003U0-JH
+	for openembedded-core@lists.openembedded.org;
+	Sat, 20 Aug 2011 10:54:38 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <512d2bd7cc7ad38f24b57fd8e0a73c8906cb4273.1313816148.git.otavio@ossystems.com.br>
+References: <cover.1313816148.git.otavio@ossystems.com.br>
+	<512d2bd7cc7ad38f24b57fd8e0a73c8906cb4273.1313816148.git.otavio@ossystems.com.br>
+Date: Sat, 20 Aug 2011 09:54:30 +0100
+Message-ID: <1313830470.24904.4.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.3 
+Subject: Re: [PATCH 7/8] scripts/runqemu: remove redundant checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,47 +34,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Aug 2011 08:03:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 20 Aug 2011 08:59:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
+On Sat, 2011-08-20 at 04:58 +0000, Otavio Salvador wrote:
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+>  scripts/runqemu |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
+> 
+> diff --git a/scripts/runqemu b/scripts/runqemu
+> index 91c3c9e..d617f79 100755
+> --- a/scripts/runqemu
+> +++ b/scripts/runqemu
+> @@ -163,7 +163,7 @@ while [ $i -le $# ]; do
+>              # A directory name is an nfs rootfs
+>              if [ -d "$arg" ]; then
+>                  echo "Assuming $arg is an nfs rootfs"
+> -                if [[ -z "$FSTYPE" || "$FSTYPE" == "nfs" ]]; then
+> +                if [[ -z "$FSTYPE" ]]; then
+>                      FSTYPE=nfs
+>                  else
+>                      echo "Error: conflicting FSTYPE types [$arg] and nfs"
 
-[YOCTO #1252]
+Can you explain why this test is redundant?  From inspection of the
+patch it seems this would lead to "Error: conflicting FSTYPE types [nfs]
+and nfs" if FSTYPE="nfs" to begin with.  I guess there is some other
+provision in the logic to make sure that this can't happen, but it would
+be useful to have it explained in the checkin message.
 
-While pam_unix.so required by an application on lsb image, it will need to
-call the unix_chkpwd to get userinfo from shadow file. This fix get a normal
-user could read shadow file via unix_chkpwd.
+p.
 
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
----
- meta/recipes-extended/pam/libpam_1.1.4.bb |    8 +++++++-
- 1 files changed, 7 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-extended/pam/libpam_1.1.4.bb b/meta/recipes-extended/pam/libpam_1.1.4.bb
-index ae20a97..ca54bd8 100644
---- a/meta/recipes-extended/pam/libpam_1.1.4.bb
-+++ b/meta/recipes-extended/pam/libpam_1.1.4.bb
-@@ -9,7 +9,7 @@ SECTION = "base"
- LICENSE = "GPLv2+ | BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=ca0395de9a86191a078b8b79302e3083"
- 
--PR = "r1"
-+PR = "r2"
- 
- DEPENDS = "bison flex cracklib"
- RDEPENDS_${PN}-runtime = "libpam pam-plugin-deny pam-plugin-permit pam-plugin-warn pam-plugin-unix"
-@@ -85,3 +85,9 @@ do_install() {
- 	install -d ${D}${sysconfdir}/pam.d/     
- 	install -m 0644 ${WORKDIR}/pam.d/* ${D}${sysconfdir}/pam.d/
- }
-+
-+pkg_postinst_pam-plugin-unix () {
-+    # below is necessary to allow unix_chkpwd get user info from shadow file
-+    # on lsb images
-+    chmod 4755 /usr/sbin/unix_chkpwd
-+}
--- 
-1.7.0.4
 
 
 
