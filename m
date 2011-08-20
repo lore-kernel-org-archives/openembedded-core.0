@@ -1,35 +1,23 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QudwC-00051a-T9
+	(envelope-from <Wenzong.Fan@windriver.com>) id 1QugWO-000278-3D
 	for openembedded-core@lists.openembedded.org;
-	Sat, 20 Aug 2011 07:17:40 +0200
-Received: by bkbzu17 with SMTP id zu17so2931794bkb.6
+	Sat, 20 Aug 2011 10:03:12 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7K7wSQH021703
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2011 22:12:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=CVCJA8yWWAVWcTv9kmmumL7+jeld171OlILzGWBPIVc=;
-	b=pZuvkVOUwTa2DqkVKvanC1NlOr+PqnWPwsm018Y/OztNeJhTqgv5fWeAFhKAVe7Wpw
-	SAz94/O3V2qyxsND3gr/DNUiJLi05hFvs9J9LoXaWULM+ZvPUnh0LNFTzrTTghYjv8FK
-	Kfll7oxKKE46ZoV36gnEenfZ0T2x04FiiXMAs=
+	Sat, 20 Aug 2011 00:58:28 -0700 (PDT)
+Received: from localhost.localdomain (128.224.162.28) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Sat, 20 Aug 2011 00:58:27 -0700
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sat, 20 Aug 2011 15:58:39 +0800
+Message-ID: <cover.1313826618.git.wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
 MIME-Version: 1.0
-Received: by 10.204.132.23 with SMTP id z23mr53195bks.383.1313817179436; Fri,
-	19 Aug 2011 22:12:59 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.15.66 with HTTP; Fri, 19 Aug 2011 22:12:59 -0700 (PDT)
-In-Reply-To: <CADkTA4PBJLxUQx3PAkuzBxo+hp3B_=hPkx0rZ2_GuUvjQgDbMA@mail.gmail.com>
-References: <cover.1313816148.git.otavio@ossystems.com.br>
-	<fe4a8f56697a9915ca59d0dd4bc3f06a4072d7dc.1313816148.git.otavio@ossystems.com.br>
-	<CADkTA4PBJLxUQx3PAkuzBxo+hp3B_=hPkx0rZ2_GuUvjQgDbMA@mail.gmail.com>
-Date: Sat, 20 Aug 2011 02:12:59 -0300
-X-Google-Sender-Auth: DhFzUMjayjxU5LgW6v3AbfDMPoc
-Message-ID: <CAP9ODKq92dq0Su1RpkT3AkZb8esfe=5_VK-Gc+=xLAAtkSQqMA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/8] kernel.bbclass: move uboot image generation to a specific class
+Subject: [PATCH 0/1] libpam: Setting suid bit for unix_chkpwd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,29 +32,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Aug 2011 05:17:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 20 Aug 2011 08:03:12 -0000
+Content-Type: text/plain
 
-On Sat, Aug 20, 2011 at 02:07, Bruce Ashfield <bruce.ashfield@gmail.com> wr=
-ote:
-> These aren't equivalent. We should maintain what is already in kernel.bbc=
-lass
-> and just move it over. If there already a uImage in the build tree, there=
-'s no
-> need to run all the objcopy "mess" below. I found that it created useless=
- binary
-> blobs forme in the past.
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-In this case can you take a look on this and also fix it in meta-oe?
-The class had some differences and I do think we ought to avoid those
-as much as possible since it only makes debugging harder.
+Fix for [yocto #1252]
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+The crontab can't be run by a normal user while pam enabled for it, the real
+issue is unix_chkpwd can't access shadow file with normal permission on lsb
+images, set suid bit for unix_chkpwd would be fix this issue.
+
+The following changes since commit 36396b6ecb0c84c6752cdc8118c496e8ec05a388:
+  Richard Purdie (1):
+        xcb/libpthreads: Add BBCLASSEXTEND to resolve missing providers in world builds
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib wenzong/1252
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/1252
+
+Wenzong Fan (1):
+  libpam: Setting suid bit for unix_chkpwd
+
+ meta/recipes-extended/pam/libpam_1.1.4.bb |    8 +++++++-
+ 1 files changed, 7 insertions(+), 1 deletions(-)
+
 
 
