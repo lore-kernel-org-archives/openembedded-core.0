@@ -1,35 +1,35 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1Qudij-00048W-7G
+	(envelope-from <otavio.salvador@gmail.com>) id 1Qudin-00048V-HC
 	for openembedded-core@lists.openembedded.org;
-	Sat, 20 Aug 2011 07:03:45 +0200
-Received: by mail-gy0-f175.google.com with SMTP id 4so2529011gyg.6
+	Sat, 20 Aug 2011 07:03:49 +0200
+Received: by mail-yw0-f47.google.com with SMTP id 12so1631876ywa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2011 21:59:06 -0700 (PDT)
+	Fri, 19 Aug 2011 21:59:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
 	:references:in-reply-to:references;
-	bh=Lh7pdBDezolB5Bj05VD+0kc1Im8ki2PX8wJZ/JDAK2I=;
-	b=qJm4W2TNaDfZNGpFQ9Z0WHo4LJ1uQwVIOyYgGnMlpLUf0HYfnqICcQUj5xOYwmNhMM
-	PrTKmpaKTdp1BPbQFk1vj1waOUVGXby6HKZYx9QvgWw6yWQuE1FH0rXONCl2F3s/PNAB
-	Q27kOosRpv5sHDnB5t9qLrM0pLZdmVcIMOWH4=
-Received: by 10.236.176.165 with SMTP id b25mr710268yhm.75.1313816345951;
-	Fri, 19 Aug 2011 21:59:05 -0700 (PDT)
+	bh=0ffeV02H12/PRoxshDifLFJl+uV7KAT8+d9RXTvx0O8=;
+	b=RenXWyYifBzvCb/l1Cw6Xh55tOHysijo8bzF31EhYB36mG4YY0Ci8SGmTBfZdbHxSg
+	qQTeXhBfi+a3TbKYepgucHBj5pWCkuX2FQTRYIgHvoR43nRCX1/K2HuKtfUOCR8p+Gq0
+	sr0W/4lKFDMZ9n2pyuVM2YX0TKxjoa1RgDfos=
+Received: by 10.236.173.129 with SMTP id v1mr780944yhl.25.1313816350269;
+	Fri, 19 Aug 2011 21:59:10 -0700 (PDT)
 Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id f48sm4668774yhh.56.2011.08.19.21.59.04
+	by mx.google.com with ESMTPS id f48sm4668774yhh.56.2011.08.19.21.59.08
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 19 Aug 2011 21:59:05 -0700 (PDT)
+	Fri, 19 Aug 2011 21:59:09 -0700 (PDT)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 20 Aug 2011 04:58:41 +0000
-Message-Id: <fe4a8f56697a9915ca59d0dd4bc3f06a4072d7dc.1313816148.git.otavio@ossystems.com.br>
+Date: Sat, 20 Aug 2011 04:58:43 +0000
+Message-Id: <7fbda567f12cd48df2dc292b370109681ce39cfb.1313816148.git.otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.7.2.5
 In-Reply-To: <cover.1313816148.git.otavio@ossystems.com.br>
 References: <cover.1313816148.git.otavio@ossystems.com.br>
 In-Reply-To: <cover.1313816148.git.otavio@ossystems.com.br>
 References: <cover.1313816148.git.otavio@ossystems.com.br>
-Subject: [PATCH 3/8] kernel.bbclass: move uboot image generation to a specific class
+Subject: [PATCH 5/8] fix SDK building due TARGET_ARCH use in installation path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,70 +44,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Aug 2011 05:03:45 -0000
+X-List-Received-Date: Sat, 20 Aug 2011 05:03:49 -0000
+
+TARGET_ARCH makes the building too fragile since it changes during
+building of target and nativesdk binaries thus making it difficult to
+handle a proper path for installation of binaries. The fix for it is
+to move it to toolchain tarball name.
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/classes/kernel.bbclass |   39 +++++++++++++++++++++++----------------
- 1 files changed, 23 insertions(+), 16 deletions(-)
+ meta/classes/populate_sdk.bbclass |    2 +-
+ meta/conf/bitbake.conf            |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index ff3fa46..8a56b85 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -470,6 +470,29 @@ do_sizecheck() {
+diff --git a/meta/classes/populate_sdk.bbclass b/meta/classes/populate_sdk.bbclass
+index 0f3591b..929f730 100644
+--- a/meta/classes/populate_sdk.bbclass
++++ b/meta/classes/populate_sdk.bbclass
+@@ -9,7 +9,7 @@ SDKTARGETSYSROOT = "${SDKPATH}/sysroots/${TARGET_SYS}"
  
- addtask sizecheck before do_install after do_compile
+ TOOLCHAIN_HOST_TASK ?= "task-sdk-host-nativesdk task-cross-canadian-${TRANSLATED_TARGET_ARCH}"
+ TOOLCHAIN_TARGET_TASK ?= "task-core-standalone-sdk-target task-core-standalone-sdk-target-dbg"
+-TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-toolchain-${DISTRO_VERSION}"
++TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-${SDK_ARCH}-${TARGET_ARCH}-toolchain-${DISTRO_VERSION}"
  
-+do_uboot_mkimage() {
-+    if test "x${KERNEL_IMAGETYPE}" = "xuImage" ; then 
-+        ENTRYPOINT=${UBOOT_ENTRYPOINT}
-+        if test -n "${UBOOT_ENTRYSYMBOL}"; then
-+            ENTRYPOINT=`${HOST_PREFIX}nm ${S}/vmlinux | \
-+                   awk '$3=="${UBOOT_ENTRYSYMBOL}" {print $1}'`
-+        fi
-+        if test -e arch/${ARCH}/boot/compressed/vmlinux ; then
-+            ${OBJCOPY} -O binary -R .note -R .comment -S arch/${ARCH}/boot/compressed/vmlinux linux.bin
-+            uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C none -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin arch/${ARCH}/boot/uImage
-+            rm -f linux.bin
-+        else
-+            ${OBJCOPY} -O binary -R .note -R .comment -S vmlinux linux.bin
-+            rm -f linux.bin.gz
-+            gzip -9 linux.bin
-+            uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C gzip -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin.gz arch/${ARCH}/boot/uImage
-+            rm -f linux.bin.gz
-+        fi
-+    fi
-+}
-+
-+addtask uboot_mkimage before do_install after do_compile
-+
- KERNEL_IMAGE_BASE_NAME ?= "${KERNEL_IMAGETYPE}-${PV}-${PR}-${MACHINE}-${DATETIME}"
- # Don't include the DATETIME variable in the sstate package signatures
- KERNEL_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
-@@ -481,22 +504,6 @@ kernel_do_deploy() {
- 		tar -cvzf ${DEPLOYDIR}/modules-${KERNEL_VERSION}-${PR}-${MACHINE}.tgz -C ${D} lib
- 	fi
+ RDEPENDS = "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
+ DEPENDS = "virtual/fakeroot-native sed-native"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index b309516..b5c6696 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -361,7 +361,7 @@ DEPLOY_DIR_TOOLS = "${DEPLOY_DIR}/tools"
  
--	if test "x${KERNEL_IMAGETYPE}" = "xuImage" ; then 
--		if test -e arch/${ARCH}/boot/uImage ; then
--			cp arch/${ARCH}/boot/uImage ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
--		elif test -e arch/${ARCH}/boot/compressed/vmlinux ; then
--			${OBJCOPY} -O binary -R .note -R .comment -S arch/${ARCH}/boot/compressed/vmlinux linux.bin
--			uboot-mkimage -A ${ARCH} -O linux -T kernel -C none -a ${UBOOT_ENTRYPOINT} -e ${UBOOT_ENTRYPOINT} -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
--			rm -f linux.bin
--		else
--			${OBJCOPY} -O binary -R .note -R .comment -S vmlinux linux.bin
--			rm -f linux.bin.gz
--			gzip -9 linux.bin
--			uboot-mkimage -A ${ARCH} -O linux -T kernel -C gzip -a ${UBOOT_ENTRYPOINT} -e ${UBOOT_ENTRYPOINT} -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin.gz ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
--			rm -f linux.bin.gz
--		fi
--	fi
--
- 	cd ${DEPLOYDIR}
- 	rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.bin
- 	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGE_SYMLINK_NAME}.bin
+ PKGDATA_DIR = "${TMPDIR}/pkgdata/${MULTIMACH_TARGET_SYS}"
+ 
+-SDK_NAME = "oecore-${SDK_ARCH}-${TARGET_ARCH}"
++SDK_NAME = "oecore-sdk-${DISTRO}"
+ SDKPATH = "/usr/local/${SDK_NAME}"
+ SDKPATHNATIVE = "${SDKPATH}/sysroots/${SDK_SYS}"
+ 
 -- 
 1.7.2.5
 
