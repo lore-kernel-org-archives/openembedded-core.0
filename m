@@ -1,33 +1,26 @@
-Received: from mail-gx0-f175.google.com ([209.85.161.175])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Quo7x-0000sv-Ab
+	(envelope-from <philb@gnu.org>) id 1QuptA-0003wu-9P
 	for openembedded-core@lists.openembedded.org;
-	Sat, 20 Aug 2011 18:10:29 +0200
-Received: by gxk3 with SMTP id 3so2669282gxk.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Aug 2011 09:05:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=ZwHiukINWo49e7gfqPwDbindf2XNJVnSNJv9KZLxIn4=;
-	b=jsULGtZuUzylmLnnicY22ZxE+xmXR12ny26SVGJF5ZdcMN+JxQls3+K86+76cRLX+q
-	83db7di2XTAd997JfpEPgcAOvElU4QMfVyPV0oKejEO7AGGS1I8vVtVLwDLIeoJang7E
-	mwwKJ2q1DMm4GIc0xPRhzABzCdUUPOJLbHk+E=
-Received: by 10.42.155.198 with SMTP id v6mr561966icw.380.1313856346661;
-	Sat, 20 Aug 2011 09:05:46 -0700 (PDT)
-Received: from [172.23.5.198] (natint3.juniper.net [66.129.224.36])
-	by mx.google.com with ESMTPS id g21sm2248088ibl.58.2011.08.20.09.05.45
-	(version=SSLv3 cipher=OTHER); Sat, 20 Aug 2011 09:05:45 -0700 (PDT)
-Message-ID: <4E4FDB65.1010306@gmail.com>
-Date: Sat, 20 Aug 2011 09:05:57 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; rv:6.0) Gecko/20110812 Thunderbird/6.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1313826618.git.wenzong.fan@windriver.com>
-	<fc4770ac723a1fa69bc53a8a887b5892cfb99968.1313826618.git.wenzong.fan@windriver.com>
-In-Reply-To: <fc4770ac723a1fa69bc53a8a887b5892cfb99968.1313826618.git.wenzong.fan@windriver.com>
-Subject: Re: [PATCH 1/1] libpam: Setting suid bit for unix_chkpwd
+	Sat, 20 Aug 2011 20:03:20 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Qupoe-0003bt-A3
+	for openembedded-core@lists.openembedded.org;
+	Sat, 20 Aug 2011 19:58:40 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <4E4FDA4D.9020508@gmail.com>
+References: <91e2a59d20e1d1992691684fb2dd64a6405ec6e3.1313791350.git.dvhart@linux.intel.com>
+	<fa0a22eee3461de38fc4b41a76f15980b78fd0bf.1313791350.git.dvhart@linux.intel.com>
+	<4E4FDA4D.9020508@gmail.com>
+Date: Sat, 20 Aug 2011 18:58:32 +0100
+Message-ID: <1313863112.24904.5.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.3 
+Subject: Re: [PATCH 2/3] tune: remove thumb flag from non-thumb cortexa8 tune variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,51 +35,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Aug 2011 16:10:29 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Sat, 20 Aug 2011 18:03:20 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 8/20/2011 12:58 AM, wenzong.fan@windriver.com wrote:
-> From: Wenzong Fan<wenzong.fan@windriver.com>
->
-> [YOCTO #1252]
->
-> While pam_unix.so required by an application on lsb image, it will need to
-> call the unix_chkpwd to get userinfo from shadow file. This fix get a normal
-> user could read shadow file via unix_chkpwd.
->
-> Signed-off-by: Wenzong Fan<wenzong.fan@windriver.com>
-> ---
->   meta/recipes-extended/pam/libpam_1.1.4.bb |    8 +++++++-
->   1 files changed, 7 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/recipes-extended/pam/libpam_1.1.4.bb b/meta/recipes-extended/pam/libpam_1.1.4.bb
-> index ae20a97..ca54bd8 100644
-> --- a/meta/recipes-extended/pam/libpam_1.1.4.bb
-> +++ b/meta/recipes-extended/pam/libpam_1.1.4.bb
-> @@ -9,7 +9,7 @@ SECTION = "base"
->   LICENSE = "GPLv2+ | BSD"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=ca0395de9a86191a078b8b79302e3083"
->
-> -PR = "r1"
-> +PR = "r2"
->
->   DEPENDS = "bison flex cracklib"
->   RDEPENDS_${PN}-runtime = "libpam pam-plugin-deny pam-plugin-permit pam-plugin-warn pam-plugin-unix"
-> @@ -85,3 +85,9 @@ do_install() {
->   	install -d ${D}${sysconfdir}/pam.d/
->   	install -m 0644 ${WORKDIR}/pam.d/* ${D}${sysconfdir}/pam.d/
->   }
-> +
-> +pkg_postinst_pam-plugin-unix () {
-> +    # below is necessary to allow unix_chkpwd get user info from shadow file
-> +    # on lsb images
-> +    chmod 4755 /usr/sbin/unix_chkpwd
+On Sat, 2011-08-20 at 09:01 -0700, Khem Raj wrote:
+> On 8/19/2011 3:06 PM, Darren Hart wrote:
+> > The thumb flag "t" appears to have been copy/pasted to all the
+> > PACKAGE_EXTRA_ARCHS tune variables. Remove it from the non-thumb versions.
+> >
+> 
+> hmmm non thumb versions can run thumb packages. So I think its ok to 
+> have t in EXTRA_ARCHS
 
-may be its better to use corresponding metadata variables instead of 
-hardcoding /usr/sbin here
+Er, really?  If it can run thumb code, in what sense is it a "non thumb"
+version?
 
-> +}
+p.
+
 
 
 
