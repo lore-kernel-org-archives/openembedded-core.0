@@ -1,31 +1,31 @@
-Received: from mail-gx0-f175.google.com ([209.85.161.175])
+Received: from mail-yi0-f47.google.com ([209.85.218.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1Qudqh-0004X7-Ad
+	(envelope-from <bruce.ashfield@gmail.com>) id 1QudsK-0004Zy-Fz
 	for openembedded-core@lists.openembedded.org;
-	Sat, 20 Aug 2011 07:11:59 +0200
-Received: by gxk3 with SMTP id 3so2537792gxk.6
+	Sat, 20 Aug 2011 07:13:40 +0200
+Received: by yia28 with SMTP id 28so2547247yia.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2011 22:07:17 -0700 (PDT)
+	Fri, 19 Aug 2011 22:08:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=TouKGDV5ZEd/IwVG6IcJzdcxUhCGTAbauaA05ZqSu/o=;
-	b=YYVzY9OnSgMSexhfPU5WW+AwDeLH+VgxX9d54P6RTYsl6E+Lg9XJ+m72dPsBU/QwYJ
-	wkZgeX7bI1Xl1HZ0EXf+Udk4iwO+vzgxUAFw7YvbQAGB36HAChoxz2qxL9ji6ZZ++Aee
-	rhwnnYeM7yxUdpnz024zN1SzhihcXCOW9uGtU=
+	:cc:content-type:content-transfer-encoding;
+	bh=WYcICiMIdLuAV6oKHWqM9z1zsMYuZwlnhxo5pYfygdM=;
+	b=uHI4ymxDTdCdr23sraVjdagj47oASk6uwO1uavtHDtdapjEV0vNR+a1zHlsiOhlB3W
+	P7u/3fx3CIisLgu3MgXazZDTAHx2SWQXKAetNX9DPXT0z07D12E/zZ8sFKwp/4uNDahn
+	GHIQDMPAeyTRjWRT49ELqmdzu8fbgg674jCEY=
 MIME-Version: 1.0
-Received: by 10.101.179.21 with SMTP id g21mr126309anp.54.1313816836171; Fri,
-	19 Aug 2011 22:07:16 -0700 (PDT)
-Received: by 10.100.95.3 with HTTP; Fri, 19 Aug 2011 22:07:16 -0700 (PDT)
-In-Reply-To: <fe4a8f56697a9915ca59d0dd4bc3f06a4072d7dc.1313816148.git.otavio@ossystems.com.br>
-References: <cover.1313816148.git.otavio@ossystems.com.br>
-	<fe4a8f56697a9915ca59d0dd4bc3f06a4072d7dc.1313816148.git.otavio@ossystems.com.br>
-Date: Sat, 20 Aug 2011 01:07:16 -0400
-Message-ID: <CADkTA4PBJLxUQx3PAkuzBxo+hp3B_=hPkx0rZ2_GuUvjQgDbMA@mail.gmail.com>
+Received: by 10.101.179.21 with SMTP id g21mr127426anp.54.1313816937394; Fri,
+	19 Aug 2011 22:08:57 -0700 (PDT)
+Received: by 10.100.95.3 with HTTP; Fri, 19 Aug 2011 22:08:57 -0700 (PDT)
+In-Reply-To: <cover.1313730559.git.bruce.ashfield@windriver.com>
+References: <cover.1313730559.git.bruce.ashfield@windriver.com>
+Date: Sat, 20 Aug 2011 01:08:57 -0400
+Message-ID: <CADkTA4Mgg7j=HtLLCaB5GAvBfnvYxfGtnLH44ee8hVdR8AnTcQ@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/8] kernel.bbclass: move uboot image generation to a specific class
+To: richard.purdie@linuxfoundation.org
+Cc: dvhart@linux.intel.com, saul.wold@intel.com,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/3] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,108 +40,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Aug 2011 05:11:59 -0000
+X-List-Received-Date: Sat, 20 Aug 2011 05:13:40 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Aug 20, 2011 at 12:58 AM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
-> =A0meta/classes/kernel.bbclass | =A0 39 +++++++++++++++++++++++----------=
-------
-> =A01 files changed, 23 insertions(+), 16 deletions(-)
+On Fri, Aug 19, 2011 at 1:20 AM, Bruce Ashfield
+<bruce.ashfield@windriver.com> wrote:
+> Richard/Saul,
 >
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index ff3fa46..8a56b85 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -470,6 +470,29 @@ do_sizecheck() {
+> Here's a consolidated set of changes that I've been testing with
+> for the past few days. The patches are pretty much self explanitory.
 >
-> =A0addtask sizecheck before do_install after do_compile
+> 1/3: =A0linux-yocto: restoring LINUX_VERSION ?=3D "3.0"
 >
-> +do_uboot_mkimage() {
-> + =A0 =A0if test "x${KERNEL_IMAGETYPE}" =3D "xuImage" ; then
-> + =A0 =A0 =A0 =A0ENTRYPOINT=3D${UBOOT_ENTRYPOINT}
-> + =A0 =A0 =A0 =A0if test -n "${UBOOT_ENTRYSYMBOL}"; then
-> + =A0 =A0 =A0 =A0 =A0 =A0ENTRYPOINT=3D`${HOST_PREFIX}nm ${S}/vmlinux | \
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 awk '$3=3D=3D"${UBOOT_ENTRYSYMBOL}"=
- {print $1}'`
-> + =A0 =A0 =A0 =A0fi
+> After discussions on the mailing list, we are going to go back to the
+> 1.0 model and not cycle the version string of the recipe. We'll revisit
+> this post 1.1.
 
-These aren't equivalent. We should maintain what is already in kernel.bbcla=
-ss
-and just move it over. If there already a uImage in the build tree, there's=
- no
-need to run all the objcopy "mess" below. I found that it created useless b=
-inary
-blobs forme in the past.
+I've repushed this series with 1/3 dropped.
+
+>
+> 2/3 =A0linux-yocto: move more default values into linux-yocto.inc
+>
+> While working on documentation for extending linux-yocto, I moved some
+> variables into the .inc file to simply recipes based on linux-yocto.
+> I haven't updated some other recipes yet (like the -rt one), but will
+> do that once I can test them.
+>
+> 3/3 linux-yocto: update SRCREVs for 3.0.3
+>
+> Updating the SRCREVs to pickup 3.0.3, this also picks up the meta branch
+> updates for emgd and hpet.
+
+And this changed to make the kernel version 3.0.3.
+
+I'm sparing everyone another patch posting, but let me know if you'd like m=
+e
+to resend.
 
 Bruce
 
-> + =A0 =A0 =A0 =A0if test -e arch/${ARCH}/boot/compressed/vmlinux ; then
-> + =A0 =A0 =A0 =A0 =A0 =A0${OBJCOPY} -O binary -R .note -R .comment -S arc=
-h/${ARCH}/boot/compressed/vmlinux linux.bin
-> + =A0 =A0 =A0 =A0 =A0 =A0uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kerne=
-l -C none -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/$=
-{MACHINE}" -d linux.bin arch/${ARCH}/boot/uImage
-> + =A0 =A0 =A0 =A0 =A0 =A0rm -f linux.bin
-> + =A0 =A0 =A0 =A0else
-> + =A0 =A0 =A0 =A0 =A0 =A0${OBJCOPY} -O binary -R .note -R .comment -S vml=
-inux linux.bin
-> + =A0 =A0 =A0 =A0 =A0 =A0rm -f linux.bin.gz
-> + =A0 =A0 =A0 =A0 =A0 =A0gzip -9 linux.bin
-> + =A0 =A0 =A0 =A0 =A0 =A0uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kerne=
-l -C gzip -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/$=
-{MACHINE}" -d linux.bin.gz arch/${ARCH}/boot/uImage
-> + =A0 =A0 =A0 =A0 =A0 =A0rm -f linux.bin.gz
-> + =A0 =A0 =A0 =A0fi
-> + =A0 =A0fi
-> +}
-> +
-> +addtask uboot_mkimage before do_install after do_compile
-> +
-> =A0KERNEL_IMAGE_BASE_NAME ?=3D "${KERNEL_IMAGETYPE}-${PV}-${PR}-${MACHINE=
-}-${DATETIME}"
-> =A0# Don't include the DATETIME variable in the sstate package signatures
-> =A0KERNEL_IMAGE_BASE_NAME[vardepsexclude] =3D "DATETIME"
-> @@ -481,22 +504,6 @@ kernel_do_deploy() {
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0tar -cvzf ${DEPLOYDIR}/modules-${KERNEL_VE=
-RSION}-${PR}-${MACHINE}.tgz -C ${D} lib
-> =A0 =A0 =A0 =A0fi
 >
-> - =A0 =A0 =A0 if test "x${KERNEL_IMAGETYPE}" =3D "xuImage" ; then
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 if test -e arch/${ARCH}/boot/uImage ; then
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 cp arch/${ARCH}/boot/uImage=
- ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 elif test -e arch/${ARCH}/boot/compressed/v=
-mlinux ; then
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 ${OBJCOPY} -O binary -R .no=
-te -R .comment -S arch/${ARCH}/boot/compressed/vmlinux linux.bin
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 uboot-mkimage -A ${ARCH} -O=
- linux -T kernel -C none -a ${UBOOT_ENTRYPOINT} -e ${UBOOT_ENTRYPOINT} -n "=
-${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin ${DEPLOYDIR}/${KERNEL_IMAGE_B=
-ASE_NAME}.bin
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 rm -f linux.bin
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 else
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 ${OBJCOPY} -O binary -R .no=
-te -R .comment -S vmlinux linux.bin
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 rm -f linux.bin.gz
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 gzip -9 linux.bin
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 uboot-mkimage -A ${ARCH} -O=
- linux -T kernel -C gzip -a ${UBOOT_ENTRYPOINT} -e ${UBOOT_ENTRYPOINT} -n "=
-${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin.gz ${DEPLOYDIR}/${KERNEL_IMAG=
-E_BASE_NAME}.bin
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 rm -f linux.bin.gz
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 fi
-> - =A0 =A0 =A0 fi
-> -
-> =A0 =A0 =A0 =A0cd ${DEPLOYDIR}
-> =A0 =A0 =A0 =A0rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.bin
-> =A0 =A0 =A0 =A0ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGE_SYMLIN=
-K_NAME}.bin
+> cc: Tom Zanussi <tom.zanussi@intel.com>
+> cc: Darren Hart <dvhart@linux.intel.com>
+>
+> The following changes since commit 978cdd5cb5b445f1cf406296444cb57cd8aa52=
+6a:
+>
+> =A0kernel: restore crtsavres.o to enable building external modules on pow=
+erpc (2011-08-17 15:56:07 +0100)
+>
+> are available in the git repository at:
+> =A0git://git.pokylinux.org/poky-contrib zedd/kernel-oe
+> =A0http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dzedd/kernel-oe
+>
+> Bruce Ashfield (3):
+> =A0linux-yocto: restoring LINUX_VERSION ?=3D "3.0"
+> =A0linux-yocto: move more default values into linux-yocto.inc
+> =A0linux-yocto: update SRCREVs for 3.0.3
+>
+> =A0meta/recipes-kernel/linux/linux-yocto.inc =A0 =A0| =A0 =A07 +++++++
+> =A0meta/recipes-kernel/linux/linux-yocto_3.0.bb | =A0 21 ++++++++--------=
+-----
+> =A02 files changed, 15 insertions(+), 13 deletions(-)
+>
 > --
-> 1.7.2.5
+> 1.7.4.1
 >
 >
 > _______________________________________________
