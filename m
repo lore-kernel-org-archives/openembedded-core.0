@@ -1,35 +1,35 @@
 Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1Qudiu-0004Dj-1m
+	(envelope-from <otavio.salvador@gmail.com>) id 1Qudiv-0004G0-UQ
 	for openembedded-core@lists.openembedded.org;
-	Sat, 20 Aug 2011 07:03:57 +0200
-Received: by yxl11 with SMTP id 11so528933yxl.6
+	Sat, 20 Aug 2011 07:03:58 +0200
+Received: by yxl11 with SMTP id 11so528966yxl.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Aug 2011 21:59:14 -0700 (PDT)
+	Fri, 19 Aug 2011 21:59:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
 	:references:in-reply-to:references;
-	bh=+kPS7RtbGmDjZ73QGcMGFsbLG5DO0ZtkFRDUCY0rvSI=;
-	b=TCZ+MVm1NCBy/Qajsgi8afPK+X0900TfARoRuBQ1x9W4mfNtJ/vyV/Wg3NoFxahX0g
-	VkOYUEM6RmiN23iLpeQH95uCJyqKNCtAZqmeF7yb5A81r7SoU1fFP5JogCXJSlLnamn8
-	oLUlsAWeSP/gKbipEknt3JBHXR9EU6ur8j5qg=
-Received: by 10.236.180.38 with SMTP id i26mr821306yhm.7.1313816354349;
-	Fri, 19 Aug 2011 21:59:14 -0700 (PDT)
+	bh=SVcu6dtk0N9dq+bwuj/e3kCuZhfql6aWiZUx5EdopC4=;
+	b=AMPJVu7L4ltRWFEoEE45HLY1l6lC0aPckujcIeENQpBcuKQmV681Fg3AurMwKsKF2t
+	9MO45kmiJt+Jpdq0YymHqdmVzfgvTyg8jHQKG6pboqDLuEWnd1mP91fQjRd7bgH+Lxbb
+	M9mwylwbvSy/ktX9F1qbemBNLmQ6+2EOGP10w=
+Received: by 10.236.77.131 with SMTP id d3mr743907yhe.63.1313816356330;
+	Fri, 19 Aug 2011 21:59:16 -0700 (PDT)
 Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id f48sm4668774yhh.56.2011.08.19.21.59.12
+	by mx.google.com with ESMTPS id f48sm4668774yhh.56.2011.08.19.21.59.14
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 19 Aug 2011 21:59:13 -0700 (PDT)
+	Fri, 19 Aug 2011 21:59:15 -0700 (PDT)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 20 Aug 2011 04:58:45 +0000
-Message-Id: <512d2bd7cc7ad38f24b57fd8e0a73c8906cb4273.1313816148.git.otavio@ossystems.com.br>
+Date: Sat, 20 Aug 2011 04:58:46 +0000
+Message-Id: <8f97b70fe5c9cd105970130f1f0976bdb126851b.1313816148.git.otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.7.2.5
 In-Reply-To: <cover.1313816148.git.otavio@ossystems.com.br>
 References: <cover.1313816148.git.otavio@ossystems.com.br>
 In-Reply-To: <cover.1313816148.git.otavio@ossystems.com.br>
 References: <cover.1313816148.git.otavio@ossystems.com.br>
-Subject: [PATCH 7/8] scripts/runqemu: remove redundant checking
+Subject: [PATCH 8/8] scripts/combo-layer: fix configuration file handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,22 +48,24 @@ X-List-Received-Date: Sat, 20 Aug 2011 05:03:58 -0000
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- scripts/runqemu |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ scripts/combo-layer |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 91c3c9e..d617f79 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -163,7 +163,7 @@ while [ $i -le $# ]; do
-             # A directory name is an nfs rootfs
-             if [ -d "$arg" ]; then
-                 echo "Assuming $arg is an nfs rootfs"
--                if [[ -z "$FSTYPE" || "$FSTYPE" == "nfs" ]]; then
-+                if [[ -z "$FSTYPE" ]]; then
-                     FSTYPE=nfs
-                 else
-                     echo "Error: conflicting FSTYPE types [$arg] and nfs"
+diff --git a/scripts/combo-layer b/scripts/combo-layer
+index 07b3382..f8763ee 100755
+--- a/scripts/combo-layer
++++ b/scripts/combo-layer
+@@ -339,8 +339,8 @@ Action:
+   update            get patches from component repos and apply them to the combo repo
+   splitpatch [commit] generate commit patch and split per component, default commit is HEAD""")
+ 
+-    parser.add_option("-c", "--conf", help = "specify the config file. default is conf/combolayer.conf",
+-               action = "store", dest = "conffile", default = "combo-layer.conf")
++    parser.add_option("-c", "--conf", help = "specify the config file (conf/combo-layer.conf is the default).",
++               action = "store", dest = "conffile", default = "conf/combo-layer.conf")
+ 
+     parser.add_option("-i", "--interactive", help = "interactive mode, user can edit the patch list and patches",
+                action = "store_true", dest = "interactive", default = False)
 -- 
 1.7.2.5
 
