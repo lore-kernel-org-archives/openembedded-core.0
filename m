@@ -1,33 +1,33 @@
-Received: from mail-iy0-f171.google.com ([209.85.210.171])
+Received: from mail-gx0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Quo3S-0000kF-K6
+	(envelope-from <raj.khem@gmail.com>) id 1Quo7x-0000sv-Ab
 	for openembedded-core@lists.openembedded.org;
-	Sat, 20 Aug 2011 18:05:50 +0200
-Received: by iyf13 with SMTP id 13so7645802iyf.16
+	Sat, 20 Aug 2011 18:10:29 +0200
+Received: by gxk3 with SMTP id 3so2669282gxk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Aug 2011 09:01:08 -0700 (PDT)
+	Sat, 20 Aug 2011 09:05:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=message-id:date:from:user-agent:mime-version:to:subject:references
 	:in-reply-to:content-type:content-transfer-encoding;
-	bh=dsFRaYPNhTK19KJ+33o1fZRKLtcmUYAS2HTGfYuZjsE=;
-	b=O0RDIJk3C+GDazffsWVacEAMEtP0tS1Z8W1aX8VrtRiYOecUn73xnxTgh78iL59IZk
-	bVIKCuZxiCbXY/ru6v9uCpCHqgFAOP6JUiG3aChhOfpJDAhauytdRy42KCzVHQudN8+N
-	QArBcAUtJXAWeyMqRRGIpUiBLwb5S+jfQmgcM=
-Received: by 10.42.244.133 with SMTP id lq5mr559267icb.405.1313856067881;
-	Sat, 20 Aug 2011 09:01:07 -0700 (PDT)
+	bh=ZwHiukINWo49e7gfqPwDbindf2XNJVnSNJv9KZLxIn4=;
+	b=jsULGtZuUzylmLnnicY22ZxE+xmXR12ny26SVGJF5ZdcMN+JxQls3+K86+76cRLX+q
+	83db7di2XTAd997JfpEPgcAOvElU4QMfVyPV0oKejEO7AGGS1I8vVtVLwDLIeoJang7E
+	mwwKJ2q1DMm4GIc0xPRhzABzCdUUPOJLbHk+E=
+Received: by 10.42.155.198 with SMTP id v6mr561966icw.380.1313856346661;
+	Sat, 20 Aug 2011 09:05:46 -0700 (PDT)
 Received: from [172.23.5.198] (natint3.juniper.net [66.129.224.36])
-	by mx.google.com with ESMTPS id n14sm2248462ibi.22.2011.08.20.09.01.05
-	(version=SSLv3 cipher=OTHER); Sat, 20 Aug 2011 09:01:06 -0700 (PDT)
-Message-ID: <4E4FDA4D.9020508@gmail.com>
-Date: Sat, 20 Aug 2011 09:01:17 -0700
+	by mx.google.com with ESMTPS id g21sm2248088ibl.58.2011.08.20.09.05.45
+	(version=SSLv3 cipher=OTHER); Sat, 20 Aug 2011 09:05:45 -0700 (PDT)
+Message-ID: <4E4FDB65.1010306@gmail.com>
+Date: Sat, 20 Aug 2011 09:05:57 -0700
 From: Khem Raj <raj.khem@gmail.com>
 User-Agent: Mozilla/5.0 (Windows NT 6.1; rv:6.0) Gecko/20110812 Thunderbird/6.0
 MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-References: <91e2a59d20e1d1992691684fb2dd64a6405ec6e3.1313791350.git.dvhart@linux.intel.com>
-	<fa0a22eee3461de38fc4b41a76f15980b78fd0bf.1313791350.git.dvhart@linux.intel.com>
-In-Reply-To: <fa0a22eee3461de38fc4b41a76f15980b78fd0bf.1313791350.git.dvhart@linux.intel.com>
-Subject: Re: [PATCH 2/3] tune: remove thumb flag from non-thumb cortexa8 tune variables
+References: <cover.1313826618.git.wenzong.fan@windriver.com>
+	<fc4770ac723a1fa69bc53a8a887b5892cfb99968.1313826618.git.wenzong.fan@windriver.com>
+In-Reply-To: <fc4770ac723a1fa69bc53a8a887b5892cfb99968.1313826618.git.wenzong.fan@windriver.com>
+Subject: Re: [PATCH 1/1] libpam: Setting suid bit for unix_chkpwd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,39 +42,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Aug 2011 16:05:50 -0000
+X-List-Received-Date: Sat, 20 Aug 2011 16:10:29 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 8/19/2011 3:06 PM, Darren Hart wrote:
-> The thumb flag "t" appears to have been copy/pasted to all the
-> PACKAGE_EXTRA_ARCHS tune variables. Remove it from the non-thumb versions.
+On 8/20/2011 12:58 AM, wenzong.fan@windriver.com wrote:
+> From: Wenzong Fan<wenzong.fan@windriver.com>
 >
-
-hmmm non thumb versions can run thumb packages. So I think its ok to 
-have t in EXTRA_ARCHS
-
-> Signed-off-by: Darren Hart<dvhart@linux.intel.com>
-> CC: Jason Kridner<jkridner@beagleboard.org>
-> CC: Koen Kooi<koen@dominion.thruhere.net>
+> [YOCTO #1252]
+>
+> While pam_unix.so required by an application on lsb image, it will need to
+> call the unix_chkpwd to get userinfo from shadow file. This fix get a normal
+> user could read shadow file via unix_chkpwd.
+>
+> Signed-off-by: Wenzong Fan<wenzong.fan@windriver.com>
 > ---
->   meta/conf/machine/include/tune-cortexa8.inc |    4 ++--
->   1 files changed, 2 insertions(+), 2 deletions(-)
+>   meta/recipes-extended/pam/libpam_1.1.4.bb |    8 +++++++-
+>   1 files changed, 7 insertions(+), 1 deletions(-)
 >
-> diff --git a/meta/conf/machine/include/tune-cortexa8.inc b/meta/conf/machine/include/tune-cortexa8.inc
-> index 02b560c..67c5f0b 100644
-> --- a/meta/conf/machine/include/tune-cortexa8.inc
-> +++ b/meta/conf/machine/include/tune-cortexa8.inc
-> @@ -10,7 +10,7 @@ TUNE_FEATURES_tune-cortexa8 = "${TUNE_FEATURES_tune-armv7a} cortexa8"
->   TUNE_FEATURES_tune-cortexa8t = "${TUNE_FEATURES_tune-armv7at} cortexa8"
->   TUNE_FEATURES_tune-cortexa8-neon = "${TUNE_FEATURES_tune-cortexa8} neon"
+> diff --git a/meta/recipes-extended/pam/libpam_1.1.4.bb b/meta/recipes-extended/pam/libpam_1.1.4.bb
+> index ae20a97..ca54bd8 100644
+> --- a/meta/recipes-extended/pam/libpam_1.1.4.bb
+> +++ b/meta/recipes-extended/pam/libpam_1.1.4.bb
+> @@ -9,7 +9,7 @@ SECTION = "base"
+>   LICENSE = "GPLv2+ | BSD"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=ca0395de9a86191a078b8b79302e3083"
 >
-> -PACKAGE_EXTRA_ARCHS_tune-cortexa8 = "${PACKAGE_EXTRA_ARCHS_tune-armv7at}"
-> +PACKAGE_EXTRA_ARCHS_tune-cortexa8 = "${PACKAGE_EXTRA_ARCHS_tune-armv7a}"
->   PACKAGE_EXTRA_ARCHS_tune-cortexa8t = "${PACKAGE_EXTRA_ARCHS_tune-armv7at}"
-> -PACKAGE_EXTRA_ARCHS_tune-cortexa8-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7at-neon}"
-> +PACKAGE_EXTRA_ARCHS_tune-cortexa8-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7a-neon}"
+> -PR = "r1"
+> +PR = "r2"
 >
+>   DEPENDS = "bison flex cracklib"
+>   RDEPENDS_${PN}-runtime = "libpam pam-plugin-deny pam-plugin-permit pam-plugin-warn pam-plugin-unix"
+> @@ -85,3 +85,9 @@ do_install() {
+>   	install -d ${D}${sysconfdir}/pam.d/
+>   	install -m 0644 ${WORKDIR}/pam.d/* ${D}${sysconfdir}/pam.d/
+>   }
+> +
+> +pkg_postinst_pam-plugin-unix () {
+> +    # below is necessary to allow unix_chkpwd get user info from shadow file
+> +    # on lsb images
+> +    chmod 4755 /usr/sbin/unix_chkpwd
+
+may be its better to use corresponding metadata variables instead of 
+hardcoding /usr/sbin here
+
+> +}
 
 
 
