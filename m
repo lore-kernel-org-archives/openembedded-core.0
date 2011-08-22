@@ -1,30 +1,23 @@
-Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1QvSVE-0002fZ-8U
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1QvSpq-0003Kf-Eo
 	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Aug 2011 13:17:12 +0200
-Received: by mail.chez-thomas.org (Postfix, from userid 999)
-	id CB7101660387; Mon, 22 Aug 2011 05:12:28 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 6FDF116601ED;
-	Mon, 22 Aug 2011 05:12:28 -0600 (MDT)
-Message-ID: <4E52399C.9020608@mlbassoc.com>
-Date: Mon, 22 Aug 2011 05:12:28 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:5.0) Gecko/20110707 Thunderbird/5.0
+	Mon, 22 Aug 2011 13:38:30 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7MBXjuq021403
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Aug 2011 04:33:45 -0700 (PDT)
+Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Mon, 22 Aug 2011 04:33:45 -0700
+Message-ID: <cover.1314010928.git.xiaofeng.yan@windriver.com>
+Old-Date: Mon, 22 Aug 2011 19:02:08 +0800
+Date: Mon, 22 Aug 2011 19:34:08 +0800
+To: <openembedded-core@lists.openembedded.org>
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1313993805.git.wenzong.fan@windriver.com>
-	<1313999777.7620.13.camel@localhost.localdomain>
-In-Reply-To: <1313999777.7620.13.camel@localhost.localdomain>
-Subject: Re: new feature? (for "DL_DIR")
+Subject: [PATCH 0/1] qt4-x11-demo-image: Fix bug 999
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,28 +32,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Aug 2011 11:17:12 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 22 Aug 2011 11:38:30 -0000
+Content-Type: text/plain
 
-On 2011-08-22 01:56, Ni Qingliang wrote:
-> Do we can assign all package be downloaded from the same path?
->
-> I want setup one internal server to store the files in upstreamsources,
-> and all developer's PC use it but not the original package address.
->
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-Just add these lines to your .conf (I put them in my ${DISTRO}.conf):
-   # Provide pre-staged sources
-   SOURCE_MIRROR_URL ?= "file:///opt/amltd/poky/sources/"
-   INHERIT += "own-mirrors"
+Fix bug 999
 
-Simply point SOURCE_MIRROR_URL at your file cache.
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: xiaofeng/qt4-x11-demo-image
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/qt4-x11-demo-image
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+Thanks,
+    Xiaofeng Yan <xiaofeng.yan@windriver.com>
+---
+
+
+Xiaofeng Yan (1):
+  qt4-x11-demo-image: Fix bug 999
+
+ meta/classes/palmtop.bbclass                     |   26 ++
+ meta/classes/sdk.bbclass                         |   74 ++++
+ meta/recipes-qt/images/micro-base-image.bb       |   19 +
+ meta/recipes-qt/images/qt4-x11-base-image.bb     |   35 ++
+ meta/recipes-qt/images/qt4-x11-demo-image.bb     |   12 +
+ meta/recipes-qt/qt-demo/qt-demo-init/qtdemo-init |   55 +++
+ meta/recipes-qt/qt-demo/qt-demo-init_0.1.bb      |   20 +
+ meta/recipes-qt/qwt/files/qt2-fix.patch          |  408 ++++++++++++++++++++++
+ meta/recipes-qt/qwt/qwt.inc                      |   33 ++
+ meta/recipes-qt/qwt/qwt_5.2.1.bb                 |   13 +
+ meta/recipes-qt/tasks/task-qt4-x11.bb            |   52 +++
+ meta/recipes-qt/tasks/task-sdk-host.bb           |   21 ++
+ 12 files changed, 768 insertions(+), 0 deletions(-)
+ create mode 100644 meta/classes/palmtop.bbclass
+ create mode 100644 meta/classes/sdk.bbclass
+ create mode 100644 meta/recipes-qt/images/micro-base-image.bb
+ create mode 100644 meta/recipes-qt/images/qt4-x11-base-image.bb
+ create mode 100644 meta/recipes-qt/images/qt4-x11-demo-image.bb
+ create mode 100644 meta/recipes-qt/qt-demo/qt-demo-init/qtdemo-init
+ create mode 100644 meta/recipes-qt/qt-demo/qt-demo-init_0.1.bb
+ create mode 100644 meta/recipes-qt/qwt/files/qt2-fix.patch
+ create mode 100644 meta/recipes-qt/qwt/qwt.inc
+ create mode 100644 meta/recipes-qt/qwt/qwt_5.2.1.bb
+ create mode 100644 meta/recipes-qt/tasks/task-qt4-x11.bb
+ create mode 100644 meta/recipes-qt/tasks/task-sdk-host.bb
+
 
 
