@@ -1,32 +1,29 @@
-Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1QvbfS-0005nS-ML
+	(envelope-from <koen@dominion.thruhere.net>) id 1Qvbh1-0005q9-JG
 	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Aug 2011 23:04:22 +0200
-Received: by mail.chez-thomas.org (Postfix, from userid 999)
-	id 9847516601AB; Mon, 22 Aug 2011 14:59:39 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by mail.chez-thomas.org (Postfix) with ESMTP id E3D1F166019E;
-	Mon, 22 Aug 2011 14:59:38 -0600 (MDT)
-Message-ID: <4E52C33A.6030807@mlbassoc.com>
-Date: Mon, 22 Aug 2011 14:59:38 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:5.0) Gecko/20110707 Thunderbird/5.0
-MIME-Version: 1.0
+	Mon, 22 Aug 2011 23:05:59 +0200
+Received: by wyf19 with SMTP id 19so4043427wyf.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Aug 2011 14:01:15 -0700 (PDT)
+Received: by 10.216.235.212 with SMTP id u62mr2349739weq.104.1314046875094;
+	Mon, 22 Aug 2011 14:01:15 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id eq21sm5139944wbb.35.2011.08.22.14.01.13
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 22 Aug 2011 14:01:13 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <8c4bf939c0906cd744debeb85d5d55de622c184e.1313606178.git.paul.eggleton@linux.intel.com>
+Date: Mon, 22 Aug 2011 23:01:11 +0200
+Message-Id: <91BBD9D6-2616-4A85-B87A-5DFA1AD82152@dominion.thruhere.net>
+References: <cover.1313606178.git.paul.eggleton@linux.intel.com>
+	<8c4bf939c0906cd744debeb85d5d55de622c184e.1313606178.git.paul.eggleton@linux.intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1313993805.git.wenzong.fan@windriver.com>
-	<1313999777.7620.13.camel@localhost.localdomain>
-	<4E52399C.9020608@mlbassoc.com> <4E52BB9A.2060603@linux.intel.com>
-	<4E52C234.6080400@mlbassoc.com>
-In-Reply-To: <4E52C234.6080400@mlbassoc.com>
-Subject: Re: new feature? (for "DL_DIR")
+X-Mailer: Apple Mail (2.1244.3)
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Re: [RFC PATCH 1/2] image.bbclass, kernel.bbclass: create warning file about deleting deploydir files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,47 +38,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Aug 2011 21:04:22 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 22 Aug 2011 21:05:59 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 2011-08-22 14:55, Gary Thomas wrote:
-> On 2011-08-22 14:27, Saul Wold wrote:
->> On 08/22/2011 04:12 AM, Gary Thomas wrote:
->>> On 2011-08-22 01:56, Ni Qingliang wrote:
->>>> Do we can assign all package be downloaded from the same path?
->>>>
->>>> I want setup one internal server to store the files in upstreamsources,
->>>> and all developer's PC use it but not the original package address.
->>>>
->>>
->>> Just add these lines to your .conf (I put them in my ${DISTRO}.conf):
->>> # Provide pre-staged sources
->>> SOURCE_MIRROR_URL ?= "file:///opt/amltd/poky/sources/"
->>> INHERIT += "own-mirrors"
->>>
->>> Simply point SOURCE_MIRROR_URL at your file cache.
->>>
->> You could also use PREMIRRORS in the developer's local.conf, point
->> PREMIRRORS for packages to your internal server (could be ftp, http or file when mounted via NFS).
->
-> But then you end up typing all the patterns for the various file types, etc.
->
-> own-mirrors does all that for you by creating a PREMIRRORS variable based
-> on the single SOURCE_MIRROR_URL
 
-Also, to be used as a complete cache, SOURCE_MIRROR_URL should point
-to the same cache directory as DL_DIR does.  So I really should have
-said
-    # Provide pre-staged sources
-    DL_DIR = "/opt/amltd/poky/sources"
-    SOURCE_MIRROR_URL = "file://${DL_DIR}/"
-    INHERIT += "own-mirrors"
+Op 17 aug. 2011, om 20:37 heeft Paul Eggleton het volgende geschreven:
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+> New users sometimes delete files in tmp/deploy/images assuming they =
+will
+> be re-created just by re-running the build, and then are confused when
+> this doesn't work. To discourage people from doing this, create a file
+> called README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt in
+> tmp/deploy/images containing an explanation of what needs to be done =
+to
+> re-create files there.
+>=20
+> Fixes [YOCTO #1315] and [YOCTO #1346].
+>=20
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+> meta/classes/image.bbclass      |    2 ++
+> meta/classes/kernel.bbclass     |    2 ++
+> meta/files/deploydir_readme.txt |    8 ++++++++
+> 3 files changed, 12 insertions(+), 0 deletions(-)
+> create mode 100644 meta/files/deploydir_readme.txt
+>=20
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index 54eb78b..286ae01 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -138,6 +138,8 @@ fakeroot do_rootfs () {
+> 	mkdir -p ${IMAGE_ROOTFS}
+> 	mkdir -p ${DEPLOY_DIR_IMAGE}
+>=20
+> +	cp -n ${COREBASE}/meta/files/deploydir_readme.txt =
+${DEPLOY_DIR_IMAGE}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+> +
+
+That doesn't work on my debian box:
+
+| + cp -n =
+/OE/tentacle/sources/openembedded-core/meta/files/deploydir_readme.txt =
+/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/deploy/images/beagleboard/RE=
+ADME_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+| cp: invalid option -- 'n'
+| Try `cp --help' for more information.=
 
 
