@@ -1,26 +1,25 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QvZKI-0005yF-Pc
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1QvZab-0006Ig-Ba
 	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Aug 2011 20:34:23 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 22 Aug 2011 11:29:20 -0700
+	Mon, 22 Aug 2011 20:51:13 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 22 Aug 2011 11:46:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,264,1312182000"; d="scan'208";a="42833495"
-Received: from unknown (HELO [10.255.13.234]) ([10.255.13.234])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Aug 2011 11:29:19 -0700
-Message-ID: <4E529FFE.9030402@linux.intel.com>
-Date: Mon, 22 Aug 2011 11:29:18 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:5.0) Gecko/20110707 Thunderbird/5.0
+X-IronPort-AV: E=Sophos;i="4.68,263,1312182000"; d="scan'208";a="41183463"
+Received: from unknown (HELO helios.localnet) ([10.255.18.79])
+	by azsmga001.ch.intel.com with ESMTP; 22 Aug 2011 11:46:27 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Kang Kai <Kai.Kang@windriver.com>
+Date: Mon, 22 Aug 2011 19:46:25 +0100
+User-Agent: KMail/1.13.6 (Linux/2.6.38-10-generic-pae; KDE/4.6.2; i686; ; )
+References: <4E522492.9050706@windriver.com>
+In-Reply-To: <4E522492.9050706@windriver.com>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+Message-Id: <201108221946.26036.paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1313816148.git.otavio@ossystems.com.br>
-	<7dc65a7b7090c2504783307152ec3ab6e5376e53.1313816148.git.otavio@ossystems.com.br>
-In-Reply-To: <7dc65a7b7090c2504783307152ec3ab6e5376e53.1313816148.git.otavio@ossystems.com.br>
-Subject: Re: [PATCH 2/8] kernel.bbclass: blacklist perf-dbg
+Subject: Re: question about meta/class/qmake-base.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,37 +34,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Aug 2011 18:34:23 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Mon, 22 Aug 2011 18:51:13 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On 08/19/2011 09:58 PM, Otavio Salvador wrote:
-> Signed-off-by: Otavio Salvador<otavio@ossystems.com.br>
-> ---
->   meta/classes/kernel.bbclass |    2 +-
->   1 files changed, 1 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index a2b10f2..ff3fa46 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -440,7 +440,7 @@ python populate_packages_prepend () {
->   	metapkg = "kernel-modules"
->   	bb.data.setVar('ALLOW_EMPTY_' + metapkg, "1", d)
->   	bb.data.setVar('FILES_' + metapkg, "", d)
-> -	blacklist = [ 'kernel-dev', 'kernel-image', 'kernel-base', 'kernel-vmlinux', 'perf', 'kernel-misc' ]
-> +	blacklist = [ 'kernel-dev', 'kernel-image', 'kernel-base', 'kernel-vmlinux', 'perf', 'perf-dbg', 'kernel-misc' ]
->   	for l in module_deps.values():
->   		for i in l:
->   			pkg = module_pattern % legitimize_package_name(re.match(module_regex, os.path.basename(i)).group(1))
+On Monday 22 August 2011 10:42:42 Kang Kai wrote:
+> When I read the file  meta/class/qmake-base.bbclass, I find that that
+> are 2 lines:
+>      unset QMAKESPEC || true
+>      ${OE_QMAKE_QMAKE} -makefile -spec ${QMAKESPEC} -o Makefile
+> $QMAKE_VARSUBST_PRE $AFTER $PROFILES $QMAKE_VARSUBST_POST || die "Error
+> calling ${OE_QMAKE_QMAKE} on $PROFILES"
+> 
+> I am confused that why unset QMAKESPEC first and then use it a argument
+> for qmake?
 
-A possible better question is why perf-dbg is getting generated and 
-what's in it?
+It's not obvious, but think that the difference here is between $QMAKESPEC and 
+${QMAKESPEC} - the first one is a reference to an environment variable, the 
+second is a reference to an OE/BitBake variable. So "unset QMAKESPEC" is just 
+clearing out the environment variable; ${QMAKESPEC} would still have a value.
 
-BTW, as noted elsewhere, it would be good to add additional comments as 
-to why you are doing some of the changes.
+Cheers,
+Paul
 
-Thanks
-	Sau!
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
