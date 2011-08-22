@@ -1,26 +1,31 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QvdB0-0000Is-TB
+	(envelope-from <saul.wold@intel.com>) id 1QvdCL-0000MY-1p
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Aug 2011 00:41:03 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 22 Aug 2011 15:36:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="41113393"
-Received: from unknown (HELO [10.255.13.234]) ([10.255.13.234])
-	by orsmga001.jf.intel.com with ESMTP; 22 Aug 2011 15:36:14 -0700
-Message-ID: <4E52D9DD.60604@linux.intel.com>
-Date: Mon, 22 Aug 2011 15:36:13 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Tue, 23 Aug 2011 00:42:26 +0200
+Received: from mail-yw0-f52.google.com ([209.85.213.52])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 22 Aug 2011 15:37:30 -0700
+Received: by ywo7 with SMTP id 7so8662479ywo.25
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Aug 2011 15:37:30 -0700 (PDT)
+Received: by 10.101.9.37 with SMTP id m37mr2925900ani.93.1314052650258;
+	Mon, 22 Aug 2011 15:37:30 -0700 (PDT)
+Received: from [192.168.0.24] (184-76-59-119.war.clearwire-wmx.net
+	[184.76.59.119])
+	by mx.google.com with ESMTPS id 9sm5614703and.25.2011.08.22.15.37.27
+	(version=SSLv3 cipher=OTHER); Mon, 22 Aug 2011 15:37:28 -0700 (PDT)
+Message-ID: <4E52DA26.1090800@intel.com>
+Date: Mon, 22 Aug 2011 15:37:26 -0700
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:5.0) Gecko/20110707 Thunderbird/5.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1313424992.6733.187.camel@phil-desktop>
-In-Reply-To: <1313424992.6733.187.camel@phil-desktop>
-Cc: Phil Blundell <philb@gnu.org>
-Subject: Re: [PATCH] cmake.bbclass, perlnative.bbclass: arrange for cmake to find perl-native
+References: <cover.1313439568.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1313439568.git.bruce.ashfield@windriver.com>
+Subject: Re: [PATCH 0/3] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,53 +40,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Aug 2011 22:41:03 -0000
+X-List-Received-Date: Mon, 22 Aug 2011 22:42:26 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/15/2011 09:16 AM, Phil Blundell wrote:
-> When CMake is looking for perl, it only searches in the specific directories
-> that it's told about and ignores ${PATH}.  If perlnative is in use, ensure
-> that the appropriate installation path is added to the list of places that
-> cmake will look for perl, otherwise it won't ever be found.
+On 08/15/2011 01:24 PM, Bruce Ashfield wrote:
+> Richard/Saul,
 >
-> Signed-off-by: Phil Blundell<philb@gnu.org>
-> ---
->   meta/classes/cmake.bbclass      |    3 ++-
->   meta/classes/perlnative.bbclass |    1 +
->   2 files changed, 3 insertions(+), 1 deletions(-)
+> We've had some good mileage on the 3.0.x kernel. I've been building
+> and booting these boards for weeks now and the meta-intel based BSPs
+> have all been switching over and all of Darren's -rt work was done
+> on top of 3.0.
 >
-> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-> index 89a154f..ab23bed 100644
-> --- a/meta/classes/cmake.bbclass
-> +++ b/meta/classes/cmake.bbclass
-> @@ -25,6 +25,7 @@ OECMAKE_C_FLAGS_RELEASE ?= "${SELECTED_OPTIMIZATION} ${CPPFLAGS} -DNDEBUG"
->   OECMAKE_CXX_FLAGS_RELEASE ?= "${SELECTED_OPTIMIZATION} ${CXXFLAGS} -DNDEBUG"
+> So the big part of this pull request is the removal of the explicit
+> version preference to 2.6.37. We still have the old versions(s) as
+> fallbacks, but it does seem to be time to acknowledge that 3.0.x
+> should be the default kernel.
 >
->   OECMAKE_RPATH ?= ""
-> +OECMAKE_PERLNATIVE_DIR ??= ""
+> As for the timing of the merge, I'll leave this up to you.
 >
->   cmake_do_generate_toolchain_file() {
->   	cat>  ${WORKDIR}/toolchain.cmake<<EOF
-> @@ -41,7 +42,7 @@ set( CMAKE_CXX_FLAGS_RELEASE "${OECMAKE_CXX_FLAGS_RELEASE}" CACHE STRING "CXXFLA
+> The following changes since commit a21ff559e7c93e9da61104f4a33e42e6004189fd:
 >
->   # only search in the paths provided so cmake doesnt pick
->   # up libraries and tools from the native build machine
-> -set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${STAGING_DIR_NATIVE} ${CROSS_DIR} )
-> +set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${STAGING_DIR_NATIVE} ${CROSS_DIR} ${OECMAKE_PERLNATIVE_DIR})
->   set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ONLY )
->   set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
->   set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY )
-> diff --git a/meta/classes/perlnative.bbclass b/meta/classes/perlnative.bbclass
-> index 522344d..2211b72 100644
-> --- a/meta/classes/perlnative.bbclass
-> +++ b/meta/classes/perlnative.bbclass
-> @@ -1,2 +1,3 @@
->   PATH_prepend = "${STAGING_BINDIR_NATIVE}/perl-native:"
->   DEPENDS += "perl-native"
-> +OECMAKE_PERLNATIVE_DIR = "${STAGING_BINDIR_NATIVE}/perl-native"
+>    Fixup remaining bb.msg.domain users (2011-08-15 17:31:52 +0100)
+>
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib zedd/kernel
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+>
+> Bruce Ashfield (3):
+>    linux-yocto: bump version string to 3.0.1
+>    qemu: change default kernel to 3.0.x
+>    linux-yocto: meta SRCREV bump
+>
+>   meta/conf/machine/include/qemu.inc           |    1 -
+>   meta/recipes-kernel/linux/linux-yocto_3.0.bb |    6 +++---
+>   2 files changed, 3 insertions(+), 4 deletions(-)
+>
 
-Merged to OE-Core
+Merged into OE-Core
 
 Thanks
 	Sau!
