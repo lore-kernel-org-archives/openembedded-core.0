@@ -1,25 +1,36 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1QvZab-0006Ig-Ba
+	(envelope-from <otavio.salvador@gmail.com>) id 1QvZhP-0006Rw-KX
 	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Aug 2011 20:51:13 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 22 Aug 2011 11:46:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,263,1312182000"; d="scan'208";a="41183463"
-Received: from unknown (HELO helios.localnet) ([10.255.18.79])
-	by azsmga001.ch.intel.com with ESMTP; 22 Aug 2011 11:46:27 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Kang Kai <Kai.Kang@windriver.com>
-Date: Mon, 22 Aug 2011 19:46:25 +0100
-User-Agent: KMail/1.13.6 (Linux/2.6.38-10-generic-pae; KDE/4.6.2; i686; ; )
-References: <4E522492.9050706@windriver.com>
-In-Reply-To: <4E522492.9050706@windriver.com>
+	Mon, 22 Aug 2011 20:58:15 +0200
+Received: by bkbzu17 with SMTP id zu17so4186148bkb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Aug 2011 11:53:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=19cO6UPgAgwkOGEy8WejxJ1bOVyzjKE+Xkc1FVrLOGk=;
+	b=MOvrDp/h0f0Ygpa0h5iU764wfzZsxPh1BGDtHqlDqR8y4BbhDRTgS2SJ6W2Ktansh/
+	uVh0xcwUjepeshR0yXVt9QnA+QDEQE5oZ9KRHwFyprKXCPDd4uc1Vq6nWSVc5xZ6Aafb
+	NXIv7dDSm8VXltBtO0E00KLpy3tGB9XJebzpg=
 MIME-Version: 1.0
-Message-Id: <201108221946.26036.paul.eggleton@linux.intel.com>
+Received: by 10.204.133.12 with SMTP id d12mr1045344bkt.227.1314039209859;
+	Mon, 22 Aug 2011 11:53:29 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.15.66 with HTTP; Mon, 22 Aug 2011 11:53:29 -0700 (PDT)
+In-Reply-To: <4E529FFE.9030402@linux.intel.com>
+References: <cover.1313816148.git.otavio@ossystems.com.br>
+	<7dc65a7b7090c2504783307152ec3ab6e5376e53.1313816148.git.otavio@ossystems.com.br>
+	<4E529FFE.9030402@linux.intel.com>
+Date: Mon, 22 Aug 2011 15:53:29 -0300
+X-Google-Sender-Auth: 6almEHuYq895KSoiosqIsD2sHfM
+Message-ID: <CAP9ODKoXOFhN-otsPTz4F0+vNpCCV-FhrGSLpApky3ZVgxyW-A@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Saul Wold <sgw@linux.intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: question about meta/class/qmake-base.bbclass
+Subject: Re: [PATCH 2/8] kernel.bbclass: blacklist perf-dbg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,33 +45,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Aug 2011 18:51:13 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 22 Aug 2011 18:58:15 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Monday 22 August 2011 10:42:42 Kang Kai wrote:
-> When I read the file  meta/class/qmake-base.bbclass, I find that that
-> are 2 lines:
->      unset QMAKESPEC || true
->      ${OE_QMAKE_QMAKE} -makefile -spec ${QMAKESPEC} -o Makefile
-> $QMAKE_VARSUBST_PRE $AFTER $PROFILES $QMAKE_VARSUBST_POST || die "Error
-> calling ${OE_QMAKE_QMAKE} on $PROFILES"
-> 
-> I am confused that why unset QMAKESPEC first and then use it a argument
-> for qmake?
+On Mon, Aug 22, 2011 at 15:29, Saul Wold <sgw@linux.intel.com> wrote:
+> A possible better question is why perf-dbg is getting generated and what'=
+s
+> in it?
 
-It's not obvious, but think that the difference here is between $QMAKESPEC and 
-${QMAKESPEC} - the first one is a reference to an environment variable, the 
-second is a reference to an OE/BitBake variable. So "unset QMAKESPEC" is just 
-clearing out the environment variable; ${QMAKESPEC} would still have a value.
+I am sorry but I don't know the answer for it.
 
-Cheers,
-Paul
+> BTW, as noted elsewhere, it would be good to add additional comments as t=
+o
+> why you are doing some of the changes.
 
--- 
+Reducing the delta between meta-oe and oe-core classes; that's why I
+did this change.
 
-Paul Eggleton
-Intel Open Source Technology Centre
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
