@@ -1,26 +1,30 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1QvR6T-0007es-5l
+	(envelope-from <gary@mlbassoc.com>) id 1QvSVE-0002fZ-8U
 	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Aug 2011 11:47:33 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7M9glWe006252
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 22 Aug 2011 02:42:47 -0700 (PDT)
-Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Mon, 22 Aug 2011 02:42:47 -0700
-Message-ID: <4E522492.9050706@windriver.com>
-Date: Mon, 22 Aug 2011 17:42:42 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64;
-	rv:6.0) Gecko/20110812 Thunderbird/6.0
+	Mon, 22 Aug 2011 13:17:12 +0200
+Received: by mail.chez-thomas.org (Postfix, from userid 999)
+	id CB7101660387; Mon, 22 Aug 2011 05:12:28 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 6FDF116601ED;
+	Mon, 22 Aug 2011 05:12:28 -0600 (MDT)
+Message-ID: <4E52399C.9020608@mlbassoc.com>
+Date: Mon, 22 Aug 2011 05:12:28 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:5.0) Gecko/20110707 Thunderbird/5.0
 MIME-Version: 1.0
-To: <zecke@selfish.org>
-X-Originating-IP: [128.224.162.196]
-Cc: Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: question about meta/class/qmake-base.bbclass
+References: <cover.1313993805.git.wenzong.fan@windriver.com>
+	<1313999777.7620.13.camel@localhost.localdomain>
+In-Reply-To: <1313999777.7620.13.camel@localhost.localdomain>
+Subject: Re: new feature? (for "DL_DIR")
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,24 +39,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Aug 2011 09:47:33 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Mon, 22 Aug 2011 11:17:12 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Holger,
+On 2011-08-22 01:56, Ni Qingliang wrote:
+> Do we can assign all package be downloaded from the same path?
+>
+> I want setup one internal server to store the files in upstreamsources,
+> and all developer's PC use it but not the original package address.
+>
 
-When I read the file  meta/class/qmake-base.bbclass, I find that that 
-are 2 lines:
-     unset QMAKESPEC || true
-     ${OE_QMAKE_QMAKE} -makefile -spec ${QMAKESPEC} -o Makefile 
-$QMAKE_VARSUBST_PRE $AFTER $PROFILES $QMAKE_VARSUBST_POST || die "Error 
-calling ${OE_QMAKE_QMAKE} on $PROFILES"
+Just add these lines to your .conf (I put them in my ${DISTRO}.conf):
+   # Provide pre-staged sources
+   SOURCE_MIRROR_URL ?= "file:///opt/amltd/poky/sources/"
+   INHERIT += "own-mirrors"
 
-I am confused that why unset QMAKESPEC first and then use it a argument 
-for qmake?
-Could you help me to get out of that?
+Simply point SOURCE_MIRROR_URL at your file cache.
 
-Thanks and Regards,
-Kai
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
