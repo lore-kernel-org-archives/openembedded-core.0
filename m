@@ -1,24 +1,27 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Qvo1Z-0006QO-Qj
+	(envelope-from <philb@gnu.org>) id 1QvoQl-00072H-R6
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Aug 2011 12:16:02 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 23 Aug 2011 03:11:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="40916896"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.255.18.129])
-	by orsmga002.jf.intel.com with ESMTP; 23 Aug 2011 03:11:15 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Aug 2011 11:11:12 +0100
-Message-Id: <3b2374ace44a610af75052498766f9840fb3d615.1314094152.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1314094152.git.paul.eggleton@linux.intel.com>
-References: <cover.1314094152.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1314094152.git.paul.eggleton@linux.intel.com>
-References: <cover.1314094152.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] image.bbclass: remove non-standard -n option from cp command
+	Tue, 23 Aug 2011 12:42:03 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QvoMC-0005K0-Uc
+	for openembedded-core@lists.openembedded.org;
+	Tue, 23 Aug 2011 12:37:21 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 23 Aug 2011 11:37:20 +0100
+In-Reply-To: <201108231032.19140.paul.eggleton@linux.intel.com>
+References: <cover.1313606178.git.paul.eggleton@linux.intel.com>
+	<20110823064454.GA8170@chargestorm.se>
+	<1314091333.6733.311.camel@phil-desktop>
+	<201108231032.19140.paul.eggleton@linux.intel.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1314095840.6733.334.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [RFC PATCH 1/2] image.bbclass, kernel.bbclass: create warning file about deleting deploydir files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,31 +36,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Aug 2011 10:16:02 -0000
+X-List-Received-Date: Tue, 23 Aug 2011 10:42:03 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
--n is not a POSIX option and does not work on some systems (e.g. Debian
-Lenny); in any case it is not strictly necessary here, so remove it.
+On Tue, 2011-08-23 at 10:32 +0100, Paul Eggleton wrote:
+> On Tuesday 23 August 2011 10:22:12 Phil Blundell wrote:
+> > Irrespective of whether it happens to work or not on some or other
+> > distro, "cp -n" isn't POSIX and we shouldn't be relying on it.
+> > 
+> > I can't really see why the -n option is needed here anyway.  It looks to
+> > me like it could just be removed with no ill effects.
+> 
+> Sorry, I wasn't aware that it was a non-standard option. I'll post a new 
+> version with it removed.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/image.bbclass |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+Yeah, POSIX cp only understands quite a restricted set of options.  It
+supports -f, -i, -p, -R, plus -H, -L and -P in newer versions (and the
+obsolescent -r).  Anything beyond that is not guaranteed.
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 286ae01..bf8b73a 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -138,7 +138,7 @@ fakeroot do_rootfs () {
- 	mkdir -p ${IMAGE_ROOTFS}
- 	mkdir -p ${DEPLOY_DIR_IMAGE}
- 
--	cp -n ${COREBASE}/meta/files/deploydir_readme.txt ${DEPLOY_DIR_IMAGE}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
-+	cp ${COREBASE}/meta/files/deploydir_readme.txt ${DEPLOY_DIR_IMAGE}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
- 
- 	if [ "${USE_DEVFS}" != "1" ]; then
- 		for devtable in ${@get_devtable_list(d)}; do
--- 
-1.7.4.1
+p.
 
 
 
