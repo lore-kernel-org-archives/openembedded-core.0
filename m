@@ -1,27 +1,26 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qvsj1-0000El-Oa
+	(envelope-from <sgw@linux.intel.com>) id 1Qvsko-0000Hk-7P
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Aug 2011 17:17:12 +0200
+	Tue, 23 Aug 2011 17:19:02 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 23 Aug 2011 08:12:25 -0700
+	by azsmga102.ch.intel.com with ESMTP; 23 Aug 2011 08:14:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,270,1312182000"; d="scan'208";a="10190557"
+X-IronPort-AV: E=Sophos;i="4.68,270,1312182000"; d="scan'208";a="10191175"
 Received: from unknown (HELO [10.255.14.203]) ([10.255.14.203])
-	by AZSMGA002.ch.intel.com with ESMTP; 23 Aug 2011 08:12:25 -0700
-Message-ID: <4E53C358.9010002@linux.intel.com>
-Date: Tue, 23 Aug 2011 08:12:24 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 23 Aug 2011 08:14:15 -0700
+Message-ID: <4E53C3C7.9090902@linux.intel.com>
+Date: Tue, 23 Aug 2011 08:14:15 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:5.0) Gecko/20110707 Thunderbird/5.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1314094152.git.paul.eggleton@linux.intel.com>
-	<3b2374ace44a610af75052498766f9840fb3d615.1314094152.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <3b2374ace44a610af75052498766f9840fb3d615.1314094152.git.paul.eggleton@linux.intel.com>
+References: <cover.1313606178.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1313606178.git.paul.eggleton@linux.intel.com>
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH 1/1] image.bbclass: remove non-standard -n option from cp command
+Subject: Re: [RFC PATCH 0/2] Couple of fixes to help new users
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,37 +35,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Aug 2011 15:17:12 -0000
+X-List-Received-Date: Tue, 23 Aug 2011 15:19:03 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/23/2011 03:11 AM, Paul Eggleton wrote:
-> -n is not a POSIX option and does not work on some systems (e.g. Debian
-> Lenny); in any case it is not strictly necessary here, so remove it.
+On 08/17/2011 11:37 AM, Paul Eggleton wrote:
+> Please review the following changes for suitability for inclusion. If you have
+> any objections or suggestions for improvement, please respond to the patches. If
+> you agree with the changes, please provide your Acked-by.
 >
-> Signed-off-by: Paul Eggleton<paul.eggleton@linux.intel.com>
-> ---
->   meta/classes/image.bbclass |    2 +-
->   1 files changed, 1 insertions(+), 1 deletions(-)
+> The following changes since commit 2e83e6755441cb14bd907d306974338c15173189:
 >
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index 286ae01..bf8b73a 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -138,7 +138,7 @@ fakeroot do_rootfs () {
->   	mkdir -p ${IMAGE_ROOTFS}
->   	mkdir -p ${DEPLOY_DIR_IMAGE}
+>    kernel: restore crtsavres.o to enable building external modules on powerpc (2011-08-17 15:46:16 +0100)
 >
-> -	cp -n ${COREBASE}/meta/files/deploydir_readme.txt ${DEPLOY_DIR_IMAGE}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
-> +	cp ${COREBASE}/meta/files/deploydir_readme.txt ${DEPLOY_DIR_IMAGE}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+> are available in the git repository at:
+>    git://git.openembedded.org/openembedded-core-contrib paule/sanity3
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/sanity3
 >
->   	if [ "${USE_DEVFS}" != "1" ]; then
->   		for devtable in ${@get_devtable_list(d)}; do
-Paul,
+> Paul Eggleton (2):
+>    image.bbclass, kernel.bbclass: create warning file about deleting
+>      deploydir files
+>    sanity.bbclass: add optional untested host distro warning
+>
+>   meta/classes/image.bbclass      |    2 +
+>   meta/classes/kernel.bbclass     |    2 +
+>   meta/classes/sanity.bbclass     |   48 +++++++++++++++++++++++++++++++++++++++
+>   meta/files/deploydir_readme.txt |    8 ++++++
+>   4 files changed, 60 insertions(+), 0 deletions(-)
+>   create mode 100644 meta/files/deploydir_readme.txt
+>
 
-Is this in addition to the previous image.bbclass patch you provided? 
-If so, there are 2 usages of -n in original patch that is merged.
+Merged into OE-Core
 
-Sau!
+I know there is some additional fix for the image.bbclass, do we need 
+one for kernel.bbclass also?
+
+Thanks
+	Sau!
 
 
