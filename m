@@ -1,27 +1,22 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Qvyxz-0003Sp-2v
+	(envelope-from <josh@linux.intel.com>) id 1QvzXT-0004dO-VK
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Aug 2011 23:57:03 +0200
+	Wed, 24 Aug 2011 00:33:44 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 23 Aug 2011 14:52:16 -0700
+	by orsmga101.jf.intel.com with ESMTP; 23 Aug 2011 15:28:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="41142608"
-Received: from unknown (HELO helios.localnet) ([10.255.18.108])
-	by orsmga002.jf.intel.com with ESMTP; 23 Aug 2011 14:52:15 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Tue, 23 Aug 2011 22:52:14 +0100
-User-Agent: KMail/1.13.6 (Linux/2.6.38-10-generic-pae; KDE/4.6.2; i686; ; )
-References: <cover.1313606178.git.paul.eggleton@linux.intel.com>
-	<201108232107.11656.paul.eggleton@linux.intel.com>
-	<223738B4-4BEF-4391-822D-096B132C3A49@dominion.thruhere.net>
-In-Reply-To: <223738B4-4BEF-4391-822D-096B132C3A49@dominion.thruhere.net>
-MIME-Version: 1.0
-Message-Id: <201108232252.14943.paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 1/2] image.bbclass, kernel.bbclass: create warning file about deleting deploydir files
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="41157231"
+Received: from vorpal.jf.intel.com ([10.7.199.155])
+	by orsmga002.jf.intel.com with ESMTP; 23 Aug 2011 15:28:57 -0700
+From: Joshua Lock <josh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 23 Aug 2011 15:33:55 -0700
+Message-Id: <917b8ba7acc5c7f3e0f3e604d7f761635b5aeb90.1314138450.git.josh@linux.intel.com>
+X-Mailer: git-send-email 1.7.6
+In-Reply-To: <cover.1314138450.git.josh@linux.intel.com>
+References: <cover.1314138450.git.josh@linux.intel.com>
+Subject: [PATCH 1/1] libtasn1: update SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,24 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Aug 2011 21:57:03 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 23 Aug 2011 22:33:44 -0000
 
-On Tuesday 23 August 2011 22:39:41 Koen Kooi wrote:
-> > My concern is that not all tasks are repeatable;
-> 
-> I consider that a bug :)
+libtasn is no longer hosted as a sub-project of gnutls, it has its ftp
+directory.
 
-Why? If you use the system as intended it's never a problem.
+Signed-off-by: Joshua Lock <josh@linux.intel.com>
+---
+ meta/recipes-support/gnutls/libtasn1_2.9.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-Cheers,
-Paul
-
+diff --git a/meta/recipes-support/gnutls/libtasn1_2.9.bb b/meta/recipes-support/gnutls/libtasn1_2.9.bb
+index 63bb3c8..9a80005 100644
+--- a/meta/recipes-support/gnutls/libtasn1_2.9.bb
++++ b/meta/recipes-support/gnutls/libtasn1_2.9.bb
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+ 
+ PR = "r0"
+ 
+-SRC_URI = "ftp://ftp.gnutls.org/pub/gnutls/libtasn1/libtasn1-${PV}.tar.gz"
++SRC_URI = "ftp://ftp.gnu.org/gnu/libtasn1/libtasn1-${PV}.tar.gz"
+ 
+ SRC_URI[md5sum] = "f4f4035b84550100ffeb8ad4b261dea9"
+ SRC_URI[sha256sum] = "fac46855fac8b08cf6f5a1b60cebad8e090bac1f06c335a044e84110d0b412c4"
 -- 
+1.7.6
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
