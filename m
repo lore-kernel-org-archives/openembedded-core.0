@@ -1,22 +1,20 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1QvzXT-0004dO-VK
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1QvzbI-0004jV-Pg
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Aug 2011 00:33:44 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 23 Aug 2011 15:28:57 -0700
+	Wed, 24 Aug 2011 00:37:41 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 23 Aug 2011 15:32:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="41157231"
-Received: from vorpal.jf.intel.com ([10.7.199.155])
-	by orsmga002.jf.intel.com with ESMTP; 23 Aug 2011 15:28:57 -0700
-From: Joshua Lock <josh@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="41503272"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.255.18.108])
+	by orsmga001.jf.intel.com with ESMTP; 23 Aug 2011 15:32:53 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Aug 2011 15:33:55 -0700
-Message-Id: <917b8ba7acc5c7f3e0f3e604d7f761635b5aeb90.1314138450.git.josh@linux.intel.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <cover.1314138450.git.josh@linux.intel.com>
-References: <cover.1314138450.git.josh@linux.intel.com>
-Subject: [PATCH 1/1] libtasn1: update SRC_URI
+Date: Tue, 23 Aug 2011 23:32:44 +0100
+Message-Id: <cover.1314138692.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 0/2] Couple of fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,31 +29,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Aug 2011 22:33:44 -0000
+X-List-Received-Date: Tue, 23 Aug 2011 22:37:41 -0000
 
-libtasn is no longer hosted as a sub-project of gnutls, it has its ftp
-directory.
+The following changes since commit 9134800548a03bfe3a7e351a15f2129bcb3cc680:
 
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
----
- meta/recipes-support/gnutls/libtasn1_2.9.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+  xcb/libpthreads: Add BBCLASSEXTEND to resolve missing providers in world builds (2011-08-19 16:27:29 -0700)
 
-diff --git a/meta/recipes-support/gnutls/libtasn1_2.9.bb b/meta/recipes-support/gnutls/libtasn1_2.9.bb
-index 63bb3c8..9a80005 100644
---- a/meta/recipes-support/gnutls/libtasn1_2.9.bb
-+++ b/meta/recipes-support/gnutls/libtasn1_2.9.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
- 
- PR = "r0"
- 
--SRC_URI = "ftp://ftp.gnutls.org/pub/gnutls/libtasn1/libtasn1-${PV}.tar.gz"
-+SRC_URI = "ftp://ftp.gnu.org/gnu/libtasn1/libtasn1-${PV}.tar.gz"
- 
- SRC_URI[md5sum] = "f4f4035b84550100ffeb8ad4b261dea9"
- SRC_URI[sha256sum] = "fac46855fac8b08cf6f5a1b60cebad8e090bac1f06c335a044e84110d0b412c4"
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/combo-layer-hook-fix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/combo-layer-hook-fix
+
+Paul Eggleton (2):
+  base.bbclass: clarify COMMERCIAL_LICENSE skip reason
+  scripts/combo-layer: fix overzealous regex in default hook script
+
+ meta/classes/base.bbclass           |    2 +-
+ scripts/combo-layer-hook-default.sh |    4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
 -- 
-1.7.6
+1.7.4.1
 
 
 
