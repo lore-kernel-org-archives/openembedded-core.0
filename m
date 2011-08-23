@@ -1,26 +1,27 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mx.insigma.com.cn ([115.236.48.170] helo=WX-Edge.insigma.com.cn)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QvfQF-0004En-ST
+	(envelope-from <niqingliang@insigma.com.cn>) id 1QvfRz-0004M5-HF
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Aug 2011 03:04:59 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 22 Aug 2011 18:00:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="40785863"
-Received: from unknown (HELO [10.255.13.234]) ([10.255.13.234])
-	by orsmga002.jf.intel.com with ESMTP; 22 Aug 2011 18:00:09 -0700
-Message-ID: <4E52FB98.5070907@linux.intel.com>
-Date: Mon, 22 Aug 2011 18:00:08 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:5.0) Gecko/20110707 Thunderbird/5.0
-MIME-Version: 1.0
+	Tue, 23 Aug 2011 03:06:49 +0200
+Received: from WX-ExchMB.insigma.com.cn (10.0.1.203) by WX-Edge.insigma.com.cn
+	(10.0.1.205) with Microsoft SMTP Server (TLS) id 8.1.436.0;
+	Tue, 23 Aug 2011 09:00:10 +0800
+Received: from [192.168.0.102] (122.224.76.38) by WX-ExchMB.insigma.com.cn
+	(10.0.1.203) with Microsoft SMTP Server id 8.1.240.5; Tue, 23 Aug 2011
+	09:00:08 +0800
+From: Ni Qingliang <niqingliang@insigma.com.cn>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1313503017.git.anders@chargestorm.se>
-In-Reply-To: <cover.1313503017.git.anders@chargestorm.se>
-Cc: Anders Darander <anders@chargestorm.se>
-Subject: Re: [PATCH 0/5] Miscellaneous fixes: mainly qt- and DISTRO_FEATURES-related
+Date: Tue, 23 Aug 2011 09:01:31 +0800
+In-Reply-To: <4E52C33A.6030807@mlbassoc.com>
+References: <cover.1313993805.git.wenzong.fan@windriver.com>
+	<1313999777.7620.13.camel@localhost.localdomain>
+	<4E52399C.9020608@mlbassoc.com> <4E52BB9A.2060603@linux.intel.com>
+	<4E52C234.6080400@mlbassoc.com> <4E52C33A.6030807@mlbassoc.com>
+X-Mailer: Evolution 3.0.2 
+Message-ID: <1314061291.1341.0.camel@localhost.localdomain>
+MIME-Version: 1.0
+Subject: Re: new feature? (for "DL_DIR")
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,57 +36,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Aug 2011 01:05:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 23 Aug 2011 01:06:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 08/16/2011 06:57 AM, Anders Darander wrote:
->
-> A series with some miscellaneous fixes/changes.
->
-> Patches:
-> 0001: make it possible to build qt4 while disabling certain parts of it.
-> 0002: A partial sync of qmake_base.bbclass from meta-oe. Hopefully we should
->        be able to delete qmake_base.bbclass from meta-oe after this sync.
-> 0003-4: respect wifi and bluetooth in DISTRO_FEATURES while building connman
-> 	and ofono.
-> 0005: increase the likelihood that a rename and modification is detected,
->        instead of a deleta/add-pair.
->
-> Patch 0005 is the patch that is most likely to be controversial. The other
-> patches should be of minor impact, and result in a more consistent build
-> environment (i.e. better respect for DISTRO_FEATURES).
->
-> The following changes since commit 13db5f420ca9bff98561f80d78958278734ad1f4:
->
->    distro-tracking: Update info for gpgme, libassuan, apr... after last upgrade. (2011-08-15 15:26:04 +0100)
->
-> are available in the git repository at:
->    git://github.com/darander/oe-core qt4-fixes
->    https://github.com/darander/oe-core/tree/qt4-fixes
->
-> Anders Darander (5):
->    qt4: allow a reduction in build time
-See comments from Richard.
+THANKS! I will try it!
 
->    qmake_base: add uclibceabi
->    connman: use DISTRO_FEATURES to enable wifi and bluetooth
->    ofono: conditionally enable bluetooth
->    create-pull-request: increase likelihood of detecting a rename
->
->   meta/classes/qmake_base.bbclass                   |    2 +-
->   meta/recipes-connectivity/connman/connman_0.75.bb |    4 ++--
->   meta/recipes-connectivity/ofono/ofono.inc         |    3 ++-
->   meta/recipes-connectivity/ofono/ofono_0.50.bb     |    1 +
->   meta/recipes-connectivity/ofono/ofono_git.bb      |    4 ++++
->   meta/recipes-qt/qt4/qt4.inc                       |   13 ++++++++-----
->   scripts/create-pull-request                       |    2 +-
->   7 files changed, 19 insertions(+), 10 deletions(-)
->
-Merged into OE-Core, except for the Qt4 patch as already commented on by 
-Richard
 
-Thanks
-	Sau!
+On Tue, 2011-08-23 at 04:59 +0800, Gary Thomas wrote:
+> On 2011-08-22 14:55, Gary Thomas wrote:
+> > On 2011-08-22 14:27, Saul Wold wrote:
+> >> On 08/22/2011 04:12 AM, Gary Thomas wrote:
+> >>> On 2011-08-22 01:56, Ni Qingliang wrote:
+> >>>> Do we can assign all package be downloaded from the same path?
+> >>>>
+> >>>> I want setup one internal server to store the files in upstreamsourc=
+es,
+> >>>> and all developer's PC use it but not the original package address.
+> >>>>
+> >>>
+> >>> Just add these lines to your .conf (I put them in my ${DISTRO}.conf):
+> >>> # Provide pre-staged sources
+> >>> SOURCE_MIRROR_URL ?=3D "file:///opt/amltd/poky/sources/"
+> >>> INHERIT +=3D "own-mirrors"
+> >>>
+> >>> Simply point SOURCE_MIRROR_URL at your file cache.
+> >>>
+> >> You could also use PREMIRRORS in the developer's local.conf, point
+> >> PREMIRRORS for packages to your internal server (could be ftp, http or=
+ file when mounted via NFS).
+> >
+> > But then you end up typing all the patterns for the various file types,=
+ etc.
+> >
+> > own-mirrors does all that for you by creating a PREMIRRORS variable bas=
+ed
+> > on the single SOURCE_MIRROR_URL
+>=20
+> Also, to be used as a complete cache, SOURCE_MIRROR_URL should point
+> to the same cache directory as DL_DIR does.  So I really should have
+> said
+>     # Provide pre-staged sources
+>     DL_DIR =3D "/opt/amltd/poky/sources"
+>     SOURCE_MIRROR_URL =3D "file://${DL_DIR}/"
+>     INHERIT +=3D "own-mirrors"
+>=20
+> --
+> ------------------------------------------------------------
+> Gary Thomas                 |  Consulting for the
+> MLB Associates              |    Embedded world
+> ------------------------------------------------------------
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+--=20
+Yi Qingliang
+=E5=80=AA=E5=BA=86=E4=BA=AE
+
+Insigma
+
+
 
 
