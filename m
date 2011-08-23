@@ -1,29 +1,26 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Qvq99-00077z-8c
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1QvqYX-0000cJ-TU
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Aug 2011 14:31:59 +0200
-Received: by wyf19 with SMTP id 19so40437wyf.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Aug 2011 05:27:14 -0700 (PDT)
-Received: by 10.227.29.91 with SMTP id p27mr198861wbc.11.1314102434160;
-	Tue, 23 Aug 2011 05:27:14 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id el9sm106915wbb.41.2011.08.23.05.27.12
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 23 Aug 2011 05:27:13 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <201108231318.10118.paul.eggleton@linux.intel.com>
-Date: Tue, 23 Aug 2011 14:27:11 +0200
-Message-Id: <63FF64B9-6C5E-4C87-9DFD-7AD9A88A5DD1@dominion.thruhere.net>
+	Tue, 23 Aug 2011 14:58:14 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 23 Aug 2011 05:53:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,269,1312182000"; d="scan'208";a="10145582"
+Received: from unknown (HELO helios.localnet) ([10.255.18.129])
+	by AZSMGA002.ch.intel.com with ESMTP; 23 Aug 2011 05:53:15 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Tue, 23 Aug 2011 13:53:13 +0100
+User-Agent: KMail/1.13.6 (Linux/2.6.38-10-generic-pae; KDE/4.6.2; i686; ; )
 References: <cover.1314096402.git.xiaofeng.yan@windriver.com>
-	<2a8e8dd160c4dba319dbbd7864d33cecd681b08c.1314096402.git.xiaofeng.yan@windriver.com>
 	<201108231318.10118.paul.eggleton@linux.intel.com>
-To: Patches and discussions about the oe-core layer
+	<63FF64B9-6C5E-4C87-9DFD-7AD9A88A5DD1@dominion.thruhere.net>
+In-Reply-To: <63FF64B9-6C5E-4C87-9DFD-7AD9A88A5DD1@dominion.thruhere.net>
+MIME-Version: 1.0
+Message-Id: <201108231353.13437.paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1244.3)
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
 Subject: Re: [PATCH 1/1] qt4e-demo-image: Fix bug 999
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -39,38 +36,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Aug 2011 12:31:59 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 23 Aug 2011 12:58:14 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
+Content-Transfer-Encoding: 7bit
 
+On Tuesday 23 August 2011 13:27:11 you wrote:
+> I would lean toward a seperate meta-qt layer, not sure if it should be
+> hosted in the oe-core git repo, meta-oe or a completely seperate git repo.
 
-Op 23 aug. 2011, om 14:18 heeft Paul Eggleton het volgende geschreven:
+Possibly we should have meta-qt for Qt applications and additional libraries 
+such as Qwt (and I'm all for moving our current Qt apps there, they don't 
+really belong in OE-core IMHO). If you're suggesting moving out Qt itself 
+though, I think Qt belongs in OE-core, certainly as much as GTK+ does.
 
-> On Tuesday 23 August 2011 11:57:35 Xiaofeng Yan wrote:
->> From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
->>=20
->> [YOCTO #999]
->>=20
->> Copy metadata of qt4e-demo-image from OE for easy testing qt4embeded =
-on
->> embedded platform. This image was tested on qemuarm and can run =
-program
->> "qtdemoE".
->=20
-> I don't think we should pull in qwt in OE-core (or at least, we =
-shouldn't drag=20
-> it in just for this.) Also I would recommend trying to make the image =
-inherit=20
-> from core-image as well to avoid much of the generic boilerplate =
-that's in=20
-> there.
+The purpose of having these images was to have a simple way to test that Qt 
+has built correctly and is functional. If Qt is in OE-core I don't think 
+that's unreasonable.
 
-I would lean toward a seperate meta-qt layer, not sure if it should be =
-hosted in the oe-core git repo, meta-oe or a completely seperate git =
-repo.
+Cheers,
+Paul
 
-regards,
+-- 
 
-Koen=
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
