@@ -1,33 +1,27 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Qvylv-0003Bk-VG
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Qvyw1-0003OZ-LG
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Aug 2011 23:44:36 +0200
-Received: by wyf19 with SMTP id 19so464519wyf.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Aug 2011 14:39:50 -0700 (PDT)
-Received: by 10.227.32.145 with SMTP id c17mr725564wbd.111.1314135590478;
-	Tue, 23 Aug 2011 14:39:50 -0700 (PDT)
-Received: from [172.20.2.72] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id n20sm312683wbh.33.2011.08.23.14.39.48
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 23 Aug 2011 14:39:49 -0700 (PDT)
-References: <cover.1313606178.git.paul.eggleton@linux.intel.com>
-	<201108191127.48228.paul.eggleton@linux.intel.com>
-	<4E53FA98.1060909@linux.intel.com>
-	<201108232107.11656.paul.eggleton@linux.intel.com>
-In-Reply-To: <201108232107.11656.paul.eggleton@linux.intel.com>
-Mime-Version: 1.0 (iPhone Mail 8L1)
-Message-Id: <223738B4-4BEF-4391-822D-096B132C3A49@dominion.thruhere.net>
-X-Mailer: iPhone Mail (8L1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Tue, 23 Aug 2011 23:39:41 +0200
-To: Patches and discussions about the oe-core layer
+	Tue, 23 Aug 2011 23:55:01 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 23 Aug 2011 14:50:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="41141852"
+Received: from unknown (HELO helios.localnet) ([10.255.18.108])
+	by orsmga002.jf.intel.com with ESMTP; 23 Aug 2011 14:50:14 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Klausfpga <klausfpga@gmail.com>
+Date: Tue, 23 Aug 2011 22:50:13 +0100
+User-Agent: KMail/1.13.6 (Linux/2.6.38-10-generic-pae; KDE/4.6.2; i686; ; )
+References: <4E537A0E.2040605@gmail.com>
+	<201108231725.13418.paul.eggleton@linux.intel.com>
+	<4E5419B7.502@gmail.com>
+In-Reply-To: <4E5419B7.502@gmail.com>
+MIME-Version: 1.0
+Message-Id: <201108232250.13389.paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: Darren Hart <dvhart@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 1/2] image.bbclass, kernel.bbclass: create warning file about deleting deploydir files
+Subject: Re: Wiki seems dead. is openembedded wiki still active?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,48 +36,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Aug 2011 21:44:36 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+X-List-Received-Date: Tue, 23 Aug 2011 21:55:01 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
+Content-Transfer-Encoding: 7bit
 
+On Tuesday 23 August 2011 22:20:55 Klausfpga wrote:
+> What I wanted to know was what to checkout best:
+>  origin/master/  might not be a good idea, at least last time I tried
+> this I often fell into inconsistent  releases
 
+If you mean the "openembedded" repository, there is the 2011.03-maintenance 
+branch; however this is not the basis for future development. With the Yocto 
+Project release coming up soon, OE-core should be fairly stable (or at least 
+heading that way).
 
-Op 23 aug. 2011 om 22:07 heeft Paul Eggleton <paul.eggleton@linux.intel.com>=
- het volgende geschreven:
+> Well with minimalist I meant kernel + base file system + busybox +
+> package management
 
-> On Tuesday 23 August 2011 20:08:08 you wrote:
->> On 08/19/2011 03:27 AM, Paul Eggleton wrote:
->>> I guess it would, but I'm not sure we really want to be encouraging user=
-s
->>> to use -f.
->>=20
->> I don't see it as having the same negative conotation as the force
->> options to things like rpm and dpkg. Here it just means "I really want
->> to run this specific task again, even if you already ran it, likely
->> because I know I did something to undo what you just did." :-)
->=20
-> My concern is that not all tasks are repeatable;
+Busybox is used by default and the rest is of course mandatory. I'm not 
+entirely sure we have an image in OE-core that is just console with package 
+management though; we really ought to sort that out if that's the case. Even 
+so this is trivial to add, you just need "package-management" in the 
+IMAGE_FEATURES for your image.
 
-I consider that a bug :)
+> What I meant here is: Can pypy or somethign else be used in order to
+> accelerate the execution of BitBake.
 
+Not sure; I'm under the impression that Psyco made only a very small difference 
+however. Most of the time taken running BitBake is in the tasks it runs (and 
+the order it runs them); no generic Python tool is going to be able to improve 
+that.
 
->  could run into all=20
-> sorts of trouble using this option under the wrong circumstances and it mi=
-ght=20
-> be difficult to debug after the fact.
->=20
-> Cheers,
-> Paul
->=20
-> --=20
->=20
-> Paul Eggleton
-> Intel Open Source Technology Centre
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Cheers,
+Paul
+
+[1] http://www.yoctoproject.org
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
