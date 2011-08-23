@@ -1,32 +1,25 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1Qvfr8-0004yG-AS
+	(envelope-from <sgw@linux.intel.com>) id 1QvkWu-0008IZ-UG
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Aug 2011 03:32:42 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7N1RtWF025827
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 22 Aug 2011 18:27:55 -0700 (PDT)
-Received: from [128.224.162.178] (128.224.162.178) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Mon, 22 Aug 2011 18:27:55 -0700
-Message-ID: <4E5301BE.3050404@windriver.com>
-Date: Tue, 23 Aug 2011 09:26:22 +0800
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.18) Gecko/20110617 Thunderbird/3.1.11
+	Tue, 23 Aug 2011 08:32:09 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 22 Aug 2011 23:27:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,267,1312182000"; d="scan'208";a="44090522"
+Received: from unknown (HELO [10.255.13.234]) ([10.255.13.234])
+	by fmsmga001.fm.intel.com with ESMTP; 22 Aug 2011 23:27:23 -0700
+Message-ID: <4E53484B.1080802@linux.intel.com>
+Date: Mon, 22 Aug 2011 23:27:23 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:5.0) Gecko/20110707 Thunderbird/5.0
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1314010928.git.xiaofeng.yan@windriver.com>
-	<1b28a73fd25e40a29659583ee1432f7f3c720b68.1314010928.git.xiaofeng.yan@windriver.com>
-	<201108221352.38897.paul.eggleton@linux.intel.com>
-In-Reply-To: <201108221352.38897.paul.eggleton@linux.intel.com>
-X-Originating-IP: [128.224.162.178]
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
-	p7N1RtWF025827
-Cc: Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] qt4-x11-demo-image: Fix bug 999
+References: <cover.1313658393.git.dongxiao.xu@intel.com>
+In-Reply-To: <cover.1313658393.git.dongxiao.xu@intel.com>
+Subject: Re: [PATCH 0/5][PULL] multilib: Some fixes of improper ${PN}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,39 +34,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Aug 2011 01:32:42 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 23 Aug 2011 06:32:09 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 2011=E5=B9=B408=E6=9C=8822=E6=97=A5 20:52, Paul Eggleton wrote:
-> On Monday 22 August 2011 12:34:11 Xiaofeng Yan wrote:
->> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
->>
->> [YOCTO #999]
->> Add qt4-x11-demo-image for fixing bug 999
-> Thanks for looking into this bug. A couple of comments though:
+On 08/18/2011 02:08 AM, Dongxiao Xu wrote:
+> Hi Richard,
 >
-> 1) You need to specify an appropriate commit message. This should inclu=
-de a
-> reason for adding (i.e. to allow easy testing of Qt4 on X11); you also =
-need to
-> credit OE if that's where you copied some of the metadata from.
+> This pull request fixes some improper ${PN}, please help to reivew and pull.
 >
-> 2) This adds quite a lot more than should be needed for a simple demo i=
-mage.
-> The image itself should inherit from core-image, this will save a lot o=
-f
-> duplication. Why are you adding palmtop.bbclass, sdk.bbclass, task-sdk-=
-host,
-> micro-base-image etc.? These should not be needed at all.
+> Thanks,
+> Dongxiao
 >
-> Cheers,
-> Paul
+> The following changes since commit 2e83e6755441cb14bd907d306974338c15173189:
 >
-Thanks for your comments very much. I will make a change for the method=20
-to fix bug 999 according to your suggestion.
+>    kernel: restore crtsavres.o to enable building external modules on powerpc (2011-08-17 15:46:16 +0100)
+>
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib dxu4/ml
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/ml
+>
+> Dongxiao Xu (5):
+>    curl: Use BPN instead of PN for style like lib${PN}
+>    ea-acl: Use BPN instead of PN for style like lib${PN}
+>    attr: Use BPN instead of PN for style like lib${PN}
+>    acl: Use BPN instead of PN for style like lib${PN}
+The above 4 have been merged to OE-Core
+
+>    procps: Fix lib path to support multilib
+
+There are some comments from Richard on the patch in the Consolidated 
+Pull Request from last week, please review and resubmit.
 
 Thanks
-Yan
+	Sau!
+
+>
+>   .../procps/procps-3.2.8/install.patch              |   29 --------------------
+>   meta/recipes-extended/procps/procps.inc            |    3 +-
+>   meta/recipes-extended/procps/procps_3.2.8.bb       |    8 +++---
+>   meta/recipes-support/attr/acl.inc                  |    2 +-
+>   meta/recipes-support/attr/attr.inc                 |    2 +-
+>   meta/recipes-support/attr/ea-acl.inc               |    6 ++--
+>   meta/recipes-support/curl/curl_7.21.7.bb           |    8 +++---
+>   7 files changed, 14 insertions(+), 44 deletions(-)
+>   delete mode 100644 meta/recipes-extended/procps/procps-3.2.8/install.patch
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
