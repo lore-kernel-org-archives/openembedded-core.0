@@ -1,26 +1,26 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qvsko-0000Hk-7P
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Qvsq1-0001b5-PW
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Aug 2011 17:19:02 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 23 Aug 2011 08:14:15 -0700
+	Tue, 23 Aug 2011 17:24:26 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 23 Aug 2011 08:19:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,270,1312182000"; d="scan'208";a="10191175"
-Received: from unknown (HELO [10.255.14.203]) ([10.255.14.203])
-	by AZSMGA002.ch.intel.com with ESMTP; 23 Aug 2011 08:14:15 -0700
-Message-ID: <4E53C3C7.9090902@linux.intel.com>
-Date: Tue, 23 Aug 2011 08:14:15 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:5.0) Gecko/20110707 Thunderbird/5.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="41362472"
+Received: from unknown (HELO helios.localnet) ([10.255.18.129])
+	by orsmga001.jf.intel.com with ESMTP; 23 Aug 2011 08:19:38 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Patches and discussions about the oe-core layer"
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1313606178.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1313606178.git.paul.eggleton@linux.intel.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: Re: [RFC PATCH 0/2] Couple of fixes to help new users
+Date: Tue, 23 Aug 2011 16:19:37 +0100
+User-Agent: KMail/1.13.6 (Linux/2.6.38-10-generic-pae; KDE/4.6.2; i686; ; )
+References: <cover.1314094152.git.paul.eggleton@linux.intel.com>
+	<3b2374ace44a610af75052498766f9840fb3d615.1314094152.git.paul.eggleton@linux.intel.com>
+	<4E53C358.9010002@linux.intel.com>
+In-Reply-To: <4E53C358.9010002@linux.intel.com>
+MIME-Version: 1.0
+Message-Id: <201108231619.37799.paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH 1/1] image.bbclass: remove non-standard -n option from cp command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,42 +35,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Aug 2011 15:19:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Tue, 23 Aug 2011 15:24:26 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On 08/17/2011 11:37 AM, Paul Eggleton wrote:
-> Please review the following changes for suitability for inclusion. If you have
-> any objections or suggestions for improvement, please respond to the patches. If
-> you agree with the changes, please provide your Acked-by.
->
-> The following changes since commit 2e83e6755441cb14bd907d306974338c15173189:
->
->    kernel: restore crtsavres.o to enable building external modules on powerpc (2011-08-17 15:46:16 +0100)
->
-> are available in the git repository at:
->    git://git.openembedded.org/openembedded-core-contrib paule/sanity3
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/sanity3
->
-> Paul Eggleton (2):
->    image.bbclass, kernel.bbclass: create warning file about deleting
->      deploydir files
->    sanity.bbclass: add optional untested host distro warning
->
->   meta/classes/image.bbclass      |    2 +
->   meta/classes/kernel.bbclass     |    2 +
->   meta/classes/sanity.bbclass     |   48 +++++++++++++++++++++++++++++++++++++++
->   meta/files/deploydir_readme.txt |    8 ++++++
->   4 files changed, 60 insertions(+), 0 deletions(-)
->   create mode 100644 meta/files/deploydir_readme.txt
->
+On Tuesday 23 August 2011 16:12:24 Saul Wold wrote:
+> Is this in addition to the previous image.bbclass patch you provided?
+> If so, there are 2 usages of -n in original patch that is merged.
 
-Merged into OE-Core
+Oops, sorry about that. V2 is coming in a few minutes.
 
-I know there is some additional fix for the image.bbclass, do we need 
-one for kernel.bbclass also?
+Cheers,
+Paul
 
-Thanks
-	Sau!
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
