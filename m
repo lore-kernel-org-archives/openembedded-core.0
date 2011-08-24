@@ -1,17 +1,17 @@
 Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX1/rc3bB8t+MOf+4SDaL6JatCDdnKVrgTpE=])
+	ident=[U2FsdGVkX18WyxTYJDMM15ZTLwNrrdTPvV68o/sQXX8=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1Qw2OE-0000rr-AJ
+	(envelope-from <galak@kernel.crashing.org>) id 1Qw2Ov-0000vc-P3
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Aug 2011 03:36:22 +0200
+	Wed, 24 Aug 2011 03:37:06 +0200
 Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p7O1VUd6024550;
-	Tue, 23 Aug 2011 20:31:31 -0500
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p7O1VUd7024550;
+	Tue, 23 Aug 2011 20:32:17 -0500
 Mime-Version: 1.0 (Apple Message framework v1084)
 From: Kumar Gala <galak@kernel.crashing.org>
 In-Reply-To: <D5AB6E638E5A3E4B8F4406B113A5A19A12D724C903@shsmsx501.ccr.corp.intel.com>
-Date: Tue, 23 Aug 2011 20:31:30 -0500
-Message-Id: <FA4C6E58-D9EC-4AC8-9857-06F8E303B948@kernel.crashing.org>
+Date: Tue, 23 Aug 2011 20:32:16 -0500
+Message-Id: <0597F428-97F2-461F-804B-FE793E911BD4@kernel.crashing.org>
 References: <A182C128-8E5F-48F0-B72B-39DA62E6E1F4@kernel.crashing.org>
 	<D5AB6E638E5A3E4B8F4406B113A5A19A12D724C903@shsmsx501.ccr.corp.intel.com>
 To: "Xu, Dongxiao" <dongxiao.xu@intel.com>
@@ -33,12 +33,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2011 01:36:22 -0000
+X-List-Received-Date: Wed, 24 Aug 2011 01:37:06 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-I don't see how what you are describing maps to --enable-target-optspace =
-being required.
+If tinylogin is the only issue why modify/patch gcc?  I see we have =
+meta/recipes-core/tinylogin/tinylogin-1.4/use_O2_option.patch to deal =
+with this?
+
+Not allowing -Os at all, which is our current situation on PPC is =
+problematic.  So trying to see if this issue is really limited to gcc =
+4.5 or not.  How can I reproduce it with current poky.git?
 
 - k
 
