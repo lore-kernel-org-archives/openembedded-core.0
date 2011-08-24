@@ -1,24 +1,26 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QwIJs-0004x8-55
+	(envelope-from <koen@dominion.thruhere.net>) id 1QwIJv-0004zf-5J
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Aug 2011 20:36:56 +0200
-Received: by wyf19 with SMTP id 19so1160148wyf.6
+	Wed, 24 Aug 2011 20:37:01 +0200
+Received: by wwe32 with SMTP id 32so1239206wwe.24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Aug 2011 11:32:09 -0700 (PDT)
-Received: by 10.227.151.200 with SMTP id d8mr599418wbw.29.1314210729612;
-	Wed, 24 Aug 2011 11:32:09 -0700 (PDT)
+	Wed, 24 Aug 2011 11:32:12 -0700 (PDT)
+Received: by 10.227.178.131 with SMTP id bm3mr569778wbb.85.1314210732307;
+	Wed, 24 Aug 2011 11:32:12 -0700 (PDT)
 Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id ej15sm1054506wbb.48.2011.08.24.11.32.07
+	by mx.google.com with ESMTPS id 8sm1053569wbx.51.2011.08.24.11.32.10
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 24 Aug 2011 11:32:07 -0700 (PDT)
+	Wed, 24 Aug 2011 11:32:11 -0700 (PDT)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Aug 2011 20:32:00 +0200
-Message-Id: <1314210721-29941-1-git-send-email-koen@dominion.thruhere.net>
+Date: Wed, 24 Aug 2011 20:32:01 +0200
+Message-Id: <1314210721-29941-2-git-send-email-koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.6.6.1
+In-Reply-To: <1314210721-29941-1-git-send-email-koen@dominion.thruhere.net>
+References: <1314210721-29941-1-git-send-email-koen@dominion.thruhere.net>
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 1/2] libc-package bbclass: fix binary localedata dependency code
+Subject: [PATCH 2/2] tcl: fix networking breakage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,44 +35,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2011 18:36:56 -0000
+X-List-Received-Date: Wed, 24 Aug 2011 18:37:01 -0000
 
-When using binary locales rootfs generation fails with:
+Without providing these site entries tcl networking doesn't work on the target.
 
-| Unknown package 'locale-base-en-us'.
-| Collected errors:
-|  * opkg_install_cmd: Cannot install package locale-base-en-us.
+Original OE commit:
 
-This is due to:
+commit 0c340037644f87054462f62b50cd397c162615b7
+Author: Koen Kooi <koen@openembedded.org>
+Date:   Wed May 26 13:04:18 2010 +0200
 
-$ dpkg-deb -I ipk/armv7a/locale-base-en-us_2.12-r16_armv7a.ipk | grep Depends
- Depends: eglibc-binary-localedata-en.us
-
-Note the '.' seperator
-
-$ ls ipk/armv7a/ | grep binary-localedata-en | grep us
-eglibc-binary-localedata-en-us_2.12-r16_armv7a.ipk
-
-Note the '-' seperator vs the '.' in the locale-base packages.
+    tcl: add 2 entries to arm-linux site file (possibly only glibc specific, need to check)
 
 Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- meta/classes/libc-package.bbclass |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/recipes-devtools/tcltk/tcl_8.5.9.bb |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
-index 0d5ce20..d3b33d6 100644
---- a/meta/classes/libc-package.bbclass
-+++ b/meta/classes/libc-package.bbclass
-@@ -243,7 +243,7 @@ python package_do_split_gconvs () {
- 	def output_locale_binary_rdepends(name, pkgname, locale, encoding):
- 		m = re.match("(.*)_(.*)", name)
- 		if m:
--			libc_name = "%s.%s" % (m.group(1), m.group(2).lower().replace("-",""))
-+			libc_name = "%s-%s" % (m.group(1), m.group(2).lower().replace("-",""))
- 		else:
- 			libc_name = name
- 		bb.data.setVar('RDEPENDS_%s' % pkgname, legitimize_package_name('%s-binary-localedata-%s' \
+diff --git a/meta/recipes-devtools/tcltk/tcl_8.5.9.bb b/meta/recipes-devtools/tcltk/tcl_8.5.9.bb
+index 2eabb4d..1b4ae83 100644
+--- a/meta/recipes-devtools/tcltk/tcl_8.5.9.bb
++++ b/meta/recipes-devtools/tcltk/tcl_8.5.9.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://../license.terms;md5=a47a9be26d03f925fc1fbd2784f27e11
+     file://../win/license.terms;md5=a47a9be26d03f925fc1fbd2784f27e11 \
+     "
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ BASE_SRC_URI = "${SOURCEFORGE_MIRROR}/tcl/tcl${PV}-src.tar.gz \
+                 file://tcl-add-soname.patch"
+@@ -30,7 +30,9 @@ inherit autotools
+ 
+ DEPENDS_virtclass-native = ""
+ 
+-EXTRA_OECONF = "--enable-threads"
++EXTRA_OECONF = "--enable-threads \
++                tcl_cv_api_getaddrinfo=yes \
++               "
+ 
+ do_configure() {
+ 	gnu-configize
 -- 
 1.6.6.1
 
