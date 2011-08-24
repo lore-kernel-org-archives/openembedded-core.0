@@ -1,32 +1,30 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Qw2bS-0001Do-Gh for openembedded-core@lists.openembedded.org;
-	Wed, 24 Aug 2011 03:50:02 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7O1jGqv014649;
-	Wed, 24 Aug 2011 02:45:16 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 13340-10; Wed, 24 Aug 2011 02:45:12 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7O1j5KL014643
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 24 Aug 2011 02:45:08 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Kai.Kang@windriver.com>) id 1Qw2dX-0001J5-Oz
+	for openembedded-core@lists.openembedded.org;
+	Wed, 24 Aug 2011 03:52:12 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7O1lN2w023492
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 23 Aug 2011 18:47:23 -0700 (PDT)
+Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Tue, 23 Aug 2011 18:47:23 -0700
+Message-ID: <4E545824.8000408@windriver.com>
+Date: Wed, 24 Aug 2011 09:47:16 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64;
+	rv:6.0) Gecko/20110812 Thunderbird/6.0
+MIME-Version: 1.0
+To: Holger Freyther <zecke@selfish.org>
+References: <4E522492.9050706@windriver.com> <4E523DE7.8060609@selfish.org>
+In-Reply-To: <4E523DE7.8060609@selfish.org>
+X-Originating-IP: [128.224.162.196]
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
+	p7O1lN2w023492
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <0597F428-97F2-461F-804B-FE793E911BD4@kernel.crashing.org>
-References: <A182C128-8E5F-48F0-B72B-39DA62E6E1F4@kernel.crashing.org>
-	<D5AB6E638E5A3E4B8F4406B113A5A19A12D724C903@shsmsx501.ccr.corp.intel.com>
-	<0597F428-97F2-461F-804B-FE793E911BD4@kernel.crashing.org>
-Date: Tue, 23 Aug 2011 18:45:03 -0700
-Message-ID: <1314150303.5939.70.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: why do we poison -Os?
+Subject: Re: question about meta/class/qmake-base.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,33 +39,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2011 01:50:02 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 24 Aug 2011 01:52:12 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2011-08-23 at 20:32 -0500, Kumar Gala wrote:
-> If tinylogin is the only issue why modify/patch gcc?  I see we have
-> meta/recipes-core/tinylogin/tinylogin-1.4/use_O2_option.patch to deal
-> with this?
-> 
-> Not allowing -Os at all, which is our current situation on PPC is
-> problematic.  So trying to see if this issue is really limited to gcc
-> 4.5 or not.  How can I reproduce it with current poky.git?
+On 2011=E5=B9=B408=E6=9C=8822=E6=97=A5 19:30, Holger Freyther wrote:
+> On 08/22/2011 11:42 AM, Kang Kai wrote:
+>> Hi Holger,
+>>
+>> I am confused that why unset QMAKESPEC first and then use it a argumen=
+t for
+>> qmake?
+>> Could you help me to get out of that?
+> Hi,
+>
+> it has been a long time and I can only speculate right now. It might ha=
+ve been
+> that QMAKESPEC was not shell exported, and we really wanted to make sur=
+e that
+> it is using the QMAKESPEC we use in the recipe. Alternatively  it might=
+ be a
+> style issue, e.g. it is easier to see which spec is used by looking at =
+the
+> qmake invocation (also when changing the .pro in the ${S} the right spe=
+c would
+> be used again).
+>
+> holger
+>
 
-We were seeing problems when makefiles were putting -Os into compiler
-flags without our knowledge. In some cases -Os was silently corrupting
-binaries. We therefore ended up adding the poison so if anything was
-using the option we knew to generate buggy code, we'd know about it.
+Hi Holger,
 
-If we know gcc to be safe using that option we can drop the patch and
-users can enable it where it makes sense to them. I still don't like
-makefiles changing compiler optimisations from under us though. Last I
-heard, -Os was still very badly supported and not recommended by the gcc
-community.
+Thanks for your reply, and I think I can understand them right now.
 
-Cheers,
-
-Richard
-
+Thank you!
+Kai
 
 
