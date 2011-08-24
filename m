@@ -1,19 +1,26 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX1/QUzK7hn0j6HM0hiOFdHiYf8zHomjHQAw=])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1Qw5mS-00025O-31
+	(envelope-from <dvhart@linux.intel.com>) id 1Qw6IQ-0002kl-1c
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Aug 2011 07:13:36 +0200
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p7O58ob5000714
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Aug 2011 00:08:51 -0500
-From: Kumar Gala <galak@kernel.crashing.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Aug 2011 00:08:50 -0500
-Message-Id: <1314162530-4606-1-git-send-email-galak@kernel.crashing.org>
-X-Mailer: git-send-email 1.5.6.5
-Subject: [PATCH v2] gcc-4.6: Drop gcc-poison-parameters.patch as its not need
+	Wed, 24 Aug 2011 07:46:38 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 23 Aug 2011 22:41:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="41254000"
+Received: from unknown (HELO envy.home) ([10.255.14.37])
+	by orsmga002.jf.intel.com with ESMTP; 23 Aug 2011 22:41:50 -0700
+Message-ID: <4E548F16.9070900@linux.intel.com>
+Date: Tue, 23 Aug 2011 22:41:42 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:5.0) Gecko/20110707 Thunderbird/5.0
+MIME-Version: 1.0
+To: Kumar Gala <galak@kernel.crashing.org>
+References: <A09A21A1-D31F-4D21-92BD-6F521FD3012C@kernel.crashing.org>
+In-Reply-To: <A09A21A1-D31F-4D21-92BD-6F521FD3012C@kernel.crashing.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: u-boot.inc issue with -Os
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,128 +35,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2011 05:13:36 -0000
+X-List-Received-Date: Wed, 24 Aug 2011 05:46:38 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-The gcc-poison-parameters was added specifically to deal with an issue
-on ppc targets and a bug when we build with -Os -frename-registers.
 
-This bug below reports the issue and is fixed in gcc-4.6.x:
 
-http://gcc.gnu.org/bugzilla/show_bug.cgi?id=44618
+On 08/23/2011 10:05 PM, Kumar Gala wrote:
+> Darren,
+> 
+> in meta/recipes-bsp/uboot/u-boot.inc:
+> 
+> # GCC 4.5.1 builds unusable binaries using -Os, remove it from
+> OPTFLAGS EXTRA_OEMAKE = "CROSS_COMPILE=${TARGET_PREFIX} OPTFLAGS=''"
+> 
+> Was this for all u-boot builds, regardless of architecture, or just
+> ppc.  Was the build failing or resulting binaries?
 
-Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
----
-* v2: add changse to recipe (forgot to git-add them ;)
+My sources differ from yours. We used to drop -Os for all arches, but it caused
+issues for powerpc, so we replaced -Os with -O2 there. With the patch below, we
+then used -O2 everywhere, regardless of architecture.
 
- meta/recipes-devtools/gcc/gcc-4.6.inc              |    3 +-
- .../gcc/gcc-4.6/gcc-poison-parameters.patch        |   76 --------------------
- 2 files changed, 1 insertions(+), 78 deletions(-)
- delete mode 100644 meta/recipes-devtools/gcc/gcc-4.6/gcc-poison-parameters.patch
+According to my sources:
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
-index 0a148b4..2f1ae81 100644
---- a/meta/recipes-devtools/gcc/gcc-4.6.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
-@@ -1,6 +1,6 @@
- require gcc-common.inc
- 
--PR = "r7"
-+PR = "r8"
- 
- # Third digit in PV should be incremented after a minor release
- # happens from this branch on gcc e.g. currently its 4.6.0
-@@ -62,7 +62,6 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
- 	   file://64bithack.patch \
- 	   file://optional_libstdc.patch \
- 	   file://disable_relax_pic_calls_flag.patch \
--	   file://gcc-poison-parameters.patch \
- 	   file://GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch \
- 	   file://COLLECT_GCC_OPTIONS.patch \
-            file://volatile_access_backport.patch \
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6/gcc-poison-parameters.patch b/meta/recipes-devtools/gcc/gcc-4.6/gcc-poison-parameters.patch
-deleted file mode 100644
-index 58bf32f..0000000
---- a/meta/recipes-devtools/gcc/gcc-4.6/gcc-poison-parameters.patch
-+++ /dev/null
-@@ -1,76 +0,0 @@
--Upstream-Status: Pending
--
--gcc: add poison parameters detection
--
--Add the logic that, if not configured with "--enable-target-optspace",
--gcc will meet error when build target app with "-Os" option.
--This could avoid potential binary crash.
--
--Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
--
--Index: gcc-4.6.0/gcc/config.in
--===================================================================
----- gcc-4.6.0.orig/gcc/config.in
--+++ gcc-4.6.0/gcc/config.in
--@@ -150,6 +150,12 @@
-- #endif
-- 
-- 
--+/* Define to enable target optspace support. */
--+#ifndef USED_FOR_TARGET
--+#undef ENABLE_TARGET_OPTSPACE
--+#endif
--+
--+
-- /* Define if you want all operations on RTL (the basic data structure of the
--    optimizer and back end) to be checked for dynamic type safety at runtime.
--    This is quite expensive. */
--Index: gcc-4.6.0/gcc/configure
--===================================================================
----- gcc-4.6.0.orig/gcc/configure
--+++ gcc-4.6.0/gcc/configure
--@@ -26434,6 +26434,13 @@ $as_echo "#define ENABLE_LIBQUADMATH_SUP
-- fi
-- 
-- 
--+if test x"$enable_target_optspace" != x; then :
--+
--+$as_echo "#define ENABLE_TARGET_OPTSPACE 1" >>confdefs.h
--+
--+fi
--+
--+
-- # Configure the subdirectories
-- # AC_CONFIG_SUBDIRS($subdirs)
-- 
--Index: gcc-4.6.0/gcc/configure.ac
--===================================================================
----- gcc-4.6.0.orig/gcc/configure.ac
--+++ gcc-4.6.0/gcc/configure.ac
--@@ -4907,6 +4907,11 @@ if test "${ENABLE_LIBQUADMATH_SUPPORT}"
-- fi
-- 
-- 
--+AC_SUBST(enable_target_optspace)
--+if test x"$enable_target_optspace" != x; then
--+  AC_DEFINE(ENABLE_TARGET_OPTSPACE, 1, [Define to enable target optspace support.])
--+fi
--+
-- # Configure the subdirectories
-- # AC_CONFIG_SUBDIRS($subdirs)
-- 
--Index: gcc-4.6.0/gcc/opts.c
--===================================================================
----- gcc-4.6.0.orig/gcc/opts.c
--+++ gcc-4.6.0/gcc/opts.c
--@@ -605,6 +605,10 @@ default_options_optimization (struct gcc
--     maybe_set_param_value (PARAM_MIN_CROSSJUMP_INSNS,
-- 			   default_param_value (PARAM_MIN_CROSSJUMP_INSNS),
-- 			   opts->x_param_values, opts_set->x_param_values);
--+#ifndef ENABLE_TARGET_OPTSPACE
--+  if (optimize_size == 1)
--+    error ("Do not use -Os option if --enable-target-optspace is not set.");
--+#endif
-- 
--   /* Allow default optimizations to be specified on a per-machine basis.  */
--   maybe_default_options (opts, opts_set,
+# GCC 4.5.1 builds unusable binaries using -Os, remove it from OPTFLAGS          
+EXTRA_OEMAKE = "CROSS_COMPILE=${TARGET_PREFIX} OPTFLAGS='-O2'"                  
+
+And according to 'git show 6b76ceed1423480e18844e20fc81f05298bfdd6d':
+commit 6b76ceed1423480e18844e20fc81f05298bfdd6d
+Author: Darren Hart <dvhart@linux.intel.com>
+Date:   Wed Feb 9 13:26:46 2011 -0800
+
+    uboot: build with -O2 on all architectures
+    
+    The -Os option was disabled due to a bug in gcc building bad binaries for ARM
+    in an earlier commit:
+    
+    f2dc7fadd8c6b180c3f985873261216d53f47f0d
+    
+    This caused problems for powerpc which was resolved by replacing -Os with
+    -O2 for that architecture:
+    
+    d0eb6794d964aa5ac938533a222c39bef09fd945
+    
+    Using -O2 also works for ARM, so there is no need to condition using -O2 on
+    powerpc. Remove the condition and use -O2 on all architectures.
+    
+    Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+    CC: Ilya Yanok <yanok@emcraft.com>
+    CC: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+Thanks,
+
 -- 
-1.7.3.4
-
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
