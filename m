@@ -1,32 +1,32 @@
-Received: from mail-vx0-f175.google.com ([209.85.220.175])
+Received: from mail-gx0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1QwMlY-0007Ky-Qm
+	(envelope-from <bruce.ashfield@gmail.com>) id 1QwMpZ-0007Qs-SJ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 25 Aug 2011 01:21:49 +0200
-Received: by vxj14 with SMTP id 14so1233302vxj.6
+	Thu, 25 Aug 2011 01:25:58 +0200
+Received: by gxk3 with SMTP id 3so1233738gxk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Aug 2011 16:17:01 -0700 (PDT)
+	Wed, 24 Aug 2011 16:21:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=aArUI1GFy/912ToAbhAcVahQjbVCg9cBBKWaEuQBHp8=;
-	b=wSvDUiSeCrrEv+Ybtpdg3aWTPM6KN3evclj7Fy6/KlJaDxhMFmJ51GzPBaTvpOfihZ
-	7XJQ6tXRE+SezIplEXBn3eJ+DgbwyMqQEDX6/Byscg+QQuWirzbq2bXI8JCK3czck/1T
-	ETsEwA64rf0RlidkrAeOioPylx+qm4dVIhu+E=
-Received: by 10.52.20.228 with SMTP id q4mr5355546vde.498.1314227821643; Wed,
-	24 Aug 2011 16:17:01 -0700 (PDT)
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=sTVe/E6ASM8H/7AgNuD6gtA2W3RQjxHNyDA1ZVes8wc=;
+	b=QohG9QKAqwyQdAV/ve+t9rc0193TgPYnagTr4Xc9zSVb4nqPw3jM0WPdqm5wWcN0SF
+	b2BAQChT8Mu7S99wubQ+/TQdAaMMRXDR7Q59RkbTS5YiBwMrTO0nO6PbqHHjNq9j9kpf
+	/OQtzq4r8TC/AxFbcEYowVBdV64sRQ2CersI8=
 MIME-Version: 1.0
-Received: by 10.52.108.229 with HTTP; Wed, 24 Aug 2011 16:16:40 -0700 (PDT)
-In-Reply-To: <201108221401.15860.paul.eggleton@linux.intel.com>
-References: <4e4e5424.8c5cdf0a.7d94.ffffbafd@mx.google.com>
-	<CABcZAN=mt6HCmtMnX+P4-BAOkQwZZ3uCS_sT+uutziBu0VYv9w@mail.gmail.com>
-	<20110819221653.GE22251@jama.jama.net>
-	<201108221401.15860.paul.eggleton@linux.intel.com>
-From: Chris Larson <kergoth@gmail.com>
-Date: Wed, 24 Aug 2011 16:16:40 -0700
-Message-ID: <CABcZANnHKrkmjODWStf3CyBEMBZRpkcVTZZ5dmVo-bkUn9Ybdw@mail.gmail.com>
+Received: by 10.100.193.20 with SMTP id q20mr5374305anf.91.1314228070558; Wed,
+	24 Aug 2011 16:21:10 -0700 (PDT)
+Received: by 10.100.95.3 with HTTP; Wed, 24 Aug 2011 16:21:10 -0700 (PDT)
+In-Reply-To: <1314227326.5939.149.camel@rex>
+References: <cover.1314218753.git.bruce.ashfield@windriver.com>
+	<1314227326.5939.149.camel@rex>
+Date: Wed, 24 Aug 2011 19:21:10 -0400
+Message-ID: <CADkTA4Pvsk1jE+QXcRvLC4bSwH15XYkr=D_ZRR_5MOxLcFzBJg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] utils.bbclass: skip empty paths when handling FILESEXTRAPATHS
+Cc: dvhart@linux.intel.com, saul.wold@intel.com
+Subject: Re: [PATCH 0/4] linux-yocto: consolidated kernel pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,23 +41,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2011 23:21:49 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 24 Aug 2011 23:25:58 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 22, 2011 at 6:01 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> FWIW I agree with Martin; I wouldn't hold back the patch just for this reason
-> - it's not incorrect code, it's consistent with the rest of the file, and we
-> can easily clean these up later.
+On Wed, Aug 24, 2011 at 7:08 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Hi Bruce,
+>
+> On Wed, 2011-08-24 at 16:50 -0400, Bruce Ashfield wrote:
+>> Here's a consolidated kernel pull request that fixes a series
+>> of bugs that have been around for a while and fixes some of the
+>> remaining issues from the -rt work that completed last week.
+>>
+>> Darren: I also updated the -rt source revs and recipe with some
+>> streamlining that builds on top of changse that merged last week.
+>>
+>> The patches have the details of the bugs and fixes.
+>>
+>> cc: Darren Hart <dvhart@linux.intel.com>
+>>
+>> The following changes since commit f852199ff598069bbecad4146f13377753df1=
+648:
+>>
+>> =A0 linux-yocto: update meta SRCREVs for beagleboard config changes (201=
+1-08-24 16:29:22 -0400)
+>>
+>> are available in the git repository at:
+>> =A0 git://git.pokylinux.org/poky-contrib kernel-oe
+>> =A0 http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dzedd/kernel-=
+oe
+>>
+>> Bruce Ashfield (4):
+>> =A0 kern-tools: allow flexible branch points
+>> =A0 linux-yocto-rt: update qemuppc support and streamline variables
+>> =A0 linux-yocto: update machines and default configuration
+>> =A0 linux-yocto/2.6.37: apmd + get time of day fixes
+>
+> I took the first two of these. The other two didn't apply and I didn't
+> feel happy taking them. I tried to look at the git tree above and I
+> couldn't see the patches there...
 
-I strongly disagree with this. The fact is, we almost never go back
-and "clean these up later", so crap accrues.
+Really ? That strange .. how could they not apply, they were stacked
+and pushed on top of an up to date master. Which part rejected ?
 
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+I'll re-push and see what's up.
+
+Bruce
+
+>
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
+
+
+--=20
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
