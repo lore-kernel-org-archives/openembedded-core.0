@@ -1,31 +1,41 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1Qw2eT-0001Ky-J7
+	(envelope-from <dongxiao.xu@intel.com>) id 1Qw2ev-0001Mh-Rb
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Aug 2011 03:53:09 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7O1mLc2023638
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 23 Aug 2011 18:48:23 -0700 (PDT)
-Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Tue, 23 Aug 2011 18:48:22 -0700
-Message-ID: <4E54585F.7070306@windriver.com>
-Date: Wed, 24 Aug 2011 09:48:15 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64;
-	rv:6.0) Gecko/20110812 Thunderbird/6.0
+	Wed, 24 Aug 2011 03:53:38 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 23 Aug 2011 18:48:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,272,1312182000"; d="scan'208";a="10406954"
+Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
+	by AZSMGA002.ch.intel.com with ESMTP; 23 Aug 2011 18:48:48 -0700
+Received: from pgsmsx102.gar.corp.intel.com (10.221.44.80) by
+	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 24 Aug 2011 09:47:18 +0800
+Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
+	PGSMSX102.gar.corp.intel.com (10.221.44.80) with Microsoft SMTP Server
+	(TLS) id 14.1.323.3; Wed, 24 Aug 2011 09:47:17 +0800
+Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
+	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
+	Wed, 24 Aug 2011 09:47:16 +0800
+From: "Xu, Dongxiao" <dongxiao.xu@intel.com>
+To: Kumar Gala <galak@kernel.crashing.org>
+Date: Wed, 24 Aug 2011 09:47:15 +0800
+Thread-Topic: why do we poison -Os?
+Thread-Index: Acxh/axOpf1xDCLTRmuUjX3r5WHu9wAANWDQ
+Message-ID: <D5AB6E638E5A3E4B8F4406B113A5A19A12D724C949@shsmsx501.ccr.corp.intel.com>
+References: <A182C128-8E5F-48F0-B72B-39DA62E6E1F4@kernel.crashing.org>
+	<D5AB6E638E5A3E4B8F4406B113A5A19A12D724C903@shsmsx501.ccr.corp.intel.com>
+	<0597F428-97F2-461F-804B-FE793E911BD4@kernel.crashing.org>
+In-Reply-To: <0597F428-97F2-461F-804B-FE793E911BD4@kernel.crashing.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <4E522492.9050706@windriver.com>
-	<201108221946.26036.paul.eggleton@linux.intel.com>
-In-Reply-To: <201108221946.26036.paul.eggleton@linux.intel.com>
-X-Originating-IP: [128.224.162.196]
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
-	p7O1mLc2023638
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: question about meta/class/qmake-base.bbclass
+Subject: Re: why do we poison -Os?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,40 +50,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2011 01:53:10 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Wed, 24 Aug 2011 01:53:38 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On 2011=E5=B9=B408=E6=9C=8823=E6=97=A5 02:46, Paul Eggleton wrote:
-> On Monday 22 August 2011 10:42:42 Kang Kai wrote:
->> When I read the file  meta/class/qmake-base.bbclass, I find that that
->> are 2 lines:
->>       unset QMAKESPEC || true
->>       ${OE_QMAKE_QMAKE} -makefile -spec ${QMAKESPEC} -o Makefile
->> $QMAKE_VARSUBST_PRE $AFTER $PROFILES $QMAKE_VARSUBST_POST || die "Erro=
-r
->> calling ${OE_QMAKE_QMAKE} on $PROFILES"
->>
->> I am confused that why unset QMAKESPEC first and then use it a argumen=
-t
->> for qmake?
-> It's not obvious, but think that the difference here is between $QMAKES=
-PEC and
-> ${QMAKESPEC} - the first one is a reference to an environment variable,=
- the
-> second is a reference to an OE/BitBake variable. So "unset QMAKESPEC" i=
-s just
-> clearing out the environment variable; ${QMAKESPEC} would still have a =
-value.
->
-> Cheers,
-> Paul
->
-Hi Paul,
+> -----Original Message-----
+> From: Kumar Gala [mailto:galak@kernel.crashing.org]
+>=20
+> If tinylogin is the only issue why modify/patch gcc?  I see we have
+> meta/recipes-core/tinylogin/tinylogin-1.4/use_O2_option.patch to deal wit=
+h
+> this?
 
-Thanks for your detailed answer.
+Yes, patch for tinylogin is to deal with the issue.
+Besides that, we added this poison detection mechanism and suppose it shoul=
+d not affect functionality.
+My understanding is that, if GCC is not configured with the ability of code=
+ space optimization, target recipes will not have code size benefit even if=
+ adding "-Os" option.
 
-Regards,
-Kai
+>=20
+> Not allowing -Os at all, which is our current situation on PPC is problem=
+atic.
+> So trying to see if this issue is really limited to gcc 4.5 or not.  How =
+can I
+> reproduce it with current poky.git?
+
+Not allowing -Os for PPC is because --enable-target-optspace is not enabled=
+ for PPC GCC. This is a known issue for PPC GCC 4.5.x.
+
+I wonder if GCC 4.6.x has fixed this issue. If so, we should add "--enable-=
+target-optspace" for PPC GCC again, thus -Os will be allowed for recipes.
+
+Thanks,
+Dongxiao
+
+>=20
+> - k
+>=20
+> On Aug 23, 2011, at 8:16 PM, Xu, Dongxiao wrote:
+>=20
+> > Hi Kumar,
+> >
+> > The background of this commit is, when I upgraded PowerPC gcc to 4.5,
+> tinylogin would crash with certain GCC build parameters.
+> >
+> > The root cause for that bug is, if enabled both "-frename-registers" an=
+d "-Os"
+> options to build tinylogin in powerpc architecture, the tinylogin/getty
+> application will encounter segmentation fault. Other combinations like
+> "-frename-registers and -O2" or only "-Os" will not trigger this issue.
+> >
+> > Poky cross environment provides the "-frename-registers" parameter,
+> however it does not provide -Os option since "--enable-target-optspace" o=
+ption
+> is disabled for powerpc gcc. The "-Os" option in tinylogin is added by it=
+s own
+> Makefile.
+> >
+> > This commit is to prevent the above case. If --enable-target-optspace i=
+s
+> disabled for GCC, "-Os" should not be added by recipe.
+> >
+> > Thanks,
+> > Dongxiao
+> >
+> >> -----Original Message-----
+> >> From: Kumar Gala [mailto:galak@kernel.crashing.org]
+> >> Sent: Wednesday, August 24, 2011 8:53 AM
+> >> To: Xu, Dongxiao
+> >> Cc: Patches and discussions about the oe-core layer; Khem Raj
+> >> Subject: why do we poison -Os?
+> >>
+> >> Dongxiao,
+> >>
+> >> Can you explain why this was needed:
+> >>
+> >> commit ce456306dad3fdf42494830011dacae213c48edf
+> >> Author: Dongxiao Xu <dongxiao.xu@intel.com>
+> >> Date:   Sat Sep 25 10:16:26 2010 +0800
+> >>
+> >>    gcc: enable poison parameters detection
+> >>
+> >>    If not configured with --enable-target-optspace, gcc will report
+> >>    errors if there is '-Os' optimization in parameters.
+> >>
+> >>    This fixes [BUGID #342]
+> >>
+> >>    Also add "--enable-target-optspace" option to arm gcc configuration=
+.
+> >>
+> >>    Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+> >>
+> >>
+> >> - k
+
 
 
