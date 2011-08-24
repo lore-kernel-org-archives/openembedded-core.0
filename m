@@ -1,26 +1,34 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1QwBIE-0004lP-9I
+	(envelope-from <otavio.salvador@gmail.com>) id 1QwCm6-0007Rf-Hn
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Aug 2011 13:06:47 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 24 Aug 2011 04:01:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,274,1312182000"; d="scan'208";a="10527635"
-Received: from unknown (HELO helios.localnet) ([10.255.18.135])
-	by AZSMGA002.ch.intel.com with ESMTP; 24 Aug 2011 04:01:58 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Patches and discussions about the oe-core layer"
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 24 Aug 2011 12:01:57 +0100
-User-Agent: KMail/1.13.6 (Linux/2.6.38-10-generic-pae; KDE/4.6.2; i686; ; )
-References: <4E537A0E.2040605@gmail.com>
-	<201108231725.13418.paul.eggleton@linux.intel.com>
-	<4E54BE2D.1070009@ge.com>
-In-Reply-To: <4E54BE2D.1070009@ge.com>
+	Wed, 24 Aug 2011 14:41:42 +0200
+Received: by bkbzu17 with SMTP id zu17so912123bkb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Aug 2011 05:36:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=ncWZFrfvzJ20l0vyqMXpUtS9dQDJsXGVhDXV6m+RrPM=;
+	b=wBRS8tdeu41h6gI8XrgNnSG59ntv9ayQbAD2nGxFxc8rZMQKQnldP0TXVPypznTRyd
+	itn1oht5uQ5ATLyq16gzXBJd/4Q9vzapQ7Vo6GnS+cawXuAqIVhBWCkkfpZ/3Qd+I21X
+	pWPmcNUkAKU4Mvtmklwoi5wKqfF3/vZEdDY4o=
 MIME-Version: 1.0
-Message-Id: <201108241201.57389.paul.eggleton@linux.intel.com>
-Subject: Re: Wiki seems dead. is openembedded wiki still active?
+Received: by 10.204.151.70 with SMTP id b6mr2179820bkw.71.1314189416326; Wed,
+	24 Aug 2011 05:36:56 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.15.66 with HTTP; Wed, 24 Aug 2011 05:36:56 -0700 (PDT)
+In-Reply-To: <d353e993939f7c5d678633841c0460f27a3e8042.1314138692.git.paul.eggleton@linux.intel.com>
+References: <cover.1314138692.git.paul.eggleton@linux.intel.com>
+	<d353e993939f7c5d678633841c0460f27a3e8042.1314138692.git.paul.eggleton@linux.intel.com>
+Date: Wed, 24 Aug 2011 09:36:56 -0300
+X-Google-Sender-Auth: mdFGmz1iYjGRyTcPeCEwjdI1BDo
+Message-ID: <CAP9ODKoeTVe89Q7XsSfB0bBDteWt3JD8T7irn+Jc7gFcut6OmQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] scripts/combo-layer: fix overzealous regex in default hook script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,39 +43,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2011 11:06:47 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 24 Aug 2011 12:41:42 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Wednesday 24 August 2011 10:02:37 Martyn Welch wrote:
-> On 23/08/11 17:25, Paul Eggleton wrote:
-> > On Tuesday 23 August 2011 10:59:42 Klausfpga wrote:
-> > FYI OE is in the middle of a transition of sorts; we're moving to a more
-> > modular metadata structure based around a smaller common core (OE-Core).
-> > For
-> > 
-> > more information please see this page:
-> >   http://wiki.openembedded.org/index.php/OpenEmbedded-Core
-> 
-> The link to the Layer Index is broken on that page. I'd correct it, but
-> that page is locked down to be only editable by admin.
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
-The link in the markup is fine, it seems to be some kind of server issue in how 
-the real URL gets generated. Now that www.openembedded.org is back up you can 
-just use that and it will work fine:
+On Tue, Aug 23, 2011 at 19:32, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> combo-layer's hook scripts are intended to modify patches as they pass
+> through; the default one adds a prefix with the component name and
+> a line with the component repo revision before the Signed-off-by;
+> however the script was also unintentionally modifying the contents of
+> patches *within* the patches passing through it, which resulted in
+> unexpected failures when the combo-layer script attempted to use
+> "git am" to apply them.
+>
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+> =A0scripts/combo-layer-hook-default.sh | =A0 =A04 ++--
+> =A01 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/scripts/combo-layer-hook-default.sh b/scripts/combo-layer-ho=
+ok-default.sh
+> index f03c4fa..e535d5f 100755
+> --- a/scripts/combo-layer-hook-default.sh
+> +++ b/scripts/combo-layer-hook-default.sh
+> @@ -9,5 +9,5 @@ patchfile=3D$1
+> =A0rev=3D$2
+> =A0reponame=3D$3
+>
+> -sed -i -e "s#Subject: \[PATCH\] \(.*\)#Subject: \[PATCH\] $reponame: \1#=
+" $patchfile
+> -sed -i -e "0,/Signed-off-by:/s#\(Signed-off-by:.*\)#\($reponame rev: $re=
+v\)\n\n\1#" $patchfile
+> +sed -i -e "s#^Subject: \[PATCH\] \(.*\)#Subject: \[PATCH\] $reponame: \1=
+#" $patchfile
+> +sed -i -e "0,/^Signed-off-by:/s#\(Signed-off-by:.*\)#\($reponame rev: $r=
+ev\)\n\n\1#" $patchfile
+> --
+> 1.7.4.1
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
-http://www.openembedded.org/wiki/OpenEmbedded-Core
 
-Thanks for reporting this, I'll have a word with Tom K. and see if he can fix 
-it so nobody else stumbles across this issue.
 
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
