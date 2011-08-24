@@ -1,26 +1,23 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1Qw6IQ-0002kl-1c
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1Qw76U-0004Ed-G7
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Aug 2011 07:46:38 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 23 Aug 2011 22:41:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="41254000"
-Received: from unknown (HELO envy.home) ([10.255.14.37])
-	by orsmga002.jf.intel.com with ESMTP; 23 Aug 2011 22:41:50 -0700
-Message-ID: <4E548F16.9070900@linux.intel.com>
-Date: Tue, 23 Aug 2011 22:41:42 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:5.0) Gecko/20110707 Thunderbird/5.0
+	Wed, 24 Aug 2011 08:38:22 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7O6XYZR025791
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 Aug 2011 23:33:35 -0700 (PDT)
+Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Tue, 23 Aug 2011 23:33:34 -0700
+Message-ID: <cover.1314166867.git.xiaofeng.yan@windriver.com>
+Old-Date: Wed, 24 Aug 2011 14:21:07 +0800
+Date: Wed, 24 Aug 2011 14:34:08 +0800
+To: <openembedded-core@lists.openembedded.org>
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-To: Kumar Gala <galak@kernel.crashing.org>
-References: <A09A21A1-D31F-4D21-92BD-6F521FD3012C@kernel.crashing.org>
-In-Reply-To: <A09A21A1-D31F-4D21-92BD-6F521FD3012C@kernel.crashing.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: u-boot.inc issue with -Os
+Subject: [PATCH 0/1] qt4e-demo-image: Fix bug 999
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,61 +32,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2011 05:46:38 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 24 Aug 2011 06:38:22 -0000
+Content-Type: text/plain
 
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
+Hi Paul,
 
-On 08/23/2011 10:05 PM, Kumar Gala wrote:
-> Darren,
-> 
-> in meta/recipes-bsp/uboot/u-boot.inc:
-> 
-> # GCC 4.5.1 builds unusable binaries using -Os, remove it from
-> OPTFLAGS EXTRA_OEMAKE = "CROSS_COMPILE=${TARGET_PREFIX} OPTFLAGS=''"
-> 
-> Was this for all u-boot builds, regardless of architecture, or just
-> ppc.  Was the build failing or resulting binaries?
+Thank you for your very good suggestion for building a qt4e-demo-image.
+I modified some .bb files and removed qwt according to your suggestion.
+If you have any suggestion for these patches, I will continue modifying it. 
 
-My sources differ from yours. We used to drop -Os for all arches, but it caused
-issues for powerpc, so we replaced -Os with -O2 there. With the patch below, we
-then used -O2 everywhere, regardless of architecture.
-
-According to my sources:
-
-# GCC 4.5.1 builds unusable binaries using -Os, remove it from OPTFLAGS          
-EXTRA_OEMAKE = "CROSS_COMPILE=${TARGET_PREFIX} OPTFLAGS='-O2'"                  
-
-And according to 'git show 6b76ceed1423480e18844e20fc81f05298bfdd6d':
-commit 6b76ceed1423480e18844e20fc81f05298bfdd6d
-Author: Darren Hart <dvhart@linux.intel.com>
-Date:   Wed Feb 9 13:26:46 2011 -0800
-
-    uboot: build with -O2 on all architectures
-    
-    The -Os option was disabled due to a bug in gcc building bad binaries for ARM
-    in an earlier commit:
-    
-    f2dc7fadd8c6b180c3f985873261216d53f47f0d
-    
-    This caused problems for powerpc which was resolved by replacing -Os with
-    -O2 for that architecture:
-    
-    d0eb6794d964aa5ac938533a222c39bef09fd945
-    
-    Using -O2 also works for ARM, so there is no need to condition using -O2 on
-    powerpc. Remove the condition and use -O2 on all architectures.
-    
-    Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-    CC: Ilya Yanok <yanok@emcraft.com>
-    CC: Richard Purdie <richard.purdie@linuxfoundation.org>
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: xiaofeng/qt4e-demo-image
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/qt4e-demo-image
 
 Thanks,
+    Xiaofeng Yan <xiaofeng.yan@windriver.com>
+---
 
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+
+Xiaofeng Yan (1):
+  qt4e-demo-image: Fix bug 999
+
+ meta/recipes-qt/images/qt4e-base-image.bb        |   14 ++++++
+ meta/recipes-qt/images/qt4e-demo-image.bb        |   12 +++++
+ meta/recipes-qt/qt-demo/qt-demo-init/qtdemo-init |   55 ++++++++++++++++++++++
+ meta/recipes-qt/qt-demo/qt-demo-init_0.1.bb      |   19 ++++++++
+ meta/recipes-qt/tasks/task-qt4e.bb               |   48 +++++++++++++++++++
+ 5 files changed, 148 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-qt/images/qt4e-base-image.bb
+ create mode 100644 meta/recipes-qt/images/qt4e-demo-image.bb
+ create mode 100644 meta/recipes-qt/qt-demo/qt-demo-init/qtdemo-init
+ create mode 100644 meta/recipes-qt/qt-demo/qt-demo-init_0.1.bb
+ create mode 100644 meta/recipes-qt/tasks/task-qt4e.bb
+
 
 
