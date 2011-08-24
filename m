@@ -1,26 +1,25 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qw4S9-0004br-4V
+	(envelope-from <sgw@linux.intel.com>) id 1Qw4Sf-0004dm-Bz
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Aug 2011 05:48:33 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 23 Aug 2011 20:43:46 -0700
+	Wed, 24 Aug 2011 05:49:07 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 23 Aug 2011 20:44:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="41577637"
+X-IronPort-AV: E=Sophos;i="4.68,273,1312182000"; d="scan'208";a="10430299"
 Received: from unknown (HELO [10.255.14.203]) ([10.255.14.203])
-	by orsmga001.jf.intel.com with ESMTP; 23 Aug 2011 20:43:46 -0700
-Message-ID: <4E547371.2010003@linux.intel.com>
-Date: Tue, 23 Aug 2011 20:43:45 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 23 Aug 2011 20:44:18 -0700
+Message-ID: <4E547392.1050101@linux.intel.com>
+Date: Tue, 23 Aug 2011 20:44:18 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:5.0) Gecko/20110707 Thunderbird/5.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1313790985-3332-1-git-send-email-kergoth@gmail.com>
-In-Reply-To: <1313790985-3332-1-git-send-email-kergoth@gmail.com>
-Cc: Chris Larson <chris_larson@mentor.com>
-Subject: Re: [PATCH 1/3] libpcre: the generated libtool uses HOST_SYS
+References: <cover.1313731222.git.lianhao.lu@intel.com>
+In-Reply-To: <cover.1313731222.git.lianhao.lu@intel.com>
+Subject: Re: [PATCH 0/1] Remove the hard coded url in adt-installer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,42 +34,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2011 03:48:33 -0000
+X-List-Received-Date: Wed, 24 Aug 2011 03:49:07 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/19/2011 02:56 PM, Chris Larson wrote:
-> From: Chris Larson<chris_larson@mentor.com>
+On 08/18/2011 10:21 PM, Lianhao Lu wrote:
+> This patch fixed the bug #1380. It removed the hard coded url in the opkg configuration files included in the adt-installer.
 >
-> Signed-off-by: Chris Larson<chris_larson@mentor.com>
-> ---
->   meta/recipes-support/libpcre/libpcre_8.12.bb |    8 ++++----
->   1 files changed, 4 insertions(+), 4 deletions(-)
+> The following changes since commit 2e83e6755441cb14bd907d306974338c15173189:
+>    Darren Hart (1):
+>          kernel: restore crtsavres.o to enable building external modules on powerpc
 >
-> diff --git a/meta/recipes-support/libpcre/libpcre_8.12.bb b/meta/recipes-support/libpcre/libpcre_8.12.bb
-> index 9216777..24d91c3 100644
-> --- a/meta/recipes-support/libpcre/libpcre_8.12.bb
-> +++ b/meta/recipes-support/libpcre/libpcre_8.12.bb
-> @@ -30,11 +30,11 @@ EXTRA_OECONF = " --with-link-size=2 --enable-newline-is-lf --with-match-limit=10
->   do_compile () {
->   	# stop libtool from trying to link with host libraries - fix from #33
->   	# this resolve build problem on amd64 - #1015
-> -	if [ -e ${S}/${TARGET_SYS}-libtool ] ; then
-> -		sed -i 's:-L\$:-L${STAGING_LIBDIR} -L\$:' ${S}/${TARGET_SYS}-libtool
-> +	if [ -e ${S}/${HOST_SYS}-libtool ] ; then
-> +		sed -i 's:-L\$:-L${STAGING_LIBDIR} -L\$:' ${S}/${HOST_SYS}-libtool
->   	else
-> -		ln -sf ${S}/libtool ${S}/${TARGET_SYS}-libtool
-> -		sed -i 's:-L\$:-L${STAGING_LIBDIR} -L\$:' ${S}/${TARGET_SYS}-libtool	
-> +		ln -sf ${S}/libtool ${S}/${HOST_SYS}-libtool
-> +		sed -i 's:-L\$:-L${STAGING_LIBDIR} -L\$:' ${S}/${HOST_SYS}-libtool
->   	fi
+> are available in the git repository at:
 >
->   	# The generation of dftables can lead to timestamp problems with ccache
-
-This whole series was merged into OE-Core (3 of 3) total.
+>    git://git.yoctoproject.org/poky-contrib llu/bug1380
+>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=llu/bug1380
+>
+> Lianhao Lu (1):
+>    adt-installer: Removed the hard coded repo url.
+>
+>   .../adt-installer/opkg/conf/opkg-sdk-i686.conf     |    2 +-
+>   .../adt-installer/opkg/conf/opkg-sdk-x86_64.conf   |    2 +-
+>   .../installer/adt-installer_1.0.bb                 |    5 ++++-
+>   3 files changed, 6 insertions(+), 3 deletions(-)
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+Merged into OE-Core
 
 Thanks
 	Sau!
+
 
 
