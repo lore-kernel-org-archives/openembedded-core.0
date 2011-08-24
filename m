@@ -1,25 +1,26 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from gate.crashing.org ([63.228.1.57]
+	ident=[U2FsdGVkX19/MEAtMehLW2o82UH9oH3jxe79n+tc2Mc=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qw4eR-0005F3-FE
+	(envelope-from <galak@kernel.crashing.org>) id 1Qw4kR-0005OG-0x
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Aug 2011 06:01:15 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Aug 2011 20:56:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,273,1312182000"; d="scan'208";a="44436375"
-Received: from unknown (HELO [10.255.14.203]) ([10.255.14.203])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Aug 2011 20:56:28 -0700
-Message-ID: <4E54766C.9080006@linux.intel.com>
-Date: Tue, 23 Aug 2011 20:56:28 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:5.0) Gecko/20110707 Thunderbird/5.0
-MIME-Version: 1.0
+	Wed, 24 Aug 2011 06:07:27 +0200
+Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p7O42b0o000742;
+	Tue, 23 Aug 2011 23:02:37 -0500
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Kumar Gala <galak@kernel.crashing.org>
+In-Reply-To: <1314150303.5939.70.camel@rex>
+Date: Tue, 23 Aug 2011 23:02:37 -0500
+Message-Id: <7D14B031-9782-4012-B31C-A46BE077672F@kernel.crashing.org>
+References: <A182C128-8E5F-48F0-B72B-39DA62E6E1F4@kernel.crashing.org>
+	<D5AB6E638E5A3E4B8F4406B113A5A19A12D724C903@shsmsx501.ccr.corp.intel.com>
+	<0597F428-97F2-461F-804B-FE793E911BD4@kernel.crashing.org>
+	<1314150303.5939.70.camel@rex>
 To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1313816148.git.otavio@ossystems.com.br>
-In-Reply-To: <cover.1313816148.git.otavio@ossystems.com.br>
-Subject: Re: [PATCH 0/8] Pending patches from O.S. Systems tree
+	<openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: why do we poison -Os?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,57 +35,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2011 04:01:15 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 24 Aug 2011 04:07:27 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 08/19/2011 09:58 PM, Otavio Salvador wrote:
-> The following changes since commit c539155c51e43680711130df9050d3e92282591e:
->
->    newt: update distro tracking fields (2011-08-19 09:05:54 -0700)
->
-> are available in the git repository at:
->    git://github.com/OSSystems/oe-core master
->    https://github.com/OSSystems/oe-core/tree/master
->
-> Otavio Salvador (8):
->    Use OECORE_DISTRO_VERSION instead of POKY_DISTRO_VERSION
-Merged
 
->    kernel.bbclass: blacklist perf-dbg
-Not Merged - Need to figure out why perf-dbg is being generated.
+On Aug 23, 2011, at 8:45 PM, Richard Purdie wrote:
 
->    kernel.bbclass: move uboot image generation to a specific class
-Not Merged - See disussion on list
+> On Tue, 2011-08-23 at 20:32 -0500, Kumar Gala wrote:
+>> If tinylogin is the only issue why modify/patch gcc?  I see we have
+>> meta/recipes-core/tinylogin/tinylogin-1.4/use_O2_option.patch to deal
+>> with this?
+>>=20
+>> Not allowing -Os at all, which is our current situation on PPC is
+>> problematic.  So trying to see if this issue is really limited to gcc
+>> 4.5 or not.  How can I reproduce it with current poky.git?
+>=20
+> We were seeing problems when makefiles were putting -Os into compiler
+> flags without our knowledge. In some cases -Os was silently corrupting
+> binaries. We therefore ended up adding the poison so if anything was
+> using the option we knew to generate buggy code, we'd know about it.
 
->    kernel.bbclass: save kernel image name into $kerneldir
-Merged
+So, I'm trying to figure out if it was just tinylogin or more that had =
+issues.
 
->    fix SDK building due TARGET_ARCH use in installation path
-Not Merged Pending RP and Koen discussion
+> If we know gcc to be safe using that option we can drop the patch and
+> users can enable it where it makes sense to them. I still don't like
+> makefiles changing compiler optimisations from under us though. Last I
+> heard, -Os was still very badly supported and not recommended by the =
+gcc
+> community.
 
->    scripts/runqemu: add support to pass bootparams to kernel
-Merged
+That's a different issue altogether.  I think its bad that we dont allow =
+-Os at all which is what I'm trying address and the fact that its pretty =
+necessary to build u-boot because it has size limitations.
 
->    scripts/runqemu: remove redundant checking
-Not merged (See Phil's email)
-
->    scripts/combo-layer: fix configuration file handling
-Merged
-
->
->   meta/classes/kernel.bbclass            |   47 ++++++++++++++++++++-----------
->   meta/classes/populate_sdk.bbclass      |    2 +-
->   meta/classes/toolchain-scripts.bbclass |   12 ++++----
->   meta/conf/bitbake.conf                 |    2 +-
->   scripts/combo-layer                    |    4 +-
->   scripts/oe-find-native-sysroot         |    2 +-
->   scripts/runqemu                        |    5 +++-
->   scripts/runqemu-export-rootfs          |    2 +-
->   8 files changed, 46 insertions(+), 30 deletions(-)
->
-
-Thanks
-	Sau!
+- k=
 
 
