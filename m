@@ -1,27 +1,26 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1QwB9I-0004FL-T5
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1QwBIE-0004lP-9I
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Aug 2011 12:57:32 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QwB4i-00061r-LU
-	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Aug 2011 12:52:49 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
+	Wed, 24 Aug 2011 13:06:47 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 24 Aug 2011 04:01:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,274,1312182000"; d="scan'208";a="10527635"
+Received: from unknown (HELO helios.localnet) ([10.255.18.135])
+	by AZSMGA002.ch.intel.com with ESMTP; 24 Aug 2011 04:01:58 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Patches and discussions about the oe-core layer"
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 24 Aug 2011 11:52:47 +0100
-In-Reply-To: <D5AB6E638E5A3E4B8F4406B113A5A19A12D724C949@shsmsx501.ccr.corp.intel.com>
-References: <A182C128-8E5F-48F0-B72B-39DA62E6E1F4@kernel.crashing.org>
-	<D5AB6E638E5A3E4B8F4406B113A5A19A12D724C903@shsmsx501.ccr.corp.intel.com>
-	<0597F428-97F2-461F-804B-FE793E911BD4@kernel.crashing.org>
-	<D5AB6E638E5A3E4B8F4406B113A5A19A12D724C949@shsmsx501.ccr.corp.intel.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1314183168.19905.6.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: why do we poison -Os?
+Date: Wed, 24 Aug 2011 12:01:57 +0100
+User-Agent: KMail/1.13.6 (Linux/2.6.38-10-generic-pae; KDE/4.6.2; i686; ; )
+References: <4E537A0E.2040605@gmail.com>
+	<201108231725.13418.paul.eggleton@linux.intel.com>
+	<4E54BE2D.1070009@ge.com>
+In-Reply-To: <4E54BE2D.1070009@ge.com>
+MIME-Version: 1.0
+Message-Id: <201108241201.57389.paul.eggleton@linux.intel.com>
+Subject: Re: Wiki seems dead. is openembedded wiki still active?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,20 +35,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2011 10:57:33 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 24 Aug 2011 11:06:47 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-08-24 at 09:47 +0800, Xu, Dongxiao wrote:
-> My understanding is that, if GCC is not configured with the ability of code space optimization, target recipes will not have code size benefit even if adding "-Os" option.
+On Wednesday 24 August 2011 10:02:37 Martyn Welch wrote:
+> On 23/08/11 17:25, Paul Eggleton wrote:
+> > On Tuesday 23 August 2011 10:59:42 Klausfpga wrote:
+> > FYI OE is in the middle of a transition of sorts; we're moving to a more
+> > modular metadata structure based around a smaller common core (OE-Core).
+> > For
+> > 
+> > more information please see this page:
+> >   http://wiki.openembedded.org/index.php/OpenEmbedded-Core
+> 
+> The link to the Layer Index is broken on that page. I'd correct it, but
+> that page is locked down to be only editable by admin.
 
-No, that's incorrect.  All that --enable-target-optspace does is change
-the definition of CFLAGS_FOR_TARGET, which causes the GCC support
-libraries (i.e. libgcc, libstdc++, etc) to be built with -Os rather than
--O2.  It has no effect on the functionality of the compiler itself.
+The link in the markup is fine, it seems to be some kind of server issue in how 
+the real URL gets generated. Now that www.openembedded.org is back up you can 
+just use that and it will work fine:
 
-p.
+http://www.openembedded.org/wiki/OpenEmbedded-Core
 
+Thanks for reporting this, I'll have a word with Tom K. and see if he can fix 
+it so nobody else stumbles across this issue.
 
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
