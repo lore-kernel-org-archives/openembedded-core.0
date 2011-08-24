@@ -1,24 +1,33 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX18WyxTYJDMM15ZTLwNrrdTPvV68o/sQXX8=])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1Qw2Ov-0000vc-P3
-	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Aug 2011 03:37:06 +0200
-Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p7O1VUd7024550;
-	Tue, 23 Aug 2011 20:32:17 -0500
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Kumar Gala <galak@kernel.crashing.org>
-In-Reply-To: <D5AB6E638E5A3E4B8F4406B113A5A19A12D724C903@shsmsx501.ccr.corp.intel.com>
-Date: Tue, 23 Aug 2011 20:32:16 -0500
-Message-Id: <0597F428-97F2-461F-804B-FE793E911BD4@kernel.crashing.org>
-References: <A182C128-8E5F-48F0-B72B-39DA62E6E1F4@kernel.crashing.org>
-	<D5AB6E638E5A3E4B8F4406B113A5A19A12D724C903@shsmsx501.ccr.corp.intel.com>
-To: "Xu, Dongxiao" <dongxiao.xu@intel.com>
-X-Mailer: Apple Mail (2.1084)
-Cc: Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Qw2Pt-00010q-9F for openembedded-core@lists.openembedded.org;
+	Wed, 24 Aug 2011 03:38:05 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7O1XK9U014566
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Aug 2011 02:33:20 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 14527-01 for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Aug 2011 02:33:16 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7O1X8G7014560
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Aug 2011 02:33:11 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: why do we poison -Os?
+In-Reply-To: <cover.1314138692.git.paul.eggleton@linux.intel.com>
+References: <cover.1314138692.git.paul.eggleton@linux.intel.com>
+Date: Tue, 23 Aug 2011 18:33:06 -0700
+Message-ID: <1314149586.5939.67.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 0/2] Couple of fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,73 +42,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2011 01:37:06 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 24 Aug 2011 01:38:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-If tinylogin is the only issue why modify/patch gcc?  I see we have =
-meta/recipes-core/tinylogin/tinylogin-1.4/use_O2_option.patch to deal =
-with this?
+On Tue, 2011-08-23 at 23:32 +0100, Paul Eggleton wrote:
+> The following changes since commit 9134800548a03bfe3a7e351a15f2129bcb3cc680:
+> 
+>   xcb/libpthreads: Add BBCLASSEXTEND to resolve missing providers in world builds (2011-08-19 16:27:29 -0700)
+> 
+> are available in the git repository at:
+>   git://git.openembedded.org/openembedded-core-contrib paule/combo-layer-hook-fix
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/combo-layer-hook-fix
+> 
+> Paul Eggleton (2):
+>   base.bbclass: clarify COMMERCIAL_LICENSE skip reason
+>   scripts/combo-layer: fix overzealous regex in default hook script
 
-Not allowing -Os at all, which is our current situation on PPC is =
-problematic.  So trying to see if this issue is really limited to gcc =
-4.5 or not.  How can I reproduce it with current poky.git?
+Merged to master, thanks.
 
-- k
-
-On Aug 23, 2011, at 8:16 PM, Xu, Dongxiao wrote:
-
-> Hi Kumar,
->=20
-> The background of this commit is, when I upgraded PowerPC gcc to 4.5, =
-tinylogin would crash with certain GCC build parameters.
->=20
-> The root cause for that bug is, if enabled both "-frename-registers" =
-and "-Os" options to build tinylogin in powerpc architecture, the =
-tinylogin/getty application will encounter segmentation fault. Other =
-combinations like "-frename-registers and -O2" or only "-Os" will not =
-trigger this issue.
->=20
-> Poky cross environment provides the "-frename-registers" parameter, =
-however it does not provide -Os option since "--enable-target-optspace" =
-option is disabled for powerpc gcc. The "-Os" option in tinylogin is =
-added by its own Makefile.
->=20
-> This commit is to prevent the above case. If --enable-target-optspace =
-is disabled for GCC, "-Os" should not be added by recipe.
->=20
-> Thanks,
-> Dongxiao
->=20
->> -----Original Message-----
->> From: Kumar Gala [mailto:galak@kernel.crashing.org]
->> Sent: Wednesday, August 24, 2011 8:53 AM
->> To: Xu, Dongxiao
->> Cc: Patches and discussions about the oe-core layer; Khem Raj
->> Subject: why do we poison -Os?
->>=20
->> Dongxiao,
->>=20
->> Can you explain why this was needed:
->>=20
->> commit ce456306dad3fdf42494830011dacae213c48edf
->> Author: Dongxiao Xu <dongxiao.xu@intel.com>
->> Date:   Sat Sep 25 10:16:26 2010 +0800
->>=20
->>    gcc: enable poison parameters detection
->>=20
->>    If not configured with --enable-target-optspace, gcc will report
->>    errors if there is '-Os' optimization in parameters.
->>=20
->>    This fixes [BUGID #342]
->>=20
->>    Also add "--enable-target-optspace" option to arm gcc =
-configuration.
->>=20
->>    Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
->>=20
->>=20
->> - k
+Richard
 
 
 
