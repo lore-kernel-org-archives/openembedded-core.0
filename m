@@ -1,35 +1,33 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QwGtS-0002A2-Kd
-	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Aug 2011 19:05:34 +0200
-Received: by bkbzu17 with SMTP id zu17so1146221bkb.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QwI6F-0004RS-4o for openembedded-core@lists.openembedded.org;
+	Wed, 24 Aug 2011 20:22:51 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7OII5ji022147
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Aug 2011 10:00:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=E+xK/zBgzdf5VtoZ6RYyiRYVWcqWgC889e7mhSpl1YM=;
-	b=ZBffiuLa5tWLUQPjppQPzVbUMS2zKhZGvDcEHmKlPkiqrZ8nLibQvqVobxKdZYpO7T
-	PXlHprHM3zuWvq1gJ8O2LZDNrJpyXDl7YJDCCiHviSXtOSdiKI4rNUG75WHgE6bpKuGQ
-	q+LhFlS5NJLG7DzDLVBKTr2WfeAxK2uoT1dfc=
-MIME-Version: 1.0
-Received: by 10.204.3.28 with SMTP id 28mr2575167bkl.175.1314205248032; Wed,
-	24 Aug 2011 10:00:48 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.15.66 with HTTP; Wed, 24 Aug 2011 10:00:48 -0700 (PDT)
-In-Reply-To: <1313830470.24904.4.camel@lenovo.internal.reciva.com>
-References: <cover.1313816148.git.otavio@ossystems.com.br>
-	<512d2bd7cc7ad38f24b57fd8e0a73c8906cb4273.1313816148.git.otavio@ossystems.com.br>
-	<1313830470.24904.4.camel@lenovo.internal.reciva.com>
-Date: Wed, 24 Aug 2011 14:00:48 -0300
-X-Google-Sender-Auth: cX6bE-DEUVfZIAYa7TUWSHW5vug
-Message-ID: <CAP9ODKr2hgU0-8vGD9SyP74iX2L4kKJGRxBB9_enMa6oTZoFFQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+	Wed, 24 Aug 2011 19:18:05 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 21444-07 for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Aug 2011 19:18:01 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7OIHsuk022141
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Aug 2011 19:17:58 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 7/8] scripts/runqemu: remove redundant checking
+In-Reply-To: <cover.1314200868.git.sgw@linux.intel.com>
+References: <cover.1314200868.git.sgw@linux.intel.com>
+Date: Wed, 24 Aug 2011 11:17:49 -0700
+Message-ID: <1314209869.5939.101.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [CONSOLIDATED PULL 0/6] Bugfixes for M4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,24 +42,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2011 17:05:34 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 24 Aug 2011 18:22:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sat, Aug 20, 2011 at 05:54, Phil Blundell <philb@gnu.org> wrote:
-> Can you explain why this test is redundant? =A0From inspection of the
-> patch it seems this would lead to "Error: conflicting FSTYPE types [nfs]
-> and nfs" if FSTYPE=3D"nfs" to begin with. =A0I guess there is some other
-> provision in the logic to make sure that this can't happen, but it would
-> be useful to have it explained in the checkin message.
+On Wed, 2011-08-24 at 08:50 -0700, Saul Wold wrote:
+> Richard,
+> 
+> This is a set of bugfixes and cleanups for M4, please take a closer look
+> at Dongxiao's procps change, which you commented on in the past.
+> 
+> Thanks
+> 	Sau!
+> 
+> 
+> The following changes since commit 13e14763f14b5b84051ecb158404dcef937cc4e0:
+> 
+>   image.bbclass, kernel.bbclass: remove non-standard -n option from cp command (2011-08-23 18:32:24 -0700)
+> 
+> are available in the git repository at:
+>   git://git.openembedded.org/openembedded-core-contrib sgw/stage
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+> 
+> Dongxiao Xu (1):
+>   procps: Fix lib path to support multilib
+> 
+> Jingdong Lu (1):
+>   initrdscripts: fix init-live.sh for hddimg and livecd
+> 
+> Joshua Lock (1):
+>   libtasn1: update SRC_URI
+> 
+> Phil Blundell (1):
+>   mips32: add mips32el tuning
+> 
+> Wenzong Fan (2):
+>   cronie: Updates to cronie
+>   libpam: Setting suid bit for unix_chkpwd
 
-I rechecked it and I agree with you; I dropped it from my tree.
+Merged to master, thanks.
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+Richard
+
 
 
