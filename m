@@ -1,31 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QwMdu-00079M-1z for openembedded-core@lists.openembedded.org;
-	Thu, 25 Aug 2011 01:13:54 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7ON92h2024589;
-	Thu, 25 Aug 2011 00:09:02 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 23761-03; Thu, 25 Aug 2011 00:08:58 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7ON8nMP024583
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Thu, 25 Aug 2011 00:08:55 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1314218753.git.bruce.ashfield@windriver.com>
-References: <cover.1314218753.git.bruce.ashfield@windriver.com>
-Date: Wed, 24 Aug 2011 16:08:46 -0700
-Message-ID: <1314227326.5939.149.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
-	saul.wold@intel.com
-Subject: Re: [PATCH 0/4] linux-yocto: consolidated kernel pull request
+Received: from mga03.intel.com ([143.182.124.21])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1QwMfM-0007BR-TI
+	for openembedded-core@lists.openembedded.org;
+	Thu, 25 Aug 2011 01:15:25 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 24 Aug 2011 16:10:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,278,1312182000"; d="scan'208";a="42127450"
+Received: from unknown (HELO [10.255.14.203]) ([10.255.14.203])
+	by azsmga001.ch.intel.com with ESMTP; 24 Aug 2011 16:10:36 -0700
+Message-ID: <4E5584EC.7060600@linux.intel.com>
+Date: Wed, 24 Aug 2011 16:10:36 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:5.0) Gecko/20110707 Thunderbird/5.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1314172740.git.jingdong.lu@windriver.com>
+In-Reply-To: <cover.1314172740.git.jingdong.lu@windriver.com>
+Cc: Jingdong.Lu@windriver.com
+Subject: Re: [PATCH 0/1]initrdscripts: fix init-live.sh for hddimg and livecd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,45 +35,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2011 23:13:54 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 24 Aug 2011 23:15:25 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Bruce,
-
-On Wed, 2011-08-24 at 16:50 -0400, Bruce Ashfield wrote:
-> Here's a consolidated kernel pull request that fixes a series
-> of bugs that have been around for a while and fixes some of the
-> remaining issues from the -rt work that completed last week.
-> 
-> Darren: I also updated the -rt source revs and recipe with some
-> streamlining that builds on top of changse that merged last week.
-> 
-> The patches have the details of the bugs and fixes.
-> 
-> cc: Darren Hart <dvhart@linux.intel.com>
-> 
-> The following changes since commit f852199ff598069bbecad4146f13377753df1648:
-> 
->   linux-yocto: update meta SRCREVs for beagleboard config changes (2011-08-24 16:29:22 -0400)
-> 
+On 08/24/2011 01:25 AM, Jingdong.Lu@windriver.com wrote:
+> From: Jingdong Lu<jingdong.lu@windriver.com>
+>
+> Both hddimg and livecd use init-live.sh script to boot the rootfs.img.
+> But the paths of rootfs.img in hddimg and livecd are different. So we add
+> a variable "ISOLINUX" to provide a correct path.
+>
+> The following changes since commit edd8e1e8b974eb3f0f9f66c2207aadf43612350b:
+>    Scott Rifenbark (1):
+>          documentation/adt-manual/adt-command.xml: general edits.
+>
 > are available in the git repository at:
->   git://git.pokylinux.org/poky-contrib kernel-oe
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-oe
-> 
-> Bruce Ashfield (4):
->   kern-tools: allow flexible branch points
->   linux-yocto-rt: update qemuppc support and streamline variables
->   linux-yocto: update machines and default configuration
->   linux-yocto/2.6.37: apmd + get time of day fixes
+>
+>    git://git.pokylinux.org/poky-contrib jingdonglu/bug686-v2
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jingdonglu/bug686-v2
+>
+> Jingdong Lu (1):
+>    initrdscripts: fix init-live.sh for hddimg and livecd
+>
+>   meta/recipes-core/initrdscripts/files/init-live.sh |   17 +++++++++++------
+>   .../initrdscripts/initramfs-live-boot_1.0.bb       |    2 +-
+>   2 files changed, 12 insertions(+), 7 deletions(-)
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
-I took the first two of these. The other two didn't apply and I didn't
-feel happy taking them. I tried to look at the git tree above and I
-couldn't see the patches there...
+Merged into OE-Core
 
-Cheers,
-
-Richard
-
+Thanks
+	Sau!
 
 
