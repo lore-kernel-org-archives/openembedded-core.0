@@ -1,25 +1,34 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-vw0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QwMKH-0006OO-Nj
+	(envelope-from <kergoth@gmail.com>) id 1QwMbe-00073Z-4Y
 	for openembedded-core@lists.openembedded.org;
-	Thu, 25 Aug 2011 00:53:37 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 24 Aug 2011 15:48:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,277,1312182000"; d="scan'208";a="44769041"
-Received: from unknown (HELO [10.255.14.203]) ([10.255.14.203])
-	by fmsmga001.fm.intel.com with ESMTP; 24 Aug 2011 15:48:50 -0700
-Message-ID: <4E557FD2.8010206@linux.intel.com>
-Date: Wed, 24 Aug 2011 15:48:50 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:5.0) Gecko/20110707 Thunderbird/5.0
+	Thu, 25 Aug 2011 01:11:35 +0200
+Received: by vwe42 with SMTP id 42so1565327vwe.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Aug 2011 16:06:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=1pRmjzENoDKS5sS6h9IS1GCsY2nz+7DPvLUihMLKLF8=;
+	b=I0sWDdmmOTRcXlBeisNRqHAd0hfjtZ1gU1e9O03hqbTmSdbFxy0JmHXFC7nsymH5+E
+	tAb1rXKoY76zxklldtwpTwUS3tcM10Wp2xGlv4c+D1Jvbs+xDpYPt2OGIh99/nJoHBqg
+	+VVajM3YnIgqkCLrSh0FMNO6cqVjyAJS218Jw=
+Received: by 10.52.117.101 with SMTP id kd5mr5453354vdb.364.1314227206865;
+	Wed, 24 Aug 2011 16:06:46 -0700 (PDT)
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+Sender: kergoth@gmail.com
+Received: by 10.52.108.229 with HTTP; Wed, 24 Aug 2011 16:06:26 -0700 (PDT)
+In-Reply-To: <4E555B61.7030803@linux.intel.com>
+References: <CABcZANn8NZYnA3dPzakgfMguaVV9EQ7isusAGMOQUQzHx_UV3w@mail.gmail.com>
+	<4E555B61.7030803@linux.intel.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Wed, 24 Aug 2011 16:06:26 -0700
+X-Google-Sender-Auth: 6TTQOkE4ik1BjyjN2c24sBoTskk
+Message-ID: <CABcZANmN17myF+nnG06mXR88JpR-GicX9Cj6=eEUSu_U+AnHSQ@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1313982402.git.wenzong.fan@windriver.com>
-In-Reply-To: <cover.1313982402.git.wenzong.fan@windriver.com>
-Subject: Re: [PATCH v2 0/1] libpam: Setting suid bit for unix_chkpwd
+Subject: Re: [ANNOUNCE] Devshell Usage Change
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,40 +43,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2011 22:53:38 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 24 Aug 2011 23:11:35 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 08/21/2011 08:11 PM, wenzong.fan@windriver.com wrote:
-> From: Wenzong Fan<wenzong.fan@windriver.com>
+On Wed, Aug 24, 2011 at 1:13 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 08/24/2011 12:49 PM, Chris Larson wrote:
+>>
+>> Saul reminded me that I never sent a proper email to let people know about
+>> the
+>> usability change to devshell, so only those who reviewed the commits
+>> know about it.
+>>
+>> In the new implementation, a single OE_TERMINAL variable controls the
+>> behavior.
+>>
+> So your saying that the TERMCMD no longer works? We have to set both TERMCMD
+> and OE_TERMINAL?
 >
-> v2 updates: with ${sbindir} to replace the hardcode '/usr/sbin'
+> That does not makes sense, If I set TERMCMD to use screen then it should use
+> screen, with out me having to also set OE_TERMINAL?
 >
-> The following changes since commit 36396b6ecb0c84c6752cdc8118c496e8ec05a388:
->    Richard Purdie (1):
->          xcb/libpthreads: Add BBCLASSEXTEND to resolve missing providers in world builds
+> Or test TERMCMD go away at this point?
 >
-> are available in the git repository at:
->
->    git://git.pokylinux.org/poky-contrib wenzong/1252
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/1252
->
-> Wenzong Fan (1):
->    libpam: Setting suid bit for unix_chkpwd
->
->   meta/recipes-extended/pam/libpam_1.1.4.bb |    8 +++++++-
->   1 files changed, 7 insertions(+), 1 deletions(-)
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+> In either case, maybe we need to update the local.conf also.
 
-Merged into OE-Core
-
-Thanks
-	Sau!
+At the moment, TERMCMD affects the patch reject resolver, but only
+because it hasn't been updated to use the new code yet. TERMCMD is
+*not* used by the new code, and setting has absolutely no effect for
+devshell usage.
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
 
