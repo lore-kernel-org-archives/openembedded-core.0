@@ -1,35 +1,20 @@
-Received: from mail-iy0-f171.google.com ([209.85.210.171])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QwK3o-0001Iz-Lp
+	(envelope-from <bruce.ashfield@windriver.com>) id 1QwKU0-0003IL-8o
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Aug 2011 22:28:29 +0200
-Received: by iyf13 with SMTP id 13so2925264iyf.16
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Aug 2011 13:23:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=2u8DhJIyYMAolPVzlPD8+1e8E2L6emqow2R2kH9pqJo=;
-	b=a/nIx2g1kdgbp1VlcA8/YXnPjWFL/n6KN8Yf6GuXaPgg27nW5ctwtET6EnavtFdZAN
-	R9JFKT+pKr1OxCdpzHgGD2qgYA17YFmSi947xcq37IRhlWyuCNE9JKD92LuAtk0lQTut
-	3+MOXUFnFX3xCdQu2TUvd8s2fWumUpLmFXK+Y=
-Received: by 10.231.56.75 with SMTP id x11mr10745682ibg.98.1314217415499;
-	Wed, 24 Aug 2011 13:23:35 -0700 (PDT)
-Received: from [172.23.8.121] (natint3.juniper.net [66.129.224.36])
-	by mx.google.com with ESMTPS id g21sm524615ibl.58.2011.08.24.13.23.16
-	(version=SSLv3 cipher=OTHER); Wed, 24 Aug 2011 13:23:32 -0700 (PDT)
-Message-ID: <4E555DB2.6080105@gmail.com>
-Date: Wed, 24 Aug 2011 13:23:14 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; rv:6.0) Gecko/20110812 Thunderbird/6.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <CABcZANn8NZYnA3dPzakgfMguaVV9EQ7isusAGMOQUQzHx_UV3w@mail.gmail.com>
-	<4E555B61.7030803@linux.intel.com>
-In-Reply-To: <4E555B61.7030803@linux.intel.com>
-Cc: Chris Larson <clarson@kergoth.com>
-Subject: Re: [ANNOUNCE] Devshell Usage Change
+	Wed, 24 Aug 2011 22:55:32 +0200
+Received: from yow-bashfiel-l1.corp.ad.wrs.com
+	(dhcp-146-223.ottawa.windriver.com [128.224.146.223])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7OKoecC009007;
+	Wed, 24 Aug 2011 13:50:41 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Wed, 24 Aug 2011 16:50:24 -0400
+Message-Id: <cover.1314218753.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
+Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
+	saul.wold@intel.com
+Subject: [PATCH 0/4] linux-yocto: consolidated kernel pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,35 +29,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2011 20:28:29 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 24 Aug 2011 20:55:32 -0000
 
-On 8/24/2011 1:13 PM, Saul Wold wrote:
-> On 08/24/2011 12:49 PM, Chris Larson wrote:
->> Saul reminded me that I never sent a proper email to let people know
->> about the
->> usability change to devshell, so only those who reviewed the commits
->> know about it.
->>
->> In the new implementation, a single OE_TERMINAL variable controls the
->> behavior.
->>
-> So your saying that the TERMCMD no longer works? We have to set both
-> TERMCMD and OE_TERMINAL?
->
-> That does not makes sense, If I set TERMCMD to use screen then it should
-> use screen, with out me having to also set OE_TERMINAL?
->
-> Or test TERMCMD go away at this point?
+Richard/Saul,
 
-I think so using OE_TERMINAL should suffice
+Here's a consolidated kernel pull request that fixes a series
+of bugs that have been around for a while and fixes some of the
+remaining issues from the -rt work that completed last week.
 
+Darren: I also updated the -rt source revs and recipe with some
+streamlining that builds on top of changse that merged last week.
 
->
-> In either case, maybe we need to update the local.conf also.
+The patches have the details of the bugs and fixes.
 
-yes
+cc: Darren Hart <dvhart@linux.intel.com>
+
+The following changes since commit f852199ff598069bbecad4146f13377753df1648:
+
+  linux-yocto: update meta SRCREVs for beagleboard config changes (2011-08-24 16:29:22 -0400)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib kernel-oe
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-oe
+
+Bruce Ashfield (4):
+  kern-tools: allow flexible branch points
+  linux-yocto-rt: update qemuppc support and streamline variables
+  linux-yocto: update machines and default configuration
+  linux-yocto/2.6.37: apmd + get time of day fixes
+
+ .../kern-tools/kern-tools-native_git.bb            |    2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb    |   11 ++++-------
+ meta/recipes-kernel/linux/linux-yocto_2.6.37.bb    |   12 ++++++------
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb       |   14 +++++++-------
+ 4 files changed, 18 insertions(+), 21 deletions(-)
+
+-- 
+1.7.4.1
 
 
 
