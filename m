@@ -1,34 +1,20 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QwFgr-00089R-L5
+	(envelope-from <sgw@linux.intel.com>) id 1QwFnW-0008Ki-GA
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Aug 2011 17:48:29 +0200
-Received: by bkbzu17 with SMTP id zu17so1076499bkb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Aug 2011 08:43:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=kIWTr0pF0P7uD3Vph5TDhm0iAK7FOtfH+wN2BJZz3KU=;
-	b=jNvOw8JYLTgcOWvEohyNsWXwFED860XiN9d2TMEavBZxKnlERVvrGZgbnlNGjdWMk+
-	ZZEgXWnissqW9kAYXWsA5SbJJovZJyPFvY0PhOUYEzL2uWQR89PRj0k5NVx96g6JY0m9
-	tZq4UsASHbrtJ4lij6JbLaERd9Bn5eTxU7hjw=
-MIME-Version: 1.0
-Received: by 10.204.149.15 with SMTP id r15mr2212409bkv.279.1314200621638;
-	Wed, 24 Aug 2011 08:43:41 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.15.66 with HTTP; Wed, 24 Aug 2011 08:43:41 -0700 (PDT)
-In-Reply-To: <9761e1c9c114d22ab7a06ff55bf10b6ccf27a54a.1314172740.git.jingdong.lu@windriver.com>
-References: <cover.1314172740.git.jingdong.lu@windriver.com>
-	<9761e1c9c114d22ab7a06ff55bf10b6ccf27a54a.1314172740.git.jingdong.lu@windriver.com>
-Date: Wed, 24 Aug 2011 12:43:41 -0300
-X-Google-Sender-Auth: YcmeUkFERgKdJ4y5nOv7VMVtdp0
-Message-ID: <CAP9ODKqzVp3RqbU6_8L5qE3nCK+VcqRaQYp=vJazfL4qT-My=A@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] initrdscripts: fix init-live.sh for hddimg and livecd
+	Wed, 24 Aug 2011 17:55:22 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 24 Aug 2011 08:50:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,275,1312182000"; d="scan'208";a="41953287"
+Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.203])
+	by azsmga001.ch.intel.com with ESMTP; 24 Aug 2011 08:50:33 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 24 Aug 2011 08:50:25 -0700
+Message-Id: <cover.1314200868.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [CONSOLIDATED PULL 0/6] Bugfixes for M4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,24 +29,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2011 15:48:29 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 24 Aug 2011 15:55:22 -0000
 
-On Wed, Aug 24, 2011 at 05:25,  <Jingdong.Lu@windriver.com> wrote:
-> Both hddimg and livecd use init-live.sh script to boot the rootfs.img.
-> But the paths of rootfs.img in hddimg and livecd are different. So we add
-> a variable "ISOLINUX" to provide a correct path.
+Richard,
 
-I do like the patch and I think the way it fixes it is the right one
-except by the variable name that has been choose; I'd use 'BASEDIR'
-since this reflects more the reasoning of it to exist.
+This is a set of bugfixes and cleanups for M4, please take a closer look
+at Dongxiao's procps change, which you commented on in the past.
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+Thanks
+	Sau!
+
+
+The following changes since commit 13e14763f14b5b84051ecb158404dcef937cc4e0:
+
+  image.bbclass, kernel.bbclass: remove non-standard -n option from cp command (2011-08-23 18:32:24 -0700)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Dongxiao Xu (1):
+  procps: Fix lib path to support multilib
+
+Jingdong Lu (1):
+  initrdscripts: fix init-live.sh for hddimg and livecd
+
+Joshua Lock (1):
+  libtasn1: update SRC_URI
+
+Phil Blundell (1):
+  mips32: add mips32el tuning
+
+Wenzong Fan (2):
+  cronie: Updates to cronie
+  libpam: Setting suid bit for unix_chkpwd
+
+ meta/conf/machine/include/tune-mips32.inc          |    5 ++-
+ meta/recipes-core/initrdscripts/files/init-live.sh |   17 +++++++----
+ .../initrdscripts/initramfs-live-boot_1.0.bb       |    2 +-
+ meta/recipes-extended/cronie/cronie/crond.init     |    2 -
+ meta/recipes-extended/cronie/cronie_1.4.8.bb       |    8 ++++-
+ meta/recipes-extended/pam/libpam_1.1.4.bb          |    8 ++++-
+ .../procps/procps-3.2.8/install.patch              |   30 +++++++++++++------
+ meta/recipes-extended/procps/procps_3.2.8.bb       |    8 ++--
+ meta/recipes-support/gnutls/libtasn1_2.9.bb        |    2 +-
+ 9 files changed, 54 insertions(+), 28 deletions(-)
+
+-- 
+1.7.6
+
 
 
