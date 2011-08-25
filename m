@@ -1,23 +1,24 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1QwRl9-0002Kb-0G
+	(envelope-from <Kai.Kang@windriver.com>) id 1QwSo5-0003u7-NJ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 25 Aug 2011 06:41:43 +0200
-Received: from yow-bashfiel-l1.corp.ad.wrs.com
-	(dhcp-146-223.ottawa.windriver.com [128.224.146.223])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7P4alMu005357;
-	Wed, 24 Aug 2011 21:36:49 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Thu, 25 Aug 2011 00:36:34 -0400
-Message-Id: <d9e0d7d4811b8b70fb7f0c198f530b453a70da38.1314246387.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1314246387.git.bruce.ashfield@windriver.com>
-References: <cover.1314246387.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1314246387.git.bruce.ashfield@windriver.com>
-References: <cover.1314246387.git.bruce.ashfield@windriver.com>
-Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: [PATCH 1/1] linux-yocto: update meta SRCREV to sync version strings
+	Thu, 25 Aug 2011 07:48:50 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7P5i0qV012388
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 24 Aug 2011 22:44:00 -0700 (PDT)
+Received: from localhost (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Wed, 24 Aug 2011 22:44:00 -0700
+Message-ID: <cover.1314242316.git.kai.kang@windriver.com>
+Old-Date: Thu, 25 Aug 2011 11:18:36 +0800
+Date: Thu, 25 Aug 2011 13:43:56 +0800
+To: <sgw@linux.intel.com>
+From: Kang Kai <kai.kang@windriver.com>
+MIME-Version: 1.0
+X-Originating-IP: [128.224.162.196]
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/3] bug fix for 1231
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,54 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Aug 2011 04:41:43 -0000
+X-List-Received-Date: Thu, 25 Aug 2011 05:48:50 -0000
+Content-Type: text/plain
 
-During the update of the bitbake recipe's string to 3.0.3 the internal
-version marker in the kernel stayed at v3.0. This meant that kernel
-configuration auditing the constructed file couldn't be found and audit
-warnings were thrown. This syncs all the recipes and get back to
-clean configurations.
+From: Kang Kai <kai.kang@windriver.com>
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb |    4 ++--
- meta/recipes-kernel/linux/linux-yocto_3.0.bb    |    2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+Hi Saul,
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-index 61210de..16daddf 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-@@ -11,12 +11,12 @@ KMACHINE_qemumips = "mti-malta32-be"
- KBRANCH = "yocto/standard/preempt-rt/base"
- KBRANCH_qemuppc = "yocto/standard/preempt-rt/qemu-ppc32"
- 
--LINUX_VERSION ?= "3.0"
-+LINUX_VERSION ?= "3.0.3"
- LINUX_KERNEL_TYPE = "preempt-rt"
- 
- SRCREV_machine ?= "67ce0924042a2faa12b71ac3e92175c789c32af6"
- SRCREV_machine_qemuppc ?= "839638f4efda0c70c6f491161ab2c042f5bc3e66"
--SRCREV_meta ?= "13dbce30d6a647228bf5a9483a9b9c2da1514f78"
-+SRCREV_meta ?= "5b535279e61197cb194bb2dfceb8b7a04128387c"
- 
- PR = "r0"
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-index a5e208b..e39be0d 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-@@ -18,7 +18,7 @@ SRCREV_machine_qemuppc ?= "c0da1d35dee9fb63ba6bfc7907a77b0feb89766e"
- SRCREV_machine_qemux86 ?= "8b51ddba0f85a6bb8e105b37a9ac03fb58b9de20"
- SRCREV_machine_qemux86-64 ?= "965dd365cf3652347960f7145ac188c86c323070"
- SRCREV_machine ?= "49d93fb0c9e1645ba0bb8951be23e56ea227a5bd"
--SRCREV_meta ?= "13dbce30d6a647228bf5a9483a9b9c2da1514f78"
-+SRCREV_meta ?= "5b535279e61197cb194bb2dfceb8b7a04128387c"
- 
- PR = "r1"
- PV = "${LINUX_VERSION}+git${SRCPV}"
+qt4-tools-nativesdk needs set the gcc standard header searching paths because
+crosssdk.bbclass uses a undefined variable "includedir_nativesdk".
+
+These commits are to fix it, and update qt4-tools-nativesdk and cmake-nativesdk
+bb files.
+
+The following changes since commit 30381645eefe4e3222fd3ce45823f143ce2fa82c:
+
+  rt-tests: use an explicit commit ID (2011-08-12 21:07:02 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib kangkai/distro
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/distro
+
+Kang Kai (3):
+  bitbake.conf: set includedir_nativesdk
+  qt4-tools-nativesdk: remove gcc standard paths
+  cmake-nativesdk: remove gcc standard paths
+
+ meta/conf/bitbake.conf                      |    1 +
+ meta/recipes-devtools/cmake/cmake_2.8.5.bb  |    8 +-------
+ meta/recipes-qt/qt4/qt4-tools-nativesdk.inc |    9 ++-------
+ 3 files changed, 4 insertions(+), 14 deletions(-)
+
 -- 
-1.7.4.1
+1.7.5.1.300.gc565c
 
 
 
