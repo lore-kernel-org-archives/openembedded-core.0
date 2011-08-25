@@ -1,34 +1,33 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QwcH0-00055G-LG for openembedded-core@lists.openembedded.org;
-	Thu, 25 Aug 2011 17:55:18 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7PFoWqn031398
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2011 16:50:32 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 30999-03 for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2011 16:50:28 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7PFoMh1031392
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2011 16:50:25 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>)
+	id 1QwcNH-0005ZG-BS; Thu, 25 Aug 2011 18:01:47 +0200
+Received: by pzk2 with SMTP id 2so3892783pzk.34
+	for <multiple recipients>; Thu, 25 Aug 2011 08:56:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=uAYwl2fo+h9fXqXzAZwWei3lq07jWegIJtL5X2/RrAM=;
+	b=XdPNYXiCXpGLKDU2X7mLzg/HBwTljluqwOExgsUvcN2ZxfELJUoU/NeSbDW5e9u+SB
+	VbGtpsPeRZPHDQiyAeSDqvhuMeN+8lN7uhtGSiv0eo+yn/EUj7mu9Ib+NN8GPJrgHFZW
+	eMWmRA3v9iIxwZZFVQ5TxyzKr91sJZiec1ngE=
+Received: by 10.142.239.2 with SMTP id m2mr3318309wfh.169.1314287818675; Thu,
+	25 Aug 2011 08:56:58 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.68.40.168 with HTTP; Thu, 25 Aug 2011 08:56:28 -0700 (PDT)
+In-Reply-To: <201108251150.01236.paul.eggleton@linux.intel.com>
+References: <201108021226.34560.paul.eggleton@linux.intel.com>
+	<CABcZAN=rG0acoqcV6s-gNvvziM0ON97BzNwtZkESu+wz7vQO-g@mail.gmail.com>
+	<A3E3935F-5D98-4208-A45F-DC409F1C97CF@gmail.com>
+	<201108251150.01236.paul.eggleton@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 25 Aug 2011 08:56:28 -0700
+Message-ID: <CAMKF1spSE=nuQ1LGOmub3XaH-z+6oJT+n5hC7LdKvdKeScLWNw@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: bitbake-devel@lists.openembedded.org,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <452876f08ee6516713d5a7198e8589953cd35f4b.1314286007.git.josh@linux.intel.com>
-References: <cover.1314286007.git.josh@linux.intel.com>
-	<452876f08ee6516713d5a7198e8589953cd35f4b.1314286007.git.josh@linux.intel.com>
-Date: Thu, 25 Aug 2011 08:50:19 -0700
-Message-ID: <1314287419.5939.199.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/1] classes/sanity: enhance the network connectivity test
+Subject: Re: [bitbake-devel] Layer priorities influencing default version selection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,23 +42,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Aug 2011 15:55:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 25 Aug 2011 16:01:47 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, 2011-08-25 at 08:29 -0700, Joshua Lock wrote:
-> Switch to use the checkstatus fetcher API for the network connectivity test,
-> this has several advantages:
-> * we no longer print any messages to the console whilst the check is
-> being run
-> * we don't actually download anything, removing the need for tidy up and
-> making the code more concise
-> 
-> Signed-off-by: Joshua Lock <josh@linux.intel.com>
+On Thu, Aug 25, 2011 at 3:50 AM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+>>
+>> In my opinion the layer priority for all kind of meta data should be
+>> consistent and selected using bblayers.conf
+>
+> So I've thought about this more, and I don't think it is a good idea, for two
+> reasons:
+>
+> 1) It increases the complexity by a huge amount. New users will have to
+> understand how to set the priorities, and if someone reports a problem, we now
+> not only need to know what layers they are using, we also need to know what
+> mangling of the priorities they might have done. We'd just be introducing more
+> potentially untested configurations (as if we don't have enough already.)
 
-Merged to master, thanks.
+with layers we dont control policies of all the layers that may be used on top
+so fixing meta-oe does not solve problem completely and we can not ask
+for exclusive
+recipes. People would want to override the recipes from other layers.
 
-Richard
+bitbake could report the layer the recipe comes from which can make it evident
+or may be special command to inform the layer priorities. This will guide the
+users to diagnose the problems quickly and help developers to identify
+the issues
+faster. There could be a complete bill of recipes printed for a given
+target as well
+so if someone wants to check all the recipes that were built.
 
+>
+> 2) It just papers over real problems in meta-oe or any other layer you might
+> choose to use on top. As I said, if meta-oe has stuff in it that is not
+> working, it should be fixed or removed. Let's fix problems instead of finding
+> ways of ignoring them.
+>
+
+In any case I agree that problems should be fixed. However this does
+not scale to all
+layers and we can not police all the layers and we should not. We
+should try to make it possible
+for people to glue layers together without  issues.
 
 
