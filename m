@@ -1,35 +1,30 @@
-Received: from mail-ey0-f173.google.com ([209.85.215.173])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1QwaNy-0008B8-UW
+	(envelope-from <dbaryshkov@gmail.com>) id 1QwaRG-0008IT-QB
 	for openembedded-core@lists.openembedded.org;
-	Thu, 25 Aug 2011 15:54:23 +0200
-Received: by eyb7 with SMTP id 7so1532294eyb.18
+	Thu, 25 Aug 2011 15:57:46 +0200
+Received: by wyf19 with SMTP id 19so1774649wyf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2011 06:49:34 -0700 (PDT)
+	Thu, 25 Aug 2011 06:52:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding;
-	bh=h6j1SBco4quU/HQr5UTx+3hPT0nIkyefQ889MVxDXbY=;
-	b=ozbw7Vd4R1o/WgwS1vmsVxtZ4cD/WjRFPYgOR2Lg2nqkME4okh4u+boOC7QU1MqYgs
-	yMPzfNfFAAHW8yEct3oGG6c7OOMLuyTFh9RenEj6Von0tefCojbVEbdcMFDMlmPp0CAD
-	Qz+ok04raHgnY5PlF5hqMyrS++mLpKFr7JHHI=
-Received: by 10.52.90.37 with SMTP id bt5mr537922vdb.364.1314280174118; Thu,
-	25 Aug 2011 06:49:34 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.52.108.229 with HTTP; Thu, 25 Aug 2011 06:49:14 -0700 (PDT)
-In-Reply-To: <1314263909.19905.25.camel@phil-desktop>
-References: <4e4e5424.8c5cdf0a.7d94.ffffbafd@mx.google.com>
-	<CABcZAN=mt6HCmtMnX+P4-BAOkQwZZ3uCS_sT+uutziBu0VYv9w@mail.gmail.com>
-	<1314263909.19905.25.camel@phil-desktop>
-From: Chris Larson <clarson@kergoth.com>
-Date: Thu, 25 Aug 2011 06:49:14 -0700
-X-Google-Sender-Auth: 4bBNI14n53nqAPP3OmeVUeNTq9E
-Message-ID: <CABcZANmZ6x785kcyLD5ZmZ0yTG+5aci4rDCv00Fu9vO8+jsxqg@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] utils.bbclass: skip empty paths when handling FILESEXTRAPATHS
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=y+UdsslaXtzAVVtCEWmci4Yk5VIwlH7N2BfvuP1nQww=;
+	b=fZWnn4DN3VvwVvBRniwPJ1h8zNkZpZ89dwY8AB/tKTAdsKPKKA28TQ9eHf0r+ubIdp
+	o2wghhbv1YlytB3ZWk0u3AqWP9oCDQ/J5QHw/FBjpimCSxM4YzHWJTeassvK9sKZmt4a
+	qgFlQd8zi0430SYJDwk/57Pq7aRyk9acdiWqo=
+Received: by 10.216.184.131 with SMTP id s3mr5831989wem.59.1314280379169;
+	Thu, 25 Aug 2011 06:52:59 -0700 (PDT)
+Received: from localhost.localdomain ([194.85.238.22])
+	by mx.google.com with ESMTPS id y52sm384004wec.21.2011.08.25.06.52.57
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 25 Aug 2011 06:52:58 -0700 (PDT)
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 25 Aug 2011 17:52:47 +0400
+Message-Id: <1314280367-22179-1-git-send-email-dbaryshkov@gmail.com>
+X-Mailer: git-send-email 1.7.2.5
+Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Subject: [PATCH] opkg-utils: ignore packages disapperaring filelist generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,35 +39,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Aug 2011 13:54:23 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 25 Aug 2011 13:57:46 -0000
 
-On Thu, Aug 25, 2011 at 2:18 AM, Phil Blundell <philb@gnu.org> wrote:
-> On Fri, 2011-08-19 at 15:11 -0700, Chris Larson wrote:
->> But then, there's a tendency nowadays to avoid map/filter/etc,
->> so that's probably not best :)
->
-> Oh, is there? =C2=A0What's the objection to those constructs, out of
-> interest? =C2=A0I am quite fond of them myself.
+Package files disappearing during index generation don't cause a fatal
+error. Make package file disappearing during filelist generation also
+a non-fatal error.
 
-Good question, I'm not sure what the reasoning is. I've read multiple
-documents around discussing idiomatic python that seem to feel that
-they should generally be dropped in favor of comprehensions and
-generator expressions. But, using that for something like this just
-looks rather silly in my opinion: [foo for foo in bar if foo].
-*shrug*.
+Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+---
+ .../opkg-utils/no-ioerror-during-filelist.patch    |   31 ++++++++++++++++++++
+ meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb |    3 +-
+ 2 files changed, 33 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-devtools/opkg-utils/no-ioerror-during-filelist.patch
 
-Personally, I'm quite a fan of the functional programming methodology,
-but I do think using the functional style too much in python code
-tends to result in code which is extremely dense, and therefore harder
-to read, just due to how the language is, whether you compose
-generator expressions and comprehensions or you use map/filter/etc.
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+diff --git a/meta/recipes-devtools/opkg-utils/no-ioerror-during-filelist.patch b/meta/recipes-devtools/opkg-utils/no-ioerror-during-filelist.patch
+new file mode 100644
+index 0000000..dc85cb6
+--- /dev/null
++++ b/meta/recipes-devtools/opkg-utils/no-ioerror-during-filelist.patch
+@@ -0,0 +1,31 @@
++From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
++Subject: Ignore IOError errors while populating filelist
++Upstream-Status: Pending/Not-Applicable
++
++While populating Packages.filelist there is a possibility that the package file
++will disappear while reading. So ignore errors during filelist generation.
++
++
++Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
++
++Index: opkg-utils/opkg-make-index
++===================================================================
++--- opkg-utils.orig/opkg-make-index	2011-08-25 16:45:41.000000000 +0400
+++++ opkg-utils/opkg-make-index	2011-08-25 17:38:57.000000000 +0400
++@@ -197,7 +197,15 @@
++ names = packages.packages.keys()
++ names.sort()
++ for name in names:
++-     for fn in packages[name].get_file_list():
+++     try:
+++          fnlist = packages[name].get_file_list()
+++     except OSError, e:
+++          sys.stderr.write(e)
+++          continue
+++     except IOError, e:
+++          sys.stderr.write(e)
+++          continue
+++     for fn in fnlist:
++           (h,t) = os.path.split(fn)
++           if not t: continue
++           if not files.has_key(t): files[t] = name+':'+fn
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
+index fd2b5e6..7659465 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
+@@ -8,12 +8,13 @@ RDEPENDS_${PN} = "python"
+ RDEPENDS_${PN}_virtclass-native = ""
+ SRCREV = "4747"
+ PV = "0.1.8+svnr${SRCPV}"
+-PR = "r4"
++PR = "r5"
+ 
+ SRC_URI = "svn://svn.openmoko.org/trunk/src/host/;module=opkg-utils;proto=http \
+            file://index-ignore-filenotfound.patch \
+            file://mtime-int.patch \
+            file://add-license-field.patch \
++           file://no-ioerror-during-filelist.patch \
+            "
+ 
+ S = "${WORKDIR}/opkg-utils"
+-- 
+1.7.2.5
+
 
 
