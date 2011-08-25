@@ -1,26 +1,22 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137] helo=elite.roku)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>)
-	id 1QwXaI-0006Vy-Rm; Thu, 25 Aug 2011 12:54:55 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 25 Aug 2011 03:50:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,280,1312182000"; d="scan'208";a="44938090"
-Received: from unknown (HELO helios.localnet) ([10.255.18.129])
-	by fmsmga001.fm.intel.com with ESMTP; 25 Aug 2011 03:50:04 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: bitbake-devel@lists.openembedded.org,
-	"Patches and discussions about the oe-core layer"
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 25 Aug 2011 11:50:01 +0100
-User-Agent: KMail/1.13.6 (Linux/2.6.38-10-generic-pae; KDE/4.6.2; i686; ; )
-References: <201108021226.34560.paul.eggleton@linux.intel.com>
-	<CABcZAN=rG0acoqcV6s-gNvvziM0ON97BzNwtZkESu+wz7vQO-g@mail.gmail.com>
-	<A3E3935F-5D98-4208-A45F-DC409F1C97CF@gmail.com>
-In-Reply-To: <A3E3935F-5D98-4208-A45F-DC409F1C97CF@gmail.com>
-MIME-Version: 1.0
-Message-Id: <201108251150.01236.paul.eggleton@linux.intel.com>
-Subject: Re: [bitbake-devel] Layer priorities influencing default version selection
+	(envelope-from <mcrowe@brightsign.biz>) id 1QwaGa-0007xm-Vn
+	for openembedded-core@lists.openembedded.org;
+	Thu, 25 Aug 2011 15:46:45 +0200
+Received: from lander.roku ([172.30.1.6]) by elite.roku with esmtp (Exim 4.72)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1QwZWt-0004Bb-GT; Thu, 25 Aug 2011 13:59:31 +0100
+Received: from mac by lander.roku with local (Exim 4.72)
+	(envelope-from <mac@lander.roku>)
+	id 1QwZWt-00018N-Eo; Thu, 25 Aug 2011 13:59:31 +0100
+From: Mike Crowe <mac@mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 25 Aug 2011 13:59:28 +0100
+Message-Id: <1314277168-4324-2-git-send-email-mac@mcrowe.com>
+X-Mailer: git-send-email 1.7.2.5
+In-Reply-To: <1314277168-4324-1-git-send-email-mac@mcrowe.com>
+References: <1314277168-4324-1-git-send-email-mac@mcrowe.com>
+Subject: [PATCH 2/2] kernel.bbclass: support kernel image type of vmlinux.gz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,50 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Aug 2011 10:54:55 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 25 Aug 2011 13:46:45 -0000
 
-On Tuesday 02 August 2011 16:35:12 Khem Raj wrote:
-> On Aug 2, 2011, at 7:14 AM, Chris Larson <clarson@kergoth.com> wrote:
-> > On Tue, Aug 2, 2011 at 6:52 AM, Phil Blundell <philb@gnu.org> wrote:
-> >> Actually, to some extent I consider it a bit of a misfeature that the
-> >> layer priority is specified by the layer rather than by the user in
-> >> bblayers.conf, since this makes it harder to vary the stack-up order
-> >> without local hackery to the layer files.  For example, meta-oe
-> >> currently sets itself to a higher priority than oe-core, but I've found
-> >> that it generally seems to suit me better if meta-oe is actually the
-> >> lower-priority layer.
-> > 
-> > Agreed. It also means that the priority knowledge is split between
-> > layer.conf and bblayers.conf today, as config/class priority is
-> > determined by order of entries in BBLAYERS, whereas recipe priority is
-> > determined by layer.conf.
-> 
-> In my opinion the layer priority for all kind of meta data should be
-> consistent and selected using bblayers.conf
+Add support for a gzipped vmlinux kernel by specifying:
 
-So I've thought about this more, and I don't think it is a good idea, for two 
-reasons:
+  KERNEL_IMAGETYPE = "vmlinux.gz"
 
-1) It increases the complexity by a huge amount. New users will have to 
-understand how to set the priorities, and if someone reports a problem, we now 
-not only need to know what layers they are using, we also need to know what 
-mangling of the priorities they might have done. We'd just be introducing more 
-potentially untested configurations (as if we don't have enough already.)
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
+---
+ meta/classes/kernel.bbclass |    7 ++++++-
+ 1 files changed, 6 insertions(+), 1 deletions(-)
 
-2) It just papers over real problems in meta-oe or any other layer you might 
-choose to use on top. As I said, if meta-oe has stuff in it that is not 
-working, it should be fixed or removed. Let's fix problems instead of finding 
-ways of ignoring them.
-
-Cheers,
-Paul
-
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 04e673a..15e3518 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -75,10 +75,15 @@ EXTRA_OEMAKE = ""
+ 
+ KERNEL_ALT_IMAGETYPE ??= ""
+ 
++KERNEL_IMAGETYPE_FOR_MAKE = "${@(lambda s: s[:-3] if s[-3:] == ".gz" else s)(bb.data.getVar('KERNEL_IMAGETYPE', d, 1))}"
++
+ kernel_do_compile() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+ 	oe_runmake include/linux/version.h CC="${KERNEL_CC}" LD="${KERNEL_LD}"
+-	oe_runmake ${KERNEL_IMAGETYPE} ${KERNEL_ALT_IMAGETYPE} CC="${KERNEL_CC}" LD="${KERNEL_LD}"
++	oe_runmake ${KERNEL_IMAGETYPE_FOR_MAKE} ${KERNEL_ALT_IMAGETYPE} CC="${KERNEL_CC}" LD="${KERNEL_LD}"
++	if test "${KERNEL_IMAGETYPE_FOR_MAKE}.gz" = "${KERNEL_IMAGETYPE}"; then
++		gzip -9c < "${KERNEL_IMAGETYPE_FOR_MAKE}" > "${KERNEL_OUTPUT}"
++	fi
+ }
+ 
+ do_compile_kernelmodules() {
 -- 
+1.7.2.5
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
