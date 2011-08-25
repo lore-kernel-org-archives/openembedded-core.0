@@ -1,25 +1,27 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QwN6J-0007qk-I0
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1QwNe5-0000P4-59
 	for openembedded-core@lists.openembedded.org;
-	Thu, 25 Aug 2011 01:43:15 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 24 Aug 2011 16:38:28 -0700
+	Thu, 25 Aug 2011 02:18:09 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 24 Aug 2011 17:13:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,278,1312182000"; d="scan'208";a="44782864"
-Received: from unknown (HELO [10.255.14.203]) ([10.255.14.203])
-	by fmsmga001.fm.intel.com with ESMTP; 24 Aug 2011 16:38:27 -0700
-Message-ID: <4E558B73.2090602@linux.intel.com>
-Date: Wed, 24 Aug 2011 16:38:27 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:5.0) Gecko/20110707 Thunderbird/5.0
+X-IronPort-AV: E=Sophos;i="4.68,278,1312182000"; d="scan'208";a="44135649"
+Received: from unknown (HELO helios.localnet) ([10.255.18.136])
+	by fmsmga002.fm.intel.com with ESMTP; 24 Aug 2011 17:13:20 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Thu, 25 Aug 2011 01:13:20 +0100
+User-Agent: KMail/1.13.6 (Linux/2.6.38-10-generic-pae; KDE/4.6.2; i686; ; )
+References: <cover.1314166867.git.xiaofeng.yan@windriver.com>
+	<e62894baf8e79baa7e19901b7ec8c515dddb2537.1314166867.git.xiaofeng.yan@windriver.com>
+	<4E558B0D.1080307@linux.intel.com>
+In-Reply-To: <4E558B0D.1080307@linux.intel.com>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+Message-Id: <201108250113.20066.paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1314027196.git.jiajun.xu@intel.com>
-In-Reply-To: <cover.1314027196.git.jiajun.xu@intel.com>
-Subject: Re: [PATCH 0/2] libsdl: add libsdl into sato and fix build error with libsdl
+Subject: Re: [PATCH 1/1] qt4e-demo-image: Fix bug 999
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,42 +36,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Aug 2011 23:43:15 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 25 Aug 2011 00:18:09 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On 08/22/2011 08:36 AM, Jiajun Xu wrote:
-> There is no need for libsdl to inherit nativesdk since we enable the target version
-> with BBCLASSEXTEND now.
-> We add libsdl into sato image since some 3D graphics testing need it.
->
->
-> The following changes since commit 9134800548a03bfe3a7e351a15f2129bcb3cc680:
->
->    xcb/libpthreads: Add BBCLASSEXTEND to resolve missing providers in world builds (2011-08-19 16:27:29 -0700)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib jxu49/oe-contrib
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jxu49/oe-contrib
->
-> Jiajun Xu (2):
->    libsdl: do not inherit nativesdk
->    task-core-x11-sato: add libsdl into sato image
->
->   meta/recipes-graphics/libsdl/libsdl_1.2.11.bb |    4 ++--
->   meta/recipes-sato/tasks/task-core-x11-sato.bb |    3 ++-
->   2 files changed, 4 insertions(+), 3 deletions(-)
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-Merged into OE-Core
+On Thursday 25 August 2011 00:36:45 Saul Wold wrote:
+> Why do we need the qt4e-base-image and this demo-image?  Do we expect to
+> have multiple images?  This creates yet another image that needs to be
+> built and tested?  Can this really just be added to the sato-sdk or
+> lsb-sdk images instead?
 
-Thanks
-	Sau!
+No, it doesn't belong in sato-sdk and lsb-sdk is Qt4/X11 based which counts it 
+out also. It really needs its own image. The -base image could be merged into 
+-demo though.
 
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
