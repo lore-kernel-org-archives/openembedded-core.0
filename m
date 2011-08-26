@@ -1,26 +1,21 @@
 Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1QwxDV-0007Uw-CM
+	(envelope-from <philb@gnu.org>) id 1QwxNt-0007fz-OM
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 16:17:05 +0200
+	Fri, 26 Aug 2011 16:27:49 +0200
 Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
 	helo=[172.30.1.145])
 	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Qwx8s-0007gM-RU
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QwxJH-0007gk-9Q
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 16:12:19 +0200
+	Fri, 26 Aug 2011 16:23:03 +0200
 From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 26 Aug 2011 15:12:17 +0100
-In-Reply-To: <1314284316.5939.196.camel@rex>
-References: <1314210721-29941-1-git-send-email-koen@dominion.thruhere.net>
-	<1314264296.19905.29.camel@phil-desktop>
-	<1314284316.5939.196.camel@rex>
+To: oe-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 26 Aug 2011 15:23:02 +0100
 X-Mailer: Evolution 3.0.2- 
-Message-ID: <1314367938.19905.90.camel@phil-desktop>
+Message-ID: <1314368583.19905.92.camel@phil-desktop>
 Mime-Version: 1.0
-Subject: Re: [PATCH 1/2] libc-package bbclass: fix binary localedata dependency code
+Subject: [PATCH] pango: make x11 support conditional on DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,88 +30,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2011 14:17:05 -0000
-X-Groupsio-MsgNum: 8833
-Content-Type: multipart/mixed; boundary="=-U6fGnocemuUSHyq1IQhL"
-
---=-U6fGnocemuUSHyq1IQhL
+X-List-Received-Date: Fri, 26 Aug 2011 14:27:49 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-08-25 at 07:58 -0700, Richard Purdie wrote:
-> On Thu, 2011-08-25 at 10:24 +0100, Phil Blundell wrote:
-> > On Wed, 2011-08-24 at 20:32 +0200, Koen Kooi wrote:
-> > > diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
-> > > index 0d5ce20..d3b33d6 100644
-> > > --- a/meta/classes/libc-package.bbclass
-> > > +++ b/meta/classes/libc-package.bbclass
-> > > @@ -243,7 +243,7 @@ python package_do_split_gconvs () {
-> > >  	def output_locale_binary_rdepends(name, pkgname, locale, encoding):
-> > >  		m = re.match("(.*)_(.*)", name)
-> > >  		if m:
-> > > -			libc_name = "%s.%s" % (m.group(1), m.group(2).lower().replace("-",""))
-> > > +			libc_name = "%s-%s" % (m.group(1), m.group(2).lower().replace("-",""))
-> > >  		else:
-> > >  			libc_name = name
-> > >  		bb.data.setVar('RDEPENDS_%s' % pkgname, legitimize_package_name('%s-binary-localedata-%s' \
-> > 
-> > For what it's worth (probably not much), this is not quite the right
-> > fix.  Joining with "." was correct; it was the splitting on "_" that was
-> > wrong.  The right thing would be to put it back how it was before the
-> > glibc/eglibc merge commit, i.e. change the re to "(*.)\.(*.)" and leave
-> > the output pattern alone.  That ought to fix your problem and also allow
-> > the encoding to be correctly canonicalised.
-> 
-> Can someone please send me the correct patch against master? :)
-
-I think the attached is what you need.  Koen, maybe you could confirm
-whether this does indeed fix your original problem.
-
-p.
-
-
---=-U6fGnocemuUSHyq1IQhL
-Content-Disposition: attachment;
-	filename*0=0001-libc-package-restore-correct-mangling-behavior-for-l.pat;
-	filename*1=ch
-Content-Type: text/x-patch;
-	name="0001-libc-package-restore-correct-mangling-behavior-for-l.patch";
-	charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-From 1cd91a91802776ddede041cfa222b603da6c8453 Mon Sep 17 00:00:00 2001
-From: Phil Blundell <philb@gnu.org>
-Date: Fri, 26 Aug 2011 15:05:11 +0100
-Subject: [PATCH] libc-package: restore correct mangling behavior for locale names
-
-This reverts 19fb07bf337e1d724798e2eb4479c35fc45b1941 and restores
-the behaviour of the code to the way it was prior to 561d875404ef1783f94f37314b6e756766db8411.
-
-See http://lists.linuxtogo.org/pipermail/openembedded-core/2011-August/007407.html and subsequent messages.
+This allows pango to build on DISTROs which don't enable x11.  
+Also adjust the SECTION since pango isn't really an X library.
 
 Signed-off-by: Phil Blundell <philb@gnu.org>
 ---
- meta/classes/libc-package.bbclass |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-graphics/pango/pango.inc       |   10 ++++++----
+ meta/recipes-graphics/pango/pango_1.28.4.bb |    2 +-
+ 2 files changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
-index d3b33d6..f8df6a4 100644
---- a/meta/classes/libc-package.bbclass
-+++ b/meta/classes/libc-package.bbclass
-@@ -241,9 +241,9 @@ python package_do_split_gconvs () {
- 		(locale, encoding, locale), d)
+diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
+index 5a8a5ae..a8e99e2 100644
+--- a/meta/recipes-graphics/pango/pango.inc
++++ b/meta/recipes-graphics/pango/pango.inc
+@@ -6,14 +6,15 @@ been done in the context of the GTK+ widget toolkit. Pango forms the \
+ core of text and font handling for GTK+-2.x."
+ HOMEPAGE = "http://www.pango.org/"
+ BUGTRACKER = "http://bugzilla.gnome.org"
+-SECTION = "x11/libs"
++SECTION = "libs"
+ LICENSE = "LGPL"
  
- 	def output_locale_binary_rdepends(name, pkgname, locale, encoding):
--		m = re.match("(.*)_(.*)", name)
-+		m = re.match("(.*).(.*)", name)
- 		if m:
--			libc_name = "%s-%s" % (m.group(1), m.group(2).lower().replace("-",""))
-+			libc_name = "%s.%s" % (m.group(1), m.group(2).lower().replace("-",""))
- 		else:
- 			libc_name = name
- 		bb.data.setVar('RDEPENDS_%s' % pkgname, legitimize_package_name('%s-binary-localedata-%s' \
+-DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv virtual/libx11 libxft gtk-doc-native cairo"
++X11DEPENDS = "virtual/libx11 libxft"
++DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv gtk-doc-native cairo ${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
+ 
+ PACKAGES_DYNAMIC = "pango-module-*"
+ 
+-RRECOMMENDS_${PN} = "pango-module-basic-x pango-module-basic-fc" 
++RRECOMMENDS_${PN} = "${@base_contains('DISTRO_FEATURES', 'x11', 'pango-module-basic-x', '', d)} pango-module-basic-fc" 
+ 
+ inherit gnome
+ 
+@@ -24,7 +25,8 @@ FULL_OPTIMIZATION_arm = "-O2"
+ 
+ EXTRA_OECONF = "--disable-glibtest \
+ 		--enable-explicit-deps=no \
+-	        --disable-debug"
++	        --disable-debug \
++		${@base_contains('DISTRO_FEATURES', 'x11', '--with-x', '--without-x', d)}"
+ 
+ LEAD_SONAME = "libpango-1.0*"
+ LIBV = "1.6.0"
+diff --git a/meta/recipes-graphics/pango/pango_1.28.4.bb b/meta/recipes-graphics/pango/pango_1.28.4.bb
+index 600f00b..68ab700 100644
+--- a/meta/recipes-graphics/pango/pango_1.28.4.bb
++++ b/meta/recipes-graphics/pango/pango_1.28.4.bb
+@@ -2,7 +2,7 @@ require pango.inc
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI += "file://no-tests.patch"
+ 
 -- 
 1.7.4.1
 
 
---=-U6fGnocemuUSHyq1IQhL--
+
+
+
