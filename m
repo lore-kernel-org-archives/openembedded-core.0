@@ -1,28 +1,26 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1QwyRC-0000jV-Nv
+	(envelope-from <sgw@linux.intel.com>) id 1QwzBR-0001l9-Rw
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 17:35:18 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QwyMa-0007jO-9E
-	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 17:30:32 +0200
-From: Phil Blundell <philb@gnu.org>
+	Fri, 26 Aug 2011 18:23:06 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 26 Aug 2011 09:18:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,285,1312182000"; d="scan'208";a="11401957"
+Received: from unknown (HELO [10.255.13.251]) ([10.255.13.251])
+	by AZSMGA002.ch.intel.com with ESMTP; 26 Aug 2011 09:18:15 -0700
+Message-ID: <4E57C747.2020104@linux.intel.com>
+Date: Fri, 26 Aug 2011 09:18:15 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:5.0) Gecko/20110707 Thunderbird/5.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 26 Aug 2011 16:30:31 +0100
-In-Reply-To: <EB5E7A93-679D-4108-8E6D-03D7E1865908@dominion.thruhere.net>
-References: <1314210721-29941-1-git-send-email-koen@dominion.thruhere.net>
-	<1314264296.19905.29.camel@phil-desktop>
-	<1314284316.5939.196.camel@rex>
-	<1314367938.19905.90.camel@phil-desktop>
-	<EB5E7A93-679D-4108-8E6D-03D7E1865908@dominion.thruhere.net>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1314372632.19905.93.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/2] libc-package bbclass: fix binary localedata dependency code
+References: <201108261047.10782.paul.eggleton@linux.intel.com>
+In-Reply-To: <201108261047.10782.paul.eggleton@linux.intel.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Re: Core image recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,69 +35,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2011 15:35:18 -0000
-X-Groupsio-MsgNum: 8838
-Content-Type: multipart/mixed; boundary="=-kLGxSa6QfZ4QmRgqXYuv"
-
---=-kLGxSa6QfZ4QmRgqXYuv
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 26 Aug 2011 16:23:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-08-26 at 17:26 +0200, Koen Kooi wrote:
-> And that gives me http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/testlab/commit/?h=yocto&id=9b2e08e0c4da4881ba8c83be39697a40a63b75fd
-> 
-> -locale_base_en_us -> eglibc_binary_localedata_en_us;
-> +locale_base_en_us -> eglibc_binary_localedata_en_u_;
-> 
-> So something regexp is being a bit too greedy by the looks of it.
+On 08/26/2011 02:47 AM, Paul Eggleton wrote:
+> Hi all,
+>
+> Seems we have a few overlapping images in OE-core, with not especially obvious
+> naming. The following two seem very similar in scope (basic X11 image):
+>
+> meta/recipes-core/images/core-image-core.bb
 
-Ah whoops, the old missing backslash.  Could you try this one instead?
+This contains X11_IMAGE_FEATURES
 
-p.
+> meta/recipes-extended/images/core-image-basic.bb
+>
+This image should NOT contain any X11, this is supposed to be an 
+extention of core-image-minimal with many of the busybox related 
+commands substituted for the real command set.  The intention of this 
+image is two fold, first it's the largest image that we test against 
+non-GPLv3 and it's the non-graphical LSB image (I am not sure if there 
+is a spec test defined for that.
 
+> Maybe we could just have one of these and call it core-image-x11-base or
+> similar?
+>
+So, no I do not think they can be merged.  But renaming core-image-core 
+to core-image-x11-base might make sense, also renaming core-image-basic 
+to core-image-lsb-basic may clear things up.
 
---=-kLGxSa6QfZ4QmRgqXYuv
-Content-Disposition: attachment;
-	filename*0=0001-libc-package-restore-correct-mangling-behavior-for-l.pat;
-	filename*1=ch
-Content-Type: text/x-patch;
-	name="0001-libc-package-restore-correct-mangling-behavior-for-l.patch";
-	charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+> Then, we have core-image-base, which whilst it doesn't remove package
+> management files, does not have "package-management" in its features, so it's
+> not a whole lot different to core-image-minimal AFAICT.
+>
+On this one I might agree, I know that we have not built that image, nor 
+does it seem to be used by anything else.
 
-From 1cd91a91802776ddede041cfa222b603da6c8453 Mon Sep 17 00:00:00 2001
-From: Phil Blundell <philb@gnu.org>
-Date: Fri, 26 Aug 2011 15:05:11 +0100
-Subject: [PATCH v2] libc-package: restore correct mangling behavior for locale names
+Sau!
 
-This reverts 19fb07bf337e1d724798e2eb4479c35fc45b1941 and restores
-the behaviour of the code to the way it was prior to 561d875404ef1783f94f37314b6e756766db8411.
-
-See http://lists.linuxtogo.org/pipermail/openembedded-core/2011-August/007407.html and subsequent messages.
-
-Signed-off-by: Phil Blundell <philb@gnu.org>
----
- meta/classes/libc-package.bbclass |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
-index d3b33d6..f8df6a4 100644
---- a/meta/classes/libc-package.bbclass
-+++ b/meta/classes/libc-package.bbclass
-@@ -241,10 +241,9 @@ python package_do_split_gconvs () {
- 		(locale, encoding, locale), d)
- 
- 	def output_locale_binary_rdepends(name, pkgname, locale, encoding):
--		m = re.match("(.*)_(.*)", name)
-+		m = re.match("(.*)\.(.*)", name)
- 		if m:
--			libc_name = "%s-%s" % (m.group(1), m.group(2).lower().replace("-",""))
-+			libc_name = "%s.%s" % (m.group(1), m.group(2).lower().replace("-",""))
- 		else:
- 			libc_name = name
- 		bb.data.setVar('RDEPENDS_%s' % pkgname, legitimize_package_name('%s-binary-localedata-%s' \
--- 
-1.7.4.1
+> Comments?
+>
+> Cheers,
+> Paul
+>
+>
 
 
---=-kLGxSa6QfZ4QmRgqXYuv--
