@@ -1,22 +1,30 @@
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137] helo=elite.roku)
+Received: from mail-vw0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mcrowe@brightsign.biz>) id 1QwsgC-0003FP-1n
+	(envelope-from <dbaryshkov@gmail.com>) id 1Qwskj-0003K7-DJ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 11:26:24 +0200
-Received: from lander.roku ([172.30.1.6]) by elite.roku with esmtp (Exim 4.72)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1QwsbX-0005In-2p; Fri, 26 Aug 2011 10:21:35 +0100
-Received: from mac by lander.roku with local (Exim 4.72)
-	(envelope-from <mac@lander.roku>)
-	id 1QwsbW-0004fm-Od; Fri, 26 Aug 2011 10:21:34 +0100
-From: Mike Crowe <mac@mcrowe.com>
+	Fri, 26 Aug 2011 11:31:05 +0200
+Received: by vwe42 with SMTP id 42so2887693vwe.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Aug 2011 02:26:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=JEBlxCRSYZGtxqP3eNnFvWc1466KF55PbkBg3gzhRsM=;
+	b=gP4u7qKp/rJVvJFkq4cBJZ6B/BBsRNbicovgwQ766vMYdxzQct6hQPDuUZGW45hRYa
+	Ka4cMeWPK6JfDWCWlY1nIa5aFSWzn/Ho1czWP5mnBvGOzYGLR4L2cAxILSNVRhfIobyJ
+	AQfWgXKcebUWdseFCHUx9JFt8LJUBewJ/LCfA=
+MIME-Version: 1.0
+Received: by 10.52.178.164 with SMTP id cz4mr839764vdc.467.1314350776717; Fri,
+	26 Aug 2011 02:26:16 -0700 (PDT)
+Received: by 10.52.113.5 with HTTP; Fri, 26 Aug 2011 02:26:16 -0700 (PDT)
+In-Reply-To: <1314280367-22179-1-git-send-email-dbaryshkov@gmail.com>
+References: <1314280367-22179-1-git-send-email-dbaryshkov@gmail.com>
+Date: Fri, 26 Aug 2011 13:26:16 +0400
+Message-ID: <CALT56yO-k4XkHUsMELBP=7_REBYX7T5JRU4BJU8GEUVLwz8e4g@mail.gmail.com>
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Aug 2011 10:21:19 +0100
-Message-Id: <1314350479-17930-1-git-send-email-mac@mcrowe.com>
-X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <20110826091738.GA7969@mcrowe.com>
-References: <20110826091738.GA7969@mcrowe.com>
-Subject: [PATCH v2] kernel.bbclass: Find the kernel consistently.
+Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Subject: Re: [PATCH] opkg-utils: ignore packages disapperaring filelist generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,43 +39,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2011 09:26:24 -0000
+X-List-Received-Date: Fri, 26 Aug 2011 09:31:05 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Use KERNEL_OUTPUT variable to find the generated kernel image rather than
-duplicating the existing path. This also means it can be overridden simply.
+On 8/25/11, Dmitry Eremin-Solenikov <dbaryshkov@gmail.com> wrote:
+> Package files disappearing during index generation don't cause a fatal
+> error. Make package file disappearing during filelist generation also
+> a non-fatal error.
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
----
- meta/classes/kernel.bbclass |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
+Please ignore this, I'll send a V2 soon.
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index a2b10f2..6ebc7de 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -460,9 +460,9 @@ python populate_packages_prepend () {
- # with a fixed length or there is a limit in transferring the kernel to memory
- do_sizecheck() {
- 	if [ ! -z "${KERNEL_IMAGE_MAXSIZE}" ]; then
--        	size=`ls -l arch/${ARCH}/boot/${KERNEL_IMAGETYPE} | awk '{ print $5}'`
-+		size=`ls -l ${KERNEL_OUTPUT} | awk '{ print $5}'`
-         	if [ $size -ge ${KERNEL_IMAGE_MAXSIZE} ]; then
--                	rm arch/${ARCH}/boot/${KERNEL_IMAGETYPE}
-+			rm ${KERNEL_OUTPUT}
-                 	die  "This kernel (size=$size > ${KERNEL_IMAGE_MAXSIZE}) is too big for your device. Please reduce the size of the kernel by making more of it modular."
-         	fi
-     	fi
-@@ -476,7 +476,7 @@ KERNEL_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
- KERNEL_IMAGE_SYMLINK_NAME ?= "${KERNEL_IMAGETYPE}-${MACHINE}"
- 
- kernel_do_deploy() {
--	install -m 0644 arch/${ARCH}/boot/${KERNEL_IMAGETYPE} ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
-+	install -m 0644 ${KERNEL_OUTPUT} ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
- 	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
- 		tar -cvzf ${DEPLOYDIR}/modules-${KERNEL_VERSION}-${PR}-${MACHINE}.tgz -C ${D} lib
- 	fi
+>
+> Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+> ---
+>  .../opkg-utils/no-ioerror-during-filelist.patch    |   31
+> ++++++++++++++++++++
+>  meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb |    3 +-
+>  2 files changed, 33 insertions(+), 1 deletions(-)
+>  create mode 100644
+> meta/recipes-devtools/opkg-utils/no-ioerror-during-filelist.patch
+>
+> diff --git
+> a/meta/recipes-devtools/opkg-utils/no-ioerror-during-filelist.patch
+> b/meta/recipes-devtools/opkg-utils/no-ioerror-during-filelist.patch
+> new file mode 100644
+> index 0000000..dc85cb6
+> --- /dev/null
+> +++ b/meta/recipes-devtools/opkg-utils/no-ioerror-during-filelist.patch
+> @@ -0,0 +1,31 @@
+> +From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+> +Subject: Ignore IOError errors while populating filelist
+> +Upstream-Status: Pending/Not-Applicable
+> +
+> +While populating Packages.filelist there is a possibility that the package
+> file
+> +will disappear while reading. So ignore errors during filelist generation.
+> +
+> +
+> +Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+> +
+> +Index: opkg-utils/opkg-make-index
+> +===================================================================
+> +--- opkg-utils.orig/opkg-make-index	2011-08-25 16:45:41.000000000 +0400
+> ++++ opkg-utils/opkg-make-index	2011-08-25 17:38:57.000000000 +0400
+> +@@ -197,7 +197,15 @@
+> + names = packages.packages.keys()
+> + names.sort()
+> + for name in names:
+> +-     for fn in packages[name].get_file_list():
+> ++     try:
+> ++          fnlist = packages[name].get_file_list()
+> ++     except OSError, e:
+> ++          sys.stderr.write(e)
+> ++          continue
+> ++     except IOError, e:
+> ++          sys.stderr.write(e)
+> ++          continue
+> ++     for fn in fnlist:
+> +           (h,t) = os.path.split(fn)
+> +           if not t: continue
+> +           if not files.has_key(t): files[t] = name+':'+fn
+> diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
+> b/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
+> index fd2b5e6..7659465 100644
+> --- a/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
+> +++ b/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
+> @@ -8,12 +8,13 @@ RDEPENDS_${PN} = "python"
+>  RDEPENDS_${PN}_virtclass-native = ""
+>  SRCREV = "4747"
+>  PV = "0.1.8+svnr${SRCPV}"
+> -PR = "r4"
+> +PR = "r5"
+>
+>  SRC_URI =
+> "svn://svn.openmoko.org/trunk/src/host/;module=opkg-utils;proto=http \
+>             file://index-ignore-filenotfound.patch \
+>             file://mtime-int.patch \
+>             file://add-license-field.patch \
+> +           file://no-ioerror-during-filelist.patch \
+>             "
+>
+>  S = "${WORKDIR}/opkg-utils"
+> --
+> 1.7.2.5
+>
+>
+
+
 -- 
-1.7.2.5
-
+With best wishes
+Dmitry
 
 
