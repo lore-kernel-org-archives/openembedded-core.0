@@ -1,24 +1,24 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1QwrFo-00012B-Av
+	(envelope-from <dongxiao.xu@intel.com>) id 1QwrFu-00012X-5m
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 09:55:05 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 26 Aug 2011 00:50:17 -0700
+	Fri, 26 Aug 2011 09:55:11 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 26 Aug 2011 00:50:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="42138513"
+X-IronPort-AV: E=Sophos;i="4.68,283,1312182000"; d="scan'208";a="11274508"
 Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by orsmga002.jf.intel.com with ESMTP; 26 Aug 2011 00:50:16 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 26 Aug 2011 00:50:19 -0700
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Aug 2011 15:52:21 +0800
-Message-Id: <3da591983cad7670d2107b92fb9367deaac1bebf.1314344548.git.dongxiao.xu@intel.com>
+Date: Fri, 26 Aug 2011 15:52:23 +0800
+Message-Id: <2ffe6e3f93c178838d4c0efabd720d2e51893665.1314344548.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1314344548.git.dongxiao.xu@intel.com>
 References: <cover.1314344548.git.dongxiao.xu@intel.com>
 In-Reply-To: <cover.1314344548.git.dongxiao.xu@intel.com>
 References: <cover.1314344548.git.dongxiao.xu@intel.com>
-Subject: [PATCH 2/5] bitbake.conf: Use BPN in FILES paths
+Subject: [PATCH 4/5] multilib.bbclass: add "pkg_postinst" and "pkg_postrm" as renaming elements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,37 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2011 07:55:09 -0000
+X-List-Received-Date: Fri, 26 Aug 2011 07:55:12 -0000
 
-Use BPN instead of PN in FILES path to support multilib.
+Add "pkg_postinst" and "pkg_postrm" as renaming elements, which fixes
+missing post install/rm scripts in target image.
 
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- meta/conf/bitbake.conf |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/multilib.bbclass |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index b309516..2a77483 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -261,7 +261,7 @@ FILES_${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*${SOLIBS}
-             ${sysconfdir} ${sharedstatedir} ${localstatedir} \
-             ${base_bindir}/* ${base_sbindir}/* \
-             ${base_libdir}/*${SOLIBS} \
--            ${datadir}/${PN} ${libdir}/${PN}/* \
-+            ${datadir}/${BPN} ${libdir}/${BPN}/* \
-             ${datadir}/pixmaps ${datadir}/applications \
-             ${datadir}/idl ${datadir}/omf ${datadir}/sounds \
-             ${libdir}/bonobo/servers"
-@@ -282,7 +282,7 @@ SECTION_${PN}-staticdev = "devel"
- RDEPENDS_${PN}-staticdev = "${PN}-dev (= ${EXTENDPKGV})"
+diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+index 46c24e1..5976d5d 100644
+--- a/meta/classes/multilib.bbclass
++++ b/meta/classes/multilib.bbclass
+@@ -73,7 +73,7 @@ python __anonymous () {
+     d.setVar("PACKAGES", " ".join([row[1] for row in pkgs_mapping]))
  
- DOTDEBUG-dbg = "${bindir}/.debug ${sbindir}/.debug ${libexecdir}/.debug ${libdir}/.debug \
--            ${base_bindir}/.debug ${base_sbindir}/.debug ${base_libdir}/.debug ${libdir}/${PN}/.debug \
-+            ${base_bindir}/.debug ${base_sbindir}/.debug ${base_libdir}/.debug ${libdir}/${BPN}/.debug \
-             ${libdir}/matchbox-panel/.debug /usr/src/debug"
+     for pkg_mapping in pkgs_mapping:
+-        for subs in ["FILES", "RDEPENDS", "RRECOMMENDS", "SUMMARY", "DESCRIPTION", "RSUGGESTS", "RPROVIDES", "RCONFLICTS", "PKG", "ALLOW_EMPTY"]:
++        for subs in ["FILES", "RDEPENDS", "RRECOMMENDS", "SUMMARY", "DESCRIPTION", "RSUGGESTS", "RPROVIDES", "RCONFLICTS", "PKG", "ALLOW_EMPTY", "pkg_postinst", "pkg_postrm"]:
+             d.renameVar("%s_%s" % (subs, pkg_mapping[0]), "%s_%s" % (subs, pkg_mapping[1]))
  
- DEBUGFILEDIRECTORY-dbg = "/usr/lib/debug /usr/src/debug"
+     map_dependencies("DEPENDS", d)
 -- 
 1.7.1
 
