@@ -1,32 +1,22 @@
-Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137] helo=elite.roku)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1Qws04-0002Vw-N4
+	(envelope-from <mcrowe@brightsign.biz>) id 1QwsgC-0003FP-1n
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 10:42:52 +0200
-Received: by mail.chez-thomas.org (Postfix, from userid 999)
-	id 9E9771660593; Fri, 26 Aug 2011 02:38:04 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by mail.chez-thomas.org (Postfix) with ESMTP id D2AC11660590;
-	Fri, 26 Aug 2011 02:38:03 -0600 (MDT)
-Message-ID: <4E575B6B.2030205@mlbassoc.com>
-Date: Fri, 26 Aug 2011 02:38:03 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:5.0) Gecko/20110707 Thunderbird/5.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1313993805.git.wenzong.fan@windriver.com>
-	<1313999777.7620.13.camel@localhost.localdomain>
-	<1314325642.1332.54.camel@localhost.localdomain>
-	<1314326849.1332.57.camel@localhost.localdomain>
-In-Reply-To: <1314326849.1332.57.camel@localhost.localdomain>
-Subject: Re: new feature? (for "DL_DIR")
+	Fri, 26 Aug 2011 11:26:24 +0200
+Received: from lander.roku ([172.30.1.6]) by elite.roku with esmtp (Exim 4.72)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1QwsbX-0005In-2p; Fri, 26 Aug 2011 10:21:35 +0100
+Received: from mac by lander.roku with local (Exim 4.72)
+	(envelope-from <mac@lander.roku>)
+	id 1QwsbW-0004fm-Od; Fri, 26 Aug 2011 10:21:34 +0100
+From: Mike Crowe <mac@mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 26 Aug 2011 10:21:19 +0100
+Message-Id: <1314350479-17930-1-git-send-email-mac@mcrowe.com>
+X-Mailer: git-send-email 1.7.2.5
+In-Reply-To: <20110826091738.GA7969@mcrowe.com>
+References: <20110826091738.GA7969@mcrowe.com>
+Subject: [PATCH v2] kernel.bbclass: Find the kernel consistently.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,45 +31,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2011 08:42:52 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 26 Aug 2011 09:26:24 -0000
 
-On 2011-08-25 20:47, Ni Qingliang wrote:
-> I found that: for every vcs (e.g. git) package, except a directory in
-> "git" or "git2", there is another file "*.tar.gz" in the downloads dir.
->
-> but for my own package, e.g linux 2.6.35 for i.mx28, only the directory
-> under "git2", I can't found the tar.gz file in downloads, why?
->
-> On Fri, 2011-08-26 at 10:27 +0800, =E5=80=AA=E5=BA=86=E4=BA=AE wrote:
->> thanks again, I have setup an internal package server (http), and the
->> client can use it in poky.
->>
->> but I have another problem for git svn( for the .gz .bz2 package, no
->> problem), the source code of the packages using git/svn/hg are
->> directories in the server, does the client can use it???
->>
->> On Mon, 2011-08-22 at 15:56 +0800, =E5=80=AA=E5=BA=86=E4=BA=AE wrote:
->>> Do we can assign all package be downloaded from the same path?
->>>
->>> I want setup one internal server to store the files in upstreamsource=
-s,
->>> and all developer's PC use it but not the original package address.
+Use KERNEL_OUTPUT variable to find the generated kernel image rather than
+duplicating the existing path. This also means it can be overridden simply.
 
-Set this in your .conf
-   BB_GENERATE_MIRROR_TARBALLS ?=3D "1"
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
+---
+ meta/classes/kernel.bbclass |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
 
-When you use 'own-mirrors', you'll end up with a "downloads" directory
-in your build tree.  This will include symbolic links to files already
-found in your cache, as well as any files newly downloaded during a
-build.  You probably want to push out the new files to your cache from
-this downloads directory.
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index a2b10f2..6ebc7de 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -460,9 +460,9 @@ python populate_packages_prepend () {
+ # with a fixed length or there is a limit in transferring the kernel to memory
+ do_sizecheck() {
+ 	if [ ! -z "${KERNEL_IMAGE_MAXSIZE}" ]; then
+-        	size=`ls -l arch/${ARCH}/boot/${KERNEL_IMAGETYPE} | awk '{ print $5}'`
++		size=`ls -l ${KERNEL_OUTPUT} | awk '{ print $5}'`
+         	if [ $size -ge ${KERNEL_IMAGE_MAXSIZE} ]; then
+-                	rm arch/${ARCH}/boot/${KERNEL_IMAGETYPE}
++			rm ${KERNEL_OUTPUT}
+                 	die  "This kernel (size=$size > ${KERNEL_IMAGE_MAXSIZE}) is too big for your device. Please reduce the size of the kernel by making more of it modular."
+         	fi
+     	fi
+@@ -476,7 +476,7 @@ KERNEL_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
+ KERNEL_IMAGE_SYMLINK_NAME ?= "${KERNEL_IMAGETYPE}-${MACHINE}"
+ 
+ kernel_do_deploy() {
+-	install -m 0644 arch/${ARCH}/boot/${KERNEL_IMAGETYPE} ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
++	install -m 0644 ${KERNEL_OUTPUT} ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
+ 	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+ 		tar -cvzf ${DEPLOYDIR}/modules-${KERNEL_VERSION}-${PR}-${MACHINE}.tgz -C ${D} lib
+ 	fi
+-- 
+1.7.2.5
 
---=20
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
 
 
