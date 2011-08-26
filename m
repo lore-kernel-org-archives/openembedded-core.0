@@ -1,21 +1,25 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Qwt53-0003fl-Px
+	(envelope-from <philb@gnu.org>) id 1QwtTe-0004Zw-8w
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 11:52:06 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 26 Aug 2011 02:47:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,284,1312182000"; d="scan'208";a="45294455"
-Received: from unknown (HELO helios.localnet) ([10.255.18.141])
-	by fmsmga001.fm.intel.com with ESMTP; 26 Aug 2011 02:47:12 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Aug 2011 10:47:10 +0100
-User-Agent: KMail/1.13.6 (Linux/2.6.38-10-generic-pae; KDE/4.6.2; i686; ; )
-MIME-Version: 1.0
-Message-Id: <201108261047.10782.paul.eggleton@linux.intel.com>
-Subject: Core image recipes
+	Fri, 26 Aug 2011 12:17:30 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QwtP2-0007ZS-3a
+	for openembedded-core@lists.openembedded.org;
+	Fri, 26 Aug 2011 12:12:44 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 26 Aug 2011 11:12:43 +0100
+In-Reply-To: <cd4a85ccaa27bdd77ad06d9300ac71bd6b27e36d.1311195893.git.Martin.Jansa@gmail.com>
+References: <7ac4de095ea2d0543c8c665e2cfd1be131781e8c.1311195893.git.Martin.Jansa@gmail.com>
+	<cd4a85ccaa27bdd77ad06d9300ac71bd6b27e36d.1311195893.git.Martin.Jansa@gmail.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1314353564.19905.81.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [PATCH 02/10] eglibc-package: don't fail without localedef/gconv
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,35 +34,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2011 09:52:06 -0000
-Content-Type: Text/Plain;
-  charset="us-ascii"
+X-List-Received-Date: Fri, 26 Aug 2011 10:17:30 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hi all,
+On Wed, 2011-07-20 at 23:06 +0200, Martin Jansa wrote:
+>-       mv ${D}${libdir}/gconv ${dest}${libdir}
+> +	if [ -f ${D}${libdir}/gconv ]; then
+> +		mv -f ${D}${libdir}/gconv ${dest}${libdir}
+> +	fi
 
-Seems we have a few overlapping images in OE-core, with not especially obvious 
-naming. The following two seem very similar in scope (basic X11 image):
+This can't be right: gconv will be a directory if it exists at all and
+hence "test -f gconv" will never be true.
 
-meta/recipes-core/images/core-image-core.bb
-meta/recipes-extended/images/core-image-basic.bb
+Since this patch was applied I'm getting a whole bunch of "installed but
+not shipped" warnings for /lib/gconv/*.  Could you please look into
+that?
 
-Maybe we could just have one of these and call it core-image-x11-base or 
-similar?
+thanks
 
-Then, we have core-image-base, which whilst it doesn't remove package 
-management files, does not have "package-management" in its features, so it's 
-not a whole lot different to core-image-minimal AFAICT.
-
-Comments?
-
-Cheers,
-Paul
+p.
 
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
