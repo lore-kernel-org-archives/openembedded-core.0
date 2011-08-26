@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qx2Ke-0006Y4-KD
+	(envelope-from <sgw@linux.intel.com>) id 1Qx2Kf-0006Xu-39
 	for openembedded-core@lists.openembedded.org;
 	Fri, 26 Aug 2011 21:44:49 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 26 Aug 2011 12:39:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,286,1312182000"; d="scan'208";a="45450534"
+X-IronPort-AV: E=Sophos;i="4.68,286,1312182000"; d="scan'208";a="45450537"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.251])
 	by fmsmga001.fm.intel.com with ESMTP; 26 Aug 2011 12:39:56 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Aug 2011 12:39:42 -0700
-Message-Id: <612ab0aaf3e693b90bb18234e2517bfc87ee3f7c.1314387279.git.sgw@linux.intel.com>
+Date: Fri, 26 Aug 2011 12:39:43 -0700
+Message-Id: <ec62502988f0d79a69013513f2246980e0d8c01c.1314387279.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1314387279.git.sgw@linux.intel.com>
 References: <cover.1314387279.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1314387279.git.sgw@linux.intel.com>
 References: <cover.1314387279.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 12/21] qt4e-demo-image: Fix bug 999
+Subject: [CONSOLIDATED PULL 13/21] base-passwd: Use BPN in FILES paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,107 +35,37 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 26 Aug 2011 19:44:49 -0000
 
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+From: Dongxiao Xu <dongxiao.xu@intel.com>
 
-[YOCTO #999]
-Copy metadata of qt4e-demo-image from OE for easy testing qt4embeded on embedded platform.
-This image was tested on qemuarm and can run program "qtdemoE".
+Use BPN instead of PN in FILES paths.
+This fixes the login issue by /etc/passwd missing in multilib images.
 
-Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- meta/recipes-qt/images/qt4e-demo-image.bb |   19 ++++++++++
- meta/recipes-qt/tasks/task-qt4e.bb        |   56 +++++++++++++++++++++++++++++
- 2 files changed, 75 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-qt/images/qt4e-demo-image.bb
- create mode 100644 meta/recipes-qt/tasks/task-qt4e.bb
+ .../recipes-core/base-passwd/base-passwd_3.5.22.bb |   10 +++++-----
+ 1 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-qt/images/qt4e-demo-image.bb b/meta/recipes-qt/images/qt4e-demo-image.bb
-new file mode 100644
-index 0000000..f2150ca
---- /dev/null
-+++ b/meta/recipes-qt/images/qt4e-demo-image.bb
-@@ -0,0 +1,19 @@
-+LICENSE = "MIT"
-+PR="r1"
-+
-+LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-+                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+
-+DEPENDS += "task-qt4e"
-+
-+RDEPENDS_${PN} += " \
-+	task-qt4e-base \
-+	"
-+
-+IMAGE_INSTALL += "\
-+	module-init-tools \
-+	task-qt4e-base \
-+"
-+
-+inherit core-image
-+
-diff --git a/meta/recipes-qt/tasks/task-qt4e.bb b/meta/recipes-qt/tasks/task-qt4e.bb
-new file mode 100644
-index 0000000..c95c898
---- /dev/null
-+++ b/meta/recipes-qt/tasks/task-qt4e.bb
-@@ -0,0 +1,56 @@
-+DESCRIPTION = "QT4 Embedded base Image Feed"
-+PR = "r1"
-+LICENSE = "MIT"
-+
-+LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-+                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+
-+inherit task
-+
-+TOUCH = ' ${@base_contains("MACHINE_FEATURES", "touchscreen", "tslib tslib-calibrate tslib-tests", "",d)}'
-+
-+PACKAGES += " \
-+	${PN}-base \
-+"
-+
-+RDEPENDS_${PN}-base = " \
-+	qt4-embedded \
-+	libqt-embedded3support4 \
-+	libqt-embeddedclucene4 \
-+	libqt-embeddedcore4 \
-+	libqt-embeddeddbus4 \
-+	libqt-embeddedgui4 \
-+	libqt-embeddedhelp4 \
-+	libqt-embeddedmultimedia4 \
-+	libqt-embeddednetwork4 \
-+	libqt-embeddedscript4 \
-+	libqt-embeddedscripttools4 \
-+	libqt-embeddedsql4 \
-+	libqt-embeddedsvg4 \
-+	libqt-embeddedtest4 \
-+	libqt-embeddedwebkit4 \
-+	libqt-embeddedxml4 \
-+	qt4-embedded-fonts-ttf-dejavu \
-+	qt4-embedded-fonts-ttf-vera \
-+	qt4-embedded-plugin-iconengine-svgicon \
-+	qt4-embedded-plugin-imageformat-gif \
-+	qt4-embedded-plugin-imageformat-ico \
-+	qt4-embedded-plugin-imageformat-jpeg \
-+	qt4-embedded-plugin-imageformat-mng \
-+	qt4-embedded-plugin-imageformat-svg \
-+	qt4-embedded-plugin-imageformat-tiff \
-+	qt4-embedded-plugin-mousedriver-tslib \
-+	qt4-embedded-plugin-phonon-backend-gstreamer \
-+	qt4-embedded-plugin-script-dbus \
-+	qt4-embedded-plugin-sqldriver-sqlite \
-+	${TOUCH} \
-+        qt4-embedded-demos \
-+        qt4-embedded-examples \
-+        qt-demo-init \
-+        qt4-embedded-assistant \
-+"
-+
-+RRECOMMENDS_${PN}-base = " \
-+	libqt-embeddedxmlpatterns4 \
-+"
-+
+diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb
+index a155b41..137512d 100644
+--- a/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb
++++ b/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb
+@@ -30,11 +30,11 @@ do_install () {
+ 	install -o root -g root -p -m 644 passwd.master ${D}${datadir}/base-passwd/
+ 	install -o root -g root -p -m 644 group.master ${D}${datadir}/base-passwd/
+ 
+-	install -d -m 755 ${D}${docdir}/${PN}
+-	install -p -m 644 debian/changelog ${D}${docdir}/${PN}/
+-	gzip -9 ${D}${docdir}/${PN}/*
+-	install -p -m 644 README ${D}${docdir}/${PN}/
+-	install -p -m 644 debian/copyright ${D}${docdir}/${PN}/
++	install -d -m 755 ${D}${docdir}/${BPN}
++	install -p -m 644 debian/changelog ${D}${docdir}/${BPN}/
++	gzip -9 ${D}${docdir}/${BPN}/*
++	install -p -m 644 README ${D}${docdir}/${BPN}/
++	install -p -m 644 debian/copyright ${D}${docdir}/${BPN}/
+ }
+ 
+ pkg_postinst_${PN} () {
 -- 
 1.7.6
 
