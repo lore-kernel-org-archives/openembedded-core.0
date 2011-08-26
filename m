@@ -1,26 +1,32 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-ww0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QwzBR-0001l9-Rw
+	(envelope-from <koen@dominion.thruhere.net>) id 1QwzOO-0001wU-Nz
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 18:23:06 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 26 Aug 2011 09:18:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,285,1312182000"; d="scan'208";a="11401957"
-Received: from unknown (HELO [10.255.13.251]) ([10.255.13.251])
-	by AZSMGA002.ch.intel.com with ESMTP; 26 Aug 2011 09:18:15 -0700
-Message-ID: <4E57C747.2020104@linux.intel.com>
-Date: Fri, 26 Aug 2011 09:18:15 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:5.0) Gecko/20110707 Thunderbird/5.0
-MIME-Version: 1.0
+	Fri, 26 Aug 2011 18:36:28 +0200
+Received: by wwj26 with SMTP id 26so737617wwj.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Aug 2011 09:31:39 -0700 (PDT)
+Received: by 10.216.177.212 with SMTP id d62mr2010145wem.51.1314376299769;
+	Fri, 26 Aug 2011 09:31:39 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id fj19sm1430390wbb.66.2011.08.26.09.31.38
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 26 Aug 2011 09:31:38 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1314372632.19905.93.camel@phil-desktop>
+Date: Fri, 26 Aug 2011 18:31:37 +0200
+Message-Id: <C368959C-3433-4A60-8B2E-65AC7FBF341E@dominion.thruhere.net>
+References: <1314210721-29941-1-git-send-email-koen@dominion.thruhere.net>
+	<1314264296.19905.29.camel@phil-desktop>
+	<1314284316.5939.196.camel@rex>
+	<1314367938.19905.90.camel@phil-desktop>
+	<EB5E7A93-679D-4108-8E6D-03D7E1865908@dominion.thruhere.net>
+	<1314372632.19905.93.camel@phil-desktop>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <201108261047.10782.paul.eggleton@linux.intel.com>
-In-Reply-To: <201108261047.10782.paul.eggleton@linux.intel.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: Re: Core image recipes
+X-Mailer: Apple Mail (2.1244.3)
+Subject: Re: [PATCH 1/2] libc-package bbclass: fix binary localedata dependency code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,50 +41,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2011 16:23:06 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 26 Aug 2011 16:36:28 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 08/26/2011 02:47 AM, Paul Eggleton wrote:
-> Hi all,
->
-> Seems we have a few overlapping images in OE-core, with not especially obvious
-> naming. The following two seem very similar in scope (basic X11 image):
->
-> meta/recipes-core/images/core-image-core.bb
 
-This contains X11_IMAGE_FEATURES
+Op 26 aug. 2011, om 17:30 heeft Phil Blundell het volgende geschreven:
 
-> meta/recipes-extended/images/core-image-basic.bb
->
-This image should NOT contain any X11, this is supposed to be an 
-extention of core-image-minimal with many of the busybox related 
-commands substituted for the real command set.  The intention of this 
-image is two fold, first it's the largest image that we test against 
-non-GPLv3 and it's the non-graphical LSB image (I am not sure if there 
-is a spec test defined for that.
+> On Fri, 2011-08-26 at 17:26 +0200, Koen Kooi wrote:
+>> And that gives me =
+http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/testlab/commit/?h=3D=
+yocto&id=3D9b2e08e0c4da4881ba8c83be39697a40a63b75fd
+>>=20
+>> -locale_base_en_us -> eglibc_binary_localedata_en_us;
+>> +locale_base_en_us -> eglibc_binary_localedata_en_u_;
+>>=20
+>> So something regexp is being a bit too greedy by the looks of it.
+>=20
+> Ah whoops, the old missing backslash.  Could you try this one instead?
 
-> Maybe we could just have one of these and call it core-image-x11-base or
-> similar?
->
-So, no I do not think they can be merged.  But renaming core-image-core 
-to core-image-x11-base might make sense, also renaming core-image-basic 
-to core-image-lsb-basic may clear things up.
+That one doesn't seem to apply:
 
-> Then, we have core-image-base, which whilst it doesn't remove package
-> management files, does not have "package-management" in its features, so it's
-> not a whole lot different to core-image-minimal AFAICT.
->
-On this one I might agree, I know that we have not built that image, nor 
-does it seem to be used by anything else.
+koen@dominion:/OE/tentacle/sources/openembedded-core$ git am -s =
+/tmp/0001-libc-package-restore-correct-mangling-behavior-for-l-1.patch=20=
 
-Sau!
+Applying: libc-package: restore correct mangling behavior for locale =
+names
+error: patch failed: meta/classes/libc-package.bbclass:241
+error: meta/classes/libc-package.bbclass: patch does not apply
+Patch failed at 0001 libc-package: restore correct mangling behavior for =
+locale names
+When you have resolved this problem run "git am --resolved".
+If you would prefer to skip this patch, instead run "git am --skip".
+To restore the original branch and stop patching run "git am --abort".
 
-> Comments?
->
-> Cheers,
-> Paul
->
->
+
 
 
