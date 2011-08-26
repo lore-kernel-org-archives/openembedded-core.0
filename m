@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qx2Kf-0006Xw-En
+	(envelope-from <sgw@linux.intel.com>) id 1Qx2Kf-0006Y4-Ne
 	for openembedded-core@lists.openembedded.org;
 	Fri, 26 Aug 2011 21:44:49 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 26 Aug 2011 12:39:56 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 26 Aug 2011 12:39:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,286,1312182000"; d="scan'208";a="45450540"
+X-IronPort-AV: E=Sophos;i="4.68,286,1312182000"; d="scan'208";a="45450543"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.251])
 	by fmsmga001.fm.intel.com with ESMTP; 26 Aug 2011 12:39:56 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Aug 2011 12:39:44 -0700
-Message-Id: <cb247225a96d57e67ce32c5674bb13b703e30a7c.1314387279.git.sgw@linux.intel.com>
+Date: Fri, 26 Aug 2011 12:39:45 -0700
+Message-Id: <ea7c196b4097d64b4f42faccaf075334c297ba20.1314387279.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1314387279.git.sgw@linux.intel.com>
 References: <cover.1314387279.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1314387279.git.sgw@linux.intel.com>
 References: <cover.1314387279.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 14/21] bitbake.conf: Use BPN in FILES paths
+Subject: [CONSOLIDATED PULL 15/21] multilib.bbclass: Fix renaming logic for "FILES_", "RDEPENDS_", etc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,39 +33,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2011 19:44:49 -0000
+X-List-Received-Date: Fri, 26 Aug 2011 19:44:50 -0000
 
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 
-Use BPN instead of PN in FILES path to support multilib.
+In the orignal logic, the renaming will not work for "FILES_" if defined
+variables as:
+
+PACKAGES = "${PN}"
+FILES_abc = "/usr/include/abc.h"
+
+It is because ${PN} is "lib64-abc" so it will not be contained in
+pkgrename.
+
+This commit enumerates all element in PACKAGES, getting the original
+packages and multilib packages, then doing renaming for "FILES_",
+"RDEPENDS_", etc. This fixes a lot of missing files and incorrect
+dependencies.
 
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- meta/conf/bitbake.conf |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/multilib.bbclass |   18 ++++++++----------
+ 1 files changed, 8 insertions(+), 10 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index b3ff047..a68be07 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -262,7 +262,7 @@ FILES_${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*${SOLIBS}
-             ${sysconfdir} ${sharedstatedir} ${localstatedir} \
-             ${base_bindir}/* ${base_sbindir}/* \
-             ${base_libdir}/*${SOLIBS} \
--            ${datadir}/${PN} ${libdir}/${PN}/* \
-+            ${datadir}/${BPN} ${libdir}/${BPN}/* \
-             ${datadir}/pixmaps ${datadir}/applications \
-             ${datadir}/idl ${datadir}/omf ${datadir}/sounds \
-             ${libdir}/bonobo/servers"
-@@ -283,7 +283,7 @@ SECTION_${PN}-staticdev = "devel"
- RDEPENDS_${PN}-staticdev = "${PN}-dev (= ${EXTENDPKGV})"
+diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+index 571b7be..46c24e1 100644
+--- a/meta/classes/multilib.bbclass
++++ b/meta/classes/multilib.bbclass
+@@ -63,20 +63,18 @@ python __anonymous () {
+             newvar.append(extend_name(v))
+         d.setVar(varname, " ".join(newvar))
  
- DOTDEBUG-dbg = "${bindir}/.debug ${sbindir}/.debug ${libexecdir}/.debug ${libdir}/.debug \
--            ${base_bindir}/.debug ${base_sbindir}/.debug ${base_libdir}/.debug ${libdir}/${PN}/.debug \
-+            ${base_bindir}/.debug ${base_sbindir}/.debug ${base_libdir}/.debug ${libdir}/${BPN}/.debug \
-             ${libdir}/matchbox-panel/.debug /usr/src/debug"
+-    pkgs = []
+-    pkgrename = {}
++    pkgs_mapping = []
+     for pkg in (d.getVar("PACKAGES", True) or "").split():
+         if pkg.startswith(variant):
+-            pkgs.append(pkg)
++            pkgs_mapping.append([pkg.split(variant + "-")[1], pkg])
+             continue
+-        pkgrename[pkg] = extend_name(pkg)
+-        pkgs.append(pkgrename[pkg])
++        pkgs_mapping.append([pkg, extend_name(pkg)])
  
- DEBUGFILEDIRECTORY-dbg = "/usr/lib/debug /usr/src/debug"
+-    if pkgrename:
+-        d.setVar("PACKAGES", " ".join(pkgs))
+-        for pkg in pkgrename:
+-            for subs in ["FILES", "RDEPENDS", "RRECOMMENDS", "SUMMARY", "DESCRIPTION", "RSUGGESTS", "RPROVIDES", "RCONFLICTS", "PKG", "ALLOW_EMPTY"]:
+-                d.renameVar("%s_%s" % (subs, pkg), "%s_%s" % (subs, pkgrename[pkg]))
++    d.setVar("PACKAGES", " ".join([row[1] for row in pkgs_mapping]))
++
++    for pkg_mapping in pkgs_mapping:
++        for subs in ["FILES", "RDEPENDS", "RRECOMMENDS", "SUMMARY", "DESCRIPTION", "RSUGGESTS", "RPROVIDES", "RCONFLICTS", "PKG", "ALLOW_EMPTY"]:
++            d.renameVar("%s_%s" % (subs, pkg_mapping[0]), "%s_%s" % (subs, pkg_mapping[1]))
+ 
+     map_dependencies("DEPENDS", d)
+     for pkg in (d.getVar("PACKAGES", True).split() + [""]):
 -- 
 1.7.6
 
