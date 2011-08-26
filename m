@@ -1,28 +1,27 @@
 Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QwrPS-0001oy-Id
+	(envelope-from <koen@dominion.thruhere.net>) id 1QwrR6-0001rS-W5
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 10:05:02 +0200
-Received: by wyf19 with SMTP id 19so2370914wyf.6
+	Fri, 26 Aug 2011 10:06:45 +0200
+Received: by wyf19 with SMTP id 19so2372006wyf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Aug 2011 01:00:12 -0700 (PDT)
-Received: by 10.216.37.198 with SMTP id y48mr336380wea.100.1314345612347;
-	Fri, 26 Aug 2011 01:00:12 -0700 (PDT)
+	Fri, 26 Aug 2011 01:01:56 -0700 (PDT)
+Received: by 10.227.196.80 with SMTP id ef16mr636419wbb.27.1314345715764;
+	Fri, 26 Aug 2011 01:01:55 -0700 (PDT)
 Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id i51sm849802wed.19.2011.08.26.01.00.11
+	by mx.google.com with ESMTPS id p18sm1080926wbh.55.2011.08.26.01.01.54
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 26 Aug 2011 01:00:11 -0700 (PDT)
+	Fri, 26 Aug 2011 01:01:54 -0700 (PDT)
 Mime-Version: 1.0 (Apple Message framework v1244.3)
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1314318504-9524-9-git-send-email-joelagnel@ti.com>
-Date: Fri, 26 Aug 2011 10:00:11 +0200
-Message-Id: <73D610E1-42B6-4B07-95FC-A5C73D42CECA@dominion.thruhere.net>
+In-Reply-To: <1314318504-9524-1-git-send-email-joelagnel@ti.com>
+Date: Fri, 26 Aug 2011 10:01:53 +0200
+Message-Id: <ECC8B268-E890-4F6D-BDA6-9C3CB7A6BA55@dominion.thruhere.net>
 References: <1314318504-9524-1-git-send-email-joelagnel@ti.com>
-	<1314318504-9524-9-git-send-email-joelagnel@ti.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 X-Mailer: Apple Mail (2.1244.3)
-Subject: Re: [PATCH meta-oe 8/9] xsp: Imported from OE classic
+Subject: Re: [PATCH meta-oe 1/9] schroedinger: Imported from OE classic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,7 +36,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2011 08:05:02 -0000
+X-List-Received-Date: Fri, 26 Aug 2011 08:06:45 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
@@ -47,63 +46,144 @@ geschreven:
 
 > Signed-off-by: Joel A Fernandes <joelagnel@ti.com>
 > ---
-> .../recipes-multimedia/xsp/xsp/xsp-fix-pc.patch    |   10 ++++++++++
-> meta-oe/recipes-multimedia/xsp/xsp_1.0.0-8.bb      |   15 =
+> .../schroedinger/gst-plugin-schroedinger_1.0.9.bb  |   15 =
 +++++++++++++++
-> 2 files changed, 25 insertions(+), 0 deletions(-)
-> create mode 100644 meta-oe/recipes-multimedia/xsp/xsp/xsp-fix-pc.patch
-> create mode 100644 meta-oe/recipes-multimedia/xsp/xsp_1.0.0-8.bb
+> .../schroedinger/schroedinger.inc                  |   19 =
++++++++++++++++++++
+> .../schroedinger/schroedinger/configure.ac.patch   |   13 =
++++++++++++++
+> .../schroedinger/schroedinger_1.0.9.bb             |   13 =
++++++++++++++
+> 4 files changed, 60 insertions(+), 0 deletions(-)
+> create mode 100644 =
+meta-oe/recipes-multimedia/schroedinger/gst-plugin-schroedinger_1.0.9.bb
+> create mode 100644 =
+meta-oe/recipes-multimedia/schroedinger/schroedinger.inc
+> create mode 100644 =
+meta-oe/recipes-multimedia/schroedinger/schroedinger/configure.ac.patch
+> create mode 100644 =
+meta-oe/recipes-multimedia/schroedinger/schroedinger_1.0.9.bb
 >=20
-> diff --git a/meta-oe/recipes-multimedia/xsp/xsp/xsp-fix-pc.patch =
-b/meta-oe/recipes-multimedia/xsp/xsp/xsp-fix-pc.patch
+> diff --git =
+a/meta-oe/recipes-multimedia/schroedinger/gst-plugin-schroedinger_1.0.9.bb=
+ =
+b/meta-oe/recipes-multimedia/schroedinger/gst-plugin-schroedinger_1.0.9.bb=
+
 > new file mode 100644
-> index 0000000..18bc67c
+> index 0000000..0a95646
 > --- /dev/null
-> +++ b/meta-oe/recipes-multimedia/xsp/xsp/xsp-fix-pc.patch
-> @@ -0,0 +1,10 @@
-> +--- Xsp/xsp.pc.in~	2009-01-07 13:06:07.000000000 +0100
-> ++++ Xsp/xsp.pc.in	2009-01-07 13:06:07.000000000 +0100
-> +@@ -6,5 +6,5 @@
-> + Name: Xsp
-> + Description: X Sputnik Library
-> + Version: @PACKAGE_VERSION@
-> +-Cflags: -I${includedir}  @XSP_CFLAGS@ @X_CFLAGS@
-> +-Libs: -L${libdir} -lXsp @XSP_LIBS@ @X_LIBS@
-> ++Cflags: -I${includedir}
-> ++Libs: -L${libdir} -lXsp -lX11
-> diff --git a/meta-oe/recipes-multimedia/xsp/xsp_1.0.0-8.bb =
-b/meta-oe/recipes-multimedia/xsp/xsp_1.0.0-8.bb
-> new file mode 100644
-> index 0000000..2bc3e83
-> --- /dev/null
-> +++ b/meta-oe/recipes-multimedia/xsp/xsp_1.0.0-8.bb
+> +++ =
+b/meta-oe/recipes-multimedia/schroedinger/gst-plugin-schroedinger_1.0.9.bb=
+
 > @@ -0,0 +1,15 @@
-> +PR =3D "r2"
+> +require schroedinger.inc
+> +PR =3D "r0"
+> +
 
-drop that
+> +DEPENDS +=3D "gstreamer gst-plugins-base"
+> +
+> +SRC_URI[schroedingertargz.md5sum] =3D =
+"d67ec48b7c506db8c8b49156bf409e60"
+> +SRC_URI[schroedingertargz.sha256sum] =3D =
+"345abcaa72ff0f2e9c1075e22f7141475ee4e6eea23a7f568b69ffc13cc1c723"
+> +
+> +S =3D "${WORKDIR}/schroedinger-${PV}"
+> +
+> +PACKAGES =3D "gst-plugin-schroedinger gst-plugin-schroedinger-dev =
+gst-plugin-schroedinger-dbg"
+> +FILES_gst-plugin-schroedinger +=3D =
+"${libdir}/gstreamer-0.10/libgstschro.so"
+> +FILES_gst-plugin-schroedinger-dev +=3D =
+"${libdir}/gstreamer-0.10/libgstschro.*"
+> +FILES_gst-plugin-schroedinger-dbg +=3D =
+"${libdir}/gstreamer-0.10/.debug/libgstschro.so"
+> +
+> diff --git a/meta-oe/recipes-multimedia/schroedinger/schroedinger.inc =
+b/meta-oe/recipes-multimedia/schroedinger/schroedinger.inc
+> new file mode 100644
+> index 0000000..386fc73
+> --- /dev/null
+> +++ b/meta-oe/recipes-multimedia/schroedinger/schroedinger.inc
+> @@ -0,0 +1,19 @@
+> +HOMEPAGE =3D "http://schrodinger.sourceforge.net/"
+> +LICENSE =3D "MPL GPL LGPL MIT"
+> +DEPENDS =3D "liboil orc-native orc"
+> +
+> +INC_PR =3D "r1"
 
-> +LICENSE=3D "MIT"
-> +DESCRIPTION =3D "X Server Nokia 770 extensions library"
-> +SECTION =3D "x11/libs"
-> +PRIORITY =3D "optional"
+reset that
 
-That field isn't used anymore
-
-
-> +DEPENDS =3D "virtual/libx11 libxext xpext"
-> +LIC_FILES_CHKSUM =3D =
-"file://COPYING;md5=3Dea2bda168c508c7cd8afa567b2fcc549"
+> +
 > +SRC_URI =3D =
-"http://repository.maemo.org/pool/maemo/ossw/source/x/xsp/${PN}_${PV}.tar.=
-gz \
-> +           file://xsp-fix-pc.patch"
-> +S =3D "${WORKDIR}/Xsp"
+"http://www.diracvideo.org/download/schroedinger/${P}.tar.gz;name=3Dschroe=
+dingertargz"
+> +SRC_URI +=3D "file://configure.ac.patch"
 > +
-> +inherit autotools pkgconfig
+> +EXTRA_OECONF +=3D "STAGING_DIR=3D${STAGING_DIR_NATIVE}"
 > +
-> +SRC_URI[md5sum] =3D "2a0d8d02228d4cbd28b6e07bb7c17cf5"
-> +SRC_URI[sha256sum] =3D =
-"8b722b952b64841d996c70c3278499886c81bb5012991beed5f66f4158418f59"
+> +inherit autotools
+> +
+> +do_configure_append () {
+> +        # Fix stupid libtool... handling.=20
+> +        # rpath handling can't be disabled and the Makefile's can't =
+be regenerated..
+> +        # (GNU sed required)
+> +        sed -i =
+s/^hardcode_libdir_flag_spec/#hardcode_libdir_flag_spec/ ${S}/*-libtool
+> +}
+> diff --git =
+a/meta-oe/recipes-multimedia/schroedinger/schroedinger/configure.ac.patch =
+b/meta-oe/recipes-multimedia/schroedinger/schroedinger/configure.ac.patch
+> new file mode 100644
+> index 0000000..ac5e7ee
+> --- /dev/null
+> +++ =
+b/meta-oe/recipes-multimedia/schroedinger/schroedinger/configure.ac.patch
+> @@ -0,0 +1,13 @@
+> +Index: schroedinger-1.0.9/configure.ac
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +--- schroedinger-1.0.9.orig/configure.ac
+> ++++ schroedinger-1.0.9/configure.ac
+> +@@ -54,7 +54,7 @@ if test "x${HAVE_ORC}" !=3D xyes ; then
+> +   AC_ERROR([orc-0.4 >=3D $ORC_VER is required])
+> + fi
+> + SCHRO_PKG_DEPS=3D"$SCHRO_PKG_DEPS orc-0.4 >=3D $ORC_VER"
+> +-ORCC=3D`$PKG_CONFIG --variable=3Dorcc orc-0.4`
+> ++ORCC=3D$STAGING_DIR`$PKG_CONFIG --variable=3Dorcc orc-0.4`
+> + AC_SUBST(ORCC)
+> +=20
+> + AC_ARG_WITH([thread],
+> diff --git =
+a/meta-oe/recipes-multimedia/schroedinger/schroedinger_1.0.9.bb =
+b/meta-oe/recipes-multimedia/schroedinger/schroedinger_1.0.9.bb
+> new file mode 100644
+> index 0000000..2994428
+> --- /dev/null
+> +++ b/meta-oe/recipes-multimedia/schroedinger/schroedinger_1.0.9.bb
+> @@ -0,0 +1,13 @@
+> +require schroedinger.inc
+> +
+> +PR =3D "${INC_PR}.0"
+> +
+> +inherit autotools
+> +
+> +SRC_URI[schroedingertargz.md5sum] =3D =
+"d67ec48b7c506db8c8b49156bf409e60"
+> +SRC_URI[schroedingertargz.sha256sum] =3D =
+"345abcaa72ff0f2e9c1075e22f7141475ee4e6eea23a7f568b69ffc13cc1c723"
+
+Why isn't this in the .inc and why is there a seperate recipe for the =
+gst plugin?
+
+> +
+> +PACKAGES =3D+ "gst-plugin-schroedinger-dbg =
+gst-plugin-schroedinger-dev gst-plugin-schroedinger"
+> +FILES_gst-plugin-schroedinger =3D "${libdir}/gstreamer-0.10/*.so"
+> +FILES_gst-plugin-schroedinger-dbg =3D =
+"${libdir}/gstreamer-0.10/.debug"
+> +FILES_gst-plugin-schroedinger-dev =3D "${libdir}/gstreamer-0.10/*.*a"
 > --=20
 > 1.7.0.4
 >=20
