@@ -1,28 +1,28 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Noor_Ahsan@mentor.com>) id 1QwzPV-00023K-NB
+	(envelope-from <koen@dominion.thruhere.net>) id 1QwzR2-00026G-13
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 18:37:38 +0200
-Received: from nat-dem.mentorg.com ([195.212.93.2]
-	helo=eu2-mail.mgc.mentorg.com) by relay1.mentorg.com with esmtp 
-	id 1QwzKs-0005xH-At from Noor_Ahsan@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 09:32:50 -0700
-Received: from localhost.localdomain ([137.202.156.152]) by
-	eu2-mail.mgc.mentorg.com with Microsoft SMTPSVC(6.0.3790.4675); 
-	Fri, 26 Aug 2011 18:32:49 +0200
-From: "Noor, Ahsan" <noor_ahsan@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Aug 2011 21:31:55 +0500
-Message-Id: <202943c6ed8beee1af8f9b3c1e58a36a7721c006.1314370503.git.noor_ahsan@mentor.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1314370503.git.noor_ahsan@mentor.com>
+	Fri, 26 Aug 2011 18:39:12 +0200
+Received: by wwe32 with SMTP id 32so2969796wwe.24
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Aug 2011 09:34:23 -0700 (PDT)
+Received: by 10.216.229.224 with SMTP id h74mr2120205weq.66.1314376463173;
+	Fri, 26 Aug 2011 09:34:23 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id m20sm820226wed.33.2011.08.26.09.34.21
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 26 Aug 2011 09:34:22 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <cd76d454663469daf196ebac80eab51de527f19c.1314370503.git.noor_ahsan@mentor.com>
+Date: Fri, 26 Aug 2011 18:34:19 +0200
+Message-Id: <9AAE579D-BC67-4D49-9670-2D3140CB8245@dominion.thruhere.net>
 References: <cover.1314370503.git.noor_ahsan@mentor.com>
-In-Reply-To: <noor_ahsan@mentor.com>
-References: <noor_ahsan@mentor.com>
-X-OriginalArrivalTime: 26 Aug 2011 16:32:49.0367 (UTC)
-	FILETIME=[CB378E70:01CC640D]
-Subject: [meta-oe][PATCH 4/4] tiobench: Add version 0.3.3 (initial recipe)
+	<cd76d454663469daf196ebac80eab51de527f19c.1314370503.git.noor_ahsan@mentor.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1244.3)
+Subject: Re: [meta-oe][PATCH 2/4] lmbench: Add version 3.0-a9 (initial recipe)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,108 +37,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2011 16:37:38 -0000
+X-List-Received-Date: Fri, 26 Aug 2011 16:39:12 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-From: Noor Ahsan <noor_ahsan@mentor.com>
 
-* Imported from oe.dev commit id 821f47e170dddabaef3925fd62c5423210dcb363.
+Op 26 aug. 2011, om 18:31 heeft Noor, Ahsan het volgende geschreven:
 
-Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
----
- .../tiobench-0.3.3/tiobench-makefile.patch         |   49 ++++++++++++++++++++
- .../recipes-benchmark/tiobench/tiobench_0.3.3.bb   |   25 ++++++++++
- 2 files changed, 74 insertions(+), 0 deletions(-)
- create mode 100644 meta-oe/recipes-benchmark/tiobench/tiobench-0.3.3/tiobench-makefile.patch
- create mode 100644 meta-oe/recipes-benchmark/tiobench/tiobench_0.3.3.bb
+> From: Noor Ahsan <noor_ahsan@mentor.com>
+> 
+> 
+> +++ b/meta-oe/recipes-benchmark/lmbench/lmbench_3.0-a9.bb
+> @@ -0,0 +1,56 @@
+> +DESCRIPTION = "Tools for performance analysis."
+> +HOMEPAGE = "http://lmbench.sourceforge.net/"
+> +SECTION = "console/utils"
+> +LICENSE = "GPL"
 
-diff --git a/meta-oe/recipes-benchmark/tiobench/tiobench-0.3.3/tiobench-makefile.patch b/meta-oe/recipes-benchmark/tiobench/tiobench-0.3.3/tiobench-makefile.patch
-new file mode 100644
-index 0000000..f820c7e
---- /dev/null
-+++ b/meta-oe/recipes-benchmark/tiobench/tiobench-0.3.3/tiobench-makefile.patch
-@@ -0,0 +1,49 @@
-+Adapt tiobench to OE
-+Author: Ludovic Desroches <ludovic.desroches@atmel.com>
-+
-+Upstream-Status: Inappropriate [not author]
-+
-+Index: Makefile
-+===================================================================
-+--- a/Makefile	2011-05-26 07:48:46.341400974 +0200
-++++ b/Makefile	2011-05-30 06:32:38.091401358 +0200
-+@@ -1,8 +1,9 @@
-+ # Makefile for tiotest
-+ 
-+-CC=gcc
-++CC?=gcc
-+ #CFLAGS=-O3 -fomit-frame-pointer -Wall
-+ CFLAGS=-O2 -Wall
-++LDFLAGS?=
-+ 
-+ #DEFINES=-DUSE_MMAP 
-+ #-DUSE_MADVISE
-+@@ -14,16 +15,16 @@
-+ 
-+ #DEFINES=
-+ 
-+-LINK=gcc
-++LINK?=$(CC)
-+ EXE=tiotest
-+ PROJECT=tiobench
-+ # do it once instead of each time referenced
-+ VERSION=$(shell egrep "tiotest v[0-9]+.[0-9]+" tiotest.c | cut -d " " -f 7 | sed "s/v//g")
-+ DISTNAME=$(PROJECT)-$(VERSION)
-+ INSTALL=install
-+-PREFIX=/usr/local
-++PREFIX?=/usr/local
-+ BINDIR=$(PREFIX)/bin
-+-DOCDIR=/usr/local/doc/$(DISTNAME)
-++DOCDIR=$(PREFIX)/share/doc/$(DISTNAME)
-+ 
-+ all: $(EXE)
-+ 
-+@@ -34,7 +35,7 @@
-+ 	$(CC) -c $(CFLAGS) $(DEFINES) tiotest.c -o tiotest.o
-+ 
-+ $(EXE): tiotest.o crc32.o
-+-	$(LINK) -o $(EXE) tiotest.o crc32.o -lpthread
-++	$(LINK) -o $(EXE) tiotest.o crc32.o -lpthread $(LDFLAGS)
-+ 	@echo
-+ 	@echo "./tiobench.pl --help for usage options"
-+ 	@echo
-diff --git a/meta-oe/recipes-benchmark/tiobench/tiobench_0.3.3.bb b/meta-oe/recipes-benchmark/tiobench/tiobench_0.3.3.bb
-new file mode 100644
-index 0000000..636e2d1
---- /dev/null
-+++ b/meta-oe/recipes-benchmark/tiobench/tiobench_0.3.3.bb
-@@ -0,0 +1,25 @@
-+DESCRIPTION = "Threaded I/O tester"
-+HOMEPAGE = "http://sourceforge.net/projects/tiobench/"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=c93c0550bd3173f4504b2cbd8991e50b"
-+RDEPENDS = "\
-+    perl \
-+    perl-module-exporter-heavy \
-+    perl-module-getopt-long \
-+    perl-module-overload \
-+    perl-module-strict \
-+    "
-+PR = "r0"
-+
-+SRC_URI = "\
-+    http://sourceforge.net/projects/tiobench/files/tiobench/${PV}/${P}.tar.gz \
-+    file://tiobench-makefile.patch \
-+    "
-+SRC_URI[md5sum] = "bf485bf820e693c79e6bd2a38702a128"
-+SRC_URI[sha256sum] = "8ad011059a35ac70cdb5e3d3999ceee44a8e8e9078926844b0685b7ea9db2bcc"
-+
-+EXTRA_OEMAKE = "PREFIX=${D}/usr"
-+
-+do_install() {
-+    oe_runmake install
-+}
--- 
-1.7.0.4
+which version?
 
+> 
+> +RDEPENDS_${PN} = "debianutils"
+
+That needs to go next to FILES_* and friends
 
 
