@@ -1,28 +1,28 @@
 Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Noor_Ahsan@mentor.com>) id 1QwzOi-00020X-7i
+	(envelope-from <Noor_Ahsan@mentor.com>) id 1QwzPP-00022a-Eq
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 18:36:48 +0200
+	Fri, 26 Aug 2011 18:37:31 +0200
 Received: from nat-dem.mentorg.com ([195.212.93.2]
 	helo=eu2-mail.mgc.mentorg.com) by relay1.mentorg.com with esmtp 
-	id 1QwzK2-0005tC-SO from Noor_Ahsan@mentor.com 
+	id 1QwzKl-0005wZ-Nr from Noor_Ahsan@mentor.com 
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 09:31:59 -0700
+	Fri, 26 Aug 2011 09:32:44 -0700
 Received: from localhost.localdomain ([137.202.156.152]) by
 	eu2-mail.mgc.mentorg.com with Microsoft SMTPSVC(6.0.3790.4675); 
-	Fri, 26 Aug 2011 18:31:57 +0200
+	Fri, 26 Aug 2011 18:32:42 +0200
 From: "Noor, Ahsan" <noor_ahsan@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Aug 2011 21:31:53 +0500
-Message-Id: <cd76d454663469daf196ebac80eab51de527f19c.1314370503.git.noor_ahsan@mentor.com>
+Date: Fri, 26 Aug 2011 21:31:54 +0500
+Message-Id: <9bd10de4bc93d84fecba8c48c64766437e1849cb.1314370503.git.noor_ahsan@mentor.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <cover.1314370503.git.noor_ahsan@mentor.com>
 References: <cover.1314370503.git.noor_ahsan@mentor.com>
 In-Reply-To: <noor_ahsan@mentor.com>
 References: <noor_ahsan@mentor.com>
-X-OriginalArrivalTime: 26 Aug 2011 16:31:58.0178 (UTC)
-	FILETIME=[ACB4BC20:01CC640D]
-Subject: [meta-oe][PATCH 2/4] lmbench: Add version 3.0-a9 (initial recipe)
+X-OriginalArrivalTime: 26 Aug 2011 16:32:43.0008 (UTC)
+	FILETIME=[C76D4000:01CC640D]
+Subject: [meta-oe][PATCH 3/4] iperf: Add version 2.0.4 (initial recipe)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,344 +37,753 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2011 16:36:48 -0000
+X-List-Received-Date: Fri, 26 Aug 2011 16:37:32 -0000
 
 From: Noor Ahsan <noor_ahsan@mentor.com>
 
-* Imported from oe.dev commit id bac6441118e0b78d55c98afdc108f03b6c655909.
+* Imported from oe.dev commit id 0ff10ecb88de73074ae4857046643cef15dc4e97 and c10c33f86903c93611023197a7f812459c2dfe2d.
+* Combined .inc and bb file from oe.dev and made a single bb file.
+* Removed EXTRA_OECONF_append_epia = " --disable-threads" while importing as this should go in epia layer.
 
 Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
 ---
- .../lmbench/lmbench-3.0-a9/obey-ranlib.patch       |   30 ++++
- .../lmbench-3.0-a9/update-results-script.patch     |  160 ++++++++++++++++++++
- .../recipes-benchmark/lmbench/lmbench/lmbench-run  |   23 +++
- .../lmbench/lmbench/rename-line-binary.patch       |   19 +++
- .../recipes-benchmark/lmbench/lmbench_3.0-a9.bb    |   56 +++++++
- 5 files changed, 288 insertions(+), 0 deletions(-)
- create mode 100644 meta-oe/recipes-benchmark/lmbench/lmbench-3.0-a9/obey-ranlib.patch
- create mode 100644 meta-oe/recipes-benchmark/lmbench/lmbench-3.0-a9/update-results-script.patch
- create mode 100644 meta-oe/recipes-benchmark/lmbench/lmbench/lmbench-run
- create mode 100644 meta-oe/recipes-benchmark/lmbench/lmbench/rename-line-binary.patch
- create mode 100644 meta-oe/recipes-benchmark/lmbench/lmbench_3.0-a9.bb
+ .../iperf/iperf-2.0.4/000-Iperf_Fix-CPU-Usage.diff |  164 ++++++++++++++++++
+ .../001-cast-to-max_size_t-instead-of-int.patch    |   14 ++
+ .../003-fix-hyphen-used-as-minus-sign.patch        |  178 ++++++++++++++++++++
+ .../iperf/iperf-2.0.4/004-svn-r43-ro.patch         |  117 +++++++++++++
+ .../iperf-2.0.4/005-iperf-die-on-bind-fail.patch   |   15 ++
+ .../006-iperf-die-on-connect-fail.patch            |   15 ++
+ .../iperf-2.0.4/007-iperf-reporter-deadlock.patch  |   68 ++++++++
+ .../iperf/iperf-2.0.4/008-numofreport.patch        |   15 ++
+ .../iperf/iperf-2.0.4/009-delayloop.patch          |   22 +++
+ meta-oe/recipes-benchmark/iperf/iperf_2.0.4.bb     |   47 +++++
+ 10 files changed, 655 insertions(+), 0 deletions(-)
+ create mode 100644 meta-oe/recipes-benchmark/iperf/iperf-2.0.4/000-Iperf_Fix-CPU-Usage.diff
+ create mode 100644 meta-oe/recipes-benchmark/iperf/iperf-2.0.4/001-cast-to-max_size_t-instead-of-int.patch
+ create mode 100644 meta-oe/recipes-benchmark/iperf/iperf-2.0.4/003-fix-hyphen-used-as-minus-sign.patch
+ create mode 100644 meta-oe/recipes-benchmark/iperf/iperf-2.0.4/004-svn-r43-ro.patch
+ create mode 100644 meta-oe/recipes-benchmark/iperf/iperf-2.0.4/005-iperf-die-on-bind-fail.patch
+ create mode 100644 meta-oe/recipes-benchmark/iperf/iperf-2.0.4/006-iperf-die-on-connect-fail.patch
+ create mode 100644 meta-oe/recipes-benchmark/iperf/iperf-2.0.4/007-iperf-reporter-deadlock.patch
+ create mode 100644 meta-oe/recipes-benchmark/iperf/iperf-2.0.4/008-numofreport.patch
+ create mode 100644 meta-oe/recipes-benchmark/iperf/iperf-2.0.4/009-delayloop.patch
+ create mode 100644 meta-oe/recipes-benchmark/iperf/iperf_2.0.4.bb
 
-diff --git a/meta-oe/recipes-benchmark/lmbench/lmbench-3.0-a9/obey-ranlib.patch b/meta-oe/recipes-benchmark/lmbench/lmbench-3.0-a9/obey-ranlib.patch
+diff --git a/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/000-Iperf_Fix-CPU-Usage.diff b/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/000-Iperf_Fix-CPU-Usage.diff
 new file mode 100644
-index 0000000..41a3b32
+index 0000000..7e89953
 --- /dev/null
-+++ b/meta-oe/recipes-benchmark/lmbench/lmbench-3.0-a9/obey-ranlib.patch
-@@ -0,0 +1,30 @@
-+In some cases the host may have too old of a ranlib to work.  Since it's
-+not exactly a great idea to not be using the cross ranlib anyhow, fix the
-+Makefile so we can override ranlib and then override it
++++ b/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/000-Iperf_Fix-CPU-Usage.diff
+@@ -0,0 +1,164 @@
++[Thread]: Replace thread_rest() with condition variables
 +
-+Upstream-Status: Inappropriate [build system specific change]
++This applies the patch by Ingo Molnar from
++
++   http://marc.info/?l=linux-kernel&m=119088670113210&w=2
++
++by reverting previous changes that coincided with changes made by this
++patch. Other than that, the patch is the original from the above URL.
++
++Gerrit
 +---
-+ src/Makefile |    3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
++ compat/Thread.c |    6 ------
++ src/Reporter.c  |   37 +++++++++----------------------------
++ src/main.cpp    |    2 ++
++ 3 files changed, 11 insertions(+), 34 deletions(-)
 +
-+Index: lmbench-3.0-a9/src/Makefile
-+===================================================================
-+--- lmbench-3.0-a9.orig/src/Makefile
-++++ lmbench-3.0-a9/src/Makefile
-+@@ -38,6 +38,7 @@ CC=`../scripts/compiler`
-+ MAKE=`../scripts/make`
-+ AR=ar
-+ ARCREATE=cr
-++RANLIB=ranlib
++rover: changed two remaining thread_rest.
++
++--- a/compat/Thread.c
+++++ b/compat/Thread.c
++@@ -405,12 +405,6 @@ int thread_numuserthreads( void ) {
++ void thread_rest ( void ) {
++ #if defined( HAVE_THREAD )
++ #if defined( HAVE_POSIX_THREAD )
++-#if defined( _POSIX_PRIORITY_SCHEDULING )
++-    sched_yield();
++-#else
++-    usleep( 0 );
++-#endif
++-
++ #else // Win32
++     SwitchToThread( );
++ #endif
++--- a/src/Reporter.c
+++++ b/src/Reporter.c
++@@ -110,9 +110,8 @@
 + 
-+ # base of installation location
-+ BASE=/usr/local
-+@@ -217,7 +218,7 @@ $O/lmbench : ../scripts/lmbench version.
-+ $O/lmbench.a: $(LIBOBJS)
-+ 	/bin/rm -f $O/lmbench.a
-+ 	$(AR) $(ARCREATE) $O/lmbench.a $(LIBOBJS)
-+-	-ranlib $O/lmbench.a
-++	-$(RANLIB) $O/lmbench.a
++ char buffer[64]; // Buffer for printing
++ ReportHeader *ReportRoot = NULL;
++-int threadWait = 0;
++-int threadSleeping = 0;
++ extern Condition ReportCond;
+++extern Condition ReportDoneCond;
++ int reporter_process_report ( ReportHeader *report );
++ void process_report ( ReportHeader *report );
++ int reporter_handle_packet( ReportHeader *report );
++@@ -340,7 +339,7 @@
++             // item
++             while ( index == 0 ) {
++                 Condition_Signal( &ReportCond );
++-                thread_rest();
+++                Condition_Wait( &ReportDoneCond );
++                 index = agent->reporterindex;
++             }
++             agent->agentindex = 0;
++@@ -348,11 +347,9 @@
++         // Need to make sure that reporter is not about to be "lapped"
++         while ( index - 1 == agent->agentindex ) {
++             Condition_Signal( &ReportCond );
++-            thread_rest();
+++            Condition_Wait( &ReportDoneCond );
++             index = agent->reporterindex;
++         }
++-	if (threadSleeping)
++-           Condition_Signal( &ReportCond );
 + 
-+ $O/lib_timing.o : lib_timing.c $(INCS)
-+ 	$(COMPILE) -c lib_timing.c -o $O/lib_timing.o
-diff --git a/meta-oe/recipes-benchmark/lmbench/lmbench-3.0-a9/update-results-script.patch b/meta-oe/recipes-benchmark/lmbench/lmbench-3.0-a9/update-results-script.patch
++         // Put the information there
++         memcpy( agent->data + agent->agentindex, packet, sizeof(ReportStruct) );
++@@ -382,9 +379,6 @@
++         packet->packetLen = 0;
++         ReportPacket( agent, packet );
++         packet->packetID = agent->report.cntDatagrams;
++-	if (threadSleeping)
++-           Condition_Signal( &ReportCond );
++-
++     }
++ }
++ 
++@@ -396,11 +390,8 @@
++ void EndReport( ReportHeader *agent ) {
++     if ( agent != NULL ) {
++         int index = agent->reporterindex;
++-	if (threadSleeping)
++-           Condition_Signal( &ReportCond );
++-
++         while ( index != -1 ) {
++-            thread_rest();
+++            Condition_Wait( &ReportDoneCond );
++             index = agent->reporterindex;
++         }
++         agent->agentindex = -1;
++@@ -421,7 +412,7 @@
++ Transfer_Info *GetReport( ReportHeader *agent ) {
++     int index = agent->reporterindex;
++     while ( index != -1 ) {
++-        thread_rest();
+++        Condition_Wait( &ReportDoneCond );
++         index = agent->reporterindex;
++     }
++     return &agent->report.info;
++@@ -467,10 +458,6 @@
++              * Update the ReportRoot to include this report.
++              */
++             Condition_Lock( ReportCond );
++-	    if ( isUDP(agent) )
++-	      threadWait = 0;
++-	    else
++-	      threadWait = 1;
++             reporthdr->next = ReportRoot;
++             ReportRoot = reporthdr;
++             Condition_Signal( &ReportCond );
++@@ -567,6 +554,7 @@
++         }
++         Condition_Unlock ( ReportCond );
++ 
+++again:
++         if ( ReportRoot != NULL ) {
++             ReportHeader *temp = ReportRoot;
++             //Condition_Unlock ( ReportCond );
++@@ -589,19 +577,12 @@
++                 // finished with report so free it
++                 free( temp );
++                 Condition_Unlock ( ReportCond );
+++                Condition_Signal( &ReportDoneCond );
+++                if (ReportRoot)
+++                    goto again;
++             }
++-            // yield control of CPU is another thread is waiting
++-	    // sleep on a condition variable, as it is much cheaper
++-	    // on most platforms than issuing schedyield or usleep
++-	    // syscalls
++-	    Condition_Lock ( ReportCond );
++-	    if ( threadWait && ReportRoot != NULL) {
++-	      threadSleeping = 1;
++-	      Condition_TimedWait (& ReportCond, 1 );
++-	      threadSleeping = 0;
++-	    }
++-	    Condition_Unlock ( ReportCond );
++-	    
+++            Condition_Signal( &ReportDoneCond );
+++            usleep(10000);
++         } else {
++             //Condition_Unlock ( ReportCond );
++         }
++--- a/src/main.cpp
+++++ b/src/main.cpp
++@@ -96,6 +96,7 @@ extern "C" {
++     // records being accessed in a report and also to
++     // serialize modification of the report list
++     Condition ReportCond;
+++    Condition ReportDoneCond;
++ }
++ 
++ // global variables only accessed within this file
++@@ -142,6 +143,7 @@ int main( int argc, char **argv ) {
++ 
++     // Initialize global mutexes and conditions
++     Condition_Initialize ( &ReportCond );
+++    Condition_Initialize ( &ReportDoneCond );
++     Mutex_Initialize( &groupCond );
++     Mutex_Initialize( &clients_mutex );
++ 
++
++ 	  	 
+diff --git a/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/001-cast-to-max_size_t-instead-of-int.patch b/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/001-cast-to-max_size_t-instead-of-int.patch
 new file mode 100644
-index 0000000..894f146
+index 0000000..b6728d4
 --- /dev/null
-+++ b/meta-oe/recipes-benchmark/lmbench/lmbench-3.0-a9/update-results-script.patch
-@@ -0,0 +1,160 @@
-+Now that we have our binaries in /usr/bin rather than the normal
-+lmbench hierarchy we need to update the scripts as well to behave well here.
++++ b/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/001-cast-to-max_size_t-instead-of-int.patch
+@@ -0,0 +1,14 @@
++Import Debian patches and fix a lot of real bugs. 
 +
-+Upstream-Status: Inappropriate [This is related to the OE-specific behavior
-+of installing into /usr/bin, etc, rather than dumping everything into 
-+/usr/share/lmbench or similar]
-+
-+Index: lmbench-3.0-a9/scripts/results
-+===================================================================
-+--- lmbench-3.0-a9.orig/scripts/results
-++++ lmbench-3.0-a9/scripts/results
-+@@ -8,11 +8,11 @@ RESULTS=results/$OS
-+ BASE=../$RESULTS/`uname -n`
-+ EXT=0
++Upstream-Status: Inappropriate [not author. Above message was get from oe.dev c10c33f86903c93611023197a7f812459c2dfe2d]
++--- iperf-2.0.4.orig/src/Settings.cpp.orig	2008-04-08 04:37:54.000000000 +0200
+++++ iperf-2.0.4/src/Settings.cpp	2008-05-07 17:41:03.923942801 +0200
++@@ -458,7 +458,7 @@
++         case 't': // seconds to write for
++             // time mode (instead of amount mode)
++             setModeTime( mExtSettings );
++-            mExtSettings->mAmount = (int) (atof( optarg ) * 100.0);
+++            mExtSettings->mAmount = (max_size_t) (atof( optarg ) * 100.0);
++             break;
 + 
-+-if [ ! -f "../bin/$OS/$CONFIG" ]
-++if [ ! -f "$CONFIG" ]
-+ then	echo "No config file?"
-+ 	exit 1
-+ fi
-+-. ../bin/$OS/$CONFIG
-++. $CONFIG
-+ 
-+ if [ ! -d ../$RESULTS ]
-+ then	mkdir -p ../$RESULTS
-+@@ -23,11 +23,9 @@ do      EXT=`expr $EXT + 1`
-+ 	RESULTS=$BASE.$EXT
-+ done
-+ 
-+-cd ../bin/$OS 
-+-PATH=.:${PATH}; export PATH
-+ export SYNC_MAX
-+ export OUTPUT
-+-lmbench $CONFIG 2>../${RESULTS}
-++lmbench $CONFIG 2>${RESULTS}
-+ 
-+ if [ X$MAIL = Xyes ]
-+ then	echo Mailing results
-+Index: lmbench-3.0-a9/scripts/config-run
-+===================================================================
-+--- lmbench-3.0-a9.orig/scripts/config-run
-++++ lmbench-3.0-a9/scripts/config-run
-+@@ -132,20 +132,20 @@ export LMBENCH_SCHED
-+ ############################################################################
-+ echo $L; echo "";
-+ echo "Hang on, we are calculating your timing granularity."
-+-../bin/$OS/msleep 250
-+-ENOUGH=`../bin/$OS/enough`
-++msleep 250
-++ENOUGH=`enough`
-+ export ENOUGH 
-+ echo "OK, it looks like you can time stuff down to $ENOUGH usec resolution."
-+ echo ""
-+ echo "Hang on, we are calculating your timing overhead."
-+-../bin/$OS/msleep 250
-+-TIMING_O=`../bin/$OS/timing_o`
-++msleep 250
-++TIMING_O=`timing_o`
-+ export TIMING_O
-+ echo "OK, it looks like your gettimeofday() costs $TIMING_O usecs."
-+ echo ""
-+ echo "Hang on, we are calculating your loop overhead."
-+-../bin/$OS/msleep 250
-+-LOOP_O=`../bin/$OS/loop_o`
-++msleep 250
-++LOOP_O=`loop_o`
-+ export LOOP_O
-+ echo "OK, it looks like your benchmark loop costs $LOOP_O usecs."
-+ echo ""
-+@@ -177,7 +177,7 @@ then
-+ fi
-+ if [ X$MB = X ]
-+ then	$ECHON "Probing system for available memory: $ECHOC"
-+-	MB=`../bin/$OS/memsize 4096`
-++	MB=`memsize 4096`
-+ fi
-+ TOTAL_MEM=$MB
-+ MB=`echo \( $MB \* 7 \) / 10 | bc 2>/dev/null`
-+@@ -205,9 +205,9 @@ fi
-+ # Certain machines tend to barf when you try and bcopy 8MB.
-+ # Figure out how much we can use.
-+ echo "Checking to see if you have $MB MB; please wait for a moment..."
-+-MB=`../bin/$OS/memsize $MB`
-+-MB=`../bin/$OS/memsize $MB`
-+-MB=`../bin/$OS/memsize $MB`
-++MB=`memsize $MB`
-++MB=`memsize $MB`
-++MB=`memsize $MB`
-+ if [ `expr $SYNC_MAX \* $MB` -gt `expr $TOTAL_MEM` ]
-+ then
-+ 	MB=`expr $TOTAL_MEM / $SYNC_MAX`
-+@@ -223,8 +223,8 @@ then	echo Warning: you have only ${MB}MB
-+ fi
-+ 
-+ echo "Hang on, we are calculating your cache line size."
-+-../bin/$OS/msleep 250
-+-LINE_SIZE=`../bin/$OS/lm_line -M ${MB}M`
-++msleep 250
-++LINE_SIZE=`lm_line -M ${MB}M`
-+ export LINE_SIZE
-+ echo "OK, it looks like your cache line is $LINE_SIZE bytes."
-+ echo ""
-+@@ -479,7 +479,7 @@ EOF
-+ 	then	
-+ 		for i in $disks
-+ 		do	if [ -r $i ]
-+-			then	../bin/$OS/flushdisk $i
-++			then	flushdisk $i
-+ 				if [ $? -eq 1 ]
-+ 				then	echo "Must be root to run disk benchmarks."
-+ 					echo "Root is needed to flush the buffer cache"
-+@@ -584,7 +584,7 @@ fi
-+ echo $L
-+ echo ""
-+ echo "Calculating mhz, please wait for a moment..."
-+-MHZ=`../bin/$OS/mhz`
-++MHZ=`mhz`
-+ cat<<EOF
-+ I think your CPU mhz is 
-+ 
-+@@ -689,9 +689,9 @@ esac
-+ 
-+ INFO=`../scripts/info`
-+ if [ $MAIL = yes ]
-+-then	if [ ! -f ../bin/$OS/$INFO ]
-+-	then	cp ../scripts/info-template ../bin/$OS/$INFO
-+-		chmod +w ../bin/$OS/$INFO
-++then	if [ ! -f $INFO ]
-++	then	cp ../scripts/info-template $INFO
-++		chmod +w $INFO
-+ 		REUSE=no
-+ 	else	
-+ 		REUSE=view
-+@@ -705,7 +705,7 @@ then	if [ ! -f ../bin/$OS/$INFO ]
-+ 				;;
-+ 			[Vv]*)	REUSE=view
-+ 				echo $L
-+-				more ../bin/$OS/$INFO
-++				more $INFO
-+ 				echo $L
-+ 				;;
-+ 	    		*)	REUSE=yes
-+@@ -733,7 +733,7 @@ EOF
-+ 		then	EDITOR=$TMP
-+ 		fi
-+ 		if [ X$EDITOR != "none" ]
-+-		then	$EDITOR ../bin/$OS/`../scripts/info`
-++		then	$EDITOR `../scripts/info`
-+ 		fi
-+ 	fi
-+ fi
-+@@ -750,7 +750,7 @@ EOF
-+ 
-+ VERSION=`../scripts/version`
-+ 
-+-C=../bin/$OS/`../scripts/config`
-++C=`../scripts/config`
-+ echo DISKS=\"$DISKS\" > $C
-+ echo DISK_DESC=\"$DISK_DESC\" >> $C
-+ echo OUTPUT=$OUTPUT >> $C
-diff --git a/meta-oe/recipes-benchmark/lmbench/lmbench/lmbench-run b/meta-oe/recipes-benchmark/lmbench/lmbench/lmbench-run
++         case 'u': // UDP instead of TCP
+diff --git a/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/003-fix-hyphen-used-as-minus-sign.patch b/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/003-fix-hyphen-used-as-minus-sign.patch
 new file mode 100644
-index 0000000..e904c75
+index 0000000..929b5ac
 --- /dev/null
-+++ b/meta-oe/recipes-benchmark/lmbench/lmbench/lmbench-run
-@@ -0,0 +1,23 @@
-+#!/bin/sh
-+# Wrapper script for lmbench written for the 
-+# Debian GNU/Linux distribution by 
-+# Javier Fernandez-Sanguino.
-+# Distributed under the GPL
-+SHAREDIR=/usr/share/lmbench/
-+BINDIR=/usr/lib/lmbench/
-+SCRIPTSDIR=$SHAREDIR/scripts
-+RESULTSDIR=$SHAREDIR/results
-+CONFIG=/var/lib/lmbench/config/`$SCRIPTSDIR/config`
-+runuid=`id -u`
++++ b/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/003-fix-hyphen-used-as-minus-sign.patch
+@@ -0,0 +1,178 @@
++Import Debian patches and fix a lot of real bugs. 
 +
-+[ $runuid -gt 0 ] && {
-+	echo "You must run this as the root user"
-+	exit 0
-+}
-+cd $SCRIPTSDIR 
-+[ ! -f $CONFIG ] && ./config-run
-+./results
++Upstream-Status: Inappropriate [not author. Above message was get from oe.dev c10c33f86903c93611023197a7f812459c2dfe2d]
 +
-+echo "Benchmark run finished...."
-+echo "Remember you can find the results of the benchmark "
-+echo "under $RESULTSDIR"
-diff --git a/meta-oe/recipes-benchmark/lmbench/lmbench/rename-line-binary.patch b/meta-oe/recipes-benchmark/lmbench/lmbench/rename-line-binary.patch
-new file mode 100644
-index 0000000..9a40521
---- /dev/null
-+++ b/meta-oe/recipes-benchmark/lmbench/lmbench/rename-line-binary.patch
-@@ -0,0 +1,19 @@
-+Both lmbench and util-linux-ng packages provide own /usr/bin/line binaries.
-+Even though the binaries name is the same, their functionality is different.
-+This patch renames lmbench's line binary as lm_line to avoid conflicts with
-+util-linux-ng.  script/config-run is also modified (patch) to call lm_line
-+instead of line.
-+
-+Upstream-Status: Inappropriate [build system specific change]
-+
-+--- patches/scripts/config-run	2006-11-26 15:11:04.000000000 -0500
-++++ patches/scripts/config-run	2011-04-01 09:35:50.000000000 -0400
-+@@ -224,7 +224,7 @@ fi
++--- iperf-2.0.4.orig/man/iperf.1	2008-08-21 00:21:49.290527643 +0200
+++++ iperf-2.0.4/man/iperf.1	2008-08-21 00:35:17.850640445 +0200
++@@ -2,21 +2,21 @@
++ .SH NAME
++ iperf \- perform network throughput tests
++ .SH SYNOPSIS
++-.B iperf -s [
+++.B iperf \-s [
++ .I options
++ .B ]
 + 
-+ echo "Hang on, we are calculating your cache line size."
-+ ../bin/$OS/msleep 250
-+-LINE_SIZE=`../bin/$OS/line -M ${MB}M`
-++LINE_SIZE=`../bin/$OS/lm_line -M ${MB}M`
-+ export LINE_SIZE
-+ echo "OK, it looks like your cache line is $LINE_SIZE bytes."
-+ echo ""
-diff --git a/meta-oe/recipes-benchmark/lmbench/lmbench_3.0-a9.bb b/meta-oe/recipes-benchmark/lmbench/lmbench_3.0-a9.bb
++-.B iperf -c 
+++.B iperf \-c 
++ .I server
++ .B [
++ .I options
++ .B ]
++ 
++-.B iperf -u -s [
+++.B iperf \-u \-s [
++ .I options
++ .B ]
++ 
++-.B iperf -u -c 
+++.B iperf \-u \-c 
++ .I server
++ .B [
++ .I options
++@@ -28,103 +28,103 @@
++ traffic).  
++ .SH "GENERAL OPTIONS"
++ .TP
++-.BR -f ", " --format " "
+++.BR \-f ", " \-\-format " "
++ [kmKM]   format to report: Kbits, Mbits, KBytes, MBytes
++ .TP
++-.BR -h ", " --help " "
+++.BR \-h ", " \-\-help " "
++ print a help synopsis
++ .TP
++-.BR -i ", " --interval " \fIn\fR"
+++.BR \-i ", " \-\-interval " \fIn\fR"
++ pause \fIn\fR seconds between periodic bandwidth reports
++ .TP
++-.BR -l ", " --len " \fIn\fR[KM]"
+++.BR \-l ", " \-\-len " \fIn\fR[KM]"
++ set length read/write buffer to \fIn\fR (default 8 KB)
++ .TP
++-.BR -m ", " --print_mss " "
+++.BR \-m ", " \-\-print_mss " "
++ print TCP maximum segment size (MTU - TCP/IP header)
++ .TP
++-.BR -o ", " --output " <filename>"
+++.BR \-o ", " \-\-output " <filename>"
++ output the report or error message to this specified file
++ .TP
++-.BR -p ", " --port " \fIn\fR"
+++.BR \-p ", " \-\-port " \fIn\fR"
++ set server port to listen on/connect to to \fIn\fR (default 5001)
++ .TP
++-.BR -u ", " --udp " "
+++.BR \-u ", " \-\-udp " "
++ use UDP rather than TCP
++ .TP
++-.BR -w ", " --window " \fIn\fR[KM]"
+++.BR \-w ", " \-\-window " \fIn\fR[KM]"
++ TCP window size (socket buffer size)
++ .TP
++-.BR -B ", " --bind " <host>"
+++.BR \-B ", " \-\-bind " <host>"
++ bind to <host>, an interface or multicast address
++ .TP
++-.BR -C ", " --compatibility " "
+++.BR \-C ", " \-\-compatibility " "
++ for use with older versions does not sent extra msgs
++ .TP
++-.BR -M ", " --mss " \fIn\fR"
+++.BR \-M ", " \-\-mss " \fIn\fR"
++ set TCP maximum segment size (MTU - 40 bytes)
++ .TP
++-.BR -N ", " --nodelay " "
+++.BR \-N ", " \-\-nodelay " "
++ set TCP no delay, disabling Nagle's Algorithm
++ .TP
++-.BR -v ", " --version " "
+++.BR \-v ", " \-\-version " "
++ print version information and quit
++ .TP
++-.BR -V ", " --IPv6Version " "
+++.BR \-V ", " \-\-IPv6Version " "
++ Set the domain to IPv6
++ .TP
++-.BR -x ", " --reportexclude " "
+++.BR \-x ", " \-\-reportexclude " "
++ [CDMSV]   exclude C(connection) D(data) M(multicast) S(settings) V(server) reports
++ .TP
++-.BR -y ", " --reportstyle " C|c"
+++.BR \-y ", " \-\-reportstyle " C|c"
++ if set to C or c report results as CSV (comma separated values)
++ .SH "SERVER SPECIFIC OPTIONS"
++ .TP
++-.BR -s ", " --server " "
+++.BR \-s ", " \-\-server " "
++ run in server mode
++ .TP
++-.BR -U ", " --single_udp " "
+++.BR \-U ", " \-\-single_udp " "
++ run in single threaded UDP mode
++ .TP
++-.BR -D ", " --daemon " "
+++.BR \-D ", " \-\-daemon " "
++ run the server as a daemon
++ .SH "CLIENT SPECIFIC OPTIONS"
++ .TP
++-.BR -b ", " --bandwidth " \fIn\fR[KM]"
+++.BR \-b ", " \-\-bandwidth " \fIn\fR[KM]"
++ set target bandwidth to \fIn\fR bits/sec (default 1 Mbit/sec).
++-This setting requires UDP (-u).
+++This setting requires UDP (\-u).
++ .TP
++-.BR -c ", " --client " <host>"
+++.BR \-c ", " \-\-client " <host>"
++ run in client mode, connecting to <host>
++ .TP
++-.BR -d ", " --dualtest " "
+++.BR \-d ", " \-\-dualtest " "
++ Do a bidirectional test simultaneously
++ .TP
++-.BR -n ", " --num " \fIn\fR[KM]"
++-number of bytes to transmit (instead of -t)
+++.BR \-n ", " \-\-num " \fIn\fR[KM]"
+++number of bytes to transmit (instead of \-t)
++ .TP
++-.BR -r ", " --tradeoff " "
+++.BR \-r ", " \-\-tradeoff " "
++ Do a bidirectional test individually
++ .TP
++-.BR -t ", " --time " \fIn\fR"
+++.BR \-t ", " \-\-time " \fIn\fR"
++ time in seconds to transmit for (default 10 secs)
++ .TP
++-.BR -F ", " --fileinput " <name>"
+++.BR \-F ", " \-\-fileinput " <name>"
++ input the data to be transmitted from a file
++ .TP
++-.BR -I ", " --stdin " "
+++.BR \-I ", " \-\-stdin " "
++ input the data to be transmitted from stdin
++ .TP
++-.BR -L ", " --listenport " \fIn\fR"
+++.BR \-L ", " \-\-listenport " \fIn\fR"
++ port to recieve bidirectional tests back on
++ .TP
++-.BR -P ", " --parallel " \fIn\fR"
+++.BR \-P ", " \-\-parallel " \fIn\fR"
++ number of parallel client threads to run
++ .TP
++-.BR -T ", " --ttl " \fIn\fR"
+++.BR \-T ", " \-\-ttl " \fIn\fR"
++ time-to-live, for multicast (default 1)
++ .TP
++-.BR -Z ", " --linux-congestion " <algo>"
+++.BR \-Z ", " \-\-linux\-congestion " <algo>"
++ set TCP congestion control algorithm (Linux only)
++ .SH ENVIRONMENT
++ .TP
++@@ -143,6 +143,6 @@
++ Kevin Gibbs,
++ John Estabrook <jestabro at ncsa.uiuc.edu>,
++ Andrew Gallatin <gallatin at gmail.com>,
++-Stephen Hemminger <shemminger at linux-foundation.org>
+++Stephen Hemminger <shemminger at linux\-foundation.org>
++ .SH "SEE ALSO"
++ http://iperf.sourceforge.net/
+diff --git a/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/004-svn-r43-ro.patch b/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/004-svn-r43-ro.patch
 new file mode 100644
-index 0000000..cc04792
+index 0000000..8340148
 --- /dev/null
-+++ b/meta-oe/recipes-benchmark/lmbench/lmbench_3.0-a9.bb
-@@ -0,0 +1,56 @@
-+DESCRIPTION = "Tools for performance analysis."
-+HOMEPAGE = "http://lmbench.sourceforge.net/"
-+SECTION = "console/utils"
-+LICENSE = "GPL"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
-+                    file://COPYING-2;md5=8e9aee2ccc75d61d107e43794a25cdf9"
-+RDEPENDS_${PN} = "debianutils"
++++ b/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/004-svn-r43-ro.patch
+@@ -0,0 +1,117 @@
++Import Debian patches and fix a lot of real bugs. 
 +
-+PR = "r0"
++Upstream-Status: Inappropriate [not author. Above message was get from oe.dev c10c33f86903c93611023197a7f812459c2dfe2d]
++
++--- iperf-2.0.4-4/AUTHORS	2009-07-06 12:02:24.159696747 +0200
+++++ iperf-2.0.4/AUTHORS	2009-07-06 12:14:32.236079541 +0200
++@@ -28,3 +28,7 @@
++ 
++ Stephen Hemminger <shemminger@linux-foundation.org>
++   * Linux congestion control selection and theading improvements
+++
+++Nathan Jones <nmjones@users.sourceforge.net>
+++  * patch for underflow when value specified in -n is not a multiple of -l
+++
++--- iperf-2.0.4-4/ChangeLog	2009-07-06 12:02:24.166276642 +0200
+++++ iperf-2.0.4/ChangeLog	2009-07-06 12:15:28.883699655 +0200
++@@ -1,3 +1,18 @@
+++2008-05-09 Jon Dugan <jdugan@x1024.net>
+++
+++* change currLen to unsigned to squelch warning generated by Nathan's patch
+++
+++2008-05-09 Nathan Jones <nmjones@users.sourceforge.net>
+++
+++* prevent underflow when the amount of data to be transmitted (-n) is not a
+++multiple of the buffer size (-l)  Patch:
+++https://sourceforge.net/tracker/index.php?func=detail&aid=1943432&group_id=128336&atid=711373
+++
+++2008-04-08 Jon Dugan <jdugan@x1024.net>
+++
+++* print report headers only once
+++* use appropriate report header for UDP tests
+++
++ 2008-04-07 Jon Dugan <jdugan@x1024.net>
++ 
++ * Add man page to autoconf goo
++diff -urN 204orig/src/Client.cpp trunk/src/Client.cpp
++--- 204orig/src/Client.cpp	2008-04-08 04:37:54.000000000 +0200
+++++ trunk/src/Client.cpp	2008-05-10 05:18:35.000000000 +0200
++@@ -116,7 +116,7 @@
++ const int    kBytes_to_Bits = 8; 
++ 
++ void Client::RunTCP( void ) {
++-    long currLen = 0; 
+++    unsigned long currLen = 0; 
++     struct itimerval it;
++     max_size_t totLen = 0;
++ 
++@@ -170,7 +170,12 @@
++         }	
++ 
++         if ( !mMode_Time ) {
++-            mSettings->mAmount -= currLen;
+++            /* mAmount may be unsigned, so don't let it underflow! */
+++            if( mSettings->mAmount >= currLen ) {
+++                mSettings->mAmount -= currLen;
+++            } else {
+++                mSettings->mAmount = 0;
+++            }
++         }
++ 
++     } while ( ! (sInterupted  || 
++@@ -198,7 +203,7 @@
++ 
++ void Client::Run( void ) {
++     struct UDP_datagram* mBuf_UDP = (struct UDP_datagram*) mBuf; 
++-    long currLen = 0; 
+++    unsigned long currLen = 0; 
++ 
++     int delay_target = 0; 
++     int delay = 0; 
++@@ -310,7 +315,12 @@
++             delay_loop( delay ); 
++         }
++         if ( !mMode_Time ) {
++-            mSettings->mAmount -= currLen;
+++            /* mAmount may be unsigned, so don't let it underflow! */
+++            if( mSettings->mAmount >= currLen ) {
+++                mSettings->mAmount -= currLen;
+++            } else {
+++                mSettings->mAmount = 0;
+++            }
++         }
++ 
++     } while ( ! (sInterupted  || 
++diff -urN 204orig/src/ReportDefault.c trunk/src/ReportDefault.c
++--- 204orig/src/ReportDefault.c	2008-04-08 04:37:54.000000000 +0200
+++++ trunk/src/ReportDefault.c	2008-04-09 02:08:11.000000000 +0200
++@@ -67,6 +67,7 @@
++  * Prints transfer reports in default style
++  */
++ void reporter_printstats( Transfer_Info *stats ) {
+++    static char header_printed = 0;
++ 
++     byte_snprintf( buffer, sizeof(buffer)/2, (double) stats->TotalLen,
++                    toupper( stats->mFormat));
++@@ -76,13 +77,19 @@
++ 
++     if ( stats->mUDP != (char)kMode_Server ) {
++         // TCP Reporting
++-        printf( report_bw_header);
+++        if( !header_printed ) {
+++            printf( report_bw_header);
+++            header_printed = 1;
+++        }
++         printf( report_bw_format, stats->transferID, 
++                 stats->startTime, stats->endTime, 
++                 buffer, &buffer[sizeof(buffer)/2] );
++     } else {
++         // UDP Reporting
++-        printf( report_bw_jitter_loss_header);
+++        if( !header_printed ) {
+++            printf( report_bw_jitter_loss_header);
+++            header_printed = 1;
+++        }
++         printf( report_bw_jitter_loss_format, stats->transferID, 
++                 stats->startTime, stats->endTime, 
++                 buffer, &buffer[sizeof(buffer)/2],
+diff --git a/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/005-iperf-die-on-bind-fail.patch b/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/005-iperf-die-on-bind-fail.patch
+new file mode 100644
+index 0000000..ec13d6b
+--- /dev/null
++++ b/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/005-iperf-die-on-bind-fail.patch
+@@ -0,0 +1,15 @@
++Import Debian patches and fix a lot of real bugs. 
++
++Upstream-Status: Inappropriate [not author. Above message was get from oe.dev c10c33f86903c93611023197a7f812459c2dfe2d]
++
++--- iperf-2.0.4/src/Listener.cpp	2009-02-23 16:20:31.000000000 -0500
+++++ iperf-2.0.4-fixed/src/Listener.cpp	2009-02-23 16:20:40.000000000 -0500
++@@ -333,7 +333,7 @@
++ #endif
++     {
++         rc = bind( mSettings->mSock, (sockaddr*) &mSettings->local, mSettings->size_local );
++-        WARN_errno( rc == SOCKET_ERROR, "bind" );
+++        FAIL_errno( rc == SOCKET_ERROR, "bind", mSettings );
++     }
++     // listen for connections (TCP only).
++     // default backlog traditionally 5
+diff --git a/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/006-iperf-die-on-connect-fail.patch b/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/006-iperf-die-on-connect-fail.patch
+new file mode 100644
+index 0000000..9e17e6d
+--- /dev/null
++++ b/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/006-iperf-die-on-connect-fail.patch
+@@ -0,0 +1,15 @@
++Import Debian patches and fix a lot of real bugs. 
++
++Upstream-Status: Inappropriate [not author. Above message was get from oe.dev c10c33f86903c93611023197a7f812459c2dfe2d]
++
++--- iperf-2.0.4/src/Client.cpp	2008-04-07 22:37:54.000000000 -0400
+++++ iperf-2.0.4-fixed/src/Client.cpp	2009-03-03 12:30:02.000000000 -0500
++@@ -403,7 +403,7 @@
++     // connect socket
++     rc = connect( mSettings->mSock, (sockaddr*) &mSettings->peer, 
++                   SockAddr_get_sizeof_sockaddr( &mSettings->peer ));
++-    WARN_errno( rc == SOCKET_ERROR, "connect" );
+++    FAIL_errno( rc == SOCKET_ERROR, "connect", mSettings );
++ 
++     getsockname( mSettings->mSock, (sockaddr*) &mSettings->local, 
++                  &mSettings->size_local );
+diff --git a/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/007-iperf-reporter-deadlock.patch b/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/007-iperf-reporter-deadlock.patch
+new file mode 100644
+index 0000000..4b5f914
+--- /dev/null
++++ b/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/007-iperf-reporter-deadlock.patch
+@@ -0,0 +1,68 @@
++by Kirby Zhou < kirbyzhou \x40 sohu-rd.com >
++add a Condition_Wait_Event for ReporterDoneCond
++
++Upstream-Status: Inappropriate [not author]
++
++--- iperf-2.0.4.orig/include/Condition.h	2007-08-30 00:06:19.000000000 +0200
+++++ iperf-2.0.4/include/Condition.h	2009-07-06 11:45:02.407700310 +0200
++@@ -115,6 +115,11 @@ typedef struct Condition {
++     // sleep this thread, waiting for condition signal
++ #if   defined( HAVE_POSIX_THREAD )
++     #define Condition_Wait( Cond ) pthread_cond_wait( &(Cond)->mCondition, &(Cond)->mMutex )
+++    #define Condition_Wait_Event( Cond ) do { \
+++        Mutex_Lock( &(Cond)->mMutex ); \
+++        pthread_cond_wait( &(Cond)->mCondition, &(Cond)->mMutex ); \
+++        Mutex_Unlock( &(Cond)->mMutex ); \
+++    } while ( 0 )
++ #elif defined( HAVE_WIN32_THREAD )
++     // atomically release mutex and wait on condition,                      
++     // then re-acquire the mutex
++@@ -122,6 +127,10 @@ typedef struct Condition {
++         SignalObjectAndWait( (Cond)->mMutex, (Cond)->mCondition, INFINITE, false ); \
++         Mutex_Lock( &(Cond)->mMutex );                          \
++     } while ( 0 )
+++    #define Condition_Wait_Event( Cond ) do { \
+++        Mutex_Lock( &(Cond)->mMutex ); \
+++        SignalObjectAndWait( (Cond)->mMutex, (Cond)->mCondition, INFINITE, false ); \
+++    } while ( 0 )
++ #else
++     #define Condition_Wait( Cond )
++ #endif
++--- iperf-2.0.4.orig/src/Reporter.c	2009-07-06 11:49:05.996443011 +0200
+++++ iperf-2.0.4/src/Reporter.c	2009-07-06 11:46:52.919699530 +0200
++@@ -339,7 +339,7 @@ void ReportPacket( ReportHeader* agent, 
++             // item
++             while ( index == 0 ) {
++                 Condition_Signal( &ReportCond );
++-                Condition_Wait( &ReportDoneCond );
+++                Condition_Wait_Event( &ReportDoneCond );
++                 index = agent->reporterindex;
++             }
++             agent->agentindex = 0;
++@@ -347,7 +347,7 @@ void ReportPacket( ReportHeader* agent, 
++         // Need to make sure that reporter is not about to be "lapped"
++         while ( index - 1 == agent->agentindex ) {
++             Condition_Signal( &ReportCond );
++-            Condition_Wait( &ReportDoneCond );
+++            Condition_Wait_Event( &ReportDoneCond );
++             index = agent->reporterindex;
++         }
++ 
++@@ -391,7 +391,7 @@ void EndReport( ReportHeader *agent ) {
++     if ( agent != NULL ) {
++         int index = agent->reporterindex;
++         while ( index != -1 ) {
++-            Condition_Wait( &ReportDoneCond );
+++            Condition_Wait_Event( &ReportDoneCond );
++             index = agent->reporterindex;
++         }
++         agent->agentindex = -1;
++@@ -412,7 +412,7 @@ void EndReport( ReportHeader *agent ) {
++ Transfer_Info *GetReport( ReportHeader *agent ) {
++     int index = agent->reporterindex;
++     while ( index != -1 ) {
++-        Condition_Wait( &ReportDoneCond );
+++        Condition_Wait_Event( &ReportDoneCond );
++         index = agent->reporterindex;
++     }
++     return &agent->report.info;
+diff --git a/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/008-numofreport.patch b/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/008-numofreport.patch
+new file mode 100644
+index 0000000..c5d85b1
+--- /dev/null
++++ b/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/008-numofreport.patch
+@@ -0,0 +1,15 @@
++by Kirby Zhou < kirbyzhou \x40 sohu-rd.com >
++increase the queue length to avoid thread racing
++
++Upstream-Status: Inappropriate [not author]
++--- iperf-2.0.4.orig/include/Reporter.h	2008-04-08 04:37:54.000000000 +0200
+++++ iperf-2.0.4/include/Reporter.h	2009-07-06 11:53:58.700541554 +0200
++@@ -61,7 +61,7 @@ struct server_hdr;
++ 
++ #include "Settings.hpp"
++ 
++-#define NUM_REPORT_STRUCTS 700
+++#define NUM_REPORT_STRUCTS 5700
++ #define NUM_MULTI_SLOTS    5
++ 
++ #ifdef __cplusplus
+diff --git a/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/009-delayloop.patch b/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/009-delayloop.patch
+new file mode 100644
+index 0000000..a2a0797
+--- /dev/null
++++ b/meta-oe/recipes-benchmark/iperf/iperf-2.0.4/009-delayloop.patch
+@@ -0,0 +1,22 @@
++by Kirby Zhou < kirbyzhou \x40 sohu-rd.com >
++using sched_yield to schedule other threads, so multiple iperf can run simultaneously
++using usleep with delay-loop between 2 package is long than 1.25ms.
++
++Upstream-Status: Inappropriate [not author]
++
++--- iperf-2.0.4-4/compat/delay.cpp	2009-07-06 12:02:24.166276642 +0200
+++++ iperf-2.0.4/compat/delay.cpp	2009-07-06 12:01:33.858384005 +0200
++@@ -69,6 +69,13 @@ void delay_loop( unsigned long usec ) {
++ 
++     Timestamp now;
++     while ( now.before( end ) ) {
+++       long diff = end.subUsec(now);
+++       if (diff >= 1250) {
+++               usleep(0);
+++       }
+++       if (diff >= 2) {
+++               sched_yield();
+++       }
++         now.setnow();
++     }
++ }
+diff --git a/meta-oe/recipes-benchmark/iperf/iperf_2.0.4.bb b/meta-oe/recipes-benchmark/iperf/iperf_2.0.4.bb
+new file mode 100644
+index 0000000..ef8b501
+--- /dev/null
++++ b/meta-oe/recipes-benchmark/iperf/iperf_2.0.4.bb
+@@ -0,0 +1,47 @@
++DESCRIPTION = "Iperf is a tool to measure maximum TCP bandwidth, allowing the tuning of various parameters and UDP characteristics"
++HOMEPAGE = "http://dast.nlanr.net/Projects/Iperf/"
++SECTION = "console/network"
++LICENSE = "NewBSD"
++LIC_FILES_CHKSUM = "file://COPYING;md5=e8478eae9f479e39bc34975193360298"
++PR = "r0" 
++
++SRC_URI = " \
++	${SOURCEFORGE_MIRROR}/iperf/iperf-${PV}.tar.gz \
++        file://000-Iperf_Fix-CPU-Usage.diff \
++        file://001-cast-to-max_size_t-instead-of-int.patch \
++        file://003-fix-hyphen-used-as-minus-sign.patch \
++        file://004-svn-r43-ro.patch \
++        file://005-iperf-die-on-bind-fail.patch \
++        file://006-iperf-die-on-connect-fail.patch \
++        file://007-iperf-reporter-deadlock.patch \
++        file://008-numofreport.patch \
++        file://009-delayloop.patch \
++	"
++
++
++SRC_URI[md5sum] = "8c5bc14cc2ea55f18f22afe3c23e3dcb"
++SRC_URI[sha256sum] = "3b52f1c178d6a99c27114929d5469c009197d15379c967b329bafb956f397944"
 +
 +inherit autotools
 +
-+SRC_URI = "${SOURCEFORGE_MIRROR}/lmbench/lmbench-${PV}.tgz \
-+	   file://lmbench-run \
-+	   file://rename-line-binary.patch \
-+	   file://update-results-script.patch \
-+	   file://obey-ranlib.patch \
-+	   "
-+SRC_URI[md5sum] = "b3351a3294db66a72e2864a199d37cbf"
-+SRC_URI[sha256sum] = "cbd5777d15f44eab7666dcac418054c3c09df99826961a397d9acf43d8a2a551"
++S="${WORKDIR}/iperf-${PV}"
 +
-+EXTRA_OEMAKE = 'CC="${CC}" AR="${AR}" RANLIB="${RANLIB}" CFLAGS="${CFLAGS}" \
-+		LDFLAGS="${LDFLAGS}" LD="${LD}" OS="${TARGET_SYS}" \
-+		TARGET="${TARGET_OS}" BASE="${prefix}"'
++EXTRA_OECONF = "--exec-prefix=${STAGING_DIR_HOST}${layout_exec_prefix}"
 +
 +do_configure() {
-+	:
++	export ac_cv_func_malloc_0_nonnull=yes
++	gnu-configize
++	oe_runconf
 +}
 +
-+do_compile () {
-+	. ${CONFIG_SITE}
-+	if [ X"$ac_cv_uint" = X"yes" ]; then
-+		CFLAGS="${CFLAGS} -DHAVE_uint"
-+	fi
-+	install -d ${S}/bin/${TARGET_SYS}
-+	oe_runmake -C src
++do_compile() {
++	cd ${WORKDIR}/iperf-${PV}
++	oe_runmake
 +}
 +
-+do_install () {
-+	install -d ${D}${localstatedir}/run/lmbench \
-+		   ${D}${bindir} ${D}${mandir} ${D}${libdir}/lmbench \
-+		   ${D}${datadir}/lmbench/scripts
-+	oe_runmake 'BASE=${D}${prefix}' \
-+		    -C src install
-+	mv ${D}${bindir}/line ${D}${bindir}/lm_line
-+	mv ${D}${prefix}/man/* ${D}${mandir}/
-+	install -m 0755 ${WORKDIR}/lmbench-run ${D}${bindir}/
-+	sed -i -e 's,^SHAREDIR=.*$,SHAREDIR=${datadir}/${PN},;' \
-+	       -e 's,^BINDIR=.*$,BINDIR=${libdir}/${PN},;' \
-+	       -e 's,^CONFIG=.*$,CONFIG=$SHAREDIR/`$SCRIPTSDIR/config`,;' \
-+	       ${D}${bindir}/lmbench-run
-+	install -m 0755 ${S}/scripts/lmbench ${D}${bindir}
-+	install -m 0755 ${S}/scripts/* ${D}${datadir}/lmbench/scripts
++do_install() {
++	cd ${WORKDIR}/iperf-${PV}/src
++	oe_runmake DESTDIR=${D} install
 +}
 +
-+FILES_${PN} += "${datadir}/lmbench"
++
 -- 
 1.7.0.4
 
