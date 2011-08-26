@@ -1,24 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1Qwmji-0007oQ-CZ
+	(envelope-from <dongxiao.xu@intel.com>) id 1Qwmjp-0007rD-OJ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 05:05:38 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 25 Aug 2011 20:00:49 -0700
+	Fri, 26 Aug 2011 05:05:45 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 25 Aug 2011 20:00:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,283,1312182000"; d="scan'208";a="42594380"
+X-IronPort-AV: E=Sophos;i="4.68,283,1312182000"; d="scan'208";a="45211952"
 Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by azsmga001.ch.intel.com with ESMTP; 25 Aug 2011 20:00:48 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 25 Aug 2011 20:00:47 -0700
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Aug 2011 11:02:52 +0800
-Message-Id: <3da591983cad7670d2107b92fb9367deaac1bebf.1314327528.git.dongxiao.xu@intel.com>
+Date: Fri, 26 Aug 2011 11:02:51 +0800
+Message-Id: <6154824fc4b6c0545c980af226412faf054f4e79.1314327528.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1314327528.git.dongxiao.xu@intel.com>
 References: <cover.1314327528.git.dongxiao.xu@intel.com>
 In-Reply-To: <cover.1314327528.git.dongxiao.xu@intel.com>
 References: <cover.1314327528.git.dongxiao.xu@intel.com>
-Subject: [PATCH 2/4] bitbake.conf: Use BPN in FILES paths
+Subject: [PATCH 1/4] base-passwd: Use BPN in FILES paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,37 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2011 03:05:38 -0000
+X-List-Received-Date: Fri, 26 Aug 2011 03:05:46 -0000
 
-Use BPN instead of PN in FILES path to support multilib.
+Use BPN instead of PN in FILES paths.
+This fixes the login issue by /etc/passwd missing in multilib images.
 
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- meta/conf/bitbake.conf |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ .../recipes-core/base-passwd/base-passwd_3.5.22.bb |   10 +++++-----
+ 1 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index b309516..2a77483 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -261,7 +261,7 @@ FILES_${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*${SOLIBS}
-             ${sysconfdir} ${sharedstatedir} ${localstatedir} \
-             ${base_bindir}/* ${base_sbindir}/* \
-             ${base_libdir}/*${SOLIBS} \
--            ${datadir}/${PN} ${libdir}/${PN}/* \
-+            ${datadir}/${BPN} ${libdir}/${BPN}/* \
-             ${datadir}/pixmaps ${datadir}/applications \
-             ${datadir}/idl ${datadir}/omf ${datadir}/sounds \
-             ${libdir}/bonobo/servers"
-@@ -282,7 +282,7 @@ SECTION_${PN}-staticdev = "devel"
- RDEPENDS_${PN}-staticdev = "${PN}-dev (= ${EXTENDPKGV})"
+diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb
+index a155b41..137512d 100644
+--- a/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb
++++ b/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb
+@@ -30,11 +30,11 @@ do_install () {
+ 	install -o root -g root -p -m 644 passwd.master ${D}${datadir}/base-passwd/
+ 	install -o root -g root -p -m 644 group.master ${D}${datadir}/base-passwd/
  
- DOTDEBUG-dbg = "${bindir}/.debug ${sbindir}/.debug ${libexecdir}/.debug ${libdir}/.debug \
--            ${base_bindir}/.debug ${base_sbindir}/.debug ${base_libdir}/.debug ${libdir}/${PN}/.debug \
-+            ${base_bindir}/.debug ${base_sbindir}/.debug ${base_libdir}/.debug ${libdir}/${BPN}/.debug \
-             ${libdir}/matchbox-panel/.debug /usr/src/debug"
+-	install -d -m 755 ${D}${docdir}/${PN}
+-	install -p -m 644 debian/changelog ${D}${docdir}/${PN}/
+-	gzip -9 ${D}${docdir}/${PN}/*
+-	install -p -m 644 README ${D}${docdir}/${PN}/
+-	install -p -m 644 debian/copyright ${D}${docdir}/${PN}/
++	install -d -m 755 ${D}${docdir}/${BPN}
++	install -p -m 644 debian/changelog ${D}${docdir}/${BPN}/
++	gzip -9 ${D}${docdir}/${BPN}/*
++	install -p -m 644 README ${D}${docdir}/${BPN}/
++	install -p -m 644 debian/copyright ${D}${docdir}/${BPN}/
+ }
  
- DEBUGFILEDIRECTORY-dbg = "/usr/lib/debug /usr/src/debug"
+ pkg_postinst_${PN} () {
 -- 
 1.7.1
 
