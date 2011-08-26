@@ -1,29 +1,28 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QwrV5-00020G-JH
+	(envelope-from <koen@dominion.thruhere.net>) id 1QwrWp-000238-L2
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 10:10:51 +0200
-Received: by wwe32 with SMTP id 32so2551535wwe.24
+	Fri, 26 Aug 2011 10:12:39 +0200
+Received: by wyf19 with SMTP id 19so2374938wyf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Aug 2011 01:06:03 -0700 (PDT)
-Received: by 10.216.160.66 with SMTP id t44mr1514872wek.56.1314345963238;
-	Fri, 26 Aug 2011 01:06:03 -0700 (PDT)
+	Fri, 26 Aug 2011 01:07:51 -0700 (PDT)
+Received: by 10.216.186.82 with SMTP id v60mr638078wem.58.1314346071412;
+	Fri, 26 Aug 2011 01:07:51 -0700 (PDT)
 Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id el9sm1085977wbb.24.2011.08.26.01.06.01
+	by mx.google.com with ESMTPS id s49sm856753wec.1.2011.08.26.01.07.50
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 26 Aug 2011 01:06:02 -0700 (PDT)
+	Fri, 26 Aug 2011 01:07:50 -0700 (PDT)
 Mime-Version: 1.0 (Apple Message framework v1244.3)
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1314320399-10801-2-git-send-email-joelagnel@ti.com>
-Date: Fri, 26 Aug 2011 10:06:01 +0200
-Message-Id: <45A6D3EA-A30B-411C-A348-57C99244448B@dominion.thruhere.net>
+In-Reply-To: <1314320399-10801-1-git-send-email-joelagnel@ti.com>
+Date: Fri, 26 Aug 2011 10:07:48 +0200
+Message-Id: <4E6D7599-53AA-4E76-8955-888FCCEEB4AB@dominion.thruhere.net>
 References: <1314320399-10801-1-git-send-email-joelagnel@ti.com>
-	<1314320399-10801-2-git-send-email-joelagnel@ti.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 X-Mailer: Apple Mail (2.1244.3)
 Cc: Jason Kridner <jdk@ti.com>, k-kooi@ti.com
-Subject: Re: [meta-ti PATCH 2/4] gtksourceview: Imported from OE classic
+Subject: Re: [meta-ti PATCH 1/4] gedit: Imported from OE classic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,7 +37,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2011 08:10:52 -0000
+X-List-Received-Date: Fri, 26 Aug 2011 08:12:39 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
@@ -47,45 +46,51 @@ meta-oe, right?
 Op 26 aug. 2011, om 02:59 heeft Joel A Fernandes het volgende =
 geschreven:
 
+> Signed-off-by: Joel A Fernandes <joelagnel@ti.com>
+> ---
+> meta-gnome/recipes-gnome/gedit/gedit_2.30.0.bb |   24 =
+++++++++++++++++++++++++
+> 1 files changed, 24 insertions(+), 0 deletions(-)
+> create mode 100644 meta-gnome/recipes-gnome/gedit/gedit_2.30.0.bb
 >=20
-> +++ b/meta-gnome/recipes-gnome/gtksourceview/gtksourceview2_2.10.0.bb
-> @@ -0,0 +1,29 @@
-> +DESCRIPTION =3D "Portable C library for multiline text editing"
-> +HOMEPAGE =3D "http://projects.gnome.org/gtksourceview/"
-> +LICENSE =3D "LGPL"
-
-which version?
-
-> +DEPENDS =3D "gtk+ libgnomeprint virtual/gettext"
+> diff --git a/meta-gnome/recipes-gnome/gedit/gedit_2.30.0.bb =
+b/meta-gnome/recipes-gnome/gedit/gedit_2.30.0.bb
+> new file mode 100644
+> index 0000000..64ea644
+> --- /dev/null
+> +++ b/meta-gnome/recipes-gnome/gedit/gedit_2.30.0.bb
+> @@ -0,0 +1,24 @@
+> +DESCRIPTION =3D "GNOME editor"
+> +SECTION =3D "x11/gnome"
+> +LICENSE =3D "GPLv2+"
+> +
+> +DEPENDS =3D "enchant gconf gnome-common gnome-doc-utils-native =
+glib-2.0 gtk+ gtksourceview2 iso-codes virtual/gettext"
+> +RDEPENDS_${PN} +=3D " gtksourceview2"
 > +
 > +LIC_FILES_CHKSUM =3D =
 "file://COPYING;md5=3D94d55d512a9ba36caa9b7df079bae19f"
 > +
-> +PNAME =3D "gtksourceview"
+> +PR =3D "r2"
+
+reset that
+
 > +
-> +S =3D "${WORKDIR}/${PNAME}-${PV}"
-> +
-> +inherit gnome lib_package
-> +
-> +# overrule SRC_URI from gnome.conf
-> +SRC_URI =3D =
-"${GNOME_MIRROR}/${PNAME}/${@gnome_verdir("${PV}")}/${PNAME}-${PV}.tar.bz2=
-;name=3Darchive"
-> +SRC_URI[archive.md5sum] =3D "04279db5d4fda41a35bf3d9aafa3a6c1"
+> +inherit gnome
+> +SRC_URI[archive.md5sum] =3D "aebd49797406fdde7b25624b71990860"
 > +SRC_URI[archive.sha256sum] =3D =
-"a72484ff661d3515130911b59f78a88afc1344421431e05e99e9dab791be948f"
+"37598473372aab217e46f19726cff616ff0ea4121bbdbb170b4e264a4ca76690"
 > +
-> +SRC_URI +=3D " \
-> +           file://gtk-doc.make \
-> +"
+> +EXTRA_OECONF =3D "--disable-scrollkeeper"
 > +
-> +do_configure_prepend() {
-> +    cp ${WORKDIR}/gtk-doc.make ${S}/
-> +    sed -i -e s:docs::g ${S}/Makefile.am
-> +    echo "EXTRA_DIST =3D version.xml" > gnome-doc-utils.make
+> +do_configure_prepend () {
+> +	cp ${STAGING_DATADIR}/gnome-common/data/omf.make ${S}
 > +}
 > +
-> +FILES_${PN} +=3D " ${datadir}/gtksourceview-2.0"
+> +FILES_${PN} +=3D "${libdir}/gedit-2/plugin* ${datadir}/gedit-2"
+> +FILES_${PN}-dbg +=3D "${libdir}/gedit-2/plugin-loaders/.debug =
+${libdir}/gedit-2/plugins/.debug"
+> +
 > --=20
 > 1.7.0.4
 >=20
