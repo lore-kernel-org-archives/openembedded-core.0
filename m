@@ -1,28 +1,29 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QwrRX-0001tC-SG
+	(envelope-from <koen@dominion.thruhere.net>) id 1QwrUC-0001xL-QS
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 10:07:11 +0200
-Received: by wwe32 with SMTP id 32so2548970wwe.24
+	Fri, 26 Aug 2011 10:09:56 +0200
+Received: by wyf19 with SMTP id 19so2373660wyf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Aug 2011 01:02:23 -0700 (PDT)
-Received: by 10.216.202.136 with SMTP id d8mr177104weo.52.1314345743637;
-	Fri, 26 Aug 2011 01:02:23 -0700 (PDT)
+	Fri, 26 Aug 2011 01:05:08 -0700 (PDT)
+Received: by 10.227.19.202 with SMTP id c10mr659613wbb.18.1314345908473;
+	Fri, 26 Aug 2011 01:05:08 -0700 (PDT)
 Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id p18sm1080926wbh.55.2011.08.26.01.02.22
+	by mx.google.com with ESMTPS id el9sm1085977wbb.24.2011.08.26.01.05.07
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 26 Aug 2011 01:02:23 -0700 (PDT)
+	Fri, 26 Aug 2011 01:05:07 -0700 (PDT)
 Mime-Version: 1.0 (Apple Message framework v1244.3)
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1314318504-9524-6-git-send-email-joelagnel@ti.com>
-Date: Fri, 26 Aug 2011 10:02:22 +0200
-Message-Id: <256B0DBB-636D-469E-8FF9-9ACD58FAE300@dominion.thruhere.net>
-References: <1314318504-9524-1-git-send-email-joelagnel@ti.com>
-	<1314318504-9524-6-git-send-email-joelagnel@ti.com>
+In-Reply-To: <1314320399-10801-4-git-send-email-joelagnel@ti.com>
+Date: Fri, 26 Aug 2011 10:05:06 +0200
+Message-Id: <01311A7B-CECC-45BF-AC6D-F94F17217CFC@dominion.thruhere.net>
+References: <1314320399-10801-1-git-send-email-joelagnel@ti.com>
+	<1314320399-10801-4-git-send-email-joelagnel@ti.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 X-Mailer: Apple Mail (2.1244.3)
-Subject: Re: [PATCH meta-oe 5/9] libdvdcss: Imported from OE classic, vlc depends on it
+Cc: Jason Kridner <jdk@ti.com>, k-kooi@ti.com
+Subject: Re: [meta-ti PATCH 4/4] libgnomeprint: Imported from OE classic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,49 +38,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2011 08:07:11 -0000
+X-List-Received-Date: Fri, 26 Aug 2011 08:09:56 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
+You mean meta-oe, right?
 
-Op 26 aug. 2011, om 02:28 heeft Joel A Fernandes het volgende =
+Op 26 aug. 2011, om 02:59 heeft Joel A Fernandes het volgende =
 geschreven:
 
 > Signed-off-by: Joel A Fernandes <joelagnel@ti.com>
 > ---
-> meta-oe/recipes-multimedia/vlc/libdvdcss_1.2.10.bb |   13 =
-+++++++++++++
-> 1 files changed, 13 insertions(+), 0 deletions(-)
-> create mode 100644 meta-oe/recipes-multimedia/vlc/libdvdcss_1.2.10.bb
+> .../recipes-gnome/gnome/libgnomeprint_2.18.7.bb    |   15 =
++++++++++++++++
+> 1 files changed, 15 insertions(+), 0 deletions(-)
+> create mode 100644 =
+meta-gnome/recipes-gnome/gnome/libgnomeprint_2.18.7.bb
 >=20
-> diff --git a/meta-oe/recipes-multimedia/vlc/libdvdcss_1.2.10.bb =
-b/meta-oe/recipes-multimedia/vlc/libdvdcss_1.2.10.bb
+> diff --git a/meta-gnome/recipes-gnome/gnome/libgnomeprint_2.18.7.bb =
+b/meta-gnome/recipes-gnome/gnome/libgnomeprint_2.18.7.bb
 > new file mode 100644
-> index 0000000..1a0b7b8
+> index 0000000..57e7910
 > --- /dev/null
-> +++ b/meta-oe/recipes-multimedia/vlc/libdvdcss_1.2.10.bb
-> @@ -0,0 +1,13 @@
-> +DESCRIPTION =3D "libdvdcss is a simple library designed for accessing =
-DVDs like a block device without having to bother about the decryption."
-> +LICENSE =3D "GPLv2"
+> +++ b/meta-gnome/recipes-gnome/gnome/libgnomeprint_2.18.7.bb
+> @@ -0,0 +1,15 @@
+> +LICENSE =3D "GPL"
+
+Which version?
+
+> +SECTION =3D "x11/gnome/libs"
+> +
+> +DEPENDS =3D "libxml2 libgnomecups glib-2.0 pango libart-lgpl =
+fontconfig popt gnome-common"
+> +
 > +LIC_FILES_CHKSUM =3D =
 "file://COPYING;md5=3D94d55d512a9ba36caa9b7df079bae19f"
-> +PR =3D "r1"
-
-reset that
-
 > +
-> +SRC_URI =3D =
-"http://download.videolan.org/pub/libdvdcss/${PV}/libdvdcss-${PV}.tar.bz2"=
-
+> +inherit pkgconfig gnome
 > +
-> +inherit autotools
+> +SRC_URI[archive.md5sum] =3D "d66b81ee8aa3b3a33f5efc9a47ce07e3"
+> +SRC_URI[archive.sha256sum] =3D =
+"8b34f81599423ef3da9c43775495da602f83cbbee069c9e760ffeae6aa4768e6"
 > +
-> +EXTRA_OECONF =3D " --disable-doc "
+> +FILES_${PN}-dbg +=3D =
+"${libdir}/libgnomeprint/${PV}/modules/transports/.debug \
+> +		    ${libdir}/libgnomeprint/${PV}/modules/.debug  =
+${libdir}/libgnomeprint/${PV}/modules/*/.debug"
 > +
-> +SRC_URI[md5sum] =3D "ebd5370b79ac5a83e5c61b24a214cf74"
-> +SRC_URI[sha256sum] =3D =
-"2394a75013ab66b592d8c91d53529ede392bc9faee37fe279bd29b455eff2220"
 > --=20
 > 1.7.0.4
 >=20
