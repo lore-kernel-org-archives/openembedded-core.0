@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1Qwmjp-0007rD-OJ
+	(envelope-from <dongxiao.xu@intel.com>) id 1Qwmjq-0007rD-DI
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 05:05:45 +0200
+	Fri, 26 Aug 2011 05:05:46 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 25 Aug 2011 20:00:56 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 25 Aug 2011 20:00:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,283,1312182000"; d="scan'208";a="45211952"
+X-IronPort-AV: E=Sophos;i="4.68,283,1312182000"; d="scan'208";a="45212071"
 Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by fmsmga001.fm.intel.com with ESMTP; 25 Aug 2011 20:00:47 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 25 Aug 2011 20:00:51 -0700
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Aug 2011 11:02:51 +0800
-Message-Id: <6154824fc4b6c0545c980af226412faf054f4e79.1314327528.git.dongxiao.xu@intel.com>
+Date: Fri, 26 Aug 2011 11:02:54 +0800
+Message-Id: <2ffe6e3f93c178838d4c0efabd720d2e51893665.1314327528.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1314327528.git.dongxiao.xu@intel.com>
 References: <cover.1314327528.git.dongxiao.xu@intel.com>
 In-Reply-To: <cover.1314327528.git.dongxiao.xu@intel.com>
 References: <cover.1314327528.git.dongxiao.xu@intel.com>
-Subject: [PATCH 1/4] base-passwd: Use BPN in FILES paths
+Subject: [PATCH 4/4] multilib.bbclass: add "pkg_postinst" and "pkg_postrm" as renaming elements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,35 +35,27 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 26 Aug 2011 03:05:46 -0000
 
-Use BPN instead of PN in FILES paths.
-This fixes the login issue by /etc/passwd missing in multilib images.
+Add "pkg_postinst" and "pkg_postrm" as renaming elements, which fixes
+missing post install/rm scripts in target image.
 
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- .../recipes-core/base-passwd/base-passwd_3.5.22.bb |   10 +++++-----
- 1 files changed, 5 insertions(+), 5 deletions(-)
+ meta/classes/multilib.bbclass |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb
-index a155b41..137512d 100644
---- a/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb
-+++ b/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb
-@@ -30,11 +30,11 @@ do_install () {
- 	install -o root -g root -p -m 644 passwd.master ${D}${datadir}/base-passwd/
- 	install -o root -g root -p -m 644 group.master ${D}${datadir}/base-passwd/
+diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+index 46c24e1..5976d5d 100644
+--- a/meta/classes/multilib.bbclass
++++ b/meta/classes/multilib.bbclass
+@@ -73,7 +73,7 @@ python __anonymous () {
+     d.setVar("PACKAGES", " ".join([row[1] for row in pkgs_mapping]))
  
--	install -d -m 755 ${D}${docdir}/${PN}
--	install -p -m 644 debian/changelog ${D}${docdir}/${PN}/
--	gzip -9 ${D}${docdir}/${PN}/*
--	install -p -m 644 README ${D}${docdir}/${PN}/
--	install -p -m 644 debian/copyright ${D}${docdir}/${PN}/
-+	install -d -m 755 ${D}${docdir}/${BPN}
-+	install -p -m 644 debian/changelog ${D}${docdir}/${BPN}/
-+	gzip -9 ${D}${docdir}/${BPN}/*
-+	install -p -m 644 README ${D}${docdir}/${BPN}/
-+	install -p -m 644 debian/copyright ${D}${docdir}/${BPN}/
- }
+     for pkg_mapping in pkgs_mapping:
+-        for subs in ["FILES", "RDEPENDS", "RRECOMMENDS", "SUMMARY", "DESCRIPTION", "RSUGGESTS", "RPROVIDES", "RCONFLICTS", "PKG", "ALLOW_EMPTY"]:
++        for subs in ["FILES", "RDEPENDS", "RRECOMMENDS", "SUMMARY", "DESCRIPTION", "RSUGGESTS", "RPROVIDES", "RCONFLICTS", "PKG", "ALLOW_EMPTY", "pkg_postinst", "pkg_postrm"]:
+             d.renameVar("%s_%s" % (subs, pkg_mapping[0]), "%s_%s" % (subs, pkg_mapping[1]))
  
- pkg_postinst_${PN} () {
+     map_dependencies("DEPENDS", d)
 -- 
 1.7.1
 
