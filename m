@@ -1,30 +1,26 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dbaryshkov@gmail.com>) id 1QwwrX-0006e2-6r
+	(envelope-from <philb@gnu.org>) id 1QwxDV-0007Uw-CM
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 15:54:23 +0200
-Received: by bkbzu17 with SMTP id zu17so2653066bkb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Aug 2011 06:49:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=Mf41b1ynwUKMuEhzyQEwZkiI/wav7bra/Djp5s+sqYM=;
-	b=wnpaw+EKf1b1twHUDrs/advdM3mYynr0z1ajOWy7RbZR1pkdm8/kkAZ4FpCdQ1yckV
-	zbiuCwMvvncFTqvDqwnZdNJXD1je8+svBqZjU89xJbxtIIS97I8RfqDJQkR9dDUTiW/P
-	Rh+VM+xRJdYfTIxG0ljXi8Hg70ApYsIZ4sY88=
-Received: by 10.204.135.24 with SMTP id l24mr596548bkt.276.1314366573769;
-	Fri, 26 Aug 2011 06:49:33 -0700 (PDT)
-Received: from localhost.localdomain ([194.85.238.22])
-	by mx.google.com with ESMTPS id h18sm477675bkr.34.2011.08.26.06.49.31
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 26 Aug 2011 06:49:32 -0700 (PDT)
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Aug 2011 17:49:25 +0400
-Message-Id: <1314366565-9185-1-git-send-email-dbaryshkov@gmail.com>
-X-Mailer: git-send-email 1.7.2.5
-Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Subject: [V2] opkg-utils: ignore packages disapperaring filelist generation
+	Fri, 26 Aug 2011 16:17:05 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Qwx8s-0007gM-RU
+	for openembedded-core@lists.openembedded.org;
+	Fri, 26 Aug 2011 16:12:19 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 26 Aug 2011 15:12:17 +0100
+In-Reply-To: <1314284316.5939.196.camel@rex>
+References: <1314210721-29941-1-git-send-email-koen@dominion.thruhere.net>
+	<1314264296.19905.29.camel@phil-desktop>
+	<1314284316.5939.196.camel@rex>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1314367938.19905.90.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/2] libc-package bbclass: fix binary localedata dependency code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,58 +35,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2011 13:54:23 -0000
+X-List-Received-Date: Fri, 26 Aug 2011 14:17:05 -0000
+X-Groupsio-MsgNum: 8833
+Content-Type: multipart/mixed; boundary="=-U6fGnocemuUSHyq1IQhL"
 
-Package files disappearing during index generation don't cause a fatal
-error. Make package file disappearing during filelist generation also
-a non-fatal error.
+--=-U6fGnocemuUSHyq1IQhL
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+On Thu, 2011-08-25 at 07:58 -0700, Richard Purdie wrote:
+> On Thu, 2011-08-25 at 10:24 +0100, Phil Blundell wrote:
+> > On Wed, 2011-08-24 at 20:32 +0200, Koen Kooi wrote:
+> > > diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
+> > > index 0d5ce20..d3b33d6 100644
+> > > --- a/meta/classes/libc-package.bbclass
+> > > +++ b/meta/classes/libc-package.bbclass
+> > > @@ -243,7 +243,7 @@ python package_do_split_gconvs () {
+> > >  	def output_locale_binary_rdepends(name, pkgname, locale, encoding):
+> > >  		m = re.match("(.*)_(.*)", name)
+> > >  		if m:
+> > > -			libc_name = "%s.%s" % (m.group(1), m.group(2).lower().replace("-",""))
+> > > +			libc_name = "%s-%s" % (m.group(1), m.group(2).lower().replace("-",""))
+> > >  		else:
+> > >  			libc_name = name
+> > >  		bb.data.setVar('RDEPENDS_%s' % pkgname, legitimize_package_name('%s-binary-localedata-%s' \
+> > 
+> > For what it's worth (probably not much), this is not quite the right
+> > fix.  Joining with "." was correct; it was the splitting on "_" that was
+> > wrong.  The right thing would be to put it back how it was before the
+> > glibc/eglibc merge commit, i.e. change the re to "(*.)\.(*.)" and leave
+> > the output pattern alone.  That ought to fix your problem and also allow
+> > the encoding to be correctly canonicalised.
+> 
+> Can someone please send me the correct patch against master? :)
+
+I think the attached is what you need.  Koen, maybe you could confirm
+whether this does indeed fix your original problem.
+
+p.
+
+
+--=-U6fGnocemuUSHyq1IQhL
+Content-Disposition: attachment;
+	filename*0=0001-libc-package-restore-correct-mangling-behavior-for-l.pat;
+	filename*1=ch
+Content-Type: text/x-patch;
+	name="0001-libc-package-restore-correct-mangling-behavior-for-l.patch";
+	charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+From 1cd91a91802776ddede041cfa222b603da6c8453 Mon Sep 17 00:00:00 2001
+From: Phil Blundell <philb@gnu.org>
+Date: Fri, 26 Aug 2011 15:05:11 +0100
+Subject: [PATCH] libc-package: restore correct mangling behavior for locale names
+
+This reverts 19fb07bf337e1d724798e2eb4479c35fc45b1941 and restores
+the behaviour of the code to the way it was prior to 561d875404ef1783f94f37314b6e756766db8411.
+
+See http://lists.linuxtogo.org/pipermail/openembedded-core/2011-August/007407.html and subsequent messages.
+
+Signed-off-by: Phil Blundell <philb@gnu.org>
 ---
- .../opkg-utils/index-ignore-filenotfound.patch     |   17 +++++++++++++++++
- meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb |    2 +-
- 2 files changed, 18 insertions(+), 1 deletions(-)
+ meta/classes/libc-package.bbclass |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/index-ignore-filenotfound.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/index-ignore-filenotfound.patch
-index 3664df6..f0f0fcf 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils/index-ignore-filenotfound.patch
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils/index-ignore-filenotfound.patch
-@@ -54,3 +54,20 @@ Index: opkg-utils/opkg-make-index
-  if packages_filename:
-       sys.stdout.close()
-       sys.stdout = old_stdout
-+@@ -197,7 +197,15 @@
-+ names = packages.packages.keys()
-+ names.sort()
-+ for name in names:
-+-     for fn in packages[name].get_file_list():
-++     try:
-++          fnlist = packages[name].get_file_list()
-++     except OSError, e:
-++          sys.stderr.write("Package %s disappeared on us!\n" % (name))
-++          continue
-++     except IOError, e:
-++          sys.stderr.write("Package %s disappeared on us!\n" % (name))
-++          continue
-++     for fn in fnlist:
-+           (h,t) = os.path.split(fn)
-+           if not t: continue
-+           if not files.has_key(t): files[t] = name+':'+fn
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
-index fd2b5e6..e04b74a 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
-@@ -8,7 +8,7 @@ RDEPENDS_${PN} = "python"
- RDEPENDS_${PN}_virtclass-native = ""
- SRCREV = "4747"
- PV = "0.1.8+svnr${SRCPV}"
--PR = "r4"
-+PR = "r5"
+diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
+index d3b33d6..f8df6a4 100644
+--- a/meta/classes/libc-package.bbclass
++++ b/meta/classes/libc-package.bbclass
+@@ -241,9 +241,9 @@ python package_do_split_gconvs () {
+ 		(locale, encoding, locale), d)
  
- SRC_URI = "svn://svn.openmoko.org/trunk/src/host/;module=opkg-utils;proto=http \
-            file://index-ignore-filenotfound.patch \
+ 	def output_locale_binary_rdepends(name, pkgname, locale, encoding):
+-		m = re.match("(.*)_(.*)", name)
++		m = re.match("(.*).(.*)", name)
+ 		if m:
+-			libc_name = "%s-%s" % (m.group(1), m.group(2).lower().replace("-",""))
++			libc_name = "%s.%s" % (m.group(1), m.group(2).lower().replace("-",""))
+ 		else:
+ 			libc_name = name
+ 		bb.data.setVar('RDEPENDS_%s' % pkgname, legitimize_package_name('%s-binary-localedata-%s' \
 -- 
-1.7.2.5
+1.7.4.1
 
 
-
+--=-U6fGnocemuUSHyq1IQhL--
