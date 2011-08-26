@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qx2Ke-0006Xw-3k
+	(envelope-from <sgw@linux.intel.com>) id 1Qx2Ke-0006Y4-KD
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 21:44:48 +0200
+	Fri, 26 Aug 2011 21:44:49 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 26 Aug 2011 12:39:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,286,1312182000"; d="scan'208";a="45450531"
+X-IronPort-AV: E=Sophos;i="4.68,286,1312182000"; d="scan'208";a="45450534"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.251])
 	by fmsmga001.fm.intel.com with ESMTP; 26 Aug 2011 12:39:56 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Aug 2011 12:39:41 -0700
-Message-Id: <7ceb78a42f7d9b6aa4b984d04ac13f8dc23a9095.1314387279.git.sgw@linux.intel.com>
+Date: Fri, 26 Aug 2011 12:39:42 -0700
+Message-Id: <612ab0aaf3e693b90bb18234e2517bfc87ee3f7c.1314387279.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1314387279.git.sgw@linux.intel.com>
 References: <cover.1314387279.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1314387279.git.sgw@linux.intel.com>
 References: <cover.1314387279.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 11/21] linux-yocto-rt: qemumips: fix boot panic
+Subject: [CONSOLIDATED PULL 12/21] qt4e-demo-image: Fix bug 999
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,49 +35,107 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 26 Aug 2011 19:44:49 -0000
 
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-Fixes [YOCTO #1392]
+[YOCTO #999]
+Copy metadata of qt4e-demo-image from OE for easy testing qt4embeded on embedded platform.
+This image was tested on qemuarm and can run program "qtdemoE".
 
-Updating the SRCREVs to pickup:
-
-[
-    mips/rt: convert cascade interrupt non threaded
-
-    The preempt_rt kernel forces all irq interrupts to be threaded,
-    but special interrupts can be excluded from this conversion.
-    The cascade interrupt should be part of these exceptions.
-
-    In this case, irq2 is initialized before "kthreadd" task, which
-    converts irq interrupt to threaded.
-
-    If this irq is threaded, the kernel calls "try_to_wake_up" function
-    to wake up "kthreadd" task, but at that moment, "kthreadd" task
-    has no been initialize and try_to_wake_up wakes up a NULL task.
-
-    Signed-off-by: Liming Wang <liming.wang@windriver.com>
-]
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-qt/images/qt4e-demo-image.bb |   19 ++++++++++
+ meta/recipes-qt/tasks/task-qt4e.bb        |   56 +++++++++++++++++++++++++++++
+ 2 files changed, 75 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-qt/images/qt4e-demo-image.bb
+ create mode 100644 meta/recipes-qt/tasks/task-qt4e.bb
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-index 16daddf..2bee543 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-@@ -14,8 +14,8 @@ KBRANCH_qemuppc = "yocto/standard/preempt-rt/qemu-ppc32"
- LINUX_VERSION ?= "3.0.3"
- LINUX_KERNEL_TYPE = "preempt-rt"
- 
--SRCREV_machine ?= "67ce0924042a2faa12b71ac3e92175c789c32af6"
--SRCREV_machine_qemuppc ?= "839638f4efda0c70c6f491161ab2c042f5bc3e66"
-+SRCREV_machine ?= "c86423d29c94525d18ef1c9b6c025f733c1e8252"
-+SRCREV_machine_qemuppc ?= "ccb47c9e8d85dc00ccd28bc6819d7769e2c11cb3"
- SRCREV_meta ?= "5b535279e61197cb194bb2dfceb8b7a04128387c"
- 
- PR = "r0"
+diff --git a/meta/recipes-qt/images/qt4e-demo-image.bb b/meta/recipes-qt/images/qt4e-demo-image.bb
+new file mode 100644
+index 0000000..f2150ca
+--- /dev/null
++++ b/meta/recipes-qt/images/qt4e-demo-image.bb
+@@ -0,0 +1,19 @@
++LICENSE = "MIT"
++PR="r1"
++
++LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
++                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++
++DEPENDS += "task-qt4e"
++
++RDEPENDS_${PN} += " \
++	task-qt4e-base \
++	"
++
++IMAGE_INSTALL += "\
++	module-init-tools \
++	task-qt4e-base \
++"
++
++inherit core-image
++
+diff --git a/meta/recipes-qt/tasks/task-qt4e.bb b/meta/recipes-qt/tasks/task-qt4e.bb
+new file mode 100644
+index 0000000..c95c898
+--- /dev/null
++++ b/meta/recipes-qt/tasks/task-qt4e.bb
+@@ -0,0 +1,56 @@
++DESCRIPTION = "QT4 Embedded base Image Feed"
++PR = "r1"
++LICENSE = "MIT"
++
++LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
++                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++
++inherit task
++
++TOUCH = ' ${@base_contains("MACHINE_FEATURES", "touchscreen", "tslib tslib-calibrate tslib-tests", "",d)}'
++
++PACKAGES += " \
++	${PN}-base \
++"
++
++RDEPENDS_${PN}-base = " \
++	qt4-embedded \
++	libqt-embedded3support4 \
++	libqt-embeddedclucene4 \
++	libqt-embeddedcore4 \
++	libqt-embeddeddbus4 \
++	libqt-embeddedgui4 \
++	libqt-embeddedhelp4 \
++	libqt-embeddedmultimedia4 \
++	libqt-embeddednetwork4 \
++	libqt-embeddedscript4 \
++	libqt-embeddedscripttools4 \
++	libqt-embeddedsql4 \
++	libqt-embeddedsvg4 \
++	libqt-embeddedtest4 \
++	libqt-embeddedwebkit4 \
++	libqt-embeddedxml4 \
++	qt4-embedded-fonts-ttf-dejavu \
++	qt4-embedded-fonts-ttf-vera \
++	qt4-embedded-plugin-iconengine-svgicon \
++	qt4-embedded-plugin-imageformat-gif \
++	qt4-embedded-plugin-imageformat-ico \
++	qt4-embedded-plugin-imageformat-jpeg \
++	qt4-embedded-plugin-imageformat-mng \
++	qt4-embedded-plugin-imageformat-svg \
++	qt4-embedded-plugin-imageformat-tiff \
++	qt4-embedded-plugin-mousedriver-tslib \
++	qt4-embedded-plugin-phonon-backend-gstreamer \
++	qt4-embedded-plugin-script-dbus \
++	qt4-embedded-plugin-sqldriver-sqlite \
++	${TOUCH} \
++        qt4-embedded-demos \
++        qt4-embedded-examples \
++        qt-demo-init \
++        qt4-embedded-assistant \
++"
++
++RRECOMMENDS_${PN}-base = " \
++	libqt-embeddedxmlpatterns4 \
++"
++
 -- 
 1.7.6
 
