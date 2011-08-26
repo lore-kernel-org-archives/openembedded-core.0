@@ -1,19 +1,19 @@
-Received: from devils.ext.ti.com ([198.47.26.153])
+Received: from bear.ext.ti.com ([192.94.94.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <joelagnel@ti.com>) id 1QwkUo-0003nv-A0
+	(envelope-from <joelagnel@ti.com>) id 1QwkUo-0003nu-6G
 	for openembedded-core@lists.openembedded.org;
 	Fri, 26 Aug 2011 02:42:06 +0200
 Received: from dlep33.itg.ti.com ([157.170.170.112])
-	by devils.ext.ti.com (8.13.7/8.13.7) with ESMTP id p7Q0bHKC005566
+	by bear.ext.ti.com (8.13.7/8.13.7) with ESMTP id p7Q0bH6T017774
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2011 19:37:18 -0500
+	Thu, 25 Aug 2011 19:37:17 -0500
 Received: from dlep26.itg.ti.com (smtp-le.itg.ti.com [157.170.170.27])
-	by dlep33.itg.ti.com (8.13.7/8.13.8) with ESMTP id p7Q0bH2G008800
+	by dlep33.itg.ti.com (8.13.7/8.13.8) with ESMTP id p7Q0bHej008793
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 25 Aug 2011 19:37:17 -0500 (CDT)
 Received: from DLEE74.ent.ti.com (localhost [127.0.0.1])
-	by dlep26.itg.ti.com (8.13.8/8.13.8) with ESMTP id p7Q0bHvG001521
+	by dlep26.itg.ti.com (8.13.8/8.13.8) with ESMTP id p7Q0bG7p001503
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 25 Aug 2011 19:37:17 -0500 (CDT)
 Received: from dlelxv22.itg.ti.com (172.17.1.197) by DLEE74.ent.ti.com
@@ -21,16 +21,16 @@ Received: from dlelxv22.itg.ti.com (172.17.1.197) by DLEE74.ent.ti.com
 	Thu, 25 Aug 2011 19:37:16 -0500
 Received: from localhost.localdomain (chase-ubuntu.am.dhcp.ti.com
 	[128.247.105.25])	by dlelxv22.itg.ti.com (8.13.8/8.13.8) with ESMTP id
-	p7Q0bFax011622;	Thu, 25 Aug 2011 19:37:16 -0500
+	p7Q0bFaw011622;	Thu, 25 Aug 2011 19:37:16 -0500
 From: Joel A Fernandes <joelagnel@ti.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 25 Aug 2011 19:28:24 -0500
-Message-ID: <1314318504-9524-10-git-send-email-joelagnel@ti.com>
+Date: Thu, 25 Aug 2011 19:28:23 -0500
+Message-ID: <1314318504-9524-9-git-send-email-joelagnel@ti.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <1314318504-9524-1-git-send-email-joelagnel@ti.com>
 References: <1314318504-9524-1-git-send-email-joelagnel@ti.com>
 MIME-Version: 1.0
-Subject: [PATCH meta-oe 9/9] xpext: Imported from OE classic
+Subject: [PATCH meta-oe 8/9] xsp: Imported from OE classic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,60 +50,49 @@ Content-Type: text/plain
 
 Signed-off-by: Joel A Fernandes <joelagnel@ti.com>
 ---
- .../recipes-multimedia/xpext/xpext/auxdir.patch    |   13 +++++++++++
- meta-oe/recipes-multimedia/xpext/xpext_1.0-5.bb    |   23 ++++++++++++++++++++
- 2 files changed, 36 insertions(+), 0 deletions(-)
- create mode 100644 meta-oe/recipes-multimedia/xpext/xpext/auxdir.patch
- create mode 100644 meta-oe/recipes-multimedia/xpext/xpext_1.0-5.bb
+ .../recipes-multimedia/xsp/xsp/xsp-fix-pc.patch    |   10 ++++++++++
+ meta-oe/recipes-multimedia/xsp/xsp_1.0.0-8.bb      |   15 +++++++++++++++
+ 2 files changed, 25 insertions(+), 0 deletions(-)
+ create mode 100644 meta-oe/recipes-multimedia/xsp/xsp/xsp-fix-pc.patch
+ create mode 100644 meta-oe/recipes-multimedia/xsp/xsp_1.0.0-8.bb
 
-diff --git a/meta-oe/recipes-multimedia/xpext/xpext/auxdir.patch b/meta-oe/recipes-multimedia/xpext/xpext/auxdir.patch
+diff --git a/meta-oe/recipes-multimedia/xsp/xsp/xsp-fix-pc.patch b/meta-oe/recipes-multimedia/xsp/xsp/xsp-fix-pc.patch
 new file mode 100644
-index 0000000..da5841a
+index 0000000..18bc67c
 --- /dev/null
-+++ b/meta-oe/recipes-multimedia/xpext/xpext/auxdir.patch
-@@ -0,0 +1,13 @@
-+--- configure.ac.old	2005-06-03 12:53:28.000000000 +0200
-++++ configure.ac	2005-06-03 12:54:29.000000000 +0200
-+@@ -25,9 +25,9 @@
-+ 
-+ AC_PREREQ([2.57])
-+ AC_INIT([spext], [1.0], [lauri.leukkunen@nokia.com], spext)
-++AC_CONFIG_AUX_DIR(.)
-+ AM_INIT_AUTOMAKE([dist-bzip2])
-+ AM_MAINTAINER_MODE
-+-AC_CONFIG_AUX_DIR(.)
-+ 
-+ dnl PKG_CHECK_MODULES(FIXESEXT, fixesext)
-+ 
-diff --git a/meta-oe/recipes-multimedia/xpext/xpext_1.0-5.bb b/meta-oe/recipes-multimedia/xpext/xpext_1.0-5.bb
++++ b/meta-oe/recipes-multimedia/xsp/xsp/xsp-fix-pc.patch
+@@ -0,0 +1,10 @@
++--- Xsp/xsp.pc.in~	2009-01-07 13:06:07.000000000 +0100
+++++ Xsp/xsp.pc.in	2009-01-07 13:06:07.000000000 +0100
++@@ -6,5 +6,5 @@
++ Name: Xsp
++ Description: X Sputnik Library
++ Version: @PACKAGE_VERSION@
++-Cflags: -I${includedir}  @XSP_CFLAGS@ @X_CFLAGS@
++-Libs: -L${libdir} -lXsp @XSP_LIBS@ @X_LIBS@
+++Cflags: -I${includedir}
+++Libs: -L${libdir} -lXsp -lX11
+diff --git a/meta-oe/recipes-multimedia/xsp/xsp_1.0.0-8.bb b/meta-oe/recipes-multimedia/xsp/xsp_1.0.0-8.bb
 new file mode 100644
-index 0000000..e6c1a5d
+index 0000000..2bc3e83
 --- /dev/null
-+++ b/meta-oe/recipes-multimedia/xpext/xpext_1.0-5.bb
-@@ -0,0 +1,23 @@
-+PR = "r1"
++++ b/meta-oe/recipes-multimedia/xsp/xsp_1.0.0-8.bb
+@@ -0,0 +1,15 @@
++PR = "r2"
 +LICENSE= "MIT"
 +DESCRIPTION = "X Server Nokia 770 extensions library"
 +SECTION = "x11/libs"
 +PRIORITY = "optional"
-+DEPENDS = "virtual/libx11 libxext"
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=db043791349ba57ad1169e1c92477cb6"
-+
-+SRC_URI = "http://repository.maemo.org/pool/maemo/ossw/source/x/${PN}/${PN}_${PV}.tar.gz \
-+           file://auxdir.patch;striplevel=0"
-+S = "${WORKDIR}/xpext-1.0"
++DEPENDS = "virtual/libx11 libxext xpext"
++LIC_FILES_CHKSUM = "file://COPYING;md5=ea2bda168c508c7cd8afa567b2fcc549"
++SRC_URI = "http://repository.maemo.org/pool/maemo/ossw/source/x/xsp/${PN}_${PV}.tar.gz \
++           file://xsp-fix-pc.patch"
++S = "${WORKDIR}/Xsp"
 +
 +inherit autotools pkgconfig
 +
-+do_configure_prepend () {
-+  cd ${S}
-+  chmod +x ./autogen.sh
-+  ./autogen.sh
-+}
-+
-+SRC_URI[md5sum] = "1b0cb67b6f2bd7c4abef17648b062896"
-+SRC_URI[sha256sum] = "a3b06f5188fd9effd0799ae31352b3cd65cb913b964e2c1a923ffa9d3c08abbe"
++SRC_URI[md5sum] = "2a0d8d02228d4cbd28b6e07bb7c17cf5"
++SRC_URI[sha256sum] = "8b722b952b64841d996c70c3278499886c81bb5012991beed5f66f4158418f59"
 -- 
 1.7.0.4
 
