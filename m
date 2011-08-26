@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qx2Ka-0006Xu-G0
+	(envelope-from <sgw@linux.intel.com>) id 1Qx2Kb-0006Xu-4j
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 21:44:44 +0200
+	Fri, 26 Aug 2011 21:44:46 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 26 Aug 2011 12:39:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,286,1312182000"; d="scan'208";a="45450490"
+X-IronPort-AV: E=Sophos;i="4.68,286,1312182000"; d="scan'208";a="45450492"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.251])
-	by fmsmga001.fm.intel.com with ESMTP; 26 Aug 2011 12:39:53 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 26 Aug 2011 12:39:54 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Aug 2011 12:39:31 -0700
-Message-Id: <0fabe078a31591f41c3fdabe5aa9de1111ef82c7.1314387279.git.sgw@linux.intel.com>
+Date: Fri, 26 Aug 2011 12:39:32 -0700
+Message-Id: <fef385e37e82a0eec743fbd1da11021b9e7158b5.1314387279.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1314387279.git.sgw@linux.intel.com>
 References: <cover.1314387279.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1314387279.git.sgw@linux.intel.com>
 References: <cover.1314387279.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 01/21] gcc-4.6: Drop gcc-poison-parameters.patch as its not need
+Subject: [CONSOLIDATED PULL 02/21] gcc-4.5.1: Drop gcc-poison-parameters.patch, replace with bug fix patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,50 +33,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2011 19:44:44 -0000
+X-List-Received-Date: Fri, 26 Aug 2011 19:44:46 -0000
 
 From: Kumar Gala <galak@kernel.crashing.org>
 
 The gcc-poison-parameters was added specifically to deal with an issue
 on ppc targets and a bug when we build with -Os -frename-registers.
 
-This bug below reports the issue and is fixed in gcc-4.6.x:
+This bug below reports the issue and is fixed in gcc-4.6.x/mainline:
 
 http://gcc.gnu.org/bugzilla/show_bug.cgi?id=44618
 
+Backport patch to gcc 4.5.1.
+
 Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
 ---
- meta/recipes-devtools/gcc/gcc-4.6.inc              |    3 +-
- .../gcc/gcc-4.6/gcc-poison-parameters.patch        |   76 --------------------
- 2 files changed, 1 insertions(+), 78 deletions(-)
- delete mode 100644 meta/recipes-devtools/gcc/gcc-4.6/gcc-poison-parameters.patch
+ meta/recipes-devtools/gcc/gcc-4.5.1.inc            |    4 +-
+ .../gcc/gcc-4.5.1/gcc-poison-parameters.patch      |   85 ------
+ meta/recipes-devtools/gcc/gcc-4.5.1/pr44618.patch  |  314 ++++++++++++++++++++
+ 3 files changed, 316 insertions(+), 87 deletions(-)
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-4.5.1/gcc-poison-parameters.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.5.1/pr44618.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
-index 28a70f3..290d8f2 100644
---- a/meta/recipes-devtools/gcc/gcc-4.6.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
+diff --git a/meta/recipes-devtools/gcc/gcc-4.5.1.inc b/meta/recipes-devtools/gcc/gcc-4.5.1.inc
+index aa1cc95..f2991f2 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.5.1.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.5.1.inc
 @@ -1,6 +1,6 @@
  require gcc-common.inc
  
--PR = "r7"
-+PR = "r8"
+-PR = "r8"
++PR = "r9"
  
- # Third digit in PV should be incremented after a minor release
- # happens from this branch on gcc e.g. currently its 4.6.0
-@@ -62,7 +62,6 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
+ DEPENDS =+ "mpfr gmp libmpc elfutils"
+ NATIVEDEPS = "mpfr-native gmp-native gettext-native libmpc-native elfutils-native"
+@@ -56,7 +56,6 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
  	   file://64bithack.patch \
  	   file://optional_libstdc.patch \
  	   file://disable_relax_pic_calls_flag.patch \
 -	   file://gcc-poison-parameters.patch \
  	   file://GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch \
  	   file://COLLECT_GCC_OPTIONS.patch \
-            file://volatile_access_backport.patch \
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6/gcc-poison-parameters.patch b/meta/recipes-devtools/gcc/gcc-4.6/gcc-poison-parameters.patch
+ 	   file://use-defaults.h-and-t-oe-in-B.patch \
+@@ -66,6 +65,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+ 	   file://pr45094.patch \
+ 	   file://pr45052.patch \
+ 	   file://pr45886.patch \
++	   file://pr44618.patch \
+ 	  "
+ 	
+ SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch "
+diff --git a/meta/recipes-devtools/gcc/gcc-4.5.1/gcc-poison-parameters.patch b/meta/recipes-devtools/gcc/gcc-4.5.1/gcc-poison-parameters.patch
 deleted file mode 100644
-index 58bf32f..0000000
---- a/meta/recipes-devtools/gcc/gcc-4.6/gcc-poison-parameters.patch
+index 74d4527..0000000
+--- a/meta/recipes-devtools/gcc/gcc-4.5.1/gcc-poison-parameters.patch
 +++ /dev/null
-@@ -1,76 +0,0 @@
+@@ -1,85 +0,0 @@
 -Upstream-Status: Pending
 -
 -gcc: add poison parameters detection
@@ -87,11 +99,11 @@ index 58bf32f..0000000
 -
 -Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 -
--Index: gcc-4.6.0/gcc/config.in
--===================================================================
----- gcc-4.6.0.orig/gcc/config.in
--+++ gcc-4.6.0/gcc/config.in
--@@ -150,6 +150,12 @@
+-diff --git a/gcc/config.in b/gcc/config.in
+-index a9e208f..3004321 100644
+---- a/gcc/config.in
+-+++ b/gcc/config.in
+-@@ -132,6 +132,12 @@
 - #endif
 - 
 - 
@@ -104,13 +116,21 @@ index 58bf32f..0000000
 - /* Define if you want all operations on RTL (the basic data structure of the
 -    optimizer and back end) to be checked for dynamic type safety at runtime.
 -    This is quite expensive. */
--Index: gcc-4.6.0/gcc/configure
--===================================================================
----- gcc-4.6.0.orig/gcc/configure
--+++ gcc-4.6.0/gcc/configure
--@@ -26434,6 +26434,13 @@ $as_echo "#define ENABLE_LIBQUADMATH_SUP
-- fi
+-diff --git a/gcc/configure b/gcc/configure
+-index 2e022ed..004ec0b 100755
+---- a/gcc/configure
+-+++ b/gcc/configure
+-@@ -909,6 +909,7 @@ enable_maintainer_mode
+- enable_version_specific_runtime_libs
+- with_slibdir
+- enable_plugin
+-+enable_target_optspace
+- '
+-       ac_precious_vars='build_alias
+- host_alias
+-@@ -25289,6 +25290,13 @@ $as_echo "#define ENABLE_PLUGIN 1" >>confdefs.h
 - 
+- fi
 - 
 -+if test x"$enable_target_optspace" != x; then :
 -+
@@ -122,13 +142,13 @@ index 58bf32f..0000000
 - # Configure the subdirectories
 - # AC_CONFIG_SUBDIRS($subdirs)
 - 
--Index: gcc-4.6.0/gcc/configure.ac
--===================================================================
----- gcc-4.6.0.orig/gcc/configure.ac
--+++ gcc-4.6.0/gcc/configure.ac
--@@ -4907,6 +4907,11 @@ if test "${ENABLE_LIBQUADMATH_SUPPORT}"
+-diff --git a/gcc/configure.ac b/gcc/configure.ac
+-index ac4ca70..18ec0aa 100644
+---- a/gcc/configure.ac
+-+++ b/gcc/configure.ac
+-@@ -4434,6 +4434,11 @@ if test x"$enable_plugin" = x"yes"; then
+-   AC_DEFINE(ENABLE_PLUGIN, 1, [Define to enable plugin support.])
 - fi
-- 
 - 
 -+AC_SUBST(enable_target_optspace)
 -+if test x"$enable_target_optspace" != x; then
@@ -138,21 +158,342 @@ index 58bf32f..0000000
 - # Configure the subdirectories
 - # AC_CONFIG_SUBDIRS($subdirs)
 - 
--Index: gcc-4.6.0/gcc/opts.c
--===================================================================
----- gcc-4.6.0.orig/gcc/opts.c
--+++ gcc-4.6.0/gcc/opts.c
--@@ -605,6 +605,10 @@ default_options_optimization (struct gcc
--     maybe_set_param_value (PARAM_MIN_CROSSJUMP_INSNS,
-- 			   default_param_value (PARAM_MIN_CROSSJUMP_INSNS),
-- 			   opts->x_param_values, opts_set->x_param_values);
+-diff --git a/gcc/opts.c b/gcc/opts.c
+-index 139cd26..2fdd96a 100644
+---- a/gcc/opts.c
+-+++ b/gcc/opts.c
+-@@ -945,6 +945,11 @@ decode_options (unsigned int argc, const char **argv)
+-   else
+-     set_param_value ("min-crossjump-insns", initial_min_crossjump_insns);
+- 
 -+#ifndef ENABLE_TARGET_OPTSPACE
 -+  if (optimize_size == 1)
 -+    error ("Do not use -Os option if --enable-target-optspace is not set.");
 -+#endif
-- 
--   /* Allow default optimizations to be specified on a per-machine basis.  */
--   maybe_default_options (opts, opts_set,
+-+
+-   if (first_time_p)
+-     {
+-       /* Initialize whether `char' is signed.  */
+diff --git a/meta/recipes-devtools/gcc/gcc-4.5.1/pr44618.patch b/meta/recipes-devtools/gcc/gcc-4.5.1/pr44618.patch
+new file mode 100644
+index 0000000..23f41cc
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.5.1/pr44618.patch
+@@ -0,0 +1,314 @@
++Upstream-Status: Pending
++
++Backport of bugfix in gcc-4.6.x and mainline that address bug 44618 in
++which we get wrong code generation with -Os -frename-registers.
++
++ 	2011-06-13  Edmar Wienskoski  <edmar@freescale.com>
++
++	PR target/44618
++	* config/rs6000/rs6000.md (save_gpregs_<mode>): Replaced pattern
++	with a set of similar patterns, where the MATCH_OPERAND for the
++	function argument is replaced with individual references to hardware
++	registers.
++	(save_fpregs_<mode>): Ditto
++	(restore_gpregs_<mode>): Ditto
++	(return_and_restore_gpregs_<mode>): Ditto
++	(return_and_restore_fpregs_<mode>): Ditto
++	(return_and_restore_fpregs_aix_<mode>): Ditto
++
++	* gcc.target/powerpc/outofline_rnreg.c: New testcase.
++
++Index: gcc-4.5.1/gcc/config/rs6000/rs6000.md
++===================================================================
++--- gcc-4.5.1.orig/gcc/config/rs6000/rs6000.md
+++++ gcc-4.5.1/gcc/config/rs6000/rs6000.md
++@@ -15256,25 +15256,88 @@
++   "{stm|stmw} %2,%1"
++   [(set_attr "type" "store_ux")])
++ 
++-(define_insn "*save_gpregs_<mode>"
+++; The following comment applies to:
+++;     save_gpregs_*
+++;     save_fpregs_*
+++;     restore_gpregs*
+++;     return_and_restore_gpregs*
+++;     return_and_restore_fpregs*
+++;     return_and_restore_fpregs_aix*
+++;
+++; The out-of-line save / restore functions expects one input argument.
+++; Since those are not standard call_insn's, we must avoid using
+++; MATCH_OPERAND for that argument. That way the register rename
+++; optimization will not try to rename this register.
+++; Each pattern is repeated for each possible register number used in 
+++; various ABIs (r11, r1, and for some functions r12)
+++
+++(define_insn "*save_gpregs_<mode>_r11"
+++  [(match_parallel 0 "any_parallel_operand"
+++		   [(clobber (reg:P 65))
+++		    (use (match_operand:P 1 "symbol_ref_operand" "s"))
+++                    (use (reg:P 11))
+++		    (set (match_operand:P 2 "memory_operand" "=m")
+++			 (match_operand:P 3 "gpc_reg_operand" "r"))])]
+++  ""
+++  "bl %1"
+++  [(set_attr "type" "branch")
+++   (set_attr "length" "4")])
+++
+++(define_insn "*save_gpregs_<mode>_r12"
+++  [(match_parallel 0 "any_parallel_operand"
+++		   [(clobber (reg:P 65))
+++		    (use (match_operand:P 1 "symbol_ref_operand" "s"))
+++                    (use (reg:P 12))
+++		    (set (match_operand:P 2 "memory_operand" "=m")
+++			 (match_operand:P 3 "gpc_reg_operand" "r"))])]
+++  ""
+++  "bl %1"
+++  [(set_attr "type" "branch")
+++   (set_attr "length" "4")])
+++
+++(define_insn "*save_gpregs_<mode>_r1"
+++  [(match_parallel 0 "any_parallel_operand"
+++		   [(clobber (reg:P 65))
+++		    (use (match_operand:P 1 "symbol_ref_operand" "s"))
+++                    (use (reg:P 1))
+++		    (set (match_operand:P 2 "memory_operand" "=m")
+++			 (match_operand:P 3 "gpc_reg_operand" "r"))])]
+++  ""
+++  "bl %1"
+++  [(set_attr "type" "branch")
+++   (set_attr "length" "4")])
+++
+++(define_insn "*save_fpregs_<mode>_r11"
+++  [(match_parallel 0 "any_parallel_operand"
+++		   [(clobber (reg:P 65))
+++		    (use (match_operand:P 1 "symbol_ref_operand" "s"))
+++                    (use (reg:P 11))
+++		    (set (match_operand:DF 2 "memory_operand" "=m")
+++			 (match_operand:DF 3 "gpc_reg_operand" "d"))])]
+++  ""
+++  "bl %1"
+++  [(set_attr "type" "branch")
+++   (set_attr "length" "4")])
+++
+++(define_insn "*save_fpregs_<mode>_r12"
++   [(match_parallel 0 "any_parallel_operand"
++ 		   [(clobber (reg:P 65))
++ 		    (use (match_operand:P 1 "symbol_ref_operand" "s"))
++-                    (use (match_operand:P 2 "gpc_reg_operand" "r"))
++-		    (set (match_operand:P 3 "memory_operand" "=m")
++-			 (match_operand:P 4 "gpc_reg_operand" "r"))])]
+++                    (use (reg:P 12))
+++		    (set (match_operand:DF 2 "memory_operand" "=m")
+++			 (match_operand:DF 3 "gpc_reg_operand" "d"))])]
++   ""
++   "bl %1"
++   [(set_attr "type" "branch")
++    (set_attr "length" "4")])
++ 
++-(define_insn "*save_fpregs_<mode>"
+++(define_insn "*save_fpregs_<mode>_r1"
++   [(match_parallel 0 "any_parallel_operand"
++ 		   [(clobber (reg:P 65))
++ 		    (use (match_operand:P 1 "symbol_ref_operand" "s"))
++-                    (use (match_operand:P 2 "gpc_reg_operand" "r"))
++-		    (set (match_operand:DF 3 "memory_operand" "=m")
++-			 (match_operand:DF 4 "gpc_reg_operand" "d"))])]
+++                    (use (reg:P 1))
+++		    (set (match_operand:DF 2 "memory_operand" "=m")
+++			 (match_operand:DF 3 "gpc_reg_operand" "d"))])]
++   ""
++   "bl %1"
++   [(set_attr "type" "branch")
++@@ -15372,52 +15435,156 @@
++ ; FIXME: This would probably be somewhat simpler if the Cygnus sibcall
++ ; stuff was in GCC.  Oh, and "any_parallel_operand" is a bit flexible...
++ 
++-(define_insn "*restore_gpregs_<mode>"
+++; The following comment applies to:
+++;     save_gpregs_*
+++;     save_fpregs_*
+++;     restore_gpregs*
+++;     return_and_restore_gpregs*
+++;     return_and_restore_fpregs*
+++;     return_and_restore_fpregs_aix*
+++;
+++; The out-of-line save / restore functions expects one input argument.
+++; Since those are not standard call_insn's, we must avoid using
+++; MATCH_OPERAND for that argument. That way the register rename
+++; optimization will not try to rename this register.
+++; Each pattern is repeated for each possible register number used in 
+++; various ABIs (r11, r1, and for some functions r12)
+++
+++(define_insn "*restore_gpregs_<mode>_r11"
+++ [(match_parallel 0 "any_parallel_operand"
+++                  [(clobber (match_operand:P 1 "register_operand" "=l"))
+++                   (use (match_operand:P 2 "symbol_ref_operand" "s"))
+++                   (use (reg:P 11))
+++		   (set (match_operand:P 3 "gpc_reg_operand" "=r")
+++			(match_operand:P 4 "memory_operand" "m"))])]
+++ ""
+++ "bl %2"
+++ [(set_attr "type" "branch")
+++  (set_attr "length" "4")])
+++
+++(define_insn "*restore_gpregs_<mode>_r12"
++  [(match_parallel 0 "any_parallel_operand"
++                   [(clobber (match_operand:P 1 "register_operand" "=l"))
++                    (use (match_operand:P 2 "symbol_ref_operand" "s"))
++-                   (use (match_operand:P 3 "gpc_reg_operand" "r"))
++-		   (set (match_operand:P 4 "gpc_reg_operand" "=r")
++-			(match_operand:P 5 "memory_operand" "m"))])]
+++                   (use (reg:P 12))
+++		   (set (match_operand:P 3 "gpc_reg_operand" "=r")
+++			(match_operand:P 4 "memory_operand" "m"))])]
++  ""
++  "bl %2"
++  [(set_attr "type" "branch")
++   (set_attr "length" "4")])
++ 
++-(define_insn "*return_and_restore_gpregs_<mode>"
+++(define_insn "*restore_gpregs_<mode>_r1"
+++ [(match_parallel 0 "any_parallel_operand"
+++                  [(clobber (match_operand:P 1 "register_operand" "=l"))
+++                   (use (match_operand:P 2 "symbol_ref_operand" "s"))
+++                   (use (reg:P 1))
+++		   (set (match_operand:P 3 "gpc_reg_operand" "=r")
+++			(match_operand:P 4 "memory_operand" "m"))])]
+++ ""
+++ "bl %2"
+++ [(set_attr "type" "branch")
+++  (set_attr "length" "4")])
+++
+++(define_insn "*return_and_restore_gpregs_<mode>_r11"
+++ [(match_parallel 0 "any_parallel_operand"
+++                  [(return)
+++		   (clobber (match_operand:P 1 "register_operand" "=l"))
+++		   (use (match_operand:P 2 "symbol_ref_operand" "s"))
+++                   (use (reg:P 11))
+++		   (set (match_operand:P 3 "gpc_reg_operand" "=r")
+++			(match_operand:P 4 "memory_operand" "m"))])]
+++ ""
+++ "b %2"
+++ [(set_attr "type" "branch")
+++  (set_attr "length" "4")])
+++
+++(define_insn "*return_and_restore_gpregs_<mode>_r12"
+++ [(match_parallel 0 "any_parallel_operand"
+++                  [(return)
+++		   (clobber (match_operand:P 1 "register_operand" "=l"))
+++		   (use (match_operand:P 2 "symbol_ref_operand" "s"))
+++                   (use (reg:P 12))
+++		   (set (match_operand:P 3 "gpc_reg_operand" "=r")
+++			(match_operand:P 4 "memory_operand" "m"))])]
+++ ""
+++ "b %2"
+++ [(set_attr "type" "branch")
+++  (set_attr "length" "4")])
+++
+++(define_insn "*return_and_restore_gpregs_<mode>_r1"
++  [(match_parallel 0 "any_parallel_operand"
++                   [(return)
++ 		   (clobber (match_operand:P 1 "register_operand" "=l"))
++ 		   (use (match_operand:P 2 "symbol_ref_operand" "s"))
++-                   (use (match_operand:P 3 "gpc_reg_operand" "r"))
++-		   (set (match_operand:P 4 "gpc_reg_operand" "=r")
++-			(match_operand:P 5 "memory_operand" "m"))])]
+++                   (use (reg:P 1))
+++		   (set (match_operand:P 3 "gpc_reg_operand" "=r")
+++			(match_operand:P 4 "memory_operand" "m"))])]
++  ""
++  "b %2"
++  [(set_attr "type" "branch")
++   (set_attr "length" "4")])
++ 
++-(define_insn "*return_and_restore_fpregs_<mode>"
+++(define_insn "*return_and_restore_fpregs_<mode>_r11"
++  [(match_parallel 0 "any_parallel_operand"
++                   [(return)
++ 		   (clobber (match_operand:P 1 "register_operand" "=l"))
++ 		   (use (match_operand:P 2 "symbol_ref_operand" "s"))
++-                   (use (match_operand:P 3 "gpc_reg_operand" "r"))
++-		   (set (match_operand:DF 4 "gpc_reg_operand" "=d")
++-			(match_operand:DF 5 "memory_operand" "m"))])]
+++                   (use (reg:P 11))
+++		   (set (match_operand:DF 3 "gpc_reg_operand" "=d")
+++			(match_operand:DF 4 "memory_operand" "m"))])]
+++ ""
+++ "b %2"
+++ [(set_attr "type" "branch")
+++  (set_attr "length" "4")])
+++
+++(define_insn "*return_and_restore_fpregs_<mode>_r12"
+++ [(match_parallel 0 "any_parallel_operand"
+++                  [(return)
+++		   (clobber (match_operand:P 1 "register_operand" "=l"))
+++		   (use (match_operand:P 2 "symbol_ref_operand" "s"))
+++                   (use (reg:P 12))
+++		   (set (match_operand:DF 3 "gpc_reg_operand" "=d")
+++			(match_operand:DF 4 "memory_operand" "m"))])]
+++ ""
+++ "b %2"
+++ [(set_attr "type" "branch")
+++  (set_attr "length" "4")])
+++
+++(define_insn "*return_and_restore_fpregs_<mode>_r1"
+++ [(match_parallel 0 "any_parallel_operand"
+++                  [(return)
+++		   (clobber (match_operand:P 1 "register_operand" "=l"))
+++		   (use (match_operand:P 2 "symbol_ref_operand" "s"))
+++                   (use (reg:P 1))
+++		   (set (match_operand:DF 3 "gpc_reg_operand" "=d")
+++			(match_operand:DF 4 "memory_operand" "m"))])]
+++ ""
+++ "b %2"
+++ [(set_attr "type" "branch")
+++  (set_attr "length" "4")])
+++
+++(define_insn "*return_and_restore_fpregs_aix_<mode>_r11"
+++ [(match_parallel 0 "any_parallel_operand"
+++		  [(return)
+++		   (use (match_operand:P 1 "register_operand" "l"))
+++		   (use (match_operand:P 2 "symbol_ref_operand" "s"))
+++		   (use (reg:P 11))
+++		   (set (match_operand:DF 3 "gpc_reg_operand" "=d")
+++			(match_operand:DF 4 "memory_operand" "m"))])]
++  ""
++  "b %2"
++  [(set_attr "type" "branch")
++   (set_attr "length" "4")])
++ 
++-(define_insn "*return_and_restore_fpregs_aix_<mode>"
+++(define_insn "*return_and_restore_fpregs_aix_<mode>_r1"
++  [(match_parallel 0 "any_parallel_operand"
++ 		  [(return)
++ 		   (use (match_operand:P 1 "register_operand" "l"))
++ 		   (use (match_operand:P 2 "symbol_ref_operand" "s"))
++-		   (use (match_operand:P 3 "gpc_reg_operand" "r"))
++-		   (set (match_operand:DF 4 "gpc_reg_operand" "=d")
++-			(match_operand:DF 5 "memory_operand" "m"))])]
+++		   (use (reg:P 1))
+++		   (set (match_operand:DF 3 "gpc_reg_operand" "=d")
+++			(match_operand:DF 4 "memory_operand" "m"))])]
++  ""
++  "b %2"
++  [(set_attr "type" "branch")
++Index: gcc-4.5.1/gcc/testsuite/gcc.target/powerpc/outofline_rnreg.c
++===================================================================
++--- /dev/null
+++++ gcc-4.5.1/gcc/testsuite/gcc.target/powerpc/outofline_rnreg.c
++@@ -0,0 +1,15 @@
+++/* Test that registers used by out of line restore functions does not get renamed.
+++   AIX, and 64 bit targets uses r1, which rnreg stays away from.
+++   Linux 32 bits targets uses r11, which is susceptible to be renamed */
+++/* { dg-do compile } */
+++/* { dg-require-effective-target ilp32 } */
+++/* { dg-options "-Os -frename-registers -fdump-rtl-rnreg" } */
+++/* "* renamed" or "* no available better choice" results are not acceptable */
+++/* { dg-final { scan-rtl-dump-not "Register 11 in insn *" "rnreg" { target powerpc*-*-linux* } } } */
+++/* { dg-final { cleanup-rtl-dump "rnreg" } } */
+++int
+++calc (int j)
+++{
+++  if (j<=1) return 1;
+++  return calc(j-1)*(j+1);
+++}
 -- 
 1.7.6
 
