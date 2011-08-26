@@ -1,29 +1,27 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QwyN7-0000dW-9s
+	(envelope-from <philb@gnu.org>) id 1QwyRC-0000jV-Nv
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 17:31:05 +0200
-Received: by wyf19 with SMTP id 19so2682078wyf.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Aug 2011 08:26:16 -0700 (PDT)
-Received: by 10.216.143.211 with SMTP id l61mr1981275wej.5.1314372376632;
-	Fri, 26 Aug 2011 08:26:16 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id fd4sm1388681wbb.30.2011.08.26.08.26.15
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 26 Aug 2011 08:26:15 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1314367938.19905.90.camel@phil-desktop>
-Date: Fri, 26 Aug 2011 17:26:14 +0200
-Message-Id: <EB5E7A93-679D-4108-8E6D-03D7E1865908@dominion.thruhere.net>
+	Fri, 26 Aug 2011 17:35:18 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QwyMa-0007jO-9E
+	for openembedded-core@lists.openembedded.org;
+	Fri, 26 Aug 2011 17:30:32 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 26 Aug 2011 16:30:31 +0100
+In-Reply-To: <EB5E7A93-679D-4108-8E6D-03D7E1865908@dominion.thruhere.net>
 References: <1314210721-29941-1-git-send-email-koen@dominion.thruhere.net>
 	<1314264296.19905.29.camel@phil-desktop>
 	<1314284316.5939.196.camel@rex>
 	<1314367938.19905.90.camel@phil-desktop>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1244.3)
+	<EB5E7A93-679D-4108-8E6D-03D7E1865908@dominion.thruhere.net>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1314372632.19905.93.camel@phil-desktop>
+Mime-Version: 1.0
 Subject: Re: [PATCH 1/2] libc-package bbclass: fix binary localedata dependency code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -39,63 +37,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2011 15:31:05 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 26 Aug 2011 15:35:18 -0000
+X-Groupsio-MsgNum: 8838
+Content-Type: multipart/mixed; boundary="=-kLGxSa6QfZ4QmRgqXYuv"
+
+--=-kLGxSa6QfZ4QmRgqXYuv
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Fri, 2011-08-26 at 17:26 +0200, Koen Kooi wrote:
+> And that gives me http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/testlab/commit/?h=yocto&id=9b2e08e0c4da4881ba8c83be39697a40a63b75fd
+> 
+> -locale_base_en_us -> eglibc_binary_localedata_en_us;
+> +locale_base_en_us -> eglibc_binary_localedata_en_u_;
+> 
+> So something regexp is being a bit too greedy by the looks of it.
+
+Ah whoops, the old missing backslash.  Could you try this one instead?
+
+p.
 
 
-Op 26 aug. 2011, om 16:12 heeft Phil Blundell het volgende geschreven:
+--=-kLGxSa6QfZ4QmRgqXYuv
+Content-Disposition: attachment;
+	filename*0=0001-libc-package-restore-correct-mangling-behavior-for-l.pat;
+	filename*1=ch
+Content-Type: text/x-patch;
+	name="0001-libc-package-restore-correct-mangling-behavior-for-l.patch";
+	charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-> On Thu, 2011-08-25 at 07:58 -0700, Richard Purdie wrote:
->> On Thu, 2011-08-25 at 10:24 +0100, Phil Blundell wrote:
->>> On Wed, 2011-08-24 at 20:32 +0200, Koen Kooi wrote:
->>>> diff --git a/meta/classes/libc-package.bbclass =
-b/meta/classes/libc-package.bbclass
->>>> index 0d5ce20..d3b33d6 100644
->>>> --- a/meta/classes/libc-package.bbclass
->>>> +++ b/meta/classes/libc-package.bbclass
->>>> @@ -243,7 +243,7 @@ python package_do_split_gconvs () {
->>>> 	def output_locale_binary_rdepends(name, pkgname, locale, =
-encoding):
->>>> 		m =3D re.match("(.*)_(.*)", name)
->>>> 		if m:
->>>> -			libc_name =3D "%s.%s" % (m.group(1), =
-m.group(2).lower().replace("-",""))
->>>> +			libc_name =3D "%s-%s" % (m.group(1), =
-m.group(2).lower().replace("-",""))
->>>> 		else:
->>>> 			libc_name =3D name
->>>> 		bb.data.setVar('RDEPENDS_%s' % pkgname, =
-legitimize_package_name('%s-binary-localedata-%s' \
->>>=20
->>> For what it's worth (probably not much), this is not quite the right
->>> fix.  Joining with "." was correct; it was the splitting on "_" that =
-was
->>> wrong.  The right thing would be to put it back how it was before =
-the
->>> glibc/eglibc merge commit, i.e. change the re to "(*.)\.(*.)" and =
-leave
->>> the output pattern alone.  That ought to fix your problem and also =
-allow
->>> the encoding to be correctly canonicalised.
->>=20
->> Can someone please send me the correct patch against master? :)
->=20
-> I think the attached is what you need.  Koen, maybe you could confirm
-> whether this does indeed fix your original problem.
+From 1cd91a91802776ddede041cfa222b603da6c8453 Mon Sep 17 00:00:00 2001
+From: Phil Blundell <philb@gnu.org>
+Date: Fri, 26 Aug 2011 15:05:11 +0100
+Subject: [PATCH v2] libc-package: restore correct mangling behavior for locale names
 
-I built some images before applying this patch and then:
+This reverts 19fb07bf337e1d724798e2eb4479c35fc45b1941 and restores
+the behaviour of the code to the way it was prior to 561d875404ef1783f94f37314b6e756766db8411.
 
-bitbake -ccleansstate eglibc eglibc-locale
-bitbake systemd-image
+See http://lists.linuxtogo.org/pipermail/openembedded-core/2011-August/007407.html and subsequent messages.
 
-And that gives me =
-http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/testlab/commit/?h=3D=
-yocto&id=3D9b2e08e0c4da4881ba8c83be39697a40a63b75fd
+Signed-off-by: Phil Blundell <philb@gnu.org>
+---
+ meta/classes/libc-package.bbclass |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
--locale_base_en_us -> eglibc_binary_localedata_en_us;
-+locale_base_en_us -> eglibc_binary_localedata_en_u_;
-
-So something regexp is being a bit too greedy by the looks of it.=
+diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
+index d3b33d6..f8df6a4 100644
+--- a/meta/classes/libc-package.bbclass
++++ b/meta/classes/libc-package.bbclass
+@@ -241,10 +241,9 @@ python package_do_split_gconvs () {
+ 		(locale, encoding, locale), d)
+ 
+ 	def output_locale_binary_rdepends(name, pkgname, locale, encoding):
+-		m = re.match("(.*)_(.*)", name)
++		m = re.match("(.*)\.(.*)", name)
+ 		if m:
+-			libc_name = "%s-%s" % (m.group(1), m.group(2).lower().replace("-",""))
++			libc_name = "%s.%s" % (m.group(1), m.group(2).lower().replace("-",""))
+ 		else:
+ 			libc_name = name
+ 		bb.data.setVar('RDEPENDS_%s' % pkgname, legitimize_package_name('%s-binary-localedata-%s' \
+-- 
+1.7.4.1
 
 
+--=-kLGxSa6QfZ4QmRgqXYuv--
