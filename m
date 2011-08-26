@@ -1,24 +1,24 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1QwrFp-00012J-3M
+	(envelope-from <dongxiao.xu@intel.com>) id 1QwrFo-00012B-Av
 	for openembedded-core@lists.openembedded.org;
 	Fri, 26 Aug 2011 09:55:05 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 26 Aug 2011 00:50:15 -0700
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 26 Aug 2011 00:50:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,283,1312182000"; d="scan'208";a="11274489"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="42138513"
 Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by AZSMGA002.ch.intel.com with ESMTP; 26 Aug 2011 00:50:15 -0700
+	by orsmga002.jf.intel.com with ESMTP; 26 Aug 2011 00:50:16 -0700
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Aug 2011 15:52:20 +0800
-Message-Id: <6154824fc4b6c0545c980af226412faf054f4e79.1314344548.git.dongxiao.xu@intel.com>
+Date: Fri, 26 Aug 2011 15:52:21 +0800
+Message-Id: <3da591983cad7670d2107b92fb9367deaac1bebf.1314344548.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1314344548.git.dongxiao.xu@intel.com>
 References: <cover.1314344548.git.dongxiao.xu@intel.com>
 In-Reply-To: <cover.1314344548.git.dongxiao.xu@intel.com>
 References: <cover.1314344548.git.dongxiao.xu@intel.com>
-Subject: [PATCH 1/5] base-passwd: Use BPN in FILES paths
+Subject: [PATCH 2/5] bitbake.conf: Use BPN in FILES paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,35 +35,35 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 26 Aug 2011 07:55:09 -0000
 
-Use BPN instead of PN in FILES paths.
-This fixes the login issue by /etc/passwd missing in multilib images.
+Use BPN instead of PN in FILES path to support multilib.
 
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- .../recipes-core/base-passwd/base-passwd_3.5.22.bb |   10 +++++-----
- 1 files changed, 5 insertions(+), 5 deletions(-)
+ meta/conf/bitbake.conf |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb
-index a155b41..137512d 100644
---- a/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb
-+++ b/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb
-@@ -30,11 +30,11 @@ do_install () {
- 	install -o root -g root -p -m 644 passwd.master ${D}${datadir}/base-passwd/
- 	install -o root -g root -p -m 644 group.master ${D}${datadir}/base-passwd/
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index b309516..2a77483 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -261,7 +261,7 @@ FILES_${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*${SOLIBS}
+             ${sysconfdir} ${sharedstatedir} ${localstatedir} \
+             ${base_bindir}/* ${base_sbindir}/* \
+             ${base_libdir}/*${SOLIBS} \
+-            ${datadir}/${PN} ${libdir}/${PN}/* \
++            ${datadir}/${BPN} ${libdir}/${BPN}/* \
+             ${datadir}/pixmaps ${datadir}/applications \
+             ${datadir}/idl ${datadir}/omf ${datadir}/sounds \
+             ${libdir}/bonobo/servers"
+@@ -282,7 +282,7 @@ SECTION_${PN}-staticdev = "devel"
+ RDEPENDS_${PN}-staticdev = "${PN}-dev (= ${EXTENDPKGV})"
  
--	install -d -m 755 ${D}${docdir}/${PN}
--	install -p -m 644 debian/changelog ${D}${docdir}/${PN}/
--	gzip -9 ${D}${docdir}/${PN}/*
--	install -p -m 644 README ${D}${docdir}/${PN}/
--	install -p -m 644 debian/copyright ${D}${docdir}/${PN}/
-+	install -d -m 755 ${D}${docdir}/${BPN}
-+	install -p -m 644 debian/changelog ${D}${docdir}/${BPN}/
-+	gzip -9 ${D}${docdir}/${BPN}/*
-+	install -p -m 644 README ${D}${docdir}/${BPN}/
-+	install -p -m 644 debian/copyright ${D}${docdir}/${BPN}/
- }
+ DOTDEBUG-dbg = "${bindir}/.debug ${sbindir}/.debug ${libexecdir}/.debug ${libdir}/.debug \
+-            ${base_bindir}/.debug ${base_sbindir}/.debug ${base_libdir}/.debug ${libdir}/${PN}/.debug \
++            ${base_bindir}/.debug ${base_sbindir}/.debug ${base_libdir}/.debug ${libdir}/${BPN}/.debug \
+             ${libdir}/matchbox-panel/.debug /usr/src/debug"
  
- pkg_postinst_${PN} () {
+ DEBUGFILEDIRECTORY-dbg = "/usr/lib/debug /usr/src/debug"
 -- 
 1.7.1
 
