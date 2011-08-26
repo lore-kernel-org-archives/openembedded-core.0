@@ -1,31 +1,36 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from devils.ext.ti.com ([198.47.26.153])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1QwiMb-00012c-Sm
+	(envelope-from <joelagnel@ti.com>) id 1QwkUl-0003no-J8
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 00:25:30 +0200
-Received: by yxl11 with SMTP id 11so2082209yxl.6
+	Fri, 26 Aug 2011 02:42:03 +0200
+Received: from dlep33.itg.ti.com ([157.170.170.112])
+	by devils.ext.ti.com (8.13.7/8.13.7) with ESMTP id p7Q0bHAP005561
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Aug 2011 15:20:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=uziWDU2ldROWWdowYDESj8XYPnrbUitJyeJApMRP6lE=;
-	b=qj/+tA/pH3ckZLu0MZZqrLYLI3Tn6nEFUiO4Cy5SMuaTUTQVuWRmROTtszUv+PDo9D
-	oGCELnf3vWBSk8n2MYTAX0Xk5GUn9z6WNuuuaXnG8Y+t7LTeBI+9khGwYzQvFN79y+rL
-	PJSxfPYbjUT4TzTu1SLE60vlvm1Eq8XzpXidA=
+	Thu, 25 Aug 2011 19:37:17 -0500
+Received: from dlep26.itg.ti.com (smtp-le.itg.ti.com [157.170.170.27])
+	by dlep33.itg.ti.com (8.13.7/8.13.8) with ESMTP id p7Q0bGxY008791
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Aug 2011 19:37:16 -0500 (CDT)
+Received: from DLEE74.ent.ti.com (localhost [127.0.0.1])
+	by dlep26.itg.ti.com (8.13.8/8.13.8) with ESMTP id p7Q0bGg2001486
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Aug 2011 19:37:16 -0500 (CDT)
+Received: from dlelxv22.itg.ti.com (172.17.1.197) by DLEE74.ent.ti.com
+	(157.170.170.8) with Microsoft SMTP Server id 14.1.323.3;
+	Thu, 25 Aug 2011 19:37:16 -0500
+Received: from localhost.localdomain (chase-ubuntu.am.dhcp.ti.com
+	[128.247.105.25])	by dlelxv22.itg.ti.com (8.13.8/8.13.8) with ESMTP id
+	p7Q0bFap011622;	Thu, 25 Aug 2011 19:37:16 -0500
+From: Joel A Fernandes <joelagnel@ti.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 25 Aug 2011 19:28:16 -0500
+Message-ID: <1314318504-9524-2-git-send-email-joelagnel@ti.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <1314318504-9524-1-git-send-email-joelagnel@ti.com>
+References: <1314318504-9524-1-git-send-email-joelagnel@ti.com>
 MIME-Version: 1.0
-Received: by 10.101.139.24 with SMTP id r24mr356154ann.19.1314310840310; Thu,
-	25 Aug 2011 15:20:40 -0700 (PDT)
-Received: by 10.100.4.8 with HTTP; Thu, 25 Aug 2011 15:20:40 -0700 (PDT)
-In-Reply-To: <cover.1314305555.git.bruce.ashfield@windriver.com>
-References: <cover.1314305555.git.bruce.ashfield@windriver.com>
-Date: Thu, 25 Aug 2011 18:20:40 -0400
-Message-ID: <CADkTA4MSvO4CoDyQCT6xpth5mqEXUDfre3rLacPoLOcvqHOX7Q@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: dvhart@linux.intel.com, saul.wold@intel.com,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1] linux-yocto-rt: fix qemumips boot
+Subject: [PATCH meta-oe 2/9] faad2: Imported from OE classic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,56 +45,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Aug 2011 22:25:30 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 26 Aug 2011 00:42:03 -0000
+Content-Type: text/plain
 
-On Thu, Aug 25, 2011 at 4:54 PM, Bruce Ashfield
-<bruce.ashfield@windriver.com> wrote:
-> Richard/Saul,
->
-> Just a minor tweak of the -rt SRCREVs to pickup a fix
-> that we got overnight that enables qemumips to boot from the
+Signed-off-by: Joel A Fernandes <joelagnel@ti.com>
+---
+ meta-oe/recipes-multimedia/faad2/faad2_2.7.bb |   23 +++++++++++++++++++++++
+ 1 files changed, 23 insertions(+), 0 deletions(-)
+ create mode 100644 meta-oe/recipes-multimedia/faad2/faad2_2.7.bb
 
-s/from/to/
+diff --git a/meta-oe/recipes-multimedia/faad2/faad2_2.7.bb b/meta-oe/recipes-multimedia/faad2/faad2_2.7.bb
+new file mode 100644
+index 0000000..e778432
+--- /dev/null
++++ b/meta-oe/recipes-multimedia/faad2/faad2_2.7.bb
+@@ -0,0 +1,23 @@
++DESCRIPTION = "Library for reading some sort of media format."
++SECTION = "libs"
++LICENSE = "LGPL"
++PRIORITY = "optional"
++
++inherit autotools
++
++SRC_URI = "${SOURCEFORGE_MIRROR}/faac/faad2-src/faad2-${PV}/${PN}-${PV}.tar.bz2;name=faad2 \
++"
++
++SRC_URI[faad2.md5sum] = "4c332fa23febc0e4648064685a3d4332"
++SRC_URI[faad2.sha256sum] = "14561b5d6bc457e825bfd3921ae50a6648f377a9396eaf16d4b057b39a3f63b5"
++
++PACKAGES =+ "libfaad libfaad-dev libmp4ff libmp4ff-dev"
++
++FILES_${PN} = "${bindir}/faad"
++
++FILES_libfaad = "${libdir}/libfaad.so.*"
++FILES_libfaad-dev = "${libdir}/libfaad.so ${libdir}/libfaad.la ${libdir}/libfaad.a ${includedir}/faad.h"
++
++FILES_libmp4ff = "${libdir}/libmp4ff.so.*"
++FILES_libmp4ff-dev = "${libdir}/libmp4ff.so ${libdir}/libmp4ff.la ${libdir}/libmp4ff.a ${includedir}/mp4ff.h"
++
+-- 
+1.7.0.4
 
-But you knew what I meant.
-
-Bruce
-
-> prompt.
->
->
-> The following changes since commit 6c2b7beac3cd23ed44bd3e195c6360a0932876=
-bf:
->
-> =A0classes/sanity: enhance the network connectivity test (2011-08-25 08:5=
-1:30 -0700)
->
-> are available in the git repository at:
-> =A0git://git.pokylinux.org/poky-contrib zedd/kernel-oe
-> =A0http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dzedd/kernel-oe
->
-> Bruce Ashfield (1):
-> =A0linux-yocto-rt: qemumips: fix boot panic
->
-> =A0meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb | =A0 =A04 ++--
-> =A01 files changed, 2 insertions(+), 2 deletions(-)
->
-> --
-> 1.7.4.1
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
-
-
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
 
