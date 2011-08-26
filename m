@@ -1,25 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from lake.fysh.org ([81.94.195.195] ident=Debian-exim)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1QwsnM-0003NN-39
+	(envelope-from <mac@mcrowe.com>) id 1QwstD-0003Ug-N5
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 11:33:48 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p7Q9SxYf001798
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Aug 2011 02:28:59 -0700 (PDT)
-Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Fri, 26 Aug 2011 02:28:58 -0700
-Message-ID: <49f8f9a5fd900d9ae64d1bb347ab0117efa434a1.1314345568.git.xiaofeng.yan@windriver.com>
-In-Reply-To: <cover.1314345568.git.xiaofeng.yan@windriver.com>
-References: <cover.1314345568.git.xiaofeng.yan@windriver.com>
-Old-Date: Fri, 26 Aug 2011 15:29:12 +0800
-Date: Fri, 26 Aug 2011 17:29:44 +0800
-To: <openembedded-core@lists.openembedded.org>
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+	Fri, 26 Aug 2011 11:39:51 +0200
+Received: from deneb.mcrowe.com ([81.142.160.141])
+	by lake.fysh.org with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69 #1 (Debian))
+	id 1QwsXj-0006ts-Th; Fri, 26 Aug 2011 10:17:40 +0100
+Received: from mac by deneb.mcrowe.com with local (Exim 4.72)
+	(envelope-from <mac@mcrowe.com>)
+	id 1QwsXi-00024r-Uz; Fri, 26 Aug 2011 10:17:38 +0100
+Date: Fri, 26 Aug 2011 10:17:38 +0100
+From: Mike Crowe <mac@mcrowe.com>
+To: Saul Wold <sgw@linux.intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20110826091738.GA7969@mcrowe.com>
+References: <1314277168-4324-1-git-send-email-mac@mcrowe.com>
+	<4E56A349.1090904@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] eglibc-locale.inc: Add eglibc-binaries, eglibc-localedatas, eglibc-gconvs and eglibc-charmps to variable PACKAGE
+In-Reply-To: <4E56A349.1090904@linux.intel.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: [PATCH 1/2] kernel.bbclass: Find the kernel consistently.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,91 +36,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2011 09:33:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 26 Aug 2011 09:39:51 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+On Thu, Aug 25, 2011 at 12:32:25PM -0700, Saul Wold wrote:
+> On 08/25/2011 05:59 AM, Mike Crowe wrote:
+> >Use KERNEL_OUTPUT variable to find the generated kernel image rather than
+> >duplicating the existing path. This also means it can be overridden simply.
+> >
+> There are other places in kernel.bbclass that use the path vs
+> KERNEL_OUTPUT, is there a reason you did not change those also?
 
-There are no locales resources in an lsb image because the locale resources were splitted from eglibc-package.inc \
-and putted into a new file "eglibc-locale.inc". So the above variables lost their function in eglibc-package.inc and
-caused no locale resources in an lsb image. The purpose of moving the above variables from eglibc-package.inc to \
-eglibc-locale.inc is to make the above variables to take effect.
+The patch came out of an earlier attempt to do what I was doing in
+PATCH 2/2 and I hadn't needed to change the other places. :(
 
-eglibc-binaries include packages "eglibc-binary-*"
-eglibc-localedatas include packages "eglibc-localedata-*"
-eglibc-gconvs include packages "eglibc-gconv-*"
-eglibc-charmaps include packages "eglibc-charmap-*"
+Looking at the other places now I think that the two in do_sizecheck
+are candidates for changing to KERNEL_OUTPUT. I'm less sure about the
+uImage ones in kernel_do_deploy due to there being other references to
+arch/${ARCH}/boot/... nearby. I wouldn't want to make the code less
+clear.
 
-Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
----
- meta/recipes-core/eglibc/eglibc-locale.inc  |   20 ++++++++++++++++++++
- meta/recipes-core/eglibc/eglibc-package.inc |   20 --------------------
- 2 files changed, 20 insertions(+), 20 deletions(-)
+Updated patch follows.
 
-diff --git a/meta/recipes-core/eglibc/eglibc-locale.inc b/meta/recipes-core/eglibc/eglibc-locale.inc
-index b8107ee..9424ff5 100644
---- a/meta/recipes-core/eglibc/eglibc-locale.inc
-+++ b/meta/recipes-core/eglibc/eglibc-locale.inc
-@@ -39,6 +39,26 @@ PACKAGES_DYNAMIC = "locale-base-* \
-                     eglibc-gconv-* eglibc-charmap-* eglibc-localedata-* eglibc-binary-localedata-* \
-                     glibc-gconv-*${PKGSUFFIX}  glibc-charmap-*  glibc-localedata-*  glibc-binary-localedata-*"
- 
-+# Create a eglibc-binaries package
-+ALLOW_EMPTY_${BPN}-binaries = "1"
-+PACKAGES += "${BPN}-binaries"
-+RRECOMMENDS_${BPN}-binaries =  "${@" ".join([p for p in d.getVar('PACKAGES', True).split() if p.find("eglibc-binary") != -1])}"
-+
-+# Create a eglibc-charmaps package
-+ALLOW_EMPTY_${BPN}-charmaps = "1"
-+PACKAGES += "${BPN}-charmaps"
-+RRECOMMENDS_${BPN}-charmaps =  "${@" ".join([p for p in d.getVar('PACKAGES', True).split() if p.find("eglibc-charmap") != -1])}"
-+
-+# Create a eglibc-gconvs package
-+ALLOW_EMPTY_${BPN}-gconvs = "1"
-+PACKAGES += "${BPN}-gconvs"
-+RRECOMMENDS_${BPN}-gconvs =  "${@" ".join([p for p in d.getVar('PACKAGES', True).split() if p.find("eglibc-gconv") != -1])}"
-+
-+# Create a eglibc-localedatas package
-+ALLOW_EMPTY_${BPN}-localedatas = "1"
-+PACKAGES += "${BPN}-localedatas"
-+RRECOMMENDS_${BPN}-localedatas =  "${@" ".join([p for p in d.getVar('PACKAGES', True).split() if p.find("eglibc-localedata") != -1])}"
-+
- DESCRIPTION_localedef = "eglibc: compile locale definition files"
- 
- # eglibc-gconv is dynamically added into PACKAGES, thus
-diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
-index 5308bb9..37f9f25 100644
---- a/meta/recipes-core/eglibc/eglibc-package.inc
-+++ b/meta/recipes-core/eglibc/eglibc-package.inc
-@@ -22,26 +22,6 @@ PKGSUFFIX_virtclass-nativesdk = "-nativesdk"
- 
- PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-utils eglibc-extra-nss${PKGSUFFIX} eglibc-thread-db${PKGSUFFIX} ${PN}-pic ${PN}-dev ${PN}-doc libcidn${PKGSUFFIX} libmemusage${PKGSUFFIX} libsegfault${PKGSUFFIX} ${PN}-pcprofile libsotruss${PKGSUFFIX}"
- 
--# Create a eglibc-binaries
--ALLOW_EMPTY_${PN}-binaries = "1"
--PACKAGES += "${PN}-binaries"
--RRECOMMENDS_${PN}-binaries =  "${@" ".join([p for p in d.getVar('PACKAGES', True).split() if p.find("eglibc-binary") != -1])}"
--
--# Create a eglibc-charmaps package 
--ALLOW_EMPTY_${PN}-charmaps = "1"
--PACKAGES += "${PN}-charmaps"
--RRECOMMENDS_${PN}-charmaps =  "${@" ".join([p for p in d.getVar('PACKAGES', True).split() if p.find("eglibc-charmap") != -1])}"
--
--# Create a eglibc-gconvs package 
--ALLOW_EMPTY_${PN}-gconvs = "1"
--PACKAGES += "${PN}-gconvs"
--RRECOMMENDS_${PN}-gconvs =  "${@" ".join([p for p in d.getVar('PACKAGES', True).split() if p.find("eglibc-gconv") != -1])}"
--
--# Create a eglibc-localedatas package 
--ALLOW_EMPTY_${PN}-localedatas = "1"
--PACKAGES += "${PN}-localedatas"
--RRECOMMENDS_${PN}-localedatas =  "${@" ".join([p for p in d.getVar('PACKAGES', True).split() if p.find("eglibc-localedata") != -1])}"
--
- RPROVIDES_${PN} = "glibc${PKGSUFFIX}"
- RPROVIDES_${PN}-utils = "glibc${PKGSUFFIX}-utils"
- RPROVIDES_${PN}-pic = "glibc${PKGSUFFIX}-pic"
--- 
-1.7.0.4
+Thanks for your comments.
 
+Mike.
 
 
