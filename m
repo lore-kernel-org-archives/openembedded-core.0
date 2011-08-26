@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qx2Kf-0006Xu-PT
+	(envelope-from <sgw@linux.intel.com>) id 1Qx2Kh-0006Xw-C9
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 21:44:50 +0200
+	Fri, 26 Aug 2011 21:44:51 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 26 Aug 2011 12:39:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,286,1312182000"; d="scan'208";a="45450546"
+X-IronPort-AV: E=Sophos;i="4.68,286,1312182000"; d="scan'208";a="45450556"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.251])
 	by fmsmga001.fm.intel.com with ESMTP; 26 Aug 2011 12:39:57 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Aug 2011 12:39:46 -0700
-Message-Id: <a5c9f8af79c1632d2f3de5dd9627a7ca24fa0b76.1314387279.git.sgw@linux.intel.com>
+Date: Fri, 26 Aug 2011 12:39:49 -0700
+Message-Id: <f55c96b6d53ecff865145fa22f286c89c7336515.1314387279.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1314387279.git.sgw@linux.intel.com>
 References: <cover.1314387279.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1314387279.git.sgw@linux.intel.com>
 References: <cover.1314387279.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 16/21] multilib.bbclass: add "pkg_postinst" and "pkg_postrm" as renaming elements
+Subject: [CONSOLIDATED PULL 19/21] opkg-utils: ignore packages disapperaring filelist generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,31 +33,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2011 19:44:50 -0000
+X-List-Received-Date: Fri, 26 Aug 2011 19:44:52 -0000
 
-From: Dongxiao Xu <dongxiao.xu@intel.com>
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 
-Add "pkg_postinst" and "pkg_postrm" as renaming elements, which fixes
-missing post install/rm scripts in target image.
+Package files disappearing during index generation don't cause a fatal
+error. Make package file disappearing during filelist generation also
+a non-fatal error.
 
-Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 ---
- meta/classes/multilib.bbclass |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ .../opkg-utils/index-ignore-filenotfound.patch     |   17 +++++++++++++++++
+ meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb |    2 +-
+ 2 files changed, 18 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index 46c24e1..5976d5d 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -73,7 +73,7 @@ python __anonymous () {
-     d.setVar("PACKAGES", " ".join([row[1] for row in pkgs_mapping]))
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/index-ignore-filenotfound.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/index-ignore-filenotfound.patch
+index 3664df6..f0f0fcf 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils/index-ignore-filenotfound.patch
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils/index-ignore-filenotfound.patch
+@@ -54,3 +54,20 @@ Index: opkg-utils/opkg-make-index
+  if packages_filename:
+       sys.stdout.close()
+       sys.stdout = old_stdout
++@@ -197,7 +197,15 @@
++ names = packages.packages.keys()
++ names.sort()
++ for name in names:
++-     for fn in packages[name].get_file_list():
+++     try:
+++          fnlist = packages[name].get_file_list()
+++     except OSError, e:
+++          sys.stderr.write("Package %s disappeared on us!\n" % (name))
+++          continue
+++     except IOError, e:
+++          sys.stderr.write("Package %s disappeared on us!\n" % (name))
+++          continue
+++     for fn in fnlist:
++           (h,t) = os.path.split(fn)
++           if not t: continue
++           if not files.has_key(t): files[t] = name+':'+fn
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
+index fd2b5e6..e04b74a 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
+@@ -8,7 +8,7 @@ RDEPENDS_${PN} = "python"
+ RDEPENDS_${PN}_virtclass-native = ""
+ SRCREV = "4747"
+ PV = "0.1.8+svnr${SRCPV}"
+-PR = "r4"
++PR = "r5"
  
-     for pkg_mapping in pkgs_mapping:
--        for subs in ["FILES", "RDEPENDS", "RRECOMMENDS", "SUMMARY", "DESCRIPTION", "RSUGGESTS", "RPROVIDES", "RCONFLICTS", "PKG", "ALLOW_EMPTY"]:
-+        for subs in ["FILES", "RDEPENDS", "RRECOMMENDS", "SUMMARY", "DESCRIPTION", "RSUGGESTS", "RPROVIDES", "RCONFLICTS", "PKG", "ALLOW_EMPTY", "pkg_postinst", "pkg_postrm"]:
-             d.renameVar("%s_%s" % (subs, pkg_mapping[0]), "%s_%s" % (subs, pkg_mapping[1]))
- 
-     map_dependencies("DEPENDS", d)
+ SRC_URI = "svn://svn.openmoko.org/trunk/src/host/;module=opkg-utils;proto=http \
+            file://index-ignore-filenotfound.patch \
 -- 
 1.7.6
 
