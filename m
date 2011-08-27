@@ -1,37 +1,37 @@
 Received: from bear.ext.ti.com ([192.94.94.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <joelagnel@ti.com>) id 1QxBdH-0004AI-CW
+	(envelope-from <joelagnel@ti.com>) id 1QxBdH-0004AJ-Dq
 	for openembedded-core@lists.openembedded.org;
 	Sat, 27 Aug 2011 07:40:39 +0200
 Received: from dlep33.itg.ti.com ([157.170.170.112])
-	by bear.ext.ti.com (8.13.7/8.13.7) with ESMTP id p7R5ZmrT007548
+	by bear.ext.ti.com (8.13.7/8.13.7) with ESMTP id p7R5Zm69007549
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 27 Aug 2011 00:35:49 -0500
 Received: from dlep26.itg.ti.com (smtp-le.itg.ti.com [157.170.170.27])
-	by dlep33.itg.ti.com (8.13.7/8.13.8) with ESMTP id p7R5ZmFC027663
+	by dlep33.itg.ti.com (8.13.7/8.13.8) with ESMTP id p7R5ZmhK027664
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 27 Aug 2011 00:35:48 -0500 (CDT)
-Received: from DFLE70.ent.ti.com (localhost [127.0.0.1])
-	by dlep26.itg.ti.com (8.13.8/8.13.8) with ESMTP id p7R5ZmeQ002247
+Received: from DLEE74.ent.ti.com (localhost [127.0.0.1])
+	by dlep26.itg.ti.com (8.13.8/8.13.8) with ESMTP id p7R5ZmY8002249
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 27 Aug 2011 00:35:48 -0500 (CDT)
-Received: from dlelxv22.itg.ti.com (172.17.1.197) by dfle70.ent.ti.com
-	(128.247.5.40) with Microsoft SMTP Server id 14.1.323.3;
-	Sat, 27 Aug 2011 00:35:48 -0500
+Received: from dlelxv22.itg.ti.com (172.17.1.197) by DLEE74.ent.ti.com
+	(157.170.170.8) with Microsoft SMTP Server id 14.1.323.3;
+	Sat, 27 Aug 2011 00:35:47 -0500
 Received: from localhost.localdomain (chase-ubuntu.am.dhcp.ti.com
 	[128.247.105.25])	by dlelxv22.itg.ti.com (8.13.8/8.13.8) with ESMTP id
-	p7R5Zgok019032;	Sat, 27 Aug 2011 00:35:48 -0500
+	p7R5Zgon019032;	Sat, 27 Aug 2011 00:35:48 -0500
 From: Joel A Fernandes <joelagnel@ti.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 27 Aug 2011 00:26:19 -0500
-Message-ID: <1314422782-11863-2-git-send-email-joelagnel@ti.com>
+Date: Sat, 27 Aug 2011 00:26:22 -0500
+Message-ID: <1314422782-11863-5-git-send-email-joelagnel@ti.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <1314422782-11863-1-git-send-email-joelagnel@ti.com>
 References: <1314422782-11863-1-git-send-email-joelagnel@ti.com>
 MIME-Version: 1.0
 Cc: k-kooi@ti.com
-Subject: [PATCH v3 meta-oe 1/4] gedit: Imported from OE classic
+Subject: [PATCH v3 meta-oe 4/4] libgnomeprint: Imported from OE classic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,39 +51,30 @@ Content-Type: text/plain
 
 Signed-off-by: Joel A Fernandes <joelagnel@ti.com>
 ---
- meta-gnome/recipes-gnome/gedit/gedit_2.30.0.bb |   24 ++++++++++++++++++++++++
- 1 files changed, 24 insertions(+), 0 deletions(-)
- create mode 100644 meta-gnome/recipes-gnome/gedit/gedit_2.30.0.bb
+ .../recipes-gnome/gnome/libgnomeprint_2.18.7.bb    |   15 +++++++++++++++
+ 1 files changed, 15 insertions(+), 0 deletions(-)
+ create mode 100644 meta-gnome/recipes-gnome/gnome/libgnomeprint_2.18.7.bb
 
-diff --git a/meta-gnome/recipes-gnome/gedit/gedit_2.30.0.bb b/meta-gnome/recipes-gnome/gedit/gedit_2.30.0.bb
+diff --git a/meta-gnome/recipes-gnome/gnome/libgnomeprint_2.18.7.bb b/meta-gnome/recipes-gnome/gnome/libgnomeprint_2.18.7.bb
 new file mode 100644
-index 0000000..7d1ff7b
+index 0000000..c0ea12a
 --- /dev/null
-+++ b/meta-gnome/recipes-gnome/gedit/gedit_2.30.0.bb
-@@ -0,0 +1,24 @@
-+DESCRIPTION = "GNOME editor"
-+SECTION = "x11/gnome"
-+LICENSE = "GPLv2+"
++++ b/meta-gnome/recipes-gnome/gnome/libgnomeprint_2.18.7.bb
+@@ -0,0 +1,15 @@
++LICENSE = "GPLv2"
++SECTION = "x11/gnome/libs"
 +
-+DEPENDS = "enchant gconf gnome-common gnome-doc-utils-native glib-2.0 gtk+ gtksourceview2 iso-codes virtual/gettext"
-+RDEPENDS_${PN} += " gtksourceview2"
++DEPENDS = "libxml2 libgnomecups glib-2.0 pango libart-lgpl fontconfig popt gnome-common"
 +
 +LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
 +
-+PR = "r0"
++inherit pkgconfig gnome
 +
-+inherit gnome
-+SRC_URI[archive.md5sum] = "aebd49797406fdde7b25624b71990860"
-+SRC_URI[archive.sha256sum] = "37598473372aab217e46f19726cff616ff0ea4121bbdbb170b4e264a4ca76690"
++SRC_URI[archive.md5sum] = "d66b81ee8aa3b3a33f5efc9a47ce07e3"
++SRC_URI[archive.sha256sum] = "8b34f81599423ef3da9c43775495da602f83cbbee069c9e760ffeae6aa4768e6"
 +
-+EXTRA_OECONF = "--disable-scrollkeeper"
-+
-+do_configure_prepend () {
-+	cp ${STAGING_DATADIR}/gnome-common/data/omf.make ${S}
-+}
-+
-+FILES_${PN} += "${libdir}/gedit-2/plugin* ${datadir}/gedit-2"
-+FILES_${PN}-dbg += "${libdir}/gedit-2/plugin-loaders/.debug ${libdir}/gedit-2/plugins/.debug"
++FILES_${PN}-dbg += "${libdir}/libgnomeprint/${PV}/modules/transports/.debug \
++		    ${libdir}/libgnomeprint/${PV}/modules/.debug  ${libdir}/libgnomeprint/${PV}/modules/*/.debug"
 +
 -- 
 1.7.0.4
