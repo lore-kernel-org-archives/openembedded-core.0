@@ -1,34 +1,30 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-ew0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QxHud-0002EV-Rc
+	(envelope-from <agnel.joel@gmail.com>) id 1QxQL0-0005rl-AY
 	for openembedded-core@lists.openembedded.org;
-	Sat, 27 Aug 2011 14:22:59 +0200
-Received: by bkbzu17 with SMTP id zu17so3214508bkb.6
+	Sat, 27 Aug 2011 23:22:46 +0200
+Received: by ewy5 with SMTP id 5so1997156ewy.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Aug 2011 05:18:09 -0700 (PDT)
+	Sat, 27 Aug 2011 14:17:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=K7eN0tPwWFpI5xIGFCihAJAYa6V7mOBHst1K+PniSf0=;
-	b=ntPzFrDVOJbJUPMg0aTCGW8S0yyAM0GmU4u7CirVRgIveN4teKCD6qMw4feN0weq9S
-	8UgAauejcb09H92TEsQ28kBV2OG5h/763iXdVP3GnMblxM4oNDjJKkDe5mR3mXOXfefY
-	ZwGKwN2w6iKkYpsgGBe5bOfnPUYDL6enAh/YQ=
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=DlYDmvCweskKkOGtlA95hnd/jH2rMZd4S7UQExemApk=;
+	b=m9NYZPev6cJzdfW0zBu4BUIo2JK0F0q61sOfOD1CMw0zkQxPOToErMtHfU6zZpD/3C
+	X7jKTinfbjis1LmhDHbX6mo4pavOCVEB0mIEjkxTDKhhaO5A/JEXX7wA+Jtw01d5AWAG
+	B36Np+25tn8NmaywcEx841DdytINBX0llKOCk=
 MIME-Version: 1.0
-Received: by 10.204.3.28 with SMTP id 28mr1227610bkl.175.1314447489824; Sat,
-	27 Aug 2011 05:18:09 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.15.66 with HTTP; Sat, 27 Aug 2011 05:18:09 -0700 (PDT)
-In-Reply-To: <1314394806.5939.264.camel@rex>
-References: <CAP9ODKoei49fOtr7sySUQkbXY-yrdaF+cVydXXfwOXxtQ+8kyQ@mail.gmail.com>
-	<1314394806.5939.264.camel@rex>
-Date: Sat, 27 Aug 2011 09:18:09 -0300
-X-Google-Sender-Auth: FDl7Q5AsdM413D5uYsw5dxPApqc
-Message-ID: <CAP9ODKp6igGGDY2AQL+VqhYZm-GmFrKKcLg=5gRMaq5jwp+2MQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by 10.213.26.17 with SMTP id b17mr908425ebc.2.1314479876078; Sat, 27
+	Aug 2011 14:17:56 -0700 (PDT)
+Received: by 10.213.106.8 with HTTP; Sat, 27 Aug 2011 14:17:56 -0700 (PDT)
+In-Reply-To: <927b350f86974e67949bd78aaa0adc5d@DFLE70.ent.ti.com>
+References: <1314388460-9781-1-git-send-email-joelagnel@ti.com>
+	<927b350f86974e67949bd78aaa0adc5d@DFLE70.ent.ti.com>
+Date: Sat, 27 Aug 2011 16:17:56 -0500
+Message-ID: <CAD=GYpbw-uGKNTBMkRG50XFfe1WLE904iYOEctVr0Qy51M2gsA@mail.gmail.com>
+From: Joel A Fernandes <agnel.joel@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Use of multiple GIT repositories in SRCREV but updating PV
+Subject: Re: [RFC] IMAGE_CMD_sdimg first cut
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,41 +39,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Aug 2011 12:23:00 -0000
+X-List-Received-Date: Sat, 27 Aug 2011 21:22:47 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 26, 2011 at 18:40, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2011-08-26 at 18:06 -0300, Otavio Salvador wrote:
->> We have two recipes that use a common static library and every time we
->> change something on this library we need to bump PR of those recipes.
->> We want to avoid that specially for daily builds that will =A0be using
->> GIT AUTOREV support.
+Hi Koen,
+
+Thanks for your feedback.
+
+On Sat, Aug 27, 2011 at 2:05 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> Op 26 aug. 2011, om 21:54 heeft Joel A Fernandes het volgende geschreven:
+>
+>> Here's an initial version of the SDCard image build functionality. Its not a direct copy paste from Narcissus
+>
+> Be careful when doing that, narcissus is GPLv2, OE-core is MIT
+>
+>> , I had to replace paths and am copying files from IMAGE_ROOTFS instead of how Narcissus untars into a mount point.
 >>
->> For it to work, we need to have a way to put two SRCREV in PV and then
->> it will be rebuit every time the library changes.
+>> Not build tested.
 >>
->> Any clue how to do that?
+>> @Koen and all, here are some questions:
+>> 1. Where in openembedded-core do we store the "img.gz" template files so that they are available to image.bbclass?
 >
-> Set the PV as usual in the recipe:
+> We don't, we can generate is everytime now that we aren't running as www-data
 >
-> PV =3D "0.0+gitr${SRCPV}"
->
-> and then set:
->
-> SRCREV =3D "${AUTOREV}"
->
-> ?
 
-As spoted by Chris we have multiple repositories and we want that
-either change to raise a build of the recipe.
+I didn't follow What has running as www-data or any regular user go to
+do with generating img.gz?
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+So what you're suggesting is we run dd and fdisk to create an sdcard
+image template everytime we bitbake an image?
+
+thanks!
+Joel
 
 
