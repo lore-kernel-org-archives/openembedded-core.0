@@ -1,31 +1,29 @@
-Received: from mail-ew0-f47.google.com ([209.85.215.47])
+Received: from mail-ey0-f173.google.com ([209.85.215.173])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <agnel.joel@gmail.com>) id 1QxAKF-0007oe-QC
+	(envelope-from <agnel.joel@gmail.com>) id 1QxAkB-0003Jt-Ss
 	for openembedded-core@lists.openembedded.org;
-	Sat, 27 Aug 2011 06:16:56 +0200
-Received: by ewy5 with SMTP id 5so1851684ewy.6
+	Sat, 27 Aug 2011 06:43:43 +0200
+Received: by eyb7 with SMTP id 7so2970573eyb.18
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Aug 2011 21:12:06 -0700 (PDT)
+	Fri, 26 Aug 2011 21:38:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=1Ba+fGgDQ0nZkSJH4e8IrFGJCA+khIZz/Wvuwgcf9RA=;
-	b=qNyThEV18ey4cFvyh0zasHD/7vTiOOG/kW6d9QfuBepFOwq4ssoDEn1J2eOg6QHzKM
-	CkyUL7QqJqbL5n/dOrmWfLeSxjMjjsFSFkMZ0C8Yut/4Wjg7zgPtEd0eHYtHgPoewtrF
-	hWQ0w84UsSKNOTDQVxuzUc8PBerIT1R9ifoJk=
+	:content-type; bh=1cJpREoPeYNzLemYNzC0vhTI9LxieK9F8+7wULoUK4Y=;
+	b=drEQyT3tnJag+9pJGGsuFtDTlEy6pD/RX6h+3zOheMtjUltDH1qjCGH6lgXnxg0cWJ
+	6ySKXQiY9G7x+rdWAu68BBW3qF+Js/mkMFMgbP/mvYQ8Yvp9A+Jhm4GGCjxjoqA3WONS
+	QYbPWRm3LRDHZ+DB0me3Rnv9QwBkv8Mduc6rE=
 MIME-Version: 1.0
-Received: by 10.213.3.200 with SMTP id 8mr2033423ebo.38.1314418325803; Fri, 26
-	Aug 2011 21:12:05 -0700 (PDT)
-Received: by 10.213.106.8 with HTTP; Fri, 26 Aug 2011 21:12:05 -0700 (PDT)
-In-Reply-To: <abf615e596934df48ad620207828b227@DFLE70.ent.ti.com>
-References: <1314318504-9524-1-git-send-email-joelagnel@ti.com>
-	<1314318504-9524-4-git-send-email-joelagnel@ti.com>
-	<abf615e596934df48ad620207828b227@DFLE70.ent.ti.com>
-Date: Fri, 26 Aug 2011 23:12:05 -0500
-Message-ID: <CAD=GYpZ3sMnyrWj0EztVN-MK0tpRYaLF4R1UHPz12bO7b=dOQA@mail.gmail.com>
+Received: by 10.213.26.219 with SMTP id f27mr2040926ebc.76.1314419934721; Fri,
+	26 Aug 2011 21:38:54 -0700 (PDT)
+Received: by 10.213.106.8 with HTTP; Fri, 26 Aug 2011 21:38:54 -0700 (PDT)
+In-Reply-To: <4a795deb3789430487146a8425c1c337@DLEE74.ent.ti.com>
+References: <4a795deb3789430487146a8425c1c337@DLEE74.ent.ti.com>
+Date: Fri, 26 Aug 2011 23:38:54 -0500
+Message-ID: <CAD=GYpYAYS3VMWKWOd1vOBCwTACd8O95kvumrNXfxg1ufG4sNw@mail.gmail.com>
 From: Joel A Fernandes <agnel.joel@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH meta-oe 3/9] libmad: Imported from OE-classic
+Subject: (No subject)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,36 +38,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Aug 2011 04:16:56 -0000
+X-List-Received-Date: Sat, 27 Aug 2011 04:43:44 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Fri, Aug 26, 2011 at 2:59 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
->
-> Op 26 aug. 2011, om 02:28 heeft Joel A Fernandes het volgende geschreven:
->>
->> diff --git a/meta-oe/recipes-multimedia/libmad/libmad_0.15.1b.bb b/meta-oe/recipes-multimedia/libmad/libmad_0.15.1b.bb
->> new file mode 100644
->> index 0000000..537d685
->> --- /dev/null
->> +++ b/meta-oe/recipes-multimedia/libmad/libmad_0.15.1b.bb
->> @@ -0,0 +1,34 @@
->> +DESCRIPTION = "MPEG Audio Decoder Library"
->> +SECTION = "libs"
->> +PRIORITY = "optional"
->
-> That field isn't used anymore
->
->> +DEPENDS = "libid3tag"
->> +LICENSE = "GPL"
->
-> Which version?
+On Fri, Aug 26, 2011 at 10:26 PM, Fernandes, Joel A <joelagnel@ti.com> wrote:
+> v2 Changes:
+> Addressing Koen's feedback on patches
+> * Added a PR to all recipes
 
-Hi Koen,
+I thought you meant the PR when you said "Which version", didn't know
+you were talking about the LICENSE versions.
 
-Isn't it implied that its GPL v1? I've seen several recipes in OE-core
-that did that.
+Anyway, Can we leave the PRs I put into patches 2/4 and 4/4 in?
 
-Thanks,
+Also, is it necessary to update LICENSE versions or can we leave it as
+is, as I've seen many recipes in oe-core that have it without a
+version number.
+
+thanks,
 Joel
+
+> * Changed meta-ti in subject to meta-oe
+>
+> Patches in the series:
+>
+> [PATCH v2 meta-oe 1/4] gedit: Imported from OE classic
+> [PATCH v2 meta-oe 2/4] gtksourceview: Imported from OE classic
+> [PATCH v2 meta-oe 3/4] libgnomecups: Imported from OE Classic
+> [PATCH v2 meta-oe 4/4] libgnomeprint: Imported from OE classic
+>
 
 
