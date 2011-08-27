@@ -1,34 +1,35 @@
-Received: from mail-vw0-f47.google.com ([209.85.212.47])
+Received: from arroyo.ext.ti.com ([192.94.94.40])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1Qx4OK-0001Aw-Gk
+	(envelope-from <joelagnel@ti.com>) id 1Qx9kq-00071X-GI
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Aug 2011 23:56:44 +0200
-Received: by vwe42 with SMTP id 42so3471671vwe.6
+	Sat, 27 Aug 2011 05:40:20 +0200
+Received: from dlep36.itg.ti.com ([157.170.170.91])
+	by arroyo.ext.ti.com (8.13.7/8.13.7) with ESMTP id p7R3ZUNt029375
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Aug 2011 14:51:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding;
-	bh=kQB/zc2klddbMA2ona+Bcz8dTNaXFRTfxD+hpYNsnQY=;
-	b=xKM1pI/fUJ4VypJBhBWhvrjx1RQXNK3ojxZeJDJkqzfXq4S9Rc2QG4t8rrINVeuxej
-	sXOoEMKMzP8fy28RsJl9994rDQXhiqueAC92F7RlCGcm+VKjkZ45KBXzBolkWPeBKq1P
-	8vE2HdATI62KqgJP1HNgadOAvFOPPx1fDdrVs=
-Received: by 10.52.21.36 with SMTP id s4mr1888555vde.77.1314395515087; Fri, 26
-	Aug 2011 14:51:55 -0700 (PDT)
+	Fri, 26 Aug 2011 22:35:30 -0500
+Received: from dlep26.itg.ti.com (smtp-le.itg.ti.com [157.170.170.27])
+	by dlep36.itg.ti.com (8.13.8/8.13.8) with ESMTP id p7R3ZTK6000774
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Aug 2011 22:35:29 -0500 (CDT)
+Received: from DFLE70.ent.ti.com (localhost [127.0.0.1])
+	by dlep26.itg.ti.com (8.13.8/8.13.8) with ESMTP id p7R3ZTcB007129
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Aug 2011 22:35:29 -0500 (CDT)
+Received: from dlelxv22.itg.ti.com (172.17.1.197) by dfle70.ent.ti.com
+	(128.247.5.40) with Microsoft SMTP Server id 14.1.323.3;
+	Fri, 26 Aug 2011 22:35:29 -0500
+Received: from localhost.localdomain (chase-ubuntu.am.dhcp.ti.com
+	[128.247.105.25])	by dlelxv22.itg.ti.com (8.13.8/8.13.8) with ESMTP id
+	p7R3ZNoV000410	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Aug 2011 22:35:29 -0500
+From: Joel A Fernandes <joelagnel@ti.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 26 Aug 2011 22:26:16 -0500
+Message-ID: <1314415580-21925-1-git-send-email-joelagnel@ti.com>
+X-Mailer: git-send-email 1.7.0.4
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.52.184.35 with HTTP; Fri, 26 Aug 2011 14:51:35 -0700 (PDT)
-In-Reply-To: <1314394806.5939.264.camel@rex>
-References: <CAP9ODKoei49fOtr7sySUQkbXY-yrdaF+cVydXXfwOXxtQ+8kyQ@mail.gmail.com>
-	<1314394806.5939.264.camel@rex>
-From: Chris Larson <clarson@kergoth.com>
-Date: Fri, 26 Aug 2011 14:51:35 -0700
-X-Google-Sender-Auth: _0vNOf_mvmY_kb2euFy2UxagMkU
-Message-ID: <CABcZAN=3yHNDF2b-t_08TAQgtL4DCg4t+M0Z4bto5PuNt1=0wA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Use of multiple GIT repositories in SRCREV but updating PV
+Subject: (No subject)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,39 +44,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Aug 2011 21:56:44 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 27 Aug 2011 03:40:20 -0000
+Content-Type: text/plain
 
-On Fri, Aug 26, 2011 at 2:40 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2011-08-26 at 18:06 -0300, Otavio Salvador wrote:
->> We have two recipes that use a common static library and every time we
->> change something on this library we need to bump PR of those recipes.
->> We want to avoid that specially for daily builds that will =C2=A0be usin=
-g
->> GIT AUTOREV support.
->>
->> For it to work, we need to have a way to put two SRCREV in PV and then
->> it will be rebuit every time the library changes.
->>
->> Any clue how to do that?
->
-> Set the PV as usual in the recipe:
->
-> PV =3D "0.0+gitr${SRCPV}"
->
-> and then set:
->
-> SRCREV =3D "${AUTOREV}"
+v2 Changes:
+Addressing Koen's feedback on patches
+* Added a PR to all recipes
+* Changed meta-ti in subject to meta-oe
 
-He has multiple git repositories involved here, and wants to ensure it
-gets rebuilt if either change.
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Patches in the series:
+
+[PATCH v2 meta-oe 1/4] gedit: Imported from OE classic
+[PATCH v2 meta-oe 2/4] gtksourceview: Imported from OE classic
+[PATCH v2 meta-oe 3/4] libgnomecups: Imported from OE Classic
+[PATCH v2 meta-oe 4/4] libgnomeprint: Imported from OE classic
 
 
