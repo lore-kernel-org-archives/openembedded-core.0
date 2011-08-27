@@ -1,29 +1,35 @@
-Received: from mail-ey0-f173.google.com ([209.85.215.173])
+Received: from comal.ext.ti.com ([198.47.26.152])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <agnel.joel@gmail.com>) id 1QxAkB-0003Jt-Ss
+	(envelope-from <joelagnel@ti.com>) id 1QxBdC-0004A0-5Q
 	for openembedded-core@lists.openembedded.org;
-	Sat, 27 Aug 2011 06:43:43 +0200
-Received: by eyb7 with SMTP id 7so2970573eyb.18
+	Sat, 27 Aug 2011 07:40:34 +0200
+Received: from dlep36.itg.ti.com ([157.170.170.91])
+	by comal.ext.ti.com (8.13.7/8.13.7) with ESMTP id p7R5Zheu013511
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Aug 2011 21:38:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=1cJpREoPeYNzLemYNzC0vhTI9LxieK9F8+7wULoUK4Y=;
-	b=drEQyT3tnJag+9pJGGsuFtDTlEy6pD/RX6h+3zOheMtjUltDH1qjCGH6lgXnxg0cWJ
-	6ySKXQiY9G7x+rdWAu68BBW3qF+Js/mkMFMgbP/mvYQ8Yvp9A+Jhm4GGCjxjoqA3WONS
-	QYbPWRm3LRDHZ+DB0me3Rnv9QwBkv8Mduc6rE=
+	Sat, 27 Aug 2011 00:35:43 -0500
+Received: from dlep26.itg.ti.com (smtp-le.itg.ti.com [157.170.170.27])
+	by dlep36.itg.ti.com (8.13.8/8.13.8) with ESMTP id p7R5ZhwM022270
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 27 Aug 2011 00:35:43 -0500 (CDT)
+Received: from DLEE74.ent.ti.com (localhost [127.0.0.1])
+	by dlep26.itg.ti.com (8.13.8/8.13.8) with ESMTP id p7R5Zh0p002177
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 27 Aug 2011 00:35:43 -0500 (CDT)
+Received: from dlelxv22.itg.ti.com (172.17.1.197) by DLEE74.ent.ti.com
+	(157.170.170.8) with Microsoft SMTP Server id 14.1.323.3;
+	Sat, 27 Aug 2011 00:35:42 -0500
+Received: from localhost.localdomain (chase-ubuntu.am.dhcp.ti.com
+	[128.247.105.25])	by dlelxv22.itg.ti.com (8.13.8/8.13.8) with ESMTP id
+	p7R5Zgoj019032	for <openembedded-core@lists.openembedded.org>;
+	Sat, 27 Aug 2011 00:35:43 -0500
+From: Joel A Fernandes <joelagnel@ti.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sat, 27 Aug 2011 00:26:18 -0500
+Message-ID: <1314422782-11863-1-git-send-email-joelagnel@ti.com>
+X-Mailer: git-send-email 1.7.0.4
 MIME-Version: 1.0
-Received: by 10.213.26.219 with SMTP id f27mr2040926ebc.76.1314419934721; Fri,
-	26 Aug 2011 21:38:54 -0700 (PDT)
-Received: by 10.213.106.8 with HTTP; Fri, 26 Aug 2011 21:38:54 -0700 (PDT)
-In-Reply-To: <4a795deb3789430487146a8425c1c337@DLEE74.ent.ti.com>
-References: <4a795deb3789430487146a8425c1c337@DLEE74.ent.ti.com>
-Date: Fri, 26 Aug 2011 23:38:54 -0500
-Message-ID: <CAD=GYpYAYS3VMWKWOd1vOBCwTACd8O95kvumrNXfxg1ufG4sNw@mail.gmail.com>
-From: Joel A Fernandes <agnel.joel@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: (No subject)
+Subject: [PATCH v3 meta-oe 0/4] gnome patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,34 +44,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Aug 2011 04:43:44 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sat, 27 Aug 2011 05:40:34 -0000
+Content-Type: text/plain
 
-On Fri, Aug 26, 2011 at 10:26 PM, Fernandes, Joel A <joelagnel@ti.com> wrote:
-> v2 Changes:
-> Addressing Koen's feedback on patches
-> * Added a PR to all recipes
+Changes in v3: Updated LICENSE version numbers
 
-I thought you meant the PR when you said "Which version", didn't know
-you were talking about the LICENSE versions.
-
-Anyway, Can we leave the PRs I put into patches 2/4 and 4/4 in?
-
-Also, is it necessary to update LICENSE versions or can we leave it as
-is, as I've seen many recipes in oe-core that have it without a
-version number.
-
-thanks,
-Joel
-
-> * Changed meta-ti in subject to meta-oe
->
-> Patches in the series:
->
-> [PATCH v2 meta-oe 1/4] gedit: Imported from OE classic
-> [PATCH v2 meta-oe 2/4] gtksourceview: Imported from OE classic
-> [PATCH v2 meta-oe 3/4] libgnomecups: Imported from OE Classic
-> [PATCH v2 meta-oe 4/4] libgnomeprint: Imported from OE classic
->
+[PATCH v3 meta-oe 1/4] gedit: Imported from OE classic
+[PATCH v3 meta-oe 2/4] gtksourceview: Imported from OE classic
+[PATCH v3 meta-oe 3/4] libgnomecups: Imported from OE Classic
+[PATCH v3 meta-oe 4/4] libgnomeprint: Imported from OE classic
 
 
