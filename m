@@ -1,33 +1,35 @@
-Received: from mail-ew0-f47.google.com ([209.85.215.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <agnel.joel@gmail.com>) id 1QxQLQ-0005rl-8M
-	for openembedded-core@lists.openembedded.org;
-	Sat, 27 Aug 2011 23:23:12 +0200
-Received: by mail-ew0-f47.google.com with SMTP id 5so1997156ewy.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Qxa4N-0004wH-Hi for openembedded-core@lists.openembedded.org;
+	Sun, 28 Aug 2011 09:46:15 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7S7fPK2021936
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Aug 2011 14:18:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=eiX2xtiSCm9iCLkb4WHA5612AP/yKrx37we8G+FlQB8=;
-	b=JBMSjcyLGhNkmcV/+97+quXGlB4A+YbzzRH9K2p5hCeZ5ClSvxG9eglH6Bec2+cYuk
-	K5Dg0bWRUmzsn0CFUBplTJ3DzFuQcNyObwmMJmZs8Ubjm2DUFYsV6VpooadLaRIJm+AZ
-	/nlZF+7EDWPJjNQWSR1Rva8lsHuDkM6qPv/XI=
-MIME-Version: 1.0
-Received: by 10.213.3.200 with SMTP id 8mr2211475ebo.38.1314479904403; Sat, 27
-	Aug 2011 14:18:24 -0700 (PDT)
-Received: by 10.213.106.8 with HTTP; Sat, 27 Aug 2011 14:18:24 -0700 (PDT)
-In-Reply-To: <CAD=GYpbw-uGKNTBMkRG50XFfe1WLE904iYOEctVr0Qy51M2gsA@mail.gmail.com>
-References: <1314388460-9781-1-git-send-email-joelagnel@ti.com>
-	<927b350f86974e67949bd78aaa0adc5d@DFLE70.ent.ti.com>
-	<CAD=GYpbw-uGKNTBMkRG50XFfe1WLE904iYOEctVr0Qy51M2gsA@mail.gmail.com>
-Date: Sat, 27 Aug 2011 16:18:24 -0500
-Message-ID: <CAD=GYpbPedvoZ4geZvqGPoZjKR7H=SH2yaCsd_=Y98MSWqdRpQ@mail.gmail.com>
-From: Joel A Fernandes <agnel.joel@gmail.com>
+	Sun, 28 Aug 2011 08:41:25 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 17826-04 for <openembedded-core@lists.openembedded.org>;
+	Sun, 28 Aug 2011 08:41:21 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7S7fFgK021930
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 28 Aug 2011 08:41:17 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: "Kridner, Jason" <jdk@ti.com>, "Kooi, Koen" <k-kooi@ti.com>
-Subject: Re: [RFC] IMAGE_CMD_sdimg first cut
+In-Reply-To: <CAP9ODKp6igGGDY2AQL+VqhYZm-GmFrKKcLg=5gRMaq5jwp+2MQ@mail.gmail.com>
+References: <CAP9ODKoei49fOtr7sySUQkbXY-yrdaF+cVydXXfwOXxtQ+8kyQ@mail.gmail.com>
+	<1314394806.5939.264.camel@rex>
+	<CAP9ODKp6igGGDY2AQL+VqhYZm-GmFrKKcLg=5gRMaq5jwp+2MQ@mail.gmail.com>
+Date: Sun, 28 Aug 2011 08:41:10 +0100
+Message-ID: <1314517270.5939.268.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: Use of multiple GIT repositories in SRCREV but updating PV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,41 +44,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Aug 2011 21:23:12 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sun, 28 Aug 2011 07:46:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-+Koen Jason
+On Sat, 2011-08-27 at 09:18 -0300, Otavio Salvador wrote:
+> On Fri, Aug 26, 2011 at 18:40, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Fri, 2011-08-26 at 18:06 -0300, Otavio Salvador wrote:
+> >> We have two recipes that use a common static library and every time we
+> >> change something on this library we need to bump PR of those recipes.
+> >> We want to avoid that specially for daily builds that will  be using
+> >> GIT AUTOREV support.
+> >>
+> >> For it to work, we need to have a way to put two SRCREV in PV and then
+> >> it will be rebuit every time the library changes.
+> >>
+> >> Any clue how to do that?
+> >
+> > Set the PV as usual in the recipe:
+> >
+> > PV = "0.0+gitr${SRCPV}"
+> >
+> > and then set:
+> >
+> > SRCREV = "${AUTOREV}"
+> >
+> > ?
+> 
+> As spoted by Chris we have multiple repositories and we want that
+> either change to raise a build of the recipe.
 
-On Sat, Aug 27, 2011 at 4:17 PM, Joel A Fernandes <agnel.joel@gmail.com> wrote:
-> Hi Koen,
->
-> Thanks for your feedback.
->
-> On Sat, Aug 27, 2011 at 2:05 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
->> Op 26 aug. 2011, om 21:54 heeft Joel A Fernandes het volgende geschreven:
->>
->>> Here's an initial version of the SDCard image build functionality. Its not a direct copy paste from Narcissus
->>
->> Be careful when doing that, narcissus is GPLv2, OE-core is MIT
->>
->>> , I had to replace paths and am copying files from IMAGE_ROOTFS instead of how Narcissus untars into a mount point.
->>>
->>> Not build tested.
->>>
->>> @Koen and all, here are some questions:
->>> 1. Where in openembedded-core do we store the "img.gz" template files so that they are available to image.bbclass?
->>
->> We don't, we can generate is everytime now that we aren't running as www-data
->>
->
-> I didn't follow What has running as www-data or any regular user go to
-> do with generating img.gz?
->
-> So what you're suggesting is we run dd and fdisk to create an sdcard
-> image template everytime we bitbake an image?
->
-> thanks!
-> Joel
->
+See linux-yocto as an example. You need to name the two git uris:
+
+SRC_URI = "\
+git://git.yoctoproject.org/linux-yocto-a;protocol=git;name=machine \
+git://git.yoctoproject.org/linux-yocto-b;protocol=git;name=meta \
+"
+
+set a format string to determine how the revisions should be placed in
+SRCPV:
+
+SRCREV_FORMAT = "meta_machine"
+
+specify PV:
+
+PV = "0.0+gitr${SRCPV}"
+
+and then something like:
+
+SRCREV_meta = "${AUTOREV}"
+SRCREV_machine = "${AUTOREV}"
+
+Cheers,
+
+Richard
+
+
 
 
