@@ -1,24 +1,37 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-gw0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Qy6wW-00008A-BQ
+	(envelope-from <jkridner@beagleboard.org>) id 1Qy946-00034z-0h
 	for openembedded-core@lists.openembedded.org;
-	Mon, 29 Aug 2011 20:52:20 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 29 Aug 2011 11:47:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,297,1312182000"; d="scan'208";a="12194774"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.255.18.171])
-	by AZSMGA002.ch.intel.com with ESMTP; 29 Aug 2011 11:47:24 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Aug 2011 19:47:20 +0100
-Message-Id: <fbd404a3dc57aa14f4e8ba0d594d00f024a3516b.1314643520.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1314643520.git.paul.eggleton@linux.intel.com>
-References: <cover.1314643520.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1314643520.git.paul.eggleton@linux.intel.com>
-References: <cover.1314643520.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/2] distro_tracking_fields: update binutils to 2.21.1a
+	Mon, 29 Aug 2011 23:08:18 +0200
+Received: by gwb11 with SMTP id 11so4769523gwb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Aug 2011 14:03:25 -0700 (PDT)
+Received: by 10.236.72.233 with SMTP id t69mr27983301yhd.55.1314651803779;
+	Mon, 29 Aug 2011 14:03:23 -0700 (PDT)
+Received: from mail-yw0-f47.google.com (mail-yw0-f47.google.com
+	[209.85.213.47])
+	by mx.google.com with ESMTPS id j45sm120027yhe.36.2011.08.29.14.03.21
+	(version=SSLv3 cipher=OTHER); Mon, 29 Aug 2011 14:03:22 -0700 (PDT)
+Received: by ywa12 with SMTP id 12so4692018ywa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Aug 2011 14:03:21 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.151.86.2 with SMTP id o2mr3302989ybl.107.1314651801471; Mon,
+	29 Aug 2011 14:03:21 -0700 (PDT)
+Received: by 10.150.177.4 with HTTP; Mon, 29 Aug 2011 14:03:21 -0700 (PDT)
+In-Reply-To: <A7D15A83-D3C5-4F64-90AA-6A77225BB6E5@dominion.thruhere.net>
+References: <1314598341-2793-1-git-send-email-joelagnel@ti.com>
+	<D6747D39-5AE0-4982-BE54-828DFF4AF761@dominion.thruhere.net>
+	<CAD=GYpZi8dObBiWTAw9OpH1BmHuUZgT67jOMV6saQNcyfmW+Tg@mail.gmail.com>
+	<A7D15A83-D3C5-4F64-90AA-6A77225BB6E5@dominion.thruhere.net>
+Date: Mon, 29 Aug 2011 17:03:21 -0400
+Message-ID: <CA+T6QPmfs0-_k+io3rviuTqxS9-qTT7q0y_=k6JNagB93TGG6Q@mail.gmail.com>
+From: Jason Kridner <jkridner@beagleboard.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Cc: Graeme Gregory <dp@xora.org.uk>, Jason Kridner <jdk@ti.com>,
+	"k-kooi@ti.com" <k-kooi@ti.com>
+Subject: Re: [RFC oe-core] mkcard: Add a script to parition and format an SD Card
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,32 +46,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Aug 2011 18:52:20 -0000
+X-List-Received-Date: Mon, 29 Aug 2011 21:08:18 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- .../conf/distro/include/distro_tracking_fields.inc |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
+>>>
+>>> This script is BSP specific and shouldn't live in the OE-core layer.
+>>
+>> The only issue is this script is used from within the IMAGE_CMD_sdimg
+>> code which lives in OE-core (meta/classes/image_types.
+>
+> classes shouldn't be calling external scripts
+>
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 22042b1..6f1a462 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -2876,9 +2876,9 @@ RECIPE_LAST_UPDATE_pn-sysprof = "Dec 8, 2010"
- RECIPE_MAINTAINER_pn-sysprof = "Tom Zanussi <tom.zanussi@intel.com>"
- 
- RECIPE_STATUS_pn-binutils="green"
--RECIPE_LATEST_VERSION_pn-binutils="2.21.1"
--RECIPE_LAST_UPDATE_pn-binutils = "Jul 06, 2011"
--RECIPE_MANUAL_CHECK_DATE_pn-binutils = "Jul 06, 2011" 
-+RECIPE_LATEST_VERSION_pn-binutils="2.21.1a"
-+RECIPE_LAST_UPDATE_pn-binutils = "Aug 29, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-binutils = "Aug 29, 2011"
- RECIPE_MAINTAINER_pn-binutils = "Nitin A Kamble <nitin.a.kamble@intel.com>"
- 
- RECIPE_STATUS_pn-ldconfig-native = "red"
--- 
-1.7.4.1
+Is the right approach to add parameters to the IMAGE_CMD_sdimg class
+such that it can be used generically to produce SD card images,
+instead of trying to move this to meta-ti?  Should it perhaps be a bit
+closer to what is being done by the Linaro image tools [1]?
 
+[1] https://wiki.linaro.org/Source/ImageBuilding
 
 
