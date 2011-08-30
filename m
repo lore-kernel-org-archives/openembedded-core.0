@@ -1,24 +1,24 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1QyK5q-0004HI-TG
+	(envelope-from <koen@dominion.thruhere.net>) id 1QyKE9-0004yD-UD
 	for openembedded-core@lists.openembedded.org;
-	Tue, 30 Aug 2011 10:54:50 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QyK1A-0004Xy-77
-	for openembedded-core@lists.openembedded.org;
-	Tue, 30 Aug 2011 10:50:00 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 30 Aug 2011 09:49:59 +0100
-In-Reply-To: <CAP9ODKoi8==q2w__QkHm_PhkC-iWYnS5MCA5F+W_SdsTTXuBjQ@mail.gmail.com>
-References: <CAP9ODKoi8==q2w__QkHm_PhkC-iWYnS5MCA5F+W_SdsTTXuBjQ@mail.gmail.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1314694200.19905.105.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: Fail to build of clutter
+	Tue, 30 Aug 2011 11:03:26 +0200
+Received: by wwe32 with SMTP id 32so5263210wwe.24
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Aug 2011 01:58:33 -0700 (PDT)
+Received: by 10.216.194.70 with SMTP id l48mr497020wen.89.1314694712846;
+	Tue, 30 Aug 2011 01:58:32 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id r57sm131588weq.36.2011.08.30.01.58.30
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 30 Aug 2011 01:58:31 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 Aug 2011 10:58:23 +0200
+Message-Id: <1314694703-22310-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [RFC] package ipk bbclass: store build branch and revision in ipkg metadata
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,34 +33,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2011 08:54:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 30 Aug 2011 09:03:26 -0000
 
-On Tue, 2011-08-30 at 00:42 -0300, Otavio Salvador wrote:
-> Hello,
-> 
-> With today's tip of OpenEmbedded-Core, Clutter fails to build as can
-> be seen bellow:
-> 
-> 
-> | checking for CLUTTER_DEPS... no
-> | configure: error: Package requirements (cairo-gobject >= 1.10 atk >=
-> 1.17 pangocairo >= 1.20 json-glib-1.0 >= 0.12.0 gdk-pixbuf-2.0 >= 2.0
-> gl libdrm x11 xext xfixes >= 3 xdamage xcomposite >= 0.4 xi) were not
-> met:
-> |
-> | Requested 'json-glib-1.0 >= 0.12.0' but version of JSON-GLib is 0.10.4
+    The ipkg metadata will look like this now:
 
-It sounds as though you have picked up an erroneous version of json-glib
-from somewhere, maybe meta-oe.  The version in oe-core does appear to be
-0.12.4 and I'm not seeing that failure in my builds.
+    koen@dominion:/OE/angstrom-dev/deploy/glibc$ dpkg-deb -I ipk/am3517-evm/matrix-gui_1.3-r19.0.6_am3517-evm.ipk
+     new debian package, version 2.0.
+     size 24112 bytes: control archive= 540 bytes.
+         629 bytes,    13 lines      control
+     Package: matrix-gui
+     Version: 1.3-r19.0.6
+     Description: Matrix GUI for Qt X11
+     Section: multimedia
+     Priority: optional
+     Maintainer: Angstrom Developers <angstrom-distro-devel@linuxtogo.org>
+     License: BSD
+     Architecture: am3517-evm
+     OE: matrix-gui
+     Homepage: https://gforge.ti.com/gf/project/matrix_gui/
+     Build: org.openembedded.dev/f35ab2d
+     Depends: matrix-gui-common, libpng12-0, libfreetype6, libz1, libgthread-2.0-0, libqtwebkit4, libphonon4, libqtdbus4, libqtxml4, libqtgui4, libqtnetwork4, libqtcore4, libglib-2.0-0, libc6, libstdc++6, libgcc1
+     Source: svn://gforge.ti.com/svn/matrix_gui/;module=trunk;proto=https;user=anonymous;pswd=''
+    koen@dominion:/OE/angstrom-dev/deploy/glibc$
 
-Did this just stop working for you recently, or is this the first time
-you tried to build it?
+    Signed-off-by: Koen Kooi <koen@openembedded.org>
+    Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
+    Acked-by: Chase Maupin <chase.maupin@ti.com>
 
-p.
+[Ported from .dev/6ae45bbf2b5ca9e4fd7e8b04e461f0bf120dd44d]
+---
+ meta/classes/package_ipk.bbclass |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index e83aff8..63d7f18 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -303,6 +303,7 @@ python do_package_ipk () {
+ 		fields.append(["Architecture: %s\n", ['PACKAGE_ARCH']])
+ 		fields.append(["OE: %s\n", ['PN']])
+ 		fields.append(["Homepage: %s\n", ['HOMEPAGE']])
++		fields.append(["Build: %s/%s\n", ['METADATA_BRANCH', 'METADATA_REVISION']])
+ 
+ 		def pullData(l, d):
+ 			l2 = []
+-- 
+1.6.6.1
 
 
 
