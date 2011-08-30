@@ -1,32 +1,30 @@
-Received: from mail-qy0-f175.google.com ([209.85.216.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <seba.dos1@gmail.com>) id 1QyWi1-0002Vy-SN
-	for openembedded-core@lists.openembedded.org;
-	Wed, 31 Aug 2011 00:23:06 +0200
-Received: by qyk4 with SMTP id 4so3190540qyk.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2011 15:18:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=DW3txye7/SpdxUgBDTe1YfHk2/Lclfb6dCaRyf+1XNg=;
-	b=nOzrmgeXLvI3hWSMBNo49/bmqUjRAUd7POK3W71raCprqevIq6cHBQ2bi5fIinWsMM
-	2VmjS5Y7m192c4GjCSyaLqK8qW63o/rOwHMAR6sVG5XIwQi1GHBgw75/07FAH3FDTY2r
-	D/OEAZfxVbPWR1QWTPcaJsSqH9qU9cos+psZ8=
-MIME-Version: 1.0
-Received: by 10.229.47.213 with SMTP id o21mr7115102qcf.278.1314742691698;
-	Tue, 30 Aug 2011 15:18:11 -0700 (PDT)
-Sender: seba.dos1@gmail.com
-Received: by 10.229.232.207 with HTTP; Tue, 30 Aug 2011 15:18:11 -0700 (PDT)
-In-Reply-To: <4E5D605E.3030303@hs-augsburg.de>
-References: <1314738793.5939.427.camel@rex> <4E5D605E.3030303@hs-augsburg.de>
-Date: Wed, 31 Aug 2011 00:18:11 +0200
-X-Google-Sender-Auth: rWql7cQvKqfpoScMJp1lx-ZkY1M
-Message-ID: <CAMkzfpaQEHWQaDt_JGZ9J6dYK40gu6W4RM9hMOcQc+5didPuSw@mail.gmail.com>
-From: Sebastian Krzyszkowiak <dos@dosowisko.net>
-To: michael.morscher@hs-augsburg.de
-Cc: Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QyY3D-0004OQ-Sc for openembedded-core@lists.openembedded.org;
+	Wed, 31 Aug 2011 01:49:04 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7UNi6DT004050;
+	Wed, 31 Aug 2011 00:44:06 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 03827-02; Wed, 31 Aug 2011 00:44:02 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7UNhwuT004044
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 31 Aug 2011 00:43:58 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <CAMkzfpaQEHWQaDt_JGZ9J6dYK40gu6W4RM9hMOcQc+5didPuSw@mail.gmail.com>
+References: <1314738793.5939.427.camel@rex> <4E5D605E.3030303@hs-augsburg.de>
+	<CAMkzfpaQEHWQaDt_JGZ9J6dYK40gu6W4RM9hMOcQc+5didPuSw@mail.gmail.com>
+Date: Wed, 31 Aug 2011 00:43:45 +0100
+Message-ID: <1314747825.5939.449.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
 Subject: Re: [PATCH] gdb: upgrade from 7.3 to 7.3a
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -42,20 +40,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2011 22:23:06 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 30 Aug 2011 23:49:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 8/31/11, Michael Morscher <michael.morscher@hs-augsburg.de> wrote:
-> Hey,
->
-> Thanks for the recent patch, but the patches need another handwork:
+On Wed, 2011-08-31 at 00:18 +0200, Sebastian Krzyszkowiak wrote:
+> On 8/31/11, Michael Morscher <michael.morscher@hs-augsburg.de> wrote:
+> > Hey,
+> >
+> > Thanks for the recent patch, but the patches need another handwork:
+> 
+> Whoops... I wasn't able to test it
 
-Whoops... I wasn't able to test it, as one of gdb's dependency was
-failing to me due to bug in gcc. Anyway, I'll try to fix it later,
-thanks for info.
+You're posting patches with no testing?!
 
--- 
-Sebastian Krzyszkowiak
-dos
+I'd warn people that if this happens I'll be regarding any future
+patches with suitable caution. If you're going to post something with no
+testing, at least please say so...
+
+Cheers,
+
+Richard
+
 
 
