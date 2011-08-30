@@ -1,31 +1,30 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QyKbF-0005dH-7a for openembedded-core@lists.openembedded.org;
-	Tue, 30 Aug 2011 11:27:17 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7U9MKYP017673;
-	Tue, 30 Aug 2011 10:22:20 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 15482-05; Tue, 30 Aug 2011 10:22:16 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7U9M8cU017667
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 30 Aug 2011 10:22:12 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <philb@gnu.org>) id 1QyKel-0005gv-Bz
+	for openembedded-core@lists.openembedded.org;
+	Tue, 30 Aug 2011 11:30:55 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QyKa4-0004pZ-Ji
+	for openembedded-core@lists.openembedded.org;
+	Tue, 30 Aug 2011 11:26:04 +0200
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1314694703-22310-1-git-send-email-koen@dominion.thruhere.net>
-References: <1314694703-22310-1-git-send-email-koen@dominion.thruhere.net>
-Date: Tue, 30 Aug 2011 10:21:58 +0100
-Message-ID: <1314696118.5939.301.camel@rex>
+Date: Tue, 30 Aug 2011 10:26:03 +0100
+In-Reply-To: <C368959C-3433-4A60-8B2E-65AC7FBF341E@dominion.thruhere.net>
+References: <1314210721-29941-1-git-send-email-koen@dominion.thruhere.net>
+	<1314264296.19905.29.camel@phil-desktop>
+	<1314284316.5939.196.camel@rex>
+	<1314367938.19905.90.camel@phil-desktop>
+	<EB5E7A93-679D-4108-8E6D-03D7E1865908@dominion.thruhere.net>
+	<1314372632.19905.93.camel@phil-desktop>
+	<C368959C-3433-4A60-8B2E-65AC7FBF341E@dominion.thruhere.net>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1314696364.19905.107.camel@phil-desktop>
 Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [RFC] package ipk bbclass: store build branch and revision in ipkg metadata
+Subject: Re: [PATCH 1/2] libc-package bbclass: fix binary localedata dependency code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,63 +39,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2011 09:27:17 -0000
+X-List-Received-Date: Tue, 30 Aug 2011 09:30:55 -0000
+X-Groupsio-MsgNum: 8946
+Content-Type: multipart/mixed; boundary="=-PXl9JjmvASurE6+lPNYh"
+
+--=-PXl9JjmvASurE6+lPNYh
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-08-30 at 10:58 +0200, Koen Kooi wrote:
-> The ipkg metadata will look like this now:
-> 
->     koen@dominion:/OE/angstrom-dev/deploy/glibc$ dpkg-deb -I ipk/am3517-evm/matrix-gui_1.3-r19.0.6_am3517-evm.ipk
->      new debian package, version 2.0.
->      size 24112 bytes: control archive= 540 bytes.
->          629 bytes,    13 lines      control
->      Package: matrix-gui
->      Version: 1.3-r19.0.6
->      Description: Matrix GUI for Qt X11
->      Section: multimedia
->      Priority: optional
->      Maintainer: Angstrom Developers <angstrom-distro-devel@linuxtogo.org>
->      License: BSD
->      Architecture: am3517-evm
->      OE: matrix-gui
->      Homepage: https://gforge.ti.com/gf/project/matrix_gui/
->      Build: org.openembedded.dev/f35ab2d
->      Depends: matrix-gui-common, libpng12-0, libfreetype6, libz1, libgthread-2.0-0, libqtwebkit4, libphonon4, libqtdbus4, libqtxml4, libqtgui4, libqtnetwork4, libqtcore4, libglib-2.0-0, libc6, libstdc++6, libgcc1
->      Source: svn://gforge.ti.com/svn/matrix_gui/;module=trunk;proto=https;user=anonymous;pswd=''
->     koen@dominion:/OE/angstrom-dev/deploy/glibc$
-> 
->     Signed-off-by: Koen Kooi <koen@openembedded.org>
->     Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
->     Acked-by: Chase Maupin <chase.maupin@ti.com>
-> 
-> [Ported from .dev/6ae45bbf2b5ca9e4fd7e8b04e461f0bf120dd44d]
-> ---
->  meta/classes/package_ipk.bbclass |    1 +
->  1 files changed, 1 insertions(+), 0 deletions(-)
-> 
-> diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-> index e83aff8..63d7f18 100644
-> --- a/meta/classes/package_ipk.bbclass
-> +++ b/meta/classes/package_ipk.bbclass
-> @@ -303,6 +303,7 @@ python do_package_ipk () {
->  		fields.append(["Architecture: %s\n", ['PACKAGE_ARCH']])
->  		fields.append(["OE: %s\n", ['PN']])
->  		fields.append(["Homepage: %s\n", ['HOMEPAGE']])
-> +		fields.append(["Build: %s/%s\n", ['METADATA_BRANCH', 'METADATA_REVISION']])
->  
->  		def pullData(l, d):
->  			l2 = []
+On Fri, 2011-08-26 at 18:31 +0200, Koen Kooi wrote:
+> That one doesn't seem to apply:
 
-How does this cope with our multiple branches and revisions for
-different layers? I worry about this being confusing :/
+Hm, yes, it seems I somehow damaged the patch in my last mail.  Third
+time lucky then.
 
-Cheers,
-
-Richard
+p.
 
 
+--=-PXl9JjmvASurE6+lPNYh
+Content-Disposition: attachment;
+	filename*0=0001-libc-package-restore-correct-mangling-behavior-for-l.pat;
+	filename*1=ch
+Content-Type: text/x-patch;
+	name="0001-libc-package-restore-correct-mangling-behavior-for-l.patch";
+	charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+From c3a2a50b6693e54aeb8c2fa635360aea53df2957 Mon Sep 17 00:00:00 2001
+From: Phil Blundell <philb@gnu.org>
+Date: Fri, 26 Aug 2011 17:51:47 +0100
+Subject: [PATCH] libc-package: restore correct mangling behavior for locale names
+
+This reverts 19fb07bf337e1d724798e2eb4479c35fc45b1941 and restores
+the behaviour of the code to the way it was prior to 561d875404ef1783f94f37314b6e756766db8411.
+
+See http://lists.linuxtogo.org/pipermail/openembedded-core/2011-August/007407.html and subsequent messages.
+
+Signed-off-by: Phil Blundell <philb@gnu.org>
+---
+ meta/classes/libc-package.bbclass |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
+index d3b33d6..9d32844 100644
+--- a/meta/classes/libc-package.bbclass
++++ b/meta/classes/libc-package.bbclass
+@@ -241,9 +241,9 @@ python package_do_split_gconvs () {
+ 		(locale, encoding, locale), d)
+ 
+ 	def output_locale_binary_rdepends(name, pkgname, locale, encoding):
+-		m = re.match("(.*)_(.*)", name)
++		m = re.match("(.*)\.(.*)", name)
+ 		if m:
+-			libc_name = "%s-%s" % (m.group(1), m.group(2).lower().replace("-",""))
++			libc_name = "%s.%s" % (m.group(1), m.group(2).lower().replace("-",""))
+ 		else:
+ 			libc_name = name
+ 		bb.data.setVar('RDEPENDS_%s' % pkgname, legitimize_package_name('%s-binary-localedata-%s' \
+-- 
+1.7.4.1
 
 
-
-
+--=-PXl9JjmvASurE6+lPNYh--
