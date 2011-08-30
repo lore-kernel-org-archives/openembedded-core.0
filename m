@@ -1,25 +1,34 @@
-Received: from slimlogic.co.uk ([89.16.172.20])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gg@slimlogic.co.uk>) id 1QyLlE-0007Uu-Pu
+	(envelope-from <otavio.salvador@gmail.com>) id 1QyMkB-00017s-FH
 	for openembedded-core@lists.openembedded.org;
-	Tue, 30 Aug 2011 12:41:41 +0200
-Received: from [10.131.0.186] (188-220-38-49.zone11.bethere.co.uk
-	[188.220.38.49])
-	by slimlogic.co.uk (Postfix) with ESMTPSA id D77D013001B
+	Tue, 30 Aug 2011 13:44:39 +0200
+Received: by bkbzu17 with SMTP id zu17so4890190bkb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2011 11:36:49 +0100 (BST)
-Message-ID: <4E5CBD9D.6020803@slimlogic.co.uk>
-Date: Tue, 30 Aug 2011 11:38:21 +0100
-From: Graeme Gregory <gg@slimlogic.co.uk>
-User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-GB;
-	rv:1.9.2.17) Gecko/20110414 Lightning/1.0b2 Thunderbird/3.1.10
+	Tue, 30 Aug 2011 04:39:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=5bcUu0sAh/6hOTLFBZBNXMLNEcj0QyoX1CrVJvqQto4=;
+	b=sYPbMpm1J0R5BRKCF4wxO7ABEnkD22U1vvcPFdyE7E/gsqJFm7xoKluOWd4zo1Zjqa
+	HMfxcuaWKbdW+JBTFwuhWGQQ65/4EzOGGtgydOuHWcyhw7D+Qbh3cyz30VA/ll4vtSzb
+	eRT47ilcvqyDImDyhBHuCGW0bquvLd9jLVVig=
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1314598341-2793-1-git-send-email-joelagnel@ti.com>	<D6747D39-5AE0-4982-BE54-828DFF4AF761@dominion.thruhere.net>	<CAD=GYpZi8dObBiWTAw9OpH1BmHuUZgT67jOMV6saQNcyfmW+Tg@mail.gmail.com>	<A7D15A83-D3C5-4F64-90AA-6A77225BB6E5@dominion.thruhere.net>	<CA+T6QPmfs0-_k+io3rviuTqxS9-qTT7q0y_=k6JNagB93TGG6Q@mail.gmail.com>	<1314696718.5939.305.camel@rex>
-	<4E5CAF0A.9080902@slimlogic.co.uk>
-	<AB4EA34E-7407-4BE3-807F-1A2CC867D6BD@dominion.thruhere.net>
-In-Reply-To: <AB4EA34E-7407-4BE3-807F-1A2CC867D6BD@dominion.thruhere.net>
-Subject: Re: [RFC oe-core] mkcard: Add a script to parition and format an SD Card
+Received: by 10.204.148.154 with SMTP id p26mr23422bkv.160.1314704384730; Tue,
+	30 Aug 2011 04:39:44 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.156.217 with HTTP; Tue, 30 Aug 2011 04:39:44 -0700 (PDT)
+In-Reply-To: <1314694200.19905.105.camel@phil-desktop>
+References: <CAP9ODKoi8==q2w__QkHm_PhkC-iWYnS5MCA5F+W_SdsTTXuBjQ@mail.gmail.com>
+	<1314694200.19905.105.camel@phil-desktop>
+Date: Tue, 30 Aug 2011 08:39:44 -0300
+X-Google-Sender-Auth: Nli4ysaoOZuK7NeJcAwzEcSr6iU
+Message-ID: <CAP9ODKrON8oBsAr3d7WJbhZffPNq7K=JjyWZs0v05qa_iycbDg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Fail to build of clutter
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,42 +43,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2011 10:41:41 -0000
+X-List-Received-Date: Tue, 30 Aug 2011 11:44:39 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On 30/08/2011 11:34, Koen Kooi wrote:
-> Op 30 aug. 2011, om 11:36 heeft Graeme Gregory het volgende geschreven:
+On Tue, Aug 30, 2011 at 05:49, Phil Blundell <philb@gnu.org> wrote:
+> On Tue, 2011-08-30 at 00:42 -0300, Otavio Salvador wrote:
+>> Hello,
+>>
+>> With today's tip of OpenEmbedded-Core, Clutter fails to build as can
+>> be seen bellow:
+>>
+>> | checking for CLUTTER_DEPS... no
+>> | configure: error: Package requirements (cairo-gobject >=3D 1.10 atk >=
+=3D
+>> 1.17 pangocairo >=3D 1.20 json-glib-1.0 >=3D 0.12.0 gdk-pixbuf-2.0 >=3D =
+2.0
+>> gl libdrm x11 xext xfixes >=3D 3 xdamage xcomposite >=3D 0.4 xi) were no=
+t
+>> met:
+>> |
+>> | Requested 'json-glib-1.0 >=3D 0.12.0' but version of JSON-GLib is 0.10=
+.4
 >
->> On 30/08/2011 10:31, Richard Purdie wrote:
->>> On Mon, 2011-08-29 at 17:03 -0400, Jason Kridner wrote:
->>>>>>> This script is BSP specific and shouldn't live in the OE-core layer.
->>>>>> The only issue is this script is used from within the IMAGE_CMD_sdimg
->>>>>> code which lives in OE-core (meta/classes/image_types.
->>>>> classes shouldn't be calling external scripts
->>>>>
->>>> Is the right approach to add parameters to the IMAGE_CMD_sdimg class
->>>> such that it can be used generically to produce SD card images,
->>>> instead of trying to move this to meta-ti?  Should it perhaps be a bit
->>>> closer to what is being done by the Linaro image tools [1]?
->>>>
->>>> [1] https://wiki.linaro.org/Source/ImageBuilding
->>> I have heard multiple requests for making general SD card (or USB stick)
->>> style images so I would love to see something generic. The script as it
->>> stands looks like it has some issues due to requiring root access
->>> (and/or special mounts).
->>>
->> As the author again, its totally unsuitable and was never designed for
->> doing that.
-> To clarify, it deals only with the slightly weird formatting needed by the OMAP3/4 boot ROM to get the bootloader from FAT and not with generic sd card images.
->
-I actually meant the script is unsuitable for use within bitbake. The
-format is actually very generic. An aweful lot of embedded systems
-require MSDOS compatible partition tables which is basically what the
-script creates. parted sucks as it doesnt have a simple way to say make
-this msdos compatible.
+> It sounds as though you have picked up an erroneous version of json-glib
+> from somewhere, maybe meta-oe. =A0The version in oe-core does appear to b=
+e
+> 0.12.4 and I'm not seeing that failure in my builds.
 
-Graeme
+Oh, indeed.
 
+> Did this just stop working for you recently, or is this the first time
+> you tried to build it?
+
+Yes, it is the first time I tried to build it (at least intentionally)
+
+I have prepared a patch to remove it from meta-oe. Will post it soon.
+
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
