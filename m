@@ -1,30 +1,33 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QyFI9-0001do-4d
+	(envelope-from <koen@dominion.thruhere.net>) id 1QyIaV-0001pJ-57
 	for openembedded-core@lists.openembedded.org;
-	Tue, 30 Aug 2011 05:47:13 +0200
-Received: by bkbzu17 with SMTP id zu17so4650020bkb.6
+	Tue, 30 Aug 2011 09:18:23 +0200
+Received: by wwe32 with SMTP id 32so5196005wwe.24
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Aug 2011 20:42:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
-	:from:to:content-type:content-transfer-encoding;
-	bh=PpTQFKSg8CSug3XIjxyq7JPP943Ml6lriI5DrQkR960=;
-	b=JYTW+KKumTKZ9iiiVC2+iOMI+xvQSGR+eZX9D7BBi/01mW7wvNrMg/5HFnRFSV4hsv
-	zGS48WPGVfJyzSCqcM/dI/rcR8dPu26A9cJhgwH5twY9dZcAykJPKIv3wWdugyqd80i4
-	efIA/ZlmpKB5iEj5YQRB9YpQH2jrsO0G6lA64=
-MIME-Version: 1.0
-Received: by 10.204.154.194 with SMTP id p2mr2617508bkw.56.1314675740338; Mon,
-	29 Aug 2011 20:42:20 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.156.217 with HTTP; Mon, 29 Aug 2011 20:42:20 -0700 (PDT)
-Date: Tue, 30 Aug 2011 00:42:20 -0300
-X-Google-Sender-Auth: aidIpBsiQs0nXALKDrxu1ULdxhE
-Message-ID: <CAP9ODKoi8==q2w__QkHm_PhkC-iWYnS5MCA5F+W_SdsTTXuBjQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+	Tue, 30 Aug 2011 00:13:30 -0700 (PDT)
+Received: by 10.216.203.79 with SMTP id e57mr436589weo.42.1314688410157;
+	Tue, 30 Aug 2011 00:13:30 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id q19sm833873wec.42.2011.08.30.00.13.26
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 30 Aug 2011 00:13:28 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAD=GYpaL73siZqSoSChCG2rbXSy7nBsJ6LmujxxmqhqubiFCWQ@mail.gmail.com>
+Date: Tue, 30 Aug 2011 09:13:25 +0200
+Message-Id: <C6123C3E-8A31-4E18-85E1-99007B0DD3A8@dominion.thruhere.net>
+References: <1314598341-2793-1-git-send-email-joelagnel@ti.com>
+	<D6747D39-5AE0-4982-BE54-828DFF4AF761@dominion.thruhere.net>
+	<CAD=GYpZi8dObBiWTAw9OpH1BmHuUZgT67jOMV6saQNcyfmW+Tg@mail.gmail.com>
+	<A7D15A83-D3C5-4F64-90AA-6A77225BB6E5@dominion.thruhere.net>
+	<CA+T6QPmfs0-_k+io3rviuTqxS9-qTT7q0y_=k6JNagB93TGG6Q@mail.gmail.com>
+	<CAD=GYpaL73siZqSoSChCG2rbXSy7nBsJ6LmujxxmqhqubiFCWQ@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Fail to build of clutter
+X-Mailer: Apple Mail (2.1244.3)
+Cc: "Kridner, Jason" <jdk@ti.com>
+Subject: Re: [RFC oe-core] mkcard: Add a script to parition and format an SD Card
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,46 +42,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2011 03:47:13 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 30 Aug 2011 07:18:23 -0000
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-Hello,
 
-With today's tip of OpenEmbedded-Core, Clutter fails to build as can
-be seen bellow:
+Op 30 aug. 2011, om 01:08 heeft Joel A Fernandes het volgende =
+geschreven:
 
+> On Mon, Aug 29, 2011 at 4:03 PM, Jason Kridner =
+<jkridner@beagleboard.org> wrote:
+>>>>>=20
+>>>>> This script is BSP specific and shouldn't live in the OE-core =
+layer.
+>>>>=20
+>>>> The only issue is this script is used from within the =
+IMAGE_CMD_sdimg
+>>>> code which lives in OE-core (meta/classes/image_types.
+>>>=20
+>>> classes shouldn't be calling external scripts
+>>>=20
+>>=20
+>> Is the right approach to add parameters to the IMAGE_CMD_sdimg class
+>> such that it can be used generically to produce SD card images,
+>> instead of trying to move this to meta-ti?  Should it perhaps be a =
+bit
+>> closer to what is being done by the Linaro image tools [1]?
+>>=20
+>> [1] https://wiki.linaro.org/Source/ImageBuilding
+>>=20
+>=20
+> Don't the Linaro scripts need to run on the target? Does it fit well
+> with OE(-core) ?
+>=20
+> I took lot of pain to write it for OE and its almost done, so suggest
+> we use my method atleast for a few days ;-)
 
-| checking for CLUTTER_DEPS... no
-| configure: error: Package requirements (cairo-gobject >=3D 1.10 atk >=3D
-1.17 pangocairo >=3D 1.20 json-glib-1.0 >=3D 0.12.0 gdk-pixbuf-2.0 >=3D 2.0
-gl libdrm x11 xext xfixes >=3D 3 xdamage xcomposite >=3D 0.4 xi) were not
-met:
-|
-| Requested 'json-glib-1.0 >=3D 0.12.0' but version of JSON-GLib is 0.10.4
-|
-| Consider adjusting the PKG_CONFIG_PATH environment variable if you
-| installed software in a non-standard prefix.
-|
-| Alternatively, you may set the environment variables CLUTTER_DEPS_CFLAGS
-| and CLUTTER_DEPS_LIBS to avoid the need to call pkg-config.
-| See the pkg-config man page for more details.
-| + bbfatal 'oe_runconf failed'
-| + echo 'ERROR: oe_runconf failed'
-| ERROR: oe_runconf failed
-| + exit 1
-| ERROR: Function 'do_configure' failed (see
-/home/otavio/hacking/ossystems/embedded-linux/tmp-eglibc-eglibc/work/i586-o=
-e-linux/clutter-1.6-1.6.14-r2/temp/log.do_configure.7656
-for further information)
-
-Can someone reproduce it?
-
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+I'm immune to the "but I spent a lot of time on this" type of arguments=
 
 
