@@ -1,24 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1QyJRm-0003V2-4v
+	(envelope-from <philb@gnu.org>) id 1QyK5q-0004HI-TG
 	for openembedded-core@lists.openembedded.org;
-	Tue, 30 Aug 2011 10:13:26 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 30 Aug 2011 01:08:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="43280577"
-Received: from yocto-build3.sh.intel.com ([10.239.48.58])
-	by orsmga002.jf.intel.com with ESMTP; 30 Aug 2011 01:08:31 -0700
-From: edwin.zhai@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Aug 2011 16:05:01 +0800
-Message-Id: <d241a9acdd1578fb711d6d7c113cc51eb1bea74c.1314691314.git.edwin.zhai@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1314691314.git.edwin.zhai@intel.com>
-References: <cover.1314691314.git.edwin.zhai@intel.com>
-In-Reply-To: <cover.1314691314.git.edwin.zhai@intel.com>
-References: <cover.1314691314.git.edwin.zhai@intel.com>
-Subject: [PATCH 1/1] shadow: Fix rpm failed dependencies when install
+	Tue, 30 Aug 2011 10:54:50 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QyK1A-0004Xy-77
+	for openembedded-core@lists.openembedded.org;
+	Tue, 30 Aug 2011 10:50:00 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 30 Aug 2011 09:49:59 +0100
+In-Reply-To: <CAP9ODKoi8==q2w__QkHm_PhkC-iWYnS5MCA5F+W_SdsTTXuBjQ@mail.gmail.com>
+References: <CAP9ODKoi8==q2w__QkHm_PhkC-iWYnS5MCA5F+W_SdsTTXuBjQ@mail.gmail.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1314694200.19905.105.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: Fail to build of clutter
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,47 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2011 08:13:26 -0000
+X-List-Received-Date: Tue, 30 Aug 2011 08:54:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Zhai Edwin <edwin.zhai@intel.com>
+On Tue, 2011-08-30 at 00:42 -0300, Otavio Salvador wrote:
+> Hello,
+> 
+> With today's tip of OpenEmbedded-Core, Clutter fails to build as can
+> be seen bellow:
+> 
+> 
+> | checking for CLUTTER_DEPS... no
+> | configure: error: Package requirements (cairo-gobject >= 1.10 atk >=
+> 1.17 pangocairo >= 1.20 json-glib-1.0 >= 0.12.0 gdk-pixbuf-2.0 >= 2.0
+> gl libdrm x11 xext xfixes >= 3 xdamage xcomposite >= 0.4 xi) were not
+> met:
+> |
+> | Requested 'json-glib-1.0 >= 0.12.0' but version of JSON-GLib is 0.10.4
 
-There are some links become invalid after rename, so that failed dependencies
-detected when install rpm package. This commit update links to resolve it.
+It sounds as though you have picked up an erroneous version of json-glib
+from somewhere, maybe meta-oe.  The version in oe-core does appear to be
+0.12.4 and I'm not seeing that failure in my builds.
 
-[YOCTO #1158] got fixed.
+Did this just stop working for you recently, or is this the first time
+you tried to build it?
 
-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
----
- meta/recipes-extended/shadow/shadow_4.1.4.3.bb |    7 ++++++-
- 1 files changed, 6 insertions(+), 1 deletions(-)
+p.
 
-diff --git a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-index 70d4cbb..e34895e 100644
---- a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-+++ b/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=08c553a87d4e51bbed50b20e0adcaede \
- 
- DEPENDS = "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} = "${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_PLUGINS}', '', d)}"
--PR = "r3"
-+PR = "r4"
- 
- SRC_URI = "ftp://pkg-shadow.alioth.debian.org/pub/pkg-shadow/shadow-${PV}.tar.bz2 \
-            file://login_defs_pam.sed \
-@@ -97,6 +97,11 @@ do_install_append() {
- 	mv ${D}${sbindir}/vipw ${D}${base_sbindir}/vipw.${PN}
- 	mv ${D}${bindir}/login ${D}${base_bindir}/login.${PN}
- 
-+	# Handle link properly after rename, otherwise missing files would
-+	# lead rpm failed dependencies.
-+	ln -sf vipw.${PN} ${D}${base_sbindir}/vigr.${PN}
-+	ln -sf newgrp.${PN} ${D}${bindir}/sg
-+
- 	# Ensure we add a suitable securetty file to the package that has
- 	# most common embedded TTYs defined.
- 	if [ ! -z "${SERIAL_CONSOLE}" ]; then
--- 
-1.7.1
 
 
 
