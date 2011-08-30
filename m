@@ -1,31 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QyVlW-0002c6-9X for openembedded-core@lists.openembedded.org;
-	Tue, 30 Aug 2011 23:22:38 +0200
+	id 1QyVoI-0002gx-Hh for openembedded-core@lists.openembedded.org;
+	Tue, 30 Aug 2011 23:25:30 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7ULHXM3001924;
-	Tue, 30 Aug 2011 22:17:33 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7ULKYIY002152;
+	Tue, 30 Aug 2011 22:20:34 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 01531-03; Tue, 30 Aug 2011 22:17:29 +0100 (BST)
+	id 01344-05; Tue, 30 Aug 2011 22:20:30 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7ULHRlm001912
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7ULKQ3M002138
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 30 Aug 2011 22:17:28 +0100
+	Tue, 30 Aug 2011 22:20:27 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1314305555.git.bruce.ashfield@windriver.com>
-References: <cover.1314305555.git.bruce.ashfield@windriver.com>
-Date: Tue, 30 Aug 2011 22:17:16 +0100
-Message-ID: <1314739036.5939.431.camel@rex>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <cover.1314242316.git.kai.kang@windriver.com>
+References: <cover.1314242316.git.kai.kang@windriver.com>
+Date: Tue, 30 Aug 2011 22:20:15 +0100
+Message-ID: <1314739215.5939.434.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
-	saul.wold@intel.com
-Subject: Re: [PATCH 0/1] linux-yocto-rt: fix qemumips boot
+Subject: Re: [PATCH 0/3] bug fix for 1231
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,28 +39,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2011 21:22:38 -0000
+X-List-Received-Date: Tue, 30 Aug 2011 21:25:30 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-08-25 at 16:54 -0400, Bruce Ashfield wrote:
-> Richard/Saul,
+On Thu, 2011-08-25 at 13:43 +0800, Kang Kai wrote:
+> From: Kang Kai <kai.kang@windriver.com>
 > 
-> Just a minor tweak of the -rt SRCREVs to pickup a fix
-> that we got overnight that enables qemumips to boot from the
-> prompt.
+> Hi Saul,
 > 
+> qt4-tools-nativesdk needs set the gcc standard header searching paths because
+> crosssdk.bbclass uses a undefined variable "includedir_nativesdk".
 > 
-> The following changes since commit 6c2b7beac3cd23ed44bd3e195c6360a0932876bf:
+> These commits are to fix it, and update qt4-tools-nativesdk and cmake-nativesdk
+> bb files.
 > 
->   classes/sanity: enhance the network connectivity test (2011-08-25 08:51:30 -0700)
+> The following changes since commit 30381645eefe4e3222fd3ce45823f143ce2fa82c:
+> 
+>   rt-tests: use an explicit commit ID (2011-08-12 21:07:02 +0100)
 > 
 > are available in the git repository at:
->   git://git.pokylinux.org/poky-contrib zedd/kernel-oe
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-oe
+>   git://git.pokylinux.org/poky-contrib kangkai/distro
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/distro
 > 
-> Bruce Ashfield (1):
->   linux-yocto-rt: qemumips: fix boot panic
+> Kang Kai (3):
+>   bitbake.conf: set includedir_nativesdk
+>   qt4-tools-nativesdk: remove gcc standard paths
+>   cmake-nativesdk: remove gcc standard paths
 
 Merged to master, thanks.
 
