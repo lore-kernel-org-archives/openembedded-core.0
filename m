@@ -1,30 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QyR7N-00030q-37 for openembedded-core@lists.openembedded.org;
-	Tue, 30 Aug 2011 18:24:53 +0200
+	id 1QyR7v-00032q-Ro for openembedded-core@lists.openembedded.org;
+	Tue, 30 Aug 2011 18:25:28 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7UGJxLo019896
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7UGKY9r019920
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2011 17:19:59 +0100
+	Tue, 30 Aug 2011 17:20:34 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 18530-08 for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2011 17:19:55 +0100 (BST)
+	id 18709-09 for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Aug 2011 17:20:30 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7UGJoIa019890
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7UGKUab019914
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2011 17:19:50 +0100
+	Tue, 30 Aug 2011 17:20:30 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 30 Aug 2011 17:19:39 +0100
-Message-ID: <1314721179.5939.362.camel@rex>
+Date: Tue, 30 Aug 2011 17:20:19 +0100
+Message-ID: <1314721219.5939.363.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] sanity.bbclass: Fix broken indentation leading to code being skipped unintentionally
+Subject: [PATCH] sanity.bbclass: Fix broken whitespace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,61 +39,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2011 16:24:53 -0000
+X-List-Received-Date: Tue, 30 Aug 2011 16:25:28 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
 diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index cefe6a4..b266968 100644
+index b266968..7fc3343 100644
 --- a/meta/classes/sanity.bbclass
 +++ b/meta/classes/sanity.bbclass
-@@ -197,25 +197,25 @@ def check_sanity(e):
-     if data.getVar('TARGET_OS', e.data, True) == 'INVALID':
-         messages = messages + 'Please set TARGET_OS directly, or choose a MACHINE or DISTRO that does so.\n'
+@@ -423,12 +423,12 @@ def check_sanity(e):
+     dups = []
  
--        # Check we are using a valid lacal.conf
--        current_conf  = data.getVar('CONF_VERSION', e.data, True)
--        conf_version =  data.getVar('LOCALCONF_VERSION', e.data, True)
--
--        if current_conf != conf_version:
--            messages = messages + "Your version of local.conf was generated from an older version of local.conf.sample and there have been updates made to this file. Please compare the two files and merge any changes before continuing.\nMatching the version numbers will remove this message.\n\"meld conf/local.conf conf/local.conf.sample\" is a good way to visualise the changes.\n"
--
--        # Check bblayers.conf is valid
--        current_lconf = data.getVar('LCONF_VERSION', e.data, True)
--        lconf_version = data.getVar('LAYER_CONF_VERSION', e.data, True)
--        if current_lconf != lconf_version:
--            messages = messages + "Your version of bblayers.conf was generated from an older version of bblayers.conf.sample and there have been updates made to this file. Please compare the two files and merge any changes before continuing.\nMatching the version numbers will remove this message.\n\"meld conf/bblayers.conf conf/bblayers.conf.sample\" is a good way to visualise the changes.\n"
--
--        # If we have a site.conf, check it's valid
--        if check_conf_exists("conf/site.conf", e.data):
--            current_sconf = data.getVar('SCONF_VERSION', e.data, True)
--            sconf_version = data.getVar('SITE_CONF_VERSION', e.data, True)
--            if current_sconf != sconf_version:
--                messages = messages + "Your version of site.conf was generated from an older version of site.conf.sample and there have been updates made to this file. Please compare the two files and merge any changes before continuing.\nMatching the version numbers will remove this message.\n\"meld conf/site.conf conf/site.conf.sample\" is a good way to visualise the changes.\n"
-+    # Check we are using a valid lacal.conf
-+    current_conf  = data.getVar('CONF_VERSION', e.data, True)
-+    conf_version =  data.getVar('LOCALCONF_VERSION', e.data, True)
-+
-+    if current_conf != conf_version:
-+        messages = messages + "Your version of local.conf was generated from an older version of local.conf.sample and there have been updates made to this file. Please compare the two files and merge any changes before continuing.\nMatching the version numbers will remove this message.\n\"meld conf/local.conf conf/local.conf.sample\" is a good way to visualise the changes.\n"
-+
-+    # Check bblayers.conf is valid
-+    current_lconf = data.getVar('LCONF_VERSION', e.data, True)
-+    lconf_version = data.getVar('LAYER_CONF_VERSION', e.data, True)
-+    if current_lconf != lconf_version:
-+        messages = messages + "Your version of bblayers.conf was generated from an older version of bblayers.conf.sample and there have been updates made to this file. Please compare the two files and merge any changes before continuing.\nMatching the version numbers will remove this message.\n\"meld conf/bblayers.conf conf/bblayers.conf.sample\" is a good way to visualise the changes.\n"
-+
-+    # If we have a site.conf, check it's valid
-+    if check_conf_exists("conf/site.conf", e.data):
-+        current_sconf = data.getVar('SCONF_VERSION', e.data, True)
-+        sconf_version = data.getVar('SITE_CONF_VERSION', e.data, True)
-+        if current_sconf != sconf_version:
-+            messages = messages + "Your version of site.conf was generated from an older version of site.conf.sample and there have been updates made to this file. Please compare the two files and merge any changes before continuing.\nMatching the version numbers will remove this message.\n\"meld conf/site.conf conf/site.conf.sample\" is a good way to visualise the changes.\n"
+     for pa in pkgarchs.split():
+-    	if seen.get(pa, 0) == 1:
+-	    dups.append(pa)
+-	else:
+-	    seen[pa] = 1
+-	if pa == tunepkg:
+-	    tunefound = True
++        if seen.get(pa, 0) == 1:
++            dups.append(pa)
++        else:
++            seen[pa] = 1
++        if pa == tunepkg:
++            tunefound = True
  
-     assume_provided = data.getVar('ASSUME_PROVIDED', e.data , True).split()
-     # Check user doesn't have ASSUME_PROVIDED = instead of += in local.conf
+     if len(dups):
+        messages = messages + "Error, the PACKAGE_ARCHS variable contains duplicates. The following archs are listed more than once: %s" % " ".join(dups)
 
 
 
