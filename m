@@ -1,33 +1,20 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QyIaV-0001pJ-57
+	(envelope-from <edwin.zhai@intel.com>) id 1QyJRl-0003V2-EF
 	for openembedded-core@lists.openembedded.org;
-	Tue, 30 Aug 2011 09:18:23 +0200
-Received: by wwe32 with SMTP id 32so5196005wwe.24
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Aug 2011 00:13:30 -0700 (PDT)
-Received: by 10.216.203.79 with SMTP id e57mr436589weo.42.1314688410157;
-	Tue, 30 Aug 2011 00:13:30 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id q19sm833873wec.42.2011.08.30.00.13.26
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 30 Aug 2011 00:13:28 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAD=GYpaL73siZqSoSChCG2rbXSy7nBsJ6LmujxxmqhqubiFCWQ@mail.gmail.com>
-Date: Tue, 30 Aug 2011 09:13:25 +0200
-Message-Id: <C6123C3E-8A31-4E18-85E1-99007B0DD3A8@dominion.thruhere.net>
-References: <1314598341-2793-1-git-send-email-joelagnel@ti.com>
-	<D6747D39-5AE0-4982-BE54-828DFF4AF761@dominion.thruhere.net>
-	<CAD=GYpZi8dObBiWTAw9OpH1BmHuUZgT67jOMV6saQNcyfmW+Tg@mail.gmail.com>
-	<A7D15A83-D3C5-4F64-90AA-6A77225BB6E5@dominion.thruhere.net>
-	<CA+T6QPmfs0-_k+io3rviuTqxS9-qTT7q0y_=k6JNagB93TGG6Q@mail.gmail.com>
-	<CAD=GYpaL73siZqSoSChCG2rbXSy7nBsJ6LmujxxmqhqubiFCWQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1244.3)
-Cc: "Kridner, Jason" <jdk@ti.com>
-Subject: Re: [RFC oe-core] mkcard: Add a script to parition and format an SD Card
+	Tue, 30 Aug 2011 10:13:25 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 30 Aug 2011 01:08:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="43280571"
+Received: from yocto-build3.sh.intel.com ([10.239.48.58])
+	by orsmga002.jf.intel.com with ESMTP; 30 Aug 2011 01:08:31 -0700
+From: edwin.zhai@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 Aug 2011 16:05:00 +0800
+Message-Id: <cover.1314691314.git.edwin.zhai@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/1] shadow: Fix rpm package install failure, Edwin, Aug30, 2011
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,42 +29,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Aug 2011 07:18:23 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 30 Aug 2011 08:13:25 -0000
+
+From: Zhai Edwin <edwin.zhai@intel.com>
+
+This patch fix rpm dependencies failure when install. Pls. help to reivew.
+
+Thanks,
+Edwin
 
 
-Op 30 aug. 2011, om 01:08 heeft Joel A Fernandes het volgende =
-geschreven:
+The following changes since commit 94d0e2de269507aa0e64c64f691c8f507d178675:
 
-> On Mon, Aug 29, 2011 at 4:03 PM, Jason Kridner =
-<jkridner@beagleboard.org> wrote:
->>>>>=20
->>>>> This script is BSP specific and shouldn't live in the OE-core =
-layer.
->>>>=20
->>>> The only issue is this script is used from within the =
-IMAGE_CMD_sdimg
->>>> code which lives in OE-core (meta/classes/image_types.
->>>=20
->>> classes shouldn't be calling external scripts
->>>=20
->>=20
->> Is the right approach to add parameters to the IMAGE_CMD_sdimg class
->> such that it can be used generically to produce SD card images,
->> instead of trying to move this to meta-ti?  Should it perhaps be a =
-bit
->> closer to what is being done by the Linaro image tools [1]?
->>=20
->> [1] https://wiki.linaro.org/Source/ImageBuilding
->>=20
->=20
-> Don't the Linaro scripts need to run on the target? Does it fit well
-> with OE(-core) ?
->=20
-> I took lot of pain to write it for OE and its almost done, so suggest
-> we use my method atleast for a few days ;-)
+  qemu: Make qemu buildable inside qemux86/qemuppc target (2011-08-16 13:15:27 +0800)
 
-I'm immune to the "but I spent a lot of time on this" type of arguments=
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib gzhai/master2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/master2
+
+Zhai Edwin (1):
+  shadow: Fix rpm failed dependencies when install
+
+ meta/recipes-extended/shadow/shadow_4.1.4.3.bb |    7 ++++++-
+ 1 files changed, 6 insertions(+), 1 deletions(-)
+
 
 
