@@ -1,24 +1,34 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-qw0-f47.google.com ([209.85.216.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1Qyec1-0006sf-MP
+	(envelope-from <seba.dos1@gmail.com>) id 1QyhML-0003E8-Hh
 	for openembedded-core@lists.openembedded.org;
-	Wed, 31 Aug 2011 08:49:25 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 30 Aug 2011 23:44:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="43901089"
-Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by orsmga001.jf.intel.com with ESMTP; 30 Aug 2011 23:44:30 -0700
-From: Dongxiao Xu <dongxiao.xu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 31 Aug 2011 14:47:33 +0800
-Message-Id: <03b1125f27548be099b557d6d767b6c2db7364d6.1314772012.git.dongxiao.xu@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1314772012.git.dongxiao.xu@intel.com>
-References: <cover.1314772012.git.dongxiao.xu@intel.com>
-In-Reply-To: <cover.1314772012.git.dongxiao.xu@intel.com>
-References: <cover.1314772012.git.dongxiao.xu@intel.com>
-Subject: [PATCH 1/1] connman-gnome: Fix WiFi security display issue
+	Wed, 31 Aug 2011 11:45:25 +0200
+Received: by qwh5 with SMTP id 5so262291qwh.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 31 Aug 2011 02:40:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=HZ1MIcL7RZks3lx3AAr3GDADF7/4yKv//92EmbCFeec=;
+	b=ClXtP2e0jsWBfafUhT91Ae5lhCJhitpNc/gphenq6lmmjVxs6JCR458YLlYfriAaS8
+	8FhzEzBVEd+rk8xEKdEVqhr4YteKdwXe8Q6fCzt0iuygqdbdvEp2AeYLLA08aaoGqdII
+	nMHN5isZnLrX9k0mHXIA2MN9pCY7GxAtF/+A0=
+MIME-Version: 1.0
+Received: by 10.229.37.149 with SMTP id x21mr125961qcd.126.1314783630515; Wed,
+	31 Aug 2011 02:40:30 -0700 (PDT)
+Sender: seba.dos1@gmail.com
+Received: by 10.229.232.207 with HTTP; Wed, 31 Aug 2011 02:40:30 -0700 (PDT)
+In-Reply-To: <1314747825.5939.449.camel@rex>
+References: <1314738793.5939.427.camel@rex> <4E5D605E.3030303@hs-augsburg.de>
+	<CAMkzfpaQEHWQaDt_JGZ9J6dYK40gu6W4RM9hMOcQc+5didPuSw@mail.gmail.com>
+	<1314747825.5939.449.camel@rex>
+Date: Wed, 31 Aug 2011 11:40:30 +0200
+X-Google-Sender-Auth: carABA0aoL6ZZgiVGtrVXm2Z4Xo
+Message-ID: <CAMkzfpYUh0dEy9BtEoNqAkAHF+tWaC9ZPnCLnAkCMdZ-dOk0Hw@mail.gmail.com>
+From: Sebastian Krzyszkowiak <dos@dosowisko.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gdb: upgrade from 7.3 to 7.3a
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,89 +43,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Aug 2011 06:49:25 -0000
+X-List-Received-Date: Wed, 31 Aug 2011 09:45:25 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Latest connman-0.75 change the WiFi security type, causing the
-incompatibility of connman-gnome. Fix connman-gnome accordingly to show
-the correct security informtion.
+On 8/31/11, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+> On Wed, 2011-08-31 at 00:18 +0200, Sebastian Krzyszkowiak wrote:
+>> On 8/31/11, Michael Morscher <michael.morscher@hs-augsburg.de> wrote:
+>> > Hey,
+>> >
+>> > Thanks for the recent patch, but the patches need another handwork:
+>>
+>> Whoops... I wasn't able to test it
+>
+> You're posting patches with no testing?!
+>
+> I'd warn people that if this happens I'll be regarding any future
+> patches with suitable caution. If you're going to post something with no
+> testing, at least please say so...
 
-[YOCTO #1343]
+I've tested fetching (as that's what that patch was fixing - old
+version was unfetchable at all). Well, when I think about it now, I
+could test do_patch without dependencies as well, but unfortunately
+that didn't came to my mind before :(
 
-Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
----
- .../connman/connman-gnome/security-type.patch      |   41 ++++++++++++++++++++
- .../connman/connman-gnome_0.5.bb                   |    5 +-
- 2 files changed, 44 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-connectivity/connman/connman-gnome/security-type.patch
-
-diff --git a/meta/recipes-connectivity/connman/connman-gnome/security-type.patch b/meta/recipes-connectivity/connman/connman-gnome/security-type.patch
-new file mode 100644
-index 0000000..a75d696
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman-gnome/security-type.patch
-@@ -0,0 +1,41 @@
-+From ec36df9d1fbb6dcbf0d1e79245ffe213049ecd5a Mon Sep 17 00:00:00 2001
-+From: Dongxiao Xu <dongxiao.xu@intel.com>
-+Date: Wed, 3 Aug 2011 14:33:07 +0800
-+Subject: [PATCH] connman-dbus: fix security type mismatch
-+
-+Latest connman change the Security type to be array{String}, fix
-+connman-gnome accordingly.
-+
-+Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
-+---
-+ common/connman-dbus.c |    5 +++--
-+ 1 files changed, 3 insertions(+), 2 deletions(-)
-+
-+Upstream-Status: Pending
-+
-+diff --git a/common/connman-dbus.c b/common/connman-dbus.c
-+index 0f4e1db..0ac8ed5 100644
-+--- a/common/connman-dbus.c
-++++ b/common/connman-dbus.c
-+@@ -384,7 +384,8 @@ static void service_changed(DBusGProxy *proxy, const char *property,
-+ 		gtk_tree_store_set(store, &iter,
-+ 					CONNMAN_COLUMN_FAVORITE, favorite, -1);
-+ 	} else if (g_str_equal(property, "Security") == TRUE) {
-+-		const char *security = value ? g_value_get_string(value) : NULL;
-++		const char **array = value ? g_value_get_boxed(value) : NULL;
-++		const char *security = g_strjoinv(" ", array);
-+ 		gtk_tree_store_set(store, &iter,
-+ 					CONNMAN_COLUMN_SECURITY, security,
-+ 					-1);
-+@@ -487,7 +488,7 @@ static void service_properties(DBusGProxy *proxy, GHashTable *hash,
-+ 	strength = value ? g_value_get_uchar(value) : 0;
-+ 
-+ 	value = g_hash_table_lookup(hash, "Security");
-+-	security = value ? g_value_get_string(value) : NULL;
-++	security = value ? g_strjoinv(" ", g_value_get_boxed(value)) : NULL;
-+ 
-+ 	value = g_hash_table_lookup(hash, "PassPhrase");
-+ 	passphrase = value ? g_value_get_string(value) : NULL;
-+-- 
-+1.7.1
-+
-diff --git a/meta/recipes-connectivity/connman/connman-gnome_0.5.bb b/meta/recipes-connectivity/connman/connman-gnome_0.5.bb
-index 416fa4b..9c78186 100644
---- a/meta/recipes-connectivity/connman/connman-gnome_0.5.bb
-+++ b/meta/recipes-connectivity/connman/connman-gnome_0.5.bb
-@@ -8,11 +8,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
- 
- DEPENDS = "gtk+ dbus"
- 
--PR = "r6"
-+PR = "r7"
- 
- SRCREV = "78d3c39db6f3f7977b466305110faa8ca5f74ec8"
- SRC_URI = "git://git.kernel.org/pub/scm/network/connman/connman-gnome.git;protocol=git \
--           file://3g.patch"
-+           file://3g.patch \
-+           file://security-type.patch"
- 
- S = "${WORKDIR}/git"
- 
 -- 
-1.7.1
-
+Sebastian Krzyszkowiak
+dos
 
 
