@@ -1,33 +1,39 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from fly.rz.hs-augsburg.de ([141.82.25.25])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Qyicc-0005im-0E
+	(envelope-from <michael.morscher@hs-augsburg.de>) id 1QykpT-0002K7-DO
 	for openembedded-core@lists.openembedded.org;
-	Wed, 31 Aug 2011 13:06:18 +0200
-Received: by wyf19 with SMTP id 19so398684wyf.6
+	Wed, 31 Aug 2011 15:27:43 +0200
+Received: from [127.0.0.1] (ppp-188-174-6-202.dynamic.mnet-online.de
+	[188.174.6.202]) (authenticated bits=0)
+	by fly.RZ.HS-Augsburg.DE (8.14.3/8.14.3) with ESMTP id p7VDGBWe005900
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Aug 2011 04:01:21 -0700 (PDT)
-Received: by 10.216.172.132 with SMTP id t4mr278706wel.14.1314788481167;
-	Wed, 31 Aug 2011 04:01:21 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id j61sm2542427wed.15.2011.08.31.04.01.18
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 31 Aug 2011 04:01:19 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1314696118.5939.301.camel@rex>
-Date: Wed, 31 Aug 2011 13:01:18 +0200
-Message-Id: <A2ADCB8A-76B1-415F-8CCC-598D4CE50E2D@dominion.thruhere.net>
-References: <1314694703-22310-1-git-send-email-koen@dominion.thruhere.net>
-	<1314696118.5939.301.camel@rex>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.1244.3)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] package ipk bbclass: store build branch and revision in ipkg metadata
+	Wed, 31 Aug 2011 15:16:12 +0200 (MEST)
+Message-ID: <4E5E3418.3000304@hs-augsburg.de>
+Date: Wed, 31 Aug 2011 15:16:08 +0200
+From: Michael Morscher <michael.morscher@hs-augsburg.de>
+Organization: HS Augsburg
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:6.0) Gecko/20110812 Thunderbird/6.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <1314747825.5939.449.camel@rex>
+In-Reply-To: <1314747825.5939.449.camel@rex>
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.0
+	(fly.RZ.HS-Augsburg.DE [141.82.16.16]);
+	Wed, 31 Aug 2011 15:16:12 +0200 (MEST)
+X-HSA-RZ-MailScanner-Information: Please contact the ISP for more information
+X-HSA-RZ-MailScanner-ID: p7VDGBWe005900
+X-HSA-RZ-MailScanner: Found to be clean
+X-HSA-RZ-MailScanner-From: michael.morscher@hs-augsburg.de
+X-HSA-RZ-MailScanner-Watermark: 1315401373.1214@PExK2q60D20Ct9znuKovfQ
+X-Spam-Status: No
+Subject: Re: [PATCH] gdb: upgrade from 7.3 to 7.3a
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: michael.morscher@hs-augsburg.de,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -38,96 +44,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Aug 2011 11:06:18 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 31 Aug 2011 13:27:44 -0000
+Content-Type: text/plain; charset=ISO-8859-15; format=flowed
+Content-Transfer-Encoding: 7bit
+
+Hey Richard,
+
+Thanks for your patch for gdb, but gdb-cross-canadian is also broken:
+
+Log data follows:
+| NOTE: Applying patch 'no-werror.patch' 
+(../meta/recipes-devtools/gdb/gdb/no-werror.patch)
+| ERROR: Error executing a python function in 
+/build/oe-core/meta/recipes-devtools/gdb/gdb-cross-canadian_7.3a.bb:
+| CmdError: Command Error: exit status: 1  Output:
+| Applying patch no-werror.patch
+| patching file bfd/warning.m4
+| Hunk #1 FAILED at 23.
+| 1 out of 1 hunk FAILED -- rejects in file bfd/warning.m4
+| patching file configure.ac
+| Hunk #1 FAILED at 3371.
+| 1 out of 1 hunk FAILED -- rejects in file configure.ac
+| patching file gdb/Makefile.in
+| Hunk #1 FAILED at 151.
+| 1 out of 1 hunk FAILED -- rejects in file gdb/Makefile.in
+| patching file gdb/configure.ac
+| Hunk #1 FAILED at 1525.
+| Hunk #2 FAILED at 1587.
+| 2 out of 2 hunks FAILED -- rejects in file gdb/configure.ac
+| Patch no-werror.patch does not apply (enforce with -f)
+|
+| ERROR: The stack trace of python calls that resulted in this 
+exception/failure was:
+| ERROR:   File "patch_do_patch", line 136, in <module>
+| ERROR:
+| ERROR:   File "patch_do_patch", line 133, in patch_do_patch
+| ERROR:
+| ERROR:   File "/build/oe-core/meta/lib/oe/patch.py", line 338, in Resolve
+| ERROR:     raise sys.exc_value
+| ERROR:
+| ERROR: The code that was being executed was:
+| ERROR:      0132:                     raise 
+bb.build.FuncFailed(str(sys.exc_value))
+| ERROR:      0133:             resolver.Resolve()
+| ERROR:      0134:
+| ERROR:      0135:
+| ERROR:  *** 0136:patch_do_patch(d)
+| ERROR:      0137:
+| ERROR: (file: 'patch_do_patch', lineno: 136, function: <module>)
+| ERROR:      0129:                     patchset.Import({"file":local, 
+"remote":url, "strippath": striplevel}, True)
+| ERROR:      0130:             except Exception:
+| ERROR:      0131:                     import sys
+| ERROR:      0132:                     raise 
+bb.build.FuncFailed(str(sys.exc_value))
+| ERROR:  *** 0133:             resolver.Resolve()
+| ERROR:      0134:
+| ERROR:      0135:
+| ERROR:      0136:patch_do_patch(d)
+| ERROR:      0137:
+| ERROR: (file: 'patch_do_patch', lineno: 133, function: patch_do_patch)
+| ERROR: Function 'patch_do_patch' failed
+NOTE: package gdb-cross-canadian-arm-7.3a-r4.0: task do_patch: Failed
 
 
-Op 30 aug. 2011, om 11:21 heeft Richard Purdie het volgende geschreven:
+Bye
 
-> On Tue, 2011-08-30 at 10:58 +0200, Koen Kooi wrote:
->> The ipkg metadata will look like this now:
->>=20
->>    koen@dominion:/OE/angstrom-dev/deploy/glibc$ dpkg-deb -I =
-ipk/am3517-evm/matrix-gui_1.3-r19.0.6_am3517-evm.ipk
->>     new debian package, version 2.0.
->>     size 24112 bytes: control archive=3D 540 bytes.
->>         629 bytes,    13 lines      control
->>     Package: matrix-gui
->>     Version: 1.3-r19.0.6
->>     Description: Matrix GUI for Qt X11
->>     Section: multimedia
->>     Priority: optional
->>     Maintainer: Angstrom Developers =
-<angstrom-distro-devel@linuxtogo.org>
->>     License: BSD
->>     Architecture: am3517-evm
->>     OE: matrix-gui
->>     Homepage: https://gforge.ti.com/gf/project/matrix_gui/
->>     Build: org.openembedded.dev/f35ab2d
->>     Depends: matrix-gui-common, libpng12-0, libfreetype6, libz1, =
-libgthread-2.0-0, libqtwebkit4, libphonon4, libqtdbus4, libqtxml4, =
-libqtgui4, libqtnetwork4, libqtcore4, libglib-2.0-0, libc6, libstdc++6, =
-libgcc1
->>     Source: =
-svn://gforge.ti.com/svn/matrix_gui/;module=3Dtrunk;proto=3Dhttps;user=3Dan=
-onymous;pswd=3D''
->>    koen@dominion:/OE/angstrom-dev/deploy/glibc$
->>=20
->>    Signed-off-by: Koen Kooi <koen@openembedded.org>
->>    Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
->>    Acked-by: Chase Maupin <chase.maupin@ti.com>
->>=20
->> [Ported from .dev/6ae45bbf2b5ca9e4fd7e8b04e461f0bf120dd44d]
->> ---
->> meta/classes/package_ipk.bbclass |    1 +
->> 1 files changed, 1 insertions(+), 0 deletions(-)
->>=20
->> diff --git a/meta/classes/package_ipk.bbclass =
-b/meta/classes/package_ipk.bbclass
->> index e83aff8..63d7f18 100644
->> --- a/meta/classes/package_ipk.bbclass
->> +++ b/meta/classes/package_ipk.bbclass
->> @@ -303,6 +303,7 @@ python do_package_ipk () {
->> 		fields.append(["Architecture: %s\n", ['PACKAGE_ARCH']])
->> 		fields.append(["OE: %s\n", ['PN']])
->> 		fields.append(["Homepage: %s\n", ['HOMEPAGE']])
->> +		fields.append(["Build: %s/%s\n", ['METADATA_BRANCH', =
-'METADATA_REVISION']])
->>=20
->> 		def pullData(l, d):
->> 			l2 =3D []
->=20
-> How does this cope with our multiple branches and revisions for
-> different layers? I worry about this being confusing :/
-
-So you're looking for volunteers to turn
-
-        layers =3D (data.getVar("BBLAYERS", e.data, 1) or "").split()
-        layers_branch_rev =3D ["%-17s =3D \"%s:%s\"" % =
-(os.path.basename(i), \
-            base_get_metadata_git_branch(i, None).strip(), \
-            base_get_metadata_git_revision(i, None)) \
-                for i in layers]
-        i =3D len(layers_branch_rev)-1
-        p1 =3D layers_branch_rev[i].find("=3D")
-        s1=3D layers_branch_rev[i][p1:]
-        while i > 0:
-            p2 =3D layers_branch_rev[i-1].find("=3D")
-            s2=3D layers_branch_rev[i-1][p2:]
-            if s1 =3D=3D s2:
-                layers_branch_rev[i-1] =3D layers_branch_rev[i-1][0:p2]
-                i -=3D 1
-            else:
-                i -=3D 1
-                p1 =3D layers_branch_rev[i].find("=3D")
-                s1=3D layers_branch_rev[i][p1:]
-
-into something valid for dpkg and rpm fields, right? If so, any =
-volunteers?
-
-regards,
-
-Koen=
 
 
