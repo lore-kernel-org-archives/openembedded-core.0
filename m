@@ -1,30 +1,29 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QyiAl-0004uL-0E for openembedded-core@lists.openembedded.org;
-	Wed, 31 Aug 2011 12:37:31 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7VAWbtx008054
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1Qyicc-0005im-0E
+	for openembedded-core@lists.openembedded.org;
+	Wed, 31 Aug 2011 13:06:18 +0200
+Received: by wyf19 with SMTP id 19so398684wyf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Aug 2011 11:32:37 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 06951-08 for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Aug 2011 11:32:33 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7VAWRGD008048
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Aug 2011 11:32:31 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 31 Aug 2011 11:32:13 +0100
-Message-ID: <1314786733.5939.454.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] intltool: Fix perl paths
+	Wed, 31 Aug 2011 04:01:21 -0700 (PDT)
+Received: by 10.216.172.132 with SMTP id t4mr278706wel.14.1314788481167;
+	Wed, 31 Aug 2011 04:01:21 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id j61sm2542427wed.15.2011.08.31.04.01.18
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 31 Aug 2011 04:01:19 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1314696118.5939.301.camel@rex>
+Date: Wed, 31 Aug 2011 13:01:18 +0200
+Message-Id: <A2ADCB8A-76B1-415F-8CCC-598D4CE50E2D@dominion.thruhere.net>
+References: <1314694703-22310-1-git-send-email-koen@dominion.thruhere.net>
+	<1314696118.5939.301.camel@rex>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.1244.3)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] package ipk bbclass: store build branch and revision in ipkg metadata
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,97 +38,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Aug 2011 10:37:31 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-Currently in the native case we have a path that can easily exceed the
-interpretor limit so use "env nativeperl" in that case.
-
-This patch also fixes up the target version's interpretor path but
-to do this we need to bypass the configure checks.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-devtools/intltool/intltool-0.40.6/noperlcheck.patch b/meta/recipes-devtools/intltool/intltool-0.40.6/noperlcheck.patch
-new file mode 100644
-index 0000000..3d8b591
---- a/dev/null
-+++ b/meta/recipes-devtools/intltool/intltool-0.40.6/noperlcheck.patch
-@@ -0,0 +1,40 @@
-+In the target case, we can't check if perl exists or try running it. If we
-+don't patch the code, the native perl location would be used, not the target
-+which is also incorrect. We therefore disable this code and rely on the 
-+correct value of PERL being passed in.
-+
-+RP 31/8/2011
-+
-+Upstream-Status: Inappropriate [OE specific]
-+
-+Index: intltool-0.40.6/configure.in
-+===================================================================
-+--- intltool-0.40.6.orig/configure.in	2011-08-31 11:21:13.061160535 +0100
-++++ intltool-0.40.6/configure.in	2011-08-31 11:22:44.991160885 +0100
-+@@ -9,24 +9,10 @@
-+ aclocaldir='${datadir}'/aclocal
-+ AC_SUBST(aclocaldir)
-+ 
-+-AC_PATH_PROG(PERL, perl)
-+ if test -z "$PERL"; then
-+-   AC_MSG_ERROR([perl not found])
-+-fi
-+-AC_MSG_CHECKING([for perl >= 5.8.1])
-+-$PERL -e "use 5.8.1;" > /dev/null 2>&1
-+-if test $? -ne 0; then
-+-   AC_MSG_ERROR([perl 5.8.1 is required for intltool])
-+-else
-+-   PERL_VERSION="`$PERL -e \"printf '%vd', $^V\"`"
-+-   AC_MSG_RESULT([$PERL_VERSION])
-+-fi
-+-AC_MSG_CHECKING([for XML::Parser])
-+-if `$PERL -e "require XML::Parser" 2>/dev/null`; then
-+-   AC_MSG_RESULT([ok])
-+-else
-+-   AC_MSG_ERROR([XML::Parser perl module is required for intltool])
-++   AC_MSG_ERROR([PERL variable not set])
-+ fi
-++AC_SUBST(PERL)
-+ 
-+ AC_OUTPUT([
-+ Makefile
-diff --git a/meta/recipes-devtools/intltool/intltool.inc b/meta/recipes-devtools/intltool/intltool.inc
-index 7e11fc9..8d4bec5 100644
---- a/meta/recipes-devtools/intltool/intltool.inc
-+++ b/meta/recipes-devtools/intltool/intltool.inc
-@@ -13,4 +13,7 @@ RRECOMMENDS_${PN}_virtclass-native = ""
- 
- inherit autotools pkgconfig perlnative
- 
-+export PERL = "${bindir}/env perl"
-+PERL_virtclass-native = "/usr/bin/env nativeperl"
-+
- BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-devtools/intltool/intltool_0.40.6.bb b/meta/recipes-devtools/intltool/intltool_0.40.6.bb
-index 931122d..e9871fc 100644
---- a/meta/recipes-devtools/intltool/intltool_0.40.6.bb
-+++ b/meta/recipes-devtools/intltool/intltool_0.40.6.bb
-@@ -1,13 +1,13 @@
- require intltool.inc
- LICENSE="GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
--PR = "r4"
-+PR = "r5"
- 
- SRC_URI_append = " file://intltool-nowarn-0.40.0.patch \
-                    ${NATIVEPATCHES} \
-                  "
- 
--NATIVEPATCHES = ""
-+NATIVEPATCHES = "file://noperlcheck.patch"
- NATIVEPATCHES_virtclass-native = "file://use-nativeperl.patch"
- 
- SRC_URI[md5sum] = "69bc0353323112f42ad4f9cf351bc3e5"
+X-List-Received-Date: Wed, 31 Aug 2011 11:06:18 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
+Op 30 aug. 2011, om 11:21 heeft Richard Purdie het volgende geschreven:
+
+> On Tue, 2011-08-30 at 10:58 +0200, Koen Kooi wrote:
+>> The ipkg metadata will look like this now:
+>>=20
+>>    koen@dominion:/OE/angstrom-dev/deploy/glibc$ dpkg-deb -I =
+ipk/am3517-evm/matrix-gui_1.3-r19.0.6_am3517-evm.ipk
+>>     new debian package, version 2.0.
+>>     size 24112 bytes: control archive=3D 540 bytes.
+>>         629 bytes,    13 lines      control
+>>     Package: matrix-gui
+>>     Version: 1.3-r19.0.6
+>>     Description: Matrix GUI for Qt X11
+>>     Section: multimedia
+>>     Priority: optional
+>>     Maintainer: Angstrom Developers =
+<angstrom-distro-devel@linuxtogo.org>
+>>     License: BSD
+>>     Architecture: am3517-evm
+>>     OE: matrix-gui
+>>     Homepage: https://gforge.ti.com/gf/project/matrix_gui/
+>>     Build: org.openembedded.dev/f35ab2d
+>>     Depends: matrix-gui-common, libpng12-0, libfreetype6, libz1, =
+libgthread-2.0-0, libqtwebkit4, libphonon4, libqtdbus4, libqtxml4, =
+libqtgui4, libqtnetwork4, libqtcore4, libglib-2.0-0, libc6, libstdc++6, =
+libgcc1
+>>     Source: =
+svn://gforge.ti.com/svn/matrix_gui/;module=3Dtrunk;proto=3Dhttps;user=3Dan=
+onymous;pswd=3D''
+>>    koen@dominion:/OE/angstrom-dev/deploy/glibc$
+>>=20
+>>    Signed-off-by: Koen Kooi <koen@openembedded.org>
+>>    Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
+>>    Acked-by: Chase Maupin <chase.maupin@ti.com>
+>>=20
+>> [Ported from .dev/6ae45bbf2b5ca9e4fd7e8b04e461f0bf120dd44d]
+>> ---
+>> meta/classes/package_ipk.bbclass |    1 +
+>> 1 files changed, 1 insertions(+), 0 deletions(-)
+>>=20
+>> diff --git a/meta/classes/package_ipk.bbclass =
+b/meta/classes/package_ipk.bbclass
+>> index e83aff8..63d7f18 100644
+>> --- a/meta/classes/package_ipk.bbclass
+>> +++ b/meta/classes/package_ipk.bbclass
+>> @@ -303,6 +303,7 @@ python do_package_ipk () {
+>> 		fields.append(["Architecture: %s\n", ['PACKAGE_ARCH']])
+>> 		fields.append(["OE: %s\n", ['PN']])
+>> 		fields.append(["Homepage: %s\n", ['HOMEPAGE']])
+>> +		fields.append(["Build: %s/%s\n", ['METADATA_BRANCH', =
+'METADATA_REVISION']])
+>>=20
+>> 		def pullData(l, d):
+>> 			l2 =3D []
+>=20
+> How does this cope with our multiple branches and revisions for
+> different layers? I worry about this being confusing :/
+
+So you're looking for volunteers to turn
+
+        layers =3D (data.getVar("BBLAYERS", e.data, 1) or "").split()
+        layers_branch_rev =3D ["%-17s =3D \"%s:%s\"" % =
+(os.path.basename(i), \
+            base_get_metadata_git_branch(i, None).strip(), \
+            base_get_metadata_git_revision(i, None)) \
+                for i in layers]
+        i =3D len(layers_branch_rev)-1
+        p1 =3D layers_branch_rev[i].find("=3D")
+        s1=3D layers_branch_rev[i][p1:]
+        while i > 0:
+            p2 =3D layers_branch_rev[i-1].find("=3D")
+            s2=3D layers_branch_rev[i-1][p2:]
+            if s1 =3D=3D s2:
+                layers_branch_rev[i-1] =3D layers_branch_rev[i-1][0:p2]
+                i -=3D 1
+            else:
+                i -=3D 1
+                p1 =3D layers_branch_rev[i].find("=3D")
+                s1=3D layers_branch_rev[i][p1:]
+
+into something valid for dpkg and rpm fields, right? If so, any =
+volunteers?
+
+regards,
+
+Koen=
 
 
