@@ -1,24 +1,27 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qyzoy-0002jo-LM
+	(envelope-from <koen@dominion.thruhere.net>) id 1Qz1cY-0006h3-GM
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Sep 2011 07:28:12 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 31 Aug 2011 22:23:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,310,1312182000"; d="scan'208";a="44570442"
-Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.3])
-	by azsmga001.ch.intel.com with ESMTP; 31 Aug 2011 22:23:13 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 31 Aug 2011 22:23:11 -0700
-Message-Id: <b00c865e7d539717a3f895fc665d2270666f349b.1314854414.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.6
+	Thu, 01 Sep 2011 09:23:30 +0200
+Received: by wwe32 with SMTP id 32so1273793wwe.24
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 01 Sep 2011 00:18:35 -0700 (PDT)
+Received: by 10.227.178.131 with SMTP id bm3mr1171384wbb.85.1314861514845;
+	Thu, 01 Sep 2011 00:18:34 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id et16sm260280wbb.2.2011.09.01.00.18.33
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 01 Sep 2011 00:18:33 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
 In-Reply-To: <cover.1314854414.git.sgw@linux.intel.com>
+Date: Thu, 1 Sep 2011 09:18:31 +0200
+Message-Id: <95EF12C0-BBBD-4F4B-8418-C8BF3D0E0219@dominion.thruhere.net>
 References: <cover.1314854414.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1314854414.git.sgw@linux.intel.com>
-References: <cover.1314854414.git.sgw@linux.intel.com>
-Subject: [PATCH 3/3] tzcode: Update to 2011i
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1244.3)
+Subject: Re: [PATCH 0/3] Sato recipes and tzcode/tzdata update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,61 +36,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Sep 2011 05:28:13 -0000
+X-List-Received-Date: Thu, 01 Sep 2011 07:23:30 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- ...code-native_2011g.bb => tzcode-native_2011i.bb} |   10 +++++-----
- .../tzdata/{tzdata_2011h.bb => tzdata_2011i.bb}    |    4 ++--
- 2 files changed, 7 insertions(+), 7 deletions(-)
- rename meta/recipes-extended/tzcode/{tzcode-native_2011g.bb => tzcode-native_2011i.bb} (56%)
- rename meta/recipes-extended/tzdata/{tzdata_2011h.bb => tzdata_2011i.bb} (97%)
 
-diff --git a/meta/recipes-extended/tzcode/tzcode-native_2011g.bb b/meta/recipes-extended/tzcode/tzcode-native_2011i.bb
-similarity index 56%
-rename from meta/recipes-extended/tzcode/tzcode-native_2011g.bb
-rename to meta/recipes-extended/tzcode/tzcode-native_2011i.bb
-index c4ed0ec..0cdf400 100644
---- a/meta/recipes-extended/tzcode/tzcode-native_2011g.bb
-+++ b/meta/recipes-extended/tzcode/tzcode-native_2011i.bb
-@@ -5,12 +5,12 @@ PR = "r0"
- LIC_FILES_CHKSUM = "file://${WORKDIR}/README;md5=3ae8198f82258417ce29066d3b034035"
- 
- SRC_URI = "ftp://elsie.nci.nih.gov/pub/tzcode${PV}.tar.gz;name=tzcode \
--           ftp://elsie.nci.nih.gov/pub/tzdata2011h.tar.gz;name=tzdata"
-+           ftp://elsie.nci.nih.gov/pub/tzdata2011i.tar.gz;name=tzdata"
- 
--SRC_URI[tzcode.md5sum] = "ecb564279b28c5b184421c525d997d6c"
--SRC_URI[tzcode.sha256sum] = "636c735d8df1276cc8ab88bc31bb36a21f91ed34e26d181303ecd8fe48021bc2"
--SRC_URI[tzdata.md5sum] = "546d27b6c1e5e1097bd512651815017f"
--SRC_URI[tzdata.sha256sum] = "c098786d053736dd18d4f1fbebdf41554c6fd702a36f75c18f1c66712d2abc24"
-+SRC_URI[tzcode.md5sum] = "cf7f4335b7c8682899fa2814e711c1b2"
-+SRC_URI[tzcode.sha256sum] = "f0dd991de3f8d6c599c104e294377c9befa1ef40aa5a1d09e2e295a453f3c1ec"
-+SRC_URI[tzdata.md5sum] = "c7a86ec34f30f8d6aa77ef94902a3047"
-+SRC_URI[tzdata.sha256sum] = "f8dde7ca5e61f21ac34c8cdbef5568d00c829981211098f059d8104964c81ffa"
- 
- S = "${WORKDIR}"
- 
-diff --git a/meta/recipes-extended/tzdata/tzdata_2011h.bb b/meta/recipes-extended/tzdata/tzdata_2011i.bb
-similarity index 97%
-rename from meta/recipes-extended/tzdata/tzdata_2011h.bb
-rename to meta/recipes-extended/tzdata/tzdata_2011i.bb
-index 284cc5c..f507b7e 100644
---- a/meta/recipes-extended/tzdata/tzdata_2011h.bb
-+++ b/meta/recipes-extended/tzdata/tzdata_2011i.bb
-@@ -14,8 +14,8 @@ RCONFLICTS= "timezones timezone-africa timezone-america timezone-antarctica \
- 
- SRC_URI = "ftp://elsie.nci.nih.gov/pub/tzdata${PV}.tar.gz;name=tzdata"
- 
--SRC_URI[tzdata.md5sum] = "546d27b6c1e5e1097bd512651815017f"
--SRC_URI[tzdata.sha256sum] = "c098786d053736dd18d4f1fbebdf41554c6fd702a36f75c18f1c66712d2abc24"
-+SRC_URI[tzdata.md5sum] = "c7a86ec34f30f8d6aa77ef94902a3047"
-+SRC_URI[tzdata.sha256sum] = "f8dde7ca5e61f21ac34c8cdbef5568d00c829981211098f059d8104964c81ffa"
- 
- S = "${WORKDIR}"
- 
--- 
-1.7.6
+Op 1 sep. 2011, om 07:23 heeft Saul Wold het volgende geschreven:
 
+> Richard,
+>=20
+> This set of patches convertes the Sato recipes from SVN O-hand server
+> to yoctoproject git servers.  Since we converted to git, I needed to =
+bump
+> some recipes PR to ensure they got the correct versioning (svnr vs =
+git).
+
+
+Note that 0.0+s* > 0.0+g* so you'd need to bump PE as well to ensure =
+upgrade paths.
+
+regards,
+
+Koen=
 
 
