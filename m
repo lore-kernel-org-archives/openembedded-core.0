@@ -1,27 +1,20 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Qz1cY-0006h3-GM
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Qz5dv-0005zd-CR
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Sep 2011 09:23:30 +0200
-Received: by wwe32 with SMTP id 32so1273793wwe.24
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Sep 2011 00:18:35 -0700 (PDT)
-Received: by 10.227.178.131 with SMTP id bm3mr1171384wbb.85.1314861514845;
-	Thu, 01 Sep 2011 00:18:34 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id et16sm260280wbb.2.2011.09.01.00.18.33
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 01 Sep 2011 00:18:33 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <cover.1314854414.git.sgw@linux.intel.com>
-Date: Thu, 1 Sep 2011 09:18:31 +0200
-Message-Id: <95EF12C0-BBBD-4F4B-8418-C8BF3D0E0219@dominion.thruhere.net>
-References: <cover.1314854414.git.sgw@linux.intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1244.3)
-Subject: Re: [PATCH 0/3] Sato recipes and tzcode/tzdata update
+	Thu, 01 Sep 2011 13:41:11 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 01 Sep 2011 04:36:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,313,1312182000"; d="scan'208";a="47509937"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.255.18.57])
+	by fmsmga002.fm.intel.com with ESMTP; 01 Sep 2011 04:36:14 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Sep 2011 12:36:11 +0100
+Message-Id: <cover.1314876902.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 0/1] Minor fix for SANITY_TESTED_DISTROS feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,27 +29,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Sep 2011 07:23:30 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 01 Sep 2011 11:41:11 -0000
 
+The following changes since commit bf9e9961ec4e7b2d10f25b550b902df62b3939b1:
 
-Op 1 sep. 2011, om 07:23 heeft Saul Wold het volgende geschreven:
+  Fix powerpc term and provide more template for different arches (2011-08-31 20:10:14 +0100)
 
-> Richard,
->=20
-> This set of patches convertes the Sato recipes from SVN O-hand server
-> to yoctoproject git servers.  Since we converted to git, I needed to =
-bump
-> some recipes PR to ensure they got the correct versioning (svnr vs =
-git).
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/tested-distro-fix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/tested-distro-fix
 
+Paul Eggleton (1):
+  sanity.bbclass: fix splitting on newlines of SANITY_TESTED_DISTROS
 
-Note that 0.0+s* > 0.0+g* so you'd need to bump PE as well to ensure =
-upgrade paths.
+ meta/classes/sanity.bbclass |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-regards,
+-- 
+1.7.4.1
 
-Koen=
 
 
