@@ -1,30 +1,28 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QzB5S-0004d1-D0
+	(envelope-from <philb@gnu.org>) id 1QzDGn-00011H-GU
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Sep 2011 19:29:58 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p81HP1qB006905
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Sep 2011 10:25:01 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Thu, 1 Sep 2011 10:25:01 -0700
-Message-ID: <4E5FBFEC.3060406@windriver.com>
-Date: Thu, 1 Sep 2011 12:25:00 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:6.0.1) Gecko/20110830 Thunderbird/6.0.1
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
+	Thu, 01 Sep 2011 21:49:49 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QzDC3-0006iS-Rn
+	for openembedded-core@lists.openembedded.org;
+	Thu, 01 Sep 2011 21:44:55 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <4E5FBFEC.3060406@windriver.com>
 References: <cover.1306865217.git.scott.a.garman@intel.com>
 	<7826575ce92090c4460c7d016e0b06441f84cff7.1306865217.git.scott.a.garman@intel.com>
 	<1314895291.19905.197.camel@phil-desktop>
 	<4E5FB8AC.1070007@windriver.com>
 	<1314896288.19905.199.camel@phil-desktop>
-In-Reply-To: <1314896288.19905.199.camel@phil-desktop>
+	<4E5FBFEC.3060406@windriver.com>
+Date: Thu, 01 Sep 2011 20:44:49 +0100
+Message-ID: <1314906289.2958.7.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.3 
 Subject: Re: [PATCH 2/7] shadow: add a -native recipe with customized utilities
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -40,50 +38,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Sep 2011 17:29:58 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Thu, 01 Sep 2011 19:49:49 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 9/1/11 11:58 AM, Phil Blundell wrote:
-> On Thu, 2011-09-01 at 11:54 -0500, Mark Hatle wrote:
->> What is it depending on for the target?  Is the shadow-utils or something now
->> required?  That doesn't seem to make sense to me -- other then we need a
->> passwd/group/shadow/gshadow file to work with.  As long as something can provide
->> those, we should be ok.
+On Thu, 2011-09-01 at 12:25 -0500, Mark Hatle wrote:
+> On 9/1/11 11:58 AM, Phil Blundell wrote:
+> > And, I guess, if you want to support online package management then it
+> > does make some sense to have the shadow utils there.  But I don't
+> > need/want that in my configuration.
 > 
-> I haven't investigated in detail, but the code from useradd.bbclass
-> says:
-> 
-> # base-passwd-cross provides the default passwd and group files in the
-> # target sysroot, and shadow -native and -sysroot provide the utilities
-> # and support files needed to add and modify user and group accounts
-> DEPENDS_append = " base-passwd shadow-native shadow-sysroot"
-> RDEPENDS_${USERADDPN}_append = " base-passwd shadow"
+> Does busybox or something else provide a compatible adduser?  If so maybe a
+> virtual RDEPENDS is more reasonable in this case.
 
-Hmm, good point... I'd forgotten about that.
+I'm not sure offhand (it's actually useradd, not adduser, for what
+that's worth) but, even if busybox does provide those applets, that
+probably isn't quite the point.  The issue here is that I don't really
+want to have any implementation of useradd at all on the target system;
+using one from busybox would be a bit less bad than requiring standalone
+shadow, but still not really ideal.
 
-> And, I guess, if you want to support online package management then it
-> does make some sense to have the shadow utils there.  But I don't
-> need/want that in my configuration.
+One workaround would be to weaken the RDEPENDS to an RRECOMMENDS, which
+would allow me to declare it as a BAD_RECOMMENDATION.  Or I guess we
+could make it be a virtual and I could then provide a dummy-useradd
+package which satisfies the dependency but doesn't actually install any
+files.  
 
-Does busybox or something else provide a compatible adduser?  If so maybe a
-virtual RDEPENDS is more reasonable in this case.
+The approach we take with update-rc.d is to let it be installed and then
+have rootfs_ipk rip it back out again after image construction is done,
+but this won't work with shadow as it stands due to the postinst issue
+in that package.  So a third option would be to find a way to finesse
+the postinst thing somehow and then use the same rootfs_ipk logic with
+shadow too.
 
-I think we're caught in the case of we build packages.. as such we need to cover
-what the package needs at runtime, this includes install time.  At least w/ a
-virtual depend, we can likely fake it by providing it by something else.. but
-I'm not sure..
+None of those really sound very appealing.  Anybody have a better idea?
 
---Mark
+p.
 
-> p.
-> 
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
