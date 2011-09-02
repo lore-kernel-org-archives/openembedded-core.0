@@ -1,23 +1,23 @@
 Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX1+LkbU0cI06TYpApSZnRN+TN4IbmekqmtI=])
+	ident=[U2FsdGVkX19diUkRJruaZz3zaojvdZNU6OGLtL/ffjE=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1QzUsB-0000Ua-4G
+	(envelope-from <galak@kernel.crashing.org>) id 1QzUsG-0000VX-7n
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Sep 2011 16:37:35 +0200
+	Fri, 02 Sep 2011 16:37:40 +0200
 Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p82EVlYL022090
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 2 Sep 2011 09:32:38 -0500
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p82EVlYK022090;
+	Fri, 2 Sep 2011 09:32:10 -0500
 Mime-Version: 1.0 (Apple Message framework v1084)
 From: Kumar Gala <galak@kernel.crashing.org>
-In-Reply-To: <5755C992-C736-4714-9DE3-761E3E74C6F8@kernel.crashing.org>
-Date: Fri, 2 Sep 2011 09:32:37 -0500
-Message-Id: <2E905612-1500-4061-B4DF-76AF100F7ADA@kernel.crashing.org>
-References: <5755C992-C736-4714-9DE3-761E3E74C6F8@kernel.crashing.org>
+In-Reply-To: <BCA18FF8-8F94-4E3D-836A-D7B99830E4E6@kernel.crashing.org>
+Date: Fri, 2 Sep 2011 09:32:10 -0500
+Message-Id: <E7CE4DED-4050-4920-B1B8-B7D61C3D8223@kernel.crashing.org>
+References: <1311858624-3686-1-git-send-email-galak@kernel.crashing.org>
+	<BCA18FF8-8F94-4E3D-836A-D7B99830E4E6@kernel.crashing.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 X-Mailer: Apple Mail (2.1084)
-Subject: Re: Adding TARGET_VECTOR
+Subject: Re: [PATCH] scripts/oe-buildenv-internal: Add SOCKS5_{USER, PASSWD} to BB_ENV_EXTRAWHITE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,31 +32,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Sep 2011 14:37:35 -0000
+X-List-Received-Date: Fri, 02 Sep 2011 14:37:40 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-On Aug 25, 2011, at 9:35 AM, Kumar Gala wrote:
+On Aug 31, 2011, at 12:06 AM, Kumar Gala wrote:
 
-> We have some packages like flac that are aware of vectorization that =
-may or may not exist on a given processor.  I was wondering if adding =
-something like TARGET_VECTOR similar to TARGET_FPU made sense as a way =
-for recipes to decide on how to set various vectorization flags if =
-needed.
 >=20
-> I was looking at this mostly from the PPC side in which we have:
+> On Jul 28, 2011, at 8:10 AM, Kumar Gala wrote:
 >=20
-> TARGET_VECTOR =3D "" /* processor has no vector hw */
-> TARGET_VECTOR =3D "altivec" /* processor has AltiVec support */
-> TARGET_VECTOR =3D "spe" /* processor has signal processing engine =
-support */
-> TARGET_VECTOR =3D "vsx" /* processor has Vector-Scalar Extension */
+>> If a SOCKS5 gateway is needed for a proxy access like git it might =
+also
+>> require authentication to the proxy via a password and username.  =
+Adding
+>> SOCKS5_USER & SOCKS5_PASSWD to BB_ENV_EXTRAWHITE allow for automation
+>> of the authentication request to occur when something like a git =
+fetch
+>> is going through the proxy.
+>>=20
+>> Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
+>> ---
+>> * Fixes issue with a git fetch request failing to get pass a firewall
+>>=20
+>> scripts/oe-buildenv-internal |    2 +-
+>> 1 files changed, 1 insertions(+), 1 deletions(-)
+>>=20
+>> diff --git a/scripts/oe-buildenv-internal =
+b/scripts/oe-buildenv-internal
+>> index c13fc40..b223292 100755
+>> --- a/scripts/oe-buildenv-internal
+>> +++ b/scripts/oe-buildenv-internal
+>> @@ -55,4 +55,4 @@ unset BITBAKEDIR
+>> export BUILDDIR
+>> export PATH
+>>=20
+>> -export BB_ENV_EXTRAWHITE=3D"MACHINE DISTRO TCMODE TCLIBC http_proxy =
+ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID =
+SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS =
+PARALLEL_MAKE GIT_PROXY_COMMAND"
+>> +export BB_ENV_EXTRAWHITE=3D"MACHINE DISTRO TCMODE TCLIBC http_proxy =
+ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID =
+SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS =
+PARALLEL_MAKE GIT_PROXY_COMMAND SOCKS5_PASSWD SOCSK5_USER"
+>> --=20
+>> 1.7.3.4
 >=20
-> Not sure what makes sense for x86, ARM, or MIPS.
+> Richard,
+>=20
+> I'm able reproduce this, with out my patch I get prompted for a socks =
+password, w/it having SOCKS5_PASSWD set in my environment the git clone =
+is able to succeed.
+>=20
+> So from our discussion a while back on IRC:
+>=20
+> Aug 11 10:54:20 <RP__>	galak: Well, it will but it will only =
+place it in the internal data store
+> Aug 11 10:54:42 <RP__>	galak: there isn't anything to say "also =
+export this from the data store into the environment that bitbake uses"
+>=20
+>> =46rom the way I read  bitbake/lib/bb/utils.py:
+>=20
+> def approved_variables():
+>    """
+>    Determine and return the list of whitelisted variables which are =
+approved
+>    to remain in the environment.
+>    """
+> ...
+>=20
+> [ this will add SOCKS5_PASSWD to the 'approved' list ]
+>=20
+> and
+>=20
+> def filter_environment(good_vars):
+>=20
+> [ will not skip unsetting it from the environment since its in the =
+'approved' list ]
+>=20
+> That seems to explain how this ends up working.
+>=20
+> So question is what else needs to be done to get this accepted ?
 
-Any comments on this?
+ping
 
-- k=
+- k
+
 
 
