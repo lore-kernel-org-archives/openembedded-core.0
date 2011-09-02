@@ -1,24 +1,37 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>)
-	id 1QzYrz-0000ZA-DX; Fri, 02 Sep 2011 20:53:39 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.3])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1QzYnE-0007Ca-P5; Fri, 02 Sep 2011 20:48:44 +0200
-From: Phil Blundell <philb@gnu.org>
-To: openembedded-devel@lists.openembedded.org
-In-Reply-To: <1314976910.3526.36.camel@mattotaupa>
-References: <1314962732.3526.32.camel@mattotaupa>
-	<CAP9ODKpMU3yr==7+qyBvTyW3ikoSXtZqurKwsCn3Nn_54E0k7Q@mail.gmail.com>
-	<1314969543.5939.586.camel@rex> <1314976910.3526.36.camel@mattotaupa>
-Date: Fri, 02 Sep 2011 19:48:38 +0100
-Message-ID: <1314989318.17121.11.camel@lenovo.internal.reciva.com>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.3 
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe] Please merge lists openembedded-devel and openembedded-core again.
+	(envelope-from <mark.hatle@windriver.com>) id 1QzZKK-0001Q0-U7
+	for openembedded-core@lists.openembedded.org;
+	Fri, 02 Sep 2011 21:22:57 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p82JHwDx024785
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 2 Sep 2011 12:17:58 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Fri, 2 Sep 2011 12:17:58 -0700
+Message-ID: <4E612BE5.1000900@windriver.com>
+Date: Fri, 2 Sep 2011 14:17:57 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:6.0.1) Gecko/20110830 Thunderbird/6.0.1
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1306865217.git.scott.a.garman@intel.com>
+	<7826575ce92090c4460c7d016e0b06441f84cff7.1306865217.git.scott.a.garman@intel.com>
+	<1314895291.19905.197.camel@phil-desktop>
+	<4E5FB8AC.1070007@windriver.com>
+	<1314896288.19905.199.camel@phil-desktop>
+	<4E5FBFEC.3060406@windriver.com>
+	<1314906289.2958.7.camel@lenovo.internal.reciva.com>
+	<1314914360.5939.574.camel@rex>
+	<1314957057.19905.224.camel@phil-desktop>
+	<1314972211.5939.604.camel@rex>
+	<1314989034.17121.8.camel@lenovo.internal.reciva.com>
+In-Reply-To: <1314989034.17121.8.camel@lenovo.internal.reciva.com>
+Subject: Re: [PATCH 2/7] shadow: add a -native recipe with customized utilities
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,26 +46,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Sep 2011 18:53:39 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 02 Sep 2011 19:22:57 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-09-02 at 17:21 +0200, Paul Menzel wrote:
-> Am Freitag, den 02.09.2011, 14:19 +0100 schrieb Richard Purdie:
-> > I do find the split useful...
+On 9/2/11 1:43 PM, Phil Blundell wrote:
+> On Fri, 2011-09-02 at 15:03 +0100, Richard Purdie wrote:
+>> Seriously, does opkg have the logic in it to run this stuff? If so
+>> perhaps we need to teach opkg about offline postinstalls since it should
+>> already know about dependencies?
 > 
-> Hmm, could you please elaborate?
+> Yeah, that might be a sensible plan.  I'm not entirely sure that opkg
+> even gets the maintainer script ordering right itself during normal
+> circumstances, but at least it does have a dependency graph so one could
+> imagine how it might be made to work correctly.  I'll have a poke at
+> opkg when I get a moment and see if I can figure out how much work would
+> be involved in that.
+> 
+> How do the RPM-using folks deal with this; does rpm handle everything
+> automatically?
 
-Not that I'm Richard, but I do find the split useful as well.
-Personally I am much less interested in the traffic on the oe-devel list
-and I often ignore that one; I've been somewhat tempted to just
-unsubscribe altogether since there doesn't appear to be all that much of
-value (to me) going on there.  Merging the two lists would make it
-harder for me to pick out the oe-core parts that I'm interested in and,
-from my point of view at least, it wouldn't bring any benefits.
+RPM uses the dependency mappings that have the pre and post tags on them..
+(Note, these are tags that we do not presently use in OE, as OE has no
+equivalent to them.)  Without the pre/post dependency tags it assumes the
+dependencies are met and can run through the scripts in an arbitrary order.
 
-p.
+(For package_rpm.bbclass, we install w/o scripts and then post-process
+everything to ensure the dependencies are there.. ordering is not guaranteed.)
 
+--Mark
+
+> p.
+> 
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
