@@ -1,24 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1QzPgV-0003UH-1d
+	(envelope-from <dongxiao.xu@intel.com>) id 1QzPgV-0003UF-7h
 	for openembedded-core@lists.openembedded.org;
 	Fri, 02 Sep 2011 11:05:11 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 02 Sep 2011 02:00:13 -0700
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 02 Sep 2011 02:00:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="44666369"
+X-IronPort-AV: E=Sophos;i="4.68,317,1312182000"; d="scan'208";a="13468045"
 Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by orsmga001.jf.intel.com with ESMTP; 02 Sep 2011 02:00:13 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 02 Sep 2011 02:00:15 -0700
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Sep 2011 17:03:35 +0800
-Message-Id: <bda5bcd76bebed29dafb85b0ee85a7fb7ffa735d.1314953755.git.dongxiao.xu@intel.com>
+Date: Fri,  2 Sep 2011 17:03:37 +0800
+Message-Id: <0a7bbc84eda7c0483b1dd1ae55679e1ed463ed39.1314953755.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1314953755.git.dongxiao.xu@intel.com>
 References: <cover.1314953755.git.dongxiao.xu@intel.com>
 In-Reply-To: <cover.1314953755.git.dongxiao.xu@intel.com>
 References: <cover.1314953755.git.dongxiao.xu@intel.com>
-Subject: [PATCH 2/5] rootfs_rpm: setting DEFAULTTUNE for multilib archs
+Subject: [PATCH 4/5] multilib: Using different sysroot for multilib recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,29 +35,39 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 02 Sep 2011 09:05:11 -0000
 
-To get the MULTILIB_PACKAGE_ARCHS, we need to get the corresponding
-DEFAULTTUNE value. This fixes the multilib arch directory missing issue
-in solvedb-ml_archs.conf.
+Thinking of the senario that, if we already built out a 64bit image
+along with the full toolchain bootstrapped, then we need to build some
+32bit libraries, which needs lib32 versions of gcc and eglibc. These
+toolchain recipes will bootstrap again in the same sysroot, resulting
+that lib32-gcc-cross-initial will find some macros owned by eglibc have
+already been defined and thus it includes non-existed headers that
+provided by later lib32-eglibc.
+
+The solution for the above issue is to use different sysroot for
+multilib recipes, here we add ${MLPREFIX} in front of the machine
+specific sysroot directory name.
+
+[YOCTO #1372]
 
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- meta/classes/rootfs_rpm.bbclass |    3 +++
+ meta/conf/multilib.conf |    3 +++
  1 files changed, 3 insertions(+), 0 deletions(-)
 
-diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-index 7f24b9c..135ca75 100644
---- a/meta/classes/rootfs_rpm.bbclass
-+++ b/meta/classes/rootfs_rpm.bbclass
-@@ -215,6 +215,9 @@ python () {
-         eext = ext.split(':')
-         if len(eext) > 1 and eext[0] == 'multilib':
-             localdata = bb.data.createCopy(d)
-+            default_tune = localdata.getVar("DEFAULTTUNE_virtclass-multilib-" + eext[1], False)
-+            if default_tune:
-+                localdata.setVar("DEFAULTTUNE", default_tune)
-             ml_package_archs += localdata.getVar("PACKAGE_ARCHS", True) or ""
-             #bb.note("ML_PACKAGE_ARCHS %s %s %s" % (eext[1], localdata.getVar("PACKAGE_ARCHS", True) or "(none)", overrides))
-     bb.data.setVar('MULTILIB_PACKAGE_ARCHS', ml_package_archs, d)
+diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
+index 9fca715..5329eda 100644
+--- a/meta/conf/multilib.conf
++++ b/meta/conf/multilib.conf
+@@ -6,6 +6,9 @@ MULTILIB_SAVE_VARNAME = "DEFAULTTUNE"
+ 
+ MULTILIBS ??= "multilib:lib32"
+ 
++STAGING_DIR_HOST = "${STAGING_DIR}/${MLPREFIX}${MACHINE}"
++STAGING_DIR_TARGET = "${STAGING_DIR}/${MLPREFIX}${MACHINE}"
++
+ BBCLASSEXTEND_append_pn-acl = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-alsa-lib = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-alsa-utils = " ${MULTILIBS}"
 -- 
 1.7.1
 
