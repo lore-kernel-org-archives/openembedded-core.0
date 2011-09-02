@@ -1,31 +1,25 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1QzQTX-0004ri-KO
+	(envelope-from <koen@beagleboard.org>) id 1QzRa8-0008Af-AD
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Sep 2011 11:55:51 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QzQOn-0006xZ-CQ
-	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Sep 2011 11:50:57 +0200
-From: Phil Blundell <philb@gnu.org>
+	Fri, 02 Sep 2011 13:06:44 +0200
+Received: by wwe32 with SMTP id 32so2258863wwe.24
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 02 Sep 2011 04:01:47 -0700 (PDT)
+Received: by 10.216.136.89 with SMTP id v67mr974336wei.18.1314961307709;
+	Fri, 02 Sep 2011 04:01:47 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id ft2sm1291625wbb.18.2011.09.02.04.01.46
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 02 Sep 2011 04:01:46 -0700 (PDT)
+From: Koen Kooi <koen@beagleboard.org>
+Date: Fri, 2 Sep 2011 13:01:44 +0200
+Message-Id: <79EAF6DF-304E-43B7-B97B-1FA6FFEBB91C@beagleboard.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 02 Sep 2011 10:50:56 +0100
-In-Reply-To: <1314914360.5939.574.camel@rex>
-References: <cover.1306865217.git.scott.a.garman@intel.com>
-	<7826575ce92090c4460c7d016e0b06441f84cff7.1306865217.git.scott.a.garman@intel.com>
-	<1314895291.19905.197.camel@phil-desktop>
-	<4E5FB8AC.1070007@windriver.com>
-	<1314896288.19905.199.camel@phil-desktop>
-	<4E5FBFEC.3060406@windriver.com>
-	<1314906289.2958.7.camel@lenovo.internal.reciva.com>
-	<1314914360.5939.574.camel@rex>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1314957057.19905.224.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: [PATCH 2/7] shadow: add a -native recipe with customized utilities
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+X-Mailer: Apple Mail (2.1244.3)
+Subject: [RFC] Layer rework proposal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,105 +34,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Sep 2011 09:55:51 -0000
-X-Groupsio-MsgNum: 9036
-Content-Type: multipart/mixed; boundary="=-SZY2jo/MKBu3SVsG0uLF"
+X-List-Received-Date: Fri, 02 Sep 2011 11:06:44 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
---=-SZY2jo/MKBu3SVsG0uLF
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Hi,
 
-On Thu, 2011-09-01 at 22:59 +0100, Richard Purdie wrote:
-> The latter sounds like what we'll need to do. I haven't looked at shadow
-> to see what kind of finessing is required though...
+This has come up in the past, but no one has had time to site down and =
+write a proposal yet.
 
-Fixing the immediate problem with shadow turned out to be rather
-straightforward, see attached.  However, with this done, I now encounter
-two new issues.
+Problem description: The OE-core layer has both too much in it and not =
+enough.
 
-1. the logic around $D in useradd.bbclass seems to be backwards to me
-(and, empirically, isn't working because the supposedly-created users
-are not showing up in my rootfs).  Specifically, it does:
+Currently OE-core is basically a relabeling of the poky fork of OE. Due =
+to that heritage is has bits in it that aren't considered 'core', but =
+serve as a testbed for the proper core metadata. The prime example of =
+this is the sato suite. To address this we will need to come up with =
+guidelines what goes into OE-core and what people expect to get out of =
+it. Here's a start:
 
-        useradd_preinst () {
-        OPT=""
-        SYSROOT=""
-        
-        if test "x$D" != "x"; then
-        	# Installing into a sysroot
-        	SYSROOT="${STAGING_DIR_TARGET}"
-        	OPT="--root ${STAGING_DIR_TARGET}"
-        
-        [...]
-        
-        useradd_sysroot () {
-        	export PSEUDO="${STAGING_DIR_NATIVE}/usr/bin/pseudo"
-        	export PSEUDO_LOCALSTATEDIR="${STAGING_DIR_TARGET}/var/pseudo"
-        
-        	# Explicitly set $D since it isn't set to anything
-        	# before do_install
-        	D=${D}
-        	useradd_preinst
-        }
+Highlevel goals:
 
-It looks to me as though the code in useradd_preinst() should be using
-SYSROOT="$D" (and likewise for OPT), and useradd_sysroot() should be
-setting D=${STAGING_DIR_TARGET}.  But maybe there is some clever thing
-going on here that I'm not properly understanding.
+	1) Have a high quality set of "core" metadata
+	2) OE-core needs to be useful on its own
+	3) OE-core needs to be testable on its own
 
-2. during rootfs construction, the script ordering is wrong.  All the
-preinsts run before all the postinsts, which has always been a bit wrong
-but hasn't caused too much of a problem in the past.  However,
-crucially, this means that the useradd_preinst() runs before
-base-passwd's postinst and hence /etc/passwd doesn't exist at the point
-where useradd tries to modify it.
+Concrete rootfs goals:
 
-I can't think of any reasonable fix for (2) other than to teach
-rootfs_ipk how to track package dependencies and run the scripts in the
-right order.  I guess that wouldn't be impossible by any means but
-trying to do it in a shell script is not a prospect that fills me with a
-lot of enthusiasm.  Any better suggestions?
+	a) be able to build for the 4 blessed architectures: arm, mips, =
+powerpc, x86
+	b) have multilib support
+	c) be able to build a rootfs that has:
+		o package management (rpm/deb/opkg)
+		o networking support (ifupdown/connman/dnsmasq)
+		o have remote access (dropbear/openssh)
+		o have user management (shadow/pam)
 
-p.
+I think it's safe to say that we all agree on that minimum set of goals. =
+ The tricky thing is where to put multimedia and GUI stuff. Qt and GTK =
+are important enough to get put in core, but where do we draw the line? =
+Where do we stop splitting things in recipes-* and start splitting them =
+into layers and should those layers live in seperate repositories?
+
+My list of non-BSP, non-distro layers is:
+
+BBLAYERS =3D " \
+  ${TOPDIR}/sources/meta-openembedded/meta-oe \
+  ${TOPDIR}/sources/meta-openembedded/meta-efl \
+  ${TOPDIR}/sources/meta-openembedded/meta-gpe \
+  ${TOPDIR}/sources/meta-openembedded/meta-gnome \
+  ${TOPDIR}/sources/meta-openembedded/meta-xfce \
+  ${TOPDIR}/sources/openembedded-core/meta \
+  "
+
+The gpe, gnome and xfce layers need things like glib-2.0 and gtk, but =
+there's a larger overlay between the 3, so gpe and xfce end up depending =
+on the gnome layer. Meta-oe is the place where people put things they =
+don't want to maintain in a seperate layer, which isn't going to scale =
+longterm.
+
+My not-so-fully-formed idea is:
+
+core - implements above goals
+x11 - base xorg libs, headers, apps. Has bbappends for core recipes to =
+add x11 support via DISTRO_FEATURES
+gtk - base gtk things, libs, themes, icons, modules
+qt - base qt things + qwt
+
+efl - depends on core,x11
+gnome - depends on core,x11,gtk
+gpe - depends on core,x11,gtk
+opie - depends on core,qt
+sato - depends on core,x11,gtk
+xfce - depends on core,x11,gtk, gnome
+
+and finally:
+
+oe - leftovers
+
+With this layer structure as starting point can we start a discussion on =
+how people would like to set it split? I'd like to leave the question of =
+which layer goes into what repository for later.
+
+regards,
+
+Koen=
 
 
---=-SZY2jo/MKBu3SVsG0uLF
-Content-Disposition: attachment; filename="shadow.diff"
-Content-Type: text/x-patch; name="shadow.diff"; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-diff --git a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-index 728b8e5..c5a6848 100644
---- a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-+++ b/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=08c553a87d4e51bbed50b20e0adcaede \
- 
- DEPENDS = "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} = "${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_PLUGINS}', '', d)}"
--PR = "r3"
-+PR = "r4"
- 
- SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.bz2 \
-            file://login_defs_pam.sed \
-@@ -122,12 +122,13 @@ pkg_postinst_${PN} () {
- 	update-alternatives --install ${base_sbindir}/vipw vipw vipw.${PN} 200
- 	update-alternatives --install ${base_sbindir}/vigr vigr vigr.${PN} 200
- 
--	if [ "x$D" != "x" ]; then
--		exit 1
--	fi  
--
--	pwconv
--	grpconv
-+	if [ -n "$D" ]; then
-+		pwconv -R $D
-+		grpconv -R $D
-+	else
-+		pwconv
-+		grpconv
-+	fi
- }
- 
- pkg_prerm_${PN} () {
-
---=-SZY2jo/MKBu3SVsG0uLF--
