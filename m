@@ -1,31 +1,20 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1QzO4n-00019Y-1N
+	(envelope-from <dongxiao.xu@intel.com>) id 1QzPgT-0003UB-4V
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Sep 2011 09:22:09 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.3])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QzO02-0006uC-VK
-	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Sep 2011 09:17:15 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1314914360.5939.574.camel@rex>
-References: <cover.1306865217.git.scott.a.garman@intel.com>
-	<7826575ce92090c4460c7d016e0b06441f84cff7.1306865217.git.scott.a.garman@intel.com>
-	<1314895291.19905.197.camel@phil-desktop>
-	<4E5FB8AC.1070007@windriver.com>
-	<1314896288.19905.199.camel@phil-desktop>
-	<4E5FBFEC.3060406@windriver.com>
-	<1314906289.2958.7.camel@lenovo.internal.reciva.com>
-	<1314914360.5939.574.camel@rex>
-Date: Fri, 02 Sep 2011 08:15:24 +0100
-Message-ID: <1314947724.17121.4.camel@lenovo.internal.reciva.com>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.3 
-Subject: Re: [PATCH 2/7] shadow: add a -native recipe with customized utilities
+	Fri, 02 Sep 2011 11:05:09 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 02 Sep 2011 02:00:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,317,1312182000"; d="scan'208";a="47551316"
+Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
+	by fmsmga001.fm.intel.com with ESMTP; 02 Sep 2011 02:00:10 -0700
+From: Dongxiao Xu <dongxiao.xu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  2 Sep 2011 17:03:33 +0800
+Message-Id: <cover.1314953755.git.dongxiao.xu@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/5][PULL] multilib: bug fixes related with kernel, sysroot, rpm, etc.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,28 +29,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Sep 2011 07:22:09 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 02 Sep 2011 09:05:09 -0000
 
-On Thu, 2011-09-01 at 22:59 +0100, Richard Purdie wrote:
-> The latter sounds like what we'll need to do. I haven't looked at shadow
-> to see what kind of finessing is required though...
-> 
-> Does opkg have any notion of bitbake's ASSUME_PROVIDED?
+Hi Richard,
 
-Not explicitly, but the same mechanism that we use for
-BAD_RECOMMENDATIONS could be bent to do it; that wouldn't be very
-hard.  
+This pull request fixes several multilib bugs.
+Please help to review and pull.
 
-OTOH, I don't think this would buy much compared to just removing it
-after installation (as we do with base-passwd already) so I'm not sure
-that any extra mechanics are justified.  We'd have to address the
-postinst issue either way around, so that's probably the thing to look
-at first.
+Thanks,
+Dongxiao
 
-p.
 
+The following changes since commit 06625096f897235ed85f0d9a1355497f92938454:
+
+  scripts: Don't show errors from which ifconfig failing (2011-09-01 20:49:44 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dxu4/ml
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/ml
+
+Dongxiao Xu (5):
+  hal: Remove build time dependency of virtual/kernel
+  rootfs_rpm: setting DEFAULTTUNE for multilib archs
+  multilib: set NO_MULTILIB for kernel recipes
+  multilib: Using different sysroot for multilib recipes
+  multilib: extend multilib prefix for libsdl
+
+ meta/classes/kernel.bbclass      |    1 +
+ meta/classes/multilib.bbclass    |   11 +++++++++++
+ meta/classes/rootfs_rpm.bbclass  |    3 +++
+ meta/conf/multilib.conf          |    5 ++++-
+ meta/recipes-support/hal/hal.inc |    7 +++----
+ 5 files changed, 22 insertions(+), 5 deletions(-)
 
 
 
