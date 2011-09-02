@@ -1,33 +1,23 @@
-Received: from 2.mo1.mail-out.ovh.net ([178.32.119.250]
-	helo=mo1.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@eukrea.com>) id 1QzWGQ-0002dB-DQ
+Received: from smtpfb2-g21.free.fr ([212.27.42.10])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <denis@eukrea.com>) id 1QzWXs-00050P-TD
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Sep 2011 18:06:42 +0200
-Received: from mail194.ha.ovh.net (b9.ovh.net [213.186.33.59])
-	by mo1.mail-out.ovh.net (Postfix) with SMTP id 8FD651000B1A
+	Fri, 02 Sep 2011 18:24:45 +0200
+Received: from smtp2-g21.free.fr (smtp2-g21.free.fr [212.27.42.2])
+	by smtpfb2-g21.free.fr (Postfix) with ESMTP id C10D0D19AD4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Sep 2011 15:32:54 +0200 (CEST)
-Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
-	by b0.ovh.net with SMTP; 2 Sep 2011 15:32:35 +0200
-Received: from pac33-2-82-240-38-71.fbx.proxad.net (HELO PCDEV1.lan)
-	(denis%eukrea.com@82.240.38.71)
-	by ns0.ovh.net with SMTP; 2 Sep 2011 15:32:35 +0200
+	Fri,  2 Sep 2011 18:10:07 +0200 (CEST)
+Received: from PCDEV1.lan (unknown [82.240.38.71])
+	by smtp2-g21.free.fr (Postfix) with ESMTP id E47AE4B0165;
+	Fri,  2 Sep 2011 18:10:02 +0200 (CEST)
 From: Denis Carikli <denis@eukrea.com>
 To: openembedded-core@lists.openembedded.org
-X-Ovh-Mailout: 178.32.228.1 (mo1.mail-out.ovh.net)
-Date: Fri,  2 Sep 2011 15:31:07 +0200
-Message-Id: <1314970267-20365-2-git-send-email-denis@eukrea.com>
+Date: Fri,  2 Sep 2011 18:09:55 +0200
+Message-Id: <1314979795-13537-1-git-send-email-denis@eukrea.com>
 X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <1314970267-20365-1-git-send-email-denis@eukrea.com>
-References: <1314970267-20365-1-git-send-email-denis@eukrea.com>
-X-Ovh-Tracer-Id: 15776672444670221763
-X-Ovh-Remote: 82.240.38.71 (pac33-2-82-240-38-71.fbx.proxad.net)
-X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
-X-Spam-Check: DONE|U 0.5/N
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeftddrudegucetggdotefuucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenuc
-Subject: [PATCH 2/2] bitbake.conf: fix ubi images creation
+In-Reply-To: <1314970267-20365-2-git-send-email-denis@eukrea.com>
+References: <1314970267-20365-2-git-send-email-denis@eukrea.com>
+Subject: [RESEND] bitbake.conf: fix ubi images creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Sep 2011 16:06:42 -0000
+X-List-Received-Date: Fri, 02 Sep 2011 16:24:46 -0000
 
 Without that commit ubinize.cfg lack a volume name value,
   and the related ubinize.cfg line looks like that:
