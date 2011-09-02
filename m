@@ -1,24 +1,24 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1QzPgU-0003UF-Cl
+	(envelope-from <dongxiao.xu@intel.com>) id 1QzPgV-0003UH-1d
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Sep 2011 11:05:10 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 02 Sep 2011 02:00:12 -0700
+	Fri, 02 Sep 2011 11:05:11 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 02 Sep 2011 02:00:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,317,1312182000"; d="scan'208";a="44987079"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="44666369"
 Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by azsmga001.ch.intel.com with ESMTP; 02 Sep 2011 02:00:11 -0700
+	by orsmga001.jf.intel.com with ESMTP; 02 Sep 2011 02:00:13 -0700
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Sep 2011 17:03:34 +0800
-Message-Id: <4959b5dd8cbbed8bbbd6aace139e93b9ced52f80.1314953755.git.dongxiao.xu@intel.com>
+Date: Fri,  2 Sep 2011 17:03:35 +0800
+Message-Id: <bda5bcd76bebed29dafb85b0ee85a7fb7ffa735d.1314953755.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1314953755.git.dongxiao.xu@intel.com>
 References: <cover.1314953755.git.dongxiao.xu@intel.com>
 In-Reply-To: <cover.1314953755.git.dongxiao.xu@intel.com>
 References: <cover.1314953755.git.dongxiao.xu@intel.com>
-Subject: [PATCH 1/5] hal: Remove build time dependency of virtual/kernel
+Subject: [PATCH 2/5] rootfs_rpm: setting DEFAULTTUNE for multilib archs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,45 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Sep 2011 09:05:10 -0000
+X-List-Received-Date: Fri, 02 Sep 2011 09:05:11 -0000
 
-hal has runtime dependency on kernel, but not build time. Remove it from
-"DEPENDS" list.
-
-Also fix a wrong PACKAGE_ARCH setting when building multilib lib32-hal,
-because ":=" will be extended immediately which is not the right value.
-Using TUNE_PKGARCH instead.
+To get the MULTILIB_PACKAGE_ARCHS, we need to get the corresponding
+DEFAULTTUNE value. This fixes the multilib arch directory missing issue
+in solvedb-ml_archs.conf.
 
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- meta/recipes-support/hal/hal.inc |    7 +++----
- 1 files changed, 3 insertions(+), 4 deletions(-)
+ meta/classes/rootfs_rpm.bbclass |    3 +++
+ 1 files changed, 3 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-support/hal/hal.inc b/meta/recipes-support/hal/hal.inc
-index d276d46..b00455b 100644
---- a/meta/recipes-support/hal/hal.inc
-+++ b/meta/recipes-support/hal/hal.inc
-@@ -6,7 +6,7 @@ SECTION = "unknown"
- LICENSE = "GPLv2+ | AFL"
- LIC_FILES_CHKSUM = "file://COPYING;md5=5b5ffd59fbb7c2fff6de76c94177af31"
- 
--DEPENDS = "virtual/kernel dbus-glib udev util-linux intltool intltool-native expat libusb gperf-native"
-+DEPENDS = "dbus-glib udev util-linux intltool intltool-native expat libusb gperf-native"
- RDEPENDS_${PN} += "udev hal-info"
- 
- SRC_URI = "http://hal.freedesktop.org/releases/hal-${PV}.tar.gz \
-@@ -30,9 +30,8 @@ EXTRA_OECONF = "--with-hwdata=${datadir}/hwdata \
-                 ${@base_contains('MACHINE_FEATURES', 'acpi', '--enable-acpi', '--disable-acpi',d)} \
-                "
- 
--MY_ARCH := "${PACKAGE_ARCH}"
--PACKAGE_ARCH = "${@base_contains('MACHINE_FEATURES', 'acpi', '${MACHINE_ARCH}', '${MY_ARCH}',d)}"
--PACKAGE_ARCH = "${@base_contains('MACHINE_FEATURES', 'pci', '${MACHINE_ARCH}', '${MY_ARCH}',d)}"
-+PACKAGE_ARCH = "${@base_contains('MACHINE_FEATURES', 'acpi', '${MACHINE_ARCH}', '${TUNE_PKGARCH}',d)}"
-+PACKAGE_ARCH = "${@base_contains('MACHINE_FEATURES', 'pci', '${MACHINE_ARCH}', '${TUNE_PKGARCH}',d)}"
- 
- do_install_append() {
-         install -d ${D}/etc/dbus-1/event.d
+diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
+index 7f24b9c..135ca75 100644
+--- a/meta/classes/rootfs_rpm.bbclass
++++ b/meta/classes/rootfs_rpm.bbclass
+@@ -215,6 +215,9 @@ python () {
+         eext = ext.split(':')
+         if len(eext) > 1 and eext[0] == 'multilib':
+             localdata = bb.data.createCopy(d)
++            default_tune = localdata.getVar("DEFAULTTUNE_virtclass-multilib-" + eext[1], False)
++            if default_tune:
++                localdata.setVar("DEFAULTTUNE", default_tune)
+             ml_package_archs += localdata.getVar("PACKAGE_ARCHS", True) or ""
+             #bb.note("ML_PACKAGE_ARCHS %s %s %s" % (eext[1], localdata.getVar("PACKAGE_ARCHS", True) or "(none)", overrides))
+     bb.data.setVar('MULTILIB_PACKAGE_ARCHS', ml_package_archs, d)
 -- 
 1.7.1
 
