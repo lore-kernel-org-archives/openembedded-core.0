@@ -1,23 +1,35 @@
-Received: from smtpfb2-g21.free.fr ([212.27.42.10])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@eukrea.com>) id 1QzWXs-00050P-TD
-	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Sep 2011 18:24:45 +0200
-Received: from smtp2-g21.free.fr (smtp2-g21.free.fr [212.27.42.2])
-	by smtpfb2-g21.free.fr (Postfix) with ESMTP id C10D0D19AD4
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Sep 2011 18:10:07 +0200 (CEST)
-Received: from PCDEV1.lan (unknown [82.240.38.71])
-	by smtp2-g21.free.fr (Postfix) with ESMTP id E47AE4B0165;
-	Fri,  2 Sep 2011 18:10:02 +0200 (CEST)
-From: Denis Carikli <denis@eukrea.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Sep 2011 18:09:55 +0200
-Message-Id: <1314979795-13537-1-git-send-email-denis@eukrea.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <1314970267-20365-2-git-send-email-denis@eukrea.com>
-References: <1314970267-20365-2-git-send-email-denis@eukrea.com>
-Subject: [RESEND] bitbake.conf: fix ubi images creation
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QzWyj-0005ON-8i; Fri, 02 Sep 2011 18:52:29 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p82GlWpv027479;
+	Fri, 2 Sep 2011 17:47:32 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 27043-03; Fri,  2 Sep 2011 17:47:28 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p82GlO0w027473
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 2 Sep 2011 17:47:26 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <CAP9ODKq2-xj2v1EN461+Lzon2oXCw4g+swE1T62teuxK9TzfvA@mail.gmail.com>
+References: <1314962732.3526.32.camel@mattotaupa>
+	<CAP9ODKpMU3yr==7+qyBvTyW3ikoSXtZqurKwsCn3Nn_54E0k7Q@mail.gmail.com>
+	<1314969543.5939.586.camel@rex>
+	<CAP9ODKoDFrgfTXeCw-dtGn4s_V+Uxh4U4HfbWe-0OOBAC385=g@mail.gmail.com>
+	<89FA71E7-9402-4458-BC9E-42655707B091@dominion.thruhere.net>
+	<CAP9ODKq2-xj2v1EN461+Lzon2oXCw4g+swE1T62teuxK9TzfvA@mail.gmail.com>
+Date: Fri, 02 Sep 2011 17:47:06 +0100
+Message-ID: <1314982026.5939.607.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-devel@lists.openembedded.org
+Subject: Re: [oe] Please merge lists openembedded-devel and openembedded-core again.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,36 +44,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Sep 2011 16:24:46 -0000
+X-List-Received-Date: Fri, 02 Sep 2011 16:52:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Without that commit ubinize.cfg lack a volume name value,
-  and the related ubinize.cfg line looks like that:
-    vol_name=
-  which result in a broken ubi image,which after beeing flashed produce
-  the following error:
-    UBI error: vtbl_check: volume table check failed: record 0, error 11
-  wich result in a kernel panic because the rootfs can't be mounted.
+On Fri, 2011-09-02 at 10:53 -0300, Otavio Salvador wrote:
+> On Fri, Sep 2, 2011 at 10:33, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> > That sounds like people should just subscribe to oe-core if they want to be aware of changes instead of merging the 2 lists.
+> 
+> Many times changes are related to meta-oe and oe-core and we'd need to
+> cross-post and seems wrong.
 
-Signed-off-by: Denis Carikli <denis@eukrea.com>
----
- meta/conf/bitbake.conf |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
+I don't think this is actually true and its reasonable to assume
+discussion on OE-Core is seen by everyone.
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index a68be07..14ee90c 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -382,6 +382,8 @@ IMAGE_BASENAME = "${PN}"
- IMAGE_NAME = "${IMAGE_BASENAME}-${MACHINE}-${DATETIME}"
- IMAGE_LINK_NAME = "${IMAGE_BASENAME}-${MACHINE}"
- 
-+UBI_VOLNAME ?= "${MACHINE}-rootfs"
-+
- # This option allows for a percentage overage of the actual image size rather than a
- # fixed extra space, this is space needed for initial startup and basic operations.
- IMAGE_OVERHEAD_FACTOR ?= 1.3
--- 
-1.7.4.1
+You therefore need an OE-Core subscription or both with the latter
+recommended. The benefit is the two lists give some kind of filtering of
+the email topics.
+
+Cheers,
+
+Richard
 
 
 
