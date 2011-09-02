@@ -1,25 +1,30 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@beagleboard.org>) id 1QzRa8-0008Af-AD
-	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Sep 2011 13:06:44 +0200
-Received: by wwe32 with SMTP id 32so2258863wwe.24
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QzTS9-0002F6-28 for openembedded-core@lists.openembedded.org;
+	Fri, 02 Sep 2011 15:06:37 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p82D1ffh025873
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Sep 2011 04:01:47 -0700 (PDT)
-Received: by 10.216.136.89 with SMTP id v67mr974336wei.18.1314961307709;
-	Fri, 02 Sep 2011 04:01:47 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id ft2sm1291625wbb.18.2011.09.02.04.01.46
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 02 Sep 2011 04:01:46 -0700 (PDT)
-From: Koen Kooi <koen@beagleboard.org>
-Date: Fri, 2 Sep 2011 13:01:44 +0200
-Message-Id: <79EAF6DF-304E-43B7-B97B-1FA6FFEBB91C@beagleboard.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-X-Mailer: Apple Mail (2.1244.3)
-Subject: [RFC] Layer rework proposal
+	Fri, 2 Sep 2011 14:01:41 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 25302-02 for <openembedded-core@lists.openembedded.org>;
+	Fri,  2 Sep 2011 14:01:37 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p82D1W1h025867
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 2 Sep 2011 14:01:32 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 02 Sep 2011 14:01:13 +0100
+Message-ID: <1314968473.5939.577.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: multilib: Only build one kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,90 +39,163 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Sep 2011 11:06:44 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 02 Sep 2011 13:06:37 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+For a given system we only want one kernel to be built. This change makes
+the main kernel recipe provide all of the provides of the various enabled
+multilibs hence allowing it to fulfil all the appropriate dependencies.
 
-This has come up in the past, but no one has had time to site down and =
-write a proposal yet.
+To make this work a global multilib class file needed to be created.
 
-Problem description: The OE-core layer has both too much in it and not =
-enough.
+This patch also enables this multi provider functionality for "allarch"
+packages.
 
-Currently OE-core is basically a relabeling of the poky fork of OE. Due =
-to that heritage is has bits in it that aren't considered 'core', but =
-serve as a testbed for the proper core metadata. The prime example of =
-this is the sato suite. To address this we will need to come up with =
-guidelines what goes into OE-core and what people expect to get out of =
-it. Here's a start:
+[YOCTO #1361]
 
-Highlevel goals:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+index 5d975fd..583d76b 100644
+--- a/meta/classes/multilib.bbclass
++++ b/meta/classes/multilib.bbclass
+@@ -6,12 +6,17 @@ python multilib_virtclass_handler () {
+     variant = e.data.getVar("BBEXTENDVARIANT", True)
+     if cls != "multilib" or not variant:
+         return
++
++    # There should only be one kernel in multilib configs
++    if bb.data.inherits_class('kernel', e.data) or bb.data.inherits_class('module-base', e.data) or bb.data.inherits_class('allarch', e.data):
++        raise bb.parse.SkipPackage("We shouldn't have multilib variants for the kernel")
++
+     save_var_name=e.data.getVar("MULTILIB_SAVE_VARNAME", True) or ""
+     for name in save_var_name.split():
+         val=e.data.getVar(name, True)
+         if val:
+             e.data.setVar(name + "_MULTILIB_ORIGINAL", val)
+-
++ 
+     override = ":virtclass-multilib-" + variant
+ 
+     e.data.setVar("MLPREFIX", variant + "-")
+@@ -28,16 +33,6 @@ STAGINGCC_prepend = "${BBEXTENDVARIANT}-"
+ python __anonymous () {
+     variant = d.getVar("BBEXTENDVARIANT", True)
+ 
+-    def extend_name(name):
+-        if name.startswith("virtual/"):
+-            subs = name.split("/", 1)[1]
+-            if not subs.startswith(variant):
+-                return "virtual/" + variant + "-" + subs
+-            return name
+-        if not name.startswith(variant):
+-            return variant + "-" + name
+-        return name
+-
+     def map_dependencies(varname, d, suffix = ""):
+         if suffix:
+             varname = varname + "_" + suffix
+@@ -50,25 +45,15 @@ python __anonymous () {
+             if dep.endswith(("-native", "-native-runtime")):
+                 newdeps.append(dep)
+             else:
+-                newdeps.append(extend_name(dep))
++                newdeps.append(multilib_extend_name(variant, dep))
+         d.setVar(varname, " ".join(newdeps))
+ 
+-    def map_variable(varname, d):
+-        var = d.getVar(varname, True)
+-        if not var:
+-            return
+-        var = var.split()
+-        newvar = []
+-        for v in var:
+-            newvar.append(extend_name(v))
+-        d.setVar(varname, " ".join(newvar))
+-
+     pkgs_mapping = []
+     for pkg in (d.getVar("PACKAGES", True) or "").split():
+         if pkg.startswith(variant):
+             pkgs_mapping.append([pkg.split(variant + "-")[1], pkg])
+             continue
+-        pkgs_mapping.append([pkg, extend_name(pkg)])
++        pkgs_mapping.append([pkg, multilib_extend_name(variant, pkg)])
+ 
+     d.setVar("PACKAGES", " ".join([row[1] for row in pkgs_mapping]))
+ 
+@@ -87,8 +72,8 @@ python __anonymous () {
+         map_dependencies("RCONFLICTS", d, pkg)
+         map_dependencies("PKG", d, pkg)
+ 
+-    map_variable("PROVIDES", d)
+-    map_variable("PACKAGES_DYNAMIC", d)
+-    map_variable("PACKAGE_INSTALL", d)
+-    map_variable("INITSCRIPT_PACKAGES", d)
++    multilib_map_variable("PROVIDES", variant, d)
++    multilib_map_variable("PACKAGES_DYNAMIC", variant, d)
++    multilib_map_variable("PACKAGE_INSTALL", variant, d)
++    multilib_map_variable("INITSCRIPT_PACKAGES", variant, d)
+ }
+diff --git a/meta/classes/multilib_global.bbclass b/meta/classes/multilib_global.bbclass
+new file mode 100644
+index 0000000..217349b
+--- a/dev/null
++++ b/meta/classes/multilib_global.bbclass
+@@ -0,0 +1,39 @@
++python multilib_virtclass_handler_global () {
++    if not e.data:
++        return
++
++    variant = e.data.getVar("BBEXTENDVARIANT", True)
++
++    if isinstance(e, bb.event.RecipeParsed) and not variant:
++        if bb.data.inherits_class('kernel', e.data) or bb.data.inherits_class('module-base', e.data) or bb.data.inherits_class('allarch', e.data):
++            origprovs = provs = e.data.getVar("PROVIDES", True)
++            variants = (e.data.getVar("MULTILIB_VARIANTS", True) or "").split()
++            for variant in variants:
++                provs = provs + " " + multilib_map_variable("PROVIDES", variant, e.data)
++                e.data.setVar("PROVIDES", origprovs)
++            e.data.setVar("PROVIDES", provs)
++}
++
++addhandler multilib_virtclass_handler_global
++
++def multilib_extend_name(variant, name):
++    if name.startswith("virtual/"):
++        subs = name.split("/", 1)[1]
++        if not subs.startswith(variant):
++            return "virtual/" + variant + "-" + subs
++        return name
++    if not name.startswith(variant):
++        return variant + "-" + name
++    return name
++
++def multilib_map_variable(varname, variant, d):
++    var = d.getVar(varname, True)
++    if not var:
++        return
++    var = var.split()
++    newvar = []
++    for v in var:
++        newvar.append(multilib_extend_name(variant, v))
++    newdata =  " ".join(newvar)
++    d.setVar(varname, newdata)
++    return newdata
+diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
+index 36793d2..7424b8f 100644
+--- a/meta/conf/multilib.conf
++++ b/meta/conf/multilib.conf
+@@ -6,6 +6,8 @@ MULTILIB_SAVE_VARNAME = "DEFAULTTUNE"
+ 
+ MULTILIBS ??= "multilib:lib32"
+ 
++INHERIT += "multilib_global"
++
+ BBCLASSEXTEND_append_pn-acl = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-alsa-lib = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-alsa-utils = " ${MULTILIBS}"
 
-	1) Have a high quality set of "core" metadata
-	2) OE-core needs to be useful on its own
-	3) OE-core needs to be testable on its own
 
-Concrete rootfs goals:
-
-	a) be able to build for the 4 blessed architectures: arm, mips, =
-powerpc, x86
-	b) have multilib support
-	c) be able to build a rootfs that has:
-		o package management (rpm/deb/opkg)
-		o networking support (ifupdown/connman/dnsmasq)
-		o have remote access (dropbear/openssh)
-		o have user management (shadow/pam)
-
-I think it's safe to say that we all agree on that minimum set of goals. =
- The tricky thing is where to put multimedia and GUI stuff. Qt and GTK =
-are important enough to get put in core, but where do we draw the line? =
-Where do we stop splitting things in recipes-* and start splitting them =
-into layers and should those layers live in seperate repositories?
-
-My list of non-BSP, non-distro layers is:
-
-BBLAYERS =3D " \
-  ${TOPDIR}/sources/meta-openembedded/meta-oe \
-  ${TOPDIR}/sources/meta-openembedded/meta-efl \
-  ${TOPDIR}/sources/meta-openembedded/meta-gpe \
-  ${TOPDIR}/sources/meta-openembedded/meta-gnome \
-  ${TOPDIR}/sources/meta-openembedded/meta-xfce \
-  ${TOPDIR}/sources/openembedded-core/meta \
-  "
-
-The gpe, gnome and xfce layers need things like glib-2.0 and gtk, but =
-there's a larger overlay between the 3, so gpe and xfce end up depending =
-on the gnome layer. Meta-oe is the place where people put things they =
-don't want to maintain in a seperate layer, which isn't going to scale =
-longterm.
-
-My not-so-fully-formed idea is:
-
-core - implements above goals
-x11 - base xorg libs, headers, apps. Has bbappends for core recipes to =
-add x11 support via DISTRO_FEATURES
-gtk - base gtk things, libs, themes, icons, modules
-qt - base qt things + qwt
-
-efl - depends on core,x11
-gnome - depends on core,x11,gtk
-gpe - depends on core,x11,gtk
-opie - depends on core,qt
-sato - depends on core,x11,gtk
-xfce - depends on core,x11,gtk, gnome
-
-and finally:
-
-oe - leftovers
-
-With this layer structure as starting point can we start a discussion on =
-how people would like to set it split? I'd like to leave the question of =
-which layer goes into what repository for later.
-
-regards,
-
-Koen=
 
 
