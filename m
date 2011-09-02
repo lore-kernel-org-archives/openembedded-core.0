@@ -1,32 +1,27 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-ww0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>)
-	id 1QzTmu-0003Rj-Fs; Fri, 02 Sep 2011 15:28:05 +0200
-Received: by bkbzu17 with SMTP id zu17so2587811bkb.6
-	for <multiple recipients>; Fri, 02 Sep 2011 06:23:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
-	:content-transfer-encoding;
-	bh=oMFSe2QWgpTHTt113Cdnl0ciX4C2382Mz6YrubEA72Q=;
-	b=X4un0MTFb/VZz+IQGapy/UNXAL6uFOoMWu1F1G+VKa+h+P49pQbBavAOgMvqiLoaY8
-	YbldYHjRB+xb0CWrYxdPlHW7HICPhilDTOlOtlrZ8+x3jpH3F7ODbs/4KFJk0nFOr7C1
-	6gifkijcRvu1+zWQZ/y40C6flt9xpBdX1NlYQ=
-MIME-Version: 1.0
-Received: by 10.204.132.7 with SMTP id z7mr575680bks.301.1314969787302; Fri,
-	02 Sep 2011 06:23:07 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.131.201 with HTTP; Fri, 2 Sep 2011 06:23:07 -0700 (PDT)
-In-Reply-To: <1314969543.5939.586.camel@rex>
+	(envelope-from <koen@dominion.thruhere.net>)
+	id 1QzTwb-0005hh-0R; Fri, 02 Sep 2011 15:38:05 +0200
+Received: by wwj26 with SMTP id 26so2166380wwj.0
+	for <multiple recipients>; Fri, 02 Sep 2011 06:33:08 -0700 (PDT)
+Received: by 10.227.202.70 with SMTP id fd6mr1034885wbb.114.1314970388179;
+	Fri, 02 Sep 2011 06:33:08 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id y12sm1712152wbo.25.2011.09.02.06.33.06
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 02 Sep 2011 06:33:06 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAP9ODKoDFrgfTXeCw-dtGn4s_V+Uxh4U4HfbWe-0OOBAC385=g@mail.gmail.com>
+Date: Fri, 2 Sep 2011 15:33:04 +0200
+Message-Id: <89FA71E7-9402-4458-BC9E-42655707B091@dominion.thruhere.net>
 References: <1314962732.3526.32.camel@mattotaupa>
 	<CAP9ODKpMU3yr==7+qyBvTyW3ikoSXtZqurKwsCn3Nn_54E0k7Q@mail.gmail.com>
 	<1314969543.5939.586.camel@rex>
-Date: Fri, 2 Sep 2011 10:23:07 -0300
-X-Google-Sender-Auth: J1_DOajKaD9C4l_e5DPPjmT74-Y
-Message-ID: <CAP9ODKoDFrgfTXeCw-dtGn4s_V+Uxh4U4HfbWe-0OOBAC385=g@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+	<CAP9ODKoDFrgfTXeCw-dtGn4s_V+Uxh4U4HfbWe-0OOBAC385=g@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1244.3)
 Cc: openembedded-devel@lists.openembedded.org
 Subject: Re: [oe] Please merge lists openembedded-devel and openembedded-core again.
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -43,28 +38,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Sep 2011 13:28:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 02 Sep 2011 13:38:05 -0000
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 2, 2011 at 10:19, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->> I fully support this merge.
->
-> I'm not so sure rushing into this is a great idea. Speaking as someone
-> who has problems trying to figure out where patches are intended for and
-> who tracks whether they've been applied, I do find the split useful...
 
-This is a matter of improving the pull request script; avoiding
-duplicated places allow for easy sharing of information besides many
-OE devels and users are not in oe-core list making duplicated work and
-not being aware of changes.
+Op 2 sep. 2011, om 15:23 heeft Otavio Salvador het volgende geschreven:
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+> On Fri, Sep 2, 2011 at 10:19, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>>> I fully support this merge.
+>>=20
+>> I'm not so sure rushing into this is a great idea. Speaking as =
+someone
+>> who has problems trying to figure out where patches are intended for =
+and
+>> who tracks whether they've been applied, I do find the split =
+useful...
+>=20
+> This is a matter of improving the pull request script; avoiding
+> duplicated places allow for easy sharing of information besides many
+> OE devels and users are not in oe-core list making duplicated work and
+> not being aware of changes.
+
+That sounds like people should just subscribe to oe-core if they want to =
+be aware of changes instead of merging the 2 lists.=
 
 
