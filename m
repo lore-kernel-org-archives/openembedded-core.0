@@ -1,41 +1,31 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QzUQS-0008Px-1F for openembedded-core@lists.openembedded.org;
-	Fri, 02 Sep 2011 16:08:56 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p82E41F5026320
+Received: from 2.mo1.mail-out.ovh.net ([178.32.119.250]
+	helo=mo1.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <denis@eukrea.com>) id 1QzUT6-0008TM-GG
+	for openembedded-core@lists.openembedded.org;
+	Fri, 02 Sep 2011 16:11:40 +0200
+Received: from mail194.ha.ovh.net (b9.ovh.net [213.186.33.59])
+	by mo1.mail-out.ovh.net (Postfix) with SMTP id 78D641014C0B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 2 Sep 2011 15:04:01 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 25671-06 for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Sep 2011 15:03:57 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p82E3oaS026314
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 2 Sep 2011 15:03:53 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1314957057.19905.224.camel@phil-desktop>
-References: <cover.1306865217.git.scott.a.garman@intel.com>
-	<7826575ce92090c4460c7d016e0b06441f84cff7.1306865217.git.scott.a.garman@intel.com>
-	<1314895291.19905.197.camel@phil-desktop>
-	<4E5FB8AC.1070007@windriver.com>
-	<1314896288.19905.199.camel@phil-desktop>
-	<4E5FBFEC.3060406@windriver.com>
-	<1314906289.2958.7.camel@lenovo.internal.reciva.com>
-	<1314914360.5939.574.camel@rex>
-	<1314957057.19905.224.camel@phil-desktop>
-Date: Fri, 02 Sep 2011 15:03:31 +0100
-Message-ID: <1314972211.5939.604.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 2/7] shadow: add a -native recipe with customized utilities
+	Fri,  2 Sep 2011 15:31:46 +0200 (CEST)
+Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
+	by b0.ovh.net with SMTP; 2 Sep 2011 15:31:27 +0200
+Received: from pac33-2-82-240-38-71.fbx.proxad.net (HELO PCDEV1.lan)
+	(denis%eukrea.com@82.240.38.71)
+	by ns0.ovh.net with SMTP; 2 Sep 2011 15:31:25 +0200
+From: Denis Carikli <denis@eukrea.com>
+To: openembedded-core@lists.openembedded.org
+X-Ovh-Mailout: 178.32.228.1 (mo1.mail-out.ovh.net)
+Date: Fri,  2 Sep 2011 15:31:06 +0200
+Message-Id: <1314970267-20365-1-git-send-email-denis@eukrea.com>
+X-Mailer: git-send-email 1.7.4.1
+X-Ovh-Tracer-Id: 15757250671277186498
+X-Ovh-Remote: 82.240.38.71 (pac33-2-82-240-38-71.fbx.proxad.net)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-Spam-Check: DONE|U 0.5/N
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeftddrudegucetggdotefuucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenucgfrhhlucfvnfffucdlvddtmdenlhhinhhugidvgiculddqvddtmd
+Subject: [PATCH 1/2] mtd-utils: update to version to 1.4.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,78 +40,314 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Sep 2011 14:08:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 02 Sep 2011 14:11:40 -0000
 
-On Fri, 2011-09-02 at 10:50 +0100, Phil Blundell wrote:
-> On Thu, 2011-09-01 at 22:59 +0100, Richard Purdie wrote:
-> > The latter sounds like what we'll need to do. I haven't looked at shadow
-> > to see what kind of finessing is required though...
-> 
-> Fixing the immediate problem with shadow turned out to be rather
-> straightforward, see attached.  However, with this done, I now encounter
-> two new issues.
-> 
-> 1. the logic around $D in useradd.bbclass seems to be backwards to me
-> (and, empirically, isn't working because the supposedly-created users
-> are not showing up in my rootfs).  Specifically, it does:
-> 
->         useradd_preinst () {
->         OPT=""
->         SYSROOT=""
->         
->         if test "x$D" != "x"; then
->         	# Installing into a sysroot
->         	SYSROOT="${STAGING_DIR_TARGET}"
->         	OPT="--root ${STAGING_DIR_TARGET}"
->         
->         [...]
->         
->         useradd_sysroot () {
->         	export PSEUDO="${STAGING_DIR_NATIVE}/usr/bin/pseudo"
->         	export PSEUDO_LOCALSTATEDIR="${STAGING_DIR_TARGET}/var/pseudo"
->         
->         	# Explicitly set $D since it isn't set to anything
->         	# before do_install
->         	D=${D}
->         	useradd_preinst
->         }
-> 
-> It looks to me as though the code in useradd_preinst() should be using
-> SYSROOT="$D" (and likewise for OPT), and useradd_sysroot() should be
-> setting D=${STAGING_DIR_TARGET}.  But maybe there is some clever thing
-> going on here that I'm not properly understanding.
+mtd-utils 1.4.6 is the lastest release of mtd-utils
+  at this time.
 
-It looks like the useradd_sysroot code will work since D is set to
-'something' and then is set correctly in the preinst. What won't work
-correctly is the rootfs user creation as you point out.
+Signed-off-by: Denis Carikli <denis@eukrea.com>
+---
+ .../add-exclusion-to-mkfs-jffs2-git-2.patch        |  103 --------------------
+ .../add-exclusion-to-mkfs-jffs2-git-2.patch        |  103 ++++++++++++++++++++
+ meta/recipes-devtools/mtd/mtd-utils_1.4.1.bb       |   31 ------
+ meta/recipes-devtools/mtd/mtd-utils_1.4.6.bb       |   28 ++++++
+ 4 files changed, 131 insertions(+), 134 deletions(-)
+ delete mode 100644 meta/recipes-devtools/mtd/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch
+ create mode 100644 meta/recipes-devtools/mtd/mtd-utils-1.4.6/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch
+ delete mode 100644 meta/recipes-devtools/mtd/mtd-utils_1.4.1.bb
+ create mode 100644 meta/recipes-devtools/mtd/mtd-utils_1.4.6.bb
 
-So I'd agree with your change.
-
-> 2. during rootfs construction, the script ordering is wrong.  All the
-> preinsts run before all the postinsts, which has always been a bit wrong
-> but hasn't caused too much of a problem in the past.  However,
-> crucially, this means that the useradd_preinst() runs before
-> base-passwd's postinst and hence /etc/passwd doesn't exist at the point
-> where useradd tries to modify it.
-> 
-> I can't think of any reasonable fix for (2) other than to teach
-> rootfs_ipk how to track package dependencies and run the scripts in the
-> right order.  I guess that wouldn't be impossible by any means but
-> trying to do it in a shell script is not a prospect that fills me with a
-> lot of enthusiasm.  Any better suggestions?
-
-Write it in python? ;-)
-
-Seriously, does opkg have the logic in it to run this stuff? If so
-perhaps we need to teach opkg about offline postinstalls since it should
-already know about dependencies?
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-devtools/mtd/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch b/meta/recipes-devtools/mtd/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch
+deleted file mode 100644
+index 57d6a30..0000000
+--- a/meta/recipes-devtools/mtd/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch
++++ /dev/null
+@@ -1,103 +0,0 @@
+-Upstream-Status: Pending
+-
+---- /tmp/mkfs.jffs2.c	2009-01-11 15:28:41.000000000 +0100
+-+++ git/mkfs.jffs2.c	2009-01-11 15:59:29.000000000 +0100
+-@@ -100,6 +100,11 @@
+- 	struct rb_node hardlink_rb;
+- };
+- 
+-+struct ignorepath_entry {
+-+	struct ignorepath_entry* next;  /* Points to the next ignorepath element */
+-+	char name[PATH_MAX];        /* Name of the entry */
+-+};
+-+static struct ignorepath_entry* ignorepath = 0;
+- struct rb_root hardlinks;
+- static int out_fd = -1;
+- static int in_fd = -1;
+-@@ -408,7 +413,7 @@
+- 	char *hpath, *tpath;
+- 	struct dirent *dp, **namelist;
+- 	struct filesystem_entry *entry;
+--
+-+	struct ignorepath_entry* element = ignorepath;
+- 
+- 	if (lstat(hostpath, &sb)) {
+- 		perror_msg_and_die("%s", hostpath);
+-@@ -417,6 +422,15 @@
+- 	entry = add_host_filesystem_entry(targetpath, hostpath,
+- 			sb.st_uid, sb.st_gid, sb.st_mode, 0, parent);
+- 
+-+	while ( element ) {
+-+		if ( strcmp( element->name, targetpath ) == 0 ) {
+-+			printf( "Note: ignoring directories below '%s'\n", targetpath );
+-+			return entry;
+-+			break;
+-+		}
+-+		element = element->next;
+-+	}
+-+
+- 	n = scandir(hostpath, &namelist, 0, alphasort);
+- 	if (n < 0) {
+- 		perror_msg_and_die("opening directory %s", hostpath);
+-@@ -1453,6 +1467,7 @@
+- 	{"root", 1, NULL, 'r'},
+- 	{"pagesize", 1, NULL, 's'},
+- 	{"eraseblock", 1, NULL, 'e'},
+-+	{"ignore", 1, NULL, 'I'},
+- 	{"output", 1, NULL, 'o'},
+- 	{"help", 0, NULL, 'h'},
+- 	{"verbose", 0, NULL, 'v'},
+-@@ -1500,6 +1515,7 @@
+- "  -L, --list-compressors  Show the list of the avaiable compressors\n"
+- "  -t, --test-compression  Call decompress and compare with the original (for test)\n"
+- "  -n, --no-cleanmarkers   Don't add a cleanmarker to every eraseblock\n"
+-+"  -I, --ignore=PATH       Ignore sub directory and file tree below PATH when recursing over the file system\n"
+- "  -o, --output=FILE       Output to FILE (default: stdout)\n"
+- "  -l, --little-endian     Create a little-endian filesystem\n"
+- "  -b, --big-endian        Create a big-endian filesystem\n"
+-@@ -1666,6 +1682,7 @@
+- 	char *compr_name = NULL;
+- 	int compr_prior  = -1;
+- 	int warn_page_size = 0;
+-+	struct ignorepath_entry* element = ignorepath;
+- 
+- 	page_size = sysconf(_SC_PAGESIZE);
+- 	if (page_size < 0) /* System doesn't know so ... */
+-@@ -1676,7 +1693,7 @@
+- 	jffs2_compressors_init();
+- 
+- 	while ((opt = getopt_long(argc, argv,
+--					"D:d:r:s:o:qUPfh?vVe:lbp::nc:m:x:X:Lty:i:", long_options, &c)) >= 0)
+-+					"D:d:r:s:I:o:qUPfh?vVe:lbp::nc:m:x:X:Lty:i:", long_options, &c)) >= 0)
+- 	{
+- 		switch (opt) {
+- 			case 'D':
+-@@ -1700,6 +1717,28 @@
+- 				warn_page_size = 0; /* set by user, so don't need to warn */
+- 				break;
+- 
+-+			case 'I':
+-+				printf( "Note: Adding '%s' to ignore Path\n", optarg );
+-+				element = ignorepath;
+-+				if ( !ignorepath ) {
+-+					ignorepath = xmalloc( sizeof( struct ignorepath_entry ) );
+-+					ignorepath->next = 0;
+-+					strcpy( &ignorepath->name[0], optarg );
+-+				} else {
+-+					while ( element->next ) element = element->next;
+-+					element->next = xmalloc( sizeof( struct ignorepath_entry ) );
+-+ 					element->next->next = 0;
+-+					strcpy( &element->next->name[0], optarg );
+-+				}
+-+				printf( "--------- Dumping ignore path list ----------------\n" );
+-+				element = ignorepath;
+-+				while ( element ) {
+-+					printf( "  * '%s'\n", &element->name[0] );
+-+					element = element->next;
+-+				}
+-+				printf( "---------------------------------------------------\n" );
+-+				break;
+-+
+- 			case 'o':
+- 				if (out_fd != -1) {
+- 					error_msg_and_die("output filename specified more than once");
+diff --git a/meta/recipes-devtools/mtd/mtd-utils-1.4.6/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch b/meta/recipes-devtools/mtd/mtd-utils-1.4.6/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch
+new file mode 100644
+index 0000000..57d6a30
+--- /dev/null
++++ b/meta/recipes-devtools/mtd/mtd-utils-1.4.6/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch
+@@ -0,0 +1,103 @@
++Upstream-Status: Pending
++
++--- /tmp/mkfs.jffs2.c	2009-01-11 15:28:41.000000000 +0100
+++++ git/mkfs.jffs2.c	2009-01-11 15:59:29.000000000 +0100
++@@ -100,6 +100,11 @@
++ 	struct rb_node hardlink_rb;
++ };
++ 
+++struct ignorepath_entry {
+++	struct ignorepath_entry* next;  /* Points to the next ignorepath element */
+++	char name[PATH_MAX];        /* Name of the entry */
+++};
+++static struct ignorepath_entry* ignorepath = 0;
++ struct rb_root hardlinks;
++ static int out_fd = -1;
++ static int in_fd = -1;
++@@ -408,7 +413,7 @@
++ 	char *hpath, *tpath;
++ 	struct dirent *dp, **namelist;
++ 	struct filesystem_entry *entry;
++-
+++	struct ignorepath_entry* element = ignorepath;
++ 
++ 	if (lstat(hostpath, &sb)) {
++ 		perror_msg_and_die("%s", hostpath);
++@@ -417,6 +422,15 @@
++ 	entry = add_host_filesystem_entry(targetpath, hostpath,
++ 			sb.st_uid, sb.st_gid, sb.st_mode, 0, parent);
++ 
+++	while ( element ) {
+++		if ( strcmp( element->name, targetpath ) == 0 ) {
+++			printf( "Note: ignoring directories below '%s'\n", targetpath );
+++			return entry;
+++			break;
+++		}
+++		element = element->next;
+++	}
+++
++ 	n = scandir(hostpath, &namelist, 0, alphasort);
++ 	if (n < 0) {
++ 		perror_msg_and_die("opening directory %s", hostpath);
++@@ -1453,6 +1467,7 @@
++ 	{"root", 1, NULL, 'r'},
++ 	{"pagesize", 1, NULL, 's'},
++ 	{"eraseblock", 1, NULL, 'e'},
+++	{"ignore", 1, NULL, 'I'},
++ 	{"output", 1, NULL, 'o'},
++ 	{"help", 0, NULL, 'h'},
++ 	{"verbose", 0, NULL, 'v'},
++@@ -1500,6 +1515,7 @@
++ "  -L, --list-compressors  Show the list of the avaiable compressors\n"
++ "  -t, --test-compression  Call decompress and compare with the original (for test)\n"
++ "  -n, --no-cleanmarkers   Don't add a cleanmarker to every eraseblock\n"
+++"  -I, --ignore=PATH       Ignore sub directory and file tree below PATH when recursing over the file system\n"
++ "  -o, --output=FILE       Output to FILE (default: stdout)\n"
++ "  -l, --little-endian     Create a little-endian filesystem\n"
++ "  -b, --big-endian        Create a big-endian filesystem\n"
++@@ -1666,6 +1682,7 @@
++ 	char *compr_name = NULL;
++ 	int compr_prior  = -1;
++ 	int warn_page_size = 0;
+++	struct ignorepath_entry* element = ignorepath;
++ 
++ 	page_size = sysconf(_SC_PAGESIZE);
++ 	if (page_size < 0) /* System doesn't know so ... */
++@@ -1676,7 +1693,7 @@
++ 	jffs2_compressors_init();
++ 
++ 	while ((opt = getopt_long(argc, argv,
++-					"D:d:r:s:o:qUPfh?vVe:lbp::nc:m:x:X:Lty:i:", long_options, &c)) >= 0)
+++					"D:d:r:s:I:o:qUPfh?vVe:lbp::nc:m:x:X:Lty:i:", long_options, &c)) >= 0)
++ 	{
++ 		switch (opt) {
++ 			case 'D':
++@@ -1700,6 +1717,28 @@
++ 				warn_page_size = 0; /* set by user, so don't need to warn */
++ 				break;
++ 
+++			case 'I':
+++				printf( "Note: Adding '%s' to ignore Path\n", optarg );
+++				element = ignorepath;
+++				if ( !ignorepath ) {
+++					ignorepath = xmalloc( sizeof( struct ignorepath_entry ) );
+++					ignorepath->next = 0;
+++					strcpy( &ignorepath->name[0], optarg );
+++				} else {
+++					while ( element->next ) element = element->next;
+++					element->next = xmalloc( sizeof( struct ignorepath_entry ) );
+++ 					element->next->next = 0;
+++					strcpy( &element->next->name[0], optarg );
+++				}
+++				printf( "--------- Dumping ignore path list ----------------\n" );
+++				element = ignorepath;
+++				while ( element ) {
+++					printf( "  * '%s'\n", &element->name[0] );
+++					element = element->next;
+++				}
+++				printf( "---------------------------------------------------\n" );
+++				break;
+++
++ 			case 'o':
++ 				if (out_fd != -1) {
++ 					error_msg_and_die("output filename specified more than once");
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_1.4.1.bb b/meta/recipes-devtools/mtd/mtd-utils_1.4.1.bb
+deleted file mode 100644
+index c05149d..0000000
+--- a/meta/recipes-devtools/mtd/mtd-utils_1.4.1.bb
++++ /dev/null
+@@ -1,31 +0,0 @@
+-DESCRIPTION = "Tools for managing memory technology devices."
+-SECTION = "base"
+-DEPENDS = "zlib lzo e2fsprogs util-linux"
+-HOMEPAGE = "http://www.linux-mtd.infradead.org/"
+-LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+-                    file://include/common.h;beginline=1;endline=17;md5=ba05b07912a44ea2bf81ce409380049c"
+-
+-SRC_URI = "git://git.infradead.org/mtd-utils.git;protocol=git;tag=3c3674a6e1d3f59554b0ff68ca59be2fd4134e0c \
+-		file://add-exclusion-to-mkfs-jffs2-git-2.patch"
+-
+-S = "${WORKDIR}/git/"
+-
+-PR = "r1"
+-
+-EXTRA_OEMAKE = "'CC=${CC}' 'CFLAGS=${CFLAGS} -I${S}/include -DWITHOUT_XATTR' 'BUILDDIR=${S}'"
+-
+-do_install () {
+-	oe_runmake install DESTDIR=${D} SBINDIR=${sbindir} MANDIR=${mandir} INCLUDEDIR=${includedir}
+-	install -d ${D}${includedir}/mtd/
+-	for f in ${S}/include/mtd/*.h; do
+-		install -m 0644 $f ${D}${includedir}/mtd/
+-	done
+-}
+-
+-PARALLEL_MAKE = ""
+-
+-BBCLASSEXTEND = "native"
+-
+-SRC_URI[md5sum] = "645519b753b364d52c4b941dcee3dd7e"
+-SRC_URI[sha256sum] = "51d6a77c7e673219bb89c4b119f336d9f2f5a5e065a12ecf9636c5348d099a0e"
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_1.4.6.bb b/meta/recipes-devtools/mtd/mtd-utils_1.4.6.bb
+new file mode 100644
+index 0000000..e1bc5f5
+--- /dev/null
++++ b/meta/recipes-devtools/mtd/mtd-utils_1.4.6.bb
+@@ -0,0 +1,28 @@
++DESCRIPTION = "Tools for managing memory technology devices."
++SECTION = "base"
++DEPENDS = "zlib lzo e2fsprogs util-linux"
++HOMEPAGE = "http://www.linux-mtd.infradead.org/"
++LICENSE = "GPLv2+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
++                    file://include/common.h;beginline=1;endline=17;md5=ba05b07912a44ea2bf81ce409380049c"
++
++SRC_URI = "git://git.infradead.org/mtd-utils.git;protocol=git;tag=3c3674a6e1d3f59554b0ff68ca59be2fd4134e0c \
++		file://add-exclusion-to-mkfs-jffs2-git-2.patch"
++
++S = "${WORKDIR}/git/"
++
++PR = "r1"
++
++EXTRA_OEMAKE = "'CC=${CC}' 'CFLAGS=${CFLAGS} -I${S}/include -DWITHOUT_XATTR' 'BUILDDIR=${S}'"
++
++do_install () {
++	oe_runmake install DESTDIR=${D} SBINDIR=${sbindir} MANDIR=${mandir} INCLUDEDIR=${includedir}
++	install -d ${D}${includedir}/mtd/
++	for f in ${S}/include/mtd/*.h; do
++		install -m 0644 $f ${D}${includedir}/mtd/
++	done
++}
++
++PARALLEL_MAKE = ""
++
++BBCLASSEXTEND = "native"
+-- 
+1.7.4.1
 
 
 
