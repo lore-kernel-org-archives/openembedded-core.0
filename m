@@ -1,37 +1,40 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QzXsp-0007Ij-TX; Fri, 02 Sep 2011 19:50:28 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p82HjSNr028113;
-	Fri, 2 Sep 2011 18:45:28 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 27972-02; Fri,  2 Sep 2011 18:45:24 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p82HjNYt028107
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 2 Sep 2011 18:45:23 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <agnel.joel@gmail.com>) id 1QzYIj-0008Hc-CZ
+	for openembedded-core@lists.openembedded.org;
+	Fri, 02 Sep 2011 20:17:13 +0200
+Received: by fxg11 with SMTP id 11so2035573fxg.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 02 Sep 2011 11:12:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=O82UAvX5fww+BcVhxDqzFbHQFG355BQHSBasbH4wi9Q=;
+	b=jNGHg0zX5e7S6a0qeFU3/guP4Wq3vyP25zKbCe7h/LnQmTinonbMywzoTfa4VP7HNH
+	ac0Nw3KZ230JVzb6ZmUCbIJ9FwdMkMUfGV7Zsmtw+c0W/gc7CAnfJNdAruExSbL+2Zh6
+	AaTEkNkfPVwAAC5mdCADoAlaY6Arf2FxFmd2I=
+MIME-Version: 1.0
+Received: by 10.223.5.76 with SMTP id 12mr804237fau.103.1314987133486; Fri, 02
+	Sep 2011 11:12:13 -0700 (PDT)
+Received: by 10.152.22.231 with HTTP; Fri, 2 Sep 2011 11:12:13 -0700 (PDT)
+In-Reply-To: <9F6CB379-9DC1-4484-90F4-ED6FFF85A50F@dominion.thruhere.net>
+References: <1314598341-2793-1-git-send-email-joelagnel@ti.com>
+	<D6747D39-5AE0-4982-BE54-828DFF4AF761@dominion.thruhere.net>
+	<CAD=GYpZi8dObBiWTAw9OpH1BmHuUZgT67jOMV6saQNcyfmW+Tg@mail.gmail.com>
+	<A7D15A83-D3C5-4F64-90AA-6A77225BB6E5@dominion.thruhere.net>
+	<CA+T6QPmfs0-_k+io3rviuTqxS9-qTT7q0y_=k6JNagB93TGG6Q@mail.gmail.com>
+	<CAD=GYpaL73siZqSoSChCG2rbXSy7nBsJ6LmujxxmqhqubiFCWQ@mail.gmail.com>
+	<CA+T6QPk=XR4M0cVoYn=EdckJxDKifooGv8+_yw+0AXTUQ85pWg@mail.gmail.com>
+	<8954E4C1-E43C-46BE-91AB-6DAFF38D2A4A@dominion.thruhere.net>
+	<CAD=GYpbnRqSfDDz3VBGkjC5jHPj_c20nfvtadv0CTQqquCywzA@mail.gmail.com>
+	<9F6CB379-9DC1-4484-90F4-ED6FFF85A50F@dominion.thruhere.net>
+Date: Fri, 2 Sep 2011 13:12:13 -0500
+Message-ID: <CAD=GYpZeNcf=_u6tGXJUQXwjUUFaAmsXRU=WqfYSqiYbTiiq0g@mail.gmail.com>
+From: Joel A Fernandes <agnel.joel@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <CAP9ODKq17NP3E8BZOm-P41W4s_y+1z7iTre7bML-_D0WofeQWw@mail.gmail.com>
-References: <1314962732.3526.32.camel@mattotaupa>
-	<CAP9ODKpMU3yr==7+qyBvTyW3ikoSXtZqurKwsCn3Nn_54E0k7Q@mail.gmail.com>
-	<1314969543.5939.586.camel@rex>
-	<CAP9ODKoDFrgfTXeCw-dtGn4s_V+Uxh4U4HfbWe-0OOBAC385=g@mail.gmail.com>
-	<89FA71E7-9402-4458-BC9E-42655707B091@dominion.thruhere.net>
-	<CAP9ODKq2-xj2v1EN461+Lzon2oXCw4g+swE1T62teuxK9TzfvA@mail.gmail.com>
-	<1314982026.5939.607.camel@rex>
-	<CAP9ODKq17NP3E8BZOm-P41W4s_y+1z7iTre7bML-_D0WofeQWw@mail.gmail.com>
-Date: Fri, 02 Sep 2011 18:45:04 +0100
-Message-ID: <1314985504.5939.635.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-devel@lists.openembedded.org
-Subject: Re: [oe] Please merge lists openembedded-devel and openembedded-core again.
+Cc: "Kridner, Jason" <jdk@ti.com>
+Subject: Re: [RFC oe-core] mkcard: Add a script to parition and format an SD Card
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,50 +49,183 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Sep 2011 17:50:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 02 Sep 2011 18:17:13 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2011-09-02 at 14:35 -0300, Otavio Salvador wrote:
-> On Fri, Sep 2, 2011 at 13:47, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Fri, 2011-09-02 at 10:53 -0300, Otavio Salvador wrote:
-> >> On Fri, Sep 2, 2011 at 10:33, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> >> > That sounds like people should just subscribe to oe-core if they want to be aware of changes instead of merging the 2 lists.
-> >>
-> >> Many times changes are related to meta-oe and oe-core and we'd need to
-> >> cross-post and seems wrong.
-> >
-> > I don't think this is actually true and its reasonable to assume
-> > discussion on OE-Core is seen by everyone.
-> >
-> > You therefore need an OE-Core subscription or both with the latter
-> > recommended. The benefit is the two lists give some kind of filtering of
-> > the email topics.
-> 
-> I am sorry but I disagree. All those affect the layers and thus
-> changes on oe-core are important to meta-oe so they are all related.
-> Besides not everyone follow both.
+Hi Koen,
 
-I think the expectation is you need to subscribe to OE-Core in all cases
-and we just need to ensure that expectation is communicated.
+I thought of doing this, I just didn't know if it would be acceptable
+and if there was a cleaner way of extending a .bbclass
 
-This also helps people who want to keep up with core changes but aren't
-interested in the upper layer activities. Asking them to filter out a
-ton of email on oe-devel simply isn't reasonable.
+Thanks,
+Joel
 
-> Personally I've been following mostly oe-core and skipped oe and
-> someone might be doing the other way around; patch management has
-> nothing to do with mailing list topic and this we can assume this is
-> easy to fix using patchwork and proper subject on patches.
-
-Having done some patch management myself (at least 4095 patches in the
-last year) I'll respectfully disagree.
-
-Cheers,
-
-Richard
-
-
+On Fri, Sep 2, 2011 at 11:00 AM, Koen Kooi <koen@dominion.thruhere.net> wro=
+te:
+> Why not start with
+>
+> echo "inherit image" >> mynewclass.bbclass
+>
+> And have the image inherit mynewclass?
+>
+> Op 2 sep. 2011, om 17:44 heeft Joel A Fernandes het volgende geschreven:
+>
+>>
+>>
+>> On Tue, Aug 30, 2011 at 12:47 PM, Koen Kooi <koen@dominion.thruhere.net>=
+ wrote:
+>> >
+>> > Op 30 aug. 2011, om 18:46 heeft Jason Kridner het volgende geschreven:
+>> >
+>> >> On Mon, Aug 29, 2011 at 7:08 PM, Joel A Fernandes <agnel.joel@gmail.c=
+om> wrote:
+>> >>> On Mon, Aug 29, 2011 at 4:03 PM, Jason Kridner <jkridner@beagleboard=
+.org> wrote:
+>> >>>>>>>
+>> >>>>>>> This script is BSP specific and shouldn't live in the OE-core la=
+yer.
+>> >>>>>>
+>> >>>>>> The only issue is this script is used from within the IMAGE_CMD_s=
+dimg
+>> >>>>>> code which lives in OE-core (meta/classes/image_types.
+>> >>>>>
+>> >>>>> classes shouldn't be calling external scripts
+>> >>>>>
+>> >>>>
+>> >>>> Is the right approach to add parameters to the IMAGE_CMD_sdimg clas=
+s
+>> >>>> such that it can be used generically to produce SD card images,
+>> >>>> instead of trying to move this to meta-ti? =A0Should it perhaps be =
+a bit
+>> >>>> closer to what is being done by the Linaro image tools [1]?
+>> >>>>
+>> >>>> [1] https://wiki.linaro.org/Source/ImageBuilding
+>> >>>>
+>> >>>
+>> >>> Don't the Linaro scripts need to run on the target?
+>> >>
+>> >> No.
+>> >>
+>> >>> Does it fit well
+>> >>> with OE(-core) ?
+>> >>
+>> >> I don't know, but I hoped that others would comment to help figure it
+>> >> out. =A0I think it is a common challenge not just for ARM architectur=
+es.
+>> >> I'm not sure if the approach is general enough or not, but it does go
+>> >> beyond the BeagleBoard.
+>> >>
+>> >> My primary concerns about leaving it in the BSP are:
+>> >> 1) that there is some room for non-BeagleBoard specific optimizations
+>> >> to the card layout and
+>> >> 2) there may be improvements to the tools that make it easier to
+>> >> create images for systems with different boot requirements.
+>> >>
+>> >> Also, I think we might want to move to an ext3 partition only in the
+>> >> future or other such layout optimizations. =A0I'd like that to be
+>> >> something that can be parameterized by the BSP.
+>> >
+>> > I think you're missing the point:
+>> >
+>> > The *script* needs to go into the BSP, you are free to extend the bbcl=
+asses with code to deal with sd cards internally in OE-core.
+>> >
+>> >
+>>
+>> Hi Koen,
+>>
+>> Can you suggest how we proceed with extending the bbclass?
+>>
+>> I have tried both .bbappend and BBCLASSEXTEND and didn't get it to work.
+>>
+>> I could create a new class and inherit the oe-core one from it with twea=
+ks.
+>>
+>> Here is complete IRC discussion between me and bluelightning on the reas=
+oning to extend the image.bbclass:
+>>
+>> * cminyard (~cminyard@pool-173-57-155-71.dllstx.fios.verizon.net) has jo=
+ined #oe
+>> <joelagnel> I'd like to extend a bbclass in oe-core with tweaks in anoth=
+er layer
+>> <joelagnel> What is the right way to do so? .bbappend ? BBCLASSEXTEND?
+>> <GNUtoo|work> JaMa|Wrk, btw I've also another patch:
+>> <GNUtoo|work> at eukrea we use ubifs, and had the exact same issue than =
+the freerunner ubifs issue, at least it seems
+>> <GNUtoo|work> we fixed it
+>> <GNUtoo|work> so if the patch arrived, it should fix it for you too
+>> <GNUtoo|work> joelagnel, BBCLASSEXTEND seem for recipes
+>> <joelagnel> I've seen it for classes in meta-oe:
+>> <joelagnel> ../meta-openembedded/meta-oe/classes/gnome.bbclass:BBCLASSEX=
+TEND +=3D "native"
+>> <joelagnel> GNUtoo|work, but it doesn't do what I want
+>> <joelagnel> I can create a new class, inherit from the oe-core one and p=
+ut my code there, but I think that'll get rejected ;)
+>> <GNUtoo|work> ok
+>> <GNUtoo|work> maybe ask in the list
+>> <joelagnel> everyone here on long weekend holiday? ;)
+>> * hollisb (~hollisb@c-24-20-193-174.hsd1.or.comcast.net) has joined #oe
+>> <bluelightning> joelagnel: I don't think bbclassextend is what you want
+>> <bluelightning> what tweaks do you want to apply?
+>> <joelagnel> bluelightning, can I name a class in an upper layer with the=
+ same filename as that of a lower layer, and still be able to inherit the l=
+ower layer one?
+>> <bluelightning> I don't think you can do it that way no
+>> <bluelightning> if it's the same name it will just replace it effectivel=
+y
+>> <bluelightning> the most likely result in that case is you'll get a circ=
+ular reference
+>> <joelagnel> BlindMan, there was some talk about moving my changes (IMAGE=
+_CMD_sdimg) to the bsp layer
+>> <joelagnel> https://github.com/joelagnel/oe-core/blob/db4c960da57e8e0ae4=
+741eea703a4e163c589efa/meta/classes/image_types.bbclass
+>> <joelagnel> sorry I meant bluelightning ;)
+>> <joelagnel> need coffee!!! :-D
+>> <joelagnel> and need .bbclassappend ;)
+>> * msm (~msm@192.88.168.35) has joined #oe
+>> <bluelightning> hmm; this is an interesting one
+>> <bluelightning> I recall the discussion on the mailing list... I do wond=
+er whether we ought to try to find a way to get this into oe-core itself
+>> * phdeswer has quit (Ping timeout: 276 seconds)
+>> <joelagnel> bluelightning, I'm copying in a ubi file into the rootfs whi=
+ch I don't think is generic enough
+>> <joelagnel> also all sorts of assumptions are made about bootloader file=
+ names (U-boot, uEnv, user.txt) etc
+>> <bluelightning> hmm
+>> <bluelightning> is this only likely to be applicable to one machine then=
+?
+>> <joelagnel> bluelightning, yeah. specially the bootloader environment fi=
+les etc make assumptions about the machine (i2c bus names etc)
+>> <joelagnel> bluelightning, also Richard was suggesting that this was att=
+empted before but requires special mounts etc which is true
+>> <joelagnel> we need it in there though so we could move it to the bsp fo=
+r now
+>> <joelagnel> sounds good?
+>> * Hoolxi (~Openfree@124.78.96.197) has joined #oe
+>> <bluelightning> joelagnel: well as a temporary measure but really duplic=
+ating class files is worth avoiding
+>> <bluelightning> just because of the pain of keeping it up-to-date
+>> <joelagnel> sure
+>> <bluelightning> I have to admit I'm unsure of the correct solution in th=
+is case though
+>> <bluelightning> it's worth trying to coax people on the mailing list to =
+come up with the right answer :)
+>> <joelagnel> bluelightning, sure will do ,thanks :)
+>>
+>>
+>> Thanks,
+>> Joel
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
