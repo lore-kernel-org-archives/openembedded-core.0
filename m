@@ -1,22 +1,20 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1QziCt-0002bt-SB
+	(envelope-from <sgw@linux.intel.com>) id 1Qztj5-0002Wc-J4
 	for openembedded-core@lists.openembedded.org;
-	Sat, 03 Sep 2011 06:51:54 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 02 Sep 2011 21:45:49 -0700
+	Sat, 03 Sep 2011 19:09:51 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 03 Sep 2011 10:04:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,323,1312182000"; d="scan'208";a="47785119"
-Received: from unknown (HELO [10.255.14.13]) ([10.255.14.13])
-	by fmsmga001.fm.intel.com with ESMTP; 02 Sep 2011 21:45:49 -0700
-From: Tom Zanussi <tom.zanussi@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 02 Sep 2011 23:45:30 -0500
-Message-ID: <1315025130.31478.142.camel@elmorro>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.28.3 
-Subject: [PATCH 2/2] task-core-tools: add systemtap to qemuarm
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="44776168"
+Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.30])
+	by orsmga002.jf.intel.com with ESMTP; 03 Sep 2011 10:04:52 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  3 Sep 2011 10:04:49 -0700
+Message-Id: <cover.1315069299.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [PATCH 0/1] Fix gettext dependency issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,44 +29,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Sep 2011 04:51:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 03 Sep 2011 17:09:51 -0000
 
-Systemtap now works with arm, so include it in task-core-tools-profile
-for qemuarm.
+Use gettext's internal libraries for libxml and libcroco to
+ensure that there is not any strange behavior if ordering of
+the build of these items changes.
 
-Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
----
- meta/recipes-core/tasks/task-core-tools.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+The gettext-tools configure script looks for a libxml and libcroco
+in sysroot and this can cause an unforseen dependency issue.
 
-diff --git a/meta/recipes-core/tasks/task-core-tools.bb b/meta/recipes-core/tasks/task-core-tools.bb
-index 11ea723..3159e06 100644
---- a/meta/recipes-core/tasks/task-core-tools.bb
-+++ b/meta/recipes-core/tasks/task-core-tools.bb
-@@ -6,7 +6,7 @@ DESCRIPTION = "Tools tasks for OE-Core"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
--PR = "r11"
-+PR = "r12"
- 
- PACKAGES = "\
-     task-core-tools-debug \
-@@ -77,7 +77,7 @@ LTTNGUST_libc-uclibc = ""
- RDEPENDS_task-core-tools-profile_append_qemux86 = " valgrind lttng-ust ${SYSTEMTAP}"
- RDEPENDS_task-core-tools-profile_append_qemux86-64 = " ${LTTNGUST} ${SYSTEMTAP}"
- RDEPENDS_task-core-tools-profile_append_qemuppc = " ${LTTNGUST} ${SYSTEMTAP}"
--RDEPENDS_task-core-tools-profile_append_qemuarm = " ${LTTNGUST}"
-+RDEPENDS_task-core-tools-profile_append_qemuarm = " ${LTTNGUST} ${SYSTEMTAP}"
- 
- RDEPENDS_task-core-tools-testapps = "\
-     blktool \
+Sau!
+
+The following changes since commit 0616557a8c29b42bae0ffd5fd665a046810047e4:
+
+  populate_sdk: We need to ensure that the SDK sysroot reflects PACKAGE_ARCH (2011-09-02 23:38:00 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/fix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
+
+Saul Wold (1):
+  gettext: use included libxml and libcroco
+
+ meta/recipes-core/gettext/gettext_0.18.1.1.bb |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+
 -- 
-1.7.0.4
-
-
+1.7.6
 
 
 
