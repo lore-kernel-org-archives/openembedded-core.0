@@ -1,25 +1,39 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1R03k6-0006df-6Z
+	(envelope-from <dongxiao.xu@intel.com>) id 1R03pA-0006ib-Oo
 	for openembedded-core@lists.openembedded.org;
-	Sun, 04 Sep 2011 05:51:34 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 03 Sep 2011 20:46:33 -0700
+	Sun, 04 Sep 2011 05:56:49 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 03 Sep 2011 20:51:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,326,1312182000"; d="scan'208";a="45387140"
-Received: from unknown (HELO [10.255.14.30]) ([10.255.14.30])
-	by azsmga001.ch.intel.com with ESMTP; 03 Sep 2011 20:46:33 -0700
-Message-ID: <4E62F499.2090709@linux.intel.com>
-Date: Sat, 03 Sep 2011 20:46:33 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:6.0) Gecko/20110816 Thunderbird/6.0
-MIME-Version: 1.0
+X-IronPort-AV: E=Sophos;i="4.68,326,1312182000"; d="scan'208";a="13857115"
+Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
+	by AZSMGA002.ch.intel.com with ESMTP; 03 Sep 2011 20:51:47 -0700
+Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
+	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Sun, 4 Sep 2011 11:51:46 +0800
+Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
+	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Sun, 4 Sep 2011 11:51:46 +0800
+Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
+	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi; Sun, 4 Sep 2011
+	11:51:45 +0800
+From: "Xu, Dongxiao" <dongxiao.xu@intel.com>
 To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1315025127.31478.141.camel@elmorro>
-In-Reply-To: <1315025127.31478.141.camel@elmorro>
-Subject: Re: [PATCH 1/2] systemtap: upgrade to 1.6
+	<openembedded-core@lists.openembedded.org>, "Richard Purdie
+	(richard.purdie@linuxfoundation.org)" <richard.purdie@linuxfoundation.org>
+Date: Sun, 4 Sep 2011 11:51:44 +0800
+Thread-Topic: [OE-core] multilib: Only build one kernel
+Thread-Index: AcxpcH9qOe4AfLw8RcS10LfnNftwCwBRBvOQ
+Message-ID: <D5AB6E638E5A3E4B8F4406B113A5A19A12D73C62AA@shsmsx501.ccr.corp.intel.com>
+References: <1314968473.5939.577.camel@rex>
+In-Reply-To: <1314968473.5939.577.camel@rex>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+Subject: Re: multilib: Only build one kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,189 +48,229 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Sep 2011 03:51:34 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 04 Sep 2011 03:56:49 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 09/02/2011 09:45 PM, Tom Zanussi wrote:
-> Also enable for arm, since systemtap now works on arm and remove the
-> gcc-4.6 compile fix patch since the problems it addresses have been
-> fixed upstream.
->
-> Signed-off-by: Tom Zanussi<tom.zanussi@intel.com>
+Hi Richard,
+
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Richard Purdie
+> Sent: Friday, September 02, 2011 9:01 PM
+> To: openembedded-core
+> Subject: [OE-core] multilib: Only build one kernel
+>=20
+> For a given system we only want one kernel to be built. This change makes=
+ the
+> main kernel recipe provide all of the provides of the various enabled mul=
+tilibs
+> hence allowing it to fulfil all the appropriate dependencies.
+>=20
+> To make this work a global multilib class file needed to be created.
+>=20
+> This patch also enables this multi provider functionality for "allarch"
+> packages.
+>=20
+> [YOCTO #1361]
+
+When testing multilib with latest master, I found bitbake would report fail=
+ed dependency of kernel-module-*. As we know, kernel-module-* will be recom=
+mended by some other recipes, while it is defined in kernel related recipe =
+in PACKAGES_DYNAMIC. I think we need the following patch to make it work:
+
+commit bc04de64057a17ae93be466e32249f9505321f59
+Author: Dongxiao Xu <dongxiao.xu@intel.com>
+Date:   Sun Sep 4 11:49:33 2011 +0800
+
+    multilib_global.bbclass: handle kernel-module-* for multilib
+
+    bitbake would report failed dependency of kernel-module-* when testing
+    multilib. kernel-module-* are recommended by some other recipes.
+
+    Do not extend name for kernel-module-* related packages.
+
+    Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+
+diff --git a/meta/classes/multilib_global.bbclass b/meta/classes/multilib_g=
+lobal.bbclass
+index 217349b..1263e4e 100644
+--- a/meta/classes/multilib_global.bbclass
++++ b/meta/classes/multilib_global.bbclass
+@@ -17,6 +17,8 @@ python multilib_virtclass_handler_global () {
+ addhandler multilib_virtclass_handler_global
+
+ def multilib_extend_name(variant, name):
++    if name.startswith("kernel-module"):
++        return name
+     if name.startswith("virtual/"):
+         subs =3D name.split("/", 1)[1]
+         if not subs.startswith(variant):
+
+Thanks,
+Dongxiao
+
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->   .../fix_for_compilation_with_gcc-4.6.0.patch       |  119 --------------------
->   meta/recipes-kernel/systemtap/systemtap_git.bb     |   15 +--
->   2 files changed, 7 insertions(+), 127 deletions(-)
->   delete mode 100644 meta/recipes-kernel/systemtap/systemtap/fix_for_compilation_with_gcc-4.6.0.patch
->
-> diff --git a/meta/recipes-kernel/systemtap/systemtap/fix_for_compilation_with_gcc-4.6.0.patch b/meta/recipes-kernel/systemtap/systemtap/fix_for_compilation_with_gcc-4.6.0.patch
-> deleted file mode 100644
-> index a322175..0000000
-> --- a/meta/recipes-kernel/systemtap/systemtap/fix_for_compilation_with_gcc-4.6.0.patch
-> +++ /dev/null
-> @@ -1,119 +0,0 @@
-> -Upstream-Status: Pending
+> diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclas=
+s index
+> 5d975fd..583d76b 100644
+> --- a/meta/classes/multilib.bbclass
+> +++ b/meta/classes/multilib.bbclass
+> @@ -6,12 +6,17 @@ python multilib_virtclass_handler () {
+>      variant =3D e.data.getVar("BBEXTENDVARIANT", True)
+>      if cls !=3D "multilib" or not variant:
+>          return
+> +
+> +    # There should only be one kernel in multilib configs
+> +    if bb.data.inherits_class('kernel', e.data) or
+> bb.data.inherits_class('module-base', e.data) or bb.data.inherits_class('=
+allarch',
+> e.data):
+> +        raise bb.parse.SkipPackage("We shouldn't have multilib variants
+> + for the kernel")
+> +
+>      save_var_name=3De.data.getVar("MULTILIB_SAVE_VARNAME", True) or ""
+>      for name in save_var_name.split():
+>          val=3De.data.getVar(name, True)
+>          if val:
+>              e.data.setVar(name + "_MULTILIB_ORIGINAL", val)
 > -
-> -Fix following compiler errors with gcc 4.6.0:
-> -Nitin A Kamble<nitin.a.kamble@intel.com>  2011/05/09
+> +
+>      override =3D ":virtclass-multilib-" + variant
+>=20
+>      e.data.setVar("MLPREFIX", variant + "-") @@ -28,16 +33,6 @@
+> STAGINGCC_prepend =3D "${BBEXTENDVARIANT}-"
+>  python __anonymous () {
+>      variant =3D d.getVar("BBEXTENDVARIANT", True)
+>=20
+> -    def extend_name(name):
+> -        if name.startswith("virtual/"):
+> -            subs =3D name.split("/", 1)[1]
+> -            if not subs.startswith(variant):
+> -                return "virtual/" + variant + "-" + subs
+> -            return name
+> -        if not name.startswith(variant):
+> -            return variant + "-" + name
+> -        return name
 > -
-> -| tapsets.cxx: In member function 'void sdt_query::handle_probe_entry()':
-> -| tapsets.cxx:5295:8: error: variable 'kprobe_found' set but not used [-Werror=unused-but-set-variable]
-> -| tapsets.cxx: In member function 'virtual void hwbkpt_builder::build(systemtap_session&, probe*, probe_point*, const literal_map_t&, std::vector<derived_probe*>&)':
-> -| tapsets.cxx:7655:18: error: variable 'has_symbol_str' set but not used [-Werror=unused-but-set-variable]
-> -| cc1plus: all warnings being treated as errors
-> -|
-> -| make[2]: *** [stap-tapsets.o] Error 1
-> -| translate.cxx: In member function 'virtual void c_unparser::visit_print_format(print_format*)':
-> -| translate.cxx:4431:6: error: variable 'width_ix' set but not used [-Werror=unused-but-set-variable]
-> -| cc1plus: all warnings being treated as errors
-> -|
-> -| make[2]: *** [stap-translate.o] Error 1
-> -| common.c: In function 'fatal_handler':
-> -| common.c:397:13: error: variable 'rc' set but not used [-Werror=unused-but-set-variable]
-> -| cc1: all warnings being treated as errors
-> -|
-> -| make[3]: *** [common.o] Error 1
-> -| make[3]: *** Waiting for unfinished jobs....
-> -| common.c: In function 'fatal_handler':
-> -| common.c:397:13: error: variable 'rc' set but not used [-Werror=unused-but-set-variable]
-> -| cc1: all warnings being treated as errors
-> -|
-> -| mainloop.c: In function 'chld_proc':
-> -| mainloop.c:56:11: error: variable 'rc' set but not used [-Werror=unused-but-set-variable]
-> -| mainloop.c: In function 'stp_main_loop':
-> -| mainloop.c:623:17: error: variable 'rc' set but not used [-Werror=unused-but-set-variable]
-> -| cc1: all warnings being treated as errors
-> -|
+>      def map_dependencies(varname, d, suffix =3D ""):
+>          if suffix:
+>              varname =3D varname + "_" + suffix @@ -50,25 +45,15 @@
+> python __anonymous () {
+>              if dep.endswith(("-native", "-native-runtime")):
+>                  newdeps.append(dep)
+>              else:
+> -                newdeps.append(extend_name(dep))
+> +                newdeps.append(multilib_extend_name(variant, dep))
+>          d.setVar(varname, " ".join(newdeps))
+>=20
+> -    def map_variable(varname, d):
+> -        var =3D d.getVar(varname, True)
+> -        if not var:
+> -            return
+> -        var =3D var.split()
+> -        newvar =3D []
+> -        for v in var:
+> -            newvar.append(extend_name(v))
+> -        d.setVar(varname, " ".join(newvar))
 > -
-> -Index: git/tapsets.cxx
-> -===================================================================
-> ---- git.orig/tapsets.cxx
-> -+++ git/tapsets.cxx
-> -@@ -5292,7 +5292,6 @@ sdt_query::handle_probe_entry()
-> -   probe *new_base = convert_location();
-> -   probe_point *new_location = new_base->locations[0];
-> -
-> --  bool kprobe_found = false;
-> -   bool need_debug_info = false;
-> -
-> -   Dwarf_Addr bias;
-> -@@ -5302,7 +5301,6 @@ sdt_query::handle_probe_entry()
-> -   if (have_kprobe())
-> -     {
-> -       convert_probe(new_base);
-> --      kprobe_found = true;
-> -       // Expand the local variables in the probe body
-> -       sdt_kprobe_var_expanding_visitor svv (module_val,
-> - 					    provider_name,
-> -@@ -7652,7 +7650,7 @@ hwbkpt_builder::build(systemtap_session
-> - {
-> -   string symbol_str_val;
-> -   int64_t hwbkpt_address, len;
-> --  bool has_addr, has_symbol_str, has_write, has_rw, has_len;
-> -+  bool has_addr, has_write, has_rw, has_len;
-> -
-> -   if (! (sess.kernel_config["CONFIG_PERF_EVENTS"] == string("y")))
-> -       throw semantic_error ("CONFIG_PERF_EVENTS not available on this kernel",
-> -@@ -7662,7 +7660,6 @@ hwbkpt_builder::build(systemtap_session
-> -                             location->components[0]->tok);
-> -
-> -   has_addr = get_param (parameters, TOK_HWBKPT, hwbkpt_address);
-> --  has_symbol_str = get_param (parameters, TOK_HWBKPT, symbol_str_val);
-> -   has_len = get_param (parameters, TOK_LENGTH, len);
-> -   has_write = (parameters.find(TOK_HWBKPT_WRITE) != parameters.end());
-> -   has_rw = (parameters.find(TOK_HWBKPT_RW) != parameters.end());
-> -Index: git/translate.cxx
-> -===================================================================
-> ---- git.orig/translate.cxx
-> -+++ git/translate.cxx
-> -@@ -4428,7 +4428,7 @@ c_unparser::visit_print_format (print_fo
-> - 	  continue;
-> -
-> - 	/* Take note of the width and precision arguments, if any.  */
-> --	int width_ix = -1, prec_ix= -1;
-> -+	int __attribute((__unused__)) width_ix = -1, prec_ix= -1;
-> - 	if (components[i].widthtype == print_format::width_dynamic)
-> - 	  width_ix = arg_ix++;
-> - 	if (components[i].prectype == print_format::prec_dynamic)
-> -Index: git/runtime/staprun/common.c
-> -===================================================================
-> ---- git.orig/runtime/staprun/common.c
-> -+++ git/runtime/staprun/common.c
-> -@@ -394,7 +394,7 @@ void parse_modpath(const char *inpath)
-> - #define ERR_MSG "\nUNEXPECTED FATAL ERROR in staprun. Please file a bug report.\n"
-> - static void fatal_handler (int signum)
-> - {
-> --        int rc;
-> -+        int __attribute__((__unused__)) rc;
-> -         char *str = strsignal(signum);
-> -         rc = write (STDERR_FILENO, ERR_MSG, sizeof(ERR_MSG));
-> -         rc = write (STDERR_FILENO, str, strlen(str));
-> -Index: git/runtime/staprun/mainloop.c
-> -===================================================================
-> ---- git.orig/runtime/staprun/mainloop.c
-> -+++ git/runtime/staprun/mainloop.c
-> -@@ -53,7 +53,7 @@ static void *signal_thread(void *arg)
-> -
-> - static void chld_proc(int signum)
-> - {
-> --  int32_t rc, btype = STP_EXIT;
-> -+  int32_t __attribute__((__unused__)) rc, btype = STP_EXIT;
-> -   dbug(2, "chld_proc %d (%s)\n", signum, strsignal(signum));
-> -   pid_t pid = waitpid(-1, NULL, WNOHANG);
-> -   if (pid != target_pid)
-> -@@ -620,7 +620,7 @@ int stp_main_loop(void)
-> -       {
-> -         /* module asks us to start exiting, so send STP_EXIT */
-> -         dbug(2, "got STP_REQUEST_EXIT\n");
-> --        int32_t rc, btype = STP_EXIT;
-> -+        int32_t __attribute__((__unused__))rc, btype = STP_EXIT;
-> -         rc = write(control_channel,&btype, sizeof(btype));
-> -         break;
-> -       }
-> diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
-> index e8aa54f..86936f4 100644
-> --- a/meta/recipes-kernel/systemtap/systemtap_git.bb
-> +++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
-> @@ -1,15 +1,14 @@
->   DESCRIPTION = "SystemTap - script-directed dynamic tracing and performance analysis tool for Linux"
->   LICENSE = "GPLv2"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
->
->   DEPENDS = "elfutils sqlite3"
->
-> -SRCREV = "4ab3a1863bf4f472acae7a809bf2b38d91658aa8"
-> -PR = "r4"
-> -PV = "1.4+git${SRCPV}"
-> +SRCREV = "820f2d22fc47fad6e09ba886efb9b91e1247cb39"
-> +PR = "r5"
-> +PV = "1.6+git${SRCPV}"
->
-Tom, since you have updated PV to 1.6, you can reset PR to 0.
-
-Sau!
-
->   SRC_URI = "git://sources.redhat.com/git/systemtap.git;protocol=git \
-> -	file://fix_for_compilation_with_gcc-4.6.0.patch \
->             "
->
->   EXTRA_OECONF += "--with-libelf=${STAGING_DIR_TARGET} --without-rpm \
-> @@ -23,11 +22,11 @@ EXTRA_OECONF += "--with-libelf=${STAGING_DIR_TARGET} --without-rpm \
->   SRC_URI[md5sum]    = "cb202866ed704c44a876d041f788bdee"
->   SRC_URI[sha256sum] = "8ffe35caec0d937bd23fd78a3a8d94b58907cc0de0330b35e38f9f764815c459"
->
-> -# systemtap doesn't work on arm and doesn't support mips
-> -COMPATIBLE_HOST = '(x86_64.*|i.86.*|powerpc.*)-linux'
-> +# systemtap doesn't support mips
-> +COMPATIBLE_HOST = '(x86_64.*|i.86.*|powerpc.*|arm.*)-linux'
->
->   S = "${WORKDIR}/git"
->
-> -inherit autotools
-> +inherit autotools gettext
->
->   FILES_${PN}-dbg += "${libexecdir}/systemtap/.debug"
+>      pkgs_mapping =3D []
+>      for pkg in (d.getVar("PACKAGES", True) or "").split():
+>          if pkg.startswith(variant):
+>              pkgs_mapping.append([pkg.split(variant + "-")[1], pkg])
+>              continue
+> -        pkgs_mapping.append([pkg, extend_name(pkg)])
+> +        pkgs_mapping.append([pkg, multilib_extend_name(variant, pkg)])
+>=20
+>      d.setVar("PACKAGES", " ".join([row[1] for row in pkgs_mapping]))
+>=20
+> @@ -87,8 +72,8 @@ python __anonymous () {
+>          map_dependencies("RCONFLICTS", d, pkg)
+>          map_dependencies("PKG", d, pkg)
+>=20
+> -    map_variable("PROVIDES", d)
+> -    map_variable("PACKAGES_DYNAMIC", d)
+> -    map_variable("PACKAGE_INSTALL", d)
+> -    map_variable("INITSCRIPT_PACKAGES", d)
+> +    multilib_map_variable("PROVIDES", variant, d)
+> +    multilib_map_variable("PACKAGES_DYNAMIC", variant, d)
+> +    multilib_map_variable("PACKAGE_INSTALL", variant, d)
+> +    multilib_map_variable("INITSCRIPT_PACKAGES", variant, d)
+>  }
+> diff --git a/meta/classes/multilib_global.bbclass
+> b/meta/classes/multilib_global.bbclass
+> new file mode 100644
+> index 0000000..217349b
+> --- a/dev/null
+> +++ b/meta/classes/multilib_global.bbclass
+> @@ -0,0 +1,39 @@
+> +python multilib_virtclass_handler_global () {
+> +    if not e.data:
+> +        return
+> +
+> +    variant =3D e.data.getVar("BBEXTENDVARIANT", True)
+> +
+> +    if isinstance(e, bb.event.RecipeParsed) and not variant:
+> +        if bb.data.inherits_class('kernel', e.data) or
+> bb.data.inherits_class('module-base', e.data) or bb.data.inherits_class('=
+allarch',
+> e.data):
+> +            origprovs =3D provs =3D e.data.getVar("PROVIDES", True)
+> +            variants =3D (e.data.getVar("MULTILIB_VARIANTS", True) or
+> "").split()
+> +            for variant in variants:
+> +                provs =3D provs + " " + multilib_map_variable("PROVIDES"=
+,
+> variant, e.data)
+> +                e.data.setVar("PROVIDES", origprovs)
+> +            e.data.setVar("PROVIDES", provs) }
+> +
+> +addhandler multilib_virtclass_handler_global
+> +
+> +def multilib_extend_name(variant, name):
+> +    if name.startswith("virtual/"):
+> +        subs =3D name.split("/", 1)[1]
+> +        if not subs.startswith(variant):
+> +            return "virtual/" + variant + "-" + subs
+> +        return name
+> +    if not name.startswith(variant):
+> +        return variant + "-" + name
+> +    return name
+> +
+> +def multilib_map_variable(varname, variant, d):
+> +    var =3D d.getVar(varname, True)
+> +    if not var:
+> +        return
+> +    var =3D var.split()
+> +    newvar =3D []
+> +    for v in var:
+> +        newvar.append(multilib_extend_name(variant, v))
+> +    newdata =3D  " ".join(newvar)
+> +    d.setVar(varname, newdata)
+> +    return newdata
+> diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf index
+> 36793d2..7424b8f 100644
+> --- a/meta/conf/multilib.conf
+> +++ b/meta/conf/multilib.conf
+> @@ -6,6 +6,8 @@ MULTILIB_SAVE_VARNAME =3D "DEFAULTTUNE"
+>=20
+>  MULTILIBS ??=3D "multilib:lib32"
+>=20
+> +INHERIT +=3D "multilib_global"
+> +
+>  BBCLASSEXTEND_append_pn-acl =3D " ${MULTILIBS}"
+>  BBCLASSEXTEND_append_pn-alsa-lib =3D " ${MULTILIBS}"
+>  BBCLASSEXTEND_append_pn-alsa-utils =3D " ${MULTILIBS}"
+>=20
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
