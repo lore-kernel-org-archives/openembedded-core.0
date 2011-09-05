@@ -1,28 +1,36 @@
-Received: from smtpfb2-g21.free.fr ([212.27.42.10])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1R0btn-000716-9F
-	for openembedded-core@lists.openembedded.org;
-	Mon, 05 Sep 2011 18:19:51 +0200
-Received: from smtp2-g21.free.fr (smtp2-g21.free.fr [212.27.42.2])
-	by smtpfb2-g21.free.fr (Postfix) with ESMTP id 023ACD19F04
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1R0cQL-0007Vh-9Q for openembedded-core@lists.openembedded.org;
+	Mon, 05 Sep 2011 18:53:29 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p85GmT8J032525
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Sep 2011 18:04:54 +0200 (CEST)
-Received: from [192.168.1.15] (unknown [82.240.38.71])
-	by smtp2-g21.free.fr (Postfix) with ESMTP id 4D52F4B00FA
+	Mon, 5 Sep 2011 17:48:29 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 29957-03 for <openembedded-core@lists.openembedded.org>;
+	Mon,  5 Sep 2011 17:48:25 +0100 (BST)
+Received: from [192.168.1.40] (dynamic10.rpnet.com [192.168.1.40])
+	(authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p85GmJUD032519
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Sep 2011 18:04:50 +0200 (CEST)
-Message-ID: <4E64F321.5010008@eukrea.com>
-Date: Mon, 05 Sep 2011 18:04:49 +0200
-From: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:6.0.1) Gecko/20110830 Thunderbird/6.0.1
-MIME-Version: 1.0
+	Mon, 5 Sep 2011 17:48:22 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1315229054-1859-1-git-send-email-denis@eukrea.com>
-	<FA68554D-DEC9-44B3-8971-AA7F01B068A8@dominion.thruhere.net>
-In-Reply-To: <FA68554D-DEC9-44B3-8971-AA7F01B068A8@dominion.thruhere.net>
-Subject: Re: [PATCH] qt4.inc: remove the optional documentation package from the demo's RRECOMMENDS
+In-Reply-To: <1315159086.2896.0.camel@lenovo.internal.reciva.com>
+References: <cover.1315109841.git.sgw@linux.intel.com>
+	<9f4240fffc8748f28e2d4ce6a6c88dee30ab9ddd.1315109841.git.sgw@linux.intel.com>
+	<1315159086.2896.0.camel@lenovo.internal.reciva.com>
+Date: Mon, 05 Sep 2011 17:48:18 +0100
+Message-ID: <1315241298.1243.1.camel@ted>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 1/2] groff: Fix sstate relocation issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,34 +45,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Sep 2011 16:19:51 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 05 Sep 2011 16:53:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Koen,
+On Sun, 2011-09-04 at 18:58 +0100, Phil Blundell wrote:
+> On Sat, 2011-09-03 at 21:19 -0700, Saul Wold wrote:
+> > +	create_cmdline_wrapper ${D}/${bindir}/groff \
+> > +		-F${STAGING_DIR_NATIVE}/usr/share/groff/${PV}/font \
+> > +		-M${STAGING_DIR_NATIVE}/usr/share/groff/${PV}/tmac
+> > +}
+> 
+> Shouldn't that be ${datadir}?
 
-Le 05/09/2011 17:38, Koen Kooi a =E9crit :
-> Op 5 sep. 2011 om 15:24 heeft Denis Carikli<denis@eukrea.com>  het volg=
-ende geschreven:
->
->> The documentation is 285M and doesn't fit on the NAND of many machines=
-.
->
-> That does remove all the descriptions from the qtdemo app, so removing =
-all docs isn't a good idea
->
-yes, that brings oe-core to the oe dev state (where the docs were not ins=
-talled).
-This makes qt4-demo images usable on systems with 256 MB flash because th=
-e doc=20
-package is huge.
+or datadir_native :)
 
-Next step will be to split the doc package in order to have the descripti=
-ons=20
-in one package and the code in an other one. We will try to find time to =
-do=20
-this in a few days.
+I'll pull and amend the patch with that change.
 
-Eric
+Cheers,
+
+Richard
+
 
 
