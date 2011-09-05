@@ -1,31 +1,33 @@
-Received: from smtp1.4emm.com ([69.18.222.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <james@digitalmatter.com.au>) id 1R0Tlz-00066x-4y
-	for openembedded-core@lists.openembedded.org;
-	Mon, 05 Sep 2011 09:39:15 +0200
-Received: from HUB20.4emm.local (192.168.160.61) by HUB01.4emm.local
-	(192.168.160.132) with Microsoft SMTP Server (TLS) id 8.2.254.0;
-	Mon, 5 Sep 2011 03:33:09 -0400
-Received: from MBX20.4emm.local ([fe80::382d:f6d3:f4de:a97f]) by
-	HUB20.4emm.local ([fe80::bd35:8b72:5ce1:12f%14]) with mapi id
-	14.01.0289.001; Mon, 5 Sep 2011 03:33:09 -0400
-From: James Limbouris <james@digitalmatter.com.au>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1R0V0x-0007Sd-FF for openembedded-core@lists.openembedded.org;
+	Mon, 05 Sep 2011 10:58:48 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p858rgMo028005;
+	Mon, 5 Sep 2011 09:53:42 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 24902-05; Mon,  5 Sep 2011 09:53:38 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p858rZ9d027999
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 5 Sep 2011 09:53:36 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [RESEND] bitbake.conf: fix ubi images creation
-Thread-Index: AQHMaYwpqS2tXqa6wE2mRmoPahd7C5U+pFAA///FZoA=
-Date: Mon, 5 Sep 2011 07:33:08 +0000
-Message-ID: <840A81C1B782724A8EB52725BD519EFF18DEC7@MBX20.4emm.local>
-References: <1314970267-20365-2-git-send-email-denis@eukrea.com>
-	<1314979795-13537-1-git-send-email-denis@eukrea.com>
-	<20110905070522.GA8690@chargestorm.se>
-In-Reply-To: <20110905070522.GA8690@chargestorm.se>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [203.59.132.158]
-MIME-Version: 1.0
-Subject: Re: [RESEND] bitbake.conf: fix ubi images creation
+In-Reply-To: <CALT56yOh6E9=51CWv9r-6Qz62wycn7MC4sn5pCKPEQziE07-QA@mail.gmail.com>
+References: <1315074165-20137-1-git-send-email-dbaryshkov@gmail.com>
+	<DE9759A0-C638-4B4A-A6BC-6B61139D866A@dominion.thruhere.net>
+	<CALT56yOh6E9=51CWv9r-6Qz62wycn7MC4sn5pCKPEQziE07-QA@mail.gmail.com>
+Date: Mon, 05 Sep 2011 09:53:29 +0100
+Message-ID: <1315212810.14490.25.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH 1/3] zaurusd: enable support for collie
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,67 +42,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Sep 2011 07:39:15 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 05 Sep 2011 08:58:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Anders Darander
-> Sent: Monday, 5 September 2011 3:05 PM
-> To: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [RESEND] bitbake.conf: fix ubi images creation
->=20
-> * Denis Carikli <denis@eukrea.com> [110902 18:19]:
-> > Without that commit ubinize.cfg lack a volume name value,
-> >   and the related ubinize.cfg line looks like that:
-> >     vol_name=3D
-> >   which result in a broken ubi image,which after beeing flashed produce
-> >   the following error:
-> >     UBI error: vtbl_check: volume table check failed: record 0, error 1=
-1
-> >   wich result in a kernel panic because the rootfs can't be mounted.
->=20
-> I've recently spent some time debugging this very same issue, when
-> converting an on-going project from oe-dev to oe-core.
->=20
+On Sat, 2011-09-03 at 23:04 +0400, Dmitry Eremin-Solenikov wrote:
+> On 9/3/11, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> > shouldn't this move to meta-zaurus now that oe-core is qemu only?
+> 
+> Maybe. IIUC, currently the plan is to push meta-zaurus into meta-hh as published
+> by Paul Eggleton. On the other hand we didn't start this move (yet).
+> So please ignore
+> this patch for now.
+> 
+> BTW: Probably this patch and fix-makefile.patch should just be applied
+> into main git?
 
-Me too!
+We should apply these patches straight into git, yes.
 
-> > Signed-off-by: Denis Carikli <denis@eukrea.com>
->=20
-> Acked-by: Anders Darander <anders@chargestorm.se>
->=20
-> > ---
-> >  meta/conf/bitbake.conf |    2 ++
-> >  1 files changed, 2 insertions(+), 0 deletions(-)
-> >
-> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> > index a68be07..14ee90c 100644
-> > --- a/meta/conf/bitbake.conf
-> > +++ b/meta/conf/bitbake.conf
-> > @@ -382,6 +382,8 @@ IMAGE_BASENAME =3D "${PN}"
-> >  IMAGE_NAME =3D "${IMAGE_BASENAME}-${MACHINE}-${DATETIME}"
-> >  IMAGE_LINK_NAME =3D "${IMAGE_BASENAME}-${MACHINE}"
-> >
-> > +UBI_VOLNAME ?=3D "${MACHINE}-rootfs"
-> > +
-> >  # This option allows for a percentage overage of the actual image size=
- rather
-> than a
-> >  # fixed extra space, this is space needed for initial startup and basi=
-c
-> operations.
-> >  IMAGE_OVERHEAD_FACTOR ?=3D 1.3
-> --
-> Anders Darander
-> ChargeStorm AB
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+I'm also wondering if there is still a use case for renaming zaurusd and
+turning it into something less machine specific (which was always its
+intent).
+
+One place it can really help is where you have several revisions of a
+board and need a slightly different audio config for each as it allows
+doing this with one OE 'machine' entry.
+
+Cheers,
+
+Richard
+
+
+
+
+
+
 
 
