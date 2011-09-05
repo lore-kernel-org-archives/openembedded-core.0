@@ -1,37 +1,38 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R0fBk-0002sD-VG for openembedded-core@lists.openembedded.org;
-	Mon, 05 Sep 2011 21:50:37 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p85Jjaex001166;
-	Mon, 5 Sep 2011 20:45:36 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 00973-05; Mon,  5 Sep 2011 20:45:32 +0100 (BST)
-Received: from [192.168.1.40] (dynamic10.rpnet.com [192.168.1.40])
-	(authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p85JjVpS001159
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 5 Sep 2011 20:45:31 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Gary Thomas <gary@mlbassoc.com>
-In-Reply-To: <4E4BE1DA.1030109@mlbassoc.com>
-References: <1312912632.14274.312.camel@rex>
-	<C10D3FB0CD45994C8A51FEC1227CE22F2FA76750B1@shsmsx502.ccr.corp.intel.com>
-	<27DA7A3C-0FE9-43CA-963C-F6217A1D2C9F@kernel.crashing.org>
-	<1312981676.14274.376.camel@rex> <1312982631.14274.379.camel@rex>
-	<4E4288F0.2010904@mlbassoc.com> <1312983621.14274.383.camel@rex>
-	<4E428C20.5030809@mlbassoc.com>  <4E4BE1DA.1030109@mlbassoc.com>
-Date: Mon, 05 Sep 2011 20:45:30 +0100
-Message-ID: <1315251930.1243.20.camel@ted>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Patches and discussions about the oe-core layer
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1R0fLA-0003Jg-0I
+	for openembedded-core@lists.openembedded.org;
+	Mon, 05 Sep 2011 22:00:20 +0200
+Received: by bkbzu17 with SMTP id zu17so4483624bkb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 05 Sep 2011 12:55:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=PXatOWRx12Bqorp7B5T4ziWuMLFEfjiTRZhYJOuucCM=;
+	b=NqZpCjyXwyYFmvm2DjUrmf9tK7/nOJ3RDoXh9gGdcXdj/rx/QPXsbQBEFwtF1nRyBX
+	UjvPYBVdDRn01hJCEfStoEMUHLBSscEjWC4SFApobAJpJMn/lVMNOsNdm9KkVQCG/JLM
+	IlLo0P7SxNPqecqzA5UISQkml+HBW6yTiGLB8=
+MIME-Version: 1.0
+Received: by 10.204.146.155 with SMTP id h27mr2244074bkv.353.1315252519552;
+	Mon, 05 Sep 2011 12:55:19 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.131.201 with HTTP; Mon, 5 Sep 2011 12:55:19 -0700 (PDT)
+In-Reply-To: <1315251077.1243.16.camel@ted>
+References: <CAP9ODKoei49fOtr7sySUQkbXY-yrdaF+cVydXXfwOXxtQ+8kyQ@mail.gmail.com>
+	<1314394806.5939.264.camel@rex>
+	<CAP9ODKp6igGGDY2AQL+VqhYZm-GmFrKKcLg=5gRMaq5jwp+2MQ@mail.gmail.com>
+	<1314517270.5939.268.camel@rex>
+	<CAP9ODKpdUMKw0RUHgzy5LnEupR9+wOuan7xiekefGitHSROBbw@mail.gmail.com>
+	<1315251077.1243.16.camel@ted>
+Date: Mon, 5 Sep 2011 16:55:19 -0300
+X-Google-Sender-Auth: Z3-rhIGHrS87DnwqdB86XP1hTEc
+Message-ID: <CAP9ODKq5aGvS1yWBs_Xk4QDEjHyEMe9ufzYdxxmJUNFX1=NiZg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: populate_sdk: We need to ensure that the SDK sysroot reflects PACKAGE_ARCH
+Subject: Re: Use of multiple GIT repositories in SRCREV but updating PV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,37 +47,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Sep 2011 19:50:37 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 05 Sep 2011 20:00:20 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2011-08-17 at 09:44 -0600, Gary Thomas wrote:
-> On 2011-08-10 07:48, Gary Thomas wrote:
-> > On 2011-08-10 07:40, Richard Purdie wrote:
-> >> On Wed, 2011-08-10 at 07:34 -0600, Gary Thomas wrote:
-> >>> On a related thought to these changes - how does this play if
-> >>> you use multiple SDKs for different, but somewhat related, architectures?
-> >>> I'd like to create a simple SDK (just toolchain mostly) using 'meta-toolchain'
-> >>> for both armv5te and armv7a and install them simultaneously on the same
-> >>> host. My previous attempts at this fell flat as there were a number of
-> >>> files marked as "arm" (i.e. not armv5te or arvm7a) that were common between
-> >>> the two SDK packages, but they didn't seem to be identical.
-> >>
-> >> This is supposed to work but wouldn't due to the issue and the patch
-> >> I've proposed. Whether that is the only issue I don't know.
-> >
-> > I'll be glad to test this once you've worked it out.
-> 
-> Any progress on this yet?  The discussion seems to have died down...
+On Mon, Sep 5, 2011 at 16:31, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Just to follow up for the benefit of the mailing list, we were missing a
+> patch Holger submitted a while back for this problem which has now
+> merged into bitbake master. You can now tell the fetcher to use
+> something other than "git" as the checkout directory.
 
-I merged the patch in question so I'm open to feedback on whether this
-works better now...
+Besides, on Meta-OE, I have put a newer version of  gitpkgv that
+supports SRCREV_FORMAT as well.
 
-Cheers,
-
-Richard
-
-
-
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
