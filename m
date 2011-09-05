@@ -1,37 +1,35 @@
-Received: from 14.mo1.mail-out.ovh.net ([178.32.97.215]
-	helo=mo1.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1R0dnc-0000lh-0A
-	for openembedded-core@lists.openembedded.org;
-	Mon, 05 Sep 2011 20:21:36 +0200
-Received: from mail179.ha.ovh.net (b9.ovh.net [213.186.33.59])
-	by mo1.mail-out.ovh.net (Postfix) with SMTP id 0332D1010AD6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1R0enB-000226-VR for openembedded-core@lists.openembedded.org;
+	Mon, 05 Sep 2011 21:25:14 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p85JKDVn000930
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Sep 2011 17:48:25 +0200 (CEST)
-Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
-	by b0.ovh.net with SMTP; 5 Sep 2011 17:48:00 +0200
-Received: from pac33-2-82-240-38-71.fbx.proxad.net (HELO ?192.168.1.15?)
-	(ebenard%eukrea.com@82.240.38.71)
-	by ns0.ovh.net with SMTP; 5 Sep 2011 17:47:59 +0200
-Message-ID: <4E64EF2F.5060304@eukrea.com>
-Date: Mon, 05 Sep 2011 17:47:59 +0200
-From: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:6.0.1) Gecko/20110830 Thunderbird/6.0.1
-MIME-Version: 1.0
+	Mon, 5 Sep 2011 20:20:13 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 29957-08 for <openembedded-core@lists.openembedded.org>;
+	Mon,  5 Sep 2011 20:20:09 +0100 (BST)
+Received: from [192.168.1.40] (dynamic10.rpnet.com [192.168.1.40])
+	(authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p85JK56E000924
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 5 Sep 2011 20:20:05 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Ovh-Mailout: 178.32.228.1 (mo1.mail-out.ovh.net)
-References: <1315229054-1859-1-git-send-email-denis@eukrea.com>
-	<FA68554D-DEC9-44B3-8971-AA7F01B068A8@dominion.thruhere.net>
-In-Reply-To: <FA68554D-DEC9-44B3-8971-AA7F01B068A8@dominion.thruhere.net>
-X-Ovh-Tracer-Id: 17234994300548001218
-X-Ovh-Remote: 82.240.38.71 (pac33-2-82-240-38-71.fbx.proxad.net)
-X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
-X-Spam-Check: DONE|U 0.5/N
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeftddrudekucetggdotefuucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
-Subject: Re: [PATCH] qt4.inc: remove the optional documentation package from the demo's RRECOMMENDS
+In-Reply-To: <cae9b6aa44f57843cf9a9575b85ef33350b0a41e.1315237572.git.paul.eggleton@linux.intel.com>
+References: <cover.1315237572.git.paul.eggleton@linux.intel.com>
+	<cae9b6aa44f57843cf9a9575b85ef33350b0a41e.1315237572.git.paul.eggleton@linux.intel.com>
+Date: Mon, 05 Sep 2011 20:20:05 +0100
+Message-ID: <1315250405.1243.5.camel@ted>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 1/1] git: fix sstate relocation for git-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,34 +44,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Sep 2011 18:21:36 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 05 Sep 2011 19:25:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Koen,
+On Mon, 2011-09-05 at 16:47 +0100, Paul Eggleton wrote:
+> Create a wrapper for git to set GIT_EXEC_PATH and GIT_TEMPLATE_DIR so
+> that git-native is relocatable.
+> 
+> Fixes specific example given in [YOCTO #1137]
+> 
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+>  meta/recipes-devtools/git/git.inc        |    6 ++++++
+>  meta/recipes-devtools/git/git_1.7.5.1.bb |    2 +-
+>  2 files changed, 7 insertions(+), 1 deletions(-)
 
-Le 05/09/2011 17:38, Koen Kooi a =E9crit :
-> Op 5 sep. 2011 om 15:24 heeft Denis Carikli<denis@eukrea.com>  het volg=
-ende geschreven:
->
->> The documentation is 285M and doesn't fit on the NAND of many machines=
-.
->
-> That does remove all the descriptions from the qtdemo app, so removing =
-all docs isn't a good idea
->
-yes, that brings oe-core to the oe dev state (where the docs were not ins=
-talled).
-This makes qt4-demo images usable on systems with 256 MB flash because th=
-e doc=20
-package is huge.
+Merged to master, thanks.
 
-Next step will be to split the doc package in order to have the descripti=
-ons=20
-in one package and the code in an other one. We will try to find time to =
-do=20
-this in a few days.
+Richard
 
-Eric
 
 
