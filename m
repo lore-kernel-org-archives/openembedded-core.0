@@ -1,25 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1R0OKx-0005Aw-Bi
+	(envelope-from <lianhao.lu@intel.com>) id 1R0SYJ-00051W-1W
 	for openembedded-core@lists.openembedded.org;
-	Mon, 05 Sep 2011 03:50:59 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p851jxoN023781
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 4 Sep 2011 18:45:59 -0700 (PDT)
-Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Sun, 4 Sep 2011 18:45:58 -0700
-Message-ID: <81906455aaaba904179737860569fa415ed1ce52.1315186871.git.xiaofeng.yan@windriver.com>
-In-Reply-To: <cover.1315186871.git.xiaofeng.yan@windriver.com>
-References: <cover.1315186871.git.xiaofeng.yan@windriver.com>
-Old-Date: Mon, 5 Sep 2011 09:33:12 +0800
-Date: Mon, 5 Sep 2011 09:47:41 +0800
-To: <openembedded-core@lists.openembedded.org>
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] qt4e-demo-image:Fix bug 999
+	Mon, 05 Sep 2011 08:21:03 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 04 Sep 2011 23:16:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,331,1312182000"; d="scan'208";a="45593785"
+Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.146])
+	by azsmga001.ch.intel.com with ESMTP; 04 Sep 2011 23:16:01 -0700
+From: Lianhao Lu <lianhao.lu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  5 Sep 2011 14:15:21 +0800
+Message-Id: <cover.1315203166.git.lianhao.lu@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+Subject: [PATCH 0/1] Make initramfs-live-install consistent to grub
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,32 +29,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Sep 2011 01:50:59 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 05 Sep 2011 06:21:03 -0000
 
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+This patch fixed bug #1428. Since the grub 0.97 on which the initramfs-live-install 
+RDEPENDS doesn't support x86_64 target, remove it from the COMPATIBLE_HOST in 
+initramfs-live-install.
 
-"/bin/sh" is needed by qt4e-demo-image, So I add busybox for fixing this problem.
+The following changes since commit 0616557a8c29b42bae0ffd5fd665a046810047e4:
+  Richard Purdie (1):
+        populate_sdk: We need to ensure that the SDK sysroot reflects PACKAGE_ARCH
 
-Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
----
- meta/recipes-qt/images/qt4e-demo-image.bb |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+are available in the git repository at:
 
-diff --git a/meta/recipes-qt/images/qt4e-demo-image.bb b/meta/recipes-qt/images/qt4e-demo-image.bb
-index f2150ca..6a7c086 100644
---- a/meta/recipes-qt/images/qt4e-demo-image.bb
-+++ b/meta/recipes-qt/images/qt4e-demo-image.bb
-@@ -11,6 +11,7 @@ RDEPENDS_${PN} += " \
- 	"
- 
- IMAGE_INSTALL += "\
-+	busybox \
- 	module-init-tools \
- 	task-qt4e-base \
- "
--- 
-1.7.0.4
+  git://git.yoctoproject.org/poky-contrib llu/bug1428
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=llu/bug1428
+
+Lianhao Lu (1):
+  initramfs-live-install: Be consistent with grub.
+
+ .../initrdscripts/initramfs-live-install_1.0.bb    |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
 
 
