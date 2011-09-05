@@ -1,25 +1,23 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1R0H2E-00025u-TJ
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1R0OKu-0005Ar-GC
 	for openembedded-core@lists.openembedded.org;
-	Sun, 04 Sep 2011 20:03:10 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.3])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1R0GxR-0000c7-QE
-	for openembedded-core@lists.openembedded.org;
-	Sun, 04 Sep 2011 19:58:13 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <9f4240fffc8748f28e2d4ce6a6c88dee30ab9ddd.1315109841.git.sgw@linux.intel.com>
-References: <cover.1315109841.git.sgw@linux.intel.com>
-	<9f4240fffc8748f28e2d4ce6a6c88dee30ab9ddd.1315109841.git.sgw@linux.intel.com>
-Date: Sun, 04 Sep 2011 18:58:06 +0100
-Message-ID: <1315159086.2896.0.camel@lenovo.internal.reciva.com>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.3 
-Subject: Re: [PATCH 1/2] groff: Fix sstate relocation issue
+	Mon, 05 Sep 2011 03:50:56 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p851jtPa023772
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 4 Sep 2011 18:45:55 -0700 (PDT)
+Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Sun, 4 Sep 2011 18:45:55 -0700
+Message-ID: <cover.1315186871.git.xiaofeng.yan@windriver.com>
+Old-Date: Mon, 5 Sep 2011 09:41:11 +0800
+Date: Mon, 5 Sep 2011 09:47:37 +0800
+To: <openembedded-core@lists.openembedded.org>
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 0/1]:qt4e-demo-image: Fix bug 999
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,20 +32,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Sep 2011 18:03:11 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 05 Sep 2011 01:50:56 -0000
+Content-Type: text/plain
 
-On Sat, 2011-09-03 at 21:19 -0700, Saul Wold wrote:
-> +	create_cmdline_wrapper ${D}/${bindir}/groff \
-> +		-F${STAGING_DIR_NATIVE}/usr/share/groff/${PV}/font \
-> +		-M${STAGING_DIR_NATIVE}/usr/share/groff/${PV}/tmac
-> +}
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-Shouldn't that be ${datadir}?
+"/bin/sh" is needed by qt4e-demo-image. I add "busybox" to this image.
 
-p.
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: xiaofeng/qt4e-demo-image
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/qt4e-demo-image
 
+Thanks,
+    Xiaofeng Yan <xiaofeng.yan@windriver.com>
+---
+
+
+Xiaofeng Yan (1):
+  qt4e-demo-image:Fix bug 999
+
+ meta/recipes-qt/images/qt4e-demo-image.bb |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
 
 
