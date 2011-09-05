@@ -1,38 +1,29 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from smtpfb2-g21.free.fr ([212.27.42.10])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1R0fLA-0003Jg-0I
+	(envelope-from <eric@eukrea.com>) id 1R0gZ9-0004dX-3T
 	for openembedded-core@lists.openembedded.org;
-	Mon, 05 Sep 2011 22:00:20 +0200
-Received: by bkbzu17 with SMTP id zu17so4483624bkb.6
+	Mon, 05 Sep 2011 23:18:51 +0200
+Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
+	by smtpfb2-g21.free.fr (Postfix) with ESMTP id 8C068CA8FE2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Sep 2011 12:55:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=PXatOWRx12Bqorp7B5T4ziWuMLFEfjiTRZhYJOuucCM=;
-	b=NqZpCjyXwyYFmvm2DjUrmf9tK7/nOJ3RDoXh9gGdcXdj/rx/QPXsbQBEFwtF1nRyBX
-	UjvPYBVdDRn01hJCEfStoEMUHLBSscEjWC4SFApobAJpJMn/lVMNOsNdm9KkVQCG/JLM
-	IlLo0P7SxNPqecqzA5UISQkml+HBW6yTiGLB8=
+	Mon,  5 Sep 2011 23:13:51 +0200 (CEST)
+Received: from [192.168.2.9] (unknown [82.233.81.124])
+	by smtp3-g21.free.fr (Postfix) with ESMTP id D72CDA6237
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  5 Sep 2011 23:13:46 +0200 (CEST)
+Message-ID: <4E653B89.2030808@eukrea.com>
+Date: Mon, 05 Sep 2011 23:13:45 +0200
+From: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:6.0.1) Gecko/20110830 Thunderbird/6.0.1
 MIME-Version: 1.0
-Received: by 10.204.146.155 with SMTP id h27mr2244074bkv.353.1315252519552;
-	Mon, 05 Sep 2011 12:55:19 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.131.201 with HTTP; Mon, 5 Sep 2011 12:55:19 -0700 (PDT)
-In-Reply-To: <1315251077.1243.16.camel@ted>
-References: <CAP9ODKoei49fOtr7sySUQkbXY-yrdaF+cVydXXfwOXxtQ+8kyQ@mail.gmail.com>
-	<1314394806.5939.264.camel@rex>
-	<CAP9ODKp6igGGDY2AQL+VqhYZm-GmFrKKcLg=5gRMaq5jwp+2MQ@mail.gmail.com>
-	<1314517270.5939.268.camel@rex>
-	<CAP9ODKpdUMKw0RUHgzy5LnEupR9+wOuan7xiekefGitHSROBbw@mail.gmail.com>
-	<1315251077.1243.16.camel@ted>
-Date: Mon, 5 Sep 2011 16:55:19 -0300
-X-Google-Sender-Auth: Z3-rhIGHrS87DnwqdB86XP1hTEc
-Message-ID: <CAP9ODKq5aGvS1yWBs_Xk4QDEjHyEMe9ufzYdxxmJUNFX1=NiZg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Use of multiple GIT repositories in SRCREV but updating PV
+References: <1315229054-1859-1-git-send-email-denis@eukrea.com>
+	<FA68554D-DEC9-44B3-8971-AA7F01B068A8@dominion.thruhere.net>
+	<4E64F321.5010008@eukrea.com>
+In-Reply-To: <4E64F321.5010008@eukrea.com>
+Subject: Re: [PATCH] qt4.inc: remove the optional documentation package from the demo's RRECOMMENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,25 +38,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Sep 2011 20:00:20 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 05 Sep 2011 21:18:51 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 5, 2011 at 16:31, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> Just to follow up for the benefit of the mailing list, we were missing a
-> patch Holger submitted a while back for this problem which has now
-> merged into bitbake master. You can now tell the fetcher to use
-> something other than "git" as the checkout directory.
+Le 05/09/2011 18:04, Eric B=E9nard a =E9crit :
+> Le 05/09/2011 17:38, Koen Kooi a =E9crit :
+>> Op 5 sep. 2011 om 15:24 heeft Denis Carikli<denis@eukrea.com> het volg=
+ende
+>> geschreven:
+>>
+>>> The documentation is 285M and doesn't fit on the NAND of many machine=
+s.
+>>
+>> That does remove all the descriptions from the qtdemo app, so removing=
+ all
+>> docs isn't a good idea
+>>
+> yes, that brings oe-core to the oe dev state (where the docs were not i=
+nstalled).
+> This makes qt4-demo images usable on systems with 256 MB flash because =
+the doc
+> package is huge.
+>
+FWIW with this patch we have exactly the same behaviour as (for example) =
+a=20
+Fedora 15 : installing qt-demos brings a qt-demo program which can launch=
+ the=20
+demos and examples but lacks the explanation text, installing qt-docs bri=
+ngs=20
+the text (in a 126MB rpm !).
 
-Besides, on Meta-OE, I have put a newer version of  gitpkgv that
-supports SRCREV_FORMAT as well.
+> Next step will be to split the doc package in order to have the descrip=
+tions
+> in one package and the code in an other one. We will try to find time t=
+o do
+> this in a few days.
+>
+in fact the text comes from the html directory in the qt doc which is qui=
+te=20
+big : 184MB. After a few research, it seems "only" 36MB of these 184MB ar=
+e=20
+used by qtdemo, so we could quite easily split qt-doc in 2 packages :=20
+qt-demo-doc and qt-doc.
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+Eric
 
 
