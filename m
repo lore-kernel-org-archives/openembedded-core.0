@@ -1,33 +1,21 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R0V0x-0007Sd-FF for openembedded-core@lists.openembedded.org;
-	Mon, 05 Sep 2011 10:58:48 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p858rgMo028005;
-	Mon, 5 Sep 2011 09:53:42 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 24902-05; Mon,  5 Sep 2011 09:53:38 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p858rZ9d027999
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 5 Sep 2011 09:53:36 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <CALT56yOh6E9=51CWv9r-6Qz62wycn7MC4sn5pCKPEQziE07-QA@mail.gmail.com>
-References: <1315074165-20137-1-git-send-email-dbaryshkov@gmail.com>
-	<DE9759A0-C638-4B4A-A6BC-6B61139D866A@dominion.thruhere.net>
-	<CALT56yOh6E9=51CWv9r-6Qz62wycn7MC4sn5pCKPEQziE07-QA@mail.gmail.com>
-Date: Mon, 05 Sep 2011 09:53:29 +0100
-Message-ID: <1315212810.14490.25.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH 1/3] zaurusd: enable support for collie
+Received: from smtpfb2-g21.free.fr ([212.27.42.10])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <denis@eukrea.com>) id 1R0ZEo-0006qX-DB
+	for openembedded-core@lists.openembedded.org;
+	Mon, 05 Sep 2011 15:29:22 +0200
+Received: from smtp2-g21.free.fr (smtp2-g21.free.fr [212.27.42.2])
+	by smtpfb2-g21.free.fr (Postfix) with ESMTP id CDDF4CA8E22
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  5 Sep 2011 15:24:22 +0200 (CEST)
+Received: from PCDEV1.lan (unknown [82.240.38.71])
+	by smtp2-g21.free.fr (Postfix) with ESMTP id A34154B0083;
+	Mon,  5 Sep 2011 15:24:18 +0200 (CEST)
+From: Denis Carikli <denis@eukrea.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  5 Sep 2011 15:24:14 +0200
+Message-Id: <1315229054-1859-1-git-send-email-denis@eukrea.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH] qt4.inc: remove the optional documentation package from the demo's RRECOMMENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,40 +30,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Sep 2011 08:58:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 05 Sep 2011 13:29:22 -0000
 
-On Sat, 2011-09-03 at 23:04 +0400, Dmitry Eremin-Solenikov wrote:
-> On 9/3/11, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> > shouldn't this move to meta-zaurus now that oe-core is qemu only?
-> 
-> Maybe. IIUC, currently the plan is to push meta-zaurus into meta-hh as published
-> by Paul Eggleton. On the other hand we didn't start this move (yet).
-> So please ignore
-> this patch for now.
-> 
-> BTW: Probably this patch and fix-makefile.patch should just be applied
-> into main git?
+The documentation is 285M and doesn't fit on the NAND of many machines.
 
-We should apply these patches straight into git, yes.
+Signed-off-by: Denis Carikli <denis@eukrea.com>
+---
+ meta/recipes-qt/qt4/qt4-embedded.inc |    2 +-
+ meta/recipes-qt/qt4/qt4-x11-free.inc |    2 +-
+ meta/recipes-qt/qt4/qt4.inc          |    3 +--
+ 3 files changed, 3 insertions(+), 4 deletions(-)
 
-I'm also wondering if there is still a use case for renaming zaurusd and
-turning it into something less machine specific (which was always its
-intent).
-
-One place it can really help is where you have several revisions of a
-board and need a slightly different audio config for each as it allows
-doing this with one OE 'machine' entry.
-
-Cheers,
-
-Richard
-
-
-
-
-
+diff --git a/meta/recipes-qt/qt4/qt4-embedded.inc b/meta/recipes-qt/qt4/qt4-embedded.inc
+index d464a1d..9914c61 100644
+--- a/meta/recipes-qt/qt4/qt4-embedded.inc
++++ b/meta/recipes-qt/qt4/qt4-embedded.inc
+@@ -3,7 +3,7 @@ SECTION = "libs"
+ LICENSE = "LGPLv2.1 | GPLv3"
+ HOMEPAGE = "http://qt.nokia.com"
+ DEPENDS += "directfb tslib"
+-INC_PR = "r29"
++INC_PR = "r30"
+ 
+ QT_BASE_NAME ?= "qt4-embedded"
+ QT_BASE_LIB  ?= "libqt-embedded"
+diff --git a/meta/recipes-qt/qt4/qt4-x11-free.inc b/meta/recipes-qt/qt4/qt4-x11-free.inc
+index 234cb89..0a714be 100644
+--- a/meta/recipes-qt/qt4/qt4-x11-free.inc
++++ b/meta/recipes-qt/qt4/qt4-x11-free.inc
+@@ -5,7 +5,7 @@ HOMEPAGE = "http://qt.nokia.com"
+ SECTION = "x11/libs"
+ DEPENDS += "virtual/libgl virtual/libx11 fontconfig libxft libxext libxrender libxrandr libxcursor"
+ 
+-INC_PR = "r26"
++INC_PR = "r27"
+ 
+ QT_GLFLAGS ?= "${@base_contains('DISTRO_FEATURES', 'opengl', '-opengl', '-no-opengl', d)} "
+ QT_GLFLAGS_qemux86 = "-opengl"
+diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
+index 5545be7..8a6b59a 100644
+--- a/meta/recipes-qt/qt4/qt4.inc
++++ b/meta/recipes-qt/qt4/qt4.inc
+@@ -124,8 +124,7 @@ RRECOMMENDS_${QT_BASE_NAME}-demos += " \
+             ${QT_BASE_NAME}-plugin-sqldriver-sqlite \
+             ${QT_BASE_NAME}-plugin-imageformat-jpeg \
+             ${QT_BASE_NAME}-qml-plugins \
+-            ${QT_BASE_NAME}-assistant \
+-            ${PN}-doc"
++            ${QT_BASE_NAME}-assistant"
+ RRECOMMENDS_${QT_BASE_NAME}-examples += " \
+             ${QT_BASE_NAME}-plugin-sqldriver-sqlite \
+             ${QT_BASE_NAME}-plugin-imageformat-jpeg \
+-- 
+1.7.4.1
 
 
 
