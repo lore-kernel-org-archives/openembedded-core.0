@@ -1,20 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1R0leq-0003yn-G3
+	(envelope-from <edwin.zhai@intel.com>) id 1R0ler-0003yn-NE
 	for openembedded-core@lists.openembedded.org;
-	Tue, 06 Sep 2011 04:45:05 +0200
+	Tue, 06 Sep 2011 04:45:06 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Sep 2011 19:39:56 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 05 Sep 2011 19:39:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,336,1312182000"; d="scan'208";a="49269079"
+X-IronPort-AV: E=Sophos;i="4.68,336,1312182000"; d="scan'208";a="49269088"
 Received: from yocto-build3.sh.intel.com ([10.239.48.58])
 	by fmsmga002.fm.intel.com with ESMTP; 05 Sep 2011 19:39:56 -0700
 From: edwin.zhai@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Sep 2011 10:36:11 +0800
-Message-Id: <cover.1315276240.git.edwin.zhai@intel.com>
+Date: Tue,  6 Sep 2011 10:36:12 +0800
+Message-Id: <6fb4806c9fad49d323cbbd1d0a0a54a5a279b2f0.1315276240.git.edwin.zhai@intel.com>
 X-Mailer: git-send-email 1.7.1
-Subject: [PATCH 0/2] Fixes for X and site/x86_64
+In-Reply-To: <cover.1315276240.git.edwin.zhai@intel.com>
+References: <cover.1315276240.git.edwin.zhai@intel.com>
+In-Reply-To: <cover.1315276240.git.edwin.zhai@intel.com>
+References: <cover.1315276240.git.edwin.zhai@intel.com>
+Subject: [PATCH 1/2] xserver-nodm-init: Change hidraw mode to allow normal user access
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,32 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Sep 2011 02:45:05 -0000
+X-List-Received-Date: Tue, 06 Sep 2011 02:45:06 -0000
 
 From: Zhai Edwin <edwin.zhai@intel.com>
 
-All,
-    These are some fixes. One is for enabling some HID device for rootless X,
-another is for grub conf error on x86_64. Pls. help to review.
+USB HID like touch screen could be presented as hidraw* device, this change
+make user under rootless X can access them.
 
-Thanks,
-Edwin
-
-The following changes since commit 314131e472a7d728ea96cbd577d2947d7bc9f50e:
-
-  linux-yocto: clean configuration for v3.0.4 (2011-09-05 20:25:46 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib gzhai/master2
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/master2
-
-Zhai Edwin (2):
-  xserver-nodm-init: Change hidraw mode to allow normal user access
-  site/x86_64: Add entries to fix conf error on x86_64
-
+Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+---
  .../x11-common/xserver-nodm-init/xserver-nodm      |    4 ++++
- meta/site/x86_64-linux                             |   10 ++++++++++
- 2 files changed, 14 insertions(+), 0 deletions(-)
+ 1 files changed, 4 insertions(+), 0 deletions(-)
+
+diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
+index 858af0b..c707a4b 100755
+--- a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
++++ b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
+@@ -34,6 +34,10 @@ case "$1" in
+            chmod o+w /var/log
+            chmod g+r /dev/tty[0-3]
+            chmod o+rw /dev/input/*
++           # hidraw device is probably needed
++           if [ -e /dev/hidraw0 ]; then
++               chmod o+rw /dev/hidraw*
++           fi
+        fi
+        # Using su rather than sudo as latest 1.8.1 cause failure [YOCTO #1211]
+        su -l -c '/etc/X11/Xserver&' $username 
+-- 
+1.7.1
 
 
 
