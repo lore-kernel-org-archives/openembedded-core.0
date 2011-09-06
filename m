@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1R0zUw-00037C-SJ
+	(envelope-from <sgw@linux.intel.com>) id 1R0zUz-00037I-1E
 	for openembedded-core@lists.openembedded.org;
-	Tue, 06 Sep 2011 19:31:48 +0200
+	Tue, 06 Sep 2011 19:31:49 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 06 Sep 2011 10:26:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,339,1312182000"; d="scan'208";a="49562721"
+X-IronPort-AV: E=Sophos;i="4.68,339,1312182000"; d="scan'208";a="49562723"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.39])
 	by fmsmga002.fm.intel.com with ESMTP; 06 Sep 2011 10:26:27 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Sep 2011 10:26:23 -0700
-Message-Id: <e98f0d82605ebbad5a061058cbe7164a14cb1154.1315329511.git.sgw@linux.intel.com>
+Date: Tue,  6 Sep 2011 10:26:24 -0700
+Message-Id: <26c566ec509393d6a441b0bf8cca4c4b4d621767.1315329511.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1315329511.git.sgw@linux.intel.com>
 References: <cover.1315329511.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1315329511.git.sgw@linux.intel.com>
 References: <cover.1315329511.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 3/5] scripts/oe-buildenv-internal: Add SOCKS5_{USER, PASSWD} to BB_ENV_EXTRAWHITE
+Subject: [CONSOLIDATED PULL 4/5] gettext: use included libxml and libcroco
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,29 +35,40 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 06 Sep 2011 17:31:49 -0000
 
-From: Kumar Gala <galak@kernel.crashing.org>
+[YOCTO #1400]
 
-If a SOCKS5 gateway is needed for a proxy access like git it might also
-require authentication to the proxy via a password and username.  Adding
-SOCKS5_USER & SOCKS5_PASSWD to BB_ENV_EXTRAWHITE allow for automation
-of the authentication request to occur when something like a git fetch
-is going through the proxy.
+By using the included libxml and libcroco, we do not create additional
+on this core library. There was an ordering issue that when one library
+was not built, but gettext detected the other library a compliation would
+fail, this will force it to always use the included libraries.
 
-Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- scripts/oe-buildenv-internal |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/recipes-core/gettext/gettext_0.18.1.1.bb |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
 
-diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
-index 61ac18c..5e0eb6e 100755
---- a/scripts/oe-buildenv-internal
-+++ b/scripts/oe-buildenv-internal
-@@ -71,4 +71,4 @@ unset BITBAKEDIR
- export BUILDDIR
- export PATH
+diff --git a/meta/recipes-core/gettext/gettext_0.18.1.1.bb b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
+index 9ec851e..2c0b2f8 100644
+--- a/meta/recipes-core/gettext/gettext_0.18.1.1.bb
++++ b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
+@@ -5,7 +5,7 @@ SECTION = "libs"
+ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
  
--export BB_ENV_EXTRAWHITE="MACHINE DISTRO TCMODE TCLIBC http_proxy ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND"
-+export BB_ENV_EXTRAWHITE="MACHINE DISTRO TCMODE TCLIBC http_proxy ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND SOCKS5_PASSWD SOCSK5_USER"
+-PR = "r2"
++PR = "r3"
+ DEPENDS = "libxml2-native gettext-native virtual/libiconv ncurses expat"
+ DEPENDS_virtclass-native = "libxml2-native"
+ PROVIDES = "virtual/libintl virtual/gettext"
+@@ -36,6 +36,8 @@ EXTRA_OECONF += "--without-lispdir \
+                  --without-emacs \
+                  --without-cvs \
+                  --without-git \
++                 --with-included-libxml \
++                 --with-included-libcroco \
+                 "
+ 
+ acpaths = '-I ${S}/gettext-runtime/m4 \
 -- 
 1.7.6
 
