@@ -1,35 +1,20 @@
-Received: from comal.ext.ti.com ([198.47.26.152])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <joelagnel@ti.com>) id 1R12gX-0006t1-AA
+	(envelope-from <nitin.a.kamble@intel.com>) id 1R12vs-0007WK-2Q
 	for openembedded-core@lists.openembedded.org;
-	Tue, 06 Sep 2011 22:55:57 +0200
-Received: from dlep34.itg.ti.com ([157.170.170.115])
-	by comal.ext.ti.com (8.13.7/8.13.7) with ESMTP id p86Kor38018336
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 Sep 2011 15:50:53 -0500
-Received: from dlep26.itg.ti.com (smtp-le.itg.ti.com [157.170.170.27])
-	by dlep34.itg.ti.com (8.13.7/8.13.8) with ESMTP id p86Korfq027315
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 Sep 2011 15:50:53 -0500 (CDT)
-Received: from DFLE70.ent.ti.com (localhost [127.0.0.1])
-	by dlep26.itg.ti.com (8.13.8/8.13.8) with ESMTP id p86KordD006184
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 Sep 2011 15:50:53 -0500 (CDT)
-Received: from dlelxv22.itg.ti.com (172.17.1.197) by dfle70.ent.ti.com
-	(128.247.5.40) with Microsoft SMTP Server id 14.1.323.3; Tue, 6 Sep 2011
-	15:50:53 -0500
-Received: from localhost.localdomain (chase-ubuntu.am.dhcp.ti.com
-	[128.247.105.25])	by dlelxv22.itg.ti.com (8.13.8/8.13.8) with ESMTP id
-	p86KoqMf031102;	Tue, 6 Sep 2011 15:50:53 -0500
-From: Joel A Fernandes <joelagnel@ti.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 6 Sep 2011 15:40:28 -0500
-Message-ID: <1315341632-32153-1-git-send-email-joelagnel@ti.com>
-X-Mailer: git-send-email 1.7.0.4
-MIME-Version: 1.0
-Cc: jdk@ti.com, k-kooi@ti.com
-Subject: [PATCH v4 meta-oe 0/4] gnome patches
+	Tue, 06 Sep 2011 23:11:48 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 06 Sep 2011 14:06:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,341,1312182000"; d="scan'208";a="48651859"
+Received: from nbuild2.sc.intel.com ([172.25.110.37])
+	by fmsmga001.fm.intel.com with ESMTP; 06 Sep 2011 14:06:45 -0700
+From: nitin.a.kamble@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  6 Sep 2011 14:06:43 -0700
+Message-Id: <cover.1315343093.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.4.4
+Subject: [PATCH 0/1] enable btrfs as a supported image fs type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,36 +29,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Sep 2011 20:55:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 06 Sep 2011 21:11:48 -0000
 
-Dropped PR=r0 from all recipes
-Removed RDEPENDS_
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Koen's Feedback:
-http://permalink.gmane.org/gmane.comp.handhelds.openembedded.core/7008
+The following changes since commit dbff56238e083d0110eb13c1f5a07716340fdfe4:
 
-Joel A Fernandes (4):
-  gedit: Imported from OE classic
-  gtksourceview: Imported from OE classic
-  libgnomecups: Imported from OE Classic
-  libgnomeprint: Imported from OE classic
+  icu-3.6: fix building with big make -j (2011-09-06 16:37:02 +0100)
 
- meta-gnome/recipes-gnome/gedit/gedit_2.30.0.bb     |   21 +++
- .../recipes-gnome/gnome/libgnomecups_0.2.3.bb      |   15 ++
- .../recipes-gnome/gnome/libgnomeprint_2.18.7.bb    |   15 ++
- .../recipes-gnome/gtksourceview/files/acinclude.m4 |   90 ++++++++++
- .../recipes-gnome/gtksourceview/files/gtk-doc.m4   |   53 ++++++
- .../recipes-gnome/gtksourceview/files/gtk-doc.make |  173 ++++++++++++++++++++
- .../gtksourceview/gtksourceview2_2.10.0.bb         |   29 ++++
- 7 files changed, 396 insertions(+), 0 deletions(-)
- create mode 100644 meta-gnome/recipes-gnome/gedit/gedit_2.30.0.bb
- create mode 100644 meta-gnome/recipes-gnome/gnome/libgnomecups_0.2.3.bb
- create mode 100644 meta-gnome/recipes-gnome/gnome/libgnomeprint_2.18.7.bb
- create mode 100644 meta-gnome/recipes-gnome/gtksourceview/files/acinclude.m4
- create mode 100644 meta-gnome/recipes-gnome/gtksourceview/files/gtk-doc.m4
- create mode 100644 meta-gnome/recipes-gnome/gtksourceview/files/gtk-doc.make
- create mode 100644 meta-gnome/recipes-gnome/gtksourceview/gtksourceview2_2.10.0.bb
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/btrfs
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/btrfs
+
+Nitin A Kamble (1):
+  image-types: add btrfs as a supported fstype
+
+ meta/classes/image_types.bbclass |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+-- 
+1.7.4.4
 
 
 
