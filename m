@@ -1,19 +1,17 @@
 Received: from smtp2-g21.free.fr ([212.27.42.2])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@eukrea.com>) id 1R0puI-0007yF-Gg
+	(envelope-from <denis@eukrea.com>) id 1R0qF5-0006qy-Lv
 	for openembedded-core@lists.openembedded.org;
-	Tue, 06 Sep 2011 09:17:19 +0200
+	Tue, 06 Sep 2011 09:38:48 +0200
 Received: from PCDEV1.lan (unknown [82.240.38.71])
-	by smtp2-g21.free.fr (Postfix) with ESMTP id 1060C4B009D;
-	Tue,  6 Sep 2011 09:12:15 +0200 (CEST)
+	by smtp2-g21.free.fr (Postfix) with ESMTP id 8DF344B0173;
+	Tue,  6 Sep 2011 09:33:45 +0200 (CEST)
 From: Denis Carikli <denis@eukrea.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Sep 2011 09:12:07 +0200
-Message-Id: <1315293127-2633-1-git-send-email-denis@eukrea.com>
+Date: Tue,  6 Sep 2011 09:33:42 +0200
+Message-Id: <1315294422-3097-1-git-send-email-denis@eukrea.com>
 X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <1314972452-26629-1-git-send-email-denis@eukrea.com>
-References: <1314972452-26629-1-git-send-email-denis@eukrea.com>
-Subject: [PATCH v4] mtd-utils: update to version to 1.4.6
+Subject: [PATCH] busybox: update to 1.8.5 Signed-off-by: Denis Carikli <denis@eukrea.com>
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,52 +26,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Sep 2011 07:17:19 -0000
+X-List-Received-Date: Tue, 06 Sep 2011 07:38:48 -0000
 
-mtd-utils 1.4.6 is the lastest release of mtd-utils
-  at this time.
-
-Signed-off-by: Denis Carikli <denis@eukrea.com>
 ---
- .../add-exclusion-to-mkfs-jffs2-git-2.patch        |    0
- .../mtd/{mtd-utils_1.4.1.bb => mtd-utils_1.4.6.bb} |    7 ++-----
- 2 files changed, 2 insertions(+), 5 deletions(-)
- rename meta/recipes-devtools/mtd/{mtd-utils-1.4.1 => mtd-utils-1.4.6}/add-exclusion-to-mkfs-jffs2-git-2.patch (100%)
- rename meta/recipes-devtools/mtd/{mtd-utils_1.4.1.bb => mtd-utils_1.4.6.bb} (81%)
+ .../B921600.patch                                  |    0
+ .../busybox-appletlib-dependency.patch             |    0
+ .../busybox-udhcpc-no_deconfig.patch               |    0
+ .../{busybox-1.18.4 => busybox-1.18.5}/defconfig   |    0
+ .../get_header_tar.patch                           |    0
+ .../run-parts.in.usr-bin.patch                     |    0
+ .../udhcpc-fix-nfsroot.patch                       |    0
+ .../udhcpscript.patch                              |    0
+ .../{busybox_1.18.4.bb => busybox_1.18.5.bb}       |    6 +++---
+ 9 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-core/busybox/{busybox-1.18.4 => busybox-1.18.5}/B921600.patch (100%)
+ rename meta/recipes-core/busybox/{busybox-1.18.4 => busybox-1.18.5}/busybox-appletlib-dependency.patch (100%)
+ rename meta/recipes-core/busybox/{busybox-1.18.4 => busybox-1.18.5}/busybox-udhcpc-no_deconfig.patch (100%)
+ rename meta/recipes-core/busybox/{busybox-1.18.4 => busybox-1.18.5}/defconfig (100%)
+ rename meta/recipes-core/busybox/{busybox-1.18.4 => busybox-1.18.5}/get_header_tar.patch (100%)
+ rename meta/recipes-core/busybox/{busybox-1.18.4 => busybox-1.18.5}/run-parts.in.usr-bin.patch (100%)
+ rename meta/recipes-core/busybox/{busybox-1.18.4 => busybox-1.18.5}/udhcpc-fix-nfsroot.patch (100%)
+ rename meta/recipes-core/busybox/{busybox-1.18.4 => busybox-1.18.5}/udhcpscript.patch (100%)
+ rename meta/recipes-core/busybox/{busybox_1.18.4.bb => busybox_1.18.5.bb} (85%)
 
-diff --git a/meta/recipes-devtools/mtd/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch b/meta/recipes-devtools/mtd/mtd-utils-1.4.6/add-exclusion-to-mkfs-jffs2-git-2.patch
+diff --git a/meta/recipes-core/busybox/busybox-1.18.4/B921600.patch b/meta/recipes-core/busybox/busybox-1.18.5/B921600.patch
 similarity index 100%
-rename from meta/recipes-devtools/mtd/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch
-rename to meta/recipes-devtools/mtd/mtd-utils-1.4.6/add-exclusion-to-mkfs-jffs2-git-2.patch
-diff --git a/meta/recipes-devtools/mtd/mtd-utils_1.4.1.bb b/meta/recipes-devtools/mtd/mtd-utils_1.4.6.bb
-similarity index 81%
-rename from meta/recipes-devtools/mtd/mtd-utils_1.4.1.bb
-rename to meta/recipes-devtools/mtd/mtd-utils_1.4.6.bb
-index c05149d..79f4f15 100644
---- a/meta/recipes-devtools/mtd/mtd-utils_1.4.1.bb
-+++ b/meta/recipes-devtools/mtd/mtd-utils_1.4.6.bb
-@@ -6,12 +6,12 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
-                     file://include/common.h;beginline=1;endline=17;md5=ba05b07912a44ea2bf81ce409380049c"
- 
--SRC_URI = "git://git.infradead.org/mtd-utils.git;protocol=git;tag=3c3674a6e1d3f59554b0ff68ca59be2fd4134e0c \
-+SRC_URI = "git://git.infradead.org/mtd-utils.git;protocol=git;tag=baafd8ace3301e9d2ba314a376bad008314b34ff \
- 		file://add-exclusion-to-mkfs-jffs2-git-2.patch"
- 
- S = "${WORKDIR}/git/"
- 
--PR = "r1"
+rename from meta/recipes-core/busybox/busybox-1.18.4/B921600.patch
+rename to meta/recipes-core/busybox/busybox-1.18.5/B921600.patch
+diff --git a/meta/recipes-core/busybox/busybox-1.18.4/busybox-appletlib-dependency.patch b/meta/recipes-core/busybox/busybox-1.18.5/busybox-appletlib-dependency.patch
+similarity index 100%
+rename from meta/recipes-core/busybox/busybox-1.18.4/busybox-appletlib-dependency.patch
+rename to meta/recipes-core/busybox/busybox-1.18.5/busybox-appletlib-dependency.patch
+diff --git a/meta/recipes-core/busybox/busybox-1.18.4/busybox-udhcpc-no_deconfig.patch b/meta/recipes-core/busybox/busybox-1.18.5/busybox-udhcpc-no_deconfig.patch
+similarity index 100%
+rename from meta/recipes-core/busybox/busybox-1.18.4/busybox-udhcpc-no_deconfig.patch
+rename to meta/recipes-core/busybox/busybox-1.18.5/busybox-udhcpc-no_deconfig.patch
+diff --git a/meta/recipes-core/busybox/busybox-1.18.4/defconfig b/meta/recipes-core/busybox/busybox-1.18.5/defconfig
+similarity index 100%
+rename from meta/recipes-core/busybox/busybox-1.18.4/defconfig
+rename to meta/recipes-core/busybox/busybox-1.18.5/defconfig
+diff --git a/meta/recipes-core/busybox/busybox-1.18.4/get_header_tar.patch b/meta/recipes-core/busybox/busybox-1.18.5/get_header_tar.patch
+similarity index 100%
+rename from meta/recipes-core/busybox/busybox-1.18.4/get_header_tar.patch
+rename to meta/recipes-core/busybox/busybox-1.18.5/get_header_tar.patch
+diff --git a/meta/recipes-core/busybox/busybox-1.18.4/run-parts.in.usr-bin.patch b/meta/recipes-core/busybox/busybox-1.18.5/run-parts.in.usr-bin.patch
+similarity index 100%
+rename from meta/recipes-core/busybox/busybox-1.18.4/run-parts.in.usr-bin.patch
+rename to meta/recipes-core/busybox/busybox-1.18.5/run-parts.in.usr-bin.patch
+diff --git a/meta/recipes-core/busybox/busybox-1.18.4/udhcpc-fix-nfsroot.patch b/meta/recipes-core/busybox/busybox-1.18.5/udhcpc-fix-nfsroot.patch
+similarity index 100%
+rename from meta/recipes-core/busybox/busybox-1.18.4/udhcpc-fix-nfsroot.patch
+rename to meta/recipes-core/busybox/busybox-1.18.5/udhcpc-fix-nfsroot.patch
+diff --git a/meta/recipes-core/busybox/busybox-1.18.4/udhcpscript.patch b/meta/recipes-core/busybox/busybox-1.18.5/udhcpscript.patch
+similarity index 100%
+rename from meta/recipes-core/busybox/busybox-1.18.4/udhcpscript.patch
+rename to meta/recipes-core/busybox/busybox-1.18.5/udhcpscript.patch
+diff --git a/meta/recipes-core/busybox/busybox_1.18.4.bb b/meta/recipes-core/busybox/busybox_1.18.5.bb
+similarity index 85%
+rename from meta/recipes-core/busybox/busybox_1.18.4.bb
+rename to meta/recipes-core/busybox/busybox_1.18.5.bb
+index b2053ee..c0dc1d4 100644
+--- a/meta/recipes-core/busybox/busybox_1.18.4.bb
++++ b/meta/recipes-core/busybox/busybox_1.18.5.bb
+@@ -1,5 +1,5 @@
+ require busybox.inc
+-PR = "r9"
 +PR = "r0"
  
- EXTRA_OEMAKE = "'CC=${CC}' 'CFLAGS=${CFLAGS} -I${S}/include -DWITHOUT_XATTR' 'BUILDDIR=${S}'"
+ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://udhcpscript.patch \
+@@ -25,7 +25,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://umount.busybox \
+            file://defconfig"
  
-@@ -26,6 +26,3 @@ do_install () {
- PARALLEL_MAKE = ""
+-SRC_URI[tarball.md5sum] = "b03c5b46ced732679e525a920a1a62f5"
+-SRC_URI[tarball.sha256sum] = "4d24d37bd6f1bd153e8cf9a984ec2f32f18464f73ca535e2cc2e8be9694097fa"
++SRC_URI[tarball.md5sum] = "96dd43cc7cee4017a6bf31b7da82a1f5"
++SRC_URI[tarball.sha256sum] = "10954fcd5c48d8a262a3497b16227bf983a05658bf2bf661af2fdeca773f2fc0"
  
- BBCLASSEXTEND = "native"
--
--SRC_URI[md5sum] = "645519b753b364d52c4b941dcee3dd7e"
--SRC_URI[sha256sum] = "51d6a77c7e673219bb89c4b119f336d9f2f5a5e065a12ecf9636c5348d099a0e"
+ EXTRA_OEMAKE += "V=1 ARCH=${TARGET_ARCH} CROSS_COMPILE=${TARGET_PREFIX} SKIP_STRIP=y"
 -- 
 1.7.4.1
 
