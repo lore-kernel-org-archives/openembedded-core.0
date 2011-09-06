@@ -1,19 +1,31 @@
-Received: from smtp2-g21.free.fr ([212.27.42.2])
+Received: from mail-ew0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@eukrea.com>) id 1R0qLg-00081b-Cd
+	(envelope-from <martin.jansa@gmail.com>) id 1R0ruj-00070Y-U1
 	for openembedded-core@lists.openembedded.org;
-	Tue, 06 Sep 2011 09:45:44 +0200
-Received: from PCDEV1.lan (unknown [82.240.38.71])
-	by smtp2-g21.free.fr (Postfix) with ESMTP id AC1DE4B0189;
-	Tue,  6 Sep 2011 09:39:56 +0200 (CEST)
-From: Denis Carikli <denis@eukrea.com>
+	Tue, 06 Sep 2011 11:25:53 +0200
+Received: by ewy5 with SMTP id 5so2495584ewy.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 06 Sep 2011 02:20:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=gXgv2Rex8W4k4WQ99lGe6TEUQwx4Nmiy4/IN8saNlws=;
+	b=k9JNUuzVA0DjQyUBiSYN02kke7BH4irG9NLpSCMdVrTJU30whVxQghnplmNgDn7j15
+	u+dLAU98Hmo0zqvcKbH7IisZJQdFHS3/yOilRrhZYDds4MIk//soRNgPjg0xQKMyrcry
+	exCqpXlxypk6atXh8WJ6COQv8iQrt4eR71Nwk=
+Received: by 10.213.108.193 with SMTP id g1mr1153794ebp.59.1315300851214;
+	Tue, 06 Sep 2011 02:20:51 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id f3sm1270656eea.4.2011.09.06.02.20.49
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 06 Sep 2011 02:20:49 -0700 (PDT)
+Date: Tue, 6 Sep 2011 11:20:43 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Sep 2011 09:39:39 +0200
-Message-Id: <1315294779-3295-1-git-send-email-denis@eukrea.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <1315294422-3097-1-git-send-email-denis@eukrea.com>
-References: <1315294422-3097-1-git-send-email-denis@eukrea.com>
-Subject: [PATCH v2] busybox: update to 1.8.5
+Message-ID: <20110906092043.GI31057@jama.jama.net>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Tinylogin or shadow?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,88 +40,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Sep 2011 07:45:44 -0000
+X-List-Received-Date: Tue, 06 Sep 2011 09:25:54 -0000
+X-Groupsio-MsgNum: 9146
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="ijf6z65S790CMqo8"
+Content-Disposition: inline
 
-Signed-off-by: Denis Carikli <denis@eukrea.com>
----
- .../B921600.patch                                  |    0
- .../busybox-appletlib-dependency.patch             |    0
- .../busybox-udhcpc-no_deconfig.patch               |    0
- .../{busybox-1.18.4 => busybox-1.18.5}/defconfig   |    0
- .../get_header_tar.patch                           |    0
- .../run-parts.in.usr-bin.patch                     |    0
- .../udhcpc-fix-nfsroot.patch                       |    0
- .../udhcpscript.patch                              |    0
- .../{busybox_1.18.4.bb => busybox_1.18.5.bb}       |    6 +++---
- 9 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-core/busybox/{busybox-1.18.4 => busybox-1.18.5}/B921600.patch (100%)
- rename meta/recipes-core/busybox/{busybox-1.18.4 => busybox-1.18.5}/busybox-appletlib-dependency.patch (100%)
- rename meta/recipes-core/busybox/{busybox-1.18.4 => busybox-1.18.5}/busybox-udhcpc-no_deconfig.patch (100%)
- rename meta/recipes-core/busybox/{busybox-1.18.4 => busybox-1.18.5}/defconfig (100%)
- rename meta/recipes-core/busybox/{busybox-1.18.4 => busybox-1.18.5}/get_header_tar.patch (100%)
- rename meta/recipes-core/busybox/{busybox-1.18.4 => busybox-1.18.5}/run-parts.in.usr-bin.patch (100%)
- rename meta/recipes-core/busybox/{busybox-1.18.4 => busybox-1.18.5}/udhcpc-fix-nfsroot.patch (100%)
- rename meta/recipes-core/busybox/{busybox-1.18.4 => busybox-1.18.5}/udhcpscript.patch (100%)
- rename meta/recipes-core/busybox/{busybox_1.18.4.bb => busybox_1.18.5.bb} (85%)
+--ijf6z65S790CMqo8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-core/busybox/busybox-1.18.4/B921600.patch b/meta/recipes-core/busybox/busybox-1.18.5/B921600.patch
-similarity index 100%
-rename from meta/recipes-core/busybox/busybox-1.18.4/B921600.patch
-rename to meta/recipes-core/busybox/busybox-1.18.5/B921600.patch
-diff --git a/meta/recipes-core/busybox/busybox-1.18.4/busybox-appletlib-dependency.patch b/meta/recipes-core/busybox/busybox-1.18.5/busybox-appletlib-dependency.patch
-similarity index 100%
-rename from meta/recipes-core/busybox/busybox-1.18.4/busybox-appletlib-dependency.patch
-rename to meta/recipes-core/busybox/busybox-1.18.5/busybox-appletlib-dependency.patch
-diff --git a/meta/recipes-core/busybox/busybox-1.18.4/busybox-udhcpc-no_deconfig.patch b/meta/recipes-core/busybox/busybox-1.18.5/busybox-udhcpc-no_deconfig.patch
-similarity index 100%
-rename from meta/recipes-core/busybox/busybox-1.18.4/busybox-udhcpc-no_deconfig.patch
-rename to meta/recipes-core/busybox/busybox-1.18.5/busybox-udhcpc-no_deconfig.patch
-diff --git a/meta/recipes-core/busybox/busybox-1.18.4/defconfig b/meta/recipes-core/busybox/busybox-1.18.5/defconfig
-similarity index 100%
-rename from meta/recipes-core/busybox/busybox-1.18.4/defconfig
-rename to meta/recipes-core/busybox/busybox-1.18.5/defconfig
-diff --git a/meta/recipes-core/busybox/busybox-1.18.4/get_header_tar.patch b/meta/recipes-core/busybox/busybox-1.18.5/get_header_tar.patch
-similarity index 100%
-rename from meta/recipes-core/busybox/busybox-1.18.4/get_header_tar.patch
-rename to meta/recipes-core/busybox/busybox-1.18.5/get_header_tar.patch
-diff --git a/meta/recipes-core/busybox/busybox-1.18.4/run-parts.in.usr-bin.patch b/meta/recipes-core/busybox/busybox-1.18.5/run-parts.in.usr-bin.patch
-similarity index 100%
-rename from meta/recipes-core/busybox/busybox-1.18.4/run-parts.in.usr-bin.patch
-rename to meta/recipes-core/busybox/busybox-1.18.5/run-parts.in.usr-bin.patch
-diff --git a/meta/recipes-core/busybox/busybox-1.18.4/udhcpc-fix-nfsroot.patch b/meta/recipes-core/busybox/busybox-1.18.5/udhcpc-fix-nfsroot.patch
-similarity index 100%
-rename from meta/recipes-core/busybox/busybox-1.18.4/udhcpc-fix-nfsroot.patch
-rename to meta/recipes-core/busybox/busybox-1.18.5/udhcpc-fix-nfsroot.patch
-diff --git a/meta/recipes-core/busybox/busybox-1.18.4/udhcpscript.patch b/meta/recipes-core/busybox/busybox-1.18.5/udhcpscript.patch
-similarity index 100%
-rename from meta/recipes-core/busybox/busybox-1.18.4/udhcpscript.patch
-rename to meta/recipes-core/busybox/busybox-1.18.5/udhcpscript.patch
-diff --git a/meta/recipes-core/busybox/busybox_1.18.4.bb b/meta/recipes-core/busybox/busybox_1.18.5.bb
-similarity index 85%
-rename from meta/recipes-core/busybox/busybox_1.18.4.bb
-rename to meta/recipes-core/busybox/busybox_1.18.5.bb
-index b2053ee..c0dc1d4 100644
---- a/meta/recipes-core/busybox/busybox_1.18.4.bb
-+++ b/meta/recipes-core/busybox/busybox_1.18.5.bb
-@@ -1,5 +1,5 @@
- require busybox.inc
--PR = "r9"
-+PR = "r0"
- 
- SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://udhcpscript.patch \
-@@ -25,7 +25,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://umount.busybox \
-            file://defconfig"
- 
--SRC_URI[tarball.md5sum] = "b03c5b46ced732679e525a920a1a62f5"
--SRC_URI[tarball.sha256sum] = "4d24d37bd6f1bd153e8cf9a984ec2f32f18464f73ca535e2cc2e8be9694097fa"
-+SRC_URI[tarball.md5sum] = "96dd43cc7cee4017a6bf31b7da82a1f5"
-+SRC_URI[tarball.sha256sum] = "10954fcd5c48d8a262a3497b16227bf983a05658bf2bf661af2fdeca773f2fc0"
- 
- EXTRA_OEMAKE += "V=1 ARCH=${TARGET_ARCH} CROSS_COMPILE=${TARGET_PREFIX} SKIP_STRIP=y"
--- 
-1.7.4.1
+Hi,
+
+if someone wants to use only shadow as login manager, then all postinst
+calling adduser (instead of useradd) are failing ie:
+
+recipes-connectivity/avahi/avahi.inc:   grep "^avahi:" /etc/passwd > /dev/n=
+ull || adduser --disabled-password --system --home /var/run/avahi-daemon --=
+no-create-home avahi --ingroup avahi -g Avahi
+recipes-connectivity/avahi/avahi.inc:   grep "^avahi-autoipd:" /etc/passwd =
+> /dev/null || adduser --disabled-password --system --home /var/lib/avahi-a=
+utoipd --no-create-home avahi-autoipd --ingroup avahi-autoipd -g "Avahi aut=
+oip daemon"
+recipes-connectivity/openssh/openssh_5.8p2.bb:          adduser --system --=
+home /var/run/sshd --no-create-home --disabled-password --ingroup sshd -s /=
+bin/false sshd
+recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb:      adduser --system --=
+home /dev/null --no-create-home --empty-password --ingroup nogroup -s ${sbi=
+ndir}/ppp-dialin ppp
+recipes-core/dbus/dbus.inc:             adduser --system --home "$MESSAGEHO=
+ME" --no-create-home --disabled-password \
+recipes-devtools/distcc/distcc_2.18.3.bb:               grep distcc /etc/pa=
+sswd || adduser --system --home /dev/null --no-create-home --empty-password=
+ --ingroup nogroup distcc
+recipes-graphics/x11-common/xserver-nodm-init.bb:        adduser --disabled=
+-password $username
+recipes-multimedia/pulseaudio/pulseaudio.inc:            adduser --disabled=
+-password --home=3D/var/run/pulse --system \
+recipes-support/hal/hal.inc:    grep haldaemon /etc/passwd || adduser --dis=
+abled-password --system --home /var/run/hald --no-create-home haldaemon --i=
+ngroup haldaemon -g HAL
+
+What is preferred fix, I plan to add u-a to shadow to provide adduser alter=
+native=20
+or add RCONFLICT between tinylogin and shadow as we don't want some passwd =
+entries
+=66rom tinylogin and some from shadow (when both installed at the same time.
+Someone with better idea or even patches for it?
+
+Just in case, list of files provided by both login managers:
+
+bash-4.1# opkg files shadow
+Package shadow (4.1.4.3-r4) is installed on root and has the following
+files:
+/usr/sbin/useradd
+/usr/sbin/groupadd
+/usr/sbin/groupmems
+/usr/sbin/pwck
+/etc/securetty
+/usr/bin/newgrp.shadow
+/usr/sbin/usermod
+/usr/bin/chsh.shadow
+/usr/sbin/groupmod
+/etc/default/useradd
+/usr/bin/chfn.shadow
+/usr/sbin/nologin
+/usr/bin/expiry
+/usr/bin/passwd.shadow
+/usr/sbin/userdel
+/usr/sbin/groupdel
+/usr/bin/sg
+/usr/bin/su
+/usr/sbin/newusers
+/etc/login.access
+/sbin/vigr.shadow
+/usr/bin/groups
+/usr/sbin/grpconv
+/usr/sbin/logoutd
+/usr/sbin/chgpasswd
+/usr/sbin/grpck
+/usr/sbin/chpasswd.shadow
+/usr/bin/gpasswd
+/bin/login.shadow
+/usr/sbin/grpunconv
+/sbin/vipw.shadow
+/usr/bin/faillog
+/usr/sbin/pwconv
+/var/spool/mail/
+/usr/bin/chage
+/usr/bin/lastlog
+/etc/login.defs
+/etc/limits
+/usr/sbin/pwunconv
+
+bash-4.1# opkg files tinylogin
+Package tinylogin (1.4-r7) is installed on root and has the following
+files:
+/bin/login
+/bin/su
+/bin/addgroup
+/sbin/sulogin
+/usr/bin/passwd
+/bin/delgroup
+/usr/bin/vlock
+/bin/tinylogin
+/bin/deluser
+/sbin/getty
+/bin/adduser
 
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--ijf6z65S790CMqo8
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk5l5esACgkQN1Ujt2V2gBwfMQCffAKSh+s2AEeOvLK1JK0wE01Q
+wl8AnRTBbwrIQC0cA24facLakQsZzeSo
+=R1OV
+-----END PGP SIGNATURE-----
+
+--ijf6z65S790CMqo8--
