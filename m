@@ -1,24 +1,31 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1R0yRj-0001j2-7F
-	for openembedded-core@lists.openembedded.org;
-	Tue, 06 Sep 2011 18:24:23 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p86GJK8N000123
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1R0yZ2-0001sA-Ko for openembedded-core@lists.openembedded.org;
+	Tue, 06 Sep 2011 18:31:57 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p86GOMUR015328 for <openembedded-core@lists.openembedded.org>;
+	Tue, 6 Sep 2011 17:24:22 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id opJRkwiFdYbc
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 Sep 2011 09:19:20 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Tue, 6 Sep 2011 09:19:19 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 6 Sep 2011 11:26:51 -0500
-Message-ID: <cover.1315326300.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 0/1] Update prelinker to latest upstream version
+	Tue,  6 Sep 2011 17:24:22 +0100 (BST)
+Received: from [192.168.8.246] ([83.217.123.106]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p86GOIs2015304
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 6 Sep 2011 17:24:21 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 06 Sep 2011 17:15:59 +0100
+Message-ID: <1315325759.12207.41.camel@ted>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+Subject: [PATCH] glib-networking: Ensure certificates are consistently disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,31 +40,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Sep 2011 16:24:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 06 Sep 2011 16:31:57 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Update the prelinker to the latest (yoctoproject) cross_prelinker version.
+Currently configure is looking whether the build system has certificates
+to determine the certificate paths. This is clear contamination so
+this patch disables that functionality to ensure builds are consistent.
+    
+We could equally set this option to a consistent path if we start
+installing certificates.
+    
+[YOCTO #1451]
+ 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-This syncs to the latest Red Hat version, provides a new rtld emulation, and
-now can identify bad GNU_HASH entries to help detect a bug in the hash
-generation observed on PPC64.
-
-The following changes since commit 41b7c955cfdc7b4d5c667c8a8742237d5edaca4f:
-
-  icu-3.6: fix building with big make -j (2011-09-05 20:38:50 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib mhatle/prelink
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/prelink
-
-Mark Hatle (1):
-  prelink: Update to latest upstream version
-
- meta/recipes-devtools/prelink/prelink_git.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
-
--- 
-1.7.3.4
+diff --git a/meta/recipes-core/glib-networking/glib-networking_2.28.7.bb b/meta/recipes-core/glib-networking/glib-networking_2.28.7.bb
+index f492dd3..521c925 100644
+--- a/meta/recipes-core/glib-networking/glib-networking_2.28.7.bb
++++ b/meta/recipes-core/glib-networking/glib-networking_2.28.7.bb
+@@ -15,6 +15,8 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/2.28/${BPN}-${PV}.tar.bz2"
+ SRC_URI[md5sum] = "c10e51571d03c10111a37bcd21fbf777"
+ SRC_URI[sha256sum] = "98bedfbd530c4b1b53c91025fe82290bafd289d249e4eb549c3b90d23a76021c"
+ 
++EXTRA_OECONF = "--without-ca-certificates"
++
+ inherit autotools pkgconfig
+ 
+ FILES_${PN} += "${libdir}/gio/modules/libgio* ${datadir}/dbus-1/services/"
 
 
 
