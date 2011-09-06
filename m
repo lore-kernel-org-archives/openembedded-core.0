@@ -1,17 +1,19 @@
 Received: from smtp2-g21.free.fr ([212.27.42.2])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@eukrea.com>) id 1R0qF5-0006qy-Lv
+	(envelope-from <denis@eukrea.com>) id 1R0qLg-00081b-Cd
 	for openembedded-core@lists.openembedded.org;
-	Tue, 06 Sep 2011 09:38:48 +0200
+	Tue, 06 Sep 2011 09:45:44 +0200
 Received: from PCDEV1.lan (unknown [82.240.38.71])
-	by smtp2-g21.free.fr (Postfix) with ESMTP id 8DF344B0173;
-	Tue,  6 Sep 2011 09:33:45 +0200 (CEST)
+	by smtp2-g21.free.fr (Postfix) with ESMTP id AC1DE4B0189;
+	Tue,  6 Sep 2011 09:39:56 +0200 (CEST)
 From: Denis Carikli <denis@eukrea.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Sep 2011 09:33:42 +0200
-Message-Id: <1315294422-3097-1-git-send-email-denis@eukrea.com>
+Date: Tue,  6 Sep 2011 09:39:39 +0200
+Message-Id: <1315294779-3295-1-git-send-email-denis@eukrea.com>
 X-Mailer: git-send-email 1.7.4.1
-Subject: [PATCH] busybox: update to 1.8.5 Signed-off-by: Denis Carikli <denis@eukrea.com>
+In-Reply-To: <1315294422-3097-1-git-send-email-denis@eukrea.com>
+References: <1315294422-3097-1-git-send-email-denis@eukrea.com>
+Subject: [PATCH v2] busybox: update to 1.8.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -26,8 +28,9 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Sep 2011 07:38:48 -0000
+X-List-Received-Date: Tue, 06 Sep 2011 07:45:44 -0000
 
+Signed-off-by: Denis Carikli <denis@eukrea.com>
 ---
  .../B921600.patch                                  |    0
  .../busybox-appletlib-dependency.patch             |    0
