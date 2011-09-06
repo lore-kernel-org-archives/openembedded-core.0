@@ -1,26 +1,19 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from smtp2-g21.free.fr ([212.27.42.2])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1R0mqE-00061V-Pb
+	(envelope-from <denis@eukrea.com>) id 1R0puI-0007yF-Gg
 	for openembedded-core@lists.openembedded.org;
-	Tue, 06 Sep 2011 06:00:55 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 05 Sep 2011 20:55:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,336,1312182000"; d="scan'208";a="45832667"
-Received: from unknown (HELO [10.255.14.30]) ([10.255.14.30])
-	by azsmga001.ch.intel.com with ESMTP; 05 Sep 2011 20:55:52 -0700
-Message-ID: <4E6599C8.8020303@linux.intel.com>
-Date: Mon, 05 Sep 2011 20:55:52 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:6.0) Gecko/20110816 Thunderbird/6.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1315109841.git.sgw@linux.intel.com>
-	<caa8600f67f2835bab295f08c0691c065f95dbf9.1315109841.git.sgw@linux.intel.com>
-In-Reply-To: <caa8600f67f2835bab295f08c0691c065f95dbf9.1315109841.git.sgw@linux.intel.com>
-Subject: Re: [PATCH 2/2] opensp: Fix sstate relocation issue
+	Tue, 06 Sep 2011 09:17:19 +0200
+Received: from PCDEV1.lan (unknown [82.240.38.71])
+	by smtp2-g21.free.fr (Postfix) with ESMTP id 1060C4B009D;
+	Tue,  6 Sep 2011 09:12:15 +0200 (CEST)
+From: Denis Carikli <denis@eukrea.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  6 Sep 2011 09:12:07 +0200
+Message-Id: <1315293127-2633-1-git-send-email-denis@eukrea.com>
+X-Mailer: git-send-email 1.7.4.1
+In-Reply-To: <1314972452-26629-1-git-send-email-denis@eukrea.com>
+References: <1314972452-26629-1-git-send-email-denis@eukrea.com>
+Subject: [PATCH v4] mtd-utils: update to version to 1.4.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,62 +28,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Sep 2011 04:00:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 06 Sep 2011 07:17:19 -0000
 
-On 09/03/2011 09:19 PM, Saul Wold wrote:
-> [YOCTO #1439]
->
-> This fixes a problem where the native nsgmls has a path hard coded into
-> it, therefor add a wrapper to set the environment with the correct
-> paths for catalog files.
->
-> Signed-off-by: Saul Wold<sgw@linux.intel.com>
-> ---
->   meta/recipes-devtools/opensp/opensp_1.5.bb |    9 ++++++++-
->   1 files changed, 8 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/recipes-devtools/opensp/opensp_1.5.bb b/meta/recipes-devtools/opensp/opensp_1.5.bb
-> index a402d11..0269c87 100644
-> --- a/meta/recipes-devtools/opensp/opensp_1.5.bb
-> +++ b/meta/recipes-devtools/opensp/opensp_1.5.bb
-> @@ -5,7 +5,7 @@ SECTION = "libs"
->   LICENSE = "BSD"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=641ff1e4511f0a87044ad42f87cb1045"
->
-> -PR = "r1"
-> +PR = "r2"
->
->   # At -Os it encounters calls to some inline functions which are then
->   # not found in any other objects with gcc 4.5
-> @@ -42,6 +42,13 @@ do_install_append() {
->   	ln -sf osx sgml2xml
->   }
->
-> +do_install_append_virtclass-native() {
-> +	for util in nsgmls sgmlnorm spam spcat spent sx; do
-> +		create_wrapper ${D}/${bindir}/$util \
-> +		    SGML_CATALOG_FILES=${sysconfdir}/sgml/catalog
-> +	done
-> +}
-> +
->   FILES_${PN} += "${datadir}/OpenSP/"
->
->   BBCLASSEXTEND = "native"
+mtd-utils 1.4.6 is the lastest release of mtd-utils
+  at this time.
 
-I found an issue with this patch, as it stands right now the 
-linuxdoc-tools-native failes to build with this patch.
+Signed-off-by: Denis Carikli <denis@eukrea.com>
+---
+ .../add-exclusion-to-mkfs-jffs2-git-2.patch        |    0
+ .../mtd/{mtd-utils_1.4.1.bb => mtd-utils_1.4.6.bb} |    7 ++-----
+ 2 files changed, 2 insertions(+), 5 deletions(-)
+ rename meta/recipes-devtools/mtd/{mtd-utils-1.4.1 => mtd-utils-1.4.6}/add-exclusion-to-mkfs-jffs2-git-2.patch (100%)
+ rename meta/recipes-devtools/mtd/{mtd-utils_1.4.1.bb => mtd-utils_1.4.6.bb} (81%)
 
-If I change the pass the catalog directory via -D, then the iputils goes 
-back to failing!  It seems that some more work might be needed and 
-possibly a patch to the opensp catalog search mode.  What I saw 
-happening is it seems to pick up the command line path for the index.db 
-and incorporates it with the catalog search path.
-
-More digging is needed.
-
-Sau!
+diff --git a/meta/recipes-devtools/mtd/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch b/meta/recipes-devtools/mtd/mtd-utils-1.4.6/add-exclusion-to-mkfs-jffs2-git-2.patch
+similarity index 100%
+rename from meta/recipes-devtools/mtd/mtd-utils-1.4.1/add-exclusion-to-mkfs-jffs2-git-2.patch
+rename to meta/recipes-devtools/mtd/mtd-utils-1.4.6/add-exclusion-to-mkfs-jffs2-git-2.patch
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_1.4.1.bb b/meta/recipes-devtools/mtd/mtd-utils_1.4.6.bb
+similarity index 81%
+rename from meta/recipes-devtools/mtd/mtd-utils_1.4.1.bb
+rename to meta/recipes-devtools/mtd/mtd-utils_1.4.6.bb
+index c05149d..79f4f15 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils_1.4.1.bb
++++ b/meta/recipes-devtools/mtd/mtd-utils_1.4.6.bb
+@@ -6,12 +6,12 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+                     file://include/common.h;beginline=1;endline=17;md5=ba05b07912a44ea2bf81ce409380049c"
+ 
+-SRC_URI = "git://git.infradead.org/mtd-utils.git;protocol=git;tag=3c3674a6e1d3f59554b0ff68ca59be2fd4134e0c \
++SRC_URI = "git://git.infradead.org/mtd-utils.git;protocol=git;tag=baafd8ace3301e9d2ba314a376bad008314b34ff \
+ 		file://add-exclusion-to-mkfs-jffs2-git-2.patch"
+ 
+ S = "${WORKDIR}/git/"
+ 
+-PR = "r1"
++PR = "r0"
+ 
+ EXTRA_OEMAKE = "'CC=${CC}' 'CFLAGS=${CFLAGS} -I${S}/include -DWITHOUT_XATTR' 'BUILDDIR=${S}'"
+ 
+@@ -26,6 +26,3 @@ do_install () {
+ PARALLEL_MAKE = ""
+ 
+ BBCLASSEXTEND = "native"
+-
+-SRC_URI[md5sum] = "645519b753b364d52c4b941dcee3dd7e"
+-SRC_URI[sha256sum] = "51d6a77c7e673219bb89c4b119f336d9f2f5a5e065a12ecf9636c5348d099a0e"
+-- 
+1.7.4.1
 
 
 
