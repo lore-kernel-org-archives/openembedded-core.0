@@ -1,31 +1,19 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R0yZ2-0001sA-Ko for openembedded-core@lists.openembedded.org;
-	Tue, 06 Sep 2011 18:31:57 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p86GOMUR015328 for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 Sep 2011 17:24:22 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id opJRkwiFdYbc
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Sep 2011 17:24:22 +0100 (BST)
-Received: from [192.168.8.246] ([83.217.123.106]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p86GOIs2015304
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 Sep 2011 17:24:21 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 06 Sep 2011 17:15:59 +0100
-Message-ID: <1315325759.12207.41.camel@ted>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-Subject: [PATCH] glib-networking: Ensure certificates are consistently disabled
+	(envelope-from <bruce.ashfield@windriver.com>) id 1R0zEu-0002r2-KY
+	for openembedded-core@lists.openembedded.org;
+	Tue, 06 Sep 2011 19:15:13 +0200
+Received: from yow-bashfiel-l1.corp.ad.wrs.com
+	(dhcp-146-223.ottawa.windriver.com [128.224.146.223])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p86H9aRU009030;
+	Tue, 6 Sep 2011 10:09:37 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Tue,  6 Sep 2011 13:09:27 -0400
+Message-Id: <cover.1315328841.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: [PATCH 0/2] linux-yocto: re-enable systemtap and utrace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,34 +28,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Sep 2011 16:31:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 06 Sep 2011 17:15:13 -0000
 
-Currently configure is looking whether the build system has certificates
-to determine the certificate paths. This is clear contamination so
-this patch disables that functionality to ensure builds are consistent.
-    
-We could equally set this option to a consistent path if we start
-installing certificates.
-    
-[YOCTO #1451]
- 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Richard/Saul,
 
-diff --git a/meta/recipes-core/glib-networking/glib-networking_2.28.7.bb b/meta/recipes-core/glib-networking/glib-networking_2.28.7.bb
-index f492dd3..521c925 100644
---- a/meta/recipes-core/glib-networking/glib-networking_2.28.7.bb
-+++ b/meta/recipes-core/glib-networking/glib-networking_2.28.7.bb
-@@ -15,6 +15,8 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/2.28/${BPN}-${PV}.tar.bz2"
- SRC_URI[md5sum] = "c10e51571d03c10111a37bcd21fbf777"
- SRC_URI[sha256sum] = "98bedfbd530c4b1b53c91025fe82290bafd289d249e4eb549c3b90d23a76021c"
- 
-+EXTRA_OECONF = "--without-ca-certificates"
-+
- inherit autotools pkgconfig
- 
- FILES_${PN} += "${libdir}/gio/modules/libgio* ${datadir}/dbus-1/services/"
+Just a couple of changes from Tom in this request. Updated support
+for utrace and systemtap that went mysteriously missing when I
+did the bulk update.
+
+I did my own round of build testing and everything is fine from
+my end.
+
+Cheers,
+
+Bruce
+
+The following changes since commit dbff56238e083d0110eb13c1f5a07716340fdfe4:
+
+  icu-3.6: fix building with big make -j (2011-09-06 16:37:02 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib zedd/kernel-oe
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-oe
+
+Bruce Ashfield (2):
+  linux-yocto: re-enable systemtap
+  linux-yocto: re-enable utrace
+
+ meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb    |   14 +++++++-------
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+
+-- 
+1.7.4.1
 
 
 
