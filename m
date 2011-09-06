@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1R0ler-0003yn-NE
+	(envelope-from <edwin.zhai@intel.com>) id 1R0let-0003yn-91
 	for openembedded-core@lists.openembedded.org;
-	Tue, 06 Sep 2011 04:45:06 +0200
+	Tue, 06 Sep 2011 04:45:07 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Sep 2011 19:39:57 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 05 Sep 2011 19:39:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,336,1312182000"; d="scan'208";a="49269088"
+X-IronPort-AV: E=Sophos;i="4.68,336,1312182000"; d="scan'208";a="49269094"
 Received: from yocto-build3.sh.intel.com ([10.239.48.58])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Sep 2011 19:39:56 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 05 Sep 2011 19:39:57 -0700
 From: edwin.zhai@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Sep 2011 10:36:12 +0800
-Message-Id: <6fb4806c9fad49d323cbbd1d0a0a54a5a279b2f0.1315276240.git.edwin.zhai@intel.com>
+Date: Tue,  6 Sep 2011 10:36:13 +0800
+Message-Id: <ec86a236ffdabf4c0b7c657bf515c04541c78d72.1315276240.git.edwin.zhai@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1315276240.git.edwin.zhai@intel.com>
 References: <cover.1315276240.git.edwin.zhai@intel.com>
 In-Reply-To: <cover.1315276240.git.edwin.zhai@intel.com>
 References: <cover.1315276240.git.edwin.zhai@intel.com>
-Subject: [PATCH 1/2] xserver-nodm-init: Change hidraw mode to allow normal user access
+Subject: [PATCH 2/2] site/x86_64: Add entries to fix conf error on x86_64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,33 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Sep 2011 02:45:06 -0000
+X-List-Received-Date: Tue, 06 Sep 2011 02:45:07 -0000
 
 From: Zhai Edwin <edwin.zhai@intel.com>
 
-USB HID like touch screen could be presented as hidraw* device, this change
-make user under rootless X can access them.
+Add entries for ashldi3, bswapsi2... to fix autoconf error of grub on x86_64
+
+[YOCTO #1434] got fixed.
 
 Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
 ---
- .../x11-common/xserver-nodm-init/xserver-nodm      |    4 ++++
- 1 files changed, 4 insertions(+), 0 deletions(-)
+ meta/site/x86_64-linux |   10 ++++++++++
+ 1 files changed, 10 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
-index 858af0b..c707a4b 100755
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
-+++ b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
-@@ -34,6 +34,10 @@ case "$1" in
-            chmod o+w /var/log
-            chmod g+r /dev/tty[0-3]
-            chmod o+rw /dev/input/*
-+           # hidraw device is probably needed
-+           if [ -e /dev/hidraw0 ]; then
-+               chmod o+rw /dev/hidraw*
-+           fi
-        fi
-        # Using su rather than sudo as latest 1.8.1 cause failure [YOCTO #1211]
-        su -l -c '/etc/X11/Xserver&' $username 
+diff --git a/meta/site/x86_64-linux b/meta/site/x86_64-linux
+index f3a6ea1..3fa8f1e 100644
+--- a/meta/site/x86_64-linux
++++ b/meta/site/x86_64-linux
+@@ -108,3 +108,13 @@ lftp_cv_va_val_copy=${lftp_cv_va_val_copy=no}
+ 
+ # slrn
+ slrn_cv_va_val_copy=${slrn_cv_va_val_copy=no}
++
++# grub
++ac_cv_func___ashldi3=no
++ac_cv_func___ashrdi3=no
++ac_cv_func___bswapdi2=no
++ac_cv_func___bswapsi2=no
++ac_cv_func___lshrdi3=no
++ac_cv_func___trampoline_setup=no
++ac_cv_func___ucmpdi2=no
++ac_cv_func__restgpr_14_x=no
 -- 
 1.7.1
 
