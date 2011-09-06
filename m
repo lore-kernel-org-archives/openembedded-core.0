@@ -1,20 +1,24 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1R0vT6-0004eF-6b
+	(envelope-from <dexuan.cui@intel.com>) id 1R0vTB-0004ea-RZ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 06 Sep 2011 15:13:36 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 06 Sep 2011 06:08:34 -0700
+	Tue, 06 Sep 2011 15:13:42 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 06 Sep 2011 06:08:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,338,1312182000"; d="scan'208";a="45955681"
+X-IronPort-AV: E=Sophos;i="4.68,338,1312182000"; d="scan'208";a="49453116"
 Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.36.112])
-	by azsmga001.ch.intel.com with ESMTP; 06 Sep 2011 06:08:33 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 06 Sep 2011 06:08:39 -0700
 From: Dexuan Cui <dexuan.cui@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Sep 2011 21:08:34 +0800
-Message-Id: <cover.1315313790.git.dexuan.cui@intel.com>
+Date: Tue,  6 Sep 2011 21:08:39 +0800
+Message-Id: <9bbc11b2a451bedd7ad79567ce3d58c1b6a9a5de.1315313790.git.dexuan.cui@intel.com>
 X-Mailer: git-send-email 1.7.6
-Subject: [PATCH 0/5] patches to fix deb packaging: bug 1070
+In-Reply-To: <cover.1315313790.git.dexuan.cui@intel.com>
+References: <cover.1315313790.git.dexuan.cui@intel.com>
+In-Reply-To: <cover.1315313790.git.dexuan.cui@intel.com>
+References: <cover.1315313790.git.dexuan.cui@intel.com>
+Subject: [PATCH 5/5] default-providers.inc: define update-alternatives and -native properly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,60 +33,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Sep 2011 13:13:36 -0000
+X-List-Received-Date: Tue, 06 Sep 2011 13:13:42 -0000
 
-The DEB packaging for core-image-sato-sdk(previously called poky-image-sdk) and
-meta-toolchain-gmae(previously called meta-toolchain-sdk) has been broken for
-quite a long period of time -- at least it was broken in Oct 2010 (I didn't try
-to test older commits).
+For DEB packaging, we should use the -dpkg versions;
+For IPK packaging, we should use the -cworth and opkg versions.
 
-The patches try to improve the situation.
-
-With the patches, core-image-sato-sdk for qemu{x86, x86-64, ppc, mips} can
-build fine, but qemuarm still has a do_rootfs issue:
-| The following packages have unmet dependencies:
-|   task-base-extended: Depends: task-base but it is not going to be installed
-
-And, meta-toolchain-gmae is still broken. The error is:
-| + apt-get install task-sdk-host-nativesdk --force-yes --allow-unauthenticated
-| Reading package lists...
-| Building dependency tree...
-| Reading state information...
-| E: Couldn't find package task-sdk-host-nativesdk
-
-I'm working on the left issues.
-
-Does anybody know if OE has the similar issue or not?
-Any comment/suggestions for the patch and left isseus are appreciated.
-
-Thanks!
-
--- Dexuan
-
-The following changes since commit 41b7c955cfdc7b4d5c667c8a8742237d5edaca4f:
-
-  icu-3.6: fix building with big make -j (2011-09-05 20:38:50 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib dcui/distro
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dcui/distro
-
-Dexuan Cui (5):
-  populate_sdk_deb.bbclass: add the missing parameter - for tar
-  package_deb.bbclass: put the stderr into log.do_xxx-attemptonly.xxx
-  dpkg, dpkg-native: fix DEPENDS, RDEPENDS and pkg_postinst_dpkg
-  opkg: it should Rdepend on update-alternatives-cworth
-  default-providers.inc: define update-alternatives and -native
-    properly
-
- meta/classes/package_deb.bbclass               |    2 +-
- meta/classes/populate_sdk_deb.bbclass          |    2 +-
+Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+---
  meta/conf/distro/include/default-providers.inc |    5 ++---
- meta/recipes-devtools/dpkg/dpkg.inc            |   23 ++++++++++-------------
- meta/recipes-devtools/opkg/opkg_0.1.8.bb       |    4 ++--
- meta/recipes-devtools/opkg/opkg_svn.bb         |    4 ++--
- 6 files changed, 18 insertions(+), 22 deletions(-)
+ 1 files changed, 2 insertions(+), 3 deletions(-)
 
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index d51ac64..f818f37 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -6,15 +6,14 @@ PREFERRED_PROVIDER_virtual/db-native ?= "db-native"
+ PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xf86"
+ PREFERRED_PROVIDER_virtual/xserver-xf86 ?= "xserver-xf86-dri-lite"
+ PREFERRED_PROVIDER_virtual/libgl ?= "mesa-xlib"
+-PREFERRED_PROVIDER_virtual/update-alternatives ?= "update-alternatives-cworth"
+-PREFERRED_PROVIDER_virtual/update-alternatives-native ?= "opkg-native"
++PREFERRED_PROVIDER_virtual/update-alternatives-native ?= "${@base_conditional('IMAGE_PKGTYPE', 'deb', 'update-alternatives-dpkg-native', 'opkg-native', d)}"
+ PREFERRED_PROVIDER_virtual/libx11 ?= "libx11-trim"
+ PREFERRED_PROVIDER_xf86-video-intel ?= "xf86-video-intel"
+ 
+ #
+ # Default virtual runtime providers
+ #
+-VIRTUAL-RUNTIME_update-alternatives ?= "update-alternatives-cworth"
++VIRTUAL-RUNTIME_update-alternatives ?= "${@base_conditional('IMAGE_PKGTYPE', 'deb', 'update-alternatives-dpkg', 'update-alternatives-cworth', d)}"
+ 
+ #
+ # Default recipe providers
 -- 
 1.7.6
 
