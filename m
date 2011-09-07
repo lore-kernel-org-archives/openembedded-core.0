@@ -1,24 +1,25 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1R14MD-000158-Sy
+	(envelope-from <sgw@linux.intel.com>) id 1R1606-0003R5-B0
 	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Sep 2011 00:43:06 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 06 Sep 2011 15:38:03 -0700
+	Wed, 07 Sep 2011 02:28:24 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 06 Sep 2011 17:23:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,341,1312182000"; d="scan'208";a="46150936"
-Received: from scimitar.fm.intel.com (HELO [10.232.250.14]) ([10.232.250.14])
-	by azsmga001.ch.intel.com with ESMTP; 06 Sep 2011 15:38:02 -0700
-From: Joshua Lock <josh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 06 Sep 2011 15:38:02 -0700
-In-Reply-To: <7318770f8b3b34d4ec29ee592971a5be96e53151.1315343093.git.nitin.a.kamble@intel.com>
-References: <cover.1315343093.git.nitin.a.kamble@intel.com>
-	<7318770f8b3b34d4ec29ee592971a5be96e53151.1315343093.git.nitin.a.kamble@intel.com>
-X-Mailer: Evolution 3.0.2 (3.0.2-3.fc15) 
-Message-ID: <1315348682.2005.2.camel@scimitar>
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/1] image-types: add btrfs as a supported fstype
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="45679700"
+Received: from unknown (HELO [10.255.14.148]) ([10.255.14.148])
+	by orsmga002.jf.intel.com with ESMTP; 06 Sep 2011 17:23:19 -0700
+Message-ID: <4E66B976.50505@linux.intel.com>
+Date: Tue, 06 Sep 2011 17:23:18 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:6.0) Gecko/20110816 Thunderbird/6.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1315313790.git.dexuan.cui@intel.com>
+In-Reply-To: <cover.1315313790.git.dexuan.cui@intel.com>
+Subject: Re: [PATCH 0/5] patches to fix deb packaging: bug 1070
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,41 +34,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Sep 2011 22:43:06 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 07 Sep 2011 00:28:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-09-06 at 14:06 -0700, nitin.a.kamble@intel.com wrote:
-> From: Nitin A Kamble <nitin.a.kamble@intel.com>
-> 
-> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> ---
->  meta/classes/image_types.bbclass |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
-> 
-> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> index c24b326..3e303ed 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -141,4 +141,4 @@ IMAGE_DEPENDS_ubi = "mtd-utils-native"
->  IMAGE_DEPENDS_ubifs = "mtd-utils-native"
->  
->  # This variable is available to request which values are suitable for IMAGE_FSTYPES
-> -IMAGE_TYPES = "jffs2 cramfs ext2 ext2.gz ext3 ext3.gz live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma"
-> +IMAGE_TYPES = "jffs2 cramfs ext2 ext2.gz ext3 ext3.gz btrfs live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma"
+On 09/06/2011 06:08 AM, Dexuan Cui wrote:
+> The DEB packaging for core-image-sato-sdk(previously called poky-image-sdk) and
+> meta-toolchain-gmae(previously called meta-toolchain-sdk) has been broken for
+> quite a long period of time -- at least it was broken in Oct 2010 (I didn't try
+> to test older commits).
+>
+> The patches try to improve the situation.
+>
+> With the patches, core-image-sato-sdk for qemu{x86, x86-64, ppc, mips} can
+> build fine, but qemuarm still has a do_rootfs issue:
+> | The following packages have unmet dependencies:
+> |   task-base-extended: Depends: task-base but it is not going to be installed
+>
+> And, meta-toolchain-gmae is still broken. The error is:
+> | + apt-get install task-sdk-host-nativesdk --force-yes --allow-unauthenticated
+> | Reading package lists...
+> | Building dependency tree...
+> | Reading state information...
+> | E: Couldn't find package task-sdk-host-nativesdk
+>
+> I'm working on the left issues.
+>
+> Does anybody know if OE has the similar issue or not?
+> Any comment/suggestions for the patch and left isseus are appreciated.
+>
+> Thanks!
+>
+> -- Dexuan
+>
+> The following changes since commit 41b7c955cfdc7b4d5c667c8a8742237d5edaca4f:
+>
+>    icu-3.6: fix building with big make -j (2011-09-05 20:38:50 +0100)
+>
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib dcui/distro
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dcui/distro
+>
+> Dexuan Cui (5):
+>    populate_sdk_deb.bbclass: add the missing parameter - for tar
+>    package_deb.bbclass: put the stderr into log.do_xxx-attemptonly.xxx
+>    dpkg, dpkg-native: fix DEPENDS, RDEPENDS and pkg_postinst_dpkg
+>    opkg: it should Rdepend on update-alternatives-cworth
+>    default-providers.inc: define update-alternatives and -native
+>      properly
+>
+>   meta/classes/package_deb.bbclass               |    2 +-
+>   meta/classes/populate_sdk_deb.bbclass          |    2 +-
+>   meta/conf/distro/include/default-providers.inc |    5 ++---
 
-This isn't enough, the variable you've modified is one used only by the
-hob UI.
+Dexuan,
 
-You need to define IMAGE_CMD_btrfs and possibly IMAGE_DEPENDS_btrfs
-entries, maybe EXTRA_IMAGE_CMD_btrfs too if required?
+It's possible that one of your patches is causing this Multiple .bb 
+files now.  Did you test with multiple PACKAGE_CLASSES set?
 
-Cheers,
-Joshua
--- 
-Joshua Lock
-        Yocto Project "Johannes factotum"
-        Intel Open Source Technology Centre
+ERROR: Multiple .bb files are due to be built which each provide 
+virtual/update-alternatives-native 
+(virtual:native:/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/meta/recipes-devtools/opkg/opkg_svn.bb 
+virtual:native:/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/meta/recipes-devtools/update-alternatives/update-alternatives-dpkg_1.16.0.3.bb).
+  This usually means one provides something the other doesn't and should.
 
+Thanks
+	Sau!
+
+
+>   meta/recipes-devtools/dpkg/dpkg.inc            |   23 ++++++++++-------------
+>   meta/recipes-devtools/opkg/opkg_0.1.8.bb       |    4 ++--
+>   meta/recipes-devtools/opkg/opkg_svn.bb         |    4 ++--
+>   6 files changed, 18 insertions(+), 22 deletions(-)
+>
 
 
