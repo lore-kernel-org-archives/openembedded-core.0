@@ -1,24 +1,20 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1R1AN1-0005Ry-A5
+	(envelope-from <sgw@linux.intel.com>) id 1R1ATD-0005a8-4Y
 	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Sep 2011 07:08:19 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 06 Sep 2011 22:03:12 -0700
+	Wed, 07 Sep 2011 07:14:43 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 06 Sep 2011 22:09:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,343,1312182000"; d="scan'208";a="14681781"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="45746966"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.148])
-	by AZSMGA002.ch.intel.com with ESMTP; 06 Sep 2011 22:03:12 -0700
+	by orsmga002.jf.intel.com with ESMTP; 06 Sep 2011 22:09:40 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Sep 2011 22:03:10 -0700
-Message-Id: <82477f26f43776abf9e74c026cf8f8984160a172.1315371674.git.sgw@linux.intel.com>
+Date: Tue,  6 Sep 2011 22:09:23 -0700
+Message-Id: <cover.1315371835.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
-In-Reply-To: <cover.1315371674.git.sgw@linux.intel.com>
-References: <cover.1315371674.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1315371674.git.sgw@linux.intel.com>
-References: <cover.1315371674.git.sgw@linux.intel.com>
-Subject: [PATCH 1/1] gcc: add patch for ice 50099, which caused lttng-ust not to build
+Subject: [PATCH 0/1] Fix MakeMaker's finding of perl.real
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,84 +29,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Sep 2011 05:08:19 -0000
+X-List-Received-Date: Wed, 07 Sep 2011 05:14:43 -0000
 
-[YOCTO #1381]
+When configuring cpan packages, the directories passed to MakeMaker
+are the target directories. There was a patch that was applied to the
+native perl to find perl.real and convert that to perl.  This does not
+apply for the target perl modules and therefore MakeMaker find perl.real.
 
-This patch came from from GCC Bugzilla via Khem
+This patch to cpan configure modifies the Makefile after configure and 
+changes the perl.real to just straight perl so we have the correct paths
+and shared state info in usable.
 
-Cc: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-devtools/gcc/gcc-4.6.inc              |    3 +-
- .../gcc/gcc-4.6/fix-for-ice-50099.patch            |   38 ++++++++++++++++++++
- 2 files changed, 40 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.6/fix-for-ice-50099.patch
+Sau!
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
-index 380f9f7..f7bcf30 100644
---- a/meta/recipes-devtools/gcc/gcc-4.6.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
-@@ -1,6 +1,6 @@
- require gcc-common.inc
- 
--PR = "r9"
-+PR = "r10"
- 
- # Third digit in PV should be incremented after a minor release
- # happens from this branch on gcc e.g. currently its 4.6.0
-@@ -67,6 +67,7 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
-            file://volatile_access_backport.patch \
-            file://use-defaults.h-and-t-oe-in-B.patch \
- 	   file://powerpc-e5500.patch \
-+           file://fix-for-ice-50099.patch \
- 	  "
- 
- SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch "
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6/fix-for-ice-50099.patch b/meta/recipes-devtools/gcc/gcc-4.6/fix-for-ice-50099.patch
-new file mode 100644
-index 0000000..4b9f70d
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.6/fix-for-ice-50099.patch
-@@ -0,0 +1,38 @@
-+Index: gcc/config/arm/arm.md
-+===================================================================
-+--- gcc-4.6.0/gcc/config/arm/arm.md	(revision 178135)
-++++ gcc-4.6.0/gcc/config/arm/arm.md	(working copy)
-+@@ -4217,6 +4217,7 @@ (define_split
-+   "TARGET_32BIT"
-+   [(set (match_dup 0) (ashiftrt:SI (match_dup 1) (const_int 31)))]
-+ {
-++  rtx srcop = operands[1];
-+   rtx lo_part = gen_lowpart (SImode, operands[0]);
-+   enum machine_mode src_mode = GET_MODE (operands[1]);
-+ 
-+@@ -4224,14 +4225,21 @@ (define_split
-+       && !reg_overlap_mentioned_p (operands[0], operands[1]))
-+     emit_clobber (operands[0]);
-+ 
-++  if (TARGET_ARM && src_mode == QImode
-++      && !arm_reg_or_extendqisi_mem_op (srcop, QImode))
-++    {
-++      rtx dest = gen_lowpart (QImode, lo_part);
-++      emit_move_insn (dest, srcop);
-++      srcop = dest;
-++    }
-+   if (!REG_P (lo_part) || src_mode != SImode
-+-      || !rtx_equal_p (lo_part, operands[1]))
-++      || !rtx_equal_p (lo_part, srcop))
-+     {
-+       if (src_mode == SImode)
-+-        emit_move_insn (lo_part, operands[1]);
-++        emit_move_insn (lo_part, srcop);
-+       else
-+         emit_insn (gen_rtx_SET (VOIDmode, lo_part,
-+-				gen_rtx_SIGN_EXTEND (SImode, operands[1])));
-++				gen_rtx_SIGN_EXTEND (SImode, srcop)));
-+       operands[1] = lo_part;
-+     }
-+   operands[0] = gen_highpart (SImode, operands[0]);
-+
+The following changes since commit 41b7c955cfdc7b4d5c667c8a8742237d5edaca4f:
+
+  icu-3.6: fix building with big make -j (2011-09-05 20:38:50 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/fix2
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix2
+
+Saul Wold (1):
+  cpan.bbclass: fix native perl issue
+
+ meta/classes/cpan.bbclass |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
+
 -- 
 1.7.6
 
