@@ -1,32 +1,24 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R1Lcl-0001F7-6k for openembedded-core@lists.openembedded.org;
-	Wed, 07 Sep 2011 19:09:19 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p87HA9NZ015634; Wed, 7 Sep 2011 18:10:10 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id DReSRcrn-Tjm; Wed,  7 Sep 2011 18:10:09 +0100 (BST)
-Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p87HA4gu015624
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Wed, 7 Sep 2011 18:10:05 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Kumar Gala <galak@kernel.crashing.org>
-In-Reply-To: <BCA18FF8-8F94-4E3D-836A-D7B99830E4E6@kernel.crashing.org>
-References: <1311858624-3686-1-git-send-email-galak@kernel.crashing.org>
-	<BCA18FF8-8F94-4E3D-836A-D7B99830E4E6@kernel.crashing.org>
-Date: Wed, 07 Sep 2011 18:04:01 +0100
-Message-ID: <1315415041.13021.9.camel@ted>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] scripts/oe-buildenv-internal: Add SOCKS5_{USER, PASSWD} to BB_ENV_EXTRAWHITE
+	(envelope-from <sgw@linux.intel.com>) id 1R1Lrk-0001UH-6A
+	for openembedded-core@lists.openembedded.org;
+	Wed, 07 Sep 2011 19:24:48 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 07 Sep 2011 10:19:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,346,1312182000"; d="scan'208";a="48975149"
+Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.148])
+	by fmsmga001.fm.intel.com with ESMTP; 07 Sep 2011 10:19:35 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  7 Sep 2011 10:19:34 -0700
+Message-Id: <ebc08824e0f440526c40294f873e62b99daa7e1c.1315415799.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.6
+In-Reply-To: <cover.1315415799.git.sgw@linux.intel.com>
+References: <cover.1315415799.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1315415799.git.sgw@linux.intel.com>
+References: <cover.1315415799.git.sgw@linux.intel.com>
+Subject: [PULL v3 1/1] gcc: add patch for ice 50099, which caused lttng-ust not to build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,84 +33,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Sep 2011 17:09:19 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 07 Sep 2011 17:24:48 -0000
 
-On Wed, 2011-08-31 at 00:06 -0500, Kumar Gala wrote:
-> On Jul 28, 2011, at 8:10 AM, Kumar Gala wrote:
-> 
-> > If a SOCKS5 gateway is needed for a proxy access like git it might also
-> > require authentication to the proxy via a password and username.  Adding
-> > SOCKS5_USER & SOCKS5_PASSWD to BB_ENV_EXTRAWHITE allow for automation
-> > of the authentication request to occur when something like a git fetch
-> > is going through the proxy.
-> > 
-> > Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
-> > ---
-> > * Fixes issue with a git fetch request failing to get pass a firewall
-> > 
-> > scripts/oe-buildenv-internal |    2 +-
-> > 1 files changed, 1 insertions(+), 1 deletions(-)
-> > 
-> > diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
-> > index c13fc40..b223292 100755
-> > --- a/scripts/oe-buildenv-internal
-> > +++ b/scripts/oe-buildenv-internal
-> > @@ -55,4 +55,4 @@ unset BITBAKEDIR
-> > export BUILDDIR
-> > export PATH
-> > 
-> > -export BB_ENV_EXTRAWHITE="MACHINE DISTRO TCMODE TCLIBC http_proxy ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND"
-> > +export BB_ENV_EXTRAWHITE="MACHINE DISTRO TCMODE TCLIBC http_proxy ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND SOCKS5_PASSWD SOCSK5_USER"
-> > -- 
-> > 1.7.3.4
-> 
-> Richard,
-> 
-> I'm able reproduce this, with out my patch I get prompted for a socks password, w/it having SOCKS5_PASSWD set in my environment the git clone is able to succeed.
-> 
-> So from our discussion a while back on IRC:
-> 
-> Aug 11 10:54:20 <RP__>	galak: Well, it will but it will only place it in the internal data store
-> Aug 11 10:54:42 <RP__>	galak: there isn't anything to say "also export this from the data store into the environment that bitbake uses"
-> 
-> From the way I read  bitbake/lib/bb/utils.py:
-> 
-> def approved_variables():
->     """
->     Determine and return the list of whitelisted variables which are approved
->     to remain in the environment.
->     """
-> ...
-> 
-> [ this will add SOCKS5_PASSWD to the 'approved' list ]
-> 
-> and
-> 
-> def filter_environment(good_vars):
-> 
-> [ will not skip unsetting it from the environment since its in the 'approved' list ]
-> 
-> That seems to explain how this ends up working.
-> 
-> So question is what else needs to be done to get this accepted ?
+[YOCTO #1381]
 
-To put this simply, this patch shouldn't work. The fact that it does
-worried me and there is a bitbake bug. You can do something like this:
+This patch came from from GCC Bugzilla via Khem
 
-BB_ENV_EXTRAWHITE="$BB_ENV_EXTRAWHITE FOO" FOO=1 bitbake quilt-native -c devshell
+Cc: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-devtools/gcc/gcc-4.6.inc              |    3 +-
+ .../gcc/gcc-4.6/fix-for-ice-50099.patch            |   49 ++++++++++++++++++++
+ 2 files changed, 51 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6/fix-for-ice-50099.patch
 
-and see FOO=1 in the shell. It should only do that if the metadata also
-does "export FOO" which it does not.
-
-So, no, this patch isn't right and we'll need to actually export the
-variables once I fix the above bug.
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
+index 380f9f7..f7bcf30 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.6.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
+@@ -1,6 +1,6 @@
+ require gcc-common.inc
+ 
+-PR = "r9"
++PR = "r10"
+ 
+ # Third digit in PV should be incremented after a minor release
+ # happens from this branch on gcc e.g. currently its 4.6.0
+@@ -67,6 +67,7 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
+            file://volatile_access_backport.patch \
+            file://use-defaults.h-and-t-oe-in-B.patch \
+ 	   file://powerpc-e5500.patch \
++           file://fix-for-ice-50099.patch \
+ 	  "
+ 
+ SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch "
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6/fix-for-ice-50099.patch b/meta/recipes-devtools/gcc/gcc-4.6/fix-for-ice-50099.patch
+new file mode 100644
+index 0000000..57b03d2
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.6/fix-for-ice-50099.patch
+@@ -0,0 +1,49 @@
++
++This patch address an issue with the compiler generating an ICE
++during compliation of lttng-ust.
++
++http://gcc.gnu.org/bugzilla/show_bug.cgi?id=50099
++
++Upstream-Status: Pending
++
++Signed-off-by: Khem Raj <khem.raj@gmail.com>
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++
++Index: gcc/config/arm/arm.md
++===================================================================
++--- gcc-4.6.0/gcc/config/arm/arm.md	(revision 178135)
+++++ gcc-4.6.0/gcc/config/arm/arm.md	(working copy)
++@@ -4217,6 +4217,7 @@ (define_split
++   "TARGET_32BIT"
++   [(set (match_dup 0) (ashiftrt:SI (match_dup 1) (const_int 31)))]
++ {
+++  rtx srcop = operands[1];
++   rtx lo_part = gen_lowpart (SImode, operands[0]);
++   enum machine_mode src_mode = GET_MODE (operands[1]);
++ 
++@@ -4224,14 +4225,21 @@ (define_split
++       && !reg_overlap_mentioned_p (operands[0], operands[1]))
++     emit_clobber (operands[0]);
++ 
+++  if (TARGET_ARM && src_mode == QImode
+++      && !arm_reg_or_extendqisi_mem_op (srcop, QImode))
+++    {
+++      rtx dest = gen_lowpart (QImode, lo_part);
+++      emit_move_insn (dest, srcop);
+++      srcop = dest;
+++    }
++   if (!REG_P (lo_part) || src_mode != SImode
++-      || !rtx_equal_p (lo_part, operands[1]))
+++      || !rtx_equal_p (lo_part, srcop))
++     {
++       if (src_mode == SImode)
++-        emit_move_insn (lo_part, operands[1]);
+++        emit_move_insn (lo_part, srcop);
++       else
++         emit_insn (gen_rtx_SET (VOIDmode, lo_part,
++-				gen_rtx_SIGN_EXTEND (SImode, operands[1])));
+++				gen_rtx_SIGN_EXTEND (SImode, srcop)));
++       operands[1] = lo_part;
++     }
++   operands[0] = gen_highpart (SImode, operands[0]);
++
+-- 
+1.7.6
 
 
 
