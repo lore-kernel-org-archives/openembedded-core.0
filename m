@@ -1,20 +1,27 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from stoexhub01.domain01.net ([83.145.59.142])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1R1DyH-0003mZ-Hf
+	(envelope-from <anders@chargestorm.se>) id 1R1EBU-0005T7-3K
 	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Sep 2011 10:59:03 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 07 Sep 2011 01:53:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,344,1312182000"; d="scan'208";a="48831802"
-Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by fmsmga001.fm.intel.com with ESMTP; 07 Sep 2011 01:53:49 -0700
-From: Dongxiao Xu <dongxiao.xu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Sep 2011 16:58:12 +0800
-Message-Id: <cover.1315385757.git.dongxiao.xu@intel.com>
-X-Mailer: git-send-email 1.7.1
-Subject: [PATCH 0/1][PULL] hal: add virtual/kernel as its dependency
+	Wed, 07 Sep 2011 11:12:40 +0200
+Received: from localhost (193.235.91.228) by STOEXHUB01.domain01.net
+	(10.12.10.1) with Microsoft SMTP Server id 8.3.137.0; Wed, 7 Sep 2011
+	11:07:35 +0200
+Date: Wed, 7 Sep 2011 11:07:50 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20110907090750.GE4181@chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <cover.1315371835.git.sgw@linux.intel.com>
+	<4E67114D.80507@eukrea.com>
+MIME-Version: 1.0
+In-Reply-To: <4E67114D.80507@eukrea.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH 0/1] Fix MakeMaker's finding of perl.real
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,29 +36,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Sep 2011 08:59:21 -0000
+X-List-Received-Date: Wed, 07 Sep 2011 09:12:40 -0000
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi Saul,
+* Eric B=E9nard <eric@eukrea.com> [110907 08:41]:
+> Le 07/09/2011 07:09, Saul Wold a =E9crit :
+> > When configuring cpan packages, the directories passed to MakeMaker are=
+ the
+> > target directories. There was a patch that was applied to the native pe=
+rl
+> > to find perl.real and convert that to perl.  This does not apply for the
+> > target perl modules and therefore MakeMaker find perl.real.
+> >
+> > This patch to cpan configure modifies the Makefile after configure and
+> > changes the perl.real to just straight perl so we have the correct paths
+> > and shared state info in usable.
+> >
+> when sending 1 patch, is it possible to not use cover letter in order to =
+have
+> the explanation in the patch commit ?
+> That's easier to understand what the patch is doing when browsing log.
 
-This pull request is to fix a kernel header dependency issue of hal,
-please help to review and pull.
+Cover letter or not, the patch should include a commit message that
+explains the patch. It doesn't really matter if there is only one patch
+or a large patch series.
 
-Thanks,
-Dongxiao
+For a single patch, the cover letter can be usefull to provide some
+extra information and discussion. In other cases, it can be pretty
+useless IMHO.
 
-The following changes since commit 41b7c955cfdc7b4d5c667c8a8742237d5edaca4f:
+Regards,
+Anders
 
-  icu-3.6: fix building with big make -j (2011-09-05 20:38:50 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib dxu4/hal
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/hal
-
-Dongxiao Xu (1):
-  hal: Add virtual/kernel as hal's build dependency
-
- meta/recipes-support/hal/hal.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
+--=20
+Anders Darander
+ChargeStorm AB
 
 
