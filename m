@@ -1,20 +1,31 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1R1Lrk-0001UH-TD
-	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Sep 2011 19:24:49 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 07 Sep 2011 10:19:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,346,1312182000"; d="scan'208";a="48975147"
-Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.148])
-	by fmsmga001.fm.intel.com with ESMTP; 07 Sep 2011 10:19:35 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Sep 2011 10:19:33 -0700
-Message-Id: <cover.1315415799.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.6
-Subject: [PULL v3 0/1] Fix for beagleboard ICE when building lttng-ust
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1R1M6U-0001l5-EE for openembedded-core@lists.openembedded.org;
+	Wed, 07 Sep 2011 19:40:02 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p87HeuWE018014 for <openembedded-core@lists.openembedded.org>;
+	Wed, 7 Sep 2011 18:40:57 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id vIis4EjxmFeu
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  7 Sep 2011 18:40:56 +0100 (BST)
+Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p87Hen7j017988
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 7 Sep 2011 18:40:51 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 07 Sep 2011 18:34:47 +0100
+Message-ID: <1315416887.13021.13.camel@ted>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+Subject: sstate: Avoid contention between sstate packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,33 +40,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Sep 2011 17:24:49 -0000
+X-List-Received-Date: Wed, 07 Sep 2011 17:40:02 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-v2 has a patch header!
-v3 removed bad patch file
+If several sstate packages are decompressing at the same time, they can
+conflict over the "fixmepath". If two packages try to write to this at
+the same time it results in an error. To avoid this we remove the file
+once we've finished processing it.
 
-Been a rough morning!
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Sau!
-
-The following changes since commit cb8efc0e1ec00892b46325aabfb1b4020a46c078:
-
-  linux-yocto: re-enable utrace (2011-09-07 14:53:38 +0100)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/gcc-fix
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/gcc-fix
-
-Saul Wold (1):
-  gcc: add patch for ice 50099, which caused lttng-ust not to build
-
- meta/recipes-devtools/gcc/gcc-4.6.inc              |    3 +-
- .../gcc/gcc-4.6/fix-for-ice-50099.patch            |   49 ++++++++++++++++++++
- 2 files changed, 51 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.6/fix-for-ice-50099.patch
-
--- 
-1.7.6
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index d7631ca..91f209a 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -183,6 +183,9 @@ def sstate_installpkg(ss, d):
+             os.system("sed -i -e s:FIXMESTAGINGDIRTARGET:%s:g %s" % (staging_target, sstateinst + file))
+             os.system("sed -i -e s:FIXMESTAGINGDIRHOST:%s:g %s" % (staging_host, sstateinst + file))
+             os.system("sed -i -e s:FIXMESTAGINGDIR:%s:g %s" % (staging, sstateinst + file))
++        # Need to remove this or we'd copy it into the target directory and may 
++        # conflict with another writer
++        os.remove(fixmefn)
+ 
+     for state in ss['dirs']:
+         prepdir(state[1])
 
 
 
