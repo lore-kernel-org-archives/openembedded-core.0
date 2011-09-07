@@ -1,23 +1,28 @@
-Received: from smtp3-g21.free.fr ([212.27.42.3])
+Received: from stoexhubfe02.domain01.net ([83.145.59.141])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1R1Bqu-0004sS-1N
+	(envelope-from <anders@chargestorm.se>) id 1R1CQw-0003kw-Ew
 	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Sep 2011 08:43:26 +0200
-Received: from [192.168.2.12] (unknown [82.233.81.124])
-	by smtp3-g21.free.fr (Postfix) with ESMTP id EE801A6231
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Sep 2011 08:38:06 +0200 (CEST)
-Message-ID: <4E67114D.80507@eukrea.com>
-Date: Wed, 07 Sep 2011 08:38:05 +0200
-From: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:6.0.1) Gecko/20110830 Thunderbird/6.0.1
+	Wed, 07 Sep 2011 09:20:30 +0200
+Received: from localhost (193.235.91.228) by stoexhubfe02.domain01.net
+	(10.12.10.7) with Microsoft SMTP Server id 8.3.137.0; Wed, 7 Sep 2011
+	09:15:27 +0200
+Date: Wed, 7 Sep 2011 09:15:41 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20110907071541.GB4181@chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <cover.1315343093.git.nitin.a.kamble@intel.com>
+	<7318770f8b3b34d4ec29ee592971a5be96e53151.1315343093.git.nitin.a.kamble@intel.com>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1315371835.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1315371835.git.sgw@linux.intel.com>
-Subject: Re: [PATCH 0/1] Fix MakeMaker's finding of perl.real
+In-Reply-To: <7318770f8b3b34d4ec29ee592971a5be96e53151.1315343093.git.nitin.a.kamble@intel.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-GFI-SMTP-Submission: 1
+Subject: Re: [PATCH 1/1] image-types: add btrfs as a supported fstype
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,31 +37,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Sep 2011 06:43:26 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 07 Sep 2011 07:20:30 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-Hi,
+* nitin.a.kamble@intel.com <nitin.a.kamble@intel.com> [110906 23:07]:
+> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> 
+> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> ---
+>  meta/classes/image_types.bbclass |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
+> 
+> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+> index c24b326..3e303ed 100644
+> --- a/meta/classes/image_types.bbclass
+> +++ b/meta/classes/image_types.bbclass
+> @@ -141,4 +141,4 @@ IMAGE_DEPENDS_ubi = "mtd-utils-native"
+>  IMAGE_DEPENDS_ubifs = "mtd-utils-native"
+>  
+>  # This variable is available to request which values are suitable for IMAGE_FSTYPES
+> -IMAGE_TYPES = "jffs2 cramfs ext2 ext2.gz ext3 ext3.gz live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma"
+> +IMAGE_TYPES = "jffs2 cramfs ext2 ext2.gz ext3 ext3.gz btrfs live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma"
 
-Le 07/09/2011 07:09, Saul Wold a =E9crit :
-> When configuring cpan packages, the directories passed to MakeMaker are=
- the
-> target directories. There was a patch that was applied to the native pe=
-rl
-> to find perl.real and convert that to perl.  This does not apply for th=
-e
-> target perl modules and therefore MakeMaker find perl.real.
->
-> This patch to cpan configure modifies the Makefile after configure and
-> changes the perl.real to just straight perl so we have the correct path=
-s
-> and shared state info in usable.
->
-when sending 1 patch, is it possible to not use cover letter in order to =
-have
-the explanation in the patch commit ?
-That's easier to understand what the patch is doing when browsing log.
+As Joshua already replied, this isn't enough.
+This raises one question, though. Have you successfully built
+btrfs-image? If so, I assume that you have more patches locally,
+otherwise you should resist submitting patches, unless they're clearly
+marked as RFC (request for comments, and thus not to be applied).
 
-Eric
+Cheers,
+Anders
+
+-- 
+Anders Darander
+ChargeStorm AB
 
 
