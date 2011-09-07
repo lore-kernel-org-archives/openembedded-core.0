@@ -1,29 +1,20 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@beagleboard.org>) id 1R1CZX-0000Xh-MK
+	(envelope-from <dongxiao.xu@intel.com>) id 1R1DLO-0003hw-6P
 	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Sep 2011 09:29:25 +0200
-Received: by wyf19 with SMTP id 19so5300624wyf.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Sep 2011 00:24:14 -0700 (PDT)
-Received: by 10.216.209.11 with SMTP id r11mr33735weo.3.1315380254464;
-	Wed, 07 Sep 2011 00:24:14 -0700 (PDT)
-Received: from powerbook-wlan.dominion.void (ip545070eb.adsl-surfen.hetnet.nl
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id fq9sm2693046wbb.15.2011.09.07.00.24.12
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 07 Sep 2011 00:24:13 -0700 (PDT)
-Message-Id: <4FFF6451-404D-4DC3-AB4A-4890C8CA166C@dominion.thruhere.net>
-From: Koen Kooi <koen@beagleboard.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <82477f26f43776abf9e74c026cf8f8984160a172.1315371674.git.sgw@linux.intel.com>
-Mime-Version: 1.0 (Apple Message framework v936)
-Date: Wed, 7 Sep 2011 09:24:11 +0200
-References: <cover.1315371674.git.sgw@linux.intel.com>
-	<82477f26f43776abf9e74c026cf8f8984160a172.1315371674.git.sgw@linux.intel.com>
-X-Mailer: Apple Mail (2.936)
-Subject: Re: [PATCH 1/1] gcc: add patch for ice 50099, which caused lttng-ust not to build
+	Wed, 07 Sep 2011 10:18:50 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 07 Sep 2011 01:13:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="45796795"
+Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
+	by orsmga002.jf.intel.com with ESMTP; 07 Sep 2011 01:13:43 -0700
+From: Dongxiao Xu <dongxiao.xu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  7 Sep 2011 16:18:05 +0800
+Message-Id: <cover.1315383334.git.dongxiao.xu@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/1][PULL] telepathy-python: remove duplicated installation entry of errors.py
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,62 +29,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Sep 2011 07:29:26 -0000
-Content-Type: text/plain; charset=US-ASCII; format=flowed; delsp=yes
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 07 Sep 2011 08:18:50 -0000
 
+Hi Richard and Saul,
 
-Op 7 sep 2011, om 07:03 heeft Saul Wold het volgende geschreven:
+This pull request is to fix [YOCTO #1453], please help to review and pull.
 
-> [YOCTO #1381]
->
-> This patch came from from GCC Bugzilla via Khem
->
-> Cc: Khem Raj <raj.khem@gmail.com>
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
-> meta/recipes-devtools/gcc/gcc-4.6.inc              |    3 +-
-> .../gcc/gcc-4.6/fix-for-ice-50099.patch            |   38 +++++++++++ 
-> +++++++++
-> 2 files changed, 40 insertions(+), 1 deletions(-)
-> create mode 100644 meta/recipes-devtools/gcc/gcc-4.6/fix-for- 
-> ice-50099.patch
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes- 
-> devtools/gcc/gcc-4.6.inc
-> index 380f9f7..f7bcf30 100644
-> --- a/meta/recipes-devtools/gcc/gcc-4.6.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
-> @@ -1,6 +1,6 @@
-> require gcc-common.inc
->
-> -PR = "r9"
-> +PR = "r10"
->
-> # Third digit in PV should be incremented after a minor release
-> # happens from this branch on gcc e.g. currently its 4.6.0
-> @@ -67,6 +67,7 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/ 
-> branches;module=${BRANCH};proto=http \
->            file://volatile_access_backport.patch \
->            file://use-defaults.h-and-t-oe-in-B.patch \
-> 	   file://powerpc-e5500.patch \
-> +           file://fix-for-ice-50099.patch \
-> 	  "
->
-> SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch "
-> diff --git a/meta/recipes-devtools/gcc/gcc-4.6/fix-for- 
-> ice-50099.patch b/meta/recipes-devtools/gcc/gcc-4.6/fix-for- 
-> ice-50099.patch
-> new file mode 100644
-> index 0000000..4b9f70d
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gcc/gcc-4.6/fix-for-ice-50099.patch
-> @@ -0,0 +1,38 @@
-> +Index: gcc/config/arm/arm.md
-> +===================================================================
-> +--- gcc-4.6.0/gcc/config/arm/arm.md	(revision 178135)
-> ++++ gcc-4.6.0/gcc/config/arm/arm.md	(working copy)
+Thanks,
+Dongxiao
 
-Where's the patch header for this patch with e.g. upstream status?
+The following changes since commit 41b7c955cfdc7b4d5c667c8a8742237d5edaca4f:
+
+  icu-3.6: fix building with big make -j (2011-09-05 20:38:50 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dxu4/bugfix
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/bugfix
+
+Dongxiao Xu (1):
+  telepathy-python: avoid duplicated installation of errors.py
+
+ .../remove_duplicate_install.patch                 |   26 ++++++++++++++++++++
+ .../telepathy/telepathy-python_0.15.19.bb          |    5 ++-
+ 2 files changed, 29 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-connectivity/telepathy/telepathy-python-0.15.19/remove_duplicate_install.patch
+
 
 
