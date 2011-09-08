@@ -1,26 +1,25 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1R1TEy-0006MP-Fb
+	(envelope-from <sgw@linux.intel.com>) id 1R1Vak-0000y8-KW
 	for openembedded-core@lists.openembedded.org;
-	Thu, 08 Sep 2011 03:17:16 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 07 Sep 2011 18:12:12 -0700
+	Thu, 08 Sep 2011 05:47:54 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 07 Sep 2011 20:42:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,348,1312182000"; d="scan'208";a="49109531"
+X-IronPort-AV: E=Sophos;i="4.68,348,1312182000"; d="scan'208";a="46631414"
 Received: from unknown (HELO [10.255.14.148]) ([10.255.14.148])
-	by fmsmga001.fm.intel.com with ESMTP; 07 Sep 2011 18:12:11 -0700
-Message-ID: <4E68166B.2050902@linux.intel.com>
-Date: Wed, 07 Sep 2011 18:12:11 -0700
+	by azsmga001.ch.intel.com with ESMTP; 07 Sep 2011 20:42:49 -0700
+Message-ID: <4E6839B9.8040009@linux.intel.com>
+Date: Wed, 07 Sep 2011 20:42:49 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:6.0) Gecko/20110816 Thunderbird/6.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1314804932.19905.169.camel@phil-desktop>
-In-Reply-To: <1314804932.19905.169.camel@phil-desktop>
-Cc: Phil Blundell <philb@gnu.org>
-Subject: Re: [PATCH] pango: use qemu to generate pango.modules during rootfs construction
+References: <1315025121.31478.140.camel@elmorro>
+In-Reply-To: <1315025121.31478.140.camel@elmorro>
+Subject: Re: [PATCH 0/2] systemtap: upgrade to 1.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,70 +34,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Sep 2011 01:17:16 -0000
+X-List-Received-Date: Thu, 08 Sep 2011 03:47:54 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/31/2011 08:35 AM, Phil Blundell wrote:
-> This allows pango to be installed in an image with read-only-rootfs.
+On 09/02/2011 09:45 PM, Tom Zanussi wrote:
+> This patchset upgrades systemtap to 1.6.  The 1.6 version of
+> systemtap also has improved support for arm, so this also
+> enables it for arm and adds it to qemuarm.
 >
-> Signed-off-by: Phil Blundell<philb@gnu.org>
-> ---
->   meta/recipes-graphics/pango/pango.inc       |   11 +++++++----
->   meta/recipes-graphics/pango/pango_1.28.4.bb |    2 +-
->   2 files changed, 8 insertions(+), 5 deletions(-)
+> This upgrade was successfully tested on qemux86, qemux86-64,
+> qemuppc, qemuarm, and sugarbay.  The results and the tests
+> can be found at the end of the systemtap section on the yocto
+> wiki:
 >
-> diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
-> index a8e99e2..ff3f5dd 100644
-> --- a/meta/recipes-graphics/pango/pango.inc
-> +++ b/meta/recipes-graphics/pango/pango.inc
-> @@ -10,13 +10,13 @@ SECTION = "libs"
->   LICENSE = "LGPL"
+> https://wiki.yoctoproject.org/wiki/Tracing_and_Profiling#systemtap
 >
->   X11DEPENDS = "virtual/libx11 libxft"
-> -DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv gtk-doc-native cairo ${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
-> +DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv gtk-doc-native cairo qemu-native ${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
+> Tom Zanussi (2):
+>    systemtap: upgrade to 1.6
+>    task-core-tools: add systemtap to qemuarm
 >
->   PACKAGES_DYNAMIC = "pango-module-*"
+>   meta/recipes-core/tasks/task-core-tools.bb         |    4 +-
+>   .../fix_for_compilation_with_gcc-4.6.0.patch       |  119
+> --------------------
+>   meta/recipes-kernel/systemtap/systemtap_git.bb     |   15 +--
+>   3 files changed, 9 insertions(+), 129 deletions(-)
+>   delete mode 100644
+> meta/recipes-kernel/systemtap/systemtap/fix_for_compilation_with_gcc-4.6.0.patch
 >
->   RRECOMMENDS_${PN} = "${@base_contains('DISTRO_FEATURES', 'x11', 'pango-module-basic-x', '', d)} pango-module-basic-fc"
 >
-> -inherit gnome
-> +inherit gnome qemu
 >
->   EXTRA_AUTORECONF = ""
 >
-> @@ -33,9 +33,12 @@ LIBV = "1.6.0"
->
->   postinst_prologue() {
->   if [ "x$D" != "x" ]; then
-> -  exit 1
-> +	if [ ! -f "$D${sysconfdir}/pango/pango.modules" ]; then
-> +		mkdir -p $D${sysconfdir}/pango
-> +		PSEUDO_RELOADED=YES ${@qemu_target_binary(d)} -L $D $D${bindir}/pango-querymodules>  "$D${sysconfdir}/pango/pango.modules"
-> +	fi
-> +	exit 0
->   fi
-> -
->   }
->
->   python populate_packages_prepend () {
-> diff --git a/meta/recipes-graphics/pango/pango_1.28.4.bb b/meta/recipes-graphics/pango/pango_1.28.4.bb
-> index 68ab700..33eac21 100644
-> --- a/meta/recipes-graphics/pango/pango_1.28.4.bb
-> +++ b/meta/recipes-graphics/pango/pango_1.28.4.bb
-> @@ -2,7 +2,7 @@ require pango.inc
->
->   LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
->
-> -PR = "r1"
-> +PR = "r4"
->
->   SRC_URI += "file://no-tests.patch"
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
 
-Merged but we found a problem with qemux86-64, a bug was filed and you
-should have received an email
+Merged into OE-Core
 
 Thanks
 	Sau!
