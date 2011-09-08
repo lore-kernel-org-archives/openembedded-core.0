@@ -1,29 +1,26 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1R1Vl3-0001Fx-Ku
+	(envelope-from <sgw@linux.intel.com>) id 1R1Vms-0001e5-Kj
 	for openembedded-core@lists.openembedded.org;
-	Thu, 08 Sep 2011 05:58:33 +0200
+	Thu, 08 Sep 2011 06:00:26 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 07 Sep 2011 20:53:29 -0700
+	by azsmga101.ch.intel.com with ESMTP; 07 Sep 2011 20:55:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,348,1312182000"; d="scan'208";a="15065853"
+X-IronPort-AV: E=Sophos;i="4.68,348,1312182000"; d="scan'208";a="15066237"
 Received: from unknown (HELO [10.255.14.148]) ([10.255.14.148])
-	by AZSMGA002.ch.intel.com with ESMTP; 07 Sep 2011 20:53:28 -0700
-Message-ID: <4E683C38.20506@linux.intel.com>
-Date: Wed, 07 Sep 2011 20:53:28 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 07 Sep 2011 20:55:22 -0700
+Message-ID: <4E683CAA.6080609@linux.intel.com>
+Date: Wed, 07 Sep 2011 20:55:22 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:6.0) Gecko/20110816 Thunderbird/6.0
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <201108261047.10782.paul.eggleton@linux.intel.com>
-	<4E57C747.2020104@linux.intel.com>
-	<201108261739.10025.paul.eggleton@linux.intel.com>
-	<201109071418.10285.paul.eggleton@linux.intel.com>
-In-Reply-To: <201109071418.10285.paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Core image recipes
+References: <1315426812.4368.1.camel@lenovo.internal.reciva.com>
+In-Reply-To: <1315426812.4368.1.camel@lenovo.internal.reciva.com>
+Cc: Phil Blundell <philb@gnu.org>
+Subject: Re: [PATCH] useradd.bbclass: use correct value for $D in postinst functions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,74 +35,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Sep 2011 03:58:33 -0000
+X-List-Received-Date: Thu, 08 Sep 2011 04:00:26 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/07/2011 06:18 AM, Paul Eggleton wrote:
-> On Friday 26 August 2011 17:39:09 Paul Eggleton wrote:
->> On Friday 26 August 2011 17:18:15 Saul Wold wrote:
->>> On 08/26/2011 02:47 AM, Paul Eggleton wrote:
->>>> meta/recipes-extended/images/core-image-basic.bb
->>>
->>> This image should NOT contain any X11, this is supposed to be an
->>> extention of core-image-minimal with many of the busybox related
->>> commands substituted for the real command set.  The intention of this
->>> image is two fold, first it's the largest image that we test against
->>> non-GPLv3 and it's the non-graphical LSB image (I am not sure if there
->>> is a spec test defined for that.
->>
->> Hmm, I'm not sure what I was thinking earlier, you're right it doesn't
->> appear to have X.
+On 09/07/2011 01:20 PM, Phil Blundell wrote:
+> This corrects the location of the password file used during package installation.
 >
-> Now I know why I thought this. Because task-core.bb defines task packages that
-> depend on X applications, any recipe that inherits from core-image will force
-> a build of all of the X apps even if it doesn't intend to use them - so both
-> core-image-basic and core-image-base suffer from this.  This is not really very
-> good and I think we ought to be splitting up task-core to avoid this. FYI
-> whilst core-image-minimal inherits from core-image it overrides IMAGE_INSTALL
-> and thus doesn't use anything from task-core and therefore does not have this
-> issue.
+> See http://lists.linuxtogo.org/pipermail/openembedded-core/2011-September/009183.html and subsequent discussion.
 >
-Now I understand what you are talking about, it might best to split this 
-into 2 tasks a task-core moved to recipes-core/tasks and a 
-task-core-x11, what about that?
+> Signed-off-by: Phil Blundell<philb@gnu.org>
+> ---
+>   meta/classes/useradd.bbclass |    6 +++---
+>   1 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+> index 5f5b68d..1e03a04 100644
+> --- a/meta/classes/useradd.bbclass
+> +++ b/meta/classes/useradd.bbclass
+> @@ -15,8 +15,8 @@ SYSROOT=""
+>
+>   if test "x$D" != "x"; then
+>   	# Installing into a sysroot
+> -	SYSROOT="${STAGING_DIR_TARGET}"
+> -	OPT="--root ${STAGING_DIR_TARGET}"
+> +	SYSROOT="$D"
+> +	OPT="--root $D"
+>
+>   	# Add groups and users defined for all recipe packages
+>   	GROUPADD_PARAM="${@get_all_cmd_params(d, 'group')}"
+> @@ -79,7 +79,7 @@ useradd_sysroot () {
+>
+>   	# Explicitly set $D since it isn't set to anything
+>   	# before do_install
+> -	D=${D}
+> +	D=${STAGING_DIR_TARGET}
+>   	useradd_preinst
+>   }
+>
 
->> I can't access the LSB specs website right now
->> unfortunately but does this have an official name within LSB? It's not
->> "LSB-Core" is it?
->
-> Yep, it's LSB-Core (yet another meaning of "core", sigh...)
->
-We could rename basic to task-lsb-core if that's what your thinking, but 
-as you point out yet another "core".
+Merged into OE-Core
 
-
->>>> Then, we have core-image-base, which whilst it doesn't remove package
->>>> management files, does not have "package-management" in its features,
->>>> so it's not a whole lot different to core-image-minimal AFAICT.
->>>
->>> On this one I might agree, I know that we have not built that image, nor
->>> does it seem to be used by anything else.
->>
->> If there's demand for a minimal image with package management (someone
->> asked for this on IRC just the other day, and it makes sense to me at
->> least) then that's what I'd suggest turning this into. In which case it
->> ought to be called core-image-minimal-pkgmgmt or something similar.
->
-> Any opinions on this one?
->
-I think this is one that they can create themselves it's would be distro 
-specific and would require additional space allocated to the rootfs, 
-best for the distro do.  Remember we are trying to provide foundations 
-and examples. core-image-minimal is supposed to be the smallest possible 
-image with login and shell. It can be used by someone to build on.
-
-Sau!
-
-
-> Cheers,
-> Paul
->
+Thanks
+	Sau!
 
 
