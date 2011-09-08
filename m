@@ -1,37 +1,26 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R1QuQ-0002Tl-HF for openembedded-core@lists.openembedded.org;
-	Thu, 08 Sep 2011 00:47:54 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p87MmneP030559 for <openembedded-core@lists.openembedded.org>;
-	Wed, 7 Sep 2011 23:48:49 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id A16dpZCdAHBg
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Sep 2011 23:48:49 +0100 (BST)
-Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p87MmjBg030555
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 7 Sep 2011 23:48:48 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	(envelope-from <sgw@linux.intel.com>) id 1R1TEy-0006MP-Fb
+	for openembedded-core@lists.openembedded.org;
+	Thu, 08 Sep 2011 03:17:16 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 07 Sep 2011 18:12:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,348,1312182000"; d="scan'208";a="49109531"
+Received: from unknown (HELO [10.255.14.148]) ([10.255.14.148])
+	by fmsmga001.fm.intel.com with ESMTP; 07 Sep 2011 18:12:11 -0700
+Message-ID: <4E68166B.2050902@linux.intel.com>
+Date: Wed, 07 Sep 2011 18:12:11 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:6.0) Gecko/20110816 Thunderbird/6.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <20110907090750.GE4181@chargestorm.se>
-References: <cover.1315371835.git.sgw@linux.intel.com>
-	<4E67114D.80507@eukrea.com>  <20110907090750.GE4181@chargestorm.se>
-Date: Wed, 07 Sep 2011 23:42:42 +0100
-Message-ID: <1315435362.13021.53.camel@ted>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
-	p87MmneP030559
-Subject: Re: [PATCH 0/1] Fix MakeMaker's finding of perl.real
+References: <1314804932.19905.169.camel@phil-desktop>
+In-Reply-To: <1314804932.19905.169.camel@phil-desktop>
+Cc: Phil Blundell <philb@gnu.org>
+Subject: Re: [PATCH] pango: use qemu to generate pango.modules during rootfs construction
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,46 +35,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Sep 2011 22:47:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 08 Sep 2011 01:17:16 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-09-07 at 11:07 +0200, Anders Darander wrote:
-> * Eric B=C3=A9nard <eric@eukrea.com> [110907 08:41]:
-> > Le 07/09/2011 07:09, Saul Wold a =C3=A9crit :
-> > > When configuring cpan packages, the directories passed to MakeMaker=
- are the
-> > > target directories. There was a patch that was applied to the nativ=
-e perl
-> > > to find perl.real and convert that to perl.  This does not apply fo=
-r the
-> > > target perl modules and therefore MakeMaker find perl.real.
-> > >
-> > > This patch to cpan configure modifies the Makefile after configure =
-and
-> > > changes the perl.real to just straight perl so we have the correct =
-paths
-> > > and shared state info in usable.
-> > >
-> > when sending 1 patch, is it possible to not use cover letter in order=
- to have
-> > the explanation in the patch commit ?
-> > That's easier to understand what the patch is doing when browsing log.
->=20
-> Cover letter or not, the patch should include a commit message that
-> explains the patch. It doesn't really matter if there is only one patch
-> or a large patch series.
->=20
-> For a single patch, the cover letter can be usefull to provide some
-> extra information and discussion. In other cases, it can be pretty
-> useless IMHO.
+On 08/31/2011 08:35 AM, Phil Blundell wrote:
+> This allows pango to be installed in an image with read-only-rootfs.
+>
+> Signed-off-by: Phil Blundell<philb@gnu.org>
+> ---
+>   meta/recipes-graphics/pango/pango.inc       |   11 +++++++----
+>   meta/recipes-graphics/pango/pango_1.28.4.bb |    2 +-
+>   2 files changed, 8 insertions(+), 5 deletions(-)
+>
+> diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
+> index a8e99e2..ff3f5dd 100644
+> --- a/meta/recipes-graphics/pango/pango.inc
+> +++ b/meta/recipes-graphics/pango/pango.inc
+> @@ -10,13 +10,13 @@ SECTION = "libs"
+>   LICENSE = "LGPL"
+>
+>   X11DEPENDS = "virtual/libx11 libxft"
+> -DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv gtk-doc-native cairo ${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
+> +DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv gtk-doc-native cairo qemu-native ${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
+>
+>   PACKAGES_DYNAMIC = "pango-module-*"
+>
+>   RRECOMMENDS_${PN} = "${@base_contains('DISTRO_FEATURES', 'x11', 'pango-module-basic-x', '', d)} pango-module-basic-fc"
+>
+> -inherit gnome
+> +inherit gnome qemu
+>
+>   EXTRA_AUTORECONF = ""
+>
+> @@ -33,9 +33,12 @@ LIBV = "1.6.0"
+>
+>   postinst_prologue() {
+>   if [ "x$D" != "x" ]; then
+> -  exit 1
+> +	if [ ! -f "$D${sysconfdir}/pango/pango.modules" ]; then
+> +		mkdir -p $D${sysconfdir}/pango
+> +		PSEUDO_RELOADED=YES ${@qemu_target_binary(d)} -L $D $D${bindir}/pango-querymodules>  "$D${sysconfdir}/pango/pango.modules"
+> +	fi
+> +	exit 0
+>   fi
+> -
+>   }
+>
+>   python populate_packages_prepend () {
+> diff --git a/meta/recipes-graphics/pango/pango_1.28.4.bb b/meta/recipes-graphics/pango/pango_1.28.4.bb
+> index 68ab700..33eac21 100644
+> --- a/meta/recipes-graphics/pango/pango_1.28.4.bb
+> +++ b/meta/recipes-graphics/pango/pango_1.28.4.bb
+> @@ -2,7 +2,7 @@ require pango.inc
+>
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
+>
+> -PR = "r1"
+> +PR = "r4"
+>
+>   SRC_URI += "file://no-tests.patch"
+>
 
-This commit has slipped into the tree this time but I agree in future
-more explanation of a commit is needed...
+Merged but we found a problem with qemux86-64, a bug was filed and you
+should have received an email
 
-Cheers,
-
-Richard
-
+Thanks
+	Sau!
 
 
