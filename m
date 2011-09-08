@@ -1,30 +1,20 @@
-Received: from stoexhubfe02.domain01.net ([83.145.59.141])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1R1Ys5-0002xZ-Ey
+	(envelope-from <sgw@linux.intel.com>) id 1R1YxK-00034E-2M
 	for openembedded-core@lists.openembedded.org;
-	Thu, 08 Sep 2011 09:18:01 +0200
-Received: from localhost (193.235.91.228) by stoexhubfe02.domain01.net
-	(10.12.10.7) with Microsoft SMTP Server id 8.3.137.0; Thu, 8 Sep 2011
-	09:12:57 +0200
-Date: Thu, 8 Sep 2011 09:13:10 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20110908071310.GB3928@chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <cover.1315343093.git.nitin.a.kamble@intel.com>
-	<7318770f8b3b34d4ec29ee592971a5be96e53151.1315343093.git.nitin.a.kamble@intel.com>
-	<20110907071541.GB4181@chargestorm.se>
-	<9DA5872FEF993D41B7173F58FCF6BE94DEFEF755@orsmsx504.amr.corp.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <9DA5872FEF993D41B7173F58FCF6BE94DEFEF755@orsmsx504.amr.corp.intel.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-GFI-SMTP-Submission: 1
-Subject: Re: [PATCH 1/1] image-types: add btrfs as a supported fstype
+	Thu, 08 Sep 2011 09:23:26 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 08 Sep 2011 00:18:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="46180759"
+Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.148])
+	by orsmga002.jf.intel.com with ESMTP; 08 Sep 2011 00:18:21 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  8 Sep 2011 00:18:19 -0700
+Message-Id: <cover.1315466194.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [PULL v2 0/1] fix for mesa-* build failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,44 +29,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Sep 2011 07:18:01 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 08 Sep 2011 07:23:26 -0000
 
-* Kamble, Nitin A <nitin.a.kamble@intel.com> [110907 20:28]:
-> > -----Original Message----- From:
-> > openembedded-core-bounces@lists.openembedded.org
-> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> > Of Anders Darander Sent: Wednesday, September 07, 2011 12:16 AM To:
-> > openembedded-core@lists.openembedded.org Subject: Re: [OE-core]
-> > [PATCH 1/1] image-types: add btrfs as a supported fstype
-> > 
-> > As Joshua already replied, this isn't enough.  This raises one
-> > question, though. Have you successfully built btrfs-image? If so, I
-> > assume that you have more patches locally, otherwise you should
-> > resist submitting patches, unless they're clearly marked as RFC
-> > (request for comments, and thus not to be applied).
-> 
-> All these pieces Josh mentioned are already in the tree. I found this
-> new line, and saw btrfs was not listed in it so added there also. The
-> btrfs support in yocto is working with Linux-yocto 3.x kernel. The
-> btrfs kernel config needs to be enabled, I have sent a patch for that
-> implementing it as a kernel feature, Once that is there then also need
-> to enable the btrfs feature in the Linux-yocto kernel recipe. I will
-> send a patch for that too. 
+Fixes mesa configure scripts finding host (not native) 
+python2 executable
 
-My apologies. 
-You're correct in that the pieces mentioned by Josh is already in the
-tree.
+v2: Bump PR!
+    Found the right combination of args for link and sstate!
 
-However, the commit log should probably have included something like
-"enabling btrfs support for hob", perhaps worded slightly better. 
+Sau!
 
-Cheers,
-Anders
+The following changes since commit fa8dad209247b780590bc8476b5b16e6608d7907:
+
+  avahi: only use gtk if DISTRO_FEATURES includes x11 (2011-09-07 23:44:07 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/fix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
+
+Saul Wold (1):
+  python-native: add link for python2
+
+ .../recipes-devtools/python/python-native_2.6.6.bb |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
 
 -- 
-Anders Darander
-ChargeStorm AB
+1.7.6
+
 
 
