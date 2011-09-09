@@ -1,27 +1,27 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-gx0-f173.google.com ([209.85.161.173])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1R1wnu-0001QR-Pe
+	(envelope-from <andrea.adami@gmail.com>) id 1R1xRU-0002it-3V
 	for openembedded-core@lists.openembedded.org;
-	Fri, 09 Sep 2011 10:51:18 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1R1wj2-00089S-33; Fri, 09 Sep 2011 10:46:16 +0200
-From: Phil Blundell <philb@gnu.org>
+	Fri, 09 Sep 2011 11:32:12 +0200
+Received: by gxk26 with SMTP id 26so1139061gxk.4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 09 Sep 2011 02:27:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=elyJl5S0HJYQDACAt3JtcBre59vUytKXbVRz+uDEX1Y=;
+	b=Th2PCxq+gNyWDV3EAr5BbfkdM0VT5ACWBsVy0tIMbLeMaKDAdGEVuLZr8WoOnGnEXi
+	9v7FHszW1jOGm3eeTmGBbSW6akubU7mdmHprl2nNm4vYHbeWNTTVOZMIItbroXMPnXyJ
+	gfPPJzAnqu6/pp8Tp/tn/TcOUL3h6l1OIYFhE=
+MIME-Version: 1.0
+Received: by 10.150.104.6 with SMTP id b6mr1715133ybc.129.1315560424357; Fri,
+	09 Sep 2011 02:27:04 -0700 (PDT)
+Received: by 10.150.192.6 with HTTP; Fri, 9 Sep 2011 02:27:04 -0700 (PDT)
+Date: Fri, 9 Sep 2011 11:27:04 +0200
+Message-ID: <CAAQYJAuBa8_P_JNoT91RhYNtgEzsp85ovSRSE92MHGNE5bGb-Q@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 09 Sep 2011 09:46:15 +0100
-In-Reply-To: <4E68E2EF.10402@intel.com>
-References: <1315427297.4368.4.camel@lenovo.internal.reciva.com>
-	<4E683D5E.70103@linux.intel.com>
-	<1315464889.4368.6.camel@lenovo.internal.reciva.com>
-	<4E68E2EF.10402@intel.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1315557976.2519.88.camel@phil-desktop>
-Mime-Version: 1.0
-Cc: "Wold, Saul" <saul.wold@intel.com>
-Subject: Re: [PATCH] dbus: fix paths in startup script, use useradd.bbclass for user creation
+Subject: [RFC] Klibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,91 +36,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Sep 2011 08:51:18 -0000
-X-Groupsio-MsgNum: 9268
-Content-Type: multipart/mixed; boundary="=-Z60cWwSmf4WJsAa1StfS"
+X-List-Received-Date: Fri, 09 Sep 2011 09:32:12 -0000
+Content-Type: multipart/alternative; boundary=000e0cd4893cc640d204ac7ec7c5
 
---=-Z60cWwSmf4WJsAa1StfS
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+--000e0cd4893cc640d204ac7ec7c5
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Thu, 2011-09-08 at 08:44 -0700, Scott Garman wrote:
-> In any case, please submit your patch and I will advocate for its 
-> inclusion in our 1.1 release.
+Hello,
 
-As requested.
+we have the latest klibc release in the meta-openembedded layer.
 
-p.
+Awaiting an imminent klibc_2.0 release, I'd be grateful if someone could
+review and possibly test the recipes [1]
+which happen to build and package apaprently well for arm and mips targets
+(runtime tested le only).
 
+The recipes can be built separately (e.g. klibc-static-utils only) and are
+packaged
+in order to minimize the fooprint of the runtime dependencies.
 
---=-Z60cWwSmf4WJsAa1StfS
-Content-Disposition: attachment; filename="0001-shadow-add-patch-for-useradd-lossage.patch"
-Content-Type: text/x-patch; name="0001-shadow-add-patch-for-useradd-lossage.patch";
-	charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Thanks in advance for your comments
 
-From 6ac00e3ced33a4b8eb43fd83d786a192e6f4f5c1 Mon Sep 17 00:00:00 2001
-From: Phil Blundell <philb@gnu.org>
-Date: Wed, 7 Sep 2011 13:02:10 +0100
-Subject: [PATCH] shadow: add patch for useradd lossage
+Andrea Adami
 
-This fixes (or, at least, papers over) a failure in do_install for recipes which 
-inherit useradd.bbclass.  Rewinding optind in this way is not entirely portable
-but in practice it seems to work on GNU-ish build hosts at least.
+[1]
+http://cgit.openembedded.org/cgit.cgi/meta-openembedded/tree/meta-oe/recipes-devtools/klibc
+**
 
-Signed-off-by: Phil Blundell <philb@gnu.org>
----
- meta/recipes-extended/shadow/files/useradd.patch   |   17 +++++++++++++++++
- .../shadow/shadow-native_4.1.4.3.bb                |    5 +++--
- 2 files changed, 20 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/shadow/files/useradd.patch
+--000e0cd4893cc640d204ac7ec7c5
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-extended/shadow/files/useradd.patch b/meta/recipes-extended/shadow/files/useradd.patch
-new file mode 100644
-index 0000000..ff5016c
---- /dev/null
-+++ b/meta/recipes-extended/shadow/files/useradd.patch
-@@ -0,0 +1,17 @@
-+Work around a bug introduced with the --root option which was causing
-+all other arguments to be ignored.
-+
-+Upstream-Status: inappropriate
-+Signed-off-by: Phil Blundell <philb@gnu.org>
-+
-+--- a/src/useradd.c~	2011-09-01 15:36:40.398234861 +0100
-++++ b/src/useradd.c	2011-09-01 17:29:00.782004133 +0100
-+@@ -1957,6 +1957,8 @@
-+ 
-+ 	get_defaults ();
-+ 
-++	optind = 1;
-++
-+ 	process_flags (argc, argv);
-+ 
-+ #ifdef ACCT_TOOLS_SETUID
-diff --git a/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
-index 485495e..c29e4c1 100644
---- a/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
-+++ b/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
-@@ -7,13 +7,14 @@ LICENSE = "BSD | Artistic"
- LIC_FILES_CHKSUM = "file://COPYING;md5=08c553a87d4e51bbed50b20e0adcaede \
-                     file://src/passwd.c;firstline=8;endline=30;md5=2899a045e90511d0e043b85a7db7e2fe"
- 
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.bz2 \
-            file://shadow.automake-1.11.patch \
-            file://shadow-4.1.3-dots-in-usernames.patch \
-            file://shadow-4.1.4.2-env-reset-keep-locale.patch \
--           file://add_root_cmd_options.patch"
-+           file://add_root_cmd_options.patch \
-+	   file://useradd.patch"
- 
- SRC_URI[md5sum] = "b8608d8294ac88974f27b20f991c0e79"
- SRC_URI[sha256sum] = "633f5bb4ea0c88c55f3642c97f9d25cbef74f82e0b4cf8d54e7ad6f9f9caa778" 
--- 
-1.7.4.1
+Hello,<br><br>we have the latest klibc release in the meta-openembedded lay=
+er.<br><br>Awaiting an imminent klibc_2.0 release, I&#39;d be grateful if s=
+omeone could review and possibly test the recipes [1] <br>which happen to b=
+uild and package apaprently well for arm and mips targets (runtime tested l=
+e only).<br>
+<br>The recipes can be built separately (e.g. klibc-static-utils only) and =
+are packaged <br>in order to minimize the fooprint of the runtime dependenc=
+ies.<br><br>Thanks in advance for your comments<br><br>Andrea Adami<br>
+<br>[1] <a href=3D"http://cgit.openembedded.org/cgit.cgi/meta-openembedded/=
+tree/meta-oe/recipes-devtools/klibc">http://cgit.openembedded.org/cgit.cgi/=
+meta-openembedded/tree/meta-oe/recipes-devtools/klibc</a><br><b></b>
 
-
---=-Z60cWwSmf4WJsAa1StfS--
+--000e0cd4893cc640d204ac7ec7c5--
