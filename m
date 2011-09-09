@@ -1,32 +1,34 @@
-Received: from mail-yi0-f47.google.com ([209.85.218.47])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1R24x1-0005aF-NH
-	for openembedded-core@lists.openembedded.org;
-	Fri, 09 Sep 2011 19:33:16 +0200
-Received: by yia28 with SMTP id 28so1021769yia.6
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1R25Aw-0006EZ-Qp for openembedded-core@lists.openembedded.org;
+	Fri, 09 Sep 2011 19:47:38 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p89HmX5J016439 for <openembedded-core@lists.openembedded.org>;
+	Fri, 9 Sep 2011 18:48:33 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id GR7Z1bsO4317
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Sep 2011 10:28:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=bhyvM4O6mG89nekE7LKe3V2yHhn1mchQsxFpt5/TL0c=;
-	b=dp+Xuyt/dCvgsIEMWCcMKqWg2vI8PbQblCDu90KX3ZeMOYH6ZQs3R8JUxxM5Ve+22/
-	wdA2/1NEKmRvEiSUHUyYKQQWBKkvE1ICHo+OHzy7JMkXQRyKbtJperH3dbmyCOLGiuh+
-	8XPDAcrKvD0p+5y/CF6WXReXy2WXyvAe9jWgo=
-MIME-Version: 1.0
-Received: by 10.68.7.170 with SMTP id k10mr331425pba.176.1315589289861; Fri,
-	09 Sep 2011 10:28:09 -0700 (PDT)
-Received: by 10.142.223.1 with HTTP; Fri, 9 Sep 2011 10:28:09 -0700 (PDT)
-In-Reply-To: <1315346049-8611-4-git-send-email-joelagnel@ti.com>
-References: <1315346049-8611-1-git-send-email-joelagnel@ti.com>
-	<1315346049-8611-4-git-send-email-joelagnel@ti.com>
-Date: Fri, 9 Sep 2011 19:28:09 +0200
-Message-ID: <CA+chaQfD1Wp3tX4fF0vhdosF_mGi=6ajU3d3oNboA=Ntf_-JFw@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
+	Fri,  9 Sep 2011 18:48:32 +0100 (BST)
+Received: from [192.168.1.43] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p89HmTah016430
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 9 Sep 2011 18:48:31 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: jdk@ti.com, k-kooi@ti.com
-Subject: Re: [PATCH v2 meta-oe 3/8] libdvdread: Imported from OE classic
+In-Reply-To: <cover.1315562256.git.scott.a.garman@intel.com>
+References: <cover.1315562256.git.scott.a.garman@intel.com>
+Date: Fri, 09 Sep 2011 18:42:24 +0100
+Message-ID: <1315590144.1986.7.camel@ted>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+Subject: Re: [PATCH 0/1] runqemu - improve auto-detection of rootfs filenames
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,72 +43,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Sep 2011 17:33:16 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 09 Sep 2011 17:47:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Sep 6, 2011 at 11:54 PM, Joel A Fernandes <joelagnel@ti.com> wrote:
-> Signed-off-by: Joel A Fernandes <joelagnel@ti.com>
-> ---
-> =C2=A0.../libdvdread/libdvdread_4.1.3-10.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| =C2=A0 16 ++++++++++++++++
-> =C2=A01 files changed, 16 insertions(+), 0 deletions(-)
-> =C2=A0create mode 100644 meta-oe/recipes-multimedia/libdvdread/libdvdread=
-_4.1.3-10.bb
->
-> diff --git a/meta-oe/recipes-multimedia/libdvdread/libdvdread_4.1.3-10.bb=
- b/meta-oe/recipes-multimedia/libdvdread/libdvdread_4.1.3-10.bb
-> new file mode 100644
-> index 0000000..f17043b
-> --- /dev/null
-> +++ b/meta-oe/recipes-multimedia/libdvdread/libdvdread_4.1.3-10.bb
-> @@ -0,0 +1,16 @@
-> +DESCRIPTION =3D "DVD access multimeda library"
-> +SECTION =3D "libs/multimedia"
-> +LICENSE =3D "GPLv2+"
-> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D94d55d512a9ba36caa9b7df079bae=
-19f"
-> +SRC_URI =3D "git://git.debian-maintainers.org/git/daniel/${PN}.git;proto=
-col=3Dgit;branch=3Ddebian"
-> +
-> +SRCREV =3D "e465b500c12be5b4c0b6918a9b98038611f66c57"
+On Fri, 2011-09-09 at 02:59 -0700, Scott Garman wrote:
+> Hello,
+> 
+> This refactors the way rootfs filenames are auto-detected when you
+> run the runqemu script without an explicit rootfs filename argument.
+> It allows the script to use rootfs files generated by hob, and when
+> there are mutliple rootfs files to choose from, it will pick the
+> most recently created one.
+>     
+> Fixes [YOCTO #1437].
+> 
+> - Scott
+> 
+> The following changes since commit ae4db0bacb9d40489499f77905f26502f3bcaa19:
+> 
+>   python-native: add link for python2 (2011-09-08 09:56:23 +0100)
+> 
+> are available in the git repository at:
+>   git://git.pokylinux.org/poky-contrib sgarman/runqemu-fixes2
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/runqemu-fixes2
+> 
+> Scott Garman (1):
+>   runqemu: improve auto-detection of rootfs filenames
 
+Merged to master, thanks.
 
-http://git.debian-maintainers.org/?p=3Ddaniel/libdvdread.git
-says
-404 - No such project
-even with
-http://packages.qa.debian.org/libd/libdvdread.html
-still pointing there
+Richard
 
-Can you change it to
-http://ftp.de.debian.org/debian/pool/main/libd/libdvdread/libdvdread_4.1.3.=
-orig.tar.gz
-+
-http://ftp.de.debian.org/debian/pool/main/libd/libdvdread/libdvdread_4.1.3-=
-10.diff.gz
-or find some fetchable repo for that?
-
-Thanks,
-
-
-> +S =3D "${WORKDIR}/git"
-> +
-> +inherit autotools lib_package binconfig pkgconfig
-> +
-> +do_unpackpost() {
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0QUILT_PATCHES=3Ddebian/patches quilt push -a
-> +}
-> +
-> +addtask unpackpost after do_unpack before do_patch
-> --
-> 1.7.0.4
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
 
