@@ -1,31 +1,31 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ebutera@gmail.com>) id 1R2kFM-0004Je-Kp
+	(envelope-from <ebutera@gmail.com>) id 1R2kmy-00058q-6d
 	for openembedded-core@lists.openembedded.org;
-	Sun, 11 Sep 2011 15:38:56 +0200
-Received: by wwf27 with SMTP id 27so316439wwf.24
+	Sun, 11 Sep 2011 16:13:40 +0200
+Received: by fxi1 with SMTP id 1so1498648fxi.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Sep 2011 06:33:48 -0700 (PDT)
+	Sun, 11 Sep 2011 07:08:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=sender:from:to:subject:date:message-id:x-mailer;
-	bh=QdkHrIIw5kGkyD/4kICmBlXTZ4FLMJgTQ1PLiRh4P9o=;
-	b=UuFnuuRRpDZEbOFTXRWyovewRNR7poDSNJLEmO5gqidV+04s+OTRVMzUXAWHIu9xN3
-	LZf3jPzb3OXSY91cI8LUrqzBaorV2F4eeB4tos8laxIa86yPft103oksucudtMwK6zhh
-	3sYjbchrnNGEr4bquixiKSuajLNGogAyzrZMw=
-Received: by 10.227.58.75 with SMTP id f11mr28618wbh.106.1315748027363;
-	Sun, 11 Sep 2011 06:33:47 -0700 (PDT)
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=PRuC304ydodIhz/+k7xPY0iZ3urStoqdtW2Db5tmTLE=;
+	b=YM1h7hCPIepGDhDWcqGr7o6mGWA5KS0svUNTFxZPpKgAEWAaDB3EH+A3hIYAHk/Ayq
+	gDsrxZuuVfWKCePYOnMB4rgL8CaCNdgF0uk6UfbWOBDte7Mbi6A+opXFFhZYL9qWwaAE
+	P8TG1RK/Knzl1CaRwVpJxCGbZJFJMmQXKMoRQ=
+Received: by 10.223.37.26 with SMTP id v26mr816973fad.100.1315750113265;
+	Sun, 11 Sep 2011 07:08:33 -0700 (PDT)
 Received: from localhost.localdomain
 	(host145-0-dynamic.18-79-r.retail.telecomitalia.it [79.18.0.145])
-	by mx.google.com with ESMTPS id fp5sm13169025wbb.2.2011.09.11.06.33.45
+	by mx.google.com with ESMTPS id a1sm6481238fae.23.2011.09.11.07.08.31
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 11 Sep 2011 06:33:46 -0700 (PDT)
+	Sun, 11 Sep 2011 07:08:32 -0700 (PDT)
 Sender: Enrico Butera <ebutera@gmail.com>
 From: Enrico Butera <ebutera@users.berlios.de>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 11 Sep 2011 15:33:40 +0200
-Message-Id: <1315748020-2323-1-git-send-email-ebutera@users.berlios.de>
+Date: Sun, 11 Sep 2011 16:08:21 +0200
+Message-Id: <1315750101-5078-1-git-send-email-ebutera@users.berlios.de>
 X-Mailer: git-send-email 1.7.4.1
-Subject: [PATCH] mirrors.bbclass: add OSUOSL to kernel.org mirrors
+Subject: [PATCH] [meta-oe] connman: use KERNELORG_MIRROR in SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,25 +40,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 Sep 2011 13:38:56 -0000
+X-List-Received-Date: Sun, 11 Sep 2011 14:13:40 -0000
 
 Signed-off-by: Enrico Butera <ebutera@users.berlios.de>
 ---
- meta/classes/mirrors.bbclass |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+ .../recipes-connectivity/connman/connman_0.77.bb   |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
-index 2146087..cd13229 100644
---- a/meta/classes/mirrors.bbclass
-+++ b/meta/classes/mirrors.bbclass
-@@ -28,6 +28,7 @@ ${KERNELORG_MIRROR}	ftp://ftp.uk.kernel.org/pub \n \
- ${KERNELORG_MIRROR}	ftp://ftp.hk.kernel.org/pub \n \
- ${KERNELORG_MIRROR}	ftp://ftp.au.kernel.org/pub \n \
- ${KERNELORG_MIRROR}	ftp://ftp.jp.kernel.org/pub \n \
-+${KERNELORG_MIRROR}	http://ftp.osuosl.org/pub/kernel/pub \n \
- ftp://ftp.gnupg.org/gcrypt/     ftp://ftp.franken.de/pub/crypt/mirror/ftp.gnupg.org/gcrypt/ \n \
- ftp://ftp.gnupg.org/gcrypt/     ftp://ftp.surfnet.nl/pub/security/gnupg/ \n \
- ftp://ftp.gnupg.org/gcrypt/     http://gulus.USherbrooke.ca/pub/appl/GnuPG/ \n \
+diff --git a/meta-oe/recipes-connectivity/connman/connman_0.77.bb b/meta-oe/recipes-connectivity/connman/connman_0.77.bb
+index b132f4b..9d65345 100644
+--- a/meta-oe/recipes-connectivity/connman/connman_0.77.bb
++++ b/meta-oe/recipes-connectivity/connman/connman_0.77.bb
+@@ -19,7 +19,7 @@ EXTRA_OECONF += "\
+ "
+ 
+ SRC_URI  = "\
+-  http://www.kernel.org/pub/linux/network/connman/connman-${PV}.tar.gz \
++  ${KERNELORG_MIRROR}/linux/network/connman/connman-${PV}.tar.gz \
+   file://connman \
+ "
+ 
 -- 
 1.7.4.1
 
