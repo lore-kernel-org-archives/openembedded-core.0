@@ -1,35 +1,31 @@
-Received: from mail-yi0-f47.google.com ([209.85.218.47])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ebutera@gmail.com>) id 1R2V4q-000762-Ub
+	(envelope-from <ebutera@gmail.com>) id 1R2kFM-0004Je-Kp
 	for openembedded-core@lists.openembedded.org;
-	Sat, 10 Sep 2011 23:27:05 +0200
-Received: by yia28 with SMTP id 28so1662325yia.6
+	Sun, 11 Sep 2011 15:38:56 +0200
+Received: by wwf27 with SMTP id 27so316439wwf.24
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Sep 2011 14:21:55 -0700 (PDT)
+	Sun, 11 Sep 2011 06:33:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type;
-	bh=XdPteaozO6MlUivbdKFxwP8FZH9GqDHqnZYuRUV1BhM=;
-	b=Vm1rHWuy2UPsooMrV7qUBEXzRlHJhrRz+9p5dBZ5NCMWrIobdb36glxDbzMfN0yz3j
-	hlXPEhaI+tBnqzwD3rZ7m0cIZF8HRm0ILdcxw0jjIarxqsZMuNajtrQHaHegjy+VGT3u
-	PCtfMr36siBTTFoxrryTqoQ+6kNUdRIheF5dE=
-MIME-Version: 1.0
-Received: by 10.236.179.72 with SMTP id g48mr19631699yhm.50.1315689715140;
-	Sat, 10 Sep 2011 14:21:55 -0700 (PDT)
-Sender: ebutera@gmail.com
-Received: by 10.236.111.35 with HTTP; Sat, 10 Sep 2011 14:21:55 -0700 (PDT)
-In-Reply-To: <20110910204621.GC5456@jama.jama.net>
-References: <CA+2YH7vrG5b5ZH+_YSG6-F_fJT54rL_0B7JCjr9UiHRSiXdmJQ@mail.gmail.com>
-	<4E6BA2E2.7090301@eukrea.com>
-	<CA+2YH7uhXW=i+P1UMJRC6WLK_SNQnpoDFVi2dMUnveofKpHOWw@mail.gmail.com>
-	<20110910204621.GC5456@jama.jama.net>
-Date: Sat, 10 Sep 2011 23:21:55 +0200
-X-Google-Sender-Auth: NWdLVhtce6CfXy6NpUIeTC6LnF4
-Message-ID: <CA+2YH7vv3zkRdrOaJCz_gOOC_9h=aJBXsHLo8gPhZ_TJ1K9hyA@mail.gmail.com>
-From: Enrico <ebutera@users.berlios.de>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: udev mirror
+	h=sender:from:to:subject:date:message-id:x-mailer;
+	bh=QdkHrIIw5kGkyD/4kICmBlXTZ4FLMJgTQ1PLiRh4P9o=;
+	b=UuFnuuRRpDZEbOFTXRWyovewRNR7poDSNJLEmO5gqidV+04s+OTRVMzUXAWHIu9xN3
+	LZf3jPzb3OXSY91cI8LUrqzBaorV2F4eeB4tos8laxIa86yPft103oksucudtMwK6zhh
+	3sYjbchrnNGEr4bquixiKSuajLNGogAyzrZMw=
+Received: by 10.227.58.75 with SMTP id f11mr28618wbh.106.1315748027363;
+	Sun, 11 Sep 2011 06:33:47 -0700 (PDT)
+Received: from localhost.localdomain
+	(host145-0-dynamic.18-79-r.retail.telecomitalia.it [79.18.0.145])
+	by mx.google.com with ESMTPS id fp5sm13169025wbb.2.2011.09.11.06.33.45
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 11 Sep 2011 06:33:46 -0700 (PDT)
+Sender: Enrico Butera <ebutera@gmail.com>
+From: Enrico Butera <ebutera@users.berlios.de>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 11 Sep 2011 15:33:40 +0200
+Message-Id: <1315748020-2323-1-git-send-email-ebutera@users.berlios.de>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH] mirrors.bbclass: add OSUOSL to kernel.org mirrors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,15 +40,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Sep 2011 21:27:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sun, 11 Sep 2011 13:38:56 -0000
 
-On Sat, Sep 10, 2011 at 10:46 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> there is patch on oe-devel for using .tar.bz for 173 instead of git,
-> that's how I work arrouned it yesterday..
+Signed-off-by: Enrico Butera <ebutera@users.berlios.de>
+---
+ meta/classes/mirrors.bbclass |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Thanks, and looks like connman needs that patch too.
+diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
+index 2146087..cd13229 100644
+--- a/meta/classes/mirrors.bbclass
++++ b/meta/classes/mirrors.bbclass
+@@ -28,6 +28,7 @@ ${KERNELORG_MIRROR}	ftp://ftp.uk.kernel.org/pub \n \
+ ${KERNELORG_MIRROR}	ftp://ftp.hk.kernel.org/pub \n \
+ ${KERNELORG_MIRROR}	ftp://ftp.au.kernel.org/pub \n \
+ ${KERNELORG_MIRROR}	ftp://ftp.jp.kernel.org/pub \n \
++${KERNELORG_MIRROR}	http://ftp.osuosl.org/pub/kernel/pub \n \
+ ftp://ftp.gnupg.org/gcrypt/     ftp://ftp.franken.de/pub/crypt/mirror/ftp.gnupg.org/gcrypt/ \n \
+ ftp://ftp.gnupg.org/gcrypt/     ftp://ftp.surfnet.nl/pub/security/gnupg/ \n \
+ ftp://ftp.gnupg.org/gcrypt/     http://gulus.USherbrooke.ca/pub/appl/GnuPG/ \n \
+-- 
+1.7.4.1
 
-Enrico
 
 
