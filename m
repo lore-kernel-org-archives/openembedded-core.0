@@ -1,20 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1R31xj-0001dG-5x
+	(envelope-from <dongxiao.xu@intel.com>) id 1R31xj-0001dH-Cg
 	for openembedded-core@lists.openembedded.org;
 	Mon, 12 Sep 2011 10:33:55 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 12 Sep 2011 01:28:43 -0700
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 12 Sep 2011 01:28:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,367,1312182000"; d="scan'208";a="16143967"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="47291435"
 Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by AZSMGA002.ch.intel.com with ESMTP; 12 Sep 2011 01:28:42 -0700
+	by orsmga002.jf.intel.com with ESMTP; 12 Sep 2011 01:28:46 -0700
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Sep 2011 16:33:58 +0800
-Message-Id: <cover.1315815933.git.dongxiao.xu@intel.com>
+Date: Mon, 12 Sep 2011 16:34:01 +0800
+Message-Id: <e079b1479aa5afc82541f074d3037126945a81a9.1315815933.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.1
-Subject: [PATCH 0/3][RFC] rpm: multilib related fixes
+In-Reply-To: <cover.1315815933.git.dongxiao.xu@intel.com>
+References: <cover.1315815933.git.dongxiao.xu@intel.com>
+In-Reply-To: <cover.1315815933.git.dongxiao.xu@intel.com>
+References: <cover.1315815933.git.dongxiao.xu@intel.com>
+Subject: [PATCH 3/3] multilib: install MULTILIB_PACKAGE_INSTALL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,28 +35,130 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 12 Sep 2011 08:33:55 -0000
 
-Hi Richard and Mark,
+If user set MULTILIB_PACKAGE_INSTALL, we need to install those multitlib
+packages into the final image.
 
-This pull request is to fix several multilib related issues to rpm, includes:
+Also fix the logic in handling multilib prefix. For certain case like a
+normal image contains several multilib libraries, the image recipe isn't
+extended with MLPREFIX, therefore we need to enumerate the possible
+multilib prefixes and compare them with package prefixes.
 
-1) Add architecture information in RPM spec file to fix bug 1457.
-2) For recipes with MACHINE_ARCH as PACKAGE_ARCH, the deploy folder is defined as tmp/deploy/lib32(64)-${MACHINE_ARCH} to avoid confliction with normal recipe deploy folder.
-3) Add MULTILIB_IMAGE_INSTALL in the package installation list.
+Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+---
+ meta/classes/package_rpm.bbclass |   42 +++++++++++++++++++++++++------------
+ meta/classes/rootfs_rpm.bbclass  |    4 +++
+ 2 files changed, 32 insertions(+), 14 deletions(-)
 
-Please help to review them.
-
-Thanks,
-Dongxiao
-
-Dongxiao Xu (3):
-  package_rpm: add architecture info in rpm spec file
-  rpm: add multilib prefix for archs under deploy/rpm
-  multilib: install MULTILIB_PACKAGE_INSTALL
-
- meta/classes/multilib.bbclass    |    6 +++
- meta/classes/package_rpm.bbclass |   78 +++++++++++++++++++++++++++++++-------
- meta/classes/rootfs_rpm.bbclass  |    8 +++-
- 3 files changed, 77 insertions(+), 15 deletions(-)
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index ea0a079..5e5fb6c 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -166,7 +166,7 @@ package_install_internal_rpm () {
+ 	local platform="${INSTALL_PLATFORM_RPM}"
+ 	local platform_extra="${INSTALL_PLATFORM_EXTRA_RPM}"
+ 	local confbase="${INSTALL_CONFBASE_RPM}"
+-	local package_to_install="${INSTALL_PACKAGES_NORMAL_RPM}"
++	local package_to_install="${INSTALL_PACKAGES_NORMAL_RPM} ${INSTALL_PACKAGES_MULTILIB_RPM}"
+ 	local package_attemptonly="${INSTALL_PACKAGES_ATTEMPTONLY_RPM}"
+ 	local package_linguas="${INSTALL_PACKAGES_LINGUAS_RPM}"
+ 	local providename="${INSTALL_PROVIDENAME_RPM}"
+@@ -210,10 +210,15 @@ package_install_internal_rpm () {
+ 				echo "Processing $pkg..."
+ 
+ 				archvar=base_archs
+-				ml_pkg=$(echo ${pkg} | sed "s,^${MLPREFIX}\(.*\),\1,")
+-				if [ "${ml_pkg}" != "${pkg}" ]; then
+-					archvar=ml_archs
+-				fi
++				ml_prefix=`echo ${pkg} | cut -d'-' -f1`
++				ml_pkg=$pkg
++				for i in ${MULTILIB_PREFIX_LIST} ; do
++					if [ ${ml_prefix} == ${i} ]; then
++						ml_pkg=$(echo ${pkg} | sed "s,^${ml_prefix}-\(.*\),\1,")
++						archvar=ml_archs
++						break
++					fi
++				done
+ 
+ 				pkg_name=$(resolve_package_rpm ${confbase}-${archvar}.conf ${ml_pkg})
+ 				if [ -z "$pkg_name" ]; then
+@@ -224,16 +229,20 @@ package_install_internal_rpm () {
+ 			done
+ 		fi
+ 	fi
+-
+ 	if [ ! -z "${package_to_install}" ]; then
+ 		for pkg in ${package_to_install} ; do
+ 			echo "Processing $pkg..."
+ 
+ 			archvar=base_archs
+-			ml_pkg=$(echo ${pkg} | sed "s,^${MLPREFIX}\(.*\),\1,")
+-			if [ "${ml_pkg}" != "${pkg}" ]; then
+-				archvar=ml_archs
+-			fi
++			ml_prefix=`echo ${pkg} | cut -d'-' -f1`
++			ml_pkg=$pkg
++			for i in ${MULTILIB_PREFIX_LIST} ; do
++				if [ ${ml_prefix} == ${i} ]; then
++					ml_pkg=$(echo ${pkg} | sed "s,^${ml_prefix}-\(.*\),\1,")
++					archvar=ml_archs
++					break
++				fi
++			done
+ 
+ 			pkg_name=$(resolve_package_rpm ${confbase}-${archvar}.conf ${ml_pkg})
+ 			if [ -z "$pkg_name" ]; then
+@@ -258,10 +267,15 @@ package_install_internal_rpm () {
+ 		for pkg in ${package_attemptonly} ; do
+ 			echo "Processing $pkg..."
+ 			archvar=base_archs
+-			ml_pkg=$(echo ${pkg} | sed "s,^${MLPREFIX}\(.*\),\1,")
+-			if [ "${ml_pkg}" != "${pkg}" ]; then
+-				archvar=ml_archs
+-			fi
++			ml_prefix=`echo ${pkg} | cut -d'-' -f1`
++			ml_pkg=$pkg
++			for i in ${MULTILIB_PREFIX_LIST} ; do
++				if [ ${ml_prefix} == ${i} ]; then
++					ml_pkg=$(echo ${pkg} | sed "s,^${ml_prefix}-\(.*\),\1,")
++					archvar=ml_archs
++					break
++				fi
++			done
+ 
+ 			pkg_name=$(resolve_package_rpm ${confbase}-${archvar}.conf ${ml_pkg})
+ 			if [ -z "$pkg_name" ]; then
+diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
+index 7936d77..5ac6bca 100644
+--- a/meta/classes/rootfs_rpm.bbclass
++++ b/meta/classes/rootfs_rpm.bbclass
+@@ -58,6 +58,7 @@ fakeroot rootfs_rpm_do_rootfs () {
+ 	export INSTALL_PLATFORM_RPM="${TARGET_ARCH}"
+ 	export INSTALL_CONFBASE_RPM="${RPMCONF_TARGET_BASE}"
+ 	export INSTALL_PACKAGES_NORMAL_RPM="${PACKAGE_INSTALL}"
++	export INSTALL_PACKAGES_MULTILIB_RPM="${MULTILIB_PACKAGE_INSTALL}"
+ 	export INSTALL_PACKAGES_ATTEMPTONLY_RPM="${PACKAGE_INSTALL_ATTEMPTONLY}"
+ 	export INSTALL_PACKAGES_LINGUAS_RPM="${LINGUAS_INSTALL}"
+ 	export INSTALL_PROVIDENAME_RPM=""
+@@ -210,6 +211,7 @@ python () {
+         bb.data.setVar('RPM_POSTPROCESS_COMMANDS', '', d)
+ 
+     ml_package_archs = ""
++    ml_prefix_list = ""
+     multilibs = d.getVar('MULTILIBS', True) or ""
+     for ext in multilibs.split():
+         eext = ext.split(':')
+@@ -221,6 +223,8 @@ python () {
+             localdata.setVar("MACHINE_ARCH", eext[1] + "_" + localdata.getVar("MACHINE_ARCH", False))
+             package_archs = localdata.getVar("PACKAGE_ARCHS", True) or ""
+             ml_package_archs += " " + package_archs
++            ml_prefix_list += " " + eext[1]
+             #bb.note("ML_PACKAGE_ARCHS %s %s %s" % (eext[1], localdata.getVar("PACKAGE_ARCHS", True) or "(none)", overrides))
+     bb.data.setVar('MULTILIB_PACKAGE_ARCHS', ml_package_archs, d)
++    bb.data.setVar('MULTILIB_PREFIX_LIST', ml_prefix_list, d)
+ }
+-- 
+1.7.1
 
 
 
