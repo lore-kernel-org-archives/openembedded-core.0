@@ -1,24 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1R31xj-0001dH-Cg
+	(envelope-from <dongxiao.xu@intel.com>) id 1R31xk-0001dG-Ji
 	for openembedded-core@lists.openembedded.org;
-	Mon, 12 Sep 2011 10:33:55 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 12 Sep 2011 01:28:47 -0700
+	Mon, 12 Sep 2011 10:33:57 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 12 Sep 2011 01:28:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="47291435"
+X-IronPort-AV: E=Sophos;i="4.68,367,1312182000"; d="scan'208";a="16143970"
 Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by orsmga002.jf.intel.com with ESMTP; 12 Sep 2011 01:28:46 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 12 Sep 2011 01:28:44 -0700
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Sep 2011 16:34:01 +0800
-Message-Id: <e079b1479aa5afc82541f074d3037126945a81a9.1315815933.git.dongxiao.xu@intel.com>
+Date: Mon, 12 Sep 2011 16:33:59 +0800
+Message-Id: <85e223c8783eca48835226c2786e60b2c67e66df.1315815933.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1315815933.git.dongxiao.xu@intel.com>
 References: <cover.1315815933.git.dongxiao.xu@intel.com>
 In-Reply-To: <cover.1315815933.git.dongxiao.xu@intel.com>
 References: <cover.1315815933.git.dongxiao.xu@intel.com>
-Subject: [PATCH 3/3] multilib: install MULTILIB_PACKAGE_INSTALL
+Subject: [PATCH 1/3] package_rpm: add architecture info in rpm spec file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,130 +33,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Sep 2011 08:33:55 -0000
+X-List-Received-Date: Mon, 12 Sep 2011 08:33:57 -0000
 
-If user set MULTILIB_PACKAGE_INSTALL, we need to install those multitlib
-packages into the final image.
+For supporting multilib, architecture information is needed in package
+require/provide/suggest/recommend fields.
 
-Also fix the logic in handling multilib prefix. For certain case like a
-normal image contains several multilib libraries, the image recipe isn't
-extended with MLPREFIX, therefore we need to enumerate the possible
-multilib prefixes and compare them with package prefixes.
+Use DEFAULTTUNE value as the postfix.
+
+For "all" arch recipe, it requires "all" arch recipe with no postfix,
+but provides all possible multilib archs.
+
+For example, qemu-config:
+
+Requires: rsync
+Requires: update-rc.d
+Requires: task-core-nfs-server
+Requires: distcc
+Requires: oprofileui-server
+Requires: dbus-x11
+Requires: bash
+Provides: qemu-config.x86
+Provides: qemu-config.x86-64
+
+For other recipe like zlib:
+
+Requires: libc6.x86-64 >= 2.13
+Provides: zlib.x86-64
+
+[YOCTO #1457]
 
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- meta/classes/package_rpm.bbclass |   42 +++++++++++++++++++++++++------------
- meta/classes/rootfs_rpm.bbclass  |    4 +++
- 2 files changed, 32 insertions(+), 14 deletions(-)
+ meta/classes/multilib.bbclass    |    1 +
+ meta/classes/package_rpm.bbclass |   36 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 37 insertions(+), 0 deletions(-)
 
+diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+index 583d76b..76c86b2 100644
+--- a/meta/classes/multilib.bbclass
++++ b/meta/classes/multilib.bbclass
+@@ -23,6 +23,7 @@ python multilib_virtclass_handler () {
+     e.data.setVar("PN", variant + "-" + e.data.getVar("PN", False))
+     e.data.setVar("SHLIBSDIR_virtclass-multilib-" + variant ,e.data.getVar("SHLIBSDIR", False) + "/" + variant)
+     e.data.setVar("TARGET_VENDOR_virtclass-multilib-" + variant, e.data.getVar("TARGET_VENDOR", False) + "ml" + variant)
++    e.data.setVar("SAVED_DEFAULTTUNE", e.data.getVar("DEFAULTTUNE", True))
+     e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + override)
+ }
+ 
 diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index ea0a079..5e5fb6c 100644
+index 9ef1acd..ea0a079 100644
 --- a/meta/classes/package_rpm.bbclass
 +++ b/meta/classes/package_rpm.bbclass
-@@ -166,7 +166,7 @@ package_install_internal_rpm () {
- 	local platform="${INSTALL_PLATFORM_RPM}"
- 	local platform_extra="${INSTALL_PLATFORM_EXTRA_RPM}"
- 	local confbase="${INSTALL_CONFBASE_RPM}"
--	local package_to_install="${INSTALL_PACKAGES_NORMAL_RPM}"
-+	local package_to_install="${INSTALL_PACKAGES_NORMAL_RPM} ${INSTALL_PACKAGES_MULTILIB_RPM}"
- 	local package_attemptonly="${INSTALL_PACKAGES_ATTEMPTONLY_RPM}"
- 	local package_linguas="${INSTALL_PACKAGES_LINGUAS_RPM}"
- 	local providename="${INSTALL_PROVIDENAME_RPM}"
-@@ -210,10 +210,15 @@ package_install_internal_rpm () {
- 				echo "Processing $pkg..."
+@@ -350,6 +350,7 @@ package_install_internal_rpm () {
+ python write_specfile () {
+ 	import textwrap
+ 	import oe.packagedata
++	import re
  
- 				archvar=base_archs
--				ml_pkg=$(echo ${pkg} | sed "s,^${MLPREFIX}\(.*\),\1,")
--				if [ "${ml_pkg}" != "${pkg}" ]; then
--					archvar=ml_archs
--				fi
-+				ml_prefix=`echo ${pkg} | cut -d'-' -f1`
-+				ml_pkg=$pkg
-+				for i in ${MULTILIB_PREFIX_LIST} ; do
-+					if [ ${ml_prefix} == ${i} ]; then
-+						ml_pkg=$(echo ${pkg} | sed "s,^${ml_prefix}-\(.*\),\1,")
-+						archvar=ml_archs
-+						break
-+					fi
-+				done
+ 	# We need a simple way to remove the MLPREFIX from the package name,
+ 	# and dependency information...
+@@ -498,6 +499,8 @@ python write_specfile () {
  
- 				pkg_name=$(resolve_package_rpm ${confbase}-${archvar}.conf ${ml_pkg})
- 				if [ -z "$pkg_name" ]; then
-@@ -224,16 +229,20 @@ package_install_internal_rpm () {
- 			done
- 		fi
- 	fi
--
- 	if [ ! -z "${package_to_install}" ]; then
- 		for pkg in ${package_to_install} ; do
- 			echo "Processing $pkg..."
+ 		splitname    = strip_multilib(pkgname, d)
  
- 			archvar=base_archs
--			ml_pkg=$(echo ${pkg} | sed "s,^${MLPREFIX}\(.*\),\1,")
--			if [ "${ml_pkg}" != "${pkg}" ]; then
--				archvar=ml_archs
--			fi
-+			ml_prefix=`echo ${pkg} | cut -d'-' -f1`
-+			ml_pkg=$pkg
-+			for i in ${MULTILIB_PREFIX_LIST} ; do
-+				if [ ${ml_prefix} == ${i} ]; then
-+					ml_pkg=$(echo ${pkg} | sed "s,^${ml_prefix}-\(.*\),\1,")
-+					archvar=ml_archs
-+					break
-+				fi
-+			done
++		defaulttune = bb.data.getVar('DEFAULTTUNE', localdata, True)
++
+ 		splitsummary = (bb.data.getVar('SUMMARY', localdata, True) or bb.data.getVar('DESCRIPTION', localdata, True) or ".")
+ 		splitversion = (bb.data.getVar('PKGV', localdata, True) or "").replace('-', '+')
+ 		splitrelease = (bb.data.getVar('PKGR', localdata, True) or "")
+@@ -528,6 +531,39 @@ python write_specfile () {
+ 		if pkg == d.getVar("PN", True):
+ 			splitrprovides = splitrprovides + " " + (d.getVar('ALTERNATIVE_LINK', True) or '') + " " + (d.getVar('ALTERNATIVE_LINKS', True) or '')
  
- 			pkg_name=$(resolve_package_rpm ${confbase}-${archvar}.conf ${ml_pkg})
- 			if [ -z "$pkg_name" ]; then
-@@ -258,10 +267,15 @@ package_install_internal_rpm () {
- 		for pkg in ${package_attemptonly} ; do
- 			echo "Processing $pkg..."
- 			archvar=base_archs
--			ml_pkg=$(echo ${pkg} | sed "s,^${MLPREFIX}\(.*\),\1,")
--			if [ "${ml_pkg}" != "${pkg}" ]; then
--				archvar=ml_archs
--			fi
-+			ml_prefix=`echo ${pkg} | cut -d'-' -f1`
-+			ml_pkg=$pkg
-+			for i in ${MULTILIB_PREFIX_LIST} ; do
-+				if [ ${ml_prefix} == ${i} ]; then
-+					ml_pkg=$(echo ${pkg} | sed "s,^${ml_prefix}-\(.*\),\1,")
-+					archvar=ml_archs
-+					break
-+				fi
-+			done
- 
- 			pkg_name=$(resolve_package_rpm ${confbase}-${archvar}.conf ${ml_pkg})
- 			if [ -z "$pkg_name" ]; then
-diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-index 7936d77..5ac6bca 100644
---- a/meta/classes/rootfs_rpm.bbclass
-+++ b/meta/classes/rootfs_rpm.bbclass
-@@ -58,6 +58,7 @@ fakeroot rootfs_rpm_do_rootfs () {
- 	export INSTALL_PLATFORM_RPM="${TARGET_ARCH}"
- 	export INSTALL_CONFBASE_RPM="${RPMCONF_TARGET_BASE}"
- 	export INSTALL_PACKAGES_NORMAL_RPM="${PACKAGE_INSTALL}"
-+	export INSTALL_PACKAGES_MULTILIB_RPM="${MULTILIB_PACKAGE_INSTALL}"
- 	export INSTALL_PACKAGES_ATTEMPTONLY_RPM="${PACKAGE_INSTALL_ATTEMPTONLY}"
- 	export INSTALL_PACKAGES_LINGUAS_RPM="${LINGUAS_INSTALL}"
- 	export INSTALL_PROVIDENAME_RPM=""
-@@ -210,6 +211,7 @@ python () {
-         bb.data.setVar('RPM_POSTPROCESS_COMMANDS', '', d)
- 
-     ml_package_archs = ""
-+    ml_prefix_list = ""
-     multilibs = d.getVar('MULTILIBS', True) or ""
-     for ext in multilibs.split():
-         eext = ext.split(':')
-@@ -221,6 +223,8 @@ python () {
-             localdata.setVar("MACHINE_ARCH", eext[1] + "_" + localdata.getVar("MACHINE_ARCH", False))
-             package_archs = localdata.getVar("PACKAGE_ARCHS", True) or ""
-             ml_package_archs += " " + package_archs
-+            ml_prefix_list += " " + eext[1]
-             #bb.note("ML_PACKAGE_ARCHS %s %s %s" % (eext[1], localdata.getVar("PACKAGE_ARCHS", True) or "(none)", overrides))
-     bb.data.setVar('MULTILIB_PACKAGE_ARCHS', ml_package_archs, d)
-+    bb.data.setVar('MULTILIB_PREFIX_LIST', ml_prefix_list, d)
- }
++		package_arch = bb.data.getVar('PACKAGE_ARCH', localdata, True)
++
++		splitrprovides = splitrprovides + " " + splitname + "." + defaulttune
++		if package_arch != "all":
++			pattern = '\([^()]*\)'
++			prog = re.compile(pattern)
++
++			str_list = [splitrdepends, splitrrecommends, splitrsuggests]
++			for e in range(len(str_list)):
++				brackets = prog.findall(str_list[e])
++				for i in range(len(brackets)):
++					str_list[e] = str_list[e].replace(brackets[i], "#BRACKETS"+str(i)+"#")
++				tmp = ""
++				for i in str_list[e].split():
++					if i.startswith("#BRACKETS"):
++						tmp += " " + str(i)
++						continue
++					tmp += " " + str(i) + "." + defaulttune
++				str_list[e] = tmp
++				for i in range(len(brackets)):
++					str_list[e] = str_list[e].replace("#BRACKETS"+str(i)+"#", brackets[i])
++
++			[splitrdepends, splitrrecommends, splitrsuggests] = str_list
++		else:
++			variants = (bb.data.getVar("MULTILIB_VARIANTS", localdata, True) or "").split()
++			for variant in variants:
++				tune = bb.data.getVar("DEFAULTTUNE_virtclass-multilib-" + variant, localdata, True) or ""
++				if tune:
++					splitrprovides = splitrprovides + " " + splitname + "." + tune
++			tune = bb.data.getVar("SAVED_DEFAULTTUNE", localdata, True) or ""
++			if tune:
++				splitrprovides = splitrprovides + " " + splitname + "." + tune
++
+ 		# Gather special src/first package data
+ 		if srcname == splitname:
+ 			srcrdepends    = splitrdepends
 -- 
 1.7.1
 
