@@ -1,22 +1,42 @@
-Received: from mail.geekisp.com ([216.168.135.169] helo=starfish.geekisp.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philip@balister.org>) id 1R3CuZ-0004jn-E3
+	(envelope-from <dongxiao.xu@intel.com>) id 1R3Ikt-0005JR-BN
 	for openembedded-core@lists.openembedded.org;
-	Mon, 12 Sep 2011 22:15:23 +0200
-Received: (qmail 25178 invoked by uid 1003); 12 Sep 2011 20:10:08 -0000
-Received: from unknown (HELO ?192.168.1.167?)
-	(philip@opensdr.com@74.107.169.81)
-	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
-	12 Sep 2011 20:10:08 -0000
-Message-ID: <4E6E6724.8020701@balister.org>
-Date: Mon, 12 Sep 2011 16:10:12 -0400
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.20) Gecko/20110831 Fedora/3.1.12-2.fc14 Thunderbird/3.1.12
+	Tue, 13 Sep 2011 04:29:47 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 12 Sep 2011 19:24:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="47697143"
+Received: from pgsmsx603.gar.corp.intel.com ([10.221.43.87])
+	by orsmga001.jf.intel.com with ESMTP; 12 Sep 2011 19:24:36 -0700
+Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
+	pgsmsx603.gar.corp.intel.com (10.221.43.87) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Tue, 13 Sep 2011 10:24:35 +0800
+Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
+	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Tue, 13 Sep 2011 10:24:34 +0800
+Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
+	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
+	Tue, 13 Sep 2011 10:24:33 +0800
+From: "Xu, Dongxiao" <dongxiao.xu@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, "Mark Hatle
+	(mark.hatle@windriver.com)" <mark.hatle@windriver.com>
+Date: Tue, 13 Sep 2011 10:24:32 +0800
+Thread-Topic: [OE-core] [PATCH 1/3] package_rpm: add architecture info in
+	rpm spec file
+Thread-Index: AcxxW5iGLCXpGYDWSYmVRzzW8ZVm0QAYBI0A
+Message-ID: <D5AB6E638E5A3E4B8F4406B113A5A19A12D754AFF1@shsmsx501.ccr.corp.intel.com>
+References: <cover.1315815933.git.dongxiao.xu@intel.com>
+	<85e223c8783eca48835226c2786e60b2c67e66df.1315815933.git.dongxiao.xu@intel.com>
+	<4E6E1C8A.5060508@windriver.com>
+In-Reply-To: <4E6E1C8A.5060508@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
 MIME-Version: 1.0
-To: openembedded-core <openembedded-core@lists.openembedded.org>, 
-	yocto@yoctoproject.org
-Subject: [oe] Server Maintainence 0200-0600 UTC 13SEPT2011
+Subject: Re: [PATCH 1/3] package_rpm: add architecture info in rpm spec file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,36 +51,170 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Sep 2011 20:15:23 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 13 Sep 2011 02:29:48 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-FYI
+Hi Mark,
 
--------- Original Message --------
-Subject: [oe] Server Maintainence 0200-0600 UTC 13SEPT2011
-Date: Mon, 12 Sep 2011 12:57:25 -0700
-From: Tom King <ka6sox@gmail.com>
-Reply-To: openembedded-devel@lists.openembedded.org
-To: openembedded-devel@lists.openembedded.org
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Mark Hatle
+> Sent: Monday, September 12, 2011 10:52 PM
+> To: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH 1/3] package_rpm: add architecture info in =
+rpm
+> spec file
+>=20
+> This patch is incorrect.  Architectural information should not be in the
+> dependencies within RPM packages.
+>=20
+> RPM is expected to find the proper version of a package to install based =
+on the
+> existing dependency information.  I'm in the process of investigating why
+> certain items are not found properly.
 
-We will be doing server maintainence this evening from 0200-0600 UTC
-for some high priority items.
+Take "task-core-boot-1.0-r8.qemux86_64.rpm" as an example, and it has depen=
+dency on tinylogin, how can it determine whether it is depends on " tinylog=
+in-1.4-r7.x86_64.rpm" or "tinylogin-1.4-r7.x86.rpm".
 
-all services including:
+Thanks,
+Dongxiao
 
-git, cgit, web, patches, etc will be offline at any time or maybe up
-and down during that period.
-
-Thanks
-
-ka6sox
-(for the openembedded.org infra team)
-
-_______________________________________________
-Openembedded-devel mailing list
-Openembedded-devel@lists.openembedded.org
-http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-devel
-
+>=20
+> --Mark
+>=20
+> On 9/12/11 3:33 AM, Dongxiao Xu wrote:
+> > For supporting multilib, architecture information is needed in package
+> > require/provide/suggest/recommend fields.
+> >
+> > Use DEFAULTTUNE value as the postfix.
+> >
+> > For "all" arch recipe, it requires "all" arch recipe with no postfix,
+> > but provides all possible multilib archs.
+> >
+> > For example, qemu-config:
+> >
+> > Requires: rsync
+> > Requires: update-rc.d
+> > Requires: task-core-nfs-server
+> > Requires: distcc
+> > Requires: oprofileui-server
+> > Requires: dbus-x11
+> > Requires: bash
+> > Provides: qemu-config.x86
+> > Provides: qemu-config.x86-64
+> >
+> > For other recipe like zlib:
+> >
+> > Requires: libc6.x86-64 >=3D 2.13
+> > Provides: zlib.x86-64
+> >
+> > [YOCTO #1457]
+> >
+> > Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+> > ---
+> >  meta/classes/multilib.bbclass    |    1 +
+> >  meta/classes/package_rpm.bbclass |   36
+> ++++++++++++++++++++++++++++++++++++
+> >  2 files changed, 37 insertions(+), 0 deletions(-)
+> >
+> > diff --git a/meta/classes/multilib.bbclass
+> > b/meta/classes/multilib.bbclass index 583d76b..76c86b2 100644
+> > --- a/meta/classes/multilib.bbclass
+> > +++ b/meta/classes/multilib.bbclass
+> > @@ -23,6 +23,7 @@ python multilib_virtclass_handler () {
+> >      e.data.setVar("PN", variant + "-" + e.data.getVar("PN", False))
+> >      e.data.setVar("SHLIBSDIR_virtclass-multilib-" +
+> variant ,e.data.getVar("SHLIBSDIR", False) + "/" + variant)
+> >      e.data.setVar("TARGET_VENDOR_virtclass-multilib-" + variant,
+> > e.data.getVar("TARGET_VENDOR", False) + "ml" + variant)
+> > +    e.data.setVar("SAVED_DEFAULTTUNE",
+> e.data.getVar("DEFAULTTUNE",
+> > + True))
+> >      e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) +
+> > override)  }
+> >
+> > diff --git a/meta/classes/package_rpm.bbclass
+> > b/meta/classes/package_rpm.bbclass
+> > index 9ef1acd..ea0a079 100644
+> > --- a/meta/classes/package_rpm.bbclass
+> > +++ b/meta/classes/package_rpm.bbclass
+> > @@ -350,6 +350,7 @@ package_install_internal_rpm () {  python
+> > write_specfile () {
+> >  	import textwrap
+> >  	import oe.packagedata
+> > +	import re
+> >
+> >  	# We need a simple way to remove the MLPREFIX from the package name,
+> >  	# and dependency information...
+> > @@ -498,6 +499,8 @@ python write_specfile () {
+> >
+> >  		splitname    =3D strip_multilib(pkgname, d)
+> >
+> > +		defaulttune =3D bb.data.getVar('DEFAULTTUNE', localdata, True)
+> > +
+> >  		splitsummary =3D (bb.data.getVar('SUMMARY', localdata, True) or
+> bb.data.getVar('DESCRIPTION', localdata, True) or ".")
+> >  		splitversion =3D (bb.data.getVar('PKGV', localdata, True) or
+> "").replace('-', '+')
+> >  		splitrelease =3D (bb.data.getVar('PKGR', localdata, True) or "") @@
+> > -528,6 +531,39 @@ python write_specfile () {
+> >  		if pkg =3D=3D d.getVar("PN", True):
+> >  			splitrprovides =3D splitrprovides + " " +
+> > (d.getVar('ALTERNATIVE_LINK', True) or '') + " " +
+> > (d.getVar('ALTERNATIVE_LINKS', True) or '')
+> >
+> > +		package_arch =3D bb.data.getVar('PACKAGE_ARCH', localdata, True)
+> > +
+> > +		splitrprovides =3D splitrprovides + " " + splitname + "." + defaultt=
+une
+> > +		if package_arch !=3D "all":
+> > +			pattern =3D '\([^()]*\)'
+> > +			prog =3D re.compile(pattern)
+> > +
+> > +			str_list =3D [splitrdepends, splitrrecommends, splitrsuggests]
+> > +			for e in range(len(str_list)):
+> > +				brackets =3D prog.findall(str_list[e])
+> > +				for i in range(len(brackets)):
+> > +					str_list[e] =3D str_list[e].replace(brackets[i],
+> "#BRACKETS"+str(i)+"#")
+> > +				tmp =3D ""
+> > +				for i in str_list[e].split():
+> > +					if i.startswith("#BRACKETS"):
+> > +						tmp +=3D " " + str(i)
+> > +						continue
+> > +					tmp +=3D " " + str(i) + "." + defaulttune
+> > +				str_list[e] =3D tmp
+> > +				for i in range(len(brackets)):
+> > +					str_list[e] =3D str_list[e].replace("#BRACKETS"+str(i)+"#",
+> > +brackets[i])
+> > +
+> > +			[splitrdepends, splitrrecommends, splitrsuggests] =3D str_list
+> > +		else:
+> > +			variants =3D (bb.data.getVar("MULTILIB_VARIANTS", localdata,
+> True) or "").split()
+> > +			for variant in variants:
+> > +				tune =3D bb.data.getVar("DEFAULTTUNE_virtclass-multilib-" +
+> variant, localdata, True) or ""
+> > +				if tune:
+> > +					splitrprovides =3D splitrprovides + " " + splitname + "." +
+> tune
+> > +			tune =3D bb.data.getVar("SAVED_DEFAULTTUNE", localdata, True)
+> or ""
+> > +			if tune:
+> > +				splitrprovides =3D splitrprovides + " " + splitname + "." + tune
+> > +
+> >  		# Gather special src/first package data
+> >  		if srcname =3D=3D splitname:
+> >  			srcrdepends    =3D splitrdepends
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
