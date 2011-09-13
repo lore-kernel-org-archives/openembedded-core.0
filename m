@@ -1,33 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1R3VT0-00019O-W3
-	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Sep 2011 18:04:11 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p8DFx0rw022656
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 13 Sep 2011 08:59:00 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 13 Sep 2011 08:58:59 -0700
-Message-ID: <4E6F7DC2.4010000@windriver.com>
-Date: Tue, 13 Sep 2011 10:58:58 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:6.0.2) Gecko/20110902 Thunderbird/6.0.2
+Received: from oh-69-34-21-229.sta.embarqhsd.net ([69.34.21.229]
+	helo=happy.bec-systems.com) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <cliff.brake@gmail.com>)
+	id 1R3VTm-0001B1-On; Tue, 13 Sep 2011 18:04:59 +0200
+Received: from localhost.localdomain ([127.0.0.1] helo=happy.bec-systems.com)
+	by happy.bec-systems.com with esmtp (Exim 4.72)
+	(envelope-from <cliff.brake@gmail.com>)
+	id 1R3VOl-0003JM-Aa; Tue, 13 Sep 2011 11:59:47 -0400
+Date: Tue, 13 Sep 2011 11:59:47 -0400
+Message-Id: <E1R3VOl-0003JM-Aa@happy.bec-systems.com>
+X-Mailer: Nodemailer (0.1.13; +http://www.nodemailer.org)
+From: cliff.brake@gmail.com
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org,
+	angstrom-distro-devel@linuxtogo.org
 MIME-Version: 1.0
-To: "Xu, Dongxiao" <dongxiao.xu@intel.com>
-References: <cover.1315815933.git.dongxiao.xu@intel.com>
-	<85e223c8783eca48835226c2786e60b2c67e66df.1315815933.git.dongxiao.xu@intel.com>
-	<4E6E1C8A.5060508@windriver.com>
-	<D5AB6E638E5A3E4B8F4406B113A5A19A12D754AFF1@shsmsx501.ccr.corp.intel.com>
-	<4E6F76C7.6050606@windriver.com>
-	<D5AB6E638E5A3E4B8F4406B113A5A19A12D754B5B6@shsmsx501.ccr.corp.intel.com>
-In-Reply-To: <D5AB6E638E5A3E4B8F4406B113A5A19A12D754B5B6@shsmsx501.ccr.corp.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] package_rpm: add architecture info in rpm spec file
+Subject: OE Changelog for 2011-09-5 to 2011-09-12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,251 +29,375 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Sep 2011 16:04:11 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 13 Sep 2011 16:04:59 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 9/13/11 10:41 AM, Xu, Dongxiao wrote:
-> Hi Mark,
-> 
->> -----Original Message-----
->> From: Mark Hatle [mailto:mark.hatle@windriver.com]
->> Sent: Tuesday, September 13, 2011 11:29 PM
->> To: Xu, Dongxiao
->> Cc: Patches and discussions about the oe-core layer
->> Subject: Re: [OE-core] [PATCH 1/3] package_rpm: add architecture info in rpm
->> spec file
->>
->> On 9/12/11 9:24 PM, Xu, Dongxiao wrote:
->>> Hi Mark,
->>>
->>>> -----Original Message-----
->>>> From: openembedded-core-bounces@lists.openembedded.org
->>>> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
->>>> Of Mark Hatle
->>>> Sent: Monday, September 12, 2011 10:52 PM
->>>> To: openembedded-core@lists.openembedded.org
->>>> Subject: Re: [OE-core] [PATCH 1/3] package_rpm: add architecture info
->>>> in rpm spec file
->>>>
->>>> This patch is incorrect.  Architectural information should not be in
->>>> the dependencies within RPM packages.
->>>>
->>>> RPM is expected to find the proper version of a package to install
->>>> based on the existing dependency information.  I'm in the process of
->>>> investigating why certain items are not found properly.
->>>
->>> Take "task-core-boot-1.0-r8.qemux86_64.rpm" as an example, and it has
->> dependency on tinylogin, how can it determine whether it is depends on "
->> tinylogin-1.4-r7.x86_64.rpm" or "tinylogin-1.4-r7.x86.rpm".
->>
->> In this case, it should not matter which one it uses.  If the dependency is on
->> "tinylogin", then either of them fulfills the dependency.  RPM should be
->> selecting which one to bring in using it's internal policy manager.  (I believe
->> the default is that 64-bit wins...)
-> 
-> I think it DOES matter on which one it uses. Thinking the case that if a user wants to build a pure 64 bit system, and if it could not correctly choose the 64 bit of tinylogin, then his system will be contaminated with 32bit programs/libraries. 
+Changelog for 2011-09-5 to 2011-09-12.  Projects included in this report:
 
-With the current way oe-core processes packages into images it uses the
-dependencies.. so no matter what you have built you are only guaranteed that the
-resulting image contains that final dependency and whatever is needed to make it
-"work".  There is nothing that says (today) that you will get a pure 64-bit or
-32-bit system -- other then as an artifact of only building 32-bit or 64-bit
-software.
+bitbake: git://git.openembedded.org/bitbake
+openembedded-core: git://git.openembedded.org/openembedded-core
+meta-openembedded: git://git.openembedded.org/meta-openembedded
+meta-angstrom: git://git.angstrom-distribution.org/meta-angstrom
+meta-yocto: git://git.yoctoproject.org/poky
+meta-texasinstruments: =
+git://git.angstrom-distribution.org/meta-texasinstruments
+meta-smartphone: http://git.shr-project.org/repo/meta-smartphone.git
+meta-micro: git://git.openembedded.org/meta-micro
+meta-slugos: git://github.com/kraj/meta-slugos
+meta-nslu2: git://github.com/kraj/meta-nslu2
+meta-intel: git://git.yoctoproject.org/meta-intel
+meta-handheld: git://git.openembedded.org/meta-handheld
+meta-opie: git://git.openembedded.org/meta-opie
+openembedded: git://git.openembedded.org/openembedded
 
-There are different strategies we can use to deal with these situations.
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for bitbake:
 
-1) Resolve the "base" non-multilib system "first", then augment it with the
-multilib components.  This results in a "base system" + alternative packages.
+Dmitry Eremin-Solenikov (1):
+=20=20lib/bb/siggen.py: return a string from noop get_taskhash
 
-2) Resolve the system as whole, including multilibs, and use the policy
-components to determine the "best match".  (best match may not be working right
-today)  This results in a system based purely on dependency matches.
+Joshua Lock (6):
+=20=20hob: use both pre and post files for hob configuration
+=20=20hob: reflect defaultsetup being default distro
+=20=20hob: add a test to ensure hob is run with the required pre and post =
+files
+=20=20ui/crumbs/hobprefs: disable 'build toolchain with headers'
+=20=20ui/crumbs/runningbuild: mask run_buildstats failure
+=20=20hob: disable removal of packages
 
-Either way, our current implementation doesn't quite match either of them.
-We're closer to the second version of the implementation today....
+Paul Eggleton (2):
+=20=20hob: clear out temporary file list after deleting
+=20=20hob: fix segfault on second build
 
-If the base system approach is what we want, vs the pure dependency based
-system, then we will need to change the way the dependencies are being resolved
-and the ordering of the resolution in the packages_rpm.bbclass (or
-rootfs_rpm.bbclass).  Basically:
+Richard Purdie (2):
+=20=20runqueue: Ensure task environment is correct
+=20=20runqueue.py: Ensure fakeroot variables are reflected in the datastore
 
-*) take the list of dependencies and filter out any multilibs, and only scan
-them against the base archs.
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for openembedded-core:
 
-*) add to that resolution any multilib components that had been filtered out and
-scan against the all archs.
+Bruce Ashfield (5):
+=20=20linux-yocto: generalize kernel config search pattern
+=20=20linux-yocto: update to v3.0.4
+=20=20linux-yocto: clean configuration for v3.0.4
+=20=20linux-yocto: re-enable systemtap
+=20=20linux-yocto: re-enable utrace
 
-....
+Denis Carikli (3):
+=20=20image_types: Fix ubi images creation
+=20=20mtd-utils: update to version to 1.4.6
+=20=20busybox: update to 1.8.5
 
-*) install as we do today
+Dexuan Cui (2):
+=20=20populate_sdk_deb.bbclass: add the missing parameter - for tar
+=20=20package_deb.bbclass: put the stderr into log.do_xxx-attemptonly.xxx
 
---Mark
+Dmitry Eremin-Solenikov (3):
+=20=20image_types.bbclass: use per-image dirs for extX.gz images generation
+=20=20qt-demo-init: fix init script
+=20=20icu-3.6: fix building with big make -j
 
-> Also during my testings, I found rpm will select the "wrong" version (x86 tinylogin).
-> 
-> Thanks,
-> Dongxiao
-> 
->>
->> For libraries where it does matter, the dependency system should already be
->> finding the correct architecture for the library.
->>
->> This does raise an issue in my mind though.  Is an architecture for "tasks"
->> justifiable?  Why isn't the task-core-boot an all or noarch package?
->>
->> Is there any difference between a task-core-boot and "lib32-task-core-boot"?
->>
->> Should we expect a difference between the two?
->>
->> --Mark
->>
->>> Thanks,
->>> Dongxiao
->>>
->>>>
->>>> --Mark
->>>>
->>>> On 9/12/11 3:33 AM, Dongxiao Xu wrote:
->>>>> For supporting multilib, architecture information is needed in
->>>>> package require/provide/suggest/recommend fields.
->>>>>
->>>>> Use DEFAULTTUNE value as the postfix.
->>>>>
->>>>> For "all" arch recipe, it requires "all" arch recipe with no
->>>>> postfix, but provides all possible multilib archs.
->>>>>
->>>>> For example, qemu-config:
->>>>>
->>>>> Requires: rsync
->>>>> Requires: update-rc.d
->>>>> Requires: task-core-nfs-server
->>>>> Requires: distcc
->>>>> Requires: oprofileui-server
->>>>> Requires: dbus-x11
->>>>> Requires: bash
->>>>> Provides: qemu-config.x86
->>>>> Provides: qemu-config.x86-64
->>>>>
->>>>> For other recipe like zlib:
->>>>>
->>>>> Requires: libc6.x86-64 >= 2.13
->>>>> Provides: zlib.x86-64
->>>>>
->>>>> [YOCTO #1457]
->>>>>
->>>>> Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
->>>>> ---
->>>>>  meta/classes/multilib.bbclass    |    1 +
->>>>>  meta/classes/package_rpm.bbclass |   36
->>>> ++++++++++++++++++++++++++++++++++++
->>>>>  2 files changed, 37 insertions(+), 0 deletions(-)
->>>>>
->>>>> diff --git a/meta/classes/multilib.bbclass
->>>>> b/meta/classes/multilib.bbclass index 583d76b..76c86b2 100644
->>>>> --- a/meta/classes/multilib.bbclass
->>>>> +++ b/meta/classes/multilib.bbclass
->>>>> @@ -23,6 +23,7 @@ python multilib_virtclass_handler () {
->>>>>      e.data.setVar("PN", variant + "-" + e.data.getVar("PN", False))
->>>>>      e.data.setVar("SHLIBSDIR_virtclass-multilib-" +
->>>> variant ,e.data.getVar("SHLIBSDIR", False) + "/" + variant)
->>>>>      e.data.setVar("TARGET_VENDOR_virtclass-multilib-" + variant,
->>>>> e.data.getVar("TARGET_VENDOR", False) + "ml" + variant)
->>>>> +    e.data.setVar("SAVED_DEFAULTTUNE",
->>>> e.data.getVar("DEFAULTTUNE",
->>>>> + True))
->>>>>      e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) +
->>>>> override)  }
->>>>>
->>>>> diff --git a/meta/classes/package_rpm.bbclass
->>>>> b/meta/classes/package_rpm.bbclass
->>>>> index 9ef1acd..ea0a079 100644
->>>>> --- a/meta/classes/package_rpm.bbclass
->>>>> +++ b/meta/classes/package_rpm.bbclass
->>>>> @@ -350,6 +350,7 @@ package_install_internal_rpm () {  python
->>>>> write_specfile () {
->>>>>  	import textwrap
->>>>>  	import oe.packagedata
->>>>> +	import re
->>>>>
->>>>>  	# We need a simple way to remove the MLPREFIX from the package
->> name,
->>>>>  	# and dependency information...
->>>>> @@ -498,6 +499,8 @@ python write_specfile () {
->>>>>
->>>>>  		splitname    = strip_multilib(pkgname, d)
->>>>>
->>>>> +		defaulttune = bb.data.getVar('DEFAULTTUNE', localdata, True)
->>>>> +
->>>>>  		splitsummary = (bb.data.getVar('SUMMARY', localdata, True) or
->>>> bb.data.getVar('DESCRIPTION', localdata, True) or ".")
->>>>>  		splitversion = (bb.data.getVar('PKGV', localdata, True) or
->>>> "").replace('-', '+')
->>>>>  		splitrelease = (bb.data.getVar('PKGR', localdata, True) or "")
->> @@
->>>>> -528,6 +531,39 @@ python write_specfile () {
->>>>>  		if pkg == d.getVar("PN", True):
->>>>>  			splitrprovides = splitrprovides + " " +
->>>>> (d.getVar('ALTERNATIVE_LINK', True) or '') + " " +
->>>>> (d.getVar('ALTERNATIVE_LINKS', True) or '')
->>>>>
->>>>> +		package_arch = bb.data.getVar('PACKAGE_ARCH', localdata,
->> True)
->>>>> +
->>>>> +		splitrprovides = splitrprovides + " " + splitname + "." +
->> defaulttune
->>>>> +		if package_arch != "all":
->>>>> +			pattern = '\([^()]*\)'
->>>>> +			prog = re.compile(pattern)
->>>>> +
->>>>> +			str_list = [splitrdepends, splitrrecommends, splitrsuggests]
->>>>> +			for e in range(len(str_list)):
->>>>> +				brackets = prog.findall(str_list[e])
->>>>> +				for i in range(len(brackets)):
->>>>> +					str_list[e] = str_list[e].replace(brackets[i],
->>>> "#BRACKETS"+str(i)+"#")
->>>>> +				tmp = ""
->>>>> +				for i in str_list[e].split():
->>>>> +					if i.startswith("#BRACKETS"):
->>>>> +						tmp += " " + str(i)
->>>>> +						continue
->>>>> +					tmp += " " + str(i) + "." + defaulttune
->>>>> +				str_list[e] = tmp
->>>>> +				for i in range(len(brackets)):
->>>>> +					str_list[e] =
->> str_list[e].replace("#BRACKETS"+str(i)+"#",
->>>>> +brackets[i])
->>>>> +
->>>>> +			[splitrdepends, splitrrecommends, splitrsuggests] = str_list
->>>>> +		else:
->>>>> +			variants = (bb.data.getVar("MULTILIB_VARIANTS",
->> localdata,
->>>> True) or "").split()
->>>>> +			for variant in variants:
->>>>> +				tune =
->> bb.data.getVar("DEFAULTTUNE_virtclass-multilib-" +
->>>> variant, localdata, True) or ""
->>>>> +				if tune:
->>>>> +					splitrprovides = splitrprovides + " " + splitname +
->> "." +
->>>> tune
->>>>> +			tune = bb.data.getVar("SAVED_DEFAULTTUNE", localdata,
->> True)
->>>> or ""
->>>>> +			if tune:
->>>>> +				splitrprovides = splitrprovides + " " + splitname + "." +
->> tune
->>>>> +
->>>>>  		# Gather special src/first package data
->>>>>  		if srcname == splitname:
->>>>>  			srcrdepends    = splitrdepends
->>>>
->>>>
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> 
+Dongxiao Xu (4):
+=20=20telepathy-python: avoid duplicated installation of errors.py
+=20=20multilib_global.bbclass: handle kernel-module-* for multilib
+=20=20multilib: Remove the multilib extension for linux-yocto
+=20=20hal: Add virtual/kernel as hal's build dependency
+
+Eric B=C3=A9nard (1):
+=20=20resolvconf: switch to 1.59 as 1.58 was removed from debian ftp
+
+Joshua Lock (2):
+=20=20scripts/hob: update to match recent hob changes
+=20=20scripts/hob: notify the user when the GUI won't launch immediately
+
+Lianhao Lu (1):
+=20=20initramfs-live-install: Be consistent with grub.
+
+Mark Hatle (1):
+=20=20prelink: Update to latest upstream version
+
+Paul Eggleton (5):
+=20=20git: fix sstate relocation for git-native
+=20=20core-image.bbclass: zap root password if debug-tweaks not enabled
+=20=20sanity.bbclass: re-enable DISTRO check
+=20=20meta/recipes.txt: correct Qt capitalisation
+=20=20base.bbclass: fix substring matching in COMMERCIAL_LICENSE
+
+Phil Blundell (4):
+=20=20pango: use qemu to generate pango.modules during rootfs construction
+=20=20useradd.bbclass: use correct value for $D in postinst functions
+=20=20avahi: only use gtk if DISTRO_FEATURES includes x11
+=20=20shadow: add patch for useradd lossage
+
+Richard Purdie (6):
+=20=20glib-networking: Ensure certificates are consistently disabled
+=20=20sstate: Avoid contention between sstate packages
+=20=20terminal.bbclass: Improve environment handling
+=20=20imagetest-qemu/runqueue: Since we no longer support BUILDDIR, use =
+TMPDIR
+=20=20runqemu-internal: Hide some harmless warning messages
+=20=20bitbake.conf: Default to explicitly setting the variable to disable =
+pseudo
+
+Saul Wold (8):
+=20=20groff: Fix sstate relocation issue
+=20=20opensp: Fix sstate relocation issue
+=20=20web: Update SRCREV to address ccs_parser_parse_stylesheet arg =
+mismatch     [
+=20=20cpan.bbclass: fix native perl issue
+=20=20gcc: add patch for ice 50099, which caused lttng-ust not to build
+=20=20gettext: use included libxml and libcroco
+=20=20python-native: add link for python2
+=20=20Revert "opensp: Fix sstate relocation issue"
+
+Scott Garman (2):
+=20=20runqemu: standardize ability to specify custom qemu/kenel boot options
+=20=20runqemu: improve auto-detection of rootfs filenames
+
+Tom Zanussi (2):
+=20=20systemtap: upgrade to 1.6
+=20=20task-core-tools: add systemtap to qemuarm
+
+Xiaofeng Yan (1):
+=20=20qt4e-demo-image: Ensure a shell is present
+
+Zhai Edwin (2):
+=20=20xserver-nodm-init: Change hidraw mode to allow normal user access
+=20=20site/x86_64: Add entries to fix conf error on x86_64
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for meta-openembedded:
+
+Andrea Adami (2):
+=20=20klibc_1.5.24: remove nostrip patch and fix packaging of klibc-utils
+=20=20klibc: upgrade 1.5.24 to 1.5.25
+
+Eric BENARD (1):
+=20=20tzcode-native: switch to 2011i as 2011g is no more fetchable
+
+Joel A Fernandes (11):
+=20=20gedit: Imported from OE classic
+=20=20gtksourceview: Imported from OE classic
+=20=20libgnomecups: Imported from OE Classic
+=20=20libgnomeprint: Imported from OE classic
+=20=20faad2: Imported from OE classic
+=20=20libdvdread: Imported from OE classic
+=20=20libdvdcss: Imported from OE classic, vlc depends on it
+=20=20vlc: Imported from OE classic
+=20=20live555: Imported from OE classic
+=20=20xsp: Imported from OE classic
+=20=20xpext: Imported from OE classic
+
+Koen Kooi (1):
+=20=20vlc: remove hal dependency, fix PR
+
+Noor Ahsan (1):
+=20=20python-lxml: Add version 2.2.8 (initial recipe)
+
+lumag (2):
+=20=20openssl: fully fix parallel builds
+=20=20tcp-wrappers: drop emptying PARALLEL_MAKE
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for meta-angstrom:
+
+Koen Kooi (1):
+=20=20angstrom-core tweaks: empty COMMERCIAL_LICENSE
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for meta-yocto:
+
+Bruce Ashfield (6):
+=20=20linux-yocto/meta-yocto: update SRCREV for v3.0.4
+=20=20linux-yocto: generalize kernel config search pattern
+=20=20linux-yocto: update to v3.0.4
+=20=20linux-yocto: clean configuration for v3.0.4
+=20=20linux-yocto: re-enable systemtap
+=20=20linux-yocto: re-enable utrace
+
+Darren Hart (2):
+=20=20linux-yocto: remove emenlow from meta-yocto bbappend
+=20=20beagleboard: document how to enable the hard floating point abi
+
+Denis Carikli (3):
+=20=20image_types: Fix ubi images creation
+=20=20mtd-utils: update to version to 1.4.6
+=20=20busybox: update to 1.8.5
+
+Dexuan Cui (2):
+=20=20populate_sdk_deb.bbclass: add the missing parameter - for tar
+=20=20package_deb.bbclass: put the stderr into log.do_xxx-attemptonly.xxx
+
+Dmitry Eremin-Solenikov (4):
+=20=20lib/bb/siggen.py: return a string from noop get_taskhash
+=20=20image_types.bbclass: use per-image dirs for extX.gz images generation
+=20=20qt-demo-init: fix init script
+=20=20icu-3.6: fix building with big make -j
+
+Dongxiao Xu (4):
+=20=20telepathy-python: avoid duplicated installation of errors.py
+=20=20multilib_global.bbclass: handle kernel-module-* for multilib
+=20=20multilib: Remove the multilib extension for linux-yocto
+=20=20hal: Add virtual/kernel as hal's build dependency
+
+Eric B=C3=A9nard (1):
+=20=20resolvconf: switch to 1.59 as 1.58 was removed from debian ftp
+
+Joshua Lock (8):
+=20=20hob: use both pre and post files for hob configuration
+=20=20hob: reflect defaultsetup being default distro
+=20=20hob: add a test to ensure hob is run with the required pre and post =
+files
+=20=20ui/crumbs/hobprefs: disable 'build toolchain with headers'
+=20=20ui/crumbs/runningbuild: mask run_buildstats failure
+=20=20hob: disable removal of packages
+=20=20scripts/hob: update to match recent hob changes
+=20=20scripts/hob: notify the user when the GUI won't launch immediately
+
+Lianhao Lu (1):
+=20=20initramfs-live-install: Be consistent with grub.
+
+Mark Hatle (1):
+=20=20prelink: Update to latest upstream version
+
+Paul Eggleton (7):
+=20=20hob: clear out temporary file list after deleting
+=20=20hob: fix segfault on second build
+=20=20git: fix sstate relocation for git-native
+=20=20core-image.bbclass: zap root password if debug-tweaks not enabled
+=20=20sanity.bbclass: re-enable DISTRO check
+=20=20meta/recipes.txt: correct Qt capitalisation
+=20=20base.bbclass: fix substring matching in COMMERCIAL_LICENSE
+
+Phil Blundell (4):
+=20=20pango: use qemu to generate pango.modules during rootfs construction
+=20=20useradd.bbclass: use correct value for $D in postinst functions
+=20=20avahi: only use gtk if DISTRO_FEATURES includes x11
+=20=20shadow: add patch for useradd lossage
+
+Richard Purdie (8):
+=20=20glib-networking: Ensure certificates are consistently disabled
+=20=20sstate: Avoid contention between sstate packages
+=20=20runqueue: Ensure task environment is correct
+=20=20terminal.bbclass: Improve environment handling
+=20=20imagetest-qemu/runqueue: Since we no longer support BUILDDIR, use =
+TMPDIR
+=20=20runqemu-internal: Hide some harmless warning messages
+=20=20bitbake.conf: Default to explicitly setting the variable to disable =
+pseudo
+=20=20runqueue.py: Ensure fakeroot variables are reflected in the datastore
+
+Saul Wold (8):
+=20=20groff: Fix sstate relocation issue
+=20=20opensp: Fix sstate relocation issue
+=20=20web: Update SRCREV to address ccs_parser_parse_stylesheet arg =
+mismatch [YOCT
+=20=20cpan.bbclass: fix native perl issue
+=20=20gcc: add patch for ice 50099, which caused lttng-ust not to build
+=20=20gettext: use included libxml and libcroco
+=20=20python-native: add link for python2
+=20=20Revert "opensp: Fix sstate relocation issue"
+
+Scott Garman (2):
+=20=20runqemu: standardize ability to specify custom qemu/kenel boot options
+=20=20runqemu: improve auto-detection of rootfs filenames
+
+Tom Zanussi (2):
+=20=20systemtap: upgrade to 1.6
+=20=20task-core-tools: add systemtap to qemuarm
+
+Xiaofeng Yan (1):
+=20=20qt4e-demo-image: Ensure a shell is present
+
+Zhai Edwin (2):
+=20=20xserver-nodm-init: Change hidraw mode to allow normal user access
+=20=20site/x86_64: Add entries to fix conf error on x86_64
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for meta-texasinstruments:
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for meta-smartphone:
+
+Martin Jansa (6):
+=20=20linux-openmoko-2.6.39: drop last ts patch
+=20=20meta-zaurus: drop from meta-smartphones
+=20=20recipes: be carefull with # comments ending with backslash
+=20=20connman: add bbappend and init script ignoring more interfaces
+=20=20u-boot: fix included config s/nolo/init/g
+=20=20u-boot: fix included config s/atags/atagaddr/g
+
+Simon Busch (11):
+=20=20meta-aurora: aurora-version: add LIC_FILES_CHKSUM for license check
+=20=20meta-aurora: aurora-image: various fixes and bump PR
+=20=20meta-palm: linux-palmpre: switch to devtmpfs enabled kernel and =
+update defco
+=20=20meta-palmpre: initscripts: add initscript for mounting devtmpfs on =
+startup
+=20=20meta-aurora: netbase: use usb0 as default and only network interface =
+and bum
+=20=20meta-aurora: tslib: add git version but with D_P =3D "-1"
+=20=20meta-palmpre: tslib: add machine specific configuration files
+=20=20meta-palm: tsmd: import from oe-dev
+=20=20meta-palm: lvm2: adjust configuration for some machine specific things
+=20=20meta-palm: machine: introduce MACHINE_EXTRA_RDEPENDS
+=20=20meta-palm: tslib: fix FILESEXTRAPATHS to include right directory and =
+bump PR
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for meta-micro:
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for meta-slugos:
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for meta-nslu2:
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for meta-intel:
+
+Darren Hart (2):
+=20=20n450: update linux-yocto SRCREV to 3.0.4
+=20=20n450: update linux-yocto PREFERRED_VERSION to 3.0%
+
+Tom Zanussi (3):
+=20=20meta-intel: update SRCREVs
+=20=20meta-intel: update SRCREVs
+=20=20grub2: update license version
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for meta-handheld:
+
+Dmitry Eremin-Solenikov (1):
+=20=20nandlogical: correct oobblock/writesize patch
+
+Paul Eggleton (2):
+=20=20linux.inc: fix use of LOGO_SIZE in SRC_URI
+=20=20linux.inc: set debug level according to oe-core
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for meta-opie:
+
+Paul Eggleton (5):
+=20=20qmake_base.bbclass: remove in favour of the one in OE-core
+=20=20libdbus-qt2: add new recipe for git version
+=20=20libopie2: remove DEFAULT_PREFERENCE of -1 from git version
+=20=20libopie2: add libdbus-qt2 dependency for libopiebluez2
+=20=20preferred-opie-git-versions.inc: update to more recent git version
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for openembedded:
+
+Andreas Oberritter (1):
+=20=20libdca: fix sed failing on unpack
+
+Paul Menzel (1):
+=20=20zeromq: Remove redundant `S =3D "${WORKDIR}/zeromq-${PV}"`
+
+Sylvain 'GarthPS' Par=C3=A9 (1):
+=20=20binutils: Update from 2.21 to 2.21.1a
+
 
 
 
