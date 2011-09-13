@@ -1,26 +1,20 @@
-Received: from mail-yi0-f47.google.com ([209.85.218.47])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <a.tqvist@gmail.com>) id 1R3RTO-0003V7-04
+	(envelope-from <dongxiao.xu@intel.com>) id 1R3RXM-0003Zp-NM
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Sep 2011 13:48:18 +0200
-Received: by yia28 with SMTP id 28so320319yia.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Sep 2011 04:43:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=Lna1bi9ion69DHkjUYb6FApCmAxVAVgZgvBWmYN4qIY=;
-	b=GZf38tOEeNQigs1++bYb1Qxm6qfbf7dwOEWszfzxIzOobtMCbr5okyX/SKPr0/o5++
-	hqZAOu3QCXPDTZIL8EuEXj2iydd/lhj+rAfil4CxTCeoRzqIBGwzlHIh+WVJwO4bLlr2
-	7vXuL+d2Ldf/v4qxfeFJPcyAryAmtlMbbOJKQ=
-MIME-Version: 1.0
-Received: by 10.231.20.159 with SMTP id f31mr8955146ibb.26.1315914188134; Tue,
-	13 Sep 2011 04:43:08 -0700 (PDT)
-Received: by 10.231.30.66 with HTTP; Tue, 13 Sep 2011 04:43:08 -0700 (PDT)
-Date: Tue, 13 Sep 2011 13:43:08 +0200
-Message-ID: <CAJRXtp_4uxndU6zxf5CnF6Hp-QnLcHBX=4UyDP2vc2CK7e5Nfw@mail.gmail.com>
-From: =?ISO-8859-1?Q?Anders_T=F6rnqvist?= <a.tqvist@gmail.com>
+	Tue, 13 Sep 2011 13:52:24 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 13 Sep 2011 04:47:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,373,1312182000"; d="scan'208";a="16535089"
+Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
+	by AZSMGA002.ch.intel.com with ESMTP; 13 Sep 2011 04:47:13 -0700
+From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: Missing http://www.yoctoproject.org/downloads/pseudo/pseudo-1.1.1.tar.bz2
+Date: Tue, 13 Sep 2011 19:52:43 +0800
+Message-Id: <cover.1315914682.git.dongxiao.xu@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/2][PULL] multilib: fix multiple (r)provider issue when parsing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,49 +29,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Sep 2011 11:48:18 -0000
-Content-Type: multipart/alternative; boundary=0015177412d0bd180a04acd1259b
+X-List-Received-Date: Tue, 13 Sep 2011 11:52:25 -0000
 
---0015177412d0bd180a04acd1259b
-Content-Type: text/plain; charset=ISO-8859-1
+Hi Richard,
 
-Just cloned a git version of oe core and tried to build with
+This pull request fixes the multiple provider issue when bitbake multilib image.
 
-git clone git://git.openembedded.org/openembedded-core oe-core
-cd oe-core
-git clone git://git.openembedded.org/bitbake bitbake
-. ./oe-init-build-env
-bitbake core-image-minimal
+Please help to review and pull.
 
-The build soon results in a missing
-http://www.yoctoproject.org/downloads/pseudo/pseudo-1.1.1.tar.bz2 :
+Thanks,
+Dongxiao
 
-ERROR: Function 'Fetcher failure for URL: '
-http://www.yoctoproject.org/downloads/pseudo/pseudo-1.1.1.tar.bz2'. Unable
-to fetch URL
-http://www.yoctoproject.org/downloads/pseudo/pseudo-1.1.1.tar.bz2 from any
-source.' failed
-NOTE: package pseudo-native-1.1.1-r2: task do_fetch: Failed
+The following changes since commit 8fce8180c802ad187c4df44c17207bfb026ce6c7:
 
---0015177412d0bd180a04acd1259b
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+  shadow: add patch for useradd lossage (2011-09-09 18:42:47 +0100)
 
-Just cloned a git version of oe core and tried to build with<br><br>git clo=
-ne git://<a href=3D"http://git.openembedded.org/openembedded-core">git.open=
-embedded.org/openembedded-core</a> oe-core<br>cd oe-core<br>git clone git:/=
-/<a href=3D"http://git.openembedded.org/bitbake">git.openembedded.org/bitba=
-ke</a> bitbake<br>
-. ./oe-init-build-env<br>bitbake core-image-minimal<br><br>The build soon r=
-esults in a missing <a href=3D"http://www.yoctoproject.org/downloads/pseudo=
-/pseudo-1.1.1.tar.bz2">http://www.yoctoproject.org/downloads/pseudo/pseudo-=
-1.1.1.tar.bz2</a> :<br>
-<br>ERROR: Function &#39;Fetcher failure for URL: &#39;<a href=3D"http://ww=
-w.yoctoproject.org/downloads/pseudo/pseudo-1.1.1.tar.bz2">http://www.yoctop=
-roject.org/downloads/pseudo/pseudo-1.1.1.tar.bz2</a>&#39;. Unable to fetch =
-URL <a href=3D"http://www.yoctoproject.org/downloads/pseudo/pseudo-1.1.1.ta=
-r.bz2">http://www.yoctoproject.org/downloads/pseudo/pseudo-1.1.1.tar.bz2</a=
-> from any source.&#39; failed<br>
-NOTE: package pseudo-native-1.1.1-r2: task do_fetch: Failed<br><br>
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dxu4/ml2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/ml2
 
---0015177412d0bd180a04acd1259b--
+Dongxiao Xu (2):
+  base.bbclass: do not expand PREFERRED_PROVIDER for kernel recipe
+  multilib: Remove recipe from multilib.conf that inherits allarch
+
+ meta/classes/base.bbclass            |    4 +++-
+ meta/classes/multilib_global.bbclass |    4 ++++
+ meta/conf/multilib.conf              |    2 --
+ 3 files changed, 7 insertions(+), 3 deletions(-)
+
+
+
