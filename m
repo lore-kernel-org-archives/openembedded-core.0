@@ -1,24 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1R3RXQ-0003a7-Km
+	(envelope-from <dexuan.cui@intel.com>) id 1R3T9M-00068t-5R
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Sep 2011 13:52:30 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 13 Sep 2011 04:47:15 -0700
+	Tue, 13 Sep 2011 15:35:44 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 13 Sep 2011 06:30:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="47724871"
-Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by orsmga002.jf.intel.com with ESMTP; 13 Sep 2011 04:47:15 -0700
-From: Dongxiao Xu <dongxiao.xu@intel.com>
+X-IronPort-AV: E=Sophos;i="4.68,374,1312182000"; d="scan'208";a="48241519"
+Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.36.112])
+	by azsmga001.ch.intel.com with ESMTP; 13 Sep 2011 06:30:33 -0700
+From: Dexuan Cui <dexuan.cui@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Sep 2011 19:52:44 +0800
-Message-Id: <2346bd3780c5f864d5682dd86a223ddc16254468.1315914682.git.dongxiao.xu@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1315914682.git.dongxiao.xu@intel.com>
-References: <cover.1315914682.git.dongxiao.xu@intel.com>
-In-Reply-To: <cover.1315914682.git.dongxiao.xu@intel.com>
-References: <cover.1315914682.git.dongxiao.xu@intel.com>
-Subject: [PATCH 1/2] base.bbclass: do not expand PREFERRED_PROVIDER for kernel recipe
+Date: Tue, 13 Sep 2011 21:30:36 +0800
+Message-Id: <cover.1315920580.git.dexuan.cui@intel.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [PATCH 0/1] fix to bug 1070
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,36 +29,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Sep 2011 11:52:30 -0000
+X-List-Received-Date: Tue, 13 Sep 2011 13:35:44 -0000
 
-With Richard's commit f9c36392, we only build one kernel for a system,
-thus we shouldn't extend PREFERRED_PROVIDER for virtual/kernel.
+The following changes since commit 8fce8180c802ad187c4df44c17207bfb026ce6c7:
 
-[YOCTO #1471]
+  shadow: add patch for useradd lossage (2011-09-09 18:42:47 +0100)
 
-Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
----
- meta/classes/base.bbclass |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dcui/deb
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dcui/deb
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 104bec8..4ca04e2 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -181,8 +181,10 @@ def preferred_ml_updates(d):
-              virt = "virtual/"
-         for p in prefixes:
-             newname = "PREFERRED_PROVIDER_" + virt + p + "-" + pkg
-+            if pkg != "kernel":
-+                val = p + "-" + val
-             if not d.getVar(newname, False):
--                d.setVar(newname, p + "-" + val)
-+                d.setVar(newname, val)
- 
- 
-     mp = (d.getVar("MULTI_PROVIDER_WHITELIST", True) or "").split()
+Dexuan Cui (1):
+  dpkg: fix pkg_postinst_dpkg, don't supply
+    {bindir}/update-alternatives
+
+ meta/recipes-devtools/dpkg/dpkg.inc         |   19 ++++++++-----------
+ meta/recipes-devtools/dpkg/dpkg_1.15.8.7.bb |    2 +-
+ 2 files changed, 9 insertions(+), 12 deletions(-)
+
 -- 
-1.7.1
+1.7.6
 
 
 
