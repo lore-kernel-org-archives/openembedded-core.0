@@ -1,35 +1,35 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R3Vd9-0001WC-GG for openembedded-core@lists.openembedded.org;
-	Tue, 13 Sep 2011 18:14:39 +0200
+	id 1R3VfO-0001Zw-4f for openembedded-core@lists.openembedded.org;
+	Tue, 13 Sep 2011 18:16:58 +0200
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8DGFY7M028211 for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Sep 2011 17:15:34 +0100
+	p8DGHqW3028459 for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Sep 2011 17:17:53 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id b3jzvFlu0njZ
+	with LMTP id 2QXxuxgp79XZ
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Sep 2011 17:15:34 +0100 (BST)
+	Tue, 13 Sep 2011 17:17:52 +0100 (BST)
 Received: from [192.168.1.36] (tim [93.97.173.237]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8DGFTTV028190
+	p8DGHkJv028439
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Sep 2011 17:15:31 +0100
+	Tue, 13 Sep 2011 17:17:48 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Sep 2011 17:09:19 +0100
-In-Reply-To: <3c9ecbba125ebd7f2945ffe8d11f0ebc545e88e7.1315920902.git.edwin.zhai@intel.com>
-References: <cover.1315920902.git.edwin.zhai@intel.com>
-	<3c9ecbba125ebd7f2945ffe8d11f0ebc545e88e7.1315920902.git.edwin.zhai@intel.com>
+Date: Tue, 13 Sep 2011 17:11:36 +0100
+In-Reply-To: <372fffc4e289f88388de55665b1c5d766b956b37.1315920580.git.dexuan.cui@intel.com>
+References: <cover.1315920580.git.dexuan.cui@intel.com>
+	<372fffc4e289f88388de55665b1c5d766b956b37.1315920580.git.dexuan.cui@intel.com>
 X-Mailer: Evolution 3.1.91- 
-Message-ID: <1315930167.13526.1.camel@ted>
+Message-ID: <1315930304.13526.2.camel@ted>
 Mime-Version: 1.0
-Subject: Re: [PATCH 1/1] opensp: Fix hard path in native nsgmls.
+Subject: Re: [PATCH 1/1] dpkg: fix pkg_postinst_dpkg, don't supply {bindir}/update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,30 +44,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Sep 2011 16:14:39 -0000
+X-List-Received-Date: Tue, 13 Sep 2011 16:16:58 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-09-13 at 21:43 +0800, edwin.zhai@intel.com wrote:
-> From: Zhai Edwin <edwin.zhai@intel.com>
+On Tue, 2011-09-13 at 21:30 +0800, Dexuan Cui wrote:
+> [YOCTO #1070].
 > 
-> This relocation issues caused following bug and introduce one partial fix bb024d:
-> [YOCTO #1440]
+> The pkg_postinst_dpkg seems buggy, e.g., for dpkg-native,
+> ${IMAGE_ROOTFS}/${sysconfdir}/rcS.d doesn't exist.
+> I think OE's version(do_install_prepend) at
+> http://git.openembedded.org/cgit.cgi/openembedded/tree/recipes/dpkg/dpkg.inc
+> is correct, so let's change to OE's version.
 > 
-> But the environment val hacking is not working all the time, as nsgmsl may
-> append wrong path in some case. This fix use search directory "-D" as solution.
-> And more important, change the iputils' way to make doc: Use the sysid in
-> current directory instead of parent directory, as "../" is also appended to the
-> search directory then lead searching failure.
+> And, bth dpkg and update-alternatives-cworth supply
+> /usr/bin/update-alternatives and this causes conflict. e.g., bug 1070.
+> We can resolve the issue by ask dpkg not to supply the binary.
 > 
-> Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
-> CC: Saul Would <sgw@linux.intel.com>
+> Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 > ---
->  meta/recipes-devtools/opensp/opensp_1.5.bb         |    4 +-
->  .../iputils/files/nsgmls-path-fix.patch            |   27 ++++++++++++++++++++
->  meta/recipes-extended/iputils/iputils_s20101006.bb |    1 +
->  3 files changed, 30 insertions(+), 2 deletions(-)
->  create mode 100644 meta/recipes-extended/iputils/files/nsgmls-path-fix.patch
+>  meta/recipes-devtools/dpkg/dpkg.inc         |   19 ++++++++-----------
+>  meta/recipes-devtools/dpkg/dpkg_1.15.8.7.bb |    2 +-
+>  2 files changed, 9 insertions(+), 12 deletions(-)
 
 Merged to master, thanks.
 
