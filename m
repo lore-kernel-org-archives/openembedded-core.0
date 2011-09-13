@@ -1,42 +1,43 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1R3Ikt-0005JR-BN
+	(envelope-from <dongxiao.xu@intel.com>) id 1R3Izl-0005VT-8A
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Sep 2011 04:29:47 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 12 Sep 2011 19:24:37 -0700
+	Tue, 13 Sep 2011 04:45:09 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 12 Sep 2011 19:39:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="47697143"
-Received: from pgsmsx603.gar.corp.intel.com ([10.221.43.87])
-	by orsmga001.jf.intel.com with ESMTP; 12 Sep 2011 19:24:36 -0700
+X-IronPort-AV: E=Sophos;i="4.68,371,1312182000"; d="scan'208";a="16420995"
+Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
+	by AZSMGA002.ch.intel.com with ESMTP; 12 Sep 2011 19:39:58 -0700
 Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
-	pgsmsx603.gar.corp.intel.com (10.221.43.87) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Tue, 13 Sep 2011 10:24:35 +0800
-Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
+	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Tue, 13 Sep 2011 10:39:27 +0800
+Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
 	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Tue, 13 Sep 2011 10:24:34 +0800
+	(TLS) id 8.2.255.0; Tue, 13 Sep 2011 10:39:27 +0800
 Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
-	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
-	Tue, 13 Sep 2011 10:24:33 +0800
+	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
+	Tue, 13 Sep 2011 10:39:26 +0800
 From: "Xu, Dongxiao" <dongxiao.xu@intel.com>
 To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, "Mark Hatle
-	(mark.hatle@windriver.com)" <mark.hatle@windriver.com>
-Date: Tue, 13 Sep 2011 10:24:32 +0800
-Thread-Topic: [OE-core] [PATCH 1/3] package_rpm: add architecture info in
-	rpm spec file
-Thread-Index: AcxxW5iGLCXpGYDWSYmVRzzW8ZVm0QAYBI0A
-Message-ID: <D5AB6E638E5A3E4B8F4406B113A5A19A12D754AFF1@shsmsx501.ccr.corp.intel.com>
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 13 Sep 2011 10:39:24 +0800
+Thread-Topic: [OE-core] [PATCH 2/3] rpm: add multilib prefix for archs under
+	deploy/rpm
+Thread-Index: AcxxcKVhta/TUeHMRziWK0ul57ANtQATAObA
+Message-ID: <D5AB6E638E5A3E4B8F4406B113A5A19A12D754B024@shsmsx501.ccr.corp.intel.com>
 References: <cover.1315815933.git.dongxiao.xu@intel.com>
-	<85e223c8783eca48835226c2786e60b2c67e66df.1315815933.git.dongxiao.xu@intel.com>
-	<4E6E1C8A.5060508@windriver.com>
-In-Reply-To: <4E6E1C8A.5060508@windriver.com>
+	<57947e84078c2fbd1dde287bd9910cfd95e2ea27.1315815933.git.dongxiao.xu@intel.com>
+	<4E6E1D79.80208@windriver.com>
+	<D5AB6E638E5A3E4B8F4406B113A5A19A12D754AE15@shsmsx501.ccr.corp.intel.com>
+	<4E6E3FE0.2060805@windriver.com>
+In-Reply-To: <4E6E3FE0.2060805@windriver.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 acceptlanguage: en-US
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/3] package_rpm: add architecture info in rpm spec file
+Subject: Re: [PATCH 2/3] rpm: add multilib prefix for archs under deploy/rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,7 +52,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Sep 2011 02:29:48 -0000
+X-List-Received-Date: Tue, 13 Sep 2011 02:45:09 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
@@ -62,23 +63,62 @@ Hi Mark,
 > From: openembedded-core-bounces@lists.openembedded.org
 > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
 > Mark Hatle
-> Sent: Monday, September 12, 2011 10:52 PM
+> Sent: Tuesday, September 13, 2011 1:23 AM
 > To: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH 1/3] package_rpm: add architecture info in =
-rpm
-> spec file
+> Subject: Re: [OE-core] [PATCH 2/3] rpm: add multilib prefix for archs und=
+er
+> deploy/rpm
 >=20
-> This patch is incorrect.  Architectural information should not be in the
-> dependencies within RPM packages.
+> On 9/12/11 10:07 AM, Xu, Dongxiao wrote:
+> > Hi Mark,
+> >
+> >> -----Original Message-----
+> >> From: openembedded-core-bounces@lists.openembedded.org
+> >> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> >> Of Mark Hatle
+> >> Sent: Monday, September 12, 2011 10:56 PM
+> >> To: openembedded-core@lists.openembedded.org
+> >> Subject: Re: [OE-core] [PATCH 2/3] rpm: add multilib prefix for archs
+> >> under deploy/rpm
+> >>
+> >> On 9/12/11 3:34 AM, Dongxiao Xu wrote:
+> >>> Currently MACHINE_ARCH deploy folder is unique in multilib system,
+> >>> thus a lib32 version of rpm package will override a normal rpm
+> >>> package if its PACKAGE_ARCH is ${MACHINE_ARCH}.
+> >>>
+> >>> Define different deploy folder for multilib architectures to avoid
+> >>> the confliction.
+> >>
+> >> I'm not sure I understand here.  Within the deployment directory is a
+> >> set of directories for each RPM architecture.  Are you saying that we
+> >> can get two packages that have different contents but the same RPM
+> architecture?
+> >>
+> >
+> > Yes, for example the netbase recipe, which the PACKAGE_ARCH =3D
+> MACHINE_ARCH.
+> > Both the normal version of netbase package and the lib32 version are
+> > named as "netbase-4.45-r1.qemux86_64.rpm" putting in
+> > tmp/deploy/rpm/qemux86-64 directory, so we need to differentiate them.
 >=20
-> RPM is expected to find the proper version of a package to install based =
-on the
-> existing dependency information.  I'm in the process of investigating why
-> certain items are not found properly.
+> Wow, that is very broken.  I think part of the problem is that the arch i=
+s used to
+> signify not only ABI (and optimizations), but also machine type in this c=
+ase.
+>=20
+> What we really need is an additional architecture type that handles machi=
+ne
+> specific packages for each multilib type.  I'm really not sure what they =
+would
+> be called or how it would work though.
+>=20
+> Anyone have suggestions for naming and processing of these?  (I'm almost
+> tempted to say "machine_lib")
 
-Take "task-core-boot-1.0-r8.qemux86_64.rpm" as an example, and it has depen=
-dency on tinylogin, how can it determine whether it is depends on " tinylog=
-in-1.4-r7.x86_64.rpm" or "tinylogin-1.4-r7.x86.rpm".
+In the weekend I had a talk with Richard and he suggested on adding MLPREFI=
+X to MACHINE_ARCH to differentiate them.
+Otherwise user need to define a new value for MACHINE_virtclass-multilib-li=
+b32?
 
 Thanks,
 Dongxiao
@@ -86,130 +126,65 @@ Dongxiao
 >=20
 > --Mark
 >=20
-> On 9/12/11 3:33 AM, Dongxiao Xu wrote:
-> > For supporting multilib, architecture information is needed in package
-> > require/provide/suggest/recommend fields.
+> > Thanks,
+> > Dongxiao
 > >
-> > Use DEFAULTTUNE value as the postfix.
+> >> Can you give me an example of what is going wrong?
+> >>
+> >> --Mark
+> >>
+> >>> Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+> >>> ---
+> >>>  meta/classes/multilib.bbclass   |    5 +++++
+> >>>  meta/classes/rootfs_rpm.bbclass |    4 +++-
+> >>>  2 files changed, 8 insertions(+), 1 deletions(-)
+> >>>
+> >>> diff --git a/meta/classes/multilib.bbclass
+> >>> b/meta/classes/multilib.bbclass index 76c86b2..6ace1fe 100644
+> >>> --- a/meta/classes/multilib.bbclass
+> >>> +++ b/meta/classes/multilib.bbclass
+> >>> @@ -77,4 +77,9 @@ python __anonymous () {
+> >>>      multilib_map_variable("PACKAGES_DYNAMIC", variant, d)
+> >>>      multilib_map_variable("PACKAGE_INSTALL", variant, d)
+> >>>      multilib_map_variable("INITSCRIPT_PACKAGES", variant, d)
+> >>> +
+> >>> +    package_arch =3D d.getVar("PACKAGE_ARCH", True)
+> >>> +    machine_arch =3D d.getVar("MACHINE_ARCH", True)
+> >>> +    if package_arch =3D=3D machine_arch:
+> >>> +        d.setVar("PACKAGE_ARCH", variant + "_" + package_arch)
+> >>>  }
+> >>> diff --git a/meta/classes/rootfs_rpm.bbclass
+> >>> b/meta/classes/rootfs_rpm.bbclass index 135ca75..7936d77 100644
+> >>> --- a/meta/classes/rootfs_rpm.bbclass
+> >>> +++ b/meta/classes/rootfs_rpm.bbclass
+> >>> @@ -218,7 +218,9 @@ python () {
+> >>>              default_tune =3D
+> >> localdata.getVar("DEFAULTTUNE_virtclass-multilib-" + eext[1], False)
+> >>>              if default_tune:
+> >>>                  localdata.setVar("DEFAULTTUNE", default_tune)
+> >>> -            ml_package_archs +=3D localdata.getVar("PACKAGE_ARCHS",
+> >> True) or ""
+> >>> +            localdata.setVar("MACHINE_ARCH", eext[1] + "_" +
+> >> localdata.getVar("MACHINE_ARCH", False))
+> >>> +            package_archs =3D localdata.getVar("PACKAGE_ARCHS",
+> True)
+> >> or ""
+> >>> +            ml_package_archs +=3D " " + package_archs
+> >>>              #bb.note("ML_PACKAGE_ARCHS %s %s %s" % (eext[1],
+> >> localdata.getVar("PACKAGE_ARCHS", True) or "(none)", overrides))
+> >>>      bb.data.setVar('MULTILIB_PACKAGE_ARCHS', ml_package_archs,
+> >> d)  }
+> >>
+> >>
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 > >
-> > For "all" arch recipe, it requires "all" arch recipe with no postfix,
-> > but provides all possible multilib archs.
-> >
-> > For example, qemu-config:
-> >
-> > Requires: rsync
-> > Requires: update-rc.d
-> > Requires: task-core-nfs-server
-> > Requires: distcc
-> > Requires: oprofileui-server
-> > Requires: dbus-x11
-> > Requires: bash
-> > Provides: qemu-config.x86
-> > Provides: qemu-config.x86-64
-> >
-> > For other recipe like zlib:
-> >
-> > Requires: libc6.x86-64 >=3D 2.13
-> > Provides: zlib.x86-64
-> >
-> > [YOCTO #1457]
-> >
-> > Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
-> > ---
-> >  meta/classes/multilib.bbclass    |    1 +
-> >  meta/classes/package_rpm.bbclass |   36
-> ++++++++++++++++++++++++++++++++++++
-> >  2 files changed, 37 insertions(+), 0 deletions(-)
-> >
-> > diff --git a/meta/classes/multilib.bbclass
-> > b/meta/classes/multilib.bbclass index 583d76b..76c86b2 100644
-> > --- a/meta/classes/multilib.bbclass
-> > +++ b/meta/classes/multilib.bbclass
-> > @@ -23,6 +23,7 @@ python multilib_virtclass_handler () {
-> >      e.data.setVar("PN", variant + "-" + e.data.getVar("PN", False))
-> >      e.data.setVar("SHLIBSDIR_virtclass-multilib-" +
-> variant ,e.data.getVar("SHLIBSDIR", False) + "/" + variant)
-> >      e.data.setVar("TARGET_VENDOR_virtclass-multilib-" + variant,
-> > e.data.getVar("TARGET_VENDOR", False) + "ml" + variant)
-> > +    e.data.setVar("SAVED_DEFAULTTUNE",
-> e.data.getVar("DEFAULTTUNE",
-> > + True))
-> >      e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) +
-> > override)  }
-> >
-> > diff --git a/meta/classes/package_rpm.bbclass
-> > b/meta/classes/package_rpm.bbclass
-> > index 9ef1acd..ea0a079 100644
-> > --- a/meta/classes/package_rpm.bbclass
-> > +++ b/meta/classes/package_rpm.bbclass
-> > @@ -350,6 +350,7 @@ package_install_internal_rpm () {  python
-> > write_specfile () {
-> >  	import textwrap
-> >  	import oe.packagedata
-> > +	import re
-> >
-> >  	# We need a simple way to remove the MLPREFIX from the package name,
-> >  	# and dependency information...
-> > @@ -498,6 +499,8 @@ python write_specfile () {
-> >
-> >  		splitname    =3D strip_multilib(pkgname, d)
-> >
-> > +		defaulttune =3D bb.data.getVar('DEFAULTTUNE', localdata, True)
-> > +
-> >  		splitsummary =3D (bb.data.getVar('SUMMARY', localdata, True) or
-> bb.data.getVar('DESCRIPTION', localdata, True) or ".")
-> >  		splitversion =3D (bb.data.getVar('PKGV', localdata, True) or
-> "").replace('-', '+')
-> >  		splitrelease =3D (bb.data.getVar('PKGR', localdata, True) or "") @@
-> > -528,6 +531,39 @@ python write_specfile () {
-> >  		if pkg =3D=3D d.getVar("PN", True):
-> >  			splitrprovides =3D splitrprovides + " " +
-> > (d.getVar('ALTERNATIVE_LINK', True) or '') + " " +
-> > (d.getVar('ALTERNATIVE_LINKS', True) or '')
-> >
-> > +		package_arch =3D bb.data.getVar('PACKAGE_ARCH', localdata, True)
-> > +
-> > +		splitrprovides =3D splitrprovides + " " + splitname + "." + defaultt=
-une
-> > +		if package_arch !=3D "all":
-> > +			pattern =3D '\([^()]*\)'
-> > +			prog =3D re.compile(pattern)
-> > +
-> > +			str_list =3D [splitrdepends, splitrrecommends, splitrsuggests]
-> > +			for e in range(len(str_list)):
-> > +				brackets =3D prog.findall(str_list[e])
-> > +				for i in range(len(brackets)):
-> > +					str_list[e] =3D str_list[e].replace(brackets[i],
-> "#BRACKETS"+str(i)+"#")
-> > +				tmp =3D ""
-> > +				for i in str_list[e].split():
-> > +					if i.startswith("#BRACKETS"):
-> > +						tmp +=3D " " + str(i)
-> > +						continue
-> > +					tmp +=3D " " + str(i) + "." + defaulttune
-> > +				str_list[e] =3D tmp
-> > +				for i in range(len(brackets)):
-> > +					str_list[e] =3D str_list[e].replace("#BRACKETS"+str(i)+"#",
-> > +brackets[i])
-> > +
-> > +			[splitrdepends, splitrrecommends, splitrsuggests] =3D str_list
-> > +		else:
-> > +			variants =3D (bb.data.getVar("MULTILIB_VARIANTS", localdata,
-> True) or "").split()
-> > +			for variant in variants:
-> > +				tune =3D bb.data.getVar("DEFAULTTUNE_virtclass-multilib-" +
-> variant, localdata, True) or ""
-> > +				if tune:
-> > +					splitrprovides =3D splitrprovides + " " + splitname + "." +
-> tune
-> > +			tune =3D bb.data.getVar("SAVED_DEFAULTTUNE", localdata, True)
-> or ""
-> > +			if tune:
-> > +				splitrprovides =3D splitrprovides + " " + splitname + "." + tune
-> > +
-> >  		# Gather special src/first package data
-> >  		if srcname =3D=3D splitname:
-> >  			srcrdepends    =3D splitrdepends
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >=20
 >=20
 > _______________________________________________
