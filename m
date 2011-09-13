@@ -1,20 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1R3T9M-00068t-5R
+	(envelope-from <dexuan.cui@intel.com>) id 1R3T9N-00068w-H5
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Sep 2011 15:35:44 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 13 Sep 2011 06:30:34 -0700
+	Tue, 13 Sep 2011 15:35:45 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 13 Sep 2011 06:30:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,374,1312182000"; d="scan'208";a="48241519"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="47754376"
 Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.36.112])
-	by azsmga001.ch.intel.com with ESMTP; 13 Sep 2011 06:30:33 -0700
+	by orsmga002.jf.intel.com with ESMTP; 13 Sep 2011 06:30:34 -0700
 From: Dexuan Cui <dexuan.cui@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Sep 2011 21:30:36 +0800
-Message-Id: <cover.1315920580.git.dexuan.cui@intel.com>
+Date: Tue, 13 Sep 2011 21:30:37 +0800
+Message-Id: <372fffc4e289f88388de55665b1c5d766b956b37.1315920580.git.dexuan.cui@intel.com>
 X-Mailer: git-send-email 1.7.6
-Subject: [PATCH 0/1] fix to bug 1070
+In-Reply-To: <cover.1315920580.git.dexuan.cui@intel.com>
+References: <cover.1315920580.git.dexuan.cui@intel.com>
+In-Reply-To: <cover.1315920580.git.dexuan.cui@intel.com>
+References: <cover.1315920580.git.dexuan.cui@intel.com>
+Subject: [PATCH 1/1] dpkg: fix pkg_postinst_dpkg, don't supply {bindir}/update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,24 +33,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Sep 2011 13:35:44 -0000
+X-List-Received-Date: Tue, 13 Sep 2011 13:35:45 -0000
 
-The following changes since commit 8fce8180c802ad187c4df44c17207bfb026ce6c7:
+[YOCTO #1070].
 
-  shadow: add patch for useradd lossage (2011-09-09 18:42:47 +0100)
+The pkg_postinst_dpkg seems buggy, e.g., for dpkg-native,
+${IMAGE_ROOTFS}/${sysconfdir}/rcS.d doesn't exist.
+I think OE's version(do_install_prepend) at
+http://git.openembedded.org/cgit.cgi/openembedded/tree/recipes/dpkg/dpkg.inc
+is correct, so let's change to OE's version.
 
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib dcui/deb
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dcui/deb
+And, bth dpkg and update-alternatives-cworth supply
+/usr/bin/update-alternatives and this causes conflict. e.g., bug 1070.
+We can resolve the issue by ask dpkg not to supply the binary.
 
-Dexuan Cui (1):
-  dpkg: fix pkg_postinst_dpkg, don't supply
-    {bindir}/update-alternatives
-
+Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+---
  meta/recipes-devtools/dpkg/dpkg.inc         |   19 ++++++++-----------
  meta/recipes-devtools/dpkg/dpkg_1.15.8.7.bb |    2 +-
  2 files changed, 9 insertions(+), 12 deletions(-)
 
+diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
+index aa5f90e..8c2511d 100644
+--- a/meta/recipes-devtools/dpkg/dpkg.inc
++++ b/meta/recipes-devtools/dpkg/dpkg.inc
+@@ -2,7 +2,7 @@ DESCRIPTION = "Package maintenance system for Debian."
+ LICENSE = "GPL"
+ SECTION = "base"
+ 
+-INC_PR = "r4"
++INC_PR = "r5"
+ 
+ SRC_URI = "${DEBIAN_MIRROR}/main/d/dpkg/dpkg_${PV}.tar.bz2 \
+            file://ignore_extra_fields.patch"
+@@ -20,17 +20,14 @@ inherit autotools gettext perlnative
+ 
+ DPKG_INIT_POSITION = "98"
+ 
+-pkg_postinst_dpkg () {
+-#!/bin/sh
+-if [ "x$D" != "x" ]; then
+-	install -d $D/${sysconfdir}/rcS.d
++do_install_prepend () {
++	install -d ${D}/${sysconfdir}/rcS.d
+ 	# this happens at S98 where our good 'ole packages script used to run
+-	echo -e "#!/bin/sh
+-	dpkg --configure -a
+-	rm -f /${sysconfdir}/rcS.d/S${DPKG_INIT_POSITION}configure
+-" > ${IMAGE_ROOTFS}/${sysconfdir}/rcS.d/S${DPKG_INIT_POSITION}configure
+-	chmod 0755 $D/${sysconfdir}/rcS.d/S${DPKG_INIT_POSITION}configure
+-fi
++	printf "#!/bin/sh
++dpkg --configure -a
++rm -f ${sysconfdir}/rcS.d/S${DPKG_INIT_POSITION}configure
++" > ${D}/${sysconfdir}/rcS.d/S${DPKG_INIT_POSITION}configure
++	chmod 0755 ${D}/${sysconfdir}/rcS.d/S${DPKG_INIT_POSITION}configure
+ }
+ 
+ do_configure () {
+diff --git a/meta/recipes-devtools/dpkg/dpkg_1.15.8.7.bb b/meta/recipes-devtools/dpkg/dpkg_1.15.8.7.bb
+index 91535d3..99197c0 100644
+--- a/meta/recipes-devtools/dpkg/dpkg_1.15.8.7.bb
++++ b/meta/recipes-devtools/dpkg/dpkg_1.15.8.7.bb
+@@ -20,6 +20,6 @@ EXTRA_OECONF = "--without-static-progs \
+ 
+ BBCLASSEXTEND = "native"
+ 
+-do_install_append_virtclass-native () {
++do_install_append () {
+ 	rm ${D}${bindir}/update-alternatives
+ }
 -- 
 1.7.6
 
