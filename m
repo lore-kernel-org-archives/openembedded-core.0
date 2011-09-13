@@ -1,48 +1,29 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1R3VCa-0000YG-70
+	(envelope-from <sgw@linux.intel.com>) id 1R3VJG-0000eC-Vp
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Sep 2011 17:47:12 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 13 Sep 2011 08:42:01 -0700
+	Tue, 13 Sep 2011 17:54:07 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 13 Sep 2011 08:48:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="47897115"
-Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by orsmga001.jf.intel.com with ESMTP; 13 Sep 2011 08:42:00 -0700
-Received: from pgsmsx102.gar.corp.intel.com (10.221.44.80) by
-	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Tue, 13 Sep 2011 23:41:59 +0800
-Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
-	PGSMSX102.gar.corp.intel.com (10.221.44.80) with Microsoft SMTP Server
-	(TLS) id 14.1.323.3; Tue, 13 Sep 2011 23:41:58 +0800
-Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
-	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
-	Tue, 13 Sep 2011 23:41:57 +0800
-From: "Xu, Dongxiao" <dongxiao.xu@intel.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Tue, 13 Sep 2011 23:41:56 +0800
-Thread-Topic: [OE-core] [PATCH 1/3] package_rpm: add architecture info in
-	rpm spec file
-Thread-Index: AcxyKfW5WJ1OiLswSSeZVpaVh9/sTwAAPvLw
-Message-ID: <D5AB6E638E5A3E4B8F4406B113A5A19A12D754B5B6@shsmsx501.ccr.corp.intel.com>
-References: <cover.1315815933.git.dongxiao.xu@intel.com>
-	<85e223c8783eca48835226c2786e60b2c67e66df.1315815933.git.dongxiao.xu@intel.com>
-	<4E6E1C8A.5060508@windriver.com>
-	<D5AB6E638E5A3E4B8F4406B113A5A19A12D754AFF1@shsmsx501.ccr.corp.intel.com>
-	<4E6F76C7.6050606@windriver.com>
-In-Reply-To: <4E6F76C7.6050606@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
+X-IronPort-AV: E=Sophos;i="4.68,374,1312182000"; d="scan'208";a="16616281"
+Received: from unknown (HELO [10.255.14.228]) ([10.255.14.228])
+	by AZSMGA002.ch.intel.com with ESMTP; 13 Sep 2011 08:48:56 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] package_rpm: add architecture info in rpm spec file
+Date: Tue, 13 Sep 2011 08:48:56 -0700
+In-Reply-To: <cover.1315920902.git.edwin.zhai@intel.com>
+References: <cover.1315920902.git.edwin.zhai@intel.com>
+Organization: Yocto Project / OTC / Intel
+X-Mailer: Evolution 3.0.3 (3.0.3-1.fc15) 
+Message-ID: <1315928936.12451.18.camel@swold-mobl.bigsur.com>
+Mime-Version: 1.0
+Subject: Re: [PATCH 0/1] Fix hard path in opensp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: sgw@linux.intel.com, Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -53,224 +34,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Sep 2011 15:47:12 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 13 Sep 2011 15:54:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Mark,
+On Tue, 2011-09-13 at 21:43 +0800, edwin.zhai@intel.com wrote:
+> From: Zhai Edwin <edwin.zhai@intel.com>
+> 
+> Saul,
+> This is the new version to fix the hard path in opensp. After 2nd thought, I'm
+> reluctant to change the search directory path handling code in nsgmls in case
+> of any likely side effect to other package. I change the iputils' makefile to
+> avoid "../" in the sysid path, and it really works without regression.
+> 
+> This is reasonable, as other package, like linuxdoc-tools-native, make a lot of
+> works before calling nsgmls: prepare search directory path with "-D", introduce
+> a huge perf module to handle the sgml2XXX conversion...
+> 
+> Pls. help to review.
+> 
+> Thanks,
+> Edwin
+> 
+> The following changes since commit 52835dd30110d51a839872f198eef3b12e369850:
+> 
+>   avahi: only use gtk if DISTRO_FEATURES includes x11 (2011-09-07 23:44:29 +0100)
+> 
+> are available in the git repository at:
+>   git://git.pokylinux.org/poky-contrib gzhai/master2
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/master2
+> 
+> Zhai Edwin (1):
+>   opensp: Fix hard path in native nsgmls.
+> 
+>  meta/recipes-devtools/opensp/opensp_1.5.bb         |    4 +-
+>  .../iputils/files/nsgmls-path-fix.patch            |   27 ++++++++++++++++++++
+>  meta/recipes-extended/iputils/iputils_s20101006.bb |    1 +
+>  3 files changed, 30 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/recipes-extended/iputils/files/nsgmls-path-fix.patch
+> 
 
-> -----Original Message-----
-> From: Mark Hatle [mailto:mark.hatle@windriver.com]
-> Sent: Tuesday, September 13, 2011 11:29 PM
-> To: Xu, Dongxiao
-> Cc: Patches and discussions about the oe-core layer
-> Subject: Re: [OE-core] [PATCH 1/3] package_rpm: add architecture info in =
-rpm
-> spec file
->=20
-> On 9/12/11 9:24 PM, Xu, Dongxiao wrote:
-> > Hi Mark,
-> >
-> >> -----Original Message-----
-> >> From: openembedded-core-bounces@lists.openembedded.org
-> >> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> >> Of Mark Hatle
-> >> Sent: Monday, September 12, 2011 10:52 PM
-> >> To: openembedded-core@lists.openembedded.org
-> >> Subject: Re: [OE-core] [PATCH 1/3] package_rpm: add architecture info
-> >> in rpm spec file
-> >>
-> >> This patch is incorrect.  Architectural information should not be in
-> >> the dependencies within RPM packages.
-> >>
-> >> RPM is expected to find the proper version of a package to install
-> >> based on the existing dependency information.  I'm in the process of
-> >> investigating why certain items are not found properly.
-> >
-> > Take "task-core-boot-1.0-r8.qemux86_64.rpm" as an example, and it has
-> dependency on tinylogin, how can it determine whether it is depends on "
-> tinylogin-1.4-r7.x86_64.rpm" or "tinylogin-1.4-r7.x86.rpm".
->=20
-> In this case, it should not matter which one it uses.  If the dependency =
-is on
-> "tinylogin", then either of them fulfills the dependency.  RPM should be
-> selecting which one to bring in using it's internal policy manager.  (I b=
-elieve
-> the default is that 64-bit wins...)
+I tested this change against a set of multiple machine sstate builds and
+it worked.  
 
-I think it DOES matter on which one it uses. Thinking the case that if a us=
-er wants to build a pure 64 bit system, and if it could not correctly choos=
-e the 64 bit of tinylogin, then his system will be contaminated with 32bit =
-programs/libraries.=20
+Thanks
 
-Also during my testings, I found rpm will select the "wrong" version (x86 t=
-inylogin).
+Acked-by: Saul Wold <sgw@linux.intel.com>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-Thanks,
-Dongxiao
-
->=20
-> For libraries where it does matter, the dependency system should already =
-be
-> finding the correct architecture for the library.
->=20
-> This does raise an issue in my mind though.  Is an architecture for "task=
-s"
-> justifiable?  Why isn't the task-core-boot an all or noarch package?
->=20
-> Is there any difference between a task-core-boot and "lib32-task-core-boo=
-t"?
->=20
-> Should we expect a difference between the two?
->=20
-> --Mark
->=20
-> > Thanks,
-> > Dongxiao
-> >
-> >>
-> >> --Mark
-> >>
-> >> On 9/12/11 3:33 AM, Dongxiao Xu wrote:
-> >>> For supporting multilib, architecture information is needed in
-> >>> package require/provide/suggest/recommend fields.
-> >>>
-> >>> Use DEFAULTTUNE value as the postfix.
-> >>>
-> >>> For "all" arch recipe, it requires "all" arch recipe with no
-> >>> postfix, but provides all possible multilib archs.
-> >>>
-> >>> For example, qemu-config:
-> >>>
-> >>> Requires: rsync
-> >>> Requires: update-rc.d
-> >>> Requires: task-core-nfs-server
-> >>> Requires: distcc
-> >>> Requires: oprofileui-server
-> >>> Requires: dbus-x11
-> >>> Requires: bash
-> >>> Provides: qemu-config.x86
-> >>> Provides: qemu-config.x86-64
-> >>>
-> >>> For other recipe like zlib:
-> >>>
-> >>> Requires: libc6.x86-64 >=3D 2.13
-> >>> Provides: zlib.x86-64
-> >>>
-> >>> [YOCTO #1457]
-> >>>
-> >>> Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
-> >>> ---
-> >>>  meta/classes/multilib.bbclass    |    1 +
-> >>>  meta/classes/package_rpm.bbclass |   36
-> >> ++++++++++++++++++++++++++++++++++++
-> >>>  2 files changed, 37 insertions(+), 0 deletions(-)
-> >>>
-> >>> diff --git a/meta/classes/multilib.bbclass
-> >>> b/meta/classes/multilib.bbclass index 583d76b..76c86b2 100644
-> >>> --- a/meta/classes/multilib.bbclass
-> >>> +++ b/meta/classes/multilib.bbclass
-> >>> @@ -23,6 +23,7 @@ python multilib_virtclass_handler () {
-> >>>      e.data.setVar("PN", variant + "-" + e.data.getVar("PN", False))
-> >>>      e.data.setVar("SHLIBSDIR_virtclass-multilib-" +
-> >> variant ,e.data.getVar("SHLIBSDIR", False) + "/" + variant)
-> >>>      e.data.setVar("TARGET_VENDOR_virtclass-multilib-" + variant,
-> >>> e.data.getVar("TARGET_VENDOR", False) + "ml" + variant)
-> >>> +    e.data.setVar("SAVED_DEFAULTTUNE",
-> >> e.data.getVar("DEFAULTTUNE",
-> >>> + True))
-> >>>      e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) +
-> >>> override)  }
-> >>>
-> >>> diff --git a/meta/classes/package_rpm.bbclass
-> >>> b/meta/classes/package_rpm.bbclass
-> >>> index 9ef1acd..ea0a079 100644
-> >>> --- a/meta/classes/package_rpm.bbclass
-> >>> +++ b/meta/classes/package_rpm.bbclass
-> >>> @@ -350,6 +350,7 @@ package_install_internal_rpm () {  python
-> >>> write_specfile () {
-> >>>  	import textwrap
-> >>>  	import oe.packagedata
-> >>> +	import re
-> >>>
-> >>>  	# We need a simple way to remove the MLPREFIX from the package
-> name,
-> >>>  	# and dependency information...
-> >>> @@ -498,6 +499,8 @@ python write_specfile () {
-> >>>
-> >>>  		splitname    =3D strip_multilib(pkgname, d)
-> >>>
-> >>> +		defaulttune =3D bb.data.getVar('DEFAULTTUNE', localdata, True)
-> >>> +
-> >>>  		splitsummary =3D (bb.data.getVar('SUMMARY', localdata, True) or
-> >> bb.data.getVar('DESCRIPTION', localdata, True) or ".")
-> >>>  		splitversion =3D (bb.data.getVar('PKGV', localdata, True) or
-> >> "").replace('-', '+')
-> >>>  		splitrelease =3D (bb.data.getVar('PKGR', localdata, True) or "")
-> @@
-> >>> -528,6 +531,39 @@ python write_specfile () {
-> >>>  		if pkg =3D=3D d.getVar("PN", True):
-> >>>  			splitrprovides =3D splitrprovides + " " +
-> >>> (d.getVar('ALTERNATIVE_LINK', True) or '') + " " +
-> >>> (d.getVar('ALTERNATIVE_LINKS', True) or '')
-> >>>
-> >>> +		package_arch =3D bb.data.getVar('PACKAGE_ARCH', localdata,
-> True)
-> >>> +
-> >>> +		splitrprovides =3D splitrprovides + " " + splitname + "." +
-> defaulttune
-> >>> +		if package_arch !=3D "all":
-> >>> +			pattern =3D '\([^()]*\)'
-> >>> +			prog =3D re.compile(pattern)
-> >>> +
-> >>> +			str_list =3D [splitrdepends, splitrrecommends, splitrsuggests]
-> >>> +			for e in range(len(str_list)):
-> >>> +				brackets =3D prog.findall(str_list[e])
-> >>> +				for i in range(len(brackets)):
-> >>> +					str_list[e] =3D str_list[e].replace(brackets[i],
-> >> "#BRACKETS"+str(i)+"#")
-> >>> +				tmp =3D ""
-> >>> +				for i in str_list[e].split():
-> >>> +					if i.startswith("#BRACKETS"):
-> >>> +						tmp +=3D " " + str(i)
-> >>> +						continue
-> >>> +					tmp +=3D " " + str(i) + "." + defaulttune
-> >>> +				str_list[e] =3D tmp
-> >>> +				for i in range(len(brackets)):
-> >>> +					str_list[e] =3D
-> str_list[e].replace("#BRACKETS"+str(i)+"#",
-> >>> +brackets[i])
-> >>> +
-> >>> +			[splitrdepends, splitrrecommends, splitrsuggests] =3D str_list
-> >>> +		else:
-> >>> +			variants =3D (bb.data.getVar("MULTILIB_VARIANTS",
-> localdata,
-> >> True) or "").split()
-> >>> +			for variant in variants:
-> >>> +				tune =3D
-> bb.data.getVar("DEFAULTTUNE_virtclass-multilib-" +
-> >> variant, localdata, True) or ""
-> >>> +				if tune:
-> >>> +					splitrprovides =3D splitrprovides + " " + splitname +
-> "." +
-> >> tune
-> >>> +			tune =3D bb.data.getVar("SAVED_DEFAULTTUNE", localdata,
-> True)
-> >> or ""
-> >>> +			if tune:
-> >>> +				splitrprovides =3D splitrprovides + " " + splitname + "." +
-> tune
-> >>> +
-> >>>  		# Gather special src/first package data
-> >>>  		if srcname =3D=3D splitname:
-> >>>  			srcrdepends    =3D splitrdepends
-> >>
-> >>
-> >> _______________________________________________
-> >> Openembedded-core mailing list
-> >> Openembedded-core@lists.openembedded.org
-> >> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
