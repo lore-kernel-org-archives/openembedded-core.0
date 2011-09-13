@@ -1,34 +1,32 @@
-Received: from 14.mo4.mail-out.ovh.net ([46.105.40.29]
-	helo=mo4.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1R3Ubj-0008LE-4f
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <mark.hatle@windriver.com>) id 1R3UvG-0000G3-5p
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Sep 2011 17:09:07 +0200
-Received: from mail23.ha.ovh.net (b9.ovh.net [213.186.33.59])
-	by mo4.mail-out.ovh.net (Postfix) with SMTP id CDBA6FFC2F5
+	Tue, 13 Sep 2011 17:29:18 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p8DFO7R3017005
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Sep 2011 16:45:29 +0200 (CEST)
-Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
-	by b0.ovh.net with SMTP; 13 Sep 2011 16:45:07 +0200
-Received: from unknown (HELO e6520eb.localdomain)
-	(ebenard%eukrea.com@80.72.59.187)
-	by ns0.ovh.net with SMTP; 13 Sep 2011 16:45:05 +0200
-From: =?UTF-8?q?Eric=20B=C3=A9nard?= <eric@eukrea.com>
-To: openembedded-core@lists.openembedded.org
-X-Ovh-Mailout: 178.32.228.4 (mo4.mail-out.ovh.net)
-Date: Tue, 13 Sep 2011 16:44:59 +0200
-Message-Id: <1315925099-9259-1-git-send-email-eric@eukrea.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <CAP9ODKqCg-GOR-HLcuXzrgCVM2tt0anUCTeAEVoqGVFVG4YkEQ@mail.gmail.com>
-References: <CAP9ODKqCg-GOR-HLcuXzrgCVM2tt0anUCTeAEVoqGVFVG4YkEQ@mail.gmail.com>
+	Tue, 13 Sep 2011 08:24:07 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 13 Sep 2011 08:24:06 -0700
+Message-ID: <4E6F7596.4050507@windriver.com>
+Date: Tue, 13 Sep 2011 10:24:06 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:6.0.2) Gecko/20110902 Thunderbird/6.0.2
 MIME-Version: 1.0
-X-Ovh-Tracer-Id: 7814026830427631042
-X-Ovh-Remote: 80.72.59.187 ()
-X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
-X-Spam-Check: DONE|U 0.5/N
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -30
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeftddrvdelucetggdotefuucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenuchlihhnuhigfeigucdlqdeftddm
-Subject: [PATCH v2] qt4: fix generated sdk
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1315815933.git.dongxiao.xu@intel.com>
+	<57947e84078c2fbd1dde287bd9910cfd95e2ea27.1315815933.git.dongxiao.xu@intel.com>
+	<4E6E1D79.80208@windriver.com>
+	<D5AB6E638E5A3E4B8F4406B113A5A19A12D754AE15@shsmsx501.ccr.corp.intel.com>
+	<4E6E3FE0.2060805@windriver.com>
+	<D5AB6E638E5A3E4B8F4406B113A5A19A12D754B024@shsmsx501.ccr.corp.intel.com>
+In-Reply-To: <D5AB6E638E5A3E4B8F4406B113A5A19A12D754B024@shsmsx501.ccr.corp.intel.com>
+Subject: Re: [PATCH 2/3] rpm: add multilib prefix for archs under deploy/rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,129 +41,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Sep 2011 15:09:07 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 13 Sep 2011 15:29:18 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-- qt4-tools-nativesdk : actually the qmake binary which gets installed
-comes from the native recipe. This patch fix this problem by laucnhing
-configure twice : once to compile qmake using the right toolchain for
-nativesdk, and a second time using the native qmake to compile all the
-other tools for the nativesdk. Then we install the right qmake.
+On 9/12/11 9:39 PM, Xu, Dongxiao wrote:
+> Hi Mark,
+> 
+>> -----Original Message-----
+>> From: openembedded-core-bounces@lists.openembedded.org
+>> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+>> Mark Hatle
+>> Sent: Tuesday, September 13, 2011 1:23 AM
+>> To: openembedded-core@lists.openembedded.org
+>> Subject: Re: [OE-core] [PATCH 2/3] rpm: add multilib prefix for archs under
+>> deploy/rpm
+>>
+>> On 9/12/11 10:07 AM, Xu, Dongxiao wrote:
+>>> Hi Mark,
+>>>
+>>>> -----Original Message-----
+>>>> From: openembedded-core-bounces@lists.openembedded.org
+>>>> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+>>>> Of Mark Hatle
+>>>> Sent: Monday, September 12, 2011 10:56 PM
+>>>> To: openembedded-core@lists.openembedded.org
+>>>> Subject: Re: [OE-core] [PATCH 2/3] rpm: add multilib prefix for archs
+>>>> under deploy/rpm
+>>>>
+>>>> On 9/12/11 3:34 AM, Dongxiao Xu wrote:
+>>>>> Currently MACHINE_ARCH deploy folder is unique in multilib system,
+>>>>> thus a lib32 version of rpm package will override a normal rpm
+>>>>> package if its PACKAGE_ARCH is ${MACHINE_ARCH}.
+>>>>>
+>>>>> Define different deploy folder for multilib architectures to avoid
+>>>>> the confliction.
+>>>>
+>>>> I'm not sure I understand here.  Within the deployment directory is a
+>>>> set of directories for each RPM architecture.  Are you saying that we
+>>>> can get two packages that have different contents but the same RPM
+>> architecture?
+>>>>
+>>>
+>>> Yes, for example the netbase recipe, which the PACKAGE_ARCH =
+>> MACHINE_ARCH.
+>>> Both the normal version of netbase package and the lib32 version are
+>>> named as "netbase-4.45-r1.qemux86_64.rpm" putting in
+>>> tmp/deploy/rpm/qemux86-64 directory, so we need to differentiate them.
+>>
+>> Wow, that is very broken.  I think part of the problem is that the arch is used to
+>> signify not only ABI (and optimizations), but also machine type in this case.
+>>
+>> What we really need is an additional architecture type that handles machine
+>> specific packages for each multilib type.  I'm really not sure what they would
+>> be called or how it would work though.
+>>
+>> Anyone have suggestions for naming and processing of these?  (I'm almost
+>> tempted to say "machine_lib")
+> 
+> In the weekend I had a talk with Richard and he suggested on adding MLPREFIX to MACHINE_ARCH to differentiate them.
+> Otherwise user need to define a new value for MACHINE_virtclass-multilib-lib32?
 
-- mkspec : the link actually created in qt4-tools-nativesdk's
-do_install point to nowhere so remove it and generate the link in
-meta-toolchain-qte as it's the only place where we have all the variable
-to create it.
+I can't think of a better solution for this right now.  Note, that if the
+MLPREFIX is added to the MACHINE_ARCH, a corresponding change to Zypper will be
+needed as well.
 
-- toolchain_create_sdk_env_script_append : we need to add OE_QMAKE_CFLAGS=
-,
-OE_QMAKE_CXXFLAGS and OE_QMAKE_LDFLAGS else the sdk won't find these
-variables that are inserted by qmake in the Makefiles.
+--Mark
 
-- with this patch, oe-core generates a working meta-toolchain-qte which
-can compile a small example and is properly recognized by qtcreator (this
-brings oe-core's meta-toolchain-qte to oe-dev's functional state).
-
-Signed-off-by: Eric B=C3=A9nard <eric@eukrea.com>
----
-v2: fix typo in comment
-
- meta/recipes-qt/meta/meta-toolchain-qte.bb  |    7 +++++++
- meta/recipes-qt/qt4/qt4-tools-nativesdk.inc |   22 +++++++++++----------=
--
- 2 files changed, 18 insertions(+), 11 deletions(-)
-
-diff --git a/meta/recipes-qt/meta/meta-toolchain-qte.bb b/meta/recipes-qt=
-/meta/meta-toolchain-qte.bb
-index 72d58db..735ccd1 100644
---- a/meta/recipes-qt/meta/meta-toolchain-qte.bb
-+++ b/meta/recipes-qt/meta/meta-toolchain-qte.bb
-@@ -10,6 +10,9 @@ QT_DIR_NAME =3D "qtopia"
- QT_TOOLS_PREFIX =3D "${SDKPATHNATIVE}${bindir_nativesdk}"
-=20
- toolchain_create_sdk_env_script_append() {
-+    echo 'export OE_QMAKE_CFLAGS=3D"$CFLAGS"' >> $script
-+    echo 'export OE_QMAKE_CXXFLAGS=3D"$CXXFLAGS"' >> $script
-+    echo 'export OE_QMAKE_LDFLAGS=3D"$LDFLAGS"' >> $script
-     echo 'export OE_QMAKE_CC=3D${TARGET_PREFIX}gcc' >> $script
-     echo 'export OE_QMAKE_CXX=3D${TARGET_PREFIX}g++' >> $script
-     echo 'export OE_QMAKE_LINK=3D${TARGET_PREFIX}g++' >> $script
-@@ -24,4 +27,8 @@ toolchain_create_sdk_env_script_append() {
-     echo 'export OE_QMAKE_QDBUSXML2CPP=3D${QT_TOOLS_PREFIX}/qdbusxml2cpp=
-4' >> $script
-     echo 'export OE_QMAKE_QT_CONFIG=3D${SDKTARGETSYSROOT}/${datadir}/${Q=
-T_DIR_NAME}/mkspecs/qconfig.pri' >> $script
-     echo 'export QMAKESPEC=3D${SDKTARGETSYSROOT}/${datadir}/${QT_DIR_NAM=
-E}/mkspecs/linux-g++' >> $script
-+
-+    # make a symbolic link to mkspecs for compatibility with Nokia's SDK
-+    # and QTCreator
-+    (cd ${SDK_OUTPUT}/${QT_TOOLS_PREFIX}/..; ln -s ${SDKTARGETSYSROOT}/u=
-sr/share/qtopia/mkspecs mkspecs;)
- }
-diff --git a/meta/recipes-qt/qt4/qt4-tools-nativesdk.inc b/meta/recipes-q=
-t/qt4/qt4-tools-nativesdk.inc
-index 068528e..0ae0af6 100644
---- a/meta/recipes-qt/qt4/qt4-tools-nativesdk.inc
-+++ b/meta/recipes-qt/qt4/qt4-tools-nativesdk.inc
-@@ -51,10 +51,6 @@ EXTRA_OECONF =3D "-prefix ${prefix} \
- EXTRA_OEMAKE =3D " "
-=20
- do_configure() {
--    if [ ! -e bin/qmake ]; then
--        ln -sf ${STAGING_BINDIR_NATIVE}/qmake2 bin/qmake
--    fi
--
-     if [ ! -e mkspecs/${TARGET_OS}-oe-g++ ]; then
-         ln -sf linux-g++ mkspecs/${TARGET_OS}-oe-g++
-     fi
-@@ -62,7 +58,16 @@ do_configure() {
-     cp ../g++.conf mkspecs/common
-     cp ../linux.conf mkspecs/common
-=20
--    (echo o; echo yes) | ./configure ${EXTRA_OECONF} || die "Configuring=
- qt failed. EXTRA_OECONF was ${EXTRA_OECONF}"
-+    # first launch configure to get qmake compiled for the nativesdk
-+    (echo o; echo yes) | CC=3D"${CC}" CXX=3D"${CXX}" ./configure ${EXTRA=
-_OECONF} || true
-+
-+    # then backup the binary and start again with a qmake which can run =
-on the build host
-+    mv bin/qmake bin/qmake_nativesdk
-+    if [ ! -e bin/qmake ]; then
-+        ln -sf ${STAGING_BINDIR_NATIVE}/qmake2 bin/qmake
-+    fi
-+
-+    (echo o; echo yes) | CC=3D"${CC}" CXX=3D"${CXX}" ./configure ${EXTRA=
-_OECONF} || die "Configuring qt failed. EXTRA_OECONF was ${EXTRA_OECONF}"
- }
-=20
- TOBUILD =3D "\
-@@ -91,7 +96,7 @@ do_compile() {
-=20
- do_install() {
-     install -d ${D}${bindir}
--    install -m 0755 bin/qmake ${D}${bindir}/qmake2
-+    install -m 0755 bin/qmake_nativesdk ${D}${bindir}/qmake2
-     for i in moc uic uic3 rcc lrelease lupdate qdbuscpp2xml qdbusxml2cpp=
-; do
-         install -m 0755 bin/${i} ${D}${bindir}/${i}4
-     done
-@@ -101,9 +106,4 @@ do_install() {
-     for i in moc uic uic3 rcc lrelease lupdate qdbuscpp2xml qdbusxml2cpp=
-; do \
-         ln -s ${i}4 ${i}; \
-     done)
--
--    # make a symbolic link to mkspecs for compatibility with Nokia's SDK
--    # and QTCreator
--    (cd ${D}${bindir}/..; ln -s ${TARGET_SYS}/usr/share/qtopia/mkspecs m=
-kspecs;)
- }
--
---=20
-1.7.6
+> Thanks,
+> Dongxiao
+> 
+>>
+>> --Mark
+>>
+>>> Thanks,
+>>> Dongxiao
+>>>
+>>>> Can you give me an example of what is going wrong?
+>>>>
+>>>> --Mark
+>>>>
+>>>>> Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+>>>>> ---
+>>>>>  meta/classes/multilib.bbclass   |    5 +++++
+>>>>>  meta/classes/rootfs_rpm.bbclass |    4 +++-
+>>>>>  2 files changed, 8 insertions(+), 1 deletions(-)
+>>>>>
+>>>>> diff --git a/meta/classes/multilib.bbclass
+>>>>> b/meta/classes/multilib.bbclass index 76c86b2..6ace1fe 100644
+>>>>> --- a/meta/classes/multilib.bbclass
+>>>>> +++ b/meta/classes/multilib.bbclass
+>>>>> @@ -77,4 +77,9 @@ python __anonymous () {
+>>>>>      multilib_map_variable("PACKAGES_DYNAMIC", variant, d)
+>>>>>      multilib_map_variable("PACKAGE_INSTALL", variant, d)
+>>>>>      multilib_map_variable("INITSCRIPT_PACKAGES", variant, d)
+>>>>> +
+>>>>> +    package_arch = d.getVar("PACKAGE_ARCH", True)
+>>>>> +    machine_arch = d.getVar("MACHINE_ARCH", True)
+>>>>> +    if package_arch == machine_arch:
+>>>>> +        d.setVar("PACKAGE_ARCH", variant + "_" + package_arch)
+>>>>>  }
+>>>>> diff --git a/meta/classes/rootfs_rpm.bbclass
+>>>>> b/meta/classes/rootfs_rpm.bbclass index 135ca75..7936d77 100644
+>>>>> --- a/meta/classes/rootfs_rpm.bbclass
+>>>>> +++ b/meta/classes/rootfs_rpm.bbclass
+>>>>> @@ -218,7 +218,9 @@ python () {
+>>>>>              default_tune =
+>>>> localdata.getVar("DEFAULTTUNE_virtclass-multilib-" + eext[1], False)
+>>>>>              if default_tune:
+>>>>>                  localdata.setVar("DEFAULTTUNE", default_tune)
+>>>>> -            ml_package_archs += localdata.getVar("PACKAGE_ARCHS",
+>>>> True) or ""
+>>>>> +            localdata.setVar("MACHINE_ARCH", eext[1] + "_" +
+>>>> localdata.getVar("MACHINE_ARCH", False))
+>>>>> +            package_archs = localdata.getVar("PACKAGE_ARCHS",
+>> True)
+>>>> or ""
+>>>>> +            ml_package_archs += " " + package_archs
+>>>>>              #bb.note("ML_PACKAGE_ARCHS %s %s %s" % (eext[1],
+>>>> localdata.getVar("PACKAGE_ARCHS", True) or "(none)", overrides))
+>>>>>      bb.data.setVar('MULTILIB_PACKAGE_ARCHS', ml_package_archs,
+>>>> d)  }
+>>>>
+>>>>
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
