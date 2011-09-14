@@ -1,31 +1,24 @@
 Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1R3lYm-0002wv-VU
+	(envelope-from <philb@gnu.org>) id 1R3lt0-0003H6-GW
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Sep 2011 11:15:14 +0200
+	Wed, 14 Sep 2011 11:36:06 +0200
 Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
 	helo=[172.30.1.145])
 	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1R3lTp-0004Zq-26
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1R3lo2-0004b2-Hp
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Sep 2011 11:10:05 +0200
+	Wed, 14 Sep 2011 11:30:58 +0200
 From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Sep 2011 10:10:04 +0100
-In-Reply-To: <CAP9ODKrSgJqnrAmdDiaPtXYGRL-_8JQ7OUZcx92_hJFA-nCjng@mail.gmail.com>
-References: <1314804932.19905.169.camel@phil-desktop>
-	<4E6A82F8.5020508@linux.intel.com> <1315643085.1986.24.camel@ted>
-	<1315646891.4368.13.camel@lenovo.internal.reciva.com>
-	<1315648440.1986.27.camel@ted>
-	<1315655628.4368.14.camel@lenovo.internal.reciva.com>
-	<1315933706.13526.11.camel@ted>
-	<1315934738.2519.126.camel@phil-desktop>
-	<CAP9ODKrSgJqnrAmdDiaPtXYGRL-_8JQ7OUZcx92_hJFA-nCjng@mail.gmail.com>
+Date: Wed, 14 Sep 2011 10:30:57 +0100
+In-Reply-To: <1315961204.2252.32.camel@scimitar>
+References: <1315961204.2252.32.camel@scimitar>
 X-Mailer: Evolution 3.0.2- 
-Message-ID: <1315991405.2519.129.camel@phil-desktop>
+Message-ID: <1315992658.2519.137.camel@phil-desktop>
 Mime-Version: 1.0
-Subject: Re: [PATCH] pango: use qemu to generate pango.modules during rootfs construction
+Subject: Re: [RFC] Suggestion of minor change to patch submission policy re: long descriptions in commit headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,21 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2011 09:15:14 -0000
+X-List-Received-Date: Wed, 14 Sep 2011 09:36:06 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-09-13 at 15:33 -0300, Otavio Salvador wrote:
-> On Tue, Sep 13, 2011 at 14:25, Phil Blundell <philb@gnu.org> wrote:
-> > Do you know how long it's likely to be before this release is complete
-> > and the tree is re-opened for development?  I'm a bit unclear what the
-> > process is for that.
+On Tue, 2011-09-13 at 17:46 -0700, Joshua Lock wrote:
+> Whilst I intend to rectify the latter I'd like to propose we change the
+> former such that the defect information is at the end of the commit
+> message.
 > 
-> Maybe we ought to use a 'next' branch for it?
+> I believe this is more suitable for the project because the defect
+> information and its relevance should be summarised in the long
+> description, and therefore the defect id and link to the defect tracker
+> are supplemental information for interested readers.
+> 
+> IMHO this supplementary nature should lead us to request submitters
+> provide defect information after the long description.
 
-If master is going to be closed for a long time (weeks/months) then yes,
-that seems like a good idea.  If we're only talking about a few days
-then it's probably not worth the effort.
+Agreed, I think this would be something of an improvement (and indeed,
+from a look at the git log it appears that some submitters are already
+doing this).  Although it isn't a very big deal, I do find it slightly
+irritating to have the first line of the long checkin message be
+something that is essentially noise.
+
+Possibly even better would be to think up a way to encode the defect
+information, in some machine-readable form, as part of the
+pseudo-header.  That would make it straightforward for folks who care
+particularly about the defect information for (say) yocto to filter it
+into some more prominent location.
 
 p.
 
