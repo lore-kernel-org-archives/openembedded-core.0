@@ -1,22 +1,34 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1R3trf-0007ub-KS
+	(envelope-from <otavio.salvador@gmail.com>) id 1R3twg-00083N-L7
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Sep 2011 20:07:15 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 14 Sep 2011 11:02:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="48423046"
-Received: from unknown (HELO [10.255.14.200]) ([10.255.14.200])
-	by orsmga002.jf.intel.com with ESMTP; 14 Sep 2011 11:02:05 -0700
-From: Tom Zanussi <tom.zanussi@intel.com>
-To: "openembedded-core@lists.openembedded.org"
+	Wed, 14 Sep 2011 20:12:27 +0200
+Received: by bke11 with SMTP id 11so1720387bke.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Sep 2011 11:07:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=/OTJP5M+5ea0jIbSWmMd44uiMg+vevYOT3aykEG/RDI=;
+	b=OoJNx71mptkpC9TE4QA2NnSZfAWoNn6IzGrO/nHmdFNSzXSUZp0jqo7xYitqOoV9Kl
+	iiSeuUdrmJk1zHHHB/A+S7Dugkg3CRLIu/wclwpD50DZzT8CpNFGYcUCpWu59AsgPW58
+	dxb5m67Yvvt40tNUa2kX4Hd7ygJVmJm8tYFrY=
+MIME-Version: 1.0
+Received: by 10.204.139.71 with SMTP id d7mr96357bku.41.1316023635745; Wed, 14
+	Sep 2011 11:07:15 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.65.194 with HTTP; Wed, 14 Sep 2011 11:07:15 -0700 (PDT)
+In-Reply-To: <1316023313.26879.2569.camel@elmorro>
+References: <1316023313.26879.2569.camel@elmorro>
+Date: Wed, 14 Sep 2011 15:07:15 -0300
+X-Google-Sender-Auth: YPExR8pdJwip6qNcjCyqfW0K1Hg
+Message-ID: <CAP9ODKpQFPVWQQh2qwdjV-SAKRMXwc7qsZ9WZRY+YCeqLBv97Q@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Tom Zanussi <tom.zanussi@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Sep 2011 13:01:55 -0500
-Message-ID: <1316023315.26879.2570.camel@elmorro>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.28.3 
-Subject: [PATCH 2/2] initramfs-live-install: add support for grub2
+Subject: Re: [PATCH 1/2] grub2: new recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,111 +43,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2011 18:07:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Sep 2011 18:12:27 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-grub2 needs a different set of install steps from grub 0.97.  This
-adds them to init-install.sh and adds an install-time check that
-determines which version is being used and which steps to use
-depending on the version of grub selected.
+On Wed, Sep 14, 2011 at 15:01, Tom Zanussi <tom.zanussi@intel.com> wrote:
+> +++ b/meta/recipes-bsp/grub/grub-1.99/grub-install.in.patch
+> @@ -0,0 +1,15 @@
+> +Upstream-Status: Inappropriate [embedded specific]
+> +
+> +Index: grub-1.99/util/grub-install.in
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
----
- .../initrdscripts/files/init-install.sh            |   31 ++++++++++++++++----
- .../initrdscripts/initramfs-live-install_1.0.bb    |    8 ++---
- 2 files changed, 28 insertions(+), 11 deletions(-)
+I am sorry by be boring but this doesn't explain *why* the patch is
+need. I see you change grep to not use -x option but why this is
+required?
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
-index 5e6b81c..fb6cea8 100644
---- a/meta/recipes-core/initrdscripts/files/init-install.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install.sh
-@@ -1,6 +1,6 @@
- #!/bin/sh -e
- #
--# Copyright (C) 2008 Intel
-+# Copyright (C) 2008-2011 Intel
- #
- # install.sh [device_name] [rootfs_name] [video_mode] [vga_mode]
- #
-@@ -126,6 +126,7 @@ mkswap $swap
- 
- mkdir /ssd
- mkdir /rootmnt
-+mkdir /bootmnt
- 
- mount $rootfs /ssd
- mount -o rw,loop,noatime,nodiratime /media/$1/$2 /rootmnt
-@@ -142,6 +143,16 @@ if [ -d /ssd/etc/ ] ; then
-     fi
- fi
- 
-+if [ -f /ssd/etc/grub.d/40_custom ] ; then
-+    echo "Preparing custom grub2 menu..."
-+    sed -i "s@__ROOTFS__@$rootfs@g" /ssd/etc/grub.d/40_custom
-+    sed -i "s/__VIDEO_MODE__/$3/g" /ssd/etc/grub.d/40_custom
-+    sed -i "s/__VGA_MODE__/$4/g" /ssd/etc/grub.d/40_custom
-+    mount $bootfs /bootmnt
-+    cp /ssd/etc/grub.d/40_custom /bootmnt/40_custom
-+    umount /bootmnt
-+fi
-+
- umount /ssd
- umount /rootmnt
- 
-@@ -151,11 +162,19 @@ grub-install --root-directory=/ssd /dev/${device}
- 
- echo "(hd0) /dev/${device}" > /ssd/boot/grub/device.map
- 
--echo "default 0" > /ssd/boot/grub/menu.lst
--echo "timeout 30" >> /ssd/boot/grub/menu.lst
--echo "title Live Boot/Install-Image" >> /ssd/boot/grub/menu.lst
--echo "root  (hd0,0)" >> /ssd/boot/grub/menu.lst
--echo "kernel /boot/vmlinuz root=$rootfs rw $3 $4 quiet" >> /ssd/boot/grub/menu.lst
-+if [ -f /ssd/40_custom ] ; then
-+    mv /ssd/40_custom /ssd/boot/grub/grub.cfg
-+    sed -i "/#/d" /ssd/boot/grub/grub.cfg
-+    sed -i "/exec tail/d" /ssd/boot/grub/grub.cfg
-+    chmod 0444 /ssd/boot/grub/grub.cfg
-+else
-+    echo "Preparing custom grub menu..."
-+    echo "default 0" > /ssd/boot/grub/menu.lst
-+    echo "timeout 30" >> /ssd/boot/grub/menu.lst
-+    echo "title Live Boot/Install-Image" >> /ssd/boot/grub/menu.lst
-+    echo "root  (hd0,0)" >> /ssd/boot/grub/menu.lst
-+    echo "kernel /boot/vmlinuz root=$rootfs rw $3 $4 quiet" >> /ssd/boot/grub/menu.lst
-+fi
- 
- cp /media/$1/vmlinuz /ssd/boot/
- 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb
-index 0eeabf1..619b16c 100644
---- a/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb
-@@ -1,9 +1,9 @@
--DESCRIPTION = "A live image init script"
-+DESCRIPTION = "A live image init script for grub"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- SRC_URI = "file://init-install.sh"
- 
--PR = "r4"
-+PR = "r5"
- 
- RDEPENDS="grub parted e2fsprogs-mke2fs"
- 
-@@ -19,6 +19,4 @@ INHIBIT_DEFAULT_DEPS = "1"
- 
- FILES_${PN} = " /install.sh "
- 
--# Alternatives to grub need adding for other arch support
--# consistent with grub 0.97
--COMPATIBLE_HOST = "i.86.*-linux"
-+COMPATIBLE_HOST = "(i.86|x86_64).*-linux"
--- 
-1.7.0.4
-
-
-
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
