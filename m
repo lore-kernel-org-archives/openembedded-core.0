@@ -1,34 +1,34 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1R3twg-00083N-L7
+	(envelope-from <otavio.salvador@gmail.com>) id 1R3txP-00085X-8G
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Sep 2011 20:12:27 +0200
-Received: by bke11 with SMTP id 11so1720387bke.6
+	Wed, 14 Sep 2011 20:13:11 +0200
+Received: by bke11 with SMTP id 11so1721020bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2011 11:07:16 -0700 (PDT)
+	Wed, 14 Sep 2011 11:08:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=mime-version:sender:in-reply-to:references:date
 	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
 	:content-transfer-encoding;
-	bh=/OTJP5M+5ea0jIbSWmMd44uiMg+vevYOT3aykEG/RDI=;
-	b=OoJNx71mptkpC9TE4QA2NnSZfAWoNn6IzGrO/nHmdFNSzXSUZp0jqo7xYitqOoV9Kl
-	iiSeuUdrmJk1zHHHB/A+S7Dugkg3CRLIu/wclwpD50DZzT8CpNFGYcUCpWu59AsgPW58
-	dxb5m67Yvvt40tNUa2kX4Hd7ygJVmJm8tYFrY=
+	bh=J6Xsu7bcBm6B/fiSQGshYasyjCln1xJRhuhLzIOBrn4=;
+	b=JwkuLOyeniU24VIQfzfrOfKMh/Xs12yyZDhcqzNZ+cYlEQSkvtAtGy4f6P67CENfiD
+	OH4X+Prx3VScwl66HYe48dQUwB1h2rvBSjgZPeq1fcT/LvU9M4+laMmYwdS2jARQ3Az0
+	7Cpil314gQkJy49imSRMngSqrEejrrtFL8Znk=
 MIME-Version: 1.0
-Received: by 10.204.139.71 with SMTP id d7mr96357bku.41.1316023635745; Wed, 14
-	Sep 2011 11:07:15 -0700 (PDT)
+Received: by 10.204.136.25 with SMTP id p25mr81233bkt.249.1316023680791; Wed,
+	14 Sep 2011 11:08:00 -0700 (PDT)
 Sender: otavio.salvador@gmail.com
-Received: by 10.204.65.194 with HTTP; Wed, 14 Sep 2011 11:07:15 -0700 (PDT)
-In-Reply-To: <1316023313.26879.2569.camel@elmorro>
-References: <1316023313.26879.2569.camel@elmorro>
-Date: Wed, 14 Sep 2011 15:07:15 -0300
-X-Google-Sender-Auth: YPExR8pdJwip6qNcjCyqfW0K1Hg
-Message-ID: <CAP9ODKpQFPVWQQh2qwdjV-SAKRMXwc7qsZ9WZRY+YCeqLBv97Q@mail.gmail.com>
+Received: by 10.204.65.194 with HTTP; Wed, 14 Sep 2011 11:08:00 -0700 (PDT)
+In-Reply-To: <1316023315.26879.2570.camel@elmorro>
+References: <1316023315.26879.2570.camel@elmorro>
+Date: Wed, 14 Sep 2011 15:08:00 -0300
+X-Google-Sender-Auth: 2fnvw32ZSsD03sPkxewR5vFzRG8
+Message-ID: <CAP9ODKqkzNqqzzcMQdyty=bwsoGdw6voqCJtRXbgvowRP8-PNQ@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: Tom Zanussi <tom.zanussi@intel.com>
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] grub2: new recipe
+Subject: Re: [PATCH 2/2] initramfs-live-install: add support for grub2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,23 +43,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2011 18:12:27 -0000
+X-List-Received-Date: Wed, 14 Sep 2011 18:13:11 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
 On Wed, Sep 14, 2011 at 15:01, Tom Zanussi <tom.zanussi@intel.com> wrote:
-> +++ b/meta/recipes-bsp/grub/grub-1.99/grub-install.in.patch
-> @@ -0,0 +1,15 @@
-> +Upstream-Status: Inappropriate [embedded specific]
-> +
-> +Index: grub-1.99/util/grub-install.in
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> grub2 needs a different set of install steps from grub 0.97. =A0This
+> adds them to init-install.sh and adds an install-time check that
+> determines which version is being used and which steps to use
+> depending on the version of grub selected.
+>
+> Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
 
-I am sorry by be boring but this doesn't explain *why* the patch is
-need. I see you change grep to not use -x option but why this is
-required?
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
 --=20
 Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
