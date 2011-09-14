@@ -1,37 +1,25 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1R3rYO-0004Sb-In
+	(envelope-from <tom.zanussi@intel.com>) id 1R3rhu-0004c0-Pi
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Sep 2011 17:39:12 +0200
-Received: by bke11 with SMTP id 11so1587321bke.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2011 08:34:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=s2plzuxVhFpdy07MJKKscqRysxu8yhFxYkLuo9XGFXk=;
-	b=pvCyNocskbYPQ4xDsma4JdyCIRWiF4rojy9q06hJYq2o/aHW87uIx+i3f04DLLkaXr
-	mPMd/nq8GA/9ze2bK/EpcXKYOMWhm7FISoTZ2BhGQBBBo/8M5A0hlc35deYVYqJbresd
-	4wieVpZfGp2LCOncrNQ1myN09m/0qrYCL5fjs=
-MIME-Version: 1.0
-Received: by 10.204.157.8 with SMTP id z8mr150239bkw.145.1316014442159; Wed,
-	14 Sep 2011 08:34:02 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.65.194 with HTTP; Wed, 14 Sep 2011 08:34:02 -0700 (PDT)
-In-Reply-To: <4E70A76E.1030101@eukrea.com>
-References: <20110911172241.GA3674@chargestorm.se>
-	<1315762415-18070-1-git-send-email-eric@eukrea.com>
-	<201109121134.42474.paul.eggleton@linux.intel.com>
-	<FF2EB738-77F7-4BC5-BB83-82ED8CBC0F96@dominion.thruhere.net>
-	<4E70A76E.1030101@eukrea.com>
-Date: Wed, 14 Sep 2011 12:34:02 -0300
-X-Google-Sender-Auth: P-Rd6jbH2gShAAniyVu8eu_QQoU
-Message-ID: <CAP9ODKqgNTF3Uz_kfTfE_=pFrovt-tpmGRGsKBGcXDFy3k-52w@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+	Wed, 14 Sep 2011 17:49:03 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 14 Sep 2011 08:43:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="48389388"
+Received: from unknown (HELO [10.255.14.200]) ([10.255.14.200])
+	by orsmga001.jf.intel.com with ESMTP; 14 Sep 2011 08:43:51 -0700
+From: Tom Zanussi <tom.zanussi@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qt4: update to latest version 4.7.4
+In-Reply-To: <CAP9ODKpo=03auDk6kmjiQguKh5UCPpU8be0capTbsgkgmG9u3g@mail.gmail.com>
+References: <1315978772.26879.1860.camel@elmorro>
+	<CAP9ODKpo=03auDk6kmjiQguKh5UCPpU8be0capTbsgkgmG9u3g@mail.gmail.com>
+Date: Wed, 14 Sep 2011 10:43:42 -0500
+Message-ID: <1316015022.26879.2465.camel@elmorro>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.28.3 
+Subject: Re: [PATCH 2/2] initramfs-live-install: add a version for use with grub2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,27 +34,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2011 15:39:12 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 14 Sep 2011 15:49:03 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 14, 2011 at 10:09, Eric B=E9nard <eric@eukrea.com> wrote:
-> I sent patches to update meta-oe, meta-angstrom & meta-intel : did you ge=
-t
-> them ?
+On Wed, 2011-09-14 at 05:29 -0700, Otavio Salvador wrote:
+> On Wed, Sep 14, 2011 at 02:39, Tom Zanussi <tom.zanussi@intel.com> wrote:
+> > grub2 uses a completely different set of install steps.  These are
+> > contained in a 2.0 version of init-install.sh, which is tied to grub2
+> > (1.98) and a 2.0 version of the initramfs-live-install recipe.
+> 
+> Please avoid Poky, OE-Core and like while interacting with user since
+> this will force people to fork the script. Try to avoid branding as
+> possible.
+> 
 
-The md5sum of the tarball doesn't match. GNUtoo is aware of the issue.
+Yeah, I thought I had caught all those - will remove in the new
+patchset.
 
-Please hold the patch merging until a new patchset is send with the
-fixes md5sum hashes.
+Thanks,
 
-Cheers,
+Tom
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
 
 
