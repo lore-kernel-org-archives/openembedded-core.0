@@ -1,24 +1,24 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1R3idS-0003xL-F0
+	(envelope-from <dongxiao.xu@intel.com>) id 1R3idT-0003xO-U4
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Sep 2011 08:07:50 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 13 Sep 2011 23:02:39 -0700
+	Wed, 14 Sep 2011 08:07:52 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 13 Sep 2011 23:02:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,378,1312182000"; d="scan'208";a="51054755"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="48146881"
 Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by fmsmga001.fm.intel.com with ESMTP; 13 Sep 2011 23:02:38 -0700
+	by orsmga002.jf.intel.com with ESMTP; 13 Sep 2011 23:02:40 -0700
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Sep 2011 14:08:15 +0800
-Message-Id: <63559405c0c9ea57cda70a0f37bae313a8c6855c.1315980095.git.dongxiao.xu@intel.com>
+Date: Wed, 14 Sep 2011 14:08:16 +0800
+Message-Id: <d993fc546f234117bc751192e17b46e9dfc1e249.1315980095.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1315980095.git.dongxiao.xu@intel.com>
 References: <cover.1315980095.git.dongxiao.xu@intel.com>
 In-Reply-To: <cover.1315980095.git.dongxiao.xu@intel.com>
 References: <cover.1315980095.git.dongxiao.xu@intel.com>
-Subject: [PATCH 1/3] package_rpm: add architecture info in rpm spec file
+Subject: [PATCH 2/3] rootfs_rpm: Use specific MACHINE_ARCH for multilib recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,114 +33,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2011 06:07:50 -0000
+X-List-Received-Date: Wed, 14 Sep 2011 06:07:52 -0000
 
-For supporting multilib, architecture information is needed in package
-require/provide/suggest/recommend fields.
+Currently MACHINE_ARCH deploy folder is unique in multilib system, thus
+a lib32 version of rpm package will override a normal rpm package if its
+PACKAGE_ARCH is ${MACHINE_ARCH}.
 
-Use DEFAULTTUNE value as the postfix.
+Take netbase as an example, which the PACKAGE_ARCH = MACHINE_ARCH. Both
+the normal version of netbase package and the lib32 version are named as
+"netbase-4.45-r1.qemux86_64.rpm" putting in tmp/deploy/rpm/qemux86-64
+directory, so we need to differentiate them.
 
-For "all" arch recipe, it requires "all" arch recipe with no postfix,
-but provides all possible multilib archs.
-
-For example, qemu-config:
-
-Requires: rsync
-Requires: update-rc.d
-Requires: task-core-nfs-server
-Requires: distcc
-Requires: oprofileui-server
-Requires: dbus-x11
-Requires: bash
-Provides: qemu-config.x86
-Provides: qemu-config.x86-64
-
-For other recipe like zlib:
-
-Requires: libc6.x86-64 >= 2.13
-Provides: zlib.x86-64
-
-[YOCTO #1457]
+Here we define spedific MACHINE_virtclass-multilib-lib(xx) to override
+the default MACHINE value, thus got different MACHINE_ARCH to fix this
+issue.
 
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- meta/classes/multilib.bbclass    |    1 +
- meta/classes/package_rpm.bbclass |   36 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 37 insertions(+), 0 deletions(-)
+ meta/classes/rootfs_rpm.bbclass |    3 +++
+ 1 files changed, 3 insertions(+), 0 deletions(-)
 
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index 583d76b..76c86b2 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -23,6 +23,7 @@ python multilib_virtclass_handler () {
-     e.data.setVar("PN", variant + "-" + e.data.getVar("PN", False))
-     e.data.setVar("SHLIBSDIR_virtclass-multilib-" + variant ,e.data.getVar("SHLIBSDIR", False) + "/" + variant)
-     e.data.setVar("TARGET_VENDOR_virtclass-multilib-" + variant, e.data.getVar("TARGET_VENDOR", False) + "ml" + variant)
-+    e.data.setVar("SAVED_DEFAULTTUNE", e.data.getVar("DEFAULTTUNE", True))
-     e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + override)
- }
- 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 9ef1acd..ea0a079 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -350,6 +350,7 @@ package_install_internal_rpm () {
- python write_specfile () {
- 	import textwrap
- 	import oe.packagedata
-+	import re
- 
- 	# We need a simple way to remove the MLPREFIX from the package name,
- 	# and dependency information...
-@@ -498,6 +499,8 @@ python write_specfile () {
- 
- 		splitname    = strip_multilib(pkgname, d)
- 
-+		defaulttune = bb.data.getVar('DEFAULTTUNE', localdata, True)
-+
- 		splitsummary = (bb.data.getVar('SUMMARY', localdata, True) or bb.data.getVar('DESCRIPTION', localdata, True) or ".")
- 		splitversion = (bb.data.getVar('PKGV', localdata, True) or "").replace('-', '+')
- 		splitrelease = (bb.data.getVar('PKGR', localdata, True) or "")
-@@ -528,6 +531,39 @@ python write_specfile () {
- 		if pkg == d.getVar("PN", True):
- 			splitrprovides = splitrprovides + " " + (d.getVar('ALTERNATIVE_LINK', True) or '') + " " + (d.getVar('ALTERNATIVE_LINKS', True) or '')
- 
-+		package_arch = bb.data.getVar('PACKAGE_ARCH', localdata, True)
-+
-+		splitrprovides = splitrprovides + " " + splitname + "." + defaulttune
-+		if package_arch != "all":
-+			pattern = '\([^()]*\)'
-+			prog = re.compile(pattern)
-+
-+			str_list = [splitrdepends, splitrrecommends, splitrsuggests]
-+			for e in range(len(str_list)):
-+				brackets = prog.findall(str_list[e])
-+				for i in range(len(brackets)):
-+					str_list[e] = str_list[e].replace(brackets[i], "#BRACKETS"+str(i)+"#")
-+				tmp = ""
-+				for i in str_list[e].split():
-+					if i.startswith("#BRACKETS"):
-+						tmp += " " + str(i)
-+						continue
-+					tmp += " " + str(i) + "." + defaulttune
-+				str_list[e] = tmp
-+				for i in range(len(brackets)):
-+					str_list[e] = str_list[e].replace("#BRACKETS"+str(i)+"#", brackets[i])
-+
-+			[splitrdepends, splitrrecommends, splitrsuggests] = str_list
-+		else:
-+			variants = (bb.data.getVar("MULTILIB_VARIANTS", localdata, True) or "").split()
-+			for variant in variants:
-+				tune = bb.data.getVar("DEFAULTTUNE_virtclass-multilib-" + variant, localdata, True) or ""
-+				if tune:
-+					splitrprovides = splitrprovides + " " + splitname + "." + tune
-+			tune = bb.data.getVar("SAVED_DEFAULTTUNE", localdata, True) or ""
-+			if tune:
-+				splitrprovides = splitrprovides + " " + splitname + "." + tune
-+
- 		# Gather special src/first package data
- 		if srcname == splitname:
- 			srcrdepends    = splitrdepends
+diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
+index 135ca75..56c1a85 100644
+--- a/meta/classes/rootfs_rpm.bbclass
++++ b/meta/classes/rootfs_rpm.bbclass
+@@ -218,6 +218,9 @@ python () {
+             default_tune = localdata.getVar("DEFAULTTUNE_virtclass-multilib-" + eext[1], False)
+             if default_tune:
+                 localdata.setVar("DEFAULTTUNE", default_tune)
++            machine = localdata.getVar("MACHINE_virtclass-multilib-" + eext[1], False)
++            if machine:
++                localdata.setVar("MACHINE", machine)
+             ml_package_archs += localdata.getVar("PACKAGE_ARCHS", True) or ""
+             #bb.note("ML_PACKAGE_ARCHS %s %s %s" % (eext[1], localdata.getVar("PACKAGE_ARCHS", True) or "(none)", overrides))
+     bb.data.setVar('MULTILIB_PACKAGE_ARCHS', ml_package_archs, d)
 -- 
 1.7.1
 
