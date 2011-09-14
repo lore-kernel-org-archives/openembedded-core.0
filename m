@@ -1,24 +1,22 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1R3uI6-00005l-FR
+	(envelope-from <tom.zanussi@intel.com>) id 1R3uWt-0000MW-MQ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Sep 2011 20:34:34 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 14 Sep 2011 11:29:16 -0700
+	Wed, 14 Sep 2011 20:49:52 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 14 Sep 2011 11:44:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,381,1312182000"; d="scan'208";a="48837669"
-Received: from unknown (HELO [10.255.14.158]) ([10.255.14.158])
-	by azsmga001.ch.intel.com with ESMTP; 14 Sep 2011 11:29:16 -0700
-From: Joshua Lock <josh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Sep 2011 11:29:11 -0700
-In-Reply-To: <762ff1254aa06eec0a2d681026b957909a84afcf.1316019927.git.paul.eggleton@linux.intel.com>
-References: <cover.1316019927.git.paul.eggleton@linux.intel.com>
-	<762ff1254aa06eec0a2d681026b957909a84afcf.1316019927.git.paul.eggleton@linux.intel.com>
-X-Mailer: Evolution 3.0.3 (3.0.3-1.fc15) 
-Message-ID: <1316024956.2156.26.camel@scimitar>
+X-IronPort-AV: E=Sophos;i="4.68,382,1312182000"; d="scan'208";a="53335822"
+Received: from unknown (HELO [10.255.14.200]) ([10.255.14.200])
+	by fmsmga002.fm.intel.com with ESMTP; 14 Sep 2011 11:44:38 -0700
+From: Tom Zanussi <tom.zanussi@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 14 Sep 2011 13:44:29 -0500
+Message-ID: <1316025869.26879.2584.camel@elmorro>
 Mime-Version: 1.0
-Subject: Re: [PATCH 1/1] task-core: split into task-core-console and task-core-x11
+X-Mailer: Evolution 2.28.3 
+Subject: [PATCH 1/2] grub2: new recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,45 +31,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2011 18:34:34 -0000
+X-List-Received-Date: Wed, 14 Sep 2011 18:49:52 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-09-14 at 19:13 +0100, Paul Eggleton wrote:
-> [YOCTO #1481]
-> 
-> Since tasks are referred to almost exclusively via RDEPENDS, and bitbake
-> will build an entire task recipe when only one of its task packages are
-> actually needed, building a console-only image that uses
-> task-core-apps-console (or less directly, has apps-console in its
-> IMAGE_FEATURES) will cause a build of a whole list of X11 applications
-> that aren't needed. Splitting the task-core recipe into X11 and console
-> portions prevents this issue.
-> 
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+This adds the grub-1.98 from meta-intel while upgrading it to 1.99.
 
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
+Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+---
+ meta/recipes-bsp/grub/grub-1.99/40_custom          |    9 ++++
+ .../grub/grub-1.99/grub-install.in.patch           |   20 +++++++++
+ meta/recipes-bsp/grub/grub_1.99.bb                 |   44 ++++++++++++++++++++
+ 3 files changed, 73 insertions(+), 0 deletions(-)
+ create mode 100755 meta/recipes-bsp/grub/grub-1.99/40_custom
+ create mode 100644 meta/recipes-bsp/grub/grub-1.99/grub-install.in.patch
+ create mode 100644 meta/recipes-bsp/grub/grub_1.99.bb
 
-<snip>
-
-> -RECIPE_STATUS_pn-task-core = "green"
-> -RECIPE_LATEST_VERSION_pn-task-core = "1.0"
-> -RECIPE_MAINTAINER_pn-task-core = "Dongxiao Xu <dongxiao.xu@intel.com>"
-> +RECIPE_STATUS_pn-task-core-console = "green"
-> +RECIPE_LATEST_VERSION_pn-task-core-console = "1.0"
-> +RECIPE_MAINTAINER_pn-task-core-console = "Dongxiao Xu <dongxiao.xu@intel.com>"
-> +
-> +RECIPE_STATUS_pn-task-core-x11 = "green"
-> +RECIPE_LATEST_VERSION_pn-task-core-x11 = "1.0"
-> +RECIPE_MAINTAINER_pn-task-core-x11 = "Dongxiao Xu <dongxiao.xu@intel.com>"
-
-What ever happened to "you change it, you own it"? ;-)
-
-Joshua
+diff --git a/meta/recipes-bsp/grub/grub-1.99/40_custom b/meta/recipes-bsp/grub/grub-1.99/40_custom
+new file mode 100755
+index 0000000..0d80854
+--- /dev/null
++++ b/meta/recipes-bsp/grub/grub-1.99/40_custom
+@@ -0,0 +1,9 @@
++#!/bin/sh
++exec tail -n +3 $0
++# This file provides an easy way to add custom menu entries.  Simply type the
++# menu entries you want to add after this comment.  Be careful not to change
++# the 'exec tail' line above.
++menuentry "Linux" {
++    set root=(hd0,1)
++    linux /boot/vmlinuz root=__ROOTFS__ rw __VIDEO_MODE__ __VGA_MODE__ quiet
++}
+diff --git a/meta/recipes-bsp/grub/grub-1.99/grub-install.in.patch b/meta/recipes-bsp/grub/grub-1.99/grub-install.in.patch
+new file mode 100644
+index 0000000..326951d
+--- /dev/null
++++ b/meta/recipes-bsp/grub/grub-1.99/grub-install.in.patch
+@@ -0,0 +1,20 @@
++Upstream-Status: Inappropriate [embedded specific]
++
++Our use of grub-install doesn't require the -x option, so we should be
++be able make use of grep versions that don't support it.
++
++Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
++
++Index: grub-1.99/util/grub-install.in
++===================================================================
++--- grub-1.99.orig/util/grub-install.in	2011-09-09 22:37:20.093906679 -0500
+++++ grub-1.99/util/grub-install.in	2011-09-09 22:37:30.854737882 -0500
++@@ -510,7 +510,7 @@
++ 
++ if [ "x${devabstraction_module}" = "x" ] ; then
++     if [ x"${install_device}" != x ]; then
++-      if echo "${install_device}" | grep -qx "(.*)" ; then
+++      if echo "${install_device}" | grep -q "(.*)" ; then
++         install_drive="${install_device}"
++       else
++         install_drive="`"$grub_probe" --device-map="${device_map}" --target=drive --device "${install_device}"`" || exit 1
+diff --git a/meta/recipes-bsp/grub/grub_1.99.bb b/meta/recipes-bsp/grub/grub_1.99.bb
+new file mode 100644
+index 0000000..d9df573
+--- /dev/null
++++ b/meta/recipes-bsp/grub/grub_1.99.bb
+@@ -0,0 +1,44 @@
++SUMMARY = "GRUB2 is the next-generation GRand Unified Bootloader"
++
++DESCRIPTION = "GRUB2 is the next generaion of a GPLed bootloader \
++intended to unify bootloading across x86 operating systems. In \
++addition to loading the Linux kernel, it implements the Multiboot \
++standard, which allows for flexible loading of multiple boot images."
++
++HOMEPAGE = "http://www.gnu.org/software/grub/"
++SECTION = "bootloaders"
++PRIORITY = "optional"
++
++LICENSE = "GPLv3"
++LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
++
++RDEPENDS = "diffutils freetype"
++PR = "r0"
++
++SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
++          file://grub-install.in.patch;apply=yes \
++          file://40_custom"
++
++inherit autotools
++inherit gettext
++
++EXTRA_OECONF = "--with-platform=pc --disable-grub-mkfont --target=${TARGET_ARCH} --program-prefix="""
++
++do_configure() {
++    oe_runconf
++}
++
++python __anonymous () {
++    import re
++    host = bb.data.getVar('HOST_SYS', d, 1)
++    if not re.match('x86.64.*-linux', host) and not re.match('i.86.*-linux', host):
++        raise bb.parse.SkipPackage("incompatible with host %s" % host)
++}
++
++do_install_append () {
++    install -m 0755 ${WORKDIR}/40_custom ${D}${sysconfdir}/grub.d/40_custom
++}
++
++FILES_${PN}-doc = "${datadir}"
++FILES_${PN} = "/usr /etc"
++
 -- 
-Joshua Lock
-        Yocto Project "Johannes factotum"
-        Intel Open Source Technology Centre
+1.7.0.4
+
+
 
 
 
