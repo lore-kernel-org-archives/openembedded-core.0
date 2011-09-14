@@ -1,33 +1,35 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-gx0-f178.google.com ([209.85.161.178])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1R3ohB-0007dn-64
+	(envelope-from <otavio.salvador@gmail.com>) id 1R3pPZ-0000H6-T7
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Sep 2011 14:36:05 +0200
-Received: by bke11 with SMTP id 11so1420135bke.6
+	Wed, 14 Sep 2011 15:21:58 +0200
+Received: by gxk21 with SMTP id 21so143204gxk.9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2011 05:30:55 -0700 (PDT)
+	Wed, 14 Sep 2011 06:16:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=DEO4oaqx4VxBbWEZ/qrhzJdhCTliayIQp+lGuNXgl0E=;
-	b=TquCo6XfPWXdEutKhLat+Uu7lzaV3dtSbemo1TWljdoHltTJyyRsFaEy18fs+vlY0f
-	qhWTM1f3M2mdjyOOr8aFRi/rrYyPgv5OIk4ckIpgTfPO8jxY/imhovc7KK4pnBVrYgfe
-	rbVjGBjgOOfi/pfVwDtkXmTrFS2kBexiYGqmc=
-MIME-Version: 1.0
-Received: by 10.204.3.23 with SMTP id 23mr2029886bkl.301.1316003454990; Wed,
-	14 Sep 2011 05:30:54 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.65.194 with HTTP; Wed, 14 Sep 2011 05:30:54 -0700 (PDT)
-In-Reply-To: <1315978760.26879.1858.camel@elmorro>
-References: <1315978760.26879.1858.camel@elmorro>
-Date: Wed, 14 Sep 2011 09:30:54 -0300
-X-Google-Sender-Auth: h1yiSDXT3shDhMNqIZUkS4YRIZw
-Message-ID: <CAP9ODKrn8ZZZFFZPwuMU-Jto5X9On3A5p8wKeEU7ZcQAa9GoHg@mail.gmail.com>
+	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
+	:references:in-reply-to:references;
+	bh=y+nkl5ExRM31ng3klu1UarhErOkIjsO0SIkf1RsXV1k=;
+	b=KNCsfBH1UYk599u/adbdBRk4+ZzQDwylUueYAq1V623aFhnQMUrKSbXwLNWs5qCZxR
+	Aj3F99b9sH4AAyV7ZDkJ0FAJnr08q6vhdLTPMqMW4xu25QrPO+fcJuxlv7G3Fs57eOgG
+	rbsK0bB+vogIRPPhoZAopUHOitDeZDCypmKdQ=
+Received: by 10.150.148.16 with SMTP id v16mr3377381ybd.396.1316006207149;
+	Wed, 14 Sep 2011 06:16:47 -0700 (PDT)
+Received: from localhost.localdomain ([189.114.111.55])
+	by mx.google.com with ESMTPS id n2sm784948ybh.25.2011.09.14.06.16.44
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 14 Sep 2011 06:16:46 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Add new recipes for grub2
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 Sep 2011 13:16:31 +0000
+Message-Id: <c7d30de848a0e0ee35b206755522043a4ac437b1.1316006156.git.otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+In-Reply-To: <cover.1316006156.git.otavio@ossystems.com.br>
+References: <cover.1316006156.git.otavio@ossystems.com.br>
+In-Reply-To: <cover.1316006156.git.otavio@ossystems.com.br>
+References: <cover.1316006156.git.otavio@ossystems.com.br>
+Subject: [PATCH 1/3] xserver-xf86-common.inc: use ${datadir} instead of /usr/share
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,23 +44,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2011 12:36:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 14 Sep 2011 13:21:58 -0000
 
-On Wed, Sep 14, 2011 at 02:39, Tom Zanussi <tom.zanussi@intel.com> wrote:
-/> A future patch will factor out the common parts of init_install_2.0.sh
-> with init_install 1.0 - this initial patchset essentially just fixes
-> what's necessary for YOCTO bug #1428 in order to get things working again=
-.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ .../xorg-xserver/xserver-xf86-common.inc           |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-Wouldn't be better to drop 1.0 completely?
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-common.inc b/meta/recipes-graphics/xorg-xserver/xserver-xf86-common.inc
+index b1a0f08..000aea3 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-common.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-common.inc
+@@ -25,7 +25,7 @@ RDEPENDS_${PN} += "xserver-xf86-config xkeyboard-config"
+ 
+ FILES_${PN}-utils = "${bindir}/scanpci ${bindir}/pcitweak ${bindir}/ioport ${bindir}/in[bwl] ${bindir}/out[bwl] ${bindir}/mmap[rw] ${bindir}/gtf ${bindir}/getconfig ${bindir}/getconfig.pl"
+ FILES_${PN} = "${libdir}/X11/Options ${libdir}/X11/Cards ${libdir}/X11/getconfig ${libdir}/X11/etc ${libdir}/xserver/SecurityPolicy ${libdir}/xorg/modules/*.so ${libdir}/xorg/modules/*/*.so ${libdir}/xorg/modules/*/*/*.so /etc/X11 "
+-FILES_${PN}-doc += "${libdir}/X11/doc /usr/share/X11/xkb/compiled/README.compiled"
++FILES_${PN}-doc += "${libdir}/X11/doc ${datadir}/X11/xkb/compiled/README.compiled"
+ 
+ FILES_${PN}-dbg += "${libdir}/xorg/modules/.debug \
+                     ${libdir}/xorg/modules/*/.debug \
+-- 
+1.7.2.5
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
 
 
