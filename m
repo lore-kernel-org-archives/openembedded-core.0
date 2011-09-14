@@ -1,29 +1,30 @@
-Received: from mail-gx0-f178.google.com ([209.85.161.178])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrea.adami@gmail.com>) id 1R3n5R-00050t-Ux
+	(envelope-from <koen@dominion.thruhere.net>) id 1R3nSj-0005qs-QA
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Sep 2011 12:53:02 +0200
-Received: by gxk21 with SMTP id 21so12826gxk.9
+	Wed, 14 Sep 2011 13:17:06 +0200
+Received: by wwf27 with SMTP id 27so1652290wwf.24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2011 03:47:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=s2MA08s/+mJ6ymBC01TQNjaJHxOaz3R5kABX5xTdpio=;
-	b=kRXssrOKOUKIpEhYVbnaTVxvErxwe0ZUkf9f7BbYoFLikSFsB40gws62TEtiZ4FqKS
-	qYeZk9zQot0a59Un4ulAyPIHTFpbsagi0XkKEw6m+p66UFY2YabhAEP37RJI+oREmt6O
-	WQ5/gbLbfgQbxxwBrjFaip1ErBIbpH4Cq543w=
-MIME-Version: 1.0
-Received: by 10.150.164.21 with SMTP id m21mr3333004ybe.72.1315997270961; Wed,
-	14 Sep 2011 03:47:50 -0700 (PDT)
-Received: by 10.150.192.6 with HTTP; Wed, 14 Sep 2011 03:47:50 -0700 (PDT)
-In-Reply-To: <CAAQYJAuBa8_P_JNoT91RhYNtgEzsp85ovSRSE92MHGNE5bGb-Q@mail.gmail.com>
-References: <CAAQYJAuBa8_P_JNoT91RhYNtgEzsp85ovSRSE92MHGNE5bGb-Q@mail.gmail.com>
-Date: Wed, 14 Sep 2011 12:47:50 +0200
-Message-ID: <CAAQYJAtZgaA3N7P934TAZdbpMgqiCJVu3zq-a_iSTSNcz-x83g@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
+	Wed, 14 Sep 2011 04:11:54 -0700 (PDT)
+Received: by 10.227.144.208 with SMTP id a16mr3721682wbv.32.1315998714376;
+	Wed, 14 Sep 2011 04:11:54 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id o7sm3687420wbh.8.2011.09.14.04.11.52
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 14 Sep 2011 04:11:52 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <201109121134.42474.paul.eggleton@linux.intel.com>
+Date: Wed, 14 Sep 2011 13:11:50 +0200
+Message-Id: <FF2EB738-77F7-4BC5-BB83-82ED8CBC0F96@dominion.thruhere.net>
+References: <20110911172241.GA3674@chargestorm.se>
+	<1315762415-18070-1-git-send-email-eric@eukrea.com>
+	<201109121134.42474.paul.eggleton@linux.intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] Klibc
+X-Mailer: Apple Mail (2.1244.3)
+Subject: Re: [PATCH] qt4: update to latest version 4.7.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,77 +39,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2011 10:53:02 -0000
-Content-Type: multipart/alternative; boundary=000e0cd5a104dc6f6b04ace47d15
-
---000e0cd5a104dc6f6b04ace47d15
-Content-Type: text/plain; charset=ISO-8859-1
-
-On Fri, Sep 9, 2011 at 11:27 AM, Andrea Adami <andrea.adami@gmail.com>wrote:
-
-> Hello,
->
-> we have the latest klibc release in the meta-openembedded layer.
->
-> Awaiting an imminent klibc_2.0 release, I'd be grateful if someone could
-> review and possibly test the recipes [1]
-> which happen to build and package apaprently well for arm and mips targets
-> (runtime tested le only).
->
-> The recipes can be built separately (e.g. klibc-static-utils only) and are
-> packaged
-> in order to minimize the fooprint of the runtime dependencies.
->
-> Thanks in advance for your comments
->
-> Andrea Adami
->
-> [1]
-> http://cgit.openembedded.org/cgit.cgi/meta-openembedded/tree/meta-oe/recipes-devtools/klibc
-> **
-
-
-
-bump
-
-maybe time for a review during kernel.org outage?
-
-For the lazy, klibc is mirrored around atm, ie
-http://ftp.heanet.ie/mirrors/linux/libs/klibc/Current/
-
-
-Thanks
-
-Andrea Adami
-
---000e0cd5a104dc6f6b04ace47d15
-Content-Type: text/html; charset=ISO-8859-1
+X-List-Received-Date: Wed, 14 Sep 2011 11:17:06 -0000
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-<div class=3D"gmail_quote">On Fri, Sep 9, 2011 at 11:27 AM, Andrea Adami <s=
-pan dir=3D"ltr">&lt;<a href=3D"mailto:andrea.adami@gmail.com">andrea.adami@=
-gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex;">
-Hello,<br><br>we have the latest klibc release in the meta-openembedded lay=
-er.<br><br>Awaiting an imminent klibc_2.0 release, I&#39;d be grateful if s=
-omeone could review and possibly test the recipes [1] <br>which happen to b=
-uild and package apaprently well for arm and mips targets (runtime tested l=
-e only).<br>
 
-<br>The recipes can be built separately (e.g. klibc-static-utils only) and =
-are packaged <br>in order to minimize the fooprint of the runtime dependenc=
-ies.<br><br>Thanks in advance for your comments<br><br>Andrea Adami<br>
+Op 12 sep. 2011, om 12:34 heeft Paul Eggleton het volgende geschreven:
 
-<br>[1] <a href=3D"http://cgit.openembedded.org/cgit.cgi/meta-openembedded/=
-tree/meta-oe/recipes-devtools/klibc" target=3D"_blank">http://cgit.openembe=
-dded.org/cgit.cgi/meta-openembedded/tree/meta-oe/recipes-devtools/klibc</a>=
-<br>
-<b></b>
-</blockquote></div><br><br>bump<br><br>maybe time for a review during <a hr=
-ef=3D"http://kernel.org">kernel.org</a> outage?<br><br>For the lazy, klibc =
-is mirrored around atm, ie <br><a href=3D"http://ftp.heanet.ie/mirrors/linu=
-x/libs/klibc/Current/">http://ftp.heanet.ie/mirrors/linux/libs/klibc/Curren=
-t/</a><br>
-<br><br>Thanks<br><br>Andrea Adami<br>
+> On Sunday 11 September 2011 18:33:35 Eric B=E9nard wrote:
+>> - 4.7.4 was release on the 1st of september, the changelog is =
+available
+>> here :
+>> =
+http://qt.gitorious.org/+qt-developers/qt/releases/blobs/v4.7.4/dist/chang=
 
---000e0cd5a104dc6f6b04ace47d15--
+>> es-4.7.4 and mostly contains bug fix.
+>>=20
+>> Signed-off-by: Eric B=E9nard <eric@eukrea.com>
+>> ---
+>> .../conf/distro/include/distro_tracking_fields.inc |   32
+>> ++++++++++---------- meta/recipes-qt/qt4/{qt-4.7.3.inc =3D> =
+qt-4.7.4.inc} |=20
+>>  4 +-
+>> .../0001-Added-Openembedded-crossarch-option.patch |    0
+>>=20
+
+[..]
+
+>> rename to meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb
+>=20
+> Thanks Eric, tested OK.
+>=20
+> Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+
+Saul, Richard,
+
+Could you please give us an heads-up when this is going in, since it =
+needs matching commits to meta-oe and meta-angstrom as well to keep the =
+.bbappends working. If we don't succeed in merging the bbappend changes =
+into oe-core we should consider breaking the 'git mv oldrecipe =
+newrecipe' into an add and delete spaced a day apart.
+
+regards,
+
+Koen=
+
+
