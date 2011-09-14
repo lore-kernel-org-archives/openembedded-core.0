@@ -1,28 +1,36 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1R3sx8-0006hW-Et
+	(envelope-from <koen@beagleboard.org>) id 1R3sxK-0006j4-HO
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Sep 2011 19:08:50 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 14 Sep 2011 10:03:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,381,1312182000"; d="scan'208";a="48805636"
-Received: from unknown (HELO [10.255.14.252]) ([10.255.14.252])
-	by azsmga001.ch.intel.com with ESMTP; 14 Sep 2011 10:03:38 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Sep 2011 10:03:38 -0700
-In-Reply-To: <cover.1315961467.git.mark.hatle@windriver.com>
-References: <cover.1315961467.git.mark.hatle@windriver.com>
-Organization: Yocto Project / OTC / Intel
-X-Mailer: Evolution 3.0.3 (3.0.3-1.fc15) 
-Message-ID: <1316019818.1058.28.camel@swold-mobl.bigsur.com>
-Mime-Version: 1.0
-Subject: Re: [PATCH 0/1] Update to latest prelinker -- fix arm and x86 issues
+	Wed, 14 Sep 2011 19:09:02 +0200
+Received: by wyh5 with SMTP id 5so313622wyh.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Sep 2011 10:03:51 -0700 (PDT)
+Received: by 10.227.38.154 with SMTP id b26mr108242wbe.14.1316019831659;
+	Wed, 14 Sep 2011 10:03:51 -0700 (PDT)
+Received: from powerbook-wlan.dominion.void (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id r27sm4727734wbn.10.2011.09.14.10.03.49
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 14 Sep 2011 10:03:50 -0700 (PDT)
+Message-Id: <21A3FBAE-4672-4209-848C-72D22FE56D4A@dominion.thruhere.net>
+From: Koen Kooi <koen@beagleboard.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <4E70A76E.1030101@eukrea.com>
+Mime-Version: 1.0 (Apple Message framework v936)
+Date: Wed, 14 Sep 2011 19:03:46 +0200
+References: <20110911172241.GA3674@chargestorm.se>
+	<1315762415-18070-1-git-send-email-eric@eukrea.com>
+	<201109121134.42474.paul.eggleton@linux.intel.com>
+	<FF2EB738-77F7-4BC5-BB83-82ED8CBC0F96@dominion.thruhere.net>
+	<4E70A76E.1030101@eukrea.com>
+X-Mailer: Apple Mail (2.936)
+Subject: Re: [PATCH] qt4: update to latest version 4.7.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: sgw@linux.intel.com, Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -33,41 +41,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2011 17:08:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Sep 2011 17:09:02 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed; delsp=yes
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2011-09-13 at 19:52 -0500, Mark Hatle wrote:
-> This fixes yocto bugzilla bug 1473.  It addresses an issue where a typecast
-> wasn't being specified and the compiler was doing the wrong thing in a 
-> printf.
-> 
-> The symbols of the previous failure were, on a 32-bit IA32 host, targeting
-> either a 32-bit IA32 target or ARM target the results of a prelinked image
-> may not work properly.
-> 
-Mark,
 
-There is still a problem with the prelinker, it seems to clobber text in
-X11 on qemux86, we get a build that has square blocks for text.
+Op 14 sep 2011, om 15:09 heeft Eric B=E9nard het volgende geschreven:
 
-Sau!
+> Hi,
+>
+> Le 14/09/2011 13:11, Koen Kooi a =E9crit :
+>>
+>> Could you please give us an heads-up when this is going in, since =20
+>> it needs matching commits to meta-oe and meta-angstrom as well to =20
+>> keep the .bbappends working. If we don't succeed in merging the =20
+>> bbappend changes into oe-core we should consider breaking the 'git =20=
 
-> The following changes since commit 3be290aac4da885fe5bc31797c4a689196c63b7a:
-> 
->   libzypp: move package-manger to it own package (2011-09-13 16:19:30 -0700)
-> 
-> are available in the git repository at:
->   git://git.pokylinux.org/poky-contrib mhatle/prelink
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/prelink
-> 
-> Mark Hatle (1):
->   Uprev to latest version of prelink_git, fixing TLS issues
-> 
->  meta/recipes-devtools/prelink/prelink_git.bb |    4 ++--
->  1 files changed, 2 insertions(+), 2 deletions(-)
-> 
+>> mv oldrecipe newrecipe' into an add and delete spaced a day apart.
+>>
+> I sent patches to update meta-oe, meta-angstrom & meta-intel : did =20
+> you get them ?
 
+I did, hence my request for a heads-up :)
 
 
 
