@@ -1,25 +1,24 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1R3d4p-00026D-3y
+	(envelope-from <mark.hatle@windriver.com>) id 1R3df9-0002jC-Cm
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Sep 2011 02:11:43 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 13 Sep 2011 17:06:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,375,1312182000"; d="scan'208";a="16821726"
-Received: from unknown (HELO [10.255.14.59]) ([10.255.14.59])
-	by AZSMGA002.ch.intel.com with ESMTP; 13 Sep 2011 17:06:32 -0700
-From: Joshua Lock <josh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Sep 2011 17:06:26 -0700
-In-Reply-To: <1315958498.25993.7.camel@ted>
-References: <cover.1315956050.git.sgw@linux.intel.com>
-	<3be290aac4da885fe5bc31797c4a689196c63b7a.1315956050.git.sgw@linux.intel.com>
-	<1315958207.2252.22.camel@scimitar> <1315958498.25993.7.camel@ted>
-X-Mailer: Evolution 3.0.3 (3.0.3-1.fc15) 
-Message-ID: <1315958792.2252.24.camel@scimitar>
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/1] libzypp: move package-manger to it own package
+	Wed, 14 Sep 2011 02:49:15 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p8E0i4kh009393
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Sep 2011 17:44:04 -0700 (PDT)
+Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Tue, 13 Sep 2011 17:44:03 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 13 Sep 2011 19:52:54 -0500
+Message-ID: <cover.1315961467.git.mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
+MIME-Version: 1.0
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH 0/1] Update to latest prelinker -- fix arm and x86 issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,32 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2011 00:11:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Sep 2011 00:49:15 -0000
+Content-Type: text/plain
 
-On Wed, 2011-09-14 at 01:01 +0100, Richard Purdie wrote:
-> On Tue, 2011-09-13 at 16:56 -0700, Joshua Lock wrote:
-> > On Tue, 2011-09-13 at 16:41 -0700, Saul Wold wrote:
-> > > [YOCTO #1234]
-> > 
-> > Aside/nitpick: I really hate this being the first line.
-> 
-> I have to admit I don't like it either but it is what the commit
-> guidelines suggest. I have wondered about proposing to change them but
-> haven't had time...
+This fixes yocto bugzilla bug 1473.  It addresses an issue where a typecast
+wasn't being specified and the compiler was doing the wrong thing in a 
+printf.
 
-Oh! I seem to have read/remembered that it should be at the bottom - as
-I always do. Particularly as for the wider oe-core userbase the
-information is not especially relevant.
+The symbols of the previous failure were, on a 32-bit IA32 host, targeting
+either a 32-bit IA32 target or ARM target the results of a prelinked image
+may not work properly.
 
-I will write a formal proposal for the change.
+The following changes since commit 3be290aac4da885fe5bc31797c4a689196c63b7a:
 
-Joshua
+  libzypp: move package-manger to it own package (2011-09-13 16:19:30 -0700)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib mhatle/prelink
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/prelink
+
+Mark Hatle (1):
+  Uprev to latest version of prelink_git, fixing TLS issues
+
+ meta/recipes-devtools/prelink/prelink_git.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
 -- 
-Joshua Lock
-        Yocto Project "Johannes factotum"
-        Intel Open Source Technology Centre
+1.7.3.4
 
 
 
