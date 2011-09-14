@@ -1,32 +1,28 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1R3dnC-0002tx-AT
+	(envelope-from <mark.hatle@windriver.com>) id 1R3doc-0002wX-Qj
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Sep 2011 02:57:34 +0200
+	Wed, 14 Sep 2011 02:59:03 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p8E0qNuV010281
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p8E0rqrc010374
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Sep 2011 17:52:23 -0700 (PDT)
+	Tue, 13 Sep 2011 17:53:52 -0700 (PDT)
 Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 13 Sep 2011 17:52:22 -0700
-Message-ID: <4E6FFAC6.60404@windriver.com>
-Date: Tue, 13 Sep 2011 19:52:22 -0500
+	Tue, 13 Sep 2011 17:53:51 -0700
+Message-ID: <4E6FFB1F.7040408@windriver.com>
+Date: Tue, 13 Sep 2011 19:53:51 -0500
 From: Mark Hatle <mark.hatle@windriver.com>
 Organization: Wind River Systems
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
 	rv:6.0.2) Gecko/20110902 Thunderbird/6.0.2
 MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
-References: <840A81C1B782724A8EB52725BD519EFF18E621@MBX20.4emm.local>
-	<4E6A3770.4060307@windriver.com>
-	<840A81C1B782724A8EB52725BD519EFF18E85D@MBX20.4emm.local>
-	<4E6E1C1D.7010500@windriver.com>
-	<840A81C1B782724A8EB52725BD519EFF18E950@MBX20.4emm.local>
-	<1315905402.2519.116.camel@phil-desktop>
-In-Reply-To: <1315905402.2519.116.camel@phil-desktop>
-Subject: Re: Problem with new image-prelink
+References: <cover.1315961467.git.mark.hatle@windriver.com>
+	<1c551b4b82b13aae991184a1dead6b224b369c48.1315961467.git.mark.hatle@windriver.com>
+In-Reply-To: <1c551b4b82b13aae991184a1dead6b224b369c48.1315961467.git.mark.hatle@windriver.com>
+Subject: Re: [PATCH 1/1] Uprev to latest version of prelink_git, fixing TLS issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,54 +37,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2011 00:57:34 -0000
+X-List-Received-Date: Wed, 14 Sep 2011 00:59:03 -0000
 Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-Please try the new version of the prelinker.  I just sent a pull request for it,
-but there was a missing typecast on a printf.  This was causing problems on
-various systems, and likely could be causing the issue that you observed on ARM
-as well.
+Just an FYI if anyone is curious, the actual fix is:
 
-I did build the latest version for the ARM target, and successfully ran it there
-under QEMU.
+--- a/trunk/src/rtld/rtld.c
++++ b/trunk/src/rtld/rtld.c
+@@ -1120,7 +1120,7 @@ process_one_dso (DSO *dso, int host_paths)
+                   (size_t) (l->l_map_start - cur_dso_ent->dso->base));
+
+           if (l->l_tls_modid)
+-            printf (" TLS(0x%Zx, 0x%0*Zx)\n", l->l_tls_modid,
++            printf (" TLS(0x%Zx, 0x%0*Zx)\n", (size_t) l->l_tls_modid,
+                     (int) size_pointer,
+                     (size_t) l->l_tls_offset);
+           else
+
+l->l_tls_modid is a uint64_t....
 
 --Mark
 
-On 9/13/11 4:16 AM, Phil Blundell wrote:
-> On Tue, 2011-09-13 at 02:58 +0000, James Limbouris wrote:
->> root@192:~# gdb prelink
->> <...>
->> Reading symbols from /usr/sbin/prelink...Reading symbols from /usr/sbin/.debug/prelink...done.
->> done.
->> (gdb) set follow-fork-mode child
->> (gdb) run -a
->> Starting program: /usr/sbin/prelink -a
->> [New process 1712]
->> process 1712 is executing new program: /usr/sbin/prelink-rtld
->> [ 2777.370000] Alignment trap: prelink-rtld (1712) PC=0x410f9990 Instr=0xe5922024 Address=0x00000025 FSR 0x001
->>
->> Program received signal SIGBUS, Bus error.
->> [Switching to process 1712]
->> 0x410f9990 in __ctype_b_loc () at ../include/ctype.h:30
->> 30          *tablep = (const uint16_t *) _NL_CURRENT (LC_CTYPE, _NL_CTYPE_CLASS) + 128;
+On 9/13/11 7:52 PM, Mark Hatle wrote:
+> [YOCTO #1473]
 > 
-> Just in case it's not obvious, the fact that this address is unaligned
-> is the least of your worries.  Even if alignment didn't matter, you
-> would just get a segfault instead since 0x25 is never going to be a
-> valid pointer.
+> From the upstream cross prelink respository:
 > 
-> I guess you need to investigate where the value in r2 is coming from and
-> figure out why it has this bogus value.
+>     Fix printf typecast problem
 > 
-> p.
+>     Without this fix the printed TLS(...) information is incorrect, which
+>     causes the core prelinker code to incorrectly prelink.  This bug triggers
+>     primarily on x86 (32-bit) hosts, targeting x86 (32-bit) targets and arm
+>     targets.
 > 
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> ---
+>  meta/recipes-devtools/prelink/prelink_git.bb |    4 ++--
+>  1 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
+> index 1565ca6..af6de8e 100644
+> --- a/meta/recipes-devtools/prelink/prelink_git.bb
+> +++ b/meta/recipes-devtools/prelink/prelink_git.bb
+> @@ -8,9 +8,9 @@ and executables, so that far fewer relocations need to be resolved at \
+>  runtime and thus programs come up faster."
+>  LICENSE = "GPLv2"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=c93c0550bd3173f4504b2cbd8991e50b"
+> -SRCREV = "964f6eba613bf1c791a2a0b858cd044f05e2f151"
+> +SRCREV = "3e3f9b0876aa5ac83a783a95b8bab52cb38ed785"
+>  PV = "1.0+git${SRCPV}"
+> -PR = "r6"
+> +PR = "r7"
+>  
+>  #
+>  # The cron script attempts to re-prelink the system daily -- on
 
 
 
