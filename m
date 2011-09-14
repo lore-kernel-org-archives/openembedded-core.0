@@ -1,24 +1,29 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-gx0-f178.google.com ([209.85.161.178])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1R3lt0-0003H6-GW
+	(envelope-from <andrea.adami@gmail.com>) id 1R3n5R-00050t-Ux
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Sep 2011 11:36:06 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1R3lo2-0004b2-Hp
-	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Sep 2011 11:30:58 +0200
-From: Phil Blundell <philb@gnu.org>
+	Wed, 14 Sep 2011 12:53:02 +0200
+Received: by gxk21 with SMTP id 21so12826gxk.9
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Sep 2011 03:47:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=s2MA08s/+mJ6ymBC01TQNjaJHxOaz3R5kABX5xTdpio=;
+	b=kRXssrOKOUKIpEhYVbnaTVxvErxwe0ZUkf9f7BbYoFLikSFsB40gws62TEtiZ4FqKS
+	qYeZk9zQot0a59Un4ulAyPIHTFpbsagi0XkKEw6m+p66UFY2YabhAEP37RJI+oREmt6O
+	WQ5/gbLbfgQbxxwBrjFaip1ErBIbpH4Cq543w=
+MIME-Version: 1.0
+Received: by 10.150.164.21 with SMTP id m21mr3333004ybe.72.1315997270961; Wed,
+	14 Sep 2011 03:47:50 -0700 (PDT)
+Received: by 10.150.192.6 with HTTP; Wed, 14 Sep 2011 03:47:50 -0700 (PDT)
+In-Reply-To: <CAAQYJAuBa8_P_JNoT91RhYNtgEzsp85ovSRSE92MHGNE5bGb-Q@mail.gmail.com>
+References: <CAAQYJAuBa8_P_JNoT91RhYNtgEzsp85ovSRSE92MHGNE5bGb-Q@mail.gmail.com>
+Date: Wed, 14 Sep 2011 12:47:50 +0200
+Message-ID: <CAAQYJAtZgaA3N7P934TAZdbpMgqiCJVu3zq-a_iSTSNcz-x83g@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Sep 2011 10:30:57 +0100
-In-Reply-To: <1315961204.2252.32.camel@scimitar>
-References: <1315961204.2252.32.camel@scimitar>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1315992658.2519.137.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: [RFC] Suggestion of minor change to patch submission policy re: long descriptions in commit headers
+Subject: Re: [RFC] Klibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,37 +38,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2011 09:36:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Sep 2011 10:53:02 -0000
+Content-Type: multipart/alternative; boundary=000e0cd5a104dc6f6b04ace47d15
 
-On Tue, 2011-09-13 at 17:46 -0700, Joshua Lock wrote:
-> Whilst I intend to rectify the latter I'd like to propose we change the
-> former such that the defect information is at the end of the commit
-> message.
-> 
-> I believe this is more suitable for the project because the defect
-> information and its relevance should be summarised in the long
-> description, and therefore the defect id and link to the defect tracker
-> are supplemental information for interested readers.
-> 
-> IMHO this supplementary nature should lead us to request submitters
-> provide defect information after the long description.
+--000e0cd5a104dc6f6b04ace47d15
+Content-Type: text/plain; charset=ISO-8859-1
 
-Agreed, I think this would be something of an improvement (and indeed,
-from a look at the git log it appears that some submitters are already
-doing this).  Although it isn't a very big deal, I do find it slightly
-irritating to have the first line of the long checkin message be
-something that is essentially noise.
+On Fri, Sep 9, 2011 at 11:27 AM, Andrea Adami <andrea.adami@gmail.com>wrote:
 
-Possibly even better would be to think up a way to encode the defect
-information, in some machine-readable form, as part of the
-pseudo-header.  That would make it straightforward for folks who care
-particularly about the defect information for (say) yocto to filter it
-into some more prominent location.
-
-p.
+> Hello,
+>
+> we have the latest klibc release in the meta-openembedded layer.
+>
+> Awaiting an imminent klibc_2.0 release, I'd be grateful if someone could
+> review and possibly test the recipes [1]
+> which happen to build and package apaprently well for arm and mips targets
+> (runtime tested le only).
+>
+> The recipes can be built separately (e.g. klibc-static-utils only) and are
+> packaged
+> in order to minimize the fooprint of the runtime dependencies.
+>
+> Thanks in advance for your comments
+>
+> Andrea Adami
+>
+> [1]
+> http://cgit.openembedded.org/cgit.cgi/meta-openembedded/tree/meta-oe/recipes-devtools/klibc
+> **
 
 
 
+bump
 
+maybe time for a review during kernel.org outage?
+
+For the lazy, klibc is mirrored around atm, ie
+http://ftp.heanet.ie/mirrors/linux/libs/klibc/Current/
+
+
+Thanks
+
+Andrea Adami
+
+--000e0cd5a104dc6f6b04ace47d15
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div class=3D"gmail_quote">On Fri, Sep 9, 2011 at 11:27 AM, Andrea Adami <s=
+pan dir=3D"ltr">&lt;<a href=3D"mailto:andrea.adami@gmail.com">andrea.adami@=
+gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex;">
+Hello,<br><br>we have the latest klibc release in the meta-openembedded lay=
+er.<br><br>Awaiting an imminent klibc_2.0 release, I&#39;d be grateful if s=
+omeone could review and possibly test the recipes [1] <br>which happen to b=
+uild and package apaprently well for arm and mips targets (runtime tested l=
+e only).<br>
+
+<br>The recipes can be built separately (e.g. klibc-static-utils only) and =
+are packaged <br>in order to minimize the fooprint of the runtime dependenc=
+ies.<br><br>Thanks in advance for your comments<br><br>Andrea Adami<br>
+
+<br>[1] <a href=3D"http://cgit.openembedded.org/cgit.cgi/meta-openembedded/=
+tree/meta-oe/recipes-devtools/klibc" target=3D"_blank">http://cgit.openembe=
+dded.org/cgit.cgi/meta-openembedded/tree/meta-oe/recipes-devtools/klibc</a>=
+<br>
+<b></b>
+</blockquote></div><br><br>bump<br><br>maybe time for a review during <a hr=
+ef=3D"http://kernel.org">kernel.org</a> outage?<br><br>For the lazy, klibc =
+is mirrored around atm, ie <br><a href=3D"http://ftp.heanet.ie/mirrors/linu=
+x/libs/klibc/Current/">http://ftp.heanet.ie/mirrors/linux/libs/klibc/Curren=
+t/</a><br>
+<br><br>Thanks<br><br>Andrea Adami<br>
+
+--000e0cd5a104dc6f6b04ace47d15--
