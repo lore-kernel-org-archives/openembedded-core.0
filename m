@@ -1,36 +1,20 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1R3udf-0000cP-Db
+	(envelope-from <josh@linux.intel.com>) id 1R3xjE-0004fW-4V
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Sep 2011 20:56:51 +0200
-Received: by bke11 with SMTP id 11so1756825bke.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Sep 2011 11:51:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
-	:content-transfer-encoding;
-	bh=pqsJJe6lslY5otrQcta8VKgE4cSVB65msfUSwSkWZoY=;
-	b=a//qeLwhPhELhhypuTI4F2CsXkrw35y/CkUNzFH1oLWBMbROq75bfLurNl/+r6fw4d
-	Xix7JOAI/F8jrixBgB7LxzBXPZ8wDchx+mDjONs5mSdCR+Vo25zJQT51R7snVWFqcamm
-	5rtheZEXYWpgudsnW2ofUCEBRHKnskByqrmjY=
-MIME-Version: 1.0
-Received: by 10.204.3.23 with SMTP id 23mr94728bkl.301.1316026300901; Wed, 14
-	Sep 2011 11:51:40 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.65.194 with HTTP; Wed, 14 Sep 2011 11:51:40 -0700 (PDT)
-In-Reply-To: <1316026222.26879.2586.camel@elmorro>
-References: <1316025864.26879.2583.camel@elmorro>
-	<CAP9ODKopgP0rzqJPYYn9hvFX1wE_xJQFWd6ZfdGv7kjU8Endyw@mail.gmail.com>
-	<1316026222.26879.2586.camel@elmorro>
-Date: Wed, 14 Sep 2011 15:51:40 -0300
-X-Google-Sender-Auth: b1JDviAJis2olPQcRNX1ZlMGecU
-Message-ID: <CAP9ODKofO8==pdh5Me2=+OBtx+2wh7PmZKyqhDO4Wvn__q6bOw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Tom Zanussi <tom.zanussi@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Add new recipes for grub2 [v4]
+	Thu, 15 Sep 2011 00:14:48 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 14 Sep 2011 15:09:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="48512527"
+Received: from unknown (HELO scimitar.amr.corp.intel.com) ([10.255.14.158])
+	by orsmga001.jf.intel.com with ESMTP; 14 Sep 2011 15:09:35 -0700
+From: Joshua Lock <josh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 Sep 2011 15:09:27 -0700
+Message-Id: <cover.1316037832.git.josh@linux.intel.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [PATCH 0/1] Disable mirrors for connectivity checks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,24 +29,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2011 18:56:51 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 14 Sep 2011 22:14:48 -0000
 
-On Wed, Sep 14, 2011 at 15:50, Tom Zanussi <tom.zanussi@intel.com> wrote:
-> Thanks for taking the time to review and ack these...
+I realised today that we are using mirrors when running the network connectivity
+checks. This could significantly reduce the utility of this sanity check.
 
-You're welcome.
+The single patch in this series rectifies the issue.
 
-I am sorry by being so boring ;-)
+Regards,
+Joshua
 
-Thanks by accepting the suggestions :-D
+The following changes since commit 8df322abfd3fa8c460fd73c83c1ef0b5e419dc11:
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+  core-image-minimal: Add missing POKY_EXTRA_IMAGE variable (2011-09-14 01:27:08 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib josh/work
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/work
+
+Joshua Lock (1):
+  sanity: disable mirrors for connectivity check
+
+ meta/classes/sanity.bbclass |    8 ++++++--
+ 1 files changed, 6 insertions(+), 2 deletions(-)
+
+-- 
+1.7.6
+
 
 
