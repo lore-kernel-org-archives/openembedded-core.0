@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1R42Uw-0001Ud-6z
+	(envelope-from <sgw@linux.intel.com>) id 1R42Uw-0001UW-DS
 	for openembedded-core@lists.openembedded.org;
 	Thu, 15 Sep 2011 05:20:23 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
 	by azsmga101.ch.intel.com with ESMTP; 14 Sep 2011 20:15:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,384,1312182000"; d="scan'208";a="17264350"
+X-IronPort-AV: E=Sophos;i="4.68,384,1312182000"; d="scan'208";a="17264351"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.252])
 	by AZSMGA002.ch.intel.com with ESMTP; 14 Sep 2011 20:15:07 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Sep 2011 20:14:54 -0700
-Message-Id: <3fdb63b7e46b70d79d4c08e1a0936ed0efaef791.1316056194.git.sgw@linux.intel.com>
+Date: Wed, 14 Sep 2011 20:14:55 -0700
+Message-Id: <7decbd80eccb19f762fd4916aed2e33e0490f467.1316056194.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1316056194.git.sgw@linux.intel.com>
 References: <cover.1316056194.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1316056194.git.sgw@linux.intel.com>
 References: <cover.1316056194.git.sgw@linux.intel.com>
-Subject: [RC2 PULL 05/13] task-core: split into task-core-console and task-core-x11
+Subject: [RC2 PULL 06/13] linux-yocto: move common tasks to a common location
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,149 +35,157 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 15 Sep 2011 03:20:23 -0000
 
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
 
-[YOCTO #1481]
+During the initial development of the linux-yocto recipes there were
+several additional tasks that needed to be run in any inheriting
+recipe. At that time, they didn't seem to fire if they were in the
+include file versus the recipes themselves. As it turns out, these
+tasks do work fine if placed in the linux-yocto.inc file, and the
+rest of the recipes can be simplified as a result.
 
-Since tasks are referred to almost exclusively via RDEPENDS, and bitbake
-will build an entire task recipe when only one of its task packages are
-actually needed, building a console-only image that uses
-task-core-apps-console (or less directly, has apps-console in its
-IMAGE_FEATURES) will cause a build of a whole list of X11 applications
-that aren't needed. Splitting the task-core recipe into X11 and console
-portions prevents this issue.
-
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |   10 +++++--
- meta/conf/multilib.conf                            |    3 +-
- meta/recipes-core/tasks/task-core-console.bb       |   28 ++++++++++++++++++++
- .../tasks/{task-core.bb => task-core-x11.bb}       |   17 ++----------
- 4 files changed, 40 insertions(+), 18 deletions(-)
- create mode 100644 meta/recipes-core/tasks/task-core-console.bb
- rename meta/recipes-sato/tasks/{task-core.bb => task-core-x11.bb} (79%)
+ meta/recipes-kernel/linux/linux-yocto-rt_2.6.34.bb |    8 +-------
+ meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb    |    8 +-------
+ meta/recipes-kernel/linux/linux-yocto.inc          |    5 +++++
+ meta/recipes-kernel/linux/linux-yocto_2.6.37.bb    |   13 +------------
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb       |    8 +-------
+ 5 files changed, 9 insertions(+), 33 deletions(-)
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index a7fc011..9dfa6a9 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -2460,9 +2460,13 @@ RECIPE_LATEST_VERSION_pn-core-image-sato-sdk = "1.0"
- RECIPE_MAINTAINER_pn-core-image-sato-sdk = "Dongxiao Xu <dongxiao.xu@intel.com>"
- DISTRO_PN_ALIAS_pn-core-image-sdk = "OE-Core"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_2.6.34.bb b/meta/recipes-kernel/linux/linux-yocto-rt_2.6.34.bb
+index 0ca53ae..d92a902 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_2.6.34.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_2.6.34.bb
+@@ -17,9 +17,8 @@ SRCREV_machine_qemux86-64 = "3c84c45ad3c3592f9c7ff4076de9bee417cd322e"
+ SRCREV_machine = "439602eb6acd53d9beb8493710310214fc7bd749"
+ SRCREV_meta = "e1f85a470934a0cf6abde5d95533e74501822c6b"
  
--RECIPE_STATUS_pn-task-core = "green"
--RECIPE_LATEST_VERSION_pn-task-core = "1.0"
--RECIPE_MAINTAINER_pn-task-core = "Dongxiao Xu <dongxiao.xu@intel.com>"
-+RECIPE_STATUS_pn-task-core-console = "green"
-+RECIPE_LATEST_VERSION_pn-task-core-console = "1.0"
-+RECIPE_MAINTAINER_pn-task-core-console = "Dongxiao Xu <dongxiao.xu@intel.com>"
-+
-+RECIPE_STATUS_pn-task-core-x11 = "green"
-+RECIPE_LATEST_VERSION_pn-task-core-x11 = "1.0"
-+RECIPE_MAINTAINER_pn-task-core-x11 = "Dongxiao Xu <dongxiao.xu@intel.com>"
+-PR = "r2"
++PR = "r3"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+-SRCREV_FORMAT = "meta_machine"
  
- RECIPE_STATUS_pn-task-core-basic = "green"
- RECIPE_LATEST_VERSION_pn-task-core-basic = "1.0"
-diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
-index 16db375..3133bf1 100644
---- a/meta/conf/multilib.conf
-+++ b/meta/conf/multilib.conf
-@@ -368,12 +368,13 @@ BBCLASSEXTEND_append_pn-task-base = " ${MULTILIBS}"
- BBCLASSEXTEND_append_pn-task-core-apps-x11-pimlico = " ${MULTILIBS}"
- BBCLASSEXTEND_append_pn-task-core-basic = " ${MULTILIBS}"
- BBCLASSEXTEND_append_pn-task-core-boot = " ${MULTILIBS}"
-+BBCLASSEXTEND_append_pn-task-core-console = " ${MULTILIBS}"
- BBCLASSEXTEND_append_pn-task-core-lsb = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-core = " ${MULTILIBS}"
- BBCLASSEXTEND_append_pn-task-core-nfs = " ${MULTILIBS}"
- BBCLASSEXTEND_append_pn-task-core-ssh-dropbear = " ${MULTILIBS}"
- BBCLASSEXTEND_append_pn-task-core-ssh-openssh = " ${MULTILIBS}"
- BBCLASSEXTEND_append_pn-task-core-tools = " ${MULTILIBS}"
-+BBCLASSEXTEND_append_pn-task-core-x11 = " ${MULTILIBS}"
- BBCLASSEXTEND_append_pn-task-core-x11-sato = " ${MULTILIBS}"
- BBCLASSEXTEND_append_pn-tasks = " ${MULTILIBS}"
- BBCLASSEXTEND_append_pn-tcf-agent = " ${MULTILIBS}"
-diff --git a/meta/recipes-core/tasks/task-core-console.bb b/meta/recipes-core/tasks/task-core-console.bb
-new file mode 100644
-index 0000000..cb22732
---- /dev/null
-+++ b/meta/recipes-core/tasks/task-core-console.bb
-@@ -0,0 +1,28 @@
-+#
-+# Copyright (C) 2011 Intel Corporation
-+#
-+
-+DESCRIPTION = "Tasks for core console applications"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-+                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+PR = "r35"
-+
-+PACKAGES = "\
-+    task-core-apps-console \
-+    task-core-apps-console-dbg \
-+    task-core-apps-console-dev \
-+    "
-+
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
-+ALLOW_EMPTY = "1"
-+
-+SPLASH ?= "psplash"
-+
-+RDEPENDS_task-core-apps-console = "\
-+    avahi-daemon \
-+    dbus \
-+    portmap \
-+    ${SPLASH}"
-+
-diff --git a/meta/recipes-sato/tasks/task-core.bb b/meta/recipes-sato/tasks/task-core-x11.bb
-similarity index 79%
-rename from meta/recipes-sato/tasks/task-core.bb
-rename to meta/recipes-sato/tasks/task-core-x11.bb
-index a595ad7..26d550a 100644
---- a/meta/recipes-sato/tasks/task-core.bb
-+++ b/meta/recipes-sato/tasks/task-core-x11.bb
-@@ -1,17 +1,14 @@
- #
--# Copyright (C) 2007-2008 OpenedHand Ltd.
-+# Copyright (C) 2011 Intel Corporation
- #
+ COMPATIBLE_MACHINE = "(qemux86|qemux86-64)"
  
--DESCRIPTION = "Tasks for OpenedHand Poky"
-+DESCRIPTION = "Tasks for core X11 applications"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
--PR = "r34"
-+PR = "r35"
+@@ -34,11 +33,6 @@ python __anonymous () {
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-2.6.34.git;protocol=git;nocheckout=1;branch=${KBRANCH},wrs_meta;name=machine,meta"
  
- PACKAGES = "\
--    task-core-apps-console \
--    task-core-apps-console-dbg \
--    task-core-apps-console-dev \
-     task-core-apps-x11-core \
-     task-core-apps-x11-core-dbg \
-     task-core-apps-x11-core-dev \
-@@ -29,18 +26,10 @@ XSERVER ?= "xserver-kdrive-fbdev"
+ # Functionality flags
+-KERNEL_REVISION_CHECKING ?= "t"
+ KERNEL_FEATURES=features/netfilter
  
- ALLOW_EMPTY = "1"
- 
--SPLASH ?= "psplash"
+-# extra tasks
+-addtask kernel_link_vmlinux after do_compile before do_install
+-addtask validate_branches before do_patch after do_kernel_checkout
 -
- # pcmanfm doesn't work on mips/powerpc
- FILEMANAGER ?= "pcmanfm"
- FILEMANAGER_mips ?= ""
+ require recipes-kernel/linux/linux-tools.inc
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
+index b296ef4..ebf6054 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
+@@ -18,9 +18,8 @@ SRCREV_machine ?= "0b805cce57f61a244eb3b8fce460b14f1be442b3"
+ SRCREV_machine_qemuppc ?= "48207085609f2b73a54e3c1ef4139894eef627af"
+ SRCREV_meta ?= "3c9ebeed2598b74798a0c9247ef7c385e0cd96a7"
  
--RDEPENDS_task-core-apps-console = "\
--    avahi-daemon \
--    dbus \
--    portmap \
--    ${SPLASH}"
+-PR = "r0"
++PR = "r1"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+-SRCREV_FORMAT = "meta_machine"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.0.git;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
+ 
+@@ -35,9 +34,4 @@ KERNEL_FEATURES_append=" features/taskstats"
+ KERNEL_FEATURES_append_qemux86=" cfg/sound"
+ KERNEL_FEATURES_append_qemux86-64=" cfg/sound"
+ 
+-# extra tasks
+-addtask kernel_link_vmlinux after do_compile before do_install
+-addtask validate_branches before do_patch after do_kernel_checkout
+-addtask kernel_configcheck after do_configure before do_compile
 -
+ require recipes-kernel/linux/linux-tools.inc
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+index 11b77ce..09433fa 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -34,3 +34,8 @@ do_install_append(){
+ 		rm -rf ${STAGING_KERNEL_DIR}/${KMETA}
+ 	fi
+ }
++
++# extra tasks
++addtask kernel_link_vmlinux after do_compile before do_install
++addtask validate_branches before do_patch after do_kernel_checkout
++addtask kernel_configcheck after do_configure before do_compile
+diff --git a/meta/recipes-kernel/linux/linux-yocto_2.6.37.bb b/meta/recipes-kernel/linux/linux-yocto_2.6.37.bb
+index 4199137..34e563c 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_2.6.37.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_2.6.37.bb
+@@ -9,10 +9,8 @@ KMACHINE_qemumips = "yocto/standard/mti-malta32-be"
+ KMACHINE_qemuarm  = "yocto/standard/arm-versatile-926ejs"
  
- RDEPENDS_task-core-x11-base = "\
-     dbus \
+ KBRANCH = ${KMACHINE}
+-KMETA = meta
+ 
+ LINUX_VERSION ?= "2.6.37"
+-LINUX_VERSION_EXTENSION ?= "-yocto-${LINUX_KERNEL_TYPE}"
+ 
+ SRCREV_machine_qemuarm = "b3e53a090eaa23aa82e64fa0a563a93a2b4dbb5d"
+ SRCREV_machine_qemumips = "91f2eb4a3b447476b36aac8e6e198d08c98e0680"
+@@ -22,26 +20,17 @@ SRCREV_machine_qemux86-64 = "af2bfbe5f757361b5b027a24d67a93bfdfaaf33c"
+ SRCREV_machine = "4ae8f8605c81c39b959948e23f7123294a5dfb3f"
+ SRCREV_meta = "aeea99683c7283f1f3320bf2ee7085ee252d4e7e"
+ 
+-PR = "r20"
++PR = "r21"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+-SRCREV_FORMAT = "meta_machine"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-2.6.37;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
+ 
+ COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemux86-64)"
+ 
+ # Functionality flags
+-KERNEL_REVISION_CHECKING ?= "t"
+ KERNEL_FEATURES="features/netfilter"
+ KERNEL_FEATURES_append=" features/taskstats"
+ KERNEL_FEATURES_append_qemux86=" cfg/sound"
+ KERNEL_FEATURES_append_qemux86-64=" cfg/sound"
+ 
+-YOCTO_KERNEL_META_DATA=t
+-
+-# extra tasks
+-addtask kernel_link_vmlinux after do_compile before do_install
+-addtask validate_branches before do_patch after do_kernel_checkout
+-addtask kernel_configcheck after do_configure before do_compile
+-
+ require linux-tools.inc
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+index f504b74..b296558 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+@@ -20,9 +20,8 @@ SRCREV_machine_qemux86-64 ?= "2b2d0954a6fd12b4bb7f02f019bc62633c8060a1"
+ SRCREV_machine ?= "6b2c7d65b844e686eae7d5cccb9b638887afe28e"
+ SRCREV_meta ?= "3c9ebeed2598b74798a0c9247ef7c385e0cd96a7"
+ 
+-PR = "r1"
++PR = "r2"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+-SRCREV_FORMAT = "meta_machine"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.0;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
+ 
+@@ -34,9 +33,4 @@ KERNEL_FEATURES_append=" features/taskstats"
+ KERNEL_FEATURES_append_qemux86=" cfg/sound"
+ KERNEL_FEATURES_append_qemux86-64=" cfg/sound"
+ 
+-# extra tasks
+-addtask kernel_link_vmlinux after do_compile before do_install
+-addtask validate_branches before do_patch after do_kernel_checkout
+-addtask kernel_configcheck after do_configure before do_compile
+-
+ require linux-tools.inc
 -- 
 1.7.6
 
