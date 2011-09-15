@@ -1,40 +1,30 @@
-Received: from 1.mo5.mail-out.ovh.net ([188.165.57.91]
-	helo=mo5.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@eukrea.com>) id 1R4FNw-0003pS-8o
+Received: from mga11.intel.com ([192.55.52.93])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1R4Fpk-00068S-IM
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Sep 2011 19:06:00 +0200
-Received: from mail183.ha.ovh.net (b6.ovh.net [213.186.33.56])
-	by mo5.mail-out.ovh.net (Postfix) with SMTP id 2ACA010300D6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2011 12:27:20 +0200 (CEST)
-Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
-	by b0.ovh.net with SMTP; 15 Sep 2011 11:14:19 +0200
-Received: from pac33-2-82-240-38-71.fbx.proxad.net (HELO ?192.168.1.18?)
-	(denis%eukrea.com@82.240.38.71)
-	by ns0.ovh.net with SMTP; 15 Sep 2011 11:14:18 +0200
-X-Ovh-Mailout: 178.32.228.5 (mo5.mail-out.ovh.net)
-From: Denis Carikli <denis@eukrea.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1316075038-2729-1-git-send-email-Bernhard.Guillon@hale.at>
-References: <1316075038-2729-1-git-send-email-Bernhard.Guillon@hale.at>
-Organization: eukrea
-Date: Thu, 15 Sep 2011 11:14:17 +0200
-Message-ID: <1316078057.19388.0.camel@PCDEV1>
+	Thu, 15 Sep 2011 19:34:44 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 15 Sep 2011 10:29:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,388,1312182000"; d="scan'208";a="54086868"
+Received: from unknown (HELO [10.255.14.252]) ([10.255.14.252])
+	by fmsmga002.fm.intel.com with ESMTP; 15 Sep 2011 10:29:31 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: Tom Zanussi <tom.zanussi@intel.com>
+Date: Thu, 15 Sep 2011 10:29:31 -0700
+In-Reply-To: <1316025864.26879.2583.camel@elmorro>
+References: <1316025864.26879.2583.camel@elmorro>
+Organization: Yocto Project / OTC / Intel
+X-Mailer: Evolution 3.0.3 (3.0.3-1.fc15) 
+Message-ID: <1316107771.1058.78.camel@swold-mobl.bigsur.com>
 Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Ovh-Tracer-Id: 13972980795910725058
-X-Ovh-Remote: 82.240.38.71 (pac33-2-82-240-38-71.fbx.proxad.net)
-X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
-X-Spam-Check: DONE|U 0.500001/N
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeftddrvddtucetggdotefuucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
-Subject: Re: [PATCH] liboil-0.3.17: add upstream Fix-enable-vfp-flag patch
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] Add new recipes for grub2 [v4]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: sgw@linux.intel.com, Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -45,13 +35,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Sep 2011 17:06:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 15 Sep 2011 17:34:44 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Tested-by: Denis Carikli <denis@eukrea.com>
+On Wed, 2011-09-14 at 13:44 -0500, Tom Zanussi wrote:
+> This patchset adds a new recipe for grub2 and an accompanying
+> changes to initramfs-live-install.
+> 
+> It's been preliminarily boot-tested with the meta-intel BSPs emenlow,
+> and the legacy version (grub-0.97) was also tested with emenlow.
+> 
+> v4 changes:
+> 
+> Suggestions from Otavio Salvador and Saul Wold to add more info to
+> the patch header.
+> 
+> v3 changes:
+> 
+> Suggestions from Otavio Salvador to update copyright and add a patch
+> header.
+> 
+> v2 changes:
+> 
+> Suggestions from Otavio Salvador to remove any distro-specific text
+> and avoid duplicate scripts.
+> 
+> 
+> Tom Zanussi (2):
+>   grub2: new recipe
+>   initramfs-live-install: add support for grub2
+> 
+>  meta/recipes-bsp/grub/grub-1.99/40_custom          |    9 ++++
+>  .../grub/grub-1.99/grub-install.in.patch           |   20 +++++++++
+>  meta/recipes-bsp/grub/grub_1.99.bb                 |   44 ++++++++++++++++++++
+>  .../initrdscripts/files/init-install.sh            |   31 +++++++++++---
+>  .../initrdscripts/initramfs-live-install_1.0.bb    |    8 +--
+>  5 files changed, 101 insertions(+), 11 deletions(-)
+>  create mode 100755 meta/recipes-bsp/grub/grub-1.99/40_custom
+>  create mode 100644 meta/recipes-bsp/grub/grub-1.99/grub-install.in.patch
+>  create mode 100644 meta/recipes-bsp/grub/grub_1.99.bb
+> 
 
-Denis.
+Merged into OE-Core
+
+Thanks 
+	Sau!
+
+
 
 
 
