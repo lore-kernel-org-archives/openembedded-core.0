@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1R42Uu-0001UW-E1
+	(envelope-from <sgw@linux.intel.com>) id 1R42Uv-0001UW-8W
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Sep 2011 05:20:20 +0200
+	Thu, 15 Sep 2011 05:20:21 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 14 Sep 2011 20:15:06 -0700
+	by azsmga101.ch.intel.com with ESMTP; 14 Sep 2011 20:15:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,384,1312182000"; d="scan'208";a="17264346"
+X-IronPort-AV: E=Sophos;i="4.68,384,1312182000"; d="scan'208";a="17264349"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.252])
-	by AZSMGA002.ch.intel.com with ESMTP; 14 Sep 2011 20:15:06 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 14 Sep 2011 20:15:07 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Sep 2011 20:14:51 -0700
-Message-Id: <b15a8e267603eb96e1108f43465868a2002279ce.1316056194.git.sgw@linux.intel.com>
+Date: Wed, 14 Sep 2011 20:14:53 -0700
+Message-Id: <fccfd53e7bbc8add7cad10e61998771a7566dcdd.1316056194.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1316056194.git.sgw@linux.intel.com>
 References: <cover.1316056194.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1316056194.git.sgw@linux.intel.com>
 References: <cover.1316056194.git.sgw@linux.intel.com>
-Subject: [RC2 PULL 02/13] package_deb.bbclass, populate_sdk_deb.bbclass: fix meta-toolchain-gmae build
+Subject: [RC2 PULL 04/13] distro_tracking_field: add distro checking field
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,101 +33,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Sep 2011 03:20:20 -0000
+X-List-Received-Date: Thu, 15 Sep 2011 03:20:21 -0000
 
-From: Dexuan Cui <dexuan.cui@intel.com>
+From: Yu Ke <ke.yu@intel.com>
 
-[YOCTO #1070]
+add the missing distro checking field for some recipes
 
-Currently with deb packaging, we have 2 issues when running
-"bitbake meta-toolchain-gmae".
-
-1) when MACHINE="qemux86", SDKMACHINE="i686", INSTALL_BASEARCH_DEB is "i686",
-too. This causes the following ERROR:
-| E: Couldn't find package task-sdk-host-nativesdk
-NOTE: package meta-toolchain-gmae-1.0-r6: task do_populate_sdk: Failed
-
-This is becasue: due to the DPKG_ARCH mapping, we create such a deb package
-tmp/deploy/deb/i686-nativesdk/task-sdk-host-nativesdk_1.0-r10_i386.deb; dpkg
-can't recoginze the package. We need to map INSTALL_BASEARCH_DEB in the same
-way.
-
-2) when MACHINE="qemux86", SDKMACHINE="x86_64", INSTALL_BASEARCH_DEB is
-"x86_64", too.
-We get such an ERROR:
-| E: Couldn't find package task-cross-canadian-i586
-NOTE: package meta-toolchain-gmae-1.0-r6: task do_populate_sdk: Failed
-
-This is because: dpkg can't recognize the generated package
-tmp/deploy/deb/x86_64-nativesdk/task-cross-canadian-i586_1.0-r0_i386.deb
-Here the "i386" suffix is incorrect and should be "x86_64" -- the i386
-comes from the line
-DPKG_ARCH_i586 ?= "i386" in package_deb.bbclass.
-However, for canadian package, actually here the overriding of DPKG (from
-"x86-64" to "i386") should not happen -- it accidently happens just because
-TARGET_ARCH exists in OVERRIDES. We can move the overriding logic to the
-anonymous python function to work this around.
-
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+Signed-off-by: Yu Ke <ke.yu@intel.com>
 ---
- meta/classes/package_deb.bbclass      |   10 ++++------
- meta/classes/populate_sdk_deb.bbclass |    6 +++++-
- 2 files changed, 9 insertions(+), 7 deletions(-)
+ .../conf/distro/include/distro_tracking_fields.inc |   13 +++++++++++++
+ 1 files changed, 13 insertions(+), 0 deletions(-)
 
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index 87e20da..5a32047 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -6,13 +6,7 @@ inherit package
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index 6f1a462..a7fc011 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -1811,6 +1811,7 @@ RECIPE_STATUS_pn-mktemp="red"
+ RECIPE_LAST_UPDATE_pn-mktemp = "Jul 29, 2010"
+ RECIPE_MAINTAINER_pn-mktemp="Yu Ke <ke.yu@intel.com>"
+ RECIPE_LATEST_VERSION_pn-mktemp="1.7"
++DISTRO_PN_ALIAS_pn-mktemp = "Mandriva=mktemp Fedora=mktemp"
  
- IMAGE_PKGTYPE ?= "deb"
+ RECIPE_STATUS_pn-iputils="red"
+ RECIPE_LAST_UPDATE_pn-iputils = "Jul 29, 2010"
+@@ -2917,6 +2918,7 @@ RECIPE_STATUS_pn-distcc="green"
+ RECIPE_LATEST_VERSION_pn-distcc="2.18.3"
+ RECIPE_LAST_UPDATE_pn-distcc = "Oct 28, 2006"
+ RECIPE_MAINTAINER_pn-distcc = "Nitin A Kamble <nitin.a.kamble@intel.com>"
++DISTRO_PN_ALIAS_pn-distcc = "Debian=distcc Fedora=distcc"
  
--# Map TARGET_ARCH to Debian's ideas about architectures
- DPKG_ARCH ?= "${TARGET_ARCH}" 
--DPKG_ARCH_x86 ?= "i386"
--DPKG_ARCH_i486 ?= "i386"
--DPKG_ARCH_i586 ?= "i386"
--DPKG_ARCH_i686 ?= "i386"
--DPKG_ARCH_pentium ?= "i386"
+ RECIPE_STATUS_pn-flex="green" 
+ RECIPE_LATEST_VERSION_pn-flex="2.5.35"
+@@ -3404,6 +3406,7 @@ RECIPE_LATEST_RELEASE_DATE_pn-imake = "2010/04/16"
+ RECIPE_INTEL_SECTION_pn-imake = "graphic app"
+ RECIPE_LAST_UPDATE_pn-imake = "Nov 21, 2010"
+ RECIPE_MAINTAINER_pn-imake = "Yu Ke <ke.yu@intel.com>"
++DISTRO_PN_ALIAS_pn-imake = "Mandriva=xutils Ubuntu=xutils"
  
- PKGWRITEDIRDEB = "${WORKDIR}/deploy-debs"
+ RECIPE_STATUS_pn-qt4-tools-native = "green" # no update needed
+ RECIPE_LATEST_VERSION_pn-qt4-tools-native = "4.7.3"
+@@ -3543,6 +3546,7 @@ RECIPE_LATEST_RELEASE_DATE_pn-libxfontcache="2009/10/08"
+ RECIPE_INTEL_SECTION_pn-libxfontcache="graphic core"
+ RECIPE_LAST_UPDATE_pn-libxfontcache = "Jun 23, 2010"
+ RECIPE_MAINTAINER_pn-libxfontcache="Yu Ke <ke.yu@intel.com>"
++DISTRO_PN_ALIAS_pn-libxfontcache = "Mandriva=libxfontcache Debian=libxfontcache"
  
-@@ -418,6 +412,10 @@ python () {
-         bb.data.setVarFlag('do_package_write_deb', 'depends', " ".join(deps), d)
-         bb.data.setVarFlag('do_package_write_deb', 'fakeroot', "1", d)
-         bb.data.setVarFlag('do_package_write_deb_setscene', 'fakeroot', "1", d)
+ RECIPE_STATUS_pn-xf86-input-evdev="green" # no update needed
+ DISTRO_PN_ALIAS_pn-xf86-input-evdev = "Ubuntu=xserver-xorg-input-evdev Mandriva=x11-driver-input-evdev Debian=xserver-xorg-input-evdev Fedora=xorg-x11-drv-evdev Meego=xorg-x11-drv-evdev"
+@@ -3618,6 +3622,9 @@ RECIPE_LATEST_RELEASE_DATE_pn-mesa-dri="2010/06/17"
+ RECIPE_INTEL_SECTION_pn-mesa-dri="graphic core"
+ RECIPE_LAST_UPDATE_pn-mesa-dri = "Jan 18, 2011"
+ RECIPE_MAINTAINER_pn-mesa-dri="Yu Ke <ke.yu@intel.com>"
++DISTRO_PN_ALIAS_pn-mesa-dri = "Fedora=mesa Ubuntu=libgl1-mesa-dri"
 +
-+    # Map TARGET_ARCH to Debian's ideas about architectures
-+    if bb.data.getVar('DPKG_ARCH', d, True) in ["x86", "i486", "i586", "i686", "pentium"]:
-+        bb.data.setVar('DPKG_ARCH', 'i386', d)
- }
++DISTRO_PN_ALIAS_pn-mesa-xlib = "Fedora=mesa Ubuntu=libgl1-mesa-swx11"
  
- python do_package_write_deb () {
-diff --git a/meta/classes/populate_sdk_deb.bbclass b/meta/classes/populate_sdk_deb.bbclass
-index 40516b8..2cff69e 100644
---- a/meta/classes/populate_sdk_deb.bbclass
-+++ b/meta/classes/populate_sdk_deb.bbclass
-@@ -2,6 +2,10 @@ do_populate_sdk[depends] += "dpkg-native:do_populate_sysroot apt-native:do_popul
- do_populate_sdk[recrdeptask] += "do_package_write_deb"
- 
- 
-+DEB_SDK_ARCH = "${@[bb.data.getVar('SDK_ARCH', d, 1), "i386"]\
-+                [bb.data.getVar('SDK_ARCH', d, 1) in \
-+                ["x86", "i486", "i586", "i686", "pentium"]]}"
+ RECIPE_STATUS_pn-mesa-dri-glsl-native="green" # no update needed
+ RECIPE_LATEST_VERSION_pn-mesa-dri-glsl-native="7.8.2"
+@@ -5792,3 +5799,9 @@ RECIPE_LAST_UPDATE_pn-pseudo = "Jun 06, 2011"
+ RECIPE_MAINTAINER_pn-pseudo = "Mark Hatle <mark.hatle@windriver.com>"
+ RECIPE_COMMENTS_pn-pseudo = "Yocto Project maintained"
+ RECIPE_MANUAL_CHECK_DATE_pn-pseudo = "Jun 06, 2011" 
 +
- populate_sdk_post_deb () {
- 
- 	local target_rootfs=$1
-@@ -37,7 +41,7 @@ fakeroot populate_sdk_deb () {
- 	## install nativesdk ##
- 	echo "Installing NATIVESDK packages"
- 	export INSTALL_ROOTFS_DEB="${SDK_OUTPUT}"
--	export INSTALL_BASEARCH_DEB="${SDK_ARCH}"
-+	export INSTALL_BASEARCH_DEB="${DEB_SDK_ARCH}"
- 	export INSTALL_ARCHS_DEB="${SDK_PACKAGE_ARCHS}"
- 	export INSTALL_PACKAGES_NORMAL_DEB="${TOOLCHAIN_HOST_TASK}"
- 	export INSTALL_PACKAGES_ATTEMPTONLY_DEB=""
++DISTRO_PN_ALIAS_pn-btrfs-tools = "Debian=btrfs-tools Fedora=btrfs-progs"
++DISTRO_PN_ALIAS_pn-rt-tests = "Debian=rt-tests Ubuntu =rt-tests"
++DISTRO_PN_ALIAS_pn-xserver-xf86-lite = "Fedora=xorg-x11-server Ubuntu=xserver-xorg"
++DISTRO_PN_ALIAS_pn-xserver-xf86-dri-lite = "Fedora=xorg-x11-server Ubuntu=xserver-xorg"
++DISTRO_PN_ALIAS_pn-xserver-kdrive = "Fedora=xorg-x11-server Ubuntu=xserver-xorg"
 -- 
 1.7.6
 
