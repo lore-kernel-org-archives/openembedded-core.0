@@ -1,34 +1,20 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R4KEe-00059D-4r for openembedded-core@lists.openembedded.org;
-	Fri, 16 Sep 2011 00:16:44 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8FMHZhl016187 for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2011 23:17:36 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id z0lDufi2TP0D
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2011 23:17:35 +0100 (BST)
-Received: from [192.168.1.36] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8FMHU7C016180
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2011 23:17:32 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 15 Sep 2011 23:11:18 +0100
-In-Reply-To: <1316075038-2729-1-git-send-email-Bernhard.Guillon@hale.at>
-References: <1316075038-2729-1-git-send-email-Bernhard.Guillon@hale.at>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1316124686.25993.29.camel@ted>
-Mime-Version: 1.0
-Subject: Re: [PATCH] liboil-0.3.17: add upstream Fix-enable-vfp-flag patch
+	(envelope-from <dvhart@linux.intel.com>) id 1R4Ki3-0005n8-TF
+	for openembedded-core@lists.openembedded.org;
+	Fri, 16 Sep 2011 00:47:08 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 15 Sep 2011 15:41:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="48916282"
+Received: from unknown (HELO localhost) ([10.7.199.145])
+	by orsmga001.jf.intel.com with ESMTP; 15 Sep 2011 15:41:54 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Sep 2011 15:41:36 -0700
+Message-Id: <cover.1316126173.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [PATCH 0/2] initrd contamination and explict PATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,26 +29,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Sep 2011 22:16:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 15 Sep 2011 22:47:08 -0000
 
-On Thu, 2011-09-15 at 10:23 +0200, Bernhard Guillon wrote:
-> Add upstream 1921498bcc06408e8b051a3a9e9ce4182998f748 patch to fix
-> compiling with vfp
-> 
-> Without this patch this error occours on arm with vfp and softfloat:
-> 
-> | math_vfp_asm.S:273: Error: selected processor does not support `fnegd d12,d4'
-> | math_vfp_asm.S:273: Error: selected processor does not support `fstmiad r0!,{d12,d13,d14,d15}'
-> | math_vfp_asm.S:273: Error: selected processor does not support `fmxr fpscr,lr'
-> | make[3]: *** [math_vfp_asm.lo] Error 1
-> 
-> Signed-off-by: Bernhard Guillon <Bernhard.Guillon@hale.at>
+I ran into a bit of a nasty issue where EXTRA_IMAGE_FEATURES set in my
+local.conf was causing core-image-initramfs to pull a bunch of files into
+my initrd, including bash and a 100+MB vmlinux image. The 85M initrd caused
+some strange initial boot behavior, and bash in the initrd caused our init
+scripts to fail as bash has a different default PATH than busybox.
 
-Merged to master, thanks.
+The following patches address these issues.
 
-Richard
+Live boot tested on 32 bit x86.
+
+The following changes since commit bb4a5c44da23a1bb363f1f081cf1644fd7975957:
+
+  linux-yocto: remove emenlow from meta-yocto bbappend (2.6.37 version) (2011-09-15 11:27:22 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dvhart/initrdscripts
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dvhart/initrdscripts
+
+Darren Hart (2):
+  Set an explicit path for the initrd scripts
+  Prevent IMAGE_FEATURES from contaminating initrd
+
+ .../images/core-image-minimal-initramfs.bb         |    3 +++
+ meta/recipes-core/initrdscripts/files/init-boot.sh |    2 ++
+ .../initrdscripts/files/init-install.sh            |    2 ++
+ meta/recipes-core/initrdscripts/files/init-live.sh |    4 +++-
+ 4 files changed, 10 insertions(+), 1 deletions(-)
+
+-- 
+1.7.6
 
 
 
