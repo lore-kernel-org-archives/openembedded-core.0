@@ -1,30 +1,41 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1R4Fy9-0006PN-Ul
+Received: from 1.mo1.mail-out.ovh.net ([178.32.127.22]
+	helo=mo1.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <eric@eukrea.com>) id 1R4H8e-0000E1-Ks
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Sep 2011 19:43:26 +0200
-Received: from mail-fx0-f52.google.com ([209.85.161.52])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 15 Sep 2011 10:38:12 -0700
-Received: by fxe23 with SMTP id 23so795567fxe.25
+	Thu, 15 Sep 2011 20:58:21 +0200
+Received: from mail189.ha.ovh.net (b6.ovh.net [213.186.33.56])
+	by mo1.mail-out.ovh.net (Postfix) with SMTP id 4B63A1000E98
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2011 10:38:10 -0700 (PDT)
-Received: by 10.223.44.90 with SMTP id z26mr982556fae.28.1316108290607;
-	Thu, 15 Sep 2011 10:38:10 -0700 (PDT)
-Received: from [10.6.18.234] (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id w14sm7673722fae.13.2011.09.15.10.37.57
-	(version=SSLv3 cipher=OTHER); Thu, 15 Sep 2011 10:38:09 -0700 (PDT)
-From: Saul Wold <saul.wold@intel.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Thu, 15 Sep 2011 10:37:55 -0700
-In-Reply-To: <cover.1316023378.git.bruce.ashfield@windriver.com>
-References: <cover.1316023378.git.bruce.ashfield@windriver.com>
-Organization: Yocto Project / Open Source Tech Center / Intel
-X-Mailer: Evolution 3.0.3 (3.0.3-1.fc15) 
-Message-ID: <1316108288.1058.83.camel@swold-mobl.bigsur.com>
-Mime-Version: 1.0
-Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/3] linux-yocto: consolidated pull request
+	Thu, 15 Sep 2011 20:42:35 +0200 (CEST)
+Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
+	by b0.ovh.net with SMTP; 15 Sep 2011 20:41:49 +0200
+Received: from tal33-3-82-233-81-124.fbx.proxad.net (HELO ?192.168.2.9?)
+	(ebenard%eukrea.com@82.233.81.124)
+	by ns0.ovh.net with SMTP; 15 Sep 2011 20:41:48 +0200
+Message-ID: <4E7246EB.2070607@eukrea.com>
+Date: Thu, 15 Sep 2011 20:41:47 +0200
+From: =?UTF-8?B?RXJpYyBCw6luYXJk?= <eric@eukrea.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:6.0.2) Gecko/20110902 Thunderbird/6.0.2
+MIME-Version: 1.0
+To: sgw@linux.intel.com, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Ovh-Mailout: 178.32.228.1 (mo1.mail-out.ovh.net)
+References: <20110911172241.GA3674@chargestorm.se>
+	<1315762415-18070-1-git-send-email-eric@eukrea.com>
+	<201109121134.42474.paul.eggleton@linux.intel.com>
+	<FF2EB738-77F7-4BC5-BB83-82ED8CBC0F96@dominion.thruhere.net>
+	<1316107938.1058.80.camel@swold-mobl.bigsur.com>
+In-Reply-To: <1316107938.1058.80.camel@swold-mobl.bigsur.com>
+X-Ovh-Tracer-Id: 5110178202814360985
+X-Ovh-Remote: 82.233.81.124 (tal33-3-82-233-81-124.fbx.proxad.net)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-Spam-Check: DONE|U 0.5/N
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeftddrfeegucetggdotefuucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH] qt4: update to latest version 4.7.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,56 +50,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Sep 2011 17:43:26 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 15 Sep 2011 18:58:21 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2011-09-14 at 14:11 -0400, Bruce Ashfield wrote:
-> Richard/Saul,
-> 
-> Here's a series of changes I've had locally since last week. The
-> two kernel only ones are simple enough.
-> 
->   - a configuration split to clean our x86 BSPs
->   - a build fix for rt
-> 
-> The net result of the cleanup is zero, since the configs are the
-> same, so there's no reason not to do it.
-> 
-> I've also had the refactored linux-yocto tasks around for a bit,
-> they were brought up while reviewing some 1.1 documentation, and
-> indeed, simplifying the amount of variables required in a linux-yocto
-> based recipe was a 1.1 goal. The result here is also zero, since we
-> are just not resetting things needlessly. I've been building with
-> this for a while, but if you'd rather sit on this until the imminent
-> spin is done, I won't object.
-> 
-> The following changes since commit ce66e2c6bd117d1a40b547b10b376524f9276d16:
-> 
->   core-image-minimal: Add missing POKY_EXTRA_IMAGE variable (2011-09-14 01:29:30 +0100)
-> 
-> are available in the git repository at:
->   git://git.pokylinux.org/poky-contrib zedd/kernel
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-> 
-> Bruce Ashfield (3):
->   linux-yocto: move common tasks to a common location
->   linux-yocto: split e100 and e1000 support
->   linux-yocto-rt: correct 3.0.3->3.0.4 mismerge for, stop_machine.c
-> 
->  meta/recipes-kernel/linux/linux-yocto-rt_2.6.34.bb |    8 +-------
->  meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb    |   14 ++++----------
->  meta/recipes-kernel/linux/linux-yocto.inc          |    5 +++++
->  meta/recipes-kernel/linux/linux-yocto_2.6.37.bb    |   13 +------------
->  meta/recipes-kernel/linux/linux-yocto_3.0.bb       |   10 ++--------
->  5 files changed, 13 insertions(+), 37 deletions(-)
-> 
+Hi Saul,
 
-Merged into OE-Core
+Le 15/09/2011 19:32, Saul Wold a =C3=A9crit :
+>> Could you please give us an heads-up when this is going in, since it n=
+eeds matching commits to meta-oe and meta-angstrom as well to keep the .b=
+bappends working. If we don't succeed in merging the bbappend changes int=
+o oe-core we should consider breaking the 'git mv oldrecipe newrecipe' in=
+to an add and delete spaced a day apart.
+>>
+> Koen,
+>
+> We are going to hold off on this one until we complete the 1.1 RC
+> branching and open master up for development again.
+>
+Does that mean we have to wait the 5th of october to get this merged in o=
+e-core ?
 
-Thanks
-	Sau!
+In that case, maybe we could have a dev or testing branch in oe-core in o=
+rder=20
+to have a more reactive development than Yocto ?
 
+Btw, this patch is only a minor update of qt so this would be interesting=
+ to=20
+have it into the 1.1 release imho.
 
+Eric
 
 
