@@ -1,24 +1,33 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from smtp21.4emm.com ([69.18.222.6])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1R3xjE-0004fW-T3
+	(envelope-from <james@digitalmatter.com.au>) id 1R40Pn-0007v6-93
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Sep 2011 00:14:49 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 14 Sep 2011 15:09:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="48512529"
-Received: from unknown (HELO scimitar.amr.corp.intel.com) ([10.255.14.158])
-	by orsmga001.jf.intel.com with ESMTP; 14 Sep 2011 15:09:36 -0700
-From: Joshua Lock <josh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Sep 2011 15:09:28 -0700
-Message-Id: <9320024626bed55a7c6058131e1cb6c47944a36d.1316037832.git.josh@linux.intel.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <cover.1316037832.git.josh@linux.intel.com>
-References: <cover.1316037832.git.josh@linux.intel.com>
-In-Reply-To: <cover.1316037832.git.josh@linux.intel.com>
-References: <cover.1316037832.git.josh@linux.intel.com>
-Subject: [PATCH 1/1] sanity: disable mirrors for connectivity check
+	Thu, 15 Sep 2011 03:06:55 +0200
+Received: from MBX20.4emm.local ([fe80::382d:f6d3:f4de:a97f]) by
+	HUB21.4emm.local ([::1]) with mapi id 14.01.0289.001; Wed, 14 Sep 2011
+	21:01:46 -0400
+From: James Limbouris <james@digitalmatter.com.au>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] Problem with new image-prelink
+Thread-Index: Acxumoq/2ilmZmWnTuuyv8ZWELunbgAkC2oAAHA4PNAAJEvugAAQ8DpQABW1jIAAIK2pAAAG3eXAABW0MQAADb2k0A==
+Date: Thu, 15 Sep 2011 01:01:44 +0000
+Message-ID: <840A81C1B782724A8EB52725BD519EFF18ECD1@MBX20.4emm.local>
+References: <840A81C1B782724A8EB52725BD519EFF18E621@MBX20.4emm.local>
+	<4E6A3770.4060307@windriver.com>
+	<840A81C1B782724A8EB52725BD519EFF18E85D@MBX20.4emm.local>
+	<4E6E1C1D.7010500@windriver.com>
+	<840A81C1B782724A8EB52725BD519EFF18E950@MBX20.4emm.local>
+	<1315905402.2519.116.camel@phil-desktop>	<4E6FFAC6.60404@windriver.com>
+	<840A81C1B782724A8EB52725BD519EFF18EAAF@MBX20.4emm.local>
+	<4E70BA82.60606@windriver.com>
+In-Reply-To: <4E70BA82.60606@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [203.59.132.158]
+MIME-Version: 1.0
+Subject: Re: Problem with new image-prelink
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,44 +42,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2011 22:14:49 -0000
+X-List-Received-Date: Thu, 15 Sep 2011 01:06:55 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-It's difficult to test a range of fetchers when using mirrors, therefore create a throwaway
-copy of the datastore and delete the MIRROR and PREMIRROR variables to ensure they aren't
-used in the connectivity check.
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Mark Hatle
+> Sent: Wednesday, 14 September 2011 10:30 PM
+> To: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] Problem with new image-prelink
+>=20
+> On 9/13/11 8:33 PM, James Limbouris wrote:
+> >> -----Original Message-----
+> >> From: openembedded-core-bounces@lists.openembedded.org
+> >> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> Of
+> >> Mark Hatle
+> >> Sent: Wednesday, 14 September 2011 8:52 AM
+> >> To: openembedded-core@lists.openembedded.org
+> >> Subject: Re: [OE-core] Problem with new image-prelink
+> >>
+> >> Please try the new version of the prelinker.  I just sent a pull reque=
+st for it,
+> >> but there was a missing typecast on a printf.  This was causing proble=
+ms on
+> >> various systems, and likely could be causing the issue that you observ=
+ed on
+> >> ARM
+> >> as well.
+> >>
+> >> I did build the latest version for the ARM target, and successfully ra=
+n it there
+> >> under QEMU.
+> >>
+> >> --Mark
+> >
+> > Thanks Mark - all working, on host and target.
+>=20
+> Does this also resolve the initial issue you found, QT failing to work af=
+ter
+> prelinking?
+>=20
+> If not, I'd like to open a new defect on it and see if we can figure out =
+the
+> cause still...
+>=20
+> --Mark
 
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
----
- meta/classes/sanity.bbclass |    8 ++++++--
- 1 files changed, 6 insertions(+), 2 deletions(-)
+Yes, the Qt app is running as well.
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 93008cc..6ed43b2 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -94,14 +94,18 @@ def check_connectivity(d):
-     # CONNECTIVITY_CHECK_URIS are set
-     network_enabled = not bb.data.getVar('BB_NO_NETWORK', d, True)
-     check_enabled = len(test_uris)
-+    # Take a copy of the data store and unset MIRRORS and PREMIRROS
-+    data = bb.data.createCopy(d)
-+    data.delVar('PREMIRRORS')
-+    data.delVar('MIRRORS')
-     if check_enabled and network_enabled:
-         try:
--            fetcher = bb.fetch2.Fetch(test_uris, d)
-+            fetcher = bb.fetch2.Fetch(test_uris, data)
-             fetcher.checkstatus()
-         except Exception:
-             # Allow the message to be configured so that users can be
-             # pointed to a support mechanism.
--            msg = bb.data.getVar('CONNECTIVITY_CHECK_MSG', d, True) or ""
-+            msg = bb.data.getVar('CONNECTIVITY_CHECK_MSG', data, True) or ""
-             if len(msg) == 0:
-                 msg = "Failed to fetch test data from the network. Please ensure your network is configured correctly.\n"
-             retval = msg
--- 
-1.7.6
-
+Thanks,
+James
 
 
