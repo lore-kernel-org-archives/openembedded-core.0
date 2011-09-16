@@ -1,27 +1,31 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1R4Zpg-0005iJ-0V
-	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Sep 2011 16:56:00 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p8GEohJe018233
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 16 Sep 2011 07:50:43 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 16 Sep 2011 07:50:42 -0700
-Message-ID: <4E736242.2090106@windriver.com>
-Date: Fri, 16 Sep 2011 09:50:42 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:6.0.2) Gecko/20110902 Thunderbird/6.0.2
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1316165543.25993.59.camel@ted>
-In-Reply-To: <1316165543.25993.59.camel@ted>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Multilib status
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1R4a5w-0006Nw-GT for openembedded-core@lists.openembedded.org;
+	Fri, 16 Sep 2011 17:12:48 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8GFDh6p026163 for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Sep 2011 16:13:43 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 1RXa33Ue8qJs
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Sep 2011 16:13:43 +0100 (BST)
+Received: from [192.168.1.36] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8GFDbf1026159
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Sep 2011 16:13:39 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 16 Sep 2011 16:07:25 +0100
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1316185653.20858.30.camel@ted>
+Mime-Version: 1.0
+Subject: [PATCH] qemu: Fix reversed BGR values on ARM Versatile emulation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,130 +40,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Sep 2011 14:56:00 -0000
+X-List-Received-Date: Fri, 16 Sep 2011 15:12:48 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 9/16/11 4:32 AM, Richard Purdie wrote:
-> Hi Mark/Dongxaio,
-> 
-> We really need to get the remainder of the multilib bugs wrapped up. I
-> think there is some confusion about the exact approach to take to fix
-> some of them so I'm hoping to try and summarise the problems here so we
-> can work out some resolutions.
+[YOCTO #1469]
 
-Let me explain where I am quickly.  I just spent two days working on reproducing
-the issue(s).  So far I've not reproduced the direct failures but a series of
-others.  I finally figured out part of the reason I wasn't seeing this.  I had a
-typo in my configuration:
-
-DEFAULTTUNE-virtclass-mulitlib-lib32 = "x86"
-
-This resulted in two sets of binaries normal and lib32 that were more or less
-identical in the RPM case.  We -really- need a sanity check that stupid typos
-like that don't cause problems.
-
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
+diff --git a/meta/recipes-devtools/qemu/qemu-0.14.0/arm-bgr.patch b/meta/recipes-devtools/qemu/qemu-0.14.0/arm-bgr.patch
+new file mode 100644
+index 0000000..3b460d0
+--- a/dev/null
++++ b/meta/recipes-devtools/qemu/qemu-0.14.0/arm-bgr.patch
+@@ -0,0 +1,30 @@
++After kernel commit:
++
++http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-3.0/commit/?h=meta&id=9728c1b6a724daefc413b44e10253cdbb5e06d08
++
++It appears that the emulated colours in qemu are incorrect and that 
++the red and blue channels are reversed. This patch reverses that logic
++so the colours are correctly displayed on the versatile platform which
++doesn't support the BGR bit.
++
++RP 16/9/2011
++
++Upstream-status: Pending
++
++Index: qemu-0.14.0/hw/pl110.c
++===================================================================
++--- qemu-0.14.0.orig/hw/pl110.c	2011-09-16 14:45:34.228668514 +0100
+++++ qemu-0.14.0/hw/pl110.c	2011-09-16 15:17:22.458671206 +0100
++@@ -141,7 +141,11 @@
++         fprintf(stderr, "pl110: Bad color depth\n");
++         exit(1);
++     }
++-    if (s->cr & PL110_CR_BGR)
+++
+++    if (s->versatile && s->bpp == BPP_16)
+++        /* Code assumes BPP_16 == 565 and BGR is never set on the versatile in 565 mode */
+++        bpp_offset = 0;
+++    else if (s->cr & PL110_CR_BGR)
++         bpp_offset = 0;
++     else
++         bpp_offset = 18;
+diff --git a/meta/recipes-devtools/qemu/qemu_0.14.0.bb b/meta/recipes-devtools/qemu/qemu_0.14.0.bb
+index 055321e..03519ad 100644
+--- a/meta/recipes-devtools/qemu/qemu_0.14.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_0.14.0.bb
+@@ -3,7 +3,7 @@ require qemu.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
+ 
+-PR = "r2"
++PR = "r3"
+ 
+ FILESPATH = "${FILE_DIRNAME}/qemu-${PV}"
+ FILESDIR = "${WORKDIR}"
+@@ -19,6 +19,7 @@ SRC_URI = "\
+     file://spice-qxl-locking-fix-for-qemu-kvm.patch \
+     file://Detect-and-use-GCC-atomic-builtins-for-locking.patch \
+     file://larger_default_ram_size.patch \
++    file://arm-bgr.patch \
+     "
+ 
+ # Only use the GL passthrough patches for native/nativesdk versions
 
-So now that I finally have a built with that done... see below.
-
-> Problem A
-> =========
-> 
-> We can have multiple forms of "machine specific" packages now, one for
-> each multilib e.g.:
-> 
-> task-core-x11-base-1.0-r34.qemux86_64.rpm ("normal")
-> task-core-x11-base-1.0-r34.qemux86_64.rpm ("lib64")
-> task-core-x11-base-1.0-r34.qemux86_64.rpm ("lib32")
-> 
-> (lets assume the first uses /lib/, the second /lib64/ and the
-> thrid /lib32/, an artificial example I realise)
-> 
-> I know one proposal was to map:
-> 
-> task-core-x11-base-1.0-r34.lib32_qemux86_64.rpm to
-> task-core-x11-base-1.0-r34.lib32_qemux86.rpm but this isn't correct
-> since the library directories are different. In this specific case it
-> might not matter but in general it would. What is also important is that
-> the different versions imply different dependencies. The lib64 bit
-> version would pull in and select lib64 bit libs. Its these dependencies
-> which are a key reason these are not "all" arch packages.
-> 
-> The end result is therefore we likely want:
-> 
-> task-core-x11-base-1.0-r34.qemux86_64.rpm
-> task-core-x11-base-1.0-r34.lib64_qemux86_64.rpm
-> task-core-x11-base-1.0-r34.lib32_qemux86_64.rpm
-> 
-> and I believe there are some patches Dongxiao has created which do this.
-
-Yes, I'm currently testing his new MACHINE_virtclass-multilib-... patch.  So far
-it seems to be working.. assuming this is the approach we go with, we'll want to
-add some type of sanity check so that it's not possible to collide between the
-different multilib configurations.  (Alternatively we could, for each multilib,
-specify a default machine virtclass in the format you list above.
-
-An alternative I was thinking of over night would be to avoid the RPM remapping
-on the "machine" packages.. but I'm not sure if that is really a good idea.
-However, it would could simplify the configuration aspects.
-
-> Problem B
-> =========
-> 
-> If we install task-core-x11-base-1.0-r34.qemux86_64.rpm which depends on
-> "connman", how does the system figure out to associate this to mean we
-> want the "x86_64" architecture packages installed?
-> 
-> As far as I can tell there are two proposals around:
-> 
-> 1) Set the architecture in the package provides and depends (a bit ugly)
-> 
-> 2) Configure libzypp to understand that qemux86_64 does really map to
-> x86_64 architecture and imply x86_64 dependencies.
-> 
-> Solving problem A above is the first step towards resolving this either
-> way but we don't seem to have a resolution on this second part.
-
-Agreed.
-
-> For reference, we really do want these task packages to have an
-> associated architecture so the user can easily build up blocks of the
-> system using a given ABI.
-
-This is going to be somewhat of a problem I suspect, simply because that is not
-the way RPM is/was designed.  We can adjust the rootfs install time, but this
-won't address field upgrade/installs.
-
-RPM (and Red Hat Linux/Fedora systems) appear to be designed that any package
-that reasonably meets the run-time dependencies can be used.  There is a concept
-of a "best" machine based on the resolver hierarchy, but ELF size may or may not
-be a factor in that decision.
-
-Doing this is quite powerful, but it also has a conscious decision set behind
-it.  If "bash" is required by a script, it really doesn't matter if it's ELF32,
-ELF64 or something else, as long as something provides bash.
-
-> What I really need now is an idea of which patches you both agree on
-> that we need to merge (I think we have some for problem A) and a
-> resolution on problem B along with some patches so we can close this set
-> of issues out.
-> 
-> If there are further issues can you reply to this email either with the
-> details or a pointer to the specific additional problems.
-
-Now that I have my stupid typo out of the way, I expect to have further
-information in a few hours as to the regularly dependency resolution failure
-Dongxiao was reporting.  (Library dependencies -are- ELF specific, so those have
-to work properly!)
-
---Mark
-
-> Cheers,
-> 
-> Richard
-> 
-> 
 
 
 
