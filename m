@@ -1,37 +1,35 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R4boA-0001Kj-U1 for openembedded-core@lists.openembedded.org;
-	Fri, 16 Sep 2011 19:02:35 +0200
+	id 1R4buH-0001Qq-DW for openembedded-core@lists.openembedded.org;
+	Fri, 16 Sep 2011 19:08:53 +0200
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8GH3TrJ032113 for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2011 18:03:29 +0100
+	p8GH9m9M032566 for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Sep 2011 18:09:48 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id JjpGy8UK12S8
+	with LMTP id kD7bfGPIb9fI
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2011 18:03:29 +0100 (BST)
+	Fri, 16 Sep 2011 18:09:48 +0100 (BST)
 Received: from [192.168.1.36] (tim [93.97.173.237]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8GH3NqI032100
+	p8GH9iQj032558
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2011 18:03:25 +0100
+	Fri, 16 Sep 2011 18:09:46 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Sep 2011 17:57:10 +0100
-In-Reply-To: <1315925099-9259-1-git-send-email-eric@eukrea.com>
-References: <CAP9ODKqCg-GOR-HLcuXzrgCVM2tt0anUCTeAEVoqGVFVG4YkEQ@mail.gmail.com>
-	<1315925099-9259-1-git-send-email-eric@eukrea.com>
+Date: Fri, 16 Sep 2011 18:03:32 +0100
+In-Reply-To: <1315992658.2519.137.camel@phil-desktop>
+References: <1315961204.2252.32.camel@scimitar>
+	<1315992658.2519.137.camel@phil-desktop>
 X-Mailer: Evolution 3.1.91- 
-Message-ID: <1316192238.20858.45.camel@ted>
+Message-ID: <1316192620.20858.50.camel@ted>
 Mime-Version: 1.0
-X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
-	p8GH3TrJ032113
-Subject: Re: [PATCH v2] qt4: fix generated sdk
+Subject: Re: [RFC] Suggestion of minor change to patch submission policy re: long descriptions in commit headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,25 +44,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Sep 2011 17:02:35 -0000
+X-List-Received-Date: Fri, 16 Sep 2011 17:08:53 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-09-13 at 16:44 +0200, Eric B=C3=A9nard wrote:
-> - qt4-tools-nativesdk : actually the qmake binary which gets installed
-> comes from the native recipe. This patch fix this problem by laucnhing
-> configure twice : once to compile qmake using the right toolchain for
-> nativesdk, and a second time using the native qmake to compile all the
-> other tools for the nativesdk. Then we install the right qmake.
+On Wed, 2011-09-14 at 10:30 +0100, Phil Blundell wrote:
+> On Tue, 2011-09-13 at 17:46 -0700, Joshua Lock wrote:
+> > Whilst I intend to rectify the latter I'd like to propose we change the
+> > former such that the defect information is at the end of the commit
+> > message.
+> > 
+> > I believe this is more suitable for the project because the defect
+> > information and its relevance should be summarised in the long
+> > description, and therefore the defect id and link to the defect tracker
+> > are supplemental information for interested readers.
+> > 
+> > IMHO this supplementary nature should lead us to request submitters
+> > provide defect information after the long description.
+> 
+> Agreed, I think this would be something of an improvement (and indeed,
+> from a look at the git log it appears that some submitters are already
+> doing this).  Although it isn't a very big deal, I do find it slightly
+> irritating to have the first line of the long checkin message be
+> something that is essentially noise.
 
-I was reading through this and wondered why we can't this use the qmake
-from the qt4-tools-native recipe?
+In case it wasn't clear, I'm also in favour of moving this to the bottom
+of long description rather than the top. 
+
+I think including this information is fine since it does give people
+some idea where to look for more information although equally the commit
+messages should give suitable information in their own right and this
+isn't a replacement for that.
 
 Cheers,
 
 Richard
-
-
 
 
 
