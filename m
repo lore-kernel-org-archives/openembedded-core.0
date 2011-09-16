@@ -1,40 +1,35 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R4bdh-0000kA-9C for openembedded-core@lists.openembedded.org;
-	Fri, 16 Sep 2011 18:51:45 +0200
+	id 1R4bj3-0000sX-Me for openembedded-core@lists.openembedded.org;
+	Fri, 16 Sep 2011 18:57:17 +0200
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8GGqeDX031171 for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2011 17:52:40 +0100
+	p8GGw9Tx031732 for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Sep 2011 17:58:09 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id aEyKXgSErLZk
+	with LMTP id 6hXisXRSQX3a
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2011 17:52:40 +0100 (BST)
+	Fri, 16 Sep 2011 17:58:09 +0100 (BST)
 Received: from [192.168.1.36] (tim [93.97.173.237]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8GGqabC031162
+	p8GGw6IU031718
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2011 17:52:38 +0100
+	Fri, 16 Sep 2011 17:58:07 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Sep 2011 17:46:24 +0100
-In-Reply-To: <1316177670.3510.31.camel@phil-desktop>
-References: <20110911172241.GA3674@chargestorm.se>
-	<4E7246EB.2070607@eukrea.com>
-	<CAP9ODKqCc3zAuwBoL7Yiet0GKuJKFymZMtStkpwAq88b=ZGibw@mail.gmail.com>
-	<201109161212.19780.paul.eggleton@linux.intel.com>
-	<4E733F7D.6090109@eukrea.com> <1316177670.3510.31.camel@phil-desktop>
+Date: Fri, 16 Sep 2011 17:51:53 +0100
+In-Reply-To: <CAP9ODKor_37hXUvXv3GOYkF1ugkC_sWK4i4SW7tiU8ekJYu6Dw@mail.gmail.com>
+References: <1316177653.20858.23.camel@ted>
+	<CAP9ODKor_37hXUvXv3GOYkF1ugkC_sWK4i4SW7tiU8ekJYu6Dw@mail.gmail.com>
 X-Mailer: Evolution 3.1.91- 
-Message-ID: <1316191592.20858.38.camel@ted>
+Message-ID: <1316191921.20858.43.camel@ted>
 Mime-Version: 1.0
-X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
-	p8GGqeDX031171
-Subject: Re: [PATCH] qt4: update to latest version 4.7.4
+Subject: Re: OE-Core release process
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,50 +44,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Sep 2011 16:51:45 -0000
+X-List-Received-Date: Fri, 16 Sep 2011 16:57:17 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-09-16 at 13:54 +0100, Phil Blundell wrote:
-> On Fri, 2011-09-16 at 14:22 +0200, Eric B=C3=A9nard wrote:
-> > I don't understand why oe-core's development has to be stopped by yoc=
-to's=20
-> > releases process but I may not have found the right page on the wiki=20
-> > explaining all the details : may you please give me some links concer=
-ning this=20
-> > policy ?
->=20
-> It does seem a little bit strange, yes.  If it's just a short period
-> then I don't think there should be any real problem with granting yocto
-> a short freeze in oe-core so that they can do their branching. =20
->=20
-> Of course, this isn't going to scale very well if every user of oe-core
-> starts asking for a development freeze so that they can cut their own
-> release branches, and it isn't totally obvious to me that yocto couldn'=
-t
-> just as easily have branched from some semi-arbitrary point and then
-> cherry-picked or reverted a few changes to get to where they wanted. =20
->=20
-> Possibly the intent is to make a standalone release of oe-core itself o=
-n
-> the back of whatever yocto ends up shipping, I dunno.  That seems like
-> it might be a reasonable enough way to get a version of OE-core that
-> other people can build on without having to repeat all the QA and
-> release engineering work that yocto are presumably doing for themselves.
+On Fri, 2011-09-16 at 10:29 -0300, Otavio Salvador wrote:
+> On Fri, Sep 16, 2011 at 09:54, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > Its been mentioned to me that we perhaps haven't made it really clear
+> > what is happening with OE-Core at the moment. When we started this off,
+> > we agreed to try and get on a roughly six month release cadence so
+> > people had some idea of what to expect from the project and when. We
+> > decided to put that in sync with what Yocto was doing since it was felt
+> > OE-Core would equally benefit from the QA and bug fixing Yocto does as
+> > part of its release process.
+> 
+> I fully agree on that and I do think this will gonna be good for both
+> projects; what I dislike is that Yocto people keep using Poky to their
+> development instead of OE-Core and this it is quite boring to share
+> patches between both until you have  cherry-pick them.
+> 
+> This should be change in my point of view and people ought to use
+> oe-core for hacking so we all share same base tree.
 
-That is exactly what the thought is and its hoped that it will benefit
-users. Having some changes of pace and focus (bugfix vs features) to the
-development cycle will hopefully be a significant benefit although I
-appreciate it will take some getting used to since we've never done it
-before. Its only once every six months and only for a few weeks so I
-don't think it should be too disruptive...
+The shr people keep using their shr scripts and tree and angstrom do the
+same to pick two examples. No, we're not all going to use OE-Core alone,
+that was never the point. So why should we single out poky either? Ok, a
+lot of patches are coming from there but that's good, right? :)
+
+I've yet to refuse a bug report on the grounds of "not OE-Core alone"
+and don't plan to start :)
+
+The patches do translate easily, if they didn't I'd be going (more)
+insane!
 
 Cheers,
 
 Richard
-
-
-
 
 
 
