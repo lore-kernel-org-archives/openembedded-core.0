@@ -1,30 +1,32 @@
 Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1R4Nng-0002O7-01
+	(envelope-from <raj.khem@gmail.com>) id 1R4Nnn-0002O7-2n
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Sep 2011 04:05:08 +0200
-Received: by iadx2 with SMTP id x2so1971809iad.6
+	Fri, 16 Sep 2011 04:05:15 +0200
+Received: by mail-iy0-f175.google.com with SMTP id x2so1971809iad.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2011 18:59:55 -0700 (PDT)
+	Thu, 15 Sep 2011 19:00:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=evJ9e5ZNQaoLkgN7vDedbWgJ84IxzZmFqiWt+yIH/KA=;
-	b=Y5aad0G29Y3aC1Vmts+pDGhDpEndFJnEDwG+NUm49k+UzEXeHli2MCzF3UvuC7rArb
-	RcZpBs+U3GZJlL5ERtQNA/sgy05iSNEj26dLGxH0wv/+aIZkbCSp2OlUUR04cvx9dR5b
-	E9Zi6/EHCmC3Ods/c0LPK59DPSWRFupj7eQYM=
-Received: by 10.42.246.69 with SMTP id lx5mr1724441icb.183.1316138394948;
-	Thu, 15 Sep 2011 18:59:54 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=e5PNytotFzCZpWz84kXlOLE+3s3A04I2pcKlpy4azQk=;
+	b=WYkzTcn8SSZRfeU9Jw5GdHUuVMR0ssqJ6vPGOlIIeIbx2HBki5ksFnKadYj42V1IzM
+	VUzKj8whXuoc+PhDooA49zwpxA5cNDs9sIx8fWkm3YGyPMeVT+6fAd3evzdHmGio4EhB
+	LothGda0gWsbAvsO8duWgx1kRdR0bB8gL+hMg=
+Received: by 10.42.141.202 with SMTP id p10mr83123icu.179.1316138404985;
+	Thu, 15 Sep 2011 19:00:04 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
-	by mx.google.com with ESMTPS id o5sm7172680ibu.12.2011.09.15.18.59.53
+	by mx.google.com with ESMTPS id r2sm7188837ibq.7.2011.09.15.19.00.03
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 15 Sep 2011 18:59:54 -0700 (PDT)
+	Thu, 15 Sep 2011 19:00:04 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Sep 2011 18:59:46 -0700
-Message-Id: <cover.1316138063.git.raj.khem@gmail.com>
+Date: Thu, 15 Sep 2011 18:59:53 -0700
+Message-Id: <34fc595e22f0b359e6ae5ead10c1ecee30a447f6.1316138063.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH 0/4] Add eglibc 2.14 recipes and redo linker hashstyle patch
+In-Reply-To: <cover.1316138063.git.raj.khem@gmail.com>
+References: <cover.1316138063.git.raj.khem@gmail.com>
+Subject: [PATCH 1/4] conf, recipes: Add new variable LINKER_HASH_STYLE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,65 +41,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Sep 2011 02:05:08 -0000
+X-List-Received-Date: Fri, 16 Sep 2011 02:05:15 -0000
 
-Redo linker hash style patch to include RPs concerns
-Add sunrpc back into eglibc 2.14
+LINKER_HASH_STYLE in OE is set to either 'sysv' or 'gnu'
+depending upon processor architecture e.g. mips does not support
+gnu hash style so is uses sysv
 
-The following changes since commit f5c436fa476e6131d55089955ba042c83ff770af:
+besides 'sysv' and 'gnu' third option is to set it to 'both' we do
+not do that by default but user can still set it
 
-  eglibc: Add recipes for 2.14 (2011-09-15 18:38:02 -0700)
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/conf/bitbake.conf                      |    3 ++-
+ meta/conf/distro/include/tcmode-default.inc |    6 +++++-
+ meta/recipes-core/uclibc/uclibc.inc         |    2 +-
+ 3 files changed, 8 insertions(+), 3 deletions(-)
 
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib kraj/hashstyle-eglibc-updates
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/hashstyle-eglibc-updates
-
-Khem Raj (4):
-  conf,recipes: Add new variable LINKER_HASH_STYLE
-  gcc-4.6: Use --with-linker-hash-style configure option
-  eglibc-2.13: Replace oewarn with bbwarn
-  eglibc: Add recipes for 2.14
-
- meta/conf/bitbake.conf                             |    3 +-
- meta/conf/distro/include/tcmode-default.inc        |    6 +-
- .../eglibc/cross-localedef-native_2.14.bb          |   44 ++
- .../eglibc/eglibc-2.14/IO-acquire-lock-fix.patch   |   17 +
- .../eglibc-2.14/armv4-eabi-compile-fix.patch       |   25 +
- .../eglibc-2.14/eglibc-rpc-export-again.patch      |   69 +++
- .../eglibc-svn-arm-lowlevellock-include-tls.patch  |   21 +
- .../eglibc/eglibc-2.14/generate-supported.mk       |   11 +
- .../eglibc/eglibc-2.14/ld-search-order.patch       |   56 ++
- .../eglibc/eglibc-2.14/mips-rld-map-check.patch    |   26 +
- .../eglibc/eglibc-2.14/multilib_readlib.patch      |   17 +
- .../recipes-core/eglibc/eglibc-2.14/ppc-sqrt.patch |  538 ++++++++++++++++++++
- .../eglibc-2.14/shorten-build-commands.patch       |   82 +++
- .../eglibc/eglibc-2.14/stack-protector-test.patch  |   35 ++
- meta/recipes-core/eglibc/eglibc-initial_2.14.bb    |    6 +
- meta/recipes-core/eglibc/eglibc-locale_2.14.bb     |    1 +
- meta/recipes-core/eglibc/eglibc_2.13.bb            |    2 +-
- meta/recipes-core/eglibc/eglibc_2.14.bb            |  219 ++++++++
- meta/recipes-core/uclibc/uclibc.inc                |    2 +-
- meta/recipes-devtools/gcc/gcc-4.6.inc              |    4 +-
- .../gcc/gcc-4.6/gcc-with-linker-hash-style.patch   |  196 +++++++
- 21 files changed, 1375 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-core/eglibc/cross-localedef-native_2.14.bb
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/IO-acquire-lock-fix.patch
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/armv4-eabi-compile-fix.patch
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/eglibc-rpc-export-again.patch
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/eglibc-svn-arm-lowlevellock-include-tls.patch
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/etc/ld.so.conf
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/generate-supported.mk
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/ld-search-order.patch
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/mips-rld-map-check.patch
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/multilib_readlib.patch
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/ppc-sqrt.patch
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/shorten-build-commands.patch
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/stack-protector-test.patch
- create mode 100644 meta/recipes-core/eglibc/eglibc-initial_2.14.bb
- create mode 100644 meta/recipes-core/eglibc/eglibc-locale_2.14.bb
- create mode 100644 meta/recipes-core/eglibc/eglibc_2.14.bb
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.6/gcc-with-linker-hash-style.patch
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index b7bcc23..60ab000 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -476,7 +476,8 @@ BUILDSDK_LDFLAGS = "-L${STAGING_LIBDIR} \
+                     -Wl,-rpath-link,${STAGING_DIR_HOST}${base_libdir} \
+                     -Wl,-rpath,${base_libdir} -Wl,-O1"
+ 
+-TARGET_LINK_HASH_STYLE ??= ""
++LINKER_HASH_STYLE ??= "gnu"
++TARGET_LINK_HASH_STYLE ?= "${@['-Wl,--hash-style=gnu',''][bb.data.getVar('LINKER_HASH_STYLE', d, True) == 'gnu']}"
+ export LDFLAGS = "${TARGET_LDFLAGS}"
+ export TARGET_LDFLAGS = "-Wl,-O1 ${TARGET_LINK_HASH_STYLE}"
+ #export TARGET_LDFLAGS = "-L${STAGING_DIR_TARGET}${libdir} \
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 2857215..1ddfbce 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -63,5 +63,9 @@ PREFERRED_VERSION_gzip-native ?= "1.4"
+ 
+ # Setup suitable toolchain flags
+ require conf/distro/include/as-needed.inc
+-TARGET_LINK_HASH_STYLE ?= "${@['-Wl,--hash-style=gnu',''][bb.data.getVar('TARGET_ARCH', d, True) in ['mips', 'mipsel', 'mips64', 'mips64el']]}"
+ 
++# mips does not support GNU hash style therefore we hard assign them
++LINKER_HASH_STYLE_mips = "sysv"
++LINKER_HASH_STYLE_mipsel = "sysv"
++LINKER_HASH_STYLE_mips64 = "sysv"
++LINKER_HASH_STYLE_mips64el = "sysv"
+diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
+index 222c34f..f104114 100644
+--- a/meta/recipes-core/uclibc/uclibc.inc
++++ b/meta/recipes-core/uclibc/uclibc.inc
+@@ -201,5 +201,5 @@ do_configure() {
+ 
+ do_install() {
+         oe_runmake PREFIX=${D} install
+-        oe_runmake PREFIX=${D} "SSP_ALL_CFLAGS=${TARGET_LINK_HASH_STYLE}" install_utils
++	oe_runmake PREFIX=${D} "SSP_ALL_CFLAGS=${TARGET_LINK_HASH_STYLE}" install_utils
+ }
 -- 
 1.7.5.4
 
