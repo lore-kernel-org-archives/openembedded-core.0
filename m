@@ -1,35 +1,24 @@
-Received: from mail-wy0-f179.google.com ([74.125.82.179])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1R4c0A-0001fQ-8w
+	(envelope-from <josh@linux.intel.com>) id 1R4c2x-0001kt-7Z
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Sep 2011 19:14:58 +0200
-Received: by wyh21 with SMTP id 21so4138191wyh.10
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2011 10:09:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=pD8hMrNapAcVfF5b99I/6jcd9BBr4851foetZIZbbuI=;
-	b=vd+jOnqBKaN0Pi2/o36iPED7ZwThHvEOhgcf1iy6GksuRSmMJLIesg90Gen2Jd1YHX
-	XXWbZaN0A8lgagE1ow1hSAqginmByeLXfhQ635gHCN9T29NPaTnAUR6hNtoLW0K+XV+k
-	IK8s51dDpq0k0Mn6DEfi8xu99k1HC336DP3Ho=
-MIME-Version: 1.0
-Received: by 10.216.188.65 with SMTP id z43mr1488753wem.15.1316192985269; Fri,
-	16 Sep 2011 10:09:45 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.216.93.138 with HTTP; Fri, 16 Sep 2011 10:09:45 -0700 (PDT)
-In-Reply-To: <1316192238.20858.45.camel@ted>
-References: <CAP9ODKqCg-GOR-HLcuXzrgCVM2tt0anUCTeAEVoqGVFVG4YkEQ@mail.gmail.com>
-	<1315925099-9259-1-git-send-email-eric@eukrea.com>
-	<1316192238.20858.45.camel@ted>
-Date: Fri, 16 Sep 2011 14:09:45 -0300
-X-Google-Sender-Auth: VGyTgIqBQF2O7DjuRqjROmwzY2M
-Message-ID: <CAP9ODKqMuGzcwz=fBWnLU+zx9rSCCk0fus=pbXwye1hjRH_wFg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] qt4: fix generated sdk
+	Fri, 16 Sep 2011 19:17:51 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 16 Sep 2011 10:12:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="49216348"
+Received: from scimitar.jf.intel.com (HELO [10.7.199.70]) ([10.7.199.70])
+	by orsmga002.jf.intel.com with ESMTP; 16 Sep 2011 10:12:37 -0700
+From: Joshua Lock <josh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 16 Sep 2011 10:12:37 -0700
+In-Reply-To: <9320024626bed55a7c6058131e1cb6c47944a36d.1316037832.git.josh@linux.intel.com>
+References: <cover.1316037832.git.josh@linux.intel.com>
+	<9320024626bed55a7c6058131e1cb6c47944a36d.1316037832.git.josh@linux.intel.com>
+X-Mailer: Evolution 3.0.3 (3.0.3-1.fc15) 
+Message-ID: <1316193157.2325.0.camel@scimitar>
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/1] sanity: disable mirrors for connectivity check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,29 +33,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Sep 2011 17:14:58 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 16 Sep 2011 17:17:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 16, 2011 at 13:57, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Tue, 2011-09-13 at 16:44 +0200, Eric B=E9nard wrote:
->> - qt4-tools-nativesdk : actually the qmake binary which gets installed
->> comes from the native recipe. This patch fix this problem by laucnhing
->> configure twice : once to compile qmake using the right toolchain for
->> nativesdk, and a second time using the native qmake to compile all the
->> other tools for the nativesdk. Then we install the right qmake.
->
-> I was reading through this and wondered why we can't this use the qmake
-> from the qt4-tools-native recipe?
+Any comments?
 
-With mine qt.conf patch (not yet sent) this ought to work fine.
+On Wed, 2011-09-14 at 15:09 -0700, Joshua Lock wrote:
+> It's difficult to test a range of fetchers when using mirrors, therefore create a throwaway
+> copy of the datastore and delete the MIRROR and PREMIRROR variables to ensure they aren't
+> used in the connectivity check.
+> 
+> Signed-off-by: Joshua Lock <josh@linux.intel.com>
+> ---
+>  meta/classes/sanity.bbclass |    8 ++++++--
+>  1 files changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index 93008cc..6ed43b2 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -94,14 +94,18 @@ def check_connectivity(d):
+>      # CONNECTIVITY_CHECK_URIS are set
+>      network_enabled = not bb.data.getVar('BB_NO_NETWORK', d, True)
+>      check_enabled = len(test_uris)
+> +    # Take a copy of the data store and unset MIRRORS and PREMIRROS
+> +    data = bb.data.createCopy(d)
+> +    data.delVar('PREMIRRORS')
+> +    data.delVar('MIRRORS')
+>      if check_enabled and network_enabled:
+>          try:
+> -            fetcher = bb.fetch2.Fetch(test_uris, d)
+> +            fetcher = bb.fetch2.Fetch(test_uris, data)
+>              fetcher.checkstatus()
+>          except Exception:
+>              # Allow the message to be configured so that users can be
+>              # pointed to a support mechanism.
+> -            msg = bb.data.getVar('CONNECTIVITY_CHECK_MSG', d, True) or ""
+> +            msg = bb.data.getVar('CONNECTIVITY_CHECK_MSG', data, True) or ""
+>              if len(msg) == 0:
+>                  msg = "Failed to fetch test data from the network. Please ensure your network is configured correctly.\n"
+>              retval = msg
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+-- 
+Joshua Lock
+        Yocto Project "Johannes factotum"
+        Intel Open Source Technology Centre
+
 
 
