@@ -1,34 +1,40 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R4bUY-0000bC-2e for openembedded-core@lists.openembedded.org;
-	Fri, 16 Sep 2011 18:42:18 +0200
+	id 1R4bdh-0000kA-9C for openembedded-core@lists.openembedded.org;
+	Fri, 16 Sep 2011 18:51:45 +0200
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8GGhCwf030417 for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2011 17:43:13 +0100
+	p8GGqeDX031171 for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Sep 2011 17:52:40 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id amOhRuBULSks
+	with LMTP id aEyKXgSErLZk
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2011 17:43:12 +0100 (BST)
+	Fri, 16 Sep 2011 17:52:40 +0100 (BST)
 Received: from [192.168.1.36] (tim [93.97.173.237]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8GGh9N1030408
+	p8GGqabC031162
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2011 17:43:11 +0100
+	Fri, 16 Sep 2011 17:52:38 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Sep 2011 17:36:57 +0100
-In-Reply-To: <cover.1316177782.git.lianhao.lu@intel.com>
-References: <cover.1316177782.git.lianhao.lu@intel.com>
+Date: Fri, 16 Sep 2011 17:46:24 +0100
+In-Reply-To: <1316177670.3510.31.camel@phil-desktop>
+References: <20110911172241.GA3674@chargestorm.se>
+	<4E7246EB.2070607@eukrea.com>
+	<CAP9ODKqCc3zAuwBoL7Yiet0GKuJKFymZMtStkpwAq88b=ZGibw@mail.gmail.com>
+	<201109161212.19780.paul.eggleton@linux.intel.com>
+	<4E733F7D.6090109@eukrea.com> <1316177670.3510.31.camel@phil-desktop>
 X-Mailer: Evolution 3.1.91- 
-Message-ID: <1316191025.20858.33.camel@ted>
+Message-ID: <1316191592.20858.38.camel@ted>
 Mime-Version: 1.0
-Subject: Re: [PATCH 0/3] Added multilib support for DEBIAN_NAME
+X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
+	p8GGqeDX031171
+Subject: Re: [PATCH] qt4: update to latest version 4.7.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,38 +49,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Sep 2011 16:42:18 -0000
+X-List-Received-Date: Fri, 16 Sep 2011 16:51:45 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2011-09-16 at 21:01 +0800, Lianhao Lu wrote:
-> This series of patches is meant to fix bug [YOCTO #1486].
-> 
-> It added multilib support in package_name_hook() so MLPREFIX is kept in the 
-> package name after the debian package renaming. 
-> 
-> It changed the logic of multilib_sanity_check() that all the equal duplicated files 
-> from different multilib variants are allowed to be installed into the same rootfs.
-> 
-> It also fixed several recipes to support the multilib in debian package renaming.
-> 
-> The following changes since commit bb4dad44432b2e40ac3cf16baa45befbae3e70f5:
->   Darren Hart (1):
->         Prevent IMAGE_FEATURES from contaminating initrd
-> 
-> are available in the git repository at:
-> 
->   git://git.yoctoproject.org/poky-contrib llu/bug1486
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=llu/bug1486
-> 
-> Lianhao Lu (3):
->   debian/_ipk.bbclass: Added multilib support for package_name_hook()
->   Misc: Added MLPREFIX to final pkg names in case of DEBIAN_NAMES.
->   image/package.bbclass: Revise multilib support for DEBIAN_NAME.
+On Fri, 2011-09-16 at 13:54 +0100, Phil Blundell wrote:
+> On Fri, 2011-09-16 at 14:22 +0200, Eric B=C3=A9nard wrote:
+> > I don't understand why oe-core's development has to be stopped by yoc=
+to's=20
+> > releases process but I may not have found the right page on the wiki=20
+> > explaining all the details : may you please give me some links concer=
+ning this=20
+> > policy ?
+>=20
+> It does seem a little bit strange, yes.  If it's just a short period
+> then I don't think there should be any real problem with granting yocto
+> a short freeze in oe-core so that they can do their branching. =20
+>=20
+> Of course, this isn't going to scale very well if every user of oe-core
+> starts asking for a development freeze so that they can cut their own
+> release branches, and it isn't totally obvious to me that yocto couldn'=
+t
+> just as easily have branched from some semi-arbitrary point and then
+> cherry-picked or reverted a few changes to get to where they wanted. =20
+>=20
+> Possibly the intent is to make a standalone release of oe-core itself o=
+n
+> the back of whatever yocto ends up shipping, I dunno.  That seems like
+> it might be a reasonable enough way to get a version of OE-core that
+> other people can build on without having to repeat all the QA and
+> release engineering work that yocto are presumably doing for themselves.
 
-Merged to master, thanks.
+That is exactly what the thought is and its hoped that it will benefit
+users. Having some changes of pace and focus (bugfix vs features) to the
+development cycle will hopefully be a significant benefit although I
+appreciate it will take some getting used to since we've never done it
+before. Its only once every six months and only for a few weeks so I
+don't think it should be too disruptive...
+
+Cheers,
 
 Richard
+
+
+
 
 
 
