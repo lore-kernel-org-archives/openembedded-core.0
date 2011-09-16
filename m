@@ -1,32 +1,30 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dbaryshkov@gmail.com>) id 1R4SPh-00005W-0n
+	(envelope-from <dbaryshkov@gmail.com>) id 1R4SPg-00005V-Sj
 	for openembedded-core@lists.openembedded.org;
 	Fri, 16 Sep 2011 09:00:41 +0200
-Received: by bke11 with SMTP id 11so4460668bke.6
+Received: by bke11 with SMTP id 11so4460567bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2011 23:55:27 -0700 (PDT)
+	Thu, 15 Sep 2011 23:55:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=NFiDiqX0SwsF3ltb5kL0kk0nrsQwoPmCFU0K+VwYz30=;
-	b=byJyZHkrthgOFTwCKVpWr2FLbbNU6+falJE1uElFrtg9bw77wLaWUDz1o88Gh7gVks
-	/GKRXiXBZ3AdBBk0r90ZiPlXKvtqLzflYguiSXJb00xGb2sRNrLGKQXoTvORbN/Xtzyr
-	NR+/vl8gY2eg1VAh4gozL8QHbt5Rnc+0TdU0Q=
-Received: by 10.204.129.67 with SMTP id n3mr1347577bks.304.1316156127117;
-	Thu, 15 Sep 2011 23:55:27 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=ZI4jjr9L9d4cO8N4imU0SB7A7Q2IfHPBK6wtyLsoEKU=;
+	b=X+/lydzxCoCFU86/5BWZ1lnMvfcwEvlnXdzkWDqcd61OCZFmoIKcF9n9IFIjH4DOv5
+	Ir3P9OSw/KOlrzZElMYPkKSdsTksucUvcG8mpIkznOC36DEVAWoLBK6ZBhBdE+NZUL31
+	lRXv/O1KvvEn5Kn9Azl9WreecoEiKZITTV7ks=
+Received: by 10.204.133.2 with SMTP id d2mr1393532bkt.165.1316156125312;
+	Thu, 15 Sep 2011 23:55:25 -0700 (PDT)
 Received: from localhost.localdomain ([194.85.238.22])
-	by mx.google.com with ESMTPS id m18sm5371047bkt.12.2011.09.15.23.55.25
+	by mx.google.com with ESMTPS id m18sm5371047bkt.12.2011.09.15.23.55.23
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 15 Sep 2011 23:55:26 -0700 (PDT)
+	Thu, 15 Sep 2011 23:55:24 -0700 (PDT)
 From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Sep 2011 10:55:16 +0400
-Message-Id: <1316156117-22147-2-git-send-email-dbaryshkov@gmail.com>
+Date: Fri, 16 Sep 2011 10:55:15 +0400
+Message-Id: <1316156117-22147-1-git-send-email-dbaryshkov@gmail.com>
 X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <1316156117-22147-1-git-send-email-dbaryshkov@gmail.com>
-References: <1316156117-22147-1-git-send-email-dbaryshkov@gmail.com>
 Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Subject: [PATCH 2/3] icecc.bbclass: replace with updated version
+Subject: [PATCH 1/3] icecc-create-env: a tool to create icecc toolchain tarballs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,461 +41,162 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 16 Sep 2011 07:00:41 -0000
 
-Replace a non-working icecc class with a rewritten one. It's cleaned up,
-most things are handled now in shell scripts, as it's possible that
-toolchains won't exist at the time of parsing/python substitution.
-Packages which empty PARALLEL_MAKE are ignored now, as not to break
-them.
+IceCC needs tarballs with toolchains to work correctly. This is a
+version largely based on one from org.openembedded.dev, plus a patch to
+support recent compilers, LTO, etc.
 
 Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 ---
- meta/classes/icecc.bbclass |  390 ++++++++++++++++----------------------------
- 1 files changed, 144 insertions(+), 246 deletions(-)
+ .../icecc-create-env/icecc-lto-update.patch        |  103 ++++++++++++++++++++
+ .../icecc-create-env/icecc-create-env_0.1.bb       |   29 ++++++
+ 2 files changed, 132 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-lto-update.patch
+ create mode 100644 meta/recipes-devtools/icecc-create-env/icecc-create-env_0.1.bb
 
-diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-index 715f870..e20666b 100644
---- a/meta/classes/icecc.bbclass
-+++ b/meta/classes/icecc.bbclass
-@@ -26,295 +26,193 @@
- #Error checking is kept to minimum so double check any parameters you pass to the class
- ###########################################################################################
- 
-+ICECC_ENV_EXEC ?= "${STAGING_BINDIR_NATIVE}/icecc-create-env"
- 
--def icc_determine_gcc_version(gcc):
--    """
--    Hack to determine the version of GCC
--
--    'i686-apple-darwin8-gcc-4.0.1 (GCC) 4.0.1 (Apple Computer, Inc. build 5363)'
--    """
--    return os.popen("%s --version" % gcc ).readline().split()[2]
--
--def create_cross_env(bb,d):
--    """
--    Create a tar.bz2 of the current toolchain
--    """
--    # Constin native-native compilation no environment needed if
--    # host prefix is empty (let us duplicate the query for ease)
--    prefix = bb.data.expand('${HOST_PREFIX}', d)
--    if len(prefix) == 0:
--        return ""
--
--    import tarfile, socket, time
--    prefix  = bb.data.expand('${HOST_PREFIX}' , d)
--    ice_dir = bb.data.expand("${STAGING_DIR_NATIVE}${prefix_native}")
--    distro  = bb.data.expand('${DISTRO}', d)
--    target_sys = bb.data.expand('${TARGET_SYS}',  d)
--    target_prefix = bb.data.expand('${TARGET_PREFIX}',  d)
--    float   = bb.data.getVar('TARGET_FPU', d) or "hard"
--    name    = socket.gethostname()
--
--    # Stupid check to determine if we have built a libc and a cross
--    # compiler.
--    try:
--        os.stat(os.path.join(ice_dir, target_sys, 'lib', 'libc.so'))
--        os.stat(os.path.join(ice_dir, target_sys, 'bin', 'g++'))
--    except: # no cross compiler built yet
--        return ""
--
--    VERSION = icc_determine_gcc_version( os.path.join(ice_dir,target_sys,"bin","g++") )
--    cross_name = prefix + distro + "-" + target_sys + "-" + float + "-" + VERSION + "-" + name
--    tar_file = os.path.join(ice_dir, 'ice', cross_name + '.tar.gz')
--
--    try:
--        os.stat(tar_file)
--	# tar file already exists
--        return tar_file
--    except: 
--        try:
--            os.makedirs(os.path.join(ice_dir,'ice'))
--        except:
--            # directory already exists, continue
--            pass
--
--
--    #check if user has specified a specific icecc-create-env script
--    #if not use the OE provided one
--    cr_env_script = bb.data.getVar('ICECC_ENV_EXEC',  d) or  bb.data.expand('${STAGING_DIR}', d)+"/ice/icecc-create-env"
--    #call the modified create-env script
--    result=os.popen("%s %s %s %s %s %s" %(cr_env_script,
--           "--silent",
--           os.path.join(ice_dir,target_sys,'bin','gcc'),
--           os.path.join(ice_dir,target_sys,'bin','g++'),
--           os.path.join(ice_dir,target_sys,'bin','as'),
--           os.path.join(ice_dir,"ice",cross_name) ) )
--    return tar_file
--
-+def icecc_dep_prepend(d):
-+    # INHIBIT_DEFAULT_DEPS doesn't apply to the patch command.  Whether or  not
-+    # we need that built is the responsibility of the patch function / class, not
-+    # the application.
-+    if not bb.data.getVar('INHIBIT_DEFAULT_DEPS', d):
-+        return "icecc-create-env"
-+    return ""
- 
--def create_native_env(bb,d):
--    import tarfile, socket, time
--    ice_dir = bb.data.expand("${STAGING_DIR_NATIVE}${prefix_native}")
--    prefix  = bb.data.expand('${HOST_PREFIX}' , d)
--    distro  = bb.data.expand('${DISTRO}', d)
--    target_sys = bb.data.expand('${TARGET_SYS}',  d)
--    target_prefix = bb.data.expand('${TARGET_PREFIX}',  d)
--    float   = bb.data.getVar('TARGET_FPU', d) or "hard"
--    name    = socket.gethostname()
-+DEPENDS_prepend += "${@icecc_dep_prepend(d)} "
- 
--    archive_name = "local-host-env" + "-" + name
--    tar_file = os.path.join(ice_dir, 'ice', archive_name + '.tar.gz')
--
--    try:
--        os.stat(tar_file)
--	# tar file already exists
--        return tar_file
--    except: 
--        try:
--            #os.makedirs(os.path.join(ice_dir))
--            os.makedirs(os.path.join(ice_dir,'ice'))
--        except:
--            # directory already exists, continue
--            pass
--
--    #check if user has specified a specific icecc-create-env script
--    #if not use the OE provided one
--    cr_env_script = bb.data.getVar('ICECC_ENV_EXEC',  d) or  bb.data.expand('${STAGING_DIR}', d)+"/ice/icecc-create-env"
--    result=os.popen("%s %s %s %s %s %s" %(cr_env_script,
--           "--silent",
--           os.popen("%s gcc" % "which").read()[:-1],
--           os.popen("%s g++" % "which").read()[:-1],
--           os.popen("%s as" % "which").read()[:-1],
--           os.path.join(ice_dir,"ice",archive_name) ) )
--    return tar_file
--
--
--
--def create_cross_kernel_env(bb,d):
--    import tarfile, socket, time
--    ice_dir = bb.data.expand("${STAGING_DIR_NATIVE}${prefix_native}")
--    prefix  = bb.data.expand('${HOST_PREFIX}' , d)
--    distro  = bb.data.expand('${DISTRO}', d)
--    target_sys = bb.data.expand('${TARGET_SYS}',  d)
--    target_prefix = bb.data.expand('${TARGET_PREFIX}',  d)
--    float   = bb.data.getVar('TARGET_FPU', d) or "hard"
--    name    = socket.gethostname()
-+def get_cross_kernel_cc(bb,d):
-     kernel_cc = bb.data.expand('${KERNEL_CC}', d)
--    kernel_cc = kernel_cc[:-1]
--
--    # Stupid check to determine if we have built a libc and a cross
--    # compiler.
--    try:
--       os.stat(os.path.join(ice_dir, 'bin', kernel_cc))
--    except: # no cross compiler built yet
--        return ""
--
--    VERSION = icc_determine_gcc_version( os.path.join(ice_dir,"bin",kernel_cc) )
--    cross_name = prefix + distro + "-" + target_sys + "-" + float + "-" + VERSION + "-" + name
--    tar_file = os.path.join(ice_dir, 'ice', cross_name + '.tar.gz')
--
--    try:
--        os.stat(tar_file)
--	# tar file already exists
--        return tar_file
--    except: 
--        try:
--            os.makedirs(os.path.join(ice_dir,'ice'))
--        except:
--            # directory already exists, continue
--            pass
--
-+    kernel_cc = kernel_cc.replace('ccache', '').strip()
-+    kernel_cc = kernel_cc.split(' ')[0]
-+    kernel_cc = kernel_cc.strip()
-+    return kernel_cc
- 
--    #check if user has specified a specific icecc-create-env script
--    #if not use the OE provided one
--    cr_env_script = bb.data.getVar('ICECC_ENV_EXEC',  d) or  bb.data.expand('${STAGING_DIR}', d)+"/ice/icecc-create-env"
--    result=os.popen("%s %s %s %s %s %s" %(cr_env_script,
--           "--silent",
--           os.path.join(ice_dir,'bin',kernel_cc),
--           os.path.join(ice_dir,target_sys,'bin','g++'),
--           os.path.join(ice_dir,target_sys,'bin','as'),
--           os.path.join(ice_dir,"ice",cross_name) ) )
--    return tar_file
--
--
--def create_env(bb,d):
--
--        #return create_cross_kernel_env(bb,d) 
--
--        if bb.data.inherits_class("native", d):
--          return create_native_env(bb,d)
--        elif bb.data.inherits_class("kernel", d):
--          return create_cross_kernel_env(bb,d)
--        elif bb.data.inherits_class("cross", d):
--          return create_native_env(bb,d)
--        elif bb.data.inherits_class("sdk", d):
--          return create_native_env(bb,d)
--        else:  
--          return create_cross_env(bb,d)
--
--
--def create_path(compilers, type, bb, d):
-+def create_path(compilers, bb, d):
-     """
-     Create Symlinks for the icecc in the staging directory
-     """
--    staging = os.path.join(bb.data.expand('${STAGING_DIR}', d), "ice", type)
-+    staging = os.path.join(bb.data.expand('${STAGING_BINDIR}', d), "ice")
-+    if icc_is_kernel(bb, d):
-+        staging += "-kernel"
- 
-     #check if the icecc path is set by the user
--    icecc   = bb.data.getVar('ICECC_PATH', d) or os.popen("%s icecc" % "which").read()[:-1]
-+    icecc   = bb.data.getVar('ICECC_PATH', d) or os.popen("which icecc").read()[:-1]
- 
-     # Create the dir if necessary
-     try:
-         os.stat(staging)
-     except:
--        os.makedirs(staging)
-+        try:
-+            os.makedirs(staging)
-+        except:
-+            pass
- 
-     for compiler in compilers:
-         gcc_path = os.path.join(staging, compiler)
-         try:
-             os.stat(gcc_path)
-         except:
--            os.symlink(icecc, gcc_path)
-+            try:
-+                os.symlink(icecc, gcc_path)
-+            except:
-+                pass
- 
--    return staging + ":"
-+    return staging
- 
-+def use_icc(bb,d):
-+    package_tmp = bb.data.expand('${PN}', d)
- 
--def use_icc_version(bb,d):
--      icecc_ver = "yes"
--      system_class_blacklist = [ "none" ] 
--
--      for black in system_class_blacklist:
--           if bb.data.inherits_class(black, d):
--              icecc_ver = "no"
--
--      user_class_blacklist =  bb.data.getVar('ICECC_USER_CLASS_BL', d) or "none"
--      user_class_blacklist = user_class_blacklist.split()
--
--      for black in user_class_blacklist:
--           if bb.data.inherits_class(black, d):
--              icecc_ver = "no"
--
--      return icecc_ver
--
-+    system_class_blacklist = [ "none" ] 
-+    user_class_blacklist = (bb.data.getVar('ICECC_USER_CLASS_BL', d) or "none").split()
-+    package_class_blacklist = system_class_blacklist + user_class_blacklist
- 
--def icc_path(bb,d,compile):
--    package_tmp = bb.data.expand('${PN}', d)
-+    for black in package_class_blacklist:
-+        if bb.data.inherits_class(black, d):
-+            #bb.note(package_tmp, ' class ', black, ' found in blacklist, disable icecc')
-+            return "no"
- 
-     #"system" package blacklist contains a list of packages that can not distribute compile tasks
-     #for one reason or the other
--    system_package_blacklist = [ "uclibc", "glibc-intermediate", "gcc", "qemu", "bind", "u-boot", "dhcp-forwarder", "enchant" ]
--
--    for black in system_package_blacklist:
--      if black in package_tmp:
--         bb.data.setVar("PARALLEL_MAKE" , "", d) 
--         return ""
--
--    #user defined exclusion list
--    user_package_blacklist = bb.data.getVar('ICECC_USER_PACKAGE_BL', d) or "none"   
--    user_package_blacklist = user_package_blacklist.split()
--
--    for black in user_package_blacklist:
--      if black in package_tmp:
--         bb.data.setVar("PARALLEL_MAKE" , "", d) 
--         return ""
--
--
--    prefix = bb.data.expand('${HOST_PREFIX}', d)
--
--            
--    if compile and bb.data.inherits_class("cross", d):
--       return create_path( ["gcc", "g++"], "native", bb, d)
--
--    elif compile and bb.data.inherits_class("native", d):
--         return create_path( ["gcc", "g++"], "native", bb, d)
--
--    elif compile and bb.data.inherits_class("kernel", d):
--          return create_path( [get_cross_kernel_ver(bb,d), "foo"], "cross-kernel", bb, d)
-+    system_package_blacklist = [ "uclibc", "glibc", "gcc", "bind", "u-boot", "dhcp-forwarder", "enchant", "connman", "orbit2" ]
-+    user_package_blacklist = (bb.data.getVar('ICECC_USER_PACKAGE_BL', d) or "").split()
-+    package_blacklist = system_package_blacklist + user_package_blacklist
+diff --git a/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-lto-update.patch b/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-lto-update.patch
+new file mode 100644
+index 0000000..b396261
+--- /dev/null
++++ b/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-lto-update.patch
+@@ -0,0 +1,103 @@
++--- a/icecc-create-env	2006-12-14 09:50:46.000000000 +0300
+++++ b/icecc-create-env	2011-08-31 17:52:45.000000000 +0400
++@@ -27,9 +27,6 @@
++   # readlink is not portable enough. 
++   path=`ls -H $path`
++   toadd="$name=$path"
++-  if test "$name" = "$path"; then
++-    toadd=$path
++-  fi
++   is_contained "$toadd" && return
++   if test -z "$silent"; then
++   echo "adding file $toadd"
++@@ -117,6 +114,14 @@
++   add_file "$specfile"
++ fi
++ 
+++ltofile=`$added_gcc -print-prog-name=lto1`
+++pluginfile="${ltofile%lto1}liblto_plugin.so"
+++if test -r "$pluginfile"
+++then
+++  add_file $pluginfile  ${pluginfile#*usr}
+++  add_file $pluginfile  /usr${pluginfile#*usr}
+++fi
+++
++ tempdir=`mktemp -d /tmp/iceccenvXXXXXX`
++ new_target_files=
++ for i in $target_files; do 
++@@ -140,49 +147,44 @@
++ done
++ 
++ #sort the files
++- target_files=`for i in $new_target_files; do echo $i; done | sort`
+++target_files=`for i in $new_target_files; do echo $i; done | sort`
++ 
++ #test if an archive name was supplied
++ #if not use the md5 of all files as the archive name
++ if test -z "$archive_name"; then
++-md5sum=NONE
++-for file in /usr/bin/md5sum /bin/md5 /usr/bin/md5; do
++-   if test -x $file; then
++-	md5sum=$file
++-        break
++-   fi
++-done
+++  md5sum=NONE
+++  for file in /usr/bin/md5sum /bin/md5 /usr/bin/md5; do
+++    if test -x $file; then
+++      md5sum=$file
+++      break
+++    fi
+++  done
++ 
++-#calculate md5 and use it as the archive name
++-archive_name=`for i in $target_files; do $md5sum $tempdir/$i; done | sed -e 's/ .*$//' | $md5sum | sed -e 's/ .*$//'` || {
++-  if test -z "$silent"; then
++-   echo "Couldn't compute MD5 sum."
+++  #calculate md5 and use it as the archive name
+++  archive_name=`for i in $target_files; do test -f $tempdir/$i && $md5sum $tempdir/$i; done | sed -e 's/ .*$//' | $md5sum | sed -e 's/ .*$//'`.tar.gz || {
+++    if test -z "$silent"; then
+++     echo "Couldn't compute MD5 sum."
+++    fi
+++    exit 2
+++  }
+++  mydir=`pwd`
+++else
+++  mydir="`dirname "$archive_name"`"
+++ 
+++  #check if we have a full path or only a filename
+++  if test "$mydir" = "." ; then
+++    mydir=`pwd`
+++  else
+++    mydir=""
++   fi
++-  exit 2
++-}
++-
++ fi
++ 
++ if test -z "$silent"; then
++-echo "creating $archive_name.tar.gz"
+++echo "creating $archive_name"
++ fi
++ 
++-if test -z "$archive_name"; then
++- mydir=`pwd`
++-else
++-# mydir=dirname ${archive_name}
++-  mydir=${archive_name%/*}
++- 
++-#check if we have a full path or only a filename
++- if test -z "$mydir"; then
++-  mydir=`pwd`
++- else
++-  mydir=""
++- fi
++-
++-fi
++ cd $tempdir
++-tar -czhf "$mydir/$archive_name".tar.gz $target_files || {
+++tar -czhf "$mydir/$archive_name" $target_files || {
++  if test -z "$silent"; then
++   echo "Couldn't create archive"
++  fi
+diff --git a/meta/recipes-devtools/icecc-create-env/icecc-create-env_0.1.bb b/meta/recipes-devtools/icecc-create-env/icecc-create-env_0.1.bb
+new file mode 100644
+index 0000000..9a440ba
+--- /dev/null
++++ b/meta/recipes-devtools/icecc-create-env/icecc-create-env_0.1.bb
+@@ -0,0 +1,29 @@
++DESCRIPTION = "This is a modified version of the icecc-create-env script in order to\
++make it work with OE."
++SECTION = "base"
++PRIORITY = "optional"
++# source file has just a "GPL" word, but upstream is GPLv2+.
++# most probably just GPL would be a mistake
++LICENSE = "GPLv2+"
++LIC_FILES_CHKSUM = "file://icecc-create-env;beginline=2;endline=5;md5=ae1df3d6a058bfda40b66094c5f6065f"
 +
-+    for black in package_blacklist:
-+        if black in package_tmp:
-+            #bb.note(package_tmp, ' found in blacklist, disable icecc')
-+            return "no"
++PR = "r1"
 +
-+    if bb.data.getVar('PARALLEL_MAKE', d) == "":
-+        bb.note(package_tmp, " ", bb.data.expand('${PV}', d), " has empty PARALLEL_MAKE, disable icecc")
-+        return "no"
++DEPENDS = ""
++INHIBIT_DEFAULT_DEPS = "1"
 +
-+    return "yes"
++inherit native
 +
-+def icc_is_kernel(bb, d):
-+    return \
-+        bb.data.inherits_class("kernel", d);
++PATCHTOOL = "patch"
++SRC_URI = "http://www.digital-opsis.com/openembedded/icecc-create-env-${PV}.tar.gz \
++	   file://icecc-lto-update.patch "
 +
-+def icc_is_native(bb, d):
-+    return \
-+        bb.data.inherits_class("cross", d) or \
-+        bb.data.inherits_class("cross-canadian", d) or \
-+        bb.data.inherits_class("native", d) or \
-+        bb.data.inherits_class("nativesdk", d);
++S = "${WORKDIR}"
 +
-+def icc_version(bb, d):
-+    if use_icc(bb, d) == "no":
-+        return ""
- 
--    elif not compile or len(prefix) == 0:
--           return create_path( ["gcc", "g++"], "native", bb, d)
-+    parallel = bb.data.getVar('ICECC_PARALLEL_MAKE', d) or ""
-+    bb.data.setVar("PARALLEL_MAKE", parallel, d)
- 
-+    if icc_is_native(bb, d):
-+        archive_name = "local-host-env"
-+    elif bb.data.expand('${HOST_PREFIX}', d) == "":
-+        bb.fatal(bb.data.expand("${PN}", d), " NULL prefix")
-     else:
--           return create_path( [prefix+"gcc", prefix+"g++"], "cross", bb, d)      
-+        prefix = bb.data.expand('${HOST_PREFIX}' , d)
-+        distro = bb.data.expand('${DISTRO}', d)
-+        target_sys = bb.data.expand('${TARGET_SYS}', d)
-+        float = bb.data.getVar('TARGET_FPU', d) or "hard"
-+        archive_name = prefix + distro + "-"        + target_sys + "-" + float
-+        if icc_is_kernel(bb, d):
-+            archive_name += "-kernel"
-+
-+    import socket
-+    ice_dir = bb.data.expand('${STAGING_DIR_NATIVE}${prefix_native}', d)
-+    tar_file = os.path.join(ice_dir, 'ice', archive_name + "-@VERSION@-" + socket.gethostname() + '.tar.gz')
- 
-+    return tar_file
- 
-+def icc_path(bb,d):
-+    if icc_is_kernel(bb, d):
-+        return create_path( [get_cross_kernel_cc(bb,d), ], bb, d)
- 
-+    else:
-+        prefix = bb.data.expand('${HOST_PREFIX}', d)
-+        return create_path( [prefix+"gcc", prefix+"g++"], bb, d)      
-+
-+def icc_get_tool(bb, d, tool):
-+    if icc_is_native(bb, d):
-+        return os.popen("which %s" % tool).read()[:-1]
-+    elif icc_is_kernel(bb, d):
-+        return os.popen("which %s" % get_cross_kernel_cc(bb, d)).read()[:-1]
-+    else:
-+        ice_dir = bb.data.expand('${STAGING_BINDIR_TOOLCHAIN}', d)
-+        target_sys = bb.data.expand('${TARGET_SYS}',  d)
-+        return os.path.join(ice_dir, "%s-%s" % (target_sys, tool))
-+
-+set_icecc_env() {
-+    ICECC_VERSION="${@icc_version(bb, d)}"
-+    if [ "x${ICECC_VERSION}" = "x" ]
-+    then
-+        return
-+    fi
- 
--def icc_version(bb,d):
--    return create_env(bb,d)
-+    ICE_PATH="${@icc_path(bb, d)}"
-+    if [ "x${ICE_PATH}" = "x" ]
-+    then
-+        return
-+    fi
- 
-+    ICECC_CC="${@icc_get_tool(bb,d, "gcc")}"
-+    ICECC_CXX="${@icc_get_tool(bb,d, "g++")}"
-+    if [ ! -x "${ICECC_CC}" -o ! -x "${ICECC_CXX}" ]
-+    then
-+        return
-+    fi
- 
--def check_for_kernel(bb,d):     
--    if  bb.data.inherits_class("kernel", d):
--         return "yes"
--    return "no"
-+    ICE_VERSION=`$ICECC_CC -dumpversion`
-+    ICECC_VERSION=`echo ${ICECC_VERSION} | sed -e "s/@VERSION@/$ICE_VERSION/g"`
-+    if [ ! -x "${ICECC_ENV_EXEC}" ]
-+    then
-+        return
-+    fi
- 
-+    ICECC_AS="`${ICECC_CC} -print-prog-name=as`"
-+    if [ "`dirname "${ICECC_AS}"`" = "." ]
-+    then
-+        ICECC_AS="`which as`"
-+    fi
- 
--def get_cross_kernel_ver(bb,d):
-+    if [ ! -r "${ICECC_VERSION}" ]
-+    then
-+        mkdir -p "`dirname "${ICECC_VERSION}"`"
-+        ${ICECC_ENV_EXEC} "${ICECC_CC}" "${ICECC_CXX}" "${ICECC_AS}" "${ICECC_VERSION}"
-+    fi
- 
--       return  bb.data.expand('${KERNEL_CC}', d).strip() or "gcc"
-+    export ICECC_VERSION ICECC_CC ICECC_CXX
-+    export PATH="$ICE_PATH:$PATH"
-+    export CCACHE_PATH="$PATH"
++do_install() {
++    install -d ${D}/${bindir}
++    install -m 0755 ${WORKDIR}/icecc-create-env ${D}/${bindir}
 +}
- 
--# set the icecream environment variables
- do_configure_prepend() {
--    export PATH=${@icc_path(bb,d,False)}$PATH
--    export ICECC_CC="gcc"
--    export ICECC_CXX="g++"
-+    set_icecc_env
- }
- 
- do_compile_prepend() {
--
--    export PATH=${@icc_path(bb,d,True)}$PATH
-- 
-- #check if we are building a kernel and select gcc-cross-kernel
-- if [ "${@check_for_kernel(bb,d)}" = "yes" ]; then
--    export ICECC_CC="${@get_cross_kernel_ver(bb,d)}"
--    export ICECC_CXX="${HOST_PREFIX}g++"
-- else
--    export ICECC_CC="${HOST_PREFIX}gcc"
--    export ICECC_CXX="${HOST_PREFIX}g++"
-- fi
--
--    if [ "${@use_icc_version(bb,d)}" = "yes" ]; then
--        export ICECC_VERSION="${@icc_version(bb,d)}"
--    else
--        export ICECC_VERSION="NONE"
--    fi
-+    set_icecc_env
- }
 +
-+#do_install_prepend() {
-+#    set_icecc_env
-+#}
++SRC_URI[md5sum] = "641ec45fe377529c7fd914f77b11b44f"
++SRC_URI[sha256sum] = "9ff8360375432a7a5c476cc6d55b3fdea9d6f3edc080d295a60421d8f47b1834"
 -- 
 1.7.2.5
 
