@@ -1,30 +1,32 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dbaryshkov@gmail.com>) id 1R4SPg-00005V-Sj
+	(envelope-from <dbaryshkov@gmail.com>) id 1R4SPj-00005p-V9
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Sep 2011 09:00:41 +0200
-Received: by bke11 with SMTP id 11so4460567bke.6
+	Fri, 16 Sep 2011 09:00:44 +0200
+Received: by bke11 with SMTP id 11so4460771bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Sep 2011 23:55:25 -0700 (PDT)
+	Thu, 15 Sep 2011 23:55:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=ZI4jjr9L9d4cO8N4imU0SB7A7Q2IfHPBK6wtyLsoEKU=;
-	b=X+/lydzxCoCFU86/5BWZ1lnMvfcwEvlnXdzkWDqcd61OCZFmoIKcF9n9IFIjH4DOv5
-	Ir3P9OSw/KOlrzZElMYPkKSdsTksucUvcG8mpIkznOC36DEVAWoLBK6ZBhBdE+NZUL31
-	lRXv/O1KvvEn5Kn9Azl9WreecoEiKZITTV7ks=
-Received: by 10.204.133.2 with SMTP id d2mr1393532bkt.165.1316156125312;
-	Thu, 15 Sep 2011 23:55:25 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=dCirUkXU/DxznhaqtGsV8UPl7pNa0AEEAM6FT9GDuwM=;
+	b=JmImTiL7mqTrbesz06jpI3lFSJjktvYfc+VS3DTFTr6sFazLUox+1KF/+4S8CZPo3Z
+	hYUN+hwdjzZNfet05MLwZ3hCLUDYfGHLRU1ymlrdVkx2mOnnZlhjkyDK1nxN8aarElPZ
+	Fci3L33Hl27SNWDbm1e3RJOZ7+OOXmAztwnWM=
+Received: by 10.204.10.87 with SMTP id o23mr1330507bko.144.1316156128765;
+	Thu, 15 Sep 2011 23:55:28 -0700 (PDT)
 Received: from localhost.localdomain ([194.85.238.22])
-	by mx.google.com with ESMTPS id m18sm5371047bkt.12.2011.09.15.23.55.23
+	by mx.google.com with ESMTPS id m18sm5371047bkt.12.2011.09.15.23.55.27
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 15 Sep 2011 23:55:24 -0700 (PDT)
+	Thu, 15 Sep 2011 23:55:27 -0700 (PDT)
 From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Sep 2011 10:55:15 +0400
-Message-Id: <1316156117-22147-1-git-send-email-dbaryshkov@gmail.com>
+Date: Fri, 16 Sep 2011 10:55:17 +0400
+Message-Id: <1316156117-22147-3-git-send-email-dbaryshkov@gmail.com>
 X-Mailer: git-send-email 1.7.2.5
+In-Reply-To: <1316156117-22147-1-git-send-email-dbaryshkov@gmail.com>
+References: <1316156117-22147-1-git-send-email-dbaryshkov@gmail.com>
 Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Subject: [PATCH 1/3] icecc-create-env: a tool to create icecc toolchain tarballs
+Subject: [PATCH 3/3] bugzilla.bbclass: add a class to report build problems to bugzilla
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,164 +41,211 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Sep 2011 07:00:41 -0000
+X-List-Received-Date: Fri, 16 Sep 2011 07:00:44 -0000
 
-IceCC needs tarballs with toolchains to work correctly. This is a
-version largely based on one from org.openembedded.dev, plus a patch to
-support recent compilers, LTO, etc.
+Add a class to report build errors to bugzilla. Idea largely based on
+sepukku.bbclass, however it's rewritten nearly fully to use XML-RPC
+interface of bugzilla. Tested with bugzilla 4.0, other version might
+require some sort of adaptation.
 
 Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 ---
- .../icecc-create-env/icecc-lto-update.patch        |  103 ++++++++++++++++++++
- .../icecc-create-env/icecc-create-env_0.1.bb       |   29 ++++++
- 2 files changed, 132 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-lto-update.patch
- create mode 100644 meta/recipes-devtools/icecc-create-env/icecc-create-env_0.1.bb
+ meta/classes/bugzilla.bbclass |  186 +++++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 186 insertions(+), 0 deletions(-)
+ create mode 100644 meta/classes/bugzilla.bbclass
 
-diff --git a/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-lto-update.patch b/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-lto-update.patch
+diff --git a/meta/classes/bugzilla.bbclass b/meta/classes/bugzilla.bbclass
 new file mode 100644
-index 0000000..b396261
+index 0000000..801bd66
 --- /dev/null
-+++ b/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-lto-update.patch
-@@ -0,0 +1,103 @@
-+--- a/icecc-create-env	2006-12-14 09:50:46.000000000 +0300
-++++ b/icecc-create-env	2011-08-31 17:52:45.000000000 +0400
-+@@ -27,9 +27,6 @@
-+   # readlink is not portable enough. 
-+   path=`ls -H $path`
-+   toadd="$name=$path"
-+-  if test "$name" = "$path"; then
-+-    toadd=$path
-+-  fi
-+   is_contained "$toadd" && return
-+   if test -z "$silent"; then
-+   echo "adding file $toadd"
-+@@ -117,6 +114,14 @@
-+   add_file "$specfile"
-+ fi
-+ 
-++ltofile=`$added_gcc -print-prog-name=lto1`
-++pluginfile="${ltofile%lto1}liblto_plugin.so"
-++if test -r "$pluginfile"
-++then
-++  add_file $pluginfile  ${pluginfile#*usr}
-++  add_file $pluginfile  /usr${pluginfile#*usr}
-++fi
-++
-+ tempdir=`mktemp -d /tmp/iceccenvXXXXXX`
-+ new_target_files=
-+ for i in $target_files; do 
-+@@ -140,49 +147,44 @@
-+ done
-+ 
-+ #sort the files
-+- target_files=`for i in $new_target_files; do echo $i; done | sort`
-++target_files=`for i in $new_target_files; do echo $i; done | sort`
-+ 
-+ #test if an archive name was supplied
-+ #if not use the md5 of all files as the archive name
-+ if test -z "$archive_name"; then
-+-md5sum=NONE
-+-for file in /usr/bin/md5sum /bin/md5 /usr/bin/md5; do
-+-   if test -x $file; then
-+-	md5sum=$file
-+-        break
-+-   fi
-+-done
-++  md5sum=NONE
-++  for file in /usr/bin/md5sum /bin/md5 /usr/bin/md5; do
-++    if test -x $file; then
-++      md5sum=$file
-++      break
-++    fi
-++  done
-+ 
-+-#calculate md5 and use it as the archive name
-+-archive_name=`for i in $target_files; do $md5sum $tempdir/$i; done | sed -e 's/ .*$//' | $md5sum | sed -e 's/ .*$//'` || {
-+-  if test -z "$silent"; then
-+-   echo "Couldn't compute MD5 sum."
-++  #calculate md5 and use it as the archive name
-++  archive_name=`for i in $target_files; do test -f $tempdir/$i && $md5sum $tempdir/$i; done | sed -e 's/ .*$//' | $md5sum | sed -e 's/ .*$//'`.tar.gz || {
-++    if test -z "$silent"; then
-++     echo "Couldn't compute MD5 sum."
-++    fi
-++    exit 2
-++  }
-++  mydir=`pwd`
-++else
-++  mydir="`dirname "$archive_name"`"
-++ 
-++  #check if we have a full path or only a filename
-++  if test "$mydir" = "." ; then
-++    mydir=`pwd`
-++  else
-++    mydir=""
-+   fi
-+-  exit 2
-+-}
-+-
-+ fi
-+ 
-+ if test -z "$silent"; then
-+-echo "creating $archive_name.tar.gz"
-++echo "creating $archive_name"
-+ fi
-+ 
-+-if test -z "$archive_name"; then
-+- mydir=`pwd`
-+-else
-+-# mydir=dirname ${archive_name}
-+-  mydir=${archive_name%/*}
-+- 
-+-#check if we have a full path or only a filename
-+- if test -z "$mydir"; then
-+-  mydir=`pwd`
-+- else
-+-  mydir=""
-+- fi
-+-
-+-fi
-+ cd $tempdir
-+-tar -czhf "$mydir/$archive_name".tar.gz $target_files || {
-++tar -czhf "$mydir/$archive_name" $target_files || {
-+  if test -z "$silent"; then
-+   echo "Couldn't create archive"
-+  fi
-diff --git a/meta/recipes-devtools/icecc-create-env/icecc-create-env_0.1.bb b/meta/recipes-devtools/icecc-create-env/icecc-create-env_0.1.bb
-new file mode 100644
-index 0000000..9a440ba
---- /dev/null
-+++ b/meta/recipes-devtools/icecc-create-env/icecc-create-env_0.1.bb
-@@ -0,0 +1,29 @@
-+DESCRIPTION = "This is a modified version of the icecc-create-env script in order to\
-+make it work with OE."
-+SECTION = "base"
-+PRIORITY = "optional"
-+# source file has just a "GPL" word, but upstream is GPLv2+.
-+# most probably just GPL would be a mistake
-+LICENSE = "GPLv2+"
-+LIC_FILES_CHKSUM = "file://icecc-create-env;beginline=2;endline=5;md5=ae1df3d6a058bfda40b66094c5f6065f"
++++ b/meta/classes/bugzilla.bbclass
+@@ -0,0 +1,186 @@
++#
++# Small event handler to automatically open URLs and file
++# bug reports at a bugzilla of your choiche
++# it uses XML-RPC interface, so you must have it enabled
++#
++# Before using you must define BUGZILLA_USER, BUGZILLA_PASS credentials,
++# BUGZILLA_XMLRPC - uri of xmlrpc.cgi,
++# BUGZILLA_PRODUCT, BUGZILLA_COMPONENT - a place in BTS for build bugs
++# BUGZILLA_VERSION - version against which to report new bugs
++#
 +
-+PR = "r1"
++def bugzilla_find_bug_report(debug_file, server, args, bugname):
++    args['summary'] = bugname
++    bugs = server.Bug.search(args)
++    if len(bugs['bugs']) == 0:
++        print >> debug_file, "Bugs not found"
++        return (False,None)
++    else: # silently pick the first result
++        print >> debug_file, "Result of bug search is "
++        print >> debug_file, bugs
++        status = bugs['bugs'][0]['status']
++        id = bugs['bugs'][0]['id']
++        return (not status in ["CLOSED", "RESOLVED", "VERIFIED"],id)
 +
-+DEPENDS = ""
-+INHIBIT_DEFAULT_DEPS = "1"
++def bugzilla_file_bug(debug_file, server, args, name, text, version):
++    args['summary'] = name
++    args['comment'] = text
++    args['version'] = version
++    args['op_sys'] = 'Linux'
++    args['platform'] = 'Other'
++    args['severity'] = 'normal'
++    args['priority'] = 'Normal'
++    try:
++        return server.Bug.create(args)['id']
++    except Exception, e:
++        print >> debug_file, repr(e)
++        return None
 +
-+inherit native
++def bugzilla_reopen_bug(debug_file, server, args, bug_number):
++    args['ids'] = [bug_number]
++    args['status'] = "CONFIRMED"
++    try:
++        server.Bug.update(args)
++        return True
++    except Exception, e:
++        print >> debug_file, repr(e)
++        return False
 +
-+PATCHTOOL = "patch"
-+SRC_URI = "http://www.digital-opsis.com/openembedded/icecc-create-env-${PV}.tar.gz \
-+	   file://icecc-lto-update.patch "
++def bugzilla_create_attachment(debug_file, server, args, bug_number, text, file_name, log, logdescription):
++    args['ids'] = [bug_number]
++    args['file_name'] = file_name
++    args['summary'] = logdescription
++    args['content_type'] = "text/plain"
++    args['data'] = log
++    args['comment'] = text
++    try:
++        server.Bug.add_attachment(args)
++        return True
++    except Exception, e:
++        print >> debug_file, repr(e)
++        return False
 +
-+S = "${WORKDIR}"
++def bugzilla_add_comment(debug_file, server, args, bug_number, text):
++    args['id'] = bug_number
++    args['comment'] = text
++    try:
++        server.Bug.add_comment(args)
++        return True
++    except Exception, e:
++        print >> debug_file, repr(e)
++        return False
 +
-+do_install() {
-+    install -d ${D}/${bindir}
-+    install -m 0755 ${WORKDIR}/icecc-create-env ${D}/${bindir}
++addhandler bugzilla_eventhandler
++python bugzilla_eventhandler() {
++    import bb, os, glob
++    import xmlrpclib, httplib
++
++    class ProxiedTransport(xmlrpclib.Transport):
++        def __init__(self, proxy, use_datetime = 0):
++            xmlrpclib.Transport.__init__(self, use_datetime)
++            self.proxy = proxy
++            self.user = None
++            self.password = None
++
++        def set_user(self, user):
++            self.user = user
++
++        def set_password(self, password):
++            self.password = password
++
++        def make_connection(self, host):
++            self.realhost = host
++            return httplib.HTTP(self.proxy)
++
++        def send_request(self, connection, handler, request_body):
++            connection.putrequest("POST", 'http://%s%s' % (self.realhost, handler))
++            if self.user != None:
++                if self.password != None:
++                    auth = "%s:%s" % (self.user, self.password)
++                else:
++                    auth = self.user
++                connection.putheader("Proxy-authorization", "Basic " + base64.encodestring(auth))
++
++    event = e
++    data = e.data
++    name = bb.event.getName(event)
++    if name == "MsgNote":
++       # avoid recursion
++       return
++
++    if name == "TaskFailed":
++        xmlrpc  = bb.data.getVar("BUGZILLA_XMLRPC", data, True)
++        user    = bb.data.getVar("BUGZILLA_USER",  data, True)
++        passw   = bb.data.getVar("BUGZILLA_PASS",  data, True)
++        product = bb.data.getVar("BUGZILLA_PRODUCT", data, True)
++        compon  = bb.data.getVar("BUGZILLA_COMPONENT", data, True)
++        version = bb.data.getVar("BUGZILLA_VERSION", data, True)
++
++        proxy   = bb.data.getVar('http_proxy', data, True )
++        if (proxy):
++            import urllib2
++            s, u, p, hostport = urllib2._parse_proxy(proxy)
++            transport = ProxiedTransport(hostport)
++        else:
++            transport = None
++
++        server = xmlrpclib.ServerProxy(xmlrpc, transport=transport, verbose=0)
++        args = {
++            'Bugzilla_login': user,
++            'Bugzilla_password': passw,
++            'product': product,
++            'component': compon}
++
++        # evil hack to figure out what is going on
++        debug_file = open(os.path.join(bb.data.getVar("TMPDIR", data, True),"..","bugzilla-log"),"a")
++
++        file = None
++        bugname = "%(package)s-%(pv)s-autobuild" % { "package" : bb.data.getVar("PN", data, True),
++                                                           "pv"      : bb.data.getVar("PV", data, True),
++                                                           }
++        log_file = glob.glob("%s/log.%s.*" % (bb.data.getVar('T', event.data, True), event.task))
++        text     = "The %s step in %s failed at %s for machine %s" % (e.task, bb.data.getVar("PN", data, True), bb.data.getVar('DATETIME', data, True), bb.data.getVar( 'MACHINE', data, True ) )
++        if len(log_file) != 0:
++            print >> debug_file, "Adding log file %s" % log_file[0]
++            file = open(log_file[0], 'r')
++            log = file.read()
++            file.close();
++        else:
++            print >> debug_file, "No log file found for the glob"
++            log = None
++
++        (bug_open, bug_number) = bugzilla_find_bug_report(debug_file, server, args.copy(), bugname)
++        print >> debug_file, "Bug is open: %s and bug number: %s" % (bug_open, bug_number)
++
++        # The bug is present and still open, attach an error log
++        if not bug_number:
++            bug_number = bugzilla_file_bug(debug_file, server, args.copy(), bugname, text, version)
++            if not bug_number:
++                print >> debug_file, "Couldn't acquire a new bug_numer, filing a bugreport failed"
++            else:
++                print >> debug_file, "The new bug_number: '%s'" % bug_number
++        elif not bug_open:
++            if not bugzilla_reopen_bug(debug_file, server, args.copy(), bug_number):
++                print >> debug_file, "Failed to reopen the bug #%s" % bug_number
++            else:
++                print >> debug_file, "Reopened the bug #%s" % bug_number
++
++        if bug_number and log:
++            print >> debug_file, "The bug is known as '%s'" % bug_number
++            desc = "Build log for machine %s" % (bb.data.getVar('MACHINE', data, True))
++            if not bugzilla_create_attachment(debug_file, server, args.copy(), bug_number, text, log_file[0], log, desc):
++                 print >> debug_file, "Failed to attach the build log for bug #%s" % bug_number
++            else:
++                 print >> debug_file, "Created an attachment for '%s' '%s' '%s'" % (product, compon, bug_number)
++        else:
++            print >> debug_file, "Not trying to create an attachment for bug #%s" % bug_number
++            if not bugzilla_add_comment(debug_file, server, args.copy(), bug_number, text, ):
++                 print >> debug_file, "Failed to create a comment the build log for bug #%s" % bug_number
++            else:
++                 print >> debug_file, "Created an attachment for '%s' '%s' '%s'" % (product, compon, bug_number)
++
++        # store bug number for oestats-client
++        if bug_number:
++            bb.data.setVar('OESTATS_BUG_NUMBER', bug_number, data)
 +}
 +
-+SRC_URI[md5sum] = "641ec45fe377529c7fd914f77b11b44f"
-+SRC_URI[sha256sum] = "9ff8360375432a7a5c476cc6d55b3fdea9d6f3edc080d295a60421d8f47b1834"
 -- 
 1.7.2.5
 
