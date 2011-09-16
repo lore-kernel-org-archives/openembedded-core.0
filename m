@@ -1,34 +1,31 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R4bIS-0000Ff-Gj for openembedded-core@lists.openembedded.org;
-	Fri, 16 Sep 2011 18:29:48 +0200
+	id 1R4bTR-0000Rw-0a for openembedded-core@lists.openembedded.org;
+	Fri, 16 Sep 2011 18:41:09 +0200
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8GGUguH029401 for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2011 17:30:43 +0100
+	p8GGg2PJ030314; Fri, 16 Sep 2011 17:42:02 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 7Jd4M-KyLVel
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2011 17:30:42 +0100 (BST)
+	with LMTP id BPgNg+SHbw4M; Fri, 16 Sep 2011 17:42:02 +0100 (BST)
 Received: from [192.168.1.36] (tim [93.97.173.237]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8GGUba2029390
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2011 17:30:39 +0100
+	p8GGfva6030298
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Fri, 16 Sep 2011 17:41:59 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Sep 2011 17:24:25 +0100
-In-Reply-To: <1316186907.2384.90.camel@elmorro>
-References: <1316186907.2384.90.camel@elmorro>
+Date: Fri, 16 Sep 2011 17:35:45 +0100
+In-Reply-To: <1316156117-22147-1-git-send-email-dbaryshkov@gmail.com>
+References: <1316156117-22147-1-git-send-email-dbaryshkov@gmail.com>
 X-Mailer: Evolution 3.1.91- 
-Message-ID: <1316190273.20858.31.camel@ted>
+Message-ID: <1316190953.20858.32.camel@ted>
 Mime-Version: 1.0
-Subject: Re: [PATCH] package.bbclass: fix spurious 'installed but not shipped' warning
+Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Subject: Re: [PATCH 1/3] icecc-create-env: a tool to create icecc toolchain tarballs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,35 +40,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Sep 2011 16:29:48 -0000
+X-List-Received-Date: Fri, 16 Sep 2011 16:41:09 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-09-16 at 10:28 -0500, Tom Zanussi wrote:
-> For packages that have files installed that aren't in a subdirectory,
-> the following build WARNING is emitted (this for initramfs-live-boot
-> as an example):
+On Fri, 2011-09-16 at 10:55 +0400, Dmitry Eremin-Solenikov wrote:
+> IceCC needs tarballs with toolchains to work correctly. This is a
+> version largely based on one from org.openembedded.dev, plus a patch to
+> support recent compilers, LTO, etc.
 > 
-> WARNING: For recipe initramfs-live-boot, the following files were
->  installed but not shipped in any package:
-> WARNING:   init
-> 
-> The problem is that the filenames added to the 'seen' array are always
-> added with a path separator at the beginning of the filename, but when
-> the package dir is walked for comparison, any files at the top-level
-> will be missing the beginning path separator and the comparison will
-> fail despite the fact that the file was actually packaged.  This
-> because the remainder between the dirname and the dvar base name is
-> used in the path join and in the case of files at the top-level, the
-> remainder is the empty string, where it should be '/' for comparison
-> purposes.
-> 
-> Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+> Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 > ---
->  meta/classes/package.bbclass |    5 ++++-
->  1 files changed, 4 insertions(+), 1 deletions(-)
+>  .../icecc-create-env/icecc-lto-update.patch        |  103 ++++++++++++++++++++
+>  .../icecc-create-env/icecc-create-env_0.1.bb       |   29 ++++++
+>  2 files changed, 132 insertions(+), 0 deletions(-)
+>  create mode 100644 meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-lto-update.patch
+>  create mode 100644 meta/recipes-devtools/icecc-create-env/icecc-create-env_0.1.bb
 
-Good fix, merged to master, thanks.
+Merged to master, thanks (along with patches 2 and 3)
+
+Cheers,
 
 Richard
 
