@@ -1,31 +1,39 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R4a5w-0006Nw-GT for openembedded-core@lists.openembedded.org;
-	Fri, 16 Sep 2011 17:12:48 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8GFDh6p026163 for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2011 16:13:43 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 1RXa33Ue8qJs
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2011 16:13:43 +0100 (BST)
-Received: from [192.168.1.36] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8GFDbf1026159
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2011 16:13:39 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Sep 2011 16:07:25 +0100
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1316185653.20858.30.camel@ted>
-Mime-Version: 1.0
-Subject: [PATCH] qemu: Fix reversed BGR values on ARM Versatile emulation
+	(envelope-from <dongxiao.xu@intel.com>) id 1R4aJL-0006Zf-5t
+	for openembedded-core@lists.openembedded.org;
+	Fri, 16 Sep 2011 17:26:39 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 16 Sep 2011 08:21:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="49181948"
+Received: from pgsmsx603.gar.corp.intel.com ([10.221.43.87])
+	by orsmga002.jf.intel.com with ESMTP; 16 Sep 2011 08:21:24 -0700
+Received: from pgsmsx103.gar.corp.intel.com (10.221.44.82) by
+	pgsmsx603.gar.corp.intel.com (10.221.43.87) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Fri, 16 Sep 2011 23:21:23 +0800
+Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
+	PGSMSX103.gar.corp.intel.com (10.221.44.82) with Microsoft SMTP Server
+	(TLS) id 14.1.323.3; Fri, 16 Sep 2011 23:21:22 +0800
+Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
+	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
+	Fri, 16 Sep 2011 23:21:22 +0800
+From: "Xu, Dongxiao" <dongxiao.xu@intel.com>
+To: Mark Hatle <mark.hatle@windriver.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+Date: Fri, 16 Sep 2011 23:21:21 +0800
+Thread-Topic: Multilib status
+Thread-Index: Acx0gARt0L23WVi7SD2puBLpRun21AAA3EAw
+Message-ID: <D5AB6E638E5A3E4B8F4406B113A5A19A12D84DF2E8@shsmsx501.ccr.corp.intel.com>
+References: <1316165543.25993.59.camel@ted> <4E736242.2090106@windriver.com>
+In-Reply-To: <4E736242.2090106@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Multilib status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,72 +48,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Sep 2011 15:12:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 16 Sep 2011 15:26:39 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-[YOCTO #1469]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-devtools/qemu/qemu-0.14.0/arm-bgr.patch b/meta/recipes-devtools/qemu/qemu-0.14.0/arm-bgr.patch
-new file mode 100644
-index 0000000..3b460d0
---- a/dev/null
-+++ b/meta/recipes-devtools/qemu/qemu-0.14.0/arm-bgr.patch
-@@ -0,0 +1,30 @@
-+After kernel commit:
-+
-+http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-3.0/commit/?h=meta&id=9728c1b6a724daefc413b44e10253cdbb5e06d08
-+
-+It appears that the emulated colours in qemu are incorrect and that 
-+the red and blue channels are reversed. This patch reverses that logic
-+so the colours are correctly displayed on the versatile platform which
-+doesn't support the BGR bit.
-+
-+RP 16/9/2011
-+
-+Upstream-status: Pending
-+
-+Index: qemu-0.14.0/hw/pl110.c
-+===================================================================
-+--- qemu-0.14.0.orig/hw/pl110.c	2011-09-16 14:45:34.228668514 +0100
-++++ qemu-0.14.0/hw/pl110.c	2011-09-16 15:17:22.458671206 +0100
-+@@ -141,7 +141,11 @@
-+         fprintf(stderr, "pl110: Bad color depth\n");
-+         exit(1);
-+     }
-+-    if (s->cr & PL110_CR_BGR)
-++
-++    if (s->versatile && s->bpp == BPP_16)
-++        /* Code assumes BPP_16 == 565 and BGR is never set on the versatile in 565 mode */
-++        bpp_offset = 0;
-++    else if (s->cr & PL110_CR_BGR)
-+         bpp_offset = 0;
-+     else
-+         bpp_offset = 18;
-diff --git a/meta/recipes-devtools/qemu/qemu_0.14.0.bb b/meta/recipes-devtools/qemu/qemu_0.14.0.bb
-index 055321e..03519ad 100644
---- a/meta/recipes-devtools/qemu/qemu_0.14.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_0.14.0.bb
-@@ -3,7 +3,7 @@ require qemu.inc
- LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
-                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
- 
--PR = "r2"
-+PR = "r3"
- 
- FILESPATH = "${FILE_DIRNAME}/qemu-${PV}"
- FILESDIR = "${WORKDIR}"
-@@ -19,6 +19,7 @@ SRC_URI = "\
-     file://spice-qxl-locking-fix-for-qemu-kvm.patch \
-     file://Detect-and-use-GCC-atomic-builtins-for-locking.patch \
-     file://larger_default_ram_size.patch \
-+    file://arm-bgr.patch \
-     "
- 
- # Only use the GL passthrough patches for native/nativesdk versions
-
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBNYXJrIEhhdGxlIFttYWlsdG86
+bWFyay5oYXRsZUB3aW5kcml2ZXIuY29tXQ0KPiBTZW50OiBGcmlkYXksIFNlcHRlbWJlciAxNiwg
+MjAxMSAxMDo1MSBQTQ0KPiBUbzogUmljaGFyZCBQdXJkaWUNCj4gQ2M6IFh1LCBEb25neGlhbzsg
+b3BlbmVtYmVkZGVkLWNvcmUNCj4gU3ViamVjdDogUmU6IE11bHRpbGliIHN0YXR1cw0KPiANCj4g
+T24gOS8xNi8xMSA0OjMyIEFNLCBSaWNoYXJkIFB1cmRpZSB3cm90ZToNCj4gPiBIaSBNYXJrL0Rv
+bmd4YWlvLA0KPiA+DQo+ID4gV2UgcmVhbGx5IG5lZWQgdG8gZ2V0IHRoZSByZW1haW5kZXIgb2Yg
+dGhlIG11bHRpbGliIGJ1Z3Mgd3JhcHBlZCB1cC4gSQ0KPiA+IHRoaW5rIHRoZXJlIGlzIHNvbWUg
+Y29uZnVzaW9uIGFib3V0IHRoZSBleGFjdCBhcHByb2FjaCB0byB0YWtlIHRvIGZpeA0KPiA+IHNv
+bWUgb2YgdGhlbSBzbyBJJ20gaG9waW5nIHRvIHRyeSBhbmQgc3VtbWFyaXNlIHRoZSBwcm9ibGVt
+cyBoZXJlIHNvDQo+ID4gd2UgY2FuIHdvcmsgb3V0IHNvbWUgcmVzb2x1dGlvbnMuDQo+IA0KPiBM
+ZXQgbWUgZXhwbGFpbiB3aGVyZSBJIGFtIHF1aWNrbHkuICBJIGp1c3Qgc3BlbnQgdHdvIGRheXMg
+d29ya2luZyBvbg0KPiByZXByb2R1Y2luZyB0aGUgaXNzdWUocykuICBTbyBmYXIgSSd2ZSBub3Qg
+cmVwcm9kdWNlZCB0aGUgZGlyZWN0IGZhaWx1cmVzIGJ1dCBhDQo+IHNlcmllcyBvZiBvdGhlcnMu
+ICBJIGZpbmFsbHkgZmlndXJlZCBvdXQgcGFydCBvZiB0aGUgcmVhc29uIEkgd2Fzbid0IHNlZWlu
+ZyB0aGlzLiAgSQ0KPiBoYWQgYSB0eXBvIGluIG15IGNvbmZpZ3VyYXRpb246DQo+IA0KPiBERUZB
+VUxUVFVORS12aXJ0Y2xhc3MtbXVsaXRsaWItbGliMzIgPSAieDg2Ig0KPiANCj4gVGhpcyByZXN1
+bHRlZCBpbiB0d28gc2V0cyBvZiBiaW5hcmllcyBub3JtYWwgYW5kIGxpYjMyIHRoYXQgd2VyZSBt
+b3JlIG9yIGxlc3MNCj4gaWRlbnRpY2FsIGluIHRoZSBSUE0gY2FzZS4gIFdlIC1yZWFsbHktIG5l
+ZWQgYSBzYW5pdHkgY2hlY2sgdGhhdCBzdHVwaWQgdHlwb3MNCj4gbGlrZSB0aGF0IGRvbid0IGNh
+dXNlIHByb2JsZW1zLg0KPiANCj4gLS0tDQo+IA0KPiBTbyBub3cgdGhhdCBJIGZpbmFsbHkgaGF2
+ZSBhIGJ1aWx0IHdpdGggdGhhdCBkb25lLi4uIHNlZSBiZWxvdy4NCj4gDQo+ID4gUHJvYmxlbSBB
+DQo+ID4gPT09PT09PT09DQo+ID4NCj4gPiBXZSBjYW4gaGF2ZSBtdWx0aXBsZSBmb3JtcyBvZiAi
+bWFjaGluZSBzcGVjaWZpYyIgcGFja2FnZXMgbm93LCBvbmUgZm9yDQo+ID4gZWFjaCBtdWx0aWxp
+YiBlLmcuOg0KPiA+DQo+ID4gdGFzay1jb3JlLXgxMS1iYXNlLTEuMC1yMzQucWVtdXg4Nl82NC5y
+cG0gKCJub3JtYWwiKQ0KPiA+IHRhc2stY29yZS14MTEtYmFzZS0xLjAtcjM0LnFlbXV4ODZfNjQu
+cnBtICgibGliNjQiKQ0KPiA+IHRhc2stY29yZS14MTEtYmFzZS0xLjAtcjM0LnFlbXV4ODZfNjQu
+cnBtICgibGliMzIiKQ0KPiA+DQo+ID4gKGxldHMgYXNzdW1lIHRoZSBmaXJzdCB1c2VzIC9saWIv
+LCB0aGUgc2Vjb25kIC9saWI2NC8gYW5kIHRoZSB0aHJpZA0KPiA+IC9saWIzMi8sIGFuIGFydGlm
+aWNpYWwgZXhhbXBsZSBJIHJlYWxpc2UpDQo+ID4NCj4gPiBJIGtub3cgb25lIHByb3Bvc2FsIHdh
+cyB0byBtYXA6DQo+ID4NCj4gPiB0YXNrLWNvcmUteDExLWJhc2UtMS4wLXIzNC5saWIzMl9xZW11
+eDg2XzY0LnJwbSB0bw0KPiA+IHRhc2stY29yZS14MTEtYmFzZS0xLjAtcjM0LmxpYjMyX3FlbXV4
+ODYucnBtIGJ1dCB0aGlzIGlzbid0IGNvcnJlY3QNCj4gPiBzaW5jZSB0aGUgbGlicmFyeSBkaXJl
+Y3RvcmllcyBhcmUgZGlmZmVyZW50LiBJbiB0aGlzIHNwZWNpZmljIGNhc2UgaXQNCj4gPiBtaWdo
+dCBub3QgbWF0dGVyIGJ1dCBpbiBnZW5lcmFsIGl0IHdvdWxkLiBXaGF0IGlzIGFsc28gaW1wb3J0
+YW50IGlzDQo+ID4gdGhhdCB0aGUgZGlmZmVyZW50IHZlcnNpb25zIGltcGx5IGRpZmZlcmVudCBk
+ZXBlbmRlbmNpZXMuIFRoZSBsaWI2NA0KPiA+IGJpdCB2ZXJzaW9uIHdvdWxkIHB1bGwgaW4gYW5k
+IHNlbGVjdCBsaWI2NCBiaXQgbGlicy4gSXRzIHRoZXNlDQo+ID4gZGVwZW5kZW5jaWVzIHdoaWNo
+IGFyZSBhIGtleSByZWFzb24gdGhlc2UgYXJlIG5vdCAiYWxsIiBhcmNoIHBhY2thZ2VzLg0KPiA+
+DQo+ID4gVGhlIGVuZCByZXN1bHQgaXMgdGhlcmVmb3JlIHdlIGxpa2VseSB3YW50Og0KPiA+DQo+
+ID4gdGFzay1jb3JlLXgxMS1iYXNlLTEuMC1yMzQucWVtdXg4Nl82NC5ycG0NCj4gPiB0YXNrLWNv
+cmUteDExLWJhc2UtMS4wLXIzNC5saWI2NF9xZW11eDg2XzY0LnJwbQ0KPiA+IHRhc2stY29yZS14
+MTEtYmFzZS0xLjAtcjM0LmxpYjMyX3FlbXV4ODZfNjQucnBtDQo+ID4NCj4gPiBhbmQgSSBiZWxp
+ZXZlIHRoZXJlIGFyZSBzb21lIHBhdGNoZXMgRG9uZ3hpYW8gaGFzIGNyZWF0ZWQgd2hpY2ggZG8g
+dGhpcy4NCj4gDQo+IFllcywgSSdtIGN1cnJlbnRseSB0ZXN0aW5nIGhpcyBuZXcgTUFDSElORV92
+aXJ0Y2xhc3MtbXVsdGlsaWItLi4uIHBhdGNoLiAgU28gZmFyDQo+IGl0IHNlZW1zIHRvIGJlIHdv
+cmtpbmcuLiBhc3N1bWluZyB0aGlzIGlzIHRoZSBhcHByb2FjaCB3ZSBnbyB3aXRoLCB3ZSdsbCB3
+YW50IHRvDQo+IGFkZCBzb21lIHR5cGUgb2Ygc2FuaXR5IGNoZWNrIHNvIHRoYXQgaXQncyBub3Qg
+cG9zc2libGUgdG8gY29sbGlkZSBiZXR3ZWVuIHRoZQ0KPiBkaWZmZXJlbnQgbXVsdGlsaWIgY29u
+ZmlndXJhdGlvbnMuICAoQWx0ZXJuYXRpdmVseSB3ZSBjb3VsZCwgZm9yIGVhY2ggbXVsdGlsaWIs
+DQo+IHNwZWNpZnkgYSBkZWZhdWx0IG1hY2hpbmUgdmlydGNsYXNzIGluIHRoZSBmb3JtYXQgeW91
+IGxpc3QgYWJvdmUuDQo+IA0KPiBBbiBhbHRlcm5hdGl2ZSBJIHdhcyB0aGlua2luZyBvZiBvdmVy
+IG5pZ2h0IHdvdWxkIGJlIHRvIGF2b2lkIHRoZSBSUE0NCj4gcmVtYXBwaW5nIG9uIHRoZSAibWFj
+aGluZSIgcGFja2FnZXMuLiBidXQgSSdtIG5vdCBzdXJlIGlmIHRoYXQgaXMgcmVhbGx5IGEgZ29v
+ZA0KPiBpZGVhLg0KPiBIb3dldmVyLCBpdCB3b3VsZCBjb3VsZCBzaW1wbGlmeSB0aGUgY29uZmln
+dXJhdGlvbiBhc3BlY3RzLg0KDQpUaGVyZSBhcmUgdHdvIGltcGxlbWVudGF0aW9ucyB0b3dhcmRz
+IHRoZSBhYm92ZSByZXN1bHQ6DQoxKSBhdXRvbWF0aWNhbGx5IHNldHRpbmcgTUxQUkVGSVggYmVm
+b3JlIE1BQ0hJTkVfQVJDSC4NCjIpIHVzZXIgbWFudWFsbHkgc2V0cyBNQUNISU5FX3ZpcnRjbGFz
+cy1tdWx0aWxpYi1saWIzMj0ibGliMzItcWVtdXg4Ni02NCIgaW4gbG9jYWwuY29uZi4NCg0KV2hp
+Y2ggb25lIGRvIHlvdSBwcmVmZXI/DQoNCj4gDQo+ID4gUHJvYmxlbSBCDQo+ID4gPT09PT09PT09
+DQo+ID4NCj4gPiBJZiB3ZSBpbnN0YWxsIHRhc2stY29yZS14MTEtYmFzZS0xLjAtcjM0LnFlbXV4
+ODZfNjQucnBtIHdoaWNoIGRlcGVuZHMNCj4gPiBvbiAiY29ubm1hbiIsIGhvdyBkb2VzIHRoZSBz
+eXN0ZW0gZmlndXJlIG91dCB0byBhc3NvY2lhdGUgdGhpcyB0byBtZWFuDQo+ID4gd2Ugd2FudCB0
+aGUgIng4Nl82NCIgYXJjaGl0ZWN0dXJlIHBhY2thZ2VzIGluc3RhbGxlZD8NCj4gPg0KPiA+IEFz
+IGZhciBhcyBJIGNhbiB0ZWxsIHRoZXJlIGFyZSB0d28gcHJvcG9zYWxzIGFyb3VuZDoNCj4gPg0K
+PiA+IDEpIFNldCB0aGUgYXJjaGl0ZWN0dXJlIGluIHRoZSBwYWNrYWdlIHByb3ZpZGVzIGFuZCBk
+ZXBlbmRzIChhIGJpdA0KPiA+IHVnbHkpDQo+ID4NCj4gPiAyKSBDb25maWd1cmUgbGlienlwcCB0
+byB1bmRlcnN0YW5kIHRoYXQgcWVtdXg4Nl82NCBkb2VzIHJlYWxseSBtYXAgdG8NCj4gPiB4ODZf
+NjQgYXJjaGl0ZWN0dXJlIGFuZCBpbXBseSB4ODZfNjQgZGVwZW5kZW5jaWVzLg0KPiA+DQo+ID4g
+U29sdmluZyBwcm9ibGVtIEEgYWJvdmUgaXMgdGhlIGZpcnN0IHN0ZXAgdG93YXJkcyByZXNvbHZp
+bmcgdGhpcw0KPiA+IGVpdGhlciB3YXkgYnV0IHdlIGRvbid0IHNlZW0gdG8gaGF2ZSBhIHJlc29s
+dXRpb24gb24gdGhpcyBzZWNvbmQgcGFydC4NCj4gDQo+IEFncmVlZC4NCj4gDQo+ID4gRm9yIHJl
+ZmVyZW5jZSwgd2UgcmVhbGx5IGRvIHdhbnQgdGhlc2UgdGFzayBwYWNrYWdlcyB0byBoYXZlIGFu
+DQo+ID4gYXNzb2NpYXRlZCBhcmNoaXRlY3R1cmUgc28gdGhlIHVzZXIgY2FuIGVhc2lseSBidWls
+ZCB1cCBibG9ja3Mgb2YgdGhlDQo+ID4gc3lzdGVtIHVzaW5nIGEgZ2l2ZW4gQUJJLg0KPiANCj4g
+VGhpcyBpcyBnb2luZyB0byBiZSBzb21ld2hhdCBvZiBhIHByb2JsZW0gSSBzdXNwZWN0LCBzaW1w
+bHkgYmVjYXVzZSB0aGF0IGlzIG5vdA0KPiB0aGUgd2F5IFJQTSBpcy93YXMgZGVzaWduZWQuICBX
+ZSBjYW4gYWRqdXN0IHRoZSByb290ZnMgaW5zdGFsbCB0aW1lLCBidXQgdGhpcw0KPiB3b24ndCBh
+ZGRyZXNzIGZpZWxkIHVwZ3JhZGUvaW5zdGFsbHMuDQo+IA0KPiBSUE0gKGFuZCBSZWQgSGF0IExp
+bnV4L0ZlZG9yYSBzeXN0ZW1zKSBhcHBlYXIgdG8gYmUgZGVzaWduZWQgdGhhdCBhbnkNCj4gcGFj
+a2FnZSB0aGF0IHJlYXNvbmFibHkgbWVldHMgdGhlIHJ1bi10aW1lIGRlcGVuZGVuY2llcyBjYW4g
+YmUgdXNlZC4NCj4gVGhlcmUgaXMgYSBjb25jZXB0IG9mIGEgImJlc3QiIG1hY2hpbmUgYmFzZWQg
+b24gdGhlIHJlc29sdmVyIGhpZXJhcmNoeSwgYnV0IEVMRg0KPiBzaXplIG1heSBvciBtYXkgbm90
+IGJlIGEgZmFjdG9yIGluIHRoYXQgZGVjaXNpb24uDQo+IA0KPiBEb2luZyB0aGlzIGlzIHF1aXRl
+IHBvd2VyZnVsLCBidXQgaXQgYWxzbyBoYXMgYSBjb25zY2lvdXMgZGVjaXNpb24gc2V0IGJlaGlu
+ZCBpdC4gIElmDQo+ICJiYXNoIiBpcyByZXF1aXJlZCBieSBhIHNjcmlwdCwgaXQgcmVhbGx5IGRv
+ZXNuJ3QgbWF0dGVyIGlmIGl0J3MgRUxGMzIsDQo+IEVMRjY0IG9yIHNvbWV0aGluZyBlbHNlLCBh
+cyBsb25nIGFzIHNvbWV0aGluZyBwcm92aWRlcyBiYXNoLg0KDQpJZiB1c2VyIHNldHMgTVVMVElM
+SUJfSU1BR0VfSU5TVEFMTD0ibGliMzItdGFzay1jb3JlLWJvb3QiIHdpdGggYSBxZW11eDg2LTY0
+IGltYWdlLCBpdCBtZWFucyB0aGF0IGhlIHdhbnRzIHRvIGluc3RhbGwgYWxsIGVsZW1lbnRzIHJl
+cXVpcmVkIGJ5IHRhc2stY29yZS1ib290IGJ5IGxpYjMyIHZlcnNpb24uIElmIHRoZSBkZXBlbmRl
+bmN5IGlzIHNlbGVjdGVkICpyYW5kb21seSosIHVzZXJzIHdvdWxkIG5vdCBoYXZlIG11bHRpcGxl
+IGxpYnJhcmllcyBpbiBoaXMgc3lzdGVtLg0KDQpUaGFua3MsDQpEb25neGlhbw0KPiANCj4gPiBX
+aGF0IEkgcmVhbGx5IG5lZWQgbm93IGlzIGFuIGlkZWEgb2Ygd2hpY2ggcGF0Y2hlcyB5b3UgYm90
+aCBhZ3JlZSBvbg0KPiA+IHRoYXQgd2UgbmVlZCB0byBtZXJnZSAoSSB0aGluayB3ZSBoYXZlIHNv
+bWUgZm9yIHByb2JsZW0gQSkgYW5kIGENCj4gPiByZXNvbHV0aW9uIG9uIHByb2JsZW0gQiBhbG9u
+ZyB3aXRoIHNvbWUgcGF0Y2hlcyBzbyB3ZSBjYW4gY2xvc2UgdGhpcw0KPiA+IHNldCBvZiBpc3N1
+ZXMgb3V0Lg0KPiA+DQo+ID4gSWYgdGhlcmUgYXJlIGZ1cnRoZXIgaXNzdWVzIGNhbiB5b3UgcmVw
+bHkgdG8gdGhpcyBlbWFpbCBlaXRoZXIgd2l0aA0KPiA+IHRoZSBkZXRhaWxzIG9yIGEgcG9pbnRl
+ciB0byB0aGUgc3BlY2lmaWMgYWRkaXRpb25hbCBwcm9ibGVtcy4NCj4gDQo+IE5vdyB0aGF0IEkg
+aGF2ZSBteSBzdHVwaWQgdHlwbyBvdXQgb2YgdGhlIHdheSwgSSBleHBlY3QgdG8gaGF2ZSBmdXJ0
+aGVyDQo+IGluZm9ybWF0aW9uIGluIGEgZmV3IGhvdXJzIGFzIHRvIHRoZSByZWd1bGFybHkgZGVw
+ZW5kZW5jeSByZXNvbHV0aW9uIGZhaWx1cmUNCj4gRG9uZ3hpYW8gd2FzIHJlcG9ydGluZy4gIChM
+aWJyYXJ5IGRlcGVuZGVuY2llcyAtYXJlLSBFTEYgc3BlY2lmaWMsIHNvIHRob3NlDQo+IGhhdmUg
+dG8gd29yayBwcm9wZXJseSEpDQo+IA0KPiAtLU1hcmsNCj4gDQo+ID4gQ2hlZXJzLA0KPiA+DQo+
+ID4gUmljaGFyZA0KPiA+DQo+ID4NCg0K
 
 
