@@ -1,41 +1,34 @@
-Received: from 1.mo1.mail-out.ovh.net ([178.32.127.22]
-	helo=mo1.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1R4Xbw-0002c3-T0
-	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Sep 2011 14:33:41 +0200
-Received: from mail194.ha.ovh.net (b9.ovh.net [213.186.33.59])
-	by mo1.mail-out.ovh.net (Postfix) with SMTP id F31AD100CD56
+Received: from dan.rpsys.net ([93.97.175.187])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1R4XfZ-0002kb-V6 for openembedded-core@lists.openembedded.org;
+	Fri, 16 Sep 2011 14:37:26 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8GCcHxC015006 for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Sep 2011 13:38:17 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id EIBgdqYL9cEp
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2011 14:23:10 +0200 (CEST)
-Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
-	by b0.ovh.net with SMTP; 16 Sep 2011 14:22:24 +0200
-Received: from pac33-2-82-240-38-71.fbx.proxad.net (HELO ?192.168.1.15?)
-	(ebenard%eukrea.com@82.240.38.71)
-	by ns0.ovh.net with SMTP; 16 Sep 2011 14:22:22 +0200
-Message-ID: <4E733F7D.6090109@eukrea.com>
-Date: Fri, 16 Sep 2011 14:22:21 +0200
-From: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:6.0.2) Gecko/20110902 Thunderbird/6.0.2
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Ovh-Mailout: 178.32.228.1 (mo1.mail-out.ovh.net)
-References: <20110911172241.GA3674@chargestorm.se>
-	<4E7246EB.2070607@eukrea.com>
-	<CAP9ODKqCc3zAuwBoL7Yiet0GKuJKFymZMtStkpwAq88b=ZGibw@mail.gmail.com>
-	<201109161212.19780.paul.eggleton@linux.intel.com>
-In-Reply-To: <201109161212.19780.paul.eggleton@linux.intel.com>
-X-Ovh-Tracer-Id: 4575094272098872765
-X-Ovh-Remote: 82.240.38.71 (pac33-2-82-240-38-71.fbx.proxad.net)
-X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
-X-Spam-Check: DONE|U 0.5/N
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -200
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeftddrfeeiucetggdotefuucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmneculddquddttddm
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	Patches and discussions about the oe-core layer
+	Fri, 16 Sep 2011 13:38:17 +0100 (BST)
+Received: from [192.168.1.36] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8GCcDAd015001
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Sep 2011 13:38:15 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qt4: update to latest version 4.7.4
+Date: Fri, 16 Sep 2011 13:32:01 +0100
+In-Reply-To: <cover.1316126173.git.dvhart@linux.intel.com>
+References: <cover.1316126173.git.dvhart@linux.intel.com>
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1316176329.20858.1.camel@ted>
+Mime-Version: 1.0
+Subject: Re: [PATCH 0/2] initrd contamination and explict PATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,47 +43,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Sep 2011 12:33:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 16 Sep 2011 12:37:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Thu, 2011-09-15 at 15:41 -0700, Darren Hart wrote:
+> I ran into a bit of a nasty issue where EXTRA_IMAGE_FEATURES set in my
+> local.conf was causing core-image-initramfs to pull a bunch of files into
+> my initrd, including bash and a 100+MB vmlinux image. The 85M initrd caused
+> some strange initial boot behavior, and bash in the initrd caused our init
+> scripts to fail as bash has a different default PATH than busybox.
+> 
+> The following patches address these issues.
+> 
+> Live boot tested on 32 bit x86.
+> 
+> The following changes since commit bb4a5c44da23a1bb363f1f081cf1644fd7975957:
+> 
+>   linux-yocto: remove emenlow from meta-yocto bbappend (2.6.37 version) (2011-09-15 11:27:22 +0100)
+> 
+> are available in the git repository at:
+>   git://git.pokylinux.org/poky-contrib dvhart/initrdscripts
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dvhart/initrdscripts
+> 
+> Darren Hart (2):
+>   Set an explicit path for the initrd scripts
+>   Prevent IMAGE_FEATURES from contaminating initrd
+> 
+>  .../images/core-image-minimal-initramfs.bb         |    3 +++
+>  meta/recipes-core/initrdscripts/files/init-boot.sh |    2 ++
+>  .../initrdscripts/files/init-install.sh            |    2 ++
+>  meta/recipes-core/initrdscripts/files/init-live.sh |    4 +++-
+>  4 files changed, 10 insertions(+), 1 deletions(-)
 
-Le 16/09/2011 13:12, Paul Eggleton a =E9crit :
-> On Thursday 15 September 2011 21:06:22 Otavio Salvador wrote:
->> On Thu, Sep 15, 2011 at 15:41, Eric B=E9nard<eric@eukrea.com>  wrote:
->> ...
->>
->>> Btw, this patch is only a minor update of qt so this would be interes=
-ting
->>> to have it into the 1.1 release imho.
->>
->> I agree with Eric that this is important to have into the release; rc
->> is OK to skip it but for final seems good to have it in.
->
-> Considering there is at least one reported regression in 4.7.4, I'm not=
- sure
-> it would be a good idea to rush into it right now:
->
-> https://bugreports.qt.nokia.com/browse/QTBUG-20925
->
-We could also say that qt 4.7.4 fix many qt 4.7.3 bugs and integrate the =
-patch=20
-fixing this one and in the end get an improvement.
+Merged to master but I had to add PR bumps for the script PATH changes.
 
-I don't understand why oe-core's development has to be stopped by yocto's=
-=20
-releases process but I may not have found the right page on the wiki=20
-explaining all the details : may you please give me some links concerning=
- this=20
-policy ?
+We shouldn't really be hardcoding the paths but using the expressions
+${bindir} etc and making substitutions in the scripts too but we can
+leave that issue for another time (they already had other hardcoded
+issues).
 
-Maybe yocto could consider oe-core as an incubator instead of a follower =
-else=20
-I don't really see why we need to have the same project managed by the sa=
-me=20
-peoples with 2 different names.
+Cheers,
 
-Eric
+Richard
+
+
 
 
