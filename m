@@ -1,34 +1,27 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R4WP5-0000Jw-Sg for openembedded-core@lists.openembedded.org;
-	Fri, 16 Sep 2011 13:16:20 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8GBHBvf012396 for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2011 12:17:12 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 6pLDVN8insAN
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2011 12:17:11 +0100 (BST)
-Received: from [192.168.1.36] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8GBH5dI012389
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Sep 2011 12:17:07 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1R4WQM-0000R0-0t
+	for openembedded-core@lists.openembedded.org;
+	Fri, 16 Sep 2011 13:17:38 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 16 Sep 2011 04:12:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,392,1312182000"; d="scan'208";a="17785858"
+Received: from unknown (HELO helios.localnet) ([10.252.120.40])
+	by AZSMGA002.ch.intel.com with ESMTP; 16 Sep 2011 04:12:20 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Patches and discussions about the oe-core layer"
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Sep 2011 12:10:52 +0100
-In-Reply-To: <cover.1316139554.git.sgw@linux.intel.com>
-References: <cover.1316139554.git.sgw@linux.intel.com>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1316171461.25993.73.camel@ted>
-Mime-Version: 1.0
-Subject: Re: [RC2 FIXES 0/6] Some fixes for RC2
+Date: Fri, 16 Sep 2011 12:12:19 +0100
+User-Agent: KMail/1.13.6 (Linux/2.6.38-10-generic-pae; KDE/4.6.2; i686; ; )
+References: <20110911172241.GA3674@chargestorm.se>
+	<4E7246EB.2070607@eukrea.com>
+	<CAP9ODKqCc3zAuwBoL7Yiet0GKuJKFymZMtStkpwAq88b=ZGibw@mail.gmail.com>
+In-Reply-To: <CAP9ODKqCc3zAuwBoL7Yiet0GKuJKFymZMtStkpwAq88b=ZGibw@mail.gmail.com>
+MIME-Version: 1.0
+Message-Id: <201109161212.19780.paul.eggleton@linux.intel.com>
+Cc: Koen Kooi <koen@dominion.thruhere.net>, Eric
+Subject: Re: [PATCH] qt4: update to latest version 4.7.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,44 +36,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Sep 2011 11:16:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 16 Sep 2011 11:17:38 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2011-09-15 at 19:20 -0700, Saul Wold wrote:
-> Richard,
-> 
-> This request has some fixes from the team for issues found
-> today, alone with a distro-tracking update.
-> 
-> Thanks
-> 	Sau!
-> 
-> The following changes since commit f7f129b60d33e2758a3a9cc66a98251e1325664d:
-> 
->   liboil-0.3.17: add upstream Fix-enable-vfp-flag patch (2011-09-15 23:09:26 +0100)
-> 
-> are available in the git repository at:
->   git://git.yoctoproject.org/poky-contrib sgw/oe-rc2
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=sgw/oe-rc2
-> 
-> Dexuan Cui (1):
->   distro-tracking: Update package alias
-> 
-> Saul Wold (1):
->   web: Fix SRVREV due to lost commit in web-sato
-> 
-> Tom Zanussi (4):
->   liberation-fonts_1.04: add PN to RDEPENDS
->   liberation-fonts_1.06: add PN to RDEPENDS
->   ttf-bitstream-vera_1.10: add PN to RDEPENDS
->   grub_1.99: add PN to RDEPENDS
+On Thursday 15 September 2011 21:06:22 Otavio Salvador wrote:
+> On Thu, Sep 15, 2011 at 15:41, Eric B=E9nard <eric@eukrea.com> wrote:
+> ...
+>=20
+> > Btw, this patch is only a minor update of qt so this would be interesti=
+ng
+> > to have it into the 1.1 release imho.
+>=20
+> I agree with Eric that this is important to have into the release; rc
+> is OK to skip it but for final seems good to have it in.
 
-Merged to master with the fixes Koen mentioned were needed made.
+Considering there is at least one reported regression in 4.7.4, I'm not sur=
+e=20
+it would be a good idea to rush into it right now:
+
+https://bugreports.qt.nokia.com/browse/QTBUG-20925
 
 Cheers,
+Paul
 
-Richard
+=2D-=20
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
