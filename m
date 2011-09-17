@@ -1,40 +1,19 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from smtp201.alice.it ([82.57.200.97])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1R4tjn-0001DH-Tc
+	(envelope-from <GNUtoo@no-log.org>) id 1R4xfs-00036k-Ps
 	for openembedded-core@lists.openembedded.org;
-	Sat, 17 Sep 2011 14:11:15 +0200
-Received: by bke11 with SMTP id 11so11115679bke.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Sep 2011 05:05:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=Tb6DeH3ykl5rxSbrRUDsjesiEj4EkmyaCqdJ/o5N4zQ=;
-	b=LhRjfbJNFDhQNIahD5PY0XJ3lj5QmplX0NYVlt8izuq0Kr9zaD/HulKEU8kYP4CKV8
-	FTlwaPE0SMJyJqAXUgqJPodZeegdq7ZI3HltQ0JcLvmj6pfqTjz55XrHSHGfWLMd7QeX
-	DiJzxMxZA6XbSKLMWT1HXGk3T85us0IWy+u8k=
-MIME-Version: 1.0
-Received: by 10.204.140.88 with SMTP id h24mr330012bku.166.1316261159075; Sat,
-	17 Sep 2011 05:05:59 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.65.194 with HTTP; Sat, 17 Sep 2011 05:05:59 -0700 (PDT)
-In-Reply-To: <BBD91366-D6E5-45DA-B6D3-FA23CCE35B16@dominion.thruhere.net>
-References: <1316177653.20858.23.camel@ted>
-	<201109161816.28057.paul.eggleton@linux.intel.com>
-	<CAP9ODKoVOSsDOKtiv-LExuKbeGciGp4hfC=V5j-zCY8wDNwr3A@mail.gmail.com>
-	<201109161849.52647.paul.eggleton@linux.intel.com>
-	<CAP9ODKpqO4zN=gjOsod6UtTku6xZmRen63VBKs+_MOdjF1AAFA@mail.gmail.com>
-	<4E73A769.9070903@windriver.com>
-	<CABcZANnuV39P8kgBY0=cy6nvVMKbDKZVg2NTOQAn8f_wij7+_g@mail.gmail.com>
-	<BBD91366-D6E5-45DA-B6D3-FA23CCE35B16@dominion.thruhere.net>
-Date: Sat, 17 Sep 2011 09:05:59 -0300
-X-Google-Sender-Auth: iWa8la54OB8X2M0Ww1BHo1lkvA4
-Message-ID: <CAP9ODKrzVRiHJomjoDNc=8wLVMBNbKKGFOAHxON5ti0YBZaf2A@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: OE-Core release process
+	Sat, 17 Sep 2011 18:23:28 +0200
+Received: from [192.168.2.165] (82.125.88.180) by smtp201.alice.it
+	(8.6.023.02) (authenticated as editempo@alice.it)
+	id 4E70EA77000FF26C for openembedded-core@lists.openembedded.org;
+	Sat, 17 Sep 2011 18:13:10 +0200
+From: Denis 'GNUtoo' Carikli <GNUtoo@no-log.org>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 17 Sep 2011 18:13:09 +0200
+Message-ID: <1316275989.6161.23.camel@trisquel>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
+Subject: armv6-novfp and armv6-vfp and tune files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,29 +28,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Sep 2011 12:11:16 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 17 Sep 2011 16:23:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sat, Sep 17, 2011 at 06:06, Koen Kooi <koen@dominion.thruhere.net> wrote=
-:
->> I don't see why it isn't reasonable. If they need a change done sooner
->> than can be done by pushing it upstream, they can put it into a local
->> layer until it makes it into oe-core. Seems simple enough to me.
->
-> Furthermore, poky is the only distro using this weird combo-layer arrange=
-ment, all the others I know off (angstrom, shr, micro, aurora) consume oe-c=
-ore directly.
+hi,
+I've an HTC Dream, it has an armv6 CPU but lack a vfp unit.
+I want to add correct support for it in meta-smartphone/meta-htc.
+In order to have a correct machine config that works a tune inc file
+must be required in it.
 
-At O.S. Systems we use combo-layer but we work at oe-core directly and
-keep our repository up to date. That bring us the good of both Worlds
-without making difficult to us to sync both.
+In openembedded-core there is no tune file yet for an armv6 that lacks a
+vfp, but there are theses two files:
+meta/conf/machine/include/tune-arm1136jf-s.inc
+meta/conf/machine/include/arm/arch-armv6.inc
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+tune-arm1136jf-s.inc requires arch-armv6.inc.
+
+So I need to create an tune-arm1136ej-s.inc which requires an
+arch-armv6-novfp.inc(also to be created).
+
+
+however I wonder how to create the armv6-novfp.inc:
+arch-armv6.inc has things like that inside:
+TUNE_FEATURES_tune-armv6 ?= "armv6 vfp"
+or:
+PACKAGE_EXTRA_ARCHS_tune-armv6 = "${PACKAGE_EXTRA_ARCHS_tune-armv5e-vfp}
+armv6-vfp"
+or:
+TUNEVALID[armv6] = "Enable instructions for ARMv6"
+
+in the recipes and in the feeds and in the workdir it's labeled as
+"armv6-vfp".
+
+So the correct way would be to label an armv6 that lacks a vfp "armv6".
+
+however, I fear that the armv6 override is already taken, and also maybe
+the arch-armv6.inc should be moved to arch-armv6-vfp.inc.
+
+Denis.
+
 
 
