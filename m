@@ -1,34 +1,20 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1R5h7X-0007Np-Jz
+	(envelope-from <sgw@linux.intel.com>) id 1R5iAr-0000jg-LB
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Sep 2011 18:55:03 +0200
-Received: by bke11 with SMTP id 11so25630511bke.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Sep 2011 09:49:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=12doXRbAi7+nmA4rH4C8Rc/YV7PT8pX/AjVpjdXVLDA=;
-	b=G3m6UXXrIHYldN+zFAxsFdhGtmti+wAha3ReZzb7/7nDorio/+weKjhb/klDS8gm/y
-	7FciX0ngl2huyHhjfj51iCWSZHcyJP3YGq2NghJNUecm7zYrIIG19fjio1Ni3o9csVWr
-	jCmfksv2CbtL1EnCF2lY46NZDe8w8tV7XzdPo=
-MIME-Version: 1.0
-Received: by 10.204.139.20 with SMTP id c20mr784752bku.218.1316450987374; Mon,
-	19 Sep 2011 09:49:47 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.65.194 with HTTP; Mon, 19 Sep 2011 09:49:47 -0700 (PDT)
-In-Reply-To: <b1f7bdfc28f0197596b2e362e01c75e1152fa971.1316441889.git.paul.eggleton@linux.intel.com>
-References: <cover.1316441889.git.paul.eggleton@linux.intel.com>
-	<b1f7bdfc28f0197596b2e362e01c75e1152fa971.1316441889.git.paul.eggleton@linux.intel.com>
-Date: Mon, 19 Sep 2011 13:49:47 -0300
-X-Google-Sender-Auth: WgCmoYj-KMRVArTE5CoFlqIfqOI
-Message-ID: <CAP9ODKrbMfPb9kMJ3b3Lw9=BsFYvB9XiaRTMvVDuEYmW3s_A-g@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] scripts/combo-layer: fix still overzealous regex in default hook script
+	Mon, 19 Sep 2011 20:02:33 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 19 Sep 2011 10:55:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,406,1312182000"; d="scan'208";a="18514384"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.150])
+	by AZSMGA002.ch.intel.com with ESMTP; 19 Sep 2011 10:55:32 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 19 Sep 2011 10:55:29 -0700
+Message-Id: <cover.1316454869.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [PATCH 0/1] Fix avahi x11 dependency with non-GPLv3 Build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,29 +29,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Sep 2011 16:55:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 19 Sep 2011 18:02:33 -0000
 
-On Mon, Sep 19, 2011 at 11:20, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> In the previous fix to this hook script (OE core revision
-> e7aae45414e4597e9244f86a81fbc940f73785c8) a start-of-line (^) marker was
-> missed, so if a commit had no Signed-off-by line but it contained an
-> inner patch that did, the inner patch was modified causing a "corrupt
-> patch" error.
->
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+This address an issue where a non-GPLv3 build was blocked 
+due to the DISTRO_FEATURE of x11 being enabled.
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+The following changes since commit 81274f4488fbc4d68d150870735ec0181b60b451:
 
-Tested and this works as expected :-) Thanks by fixing it.
+  freetype: disable bzip2 compressed font support (2011-09-19 13:14:03 +0100)
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib sgw/oe-fix
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=sgw/oe-fix
+
+Saul Wold (1):
+  avahi: Check for GPLv3 license and disable x11
+
+ meta/recipes-connectivity/avahi/avahi.inc       |    8 ++++++++
+ meta/recipes-connectivity/avahi/avahi_0.6.30.bb |    2 +-
+ 2 files changed, 9 insertions(+), 1 deletions(-)
+
+-- 
+1.7.6
+
 
 
