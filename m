@@ -1,33 +1,43 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpurdie@rpsys.net>) id 1R5cpF-0002gB-8O
+Received: from mail-ew0-f44.google.com ([209.85.215.44])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1R5d0G-00030N-UF
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Sep 2011 14:19:54 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p8JCEbwH008220
+	Mon, 19 Sep 2011 14:31:17 +0200
+Received: by ewy6 with SMTP id 6so848453ewy.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Sep 2011 13:14:37 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 07416-09 for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Sep 2011 13:14:33 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p8JCEPc1008213
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Sep 2011 13:14:28 +0100
-From: Richard Purdie <rpurdie@rpsys.net>
-To: Patches and discussions about the oe-core layer
+	Mon, 19 Sep 2011 05:26:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=gN2i9B6cWLVxrcpF1xbdJ4wOjyKBMFF/hwmB3PckKp8=;
+	b=aHoR4oANwjweon8ZEusDbnhVit54Ax05yaZamoeZGSKkitbCFu5rfi+YdA02RgArNp
+	t10sA3I6zhlEjBHaiZalEzOPLPrqZ3fD+db8q+SC5PqImcHmqjQ2j7c9SK6e/uL+VS4z
+	MK45BsoInYepJ6HSjfgk9SKNuEfU6EuCzht7c=
+MIME-Version: 1.0
+Received: by 10.204.140.88 with SMTP id h24mr1659438bku.166.1316435159822;
+	Mon, 19 Sep 2011 05:25:59 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.65.194 with HTTP; Mon, 19 Sep 2011 05:25:59 -0700 (PDT)
+In-Reply-To: <49A59D49-5FF1-4F8D-A259-F6F8CA42ADC9@dominion.thruhere.net>
+References: <20110911172241.GA3674@chargestorm.se>
+	<4E7246EB.2070607@eukrea.com>
+	<CAP9ODKqCc3zAuwBoL7Yiet0GKuJKFymZMtStkpwAq88b=ZGibw@mail.gmail.com>
+	<201109161212.19780.paul.eggleton@linux.intel.com>
+	<4E733F7D.6090109@eukrea.com>
+	<CAP9ODKo9-6qHhCWfWS5_GXrNxw38VCXjzih2hdoWRQ9vY3MVFg@mail.gmail.com>
+	<DD23E745-87D9-4831-85D4-C038CD79DCF7@dominion.thruhere.net>
+	<CAP9ODKoemW81Sob3uUe-1LedWXcoJqEdkUGTj-+ZjgrUsytb_Q@mail.gmail.com>
+	<49A59D49-5FF1-4F8D-A259-F6F8CA42ADC9@dominion.thruhere.net>
+Date: Mon, 19 Sep 2011 09:25:59 -0300
+X-Google-Sender-Auth: T6Yg4W4KgTCN-t4Ex0hiHqAb3rw
+Message-ID: <CAP9ODKpbVD-2AyXEMQG9D=6=F1n2kC-J=jOU7EPc2hWa_bjq6A@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 19 Sep 2011 13:14:23 +0100
-In-Reply-To: <cover.1316429640.git.paul.eggleton@linux.intel.com>
-References: <cover.1316429640.git.paul.eggleton@linux.intel.com>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1316434468.14488.7.camel@ted>
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/3] Dependency fixes
+Subject: Re: [PATCH] qt4: update to latest version 4.7.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,30 +52,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Sep 2011 12:19:55 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 19 Sep 2011 12:31:17 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2011-09-19 at 11:58 +0100, Paul Eggleton wrote:
-> Fix three issues due to missing dependency race conditions as shown up on
-> the autobuilder.
-> 
-> The following changes since commit 7a0cbe6b0e5185aebabedc515b427994bc2a15dc:
-> 
->   cooker.py: Fix key expansion issues in showVersions (2011-09-19 05:55:37 +0100)
-> 
-> are available in the git repository at:
->   git://git.pokylinux.org/poky-contrib paule/dep-fixes
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=paule/dep-fixes
-> 
-> Paul Eggleton (3):
->   libgcrypt: add libcap to DEPENDS
->   libgnome-keyring: add libgcrypt to DEPENDS
->   freetype: disable bzip2 compressed font support
+On Mon, Sep 19, 2011 at 09:09, Koen Kooi <koen@dominion.thruhere.net> wrote=
+:
+...
+> I'd like to see 4.7.4 go in. Richard and Saul have made it clear that rem=
+oving 4.7.3 isn't going to happen before the release, so I'm trying make a =
+compromise here. Are you saying you would find it unacceptable for both 4.7=
+.3 and 4.7.4 to be in OE-core for a short while?
 
-Merged to master, thanks.
+Sure not. I can live with that and this is better then nothing but I
+think Richard and Saul might rethink this assortment as 4.7.4 is in
+use by us and proved stable too.
 
-Richard
-
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
