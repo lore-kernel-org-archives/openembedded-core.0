@@ -1,24 +1,29 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-wy0-f169.google.com ([74.125.82.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1R5emn-0007vS-S1
+	(envelope-from <koen@dominion.thruhere.net>) id 1R5eqo-00082L-9l
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Sep 2011 16:25:30 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 19 Sep 2011 07:20:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="50127358"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.110])
-	by orsmga002.jf.intel.com with ESMTP; 19 Sep 2011 07:20:12 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Sep 2011 15:20:08 +0100
-Message-Id: <b1f7bdfc28f0197596b2e362e01c75e1152fa971.1316441889.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1316441889.git.paul.eggleton@linux.intel.com>
-References: <cover.1316441889.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1316441889.git.paul.eggleton@linux.intel.com>
-References: <cover.1316441889.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] scripts/combo-layer: fix still overzealous regex in default hook script
+	Mon, 19 Sep 2011 16:29:39 +0200
+Received: by wyi11 with SMTP id 11so8369976wyi.28
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Sep 2011 07:24:22 -0700 (PDT)
+Received: by 10.227.3.15 with SMTP id 15mr2953527wbl.33.1316442262250;
+	Mon, 19 Sep 2011 07:24:22 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id gd6sm26152677wbb.1.2011.09.19.07.24.20
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 19 Sep 2011 07:24:20 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <4E774F1D.1020105@windriver.com>
+Date: Mon, 19 Sep 2011 16:24:18 +0200
+Message-Id: <A827B150-8003-45AB-BDE6-B50863931ACE@dominion.thruhere.net>
+References: <1316275989.6161.23.camel@trisquel>
+	<4E774F1D.1020105@windriver.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1244.3)
+Subject: Re: armv6-novfp and armv6-vfp and tune files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,31 +38,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Sep 2011 14:25:30 -0000
+X-List-Received-Date: Mon, 19 Sep 2011 14:29:39 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-In the previous fix to this hook script (OE core revision
-e7aae45414e4597e9244f86a81fbc940f73785c8) a start-of-line (^) marker was
-missed, so if a commit had no Signed-off-by line but it contained an
-inner patch that did, the inner patch was modified causing a "corrupt
-patch" error.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- scripts/combo-layer-hook-default.sh |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+Op 19 sep. 2011, om 16:18 heeft Mark Hatle het volgende geschreven:
 
-diff --git a/scripts/combo-layer-hook-default.sh b/scripts/combo-layer-hook-default.sh
-index e535d5f..8b148ac 100755
---- a/scripts/combo-layer-hook-default.sh
-+++ b/scripts/combo-layer-hook-default.sh
-@@ -10,4 +10,4 @@ rev=$2
- reponame=$3
- 
- sed -i -e "s#^Subject: \[PATCH\] \(.*\)#Subject: \[PATCH\] $reponame: \1#" $patchfile
--sed -i -e "0,/^Signed-off-by:/s#\(Signed-off-by:.*\)#\($reponame rev: $rev\)\n\n\1#" $patchfile
-+sed -i -e "0,/^Signed-off-by:/s#\(^Signed-off-by:.*\)#\($reponame rev: $rev\)\n\n\1#" $patchfile
--- 
-1.7.4.1
+> On 9/17/11 11:13 AM, Denis 'GNUtoo' Carikli wrote:
+>> hi,
+>> I've an HTC Dream, it has an armv6 CPU but lack a vfp unit.
+>> I want to add correct support for it in meta-smartphone/meta-htc.
+>> In order to have a correct machine config that works a tune inc file
+>> must be required in it.
+>>=20
+>> In openembedded-core there is no tune file yet for an armv6 that =
+lacks a
+>> vfp, but there are theses two files:
+>> meta/conf/machine/include/tune-arm1136jf-s.inc
+>> meta/conf/machine/include/arm/arch-armv6.inc
+>>=20
+>> tune-arm1136jf-s.inc requires arch-armv6.inc.
+>>=20
+>> So I need to create an tune-arm1136ej-s.inc which requires an
+>> arch-armv6-novfp.inc(also to be created).
+>>=20
+>=20
+> Is the arm1136ej-s the core in the HTC dream?  Or is it a custom armv6 =
+(w/o vfp)?
+>=20
+> If it's the later you should add a new tune file for this htc dream's =
+processor.
+>=20
+> The arch-armv6 should be modified to include a novfp feature.  Using =
+the armv5
+> as an example, I suggest:
+>=20
+> # Little Endian
+> -AVAILTUNES +=3D "armv6 armv6t armv6hf armv6thf"
+> +AVAILTUNES +=3D "armv6-novfp armv6 armv6t armv6hf armv6thf"
+>=20
+> +TUNE_FEATURES_tune-armv6-novfp ?=3D "armv6"
+>=20
+> +PACKAGE_EXTRA_ARCHS_tune-armv6-novfp =3D =
+"${PACKAGE_EXTRA_ARCHS_tune-armv5e} armv6"
+>=20
+> (if there is a thumb variant, add that as well...)
+>=20
+> (...and... if there is a big endian variant add that as well...)
+>=20
+> Then using tune-arm1136ej-s.inc as a model for a new htc-dream tune:
+>=20
+> DEFAULTTUNE ?=3D "htcdream"
+>=20
+> require conf/machine/include/arm/arch-armv6.inc
+>=20
+> TUNEVALID[htcdream] =3D "Enable HTC dream specific processor =
+optimizations"
+> TUNE_CCARGS +=3D "${@bb.utils.contains("TUNE_FEATURES", "htcdream",
+> "-mtune=3D<something appropriate here>", "", d)}"
+>=20
+> AVAILTUNES +=3D "htcdream"
+> TUNE_FEATURES_tune-htcdream =3D "${TUNE_FEATURES_tune-armv6-novfp} =
+htcdream"
+> PACKAGE_EXTRA_ARCHS_tune-htcdream =3D =
+"${PACKAGE_EXTRA_ARCHS_tune-armv6-novfp}"
+>=20
+> If the htc-dream has an existing core, then you can simply add a =
+"novfp" variant
+> to that core.
+>=20
+>>=20
+>> however I wonder how to create the armv6-novfp.inc:
+>> arch-armv6.inc has things like that inside:
+>> TUNE_FEATURES_tune-armv6 ?=3D "armv6 vfp"
+>> or:
+>> PACKAGE_EXTRA_ARCHS_tune-armv6 =3D =
+"${PACKAGE_EXTRA_ARCHS_tune-armv5e-vfp}
+>> armv6-vfp"
+>> or:
+>> TUNEVALID[armv6] =3D "Enable instructions for ARMv6"
+>>=20
+>> in the recipes and in the feeds and in the workdir it's labeled as
+>> "armv6-vfp".
+>>=20
+>> So the correct way would be to label an armv6 that lacks a vfp =
+"armv6".
+>>=20
+>> however, I fear that the armv6 override is already taken, and also =
+maybe
+>> the arch-armv6.inc should be moved to arch-armv6-vfp.inc.
+>=20
+> Due to the way this was originally implemented, I was told no variants =
+of the
+> armv6 existed w/o VFP.....  so the naming is what it is, I'm open to =
+suggesting
+> a change to make it more explicit that armv6 is w/o VFP and armv6-vfp =
+is w/ VFP.
+> But it's up to the oe-core community if they'll accept that change to =
+the core
+> tunings.  It's more likely they will accept armv6-novfp (as in the =
+examples above.)
+
+
+It's called armv6-novfp in OE classic
+
 
 
 
