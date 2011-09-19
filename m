@@ -1,35 +1,20 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1R5aVM-0001t0-2u
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1R5bdk-0007go-R9
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Sep 2011 11:51:12 +0200
-Received: by wwf27 with SMTP id 27so6100862wwf.24
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Sep 2011 02:45:56 -0700 (PDT)
-Received: by 10.216.163.135 with SMTP id a7mr2476625wel.56.1316425556082;
-	Mon, 19 Sep 2011 02:45:56 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id j18sm551053wbo.6.2011.09.19.02.45.52
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 19 Sep 2011 02:45:53 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAP9ODKo9-6qHhCWfWS5_GXrNxw38VCXjzih2hdoWRQ9vY3MVFg@mail.gmail.com>
-Date: Mon, 19 Sep 2011 11:45:50 +0200
-Message-Id: <DD23E745-87D9-4831-85D4-C038CD79DCF7@dominion.thruhere.net>
-References: <20110911172241.GA3674@chargestorm.se>
-	<4E7246EB.2070607@eukrea.com>
-	<CAP9ODKqCc3zAuwBoL7Yiet0GKuJKFymZMtStkpwAq88b=ZGibw@mail.gmail.com>
-	<201109161212.19780.paul.eggleton@linux.intel.com>
-	<4E733F7D.6090109@eukrea.com>
-	<CAP9ODKo9-6qHhCWfWS5_GXrNxw38VCXjzih2hdoWRQ9vY3MVFg@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-X-Mailer: Apple Mail (2.1244.3)
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qt4: update to latest version 4.7.4
+	Mon, 19 Sep 2011 13:03:57 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 19 Sep 2011 03:58:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="50049702"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.110])
+	by orsmga002.jf.intel.com with ESMTP; 19 Sep 2011 03:58:38 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 19 Sep 2011 11:58:33 +0100
+Message-Id: <cover.1316429640.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 0/3] Dependency fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,39 +29,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Sep 2011 09:51:12 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 19 Sep 2011 11:03:57 -0000
 
+Fix three issues due to missing dependency race conditions as shown up on
+the autobuilder.
 
-Op 16 sep. 2011, om 15:11 heeft Otavio Salvador het volgende geschreven:
+The following changes since commit 7a0cbe6b0e5185aebabedc515b427994bc2a15dc:
 
-> On Fri, Sep 16, 2011 at 09:22, Eric B=E9nard <eric@eukrea.com> wrote:
->> We could also say that qt 4.7.4 fix many qt 4.7.3 bugs and integrate =
-the
->> patch fixing this one and in the end get an improvement.
->=20
-> It has a patch available that fixes the issue, so seems fine for me to
-> merge it and put this patch too.
->=20
-> Personally I also agree that getting this into the release ought to be
-> better; specially since it has the fix available on the bug tracking
-> already.
+  cooker.py: Fix key expansion issues in showVersions (2011-09-19 05:55:37 +0100)
 
-So what about this:
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib paule/dep-fixes
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=paule/dep-fixes
 
-Send a patch that adds 4.7.4 with DEFAULT_PREFERENCE =3D -1, but leaves =
-4.7.3 intact.
+Paul Eggleton (3):
+  libgcrypt: add libcap to DEPENDS
+  libgnome-keyring: add libgcrypt to DEPENDS
+  freetype: disable bzip2 compressed font support
 
-That way people can migrate their bbappends without needing a flag day =
-and it also allows people to test 4.7.4 more easily before it gets made =
-the default.
+ .../recipes-gnome/gnome/libgnome-keyring_2.32.0.bb |    4 ++--
+ meta/recipes-graphics/freetype/freetype_2.4.6.bb   |    4 ++--
+ meta/recipes-support/libgcrypt/libgcrypt.inc       |    2 +-
+ meta/recipes-support/libgcrypt/libgcrypt_1.4.6.bb  |    2 +-
+ 4 files changed, 6 insertions(+), 6 deletions(-)
 
-As you might have noticed I have serious misgivings about using 'git mv' =
-to manage qt updates.
+-- 
+1.7.4.1
 
-regards,
-
-Koen=
 
 
