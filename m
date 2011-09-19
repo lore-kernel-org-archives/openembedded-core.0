@@ -1,20 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1R5bdk-0007go-R9
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1R5bdl-0007go-Jj
 	for openembedded-core@lists.openembedded.org;
 	Mon, 19 Sep 2011 13:03:57 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 19 Sep 2011 03:58:39 -0700
+	by orsmga102.jf.intel.com with ESMTP; 19 Sep 2011 03:58:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="50049702"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="50049721"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.110])
-	by orsmga002.jf.intel.com with ESMTP; 19 Sep 2011 03:58:38 -0700
+	by orsmga002.jf.intel.com with ESMTP; 19 Sep 2011 03:58:39 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Sep 2011 11:58:33 +0100
-Message-Id: <cover.1316429640.git.paul.eggleton@linux.intel.com>
+Date: Mon, 19 Sep 2011 11:58:34 +0100
+Message-Id: <8024295fe908b81f64d24e44adb9603ecf1878ea.1316429640.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.4.1
-Subject: [PATCH 0/3] Dependency fixes
+In-Reply-To: <cover.1316429640.git.paul.eggleton@linux.intel.com>
+References: <cover.1316429640.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1316429640.git.paul.eggleton@linux.intel.com>
+References: <cover.1316429640.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/3] libgcrypt: add libcap to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,28 +35,41 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 19 Sep 2011 11:03:57 -0000
 
-Fix three issues due to missing dependency race conditions as shown up on
-the autobuilder.
+We explicitly enable capabilities, so libcap is required. (This fixes a
+race condition when libcap happens to be building at the same time as
+libgcrypt.)
 
-The following changes since commit 7a0cbe6b0e5185aebabedc515b427994bc2a15dc:
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/recipes-support/libgcrypt/libgcrypt.inc      |    2 +-
+ meta/recipes-support/libgcrypt/libgcrypt_1.4.6.bb |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-  cooker.py: Fix key expansion issues in showVersions (2011-09-19 05:55:37 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib paule/dep-fixes
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=paule/dep-fixes
-
-Paul Eggleton (3):
-  libgcrypt: add libcap to DEPENDS
-  libgnome-keyring: add libgcrypt to DEPENDS
-  freetype: disable bzip2 compressed font support
-
- .../recipes-gnome/gnome/libgnome-keyring_2.32.0.bb |    4 ++--
- meta/recipes-graphics/freetype/freetype_2.4.6.bb   |    4 ++--
- meta/recipes-support/libgcrypt/libgcrypt.inc       |    2 +-
- meta/recipes-support/libgcrypt/libgcrypt_1.4.6.bb  |    2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
-
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt.inc b/meta/recipes-support/libgcrypt/libgcrypt.inc
+index 128aed3..989d556 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt.inc
++++ b/meta/recipes-support/libgcrypt/libgcrypt.inc
+@@ -8,7 +8,7 @@ LICENSE = "GPLv2+ & LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://COPYING.LIB;md5=bbb461211a33b134d42ed5ee802b37ff"
+ 
+-DEPENDS = "libgpg-error"
++DEPENDS = "libgpg-error libcap"
+ 
+ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-${PV}.tar.gz \
+            file://add-pkgconfig-support.patch"
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.4.6.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.4.6.bb
+index 22eefd4..aef616c 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt_1.4.6.bb
++++ b/meta/recipes-support/libgcrypt/libgcrypt_1.4.6.bb
+@@ -1,6 +1,6 @@
+ require libgcrypt.inc
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI[md5sum] = "bfd45922eefb8a24d598af77366220d4"
+ SRC_URI[sha256sum] = "996d2874643318c9df835777034a8b7a923d3cd0bee593bab1780305f9de872d"
 -- 
 1.7.4.1
 
