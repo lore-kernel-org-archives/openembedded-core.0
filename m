@@ -1,49 +1,26 @@
-Received: from 13.mo5.mail-out.ovh.net ([87.98.182.191]
-	helo=mo5.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1R5kuB-0006f5-Of
+Received: from mga14.intel.com ([143.182.124.37])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1R5lLX-0007PI-Q8
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Sep 2011 22:57:31 +0200
-Received: from mail188.ha.ovh.net (b9.ovh.net [213.186.33.59])
-	by mo5.mail-out.ovh.net (Postfix) with SMTP id AE154FFC567
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Sep 2011 21:37:49 +0200 (CEST)
-Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
-	by b0.ovh.net with SMTP; 19 Sep 2011 21:33:32 +0200
-Received: from tal33-3-82-233-81-124.fbx.proxad.net (HELO ?192.168.2.9?)
-	(ebenard%eukrea.com@82.233.81.124)
-	by ns0.ovh.net with SMTP; 19 Sep 2011 21:33:30 +0200
-Message-ID: <4E77990A.5080504@eukrea.com>
-Date: Mon, 19 Sep 2011 21:33:30 +0200
-From: =?UTF-8?B?RXJpYyBCw6luYXJk?= <eric@eukrea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:6.0.2) Gecko/20110902 Thunderbird/6.0.2
+	Mon, 19 Sep 2011 23:25:48 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 19 Sep 2011 14:20:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,407,1312182000"; d="scan'208";a="50590859"
+Received: from unknown (HELO [10.255.14.150]) ([10.255.14.150])
+	by azsmga001.ch.intel.com with ESMTP; 19 Sep 2011 14:20:28 -0700
+Message-ID: <4E77B21C.4050806@linux.intel.com>
+Date: Mon, 19 Sep 2011 14:20:28 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686 (x86_64); en-US;
+	rv:1.9.2.22) Gecko/20110902 Thunderbird/3.1.14
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Ovh-Mailout: 178.32.228.5 (mo5.mail-out.ovh.net)
-References: <20110911172241.GA3674@chargestorm.se>
-	<4E7246EB.2070607@eukrea.com>
-	<CAP9ODKqCc3zAuwBoL7Yiet0GKuJKFymZMtStkpwAq88b=ZGibw@mail.gmail.com>
-	<201109161212.19780.paul.eggleton@linux.intel.com>
-	<4E733F7D.6090109@eukrea.com>
-	<CAP9ODKo9-6qHhCWfWS5_GXrNxw38VCXjzih2hdoWRQ9vY3MVFg@mail.gmail.com>
-	<DD23E745-87D9-4831-85D4-C038CD79DCF7@dominion.thruhere.net>
-	<CAP9ODKoemW81Sob3uUe-1LedWXcoJqEdkUGTj-+ZjgrUsytb_Q@mail.gmail.com>
-	<49A59D49-5FF1-4F8D-A259-F6F8CA42ADC9@dominion.thruhere.net>
-	<CAP9ODKpbVD-2AyXEMQG9D=6=F1n2kC-J=jOU7EPc2hWa_bjq6A@mail.gmail.com>
-	<1316437421.14488.13.camel@ted>
-In-Reply-To: <1316437421.14488.13.camel@ted>
-X-Ovh-Tracer-Id: 11027345163698744722
-X-Ovh-Remote: 82.233.81.124 (tal33-3-82-233-81-124.fbx.proxad.net)
-X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
-X-Spam-Check: DONE|U 0.5/N
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -200
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeftddrvddtucetggdotefuucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmneculddquddttddm
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Koen Kooi <koen@dominion.thruhere.net>,
-	Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qt4: update to latest version 4.7.4
+References: <cover.1316454869.git.sgw@linux.intel.com>	<c61c00e6f90ad71f8a111d502e228af7be0a7838.1316454869.git.sgw@linux.intel.com>	<4E77927A.4020402@windriver.com>
+	<A0C53D3F-D82B-46D0-B173-D81B7BC791AB@dominion.thruhere.net>
+In-Reply-To: <A0C53D3F-D82B-46D0-B173-D81B7BC791AB@dominion.thruhere.net>
+Subject: Re: [PATCH 1/1] avahi: Check for GPLv3 license and	disable x11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -58,40 +35,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Sep 2011 20:57:31 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 19 Sep 2011 21:25:48 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi,
-
-Le 19/09/2011 15:03, Richard Purdie a =C3=A9crit :
-> On Mon, 2011-09-19 at 09:25 -0300, Otavio Salvador wrote:
->> On Mon, Sep 19, 2011 at 09:09, Koen Kooi<koen@dominion.thruhere.net>
->> wrote: ...
->>> I'd like to see 4.7.4 go in. Richard and Saul have made it clear that
->>> removing 4.7.3 isn't going to happen before the release, so I'm tryin=
-g
->>> make a compromise here. Are you saying you would find it unacceptable
->>> for both 4.7.3 and 4.7.4 to be in OE-core for a short while?
+On 09/19/2011 12:21 PM, Koen Kooi wrote:
+>
+> Op 19 sep. 2011, om 21:05 heeft Mark Hatle het volgende geschreven:
+>
+>> On 9/19/11 12:55 PM, Saul Wold wrote:
+>>> [YOCTO #1492]
+>>>
+>>> Since the non-GPLv3 build does not want gnome, which this will pull in
+>>> by the default DISTRO_FEATURE x11 being set and enabling gtk for avahi,
+>>> we filter x11 out of DISTRO_FEATURES here when INCOMPATIBLE_LICENSE is
+>>> set to GPLv3.
 >>
->> Sure not. I can live with that and this is better then nothing but I
->> think Richard and Saul might rethink this assortment as 4.7.4 is in us=
-e
->> by us and proved stable too.
+>> If the avahi GTK UI app is needed when X11 is enabled, this should be a decent
+>> enough way to work around the condition.
+>>
+>> However, I question if avahi should -ever- be producing the gtk component.
+>>
+>>  From the investigation I did, the gtk component is something that helps with
+>> discovering mDNS servers (either prompting the user or simply displaying status,
+>> I'm not sure).  Is this of use to anyone using oe-core?  Otherwise I'd be in
+>> favor of simply removing the X11 option from the avahi package.
+>>
+>> (I talked with Saul about this already on IRC.. he's concerned that we'd be
+>> turning of required [by someone] functionality... I'm really not sure it is
+>> required by anyone...)
 >
-> The fact remains nobody has collected up the patches and presented Saul=
-/I
-> with a pull request collecting up these pieces. I've not even seen the
-> patch addressing the regression posted, people just seem to agree one
-> exists.
->
-as said last weekend I'm working on such a patch collection (including th=
-e fix
-for the regression).
-I hope that to be ready tomorrow (tuesday 20) as I was afk since saturday=
-.
+> In OE classic the UI stuff in in avahi-ui.bb
+Clearly, a better way to go, I think my patch will work for the short 
+term of 1.1 release, but for master moving forward I will integrate the 
+avahi-ui.bb recipe. We just don't have the time for a major recipe re-write.
 
-Thanks,
-Eric
+Sau!
+
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
