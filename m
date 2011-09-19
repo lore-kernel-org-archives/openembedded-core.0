@@ -1,26 +1,34 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1R5ggU-0006wn-Ro
+	(envelope-from <otavio.salvador@gmail.com>) id 1R5h7X-0007Np-Jz
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Sep 2011 18:27:07 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Sep 2011 09:21:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,406,1312182000"; d="scan'208";a="55327695"
-Received: from unknown (HELO [10.255.14.150]) ([10.255.14.150])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Sep 2011 09:21:49 -0700
-Message-ID: <4E776C1D.2060204@linux.intel.com>
-Date: Mon, 19 Sep 2011 09:21:49 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:6.0.2) Gecko/20110906 Thunderbird/6.0.2
+	Mon, 19 Sep 2011 18:55:03 +0200
+Received: by bke11 with SMTP id 11so25630511bke.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Sep 2011 09:49:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=12doXRbAi7+nmA4rH4C8Rc/YV7PT8pX/AjVpjdXVLDA=;
+	b=G3m6UXXrIHYldN+zFAxsFdhGtmti+wAha3ReZzb7/7nDorio/+weKjhb/klDS8gm/y
+	7FciX0ngl2huyHhjfj51iCWSZHcyJP3YGq2NghJNUecm7zYrIIG19fjio1Ni3o9csVWr
+	jCmfksv2CbtL1EnCF2lY46NZDe8w8tV7XzdPo=
 MIME-Version: 1.0
+Received: by 10.204.139.20 with SMTP id c20mr784752bku.218.1316450987374; Mon,
+	19 Sep 2011 09:49:47 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.65.194 with HTTP; Mon, 19 Sep 2011 09:49:47 -0700 (PDT)
+In-Reply-To: <b1f7bdfc28f0197596b2e362e01c75e1152fa971.1316441889.git.paul.eggleton@linux.intel.com>
+References: <cover.1316441889.git.paul.eggleton@linux.intel.com>
+	<b1f7bdfc28f0197596b2e362e01c75e1152fa971.1316441889.git.paul.eggleton@linux.intel.com>
+Date: Mon, 19 Sep 2011 13:49:47 -0300
+X-Google-Sender-Auth: WgCmoYj-KMRVArTE5CoFlqIfqOI
+Message-ID: <CAP9ODKrbMfPb9kMJ3b3Lw9=BsFYvB9XiaRTMvVDuEYmW3s_A-g@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1316192786.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1316192786.git.paul.eggleton@linux.intel.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH 0/2] Konsole handling
+Subject: Re: [PATCH 1/1] scripts/combo-layer: fix still overzealous regex in default hook script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,30 +43,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Sep 2011 16:27:07 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 19 Sep 2011 16:55:03 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 09/16/2011 10:08 AM, Paul Eggleton wrote:
-> The following changes since commit 20529035a4c0befb3c6bdbcb289a2de930fb143d:
+On Mon, Sep 19, 2011 at 11:20, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> In the previous fix to this hook script (OE core revision
+> e7aae45414e4597e9244f86a81fbc940f73785c8) a start-of-line (^) marker was
+> missed, so if a commit had no Signed-off-by line but it contained an
+> inner patch that did, the inner patch was modified causing a "corrupt
+> patch" error.
 >
->    bugzilla.bbclass: add a class to report build problems to bugzilla (2011-09-16 17:36:27 +0100)
->
-> are available in the git repository at:
->    git://git.openembedded.org/openembedded-core-contrib paule/konsole
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/konsole
->
-> Paul Eggleton (2):
->    lib/oe/terminal.py: declare konsole from KDE 4.x as unsupported
->    sanity.bbclass: add a sanity check for KDE 4.x konsole in TERMCMD
->
->   meta/classes/sanity.bbclass |    6 ++++++
->   meta/lib/oe/terminal.py     |   27 +++++++++++++++++++++++++++
->   2 files changed, 33 insertions(+), 0 deletions(-)
->
-Merged to OE-Core
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-Thanks
-	Sau!
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+
+Tested and this works as expected :-) Thanks by fixing it.
+
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
