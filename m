@@ -1,27 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1R5ekl-0007sp-UJ
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1R5emn-0007vS-3m
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Sep 2011 16:23:24 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p8JEI680009315
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Sep 2011 07:18:06 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 19 Sep 2011 07:18:05 -0700
-Message-ID: <4E774F1D.1020105@windriver.com>
-Date: Mon, 19 Sep 2011 09:18:05 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:6.0.2) Gecko/20110902 Thunderbird/6.0.2
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1316275989.6161.23.camel@trisquel>
-In-Reply-To: <1316275989.6161.23.camel@trisquel>
-Subject: Re: armv6-novfp and armv6-vfp and tune files
+	Mon, 19 Sep 2011 16:25:29 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 19 Sep 2011 07:20:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="50127354"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.110])
+	by orsmga002.jf.intel.com with ESMTP; 19 Sep 2011 07:20:11 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 19 Sep 2011 15:20:07 +0100
+Message-Id: <cover.1316441889.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 0/1] Fix for combo-layer default hook script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,97 +29,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Sep 2011 14:23:24 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 19 Sep 2011 14:25:29 -0000
 
-On 9/17/11 11:13 AM, Denis 'GNUtoo' Carikli wrote:
-> hi,
-> I've an HTC Dream, it has an armv6 CPU but lack a vfp unit.
-> I want to add correct support for it in meta-smartphone/meta-htc.
-> In order to have a correct machine config that works a tune inc file
-> must be required in it.
-> 
-> In openembedded-core there is no tune file yet for an armv6 that lacks a
-> vfp, but there are theses two files:
-> meta/conf/machine/include/tune-arm1136jf-s.inc
-> meta/conf/machine/include/arm/arch-armv6.inc
-> 
-> tune-arm1136jf-s.inc requires arch-armv6.inc.
-> 
-> So I need to create an tune-arm1136ej-s.inc which requires an
-> arch-armv6-novfp.inc(also to be created).
-> 
+Otavio Salvador reported another issue with the hook script which I have
+fixed; the circumstances are briefly described in the patch.
 
-Is the arm1136ej-s the core in the HTC dream?  Or is it a custom armv6 (w/o vfp)?
+The following changes since commit 81274f4488fbc4d68d150870735ec0181b60b451:
 
-If it's the later you should add a new tune file for this htc dream's processor.
+  freetype: disable bzip2 compressed font support (2011-09-19 13:14:03 +0100)
 
-The arch-armv6 should be modified to include a novfp feature.  Using the armv5
-as an example, I suggest:
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/combo-layer-hook-fix-2
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/combo-layer-hook-fix-2
 
- # Little Endian
--AVAILTUNES += "armv6 armv6t armv6hf armv6thf"
-+AVAILTUNES += "armv6-novfp armv6 armv6t armv6hf armv6thf"
+Paul Eggleton (1):
+  scripts/combo-layer: fix still overzealous regex in default hook
+    script
 
-+TUNE_FEATURES_tune-armv6-novfp ?= "armv6"
+ scripts/combo-layer-hook-default.sh |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-+PACKAGE_EXTRA_ARCHS_tune-armv6-novfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5e} armv6"
-
-(if there is a thumb variant, add that as well...)
-
-(...and... if there is a big endian variant add that as well...)
-
-Then using tune-arm1136ej-s.inc as a model for a new htc-dream tune:
-
-DEFAULTTUNE ?= "htcdream"
-
-require conf/machine/include/arm/arch-armv6.inc
-
-TUNEVALID[htcdream] = "Enable HTC dream specific processor optimizations"
-TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "htcdream",
-"-mtune=<something appropriate here>", "", d)}"
-
-AVAILTUNES += "htcdream"
-TUNE_FEATURES_tune-htcdream = "${TUNE_FEATURES_tune-armv6-novfp} htcdream"
-PACKAGE_EXTRA_ARCHS_tune-htcdream = "${PACKAGE_EXTRA_ARCHS_tune-armv6-novfp}"
-
-If the htc-dream has an existing core, then you can simply add a "novfp" variant
-to that core.
-
-> 
-> however I wonder how to create the armv6-novfp.inc:
-> arch-armv6.inc has things like that inside:
-> TUNE_FEATURES_tune-armv6 ?= "armv6 vfp"
-> or:
-> PACKAGE_EXTRA_ARCHS_tune-armv6 = "${PACKAGE_EXTRA_ARCHS_tune-armv5e-vfp}
-> armv6-vfp"
-> or:
-> TUNEVALID[armv6] = "Enable instructions for ARMv6"
-> 
-> in the recipes and in the feeds and in the workdir it's labeled as
-> "armv6-vfp".
-> 
-> So the correct way would be to label an armv6 that lacks a vfp "armv6".
-> 
-> however, I fear that the armv6 override is already taken, and also maybe
-> the arch-armv6.inc should be moved to arch-armv6-vfp.inc.
-
-Due to the way this was originally implemented, I was told no variants of the
-armv6 existed w/o VFP.....  so the naming is what it is, I'm open to suggesting
-a change to make it more explicit that armv6 is w/o VFP and armv6-vfp is w/ VFP.
- But it's up to the oe-core community if they'll accept that change to the core
-tunings.  It's more likely they will accept armv6-novfp (as in the examples above.)
-
---Mark
-
-> Denis.
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+-- 
+1.7.4.1
 
 
 
