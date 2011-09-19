@@ -1,48 +1,41 @@
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <heinold@mi.fu-berlin.de>) id 1R5c47-0001NU-0P
+	(envelope-from <otavio.salvador@gmail.com>) id 1R5cQR-0001nH-D8
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Sep 2011 13:31:11 +0200
-Received: from relay1.zedat.fu-berlin.de ([130.133.4.67])
-	by outpost1.zedat.fu-berlin.de (Exim 4.69)
-	for openembedded-core@lists.openembedded.org with esmtp
-	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1R5bhn-0006gx-KX>; Mon, 19 Sep 2011 13:08:07 +0200
-Received: from hydra.imp.fu-berlin.de ([160.45.117.149]
-	helo=mail.imp.fu-berlin.de) by relay1.zedat.fu-berlin.de (Exim 4.69)
-	for openembedded-core@lists.openembedded.org with esmtp
-	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1R5bhn-0002uZ-IB>; Mon, 19 Sep 2011 13:08:07 +0200
-Received: from andorra.imp.fu-berlin.de ([160.45.42.84])
-	by mail.imp.fu-berlin.de with esmtps (Exim 4.72) id 1R5bhF-00031B-OM
-	(envelope-from <heinold@mi.fu-berlin.de>)
+	Mon, 19 Sep 2011 13:54:15 +0200
+Received: by bke11 with SMTP id 11so24526784bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Sep 2011 13:07:45 +0200
-Received: from heinold by internal andorra.imp.fu-berlin.de with local (Exim
-	4.72) id 1R5bhA-0008TK-Kg
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Sep 2011 13:07:28 +0200
-Date: Mon, 19 Sep 2011 13:07:28 +0200
-From: Henning Heinold <heinold@inf.fu-berlin.de>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110919110728.GA31160@mi.fu-berlin.de>
-References: <cover.1316429640.git.paul.eggleton@linux.intel.com>
-	<8d56fe29bb6f9502c56eae71640da4cc31f7e1a4.1316429640.git.paul.eggleton@linux.intel.com>
+	Mon, 19 Sep 2011 04:48:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=VuC0COlaYd7q/IF2e1NfHf4ReXsIJNz2lp94RsCDy2Q=;
+	b=r2Gqa5GJCjF0XTVSbZzf5PH+LUBQanuXZ8+gumn9n4sOvLHXmjF5SWJ15cRa9ykIjG
+	uI3SL7FtlLSmDFrOsirepkoIRkdgR0HOQKAp7DnxA9JZQvjpR/TCl57/tQsS59Sj7Q0q
+	3jlwpm6PoiJs4zYJq/8GOPDzBT9WpHWolFx18=
 MIME-Version: 1.0
-In-Reply-To: <8d56fe29bb6f9502c56eae71640da4cc31f7e1a4.1316429640.git.paul.eggleton@linux.intel.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Sender: Heinold <heinold@mi.fu-berlin.de>
-X-Remote-IP: 160.45.42.84
-X-Spam_Score: -3.4
-X-exim-Spam_Score_Int: -33
-X-exim-Spam_Bar: ---
-X-Spam_Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	* -0.5 RP_MATCHES_RCVD Envelope sender domain matches handover relay
-	domain * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-X-Originating-IP: 160.45.117.149
-Subject: Re: [PATCH 3/3] freetype: disable bzip2 compressed font support
+Received: by 10.204.140.88 with SMTP id h24mr1626343bku.166.1316432939406;
+	Mon, 19 Sep 2011 04:48:59 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.65.194 with HTTP; Mon, 19 Sep 2011 04:48:59 -0700 (PDT)
+In-Reply-To: <DD23E745-87D9-4831-85D4-C038CD79DCF7@dominion.thruhere.net>
+References: <20110911172241.GA3674@chargestorm.se>
+	<4E7246EB.2070607@eukrea.com>
+	<CAP9ODKqCc3zAuwBoL7Yiet0GKuJKFymZMtStkpwAq88b=ZGibw@mail.gmail.com>
+	<201109161212.19780.paul.eggleton@linux.intel.com>
+	<4E733F7D.6090109@eukrea.com>
+	<CAP9ODKo9-6qHhCWfWS5_GXrNxw38VCXjzih2hdoWRQ9vY3MVFg@mail.gmail.com>
+	<DD23E745-87D9-4831-85D4-C038CD79DCF7@dominion.thruhere.net>
+Date: Mon, 19 Sep 2011 08:48:59 -0300
+X-Google-Sender-Auth: aotHpjOCFCqh64cb-4QuRFVMwP4
+Message-ID: <CAP9ODKoemW81Sob3uUe-1LedWXcoJqEdkUGTj-+ZjgrUsytb_Q@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] qt4: update to latest version 4.7.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -57,49 +50,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Sep 2011 11:31:11 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 19 Sep 2011 11:54:15 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 19, 2011 at 11:58:36AM +0100, Paul Eggleton wrote:
-> If we do not disable this then it is enabled sometimes and disabled at
-> others depending on whether bzip2 has been built at the time, and worst
-> case it will cause a race condition if bzip2 is building at the same
-> time.
-> 
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> ---
->  meta/recipes-graphics/freetype/freetype_2.4.6.bb |    4 ++--
->  1 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-graphics/freetype/freetype_2.4.6.bb b/meta/recipes-graphics/freetype/freetype_2.4.6.bb
-> index 8150dd4..94a389a 100644
-> --- a/meta/recipes-graphics/freetype/freetype_2.4.6.bb
-> +++ b/meta/recipes-graphics/freetype/freetype_2.4.6.bb
-> @@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://docs/LICENSE.TXT;md5=28d5381b1bef2649c59f20c20bae4f39
->  
->  SECTION = "libs"
->  
-> -PR = "r0"
-> +PR = "r1"
->  
->  SRC_URI = "${SOURCEFORGE_MIRROR}/freetype/freetype-${PV}.tar.bz2 \
->             file://no-hardcode.patch"
-> @@ -28,7 +28,7 @@ inherit autotools pkgconfig binconfig
->  LIBTOOL = "${S}/builds/unix/${HOST_SYS}-libtool"
->  EXTRA_OEMAKE = "'LIBTOOL=${LIBTOOL}'"
->  EXTRA_OEMAKE_virtclass-native = ""
-> -EXTRA_OECONF = "--without-zlib"
-> +EXTRA_OECONF = "--without-zlib --without-bzip2"
->  
->  do_configure() {
->  	cd builds/unix
+On Mon, Sep 19, 2011 at 06:45, Koen Kooi <koen@dominion.thruhere.net> wrote=
+:
+> Send a patch that adds 4.7.4 with DEFAULT_PREFERENCE =3D -1, but leaves 4=
+.7.3 intact.
+>
+> That way people can migrate their bbappends without needing a flag day an=
+d it also allows people to test 4.7.4 more easily before it gets made the d=
+efault.
 
-Hi,
+I prefer to have 4.7.4 in as it ... it has been in test here, on Eric
+and maybe others with no know issues so I'd prefer to have it into the
+release and get done with it. 4.7.4 is the current stable release, the
+only know regression has a fix available and people have been using it
+locally so no reason to leave it behind.
 
-wouldn't it been better to let freetype depend on bz2 and libz. It may save some space in particular situations for some
-people.
-
-Bye Henning
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
