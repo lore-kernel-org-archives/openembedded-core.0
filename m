@@ -1,35 +1,35 @@
-Received: from mx4.leapfrog.com ([63.114.26.254])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dlazzari@leapfrog.com>) id 1R66wg-0000tg-KO
-	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Sep 2011 22:29:34 +0200
-Received: from mx4.leapfrog.com (localhost [127.0.0.1])
-	by localhost.leapfrog.com (Postfix) with ESMTP id 2E0525EA3
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1R672y-00010d-A2 for openembedded-core@lists.openembedded.org;
+	Tue, 20 Sep 2011 22:36:04 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8KKaxlk001752 for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Sep 2011 21:36:59 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id M4MI3MelEVCI
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2011 13:24:14 -0700 (PDT)
-Received: from NAEXCHHT01.na.leapfrog.com (unknown [10.15.6.13])
-	by mx4.leapfrog.com (Postfix) with ESMTP id F37DB5E6D
+	Tue, 20 Sep 2011 21:36:59 +0100 (BST)
+Received: from [192.168.250.158] ([116.246.20.131]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8KKanai001743
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2011 13:24:13 -0700 (PDT)
-Received: from NAEMCASHT01.na.leapfrog.com (10.16.4.161) by
-	NAEXCHHT01.na.leapfrog.com (10.15.6.13) with Microsoft SMTP Server
-	(TLS) id 8.2.254.0; Tue, 20 Sep 2011 13:24:13 -0700
-Received: from NAEMMAIL01.na.leapfrog.com ([fe80::252e:28a6:3d8f:6991]) by
-	NAEMCASHT01.na.leapfrog.com ([::1]) with mapi id 14.01.0289.001;
-	Tue, 20 Sep 2011 13:24:13 -0700
-From: Daniel Lazzari <dlazzari@leapfrog.com>
-To: "'openembedded-core@lists.openembedded.org'"
+	Tue, 20 Sep 2011 21:36:54 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Re: [OE-core] Correct way of having the PN package depend on
-Thread-Index: Acx300IrEudxd1Q2T2S6UDkqrYDaUQ==
-Date: Tue, 20 Sep 2011 20:24:12 +0000
-Message-ID: <E7A9054A5ACABE48B0E540E46E862B0F011F65@NAEMMAIL01.na.leapfrog.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.100.2.5]
-MIME-Version: 1.0
-Subject: Re: Correct way of having the PN package depend on
+Date: Tue, 20 Sep 2011 21:30:35 +0100
+In-Reply-To: <4E78E508.9080706@windriver.com>
+References: <CALT56yOyp2VYEziGiZj4PLjYHFhTkxisKwWnP7_Uy69Cc1ufYw@mail.gmail.com>
+	<4E78E508.9080706@windriver.com>
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1316550641.14488.61.camel@ted>
+Mime-Version: 1.0
+Subject: Re: [RFC] policy proposal: INC_PR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,46 +44,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Sep 2011 20:29:34 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 20 Sep 2011 20:36:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-> On 9/20/11 2:03 PM, Daniel Lazzari wrote:
-> > I noticed a problem with the alsa-utils package where the alsa-utils pa=
-ckage does not depend on all of the little extra packages it's supposed to =
-pull in. I'm not sure what the best way to fix this is though. Can anyone g=
-ive me a little guidance or point me at a recipe that does this correctly a=
-lready?
->=20
-> If you are using the RPM backend, I'm currently working on something that=
- may
-resolve this issue for you.  Hopefully ready today.
->=20
-> Otherwise, switch to ipk or deb and see if you get the same behavior.
+On Tue, 2011-09-20 at 14:10 -0500, Mark Hatle wrote:
+> On 9/20/11 2:04 PM, Dmitry Eremin-Solenikov wrote:
+> > Hello, colleagues,
+> > 
+> > While debugging some stuff in oe-core & company I've noticed that
+> > lot's of packages
+> > either don't use INC_PR, or misuse it (e.g. .inc has INC_PR, but then
+> > .bb just defines PR = "rX").
+> 
+> I've noticed similar things.  I'd agree, we should define and use INC_PR for
+> items that have .inc files.  There have been many times that I need to fix a bug
+> in the .inc file and end up manually updating the PR is 2 or 3 recipes that use
+> the .inc.
+> 
+> One question though, how do we handle packages with multilib .inc files?
+> 
+> INC_PR += ...  (or is it .=)
 
-I'm using ipk already.
+I'm going to disagree here. I'd actually like to see the whole PR thing
+become irrelevant. Its insane we have to spend so much time doing
+something the system should be able to figure out for itself. It
+currently serves two purposes:
 
-> I don't see why this is a problem, personally. If someone wants a recipe'=
-s main package to depend on the other packages it emits, they're free to ma=
-ke the recipe do so. But the ${PN} package is not defined to include everyt=
-hing from the recipe, it never has been.
+1. Triggers rebuilds of packages when they change
+2. Handles package feed upgrades correctly
 
-I understand that. With the alsa-utils package, the recipe specifically men=
-tions
-# This are all packages that we need to make. Also, the now empty alsa-util=
-s
-# ipk depends on them.
+For 1, we can use the sstate checksums and for 2, we can use some kind
+of PR server, either local or networked.
 
-Right above adding packages such as "alsa-utils-alsamixer" to the PACKAGES =
-variable. I need all of those more specific packages and if I understand co=
-rrectly, I should be able to get them by just adding the "alsa-utils" packa=
-ge to my custom image.
+I'm therefore proposing that after the current release is finished, we
+enable the BasicHash signature generator (which adds the sstate
+checksums to the stamp files) and stop bumping PR values (so INC_PR can
+die and PR values can likely fade out of recipes). If the tooling we
+have for 2 isn't enough we'll then just simply have to improve it and
+make it work.
 
-Dan Lazzari Jr.
-Firmware Engineer
-dlazzari@leapfrog.com
+Comments?
 
+Cheers,
+
+Richard
 
 
 
