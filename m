@@ -1,24 +1,41 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1R6A3T-0006Th-VA
+	(envelope-from <dongxiao.xu@intel.com>) id 1R6AA2-0006kN-Kz
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Sep 2011 01:48:48 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 20 Sep 2011 16:43:28 -0700
+	Wed, 21 Sep 2011 01:55:35 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 20 Sep 2011 16:50:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="50889701"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.170])
-	by orsmga002.jf.intel.com with ESMTP; 20 Sep 2011 16:43:28 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Sep 2011 16:43:24 -0700
-Message-Id: <6fc87cc77b841c45824c14dbabed335a9f919500.1316562083.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <cover.1316562083.git.sgw@linux.intel.com>
-References: <cover.1316562083.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1316562083.git.sgw@linux.intel.com>
-References: <cover.1316562083.git.sgw@linux.intel.com>
-Subject: [RC Fixes 8/8] avahi: Refactor recipe to move UI to avahi-ui
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="50501485"
+Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
+	by orsmga001.jf.intel.com with ESMTP; 20 Sep 2011 16:50:10 -0700
+Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
+	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 21 Sep 2011 07:50:08 +0800
+Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
+	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 21 Sep 2011 07:50:07 +0800
+Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
+	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
+	Wed, 21 Sep 2011 07:49:29 +0800
+From: "Xu, Dongxiao" <dongxiao.xu@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 21 Sep 2011 07:49:27 +0800
+Thread-Topic: [OE-core] [PATCH 1/7] rootfs_rpm: Use specific MACHINE_ARCH
+	for multilib recipes
+Thread-Index: Acx333H65bGB2j6IRKS4Q2yJREkRpAAEEypA
+Message-ID: <D5AB6E638E5A3E4B8F4406B113A5A19A12D859E3AF@shsmsx501.ccr.corp.intel.com>
+References: <cover.1316553828.git.mark.hatle@windriver.com>
+	<2539230a1b1e941f43d6b6b3b686d90dac900410.1316553828.git.mark.hatle@windriver.com>
+	<1316555432.14488.88.camel@ted>
+In-Reply-To: <1316555432.14488.88.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/7] rootfs_rpm: Use specific MACHINE_ARCH for multilib recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,237 +50,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Sep 2011 23:48:48 -0000
+X-List-Received-Date: Tue, 20 Sep 2011 23:55:35 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-[YOCTO #1492]
+Hi Richard and Mark,
 
-This patch refactors avahi into a core non ui and avahi-ui, OE-Classic
-has a similar factoring, and it was used as a refernce to make this
-occur correctly here.
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Richard Purdie
+> Sent: Wednesday, September 21, 2011 5:50 AM
+> To: Patches and discussions about the oe-core layer
+> Subject: Re: [OE-core] [PATCH 1/7] rootfs_rpm: Use specific MACHINE_ARCH
+> for multilib recipes
+>=20
+> On Tue, 2011-09-20 at 16:33 -0500, Mark Hatle wrote:
+> > From: Dongxiao Xu <dongxiao.xu@intel.com>
+> >
+> > Currently MACHINE_ARCH deploy folder is unique in multilib system,
+> > thus a lib32 version of rpm package will override a normal rpm package
+> > if its PACKAGE_ARCH is ${MACHINE_ARCH}.
+> >
+> > Take netbase as an example, which the PACKAGE_ARCH =3D MACHINE_ARCH.
+> > Both the normal version of netbase package and the lib32 version are
+> > named as "netbase-4.45-r1.qemux86_64.rpm" putting in
+> > tmp/deploy/rpm/qemux86-64 directory, so we need to differentiate them.
+> >
+> > Here we define spedific MACHINE_virtclass-multilib-lib(xx) to override
+> > the default MACHINE value, thus got different MACHINE_ARCH to fix this
+> > issue.
+>=20
+> We simply *cannot* do this and this patch cannot be merged. I thought I'd
+> explained this once but I will try and do so again.
+>=20
+> The problem is MACHINE specific packages can have generic content. They
+> may have binaries, libraries or other things contained within them. Lets
+> assume we have a strange system which has files in /lib, /lib32 and /lib6=
+4. We
+> need the following permutations:
+>=20
+> qemux86 /lib
+> qemux86 /lib64
+> qemux86 /lib32
+>=20
+> and these are not equal to:
+>=20
+> qemux86_64 /lib
+> qemux86_64 /lib64
+> qemux86_64 /lib32
+>=20
+> which may or may not have different contents or different optimisations
+> applied to the binaries/libraries contained within.
+>=20
+> You are trying to take a shortcut here and cross link these two sets and =
+that
+> doesn't scale to generic combinations.
+>=20
+> Furthermore, MACHINE is meant to be consistent within a given build and
+> changing MACHINE for different multilibs will have all kinds of unintende=
+d
+> consequences (such as the cache file location changing for different reci=
+pes).
+>=20
+> Wasn't there an alternative proposal from Dongxiao that added MLPREFIX to
+> MACHINE_ARCH and resolved this issue that way instead? I know that causes
+> issues at the package management level but I think we're going to have to=
+ run
+> with that approach and resolve any issues it leads to...
 
-This allows the package to be built without gtk and GPLv3 issues.
+I have an updated commit in http://git.yoctoproject.org/cgit/cgit.cgi/poky-=
+contrib/commit/?h=3Ddxu4/ml4&id=3D6b2ed895e25bf6d76cc362c87661fd66231c4b4a
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-connectivity/avahi/avahi-ui_0.6.30.bb |   37 +++++++++
- meta/recipes-connectivity/avahi/avahi.inc          |   86 ++++++++++---------
- meta/recipes-connectivity/avahi/avahi_0.6.30.bb    |    6 +-
- 3 files changed, 87 insertions(+), 42 deletions(-)
- create mode 100644 meta/recipes-connectivity/avahi/avahi-ui_0.6.30.bb
+You can cherry-pick that to your pull request.
 
-diff --git a/meta/recipes-connectivity/avahi/avahi-ui_0.6.30.bb b/meta/recipes-connectivity/avahi/avahi-ui_0.6.30.bb
-new file mode 100644
-index 0000000..e0733a9
---- /dev/null
-+++ b/meta/recipes-connectivity/avahi/avahi-ui_0.6.30.bb
-@@ -0,0 +1,37 @@
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1 \
-+                    file://avahi-common/address.h;endline=25;md5=b1d1d2cda1c07eb848ea7d6215712d9d \
-+                    file://avahi-core/dns.h;endline=23;md5=6fe82590b81aa0ddea5095b548e2fdcb \
-+                    file://avahi-daemon/main.c;endline=21;md5=9ee77368c5407af77caaef1b07285969 \
-+                    file://avahi-client/client.h;endline=23;md5=f4ac741a25c4f434039ba3e18c8674cf"
-+
-+require avahi.inc
-+
-+PR = "${INC_PR}.0"
-+
-+DEPENDS += "avahi gtk+ libglade"
-+
-+AVAHI_GTK = "--enable-gtk --disable-gtk3"
-+
-+S = "${WORKDIR}/avahi-${PV}"
-+
-+PACKAGES = "${PN} ${PN}-utils ${PN}-dbg ${PN}-dev python-avahi avahi-discover avahi-discover-standalone"
-+
-+FILES_${PN} = "${libdir}/libavahi-ui*.so.*"
-+FILES_${PN}-dbg += "${libdir}/.debug/libavah-ui*"
-+FILES_${PN}-dev += "${libdir}/libavahi-ui*"
-+
-+FILES_${PN}-utils = "${bindir}/b* ${datadir}/applications/b*"
-+
-+FILES_python-avahi = "${PYTHON_SITEPACKAGES_DIR}/avahi/*"
-+FILES_avahi-discover = "${bindir}/avahi-discover \
-+                        ${datadir}/applications/avahi-discover.desktop \
-+                        ${datadir}/avahi/interfaces/avahi-discover.glade"
-+FILES_avahi-discover-standalone = "${bindir}/avahi-discover-standalone \
-+                                   ${datadir}/avahi/interfaces/avahi-discover.glade"
-+
-+RDEPENDS_avahi-discover = "python-avahi python-pygtk"
-+RDEPENDS_python-avahi = "python-dbus"
-+
-+
-+SRC_URI[md5sum] = "e4db89a2a403ff4c47d66ac66fad1f43"
-+SRC_URI[sha256sum] = "f9e4316c2339d0020726edd846d01bee0c39980906db0c247479e5807457ff1f"
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index 24ea458..a847394 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -14,8 +14,9 @@ SECTION = "network"
- # python scripts are under GPLv2+
- LICENSE = "GPLv2+ & LGPLv2.1+"
- 
--X11DEPENDS = "gtk+ libglade"
--DEPENDS = "expat libcap libdaemon dbus glib-2.0 ${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
-+INC_PR = "r6"
-+
-+DEPENDS = "expat libcap libdaemon dbus glib-2.0"
- 
- SRC_URI = "http://avahi.org/download/avahi-${PV}.tar.gz \
-           file://00avahi-autoipd \
-@@ -25,58 +26,38 @@ SRC_URI = "http://avahi.org/download/avahi-${PV}.tar.gz \
- inherit autotools pkgconfig update-rc.d gettext
- 
- EXTRA_OECONF = "--with-distro=debian \
-+             --disable-introspection \
-              --with-avahi-priv-access-group=adm \
-              --disable-stack-protector \
-              --disable-gdbm \
-              --disable-mono \
-              --disable-monodoc \
--             --disable-gtk3 \
--	     ${@base_contains('DISTRO_FEATURES', 'x11', '--enable-gtk', '--disable-gtk', d)} \
-              --disable-qt3 \
-              --disable-qt4 \
-              --disable-python \
-              --disable-doxygen-doc \
-              --with-systemdsystemunitdir=${base_libdir}/systemd/system/ \
--"
--
--PACKAGES =+ "avahi-systemd avahi-daemon libavahi-common libavahi-core libavahi-client avahi-dnsconfd libavahi-glib libavahi-gobject avahi-autoipd avahi-ui-utils avahi-utils libavahi-ui libavahi-ui-dev"
-+             ${AVAHI_GTK} \
-+           "
- 
--FILES_avahi-systemd = "${base_libdir}/systemd"
--RDEPENDS_avahi-systemd = "avahi-daemon"
-+AVAHI_GTK ?= "--disable-gtk --disable-gtk3"
- 
--pkg_postinst_avahi-systemd() {
--	# can't do this offline
--	if [ "x$D" != "x" ]; then
--		exit 1
--	fi
--	
--	systemctl enable avahi-daemon.service
--}
--
--pkg_postrm_avahi-systemd() {
--	# can't do this offline
--	if [ "x$D" != "x" ]; then
--		exit 1
--	fi
-+LDFLAGS_append_libc-uclibc = " -lintl"
-+LDFLAGS_append_uclinux-uclibc = " -lintl"
- 
--	systemctl disable avahi-daemon.service
-+do_configure_prepend() {
-+    sed 's:AM_CHECK_PYMOD:echo "no pymod" #AM_CHECK_PYMOD:g' -i configure.ac
- }
- 
--# uclibc has no nss
--RRECOMMENDS_avahi-daemon_append_libc-glibc = "libnss-mdns"
--RRECOMMENDS_${PN}_append_libc-glibc = "libnss-mdns"
- 
--RDEPENDS_avahi-daemon = "sysvinit-pidof"
-+PACKAGES =+ "avahi-systemd avahi-daemon libavahi-common libavahi-core libavahi-client avahi-dnsconfd libavahi-glib libavahi-ui avahi-autoipd avahi-utils"
- 
-+FILES_avahi-systemd = "${base_libdir}/systemd"
- FILES_avahi-autoipd = "${sbindir}/avahi-autoipd \
-                        ${sysconfdir}/avahi/avahi-autoipd.action \
-                        ${sysconfdir}/dhcp3/*/avahi-autoipd"
- FILES_libavahi-common = "${libdir}/libavahi-common.so.*"
- FILES_libavahi-core = "${libdir}/libavahi-core.so.*"
--FILES_libavahi-ui = "${libdir}/libavahi-ui.so.*"
--FILES_libavahi-ui-dev = "${libdir}/libavahi-ui.* \
--                         ${includedir}/avahi-ui/* \
--                         ${libdir}/pkgconfig/avahi-ui.pc"
- FILES_avahi-daemon = "${sbindir}/avahi-daemon \
-                       ${sysconfdir}/avahi/avahi-daemon.conf \
-                       ${sysconfdir}/avahi/hosts \
-@@ -88,16 +69,19 @@ FILES_avahi-daemon = "${sbindir}/avahi-daemon \
-                       ${datadir}/avahi/service-types \
-                       ${datadir}/dbus-1/system-services"
- FILES_libavahi-client = "${libdir}/libavahi-client.so.*"
-+FILES_libavahi-ui = "${libdir}/libavahi-ui.so.*"
- FILES_avahi-dnsconfd = "${sbindir}/avahi-dnsconfd \
-                         ${sysconfdir}/avahi/avahi-dnsconfd.action \
-                         ${sysconfdir}/init.d/avahi-dnsconfd"
- FILES_libavahi-glib = "${libdir}/libavahi-glib.so.*"
- FILES_libavahi-gobject = "${libdir}/libavahi-gobject.so.*"
- FILES_avahi-utils = "${bindir}/avahi-*"
--FILES_avahi-ui-utils = "${bindir}/bssh ${bindir}/bvnc ${bindir}/bshell \
--                        ${bindir}/avahi-discover-standalone \
--                        ${datadir}/applications \
--                        ${datadir}/avahi/interfaces"
-+
-+RDEPENDS_avahi-daemon = "sysvinit-pidof"
-+
-+# uclibc has no nss
-+RRECOMMENDS_avahi-daemon_append_libc-glibc = "libnss-mdns"
-+RRECOMMENDS_${PN}_append_libc-glibc = "libnss-mdns"
- 
- RRECOMMENDS_avahi-dev = "expat-dev libcap-dev libdaemon-dev dbus-dev glib-2.0-dev update-rc.d-dev"
- RRECOMMENDS_avahi-dev_append_libc-glibc = " gettext-dev"
-@@ -119,6 +103,14 @@ do_install() {
- 	# /var/run of current version is empty, so just remove it.
- 	# if /var/run become non-empty in the future, need to install it via volatile
- 	rm -rf ${D}/var/run
-+	rm -rf ${D}${datadir}/dbus-1/interfaces
-+}
-+
-+do_install_avahi-autoipd() {
-+	autotools_do_install
-+	install -d ${D}${sysconfdir}/udhcpc.d
-+	install ${WORKDIR}/00avahi-autoipd ${D}${sysconfdir}/udhcpc.d
-+	install ${WORKDIR}/99avahi-autoipd ${D}${sysconfdir}/udhcpc.d
- }
- 
- # At the time the postinst runs, dbus might not be setup so only restart if running
-@@ -157,9 +149,21 @@ pkg_postrm_avahi-autoipd () {
- 	delgroup avahi-autoipd || true
- }
- 
--do_install_avahi-autoipd() {
--	autotools_do_install
--	install -d ${D}${sysconfdir}/udhcpc.d
--	install ${WORKDIR}/00avahi-autoipd ${D}${sysconfdir}/udhcpc.d
--	install ${WORKDIR}/99avahi-autoipd ${D}${sysconfdir}/udhcpc.d
-+pkg_postinst_avahi-systemd() {
-+	# can't do this offline
-+	if [ "x$D" != "x" ]; then
-+		exit 1
-+	fi
-+	
-+	systemctl enable avahi-daemon.service
- }
-+
-+pkg_postrm_avahi-systemd() {
-+	# can't do this offline
-+	if [ "x$D" != "x" ]; then
-+		exit 1
-+	fi
-+
-+	systemctl disable avahi-daemon.service
-+}
-+
-diff --git a/meta/recipes-connectivity/avahi/avahi_0.6.30.bb b/meta/recipes-connectivity/avahi/avahi_0.6.30.bb
-index 05716d0..692a5df 100644
---- a/meta/recipes-connectivity/avahi/avahi_0.6.30.bb
-+++ b/meta/recipes-connectivity/avahi/avahi_0.6.30.bb
-@@ -6,7 +6,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1 \
-                     file://avahi-daemon/main.c;endline=21;md5=9ee77368c5407af77caaef1b07285969 \
-                     file://avahi-client/client.h;endline=23;md5=f4ac741a25c4f434039ba3e18c8674cf"
- 
--PR = "r4"
-+PR = "${INC_PR}.0"
-+
-+DEPENDS += "intltool-native"
-+
-+PACKAGES =+ "libavahi-gobject"
- 
- SRC_URI[md5sum] = "e4db89a2a403ff4c47d66ac66fad1f43"
- SRC_URI[sha256sum] = "f9e4316c2339d0020726edd846d01bee0c39980906db0c247479e5807457ff1f"
--- 
-1.7.6
+Thanks,
+Dongxiao
 
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+>=20
+>=20
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
