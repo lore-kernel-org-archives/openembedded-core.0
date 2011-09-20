@@ -1,36 +1,25 @@
-Received: from mx4.leapfrog.com ([63.114.26.254])
+Received: from mail-qw0-f43.google.com ([209.85.216.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dlazzari@leapfrog.com>) id 1R65gX-0007l7-8T
-	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Sep 2011 21:08:49 +0200
-Received: from mx4.leapfrog.com (localhost [127.0.0.1])
-	by localhost.leapfrog.com (Postfix) with ESMTP id EB03D5EA3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2011 12:03:17 -0700 (PDT)
-Received: from NAEXCHHT01.na.leapfrog.com (unknown [10.15.6.13])
-	by mx4.leapfrog.com (Postfix) with ESMTP id CFBD35E97
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2011 12:03:17 -0700 (PDT)
-Received: from NAEMCASHT01.na.leapfrog.com (10.16.4.161) by
-	NAEXCHHT01.na.leapfrog.com (10.15.6.13) with Microsoft SMTP Server
-	(TLS) id 8.2.254.0; Tue, 20 Sep 2011 12:03:17 -0700
-Received: from NAEMMAIL01.na.leapfrog.com ([fe80::252e:28a6:3d8f:6991]) by
-	NAEMCASHT01.na.leapfrog.com ([::1]) with mapi id 14.01.0289.001;
-	Tue, 20 Sep 2011 12:03:17 -0700
-From: Daniel Lazzari <dlazzari@leapfrog.com>
-To: "'openembedded-core@lists.openembedded.org'"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Correct way of having the PN package depend on the other
-	packages?
-Thread-Index: Acx3x/P83idbyYOqRB+7npzheJAxDw==
-Date: Tue, 20 Sep 2011 19:03:16 +0000
-Message-ID: <E7A9054A5ACABE48B0E540E46E862B0F011EC4@NAEMMAIL01.na.leapfrog.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.100.2.5]
+	(envelope-from <dbaryshkov@gmail.com>)
+	id 1R65hG-0007n9-Qo; Tue, 20 Sep 2011 21:09:34 +0200
+Received: by qwb7 with SMTP id 7so1364218qwb.2
+	for <multiple recipients>; Tue, 20 Sep 2011 12:04:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:date:message-id:subject:from:to:cc:content-type;
+	bh=FHuYGLbeL8OWIkMK/pTq1s94odiN3uZncUPfSsO7vnU=;
+	b=wu/yVvpeeZwqUEnT3Aa+HuXyw7JpmAKuk2PNloyJEqWZI2bm5jeU++cbEzXA7/lSl6
+	yHbJk97VddB4q+dlAFvuCNMklE1tQvfO8Jtq63bq/Ac8XaVWB3LttjWweERU8NBW/ag7
+	2VHIvORAx5Oh3ihF03psb2TtbOblZt7wT26xI=
 MIME-Version: 1.0
-Subject: Correct way of having the PN package depend on the other packages?
+Received: by 10.52.175.229 with SMTP id cd5mr1132079vdc.363.1316545456507;
+	Tue, 20 Sep 2011 12:04:16 -0700 (PDT)
+Received: by 10.52.186.166 with HTTP; Tue, 20 Sep 2011 12:04:16 -0700 (PDT)
+Date: Tue, 20 Sep 2011 23:04:16 +0400
+Message-ID: <CALT56yOyp2VYEziGiZj4PLjYHFhTkxisKwWnP7_Uy69Cc1ufYw@mail.gmail.com>
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>
+Subject: [RFC] policy proposal: INC_PR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,22 +34,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Sep 2011 19:08:49 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 20 Sep 2011 19:09:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-I noticed a problem with the alsa-utils package where the alsa-utils packag=
-e does not depend on all of the little extra packages it's supposed to pull=
- in. I'm not sure what the best way to fix this is though. Can anyone give =
-me a little guidance or point me at a recipe that does this correctly alrea=
-dy?
+Hello, colleagues,
 
-Thanks,
+While debugging some stuff in oe-core & company I've noticed that
+lot's of packages
+either don't use INC_PR, or misuse it (e.g. .inc has INC_PR, but then
+.bb just defines PR = "rX").
 
-Dan Lazzari Jr.
-Firmware Engineer
-dlazzari@leapfrog.com
+From my previous experience with oe-dev, I found INC_PR very usefull
+and error-prone feature.
+What about making usage of INC_PR a policy decision, demanding that
+all new packages should use INC_PR for their recipes, if .inc files
+are used. And then define a grace period
+during which all remaining packages should be converted to INC_PR (3
+months? Next release? I really don't know).
 
+I'm sorry if this issue was already discussed somewhere and I'm
+duplicating the efforts
+or proposing already discarded idea.
+
+-- 
+With best wishes
+Dmitry
 
 
