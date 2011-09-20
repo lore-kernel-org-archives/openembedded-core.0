@@ -1,30 +1,42 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1R63qQ-0005S3-Nr
+	(envelope-from <dongxiao.xu@intel.com>) id 1R64Ik-0005nz-VT
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Sep 2011 19:10:55 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p8KH5ZnM005075
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 20 Sep 2011 10:05:35 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 20 Sep 2011 10:05:34 -0700
-Message-ID: <4E78C7DD.8050308@windriver.com>
-Date: Tue, 20 Sep 2011 12:05:33 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:6.0.2) Gecko/20110902 Thunderbird/6.0.2
-MIME-Version: 1.0
-To: "Xu, Dongxiao" <dongxiao.xu@intel.com>
+	Tue, 20 Sep 2011 19:40:11 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 20 Sep 2011 10:34:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="50385646"
+Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
+	by orsmga001.jf.intel.com with ESMTP; 20 Sep 2011 10:34:50 -0700
+Received: from pgsmsx104.gar.corp.intel.com (10.221.44.91) by
+	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 21 Sep 2011 01:34:49 +0800
+Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
+	PGSMSX104.gar.corp.intel.com (10.221.44.91) with Microsoft SMTP Server
+	(TLS) id 14.1.323.3; Wed, 21 Sep 2011 01:34:49 +0800
+Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
+	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
+	Wed, 21 Sep 2011 01:34:48 +0800
+From: "Xu, Dongxiao" <dongxiao.xu@intel.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Wed, 21 Sep 2011 01:34:47 +0800
+Thread-Topic: Multilib status
+Thread-Index: Acx3t4WqtElCHLfITnGuaqmDFb6b6QAAtBiA
+Message-ID: <D5AB6E638E5A3E4B8F4406B113A5A19A12D859E37B@shsmsx501.ccr.corp.intel.com>
 References: <1316165543.25993.59.camel@ted> <4E736242.2090106@windriver.com>
 	<D5AB6E638E5A3E4B8F4406B113A5A19A12D84DF2E8@shsmsx501.ccr.corp.intel.com>
 	<4E736ABF.9030305@windriver.com> <4E739312.3020808@windriver.com>
 	<D5AB6E638E5A3E4B8F4406B113A5A19A12D859E35C@shsmsx501.ccr.corp.intel.com>
 	<4E78C4D4.2080602@windriver.com>
 	<D5AB6E638E5A3E4B8F4406B113A5A19A12D859E371@shsmsx501.ccr.corp.intel.com>
-In-Reply-To: <D5AB6E638E5A3E4B8F4406B113A5A19A12D859E371@shsmsx501.ccr.corp.intel.com>
+	<4E78C7DD.8050308@windriver.com>
+In-Reply-To: <4E78C7DD.8050308@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: Multilib status
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -41,301 +53,248 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Sep 2011 17:10:55 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 20 Sep 2011 17:40:11 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-commit id aea5b9ef458099efd8f9a83428af84bbbe69eed2
-
-I'm really not sure what I have is right though.. it seems to be not failing..
-;)  But you likely know what should trigger these changes and if what I did is
-correct or not.
-
---Mark
-
-On 9/20/11 11:57 AM, Xu, Dongxiao wrote:
->>>> -----Original Message-----
->>>> From: Mark Hatle [mailto:mark.hatle@windriver.com]
->>>> Sent: Saturday, September 17, 2011 2:19 AM
->>>> To: Mark Hatle
->>>> Cc: Xu, Dongxiao; Richard Purdie; openembedded-core
->>>> Subject: Re: Multilib status
->>>>
->>>> Just an FYI.  I'm working through a bunch of issues.  I found out
->>>> that the RPM dependency resolution was completely broken, due to a
->>>> small bug in the package_rpm.bbclass..  Packages were not being given
->>>> the proper provide information, so RPM was attempting best match --
->>>> and failing as noted in the previous discussion..
->>>>
->>>> Unfortunately this has opened up a small can of worms which I'm
->>>> trying to deal with.  The simplistic fix for the bug is:
->>>>
->>>> --- a/meta/classes/package_rpm.bbclass
->>>> +++ b/meta/classes/package_rpm.bbclass
->>>> @@ -840,7 +840,7 @@ python do_package_rpm () {
->>>>         os.chmod(outdepends, 0755)
->>>>
->>>>         # Poky / RPM Provides
->>>> -       outprovides = workdir + "/" + srcname + ".requires"
->>>> +       outprovides = workdir + "/" + srcname + ".provides"
->>>>
->>>>         try:
->>>>                 from __builtin__ import file
->>>>
->>>> Unfortunately this has exposed a large set of problems that I didn't
->>>> realize we had....
->>>>
->>>> Will do a more formal pull request as soon as I get things working again.
->>>>
->>>> --Mark
->>>
->>> I just had a test after cherry-pick some of your changes in mhatle/rpm, here
->> are some problems I found and some investigations:
->>>
->>> 1. do_rootfs failed.
->>> The error log reports unmet dependency of pkgconfig(libpng).
->>> This is due to the dangling link in libpng package. libpng.pc links to libpng12.pc
->> which has been packaged into libpng12.
->>
->> Ahh this is a bit different then the failures I've seen.  We'll have to fix that one.
->>
->>> 2. There is a wrong commit I suppose it should be reverted. When you
->> debugging your code, please revert it.
->>> I will discuss it with Richard tomorrow.
->>> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=mhatl
->>> e/rpm&id=329d864f9bbf94ad3aae8df43d63fe10e4237e4f
->>
->> Ahh, ya I just ran into that problem... I have a fix for that commit I just finished.
->> (Do you have a newer version, if so I'll update to that and see if my change is still
->> needed.)
-> 
-> No I haven't worked on a new version of that patch. Could you share yours?
-> 
-> Thanks,
-> Dongxiao
-> 
->>
->>> 3. After the above issue got fixed, rootfs succeed but we saw the final image is
->> still in a mess. We need some x86_64 rpm to be installed, however what we got
->> is x86 rpm package. Then I tried another approach we ever talked about that,
->> firstly install base image, then install the multilib packages. I added a parameter
->> "--replacepkgs" to rpm command to avoid errors like "package xxx has already
->> installed". With this approach, the final image could boot up with multilib library
->> installed.
->>>
->>> Some of my testing code is located under
->>> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=dxu4/ml-
->>> testing
->>
->> I'll run through the testing code and see if I can figure out what is different.
->>
->> --Mark
->>
->>> Thanks,
->>> Dongxiao
->>>
->>>
->>>>
->>>> On 9/16/11 10:26 AM, Mark Hatle wrote:
->>>>> On 9/16/11 10:21 AM, Xu, Dongxiao wrote:
->>>>>>>>> -----Original Message-----
->>>>>>>>> From: Mark Hatle [mailto:mark.hatle@windriver.com]
->>>>>>>>> Sent: Friday, September 16, 2011 10:51 PM
->>>>>>>>> To: Richard Purdie
->>>>>>>>> Cc: Xu, Dongxiao; openembedded-core
->>>>>>>>> Subject: Re: Multilib status
->>>>>>>>>
->>>>>>>>> On 9/16/11 4:32 AM, Richard Purdie wrote:
->>>>>>>>>>> Hi Mark/Dongxaio,
->>>>>>>>>>>
->>>>>>>>>>> We really need to get the remainder of the multilib bugs
->>>>>>>>>>> wrapped up. I think there is some confusion about the exact
->>>>>>>>>>> approach to take to fix some of them so I'm hoping to try and
->>>>>>>>>>> summarise the problems here so we can work out some resolutions.
->>>>>>>>>
->>>>>>>>> Let me explain where I am quickly.  I just spent two days
->>>>>>>>> working on reproducing the issue(s).  So far I've not reproduced
->>>>>>>>> the direct failures but a series of others.  I finally figured
->>>>>>>>> out part of the reason I wasn't seeing this.  I had a typo in my
->>>> configuration:
->>>>>>>>>
->>>>>>>>> DEFAULTTUNE-virtclass-mulitlib-lib32 = "x86"
->>>>>>>>>
->>>>>>>>> This resulted in two sets of binaries normal and lib32 that were
->>>>>>>>> more or less identical in the RPM case.  We -really- need a
->>>>>>>>> sanity check that stupid typos like that don't cause problems.
->>>>>>>>>
->>>>>>>>> ---
->>>>>>>>>
->>>>>>>>> So now that I finally have a built with that done... see below.
->>>>>>>>>
->>>>>>>>>>> Problem A
->>>>>>>>>>> =========
->>>>>>>>>>>
->>>>>>>>>>> We can have multiple forms of "machine specific" packages now,
->>>>>>>>>>> one for each multilib e.g.:
->>>>>>>>>>>
->>>>>>>>>>> task-core-x11-base-1.0-r34.qemux86_64.rpm ("normal")
->>>>>>>>>>> task-core-x11-base-1.0-r34.qemux86_64.rpm ("lib64")
->>>>>>>>>>> task-core-x11-base-1.0-r34.qemux86_64.rpm ("lib32")
->>>>>>>>>>>
->>>>>>>>>>> (lets assume the first uses /lib/, the second /lib64/ and the
->>>>>>>>>>> thrid /lib32/, an artificial example I realise)
->>>>>>>>>>>
->>>>>>>>>>> I know one proposal was to map:
->>>>>>>>>>>
->>>>>>>>>>> task-core-x11-base-1.0-r34.lib32_qemux86_64.rpm to
->>>>>>>>>>> task-core-x11-base-1.0-r34.lib32_qemux86.rpm but this isn't
->>>>>>>>>>> correct since the library directories are different. In this
->>>>>>>>>>> specific case it might not matter but in general it would.
->>>>>>>>>>> What is also important is that the different versions imply
->>>>>>>>>>> different dependencies. The lib64 bit version would pull in
->>>>>>>>>>> and select lib64 bit libs. Its these dependencies which are a
->>>>>>>>>>> key reason
->>>> these are not "all" arch packages.
->>>>>>>>>>>
->>>>>>>>>>> The end result is therefore we likely want:
->>>>>>>>>>>
->>>>>>>>>>> task-core-x11-base-1.0-r34.qemux86_64.rpm
->>>>>>>>>>> task-core-x11-base-1.0-r34.lib64_qemux86_64.rpm
->>>>>>>>>>> task-core-x11-base-1.0-r34.lib32_qemux86_64.rpm
->>>>>>>>>>>
->>>>>>>>>>> and I believe there are some patches Dongxiao has created
->>>>>>>>>>> which do
->>>> this.
->>>>>>>>>
->>>>>>>>> Yes, I'm currently testing his new MACHINE_virtclass-multilib-...
->>>>>>>>> patch.  So far it seems to be working.. assuming this is the
->>>>>>>>> approach we go with, we'll want to add some type of sanity check
->>>>>>>>> so that it's not possible to collide between the different
->>>>>>>>> multilib configurations.  (Alternatively we could, for each
->>>>>>>>> multilib,
->>>> specify a default machine virtclass in the format you list above.
->>>>>>>>>
->>>>>>>>> An alternative I was thinking of over night would be to avoid
->>>>>>>>> the RPM remapping on the "machine" packages.. but I'm not sure
->>>>>>>>> if that is really a good idea.
->>>>>>>>> However, it would could simplify the configuration aspects.
->>>>>>>
->>>>>>> There are two implementations towards the above result:
->>>>>>> 1) automatically setting MLPREFIX before MACHINE_ARCH.
->>>>>>> 2) user manually sets
->>>> MACHINE_virtclass-multilib-lib32="lib32-qemux86-64" in local.conf.
->>>>>>>
->>>>>>> Which one do you prefer?
->>>>> Right now I'm thinking the best approach is:
->>>>>
->>>>> *) Allow the user to set MACHINE_virtclass-multilib-...="...."
->>>>>
->>>>> *) If the user has NOT set it, fall back and use the setting of
->>>>> lib..-machine as in 2
->>>>>
->>>>> This way for people who have specific requirements for external
->>>>> compatibility or just desire more control they can do it.  But for
->>>>> everyone else it will still work properly.
->>>>>
->>>>> FYI, I'm currently working in the rootfs_rpm stuff, the system is
->>>>> currently ignoring the alternative (multilib) machine packages.  I'm
->>>>> hoping this will be fairly simple to resolve.
->>>>>
->>>>>>>>>
->>>>>>>>>>> Problem B
->>>>>>>>>>> =========
->>>>>>>>>>>
->>>>>>>>>>> If we install task-core-x11-base-1.0-r34.qemux86_64.rpm which
->>>>>>>>>>> depends on "connman", how does the system figure out to
->>>>>>>>>>> associate this to mean we want the "x86_64" architecture
->>>>>>>>>>> packages
->>>> installed?
->>>>>>>>>>>
->>>>>>>>>>> As far as I can tell there are two proposals around:
->>>>>>>>>>>
->>>>>>>>>>> 1) Set the architecture in the package provides and depends (a
->>>>>>>>>>> bit
->>>>>>>>>>> ugly)
->>>>>>>>>>>
->>>>>>>>>>> 2) Configure libzypp to understand that qemux86_64 does really
->>>>>>>>>>> map to
->>>>>>>>>>> x86_64 architecture and imply x86_64 dependencies.
->>>>>>>>>>>
->>>>>>>>>>> Solving problem A above is the first step towards resolving
->>>>>>>>>>> this either way but we don't seem to have a resolution on this
->>>>>>>>>>> second
->>>> part.
->>>>>>>>>
->>>>>>>>> Agreed.
->>>>>>>>>
->>>>>>>>>>> For reference, we really do want these task packages to have
->>>>>>>>>>> an associated architecture so the user can easily build up
->>>>>>>>>>> blocks of the system using a given ABI.
->>>>>>>>>
->>>>>>>>> This is going to be somewhat of a problem I suspect, simply
->>>>>>>>> because that is not the way RPM is/was designed.  We can adjust
->>>>>>>>> the rootfs install time, but this won't address field upgrade/installs.
->>>>>>>>>
->>>>>>>>> RPM (and Red Hat Linux/Fedora systems) appear to be designed
->>>>>>>>> that any package that reasonably meets the run-time dependencies
->>>>>>>>> can be
->>>> used.
->>>>>>>>> There is a concept of a "best" machine based on the resolver
->>>>>>>>> hierarchy, but ELF size may or may not be a factor in that decision.
->>>>>>>>>
->>>>>>>>> Doing this is quite powerful, but it also has a conscious
->>>>>>>>> decision set behind it.  If "bash" is required by a script, it
->>>>>>>>> really doesn't matter if it's ELF32,
->>>>>>>>> ELF64 or something else, as long as something provides bash.
->>>>>>>
->>>>>>> If user sets MULTILIB_IMAGE_INSTALL="lib32-task-core-boot" with a
->>>> qemux86-64 image, it means that he wants to install all elements
->>>> required by task-core-boot by lib32 version. If the dependency is
->>>> selected *randomly*, users would not have multiple libraries in his system.
->>>>> This is a special use case, yes one that I think we need to resolve,
->>>>> but it's not the typical case.
->>>>>
->>>>> The typical case will be someone wants the 64-bit (or 32-bit)
->>>>> version of a select package for compatibility.  And they only want
->>>>> the dependencies for that package to be loaded.  Anything satisfying
->>>>> the
->>>> dependency will do.
->>>>>
->>>>> My recommendation right now is, lets get that working ASAP.  Once
->>>>> that does, refocus the efforts on getting the multilib "tasks" to do
->>>>> something
->>>> reasonable.
->>>>> (i.e. select a group of packages)
->>>>>
->>>>> If we try to solve both at once, I don't think we're going to come
->>>>> up with a reasonable solution at this time.
->>>>>
->>>>> --Mark
->>>>>
->>>>>>> Thanks,
->>>>>>> Dongxiao
->>>>>>>>>
->>>>>>>>>>> What I really need now is an idea of which patches you both
->>>>>>>>>>> agree on that we need to merge (I think we have some for
->>>>>>>>>>> problem A) and a resolution on problem B along with some
->>>>>>>>>>> patches so we can close this set of issues out.
->>>>>>>>>>>
->>>>>>>>>>> If there are further issues can you reply to this email either
->>>>>>>>>>> with the details or a pointer to the specific additional problems.
->>>>>>>>>
->>>>>>>>> Now that I have my stupid typo out of the way, I expect to have
->>>>>>>>> further information in a few hours as to the regularly
->>>>>>>>> dependency resolution failure Dongxiao was reporting.  (Library
->>>>>>>>> dependencies
->>>>>>>>> -are- ELF specific, so those have to work properly!)
->>>>>>>>>
->>>>>>>>> --Mark
->>>>>>>>>
->>>>>>>>>>> Cheers,
->>>>>>>>>>>
->>>>>>>>>>> Richard
->>>>>>>>>>>
->>>>>>>>>>>
->>>>>>>
->>>>>
-> 
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBNYXJrIEhhdGxlIFttYWlsdG86
+bWFyay5oYXRsZUB3aW5kcml2ZXIuY29tXQ0KPiBTZW50OiBXZWRuZXNkYXksIFNlcHRlbWJlciAy
+MSwgMjAxMSAxOjA2IEFNDQo+IFRvOiBYdSwgRG9uZ3hpYW8NCj4gQ2M6IFJpY2hhcmQgUHVyZGll
+OyBvcGVuZW1iZWRkZWQtY29yZQ0KPiBTdWJqZWN0OiBSZTogTXVsdGlsaWIgc3RhdHVzDQo+IA0K
+PiBjb21taXQgaWQgYWVhNWI5ZWY0NTgwOTllZmQ4ZjlhODM0MjhhZjg0YmJiZTY5ZWVkMg0KPiAN
+Cj4gSSdtIHJlYWxseSBub3Qgc3VyZSB3aGF0IEkgaGF2ZSBpcyByaWdodCB0aG91Z2guLiBpdCBz
+ZWVtcyB0byBiZSBub3QgZmFpbGluZy4uDQo+IDspICBCdXQgeW91IGxpa2VseSBrbm93IHdoYXQg
+c2hvdWxkIHRyaWdnZXIgdGhlc2UgY2hhbmdlcyBhbmQgaWYgd2hhdCBJIGRpZCBpcw0KPiBjb3Jy
+ZWN0IG9yIG5vdC4NCg0KV2hhdCBJIHdhcyB0cnlpbmcgdG8gc29sdmUgd2l0aCB0aGUgcHJldmlv
+dXMgY29tbWl0IGlzIHRvIGhhbmRsZSB0aGUgbXVsdGlwbGUgKHIpcHJvdmlkZXIgaXNzdWUgb2Yg
+dGhvc2UgYWxsYXJjaCByZWNpcGVzLg0KDQpJdCBzZWVtcyB0aGF0IGFsdGhvdWdoIHlvdXIgY2hh
+bmdlcyBkb24ndCBzb2x2ZSB0aGUgYWJvdmUgcHJvYmxlbSwgdGhleSBhcmUgbmVlZGVkIHRvIGhh
+bmRsZSBSUFJPVklERVMgbWFwcGluZ3MuDQoNCkZvciB0aGUgbXVsdGlwbGUgcHJvdmlkZXIgaXNz
+dWUsIEkgd2lsbCBkaXNjdXNzIGl0IHdpdGggUmljaGFyZCB0b21vcnJvdy4NCg0KVGhhbmtzLA0K
+RG9uZ3hpYW8NCg0KPiANCj4gLS1NYXJrDQo+IA0KPiBPbiA5LzIwLzExIDExOjU3IEFNLCBYdSwg
+RG9uZ3hpYW8gd3JvdGU6DQo+ID4+Pj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPj4+
+PiBGcm9tOiBNYXJrIEhhdGxlIFttYWlsdG86bWFyay5oYXRsZUB3aW5kcml2ZXIuY29tXQ0KPiA+
+Pj4+IFNlbnQ6IFNhdHVyZGF5LCBTZXB0ZW1iZXIgMTcsIDIwMTEgMjoxOSBBTQ0KPiA+Pj4+IFRv
+OiBNYXJrIEhhdGxlDQo+ID4+Pj4gQ2M6IFh1LCBEb25neGlhbzsgUmljaGFyZCBQdXJkaWU7IG9w
+ZW5lbWJlZGRlZC1jb3JlDQo+ID4+Pj4gU3ViamVjdDogUmU6IE11bHRpbGliIHN0YXR1cw0KPiA+
+Pj4+DQo+ID4+Pj4gSnVzdCBhbiBGWUkuICBJJ20gd29ya2luZyB0aHJvdWdoIGEgYnVuY2ggb2Yg
+aXNzdWVzLiAgSSBmb3VuZCBvdXQNCj4gPj4+PiB0aGF0IHRoZSBSUE0gZGVwZW5kZW5jeSByZXNv
+bHV0aW9uIHdhcyBjb21wbGV0ZWx5IGJyb2tlbiwgZHVlIHRvIGENCj4gPj4+PiBzbWFsbCBidWcg
+aW4gdGhlIHBhY2thZ2VfcnBtLmJiY2xhc3MuLiAgUGFja2FnZXMgd2VyZSBub3QgYmVpbmcNCj4g
+Pj4+PiBnaXZlbiB0aGUgcHJvcGVyIHByb3ZpZGUgaW5mb3JtYXRpb24sIHNvIFJQTSB3YXMgYXR0
+ZW1wdGluZyBiZXN0DQo+ID4+Pj4gbWF0Y2ggLS0gYW5kIGZhaWxpbmcgYXMgbm90ZWQgaW4gdGhl
+IHByZXZpb3VzIGRpc2N1c3Npb24uLg0KPiA+Pj4+DQo+ID4+Pj4gVW5mb3J0dW5hdGVseSB0aGlz
+IGhhcyBvcGVuZWQgdXAgYSBzbWFsbCBjYW4gb2Ygd29ybXMgd2hpY2ggSSdtDQo+ID4+Pj4gdHJ5
+aW5nIHRvIGRlYWwgd2l0aC4gIFRoZSBzaW1wbGlzdGljIGZpeCBmb3IgdGhlIGJ1ZyBpczoNCj4g
+Pj4+Pg0KPiA+Pj4+IC0tLSBhL21ldGEvY2xhc3Nlcy9wYWNrYWdlX3JwbS5iYmNsYXNzDQo+ID4+
+Pj4gKysrIGIvbWV0YS9jbGFzc2VzL3BhY2thZ2VfcnBtLmJiY2xhc3MNCj4gPj4+PiBAQCAtODQw
+LDcgKzg0MCw3IEBAIHB5dGhvbiBkb19wYWNrYWdlX3JwbSAoKSB7DQo+ID4+Pj4gICAgICAgICBv
+cy5jaG1vZChvdXRkZXBlbmRzLCAwNzU1KQ0KPiA+Pj4+DQo+ID4+Pj4gICAgICAgICAjIFBva3kg
+LyBSUE0gUHJvdmlkZXMNCj4gPj4+PiAtICAgICAgIG91dHByb3ZpZGVzID0gd29ya2RpciArICIv
+IiArIHNyY25hbWUgKyAiLnJlcXVpcmVzIg0KPiA+Pj4+ICsgICAgICAgb3V0cHJvdmlkZXMgPSB3
+b3JrZGlyICsgIi8iICsgc3JjbmFtZSArICIucHJvdmlkZXMiDQo+ID4+Pj4NCj4gPj4+PiAgICAg
+ICAgIHRyeToNCj4gPj4+PiAgICAgICAgICAgICAgICAgZnJvbSBfX2J1aWx0aW5fXyBpbXBvcnQg
+ZmlsZQ0KPiA+Pj4+DQo+ID4+Pj4gVW5mb3J0dW5hdGVseSB0aGlzIGhhcyBleHBvc2VkIGEgbGFy
+Z2Ugc2V0IG9mIHByb2JsZW1zIHRoYXQgSQ0KPiA+Pj4+IGRpZG4ndCByZWFsaXplIHdlIGhhZC4u
+Li4NCj4gPj4+Pg0KPiA+Pj4+IFdpbGwgZG8gYSBtb3JlIGZvcm1hbCBwdWxsIHJlcXVlc3QgYXMg
+c29vbiBhcyBJIGdldCB0aGluZ3Mgd29ya2luZyBhZ2Fpbi4NCj4gPj4+Pg0KPiA+Pj4+IC0tTWFy
+aw0KPiA+Pj4NCj4gPj4+IEkganVzdCBoYWQgYSB0ZXN0IGFmdGVyIGNoZXJyeS1waWNrIHNvbWUg
+b2YgeW91ciBjaGFuZ2VzIGluDQo+ID4+PiBtaGF0bGUvcnBtLCBoZXJlDQo+ID4+IGFyZSBzb21l
+IHByb2JsZW1zIEkgZm91bmQgYW5kIHNvbWUgaW52ZXN0aWdhdGlvbnM6DQo+ID4+Pg0KPiA+Pj4g
+MS4gZG9fcm9vdGZzIGZhaWxlZC4NCj4gPj4+IFRoZSBlcnJvciBsb2cgcmVwb3J0cyB1bm1ldCBk
+ZXBlbmRlbmN5IG9mIHBrZ2NvbmZpZyhsaWJwbmcpLg0KPiA+Pj4gVGhpcyBpcyBkdWUgdG8gdGhl
+IGRhbmdsaW5nIGxpbmsgaW4gbGlicG5nIHBhY2thZ2UuIGxpYnBuZy5wYyBsaW5rcw0KPiA+Pj4g
+dG8gbGlicG5nMTIucGMNCj4gPj4gd2hpY2ggaGFzIGJlZW4gcGFja2FnZWQgaW50byBsaWJwbmcx
+Mi4NCj4gPj4NCj4gPj4gQWhoIHRoaXMgaXMgYSBiaXQgZGlmZmVyZW50IHRoZW4gdGhlIGZhaWx1
+cmVzIEkndmUgc2Vlbi4gIFdlJ2xsIGhhdmUgdG8gZml4IHRoYXQNCj4gb25lLg0KPiA+Pg0KPiA+
+Pj4gMi4gVGhlcmUgaXMgYSB3cm9uZyBjb21taXQgSSBzdXBwb3NlIGl0IHNob3VsZCBiZSByZXZl
+cnRlZC4gV2hlbiB5b3UNCj4gPj4gZGVidWdnaW5nIHlvdXIgY29kZSwgcGxlYXNlIHJldmVydCBp
+dC4NCj4gPj4+IEkgd2lsbCBkaXNjdXNzIGl0IHdpdGggUmljaGFyZCB0b21vcnJvdy4NCj4gPj4+
+IGh0dHA6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9jZ2l0L2NnaXQuY2dpL3Bva3ktY29udHJpYi9j
+b21taXQvP2g9bWhhDQo+ID4+PiB0bCBlL3JwbSZpZD0zMjlkODY0ZjliYmY5NGFkM2FhZThkZjQz
+ZDYzZmUxMGU0MjM3ZTRmDQo+ID4+DQo+ID4+IEFoaCwgeWEgSSBqdXN0IHJhbiBpbnRvIHRoYXQg
+cHJvYmxlbS4uLiBJIGhhdmUgYSBmaXggZm9yIHRoYXQgY29tbWl0IEkganVzdA0KPiBmaW5pc2hl
+ZC4NCj4gPj4gKERvIHlvdSBoYXZlIGEgbmV3ZXIgdmVyc2lvbiwgaWYgc28gSSdsbCB1cGRhdGUg
+dG8gdGhhdCBhbmQgc2VlIGlmIG15DQo+ID4+IGNoYW5nZSBpcyBzdGlsbA0KPiA+PiBuZWVkZWQu
+KQ0KPiA+DQo+ID4gTm8gSSBoYXZlbid0IHdvcmtlZCBvbiBhIG5ldyB2ZXJzaW9uIG9mIHRoYXQg
+cGF0Y2guIENvdWxkIHlvdSBzaGFyZSB5b3Vycz8NCj4gPg0KPiA+IFRoYW5rcywNCj4gPiBEb25n
+eGlhbw0KPiA+DQo+ID4+DQo+ID4+PiAzLiBBZnRlciB0aGUgYWJvdmUgaXNzdWUgZ290IGZpeGVk
+LCByb290ZnMgc3VjY2VlZCBidXQgd2Ugc2F3IHRoZQ0KPiA+Pj4gZmluYWwgaW1hZ2UgaXMNCj4g
+Pj4gc3RpbGwgaW4gYSBtZXNzLiBXZSBuZWVkIHNvbWUgeDg2XzY0IHJwbSB0byBiZSBpbnN0YWxs
+ZWQsIGhvd2V2ZXINCj4gPj4gd2hhdCB3ZSBnb3QgaXMgeDg2IHJwbSBwYWNrYWdlLiBUaGVuIEkg
+dHJpZWQgYW5vdGhlciBhcHByb2FjaCB3ZSBldmVyDQo+ID4+IHRhbGtlZCBhYm91dCB0aGF0LCBm
+aXJzdGx5IGluc3RhbGwgYmFzZSBpbWFnZSwgdGhlbiBpbnN0YWxsIHRoZQ0KPiA+PiBtdWx0aWxp
+YiBwYWNrYWdlcy4gSSBhZGRlZCBhIHBhcmFtZXRlciAiLS1yZXBsYWNlcGtncyIgdG8gcnBtIGNv
+bW1hbmQNCj4gPj4gdG8gYXZvaWQgZXJyb3JzIGxpa2UgInBhY2thZ2UgeHh4IGhhcyBhbHJlYWR5
+IGluc3RhbGxlZCIuIFdpdGggdGhpcw0KPiA+PiBhcHByb2FjaCwgdGhlIGZpbmFsIGltYWdlIGNv
+dWxkIGJvb3QgdXAgd2l0aCBtdWx0aWxpYiBsaWJyYXJ5IGluc3RhbGxlZC4NCj4gPj4+DQo+ID4+
+PiBTb21lIG9mIG15IHRlc3RpbmcgY29kZSBpcyBsb2NhdGVkIHVuZGVyDQo+ID4+PiBodHRwOi8v
+Z2l0LnlvY3RvcHJvamVjdC5vcmcvY2dpdC9jZ2l0LmNnaS9wb2t5LWNvbnRyaWIvbG9nLz9oPWR4
+dTQvbQ0KPiA+Pj4gbC0NCj4gPj4+IHRlc3RpbmcNCj4gPj4NCj4gPj4gSSdsbCBydW4gdGhyb3Vn
+aCB0aGUgdGVzdGluZyBjb2RlIGFuZCBzZWUgaWYgSSBjYW4gZmlndXJlIG91dCB3aGF0IGlzIGRp
+ZmZlcmVudC4NCj4gPj4NCj4gPj4gLS1NYXJrDQo+ID4+DQo+ID4+PiBUaGFua3MsDQo+ID4+PiBE
+b25neGlhbw0KPiA+Pj4NCj4gPj4+DQo+ID4+Pj4NCj4gPj4+PiBPbiA5LzE2LzExIDEwOjI2IEFN
+LCBNYXJrIEhhdGxlIHdyb3RlOg0KPiA+Pj4+PiBPbiA5LzE2LzExIDEwOjIxIEFNLCBYdSwgRG9u
+Z3hpYW8gd3JvdGU6DQo+ID4+Pj4+Pj4+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+
+Pj4+Pj4+Pj4gRnJvbTogTWFyayBIYXRsZSBbbWFpbHRvOm1hcmsuaGF0bGVAd2luZHJpdmVyLmNv
+bV0NCj4gPj4+Pj4+Pj4+IFNlbnQ6IEZyaWRheSwgU2VwdGVtYmVyIDE2LCAyMDExIDEwOjUxIFBN
+DQo+ID4+Pj4+Pj4+PiBUbzogUmljaGFyZCBQdXJkaWUNCj4gPj4+Pj4+Pj4+IENjOiBYdSwgRG9u
+Z3hpYW87IG9wZW5lbWJlZGRlZC1jb3JlDQo+ID4+Pj4+Pj4+PiBTdWJqZWN0OiBSZTogTXVsdGls
+aWIgc3RhdHVzDQo+ID4+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+Pj4gT24gOS8xNi8xMSA0OjMyIEFNLCBS
+aWNoYXJkIFB1cmRpZSB3cm90ZToNCj4gPj4+Pj4+Pj4+Pj4gSGkgTWFyay9Eb25neGFpbywNCj4g
+Pj4+Pj4+Pj4+Pj4NCj4gPj4+Pj4+Pj4+Pj4gV2UgcmVhbGx5IG5lZWQgdG8gZ2V0IHRoZSByZW1h
+aW5kZXIgb2YgdGhlIG11bHRpbGliIGJ1Z3MNCj4gPj4+Pj4+Pj4+Pj4gd3JhcHBlZCB1cC4gSSB0
+aGluayB0aGVyZSBpcyBzb21lIGNvbmZ1c2lvbiBhYm91dCB0aGUgZXhhY3QNCj4gPj4+Pj4+Pj4+
+Pj4gYXBwcm9hY2ggdG8gdGFrZSB0byBmaXggc29tZSBvZiB0aGVtIHNvIEknbSBob3BpbmcgdG8g
+dHJ5DQo+ID4+Pj4+Pj4+Pj4+IGFuZCBzdW1tYXJpc2UgdGhlIHByb2JsZW1zIGhlcmUgc28gd2Ug
+Y2FuIHdvcmsgb3V0IHNvbWUNCj4gcmVzb2x1dGlvbnMuDQo+ID4+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+
+Pj4gTGV0IG1lIGV4cGxhaW4gd2hlcmUgSSBhbSBxdWlja2x5LiAgSSBqdXN0IHNwZW50IHR3byBk
+YXlzDQo+ID4+Pj4+Pj4+PiB3b3JraW5nIG9uIHJlcHJvZHVjaW5nIHRoZSBpc3N1ZShzKS4gIFNv
+IGZhciBJJ3ZlIG5vdA0KPiA+Pj4+Pj4+Pj4gcmVwcm9kdWNlZCB0aGUgZGlyZWN0IGZhaWx1cmVz
+IGJ1dCBhIHNlcmllcyBvZiBvdGhlcnMuICBJDQo+ID4+Pj4+Pj4+PiBmaW5hbGx5IGZpZ3VyZWQg
+b3V0IHBhcnQgb2YgdGhlIHJlYXNvbiBJIHdhc24ndCBzZWVpbmcgdGhpcy4NCj4gPj4+Pj4+Pj4+
+IEkgaGFkIGEgdHlwbyBpbiBteQ0KPiA+Pj4+IGNvbmZpZ3VyYXRpb246DQo+ID4+Pj4+Pj4+Pg0K
+PiA+Pj4+Pj4+Pj4gREVGQVVMVFRVTkUtdmlydGNsYXNzLW11bGl0bGliLWxpYjMyID0gIng4NiIN
+Cj4gPj4+Pj4+Pj4+DQo+ID4+Pj4+Pj4+PiBUaGlzIHJlc3VsdGVkIGluIHR3byBzZXRzIG9mIGJp
+bmFyaWVzIG5vcm1hbCBhbmQgbGliMzIgdGhhdA0KPiA+Pj4+Pj4+Pj4gd2VyZSBtb3JlIG9yIGxl
+c3MgaWRlbnRpY2FsIGluIHRoZSBSUE0gY2FzZS4gIFdlIC1yZWFsbHktIG5lZWQNCj4gPj4+Pj4+
+Pj4+IGEgc2FuaXR5IGNoZWNrIHRoYXQgc3R1cGlkIHR5cG9zIGxpa2UgdGhhdCBkb24ndCBjYXVz
+ZSBwcm9ibGVtcy4NCj4gPj4+Pj4+Pj4+DQo+ID4+Pj4+Pj4+PiAtLS0NCj4gPj4+Pj4+Pj4+DQo+
+ID4+Pj4+Pj4+PiBTbyBub3cgdGhhdCBJIGZpbmFsbHkgaGF2ZSBhIGJ1aWx0IHdpdGggdGhhdCBk
+b25lLi4uIHNlZSBiZWxvdy4NCj4gPj4+Pj4+Pj4+DQo+ID4+Pj4+Pj4+Pj4+IFByb2JsZW0gQQ0K
+PiA+Pj4+Pj4+Pj4+PiA9PT09PT09PT0NCj4gPj4+Pj4+Pj4+Pj4NCj4gPj4+Pj4+Pj4+Pj4gV2Ug
+Y2FuIGhhdmUgbXVsdGlwbGUgZm9ybXMgb2YgIm1hY2hpbmUgc3BlY2lmaWMiIHBhY2thZ2VzDQo+
+ID4+Pj4+Pj4+Pj4+IG5vdywgb25lIGZvciBlYWNoIG11bHRpbGliIGUuZy46DQo+ID4+Pj4+Pj4+
+Pj4+DQo+ID4+Pj4+Pj4+Pj4+IHRhc2stY29yZS14MTEtYmFzZS0xLjAtcjM0LnFlbXV4ODZfNjQu
+cnBtICgibm9ybWFsIikNCj4gPj4+Pj4+Pj4+Pj4gdGFzay1jb3JlLXgxMS1iYXNlLTEuMC1yMzQu
+cWVtdXg4Nl82NC5ycG0gKCJsaWI2NCIpDQo+ID4+Pj4+Pj4+Pj4+IHRhc2stY29yZS14MTEtYmFz
+ZS0xLjAtcjM0LnFlbXV4ODZfNjQucnBtICgibGliMzIiKQ0KPiA+Pj4+Pj4+Pj4+Pg0KPiA+Pj4+
+Pj4+Pj4+PiAobGV0cyBhc3N1bWUgdGhlIGZpcnN0IHVzZXMgL2xpYi8sIHRoZSBzZWNvbmQgL2xp
+YjY0LyBhbmQNCj4gPj4+Pj4+Pj4+Pj4gdGhlIHRocmlkIC9saWIzMi8sIGFuIGFydGlmaWNpYWwg
+ZXhhbXBsZSBJIHJlYWxpc2UpDQo+ID4+Pj4+Pj4+Pj4+DQo+ID4+Pj4+Pj4+Pj4+IEkga25vdyBv
+bmUgcHJvcG9zYWwgd2FzIHRvIG1hcDoNCj4gPj4+Pj4+Pj4+Pj4NCj4gPj4+Pj4+Pj4+Pj4gdGFz
+ay1jb3JlLXgxMS1iYXNlLTEuMC1yMzQubGliMzJfcWVtdXg4Nl82NC5ycG0gdG8NCj4gPj4+Pj4+
+Pj4+Pj4gdGFzay1jb3JlLXgxMS1iYXNlLTEuMC1yMzQubGliMzJfcWVtdXg4Ni5ycG0gYnV0IHRo
+aXMgaXNuJ3QNCj4gPj4+Pj4+Pj4+Pj4gY29ycmVjdCBzaW5jZSB0aGUgbGlicmFyeSBkaXJlY3Rv
+cmllcyBhcmUgZGlmZmVyZW50LiBJbiB0aGlzDQo+ID4+Pj4+Pj4+Pj4+IHNwZWNpZmljIGNhc2Ug
+aXQgbWlnaHQgbm90IG1hdHRlciBidXQgaW4gZ2VuZXJhbCBpdCB3b3VsZC4NCj4gPj4+Pj4+Pj4+
+Pj4gV2hhdCBpcyBhbHNvIGltcG9ydGFudCBpcyB0aGF0IHRoZSBkaWZmZXJlbnQgdmVyc2lvbnMg
+aW1wbHkNCj4gPj4+Pj4+Pj4+Pj4gZGlmZmVyZW50IGRlcGVuZGVuY2llcy4gVGhlIGxpYjY0IGJp
+dCB2ZXJzaW9uIHdvdWxkIHB1bGwgaW4NCj4gPj4+Pj4+Pj4+Pj4gYW5kIHNlbGVjdCBsaWI2NCBi
+aXQgbGlicy4gSXRzIHRoZXNlIGRlcGVuZGVuY2llcyB3aGljaCBhcmUNCj4gPj4+Pj4+Pj4+Pj4g
+YSBrZXkgcmVhc29uDQo+ID4+Pj4gdGhlc2UgYXJlIG5vdCAiYWxsIiBhcmNoIHBhY2thZ2VzLg0K
+PiA+Pj4+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+Pj4+PiBUaGUgZW5kIHJlc3VsdCBpcyB0aGVyZWZvcmUg
+d2UgbGlrZWx5IHdhbnQ6DQo+ID4+Pj4+Pj4+Pj4+DQo+ID4+Pj4+Pj4+Pj4+IHRhc2stY29yZS14
+MTEtYmFzZS0xLjAtcjM0LnFlbXV4ODZfNjQucnBtDQo+ID4+Pj4+Pj4+Pj4+IHRhc2stY29yZS14
+MTEtYmFzZS0xLjAtcjM0LmxpYjY0X3FlbXV4ODZfNjQucnBtDQo+ID4+Pj4+Pj4+Pj4+IHRhc2st
+Y29yZS14MTEtYmFzZS0xLjAtcjM0LmxpYjMyX3FlbXV4ODZfNjQucnBtDQo+ID4+Pj4+Pj4+Pj4+
+DQo+ID4+Pj4+Pj4+Pj4+IGFuZCBJIGJlbGlldmUgdGhlcmUgYXJlIHNvbWUgcGF0Y2hlcyBEb25n
+eGlhbyBoYXMgY3JlYXRlZA0KPiA+Pj4+Pj4+Pj4+PiB3aGljaCBkbw0KPiA+Pj4+IHRoaXMuDQo+
+ID4+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+Pj4gWWVzLCBJJ20gY3VycmVudGx5IHRlc3RpbmcgaGlzIG5l
+dyBNQUNISU5FX3ZpcnRjbGFzcy1tdWx0aWxpYi0uLi4NCj4gPj4+Pj4+Pj4+IHBhdGNoLiAgU28g
+ZmFyIGl0IHNlZW1zIHRvIGJlIHdvcmtpbmcuLiBhc3N1bWluZyB0aGlzIGlzIHRoZQ0KPiA+Pj4+
+Pj4+Pj4gYXBwcm9hY2ggd2UgZ28gd2l0aCwgd2UnbGwgd2FudCB0byBhZGQgc29tZSB0eXBlIG9m
+IHNhbml0eQ0KPiA+Pj4+Pj4+Pj4gY2hlY2sgc28gdGhhdCBpdCdzIG5vdCBwb3NzaWJsZSB0byBj
+b2xsaWRlIGJldHdlZW4gdGhlDQo+ID4+Pj4+Pj4+PiBkaWZmZXJlbnQgbXVsdGlsaWIgY29uZmln
+dXJhdGlvbnMuICAoQWx0ZXJuYXRpdmVseSB3ZSBjb3VsZCwNCj4gPj4+Pj4+Pj4+IGZvciBlYWNo
+IG11bHRpbGliLA0KPiA+Pj4+IHNwZWNpZnkgYSBkZWZhdWx0IG1hY2hpbmUgdmlydGNsYXNzIGlu
+IHRoZSBmb3JtYXQgeW91IGxpc3QgYWJvdmUuDQo+ID4+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+Pj4gQW4g
+YWx0ZXJuYXRpdmUgSSB3YXMgdGhpbmtpbmcgb2Ygb3ZlciBuaWdodCB3b3VsZCBiZSB0byBhdm9p
+ZA0KPiA+Pj4+Pj4+Pj4gdGhlIFJQTSByZW1hcHBpbmcgb24gdGhlICJtYWNoaW5lIiBwYWNrYWdl
+cy4uIGJ1dCBJJ20gbm90IHN1cmUNCj4gPj4+Pj4+Pj4+IGlmIHRoYXQgaXMgcmVhbGx5IGEgZ29v
+ZCBpZGVhLg0KPiA+Pj4+Pj4+Pj4gSG93ZXZlciwgaXQgd291bGQgY291bGQgc2ltcGxpZnkgdGhl
+IGNvbmZpZ3VyYXRpb24gYXNwZWN0cy4NCj4gPj4+Pj4+Pg0KPiA+Pj4+Pj4+IFRoZXJlIGFyZSB0
+d28gaW1wbGVtZW50YXRpb25zIHRvd2FyZHMgdGhlIGFib3ZlIHJlc3VsdDoNCj4gPj4+Pj4+PiAx
+KSBhdXRvbWF0aWNhbGx5IHNldHRpbmcgTUxQUkVGSVggYmVmb3JlIE1BQ0hJTkVfQVJDSC4NCj4g
+Pj4+Pj4+PiAyKSB1c2VyIG1hbnVhbGx5IHNldHMNCj4gPj4+PiBNQUNISU5FX3ZpcnRjbGFzcy1t
+dWx0aWxpYi1saWIzMj0ibGliMzItcWVtdXg4Ni02NCIgaW4gbG9jYWwuY29uZi4NCj4gPj4+Pj4+
+Pg0KPiA+Pj4+Pj4+IFdoaWNoIG9uZSBkbyB5b3UgcHJlZmVyPw0KPiA+Pj4+PiBSaWdodCBub3cg
+SSdtIHRoaW5raW5nIHRoZSBiZXN0IGFwcHJvYWNoIGlzOg0KPiA+Pj4+Pg0KPiA+Pj4+PiAqKSBB
+bGxvdyB0aGUgdXNlciB0byBzZXQgTUFDSElORV92aXJ0Y2xhc3MtbXVsdGlsaWItLi4uPSIuLi4u
+Ig0KPiA+Pj4+Pg0KPiA+Pj4+PiAqKSBJZiB0aGUgdXNlciBoYXMgTk9UIHNldCBpdCwgZmFsbCBi
+YWNrIGFuZCB1c2UgdGhlIHNldHRpbmcgb2YNCj4gPj4+Pj4gbGliLi4tbWFjaGluZSBhcyBpbiAy
+DQo+ID4+Pj4+DQo+ID4+Pj4+IFRoaXMgd2F5IGZvciBwZW9wbGUgd2hvIGhhdmUgc3BlY2lmaWMg
+cmVxdWlyZW1lbnRzIGZvciBleHRlcm5hbA0KPiA+Pj4+PiBjb21wYXRpYmlsaXR5IG9yIGp1c3Qg
+ZGVzaXJlIG1vcmUgY29udHJvbCB0aGV5IGNhbiBkbyBpdC4gIEJ1dCBmb3INCj4gPj4+Pj4gZXZl
+cnlvbmUgZWxzZSBpdCB3aWxsIHN0aWxsIHdvcmsgcHJvcGVybHkuDQo+ID4+Pj4+DQo+ID4+Pj4+
+IEZZSSwgSSdtIGN1cnJlbnRseSB3b3JraW5nIGluIHRoZSByb290ZnNfcnBtIHN0dWZmLCB0aGUg
+c3lzdGVtIGlzDQo+ID4+Pj4+IGN1cnJlbnRseSBpZ25vcmluZyB0aGUgYWx0ZXJuYXRpdmUgKG11
+bHRpbGliKSBtYWNoaW5lIHBhY2thZ2VzLg0KPiA+Pj4+PiBJJ20gaG9waW5nIHRoaXMgd2lsbCBi
+ZSBmYWlybHkgc2ltcGxlIHRvIHJlc29sdmUuDQo+ID4+Pj4+DQo+ID4+Pj4+Pj4+Pg0KPiA+Pj4+
+Pj4+Pj4+PiBQcm9ibGVtIEINCj4gPj4+Pj4+Pj4+Pj4gPT09PT09PT09DQo+ID4+Pj4+Pj4+Pj4+
+DQo+ID4+Pj4+Pj4+Pj4+IElmIHdlIGluc3RhbGwgdGFzay1jb3JlLXgxMS1iYXNlLTEuMC1yMzQu
+cWVtdXg4Nl82NC5ycG0NCj4gPj4+Pj4+Pj4+Pj4gd2hpY2ggZGVwZW5kcyBvbiAiY29ubm1hbiIs
+IGhvdyBkb2VzIHRoZSBzeXN0ZW0gZmlndXJlIG91dA0KPiA+Pj4+Pj4+Pj4+PiB0byBhc3NvY2lh
+dGUgdGhpcyB0byBtZWFuIHdlIHdhbnQgdGhlICJ4ODZfNjQiIGFyY2hpdGVjdHVyZQ0KPiA+Pj4+
+Pj4+Pj4+PiBwYWNrYWdlcw0KPiA+Pj4+IGluc3RhbGxlZD8NCj4gPj4+Pj4+Pj4+Pj4NCj4gPj4+
+Pj4+Pj4+Pj4gQXMgZmFyIGFzIEkgY2FuIHRlbGwgdGhlcmUgYXJlIHR3byBwcm9wb3NhbHMgYXJv
+dW5kOg0KPiA+Pj4+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+Pj4+PiAxKSBTZXQgdGhlIGFyY2hpdGVjdHVy
+ZSBpbiB0aGUgcGFja2FnZSBwcm92aWRlcyBhbmQgZGVwZW5kcw0KPiA+Pj4+Pj4+Pj4+PiAoYSBi
+aXQNCj4gPj4+Pj4+Pj4+Pj4gdWdseSkNCj4gPj4+Pj4+Pj4+Pj4NCj4gPj4+Pj4+Pj4+Pj4gMikg
+Q29uZmlndXJlIGxpYnp5cHAgdG8gdW5kZXJzdGFuZCB0aGF0IHFlbXV4ODZfNjQgZG9lcw0KPiA+
+Pj4+Pj4+Pj4+PiByZWFsbHkgbWFwIHRvDQo+ID4+Pj4+Pj4+Pj4+IHg4Nl82NCBhcmNoaXRlY3R1
+cmUgYW5kIGltcGx5IHg4Nl82NCBkZXBlbmRlbmNpZXMuDQo+ID4+Pj4+Pj4+Pj4+DQo+ID4+Pj4+
+Pj4+Pj4+IFNvbHZpbmcgcHJvYmxlbSBBIGFib3ZlIGlzIHRoZSBmaXJzdCBzdGVwIHRvd2FyZHMg
+cmVzb2x2aW5nDQo+ID4+Pj4+Pj4+Pj4+IHRoaXMgZWl0aGVyIHdheSBidXQgd2UgZG9uJ3Qgc2Vl
+bSB0byBoYXZlIGEgcmVzb2x1dGlvbiBvbg0KPiA+Pj4+Pj4+Pj4+PiB0aGlzIHNlY29uZA0KPiA+
+Pj4+IHBhcnQuDQo+ID4+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+Pj4gQWdyZWVkLg0KPiA+Pj4+Pj4+Pj4N
+Cj4gPj4+Pj4+Pj4+Pj4gRm9yIHJlZmVyZW5jZSwgd2UgcmVhbGx5IGRvIHdhbnQgdGhlc2UgdGFz
+ayBwYWNrYWdlcyB0byBoYXZlDQo+ID4+Pj4+Pj4+Pj4+IGFuIGFzc29jaWF0ZWQgYXJjaGl0ZWN0
+dXJlIHNvIHRoZSB1c2VyIGNhbiBlYXNpbHkgYnVpbGQgdXANCj4gPj4+Pj4+Pj4+Pj4gYmxvY2tz
+IG9mIHRoZSBzeXN0ZW0gdXNpbmcgYSBnaXZlbiBBQkkuDQo+ID4+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+
+Pj4gVGhpcyBpcyBnb2luZyB0byBiZSBzb21ld2hhdCBvZiBhIHByb2JsZW0gSSBzdXNwZWN0LCBz
+aW1wbHkNCj4gPj4+Pj4+Pj4+IGJlY2F1c2UgdGhhdCBpcyBub3QgdGhlIHdheSBSUE0gaXMvd2Fz
+IGRlc2lnbmVkLiAgV2UgY2FuDQo+ID4+Pj4+Pj4+PiBhZGp1c3QgdGhlIHJvb3RmcyBpbnN0YWxs
+IHRpbWUsIGJ1dCB0aGlzIHdvbid0IGFkZHJlc3MgZmllbGQNCj4gdXBncmFkZS9pbnN0YWxscy4N
+Cj4gPj4+Pj4+Pj4+DQo+ID4+Pj4+Pj4+PiBSUE0gKGFuZCBSZWQgSGF0IExpbnV4L0ZlZG9yYSBz
+eXN0ZW1zKSBhcHBlYXIgdG8gYmUgZGVzaWduZWQNCj4gPj4+Pj4+Pj4+IHRoYXQgYW55IHBhY2th
+Z2UgdGhhdCByZWFzb25hYmx5IG1lZXRzIHRoZSBydW4tdGltZQ0KPiA+Pj4+Pj4+Pj4gZGVwZW5k
+ZW5jaWVzIGNhbiBiZQ0KPiA+Pj4+IHVzZWQuDQo+ID4+Pj4+Pj4+PiBUaGVyZSBpcyBhIGNvbmNl
+cHQgb2YgYSAiYmVzdCIgbWFjaGluZSBiYXNlZCBvbiB0aGUgcmVzb2x2ZXINCj4gPj4+Pj4+Pj4+
+IGhpZXJhcmNoeSwgYnV0IEVMRiBzaXplIG1heSBvciBtYXkgbm90IGJlIGEgZmFjdG9yIGluIHRo
+YXQgZGVjaXNpb24uDQo+ID4+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+Pj4gRG9pbmcgdGhpcyBpcyBxdWl0
+ZSBwb3dlcmZ1bCwgYnV0IGl0IGFsc28gaGFzIGEgY29uc2Npb3VzDQo+ID4+Pj4+Pj4+PiBkZWNp
+c2lvbiBzZXQgYmVoaW5kIGl0LiAgSWYgImJhc2giIGlzIHJlcXVpcmVkIGJ5IGEgc2NyaXB0LCBp
+dA0KPiA+Pj4+Pj4+Pj4gcmVhbGx5IGRvZXNuJ3QgbWF0dGVyIGlmIGl0J3MgRUxGMzIsDQo+ID4+
+Pj4+Pj4+PiBFTEY2NCBvciBzb21ldGhpbmcgZWxzZSwgYXMgbG9uZyBhcyBzb21ldGhpbmcgcHJv
+dmlkZXMgYmFzaC4NCj4gPj4+Pj4+Pg0KPiA+Pj4+Pj4+IElmIHVzZXIgc2V0cyBNVUxUSUxJQl9J
+TUFHRV9JTlNUQUxMPSJsaWIzMi10YXNrLWNvcmUtYm9vdCIgd2l0aA0KPiA+Pj4+Pj4+IGENCj4g
+Pj4+PiBxZW11eDg2LTY0IGltYWdlLCBpdCBtZWFucyB0aGF0IGhlIHdhbnRzIHRvIGluc3RhbGwg
+YWxsIGVsZW1lbnRzDQo+ID4+Pj4gcmVxdWlyZWQgYnkgdGFzay1jb3JlLWJvb3QgYnkgbGliMzIg
+dmVyc2lvbi4gSWYgdGhlIGRlcGVuZGVuY3kgaXMNCj4gPj4+PiBzZWxlY3RlZCAqcmFuZG9tbHkq
+LCB1c2VycyB3b3VsZCBub3QgaGF2ZSBtdWx0aXBsZSBsaWJyYXJpZXMgaW4gaGlzIHN5c3RlbS4N
+Cj4gPj4+Pj4gVGhpcyBpcyBhIHNwZWNpYWwgdXNlIGNhc2UsIHllcyBvbmUgdGhhdCBJIHRoaW5r
+IHdlIG5lZWQgdG8NCj4gPj4+Pj4gcmVzb2x2ZSwgYnV0IGl0J3Mgbm90IHRoZSB0eXBpY2FsIGNh
+c2UuDQo+ID4+Pj4+DQo+ID4+Pj4+IFRoZSB0eXBpY2FsIGNhc2Ugd2lsbCBiZSBzb21lb25lIHdh
+bnRzIHRoZSA2NC1iaXQgKG9yIDMyLWJpdCkNCj4gPj4+Pj4gdmVyc2lvbiBvZiBhIHNlbGVjdCBw
+YWNrYWdlIGZvciBjb21wYXRpYmlsaXR5LiAgQW5kIHRoZXkgb25seSB3YW50DQo+ID4+Pj4+IHRo
+ZSBkZXBlbmRlbmNpZXMgZm9yIHRoYXQgcGFja2FnZSB0byBiZSBsb2FkZWQuICBBbnl0aGluZw0K
+PiA+Pj4+PiBzYXRpc2Z5aW5nIHRoZQ0KPiA+Pj4+IGRlcGVuZGVuY3kgd2lsbCBkby4NCj4gPj4+
+Pj4NCj4gPj4+Pj4gTXkgcmVjb21tZW5kYXRpb24gcmlnaHQgbm93IGlzLCBsZXRzIGdldCB0aGF0
+IHdvcmtpbmcgQVNBUC4gIE9uY2UNCj4gPj4+Pj4gdGhhdCBkb2VzLCByZWZvY3VzIHRoZSBlZmZv
+cnRzIG9uIGdldHRpbmcgdGhlIG11bHRpbGliICJ0YXNrcyIgdG8NCj4gPj4+Pj4gZG8gc29tZXRo
+aW5nDQo+ID4+Pj4gcmVhc29uYWJsZS4NCj4gPj4+Pj4gKGkuZS4gc2VsZWN0IGEgZ3JvdXAgb2Yg
+cGFja2FnZXMpDQo+ID4+Pj4+DQo+ID4+Pj4+IElmIHdlIHRyeSB0byBzb2x2ZSBib3RoIGF0IG9u
+Y2UsIEkgZG9uJ3QgdGhpbmsgd2UncmUgZ29pbmcgdG8gY29tZQ0KPiA+Pj4+PiB1cCB3aXRoIGEg
+cmVhc29uYWJsZSBzb2x1dGlvbiBhdCB0aGlzIHRpbWUuDQo+ID4+Pj4+DQo+ID4+Pj4+IC0tTWFy
+aw0KPiA+Pj4+Pg0KPiA+Pj4+Pj4+IFRoYW5rcywNCj4gPj4+Pj4+PiBEb25neGlhbw0KPiA+Pj4+
+Pj4+Pj4NCj4gPj4+Pj4+Pj4+Pj4gV2hhdCBJIHJlYWxseSBuZWVkIG5vdyBpcyBhbiBpZGVhIG9m
+IHdoaWNoIHBhdGNoZXMgeW91IGJvdGgNCj4gPj4+Pj4+Pj4+Pj4gYWdyZWUgb24gdGhhdCB3ZSBu
+ZWVkIHRvIG1lcmdlIChJIHRoaW5rIHdlIGhhdmUgc29tZSBmb3INCj4gPj4+Pj4+Pj4+Pj4gcHJv
+YmxlbSBBKSBhbmQgYSByZXNvbHV0aW9uIG9uIHByb2JsZW0gQiBhbG9uZyB3aXRoIHNvbWUNCj4g
+Pj4+Pj4+Pj4+Pj4gcGF0Y2hlcyBzbyB3ZSBjYW4gY2xvc2UgdGhpcyBzZXQgb2YgaXNzdWVzIG91
+dC4NCj4gPj4+Pj4+Pj4+Pj4NCj4gPj4+Pj4+Pj4+Pj4gSWYgdGhlcmUgYXJlIGZ1cnRoZXIgaXNz
+dWVzIGNhbiB5b3UgcmVwbHkgdG8gdGhpcyBlbWFpbA0KPiA+Pj4+Pj4+Pj4+PiBlaXRoZXIgd2l0
+aCB0aGUgZGV0YWlscyBvciBhIHBvaW50ZXIgdG8gdGhlIHNwZWNpZmljIGFkZGl0aW9uYWwNCj4g
+cHJvYmxlbXMuDQo+ID4+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+Pj4gTm93IHRoYXQgSSBoYXZlIG15IHN0
+dXBpZCB0eXBvIG91dCBvZiB0aGUgd2F5LCBJIGV4cGVjdCB0bw0KPiA+Pj4+Pj4+Pj4gaGF2ZSBm
+dXJ0aGVyIGluZm9ybWF0aW9uIGluIGEgZmV3IGhvdXJzIGFzIHRvIHRoZSByZWd1bGFybHkNCj4g
+Pj4+Pj4+Pj4+IGRlcGVuZGVuY3kgcmVzb2x1dGlvbiBmYWlsdXJlIERvbmd4aWFvIHdhcyByZXBv
+cnRpbmcuDQo+ID4+Pj4+Pj4+PiAoTGlicmFyeSBkZXBlbmRlbmNpZXMNCj4gPj4+Pj4+Pj4+IC1h
+cmUtIEVMRiBzcGVjaWZpYywgc28gdGhvc2UgaGF2ZSB0byB3b3JrIHByb3Blcmx5ISkNCj4gPj4+
+Pj4+Pj4+DQo+ID4+Pj4+Pj4+PiAtLU1hcmsNCj4gPj4+Pj4+Pj4+DQo+ID4+Pj4+Pj4+Pj4+IENo
+ZWVycywNCj4gPj4+Pj4+Pj4+Pj4NCj4gPj4+Pj4+Pj4+Pj4gUmljaGFyZA0KPiA+Pj4+Pj4+Pj4+
+Pg0KPiA+Pj4+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+DQo+ID4+Pj4+DQo+ID4NCg0K
 
 
