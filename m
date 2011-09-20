@@ -1,27 +1,35 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1R65mp-0007yi-JL
-	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Sep 2011 21:15:19 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p8KJA1NU026809
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1R66Dk-0008MC-PA for openembedded-core@lists.openembedded.org;
+	Tue, 20 Sep 2011 21:43:08 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8KJi3FR032217 for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Sep 2011 20:44:03 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 1nn+wu44VWKz
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2011 12:10:01 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 20 Sep 2011 12:10:00 -0700
-Message-ID: <4E78E508.9080706@windriver.com>
-Date: Tue, 20 Sep 2011 14:10:00 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:6.0.2) Gecko/20110902 Thunderbird/6.0.2
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <CALT56yOyp2VYEziGiZj4PLjYHFhTkxisKwWnP7_Uy69Cc1ufYw@mail.gmail.com>
-In-Reply-To: <CALT56yOyp2VYEziGiZj4PLjYHFhTkxisKwWnP7_Uy69Cc1ufYw@mail.gmail.com>
-Subject: Re: [RFC] policy proposal: INC_PR
+	Tue, 20 Sep 2011 20:44:02 +0100 (BST)
+Received: from [192.168.250.158] ([116.246.20.131]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8KJhuSj032211
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Sep 2011 20:44:00 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 20 Sep 2011 20:37:42 +0100
+In-Reply-To: <4E78D72C.2000709@linux.intel.com>
+References: <cover.1316507540.git.anders@chargestorm.se>
+	<4E78D72C.2000709@linux.intel.com>
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1316547468.14488.16.camel@ted>
+Mime-Version: 1.0
+Subject: Re: [PATCH 0/3] [oe-core & yocto RC] Fix unfetchable	zypp-related packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,41 +44,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Sep 2011 19:15:20 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Tue, 20 Sep 2011 19:43:08 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 9/20/11 2:04 PM, Dmitry Eremin-Solenikov wrote:
-> Hello, colleagues,
-> 
-> While debugging some stuff in oe-core & company I've noticed that
-> lot's of packages
-> either don't use INC_PR, or misuse it (e.g. .inc has INC_PR, but then
-> .bb just defines PR = "rX").
+On Tue, 2011-09-20 at 11:10 -0700, Saul Wold wrote:
+> On 09/20/2011 01:32 AM, Anders Darander wrote:
+> >
+> > openSUSE has moved several of it's projects from gitorious to github. Lately,
+> > these has become unfetchable from gitorius, thus the SRC_URI fixes are needed
+> > also for the upcoming yocto release.
+> >
+> > No other changes are included, SRCREV's are kept the same.
+> >
+> > The following changes since commit 81274f4488fbc4d68d150870735ec0181b60b451:
+> >
+> >    freetype: disable bzip2 compressed font support (2011-09-19 13:14:03 +0100)
+> >
+> > are available in the git repository at:
+> >    git://github.com/darander/oe-core opensuse-fixes
+> >    https://github.com/darander/oe-core/tree/opensuse-fixes
+> >
+> > Anders Darander (3):
+> >    libzypp: git repo moved to github
+> >    sat-solver: git repo moved to github
+> >    zypper: git repo moved to github
+> >
+> >   meta/recipes-extended/libzypp/libzypp_git.bb       |    2 +-
+> >   meta/recipes-extended/sat-solver/sat-solver_git.bb |    2 +-
+> >   meta/recipes-extended/zypper/zypper_git.bb         |    2 +-
+> >   3 files changed, 3 insertions(+), 3 deletions(-)
+> >
+> Do these need PR Bumps?
 
-I've noticed similar things.  I'd agree, we should define and use INC_PR for
-items that have .inc files.  There have been many times that I need to fix a bug
-in the .inc file and end up manually updating the PR is 2 or 3 recipes that use
-the .inc.
+No, since the generated output didn't change and with git, we can be
+pretty sure we're building the same thing if the hashes match.
 
-One question though, how do we handle packages with multilib .inc files?
+Cheers,
 
-INC_PR += ...  (or is it .=)
-
---Mark
-
-> From my previous experience with oe-dev, I found INC_PR very usefull
-> and error-prone feature.
-> What about making usage of INC_PR a policy decision, demanding that
-> all new packages should use INC_PR for their recipes, if .inc files
-> are used. And then define a grace period
-> during which all remaining packages should be converted to INC_PR (3
-> months? Next release? I really don't know).
-> 
-> I'm sorry if this issue was already discussed somewhere and I'm
-> duplicating the efforts
-> or proposing already discarded idea.
-> 
+Richard
 
 
 
