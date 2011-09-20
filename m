@@ -1,35 +1,35 @@
-Received: from mx4.leapfrog.com ([63.114.26.254])
+Received: from mx3.leapfrog.com ([63.114.26.253])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dlazzari@leapfrog.com>) id 1R68Pj-00054i-SL
+	(envelope-from <dlazzari@leapfrog.com>) id 1R69cp-0006Eh-Q0
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Sep 2011 00:03:40 +0200
-Received: from mx4.leapfrog.com (localhost [127.0.0.1])
-	by localhost.leapfrog.com (Postfix) with ESMTP id 0B2295EA3
+	Wed, 21 Sep 2011 01:21:16 +0200
+Received: from mx3.leapfrog.com (localhost [127.0.0.1])
+	by localhost.leapfrog.com (Postfix) with ESMTP id 669675ED7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2011 14:58:09 -0700 (PDT)
+	Tue, 20 Sep 2011 16:15:44 -0700 (PDT)
 Received: from NAEXCHHT01.na.leapfrog.com (unknown [10.15.6.13])
-	by mx4.leapfrog.com (Postfix) with ESMTP id E92505E5C
+	by mx3.leapfrog.com (Postfix) with ESMTP id 3C3455EC0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2011 14:58:08 -0700 (PDT)
-Received: from NAEMCASHT01.na.leapfrog.com (10.16.4.161) by
+	Tue, 20 Sep 2011 16:15:44 -0700 (PDT)
+Received: from NAEMCASHT02.na.leapfrog.com (10.12.2.36) by
 	NAEXCHHT01.na.leapfrog.com (10.15.6.13) with Microsoft SMTP Server
-	(TLS) id 8.2.254.0; Tue, 20 Sep 2011 14:58:08 -0700
+	(TLS) id 8.2.254.0; Tue, 20 Sep 2011 16:15:44 -0700
 Received: from NAEMMAIL01.na.leapfrog.com ([fe80::252e:28a6:3d8f:6991]) by
-	NAEMCASHT01.na.leapfrog.com ([::1]) with mapi id 14.01.0289.001;
-	Tue, 20 Sep 2011 14:58:08 -0700
+	NAEMCASHT02.na.leapfrog.com ([::1]) with mapi id 14.01.0289.001;
+	Tue, 20 Sep 2011 16:15:43 -0700
 From: Daniel Lazzari <dlazzari@leapfrog.com>
 To: "'openembedded-core@lists.openembedded.org'"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Re: [OE-core] Correct way of having the PN package depend on
-Thread-Index: Acx34GFLcx4IXVQbSVOeycYVPPOemw==
-Date: Tue, 20 Sep 2011 21:58:07 +0000
-Message-ID: <E7A9054A5ACABE48B0E540E46E862B0F011FED@NAEMMAIL01.na.leapfrog.com>
+Thread-Topic: [PATCH 1/1] Fix alsa-utils package dependencies
+Thread-Index: Acx36zeQbC8m8vgmQgCIhMpoXo7weA==
+Date: Tue, 20 Sep 2011 23:15:42 +0000
+Message-ID: <E7A9054A5ACABE48B0E540E46E862B0F012064@NAEMMAIL01.na.leapfrog.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [10.100.2.5]
 MIME-Version: 1.0
-Subject: Re: Correct way of having the PN package depend on
+Subject: [PATCH 1/1] Fix alsa-utils package dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,28 +44,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Sep 2011 22:03:40 -0000
+X-List-Received-Date: Tue, 20 Sep 2011 23:21:16 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-> Its defintely a bug in the recipe with the "alsa-utils" package just bein=
-g broken. We need to do something like:
->=20
-> ALSAUTILSPKGS =3D "alsa-utils-x \
->                  alsa-utils-y \
->                  alsa-utils-z"
->=20
-> PACKAGES +=3D "${ALSAUTILSPKGS}"
-> RDEPENDS_${PN} +=3D "${ALSAUTILSPKGS}"
->=20
-> which should make the recipe do what it says it should do.
->=20
-> Cheers,
->=20
-> Richard
+Make alsa-utils main package depend on all of the more specific alsa-utils =
+packages (such as alsa-utils-alsamixer).
 
-This is the info I needed, thanks! I'll try and draw up a patch for this.
+Signed-off-by: Daniel Lazzari Jr <dlazzari@leapfrog.com>
+---
+ .../recipes-multimedia/alsa/alsa-utils_1.0.24.2.bb |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
+
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.24.2.bb b/meta/rec=
+ipes-multimedia/alsa/alsa-utils_1.0.24.2.bb
+index 52a7871..307f293 100644
+--- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.24.2.bb
++++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.24.2.bb
+@@ -28,7 +28,7 @@ inherit autotools gettext
+ # This are all packages that we need to make. Also, the now empty alsa-uti=
+ls
+ # ipk depends on them.
+=20
+-PACKAGES +=3D "\
++ALSA_UTILS_PKGS =3D "\
+              alsa-utils-alsamixer \
+              alsa-utils-midi \
+              alsa-utils-aplay \
+@@ -44,6 +44,9 @@ PACKAGES +=3D "\
+              alsa-utils-alsaucm \
+             "
+=20
++PACKAGES +=3D "${ALSA_UTILS_PKGS}"
++RDEPENDS_${PN} +=3D "${ALSA_UTILS_PKGS}"
++
+ # We omit alsaconf, because
+ # a) this is a bash script
+ # b) it creates config files not suitable for OE-based distros
+--=20
+1.7.0.4
 
 Dan Lazzari Jr.
 Firmware Engineer
