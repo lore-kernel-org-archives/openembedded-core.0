@@ -1,35 +1,24 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R67yu-0002BZ-Rc for openembedded-core@lists.openembedded.org;
-	Tue, 20 Sep 2011 23:35:56 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8KLapg2003661 for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2011 22:36:52 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id zefasyT-ixpa
+	(envelope-from <mark.hatle@windriver.com>) id 1R67zg-0002DP-CE
+	for openembedded-core@lists.openembedded.org;
+	Tue, 20 Sep 2011 23:36:45 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p8KLVPwQ018512
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2011 22:36:51 +0100 (BST)
-Received: from [192.168.250.158] ([116.246.20.131]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8KLahmQ003657
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2011 22:36:47 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 20 Sep 2011 22:30:29 +0100
-In-Reply-To: <CABcZANmbortoni+VkAKC947vHLerU2yEo5O__uQoZEPw=1ZR+Q@mail.gmail.com>
-References: <E7A9054A5ACABE48B0E540E46E862B0F011F65@NAEMMAIL01.na.leapfrog.com>
-	<CABcZANmbortoni+VkAKC947vHLerU2yEo5O__uQoZEPw=1ZR+Q@mail.gmail.com>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1316554235.14488.80.camel@ted>
-Mime-Version: 1.0
-Subject: Re: Correct way of having the PN package depend on
+	Tue, 20 Sep 2011 14:31:25 -0700 (PDT)
+Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Tue, 20 Sep 2011 14:31:24 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 20 Sep 2011 16:33:33 -0500
+Message-ID: <cover.1316553828.git.mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
+MIME-Version: 1.0
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH 0/7] Fix a number of package installation related items
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,49 +33,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Sep 2011 21:35:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 20 Sep 2011 21:36:46 -0000
+Content-Type: text/plain
 
-On Tue, 2011-09-20 at 14:00 -0700, Chris Larson wrote:
-> On Tue, Sep 20, 2011 at 1:24 PM, Daniel Lazzari <dlazzari@leapfrog.com> wrote:
-> >> On 9/20/11 2:03 PM, Daniel Lazzari wrote:
-> >> > I noticed a problem with the alsa-utils package where the alsa-utils package does not depend on all of the little extra packages it's supposed to pull in. I'm not sure what the best way to fix this is though. Can anyone give me a little guidance or point me at a recipe that does this correctly already?
-> >>
-> >> If you are using the RPM backend, I'm currently working on something that may
-> > resolve this issue for you.  Hopefully ready today.
-> >>
-> >> Otherwise, switch to ipk or deb and see if you get the same behavior.
-> >
-> > I'm using ipk already.
-> >
-> >> I don't see why this is a problem, personally. If someone wants a recipe's main package to depend on the other packages it emits, they're free to make the recipe do so. But the ${PN} package is not defined to include everything from the recipe, it never has been.
-> >
-> > I understand that. With the alsa-utils package, the recipe specifically mentions
-> > # This are all packages that we need to make. Also, the now empty alsa-utils
-> > # ipk depends on them.
-> >
-> > Right above adding packages such as "alsa-utils-alsamixer" to the PACKAGES variable. I need all of those more specific packages and if I understand correctly, I should be able to get them by just adding the "alsa-utils" package to my custom image.
-> 
-> Sounds like it's just a recipe bug then, if it claims to do something
-> which it doesn't do.
+This set of patches fixes a number of items related to regular and multilib
+package installs.
 
-Its defintely a bug in the recipe with the "alsa-utils" package just
-being broken. We need to do something like:
+The first two commits are from Dongxiao Xu's series.  I believe this is the
+latest version of each.  These commits are required to use the
+MULTILIB_IMAGE_INSTALL option, as well as avoid conflicts when building
+some types of packages (machine specific packages).  These can be left out
+if they're deemed not ready yet.
 
-ALSAUTILSPKGS = "alsa-utils-x \
-                 alsa-utils-y \
-                 alsa-utils-z"
+The next 4 patches are required to fix the basic problems with rpm
+installation.  Due to a typo, the provides were not being set properly causing
+various invalid rootfs's to be created.  Fixing this typo showed a small
+number of additional runtime dependencies were not being accounted for:
+* "rpmdeps" checks for GNU_HASH, and adds a requirement.  For compatibility
+  we now set rtld(GNU_HASH) as being provided by eglibc.
 
-PACKAGES += "${ALSAUTILSPKGS}"
-RDEPENDS_${PN} += "${ALSAUTILSPKGS}"
+* the python specific requirements were versioned, however there is no easy
+  way to satisfy the versioning within the OE-Core environment today.  This
+  was modified to instead simply require "python", which the python-core
+  package satisfies... a small change to packages.bbclass was required to
+  invalidate the sstate-cache as well.
 
-which should make the recipe do what it says it should do.
+* Enhance busybox to specific list a per-file runtime dependency for each
+  link that /bin/busybox is capable of satisfying.  This per-file dep is
+  available for all packaging backends, but only affects RPM at this time.
 
-Cheers,
+Finally the last patch fixes a problem in the multilib_global.bbclass which
+causes incorrect provide and rprovides to be placed into packages when
+multilib builds are enabled.
 
-Richard
+---
 
+All of the above has been tested with
+
+MACHINE = "qemux86_64"
+MULTILIB_IMAGE_INSTALL = "lib32-connman-gnome lib32-task-base-3g lib32-task-base-wifi lib32-task-base-bluetooth"
+require conf/multilib.conf
+MULTILIBS = "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+MACHINE_virtclass-multilib-lib32 = "qemux86"
+
+I have build core-image-minimal, core-image-core and core-image-sato.  Each
+image was built with and without the MULTILIB_IMAGE_INSTALL being enabled.
+
+
+The following changes since commit 81274f4488fbc4d68d150870735ec0181b60b451:
+
+  freetype: disable bzip2 compressed font support (2011-09-19 13:14:03 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib mhatle/rpm.deps
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/rpm.deps
+
+Dongxiao Xu (2):
+  rootfs_rpm: Use specific MACHINE_ARCH for multilib recipes
+  multilib: install MULTILIB_IMAGE_INSTALL
+
+Mark Hatle (5):
+  Fix RPM dependencies
+  Add a run-time dependency that eglibc support GNU_HASH
+  Update python dependencies to be simply to "python"
+  busybox: Enhance to add dynamic per-file provides
+  multilib_global.bbclass: Fix non-multilib package provides
+
+ meta/classes/multilib_global.bbclass        |   30 +++++++++++++++---
+ meta/classes/package.bbclass                |    6 ++++
+ meta/classes/package_rpm.bbclass            |   44 +++++++++++++++++---------
+ meta/classes/rootfs_rpm.bbclass             |    7 ++++
+ meta/recipes-core/busybox/busybox.inc       |   32 +++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.18.5.bb |    2 +-
+ meta/recipes-core/eglibc/eglibc-package.inc |    3 +-
+ meta/recipes-core/eglibc/eglibc_2.12.bb     |    2 +-
+ meta/recipes-core/eglibc/eglibc_2.13.bb     |    2 +-
+ meta/recipes-devtools/rpm/rpm/pythondeps.sh |   16 ++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.0.bb      |    4 ++-
+ 11 files changed, 123 insertions(+), 25 deletions(-)
+ create mode 100755 meta/recipes-devtools/rpm/rpm/pythondeps.sh
+
+-- 
+1.7.3.4
 
 
 
