@@ -1,24 +1,28 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1R6575-0006wT-F4
+	(envelope-from <koen@dominion.thruhere.net>) id 1R65Sl-0007GS-Ci
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Sep 2011 20:32:11 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 20 Sep 2011 11:26:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,412,1312182000"; d="scan'208";a="53689546"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.170])
-	by fmsmga001.fm.intel.com with ESMTP; 20 Sep 2011 11:26:52 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Sep 2011 11:26:50 -0700
-Message-Id: <47edb8cb1ba0ce9b8628afc888e306940769383a.1316542962.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.6
+	Tue, 20 Sep 2011 20:54:35 +0200
+Received: by eya25 with SMTP id 25so1053894eya.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Sep 2011 11:49:17 -0700 (PDT)
+Received: by 10.216.169.75 with SMTP id m53mr1251228wel.55.1316544557540;
+	Tue, 20 Sep 2011 11:49:17 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id fa7sm3552887wbb.26.2011.09.20.11.49.15
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 20 Sep 2011 11:49:15 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
 In-Reply-To: <cover.1316542962.git.sgw@linux.intel.com>
+Date: Tue, 20 Sep 2011 20:49:09 +0200
+Message-Id: <3C0CAE4F-8E6A-472B-BF36-D1785741C24E@dominion.thruhere.net>
 References: <cover.1316542962.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1316542962.git.sgw@linux.intel.com>
-References: <cover.1316542962.git.sgw@linux.intel.com>
-Subject: [PATCH 1/1] avahi: remove avahi-ui related packages
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1244.3)
+Subject: Re: [PATCH 0/1 v2] Fix avahi x11 dependency with non-GPLv3 Build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,92 +37,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Sep 2011 18:32:11 -0000
+X-List-Received-Date: Tue, 20 Sep 2011 18:54:35 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-[YOCTO #1492]
 
-This patch removes the UI related packages from avahi. This
-allows the package to be built without gtk and GPLv3 issues.
+Op 20 sep. 2011, om 20:26 heeft Saul Wold het volgende geschreven:
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-connectivity/avahi/avahi.inc |   19 +++++++------------
- 1 files changed, 7 insertions(+), 12 deletions(-)
+> This version removes the DISTRO_FEATURE check for x11 and simply
+> removes the DEPENDS on gtk and sets --disable-gtk to EXTRA_OECONF.
+>=20
+> If someone uses/needs the avahi-ui bits, they are available in the
+> OE repo, we would consider taking them into oe-core if there is a =
+clear
+> need for it.
 
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index 24ea458..025805a 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -14,8 +14,9 @@ SECTION = "network"
- # python scripts are under GPLv2+
- LICENSE = "GPLv2+ & LGPLv2.1+"
- 
--X11DEPENDS = "gtk+ libglade"
--DEPENDS = "expat libcap libdaemon dbus glib-2.0 ${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
-+INC_PR = "r6"
-+
-+DEPENDS = "expat libcap libdaemon dbus glib-2.0"
- 
- SRC_URI = "http://avahi.org/download/avahi-${PV}.tar.gz \
-           file://00avahi-autoipd \
-@@ -30,8 +31,8 @@ EXTRA_OECONF = "--with-distro=debian \
-              --disable-gdbm \
-              --disable-mono \
-              --disable-monodoc \
-+             --disable-gtk \
-              --disable-gtk3 \
--	     ${@base_contains('DISTRO_FEATURES', 'x11', '--enable-gtk', '--disable-gtk', d)} \
-              --disable-qt3 \
-              --disable-qt4 \
-              --disable-python \
-@@ -39,7 +40,7 @@ EXTRA_OECONF = "--with-distro=debian \
-              --with-systemdsystemunitdir=${base_libdir}/systemd/system/ \
- "
- 
--PACKAGES =+ "avahi-systemd avahi-daemon libavahi-common libavahi-core libavahi-client avahi-dnsconfd libavahi-glib libavahi-gobject avahi-autoipd avahi-ui-utils avahi-utils libavahi-ui libavahi-ui-dev"
-+PACKAGES =+ "avahi-systemd avahi-daemon libavahi-common libavahi-core libavahi-client avahi-dnsconfd libavahi-glib libavahi-gobject libavahi-ui avahi-autoipd avahi-utils"
- 
- FILES_avahi-systemd = "${base_libdir}/systemd"
- RDEPENDS_avahi-systemd = "avahi-daemon"
-@@ -73,10 +74,6 @@ FILES_avahi-autoipd = "${sbindir}/avahi-autoipd \
-                        ${sysconfdir}/dhcp3/*/avahi-autoipd"
- FILES_libavahi-common = "${libdir}/libavahi-common.so.*"
- FILES_libavahi-core = "${libdir}/libavahi-core.so.*"
--FILES_libavahi-ui = "${libdir}/libavahi-ui.so.*"
--FILES_libavahi-ui-dev = "${libdir}/libavahi-ui.* \
--                         ${includedir}/avahi-ui/* \
--                         ${libdir}/pkgconfig/avahi-ui.pc"
- FILES_avahi-daemon = "${sbindir}/avahi-daemon \
-                       ${sysconfdir}/avahi/avahi-daemon.conf \
-                       ${sysconfdir}/avahi/hosts \
-@@ -88,16 +85,13 @@ FILES_avahi-daemon = "${sbindir}/avahi-daemon \
-                       ${datadir}/avahi/service-types \
-                       ${datadir}/dbus-1/system-services"
- FILES_libavahi-client = "${libdir}/libavahi-client.so.*"
-+FILES_libavahi-ui = "${libdir}/libavahi-ui.so.*"
- FILES_avahi-dnsconfd = "${sbindir}/avahi-dnsconfd \
-                         ${sysconfdir}/avahi/avahi-dnsconfd.action \
-                         ${sysconfdir}/init.d/avahi-dnsconfd"
- FILES_libavahi-glib = "${libdir}/libavahi-glib.so.*"
- FILES_libavahi-gobject = "${libdir}/libavahi-gobject.so.*"
- FILES_avahi-utils = "${bindir}/avahi-*"
--FILES_avahi-ui-utils = "${bindir}/bssh ${bindir}/bvnc ${bindir}/bshell \
--                        ${bindir}/avahi-discover-standalone \
--                        ${datadir}/applications \
--                        ${datadir}/avahi/interfaces"
- 
- RRECOMMENDS_avahi-dev = "expat-dev libcap-dev libdaemon-dev dbus-dev glib-2.0-dev update-rc.d-dev"
- RRECOMMENDS_avahi-dev_append_libc-glibc = " gettext-dev"
-@@ -119,6 +113,7 @@ do_install() {
- 	# /var/run of current version is empty, so just remove it.
- 	# if /var/run become non-empty in the future, need to install it via volatile
- 	rm -rf ${D}/var/run
-+	rm -rf ${D}${datadir}/dbus-1/interfaces
- }
- 
- # At the time the postinst runs, dbus might not be setup so only restart if running
--- 
-1.7.6
-
+Can't you just port over the OE classic recipe instead of this =
+half-baked patch?=
 
 
