@@ -1,40 +1,30 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1R63io-0005L8-8b
+	(envelope-from <mark.hatle@windriver.com>) id 1R63qQ-0005S3-Nr
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Sep 2011 19:03:03 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 20 Sep 2011 09:57:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="50738319"
-Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by orsmga002.jf.intel.com with ESMTP; 20 Sep 2011 09:57:42 -0700
-Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
-	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Wed, 21 Sep 2011 00:57:41 +0800
-Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
-	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Wed, 21 Sep 2011 00:57:41 +0800
-Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
-	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
-	Wed, 21 Sep 2011 00:57:40 +0800
-From: "Xu, Dongxiao" <dongxiao.xu@intel.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Wed, 21 Sep 2011 00:57:39 +0800
-Thread-Topic: Multilib status
-Thread-Index: Acx3tboffSQAbN5jQ9q+Trf716vRsAAAGH8g
-Message-ID: <D5AB6E638E5A3E4B8F4406B113A5A19A12D859E371@shsmsx501.ccr.corp.intel.com>
+	Tue, 20 Sep 2011 19:10:55 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p8KH5ZnM005075
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 20 Sep 2011 10:05:35 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 20 Sep 2011 10:05:34 -0700
+Message-ID: <4E78C7DD.8050308@windriver.com>
+Date: Tue, 20 Sep 2011 12:05:33 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:6.0.2) Gecko/20110902 Thunderbird/6.0.2
+MIME-Version: 1.0
+To: "Xu, Dongxiao" <dongxiao.xu@intel.com>
 References: <1316165543.25993.59.camel@ted> <4E736242.2090106@windriver.com>
 	<D5AB6E638E5A3E4B8F4406B113A5A19A12D84DF2E8@shsmsx501.ccr.corp.intel.com>
 	<4E736ABF.9030305@windriver.com> <4E739312.3020808@windriver.com>
 	<D5AB6E638E5A3E4B8F4406B113A5A19A12D859E35C@shsmsx501.ccr.corp.intel.com>
 	<4E78C4D4.2080602@windriver.com>
-In-Reply-To: <4E78C4D4.2080602@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US
-MIME-Version: 1.0
+	<D5AB6E638E5A3E4B8F4406B113A5A19A12D859E371@shsmsx501.ccr.corp.intel.com>
+In-Reply-To: <D5AB6E638E5A3E4B8F4406B113A5A19A12D859E371@shsmsx501.ccr.corp.intel.com>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: Multilib status
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -51,221 +41,301 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Sep 2011 17:03:03 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 20 Sep 2011 17:10:55 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-PiA+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+PiBGcm9tOiBNYXJrIEhhdGxlIFtt
-YWlsdG86bWFyay5oYXRsZUB3aW5kcml2ZXIuY29tXQ0KPiA+PiBTZW50OiBTYXR1cmRheSwgU2Vw
-dGVtYmVyIDE3LCAyMDExIDI6MTkgQU0NCj4gPj4gVG86IE1hcmsgSGF0bGUNCj4gPj4gQ2M6IFh1
-LCBEb25neGlhbzsgUmljaGFyZCBQdXJkaWU7IG9wZW5lbWJlZGRlZC1jb3JlDQo+ID4+IFN1Ympl
-Y3Q6IFJlOiBNdWx0aWxpYiBzdGF0dXMNCj4gPj4NCj4gPj4gSnVzdCBhbiBGWUkuICBJJ20gd29y
-a2luZyB0aHJvdWdoIGEgYnVuY2ggb2YgaXNzdWVzLiAgSSBmb3VuZCBvdXQNCj4gPj4gdGhhdCB0
-aGUgUlBNIGRlcGVuZGVuY3kgcmVzb2x1dGlvbiB3YXMgY29tcGxldGVseSBicm9rZW4sIGR1ZSB0
-byBhDQo+ID4+IHNtYWxsIGJ1ZyBpbiB0aGUgcGFja2FnZV9ycG0uYmJjbGFzcy4uICBQYWNrYWdl
-cyB3ZXJlIG5vdCBiZWluZyBnaXZlbg0KPiA+PiB0aGUgcHJvcGVyIHByb3ZpZGUgaW5mb3JtYXRp
-b24sIHNvIFJQTSB3YXMgYXR0ZW1wdGluZyBiZXN0IG1hdGNoIC0tDQo+ID4+IGFuZCBmYWlsaW5n
-IGFzIG5vdGVkIGluIHRoZSBwcmV2aW91cyBkaXNjdXNzaW9uLi4NCj4gPj4NCj4gPj4gVW5mb3J0
-dW5hdGVseSB0aGlzIGhhcyBvcGVuZWQgdXAgYSBzbWFsbCBjYW4gb2Ygd29ybXMgd2hpY2ggSSdt
-DQo+ID4+IHRyeWluZyB0byBkZWFsIHdpdGguICBUaGUgc2ltcGxpc3RpYyBmaXggZm9yIHRoZSBi
-dWcgaXM6DQo+ID4+DQo+ID4+IC0tLSBhL21ldGEvY2xhc3Nlcy9wYWNrYWdlX3JwbS5iYmNsYXNz
-DQo+ID4+ICsrKyBiL21ldGEvY2xhc3Nlcy9wYWNrYWdlX3JwbS5iYmNsYXNzDQo+ID4+IEBAIC04
-NDAsNyArODQwLDcgQEAgcHl0aG9uIGRvX3BhY2thZ2VfcnBtICgpIHsNCj4gPj4gICAgICAgICBv
-cy5jaG1vZChvdXRkZXBlbmRzLCAwNzU1KQ0KPiA+Pg0KPiA+PiAgICAgICAgICMgUG9reSAvIFJQ
-TSBQcm92aWRlcw0KPiA+PiAtICAgICAgIG91dHByb3ZpZGVzID0gd29ya2RpciArICIvIiArIHNy
-Y25hbWUgKyAiLnJlcXVpcmVzIg0KPiA+PiArICAgICAgIG91dHByb3ZpZGVzID0gd29ya2RpciAr
-ICIvIiArIHNyY25hbWUgKyAiLnByb3ZpZGVzIg0KPiA+Pg0KPiA+PiAgICAgICAgIHRyeToNCj4g
-Pj4gICAgICAgICAgICAgICAgIGZyb20gX19idWlsdGluX18gaW1wb3J0IGZpbGUNCj4gPj4NCj4g
-Pj4gVW5mb3J0dW5hdGVseSB0aGlzIGhhcyBleHBvc2VkIGEgbGFyZ2Ugc2V0IG9mIHByb2JsZW1z
-IHRoYXQgSSBkaWRuJ3QNCj4gPj4gcmVhbGl6ZSB3ZSBoYWQuLi4uDQo+ID4+DQo+ID4+IFdpbGwg
-ZG8gYSBtb3JlIGZvcm1hbCBwdWxsIHJlcXVlc3QgYXMgc29vbiBhcyBJIGdldCB0aGluZ3Mgd29y
-a2luZyBhZ2Fpbi4NCj4gPj4NCj4gPj4gLS1NYXJrDQo+ID4NCj4gPiBJIGp1c3QgaGFkIGEgdGVz
-dCBhZnRlciBjaGVycnktcGljayBzb21lIG9mIHlvdXIgY2hhbmdlcyBpbiBtaGF0bGUvcnBtLCBo
-ZXJlDQo+IGFyZSBzb21lIHByb2JsZW1zIEkgZm91bmQgYW5kIHNvbWUgaW52ZXN0aWdhdGlvbnM6
-DQo+ID4NCj4gPiAxLiBkb19yb290ZnMgZmFpbGVkLg0KPiA+IFRoZSBlcnJvciBsb2cgcmVwb3J0
-cyB1bm1ldCBkZXBlbmRlbmN5IG9mIHBrZ2NvbmZpZyhsaWJwbmcpLg0KPiA+IFRoaXMgaXMgZHVl
-IHRvIHRoZSBkYW5nbGluZyBsaW5rIGluIGxpYnBuZyBwYWNrYWdlLiBsaWJwbmcucGMgbGlua3Mg
-dG8gbGlicG5nMTIucGMNCj4gd2hpY2ggaGFzIGJlZW4gcGFja2FnZWQgaW50byBsaWJwbmcxMi4N
-Cj4gDQo+IEFoaCB0aGlzIGlzIGEgYml0IGRpZmZlcmVudCB0aGVuIHRoZSBmYWlsdXJlcyBJJ3Zl
-IHNlZW4uICBXZSdsbCBoYXZlIHRvIGZpeCB0aGF0IG9uZS4NCj4gDQo+ID4gMi4gVGhlcmUgaXMg
-YSB3cm9uZyBjb21taXQgSSBzdXBwb3NlIGl0IHNob3VsZCBiZSByZXZlcnRlZC4gV2hlbiB5b3UN
-Cj4gZGVidWdnaW5nIHlvdXIgY29kZSwgcGxlYXNlIHJldmVydCBpdC4NCj4gPiBJIHdpbGwgZGlz
-Y3VzcyBpdCB3aXRoIFJpY2hhcmQgdG9tb3Jyb3cuDQo+ID4gaHR0cDovL2dpdC55b2N0b3Byb2pl
-Y3Qub3JnL2NnaXQvY2dpdC5jZ2kvcG9reS1jb250cmliL2NvbW1pdC8/aD1taGF0bA0KPiA+IGUv
-cnBtJmlkPTMyOWQ4NjRmOWJiZjk0YWQzYWFlOGRmNDNkNjNmZTEwZTQyMzdlNGYNCj4gDQo+IEFo
-aCwgeWEgSSBqdXN0IHJhbiBpbnRvIHRoYXQgcHJvYmxlbS4uLiBJIGhhdmUgYSBmaXggZm9yIHRo
-YXQgY29tbWl0IEkganVzdCBmaW5pc2hlZC4NCj4gKERvIHlvdSBoYXZlIGEgbmV3ZXIgdmVyc2lv
-biwgaWYgc28gSSdsbCB1cGRhdGUgdG8gdGhhdCBhbmQgc2VlIGlmIG15IGNoYW5nZSBpcyBzdGls
-bA0KPiBuZWVkZWQuKQ0KDQpObyBJIGhhdmVuJ3Qgd29ya2VkIG9uIGEgbmV3IHZlcnNpb24gb2Yg
-dGhhdCBwYXRjaC4gQ291bGQgeW91IHNoYXJlIHlvdXJzPw0KDQpUaGFua3MsDQpEb25neGlhbw0K
-DQo+IA0KPiA+IDMuIEFmdGVyIHRoZSBhYm92ZSBpc3N1ZSBnb3QgZml4ZWQsIHJvb3RmcyBzdWNj
-ZWVkIGJ1dCB3ZSBzYXcgdGhlIGZpbmFsIGltYWdlIGlzDQo+IHN0aWxsIGluIGEgbWVzcy4gV2Ug
-bmVlZCBzb21lIHg4Nl82NCBycG0gdG8gYmUgaW5zdGFsbGVkLCBob3dldmVyIHdoYXQgd2UgZ290
-DQo+IGlzIHg4NiBycG0gcGFja2FnZS4gVGhlbiBJIHRyaWVkIGFub3RoZXIgYXBwcm9hY2ggd2Ug
-ZXZlciB0YWxrZWQgYWJvdXQgdGhhdCwNCj4gZmlyc3RseSBpbnN0YWxsIGJhc2UgaW1hZ2UsIHRo
-ZW4gaW5zdGFsbCB0aGUgbXVsdGlsaWIgcGFja2FnZXMuIEkgYWRkZWQgYSBwYXJhbWV0ZXINCj4g
-Ii0tcmVwbGFjZXBrZ3MiIHRvIHJwbSBjb21tYW5kIHRvIGF2b2lkIGVycm9ycyBsaWtlICJwYWNr
-YWdlIHh4eCBoYXMgYWxyZWFkeQ0KPiBpbnN0YWxsZWQiLiBXaXRoIHRoaXMgYXBwcm9hY2gsIHRo
-ZSBmaW5hbCBpbWFnZSBjb3VsZCBib290IHVwIHdpdGggbXVsdGlsaWIgbGlicmFyeQ0KPiBpbnN0
-YWxsZWQuDQo+ID4NCj4gPiBTb21lIG9mIG15IHRlc3RpbmcgY29kZSBpcyBsb2NhdGVkIHVuZGVy
-DQo+ID4gaHR0cDovL2dpdC55b2N0b3Byb2plY3Qub3JnL2NnaXQvY2dpdC5jZ2kvcG9reS1jb250
-cmliL2xvZy8/aD1keHU0L21sLQ0KPiA+IHRlc3RpbmcNCj4gDQo+IEknbGwgcnVuIHRocm91Z2gg
-dGhlIHRlc3RpbmcgY29kZSBhbmQgc2VlIGlmIEkgY2FuIGZpZ3VyZSBvdXQgd2hhdCBpcyBkaWZm
-ZXJlbnQuDQo+IA0KPiAtLU1hcmsNCj4gDQo+ID4gVGhhbmtzLA0KPiA+IERvbmd4aWFvDQo+ID4N
-Cj4gPg0KPiA+Pg0KPiA+PiBPbiA5LzE2LzExIDEwOjI2IEFNLCBNYXJrIEhhdGxlIHdyb3RlOg0K
-PiA+Pj4gT24gOS8xNi8xMSAxMDoyMSBBTSwgWHUsIERvbmd4aWFvIHdyb3RlOg0KPiA+Pj4+Pj4+
-IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4+Pj4+Pj4gRnJvbTogTWFyayBIYXRsZSBb
-bWFpbHRvOm1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbV0NCj4gPj4+Pj4+PiBTZW50OiBGcmlkYXks
-IFNlcHRlbWJlciAxNiwgMjAxMSAxMDo1MSBQTQ0KPiA+Pj4+Pj4+IFRvOiBSaWNoYXJkIFB1cmRp
-ZQ0KPiA+Pj4+Pj4+IENjOiBYdSwgRG9uZ3hpYW87IG9wZW5lbWJlZGRlZC1jb3JlDQo+ID4+Pj4+
-Pj4gU3ViamVjdDogUmU6IE11bHRpbGliIHN0YXR1cw0KPiA+Pj4+Pj4+DQo+ID4+Pj4+Pj4gT24g
-OS8xNi8xMSA0OjMyIEFNLCBSaWNoYXJkIFB1cmRpZSB3cm90ZToNCj4gPj4+Pj4+Pj4+IEhpIE1h
-cmsvRG9uZ3hhaW8sDQo+ID4+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+Pj4gV2UgcmVhbGx5IG5lZWQgdG8g
-Z2V0IHRoZSByZW1haW5kZXIgb2YgdGhlIG11bHRpbGliIGJ1Z3MNCj4gPj4+Pj4+Pj4+IHdyYXBw
-ZWQgdXAuIEkgdGhpbmsgdGhlcmUgaXMgc29tZSBjb25mdXNpb24gYWJvdXQgdGhlIGV4YWN0DQo+
-ID4+Pj4+Pj4+PiBhcHByb2FjaCB0byB0YWtlIHRvIGZpeCBzb21lIG9mIHRoZW0gc28gSSdtIGhv
-cGluZyB0byB0cnkgYW5kDQo+ID4+Pj4+Pj4+PiBzdW1tYXJpc2UgdGhlIHByb2JsZW1zIGhlcmUg
-c28gd2UgY2FuIHdvcmsgb3V0IHNvbWUgcmVzb2x1dGlvbnMuDQo+ID4+Pj4+Pj4NCj4gPj4+Pj4+
-PiBMZXQgbWUgZXhwbGFpbiB3aGVyZSBJIGFtIHF1aWNrbHkuICBJIGp1c3Qgc3BlbnQgdHdvIGRh
-eXMNCj4gPj4+Pj4+PiB3b3JraW5nIG9uIHJlcHJvZHVjaW5nIHRoZSBpc3N1ZShzKS4gIFNvIGZh
-ciBJJ3ZlIG5vdCByZXByb2R1Y2VkDQo+ID4+Pj4+Pj4gdGhlIGRpcmVjdCBmYWlsdXJlcyBidXQg
-YSBzZXJpZXMgb2Ygb3RoZXJzLiAgSSBmaW5hbGx5IGZpZ3VyZWQNCj4gPj4+Pj4+PiBvdXQgcGFy
-dCBvZiB0aGUgcmVhc29uIEkgd2Fzbid0IHNlZWluZyB0aGlzLiAgSSBoYWQgYSB0eXBvIGluIG15
-DQo+ID4+IGNvbmZpZ3VyYXRpb246DQo+ID4+Pj4+Pj4NCj4gPj4+Pj4+PiBERUZBVUxUVFVORS12
-aXJ0Y2xhc3MtbXVsaXRsaWItbGliMzIgPSAieDg2Ig0KPiA+Pj4+Pj4+DQo+ID4+Pj4+Pj4gVGhp
-cyByZXN1bHRlZCBpbiB0d28gc2V0cyBvZiBiaW5hcmllcyBub3JtYWwgYW5kIGxpYjMyIHRoYXQg
-d2VyZQ0KPiA+Pj4+Pj4+IG1vcmUgb3IgbGVzcyBpZGVudGljYWwgaW4gdGhlIFJQTSBjYXNlLiAg
-V2UgLXJlYWxseS0gbmVlZCBhDQo+ID4+Pj4+Pj4gc2FuaXR5IGNoZWNrIHRoYXQgc3R1cGlkIHR5
-cG9zIGxpa2UgdGhhdCBkb24ndCBjYXVzZSBwcm9ibGVtcy4NCj4gPj4+Pj4+Pg0KPiA+Pj4+Pj4+
-IC0tLQ0KPiA+Pj4+Pj4+DQo+ID4+Pj4+Pj4gU28gbm93IHRoYXQgSSBmaW5hbGx5IGhhdmUgYSBi
-dWlsdCB3aXRoIHRoYXQgZG9uZS4uLiBzZWUgYmVsb3cuDQo+ID4+Pj4+Pj4NCj4gPj4+Pj4+Pj4+
-IFByb2JsZW0gQQ0KPiA+Pj4+Pj4+Pj4gPT09PT09PT09DQo+ID4+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+
-Pj4gV2UgY2FuIGhhdmUgbXVsdGlwbGUgZm9ybXMgb2YgIm1hY2hpbmUgc3BlY2lmaWMiIHBhY2th
-Z2VzIG5vdywNCj4gPj4+Pj4+Pj4+IG9uZSBmb3IgZWFjaCBtdWx0aWxpYiBlLmcuOg0KPiA+Pj4+
-Pj4+Pj4NCj4gPj4+Pj4+Pj4+IHRhc2stY29yZS14MTEtYmFzZS0xLjAtcjM0LnFlbXV4ODZfNjQu
-cnBtICgibm9ybWFsIikNCj4gPj4+Pj4+Pj4+IHRhc2stY29yZS14MTEtYmFzZS0xLjAtcjM0LnFl
-bXV4ODZfNjQucnBtICgibGliNjQiKQ0KPiA+Pj4+Pj4+Pj4gdGFzay1jb3JlLXgxMS1iYXNlLTEu
-MC1yMzQucWVtdXg4Nl82NC5ycG0gKCJsaWIzMiIpDQo+ID4+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+Pj4g
-KGxldHMgYXNzdW1lIHRoZSBmaXJzdCB1c2VzIC9saWIvLCB0aGUgc2Vjb25kIC9saWI2NC8gYW5k
-IHRoZQ0KPiA+Pj4+Pj4+Pj4gdGhyaWQgL2xpYjMyLywgYW4gYXJ0aWZpY2lhbCBleGFtcGxlIEkg
-cmVhbGlzZSkNCj4gPj4+Pj4+Pj4+DQo+ID4+Pj4+Pj4+PiBJIGtub3cgb25lIHByb3Bvc2FsIHdh
-cyB0byBtYXA6DQo+ID4+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+Pj4gdGFzay1jb3JlLXgxMS1iYXNlLTEu
-MC1yMzQubGliMzJfcWVtdXg4Nl82NC5ycG0gdG8NCj4gPj4+Pj4+Pj4+IHRhc2stY29yZS14MTEt
-YmFzZS0xLjAtcjM0LmxpYjMyX3FlbXV4ODYucnBtIGJ1dCB0aGlzIGlzbid0DQo+ID4+Pj4+Pj4+
-PiBjb3JyZWN0IHNpbmNlIHRoZSBsaWJyYXJ5IGRpcmVjdG9yaWVzIGFyZSBkaWZmZXJlbnQuIElu
-IHRoaXMNCj4gPj4+Pj4+Pj4+IHNwZWNpZmljIGNhc2UgaXQgbWlnaHQgbm90IG1hdHRlciBidXQg
-aW4gZ2VuZXJhbCBpdCB3b3VsZC4NCj4gPj4+Pj4+Pj4+IFdoYXQgaXMgYWxzbyBpbXBvcnRhbnQg
-aXMgdGhhdCB0aGUgZGlmZmVyZW50IHZlcnNpb25zIGltcGx5DQo+ID4+Pj4+Pj4+PiBkaWZmZXJl
-bnQgZGVwZW5kZW5jaWVzLiBUaGUgbGliNjQgYml0IHZlcnNpb24gd291bGQgcHVsbCBpbg0KPiA+
-Pj4+Pj4+Pj4gYW5kIHNlbGVjdCBsaWI2NCBiaXQgbGlicy4gSXRzIHRoZXNlIGRlcGVuZGVuY2ll
-cyB3aGljaCBhcmUgYQ0KPiA+Pj4+Pj4+Pj4ga2V5IHJlYXNvbg0KPiA+PiB0aGVzZSBhcmUgbm90
-ICJhbGwiIGFyY2ggcGFja2FnZXMuDQo+ID4+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+Pj4gVGhlIGVuZCBy
-ZXN1bHQgaXMgdGhlcmVmb3JlIHdlIGxpa2VseSB3YW50Og0KPiA+Pj4+Pj4+Pj4NCj4gPj4+Pj4+
-Pj4+IHRhc2stY29yZS14MTEtYmFzZS0xLjAtcjM0LnFlbXV4ODZfNjQucnBtDQo+ID4+Pj4+Pj4+
-PiB0YXNrLWNvcmUteDExLWJhc2UtMS4wLXIzNC5saWI2NF9xZW11eDg2XzY0LnJwbQ0KPiA+Pj4+
-Pj4+Pj4gdGFzay1jb3JlLXgxMS1iYXNlLTEuMC1yMzQubGliMzJfcWVtdXg4Nl82NC5ycG0NCj4g
-Pj4+Pj4+Pj4+DQo+ID4+Pj4+Pj4+PiBhbmQgSSBiZWxpZXZlIHRoZXJlIGFyZSBzb21lIHBhdGNo
-ZXMgRG9uZ3hpYW8gaGFzIGNyZWF0ZWQNCj4gPj4+Pj4+Pj4+IHdoaWNoIGRvDQo+ID4+IHRoaXMu
-DQo+ID4+Pj4+Pj4NCj4gPj4+Pj4+PiBZZXMsIEknbSBjdXJyZW50bHkgdGVzdGluZyBoaXMgbmV3
-IE1BQ0hJTkVfdmlydGNsYXNzLW11bHRpbGliLS4uLg0KPiA+Pj4+Pj4+IHBhdGNoLiAgU28gZmFy
-IGl0IHNlZW1zIHRvIGJlIHdvcmtpbmcuLiBhc3N1bWluZyB0aGlzIGlzIHRoZQ0KPiA+Pj4+Pj4+
-IGFwcHJvYWNoIHdlIGdvIHdpdGgsIHdlJ2xsIHdhbnQgdG8gYWRkIHNvbWUgdHlwZSBvZiBzYW5p
-dHkgY2hlY2sNCj4gPj4+Pj4+PiBzbyB0aGF0IGl0J3Mgbm90IHBvc3NpYmxlIHRvIGNvbGxpZGUg
-YmV0d2VlbiB0aGUgZGlmZmVyZW50DQo+ID4+Pj4+Pj4gbXVsdGlsaWIgY29uZmlndXJhdGlvbnMu
-ICAoQWx0ZXJuYXRpdmVseSB3ZSBjb3VsZCwgZm9yIGVhY2gNCj4gPj4+Pj4+PiBtdWx0aWxpYiwN
-Cj4gPj4gc3BlY2lmeSBhIGRlZmF1bHQgbWFjaGluZSB2aXJ0Y2xhc3MgaW4gdGhlIGZvcm1hdCB5
-b3UgbGlzdCBhYm92ZS4NCj4gPj4+Pj4+Pg0KPiA+Pj4+Pj4+IEFuIGFsdGVybmF0aXZlIEkgd2Fz
-IHRoaW5raW5nIG9mIG92ZXIgbmlnaHQgd291bGQgYmUgdG8gYXZvaWQNCj4gPj4+Pj4+PiB0aGUg
-UlBNIHJlbWFwcGluZyBvbiB0aGUgIm1hY2hpbmUiIHBhY2thZ2VzLi4gYnV0IEknbSBub3Qgc3Vy
-ZQ0KPiA+Pj4+Pj4+IGlmIHRoYXQgaXMgcmVhbGx5IGEgZ29vZCBpZGVhLg0KPiA+Pj4+Pj4+IEhv
-d2V2ZXIsIGl0IHdvdWxkIGNvdWxkIHNpbXBsaWZ5IHRoZSBjb25maWd1cmF0aW9uIGFzcGVjdHMu
-DQo+ID4+Pj4+DQo+ID4+Pj4+IFRoZXJlIGFyZSB0d28gaW1wbGVtZW50YXRpb25zIHRvd2FyZHMg
-dGhlIGFib3ZlIHJlc3VsdDoNCj4gPj4+Pj4gMSkgYXV0b21hdGljYWxseSBzZXR0aW5nIE1MUFJF
-RklYIGJlZm9yZSBNQUNISU5FX0FSQ0guDQo+ID4+Pj4+IDIpIHVzZXIgbWFudWFsbHkgc2V0cw0K
-PiA+PiBNQUNISU5FX3ZpcnRjbGFzcy1tdWx0aWxpYi1saWIzMj0ibGliMzItcWVtdXg4Ni02NCIg
-aW4gbG9jYWwuY29uZi4NCj4gPj4+Pj4NCj4gPj4+Pj4gV2hpY2ggb25lIGRvIHlvdSBwcmVmZXI/
-DQo+ID4+PiBSaWdodCBub3cgSSdtIHRoaW5raW5nIHRoZSBiZXN0IGFwcHJvYWNoIGlzOg0KPiA+
-Pj4NCj4gPj4+ICopIEFsbG93IHRoZSB1c2VyIHRvIHNldCBNQUNISU5FX3ZpcnRjbGFzcy1tdWx0
-aWxpYi0uLi49Ii4uLi4iDQo+ID4+Pg0KPiA+Pj4gKikgSWYgdGhlIHVzZXIgaGFzIE5PVCBzZXQg
-aXQsIGZhbGwgYmFjayBhbmQgdXNlIHRoZSBzZXR0aW5nIG9mDQo+ID4+PiBsaWIuLi1tYWNoaW5l
-IGFzIGluIDINCj4gPj4+DQo+ID4+PiBUaGlzIHdheSBmb3IgcGVvcGxlIHdobyBoYXZlIHNwZWNp
-ZmljIHJlcXVpcmVtZW50cyBmb3IgZXh0ZXJuYWwNCj4gPj4+IGNvbXBhdGliaWxpdHkgb3IganVz
-dCBkZXNpcmUgbW9yZSBjb250cm9sIHRoZXkgY2FuIGRvIGl0LiAgQnV0IGZvcg0KPiA+Pj4gZXZl
-cnlvbmUgZWxzZSBpdCB3aWxsIHN0aWxsIHdvcmsgcHJvcGVybHkuDQo+ID4+Pg0KPiA+Pj4gRllJ
-LCBJJ20gY3VycmVudGx5IHdvcmtpbmcgaW4gdGhlIHJvb3Rmc19ycG0gc3R1ZmYsIHRoZSBzeXN0
-ZW0gaXMNCj4gPj4+IGN1cnJlbnRseSBpZ25vcmluZyB0aGUgYWx0ZXJuYXRpdmUgKG11bHRpbGli
-KSBtYWNoaW5lIHBhY2thZ2VzLiAgSSdtDQo+ID4+PiBob3BpbmcgdGhpcyB3aWxsIGJlIGZhaXJs
-eSBzaW1wbGUgdG8gcmVzb2x2ZS4NCj4gPj4+DQo+ID4+Pj4+Pj4NCj4gPj4+Pj4+Pj4+IFByb2Js
-ZW0gQg0KPiA+Pj4+Pj4+Pj4gPT09PT09PT09DQo+ID4+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+Pj4gSWYg
-d2UgaW5zdGFsbCB0YXNrLWNvcmUteDExLWJhc2UtMS4wLXIzNC5xZW11eDg2XzY0LnJwbSB3aGlj
-aA0KPiA+Pj4+Pj4+Pj4gZGVwZW5kcyBvbiAiY29ubm1hbiIsIGhvdyBkb2VzIHRoZSBzeXN0ZW0g
-ZmlndXJlIG91dCB0bw0KPiA+Pj4+Pj4+Pj4gYXNzb2NpYXRlIHRoaXMgdG8gbWVhbiB3ZSB3YW50
-IHRoZSAieDg2XzY0IiBhcmNoaXRlY3R1cmUNCj4gPj4+Pj4+Pj4+IHBhY2thZ2VzDQo+ID4+IGlu
-c3RhbGxlZD8NCj4gPj4+Pj4+Pj4+DQo+ID4+Pj4+Pj4+PiBBcyBmYXIgYXMgSSBjYW4gdGVsbCB0
-aGVyZSBhcmUgdHdvIHByb3Bvc2FscyBhcm91bmQ6DQo+ID4+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+Pj4g
-MSkgU2V0IHRoZSBhcmNoaXRlY3R1cmUgaW4gdGhlIHBhY2thZ2UgcHJvdmlkZXMgYW5kIGRlcGVu
-ZHMgKGENCj4gPj4+Pj4+Pj4+IGJpdA0KPiA+Pj4+Pj4+Pj4gdWdseSkNCj4gPj4+Pj4+Pj4+DQo+
-ID4+Pj4+Pj4+PiAyKSBDb25maWd1cmUgbGlienlwcCB0byB1bmRlcnN0YW5kIHRoYXQgcWVtdXg4
-Nl82NCBkb2VzIHJlYWxseQ0KPiA+Pj4+Pj4+Pj4gbWFwIHRvDQo+ID4+Pj4+Pj4+PiB4ODZfNjQg
-YXJjaGl0ZWN0dXJlIGFuZCBpbXBseSB4ODZfNjQgZGVwZW5kZW5jaWVzLg0KPiA+Pj4+Pj4+Pj4N
-Cj4gPj4+Pj4+Pj4+IFNvbHZpbmcgcHJvYmxlbSBBIGFib3ZlIGlzIHRoZSBmaXJzdCBzdGVwIHRv
-d2FyZHMgcmVzb2x2aW5nDQo+ID4+Pj4+Pj4+PiB0aGlzIGVpdGhlciB3YXkgYnV0IHdlIGRvbid0
-IHNlZW0gdG8gaGF2ZSBhIHJlc29sdXRpb24gb24gdGhpcw0KPiA+Pj4+Pj4+Pj4gc2Vjb25kDQo+
-ID4+IHBhcnQuDQo+ID4+Pj4+Pj4NCj4gPj4+Pj4+PiBBZ3JlZWQuDQo+ID4+Pj4+Pj4NCj4gPj4+
-Pj4+Pj4+IEZvciByZWZlcmVuY2UsIHdlIHJlYWxseSBkbyB3YW50IHRoZXNlIHRhc2sgcGFja2Fn
-ZXMgdG8gaGF2ZQ0KPiA+Pj4+Pj4+Pj4gYW4gYXNzb2NpYXRlZCBhcmNoaXRlY3R1cmUgc28gdGhl
-IHVzZXIgY2FuIGVhc2lseSBidWlsZCB1cA0KPiA+Pj4+Pj4+Pj4gYmxvY2tzIG9mIHRoZSBzeXN0
-ZW0gdXNpbmcgYSBnaXZlbiBBQkkuDQo+ID4+Pj4+Pj4NCj4gPj4+Pj4+PiBUaGlzIGlzIGdvaW5n
-IHRvIGJlIHNvbWV3aGF0IG9mIGEgcHJvYmxlbSBJIHN1c3BlY3QsIHNpbXBseQ0KPiA+Pj4+Pj4+
-IGJlY2F1c2UgdGhhdCBpcyBub3QgdGhlIHdheSBSUE0gaXMvd2FzIGRlc2lnbmVkLiAgV2UgY2Fu
-IGFkanVzdA0KPiA+Pj4+Pj4+IHRoZSByb290ZnMgaW5zdGFsbCB0aW1lLCBidXQgdGhpcyB3b24n
-dCBhZGRyZXNzIGZpZWxkIHVwZ3JhZGUvaW5zdGFsbHMuDQo+ID4+Pj4+Pj4NCj4gPj4+Pj4+PiBS
-UE0gKGFuZCBSZWQgSGF0IExpbnV4L0ZlZG9yYSBzeXN0ZW1zKSBhcHBlYXIgdG8gYmUgZGVzaWdu
-ZWQNCj4gPj4+Pj4+PiB0aGF0IGFueSBwYWNrYWdlIHRoYXQgcmVhc29uYWJseSBtZWV0cyB0aGUg
-cnVuLXRpbWUgZGVwZW5kZW5jaWVzDQo+ID4+Pj4+Pj4gY2FuIGJlDQo+ID4+IHVzZWQuDQo+ID4+
-Pj4+Pj4gVGhlcmUgaXMgYSBjb25jZXB0IG9mIGEgImJlc3QiIG1hY2hpbmUgYmFzZWQgb24gdGhl
-IHJlc29sdmVyDQo+ID4+Pj4+Pj4gaGllcmFyY2h5LCBidXQgRUxGIHNpemUgbWF5IG9yIG1heSBu
-b3QgYmUgYSBmYWN0b3IgaW4gdGhhdCBkZWNpc2lvbi4NCj4gPj4+Pj4+Pg0KPiA+Pj4+Pj4+IERv
-aW5nIHRoaXMgaXMgcXVpdGUgcG93ZXJmdWwsIGJ1dCBpdCBhbHNvIGhhcyBhIGNvbnNjaW91cw0K
-PiA+Pj4+Pj4+IGRlY2lzaW9uIHNldCBiZWhpbmQgaXQuICBJZiAiYmFzaCIgaXMgcmVxdWlyZWQg
-YnkgYSBzY3JpcHQsIGl0DQo+ID4+Pj4+Pj4gcmVhbGx5IGRvZXNuJ3QgbWF0dGVyIGlmIGl0J3Mg
-RUxGMzIsDQo+ID4+Pj4+Pj4gRUxGNjQgb3Igc29tZXRoaW5nIGVsc2UsIGFzIGxvbmcgYXMgc29t
-ZXRoaW5nIHByb3ZpZGVzIGJhc2guDQo+ID4+Pj4+DQo+ID4+Pj4+IElmIHVzZXIgc2V0cyBNVUxU
-SUxJQl9JTUFHRV9JTlNUQUxMPSJsaWIzMi10YXNrLWNvcmUtYm9vdCIgd2l0aCBhDQo+ID4+IHFl
-bXV4ODYtNjQgaW1hZ2UsIGl0IG1lYW5zIHRoYXQgaGUgd2FudHMgdG8gaW5zdGFsbCBhbGwgZWxl
-bWVudHMNCj4gPj4gcmVxdWlyZWQgYnkgdGFzay1jb3JlLWJvb3QgYnkgbGliMzIgdmVyc2lvbi4g
-SWYgdGhlIGRlcGVuZGVuY3kgaXMNCj4gPj4gc2VsZWN0ZWQgKnJhbmRvbWx5KiwgdXNlcnMgd291
-bGQgbm90IGhhdmUgbXVsdGlwbGUgbGlicmFyaWVzIGluIGhpcyBzeXN0ZW0uDQo+ID4+PiBUaGlz
-IGlzIGEgc3BlY2lhbCB1c2UgY2FzZSwgeWVzIG9uZSB0aGF0IEkgdGhpbmsgd2UgbmVlZCB0byBy
-ZXNvbHZlLA0KPiA+Pj4gYnV0IGl0J3Mgbm90IHRoZSB0eXBpY2FsIGNhc2UuDQo+ID4+Pg0KPiA+
-Pj4gVGhlIHR5cGljYWwgY2FzZSB3aWxsIGJlIHNvbWVvbmUgd2FudHMgdGhlIDY0LWJpdCAob3Ig
-MzItYml0KQ0KPiA+Pj4gdmVyc2lvbiBvZiBhIHNlbGVjdCBwYWNrYWdlIGZvciBjb21wYXRpYmls
-aXR5LiAgQW5kIHRoZXkgb25seSB3YW50DQo+ID4+PiB0aGUgZGVwZW5kZW5jaWVzIGZvciB0aGF0
-IHBhY2thZ2UgdG8gYmUgbG9hZGVkLiAgQW55dGhpbmcgc2F0aXNmeWluZw0KPiA+Pj4gdGhlDQo+
-ID4+IGRlcGVuZGVuY3kgd2lsbCBkby4NCj4gPj4+DQo+ID4+PiBNeSByZWNvbW1lbmRhdGlvbiBy
-aWdodCBub3cgaXMsIGxldHMgZ2V0IHRoYXQgd29ya2luZyBBU0FQLiAgT25jZQ0KPiA+Pj4gdGhh
-dCBkb2VzLCByZWZvY3VzIHRoZSBlZmZvcnRzIG9uIGdldHRpbmcgdGhlIG11bHRpbGliICJ0YXNr
-cyIgdG8gZG8NCj4gPj4+IHNvbWV0aGluZw0KPiA+PiByZWFzb25hYmxlLg0KPiA+Pj4gKGkuZS4g
-c2VsZWN0IGEgZ3JvdXAgb2YgcGFja2FnZXMpDQo+ID4+Pg0KPiA+Pj4gSWYgd2UgdHJ5IHRvIHNv
-bHZlIGJvdGggYXQgb25jZSwgSSBkb24ndCB0aGluayB3ZSdyZSBnb2luZyB0byBjb21lDQo+ID4+
-PiB1cCB3aXRoIGEgcmVhc29uYWJsZSBzb2x1dGlvbiBhdCB0aGlzIHRpbWUuDQo+ID4+Pg0KPiA+
-Pj4gLS1NYXJrDQo+ID4+Pg0KPiA+Pj4+PiBUaGFua3MsDQo+ID4+Pj4+IERvbmd4aWFvDQo+ID4+
-Pj4+Pj4NCj4gPj4+Pj4+Pj4+IFdoYXQgSSByZWFsbHkgbmVlZCBub3cgaXMgYW4gaWRlYSBvZiB3
-aGljaCBwYXRjaGVzIHlvdSBib3RoDQo+ID4+Pj4+Pj4+PiBhZ3JlZSBvbiB0aGF0IHdlIG5lZWQg
-dG8gbWVyZ2UgKEkgdGhpbmsgd2UgaGF2ZSBzb21lIGZvcg0KPiA+Pj4+Pj4+Pj4gcHJvYmxlbSBB
-KSBhbmQgYSByZXNvbHV0aW9uIG9uIHByb2JsZW0gQiBhbG9uZyB3aXRoIHNvbWUNCj4gPj4+Pj4+
-Pj4+IHBhdGNoZXMgc28gd2UgY2FuIGNsb3NlIHRoaXMgc2V0IG9mIGlzc3VlcyBvdXQuDQo+ID4+
-Pj4+Pj4+Pg0KPiA+Pj4+Pj4+Pj4gSWYgdGhlcmUgYXJlIGZ1cnRoZXIgaXNzdWVzIGNhbiB5b3Ug
-cmVwbHkgdG8gdGhpcyBlbWFpbCBlaXRoZXINCj4gPj4+Pj4+Pj4+IHdpdGggdGhlIGRldGFpbHMg
-b3IgYSBwb2ludGVyIHRvIHRoZSBzcGVjaWZpYyBhZGRpdGlvbmFsIHByb2JsZW1zLg0KPiA+Pj4+
-Pj4+DQo+ID4+Pj4+Pj4gTm93IHRoYXQgSSBoYXZlIG15IHN0dXBpZCB0eXBvIG91dCBvZiB0aGUg
-d2F5LCBJIGV4cGVjdCB0byBoYXZlDQo+ID4+Pj4+Pj4gZnVydGhlciBpbmZvcm1hdGlvbiBpbiBh
-IGZldyBob3VycyBhcyB0byB0aGUgcmVndWxhcmx5DQo+ID4+Pj4+Pj4gZGVwZW5kZW5jeSByZXNv
-bHV0aW9uIGZhaWx1cmUgRG9uZ3hpYW8gd2FzIHJlcG9ydGluZy4gIChMaWJyYXJ5DQo+ID4+Pj4+
-Pj4gZGVwZW5kZW5jaWVzDQo+ID4+Pj4+Pj4gLWFyZS0gRUxGIHNwZWNpZmljLCBzbyB0aG9zZSBo
-YXZlIHRvIHdvcmsgcHJvcGVybHkhKQ0KPiA+Pj4+Pj4+DQo+ID4+Pj4+Pj4gLS1NYXJrDQo+ID4+
-Pj4+Pj4NCj4gPj4+Pj4+Pj4+IENoZWVycywNCj4gPj4+Pj4+Pj4+DQo+ID4+Pj4+Pj4+PiBSaWNo
-YXJkDQo+ID4+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+Pj4NCj4gPj4+Pj4NCj4gPj4+DQoNCg==
+commit id aea5b9ef458099efd8f9a83428af84bbbe69eed2
+
+I'm really not sure what I have is right though.. it seems to be not failing..
+;)  But you likely know what should trigger these changes and if what I did is
+correct or not.
+
+--Mark
+
+On 9/20/11 11:57 AM, Xu, Dongxiao wrote:
+>>>> -----Original Message-----
+>>>> From: Mark Hatle [mailto:mark.hatle@windriver.com]
+>>>> Sent: Saturday, September 17, 2011 2:19 AM
+>>>> To: Mark Hatle
+>>>> Cc: Xu, Dongxiao; Richard Purdie; openembedded-core
+>>>> Subject: Re: Multilib status
+>>>>
+>>>> Just an FYI.  I'm working through a bunch of issues.  I found out
+>>>> that the RPM dependency resolution was completely broken, due to a
+>>>> small bug in the package_rpm.bbclass..  Packages were not being given
+>>>> the proper provide information, so RPM was attempting best match --
+>>>> and failing as noted in the previous discussion..
+>>>>
+>>>> Unfortunately this has opened up a small can of worms which I'm
+>>>> trying to deal with.  The simplistic fix for the bug is:
+>>>>
+>>>> --- a/meta/classes/package_rpm.bbclass
+>>>> +++ b/meta/classes/package_rpm.bbclass
+>>>> @@ -840,7 +840,7 @@ python do_package_rpm () {
+>>>>         os.chmod(outdepends, 0755)
+>>>>
+>>>>         # Poky / RPM Provides
+>>>> -       outprovides = workdir + "/" + srcname + ".requires"
+>>>> +       outprovides = workdir + "/" + srcname + ".provides"
+>>>>
+>>>>         try:
+>>>>                 from __builtin__ import file
+>>>>
+>>>> Unfortunately this has exposed a large set of problems that I didn't
+>>>> realize we had....
+>>>>
+>>>> Will do a more formal pull request as soon as I get things working again.
+>>>>
+>>>> --Mark
+>>>
+>>> I just had a test after cherry-pick some of your changes in mhatle/rpm, here
+>> are some problems I found and some investigations:
+>>>
+>>> 1. do_rootfs failed.
+>>> The error log reports unmet dependency of pkgconfig(libpng).
+>>> This is due to the dangling link in libpng package. libpng.pc links to libpng12.pc
+>> which has been packaged into libpng12.
+>>
+>> Ahh this is a bit different then the failures I've seen.  We'll have to fix that one.
+>>
+>>> 2. There is a wrong commit I suppose it should be reverted. When you
+>> debugging your code, please revert it.
+>>> I will discuss it with Richard tomorrow.
+>>> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=mhatl
+>>> e/rpm&id=329d864f9bbf94ad3aae8df43d63fe10e4237e4f
+>>
+>> Ahh, ya I just ran into that problem... I have a fix for that commit I just finished.
+>> (Do you have a newer version, if so I'll update to that and see if my change is still
+>> needed.)
+> 
+> No I haven't worked on a new version of that patch. Could you share yours?
+> 
+> Thanks,
+> Dongxiao
+> 
+>>
+>>> 3. After the above issue got fixed, rootfs succeed but we saw the final image is
+>> still in a mess. We need some x86_64 rpm to be installed, however what we got
+>> is x86 rpm package. Then I tried another approach we ever talked about that,
+>> firstly install base image, then install the multilib packages. I added a parameter
+>> "--replacepkgs" to rpm command to avoid errors like "package xxx has already
+>> installed". With this approach, the final image could boot up with multilib library
+>> installed.
+>>>
+>>> Some of my testing code is located under
+>>> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=dxu4/ml-
+>>> testing
+>>
+>> I'll run through the testing code and see if I can figure out what is different.
+>>
+>> --Mark
+>>
+>>> Thanks,
+>>> Dongxiao
+>>>
+>>>
+>>>>
+>>>> On 9/16/11 10:26 AM, Mark Hatle wrote:
+>>>>> On 9/16/11 10:21 AM, Xu, Dongxiao wrote:
+>>>>>>>>> -----Original Message-----
+>>>>>>>>> From: Mark Hatle [mailto:mark.hatle@windriver.com]
+>>>>>>>>> Sent: Friday, September 16, 2011 10:51 PM
+>>>>>>>>> To: Richard Purdie
+>>>>>>>>> Cc: Xu, Dongxiao; openembedded-core
+>>>>>>>>> Subject: Re: Multilib status
+>>>>>>>>>
+>>>>>>>>> On 9/16/11 4:32 AM, Richard Purdie wrote:
+>>>>>>>>>>> Hi Mark/Dongxaio,
+>>>>>>>>>>>
+>>>>>>>>>>> We really need to get the remainder of the multilib bugs
+>>>>>>>>>>> wrapped up. I think there is some confusion about the exact
+>>>>>>>>>>> approach to take to fix some of them so I'm hoping to try and
+>>>>>>>>>>> summarise the problems here so we can work out some resolutions.
+>>>>>>>>>
+>>>>>>>>> Let me explain where I am quickly.  I just spent two days
+>>>>>>>>> working on reproducing the issue(s).  So far I've not reproduced
+>>>>>>>>> the direct failures but a series of others.  I finally figured
+>>>>>>>>> out part of the reason I wasn't seeing this.  I had a typo in my
+>>>> configuration:
+>>>>>>>>>
+>>>>>>>>> DEFAULTTUNE-virtclass-mulitlib-lib32 = "x86"
+>>>>>>>>>
+>>>>>>>>> This resulted in two sets of binaries normal and lib32 that were
+>>>>>>>>> more or less identical in the RPM case.  We -really- need a
+>>>>>>>>> sanity check that stupid typos like that don't cause problems.
+>>>>>>>>>
+>>>>>>>>> ---
+>>>>>>>>>
+>>>>>>>>> So now that I finally have a built with that done... see below.
+>>>>>>>>>
+>>>>>>>>>>> Problem A
+>>>>>>>>>>> =========
+>>>>>>>>>>>
+>>>>>>>>>>> We can have multiple forms of "machine specific" packages now,
+>>>>>>>>>>> one for each multilib e.g.:
+>>>>>>>>>>>
+>>>>>>>>>>> task-core-x11-base-1.0-r34.qemux86_64.rpm ("normal")
+>>>>>>>>>>> task-core-x11-base-1.0-r34.qemux86_64.rpm ("lib64")
+>>>>>>>>>>> task-core-x11-base-1.0-r34.qemux86_64.rpm ("lib32")
+>>>>>>>>>>>
+>>>>>>>>>>> (lets assume the first uses /lib/, the second /lib64/ and the
+>>>>>>>>>>> thrid /lib32/, an artificial example I realise)
+>>>>>>>>>>>
+>>>>>>>>>>> I know one proposal was to map:
+>>>>>>>>>>>
+>>>>>>>>>>> task-core-x11-base-1.0-r34.lib32_qemux86_64.rpm to
+>>>>>>>>>>> task-core-x11-base-1.0-r34.lib32_qemux86.rpm but this isn't
+>>>>>>>>>>> correct since the library directories are different. In this
+>>>>>>>>>>> specific case it might not matter but in general it would.
+>>>>>>>>>>> What is also important is that the different versions imply
+>>>>>>>>>>> different dependencies. The lib64 bit version would pull in
+>>>>>>>>>>> and select lib64 bit libs. Its these dependencies which are a
+>>>>>>>>>>> key reason
+>>>> these are not "all" arch packages.
+>>>>>>>>>>>
+>>>>>>>>>>> The end result is therefore we likely want:
+>>>>>>>>>>>
+>>>>>>>>>>> task-core-x11-base-1.0-r34.qemux86_64.rpm
+>>>>>>>>>>> task-core-x11-base-1.0-r34.lib64_qemux86_64.rpm
+>>>>>>>>>>> task-core-x11-base-1.0-r34.lib32_qemux86_64.rpm
+>>>>>>>>>>>
+>>>>>>>>>>> and I believe there are some patches Dongxiao has created
+>>>>>>>>>>> which do
+>>>> this.
+>>>>>>>>>
+>>>>>>>>> Yes, I'm currently testing his new MACHINE_virtclass-multilib-...
+>>>>>>>>> patch.  So far it seems to be working.. assuming this is the
+>>>>>>>>> approach we go with, we'll want to add some type of sanity check
+>>>>>>>>> so that it's not possible to collide between the different
+>>>>>>>>> multilib configurations.  (Alternatively we could, for each
+>>>>>>>>> multilib,
+>>>> specify a default machine virtclass in the format you list above.
+>>>>>>>>>
+>>>>>>>>> An alternative I was thinking of over night would be to avoid
+>>>>>>>>> the RPM remapping on the "machine" packages.. but I'm not sure
+>>>>>>>>> if that is really a good idea.
+>>>>>>>>> However, it would could simplify the configuration aspects.
+>>>>>>>
+>>>>>>> There are two implementations towards the above result:
+>>>>>>> 1) automatically setting MLPREFIX before MACHINE_ARCH.
+>>>>>>> 2) user manually sets
+>>>> MACHINE_virtclass-multilib-lib32="lib32-qemux86-64" in local.conf.
+>>>>>>>
+>>>>>>> Which one do you prefer?
+>>>>> Right now I'm thinking the best approach is:
+>>>>>
+>>>>> *) Allow the user to set MACHINE_virtclass-multilib-...="...."
+>>>>>
+>>>>> *) If the user has NOT set it, fall back and use the setting of
+>>>>> lib..-machine as in 2
+>>>>>
+>>>>> This way for people who have specific requirements for external
+>>>>> compatibility or just desire more control they can do it.  But for
+>>>>> everyone else it will still work properly.
+>>>>>
+>>>>> FYI, I'm currently working in the rootfs_rpm stuff, the system is
+>>>>> currently ignoring the alternative (multilib) machine packages.  I'm
+>>>>> hoping this will be fairly simple to resolve.
+>>>>>
+>>>>>>>>>
+>>>>>>>>>>> Problem B
+>>>>>>>>>>> =========
+>>>>>>>>>>>
+>>>>>>>>>>> If we install task-core-x11-base-1.0-r34.qemux86_64.rpm which
+>>>>>>>>>>> depends on "connman", how does the system figure out to
+>>>>>>>>>>> associate this to mean we want the "x86_64" architecture
+>>>>>>>>>>> packages
+>>>> installed?
+>>>>>>>>>>>
+>>>>>>>>>>> As far as I can tell there are two proposals around:
+>>>>>>>>>>>
+>>>>>>>>>>> 1) Set the architecture in the package provides and depends (a
+>>>>>>>>>>> bit
+>>>>>>>>>>> ugly)
+>>>>>>>>>>>
+>>>>>>>>>>> 2) Configure libzypp to understand that qemux86_64 does really
+>>>>>>>>>>> map to
+>>>>>>>>>>> x86_64 architecture and imply x86_64 dependencies.
+>>>>>>>>>>>
+>>>>>>>>>>> Solving problem A above is the first step towards resolving
+>>>>>>>>>>> this either way but we don't seem to have a resolution on this
+>>>>>>>>>>> second
+>>>> part.
+>>>>>>>>>
+>>>>>>>>> Agreed.
+>>>>>>>>>
+>>>>>>>>>>> For reference, we really do want these task packages to have
+>>>>>>>>>>> an associated architecture so the user can easily build up
+>>>>>>>>>>> blocks of the system using a given ABI.
+>>>>>>>>>
+>>>>>>>>> This is going to be somewhat of a problem I suspect, simply
+>>>>>>>>> because that is not the way RPM is/was designed.  We can adjust
+>>>>>>>>> the rootfs install time, but this won't address field upgrade/installs.
+>>>>>>>>>
+>>>>>>>>> RPM (and Red Hat Linux/Fedora systems) appear to be designed
+>>>>>>>>> that any package that reasonably meets the run-time dependencies
+>>>>>>>>> can be
+>>>> used.
+>>>>>>>>> There is a concept of a "best" machine based on the resolver
+>>>>>>>>> hierarchy, but ELF size may or may not be a factor in that decision.
+>>>>>>>>>
+>>>>>>>>> Doing this is quite powerful, but it also has a conscious
+>>>>>>>>> decision set behind it.  If "bash" is required by a script, it
+>>>>>>>>> really doesn't matter if it's ELF32,
+>>>>>>>>> ELF64 or something else, as long as something provides bash.
+>>>>>>>
+>>>>>>> If user sets MULTILIB_IMAGE_INSTALL="lib32-task-core-boot" with a
+>>>> qemux86-64 image, it means that he wants to install all elements
+>>>> required by task-core-boot by lib32 version. If the dependency is
+>>>> selected *randomly*, users would not have multiple libraries in his system.
+>>>>> This is a special use case, yes one that I think we need to resolve,
+>>>>> but it's not the typical case.
+>>>>>
+>>>>> The typical case will be someone wants the 64-bit (or 32-bit)
+>>>>> version of a select package for compatibility.  And they only want
+>>>>> the dependencies for that package to be loaded.  Anything satisfying
+>>>>> the
+>>>> dependency will do.
+>>>>>
+>>>>> My recommendation right now is, lets get that working ASAP.  Once
+>>>>> that does, refocus the efforts on getting the multilib "tasks" to do
+>>>>> something
+>>>> reasonable.
+>>>>> (i.e. select a group of packages)
+>>>>>
+>>>>> If we try to solve both at once, I don't think we're going to come
+>>>>> up with a reasonable solution at this time.
+>>>>>
+>>>>> --Mark
+>>>>>
+>>>>>>> Thanks,
+>>>>>>> Dongxiao
+>>>>>>>>>
+>>>>>>>>>>> What I really need now is an idea of which patches you both
+>>>>>>>>>>> agree on that we need to merge (I think we have some for
+>>>>>>>>>>> problem A) and a resolution on problem B along with some
+>>>>>>>>>>> patches so we can close this set of issues out.
+>>>>>>>>>>>
+>>>>>>>>>>> If there are further issues can you reply to this email either
+>>>>>>>>>>> with the details or a pointer to the specific additional problems.
+>>>>>>>>>
+>>>>>>>>> Now that I have my stupid typo out of the way, I expect to have
+>>>>>>>>> further information in a few hours as to the regularly
+>>>>>>>>> dependency resolution failure Dongxiao was reporting.  (Library
+>>>>>>>>> dependencies
+>>>>>>>>> -are- ELF specific, so those have to work properly!)
+>>>>>>>>>
+>>>>>>>>> --Mark
+>>>>>>>>>
+>>>>>>>>>>> Cheers,
+>>>>>>>>>>>
+>>>>>>>>>>> Richard
+>>>>>>>>>>>
+>>>>>>>>>>>
+>>>>>>>
+>>>>>
+> 
+
 
 
