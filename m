@@ -1,33 +1,25 @@
-Received: from mail-ew0-f45.google.com ([209.85.215.45])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1R67Vz-0001qA-Sy
+	(envelope-from <sgw@linux.intel.com>) id 1R67WN-0001s1-56
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Sep 2011 23:06:03 +0200
-Received: by ewy28 with SMTP id 28so887421ewy.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2011 14:00:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding;
-	bh=XjbLQapTqotNhpiv9bSwU42DWydeI0RnMGH91vfWl+w=;
-	b=Jg+UxEcnxZ9TLffCWEKSs67slPq0R8hzLhmeh4gM+yJWxSu5Gnp8b9YCL137L9azC4
-	bhRpxecmS1FdejRj8Y+tyuZTnSfIJ4eUGV4RlGPBvEGKkHgxzxIfBH5DWK6d6/7g95jC
-	lUEq/EVDLW+SFNabY+6aPDh70hZe1wlk9wz3U=
-Received: by 10.216.137.94 with SMTP id x72mr1614882wei.9.1316552446190; Tue,
-	20 Sep 2011 14:00:46 -0700 (PDT)
+	Tue, 20 Sep 2011 23:06:27 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 20 Sep 2011 14:01:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,413,1312182000"; d="scan'208";a="18943611"
+Received: from unknown (HELO [10.255.14.170]) ([10.255.14.170])
+	by AZSMGA002.ch.intel.com with ESMTP; 20 Sep 2011 14:01:08 -0700
+Message-ID: <4E78FF13.7030802@linux.intel.com>
+Date: Tue, 20 Sep 2011 14:01:07 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686 (x86_64); en-US;
+	rv:1.9.2.22) Gecko/20110902 Thunderbird/3.1.14
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.216.184.7 with HTTP; Tue, 20 Sep 2011 14:00:26 -0700 (PDT)
-In-Reply-To: <E7A9054A5ACABE48B0E540E46E862B0F011F65@NAEMMAIL01.na.leapfrog.com>
-References: <E7A9054A5ACABE48B0E540E46E862B0F011F65@NAEMMAIL01.na.leapfrog.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Tue, 20 Sep 2011 14:00:26 -0700
-X-Google-Sender-Auth: DnatMU6bGgOCtmvOL4BPWhVEp-0
-Message-ID: <CABcZANmbortoni+VkAKC947vHLerU2yEo5O__uQoZEPw=1ZR+Q@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Correct way of having the PN package depend on
+References: <cover.1316551810.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1316551810.git.sgw@linux.intel.com>
+Subject: Re: [PATCH 0/1 v3] Fix avahi x11 dependency with non-GPLv3 Build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,50 +34,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Sep 2011 21:06:04 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 20 Sep 2011 21:06:27 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Sep 20, 2011 at 1:24 PM, Daniel Lazzari <dlazzari@leapfrog.com> wro=
-te:
->> On 9/20/11 2:03 PM, Daniel Lazzari wrote:
->> > I noticed a problem with the alsa-utils package where the alsa-utils p=
-ackage does not depend on all of the little extra packages it's supposed to=
- pull in. I'm not sure what the best way to fix this is though. Can anyone =
-give me a little guidance or point me at a recipe that does this correctly =
-already?
->>
->> If you are using the RPM backend, I'm currently working on something tha=
-t may
-> resolve this issue for you. =C2=A0Hopefully ready today.
->>
->> Otherwise, switch to ipk or deb and see if you get the same behavior.
+On 09/20/2011 01:53 PM, Saul Wold wrote:
+> Richard,
 >
-> I'm using ipk already.
+> Koen was right, it was a little half baked, I forgot to commit
+> the avahi_0.6.30.bb file with the PR set up correctly.
 >
->> I don't see why this is a problem, personally. If someone wants a recipe=
-'s main package to depend on the other packages it emits, they're free to m=
-ake the recipe do so. But the ${PN} package is not defined to include every=
-thing from the recipe, it never has been.
->
-> I understand that. With the alsa-utils package, the recipe specifically m=
-entions
-> # This are all packages that we need to make. Also, the now empty alsa-ut=
-ils
-> # ipk depends on them.
->
-> Right above adding packages such as "alsa-utils-alsamixer" to the PACKAGE=
-S variable. I need all of those more specific packages and if I understand =
-correctly, I should be able to get them by just adding the "alsa-utils" pac=
-kage to my custom image.
+> Otherwise, at this point, read my last comment, if someone has a
+> need for the avahi-ui bits, then they can request that the be add
+> back into OE-core, at this point we don't beleive anyone is using
+> them.
 
-Sounds like it's just a recipe bug then, if it claims to do something
-which it doesn't do.
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Time to insert foot in mouth!
+
+Turns out I don't know our own system that well, as oprofileui uses 
+avahi-ui bits.
+
+I guess I will try to pull the OE bits in, I started to look at earlier.
+
+Sau!
+
+>
+> As this is targeted for the RC3 build, I do not want to take in more
+> change than necessary.
+>
+> Thanks
+> 	Sau!
+>
+> The following changes since commit 81274f4488fbc4d68d150870735ec0181b60b451:
+>
+>    freetype: disable bzip2 compressed font support (2011-09-19 13:14:03 +0100)
+>
+> are available in the git repository at:
+>    git://git.yoctoproject.org/poky-contrib sgw/oe-fix
+>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=sgw/oe-fix
+>
+> Saul Wold (1):
+>    avahi: remove avahi-ui related packages
+>
+>   meta/recipes-connectivity/avahi/avahi.inc       |   19 +++++++------------
+>   meta/recipes-connectivity/avahi/avahi_0.6.30.bb |    2 +-
+>   2 files changed, 8 insertions(+), 13 deletions(-)
+>
 
 
