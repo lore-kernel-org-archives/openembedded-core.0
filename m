@@ -1,45 +1,35 @@
-Received: from 18.mo5.mail-out.ovh.net ([178.33.45.10]
-	helo=mo5.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1R682C-0002Qz-Pm
-	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Sep 2011 23:39:20 +0200
-Received: from mail178.ha.ovh.net (b7.ovh.net [213.186.33.57])
-	by mo5.mail-out.ovh.net (Postfix) with SMTP id 675FD1004F2B
+Received: from dan.rpsys.net ([93.97.175.187])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1R68ID-0002cC-22 for openembedded-core@lists.openembedded.org;
+	Tue, 20 Sep 2011 23:55:53 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8KLulXW004187 for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Sep 2011 22:56:48 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id hKKzXrrLoPqR
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2011 23:22:53 +0200 (CEST)
-Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
-	by b0.ovh.net with SMTP; 20 Sep 2011 23:18:33 +0200
-Received: from tal33-3-82-233-81-124.fbx.proxad.net (HELO ?192.168.2.9?)
-	(ebenard%eukrea.com@82.233.81.124)
-	by ns0.ovh.net with SMTP; 20 Sep 2011 23:18:33 +0200
-Message-ID: <4E790328.2010604@eukrea.com>
-Date: Tue, 20 Sep 2011 23:18:32 +0200
-From: =?UTF-8?B?RXJpYyBCw6luYXJk?= <eric@eukrea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:6.0.2) Gecko/20110902 Thunderbird/6.0.2
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-X-Ovh-Mailout: 178.32.228.5 (mo5.mail-out.ovh.net)
-References: <20110911172241.GA3674@chargestorm.se>
-	<4E7246EB.2070607@eukrea.com>
-	<CAP9ODKqCc3zAuwBoL7Yiet0GKuJKFymZMtStkpwAq88b=ZGibw@mail.gmail.com>
-	<201109161212.19780.paul.eggleton@linux.intel.com>
-	<4E733F7D.6090109@eukrea.com>
-	<CAP9ODKo9-6qHhCWfWS5_GXrNxw38VCXjzih2hdoWRQ9vY3MVFg@mail.gmail.com>
-	<DD23E745-87D9-4831-85D4-C038CD79DCF7@dominion.thruhere.net>
-	<CAP9ODKoemW81Sob3uUe-1LedWXcoJqEdkUGTj-+ZjgrUsytb_Q@mail.gmail.com>
-	<49A59D49-5FF1-4F8D-A259-F6F8CA42ADC9@dominion.thruhere.net>
-	<CAP9ODKpbVD-2AyXEMQG9D=6=F1n2kC-J=jOU7EPc2hWa_bjq6A@mail.gmail.com>
-	<1316437421.14488.13.camel@ted> <4E77990A.5080504@eukrea.com>
-In-Reply-To: <4E77990A.5080504@eukrea.com>
-X-Ovh-Tracer-Id: 227431782651047362
-X-Ovh-Remote: 82.233.81.124 (tal33-3-82-233-81-124.fbx.proxad.net)
-X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
-X-Spam-Check: DONE|U 0.5/N
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -20
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeftddrvddtucetggdotefuucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenuchlihhnuhigvdigucdlqddvtddm
-Subject: Re: [PATCH] qt4: update to latest version 4.7.4
+	Tue, 20 Sep 2011 22:56:47 +0100 (BST)
+Received: from [192.168.250.158] ([116.246.20.131]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8KLueiv004173
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Sep 2011 22:56:44 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 20 Sep 2011 22:50:23 +0100
+In-Reply-To: <2539230a1b1e941f43d6b6b3b686d90dac900410.1316553828.git.mark.hatle@windriver.com>
+References: <cover.1316553828.git.mark.hatle@windriver.com>
+	<2539230a1b1e941f43d6b6b3b686d90dac900410.1316553828.git.mark.hatle@windriver.com>
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1316555432.14488.88.camel@ted>
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/7] rootfs_rpm: Use specific MACHINE_ARCH for multilib recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,101 +44,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Sep 2011 21:39:20 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 20 Sep 2011 21:55:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Tue, 2011-09-20 at 16:33 -0500, Mark Hatle wrote:
+> From: Dongxiao Xu <dongxiao.xu@intel.com>
+> 
+> Currently MACHINE_ARCH deploy folder is unique in multilib system, thus
+> a lib32 version of rpm package will override a normal rpm package if its
+> PACKAGE_ARCH is ${MACHINE_ARCH}.
+> 
+> Take netbase as an example, which the PACKAGE_ARCH = MACHINE_ARCH. Both
+> the normal version of netbase package and the lib32 version are named as
+> "netbase-4.45-r1.qemux86_64.rpm" putting in tmp/deploy/rpm/qemux86-64
+> directory, so we need to differentiate them.
+> 
+> Here we define spedific MACHINE_virtclass-multilib-lib(xx) to override
+> the default MACHINE value, thus got different MACHINE_ARCH to fix this
+> issue.
 
-ok 2 branches are available here : git://github.com/eukrea/oe-core.git
-- qt4_improve for improvement to existing qt 4.7.3,
-- qt4_upgrade for adding qt 4.7.4 (with DEFAULT_PREFERENCE=3D-1 as sugges=
-ted by=20
-Koen.
+We simply *cannot* do this and this patch cannot be merged. I thought
+I'd explained this once but I will try and do so again.
 
-Please test them so that we can fix potential failures and send the pull=20
-request (I have compile test actually running with the latest changes in=20
-qt4_upgrade branch so this one is not yet fully tested).
+The problem is MACHINE specific packages can have generic content. They
+may have binaries, libraries or other things contained within them. Lets
+assume we have a strange system which has files in /lib, /lib32
+and /lib64. We need the following permutations:
 
-For more details :
+qemux86 /lib
+qemux86 /lib64
+qemux86 /lib32
 
-** branch qt4_improve
-The following changes since commit 81274f4488fbc4d68d150870735ec0181b60b4=
-51:
+and these are not equal to:
 
-   freetype: disable bzip2 compressed font support (2011-09-19 13:14:03 +=
-0100)
+qemux86_64 /lib
+qemux86_64 /lib64
+qemux86_64 /lib32
 
-are available in the git repository at:
-   git://github.com/eukrea/oe-core.git qt4_improve
+which may or may not have different contents or different optimisations
+applied to the binaries/libraries contained within.
 
-Denis Carikli (3):
-       qt4.inc: remove the optional documentation package from the demo's=
-=20
-RRECOMMENDS
-       qt4(embedded and x11): disable neon for armv6-vfp
-       qt4.inc: package qtdemo's docs in a separate package
+You are trying to take a shortcut here and cross link these two sets and
+that doesn't scale to generic combinations. 
 
-Eric B=C3=A9nard (2):
-       qt4e-demo-image: improve image
-       qt4: fix generated sdk
+Furthermore, MACHINE is meant to be consistent within a given build and
+changing MACHINE for different multilibs will have all kinds of
+unintended consequences (such as the cache file location changing for
+different recipes).
 
-  meta/recipes-qt/images/qt4e-demo-image.bb   |    2 +-
-  meta/recipes-qt/meta/meta-toolchain-qte.bb  |    7 +++++++
-  meta/recipes-qt/qt4/qt4-embedded.inc        |    2 +-
-  meta/recipes-qt/qt4/qt4-embedded_4.7.3.bb   |    4 ++--
-  meta/recipes-qt/qt4/qt4-tools-nativesdk.inc |   22 +++++++++++---------=
---
-  meta/recipes-qt/qt4/qt4-x11-free.inc        |    2 +-
-  meta/recipes-qt/qt4/qt4-x11-free_4.7.3.bb   |    4 ++--
-  meta/recipes-qt/qt4/qt4.inc                 |    7 ++++++-
-  8 files changed, 31 insertions(+), 19 deletions(-)
+Wasn't there an alternative proposal from Dongxiao that added MLPREFIX
+to MACHINE_ARCH and resolved this issue that way instead? I know that
+causes issues at the package management level but I think we're going to
+have to run with that approach and resolve any issues it leads to...
 
-** branch qt4_upgrade :
-The following changes since commit 69482033e9b5841c2bd46c86679383a52bc4ab=
-ea:
+Cheers,
 
-   qt4.inc: package qtdemo's docs in a separate package (2011-09-20 21:42=
-:36=20
-+0200)
+Richard
 
-are available in the git repository at:
-   git://github.com/eukrea/oe-core.git qt4_upgrade
 
-Eric B=C3=A9nard (1):
-       qt4: update to latest version 4.7.4
 
-  meta/recipes-qt/qt4/qt-4.7.4.inc                   |   62 +++++++++++++=
-+++++
-  .../0001-Added-Openembedded-crossarch-option.patch |   47 +++++++++++++=
-+
-  meta/recipes-qt/qt4/qt-4.7.4/fix-qtbug-20925.patch |   56 +++++++++++++=
-++++
-  meta/recipes-qt/qt4/qt-4.7.4/g++.conf              |   60 +++++++++++++=
-+++++
-  .../qt4/qt-4.7.4/hack-out-pg2-4.7.0.patch          |   31 +++++++++
-  meta/recipes-qt/qt4/qt-4.7.4/linux.conf            |   66 +++++++++++++=
-+++++++
-  meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb          |   12 ++++
-  meta/recipes-qt/qt4/qt4-native_4.7.4.bb            |   18 +++++
-  meta/recipes-qt/qt4/qt4-tools-nativesdk_4.7.4.bb   |   11 +++
-  meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb          |   13 ++++
-  10 files changed, 376 insertions(+), 0 deletions(-)
-  create mode 100644 meta/recipes-qt/qt4/qt-4.7.4.inc
-  create mode 100644=20
-meta/recipes-qt/qt4/qt-4.7.4/0001-Added-Openembedded-crossarch-option.pat=
-ch
-  create mode 100644 meta/recipes-qt/qt4/qt-4.7.4/fix-qtbug-20925.patch
-  create mode 100644 meta/recipes-qt/qt4/qt-4.7.4/g++.conf
-  create mode 100644 meta/recipes-qt/qt4/qt-4.7.4/hack-out-pg2-4.7.0.patc=
-h
-  create mode 100644 meta/recipes-qt/qt4/qt-4.7.4/linux.conf
-  create mode 100644 meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb
-  create mode 100644 meta/recipes-qt/qt4/qt4-native_4.7.4.bb
-  create mode 100644 meta/recipes-qt/qt4/qt4-tools-nativesdk_4.7.4.bb
-  create mode 100644 meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb
 
-Thanks
-Eric
+
 
 
