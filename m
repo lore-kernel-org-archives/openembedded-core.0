@@ -1,24 +1,33 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-ew0-f45.google.com ([209.85.215.45])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1R67Ov-0001Mx-Sw
+	(envelope-from <kergoth@gmail.com>) id 1R67Vz-0001qA-Sy
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Sep 2011 22:58:46 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 20 Sep 2011 13:53:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="50443809"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.170])
-	by orsmga001.jf.intel.com with ESMTP; 20 Sep 2011 13:53:26 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Sep 2011 13:53:24 -0700
-Message-Id: <d88ccdfb100573e0c56b666511cf1305de957471.1316551810.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <cover.1316551810.git.sgw@linux.intel.com>
-References: <cover.1316551810.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1316551810.git.sgw@linux.intel.com>
-References: <cover.1316551810.git.sgw@linux.intel.com>
-Subject: [PATCH 1/1] avahi: remove avahi-ui related packages
+	Tue, 20 Sep 2011 23:06:03 +0200
+Received: by ewy28 with SMTP id 28so887421ewy.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Sep 2011 14:00:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:content-type
+	:content-transfer-encoding;
+	bh=XjbLQapTqotNhpiv9bSwU42DWydeI0RnMGH91vfWl+w=;
+	b=Jg+UxEcnxZ9TLffCWEKSs67slPq0R8hzLhmeh4gM+yJWxSu5Gnp8b9YCL137L9azC4
+	bhRpxecmS1FdejRj8Y+tyuZTnSfIJ4eUGV4RlGPBvEGKkHgxzxIfBH5DWK6d6/7g95jC
+	lUEq/EVDLW+SFNabY+6aPDh70hZe1wlk9wz3U=
+Received: by 10.216.137.94 with SMTP id x72mr1614882wei.9.1316552446190; Tue,
+	20 Sep 2011 14:00:46 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.216.184.7 with HTTP; Tue, 20 Sep 2011 14:00:26 -0700 (PDT)
+In-Reply-To: <E7A9054A5ACABE48B0E540E46E862B0F011F65@NAEMMAIL01.na.leapfrog.com>
+References: <E7A9054A5ACABE48B0E540E46E862B0F011F65@NAEMMAIL01.na.leapfrog.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Tue, 20 Sep 2011 14:00:26 -0700
+X-Google-Sender-Auth: DnatMU6bGgOCtmvOL4BPWhVEp-0
+Message-ID: <CABcZANmbortoni+VkAKC947vHLerU2yEo5O__uQoZEPw=1ZR+Q@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Correct way of having the PN package depend on
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,106 +42,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Sep 2011 20:58:46 -0000
+X-List-Received-Date: Tue, 20 Sep 2011 21:06:04 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-[YOCTO #1492]
+On Tue, Sep 20, 2011 at 1:24 PM, Daniel Lazzari <dlazzari@leapfrog.com> wro=
+te:
+>> On 9/20/11 2:03 PM, Daniel Lazzari wrote:
+>> > I noticed a problem with the alsa-utils package where the alsa-utils p=
+ackage does not depend on all of the little extra packages it's supposed to=
+ pull in. I'm not sure what the best way to fix this is though. Can anyone =
+give me a little guidance or point me at a recipe that does this correctly =
+already?
+>>
+>> If you are using the RPM backend, I'm currently working on something tha=
+t may
+> resolve this issue for you. =C2=A0Hopefully ready today.
+>>
+>> Otherwise, switch to ipk or deb and see if you get the same behavior.
+>
+> I'm using ipk already.
+>
+>> I don't see why this is a problem, personally. If someone wants a recipe=
+'s main package to depend on the other packages it emits, they're free to m=
+ake the recipe do so. But the ${PN} package is not defined to include every=
+thing from the recipe, it never has been.
+>
+> I understand that. With the alsa-utils package, the recipe specifically m=
+entions
+> # This are all packages that we need to make. Also, the now empty alsa-ut=
+ils
+> # ipk depends on them.
+>
+> Right above adding packages such as "alsa-utils-alsamixer" to the PACKAGE=
+S variable. I need all of those more specific packages and if I understand =
+correctly, I should be able to get them by just adding the "alsa-utils" pac=
+kage to my custom image.
 
-This patch removes the UI related packages from avahi. This
-allows the package to be built without gtk and GPLv3 issues.
-
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-connectivity/avahi/avahi.inc       |   19 +++++++------------
- meta/recipes-connectivity/avahi/avahi_0.6.30.bb |    2 +-
- 2 files changed, 8 insertions(+), 13 deletions(-)
-
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index 24ea458..025805a 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -14,8 +14,9 @@ SECTION = "network"
- # python scripts are under GPLv2+
- LICENSE = "GPLv2+ & LGPLv2.1+"
- 
--X11DEPENDS = "gtk+ libglade"
--DEPENDS = "expat libcap libdaemon dbus glib-2.0 ${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
-+INC_PR = "r6"
-+
-+DEPENDS = "expat libcap libdaemon dbus glib-2.0"
- 
- SRC_URI = "http://avahi.org/download/avahi-${PV}.tar.gz \
-           file://00avahi-autoipd \
-@@ -30,8 +31,8 @@ EXTRA_OECONF = "--with-distro=debian \
-              --disable-gdbm \
-              --disable-mono \
-              --disable-monodoc \
-+             --disable-gtk \
-              --disable-gtk3 \
--	     ${@base_contains('DISTRO_FEATURES', 'x11', '--enable-gtk', '--disable-gtk', d)} \
-              --disable-qt3 \
-              --disable-qt4 \
-              --disable-python \
-@@ -39,7 +40,7 @@ EXTRA_OECONF = "--with-distro=debian \
-              --with-systemdsystemunitdir=${base_libdir}/systemd/system/ \
- "
- 
--PACKAGES =+ "avahi-systemd avahi-daemon libavahi-common libavahi-core libavahi-client avahi-dnsconfd libavahi-glib libavahi-gobject avahi-autoipd avahi-ui-utils avahi-utils libavahi-ui libavahi-ui-dev"
-+PACKAGES =+ "avahi-systemd avahi-daemon libavahi-common libavahi-core libavahi-client avahi-dnsconfd libavahi-glib libavahi-gobject libavahi-ui avahi-autoipd avahi-utils"
- 
- FILES_avahi-systemd = "${base_libdir}/systemd"
- RDEPENDS_avahi-systemd = "avahi-daemon"
-@@ -73,10 +74,6 @@ FILES_avahi-autoipd = "${sbindir}/avahi-autoipd \
-                        ${sysconfdir}/dhcp3/*/avahi-autoipd"
- FILES_libavahi-common = "${libdir}/libavahi-common.so.*"
- FILES_libavahi-core = "${libdir}/libavahi-core.so.*"
--FILES_libavahi-ui = "${libdir}/libavahi-ui.so.*"
--FILES_libavahi-ui-dev = "${libdir}/libavahi-ui.* \
--                         ${includedir}/avahi-ui/* \
--                         ${libdir}/pkgconfig/avahi-ui.pc"
- FILES_avahi-daemon = "${sbindir}/avahi-daemon \
-                       ${sysconfdir}/avahi/avahi-daemon.conf \
-                       ${sysconfdir}/avahi/hosts \
-@@ -88,16 +85,13 @@ FILES_avahi-daemon = "${sbindir}/avahi-daemon \
-                       ${datadir}/avahi/service-types \
-                       ${datadir}/dbus-1/system-services"
- FILES_libavahi-client = "${libdir}/libavahi-client.so.*"
-+FILES_libavahi-ui = "${libdir}/libavahi-ui.so.*"
- FILES_avahi-dnsconfd = "${sbindir}/avahi-dnsconfd \
-                         ${sysconfdir}/avahi/avahi-dnsconfd.action \
-                         ${sysconfdir}/init.d/avahi-dnsconfd"
- FILES_libavahi-glib = "${libdir}/libavahi-glib.so.*"
- FILES_libavahi-gobject = "${libdir}/libavahi-gobject.so.*"
- FILES_avahi-utils = "${bindir}/avahi-*"
--FILES_avahi-ui-utils = "${bindir}/bssh ${bindir}/bvnc ${bindir}/bshell \
--                        ${bindir}/avahi-discover-standalone \
--                        ${datadir}/applications \
--                        ${datadir}/avahi/interfaces"
- 
- RRECOMMENDS_avahi-dev = "expat-dev libcap-dev libdaemon-dev dbus-dev glib-2.0-dev update-rc.d-dev"
- RRECOMMENDS_avahi-dev_append_libc-glibc = " gettext-dev"
-@@ -119,6 +113,7 @@ do_install() {
- 	# /var/run of current version is empty, so just remove it.
- 	# if /var/run become non-empty in the future, need to install it via volatile
- 	rm -rf ${D}/var/run
-+	rm -rf ${D}${datadir}/dbus-1/interfaces
- }
- 
- # At the time the postinst runs, dbus might not be setup so only restart if running
-diff --git a/meta/recipes-connectivity/avahi/avahi_0.6.30.bb b/meta/recipes-connectivity/avahi/avahi_0.6.30.bb
-index 05716d0..5094961 100644
---- a/meta/recipes-connectivity/avahi/avahi_0.6.30.bb
-+++ b/meta/recipes-connectivity/avahi/avahi_0.6.30.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1 \
-                     file://avahi-daemon/main.c;endline=21;md5=9ee77368c5407af77caaef1b07285969 \
-                     file://avahi-client/client.h;endline=23;md5=f4ac741a25c4f434039ba3e18c8674cf"
- 
--PR = "r4"
-+PR = "${INC_PR}.0"
- 
- SRC_URI[md5sum] = "e4db89a2a403ff4c47d66ac66fad1f43"
- SRC_URI[sha256sum] = "f9e4316c2339d0020726edd846d01bee0c39980906db0c247479e5807457ff1f"
--- 
-1.7.6
-
+Sounds like it's just a recipe bug then, if it claims to do something
+which it doesn't do.
+--=20
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
 
