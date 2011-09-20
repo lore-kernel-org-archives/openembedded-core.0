@@ -1,35 +1,35 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mx4.leapfrog.com ([63.114.26.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R68ID-0002cC-22 for openembedded-core@lists.openembedded.org;
-	Tue, 20 Sep 2011 23:55:53 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8KLulXW004187 for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2011 22:56:48 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id hKKzXrrLoPqR
+	(envelope-from <dlazzari@leapfrog.com>) id 1R68Pj-00054i-SL
+	for openembedded-core@lists.openembedded.org;
+	Wed, 21 Sep 2011 00:03:40 +0200
+Received: from mx4.leapfrog.com (localhost [127.0.0.1])
+	by localhost.leapfrog.com (Postfix) with ESMTP id 0B2295EA3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2011 22:56:47 +0100 (BST)
-Received: from [192.168.250.158] ([116.246.20.131]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8KLueiv004173
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	Tue, 20 Sep 2011 14:58:09 -0700 (PDT)
+Received: from NAEXCHHT01.na.leapfrog.com (unknown [10.15.6.13])
+	by mx4.leapfrog.com (Postfix) with ESMTP id E92505E5C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2011 22:56:44 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+	Tue, 20 Sep 2011 14:58:08 -0700 (PDT)
+Received: from NAEMCASHT01.na.leapfrog.com (10.16.4.161) by
+	NAEXCHHT01.na.leapfrog.com (10.15.6.13) with Microsoft SMTP Server
+	(TLS) id 8.2.254.0; Tue, 20 Sep 2011 14:58:08 -0700
+Received: from NAEMMAIL01.na.leapfrog.com ([fe80::252e:28a6:3d8f:6991]) by
+	NAEMCASHT01.na.leapfrog.com ([::1]) with mapi id 14.01.0289.001;
+	Tue, 20 Sep 2011 14:58:08 -0700
+From: Daniel Lazzari <dlazzari@leapfrog.com>
+To: "'openembedded-core@lists.openembedded.org'"
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 20 Sep 2011 22:50:23 +0100
-In-Reply-To: <2539230a1b1e941f43d6b6b3b686d90dac900410.1316553828.git.mark.hatle@windriver.com>
-References: <cover.1316553828.git.mark.hatle@windriver.com>
-	<2539230a1b1e941f43d6b6b3b686d90dac900410.1316553828.git.mark.hatle@windriver.com>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1316555432.14488.88.camel@ted>
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/7] rootfs_rpm: Use specific MACHINE_ARCH for multilib recipes
+Thread-Topic: Re: [OE-core] Correct way of having the PN package depend on
+Thread-Index: Acx34GFLcx4IXVQbSVOeycYVPPOemw==
+Date: Tue, 20 Sep 2011 21:58:07 +0000
+Message-ID: <E7A9054A5ACABE48B0E540E46E862B0F011FED@NAEMMAIL01.na.leapfrog.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.100.2.5]
+MIME-Version: 1.0
+Subject: Re: Correct way of having the PN package depend on
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,66 +44,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Sep 2011 21:55:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 20 Sep 2011 22:03:40 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2011-09-20 at 16:33 -0500, Mark Hatle wrote:
-> From: Dongxiao Xu <dongxiao.xu@intel.com>
-> 
-> Currently MACHINE_ARCH deploy folder is unique in multilib system, thus
-> a lib32 version of rpm package will override a normal rpm package if its
-> PACKAGE_ARCH is ${MACHINE_ARCH}.
-> 
-> Take netbase as an example, which the PACKAGE_ARCH = MACHINE_ARCH. Both
-> the normal version of netbase package and the lib32 version are named as
-> "netbase-4.45-r1.qemux86_64.rpm" putting in tmp/deploy/rpm/qemux86-64
-> directory, so we need to differentiate them.
-> 
-> Here we define spedific MACHINE_virtclass-multilib-lib(xx) to override
-> the default MACHINE value, thus got different MACHINE_ARCH to fix this
-> issue.
+> Its defintely a bug in the recipe with the "alsa-utils" package just bein=
+g broken. We need to do something like:
+>=20
+> ALSAUTILSPKGS =3D "alsa-utils-x \
+>                  alsa-utils-y \
+>                  alsa-utils-z"
+>=20
+> PACKAGES +=3D "${ALSAUTILSPKGS}"
+> RDEPENDS_${PN} +=3D "${ALSAUTILSPKGS}"
+>=20
+> which should make the recipe do what it says it should do.
+>=20
+> Cheers,
+>=20
+> Richard
 
-We simply *cannot* do this and this patch cannot be merged. I thought
-I'd explained this once but I will try and do so again.
+This is the info I needed, thanks! I'll try and draw up a patch for this.
 
-The problem is MACHINE specific packages can have generic content. They
-may have binaries, libraries or other things contained within them. Lets
-assume we have a strange system which has files in /lib, /lib32
-and /lib64. We need the following permutations:
-
-qemux86 /lib
-qemux86 /lib64
-qemux86 /lib32
-
-and these are not equal to:
-
-qemux86_64 /lib
-qemux86_64 /lib64
-qemux86_64 /lib32
-
-which may or may not have different contents or different optimisations
-applied to the binaries/libraries contained within.
-
-You are trying to take a shortcut here and cross link these two sets and
-that doesn't scale to generic combinations. 
-
-Furthermore, MACHINE is meant to be consistent within a given build and
-changing MACHINE for different multilibs will have all kinds of
-unintended consequences (such as the cache file location changing for
-different recipes).
-
-Wasn't there an alternative proposal from Dongxiao that added MLPREFIX
-to MACHINE_ARCH and resolved this issue that way instead? I know that
-causes issues at the package management level but I think we're going to
-have to run with that approach and resolve any issues it leads to...
-
-Cheers,
-
-Richard
-
-
-
+Dan Lazzari Jr.
+Firmware Engineer
+dlazzari@leapfrog.com
 
 
 
