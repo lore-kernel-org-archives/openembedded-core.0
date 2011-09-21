@@ -1,24 +1,29 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1R6JMX-0008DS-Hr
+	(envelope-from <koen@dominion.thruhere.net>) id 1R6Jfb-00014O-Lt
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Sep 2011 11:45:05 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 21 Sep 2011 02:39:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="51195304"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.170])
-	by orsmga002.jf.intel.com with ESMTP; 21 Sep 2011 02:39:42 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Sep 2011 02:39:35 -0700
-Message-Id: <2b5e0fe0e2e5384c0477a6becfcd3f9d404ff4e8.1316597628.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <cover.1316597628.git.sgw@linux.intel.com>
-References: <cover.1316597628.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1316597628.git.sgw@linux.intel.com>
-References: <cover.1316597628.git.sgw@linux.intel.com>
-Subject: [RC Fixes 19/19] libpng: add libpng12-dev packages
+	Wed, 21 Sep 2011 12:04:47 +0200
+Received: by fxi1 with SMTP id 1so1479441fxi.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Sep 2011 02:59:29 -0700 (PDT)
+Received: by 10.223.71.155 with SMTP id h27mr750900faj.126.1316599169558;
+	Wed, 21 Sep 2011 02:59:29 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id n1sm3807527fad.20.2011.09.21.02.59.28
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 21 Sep 2011 02:59:28 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <201109201340.17057.paul.eggleton@linux.intel.com>
+Date: Wed, 21 Sep 2011 11:59:23 +0200
+Message-Id: <BDE7C375-F773-4E02-950C-BCE41A7D86F0@dominion.thruhere.net>
+References: <1316516896-6884-1-git-send-email-koen@dominion.thruhere.net>
+	<201109201340.17057.paul.eggleton@linux.intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1244.3)
+Subject: Re: [RFC] bluez4: split gstreamer plugin into a seperate recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,46 +38,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Sep 2011 09:45:06 -0000
+X-List-Received-Date: Wed, 21 Sep 2011 10:04:47 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-From: Dongxiao Xu <dongxiao.xu@intel.com>
 
-When build sato-sdk image, the libmatchbox-dev needs the libpng12-dev
-package, thus we need it.
+Op 20 sep. 2011, om 14:40 heeft Paul Eggleton het volgende geschreven:
 
-Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
----
- meta/recipes-multimedia/libpng/libpng_1.2.46.bb |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
+> On Tuesday 20 September 2011 12:08:16 Koen Kooi wrote:
+>> This eliminates a good chunk of buildtime when building console-only =
+image.
+>>=20
+>> The bluez4 and this recipe share a .inc file since the source is the =
+same.
+>>=20
+>> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+>=20
 
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.2.46.bb b/meta/recipes-multimedia/libpng/libpng_1.2.46.bb
-index 0a28709..05d0ae4 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.2.46.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.2.46.bb
-@@ -6,7 +6,7 @@ LICENSE = "Libpng"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=21b4b6e3523afa9f03f00b43b991dad0 \
-                     file://png.h;startline=172;endline=261;md5=996460063a9bf2de35b2d61d2776dabc"
- DEPENDS = "zlib"
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng12/${PV}/libpng-${PV}.tar.bz2"
- 
-@@ -15,10 +15,10 @@ SRC_URI[sha256sum] = "a5e796e1802b2e221498bda09ff9850bc7ec9068b6788948cc2c42af21
- 
- inherit autotools binconfig pkgconfig
- 
--PACKAGES =+ "${PN}12"
-+PACKAGES =+ "${PN}12 ${PN}12-dev"
- 
- FILES_${PN}12 = "${libdir}/libpng12${SOLIBS}"
- FILES_${PN} = "${libdir}/lib*${SOLIBS}"
--FILES_${PN}-dev += " ${bindir} ${sbindir}"
-+FILES_${PN}12-dev += " ${bindir} ${sbindir}"
- 
- BBCLASSEXTEND = "native"
--- 
-1.7.6
+[..]
 
+> Looks good to me!
+>=20
+> Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+
+Do I need to resend it without the 'RFC' prefix or can it go in as is?=
 
 
