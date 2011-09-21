@@ -1,31 +1,30 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1R6T3A-0004N9-3m
+	(envelope-from <otavio.salvador@gmail.com>) id 1R6T4I-0004QV-NV
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Sep 2011 22:05:44 +0200
-Received: by fxi1 with SMTP id 1so2037395fxi.6
+	Wed, 21 Sep 2011 22:06:54 +0200
+Received: by bke11 with SMTP id 11so2198231bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2011 13:00:25 -0700 (PDT)
-Received: by 10.223.54.66 with SMTP id p2mr1571973fag.143.1316635225351;
-	Wed, 21 Sep 2011 13:00:25 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id f25sm5216115faf.7.2011.09.21.13.00.24
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 21 Sep 2011 13:00:24 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CALT56yOoWAWsGL3_bTmHQud38LxNbtLrKaDLjvLr8Zy6CRodPQ@mail.gmail.com>
-Date: Wed, 21 Sep 2011 22:00:22 +0200
-Message-Id: <E3278E49-FE63-494F-8448-D32326100715@dominion.thruhere.net>
-References: <1316630404-10336-1-git-send-email-dbaryshkov@gmail.com>
-	<1316630404-10336-9-git-send-email-dbaryshkov@gmail.com>
-	<87BDFF4B-3B1E-4245-BF80-7E784EFBB705@dominion.thruhere.net>
-	<CALT56yOoWAWsGL3_bTmHQud38LxNbtLrKaDLjvLr8Zy6CRodPQ@mail.gmail.com>
+	Wed, 21 Sep 2011 13:01:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
+	:from:to:content-type:content-transfer-encoding;
+	bh=oLp4mRmTDz45M80UFM0iLwdKvmdDobCzj3OJexGP35Q=;
+	b=reegVHmAmNJamskNC7tQRp3ceukih4HhIzWYESP9OH67Hco2N6I+U2Ng6sWfp+Vt5g
+	3In5eD8jHBvulKfP/TvUmS+6ASCbS4pzG6nsNkUGPmHpOcl2NhApia9rh/6yDYalUgrW
+	0JJM0CHN8PitpSieKOswNxnovm9FFXHGbbCZo=
+MIME-Version: 1.0
+Received: by 10.204.138.193 with SMTP id b1mr890677bku.114.1316635296085; Wed,
+	21 Sep 2011 13:01:36 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.65.194 with HTTP; Wed, 21 Sep 2011 13:01:36 -0700 (PDT)
+Date: Wed, 21 Sep 2011 17:01:36 -0300
+X-Google-Sender-Auth: cSOdbr_1my2J1f3PpYNfmaweI68
+Message-ID: <CAP9ODKqmNEthJ+AXppg9==JtJMpunTjBQPKj7fSuksAagJ2J7w@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1244.3)
-Subject: Re: [PATCH 09/17] dbus-glib: disable bash-completion
+Subject: [RC fixes] Trivial patches waiting for inclusion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,28 +39,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Sep 2011 20:05:44 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Wed, 21 Sep 2011 20:06:54 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
+Hello,
 
-Op 21 sep. 2011, om 21:57 heeft Dmitry Eremin-Solenikov het volgende =
-geschreven:
+I sent those a while ago and didn't receive any ack or nack on those;
+they are trivial enough to get into the oe-core repository for final
+release.
 
-> On 9/21/11, Koen Kooi <koen@dominion.thruhere.net> wrote:
->>=20
->> Op 21 sep. 2011, om 20:39 heeft Dmitry Eremin-Solenikov het volgende
->> geschreven:
->>=20
->>> Bash completion stuff isn't packaged and used. Stop building it by
->>> passing --disable-bash-completion to configure
->>=20
->> A better idea would be to package it
->=20
-> Then we need bash-completion. Would you like it in =
-meta-oe/recipes-extended?
-> meta-oe/recipes-support? meta-oe/recipes-whatever?
+Bundle: http://patches.openembedded.org/bundle/otavio/xf86-fixes/
 
-Bash itself is in oe-core, so let's keep it in oe-core.=
+Cheers,
+
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
