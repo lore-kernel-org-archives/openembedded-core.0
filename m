@@ -1,32 +1,32 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-ew0-f41.google.com ([209.85.215.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dbaryshkov@gmail.com>) id 1R6Rnb-0001GH-TM
+	(envelope-from <dbaryshkov@gmail.com>) id 1R6Rnc-0001Gs-Gt
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Sep 2011 20:45:35 +0200
-Received: by mail-bw0-f47.google.com with SMTP id 11so2123662bke.6
+	Wed, 21 Sep 2011 20:45:36 +0200
+Received: by ewy23 with SMTP id 23so565122ewy.28
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2011 11:40:19 -0700 (PDT)
+	Wed, 21 Sep 2011 11:40:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=UBWITVqTW2X9sw8DmbBjPtya1OiI6zGRtxh9oUhOYnQ=;
-	b=T3SE+9K5v5KiI1CNjXKVnyAVQfvbGk6MNmzA9t2NZRhCP2E1hgVOROKLJO1aM1xQFT
-	wLG+Sij9qvKfuQQcYP+D2aTlVWdpWJIGfRQUKx/c2Q3hue3mQ5aVjoXt09nw6J+ZX0wr
-	+aOeZpBQWdrCTrLh13+2v8vm46Hf0wAuK+Krw=
-Received: by 10.204.147.155 with SMTP id l27mr919180bkv.86.1316630419446;
-	Wed, 21 Sep 2011 11:40:19 -0700 (PDT)
+	bh=KQOqm5oVY/4BJtyF9mAarZRFkcBuRtDJhEnD8FEFJXk=;
+	b=GDXdknuDR60f0qFi/qqpYYWHdHWyVapJYk7NKJTRVJimCYxV/usehFrUJXkW8o6g6P
+	415NnDs/dAbFlPKgbhxLwE0MmKStauRuOek7v4ph+/CTURqNZxIyzha1v/reh18KuVif
+	Qxa9mp1MTPGMCKYN3c1FRvFrb0qaUIFvgtVpM=
+Received: by 10.204.148.18 with SMTP id n18mr754501bkv.166.1316630417632;
+	Wed, 21 Sep 2011 11:40:17 -0700 (PDT)
 Received: from localhost.localdomain ([194.85.238.22])
-	by mx.google.com with ESMTPS id t16sm5806554bkv.11.2011.09.21.11.40.17
+	by mx.google.com with ESMTPS id t16sm5806554bkv.11.2011.09.21.11.40.15
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 21 Sep 2011 11:40:18 -0700 (PDT)
+	Wed, 21 Sep 2011 11:40:16 -0700 (PDT)
 From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Sep 2011 22:39:51 +0400
-Message-Id: <1316630404-10336-4-git-send-email-dbaryshkov@gmail.com>
+Date: Wed, 21 Sep 2011 22:39:50 +0400
+Message-Id: <1316630404-10336-3-git-send-email-dbaryshkov@gmail.com>
 X-Mailer: git-send-email 1.7.2.5
 In-Reply-To: <1316630404-10336-1-git-send-email-dbaryshkov@gmail.com>
 References: <1316630404-10336-1-git-send-email-dbaryshkov@gmail.com>
 Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Subject: [PATCH 04/17] avahi: include dbus interfaces definitions into daemon package
+Subject: [PATCH 03/17] insane.bbclass: don't warn on .so files in -nativesdk packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,32 +43,29 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 21 Sep 2011 18:45:36 -0000
 
+There is no point in warning against .so symlinks in -nativesdk
+packages. They have to contain such links, so shut up the warning.
+
 Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 ---
- meta/recipes-connectivity/avahi/avahi.inc |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+ meta/classes/insane.bbclass |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index a847394..c3c9c71 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -14,7 +14,7 @@ SECTION = "network"
- # python scripts are under GPLv2+
- LICENSE = "GPLv2+ & LGPLv2.1+"
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index a660a06..addb9ac 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -179,8 +179,8 @@ def package_qa_check_dev(path, name, d, elf, messages):
+     Check for ".so" library symlinks in non-dev packages
+     """
  
--INC_PR = "r6"
-+INC_PR = "r7"
+-    if not name.endswith("-dev") and not name.endswith("-dbg") and path.endswith(".so") and os.path.islink(path):
+-        messages.append("non -dev/-dbg package contains symlink .so: %s path '%s'" % \
++    if not name.endswith("-dev") and not name.endswith("-dbg") and not name.endswith("-nativesdk") and path.endswith(".so") and os.path.islink(path):
++        messages.append("non -dev/-dbg/-nativesdk package contains symlink .so: %s path '%s'" % \
+                  (name, package_qa_clean_path(path,d)))
  
- DEPENDS = "expat libcap libdaemon dbus glib-2.0"
- 
-@@ -67,6 +67,7 @@ FILES_avahi-daemon = "${sbindir}/avahi-daemon \
-                       ${datadir}/avahi/introspection/*.introspect \
-                       ${datadir}/avahi/avahi-service.dtd \
-                       ${datadir}/avahi/service-types \
-+                      ${datadir}/dbus-1/interfaces \
-                       ${datadir}/dbus-1/system-services"
- FILES_libavahi-client = "${libdir}/libavahi-client.so.*"
- FILES_libavahi-ui = "${libdir}/libavahi-ui.so.*"
+ QAPATHTEST[debug-files] = "package_qa_check_dbg"
 -- 
 1.7.2.5
 
