@@ -1,24 +1,20 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1R6I78-0006jd-Ev
+	(envelope-from <sgw@linux.intel.com>) id 1R6JMN-0008DE-OV
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Sep 2011 10:25:06 +0200
-Received: by fxi1 with SMTP id 1so1413580fxi.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2011 01:19:48 -0700 (PDT)
-Received: by 10.223.48.86 with SMTP id q22mr632385faf.127.1316593188324;
-	Wed, 21 Sep 2011 01:19:48 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
-	by mx.google.com with ESMTPS id c1sm3612851fab.15.2011.09.21.01.19.44
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 21 Sep 2011 01:19:45 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
+	Wed, 21 Sep 2011 11:44:55 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 21 Sep 2011 02:39:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="51195241"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.170])
+	by orsmga002.jf.intel.com with ESMTP; 21 Sep 2011 02:39:36 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Sep 2011 10:19:42 +0200
-Message-Id: <1316593182-3009-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] procps 3.2.8: remove initscript
+Date: Wed, 21 Sep 2011 02:39:16 -0700
+Message-Id: <cover.1316597628.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [RC Fixes 00/19] Fixes for Multi-Lib & other patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,87 +29,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Sep 2011 08:25:06 -0000
+X-List-Received-Date: Wed, 21 Sep 2011 09:44:56 -0000
 
-Sysctl is managed by other initscripts in the sysV world and by systemd itself in the systemd world, so drop it from the procps recipe.
+Richard,
 
-This also fixes some style issues and a global FILES assignenment.
+I have build (not booted) these fixes and for the most part
+they seem to address alot of the issues we have seen.  There
+is still some problems with python and gtk+ needing to be 
+cleaned before do_rootfs is sucessful.
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- .../procps/procps-3.2.8/procps.init                |    6 ----
- meta/recipes-extended/procps/procps_3.2.8.bb       |   27 ++++++--------------
- 2 files changed, 8 insertions(+), 25 deletions(-)
- delete mode 100644 meta/recipes-extended/procps/procps-3.2.8/procps.init
+This is a major step forward based on some of the issues we 
+have seen and may require some additional fixes for an RC4.
 
-diff --git a/meta/recipes-extended/procps/procps-3.2.8/procps.init b/meta/recipes-extended/procps/procps-3.2.8/procps.init
-deleted file mode 100644
-index 739dcf4..0000000
---- a/meta/recipes-extended/procps/procps-3.2.8/procps.init
-+++ /dev/null
-@@ -1,6 +0,0 @@
--#!/bin/sh
--
--SYSCTL_CONF="/etc/sysctl.conf"
--if [ -f "${SYSCTL_CONF}" ]; then
--	/sbin/sysctl -q -p "${SYSCTL_CONF}"
--fi
-diff --git a/meta/recipes-extended/procps/procps_3.2.8.bb b/meta/recipes-extended/procps/procps_3.2.8.bb
-index a38077e..d989955 100644
---- a/meta/recipes-extended/procps/procps_3.2.8.bb
-+++ b/meta/recipes-extended/procps/procps_3.2.8.bb
-@@ -1,11 +1,8 @@
- require procps.inc
- 
--PR = "r2"
-+PR = "r3"
- 
--inherit update-rc.d update-alternatives
--
--INITSCRIPT_NAME = "procps.sh"
--INITSCRIPT_PARAMS = "start 30 S ."
-+inherit update-alternatives
- 
- ALTERNATIVE_LINKS = "${bindir}/top ${bindir}/uptime ${bindir}/free ${bindir}/pkill ${bindir}/pmap \
-                      ${base_bindir}/kill ${base_sbindir}/sysctl ${base_bindir}/ps"
-@@ -13,22 +10,14 @@ ALTERNATIVE_PRIORITY = "90"
- 
- SRC_URI += "file://procmodule.patch \
-             file://psmodule.patch \
--	    file://linux-limits.patch \
--	    file://sysctl.conf \
--	    file://procps.init \
--	    file://procps-3.2.8+gmake-3.82.patch \
--	    "
-+            file://linux-limits.patch \
-+            file://sysctl.conf \
-+            file://procps-3.2.8+gmake-3.82.patch \
-+           "
- 
- SRC_URI[md5sum] = "9532714b6846013ca9898984ba4cd7e0"
- SRC_URI[sha256sum] = "11ed68d8a4433b91cd833deb714a3aa849c02aea738c42e6b4557982419c1535"
- 
--FILES = "${bindir}/top.${BPN} ${base_bindir}/ps.${BPN} ${bindir}/uptime.${BPN} ${base_bindir}/kill.${BPN} \
--	 ${bindir}/free.${BPN} ${bindir}/w ${bindir}/watch ${bindir}/pgrep ${bindir}/pmap ${bindir}/pwdx \
--	 ${bindir}/snice ${bindir}/vmstat ${bindir}/slabtop ${bindir}/pkill ${bindir}/skill ${bindir}/tload \
--	 ${base_sbindir}/sysctl.${BPN}"
--
--CONFFILES_${PN} = "${sysconfdir}/sysctl.conf"
--
- EXTRA_OEMAKE = "CFLAGS=-I${STAGING_INCDIR} \
-                 CPPFLAGS=-I${STAGING_INCDIR} \
-                 LDFLAGS="${LDFLAGS}" \
-@@ -39,6 +28,6 @@ EXTRA_OEMAKE = "CFLAGS=-I${STAGING_INCDIR} \
- do_install_append () {
- 	install -d ${D}${sysconfdir}
- 	install -m 0644 ${WORKDIR}/sysctl.conf ${D}${sysconfdir}/sysctl.conf
--	install -d ${D}${sysconfdir}/init.d
--	install -m 0755 ${WORKDIR}/procps.init ${D}${sysconfdir}/init.d/procps.sh
- }
-+
-+CONFFILES_${PN} = "${sysconfdir}/sysctl.conf"
+Sau!
+
+(It's really too late here, and I apologize upfront for any 
+real bad misse).
+
+
+
+The following changes since commit 81274f4488fbc4d68d150870735ec0181b60b451:
+
+  freetype: disable bzip2 compressed font support (2011-09-19 13:14:03 +0100)
+
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib sgw/stage
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=sgw/stage
+
+Anders Darander (3):
+  libzypp: git repo moved to github
+  sat-solver: git repo moved to github
+  zypper: git repo moved to github
+
+Daniel Lazzari (1):
+  Fix alsa-utils package dependencies
+
+Dexuan Cui (1):
+  deb packages support: switch from /var/dpkg to /var/lib/dpkg
+
+Dongxiao Xu (4):
+  rpm: add multilib prefix for archs under deploy/rpm
+  multilib: install MULTILIB_IMAGE_INSTALL
+  libpng: avoid dangling link in libpng package
+  libpng: add libpng12-dev packages
+
+Mark Hatle (5):
+  Fix RPM dependencies
+  Add a run-time dependency that eglibc support GNU_HASH
+  Update python dependencies to be simply to "python"
+  busybox: Enhance to add dynamic per-file provides
+  multilib_global.bbclass: Fix non-multilib package provides
+
+Paul Eggleton (1):
+  scripts/combo-layer: fix still overzealous regex in default hook
+    script
+
+Saul Wold (4):
+  distrodata: fix distro_check code
+  distro tracking: Update Distro Aliases
+  avahi: Refactor recipe to move UI to avahi-ui
+  oprofileui: Change avahi to avahi-ui depends
+
+ meta/classes/distrodata.bbclass                    |   19 ++++-
+ meta/classes/multilib.bbclass                      |    5 +
+ meta/classes/multilib_global.bbclass               |   27 +++++-
+ meta/classes/package.bbclass                       |    6 ++
+ meta/classes/package_deb.bbclass                   |   10 +-
+ meta/classes/package_rpm.bbclass                   |   44 +++++++----
+ meta/classes/populate_sdk_deb.bbclass              |    4 +-
+ meta/classes/rootfs_deb.bbclass                    |   20 +++---
+ meta/classes/rootfs_rpm.bbclass                    |    8 ++-
+ .../conf/distro/include/distro_tracking_fields.inc |   83 ++++++++++++++++++-
+ meta/lib/oe/distro_check.py                        |    8 +-
+ meta/recipes-connectivity/avahi/avahi-ui_0.6.30.bb |   37 +++++++++
+ meta/recipes-connectivity/avahi/avahi.inc          |   86 ++++++++++---------
+ meta/recipes-connectivity/avahi/avahi_0.6.30.bb    |    6 +-
+ meta/recipes-core/busybox/busybox.inc              |   32 +++++++
+ meta/recipes-core/busybox/busybox_1.18.5.bb        |    2 +-
+ meta/recipes-core/eglibc/eglibc-package.inc        |    3 +-
+ meta/recipes-core/eglibc/eglibc_2.12.bb            |    2 +-
+ meta/recipes-core/eglibc/eglibc_2.13.bb            |    2 +-
+ meta/recipes-devtools/apt/apt-native_0.7.14.bb     |    2 +-
+ meta/recipes-devtools/apt/apt_0.7.14.bb            |    2 +-
+ meta/recipes-devtools/apt/files/apt.conf           |    4 +-
+ .../dpkg/run-postinsts/run-postinsts               |    2 +-
+ .../dpkg/run-postinsts/run-postinsts.awk           |    2 +-
+ meta/recipes-devtools/dpkg/run-postinsts_1.0.bb    |    2 +-
+ meta/recipes-devtools/rpm/rpm/pythondeps.sh        |   16 ++++
+ meta/recipes-devtools/rpm/rpm_5.4.0.bb             |    4 +-
+ .../update-alternatives-dpkg.inc                   |    6 +-
+ meta/recipes-extended/libzypp/libzypp_git.bb       |    2 +-
+ meta/recipes-extended/sat-solver/sat-solver_git.bb |    2 +-
+ meta/recipes-extended/zypper/zypper_git.bb         |    2 +-
+ meta/recipes-kernel/oprofile/oprofileui.inc        |    2 +-
+ .../recipes-multimedia/alsa/alsa-utils_1.0.24.2.bb |    7 +-
+ meta/recipes-multimedia/libpng/libpng_1.2.46.bb    |    8 +-
+ scripts/combo-layer-hook-default.sh                |    2 +-
+ 35 files changed, 354 insertions(+), 115 deletions(-)
+ create mode 100644 meta/recipes-connectivity/avahi/avahi-ui_0.6.30.bb
+ create mode 100755 meta/recipes-devtools/rpm/rpm/pythondeps.sh
+
 -- 
-1.6.6.1
+1.7.6
 
 
 
