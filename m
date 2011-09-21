@@ -1,34 +1,50 @@
-Received: from lo.gmane.org ([80.91.229.12])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1R6MeN-0006Dm-6K for openembedded-core@lists.openembedded.org;
-	Wed, 21 Sep 2011 15:15:43 +0200
-Received: from list by lo.gmane.org with local (Exim 4.69)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1R6MZE-0005LM-Rk for openembedded-core@lists.openembedded.org;
-	Wed, 21 Sep 2011 15:10:24 +0200
-Received: from nat-rup.mentorg.com ([139.181.168.34])
-	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
-	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2011 15:10:24 +0200
-Received: from dbaryshkov by nat-rup.mentorg.com with local (Gmexim 0.1
-	(Debian)) id 1AlnuQ-0007hv-00
+Received: from 18.mo5.mail-out.ovh.net ([178.33.45.10]
+	helo=mo5.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <eric@eukrea.com>) id 1R6NKx-0000TF-7D
+	for openembedded-core@lists.openembedded.org;
+	Wed, 21 Sep 2011 15:59:43 +0200
+Received: from mail434.ha.ovh.net (b6.ovh.net [213.186.33.56])
+	by mo5.mail-out.ovh.net (Postfix) with SMTP id 678991004F4B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2011 15:10:24 +0200
-X-Injected-Via-Gmane: http://gmane.org/
-To: openembedded-core@lists.openembedded.org
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Date: Wed, 21 Sep 2011 17:09:30 +0400
-Message-ID: <j5cnnj$96h$1@dough.gmane.org>
-References: <1316297897-698-1-git-send-email-dbaryshkov@gmail.com>	<1316297897-698-3-git-send-email-dbaryshkov@gmail.com>
-	<CAP9ODKpqLWUaGU=QyRNcshtJkjtEUFoLv9nGuU2QGfu7pyWtZA@mail.gmail.com>
-Mime-Version: 1.0
-X-Complaints-To: usenet@dough.gmane.org
-X-Gmane-NNTP-Posting-Host: nat-rup.mentorg.com
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.21) Gecko/20110831 Iceowl/1.0b2 Icedove/3.1.13
-In-Reply-To: <CAP9ODKpqLWUaGU=QyRNcshtJkjtEUFoLv9nGuU2QGfu7pyWtZA@mail.gmail.com>
-Subject: Re: [PATCH 3/5] kernel.bbclass: move uImage handling to separate task
+	Wed, 21 Sep 2011 15:20:47 +0200 (CEST)
+Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
+	by b0.ovh.net with SMTP; 21 Sep 2011 15:16:26 +0200
+Received: from pac33-2-82-240-38-71.fbx.proxad.net (HELO ?192.168.1.15?)
+	(ebenard%eukrea.com@82.240.38.71)
+	by ns0.ovh.net with SMTP; 21 Sep 2011 15:16:26 +0200
+Message-ID: <4E79E3A9.8080804@eukrea.com>
+Date: Wed, 21 Sep 2011 15:16:25 +0200
+From: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:6.0.2) Gecko/20110902 Thunderbird/6.0.2
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Ovh-Mailout: 178.32.228.5 (mo5.mail-out.ovh.net)
+References: <20110911172241.GA3674@chargestorm.se>
+	<4E7246EB.2070607@eukrea.com>
+	<CAP9ODKqCc3zAuwBoL7Yiet0GKuJKFymZMtStkpwAq88b=ZGibw@mail.gmail.com>
+	<201109161212.19780.paul.eggleton@linux.intel.com>
+	<4E733F7D.6090109@eukrea.com>
+	<CAP9ODKo9-6qHhCWfWS5_GXrNxw38VCXjzih2hdoWRQ9vY3MVFg@mail.gmail.com>
+	<DD23E745-87D9-4831-85D4-C038CD79DCF7@dominion.thruhere.net>
+	<CAP9ODKoemW81Sob3uUe-1LedWXcoJqEdkUGTj-+ZjgrUsytb_Q@mail.gmail.com>
+	<49A59D49-5FF1-4F8D-A259-F6F8CA42ADC9@dominion.thruhere.net>
+	<CAP9ODKpbVD-2AyXEMQG9D=6=F1n2kC-J=jOU7EPc2hWa_bjq6A@mail.gmail.com>
+	<1316437421.14488.13.camel@ted> <4E77990A.5080504@eukrea.com>
+	<4E790328.2010604@eukrea.com>
+	<CFEB0FCC-7E86-49A1-87AB-E9E43FBAA094@dominion.thruhere.net>
+	<4E79DE1D.5000303@eukrea.com>
+	<D9F00ABD-04FA-4A75-BB1C-13B9BBDC4C54@dominion.thruhere.net>
+In-Reply-To: <D9F00ABD-04FA-4A75-BB1C-13B9BBDC4C54@dominion.thruhere.net>
+X-Ovh-Tracer-Id: 16404924593396559298
+X-Ovh-Remote: 82.240.38.71 (pac33-2-82-240-38-71.fbx.proxad.net)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-Spam-Check: DONE|U 0.5/N
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeftddrvddtucetggdotefuucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+Subject: Re: [PATCH] qt4: update to latest version 4.7.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,102 +59,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Sep 2011 13:15:43 -0000
+X-List-Received-Date: Wed, 21 Sep 2011 13:59:43 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On 09/18/2011 02:25 AM, Otavio Salvador wrote:
-> This was nack'ed but I don't remember why; Richard?
+Le 21/09/2011 15:05, Koen Kooi a =E9crit :
+> WARNING: For recipe qt4-x11-free, the following files were installed bu=
+t not shipped in any package:
+> WARNING:   /usr/share/qt4/phrasebooks/swedish.qph
+> WARNING:   /usr/share/qt4/phrasebooks/dutch.qph
+> WARNING:   /usr/share/qt4/phrasebooks/german.qph
+> WARNING:   /usr/share/qt4/phrasebooks/polish.qph
+> WARNING:   /usr/share/qt4/phrasebooks/danish.qph
+> WARNING:   /usr/share/qt4/phrasebooks/japanese.qph
+> WARNING:   /usr/share/qt4/phrasebooks/finnish.qph
+> WARNING:   /usr/share/qt4/phrasebooks/norwegian.qph
+> WARNING:   /usr/share/qt4/phrasebooks/french.qph
+> WARNING:   /usr/share/qt4/phrasebooks/russian.qph
+> WARNING:   /usr/share/qt4/phrasebooks/spanish.qph
+> WARNING:   /usr/share/qt4/phrasebooks/hungarian.qph
+> WARNING:   /usr/share/qt4/phrasebooks/italian.qph
 
-This was nack'ed because that version of the patch didn't check
-for existence of uImage built by kernel tree (not present in 
-oe-dev/meta-oe, added in oe-core as somebody had problems with 
-regenerated uImage). My version of the patch has such check, so it can 
-go in probably.
+OK I forget to integrate Otavio's patch which fix the translations. I'll=20
+update tonight.
 
->
-> On Sat, Sep 17, 2011 at 19:18, Dmitry Eremin-Solenikov
-> <dbaryshkov@gmail.com>  wrote:
->> As per org.oe.dev and meta-oe's kernel.bbclass move uImage creation to
->> separate task from do_deploy. The only major feature of oe-core's
->> version (not to recreate uImage if it exists) is retained in this patch.
->>
->> Signed-off-by: Dmitry Eremin-Solenikov<dbaryshkov@gmail.com>
->> ---
->>   meta/classes/kernel.bbclass |   40 ++++++++++++++++++++++++----------------
->>   1 files changed, 24 insertions(+), 16 deletions(-)
->>
->> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->> index b44e3b5..6ff4018 100644
->> --- a/meta/classes/kernel.bbclass
->> +++ b/meta/classes/kernel.bbclass
->> @@ -486,6 +486,30 @@ do_sizecheck() {
->>
->>   addtask sizecheck before do_install after do_compile
->>
->> +do_uboot_mkimage() {
->> +    if test "x${KERNEL_IMAGETYPE}" = "xuImage" -a \
->> +            ! -e arch/${ARCH}/boot/uImage ; then
->> +        ENTRYPOINT=${UBOOT_ENTRYPOINT}
->> +        if test -n "${UBOOT_ENTRYSYMBOL}"; then
->> +            ENTRYPOINT=`${HOST_PREFIX}nm ${S}/vmlinux | \
->> +                   awk '$3=="${UBOOT_ENTRYSYMBOL}" {print $1}'`
->> +        fi
->> +        if test -e arch/${ARCH}/boot/compressed/vmlinux ; then
->> +            ${OBJCOPY} -O binary -R .note -R .comment -S arch/${ARCH}/boot/compressed/vmlinux linux.bin
->> +            uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C none -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin arch/${ARCH}/boot/uImage
->> +            rm -f linux.bin
->> +        else
->> +            ${OBJCOPY} -O binary -R .note -R .comment -S vmlinux linux.bin
->> +            rm -f linux.bin.gz
->> +            gzip -9 linux.bin
->> +            uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C gzip -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin.gz arch/${ARCH}/boot/uImage
->> +            rm -f linux.bin.gz
->> +        fi
->> +    fi
->> +}
->> +
->> +addtask uboot_mkimage before do_install after do_compile
->> +
->>   KERNEL_IMAGE_BASE_NAME ?= "${KERNEL_IMAGETYPE}-${PV}-${PR}-${MACHINE}-${DATETIME}"
->>   # Don't include the DATETIME variable in the sstate package signatures
->>   KERNEL_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
->> @@ -497,22 +521,6 @@ kernel_do_deploy() {
->>                 tar -cvzf ${DEPLOYDIR}/modules-${KERNEL_VERSION}-${PR}-${MACHINE}.tgz -C ${D} lib
->>         fi
->>
->> -       if test "x${KERNEL_IMAGETYPE}" = "xuImage" ; then
->> -               if test -e arch/${ARCH}/boot/uImage ; then
->> -                       cp arch/${ARCH}/boot/uImage ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
->> -               elif test -e arch/${ARCH}/boot/compressed/vmlinux ; then
->> -                       ${OBJCOPY} -O binary -R .note -R .comment -S arch/${ARCH}/boot/compressed/vmlinux linux.bin
->> -                       uboot-mkimage -A ${ARCH} -O linux -T kernel -C none -a ${UBOOT_ENTRYPOINT} -e ${UBOOT_ENTRYPOINT} -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
->> -                       rm -f linux.bin
->> -               else
->> -                       ${OBJCOPY} -O binary -R .note -R .comment -S vmlinux linux.bin
->> -                       rm -f linux.bin.gz
->> -                       gzip -9 linux.bin
->> -                       uboot-mkimage -A ${ARCH} -O linux -T kernel -C gzip -a ${UBOOT_ENTRYPOINT} -e ${UBOOT_ENTRYPOINT} -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin.gz ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
->> -                       rm -f linux.bin.gz
->> -               fi
->> -       fi
->> -
->>         cd ${DEPLOYDIR}
->>         rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.bin
->>         ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGE_SYMLINK_NAME}.bin
->> --
->> 1.7.2.5
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->
->
->
-
+Eric
 
 
 
