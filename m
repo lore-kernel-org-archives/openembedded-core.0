@@ -1,26 +1,28 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from stoexhubfe02.domain01.net ([83.145.59.141])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1R6Bbj-0000R6-7C
+	(envelope-from <anders@chargestorm.se>) id 1R6G7z-0003gn-5w
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Sep 2011 03:28:16 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p8L1MuhQ016820
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Sep 2011 18:22:56 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Tue, 20 Sep 2011 18:22:55 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
+	Wed, 21 Sep 2011 08:17:51 +0200
+Received: from ad.chargestorm.se (85.231.30.150) by stoexhubfe02.domain01.net
+	(10.12.10.7) with Microsoft SMTP Server (TLS) id 8.3.137.0;
+	Wed, 21 Sep 2011 08:12:32 +0200
+Date: Wed, 21 Sep 2011 08:12:42 +0200
+From: Anders Darander <anders@chargestorm.se>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 20 Sep 2011 20:24:58 -0500
-Message-ID: <be1367ae4a7a8800fb0dc000f80ae083247fb8e0.1316568119.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1316568118.git.mark.hatle@windriver.com>
-References: <cover.1316568118.git.mark.hatle@windriver.com>
+Message-ID: <20110921061242.GA3839@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <cover.1316507540.git.anders@chargestorm.se>
+	<4E78D72C.2000709@linux.intel.com>
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 7/7] multilib_global.bbclass: Fix non-multilib package provides [v2]
+In-Reply-To: <4E78D72C.2000709@linux.intel.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-GFI-SMTP-Submission: 1
+Subject: Re: [PATCH 0/3] [oe-core & yocto RC] Fix unfetchable zypp-related packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,75 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Sep 2011 01:28:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 21 Sep 2011 06:17:51 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-In non-multilib packages, configured in a multilib configuration we
-need to adjust the system provides and rprovides to include the
-virtual multilib variant.
+* Saul Wold <sgw@linux.intel.com> [110920 20:11]:
+> On 09/20/2011 01:32 AM, Anders Darander wrote:
 
-This resolves a problem introduced in the
-329d864f9bbf94ad3aae8df43d63fe10e4237e4f commit.  Where "allarch"
-packages were suddenly providing all variants of an object.
+> > openSUSE has moved several of it's projects from gitorious to github. Lately,
+> > these has become unfetchable from gitorius, thus the SRC_URI fixes are needed
+> > also for the upcoming yocto release.
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/classes/multilib_global.bbclass |   27 ++++++++++++++++++++++-----
- 1 files changed, 22 insertions(+), 5 deletions(-)
+> > No other changes are included, SRCREV's are kept the same.
 
-diff --git a/meta/classes/multilib_global.bbclass b/meta/classes/multilib_global.bbclass
-index ed14565..cd22163 100644
---- a/meta/classes/multilib_global.bbclass
-+++ b/meta/classes/multilib_global.bbclass
-@@ -6,16 +6,33 @@ python multilib_virtclass_handler_global () {
- 
-     if isinstance(e, bb.event.RecipeParsed) and not variant:
-         if bb.data.inherits_class('kernel', e.data) or bb.data.inherits_class('module-base', e.data) or bb.data.inherits_class('allarch', e.data):
--            origprovs = provs = e.data.getVar("PROVIDES", True)
--            rprovs = e.data.getVar("RPROVIDES", True)
-             variants = (e.data.getVar("MULTILIB_VARIANTS", True) or "").split()
-+
-+            # Process PROVIDES
-+            origprovs = provs = e.data.getVar("PROVIDES", True) or ""
-             for variant in variants:
-                 provs = provs + " " + multilib_map_variable("PROVIDES", variant, e.data)
--                for pkg in e.data.getVar("PACKAGES", True).split():
--                    rprovs = rprovs + " " + variant + "-" + pkg
-+                # Reset to original value so next time around multilib_map_variable works properly
-                 e.data.setVar("PROVIDES", origprovs)
-             e.data.setVar("PROVIDES", provs)
-+
-+            # Process RPROVIDES
-+            origrprovs = rprovs = e.data.getVar("RPROVIDES", True) or ""
-+            for variant in variants:
-+                rprovs = rprovs + " " + multilib_map_variable("RPROVIDES", variant, e.data)
-+                # Reset to original value so next time around multilib_map_variable works properly
-+                e.data.setVar("RPROVIDES", origrprovs)
-             e.data.setVar("RPROVIDES", rprovs)
-+
-+	    # Process RPROVIDES_${PN}...
-+            for pkg in (e.data.getVar("PACKAGES", True) or "").split():
-+                origrprovs = rprovs = e.data.getVar("RPROVIDES_%s" % pkg, True) or ""
-+                for variant in variants:
-+                    rprovs = rprovs + " " + multilib_map_variable("RPROVIDES_%s" % pkg, variant, e.data)
-+                    rprovs = rprovs + " " + variant + "-" + pkg
-+                    # Reset to original value so next time around multilib_map_variable works properly
-+                    e.data.setVar("RPROVIDES_%s" % pkg, origrprovs)
-+                e.data.setVar("RPROVIDES_%s" % pkg, rprovs)
- }
- 
- addhandler multilib_virtclass_handler_global
-@@ -35,7 +52,7 @@ def multilib_extend_name(variant, name):
- def multilib_map_variable(varname, variant, d):
-     var = d.getVar(varname, True)
-     if not var:
--        return
-+        return ""
-     var = var.split()
-     newvar = []
-     for v in var:
+> >    sat-solver: git repo moved to github
+> >    zypper: git repo moved to github
+
+> >   meta/recipes-extended/libzypp/libzypp_git.bb       |    2 +-
+> >   meta/recipes-extended/sat-solver/sat-solver_git.bb |    2 +-
+> >   meta/recipes-extended/zypper/zypper_git.bb         |    2 +-
+> >   3 files changed, 3 insertions(+), 3 deletions(-)
+
+> Do these need PR Bumps?
+
+No, nothing the in the source or the generated package should differ.
+We're still checking out the same SRCREV from the git repo, it's just
+the location of the git repo that has been changed.
+
+Cheers,
+Anders
+
 -- 
-1.7.3.4
-
+Anders Darander
+ChargeStorm AB / eStorm AB
 
 
