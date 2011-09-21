@@ -1,50 +1,30 @@
-Received: from 18.mo5.mail-out.ovh.net ([178.33.45.10]
-	helo=mo5.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1R6NKx-0000TF-7D
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1R6RKa-0000jp-A7
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Sep 2011 15:59:43 +0200
-Received: from mail434.ha.ovh.net (b6.ovh.net [213.186.33.56])
-	by mo5.mail-out.ovh.net (Postfix) with SMTP id 678991004F4B
+	Wed, 21 Sep 2011 20:15:36 +0200
+Received: by fxi1 with SMTP id 1so1933155fxi.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2011 15:20:47 +0200 (CEST)
-Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
-	by b0.ovh.net with SMTP; 21 Sep 2011 15:16:26 +0200
-Received: from pac33-2-82-240-38-71.fbx.proxad.net (HELO ?192.168.1.15?)
-	(ebenard%eukrea.com@82.240.38.71)
-	by ns0.ovh.net with SMTP; 21 Sep 2011 15:16:26 +0200
-Message-ID: <4E79E3A9.8080804@eukrea.com>
-Date: Wed, 21 Sep 2011 15:16:25 +0200
-From: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:6.0.2) Gecko/20110902 Thunderbird/6.0.2
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+	Wed, 21 Sep 2011 11:10:17 -0700 (PDT)
+Received: by 10.223.59.136 with SMTP id l8mr1449750fah.54.1316628617633;
+	Wed, 21 Sep 2011 11:10:17 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id y8sm4953412faj.10.2011.09.21.11.10.15
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 21 Sep 2011 11:10:16 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAHod+GdxhL_SpWX8jSD-5AONre335aHT_aE3wLU5SErzTuc+zg@mail.gmail.com>
+Date: Wed, 21 Sep 2011 20:10:10 +0200
+Message-Id: <82ECBEC7-074D-4F04-B53B-79D11E576951@dominion.thruhere.net>
+References: <CAHod+GdxhL_SpWX8jSD-5AONre335aHT_aE3wLU5SErzTuc+zg@mail.gmail.com>
+To: =?utf-8?Q?Marko_Kati=C4=87?= <dromede@gmail.com>
+X-Mailer: Apple Mail (2.1244.3)
+Cc: Poky Project <poky@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Ovh-Mailout: 178.32.228.5 (mo5.mail-out.ovh.net)
-References: <20110911172241.GA3674@chargestorm.se>
-	<4E7246EB.2070607@eukrea.com>
-	<CAP9ODKqCc3zAuwBoL7Yiet0GKuJKFymZMtStkpwAq88b=ZGibw@mail.gmail.com>
-	<201109161212.19780.paul.eggleton@linux.intel.com>
-	<4E733F7D.6090109@eukrea.com>
-	<CAP9ODKo9-6qHhCWfWS5_GXrNxw38VCXjzih2hdoWRQ9vY3MVFg@mail.gmail.com>
-	<DD23E745-87D9-4831-85D4-C038CD79DCF7@dominion.thruhere.net>
-	<CAP9ODKoemW81Sob3uUe-1LedWXcoJqEdkUGTj-+ZjgrUsytb_Q@mail.gmail.com>
-	<49A59D49-5FF1-4F8D-A259-F6F8CA42ADC9@dominion.thruhere.net>
-	<CAP9ODKpbVD-2AyXEMQG9D=6=F1n2kC-J=jOU7EPc2hWa_bjq6A@mail.gmail.com>
-	<1316437421.14488.13.camel@ted> <4E77990A.5080504@eukrea.com>
-	<4E790328.2010604@eukrea.com>
-	<CFEB0FCC-7E86-49A1-87AB-E9E43FBAA094@dominion.thruhere.net>
-	<4E79DE1D.5000303@eukrea.com>
-	<D9F00ABD-04FA-4A75-BB1C-13B9BBDC4C54@dominion.thruhere.net>
-In-Reply-To: <D9F00ABD-04FA-4A75-BB1C-13B9BBDC4C54@dominion.thruhere.net>
-X-Ovh-Tracer-Id: 16404924593396559298
-X-Ovh-Remote: 82.240.38.71 (pac33-2-82-240-38-71.fbx.proxad.net)
-X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
-X-Spam-Check: DONE|U 0.5/N
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeftddrvddtucetggdotefuucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
-Subject: Re: [PATCH] qt4: update to latest version 4.7.4
+Subject: Re: [poky] [PATCH] bluez4: replace deprecated configure switch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -59,31 +39,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Sep 2011 13:59:43 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 21 Sep 2011 18:15:36 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Le 21/09/2011 15:05, Koen Kooi a =E9crit :
-> WARNING: For recipe qt4-x11-free, the following files were installed bu=
-t not shipped in any package:
-> WARNING:   /usr/share/qt4/phrasebooks/swedish.qph
-> WARNING:   /usr/share/qt4/phrasebooks/dutch.qph
-> WARNING:   /usr/share/qt4/phrasebooks/german.qph
-> WARNING:   /usr/share/qt4/phrasebooks/polish.qph
-> WARNING:   /usr/share/qt4/phrasebooks/danish.qph
-> WARNING:   /usr/share/qt4/phrasebooks/japanese.qph
-> WARNING:   /usr/share/qt4/phrasebooks/finnish.qph
-> WARNING:   /usr/share/qt4/phrasebooks/norwegian.qph
-> WARNING:   /usr/share/qt4/phrasebooks/french.qph
-> WARNING:   /usr/share/qt4/phrasebooks/russian.qph
-> WARNING:   /usr/share/qt4/phrasebooks/spanish.qph
-> WARNING:   /usr/share/qt4/phrasebooks/hungarian.qph
-> WARNING:   /usr/share/qt4/phrasebooks/italian.qph
 
-OK I forget to integrate Otavio's patch which fix the translations. I'll=20
-update tonight.
+Op 21 sep. 2011, om 18:36 heeft Marko Kati=C4=87 het volgende =
+geschreven:
 
-Eric
+> "--enable-configfiles" is deprecated upstream. Here is the original =
+reason & patch:
+>=20
+> http://www.spinics.net/lists/linux-bluetooth/msg14266.html
+>=20
+> Replace "--enable-configfiles" with "--enable-datafiles" in the bluez4 =
+recipe.
+>=20
+> diff --git a/meta/recipes-connectivity/bluez/bluez4_4.96.bb =
+b/meta/recipes-connectivity/bluez/bluez4_4.96.bb
+> index 994cec7..062b8f2 100644
+> --- a/meta/recipes-connectivity/bluez/bluez4_4.96.bb
+> +++ b/meta/recipes-connectivity/bluez/bluez4_4.96.bb
+> @@ -39,7 +39,7 @@ EXTRA_OECONF =3D "\
+>    --enable-dund \
+>    --disable-cups \
+>    --enable-test \
+> -  --enable-configfiles \
+> +  --enable-datafiles \
 
+This needs to go to the oe-core list and is missing a PR bump=
 
 
