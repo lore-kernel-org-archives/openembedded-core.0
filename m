@@ -1,28 +1,29 @@
-Received: from stoexhubfe02.domain01.net ([83.145.59.141])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1R6G7z-0003gn-5w
+	(envelope-from <koen@dominion.thruhere.net>) id 1R6Gyn-0004xi-1B
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Sep 2011 08:17:51 +0200
-Received: from ad.chargestorm.se (85.231.30.150) by stoexhubfe02.domain01.net
-	(10.12.10.7) with Microsoft SMTP Server (TLS) id 8.3.137.0;
-	Wed, 21 Sep 2011 08:12:32 +0200
-Date: Wed, 21 Sep 2011 08:12:42 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20110921061242.GA3839@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <cover.1316507540.git.anders@chargestorm.se>
-	<4E78D72C.2000709@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <4E78D72C.2000709@linux.intel.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-GFI-SMTP-Submission: 1
-Subject: Re: [PATCH 0/3] [oe-core & yocto RC] Fix unfetchable zypp-related packages
+	Wed, 21 Sep 2011 09:12:25 +0200
+Received: by fxi1 with SMTP id 1so1367437fxi.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Sep 2011 00:07:07 -0700 (PDT)
+Received: by 10.223.63.8 with SMTP id z8mr555997fah.84.1316588827050;
+	Wed, 21 Sep 2011 00:07:07 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id k26sm3485503fab.12.2011.09.21.00.07.05
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 21 Sep 2011 00:07:05 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <91e9da0fc938b836752d9e956e99931ec61464c0.1316562083.git.sgw@linux.intel.com>
+Date: Wed, 21 Sep 2011 09:07:04 +0200
+Message-Id: <3688FC08-2B0B-4230-BD32-4C57ED2B6BF1@dominion.thruhere.net>
+References: <cover.1316562083.git.sgw@linux.intel.com>
+	<91e9da0fc938b836752d9e956e99931ec61464c0.1316562083.git.sgw@linux.intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1244.3)
+Subject: Re: [RC Fixes 7/8] distro tracking: Update Distro Aliases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,38 +38,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Sep 2011 06:17:51 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 21 Sep 2011 07:12:25 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-* Saul Wold <sgw@linux.intel.com> [110920 20:11]:
-> On 09/20/2011 01:32 AM, Anders Darander wrote:
 
-> > openSUSE has moved several of it's projects from gitorious to github. Lately,
-> > these has become unfetchable from gitorius, thus the SRC_URI fixes are needed
-> > also for the upcoming yocto release.
+Op 21 sep. 2011, om 01:43 heeft Saul Wold het volgende geschreven:
 
-> > No other changes are included, SRCREV's are kept the same.
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+> .../conf/distro/include/distro_tracking_fields.inc |   83 =
++++++++++++++++++++-
+> 1 files changed, 81 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/conf/distro/include/distro_tracking_fields.inc =
+b/meta/conf/distro/include/distro_tracking_fields.inc
+>=20
+> DISTRO_PN_ALIAS_pn-task-core-qt =3D "OE-Core"
+> DISTRO_PN_ALIAS_pn-task-core-sdk =3D "OE-Core"
+> DISTRO_PN_ALIAS_pn-task-core-sdk-gmae =3D "OE-Core"
+> +DISTRO_PN_ALIAS_pn-task-core-ssh-dropbear =3D "Poky"
+> +DISTRO_PN_ALIAS_pn-task-core-ssh-openssh =3D "Poky"
+> DISTRO_PN_ALIAS_pn-task-core-standalone-gmae-sdk-target =3D "OE-Core"
+> DISTRO_PN_ALIAS_pn-task-core-standalone-sdk-target =3D "OE-Core"
+> DISTRO_PN_ALIAS_pn-task-core-tools =3D "OE-Core"
+> DISTRO_PN_ALIAS_pn-task-core-x11-sato =3D "OE-Core"
+> +DISTRO_PN_ALIAS_pn-task-qt4e =3D "Poky"
+> +DISTRO_PN_ALIAS_pn-task-qte-toolchain-host-natives =3D "Poky"
+> DISTRO_PN_ALIAS_pn-initramfs-boot =3D "OE-Core"
+> DISTRO_PN_ALIAS_pn-initramfs-live-boot =3D "OE-Core"
+> DISTRO_PN_ALIAS_pn-initramfs-live-install =3D "OE-Core"
 
-> >    sat-solver: git repo moved to github
-> >    zypper: git repo moved to github
 
-> >   meta/recipes-extended/libzypp/libzypp_git.bb       |    2 +-
-> >   meta/recipes-extended/sat-solver/sat-solver_git.bb |    2 +-
-> >   meta/recipes-extended/zypper/zypper_git.bb         |    2 +-
-> >   3 files changed, 3 insertions(+), 3 deletions(-)
-
-> Do these need PR Bumps?
-
-No, nothing the in the source or the generated package should differ.
-We're still checking out the same SRCREV from the git repo, it's just
-the location of the git repo that has been changed.
-
-Cheers,
-Anders
-
--- 
-Anders Darander
-ChargeStorm AB / eStorm AB
+That doesn't look right=
 
 
