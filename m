@@ -1,30 +1,34 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from lo.gmane.org ([80.91.229.12])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1R6ine-0004I2-GV
-	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Sep 2011 14:54:46 +0200
-Received: by bke11 with SMTP id 11so2828315bke.6
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1R6iz4-0004o5-Pp for openembedded-core@lists.openembedded.org;
+	Thu, 22 Sep 2011 15:06:34 +0200
+Received: from list by lo.gmane.org with local (Exim 4.69)
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1R6itv-0000Xp-OW for openembedded-core@lists.openembedded.org;
+	Thu, 22 Sep 2011 15:01:15 +0200
+Received: from nat-rup.mentorg.com ([139.181.168.34])
+	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
+	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Sep 2011 15:01:15 +0200
+Received: from dbaryshkov by nat-rup.mentorg.com with local (Gmexim 0.1
+	(Debian)) id 1AlnuQ-0007hv-00
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2011 05:49:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
-	:from:to:content-type:content-transfer-encoding;
-	bh=RXS6RmJi13/VAZb1+P8h0G/ehLkI4fBkDWLmhS28U1M=;
-	b=a5fEm7ncApSlBpejV18bETXV6fIhqZgE86mPuAaEAHbdbgXvy+HANhsvSEGFI0wXFT
-	S0QC/r0OajshBEVki0LYhYJn0U5ntnX8PVViyzUw+FmTYsrr93ACE0Zl4HLMp+E1KAOM
-	2zXJ46oTHn+8bw6H91fxE0/D09aMo9CiAwvUI=
-MIME-Version: 1.0
-Received: by 10.204.132.142 with SMTP id b14mr1503750bkt.270.1316695767046;
-	Thu, 22 Sep 2011 05:49:27 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.65.194 with HTTP; Thu, 22 Sep 2011 05:49:26 -0700 (PDT)
-Date: Thu, 22 Sep 2011 09:49:26 -0300
-X-Google-Sender-Auth: Htz7Du5P4Ksf_kfWcvII6C1D6Rw
-Message-ID: <CAP9ODKpF7hQQmB7YWE4RCWDbEfZwv8432KJrBmvpwe1u_SaCTg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Branch management for OE-Core release
+	Thu, 22 Sep 2011 15:01:15 +0200
+X-Injected-Via-Gmane: http://gmane.org/
+To: openembedded-core@lists.openembedded.org
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Date: Thu, 22 Sep 2011 17:00:11 +0400
+Message-ID: <j5fbi7$opp$1@dough.gmane.org>
+References: <1316297897-698-1-git-send-email-dbaryshkov@gmail.com>	<CAP9ODKqwxc7TcZhgNtuZfan_Kbdn2hJ7UELfy=BeFtGS3iGKGQ@mail.gmail.com>	<j5f9i0$9uf$1@dough.gmane.org>
+	<95C58349-35C4-4027-BDEA-7841ED3B4A16@dominion.thruhere.net>
+Mime-Version: 1.0
+X-Complaints-To: usenet@dough.gmane.org
+X-Gmane-NNTP-Posting-Host: nat-rup.mentorg.com
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.21) Gecko/20110831 Iceowl/1.0b2 Icedove/3.1.13
+In-Reply-To: <95C58349-35C4-4027-BDEA-7841ED3B4A16@dominion.thruhere.net>
+Subject: Re: [PATCH 1/5] kernel.bbclass: blacklist 'perf-dbg' as well for the modules metapackage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,23 +43,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2011 12:54:46 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 22 Sep 2011 13:06:34 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello,
+On 09/22/2011 04:35 PM, Koen Kooi wrote:
+>
+> Op 22 sep. 2011, om 14:25 heeft Dmitry Eremin-Solenikov het volgende geschreven:
+>
+>> On 09/18/2011 02:23 AM, Otavio Salvador wrote:
+>>> I have sent this in July and it was nacked. See at
+>>> https://github.com/OSSystems/oe-core/commit/5c53cbf951a11ed92fb2ad0837991db256c11489
+>>
+>> Answering the original question by Saul:
+>> A possible better question is why perf-dbg is getting generated and what's in it?
+>>
+>> perf and perf-dbg are generated to contain perf tool if it's not directly enabled (AFAIK), but you can compile it by running make in tools/perf. It has some additional depends (like binutils-dev, elfutils-dev, news-dev, etc., so it's not enabled by default. Probably we should enable it though.
+>
+> the oe core kernel.bbclass builds perf by default
 
-I noticed the 2011-1 branch today and it seems it is not fully merged
-into master; this is a mistake since it will create an upgrade path
-problem for users of it.
+according to kernel.bbclass: "perf must be enabled in individual kernel 
+recipes"
 
-How this is going to be managed?
+-- 
+With best wishes
+Dmitry
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+
 
 
