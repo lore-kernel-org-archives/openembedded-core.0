@@ -1,32 +1,34 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1R6i6I-0003YF-GW
+	(envelope-from <otavio.salvador@gmail.com>) id 1R6iDh-0003gR-D3
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Sep 2011 14:09:58 +0200
-Received: by bke11 with SMTP id 11so2791004bke.6
+	Thu, 22 Sep 2011 14:17:37 +0200
+Received: by bke11 with SMTP id 11so2796970bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2011 05:04:39 -0700 (PDT)
+	Thu, 22 Sep 2011 05:12:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=QtgA8K+TR6Q9ujuhAJj7BEfMewhA+aU2dSV4SLmm8tY=;
-	b=aKYRkPowntMRr9Sz9mTyzXI3jzD6gE61YlljSCtdHtR0dxCAaxBsPxo/LEE7j5Hwao
-	WFI5CsxV0/sCQO2gDPxWlIDdncRwYuS6IkoKDs8ypDyzyjCeTtS3wVpgojo2uE/y343S
-	WYRlQpChiandCZsHnPZ0nXmrZQDx2jN/bApA0=
-Received: by 10.204.139.21 with SMTP id c21mr1529140bku.47.1316693079054;
-	Thu, 22 Sep 2011 05:04:39 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id z7sm8104239bkt.5.2011.09.22.05.04.36
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 22 Sep 2011 05:04:37 -0700 (PDT)
-Date: Thu, 22 Sep 2011 14:04:30 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=Qcr0X9rBAgVcg4tcS9bL6H+6TFs8BhxxUPUjlqum6c0=;
+	b=RZAy5bToPKv3VjOgHfLp9zz5IrotQAxhHU8GIdbZtha4uUcUi3FN9DMmEEJKP+1xdq
+	2pIne8qHeh4hbP+fX/P3XM7uN5HJxqPAjWeUWquTkwdUg0PZjZBzyRdVODGs7QV4NlSd
+	YirCAzxA21MmWxr16tRvrKHeuAAychNrW45c0=
+MIME-Version: 1.0
+Received: by 10.204.130.138 with SMTP id t10mr1515940bks.10.1316693536282;
+	Thu, 22 Sep 2011 05:12:16 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.65.194 with HTTP; Thu, 22 Sep 2011 05:12:16 -0700 (PDT)
+In-Reply-To: <4E7A5911.2020003@linux.intel.com>
+References: <CAP9ODKqmNEthJ+AXppg9==JtJMpunTjBQPKj7fSuksAagJ2J7w@mail.gmail.com>
+	<4E7A5911.2020003@linux.intel.com>
+Date: Thu, 22 Sep 2011 09:12:16 -0300
+X-Google-Sender-Auth: O6ZOKr9YqSq0oVvLncXlkbPinhE
+Message-ID: <CAP9ODKqU-N0b3kJjhaS5Fesp4uzq95XssQvvgAhGBBR0zQHDVw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110922120430.GE3477@jama.jama.net>
-MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 11/17] eglibc: fix packaging of some of nativesdk	packages
+Subject: Re: [RC fixes] Trivial patches waiting for inclusion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,60 +43,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2011 12:09:58 -0000
-X-Groupsio-MsgNum: 9834
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="uCPdOCrL+PnN2Vxy"
-Content-Disposition: inline
-
---uCPdOCrL+PnN2Vxy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 22 Sep 2011 12:17:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Wed, Sep 21, 2011 at 18:37, Saul Wold <sgw@linux.intel.com> wrote:
+> Please send the patches by email as we don't currently use patchworks.
 
-after this patch PKGSUFFIX is probably evaluated too late and this:
-
-# PREFERRED_PROVIDER_glibc-thread-db=3Deglibc-thread-db
-PREFERRED_PROVIDER_glibc-thread-db=3D"eglibc-thread-db"
-# RPROVIDES_eglibc-thread-db${PKGSUFFIX}=3Dglibc-thread-db${PKGSUFFIX}
-RPROVIDES_eglibc-thread-db=3D"glibc-thread-db"
-
-doesn't seem to work as expected and gdb pulls whole
-external-csl-toolchain as glibc-thread-db provider for
-
-RRECOMMENDS_gdb_append_linux-gnueabi =3D " glibc-thread-db "
-
-and btw:
-ERROR: external-poky-toolchain: Recipe file does not have license file info=
-rmation (LIC_FILES_CHKSUM)
-ERROR: Licensing Error: LIC_FILES_CHKSUM does not match, please fix
-
-and sign of this behavior is also qemu-native pulled to build and
-warnings like this also for virtual/libc virtual/linux-libc-headers
-
-ERROR: Multiple .bb files are due to be built which each provide virtual/li=
-biconv
-(/OE/shr-core/openembedded-core/meta/recipes-core/eglibc/eglibc_2.13.bb
- /OE/shr-core/openembedded-core/meta/recipes-core/meta/external-csl-toolcha=
-in_2008q3-72.bb).
-
-Regards,
+I sent those in 14 of setember; so you ought to be able to get them
+from the archive.
 
 --=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
---uCPdOCrL+PnN2Vxy
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk57JE4ACgkQN1Ujt2V2gBwajQCfXCDCm2WjNLBSD3s/mM/LwAdX
-xzAAn2KWcrnejxdkA3aKhYIDrBPIHekA
-=cmFm
------END PGP SIGNATURE-----
-
---uCPdOCrL+PnN2Vxy--
