@@ -1,26 +1,29 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1R6mre-0007Dk-UB
+	(envelope-from <koen@dominion.thruhere.net>) id 1R6np1-0002fn-Gr
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Sep 2011 19:15:11 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p8MH9nLe007374
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 22 Sep 2011 20:16:31 +0200
+Received: by fxi1 with SMTP id 1so3031125fxi.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2011 10:09:49 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Thu, 22 Sep 2011 10:09:48 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Sep 2011 12:12:10 -0500
-Message-ID: <4eb0c2ea9d7712636edba5d56c77e76d4461352f.1316711477.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1316711477.git.mark.hatle@windriver.com>
-References: <cover.1316711477.git.mark.hatle@windriver.com>
-MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 2/2] foomatic-filters: Disable filter checking
+	Thu, 22 Sep 2011 11:11:11 -0700 (PDT)
+Received: by 10.223.40.145 with SMTP id k17mr3458464fae.76.1316715071490;
+	Thu, 22 Sep 2011 11:11:11 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id b21sm8257504fab.8.2011.09.22.11.11.09
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 22 Sep 2011 11:11:10 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1316681904-10860-1-git-send-email-koen@dominion.thruhere.net>
+Date: Thu, 22 Sep 2011 20:11:08 +0200
+Message-Id: <6D9C8F1E-3C96-40D0-9667-1BC2950B34C1@dominion.thruhere.net>
+References: <1316681904-10860-1-git-send-email-koen@dominion.thruhere.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1244.3)
+Cc: bitbake-devel@lists.linuxtogo.org
+Subject: Re: [RFC] fetch2: introduce BB_GENERATE_MIRROR_VERSIONED_TARBALLS to enable classic versioned scm snapshots
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,59 +38,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2011 17:15:11 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 22 Sep 2011 18:16:31 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Disable a few checks, and hard code the values for a few other items
-to work around potential host contamination issues.  We also default
-to the cups configuration for items.
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- .../foomatic/foomatic-filters_4.0.7.bb             |   21 ++++++++++++++-----
- 1 files changed, 15 insertions(+), 6 deletions(-)
+Op 22 sep. 2011, om 10:58 heeft Koen Kooi het volgende geschreven:
 
-diff --git a/meta/recipes-extended/foomatic/foomatic-filters_4.0.7.bb b/meta/recipes-extended/foomatic/foomatic-filters_4.0.7.bb
-index 9627187..e3bcf78 100644
---- a/meta/recipes-extended/foomatic/foomatic-filters_4.0.7.bb
-+++ b/meta/recipes-extended/foomatic/foomatic-filters_4.0.7.bb
-@@ -10,7 +10,7 @@ format using a printer-specific, but spooler-independent PPD file. \
- "
- 
- DEPENDS += "cups perl libxml2"
--PR = "r1"
-+PR = "r2"
- 
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://${WORKDIR}/foomatic-filters-${PV}/COPYING;md5=393a5ca445f6965873eca0259a17f833"
-@@ -20,11 +20,20 @@ SRC_URI = "http://www.openprinting.org/download/foomatic/foomatic-filters-${PV}.
- SRC_URI[md5sum] = "20abd25c1c98b2dae68709062a132a7d"
- SRC_URI[sha256sum] = "090313fae40b177f505d9c9b93d7a4d7188b6d5d18b6ae41ab24903ac983478d"
- 
--do_install_append_linuxstdbase() {
--    install -d ${D}${libdir}/cups/filter
--    ln -sf ${bindir}/foomatic-rip ${D}${libdir}/cups/filter
-+inherit autotools
-+
-+EXTRA_OECONF += "--disable-file-converter-check --with-file-converter=texttops"
-+
-+do_configure_prepend() {
-+    export LIB_CUPS=${exec_prefix}/lib/cups               # /usr/lib NOT libdir
-+    export CUPS_BACKENDS=${exec_prefix}/lib/cups/backend  # /usr/lib NOT libdir
-+    export CUPS_FILTERS=${exec_prefix}/lib/cups/filter    # /usr/lib NOT libdir
-+    export CUPS_PPDS=${datadir}/cups/model
- }
- 
--FILES_${PN}_append_linuxstdbase += "${libdir}/cups/filter/foomatic-rip"
-+do_install_append_linuxstdbase() {
-+    install -d ${D}${exec_prefix}/lib/cups/filter
-+    ln -sf ${bindir}/foomatic-rip ${D}${exec_prefix}/lib/cups/filter
-+}
- 
--inherit autotools
-+FILES_${PN}_append_linuxstdbase += "${exec_prefix}/lib/cups/filter/foomatic-rip"
--- 
-1.7.3.4
+> When enabled fetch2 will generate tarballs with the SRCREV embbeded =
+like so:
+>=20
+> 	=
+git2_git.pingu.fi.xf86-video-omapfb_28c006c94e57ea71df11ec4fff79d7ffcfc486=
+0f.tar.gz
+>=20
+> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> ---
+> lib/bb/fetch2/git.py |    2 +-
+> 1 files changed, 1 insertions(+), 1 deletions(-)
+>=20
+> diff --git a/lib/bb/fetch2/git.py b/lib/bb/fetch2/git.py
+> index fb6125c..f889562 100644
+> --- a/lib/bb/fetch2/git.py
+> +++ b/lib/bb/fetch2/git.py
+> @@ -93,7 +93,7 @@ class Git(FetchMethod):
+>=20
+>         ud.nocheckout =3D ud.parm.get("nocheckout","0") =3D=3D "1"
+>=20
+> -        ud.rebaseable =3D ud.parm.get("rebaseable","0") =3D=3D "1"
+> +        ud.rebaseable =3D ud.parm.get("rebaseable","0") =3D=3D "1" or =
+((data.getVar("BB_GENERATE_MIRROR_VERSIONED_TARBALLS", d, True) or "0") =
+!=3D "0")
 
+Apart from the objections raised by Richard I've found 2 other problems =
+with it:
+
+1) it will force a cache invalidation each build
+2) fetch2 witll *always* try to access the remote git repo, even if the =
+SRCREV is already present in the local copy
+
+Those aren't really bugs in my patch, but in the rebasable fetch2 code.=
 
 
