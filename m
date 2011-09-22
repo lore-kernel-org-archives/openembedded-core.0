@@ -1,31 +1,24 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R6cVY-00024h-Bj for openembedded-core@lists.openembedded.org;
-	Thu, 22 Sep 2011 08:11:40 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8M6CY67023482; Thu, 22 Sep 2011 07:12:34 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id EEHauqrpC7+K; Thu, 22 Sep 2011 07:12:34 +0100 (BST)
-Received: from [10.251.10.153] ([192.102.205.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8M6CR3i023404
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Thu, 22 Sep 2011 07:12:31 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Sep 2011 07:06:06 +0100
-In-Reply-To: <1316630404-10336-1-git-send-email-dbaryshkov@gmail.com>
-References: <1316630404-10336-1-git-send-email-dbaryshkov@gmail.com>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1316671579.13622.32.camel@ted>
-Mime-Version: 1.0
-Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Subject: Re: [PATCH 01/17] icecc-create-env: rename to -native
+	(envelope-from <koen@dominion.thruhere.net>) id 1R6ctp-0002Ix-2R
+	for openembedded-core@lists.openembedded.org;
+	Thu, 22 Sep 2011 08:36:46 +0200
+Received: by fxi1 with SMTP id 1so2453886fxi.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Sep 2011 23:31:26 -0700 (PDT)
+Received: by 10.223.5.76 with SMTP id 12mr2458398fau.103.1316673085910;
+	Wed, 21 Sep 2011 23:31:25 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id e17sm6530710fae.17.2011.09.21.23.31.21
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 21 Sep 2011 23:31:24 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Sep 2011 08:31:18 +0200
+Message-Id: <1316673078-22962-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] avahi: fix avahi-systemd dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,26 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2011 06:11:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Sep 2011 06:36:46 -0000
 
-On Wed, 2011-09-21 at 22:39 +0400, Dmitry Eremin-Solenikov wrote:
-> icecc-create-env(-native) is a native package. But if it doesn't have
-> the -native suffix, some dependency tracking stuff in oe-core (in
-> nativesdk.bbclass) get's crazy about it, trying to generate dependencies
-> to icecc-create-env-native packages. To fix that simply add -native
-> suffix to this package.
-> 
-> Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-> ---
+During the avahi-ui split the RDEPENDS line got dropped leading to: http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/testlab/commit/?h=yocto&id=ae0db0eb51bde42f09b9513842c3b745c37c60d5
 
-Thanks for some great cleanups. I've merged most of this to master,
-except where there has been feedback/discussion.
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-connectivity/avahi/avahi.inc |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+index c3c9c71..5ad9db0 100644
+--- a/meta/recipes-connectivity/avahi/avahi.inc
++++ b/meta/recipes-connectivity/avahi/avahi.inc
+@@ -14,7 +14,7 @@ SECTION = "network"
+ # python scripts are under GPLv2+
+ LICENSE = "GPLv2+ & LGPLv2.1+"
+ 
+-INC_PR = "r7"
++INC_PR = "r8"
+ 
+ DEPENDS = "expat libcap libdaemon dbus glib-2.0"
+ 
+@@ -78,6 +78,8 @@ FILES_libavahi-glib = "${libdir}/libavahi-glib.so.*"
+ FILES_libavahi-gobject = "${libdir}/libavahi-gobject.so.*"
+ FILES_avahi-utils = "${bindir}/avahi-*"
+ 
++RDEPENDS_avahi-systemd = "avahi-daemon"
++
+ RDEPENDS_avahi-daemon = "sysvinit-pidof"
+ 
+ # uclibc has no nss
+-- 
+1.6.6.1
 
 
 
