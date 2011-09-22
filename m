@@ -1,34 +1,29 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R6pZW-0000kb-BD for openembedded-core@lists.openembedded.org;
-	Thu, 22 Sep 2011 22:08:40 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8MK9KCm029257 for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2011 21:09:20 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id V4La6abaTmpt
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2011 21:09:20 +0100 (BST)
-Received: from [192.168.250.158] ([116.246.20.131]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8MK9DIr029251
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2011 21:09:17 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+	(envelope-from <sgw@linux.intel.com>) id 1R6pZr-0000qW-VD
+	for openembedded-core@lists.openembedded.org;
+	Thu, 22 Sep 2011 22:09:00 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 22 Sep 2011 13:03:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="54221292"
+Received: from unknown (HELO [10.255.15.16]) ([10.255.15.16])
+	by orsmga002.jf.intel.com with ESMTP; 22 Sep 2011 13:03:38 -0700
+Message-ID: <4E7B949A.8050407@linux.intel.com>
+Date: Thu, 22 Sep 2011 13:03:38 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686 (x86_64); en-US;
+	rv:1.9.2.22) Gecko/20110902 Thunderbird/3.1.14
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1316717234.git.dvhart@linux.intel.com>	
+	<4b97e6b25906806eef1131e851abc9526d81d0db.1316717234.git.dvhart@linux.intel.com>
+	<1316721518.28323.1.camel@ted>
+In-Reply-To: <1316721518.28323.1.camel@ted>
+Cc: Darren Hart <dvhart@linux.intel.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Sep 2011 21:02:56 +0100
-In-Reply-To: <1316707046-24981-1-git-send-email-raj.khem@gmail.com>
-References: <1316707046-24981-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1316721783.28323.4.camel@ted>
-Mime-Version: 1.0
-Subject: Re: [PATCH] eglibc-2.12: Fix build on powerpc/603e
+Subject: Re: [PATCH 1/1] shared-mime-info: add libxml-parser-perl to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,46 +38,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2011 20:08:42 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 22 Sep 2011 20:09:00 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-09-22 at 08:57 -0700, Khem Raj wrote:
-> We pass --with-cpu to eglibc now. Which breaks
-> the configure for cpus that it does not support
-> We add support for ppc603e which gets 2.12
-> building for qemuppc.
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  .../eglibc/eglibc-2.12/ppc-enable-603e-cpu.patch   |   26 ++++++++++++++++++++
->  meta/recipes-core/eglibc/eglibc_2.12.bb            |    3 +-
->  2 files changed, 28 insertions(+), 1 deletions(-)
->  create mode 100644 meta/recipes-core/eglibc/eglibc-2.12/ppc-enable-603e-cpu.patch
-> 
-> diff --git a/meta/recipes-core/eglibc/eglibc-2.12/ppc-enable-603e-cpu.patch b/meta/recipes-core/eglibc/eglibc-2.12/ppc-enable-603e-cpu.patch
-> new file mode 100644
-> index 0000000..5c90e5b
-> --- /dev/null
-> +++ b/meta/recipes-core/eglibc/eglibc-2.12/ppc-enable-603e-cpu.patch
-> @@ -0,0 +1,26 @@
-> +We now pass --with-cpu option to eglibc this ends up with configure errors if we do
-> +not pass a cpu which eglibc has support for in sysdeps
-> +
-> +| checking sysdep dirs... configure: error: The 603e subspecies of powerpc is not supported.
-> +| + bbfatal 'oe_runconf failed'
-> +| + echo 'ERROR: oe_runconf failed'
-> +
-> +We fix this by adding the 603e sub directories with Implies to generic
-> +powerpc to overcome this error
-> +
-> +Upstream-Status: Inappropriate [OE config related]
-> +
-> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+On 09/22/2011 12:58 PM, Richard Purdie wrote:
+> On Thu, 2011-09-22 at 11:49 -0700, Darren Hart wrote:
+>> Fixes [YOCTO #1514]
+>>
+>> Building core-image-minimal on qemuppc (and likely others) can fail in
+>> the shared-mime-info configure step with the following error:
+>>
+I was thinking about this and went "why is shared-mime-info even in 
+core-image-minimal", are you sure that was the image you were building. 
+This might point to some other problem also.
 
-Merged to master, thanks.
+Sau!
 
-Richard
-
+>> checking for XML::Parser... configure: error: XML::Parser perl module is
+>> required for intltool
+>>
+>> Adding libxml-parser-perl to DEPENDS allows share-mime-info-native to build
+>> successfully.
+>>
+>> Testing: build tested the native version on qemuppc. I run into tool chain
+>> build failures before I can get to building the target version.
+>>
+>> Signed-off-by: Darren Hart<dvhart@linux.intel.com>
+>> CC: Joshua Lock<josh@linux.intel.com>
+>> ---
+>>   .../shared-mime-info/shared-mime-info.inc          |    4 ++--
+>>   1 files changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info.inc b/meta/recipes-support/shared-mime-info/shared-mime-info.inc
+>> index 64eef9d..e206305 100644
+>> --- a/meta/recipes-support/shared-mime-info/shared-mime-info.inc
+>> +++ b/meta/recipes-support/shared-mime-info/shared-mime-info.inc
+>> @@ -5,8 +5,8 @@ SECTION = "base"
+>>   LICENSE = "GPLv2+"
+>>   LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
+>>
+>> -DEPENDS = "libxml2 intltool-native glib-2.0 shared-mime-info-native"
+>> -DEPENDS_virtclass-native = "libxml2-native intltool-native glib-2.0-native"
+>> +DEPENDS = "libxml2 intltool-native glib-2.0 shared-mime-info-native libxml-parser-perl"
+>> +DEPENDS_virtclass-native = "libxml2-native intltool-native glib-2.0-native libxml-parser-perl-native"
+>>
+>>   SRC_URI = "http://freedesktop.org/~hadess/shared-mime-info-${PV}.tar.bz2"
+>
+>
+> There must be some underlying problem here. intltool-native should
+> depend on libxml-parser-perl-native so it should already be built. We
+> need to fix the underlying issue, not the symptom :/
+>
+> Cheers,
+>
+> Richard
+>
+>
 
 
