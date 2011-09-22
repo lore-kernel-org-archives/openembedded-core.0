@@ -1,34 +1,35 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R6pXf-0007bB-Rs for openembedded-core@lists.openembedded.org;
-	Thu, 22 Sep 2011 22:06:44 +0200
+	id 1R6pYF-0008In-Kk for openembedded-core@lists.openembedded.org;
+	Thu, 22 Sep 2011 22:07:19 +0200
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8MK7cmO029216 for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2011 21:07:39 +0100
+	p8MK8EkQ029226 for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Sep 2011 21:08:14 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id SB3YKupMLCXU
+	with LMTP id sWSfSUPsjf9Z
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2011 21:07:38 +0100 (BST)
+	Thu, 22 Sep 2011 21:08:14 +0100 (BST)
 Received: from [192.168.250.158] ([116.246.20.131]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8MK7UbH029211
+	p8MK87kT029222
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2011 21:07:34 +0100
+	Thu, 22 Sep 2011 21:08:11 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Sep 2011 21:01:14 +0100
-In-Reply-To: <cover.1316711477.git.mark.hatle@windriver.com>
-References: <cover.1316711477.git.mark.hatle@windriver.com>
+Date: Thu, 22 Sep 2011 21:01:51 +0100
+In-Reply-To: <31b6f02d5186145a665535ba18531f57e3708ebd.1316718291.git.sgw@linux.intel.com>
+References: <cover.1316718291.git.sgw@linux.intel.com>
+	<31b6f02d5186145a665535ba18531f57e3708ebd.1316718291.git.sgw@linux.intel.com>
 X-Mailer: Evolution 3.1.91- 
-Message-ID: <1316721679.28323.2.camel@ted>
+Message-ID: <1316721716.28323.3.camel@ted>
 Mime-Version: 1.0
-Subject: Re: [PATCH 0/2] Update cups and foomatic
+Subject: Re: [PATCH 1/1] gnome-desktop: Fix python path in scripts to use target path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,25 +44,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2011 20:06:44 -0000
+X-List-Received-Date: Thu, 22 Sep 2011 20:07:19 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-09-22 at 12:12 -0500, Mark Hatle wrote:
-> Based on RP's comments to the previous foomatic-filter update, I have
-> reviewed and revised both cups and foomatic-filters.
-> 
-> The following changes since commit 468e4a2f0e63e9d33e88b98a7d075b186ef481b2:
-> 
->   glib-2.0: Drop old 2.27.5 development version (2011-09-22 08:47:22 +0100)
-> 
-> are available in the git repository at:
->   git://git.pokylinux.org/poky-contrib mhatle/rpm
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/rpm
-> 
-> Mark Hatle (2):
->   cups: Fix recipe to use the correct cups directories
->   foomatic-filters: Disable filter checking
+On Thu, 2011-09-22 at 12:05 -0700, Saul Wold wrote:
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  meta/recipes-gnome/gnome/gnome-desktop.inc |    6 +++++-
+>  1 files changed, 5 insertions(+), 1 deletions(-)
 
 Merged to master, thanks.
 
