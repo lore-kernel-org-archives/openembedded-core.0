@@ -1,35 +1,36 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mx3.leapfrog.com ([63.114.26.253])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R6XD0-0008Vo-PG for openembedded-core@lists.openembedded.org;
-	Thu, 22 Sep 2011 02:32:10 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8M0X4im015288 for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2011 01:33:05 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id R2NvHf8DlzBK
+	(envelope-from <dlazzari@leapfrog.com>) id 1R6XFk-00006P-RN
+	for openembedded-core@lists.openembedded.org;
+	Thu, 22 Sep 2011 02:35:01 +0200
+Received: from mx3.leapfrog.com (localhost [127.0.0.1])
+	by localhost.leapfrog.com (Postfix) with ESMTP id 7AFDB5F84
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2011 01:33:04 +0100 (BST)
-Received: from [10.251.10.153] ([192.102.205.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8M0M66C015069
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	Wed, 21 Sep 2011 17:29:28 -0700 (PDT)
+Received: from NAEXCHHT01.na.leapfrog.com (unknown [10.15.6.13])
+	by mx3.leapfrog.com (Postfix) with ESMTP id 58B755E8A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2011 01:33:02 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+	Wed, 21 Sep 2011 17:29:28 -0700 (PDT)
+Received: from NAEMCASHT02.na.leapfrog.com (10.12.2.36) by
+	NAEXCHHT01.na.leapfrog.com (10.15.6.13) with Microsoft SMTP Server
+	(TLS) id 8.2.254.0; Wed, 21 Sep 2011 17:29:28 -0700
+Received: from NAEMMAIL01.na.leapfrog.com ([fe80::252e:28a6:3d8f:6991]) by
+	NAEMCASHT02.na.leapfrog.com ([::1]) with mapi id 14.01.0289.001;
+	Wed, 21 Sep 2011 17:29:27 -0700
+From: Daniel Lazzari <dlazzari@leapfrog.com>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Sep 2011 01:26:48 +0100
-In-Reply-To: <30E0E33D-A811-4023-8977-4CA73C4656E6@dominion.thruhere.net>
-References: <4E7A3D3A.1030007@balister.org> <4E7A3E4C.6080206@windriver.com>
-	<30E0E33D-A811-4023-8977-4CA73C4656E6@dominion.thruhere.net>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1316651210.13622.0.camel@ted>
-Mime-Version: 1.0
-Subject: Re: Fetch failure for source at kernel.org
+Thread-Topic: [PATCH 1/1] alsa-lib: Don't use versioned symbols on uclibc
+	builds as it causes strange hangs
+Thread-Index: Acx4vq91Q7gh5/l5TMqCcPsDEa2RIQ==
+Date: Thu, 22 Sep 2011 00:29:27 +0000
+Message-ID: <E7A9054A5ACABE48B0E540E46E862B0F01254E@NAEMMAIL01.na.leapfrog.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.100.2.5]
+MIME-Version: 1.0
+Subject: [PATCH 1/1] alsa-lib: Don't use versioned symbols on uclibc builds as it causes strange hangs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,43 +45,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2011 00:32:11 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Sep 2011 00:35:01 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2011-09-21 at 21:49 +0200, Koen Kooi wrote:
-> Op 21 sep. 2011, om 21:43 heeft Mark Hatle het volgende geschreven:
-> 
-> > On 9/21/11 2:38 PM, Philip Balister wrote:
-> >> I'm finally trying to get started with oe-core. I'm using a setup 
-> >> created with the setup-script created by Koen. Everything looks ok until 
-> >> it tried to build cpufrequtils. The recipe tries to fetch the source 
-> >> from a git repo at kernel.org. Obviously, the fetch fails.
-> >> 
-> >> What is odd, in the "good old days" I would expect this config to fall 
-> >> back and use the Angstrom source mirror, but apparently this is not the 
-> >> case with oe-core.
-> >> 
-> >> Is this a bug or a feature? If this is a bug, is there a plan to fix it? 
-> >> If it is a feature, how are we supposed to do builds if servers go away? 
-> >> What do we do about GPL compliance?
-> > 
-> > This is a feature, as people did not want oe-core tied to a given mirror.
-> 
-> This is the "OE core doesn't generate versioned git tarballs" problem
-> people keep talking about. I know I can edit each and every recipe to
-> add ';rebasable=true', but I'd like a global solution before the GPL
-> police starts looking at the angstrom source mirrors.
+alsa-lib: Don't use versioned symbols on uclibc builds as it causes strange=
+ hangs. Taken from oe-classic.
 
-Is this a versioned tarball problem or just the tarballs not being
-generated at all?
+Signed-off-by: Daniel Lazzari Jr <dlazzari@leapfrog.com>
+---
+ meta/recipes-multimedia/alsa/alsa-lib_1.0.24.1.bb |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-Are you setting BB_GENERATE_MIRROR_TARBALLS?
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.0.24.1.bb b/meta/recip=
+es-multimedia/alsa/alsa-lib_1.0.24.1.bb
+index 6f32b57..b787c54 100644
+--- a/meta/recipes-multimedia/alsa/alsa-lib_1.0.24.1.bb
++++ b/meta/recipes-multimedia/alsa/alsa-lib_1.0.24.1.bb
+@@ -29,6 +29,8 @@ EXTRA_OECONF +=3D "${@get_alsa_fpu_setting(bb, d)} "
+=20
+ EXTRA_OECONF =3D "--with-cards=3Dpdaudiocf --with-oss=3Dyes --disable-pyth=
+on"
+=20
++EXTRA_OECONF_append_libc-uclibc =3D " --with-versioned=3Dno "
++
+ PACKAGES =3D+ "alsa-server libasound alsa-conf-base alsa-conf alsa-doc als=
+a-dev"
+ FILES_${PN}-dbg +=3D "${libdir}/alsa-lib/*/.debu*"
+ FILES_libasound =3D "${libdir}/libasound.so.*"
+--=20
+1.7.0.4
 
 
 
