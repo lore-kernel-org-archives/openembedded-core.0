@@ -1,35 +1,31 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1R6cNt-0001yK-Bw
-	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Sep 2011 08:03:45 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 21 Sep 2011 22:58:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="52524317"
-Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by orsmga001.jf.intel.com with ESMTP; 21 Sep 2011 22:58:24 -0700
-Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
-	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 22 Sep 2011 13:56:55 +0800
-Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
-	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
-	Thu, 22 Sep 2011 13:56:49 +0800
-From: "Xu, Dongxiao" <dongxiao.xu@intel.com>
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1R6cVY-00024h-Bj for openembedded-core@lists.openembedded.org;
+	Thu, 22 Sep 2011 08:11:40 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8M6CY67023482; Thu, 22 Sep 2011 07:12:34 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id EEHauqrpC7+K; Thu, 22 Sep 2011 07:12:34 +0100 (BST)
+Received: from [10.251.10.153] ([192.102.205.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8M6CR3i023404
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Thu, 22 Sep 2011 07:12:31 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Sep 2011 13:56:48 +0800
-Thread-Topic: [OE-core] glib-2.0_2.27.5
-Thread-Index: Acx46+O2kZoE5awGRRaEOqymKNjA/wAADC2Q
-Message-ID: <D5AB6E638E5A3E4B8F4406B113A5A19A12D859ECC3@shsmsx501.ccr.corp.intel.com>
-References: <1316670765.13622.31.camel@ted>
-In-Reply-To: <1316670765.13622.31.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US
-MIME-Version: 1.0
-Subject: Re: glib-2.0_2.27.5
+Date: Thu, 22 Sep 2011 07:06:06 +0100
+In-Reply-To: <1316630404-10336-1-git-send-email-dbaryshkov@gmail.com>
+References: <1316630404-10336-1-git-send-email-dbaryshkov@gmail.com>
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1316671579.13622.32.camel@ted>
+Mime-Version: 1.0
+Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Subject: Re: [PATCH 01/17] icecc-create-env: rename to -native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,33 +40,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2011 06:03:45 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 22 Sep 2011 06:11:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-I think we don't need it. I brought that recipe in but later I realize it i=
-s an development version.
-I didn't remove 2.27 that time to track the bleeding version. Since current=
-ly the latest version is 2.28.x in poky, we can move 2.27.5.
+On Wed, 2011-09-21 at 22:39 +0400, Dmitry Eremin-Solenikov wrote:
+> icecc-create-env(-native) is a native package. But if it doesn't have
+> the -native suffix, some dependency tracking stuff in oe-core (in
+> nativesdk.bbclass) get's crazy about it, trying to generate dependencies
+> to icecc-create-env-native packages. To fix that simply add -native
+> suffix to this package.
+> 
+> Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+> ---
 
-Thanks,
-Dongxiao
+Thanks for some great cleanups. I've merged most of this to master,
+except where there has been feedback/discussion.
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Richard Purdie
-> Sent: Thursday, September 22, 2011 1:53 PM
-> To: openembedded-core
-> Subject: [OE-core] glib-2.0_2.27.5
->=20
-> Why does glib-2.0_2.27.5 exist and do we still need it in OE-Core?
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Cheers,
+
+Richard
+
 
 
