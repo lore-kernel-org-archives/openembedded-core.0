@@ -1,30 +1,30 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1R6iaA-00044D-BR
+	(envelope-from <otavio.salvador@gmail.com>) id 1R6ine-0004I2-GV
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Sep 2011 14:40:50 +0200
-Received: by fxi1 with SMTP id 1so2707178fxi.6
+	Thu, 22 Sep 2011 14:54:46 +0200
+Received: by bke11 with SMTP id 11so2828315bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2011 05:35:31 -0700 (PDT)
-Received: by 10.223.54.66 with SMTP id p2mr2945680fag.143.1316694930908;
-	Thu, 22 Sep 2011 05:35:30 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id t19sm7331200faj.23.2011.09.22.05.35.29
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 22 Sep 2011 05:35:29 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <j5f9i0$9uf$1@dough.gmane.org>
-Date: Thu, 22 Sep 2011 14:35:27 +0200
-Message-Id: <95C58349-35C4-4027-BDEA-7841ED3B4A16@dominion.thruhere.net>
-References: <1316297897-698-1-git-send-email-dbaryshkov@gmail.com>
-	<CAP9ODKqwxc7TcZhgNtuZfan_Kbdn2hJ7UELfy=BeFtGS3iGKGQ@mail.gmail.com>
-	<j5f9i0$9uf$1@dough.gmane.org>
+	Thu, 22 Sep 2011 05:49:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
+	:from:to:content-type:content-transfer-encoding;
+	bh=RXS6RmJi13/VAZb1+P8h0G/ehLkI4fBkDWLmhS28U1M=;
+	b=a5fEm7ncApSlBpejV18bETXV6fIhqZgE86mPuAaEAHbdbgXvy+HANhsvSEGFI0wXFT
+	S0QC/r0OajshBEVki0LYhYJn0U5ntnX8PVViyzUw+FmTYsrr93ACE0Zl4HLMp+E1KAOM
+	2zXJ46oTHn+8bw6H91fxE0/D09aMo9CiAwvUI=
+MIME-Version: 1.0
+Received: by 10.204.132.142 with SMTP id b14mr1503750bkt.270.1316695767046;
+	Thu, 22 Sep 2011 05:49:27 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.65.194 with HTTP; Thu, 22 Sep 2011 05:49:26 -0700 (PDT)
+Date: Thu, 22 Sep 2011 09:49:26 -0300
+X-Google-Sender-Auth: Htz7Du5P4Ksf_kfWcvII6C1D6Rw
+Message-ID: <CAP9ODKpF7hQQmB7YWE4RCWDbEfZwv8432KJrBmvpwe1u_SaCTg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1244.3)
-Subject: Re: [PATCH 1/5] kernel.bbclass: blacklist 'perf-dbg' as well for the modules metapackage
+Subject: Branch management for OE-Core release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,30 +39,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2011 12:40:50 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Thu, 22 Sep 2011 12:54:46 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
+Hello,
 
-Op 22 sep. 2011, om 14:25 heeft Dmitry Eremin-Solenikov het volgende =
-geschreven:
+I noticed the 2011-1 branch today and it seems it is not fully merged
+into master; this is a mistake since it will create an upgrade path
+problem for users of it.
 
-> On 09/18/2011 02:23 AM, Otavio Salvador wrote:
->> I have sent this in July and it was nacked. See at
->> =
-https://github.com/OSSystems/oe-core/commit/5c53cbf951a11ed92fb2ad0837991d=
-b256c11489
->=20
-> Answering the original question by Saul:
-> A possible better question is why perf-dbg is getting generated and =
-what's in it?
->=20
-> perf and perf-dbg are generated to contain perf tool if it's not =
-directly enabled (AFAIK), but you can compile it by running make in =
-tools/perf. It has some additional depends (like binutils-dev, =
-elfutils-dev, news-dev, etc., so it's not enabled by default. Probably =
-we should enable it though.
+How this is going to be managed?
 
-the oe core kernel.bbclass builds perf by default=
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
