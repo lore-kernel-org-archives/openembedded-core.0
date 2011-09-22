@@ -1,34 +1,32 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-vw0-f41.google.com ([209.85.212.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R6d74-0002lU-A5 for openembedded-core@lists.openembedded.org;
-	Thu, 22 Sep 2011 08:50:26 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8M6pISQ024753 for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2011 07:51:18 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id dF4trSup00eH
+	(envelope-from <dbaryshkov@gmail.com>) id 1R6d9X-0002tM-BA
+	for openembedded-core@lists.openembedded.org;
+	Thu, 22 Sep 2011 08:52:59 +0200
+Received: by vws16 with SMTP id 16so3467998vws.28
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2011 07:51:18 +0100 (BST)
-Received: from [10.251.10.153] ([192.102.205.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8M6p8Fe024736
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2011 07:51:13 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+	Wed, 21 Sep 2011 23:47:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=IrFU518fQvPg71o1hnJ6249BjDZX5UH7pmLKSpzY30k=;
+	b=GloXiSyF8F7fJSrqErpLjwcuA9tSGKWE1IifWj6F21oz859Fmw/flBZ0jPBwraH5sF
+	ZoCSW8mcCJF3mlKA6jit5kMXtoUZ19AZFKgo+uFOKvX7ceyGVI3RjvuYoKFFTNQAxAsW
+	jywvyC2WwmZGyf1Vet9u604Y7WCNe2iU6jHFg=
+MIME-Version: 1.0
+Received: by 10.52.94.112 with SMTP id db16mr1412970vdb.497.1316674059673;
+	Wed, 21 Sep 2011 23:47:39 -0700 (PDT)
+Received: by 10.52.181.226 with HTTP; Wed, 21 Sep 2011 23:47:39 -0700 (PDT)
+In-Reply-To: <1316671579.13622.32.camel@ted>
+References: <1316630404-10336-1-git-send-email-dbaryshkov@gmail.com>
+	<1316671579.13622.32.camel@ted>
+Date: Thu, 22 Sep 2011 10:47:39 +0400
+Message-ID: <CALT56yNoscL5JXoHxknRgk427F1Kry-y07ixDLGtOGT3vmOYSg@mail.gmail.com>
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Sep 2011 07:44:48 +0100
-In-Reply-To: <cover.1316670879.git.dongxiao.xu@intel.com>
-References: <cover.1316670879.git.dongxiao.xu@intel.com>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1316673901.2029.0.camel@ted>
-Mime-Version: 1.0
-Subject: Re: [PATCH 0/1][PULL] usbutils: inherit gettext
+Subject: Re: [PATCH 01/17] icecc-create-env: rename to -native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,25 +41,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2011 06:50:26 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Sep 2011 06:52:59 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Thu, 2011-09-22 at 13:59 +0800, Dongxiao Xu wrote:
-> Hi Richard and Saul,
-> 
-> This pull request is to fix the do_configure error in usbutils error, reporting errors like:
-> 
-> cp: cannot stat `/distro/dongxiao/build-ml9/tmp/sysroots/qemux86-64/usr/share/aclocal/codeset.m4': No such file or directory.
-> cp: cannot stat `/distro/dongxiao/build-ml9/tmp/sysroots/qemux86-64/usr/share/aclocal/fcntl-o.m4': No such file or directory.
+On 9/22/11, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+> On Wed, 2011-09-21 at 22:39 +0400, Dmitry Eremin-Solenikov wrote:
+>> icecc-create-env(-native) is a native package. But if it doesn't have
+>> the -native suffix, some dependency tracking stuff in oe-core (in
+>> nativesdk.bbclass) get's crazy about it, trying to generate dependencies
+>> to icecc-create-env-native packages. To fix that simply add -native
+>> suffix to this package.
+>>
+>> Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+>> ---
+>
+> Thanks for some great cleanups. I've merged most of this to master,
+> except where there has been feedback/discussion.
 
-I'm confused. I had a look at usbutils and I can't see any reference to
-it needing gettext and it builds fine here. Do you have any other
-information about how to reproduce this?
+Thanks! It seems icecc patch file got damaged somewhere in the loop.
+I think I'll just drop the patch and the not-so-upstream tarball and
+submit the script
+to be included in the oe-core tree. Does that sound good?
 
-Cheers,
-
-Richard
-
+-- 
+With best wishes
+Dmitry
 
 
