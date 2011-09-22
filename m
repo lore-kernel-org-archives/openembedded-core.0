@@ -1,29 +1,22 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1R6np1-0002fn-Gr
+	(envelope-from <dvhart@linux.intel.com>) id 1R6oQI-0003Bf-SO
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Sep 2011 20:16:31 +0200
-Received: by fxi1 with SMTP id 1so3031125fxi.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2011 11:11:11 -0700 (PDT)
-Received: by 10.223.40.145 with SMTP id k17mr3458464fae.76.1316715071490;
-	Thu, 22 Sep 2011 11:11:11 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id b21sm8257504fab.8.2011.09.22.11.11.09
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 22 Sep 2011 11:11:10 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1316681904-10860-1-git-send-email-koen@dominion.thruhere.net>
-Date: Thu, 22 Sep 2011 20:11:08 +0200
-Message-Id: <6D9C8F1E-3C96-40D0-9667-1BC2950B34C1@dominion.thruhere.net>
-References: <1316681904-10860-1-git-send-email-koen@dominion.thruhere.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1244.3)
-Cc: bitbake-devel@lists.linuxtogo.org
-Subject: Re: [RFC] fetch2: introduce BB_GENERATE_MIRROR_VERSIONED_TARBALLS to enable classic versioned scm snapshots
+	Thu, 22 Sep 2011 20:55:04 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 22 Sep 2011 11:49:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="54117780"
+Received: from unknown (HELO localhost) ([10.7.199.57])
+	by orsmga002.jf.intel.com with ESMTP; 22 Sep 2011 11:49:42 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	sgw@linux.intel.com
+Date: Thu, 22 Sep 2011 11:49:34 -0700
+Message-Id: <cover.1316717234.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.7.6.2
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: [PATCH 0/1] shared-mime-info: add libxml-parser-perl to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,45 +31,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2011 18:16:31 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 22 Sep 2011 18:55:04 -0000
 
+The following changes since commit ff8f0ea563ba3e9d6f8b8e770cfbf4dca8ad5288:
 
-Op 22 sep. 2011, om 10:58 heeft Koen Kooi het volgende geschreven:
+  libxml2: reinclude a -staticdev package (2011-09-22 05:12:31 +0100)
 
-> When enabled fetch2 will generate tarballs with the SRCREV embbeded =
-like so:
->=20
-> 	=
-git2_git.pingu.fi.xf86-video-omapfb_28c006c94e57ea71df11ec4fff79d7ffcfc486=
-0f.tar.gz
->=20
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> ---
-> lib/bb/fetch2/git.py |    2 +-
-> 1 files changed, 1 insertions(+), 1 deletions(-)
->=20
-> diff --git a/lib/bb/fetch2/git.py b/lib/bb/fetch2/git.py
-> index fb6125c..f889562 100644
-> --- a/lib/bb/fetch2/git.py
-> +++ b/lib/bb/fetch2/git.py
-> @@ -93,7 +93,7 @@ class Git(FetchMethod):
->=20
->         ud.nocheckout =3D ud.parm.get("nocheckout","0") =3D=3D "1"
->=20
-> -        ud.rebaseable =3D ud.parm.get("rebaseable","0") =3D=3D "1"
-> +        ud.rebaseable =3D ud.parm.get("rebaseable","0") =3D=3D "1" or =
-((data.getVar("BB_GENERATE_MIRROR_VERSIONED_TARBALLS", d, True) or "0") =
-!=3D "0")
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dvhart/qemuppc
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dvhart/qemuppc
 
-Apart from the objections raised by Richard I've found 2 other problems =
-with it:
+Darren Hart (1):
+  shared-mime-info: add libxml-parser-perl to DEPENDS
 
-1) it will force a cache invalidation each build
-2) fetch2 witll *always* try to access the remote git repo, even if the =
-SRCREV is already present in the local copy
+ .../shared-mime-info/shared-mime-info.inc          |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-Those aren't really bugs in my patch, but in the rebasable fetch2 code.=
+-- 
+1.7.6.2
+
 
 
