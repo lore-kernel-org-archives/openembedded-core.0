@@ -1,41 +1,32 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R6hkp-0002s8-4p for openembedded-core@lists.openembedded.org;
-	Thu, 22 Sep 2011 13:47:47 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8MBmgts004837 for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2011 12:48:42 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 4fFoMpeAgCMr
+	(envelope-from <martin.jansa@gmail.com>) id 1R6i6I-0003YF-GW
+	for openembedded-core@lists.openembedded.org;
+	Thu, 22 Sep 2011 14:09:58 +0200
+Received: by bke11 with SMTP id 11so2791004bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2011 12:48:42 +0100 (BST)
-Received: from [192.168.250.158] ([116.246.20.131]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8MBmYVV004833
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2011 12:48:38 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Thu, 22 Sep 2011 05:04:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=QtgA8K+TR6Q9ujuhAJj7BEfMewhA+aU2dSV4SLmm8tY=;
+	b=aKYRkPowntMRr9Sz9mTyzXI3jzD6gE61YlljSCtdHtR0dxCAaxBsPxo/LEE7j5Hwao
+	WFI5CsxV0/sCQO2gDPxWlIDdncRwYuS6IkoKDs8ypDyzyjCeTtS3wVpgojo2uE/y343S
+	WYRlQpChiandCZsHnPZ0nXmrZQDx2jN/bApA0=
+Received: by 10.204.139.21 with SMTP id c21mr1529140bku.47.1316693079054;
+	Thu, 22 Sep 2011 05:04:39 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id z7sm8104239bkt.5.2011.09.22.05.04.36
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 22 Sep 2011 05:04:37 -0700 (PDT)
+Date: Thu, 22 Sep 2011 14:04:30 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Sep 2011 12:42:18 +0100
-In-Reply-To: <DCFAD0F1-1A5B-4038-8A0A-680B0B292F5D@dominion.thruhere.net>
-References: <4E7A3D3A.1030007@balister.org> <4E7A3E4C.6080206@windriver.com>
-	<30E0E33D-A811-4023-8977-4CA73C4656E6@dominion.thruhere.net>
-	<1316651210.13622.0.camel@ted>
-	<A769990C-E69F-4882-B3B5-66048C9B5268@dominion.thruhere.net>
-	<1316675047.2029.10.camel@ted>
-	<CC6D993E-0C5B-4D42-BCB8-2C4C6E62EC77@dominion.thruhere.net>
-	<1316686826.2029.30.camel@ted>
-	<DCFAD0F1-1A5B-4038-8A0A-680B0B292F5D@dominion.thruhere.net>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1316691744.2029.39.camel@ted>
-Mime-Version: 1.0
-Subject: Re: Fetch failure for source at kernel.org
+Message-ID: <20110922120430.GE3477@jama.jama.net>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH 11/17] eglibc: fix packaging of some of nativesdk	packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,131 +41,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2011 11:47:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Sep 2011 12:09:58 -0000
+X-Groupsio-MsgNum: 9834
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="uCPdOCrL+PnN2Vxy"
+Content-Disposition: inline
 
-On Thu, 2011-09-22 at 13:27 +0200, Koen Kooi wrote:
-> Op 22 sep 2011, om 12:20 heeft Richard Purdie het volgende geschreven:
-> 
-> > On Thu, 2011-09-22 at 10:28 +0200, Koen Kooi wrote:
-> >> Op 22 sep. 2011, om 09:03 heeft Richard Purdie het volgende  
-> > This just means there aren't appropriate git:// -> git:// mappings in
-> > people's mirrors files (including Yocto). If git:// -> git:// mappings
-> > don't work, we should fix that but they should.
-> 
-> You mean something like git.kernel.org/scm/torvalds/linux-2.6.git ->  
-> github.com/torvalds/linux.git ?
+--uCPdOCrL+PnN2Vxy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes. Thinking about this, the current fetcher might not be optimised in
-making this as efficient as possible but it should work and if it
-doesn't, we should make it.
+Hi,
 
-> > Now someone has explained the issue, yes, I can see why it is causing
-> > problems. I do think some of them are of people's own choosing but I'm
-> > trying to be flexible and not make judgement on that.
-> >
-> > So we can do something along the lines of what you after but there are
-> > the following considerations:
-> >
-> > a) The versioned tarballs do need to be different to what we had  
-> > before
-> > in that the tarball will be of a .git directory containing the git
-> > metadata, not just a checkout. Why? This is so we can incrementally
-> > update a git repo if the user changes the source revision as one
-> > example. We're dealing with the git fetcher and limiting ourselves  
-> > to a
-> > flat one dimension doesn't make sense.
-> 
-> Agreed on that. The bitbake patch I sent does at least do that :)
+after this patch PKGSUFFIX is probably evaluated too late and this:
 
-Right :)
+# PREFERRED_PROVIDER_glibc-thread-db=3Deglibc-thread-db
+PREFERRED_PROVIDER_glibc-thread-db=3D"eglibc-thread-db"
+# RPROVIDES_eglibc-thread-db${PKGSUFFIX}=3Dglibc-thread-db${PKGSUFFIX}
+RPROVIDES_eglibc-thread-db=3D"glibc-thread-db"
 
-I just want to be clear we're doing something different to what was
-there before (and why).
+doesn't seem to work as expected and gdb pulls whole
+external-csl-toolchain as glibc-thread-db provider for
 
-> > b) We need to agree what order the tarballs on the server should be
-> > searched for. The "obvious" order would be:
-> >
-> > 1. Specific Revision X tarball
-> > 2. generic mirror tarball
-> > 3. git clone
-> >
-> > The problems come about when we have an existing git checkout which
-> > doesn't contain the revision we want.
-> 
-> There currently is a bug in the fetcher that makes it hard to use now  
-> that kernel.org is down. The situation:
-> 
-> I have a recipe that pulls from git (e.g. cpufrequtils.git from  
-> kernel.org) with SRCREV fixed to e.g. deadbeef. DL_DIR/git/ 
-> git.kernel.org.utils.cpufrequtils has revision deadbeef. When I do a - 
-> c fetch -f it will try to do an update and fail since kernel.org is  
-> down. I would have expected it to check the existing bare clone for  
-> deadbeef first and not try updating if it is present.
+RRECOMMENDS_gdb_append_linux-gnueabi =3D " glibc-thread-db "
 
-Agreed, it shouldn't be hitting the network unless the revision is
-floating. That is bad :/.
+and btw:
+ERROR: external-poky-toolchain: Recipe file does not have license file info=
+rmation (LIC_FILES_CHKSUM)
+ERROR: Licensing Error: LIC_FILES_CHKSUM does not match, please fix
 
-> Anyway, I agree on the search order above.
-> 
-> >  Currently we can just update and
-> > assume that will bring in the revision. If we now support people doing
-> > rebases and other things, we now at least in theory have to:
-> >
-> > 1. See if the revision exists locally
-> > 2. Try pulling
-> > 3. If that doesn't work look for a versioned tarball
-> > 4. Blow away all fetcher git status from DL_DIR
-> > 5. Extract the tarball
-> 
-> Since git supports local fetches the above can be:
-> 
-> 1) see if rev exists
-> 2) try pulling
-> 3) try versioned tarball
-> 4) extract tarball into tmpdir, fetch objects into DL_DIR/git2 repo
-> 
-> That would stop things from being blown away. It does allow the  
-> versioned snapshots to differ, but they will always have the rev they  
-> were versioned with.
+and sign of this behavior is also qemu-native pulled to build and
+warnings like this also for virtual/libc virtual/linux-libc-headers
 
-This is a much better approach. Its quite a big difference from anything
-we've done before but the approach should fit in better. I need to think
-on it more...
+ERROR: Multiple .bb files are due to be built which each provide virtual/li=
+biconv
+(/OE/shr-core/openembedded-core/meta/recipes-core/eglibc/eglibc_2.13.bb
+ /OE/shr-core/openembedded-core/meta/recipes-core/meta/external-csl-toolcha=
+in_2008q3-72.bb).
 
-> > My big concern with this is rather than having some general
-> > archictecture and standard way of doing this, the fetcher once again
-> > becomes a set of special case if A do B but if C do D first then do E
-> > but don't forget to do A if Z happens type code.
-> 
-> I know virtually nothing of the fetcher code, but I think treating  
-> every tarball as a local mirror that gets fetched into DL_DIR/git2/ 
-> repodir would avoid a lot of special casing.
+Regards,
 
-Yes, its nicer. We keep falling into the trap of thinking about the
-non-distributed SCM cases but we have more capability with git and it
-makes sense to use it.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-> > So what I'm saying is I don't want the fetcher to become the
-> > unmaintainable mess the that the code paths in fetch1 were. I don't
-> > honestly know how to add a code path like the above and avoid this :(
-> >
-> > The patch on the bitbake list doesn't consider any of this  
-> > complexity or
-> > the corner cases
-> 
-> Sadly it's the best thing I can accomplish with my python skills :( It  
-> does solve my #1 need, which is an easy way (ls | grep) to check for  
-> GPL compliance.
+--uCPdOCrL+PnN2Vxy
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Ok. Can you at least file a bug in the yocto bugzilla with a summary of
-this discussion please? :) That should ensure the issue gets more
-attention since with the best intentions, I can't remember everything.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
 
-Cheers,
+iEYEARECAAYFAk57JE4ACgkQN1Ujt2V2gBwajQCfXCDCm2WjNLBSD3s/mM/LwAdX
+xzAAn2KWcrnejxdkA3aKhYIDrBPIHekA
+=cmFm
+-----END PGP SIGNATURE-----
 
-Richard
-
-
-
+--uCPdOCrL+PnN2Vxy--
