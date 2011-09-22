@@ -1,33 +1,22 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R6qMV-0001qG-O5 for openembedded-core@lists.openembedded.org;
-	Thu, 22 Sep 2011 22:59:16 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8ML08Ca030872; Thu, 22 Sep 2011 22:00:08 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 3F1dcUyjiBsL; Thu, 22 Sep 2011 22:00:08 +0100 (BST)
-Received: from [192.168.250.158] ([116.246.20.131]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8MKxxSG030850
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Thu, 22 Sep 2011 22:00:03 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Darren Hart <dvhart@linux.intel.com>
-Date: Thu, 22 Sep 2011 21:53:42 +0100
-In-Reply-To: <4E7B9864.3040404@linux.intel.com>
-References: <cover.1316717234.git.dvhart@linux.intel.com>
-	<4b97e6b25906806eef1131e851abc9526d81d0db.1316717234.git.dvhart@linux.intel.com>
-	<1316721518.28323.1.camel@ted> <4E7B949A.8050407@linux.intel.com>
-	<4E7B9864.3040404@linux.intel.com>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1316724829.28323.9.camel@ted>
-Mime-Version: 1.0
-Cc: oe-core layer <openembedded-core@lists.openembedded.org>, Patches
-Subject: Re: [PATCH 1/1] shared-mime-info: add libxml-parser-perl to DEPENDS
+	(envelope-from <dvhart@linux.intel.com>) id 1R6qg7-0002aP-GW
+	for openembedded-core@lists.openembedded.org;
+	Thu, 22 Sep 2011 23:19:31 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 22 Sep 2011 14:14:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="54322576"
+Received: from unknown (HELO localhost) ([10.7.199.57])
+	by orsmga002.jf.intel.com with ESMTP; 22 Sep 2011 14:14:10 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Sep 2011 14:13:59 -0700
+Message-Id: <cover.1316725800.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.7.6.2
+Cc: Darren Hart <dvhart@linux.intel.com>,
+	Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH 0/1] intltool: add libxml-parser-perl-native dependency to -native version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,32 +31,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2011 20:59:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Sep 2011 21:19:31 -0000
 
-On Thu, 2011-09-22 at 13:19 -0700, Darren Hart wrote:
-> On 09/22/2011 01:03 PM, Saul Wold wrote:
-> > On 09/22/2011 12:58 PM, Richard Purdie wrote:
-> >> On Thu, 2011-09-22 at 11:49 -0700, Darren Hart wrote:
-> >>> Fixes [YOCTO #1514]
-> >>>
-> >>> Building core-image-minimal on qemuppc (and likely others) can fail in
-> >>> the shared-mime-info configure step with the following error:
-> >>>
-> > I was thinking about this and went "why is shared-mime-info even in 
-> > core-image-minimal", are you sure that was the image you were building. 
-> > This might point to some other problem also.
-> 
-> Yes, core-image-minimal. It also would fail if I just tried to build
-> shared-mime-info-native.
+The following changes since commit ff8f0ea563ba3e9d6f8b8e770cfbf4dca8ad5288:
 
-Right, its a native dependency being pulled in by one of the tools, not
-the image itself...
+  libxml2: reinclude a -staticdev package (2011-09-22 05:12:31 +0100)
 
-Cheers,
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dvhart/qemuppc
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dvhart/qemuppc
 
-Richard
+Darren Hart (1):
+  intltool: add libxml-parser-perl-native dependency to -native version
+
+ meta/recipes-devtools/intltool/intltool.inc |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+-- 
+1.7.6.2
 
 
 
