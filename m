@@ -1,33 +1,32 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R6qKy-0001n5-Nh for openembedded-core@lists.openembedded.org;
-	Thu, 22 Sep 2011 22:57:40 +0200
+	id 1R6qMV-0001qG-O5 for openembedded-core@lists.openembedded.org;
+	Thu, 22 Sep 2011 22:59:16 +0200
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8MKwVB3030835; Thu, 22 Sep 2011 21:58:31 +0100
+	p8ML08Ca030872; Thu, 22 Sep 2011 22:00:08 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Y9JBbjiHovuZ; Thu, 22 Sep 2011 21:58:31 +0100 (BST)
+	with LMTP id 3F1dcUyjiBsL; Thu, 22 Sep 2011 22:00:08 +0100 (BST)
 Received: from [192.168.250.158] ([116.246.20.131]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8MKwM19030830
+	p8MKxxSG030850
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Thu, 22 Sep 2011 21:58:26 +0100
+	Thu, 22 Sep 2011 22:00:03 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Darren Hart <dvhart@linux.intel.com>
-Date: Thu, 22 Sep 2011 21:52:06 +0100
-In-Reply-To: <4E7B9A47.1080402@linux.intel.com>
+Date: Thu, 22 Sep 2011 21:53:42 +0100
+In-Reply-To: <4E7B9864.3040404@linux.intel.com>
 References: <cover.1316717234.git.dvhart@linux.intel.com>
 	<4b97e6b25906806eef1131e851abc9526d81d0db.1316717234.git.dvhart@linux.intel.com>
-	<1316721518.28323.1.camel@ted> <4E7B9A47.1080402@linux.intel.com>
+	<1316721518.28323.1.camel@ted> <4E7B949A.8050407@linux.intel.com>
+	<4E7B9864.3040404@linux.intel.com>
 X-Mailer: Evolution 3.1.91- 
-Message-ID: <1316724732.28323.8.camel@ted>
+Message-ID: <1316724829.28323.9.camel@ted>
 Mime-Version: 1.0
-Cc: Josh Lock <joshua.lock@intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+Cc: oe-core layer <openembedded-core@lists.openembedded.org>, Patches
 Subject: Re: [PATCH 1/1] shared-mime-info: add libxml-parser-perl to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -43,71 +42,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2011 20:57:40 -0000
+X-List-Received-Date: Thu, 22 Sep 2011 20:59:16 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-09-22 at 13:27 -0700, Darren Hart wrote:
+On Thu, 2011-09-22 at 13:19 -0700, Darren Hart wrote:
+> On 09/22/2011 01:03 PM, Saul Wold wrote:
+> > On 09/22/2011 12:58 PM, Richard Purdie wrote:
+> >> On Thu, 2011-09-22 at 11:49 -0700, Darren Hart wrote:
+> >>> Fixes [YOCTO #1514]
+> >>>
+> >>> Building core-image-minimal on qemuppc (and likely others) can fail in
+> >>> the shared-mime-info configure step with the following error:
+> >>>
+> > I was thinking about this and went "why is shared-mime-info even in 
+> > core-image-minimal", are you sure that was the image you were building. 
+> > This might point to some other problem also.
 > 
-> On 09/22/2011 12:58 PM, Richard Purdie wrote:
-> > On Thu, 2011-09-22 at 11:49 -0700, Darren Hart wrote:
-> >> Fixes [YOCTO #1514]
-> >>
-> >> Building core-image-minimal on qemuppc (and likely others) can fail in
-> >> the shared-mime-info configure step with the following error:
-> >>
-> >> checking for XML::Parser... configure: error: XML::Parser perl module is
-> >> required for intltool
-> >>
-> >> Adding libxml-parser-perl to DEPENDS allows share-mime-info-native to build
-> >> successfully.
-> >>
-> >> Testing: build tested the native version on qemuppc. I run into tool chain
-> >> build failures before I can get to building the target version.
-> >>
-> >> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-> >> CC: Joshua Lock <josh@linux.intel.com>
-> >> ---
-> >>  .../shared-mime-info/shared-mime-info.inc          |    4 ++--
-> >>  1 files changed, 2 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info.inc b/meta/recipes-support/shared-mime-info/shared-mime-info.inc
-> >> index 64eef9d..e206305 100644
-> >> --- a/meta/recipes-support/shared-mime-info/shared-mime-info.inc
-> >> +++ b/meta/recipes-support/shared-mime-info/shared-mime-info.inc
-> >> @@ -5,8 +5,8 @@ SECTION = "base"
-> >>  LICENSE = "GPLv2+"
-> >>  LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
-> >>  
-> >> -DEPENDS = "libxml2 intltool-native glib-2.0 shared-mime-info-native"
-> >> -DEPENDS_virtclass-native = "libxml2-native intltool-native glib-2.0-native"
-> >> +DEPENDS = "libxml2 intltool-native glib-2.0 shared-mime-info-native libxml-parser-perl"
-> >> +DEPENDS_virtclass-native = "libxml2-native intltool-native glib-2.0-native libxml-parser-perl-native"
-> >>  
-> >>  SRC_URI = "http://freedesktop.org/~hadess/shared-mime-info-${PV}.tar.bz2"
-> > 
-> > 
-> > There must be some underlying problem here. intltool-native should
-> > depend on libxml-parser-perl-native so it should already be built. We
-> > need to fix the underlying issue, not the symptom :/
-> 
-> So intltool.inc:
-> 
-> DEPENDS = "libxml-parser-perl-native"
-> #RDEPENDS_${PN} = "libxml-parser-perl"
-> RRECOMMENDS_${PN} = "perl-modules"
-> RRECOMMENDS_${PN}_virtclass-native = ""
-> 
-> Shouldn't this instead look like:
-> 
-> DEPENDS = "libxml-parser-perl"
-> DEPENDS_virtclass-native = "libxml-parser-perl-native"
-> 
-> Dropping my change above and using this fix instead allows the build to
-> complete. Does look like the right fix to you? Shall I send this as a
-> patch?
+> Yes, core-image-minimal. It also would fail if I just tried to build
+> shared-mime-info-native.
 
-That certainly sounds like the more correct solution, yes.
+Right, its a native dependency being pulled in by one of the tools, not
+the image itself...
 
 Cheers,
 
