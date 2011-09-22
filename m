@@ -1,26 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1R6YQP-0001Bj-Q2
+	(envelope-from <mark.hatle@windriver.com>) id 1R6YQP-0001Bk-Ps
 	for openembedded-core@lists.openembedded.org;
 	Thu, 22 Sep 2011 03:50:06 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p8M1ijVT010981
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p8M1ikhM010995
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2011 18:44:45 -0700 (PDT)
+	Wed, 21 Sep 2011 18:44:46 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 21 Sep 2011 18:44:44 -0700
+	Wed, 21 Sep 2011 18:44:45 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Sep 2011 20:47:00 -0500
-Message-ID: <2915625680aab7ff7d9a02fef32dcb6e91239600.1316655855.git.mark.hatle@windriver.com>
+Date: Wed, 21 Sep 2011 20:47:01 -0500
+Message-ID: <8364a28d2b3ba005c18424574a3b45e0e14f4eed.1316655855.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1316655855.git.mark.hatle@windriver.com>
 References: <cover.1316655855.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 1/6] python: Fix cgi.py runtime issue
+Subject: [PATCH 2/6] usbutils: Move the pkgconfig file(s) to the -dev package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,69 +38,37 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Thu, 22 Sep 2011 01:50:06 -0000
 Content-Type: text/plain
 
-By default cgi.py attempts to use /usr/local/bin/python as its
-interpreter.  However, on my Linux systems, including OE-Core,
-python is installed into {bindir}.  Adjust this one file based on
-the comment at the top of the upstream file.
-
-This resolves an issue where a runtime dependency discovered during
-RPM packaging breaks the rootfs construction.
+pkgconfig files belong in the -dev package.  They automatically add
+a runtime dependency (when packaging with RPM) for "pkgconfig", which
+is not desired to be installed with this package.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-devtools/python/python/cgi_py.patch |   21 +++++++++++++++++++++
- meta/recipes-devtools/python/python_2.6.6.bb     |    3 ++-
- 2 files changed, 23 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python/cgi_py.patch
+ meta/recipes-bsp/usbutils/usbutils_0.91.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python/cgi_py.patch b/meta/recipes-devtools/python/python/cgi_py.patch
-new file mode 100644
-index 0000000..0f10efc
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/cgi_py.patch
-@@ -0,0 +1,21 @@
-+Lib/cgi.py: Update the script as mentioned in the comment
-+
-+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-+
-+--- Python-2.6.6/Lib/cgi.py.orig	2010-08-01 22:14:27.000000000 -0500
-++++ Python-2.6.6/Lib/cgi.py	2011-09-21 15:28:40.478208631 -0500
-+@@ -1,13 +1,4 @@
-+-#! /usr/local/bin/python
-+-
-+-# NOTE: the above "/usr/local/bin/python" is NOT a mistake.  It is
-+-# intentionally NOT "/usr/bin/env python".  On many systems
-+-# (e.g. Solaris), /usr/local/bin is not in $PATH as passed to CGI
-+-# scripts, and /usr/local/bin is the default directory where Python is
-+-# installed, so /usr/bin/env would be unable to find python.  Granted,
-+-# binary installations by Linux vendors often install Python in
-+-# /usr/bin.  So let those vendors patch cgi.py to match their choice
-+-# of installation.
-++#! /usr/bin/env python
-+ 
-+ """Support module for CGI (Common Gateway Interface) scripts.
-+ 
-diff --git a/meta/recipes-devtools/python/python_2.6.6.bb b/meta/recipes-devtools/python/python_2.6.6.bb
-index c9c1a13..aa7ec3c 100644
---- a/meta/recipes-devtools/python/python_2.6.6.bb
-+++ b/meta/recipes-devtools/python/python_2.6.6.bb
-@@ -1,7 +1,7 @@
- require python.inc
- DEPENDS = "python-native db gdbm openssl readline sqlite3 zlib"
- DEPENDS_sharprom = "python-native db readline zlib gdbm openssl"
--PR = "${INC_PR}.9"
-+PR = "${INC_PR}.10"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=38fdd546420fab09ac6bd3d8a1c83eb6"
+diff --git a/meta/recipes-bsp/usbutils/usbutils_0.91.bb b/meta/recipes-bsp/usbutils/usbutils_0.91.bb
+index c5420d0..490b05a 100644
+--- a/meta/recipes-bsp/usbutils/usbutils_0.91.bb
++++ b/meta/recipes-bsp/usbutils/usbutils_0.91.bb
+@@ -7,7 +7,7 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
  
- DISTRO_SRC_URI ?= "file://sitecustomize.py"
-@@ -20,6 +20,7 @@ SRC_URI = "\
-   ${DISTRO_SRC_URI} \
-   file://multilib.patch \
-   file://security_issue_2254_fix.patch \
-+  file://cgi_py.patch \
- "
+ DEPENDS = "libusb zlib"
+-PR = "r2"
++PR = "r3"
  
- SRC_URI[md5sum] = "cf4e6881bb84a7ce6089e4a307f71f14"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz"
+ 
+@@ -23,7 +23,7 @@ do_install_append() {
+ }
+ 
+ PACKAGES += "${PN}-ids"
+-FILES_${PN} += "${datadir}/pkgconfig"
++FILES_${PN}-dev += "${datadir}/pkgconfig"
+ FILES_${PN}-ids = "${datadir}/usb*"
+ 
+ RDEPENDS_${PN} = "${PN}-ids bash"
 -- 
 1.7.3.4
 
