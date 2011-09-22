@@ -1,24 +1,34 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1R6fC9-0008Dm-DX
+	(envelope-from <koen@dominion.thruhere.net>) id 1R6fF0-0008JE-QE
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Sep 2011 11:03:49 +0200
-Received: by fxi1 with SMTP id 1so2542881fxi.6
+	Thu, 22 Sep 2011 11:06:46 +0200
+Received: by bke11 with SMTP id 11so2652095bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Sep 2011 01:58:30 -0700 (PDT)
-Received: by 10.223.45.209 with SMTP id g17mr2688536faf.96.1316681909526;
-	Thu, 22 Sep 2011 01:58:29 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
-	by mx.google.com with ESMTPS id t13sm17913666fae.0.2011.09.22.01.58.27
+	Thu, 22 Sep 2011 02:01:27 -0700 (PDT)
+Received: by 10.204.157.132 with SMTP id b4mr1289904bkx.164.1316682087241;
+	Thu, 22 Sep 2011 02:01:27 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id p9sm17915152fah.1.2011.09.22.02.01.23
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 22 Sep 2011 01:58:28 -0700 (PDT)
+	Thu, 22 Sep 2011 02:01:24 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
 From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Sep 2011 10:58:24 +0200
-Message-Id: <1316681904-10860-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>, bitbake-devel@lists.linuxtogo.org
-Subject: [RFC] fetch2: introduce BB_GENERATE_MIRROR_VERSIONED_TARBALLS to enable classic versioned scm snapshots
+In-Reply-To: <20110922084526.GC3477@jama.jama.net>
+Date: Thu, 22 Sep 2011 11:01:18 +0200
+Message-Id: <FCC4DDD6-F72B-45D3-8D73-AC4D607A0A9F@dominion.thruhere.net>
+References: <4E7A3D3A.1030007@balister.org> <4E7A3E4C.6080206@windriver.com>
+	<30E0E33D-A811-4023-8977-4CA73C4656E6@dominion.thruhere.net>
+	<1316651210.13622.0.camel@ted>
+	<A769990C-E69F-4882-B3B5-66048C9B5268@dominion.thruhere.net>
+	<1316675047.2029.10.camel@ted>
+	<CC6D993E-0C5B-4D42-BCB8-2C4C6E62EC77@dominion.thruhere.net>
+	<20110922084526.GC3477@jama.jama.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1244.3)
+Subject: Re: Fetch failure for source at kernel.org
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,32 +43,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2011 09:03:49 -0000
+X-List-Received-Date: Thu, 22 Sep 2011 09:06:46 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-When enabled fetch2 will generate tarballs with the SRCREV embbeded like so:
 
-	git2_git.pingu.fi.xf86-video-omapfb_28c006c94e57ea71df11ec4fff79d7ffcfc4860f.tar.gz
+Op 22 sep. 2011, om 10:45 heeft Martin Jansa het volgende geschreven:
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- lib/bb/fetch2/git.py |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+> On Thu, Sep 22, 2011 at 10:28:02AM +0200, Koen Kooi wrote:
+>>=20
+>> Op 22 sep. 2011, om 09:03 heeft Richard Purdie het volgende =
+geschreven:
+>>=20
+>>> On Thu, 2011-09-22 at 08:40 +0200, Koen Kooi wrote:
+>>>> Op 22 sep. 2011, om 02:26 heeft Richard Purdie het volgende =
+geschreven:
+>>>>=20
+>>>>> On Wed, 2011-09-21 at 21:49 +0200, Koen Kooi wrote:
+>>>>>> Op 21 sep. 2011, om 21:43 heeft Mark Hatle het volgende =
+geschreven:
+>>>>>>=20
+>>>>>>> On 9/21/11 2:38 PM, Philip Balister wrote:
+>>>>>>>> I'm finally trying to get started with oe-core. I'm using a =
+setup=20
+>>>>>>>> created with the setup-script created by Koen. Everything looks =
+ok until=20
+>>>>>>>> it tried to build cpufrequtils. The recipe tries to fetch the =
+source=20
+>>>>>>>> from a git repo at kernel.org. Obviously, the fetch fails.
+>>>>>>>>=20
+>>>>>>>> What is odd, in the "good old days" I would expect this config =
+to fall=20
+>>>>>>>> back and use the Angstrom source mirror, but apparently this is =
+not the=20
+>>>>>>>> case with oe-core.
+>>>>>>>>=20
+>>>>>>>> Is this a bug or a feature? If this is a bug, is there a plan =
+to fix it?=20
+>>>>>>>> If it is a feature, how are we supposed to do builds if servers =
+go away?=20
+>>>>>>>> What do we do about GPL compliance?
+>>>>>>>=20
+>>>>>>> This is a feature, as people did not want oe-core tied to a =
+given mirror.
+>>>>>>=20
+>>>>>> This is the "OE core doesn't generate versioned git tarballs" =
+problem
+>>>>>> people keep talking about. I know I can edit each and every =
+recipe to
+>>>>>> add ';rebasable=3Dtrue', but I'd like a global solution before =
+the GPL
+>>>>>> police starts looking at the angstrom source mirrors.
+>>>>>=20
+>>>>> Is this a versioned tarball problem or just the tarballs not being
+>>>>> generated at all?
+>>>>=20
+>>>> versioned tarball problem, since the source mirror won't overwrite
+>>>> files with the same name, so unversioned ones are both useless and
+>>>> bandwidth wasting.
+>>>=20
+>>> They seem to be working perfectly well for Yocto...
+>>>=20
+>>> They're also not bandwidth wasting
+>>=20
+>> They are, since for the kernel you need to re-upload the 300MB =
+tarball to the source mirror for mirroring to work, even if there were =
+no real changes but bitbake repacked it. I know that versioned tarballs =
+aren't terribly efficient either, but at least they are deterministic.
+>>=20
+>> The angstrom source mirror checks for duplicate filenames to avoid =
+introducing checksum changes due to upstream stupidity or corrupted =
+downloads.=20
+>>=20
+>>> since the fetcher is efficient and
+>>> will incrementally update something that is incomplete.
+>>=20
+>> Which won't work currently since kernel.org is down.
+>>=20
+>>> Anyhow, this is the first time someone has explained that the mirror
+>>> tarball improvements that were made to bitbake have not done =
+everything
+>>> they desire. If you want someone on the Yocto team to look at this =
+I'd
+>>> suggest a bug report or I'll take patches to bitbake (as always).
+>>=20
+>> But you do acknowledge the problem? FWIW, I've been arguing for a =
+global method of enabled versioned tarballs since I first started using =
+oe-core (called differently back then). I know linux-yocto stretches the =
+fetcher to its limits, but I'd like this change for all the recipes =
+using a single git tree with a single srcrev.
+>=20
+> FWIW: I would also like to have versioned git checkouts in fetcher2 as
+> it was in old fetcher. It would be more consitent with svn versioned
+> checkouts which are still created.
 
-diff --git a/lib/bb/fetch2/git.py b/lib/bb/fetch2/git.py
-index fb6125c..f889562 100644
---- a/lib/bb/fetch2/git.py
-+++ b/lib/bb/fetch2/git.py
-@@ -93,7 +93,7 @@ class Git(FetchMethod):
- 
-         ud.nocheckout = ud.parm.get("nocheckout","0") == "1"
- 
--        ud.rebaseable = ud.parm.get("rebaseable","0") == "1"
-+        ud.rebaseable = ud.parm.get("rebaseable","0") == "1" or ((data.getVar("BB_GENERATE_MIRROR_VERSIONED_TARBALLS", d, True) or "0") != "0")
- 
-         branches = ud.parm.get("branch", "master").split(',')
-         if len(branches) != len(ud.names):
--- 
-1.6.6.1
+http://patches.openembedded.org/patch/11971/ adds a global flag to =
+generate such tarballs, but I don't know if the mirroring logic will =
+actually try to fetch those or if fetch2 will actually try to unpack =
+them when present, but at least we can generate the tarballs now :)
 
+regards,
+
+Koen=
 
 
