@@ -1,26 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1R6YYa-0001Qp-FZ
+	(envelope-from <dongxiao.xu@intel.com>) id 1R6ZM1-0002Xj-BF
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Sep 2011 03:58:32 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p8M1rCq5011972
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Sep 2011 18:53:12 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 21 Sep 2011 18:53:11 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Sep 2011 20:55:33 -0500
-Message-ID: <ad8caef7798471d4c8d93980aef9ae7c2982bffd.1316656491.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1316656491.git.mark.hatle@windriver.com>
-References: <cover.1316656491.git.mark.hatle@windriver.com>
-MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 1/6 v2] python: Fix cgi.py runtime issue
+	Thu, 22 Sep 2011 04:49:37 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 21 Sep 2011 19:44:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,420,1312182000"; d="scan'208";a="19452618"
+Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
+	by AZSMGA002.ch.intel.com with ESMTP; 21 Sep 2011 19:44:16 -0700
+From: Dongxiao Xu <dongxiao.xu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Sep 2011 10:51:21 +0800
+Message-Id: <cover.1316659695.git.dongxiao.xu@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/1][PULL] libglade: python environment fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,76 +29,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Sep 2011 01:58:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 22 Sep 2011 02:49:37 -0000
 
-By default cgi.py attempts to use /usr/local/bin/python as its
-interpreter.  However, on my Linux systems, including OE-Core,
-python is installed into {bindir}.  Adjust this one file based on
-the comment at the top of the upstream file.
+Hi Saul,
 
-This resolves an issue where a runtime dependency discovered during
-RPM packaging breaks the rootfs construction.
+This pull request is to change the python environment setting in
+libglade, which should fix the issue of sato-sdk rootfs error,
+please help to review and pull.
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/recipes-devtools/python/python/cgi_py.patch |   23 ++++++++++++++++++++++
- meta/recipes-devtools/python/python_2.6.6.bb     |    3 +-
- 2 files changed, 25 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python/cgi_py.patch
+Thanks,
+Dongxiao
 
-diff --git a/meta/recipes-devtools/python/python/cgi_py.patch b/meta/recipes-devtools/python/python/cgi_py.patch
-new file mode 100644
-index 0000000..de504f9
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/cgi_py.patch
-@@ -0,0 +1,23 @@
-+Lib/cgi.py: Update the script as mentioned in the comment
-+
-+Upstream-Status: Inappropriate [distribution]
-+
-+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-+
-+--- Python-2.6.6/Lib/cgi.py.orig	2010-08-01 22:14:27.000000000 -0500
-++++ Python-2.6.6/Lib/cgi.py	2011-09-21 15:28:40.478208631 -0500
-+@@ -1,13 +1,4 @@
-+-#! /usr/local/bin/python
-+-
-+-# NOTE: the above "/usr/local/bin/python" is NOT a mistake.  It is
-+-# intentionally NOT "/usr/bin/env python".  On many systems
-+-# (e.g. Solaris), /usr/local/bin is not in $PATH as passed to CGI
-+-# scripts, and /usr/local/bin is the default directory where Python is
-+-# installed, so /usr/bin/env would be unable to find python.  Granted,
-+-# binary installations by Linux vendors often install Python in
-+-# /usr/bin.  So let those vendors patch cgi.py to match their choice
-+-# of installation.
-++#! /usr/bin/env python
-+ 
-+ """Support module for CGI (Common Gateway Interface) scripts.
-+ 
-diff --git a/meta/recipes-devtools/python/python_2.6.6.bb b/meta/recipes-devtools/python/python_2.6.6.bb
-index c9c1a13..aa7ec3c 100644
---- a/meta/recipes-devtools/python/python_2.6.6.bb
-+++ b/meta/recipes-devtools/python/python_2.6.6.bb
-@@ -1,7 +1,7 @@
- require python.inc
- DEPENDS = "python-native db gdbm openssl readline sqlite3 zlib"
- DEPENDS_sharprom = "python-native db readline zlib gdbm openssl"
--PR = "${INC_PR}.9"
-+PR = "${INC_PR}.10"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=38fdd546420fab09ac6bd3d8a1c83eb6"
- 
- DISTRO_SRC_URI ?= "file://sitecustomize.py"
-@@ -20,6 +20,7 @@ SRC_URI = "\
-   ${DISTRO_SRC_URI} \
-   file://multilib.patch \
-   file://security_issue_2254_fix.patch \
-+  file://cgi_py.patch \
- "
- 
- SRC_URI[md5sum] = "cf4e6881bb84a7ce6089e4a307f71f14"
--- 
-1.7.3.4
+The following changes since commit 80650bf4bce83e4e8d785e9a69eac0abbcdc6844:
+
+  procps 3.2.8: remove initscript (2011-09-22 03:11:30 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dxu4/bugfix
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/bugfix
+
+Dongxiao Xu (1):
+  libglade: fix the python environment settings
+
+ .../libglade-2.6.4/python_environment.patch        |    9 +++++++++
+ meta/recipes-gnome/libglade/libglade_2.6.4.bb      |    4 ++--
+ 2 files changed, 11 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-gnome/libglade/libglade-2.6.4/python_environment.patch
 
 
 
