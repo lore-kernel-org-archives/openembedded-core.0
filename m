@@ -1,36 +1,30 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1R7AJR-0004jf-Ci
+	(envelope-from <dbaryshkov@gmail.com>) id 1R7Bn9-0006Ry-NY
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Sep 2011 20:17:25 +0200
-Received: by bke11 with SMTP id 11so4106461bke.6
+	Fri, 23 Sep 2011 21:52:11 +0200
+Received: by bke11 with SMTP id 11so4179694bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Sep 2011 11:12:04 -0700 (PDT)
+	Fri, 23 Sep 2011 12:46:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=noFcKvM1YdOX8z7DdCScVYA4ews7T0RmAwu9tko8gCc=;
-	b=D/w3DoVfExmBxwxzqZUu2FX/ImfcZ/RC9lWMJa5XAjQDjb+hSjzz+RdO25XOUY5HYQ
-	O9kTOAGUIfdtg6n5tZabKpPI1QOPgp8/YQ0mwmC7wSpVJ0ITafXQ0lBmM+22Gs42zLJj
-	odyg/WqThkGFnLjm34pZ151RWe7akiOds0XYU=
-MIME-Version: 1.0
-Received: by 10.204.138.193 with SMTP id b1mr2765322bku.114.1316801524299;
-	Fri, 23 Sep 2011 11:12:04 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.35.198 with HTTP; Fri, 23 Sep 2011 11:12:04 -0700 (PDT)
-In-Reply-To: <1316799031.3125.3.camel@ted>
-References: <CAP9ODKpF7hQQmB7YWE4RCWDbEfZwv8432KJrBmvpwe1u_SaCTg@mail.gmail.com>
-	<1316734501.28323.18.camel@ted>
-	<CAP9ODKqWLVrKRE+HT4k82f+BYdY96N_h581dp8u0AETWBTQV0w@mail.gmail.com>
-	<1316799031.3125.3.camel@ted>
-Date: Fri, 23 Sep 2011 15:12:04 -0300
-X-Google-Sender-Auth: B2Ca8f0bj5LA4Np4DHHwtQFR77E
-Message-ID: <CAP9ODKoqywvZQyAJ=Jz8wh4hVoucJvo-QpyTZ_cpP8MhnEXb3w@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Branch management for OE-Core release
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=ZTkEsRdIig6cXydh8/BpGwM8KoW1nwbb9uByTbZ6VO4=;
+	b=xQzBLGdoHaKnJa9JZfmoMs40v9pdedC70F8wZrkF2NN7QmKmEo3o9cKAzuYCgIFTA3
+	6x/oITKVrp9k8WiS7JSuyPBs33TTGKZxTMcbuC6pckXWewBipjb6zYj9ob4ev8E5NhMy
+	+h37Hd/KzDKPK9RYfOfTETpcZ6rvHTGju7UJg=
+Received: by 10.204.154.136 with SMTP id o8mr2576886bkw.355.1316807210480;
+	Fri, 23 Sep 2011 12:46:50 -0700 (PDT)
+Received: from localhost.localdomain ([194.85.238.22])
+	by mx.google.com with ESMTPS id ex8sm5500310bkc.2.2011.09.23.12.46.48
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 23 Sep 2011 12:46:49 -0700 (PDT)
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 23 Sep 2011 23:46:32 +0400
+Message-Id: <1316807201-22623-1-git-send-email-dbaryshkov@gmail.com>
+X-Mailer: git-send-email 1.7.2.5
+Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Subject: [PATCH 01/10] default-provider: also define a default provider for gconf-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,30 +39,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Sep 2011 18:17:25 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 23 Sep 2011 19:52:11 -0000
 
-On Fri, Sep 23, 2011 at 14:30, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-...
-> I don't really see the point of this. Basically you're asking that every
-> time there is a commit to the branch there is also a merge commit. You
-> can just as easily either force a checkout of master, or merge against
-> master with a one sided merge. Git doesn't have the confidence to do
-> that automatically but I'm pretty sure there is a simple way to tell git
-> to do a one sided merge...
+Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+---
+ meta/conf/distro/include/default-providers.inc |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Not every time but at every release and point release.
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index d51ac64..6e281cc 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -22,6 +22,7 @@ VIRTUAL-RUNTIME_update-alternatives ?= "update-alternatives-cworth"
+ PREFERRED_PROVIDER_dbus-glib ?= "dbus-glib"
+ PREFERRED_PROVIDER_dbus-glib-native ?= "dbus-glib-native"
+ PREFERRED_PROVIDER_gconf ?= "gconf-dbus"
++PREFERRED_PROVIDER_gconf-native ?= "gconf-dbus-native"
+ PREFERRED_PROVIDER_gdk-pixbuf ?= "gdk-pixbuf"
+ PREFERRED_PROVIDER_libgcc ?= "libgcc"
+ PREFERRED_PROVIDER_libgcc-nativesdk ?= "libgcc-nativesdk"
+-- 
+1.7.2.5
 
-one sided merge make you lose all local changes you did. Doesn't seems
-a valid upgrade path but a "replace path".
-
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
 
 
