@@ -1,32 +1,32 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dbaryshkov@gmail.com>) id 1R7BnB-0006Ry-JA
+	(envelope-from <dbaryshkov@gmail.com>) id 1R7BnE-0006S1-C6
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Sep 2011 21:52:13 +0200
-Received: by mail-bw0-f47.google.com with SMTP id 11so4179694bke.6
+	Fri, 23 Sep 2011 21:52:16 +0200
+Received: by mail-bw0-f47.google.com with SMTP id 11so4179714bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Sep 2011 12:46:54 -0700 (PDT)
+	Fri, 23 Sep 2011 12:46:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=4WtoVnqzuU7khVNmKZw7mXQ/IFUWUVFuvyzpPJsUXEg=;
-	b=xK6WZQgn07N4bpCdCZbGpTCQ0RDkOhk5ws+D9uWcxfJXyyLtUraSxK+Zzy2waLYqu6
-	wNiZQ9sA8RAl6n8bxM/okFZ5hW4832YZ8tChrhA+DbS+rRhsnDqc/bi0SGbSH42UQvre
-	Bc+ANdDD1/Wwynu6YzyxTLMzH4SQfxn8nQ3bg=
-Received: by 10.204.135.72 with SMTP id m8mr2766480bkt.389.1316807214522;
-	Fri, 23 Sep 2011 12:46:54 -0700 (PDT)
+	bh=5vBi7x4Pm2Xxi2cKGzFswp/sxqIg1KmzdLdAKpfL+C0=;
+	b=Y/BgwVs+naXSl/feYkmkGCVAMqlpHLRWUoFZ6c6zkrLsOGhXupXbSD6JMNSanr7Fgc
+	WKIPFoK45brMkSZwy1krnzuE69sjeOmLwdrWQsIuo1WdMdjXWXBPxYGpXMk/R8/tzG3r
+	3yXi8N0IHt26mO1LfYlDM+KRSJ5zFdP54qa1s=
+Received: by 10.204.138.204 with SMTP id b12mr2768629bku.71.1316807216622;
+	Fri, 23 Sep 2011 12:46:56 -0700 (PDT)
 Received: from localhost.localdomain ([194.85.238.22])
-	by mx.google.com with ESMTPS id ex8sm5500310bkc.2.2011.09.23.12.46.52
+	by mx.google.com with ESMTPS id ex8sm5500310bkc.2.2011.09.23.12.46.54
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 23 Sep 2011 12:46:53 -0700 (PDT)
+	Fri, 23 Sep 2011 12:46:55 -0700 (PDT)
 From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Sep 2011 23:46:34 +0400
-Message-Id: <1316807201-22623-3-git-send-email-dbaryshkov@gmail.com>
+Date: Fri, 23 Sep 2011 23:46:35 +0400
+Message-Id: <1316807201-22623-4-git-send-email-dbaryshkov@gmail.com>
 X-Mailer: git-send-email 1.7.2.5
 In-Reply-To: <1316807201-22623-1-git-send-email-dbaryshkov@gmail.com>
 References: <1316807201-22623-1-git-send-email-dbaryshkov@gmail.com>
 Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Subject: [PATCH 03/10] bash-completion: new recipe
+Subject: [PATCH 04/10] dbus-glib: include bash-completion stuff
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,53 +41,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Sep 2011 19:52:13 -0000
-
-Add a bash-completion recipe. Largely based on the one from oe-dev repo.
-Changes:
-1) Version bump to most recent bash-completion upstream tarball
-2) Dropped custom profile.d script in favour of upstream one.
+X-List-Received-Date: Fri, 23 Sep 2011 19:52:16 -0000
 
 Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 ---
- .../bash-completion/bash-completion_20060301.bb    |   28 ++++++++++++++++++++
- 1 files changed, 28 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-extended/bash-completion/bash-completion_20060301.bb
+ meta/recipes-core/dbus/dbus-glib.inc     |    4 +++-
+ meta/recipes-core/dbus/dbus-glib_0.92.bb |    2 +-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/bash-completion/bash-completion_20060301.bb b/meta/recipes-extended/bash-completion/bash-completion_20060301.bb
-new file mode 100644
-index 0000000..9e8ede2
---- /dev/null
-+++ b/meta/recipes-extended/bash-completion/bash-completion_20060301.bb
-@@ -0,0 +1,28 @@
-+DESCRIPTION = "Programmable Completion for Bash"
-+SECTION = "console/utils"
-+RDEPENDS_${PN} = "bash"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
-+PR = "r0"
-+
-+SRC_URI = "http://www.caliban.org/files/bash/bash-completion-${PV}.tar.gz"
-+S = "${WORKDIR}/bash_completion"
-+
-+do_configure() {
-+	:
-+}
-+
-+do_compile() {
-+	:
-+}
-+
-+do_install() {
-+	install -d ${D}${sysconfdir}/profile.d
-+	install -m 0755 bash_completion.sh ${D}${sysconfdir}/profile.d
-+	install -m 0755 bash_completion ${D}${sysconfdir}
-+	install -d ${D}${sysconfdir}/bash_completion.d/
-+	install -m 0755 contrib/* ${D}${sysconfdir}/bash_completion.d/
-+}
-+
-+SRC_URI[md5sum] = "9bca1cf97e8f8c73e3ef560cc9dead21"
-+SRC_URI[sha256sum] = "29b78834b975b29810f0bf1f15e5d3a6c003a137cfac7fea671bfaf8f58f5c0d"
+diff --git a/meta/recipes-core/dbus/dbus-glib.inc b/meta/recipes-core/dbus/dbus-glib.inc
+index 704dc04..7688a0f 100644
+--- a/meta/recipes-core/dbus/dbus-glib.inc
++++ b/meta/recipes-core/dbus/dbus-glib.inc
+@@ -19,7 +19,9 @@ EXTRA_OECONF = "--with-introspect-xml=${STAGING_DATADIR_NATIVE}/dbus/dbus-bus-in
+                 --with-dbus-binding-tool=${STAGING_BINDIR_NATIVE}/dbus-binding-tool"
+ EXTRA_OECONF_virtclass-native = "--with-introspect-xml=${STAGING_DATADIR_NATIVE}/dbus/dbus-bus-introspect.xml"
+ 
+-FILES_${PN} = "${libdir}/lib*.so.*"
++FILES_${PN} = "${libdir}/lib*.so.* \
++               ${sysconfdir}/bash_completion.d/dbus-bash-completion.sh \
++	       ${libexecdir}/dbus-bash-completion-helper"
+ FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool"
+ FILES_${PN}-dev += "${bindir}/dbus-binding-tool"
+ 
+diff --git a/meta/recipes-core/dbus/dbus-glib_0.92.bb b/meta/recipes-core/dbus/dbus-glib_0.92.bb
+index 72bea89..c7266d4 100644
+--- a/meta/recipes-core/dbus/dbus-glib_0.92.bb
++++ b/meta/recipes-core/dbus/dbus-glib_0.92.bb
+@@ -1,6 +1,6 @@
+ require dbus-glib.inc
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI[md5sum] = "b595b36890c4f9f8f5d5dec131c495f8"
+ SRC_URI[sha256sum] = "5a7fd4cf937cdcb7f2eed61341b70ee0f2607450a50db381618598adf60dd40e"
 -- 
 1.7.2.5
 
