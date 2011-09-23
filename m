@@ -1,18 +1,34 @@
-Received: from host-82-135-33-74.customer.m-online.net ([82.135.33.74]
-	helo=sisyphus.denx.de) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dima_ch@sisyphus.denx.de>) id 1R76ag-00086l-Kz
-	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Sep 2011 16:18:58 +0200
-Received: by sisyphus.denx.de (Postfix, from userid 556)
-	id B58CC41F12F6; Fri, 23 Sep 2011 16:13:37 +0200 (CEST)
-From: Dmitry Cherukhin <dima_ch@emcraft.com>
+Received: from lo.gmane.org ([80.91.229.12])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1R77U8-0000nj-Jp for openembedded-core@lists.openembedded.org;
+	Fri, 23 Sep 2011 17:16:16 +0200
+Received: from list by lo.gmane.org with local (Exim 4.69)
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1R77Oz-0004zn-M7 for openembedded-core@lists.openembedded.org;
+	Fri, 23 Sep 2011 17:10:57 +0200
+Received: from nat-rup.mentorg.com ([139.181.168.34])
+	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
+	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Sep 2011 17:10:57 +0200
+Received: from dbaryshkov by nat-rup.mentorg.com with local (Gmexim 0.1
+	(Debian)) id 1AlnuQ-0007hv-00
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Sep 2011 17:10:57 +0200
+X-Injected-Via-Gmane: http://gmane.org/
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Sep 2011 16:13:14 +0200
-Message-Id: <1316787194-17442-1-git-send-email-dima_ch@emcraft.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <f63c9c5991312f05bffee750086a0c7398770f8a>
-References: <f63c9c5991312f05bffee750086a0c7398770f8a>
-Subject: [PATCH] qt4: Added support for QtMobility 1.2
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Date: Fri, 23 Sep 2011 19:09:59 +0400
+Message-ID: <4E7CA147.4060000@gmail.com>
+References: <20110922120430.GE3477@jama.jama.net>
+Mime-Version: 1.0
+X-Complaints-To: usenet@dough.gmane.org
+X-Gmane-NNTP-Posting-Host: nat-rup.mentorg.com
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.21) Gecko/20110831 Iceowl/1.0b2 Icedove/3.1.13
+In-Reply-To: <20110922120430.GE3477@jama.jama.net>
+Cc: Martin Jansa <public-martin.jansa-Re5JQEeQqe8AvxtiuMwx3w@lo.gmane.org>
+Subject: Re: [PATCH 11/17] eglibc: fix packaging of some of nativesdk packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,183 +43,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Sep 2011 14:18:58 -0000
+X-List-Received-Date: Fri, 23 Sep 2011 15:16:16 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This patch is indented to add new functionality,
-specifically, the patch adds support for
-the QtMobility 1.2 package.
+On 09/22/2011 04:04 PM, Martin Jansa wrote:
+> Hi,
+>
+> after this patch PKGSUFFIX is probably evaluated too late and this:
+>
+> # PREFERRED_PROVIDER_glibc-thread-db=eglibc-thread-db
+> PREFERRED_PROVIDER_glibc-thread-db="eglibc-thread-db"
+> # RPROVIDES_eglibc-thread-db${PKGSUFFIX}=glibc-thread-db${PKGSUFFIX}
+> RPROVIDES_eglibc-thread-db="glibc-thread-db"
 
-Added two recipes:
-1) qt-mobility-x11 builds the QtMobility 1.2 package
-   on the basis of qt4-x11-free;
-2) qt-mobility-embedded builds the QtMobility 1.2 package
-   on the basis of qt4-embedded.
+The strange thing is that if I remove the PKGSUFFIX lines for 
+eglibc-thread-db/eglibc-extra-nss, and put the following lines in, 
+everyghing is working for me.
 
-Signed-off-by: Dmitry Cherukhin <dima_ch@emcraft.com>
----
- meta/recipes-qt/qt4/files/qtm_qtmobility_pro.patch |   28 +++++++++++
- meta/recipes-qt/qt4/files/qtme_gstreamer_pro.patch |   16 ++++++
- meta/recipes-qt/qt4/qt-mobility-embedded_1.2.0.bb  |   13 +++++
- meta/recipes-qt/qt4/qt-mobility-x11_1.2.0.bb       |   11 ++++
- meta/recipes-qt/qt4/qt-mobility_1.2.0.inc          |   51 ++++++++++++++++++++
- 5 files changed, 119 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-qt/qt4/files/qtm_qtmobility_pro.patch
- create mode 100644 meta/recipes-qt/qt4/files/qtme_gstreamer_pro.patch
- create mode 100644 meta/recipes-qt/qt4/qt-mobility-embedded_1.2.0.bb
- create mode 100644 meta/recipes-qt/qt4/qt-mobility-x11_1.2.0.bb
- create mode 100644 meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+RPROVIDES_eglibc-extra-nss = "glibc-extra-nss"
+RPROVIDES_eglibc-thread-db = "glibc-thread-db"
+RPROVIDES_eglibc-extra-nss-nativesdk = "glibc-extra-nss-nativesdk"
+RPROVIDES_eglibc-thread-db-nativesdk = "glibc-thread-db-nativesdk"
 
-diff --git a/meta/recipes-qt/qt4/files/qtm_qtmobility_pro.patch b/meta/recipes-qt/qt4/files/qtm_qtmobility_pro.patch
-new file mode 100644
-index 0000000..689c224
---- /dev/null
-+++ b/meta/recipes-qt/qt4/files/qtm_qtmobility_pro.patch
-@@ -0,0 +1,28 @@
-+This patch fixes the following issue at the configure stage:
-+   Project ERROR: Qt Mobility requires Qt 4.6 or higher. Qt was found.
-+The version of Qt is already 4.7.3, so this is misconfiguration problem.
-+
-+The origin of this patch is: 
-+   http://neophysis.git.sourceforge.net/git/gitweb.cgi?p=neophysis/openembedded;
-+   a=blob;f=recipes/neophysis/qt-mobility-1.0.0/qtmobility_pro.patch;
-+   h=fc5e1691aed47bc50d87e5c33497354182cacda4;hb=refs/heads/neophysis-testing-0.3
-+Upstream-Status: not-appropriate
-+--- qt-mobility-opensource-src-1.0.0/qtmobility.pro.orig	2010-05-21 14:20:19.547363661 +0200
-++++ qt-mobility-opensource-src-1.0.0/qtmobility.pro	2010-05-21 14:22:01.967353682 +0200
-+@@ -53,15 +53,6 @@ win32:!contains(CONFIG_WIN32,build_all) 
-+    }
-+ }
-+ 
-+-lessThan(QT_MAJOR_VERSION, 4) {
-+-    error(Qt Mobility requires Qt 4.6 or higher. Qt $${QT_VERSION} was found.);
-+-}
-+-
-+-contains(QT_MAJOR_VERSION, 4):lessThan(QT_MINOR_VERSION, 6) {
-+-    error(Qt Mobility requires Qt 4.6 or higher. Qt $${QT_VERSION} was found.);
-+-}
-+-
-+-
-+ # MCL builds for Symbian do not run configure and require some manual setup steps.
-+ # This test permits SD builds to skip installation of mobility.prf from within qmake.
-+ # It is installed in a separate step. MCL builds for SD must set the
-+
-diff --git a/meta/recipes-qt/qt4/files/qtme_gstreamer_pro.patch b/meta/recipes-qt/qt4/files/qtme_gstreamer_pro.patch
-new file mode 100644
-index 0000000..0cba1d6
---- /dev/null
-+++ b/meta/recipes-qt/qt4/files/qtme_gstreamer_pro.patch
-@@ -0,0 +1,16 @@
-+This patch disables the section of the Qt project file which depends on X11.
-+The patch is applied for the qt-mobility-embedded package only.
-+This section is already disabled for the embedded platform so we do what should be done.
-+
-+Upstream-Status: not-appropriate
-+--- qt-mobility-opensource-src-1.2.0/plugins/multimedia/gstreamer/gstreamer.pro.orig	2011-09-13 09:19:05.000000000 +0200
-++++ qt-mobility-opensource-src-1.2.0/plugins/multimedia/gstreamer/gstreamer.pro	2011-09-13 09:37:58.609252481 +0200
-+@@ -81,7 +81,7 @@
-+     qgstutils.cpp
-+ 
-+ 
-+-!win32:!embedded:!mac:!symbian:!simulator:!contains(QT_CONFIG, qpa) {
-++!win32:!embedded:!mac:!symbian:!simulator:!contains(QT_CONFIG, qpa):!contains(qt_embedded,yes) {
-+     LIBS += -lXv -lX11 -lXext
-+ 
-+     HEADERS += \
-diff --git a/meta/recipes-qt/qt4/qt-mobility-embedded_1.2.0.bb b/meta/recipes-qt/qt4/qt-mobility-embedded_1.2.0.bb
-new file mode 100644
-index 0000000..c31b1d2
---- /dev/null
-+++ b/meta/recipes-qt/qt4/qt-mobility-embedded_1.2.0.bb
-@@ -0,0 +1,13 @@
-+DESCRIPTION = "Qt Mobility 1.2.0 - version for Qt/Embedded"
-+DEPENDS = "qt4-embedded"
-+SECTION = "libs"
-+qtm_embedded := "yes"
-+qtm_libinfix := "E"
-+qtm_dir = "qtopia"
-+qtm_glflags := "-=opengl"
-+qtm_extra_config := "gstreamer-photography_enabled = no"
-+
-+inherit qt4e
-+require qt-mobility_${PV}.inc
-+
-+SRC_URI += "file://qtme_gstreamer_pro.patch;patch=1"
-diff --git a/meta/recipes-qt/qt4/qt-mobility-x11_1.2.0.bb b/meta/recipes-qt/qt4/qt-mobility-x11_1.2.0.bb
-new file mode 100644
-index 0000000..3020953
---- /dev/null
-+++ b/meta/recipes-qt/qt4/qt-mobility-x11_1.2.0.bb
-@@ -0,0 +1,11 @@
-+DESCRIPTION = "Qt Mobility 1.2.0 - version for Qt/X11"
-+DEPENDS = "qt4-x11-free"
-+SECTION = "x11/libs"
-+qtm_embedded := "no"
-+qtm_libinfix := ""
-+qtm_dir = "qt4"
-+qtm_glflags := "${@base_contains('DISTRO_FEATURES', 'opengl', '+=opengl', '-=opengl', d)} "
-+qtm_extra_config := ""
-+
-+inherit qt4x11
-+require qt-mobility_${PV}.inc
-diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-new file mode 100644
-index 0000000..5a423d7
---- /dev/null
-+++ b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-@@ -0,0 +1,51 @@
-+HOMEPAGE = "http://qt.nokia.com"
-+DEPENDS += "pulseaudio bluez4"
-+
-+LICENSE = "LGPLv2.1"
-+LIC_FILES_CHKSUM = "file://LICENSE.LGPL;md5=fbc093901857fcd118f065f900982c24 \
-+		    file://LGPL_EXCEPTION.txt;md5=411080a56ff917a5a1aa08c98acae354"
-+
-+SRC_URI = "http://get.qt.nokia.com/qt/add-ons/qt-mobility-opensource-src-${PV}.tar.gz \
-+		    file://qtm_qtmobility_pro.patch;patch=1 "
-+
-+SRC_URI[md5sum]="ea5db5a8d3dd4709c2926dceda646bd8"
-+SRC_URI[sha256sum]="ee3c88975e04139ac9589f76d4be646d44fcbc4c8c1cf2db621abc154cf0ba44"
-+
-+S = "${WORKDIR}/qt-mobility-opensource-src-${PV}"
-+
-+qtm_bin := "/usr/bin/${qtm_dir}"
-+qtm_lib := "/usr/lib"
-+qtm_include := "/usr/include/${qtm_dir}"
-+qtm_examples := "/usr/bin/${qtm_dir}/examples/qtmobility"
-+qtm_demos := "/usr/bin/${qtm_dir}/demos/qtmobility"
-+qtm_plugins := "/usr/lib/${qtm_dir}/plugins/qtmobility"
-+
-+do_configure_prepend() {
-+	./configure -qmake-exec qmake2 -prefix /usr -examples -demos
-+	echo QT_MOBILITY_BIN = ${qtm_bin} >>./config.pri
-+	echo QT_MOBILITY_LIB = ${qtm_lib} >>./config.pri
-+	echo QT_MOBILITY_INCLUDE = ${qtm_include} >>./config.pri
-+	echo QT_MOBILITY_PLUGINS = ${qtm_plugins} >>./config.pri
-+	echo QT_MOBILITY_EXAMPLES = ${qtm_examples} >>./config.pri
-+	echo QT_MOBILITY_DEMOS = ${qtm_demos} >>./config.pri
-+	echo QT_CONFIG += dbus >>./config.pri
-+	echo QT_CONFIG ${qtm_glflags} >>./config.pri
-+	echo QT_LIBINFIX = ${qtm_libinfix} >>./config.pri
-+	echo qt_embedded = ${qtm_embedded} >>./config.pri
-+	echo bluez_enabled = yes >>./config.pri
-+	echo ${qtm_extra_config} >>./config.pri
-+}
-+
-+do_install() {
-+	oe_runmake install INSTALL_ROOT=${D}
-+	for NAME in */*.prf
-+	do
-+	    install -m 644 -D -T $NAME ${D}/usr/share/${qtm_dir}/mkspecs/features/`basename $NAME`
-+	done
-+}
-+
-+PACKAGES = "${PN}-dbg ${PN} ${PN}-dev"
-+
-+FILES_${PN}-dbg = "${qtm_bin}/.debug ${qtm_examples}/.debug ${qtm_demos}/.debug ${qtm_lib}/.debug ${qtm_plugins}/*/.debug /usr/src/debug"
-+FILES_${PN} = "${qtm_bin} ${qtm_examples} ${qtm_demos} ${qtm_lib}/*.so.1* ${qtm_plugins}"
-+FILES_${PN}-dev = "/usr"
--- 
-1.7.6
+Also the following lines seem to work:
+
+RPROVIDES_${PN}-extra-nss = "glibc${PKGSUFFIX}-extra-nss"
+RPROVIDES_${PN}-thread-db = "glibc${PKGSUFFIX}-thread-db"
+
+
+Could you please test that it works for you?
+
+> doesn't seem to work as expected and gdb pulls whole
+> external-csl-toolchain as glibc-thread-db provider for
+>
+> RRECOMMENDS_gdb_append_linux-gnueabi = " glibc-thread-db "
+>
+> and btw:
+> ERROR: external-poky-toolchain: Recipe file does not have license file information (LIC_FILES_CHKSUM)
+> ERROR: Licensing Error: LIC_FILES_CHKSUM does not match, please fix
+>
+> and sign of this behavior is also qemu-native pulled to build and
+> warnings like this also for virtual/libc virtual/linux-libc-headers
+>
+> ERROR: Multiple .bb files are due to be built which each provide virtual/libiconv
+> (/OE/shr-core/openembedded-core/meta/recipes-core/eglibc/eglibc_2.13.bb
+>   /OE/shr-core/openembedded-core/meta/recipes-core/meta/external-csl-toolchain_2008q3-72.bb).
+>
+> Regards,
+>
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 
 
 
