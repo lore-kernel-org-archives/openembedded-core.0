@@ -1,32 +1,32 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dbaryshkov@gmail.com>) id 1R7BnQ-0006Ry-EA
+	(envelope-from <dbaryshkov@gmail.com>) id 1R7BnQ-0006S1-NS
 	for openembedded-core@lists.openembedded.org;
 	Fri, 23 Sep 2011 21:52:28 +0200
-Received: by mail-bw0-f47.google.com with SMTP id 11so4179694bke.6
+Received: by mail-bw0-f47.google.com with SMTP id 11so4179714bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Sep 2011 12:47:09 -0700 (PDT)
+	Fri, 23 Sep 2011 12:47:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=44s2EhjQm9asqZnzQWw7ZT8nERx4Gy58FHc+se9eDgE=;
-	b=i05OXjc/1sagp8LOFaCoiiSpcnfzneAEl3TJ/ha2quwgpPF5VUqhBP/qCy52xlic+R
-	/Mfe8YMtoc4WpdZmQ9000eR2+QXREUOozV1CtzcVTZ6c67YA0RUcyEfBd1BwIOoG8BKP
-	l0teaA/J2y2V3zk9Q0KsubvneuBV257Fh6bRk=
-Received: by 10.204.145.89 with SMTP id c25mr2778507bkv.280.1316807229632;
-	Fri, 23 Sep 2011 12:47:09 -0700 (PDT)
+	bh=l281RvGqnH2iFUnVNBLrXYAERR/jQkRNRoUMoaJsFzE=;
+	b=x4qngDWRNXcAqGlOqLPpznY7iUPMlm1L3FSdf8WKsJUG1/toH+ZUTbEWpb0PtHvRfz
+	wJ37vsym8N8TFncePKr66ii1eXbRiwTBrBekx6TZDUtH3/Th3BtF8fwZR8682f82YbAE
+	qevV27hYhUEM0zKKgq0yE9EHgrkO29LKEk2IE=
+Received: by 10.204.148.72 with SMTP id o8mr2958077bkv.65.1316807225729;
+	Fri, 23 Sep 2011 12:47:05 -0700 (PDT)
 Received: from localhost.localdomain ([194.85.238.22])
-	by mx.google.com with ESMTPS id ex8sm5500310bkc.2.2011.09.23.12.47.07
+	by mx.google.com with ESMTPS id ex8sm5500310bkc.2.2011.09.23.12.47.03
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 23 Sep 2011 12:47:08 -0700 (PDT)
+	Fri, 23 Sep 2011 12:47:04 -0700 (PDT)
 From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Sep 2011 23:46:41 +0400
-Message-Id: <1316807201-22623-10-git-send-email-dbaryshkov@gmail.com>
+Date: Fri, 23 Sep 2011 23:46:39 +0400
+Message-Id: <1316807201-22623-8-git-send-email-dbaryshkov@gmail.com>
 X-Mailer: git-send-email 1.7.2.5
 In-Reply-To: <1316807201-22623-1-git-send-email-dbaryshkov@gmail.com>
 References: <1316807201-22623-1-git-send-email-dbaryshkov@gmail.com>
-Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Subject: [PATCH 10/10] libffi: really populate -dev package
+Cc: lumag <dbaryshkov@gmail.com>, Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH 08/10] gcc: include libgcov.a into libgcc-dev package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,35 +43,69 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 23 Sep 2011 19:52:29 -0000
 
-As per gcc PR 11147, libffi installs headers into a target dependent
-place (/usr/lib/....). Include a rule to include those files into
-libffi-dev package.
+From: lumag <dbaryshkov@gmail.com>
 
-Reference: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=11147
+First, this lib is usefull for coverage analysis-enabled building.
+Second, this fixes the warning about unpackaged files in libgcc recipe.
 
 Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 ---
- meta/recipes-gnome/libffi/libffi_3.0.9.bb |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
+ meta/recipes-devtools/gcc/gcc-4.5.1.inc   |    2 +-
+ meta/recipes-devtools/gcc/gcc-4.6.inc     |    2 +-
+ meta/recipes-devtools/gcc/libgcc_4.5.1.bb |    1 +
+ meta/recipes-devtools/gcc/libgcc_4.6.bb   |    1 +
+ 4 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-gnome/libffi/libffi_3.0.9.bb b/meta/recipes-gnome/libffi/libffi_3.0.9.bb
-index b6c7c13..0ea2284 100644
---- a/meta/recipes-gnome/libffi/libffi_3.0.9.bb
-+++ b/meta/recipes-gnome/libffi/libffi_3.0.9.bb
-@@ -7,10 +7,13 @@ library really only provides the lowest, machine dependent layer of a fully feat
- A layer must exist above `libffi' that handles type conversions for values passed between the two languages."
- SRC_URI = "ftp://sourceware.org/pub/libffi/${BPN}-${PV}.tar.gz"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.5.1.inc b/meta/recipes-devtools/gcc/gcc-4.5.1.inc
+index 6a9a7a6..839529e 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.5.1.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.5.1.inc
+@@ -1,6 +1,6 @@
+ require gcc-common.inc
  
-+PR = "r1"
-+
- SRC_URI[md5sum] = "1f300a7a7f975d4046f51c3022fa5ff1"
- SRC_URI[sha256sum] = "589d25152318bc780cd8919b14670793f4971d9838dab46ed38c32b3ee92c452"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=fa09cb778aaba64dc9eac37ab7e4e5d8"
- inherit autotools
+-PR = "r11"
++PR = "r12"
  
-+FILES_${PN}-dev += "${libdir}/libffi-${PV}"
- BBCLASSEXTEND = "native"
+ DEPENDS =+ "mpfr gmp libmpc elfutils"
+ NATIVEDEPS = "mpfr-native gmp-native gettext-native libmpc-native elfutils-native"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
+index 5d83e90..b7b6a43 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.6.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
+@@ -1,6 +1,6 @@
+ require gcc-common.inc
+ 
+-PR = "r12"
++PR = "r13"
+ 
+ # Third digit in PV should be incremented after a minor release
+ # happens from this branch on gcc e.g. currently its 4.6.0
+diff --git a/meta/recipes-devtools/gcc/libgcc_4.5.1.bb b/meta/recipes-devtools/gcc/libgcc_4.5.1.bb
+index 09e3c1e..500dda9 100644
+--- a/meta/recipes-devtools/gcc/libgcc_4.5.1.bb
++++ b/meta/recipes-devtools/gcc/libgcc_4.5.1.bb
+@@ -12,6 +12,7 @@ FILES_${PN} = "${base_libdir}/libgcc*.so.*"
+ FILES_${PN}-dev = " \
+   ${base_libdir}/libgcc*.so \
+   ${libdir}/${TARGET_SYS}/${BINV}/crt* \
++  ${libdir}/${TARGET_SYS}/${BINV}/libgcov.a \
+   ${libdir}/${TARGET_SYS}/${BINV}/libgcc*"
+ 
+ do_configure[noexec] = "1"
+diff --git a/meta/recipes-devtools/gcc/libgcc_4.6.bb b/meta/recipes-devtools/gcc/libgcc_4.6.bb
+index 63a46ec..6ba0339 100644
+--- a/meta/recipes-devtools/gcc/libgcc_4.6.bb
++++ b/meta/recipes-devtools/gcc/libgcc_4.6.bb
+@@ -12,6 +12,7 @@ FILES_${PN} = "${base_libdir}/libgcc*.so.*"
+ FILES_${PN}-dev = " \
+   ${base_libdir}/libgcc*.so \
+   ${libdir}/${TARGET_SYS}/${BINV}/crt* \
++  ${libdir}/${TARGET_SYS}/${BINV}/libgcov.a \
+   ${libdir}/${TARGET_SYS}/${BINV}/libgcc*"
+ 
+ do_configure[noexec] = "1"
 -- 
 1.7.2.5
 
