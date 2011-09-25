@@ -1,28 +1,36 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1R7q7d-000108-Eg
+	(envelope-from <richard@rpsys.net>) id 1R7rDj-0002oW-4T
 	for openembedded-core@lists.openembedded.org;
-	Sun, 25 Sep 2011 16:56:01 +0200
-Received: by fxi1 with SMTP id 1so5133408fxi.6
+	Sun, 25 Sep 2011 18:06:23 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8PG3UWP016361 for <openembedded-core@lists.openembedded.org>;
+	Sun, 25 Sep 2011 17:03:30 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 8RXaoBGFcu6I
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Sep 2011 07:50:38 -0700 (PDT)
-Received: by 10.223.52.218 with SMTP id j26mr8859513fag.56.1316962238370;
-	Sun, 25 Sep 2011 07:50:38 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id c5sm17260302fai.2.2011.09.25.07.50.36
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 25 Sep 2011 07:50:37 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1316950444.8185.14.camel@ted>
-Date: Sun, 25 Sep 2011 16:50:31 +0200
-Message-Id: <1DFC8F6E-C652-42A6-83B2-147A77A70A95@dominion.thruhere.net>
-References: <1316950444.8185.14.camel@ted>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1244.3)
-Subject: Re: qt3 vs qt4 issues
+	Sun, 25 Sep 2011 17:03:29 +0100 (BST)
+Received: from ted (tim [93.97.173.237])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8PG3POX016306
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 25 Sep 2011 17:03:26 +0100
+Received: from richard by ted with local (Exim 4.76)
+	(envelope-from <richard@dan.rpsys.net>) id 1R7r4g-0005Wp-7Y
+	for openembedded-core@lists.openembedded.org;
+	Sun, 25 Sep 2011 16:57:02 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 25 Sep 2011 16:56:53 +0100
+Message-Id: <8ad24306d8bc9c2fd73f4b814eb1a64c04707da5.1316963134.git.richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <cover.1316963134.git.richard.purdie@linuxfoundation.org>
+References: <cover.1316963134.git.richard.purdie@linuxfoundation.org>
+Subject: [PATCH 1/9] gnome-desktop: Ensure we're deterministic about startup-notification dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,40 +45,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Sep 2011 14:56:01 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 25 Sep 2011 16:06:23 -0000
 
+Without this change we may or may not include startup-notification support.
 
-Op 25 sep. 2011, om 13:33 heeft Richard Purdie het volgende geschreven:
+We therefore explictly include it in the dependency list.
 
-> I've been looking at the qt3 failures on the autobuilder. It seems =
-there
-> is some kind of contamination between the qt4 builds and the qt3 =
-builds
-> and I'm not sure what is or isn't expected to work there.
->=20
-> We're doing the following in the build:
->=20
-> a) Build core-image-lsb (includes qt4, builds qt4+qt4-native)
-> b) Wipe out tmp
-> c) Add in meta-qt3 layer
-> d) Enable sstate from build in a)
-> e) Build core-image-lsb-qt3 which adds in qt3
-> f) Bitbake determines it needs to install qt4 for the image but=20
->   nothing depends on the native qt4 tools so these are not installed
-> g) This will build qt3+qt3-native with qt4 in the sysroot but no=20
->   qt4-native
-> h) We see build failures as qt3 seems to want to find bits of =
-qt4-native
->=20
-> If qt4 and qt4-native are present, qt3 works
-> If qt4 and qt4-native are not present, qt3 works
-> If qt4 is present but qt4-native is not, qt3 fails
->=20
-> How do we fix this?
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-gnome/gnome/gnome-desktop.inc |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-I suspect qt3 is missing bits of the tool renaming we do for qt4 and qt2 =
-(moc, uic, lrelease, etc)=
+diff --git a/meta/recipes-gnome/gnome/gnome-desktop.inc b/meta/recipes-gnome/gnome/gnome-desktop.inc
+index 1317fff..cfc1c2e 100644
+--- a/meta/recipes-gnome/gnome/gnome-desktop.inc
++++ b/meta/recipes-gnome/gnome/gnome-desktop.inc
+@@ -1,7 +1,7 @@
+ DESCRIPTION = "GNOME library for reading .desktop files"
+ SECTION = "x11/gnome"
+ LICENSE = "GPLv2 & LGPLv2"
+-DEPENDS = "gconf libxrandr virtual/libx11 gtk+ glib-2.0 gnome-doc-utils"
++DEPENDS = "gconf libxrandr virtual/libx11 gtk+ glib-2.0 gnome-doc-utils startup-notification"
+ 
+ EXTRA_OECONF = "--disable-scrollkeeper --disable-desktop-docs"
+ 
+@@ -11,7 +11,7 @@ do_configure_prepend () {
+ 
+ FILES_${PN} += "${datadir}/gnome-about"
+ 
+-PR = "r2"
++PR = "r3"
+ 
+ inherit gnome pkgconfig
+ 
+-- 
+1.7.5.4
+
 
 
