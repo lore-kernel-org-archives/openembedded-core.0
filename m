@@ -1,30 +1,32 @@
-Received: from mail-pz0-f43.google.com ([209.85.210.43])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1R7cOr-0005LA-7R
-	for openembedded-core@lists.openembedded.org;
-	Sun, 25 Sep 2011 02:16:53 +0200
-Received: by pzd13 with SMTP id 13so11329664pzd.2
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Sep 2011 17:11:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=vDQLoSUI2kZhosTgxHNd7pPuDPtAIp5Ggr/nR4Q+BgM=;
-	b=Q5xOwgXc5xbSZqDVzWk1UtYvuAwUPDXOcBiHdRbSCg+uX0PSEMk3D5mMjJDPpLYTdZ
-	FN6LbqQFEEiGgQrUq1p+ncnat0hKTnolyo/SMD4ndbLOVN8SQt+Drazunjv/pjm2FWH5
-	Z4IvzWQ57mm9DBjdOIkVzIzln8xFuldcxPfRs=
-Received: by 10.68.19.6 with SMTP id a6mr19423962pbe.46.1316909489810;
-	Sat, 24 Sep 2011 17:11:29 -0700 (PDT)
-Received: from localhost.localdomain
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
-	by mx.google.com with ESMTPS id ji3sm55372726pbc.2.2011.09.24.17.11.28
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 24 Sep 2011 17:11:29 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 24 Sep 2011 17:11:17 -0700
-Message-Id: <1316909477-31924-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH] intltool: inherit gettext to add missing dependency on gettext
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1R7lNr-0003g8-Hf for openembedded-core@lists.openembedded.org;
+	Sun, 25 Sep 2011 11:52:27 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8P9rJvE003997; Sun, 25 Sep 2011 10:53:20 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id xDbFLCd0FEbe; Sun, 25 Sep 2011 10:53:19 +0100 (BST)
+Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8P9rG8D003975
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Sun, 25 Sep 2011 10:53:18 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Sun, 25 Sep 2011 10:46:53 +0100
+In-Reply-To: <1316807201-22623-3-git-send-email-dbaryshkov@gmail.com>
+References: <1316807201-22623-1-git-send-email-dbaryshkov@gmail.com>
+	<1316807201-22623-3-git-send-email-dbaryshkov@gmail.com>
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1316944021.8185.0.camel@ted>
+Mime-Version: 1.0
+Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Subject: Re: [PATCH 03/10] bash-completion: new recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,49 +41,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Sep 2011 00:16:53 -0000
+X-List-Received-Date: Sun, 25 Sep 2011 09:52:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Fixes the error like below
+On Fri, 2011-09-23 at 23:46 +0400, Dmitry Eremin-Solenikov wrote:
+> Add a bash-completion recipe. Largely based on the one from oe-dev repo.
+> Changes:
+> 1) Version bump to most recent bash-completion upstream tarball
+> 2) Dropped custom profile.d script in favour of upstream one.
+> 
+> Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+> ---
+>  .../bash-completion/bash-completion_20060301.bb    |   28 ++++++++++++++++++++
+>  1 files changed, 28 insertions(+), 0 deletions(-)
+>  create mode 100644 meta/recipes-extended/bash-completion/bash-completion_20060301.bb
+> 
+> diff --git a/meta/recipes-extended/bash-completion/bash-completion_20060301.bb b/meta/recipes-extended/bash-completion/bash-completion_20060301.bb
+> new file mode 100644
+> index 0000000..9e8ede2
+> --- /dev/null
+> +++ b/meta/recipes-extended/bash-completion/bash-completion_20060301.bb
+> @@ -0,0 +1,28 @@
+> +DESCRIPTION = "Programmable Completion for Bash"
+> +SECTION = "console/utils"
+> +RDEPENDS_${PN} = "bash"
+> +LICENSE = "GPLv2"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+> +PR = "r0"
+> +
+> +SRC_URI = "http://www.caliban.org/files/bash/bash-completion-${PV}.tar.gz"
+> +S = "${WORKDIR}/bash_completion"
+> +
+> +do_configure() {
+> +	:
+> +}
+> +
+> +do_compile() {
+> +	:
+> +}
+> +
+> +do_install() {
+> +	install -d ${D}${sysconfdir}/profile.d
+> +	install -m 0755 bash_completion.sh ${D}${sysconfdir}/profile.d
+> +	install -m 0755 bash_completion ${D}${sysconfdir}
+> +	install -d ${D}${sysconfdir}/bash_completion.d/
+> +	install -m 0755 contrib/* ${D}${sysconfdir}/bash_completion.d/
+> +}
+> +
+> +SRC_URI[md5sum] = "9bca1cf97e8f8c73e3ef560cc9dead21"
+> +SRC_URI[sha256sum] = "29b78834b975b29810f0bf1f15e5d3a6c003a137cfac7fea671bfaf8f58f5c0d"
 
-| configure: error: GNU gettext tools not found; required for intltool
-| + bbfatal 'oe_runconf failed'
-| + echo 'ERROR: oe_runconf failed'
-| ERROR: oe_runconf failed
+We might as well put an "inherit allarch" into this recipe...
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/intltool/intltool.inc       |    2 +-
- meta/recipes-devtools/intltool/intltool_0.40.6.bb |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Cheers,
 
-diff --git a/meta/recipes-devtools/intltool/intltool.inc b/meta/recipes-devtools/intltool/intltool.inc
-index 23a1ee9..1e54feb 100644
---- a/meta/recipes-devtools/intltool/intltool.inc
-+++ b/meta/recipes-devtools/intltool/intltool.inc
-@@ -12,7 +12,7 @@ DEPENDS_virtclass-native = "libxml-parser-perl-native"
- RRECOMMENDS_${PN} = "perl-modules"
- RRECOMMENDS_${PN}_virtclass-native = ""
- 
--inherit autotools pkgconfig perlnative
-+inherit autotools pkgconfig perlnative gettext
- 
- export PERL = "${bindir}/env perl"
- PERL_virtclass-native = "/usr/bin/env nativeperl"
-diff --git a/meta/recipes-devtools/intltool/intltool_0.40.6.bb b/meta/recipes-devtools/intltool/intltool_0.40.6.bb
-index e9871fc..eae2b85 100644
---- a/meta/recipes-devtools/intltool/intltool_0.40.6.bb
-+++ b/meta/recipes-devtools/intltool/intltool_0.40.6.bb
-@@ -1,7 +1,7 @@
- require intltool.inc
- LICENSE="GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
--PR = "r5"
-+PR = "r6"
- 
- SRC_URI_append = " file://intltool-nowarn-0.40.0.patch \
-                    ${NATIVEPATCHES} \
--- 
-1.7.5.4
+Richard
+
 
 
 
