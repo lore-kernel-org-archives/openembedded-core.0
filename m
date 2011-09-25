@@ -1,29 +1,29 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@rpsys.net>) id 1R7rDq-0002oW-7T
+	(envelope-from <koen@dominion.thruhere.net>) id 1R7rRA-0001Rt-Mh
 	for openembedded-core@lists.openembedded.org;
-	Sun, 25 Sep 2011 18:06:31 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8PG3Rfe016327; Sun, 25 Sep 2011 17:03:27 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id AInKpLr0Kuqa; Sun, 25 Sep 2011 17:03:27 +0100 (BST)
-Received: from ted (tim [93.97.173.237])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8PG3MJu016305
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NOT);
-	Sun, 25 Sep 2011 17:03:24 +0100
-Received: from richard by ted with local (Exim 4.76)
-	(envelope-from <richard@dan.rpsys.net>)
-	id 1R7r4d-0005W7-M0; Sun, 25 Sep 2011 16:56:59 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 25 Sep 2011 16:56:58 +0100
-Message-Id: <cover.1316963134.git.richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH 0/9] Various misc fixes/cleanups
+	Sun, 25 Sep 2011 18:20:16 +0200
+Received: by fxi1 with SMTP id 1so5173456fxi.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 25 Sep 2011 09:14:53 -0700 (PDT)
+Received: by 10.223.18.73 with SMTP id v9mr1623090faa.70.1316967291554;
+	Sun, 25 Sep 2011 09:14:51 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id w14sm17434566fae.13.2011.09.25.09.14.50
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 25 Sep 2011 09:14:50 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <002ad30dae74393120d2391602371116af1bb11d.1316963134.git.richard.purdie@linuxfoundation.org>
+Date: Sun, 25 Sep 2011 18:14:48 +0200
+Message-Id: <ED60D3CD-738C-4796-B242-F97880DC74FF@dominion.thruhere.net>
+References: <8ad24306d8bc9c2fd73f4b814eb1a64c04707da5.1316963134.git.richard.purdie@linuxfoundation.org>
+	<002ad30dae74393120d2391602371116af1bb11d.1316963134.git.richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1244.3)
+Subject: Re: [PATCH 6/9] libtool: Fix an issue where unnecessary rpaths were being injected
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,50 +38,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Sep 2011 16:06:33 -0000
+X-List-Received-Date: Sun, 25 Sep 2011 16:20:17 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-I've placed various misc fixes/cleanups into the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib rpurdie/master
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rpurdie/master
 
-Richard Purdie (9):
-  gnome-desktop: Ensure we're deterministic about startup-notification
-    dependency
-  gtk+: Explicitly disable xinerama since we don't have it as a DEPENDS
-  cairo: Disable bfd symbol loopup since we don't list it in DEPENDS
-  libsndfile1: Disable external codec librbaries since we don't list in
-    DEPENDS
-  neon: Add libproxy to DEPENDS to ensure determinstic builds
-  libtool: Fix an issue where unnecessary rpaths were being injected
-  autotools.bbclass: Set the dynamic linker search path for libtool
-    correctly
-  base.bbclass: Drop legacy code that is no longer useful/used
-  sstate: No need to spew out a debug message per file, summarise
-    instead
+Op 25 sep. 2011, om 17:56 heeft Richard Purdie het volgende geschreven:
 
- meta/classes/autotools.bbclass                     |    2 +
- meta/classes/base.bbclass                          |   30 ---------
- meta/classes/native.bbclass                        |    3 +
- meta/classes/sstate.bbclass                        |    7 +-
- meta/recipes-devtools/libtool/libtool-cross_2.4.bb |    2 +-
- .../recipes-devtools/libtool/libtool-native_2.4.bb |    2 +-
- .../libtool/libtool-nativesdk_2.4.bb               |    2 +-
- meta/recipes-devtools/libtool/libtool.inc          |    3 +-
- meta/recipes-devtools/libtool/libtool/1            |   55 +++++++++++++++++
- .../libtool/libtool/fix-rpath.patch                |   63 ++++++++++++++++++++
- meta/recipes-devtools/libtool/libtool_2.4.bb       |    2 +-
- meta/recipes-gnome/gnome/gnome-desktop.inc         |    4 +-
- meta/recipes-gnome/gtk+/gtk+_2.22.1.bb             |    4 +-
- meta/recipes-graphics/cairo/cairo.inc              |    3 +
- meta/recipes-graphics/cairo/cairo_1.10.2.bb        |    2 +-
- .../libsndfile/libsndfile1_1.0.24.bb               |    4 +-
- meta/recipes-support/neon/neon_0.29.5.bb           |    4 +-
- 17 files changed, 146 insertions(+), 46 deletions(-)
- create mode 100644 meta/recipes-devtools/libtool/libtool/1
- create mode 100644 meta/recipes-devtools/libtool/libtool/fix-rpath.patch
+> libtool was being to aggressive in adding rpath to binaries. This
+> change stops it adding them if that path the default search path.
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> meta/recipes-devtools/libtool/libtool-cross_2.4.bb |    2 +-
+> .../recipes-devtools/libtool/libtool-native_2.4.bb |    2 +-
+> .../libtool/libtool-nativesdk_2.4.bb               |    2 +-
+> meta/recipes-devtools/libtool/libtool.inc          |    3 +-
+> meta/recipes-devtools/libtool/libtool/1            |   55 =
++++++++++++++++++
+> .../libtool/libtool/fix-rpath.patch                |   63 =
+++++++++++++++++++++
+> meta/recipes-devtools/libtool/libtool_2.4.bb       |    2 +-
+> 7 files changed, 124 insertions(+), 5 deletions(-)
+> create mode 100644 meta/recipes-devtools/libtool/libtool/1
+> create mode 100644 =
+meta/recipes-devtools/libtool/libtool/fix-rpath.patch
+>=20
+> diff --git a/meta/recipes-devtools/libtool/libtool-cross_2.4.bb =
+b/meta/recipes-devtools/libtool/libtool-cross_2.4.bb
+> index 25ac580..6d512b1 100644
+> --- a/meta/recipes-devtools/libtool/libtool-cross_2.4.bb
+> +++ b/meta/recipes-devtools/libtool/libtool-cross_2.4.bb
+> @@ -1,6 +1,6 @@
+> require libtool-${PV}.inc
+>=20
+> -PR =3D "r2"
+> +PR =3D "r4"
+> PACKAGES =3D ""
+> SRC_URI +=3D "file://prefix.patch"
+>=20
+> diff --git a/meta/recipes-devtools/libtool/libtool-native_2.4.bb =
+b/meta/recipes-devtools/libtool/libtool-native_2.4.bb
+> index 423622f..3d0998e 100644
+> --- a/meta/recipes-devtools/libtool/libtool-native_2.4.bb
+> +++ b/meta/recipes-devtools/libtool/libtool-native_2.4.bb
+> @@ -2,7 +2,7 @@ require libtool-${PV}.inc
+>=20
+> DEPENDS =3D ""
+>=20
+> -PR =3D "r2"
+> +PR =3D "r4"
+> SRC_URI +=3D "file://prefix.patch"
+>=20
+> inherit native
+> diff --git a/meta/recipes-devtools/libtool/libtool-nativesdk_2.4.bb =
+b/meta/recipes-devtools/libtool/libtool-nativesdk_2.4.bb
+> index 4f67fed..a96d1d1 100644
+> --- a/meta/recipes-devtools/libtool/libtool-nativesdk_2.4.bb
+> +++ b/meta/recipes-devtools/libtool/libtool-nativesdk_2.4.bb
+> @@ -1,6 +1,6 @@
+> require libtool-${PV}.inc
+>=20
+> -PR =3D "r2"
+> +PR =3D "r4"
+> SRC_URI +=3D "file://prefix.patch"
+>=20
+> inherit nativesdk
+> diff --git a/meta/recipes-devtools/libtool/libtool.inc =
+b/meta/recipes-devtools/libtool/libtool.inc
+> index d423e49..ef9095b 100644
+> --- a/meta/recipes-devtools/libtool/libtool.inc
+> +++ b/meta/recipes-devtools/libtool/libtool.inc
+> @@ -15,7 +15,8 @@ SRC_URI =3D =
+"${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
+>            file://resolve-sysroot.patch \
+>            file://use-sysroot-in-libpath.patch \
+>            file://fix-final-rpath.patch \
+> -           file://avoid_absolute_paths_for_general_utils.patch "
+> +           file://avoid_absolute_paths_for_general_utils.patch \
+> +           file://fix-rpath.patch "
+>=20
+> do_compile_prepend () {
+> 	# Sometimes this file doesn't get rebuilt, force the issue
+> diff --git a/meta/recipes-devtools/libtool/libtool/1 =
+b/meta/recipes-devtools/libtool/libtool/1
+> new file mode 100644
+> index 0000000..b3ee955
+> --- /dev/null
+> +++ b/meta/recipes-devtools/libtool/libtool/1
 
--- 
-1.7.5.4
+stray file?
+
 
 
 
