@@ -1,30 +1,32 @@
-Received: from stoexhub01.domain01.net ([83.145.59.142])
+Received: from familie-heinold.de
+	([85.214.48.103] helo=mail.familie-heinold.de ident=postfix)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1R7stM-0005GN-85
+	(envelope-from <woglinde@rhein.zuhause.netz>) id 1R7ug4-0007n7-KV
 	for openembedded-core@lists.openembedded.org;
-	Sun, 25 Sep 2011 19:53:28 +0200
-Received: from ad.chargestorm.se (85.231.30.150) by STOEXHUB01.domain01.net
-	(10.12.10.1) with Microsoft SMTP Server (TLS) id 8.3.137.0;
-	Sun, 25 Sep 2011 19:48:04 +0200
-Date: Sun, 25 Sep 2011 19:48:18 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20110925174817.GA3663@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <1316807201-22623-1-git-send-email-dbaryshkov@gmail.com>
-	<1316807201-22623-4-git-send-email-dbaryshkov@gmail.com>
-	<CAP9ODKqYbuwZ8a0gJrAY3gYKwGPioH9Nj69+nLWamUGLnEFLsQ@mail.gmail.com>
-	<1316971251.8185.31.camel@ted>
-	<CAP9ODKquVa1GNpKfchhExqswpYSY+qYFAmqQQcx4HHmP4LUupA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAP9ODKquVa1GNpKfchhExqswpYSY+qYFAmqQQcx4HHmP4LUupA@mail.gmail.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 04/10] dbus-glib: include bash-completion stuff
+	Sun, 25 Sep 2011 21:47:52 +0200
+Received: from mail.familie-heinold.de (localhost [127.0.0.1])
+	by mail.familie-heinold.de (Postfix) with ESMTP id 720C31100287;
+	Sun, 25 Sep 2011 21:42:31 +0200 (CEST)
+Received: from mail.familie-heinold.de (localhost [127.0.0.1])
+	by mail.familie-heinold.de (Postfix) with ESMTP id 874761100120;
+	Sun, 25 Sep 2011 21:42:30 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	h873313.serverkompetenz.net
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00 autolearn=ham
+	version=3.3.1
+Received: from rhein.familie-heinold.de (g225144251.adsl.alicedsl.de
+	[92.225.144.251]) by mail.familie-heinold.de (Postfix) with ESMTPA;
+	Sun, 25 Sep 2011 21:42:30 +0200 (CEST)
+Received: by rhein.familie-heinold.de (Postfix, from userid 1000)
+	id 13DB530001; Sun, 25 Sep 2011 21:42:30 +0200 (CEST)
+From: Henning Heinold <heinold@inf.fu-berlin.de>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 25 Sep 2011 21:42:22 +0200
+Message-Id: <1316979745-758-1-git-send-email-heinold@inf.fu-berlin.de>
+X-Mailer: git-send-email 1.7.6.3
+X-Virus-Scanned: ClamAV using ClamSMTP
+Subject: [PATCH 0/3] adding cortexa9 tune file and feature for arm socs whithout neon
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,46 +41,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Sep 2011 17:53:28 -0000
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 25 Sep 2011 19:47:52 -0000
 
-* Otavio Salvador <otavio@ossystems.com.br> [110925 19:34]:
-> On Sun, Sep 25, 2011 at 14:20, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Fri, 2011-09-23 at 17:09 -0300, Otavio Salvador wrote:
-> >> On Fri, Sep 23, 2011 at 16:46, Dmitry Eremin-Solenikov
-> >> <dbaryshkov@gmail.com> wrote:
-> >> ...
-> >> > +FILES_${PN} =3D "${libdir}/lib*.so.* \
-> >> > + =A0 =A0 =A0 =A0 =A0 =A0 =A0 ${sysconfdir}/bash_completion.d/dbus-b=
-ash-completion.sh \
-> >> > + =A0 =A0 =A0 =A0 =A0 =A0 =A0${libexecdir}/dbus-bash-completion-help=
-er"
-> >> ...
+Hi,
 
-> >> I'd prefer to have this in another package.
+the series adding the tune file for cortexa9 which is in pandaboard or
+tegra2. It also adds a feature for socs like the tegra2 which has no
+neon unit and enables it for cortexa8 and cortexa9
 
-> > Me too, I think this should be packaged separately (with a RRECOMMENDS
-> > on bash-completion for good measure).
+Bye Henning
 
-> I don't think RRECOMMENDS are good in this case; people were using it
-> without this for long time and noone has noticed yet so it seems not
-> that required.
+Henning Heinold (3):
+  tune-cortexa9.inc: add tunefile for cortexa9 socs
+  feature-arm-d16.inc: add feature for arm cores which do not have a
+    neon unit or no support for it in the kernel
+  tune: enable d16 feature for cortexa8 and cortexa9
 
-I think Richard meant that the new dbus-glib-bash-completion(?) package
-should have a RRECOMMENDS on bash-completion (as it will be pretty
-useless on a system without bash-completion).
+ meta/conf/machine/include/arm/arch-armv7.inc      |   25 +++++++++++++++---
+ meta/conf/machine/include/arm/arch-armv7a.inc     |   24 +++++++++++++++---
+ meta/conf/machine/include/arm/feature-arm-d16.inc |    3 ++
+ meta/conf/machine/include/tune-cortexa8.inc       |    8 ++++-
+ meta/conf/machine/include/tune-cortexa9.inc       |   28 +++++++++++++++++++++
+ 5 files changed, 78 insertions(+), 10 deletions(-)
+ create mode 100644 meta/conf/machine/include/arm/feature-arm-d16.inc
+ create mode 100644 meta/conf/machine/include/tune-cortexa9.inc
 
-Dbus-glib should definitely not start to RRECOMMEND bash-completion, as
-noone has requested that for a long time.
-
-Cheers,
-Anders
-
---=20
-Anders Darander
-ChargeStorm AB / eStorm AB
+-- 
+1.7.6.3
 
 
