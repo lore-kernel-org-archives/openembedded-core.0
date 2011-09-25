@@ -1,31 +1,24 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from gravedo.de ([85.214.79.159])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <julian.pidancet@gmail.com>) id 1R7nTP-0006IS-Sk
+	(envelope-from <morphis@gravedo.de>) id 1R7oTe-0007ct-Qm
 	for openembedded-core@lists.openembedded.org;
-	Sun, 25 Sep 2011 14:06:19 +0200
-Received: by wyh5 with SMTP id 5so5512549wyh.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Sep 2011 05:00:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=NAWr27tIaOACrAPlkl663fJV9EDBH9zkedTaB4rv9eI=;
-	b=NMYUIQmOCFuP2l6Fdps3wo+blQX6LbI7HpNXcSxAoQjrNdkOnHMBwt+C+8BrFQwz/O
-	Wc7BenpILofGr/74xzpmGTpAz6IeZmt1A383R0TagDMdMOYCQh95w+6gCiShE+h7+6BN
-	6slWAZAUZCUOq9N6fMQw3RzJI5TqqNEqBXBQQ=
-Received: by 10.216.154.145 with SMTP id h17mr7801601wek.39.1316952056674;
-	Sun, 25 Sep 2011 05:00:56 -0700 (PDT)
-Received: from localhost.localdomain (188-223-88-44.zone14.bethere.co.uk.
-	[188.223.88.44])
-	by mx.google.com with ESMTPS id es5sm11774000wbb.11.2011.09.25.05.00.55
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 25 Sep 2011 05:00:55 -0700 (PDT)
-From: Julian Pidancet <julian.pidancet@gmail.com>
+	Sun, 25 Sep 2011 15:10:38 +0200
+Received: by gravedo.de (Postfix, from userid 5001)
+	id DAC12799044; Sun, 25 Sep 2011 14:57:49 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.2.5 (2008-06-10) on
+	h1108419.serverkompetenz.net
+X-Spam-Level: 
+X-Spam-Status: No, score=-4.3 required=6.0 tests=ALL_TRUSTED,AWL,BAYES_00
+	autolearn=ham version=3.2.5
+Received: from localhost (dslb-092-076-167-122.pools.arcor-ip.net
+	[92.76.167.122]) by gravedo.de (Postfix) with ESMTPSA id 8E94879903C;
+	Sun, 25 Sep 2011 14:57:48 +0200 (CEST)
+From: Simon Busch <morphis@gravedo.de>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 25 Sep 2011 13:55:46 +0100
-Message-Id: <1316955346-12756-1-git-send-email-julian.pidancet@gmail.com>
-X-Mailer: git-send-email 1.7.3.4
-Cc: Julian Pidancet <julian.pidancet@gmail.com>
-Subject: [PATCH] Use useradd and update-rc.d classes in the OpenSSH recipe
+Date: Sun, 25 Sep 2011 14:57:43 +0200
+Message-Id: <1316955464-19997-1-git-send-email-morphis@gravedo.de>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 1/2] meta: qt4: fix postprocessing of pkg-config files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,75 +33,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Sep 2011 12:06:20 -0000
+X-List-Received-Date: Sun, 25 Sep 2011 13:10:38 -0000
 
-The current sshd postinst and postrm scripts in the OpenSSH make the
-package dependant of the adduser/addgroup scripts which may not be
-available on all systems.
+When building qt4-embedded the generated and cleaned pkg-config files for qt are wrong.
+The Cflags variable contains something like ${includedir}/qtopia/QtCore where
+${includedir} is already /usr/include/qtopia/QtCore.
 
-This patch replaces the sshd postinst and postrm scripts with proper
-usage of the useradd and update-rc.d classes.
+This patch reverts the fix up of the Cflags variable implemented in do_install.
 
-Signed-off-by: Julian Pidancet <julian.pidancet@gmail.com>
+Signed-off-by: Simon Busch <morphis@gravedo.de>
 ---
- meta/recipes-connectivity/openssh/openssh_5.8p2.bb |   29 +++++--------------
- 1 files changed, 8 insertions(+), 21 deletions(-)
+ meta/recipes-qt/qt4/qt4-embedded.inc |    2 +-
+ meta/recipes-qt/qt4/qt4-x11-free.inc |    2 +-
+ meta/recipes-qt/qt4/qt4.inc          |    4 +---
+ 3 files changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh_5.8p2.bb b/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
-index 030a83b..c94ec84 100644
---- a/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
-@@ -29,6 +29,14 @@ PAM_SRC_URI = "file://sshd"
- SRC_URI[md5sum] = "0541579adf9d55abb15ef927048d372e"
- SRC_URI[sha256sum] = "5c35ec7c966ce05cc4497ac59c0b54a556e55ae7368165cc8c4129694654f314"
+diff --git a/meta/recipes-qt/qt4/qt4-embedded.inc b/meta/recipes-qt/qt4/qt4-embedded.inc
+index 9914c61..1ede922 100644
+--- a/meta/recipes-qt/qt4/qt4-embedded.inc
++++ b/meta/recipes-qt/qt4/qt4-embedded.inc
+@@ -3,7 +3,7 @@ SECTION = "libs"
+ LICENSE = "LGPLv2.1 | GPLv3"
+ HOMEPAGE = "http://qt.nokia.com"
+ DEPENDS += "directfb tslib"
+-INC_PR = "r30"
++INC_PR = "r31"
  
-+inherit useradd update-rc.d
-+
-+USERADD_PACKAGES = "${PN}-sshd"
-+USERADD_PARAM_${PN}-sshd = "-r -M -d /var/run/sshd -s /bin/false -U sshd"
-+INITSCRIPT_PACKAGES = "${PN}-sshd"
-+INITSCRIPT_NAME_${PN}-sshd = "sshd"
-+INITSCRIPT_PARAMS_${PN}-sshd = "defaults 9"
-+
- inherit autotools
+ QT_BASE_NAME ?= "qt4-embedded"
+ QT_BASE_LIB  ?= "libqt-embedded"
+diff --git a/meta/recipes-qt/qt4/qt4-x11-free.inc b/meta/recipes-qt/qt4/qt4-x11-free.inc
+index 0a714be..a360ec3 100644
+--- a/meta/recipes-qt/qt4/qt4-x11-free.inc
++++ b/meta/recipes-qt/qt4/qt4-x11-free.inc
+@@ -5,7 +5,7 @@ HOMEPAGE = "http://qt.nokia.com"
+ SECTION = "x11/libs"
+ DEPENDS += "virtual/libgl virtual/libx11 fontconfig libxft libxext libxrender libxrandr libxcursor"
  
- # LFS support:
-@@ -91,16 +99,6 @@ RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
- DEPENDS_${PN}-sshd += "update-rc.d"
- RDEPENDS_${PN}-sshd += "update-rc.d ${PN}-keygen"
+-INC_PR = "r27"
++INC_PR = "r28"
  
--pkg_postinst_${PN}-sshd () {
--	if [ "x$D" != "x" ]; then
--		exit 1
--	else
--		addgroup sshd
--		adduser --system --home /var/run/sshd --no-create-home --disabled-password --ingroup sshd -s /bin/false sshd
--		update-rc.d sshd defaults 9
--	fi
--}
--
- pkg_postinst_${PN}-scp () {
- 	update-alternatives --install ${bindir}/scp scp scp.${PN} 90
- }
-@@ -117,16 +115,5 @@ pkg_postrm_${PN}-scp () {
- 	update-alternatives --remove ${bindir}/scp scp.${PN}
- }
+ QT_GLFLAGS ?= "${@base_contains('DISTRO_FEATURES', 'opengl', '-opengl', '-no-opengl', d)} "
+ QT_GLFLAGS_qemux86 = "-opengl"
+diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
+index 5545be7..7f3e1a4 100644
+--- a/meta/recipes-qt/qt4/qt4.inc
++++ b/meta/recipes-qt/qt4/qt4.inc
+@@ -293,7 +293,6 @@ do_install() {
+ 			-e s#'$(OE_QMAKE_LIBS_X11)'#"${OE_QMAKE_LIBS_X11}"#g \
+ 			-e s#" -Wl,-rpath-link,${S}/lib"##g \
+ 			-e s#" -Wl,-rpath-link,${libdir}"##g \
+-			-e 's#I/usr/include#Iincludedir}#g' \ 
+ 			-e 's#Iin#I${in#g' \
+ 			${D}${libdir}/*.la ${D}${libdir}/*.prl ${D}${libdir}/pkgconfig/*.pc
  
--pkg_postrm_${PN}-sshd () {
--	if [ "x$D" != "x" ]; then
--		exit 1
--	else
--		${sysconfdir}/init.d/sshd stop
--		deluser sshd
--		delgroup sshd
--		update-rc.d -f sshd remove
--	fi
--}
--
- CONFFILES_${PN}-sshd = "${sysconfdir}/ssh/sshd_config"
- CONFFILES_${PN}-ssh = "${sysconfdir}/ssh/ssh_config"
+@@ -310,8 +309,7 @@ do_install() {
+ 
+ 	# QT abuses $includedir to point to its headers, which breaks pkgconfig sysroot, so manually fix it up here:
+ 	for pc in ${D}${libdir}/pkgconfig/*.pc ; do
+-		sed -i -e "s:prefix}include/${QT_BASE_NAME}/$(basename $pc .pc):prefix}/include:" \
+-				-e "s,Cflags: ,Cflags: -IP{includedir}/${QT_BASE_NAME}/$(basename $pc .pc) ," \
++		sed -i -e "s:prefix}include/${QT_DIR_NAME}/$(basename $pc .pc):prefix}/include:" \
+ 				-e 's:IP{:I${:g' $pc
+ 	done
+ 
 -- 
-1.7.3.4
+1.7.4.1
 
 
 
