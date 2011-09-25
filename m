@@ -1,27 +1,31 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R7n3V-0005cG-Ps for openembedded-core@lists.openembedded.org;
-	Sun, 25 Sep 2011 13:39:33 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8PBeP9H006938; Sun, 25 Sep 2011 12:40:25 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id TsyoW2eNKjsG; Sun, 25 Sep 2011 12:40:25 +0100 (BST)
-Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8PBeJXK006934
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Sun, 25 Sep 2011 12:40:21 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 25 Sep 2011 12:33:56 +0100
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1316950444.8185.14.camel@ted>
-Mime-Version: 1.0
-Subject: qt3 vs qt4 issues
+	(envelope-from <julian.pidancet@gmail.com>) id 1R7nTP-0006IS-Sk
+	for openembedded-core@lists.openembedded.org;
+	Sun, 25 Sep 2011 14:06:19 +0200
+Received: by wyh5 with SMTP id 5so5512549wyh.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 25 Sep 2011 05:00:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=NAWr27tIaOACrAPlkl663fJV9EDBH9zkedTaB4rv9eI=;
+	b=NMYUIQmOCFuP2l6Fdps3wo+blQX6LbI7HpNXcSxAoQjrNdkOnHMBwt+C+8BrFQwz/O
+	Wc7BenpILofGr/74xzpmGTpAz6IeZmt1A383R0TagDMdMOYCQh95w+6gCiShE+h7+6BN
+	6slWAZAUZCUOq9N6fMQw3RzJI5TqqNEqBXBQQ=
+Received: by 10.216.154.145 with SMTP id h17mr7801601wek.39.1316952056674;
+	Sun, 25 Sep 2011 05:00:56 -0700 (PDT)
+Received: from localhost.localdomain (188-223-88-44.zone14.bethere.co.uk.
+	[188.223.88.44])
+	by mx.google.com with ESMTPS id es5sm11774000wbb.11.2011.09.25.05.00.55
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 25 Sep 2011 05:00:55 -0700 (PDT)
+From: Julian Pidancet <julian.pidancet@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 25 Sep 2011 13:55:46 +0100
+Message-Id: <1316955346-12756-1-git-send-email-julian.pidancet@gmail.com>
+X-Mailer: git-send-email 1.7.3.4
+Cc: Julian Pidancet <julian.pidancet@gmail.com>
+Subject: [PATCH] Use useradd and update-rc.d classes in the OpenSSH recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,52 +40,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Sep 2011 11:39:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 25 Sep 2011 12:06:20 -0000
 
-I've been looking at the qt3 failures on the autobuilder. It seems there
-is some kind of contamination between the qt4 builds and the qt3 builds
-and I'm not sure what is or isn't expected to work there.
+The current sshd postinst and postrm scripts in the OpenSSH make the
+package dependant of the adduser/addgroup scripts which may not be
+available on all systems.
 
-We're doing the following in the build:
+This patch replaces the sshd postinst and postrm scripts with proper
+usage of the useradd and update-rc.d classes.
 
-a) Build core-image-lsb (includes qt4, builds qt4+qt4-native)
-b) Wipe out tmp
-c) Add in meta-qt3 layer
-d) Enable sstate from build in a)
-e) Build core-image-lsb-qt3 which adds in qt3
-f) Bitbake determines it needs to install qt4 for the image but 
-   nothing depends on the native qt4 tools so these are not installed
-g) This will build qt3+qt3-native with qt4 in the sysroot but no 
-   qt4-native
-h) We see build failures as qt3 seems to want to find bits of qt4-native
+Signed-off-by: Julian Pidancet <julian.pidancet@gmail.com>
+---
+ meta/recipes-connectivity/openssh/openssh_5.8p2.bb |   29 +++++--------------
+ 1 files changed, 8 insertions(+), 21 deletions(-)
 
-If qt4 and qt4-native are present, qt3 works
-If qt4 and qt4-native are not present, qt3 works
-If qt4 is present but qt4-native is not, qt3 fails
-
-How do we fix this?
-
-An easier reproducer is something like:
-
-bitbake qt4-x11-free
-bitbake qt4-native -c clean
-bitbake qt-x11-free
-
-
-Beth: As a work around, you can do:
-
-bitbake qt-x11-free
-bitbake core-image-lsb-qt3
-
-as two steps on the autobuilder and the builds will work. This might be
-what we need to do for this release.
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-connectivity/openssh/openssh_5.8p2.bb b/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
+index 030a83b..c94ec84 100644
+--- a/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
++++ b/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
+@@ -29,6 +29,14 @@ PAM_SRC_URI = "file://sshd"
+ SRC_URI[md5sum] = "0541579adf9d55abb15ef927048d372e"
+ SRC_URI[sha256sum] = "5c35ec7c966ce05cc4497ac59c0b54a556e55ae7368165cc8c4129694654f314"
+ 
++inherit useradd update-rc.d
++
++USERADD_PACKAGES = "${PN}-sshd"
++USERADD_PARAM_${PN}-sshd = "-r -M -d /var/run/sshd -s /bin/false -U sshd"
++INITSCRIPT_PACKAGES = "${PN}-sshd"
++INITSCRIPT_NAME_${PN}-sshd = "sshd"
++INITSCRIPT_PARAMS_${PN}-sshd = "defaults 9"
++
+ inherit autotools
+ 
+ # LFS support:
+@@ -91,16 +99,6 @@ RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
+ DEPENDS_${PN}-sshd += "update-rc.d"
+ RDEPENDS_${PN}-sshd += "update-rc.d ${PN}-keygen"
+ 
+-pkg_postinst_${PN}-sshd () {
+-	if [ "x$D" != "x" ]; then
+-		exit 1
+-	else
+-		addgroup sshd
+-		adduser --system --home /var/run/sshd --no-create-home --disabled-password --ingroup sshd -s /bin/false sshd
+-		update-rc.d sshd defaults 9
+-	fi
+-}
+-
+ pkg_postinst_${PN}-scp () {
+ 	update-alternatives --install ${bindir}/scp scp scp.${PN} 90
+ }
+@@ -117,16 +115,5 @@ pkg_postrm_${PN}-scp () {
+ 	update-alternatives --remove ${bindir}/scp scp.${PN}
+ }
+ 
+-pkg_postrm_${PN}-sshd () {
+-	if [ "x$D" != "x" ]; then
+-		exit 1
+-	else
+-		${sysconfdir}/init.d/sshd stop
+-		deluser sshd
+-		delgroup sshd
+-		update-rc.d -f sshd remove
+-	fi
+-}
+-
+ CONFFILES_${PN}-sshd = "${sysconfdir}/ssh/sshd_config"
+ CONFFILES_${PN}-ssh = "${sysconfdir}/ssh/ssh_config"
+-- 
+1.7.3.4
 
 
 
