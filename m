@@ -1,34 +1,28 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R7pnQ-0000b3-7v for openembedded-core@lists.openembedded.org;
-	Sun, 25 Sep 2011 16:35:08 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8PEa1lI011618 for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Sep 2011 15:36:02 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id JRY5cKa6y+Hx
+	(envelope-from <koen@dominion.thruhere.net>) id 1R7q7d-000108-Eg
+	for openembedded-core@lists.openembedded.org;
+	Sun, 25 Sep 2011 16:56:01 +0200
+Received: by fxi1 with SMTP id 1so5133408fxi.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Sep 2011 15:36:01 +0100 (BST)
-Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8PEZwFV011610
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Sep 2011 15:36:00 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Sun, 25 Sep 2011 07:50:38 -0700 (PDT)
+Received: by 10.223.52.218 with SMTP id j26mr8859513fag.56.1316962238370;
+	Sun, 25 Sep 2011 07:50:38 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id c5sm17260302fai.2.2011.09.25.07.50.36
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 25 Sep 2011 07:50:37 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1316950444.8185.14.camel@ted>
+Date: Sun, 25 Sep 2011 16:50:31 +0200
+Message-Id: <1DFC8F6E-C652-42A6-83B2-147A77A70A95@dominion.thruhere.net>
+References: <1316950444.8185.14.camel@ted>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Sun, 25 Sep 2011 15:29:35 +0100
-In-Reply-To: <cover.1316890497.git.sgw@linux.intel.com>
-References: <cover.1316890497.git.sgw@linux.intel.com>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1316960982.8185.17.camel@ted>
-Mime-Version: 1.0
-Subject: Re: [PATCH 0/2] v2 of attr/acl with qemuimage-testlib fix
+X-Mailer: Apple Mail (2.1244.3)
+Subject: Re: qt3 vs qt4 issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,36 +37,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Sep 2011 14:35:08 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 25 Sep 2011 14:56:01 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 2011-09-24 at 11:56 -0700, Saul Wold wrote:
-> Richard, 
-> 
-> These 2 patches would be for edison
-> 
-> Sau!
-> 
-> The following changes since commit 368b150416688654e35229a63b87177b52e83d02:
-> 
->   populate_sdk_rpm: add pkgconfig(pkg-config) to the list (2011-09-23 19:55:43 +0100)
-> 
-> are available in the git repository at:
->   git://git.yoctoproject.org/poky-contrib sgw/oe-fix
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=sgw/oe-fix
-> 
-> Saul Wold (2):
->   attr/acl: add SSTATEPOSTINSTFUNC
->   qemuimage-testlib: set a default geometry for xterm
 
-I've merged the first of these, thanks. I'm holding off the second until
-we see the problem on the autobuilder is fixed, this doesn't have seemed
-to have done so :(
+Op 25 sep. 2011, om 13:33 heeft Richard Purdie het volgende geschreven:
 
-Cheers,
+> I've been looking at the qt3 failures on the autobuilder. It seems =
+there
+> is some kind of contamination between the qt4 builds and the qt3 =
+builds
+> and I'm not sure what is or isn't expected to work there.
+>=20
+> We're doing the following in the build:
+>=20
+> a) Build core-image-lsb (includes qt4, builds qt4+qt4-native)
+> b) Wipe out tmp
+> c) Add in meta-qt3 layer
+> d) Enable sstate from build in a)
+> e) Build core-image-lsb-qt3 which adds in qt3
+> f) Bitbake determines it needs to install qt4 for the image but=20
+>   nothing depends on the native qt4 tools so these are not installed
+> g) This will build qt3+qt3-native with qt4 in the sysroot but no=20
+>   qt4-native
+> h) We see build failures as qt3 seems to want to find bits of =
+qt4-native
+>=20
+> If qt4 and qt4-native are present, qt3 works
+> If qt4 and qt4-native are not present, qt3 works
+> If qt4 is present but qt4-native is not, qt3 fails
+>=20
+> How do we fix this?
 
-Richard
-
+I suspect qt3 is missing bits of the tool renaming we do for qt4 and qt2 =
+(moc, uic, lrelease, etc)=
 
 
