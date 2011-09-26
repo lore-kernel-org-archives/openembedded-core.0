@@ -1,36 +1,31 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-gw0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R8EaP-0002JV-2z for openembedded-core@lists.openembedded.org;
-	Mon, 26 Sep 2011 19:03:21 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8QH4Chn004525 for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Sep 2011 18:04:12 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ZoPRlRq9H-vT
+	(envelope-from <raj.khem@gmail.com>) id 1R8EkH-0002S8-PF
+	for openembedded-core@lists.openembedded.org;
+	Mon, 26 Sep 2011 19:13:35 +0200
+Received: by gwaa2 with SMTP id a2so5552510gwa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Sep 2011 18:04:12 +0100 (BST)
-Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8QH49av004520
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Sep 2011 18:04:11 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Mon, 26 Sep 2011 10:08:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=5CN4nss6hS67cLxtvhNQG+p9jHHXkfzn5EFcJ5i5/C8=;
+	b=J19U0krs7ZIIle6N44gMujwWegM8AEFwLedzNnw1t+yK0Kkw1T3+IYSsVZQo++JLnv
+	JV2DZc/Vcq3pdh+aUS3FvMTtd9aJdkekQ9T17pHmSxtgDZ/rGYSrE5ITd1xxfp5ICSPa
+	8BpuqZNNcxaMov5lHjjmQT2mRWzOPktimmSDY=
+Received: by 10.68.19.196 with SMTP id h4mr31146511pbe.39.1317056884097; Mon,
+	26 Sep 2011 10:08:04 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.68.42.98 with HTTP; Mon, 26 Sep 2011 10:07:34 -0700 (PDT)
+In-Reply-To: <1316971428.8185.34.camel@ted>
+References: <1316843665-26137-1-git-send-email-raj.khem@gmail.com>
+	<1316971428.8185.34.camel@ted>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 26 Sep 2011 10:07:34 -0700
+Message-ID: <CAMKF1sqUF-tGki2ihVLR1j2rRwZnGO4OCzJdTBck9e2NqggHmw@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 26 Sep 2011 17:57:46 +0100
-In-Reply-To: <ED60D3CD-738C-4796-B242-F97880DC74FF@dominion.thruhere.net>
-References: <8ad24306d8bc9c2fd73f4b814eb1a64c04707da5.1316963134.git.richard.purdie@linuxfoundation.org>
-	<002ad30dae74393120d2391602371116af1bb11d.1316963134.git.richard.purdie@linuxfoundation.org>
-	<ED60D3CD-738C-4796-B242-F97880DC74FF@dominion.thruhere.net>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1317056272.26109.66.camel@ted>
-Mime-Version: 1.0
-Subject: Re: [PATCH 6/9] libtool: Fix an issue where unnecessary rpaths were being injected
+Subject: Re: [PATCH] gnome-doc-utils: Prepend PKG_CONFIG_SYSROOT_DIR to the path returned from PKG_CONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,97 +40,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Sep 2011 17:03:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 26 Sep 2011 17:13:35 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 2011-09-25 at 18:14 +0200, Koen Kooi wrote:
-> Op 25 sep. 2011, om 17:56 heeft Richard Purdie het volgende geschreven:
-> 
-> > libtool was being to aggressive in adding rpath to binaries. This
-> > change stops it adding them if that path the default search path.
-> > 
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> > meta/recipes-devtools/libtool/libtool-cross_2.4.bb |    2 +-
-> > .../recipes-devtools/libtool/libtool-native_2.4.bb |    2 +-
-> > .../libtool/libtool-nativesdk_2.4.bb               |    2 +-
-> > meta/recipes-devtools/libtool/libtool.inc          |    3 +-
-> > meta/recipes-devtools/libtool/libtool/1            |   55 +++++++++++++++++
-> > .../libtool/libtool/fix-rpath.patch                |   63 ++++++++++++++++++++
-> > meta/recipes-devtools/libtool/libtool_2.4.bb       |    2 +-
-> > 7 files changed, 124 insertions(+), 5 deletions(-)
-> > create mode 100644 meta/recipes-devtools/libtool/libtool/1
-> > create mode 100644 meta/recipes-devtools/libtool/libtool/fix-rpath.patch
-> > 
-> > diff --git a/meta/recipes-devtools/libtool/libtool-cross_2.4.bb b/meta/recipes-devtools/libtool/libtool-cross_2.4.bb
-> > index 25ac580..6d512b1 100644
-> > --- a/meta/recipes-devtools/libtool/libtool-cross_2.4.bb
-> > +++ b/meta/recipes-devtools/libtool/libtool-cross_2.4.bb
-> > @@ -1,6 +1,6 @@
-> > require libtool-${PV}.inc
-> > 
-> > -PR = "r2"
-> > +PR = "r4"
-> > PACKAGES = ""
-> > SRC_URI += "file://prefix.patch"
-> > 
-> > diff --git a/meta/recipes-devtools/libtool/libtool-native_2.4.bb b/meta/recipes-devtools/libtool/libtool-native_2.4.bb
-> > index 423622f..3d0998e 100644
-> > --- a/meta/recipes-devtools/libtool/libtool-native_2.4.bb
-> > +++ b/meta/recipes-devtools/libtool/libtool-native_2.4.bb
-> > @@ -2,7 +2,7 @@ require libtool-${PV}.inc
-> > 
-> > DEPENDS = ""
-> > 
-> > -PR = "r2"
-> > +PR = "r4"
-> > SRC_URI += "file://prefix.patch"
-> > 
-> > inherit native
-> > diff --git a/meta/recipes-devtools/libtool/libtool-nativesdk_2.4.bb b/meta/recipes-devtools/libtool/libtool-nativesdk_2.4.bb
-> > index 4f67fed..a96d1d1 100644
-> > --- a/meta/recipes-devtools/libtool/libtool-nativesdk_2.4.bb
-> > +++ b/meta/recipes-devtools/libtool/libtool-nativesdk_2.4.bb
-> > @@ -1,6 +1,6 @@
-> > require libtool-${PV}.inc
-> > 
-> > -PR = "r2"
-> > +PR = "r4"
-> > SRC_URI += "file://prefix.patch"
-> > 
-> > inherit nativesdk
-> > diff --git a/meta/recipes-devtools/libtool/libtool.inc b/meta/recipes-devtools/libtool/libtool.inc
-> > index d423e49..ef9095b 100644
-> > --- a/meta/recipes-devtools/libtool/libtool.inc
-> > +++ b/meta/recipes-devtools/libtool/libtool.inc
-> > @@ -15,7 +15,8 @@ SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
-> >            file://resolve-sysroot.patch \
-> >            file://use-sysroot-in-libpath.patch \
-> >            file://fix-final-rpath.patch \
-> > -           file://avoid_absolute_paths_for_general_utils.patch "
-> > +           file://avoid_absolute_paths_for_general_utils.patch \
-> > +           file://fix-rpath.patch "
-> > 
-> > do_compile_prepend () {
-> > 	# Sometimes this file doesn't get rebuilt, force the issue
-> > diff --git a/meta/recipes-devtools/libtool/libtool/1 b/meta/recipes-devtools/libtool/libtool/1
-> > new file mode 100644
-> > index 0000000..b3ee955
-> > --- /dev/null
-> > +++ b/meta/recipes-devtools/libtool/libtool/1
-> 
-> stray file?
-
-Good catch. I tested this a bit more, liked the results and merged it,
-minus this file.
-
-We should notice a lot of the RPATH warnings going away with this
-change.
-
-Cheers,
+On Sun, Sep 25, 2011 at 10:23 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Fri, 2011-09-23 at 22:54 -0700, Khem Raj wrote:
+>> If we build say gnome based image on a build system which does not have
+>> gnome e.g. kubuntu then packages like gedit do not build since it uses
+>> gnome files from host system which are non existent on kubuntu
+>>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>> =C2=A0.../gnome-doc-utils/sysrooted-pkg-config.patch =C2=A0 =C2=A0 | =C2=
+=A0 37 ++++++++++++++++++++
+>> =C2=A0meta/recipes-gnome/gnome/gnome-doc-utils_0.20.6.bb | =C2=A0 =C2=A0=
+6 ++-
+>> =C2=A02 files changed, 41 insertions(+), 2 deletions(-)
+>> =C2=A0create mode 100644 meta/recipes-gnome/gnome/gnome-doc-utils/sysroo=
+ted-pkg-config.patch
+>>
+>
+> Merged to master, thanks.
+>
 
 Richard
 
+It does not appear in the pull I just did moments ago.
+
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
