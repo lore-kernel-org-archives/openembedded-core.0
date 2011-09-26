@@ -1,41 +1,31 @@
-Received: from familie-heinold.de
-	([85.214.48.103] helo=mail.familie-heinold.de ident=postfix)
+Received: from mail-yi0-f47.google.com ([209.85.218.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <heinold@inf.fu-berlin.de>) id 1R7vAL-0000QS-BZ
+	(envelope-from <raj.khem@gmail.com>) id 1R7z3a-00062j-LX
 	for openembedded-core@lists.openembedded.org;
-	Sun, 25 Sep 2011 22:19:09 +0200
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id D598B1100113
+	Mon, 26 Sep 2011 02:28:26 +0200
+Received: by yia27 with SMTP id 27so4980762yia.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Sep 2011 22:04:38 +0200 (CEST)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 0C28E1100104
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Sep 2011 22:04:38 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	h873313.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.1
-Received: from rhein.familie-heinold.de (f052064157.adsl.alicedsl.de
-	[78.52.64.157]) by mail.familie-heinold.de (Postfix) with ESMTPA
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Sep 2011 22:04:37 +0200 (CEST)
-Received: by rhein.familie-heinold.de (Postfix, from userid 1000)
-	id CF2FB30001; Sun, 25 Sep 2011 22:04:36 +0200 (CEST)
-Date: Sun, 25 Sep 2011 22:04:36 +0200
-From: Henning Heinold <heinold@inf.fu-berlin.de>
+	Sun, 25 Sep 2011 17:23:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=XGgn73RViwPsWSJESe/pX9Ml9lSgZbOpuXHGfKrv1CU=;
+	b=FGCRPkFHvx/4NuRrN0iMhXD86AV0fZpK9OEiOXz5sQArVXLH9l6qAV6Qhv6BUbRY+l
+	VdmTjtossBO/4ytDmS96/NfeHLRUqQKxYBsaARGekXdm1GG6m4TlmG0GYcr2q8Z99KXd
+	H96+iij/CWYG8uXx/i4C++8+2VzeXhxl6XefY=
+Received: by 10.68.7.202 with SMTP id l10mr26247769pba.22.1316996582034; Sun,
+	25 Sep 2011 17:23:02 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.68.42.98 with HTTP; Sun, 25 Sep 2011 17:22:32 -0700 (PDT)
+In-Reply-To: <1316971012.8185.30.camel@ted>
+References: <1316909477-31924-1-git-send-email-raj.khem@gmail.com>
+	<1316971012.8185.30.camel@ted>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 25 Sep 2011 17:22:32 -0700
+Message-ID: <CAMKF1sphSpMstEoqqQmhF9NeHnAuJBvc3F5vcewB3ALwSA7o2w@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110925200436.GB29890@mail.familie-heinold.de>
-References: <1316979467-687-1-git-send-email-heinold@inf.fu-berlin.de>
-	<1316979467-687-3-git-send-email-heinold@inf.fu-berlin.de>
-	<23ABBF2D-E135-408C-BCA1-05E48436743F@dominion.thruhere.net>
-MIME-Version: 1.0
-In-Reply-To: <23ABBF2D-E135-408C-BCA1-05E48436743F@dominion.thruhere.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Virus-Scanned: ClamAV using ClamSMTP
-Subject: Re: [PATCH 2/3] feature-arm-d16.inc: add feature for arm cores which do not have a neon unit or no support for it in the kernel
+Subject: Re: [PATCH] intltool: inherit gettext to add missing dependency on gettext
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,25 +40,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Sep 2011 20:19:09 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 26 Sep 2011 00:28:26 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Sep 25, 2011 at 09:53:08PM +0200, Koen Kooi wrote:
-> 
-> Op 25 sep. 2011, om 21:37 heeft Henning Heinold het volgende geschreven:
-> 
-> > * call it d16 because of the -mfpu=vfpv3-d16 gcc option and
-> >  avoid naming conflicts with vfp feature
-> 
-> That's a highly artificial seperation to be honest. Is there really any demonstrable real world use to it?
+On Sun, Sep 25, 2011 at 10:16 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Sat, 2011-09-24 at 17:11 -0700, Khem Raj wrote:
+>> Fixes the error like below
+>>
+>> | configure: error: GNU gettext tools not found; required for intltool
+>> | + bbfatal 'oe_runconf failed'
+>> | + echo 'ERROR: oe_runconf failed'
+>> | ERROR: oe_runconf failed
+>>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>> =C2=A0meta/recipes-devtools/intltool/intltool.inc =C2=A0 =C2=A0 =C2=A0 |=
+ =C2=A0 =C2=A02 +-
+>> =C2=A0meta/recipes-devtools/intltool/intltool_0.40.6.bb | =C2=A0 =C2=A02=
+ +-
+>> =C2=A02 files changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/recipes-devtools/intltool/intltool.inc b/meta/recipes-=
+devtools/intltool/intltool.inc
+>> index 23a1ee9..1e54feb 100644
+>> --- a/meta/recipes-devtools/intltool/intltool.inc
+>> +++ b/meta/recipes-devtools/intltool/intltool.inc
+>> @@ -12,7 +12,7 @@ DEPENDS_virtclass-native =3D "libxml-parser-perl-nativ=
+e"
+>> =C2=A0RRECOMMENDS_${PN} =3D "perl-modules"
+>> =C2=A0RRECOMMENDS_${PN}_virtclass-native =3D ""
+>>
+>> -inherit autotools pkgconfig perlnative
+>> +inherit autotools pkgconfig perlnative gettext
+>>
+>> =C2=A0export PERL =3D "${bindir}/env perl"
+>> =C2=A0PERL_virtclass-native =3D "/usr/bin/env nativeperl"
+>> diff --git a/meta/recipes-devtools/intltool/intltool_0.40.6.bb b/meta/re=
+cipes-devtools/intltool/intltool_0.40.6.bb
+>> index e9871fc..eae2b85 100644
+>> --- a/meta/recipes-devtools/intltool/intltool_0.40.6.bb
+>> +++ b/meta/recipes-devtools/intltool/intltool_0.40.6.bb
+>> @@ -1,7 +1,7 @@
+>> =C2=A0require intltool.inc
+>> =C2=A0LICENSE=3D"GPLv2"
+>> =C2=A0LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D94d55d512a9ba36caa9b7df=
+079bae19f"
+>> -PR =3D "r5"
+>> +PR =3D "r6"
+>>
+>> =C2=A0SRC_URI_append =3D " file://intltool-nowarn-0.40.0.patch \
+>> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${=
+NATIVEPATCHES} \
+>
+> I investigated this one and intltool requires gettext at runtime, not
+> build time. Which package did you see the above error from as I suspect
+> it wasn't intltool itself but something using it?
 
-Hi Koen,                                                                                                                           
-                                                                                                                                   
-do you mean it's really useless gcc option at all or did you mean how to use it in machine.inc file?                              
-
-Bye Henning                                                                                                                        
-                                                                                                                                   
-PS: Sorry for posting it twice.  
+It was intltool itself. The situation happens during rebuild when
+intltool and gettext-native both are to be rebuilt
+and other deps are already there. it doesnt usually happen since we
+build gettext-native pretty early.
+>
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
