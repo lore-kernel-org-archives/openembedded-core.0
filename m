@@ -1,25 +1,33 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-vw0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1R8KqG-0001eR-EP
+	(envelope-from <swaplinker@gmail.com>) id 1R8LAf-0002HO-LY
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Sep 2011 01:44:08 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 26 Sep 2011 16:38:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,447,1312182000"; d="scan'208";a="55942664"
-Received: from unknown (HELO [10.255.14.215]) ([10.255.14.215])
-	by azsmga001.ch.intel.com with ESMTP; 26 Sep 2011 16:38:42 -0700
-Message-ID: <4E810D02.6080101@linux.intel.com>
-Date: Mon, 26 Sep 2011 16:38:42 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686 (x86_64); en-US;
-	rv:1.9.2.22) Gecko/20110902 Thunderbird/3.1.14
+	Tue, 27 Sep 2011 02:05:14 +0200
+Received: by vwe42 with SMTP id 42so5419277vwe.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Sep 2011 16:59:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=CiWLl5Pw5RRb4eknMsMI5Oa4DuldLRP9E5PDJ625Nhc=;
+	b=UbbNcsJpCmXV60jrYmJih7iAEbEtZ6ZKvTIDY8wj/nk3o0FXJQYCIimxj7t9q79emn
+	zZ2gYfgS/zWHSDV2Tt2hvCPZAEdJNRmhmqbnK9fu8PfyIq1WFOlpNld72e0LjpUO8usY
+	L/lawL1RdqKr2N4iIfTaZG9oHc2tHWR6ZPTbY=
+Received: by 10.52.22.74 with SMTP id b10mr6856754vdf.90.1317081588276; Mon,
+	26 Sep 2011 16:59:48 -0700 (PDT)
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+Sender: swaplinker@gmail.com
+Received: by 10.52.182.138 with HTTP; Mon, 26 Sep 2011 16:59:28 -0700 (PDT)
+In-Reply-To: <4E810D02.6080101@linux.intel.com>
 References: <1316955346-12756-1-git-send-email-julian.pidancet@gmail.com>
-In-Reply-To: <1316955346-12756-1-git-send-email-julian.pidancet@gmail.com>
-Cc: Julian Pidancet <julian.pidancet@gmail.com>
+	<4E810D02.6080101@linux.intel.com>
+From: Julian Pidancet <julian.pidancet@gmail.com>
+Date: Tue, 27 Sep 2011 00:59:28 +0100
+X-Google-Sender-Auth: KueBydkeelVJV-mdhbg1gbiAvA4
+Message-ID: <CAKZ=5EV1JWxf4MaMmHNNkvZDa6OmoLTqThUuteuG7zOxJkFPxA@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] Use useradd and update-rc.d classes in the OpenSSH recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -35,81 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Sep 2011 23:44:08 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 27 Sep 2011 00:05:14 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 09/25/2011 05:55 AM, Julian Pidancet wrote:
-> The current sshd postinst and postrm scripts in the OpenSSH make the
-> package dependant of the adduser/addgroup scripts which may not be
-> available on all systems.
+On Tue, Sep 27, 2011 at 12:38 AM, Saul Wold <sgw@linux.intel.com> wrote:
 >
-> This patch replaces the sshd postinst and postrm scripts with proper
-> usage of the useradd and update-rc.d classes.
+> Is there a reason you did not include the group and --disable-password here?
 >
-> Signed-off-by: Julian Pidancet<julian.pidancet@gmail.com>
-> ---
->   meta/recipes-connectivity/openssh/openssh_5.8p2.bb |   29 +++++--------------
->   1 files changed, 8 insertions(+), 21 deletions(-)
+> I think it would be good to leave thelong name options in also.
 >
-> diff --git a/meta/recipes-connectivity/openssh/openssh_5.8p2.bb b/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
-> index 030a83b..c94ec84 100644
-> --- a/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
-> +++ b/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
-> @@ -29,6 +29,14 @@ PAM_SRC_URI = "file://sshd"
->   SRC_URI[md5sum] = "0541579adf9d55abb15ef927048d372e"
->   SRC_URI[sha256sum] = "5c35ec7c966ce05cc4497ac59c0b54a556e55ae7368165cc8c4129694654f314"
+> Sau!
 >
-> +inherit useradd update-rc.d
-> +
-> +USERADD_PACKAGES = "${PN}-sshd"
-> +USERADD_PARAM_${PN}-sshd = "-r -M -d /var/run/sshd -s /bin/false -U sshd"
-Is there a reason you did not include the group and --disable-password here?
 
-I think it would be good to leave thelong name options in also.
+The -U option creates a group with the same name. The
+--disable-password option only exists with adduser and is default with
+useradd -r.
+I'd just like to point out that adduser is originally a perl script
+from debian and reimplemented in busybox. The options it takes are not
+compatible with the more standard useradd from the shadow package.
 
-Sau!
+For some reason, some long options like --system (which is supposed to
+be supported in useradd) did not work during my first
+experimentations, but I will investigate and respin a patch with long
+options if possible.
 
-> +INITSCRIPT_PACKAGES = "${PN}-sshd"
-> +INITSCRIPT_NAME_${PN}-sshd = "sshd"
-> +INITSCRIPT_PARAMS_${PN}-sshd = "defaults 9"
-> +
->   inherit autotools
->
->   # LFS support:
-> @@ -91,16 +99,6 @@ RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
->   DEPENDS_${PN}-sshd += "update-rc.d"
->   RDEPENDS_${PN}-sshd += "update-rc.d ${PN}-keygen"
->
-> -pkg_postinst_${PN}-sshd () {
-> -	if [ "x$D" != "x" ]; then
-> -		exit 1
-> -	else
-> -		addgroup sshd
-> -		adduser --system --home /var/run/sshd --no-create-home --disabled-password --ingroup sshd -s /bin/false sshd
-> -		update-rc.d sshd defaults 9
-> -	fi
-> -}
-> -
->   pkg_postinst_${PN}-scp () {
->   	update-alternatives --install ${bindir}/scp scp scp.${PN} 90
->   }
-> @@ -117,16 +115,5 @@ pkg_postrm_${PN}-scp () {
->   	update-alternatives --remove ${bindir}/scp scp.${PN}
->   }
->
-> -pkg_postrm_${PN}-sshd () {
-> -	if [ "x$D" != "x" ]; then
-> -		exit 1
-> -	else
-> -		${sysconfdir}/init.d/sshd stop
-> -		deluser sshd
-> -		delgroup sshd
-> -		update-rc.d -f sshd remove
-> -	fi
-> -}
-> -
->   CONFFILES_${PN}-sshd = "${sysconfdir}/ssh/sshd_config"
->   CONFFILES_${PN}-ssh = "${sysconfdir}/ssh/ssh_config"
+Also, I discovered that the following recipes still depends on adduser:
+ppp-dialin, avahi, distcc, xserver-nodm-init, pulseaudio, hal, dbus
+
+It would be good to use the useradd class with all of them.
+
+-- 
+Julian
 
 
