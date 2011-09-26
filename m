@@ -1,25 +1,24 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1R8JHb-0008Mw-4x
+	(envelope-from <philb@gnu.org>) id 1R8JUT-000053-4o
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Sep 2011 00:04:15 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 26 Sep 2011 14:58:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,446,1312182000"; d="scan'208";a="55906199"
-Received: from unknown (HELO [10.255.14.215]) ([10.255.14.215])
-	by azsmga001.ch.intel.com with ESMTP; 26 Sep 2011 14:58:49 -0700
-Message-ID: <4E80F598.3000407@linux.intel.com>
-Date: Mon, 26 Sep 2011 14:58:48 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686 (x86_64); en-US;
-	rv:1.9.2.22) Gecko/20110902 Thunderbird/3.1.14
-MIME-Version: 1.0
+	Tue, 27 Sep 2011 00:17:33 +0200
+Received: from host81-156-123-228.range81-156.btcentralplus.com
+	([81.156.123.228] helo=[192.168.1.65])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1R8JPG-0006bh-Jj
+	for openembedded-core@lists.openembedded.org;
+	Tue, 27 Sep 2011 00:12:10 +0200
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <CAHod+GefxnzwC0BGDYKe44Wjx=kVXUGK_YhbzYVT0uBxz7FbUw@mail.gmail.com>
-In-Reply-To: <CAHod+GefxnzwC0BGDYKe44Wjx=kVXUGK_YhbzYVT0uBxz7FbUw@mail.gmail.com>
-Subject: Re: [PATCH] bluez4:replace deprecated configure switch
+In-Reply-To: <CA+YB3rYZNAc7Nj=tRzU-V9DWxruAo3Y=aZKv2y5SybWM31w4ug@mail.gmail.com>
+References: <CA+YB3rYZNAc7Nj=tRzU-V9DWxruAo3Y=aZKv2y5SybWM31w4ug@mail.gmail.com>
+Date: Mon, 26 Sep 2011 23:12:02 +0100
+Message-ID: <1317075122.6923.4.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.3 
+Subject: Re: MINUTES: OE-TSC meeting 16 Sept 2011
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,50 +33,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Sep 2011 22:04:15 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 26 Sep 2011 22:17:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 09/21/2011 01:47 PM, Marko Katić wrote:
-> "--enable-configfiles" is deprecated upstream. Here is the original
-> reason & patch:
->
-> http://www.spinics.net/lists/linux-bluetooth/msg14266.html
->
-> Replace "--enable-configfiles" with "--enable-datafiles" in the bluez4
-> recipe.
->
-> diff --git a/meta/recipes-connectivity/bluez/bluez4_4.96.bb
-> <http://bluez4_4.96.bb> b/meta/recipes-connectivity/bluez/bluez4_4
-> index 994cec7..7ca6ac1 100644
-> --- a/meta/recipes-connectivity/bluez/bluez4_4.96.bb <http://bluez4_4.96.bb>
-> +++ b/meta/recipes-connectivity/bluez/bluez4_4.96.bb <http://bluez4_4.96.bb>
-> @@ -12,7 +12,7 @@ RDEPENDS_${PN}-dev = "bluez-hcidump"
->   ASNEEDED = ""
-> -PR = "r0"
-> +PR = "r1"
->   SRC_URI = "\
->     ${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.gz \
-> @@ -39,7 +39,7 @@ EXTRA_OECONF = "\
->     --enable-dund \
->     --disable-cups \
->     --enable-test \
-> -  --enable-configfiles \
-> +  --enable-datafiles \
-> "
->   do_install_append() {
->
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+On Fri, 2011-09-16 at 12:14 -0700, Jeff Osier-Mixon wrote:
+> NOTE: meetings are now every two weeks instead of weekly
 
-Merged into OE-Core
+The last set of minutes I can find before these ones (in either my inbox
+or the archives on ltg) were for the meeting of Aug 4.  If the meetings
+are every two weeks then I guess there would have been one on or about
+Aug 18, and another on approximately Sep 1.  Can the TSC confirm whether
+those meetings happened and, if so, whether there are any minutes for
+them?
 
-Thanks
-	Sau!
+thanks
+
+p.
+
+
 
 
