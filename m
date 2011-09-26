@@ -1,19 +1,31 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1R8Hik-00064N-Uf
-	for openembedded-core@lists.openembedded.org;
-	Mon, 26 Sep 2011 22:24:11 +0200
-Received: from yow-bashfiel-l1.corp.ad.wrs.com
-	(overflow-147-248.ottawa.windriver.com [128.224.147.248])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p8QKIfVw011873;
-	Mon, 26 Sep 2011 13:18:41 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Mon, 26 Sep 2011 16:18:37 -0400
-Message-Id: <cover.1317068205.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
-Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: [PATCH 0/1] linux-yocto: eg20t and live boot config changes
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1R8HoD-0006CU-UD for openembedded-core@lists.openembedded.org;
+	Mon, 26 Sep 2011 22:29:50 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8QKUiMA012899 for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Sep 2011 21:30:45 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id maEuv5WMbfCi
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Sep 2011 21:30:44 +0100 (BST)
+Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8QKUfee012885
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Sep 2011 21:30:43 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 26 Sep 2011 21:24:18 +0100
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1317068664.26109.95.camel@ted>
+Mime-Version: 1.0
+Subject: [PATCH] insane: Promote most warnings into QA errors by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,36 +40,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Sep 2011 20:24:11 -0000
+X-List-Received-Date: Mon, 26 Sep 2011 20:29:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Richard/Saul,
+We agreed a while back that we'd start ERRORing on QA issues, not just
+WARNING about them. This patch changes the default QA levels to error
+on everything except ldflag and useless rpath issues.
 
-The patch really says it all for this one. This is one update from
-Tom to remove some obselete options and the other is just a re-org
-of the live boot options and then a re-use accross the 3 boards that
-we've been using for a month or so to test CD booting.
+It also stops giving out QA warnings about desktop files since it
+adds noise to the build and until someone plans to seriously tackle
+that problem, its pointless.
 
-Cheers,
+We can promote the ldflag and rpath warnings too, when the issues
+in OE-Core are resolved (they're mostly there now, jsut a few more
+to go).
 
-Bruce
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index addb9ac..62935c3 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -99,9 +99,9 @@ def package_qa_get_machine_dict():
+        }
+ 
+ 
+-WARN_QA ?= "dev-so rpaths debug-deps dev-deps debug-files arch la2 pkgconfig desktop la ldflags perms useless-rpaths"
+-ERROR_QA ?= ""
+-#ERROR_QA ?= "rpaths debug-deps dev-deps debug-files arch pkgconfig perms"
++# Currently not being used by default "desktop"
++WARN_QA ?= "ldflags useless-rpaths"
++ERROR_QA ?= "dev-so rpaths debug-deps dev-deps debug-files arch la2 pkgconfig la perms"
+ 
+ def package_qa_clean_path(path,d):
+     """ Remove the common prefix from the path. In this case it is the TMPDIR"""
 
-The following changes since commit 49ed1cab3bee2318fdd5fc2538b1b3d43542ed2d:
-
-  documentation/poky-ref-manual/ref-classes.xml: documented useradd.bbclass (2011-09-25 18:00:00 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib zedd/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (1):
-  linux-yocto/meta: eg20t and live boot config changes
-
- meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb |    2 +-
- meta/recipes-kernel/linux/linux-yocto_3.0.bb    |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
--- 
-1.7.4.1
 
 
 
