@@ -1,38 +1,34 @@
-Received: from mail-gx0-f175.google.com ([209.85.161.175])
+Received: from lo.gmane.org ([80.91.229.12])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1R8AML-0004Tk-KQ
-	for openembedded-core@lists.openembedded.org;
-	Mon, 26 Sep 2011 14:32:33 +0200
-Received: by gxk4 with SMTP id 4so5330716gxk.6
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1R8AQY-0004XU-8N for openembedded-core@lists.openembedded.org;
+	Mon, 26 Sep 2011 14:36:54 +0200
+Received: from list by lo.gmane.org with local (Exim 4.69)
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1R8ALM-00018G-1G for openembedded-core@lists.openembedded.org;
+	Mon, 26 Sep 2011 14:31:32 +0200
+Received: from nat-rup.mentorg.com ([139.181.168.34])
+	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
+	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Sep 2011 14:31:32 +0200
+Received: from dbaryshkov by nat-rup.mentorg.com with local (Gmexim 0.1
+	(Debian)) id 1AlnuQ-0007hv-00
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Sep 2011 05:27:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=A+K5MRmruYEAjdW8dTh5mmaziw3HnD/xtxh9lhuTaGc=;
-	b=cipEbuQsJ5gqbjtYjaxiSaUq5YqeY3GunDLm6fsvvn5UId8aDThnniTtg0+dzcWDoC
-	f514Yd60HoFjUU379eE535lR2xOkEsmED3yu/QlW3zXa1LEpefGymDYweFhG7aOI8Swm
-	ggdLT3PZfKPqdj5Ss/YfO3uhtdMVTDGF9Dqt0=
-MIME-Version: 1.0
-Received: by 10.204.139.20 with SMTP id c20mr4653616bku.218.1317040026974;
-	Mon, 26 Sep 2011 05:27:06 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.35.198 with HTTP; Mon, 26 Sep 2011 05:27:06 -0700 (PDT)
-In-Reply-To: <1317029042.26109.29.camel@ted>
-References: <CAP9ODKpF7hQQmB7YWE4RCWDbEfZwv8432KJrBmvpwe1u_SaCTg@mail.gmail.com>
-	<1316734501.28323.18.camel@ted>
-	<CAP9ODKqWLVrKRE+HT4k82f+BYdY96N_h581dp8u0AETWBTQV0w@mail.gmail.com>
-	<1316799031.3125.3.camel@ted>
-	<CAP9ODKoqywvZQyAJ=Jz8wh4hVoucJvo-QpyTZ_cpP8MhnEXb3w@mail.gmail.com>
-	<1317029042.26109.29.camel@ted>
-Date: Mon, 26 Sep 2011 09:27:06 -0300
-X-Google-Sender-Auth: a3ZoVIe49Zf9mRfR6kUZKu1SB2s
-Message-ID: <CAP9ODKqGJ+VxCf8kFcbeaMNwgneLpb-HU2eTpu8w_UM1p-5A6g@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Branch management for OE-Core release
+	Mon, 26 Sep 2011 14:31:32 +0200
+X-Injected-Via-Gmane: http://gmane.org/
+To: openembedded-core@lists.openembedded.org
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Date: Mon, 26 Sep 2011 16:30:27 +0400
+Message-ID: <j5pran$mtt$1@dough.gmane.org>
+References: <1316950444.8185.14.camel@ted>
+	<1DFC8F6E-C652-42A6-83B2-147A77A70A95@dominion.thruhere.net>
+Mime-Version: 1.0
+X-Complaints-To: usenet@dough.gmane.org
+X-Gmane-NNTP-Posting-Host: nat-rup.mentorg.com
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.21) Gecko/20110831 Iceowl/1.0b2 Icedove/3.1.13
+In-Reply-To: <1DFC8F6E-C652-42A6-83B2-147A77A70A95@dominion.thruhere.net>
+Subject: Re: qt3 vs qt4 issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,30 +43,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Sep 2011 12:32:33 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 26 Sep 2011 12:36:54 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 26, 2011 at 06:23, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-...
-> FWIW, something like git cherry can identify your local changes so you
-> could apply them on top of master so there are other ways to make your
-> usecase work...
+On 09/25/2011 06:50 PM, Koen Kooi wrote:
+>
+> Op 25 sep. 2011, om 13:33 heeft Richard Purdie het volgende geschreven:
+>
+>> I've been looking at the qt3 failures on the autobuilder. It seems there
+>> is some kind of contamination between the qt4 builds and the qt3 builds
+>> and I'm not sure what is or isn't expected to work there.
+>>
+>> We're doing the following in the build:
+>>
+>> a) Build core-image-lsb (includes qt4, builds qt4+qt4-native)
+>> b) Wipe out tmp
+>> c) Add in meta-qt3 layer
+>> d) Enable sstate from build in a)
+>> e) Build core-image-lsb-qt3 which adds in qt3
+>> f) Bitbake determines it needs to install qt4 for the image but
+>>    nothing depends on the native qt4 tools so these are not installed
+>> g) This will build qt3+qt3-native with qt4 in the sysroot but no
+>>    qt4-native
+>> h) We see build failures as qt3 seems to want to find bits of qt4-native
+>>
+>> If qt4 and qt4-native are present, qt3 works
+>> If qt4 and qt4-native are not present, qt3 works
+>> If qt4 is present but qt4-native is not, qt3 fails
+>>
+>> How do we fix this?
+>
+> I suspect qt3 is missing bits of the tool renaming we do for qt4 and qt2 (moc, uic, lrelease, etc)
 
-This breaks the value of using a SCM since you won't have a common parent.
+Most probably it's true. However for qt3 it can be harder, as qt4 
+already provides uic3, etc.
 
-As Chris, I'd prefer to have it merged.
+-- 
+With best wishes
+Dmitry
 
-The only way it can complicate issue is if fixes are cherry-picked
-into the stable branch. If they're are done into the stable and merged
-into master this works wonderfully.
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
 
 
