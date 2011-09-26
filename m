@@ -1,33 +1,38 @@
-Received: from lo.gmane.org ([80.91.229.12])
+Received: from mail-gx0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1R8A8Q-0004JN-0F for openembedded-core@lists.openembedded.org;
-	Mon, 26 Sep 2011 14:18:10 +0200
-Received: from list by lo.gmane.org with local (Exim 4.69)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1R8A39-0000Lj-O8 for openembedded-core@lists.openembedded.org;
-	Mon, 26 Sep 2011 14:12:43 +0200
-Received: from nat-rup.mentorg.com ([139.181.168.34])
-	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
-	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Sep 2011 14:12:43 +0200
-Received: from dbaryshkov by nat-rup.mentorg.com with local (Gmexim 0.1
-	(Debian)) id 1AlnuQ-0007hv-00
+	(envelope-from <otavio.salvador@gmail.com>) id 1R8AML-0004Tk-KQ
+	for openembedded-core@lists.openembedded.org;
+	Mon, 26 Sep 2011 14:32:33 +0200
+Received: by gxk4 with SMTP id 4so5330716gxk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Sep 2011 14:12:43 +0200
-X-Injected-Via-Gmane: http://gmane.org/
-To: openembedded-core@lists.openembedded.org
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Date: Mon, 26 Sep 2011 16:11:37 +0400
-Message-ID: <j5pq7d$epu$1@dough.gmane.org>
-References: <1316807201-22623-1-git-send-email-dbaryshkov@gmail.com>
-Mime-Version: 1.0
-X-Complaints-To: usenet@dough.gmane.org
-X-Gmane-NNTP-Posting-Host: nat-rup.mentorg.com
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.21) Gecko/20110831 Iceowl/1.0b2 Icedove/3.1.13
-In-Reply-To: <1316807201-22623-1-git-send-email-dbaryshkov@gmail.com>
-Subject: Re: [PATCH 01/10] default-provider: also define a default provider for gconf-native
+	Mon, 26 Sep 2011 05:27:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=A+K5MRmruYEAjdW8dTh5mmaziw3HnD/xtxh9lhuTaGc=;
+	b=cipEbuQsJ5gqbjtYjaxiSaUq5YqeY3GunDLm6fsvvn5UId8aDThnniTtg0+dzcWDoC
+	f514Yd60HoFjUU379eE535lR2xOkEsmED3yu/QlW3zXa1LEpefGymDYweFhG7aOI8Swm
+	ggdLT3PZfKPqdj5Ss/YfO3uhtdMVTDGF9Dqt0=
+MIME-Version: 1.0
+Received: by 10.204.139.20 with SMTP id c20mr4653616bku.218.1317040026974;
+	Mon, 26 Sep 2011 05:27:06 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.35.198 with HTTP; Mon, 26 Sep 2011 05:27:06 -0700 (PDT)
+In-Reply-To: <1317029042.26109.29.camel@ted>
+References: <CAP9ODKpF7hQQmB7YWE4RCWDbEfZwv8432KJrBmvpwe1u_SaCTg@mail.gmail.com>
+	<1316734501.28323.18.camel@ted>
+	<CAP9ODKqWLVrKRE+HT4k82f+BYdY96N_h581dp8u0AETWBTQV0w@mail.gmail.com>
+	<1316799031.3125.3.camel@ted>
+	<CAP9ODKoqywvZQyAJ=Jz8wh4hVoucJvo-QpyTZ_cpP8MhnEXb3w@mail.gmail.com>
+	<1317029042.26109.29.camel@ted>
+Date: Mon, 26 Sep 2011 09:27:06 -0300
+X-Google-Sender-Auth: a3ZoVIe49Zf9mRfR6kUZKu1SB2s
+Message-ID: <CAP9ODKqGJ+VxCf8kFcbeaMNwgneLpb-HU2eTpu8w_UM1p-5A6g@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Branch management for OE-Core release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,46 +47,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Sep 2011 12:18:10 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 26 Sep 2011 12:32:33 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Please delay this patch for a while. Now I get the following warning in 
-my build logs (If someone can tell me where the problem lies, that would 
-help).
+On Mon, Sep 26, 2011 at 06:23, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+...
+> FWIW, something like git cherry can identify your local changes so you
+> could apply them on top of master so there are other ways to make your
+> usecase work...
 
-ERROR: Trying to resolve runtime dependency gconf resulted in 
-conflicting PREFERRED_PROVIDER entries being found.
-The providers found were: 
-['/home/users/mitya/OE/setup-scripts/sources/openembedded-core/meta/recipes-gnome/gnome/gconf-dbus_705.bb', 
-'virtual:native:/home/users/mitya/OE/setup-scripts/sources/openembedded-core/meta/recipes-gnome/gnome/gconf-dbus_705.bb']
-The PREFERRED_PROVIDER entries resulting in this conflict were: 
-['PREFERRED_PROVIDER_gconf = gconf-dbus', 
-'PREFERRED_PROVIDER_gconf-native = gconf-dbus-native']
-NOTE: multiple providers are available for runtime gconf 
-(gconf-dbus-native, gconf-dbus, gconf)
-NOTE: consider defining a PREFERRED_PROVIDER entry to match gconf
+This breaks the value of using a SCM since you won't have a common parent.
 
+As Chris, I'd prefer to have it merged.
 
-On 09/23/2011 11:46 PM, Dmitry Eremin-Solenikov wrote:
-> Signed-off-by: Dmitry Eremin-Solenikov<dbaryshkov@gmail.com>
-> ---
->   meta/conf/distro/include/default-providers.inc |    1 +
->   1 files changed, 1 insertions(+), 0 deletions(-)
->
-> diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-> index d51ac64..6e281cc 100644
-> --- a/meta/conf/distro/include/default-providers.inc
-> +++ b/meta/conf/distro/include/default-providers.inc
-> @@ -22,6 +22,7 @@ VIRTUAL-RUNTIME_update-alternatives ?= "update-alternatives-cworth"
->   PREFERRED_PROVIDER_dbus-glib ?= "dbus-glib"
->   PREFERRED_PROVIDER_dbus-glib-native ?= "dbus-glib-native"
->   PREFERRED_PROVIDER_gconf ?= "gconf-dbus"
-> +PREFERRED_PROVIDER_gconf-native ?= "gconf-dbus-native"
->   PREFERRED_PROVIDER_gdk-pixbuf ?= "gdk-pixbuf"
->   PREFERRED_PROVIDER_libgcc ?= "libgcc"
->   PREFERRED_PROVIDER_libgcc-nativesdk ?= "libgcc-nativesdk"
+The only way it can complicate issue is if fixes are cherry-picked
+into the stable branch. If they're are done into the stable and merged
+into master this works wonderfully.
 
-
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
