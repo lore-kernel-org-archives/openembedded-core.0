@@ -1,35 +1,40 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R8Aap-0004jh-H6 for openembedded-core@lists.openembedded.org;
-	Mon, 26 Sep 2011 14:47:31 +0200
+	id 1R8Afu-0004q3-8h for openembedded-core@lists.openembedded.org;
+	Mon, 26 Sep 2011 14:52:46 +0200
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8QCmQQB021013 for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Sep 2011 13:48:26 +0100
+	p8QCrWAh021168 for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Sep 2011 13:53:33 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id QF2e5WXYytGo
+	with LMTP id W2tljkpbg2b9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Sep 2011 13:48:26 +0100 (BST)
+	Mon, 26 Sep 2011 13:53:32 +0100 (BST)
 Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8QCmKCW021005
+	p8QCrTvL021164
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Sep 2011 13:48:22 +0100
+	Mon, 26 Sep 2011 13:53:31 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 26 Sep 2011 13:41:57 +0100
-In-Reply-To: <j5pq7d$epu$1@dough.gmane.org>
-References: <1316807201-22623-1-git-send-email-dbaryshkov@gmail.com>
-	<j5pq7d$epu$1@dough.gmane.org>
+Date: Mon, 26 Sep 2011 13:47:05 +0100
+In-Reply-To: <CAP9ODKqGJ+VxCf8kFcbeaMNwgneLpb-HU2eTpu8w_UM1p-5A6g@mail.gmail.com>
+References: <CAP9ODKpF7hQQmB7YWE4RCWDbEfZwv8432KJrBmvpwe1u_SaCTg@mail.gmail.com>
+	<1316734501.28323.18.camel@ted>
+	<CAP9ODKqWLVrKRE+HT4k82f+BYdY96N_h581dp8u0AETWBTQV0w@mail.gmail.com>
+	<1316799031.3125.3.camel@ted>
+	<CAP9ODKoqywvZQyAJ=Jz8wh4hVoucJvo-QpyTZ_cpP8MhnEXb3w@mail.gmail.com>
+	<1317029042.26109.29.camel@ted>
+	<CAP9ODKqGJ+VxCf8kFcbeaMNwgneLpb-HU2eTpu8w_UM1p-5A6g@mail.gmail.com>
 X-Mailer: Evolution 3.1.91- 
-Message-ID: <1317040924.26109.33.camel@ted>
+Message-ID: <1317041232.26109.38.camel@ted>
 Mime-Version: 1.0
-Subject: Re: [PATCH 01/10] default-provider: also define a default provider for gconf-native
+Subject: Re: Branch management for OE-Core release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,37 +49,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Sep 2011 12:47:31 -0000
+X-List-Received-Date: Mon, 26 Sep 2011 12:52:46 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2011-09-26 at 16:11 +0400, Dmitry Eremin-Solenikov wrote:
-> Please delay this patch for a while.
-
-Too late :(.
-
->  Now I get the following warning in 
-> my build logs (If someone can tell me where the problem lies, that would 
-> help).
+On Mon, 2011-09-26 at 09:27 -0300, Otavio Salvador wrote:
+> On Mon, Sep 26, 2011 at 06:23, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> ...
+> > FWIW, something like git cherry can identify your local changes so you
+> > could apply them on top of master so there are other ways to make your
+> > usecase work...
 > 
-> ERROR: Trying to resolve runtime dependency gconf resulted in 
-> conflicting PREFERRED_PROVIDER entries being found.
-> The providers found were: 
-> ['/home/users/mitya/OE/setup-scripts/sources/openembedded-core/meta/recipes-gnome/gnome/gconf-dbus_705.bb', 
-> 'virtual:native:/home/users/mitya/OE/setup-scripts/sources/openembedded-core/meta/recipes-gnome/gnome/gconf-dbus_705.bb']
-> The PREFERRED_PROVIDER entries resulting in this conflict were: 
-> ['PREFERRED_PROVIDER_gconf = gconf-dbus', 
-> 'PREFERRED_PROVIDER_gconf-native = gconf-dbus-native']
-> NOTE: multiple providers are available for runtime gconf 
-> (gconf-dbus-native, gconf-dbus, gconf)
-> NOTE: consider defining a PREFERRED_PROVIDER entry to match gconf
+> This breaks the value of using a SCM since you won't have a common parent.
+> 
+> As Chris, I'd prefer to have it merged.
+> 
+> The only way it can complicate issue is if fixes are cherry-picked
+> into the stable branch. If they're are done into the stable and merged
+> into master this works wonderfully.
 
-This asks the question why is gconf-dbus-native providing "gconf" and
-not "gconf-native"?
+No, this just just plain wrong. Changes go into master which is where
+development happens. They can then filter into other branches (there may
+be more than one) as needed.
+
+To illustate the problem, if a change is needed in two different release
+branches you'd commit to both and then cherry-pick both into master?
 
 Cheers,
 
 Richard
+
+
+
 
 
 
