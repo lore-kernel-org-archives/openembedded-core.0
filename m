@@ -1,35 +1,37 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1R83Nf-0002pb-8V
-	for openembedded-core@lists.openembedded.org;
-	Mon, 26 Sep 2011 07:05:27 +0200
-Received: by wwf27 with SMTP id 27so4853837wwf.24
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1R87VC-0000YC-AA for openembedded-core@lists.openembedded.org;
+	Mon, 26 Sep 2011 11:29:30 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8Q9UOUV011958 for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Sep 2011 10:30:24 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id JoULqsAktMR8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Sep 2011 22:00:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type;
-	bh=d8KwWjoXsQ38c02IgpHE2BEMgPr/8iFjLyamiL+jds4=;
-	b=H6f5Bfkr8ljiSaAjR7e8/AV04La/hTqTRQTSACKrWCPnShpPu6fGHbnkytRF9FVgXq
-	gLpuIQQs9AKZEopVYVHry9Jy8pwjP8UecnuzztsYcSf7mPXQmth7HBtBIC2TblAhmE9o
-	JqIdZ1OKc4ANhzDaqgrNm2Gisyk5RCKMer8wQ=
-Received: by 10.216.137.94 with SMTP id x72mr7680239wei.9.1317013203111; Sun,
-	25 Sep 2011 22:00:03 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.216.184.7 with HTTP; Sun, 25 Sep 2011 21:59:42 -0700 (PDT)
+	Mon, 26 Sep 2011 10:30:24 +0100 (BST)
+Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8Q9UIAx011947
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Sep 2011 10:30:20 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 26 Sep 2011 10:23:55 +0100
 In-Reply-To: <CAP9ODKoqywvZQyAJ=Jz8wh4hVoucJvo-QpyTZ_cpP8MhnEXb3w@mail.gmail.com>
 References: <CAP9ODKpF7hQQmB7YWE4RCWDbEfZwv8432KJrBmvpwe1u_SaCTg@mail.gmail.com>
 	<1316734501.28323.18.camel@ted>
 	<CAP9ODKqWLVrKRE+HT4k82f+BYdY96N_h581dp8u0AETWBTQV0w@mail.gmail.com>
 	<1316799031.3125.3.camel@ted>
 	<CAP9ODKoqywvZQyAJ=Jz8wh4hVoucJvo-QpyTZ_cpP8MhnEXb3w@mail.gmail.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Sun, 25 Sep 2011 21:59:42 -0700
-X-Google-Sender-Auth: RiagMZqr6mr-8lPOn8s5C2P9yuA
-Message-ID: <CABcZAN=S-M1wDRDcPddn4y4xjYxY7VZywNsOTxDnxhz3DwzdKw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1317029042.26109.29.camel@ted>
+Mime-Version: 1.0
 Subject: Re: Branch management for OE-Core release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -45,34 +47,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Sep 2011 05:05:27 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 26 Sep 2011 09:29:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 23, 2011 at 11:12 AM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
+On Fri, 2011-09-23 at 15:12 -0300, Otavio Salvador wrote:
 > On Fri, Sep 23, 2011 at 14:30, Richard Purdie
 > <richard.purdie@linuxfoundation.org> wrote:
 > ...
->> I don't really see the point of this. Basically you're asking that every
->> time there is a commit to the branch there is also a merge commit. You
->> can just as easily either force a checkout of master, or merge against
->> master with a one sided merge. Git doesn't have the confidence to do
->> that automatically but I'm pretty sure there is a simple way to tell git
->> to do a one sided merge...
->
+> > I don't really see the point of this. Basically you're asking that every
+> > time there is a commit to the branch there is also a merge commit. You
+> > can just as easily either force a checkout of master, or merge against
+> > master with a one sided merge. Git doesn't have the confidence to do
+> > that automatically but I'm pretty sure there is a simple way to tell git
+> > to do a one sided merge...
+> 
 > Not every time but at every release and point release.
->
+> 
 > one sided merge make you lose all local changes you did. Doesn't seems
 > a valid upgrade path but a "replace path".
 
-I agree that we should do this, personally. I think there's almost
-always value in merging things back to master on occasion, whether a
-release branch or a stable branch or anything of the sort.
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Equally, merging against master would make things much more difficult
+for anyone wanting to cherry-pick patches over which we've not picked in
+the main release branch. Since creating "enhanced" rellease branches is
+something we want to support/encourage, I'm still not convinced a load
+of merge commits are a good idea.
+
+FWIW, something like git cherry can identify your local changes so you
+could apply them on top of master so there are other ways to make your
+usecase work...
+
+Cheers,
+
+Richard
+
+
+
+
+
+
 
 
