@@ -1,25 +1,30 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1R8e42-0006Ex-9u
+	(envelope-from <scott.a.garman@intel.com>) id 1R8ecW-0006dz-Mw
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Sep 2011 22:15:38 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 27 Sep 2011 13:10:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="57213708"
-Received: from unknown (HELO [10.255.14.185]) ([10.255.14.185])
-	by orsmga002.jf.intel.com with ESMTP; 27 Sep 2011 13:10:07 -0700
-From: Tom Zanussi <tom.zanussi@intel.com>
-To: "Zhai, Edwin" <edwin.zhai@intel.com>
-In-Reply-To: <cover.1317084972.git.edwin.zhai@intel.com>
-References: <cover.1317084972.git.edwin.zhai@intel.com>
-Date: Tue, 27 Sep 2011 15:08:49 -0500
-Message-ID: <1317154129.16543.237.camel@elmorro>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.28.3 
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] [RFC] enable Pegasus touch screen
+	Tue, 27 Sep 2011 22:51:16 +0200
+Received: from mail-pz0-f44.google.com ([209.85.210.44])
+	by mga01.intel.com with ESMTP/TLS/RC4-MD5; 27 Sep 2011 13:44:44 -0700
+Received: by pzk32 with SMTP id 32so33583820pzk.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Sep 2011 13:44:44 -0700 (PDT)
+Received: by 10.68.29.138 with SMTP id k10mr38869796pbh.70.1317156284589;
+	Tue, 27 Sep 2011 13:44:44 -0700 (PDT)
+Received: from [192.168.1.12] (c-98-246-165-28.hsd1.or.comcast.net.
+	[98.246.165.28])
+	by mx.google.com with ESMTPS id 2sm102912pbu.1.2011.09.27.13.44.43
+	(version=SSLv3 cipher=OTHER); Tue, 27 Sep 2011 13:44:43 -0700 (PDT)
+Message-ID: <4E8235BA.2040206@intel.com>
+Date: Tue, 27 Sep 2011 13:44:42 -0700
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.21) Gecko/20110831 Lightning/1.0b2 Thunderbird/3.1.13
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <1316955346-12756-1-git-send-email-julian.pidancet@gmail.com>	<4E810D02.6080101@linux.intel.com>	<CAKZ=5EV1JWxf4MaMmHNNkvZDa6OmoLTqThUuteuG7zOxJkFPxA@mail.gmail.com>
+	<CAKZ=5EUPf9GrTjP=odYcxRYqkONZnqzoDd0kBWn-UdqOO5efFw@mail.gmail.com>
+In-Reply-To: <CAKZ=5EUPf9GrTjP=odYcxRYqkONZnqzoDd0kBWn-UdqOO5efFw@mail.gmail.com>
+Subject: Re: [PATCH] Use useradd and update-rc.d classes in the OpenSSH recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,86 +39,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Sep 2011 20:15:38 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 27 Sep 2011 20:51:16 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2011-09-26 at 18:03 -0700, Zhai, Edwin wrote:
-> From: Zhai Edwin <edwin.zhai@intel.com>
-> 
-> Tom,
-> These changes, based on meta-intel/tzanussi/pegasus, are needed to enable
-> eGalax touch screen on Pegasus. Could you pls. help to review?
-> 
+On 09/26/2011 05:47 PM, Julian Pidancet wrote:
+> On Tue, Sep 27, 2011 at 12:59 AM, Julian Pidancet
+> <julian.pidancet@gmail.com>  wrote:
+>> On Tue, Sep 27, 2011 at 12:38 AM, Saul Wold<sgw@linux.intel.com>  wrote:
+>>>
+>>> Is there a reason you did not include the group and --disable-password here?
+>>>
+>>> I think it would be good to leave thelong name options in also.
+>>>
+>>> Sau!
+>>>
+>>
+>> The -U option creates a group with the same name. The
+>> --disable-password option only exists with adduser and is default with
+>> useradd -r.
+>> I'd just like to point out that adduser is originally a perl script
+>> from debian and reimplemented in busybox. The options it takes are not
+>> compatible with the more standard useradd from the shadow package.
+>>
+>> For some reason, some long options like --system (which is supposed to
+>> be supported in useradd) did not work during my first
+>> experimentations, but I will investigate and respin a patch with long
+>> options if possible.
+>>
+>> Also, I discovered that the following recipes still depends on adduser:
+>> ppp-dialin, avahi, distcc, xserver-nodm-init, pulseaudio, hal, dbus
+>>
+>> It would be good to use the useradd class with all of them.
+>>
+>
+> In the shadow-sysroot package that we build to be able to use the
+> useradd class, we apply the add_root_cmd_options.patch to add the
+> --root option to useradd.
+>
+> The --root option allows useradd to chroot somewhere so it can modify
+> /etc/passwd, but at the same time, it disables all the other long
+> options in the program.
+>
+> It looks like it is impossible to use long options with the useradd
+> class. I don't know how straighforward it would be to modify this
+> patch to get the long options back. But is it worth the pain ?
 
-Hi Edwin,
+Hi Julian,
 
-First, I don't think this is the correct list for meta-intel stuff,
-please use the yocto list.
+Are you using the latest from oe-core master? I thought this patch from 
+Phil addressed this issue:
 
-Anyway, the first two patches look ok to me, but the 3rd seems to be a
-combination of what it says in the title, enabling touch screen kernel
-config, and updating the BSP to work with the current kernel recipes.
-The latter should I think be squashed into the base BSP, which isn't
-posted.
+http://cgit.openembedded.org/cgit.cgi/openembedded-core/commit/?id=8fce8180c802ad187c4df44c17207bfb026ce6c7
 
-> When will you push Pegasus changes into meta-intel/master? We can have a common
-> place for people to try pegasus...
-> 
+Scott
 
-The meta-pegasus you pointed to seems to be an old version, basically
-the same prototype version I gave you for the demo.  I thought the
-current one had been updated to address the comments from the quick
-review of Aug 9:
-
-- meta-pegasus - commented-out stuff in pegasus.conf, xorg.conf,
-linux-yocto-2.6.37.bbappend, ReleaseNotes are unrelated to the BSP, etc.
-
-Also, it has a blacksand.pdf and has old kernel recipes, etc.
-
-Basically, it needs to be cleaned up a bit before it can be pulled in,
-and should be buildable without relying on later patches.
-
-Also, I'm wondering if there's a reason it's using 2.6.37 - we're at 3.0
-now, and it would be good if it used that.
-
-Finally, please also add yourself or whoever will be the maintainer
-going forward to meta-intel/MAINTAINERS...
-
-Thanks,
-
-Tom
-
-> Thanks,
-> Edwin
-> 
-> The following changes since commit 59dc67f6e64a836fc01fa91a1200e76264bb954d:
-> 
->   meta-pegasus: new layer for Pegasus (N455) systems (2011-06-15 23:27:47 -0500)
-> 
-> are available in the git repository at:
->   git://git.pokylinux.org/poky-contrib gzhai/pegasus
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/pegasus
-> 
-> Zhai Edwin (3):
->   eGalax touchscreen offical xorg driver
->   Config xorg.conf with eGalax touchscreen input driver
->   Enabled kernel module for eGalax touch screen.
-> 
->  meta-pegasus/conf/machine/pegasus.conf             |    2 +-
->  .../xf86-input-egalax/88eGalaxCalibrate.sh         |    5 ++
->  .../xorg-driver/xf86-input-egalax_3.06.5605.bb     |   49 ++++++++++++++++++++
->  .../xserver-xf86-config/pegasus/xorg.conf          |   10 ++++
->  .../xorg-xserver/xserver-xf86-config_0.1.bbappend  |    2 +
->  .../recipes-kernel/linux/linux-yocto/pegasus.cfg   |    4 ++
->  .../linux/linux-yocto_2.6.37.bbappend              |   12 +++++
->  7 files changed, 83 insertions(+), 1 deletions(-)
->  create mode 100755 meta-pegasus/recipes-graphics/xorg-driver/xf86-input-egalax/88eGalaxCalibrate.sh
->  create mode 100644 meta-pegasus/recipes-graphics/xorg-driver/xf86-input-egalax_3.06.5605.bb
->  create mode 100644 meta-pegasus/recipes-kernel/linux/linux-yocto/pegasus.cfg
->  create mode 100644 meta-pegasus/recipes-kernel/linux/linux-yocto_2.6.37.bbappend
-> 
-
-
+-- 
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
