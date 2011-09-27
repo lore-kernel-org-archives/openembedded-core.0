@@ -1,20 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1R8Y38-0006Al-S8
+	(envelope-from <dongxiao.xu@intel.com>) id 1R8Y3A-0006Am-B8
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Sep 2011 15:50:19 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 27 Sep 2011 06:44:52 -0700
+	Tue, 27 Sep 2011 15:50:21 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 27 Sep 2011 06:44:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,449,1312182000"; d="scan'208";a="71186858"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="56343401"
 Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Sep 2011 06:44:52 -0700
+	by orsmga001.jf.intel.com with ESMTP; 27 Sep 2011 06:44:53 -0700
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Sep 2011 21:52:54 +0800
-Message-Id: <cover.1317131373.git.dongxiao.xu@intel.com>
+Date: Tue, 27 Sep 2011 21:52:55 +0800
+Message-Id: <6cfa3a8327ff795017e4d4c8340c70bc195e6cb2.1317131373.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.1
-Subject: [PATCH 0/4][RFC] multilib: bug fixes related with RPM backend
+In-Reply-To: <cover.1317131373.git.dongxiao.xu@intel.com>
+References: <cover.1317131373.git.dongxiao.xu@intel.com>
+In-Reply-To: <cover.1317131373.git.dongxiao.xu@intel.com>
+References: <cover.1317131373.git.dongxiao.xu@intel.com>
+Subject: [PATCH 1/4] multilib.bbclass: map RDEPENDS and LINGUAS_INSTALL for image recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,47 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Sep 2011 13:50:19 -0000
+X-List-Received-Date: Tue, 27 Sep 2011 13:50:21 -0000
 
-Hi Richard,
+RDEPENDS of image type recipe needs to be mapped to make sure that the
+packages included in the image should be multilib version.
 
-This pull request is to fix several multilib bugs related with RPM backend,
-please help to review.
+Also add LINGUAS_INSTALL into MULTILIB_PACKAGE_INSTALL list.
 
-BTW, I am issuing a round of multilib testing agasint:
- - lib32 sato image on qemux86 machine
- - lib32 sato image on qemux86-64 machine
- - lib64 sato image on qemux86-64 machine
- - lib64 sato image on qemux86 machine
- - sato image on qemux86-64 with several lib32 packages (lib32-connman)
+[YOCTO #1496]
+[YOCTO #1527]
 
-I will update you the test result once it is finished.
+Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+---
+ meta/classes/multilib.bbclass |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
 
-Thanks,
-Dongxiao
-
-The following changes since commit 684a4b517d13884c315688967fadd5e6a4845b71:
-
-  libffi: really populate -dev package (2011-09-26 20:50:27 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib dxu4/ml
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/ml
-
-Dongxiao Xu (4):
-  multilib.bbclass: map RDEPENDS and LINGUAS_INSTALL for image recipes
-  multilib: remove the multilib handling to allarch
-  multilib: add MLPREFIX to deploy folder
-  tune-i586: fix hardcoded TUNE_PKGARCH
-
- meta/classes/multilib.bbclass                      |   12 +++++-------
- meta/classes/multilib_global.bbclass               |    2 +-
- meta/classes/package_rpm.bbclass                   |   10 ++++++++--
- meta/classes/rootfs_rpm.bbclass                    |    2 +-
- meta/conf/machine/include/tune-i586.inc            |    3 ++-
- meta/conf/multilib.conf                            |    7 +++++++
- .../python/python-pygobject_2.27.91.bb             |    2 +-
- 7 files changed, 25 insertions(+), 13 deletions(-)
+diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+index 98f6911..0ea1038 100644
+--- a/meta/classes/multilib.bbclass
++++ b/meta/classes/multilib.bbclass
+@@ -54,9 +54,12 @@ python __anonymous () {
+ 
+     if bb.data.inherits_class('image', d):
+         map_dependencies("PACKAGE_INSTALL", d)
+-        pinstall = d.getVar("PACKAGE_INSTALL", True) + " " + d.getVar("MULTILIB_PACKAGE_INSTALL", False)
++        map_dependencies("LINGUAS_INSTALL", d)
++        map_dependencies("RDEPENDS", d)
++        pinstall = d.getVar("LINGUAS_INSTALL", True) + " " + d.getVar("PACKAGE_INSTALL", True) + " " + d.getVar("MULTILIB_PACKAGE_INSTALL", False)
+         d.setVar("MULTILIB_PACKAGE_INSTALL", pinstall)
+         d.setVar("PACKAGE_INSTALL", "")
++        d.setVar("LINGUAS_INSTALL", "")
+         # FIXME, we need to map this to something, not delete it!
+         d.setVar("PACKAGE_INSTALL_ATTEMPTONLY", "")
+         return
+-- 
+1.7.1
 
 
 
