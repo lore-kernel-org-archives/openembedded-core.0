@@ -1,32 +1,32 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mail-yi0-f47.google.com ([209.85.218.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1R8grB-0000me-8h
+	(envelope-from <koen@dominion.thruhere.net>) id 1R8hLp-000181-2J
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Sep 2011 01:14:34 +0200
-Received: from mail-wy0-f180.google.com ([74.125.82.180])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 27 Sep 2011 16:07:59 -0700
-Received: by wyh11 with SMTP id 11so5931624wyh.25
+	Wed, 28 Sep 2011 01:46:13 +0200
+Received: by yia27 with SMTP id 27so6972853yia.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Sep 2011 16:07:58 -0700 (PDT)
-Received: by 10.227.55.20 with SMTP id s20mr8766012wbg.15.1317164868610;
-	Tue, 27 Sep 2011 16:07:48 -0700 (PDT)
-Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id fr18sm37934330wbb.9.2011.09.27.16.07.46
-	(version=SSLv3 cipher=OTHER); Tue, 27 Sep 2011 16:07:47 -0700 (PDT)
-Message-ID: <4E825740.4080609@intel.com>
-Date: Tue, 27 Sep 2011 16:07:44 -0700
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:6.0.2) Gecko/20110906 Thunderbird/6.0.2
-MIME-Version: 1.0
+	Tue, 27 Sep 2011 16:40:43 -0700 (PDT)
+Received: by 10.236.185.233 with SMTP id u69mr16293012yhm.94.1317166843077;
+	Tue, 27 Sep 2011 16:40:43 -0700 (PDT)
+Received: from [10.1.10.78] (rrcs-97-79-162-178.sw.biz.rr.com. [97.79.162.178])
+	by mx.google.com with ESMTPS id z53sm35862107yhj.7.2011.09.27.16.40.40
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 27 Sep 2011 16:40:41 -0700 (PDT)
+References: <1316297897-698-1-git-send-email-dbaryshkov@gmail.com>
+	<1316297897-698-2-git-send-email-dbaryshkov@gmail.com>
+	<CADkTA4NxfSaEinraLQMsLT4ZWQKOPAZ76uNujFXg0zSrRvVnFA@mail.gmail.com>
+In-Reply-To: <CADkTA4NxfSaEinraLQMsLT4ZWQKOPAZ76uNujFXg0zSrRvVnFA@mail.gmail.com>
+Mime-Version: 1.0 (iPhone Mail 8L1)
+Message-Id: <0E901391-C9FC-48AE-88A4-C1064E57376E@dominion.thruhere.net>
+X-Mailer: iPhone Mail (8L1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Tue, 27 Sep 2011 18:40:37 -0500
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <fd038ffaa07466c14dc983049a9a99989d33be9b.1317094542.git.raj.khem@gmail.com>
-	<2d1632c2b19963e3dc625522d1284ce6262c2492.1317094542.git.raj.khem@gmail.com>
-In-Reply-To: <2d1632c2b19963e3dc625522d1284ce6262c2492.1317094542.git.raj.khem@gmail.com>
-Subject: Re: [PATCH 3/4] eglibc: Add recipes for 2.14
+Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/5] kernel.bbclass: respect MACHINE_KERNEL_PR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,83 +41,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Sep 2011 23:14:34 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 09/26/2011 08:39 PM, Khem Raj wrote:
-> Backport Fedora patch to enable sunrpc as it was in 2.13
-> Fix cross-localedef-native to be able to build from eglibc 2.14 branch
->
-> Tested builds/boot of angstrom/console-image on qemu for arm,mips,ppc,i386,x86_64
->
-> Signed-off-by: Khem Raj<raj.khem@gmail.com>
-> ---
->   .../eglibc/cross-localedef-native_2.14.bb          |   44 ++
->   .../eglibc/eglibc-2.14/IO-acquire-lock-fix.patch   |   17 +
->   .../eglibc-2.14/armv4-eabi-compile-fix.patch       |   25 +
->   .../eglibc-2.14/eglibc-rpc-export-again.patch      |   69 +++
->   .../eglibc-svn-arm-lowlevellock-include-tls.patch  |   21 +
->   .../eglibc/eglibc-2.14/generate-supported.mk       |   11 +
->   .../eglibc/eglibc-2.14/ld-search-order.patch       |   56 ++
->   .../eglibc/eglibc-2.14/mips-rld-map-check.patch    |   26 +
->   .../eglibc/eglibc-2.14/multilib_readlib.patch      |   17 +
->   .../recipes-core/eglibc/eglibc-2.14/ppc-sqrt.patch |  538 ++++++++++++++++++++
->   .../eglibc-2.14/shorten-build-commands.patch       |   82 +++
->   .../eglibc/eglibc-2.14/stack-protector-test.patch  |   35 ++
->   meta/recipes-core/eglibc/eglibc-initial_2.14.bb    |    6 +
->   meta/recipes-core/eglibc/eglibc-locale_2.14.bb     |    1 +
->   meta/recipes-core/eglibc/eglibc_2.14.bb            |  219 ++++++++
->   15 files changed, 1167 insertions(+), 0 deletions(-)
->   create mode 100644 meta/recipes-core/eglibc/cross-localedef-native_2.14.bb
->   create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/IO-acquire-lock-fix.patch
->   create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/armv4-eabi-compile-fix.patch
->   create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/eglibc-rpc-export-again.patch
->   create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/eglibc-svn-arm-lowlevellock-include-tls.patch
->   create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/etc/ld.so.conf
->   create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/generate-supported.mk
->   create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/ld-search-order.patch
->   create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/mips-rld-map-check.patch
->   create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/multilib_readlib.patch
->   create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/ppc-sqrt.patch
->   create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/shorten-build-commands.patch
->   create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/stack-protector-test.patch
->   create mode 100644 meta/recipes-core/eglibc/eglibc-initial_2.14.bb
->   create mode 100644 meta/recipes-core/eglibc/eglibc-locale_2.14.bb
->   create mode 100644 meta/recipes-core/eglibc/eglibc_2.14.bb
->
-
-Khem,
-
-This one seems to have had a problem on mips, when I built it on the 
-Autobuilder, I get the following failure:
-checking for ld --version-script... no
-| *** WARNING: You should not compile GNU libc without versioning. Not using
-| *** versioning will introduce incompatibilities so that old binaries
-| *** will not run anymore.
-| *** For versioning you need recent binutils (binutils-2.8.1.0.23 or 
-newer).
-| checking for .previous assembler directive... yes
-| checking for .protected and .hidden assembler directive... yes
-| checking whether __attribute__((visibility())) is supported... yes
-| checking for broken __attribute__((visibility()))... no
-| checking for broken __attribute__((alias()))... no
-| checking whethERROR: Function 'do_configure' failed (see 
-/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-mips/build/build/tmp/work/mips-poky-linux/eglibc-2.13-r17+svnr14157/temp/log.do_configure.1476 
-for further information)
-| er to put _rtld_local into .sdata section... yes
-| checking for .preinit_array/.init_array/.fini_array support... no
-| configure: error: Need linker with .init_array/.fini_array support.
-| ERROR: oe_runconf failed
-
-You can see this at:
-http://autobuilder.yoctoproject.org:8010/builders/nightly-mips/builds/88/steps/shell_42/logs/stdio
-
-Sau!
+X-List-Received-Date: Tue, 27 Sep 2011 23:46:13 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
 
+Op 27 sep. 2011 om 08:52 heeft Bruce Ashfield <bruce.ashfield@gmail.com> het=
+ volgende geschreven:
+
+> On Sat, Sep 17, 2011 at 6:18 PM, Dmitry Eremin-Solenikov
+> <dbaryshkov@gmail.com> wrote:
+>> MACHINE_KERNEL_PR was introduced long ago in org.oe.dev. It's present in
+>> meta-oe kernel.bbclass. Several machines depend on this functionality.
+>=20
+> I don' t have a big problem with this, since the change is obviously
+> harmless if it
+> doesn't need to be used. But similar to my comment on patch 3/5, is there a=
+ny
+> history/technical reasons we can capture here ?
+>=20
+> I did a quick search to dig up a bit on this myself, but a summary
+> would definitely
+> help, since I see that this has a long and sometimes twisting history. Is i=
+t as
+> simple as ?
+>=20
+> "A machine.conf or local.conf can increase MACHINE_KERNEL_PR to force
+> rebuilds for kernel and external modules"
+
+It is that simple :)=20
 
 
+
+>=20
+> Cheers,
+>=20
+> Bruce
+>=20
+>=20
+>>=20
+>> Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+>> ---
+>>  meta/classes/kernel.bbclass |    5 +++++
+>>  1 files changed, 5 insertions(+), 0 deletions(-)
+>>=20
+>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+>> index c577011..b44e3b5 100644
+>> --- a/meta/classes/kernel.bbclass
+>> +++ b/meta/classes/kernel.bbclass
+>> @@ -20,6 +20,11 @@ python __anonymous () {
+>>     image =3D bb.data.getVar('INITRAMFS_IMAGE', d, True)
+>>     if image:
+>>         bb.data.setVar('INITRAMFS_TASK', '${INITRAMFS_IMAGE}:do_rootfs', d=
+)
+>> +
+>> +    machine_kernel_pr =3D bb.data.getVar('MACHINE_KERNEL_PR', d, True)
+>> +
+>> +    if machine_kernel_pr:
+>> +        bb.data.setVar('PR', machine_kernel_pr, d)
+>>  }
+>>=20
+>>  inherit kernel-arch deploy
+>> --
+>> 1.7.2.5
+>>=20
+>>=20
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>=20
+>=20
+>=20
+>=20
+> --=20
+> "Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end"
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
