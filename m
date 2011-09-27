@@ -1,27 +1,30 @@
-Received: from mail-vw0-f47.google.com ([209.85.212.47])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1R8bTC-0003GU-J1
+	(envelope-from <otavio.salvador@gmail.com>) id 1R8dH8-0005Cu-Ol
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Sep 2011 19:29:27 +0200
-Received: by vwe42 with SMTP id 42so6096009vwe.6
+	Tue, 27 Sep 2011 21:25:06 +0200
+Received: by bke11 with SMTP id 11so7501376bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Sep 2011 10:24:00 -0700 (PDT)
+	Tue, 27 Sep 2011 12:19:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:from:date:message-id:subject:to:content-type;
-	bh=HZV/LZbogLn/iZ2QjH8qNMSY7/HIOn0YqYi/waV2dyI=;
-	b=BpHEII6GzX4Buym3Gll+9hBz1B3lQ4TomipR6mkhvBKBiWcdI9wPSLk+iCJg3cbLld
-	ioLPJt52R8/n0MR4l1OGvYhQy4StweLu1NMx7ffMyT1/pfK6nweaG8IuDW7aZ1hRVVCu
-	Nqx4cykeGxpSZYpoIp75ydyD4a0BSiL43d2oE=
-Received: by 10.68.16.38 with SMTP id c6mr38550700pbd.5.1317144240033; Tue, 27
-	Sep 2011 10:24:00 -0700 (PDT)
+	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
+	:from:to:content-type:content-transfer-encoding;
+	bh=EPTN9ZsinlzQhFafnood7Q30HXl2eRV6u3M0oYjEgww=;
+	b=G+KesYOAZycqJJ+jhjJC8VyRSpKdYzMDJqWMqdbHpLMxB0bMUnuPpSfNqjf4IyPhoW
+	zb2hZynogLP5YTU1wKZ130kdlNjQMUMeWuhyS+/wXfbPy58yvGl1a41ic3QA3lVXUb8G
+	J8ewK2ABAt27UVZIwsBGyW4PRHOvwAtTNILUs=
 MIME-Version: 1.0
-Received: by 10.68.42.98 with HTTP; Tue, 27 Sep 2011 10:23:30 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 27 Sep 2011 10:23:30 -0700
-Message-ID: <CAMKF1spia2JSMq_jQwUUKJWUzjNC+pD-qKTiBAaSDujHuB3iPg@mail.gmail.com>
+Received: by 10.204.128.130 with SMTP id k2mr5797877bks.322.1317151180821;
+	Tue, 27 Sep 2011 12:19:40 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.35.198 with HTTP; Tue, 27 Sep 2011 12:19:40 -0700 (PDT)
+Date: Tue, 27 Sep 2011 16:19:40 -0300
+X-Google-Sender-Auth: M_EEOxXfGhQ_PWvdBkKA-v6tjUo
+Message-ID: <CAP9ODKrJS5MAdiU1bL+pT=cBb0=j1tXpk0KQQJ=4uww5r_-G+Q@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Selectable linker (ld or gold) per recipe
+Subject: [RFH] package_setscene failing when using gitpkgv
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,44 +39,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Sep 2011 17:29:27 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 27 Sep 2011 19:25:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Hello
+Hello,
 
-We have gold and ld available to us as linker alternatives. When
-linking webkit with ld it takes 45 mins and grabs 2G of memory where
-as with gold on same machine
-it took 7 minutes. But then we can not use gold to link glibc and
-kernel and may not work on all supported arches. So gold may not be a
-complete replacement for ld. A good solution is that we make it
-possible
-to choose linker at compile time when building the application. gcc
-does not have provisions to select linker on commandline although it
-has configure
-options to select default linker.
+We have some packages that use gitpkgv but protocol ssh ... for this
+specific case we're seeing the building get stuck due ssh asking for
+credentials.
 
-We can use two solutions
+After looking at why this happened we figured it was due the use of
+pseudo but this is expected to be used for package_setscene however we
+fail to see why git ls-remote is being ran when package_setscene is
+called.
 
-One where <target>-ld is a wrapper to ld.gold or ld.bfd and calls the
-linker based on commandline options passed to it e.g
-arm-oe-linux-gnueabi-ld -gold and arm-oe-linux-gnueabi-ld -bfd and
-this option can be passed thru the compiler with -Wl and same wrapper
-gets symlinked to the ld called by compiler driver if no option is
-specified than bfd linker
-is used
+Anyone has a clue?
 
-
-Second option is that we install both linkers and then add necessary
-option to gcc to select the linker I have not explored this option but
-it certainly would be useful
-
-This can give us some base so we can select linker per recipe
-
-Ideas ?
-
-Thanks
-
--Khem
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
