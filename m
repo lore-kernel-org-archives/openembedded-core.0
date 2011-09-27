@@ -1,32 +1,20 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1R8Xze-000677-V5
+	(envelope-from <dongxiao.xu@intel.com>) id 1R8Y38-0006Al-S8
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Sep 2011 15:46:42 +0200
-Received: by wyh5 with SMTP id 5so7634607wyh.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Sep 2011 06:41:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=wYdoUD8xUYqJVRlX/WsNGK3OEvIMTYnRZDh+VZnj8T4=;
-	b=HLWAuXtQU48lhLCHtPR7XeukiFz1ULHflQBr0tFbOtzAlvEqcY4YnQBwj3qPKtVVbQ
-	6mCt/WLku0/4XIsANfYQx3uXQ45iN4cMIhECjkQjQdpSEGoKBeMTiunNz1uvjgsji/5T
-	ISkc/o43yUqzNEyfcVPEh7lUrG2C4fxiXLs3c=
-MIME-Version: 1.0
-Received: by 10.227.24.82 with SMTP id u18mr2037828wbb.111.1317130877523; Tue,
-	27 Sep 2011 06:41:17 -0700 (PDT)
-Received: by 10.180.87.197 with HTTP; Tue, 27 Sep 2011 06:41:17 -0700 (PDT)
-In-Reply-To: <1316297897-698-5-git-send-email-dbaryshkov@gmail.com>
-References: <1316297897-698-1-git-send-email-dbaryshkov@gmail.com>
-	<1316297897-698-5-git-send-email-dbaryshkov@gmail.com>
-Date: Tue, 27 Sep 2011 09:41:17 -0400
-Message-ID: <CADkTA4PK3Ar48aa-ja6+yayup_QXKuzes7d-5_Bid4D_ik-u9g@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Subject: Re: [PATCH 5/5] kernel.bbclass: remove unshipped files in do_install
+	Tue, 27 Sep 2011 15:50:19 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 27 Sep 2011 06:44:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,449,1312182000"; d="scan'208";a="71186858"
+Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Sep 2011 06:44:52 -0700
+From: Dongxiao Xu <dongxiao.xu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 27 Sep 2011 21:52:54 +0800
+Message-Id: <cover.1317131373.git.dongxiao.xu@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/4][RFC] multilib: bug fixes related with RPM backend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,57 +29,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Sep 2011 13:46:43 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 27 Sep 2011 13:50:19 -0000
 
-On Sat, Sep 17, 2011 at 6:18 PM, Dmitry Eremin-Solenikov
-<dbaryshkov@gmail.com> wrote:
-> Drop two unsed files (modules.order and modules.builtin) in do_install
-> to stop the "unshipped files" warning.
+Hi Richard,
 
-One less warning is a good thing!
+This pull request is to fix several multilib bugs related with RPM backend,
+please help to review.
 
-Looks good to me,  I can add my vote to this one.
+BTW, I am issuing a round of multilib testing agasint:
+ - lib32 sato image on qemux86 machine
+ - lib32 sato image on qemux86-64 machine
+ - lib64 sato image on qemux86-64 machine
+ - lib64 sato image on qemux86 machine
+ - sato image on qemux86-64 with several lib32 packages (lib32-connman)
 
-Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+I will update you the test result once it is finished.
 
->
-> Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-> ---
-> =A0meta/classes/kernel.bbclass | =A0 =A02 ++
-> =A01 files changed, 2 insertions(+), 0 deletions(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 59d3b89..6b2e603 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -108,6 +108,8 @@ kernel_do_install() {
-> =A0 =A0 =A0 =A0unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
-> =A0 =A0 =A0 =A0if (grep -q -i -e '^CONFIG_MODULES=3Dy$' .config); then
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0oe_runmake DEPMOD=3Decho INSTALL_MOD_PATH=
-=3D"${D}" modules_install
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 rm -f "${D}/lib/modules/${KERNEL_VERSION}/m=
-odules.order"
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 rm -f "${D}/lib/modules/${KERNEL_VERSION}/m=
-odules.builtin"
-> =A0 =A0 =A0 =A0else
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0bbnote "no modules to install"
-> =A0 =A0 =A0 =A0fi
-> --
-> 1.7.2.5
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Thanks,
+Dongxiao
 
+The following changes since commit 684a4b517d13884c315688967fadd5e6a4845b71:
 
+  libffi: really populate -dev package (2011-09-26 20:50:27 +0100)
 
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dxu4/ml
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/ml
+
+Dongxiao Xu (4):
+  multilib.bbclass: map RDEPENDS and LINGUAS_INSTALL for image recipes
+  multilib: remove the multilib handling to allarch
+  multilib: add MLPREFIX to deploy folder
+  tune-i586: fix hardcoded TUNE_PKGARCH
+
+ meta/classes/multilib.bbclass                      |   12 +++++-------
+ meta/classes/multilib_global.bbclass               |    2 +-
+ meta/classes/package_rpm.bbclass                   |   10 ++++++++--
+ meta/classes/rootfs_rpm.bbclass                    |    2 +-
+ meta/conf/machine/include/tune-i586.inc            |    3 ++-
+ meta/conf/multilib.conf                            |    7 +++++++
+ .../python/python-pygobject_2.27.91.bb             |    2 +-
+ 7 files changed, 25 insertions(+), 13 deletions(-)
+
 
 
