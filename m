@@ -1,24 +1,36 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1R8sWX-0003Kd-Pt
-	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Sep 2011 13:42:01 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Sep 2011 04:36:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,455,1312182000"; d="scan'208";a="68238894"
-Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by fmsmga001.fm.intel.com with ESMTP; 28 Sep 2011 04:36:16 -0700
-From: Dongxiao Xu <dongxiao.xu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Sep 2011 19:44:26 +0800
-Message-Id: <6cfa3a8327ff795017e4d4c8340c70bc195e6cb2.1317209357.git.dongxiao.xu@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1317209357.git.dongxiao.xu@intel.com>
-References: <cover.1317209357.git.dongxiao.xu@intel.com>
-In-Reply-To: <cover.1317209357.git.dongxiao.xu@intel.com>
-References: <cover.1317209357.git.dongxiao.xu@intel.com>
-Subject: [PATCH 1/6] multilib.bbclass: map RDEPENDS and LINGUAS_INSTALL for image recipes
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1R8sYL-0003QB-Iy for openembedded-core@lists.openembedded.org;
+	Wed, 28 Sep 2011 13:43:55 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8SBimb9001830 for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Sep 2011 12:44:48 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id GnbFtzXkWzgi
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Sep 2011 12:44:48 +0100 (BST)
+Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8SBihjR001825
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Sep 2011 12:44:45 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 28 Sep 2011 12:38:19 +0100
+In-Reply-To: <201109281225.41524.paul.eggleton@linux.intel.com>
+References: <cover.1317201529.git.paul.eggleton@linux.intel.com>
+	<1317208204.26109.240.camel@ted>
+	<201109281225.41524.paul.eggleton@linux.intel.com>
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1317209906.26109.245.camel@ted>
+Mime-Version: 1.0
+Subject: Re: [PATCH 0/2] Fix TMPDIR usage in scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,41 +45,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2011 11:42:02 -0000
+X-List-Received-Date: Wed, 28 Sep 2011 11:43:55 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-RDEPENDS of image type recipe needs to be mapped to make sure that the
-packages included in the image should be multilib version.
+On Wed, 2011-09-28 at 12:25 +0100, Paul Eggleton wrote:
+> On Wednesday 28 September 2011 12:09:57 Richard Purdie wrote:
+> > At the very least we need to fix the references in
+> > scripts/qemuimage-testlib so the automated image testing doesn't break.
+> 
+> OK, v2 on its way. The scripts that call qemuimage-testlib will still need to 
+> be updated to set OE_TMPDIR though.
 
-Also add LINGUAS_INSTALL into MULTILIB_PACKAGE_INSTALL list.
+The "script" is "meta/classes/imagetest-qemu.bbclass" and you could even
+test this by setting IMAGETEST = "qemu" in local.conf and then "bitbake
+core-image-minimal" ;-).
 
-[YOCTO #1496]
-[YOCTO #1527]
+Also, why can't scripts/qemuimage-testlib just do OE_TMPDIR=${TMPDIR} ?
 
-Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
----
- meta/classes/multilib.bbclass |    5 ++++-
- 1 files changed, 4 insertions(+), 1 deletions(-)
+Cheers,
 
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index 98f6911..0ea1038 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -54,9 +54,12 @@ python __anonymous () {
- 
-     if bb.data.inherits_class('image', d):
-         map_dependencies("PACKAGE_INSTALL", d)
--        pinstall = d.getVar("PACKAGE_INSTALL", True) + " " + d.getVar("MULTILIB_PACKAGE_INSTALL", False)
-+        map_dependencies("LINGUAS_INSTALL", d)
-+        map_dependencies("RDEPENDS", d)
-+        pinstall = d.getVar("LINGUAS_INSTALL", True) + " " + d.getVar("PACKAGE_INSTALL", True) + " " + d.getVar("MULTILIB_PACKAGE_INSTALL", False)
-         d.setVar("MULTILIB_PACKAGE_INSTALL", pinstall)
-         d.setVar("PACKAGE_INSTALL", "")
-+        d.setVar("LINGUAS_INSTALL", "")
-         # FIXME, we need to map this to something, not delete it!
-         d.setVar("PACKAGE_INSTALL_ATTEMPTONLY", "")
-         return
--- 
-1.7.1
+Richard
 
 
 
