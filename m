@@ -1,21 +1,21 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1R8wu7-00017K-2u
+	(envelope-from <saul.wold@intel.com>) id 1R8xIS-0001Os-8r
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Sep 2011 18:22:39 +0200
-Received: from mail-ey0-f180.google.com ([209.85.215.180])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 28 Sep 2011 09:17:11 -0700
-Received: by eyb6 with SMTP id 6so6705218eyb.25
+	Wed, 28 Sep 2011 18:47:49 +0200
+Received: from mail-yi0-f52.google.com ([209.85.218.52])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 28 Sep 2011 09:26:05 -0700
+Received: by yie30 with SMTP id 30so13511700yie.25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Sep 2011 09:17:09 -0700 (PDT)
-Received: by 10.216.14.91 with SMTP id c69mr1363581wec.81.1317226629509;
-	Wed, 28 Sep 2011 09:17:09 -0700 (PDT)
+	Wed, 28 Sep 2011 09:26:04 -0700 (PDT)
+Received: by 10.101.66.2 with SMTP id t2mr8585988ank.3.1317227164821;
+	Wed, 28 Sep 2011 09:26:04 -0700 (PDT)
 Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
 	[71.193.189.117])
-	by mx.google.com with ESMTPS id n21sm41204502wbp.2.2011.09.28.09.17.07
-	(version=SSLv3 cipher=OTHER); Wed, 28 Sep 2011 09:17:08 -0700 (PDT)
-Message-ID: <4E834881.30609@intel.com>
-Date: Wed, 28 Sep 2011 09:17:05 -0700
+	by mx.google.com with ESMTPS id u4sm53854156ane.21.2011.09.28.09.26.03
+	(version=SSLv3 cipher=OTHER); Wed, 28 Sep 2011 09:26:04 -0700 (PDT)
+Message-ID: <4E834A97.5010200@intel.com>
+Date: Wed, 28 Sep 2011 09:25:59 -0700
 From: Saul Wold <saul.wold@intel.com>
 Organization: Intel
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
@@ -23,9 +23,9 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1317157793.git.josh@linux.intel.com>
-In-Reply-To: <cover.1317157793.git.josh@linux.intel.com>
-Subject: Re: [PATCH 0/1] Fix building ghostcript variants on Ubuntu 11.10
+References: <cover.1317185969.git.edwin.zhai@intel.com>
+In-Reply-To: <cover.1317185969.git.edwin.zhai@intel.com>
+Subject: Re: [PATCH 0/4] Remove gnome-vfs completely
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,34 +40,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2011 16:22:39 -0000
+X-List-Received-Date: Wed, 28 Sep 2011 16:47:49 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/27/2011 02:12 PM, Joshua Lock wrote:
-> Ubuntu 11.10 has moved sys/time.h such that the hard-coded test paths in
-> ghostscripts configuration scripts fails.
+On 09/27/2011 10:02 PM, edwin.zhai@intel.com wrote:
+> From: Zhai Edwin<edwin.zhai@intel.com>
 >
-> This patch works around that issue.
+> All,
+> gnome-vfs need to be removed and taken place by gio. These patches remove the
+> dependece on it, and obsolete recipes that need it.
 >
-> Regards,
-> Joshua
+> Pls. help to pull.
 >
-> The following changes since commit 684a4b517d13884c315688967fadd5e6a4845b71:
+> Thanks,
+> Edwin
 >
->    libffi: really populate -dev package (2011-09-26 20:50:27 +0100)
+> The following changes since commit e3c5d7a90ae179af0ac128ea4dfc1a5a6602c2e4:
+>
+>    libtool: Fix an issue where unnecessary rpaths were being injected (2011-09-26 17:56:44 +0100)
 >
 > are available in the git repository at:
->    git://git.openembedded.org/openembedded-core-contrib josh/work
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/work
+>    git://git.pokylinux.org/poky-contrib gzhai/master2
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/master2
 >
-> Joshua Lock (1):
->    ghostscript: disable check for time.h
+> Zhai Edwin (4):
+>    oprofileui: remove dependence on gnome-vfs
+>    libgsf: remove dependence on gnome-vfs
+>    tables: remove it as obsolete recipe
+>    gnome-vfs: remove it as obsolete recipe in favor of GIO/GVFS
 >
->   .../ghostscript/ghostscript_9.02.bb                |    5 +++++
->   1 files changed, 5 insertions(+), 0 deletions(-)
+>   .../recipes-gnome/libgsf/libgsf_1.14.5.bb          |    8 ++-
+>   meta-demoapps/recipes-graphics/clutter/table.inc   |   13 -----
+>   .../recipes-graphics/clutter/table/fixes.patch     |   16 ------
+>   .../recipes-graphics/clutter/table_git.bb          |   15 ------
+>   .../conf/distro/include/distro_tracking_fields.inc |   11 ----
+>   meta/conf/multilib.conf                            |    1 -
+>   .../gnome/gnome-vfs-2.24.4/gconftool-lossage.patch |   13 -----
+>   .../gnome-vfs-2.24.4/gnome-vfs-no-kerberos.patch   |   53 --------------------
+>   meta/recipes-gnome/gnome/gnome-vfs_2.24.4.bb       |   50 ------------------
+>   meta/recipes-kernel/oprofile/oprofileui.inc        |    2 +-
+>   10 files changed, 7 insertions(+), 175 deletions(-)
+>   delete mode 100644 meta-demoapps/recipes-graphics/clutter/table.inc
+>   delete mode 100644 meta-demoapps/recipes-graphics/clutter/table/fixes.patch
+>   delete mode 100644 meta-demoapps/recipes-graphics/clutter/table_git.bb
+>   delete mode 100644 meta/recipes-gnome/gnome/gnome-vfs-2.24.4/gconftool-lossage.patch
+>   delete mode 100644 meta/recipes-gnome/gnome/gnome-vfs-2.24.4/gnome-vfs-no-kerberos.patch
+>   delete mode 100644 meta/recipes-gnome/gnome/gnome-vfs_2.24.4.bb
 >
-Merged into OE-Core
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
+Merged into OE-Core, except as noted about gnome-vfs possibly 
+transferring to meta-oe as part of this.
 
 Thanks
 	Sau!
