@@ -1,21 +1,21 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1R8wsK-000147-6E
+	(envelope-from <saul.wold@intel.com>) id 1R8wu7-00017K-2u
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Sep 2011 18:20:48 +0200
-Received: from mail-wy0-f180.google.com ([74.125.82.180])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 28 Sep 2011 09:15:13 -0700
-Received: by wyh11 with SMTP id 11so169128wyh.25
+	Wed, 28 Sep 2011 18:22:39 +0200
+Received: from mail-ey0-f180.google.com ([209.85.215.180])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 28 Sep 2011 09:17:11 -0700
+Received: by eyb6 with SMTP id 6so6705218eyb.25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Sep 2011 09:15:12 -0700 (PDT)
-Received: by 10.216.186.146 with SMTP id w18mr10949052wem.29.1317226511512;
-	Wed, 28 Sep 2011 09:15:11 -0700 (PDT)
+	Wed, 28 Sep 2011 09:17:09 -0700 (PDT)
+Received: by 10.216.14.91 with SMTP id c69mr1363581wec.81.1317226629509;
+	Wed, 28 Sep 2011 09:17:09 -0700 (PDT)
 Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
 	[71.193.189.117])
-	by mx.google.com with ESMTPS id es5sm27258567wbb.11.2011.09.28.09.15.08
-	(version=SSLv3 cipher=OTHER); Wed, 28 Sep 2011 09:15:10 -0700 (PDT)
-Message-ID: <4E83480A.9080407@intel.com>
-Date: Wed, 28 Sep 2011 09:15:06 -0700
+	by mx.google.com with ESMTPS id n21sm41204502wbp.2.2011.09.28.09.17.07
+	(version=SSLv3 cipher=OTHER); Wed, 28 Sep 2011 09:17:08 -0700 (PDT)
+Message-ID: <4E834881.30609@intel.com>
+Date: Wed, 28 Sep 2011 09:17:05 -0700
 From: Saul Wold <saul.wold@intel.com>
 Organization: Intel
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
@@ -23,9 +23,9 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1317068205.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1317068205.git.bruce.ashfield@windriver.com>
-Subject: Re: [PATCH 0/1] linux-yocto: eg20t and live boot config changes
+References: <cover.1317157793.git.josh@linux.intel.com>
+In-Reply-To: <cover.1317157793.git.josh@linux.intel.com>
+Subject: Re: [PATCH 0/1] Fix building ghostcript variants on Ubuntu 11.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,36 +40,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2011 16:20:48 -0000
+X-List-Received-Date: Wed, 28 Sep 2011 16:22:39 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/26/2011 01:18 PM, Bruce Ashfield wrote:
-> Richard/Saul,
+On 09/27/2011 02:12 PM, Joshua Lock wrote:
+> Ubuntu 11.10 has moved sys/time.h such that the hard-coded test paths in
+> ghostscripts configuration scripts fails.
 >
-> The patch really says it all for this one. This is one update from
-> Tom to remove some obselete options and the other is just a re-org
-> of the live boot options and then a re-use accross the 3 boards that
-> we've been using for a month or so to test CD booting.
+> This patch works around that issue.
 >
-> Cheers,
+> Regards,
+> Joshua
 >
-> Bruce
+> The following changes since commit 684a4b517d13884c315688967fadd5e6a4845b71:
 >
-> The following changes since commit 49ed1cab3bee2318fdd5fc2538b1b3d43542ed2d:
->
->    documentation/poky-ref-manual/ref-classes.xml: documented useradd.bbclass (2011-09-25 18:00:00 +0100)
+>    libffi: really populate -dev package (2011-09-26 20:50:27 +0100)
 >
 > are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib zedd/kernel
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+>    git://git.openembedded.org/openembedded-core-contrib josh/work
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/work
 >
-> Bruce Ashfield (1):
->    linux-yocto/meta: eg20t and live boot config changes
+> Joshua Lock (1):
+>    ghostscript: disable check for time.h
 >
->   meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb |    2 +-
->   meta/recipes-kernel/linux/linux-yocto_3.0.bb    |    2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
+>   .../ghostscript/ghostscript_9.02.bb                |    5 +++++
+>   1 files changed, 5 insertions(+), 0 deletions(-)
 >
 Merged into OE-Core
 
