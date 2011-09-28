@@ -1,35 +1,20 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dbaryshkov@gmail.com>) id 1R8pts-0006JJ-Nb
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1R8qUx-0007DT-L0
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Sep 2011 10:53:57 +0200
-Received: by iadx2 with SMTP id x2so7489965iad.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Sep 2011 01:48:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=HOwBrIQi1Xy4nNTu25pTscnm57OakWr09i/4kaZKIEQ=;
-	b=EbvxrqzUqo6P+yQEFuz5kJasKcrsO+sgBTrIqYjZCe+EXaNLMjNU3/yXJPjUu6EmJx
-	bzpLJRXMfaGy/di/ECv4XaERWLEa0JrcHNM8fPqxQ9oZyCW7VuoEK1SyP5C/Ak4xMUr0
-	ohIZIdc3/YdxVvlbDBU3Qo6/A9DqFsCiqcw4M=
-Received: by 10.42.155.5 with SMTP id s5mr1630345icw.52.1317199708945;
-	Wed, 28 Sep 2011 01:48:28 -0700 (PDT)
-Received: from [137.202.140.192] (nat-rup.mentorg.com. [139.181.168.34])
-	by mx.google.com with ESMTPS id g16sm33884089ibs.8.2011.09.28.01.48.25
-	(version=SSLv3 cipher=OTHER); Wed, 28 Sep 2011 01:48:27 -0700 (PDT)
-Message-ID: <4E82DF1F.4040809@gmail.com>
-Date: Wed, 28 Sep 2011 12:47:27 +0400
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.21) Gecko/20110831 Iceowl/1.0b2 Icedove/3.1.13
-MIME-Version: 1.0
-To: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-References: <1316297897-698-1-git-send-email-dbaryshkov@gmail.com>
-In-Reply-To: <1316297897-698-1-git-send-email-dbaryshkov@gmail.com>
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/5] kernel.bbclass: blacklist 'perf-dbg' as well for the modules metapackage
+	Wed, 28 Sep 2011 11:32:16 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 28 Sep 2011 02:26:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,454,1312182000"; d="scan'208";a="71534338"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.175])
+	by fmsmga002.fm.intel.com with ESMTP; 28 Sep 2011 02:26:37 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 28 Sep 2011 10:26:07 +0100
+Message-Id: <cover.1317201529.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 0/2] Fix TMPDIR usage in scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,14 +29,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2011 08:53:57 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 28 Sep 2011 09:32:16 -0000
 
-Sorry to bother all of you, what about this patchset?
+Fix TMPDIR external environment variable usage within our scripts which
+is a problem on OpenSUSE within an X session (see Yocto bug #1530) by
+using OE_TMPDIR from the external environment instead.
+
+Note that this will require changes to autobuilder scripts that use a
+TMPDIR environment variable when calling these scripts - they should now
+set OE_TMPDIR instead (if versions with and without this change need to
+be run on the same system, then setting both variables will cause no
+harm).
+
+
+The following changes since commit 684a4b517d13884c315688967fadd5e6a4845b71:
+
+  libffi: really populate -dev package (2011-09-26 20:50:27 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/scripts-tmpdir
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/scripts-tmpdir
+
+Paul Eggleton (2):
+  scripts: use OE_TMPDIR instead of TMPDIR external variable
+  scripts/oe-setup-rpmrepo: use setup_tmpdir from runqemu
+
+ scripts/oe-setup-rpmrepo |   35 +++++++++++++++++++++--------------
+ scripts/runqemu          |    7 ++++++-
+ 2 files changed, 27 insertions(+), 15 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+1.7.4.1
+
 
 
