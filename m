@@ -1,18 +1,26 @@
-Received: from host-82-135-33-74.customer.m-online.net ([82.135.33.74]
-	helo=sisyphus.denx.de) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dima_ch@sisyphus.denx.de>) id 1R8qdr-0007OR-SI
+Received: from mga01.intel.com ([192.55.52.88])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1R8rCQ-0008FJ-It
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Sep 2011 11:41:27 +0200
-Received: by sisyphus.denx.de (Postfix, from userid 556)
-	id C9D1D41F1309; Wed, 28 Sep 2011 11:36:01 +0200 (CEST)
-From: Dmitry Cherukhin <dima_ch@emcraft.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Sep 2011 11:35:59 +0200
-Message-Id: <1317202559-17845-1-git-send-email-dima_ch@emcraft.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <c477d260c34472a416ccb6eec9af0300a40d576f>
-References: <c477d260c34472a416ccb6eec9af0300a40d576f>
-Subject: [PATCH] qt4: Added support for QtMobility 1.2
+	Wed, 28 Sep 2011 12:17:10 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 28 Sep 2011 03:11:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,454,1312182000"; d="scan'208";a="68221868"
+Received: from unknown (HELO helios.localnet) ([10.252.120.175])
+	by fmsmga001.fm.intel.com with ESMTP; 28 Sep 2011 03:11:34 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Eric =?iso-8859-1?q?B=E9nard?= <eric@eukrea.com>
+Date: Wed, 28 Sep 2011 11:11:33 +0100
+User-Agent: KMail/1.13.6 (Linux/2.6.38-10-generic-pae; KDE/4.6.2; i686; ; )
+References: <20110911172241.GA3674@chargestorm.se>
+	<D9F00ABD-04FA-4A75-BB1C-13B9BBDC4C54@dominion.thruhere.net>
+	<4E79E3A9.8080804@eukrea.com>
+In-Reply-To: <4E79E3A9.8080804@eukrea.com>
+MIME-Version: 1.0
+Message-Id: <201109281111.33193.paul.eggleton@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] qt4: update to latest version 4.7.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,199 +35,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2011 09:41:28 -0000
+X-List-Received-Date: Wed, 28 Sep 2011 10:17:10 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-The QtMobility is a Qt add-on which allows to include standard mobile
-functionality to Qt applications. For details, see
-   http://qt.nokia.com/products/qt-addons/mobility/
-The patch is intended to add support for the QtMobility 1.2 package to OE.
+Hi Eric,
 
-Added two recipes:
-1) qt-mobility-x11 builds the QtMobility 1.2 package
-   on the basis of Qt/X11 using the qt4-x11-free package;
-2) qt-mobility-embedded builds the QtMobility 1.2 package
-   on the basis of Qt/Embedded using the qt4-embedded package.
+On Wednesday 21 September 2011 14:16:25 Eric B=E9nard wrote:
+> Le 21/09/2011 15:05, Koen Kooi a =E9crit :
+> > WARNING: For recipe qt4-x11-free, the following files were installed but
+> > not shipped in any package:
+> > WARNING:   /usr/share/qt4/phrasebooks/swedish.qph
+> > WARNING:   /usr/share/qt4/phrasebooks/dutch.qph
+> > WARNING:   /usr/share/qt4/phrasebooks/german.qph
+> > WARNING:   /usr/share/qt4/phrasebooks/polish.qph
+> > WARNING:   /usr/share/qt4/phrasebooks/danish.qph
+> > WARNING:   /usr/share/qt4/phrasebooks/japanese.qph
+> > WARNING:   /usr/share/qt4/phrasebooks/finnish.qph
+> > WARNING:   /usr/share/qt4/phrasebooks/norwegian.qph
+> > WARNING:   /usr/share/qt4/phrasebooks/french.qph
+> > WARNING:   /usr/share/qt4/phrasebooks/russian.qph
+> > WARNING:   /usr/share/qt4/phrasebooks/spanish.qph
+> > WARNING:   /usr/share/qt4/phrasebooks/hungarian.qph
+> > WARNING:   /usr/share/qt4/phrasebooks/italian.qph
+>=20
+> OK I forget to integrate Otavio's patch which fix the translations. I'll=
+=20
+> update tonight.
 
-Signed-off-by: Dmitry Cherukhin <dima_ch@emcraft.com>
----
- meta/recipes-qt/qt4/files/qtm_qtmobility_pro.patch |   36 +++++++++++
- meta/recipes-qt/qt4/files/qtme_gstreamer_pro.patch |   23 ++++++
- meta/recipes-qt/qt4/qt-mobility-embedded_1.2.0.bb  |   13 +++++
- meta/recipes-qt/qt4/qt-mobility-x11_1.2.0.bb       |   11 ++++
- meta/recipes-qt/qt4/qt-mobility_1.2.0.inc          |   51 ++++++++++++++++++++
- 5 files changed, 119 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-qt/qt4/files/qtm_qtmobility_pro.patch
- create mode 100644 meta/recipes-qt/qt4/files/qtme_gstreamer_pro.patch
- create mode 100644 meta/recipes-qt/qt4/qt-mobility-embedded_1.2.0.bb
- create mode 100644 meta/recipes-qt/qt4/qt-mobility-x11_1.2.0.bb
- create mode 100644 meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+Did you have a chance to do this? I don't see an additional commit in the=20
+qt4_upgrade branch in your repo.
 
-diff --git a/meta/recipes-qt/qt4/files/qtm_qtmobility_pro.patch b/meta/recipes-qt/qt4/files/qtm_qtmobility_pro.patch
-new file mode 100644
-index 0000000..689c224
---- /dev/null
-+++ b/meta/recipes-qt/qt4/files/qtm_qtmobility_pro.patch
-@@ -0,0 +1,36 @@
-+qt-mobility: skip checking of the Qt version in the configure script
-+
-+The configure script fails with the following message:
-+   Project ERROR: Qt Mobility requires Qt 4.6 or higher. Qt was found.
-+The version of Qt is already 4.7.3, so there are some configuration problems
-+in the Qt4 subsystem of OE. This patch is a workaround for this issue,
-+it simply removes checking of Qt presence from the configure script.
-+
-+The origin of this patch is: 
-+   http://neophysis.git.sourceforge.net/git/gitweb.cgi?p=neophysis/openembedded;
-+   a=blob;f=recipes/neophysis/qt-mobility-1.0.0/qtmobility_pro.patch;
-+   h=fc5e1691aed47bc50d87e5c33497354182cacda4;hb=refs/heads/neophysis-testing-0.3
-+
-+Upstream-Status: Inappropriate configuration
-+
-+Signed-off-by: Dmitry Cherukhin <dima_ch@emcraft.com>
-+
-+--- qt-mobility-opensource-src-1.0.0/qtmobility.pro.orig	2010-05-21 14:20:19.547363661 +0200
-++++ qt-mobility-opensource-src-1.0.0/qtmobility.pro	2010-05-21 14:22:01.967353682 +0200
-+@@ -53,15 +53,6 @@ win32:!contains(CONFIG_WIN32,build_all) 
-+    }
-+ }
-+ 
-+-lessThan(QT_MAJOR_VERSION, 4) {
-+-    error(Qt Mobility requires Qt 4.6 or higher. Qt $${QT_VERSION} was found.);
-+-}
-+-
-+-contains(QT_MAJOR_VERSION, 4):lessThan(QT_MINOR_VERSION, 6) {
-+-    error(Qt Mobility requires Qt 4.6 or higher. Qt $${QT_VERSION} was found.);
-+-}
-+-
-+-
-+ # MCL builds for Symbian do not run configure and require some manual setup steps.
-+ # This test permits SD builds to skip installation of mobility.prf from within qmake.
-+ # It is installed in a separate step. MCL builds for SD must set the
-+
-diff --git a/meta/recipes-qt/qt4/files/qtme_gstreamer_pro.patch b/meta/recipes-qt/qt4/files/qtme_gstreamer_pro.patch
-new file mode 100644
-index 0000000..0cba1d6
---- /dev/null
-+++ b/meta/recipes-qt/qt4/files/qtme_gstreamer_pro.patch
-@@ -0,0 +1,23 @@
-+qt-mobility-embedded: disable the code which depends on X11
-+
-+There is no support for X11 when using Qt/Embedded.
-+The patch disables the section of the Qt project file `gstreamer.pro` which depends on X11.
-+This section is already conditional on `!embedded`, so it should be disabled for an embedded platform.
-+However, we can't force the symbol `embedded` be true, so we insroduce another configuration variable
-+`qt_embedded` and disable this section manually then compiling the qt-mobility-embedded recipe.
-+
-+Upstream-Status: Inappropriate configuration
-+
-+Signed-off-by: Dmitry Cherukhin <dima_ch@emcraft.com>
-+
-+--- qt-mobility-opensource-src-1.2.0/plugins/multimedia/gstreamer/gstreamer.pro.orig	2011-09-13 09:19:05.000000000 +0200
-++++ qt-mobility-opensource-src-1.2.0/plugins/multimedia/gstreamer/gstreamer.pro	2011-09-13 09:37:58.609252481 +0200
-+@@ -81,7 +81,7 @@
-+     qgstutils.cpp
-+ 
-+ 
-+-!win32:!embedded:!mac:!symbian:!simulator:!contains(QT_CONFIG, qpa) {
-++!win32:!embedded:!mac:!symbian:!simulator:!contains(QT_CONFIG, qpa):!contains(qt_embedded,yes) {
-+     LIBS += -lXv -lX11 -lXext
-+ 
-+     HEADERS += \
-diff --git a/meta/recipes-qt/qt4/qt-mobility-embedded_1.2.0.bb b/meta/recipes-qt/qt4/qt-mobility-embedded_1.2.0.bb
-new file mode 100644
-index 0000000..c31b1d2
---- /dev/null
-+++ b/meta/recipes-qt/qt4/qt-mobility-embedded_1.2.0.bb
-@@ -0,0 +1,13 @@
-+DESCRIPTION = "Qt Mobility 1.2.0 - version for Qt/Embedded"
-+DEPENDS = "qt4-embedded"
-+SECTION = "libs"
-+qtm_embedded := "yes"
-+qtm_libinfix := "E"
-+qtm_dir = "qtopia"
-+qtm_glflags := "-=opengl"
-+qtm_extra_config := "gstreamer-photography_enabled = no"
-+
-+inherit qt4e
-+require qt-mobility_${PV}.inc
-+
-+SRC_URI += "file://qtme_gstreamer_pro.patch;patch=1"
-diff --git a/meta/recipes-qt/qt4/qt-mobility-x11_1.2.0.bb b/meta/recipes-qt/qt4/qt-mobility-x11_1.2.0.bb
-new file mode 100644
-index 0000000..3020953
---- /dev/null
-+++ b/meta/recipes-qt/qt4/qt-mobility-x11_1.2.0.bb
-@@ -0,0 +1,11 @@
-+DESCRIPTION = "Qt Mobility 1.2.0 - version for Qt/X11"
-+DEPENDS = "qt4-x11-free"
-+SECTION = "x11/libs"
-+qtm_embedded := "no"
-+qtm_libinfix := ""
-+qtm_dir = "qt4"
-+qtm_glflags := "${@base_contains('DISTRO_FEATURES', 'opengl', '+=opengl', '-=opengl', d)} "
-+qtm_extra_config := ""
-+
-+inherit qt4x11
-+require qt-mobility_${PV}.inc
-diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-new file mode 100644
-index 0000000..5a423d7
---- /dev/null
-+++ b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-@@ -0,0 +1,51 @@
-+HOMEPAGE = "http://qt.nokia.com"
-+DEPENDS += "pulseaudio bluez4"
-+
-+LICENSE = "LGPLv2.1"
-+LIC_FILES_CHKSUM = "file://LICENSE.LGPL;md5=fbc093901857fcd118f065f900982c24 \
-+		    file://LGPL_EXCEPTION.txt;md5=411080a56ff917a5a1aa08c98acae354"
-+
-+SRC_URI = "http://get.qt.nokia.com/qt/add-ons/qt-mobility-opensource-src-${PV}.tar.gz \
-+		    file://qtm_qtmobility_pro.patch;patch=1 "
-+
-+SRC_URI[md5sum]="ea5db5a8d3dd4709c2926dceda646bd8"
-+SRC_URI[sha256sum]="ee3c88975e04139ac9589f76d4be646d44fcbc4c8c1cf2db621abc154cf0ba44"
-+
-+S = "${WORKDIR}/qt-mobility-opensource-src-${PV}"
-+
-+qtm_bin := "/usr/bin/${qtm_dir}"
-+qtm_lib := "/usr/lib"
-+qtm_include := "/usr/include/${qtm_dir}"
-+qtm_examples := "/usr/bin/${qtm_dir}/examples/qtmobility"
-+qtm_demos := "/usr/bin/${qtm_dir}/demos/qtmobility"
-+qtm_plugins := "/usr/lib/${qtm_dir}/plugins/qtmobility"
-+
-+do_configure_prepend() {
-+	./configure -qmake-exec qmake2 -prefix /usr -examples -demos
-+	echo QT_MOBILITY_BIN = ${qtm_bin} >>./config.pri
-+	echo QT_MOBILITY_LIB = ${qtm_lib} >>./config.pri
-+	echo QT_MOBILITY_INCLUDE = ${qtm_include} >>./config.pri
-+	echo QT_MOBILITY_PLUGINS = ${qtm_plugins} >>./config.pri
-+	echo QT_MOBILITY_EXAMPLES = ${qtm_examples} >>./config.pri
-+	echo QT_MOBILITY_DEMOS = ${qtm_demos} >>./config.pri
-+	echo QT_CONFIG += dbus >>./config.pri
-+	echo QT_CONFIG ${qtm_glflags} >>./config.pri
-+	echo QT_LIBINFIX = ${qtm_libinfix} >>./config.pri
-+	echo qt_embedded = ${qtm_embedded} >>./config.pri
-+	echo bluez_enabled = yes >>./config.pri
-+	echo ${qtm_extra_config} >>./config.pri
-+}
-+
-+do_install() {
-+	oe_runmake install INSTALL_ROOT=${D}
-+	for NAME in */*.prf
-+	do
-+	    install -m 644 -D -T $NAME ${D}/usr/share/${qtm_dir}/mkspecs/features/`basename $NAME`
-+	done
-+}
-+
-+PACKAGES = "${PN}-dbg ${PN} ${PN}-dev"
-+
-+FILES_${PN}-dbg = "${qtm_bin}/.debug ${qtm_examples}/.debug ${qtm_demos}/.debug ${qtm_lib}/.debug ${qtm_plugins}/*/.debug /usr/src/debug"
-+FILES_${PN} = "${qtm_bin} ${qtm_examples} ${qtm_demos} ${qtm_lib}/*.so.1* ${qtm_plugins}"
-+FILES_${PN}-dev = "/usr"
--- 
-1.7.6
+Cheers,
+Paul
 
+=2D-=20
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
