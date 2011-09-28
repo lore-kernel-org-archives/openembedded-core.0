@@ -1,24 +1,25 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1R8sZd-0003Sf-EE
+	(envelope-from <Andrew_Gabbasov@mentor.com>) id 1R8t1K-0004Gz-8I
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Sep 2011 13:45:13 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Sep 2011 04:39:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,455,1312182000"; d="scan'208";a="68239579"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.175])
-	by fmsmga001.fm.intel.com with ESMTP; 28 Sep 2011 04:39:46 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Wed, 28 Sep 2011 14:13:50 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1R8sw5-0001vz-9l from Andrew_Gabbasov@mentor.com ;
+	Wed, 28 Sep 2011 05:08:25 -0700
+Received: from [172.30.176.48] ([172.30.176.48]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Wed, 28 Sep 2011 04:58:46 -0700
+Message-ID: <4E830E1E.3030404@mentor.com>
+Date: Wed, 28 Sep 2011 16:07:58 +0400
+From: Andrew Gabbasov <andrew_gabbasov@mentor.com>
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US;
+	rv:1.9.2.18) Gecko/20110616 Thunderbird/3.1.11
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Sep 2011 12:39:41 +0100
-Message-Id: <00c80a839958414757014c344d797fc53d6c271d.1317209028.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1317209028.git.paul.eggleton@linux.intel.com>
-References: <cover.1317209028.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1317209028.git.paul.eggleton@linux.intel.com>
-References: <cover.1317209028.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/2] scripts/oe-setup-rpmrepo: use setup_tmpdir from runqemu
+X-OriginalArrivalTime: 28 Sep 2011 11:58:46.0608 (UTC)
+	FILETIME=[FA336500:01CC7DD5]
+Subject: [PATCH] apmd: use ${HOST_SYS}-libtool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,56 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2011 11:45:13 -0000
+X-List-Received-Date: Wed, 28 Sep 2011 12:13:50 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Update the internal copy of setup_tmpdir in the oe-setup-rpmrepo script
-to be the same as the one in the runqemu script.
+libtool-cross uses ${HOST_SYS}- prefix while building and installing.
+In some cases that may be different from ${TARGET_PREFIX}, that is currently
+used in apmd recipe. It's better to have them consistent.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Andrew Gabbasov <andrew_gabbasov@mentor.com>
 ---
- scripts/oe-setup-rpmrepo |   27 ++++++++++++++-------------
- 1 files changed, 14 insertions(+), 13 deletions(-)
+ meta/recipes-bsp/apmd/apmd_3.2.2-14.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/scripts/oe-setup-rpmrepo b/scripts/oe-setup-rpmrepo
-index fc2f7a8..ea885f6 100755
---- a/scripts/oe-setup-rpmrepo
-+++ b/scripts/oe-setup-rpmrepo
-@@ -35,19 +35,20 @@ fi
+diff --git a/meta/recipes-bsp/apmd/apmd_3.2.2-14.bb b/meta/recipes-bsp/apmd/apmd_3.2.2-14.bb
+index e80e108..bf53cc6 100644
+--- a/meta/recipes-bsp/apmd/apmd_3.2.2-14.bb
++++ b/meta/recipes-bsp/apmd/apmd_3.2.2-14.bb
+@@ -34,7 +34,7 @@ INITSCRIPT_PARAMS = "defaults"
  
- setup_tmpdir() {
-     if [ -z "$TMPDIR" ]; then
--        if [ "x$BUILDDIR" = "x" -o ! -d "$BUILDDIR/tmp" ]; then
--            # BUILDDIR unset, try and get TMPDIR from bitbake
--            type -P bitbake &>/dev/null || {
--                echo "In order for this script to dynamically infer paths";
--                echo "to kernels or filesystem images, you either need";
--                echo "bitbake in your PATH or to source oe-init-build-env";
--                echo "before running this script" >&2;
--                exit 1; }
--
--            # We have bitbake in PATH, get TMPDIR from bitbake
--            TMPDIR=`bitbake -e | grep TMPDIR=\" | cut -d '=' -f2 | cut -d '"' -f2`
--        else
--            TMPDIR=$BUILDDIR/tmp
-+        # Try to get TMPDIR from bitbake
-+        type -P bitbake &>/dev/null || {
-+            echo "In order for this script to dynamically infer paths";
-+            echo "to kernels or filesystem images, you either need";
-+            echo "bitbake in your PATH or to source oe-init-build-env";
-+            echo "before running this script" >&2;
-+            exit 1; }
-+
-+        # We have bitbake in PATH, get TMPDIR from bitbake
-+        TMPDIR=`bitbake -e | grep ^TMPDIR=\" | cut -d '=' -f2 | cut -d '"' -f2`
-+        if [ -z "$TMPDIR" ]; then
-+            echo "Error: this script needs to be run from your build directory,"
-+            echo "or you need to explicitly set TMPDIR in your environment"
-+            exit 1
-         fi
-     fi
+ do_compile() {
+ 	# apmd doesn't use whole autotools. Just libtool for installation
+-	oe_runmake "LIBTOOL=${STAGING_BINDIR_CROSS}/${TARGET_PREFIX}libtool" apm apmd
++	oe_runmake "LIBTOOL=${STAGING_BINDIR_CROSS}/${HOST_SYS}-libtool" apm apmd
  }
--- 
-1.7.4.1
-
+ 
+ do_install() {
 
 
