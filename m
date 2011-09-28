@@ -1,24 +1,26 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1R8uIz-0005t1-Fp
-	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Sep 2011 15:36:09 +0200
+	(envelope-from <paul.eggleton@linux.intel.com>)
+	id 1R8uLC-0005vu-Sr; Wed, 28 Sep 2011 15:38:27 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 28 Sep 2011 06:30:42 -0700
+	by orsmga101.jf.intel.com with ESMTP; 28 Sep 2011 06:32:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="57539463"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="57540815"
 Received: from unknown (HELO helios.localnet) ([10.252.120.159])
-	by orsmga002.jf.intel.com with ESMTP; 28 Sep 2011 06:30:41 -0700
+	by orsmga002.jf.intel.com with ESMTP; 28 Sep 2011 06:32:58 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Patches and discussions about the oe-core layer"
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 28 Sep 2011 14:30:40 +0100
+To: "Dmitry Eremin-Solenikov" <dbaryshkov@gmail.com>
+Date: Wed, 28 Sep 2011 14:32:57 +0100
 User-Agent: KMail/1.13.6 (Linux/2.6.38-10-generic-pae; KDE/4.6.2; i686; ; )
-References: <cover.1317209028.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1317209028.git.paul.eggleton@linux.intel.com>
+References: <CALT56yN5hXMLBhHVLKyHbNb=7WDb3pZUB0Q+HNKc-2t+g6M58A@mail.gmail.com>
+	<201109281116.00890.paul.eggleton@linux.intel.com>
+	<4E831868.4090603@gmail.com>
+In-Reply-To: <4E831868.4090603@gmail.com>
 MIME-Version: 1.0
-Message-Id: <201109281430.40509.paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH 0/2] Fix TMPDIR usage in scripts v2
+Message-Id: <201109281432.57331.paul.eggleton@linux.intel.com>
+Cc: bitbake-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: meta-micro problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,26 +35,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2011 13:36:09 -0000
+X-List-Received-Date: Wed, 28 Sep 2011 13:38:27 -0000
 Content-Type: Text/Plain;
   charset="iso-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On Wednesday 28 September 2011 12:39:39 Paul Eggleton wrote:
-> Fix TMPDIR external environment variable usage within our scripts which
-> is a problem on OpenSUSE within an X session (see Yocto bug #1530) by
-> using OE_TMPDIR from the external environment instead.
-> 
-> Note that this will require changes to autobuilder scripts that use a
-> TMPDIR environment variable when calling these scripts - they should now
-> set OE_TMPDIR instead (if versions with and without this change need to
-> be run on the same system, then setting both variables will cause no
-> harm).
-> 
-> Since v1, also fix pass-through references to TMPDIR in the
-> qemuimage-testlib script.
+On Wednesday 28 September 2011 13:51:52 Dmitry Eremin-Solenikov wrote:
+> If you wish, I can retry this with smaller layer set. But if the bug
+> will still arise, I simply have no knowledge/time to look deeper into bb
+> without additional input/pointers from bb gurus.
 
-So I missed yet another reference in classes/. Please disregard this version.
+That's OK, I can spend time looking into it. It sounds like a bug in bitbake 
+if metadata can influence it to behave this way. If we can produce a simplified 
+test case I think it will be easier to fix.
 
 Cheers,
 Paul
