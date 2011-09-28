@@ -1,31 +1,36 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1R8xrr-0002Bq-46
-	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Sep 2011 19:24:23 +0200
-Received: from mail-ww0-f44.google.com ([74.125.82.44])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 28 Sep 2011 10:18:54 -0700
-Received: by wwf22 with SMTP id 22so6210923wwf.13
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Sep 2011 10:18:52 -0700 (PDT)
-Received: by 10.216.82.211 with SMTP id o61mr9511980wee.81.1317230331770;
-	Wed, 28 Sep 2011 10:18:51 -0700 (PDT)
-Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id fr18sm41398643wbb.9.2011.09.28.10.18.49
-	(version=SSLv3 cipher=OTHER); Wed, 28 Sep 2011 10:18:51 -0700 (PDT)
-Message-ID: <4E8356F8.9030804@intel.com>
-Date: Wed, 28 Sep 2011 10:18:48 -0700
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:6.0.2) Gecko/20110906 Thunderbird/6.0.2
+	(envelope-from <dbaryshkov@gmail.com>)
+	id 1R8xuy-0002Fw-B1; Wed, 28 Sep 2011 19:27:36 +0200
+Received: by wwf27 with SMTP id 27so7464766wwf.24
+	for <multiple recipients>; Wed, 28 Sep 2011 10:22:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=qP/ZN5t/BOZZlaG65+4D7lBBtjBG0etPuhGIvkSnuL4=;
+	b=mh8CRKZMTREyCXTsdrenlvr+phiPALNDGPmGKRH93janT6NkFHC8UEERyaR2oYx2er
+	sXRCmzyz1oeqkj0ZQOuKqoBbzVw5nTIUxUS7TPQLz0vRr/691JZCtKPFtPn0eOwGBJEA
+	cX1R4cG7M59UnXxgZVoHvniSeytChaAK+q108=
+Received: by 10.227.203.193 with SMTP id fj1mr8488446wbb.42.1317230529714;
+	Wed, 28 Sep 2011 10:22:09 -0700 (PDT)
+Received: from [137.202.140.192] (nat-rup.mentorg.com. [139.181.168.34])
+	by mx.google.com with ESMTPS id k26sm38401657wbo.16.2011.09.28.10.22.08
+	(version=SSLv3 cipher=OTHER); Wed, 28 Sep 2011 10:22:08 -0700 (PDT)
+Message-ID: <4E835785.9090705@gmail.com>
+Date: Wed, 28 Sep 2011 21:21:09 +0400
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.21) Gecko/20110831 Iceowl/1.0b2 Icedove/3.1.13
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1316979467-687-1-git-send-email-heinold@inf.fu-berlin.de>
-In-Reply-To: <1316979467-687-1-git-send-email-heinold@inf.fu-berlin.de>
-Subject: Re: [PATCH 0/3] adding cortexa9 tune file and feature for arm socs whithout neon
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <CALT56yN5hXMLBhHVLKyHbNb=7WDb3pZUB0Q+HNKc-2t+g6M58A@mail.gmail.com>
+	<201109281116.00890.paul.eggleton@linux.intel.com>
+	<4E831868.4090603@gmail.com>
+	<201109281432.57331.paul.eggleton@linux.intel.com>
+In-Reply-To: <201109281432.57331.paul.eggleton@linux.intel.com>
+Cc: bitbake-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: meta-micro problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,41 +45,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2011 17:24:23 -0000
+X-List-Received-Date: Wed, 28 Sep 2011 17:27:36 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/25/2011 12:37 PM, Henning Heinold wrote:
-> Hi,
+On 09/28/2011 05:32 PM, Paul Eggleton wrote:
+> On Wednesday 28 September 2011 13:51:52 Dmitry Eremin-Solenikov wrote:
+>> If you wish, I can retry this with smaller layer set. But if the bug
+>> will still arise, I simply have no knowledge/time to look deeper into bb
+>> without additional input/pointers from bb gurus.
 >
-> the series adding the tune file for cortexa9 which is in pandaboard or
-> tegra2. It also adds a feature for socs like the tegra2 which has no
-> neon unit and enables it for cortexa8 and cortexa9
->
-> Bye Henning
->
-> Henning Heinold (3):
->    tune-cortexa9.inc: add tunefile for cortexa9 socs
-I am planning to pick up this one today
+> That's OK, I can spend time looking into it. It sounds like a bug in bitbake
+> if metadata can influence it to behave this way. If we can produce a simplified
+> test case I think it will be easier to fix.
 
->    feature-arm-d16.inc: add feature for arm cores which do not have a
->      neon unit or no support for it in the kernel
->    tune: enable d16 feature for cortexa8 and cortexa9
-I am holding on these two changes as there seems to be some discussion 
-pending on the d16 changes.
+In my test setup I could no longer reproduce this. I'll try reproducing 
+this on my main builder.
 
-Sau!
-
->
->   meta/conf/machine/include/arm/arch-armv7.inc      |   25 +++++++++++++++---
->   meta/conf/machine/include/arm/arch-armv7a.inc     |   24 +++++++++++++++---
->   meta/conf/machine/include/arm/feature-arm-d16.inc |    3 ++
->   meta/conf/machine/include/tune-cortexa8.inc       |    8 ++++-
->   meta/conf/machine/include/tune-cortexa9.inc       |   28 +++++++++++++++++++++
->   5 files changed, 78 insertions(+), 10 deletions(-)
->   create mode 100644 meta/conf/machine/include/arm/feature-arm-d16.inc
->   create mode 100644 meta/conf/machine/include/tune-cortexa9.inc
->
+-- 
+With best wishes
+Dmitry
 
 
 
