@@ -1,34 +1,35 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1R8y87-0002Pl-Vs
+	(envelope-from <koen@dominion.thruhere.net>) id 1R8zAU-0003Qs-Ot
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Sep 2011 19:41:12 +0200
-Received: from mail-ww0-f42.google.com ([74.125.82.42])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 28 Sep 2011 10:35:41 -0700
-Received: by wwn22 with SMTP id 22so1925170wwn.1
+	Wed, 28 Sep 2011 20:47:42 +0200
+Received: by ywf7 with SMTP id 7so7811440ywf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Sep 2011 10:35:40 -0700 (PDT)
-Received: by 10.227.58.84 with SMTP id f20mr2431580wbh.9.1317231339694;
-	Wed, 28 Sep 2011 10:35:39 -0700 (PDT)
-Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id j18sm41468357wbo.6.2011.09.28.10.35.37
-	(version=SSLv3 cipher=OTHER); Wed, 28 Sep 2011 10:35:39 -0700 (PDT)
-Message-ID: <4E835AE7.9070005@intel.com>
-Date: Wed, 28 Sep 2011 10:35:35 -0700
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:6.0.2) Gecko/20110906 Thunderbird/6.0.2
-MIME-Version: 1.0
+	Wed, 28 Sep 2011 11:42:15 -0700 (PDT)
+Received: by 10.150.180.3 with SMTP id c3mr8701084ybf.15.1317235335202;
+	Wed, 28 Sep 2011 11:42:15 -0700 (PDT)
+Received: from [10.0.1.28] (adsl-68-88-70-1.dsl.rcsntx.swbell.net.
+	[68.88.70.1])
+	by mx.google.com with ESMTPS id o15sm1530775yba.12.2011.09.28.11.42.13
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 28 Sep 2011 11:42:14 -0700 (PDT)
+References: <1316297897-698-1-git-send-email-dbaryshkov@gmail.com>
+	<1316297897-698-2-git-send-email-dbaryshkov@gmail.com>
+	<CADkTA4NxfSaEinraLQMsLT4ZWQKOPAZ76uNujFXg0zSrRvVnFA@mail.gmail.com>
+	<0E901391-C9FC-48AE-88A4-C1064E57376E@dominion.thruhere.net>
+	<1317221697.12332.13.camel@ted>
+In-Reply-To: <1317221697.12332.13.camel@ted>
+Mime-Version: 1.0 (iPhone Mail 8L1)
+Message-Id: <89CD0BCB-1457-4C76-87BA-5ED03454C343@dominion.thruhere.net>
+X-Mailer: iPhone Mail (8L1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Wed, 28 Sep 2011 13:42:09 -0500
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1316909477-31924-1-git-send-email-raj.khem@gmail.com>
-	<1316971012.8185.30.camel@ted>
-	<CAMKF1sphSpMstEoqqQmhF9NeHnAuJBvc3F5vcewB3ALwSA7o2w@mail.gmail.com>
-	<4E8356B5.7000901@intel.com> <4E835979.7070104@gmail.com>
-In-Reply-To: <4E835979.7070104@gmail.com>
-Subject: Re: [PATCH] intltool: inherit gettext to add missing dependency on gettext
+Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/5] kernel.bbclass: respect MACHINE_KERNEL_PR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,120 +44,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2011 17:41:12 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 09/28/2011 10:29 AM, Khem Raj wrote:
-> On 9/28/2011 10:17 AM, Saul Wold wrote:
->> On 09/25/2011 05:22 PM, Khem Raj wrote:
->>> On Sun, Sep 25, 2011 at 10:16 AM, Richard Purdie
->>> <richard.purdie@linuxfoundation.org> wrote:
->>>> On Sat, 2011-09-24 at 17:11 -0700, Khem Raj wrote:
->>>>> Fixes the error like below
->>>>>
->>>>> | configure: error: GNU gettext tools not found; required for intltool
->>>>> | + bbfatal 'oe_runconf failed'
->>>>> | + echo 'ERROR: oe_runconf failed'
->>>>> | ERROR: oe_runconf failed
->>>>>
->>>>> Signed-off-by: Khem Raj<raj.khem@gmail.com>
->>>>> ---
->>>>> meta/recipes-devtools/intltool/intltool.inc | 2 +-
->>>>> meta/recipes-devtools/intltool/intltool_0.40.6.bb | 2 +-
->>>>> 2 files changed, 2 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/meta/recipes-devtools/intltool/intltool.inc
->>>>> b/meta/recipes-devtools/intltool/intltool.inc
->>>>> index 23a1ee9..1e54feb 100644
->>>>> --- a/meta/recipes-devtools/intltool/intltool.inc
->>>>> +++ b/meta/recipes-devtools/intltool/intltool.inc
->>>>> @@ -12,7 +12,7 @@ DEPENDS_virtclass-native =
->>>>> "libxml-parser-perl-native"
->>>>> RRECOMMENDS_${PN} = "perl-modules"
->>>>> RRECOMMENDS_${PN}_virtclass-native = ""
->>>>>
->>>>> -inherit autotools pkgconfig perlnative
->>>>> +inherit autotools pkgconfig perlnative gettext
->>>>>
->>>>> export PERL = "${bindir}/env perl"
->>>>> PERL_virtclass-native = "/usr/bin/env nativeperl"
->>>>> diff --git a/meta/recipes-devtools/intltool/intltool_0.40.6.bb
->>>>> b/meta/recipes-devtools/intltool/intltool_0.40.6.bb
->>>>> index e9871fc..eae2b85 100644
->>>>> --- a/meta/recipes-devtools/intltool/intltool_0.40.6.bb
->>>>> +++ b/meta/recipes-devtools/intltool/intltool_0.40.6.bb
->>>>> @@ -1,7 +1,7 @@
->>>>> require intltool.inc
->>>>> LICENSE="GPLv2"
->>>>> LIC_FILES_CHKSUM =
->>>>> "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
->>>>> -PR = "r5"
->>>>> +PR = "r6"
->>>>>
->>>>> SRC_URI_append = " file://intltool-nowarn-0.40.0.patch \
->>>>> ${NATIVEPATCHES} \
->>>>
->>>> I investigated this one and intltool requires gettext at runtime, not
->>>> build time. Which package did you see the above error from as I suspect
->>>> it wasn't intltool itself but something using it?
->>>
->>> It was intltool itself. The situation happens during rebuild when
->>> intltool and gettext-native both are to be rebuilt
->>> and other deps are already there. it doesnt usually happen since we
->>> build gettext-native pretty early.
->>
->> Khem,
->>
->> I verified this, and I also noted that if I did a cleansstate on
->> intltool and gettext-native, that gettext-native would be rebuilt, but I
->> also checked bitbake -b intltool and it completed successfully with no
->> errors, so the dependency is buried in one of intltool's dependencies,
->> thus getting built.
->>
->> So there is no direct dependency on gettext-native by intltool.
->
-> yes intltool has runtime dependency on gettext-native but not buildtime
-> AFAICT. I dont have those logs any more so cant go back and check.
->
-Sorry, I meant no direct buildtime above
-
-> Hold on to this patch for now. i will remove it locally and do a rebuild
-> and see if I hit it again
->
-OK will hold it.
-
-Sau!
+X-List-Received-Date: Wed, 28 Sep 2011 18:47:43 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
->>
->>
->> Sau!
->>
->>>>
->>>> Cheers,
->>>>
->>>> Richard
->>>>
->>>>
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>>
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->
->
+
+Op 28 sep. 2011 om 09:54 heeft Richard Purdie <richard.purdie@linuxfoundatio=
+n.org> het volgende geschreven:
+
+> On Tue, 2011-09-27 at 18:40 -0500, Koen Kooi wrote:
+>>=20
+>> Op 27 sep. 2011 om 08:52 heeft Bruce Ashfield <bruce.ashfield@gmail.com> h=
+et volgende geschreven:
+>>=20
+>>> On Sat, Sep 17, 2011 at 6:18 PM, Dmitry Eremin-Solenikov
+>>> <dbaryshkov@gmail.com> wrote:
+>>>> MACHINE_KERNEL_PR was introduced long ago in org.oe.dev. It's present i=
+n
+>>>> meta-oe kernel.bbclass. Several machines depend on this functionality.
+>>>=20
+>>> I don' t have a big problem with this, since the change is obviously
+>>> harmless if it
+>>> doesn't need to be used. But similar to my comment on patch 3/5, is ther=
+e any
+>>> history/technical reasons we can capture here ?
+>>>=20
+>>> I did a quick search to dig up a bit on this myself, but a summary
+>>> would definitely
+>>> help, since I see that this has a long and sometimes twisting history. I=
+s it as
+>>> simple as ?
+>>>=20
+>>> "A machine.conf or local.conf can increase MACHINE_KERNEL_PR to force
+>>> rebuilds for kernel and external modules"
+>>=20
+>> It is that simple :)=20
+>=20
+> I have reservations about this patch given we soon plan to stop needing
+> to bump PR values. This patch is actually a perfect example of how brain
+> dead the current manual PR bumping is and why we need something better.
+> I don't want half the code in the repo to be a mass of PR values which
+> need to be incremented manually under weird and wonderful circumstances
+> which is where the direction things are currently going...
+>=20
+> I'd like to hold off on this one.
+
+This patch improves the current situation and I don't foresee the autoPR cod=
+e working soon
+
+
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+>=20
+>=20
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
 
 
