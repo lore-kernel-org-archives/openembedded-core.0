@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1R8oJ8-000423-Eu
+	(envelope-from <sgw@linux.intel.com>) id 1R8oJ9-00041w-O9
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Sep 2011 09:11:54 +0200
+	Wed, 28 Sep 2011 09:11:56 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 28 Sep 2011 00:06:14 -0700
+	by azsmga102.ch.intel.com with ESMTP; 28 Sep 2011 00:06:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,453,1312182000"; d="scan'208";a="21360973"
+X-IronPort-AV: E=Sophos;i="4.68,453,1312182000"; d="scan'208";a="21360976"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.219])
 	by AZSMGA002.ch.intel.com with ESMTP; 28 Sep 2011 00:06:14 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Sep 2011 00:05:57 -0700
-Message-Id: <039529e15cd60bc77b8d74306207eab909c4910e.1317193251.git.sgw@linux.intel.com>
+Date: Wed, 28 Sep 2011 00:05:59 -0700
+Message-Id: <7a475ac2c29940fa5cc0b30cbb1f134e9d670c78.1317193251.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1317193250.git.sgw@linux.intel.com>
 References: <cover.1317193250.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1317193250.git.sgw@linux.intel.com>
 References: <cover.1317193250.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 21/29] multilib: remove the multilib handling to allarch
+Subject: [CONSOLIDATED PULL 23/29] tune-i586: fix hardcoded TUNE_PKGARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,82 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2011 07:11:55 -0000
+X-List-Received-Date: Wed, 28 Sep 2011 07:11:59 -0000
 
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 
-currently we have allarch type of recipes, which may still have
-architecture dependency, like x11-common. So we need to drop the
-handling to allarch in multilib case.
-
-Also remove the PV postfix in python-pygobject DEPENDS, since multilib
-code will treat a native package multilib capable.
-
-[YOCTO #1497]
-[YOCTO #1498]
+Use TUNE_FEATURES to determine the setting to TUNE_PKGARCH, which fixes
+the wrong setting of PACKAGE_ARCH in multilib case.
 
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- meta/classes/multilib.bbclass                      |    2 +-
- meta/classes/multilib_global.bbclass               |    2 +-
- meta/conf/multilib.conf                            |    7 +++++++
- .../python/python-pygobject_2.27.91.bb             |    2 +-
- 4 files changed, 10 insertions(+), 3 deletions(-)
+ meta/conf/machine/include/tune-i586.inc |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index 0ea1038..6c0dd37 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -8,7 +8,7 @@ python multilib_virtclass_handler () {
-         return
+diff --git a/meta/conf/machine/include/tune-i586.inc b/meta/conf/machine/include/tune-i586.inc
+index ba655b9..a40ce18 100644
+--- a/meta/conf/machine/include/tune-i586.inc
++++ b/meta/conf/machine/include/tune-i586.inc
+@@ -1,5 +1,6 @@
+ DEFAULTTUNE ?= "i586"
+-TUNE_PKGARCH ?= "i586"
++TUNE_PKGARCH_TMP = "${@bb.utils.contains("TUNE_FEATURES", "m32", "x86", "x86_64", d)}"
++TUNE_PKGARCH ?= "${@bb.utils.contains("TUNE_FEATURES", "i586", "i586", TUNE_PKGARCH_TMP, d)}"
  
-     # There should only be one kernel in multilib configs
--    if bb.data.inherits_class('kernel', e.data) or bb.data.inherits_class('module-base', e.data) or bb.data.inherits_class('allarch', e.data):
-+    if bb.data.inherits_class('kernel', e.data) or bb.data.inherits_class('module-base', e.data):
-         raise bb.parse.SkipPackage("We shouldn't have multilib variants for the kernel")
+ require conf/machine/include/ia32/arch-ia32.inc
  
-     if bb.data.inherits_class('image', e.data):
-diff --git a/meta/classes/multilib_global.bbclass b/meta/classes/multilib_global.bbclass
-index cd22163..2da66a5 100644
---- a/meta/classes/multilib_global.bbclass
-+++ b/meta/classes/multilib_global.bbclass
-@@ -5,7 +5,7 @@ python multilib_virtclass_handler_global () {
-     variant = e.data.getVar("BBEXTENDVARIANT", True)
- 
-     if isinstance(e, bb.event.RecipeParsed) and not variant:
--        if bb.data.inherits_class('kernel', e.data) or bb.data.inherits_class('module-base', e.data) or bb.data.inherits_class('allarch', e.data):
-+        if bb.data.inherits_class('kernel', e.data) or bb.data.inherits_class('module-base', e.data):
-             variants = (e.data.getVar("MULTILIB_VARIANTS", True) or "").split()
- 
-             # Process PROVIDES
-diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
-index 3133bf1..b9da33a 100644
---- a/meta/conf/multilib.conf
-+++ b/meta/conf/multilib.conf
-@@ -452,3 +452,10 @@ BBCLASSEXTEND_append_pn-zip = " ${MULTILIBS}"
- BBCLASSEXTEND_append_pn-zlib = " ${MULTILIBS}"
- BBCLASSEXTEND_append_pn-zypper = " ${MULTILIBS}"
- BBCLASSEXTEND_append_pn-libsdl = " ${MULTILIBS}"
-+BBCLASSEXTEND_append_pn-qemu-config = " ${MULTILIBS}"
-+BBCLASSEXTEND_append_pn-x11-common = " ${MULTILIBS}"
-+BBCLASSEXTEND_append_pn-update-rc.d = " ${MULTILIBS}"
-+BBCLASSEXTEND_append_pn-avahi-ui = " ${MULTILIBS}"
-+BBCLASSEXTEND_append_pn-python-pycairo = " ${MULTILIBS}"
-+BBCLASSEXTEND_append_pn-python-pygtk = " ${MULTILIBS}"
-+BBCLASSEXTEND_append_pn-python-pygobject = " ${MULTILIBS}"
-diff --git a/meta/recipes-devtools/python/python-pygobject_2.27.91.bb b/meta/recipes-devtools/python/python-pygobject_2.27.91.bb
-index 9ff2fe7..fd696a5 100644
---- a/meta/recipes-devtools/python/python-pygobject_2.27.91.bb
-+++ b/meta/recipes-devtools/python/python-pygobject_2.27.91.bb
-@@ -2,7 +2,7 @@ DESCRIPTION = "Python GObject bindings"
- SECTION = "devel/python"
- LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
--DEPENDS = "python python-pygobject-native-${PV} glib-2.0"
-+DEPENDS = "python python-pygobject-native glib-2.0"
- DEPENDS_virtclass-native = "glib-2.0-native"
- RDEPENDS_virtclass-native = ""
- PR = "r2"
 -- 
 1.7.6
 
