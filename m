@@ -1,24 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1R8klp-0004g9-LI
+	(envelope-from <dongxiao.xu@intel.com>) id 1R8klq-0004g6-53
 	for openembedded-core@lists.openembedded.org;
 	Wed, 28 Sep 2011 05:25:20 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 27 Sep 2011 20:19:53 -0700
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 27 Sep 2011 20:19:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="56601914"
+X-IronPort-AV: E=Sophos;i="4.68,453,1312182000"; d="scan'208";a="68129022"
 Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by orsmga001.jf.intel.com with ESMTP; 27 Sep 2011 20:19:52 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 27 Sep 2011 20:19:51 -0700
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Sep 2011 11:27:59 +0800
-Message-Id: <60b6c2ad28e3c05ff9dcda10ae23cf99af077707.1317180056.git.dongxiao.xu@intel.com>
+Date: Wed, 28 Sep 2011 11:27:58 +0800
+Message-Id: <0a731d8d096f4dcc3f18d9f0940b5bbfd9722741.1317180055.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1317180055.git.dongxiao.xu@intel.com>
 References: <cover.1317180055.git.dongxiao.xu@intel.com>
 In-Reply-To: <cover.1317180055.git.dongxiao.xu@intel.com>
 References: <cover.1317180055.git.dongxiao.xu@intel.com>
-Subject: [PATCH 4/5] tune-i586: fix hardcoded TUNE_PKGARCH
+Subject: [PATCH 3/5] multilib: add MLPREFIX to deploy folder
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,26 +35,65 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 28 Sep 2011 03:25:22 -0000
 
-Use TUNE_FEATURES to determine the setting to TUNE_PKGARCH, which fixes
-the wrong setting of PACKAGE_ARCH in multilib case.
+Add MLPREFIX to multilib deploy forlder to avoid the confliction between
+multilib and normal package deploy directory.
 
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- meta/conf/machine/include/tune-i586.inc |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+ meta/classes/multilib.bbclass    |    5 -----
+ meta/classes/package_rpm.bbclass |   10 ++++++++--
+ meta/classes/rootfs_rpm.bbclass  |    2 +-
+ 3 files changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/meta/conf/machine/include/tune-i586.inc b/meta/conf/machine/include/tune-i586.inc
-index ba655b9..a40ce18 100644
---- a/meta/conf/machine/include/tune-i586.inc
-+++ b/meta/conf/machine/include/tune-i586.inc
-@@ -1,5 +1,6 @@
- DEFAULTTUNE ?= "i586"
--TUNE_PKGARCH ?= "i586"
-+TUNE_PKGARCH_TMP = "${@bb.utils.contains("TUNE_FEATURES", "m32", "x86", "x86_64", d)}"
-+TUNE_PKGARCH ?= "${@bb.utils.contains("TUNE_FEATURES", "i586", "i586", TUNE_PKGARCH_TMP, d)}"
- 
- require conf/machine/include/ia32/arch-ia32.inc
- 
+diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+index 6c0dd37..1aed2a9 100644
+--- a/meta/classes/multilib.bbclass
++++ b/meta/classes/multilib.bbclass
+@@ -92,9 +92,4 @@ python __anonymous () {
+     multilib_map_variable("PACKAGES_DYNAMIC", variant, d)
+     multilib_map_variable("PACKAGE_INSTALL", variant, d)
+     multilib_map_variable("INITSCRIPT_PACKAGES", variant, d)
+-
+-    package_arch = d.getVar("PACKAGE_ARCH", True)
+-    machine_arch = d.getVar("MACHINE_ARCH", True)
+-    if package_arch == machine_arch:
+-        d.setVar("PACKAGE_ARCH", variant + "_" + package_arch)
+ }
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index 775d525..45de0f8 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -903,8 +903,14 @@ python do_package_rpm () {
+ 	rpmbuild = bb.data.getVar('RPMBUILD', d, True)
+ 	targetsys = bb.data.getVar('TARGET_SYS', d, True)
+ 	targetvendor = bb.data.getVar('TARGET_VENDOR', d, True)
+-	pkgwritedir = bb.data.expand('${PKGWRITEDIRRPM}/${PACKAGE_ARCH}', d)
+-	pkgarch = bb.data.expand('${PACKAGE_ARCH}${TARGET_VENDOR}-${TARGET_OS}', d)
++	package_arch = bb.data.getVar('PACKAGE_ARCH', d, True) or ""
++	if package_arch not in "all any noarch".split():
++		ml_prefix = (bb.data.getVar('MLPREFIX', d, True) or "").replace("-", "_")
++		bb.data.setVar('PACKAGE_ARCH_EXTEND', ml_prefix + package_arch, d)
++	else:
++		bb.data.setVar('PACKAGE_ARCH_EXTEND', package_arch, d)
++	pkgwritedir = bb.data.expand('${PKGWRITEDIRRPM}/${PACKAGE_ARCH_EXTEND}', d)
++	pkgarch = bb.data.expand('${PACKAGE_ARCH_EXTEND}${TARGET_VENDOR}-${TARGET_OS}', d)
+ 	magicfile = bb.data.expand('${STAGING_DIR_NATIVE}/usr/share/misc/magic.mgc', d)
+ 	bb.mkdirhier(pkgwritedir)
+ 	os.chmod(pkgwritedir, 0755)
+diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
+index 5ac6bca..dd370b2 100644
+--- a/meta/classes/rootfs_rpm.bbclass
++++ b/meta/classes/rootfs_rpm.bbclass
+@@ -220,8 +220,8 @@ python () {
+             default_tune = localdata.getVar("DEFAULTTUNE_virtclass-multilib-" + eext[1], False)
+             if default_tune:
+                 localdata.setVar("DEFAULTTUNE", default_tune)
+-            localdata.setVar("MACHINE_ARCH", eext[1] + "_" + localdata.getVar("MACHINE_ARCH", False))
+             package_archs = localdata.getVar("PACKAGE_ARCHS", True) or ""
++            package_archs = " ".join([i in "all noarch any".split() and i or eext[1]+"_"+i for i in package_archs.split()])
+             ml_package_archs += " " + package_archs
+             ml_prefix_list += " " + eext[1]
+             #bb.note("ML_PACKAGE_ARCHS %s %s %s" % (eext[1], localdata.getVar("PACKAGE_ARCHS", True) or "(none)", overrides))
 -- 
 1.7.1
 
