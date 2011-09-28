@@ -1,40 +1,20 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1R90Rp-0005AT-1P
+	(envelope-from <jessica.zhang@intel.com>) id 1R90hS-0005N1-HA
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Sep 2011 22:09:41 +0200
-Received: by bke11 with SMTP id 11so8730430bke.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Sep 2011 13:04:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
-	:content-transfer-encoding;
-	bh=MpZBGa+/rTeEBJSaa0+Z2i3odbcUK/lpZTlEiZbPX6g=;
-	b=THNDtUoN2XI2tXB9/EsIevp+0PbpRBO3OGTjXcd4zfJ8usZwNPoVd+su7QB+Lq87oj
-	OVRlXuc34M9PX3gBsi2CqAnofd2UzweKCI1x6ww3pkM35yGtIYosF134mhAiBwYxVPJH
-	e58ySahqbDAv0zZPx5Ij4TgQm3ePxZNUYQkNg=
-MIME-Version: 1.0
-Received: by 10.204.139.20 with SMTP id c20mr6899894bku.218.1317240253187;
-	Wed, 28 Sep 2011 13:04:13 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.35.198 with HTTP; Wed, 28 Sep 2011 13:04:13 -0700 (PDT)
-In-Reply-To: <1317239461.12332.55.camel@ted>
-References: <1316297897-698-1-git-send-email-dbaryshkov@gmail.com>
-	<1316297897-698-2-git-send-email-dbaryshkov@gmail.com>
-	<CADkTA4NxfSaEinraLQMsLT4ZWQKOPAZ76uNujFXg0zSrRvVnFA@mail.gmail.com>
-	<0E901391-C9FC-48AE-88A4-C1064E57376E@dominion.thruhere.net>
-	<1317221697.12332.13.camel@ted>
-	<89CD0BCB-1457-4C76-87BA-5ED03454C343@dominion.thruhere.net>
-	<1317239461.12332.55.camel@ted>
-Date: Wed, 28 Sep 2011 17:04:13 -0300
-X-Google-Sender-Auth: 9BqyR35N5rjUxf2W76Ko3sQZ3hg
-Message-ID: <CAP9ODKopjm-bJY3WJriMiQDtwZcsOWeqZkqnm7F2PwiZvWY0bg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Subject: Re: [PATCH 2/5] kernel.bbclass: respect MACHINE_KERNEL_PR
+	Wed, 28 Sep 2011 22:25:50 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 28 Sep 2011 13:20:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="56889886"
+Received: from jzhang-desktop.jf.intel.com (HELO localhost) ([10.7.201.178])
+	by orsmga001.jf.intel.com with ESMTP; 28 Sep 2011 13:20:22 -0700
+From: Jessica Zhang <jessica.zhang@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 28 Sep 2011 13:38:05 -0700
+Message-Id: <cover.1317242070.git.jessica.zhang@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+Subject: [PATCH 0/1] Fix a type for setting up OECORE_ACLOCAL_OPTS for adt-installer, need go in edison
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,29 +29,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2011 20:09:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 28 Sep 2011 20:25:50 -0000
 
-On Wed, Sep 28, 2011 at 16:50, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->> This patch improves the current situation and I don't foresee the
->> autoPR code working soon
->
-> Which is why we need to switch to that model and shake out the issues
-> sooner than later. Enough is enough with the PR madness and we need to
-> get to grips and fix it.
+The following changes since commit 7eb193fc4994b880ce115fc00fb52b4d9cda530e:
+  Paul Eggleton (1):
+        bitbake/lib/bb/msg.py: fix setting debug and verbosity levels
 
-I fully agree this is the way to go but this doesn't mean we ought to
-hold this patch until all this happens. This patch allows the removal
-of the kernel.bbclass from meta-oe so reducing the delta between
-oe-core and meta-oe.
+are available in the git repository at:
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+  git://git.yoctoproject.org/poky-contrib jzhang/OECORE_ACLOCAL_OPTS
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jzhang/OECORE_ACLOCAL_OPTS
+
+Jessica Zhang (1):
+  Fixed a typo for setting up OECORE_ACLOCAL_OPTS for adt-installer
+    case
+
+ meta/classes/toolchain-scripts.bbclass |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
 
 
