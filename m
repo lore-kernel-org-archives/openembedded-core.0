@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1R8oJ5-000423-6L
+	(envelope-from <sgw@linux.intel.com>) id 1R8oJ1-00041w-Ry
 	for openembedded-core@lists.openembedded.org;
 	Wed, 28 Sep 2011 09:11:51 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
 	by azsmga102.ch.intel.com with ESMTP; 28 Sep 2011 00:06:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,453,1312182000"; d="scan'208";a="21360966"
+X-IronPort-AV: E=Sophos;i="4.68,453,1312182000"; d="scan'208";a="21360962"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.219])
-	by AZSMGA002.ch.intel.com with ESMTP; 28 Sep 2011 00:06:13 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 28 Sep 2011 00:06:12 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Sep 2011 00:05:54 -0700
-Message-Id: <0a843b90bc52ab00989d9a5719e7d2b56429865a.1317193251.git.sgw@linux.intel.com>
+Date: Wed, 28 Sep 2011 00:05:53 -0700
+Message-Id: <a49b45da2d30fce8c51b2cb29c002eadd29ef224.1317193251.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1317193250.git.sgw@linux.intel.com>
 References: <cover.1317193250.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1317193250.git.sgw@linux.intel.com>
 References: <cover.1317193250.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 18/29] ghostscript: disable check for time.h
+Subject: [CONSOLIDATED PULL 17/29] rpm: fix QA Warning on installed but not shipped staticdev filesw
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,37 +35,61 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 28 Sep 2011 07:11:54 -0000
 
-From: Joshua Lock <joshual@takoba.(none)>
-
-ghostscript has it's own hacky check for time.h which hard-codes paths, this
-means in the native case it fails on systems such as Ubuntu 11.10 where the
-location of time.h has changed. Further it means the target build has had a
-host-intrusion issue.
-
-This patch disables the check for time.h, future releases of ghostscript
-use standard autotools checks for time.h's location.
-
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../ghostscript/ghostscript_9.02.bb                |    5 +++++
- 1 files changed, 5 insertions(+), 0 deletions(-)
+ meta/recipes-devtools/rpm/rpm_5.4.0.bb |   17 ++++++++++-------
+ 1 files changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.02.bb b/meta/recipes-extended/ghostscript/ghostscript_9.02.bb
-index 2e46734..9b21c66 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.02.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.02.bb
-@@ -36,6 +36,11 @@ SRC_URI[sha256sum] = "03ea2cad13a36f8f9160912012b79619a826e7148fada6d3531feb2540
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
+index 356512a..bbef0be 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
+@@ -168,7 +168,7 @@ EXTRA_OECONF = "--verbose \
  
- EXTRA_OECONF = "--without-x --with-system-libtiff --without-jbig2dec --without-jasper --with-fontpath=${datadir}/fonts"
+ CFLAGS_append = " -DRPM_VENDOR_WINDRIVER -DRPM_VENDOR_POKY"
  
-+# This has been fixed upstream but for now we need to subvert the check for time.h
-+# http://bugs.ghostscript.com/show_bug.cgi?id=692443
-+# http://bugs.ghostscript.com/show_bug.cgi?id=692426
-+CFLAGS += "-DHAVE_SYS_TIME_H=1"
+-PACKAGES = "${PN}-dbg ${PN} ${PN}-doc ${PN}-libs ${PN}-dev ${PN}-common ${PN}-build python-rpm-dbg python-rpm perl-module-rpm perl-module-rpm-dev ${PN}-locale"
++PACKAGES = "${PN}-dbg ${PN} ${PN}-doc ${PN}-libs ${PN}-dev ${PN}-staticdev ${PN}-common ${PN}-build python-rpm-dbg python-rpm perl-module-rpm perl-module-rpm-dev ${PN}-locale"
+ 
+ SOLIBS = "5.4.so"
+ 
+@@ -304,27 +304,30 @@ FILES_perl-module-rpm-dev = "${prefix}/share/man/man3/RPM* \
+ 		"
+ 
+ FILE_${PN}-dev = "${includedir}/rpm \
+-		${libdir}/librpm.a \
+ 		${libdir}/librpm.la \
+ 		${libdir}/librpm.so \
+-		${libdir}/librpmconstant.a \
+ 		${libdir}/librpmconstant.la \
+ 		${libdir}/librpmconstant.so \
+-		${libdir}/librpmdb.a \
+ 		${libdir}/librpmdb.la \
+ 		${libdir}/librpmdb.so \
+-		${libdir}/librpmio.a \
+ 		${libdir}/librpmio.la \
+ 		${libdir}/librpmio.so \
+-		${libdir}/librpmmisc.a \
+ 		${libdir}/librpmmisc.la \
+ 		${libdir}/librpmmisc.so \
+-		${libdir}/librpmbuild.a \
+ 		${libdir}/librpmbuild.la \
+ 		${libdir}/librpmbuild.so \
+ 		${libdir}/pkgconfig/rpm.pc \
+ 		"
+ 
++FILE_${PN}-staticdev = " \
++		${libdir}/librpm.a \
++		${libdir}/librpmconstant.a \
++		${libdir}/librpmdb.a \
++		${libdir}/librpmio.a \
++		${libdir}/librpmmisc.a \
++		${libdir}/librpmbuild.a \
++		"
 +
- inherit autotools
- 
- do_configure () {
+ ###%{_rpmhome}/lib/libxar.a
+ ###%{_rpmhome}/lib/libxar.la
+ ###%{_rpmhome}/lib/libxar.so
 -- 
 1.7.6
 
