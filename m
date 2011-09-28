@@ -1,38 +1,24 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1R8u07-0005c1-Vm
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1R8uIz-0005t1-Fp
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Sep 2011 15:16:41 +0200
-Received: by bke11 with SMTP id 11so8250443bke.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Sep 2011 06:11:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
-	:content-transfer-encoding;
-	bh=XvYVQG+lGrcvBlZXJkHtYOzjoatTzRO/1qphxwHWhFo=;
-	b=UM/i/+4t7jFvhqTOWjmth0+B3wiGR4xKtxaBe4Xi9BtuXBpFvKHZt8Cy0hDzWzgPaw
-	g6XH5LDHqbTMyvlLcH2nRn2zf2DXAOVXhQMaYQnhSUwZqt77lAc6nA5KNTVteiKbU5F8
-	GKtpOZZORBB+7ErFx2kmtj3rhjfWmEh0h4b+E=
-MIME-Version: 1.0
-Received: by 10.204.7.207 with SMTP id e15mr6308899bke.62.1317215471764; Wed,
-	28 Sep 2011 06:11:11 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.35.198 with HTTP; Wed, 28 Sep 2011 06:11:11 -0700 (PDT)
-In-Reply-To: <4E82F59B.7080808@eukrea.com>
-References: <20110911172241.GA3674@chargestorm.se>
-	<D9F00ABD-04FA-4A75-BB1C-13B9BBDC4C54@dominion.thruhere.net>
-	<4E79E3A9.8080804@eukrea.com>
-	<201109281111.33193.paul.eggleton@linux.intel.com>
-	<4E82F59B.7080808@eukrea.com>
-Date: Wed, 28 Sep 2011 10:11:11 -0300
-X-Google-Sender-Auth: YlyoMyL5WvsQYDjuuuhR6qE91KY
-Message-ID: <CAP9ODKqA7=3dCZVih09g_5Dv4fbOaonv7AEAoLmJquNV32vSAA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
+	Wed, 28 Sep 2011 15:36:09 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 28 Sep 2011 06:30:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="57539463"
+Received: from unknown (HELO helios.localnet) ([10.252.120.159])
+	by orsmga002.jf.intel.com with ESMTP; 28 Sep 2011 06:30:41 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Patches and discussions about the oe-core layer"
 	<openembedded-core@lists.openembedded.org>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH] qt4: update to latest version 4.7.4
+Date: Wed, 28 Sep 2011 14:30:40 +0100
+User-Agent: KMail/1.13.6 (Linux/2.6.38-10-generic-pae; KDE/4.6.2; i686; ; )
+References: <cover.1317209028.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1317209028.git.paul.eggleton@linux.intel.com>
+MIME-Version: 1.0
+Message-Id: <201109281430.40509.paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH 0/2] Fix TMPDIR usage in scripts v2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,22 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2011 13:16:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 28 Sep 2011 13:36:09 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 28, 2011 at 07:23, Eric B=E9nard <eric@eukrea.com> wrote:
-> I have the patch locally and I will (really) work on this tonight.
-> Sorry for the delay I've been overbusy since last wednesday.
+On Wednesday 28 September 2011 12:39:39 Paul Eggleton wrote:
+> Fix TMPDIR external environment variable usage within our scripts which
+> is a problem on OpenSUSE within an X session (see Yocto bug #1530) by
+> using OE_TMPDIR from the external environment instead.
+> 
+> Note that this will require changes to autobuilder scripts that use a
+> TMPDIR environment variable when calling these scripts - they should now
+> set OE_TMPDIR instead (if versions with and without this change need to
+> be run on the same system, then setting both variables will cause no
+> harm).
+> 
+> Since v1, also fix pass-through references to TMPDIR in the
+> qemuimage-testlib script.
 
-Now that this is going into master, I think we ought to update it
-directly instead of adding the newer version.
+So I missed yet another reference in classes/. Please disregard this version.
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
