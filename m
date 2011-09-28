@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1R8oIv-00041w-7r
+	(envelope-from <sgw@linux.intel.com>) id 1R8oIw-00041w-2B
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Sep 2011 09:11:41 +0200
+	Wed, 28 Sep 2011 09:11:42 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
 	by azsmga102.ch.intel.com with ESMTP; 28 Sep 2011 00:06:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,453,1312182000"; d="scan'208";a="21360955"
+X-IronPort-AV: E=Sophos;i="4.68,453,1312182000"; d="scan'208";a="21360960"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.219])
 	by AZSMGA002.ch.intel.com with ESMTP; 28 Sep 2011 00:06:12 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Sep 2011 00:05:50 -0700
-Message-Id: <50015116728e265908a689a9d8eabe3d7f3efb69.1317193251.git.sgw@linux.intel.com>
+Date: Wed, 28 Sep 2011 00:05:52 -0700
+Message-Id: <f8281560b6a7d9dd389f574b022223f6eb11359d.1317193251.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1317193250.git.sgw@linux.intel.com>
 References: <cover.1317193250.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1317193250.git.sgw@linux.intel.com>
 References: <cover.1317193250.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 14/29] gcc-4.6: Update to tip of FSF gcc-4_6-branch
+Subject: [CONSOLIDATED PULL 16/29] zypper & sat-solver: needs RDEPENDS on rpm-lib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,39 +33,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2011 07:11:41 -0000
+X-List-Received-Date: Wed, 28 Sep 2011 07:11:50 -0000
 
-From: Khem Raj <raj.khem@gmail.com>
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-devtools/gcc/gcc-4.6.inc |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-extended/libzypp/libzypp_git.bb       |    8 ++++----
+ meta/recipes-extended/sat-solver/sat-solver_git.bb |    4 +++-
+ meta/recipes-extended/zypper/zypper_git.bb         |    6 ++++--
+ 3 files changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
-index eef0ef0..a352e36 100644
---- a/meta/recipes-devtools/gcc/gcc-4.6.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
-@@ -1,6 +1,6 @@
- require gcc-common.inc
+diff --git a/meta/recipes-extended/libzypp/libzypp_git.bb b/meta/recipes-extended/libzypp/libzypp_git.bb
+index 4b1b8e4..7d9382a 100644
+--- a/meta/recipes-extended/libzypp/libzypp_git.bb
++++ b/meta/recipes-extended/libzypp/libzypp_git.bb
+@@ -8,13 +8,10 @@ inherit cmake gettext
  
--PR = "r13"
-+PR = "r14"
+ DEPENDS  = "rpm boost curl libxml2 zlib sat-solver expat openssl udev"
  
- # Third digit in PV should be incremented after a minor release
- # happens from this branch on gcc e.g. currently its 4.6.0
-@@ -16,9 +16,9 @@ PV = "4.6.1+svnr${SRCPV}"
- # 4.6.1 then the value below will have 2 which will mean 4.6.2
- # which will be next minor release and so on.
+-# rpmdb2solv from sat-solver is run from libzypp
+-RDEPENDS_${PN} = "sat-solver"
+-
+ S = "${WORKDIR}/git"
+ SRCREV = "15b6c52260bbc52b3d8e585e271b67e10cc7c433"
+ PV = "0.0-git${SRCPV}"
+-PR = "r14"
++PR = "r15"
  
--BINV = "4.6.1"
-+BINV = "4.6.2"
+ SRC_URI = "git://github.com/openSUSE/libzypp.git;protocol=git \
+            file://no-doc.patch \
+@@ -32,6 +29,9 @@ SRC_URI_append_mips = " file://mips-workaround-gcc-tribool-error.patch"
+ # ARM specific global constructor workaround
+ SRC_URI_append_arm  = " file://arm-workaround-global-constructor.patch"
  
--SRCREV = 175454
-+SRCREV = 178924
- BRANCH = "gcc-4_6-branch"
- FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-4.6' ], d)}"
++# rpmdb2solv from sat-solver is run from libzypp
++RDEPENDS_${PN} = "sat-solver rpm-libs"
++
+ PACKAGES =+ "${PN}-pkgmgt"
  
+ FILES_${PN} += "${libdir}/zypp ${datadir}/zypp ${datadir}/icons"
+diff --git a/meta/recipes-extended/sat-solver/sat-solver_git.bb b/meta/recipes-extended/sat-solver/sat-solver_git.bb
+index 0d9a439..b616c57 100644
+--- a/meta/recipes-extended/sat-solver/sat-solver_git.bb
++++ b/meta/recipes-extended/sat-solver/sat-solver_git.bb
+@@ -8,7 +8,7 @@ DEPENDS = "libcheck rpm zlib expat db"
+ 
+ SRCREV = "0a7378d5f482f477a01cf1690d76871ab8bdcc32"
+ PV = "0.0-git${SRCPV}"
+-PR = "r11"
++PR = "r12"
+ 
+ PARALLEL_MAKE=""
+ 
+@@ -29,6 +29,8 @@ EXTRA_OECMAKE += " -DLIB=${@os.path.basename('${libdir}')}"
+ 
+ inherit cmake pkgconfig
+ 
++RDEPENDS_${PN} = "rpm-libs"
++
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
+ do_archgen () {
+diff --git a/meta/recipes-extended/zypper/zypper_git.bb b/meta/recipes-extended/zypper/zypper_git.bb
+index 7f7ceb3..4f4fc4d 100644
+--- a/meta/recipes-extended/zypper/zypper_git.bb
++++ b/meta/recipes-extended/zypper/zypper_git.bb
+@@ -5,8 +5,7 @@ LICENSE  = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=3201406e350b39e05a82e28b5020f413"
+ 
+ DEPENDS  = "libzypp augeas"
+-RRECOMMENDS_${PN} = "procps util-linux-uuidgen"
+-PR = "r5"
++PR = "r6"
+ SRCREV = "2c5bb6ceb99ecd950ef993e43d77bf0569ea0582"
+ 
+ inherit cmake
+@@ -20,4 +19,7 @@ S = "${WORKDIR}/git"
+ 
+ PV = "1.5.3-git${SRCPV}"
+ 
++RDEPENDS_${PN} = "rpm-libs"
++RRECOMMENDS_${PN} = "procps util-linux-uuidgen"
++
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
 -- 
 1.7.6
 
