@@ -1,32 +1,32 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpurdie@rpsys.net>) id 1R8vYc-0007PF-HK
-	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Sep 2011 16:56:22 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p8SEotnA022681;
-	Wed, 28 Sep 2011 15:50:55 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 21840-08; Wed, 28 Sep 2011 15:50:51 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p8SEokNn022670
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 28 Sep 2011 15:50:46 +0100
-From: Richard Purdie <rpurdie@rpsys.net>
+Received: from dan.rpsys.net ([93.97.175.187])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1R8vYi-0007S5-IV for openembedded-core@lists.openembedded.org;
+	Wed, 28 Sep 2011 16:56:30 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8SEvJDD010756; Wed, 28 Sep 2011 15:57:20 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id kTFfR6TXCX9U; Wed, 28 Sep 2011 15:57:19 +0100 (BST)
+Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8SEvGKe010748
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Wed, 28 Sep 2011 15:57:18 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 28 Sep 2011 15:50:47 +0100
-In-Reply-To: <1316297897-698-1-git-send-email-dbaryshkov@gmail.com>
+Date: Wed, 28 Sep 2011 15:50:51 +0100
+In-Reply-To: <1316297897-698-4-git-send-email-dbaryshkov@gmail.com>
 References: <1316297897-698-1-git-send-email-dbaryshkov@gmail.com>
+	<1316297897-698-4-git-send-email-dbaryshkov@gmail.com>
 X-Mailer: Evolution 3.1.91- 
-Message-ID: <1317221447.12332.8.camel@ted>
+Message-ID: <1317221458.12332.9.camel@ted>
 Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>,
-	Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH 1/5] kernel.bbclass: blacklist 'perf-dbg' as well for the modules metapackage
+Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Subject: Re: [PATCH 4/5] kernel.bbclass: handle .cis firmware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,30 +41,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2011 14:56:23 -0000
+X-List-Received-Date: Wed, 28 Sep 2011 14:56:31 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 On Sun, 2011-09-18 at 02:18 +0400, Dmitry Eremin-Solenikov wrote:
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> .cis firmware files are used by kernel to patch incorrect CIS fir PCMCIA
+> cards. Create respective packages.
+> 
 > Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 > ---
->  meta/classes/kernel.bbclass |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
+>  meta/classes/kernel.bbclass |    1 +
+>  1 files changed, 1 insertions(+), 0 deletions(-)
 > 
 > diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index bc1baa0..c577011 100644
+> index 6ff4018..59d3b89 100644
 > --- a/meta/classes/kernel.bbclass
 > +++ b/meta/classes/kernel.bbclass
-> @@ -451,7 +451,7 @@ python populate_packages_prepend () {
->  	metapkg = "kernel-modules"
->  	bb.data.setVar('ALLOW_EMPTY_' + metapkg, "1", d)
->  	bb.data.setVar('FILES_' + metapkg, "", d)
-> -	blacklist = [ 'kernel-dev', 'kernel-image', 'kernel-base', 'kernel-vmlinux', 'perf', 'kernel-misc' ]
-> +	blacklist = [ 'kernel-dev', 'kernel-image', 'kernel-base', 'kernel-vmlinux', 'perf', 'perf-dbg', 'kernel-misc' ]
->  	for l in module_deps.values():
->  		for i in l:
->  			pkg = module_pattern % legitimize_package_name(re.match(module_regex, os.path.basename(i)).group(1))
+> @@ -450,6 +450,7 @@ python populate_packages_prepend () {
+>  	postrm = bb.data.getVar('pkg_postrm_modules', d, 1)
+>  	do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.bin$', output_pattern='kernel-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
+>  	do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.fw$', output_pattern='kernel-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
+> +	do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.cis$', output_pattern='kernel-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
+>  	do_split_packages(d, root='/lib/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='update-modules kernel-%s' % bb.data.getVar("KERNEL_VERSION", d, 1))
+>  
+>  	import re
 
 Merged to master, thanks.
 
