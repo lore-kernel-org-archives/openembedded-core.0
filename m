@@ -1,24 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1R8sWJ-0003Es-6t
+	(envelope-from <dongxiao.xu@intel.com>) id 1R8sWM-0003Fo-S6
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Sep 2011 13:41:47 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 28 Sep 2011 04:36:19 -0700
+	Wed, 28 Sep 2011 13:41:51 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 28 Sep 2011 04:36:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,455,1312182000"; d="scan'208";a="71560538"
+X-IronPort-AV: E=Sophos;i="4.68,455,1312182000"; d="scan'208";a="56529146"
 Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Sep 2011 04:36:19 -0700
+	by azsmga001.ch.intel.com with ESMTP; 28 Sep 2011 04:36:22 -0700
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Sep 2011 19:44:28 +0800
-Message-Id: <0a731d8d096f4dcc3f18d9f0940b5bbfd9722741.1317209357.git.dongxiao.xu@intel.com>
+Date: Wed, 28 Sep 2011 19:44:31 +0800
+Message-Id: <0349c972b5124bb6a2ec59ee8aeb991c09093d32.1317209357.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1317209357.git.dongxiao.xu@intel.com>
 References: <cover.1317209357.git.dongxiao.xu@intel.com>
 In-Reply-To: <cover.1317209357.git.dongxiao.xu@intel.com>
 References: <cover.1317209357.git.dongxiao.xu@intel.com>
-Subject: [PATCH 3/6] multilib: add MLPREFIX to deploy folder
+Subject: [PATCH 6/6] libc-package.bbclass: add MLPREFIX when set values to PACKAGES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,67 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2011 11:41:47 -0000
+X-List-Received-Date: Wed, 28 Sep 2011 11:41:51 -0000
 
-Add MLPREFIX to multilib deploy forlder to avoid the confliction between
-multilib and normal package deploy directory.
+There are some places that PACKAGES are dynamically set. To support
+multilib, we need to add MLPREFIX before the package name in those
+settings.
 
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- meta/classes/multilib.bbclass    |    5 -----
- meta/classes/package_rpm.bbclass |   10 ++++++++--
- meta/classes/rootfs_rpm.bbclass  |    2 +-
- 3 files changed, 9 insertions(+), 8 deletions(-)
+ meta/classes/libc-package.bbclass |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index 6c0dd37..1aed2a9 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -92,9 +92,4 @@ python __anonymous () {
-     multilib_map_variable("PACKAGES_DYNAMIC", variant, d)
-     multilib_map_variable("PACKAGE_INSTALL", variant, d)
-     multilib_map_variable("INITSCRIPT_PACKAGES", variant, d)
--
--    package_arch = d.getVar("PACKAGE_ARCH", True)
--    machine_arch = d.getVar("MACHINE_ARCH", True)
--    if package_arch == machine_arch:
--        d.setVar("PACKAGE_ARCH", variant + "_" + package_arch)
- }
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 775d525..45de0f8 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -903,8 +903,14 @@ python do_package_rpm () {
- 	rpmbuild = bb.data.getVar('RPMBUILD', d, True)
- 	targetsys = bb.data.getVar('TARGET_SYS', d, True)
- 	targetvendor = bb.data.getVar('TARGET_VENDOR', d, True)
--	pkgwritedir = bb.data.expand('${PKGWRITEDIRRPM}/${PACKAGE_ARCH}', d)
--	pkgarch = bb.data.expand('${PACKAGE_ARCH}${TARGET_VENDOR}-${TARGET_OS}', d)
-+	package_arch = bb.data.getVar('PACKAGE_ARCH', d, True) or ""
-+	if package_arch not in "all any noarch".split():
-+		ml_prefix = (bb.data.getVar('MLPREFIX', d, True) or "").replace("-", "_")
-+		bb.data.setVar('PACKAGE_ARCH_EXTEND', ml_prefix + package_arch, d)
-+	else:
-+		bb.data.setVar('PACKAGE_ARCH_EXTEND', package_arch, d)
-+	pkgwritedir = bb.data.expand('${PKGWRITEDIRRPM}/${PACKAGE_ARCH_EXTEND}', d)
-+	pkgarch = bb.data.expand('${PACKAGE_ARCH_EXTEND}${TARGET_VENDOR}-${TARGET_OS}', d)
- 	magicfile = bb.data.expand('${STAGING_DIR_NATIVE}/usr/share/misc/magic.mgc', d)
- 	bb.mkdirhier(pkgwritedir)
- 	os.chmod(pkgwritedir, 0755)
-diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-index 5ac6bca..dd370b2 100644
---- a/meta/classes/rootfs_rpm.bbclass
-+++ b/meta/classes/rootfs_rpm.bbclass
-@@ -220,8 +220,8 @@ python () {
-             default_tune = localdata.getVar("DEFAULTTUNE_virtclass-multilib-" + eext[1], False)
-             if default_tune:
-                 localdata.setVar("DEFAULTTUNE", default_tune)
--            localdata.setVar("MACHINE_ARCH", eext[1] + "_" + localdata.getVar("MACHINE_ARCH", False))
-             package_archs = localdata.getVar("PACKAGE_ARCHS", True) or ""
-+            package_archs = " ".join([i in "all noarch any".split() and i or eext[1]+"_"+i for i in package_archs.split()])
-             ml_package_archs += " " + package_archs
-             ml_prefix_list += " " + eext[1]
-             #bb.note("ML_PACKAGE_ARCHS %s %s %s" % (eext[1], localdata.getVar("PACKAGE_ARCHS", True) or "(none)", overrides))
+diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
+index 9d32844..71a577b 100644
+--- a/meta/classes/libc-package.bbclass
++++ b/meta/classes/libc-package.bbclass
+@@ -311,7 +311,7 @@ python package_do_split_gconvs () {
+ 			raise bb.build.FuncFailed("localedef returned an error")
+ 
+ 	def output_locale(name, locale, encoding):
+-		pkgname = 'locale-base-' + legitimize_package_name(name)
++		pkgname = bb.data.getVar('MLPREFIX', d) + 'locale-base-' + legitimize_package_name(name)
+ 		bb.data.setVar('ALLOW_EMPTY_%s' % pkgname, '1', d)
+ 		bb.data.setVar('PACKAGES', '%s %s' % (pkgname, bb.data.getVar('PACKAGES', d, 1)), d)
+ 		rprovides = ' virtual-locale-%s' % legitimize_package_name(name)
 -- 
 1.7.1
 
