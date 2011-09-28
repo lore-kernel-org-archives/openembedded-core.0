@@ -1,36 +1,35 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dbaryshkov@gmail.com>)
-	id 1R8zP6-00041H-Lo; Wed, 28 Sep 2011 21:02:48 +0200
-Received: by wwf27 with SMTP id 27so7564326wwf.24
-	for <multiple recipients>; Wed, 28 Sep 2011 11:57:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=aN9mWWln0YxRyRATYrfgYbkHYzBmm06gwUq+G9vnZvQ=;
-	b=aUHDJpk+l36W8yWjz5XrFKX4D2xHW2YqV1cHs6juYANwPM99rq0vaT34ouD7iBbmXi
-	hRAlOufzXF0ETviVgsv6v0OB7kP/cyaH7Tn7awFRgE/LmpkBlDKD+bpBjjiSim94zmgT
-	pIQbdcYoQhtxXSUHD/XtJIVfUJaxjTsFtgRro=
-Received: by 10.227.61.142 with SMTP id t14mr6163870wbh.68.1317236238213;
-	Wed, 28 Sep 2011 11:57:18 -0700 (PDT)
-Received: from [137.202.140.192] (nat-rup.mentorg.com. [139.181.168.34])
-	by mx.google.com with ESMTPS id l40sm27210899wbm.10.2011.09.28.11.57.16
-	(version=SSLv3 cipher=OTHER); Wed, 28 Sep 2011 11:57:17 -0700 (PDT)
-Message-ID: <4E836DD1.5010600@gmail.com>
-Date: Wed, 28 Sep 2011 22:56:17 +0400
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.21) Gecko/20110831 Iceowl/1.0b2 Icedove/3.1.13
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <CALT56yN5hXMLBhHVLKyHbNb=7WDb3pZUB0Q+HNKc-2t+g6M58A@mail.gmail.com>
-	<201109281116.00890.paul.eggleton@linux.intel.com>
-	<4E831868.4090603@gmail.com>
-	<201109281432.57331.paul.eggleton@linux.intel.com>
-In-Reply-To: <201109281432.57331.paul.eggleton@linux.intel.com>
-Cc: bitbake-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: meta-micro problems
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1R908n-0004Xi-JE for openembedded-core@lists.openembedded.org;
+	Wed, 28 Sep 2011 21:50:01 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8SJouZN022006 for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Sep 2011 20:50:56 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id KzXU6cdRxu6d
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Sep 2011 20:50:56 +0100 (BST)
+Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8SJoo3p022002
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Sep 2011 20:50:52 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 28 Sep 2011 20:44:24 +0100
+In-Reply-To: <34fc595e22f0b359e6ae5ead10c1ecee30a447f6.1316138063.git.raj.khem@gmail.com>
+References: <cover.1316138063.git.raj.khem@gmail.com>
+	<34fc595e22f0b359e6ae5ead10c1ecee30a447f6.1316138063.git.raj.khem@gmail.com>
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1317239072.12332.53.camel@ted>
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/4] conf, recipes: Add new variable LINKER_HASH_STYLE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,28 +44,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2011 19:02:48 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 28 Sep 2011 19:50:01 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 09/28/2011 05:32 PM, Paul Eggleton wrote:
-> On Wednesday 28 September 2011 13:51:52 Dmitry Eremin-Solenikov wrote:
->> If you wish, I can retry this with smaller layer set. But if the bug
->> will still arise, I simply have no knowledge/time to look deeper into bb
->> without additional input/pointers from bb gurus.
->
-> That's OK, I can spend time looking into it. It sounds like a bug in bitbake
-> if metadata can influence it to behave this way. If we can produce a simplified
-> test case I think it will be easier to fix.
+On Thu, 2011-09-15 at 18:59 -0700, Khem Raj wrote:
+> LINKER_HASH_STYLE in OE is set to either 'sysv' or 'gnu'
+> depending upon processor architecture e.g. mips does not support
+> gnu hash style so is uses sysv
+> 
+> besides 'sysv' and 'gnu' third option is to set it to 'both' we do
+> not do that by default but user can still set it
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/conf/bitbake.conf                      |    3 ++-
+>  meta/conf/distro/include/tcmode-default.inc |    6 +++++-
+>  meta/recipes-core/uclibc/uclibc.inc         |    2 +-
+>  3 files changed, 8 insertions(+), 3 deletions(-)
 
-I was too early to say that it works. Got the same issues again on my 
-main builder. I'll run some more tests. E.g. main builder has my 
-meta-micro FEED_ARCH patch commited. That might be one of the problems.
+The build failure we're seeing on mips is related to this change. I'm
+seeing this from "MACHINE=qemumips bitbake -e":
 
->
-> Cheers,
-> Paul
->
+# LINKER_HASH_STYLE_mips64el=sysv
+LINKER_HASH_STYLE_mips64el="sysv"
+# LINKER_HASH_STYLE=sysv
+LINKER_HASH_STYLE="sysv"
+# LINKER_HASH_STYLE_mips64=sysv
+LINKER_HASH_STYLE_mips64="sysv"
+# TARGET_LINK_HASH_STYLE=${@['-Wl,--hash-style=gnu',''][bb.data.getVar('LINKER_HASH_STYLE', d, True) == 'gnu']}
+TARGET_LINK_HASH_STYLE="-Wl,--hash-style=gnu"
+# TARGET_LDFLAGS=-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED}
+export TARGET_LDFLAGS="-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed"
+
+Obviously the problem is TARGET_LINK_HASH_STYLE is that value when
+LINKER_HASH_STYLE="sysv" :/
+
+We need to fix this...
+
+Cheers,
+
+Richard
 
 
 
