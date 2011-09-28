@@ -1,24 +1,24 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1R8klq-0004g6-53
+	(envelope-from <dongxiao.xu@intel.com>) id 1R8klp-0004gA-Ll
 	for openembedded-core@lists.openembedded.org;
 	Wed, 28 Sep 2011 05:25:20 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 27 Sep 2011 20:19:52 -0700
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 27 Sep 2011 20:19:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,453,1312182000"; d="scan'208";a="68129022"
+X-IronPort-AV: E=Sophos;i="4.68,453,1312182000"; d="scan'208";a="71446589"
 Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by fmsmga001.fm.intel.com with ESMTP; 27 Sep 2011 20:19:51 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 27 Sep 2011 20:19:50 -0700
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Sep 2011 11:27:58 +0800
-Message-Id: <0a731d8d096f4dcc3f18d9f0940b5bbfd9722741.1317180055.git.dongxiao.xu@intel.com>
+Date: Wed, 28 Sep 2011 11:27:57 +0800
+Message-Id: <a5236fd298387bfcd294229c238c8fe0edecf2a5.1317180055.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1317180055.git.dongxiao.xu@intel.com>
 References: <cover.1317180055.git.dongxiao.xu@intel.com>
 In-Reply-To: <cover.1317180055.git.dongxiao.xu@intel.com>
 References: <cover.1317180055.git.dongxiao.xu@intel.com>
-Subject: [PATCH 3/5] multilib: add MLPREFIX to deploy folder
+Subject: [PATCH 2/5] multilib: remove the multilib handling to allarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,65 +35,78 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 28 Sep 2011 03:25:22 -0000
 
-Add MLPREFIX to multilib deploy forlder to avoid the confliction between
-multilib and normal package deploy directory.
+currently we have allarch type of recipes, which may still have
+architecture dependency, like x11-common. So we need to drop the
+handling to allarch in multilib case.
+
+Also remove the PV postfix in python-pygobject DEPENDS, since multilib
+code will treat a native package multilib capable.
+
+[YOCTO #1497]
+[YOCTO #1498]
 
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- meta/classes/multilib.bbclass    |    5 -----
- meta/classes/package_rpm.bbclass |   10 ++++++++--
- meta/classes/rootfs_rpm.bbclass  |    2 +-
- 3 files changed, 9 insertions(+), 8 deletions(-)
+ meta/classes/multilib.bbclass                      |    2 +-
+ meta/classes/multilib_global.bbclass               |    2 +-
+ meta/conf/multilib.conf                            |    7 +++++++
+ .../python/python-pygobject_2.27.91.bb             |    2 +-
+ 4 files changed, 10 insertions(+), 3 deletions(-)
 
 diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index 6c0dd37..1aed2a9 100644
+index 0ea1038..6c0dd37 100644
 --- a/meta/classes/multilib.bbclass
 +++ b/meta/classes/multilib.bbclass
-@@ -92,9 +92,4 @@ python __anonymous () {
-     multilib_map_variable("PACKAGES_DYNAMIC", variant, d)
-     multilib_map_variable("PACKAGE_INSTALL", variant, d)
-     multilib_map_variable("INITSCRIPT_PACKAGES", variant, d)
--
--    package_arch = d.getVar("PACKAGE_ARCH", True)
--    machine_arch = d.getVar("MACHINE_ARCH", True)
--    if package_arch == machine_arch:
--        d.setVar("PACKAGE_ARCH", variant + "_" + package_arch)
- }
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 775d525..45de0f8 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -903,8 +903,14 @@ python do_package_rpm () {
- 	rpmbuild = bb.data.getVar('RPMBUILD', d, True)
- 	targetsys = bb.data.getVar('TARGET_SYS', d, True)
- 	targetvendor = bb.data.getVar('TARGET_VENDOR', d, True)
--	pkgwritedir = bb.data.expand('${PKGWRITEDIRRPM}/${PACKAGE_ARCH}', d)
--	pkgarch = bb.data.expand('${PACKAGE_ARCH}${TARGET_VENDOR}-${TARGET_OS}', d)
-+	package_arch = bb.data.getVar('PACKAGE_ARCH', d, True) or ""
-+	if package_arch not in "all any noarch".split():
-+		ml_prefix = (bb.data.getVar('MLPREFIX', d, True) or "").replace("-", "_")
-+		bb.data.setVar('PACKAGE_ARCH_EXTEND', ml_prefix + package_arch, d)
-+	else:
-+		bb.data.setVar('PACKAGE_ARCH_EXTEND', package_arch, d)
-+	pkgwritedir = bb.data.expand('${PKGWRITEDIRRPM}/${PACKAGE_ARCH_EXTEND}', d)
-+	pkgarch = bb.data.expand('${PACKAGE_ARCH_EXTEND}${TARGET_VENDOR}-${TARGET_OS}', d)
- 	magicfile = bb.data.expand('${STAGING_DIR_NATIVE}/usr/share/misc/magic.mgc', d)
- 	bb.mkdirhier(pkgwritedir)
- 	os.chmod(pkgwritedir, 0755)
-diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-index 5ac6bca..dd370b2 100644
---- a/meta/classes/rootfs_rpm.bbclass
-+++ b/meta/classes/rootfs_rpm.bbclass
-@@ -220,8 +220,8 @@ python () {
-             default_tune = localdata.getVar("DEFAULTTUNE_virtclass-multilib-" + eext[1], False)
-             if default_tune:
-                 localdata.setVar("DEFAULTTUNE", default_tune)
--            localdata.setVar("MACHINE_ARCH", eext[1] + "_" + localdata.getVar("MACHINE_ARCH", False))
-             package_archs = localdata.getVar("PACKAGE_ARCHS", True) or ""
-+            package_archs = " ".join([i in "all noarch any".split() and i or eext[1]+"_"+i for i in package_archs.split()])
-             ml_package_archs += " " + package_archs
-             ml_prefix_list += " " + eext[1]
-             #bb.note("ML_PACKAGE_ARCHS %s %s %s" % (eext[1], localdata.getVar("PACKAGE_ARCHS", True) or "(none)", overrides))
+@@ -8,7 +8,7 @@ python multilib_virtclass_handler () {
+         return
+ 
+     # There should only be one kernel in multilib configs
+-    if bb.data.inherits_class('kernel', e.data) or bb.data.inherits_class('module-base', e.data) or bb.data.inherits_class('allarch', e.data):
++    if bb.data.inherits_class('kernel', e.data) or bb.data.inherits_class('module-base', e.data):
+         raise bb.parse.SkipPackage("We shouldn't have multilib variants for the kernel")
+ 
+     if bb.data.inherits_class('image', e.data):
+diff --git a/meta/classes/multilib_global.bbclass b/meta/classes/multilib_global.bbclass
+index cd22163..2da66a5 100644
+--- a/meta/classes/multilib_global.bbclass
++++ b/meta/classes/multilib_global.bbclass
+@@ -5,7 +5,7 @@ python multilib_virtclass_handler_global () {
+     variant = e.data.getVar("BBEXTENDVARIANT", True)
+ 
+     if isinstance(e, bb.event.RecipeParsed) and not variant:
+-        if bb.data.inherits_class('kernel', e.data) or bb.data.inherits_class('module-base', e.data) or bb.data.inherits_class('allarch', e.data):
++        if bb.data.inherits_class('kernel', e.data) or bb.data.inherits_class('module-base', e.data):
+             variants = (e.data.getVar("MULTILIB_VARIANTS", True) or "").split()
+ 
+             # Process PROVIDES
+diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
+index 3133bf1..b9da33a 100644
+--- a/meta/conf/multilib.conf
++++ b/meta/conf/multilib.conf
+@@ -452,3 +452,10 @@ BBCLASSEXTEND_append_pn-zip = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-zlib = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-zypper = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-libsdl = " ${MULTILIBS}"
++BBCLASSEXTEND_append_pn-qemu-config = " ${MULTILIBS}"
++BBCLASSEXTEND_append_pn-x11-common = " ${MULTILIBS}"
++BBCLASSEXTEND_append_pn-update-rc.d = " ${MULTILIBS}"
++BBCLASSEXTEND_append_pn-avahi-ui = " ${MULTILIBS}"
++BBCLASSEXTEND_append_pn-python-pycairo = " ${MULTILIBS}"
++BBCLASSEXTEND_append_pn-python-pygtk = " ${MULTILIBS}"
++BBCLASSEXTEND_append_pn-python-pygobject = " ${MULTILIBS}"
+diff --git a/meta/recipes-devtools/python/python-pygobject_2.27.91.bb b/meta/recipes-devtools/python/python-pygobject_2.27.91.bb
+index 9ff2fe7..fd696a5 100644
+--- a/meta/recipes-devtools/python/python-pygobject_2.27.91.bb
++++ b/meta/recipes-devtools/python/python-pygobject_2.27.91.bb
+@@ -2,7 +2,7 @@ DESCRIPTION = "Python GObject bindings"
+ SECTION = "devel/python"
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
+-DEPENDS = "python python-pygobject-native-${PV} glib-2.0"
++DEPENDS = "python python-pygobject-native glib-2.0"
+ DEPENDS_virtclass-native = "glib-2.0-native"
+ RDEPENDS_virtclass-native = ""
+ PR = "r2"
 -- 
 1.7.1
 
