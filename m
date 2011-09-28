@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1R8oIs-00041r-VQ
+	(envelope-from <sgw@linux.intel.com>) id 1R8oIt-00041w-JC
 	for openembedded-core@lists.openembedded.org;
 	Wed, 28 Sep 2011 09:11:39 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 28 Sep 2011 00:06:09 -0700
+	by azsmga102.ch.intel.com with ESMTP; 28 Sep 2011 00:06:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,453,1312182000"; d="scan'208";a="21360941"
+X-IronPort-AV: E=Sophos;i="4.68,453,1312182000"; d="scan'208";a="21360943"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.219])
 	by AZSMGA002.ch.intel.com with ESMTP; 28 Sep 2011 00:06:09 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Sep 2011 00:05:43 -0700
-Message-Id: <4f5fdc4dc14d287d301069024ddec9cb65d68f7f.1317193250.git.sgw@linux.intel.com>
+Date: Wed, 28 Sep 2011 00:05:44 -0700
+Message-Id: <1577975202437f8f89ef24a5e4d3f6c6c8a88c5c.1317193250.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1317193250.git.sgw@linux.intel.com>
 References: <cover.1317193250.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1317193250.git.sgw@linux.intel.com>
 References: <cover.1317193250.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 07/29] sqlite3: Fix nativesdk packaging/QA warnings
+Subject: [CONSOLIDATED PULL 08/29] pseudo: Fix QA warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,44 +37,76 @@ X-List-Received-Date: Wed, 28 Sep 2011 07:11:39 -0000
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-When building sqlite3-nativesdk, there was a warning about debug files in the
-main package. This was due to the order of items in PACKAGES with -dbg after
-the main package which breaks an assumption native.bbclass makes. Changing
-the order fixes the packaging problem with no change to the normal target
-packaging.
+This fixes two QA warnings:
+
+a) Debug files being contained in the main package (by adding
+   an appropriate FILES expression)
+b) Stop hardcoding the RPATH in the nativesdk case since our
+   path is on the loaders default search path
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-support/sqlite/sqlite3.inc        |    2 +-
- meta/recipes-support/sqlite/sqlite3_3.7.7.1.bb |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/pseudo/pseudo.inc |   18 ++++++++++++------
+ 1 files changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
-index 2a52a44..ece35c5 100644
---- a/meta/recipes-support/sqlite/sqlite3.inc
-+++ b/meta/recipes-support/sqlite/sqlite3.inc
-@@ -20,7 +20,7 @@ export config_TARGET_LFLAGS = "${LDFLAGS}"
- PKGSUFFIX = ""
- PKGSUFFIX_virtclass-nativesdk = "-nativesdk"
+diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
+index 0416a53..0c7185b 100644
+--- a/meta/recipes-devtools/pseudo/pseudo.inc
++++ b/meta/recipes-devtools/pseudo/pseudo.inc
+@@ -10,8 +10,14 @@ LICENSE = "LGPL2.1"
+ DEPENDS = "sqlite3"
  
--PACKAGES = "lib${BPN}${PKGSUFFIX} lib${BPN}${PKGSUFFIX}-dev lib${BPN}${PKGSUFFIX}-doc ${PN} ${PN}-dbg"
-+PACKAGES = "lib${BPN}${PKGSUFFIX} lib${BPN}${PKGSUFFIX}-dev lib${BPN}${PKGSUFFIX}-doc ${PN}-dbg ${PN}"
- FILES_${PN} = "${bindir}/*"
- FILES_lib${BPN}${PKGSUFFIX} = "${libdir}/*.so.*"
- FILES_lib${BPN}${PKGSUFFIX}-dev = "${libdir}/*.a ${libdir}/*.la ${libdir}/*.so \
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.7.7.1.bb b/meta/recipes-support/sqlite/sqlite3_3.7.7.1.bb
-index 5651c07..fd03780 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.7.7.1.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.7.7.1.bb
-@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=65f0a57ca6928710b418c094b357
+ FILES_${PN} = "${libdir}/libpseudo.so ${bindir}/* ${localstatedir}/pseudo"
++FILES_${PN}-dbg += "${libdir}/pseudo/lib*/.debug"
+ PROVIDES += "virtual/fakeroot"
  
- SRC_URI = "http://www.sqlite.org/sqlite-autoconf-3070701.tar.gz"
- S = "${WORKDIR}/sqlite-autoconf-3070701"
--PR = "r0"
-+PR = "r1"
++# In the nativesdk case, we'll already search the searchpaths
++# pseudo tries to build in so override RPATH
++MAKEOPTS = ""
++MAKEOPTS_virtclass-nativesdk = "'RPATH='"
++
+ inherit siteinfo
  
- SRC_URI[md5sum] = "554026fe7fac47b1cf61c18d5fe43419"
- SRC_URI[sha256sum] = "7dcc36b25f7bcbe2938d0ea2baea5b706f0af93473d02a3f612d7ab39e386edf"
+ do_configure () {
+@@ -27,7 +33,7 @@ do_compile () {
+ 	else
+ 	  ${S}/configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --bits=${SITEINFO_BITS}
+ 	fi
+-	oe_runmake
++	oe_runmake ${MAKEOPTS}
+ }
+ 
+ # Two below are the same
+@@ -37,9 +43,9 @@ do_compile_prepend_virtclass-native () {
+ 	if [ "${SITEINFO_BITS}" == "64" -a -e "/usr/include/gnu/stubs-32.h" -a "${PN}" == "pseudo-native" -a "${NO32LIBS}" != "1" ]; then
+ 		# We need the 32-bit libpseudo on a 64-bit machine...
+ 		./configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --bits=32
+-		oe_runmake libpseudo
++		oe_runmake ${MAKEOPTS} libpseudo
+ 		# prevent it from removing the lib, but remove everything else
+-		make 'LIB=foo' distclean 
++		make 'LIB=foo' ${MAKEOPTS} distclean 
+ 	fi
+ }
+ 
+@@ -47,14 +53,14 @@ do_compile_prepend_virtclass-nativesdk () {
+ 	if [ "${SITEINFO_BITS}" == "64" -a -e "/usr/include/gnu/stubs-32.h" -a "${PN}" == "pseudo-native" -a "${NO32LIBS}" != "1" ]; then
+ 		# We need the 32-bit libpseudo on a 64-bit machine...
+ 		./configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --bits=32
+-		oe_runmake libpseudo
++		oe_runmake ${MAKEOPTS} libpseudo
+ 		# prevent it from removing the lib, but remove everything else
+-		make 'LIB=foo' distclean 
++		make 'LIB=foo' ${MAKEOPTS} distclean 
+ 	fi
+ }
+ 
+ do_install () {
+-	oe_runmake 'DESTDIR=${D}' 'LIB=lib/pseudo/lib$(MARK64)' install
++	oe_runmake 'DESTDIR=${D}' ${MAKEOPTS} 'LIB=lib/pseudo/lib$(MARK64)' install
+ }
+ 
+ # Two below are the same
 -- 
 1.7.6
 
