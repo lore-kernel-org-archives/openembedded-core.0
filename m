@@ -1,32 +1,30 @@
-Received: from mail-vw0-f47.google.com ([209.85.212.47])
+Received: from mail-yi0-f47.google.com ([209.85.218.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1R91i2-0006pz-Hb
+	(envelope-from <koen@dominion.thruhere.net>) id 1R92ln-0007t9-W7
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Sep 2011 23:30:31 +0200
-Received: by vwe42 with SMTP id 42so7327016vwe.6
+	Thu, 29 Sep 2011 00:38:28 +0200
+Received: by yia27 with SMTP id 27so7964511yia.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Sep 2011 14:25:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=b5vvVfkw5gpLpmFynGcMvqHMxmx9CG3UPv8c4PMrq1c=;
-	b=Cswswyu14h1RLjqpW/jDuMEFETvWUFH+30sFqpg/ew4dcz7OlDFR41iACZ/nn8oV9X
-	6eawCt5YHx3tYU+Woy/7ARJtYPeeEKSNtSdF41gS12Wmz39NkDDdlWREjmXzc3A594jt
-	SJNvZ8j61QZykaEVzmWzmj+njEd+d8Fd5O8+g=
-Received: by 10.68.19.196 with SMTP id h4mr47373580pbe.39.1317245101070; Wed,
-	28 Sep 2011 14:25:01 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.68.49.129 with HTTP; Wed, 28 Sep 2011 14:24:31 -0700 (PDT)
-In-Reply-To: <1317239072.12332.53.camel@ted>
-References: <cover.1316138063.git.raj.khem@gmail.com>
-	<34fc595e22f0b359e6ae5ead10c1ecee30a447f6.1316138063.git.raj.khem@gmail.com>
-	<1317239072.12332.53.camel@ted>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 28 Sep 2011 14:24:31 -0700
-Message-ID: <CAMKF1so4ufCEdDUraPgK0BUGFvawpSLY8OCcC=i=o3R7+CL5Bg@mail.gmail.com>
+	Wed, 28 Sep 2011 15:32:59 -0700 (PDT)
+Received: by 10.236.173.231 with SMTP id v67mr1387176yhl.48.1317249179505;
+	Wed, 28 Sep 2011 15:32:59 -0700 (PDT)
+Received: from [10.0.1.28] (adsl-68-88-70-1.dsl.rcsntx.swbell.net.
+	[68.88.70.1])
+	by mx.google.com with ESMTPS id g66sm303795yhh.12.2011.09.28.15.32.58
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 28 Sep 2011 15:32:58 -0700 (PDT)
+References: <201109282319.08663.schnitzeltony@gmx.de>
+In-Reply-To: <201109282319.08663.schnitzeltony@gmx.de>
+Mime-Version: 1.0 (iPhone Mail 8L1)
+Message-Id: <F880B9A0-D329-43D1-80ED-C12732108908@dominion.thruhere.net>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: iPhone Mail (8L1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Wed, 28 Sep 2011 17:32:55 -0500
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] conf, recipes: Add new variable LINKER_HASH_STYLE
+Subject: Re: oe-core lsb / oe-classic lsb_base
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,64 +39,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2011 21:30:31 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 28 Sep 2011 22:38:28 -0000
+Content-Transfer-Encoding: 7bit
+Content-Type: multipart/alternative;
+	boundary=Apple-Mail-3--360439281
+
+--Apple-Mail-3--360439281
 Content-Transfer-Encoding: quoted-printable
-
-On Wed, Sep 28, 2011 at 12:44 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Thu, 2011-09-15 at 18:59 -0700, Khem Raj wrote:
->> LINKER_HASH_STYLE in OE is set to either 'sysv' or 'gnu'
->> depending upon processor architecture e.g. mips does not support
->> gnu hash style so is uses sysv
->>
->> besides 'sysv' and 'gnu' third option is to set it to 'both' we do
->> not do that by default but user can still set it
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->> =C2=A0meta/conf/bitbake.conf =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A03 ++-
->> =C2=A0meta/conf/distro/include/tcmode-default.inc | =C2=A0 =C2=A06 +++++=
--
->> =C2=A0meta/recipes-core/uclibc/uclibc.inc =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =
-=C2=A0 =C2=A02 +-
->> =C2=A03 files changed, 8 insertions(+), 3 deletions(-)
->
-> The build failure we're seeing on mips is related to this change. I'm
-> seeing this from "MACHINE=3Dqemumips bitbake -e":
->
-> # LINKER_HASH_STYLE_mips64el=3Dsysv
-> LINKER_HASH_STYLE_mips64el=3D"sysv"
-> # LINKER_HASH_STYLE=3Dsysv
-> LINKER_HASH_STYLE=3D"sysv"
-> # LINKER_HASH_STYLE_mips64=3Dsysv
-> LINKER_HASH_STYLE_mips64=3D"sysv"
-> # TARGET_LINK_HASH_STYLE=3D${@['-Wl,--hash-style=3Dgnu',''][bb.data.getVa=
-r('LINKER_HASH_STYLE', d, True) =3D=3D 'gnu']}
-> TARGET_LINK_HASH_STYLE=3D"-Wl,--hash-style=3Dgnu"
-> # TARGET_LDFLAGS=3D-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED}
-> export TARGET_LDFLAGS=3D"-Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed"
->
-> Obviously the problem is TARGET_LINK_HASH_STYLE is that value when
-> LINKER_HASH_STYLE=3D"sysv" :/
->
-> We need to fix this...
->
-
-here is my MACHINE=3Dqemumips bitbake -e run on latest oe-core/master
-http://paste.ubuntu.com/698725/
+Content-Type: text/plain;
+	charset=utf-8
 
 
-> Cheers,
->
-> Richard
->
->
+
+Op 28 sep. 2011 om 16:19 heeft Andreas M=C3=BCller <schnitzeltony@gmx.de> he=
+t volgende geschreven:
+
+> I am trying to get networkmanager ( included in meta-oe ) working. Since t=
+he daemon does not start automatically, I try to start it manually by /etc/i=
+nit.d/Networkmanager start
+
+Stop using sysvinit and switch to systemd.=20
+
+
+
+
+> That complaines about missing /lib/lsb/init-functions. OK - I add lsb to R=
+DEPEND in networkmanager but now manual start complains for missing function=
+ log_daemon_msg ( and will surely later complain about log_end_msg ). Furthe=
+r investigations make me wonder:=20
+>=20
+> - *All* files found in /etc/core-lsb include the file /etc/init.d/function=
+s which is not included on my image.
+> - scripts init-functions and included are sourced in oe-core. Do we want t=
+o maintain these scripts?
+> - isn't this a case for inherit allarch?
+>=20
+> I checked lsb_base in oe-classic: The sources are taken from debian and=20=
+
+>=20
+> + /lib/lsb/init-functions contains my missing functions
+> - lsb_release is a python script
+>=20
+> So how about
+>=20
+> * reduce lsb down to lsb_release ( and rename recipe to lsb_release )
+> * add lsb_base from oe-classic
+>=20
+> OR
+>=20
+> combine both: Take oe-core lsb_release and oe-classic init-functions ( res=
+ulting version number? )
+>=20
+> What do you think?
+>=20
+> Andreas
+>=20
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
+--Apple-Mail-3--360439281
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=utf-8
 
+<html><body bgcolor=3D"#FFFFFF"><div><br><br>Op 28 sep. 2011 om 16:19 heeft A=
+ndreas M=C3=BCller &lt;<a href=3D"mailto:schnitzeltony@gmx.de">schnitzeltony=
+@gmx.de</a>&gt; het volgende geschreven:<br><br></div><div></div><blockquote=
+ type=3D"cite"><div><span>I am trying to get networkmanager ( included in me=
+ta-oe ) working. Since the daemon does not start automatically, I try to sta=
+rt it manually by /etc/init.d/Networkmanager start</span><font class=3D"Appl=
+e-style-span" color=3D"#000000"><font class=3D"Apple-style-span" color=3D"#0=
+023A3"><br></font></font></div></blockquote><div><br></div>Stop using sysvin=
+it and switch to systemd.&nbsp;<br><div><br></div><div><br></div><div><br></=
+div><br><blockquote type=3D"cite"><div><span>That complaines about missing /=
+lib/lsb/init-functions. OK - I add lsb to RDEPEND in networkmanager but now m=
+anual start complains for missing function log_daemon_msg ( and will surely l=
+ater complain about log_end_msg ). Further investigations make me wonder: </=
+span><br><span></span><br><span>- *All* files found in /etc/core-lsb include=
+ the file /etc/init.d/functions which is not included on my image.</span><br=
+><span>- scripts init-functions and included are sourced in oe-core. Do we w=
+ant to maintain these scripts?</span><br><span>- isn't this a case for inher=
+it allarch?</span><br><span></span><br><span>I checked lsb_base in oe-classi=
+c: The sources are taken from debian and </span><br><span></span><br><span>+=
+ /lib/lsb/init-functions contains my missing functions</span><br><span>- lsb=
+_release is a python script</span><br><span></span><br><span>So how about</s=
+pan><br><span></span><br><span>* reduce lsb down to lsb_release ( and rename=
+ recipe to lsb_release )</span><br><span>* add lsb_base from oe-classic</spa=
+n><br><span></span><br><span>OR</span><br><span></span><br><span>combine bot=
+h: Take oe-core lsb_release and oe-classic init-functions ( resulting versio=
+n number? )</span><br><span></span><br><span>What do you think?</span><br><s=
+pan></span><br><span>Andreas</span><br><span></span><br><span>______________=
+_________________________________</span><br><span>Openembedded-core mailing l=
+ist</span><br><span><a href=3D"mailto:Openembedded-core@lists.openembedded.o=
+rg">Openembedded-core@lists.openembedded.org</a></span><br><span><a href=3D"=
+http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core">http:=
+//lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core</a></span><=
+br></div></blockquote></body></html>=
+
+--Apple-Mail-3--360439281--
