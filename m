@@ -1,33 +1,38 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1R8twH-0005Y5-S5
+	(envelope-from <otavio.salvador@gmail.com>) id 1R8u07-0005c1-Vm
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Sep 2011 15:12:42 +0200
-Received: by bke11 with SMTP id 11so8245496bke.6
+	Wed, 28 Sep 2011 15:16:41 +0200
+Received: by bke11 with SMTP id 11so8250443bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Sep 2011 06:07:15 -0700 (PDT)
+	Wed, 28 Sep 2011 06:11:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
 	:content-transfer-encoding;
-	bh=TLXv7eUZw/LCvknF5s/6ydkSRP7R06RlvXVf4v1Aib8=;
-	b=WsBZOxDBzoJZ3KbQ+47aBLK/ysEggY3KxPnrg+JtAispgX5363V2C0P1xWu4Cjp9Ni
-	6bcsFZx6+wuHSXgW0A26D/IYm/2cYfl4jS9+GFptL5kQ/swxt/ZyjVFMvnFKuuMMM3Uy
-	DV/dYzvM55sLww48UiWsWGlc6/u1T+JVYHrwM=
+	bh=XvYVQG+lGrcvBlZXJkHtYOzjoatTzRO/1qphxwHWhFo=;
+	b=UM/i/+4t7jFvhqTOWjmth0+B3wiGR4xKtxaBe4Xi9BtuXBpFvKHZt8Cy0hDzWzgPaw
+	g6XH5LDHqbTMyvlLcH2nRn2zf2DXAOVXhQMaYQnhSUwZqt77lAc6nA5KNTVteiKbU5F8
+	GKtpOZZORBB+7ErFx2kmtj3rhjfWmEh0h4b+E=
 MIME-Version: 1.0
-Received: by 10.204.130.138 with SMTP id t10mr6049429bks.10.1317215235343;
-	Wed, 28 Sep 2011 06:07:15 -0700 (PDT)
+Received: by 10.204.7.207 with SMTP id e15mr6308899bke.62.1317215471764; Wed,
+	28 Sep 2011 06:11:11 -0700 (PDT)
 Sender: otavio.salvador@gmail.com
-Received: by 10.204.35.198 with HTTP; Wed, 28 Sep 2011 06:07:15 -0700 (PDT)
-In-Reply-To: <4E830EA4.5050002@mentor.com>
-References: <4E830EA4.5050002@mentor.com>
-Date: Wed, 28 Sep 2011 10:07:15 -0300
-X-Google-Sender-Auth: gBRhL97r7nh6QIFpYSEbfGXRqqI
-Message-ID: <CAP9ODKrCYRX-BMVZ4Z2z43NtrN8KGWusPunsA5szg8J_3jVxXg@mail.gmail.com>
+Received: by 10.204.35.198 with HTTP; Wed, 28 Sep 2011 06:11:11 -0700 (PDT)
+In-Reply-To: <4E82F59B.7080808@eukrea.com>
+References: <20110911172241.GA3674@chargestorm.se>
+	<D9F00ABD-04FA-4A75-BB1C-13B9BBDC4C54@dominion.thruhere.net>
+	<4E79E3A9.8080804@eukrea.com>
+	<201109281111.33193.paul.eggleton@linux.intel.com>
+	<4E82F59B.7080808@eukrea.com>
+Date: Wed, 28 Sep 2011 10:11:11 -0300
+X-Google-Sender-Auth: YlyoMyL5WvsQYDjuuuhR6qE91KY
+Message-ID: <CAP9ODKqA7=3dCZVih09g_5Dv4fbOaonv7AEAoLmJquNV32vSAA@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cmake.bbclass: adding extendable extra variable to root path
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH] qt4: update to latest version 4.7.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,20 +47,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2011 13:12:42 -0000
+X-List-Received-Date: Wed, 28 Sep 2011 13:16:41 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 28, 2011 at 09:10, Andrew Gabbasov
-<andrew_gabbasov@mentor.com> wrote:
-> Introducing a hook variable for various .conf files to add
-> extra path elements to cmake. For example, it can be used
-> in external toolchain conf file to add ${TOOLCHAIN_PATH}
-> to cmake root path search.
->
-> Signed-off-by: Andrew Gabbasov <andrew_gabbasov@mentor.com>
+On Wed, Sep 28, 2011 at 07:23, Eric B=E9nard <eric@eukrea.com> wrote:
+> I have the patch locally and I will (really) work on this tonight.
+> Sorry for the delay I've been overbusy since last wednesday.
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+Now that this is going into master, I think we ought to update it
+directly instead of adding the newer version.
 
 --=20
 Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
