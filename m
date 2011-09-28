@@ -1,21 +1,21 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1R8wcW-0000ob-3s
+	(envelope-from <saul.wold@intel.com>) id 1R8wk7-0000vd-3k
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Sep 2011 18:04:28 +0200
-Received: from mail-yw0-f52.google.com ([209.85.213.52])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 28 Sep 2011 08:57:46 -0700
-Received: by ywp31 with SMTP id 31so13821734ywp.25
+	Wed, 28 Sep 2011 18:12:19 +0200
+Received: from mail-yi0-f52.google.com ([209.85.218.52])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 28 Sep 2011 09:06:47 -0700
+Received: by yie30 with SMTP id 30so13477244yie.25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Sep 2011 08:57:46 -0700 (PDT)
-Received: by 10.101.86.11 with SMTP id o11mr8544986anl.101.1317225466089;
-	Wed, 28 Sep 2011 08:57:46 -0700 (PDT)
+	Wed, 28 Sep 2011 09:06:47 -0700 (PDT)
+Received: by 10.68.0.4 with SMTP id 4mr44784916pba.23.1317226006842;
+	Wed, 28 Sep 2011 09:06:46 -0700 (PDT)
 Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
 	[71.193.189.117])
-	by mx.google.com with ESMTPS id h20sm89652601ann.7.2011.09.28.08.57.45
-	(version=SSLv3 cipher=OTHER); Wed, 28 Sep 2011 08:57:45 -0700 (PDT)
-Message-ID: <4E8343F8.5000002@intel.com>
-Date: Wed, 28 Sep 2011 08:57:44 -0700
+	by mx.google.com with ESMTPS id h5sm8983670pbf.4.2011.09.28.09.06.46
+	(version=SSLv3 cipher=OTHER); Wed, 28 Sep 2011 09:06:46 -0700 (PDT)
+Message-ID: <4E834615.6050506@intel.com>
+Date: Wed, 28 Sep 2011 09:06:45 -0700
 From: Saul Wold <saul.wold@intel.com>
 Organization: Intel
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
@@ -23,10 +23,10 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1316673078-22962-1-git-send-email-koen@dominion.thruhere.net>
-In-Reply-To: <1316673078-22962-1-git-send-email-koen@dominion.thruhere.net>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH] avahi: fix avahi-systemd dependencies
+References: <1316955464-19997-1-git-send-email-morphis@gravedo.de>
+	<1316955464-19997-2-git-send-email-morphis@gravedo.de>
+In-Reply-To: <1316955464-19997-2-git-send-email-morphis@gravedo.de>
+Subject: Re: [PATCH 2/2] qt4-embedded: move qte.sh profile script into own package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,41 +41,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2011 16:04:28 -0000
+X-List-Received-Date: Wed, 28 Sep 2011 16:12:19 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/21/2011 11:31 PM, Koen Kooi wrote:
-> During the avahi-ui split the RDEPENDS line got dropped leading to: http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/testlab/commit/?h=yocto&id=ae0db0eb51bde42f09b9513842c3b745c37c60d5
+On 09/25/2011 05:57 AM, Simon Busch wrote:
+> We don't want to pull the whole qt suite in our images when only installing a tiny setup
+> which needs the profile script for several configuration issues. This moves the qte.sh
+> profile script into a qt4-embedded-conf package which is automatically installed when an
+> image depends on qt4-embedded.
 >
-> Signed-off-by: Koen Kooi<koen@dominion.thruhere.net>
+> Signed-off-by: Simon Busch<morphis@gravedo.de>
 > ---
->   meta/recipes-connectivity/avahi/avahi.inc |    4 +++-
->   1 files changed, 3 insertions(+), 1 deletions(-)
+>   meta/recipes-qt/qt4/qt4-embedded.inc |    8 ++++++--
+>   1 files changed, 6 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-> index c3c9c71..5ad9db0 100644
-> --- a/meta/recipes-connectivity/avahi/avahi.inc
-> +++ b/meta/recipes-connectivity/avahi/avahi.inc
-> @@ -14,7 +14,7 @@ SECTION = "network"
->   # python scripts are under GPLv2+
->   LICENSE = "GPLv2+&  LGPLv2.1+"
+> diff --git a/meta/recipes-qt/qt4/qt4-embedded.inc b/meta/recipes-qt/qt4/qt4-embedded.inc
+> index 1ede922..ed872b0 100644
+> --- a/meta/recipes-qt/qt4/qt4-embedded.inc
+> +++ b/meta/recipes-qt/qt4/qt4-embedded.inc
+> @@ -3,7 +3,7 @@ SECTION = "libs"
+>   LICENSE = "LGPLv2.1 | GPLv3"
+>   HOMEPAGE = "http://qt.nokia.com"
+>   DEPENDS += "directfb tslib"
+> -INC_PR = "r31"
+> +INC_PR = "r32"
 >
-> -INC_PR = "r7"
-> +INC_PR = "r8"
+>   QT_BASE_NAME ?= "qt4-embedded"
+>   QT_BASE_LIB  ?= "libqt-embedded"
+> @@ -27,7 +27,11 @@ do_install_append() {
+>       install -m 0755 ${WORKDIR}/qte.sh ${D}${sysconfdir}/profile.d/
+>   }
 >
->   DEPENDS = "expat libcap libdaemon dbus glib-2.0"
+> -FILES_${PN} += " ${sysconfdir}/profile.d/qte.sh"
+> +# We put the qte profile into it's own package as we don't want to install all qt stuff
+> +# with depending on the global package qt4-embedded
+> +PACKAGES += " ${PN}-conf"
+> +FILES_${PN}-conf += " ${sysconfdir}/profile.d/qte.sh"
+> +RDEPENDS_${PN} += " ${PN}-conf"
 >
-> @@ -78,6 +78,8 @@ FILES_libavahi-glib = "${libdir}/libavahi-glib.so.*"
->   FILES_libavahi-gobject = "${libdir}/libavahi-gobject.so.*"
->   FILES_avahi-utils = "${bindir}/avahi-*"
+>   inherit qt4e
 >
-> +RDEPENDS_avahi-systemd = "avahi-daemon"
-> +
->   RDEPENDS_avahi-daemon = "sysvinit-pidof"
->
->   # uclibc has no nss
-
 Merged into OE-Core
 
 Thanks
