@@ -1,21 +1,21 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1R8xIS-0001Os-8r
+	(envelope-from <saul.wold@intel.com>) id 1R8xqv-0002A6-2r
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Sep 2011 18:47:49 +0200
-Received: from mail-yi0-f52.google.com ([209.85.218.52])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 28 Sep 2011 09:26:05 -0700
-Received: by yie30 with SMTP id 30so13511700yie.25
+	Wed, 28 Sep 2011 19:23:25 +0200
+Received: from mail-wy0-f180.google.com ([74.125.82.180])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 28 Sep 2011 10:17:46 -0700
+Received: by wyh11 with SMTP id 11so230407wyh.25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Sep 2011 09:26:04 -0700 (PDT)
-Received: by 10.101.66.2 with SMTP id t2mr8585988ank.3.1317227164821;
-	Wed, 28 Sep 2011 09:26:04 -0700 (PDT)
+	Wed, 28 Sep 2011 10:17:45 -0700 (PDT)
+Received: by 10.216.220.162 with SMTP id o34mr2601250wep.70.1317230265319;
+	Wed, 28 Sep 2011 10:17:45 -0700 (PDT)
 Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
 	[71.193.189.117])
-	by mx.google.com with ESMTPS id u4sm53854156ane.21.2011.09.28.09.26.03
-	(version=SSLv3 cipher=OTHER); Wed, 28 Sep 2011 09:26:04 -0700 (PDT)
-Message-ID: <4E834A97.5010200@intel.com>
-Date: Wed, 28 Sep 2011 09:25:59 -0700
+	by mx.google.com with ESMTPS id o7sm41397718wbh.8.2011.09.28.10.17.43
+	(version=SSLv3 cipher=OTHER); Wed, 28 Sep 2011 10:17:44 -0700 (PDT)
+Message-ID: <4E8356B5.7000901@intel.com>
+Date: Wed, 28 Sep 2011 10:17:41 -0700
 From: Saul Wold <saul.wold@intel.com>
 Organization: Intel
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
@@ -23,9 +23,11 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1317185969.git.edwin.zhai@intel.com>
-In-Reply-To: <cover.1317185969.git.edwin.zhai@intel.com>
-Subject: Re: [PATCH 0/4] Remove gnome-vfs completely
+References: <1316909477-31924-1-git-send-email-raj.khem@gmail.com>
+	<1316971012.8185.30.camel@ted>
+	<CAMKF1sphSpMstEoqqQmhF9NeHnAuJBvc3F5vcewB3ALwSA7o2w@mail.gmail.com>
+In-Reply-To: <CAMKF1sphSpMstEoqqQmhF9NeHnAuJBvc3F5vcewB3ALwSA7o2w@mail.gmail.com>
+Subject: Re: [PATCH] intltool: inherit gettext to add missing dependency on gettext
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,66 +42,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2011 16:47:49 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 28 Sep 2011 17:23:25 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/27/2011 10:02 PM, edwin.zhai@intel.com wrote:
-> From: Zhai Edwin<edwin.zhai@intel.com>
+On 09/25/2011 05:22 PM, Khem Raj wrote:
+> On Sun, Sep 25, 2011 at 10:16 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org>  wrote:
+>> On Sat, 2011-09-24 at 17:11 -0700, Khem Raj wrote:
+>>> Fixes the error like below
+>>>
+>>> | configure: error: GNU gettext tools not found; required for intltool
+>>> | + bbfatal 'oe_runconf failed'
+>>> | + echo 'ERROR: oe_runconf failed'
+>>> | ERROR: oe_runconf failed
+>>>
+>>> Signed-off-by: Khem Raj<raj.khem@gmail.com>
+>>> ---
+>>>   meta/recipes-devtools/intltool/intltool.inc       |    2 +-
+>>>   meta/recipes-devtools/intltool/intltool_0.40.6.bb |    2 +-
+>>>   2 files changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/meta/recipes-devtools/intltool/intltool.inc b/meta/recipes-devtools/intltool/intltool.inc
+>>> index 23a1ee9..1e54feb 100644
+>>> --- a/meta/recipes-devtools/intltool/intltool.inc
+>>> +++ b/meta/recipes-devtools/intltool/intltool.inc
+>>> @@ -12,7 +12,7 @@ DEPENDS_virtclass-native = "libxml-parser-perl-native"
+>>>   RRECOMMENDS_${PN} = "perl-modules"
+>>>   RRECOMMENDS_${PN}_virtclass-native = ""
+>>>
+>>> -inherit autotools pkgconfig perlnative
+>>> +inherit autotools pkgconfig perlnative gettext
+>>>
+>>>   export PERL = "${bindir}/env perl"
+>>>   PERL_virtclass-native = "/usr/bin/env nativeperl"
+>>> diff --git a/meta/recipes-devtools/intltool/intltool_0.40.6.bb b/meta/recipes-devtools/intltool/intltool_0.40.6.bb
+>>> index e9871fc..eae2b85 100644
+>>> --- a/meta/recipes-devtools/intltool/intltool_0.40.6.bb
+>>> +++ b/meta/recipes-devtools/intltool/intltool_0.40.6.bb
+>>> @@ -1,7 +1,7 @@
+>>>   require intltool.inc
+>>>   LICENSE="GPLv2"
+>>>   LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+>>> -PR = "r5"
+>>> +PR = "r6"
+>>>
+>>>   SRC_URI_append = " file://intltool-nowarn-0.40.0.patch \
+>>>                      ${NATIVEPATCHES} \
+>>
+>> I investigated this one and intltool requires gettext at runtime, not
+>> build time. Which package did you see the above error from as I suspect
+>> it wasn't intltool itself but something using it?
 >
-> All,
-> gnome-vfs need to be removed and taken place by gio. These patches remove the
-> dependece on it, and obsolete recipes that need it.
->
-> Pls. help to pull.
->
-> Thanks,
-> Edwin
->
-> The following changes since commit e3c5d7a90ae179af0ac128ea4dfc1a5a6602c2e4:
->
->    libtool: Fix an issue where unnecessary rpaths were being injected (2011-09-26 17:56:44 +0100)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib gzhai/master2
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/master2
->
-> Zhai Edwin (4):
->    oprofileui: remove dependence on gnome-vfs
->    libgsf: remove dependence on gnome-vfs
->    tables: remove it as obsolete recipe
->    gnome-vfs: remove it as obsolete recipe in favor of GIO/GVFS
->
->   .../recipes-gnome/libgsf/libgsf_1.14.5.bb          |    8 ++-
->   meta-demoapps/recipes-graphics/clutter/table.inc   |   13 -----
->   .../recipes-graphics/clutter/table/fixes.patch     |   16 ------
->   .../recipes-graphics/clutter/table_git.bb          |   15 ------
->   .../conf/distro/include/distro_tracking_fields.inc |   11 ----
->   meta/conf/multilib.conf                            |    1 -
->   .../gnome/gnome-vfs-2.24.4/gconftool-lossage.patch |   13 -----
->   .../gnome-vfs-2.24.4/gnome-vfs-no-kerberos.patch   |   53 --------------------
->   meta/recipes-gnome/gnome/gnome-vfs_2.24.4.bb       |   50 ------------------
->   meta/recipes-kernel/oprofile/oprofileui.inc        |    2 +-
->   10 files changed, 7 insertions(+), 175 deletions(-)
->   delete mode 100644 meta-demoapps/recipes-graphics/clutter/table.inc
->   delete mode 100644 meta-demoapps/recipes-graphics/clutter/table/fixes.patch
->   delete mode 100644 meta-demoapps/recipes-graphics/clutter/table_git.bb
->   delete mode 100644 meta/recipes-gnome/gnome/gnome-vfs-2.24.4/gconftool-lossage.patch
->   delete mode 100644 meta/recipes-gnome/gnome/gnome-vfs-2.24.4/gnome-vfs-no-kerberos.patch
->   delete mode 100644 meta/recipes-gnome/gnome/gnome-vfs_2.24.4.bb
->
+> It was intltool itself. The situation happens during rebuild when
+> intltool and gettext-native both are to be rebuilt
+> and other deps are already there. it doesnt usually happen since we
+> build gettext-native pretty early.
+
+Khem,
+
+I verified this, and I also noted that if I did a cleansstate on 
+intltool and gettext-native, that gettext-native would be rebuilt, but I 
+also checked bitbake -b intltool and it completed successfully with no 
+errors, so the dependency is buried in one of intltool's dependencies, 
+thus getting built.
+
+So there is no direct dependency on gettext-native by intltool.
+
+
+Sau!
+
+>>
+>> Cheers,
+>>
+>> Richard
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
 >
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
-Merged into OE-Core, except as noted about gnome-vfs possibly 
-transferring to meta-oe as part of this.
-
-Thanks
-	Sau!
 
 
 
