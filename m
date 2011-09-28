@@ -1,36 +1,37 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dbaryshkov@gmail.com>)
-	id 1R8xuy-0002Fw-B1; Wed, 28 Sep 2011 19:27:36 +0200
-Received: by wwf27 with SMTP id 27so7464766wwf.24
-	for <multiple recipients>; Wed, 28 Sep 2011 10:22:09 -0700 (PDT)
+	(envelope-from <raj.khem@gmail.com>) id 1R8y2G-0002Le-Bb
+	for openembedded-core@lists.openembedded.org;
+	Wed, 28 Sep 2011 19:35:08 +0200
+Received: by ywf7 with SMTP id 7so7742859ywf.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Sep 2011 10:29:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=message-id:date:from:user-agent:mime-version:to:cc:subject
 	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=qP/ZN5t/BOZZlaG65+4D7lBBtjBG0etPuhGIvkSnuL4=;
-	b=mh8CRKZMTREyCXTsdrenlvr+phiPALNDGPmGKRH93janT6NkFHC8UEERyaR2oYx2er
-	sXRCmzyz1oeqkj0ZQOuKqoBbzVw5nTIUxUS7TPQLz0vRr/691JZCtKPFtPn0eOwGBJEA
-	cX1R4cG7M59UnXxgZVoHvniSeytChaAK+q108=
-Received: by 10.227.203.193 with SMTP id fj1mr8488446wbb.42.1317230529714;
-	Wed, 28 Sep 2011 10:22:09 -0700 (PDT)
-Received: from [137.202.140.192] (nat-rup.mentorg.com. [139.181.168.34])
-	by mx.google.com with ESMTPS id k26sm38401657wbo.16.2011.09.28.10.22.08
-	(version=SSLv3 cipher=OTHER); Wed, 28 Sep 2011 10:22:08 -0700 (PDT)
-Message-ID: <4E835785.9090705@gmail.com>
-Date: Wed, 28 Sep 2011 21:21:09 +0400
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.21) Gecko/20110831 Iceowl/1.0b2 Icedove/3.1.13
+	bh=LmXe45KW4wLyVWQDk3sMw4/ou9ro5RPT3zhxvBoNNJM=;
+	b=ho2DNUBGOUMfMz50HhYa6wtLWnqwZcDE00Sesy6EEL3mJhfnaUlqZJrMrNICeaReVc
+	14RPtz5mZF2eq9Z+t026nPbckw3lRBxU08ebouzeRPfQXufiiuLpVPSeq+jmBfh0WxxE
+	77QRYdytGnc9dRimARlHBYzuzDrjP6C5l2DBI=
+Received: by 10.236.156.67 with SMTP id l43mr39991977yhk.10.1317230976728;
+	Wed, 28 Sep 2011 10:29:36 -0700 (PDT)
+Received: from [172.23.2.133] (natint3.juniper.net. [66.129.224.36])
+	by mx.google.com with ESMTPS id p8sm39155247yhe.17.2011.09.28.10.29.34
+	(version=SSLv3 cipher=OTHER); Wed, 28 Sep 2011 10:29:35 -0700 (PDT)
+Message-ID: <4E835979.7070104@gmail.com>
+Date: Wed, 28 Sep 2011 10:29:29 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; rv:7.0) Gecko/20110922 Thunderbird/7.0
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <CALT56yN5hXMLBhHVLKyHbNb=7WDb3pZUB0Q+HNKc-2t+g6M58A@mail.gmail.com>
-	<201109281116.00890.paul.eggleton@linux.intel.com>
-	<4E831868.4090603@gmail.com>
-	<201109281432.57331.paul.eggleton@linux.intel.com>
-In-Reply-To: <201109281432.57331.paul.eggleton@linux.intel.com>
-Cc: bitbake-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: meta-micro problems
+To: Saul Wold <saul.wold@intel.com>
+References: <1316909477-31924-1-git-send-email-raj.khem@gmail.com>
+	<1316971012.8185.30.camel@ted>
+	<CAMKF1sphSpMstEoqqQmhF9NeHnAuJBvc3F5vcewB3ALwSA7o2w@mail.gmail.com>
+	<4E8356B5.7000901@intel.com>
+In-Reply-To: <4E8356B5.7000901@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] intltool: inherit gettext to add missing dependency on gettext
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,26 +46,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Sep 2011 17:27:36 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 28 Sep 2011 17:35:08 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/28/2011 05:32 PM, Paul Eggleton wrote:
-> On Wednesday 28 September 2011 13:51:52 Dmitry Eremin-Solenikov wrote:
->> If you wish, I can retry this with smaller layer set. But if the bug
->> will still arise, I simply have no knowledge/time to look deeper into bb
->> without additional input/pointers from bb gurus.
+On 9/28/2011 10:17 AM, Saul Wold wrote:
+> On 09/25/2011 05:22 PM, Khem Raj wrote:
+>> On Sun, Sep 25, 2011 at 10:16 AM, Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>>> On Sat, 2011-09-24 at 17:11 -0700, Khem Raj wrote:
+>>>> Fixes the error like below
+>>>>
+>>>> | configure: error: GNU gettext tools not found; required for intltool
+>>>> | + bbfatal 'oe_runconf failed'
+>>>> | + echo 'ERROR: oe_runconf failed'
+>>>> | ERROR: oe_runconf failed
+>>>>
+>>>> Signed-off-by: Khem Raj<raj.khem@gmail.com>
+>>>> ---
+>>>> meta/recipes-devtools/intltool/intltool.inc | 2 +-
+>>>> meta/recipes-devtools/intltool/intltool_0.40.6.bb | 2 +-
+>>>> 2 files changed, 2 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/meta/recipes-devtools/intltool/intltool.inc
+>>>> b/meta/recipes-devtools/intltool/intltool.inc
+>>>> index 23a1ee9..1e54feb 100644
+>>>> --- a/meta/recipes-devtools/intltool/intltool.inc
+>>>> +++ b/meta/recipes-devtools/intltool/intltool.inc
+>>>> @@ -12,7 +12,7 @@ DEPENDS_virtclass-native =
+>>>> "libxml-parser-perl-native"
+>>>> RRECOMMENDS_${PN} = "perl-modules"
+>>>> RRECOMMENDS_${PN}_virtclass-native = ""
+>>>>
+>>>> -inherit autotools pkgconfig perlnative
+>>>> +inherit autotools pkgconfig perlnative gettext
+>>>>
+>>>> export PERL = "${bindir}/env perl"
+>>>> PERL_virtclass-native = "/usr/bin/env nativeperl"
+>>>> diff --git a/meta/recipes-devtools/intltool/intltool_0.40.6.bb
+>>>> b/meta/recipes-devtools/intltool/intltool_0.40.6.bb
+>>>> index e9871fc..eae2b85 100644
+>>>> --- a/meta/recipes-devtools/intltool/intltool_0.40.6.bb
+>>>> +++ b/meta/recipes-devtools/intltool/intltool_0.40.6.bb
+>>>> @@ -1,7 +1,7 @@
+>>>> require intltool.inc
+>>>> LICENSE="GPLv2"
+>>>> LIC_FILES_CHKSUM =
+>>>> "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+>>>> -PR = "r5"
+>>>> +PR = "r6"
+>>>>
+>>>> SRC_URI_append = " file://intltool-nowarn-0.40.0.patch \
+>>>> ${NATIVEPATCHES} \
+>>>
+>>> I investigated this one and intltool requires gettext at runtime, not
+>>> build time. Which package did you see the above error from as I suspect
+>>> it wasn't intltool itself but something using it?
+>>
+>> It was intltool itself. The situation happens during rebuild when
+>> intltool and gettext-native both are to be rebuilt
+>> and other deps are already there. it doesnt usually happen since we
+>> build gettext-native pretty early.
 >
-> That's OK, I can spend time looking into it. It sounds like a bug in bitbake
-> if metadata can influence it to behave this way. If we can produce a simplified
-> test case I think it will be easier to fix.
+> Khem,
+>
+> I verified this, and I also noted that if I did a cleansstate on
+> intltool and gettext-native, that gettext-native would be rebuilt, but I
+> also checked bitbake -b intltool and it completed successfully with no
+> errors, so the dependency is buried in one of intltool's dependencies,
+> thus getting built.
+>
+> So there is no direct dependency on gettext-native by intltool.
 
-In my test setup I could no longer reproduce this. I'll try reproducing 
-this on my main builder.
+yes intltool has runtime dependency on gettext-native but not buildtime
+AFAICT. I dont have those logs any more so cant go back and check.
 
--- 
-With best wishes
-Dmitry
+Hold on to this patch for now. i will remove it locally and do a rebuild
+and see if I hit it again
+
+>
+>
+> Sau!
+>
+>>>
+>>> Cheers,
+>>>
+>>> Richard
+>>>
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
 
