@@ -1,58 +1,27 @@
-Received: from va3ehsobe003.messaging.microsoft.com ([216.32.180.13]
-	helo=VA3EHSOBE003.bigfish.com)
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1R9L3n-0002G1-DP
+	(envelope-from <josh@linux.intel.com>) id 1R9L5w-0002JM-HK
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Sep 2011 20:10:15 +0200
-Received: from mail36-va3-R.bigfish.com (10.7.14.248) by
-	VA3EHSOBE003.bigfish.com (10.7.40.23) with Microsoft SMTP Server id
-	14.1.225.22; Thu, 29 Sep 2011 18:04:47 +0000
-Received: from mail36-va3 (localhost.localdomain [127.0.0.1])	by
-	mail36-va3-R.bigfish.com (Postfix) with ESMTP id 0745B3801DC	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2011 18:04:47 +0000 (UTC)
-X-SpamScore: -15
-X-BigFish: VS-15(zz9371K936eK1432N98dKzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
-	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 13,
-Received: from mail36-va3 (localhost.localdomain [127.0.0.1]) by mail36-va3
-	(MessageSwitch) id 1317319486945258_15320;
-	Thu, 29 Sep 2011 18:04:46 +0000 (UTC)
-Received: from VA3EHSMHS023.bigfish.com (unknown [10.7.14.247])	by
-	mail36-va3.bigfish.com (Postfix) with ESMTP id DF8FD31804D	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2011 18:04:46 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS023.bigfish.com
-	(10.7.99.33) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Thu, 29 Sep 2011 18:04:46 +0000
-Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.230]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.01.0323.007; Thu, 29 Sep 2011 13:04:46 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 02/16] bitbake pseudo wrapper: Don't base
-	success on bitbake return code
-Thread-Index: AQHMftJFHZc6be+MakSzrfBWySsSNg==
-Date: Thu, 29 Sep 2011 18:04:46 +0000
-Message-ID: <CAEsOVNdPjWvgaCL0EYUqh1XOriYMstGz3iLMG3Mamwd4sW9QQA@mail.gmail.com>
-References: <1317270070-14250-1-git-send-email-msm@freescale.com>
-	<1317270070-14250-2-git-send-email-msm@freescale.com>
-	<1317284813.12332.76.camel@ted>
-In-Reply-To: <1317284813.12332.76.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH 02/16] bitbake pseudo wrapper: Don't base success on bitbake return code
+	Thu, 29 Sep 2011 20:12:28 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 29 Sep 2011 11:06:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="57275058"
+Received: from scimitar.jf.intel.com (HELO [10.7.199.86]) ([10.7.199.86])
+	by orsmga001.jf.intel.com with ESMTP; 29 Sep 2011 11:06:30 -0700
+From: Joshua Lock <josh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 29 Sep 2011 11:06:30 -0700
+In-Reply-To: <1317308108.12332.92.camel@ted>
+References: <1317308108.12332.92.camel@ted>
+X-Mailer: Evolution 3.0.3 (3.0.3-1.fc15) 
+Message-ID: <1317319590.2134.0.camel@scimitar>
+Mime-Version: 1.0
+Subject: Re: [RFC PATCH] bitbake.conf: Start using parallel make for do_install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -63,33 +32,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Sep 2011 18:10:15 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <DC9681BAD8E9524598D67C98E2937797@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 29 Sep 2011 18:12:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 29, 2011 at 3:26 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Wed, 2011-09-28 at 23:20 -0500, Matthew McClintock wrote:
->> bitbake does not return 0 when a build succeeds.
->
-> Er, yes it does. If you're seeing something other than 0 its likely
-> because you're seeing ERROR messages?
+On Thu, 2011-09-29 at 15:55 +0100, Richard Purdie wrote:
+> Most piece of software now support parallel make install. Enable
+> this by default using the value of PARALLEL_MAKE. In a similar way
+> to PARALLEL_MAKE we can disable this for broken recipes with:
+> 
+> PARALLEL_MAKEINST = ""
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Hurrah!
+Signed-off-by: Joshua Lock <josh@linux.intel.com>
 
-First off, this appears to have been fixed along the way. But I know I
-was getting a message like:
+> ---
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index f18e35b..a1420cf 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -493,8 +493,11 @@ export TARGET_LDFLAGS = "-Wl,-O1 ${TARGET_LINK_HASH_STYLE}"
+>  # Which flags to leave by strip-flags() in bin/build/oebuild.sh ?
+>  ALLOWED_FLAGS = "-O -mcpu -march -pipe"
+>  
+> -# Pass parallel make options to the compile task only
+> +# Pass parallel make options to the compile task
+>  EXTRA_OEMAKE_prepend_task-compile = "${PARALLEL_MAKE} "
+> +PARALLEL_MAKEINST ??= "${PARALLEL_MAKE}"
+> +# Pass parallel make options to the install task
+> +EXTRA_OEMAKE_prepend_task-install = "${PARALLEL_MAKEINST} "
+>  
+>  ##################################################################
+>  # Optimization flags.
+> 
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-[snip]
-NOTE: Tasks Summary: Attempted 133 tasks of which 0 didn't need to be
-rerun and 0 failed.
-
-Then it would stop after building pseudo-native. Maybe we should add a
-message to scripts/bitbake so we get an actual failure message when
-this occurs? Also, are these errors relevant if we built psuedo-native
-properly?
-
--M=
+-- 
+Joshua Lock
+        Yocto Project "Johannes factotum"
+        Intel Open Source Technology Centre
 
 
 
