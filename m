@@ -1,46 +1,46 @@
-Received: from am1ehsobe004.messaging.microsoft.com ([213.199.154.207]
-	helo=AM1EHSOBE004.bigfish.com)
+Received: from ch1ehsobe002.messaging.microsoft.com ([216.32.181.182]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1R9M3q-0003pB-M9
+	(envelope-from <B29882@freescale.com>) id 1R9MCn-0003wc-VH
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Sep 2011 21:14:22 +0200
-Received: from mail67-am1-R.bigfish.com (10.3.201.243) by
-	AM1EHSOBE004.bigfish.com (10.3.204.24) with Microsoft SMTP Server id
-	14.1.225.22; Thu, 29 Sep 2011 19:08:54 +0000
-Received: from mail67-am1 (localhost.localdomain [127.0.0.1])	by
-	mail67-am1-R.bigfish.com (Postfix) with ESMTP id CE64B19505C2	for
+	Thu, 29 Sep 2011 21:23:39 +0200
+Received: from mail82-ch1-R.bigfish.com (216.32.181.170) by
+	CH1EHSOBE013.bigfish.com (10.43.70.63) with Microsoft SMTP Server id
+	14.1.225.22; Thu, 29 Sep 2011 19:02:57 +0000
+Received: from mail82-ch1 (localhost.localdomain [127.0.0.1])	by
+	mail82-ch1-R.bigfish.com (Postfix) with ESMTP id 973CD1310340	for
 	<openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2011 19:08:54 +0000 (UTC)
+	Thu, 29 Sep 2011 19:02:57 +0000 (UTC)
 X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1082kzz8275bh8275dhz2dh2a8h668h839h)
+X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839h)
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
 	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 0,
-Received: from mail67-am1 (localhost.localdomain [127.0.0.1]) by mail67-am1
-	(MessageSwitch) id 1317323288278889_15523;
-	Thu, 29 Sep 2011 19:08:08 +0000 (UTC)
-Received: from AM1EHSMHS001.bigfish.com (unknown [10.3.201.254])	by
-	mail67-am1.bigfish.com (Postfix) with ESMTP id 350231800046	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2011 19:08:08 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS001.bigfish.com
-	(10.3.207.101) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Thu, 29 Sep 2011 19:08:05 +0000
-Received: from az33smr02.freescale.net (10.64.34.200) by
-	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
-	Server id 14.1.323.7; Thu, 29 Sep 2011 14:08:05 -0500
+X-FB-SS: 13,
+Received: from mail82-ch1 (localhost.localdomain [127.0.0.1]) by mail82-ch1
+	(MessageSwitch) id 1317322977526368_12043;
+	Thu, 29 Sep 2011 19:02:57 +0000 (UTC)
+Received: from CH1EHSMHS035.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.243])	by mail82-ch1.bigfish.com (Postfix) with ESMTP id
+	6FAB1167804F	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Sep 2011 19:02:57 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS035.bigfish.com
+	(10.43.70.35) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Thu, 29 Sep 2011 19:02:56 +0000
+Received: from az33smr01.freescale.net (10.64.34.199) by
+	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
+	Server id 14.1.323.7; Thu, 29 Sep 2011 14:02:55 -0500
 Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
-	by az33smr02.freescale.net (8.13.1/8.13.0) with ESMTP id
-	p8TJ84Z5015762	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2011 14:08:04 -0500 (CDT)
+	by az33smr01.freescale.net (8.13.1/8.13.0) with ESMTP id
+	p8TJ2s5Z008216	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Sep 2011 14:02:54 -0500 (CDT)
 From: Matthew McClintock <msm@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 29 Sep 2011 14:08:04 -0500
-Message-ID: <1317323284-32534-1-git-send-email-msm@freescale.com>
+Date: Thu, 29 Sep 2011 14:02:54 -0500
+Message-ID: <1317322974-31473-1-git-send-email-msm@freescale.com>
 X-Mailer: git-send-email 1.7.6.1
 MIME-Version: 1.0
 X-OriginatorOrg: freescale.com
-Subject: [PATCH v2 07/16] Fix lttng-ust for powerpc64
+Subject: [PATCH v2 03/16] Update gitignore to ignore all meta-* directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,55 +55,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Sep 2011 19:14:22 -0000
+X-List-Received-Date: Thu, 29 Sep 2011 19:23:39 -0000
 Content-Type: text/plain
+
+meta-XYZ directories have been manually added in the past, instead
+always ignore them unless they are explicitly added
 
 Signed-off-by: Matthew McClintock <msm@freescale.com>
 ---
- meta/recipes-kernel/lttng/fix-powerpc64.patch |   17 +++++++++++++++++
- meta/recipes-kernel/lttng/lttng-ust_0.15.bb   |    3 ++-
- 2 files changed, 19 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-kernel/lttng/fix-powerpc64.patch
+ .gitignore |    8 +++-----
+ 1 files changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-kernel/lttng/fix-powerpc64.patch b/meta/recipes-kernel/lttng/fix-powerpc64.patch
-new file mode 100644
-index 0000000..3c3484c
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/fix-powerpc64.patch
-@@ -0,0 +1,17 @@
-+Upstream-Status: Submitted
-+
-+Add bit to detect if we are running on powerpc64 and treat it the
-+same as ppc64
-+
-+Index: ust-0.15/configure.ac
-+===================================================================
-+--- ust-0.15.orig/configure.ac
-++++ ust-0.15/configure.ac
-+@@ -111,6 +111,7 @@ changequote([,])dnl
-+ 	x86_64) LIBFORMAT="elf64-x86-64" ;;
-+ 	powerpc) LIBFORMAT="elf32-powerpc" ;;
-+ 	ppc64) LIBFORMAT="elf64-powerpc" ;;
-++	powerpc64) LIBFORMAT="elf64-powerpc" ;;
-+ 	s390) LIBFORMAT="elf32-s390" ;;
-+ 	s390x) LIBFORMAT="elf64-s390" ;;
-+         armv5) LIBFORMAT="elf32-littlearm"; NO_UNALIGNED_ACCESS=1 ;;
-diff --git a/meta/recipes-kernel/lttng/lttng-ust_0.15.bb b/meta/recipes-kernel/lttng/lttng-ust_0.15.bb
-index 915e619..9dd4658 100644
---- a/meta/recipes-kernel/lttng/lttng-ust_0.15.bb
-+++ b/meta/recipes-kernel/lttng/lttng-ust_0.15.bb
-@@ -10,9 +10,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e647752e045a8c45b6f583771bd561ef \
- 
- DEPENDS = "liburcu"
- 
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "http://lttng.org/files/ust/releases/ust-${PV}.tar.gz"
-+SRC_URI_append_powerpc64 = " file://fix-powerpc64.patch"
- 
- SRC_URI[md5sum] = "86c71486a70695dc0b2171ad16fc82b3" 
- SRC_URI[sha256sum] = "7ff7ecdc051c0649d5fd21b5ceff4895ca95dc34f14cdc04e50de13cfd1903c5"
+diff --git a/.gitignore b/.gitignore
+index d44e729..11b7024 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -9,11 +9,9 @@ build*/pyshtables.py
+ pstage/
+ scripts/oe-git-proxy-socks
+ sources/
+-meta-darwin
+-meta-maemo
+-meta-extras
+-meta-m2
+-meta-prvt*
++meta-*
++!meta-skeleton
++!meta-demoapps
+ *.swp
+ *.orig
+ *.rej
 -- 
 1.7.6.1
 
