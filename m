@@ -1,48 +1,49 @@
 Received: from db3ehsobe001.messaging.microsoft.com ([213.199.154.139]
 	helo=DB3EHSOBE001.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1R98Cz-0000GN-N2
+	(envelope-from <B29882@freescale.com>) id 1R98Dk-0000Lk-93
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Sep 2011 06:26:54 +0200
-Received: from mail106-db3-R.bigfish.com (10.3.81.249) by
+	Thu, 29 Sep 2011 06:27:41 +0200
+Received: from mail99-db3-R.bigfish.com (10.3.81.253) by
 	DB3EHSOBE001.bigfish.com (10.3.84.21) with Microsoft SMTP Server id
-	14.1.225.22; Thu, 29 Sep 2011 04:21:26 +0000
-Received: from mail106-db3 (localhost.localdomain [127.0.0.1])	by
-	mail106-db3-R.bigfish.com (Postfix) with ESMTP id 884911590439	for
+	14.1.225.22; Thu, 29 Sep 2011 04:22:13 +0000
+Received: from mail99-db3 (localhost.localdomain [127.0.0.1])	by
+	mail99-db3-R.bigfish.com (Postfix) with ESMTP id B7C888203C0	for
 	<openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2011 04:21:26 +0000 (UTC)
+	Thu, 29 Sep 2011 04:22:12 +0000 (UTC)
 X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1082kzz8275bh8275dhz2dh2a8h668h839h63h)
-X-Spam-TCS-SCL: 2:0
+X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839h62h)
+X-Spam-TCS-SCL: 1:0
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
 	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail106-db3 (localhost.localdomain [127.0.0.1]) by mail106-db3
-	(MessageSwitch) id 1317270086404834_10799;
-	Thu, 29 Sep 2011 04:21:26 +0000 (UTC)
-Received: from DB3EHSMHS002.bigfish.com (unknown [10.3.81.245])	by
-	mail106-db3.bigfish.com (Postfix) with ESMTP id 5CBF1A10051	for
+X-FB-SS: 0,
+Received: from mail99-db3 (localhost.localdomain [127.0.0.1]) by mail99-db3
+	(MessageSwitch) id 1317270074554223_20847;
+	Thu, 29 Sep 2011 04:21:14 +0000 (UTC)
+Received: from DB3EHSMHS014.bigfish.com (unknown [10.3.81.244])	by
+	mail99-db3.bigfish.com (Postfix) with ESMTP id 8370B560050	for
 	<openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2011 04:21:26 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS002.bigfish.com
-	(10.3.87.102) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Thu, 29 Sep 2011 04:21:25 +0000
+	Thu, 29 Sep 2011 04:21:14 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS014.bigfish.com
+	(10.3.87.114) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Thu, 29 Sep 2011 04:21:13 +0000
 Received: from az33smr01.freescale.net (10.64.34.199) by
-	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
-	Server id 14.1.323.7; Wed, 28 Sep 2011 23:21:13 -0500
+	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
+	Server id 14.1.323.7; Wed, 28 Sep 2011 23:21:12 -0500
 Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
 	by az33smr01.freescale.net (8.13.1/8.13.0) with ESMTP id
-	p8T4LAKu024559	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Sep 2011 23:21:12 -0500 (CDT)
+	p8T4LAKp024559	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Sep 2011 23:21:11 -0500 (CDT)
 From: Matthew McClintock <msm@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 28 Sep 2011 23:21:01 -0500
-Message-ID: <1317270070-14250-7-git-send-email-msm@freescale.com>
+Date: Wed, 28 Sep 2011 23:20:56 -0500
+Message-ID: <1317270070-14250-2-git-send-email-msm@freescale.com>
 X-Mailer: git-send-email 1.7.6.1
 In-Reply-To: <1317270070-14250-1-git-send-email-msm@freescale.com>
 References: <1317270070-14250-1-git-send-email-msm@freescale.com>
 MIME-Version: 1.0
 X-OriginatorOrg: freescale.com
-Subject: [PATCH 07/16] Fix lttng-ust for powerpc64
+Subject: [PATCH 02/16] bitbake pseudo wrapper: Don't base success on bitbake return code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -57,55 +58,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Sep 2011 04:26:54 -0000
+X-List-Received-Date: Thu, 29 Sep 2011 04:27:41 -0000
 Content-Type: text/plain
+
+bitbake does not return 0 when a build succeeds. Instead lets look and
+make sure the pseudo binaries are created as a proper test of success
 
 Signed-off-by: Matthew McClintock <msm@freescale.com>
 ---
- meta/recipes-kernel/lttng/fix-powerpc64.patch |   17 +++++++++++++++++
- meta/recipes-kernel/lttng/lttng-ust_0.15.bb   |    3 ++-
- 2 files changed, 19 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-kernel/lttng/fix-powerpc64.patch
+ scripts/bitbake |    5 ++---
+ 1 files changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/lttng/fix-powerpc64.patch b/meta/recipes-kernel/lttng/fix-powerpc64.patch
-new file mode 100644
-index 0000000..d347979
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/fix-powerpc64.patch
-@@ -0,0 +1,17 @@
-+Upstream-Status: Inappropriate configuration
-+
-+Add bit to detect if we are running on powerpc64 and treat it the
-+same as ppc64
-+
-+Index: ust-0.15/configure.ac
-+===================================================================
-+--- ust-0.15.orig/configure.ac
-++++ ust-0.15/configure.ac
-+@@ -111,6 +111,7 @@ changequote([,])dnl
-+ 	x86_64) LIBFORMAT="elf64-x86-64" ;;
-+ 	powerpc) LIBFORMAT="elf32-powerpc" ;;
-+ 	ppc64) LIBFORMAT="elf64-powerpc" ;;
-++	powerpc64) LIBFORMAT="elf64-powerpc" ;;
-+ 	s390) LIBFORMAT="elf32-s390" ;;
-+ 	s390x) LIBFORMAT="elf64-s390" ;;
-+         armv5) LIBFORMAT="elf32-littlearm"; NO_UNALIGNED_ACCESS=1 ;;
-diff --git a/meta/recipes-kernel/lttng/lttng-ust_0.15.bb b/meta/recipes-kernel/lttng/lttng-ust_0.15.bb
-index 915e619..9dd4658 100644
---- a/meta/recipes-kernel/lttng/lttng-ust_0.15.bb
-+++ b/meta/recipes-kernel/lttng/lttng-ust_0.15.bb
-@@ -10,9 +10,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e647752e045a8c45b6f583771bd561ef \
- 
- DEPENDS = "liburcu"
- 
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "http://lttng.org/files/ust/releases/ust-${PV}.tar.gz"
-+SRC_URI_append_powerpc64 = " file://fix-powerpc64.patch"
- 
- SRC_URI[md5sum] = "86c71486a70695dc0b2171ad16fc82b3" 
- SRC_URI[sha256sum] = "7ff7ecdc051c0649d5fd21b5ceff4895ca95dc34f14cdc04e50de13cfd1903c5"
+diff --git a/scripts/bitbake b/scripts/bitbake
+index 587428c..4f4a179 100755
+--- a/scripts/bitbake
++++ b/scripts/bitbake
+@@ -61,13 +61,12 @@ if [ $buildpseudo = "1" ]; then
+         TARTARGET=""
+     fi
+     bitbake pseudo-native $TARTARGET -c populate_sysroot
++    PSEUDOBINDIR=`bitbake -e | grep STAGING_BINDIR_NATIVE=\" | cut -d '=' -f2 | cut -d '"' -f2`
+     ret=$?
+     if [ "$ret" != "0" ]; then
+         exit 1
+     fi
+-    PSEUDOBINDIR=`bitbake -e | grep STAGING_BINDIR_NATIVE=\" | cut -d '=' -f2 | cut -d '"' -f2`
+-    ret=$?
+-    if [ "$ret" != "0" ]; then
++    if [ ! -e $PSEUDOBINDIR/pseudo ]; then
+         exit 1
+     fi
+     echo $PSEUDOBINDIR > $BUILDDIR/pseudodone
 -- 
 1.7.6.1
 
