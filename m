@@ -1,34 +1,35 @@
-Received: from lo.gmane.org ([80.91.229.12])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1R9ATV-0002nU-IR for openembedded-core@lists.openembedded.org;
-	Thu, 29 Sep 2011 08:52:05 +0200
-Received: from list by lo.gmane.org with local (Exim 4.69)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1R9AOG-0001l3-00 for openembedded-core@lists.openembedded.org;
-	Thu, 29 Sep 2011 08:46:40 +0200
-Received: from nat-rup.mentorg.com ([139.181.168.34])
-	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
-	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2011 08:46:39 +0200
-Received: from dbaryshkov by nat-rup.mentorg.com with local (Gmexim 0.1
-	(Debian)) id 1AlnuQ-0007hv-00
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1R9C2Y-0004bg-1G for openembedded-core@lists.openembedded.org;
+	Thu, 29 Sep 2011 10:32:22 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8T8XGWS014257 for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Sep 2011 09:33:17 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 7XVQRMccDttO
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2011 08:46:39 +0200
-X-Injected-Via-Gmane: http://gmane.org/
-To: openembedded-core@lists.openembedded.org
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Date: Thu, 29 Sep 2011 10:45:26 +0400
-Message-ID: <j61480$4e1$1@dough.gmane.org>
+	Thu, 29 Sep 2011 09:33:16 +0100 (BST)
+Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8T8XBc3014238
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Sep 2011 09:33:14 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 29 Sep 2011 09:26:46 +0100
+In-Reply-To: <1317270070-14250-2-git-send-email-msm@freescale.com>
 References: <1317270070-14250-1-git-send-email-msm@freescale.com>
-	<1317270070-14250-3-git-send-email-msm@freescale.com>
+	<1317270070-14250-2-git-send-email-msm@freescale.com>
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1317284813.12332.76.camel@ted>
 Mime-Version: 1.0
-X-Complaints-To: usenet@dough.gmane.org
-X-Gmane-NNTP-Posting-Host: nat-rup.mentorg.com
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.21) Gecko/20110831 Iceowl/1.0b2 Icedove/3.1.13
-In-Reply-To: <1317270070-14250-3-git-send-email-msm@freescale.com>
-Subject: Re: [PATCH 03/16] Update gitignore to ignore all meta-* directories
+Subject: Re: [PATCH 02/16] bitbake pseudo wrapper: Don't base success on bitbake return code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,46 +44,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Sep 2011 06:52:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 29 Sep 2011 08:32:23 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hello,
+On Wed, 2011-09-28 at 23:20 -0500, Matthew McClintock wrote:
+> bitbake does not return 0 when a build succeeds.
 
-On 09/29/2011 08:20 AM, Matthew McClintock wrote:
-> meta-XYZ directories have been manually added in the past, instead
-> always ignore them unless they are explicitly added
+Er, yes it does. If you're seeing something other than 0 its likely
+because you're seeing ERROR messages?
 
-For cleanness you should probably explicitly escape meta-skeleton and 
-meta-demoapps from .gitignore (see man).
+Cheers,
 
->
-> Signed-off-by: Matthew McClintock<msm@freescale.com>
-> ---
->   .gitignore |    6 +-----
->   1 files changed, 1 insertions(+), 5 deletions(-)
->
-> diff --git a/.gitignore b/.gitignore
-> index d44e729..679cb11 100644
-> --- a/.gitignore
-> +++ b/.gitignore
-> @@ -9,11 +9,7 @@ build*/pyshtables.py
->   pstage/
->   scripts/oe-git-proxy-socks
->   sources/
-> -meta-darwin
-> -meta-maemo
-> -meta-extras
-> -meta-m2
-> -meta-prvt*
-> +meta-*
->   *.swp
->   *.orig
->   *.rej
-
--- 
-With best wishes
-Dmitry
+Richard
 
 
 
