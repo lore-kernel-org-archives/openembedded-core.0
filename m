@@ -1,26 +1,26 @@
-Received: from db3ehsobe003.messaging.microsoft.com ([213.199.154.141]
-	helo=DB3EHSOBE003.bigfish.com)
+Received: from db3ehsobe005.messaging.microsoft.com ([213.199.154.143]
+	helo=DB3EHSOBE005.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1R98RZ-0000Zy-I9
+	(envelope-from <B29882@freescale.com>) id 1R98Rg-0000f2-SB
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Sep 2011 06:41:58 +0200
-Received: from mail50-db3-R.bigfish.com (10.3.81.252) by
-	DB3EHSOBE003.bigfish.com (10.3.84.23) with Microsoft SMTP Server id
-	14.1.225.22; Thu, 29 Sep 2011 04:21:27 +0000
-Received: from mail50-db3 (localhost.localdomain [127.0.0.1])	by
-	mail50-db3-R.bigfish.com (Postfix) with ESMTP id 3C9A611881BA	for
+	Thu, 29 Sep 2011 06:42:04 +0200
+Received: from mail25-db3-R.bigfish.com (10.3.81.248) by
+	DB3EHSOBE005.bigfish.com (10.3.84.25) with Microsoft SMTP Server id
+	14.1.225.22; Thu, 29 Sep 2011 04:21:26 +0000
+Received: from mail25-db3 (localhost.localdomain [127.0.0.1])	by
+	mail25-db3-R.bigfish.com (Postfix) with ESMTP id 541CB190314	for
 	<openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2011 04:21:27 +0000 (UTC)
+	Thu, 29 Sep 2011 04:21:26 +0000 (UTC)
 X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839h62h)
-X-Spam-TCS-SCL: 1:0
+X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839h65h)
+X-Spam-TCS-SCL: 4:0
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
 	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail50-db3 (localhost.localdomain [127.0.0.1]) by mail50-db3
-	(MessageSwitch) id 13172700873442_8968;
-	Thu, 29 Sep 2011 04:21:27 +0000 (UTC)
-Received: from DB3EHSMHS002.bigfish.com (unknown [10.3.81.246])	by
-	mail50-db3.bigfish.com (Postfix) with ESMTP id BF5F24C804D	for
+Received: from mail25-db3 (localhost.localdomain [127.0.0.1]) by mail25-db3
+	(MessageSwitch) id 131727008651072_11812;
+	Thu, 29 Sep 2011 04:21:26 +0000 (UTC)
+Received: from DB3EHSMHS002.bigfish.com (unknown [10.3.81.240])	by
+	mail25-db3.bigfish.com (Postfix) with ESMTP id 03057748059	for
 	<openembedded-core@lists.openembedded.org>;
 	Thu, 29 Sep 2011 04:21:26 +0000 (UTC)
 Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS002.bigfish.com
@@ -28,21 +28,21 @@ Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS002.bigfish.com
 	Thu, 29 Sep 2011 04:21:25 +0000
 Received: from az33smr01.freescale.net (10.64.34.199) by
 	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
-	Server id 14.1.323.7; Wed, 28 Sep 2011 23:21:14 -0500
+	Server id 14.1.323.7; Wed, 28 Sep 2011 23:21:12 -0500
 Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
 	by az33smr01.freescale.net (8.13.1/8.13.0) with ESMTP id
-	p8T4LAKx024559	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Sep 2011 23:21:13 -0500 (CDT)
+	p8T4LAKr024559	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Sep 2011 23:21:11 -0500 (CDT)
 From: Matthew McClintock <msm@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 28 Sep 2011 23:21:04 -0500
-Message-ID: <1317270070-14250-10-git-send-email-msm@freescale.com>
+Date: Wed, 28 Sep 2011 23:20:58 -0500
+Message-ID: <1317270070-14250-4-git-send-email-msm@freescale.com>
 X-Mailer: git-send-email 1.7.6.1
 In-Reply-To: <1317270070-14250-1-git-send-email-msm@freescale.com>
 References: <1317270070-14250-1-git-send-email-msm@freescale.com>
 MIME-Version: 1.0
 X-OriginatorOrg: freescale.com
-Subject: [PATCH 10/16] Fix mdadm for powerpc64
+Subject: [PATCH 04/16] Add support for generating ext2.bz2{, .u-boot} images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -57,37 +57,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Sep 2011 04:41:58 -0000
+X-List-Received-Date: Thu, 29 Sep 2011 04:42:05 -0000
 Content-Type: text/plain
 
-This fixes build failures from build warnings on powerpc64
+Machines can now add ext2.bz2 and ext2.bz2.u-boot images as a
+generated image type. This also adds an extra parameter to
+oe_mkimage which is the image compression type for mkimage
 
 Signed-off-by: Matthew McClintock <msm@freescale.com>
 ---
- meta/recipes-extended/mdadm/mdadm_3.2.2.bb |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+ meta/classes/image_types.bbclass       |    9 ++++++++-
+ meta/classes/image_types_uboot.bbclass |   14 +++++++++-----
+ 2 files changed, 17 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-extended/mdadm/mdadm_3.2.2.bb b/meta/recipes-extended/mdadm/mdadm_3.2.2.bb
-index 5d29ae7..37ec32e 100644
---- a/meta/recipes-extended/mdadm/mdadm_3.2.2.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_3.2.2.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
-                     file://mdmon.c;beginline=4;endline=18;md5=af7d8444d9c4d3e5c7caac0d9d34039d \
-                     file://mdadm.h;beglinlne=4;endline=22;md5=462bc9936ac0d3da110191a3f9994161"
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index c24b326..4619ebe 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -46,6 +46,13 @@ IMAGE_CMD_ext2.gz () {
+ 	mv ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext2.gz ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2.gz
+ 	rmdir ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}
+ }
++IMAGE_CMD_ext2.bz2 () {
++	rm -rf ${DEPLOY_DIR_IMAGE}/tmp.gz && mkdir ${DEPLOY_DIR_IMAGE}/tmp.gz
++	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2
++	bzip2 -f -9 ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2
++	mv ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2.bz2 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2.bz2
++	rmdir ${DEPLOY_DIR_IMAGE}/tmp.gz
++}
  
--PR = "r0"
-+PR = "r1"
+ IMAGE_CMD_ext3 () {
+ 	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3
+@@ -141,4 +148,4 @@ IMAGE_DEPENDS_ubi = "mtd-utils-native"
+ IMAGE_DEPENDS_ubifs = "mtd-utils-native"
  
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.bz2"
+ # This variable is available to request which values are suitable for IMAGE_FSTYPES
+-IMAGE_TYPES = "jffs2 cramfs ext2 ext2.gz ext3 ext3.gz live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma"
++IMAGE_TYPES = "jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma"
+diff --git a/meta/classes/image_types_uboot.bbclass b/meta/classes/image_types_uboot.bbclass
+index 10fa2f7..aee88a6 100644
+--- a/meta/classes/image_types_uboot.bbclass
++++ b/meta/classes/image_types_uboot.bbclass
+@@ -1,20 +1,24 @@
+ inherit image_types kernel-arch
  
-@@ -16,6 +16,7 @@ SRC_URI[md5sum] = "12ee2fbf3beddb60601fb7a4c4905651"
- SRC_URI[sha256sum] = "0d1a04e688b082bc88846e3f524abd50bc782b6ffc06123140f7d358c8f9b906"
+ oe_mkimage () {
+-    mkimage -A ${UBOOT_ARCH} -O linux -T ramdisk -C gzip -n ${IMAGE_NAME} \
++    mkimage -A ${UBOOT_ARCH} -O linux -T ramdisk -C $2 -n ${IMAGE_NAME} \
+         -d ${DEPLOY_DIR_IMAGE}/$1 ${DEPLOY_DIR_IMAGE}/$1.u-boot
+ }
  
- CFLAGS += "-fno-strict-aliasing"
-+EXTRA_OEMAKE_powerpc64 = "CXFLAGS=-Wno-error=format"
+ IMAGE_DEPENDS_ext2.gz.u-boot = "genext2fs-native e2fsprogs-native u-boot-mkimage-native"
+ IMAGE_CMD_ext2.gz.u-boot      = "${IMAGE_CMD_ext2.gz} \
+-                                 oe_mkimage ${IMAGE_NAME}.rootfs.ext2.gz"
++                                 oe_mkimage ${IMAGE_NAME}.rootfs.ext2.gz gzip"
++
++IMAGE_DEPENDS_ext2.bz2.u-boot = "genext2fs-native e2fsprogs-native u-boot-mkimage-native"
++IMAGE_CMD_ext2.bz2.u-boot      = "${IMAGE_CMD_ext2.bz2} \
++                                 oe_mkimage ${IMAGE_NAME}.rootfs.ext2.bz2 bzip2"
  
- inherit autotools
+ IMAGE_DEPENDS_ext3.gz.u-boot = "genext2fs-native e2fsprogs-native u-boot-mkimage-native"
+ IMAGE_CMD_ext3.gz.u-boot      = "${IMAGE_CMD_ext3.gz} \
+-                                 oe_mkimage ${IMAGE_NAME}.rootfs.ext3.gz"
++                                 oe_mkimage ${IMAGE_NAME}.rootfs.ext3.gz gzip"
  
+ IMAGE_DEPENDS_ext4.gz.u-boot = "genext2fs-native e2fsprogs-native u-boot-mkimage-native"
+ IMAGE_CMD_ext4.gz.u-boot      = "${IMAGE_CMD_ext4.gz} \
+-                                 oe_mkimage ${IMAGE_NAME}.rootfs.ext4.gz"
++                                 oe_mkimage ${IMAGE_NAME}.rootfs.ext4.gz gzip"
+ 
+-IMAGE_TYPES += "ext2.gz.u-boot ext3.gz.u-boot ext4.gz.u-boot"
++IMAGE_TYPES += "ext2.gz.u-boot ext2.bz2.u-boot ext3.gz.u-boot ext4.gz.u-boot"
 -- 
 1.7.6.1
 
