@@ -1,47 +1,35 @@
-Received: from ch1ehsobe004.messaging.microsoft.com ([216.32.181.184]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1R9MlR-0004MF-8m
+	(envelope-from <jefro.net@gmail.com>) id 1R9Mur-0004pz-95
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Sep 2011 21:59:25 +0200
-Received: from mail142-ch1-R.bigfish.com (216.32.181.172) by
-	CH1EHSOBE006.bigfish.com (10.43.70.56) with Microsoft SMTP Server id
-	14.1.225.22; Thu, 29 Sep 2011 18:53:27 +0000
-Received: from mail142-ch1 (localhost.localdomain [127.0.0.1])	by
-	mail142-ch1-R.bigfish.com (Postfix) with ESMTP id 0D32DB50383	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2011 18:53:27 +0000 (UTC)
-X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839h62h)
-X-Spam-TCS-SCL: 1:0
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
-	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 0,
-Received: from mail142-ch1 (localhost.localdomain [127.0.0.1]) by mail142-ch1
-	(MessageSwitch) id 1317322356301990_2944;
-	Thu, 29 Sep 2011 18:52:36 +0000 (UTC)
-Received: from CH1EHSMHS034.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.249])	by mail142-ch1.bigfish.com (Postfix) with ESMTP id
-	440FD780051	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2011 18:52:36 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS034.bigfish.com
-	(10.43.70.34) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Thu, 29 Sep 2011 18:52:35 +0000
-Received: from az33smr02.freescale.net (10.64.34.200) by
-	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
-	Server id 14.1.323.7; Thu, 29 Sep 2011 13:52:34 -0500
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
-	by az33smr02.freescale.net (8.13.1/8.13.0) with ESMTP id
-	p8TIqXxb010863	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2011 13:52:33 -0500 (CDT)
-From: Matthew McClintock <msm@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 29 Sep 2011 13:52:33 -0500
-Message-ID: <1317322353-30258-1-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.6.1
+	Thu, 29 Sep 2011 22:09:10 +0200
+Received: by iadx2 with SMTP id x2so1109929iad.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Sep 2011 13:03:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=PsuXdNqD0gx7nBFC+1fOMHyJUFeWwL+L4zaPwdLZKfg=;
+	b=GaujF1bI/WCQqqDvBXPFJM5RWC3wJqrwAlVvfPS3bJrbA8ReiohSXUTh/vMqhCAnjy
+	wRcaqIbZVeEoOYj/FAVvw5D8GITgUOgHGyVObWU3BA7MuzTNAjswh9g3oHBp9rP/ta+5
+	po7z8ritW3/DCEpUeMhJFLDgjwwxe6cbCXUY8=
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH v2 10/16] Fix mdadm for powerpc64
+Received: by 10.42.178.68 with SMTP id bl4mr1406181icb.17.1317326620558; Thu,
+	29 Sep 2011 13:03:40 -0700 (PDT)
+Sender: jefro.net@gmail.com
+Received: by 10.42.240.8 with HTTP; Thu, 29 Sep 2011 13:03:40 -0700 (PDT)
+In-Reply-To: <1317305635.3304.10.camel@lenovo.internal.reciva.com>
+References: <CA+YB3rYZNAc7Nj=tRzU-V9DWxruAo3Y=aZKv2y5SybWM31w4ug@mail.gmail.com>
+	<1317075122.6923.4.camel@lenovo.internal.reciva.com>
+	<CA+YB3ra6eLPh6pJ7kbRSVX986o1nzhUNmDz3+jPegU70Hntvhw@mail.gmail.com>
+	<1317305635.3304.10.camel@lenovo.internal.reciva.com>
+Date: Thu, 29 Sep 2011 13:03:40 -0700
+X-Google-Sender-Auth: 9qd4L25jgN3lFz0M4ZQXw3Pbwlw
+Message-ID: <CA+YB3raDXNffR9s460dXKWBaKk4_jqeo6itz7ebo2VUB7bPYcA@mail.gmail.com>
+From: Jeff Osier-Mixon <jefro@jefro.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: MINUTES: OE-TSC meeting 16 Sept 2011
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -56,40 +44,206 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Sep 2011 19:59:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 29 Sep 2011 20:09:10 -0000
+Content-Type: multipart/alternative; boundary=90e6ba6e8f7e4585e704ae1a01fe
 
-This fixes build failures from build warnings on powerpc64
+--90e6ba6e8f7e4585e704ae1a01fe
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: Matthew McClintock <msm@freescale.com>
----
- meta/recipes-extended/mdadm/mdadm_3.2.2.bb |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+Will do. The TSC is meeting today as well.
 
-diff --git a/meta/recipes-extended/mdadm/mdadm_3.2.2.bb b/meta/recipes-extended/mdadm/mdadm_3.2.2.bb
-index 5d29ae7..1c83f89 100644
---- a/meta/recipes-extended/mdadm/mdadm_3.2.2.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_3.2.2.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
-                     file://mdmon.c;beginline=4;endline=18;md5=af7d8444d9c4d3e5c7caac0d9d34039d \
-                     file://mdadm.h;beglinlne=4;endline=22;md5=462bc9936ac0d3da110191a3f9994161"
- 
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.bz2"
- 
-@@ -16,6 +16,7 @@ SRC_URI[md5sum] = "12ee2fbf3beddb60601fb7a4c4905651"
- SRC_URI[sha256sum] = "0d1a04e688b082bc88846e3f524abd50bc782b6ffc06123140f7d358c8f9b906"
- 
- CFLAGS += "-fno-strict-aliasing"
-+EXTRA_OEMAKE_append_powerpc64 = "CXFLAGS=-Wno-error=format"
- 
- inherit autotools
- 
+On Thu, Sep 29, 2011 at 7:13 AM, Phil Blundell <philb@gnu.org> wrote:
+
+> Hi Jeff
+>
+> Thanks for the information.  I don't seem to have received the 11 Aug or
+> 1 Sep minutes, and I couldn't immediately find them in the archive
+> (http://lists.linuxtogo.org/pipermail/openembedded-core/) either.  If
+> you could repost those two then that would be great.
+>
+> Phil
+>
+> On Wed, 2011-09-28 at 13:58 -0700, Jeff Osier-Mixon wrote:
+> > Hi Phil,
+> >
+> >
+> > These are the recent meetings for which I have records. If you are
+> > missing the minutes for any of these, please let me know and I will
+> > repost. Perhaps I should set up a wiki page with these so we don't
+> > have to depend solely on the mailing list archives.
+> >
+> >
+> > 4-Aug-2011
+> > 11-Aug-2011
+> > 1-Sept-2011
+> > 16-Sept-2011
+> >
+> >
+> > On Mon, Sep 26, 2011 at 3:12 PM, Phil Blundell <philb@gnu.org> wrote:
+> >         On Fri, 2011-09-16 at 12:14 -0700, Jeff Osier-Mixon wrote:
+> >         > NOTE: meetings are now every two weeks instead of weekly
+> >
+> >
+> >         The last set of minutes I can find before these ones (in
+> >         either my inbox
+> >         or the archives on ltg) were for the meeting of Aug 4.  If the
+> >         meetings
+> >         are every two weeks then I guess there would have been one on
+> >         or about
+> >         Aug 18, and another on approximately Sep 1.  Can the TSC
+> >         confirm whether
+> >         those meetings happened and, if so, whether there are any
+> >         minutes for
+> >         them?
+> >
+> >         thanks
+> >
+> >         p.
+> >
+> >
+> >
+> >         _______________________________________________
+> >         Openembedded-core mailing list
+> >         Openembedded-core@lists.openembedded.org
+> >
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> >
+> >
+> >
+> >
+> > --
+> > Jeff Osier-Mixon http://jefro.net/blog
+> > Yocto Project Community Manager @Intel http://yoctoproject.org
+> >
+> >
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
+
+
 -- 
-1.7.6.1
+Jeff Osier-Mixon http://jefro.net/blog
+Yocto Project Community Manager @Intel http://yoctoproject.org
 
+--90e6ba6e8f7e4585e704ae1a01fe
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+Will do. The TSC is meeting today as well.<br><br><div class=3D"gmail_quote=
+">On Thu, Sep 29, 2011 at 7:13 AM, Phil Blundell <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:philb@gnu.org">philb@gnu.org</a>&gt;</span> wrote:<br><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex;">
+Hi Jeff<br>
+<br>
+Thanks for the information. =A0I don&#39;t seem to have received the 11 Aug=
+ or<br>
+1 Sep minutes, and I couldn&#39;t immediately find them in the archive<br>
+(<a href=3D"http://lists.linuxtogo.org/pipermail/openembedded-core/" target=
+=3D"_blank">http://lists.linuxtogo.org/pipermail/openembedded-core/</a>) ei=
+ther. =A0If<br>
+you could repost those two then that would be great.<br>
+<font color=3D"#888888"><br>
+Phil<br>
+</font><div><div></div><div class=3D"h5"><br>
+On Wed, 2011-09-28 at 13:58 -0700, Jeff Osier-Mixon wrote:<br>
+&gt; Hi Phil,<br>
+&gt;<br>
+&gt;<br>
+&gt; These are the recent meetings for which I have records. If you are<br>
+&gt; missing the minutes for any of these, please let me know and I will<br=
+>
+&gt; repost. Perhaps I should set up a wiki page with these so we don&#39;t=
+<br>
+&gt; have to depend solely on the mailing list archives.<br>
+&gt;<br>
+&gt;<br>
+&gt; 4-Aug-2011<br>
+&gt; 11-Aug-2011<br>
+&gt; 1-Sept-2011<br>
+&gt; 16-Sept-2011<br>
+&gt;<br>
+&gt;<br>
+&gt; On Mon, Sep 26, 2011 at 3:12 PM, Phil Blundell &lt;<a href=3D"mailto:p=
+hilb@gnu.org">philb@gnu.org</a>&gt; wrote:<br>
+&gt; =A0 =A0 =A0 =A0 On Fri, 2011-09-16 at 12:14 -0700, Jeff Osier-Mixon wr=
+ote:<br>
+&gt; =A0 =A0 =A0 =A0 &gt; NOTE: meetings are now every two weeks instead of=
+ weekly<br>
+&gt;<br>
+&gt;<br>
+&gt; =A0 =A0 =A0 =A0 The last set of minutes I can find before these ones (=
+in<br>
+&gt; =A0 =A0 =A0 =A0 either my inbox<br>
+&gt; =A0 =A0 =A0 =A0 or the archives on ltg) were for the meeting of Aug 4.=
+ =A0If the<br>
+&gt; =A0 =A0 =A0 =A0 meetings<br>
+&gt; =A0 =A0 =A0 =A0 are every two weeks then I guess there would have been=
+ one on<br>
+&gt; =A0 =A0 =A0 =A0 or about<br>
+&gt; =A0 =A0 =A0 =A0 Aug 18, and another on approximately Sep 1. =A0Can the=
+ TSC<br>
+&gt; =A0 =A0 =A0 =A0 confirm whether<br>
+&gt; =A0 =A0 =A0 =A0 those meetings happened and, if so, whether there are =
+any<br>
+&gt; =A0 =A0 =A0 =A0 minutes for<br>
+&gt; =A0 =A0 =A0 =A0 them?<br>
+&gt;<br>
+&gt; =A0 =A0 =A0 =A0 thanks<br>
+&gt;<br>
+&gt; =A0 =A0 =A0 =A0 p.<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; =A0 =A0 =A0 =A0 _______________________________________________<br>
+&gt; =A0 =A0 =A0 =A0 Openembedded-core mailing list<br>
+&gt; =A0 =A0 =A0 =A0 <a href=3D"mailto:Openembedded-core@lists.openembedded=
+.org">Openembedded-core@lists.openembedded.org</a><br>
+&gt; =A0 =A0 =A0 =A0 <a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/=
+listinfo/openembedded-core" target=3D"_blank">http://lists.linuxtogo.org/cg=
+i-bin/mailman/listinfo/openembedded-core</a><br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; --<br>
+&gt; Jeff Osier-Mixon <a href=3D"http://jefro.net/blog" target=3D"_blank">h=
+ttp://jefro.net/blog</a><br>
+&gt; Yocto Project Community Manager @Intel <a href=3D"http://yoctoproject.=
+org" target=3D"_blank">http://yoctoproject.org</a><br>
+&gt;<br>
+&gt;<br>
+&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
+ed-core@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openemb=
+edded-core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/li=
+stinfo/openembedded-core</a><br>
+<br>
+<br>
+<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
+-core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
+o/openembedded-core</a><br>
+</div></div></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>=
+Jeff Osier-Mixon <a href=3D"http://jefro.net/blog" target=3D"_blank">http:/=
+/jefro.net/blog</a><div>Yocto Project Community Manager @Intel <a href=3D"h=
+ttp://yoctoproject.org" target=3D"_blank">http://yoctoproject.org</a></div>
+<br>
 
-
+--90e6ba6e8f7e4585e704ae1a01fe--
