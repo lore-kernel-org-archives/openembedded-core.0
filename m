@@ -1,38 +1,57 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from am1ehsobe004.messaging.microsoft.com ([213.199.154.207]
+	helo=AM1EHSOBE004.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R9LPY-0002cJ-2u for openembedded-core@lists.openembedded.org;
-	Thu, 29 Sep 2011 20:32:44 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8TIXZlS011691; Thu, 29 Sep 2011 19:33:35 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id XktCQmRhkeRr; Thu, 29 Sep 2011 19:33:35 +0100 (BST)
-Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8TIXRP1011686
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Thu, 29 Sep 2011 19:33:29 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: McClintock Matthew-B29882 <B29882@freescale.com>, Patches and
-	discussions about the oe-core layer
+	(envelope-from <B29882@freescale.com>) id 1R9LPy-0002e1-OC
+	for openembedded-core@lists.openembedded.org;
+	Thu, 29 Sep 2011 20:33:10 +0200
+Received: from mail78-am1-R.bigfish.com (10.3.201.243) by
+	AM1EHSOBE004.bigfish.com (10.3.204.24) with Microsoft SMTP Server id
+	14.1.225.22; Thu, 29 Sep 2011 18:12:27 +0000
+Received: from mail78-am1 (localhost.localdomain [127.0.0.1])	by
+	mail78-am1-R.bigfish.com (Postfix) with ESMTP id 0F6A9E7055E	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu, 29 Sep 2011 18:12:27 +0000 (UTC)
+X-SpamScore: -17
+X-BigFish: VS-17(zz9371K936eK168aJ1432N98dKzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3h61h)
+X-Spam-TCS-SCL: 0:0
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
+	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail78-am1 (localhost.localdomain [127.0.0.1]) by mail78-am1
+	(MessageSwitch) id 1317319908534966_9185;
+	Thu, 29 Sep 2011 18:11:48 +0000 (UTC)
+Received: from AM1EHSMHS006.bigfish.com (unknown [10.3.201.241])	by
+	mail78-am1.bigfish.com (Postfix) with ESMTP id 9AD2B700292	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu, 29 Sep 2011 18:10:57 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS006.bigfish.com
+	(10.3.207.106) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Thu, 29 Sep 2011 18:10:56 +0000
+Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.230]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.01.0323.007; Thu, 29 Sep 2011 13:10:55 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 29 Sep 2011 19:27:01 +0100
-In-Reply-To: <CAEsOVNdPjWvgaCL0EYUqh1XOriYMstGz3iLMG3Mamwd4sW9QQA@mail.gmail.com>
+Thread-Topic: [OE-core] [PATCH 12/16] Fix flac build on e500mc cores
+Thread-Index: AQHMftMh9VbthPPEZUOZW0DjTM8KeQ==
+Date: Thu, 29 Sep 2011 18:10:54 +0000
+Message-ID: <CAEsOVNeCOnucpJEcdwGxdGMcF7uaH45wKMk-TG2+GbJFs3DaEg@mail.gmail.com>
 References: <1317270070-14250-1-git-send-email-msm@freescale.com>
-	<1317270070-14250-2-git-send-email-msm@freescale.com>
-	<1317284813.12332.76.camel@ted>
-	<CAEsOVNdPjWvgaCL0EYUqh1XOriYMstGz3iLMG3Mamwd4sW9QQA@mail.gmail.com>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1317320829.12332.107.camel@ted>
-Mime-Version: 1.0
-Subject: Re: [PATCH 02/16] bitbake pseudo wrapper: Don't base success on bitbake return code
+	<1317270070-14250-12-git-send-email-msm@freescale.com>
+	<1317311572.12332.101.camel@ted>
+In-Reply-To: <1317311572.12332.101.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH 12/16] Fix flac build on e500mc cores
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -43,42 +62,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Sep 2011 18:32:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 29 Sep 2011 18:33:10 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <E4939F44622D0E47AF9D0B7C5BD41191@freescale.net>
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2011-09-29 at 18:04 +0000, McClintock Matthew-B29882 wrote:
-> On Thu, Sep 29, 2011 at 3:26 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Wed, 2011-09-28 at 23:20 -0500, Matthew McClintock wrote:
-> >> bitbake does not return 0 when a build succeeds.
-> >
-> > Er, yes it does. If you're seeing something other than 0 its likely
-> > because you're seeing ERROR messages?
-> 
-> First off, this appears to have been fixed along the way. But I know I
-> was getting a message like:
-> 
-> [snip]
-> NOTE: Tasks Summary: Attempted 133 tasks of which 0 didn't need to be
-> rerun and 0 failed.
+On Thu, Sep 29, 2011 at 10:52 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Wed, 2011-09-28 at 23:21 -0500, Matthew McClintock wrote:
+>> This core does not have altivec, so we disable it in the build,
+>> also reestablish the config option to enable/disable building
+>> with altivec
+>>
+>> If SPE is not detected we always build with altivec which is wrong. This
+>> will check to make sure altivec is enabled and pass build options
+>> through accordingly
+>>
+>> Signed-off-by: Matthew McClintock <msm@freescale.com>
+>> ---
+>> =A0.../flac/flac-1.2.1/0001-No-AltiVec-on-SPE.patch =A0 | =A0 =A04 +++-
+>> =A0meta/recipes-multimedia/flac/flac_1.2.1.bb =A0 =A0 =A0 =A0 | =A0 =A05=
+ ++++-
+>> =A02 files changed, 7 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/recipes-multimedia/flac/flac-1.2.1/0001-No-AltiVec-on-=
+SPE.patch b/meta/recipes-multimedia/flac/flac-1.2.1/0001-No-AltiVec-on-SPE.=
+patch
+>> index 658e190..5ca8b35 100644
+>> --- a/meta/recipes-multimedia/flac/flac-1.2.1/0001-No-AltiVec-on-SPE.pat=
+ch
+>> +++ b/meta/recipes-multimedia/flac/flac-1.2.1/0001-No-AltiVec-on-SPE.pat=
+ch
+>> @@ -39,15 +39,17 @@ diff --git a/src/libFLAC/Makefile.am b/src/libFLAC/M=
+akefile.am
+>
+> No patch header...
 
-Can you file an enhancement bug to list the number of errors and
-warnings shown in the summary please? :)
+This is patching a patch with a patch header. Do I need to make any
+further documentation?
 
-We need to make it more obvious how many warnings/errors are occurring
-since errors change the exit code.
-
-> Then it would stop after building pseudo-native. Maybe we should add a
-> message to scripts/bitbake so we get an actual failure message when
-> this occurs? Also, are these errors relevant if we built psuedo-native
-> properly?
-
-Hard to say without seeing what they were...
-
-Cheers,
-
-Richard
+-M=
 
 
 
