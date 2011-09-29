@@ -1,32 +1,31 @@
-Received: from mail-vw0-f47.google.com ([209.85.212.47])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <fransmeulenbroeks@gmail.com>) id 1R9De5-0006Ul-5Q
-	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Sep 2011 12:15:13 +0200
-Received: by vwe42 with SMTP id 42so289047vwe.6
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1R9FLr-0008Ie-CR for openembedded-core@lists.openembedded.org;
+	Thu, 29 Sep 2011 14:04:31 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8TC5QUr024455 for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Sep 2011 13:05:26 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id pNwx-+3I3jFA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Sep 2011 03:09:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=R9vloQYd8gNRvfGdnRqvB4gFF/9O0PwE32hbsMtM31c=;
-	b=AdrlLz+uD/23oBaEbSFHhrTppmtXeubAMAtMT8Tbg+VD9gT/mtbr1sGPw1RFYurNZ5
-	8FTkY4UBD5atXBUec0Dtpijz8Few9JlTOBqqibULxbS3L6+30xlVEEpv5u3tUBewkwpH
-	SD+tbyjT51qChKuHyO4zQeXHIuH0U/RyFIWZ4=
-MIME-Version: 1.0
-Received: by 10.52.72.106 with SMTP id c10mr4124835vdv.356.1317290984252; Thu,
-	29 Sep 2011 03:09:44 -0700 (PDT)
-Received: by 10.52.188.200 with HTTP; Thu, 29 Sep 2011 03:09:44 -0700 (PDT)
-In-Reply-To: <CACW_hTaa4BCLEhAHDLSU1hdNLiV2o-jp539jcoYJHYM7dNFhfg@mail.gmail.com>
-References: <CA+YB3rYZNAc7Nj=tRzU-V9DWxruAo3Y=aZKv2y5SybWM31w4ug@mail.gmail.com>
-	<1317075122.6923.4.camel@lenovo.internal.reciva.com>
-	<CA+YB3ra6eLPh6pJ7kbRSVX986o1nzhUNmDz3+jPegU70Hntvhw@mail.gmail.com>
-	<CACW_hTaa4BCLEhAHDLSU1hdNLiV2o-jp539jcoYJHYM7dNFhfg@mail.gmail.com>
-Date: Thu, 29 Sep 2011 12:09:44 +0200
-Message-ID: <CACW_hTb9VAcYOZUq9RPEV18MGeVEnbUiwukhDaCfGiGog8oifA@mail.gmail.com>
-From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: MINUTES: OE-TSC meeting 16 Sept 2011
+	Thu, 29 Sep 2011 13:05:26 +0100 (BST)
+Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8TC5JJC024445
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Sep 2011 13:05:22 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 29 Sep 2011 12:58:54 +0100
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1317297541.12332.85.camel@ted>
+Mime-Version: 1.0
+Subject: help2man
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,18 +40,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Sep 2011 10:15:13 -0000
-Content-Type: multipart/alternative; boundary=20cf307f340a2ea4fd04ae11b5fe
+X-List-Received-Date: Thu, 29 Sep 2011 12:04:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---20cf307f340a2ea4fd04ae11b5fe
-Content-Type: text/plain; charset=ISO-8859-1
+The more I look at and think about help2man, the more it looks like
+something we just shouldn't need/use.
 
-PS: apparently the minutes didn't make it to the TSC mailing list archive
-either: http://lists.linuxtogo.org/pipermail/tsc/
+In summary, it runs a binary and captures its --help output. This rules
+it out from being useful in most cross compiling scenarios, i.e. all
+target packages.
 
---20cf307f340a2ea4fd04ae11b5fe
-Content-Type: text/html; charset=ISO-8859-1
+In the -native/-cross cases, we don't really care about man pages.
 
-PS: apparently the minutes didn&#39;t make it to the TSC mailing list archive either: <a href="http://lists.linuxtogo.org/pipermail/tsc/">http://lists.linuxtogo.org/pipermail/tsc/</a><br>
+I'm therefore thinking we should really just drop the dependency and
+symlink help2man to /bin/false. The missing script in autotools should
+then just silently touch the man page files instead of regenerating
+them.
 
---20cf307f340a2ea4fd04ae11b5fe--
+I tried to figure out which recipes actually use help2man:
+
+$ grep HELP2MAN * -r --exclude=Makefile.in 2> /dev/null | grep -v missing
+
+and against a core-image-sato this gave:
+
+libtool
+libtasn1
+gettext
+automake
+autoconf
+flex
+bison
+m4
+
+which isn't that many recipes to go and beat up manually if necessary.
+It certainly doesn't warrant a global include in autotools.bbclass IMO.
+
+Cheers,
+
+Richard
+
+
+
+
+
