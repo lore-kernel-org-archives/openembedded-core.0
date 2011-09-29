@@ -1,27 +1,58 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from db3ehsobe001.messaging.microsoft.com ([213.199.154.139]
+	helo=DB3EHSOBE001.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1R9L6B-0002L7-6j
+	(envelope-from <B29882@freescale.com>) id 1R9LJ6-0002W0-BN
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Sep 2011 20:12:43 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 29 Sep 2011 11:07:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="58042357"
-Received: from scimitar.jf.intel.com (HELO [10.7.199.86]) ([10.7.199.86])
-	by orsmga002.jf.intel.com with ESMTP; 29 Sep 2011 11:07:14 -0700
-From: Joshua Lock <josh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Sep 2011 11:07:13 -0700
-In-Reply-To: <1317307935.12332.89.camel@ted>
-References: <1317307935.12332.89.camel@ted>
-X-Mailer: Evolution 3.0.3 (3.0.3-1.fc15) 
-Message-ID: <1317319633.2134.1.camel@scimitar>
-Mime-Version: 1.0
-Subject: Re: autotools: Remove help2man dependency
+	Thu, 29 Sep 2011 20:26:04 +0200
+Received: from mail89-db3-R.bigfish.com (10.3.81.243) by
+	DB3EHSOBE001.bigfish.com (10.3.84.21) with Microsoft SMTP Server id
+	14.1.225.22; Thu, 29 Sep 2011 18:20:31 +0000
+Received: from mail89-db3 (localhost.localdomain [127.0.0.1])	by
+	mail89-db3-R.bigfish.com (Postfix) with ESMTP id D1E6C3E049F	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu, 29 Sep 2011 18:20:30 +0000 (UTC)
+X-SpamScore: -15
+X-BigFish: VS-15(zz9371K936eK1432N98dKzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3h61h)
+X-Spam-TCS-SCL: 0:0
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
+	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
+X-FB-SS: 0,
+Received: from mail89-db3 (localhost.localdomain [127.0.0.1]) by mail89-db3
+	(MessageSwitch) id 1317320389982787_22109;
+	Thu, 29 Sep 2011 18:19:49 +0000 (UTC)
+Received: from DB3EHSMHS010.bigfish.com (unknown [10.3.81.246])	by
+	mail89-db3.bigfish.com (Postfix) with ESMTP id E8830B9804F	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu, 29 Sep 2011 18:19:49 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS010.bigfish.com
+	(10.3.87.110) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Thu, 29 Sep 2011 18:19:45 +0000
+Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.230]) by
+	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
+	14.01.0323.007; Thu, 29 Sep 2011 13:19:44 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 10/16] Fix mdadm for powerpc64
+Thread-Index: AQHMftRcNrHa1wUMHEqCu9mPhkjzjw==
+Date: Thu, 29 Sep 2011 18:19:43 +0000
+Message-ID: <CAEsOVNcB-cLFSEp2i93YdpUeDD3VEH+fhJ-wfhb1YG+837KGwQ@mail.gmail.com>
+References: <1317270070-14250-1-git-send-email-msm@freescale.com>
+	<1317270070-14250-10-git-send-email-msm@freescale.com>
+	<1317311506.12332.100.camel@ted>
+In-Reply-To: <1317311506.12332.100.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH 10/16] Fix mdadm for powerpc64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -32,66 +63,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Sep 2011 18:12:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 29 Sep 2011 18:26:04 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <3D3616E620B61B4088522F4A733467B7@freescale.net>
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2011-09-29 at 15:52 +0100, Richard Purdie wrote:
-> The help2man script is pretty useless to us. It requires to run the target
-> binary to extract help information which is not possible for any of our
-> cross compiled target binaries.
-> 
-> We're not interested in man pages for -cross/-native tools.
-> 
-> It therefore makes no sense to have this as a core build dependency.
-> 
-> This patch removes the dependeny and replaces it with a script
-> returning false. This will trigger autotool's missing utility
-> to use the copy of the man page included with the sources which
-> is what would already happen when we tried to run cross compiled
-> binaries anyway.
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
+On Thu, Sep 29, 2011 at 10:51 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Wed, 2011-09-28 at 23:21 -0500, Matthew McClintock wrote:
+>> This fixes build failures from build warnings on powerpc64
+>>
+>> Signed-off-by: Matthew McClintock <msm@freescale.com>
+>> ---
+>> =A0meta/recipes-extended/mdadm/mdadm_3.2.2.bb | =A0 =A03 ++-
+>> =A01 files changed, 2 insertions(+), 1 deletions(-)
+>>
+>> diff --git a/meta/recipes-extended/mdadm/mdadm_3.2.2.bb b/meta/recipes-e=
+xtended/mdadm/mdadm_3.2.2.bb
+>> index 5d29ae7..37ec32e 100644
+>> --- a/meta/recipes-extended/mdadm/mdadm_3.2.2.bb
+>> +++ b/meta/recipes-extended/mdadm/mdadm_3.2.2.bb
+>> @@ -8,7 +8,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D0636e73ff0215=
+e8d672dc4c32c317bb3 \
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0file://mdmon.c;beginline=3D4;=
+endline=3D18;md5=3Daf7d8444d9c4d3e5c7caac0d9d34039d \
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0file://mdadm.h;beglinlne=3D4;=
+endline=3D22;md5=3D462bc9936ac0d3da110191a3f9994161"
+>>
+>> -PR =3D "r0"
+>> +PR =3D "r1"
+>>
+>> =A0SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.=
+tar.bz2"
+>>
+>> @@ -16,6 +16,7 @@ SRC_URI[md5sum] =3D "12ee2fbf3beddb60601fb7a4c4905651"
+>> =A0SRC_URI[sha256sum] =3D "0d1a04e688b082bc88846e3f524abd50bc782b6ffc061=
+23140f7d358c8f9b906"
+>>
+>> =A0CFLAGS +=3D "-fno-strict-aliasing"
+>> +EXTRA_OEMAKE_powerpc64 =3D "CXFLAGS=3D-Wno-error=3Dformat"
+>
+> Don't you want to append here rather than overwrite?
 
-Great!
+Seems reasonable. Will change.
 
-Joshua
-> ---
-> diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-> index f213c18..c05ab4b 100644
-> --- a/meta/classes/autotools.bbclass
-> +++ b/meta/classes/autotools.bbclass
-> @@ -7,7 +7,7 @@ def autotools_dep_prepend(d):
->  
->  	if pn in ['autoconf-native', 'automake-native', 'help2man-native']:
->  		return deps
-> -	deps += 'autoconf-native automake-native help2man-native '
-> +	deps += 'autoconf-native automake-native '
->  
->  	if not pn in ['libtool', 'libtool-native'] and not pn.endswith("libtool-cross"):
->  		deps += 'libtool-native '
-> diff --git a/scripts/help2man b/scripts/help2man
-> new file mode 100755
-> index 0000000..2bb8d86
-> --- a/dev/null
-> +++ b/scripts/help2man
-> @@ -0,0 +1,3 @@
-> +#!/bin/sh
-> +
-> +exit 1
-> 
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
--- 
-Joshua Lock
-        Yocto Project "Johannes factotum"
-        Intel Open Source Technology Centre
+-M=
 
 
 
