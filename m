@@ -1,36 +1,35 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R9gUW-000750-9U for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 19:03:16 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8UH4BbN032298 for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 18:04:11 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id oRAeTLJ6-Hvn
+	(envelope-from <saul.wold@intel.com>) id 1R9gYK-00078n-49
+	for openembedded-core@lists.openembedded.org;
+	Fri, 30 Sep 2011 19:07:15 +0200
+Received: from mail-fx0-f52.google.com ([209.85.161.52])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 30 Sep 2011 10:01:34 -0700
+Received: by fxe23 with SMTP id 23so3020936fxe.25
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 18:04:11 +0100 (BST)
-Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8UH47Cx032282
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 18:04:08 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 30 Sep 2011 10:01:33 -0700 (PDT)
+Received: by 10.223.37.68 with SMTP id w4mr3884020fad.49.1317402090344;
+	Fri, 30 Sep 2011 10:01:30 -0700 (PDT)
+Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id k26sm7444265fab.12.2011.09.30.10.01.28
+	(version=SSLv3 cipher=OTHER); Fri, 30 Sep 2011 10:01:29 -0700 (PDT)
+Message-ID: <4E85F5E6.8050106@intel.com>
+Date: Fri, 30 Sep 2011 10:01:26 -0700
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:6.0.2) Gecko/20110906 Thunderbird/6.0.2
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Sep 2011 17:57:41 +0100
-In-Reply-To: <cover.1317400021.git.paul.eggleton@linux.intel.com>
-References: <cover.1317400021.git.paul.eggleton@linux.intel.com>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1317401867.12332.216.camel@ted>
-Mime-Version: 1.0
-X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
-	p8UH4BbN032298
-Subject: Re: [PATCH 0/7] Qt4 upgrade/fixes
+References: <1317270070-14250-1-git-send-email-msm@freescale.com>
+	<1317311276.12332.97.camel@ted>
+	<CAEsOVNdbTgD8gJeowgoEybimkbKXCKPnox7ovGc3JaRGHVv18A@mail.gmail.com>
+	<1317321528.12332.110.camel@ted>
+In-Reply-To: <1317321528.12332.110.camel@ted>
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>
+Subject: Re: [PATCH 01/16] libnl2: Fix a race on route/pktloc_syntax.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,57 +44,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 17:03:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 30 Sep 2011 17:07:15 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-09-30 at 17:33 +0100, Paul Eggleton wrote:
-> This is a pull request for Eric B=C3=A9nard's qt4_upgrade branch, inclu=
-ding
-> an update of Qt to 4.7.4 (preserving 4.7.3 until other layers such as
-> meta-oe, meta-yocto etc. can sync up) as well as several important bug
-> fixes.
->=20
-> The patches look good; if was to be really picky though I would say tha=
-t
-> the two demo/doc patches in the series ought to be merged into one patc=
-h,
-> and there are a few typos in the commit messages. I'm also relying on
-> others to review the correctness of the armv6-vfp no-neon patch as I ha=
-ve
-> no knowledge of this area.
->=20
->=20
-> The following changes since commit c54c1280fc0d06a53e23339c3913ec88eead=
-13d9:
->=20
->   base.bbclass: Drop unneeded dependency (2011-09-30 11:34:44 +0100)
->=20
-> are available in the git repository at:
->   git://git.openembedded.org/openembedded-core-contrib paule/qt4_upgrad=
-e
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?=
-h=3Dpaule/qt4_upgrade
->=20
-> Denis Carikli (3):
->   qt4.inc: remove the optional documentation package from the demo's
->     RRECOMMENDS
->   qt4(embedded and x11): disable neon for armv6-vfp
->   qt4.inc: package qtdemo's docs in a separate package
->=20
-> Eric B=C3=A9nard (3):
->   qt4e-demo-image: improve image
->   qt4: fix generated sdk
->   qt4: update to latest version 4.7.4
->=20
-> Otavio Salvador (1):
->   qt4: fix translation support
+On 09/29/2011 11:38 AM, Richard Purdie wrote:
+> On Thu, 2011-09-29 at 18:28 +0000, McClintock Matthew-B29882 wrote:
+>> On Thu, Sep 29, 2011 at 10:47 AM, Richard Purdie
+>> <richard.purdie@linuxfoundation.org>  wrote:
+>>> On Wed, 2011-09-28 at 23:20 -0500, Matthew McClintock wrote:
+>>>> From: Tom Rini<tom_rini@mentor.com>
+>>>>
+>>>> At issue is that route/pktloc.c (not generated) depends on
+>>>> route/pktloc_syntax.h (generated).
+>>>>
+>>>> Signed-off-by: Tom Rini<tom_rini@mentor.com>
+>>>> ---
+>>>>   .../libnl/fix-pktloc_syntax_h-race.patch           |   23 ++++++++++++++++++++
+>>>>   meta/recipes-support/libnl/libnl_2.0.bb            |    3 +-
+>>>>   2 files changed, 25 insertions(+), 1 deletions(-)
+>>>>   create mode 100644 meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch
+>>>>
+>>>> diff --git a/meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch b/meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch
+>>>> new file mode 100644
+>>>> index 0000000..d396f96
+>>>> --- /dev/null
+>>>> +++ b/meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch
+>>>> @@ -0,0 +1,23 @@
+>>>> +---
+>>>
+>>> Missing patch header...
+>>
+>> How would I mark this when this is an old version of libnl and it
+>> appears not to be a problem the latest version of libnl?
+>
+> I don't have the patch status field entries handy but you can certainly
+> document that the issue isn't present in version X so its likely been
+> fixed upstream already. I guess "Inappropriate" would cover that if
+> nothing else does.
+>
+Just for reference:
 
-Thanks Paul. I fixed the typos and queued this on master-next.
+http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
 
-Cheers,
+This contains the Upstream-Status: entries.
 
-Richard
+Thanks
+	Sau!
+
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
 
