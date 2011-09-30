@@ -1,29 +1,29 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1R9YPA-0007Qo-Bp
+	(envelope-from <martin.jansa@gmail.com>) id 1R9Ypn-00086h-9l
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 10:25:12 +0200
-Received: by bke11 with SMTP id 11so1540357bke.6
+	Fri, 30 Sep 2011 10:52:43 +0200
+Received: by bke11 with SMTP id 11so1560385bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 01:19:44 -0700 (PDT)
+	Fri, 30 Sep 2011 01:47:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=JNBCTZfI40O6a5jDD2iEnC+dk/eFAZGhiYEosA9vd1A=;
-	b=gDNP7NQ4nFINkEQYb1h/wkrW9X1onqTECkDbZHQWvC8SKWuDAdRRZ5wYBpMRyMHGZ1
-	Xlf1l5FPHOivnjMnqxmfKZ/86GGFbwlTs4q+D59YPXW0d1rKzVoLEpwzjw172xUbsHpn
-	Q3vmuV7F3jr3OqVVQlKr7CaonYsSRfrnkGE9M=
-Received: by 10.204.142.150 with SMTP id q22mr7988328bku.378.1317370779126;
-	Fri, 30 Sep 2011 01:19:39 -0700 (PDT)
+	bh=P6AISwn3VnGh/B7TiglhNKHaR6ZDv3OhwPZuxjLBwRM=;
+	b=Nt/C98j/BFna222hqWc3daY6Ov03z6ZjIiRI+3B9s0ZfZhy9yJs1QaEDCEVyqWfsjC
+	8zGS8wgE80fNANYIokE013RZwYcXrnYm+8pqmeHebnLZLuPgFndvc+OKJ1uZPX0N1sZr
+	DhB4fC32lZfsPNZqUv8dtRFPeHAe0K2ar0koo=
+Received: by 10.204.133.143 with SMTP id f15mr7420318bkt.279.1317372431740;
+	Fri, 30 Sep 2011 01:47:11 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id ex8sm4075478bkc.2.2011.09.30.01.19.36
+	by mx.google.com with ESMTPS id e14sm4159236bka.0.2011.09.30.01.47.08
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 30 Sep 2011 01:19:38 -0700 (PDT)
+	Fri, 30 Sep 2011 01:47:10 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Sep 2011 10:19:30 +0200
-Message-Id: <1317370770-27225-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Fri, 30 Sep 2011 10:47:02 +0200
+Message-Id: <1317372422-7943-1-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.6.1
-Subject: [PATCH] Improve handling of 'all' architecture recipes and their interaction with sstate
+Subject: [PATCH] atk: add patch to replace G_CONST_RETURN with const
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,458 +38,667 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 08:25:12 -0000
+X-List-Received-Date: Fri, 30 Sep 2011 08:52:43 -0000
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+* otherwise build fails when glib is 2.30.0 or newer (and G_DISABLE_DEPRECATED is enabled - like in atk)
 
-* Jansa: rebased on current master, added nocompiler patch also to
-  font-alias, dropped allarch from linux-firmware, gnome-icon-theme, hal-info as
-  those are checking compiler (ie in intltool check) and better to build
-  them as default arch instead of rebuilding after every machine
-  change.
-* this is also part of [BUGID# 1075]
-* tested except linux-firmware (SRC_URI is offline)
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../resolvconf/resolvconf_1.59.bb                  |    7 ++--
- .../update-alternatives-dpkg.inc                   |    5 +--
- meta/recipes-gnome/gnome/gnome-common_2.28.0.bb    |    7 +---
- .../recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb |    5 +--
- .../hicolor-icon-theme/hicolor-icon-theme_0.12.bb  |    6 +--
- .../ttf-fonts/liberation-fonts_1.04.bb             |    5 ++-
- .../ttf-fonts/liberation-fonts_1.06.bb             |    5 ++-
- .../ttf-fonts/ttf-bitstream-vera_1.10.bb           |    5 ++-
- .../xcursor-transparent-theme_0.1.1.bb             |    6 +--
- .../xorg-font/encodings/nocompiler.patch           |   31 ++++++++++++++++++++
- meta/recipes-graphics/xorg-font/encodings_1.0.4.bb |    8 +++--
- .../xorg-font/font-alias-1.0.3/nocompiler.patch    |   30 +++++++++++++++++++
- .../recipes-graphics/xorg-font/font-alias_1.0.3.bb |    8 +++--
- .../xorg-font/xorg-minimal-fonts.bb                |    5 ++-
- .../linux-firmware/linux-firmware_git.bb           |    4 +--
- .../sato-icon-theme/sato-icon-theme.inc            |    4 +--
- .../sato-icon-theme/sato-icon-theme_0.4.1.bb       |    2 +
- meta/recipes-support/hal/hal-info.inc              |    1 -
- meta/recipes-support/hal/hal-info_20091130.bb      |    2 +
- meta/recipes-support/hal/hal-info_git.bb           |    2 +-
- 20 files changed, 102 insertions(+), 46 deletions(-)
- create mode 100644 meta/recipes-graphics/xorg-font/encodings/nocompiler.patch
- create mode 100644 meta/recipes-graphics/xorg-font/font-alias-1.0.3/nocompiler.patch
+ .../atk/atk-1.32.0/remove.G_CONST_RETURN.patch     |  628 ++++++++++++++++++++
+ meta/recipes-support/atk/atk_1.32.0.bb             |    5 +-
+ 2 files changed, 632 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-support/atk/atk-1.32.0/remove.G_CONST_RETURN.patch
 
-diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.59.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.59.bb
-index 94231e0..50252b1 100644
---- a/meta/recipes-connectivity/resolvconf/resolvconf_1.59.bb
-+++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.59.bb
-@@ -11,13 +11,15 @@ AUTHOR = "Thomas Hood"
- HOMEPAGE = "http://packages.debian.org/resolvconf"
- DEPENDS = "bash"
- RDEPENDS_${PN} = "bash"
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "${DEBIAN_MIRROR}/main/r/resolvconf/resolvconf_${PV}.tar.gz"
- 
- SRC_URI[md5sum] = "59b20258bb8a3c25b8c4083fc0279547"
- SRC_URI[sha256sum] = "37691677cea24da66d6664c98668b5f16667c0133f17feb166f246ee923ad756"
- 
-+inherit allarch
-+
- do_compile () {
- 	:
- }
-@@ -31,6 +33,3 @@ do_install () {
- 	install -m 0644 README ${D}${docdir}/${P}/
- 	install -m 0644 man/resolvconf.8 ${D}${mandir}/man8/
- }
--
--PACKAGE_ARCH = "all"
--
-diff --git a/meta/recipes-devtools/update-alternatives/update-alternatives-dpkg.inc b/meta/recipes-devtools/update-alternatives/update-alternatives-dpkg.inc
-index c881ae0..e95a307 100644
---- a/meta/recipes-devtools/update-alternatives/update-alternatives-dpkg.inc
-+++ b/meta/recipes-devtools/update-alternatives/update-alternatives-dpkg.inc
-@@ -7,10 +7,9 @@ LICENSE = "GPL"
- SECTION = "base"
- SRC_URI = "${DEBIAN_MIRROR}/main/d/dpkg/dpkg_${PV}.tar.bz2"
- S = "${WORKDIR}/dpkg-${PV}"
--PACKAGE_ARCH = "all"
--INC_PR = "r3"
-+INC_PR = "r4"
- 
--inherit gettext
-+inherit gettext allarch
- 
- do_patch () {
-     cat ${S}/scripts/update-alternatives.pl | \
-diff --git a/meta/recipes-gnome/gnome/gnome-common_2.28.0.bb b/meta/recipes-gnome/gnome/gnome-common_2.28.0.bb
-index 570c45a..8936dbd 100644
---- a/meta/recipes-gnome/gnome/gnome-common_2.28.0.bb
-+++ b/meta/recipes-gnome/gnome/gnome-common_2.28.0.bb
-@@ -6,11 +6,8 @@ LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
- SECTION = "x11/gnome"
--PR = "r0"
--inherit gnome
--
--# all isn't appropriate since STAGING_DATADIR is target specific
--# PACKAGE_ARCH="all"
-+PR = "r1"
-+inherit gnome allarch
- 
- # The omf.make file failed if scrollkeeper doesn't happen to be
- # installed
-diff --git a/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb b/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
-index 55868ab..956c015 100644
---- a/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
-+++ b/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
-@@ -9,7 +9,7 @@ SECTION = "x11/gnome"
- DEPENDS = "icon-naming-utils-native glib-2.0 intltool-native"
- RDEPENDS_${PN} = "hicolor-icon-theme"
- RRECOMMENDS_${PN} = "librsvg-gtk"
--PR = "r1"
-+PR = "r2"
- 
- FILES_${PN} += "${datadir}/*"
- 
-@@ -22,6 +22,3 @@ SRC_URI[sha256sum] = "ea7e05b77ead159379392b3b275ca0c9cbacd7d936014e447cc7c5e27a
- EXTRA_OECONF = "--disable-hicolor-check --with-iconmap=${STAGING_LIBDIR_NATIVE}/../libexec/icon-name-mapping"
- 
- inherit autotools
--
--# We can't do this until the output is shared into all target sysroots
--#PACKAGE_ARCH = "all"
-diff --git a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
-index c9d65a2..8d48dec 100644
---- a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
-+++ b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
-@@ -6,9 +6,9 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=f08a446809913fc9b3c718f0eaea0426"
- 
- SECTION = "unknown"
--inherit gnome
-+inherit gnome allarch
- 
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "http://icon-theme.freedesktop.org/releases/${BPN}-${PV}.tar.gz \
-         file://index.theme"
-@@ -16,8 +16,6 @@ SRC_URI = "http://icon-theme.freedesktop.org/releases/${BPN}-${PV}.tar.gz \
- SRC_URI[md5sum] = "55cafbcef8bcf7107f6d502149eb4d87"
- SRC_URI[sha256sum] = "9edca690617eaa19054951ca53501c802180262be8880ed84754ac46c93bec73"
- 
--PACKAGE_ARCH = "all"
--
- FILES_${PN} += "${datadir}/icons"
- 
- do_install_append () {
-diff --git a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb b/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-index 19bb69c..b0a8242 100644
---- a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-+++ b/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-@@ -8,11 +8,12 @@ BUGTRACKER = "https://bugzilla.redhat.com/"
- SECTION = "x11/fonts"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
--PACKAGE_ARCH = "all"
- RDEPENDS_${PN} = "fontconfig-utils"
--PR = "r1"
-+PR = "r2"
- PE = "1"
- 
-+inherit allarch
-+
- SRC_URI = "https://fedorahosted.org/releases/l/i/liberation-fonts/liberation-fonts-${PV}.tar.gz \
-            file://30-liberation-aliases.conf"
- 
-diff --git a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.06.bb b/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.06.bb
-index 4882cc7..5193fda 100644
---- a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.06.bb
-+++ b/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.06.bb
-@@ -8,10 +8,9 @@ BUGTRACKER = "https://bugzilla.redhat.com/"
- SECTION = "x11/fonts"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
--PACKAGE_ARCH = "all"
- RDEPENDS_${PN} = "fontconfig-utils"
- PE = "1"
--PR = "r1"
-+PR = "r2"
- 
- FONTREV = "0.20100721"
- SRC_URI = "https://fedorahosted.org/releases/l/i/${BPN}/${BPN}-${PV}.${FONTREV}.tar.gz \
-@@ -19,6 +18,8 @@ SRC_URI = "https://fedorahosted.org/releases/l/i/${BPN}/${BPN}-${PV}.${FONTREV}.
- 
- S = ${WORKDIR}/${BPN}-${PV}.${FONTREV}
- 
-+inherit allarch
-+
- do_install () {
- 	install -d ${D}${datadir}/fonts/ttf/
- 	for i in *.ttf; do
-diff --git a/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb b/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
-index 3294b40..682184a 100644
---- a/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
-+++ b/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
-@@ -7,10 +7,11 @@ but is visibly different than normal and bold, and reasonably pleasing."
- SECTION = "x11/fonts"
- LICENSE = "Bitstream_Vera"
- LIC_FILES_CHKSUM = "file://COPYRIGHT.TXT;md5=27d7484b1e18d0ee4ce538644a3f04be"
--PACKAGE_ARCH = "all"
--PR = "r4"
-+PR = "r5"
- RDEPENDS_${PN} = "fontconfig-utils"
- 
-+inherit allarch
-+
- SRC_URI = "${GNOME_MIRROR}/ttf-bitstream-vera/1.10/ttf-bitstream-vera-${PV}.tar.bz2" 
- 
- do_install () { 
-diff --git a/meta/recipes-graphics/xcursor-transparent-theme/xcursor-transparent-theme_0.1.1.bb b/meta/recipes-graphics/xcursor-transparent-theme/xcursor-transparent-theme_0.1.1.bb
-index 002cc15..824c295 100644
---- a/meta/recipes-graphics/xcursor-transparent-theme/xcursor-transparent-theme_0.1.1.bb
-+++ b/meta/recipes-graphics/xcursor-transparent-theme/xcursor-transparent-theme_0.1.1.bb
-@@ -6,7 +6,7 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- 
- SECTION = "x11/base"
--PR="r3"
-+PR = "r4"
- 
- SRC_URI = "http://matchbox-project.org/sources/utils/xcursor-transparent-theme-${PV}.tar.gz \
- 	   file://use-relative-symlinks.patch \
-@@ -16,6 +16,4 @@ SRC_URI[md5sum] = "7b0c623049d4aab20600d6473f8aab23"
- SRC_URI[sha256sum] = "b26adf2d503d01299718390ae39dab4691a67220de09423be0364e9a060bf7e4"
- FILES_${PN} = "${datadir}/icons/xcursor-transparent/cursors/*"
- 
--inherit autotools
--
--PACKAGE_ARCH = "all"
-+inherit autotools allarch
-diff --git a/meta/recipes-graphics/xorg-font/encodings/nocompiler.patch b/meta/recipes-graphics/xorg-font/encodings/nocompiler.patch
+diff --git a/meta/recipes-support/atk/atk-1.32.0/remove.G_CONST_RETURN.patch b/meta/recipes-support/atk/atk-1.32.0/remove.G_CONST_RETURN.patch
 new file mode 100644
-index 0000000..1cddd10
+index 0000000..0cdf041
 --- /dev/null
-+++ b/meta/recipes-graphics/xorg-font/encodings/nocompiler.patch
-@@ -0,0 +1,31 @@
-+XORG_DEFAULT_OPTIONS pulls in the following dependency chains:
++++ b/meta/recipes-support/atk/atk-1.32.0/remove.G_CONST_RETURN.patch
+@@ -0,0 +1,628 @@
++Upstream-Status: Accepted
 +
-+XORG_CWARNFLAGS -> AC_PROG_CC_C99
-+XORG_STRICT_OPTION -> AC_PROG_CC_C99, XORG_CWARNFLAGS
-+XORG_MANPAGE_SECTIONS -> AC_CANONICAL_HOST -> Checks host 
++Similar patch is already included in 2.0.1 and newer
++http://ftp.gnome.org/pub/gnome/sources/atk/2.0/atk-2.0.1.news
 +
-+each of which triggers the use of the host compiler. As an "all"
-+architecture package, it shouldn't need a compiler (and doesn't).
-+
-+RP 17/5/2011
-+
-+Index: encodings-1.0.4/configure.ac
-+===================================================================
-+--- encodings-1.0.4.orig/configure.ac	2011-05-17 23:36:19.505095876 +0100
-++++ encodings-1.0.4/configure.ac	2011-05-17 23:54:14.935096128 +0100
-+@@ -4,12 +4,12 @@
-+ AM_INIT_AUTOMAKE([foreign dist-bzip2])
-+ AM_MAINTAINER_MODE
++diff -uNr atk-1.32.0.orig/atk/atkaction.c atk-1.32.0/atk/atkaction.c
++--- atk-1.32.0.orig/atk/atkaction.c	2010-09-06 08:45:45.000000000 +0200
+++++ atk-1.32.0/atk/atkaction.c	2011-09-30 10:29:49.896997586 +0200
++@@ -101,7 +101,7 @@
++  * Returns a description string, or %NULL
++  * if @action does not implement this interface.
++  **/
++-G_CONST_RETURN gchar*
+++const gchar*
++ atk_action_get_description (AtkAction *obj,
++                             gint      i)
++ {
++@@ -140,7 +140,7 @@
++  * Returns a name string, or %NULL
++  * if @action does not implement this interface.
++  **/
++-G_CONST_RETURN gchar*
+++const gchar*
++ atk_action_get_name (AtkAction *obj,
++                      gint      i)
++ {
++@@ -166,7 +166,7 @@
++  * Returns a name string, or %NULL
++  * if @action does not implement this interface.
++  **/
++-G_CONST_RETURN gchar*
+++const gchar*
++ atk_action_get_localized_name (AtkAction *obj,
++                                gint      i)
++ {
++@@ -203,7 +203,7 @@
++  * if there is no keybinding for this action.
++  *
++  **/
++-G_CONST_RETURN gchar*
+++const gchar*
++ atk_action_get_keybinding (AtkAction *obj,
++                            gint      i)
++ {
++diff -uNr atk-1.32.0.orig/atk/atkaction.h atk-1.32.0/atk/atkaction.h
++--- atk-1.32.0.orig/atk/atkaction.h	2010-09-06 08:45:45.000000000 +0200
+++++ atk-1.32.0/atk/atkaction.h	2011-09-30 10:29:49.897997588 +0200
++@@ -55,16 +55,16 @@
++   gboolean                (*do_action)         (AtkAction         *action,
++                                                 gint              i);
++   gint                    (*get_n_actions)     (AtkAction         *action);
++-  G_CONST_RETURN gchar*   (*get_description)   (AtkAction         *action,
+++  const gchar*   (*get_description)   (AtkAction         *action,
++                                                 gint              i);
++-  G_CONST_RETURN gchar*   (*get_name)          (AtkAction         *action,
+++  const gchar*   (*get_name)          (AtkAction         *action,
++                                                 gint              i);
++-  G_CONST_RETURN gchar*   (*get_keybinding)    (AtkAction         *action,
+++  const gchar*   (*get_keybinding)    (AtkAction         *action,
++                                                 gint              i);
++   gboolean                (*set_description)   (AtkAction         *action,
++                                                 gint              i,
++                                                 const gchar       *desc);
++-  G_CONST_RETURN gchar*   (*get_localized_name)(AtkAction         *action,
+++  const gchar*   (*get_localized_name)(AtkAction         *action,
++ 						gint              i);
++   AtkFunction             pad2;
++ };
++@@ -85,11 +85,11 @@
++ gboolean   atk_action_do_action                (AtkAction         *action,
++                                             gint              i);
++ gint   atk_action_get_n_actions            (AtkAction *action);
++-G_CONST_RETURN gchar* atk_action_get_description  (AtkAction         *action,
+++const gchar* atk_action_get_description  (AtkAction         *action,
++                                                    gint              i);
++-G_CONST_RETURN gchar* atk_action_get_name         (AtkAction         *action,
+++const gchar* atk_action_get_name         (AtkAction         *action,
++                                                    gint              i);
++-G_CONST_RETURN gchar* atk_action_get_keybinding   (AtkAction         *action,
+++const gchar* atk_action_get_keybinding   (AtkAction         *action,
++                                                    gint              i);
++ gboolean              atk_action_set_description  (AtkAction         *action,
++                                                    gint              i,
++@@ -97,7 +97,7 @@
 + 
-+-# Require xorg-macros: XORG_DEFAULT_OPTIONS
-+ m4_ifndef([XORG_MACROS_VERSION],
-+ 	  [m4_fatal([must install xorg-macros 1.3 or later before running autoconf/autogen])])
-+ XORG_MACROS_VERSION(1.3)
-+-XORG_DEFAULT_OPTIONS
-+-
-++XORG_RELEASE_VERSION
-++XORG_CHANGELOG
-++XORG_INSTALL
-+ AC_PROG_INSTALL
++ /* NEW in ATK 1.1: */
 + 
-+ # Require X.Org's font util macros 1.2 or later
-diff --git a/meta/recipes-graphics/xorg-font/encodings_1.0.4.bb b/meta/recipes-graphics/xorg-font/encodings_1.0.4.bb
-index 1345134..cf7b3e3 100644
---- a/meta/recipes-graphics/xorg-font/encodings_1.0.4.bb
-+++ b/meta/recipes-graphics/xorg-font/encodings_1.0.4.bb
-@@ -7,13 +7,15 @@ require xorg-font-common.inc
- LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=9da93f2daf2d5572faa2bfaf0dbd9e76"
- PE = "1"
--PR = "${INC_PR}.0"
-+PR = "${INC_PR}.1"
- 
- DEPENDS = "mkfontscale-native font-util-native"
- 
--EXTRA_OECONF += "--with-encodingsdir=${datadir}/fonts/X11/encodings"
-+SRC_URI += "file://nocompiler.patch"
-+
-+inherit allarch
- 
--PACKAGE_ARCH = "all"
-+EXTRA_OECONF += "--with-encodingsdir=${datadir}/fonts/X11/encodings"
- 
- SRC_URI[md5sum] = "0f2d6546d514c5cc4ecf78a60657a5c1"
- SRC_URI[sha256sum] = "ced6312988a45d23812c2ac708b4595f63fd7a49c4dcd9f66bdcd50d1057d539"
-diff --git a/meta/recipes-graphics/xorg-font/font-alias-1.0.3/nocompiler.patch b/meta/recipes-graphics/xorg-font/font-alias-1.0.3/nocompiler.patch
-new file mode 100644
-index 0000000..48e183c
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-font/font-alias-1.0.3/nocompiler.patch
-@@ -0,0 +1,30 @@
-+XORG_DEFAULT_OPTIONS pulls in the following dependency chains:
-+
-+XORG_CWARNFLAGS -> AC_PROG_CC_C99
-+XORG_STRICT_OPTION -> AC_PROG_CC_C99, XORG_CWARNFLAGS
-+XORG_MANPAGE_SECTIONS -> AC_CANONICAL_HOST -> Checks host 
-+
-+each of which triggers the use of the host compiler. As an "all"
-+architecture package, it shouldn't need a compiler (and doesn't).
-+
-+RP 17/5/2011
-+
-+diff -uNr font-alias-1.0.3.orig//configure.ac font-alias-1.0.3/configure.ac
-+--- font-alias-1.0.3.orig//configure.ac	2011-05-18 21:29:18.378258643 +0200
-++++ font-alias-1.0.3/configure.ac	2011-05-18 21:32:06.865258593 +0200
-+@@ -28,12 +28,12 @@
-+ AM_INIT_AUTOMAKE([foreign dist-bzip2])
-+ AM_MAINTAINER_MODE
++-G_CONST_RETURN gchar* atk_action_get_localized_name (AtkAction       *action,
+++const gchar* atk_action_get_localized_name (AtkAction       *action,
++ 						     gint            i);
 + 
-+-# Require xorg-macros: XORG_DEFAULT_OPTIONS
-+ m4_ifndef([XORG_MACROS_VERSION],
-+ 	  [m4_fatal([must install xorg-macros 1.3 or later before running autoconf/autogen])])
-+ XORG_MACROS_VERSION(1.3)
-+-XORG_DEFAULT_OPTIONS
-+-
-++XORG_RELEASE_VERSION
-++XORG_CHANGELOG
-++XORG_INSTALL
-+ AC_PROG_INSTALL
++ /*
++diff -uNr atk-1.32.0.orig/atk/atkdocument.c atk-1.32.0/atk/atkdocument.c
++--- atk-1.32.0.orig/atk/atkdocument.c	2010-09-06 08:45:45.000000000 +0200
+++++ atk-1.32.0/atk/atkdocument.c	2011-09-30 10:29:49.898997588 +0200
++@@ -93,7 +93,7 @@
++  *
++  * Returns: a string indicating the document type
++  **/
++-G_CONST_RETURN gchar*
+++const gchar*
++ atk_document_get_document_type (AtkDocument *document)
++ {
++   AtkDocumentIface *iface;
++@@ -155,7 +155,7 @@
++  *          locale of the document content as a whole, or NULL if
++  *          the document content does not specify a locale.
++  **/
++-G_CONST_RETURN gchar *
+++const gchar *
++ atk_document_get_locale (AtkDocument *document)
++ {
++   AtkDocumentIface *iface;
++@@ -219,7 +219,7 @@
++  *    document, or NULL if a value for #attribute_name has not been specified
++  *    for this document.
++  */
++-G_CONST_RETURN gchar *
+++const gchar *
++ atk_document_get_attribute_value (AtkDocument *document, 
++ 				  const gchar *attribute_name)
++ {
++diff -uNr atk-1.32.0.orig/atk/atkdocument.h atk-1.32.0/atk/atkdocument.h
++--- atk-1.32.0.orig/atk/atkdocument.h	2010-09-06 08:45:45.000000000 +0200
+++++ atk-1.32.0/atk/atkdocument.h	2011-09-30 10:29:49.899997588 +0200
++@@ -49,12 +49,12 @@
++ struct _AtkDocumentIface
++ {
++   GTypeInterface parent;
++-  G_CONST_RETURN gchar* ( *get_document_type) (AtkDocument              *document);
+++  const gchar* ( *get_document_type) (AtkDocument              *document);
++   gpointer              ( *get_document)      (AtkDocument              *document);
 + 
-+ XORG_FONTROOTDIR
-diff --git a/meta/recipes-graphics/xorg-font/font-alias_1.0.3.bb b/meta/recipes-graphics/xorg-font/font-alias_1.0.3.bb
-index 1b63961..69edd0b 100644
---- a/meta/recipes-graphics/xorg-font/font-alias_1.0.3.bb
-+++ b/meta/recipes-graphics/xorg-font/font-alias_1.0.3.bb
-@@ -9,14 +9,16 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=bf0158b89be493d523d69d9f29265038 \
-                     file://misc/fonts.alias;md5=a8ec05d528431d4c9703b55a7efd67a8 \
-                     file://100dpi/fonts.alias;md5=85bebd6ca213aa656c301a72eb4397cb"
++-  G_CONST_RETURN gchar* ( *get_document_locale) (AtkDocument              *document);
+++  const gchar* ( *get_document_locale) (AtkDocument              *document);
++   AtkAttributeSet *     ( *get_document_attributes) (AtkDocument        *document);
++-  G_CONST_RETURN gchar* ( *get_document_attribute_value) (AtkDocument   *document,
+++  const gchar* ( *get_document_attribute_value) (AtkDocument   *document,
++                                                           const gchar   *attribute_name);
++   gboolean              ( *set_document_attribute) (AtkDocument         *document,
++                                                     const gchar         *attribute_name,
++@@ -68,11 +68,11 @@
++ 
++ GType  atk_document_get_type             (void);
++ 
++-G_CONST_RETURN gchar* atk_document_get_document_type (AtkDocument   *document);
+++const gchar* atk_document_get_document_type (AtkDocument   *document);
++ gpointer atk_document_get_document (AtkDocument   *document);
++-G_CONST_RETURN gchar* atk_document_get_locale (AtkDocument *document);
+++const gchar* atk_document_get_locale (AtkDocument *document);
++ AtkAttributeSet*      atk_document_get_attributes (AtkDocument *document);
++-G_CONST_RETURN gchar* atk_document_get_attribute_value (AtkDocument *document, 
+++const gchar* atk_document_get_attribute_value (AtkDocument *document, 
++                                                         const gchar *attribute_name);
++ gboolean              atk_document_set_attribute_value (AtkDocument *document,
++                                                         const gchar *attribute_name,
++diff -uNr atk-1.32.0.orig/atk/atkimage.c atk-1.32.0/atk/atkimage.c
++--- atk-1.32.0.orig/atk/atkimage.c	2010-09-06 08:45:45.000000000 +0200
+++++ atk-1.32.0/atk/atkimage.c	2011-09-30 10:29:49.900997587 +0200
++@@ -46,7 +46,7 @@
++  *
++  * Returns: a string representing the image description
++  **/
++-G_CONST_RETURN gchar*
+++const gchar*
++ atk_image_get_image_description (AtkImage *image)
++ {
++   AtkImageIface *iface;
++@@ -192,7 +192,7 @@
++  * Returns a string corresponding to the POSIX LC_MESSAGES locale used by the image description, or NULL if the image does not specify a locale. 
++  *
++  */
++-G_CONST_RETURN gchar* 
+++const gchar* 
++ atk_image_get_image_locale (AtkImage   *image)
++ {
++ 	
++diff -uNr atk-1.32.0.orig/atk/atkimage.h atk-1.32.0/atk/atkimage.h
++--- atk-1.32.0.orig/atk/atkimage.h	2010-09-06 08:45:45.000000000 +0200
+++++ atk-1.32.0/atk/atkimage.h	2011-09-30 10:29:49.901997587 +0200
++@@ -53,13 +53,13 @@
++                                                    gint                  *x,
++ 				                   gint	                 *y,
++     			                           AtkCoordType	         coord_type);
++-  G_CONST_RETURN gchar* ( *get_image_description) (AtkImage              *image);
+++  const gchar* ( *get_image_description) (AtkImage              *image);
++   void                  ( *get_image_size)        (AtkImage              *image,
++                                                    gint                  *width,
++                                                    gint                  *height);
++   gboolean              ( *set_image_description) (AtkImage              *image,
++                                                    const gchar           *description);
++-  G_CONST_RETURN gchar* ( *get_image_locale)      (AtkImage              *image);
+++  const gchar* ( *get_image_locale)      (AtkImage              *image);
++ 
++   AtkFunction           pad1;
++ 	
++@@ -67,7 +67,7 @@
++ 
++ GType  atk_image_get_type             (void);
++ 
++-G_CONST_RETURN gchar* atk_image_get_image_description (AtkImage   *image);
+++const gchar* atk_image_get_image_description (AtkImage   *image);
++ 
++ void     atk_image_get_image_size        (AtkImage           *image,
++                                           gint               *width,
++@@ -80,7 +80,7 @@
++ 					  gint	             *y,
++     					  AtkCoordType	     coord_type);
++ 
++-G_CONST_RETURN gchar* atk_image_get_image_locale (AtkImage   *image);
+++const gchar* atk_image_get_image_locale (AtkImage   *image);
++ 
++ G_END_DECLS
++ 
++diff -uNr atk-1.32.0.orig/atk/atkobject.c atk-1.32.0/atk/atkobject.c
++--- atk-1.32.0.orig/atk/atkobject.c	2010-09-06 08:45:45.000000000 +0200
+++++ atk-1.32.0/atk/atkobject.c	2011-09-30 10:29:49.905997587 +0200
++@@ -285,9 +285,9 @@
++                                                      GValue          *value,
++                                                      GParamSpec      *pspec);
++ static void            atk_object_finalize          (GObject         *object);
++-static G_CONST_RETURN gchar*
+++static const gchar*
++                        atk_object_real_get_name     (AtkObject       *object);
++-static G_CONST_RETURN gchar*
+++static const gchar*
++                        atk_object_real_get_description    
++                                                    (AtkObject       *object);
++ static AtkObject*      atk_object_real_get_parent  (AtkObject       *object);
++@@ -692,7 +692,7 @@
++  *
++  * Returns: a character string representing the accessible name of the object.
++  **/
++-G_CONST_RETURN gchar*
+++const gchar*
++ atk_object_get_name (AtkObject *accessible)
++ {
++   AtkObjectClass *klass;
++@@ -716,7 +716,7 @@
++  * of the accessible.
++  *
++  **/
++-G_CONST_RETURN gchar*
+++const gchar*
++ atk_object_get_description (AtkObject *accessible)
++ {
++   AtkObjectClass *klass;
++@@ -1123,7 +1123,7 @@
++                                 AtkState  state,
++                                 gboolean  value)
++ {
++-  G_CONST_RETURN gchar* name;
+++  const gchar* name;
++ 
++   g_return_if_fail (ATK_IS_OBJECT (accessible));
++ 
++@@ -1319,13 +1319,13 @@
++   G_OBJECT_CLASS (parent_class)->finalize (object);
++ }
++ 
++-static G_CONST_RETURN gchar*
+++static const gchar*
++ atk_object_real_get_name (AtkObject *object)
++ {
++   return object->name;
++ }
++ 
++-static G_CONST_RETURN gchar*
+++static const gchar*
++ atk_object_real_get_description (AtkObject *object)
++ {
++   return object->description;
++@@ -1487,7 +1487,7 @@
++  *
++  * Returns: the string describing the AtkRole
++  */
++-G_CONST_RETURN gchar*
+++const gchar*
++ atk_role_get_name (AtkRole role)
++ {
++   if (role >= 0 && role < ATK_ROLE_LAST_DEFINED)
++@@ -1514,7 +1514,7 @@
++  *
++  * Returns: the localized string describing the AtkRole
++  **/
++-G_CONST_RETURN gchar*
+++const gchar*
++ atk_role_get_localized_name (AtkRole role)
++ {
++   gettext_initialization ();
++diff -uNr atk-1.32.0.orig/atk/atkobject.h atk-1.32.0/atk/atkobject.h
++--- atk-1.32.0.orig/atk/atkobject.h	2010-09-06 08:45:45.000000000 +0200
+++++ atk-1.32.0/atk/atkobject.h	2011-09-30 10:29:49.907997585 +0200
++@@ -381,11 +381,11 @@
++   /*
++    * Gets the accessible name of the object
++    */
++-  G_CONST_RETURN gchar*    (* get_name)            (AtkObject                *accessible);
+++  const gchar*    (* get_name)            (AtkObject                *accessible);
++   /*
++    * Gets the accessible description of the object
++    */
++-  G_CONST_RETURN gchar*    (* get_description)     (AtkObject                *accessible);
+++  const gchar*    (* get_description)     (AtkObject                *accessible);
++   /*
++    * Gets the accessible parent of the object
++    */
++@@ -535,8 +535,8 @@
++  * Properties directly supported by AtkObject
++  */
++ 
++-G_CONST_RETURN gchar*   atk_object_get_name                       (AtkObject *accessible);
++-G_CONST_RETURN gchar*   atk_object_get_description                (AtkObject *accessible);
+++const gchar*   atk_object_get_name                       (AtkObject *accessible);
+++const gchar*   atk_object_get_description                (AtkObject *accessible);
++ AtkObject*              atk_object_get_parent                     (AtkObject *accessible);
++ gint                    atk_object_get_n_accessible_children      (AtkObject *accessible);
++ AtkObject*              atk_object_ref_accessible_child           (AtkObject *accessible,
++@@ -571,7 +571,7 @@
++ void                 atk_object_initialize                       (AtkObject                     *accessible,
++                                                                   gpointer                      data);
++                                     
++-G_CONST_RETURN gchar* atk_role_get_name      (AtkRole         role);
+++const gchar* atk_role_get_name      (AtkRole         role);
++ AtkRole               atk_role_for_name      (const gchar     *name);
++ 
++ 
++@@ -582,7 +582,7 @@
++ gboolean              atk_object_remove_relationship           (AtkObject      *object,
++ 								AtkRelationType relationship,
++ 								AtkObject      *target);
++-G_CONST_RETURN gchar* atk_role_get_localized_name              (AtkRole     role);
+++const gchar* atk_role_get_localized_name              (AtkRole     role);
++ 
++ /* */
++ 
++diff -uNr atk-1.32.0.orig/atk/atkrelation.c atk-1.32.0/atk/atkrelation.c
++--- atk-1.32.0.orig/atk/atkrelation.c	2010-09-06 08:45:45.000000000 +0200
+++++ atk-1.32.0/atk/atkrelation.c	2011-09-30 10:29:49.908997585 +0200
++@@ -130,7 +130,7 @@
++  *
++  * Returns: the string describing the AtkRelationType
++  */
++-G_CONST_RETURN gchar*
+++const gchar*
++ atk_relation_type_get_name (AtkRelationType type)
++ {
++   GTypeClass *type_class;
++diff -uNr atk-1.32.0.orig/atk/atkrelation.h atk-1.32.0/atk/atkrelation.h
++--- atk-1.32.0.orig/atk/atkrelation.h	2010-09-06 08:45:45.000000000 +0200
+++++ atk-1.32.0/atk/atkrelation.h	2011-09-30 10:29:49.909997586 +0200
++@@ -61,7 +61,7 @@
++ GType atk_relation_get_type (void);
++ 
++ AtkRelationType       atk_relation_type_register      (const gchar     *name);
++-G_CONST_RETURN gchar* atk_relation_type_get_name      (AtkRelationType type);
+++const gchar* atk_relation_type_get_name      (AtkRelationType type);
++ AtkRelationType       atk_relation_type_for_name      (const gchar     *name);
++ 
++ /*
++diff -uNr atk-1.32.0.orig/atk/atkstate.c atk-1.32.0/atk/atkstate.c
++--- atk-1.32.0.orig/atk/atkstate.c	2010-09-06 08:45:45.000000000 +0200
+++++ atk-1.32.0/atk/atkstate.c	2011-09-30 10:29:49.910997587 +0200
++@@ -57,7 +57,7 @@
++  *
++  * Returns: the string describing the AtkStateType
++  */
++-G_CONST_RETURN gchar*
+++const gchar*
++ atk_state_type_get_name (AtkStateType type)
++ {
++   GTypeClass *type_class;
++diff -uNr atk-1.32.0.orig/atk/atkstate.h atk-1.32.0/atk/atkstate.h
++--- atk-1.32.0.orig/atk/atkstate.h	2010-09-06 08:45:45.000000000 +0200
+++++ atk-1.32.0/atk/atkstate.h	2011-09-30 10:29:49.911997587 +0200
++@@ -170,7 +170,7 @@
++ 
++ AtkStateType atk_state_type_register            (const gchar *name);
++ 
++-G_CONST_RETURN gchar* atk_state_type_get_name   (AtkStateType type);
+++const gchar* atk_state_type_get_name   (AtkStateType type);
++ AtkStateType          atk_state_type_for_name   (const gchar  *name);
++ 
++ G_END_DECLS
++diff -uNr atk-1.32.0.orig/atk/atkstreamablecontent.c atk-1.32.0/atk/atkstreamablecontent.c
++--- atk-1.32.0.orig/atk/atkstreamablecontent.c	2010-09-06 08:45:45.000000000 +0200
+++++ atk-1.32.0/atk/atkstreamablecontent.c	2011-09-30 10:29:49.912997587 +0200
++@@ -73,7 +73,7 @@
++  * Returns : a gchar* representing the specified mime type; the caller
++  * should not free the character string.
++  **/
++-G_CONST_RETURN gchar*
+++const gchar*
++ atk_streamable_content_get_mime_type (AtkStreamableContent *streamable,
++                                       gint                 i)
++ {
++diff -uNr atk-1.32.0.orig/atk/atkstreamablecontent.h atk-1.32.0/atk/atkstreamablecontent.h
++--- atk-1.32.0.orig/atk/atkstreamablecontent.h	2010-09-06 08:45:45.000000000 +0200
+++++ atk-1.32.0/atk/atkstreamablecontent.h	2011-09-30 10:29:49.913997587 +0200
++@@ -54,11 +54,11 @@
++    * at index 0 should be considered the "default" data type for the stream.
++    *
++    * This assumes that the strings for the mime types are stored in the
++-   * AtkStreamableContent. Alternatively the G_CONST_RETURN could be removed
+++   * AtkStreamableContent. Alternatively the const could be removed
++    * and the caller would be responsible for calling g_free() on the
++    * returned value.
++    */
++-  G_CONST_RETURN gchar*     (* get_mime_type)     (AtkStreamableContent     *streamable,
+++  const gchar*     (* get_mime_type)     (AtkStreamableContent     *streamable,
++                                                    gint                     i);
++   /*
++    * One possible implementation for this method is that it constructs the
++@@ -80,7 +80,7 @@
++  * constructed.  Note that it is possible for get_uri to return NULL but for
++  * get_stream to work nonetheless, since not all GIOChannels connect to URIs.
++  */
++-    G_CONST_RETURN  gchar*  (* get_uri)           (AtkStreamableContent     *streamable,
+++    const  gchar*  (* get_uri)           (AtkStreamableContent     *streamable,
++                                                    const gchar              *mime_type);
++ 
++ 
++@@ -92,7 +92,7 @@
++ 
++ gint                   atk_streamable_content_get_n_mime_types (AtkStreamableContent     *streamable);
++                                                        
++-G_CONST_RETURN gchar*  atk_streamable_content_get_mime_type    (AtkStreamableContent     *streamable,
+++const gchar*  atk_streamable_content_get_mime_type    (AtkStreamableContent     *streamable,
++                                                                 gint                     i);
++ GIOChannel*             atk_streamable_content_get_stream       (AtkStreamableContent     *streamable,
++                                                                  const gchar              *mime_type);
++diff -uNr atk-1.32.0.orig/atk/atktable.c atk-1.32.0/atk/atktable.c
++--- atk-1.32.0.orig/atk/atktable.c	2010-09-06 08:45:45.000000000 +0200
+++++ atk-1.32.0/atk/atktable.c	2011-09-30 10:29:49.915997586 +0200
++@@ -300,7 +300,7 @@
++  * Returns: a gchar* representing the column description, or %NULL
++  * if value does not implement this interface.
++  **/
++-G_CONST_RETURN gchar*
+++const gchar*
++ atk_table_get_column_description (AtkTable *table,
++                                   gint     column)
++ {
++@@ -404,7 +404,7 @@
++  * Returns: a gchar* representing the row description, or %NULL
++  * if value does not implement this interface.
++  **/
++-G_CONST_RETURN gchar*
+++const gchar*
++ atk_table_get_row_description (AtkTable *table,
++                                gint      row)
++ {
++diff -uNr atk-1.32.0.orig/atk/atktable.h atk-1.32.0/atk/atktable.h
++--- atk-1.32.0.orig/atk/atktable.h	2010-09-06 08:45:45.000000000 +0200
+++++ atk-1.32.0/atk/atktable.h	2011-09-30 10:29:49.916997586 +0200
++@@ -69,12 +69,12 @@
++                                                   gint          column);
++   AtkObject*
++                     (* get_caption)              (AtkTable      *table);
++-  G_CONST_RETURN gchar*
+++  const gchar*
++                     (* get_column_description)   (AtkTable      *table,
++                                                   gint          column);
++   AtkObject*        (* get_column_header)        (AtkTable      *table,
++ 						  gint		column);
++-  G_CONST_RETURN gchar*
+++  const gchar*
++                     (* get_row_description)      (AtkTable      *table,
++                                                   gint          row);
++   AtkObject*        (* get_row_header)           (AtkTable      *table,
++@@ -163,12 +163,12 @@
++                                                   gint             column);
++ AtkObject*
++                   atk_table_get_caption          (AtkTable         *table);
++-G_CONST_RETURN gchar*
+++const gchar*
++                   atk_table_get_column_description (AtkTable         *table,
++                                                   gint             column);
++ AtkObject*        atk_table_get_column_header    (AtkTable         *table,
++ 						  gint		   column);
++-G_CONST_RETURN gchar*
+++const gchar*
++                   atk_table_get_row_description  (AtkTable         *table,
++                                                   gint             row);
++ AtkObject*        atk_table_get_row_header       (AtkTable         *table,
++diff -uNr atk-1.32.0.orig/atk/atktext.c atk-1.32.0/atk/atktext.c
++--- atk-1.32.0.orig/atk/atktext.c	2010-09-27 09:07:09.000000000 +0200
+++++ atk-1.32.0/atk/atktext.c	2011-09-30 10:29:49.919997586 +0200
++@@ -1054,7 +1054,7 @@
++  *
++  * Returns: a string containing the name; this string should not be freed
++  **/
++-G_CONST_RETURN gchar*
+++const gchar*
++ atk_text_attribute_get_name (AtkTextAttribute attr)
++ {
++   GTypeClass *type_class;
++@@ -1150,7 +1150,7 @@
++  * Returns: a string containing the value; this string should not be freed;
++  * NULL is returned if there are no values maintained for the attr value. 
++  **/
++-G_CONST_RETURN gchar*
+++const gchar*
++ atk_text_attribute_get_value (AtkTextAttribute attr,
++                               gint             index)
++ {
++diff -uNr atk-1.32.0.orig/atk/atktext.h atk-1.32.0/atk/atktext.h
++--- atk-1.32.0.orig/atk/atktext.h	2010-09-27 09:07:09.000000000 +0200
+++++ atk-1.32.0/atk/atktext.h	2011-09-30 10:29:49.921997586 +0200
++@@ -355,9 +355,9 @@
++                                                            AtkTextClipType  y_clip_type);
++ void          atk_text_free_ranges                        (AtkTextRange     **ranges);
++ void 	      atk_attribute_set_free                      (AtkAttributeSet  *attrib_set);
++-G_CONST_RETURN gchar*  atk_text_attribute_get_name        (AtkTextAttribute attr);
+++const gchar*  atk_text_attribute_get_name        (AtkTextAttribute attr);
++ AtkTextAttribute       atk_text_attribute_for_name        (const gchar      *name);
++-G_CONST_RETURN gchar*  atk_text_attribute_get_value       (AtkTextAttribute attr,
+++const gchar*  atk_text_attribute_get_value       (AtkTextAttribute attr,
++                                                            gint             index_);
++ 
++ G_END_DECLS
++diff -uNr atk-1.32.0.orig/atk/atkutil.c atk-1.32.0/atk/atkutil.c
++--- atk-1.32.0.orig/atk/atkutil.c	2010-09-06 08:45:45.000000000 +0200
+++++ atk-1.32.0/atk/atkutil.c	2011-09-30 10:29:49.922997586 +0200
++@@ -340,7 +340,7 @@
++  *
++  * Returns: name string for the GUI toolkit implementing ATK for this application
++  **/
++-G_CONST_RETURN gchar*
+++const gchar*
++ atk_get_toolkit_name (void)
++ {
++   const gchar *retval;
++@@ -365,7 +365,7 @@
++  *
++  * Returns: version string for the GUI toolkit implementing ATK for this application
++  **/
++-G_CONST_RETURN gchar*
+++const gchar*
++ atk_get_toolkit_version (void)
++ {
++   const gchar *retval;
++@@ -391,7 +391,7 @@
++  * Returns: version string for ATK
++  **/
++ 
++-G_CONST_RETURN gchar *
+++const gchar *
++ atk_get_version (void)
++ {
++   return VERSION;
++diff -uNr atk-1.32.0.orig/atk/atkutil.h atk-1.32.0/atk/atkutil.h
++--- atk-1.32.0.orig/atk/atkutil.h	2010-09-06 08:45:45.000000000 +0200
+++++ atk-1.32.0/atk/atkutil.h	2011-09-30 10:29:49.923997586 +0200
++@@ -147,8 +147,8 @@
++ 						  gpointer data);
++    void         (* remove_key_event_listener)    (guint               listener_id);
++    AtkObject*   (* get_root)                     (void);
++-   G_CONST_RETURN gchar* (* get_toolkit_name)    (void);
++-   G_CONST_RETURN gchar* (* get_toolkit_version) (void);
+++   const gchar* (* get_toolkit_name)    (void);
+++   const gchar* (* get_toolkit_version) (void);
++ };
++ GType atk_util_get_type (void);
++ 
++@@ -229,17 +229,17 @@
++ /*
++  * Returns name string for the GUI toolkit.
++  */
++-G_CONST_RETURN gchar *atk_get_toolkit_name (void);
+++const gchar *atk_get_toolkit_name (void);
++ 
++ /*
++  * Returns version string for the GUI toolkit.
++  */
++-G_CONST_RETURN gchar *atk_get_toolkit_version (void);
+++const gchar *atk_get_toolkit_version (void);
++ 
++ /*
++  * Gets the current version of ATK
++  */
++-G_CONST_RETURN gchar *atk_get_version (void);
+++const gchar *atk_get_version (void);
++ 
++ /* --- GType boilerplate --- */
++ /* convenience macros for atk type implementations, which for a type GtkGadgetAccessible will:
++diff -uNr atk-1.32.0.orig/tests/testrelation.c atk-1.32.0/tests/testrelation.c
++--- atk-1.32.0.orig/tests/testrelation.c	2010-09-06 08:45:45.000000000 +0200
+++++ atk-1.32.0/tests/testrelation.c	2011-09-30 10:29:49.924997586 +0200
++@@ -28,7 +28,7 @@
++ test_relation (void)
++ {
++   AtkRelationType type1, type2;
++-  G_CONST_RETURN gchar *name;
+++  const gchar *name;
++   AtkObject *obj;
++   gboolean ret_value;
++   AtkRelationSet *set;
++@@ -169,7 +169,7 @@
++ test_role (void)
++ {
++   AtkRole role1, role2;
++-  G_CONST_RETURN gchar *name;
+++  const gchar *name;
++ 
++   name = atk_role_get_name (ATK_ROLE_PAGE_TAB);
++   g_return_val_if_fail (name, FALSE);
++@@ -230,7 +230,7 @@
++ test_text_attr (void)
++ {
++   AtkTextAttribute attr1, attr2;
++-  G_CONST_RETURN gchar *name;
+++  const gchar *name;
++ 
++   name = atk_text_attribute_get_name (ATK_TEXT_ATTR_PIXELS_INSIDE_WRAP);
++   g_return_val_if_fail (name, FALSE);
++diff -uNr atk-1.32.0.orig/tests/teststateset.c atk-1.32.0/tests/teststateset.c
++--- atk-1.32.0.orig/tests/teststateset.c	2010-09-06 08:45:45.000000000 +0200
+++++ atk-1.32.0/tests/teststateset.c	2011-09-30 10:29:49.926997586 +0200
++@@ -208,7 +208,7 @@
++ test_state (void)
++ {
++   AtkStateType type1, type2;
++-  G_CONST_RETURN gchar *name;
+++  const gchar *name;
++ 
++   name = atk_state_type_get_name (ATK_STATE_VISIBLE);
++   g_return_val_if_fail (name, FALSE);
+diff --git a/meta/recipes-support/atk/atk_1.32.0.bb b/meta/recipes-support/atk/atk_1.32.0.bb
+index e6883eb..db8ca1f 100644
+--- a/meta/recipes-support/atk/atk_1.32.0.bb
++++ b/meta/recipes-support/atk/atk_1.32.0.bb
+@@ -4,7 +4,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
+                     file://atk/atkutil.c;endline=20;md5=db21b0bdbef9da4dc6eb122debc9f9bc \
+                     file://atk/atk.h;endline=20;md5=c58238d688c24387376d6c69d06248a7"
  
-+SRC_URI += "file://nocompiler.patch"
-+
- DEPENDS = "virtual/xserver font-util"
- RDEPENDS_${PN} = "encodings font-util"
- RDEPENDS_${PN}_virtclass-native = "font-util-native"
- 
--PE = "1"
--PR = "${INC_PR}.1"
-+inherit allarch
- 
--PACKAGE_ARCH = "all"
-+PE = "1"
-+PR = "${INC_PR}.2"
- 
- SRC_URI[md5sum] = "6d25f64796fef34b53b439c2e9efa562"
- SRC_URI[sha256sum] = "8b453b2aae1cfa8090009ca037037b8c5e333550651d5a158b7264ce1d472c9a"
-diff --git a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
-index d5d8fe7..f454f9e 100644
---- a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
-+++ b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
-@@ -13,10 +13,11 @@ LIC_FILES_CHKSUM = "file://../misc/fonts.alias;md5=bbe8d3c0e4e74af96e3ac393985c4
- SRC_URI = "file://misc"
- 
- PE = "1"
--PR = "r0"
+-SRC_URI = "http://download.gnome.org/sources/atk/1.32/${BPN}-${PV}.tar.bz2"
 +PR = "r1"
-+
-+inherit allarch
++SRC_URI = "http://download.gnome.org/sources/atk/1.32/${BPN}-${PV}.tar.bz2 \
++           file://remove.G_CONST_RETURN.patch \
++"
  
- PACKAGES = "${PN}"
--PACKAGE_ARCH = "all"
- FILES_${PN} = "${libdir}/X11/ ${datadir}/fonts/X11/"
- 
- do_install() {
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 660877e..1dffd75 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -24,7 +24,7 @@ PROVIDES += "linux-firmware-sd8686 linux-firmware-rtl8192cu linux-firmware-rtl81
- 
- SRCREV = "40c0f950be7040614dc45df54e25e54d00e3b73b"
- PV = "0.0+git${SRCPV}"
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/dwmw2/linux-firmware.git;protocol=git"
- 
-@@ -77,5 +77,3 @@ FILES_${PN}-rtl8192su = " \
-   /lib/firmware/rtlwifi/LICENCE.rtlwifi_firmware.txt \
- "
- RPROVIDES_${PN}-rtl8192su = "${PN}-rtl8192su"
--
--PACKAGE_ARCH = "all"
-diff --git a/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc b/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
-index 0eff9dd..75e029c 100644
---- a/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
-+++ b/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
-@@ -8,12 +8,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=56a830bbe6e4697fe6cbbae01bb7c2b2"
- SECTION = "x11"
- DEPENDS = ""
- 
--inherit autotools pkgconfig
-+inherit autotools pkgconfig allarch
- 
- FILES_${PN} += "${datadir}"
- 
--PACKAGE_ARCH = "all"
--
- EXTRA_OECONF += "--with-iconmap=${STAGING_LIBDIR_NATIVE}/../libexec/icon-name-mapping"
- 
- #explictly setting "Sato" as default icon theme to avoid icon missing due to
-diff --git a/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb b/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
-index e69481d..54e4627 100644
---- a/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
-+++ b/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
-@@ -2,6 +2,8 @@ require sato-icon-theme.inc
- 
- DEPENDS += "icon-naming-utils-native"
- 
-+PR = "r1"
-+
- SRC_URI = "http://pokylinux.org/releases/sato/${BPN}-${PV}.tar.gz \
-            file://iconpath-option.patch"
- 
-diff --git a/meta/recipes-support/hal/hal-info.inc b/meta/recipes-support/hal/hal-info.inc
-index 183dd0e..d6743de 100644
---- a/meta/recipes-support/hal/hal-info.inc
-+++ b/meta/recipes-support/hal/hal-info.inc
-@@ -18,5 +18,4 @@ do_configure() {
- 	oe_runconf
- }
- 
--PACKAGE_ARCH = "all"
- FILES_${PN} += "${datadir}/hal/"
-diff --git a/meta/recipes-support/hal/hal-info_20091130.bb b/meta/recipes-support/hal/hal-info_20091130.bb
-index 4469904..65d4d6b 100644
---- a/meta/recipes-support/hal/hal-info_20091130.bb
-+++ b/meta/recipes-support/hal/hal-info_20091130.bb
-@@ -1,4 +1,6 @@
- require hal-info.inc
- 
-+PR = "r1"
-+
- SRC_URI[md5sum] = "34375489a02a00b250fdc0b280be11b8"
- SRC_URI[sha256sum] = "3b5a90eaea4359977d36c808a19b3f08835345a258c68b9c6c080ad5ef875224"
-diff --git a/meta/recipes-support/hal/hal-info_git.bb b/meta/recipes-support/hal/hal-info_git.bb
-index 3fff5e0..adcde9e 100644
---- a/meta/recipes-support/hal/hal-info_git.bb
-+++ b/meta/recipes-support/hal/hal-info_git.bb
-@@ -1,7 +1,7 @@
- require hal-info.inc
- 
- PV = "${SRCDATE}+git"
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "git://anongit.freedesktop.org/hal-info/;protocol=git;rev=HAL_INFO_20091130"
- S = "${WORKDIR}/git"
+ SRC_URI[md5sum] = "b9a19a3e426cd9ca930f0108c4ee343f"
+ SRC_URI[sha256sum] = "e9a3e598f75c4db1af914f8b052dd9f7e89e920a96cc187c18eb06b8339cb16e"
 -- 
 1.7.6.1
 
