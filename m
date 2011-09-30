@@ -1,32 +1,32 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1R9h1M-0007od-BU
+	(envelope-from <saul.wold@intel.com>) id 1R9h3A-0007qe-FV
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 19:37:12 +0200
-Received: by ywf7 with SMTP id 7so1698166ywf.6
+	Fri, 30 Sep 2011 19:39:04 +0200
+Received: from mail-fx0-f52.google.com ([209.85.161.52])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 30 Sep 2011 10:33:24 -0700
+Received: by fxe23 with SMTP id 23so3052044fxe.25
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 10:31:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=XyLY/zReb51oWA7HlP4f3tTw7nubvUOxC/VvkfHpAa0=;
-	b=wIIyN/KfdRb70/vbtfnFDke+HeOKds0wdquEq+idFHw3rmAYEm87abpVoEag/VoXUX
-	7j2MkkvwJJAGJezbMtxIY56qdoc8/CVMpMWF74AWIdK7ui88I5gIAYZjZrL/tCOBQySo
-	HpEKDeSlBeZHlmdmoCualEkWtlfzh+cwUTYiU=
-Received: by 10.236.185.164 with SMTP id u24mr20946389yhm.94.1317403902569;
-	Fri, 30 Sep 2011 10:31:42 -0700 (PDT)
-Received: from [172.23.2.133] (natint3.juniper.net. [66.129.224.36])
-	by mx.google.com with ESMTPS id r16sm15591772anh.8.2011.09.30.10.31.40
-	(version=SSLv3 cipher=OTHER); Fri, 30 Sep 2011 10:31:41 -0700 (PDT)
-Message-ID: <4E85FCF7.6030208@gmail.com>
-Date: Fri, 30 Sep 2011 10:31:35 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; rv:7.0) Gecko/20110922 Thunderbird/7.0
+	Fri, 30 Sep 2011 10:33:23 -0700 (PDT)
+Received: by 10.223.30.27 with SMTP id s27mr11663462fac.129.1317404003494;
+	Fri, 30 Sep 2011 10:33:23 -0700 (PDT)
+Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id b10sm7584413fam.1.2011.09.30.10.33.20
+	(version=SSLv3 cipher=OTHER); Fri, 30 Sep 2011 10:33:21 -0700 (PDT)
+Message-ID: <4E85FD5E.7060305@intel.com>
+Date: Fri, 30 Sep 2011 10:33:18 -0700
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:6.0.2) Gecko/20110906 Thunderbird/6.0.2
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <5755C992-C736-4714-9DE3-761E3E74C6F8@kernel.crashing.org>
-In-Reply-To: <5755C992-C736-4714-9DE3-761E3E74C6F8@kernel.crashing.org>
-Subject: Re: Adding TARGET_VECTOR
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1317372422-7943-1-git-send-email-Martin.Jansa@gmail.com>
+In-Reply-To: <1317372422-7943-1-git-send-email-Martin.Jansa@gmail.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: [PATCH] atk: add patch to replace G_CONST_RETURN with const
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,33 +41,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 17:37:12 -0000
+X-List-Received-Date: Fri, 30 Sep 2011 17:39:04 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 8/25/2011 7:35 AM, Kumar Gala wrote:
-> We have some packages like flac that are aware of vectorization that may or may not exist on a given processor.  I was wondering if adding something like TARGET_VECTOR similar to TARGET_FPU made sense as a way for recipes to decide on how to set various vectorization flags if needed.
+On 09/30/2011 01:47 AM, Martin Jansa wrote:
+> * otherwise build fails when glib is 2.30.0 or newer (and G_DISABLE_DEPRECATED is enabled - like in atk)
 >
-> I was looking at this mostly from the PPC side in which we have:
+> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
+> ---
+>   .../atk/atk-1.32.0/remove.G_CONST_RETURN.patch     |  628 ++++++++++++++++++++
+>   meta/recipes-support/atk/atk_1.32.0.bb             |    5 +-
+>   2 files changed, 632 insertions(+), 1 deletions(-)
+>   create mode 100644 meta/recipes-support/atk/atk-1.32.0/remove.G_CONST_RETURN.patch
 >
-> TARGET_VECTOR = "" /* processor has no vector hw */
-> TARGET_VECTOR = "altivec" /* processor has AltiVec support */
-> TARGET_VECTOR = "spe" /* processor has signal processing engine support */
-> TARGET_VECTOR = "vsx" /* processor has Vector-Scalar Extension */
->
+> diff --git a/meta/recipes-support/atk/atk-1.32.0/remove.G_CONST_RETURN.patch b/meta/recipes-support/atk/atk-1.32.0/remove.G_CONST_RETURN.patch
+> new file mode 100644
+> index 0000000..0cdf041
+> --- /dev/null
+> +++ b/meta/recipes-support/atk/atk-1.32.0/remove.G_CONST_RETURN.patch
+> @@ -0,0 +1,628 @@
+> +Upstream-Status: Accepted
+> +
+> +Similar patch is already included in 2.0.1 and newer
+> +http://ftp.gnome.org/pub/gnome/sources/atk/2.0/atk-2.0.1.news
+> +
 
-is target vector a property of FPU itself or is it a separate processing 
-unit in hardware.?
+No Signed-off-by: in the patch header.
 
+If the newer version of atk is available, why not update atk in oe-core 
+to that version and not add this patch?
 
-> Not sure what makes sense for x86, ARM, or MIPS.
+Is there a reason we can't update to 2.0.1 at this time?
 
->
-> - k
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+Thanks
+	Sau!
 
 
