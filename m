@@ -1,31 +1,23 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R9e0E-0002Rs-Qg for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 16:23:50 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8UEOjam025196 for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 15:24:46 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Pn7xCGO7oYBG
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 15:24:45 +0100 (BST)
-Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8UEOhKC025192
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 15:24:44 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Sep 2011 15:18:16 +0100
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1317392303.12332.209.camel@ted>
-Mime-Version: 1.0
-Subject: [PATCH] package_rpm: Ensure multilib code is only called in the multilib case
+	(envelope-from <ke.yu@intel.com>)
+	id 1R9eHi-0002iM-TS; Fri, 30 Sep 2011 16:41:55 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 30 Sep 2011 07:36:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,467,1312182000"; d="scan'208";a="69056075"
+Received: from kyu3-desk.ccr.corp.intel.com (HELO [10.238.154.176])
+	([10.238.154.176])
+	by fmsmga001.fm.intel.com with ESMTP; 30 Sep 2011 07:36:16 -0700
+Message-ID: <4E85D3E0.7070807@intel.com>
+Date: Fri, 30 Sep 2011 22:36:16 +0800
+From: Yu Ke <ke.yu@intel.com>
+User-Agent: Mozilla/5.0 (Windows NT 5.1; rv:7.0) Gecko/20110922 Thunderbird/7.0
+MIME-Version: 1.0
+To: bitbake-devel@lists.openembedded.org, 
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	Lock, Joshua <joshua.lock@intel.com>
+Subject: Feedback on HOB (new image creator GUI)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,70 +32,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 14:23:51 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 30 Sep 2011 14:41:55 -0000
+Content-Type: text/plain; charset=GB18030; format=flowed
 Content-Transfer-Encoding: 7bit
 
-This fixes some error messages in the do_rootfs logs of non-multilib
-builds.
+Hi,
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index fa0d8c3..7f42583 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -354,6 +354,8 @@ package_install_internal_rpm () {
- 		-D "__dbi_txn create nofsync private" \
- 		| grep -i 'Packageorigin' | cut -d : -f 2 > ${target_rootfs}/install/install_solution.manifest
- 
-+	touch ${target_rootfs}/install/install_multilib_solution.manifest
-+
- 	if [ ! -z "${multilib_to_install}" ]; then
- 		for pkg in ${multilib_to_install} ; do
- 			echo "Processing $pkg..."
-@@ -376,24 +378,25 @@ package_install_internal_rpm () {
- 			fi
- 			echo $pkg_name >> ${target_rootfs}/install/install_multilib.manifest
- 		done
--	fi
- 
--	# multilib package installation
-+		# multilib package installation
- 
--	# Generate an install solution by doing a --justdb install, then recreate it with
--	# an actual package install!
--	${RPM} --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
--		--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
--		-D "_dbpath ${target_rootfs}/install" -D "`cat ${confbase}-ml_archs.macro`" \
--		-D "__dbi_txn create nofsync" \
--		-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
--		${target_rootfs}/install/install_multilib.manifest
-+		# Generate an install solution by doing a --justdb install, then recreate it with
-+		# an actual package install!
-+		${RPM} --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
-+			--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
-+			-D "_dbpath ${target_rootfs}/install" -D "`cat ${confbase}-ml_archs.macro`" \
-+			-D "__dbi_txn create nofsync" \
-+			-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
-+			${target_rootfs}/install/install_multilib.manifest
-+
-+		# Now that we have a solution, pull out a list of what to install...
-+		echo "Manifest: ${target_rootfs}/install/install_multilib.manifest"
-+		${RPM} -D "_dbpath ${target_rootfs}/install" -qa --yaml \
-+			-D "__dbi_txn create nofsync private" \
-+			| grep -i 'Packageorigin' | cut -d : -f 2 > ${target_rootfs}/install/install_multilib_solution.manifest
- 
--	# Now that we have a solution, pull out a list of what to install...
--	echo "Manifest: ${target_rootfs}/install/install_multilib.manifest"
--	${RPM} -D "_dbpath ${target_rootfs}/install" -qa --yaml \
--		-D "__dbi_txn create nofsync private" \
--		| grep -i 'Packageorigin' | cut -d : -f 2 > ${target_rootfs}/install/install_multilib_solution.manifest
-+	fi
- 
- 	cat ${target_rootfs}/install/install_solution.manifest > ${target_rootfs}/install/total_solution.manifest
- 	cat ${target_rootfs}/install/install_multilib_solution.manifest >> ${target_rootfs}/install/total_solution.manifest
+As you may already know, a new GUI has been added to bitbake recently, 
+i.e. HOB (Human Oriented Builder). It is a graphical image creator that 
+allows user to freely choose which packages to be built in the image. 
+The wiki https://wiki.yoctoproject.org/wiki/BitBake/GUI/Hob  has more 
+detail.
 
+This email is to collect your feedback on the HOB. Current HOB is our 
+first version, and it surely has many place to improve. We has the plan 
+to enhance it in Yocto 1.2. So we really hope that you can use it and 
+provide your valuable feedback . We do think user's feedback/requirement 
+is the right way to go. Looking forward your valuable input.
 
+Best Regards
+Ke
+
+Ps. The simple way to run hob is:
+# touch conf/hob-pre.conf conf/hob-post.conf
+# bitbake -u hob -r conf/hob-pre.conf -R conf/hob-post.conf
+
+Where conf/hob-pre.conf conf/hob-post.conf is the configuration file, 
+which can be empty in above case.
 
 
