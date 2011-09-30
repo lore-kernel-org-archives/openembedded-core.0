@@ -1,56 +1,24 @@
-Received: from ch1ehsobe005.messaging.microsoft.com ([216.32.181.185]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1R9Ris-0001vC-FZ
+	(envelope-from <nitin.a.kamble@intel.com>) id 1R9Rxv-00027W-VF
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 03:17:06 +0200
-Received: from mail177-ch1-R.bigfish.com (216.32.181.173) by
-	CH1EHSOBE018.bigfish.com (10.43.70.68) with Microsoft SMTP Server id
-	14.1.225.22; Fri, 30 Sep 2011 01:11:37 +0000
-Received: from mail177-ch1 (localhost.localdomain [127.0.0.1])	by
-	mail177-ch1-R.bigfish.com (Postfix) with ESMTP id A1DE08F03FE	for
-	<openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 01:11:37 +0000 (UTC)
-X-SpamScore: -16
-X-BigFish: VS-16(zz9371K1432N98dK4015Lzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3h61h)
-X-Spam-TCS-SCL: 0:0
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
-	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 0,
-Received: from mail177-ch1 (localhost.localdomain [127.0.0.1]) by mail177-ch1
-	(MessageSwitch) id 1317345097591235_13773;
-	Fri, 30 Sep 2011 01:11:37 +0000 (UTC)
-Received: from CH1EHSMHS022.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.242])	by mail177-ch1.bigfish.com (Postfix) with ESMTP id
-	8B9381838050	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 01:11:37 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS022.bigfish.com
-	(10.43.70.22) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Fri, 30 Sep 2011 01:11:32 +0000
-Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.230]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.01.0323.007; Thu, 29 Sep 2011 20:11:32 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] Build Times and Performance - Discussion + new ideas
-Thread-Index: AQHMfw3jseFGRo0BskK8lcinwcHQ3A==
-Date: Fri, 30 Sep 2011 01:11:31 +0000
-Message-ID: <CAEsOVNc1Ckw-eCFSTGLngecojM=gR5rvphLFKP5TRfn17pobcg@mail.gmail.com>
-References: <1317143228.26109.203.camel@ted>
-In-Reply-To: <1317143228.26109.203.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: Build Times and Performance - Discussion + new ideas
+	Fri, 30 Sep 2011 03:32:40 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 29 Sep 2011 18:27:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="57410752"
+Received: from nbuild2.sc.intel.com ([172.25.110.37])
+	by orsmga001.jf.intel.com with ESMTP; 29 Sep 2011 18:27:10 -0700
+From: nitin.a.kamble@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 29 Sep 2011 18:27:08 -0700
+Message-Id: <cover.1317344910.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.4.4
+Subject: [PATCH 0/4] Recipes upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -61,27 +29,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 01:17:06 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <C96BEAB4D90754439181657BE3B4C68D@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 30 Sep 2011 01:32:40 -0000
 
-On Tue, Sep 27, 2011 at 12:07 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> https://wiki.yoctoproject.org/wiki/Build_Performance
->
-> As detailed there I've setup a partition formatted with ext4 with no
-> journal, no barriers and most importantly a long commit time. The intent
-> here is to allow things to exist in memory and not block on disk IO.
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Richard,
+The following changes since commit 9d1db6cc928199f8ac4960e8d4648563ef141427:
 
-Can you comment on how much these settings effect build times vs.
-saying running on ext3 which our build server happens to be using?
+  python: fix sqlite RPATH issue (2011-09-29 16:57:30 +0100)
 
-Thanks,
-Matthew=
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/upgrades
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/upgrades
+
+Nitin A Kamble (4):
+  gdb: upgrade from 7.3a to 7.3.1
+  byacc: upgrade from 20101229 to 20110908
+  python-dbus: upgrade from 0.83.2 to 0.84.0
+  python, python-native: upgrade from 2.6.6 to 2.7.2
+
+ meta/conf/distro/include/default-versions.inc      |    6 +-
+ meta/recipes-devtools/gdb/gdb-common.inc           |    4 +-
+ ...anadian_7.3a.bb => gdb-cross-canadian_7.3.1.bb} |    2 +-
+ .../gdb/{gdb-cross_7.3a.bb => gdb-cross_7.3.1.bb}  |    2 +-
+ .../gdb/{gdb_7.3a.bb => gdb_7.3.1.bb}              |    2 +-
+ ...on-2.6-manifest.inc => python-2.7-manifest.inc} |    0
+ ...python-dbus_0.83.2.bb => python-dbus_0.84.0.bb} |    4 +-
+ .../python/python-native/multilib.patch            |  240 ++++++++++++++++++++
+ .../python/python-native/nohostlibs.patch          |   36 ++-
+ ...thon-native_2.6.6.bb => python-native_2.7.2.bb} |   13 +-
+ meta/recipes-devtools/python/python.inc            |   16 +-
+ .../01-use-proper-tools-for-cross-build.patch      |  118 +++++++---
+ .../python/python/02-remove-test-for-cross.patch   |  108 ---------
+ .../06-avoid_usr_lib_termcap_path_in_linking.patch |   16 +-
+ .../python/06-ctypes-libffi-fix-configure.patch    |   42 ++---
+ meta/recipes-devtools/python/python/multilib.patch |  126 ++++++-----
+ .../python/python/security_issue_2254_fix.patch    |  184 ---------------
+ .../python/{python_2.6.6.bb => python_2.7.2.bb}    |   10 +-
+ .../byacc/{byacc_20101229.bb => byacc_20110908.bb} |    4 +-
+ meta/site/arm-common                               |    3 +
+ meta/site/mips-common                              |    3 +
+ 21 files changed, 476 insertions(+), 463 deletions(-)
+ rename meta/recipes-devtools/gdb/{gdb-cross-canadian_7.3a.bb => gdb-cross-canadian_7.3.1.bb} (83%)
+ rename meta/recipes-devtools/gdb/{gdb-cross_7.3a.bb => gdb-cross_7.3.1.bb} (78%)
+ rename meta/recipes-devtools/gdb/{gdb_7.3a.bb => gdb_7.3.1.bb} (91%)
+ rename meta/recipes-devtools/python/{python-2.6-manifest.inc => python-2.7-manifest.inc} (100%)
+ rename meta/recipes-devtools/python/{python-dbus_0.83.2.bb => python-dbus_0.84.0.bb} (83%)
+ create mode 100644 meta/recipes-devtools/python/python-native/multilib.patch
+ rename meta/recipes-devtools/python/{python-native_2.6.6.bb => python-native_2.7.2.bb} (74%)
+ delete mode 100644 meta/recipes-devtools/python/python/02-remove-test-for-cross.patch
+ delete mode 100644 meta/recipes-devtools/python/python/security_issue_2254_fix.patch
+ rename meta/recipes-devtools/python/{python_2.6.6.bb => python_2.7.2.bb} (92%)
+ rename meta/recipes-extended/byacc/{byacc_20101229.bb => byacc_20110908.bb} (49%)
+
+-- 
+1.7.4.4
 
 
 
