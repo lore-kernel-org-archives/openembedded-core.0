@@ -1,59 +1,31 @@
-Received: from ch1ehsobe005.messaging.microsoft.com ([216.32.181.185]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1R9gm1-0007Oe-BL
-	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 19:21:21 +0200
-Received: from mail18-ch1-R.bigfish.com (216.32.181.168) by
-	CH1EHSOBE006.bigfish.com (10.43.70.56) with Microsoft SMTP Server id
-	14.1.225.22; Fri, 30 Sep 2011 17:00:38 +0000
-Received: from mail18-ch1 (localhost.localdomain [127.0.0.1])	by
-	mail18-ch1-R.bigfish.com (Postfix) with ESMTP id CC758C2020D	for
-	<openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 17:00:37 +0000 (UTC)
-X-SpamScore: -12
-X-BigFish: VS-12(zz9371K1432N98dKzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
-	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 0,
-Received: from mail18-ch1 (localhost.localdomain [127.0.0.1]) by mail18-ch1
-	(MessageSwitch) id 1317401980633026_12648;
-	Fri, 30 Sep 2011 16:59:40 +0000 (UTC)
-Received: from CH1EHSMHS029.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.245])	by mail18-ch1.bigfish.com (Postfix) with ESMTP id
-	8A77318D8198	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 16:59:02 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS029.bigfish.com
-	(10.43.70.29) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Fri, 30 Sep 2011 16:59:01 +0000
-Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.230]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.01.0323.007; Fri, 30 Sep 2011 11:58:48 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
+	(envelope-from <josh@linux.intel.com>)
+	id 1R9gmm-0007Qk-EA; Fri, 30 Sep 2011 19:22:09 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 30 Sep 2011 10:16:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,468,1312182000"; d="scan'208";a="22213476"
+Received: from unknown (HELO [10.255.15.62]) ([10.255.15.62])
+	by AZSMGA002.ch.intel.com with ESMTP; 30 Sep 2011 10:16:37 -0700
+From: Joshua Lock <josh@linux.intel.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Fri, 30 Sep 2011 10:16:32 -0700
+In-Reply-To: <689D3FDE-CD3B-48CE-9426-AE59008C0609@dominion.thruhere.net>
+References: <4E85D3E0.7070807@intel.com> <1317397804.11645.7.camel@scimitar>
+	<689D3FDE-CD3B-48CE-9426-AE59008C0609@dominion.thruhere.net>
+X-Mailer: Evolution 3.0.3 (3.0.3-1.fc15) 
+Message-ID: <1317402997.11645.13.camel@scimitar>
+Mime-Version: 1.0
+Cc: "bitbake-devel@lists.openembedded.org"
+	<bitbake-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v2 01/16] libnl2: Fix a race on
-	route/pktloc_syntax.h
-Thread-Index: AQHMfybENeCaQrDzXk+6c7ADKhUffZVl1nGAgACjaYA=
-Date: Fri, 30 Sep 2011 16:58:47 +0000
-Message-ID: <CAEsOVNfcJV6pBCt7+9C+Grip_QgXHmkcy0PJRa-EL8nRFqwpzg@mail.gmail.com>
-References: <1317323496-1818-1-git-send-email-msm@freescale.com>
-	<CAEsOVNdsWvCRj+nixWeE-vubRTGG3yrDkEiUCZCUpFyrUESY3g@mail.gmail.com>
-	<20110930071333.GB2361@jama.jama.net>
-In-Reply-To: <20110930071333.GB2361@jama.jama.net>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>
-Subject: Re: [PATCH v2 01/16] libnl2: Fix a race on route/pktloc_syntax.h
+Subject: Re: [bitbake-devel] Feedback on HOB (new image creator GUI)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -64,44 +36,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 17:21:21 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <67513C48BB781643990C95963CB63F63@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 30 Sep 2011 17:22:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 30, 2011 at 2:13 AM, Martin Jansa <martin.jansa@gmail.com> wrot=
-e:
-> On Fri, Sep 30, 2011 at 04:09:37AM +0000, McClintock Matthew-B29882 wrote=
-:
->> On Thu, Sep 29, 2011 at 2:11 PM, Matthew McClintock <msm@freescale.com> =
-wrote:
->> > From: Tom Rini <tom_rini@mentor.com>
->> >
->> > At issue is that route/pktloc.c (not generated) depends on
->> > route/pktloc_syntax.h (generated).
->> >
->> > Signed-off-by: Tom Rini <tom_rini@mentor.com>
->> > Signed-off-by: Matthew McClintock <msm@freescale.com>
->>
->> Please ignore this patch as it does not seem to fix the issue.
->
-> Why not use latest version of this patch?
-> http://git.openembedded.org/cgit.cgi/openembedded/tree/recipes/libnl/libn=
-l/fix-pktloc-dep-race.patch
-> or meta-oe
-> http://git.openembedded.org/cgit.cgi/meta-openembedded/tree/meta-oe/recip=
-es-support/libnl/libnl/fix-pktloc-dep-race.patch
->
-> seems like you're missing pktloc_grammar.h here..
->
-> and when you're at it, please also add packaging changes from meta-oe,
-> so we can remove libnl from meta-oe and keep only libnl1 there.
+On Fri, 2011-09-30 at 11:32 -0500, Koen Kooi wrote:
+> 
+> Op 30 sep. 2011 om 10:49 heeft Joshua Lock <josh@linux.intel.com> het volgende geschreven:
+> 
+> > On Fri, 2011-09-30 at 08:36 -0600, Yu, Ke wrote:
+> >> Hi,
+> >> 
+> >> As you may already know, a new GUI has been added to bitbake recently, 
+> >> i.e. HOB (Human Oriented Builder). 
+> > 
+> > It's not an acronym, it's just a name - Hob.
+> > 
+> >> It is a graphical image creator that 
+> >> allows user to freely choose which packages to be built in the image. 
+> >> The wiki https://wiki.yoctoproject.org/wiki/BitBake/GUI/Hob  has more 
+> >> detail.
+> > 
+> > I'll be changing this page and adding more user-centric info in the
+> > coming weeks.
+> > 
+> >> This email is to collect your feedback on the HOB. Current HOB is our 
+> >> first version, and it surely has many place to improve. We has the plan 
+> >> to enhance it in Yocto 1.2. So we really hope that you can use it and 
+> >> provide your valuable feedback . We do think user's feedback/requirement 
+> >> is the right way to go. Looking forward your valuable input.
+> >> 
+> >> Best Regards
+> >> Ke
+> >> 
+> >> Ps. The simple way to run hob is:
+> >> # touch conf/hob-pre.conf conf/hob-post.conf
+> >> # bitbake -u hob -r conf/hob-pre.conf -R conf/hob-post.conf
+> > 
+> > In oe-core (and therefore Poky) we have a wrapper script so from an
+> > oe-init-build-env'd build directory you can just call hob.
+> > 
+> > The script will create the required configuration files with some
+> > required values.
+> 
+> Can we have it use local.conf by default please? I hate having to put the same info in multiple places
 
-I pulled this out of openembbeded repo. I guess I managed to mess
-something up. Will resend/retest.
+We do use local.conf in that if values are set there and not in either
+of the hob configuration files the values from local.conf are used
+however I had an explicit feature request to not modify local.conf.
 
--M=
+I actually started looking at having Hob use an independent
+configuration file so that Hob settings would persist across build
+directories, this didn't make it in the 1.1 time frame unfortunately.
+
+Cheers,
+Joshua
+-- 
+Joshua Lock
+        Yocto Project "Johannes factotum"
+        Intel Open Source Technology Centre
 
 
 
