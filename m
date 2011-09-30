@@ -1,34 +1,35 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R9gJc-0006Pr-SH for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 18:52:01 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8UGqt40031573 for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 17:52:55 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 5EqFuFkFOcFI
+	(envelope-from <martin.jansa@gmail.com>) id 1R9gKO-0006S5-I7
+	for openembedded-core@lists.openembedded.org;
+	Fri, 30 Sep 2011 18:52:48 +0200
+Received: by fxi1 with SMTP id 1so3272528fxi.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 17:52:55 +0100 (BST)
-Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8UGqpW5031567
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 17:52:52 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Sep 2011 17:46:24 +0100
-In-Reply-To: <cover.1317397204.git.Martin.Jansa@gmail.com>
-References: <cover.1317397204.git.Martin.Jansa@gmail.com>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1317401191.12332.213.camel@ted>
-Mime-Version: 1.0
-Subject: Re: [WIP][PATCH 0/9] Glib related upgrades
+	Fri, 30 Sep 2011 09:47:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=V/ixclWou+sAxW6vMjtI8HrOFEComn7RPgIVdGF0Sw4=;
+	b=CTfTAvn4TxO3GyL9QME85zV5n58+hifRS04QlCVz2O3sGlXJvn2PJIbzcpfLQLr9O9
+	D94pJwJJ44j5Z9UD2JQ6m9RWLc0CbiSmgtz+3UJsnwd6r3I0dYNTCdMjpRZ3HjiUWBOA
+	+jzsnLvQBHSkij0lzp06wVmHvk1jhslJjPmAs=
+Received: by 10.223.43.211 with SMTP id x19mr9501648fae.142.1317401225720;
+	Fri, 30 Sep 2011 09:47:05 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id f25sm7407910faf.7.2011.09.30.09.47.03
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 30 Sep 2011 09:47:04 -0700 (PDT)
+Date: Fri, 30 Sep 2011 18:46:58 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20110930164658.GB7364@jama.jama.net>
+References: <1317370770-27225-1-git-send-email-Martin.Jansa@gmail.com>
+	<1317392122.12332.208.camel@ted>
+MIME-Version: 1.0
+In-Reply-To: <1317392122.12332.208.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Improve handling of 'all' architecture recipes and their interaction with sstate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,24 +44,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 16:52:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 30 Sep 2011 16:52:48 -0000
+X-Groupsio-MsgNum: 10323
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="SkvwRMAIpAhPCcCJ"
+Content-Disposition: inline
 
-On Fri, 2011-09-30 at 17:43 +0200, Martin Jansa wrote:
-> We were using 2.29.3+git% from meta-oe and after upgrade to 2.30.0 I was hit 
-> by few G_CONST_RETURN and other issues due to newer glib. Here is what I have
-> now to build shr images OK again, but probably there is more recipes which need
-> upgrade/fix to cope with glib-2.30.0.
-> 
-> Someone who cares about gnome should continue from this, but IMHO this is good start :).
+--SkvwRMAIpAhPCcCJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-These are marked as WIP. Does this mean they are ready to be taken or is
-there a reason to hold off these patches?
+On Fri, Sep 30, 2011 at 03:15:15PM +0100, Richard Purdie wrote:
+> I'd not forgotten about this patch, just been distracted by other
+> things. I've run some further tests on the changes here and have
+> comments below. Summary is I think some pieces can merge, other pieces
+> need more work. Lets try and get the pieces that are ready merged, then
+> worry about the remainder.
+>=20
+> Could we clean out the problematic pieces and resubmit please so we can
+> at least get those pieces in? :)
 
-Cheers,
+pushed as 6 patches to=20
+oe-core-contrib jansa/allarch
 
-Richard
+1st patch contains changes you've marked as fine
+2nd is hal-info, which is imho not worth debugging it as nobody likes
+  hal nowadays (I've tried to patch configure.in, but recipe doesn't
+  call reautoconf IIRC..)
+the rest is kept as reminder which recipes needs to be taken care of.
 
+Regards,
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--SkvwRMAIpAhPCcCJ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk6F8oIACgkQN1Ujt2V2gBzx6wCfagVmGh9f3YnJ+IBmG0OLiSF1
+on4An22Hbt4pUEB8muTqCa57zJ4kuiBl
+=doIo
+-----END PGP SIGNATURE-----
+
+--SkvwRMAIpAhPCcCJ--
