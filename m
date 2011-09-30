@@ -1,30 +1,23 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1R9hjI-0000aC-Of
+	(envelope-from <josh@linux.intel.com>) id 1R9hm6-0000d9-C2
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 20:22:36 +0200
-Received: by eya25 with SMTP id 25so1417381eya.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 11:17:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=F82CGoOf+GEmhSA/PEt+WOcSLfIBOdRuVkb5EjFwqNE=;
-	b=FoA1+fuXKqxM3cqYGcHIJ1oY/QkGc7LCNabNRMBvMhNOPTW4A5fUhjAXPRPP0CUKwk
-	JiTbsVDuvSQKg2RxOrd1viK0JK48mIgYyNvJ0PwghsST192JhWEVsm3JBtz4JRlsqScB
-	/qrbPFEom8wyMbT4YdYmpy+jXzcsxiOYXVMpw=
-Received: by 10.216.72.72 with SMTP id s50mr3758147wed.39.1317406626180; Fri,
-	30 Sep 2011 11:17:06 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.216.160.80 with HTTP; Fri, 30 Sep 2011 11:16:46 -0700 (PDT)
-In-Reply-To: <CA+YB3rZ0JEq2zY21kiQmUx3YFj6CYHoR0Pvg6O70UM=Mh1TN+Q@mail.gmail.com>
-References: <CA+YB3rZ0JEq2zY21kiQmUx3YFj6CYHoR0Pvg6O70UM=Mh1TN+Q@mail.gmail.com>
-From: Chris Larson <kergoth@gmail.com>
-Date: Fri, 30 Sep 2011 11:16:46 -0700
-Message-ID: <CABcZANk1DnADdN2F39QYOOM--KyJkxbguhQ0GPmv9BFeEPG_oA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: MINUTES: OE-TSC meeting 29-Sep-2011
+	Fri, 30 Sep 2011 20:25:30 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 30 Sep 2011 11:20:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,468,1312182000"; d="scan'208";a="57487566"
+Received: from unknown (HELO [10.255.15.62]) ([10.255.15.62])
+	by azsmga001.ch.intel.com with ESMTP; 30 Sep 2011 11:19:59 -0700
+From: Joshua Lock <josh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Sep 2011 11:19:54 -0700
+In-Reply-To: <1317319633.2134.1.camel@scimitar>
+References: <1317307935.12332.89.camel@ted> <1317319633.2134.1.camel@scimitar>
+X-Mailer: Evolution 3.0.3 (3.0.3-1.fc15) 
+Message-ID: <1317406800.11645.23.camel@scimitar>
+Mime-Version: 1.0
+Subject: Re: autotools: Remove help2man dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,23 +32,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 18:22:36 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 30 Sep 2011 18:25:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 30, 2011 at 11:14 AM, Jeff Osier-Mixon <jefro@jefro.net> wrote:
-> 1. Jefro
-> 2. a. some minutes not making it to mailing list, Jefro to post on wiki
-> =C2=A0 =C2=A0b. yocto evaluating gerrit, possible patchwork replacement f=
-or OE, khem
-> will research
+On Thu, 2011-09-29 at 11:07 -0700, Joshua Lock wrote:
+> On Thu, 2011-09-29 at 15:52 +0100, Richard Purdie wrote:
+> > The help2man script is pretty useless to us. It requires to run the target
+> > binary to extract help information which is not possible for any of our
+> > cross compiled target binaries.
+> > 
+> > We're not interested in man pages for -cross/-native tools.
+> > 
+> > It therefore makes no sense to have this as a core build dependency.
+> > 
+> > This patch removes the dependeny and replaces it with a script
+> > returning false. This will trigger autotool's missing utility
+> > to use the copy of the man page included with the sources which
+> > is what would already happen when we tried to run cross compiled
+> > binaries anyway.
+> > 
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Joshua Lock <josh@linux.intel.com>
+> 
+> Great!
 
-ReviewBoard may be worth looking at as an alternative to gerritt, as well.
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+By way of a follow on this patch "resolves" Yocto #1533 by no longer
+calling help2man on the host.
+
+http://bugzilla.yoctoproject.org/show_bug.cgi?id=1533
+
+Cheers,
+Joshua
+-- 
+Joshua Lock
+        Yocto Project "Johannes factotum"
+        Intel Open Source Technology Centre
+
 
 
