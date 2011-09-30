@@ -1,34 +1,40 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1R9bgL-00069L-BX
+Received: from 6.mo2.mail-out.ovh.net ([87.98.165.38]
+	helo=mo2.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <eric@eukrea.com>) id 1R9bw6-0006hl-VM
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 13:55:09 +0200
-Received: by bke11 with SMTP id 11so1694069bke.6
+	Fri, 30 Sep 2011 14:11:27 +0200
+Received: from mail180.ha.ovh.net (b6.ovh.net [213.186.33.56])
+	by mo2.mail-out.ovh.net (Postfix) with SMTP id 5C55EDCA705
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 04:49:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=zsB2IZPoT3Z5l1YYzUGJgUthfdk2Qs+++MVKLPdGJXA=;
-	b=iSP8Kj5viBg4VWMWxt0jqO0MNqN4H9FyWbUWmqrsBphXen0NNiXHlTpo8uVV4BmqEy
-	N2YfdKzFN7u09Pv0TYHcPGpbmlvTBv60qOGvdhGP2x381pGu24TyFRRGRrraIHi2mXiN
-	Z7EsnXKhb/MlKuql2nJlOt/Fn/6wuthhONCX4=
-Received: by 10.204.152.26 with SMTP id e26mr7872116bkw.342.1317383380482;
-	Fri, 30 Sep 2011 04:49:40 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id s12sm4700610bkt.4.2011.09.30.04.49.38
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 30 Sep 2011 04:49:39 -0700 (PDT)
-Date: Fri, 30 Sep 2011 13:49:33 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110930114932.GD15856@jama.jama.net>
-References: <1317382380.12332.171.camel@ted>
+	Fri, 30 Sep 2011 13:48:44 +0200 (CEST)
+Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
+	by b0.ovh.net with SMTP; 30 Sep 2011 13:47:07 +0200
+Received: from pac33-2-82-240-38-71.fbx.proxad.net (HELO ?192.168.1.15?)
+	(ebenard%eukrea.com@82.240.38.71)
+	by ns0.ovh.net with SMTP; 30 Sep 2011 13:47:05 +0200
+Message-ID: <4E85AC39.6000500@eukrea.com>
+Date: Fri, 30 Sep 2011 13:47:05 +0200
+From: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110922 Thunderbird/7.0
 MIME-Version: 1.0
-In-Reply-To: <1317382380.12332.171.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: Slight change to merging procedure - master-next
+To: openembedded-core@lists.openembedded.org
+X-Ovh-Mailout: 178.32.228.2 (mo2.mail-out.ovh.net)
+References: <20110911172241.GA3674@chargestorm.se>
+	<D9F00ABD-04FA-4A75-BB1C-13B9BBDC4C54@dominion.thruhere.net>
+	<4E79E3A9.8080804@eukrea.com>
+	<201109281111.33193.paul.eggleton@linux.intel.com>
+	<4E82F59B.7080808@eukrea.com>
+In-Reply-To: <4E82F59B.7080808@eukrea.com>
+X-Ovh-Tracer-Id: 12409950250339904962
+X-Ovh-Remote: 82.240.38.71 (pac33-2-82-240-38-71.fbx.proxad.net)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-Spam-Check: DONE|U 0.5/N
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeftddrheehucetggdotefuucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH] qt4: update to latest version 4.7.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,55 +49,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 11:55:09 -0000
-X-Groupsio-MsgNum: 10282
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="BI5RvnYi6R4T2M87"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 30 Sep 2011 12:11:27 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---BI5RvnYi6R4T2M87
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Paul,
 
-On Fri, Sep 30, 2011 at 12:32:54PM +0100, Richard Purdie wrote:
-> One of the issues I've been having is that I read through patches once
-> doing review and then have to wait ~24 hours before merging any patches
-> I think are acceptable in case others have comments. This means I have
-> to go through emails twice and its a bit of a pain.
->=20
-> I'm therefore going to start maintaining master-next with patches I
-> think are ready. They'll sit there for 24 hours before being merged if
-> there aren't other issues raised by anyone else.
->=20
-> I could just do this in private but I'm choosing to make it public. I
-> want to be clear that branch can rebase and change, its not definite
-> until it hits master. I hope some people find it useful.
+I've updated and tested the branches by rebasing on current oe-core and
+integrating Otavio's patch concerning the translations :
+https://github.com/eukrea/oe-core/tree/qt4_improve
+https://github.com/eukrea/oe-core/tree/qt4_upgrade
 
-I do find it useful, thanks for that.
+Is that OK for you or should I rework something ?
 
-/me already rebasing remaining changes from xorg patchset on top of
-master-next ;)
+Eric
 
-BTW: is there any plan to give some information when something is
-dropped from master-next? Like: "dropping this from master-next, because
-of feedback from Joe, please send updated patch"
 
-Regards,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---BI5RvnYi6R4T2M87
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk6FrMwACgkQN1Ujt2V2gBycqwCfZ+lK0IVvmmD3K1H4xeCoEXwj
-4IAAoLDxZiTmkikaVvetozGXnbZQc0n8
-=nNM5
------END PGP SIGNATURE-----
-
---BI5RvnYi6R4T2M87--
