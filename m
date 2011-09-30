@@ -1,28 +1,30 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
+Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jefro.net@gmail.com>)
-	id 1R9l0p-0004fD-Vr; Fri, 30 Sep 2011 23:52:56 +0200
-Received: by iadx2 with SMTP id x2so2397994iad.6
-	for <multiple recipients>; Fri, 30 Sep 2011 14:47:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
-	:from:to:content-type;
-	bh=QtH5BNe4Oc80bDYbekTjmdFlBaGokJP4An3kywTLlaU=;
-	b=WAJ4PZ0vreuX+eD6bXe1jlDYerfwPG01G9P1BWxIzIrS/glo2FoVFjYw0Tk1prki1w
-	M+eOM7D3Mc/cu7l6p6oGg7yecfgrvUh3aEgCXlUE7i04joNKKNf743IMsKp4xlpKpftH
-	z0Dqu6lC+CEXW7vWwpGdL1s8HlS/wwdDhaqh0=
+	(envelope-from <gary@mlbassoc.com>) id 1R9l90-0005Ef-5K
+	for openembedded-core@lists.openembedded.org;
+	Sat, 01 Oct 2011 00:01:23 +0200
+Received: by mail.chez-thomas.org (Postfix, from userid 999)
+	id 4694C16601DB; Fri, 30 Sep 2011 15:55:53 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from hermes.chez-thomas.org (localhost.localdomain [127.0.0.1])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 7659316601AC;
+	Fri, 30 Sep 2011 15:55:52 -0600 (MDT)
+Message-ID: <4E863AE8.7020901@mlbassoc.com>
+Date: Fri, 30 Sep 2011 15:55:52 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:6.0.2) Gecko/20110906 Thunderbird/6.0.2
 MIME-Version: 1.0
-Received: by 10.42.148.133 with SMTP id r5mr1635491icv.220.1317419244933; Fri,
-	30 Sep 2011 14:47:24 -0700 (PDT)
-Sender: jefro.net@gmail.com
-Received: by 10.42.240.8 with HTTP; Fri, 30 Sep 2011 14:47:24 -0700 (PDT)
-Date: Fri, 30 Sep 2011 14:47:24 -0700
-X-Google-Sender-Auth: SLCvjuq9HdG2dS8syyOYtK5LVb4
-Message-ID: <CA+YB3rbP8ZxQDG_SJEK6qb7OtEy1DsZRE1Rq74rg2Vu6AKgNqA@mail.gmail.com>
-From: Jeff Osier-Mixon <jefro@jefro.net>
-To: openembedded-core <openembedded-core@lists.openembedded.org>, 
-	openembedded-devel@lists.openembedded.org, tsc <tsc@lists.openembedded.org>
-Subject: TSC meeting minutes available on wiki
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <4E85D3E0.7070807@intel.com>
+In-Reply-To: <4E85D3E0.7070807@intel.com>
+Cc: Joshua <joshua.lock@intel.com>, bitbake-devel@lists.openembedded.org
+Subject: Re: Feedback on HOB (new image creator GUI)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,37 +39,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 21:52:56 -0000
-Content-Type: multipart/alternative; boundary=90e6ba2121fd1d526204ae2f9223
+X-List-Received-Date: Fri, 30 Sep 2011 22:01:23 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---90e6ba2121fd1d526204ae2f9223
-Content-Type: text/plain; charset=ISO-8859-1
+On 2011-09-30 08:36, Yu Ke wrote:
+> Hi,
+>
+> As you may already know, a new GUI has been added to bitbake recently, i.e. HOB (Human Oriented Builder). It is a graphical image creator that allows user to freely choose which
+> packages to be built in the image. The wiki https://wiki.yoctoproject.org/wiki/BitBake/GUI/Hob has more detail.
+>
+> This email is to collect your feedback on the HOB. Current HOB is our first version, and it surely has many place to improve. We has the plan to enhance it in Yocto 1.2. So we
+> really hope that you can use it and provide your valuable feedback . We do think user's feedback/requirement is the right way to go. Looking forward your valuable input.
+>
+> Best Regards
+> Ke
+>
+> Ps. The simple way to run hob is:
+> # touch conf/hob-pre.conf conf/hob-post.conf
+> # bitbake -u hob -r conf/hob-pre.conf -R conf/hob-post.conf
+>
+> Where conf/hob-pre.conf conf/hob-post.conf is the configuration file, which can be empty in above case.
 
-I have updated the TSC wiki page to include all of the minutes since the
-interim TSC was announced by the board on Feb 10. Going forward, I will
-place new minutes on this page in date order.
+I build images which are not based on any of the core-XXX images listed by HOB.
+How can I get them into the drop-down base list?
+Is there a way I can filter out some of the base images?  tasks?
 
-http://www.openembedded.org/wiki/TSC
+I ask these questions because in particular, I use a lot of the recipes in meta
+and meta-yocto, but none of the images or tasks (because they don't really address
+my needs, don't take offense, I just want more control than they offer)
 
-thanks,
 -- 
-Jeff Osier-Mixon http://jefro.net/blog
-Yocto Project Community Manager @Intel http://yoctoproject.org
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
---90e6ba2121fd1d526204ae2f9223
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-I have updated the TSC wiki page to include all of the minutes since the in=
-terim TSC was announced by the board on Feb 10. Going forward, I will place=
- new minutes on this page in date order.<div><br></div><div><a href=3D"http=
-://www.openembedded.org/wiki/TSC">http://www.openembedded.org/wiki/TSC</a><=
-br clear=3D"all">
-<div><br></div><div>thanks,</div>-- <br>Jeff Osier-Mixon <a href=3D"http://=
-jefro.net/blog" target=3D"_blank">http://jefro.net/blog</a><div>Yocto Proje=
-ct Community Manager @Intel <a href=3D"http://yoctoproject.org" target=3D"_=
-blank">http://yoctoproject.org</a></div>
-<br>
-</div>
-
---90e6ba2121fd1d526204ae2f9223--
