@@ -1,36 +1,35 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1R9amy-0004yV-6m
-	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 12:57:56 +0200
-Received: by bke11 with SMTP id 11so1653588bke.6
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1R9axp-0005Qx-0K for openembedded-core@lists.openembedded.org;
+	Fri, 30 Sep 2011 13:09:09 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8UBA4cu012546 for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2011 12:10:04 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id NkdLXjFDfCDB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 03:52:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=bW1FeSUGrIZa3iVs93cXKvBIkmJxT6OQzTmYqgdJIqc=;
-	b=eAGDIr517g+NdvjDDbk17NEL2Uf6G9QG0TsV6JtlazMUGBq7Orl7JDB75/bEncGTiY
-	0m5g5QgsEQlzBhqXUAU45uxzO+FlueTILLcmiG5hPKJSrxzfglqdm9HKEI1NXXR1/z9a
-	fpLZQjJddM/rQLDDwM+Stltm9Cuw8FA7X2S8k=
-Received: by 10.204.153.209 with SMTP id l17mr7762870bkw.129.1317379947353;
-	Fri, 30 Sep 2011 03:52:27 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id ex8sm4544598bkc.2.2011.09.30.03.52.24
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 30 Sep 2011 03:52:26 -0700 (PDT)
-Date: Fri, 30 Sep 2011 12:52:19 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Fri, 30 Sep 2011 12:10:03 +0100 (BST)
+Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8UB9wkg012542
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2011 12:10:00 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110930105219.GA15856@jama.jama.net>
+Date: Fri, 30 Sep 2011 12:03:32 +0100
+In-Reply-To: <2c12e32cc688b78bbaedc026532f5dfb3e118c39.1317367429.git.Martin.Jansa@gmail.com>
 References: <cover.1317367429.git.Martin.Jansa@gmail.com>
-	<121b26267ee494182d88e07b7fe63761088b8bde.1317367429.git.Martin.Jansa@gmail.com>
-	<1317374312.12332.132.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1317374312.12332.132.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 09/13] xserver-nodm-init: merge some changes from meta-oe
+	<2c12e32cc688b78bbaedc026532f5dfb3e118c39.1317367429.git.Martin.Jansa@gmail.com>
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1317380619.12332.154.camel@ted>
+Mime-Version: 1.0
+Subject: Re: [PATCH 11/13] libdrm: improve packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,124 +44,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 10:57:56 -0000
-X-Groupsio-MsgNum: 10269
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="0F1p//8PRICkK4MW"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 30 Sep 2011 11:09:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---0F1p//8PRICkK4MW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, 2011-09-30 at 09:27 +0200, Martin Jansa wrote:
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/recipes-graphics/drm/libdrm.inc       |    7 ++++---
+>  meta/recipes-graphics/drm/libdrm_2.4.26.bb |    2 +-
+>  meta/recipes-graphics/drm/libdrm_git.bb    |    2 +-
+>  3 files changed, 6 insertions(+), 5 deletions(-)
+> 
+> diff --git a/meta/recipes-graphics/drm/libdrm.inc b/meta/recipes-graphics/drm/libdrm.inc
+> index 1ad9dc3..20d7f1f 100644
+> --- a/meta/recipes-graphics/drm/libdrm.inc
+> +++ b/meta/recipes-graphics/drm/libdrm.inc
+> @@ -15,7 +15,8 @@ DEPENDS += " libpciaccess"
+>  
+>  inherit autotools pkgconfig
+>  
+> -PACKAGES =+ "libdrm-tests"
+> -FILES_libdrm-tests = "${bindir}/dr* ${bindir}/mode*"
+> +PACKAGES =+ "${PN}-tests ${PN}-drivers ${PN}-kms"
+> +FILES_${PN}-tests = "${bindir}/dr* ${bindir}/mode*"
+> +FILES_${PN}-drivers = "${libdir}/libdrm_*.so.*"
+> +FILES_${PN}-kms = "${libdir}/libkms*.so.*"
+>  
+> -LEAD_SONAME = "libdrm.so"
 
-On Fri, Sep 30, 2011 at 10:17:25AM +0100, Richard Purdie wrote:
-> On Fri, 2011-09-30 at 09:27 +0200, Martin Jansa wrote:
-> > * /etc/X11/Xusername handling should be moved to x11-common so the same
-> >   username and logic is used from initscript and when user starts it
-> >   from terminal
-> >=20
-> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > ---
-> >  .../x11-common/xserver-nodm-init/xserver-nodm      |   30 ++++++------=
---------
-> >  1 files changed, 9 insertions(+), 21 deletions(-)
-> >=20
-> > diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver=
--nodm b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
-> > index c707a4b..9cd7904 100755
-> > --- a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
-> > +++ b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
-> > @@ -8,10 +8,7 @@
-> >  # Default-Stop:      0 1 6
-> >  ### END INIT INFO
-> > =20
-> > -killproc() {            # kill the named process(es)
-> > -        pid=3D`/bin/pidof $1`
-> > -        [ "$pid" !=3D "" ] && kill $pid
-> > -}
-> > +. /etc/init.d/functions
-> > =20
-> >  read CMDLINE < /proc/cmdline
-> >  for x in $CMDLINE; do
-> > @@ -25,25 +22,16 @@ done
-> > =20
-> >  case "$1" in
-> >    start)
-> > +    # We don't want this script to block the rest of the boot process
-> > +    if [ "$2" !=3D "background" ]; then
-> > +      $0 $1 background &
-> > +    else
-> >         . /etc/profile
-> > -       username=3Droot
-> > +
-> >         echo "Starting Xserver"
-> > -       if [ -f /etc/X11/Xusername ]; then
-> > -           username=3D`cat /etc/X11/Xusername`
-> > -           # setting for rootless X
-> > -           chmod o+w /var/log
-> > -           chmod g+r /dev/tty[0-3]
-> > -           chmod o+rw /dev/input/*
-> > -           # hidraw device is probably needed
-> > -           if [ -e /dev/hidraw0 ]; then
-> > -               chmod o+rw /dev/hidraw*
-> > -           fi
-> > -       fi
-> > -       # Using su rather than sudo as latest 1.8.1 cause failure [YOCT=
-O #1211]
-> > -       su -l -c '/etc/X11/Xserver&' $username=20
-> > -       # Wait for the desktop to say its finished loading
-> > -       # before loading the rest of the system
-> > -       # dbus-wait org.matchbox_project.desktop Loaded
-> > +       . /etc/X11/xserver-common
-> > +       xinit /etc/X11/Xsession -- `which $XSERVER` $ARGS >/var/log/Xse=
-ssion.log 2>&1
-> > +    fi=20
-> >    ;;
-]> > =20
-> >    stop)
->=20
-> This is not "merge some changes from meta-oe", this is "overwrite
-> whatever is in oe-core with meta-oe" :(.
->=20
-> The above wipes out rootless X support.
+I want to make it *really* clear that this breaks anything depending on
+libdrm for oe-core users.
 
-Sorry about that and please ignore this patch..
+This is exactly why I think the whole PR bump thing is stupid, braindead
+and simply wrong since the current fix is to go and find anything using
+libdrm and bump those PR values too.
 
-I've started moving rootless X support from not only xserver-nodm-init
-to unified x11-common/xserver-common, but because I didn't finish it
-I've removed xserver-common from this patchset and sent it here for=20
-review (ie because ant asked me to).
+Of course we could add a "LIBDRM_INC_PR" in the core and bump that when
+libdrm changes.
 
-> I've noticed this theme in several of the patches where for example a
-> decent long DESCRIPTION and a separate short SUMMARY are replaced with a
-> single one line SUMMARY.
+The trouble is following this path to its logical conclusion, we
+basically turn our automated build system into a set of manual changes
+where we compute dependency chains by hand.
 
-I'll recheck this, but I was really trying to keep whatever was better
-in orginal recipes, so if it's the case somewhere I'll fix it and send
-updated patch, sorry about that.
+Sorry to labour this point but I do want people to understand why we
+need to take some pain in the short term and improve what we're doing...
 
-> The fact you've done this means I'm going to have to go over every line
-> of changes in this and double check what is happening. Some of the
-> patches look ok but some like this are not.
+I will take the patch since I value getting meta-oe cleaned up and I'll
+add in a patch bumping PR for xserver/mesa but I'm not happy.
 
-BTW: meta-oe patchset wasn't sent because git was offline..
+Cheers,
 
-Regards,
+Richard
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---0F1p//8PRICkK4MW
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
 
-iEYEARECAAYFAk6Fn2MACgkQN1Ujt2V2gBz96wCffhk0tTH70zw/lxfHlR4THhTH
-yA4An25ddWriambjo4NbVgNUr7fJDFI+
-=BQ6h
------END PGP SIGNATURE-----
-
---0F1p//8PRICkK4MW--
