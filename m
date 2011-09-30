@@ -1,37 +1,58 @@
-Received: from mail-qy0-f182.google.com ([209.85.216.182])
+Received: from am1ehsobe001.messaging.microsoft.com ([213.199.154.204]
+	helo=AM1EHSOBE001.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1R9jRB-00034E-Ei
+	(envelope-from <B29882@freescale.com>) id 1R9jTK-00037J-P4
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 22:12:01 +0200
-Received: by qyk4 with SMTP id 4so2537726qyk.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 13:06:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=eqjR2ecCxCS3SrCIm5N2vea5GiKT5a6BsOS7pFYDv+Q=;
-	b=DrlPsVk9uy/eW+PRN5t3zoREXddSqgV1K+hi+U2TY80t+co6ZFQM5SiCD4kz2f38JP
-	mtz0E0wpEksCsXOacuKraqSOJCwqikHl4CrkTmayhAgU1z0viUYPksDt6jAT6Gy8Q3OZ
-	F57aKW7/i9tbccthy7q4J77PT7+tAti0zfpQs=
-Received: by 10.68.8.195 with SMTP id t3mr61119012pba.107.1317413188059; Fri,
-	30 Sep 2011 13:06:28 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.68.49.129 with HTTP; Fri, 30 Sep 2011 13:05:58 -0700 (PDT)
-In-Reply-To: <CAEsOVNcC79qr6+zp6ify_vViu-+FsiYq=XvUCyWFc924RPyqjg@mail.gmail.com>
+	Fri, 30 Sep 2011 22:14:14 +0200
+Received: from mail103-am1-R.bigfish.com (10.3.201.252) by
+	AM1EHSOBE001.bigfish.com (10.3.204.21) with Microsoft SMTP Server id
+	14.1.225.22; Fri, 30 Sep 2011 20:08:45 +0000
+Received: from mail103-am1 (localhost.localdomain [127.0.0.1])	by
+	mail103-am1-R.bigfish.com (Postfix) with ESMTP id 1B66B9F85AA	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2011 20:08:45 +0000 (UTC)
+X-SpamScore: -6
+X-BigFish: VS-6(zz9371K98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
+	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail103-am1 (localhost.localdomain [127.0.0.1]) by mail103-am1
+	(MessageSwitch) id 1317413324157864_24983;
+	Fri, 30 Sep 2011 20:08:44 +0000 (UTC)
+Received: from AM1EHSMHS007.bigfish.com (unknown [10.3.201.250])	by
+	mail103-am1.bigfish.com (Postfix) with ESMTP id D82DB258053	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2011 20:08:43 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS007.bigfish.com
+	(10.3.207.107) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Fri, 30 Sep 2011 20:08:40 +0000
+Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.230]) by
+	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
+	14.01.0323.007; Fri, 30 Sep 2011 15:08:38 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] Adding TARGET_VECTOR
+Thread-Index: AQHMf5lRsd9KAmOeJE2Xczt0K8X7D5VmrVsAgAAApQA=
+Date: Fri, 30 Sep 2011 20:08:38 +0000
+Message-ID: <CAEsOVNdoBF3iG_58X8y7Uf5y9-Bo52NEnyP8PQe174qNN0XzcA@mail.gmail.com>
 References: <5755C992-C736-4714-9DE3-761E3E74C6F8@kernel.crashing.org>
 	<4E85FCF7.6030208@gmail.com>
 	<CAEsOVNcC79qr6+zp6ify_vViu-+FsiYq=XvUCyWFc924RPyqjg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 30 Sep 2011 13:05:58 -0700
-Message-ID: <CAMKF1srCrTcfy2niJNF-jkArvZHaU0P8=zH5sqMjFrs1BcKA2g@mail.gmail.com>
-To: McClintock Matthew-B29882 <B29882@freescale.com>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	<CAMKF1srCrTcfy2niJNF-jkArvZHaU0P8=zH5sqMjFrs1BcKA2g@mail.gmail.com>
+In-Reply-To: <CAMKF1srCrTcfy2niJNF-jkArvZHaU0P8=zH5sqMjFrs1BcKA2g@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>
 Subject: Re: Adding TARGET_VECTOR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -42,59 +63,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 20:12:01 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 30 Sep 2011 20:14:14 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <F2797B6A87B71748B2ADE31D8E274E2C@freescale.net>
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 30, 2011 at 10:49 AM, McClintock Matthew-B29882
-<B29882@freescale.com> wrote:
-> On Fri, Sep 30, 2011 at 12:31 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> On 8/25/2011 7:35 AM, Kumar Gala wrote:
->>>
->>> We have some packages like flac that are aware of vectorization that ma=
-y
->>> or may not exist on a given processor. =C2=A0I was wondering if adding =
-something
->>> like TARGET_VECTOR similar to TARGET_FPU made sense as a way for recipe=
-s to
->>> decide on how to set various vectorization flags if needed.
->>>
->>> I was looking at this mostly from the PPC side in which we have:
->>>
->>> TARGET_VECTOR =3D "" /* processor has no vector hw */
->>> TARGET_VECTOR =3D "altivec" /* processor has AltiVec support */
->>> TARGET_VECTOR =3D "spe" /* processor has signal processing engine suppo=
-rt */
->>> TARGET_VECTOR =3D "vsx" /* processor has Vector-Scalar Extension */
->>>
->>
->> is target vector a property of FPU itself or is it a separate processing
->> unit in hardware.?
->
-> We have several powerpc cores each containing a different vector
-> features. We need a way to differentiate in the recipes between
-> different cores and decide to enable SPE, Altivec, etc to build the
-> package properly.
->
-> I've sort of gone the route of adding:
->
-> OVERRIDES :=3D ":core_type"
->
-> And using that in recipes. But, I think we need a consensus on how we
-> want to handle this.
+On Fri, Sep 30, 2011 at 3:05 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> there is SOC_FAMILY thats used predominantly in TI chips that could be
+> of interest here.
+> but in this case I wanted to understand
+> if it is a feature of FPU or is it a separate unit, still not clear to me=
+.
 
-there is SOC_FAMILY thats used predominantly in TI chips that could be
-of interest here.
-but in this case I wanted to understand
-if it is a feature of FPU or is it a separate unit, still not clear to me.
+It's all on one SoC/Core.
 
->
-> -M
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+-M=
+
 
 
