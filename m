@@ -1,54 +1,52 @@
-Received: from ch1ehsobe003.messaging.microsoft.com ([216.32.181.183]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from db3ehsobe005.messaging.microsoft.com ([213.199.154.143]
+	helo=DB3EHSOBE005.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1R9hIA-000890-L7
+	(envelope-from <B29882@freescale.com>) id 1R9hIk-0008B5-Jz
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 19:54:34 +0200
-Received: from mail97-ch1-R.bigfish.com (216.32.181.171) by
-	CH1EHSOBE014.bigfish.com (10.43.70.64) with Microsoft SMTP Server id
-	14.1.225.22; Fri, 30 Sep 2011 17:33:54 +0000
-Received: from mail97-ch1 (localhost.localdomain [127.0.0.1])	by
-	mail97-ch1-R.bigfish.com (Postfix) with ESMTP id 11EB6F6035B;
-	Fri, 30 Sep 2011 17:33:54 +0000 (UTC)
-X-SpamScore: -12
-X-BigFish: VS-12(zz9371K1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h61h)
-X-Spam-TCS-SCL: 0:0
+	Fri, 30 Sep 2011 19:55:10 +0200
+Received: from mail68-db3-R.bigfish.com (10.3.81.246) by
+	DB3EHSOBE005.bigfish.com (10.3.84.25) with Microsoft SMTP Server id
+	14.1.225.22; Fri, 30 Sep 2011 17:49:41 +0000
+Received: from mail68-db3 (localhost.localdomain [127.0.0.1])	by
+	mail68-db3-R.bigfish.com (Postfix) with ESMTP id 6BA4DB805DE	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2011 17:49:41 +0000 (UTC)
+X-SpamScore: -15
+X-BigFish: VS-15(zzbb2dK9371K1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h63h)
+X-Spam-TCS-SCL: 2:0
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
 	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
 X-FB-SS: 0,
-Received: from mail97-ch1 (localhost.localdomain [127.0.0.1]) by mail97-ch1
-	(MessageSwitch) id 1317403973472648_9411;
-	Fri, 30 Sep 2011 17:32:53 +0000 (UTC)
-Received: from CH1EHSMHS027.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.251])	by mail97-ch1.bigfish.com (Postfix) with ESMTP id
-	4AC27A40144;	Fri, 30 Sep 2011 17:32:10 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS027.bigfish.com
-	(10.43.70.27) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Fri, 30 Sep 2011 17:32:06 +0000
+Received: from mail68-db3 (localhost.localdomain [127.0.0.1]) by mail68-db3
+	(MessageSwitch) id 1317404981315654_13192;
+	Fri, 30 Sep 2011 17:49:41 +0000 (UTC)
+Received: from DB3EHSMHS015.bigfish.com (unknown [10.3.81.253])	by
+	mail68-db3.bigfish.com (Postfix) with ESMTP id 441E9258050	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2011 17:49:41 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS015.bigfish.com
+	(10.3.87.115) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Fri, 30 Sep 2011 17:49:39 +0000
 Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.230]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.01.0323.007; Fri, 30 Sep 2011 12:32:06 -0500
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.01.0323.007; Fri, 30 Sep 2011 12:49:37 -0500
 From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Joshua Lock <joshua.lock@intel.com>
-Thread-Topic: [bitbake-devel] Feedback on HOB (new image creator GUI)
-Thread-Index: AQHMf4ziodQj6EIfBk2AFipaRDmOxpVmgC4AgAACLAA=
-Date: Fri, 30 Sep 2011 17:32:05 +0000
-Message-ID: <CAEsOVNfA6+=0sOvJeExCfvCOe2S_kD-Va6cUbRr4qhO_VrLi_A@mail.gmail.com>
-References: <4E85D3E0.7070807@intel.com>
-	<CAEsOVNdwudRO7V2DQhpESC=xCqDtJqxJ72+e_hYDLq7bE=z+cg@mail.gmail.com>
-	<1317403442.11645.17.camel@scimitar>
-In-Reply-To: <1317403442.11645.17.camel@scimitar>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] Adding TARGET_VECTOR
+Thread-Index: AQHMf5lRsd9KAmOeJE2Xczt0K8X7Dw==
+Date: Fri, 30 Sep 2011 17:49:36 +0000
+Message-ID: <CAEsOVNcC79qr6+zp6ify_vViu-+FsiYq=XvUCyWFc924RPyqjg@mail.gmail.com>
+References: <5755C992-C736-4714-9DE3-761E3E74C6F8@kernel.crashing.org>
+	<4E85FCF7.6030208@gmail.com>
+In-Reply-To: <4E85FCF7.6030208@gmail.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [99.47.177.27]
 MIME-Version: 1.0
 X-OriginatorOrg: freescale.com
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	"bitbake-devel@lists.openembedded.org"
-	<bitbake-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [bitbake-devel] Feedback on HOB (new image creator GUI)
+Subject: Re: Adding TARGET_VECTOR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -64,33 +62,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 17:54:35 -0000
+X-List-Received-Date: Fri, 30 Sep 2011 17:55:10 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <9B698B2BB7FC234C9BEDD02C77D02F1E@freescale.net>
+Content-ID: <E317EC92B786BE42B781ACF494C5596F@freescale.net>
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 30, 2011 at 12:23 PM, Joshua Lock <joshua.lock@intel.com> wrote=
-:
-> No such discussion has occurred. These are good feature suggestions,
-> though I'm not sure about a plugin mechanism - are you suggesting that
-> to enable the features mentioned or in addition to?
-> At least for enabling runtime services there's likely an issue of the
-> GUI having enough knowledge of the init system to do so.
-
-I'd just like to be able to make these extensions/add-ons while not
-being familiar with bitbake internals. Maybe by INHERIT'ing bbclasses?
-It just seems like adding some configuration pane for configuring ip
-addresses should be as easy and possible.
-
-> I can certainly see at least the three features proposed here being
-> desirable and I'll probably file those as feature enhancements in the
-> bugzilla, unless you'd like to?
+On Fri, Sep 30, 2011 at 12:31 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> On 8/25/2011 7:35 AM, Kumar Gala wrote:
+>>
+>> We have some packages like flac that are aware of vectorization that may
+>> or may not exist on a given processor. =A0I was wondering if adding some=
+thing
+>> like TARGET_VECTOR similar to TARGET_FPU made sense as a way for recipes=
+ to
+>> decide on how to set various vectorization flags if needed.
+>>
+>> I was looking at this mostly from the PPC side in which we have:
+>>
+>> TARGET_VECTOR =3D "" /* processor has no vector hw */
+>> TARGET_VECTOR =3D "altivec" /* processor has AltiVec support */
+>> TARGET_VECTOR =3D "spe" /* processor has signal processing engine suppor=
+t */
+>> TARGET_VECTOR =3D "vsx" /* processor has Vector-Scalar Extension */
+>>
 >
-> Any further thoughts on customisations to enable via the GUI?
+> is target vector a property of FPU itself or is it a separate processing
+> unit in hardware.?
 
-I can file some enhancement bugs. We are actually brainstorming this
-as I type this so I'm sure some more things will come up ;)
+We have several powerpc cores each containing a different vector
+features. We need a way to differentiate in the recipes between
+different cores and decide to enable SPE, Altivec, etc to build the
+package properly.
+
+I've sort of gone the route of adding:
+
+OVERRIDES :=3D ":core_type"
+
+And using that in recipes. But, I think we need a consensus on how we
+want to handle this.
 
 -M=
 
