@@ -1,31 +1,34 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R9lSd-0005Xa-BC for openembedded-core@lists.openembedded.org;
-	Sat, 01 Oct 2011 00:21:39 +0200
+	id 1R9lbT-0005cO-4F for openembedded-core@lists.openembedded.org;
+	Sat, 01 Oct 2011 00:30:47 +0200
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8UMMYHc013031 for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 23:22:34 +0100
+	p8UMVbf8013385; Fri, 30 Sep 2011 23:31:37 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id wOQuQjCJlc+P
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 23:22:34 +0100 (BST)
+	with LMTP id hJf65fFqfPcu; Fri, 30 Sep 2011 23:31:37 +0100 (BST)
 Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8UMMWGF013016
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 23:22:33 +0100
+	p8UMVVVx013358
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Fri, 30 Sep 2011 23:31:33 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Sep 2011 23:16:05 +0100
+To: McClintock Matthew-B29882 <B29882@freescale.com>, Patches and
+	discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 30 Sep 2011 23:25:04 +0100
+In-Reply-To: <CAEsOVNcEkg_=xSWg2Z-k+NM7F21NqT_j2gLnjkQys1_RZU-jmg@mail.gmail.com>
+References: <1317347777-10288-1-git-send-email-msm@freescale.com>
+	<1317374475.12332.134.camel@ted>
+	<CAEsOVNdKPk833GDMYrjGgjOMhmOxGWPzevEWUy3CzUsa2LCHSw@mail.gmail.com>
+	<CAEsOVNcEkg_=xSWg2Z-k+NM7F21NqT_j2gLnjkQys1_RZU-jmg@mail.gmail.com>
 X-Mailer: Evolution 3.1.91- 
-Message-ID: <1317420972.4454.1.camel@ted>
+Message-ID: <1317421512.4454.5.camel@ted>
 Mime-Version: 1.0
-Subject: [PATCH] populate_sdk_rpm: Add missing /bin/sh from rpm ignore list for the SDK
+Subject: Re: [PATCH] Add bash as RDEPENDS for gstreamer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,29 +43,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 22:21:39 -0000
+X-List-Received-Date: Fri, 30 Sep 2011 22:30:47 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-The target SDK packages don't need to fulfil a shell dependency
-so add /bin/sh to the list of packages we don't need to resolve.
+On Fri, 2011-09-30 at 16:30 +0000, McClintock Matthew-B29882 wrote:
+> On Fri, Sep 30, 2011 at 10:47 AM, Matthew McClintock <msm@freescale.com> wrote:
+> > On Fri, Sep 30, 2011 at 4:20 AM, Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> >> What image target are you building? I'm having trouble visualising an
+> >> image that doesn't include bash or busybox and if either of these are
+> >> present, that dependency should be met...
+> >>
+> >> If this is a toolchain/SDK, there were some recent tweaks which address
+> >> this problem.
+> >
+> > It was meta-toolchain-sdk, please drop this patch if that is the case.
+> 
+> FYI, I've been testing this on the 'edison' branch. Seems like this
+> should be addressed - assuming someone else can reproduce this
+> issue...
+> 
+> Any comments?
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/populate_sdk_rpm.bbclass b/meta/classes/populate_sdk_rpm.bbclass
-index f1062fb..9989d0a 100644
---- a/meta/classes/populate_sdk_rpm.bbclass
-+++ b/meta/classes/populate_sdk_rpm.bbclass
-@@ -35,7 +35,7 @@ fakeroot populate_sdk_rpm () {
- 	export INSTALL_PACKAGES_NORMAL_RPM="${TOOLCHAIN_TARGET_TASK}"
- 	export INSTALL_PACKAGES_ATTEMPTONLY_RPM=""
- 	export INSTALL_PACKAGES_LINGUAS_RPM=""
--	export INSTALL_PROVIDENAME_RPM="/bin/bash /usr/bin/env /usr/bin/perl pkgconfig pkgconfig(pkg-config)"
-+	export INSTALL_PROVIDENAME_RPM="/bin/sh /bin/bash /usr/bin/env /usr/bin/perl pkgconfig pkgconfig(pkg-config)"
- 	export INSTALL_TASK_RPM="populate_sdk-target"
- 
- 	# Setup base system configuration
+I think we were missing a fix, I've sent out a patch which I think
+should resolve this once and for all.
 
+Cheers,
+
+Richard
 
 
 
