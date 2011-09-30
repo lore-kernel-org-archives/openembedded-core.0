@@ -1,33 +1,34 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1R9XbQ-0005dU-45
+	(envelope-from <martin.jansa@gmail.com>) id 1R9XbU-0005dc-RV
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 09:33:48 +0200
-Received: by mail-bw0-f47.google.com with SMTP id 11so1506817bke.6
+	Fri, 30 Sep 2011 09:33:52 +0200
+Received: by mail-bw0-f47.google.com with SMTP id 11so1506871bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 00:28:21 -0700 (PDT)
+	Fri, 30 Sep 2011 00:28:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=rViFsOnlT95YMhrCtglrcbSEcJt17+5hGlnN6FE4wow=;
-	b=iolSO/GZcud1WWijdvcdAucIALVEtZZ594PV1mH8c5NdfCXaPVIwhF0genvRFlquIW
-	B/1KPsk04Ozx0BNi5D9EQYI14kCmQm8QClFEMeYC8+J5QDX8ZTCpemEBHUm8W4W1i+oC
-	yKo7g1Plf2y8fTnASD1oO/EU+BKrIn6eFxPNk=
-Received: by 10.204.133.69 with SMTP id e5mr7182227bkt.79.1317367701832;
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references;
+	bh=edqql9aC4cUQNthWgkRSv9J1ga57hL/hrEI3SvRmofg=;
+	b=MVr8CQ5ZuSbeRFHPjdAuErYk6cCTfVjL1JQGvjIgvEfGKV1EFSRo2Ulqx9DWqHLShq
+	hZZgYpG2+MkXX40uEs/qBINQUMA5b7vBIr0e0v6MztkLq0eYG5G0I7O5zf4tuvV2VhZg
+	Z1f/Pzn2NVYtOhdhEYXFz35XDzDcfGbQ7yQ54=
+Received: by 10.204.6.205 with SMTP id a13mr7693543bka.364.1317367701103;
 	Fri, 30 Sep 2011 00:28:21 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id v16sm3934425bkd.6.2011.09.30.00.28.19
+	by mx.google.com with ESMTPS id e14sm3946107bka.0.2011.09.30.00.28.19
 	(version=TLSv1/SSLv3 cipher=OTHER);
 	Fri, 30 Sep 2011 00:28:20 -0700 (PDT)
-Date: Fri, 30 Sep 2011 09:28:14 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20110930072814.GC2361@jama.jama.net>
-References: <cover.1317367429.git.Martin.Jansa@gmail.com>
-MIME-Version: 1.0
+Date: Fri, 30 Sep 2011 09:27:18 +0200
+Message-Id: <921d348a66792f91d6aad82dc6c9b50063b09c97.1317367429.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.6.1
+In-Reply-To: <06d9f58329265e028db9c5104ecbd7726daa077c.1317367429.git.Martin.Jansa@gmail.com>
+References: <06d9f58329265e028db9c5104ecbd7726daa077c.1317367429.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1317367429.git.Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 00/13] Xorg related changes
+References: <cover.1317367429.git.Martin.Jansa@gmail.com>
+Subject: [PATCH 07/13] xorg-driver: rename .inc files and merge some changes from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,166 +43,341 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 07:33:48 -0000
-X-Groupsio-MsgNum: 10248
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="L6iaP+gRLNZHKoI4"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 30 Sep 2011 07:33:53 -0000
 
---L6iaP+gRLNZHKoI4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+* use INC_PR
+* use BPN directly instead of XORG_PN
 
-On Fri, Sep 30, 2011 at 09:26:47AM +0200, Martin Jansa wrote:
-> Hi,
->=20
-> this patchset brings meta-oe and oe-core xorg stuff together and most of=
-=20
-> xorg recipes will be removed from meta-oe (sending another pull request n=
-ow).
->=20
-> This step is needed to be able to separate common x11 to meta-x11 or what=
-ever later.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ .../xorg-driver/xf86-input-evdev_2.6.0.bb          |    4 ++--
+ .../xorg-driver/xf86-input-keyboard_1.6.0.bb       |    4 ++--
+ .../xorg-driver/xf86-input-keyboard_git.bb         |    3 ++-
+ .../xorg-driver/xf86-input-mouse_1.7.0.bb          |    4 +++-
+ .../xorg-driver/xf86-input-mouse_git.bb            |    4 ++--
+ .../xorg-driver/xf86-input-synaptics_1.4.0.bb      |    4 +++-
+ .../xorg-driver/xf86-input-synaptics_git.bb        |    3 ++-
+ .../xorg-driver/xf86-input-vmmouse_12.7.0.bb       |    4 ++--
+ .../xorg-driver/xf86-video-intel_2.15.0.bb         |    4 ++--
+ .../xorg-driver/xf86-video-intel_git.bb            |    4 ++--
+ .../xorg-driver/xf86-video-omapfb_git.bb           |    4 ++--
+ .../xorg-driver/xf86-video-vesa_2.3.0.bb           |    4 +++-
+ .../xorg-driver/xf86-video-vmware_11.0.3.bb        |    4 ++--
+ ...86-driver-common.inc => xorg-driver-common.inc} |   14 +++++++-------
+ ...xf86-input-common.inc => xorg-driver-input.inc} |    3 +--
+ ...xf86-video-common.inc => xorg-driver-video.inc} |    2 +-
+ 16 files changed, 38 insertions(+), 31 deletions(-)
+ rename meta/recipes-graphics/xorg-driver/{xf86-driver-common.inc => xorg-driver-common.inc} (66%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-common.inc => xorg-driver-input.inc} (81%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-video-common.inc => xorg-driver-video.inc} (65%)
 
-I've forgot to mention that this patchest was tested on om-gta02,
-nokia900 and spitz..
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.6.0.bb b/meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.6.0.bb
+index a37be17..db6a3b3 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.6.0.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.6.0.bb
+@@ -1,4 +1,4 @@
+-require xf86-input-common.inc
++require xorg-driver-input.inc
+ 
+ SUMMARY = "X.Org X server -- event devices (evdev) input driver"
+ 
+@@ -14,7 +14,7 @@ xorg.conf for each input device that will use this driver. "
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=fefe33b1cf0cacba0e72e3b0fa0f0e16"
+ 
+-PR = "r0"
++PR = "${INC_PR}.0"
+ 
+ SRC_URI[md5sum] = "f33fe9413bde68936d8909206a13e8a1"
+ SRC_URI[sha256sum] = "b0e7f3991a8183a4743196c3e16d7184d439b80bf43653aa2f45b0756a6753ac"
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-keyboard_1.6.0.bb b/meta/recipes-graphics/xorg-driver/xf86-input-keyboard_1.6.0.bb
+index 9b1441d..e374fbd 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-input-keyboard_1.6.0.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-input-keyboard_1.6.0.bb
+@@ -1,4 +1,4 @@
+-require xf86-input-common.inc
++require xorg-driver-input.inc
+ 
+ SUMMARY = "X.Org X server -- keyboard input driver"
+ 
+@@ -9,7 +9,7 @@ core keyboard."
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=ea2099d24ac9e316a6d4b9f20b3d4e10"
+ 
+-PR = "r0"
++PR = "${INC_PR}.0"
+ 
+ SRC_URI[md5sum] = "e2abe9f13e526a73cb68a7d257546eba"
+ SRC_URI[sha256sum] = "c46c790fec905d696573b7a374b10ab8b4389112a8f69993fe011006c99e858e"
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-keyboard_git.bb b/meta/recipes-graphics/xorg-driver/xf86-input-keyboard_git.bb
+index fe8cee9..5bc0558 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-input-keyboard_git.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-input-keyboard_git.bb
+@@ -1,4 +1,4 @@
+-require xf86-input-common.inc
++require xorg-driver-input.inc
+ 
+ SUMMARY = "X.Org X server -- keyboard input driver"
+ 
+@@ -9,6 +9,7 @@ core keyboard."
+ 
+ SRCREV = "3e28d68b50d291938734e9684b8296ca864f3892"
+ PV = "1.3.2+git${SRCPV}"
++PR = "${INC_PR}.0"
+ 
+ SRC_URI = "git://anongit.freedesktop.org/git/xorg/driver/xf86-input-keyboard;protocol=git"
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.7.0.bb b/meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.7.0.bb
+index fbc2c66..b4918ef 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.7.0.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.7.0.bb
+@@ -1,4 +1,4 @@
+-require xf86-input-common.inc
++require xorg-driver-input.inc
+ 
+ SUMMARY = "X.Org X server -- mouse input driver"
+ 
+@@ -10,5 +10,7 @@ driver."
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=237eb1d1a602d29ef2af62d8fba60f19"
+ 
++PR = "${INC_PR}.0"
++
+ SRC_URI[md5sum] = "7f31472689c15b6de62eff04d0fb57d7"
+ SRC_URI[sha256sum] = "4e989542b5e9e0c5f9087288b18e70de1064dd27c83a4bc6dce58f3ea9d74994"
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-mouse_git.bb b/meta/recipes-graphics/xorg-driver/xf86-input-mouse_git.bb
+index b4dd1ed..392892e 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-input-mouse_git.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-input-mouse_git.bb
+@@ -1,4 +1,4 @@
+-require xf86-input-common.inc
++require xorg-driver-input.inc
+ 
+ SUMMARY = "X.Org X server -- mouse input driver"
+ 
+@@ -10,7 +10,7 @@ driver."
+ 
+ SRCREV = "ea5cfe804e112f320f14ad896c7802d53551d3e6"
+ PV = "1.3.0+git${SRCPV}"
+-PR = "r2"
++PR = "${INC_PR}.0"
+ 
+ SRC_URI = "git://anongit.freedesktop.org/git/xorg/driver/xf86-input-mouse;protocol=git \
+            file://unbreak.patch"
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_1.4.0.bb b/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_1.4.0.bb
+index 39cd35f..a75d051 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_1.4.0.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_1.4.0.bb
+@@ -1,4 +1,4 @@
+-require xf86-input-common.inc
++require xorg-driver-input.inc
+ 
+ SUMMARY = "X.Org X server -- synaptics touchpad input driver"
+ 
+@@ -10,6 +10,8 @@ advanced features of the touchpad to become available."
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e395e21f3c21d4fc3a243783e85e9ab5"
+ 
++PR = "${INC_PR}.0"
++
+ DEPENDS += "libxi"
+ 
+ #
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_git.bb b/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_git.bb
+index dbfcef5..3b3db59 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_git.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_git.bb
+@@ -1,4 +1,4 @@
+-require xf86-input-common.inc
++require xorg-driver-input.inc
+ 
+ SUMMARY = "X.Org X server -- synaptics touchpad input driver"
+ 
+@@ -10,6 +10,7 @@ advanced features of the touchpad to become available."
+ 
+ SRCREV = "934bc0012f948c52aadc8eda912f7728fb7394a2"
+ PV = "0.15.2+git${SRCPV}"
++PR = "${INC_PR}.0"
+ 
+ SRC_URI = "git://anongit.freedesktop.org/git/xorg/driver/xf86-input-synaptics;protocol=git"
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-vmmouse_12.7.0.bb b/meta/recipes-graphics/xorg-driver/xf86-input-vmmouse_12.7.0.bb
+index 9535a8f..42e2b14 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-input-vmmouse_12.7.0.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-input-vmmouse_12.7.0.bb
+@@ -1,7 +1,7 @@
+-require xf86-input-common.inc
++require xorg-driver-input.inc
+ 
+ DESCRIPTION = "X.Org X server -- VMWare mouse input driver"
+-PR = "r0"
++PR = "${INC_PR}.0"
+ 
+ RDEPENDS_${PN} += "xf86-input-mouse"
+ 
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.15.0.bb b/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.15.0.bb
+index 6c9db59..caa8a40 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.15.0.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.15.0.bb
+@@ -1,4 +1,4 @@
+-require xf86-video-common.inc
++require xorg-driver-video.inc
+ 
+ SUMMARY = "X.Org X server -- Intel integrated graphics chipsets driver"
+ 
+@@ -9,7 +9,7 @@ Infrastructure (DRI)."
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=8730ad58d11c7bbad9a7066d69f7808e"
+ 
+-PR = "r0"
++PR = "${INC_PR}.0"
+ 
+ EXTRA_OECONF += "--disable-xvmc"
+ 
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb b/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
+index 34fe533..ed1f269 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
+@@ -1,4 +1,4 @@
+-require xf86-video-common.inc
++require xorg-driver-video.inc
+ 
+ SUMMARY = "X.Org X server -- Intel integrated graphics chipsets driver"
+ 
+@@ -12,7 +12,7 @@ DEPENDS += "virtual/libx11 libxvmc drm dri2proto glproto \
+ 
+ SRCREV = "87ea531c5dc5b39809395b277c330854aaaaf019"
+ PV = "2.10.0+git${SRCPV}"
+-PR = "r0"
++PR = "${INC_PR}.0"
+ 
+ EXTRA_OECONF += "--disable-xvmc --enable-dri --disable-static"
+ 
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb b/meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb
+index 66aa5c4..cf58302 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb
+@@ -1,4 +1,4 @@
+-require xf86-driver-common.inc
++require xorg-driver-driver.inc
+ 
+ SUMMARY = "X.Org X server -- Texas Instruments OMAP framebuffer driver"
+ 
+@@ -11,7 +11,7 @@ DEPENDS += "virtual/libx11"
+ 
+ SRCREV = "044617665d6737f4909aab96f91b06261dff05d2"
+ PE = "1"
+-PR = "r1"
++PR = "${INC_PR}.0"
+ PV = "0.1.1+git${SRCPV}"
+ 
+ SRC_URI = "git://git.pingu.fi/xf86-video-omapfb.git;protocol=http \
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.3.0.bb b/meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.3.0.bb
+index 474c779..30e3dee 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.3.0.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.3.0.bb
+@@ -1,4 +1,4 @@
+-require xf86-video-common.inc
++require xorg-driver-video.inc
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e5418e7a75e21268637984e70265e146"
+ 
+@@ -11,6 +11,8 @@ can drive most VESA-compatible video cards, but only makes use of the \
+ basic standard VESA core that is common to these cards. The driver \
+ supports depths 8, 15 16 and 24."
+ 
++PR = "${INC_PR}.0"
++
+ DEPENDS += "virtual/libx11 libxvmc drm xf86driproto glproto \
+ 	    virtual/libgl xineramaproto xf86driproto libpciaccess"
+ 
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-vmware_11.0.3.bb b/meta/recipes-graphics/xorg-driver/xf86-video-vmware_11.0.3.bb
+index a0f6041..e77c918 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-video-vmware_11.0.3.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-video-vmware_11.0.3.bb
+@@ -1,4 +1,4 @@
+-require xf86-video-common.inc
++require xorg-driver-video.inc
+ 
+ SUMMARY = "X.Org X server -- VMware SVGA display driver"
+ 
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5fcd7d437a959a15fbee8707747c6b53"
+ DEPENDS += "virtual/libx11 libxvmc drm glproto \
+ 	    virtual/libgl xineramaproto libpciaccess"
+ 
+-PR = "r0"
++PR = "${INC_PR}.0"
+ 
+ COMPATIBLE_HOST = '(i.86.*-linux|x86_64.*-linux)'
+ 
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-driver-common.inc b/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
+similarity index 66%
+rename from meta/recipes-graphics/xorg-driver/xf86-driver-common.inc
+rename to meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
+index 34d03b2..801d8d3 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-driver-common.inc
++++ b/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
+@@ -5,14 +5,13 @@ SECTION = "x11/drivers"
+ LICENSE = "MIT-X"
+ 
+ PE = "1"
+-PR = "r1"
++INC_PR = "r15"
+ 
+ DEPENDS = "virtual/xserver-xf86 xproto randrproto util-macros"
+ 
+-XORG_PN = "${BPN}"
+-SRC_URI = "${XORG_MIRROR}/individual/driver/${XORG_PN}-${PV}.tar.bz2"
++SRC_URI = "${XORG_MIRROR}/individual/driver/${BPN}-${PV}.tar.bz2"
+ 
+-S = "${WORKDIR}/${XORG_PN}-${PV}"
++S = "${WORKDIR}/${BPN}-${PV}"
+ 
+ FILES_${PN} += " ${libdir}/xorg/modules/drivers/*.so"
+ FILES_${PN}-dbg += " ${libdir}/xorg/modules/drivers/.debug"
+@@ -27,7 +26,8 @@ do_configure_prepend () {
+     mv configure.ac.new configure.ac
+ }
+ 
+-do_install_append () {
+-    # driver's la files are not packaged
+-    rm -f ${D}${libdir}/xorg/modules/drivers/*.la
++# FIXME: We don't want to include the libtool archives (*.la) from modules
++# directory, as they serve no useful purpose. Upstream should fix Makefile.am
++do_install_append() {
++	find ${D}${libdir}/xorg/modules -regex ".*\.la$" | xargs rm -f --
+ }
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-common.inc b/meta/recipes-graphics/xorg-driver/xorg-driver-input.inc
+similarity index 81%
+rename from meta/recipes-graphics/xorg-driver/xf86-input-common.inc
+rename to meta/recipes-graphics/xorg-driver/xorg-driver-input.inc
+index 6fc88cf..bf4ca6c 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-input-common.inc
++++ b/meta/recipes-graphics/xorg-driver/xorg-driver-input.inc
+@@ -1,7 +1,6 @@
+-include xf86-driver-common.inc
++include xorg-driver-common.inc
+ 
+ DEPENDS += "inputproto kbproto "
+ 
+ FILES_${PN} += " ${libdir}/xorg/modules/input/*.so"
+ FILES_${PN}-dbg += " ${libdir}/xorg/modules/input/.debug"
+-
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-common.inc b/meta/recipes-graphics/xorg-driver/xorg-driver-video.inc
+similarity index 65%
+rename from meta/recipes-graphics/xorg-driver/xf86-video-common.inc
+rename to meta/recipes-graphics/xorg-driver/xorg-driver-video.inc
+index f2e2817..57c80d1 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-video-common.inc
++++ b/meta/recipes-graphics/xorg-driver/xorg-driver-video.inc
+@@ -1,4 +1,4 @@
+-include xf86-driver-common.inc
++include xorg-driver-common.inc
+ 
+ DEPENDS =+ "renderproto videoproto xextproto fontsproto"
+ 
+-- 
+1.7.6.1
 
->=20
-> The following changes since commit 96241de59fdf548ae0f80cc9e4668f9ba11924=
-ef:
->=20
->   Fix flac build on e500mc cores (2011-09-29 19:31:38 +0100)
->=20
-> are available in the git repository at:
->   git://git.openembedded.org/openembedded-core-contrib jansa/x11
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=
-=3Djansa/x11
->=20
-> Martin Jansa (13):
->   xserver-xf86: upgrade to 1.11.0 and move shared definitions to .inc
->     files
->   xserver-xf86-dri-lite: remove COMPATIBLE_HOST
->   libxft, libxrender, renderproto: add native BBCLASSEXTEND
->   libx11: upgrade to 1.4.4
->   default-providers: define PREFERRED_PROVIDER_virtual/libx11-native
->   xorg-app-common: merge some changes from meta-oe
->   xorg-driver: rename .inc files and merge some changes from meta-oe
->   xf86-video-omapfb: bump SRCREV and add patch from meta-oe
->   xserver-nodm-init: merge some changes from meta-oe
->   rgb: import from meta-oe layer
->   libdrm: improve packaging
->   glx-use-tls: add from meta-oe layer
->   mesa: upgrade to 7.11
->=20
->  meta/classes/glx-use-tls.bbclass                   |    7 +
->  meta/conf/distro/include/default-providers.inc     |    1 +
->  meta/recipes-graphics/drm/libdrm.inc               |    7 +-
->  meta/recipes-graphics/drm/libdrm_2.4.26.bb         |    2 +-
->  meta/recipes-graphics/drm/libdrm_git.bb            |    2 +-
->  meta/recipes-graphics/mesa/mesa-7.11.inc           |   15 +
->  meta/recipes-graphics/mesa/mesa-common.inc         |   48 ++-
->  .../mesa/mesa-dri-glsl-native_7.11.bb              |   28 ++
->  .../mesa/mesa-dri-glsl-native_7.8.2.bb             |   27 --
->  meta/recipes-graphics/mesa/mesa-dri.inc            |   27 ++
->  meta/recipes-graphics/mesa/mesa-dri_7.11.bb        |    3 +
->  meta/recipes-graphics/mesa/mesa-xlib.inc           |    5 +
->  meta/recipes-graphics/mesa/mesa-xlib_7.11.bb       |    4 +
->  .../mesa/{mesa-dri =3D> mesa}/uclibc.patch           |    0
->  meta/recipes-graphics/mesa/mesa_7.11.bb            |    6 +
->  .../x11-common/xserver-nodm-init/xserver-nodm      |   30 +--
->  meta/recipes-graphics/xorg-app/rgb_1.0.4.bb        |   10 +
->  meta/recipes-graphics/xorg-app/xorg-app-common.inc |   10 +-
->  .../xorg-driver/xf86-input-evdev_2.6.0.bb          |    4 +-
->  .../xorg-driver/xf86-input-keyboard_1.6.0.bb       |    4 +-
->  .../xorg-driver/xf86-input-keyboard_git.bb         |    3 +-
->  .../xorg-driver/xf86-input-mouse_1.7.0.bb          |    4 +-
->  .../xorg-driver/xf86-input-mouse_git.bb            |    4 +-
->  .../xorg-driver/xf86-input-synaptics_1.4.0.bb      |    4 +-
->  .../xorg-driver/xf86-input-synaptics_git.bb        |    3 +-
->  .../xorg-driver/xf86-input-vmmouse_12.7.0.bb       |    4 +-
->  .../xorg-driver/xf86-video-intel_2.15.0.bb         |    4 +-
->  .../xorg-driver/xf86-video-intel_git.bb            |    4 +-
->  .../0004-Attempt-to-fix-VRFB.patch                 |  325 ++++++++++++++=
-++++++
->  .../xorg-driver/xf86-video-omapfb_git.bb           |   20 +-
->  .../xorg-driver/xf86-video-vesa_2.3.0.bb           |    4 +-
->  .../xorg-driver/xf86-video-vmware_11.0.3.bb        |    4 +-
->  ...86-driver-common.inc =3D> xorg-driver-common.inc} |   14 +-
->  ...xf86-input-common.inc =3D> xorg-driver-input.inc} |    3 +-
->  ...xf86-video-common.inc =3D> xorg-driver-video.inc} |    2 +-
->  .../xorg-lib/libx11-1.4.4/keysymdef_include.patch  |   19 ++
->  .../libx11-1.4.4/x11_disable_makekeys.patch        |   29 ++
->  meta/recipes-graphics/xorg-lib/libx11.inc          |   52 ++--
->  meta/recipes-graphics/xorg-lib/libx11_1.4.4.bb     |   14 +
->  meta/recipes-graphics/xorg-lib/libxft_2.2.0.bb     |    2 +
->  meta/recipes-graphics/xorg-lib/libxrender_0.9.6.bb |    2 +-
->  .../xorg-proto/renderproto_0.11.1.bb               |    2 +-
->  .../xorg-xserver/xserver-xf86-1.11.0.inc           |    7 +
->  .../xorg-xserver/xserver-xf86-common.inc           |  114 ++++++-
->  .../xorg-xserver/xserver-xf86-dri-lite.inc         |   37 +--
->  .../xorg-xserver/xserver-xf86-dri-lite_1.10.1.bb   |   20 --
->  .../xorg-xserver/xserver-xf86-dri-lite_1.11.0.bb   |    4 +
->  .../xorg-xserver/xserver-xf86-dri-lite_git.bb      |    8 +-
->  .../xorg-xserver/xserver-xf86-lite.inc             |   32 +--
->  .../xorg-xserver/xserver-xf86-lite_1.10.1.bb       |   12 -
->  .../xorg-xserver/xserver-xf86-lite_1.11.0.bb       |    2 +
->  51 files changed, 750 insertions(+), 248 deletions(-)
->  create mode 100644 meta/classes/glx-use-tls.bbclass
->  create mode 100644 meta/recipes-graphics/mesa/mesa-7.11.inc
->  create mode 100644 meta/recipes-graphics/mesa/mesa-dri-glsl-native_7.11.=
-bb
->  delete mode 100644 meta/recipes-graphics/mesa/mesa-dri-glsl-native_7.8.2=
-=2Ebb
->  create mode 100644 meta/recipes-graphics/mesa/mesa-dri.inc
->  create mode 100644 meta/recipes-graphics/mesa/mesa-dri_7.11.bb
->  create mode 100644 meta/recipes-graphics/mesa/mesa-xlib.inc
->  create mode 100644 meta/recipes-graphics/mesa/mesa-xlib_7.11.bb
->  rename meta/recipes-graphics/mesa/{mesa-dri =3D> mesa}/uclibc.patch (100=
-%)
->  create mode 100644 meta/recipes-graphics/mesa/mesa_7.11.bb
->  create mode 100644 meta/recipes-graphics/xorg-app/rgb_1.0.4.bb
->  create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-omapfb/0=
-004-Attempt-to-fix-VRFB.patch
->  rename meta/recipes-graphics/xorg-driver/{xf86-driver-common.inc =3D> xo=
-rg-driver-common.inc} (66%)
->  rename meta/recipes-graphics/xorg-driver/{xf86-input-common.inc =3D> xor=
-g-driver-input.inc} (81%)
->  rename meta/recipes-graphics/xorg-driver/{xf86-video-common.inc =3D> xor=
-g-driver-video.inc} (65%)
->  create mode 100644 meta/recipes-graphics/xorg-lib/libx11-1.4.4/keysymdef=
-_include.patch
->  create mode 100644 meta/recipes-graphics/xorg-lib/libx11-1.4.4/x11_disab=
-le_makekeys.patch
->  create mode 100644 meta/recipes-graphics/xorg-lib/libx11_1.4.4.bb
->  create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-1.11.=
-0.inc
->  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-l=
-ite_1.10.1.bb
->  create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-l=
-ite_1.11.0.bb
->  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-lite_=
-1.10.1.bb
->  create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-lite_=
-1.11.0.bb
->=20
-> --=20
-> 1.7.6.1
->=20
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---L6iaP+gRLNZHKoI4
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk6Fb44ACgkQN1Ujt2V2gBz6TwCfQqhFIk/IKoQHbXf2rZj1Soth
-hS4An39D+i/axqYoZo/gyvYm6GxVciX2
-=vvpo
------END PGP SIGNATURE-----
-
---L6iaP+gRLNZHKoI4--
