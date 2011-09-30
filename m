@@ -1,31 +1,35 @@
 Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1R9hrO-0000jo-Pu
+	(envelope-from <martin.jansa@gmail.com>) id 1R9hse-0000mp-Vq
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 20:30:58 +0200
-Received: by fxi1 with SMTP id 1so3385612fxi.6
+	Fri, 30 Sep 2011 20:32:17 +0200
+Received: by fxi1 with SMTP id 1so3387389fxi.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 11:25:30 -0700 (PDT)
+	Fri, 30 Sep 2011 11:26:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=NAITCuU/9ectM5fZIBMTg2c9yeSqZa81MhysiOVgwfw=;
-	b=diImF8mG05NA7gn6Ct/MzvBV2zwa5vIb+jxqiPtUERsg8esSrvVzMNYCC8diMPC0aJ
-	QUFlfVed0+RWQF8Obqh+Oiv+866Ck2iIKeXcXF2pOBn2O2W1m/isw5cvi+AauX/fYCcv
-	dOe8x8UGRHMTWNPO6gQS01myXWBbJZT9iHb9c=
-Received: by 10.223.35.133 with SMTP id p5mr7712684fad.133.1317407129351;
-	Fri, 30 Sep 2011 11:25:29 -0700 (PDT)
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=bJULhPThi2G7VvEr45gCJ4RtVol+8wKTq7Z7iNX1WSw=;
+	b=a63sG6OlEB56BiotNI666/uICvirR6ITXTDT6UE5uqwP0RPJAc+0OVMkxJXF80ixdw
+	xgm6V2kTxrv5OXwgUU9aKIFPudkGcEd6jnUXhFJ001M4DuRsaH/q3gVjt31YEpi+Rr7w
+	nvKO08fJXVIcgqlR86nQLHlrJg43cqhWsua2Y=
+Received: by 10.223.30.153 with SMTP id u25mr18839616fac.104.1317407208058;
+	Fri, 30 Sep 2011 11:26:48 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id x22sm7759862faa.5.2011.09.30.11.25.26
+	by mx.google.com with ESMTPS id c1sm7746714fab.15.2011.09.30.11.26.46
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 30 Sep 2011 11:25:28 -0700 (PDT)
+	Fri, 30 Sep 2011 11:26:47 -0700 (PDT)
+Date: Fri, 30 Sep 2011 20:26:41 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Sep 2011 20:25:19 +0200
-Message-Id: <1317407119-16823-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.6.1
-In-Reply-To: <e89070827bd58e6b3e54d336dd179ad508a960ee.1317397204.git.Martin.Jansa@gmail.com>
-References: <e89070827bd58e6b3e54d336dd179ad508a960ee.1317397204.git.Martin.Jansa@gmail.com>
-Subject: [PATCHv2] atk: add patch to replace G_CONST_RETURN with const
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20110930182641.GG7364@jama.jama.net>
+References: <1317372422-7943-1-git-send-email-Martin.Jansa@gmail.com>
+	<4E85FD5E.7060305@intel.com> <20110930174330.GF7364@jama.jama.net>
+MIME-Version: 1.0
+In-Reply-To: <20110930174330.GF7364@jama.jama.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH] atk: add patch to replace G_CONST_RETURN with const
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,671 +44,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 18:30:58 -0000
+X-List-Received-Date: Fri, 30 Sep 2011 18:32:17 -0000
+X-Groupsio-MsgNum: 10346
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="cyV/sMl4KAhiehtf"
+Content-Disposition: inline
 
-* otherwise build fails when glib is 2.30.0 or newer (and G_DISABLE_DEPRECATED is enabled - like in atk)
+--cyV/sMl4KAhiehtf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- .../atk/atk-1.32.0/remove.G_CONST_RETURN.patch     |  630 ++++++++++++++++++++
- meta/recipes-support/atk/atk_1.32.0.bb             |    5 +-
- 2 files changed, 634 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-support/atk/atk-1.32.0/remove.G_CONST_RETURN.patch
+On Fri, Sep 30, 2011 at 07:43:30PM +0200, Martin Jansa wrote:
+> On Fri, Sep 30, 2011 at 10:33:18AM -0700, Saul Wold wrote:
+> > On 09/30/2011 01:47 AM, Martin Jansa wrote:
+> > > * otherwise build fails when glib is 2.30.0 or newer (and G_DISABLE_D=
+EPRECATED is enabled - like in atk)
+> > >
+> > > Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
+> > > ---
+> > >   .../atk/atk-1.32.0/remove.G_CONST_RETURN.patch     |  628 +++++++++=
++++++++++++
+> > >   meta/recipes-support/atk/atk_1.32.0.bb             |    5 +-
+> > >   2 files changed, 632 insertions(+), 1 deletions(-)
+> > >   create mode 100644 meta/recipes-support/atk/atk-1.32.0/remove.G_CON=
+ST_RETURN.patch
+> > >
+> > > diff --git a/meta/recipes-support/atk/atk-1.32.0/remove.G_CONST_RETUR=
+N.patch b/meta/recipes-support/atk/atk-1.32.0/remove.G_CONST_RETURN.patch
+> > > new file mode 100644
+> > > index 0000000..0cdf041
+> > > --- /dev/null
+> > > +++ b/meta/recipes-support/atk/atk-1.32.0/remove.G_CONST_RETURN.patch
+> > > @@ -0,0 +1,628 @@
+> > > +Upstream-Status: Accepted
+> > > +
+> > > +Similar patch is already included in 2.0.1 and newer
+> > > +http://ftp.gnome.org/pub/gnome/sources/atk/2.0/atk-2.0.1.news
+> > > +
+> >=20
+> > No Signed-off-by: in the patch header.
+> >=20
+> > If the newer version of atk is available, why not update atk in oe-core=
+=20
+> > to that version and not add this patch?
+> >=20
+> > Is there a reason we can't update to 2.0.1 at this time?
+>=20
+> I'm not atk expert so to minimize influence of such build fix I didn't
+> want to upgrade to new major version. But if the 2.0 API is compatible
+> feel free to update to 2.0.1.
+>=20
+> Btw: I've included this patch to "Glib related change" pull request
+> later when I had more changes to send them as separate patches..
 
-diff --git a/meta/recipes-support/atk/atk-1.32.0/remove.G_CONST_RETURN.patch b/meta/recipes-support/atk/atk-1.32.0/remove.G_CONST_RETURN.patch
-new file mode 100644
-index 0000000..0de3f26
---- /dev/null
-+++ b/meta/recipes-support/atk/atk-1.32.0/remove.G_CONST_RETURN.patch
-@@ -0,0 +1,630 @@
-+Upstream-Status: Accepted
-+
-+Similar patch is already included in 2.0.1 and newer
-+http://ftp.gnome.org/pub/gnome/sources/atk/2.0/atk-2.0.1.news
-+
-+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-+
-+diff -uNr atk-1.32.0.orig/atk/atkaction.c atk-1.32.0/atk/atkaction.c
-+--- atk-1.32.0.orig/atk/atkaction.c	2010-09-06 08:45:45.000000000 +0200
-++++ atk-1.32.0/atk/atkaction.c	2011-09-30 10:29:49.896997586 +0200
-+@@ -101,7 +101,7 @@
-+  * Returns a description string, or %NULL
-+  * if @action does not implement this interface.
-+  **/
-+-G_CONST_RETURN gchar*
-++const gchar*
-+ atk_action_get_description (AtkAction *obj,
-+                             gint      i)
-+ {
-+@@ -140,7 +140,7 @@
-+  * Returns a name string, or %NULL
-+  * if @action does not implement this interface.
-+  **/
-+-G_CONST_RETURN gchar*
-++const gchar*
-+ atk_action_get_name (AtkAction *obj,
-+                      gint      i)
-+ {
-+@@ -166,7 +166,7 @@
-+  * Returns a name string, or %NULL
-+  * if @action does not implement this interface.
-+  **/
-+-G_CONST_RETURN gchar*
-++const gchar*
-+ atk_action_get_localized_name (AtkAction *obj,
-+                                gint      i)
-+ {
-+@@ -203,7 +203,7 @@
-+  * if there is no keybinding for this action.
-+  *
-+  **/
-+-G_CONST_RETURN gchar*
-++const gchar*
-+ atk_action_get_keybinding (AtkAction *obj,
-+                            gint      i)
-+ {
-+diff -uNr atk-1.32.0.orig/atk/atkaction.h atk-1.32.0/atk/atkaction.h
-+--- atk-1.32.0.orig/atk/atkaction.h	2010-09-06 08:45:45.000000000 +0200
-++++ atk-1.32.0/atk/atkaction.h	2011-09-30 10:29:49.897997588 +0200
-+@@ -55,16 +55,16 @@
-+   gboolean                (*do_action)         (AtkAction         *action,
-+                                                 gint              i);
-+   gint                    (*get_n_actions)     (AtkAction         *action);
-+-  G_CONST_RETURN gchar*   (*get_description)   (AtkAction         *action,
-++  const gchar*   (*get_description)   (AtkAction         *action,
-+                                                 gint              i);
-+-  G_CONST_RETURN gchar*   (*get_name)          (AtkAction         *action,
-++  const gchar*   (*get_name)          (AtkAction         *action,
-+                                                 gint              i);
-+-  G_CONST_RETURN gchar*   (*get_keybinding)    (AtkAction         *action,
-++  const gchar*   (*get_keybinding)    (AtkAction         *action,
-+                                                 gint              i);
-+   gboolean                (*set_description)   (AtkAction         *action,
-+                                                 gint              i,
-+                                                 const gchar       *desc);
-+-  G_CONST_RETURN gchar*   (*get_localized_name)(AtkAction         *action,
-++  const gchar*   (*get_localized_name)(AtkAction         *action,
-+ 						gint              i);
-+   AtkFunction             pad2;
-+ };
-+@@ -85,11 +85,11 @@
-+ gboolean   atk_action_do_action                (AtkAction         *action,
-+                                             gint              i);
-+ gint   atk_action_get_n_actions            (AtkAction *action);
-+-G_CONST_RETURN gchar* atk_action_get_description  (AtkAction         *action,
-++const gchar* atk_action_get_description  (AtkAction         *action,
-+                                                    gint              i);
-+-G_CONST_RETURN gchar* atk_action_get_name         (AtkAction         *action,
-++const gchar* atk_action_get_name         (AtkAction         *action,
-+                                                    gint              i);
-+-G_CONST_RETURN gchar* atk_action_get_keybinding   (AtkAction         *action,
-++const gchar* atk_action_get_keybinding   (AtkAction         *action,
-+                                                    gint              i);
-+ gboolean              atk_action_set_description  (AtkAction         *action,
-+                                                    gint              i,
-+@@ -97,7 +97,7 @@
-+ 
-+ /* NEW in ATK 1.1: */
-+ 
-+-G_CONST_RETURN gchar* atk_action_get_localized_name (AtkAction       *action,
-++const gchar* atk_action_get_localized_name (AtkAction       *action,
-+ 						     gint            i);
-+ 
-+ /*
-+diff -uNr atk-1.32.0.orig/atk/atkdocument.c atk-1.32.0/atk/atkdocument.c
-+--- atk-1.32.0.orig/atk/atkdocument.c	2010-09-06 08:45:45.000000000 +0200
-++++ atk-1.32.0/atk/atkdocument.c	2011-09-30 10:29:49.898997588 +0200
-+@@ -93,7 +93,7 @@
-+  *
-+  * Returns: a string indicating the document type
-+  **/
-+-G_CONST_RETURN gchar*
-++const gchar*
-+ atk_document_get_document_type (AtkDocument *document)
-+ {
-+   AtkDocumentIface *iface;
-+@@ -155,7 +155,7 @@
-+  *          locale of the document content as a whole, or NULL if
-+  *          the document content does not specify a locale.
-+  **/
-+-G_CONST_RETURN gchar *
-++const gchar *
-+ atk_document_get_locale (AtkDocument *document)
-+ {
-+   AtkDocumentIface *iface;
-+@@ -219,7 +219,7 @@
-+  *    document, or NULL if a value for #attribute_name has not been specified
-+  *    for this document.
-+  */
-+-G_CONST_RETURN gchar *
-++const gchar *
-+ atk_document_get_attribute_value (AtkDocument *document, 
-+ 				  const gchar *attribute_name)
-+ {
-+diff -uNr atk-1.32.0.orig/atk/atkdocument.h atk-1.32.0/atk/atkdocument.h
-+--- atk-1.32.0.orig/atk/atkdocument.h	2010-09-06 08:45:45.000000000 +0200
-++++ atk-1.32.0/atk/atkdocument.h	2011-09-30 10:29:49.899997588 +0200
-+@@ -49,12 +49,12 @@
-+ struct _AtkDocumentIface
-+ {
-+   GTypeInterface parent;
-+-  G_CONST_RETURN gchar* ( *get_document_type) (AtkDocument              *document);
-++  const gchar* ( *get_document_type) (AtkDocument              *document);
-+   gpointer              ( *get_document)      (AtkDocument              *document);
-+ 
-+-  G_CONST_RETURN gchar* ( *get_document_locale) (AtkDocument              *document);
-++  const gchar* ( *get_document_locale) (AtkDocument              *document);
-+   AtkAttributeSet *     ( *get_document_attributes) (AtkDocument        *document);
-+-  G_CONST_RETURN gchar* ( *get_document_attribute_value) (AtkDocument   *document,
-++  const gchar* ( *get_document_attribute_value) (AtkDocument   *document,
-+                                                           const gchar   *attribute_name);
-+   gboolean              ( *set_document_attribute) (AtkDocument         *document,
-+                                                     const gchar         *attribute_name,
-+@@ -68,11 +68,11 @@
-+ 
-+ GType  atk_document_get_type             (void);
-+ 
-+-G_CONST_RETURN gchar* atk_document_get_document_type (AtkDocument   *document);
-++const gchar* atk_document_get_document_type (AtkDocument   *document);
-+ gpointer atk_document_get_document (AtkDocument   *document);
-+-G_CONST_RETURN gchar* atk_document_get_locale (AtkDocument *document);
-++const gchar* atk_document_get_locale (AtkDocument *document);
-+ AtkAttributeSet*      atk_document_get_attributes (AtkDocument *document);
-+-G_CONST_RETURN gchar* atk_document_get_attribute_value (AtkDocument *document, 
-++const gchar* atk_document_get_attribute_value (AtkDocument *document, 
-+                                                         const gchar *attribute_name);
-+ gboolean              atk_document_set_attribute_value (AtkDocument *document,
-+                                                         const gchar *attribute_name,
-+diff -uNr atk-1.32.0.orig/atk/atkimage.c atk-1.32.0/atk/atkimage.c
-+--- atk-1.32.0.orig/atk/atkimage.c	2010-09-06 08:45:45.000000000 +0200
-++++ atk-1.32.0/atk/atkimage.c	2011-09-30 10:29:49.900997587 +0200
-+@@ -46,7 +46,7 @@
-+  *
-+  * Returns: a string representing the image description
-+  **/
-+-G_CONST_RETURN gchar*
-++const gchar*
-+ atk_image_get_image_description (AtkImage *image)
-+ {
-+   AtkImageIface *iface;
-+@@ -192,7 +192,7 @@
-+  * Returns a string corresponding to the POSIX LC_MESSAGES locale used by the image description, or NULL if the image does not specify a locale. 
-+  *
-+  */
-+-G_CONST_RETURN gchar* 
-++const gchar* 
-+ atk_image_get_image_locale (AtkImage   *image)
-+ {
-+ 	
-+diff -uNr atk-1.32.0.orig/atk/atkimage.h atk-1.32.0/atk/atkimage.h
-+--- atk-1.32.0.orig/atk/atkimage.h	2010-09-06 08:45:45.000000000 +0200
-++++ atk-1.32.0/atk/atkimage.h	2011-09-30 10:29:49.901997587 +0200
-+@@ -53,13 +53,13 @@
-+                                                    gint                  *x,
-+ 				                   gint	                 *y,
-+     			                           AtkCoordType	         coord_type);
-+-  G_CONST_RETURN gchar* ( *get_image_description) (AtkImage              *image);
-++  const gchar* ( *get_image_description) (AtkImage              *image);
-+   void                  ( *get_image_size)        (AtkImage              *image,
-+                                                    gint                  *width,
-+                                                    gint                  *height);
-+   gboolean              ( *set_image_description) (AtkImage              *image,
-+                                                    const gchar           *description);
-+-  G_CONST_RETURN gchar* ( *get_image_locale)      (AtkImage              *image);
-++  const gchar* ( *get_image_locale)      (AtkImage              *image);
-+ 
-+   AtkFunction           pad1;
-+ 	
-+@@ -67,7 +67,7 @@
-+ 
-+ GType  atk_image_get_type             (void);
-+ 
-+-G_CONST_RETURN gchar* atk_image_get_image_description (AtkImage   *image);
-++const gchar* atk_image_get_image_description (AtkImage   *image);
-+ 
-+ void     atk_image_get_image_size        (AtkImage           *image,
-+                                           gint               *width,
-+@@ -80,7 +80,7 @@
-+ 					  gint	             *y,
-+     					  AtkCoordType	     coord_type);
-+ 
-+-G_CONST_RETURN gchar* atk_image_get_image_locale (AtkImage   *image);
-++const gchar* atk_image_get_image_locale (AtkImage   *image);
-+ 
-+ G_END_DECLS
-+ 
-+diff -uNr atk-1.32.0.orig/atk/atkobject.c atk-1.32.0/atk/atkobject.c
-+--- atk-1.32.0.orig/atk/atkobject.c	2010-09-06 08:45:45.000000000 +0200
-++++ atk-1.32.0/atk/atkobject.c	2011-09-30 10:29:49.905997587 +0200
-+@@ -285,9 +285,9 @@
-+                                                      GValue          *value,
-+                                                      GParamSpec      *pspec);
-+ static void            atk_object_finalize          (GObject         *object);
-+-static G_CONST_RETURN gchar*
-++static const gchar*
-+                        atk_object_real_get_name     (AtkObject       *object);
-+-static G_CONST_RETURN gchar*
-++static const gchar*
-+                        atk_object_real_get_description    
-+                                                    (AtkObject       *object);
-+ static AtkObject*      atk_object_real_get_parent  (AtkObject       *object);
-+@@ -692,7 +692,7 @@
-+  *
-+  * Returns: a character string representing the accessible name of the object.
-+  **/
-+-G_CONST_RETURN gchar*
-++const gchar*
-+ atk_object_get_name (AtkObject *accessible)
-+ {
-+   AtkObjectClass *klass;
-+@@ -716,7 +716,7 @@
-+  * of the accessible.
-+  *
-+  **/
-+-G_CONST_RETURN gchar*
-++const gchar*
-+ atk_object_get_description (AtkObject *accessible)
-+ {
-+   AtkObjectClass *klass;
-+@@ -1123,7 +1123,7 @@
-+                                 AtkState  state,
-+                                 gboolean  value)
-+ {
-+-  G_CONST_RETURN gchar* name;
-++  const gchar* name;
-+ 
-+   g_return_if_fail (ATK_IS_OBJECT (accessible));
-+ 
-+@@ -1319,13 +1319,13 @@
-+   G_OBJECT_CLASS (parent_class)->finalize (object);
-+ }
-+ 
-+-static G_CONST_RETURN gchar*
-++static const gchar*
-+ atk_object_real_get_name (AtkObject *object)
-+ {
-+   return object->name;
-+ }
-+ 
-+-static G_CONST_RETURN gchar*
-++static const gchar*
-+ atk_object_real_get_description (AtkObject *object)
-+ {
-+   return object->description;
-+@@ -1487,7 +1487,7 @@
-+  *
-+  * Returns: the string describing the AtkRole
-+  */
-+-G_CONST_RETURN gchar*
-++const gchar*
-+ atk_role_get_name (AtkRole role)
-+ {
-+   if (role >= 0 && role < ATK_ROLE_LAST_DEFINED)
-+@@ -1514,7 +1514,7 @@
-+  *
-+  * Returns: the localized string describing the AtkRole
-+  **/
-+-G_CONST_RETURN gchar*
-++const gchar*
-+ atk_role_get_localized_name (AtkRole role)
-+ {
-+   gettext_initialization ();
-+diff -uNr atk-1.32.0.orig/atk/atkobject.h atk-1.32.0/atk/atkobject.h
-+--- atk-1.32.0.orig/atk/atkobject.h	2010-09-06 08:45:45.000000000 +0200
-++++ atk-1.32.0/atk/atkobject.h	2011-09-30 10:29:49.907997585 +0200
-+@@ -381,11 +381,11 @@
-+   /*
-+    * Gets the accessible name of the object
-+    */
-+-  G_CONST_RETURN gchar*    (* get_name)            (AtkObject                *accessible);
-++  const gchar*    (* get_name)            (AtkObject                *accessible);
-+   /*
-+    * Gets the accessible description of the object
-+    */
-+-  G_CONST_RETURN gchar*    (* get_description)     (AtkObject                *accessible);
-++  const gchar*    (* get_description)     (AtkObject                *accessible);
-+   /*
-+    * Gets the accessible parent of the object
-+    */
-+@@ -535,8 +535,8 @@
-+  * Properties directly supported by AtkObject
-+  */
-+ 
-+-G_CONST_RETURN gchar*   atk_object_get_name                       (AtkObject *accessible);
-+-G_CONST_RETURN gchar*   atk_object_get_description                (AtkObject *accessible);
-++const gchar*   atk_object_get_name                       (AtkObject *accessible);
-++const gchar*   atk_object_get_description                (AtkObject *accessible);
-+ AtkObject*              atk_object_get_parent                     (AtkObject *accessible);
-+ gint                    atk_object_get_n_accessible_children      (AtkObject *accessible);
-+ AtkObject*              atk_object_ref_accessible_child           (AtkObject *accessible,
-+@@ -571,7 +571,7 @@
-+ void                 atk_object_initialize                       (AtkObject                     *accessible,
-+                                                                   gpointer                      data);
-+                                     
-+-G_CONST_RETURN gchar* atk_role_get_name      (AtkRole         role);
-++const gchar* atk_role_get_name      (AtkRole         role);
-+ AtkRole               atk_role_for_name      (const gchar     *name);
-+ 
-+ 
-+@@ -582,7 +582,7 @@
-+ gboolean              atk_object_remove_relationship           (AtkObject      *object,
-+ 								AtkRelationType relationship,
-+ 								AtkObject      *target);
-+-G_CONST_RETURN gchar* atk_role_get_localized_name              (AtkRole     role);
-++const gchar* atk_role_get_localized_name              (AtkRole     role);
-+ 
-+ /* */
-+ 
-+diff -uNr atk-1.32.0.orig/atk/atkrelation.c atk-1.32.0/atk/atkrelation.c
-+--- atk-1.32.0.orig/atk/atkrelation.c	2010-09-06 08:45:45.000000000 +0200
-++++ atk-1.32.0/atk/atkrelation.c	2011-09-30 10:29:49.908997585 +0200
-+@@ -130,7 +130,7 @@
-+  *
-+  * Returns: the string describing the AtkRelationType
-+  */
-+-G_CONST_RETURN gchar*
-++const gchar*
-+ atk_relation_type_get_name (AtkRelationType type)
-+ {
-+   GTypeClass *type_class;
-+diff -uNr atk-1.32.0.orig/atk/atkrelation.h atk-1.32.0/atk/atkrelation.h
-+--- atk-1.32.0.orig/atk/atkrelation.h	2010-09-06 08:45:45.000000000 +0200
-++++ atk-1.32.0/atk/atkrelation.h	2011-09-30 10:29:49.909997586 +0200
-+@@ -61,7 +61,7 @@
-+ GType atk_relation_get_type (void);
-+ 
-+ AtkRelationType       atk_relation_type_register      (const gchar     *name);
-+-G_CONST_RETURN gchar* atk_relation_type_get_name      (AtkRelationType type);
-++const gchar* atk_relation_type_get_name      (AtkRelationType type);
-+ AtkRelationType       atk_relation_type_for_name      (const gchar     *name);
-+ 
-+ /*
-+diff -uNr atk-1.32.0.orig/atk/atkstate.c atk-1.32.0/atk/atkstate.c
-+--- atk-1.32.0.orig/atk/atkstate.c	2010-09-06 08:45:45.000000000 +0200
-++++ atk-1.32.0/atk/atkstate.c	2011-09-30 10:29:49.910997587 +0200
-+@@ -57,7 +57,7 @@
-+  *
-+  * Returns: the string describing the AtkStateType
-+  */
-+-G_CONST_RETURN gchar*
-++const gchar*
-+ atk_state_type_get_name (AtkStateType type)
-+ {
-+   GTypeClass *type_class;
-+diff -uNr atk-1.32.0.orig/atk/atkstate.h atk-1.32.0/atk/atkstate.h
-+--- atk-1.32.0.orig/atk/atkstate.h	2010-09-06 08:45:45.000000000 +0200
-++++ atk-1.32.0/atk/atkstate.h	2011-09-30 10:29:49.911997587 +0200
-+@@ -170,7 +170,7 @@
-+ 
-+ AtkStateType atk_state_type_register            (const gchar *name);
-+ 
-+-G_CONST_RETURN gchar* atk_state_type_get_name   (AtkStateType type);
-++const gchar* atk_state_type_get_name   (AtkStateType type);
-+ AtkStateType          atk_state_type_for_name   (const gchar  *name);
-+ 
-+ G_END_DECLS
-+diff -uNr atk-1.32.0.orig/atk/atkstreamablecontent.c atk-1.32.0/atk/atkstreamablecontent.c
-+--- atk-1.32.0.orig/atk/atkstreamablecontent.c	2010-09-06 08:45:45.000000000 +0200
-++++ atk-1.32.0/atk/atkstreamablecontent.c	2011-09-30 10:29:49.912997587 +0200
-+@@ -73,7 +73,7 @@
-+  * Returns : a gchar* representing the specified mime type; the caller
-+  * should not free the character string.
-+  **/
-+-G_CONST_RETURN gchar*
-++const gchar*
-+ atk_streamable_content_get_mime_type (AtkStreamableContent *streamable,
-+                                       gint                 i)
-+ {
-+diff -uNr atk-1.32.0.orig/atk/atkstreamablecontent.h atk-1.32.0/atk/atkstreamablecontent.h
-+--- atk-1.32.0.orig/atk/atkstreamablecontent.h	2010-09-06 08:45:45.000000000 +0200
-++++ atk-1.32.0/atk/atkstreamablecontent.h	2011-09-30 10:29:49.913997587 +0200
-+@@ -54,11 +54,11 @@
-+    * at index 0 should be considered the "default" data type for the stream.
-+    *
-+    * This assumes that the strings for the mime types are stored in the
-+-   * AtkStreamableContent. Alternatively the G_CONST_RETURN could be removed
-++   * AtkStreamableContent. Alternatively the const could be removed
-+    * and the caller would be responsible for calling g_free() on the
-+    * returned value.
-+    */
-+-  G_CONST_RETURN gchar*     (* get_mime_type)     (AtkStreamableContent     *streamable,
-++  const gchar*     (* get_mime_type)     (AtkStreamableContent     *streamable,
-+                                                    gint                     i);
-+   /*
-+    * One possible implementation for this method is that it constructs the
-+@@ -80,7 +80,7 @@
-+  * constructed.  Note that it is possible for get_uri to return NULL but for
-+  * get_stream to work nonetheless, since not all GIOChannels connect to URIs.
-+  */
-+-    G_CONST_RETURN  gchar*  (* get_uri)           (AtkStreamableContent     *streamable,
-++    const  gchar*  (* get_uri)           (AtkStreamableContent     *streamable,
-+                                                    const gchar              *mime_type);
-+ 
-+ 
-+@@ -92,7 +92,7 @@
-+ 
-+ gint                   atk_streamable_content_get_n_mime_types (AtkStreamableContent     *streamable);
-+                                                        
-+-G_CONST_RETURN gchar*  atk_streamable_content_get_mime_type    (AtkStreamableContent     *streamable,
-++const gchar*  atk_streamable_content_get_mime_type    (AtkStreamableContent     *streamable,
-+                                                                 gint                     i);
-+ GIOChannel*             atk_streamable_content_get_stream       (AtkStreamableContent     *streamable,
-+                                                                  const gchar              *mime_type);
-+diff -uNr atk-1.32.0.orig/atk/atktable.c atk-1.32.0/atk/atktable.c
-+--- atk-1.32.0.orig/atk/atktable.c	2010-09-06 08:45:45.000000000 +0200
-++++ atk-1.32.0/atk/atktable.c	2011-09-30 10:29:49.915997586 +0200
-+@@ -300,7 +300,7 @@
-+  * Returns: a gchar* representing the column description, or %NULL
-+  * if value does not implement this interface.
-+  **/
-+-G_CONST_RETURN gchar*
-++const gchar*
-+ atk_table_get_column_description (AtkTable *table,
-+                                   gint     column)
-+ {
-+@@ -404,7 +404,7 @@
-+  * Returns: a gchar* representing the row description, or %NULL
-+  * if value does not implement this interface.
-+  **/
-+-G_CONST_RETURN gchar*
-++const gchar*
-+ atk_table_get_row_description (AtkTable *table,
-+                                gint      row)
-+ {
-+diff -uNr atk-1.32.0.orig/atk/atktable.h atk-1.32.0/atk/atktable.h
-+--- atk-1.32.0.orig/atk/atktable.h	2010-09-06 08:45:45.000000000 +0200
-++++ atk-1.32.0/atk/atktable.h	2011-09-30 10:29:49.916997586 +0200
-+@@ -69,12 +69,12 @@
-+                                                   gint          column);
-+   AtkObject*
-+                     (* get_caption)              (AtkTable      *table);
-+-  G_CONST_RETURN gchar*
-++  const gchar*
-+                     (* get_column_description)   (AtkTable      *table,
-+                                                   gint          column);
-+   AtkObject*        (* get_column_header)        (AtkTable      *table,
-+ 						  gint		column);
-+-  G_CONST_RETURN gchar*
-++  const gchar*
-+                     (* get_row_description)      (AtkTable      *table,
-+                                                   gint          row);
-+   AtkObject*        (* get_row_header)           (AtkTable      *table,
-+@@ -163,12 +163,12 @@
-+                                                   gint             column);
-+ AtkObject*
-+                   atk_table_get_caption          (AtkTable         *table);
-+-G_CONST_RETURN gchar*
-++const gchar*
-+                   atk_table_get_column_description (AtkTable         *table,
-+                                                   gint             column);
-+ AtkObject*        atk_table_get_column_header    (AtkTable         *table,
-+ 						  gint		   column);
-+-G_CONST_RETURN gchar*
-++const gchar*
-+                   atk_table_get_row_description  (AtkTable         *table,
-+                                                   gint             row);
-+ AtkObject*        atk_table_get_row_header       (AtkTable         *table,
-+diff -uNr atk-1.32.0.orig/atk/atktext.c atk-1.32.0/atk/atktext.c
-+--- atk-1.32.0.orig/atk/atktext.c	2010-09-27 09:07:09.000000000 +0200
-++++ atk-1.32.0/atk/atktext.c	2011-09-30 10:29:49.919997586 +0200
-+@@ -1054,7 +1054,7 @@
-+  *
-+  * Returns: a string containing the name; this string should not be freed
-+  **/
-+-G_CONST_RETURN gchar*
-++const gchar*
-+ atk_text_attribute_get_name (AtkTextAttribute attr)
-+ {
-+   GTypeClass *type_class;
-+@@ -1150,7 +1150,7 @@
-+  * Returns: a string containing the value; this string should not be freed;
-+  * NULL is returned if there are no values maintained for the attr value. 
-+  **/
-+-G_CONST_RETURN gchar*
-++const gchar*
-+ atk_text_attribute_get_value (AtkTextAttribute attr,
-+                               gint             index)
-+ {
-+diff -uNr atk-1.32.0.orig/atk/atktext.h atk-1.32.0/atk/atktext.h
-+--- atk-1.32.0.orig/atk/atktext.h	2010-09-27 09:07:09.000000000 +0200
-++++ atk-1.32.0/atk/atktext.h	2011-09-30 10:29:49.921997586 +0200
-+@@ -355,9 +355,9 @@
-+                                                            AtkTextClipType  y_clip_type);
-+ void          atk_text_free_ranges                        (AtkTextRange     **ranges);
-+ void 	      atk_attribute_set_free                      (AtkAttributeSet  *attrib_set);
-+-G_CONST_RETURN gchar*  atk_text_attribute_get_name        (AtkTextAttribute attr);
-++const gchar*  atk_text_attribute_get_name        (AtkTextAttribute attr);
-+ AtkTextAttribute       atk_text_attribute_for_name        (const gchar      *name);
-+-G_CONST_RETURN gchar*  atk_text_attribute_get_value       (AtkTextAttribute attr,
-++const gchar*  atk_text_attribute_get_value       (AtkTextAttribute attr,
-+                                                            gint             index_);
-+ 
-+ G_END_DECLS
-+diff -uNr atk-1.32.0.orig/atk/atkutil.c atk-1.32.0/atk/atkutil.c
-+--- atk-1.32.0.orig/atk/atkutil.c	2010-09-06 08:45:45.000000000 +0200
-++++ atk-1.32.0/atk/atkutil.c	2011-09-30 10:29:49.922997586 +0200
-+@@ -340,7 +340,7 @@
-+  *
-+  * Returns: name string for the GUI toolkit implementing ATK for this application
-+  **/
-+-G_CONST_RETURN gchar*
-++const gchar*
-+ atk_get_toolkit_name (void)
-+ {
-+   const gchar *retval;
-+@@ -365,7 +365,7 @@
-+  *
-+  * Returns: version string for the GUI toolkit implementing ATK for this application
-+  **/
-+-G_CONST_RETURN gchar*
-++const gchar*
-+ atk_get_toolkit_version (void)
-+ {
-+   const gchar *retval;
-+@@ -391,7 +391,7 @@
-+  * Returns: version string for ATK
-+  **/
-+ 
-+-G_CONST_RETURN gchar *
-++const gchar *
-+ atk_get_version (void)
-+ {
-+   return VERSION;
-+diff -uNr atk-1.32.0.orig/atk/atkutil.h atk-1.32.0/atk/atkutil.h
-+--- atk-1.32.0.orig/atk/atkutil.h	2010-09-06 08:45:45.000000000 +0200
-++++ atk-1.32.0/atk/atkutil.h	2011-09-30 10:29:49.923997586 +0200
-+@@ -147,8 +147,8 @@
-+ 						  gpointer data);
-+    void         (* remove_key_event_listener)    (guint               listener_id);
-+    AtkObject*   (* get_root)                     (void);
-+-   G_CONST_RETURN gchar* (* get_toolkit_name)    (void);
-+-   G_CONST_RETURN gchar* (* get_toolkit_version) (void);
-++   const gchar* (* get_toolkit_name)    (void);
-++   const gchar* (* get_toolkit_version) (void);
-+ };
-+ GType atk_util_get_type (void);
-+ 
-+@@ -229,17 +229,17 @@
-+ /*
-+  * Returns name string for the GUI toolkit.
-+  */
-+-G_CONST_RETURN gchar *atk_get_toolkit_name (void);
-++const gchar *atk_get_toolkit_name (void);
-+ 
-+ /*
-+  * Returns version string for the GUI toolkit.
-+  */
-+-G_CONST_RETURN gchar *atk_get_toolkit_version (void);
-++const gchar *atk_get_toolkit_version (void);
-+ 
-+ /*
-+  * Gets the current version of ATK
-+  */
-+-G_CONST_RETURN gchar *atk_get_version (void);
-++const gchar *atk_get_version (void);
-+ 
-+ /* --- GType boilerplate --- */
-+ /* convenience macros for atk type implementations, which for a type GtkGadgetAccessible will:
-+diff -uNr atk-1.32.0.orig/tests/testrelation.c atk-1.32.0/tests/testrelation.c
-+--- atk-1.32.0.orig/tests/testrelation.c	2010-09-06 08:45:45.000000000 +0200
-++++ atk-1.32.0/tests/testrelation.c	2011-09-30 10:29:49.924997586 +0200
-+@@ -28,7 +28,7 @@
-+ test_relation (void)
-+ {
-+   AtkRelationType type1, type2;
-+-  G_CONST_RETURN gchar *name;
-++  const gchar *name;
-+   AtkObject *obj;
-+   gboolean ret_value;
-+   AtkRelationSet *set;
-+@@ -169,7 +169,7 @@
-+ test_role (void)
-+ {
-+   AtkRole role1, role2;
-+-  G_CONST_RETURN gchar *name;
-++  const gchar *name;
-+ 
-+   name = atk_role_get_name (ATK_ROLE_PAGE_TAB);
-+   g_return_val_if_fail (name, FALSE);
-+@@ -230,7 +230,7 @@
-+ test_text_attr (void)
-+ {
-+   AtkTextAttribute attr1, attr2;
-+-  G_CONST_RETURN gchar *name;
-++  const gchar *name;
-+ 
-+   name = atk_text_attribute_get_name (ATK_TEXT_ATTR_PIXELS_INSIDE_WRAP);
-+   g_return_val_if_fail (name, FALSE);
-+diff -uNr atk-1.32.0.orig/tests/teststateset.c atk-1.32.0/tests/teststateset.c
-+--- atk-1.32.0.orig/tests/teststateset.c	2010-09-06 08:45:45.000000000 +0200
-++++ atk-1.32.0/tests/teststateset.c	2011-09-30 10:29:49.926997586 +0200
-+@@ -208,7 +208,7 @@
-+ test_state (void)
-+ {
-+   AtkStateType type1, type2;
-+-  G_CONST_RETURN gchar *name;
-++  const gchar *name;
-+ 
-+   name = atk_state_type_get_name (ATK_STATE_VISIBLE);
-+   g_return_val_if_fail (name, FALSE);
-diff --git a/meta/recipes-support/atk/atk_1.32.0.bb b/meta/recipes-support/atk/atk_1.32.0.bb
-index e6883eb..db8ca1f 100644
---- a/meta/recipes-support/atk/atk_1.32.0.bb
-+++ b/meta/recipes-support/atk/atk_1.32.0.bb
-@@ -4,7 +4,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
-                     file://atk/atkutil.c;endline=20;md5=db21b0bdbef9da4dc6eb122debc9f9bc \
-                     file://atk/atk.h;endline=20;md5=c58238d688c24387376d6c69d06248a7"
- 
--SRC_URI = "http://download.gnome.org/sources/atk/1.32/${BPN}-${PV}.tar.bz2"
-+PR = "r1"
-+SRC_URI = "http://download.gnome.org/sources/atk/1.32/${BPN}-${PV}.tar.bz2 \
-+           file://remove.G_CONST_RETURN.patch \
-+"
- 
- SRC_URI[md5sum] = "b9a19a3e426cd9ca930f0108c4ee343f"
- SRC_URI[sha256sum] = "e9a3e598f75c4db1af914f8b052dd9f7e89e920a96cc187c18eb06b8339cb16e"
--- 
-1.7.6.1
+I've updated this patch in jansa/glib with SOB line and sent PATCHv2 to
+ml.
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--cyV/sMl4KAhiehtf
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk6GCeEACgkQN1Ujt2V2gBzTygCgs9/NrN9eem0R9qLTrhS0yJVw
+1kAAnjlbSiLai68vc0IuaNOJHjg2QjkG
+=pNcM
+-----END PGP SIGNATURE-----
+
+--cyV/sMl4KAhiehtf--
