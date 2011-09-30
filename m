@@ -1,35 +1,35 @@
 Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1R9hse-0000mp-Vq
+	(envelope-from <martin.jansa@gmail.com>) id 1R9i3F-0000yx-29
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 20:32:17 +0200
-Received: by fxi1 with SMTP id 1so3387389fxi.6
+	Fri, 30 Sep 2011 20:43:13 +0200
+Received: by fxi1 with SMTP id 1so3400287fxi.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 11:26:48 -0700 (PDT)
+	Fri, 30 Sep 2011 11:37:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=date:from:to:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=bJULhPThi2G7VvEr45gCJ4RtVol+8wKTq7Z7iNX1WSw=;
-	b=a63sG6OlEB56BiotNI666/uICvirR6ITXTDT6UE5uqwP0RPJAc+0OVMkxJXF80ixdw
-	xgm6V2kTxrv5OXwgUU9aKIFPudkGcEd6jnUXhFJ001M4DuRsaH/q3gVjt31YEpi+Rr7w
-	nvKO08fJXVIcgqlR86nQLHlrJg43cqhWsua2Y=
-Received: by 10.223.30.153 with SMTP id u25mr18839616fac.104.1317407208058;
-	Fri, 30 Sep 2011 11:26:48 -0700 (PDT)
+	bh=tQgwlZ5+DJbrI/sIhwHohlANqKfdnb7g1Wi+lqUzdDo=;
+	b=PY77rdyL8vodENR+cyHeMlmvvQQgGVmHDo8xOH308c4DH+uvlfBjZHOXep0i/ADGgi
+	ECHebuvbv7/VxMT2+9bcZUYfhi+OTvqZv52g6ZmOVoqty4W7z/8H11097qaOXvsyQy1X
+	S9hs3cn7sPreRfSIOIs69Y1z3yu603A1GqObY=
+Received: by 10.223.30.27 with SMTP id s27mr11755326fac.129.1317407861611;
+	Fri, 30 Sep 2011 11:37:41 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id c1sm7746714fab.15.2011.09.30.11.26.46
+	by mx.google.com with ESMTPS id o16sm7771563fag.21.2011.09.30.11.37.39
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 30 Sep 2011 11:26:47 -0700 (PDT)
-Date: Fri, 30 Sep 2011 20:26:41 +0200
+	Fri, 30 Sep 2011 11:37:40 -0700 (PDT)
+Date: Fri, 30 Sep 2011 20:37:32 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110930182641.GG7364@jama.jama.net>
-References: <1317372422-7943-1-git-send-email-Martin.Jansa@gmail.com>
-	<4E85FD5E.7060305@intel.com> <20110930174330.GF7364@jama.jama.net>
+Message-ID: <20110930183732.GH7364@jama.jama.net>
+References: <cover.1317344910.git.nitin.a.kamble@intel.com>
+	<efb11f0fc00b6406194a37db473d25409569ba81.1317344910.git.nitin.a.kamble@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20110930174330.GF7364@jama.jama.net>
+In-Reply-To: <efb11f0fc00b6406194a37db473d25409569ba81.1317344910.git.nitin.a.kamble@intel.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] atk: add patch to replace G_CONST_RETURN with const
+Subject: Re: [PATCH 4/4] python, python-native: upgrade from 2.6.6 to 2.7.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,76 +44,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 18:32:17 -0000
-X-Groupsio-MsgNum: 10346
+X-List-Received-Date: Fri, 30 Sep 2011 18:43:13 -0000
+X-Groupsio-MsgNum: 10347
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="cyV/sMl4KAhiehtf"
+	protocol="application/pgp-signature"; boundary="ewQ5hdP4CtoTt3oD"
 Content-Disposition: inline
 
---cyV/sMl4KAhiehtf
+--ewQ5hdP4CtoTt3oD
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 30, 2011 at 07:43:30PM +0200, Martin Jansa wrote:
-> On Fri, Sep 30, 2011 at 10:33:18AM -0700, Saul Wold wrote:
-> > On 09/30/2011 01:47 AM, Martin Jansa wrote:
-> > > * otherwise build fails when glib is 2.30.0 or newer (and G_DISABLE_D=
-EPRECATED is enabled - like in atk)
-> > >
-> > > Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
-> > > ---
-> > >   .../atk/atk-1.32.0/remove.G_CONST_RETURN.patch     |  628 +++++++++=
-+++++++++++
-> > >   meta/recipes-support/atk/atk_1.32.0.bb             |    5 +-
-> > >   2 files changed, 632 insertions(+), 1 deletions(-)
-> > >   create mode 100644 meta/recipes-support/atk/atk-1.32.0/remove.G_CON=
-ST_RETURN.patch
-> > >
-> > > diff --git a/meta/recipes-support/atk/atk-1.32.0/remove.G_CONST_RETUR=
-N.patch b/meta/recipes-support/atk/atk-1.32.0/remove.G_CONST_RETURN.patch
-> > > new file mode 100644
-> > > index 0000000..0cdf041
-> > > --- /dev/null
-> > > +++ b/meta/recipes-support/atk/atk-1.32.0/remove.G_CONST_RETURN.patch
-> > > @@ -0,0 +1,628 @@
-> > > +Upstream-Status: Accepted
-> > > +
-> > > +Similar patch is already included in 2.0.1 and newer
-> > > +http://ftp.gnome.org/pub/gnome/sources/atk/2.0/atk-2.0.1.news
-> > > +
-> >=20
-> > No Signed-off-by: in the patch header.
-> >=20
-> > If the newer version of atk is available, why not update atk in oe-core=
-=20
-> > to that version and not add this patch?
-> >=20
-> > Is there a reason we can't update to 2.0.1 at this time?
+On Thu, Sep 29, 2011 at 06:27:11PM -0700, nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble <nitin.a.kamble@intel.com>
 >=20
-> I'm not atk expert so to minimize influence of such build fix I didn't
-> want to upgrade to new major version. But if the 2.0 API is compatible
-> feel free to update to 2.0.1.
+> Rebased these patches to the newer code
+> 	modified:   python-native/nohostlibs.patch
+> 	modified:   python/01-use-proper-tools-for-cross-build.patch
+> 	modified:   python/06-avoid_usr_lib_termcap_path_in_linking.patch
+> 	modified:   python/06-ctypes-libffi-fix-configure.patch
+> 	modified:   python/multilib.patch
 >=20
-> Btw: I've included this patch to "Glib related change" pull request
-> later when I had more changes to send them as separate patches..
+> Deleted these patches are the are now upstream
+> 	deleted:    python/02-remove-test-for-cross.patch
+> 	deleted:    python/security_issue_2254_fix.patch
+>=20
+> Added this patch to python-native
+> 	new file:   python-native/multilib.patch
+>=20
+> Updated site config files for python
+> 	modified:   ../../site/arm-common
+> 	modified:   ../../site/mips-common
+>=20
+> Updated default python version
+> 	modified:   ../../conf/distro/include/default-versions.inc
+>=20
+> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> ---
+>  meta/conf/distro/include/default-versions.inc      |    6 +-
+>  ...on-2.6-manifest.inc =3D> python-2.7-manifest.inc} |    0
+>  .../python/python-native/multilib.patch            |  240 ++++++++++++++=
+++++++
+>  .../python/python-native/nohostlibs.patch          |   36 ++-
+>  ...thon-native_2.6.6.bb =3D> python-native_2.7.2.bb} |   13 +-
+>  meta/recipes-devtools/python/python.inc            |   16 +-
+>  .../01-use-proper-tools-for-cross-build.patch      |  118 +++++++---
+>  .../python/python/02-remove-test-for-cross.patch   |  108 ---------
+>  .../06-avoid_usr_lib_termcap_path_in_linking.patch |   16 +-
+>  .../python/06-ctypes-libffi-fix-configure.patch    |   42 ++---
+>  meta/recipes-devtools/python/python/multilib.patch |  126 ++++++-----
+>  .../python/python/security_issue_2254_fix.patch    |  184 ---------------
+>  .../python/{python_2.6.6.bb =3D> python_2.7.2.bb}    |   10 +-
+>  meta/site/arm-common                               |    3 +
+>  meta/site/mips-common                              |    3 +
+>  15 files changed, 467 insertions(+), 454 deletions(-)
+>  rename meta/recipes-devtools/python/{python-2.6-manifest.inc =3D> python=
+-2.7-manifest.inc} (100%)
+>  create mode 100644 meta/recipes-devtools/python/python-native/multilib.p=
+atch
+>  rename meta/recipes-devtools/python/{python-native_2.6.6.bb =3D> python-=
+native_2.7.2.bb} (74%)
+>  delete mode 100644 meta/recipes-devtools/python/python/02-remove-test-fo=
+r-cross.patch
+>  delete mode 100644 meta/recipes-devtools/python/python/security_issue_22=
+54_fix.patch
+>  rename meta/recipes-devtools/python/{python_2.6.6.bb =3D> python_2.7.2.b=
+b} (92%)
+>=20
+> diff --git a/meta/conf/distro/include/default-versions.inc b/meta/conf/di=
+stro/include/default-versions.inc
+> index e3ef1e6..90ff005 100644
+> --- a/meta/conf/distro/include/default-versions.inc
+> +++ b/meta/conf/distro/include/default-versions.inc
+> @@ -4,9 +4,9 @@
+>  PREFERRED_VERSION_pulseaudio ?=3D "0.9.23"
+> =20
+>  # Force the python versions in one place
+> -PYTHON_BASEVERSION ?=3D "2.6"
+> -PREFERRED_VERSION_python ?=3D "2.6.6"
+> -PREFERRED_VERSION_python-native ?=3D "2.6.6"
+> +PYTHON_BASEVERSION ?=3D "2.7"
+> +PREFERRED_VERSION_python ?=3D "2.7.2"
+> +PREFERRED_VERSION_python-native ?=3D "2.7.2"
+> =20
+>  # Force the older version of liberation-fonts until we fix the fontforge=
+ issue
+>  PREFERRED_VERSION_liberation-fonts ?=3D "1.04"
+> diff --git a/meta/recipes-devtools/python/python-2.6-manifest.inc b/meta/=
+recipes-devtools/python/python-2.7-manifest.inc
+> similarity index 100%
+> rename from meta/recipes-devtools/python/python-2.6-manifest.inc
+> rename to meta/recipes-devtools/python/python-2.7-manifest.inc
 
-I've updated this patch in jansa/glib with SOB line and sent PATCHv2 to
-ml.
+this is wrong.. just to rename it isn't enough
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+I will send patch which regenerates manifest with right paths to
+actually package something..
 
---cyV/sMl4KAhiehtf
+Regards,
+
+--ewQ5hdP4CtoTt3oD
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.18 (GNU/Linux)
 
-iEYEARECAAYFAk6GCeEACgkQN1Ujt2V2gBzTygCgs9/NrN9eem0R9qLTrhS0yJVw
-1kAAnjlbSiLai68vc0IuaNOJHjg2QjkG
-=pNcM
+iEYEARECAAYFAk6GDGwACgkQN1Ujt2V2gBwppQCglgkMv4n1ETTabNMGJc2lBGIR
+lq0AmgN/+tETRa2iSNjTBAzJOz2BQB+6
+=4eMD
 -----END PGP SIGNATURE-----
 
---cyV/sMl4KAhiehtf--
+--ewQ5hdP4CtoTt3oD--
