@@ -1,36 +1,29 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-gx0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R9dPF-0001MB-LT for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 15:45:37 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8UDkWAe023178 for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 14:46:33 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id SpDB-Udc2BBt
+	(envelope-from <martin.jansa@gmail.com>) id 1R9dTl-0001SP-OH
+	for openembedded-core@lists.openembedded.org;
+	Fri, 30 Sep 2011 15:50:17 +0200
+Received: by ggnq1 with SMTP id q1so143810ggn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 14:46:32 +0100 (BST)
-Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8UDkU5g023137
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 14:46:32 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Sep 2011 14:40:04 +0100
-In-Reply-To: <CA+chaQcWqvxDeOMVpdAL_2US3KzAmD_iJCytMfwJRa0rEfG5uA@mail.gmail.com>
-References: <cover.1317370299.git.lei.mei@intel.com>
-	<b53e13b48897472197f3ab2cb28c85cab089e4a5.1317370299.git.lei.mei@intel.com>
-	<CA+chaQcWqvxDeOMVpdAL_2US3KzAmD_iJCytMfwJRa0rEfG5uA@mail.gmail.com>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1317390011.12332.193.camel@ted>
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/4] curl: Upgrade from 7.21.7 to 7.22.0
+	Fri, 30 Sep 2011 06:44:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=/cv2kr0+zNykPHiamsFhKoCYKwIWqdUh/8O8H9aD2pA=;
+	b=CzUR5eEAhs5M6kLVRJVlSxL5E9dQCOuyM/CNfFjaFTHJRcytp+3k0UBwleM7B8koDR
+	OpYWCZB01KQfxvZv8JbJ3xYxh2tqGT8+4lcEK7mSIc7b4KtdClWC5KzneW8dd6jSVXsE
+	mBz5wxEZONZlDYftSd2qf1j+UhpW2TX4YDxZw=
+Received: by 10.223.45.85 with SMTP id d21mr2341961faf.63.1317390287799;
+	Fri, 30 Sep 2011 06:44:47 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id n1sm6764856fad.20.2011.09.30.06.44.45
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 30 Sep 2011 06:44:46 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Sep 2011 15:44:38 +0200
+Message-Id: <1317390278-15364-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.6.1
+Subject: [PATCH] libproxy: upgrade to 0.4.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,47 +38,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 13:45:37 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 30 Sep 2011 13:50:17 -0000
 
-On Fri, 2011-09-30 at 14:23 +0200, Martin Jansa wrote:
-> On Fri, Sep 30, 2011 at 10:16 AM, Mei Lei <lei.mei@intel.com> wrote:
-> > Signed-off-by: Mei Lei <lei.mei@intel.com>
-> > ---
-> >  .../curl/{curl_7.21.7.bb => curl_7.22.0.bb}        |    4 ++--
-> >  1 files changed, 2 insertions(+), 2 deletions(-)
-> >  rename meta/recipes-support/curl/{curl_7.21.7.bb => curl_7.22.0.bb} (92%)
-> >
-> > diff --git a/meta/recipes-support/curl/curl_7.21.7.bb b/meta/recipes-support/curl/curl_7.22.0.bb
-> > similarity index 92%
-> > rename from meta/recipes-support/curl/curl_7.21.7.bb
-> > rename to meta/recipes-support/curl/curl_7.22.0.bb
-> > index 2ec4402..d6924be 100644
-> > --- a/meta/recipes-support/curl/curl_7.21.7.bb
-> > +++ b/meta/recipes-support/curl/curl_7.22.0.bb
-> > @@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-> >            file://noldlibpath.patch \
-> >            file://pkgconfig_fix.patch"
-> >
-> > -SRC_URI[md5sum] = "5f6d50c4d4ee38c57fe37e3cff75adbd"
-> > -SRC_URI[sha256sum] = "1a50dd17400c042090203eef347e946f29c342c32b6c4843c740c80975e8215a"
-> > +SRC_URI[md5sum] = "bde820eac53fa3a8d8696667418557ad"
-> > +SRC_URI[sha256sum] = "bda0da862322b122784f5a9d7a65efdd99a6061292cfb8e9357e0c67c03e5112"
-> 
-> md5sum looks wrong (I have the same sha256sum)
-> 
-> OE @ ~ $ md5sum curl-7.22.0.tar.bz2
-> bdb5c226d37c4a6082c70e7ef6f63060  curl-7.22.0.tar.bz2
-> OE @ ~ $ sha256sum curl-7.22.0.tar.bz2
-> bda0da862322b122784f5a9d7a65efdd99a6061292cfb8e9357e0c67c03e5112
-> curl-7.22.0.tar.bz2
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-support/libproxy/libproxy_0.4.6.bb |   29 -----------------------
+ meta/recipes-support/libproxy/libproxy_0.4.7.bb |   27 +++++++++++++++++++++
+ 2 files changed, 27 insertions(+), 29 deletions(-)
+ delete mode 100644 meta/recipes-support/libproxy/libproxy_0.4.6.bb
+ create mode 100644 meta/recipes-support/libproxy/libproxy_0.4.7.bb
 
-My test agrees with you, I've updated master-next with a fix.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-support/libproxy/libproxy_0.4.6.bb b/meta/recipes-support/libproxy/libproxy_0.4.6.bb
+deleted file mode 100644
+index d907c55..0000000
+--- a/meta/recipes-support/libproxy/libproxy_0.4.6.bb
++++ /dev/null
+@@ -1,29 +0,0 @@
+-DESCRIPTION = "A library that provides automatic proxy configuration management"
+-HOMEPAGE = "http://code.google.com/p/libproxy/"
+-BUGTRACKER = "http://code.google.com/p/libproxy/issues/list"
+-SECTION = "libs"
+-LICENSE = "LGPLv2.1+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=7d7044444a7b1b116e8783edcdb44ff4 \
+-                    file://utils/proxy.c;beginline=1;endline=18;md5=55152a1006d7dafbef32baf9c30a99c0"
+-
+-
+-DEPENDS = "gconf"
+-
+-SRC_URI = "http://libproxy.googlecode.com/files/libproxy-${PV}.tar.gz"
+-
+-SRC_URI[md5sum] = "199c6b120baf1f7258a55f38d5ec74f5"
+-SRC_URI[sha256sum] = "9ad912e63b1efca98fb442240a2bc7302e6021c1d0b1b9363327729f29462f30"
+-
+-PR = "r2"
+-
+-inherit cmake pkgconfig
+-
+-EXTRA_OECMAKE = "-DWITH_WEBKIT=no -DWITH_GNOME=yes -DWITH_KDE4=no \
+-	      -DWITH_PYTHON=no -DWITH_PERL=no -DWITH_MOZJS=no -DWITH_NM=no -DLIB_INSTALL_DIR=${libdir}"
+-
+-FILES_${PN}-dbg += "${libdir}/libproxy/${PV}/plugins/.debug/ ${libdir}/libproxy/${PV}/modules/.debug/"
+-
+-do_configure_prepend() {
+-	export HOST_SYS=${HOST_SYS}
+-	export BUILD_SYS=${BUILD_SYS}
+-}
+diff --git a/meta/recipes-support/libproxy/libproxy_0.4.7.bb b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+new file mode 100644
+index 0000000..2793b41
+--- /dev/null
++++ b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+@@ -0,0 +1,27 @@
++DESCRIPTION = "A library that provides automatic proxy configuration management"
++HOMEPAGE = "http://code.google.com/p/libproxy/"
++BUGTRACKER = "http://code.google.com/p/libproxy/issues/list"
++SECTION = "libs"
++LICENSE = "LGPLv2.1+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=7d7044444a7b1b116e8783edcdb44ff4 \
++                    file://utils/proxy.c;beginline=1;endline=18;md5=55152a1006d7dafbef32baf9c30a99c0"
++
++
++DEPENDS = "gconf"
++
++SRC_URI = "http://libproxy.googlecode.com/files/libproxy-${PV}.tar.gz"
++
++SRC_URI[md5sum] = "509e03a488a61cd62bfbaf3ab6a2a7a5"
++SRC_URI[sha256sum] = "8fe0a58810139ba3c2e186deccf3e68adcd127aa0e972b0862b30b3dde493797"
++
++inherit cmake pkgconfig
++
++EXTRA_OECMAKE = "-DWITH_WEBKIT=no -DWITH_GNOME=yes -DWITH_KDE4=no \
++	      -DWITH_PYTHON=no -DWITH_PERL=no -DWITH_MOZJS=no -DWITH_NM=no -DLIB_INSTALL_DIR=${libdir}"
++
++FILES_${PN}-dbg += "${libdir}/libproxy/${PV}/plugins/.debug/ ${libdir}/libproxy/${PV}/modules/.debug/"
++
++do_configure_prepend() {
++	export HOST_SYS=${HOST_SYS}
++	export BUILD_SYS=${BUILD_SYS}
++}
+-- 
+1.7.6.1
 
 
 
