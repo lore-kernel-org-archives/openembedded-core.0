@@ -1,33 +1,57 @@
-Received: from mail-yi0-f47.google.com ([209.85.218.47])
+Received: from tx2ehsobe004.messaging.microsoft.com ([65.55.88.14]
+	helo=TX2EHSOBE007.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>)
-	id 1R9g6i-0005xp-GH; Fri, 30 Sep 2011 18:38:41 +0200
-Received: by yia27 with SMTP id 27so1647468yia.6
-	for <multiple recipients>; Fri, 30 Sep 2011 09:33:10 -0700 (PDT)
-Received: by 10.236.176.105 with SMTP id a69mr8754987yhm.95.1317400390575;
-	Fri, 30 Sep 2011 09:33:10 -0700 (PDT)
-Received: from [10.0.1.28] (adsl-68-88-70-1.dsl.rcsntx.swbell.net.
-	[68.88.70.1])
-	by mx.google.com with ESMTPS id p46sm6982200yhh.15.2011.09.30.09.33.04
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 30 Sep 2011 09:33:09 -0700 (PDT)
-References: <4E85D3E0.7070807@intel.com> <1317397804.11645.7.camel@scimitar>
-In-Reply-To: <1317397804.11645.7.camel@scimitar>
-Mime-Version: 1.0 (iPhone Mail 8L1)
-Message-Id: <689D3FDE-CD3B-48CE-9426-AE59008C0609@dominion.thruhere.net>
-X-Mailer: iPhone Mail (8L1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Fri, 30 Sep 2011 11:32:50 -0500
+	(envelope-from <B29882@freescale.com>) id 1R9g6q-000607-Sn
+	for openembedded-core@lists.openembedded.org;
+	Fri, 30 Sep 2011 18:38:49 +0200
+Received: from mail71-tx2-R.bigfish.com (10.9.14.254) by
+	TX2EHSOBE007.bigfish.com (10.9.40.27) with Microsoft SMTP Server id
+	14.1.225.22; Fri, 30 Sep 2011 16:33:19 +0000
+Received: from mail71-tx2 (localhost.localdomain [127.0.0.1])	by
+	mail71-tx2-R.bigfish.com (Postfix) with ESMTP id A381D12E83A9	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2011 16:33:18 +0000 (UTC)
+X-SpamScore: -22
+X-BigFish: VS-22(zz9371K1b0bMdf9M1432N98dKzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3h)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
+	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
+X-FB-SS: 13,
+Received: from mail71-tx2 (localhost.localdomain [127.0.0.1]) by mail71-tx2
+	(MessageSwitch) id 1317400341697832_22559;
+	Fri, 30 Sep 2011 16:32:21 +0000 (UTC)
+Received: from TX2EHSMHS007.bigfish.com (unknown [10.9.14.249])	by
+	mail71-tx2.bigfish.com (Postfix) with ESMTP id 987161A801EE	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2011 16:30:46 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS007.bigfish.com
+	(10.9.99.107) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Fri, 30 Sep 2011 16:30:40 +0000
+Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.230]) by
+	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
+	14.01.0323.007; Fri, 30 Sep 2011 11:30:40 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: "bitbake-devel@lists.openembedded.org"
-	<bitbake-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Feedback on HOB (new image creator GUI)
+Thread-Topic: [OE-core] [PATCH] Add bash as RDEPENDS for gstreamer
+Thread-Index: AQHMf4hfqtTcGzFVY0+/7FDdYAqquJVmcTqA
+Date: Fri, 30 Sep 2011 16:30:39 +0000
+Message-ID: <CAEsOVNcEkg_=xSWg2Z-k+NM7F21NqT_j2gLnjkQys1_RZU-jmg@mail.gmail.com>
+References: <1317347777-10288-1-git-send-email-msm@freescale.com>
+	<1317374475.12332.134.camel@ted>
+	<CAEsOVNdKPk833GDMYrjGgjOMhmOxGWPzevEWUy3CzUsa2LCHSw@mail.gmail.com>
+In-Reply-To: <CAEsOVNdKPk833GDMYrjGgjOMhmOxGWPzevEWUy3CzUsa2LCHSw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH] Add bash as RDEPENDS for gstreamer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -38,70 +62,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 16:38:41 -0000
+X-List-Received-Date: Fri, 30 Sep 2011 16:38:49 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <CFD341C37DF9C6408AD5AB18B89444BC@freescale.net>
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
+On Fri, Sep 30, 2011 at 10:47 AM, Matthew McClintock <msm@freescale.com> wr=
+ote:
+> On Fri, Sep 30, 2011 at 4:20 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>> What image target are you building? I'm having trouble visualising an
+>> image that doesn't include bash or busybox and if either of these are
+>> present, that dependency should be met...
+>>
+>> If this is a toolchain/SDK, there were some recent tweaks which address
+>> this problem.
+>
+> It was meta-toolchain-sdk, please drop this patch if that is the case.
 
+FYI, I've been testing this on the 'edison' branch. Seems like this
+should be addressed - assuming someone else can reproduce this
+issue...
 
-Op 30 sep. 2011 om 10:49 heeft Joshua Lock <josh@linux.intel.com> het volgen=
-de geschreven:
+Any comments?
 
-> On Fri, 2011-09-30 at 08:36 -0600, Yu, Ke wrote:
->> Hi,
->>=20
->> As you may already know, a new GUI has been added to bitbake recently,=20=
+-M=
 
->> i.e. HOB (Human Oriented Builder).=20
->=20
-> It's not an acronym, it's just a name - Hob.
->=20
->> It is a graphical image creator that=20
->> allows user to freely choose which packages to be built in the image.=20
->> The wiki https://wiki.yoctoproject.org/wiki/BitBake/GUI/Hob  has more=20
->> detail.
->=20
-> I'll be changing this page and adding more user-centric info in the
-> coming weeks.
->=20
->> This email is to collect your feedback on the HOB. Current HOB is our=20
->> first version, and it surely has many place to improve. We has the plan=20=
-
->> to enhance it in Yocto 1.2. So we really hope that you can use it and=20
->> provide your valuable feedback . We do think user's feedback/requirement=20=
-
->> is the right way to go. Looking forward your valuable input.
->>=20
->> Best Regards
->> Ke
->>=20
->> Ps. The simple way to run hob is:
->> # touch conf/hob-pre.conf conf/hob-post.conf
->> # bitbake -u hob -r conf/hob-pre.conf -R conf/hob-post.conf
->=20
-> In oe-core (and therefore Poky) we have a wrapper script so from an
-> oe-init-build-env'd build directory you can just call hob.
->=20
-> The script will create the required configuration files with some
-> required values.
-
-Can we have it use local.conf by default please? I hate having to put the sa=
-me info in multiple places
-
-
->=20
-> Regards,
-> Joshua
-> --=20
-> Joshua Lock
->        Yocto Project "Johannes factotum"
->        Intel Open Source Technology Centre
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
