@@ -1,35 +1,36 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1R9gUO-00073N-VG
-	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 19:03:09 +0200
-Received: by eya25 with SMTP id 25so1350657eya.6
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1R9gUW-000750-9U for openembedded-core@lists.openembedded.org;
+	Fri, 30 Sep 2011 19:03:16 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8UH4BbN032298 for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2011 18:04:11 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id oRAeTLJ6-Hvn
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 09:57:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=5Kf8BcsK+sudGVw6T9eJPfobJGI/NDM5kCDZ1LzJgDM=;
-	b=ZO2H2JNFYk6udV5VvWTbuQYeLEk3rXPbo8UMOXgDCN1pyfnDD28prpmGv0HYU1v3qd
-	17MNs3Eat/96kxt5vN7bA5T3s5QNRnNCWbOG7NFW3I4eyBAtRLNpF8Mm+1bKh9KgI6PD
-	7HVyY4I3gnwaVaWzeqVO874va+wNnLioCR0gw=
-Received: by 10.223.10.22 with SMTP id n22mr537046fan.144.1317401398494;
-	Fri, 30 Sep 2011 09:49:58 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id f10sm7405554fac.14.2011.09.30.09.49.56
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 30 Sep 2011 09:49:57 -0700 (PDT)
-Date: Fri, 30 Sep 2011 18:49:51 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Fri, 30 Sep 2011 18:04:11 +0100 (BST)
+Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p8UH47Cx032282
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2011 18:04:08 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110930164951.GC7364@jama.jama.net>
-References: <cover.1317397204.git.Martin.Jansa@gmail.com>
-	<1317401191.12332.213.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1317401191.12332.213.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [WIP][PATCH 0/9] Glib related upgrades
+Date: Fri, 30 Sep 2011 17:57:41 +0100
+In-Reply-To: <cover.1317400021.git.paul.eggleton@linux.intel.com>
+References: <cover.1317400021.git.paul.eggleton@linux.intel.com>
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1317401867.12332.216.camel@ted>
+Mime-Version: 1.0
+X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
+	p8UH4BbN032298
+Subject: Re: [PATCH 0/7] Qt4 upgrade/fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,53 +45,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 17:03:09 -0000
-X-Groupsio-MsgNum: 10324
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="KDt/GgjP6HVcx58l"
-Content-Disposition: inline
-
---KDt/GgjP6HVcx58l
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 30 Sep 2011 17:03:16 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 30, 2011 at 05:46:24PM +0100, Richard Purdie wrote:
-> On Fri, 2011-09-30 at 17:43 +0200, Martin Jansa wrote:
-> > We were using 2.29.3+git% from meta-oe and after upgrade to 2.30.0 I wa=
-s hit=20
-> > by few G_CONST_RETURN and other issues due to newer glib. Here is what =
-I have
-> > now to build shr images OK again, but probably there is more recipes wh=
-ich need
-> > upgrade/fix to cope with glib-2.30.0.
-> >=20
-> > Someone who cares about gnome should continue from this, but IMHO this =
-is good start :).
+On Fri, 2011-09-30 at 17:33 +0100, Paul Eggleton wrote:
+> This is a pull request for Eric B=C3=A9nard's qt4_upgrade branch, inclu=
+ding
+> an update of Qt to 4.7.4 (preserving 4.7.3 until other layers such as
+> meta-oe, meta-yocto etc. can sync up) as well as several important bug
+> fixes.
 >=20
-> These are marked as WIP. Does this mean they are ready to be taken or is
-> there a reason to hold off these patches?
+> The patches look good; if was to be really picky though I would say tha=
+t
+> the two demo/doc patches in the series ought to be merged into one patc=
+h,
+> and there are a few typos in the commit messages. I'm also relying on
+> others to review the correctness of the armv6-vfp no-neon patch as I ha=
+ve
+> no knowledge of this area.
+>=20
+>=20
+> The following changes since commit c54c1280fc0d06a53e23339c3913ec88eead=
+13d9:
+>=20
+>   base.bbclass: Drop unneeded dependency (2011-09-30 11:34:44 +0100)
+>=20
+> are available in the git repository at:
+>   git://git.openembedded.org/openembedded-core-contrib paule/qt4_upgrad=
+e
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?=
+h=3Dpaule/qt4_upgrade
+>=20
+> Denis Carikli (3):
+>   qt4.inc: remove the optional documentation package from the demo's
+>     RRECOMMENDS
+>   qt4(embedded and x11): disable neon for armv6-vfp
+>   qt4.inc: package qtdemo's docs in a separate package
+>=20
+> Eric B=C3=A9nard (3):
+>   qt4e-demo-image: improve image
+>   qt4: fix generated sdk
+>   qt4: update to latest version 4.7.4
+>=20
+> Otavio Salvador (1):
+>   qt4: fix translation support
 
-Marked as WIP as I've tested them only on images I care about.. and
-fixed stuff which was failing for me.
+Thanks Paul. I fixed the typos and queued this on master-next.
 
-Someone building full gnome desktop (I guess koen) should send patches=20
-for remaining gnome stuff if needed, before taking this in.
+Cheers,
 
-Regards,
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Richard
 
---KDt/GgjP6HVcx58l
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
 
-iEYEARECAAYFAk6F8y8ACgkQN1Ujt2V2gByC+QCdGmLKY+X+EjiT2wwiwcWllSOM
-LrQAnRPUBN05PCBfhCrCcfO1Zh7bD50h
-=f9ZO
------END PGP SIGNATURE-----
-
---KDt/GgjP6HVcx58l--
