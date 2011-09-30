@@ -1,21 +1,25 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lei.mei@intel.com>) id 1R9YMj-0007IC-0E
+	(envelope-from <lei.mei@intel.com>) id 1R9YMj-0007IC-Rm
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 10:22:41 +0200
+	Fri, 30 Sep 2011 10:22:42 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 30 Sep 2011 01:16:07 -0700
+	by azsmga102.ch.intel.com with ESMTP; 30 Sep 2011 01:16:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,465,1312182000"; d="scan'208";a="57288664"
+X-IronPort-AV: E=Sophos;i="4.68,465,1312182000"; d="scan'208";a="57288670"
 Received: from daocaoren-desktop.sh.intel.com (HELO localhost.localdomain)
 	([10.239.47.21])
-	by azsmga001.ch.intel.com with ESMTP; 30 Sep 2011 01:16:06 -0700
+	by azsmga001.ch.intel.com with ESMTP; 30 Sep 2011 01:16:07 -0700
 From: Mei Lei <lei.mei@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Sep 2011 16:16:04 +0800
-Message-Id: <cover.1317370299.git.lei.mei@intel.com>
+Date: Fri, 30 Sep 2011 16:16:05 +0800
+Message-Id: <b53e13b48897472197f3ab2cb28c85cab089e4a5.1317370299.git.lei.mei@intel.com>
 X-Mailer: git-send-email 1.7.0.4
-Subject: [PATCH 0/4]Recipe upgrades
+In-Reply-To: <cover.1317370299.git.lei.mei@intel.com>
+References: <cover.1317370299.git.lei.mei@intel.com>
+In-Reply-To: <cover.1317370299.git.lei.mei@intel.com>
+References: <cover.1317370299.git.lei.mei@intel.com>
+Subject: [PATCH 1/4] curl: Upgrade from 7.21.7 to 7.22.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,46 +34,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 08:22:41 -0000
+X-List-Received-Date: Fri, 30 Sep 2011 08:22:42 -0000
 
-This commit includes some recipes upgrade: curl,diffutils,dropbear.
-And update the distro_tracking_fields.inc
-
-Thanks,
-Lei
-
-The following changes since commit 96241de59fdf548ae0f80cc9e4668f9ba11924ef:
-  Matthew McClintock (1):
-        Fix flac build on e500mc cores
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib lmei3/upgrade-0928
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=lmei3/upgrade-0928
-
-Mei Lei (4):
-  curl: Upgrade from 7.21.7 to 7.22.0
-  diffutils: Upgrade from 3.0 to 3.2.
-  dropbear: Upgrade from 0.52 to 0.53.1
-  distro_tracking_fields.inc: Update upgrade information
-
- .../conf/distro/include/distro_tracking_fields.inc |   25 +++++++++--------
- .../configure.patch                                |    0
- meta/recipes-core/dropbear/dropbear.inc            |    1 +
- .../dropbear/dropbear/allow-nopw.patch             |   14 +++++-----
- .../dropbear-0.53.1-static_build_fix.patch         |   29 ++++++++++++++++++++
- .../urandom-xauth-changes-to-options.h.patch       |   11 ++++---
- meta/recipes-core/dropbear/dropbear_0.52.bb        |    6 ----
- meta/recipes-core/dropbear/dropbear_0.53.1.bb      |    6 ++++
- .../{diffutils_3.0.bb => diffutils_3.2.bb}         |    4 +-
- .../curl/{curl_7.21.7.bb => curl_7.22.0.bb}        |    4 +-
- 10 files changed, 66 insertions(+), 34 deletions(-)
- rename meta/recipes-core/dropbear/{dropbear-0.52 => dropbear-0.53.1}/configure.patch (100%)
- create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear-0.53.1-static_build_fix.patch
- delete mode 100644 meta/recipes-core/dropbear/dropbear_0.52.bb
- create mode 100644 meta/recipes-core/dropbear/dropbear_0.53.1.bb
- rename meta/recipes-extended/diffutils/{diffutils_3.0.bb => diffutils_3.2.bb} (84%)
+Signed-off-by: Mei Lei <lei.mei@intel.com>
+---
+ .../curl/{curl_7.21.7.bb => curl_7.22.0.bb}        |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
  rename meta/recipes-support/curl/{curl_7.21.7.bb => curl_7.22.0.bb} (92%)
+
+diff --git a/meta/recipes-support/curl/curl_7.21.7.bb b/meta/recipes-support/curl/curl_7.22.0.bb
+similarity index 92%
+rename from meta/recipes-support/curl/curl_7.21.7.bb
+rename to meta/recipes-support/curl/curl_7.22.0.bb
+index 2ec4402..d6924be 100644
+--- a/meta/recipes-support/curl/curl_7.21.7.bb
++++ b/meta/recipes-support/curl/curl_7.22.0.bb
+@@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://noldlibpath.patch \
+            file://pkgconfig_fix.patch"
+ 
+-SRC_URI[md5sum] = "5f6d50c4d4ee38c57fe37e3cff75adbd"
+-SRC_URI[sha256sum] = "1a50dd17400c042090203eef347e946f29c342c32b6c4843c740c80975e8215a"
++SRC_URI[md5sum] = "bde820eac53fa3a8d8696667418557ad"
++SRC_URI[sha256sum] = "bda0da862322b122784f5a9d7a65efdd99a6061292cfb8e9357e0c67c03e5112"
+ 
+ inherit autotools pkgconfig binconfig
+ 
+-- 
+1.7.0.4
 
 
 
