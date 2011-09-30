@@ -1,38 +1,57 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from ch1ehsobe005.messaging.microsoft.com ([216.32.181.185]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1R9fRR-0004F2-8X
+	(envelope-from <B29882@freescale.com>) id 1R9fh7-0005TR-A0
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 17:56:01 +0200
-Received: by fxi1 with SMTP id 1so3208895fxi.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 08:50:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=TyrxN5qFCVvWeb/oVSoGl7rxoHUC5opv4VbP0X/cXpo=;
-	b=tn7xdc0YCo7djxCuZS3dfln4PikgkCnGlRUtsskldVE/GMA6OjqsCDN6H5z+soc+X/
-	JEKmg/kSaU+NCpLE/82d75o4SYI1hGPCzBLsQGO2ThtdwxxYnfZ+Y8fwUfrHyBuQtOTs
-	HDfRNyE9AfmPAUI/BiMWM07lyxLEfRo3M9DGk=
-Received: by 10.223.55.16 with SMTP id s16mr6721677fag.95.1317397450528;
-	Fri, 30 Sep 2011 08:44:10 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id m26sm7194277fac.6.2011.09.30.08.44.08
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 30 Sep 2011 08:44:09 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Sep 2011 17:43:24 +0200
-Message-Id: <3fbae7ba37129994dd21f35355b67985823a5275.1317397204.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.6.1
-In-Reply-To: <e89070827bd58e6b3e54d336dd179ad508a960ee.1317397204.git.Martin.Jansa@gmail.com>
-References: <e89070827bd58e6b3e54d336dd179ad508a960ee.1317397204.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1317397204.git.Martin.Jansa@gmail.com>
-References: <cover.1317397204.git.Martin.Jansa@gmail.com>
-Subject: [WIP][PATCH 5/9] gstreamer: upgrade to 0.10.35
+	Fri, 30 Sep 2011 18:12:13 +0200
+Received: from mail52-ch1-R.bigfish.com (216.32.181.169) by
+	CH1EHSOBE018.bigfish.com (10.43.70.68) with Microsoft SMTP Server id
+	14.1.225.22; Fri, 30 Sep 2011 15:51:36 +0000
+Received: from mail52-ch1 (localhost.localdomain [127.0.0.1])	by
+	mail52-ch1-R.bigfish.com (Postfix) with ESMTP id 9109F1840107	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2011 15:51:36 +0000 (UTC)
+X-SpamScore: -12
+X-BigFish: VS-12(zz9371K1432N98dKzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3h61h)
+X-Spam-TCS-SCL: 0:0
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
+	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
+X-FB-SS: 0,
+Received: from mail52-ch1 (localhost.localdomain [127.0.0.1]) by mail52-ch1
+	(MessageSwitch) id 1317397896427944_1815;
+	Fri, 30 Sep 2011 15:51:36 +0000 (UTC)
+Received: from CH1EHSMHS004.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.246])	by mail52-ch1.bigfish.com (Postfix) with ESMTP id
+	58D48E004E for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2011 15:51:36 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS004.bigfish.com
+	(10.43.70.4) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Fri, 30 Sep 2011 15:51:35 +0000
+Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.230]) by
+	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
+	14.01.0323.007; Fri, 30 Sep 2011 10:51:33 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH v2 10/16] Fix mdadm for powerpc64
+Thread-Index: AQHMf4jTUysgKKk7IkWOexenbI4Kgg==
+Date: Fri, 30 Sep 2011 15:51:33 +0000
+Message-ID: <CAEsOVNej5XjNzLnrxXVexEBj4xGDoVsrhSbzLZe71A4kpTWGWw@mail.gmail.com>
+References: <1317322353-30258-1-git-send-email-msm@freescale.com>
+	<1317382729.12332.174.camel@ted>
+In-Reply-To: <1317382729.12332.174.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH v2 10/16] Fix mdadm for powerpc64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -43,64 +62,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 15:56:01 -0000
+X-List-Received-Date: Fri, 30 Sep 2011 16:12:13 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <D2F041EEC297BF42BD71803E054B76C9@freescale.net>
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- .../check_fix.patch                                |    0
- .../gst-inspect-check-error.patch                  |    0
- .../gstregistrybinary.c                            |    0
- .../gstregistrybinary.h                            |    0
- .../{gstreamer_0.10.32.bb => gstreamer_0.10.35.bb} |    6 ++----
- 5 files changed, 2 insertions(+), 4 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer-0.10.32 => gstreamer-0.10.35}/check_fix.patch (100%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer-0.10.32 => gstreamer-0.10.35}/gst-inspect-check-error.patch (100%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer-0.10.32 => gstreamer-0.10.35}/gstregistrybinary.c (100%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer-0.10.32 => gstreamer-0.10.35}/gstregistrybinary.h (100%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer_0.10.32.bb => gstreamer_0.10.35.bb} (90%)
+On Fri, Sep 30, 2011 at 6:38 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> That isn't quite what I meant, that also overwrites anything existing in
+> CXFLAGS just in a different way. Also, I suspect you mean CXXFLAGS?
+>
+> I'd meant something like:
+>
+> CXXFLAGS_append_powerpc64 =3D " -Wno-error=3Dformat"
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer-0.10.32/check_fix.patch b/meta/recipes-multimedia/gstreamer/gstreamer-0.10.35/check_fix.patch
-similarity index 100%
-rename from meta/recipes-multimedia/gstreamer/gstreamer-0.10.32/check_fix.patch
-rename to meta/recipes-multimedia/gstreamer/gstreamer-0.10.35/check_fix.patch
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer-0.10.32/gst-inspect-check-error.patch b/meta/recipes-multimedia/gstreamer/gstreamer-0.10.35/gst-inspect-check-error.patch
-similarity index 100%
-rename from meta/recipes-multimedia/gstreamer/gstreamer-0.10.32/gst-inspect-check-error.patch
-rename to meta/recipes-multimedia/gstreamer/gstreamer-0.10.35/gst-inspect-check-error.patch
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer-0.10.32/gstregistrybinary.c b/meta/recipes-multimedia/gstreamer/gstreamer-0.10.35/gstregistrybinary.c
-similarity index 100%
-rename from meta/recipes-multimedia/gstreamer/gstreamer-0.10.32/gstregistrybinary.c
-rename to meta/recipes-multimedia/gstreamer/gstreamer-0.10.35/gstregistrybinary.c
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer-0.10.32/gstregistrybinary.h b/meta/recipes-multimedia/gstreamer/gstreamer-0.10.35/gstregistrybinary.h
-similarity index 100%
-rename from meta/recipes-multimedia/gstreamer/gstreamer-0.10.32/gstregistrybinary.h
-rename to meta/recipes-multimedia/gstreamer/gstreamer-0.10.35/gstregistrybinary.h
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer_0.10.32.bb b/meta/recipes-multimedia/gstreamer/gstreamer_0.10.35.bb
-similarity index 90%
-rename from meta/recipes-multimedia/gstreamer/gstreamer_0.10.32.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer_0.10.35.bb
-index 1713755..50916e5 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer_0.10.32.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer_0.10.35.bb
-@@ -9,14 +9,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605 \
-                     file://gst/gst.h;beginline=1;endline=21;md5=8e5fe5e87d33a04479fde862e238eaa4"
- DEPENDS = "glib-2.0 libxml2 bison-native flex-native"
- 
--PR = "r1"
--
- SRC_URI = "http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.bz2 \
-            file://check_fix.patch \
-            file://gst-inspect-check-error.patch"
- 
--SRC_URI[md5sum] = "442bc3d37b8511a73379143e7531d726"
--SRC_URI[sha256sum] = "3bf4e46a186ee9a1f5e212aaf651d67cffb4f5f05345a7c99ae71d5d992be133"
-+SRC_URI[md5sum] = "4a0a00edad7a2c83de5211ca679dfaf9"
-+SRC_URI[sha256sum] = "817bfea2cd46e2487b97e2ed9218f0299b32a3de1e5e80b4c7868d17e9089786"
- 
- inherit autotools pkgconfig gettext
- 
--- 
-1.7.6.1
+In the mdadm Makefile it gives the following instructions:
+
+# define "CXFLAGS" to give extra flags to CC.
+# e.g.  make CXFLAGS=3D-O to optimise
+
+So I was following that...
+
+-M=
 
 
 
