@@ -1,32 +1,26 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1R9h3A-0007qe-FV
-	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 19:39:04 +0200
-Received: from mail-fx0-f52.google.com ([209.85.161.52])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 30 Sep 2011 10:33:24 -0700
-Received: by fxe23 with SMTP id 23so3052044fxe.25
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 10:33:23 -0700 (PDT)
-Received: by 10.223.30.27 with SMTP id s27mr11663462fac.129.1317404003494;
-	Fri, 30 Sep 2011 10:33:23 -0700 (PDT)
-Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id b10sm7584413fam.1.2011.09.30.10.33.20
-	(version=SSLv3 cipher=OTHER); Fri, 30 Sep 2011 10:33:21 -0700 (PDT)
-Message-ID: <4E85FD5E.7060305@intel.com>
-Date: Fri, 30 Sep 2011 10:33:18 -0700
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:6.0.2) Gecko/20110906 Thunderbird/6.0.2
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1317372422-7943-1-git-send-email-Martin.Jansa@gmail.com>
-In-Reply-To: <1317372422-7943-1-git-send-email-Martin.Jansa@gmail.com>
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: Re: [PATCH] atk: add patch to replace G_CONST_RETURN with const
+	(envelope-from <josh@linux.intel.com>)
+	id 1R9h4n-0007tx-Jw; Fri, 30 Sep 2011 19:40:45 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 30 Sep 2011 10:34:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,468,1312182000"; d="scan'208";a="57475905"
+Received: from unknown (HELO [10.255.15.62]) ([10.255.15.62])
+	by azsmga001.ch.intel.com with ESMTP; 30 Sep 2011 10:34:59 -0700
+From: Joshua Lock <josh@linux.intel.com>
+To: McClintock Matthew-B29882 <B29882@freescale.com>
+Date: Fri, 30 Sep 2011 10:34:54 -0700
+In-Reply-To: <CAEsOVNdwudRO7V2DQhpESC=xCqDtJqxJ72+e_hYDLq7bE=z+cg@mail.gmail.com>
+References: <4E85D3E0.7070807@intel.com>
+	<CAEsOVNdwudRO7V2DQhpESC=xCqDtJqxJ72+e_hYDLq7bE=z+cg@mail.gmail.com>
+X-Mailer: Evolution 3.0.3 (3.0.3-1.fc15) 
+Message-ID: <1317404099.11645.21.camel@scimitar>
+Mime-Version: 1.0
+Cc: "bitbake-devel@lists.openembedded.org"
+	<bitbake-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [bitbake-devel] Feedback on HOB (new image creator GUI)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,40 +35,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 17:39:04 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 30 Sep 2011 17:40:45 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 09/30/2011 01:47 AM, Martin Jansa wrote:
-> * otherwise build fails when glib is 2.30.0 or newer (and G_DISABLE_DEPRECATED is enabled - like in atk)
->
-> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
-> ---
->   .../atk/atk-1.32.0/remove.G_CONST_RETURN.patch     |  628 ++++++++++++++++++++
->   meta/recipes-support/atk/atk_1.32.0.bb             |    5 +-
->   2 files changed, 632 insertions(+), 1 deletions(-)
->   create mode 100644 meta/recipes-support/atk/atk-1.32.0/remove.G_CONST_RETURN.patch
->
-> diff --git a/meta/recipes-support/atk/atk-1.32.0/remove.G_CONST_RETURN.patch b/meta/recipes-support/atk/atk-1.32.0/remove.G_CONST_RETURN.patch
-> new file mode 100644
-> index 0000000..0cdf041
-> --- /dev/null
-> +++ b/meta/recipes-support/atk/atk-1.32.0/remove.G_CONST_RETURN.patch
-> @@ -0,0 +1,628 @@
-> +Upstream-Status: Accepted
-> +
-> +Similar patch is already included in 2.0.1 and newer
-> +http://ftp.gnome.org/pub/gnome/sources/atk/2.0/atk-2.0.1.news
-> +
+On Fri, 2011-09-30 at 10:20 -0600, McClintock Matthew-B29882 wrote:
+> On Fri, Sep 30, 2011 at 9:36 AM, Yu Ke <ke.yu@intel.com> wrote:
+> > Hi,
+> >
+> > As you may already know, a new GUI has been added to bitbake recently, i.e.
+> > HOB (Human Oriented Builder). It is a graphical image creator that allows
+> > user to freely choose which packages to be built in the image. The wiki
+> > https://wiki.yoctoproject.org/wiki/BitBake/GUI/Hob  has more detail.
+> >
+> > This email is to collect your feedback on the HOB. Current HOB is our first
+> > version, and it surely has many place to improve. We has the plan to enhance
+> > it in Yocto 1.2. So we really hope that you can use it and provide your
+> > valuable feedback . We do think user's feedback/requirement is the right way
+> > to go. Looking forward your valuable input.
+> >
+> > Best Regards
+> > Ke
+> >
+> > Ps. The simple way to run hob is:
+> > # touch conf/hob-pre.conf conf/hob-post.conf
+> > # bitbake -u hob -r conf/hob-pre.conf -R conf/hob-post.conf
+> >
+> > Where conf/hob-pre.conf conf/hob-post.conf is the configuration file, which
+> > can be empty in above case.
+> 
+> Has any discussion gone into making some sort of plugin or extensions?
+> I'd like for it to be as easy as possible for someone new to make hob
+> be able to some things like: configure runtime services, configure
+> networking settings, add users, and I'm sure there are other things.
 
-No Signed-off-by: in the patch header.
+No such discussion has occurred. These are good feature suggestions,
+I'm not sure about a plugin mechanism - are you suggesting that
+to enable the features mentioned or in addition to?
+At least for enabling runtime services there's likely an issue of the
+UI having enough knowledge of the init system to do so.
+        
+I can certainly see at least the three features proposed here being
+desirable and I'll probably file those as feature enhancements in the
+bugzilla, unless you'd like to?
+        
+Any further thoughts on customisations to enable via the GUI?
+        
+Cheers,
+Joshua
+-- 
+Joshua Lock
+        Yocto Project "Johannes factotum"
+        Intel Open Source Technology Centre
 
-If the newer version of atk is available, why not update atk in oe-core 
-to that version and not add this patch?
-
-Is there a reason we can't update to 2.0.1 at this time?
-
-Thanks
-	Sau!
 
 
