@@ -1,25 +1,29 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lei.mei@intel.com>) id 1R9YMl-0007IC-Gv
+	(envelope-from <martin.jansa@gmail.com>) id 1R9YPA-0007Qo-Bp
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 10:22:43 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 30 Sep 2011 01:16:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,465,1312182000"; d="scan'208";a="57288689"
-Received: from daocaoren-desktop.sh.intel.com (HELO localhost.localdomain)
-	([10.239.47.21])
-	by azsmga001.ch.intel.com with ESMTP; 30 Sep 2011 01:16:12 -0700
-From: Mei Lei <lei.mei@intel.com>
+	Fri, 30 Sep 2011 10:25:12 +0200
+Received: by bke11 with SMTP id 11so1540357bke.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2011 01:19:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=JNBCTZfI40O6a5jDD2iEnC+dk/eFAZGhiYEosA9vd1A=;
+	b=gDNP7NQ4nFINkEQYb1h/wkrW9X1onqTECkDbZHQWvC8SKWuDAdRRZ5wYBpMRyMHGZ1
+	Xlf1l5FPHOivnjMnqxmfKZ/86GGFbwlTs4q+D59YPXW0d1rKzVoLEpwzjw172xUbsHpn
+	Q3vmuV7F3jr3OqVVQlKr7CaonYsSRfrnkGE9M=
+Received: by 10.204.142.150 with SMTP id q22mr7988328bku.378.1317370779126;
+	Fri, 30 Sep 2011 01:19:39 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id ex8sm4075478bkc.2.2011.09.30.01.19.36
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 30 Sep 2011 01:19:38 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Sep 2011 16:16:08 +0800
-Message-Id: <b4b6d355692cf04e6f8c6292424449188646c7de.1317370299.git.lei.mei@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1317370299.git.lei.mei@intel.com>
-References: <cover.1317370299.git.lei.mei@intel.com>
-In-Reply-To: <cover.1317370299.git.lei.mei@intel.com>
-References: <cover.1317370299.git.lei.mei@intel.com>
-Subject: [PATCH 4/4] distro_tracking_fields.inc: Update upgrade information
+Date: Fri, 30 Sep 2011 10:19:30 +0200
+Message-Id: <1317370770-27225-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.6.1
+Subject: [PATCH] Improve handling of 'all' architecture recipes and their interaction with sstate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,79 +38,460 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 08:22:43 -0000
+X-List-Received-Date: Fri, 30 Sep 2011 08:25:12 -0000
 
-Update dropbear,diffutils,curl upgrade tracking information.
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Mei Lei <lei.mei@intel.com>
+* Jansa: rebased on current master, added nocompiler patch also to
+  font-alias, dropped allarch from linux-firmware, gnome-icon-theme, hal-info as
+  those are checking compiler (ie in intltool check) and better to build
+  them as default arch instead of rebuilding after every machine
+  change.
+* this is also part of [BUGID# 1075]
+* tested except linux-firmware (SRC_URI is offline)
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |   25 ++++++++++---------
- 1 files changed, 13 insertions(+), 12 deletions(-)
+ .../resolvconf/resolvconf_1.59.bb                  |    7 ++--
+ .../update-alternatives-dpkg.inc                   |    5 +--
+ meta/recipes-gnome/gnome/gnome-common_2.28.0.bb    |    7 +---
+ .../recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb |    5 +--
+ .../hicolor-icon-theme/hicolor-icon-theme_0.12.bb  |    6 +--
+ .../ttf-fonts/liberation-fonts_1.04.bb             |    5 ++-
+ .../ttf-fonts/liberation-fonts_1.06.bb             |    5 ++-
+ .../ttf-fonts/ttf-bitstream-vera_1.10.bb           |    5 ++-
+ .../xcursor-transparent-theme_0.1.1.bb             |    6 +--
+ .../xorg-font/encodings/nocompiler.patch           |   31 ++++++++++++++++++++
+ meta/recipes-graphics/xorg-font/encodings_1.0.4.bb |    8 +++--
+ .../xorg-font/font-alias-1.0.3/nocompiler.patch    |   30 +++++++++++++++++++
+ .../recipes-graphics/xorg-font/font-alias_1.0.3.bb |    8 +++--
+ .../xorg-font/xorg-minimal-fonts.bb                |    5 ++-
+ .../linux-firmware/linux-firmware_git.bb           |    4 +--
+ .../sato-icon-theme/sato-icon-theme.inc            |    4 +--
+ .../sato-icon-theme/sato-icon-theme_0.4.1.bb       |    2 +
+ meta/recipes-support/hal/hal-info.inc              |    1 -
+ meta/recipes-support/hal/hal-info_20091130.bb      |    2 +
+ meta/recipes-support/hal/hal-info_git.bb           |    2 +-
+ 20 files changed, 102 insertions(+), 46 deletions(-)
+ create mode 100644 meta/recipes-graphics/xorg-font/encodings/nocompiler.patch
+ create mode 100644 meta/recipes-graphics/xorg-font/font-alias-1.0.3/nocompiler.patch
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 47fa7bf..dd0fbf8 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -1,8 +1,7 @@
- RECIPE_STATUS_pn-diffutils = "green"
--RECIPE_LATEST_VERSION_pn-diffutils = "3.0"
--RECIPE_LAST_UPDATE_pn-diffutils = "Dec 10, 2010"
--RECIPE_NO_UPDATE_REASON_pn-diffutils = "3.0 is the latest version"
--RECIPE_MANUAL_CHECK_DATE_pn-diffutils = "Jul 4, 2011"
-+RECIPE_LATEST_VERSION_pn-diffutils = "3.2"
-+RECIPE_LAST_UPDATE_pn-diffutils = "Sep 30, 2011"
-+RECIPE_NO_UPDATE_REASON_pn-diffutils = "3.2 is the latest version"
- RECIPE_MAINTAINER_pn-diffutils = "Mei Lei <lei.mei@intel.com>"
+diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.59.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.59.bb
+index 94231e0..50252b1 100644
+--- a/meta/recipes-connectivity/resolvconf/resolvconf_1.59.bb
++++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.59.bb
+@@ -11,13 +11,15 @@ AUTHOR = "Thomas Hood"
+ HOMEPAGE = "http://packages.debian.org/resolvconf"
+ DEPENDS = "bash"
+ RDEPENDS_${PN} = "bash"
+-PR = "r0"
++PR = "r1"
  
- RECIPE_STATUS_pn-epdfview = "red"
-@@ -1463,15 +1462,15 @@ RECIPE_MANUAL_CHECK_DATE_pn-sysfsutils = "Sep 27, 2011"
- RECIPE_COMMENTS_pn-sysfsutils = ""
+ SRC_URI = "${DEBIAN_MIRROR}/main/r/resolvconf/resolvconf_${PV}.tar.gz"
  
- RECIPE_STATUS_pn-curl = "green"
--RECIPE_LAST_UPDATE_pn-curl = "Jul 2, 2011"
-+RECIPE_LAST_UPDATE_pn-curl = "Sep 30, 2011"
- RECIPE_MAINTAINER_pn-curl = "Mei Lei <lei.mei@intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-curl = "not done"
--RECIPE_LATEST_VERSION_pn-curl = "7.21.1"
-+RECIPE_LATEST_VERSION_pn-curl = "7.22.0"
- RECIPE_PATCH_pn-curl+noldlibpath = "no bother set LD_LIBRARY_PATH since we are cross compiling"
- RECIPE_PATCH_pn-curl+pkgconfig-fix = "fix libcurl.pc"
- RECIPE_INTEL_SECTION_pn-curl = "base utils"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-curl = "2 months"
--RECIPE_LATEST_RELEASE_DATE_pn-curl = "06/2011"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-curl = "3 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-curl = "09/2011"
- RECIPE_COMMENTS_pn-curl = ""
+ SRC_URI[md5sum] = "59b20258bb8a3c25b8c4083fc0279547"
+ SRC_URI[sha256sum] = "37691677cea24da66d6664c98668b5f16667c0133f17feb166f246ee923ad756"
  
- RECIPE_STATUS_pn-gconf-dbus = "green"
-@@ -1579,19 +1578,21 @@ RECIPE_COMMENTS_pn-nfs-utils = ""
++inherit allarch
++
+ do_compile () {
+ 	:
+ }
+@@ -31,6 +33,3 @@ do_install () {
+ 	install -m 0644 README ${D}${docdir}/${P}/
+ 	install -m 0644 man/resolvconf.8 ${D}${mandir}/man8/
+ }
+-
+-PACKAGE_ARCH = "all"
+-
+diff --git a/meta/recipes-devtools/update-alternatives/update-alternatives-dpkg.inc b/meta/recipes-devtools/update-alternatives/update-alternatives-dpkg.inc
+index c881ae0..e95a307 100644
+--- a/meta/recipes-devtools/update-alternatives/update-alternatives-dpkg.inc
++++ b/meta/recipes-devtools/update-alternatives/update-alternatives-dpkg.inc
+@@ -7,10 +7,9 @@ LICENSE = "GPL"
+ SECTION = "base"
+ SRC_URI = "${DEBIAN_MIRROR}/main/d/dpkg/dpkg_${PV}.tar.bz2"
+ S = "${WORKDIR}/dpkg-${PV}"
+-PACKAGE_ARCH = "all"
+-INC_PR = "r3"
++INC_PR = "r4"
  
- RECIPE_STATUS_pn-dropbear = "green"
- DISTRO_PN_ALIAS_pn-dropbear = "Debian=dropbear Ubuntu=dropbear"
--RECIPE_LAST_UPDATE_pn-dropbear = "Jul 5, 2010"
-+RECIPE_LAST_UPDATE_pn-dropbear = "Sep 30, 2011"
- RECIPE_MAINTAINER_pn-dropbear = "Mei Lei <lei.mei@intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-dropbear = "not done"
--RECIPE_LATEST_VERSION_pn-dropbear = "0.52"
-+RECIPE_LATEST_VERSION_pn-dropbear = "0.53.1"
- RECIPE_PATCH_pn-dropbear+urandom-xauth-changes-to-options.h = "xauth path change"
- RECIPE_PATCH_pn-dropbear+configure = "use configure cache value for cross compiling"
- RECIPE_PATCH_pn-dropbear+fix-skb-keys = "enlarge key buffer size"
- RECIPE_PATCH_pn-dropbear+allow-nopw = "allow login with no password, applied on in occasions"
- RECIPE_PATCH_pn-dropbear+init = "init script"
-+RECIPE_PATCH_pn-dropbear+dropbear-0.53.1-static_build_fix = "fix link error in 0.53.1 release"
- RECIPE_INTEL_SECTION_pn-dropbear = "base utils"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-dropbear = "8 months"
--RECIPE_LATEST_RELEASE_DATE_pn-dropbear = "11/2008"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-dropbear = "1 month"
-+RECIPE_LATEST_RELEASE_DATE_pn-dropbear = "03/2011"
- RECIPE_COMMENTS_pn-dropbear = ""
-+RECIPE_NO_UPDATE_REASON_pn-dropbear="0.53.1 is the latest version,not 0.255"
+-inherit gettext
++inherit gettext allarch
  
- RECIPE_STATUS_pn-hal = "green"
- RECIPE_LAST_UPDATE_pn-hal = "Jul 20, 2010"
+ do_patch () {
+     cat ${S}/scripts/update-alternatives.pl | \
+diff --git a/meta/recipes-gnome/gnome/gnome-common_2.28.0.bb b/meta/recipes-gnome/gnome/gnome-common_2.28.0.bb
+index 570c45a..8936dbd 100644
+--- a/meta/recipes-gnome/gnome/gnome-common_2.28.0.bb
++++ b/meta/recipes-gnome/gnome/gnome-common_2.28.0.bb
+@@ -6,11 +6,8 @@ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ 
+ SECTION = "x11/gnome"
+-PR = "r0"
+-inherit gnome
+-
+-# all isn't appropriate since STAGING_DATADIR is target specific
+-# PACKAGE_ARCH="all"
++PR = "r1"
++inherit gnome allarch
+ 
+ # The omf.make file failed if scrollkeeper doesn't happen to be
+ # installed
+diff --git a/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb b/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
+index 55868ab..956c015 100644
+--- a/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
++++ b/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
+@@ -9,7 +9,7 @@ SECTION = "x11/gnome"
+ DEPENDS = "icon-naming-utils-native glib-2.0 intltool-native"
+ RDEPENDS_${PN} = "hicolor-icon-theme"
+ RRECOMMENDS_${PN} = "librsvg-gtk"
+-PR = "r1"
++PR = "r2"
+ 
+ FILES_${PN} += "${datadir}/*"
+ 
+@@ -22,6 +22,3 @@ SRC_URI[sha256sum] = "ea7e05b77ead159379392b3b275ca0c9cbacd7d936014e447cc7c5e27a
+ EXTRA_OECONF = "--disable-hicolor-check --with-iconmap=${STAGING_LIBDIR_NATIVE}/../libexec/icon-name-mapping"
+ 
+ inherit autotools
+-
+-# We can't do this until the output is shared into all target sysroots
+-#PACKAGE_ARCH = "all"
+diff --git a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
+index c9d65a2..8d48dec 100644
+--- a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
++++ b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
+@@ -6,9 +6,9 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f08a446809913fc9b3c718f0eaea0426"
+ 
+ SECTION = "unknown"
+-inherit gnome
++inherit gnome allarch
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI = "http://icon-theme.freedesktop.org/releases/${BPN}-${PV}.tar.gz \
+         file://index.theme"
+@@ -16,8 +16,6 @@ SRC_URI = "http://icon-theme.freedesktop.org/releases/${BPN}-${PV}.tar.gz \
+ SRC_URI[md5sum] = "55cafbcef8bcf7107f6d502149eb4d87"
+ SRC_URI[sha256sum] = "9edca690617eaa19054951ca53501c802180262be8880ed84754ac46c93bec73"
+ 
+-PACKAGE_ARCH = "all"
+-
+ FILES_${PN} += "${datadir}/icons"
+ 
+ do_install_append () {
+diff --git a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb b/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
+index 19bb69c..b0a8242 100644
+--- a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
++++ b/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
+@@ -8,11 +8,12 @@ BUGTRACKER = "https://bugzilla.redhat.com/"
+ SECTION = "x11/fonts"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+-PACKAGE_ARCH = "all"
+ RDEPENDS_${PN} = "fontconfig-utils"
+-PR = "r1"
++PR = "r2"
+ PE = "1"
+ 
++inherit allarch
++
+ SRC_URI = "https://fedorahosted.org/releases/l/i/liberation-fonts/liberation-fonts-${PV}.tar.gz \
+            file://30-liberation-aliases.conf"
+ 
+diff --git a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.06.bb b/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.06.bb
+index 4882cc7..5193fda 100644
+--- a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.06.bb
++++ b/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.06.bb
+@@ -8,10 +8,9 @@ BUGTRACKER = "https://bugzilla.redhat.com/"
+ SECTION = "x11/fonts"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+-PACKAGE_ARCH = "all"
+ RDEPENDS_${PN} = "fontconfig-utils"
+ PE = "1"
+-PR = "r1"
++PR = "r2"
+ 
+ FONTREV = "0.20100721"
+ SRC_URI = "https://fedorahosted.org/releases/l/i/${BPN}/${BPN}-${PV}.${FONTREV}.tar.gz \
+@@ -19,6 +18,8 @@ SRC_URI = "https://fedorahosted.org/releases/l/i/${BPN}/${BPN}-${PV}.${FONTREV}.
+ 
+ S = ${WORKDIR}/${BPN}-${PV}.${FONTREV}
+ 
++inherit allarch
++
+ do_install () {
+ 	install -d ${D}${datadir}/fonts/ttf/
+ 	for i in *.ttf; do
+diff --git a/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb b/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
+index 3294b40..682184a 100644
+--- a/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
++++ b/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
+@@ -7,10 +7,11 @@ but is visibly different than normal and bold, and reasonably pleasing."
+ SECTION = "x11/fonts"
+ LICENSE = "Bitstream_Vera"
+ LIC_FILES_CHKSUM = "file://COPYRIGHT.TXT;md5=27d7484b1e18d0ee4ce538644a3f04be"
+-PACKAGE_ARCH = "all"
+-PR = "r4"
++PR = "r5"
+ RDEPENDS_${PN} = "fontconfig-utils"
+ 
++inherit allarch
++
+ SRC_URI = "${GNOME_MIRROR}/ttf-bitstream-vera/1.10/ttf-bitstream-vera-${PV}.tar.bz2" 
+ 
+ do_install () { 
+diff --git a/meta/recipes-graphics/xcursor-transparent-theme/xcursor-transparent-theme_0.1.1.bb b/meta/recipes-graphics/xcursor-transparent-theme/xcursor-transparent-theme_0.1.1.bb
+index 002cc15..824c295 100644
+--- a/meta/recipes-graphics/xcursor-transparent-theme/xcursor-transparent-theme_0.1.1.bb
++++ b/meta/recipes-graphics/xcursor-transparent-theme/xcursor-transparent-theme_0.1.1.bb
+@@ -6,7 +6,7 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+ 
+ SECTION = "x11/base"
+-PR="r3"
++PR = "r4"
+ 
+ SRC_URI = "http://matchbox-project.org/sources/utils/xcursor-transparent-theme-${PV}.tar.gz \
+ 	   file://use-relative-symlinks.patch \
+@@ -16,6 +16,4 @@ SRC_URI[md5sum] = "7b0c623049d4aab20600d6473f8aab23"
+ SRC_URI[sha256sum] = "b26adf2d503d01299718390ae39dab4691a67220de09423be0364e9a060bf7e4"
+ FILES_${PN} = "${datadir}/icons/xcursor-transparent/cursors/*"
+ 
+-inherit autotools
+-
+-PACKAGE_ARCH = "all"
++inherit autotools allarch
+diff --git a/meta/recipes-graphics/xorg-font/encodings/nocompiler.patch b/meta/recipes-graphics/xorg-font/encodings/nocompiler.patch
+new file mode 100644
+index 0000000..1cddd10
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-font/encodings/nocompiler.patch
+@@ -0,0 +1,31 @@
++XORG_DEFAULT_OPTIONS pulls in the following dependency chains:
++
++XORG_CWARNFLAGS -> AC_PROG_CC_C99
++XORG_STRICT_OPTION -> AC_PROG_CC_C99, XORG_CWARNFLAGS
++XORG_MANPAGE_SECTIONS -> AC_CANONICAL_HOST -> Checks host 
++
++each of which triggers the use of the host compiler. As an "all"
++architecture package, it shouldn't need a compiler (and doesn't).
++
++RP 17/5/2011
++
++Index: encodings-1.0.4/configure.ac
++===================================================================
++--- encodings-1.0.4.orig/configure.ac	2011-05-17 23:36:19.505095876 +0100
+++++ encodings-1.0.4/configure.ac	2011-05-17 23:54:14.935096128 +0100
++@@ -4,12 +4,12 @@
++ AM_INIT_AUTOMAKE([foreign dist-bzip2])
++ AM_MAINTAINER_MODE
++ 
++-# Require xorg-macros: XORG_DEFAULT_OPTIONS
++ m4_ifndef([XORG_MACROS_VERSION],
++ 	  [m4_fatal([must install xorg-macros 1.3 or later before running autoconf/autogen])])
++ XORG_MACROS_VERSION(1.3)
++-XORG_DEFAULT_OPTIONS
++-
+++XORG_RELEASE_VERSION
+++XORG_CHANGELOG
+++XORG_INSTALL
++ AC_PROG_INSTALL
++ 
++ # Require X.Org's font util macros 1.2 or later
+diff --git a/meta/recipes-graphics/xorg-font/encodings_1.0.4.bb b/meta/recipes-graphics/xorg-font/encodings_1.0.4.bb
+index 1345134..cf7b3e3 100644
+--- a/meta/recipes-graphics/xorg-font/encodings_1.0.4.bb
++++ b/meta/recipes-graphics/xorg-font/encodings_1.0.4.bb
+@@ -7,13 +7,15 @@ require xorg-font-common.inc
+ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=9da93f2daf2d5572faa2bfaf0dbd9e76"
+ PE = "1"
+-PR = "${INC_PR}.0"
++PR = "${INC_PR}.1"
+ 
+ DEPENDS = "mkfontscale-native font-util-native"
+ 
+-EXTRA_OECONF += "--with-encodingsdir=${datadir}/fonts/X11/encodings"
++SRC_URI += "file://nocompiler.patch"
++
++inherit allarch
+ 
+-PACKAGE_ARCH = "all"
++EXTRA_OECONF += "--with-encodingsdir=${datadir}/fonts/X11/encodings"
+ 
+ SRC_URI[md5sum] = "0f2d6546d514c5cc4ecf78a60657a5c1"
+ SRC_URI[sha256sum] = "ced6312988a45d23812c2ac708b4595f63fd7a49c4dcd9f66bdcd50d1057d539"
+diff --git a/meta/recipes-graphics/xorg-font/font-alias-1.0.3/nocompiler.patch b/meta/recipes-graphics/xorg-font/font-alias-1.0.3/nocompiler.patch
+new file mode 100644
+index 0000000..48e183c
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-font/font-alias-1.0.3/nocompiler.patch
+@@ -0,0 +1,30 @@
++XORG_DEFAULT_OPTIONS pulls in the following dependency chains:
++
++XORG_CWARNFLAGS -> AC_PROG_CC_C99
++XORG_STRICT_OPTION -> AC_PROG_CC_C99, XORG_CWARNFLAGS
++XORG_MANPAGE_SECTIONS -> AC_CANONICAL_HOST -> Checks host 
++
++each of which triggers the use of the host compiler. As an "all"
++architecture package, it shouldn't need a compiler (and doesn't).
++
++RP 17/5/2011
++
++diff -uNr font-alias-1.0.3.orig//configure.ac font-alias-1.0.3/configure.ac
++--- font-alias-1.0.3.orig//configure.ac	2011-05-18 21:29:18.378258643 +0200
+++++ font-alias-1.0.3/configure.ac	2011-05-18 21:32:06.865258593 +0200
++@@ -28,12 +28,12 @@
++ AM_INIT_AUTOMAKE([foreign dist-bzip2])
++ AM_MAINTAINER_MODE
++ 
++-# Require xorg-macros: XORG_DEFAULT_OPTIONS
++ m4_ifndef([XORG_MACROS_VERSION],
++ 	  [m4_fatal([must install xorg-macros 1.3 or later before running autoconf/autogen])])
++ XORG_MACROS_VERSION(1.3)
++-XORG_DEFAULT_OPTIONS
++-
+++XORG_RELEASE_VERSION
+++XORG_CHANGELOG
+++XORG_INSTALL
++ AC_PROG_INSTALL
++ 
++ XORG_FONTROOTDIR
+diff --git a/meta/recipes-graphics/xorg-font/font-alias_1.0.3.bb b/meta/recipes-graphics/xorg-font/font-alias_1.0.3.bb
+index 1b63961..69edd0b 100644
+--- a/meta/recipes-graphics/xorg-font/font-alias_1.0.3.bb
++++ b/meta/recipes-graphics/xorg-font/font-alias_1.0.3.bb
+@@ -9,14 +9,16 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=bf0158b89be493d523d69d9f29265038 \
+                     file://misc/fonts.alias;md5=a8ec05d528431d4c9703b55a7efd67a8 \
+                     file://100dpi/fonts.alias;md5=85bebd6ca213aa656c301a72eb4397cb"
+ 
++SRC_URI += "file://nocompiler.patch"
++
+ DEPENDS = "virtual/xserver font-util"
+ RDEPENDS_${PN} = "encodings font-util"
+ RDEPENDS_${PN}_virtclass-native = "font-util-native"
+ 
+-PE = "1"
+-PR = "${INC_PR}.1"
++inherit allarch
+ 
+-PACKAGE_ARCH = "all"
++PE = "1"
++PR = "${INC_PR}.2"
+ 
+ SRC_URI[md5sum] = "6d25f64796fef34b53b439c2e9efa562"
+ SRC_URI[sha256sum] = "8b453b2aae1cfa8090009ca037037b8c5e333550651d5a158b7264ce1d472c9a"
+diff --git a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
+index d5d8fe7..f454f9e 100644
+--- a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
++++ b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
+@@ -13,10 +13,11 @@ LIC_FILES_CHKSUM = "file://../misc/fonts.alias;md5=bbe8d3c0e4e74af96e3ac393985c4
+ SRC_URI = "file://misc"
+ 
+ PE = "1"
+-PR = "r0"
++PR = "r1"
++
++inherit allarch
+ 
+ PACKAGES = "${PN}"
+-PACKAGE_ARCH = "all"
+ FILES_${PN} = "${libdir}/X11/ ${datadir}/fonts/X11/"
+ 
+ do_install() {
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index 660877e..1dffd75 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -24,7 +24,7 @@ PROVIDES += "linux-firmware-sd8686 linux-firmware-rtl8192cu linux-firmware-rtl81
+ 
+ SRCREV = "40c0f950be7040614dc45df54e25e54d00e3b73b"
+ PV = "0.0+git${SRCPV}"
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/dwmw2/linux-firmware.git;protocol=git"
+ 
+@@ -77,5 +77,3 @@ FILES_${PN}-rtl8192su = " \
+   /lib/firmware/rtlwifi/LICENCE.rtlwifi_firmware.txt \
+ "
+ RPROVIDES_${PN}-rtl8192su = "${PN}-rtl8192su"
+-
+-PACKAGE_ARCH = "all"
+diff --git a/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc b/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
+index 0eff9dd..75e029c 100644
+--- a/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
++++ b/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
+@@ -8,12 +8,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=56a830bbe6e4697fe6cbbae01bb7c2b2"
+ SECTION = "x11"
+ DEPENDS = ""
+ 
+-inherit autotools pkgconfig
++inherit autotools pkgconfig allarch
+ 
+ FILES_${PN} += "${datadir}"
+ 
+-PACKAGE_ARCH = "all"
+-
+ EXTRA_OECONF += "--with-iconmap=${STAGING_LIBDIR_NATIVE}/../libexec/icon-name-mapping"
+ 
+ #explictly setting "Sato" as default icon theme to avoid icon missing due to
+diff --git a/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb b/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
+index e69481d..54e4627 100644
+--- a/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
++++ b/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
+@@ -2,6 +2,8 @@ require sato-icon-theme.inc
+ 
+ DEPENDS += "icon-naming-utils-native"
+ 
++PR = "r1"
++
+ SRC_URI = "http://pokylinux.org/releases/sato/${BPN}-${PV}.tar.gz \
+            file://iconpath-option.patch"
+ 
+diff --git a/meta/recipes-support/hal/hal-info.inc b/meta/recipes-support/hal/hal-info.inc
+index 183dd0e..d6743de 100644
+--- a/meta/recipes-support/hal/hal-info.inc
++++ b/meta/recipes-support/hal/hal-info.inc
+@@ -18,5 +18,4 @@ do_configure() {
+ 	oe_runconf
+ }
+ 
+-PACKAGE_ARCH = "all"
+ FILES_${PN} += "${datadir}/hal/"
+diff --git a/meta/recipes-support/hal/hal-info_20091130.bb b/meta/recipes-support/hal/hal-info_20091130.bb
+index 4469904..65d4d6b 100644
+--- a/meta/recipes-support/hal/hal-info_20091130.bb
++++ b/meta/recipes-support/hal/hal-info_20091130.bb
+@@ -1,4 +1,6 @@
+ require hal-info.inc
+ 
++PR = "r1"
++
+ SRC_URI[md5sum] = "34375489a02a00b250fdc0b280be11b8"
+ SRC_URI[sha256sum] = "3b5a90eaea4359977d36c808a19b3f08835345a258c68b9c6c080ad5ef875224"
+diff --git a/meta/recipes-support/hal/hal-info_git.bb b/meta/recipes-support/hal/hal-info_git.bb
+index 3fff5e0..adcde9e 100644
+--- a/meta/recipes-support/hal/hal-info_git.bb
++++ b/meta/recipes-support/hal/hal-info_git.bb
+@@ -1,7 +1,7 @@
+ require hal-info.inc
+ 
+ PV = "${SRCDATE}+git"
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI = "git://anongit.freedesktop.org/hal-info/;protocol=git;rev=HAL_INFO_20091130"
+ S = "${WORKDIR}/git"
 -- 
-1.7.0.4
+1.7.6.1
 
 
 
