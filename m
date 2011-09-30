@@ -1,58 +1,39 @@
-Received: from am1ehsobe001.messaging.microsoft.com ([213.199.154.204]
-	helo=AM1EHSOBE001.bigfish.com)
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1R9jTK-00037J-P4
+	(envelope-from <kergoth@gmail.com>) id 1R9jTZ-00038n-Ai
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 22:14:14 +0200
-Received: from mail103-am1-R.bigfish.com (10.3.201.252) by
-	AM1EHSOBE001.bigfish.com (10.3.204.21) with Microsoft SMTP Server id
-	14.1.225.22; Fri, 30 Sep 2011 20:08:45 +0000
-Received: from mail103-am1 (localhost.localdomain [127.0.0.1])	by
-	mail103-am1-R.bigfish.com (Postfix) with ESMTP id 1B66B9F85AA	for
-	<openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 20:08:45 +0000 (UTC)
-X-SpamScore: -6
-X-BigFish: VS-6(zz9371K98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
-	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail103-am1 (localhost.localdomain [127.0.0.1]) by mail103-am1
-	(MessageSwitch) id 1317413324157864_24983;
-	Fri, 30 Sep 2011 20:08:44 +0000 (UTC)
-Received: from AM1EHSMHS007.bigfish.com (unknown [10.3.201.250])	by
-	mail103-am1.bigfish.com (Postfix) with ESMTP id D82DB258053	for
-	<openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 20:08:43 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS007.bigfish.com
-	(10.3.207.107) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Fri, 30 Sep 2011 20:08:40 +0000
-Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.230]) by
-	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
-	14.01.0323.007; Fri, 30 Sep 2011 15:08:38 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
+	Fri, 30 Sep 2011 22:14:29 +0200
+Received: by wyh5 with SMTP id 5so1557431wyh.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2011 13:08:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:content-type
+	:content-transfer-encoding;
+	bh=yIRAo2JhDbJ1Mzn3Em/7fZTEBaIqFDicv9mupGPblo0=;
+	b=ahMO6hZZTLBp6/tir52zUNejyZ6yi9RDeavE61fYail9jrdgw/ldRC22QgrV3oOnRn
+	kh37jbe2qmJ6Iu8q1BRO8mfFzL7Z3TGsyvbSYNa6Xgk6DVXNeV7OYm1Ija3BuqLapOjr
+	xQmrpXghzTTVa5JLqYvPhwXfu6Tj7WuB1K7VI=
+Received: by 10.216.72.72 with SMTP id s50mr3889176wed.39.1317413337155; Fri,
+	30 Sep 2011 13:08:57 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.216.160.80 with HTTP; Fri, 30 Sep 2011 13:08:37 -0700 (PDT)
+In-Reply-To: <1317412759.11645.24.camel@scimitar>
+References: <CA+YB3rZ0JEq2zY21kiQmUx3YFj6CYHoR0Pvg6O70UM=Mh1TN+Q@mail.gmail.com>
+	<CABcZANk1DnADdN2F39QYOOM--KyJkxbguhQ0GPmv9BFeEPG_oA@mail.gmail.com>
+	<1317412759.11645.24.camel@scimitar>
+From: Chris Larson <clarson@kergoth.com>
+Date: Fri, 30 Sep 2011 13:08:37 -0700
+X-Google-Sender-Auth: cR_E7B5JsQAv5R8l_-iEFguYTAQ
+Message-ID: <CABcZANk3bjhA0mOzroWkx_M+YH1f01Pq9WjkgURah1yMNi_EdA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] Adding TARGET_VECTOR
-Thread-Index: AQHMf5lRsd9KAmOeJE2Xczt0K8X7D5VmrVsAgAAApQA=
-Date: Fri, 30 Sep 2011 20:08:38 +0000
-Message-ID: <CAEsOVNdoBF3iG_58X8y7Uf5y9-Bo52NEnyP8PQe174qNN0XzcA@mail.gmail.com>
-References: <5755C992-C736-4714-9DE3-761E3E74C6F8@kernel.crashing.org>
-	<4E85FCF7.6030208@gmail.com>
-	<CAEsOVNcC79qr6+zp6ify_vViu-+FsiYq=XvUCyWFc924RPyqjg@mail.gmail.com>
-	<CAMKF1srCrTcfy2niJNF-jkArvZHaU0P8=zH5sqMjFrs1BcKA2g@mail.gmail.com>
-In-Reply-To: <CAMKF1srCrTcfy2niJNF-jkArvZHaU0P8=zH5sqMjFrs1BcKA2g@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>
-Subject: Re: Adding TARGET_VECTOR
+Subject: Re: MINUTES: OE-TSC meeting 29-Sep-2011
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -63,22 +44,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 20:14:14 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <F2797B6A87B71748B2ADE31D8E274E2C@freescale.net>
+X-List-Received-Date: Fri, 30 Sep 2011 20:14:29 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 30, 2011 at 3:05 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> there is SOC_FAMILY thats used predominantly in TI chips that could be
-> of interest here.
-> but in this case I wanted to understand
-> if it is a feature of FPU or is it a separate unit, still not clear to me=
-.
+On Fri, Sep 30, 2011 at 12:59 PM, Joshua Lock <josh@linux.intel.com> wrote:
+> On Fri, 2011-09-30 at 11:16 -0700, Chris Larson wrote:
+>> On Fri, Sep 30, 2011 at 11:14 AM, Jeff Osier-Mixon <jefro@jefro.net> wro=
+te:
+>> > 1. Jefro
+>> > 2. a. some minutes not making it to mailing list, Jefro to post on wik=
+i
+>> > =C2=A0 =C2=A0b. yocto evaluating gerrit, possible patchwork replacemen=
+t for OE, khem
+>> > will research
+>>
+>> ReviewBoard may be worth looking at as an alternative to gerritt, as wel=
+l.
+>
+> I think people like PatchWork and Gerrit because of their command line
+> tools - do you know if ReviewBoard has cli tools too?
 
-It's all on one SoC/Core.
-
--M=
-
+It does, yeah. I don't have a lot of personal experience with either
+one, but I think we should evaluate both.
+--=20
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
 
