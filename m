@@ -1,61 +1,49 @@
-Received: from db3ehsobe003.messaging.microsoft.com ([213.199.154.141]
-	helo=DB3EHSOBE003.bigfish.com)
+Received: from tx2ehsobe001.messaging.microsoft.com ([65.55.88.11]
+	helo=TX2EHSOBE002.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1R9gpo-0007WO-MO
+	(envelope-from <B29882@freescale.com>) id 1R9grU-0007Yo-Jy
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 19:25:17 +0200
-Received: from mail12-db3-R.bigfish.com (10.3.81.243) by
-	DB3EHSOBE003.bigfish.com (10.3.84.23) with Microsoft SMTP Server id
-	14.1.225.22; Fri, 30 Sep 2011 17:19:47 +0000
-Received: from mail12-db3 (localhost.localdomain [127.0.0.1])	by
-	mail12-db3-R.bigfish.com (Postfix) with ESMTP id 25E0D1A30580	for
+	Fri, 30 Sep 2011 19:27:03 +0200
+Received: from mail160-tx2-R.bigfish.com (10.9.14.235) by
+	TX2EHSOBE002.bigfish.com (10.9.40.22) with Microsoft SMTP Server id
+	14.1.225.22; Fri, 30 Sep 2011 17:21:28 +0000
+Received: from mail160-tx2 (localhost.localdomain [127.0.0.1])	by
+	mail160-tx2-R.bigfish.com (Postfix) with ESMTP id DC33810D8425	for
 	<openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 17:19:47 +0000 (UTC)
-X-SpamScore: -16
-X-BigFish: VS-16(zz9371K1432N98dK4015Lzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h61h)
-X-Spam-TCS-SCL: 0:0
+	Fri, 30 Sep 2011 17:21:27 +0000 (UTC)
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202h1082kzz8275bh8275dhz2dh2a8h668h839h)
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
 	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 0,
-Received: from mail12-db3 (localhost.localdomain [127.0.0.1]) by mail12-db3
-	(MessageSwitch) id 1317403165468470_10968;
-	Fri, 30 Sep 2011 17:19:25 +0000 (UTC)
-Received: from DB3EHSMHS002.bigfish.com (unknown [10.3.81.247])	by
-	mail12-db3.bigfish.com (Postfix) with ESMTP id 6A5831698052	for
+Received: from mail160-tx2 (localhost.localdomain [127.0.0.1]) by mail160-tx2
+	(MessageSwitch) id 1317403287737154_3561;
+	Fri, 30 Sep 2011 17:21:27 +0000 (UTC)
+Received: from TX2EHSMHS035.bigfish.com (unknown [10.9.14.241])	by
+	mail160-tx2.bigfish.com (Postfix) with ESMTP id A6877EF0055	for
 	<openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 17:19:25 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS002.bigfish.com
-	(10.3.87.102) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Fri, 30 Sep 2011 17:19:23 +0000
-Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.230]) by
-	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
-	14.01.0323.007; Fri, 30 Sep 2011 12:19:21 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 07/16] Fix lttng-ust for powerpc64
-Thread-Index: AQHMftSs0fOwPeJsS0ObTNCRdOxOhg==
-Date: Fri, 30 Sep 2011 17:19:21 +0000
-Message-ID: <CAEsOVNciHOChiA9cfkNQzpyP_BQdXdSi=GPrhqZAekKMQseZJQ@mail.gmail.com>
-References: <1317270070-14250-1-git-send-email-msm@freescale.com>
-	<1317270070-14250-7-git-send-email-msm@freescale.com>
-	<1317311457.12332.99.camel@ted>
-	<CAEsOVNd7317kDeGBNB6HLy2bpQB102piFtAMxVriX1GocaCXew@mail.gmail.com>
-	<1317321967.12332.113.camel@ted> <4E85F52B.2010000@intel.com>
-In-Reply-To: <4E85F52B.2010000@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
+	Fri, 30 Sep 2011 17:21:27 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS035.bigfish.com
+	(10.9.99.135) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Fri, 30 Sep 2011 17:21:24 +0000
+Received: from az33smr01.freescale.net (10.64.34.199) by
+	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
+	Server id 14.1.323.7; Fri, 30 Sep 2011 12:21:24 -0500
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
+	by az33smr01.freescale.net (8.13.1/8.13.0) with ESMTP id
+	p8UHLNKA016737	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2011 12:21:23 -0500 (CDT)
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 30 Sep 2011 12:21:23 -0500
+Message-ID: <1317403283-17471-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.6.1
 MIME-Version: 1.0
 X-OriginatorOrg: freescale.com
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>
-Subject: Re: [PATCH 07/16] Fix lttng-ust for powerpc64
+Subject: [PATCH v3 01/16] libnl2: Fix a race on route/pktloc_syntax.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -66,25 +54,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 17:25:17 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <A1A948EA40BD5840B63F1D5ED437625D@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 30 Sep 2011 17:27:03 -0000
+Content-Type: text/plain
 
-On Fri, Sep 30, 2011 at 11:58 AM, Saul Wold <saul.wold@intel.com> wrote:
->> There is some marking for "should be upstreamed"/upstreamable.
->>
-> The marking would be "Pending", this indicates that it should be attempte=
-d,
-> if it gets up streamed then marked Accepted with a pointer to the potenti=
-al
-> upstream version or ref.
+From: Tom Rini <tom_rini@mentor.com>
 
-Thanks, the next version was changed to Submitted as I sent a patch upstrea=
-m.
+At issue is that route/pktloc.c (not generated) depends on
+route/pktloc_syntax.h (generated).
 
--M=
+Signed-off-by: Tom Rini <tom_rini@mentor.com>
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+ .../libnl/fix-pktloc_syntax_h-race.patch           |   26 ++++++++++++++++++++
+ meta/recipes-support/libnl/libnl_2.0.bb            |    3 +-
+ 2 files changed, 28 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch
+
+diff --git a/meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch b/meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch
+new file mode 100644
+index 0000000..05d75db
+--- /dev/null
++++ b/meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch
+@@ -0,0 +1,26 @@
++Upstream-Status: Inappropriate [configuration]
++
++libnl has progressed to 0.3.2 and there does not appear to be any
++"make -j" issues with this build after my limited testing on that
++newer version so we can assume this issue is fixed upstream
++
++Index: libnl-2.0/lib/Makefile.am
++===================================================================
++--- libnl-2.0.orig/lib/Makefile.am
+++++ libnl-2.0/lib/Makefile.am
++@@ -27,11 +27,15 @@ CLEANFILES = \
++ 	route/pktloc_grammar.c route/pktloc_grammar.h \
++ 	route/pktloc_syntax.c route/pktloc_syntax.h
++ 
+++BUILT_SOURCES = route/pktloc_syntax.h route/pktloc_grammar.h
+++
++ # Hack to avoid using ylwrap. It does not function correctly in combination
++ # with --header-file=
+++route/pktloc_grammar.h: route/pktloc_grammar.c
++ route/pktloc_grammar.c: route/pktloc_grammar.l
++ 	$(LEX) --header-file=route/pktloc_grammar.h $(LFLAGS) -o $@ $^
++ 
+++route/pktloc_syntax.h: route/pktloc_syntax.c
++ route/pktloc_syntax.c: route/pktloc_syntax.y
++ 	$(YACC) -d $(YFLAGS) -o $@ $^
++ 
+diff --git a/meta/recipes-support/libnl/libnl_2.0.bb b/meta/recipes-support/libnl/libnl_2.0.bb
+index 0dfcaf6..5339846 100644
+--- a/meta/recipes-support/libnl/libnl_2.0.bb
++++ b/meta/recipes-support/libnl/libnl_2.0.bb
+@@ -6,10 +6,11 @@ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=2b41e13261a330ee784153ecbb6a82bc"
+ 
+ DEPENDS = "flex-native bison-native"
+-PR = "r2"
++PR = "r3"
+ 
+ SRC_URI= "http://www.infradead.org/~tgr/libnl/files/${BPN}-${PV}.tar.gz \
+           file://fix-makefile.patch \
++	  file://fix-pktloc_syntax_h-race.patch \
+          "
+ 
+ SRC_URI[md5sum] = "6aaf1e9802a17a7d702bb0638044ffa7"
+-- 
+1.7.6.1
+
 
 
 
