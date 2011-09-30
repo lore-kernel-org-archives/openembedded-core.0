@@ -1,20 +1,22 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1R9Rxv-00027W-VF
+	(envelope-from <nitin.a.kamble@intel.com>) id 1R9Rxx-00027X-II
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 03:32:40 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 29 Sep 2011 18:27:10 -0700
+	Fri, 30 Sep 2011 03:32:41 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 29 Sep 2011 18:27:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="57410752"
+X-IronPort-AV: E=Sophos;i="4.68,464,1312182000"; d="scan'208";a="57186165"
 Received: from nbuild2.sc.intel.com ([172.25.110.37])
-	by orsmga001.jf.intel.com with ESMTP; 29 Sep 2011 18:27:10 -0700
+	by azsmga001.ch.intel.com with ESMTP; 29 Sep 2011 18:27:12 -0700
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
 Date: Thu, 29 Sep 2011 18:27:08 -0700
-Message-Id: <cover.1317344910.git.nitin.a.kamble@intel.com>
+Message-Id: <4320d5ae4fbe881a4a4a761c899069225f6c78ca.1317344910.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.4.4
-Subject: [PATCH 0/4] Recipes upgrades
+In-Reply-To: <cover.1317344910.git.nitin.a.kamble@intel.com>
+References: <cover.1317344910.git.nitin.a.kamble@intel.com>
+Subject: [PATCH 1/4] gdb: upgrade from 7.3a to 7.3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,58 +31,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 01:32:40 -0000
+X-List-Received-Date: Fri, 30 Sep 2011 01:32:41 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-The following changes since commit 9d1db6cc928199f8ac4960e8d4648563ef141427:
-
-  python: fix sqlite RPATH issue (2011-09-29 16:57:30 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib nitin/upgrades
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/upgrades
-
-Nitin A Kamble (4):
-  gdb: upgrade from 7.3a to 7.3.1
-  byacc: upgrade from 20101229 to 20110908
-  python-dbus: upgrade from 0.83.2 to 0.84.0
-  python, python-native: upgrade from 2.6.6 to 2.7.2
-
- meta/conf/distro/include/default-versions.inc      |    6 +-
- meta/recipes-devtools/gdb/gdb-common.inc           |    4 +-
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+---
+ meta/recipes-devtools/gdb/gdb-common.inc           |    4 ++--
  ...anadian_7.3a.bb => gdb-cross-canadian_7.3.1.bb} |    2 +-
  .../gdb/{gdb-cross_7.3a.bb => gdb-cross_7.3.1.bb}  |    2 +-
  .../gdb/{gdb_7.3a.bb => gdb_7.3.1.bb}              |    2 +-
- ...on-2.6-manifest.inc => python-2.7-manifest.inc} |    0
- ...python-dbus_0.83.2.bb => python-dbus_0.84.0.bb} |    4 +-
- .../python/python-native/multilib.patch            |  240 ++++++++++++++++++++
- .../python/python-native/nohostlibs.patch          |   36 ++-
- ...thon-native_2.6.6.bb => python-native_2.7.2.bb} |   13 +-
- meta/recipes-devtools/python/python.inc            |   16 +-
- .../01-use-proper-tools-for-cross-build.patch      |  118 +++++++---
- .../python/python/02-remove-test-for-cross.patch   |  108 ---------
- .../06-avoid_usr_lib_termcap_path_in_linking.patch |   16 +-
- .../python/06-ctypes-libffi-fix-configure.patch    |   42 ++---
- meta/recipes-devtools/python/python/multilib.patch |  126 ++++++-----
- .../python/python/security_issue_2254_fix.patch    |  184 ---------------
- .../python/{python_2.6.6.bb => python_2.7.2.bb}    |   10 +-
- .../byacc/{byacc_20101229.bb => byacc_20110908.bb} |    4 +-
- meta/site/arm-common                               |    3 +
- meta/site/mips-common                              |    3 +
- 21 files changed, 476 insertions(+), 463 deletions(-)
+ 4 files changed, 5 insertions(+), 5 deletions(-)
  rename meta/recipes-devtools/gdb/{gdb-cross-canadian_7.3a.bb => gdb-cross-canadian_7.3.1.bb} (83%)
  rename meta/recipes-devtools/gdb/{gdb-cross_7.3a.bb => gdb-cross_7.3.1.bb} (78%)
  rename meta/recipes-devtools/gdb/{gdb_7.3a.bb => gdb_7.3.1.bb} (91%)
- rename meta/recipes-devtools/python/{python-2.6-manifest.inc => python-2.7-manifest.inc} (100%)
- rename meta/recipes-devtools/python/{python-dbus_0.83.2.bb => python-dbus_0.84.0.bb} (83%)
- create mode 100644 meta/recipes-devtools/python/python-native/multilib.patch
- rename meta/recipes-devtools/python/{python-native_2.6.6.bb => python-native_2.7.2.bb} (74%)
- delete mode 100644 meta/recipes-devtools/python/python/02-remove-test-for-cross.patch
- delete mode 100644 meta/recipes-devtools/python/python/security_issue_2254_fix.patch
- rename meta/recipes-devtools/python/{python_2.6.6.bb => python_2.7.2.bb} (92%)
- rename meta/recipes-extended/byacc/{byacc_20101229.bb => byacc_20110908.bb} (49%)
 
+diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
+index 074f913..e01b57c 100644
+--- a/meta/recipes-devtools/gdb/gdb-common.inc
++++ b/meta/recipes-devtools/gdb/gdb-common.inc
+@@ -22,8 +22,8 @@ inherit autotools
+ SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.gz \
+            file://no-werror.patch"
+ 
+-SRC_URI[md5sum] = "9443a370dabd9ca9c41b496b59f05145"
+-SRC_URI[sha256sum] = "2c2b26eea33ab477ea1f7739a8e511b1e8d89b6f74d87cdd510c6262a3af82d7"
++SRC_URI[md5sum] = "c2795d636a9481d022608cab201be613"
++SRC_URI[sha256sum] = "d7d909b4b8ae0932ba6c1602f2f1f32bef60f0c71c72f1dd833ab6cb15e0d357"
+ 
+ export CC_FOR_BUILD = "${BUILD_CC}"
+ export CXX_FOR_BUILD = "${BUILD_CXX}"
+diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_7.3a.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_7.3.1.bb
+similarity index 83%
+rename from meta/recipes-devtools/gdb/gdb-cross-canadian_7.3a.bb
+rename to meta/recipes-devtools/gdb/gdb-cross-canadian_7.3.1.bb
+index 7e8ad04..870e29c 100644
+--- a/meta/recipes-devtools/gdb/gdb-cross-canadian_7.3a.bb
++++ b/meta/recipes-devtools/gdb/gdb-cross-canadian_7.3.1.bb
+@@ -6,4 +6,4 @@ PR = "${INC_PR}.0"
+ GDBPROPREFIX = "--program-prefix='${TARGET_PREFIX}'"
+ EXPAT = "--with-expat"
+ 
+-S = "${WORKDIR}/${BPN}-7.3"
++S = "${WORKDIR}/${BPN}-${PN}"
+diff --git a/meta/recipes-devtools/gdb/gdb-cross_7.3a.bb b/meta/recipes-devtools/gdb/gdb-cross_7.3.1.bb
+similarity index 78%
+rename from meta/recipes-devtools/gdb/gdb-cross_7.3a.bb
+rename to meta/recipes-devtools/gdb/gdb-cross_7.3.1.bb
+index dacf6c9..eaf8f36 100644
+--- a/meta/recipes-devtools/gdb/gdb-cross_7.3a.bb
++++ b/meta/recipes-devtools/gdb/gdb-cross_7.3.1.bb
+@@ -5,4 +5,4 @@ EXPAT = "--with-expat"
+ 
+ PR = "${INC_PR}.0"
+ 
+-S = "${WORKDIR}/${BPN}-7.3"
++S = "${WORKDIR}/${BPN}-${PV}"
+diff --git a/meta/recipes-devtools/gdb/gdb_7.3a.bb b/meta/recipes-devtools/gdb/gdb_7.3.1.bb
+similarity index 91%
+rename from meta/recipes-devtools/gdb/gdb_7.3a.bb
+rename to meta/recipes-devtools/gdb/gdb_7.3.1.bb
+index 8f54416..0645b56 100644
+--- a/meta/recipes-devtools/gdb/gdb_7.3a.bb
++++ b/meta/recipes-devtools/gdb/gdb_7.3.1.bb
+@@ -6,4 +6,4 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+ 		    file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674"
+ PR = "${INC_PR}.0"
+ 
+-S = "${WORKDIR}/${BPN}-7.3"
++S = "${WORKDIR}/${BPN}-${PV}"
 -- 
 1.7.4.4
 
