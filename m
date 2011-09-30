@@ -1,34 +1,34 @@
 Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1R9fL7-0003th-FJ
+	(envelope-from <martin.jansa@gmail.com>) id 1R9fLN-0003th-BJ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 17:49:29 +0200
+	Fri, 30 Sep 2011 17:49:47 +0200
 Received: by mail-fx0-f47.google.com with SMTP id 1so3201846fxi.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 08:44:02 -0700 (PDT)
+	Fri, 30 Sep 2011 08:44:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=YVox4oyNZhVo9+FVoFPxOxkksWXe3LlJ4cyjOFPASlw=;
-	b=AemZxiKoeDTePNB3o/06v7+35oGKR7MycmOjLzgy8ZXtE6uimvMVpB84CrGXbdId++
-	O4hoxbBSwFGRanzN9pT6XFYnIJGz5Ay8syZ3POWdFxvKkKSAFBatucf0mhmTroAaidRl
-	j02KepYheKD/lf5evgB8zVhlD1pLtlOHXc0/A=
-Received: by 10.223.9.69 with SMTP id k5mr18648319fak.62.1317397442613;
-	Fri, 30 Sep 2011 08:44:02 -0700 (PDT)
+	bh=Yxpd1sPh9R5usk+/tUX1RVp5VflBaXt4WAfWQ+sIfWw=;
+	b=oUyf2TIxW7CQBB2ewjziWEPuWGdMsBBjuYQX8H20tO90n5DmUKohKwKZ4uV6yMuGqw
+	AYnCAck4V6/wObJLSPFpu3pC3dG3nJv8P7gIQf0SAGHt1TaARmnaHiRMvi21iZ+wgms2
+	BRnITlzdKmVdoUhOXq2/hLTCK5tkvmmbvgsNM=
+Received: by 10.223.35.202 with SMTP id q10mr5826938fad.138.1317397458215;
+	Fri, 30 Sep 2011 08:44:18 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id u18sm7158471fac.24.2011.09.30.08.44.00
+	by mx.google.com with ESMTPS id x22sm7197119faa.5.2011.09.30.08.44.16
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 30 Sep 2011 08:44:01 -0700 (PDT)
+	Fri, 30 Sep 2011 08:44:17 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Sep 2011 17:43:23 +0200
-Message-Id: <320622e8b1dfae52c230a37e69b50d263700e73a.1317397204.git.Martin.Jansa@gmail.com>
+Date: Fri, 30 Sep 2011 17:43:25 +0200
+Message-Id: <5cc8029b63f74035c3cd30bc78afdd0460b03844.1317397204.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.6.1
 In-Reply-To: <e89070827bd58e6b3e54d336dd179ad508a960ee.1317397204.git.Martin.Jansa@gmail.com>
 References: <e89070827bd58e6b3e54d336dd179ad508a960ee.1317397204.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1317397204.git.Martin.Jansa@gmail.com>
 References: <cover.1317397204.git.Martin.Jansa@gmail.com>
-Subject: [WIP][PATCH 4/9] libglade: add gdk-pixbuf dependency
+Subject: [WIP][PATCH 6/9] zlib: fix inverted LFS logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,26 +43,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 15:49:29 -0000
+X-List-Received-Date: Fri, 30 Sep 2011 15:49:47 -0000
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-gnome/libglade/libglade_2.6.4.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ .../zlib/zlib-1.2.5/fix.inverted.LFS.logic.patch   |   20 ++++++++++++++++++++
+ meta/recipes-core/zlib/zlib_1.2.5.bb               |    5 +++--
+ 2 files changed, 23 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/zlib/zlib-1.2.5/fix.inverted.LFS.logic.patch
 
-diff --git a/meta/recipes-gnome/libglade/libglade_2.6.4.bb b/meta/recipes-gnome/libglade/libglade_2.6.4.bb
-index b0e0339..90a7b33 100644
---- a/meta/recipes-gnome/libglade/libglade_2.6.4.bb
-+++ b/meta/recipes-gnome/libglade/libglade_2.6.4.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605 \
+diff --git a/meta/recipes-core/zlib/zlib-1.2.5/fix.inverted.LFS.logic.patch b/meta/recipes-core/zlib/zlib-1.2.5/fix.inverted.LFS.logic.patch
+new file mode 100644
+index 0000000..038c1a2
+--- /dev/null
++++ b/meta/recipes-core/zlib/zlib-1.2.5/fix.inverted.LFS.logic.patch
+@@ -0,0 +1,20 @@
++Upstream-Status: Pending
++
++see
++https://bugs.gentoo.org/316377?id=316377
++https://bugs.freedesktop.org/show_bug.cgi?id=33710
++http://lists.freedesktop.org/archives/poppler-bugs/2011-January/006014.html
++for details
++
++diff -up zlib-1.2.5/zlib.h.pom zlib-1.2.5/zlib.h
++--- zlib-1.2.5/zlib.h.pom	2010-04-20 06:12:48.000000000 +0200
+++++ zlib-1.2.5/zlib.h	2010-06-16 13:08:59.000000000 +0200
++@@ -1578,7 +1578,7 @@ ZEXTERN int ZEXPORT inflateBackInit_ OF(
++ #  define gzoffset gzoffset64
++ #  define adler32_combine adler32_combine64
++ #  define crc32_combine crc32_combine64
++-#  ifdef _LARGEFILE64_SOURCE
+++#  ifndef _LARGEFILE64_SOURCE
++      ZEXTERN gzFile ZEXPORT gzopen64 OF((const char *, const char *));
++      ZEXTERN z_off_t ZEXPORT gzseek64 OF((gzFile, z_off_t, int));
++      ZEXTERN z_off_t ZEXPORT gztell64 OF((gzFile));
+diff --git a/meta/recipes-core/zlib/zlib_1.2.5.bb b/meta/recipes-core/zlib/zlib_1.2.5.bb
+index 96dab25..bca400c 100644
+--- a/meta/recipes-core/zlib/zlib_1.2.5.bb
++++ b/meta/recipes-core/zlib/zlib_1.2.5.bb
+@@ -7,11 +7,12 @@ LICENSE = "Zlib"
+ LIC_FILES_CHKSUM = "file://zlib.h;beginline=4;endline=23;md5=084e9c30e4e6272c3b057b13c6467f3d"
  
- SECTION = "libs"
- PR = "r1"
--DEPENDS = "gtk+ gtk-doc-native"
-+DEPENDS = "gdk-pixbuf gtk+ gtk-doc-native"
+ DEPENDS = "libtool-cross"
+-PR = "r0"
++PR = "r1"
  
- inherit autotools pkgconfig gnome
+ SRC_URI = "http://www.zlib.net/${BPN}-${PV}.tar.bz2 \
+            file://configure.ac \
+-           file://Makefile.am"
++           file://Makefile.am \
++	   file://fix.inverted.LFS.logic.patch"
  
+ SRC_URI[md5sum] = "be1e89810e66150f5b0327984d8625a0"
+ SRC_URI[sha256sum] = "239aead2f22f16bfcfa6a6a5150dcbd6d6f2e4d1eaa8727b5769ea014120b307"
 -- 
 1.7.6.1
 
