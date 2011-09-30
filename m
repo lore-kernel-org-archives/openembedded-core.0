@@ -1,40 +1,31 @@
-Received: from 6.mo2.mail-out.ovh.net ([87.98.165.38]
-	helo=mo2.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1R9bw6-0006hl-VM
+Received: from mail-qw0-f47.google.com ([209.85.216.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1R9cDK-0006tb-LQ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 14:11:27 +0200
-Received: from mail180.ha.ovh.net (b6.ovh.net [213.186.33.56])
-	by mo2.mail-out.ovh.net (Postfix) with SMTP id 5C55EDCA705
+	Fri, 30 Sep 2011 14:29:14 +0200
+Received: by qadc1 with SMTP id c1so217315qad.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 13:48:44 +0200 (CEST)
-Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
-	by b0.ovh.net with SMTP; 30 Sep 2011 13:47:07 +0200
-Received: from pac33-2-82-240-38-71.fbx.proxad.net (HELO ?192.168.1.15?)
-	(ebenard%eukrea.com@82.240.38.71)
-	by ns0.ovh.net with SMTP; 30 Sep 2011 13:47:05 +0200
-Message-ID: <4E85AC39.6000500@eukrea.com>
-Date: Fri, 30 Sep 2011 13:47:05 +0200
-From: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110922 Thunderbird/7.0
+	Fri, 30 Sep 2011 05:23:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=QBJDkBNi/e18H4a2FLuzMDgmgaKrwqzyLXh6XD6i6iY=;
+	b=klfRCiXXxIFmlBuI+VTD+//zHWSeob5GxuqZXWUpBqN3ChD4KMkoPzofJ+d9813iKd
+	AmbHZXx/+9rKZXF4IuxNFIxxucMreUbwQKpqt9UQuAcMQ1jkWyyCSTT/c1uNMkHYOE8M
+	Zhl0JbzXfxZel7kM18dU8QJohTecdSoqUcX4w=
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-X-Ovh-Mailout: 178.32.228.2 (mo2.mail-out.ovh.net)
-References: <20110911172241.GA3674@chargestorm.se>
-	<D9F00ABD-04FA-4A75-BB1C-13B9BBDC4C54@dominion.thruhere.net>
-	<4E79E3A9.8080804@eukrea.com>
-	<201109281111.33193.paul.eggleton@linux.intel.com>
-	<4E82F59B.7080808@eukrea.com>
-In-Reply-To: <4E82F59B.7080808@eukrea.com>
-X-Ovh-Tracer-Id: 12409950250339904962
-X-Ovh-Remote: 82.240.38.71 (pac33-2-82-240-38-71.fbx.proxad.net)
-X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
-X-Spam-Check: DONE|U 0.5/N
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeftddrheehucetggdotefuucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH] qt4: update to latest version 4.7.4
+Received: by 10.68.35.232 with SMTP id l8mr58432994pbj.75.1317385420454; Fri,
+	30 Sep 2011 05:23:40 -0700 (PDT)
+Received: by 10.142.199.2 with HTTP; Fri, 30 Sep 2011 05:23:40 -0700 (PDT)
+In-Reply-To: <b53e13b48897472197f3ab2cb28c85cab089e4a5.1317370299.git.lei.mei@intel.com>
+References: <cover.1317370299.git.lei.mei@intel.com>
+	<b53e13b48897472197f3ab2cb28c85cab089e4a5.1317370299.git.lei.mei@intel.com>
+Date: Fri, 30 Sep 2011 14:23:40 +0200
+Message-ID: <CA+chaQcWqvxDeOMVpdAL_2US3KzAmD_iJCytMfwJRa0rEfG5uA@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] curl: Upgrade from 7.21.7 to 7.22.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,19 +40,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 12:11:27 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 30 Sep 2011 12:29:14 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Paul,
+On Fri, Sep 30, 2011 at 10:16 AM, Mei Lei <lei.mei@intel.com> wrote:
+> Signed-off-by: Mei Lei <lei.mei@intel.com>
+> ---
+> =C2=A0.../curl/{curl_7.21.7.bb =3D> curl_7.22.0.bb} =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0| =C2=A0 =C2=A04 ++--
+> =C2=A01 files changed, 2 insertions(+), 2 deletions(-)
+> =C2=A0rename meta/recipes-support/curl/{curl_7.21.7.bb =3D> curl_7.22.0.b=
+b} (92%)
+>
+> diff --git a/meta/recipes-support/curl/curl_7.21.7.bb b/meta/recipes-supp=
+ort/curl/curl_7.22.0.bb
+> similarity index 92%
+> rename from meta/recipes-support/curl/curl_7.21.7.bb
+> rename to meta/recipes-support/curl/curl_7.22.0.bb
+> index 2ec4402..d6924be 100644
+> --- a/meta/recipes-support/curl/curl_7.21.7.bb
+> +++ b/meta/recipes-support/curl/curl_7.22.0.bb
+> @@ -14,8 +14,8 @@ SRC_URI =3D "http://curl.haxx.se/download/curl-${PV}.ta=
+r.bz2 \
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://noldlibpath.patch \
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://pkgconfig_fix.patch"
+>
+> -SRC_URI[md5sum] =3D "5f6d50c4d4ee38c57fe37e3cff75adbd"
+> -SRC_URI[sha256sum] =3D "1a50dd17400c042090203eef347e946f29c342c32b6c4843=
+c740c80975e8215a"
+> +SRC_URI[md5sum] =3D "bde820eac53fa3a8d8696667418557ad"
+> +SRC_URI[sha256sum] =3D "bda0da862322b122784f5a9d7a65efdd99a6061292cfb8e9=
+357e0c67c03e5112"
 
-I've updated and tested the branches by rebasing on current oe-core and
-integrating Otavio's patch concerning the translations :
-https://github.com/eukrea/oe-core/tree/qt4_improve
-https://github.com/eukrea/oe-core/tree/qt4_upgrade
+md5sum looks wrong (I have the same sha256sum)
 
-Is that OK for you or should I rework something ?
+OE @ ~ $ md5sum curl-7.22.0.tar.bz2
+bdb5c226d37c4a6082c70e7ef6f63060  curl-7.22.0.tar.bz2
+OE @ ~ $ sha256sum curl-7.22.0.tar.bz2
+bda0da862322b122784f5a9d7a65efdd99a6061292cfb8e9357e0c67c03e5112
+curl-7.22.0.tar.bz2
 
-Eric
+Regards,
 
 
