@@ -1,34 +1,34 @@
 Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1R9fLN-0003th-BJ
+	(envelope-from <martin.jansa@gmail.com>) id 1R9fLV-0003th-Ga
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 17:49:47 +0200
+	Fri, 30 Sep 2011 17:49:53 +0200
 Received: by mail-fx0-f47.google.com with SMTP id 1so3201846fxi.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 08:44:18 -0700 (PDT)
+	Fri, 30 Sep 2011 08:44:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=Yxpd1sPh9R5usk+/tUX1RVp5VflBaXt4WAfWQ+sIfWw=;
-	b=oUyf2TIxW7CQBB2ewjziWEPuWGdMsBBjuYQX8H20tO90n5DmUKohKwKZ4uV6yMuGqw
-	AYnCAck4V6/wObJLSPFpu3pC3dG3nJv8P7gIQf0SAGHt1TaARmnaHiRMvi21iZ+wgms2
-	BRnITlzdKmVdoUhOXq2/hLTCK5tkvmmbvgsNM=
-Received: by 10.223.35.202 with SMTP id q10mr5826938fad.138.1317397458215;
-	Fri, 30 Sep 2011 08:44:18 -0700 (PDT)
+	bh=uN10Rdx3debGANoDLYqhY5KYERl1kTrVbY2n3QeVAwU=;
+	b=tIgiFcX2SmZChnjxTXtSmqIJemwJBLANjnRQYdLbxIpBKxfrInfHxG6uPMWAsMjhs2
+	hMk9pABZr1mVD1bkVQ/UY4JiDOBVsHomkxzD6XMiKOoomWZEEIVJ/kXDR/DoVj3U+5G6
+	r/ZoxawCRdI3TIypVf9QdUBCLAwAsZ6myjIYI=
+Received: by 10.223.36.68 with SMTP id s4mr18542901fad.92.1317397465949;
+	Fri, 30 Sep 2011 08:44:25 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id x22sm7197119faa.5.2011.09.30.08.44.16
+	by mx.google.com with ESMTPS id k26sm7179840fab.12.2011.09.30.08.44.24
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 30 Sep 2011 08:44:17 -0700 (PDT)
+	Fri, 30 Sep 2011 08:44:24 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Sep 2011 17:43:25 +0200
-Message-Id: <5cc8029b63f74035c3cd30bc78afdd0460b03844.1317397204.git.Martin.Jansa@gmail.com>
+Date: Fri, 30 Sep 2011 17:43:26 +0200
+Message-Id: <3fbdf6c6a16b66b7bf0f84b1bcb8dbafaea24db1.1317397204.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.6.1
 In-Reply-To: <e89070827bd58e6b3e54d336dd179ad508a960ee.1317397204.git.Martin.Jansa@gmail.com>
 References: <e89070827bd58e6b3e54d336dd179ad508a960ee.1317397204.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1317397204.git.Martin.Jansa@gmail.com>
 References: <cover.1317397204.git.Martin.Jansa@gmail.com>
-Subject: [WIP][PATCH 6/9] zlib: fix inverted LFS logic
+Subject: [WIP][PATCH 7/9] gdk-pixbuf: upgrade to 2.24.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,60 +43,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 15:49:47 -0000
+X-List-Received-Date: Fri, 30 Sep 2011 15:49:53 -0000
+
+* older version doesn't build with glib-2.30.0
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../zlib/zlib-1.2.5/fix.inverted.LFS.logic.patch   |   20 ++++++++++++++++++++
- meta/recipes-core/zlib/zlib_1.2.5.bb               |    5 +++--
- 2 files changed, 23 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/zlib/zlib-1.2.5/fix.inverted.LFS.logic.patch
+ .../configure_fix.patch                            |    0
+ .../hardcoded_libtool.patch                        |    0
+ .../{gdk-pixbuf_2.22.1.bb => gdk-pixbuf_2.24.0.bb} |    7 +++----
+ 3 files changed, 3 insertions(+), 4 deletions(-)
+ rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.22.1 => gdk-pixbuf-2.24.0}/configure_fix.patch (100%)
+ rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.22.1 => gdk-pixbuf-2.24.0}/hardcoded_libtool.patch (100%)
+ rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.22.1.bb => gdk-pixbuf_2.24.0.bb} (92%)
 
-diff --git a/meta/recipes-core/zlib/zlib-1.2.5/fix.inverted.LFS.logic.patch b/meta/recipes-core/zlib/zlib-1.2.5/fix.inverted.LFS.logic.patch
-new file mode 100644
-index 0000000..038c1a2
---- /dev/null
-+++ b/meta/recipes-core/zlib/zlib-1.2.5/fix.inverted.LFS.logic.patch
-@@ -0,0 +1,20 @@
-+Upstream-Status: Pending
-+
-+see
-+https://bugs.gentoo.org/316377?id=316377
-+https://bugs.freedesktop.org/show_bug.cgi?id=33710
-+http://lists.freedesktop.org/archives/poppler-bugs/2011-January/006014.html
-+for details
-+
-+diff -up zlib-1.2.5/zlib.h.pom zlib-1.2.5/zlib.h
-+--- zlib-1.2.5/zlib.h.pom	2010-04-20 06:12:48.000000000 +0200
-++++ zlib-1.2.5/zlib.h	2010-06-16 13:08:59.000000000 +0200
-+@@ -1578,7 +1578,7 @@ ZEXTERN int ZEXPORT inflateBackInit_ OF(
-+ #  define gzoffset gzoffset64
-+ #  define adler32_combine adler32_combine64
-+ #  define crc32_combine crc32_combine64
-+-#  ifdef _LARGEFILE64_SOURCE
-++#  ifndef _LARGEFILE64_SOURCE
-+      ZEXTERN gzFile ZEXPORT gzopen64 OF((const char *, const char *));
-+      ZEXTERN z_off_t ZEXPORT gzseek64 OF((gzFile, z_off_t, int));
-+      ZEXTERN z_off_t ZEXPORT gztell64 OF((gzFile));
-diff --git a/meta/recipes-core/zlib/zlib_1.2.5.bb b/meta/recipes-core/zlib/zlib_1.2.5.bb
-index 96dab25..bca400c 100644
---- a/meta/recipes-core/zlib/zlib_1.2.5.bb
-+++ b/meta/recipes-core/zlib/zlib_1.2.5.bb
-@@ -7,11 +7,12 @@ LICENSE = "Zlib"
- LIC_FILES_CHKSUM = "file://zlib.h;beginline=4;endline=23;md5=084e9c30e4e6272c3b057b13c6467f3d"
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.22.1/configure_fix.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.0/configure_fix.patch
+similarity index 100%
+rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.22.1/configure_fix.patch
+rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.0/configure_fix.patch
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.22.1/hardcoded_libtool.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.0/hardcoded_libtool.patch
+similarity index 100%
+rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.22.1/hardcoded_libtool.patch
+rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.0/hardcoded_libtool.patch
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.22.1.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.0.bb
+similarity index 92%
+rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.22.1.bb
+rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.0.bb
+index 50597b0..9fabbe2 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.22.1.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.0.bb
+@@ -9,15 +9,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
+ SECTION = "libs"
  
- DEPENDS = "libtool-cross"
--PR = "r0"
-+PR = "r1"
+ DEPENDS = "libpng glib-2.0 jpeg"
+-PR = "r1"
  
- SRC_URI = "http://www.zlib.net/${BPN}-${PV}.tar.bz2 \
-            file://configure.ac \
--           file://Makefile.am"
-+           file://Makefile.am \
-+	   file://fix.inverted.LFS.logic.patch"
+-SRC_URI = "http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.22/gdk-pixbuf-${PV}.tar.gz \
++SRC_URI = "http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.24/gdk-pixbuf-${PV}.tar.bz2 \
+            file://hardcoded_libtool.patch \
+            file://configure_fix.patch \
+            "
  
- SRC_URI[md5sum] = "be1e89810e66150f5b0327984d8625a0"
- SRC_URI[sha256sum] = "239aead2f22f16bfcfa6a6a5150dcbd6d6f2e4d1eaa8727b5769ea014120b307"
+-SRC_URI[md5sum] = "fcfc854e9aec7dbb2bb3059484d44556"
+-SRC_URI[sha256sum] = "bbb57364ffba70d64f5fcfe6eda1d67249b3d58844edb06dc0f94d1ad599b4ec"
++SRC_URI[md5sum] = "d8ece3a4ade4a91c768328620e473ab8"
++SRC_URI[sha256sum] = "38d2630314e6d91976bffd833236f84fefa440a9038f86dc422820a39f2e3700"
+ 
+ inherit autotools pkgconfig gettext
+ 
 -- 
 1.7.6.1
 
