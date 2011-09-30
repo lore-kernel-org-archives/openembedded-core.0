@@ -1,24 +1,25 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1R9g6y-00060y-D7
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1R9g6y-00060s-IZ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 18:38:56 +0200
+	Fri, 30 Sep 2011 18:38:57 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 30 Sep 2011 09:33:24 -0700
+	by orsmga102.jf.intel.com with ESMTP; 30 Sep 2011 09:33:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="57738518"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="57738527"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.157])
-	by orsmga001.jf.intel.com with ESMTP; 30 Sep 2011 09:33:24 -0700
+	by orsmga001.jf.intel.com with ESMTP; 30 Sep 2011 09:33:25 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Sep 2011 17:33:15 +0100
-Message-Id: <11423413f0859e6f5e8fa701280ce96c9c2b08e7.1317400021.git.paul.eggleton@linux.intel.com>
+Date: Fri, 30 Sep 2011 17:33:16 +0100
+Message-Id: <7caffb617932529028127584fa041b5412ef7cd9.1317400021.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1317400021.git.paul.eggleton@linux.intel.com>
 References: <cover.1317400021.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1317400021.git.paul.eggleton@linux.intel.com>
 References: <cover.1317400021.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 4/7] qt4(embedded and x11): disable neon for armv6-vfp
+MIME-Version: 1.0
+Subject: [PATCH 5/7] qt4.inc: package qtdemo's docs in a separate package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,52 +35,76 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 30 Sep 2011 16:38:57 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 From: Denis Carikli <denis@eukrea.com>
 
-without the -no-neon flag, neon is "autodetected"
-  by looking if the compiler is capable of compiling
-  a neon test, and succeed, and neon is then enabled
-  during the compilation.
+The documentation was 285M and doesn't fit on the NAND of many machines,
+  but in another had part of the documentation is needed for the
+  QT demos, so we split the documentation: so qt demo only RRECOMMAND
+  the documentation that it really needs.
+
+Thanks to Eric Bénard for explaining me how to split it.
 
 Signed-off-by: Denis Carikli <denis@eukrea.com>
 ---
- meta/recipes-qt/qt4/qt4-embedded_4.7.3.bb |    4 ++--
- meta/recipes-qt/qt4/qt4-x11-free_4.7.3.bb |    4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-qt/qt4/qt4-x11-free.inc |    2 +-
+ meta/recipes-qt/qt4/qt4.inc          |    8 +++++++-
+ 2 files changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-qt/qt4/qt4-embedded_4.7.3.bb b/meta/recipes-qt/qt4/qt4-embedded_4.7.3.bb
-index c3f6713..801b45a 100644
---- a/meta/recipes-qt/qt4/qt4-embedded_4.7.3.bb
-+++ b/meta/recipes-qt/qt4/qt4-embedded_4.7.3.bb
-@@ -1,9 +1,9 @@
- require qt-${PV}.inc
- require qt4-embedded.inc
+diff --git a/meta/recipes-qt/qt4/qt4-x11-free.inc b/meta/recipes-qt/qt4/qt4-x11-free.inc
+index a360ec3..93feb0e 100644
+--- a/meta/recipes-qt/qt4/qt4-x11-free.inc
++++ b/meta/recipes-qt/qt4/qt4-x11-free.inc
+@@ -5,7 +5,7 @@ HOMEPAGE = "http://qt.nokia.com"
+ SECTION = "x11/libs"
+ DEPENDS += "virtual/libgl virtual/libx11 fontconfig libxft libxext libxrender libxrandr libxcursor"
  
--PR = "${INC_PR}.1"
-+PR = "${INC_PR}.2"
+-INC_PR = "r28"
++INC_PR = "r30"
  
--QT_CONFIG_FLAGS_append_armv6 = " -no-neon "
-+QT_CONFIG_FLAGS_append_armv6-vfp = " -no-neon "
+ QT_GLFLAGS ?= "${@base_contains('DISTRO_FEATURES', 'opengl', '-opengl', '-no-opengl', d)} "
+ QT_GLFLAGS_qemux86 = "-opengl"
+diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
+index 23832db..eb01a1b 100644
+--- a/meta/recipes-qt/qt4/qt4.inc
++++ b/meta/recipes-qt/qt4/qt4.inc
+@@ -101,6 +101,8 @@ OTHER_PACKAGES = "\
+              ${QT_BASE_NAME}-qt3to4 \
+              ${QT_BASE_NAME}-qml-plugins"
  
- QT_CONFIG_FLAGS += " \
-  -exceptions \
-diff --git a/meta/recipes-qt/qt4/qt4-x11-free_4.7.3.bb b/meta/recipes-qt/qt4/qt4-x11-free_4.7.3.bb
-index 75c6314..413afb4 100644
---- a/meta/recipes-qt/qt4/qt4-x11-free_4.7.3.bb
-+++ b/meta/recipes-qt/qt4/qt4-x11-free_4.7.3.bb
-@@ -1,9 +1,9 @@
- require qt4-x11-free.inc
- require qt-${PV}.inc
++#We prepend so ${QT_BASE_NAME}-demos-doc comes before ${PN}-doc,so the packaging of FILES_ get done before.
++PACKAGES =+ "${QT_BASE_NAME}-demos-doc"
+ PACKAGES += "${LIB_PACKAGES} ${DEV_PACKAGES} ${DBG_PACKAGES} ${OTHER_PACKAGES}"
+ PACKAGES_DYNAMIC = "${QT_BASE_NAME}-plugin-* ${QT_BASE_NAME}-translation-* ${QT_BASE_NAME}-fonts-*"
  
--PR = "${INC_PR}.1"
-+PR = "${INC_PR}.2"
+@@ -109,6 +111,7 @@ ALLOW_EMPTY_${QT_BASE_NAME}-fonts = "1"
+ FILES_${PN}     = ""
+ FILES_${PN}-dev = "${includedir}/${QT_DIR_NAME}/Qt/*"
+ FILES_${PN}-dbg = "${exec_prefix}/src/debug/"
++FILES_${QT_BASE_NAME}-demos-doc = "${docdir}/qtopia/qch/qt.qch"
+ RRECOMMENDS_${PN} = "${LIB_PACKAGES} ${OTHER_PACKAGES}"
+ RRECOMMENDS_${PN}-dev = "${DEV_PACKAGES}"
+ RRECOMMENDS_${PN}-dbg = "${DBG_PACKAGES}"
+@@ -124,13 +127,16 @@ RRECOMMENDS_${QT_BASE_NAME}-demos += " \
+             ${QT_BASE_NAME}-plugin-sqldriver-sqlite \
+             ${QT_BASE_NAME}-plugin-imageformat-jpeg \
+             ${QT_BASE_NAME}-qml-plugins \
+-            ${QT_BASE_NAME}-assistant"
++            ${QT_BASE_NAME}-assistant \
++            ${QT_BASE_NAME}-demos-doc"
+ RRECOMMENDS_${QT_BASE_NAME}-examples += " \
+             ${QT_BASE_NAME}-plugin-sqldriver-sqlite \
+             ${QT_BASE_NAME}-plugin-imageformat-jpeg \
+             ${QT_BASE_NAME}-qml-plugins"
+ RRECOMMENDS_${QT_BASE_NAME}-qmlviewer += " \
+             ${QT_BASE_NAME}-qml-plugins"
++RRECOMMENDS_${QT_BASE_NAME}-doc += " \
++            ${QT_BASE_NAME}-demos-doc"
  
--QT_CONFIG_FLAGS_append_armv6 = " -no-neon "
-+QT_CONFIG_FLAGS_append_armv6-vfp = " -no-neon "
- 
- QT_CONFIG_FLAGS += " \
-  -no-embedded \
+ FILES_${QT_BASE_NAME}-tools                = "${bindir}/qttracereplay ${bindir}/qdoc*"
+ FILES_${QT_BASE_NAME}-tools-dbg            = "${bindir}/.debug/qttracereplay ${bindir}/.debug/qdoc*"
 -- 
 1.7.4.1
 
