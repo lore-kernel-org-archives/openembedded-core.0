@@ -1,38 +1,56 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from ch1ehsobe004.messaging.microsoft.com ([216.32.181.184]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1R9fLk-0003th-EA
+	(envelope-from <B29882@freescale.com>) id 1R9fPc-0004AU-Ti
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 17:50:08 +0200
-Received: by mail-fx0-f47.google.com with SMTP id 1so3201846fxi.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 08:44:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=EeKSHciOc12N2NGUSTMeuavbGlPZ/RnpWQbazxi8PE4=;
-	b=NmBHj8ewXchGh1klSRmi5da0w4dUTji6wbCiwLMhu/On1vOdsxS24kDEMDCFyv/uyz
-	630abC3J+QeZ0l4nvFKtSSh6/On+14qy8uwFgVIb8LiZevxnNvbCqbCZtmQ+E3jne7lo
-	ytTBuvfrPXJiSSl16KU1aSfCjcGBAuEx1kDC0=
-Received: by 10.223.99.209 with SMTP id v17mr2852850fan.119.1317397481568;
-	Fri, 30 Sep 2011 08:44:41 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id v17sm7170579fai.18.2011.09.30.08.44.39
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 30 Sep 2011 08:44:40 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Sep 2011 17:43:28 +0200
-Message-Id: <309456df599bf3d1ade20c9f3ca10a1bb5a8bf1e.1317397204.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.6.1
-In-Reply-To: <e89070827bd58e6b3e54d336dd179ad508a960ee.1317397204.git.Martin.Jansa@gmail.com>
-References: <e89070827bd58e6b3e54d336dd179ad508a960ee.1317397204.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1317397204.git.Martin.Jansa@gmail.com>
-References: <cover.1317397204.git.Martin.Jansa@gmail.com>
-Subject: [WIP][PATCH 9/9] gtk+: upgrade to 2.24.6
+	Fri, 30 Sep 2011 17:54:09 +0200
+Received: from mail78-ch1-R.bigfish.com (216.32.181.170) by
+	CH1EHSOBE015.bigfish.com (10.43.70.65) with Microsoft SMTP Server id
+	14.1.225.22; Fri, 30 Sep 2011 15:48:39 +0000
+Received: from mail78-ch1 (localhost.localdomain [127.0.0.1])	by
+	mail78-ch1-R.bigfish.com (Postfix) with ESMTP id 549D6190398	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2011 15:48:39 +0000 (UTC)
+X-SpamScore: -12
+X-BigFish: VS-12(zz9371K1432N98dKzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3h61h)
+X-Spam-TCS-SCL: 0:0
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
+	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail78-ch1 (localhost.localdomain [127.0.0.1]) by mail78-ch1
+	(MessageSwitch) id 1317397699778246_14270;
+	Fri, 30 Sep 2011 15:48:19 +0000 (UTC)
+Received: from CH1EHSMHS009.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.247])	by mail78-ch1.bigfish.com (Postfix) with ESMTP id
+	AAE72BE8052 for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2011 15:48:19 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS009.bigfish.com
+	(10.43.70.9) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Fri, 30 Sep 2011 15:48:18 +0000
+Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.230]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.01.0323.007; Fri, 30 Sep 2011 10:48:18 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] Add bash as RDEPENDS for gstreamer
+Thread-Index: AQHMf4hfqtTcGzFVY0+/7FDdYAqquA==
+Date: Fri, 30 Sep 2011 15:48:18 +0000
+Message-ID: <CAEsOVNdKPk833GDMYrjGgjOMhmOxGWPzevEWUy3CzUsa2LCHSw@mail.gmail.com>
+References: <1317347777-10288-1-git-send-email-msm@freescale.com>
+	<1317374475.12332.134.camel@ted>
+In-Reply-To: <1317374475.12332.134.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH] Add bash as RDEPENDS for gstreamer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -43,107 +61,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 15:50:08 -0000
+X-List-Received-Date: Fri, 30 Sep 2011 15:54:09 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <159861B3493BD845A27E95003B6D4C82@freescale.net>
+Content-Transfer-Encoding: quoted-printable
 
-* older version doesn't build with glib-2.30.0
+On Fri, Sep 30, 2011 at 4:20 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> What image target are you building? I'm having trouble visualising an
+> image that doesn't include bash or busybox and if either of these are
+> present, that dependency should be met...
+>
+> If this is a toolchain/SDK, there were some recent tweaks which address
+> this problem.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- ...Duplicate-the-exec-string-returned-by-gtk.patch |    0
- .../cellrenderer-cairo.patch                       |    0
- .../configurefix.patch                             |    0
- .../{gtk+-2.22.1 => gtk+-2.24.6}/doc-fixes.patch   |    0
- .../{gtk+-2.22.1 => gtk+-2.24.6}/entry-cairo.patch |    0
- .../hardcoded_libtool.patch                        |    0
- .../{gtk+-2.22.1 => gtk+-2.24.6}/no-demos.patch    |    0
- .../run-iconcache.patch                            |    0
- .../{gtk+-2.22.1 => gtk+-2.24.6}/toggle-font.diff  |    0
- .../{gtk+-2.22.1 => gtk+-2.24.6}/xsettings.patch   |    0
- .../gtk+/{gtk+_2.22.1.bb => gtk+_2.24.6.bb}        |    8 +++-----
- 11 files changed, 3 insertions(+), 5 deletions(-)
- rename meta/recipes-gnome/gtk+/{gtk+-2.22.1 => gtk+-2.24.6}/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.22.1 => gtk+-2.24.6}/cellrenderer-cairo.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.22.1 => gtk+-2.24.6}/configurefix.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.22.1 => gtk+-2.24.6}/doc-fixes.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.22.1 => gtk+-2.24.6}/entry-cairo.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.22.1 => gtk+-2.24.6}/hardcoded_libtool.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.22.1 => gtk+-2.24.6}/no-demos.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.22.1 => gtk+-2.24.6}/run-iconcache.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.22.1 => gtk+-2.24.6}/toggle-font.diff (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.22.1 => gtk+-2.24.6}/xsettings.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+_2.22.1.bb => gtk+_2.24.6.bb} (90%)
+It was meta-toolchain-sdk, please drop this patch if that is the case.
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+-2.22.1/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.6/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch
-similarity index 100%
-rename from meta/recipes-gnome/gtk+/gtk+-2.22.1/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch
-rename to meta/recipes-gnome/gtk+/gtk+-2.24.6/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch
-diff --git a/meta/recipes-gnome/gtk+/gtk+-2.22.1/cellrenderer-cairo.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.6/cellrenderer-cairo.patch
-similarity index 100%
-rename from meta/recipes-gnome/gtk+/gtk+-2.22.1/cellrenderer-cairo.patch
-rename to meta/recipes-gnome/gtk+/gtk+-2.24.6/cellrenderer-cairo.patch
-diff --git a/meta/recipes-gnome/gtk+/gtk+-2.22.1/configurefix.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.6/configurefix.patch
-similarity index 100%
-rename from meta/recipes-gnome/gtk+/gtk+-2.22.1/configurefix.patch
-rename to meta/recipes-gnome/gtk+/gtk+-2.24.6/configurefix.patch
-diff --git a/meta/recipes-gnome/gtk+/gtk+-2.22.1/doc-fixes.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.6/doc-fixes.patch
-similarity index 100%
-rename from meta/recipes-gnome/gtk+/gtk+-2.22.1/doc-fixes.patch
-rename to meta/recipes-gnome/gtk+/gtk+-2.24.6/doc-fixes.patch
-diff --git a/meta/recipes-gnome/gtk+/gtk+-2.22.1/entry-cairo.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.6/entry-cairo.patch
-similarity index 100%
-rename from meta/recipes-gnome/gtk+/gtk+-2.22.1/entry-cairo.patch
-rename to meta/recipes-gnome/gtk+/gtk+-2.24.6/entry-cairo.patch
-diff --git a/meta/recipes-gnome/gtk+/gtk+-2.22.1/hardcoded_libtool.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.6/hardcoded_libtool.patch
-similarity index 100%
-rename from meta/recipes-gnome/gtk+/gtk+-2.22.1/hardcoded_libtool.patch
-rename to meta/recipes-gnome/gtk+/gtk+-2.24.6/hardcoded_libtool.patch
-diff --git a/meta/recipes-gnome/gtk+/gtk+-2.22.1/no-demos.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.6/no-demos.patch
-similarity index 100%
-rename from meta/recipes-gnome/gtk+/gtk+-2.22.1/no-demos.patch
-rename to meta/recipes-gnome/gtk+/gtk+-2.24.6/no-demos.patch
-diff --git a/meta/recipes-gnome/gtk+/gtk+-2.22.1/run-iconcache.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.6/run-iconcache.patch
-similarity index 100%
-rename from meta/recipes-gnome/gtk+/gtk+-2.22.1/run-iconcache.patch
-rename to meta/recipes-gnome/gtk+/gtk+-2.24.6/run-iconcache.patch
-diff --git a/meta/recipes-gnome/gtk+/gtk+-2.22.1/toggle-font.diff b/meta/recipes-gnome/gtk+/gtk+-2.24.6/toggle-font.diff
-similarity index 100%
-rename from meta/recipes-gnome/gtk+/gtk+-2.22.1/toggle-font.diff
-rename to meta/recipes-gnome/gtk+/gtk+-2.24.6/toggle-font.diff
-diff --git a/meta/recipes-gnome/gtk+/gtk+-2.22.1/xsettings.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.6/xsettings.patch
-similarity index 100%
-rename from meta/recipes-gnome/gtk+/gtk+-2.22.1/xsettings.patch
-rename to meta/recipes-gnome/gtk+/gtk+-2.24.6/xsettings.patch
-diff --git a/meta/recipes-gnome/gtk+/gtk+_2.22.1.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.6.bb
-similarity index 90%
-rename from meta/recipes-gnome/gtk+/gtk+_2.22.1.bb
-rename to meta/recipes-gnome/gtk+/gtk+_2.24.6.bb
-index ea8a5cb..c017f99 100644
---- a/meta/recipes-gnome/gtk+/gtk+_2.22.1.bb
-+++ b/meta/recipes-gnome/gtk+/gtk+_2.24.6.bb
-@@ -4,9 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
-                     file://gtk/gtk.h;endline=27;md5=c59e0b4490dd135a5726ebf851f9b17f \
-                     file://gdk/gdk.h;endline=27;md5=07db285ec208fb3e0bf7d861b0614202 \
-                     file://tests/testgtk.c;endline=27;md5=262db5db5f776f9863e56df31423e24c"
--PR = "r5"
--
--SRC_URI = "http://download.gnome.org/sources/gtk+/2.22/gtk+-${PV}.tar.bz2 \
-+SRC_URI = "http://download.gnome.org/sources/gtk+/2.24/gtk+-${PV}.tar.bz2 \
-            file://xsettings.patch \
-            file://run-iconcache.patch \
-            file://hardcoded_libtool.patch \
-@@ -28,8 +26,8 @@ SRC_URI = "http://download.gnome.org/sources/gtk+/2.22/gtk+-${PV}.tar.bz2 \
- #        file://combo-arrow-size.patch;striplevel=0
- #            file://configurefix.patch
- 
--SRC_URI[md5sum] = "fdce46ba354c155230b7d4090b17f7d9"
--SRC_URI[sha256sum] = "965bc124f0d25087c4cb2a64cbfd7e4f896e05be8d560fbba68dd8685ba24d07"
-+SRC_URI[md5sum] = "421100f6597e613234f8dead6091a9fe"
-+SRC_URI[sha256sum] = "6f45bdbf9ea27eb3b5f977d7ee2365dede0d0ce454985680c26e5210163bbf37"
- 
- EXTRA_OECONF = "--without-libtiff --without-libjasper --enable-xkb --disable-glibtest --disable-cups --disable-xinerama"
- 
--- 
-1.7.6.1
+-M=
 
 
 
