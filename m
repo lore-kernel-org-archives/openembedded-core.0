@@ -1,34 +1,34 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1R9Xbz-0005dc-TA
+	(envelope-from <martin.jansa@gmail.com>) id 1R9Xc3-0005dU-9E
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 09:34:24 +0200
-Received: by mail-bw0-f47.google.com with SMTP id 11so1506871bke.6
+	Fri, 30 Sep 2011 09:34:28 +0200
+Received: by mail-bw0-f47.google.com with SMTP id 11so1506817bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 00:28:53 -0700 (PDT)
+	Fri, 30 Sep 2011 00:29:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=zIK5YEpsfO2bbki3+OOF/zjorm7lQI+sITKFwyWLqvE=;
-	b=sA6VOe7duTJQnRnUN8saHJMQXXT5a5qxI2jua3+b9FK+bemm3WIQlPLGUfbc26p5zu
-	WBhPlugS15S4HBWdZPTxICqvsNv+SREV/lJmu1acl1hKdfbJR8ZfWZJZTPki6b8ELHcq
-	jYW5RrteiN/NFTzMbm+tAcp9OZ0FzMt0q7Tag=
-Received: by 10.204.135.14 with SMTP id l14mr7690640bkt.87.1317367733023;
-	Fri, 30 Sep 2011 00:28:53 -0700 (PDT)
+	bh=fwXEPqK/HSxWenxjJBQ9WsL/JYUbhImM3m5OA2cXNGk=;
+	b=F0ly/Z0qji4JAEyPHSquzNOPQHJixoD2RoyL4gwDUXslM5E/gJZ1sEck2/9rgt47QJ
+	nXEFNiqOKSzH9l2RUAj6OKknd84ijtUB9ltc7v70DMr5gK/ncJU5E4cQSZITO1W2UN8z
+	CAkUp1yztZnJbnVWif57qfv0avaI5wzmAxlwk=
+Received: by 10.204.130.215 with SMTP id u23mr4798908bks.8.1317367740782;
+	Fri, 30 Sep 2011 00:29:00 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id m18sm3921247bkt.12.2011.09.30.00.28.51
+	by mx.google.com with ESMTPS id l15sm3929249bkw.9.2011.09.30.00.28.59
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 30 Sep 2011 00:28:52 -0700 (PDT)
+	Fri, 30 Sep 2011 00:28:59 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Sep 2011 09:27:22 +0200
-Message-Id: <2c12e32cc688b78bbaedc026532f5dfb3e118c39.1317367429.git.Martin.Jansa@gmail.com>
+Date: Fri, 30 Sep 2011 09:27:23 +0200
+Message-Id: <f7457ea8882ead3006149cc3943c0d68079d233b.1317367429.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.6.1
 In-Reply-To: <06d9f58329265e028db9c5104ecbd7726daa077c.1317367429.git.Martin.Jansa@gmail.com>
 References: <06d9f58329265e028db9c5104ecbd7726daa077c.1317367429.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1317367429.git.Martin.Jansa@gmail.com>
 References: <cover.1317367429.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 11/13] libdrm: improve packaging
+Subject: [PATCH 12/13] glx-use-tls: add from meta-oe layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,51 +43,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 07:34:25 -0000
+X-List-Received-Date: Fri, 30 Sep 2011 07:34:28 -0000
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-graphics/drm/libdrm.inc       |    7 ++++---
- meta/recipes-graphics/drm/libdrm_2.4.26.bb |    2 +-
- meta/recipes-graphics/drm/libdrm_git.bb    |    2 +-
- 3 files changed, 6 insertions(+), 5 deletions(-)
+ meta/classes/glx-use-tls.bbclass |    7 +++++++
+ 1 files changed, 7 insertions(+), 0 deletions(-)
+ create mode 100644 meta/classes/glx-use-tls.bbclass
 
-diff --git a/meta/recipes-graphics/drm/libdrm.inc b/meta/recipes-graphics/drm/libdrm.inc
-index 1ad9dc3..20d7f1f 100644
---- a/meta/recipes-graphics/drm/libdrm.inc
-+++ b/meta/recipes-graphics/drm/libdrm.inc
-@@ -15,7 +15,8 @@ DEPENDS += " libpciaccess"
- 
- inherit autotools pkgconfig
- 
--PACKAGES =+ "libdrm-tests"
--FILES_libdrm-tests = "${bindir}/dr* ${bindir}/mode*"
-+PACKAGES =+ "${PN}-tests ${PN}-drivers ${PN}-kms"
-+FILES_${PN}-tests = "${bindir}/dr* ${bindir}/mode*"
-+FILES_${PN}-drivers = "${libdir}/libdrm_*.so.*"
-+FILES_${PN}-kms = "${libdir}/libkms*.so.*"
- 
--LEAD_SONAME = "libdrm.so"
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.26.bb b/meta/recipes-graphics/drm/libdrm_2.4.26.bb
-index e5aa6a4..f7a7307 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.26.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.26.bb
-@@ -7,4 +7,4 @@ SRC_URI += "file://installtests.patch"
- SRC_URI[md5sum] = "062569426773f69b11a47a7712bba770"
- SRC_URI[sha256sum] = "b25b06ab5a077736044cbd9a3a05a9a23b873a0887ab1aaf93aa2b3218b2d3dc"
- 
--PR = "r0"
-+PR = "r1"
-diff --git a/meta/recipes-graphics/drm/libdrm_git.bb b/meta/recipes-graphics/drm/libdrm_git.bb
-index 7d4e1b3..85bd4fb 100644
---- a/meta/recipes-graphics/drm/libdrm_git.bb
-+++ b/meta/recipes-graphics/drm/libdrm_git.bb
-@@ -6,4 +6,4 @@ S = ${WORKDIR}/git
- 
- SRCREV = "3f3c5be6f908272199ccf53f108b1124bfe0a00e"
- PV = "2.4.15+git${SRCPV}"
--PR = "r0"
-+PR = "r1"
+diff --git a/meta/classes/glx-use-tls.bbclass b/meta/classes/glx-use-tls.bbclass
+new file mode 100644
+index 0000000..7530872
+--- /dev/null
++++ b/meta/classes/glx-use-tls.bbclass
+@@ -0,0 +1,7 @@
++def get_tls_setting(bb, d):
++    # until we have no prober TLS support in uclibc disable it
++    if bb.data.getVar('TARGET_OS', d, 1).find('uclibc') >= 0 :
++        return ""
++    return "--enable-glx-tls"
++
++EXTRA_OECONF += "${@get_tls_setting(bb, d)}"
 -- 
 1.7.6.1
 
