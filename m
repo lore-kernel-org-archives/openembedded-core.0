@@ -1,26 +1,28 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1R9jfr-0003XU-Sq
-	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 22:27:12 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 30 Sep 2011 13:21:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,469,1312182000"; d="scan'208";a="22259284"
-Received: from unknown (HELO [10.255.15.62]) ([10.255.15.62])
-	by AZSMGA002.ch.intel.com with ESMTP; 30 Sep 2011 13:21:41 -0700
-From: Joshua Lock <josh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Sep 2011 13:21:36 -0700
-In-Reply-To: <CABcZANk3bjhA0mOzroWkx_M+YH1f01Pq9WjkgURah1yMNi_EdA@mail.gmail.com>
-References: <CA+YB3rZ0JEq2zY21kiQmUx3YFj6CYHoR0Pvg6O70UM=Mh1TN+Q@mail.gmail.com>
-	<CABcZANk1DnADdN2F39QYOOM--KyJkxbguhQ0GPmv9BFeEPG_oA@mail.gmail.com>
-	<1317412759.11645.24.camel@scimitar>
-	<CABcZANk3bjhA0mOzroWkx_M+YH1f01Pq9WjkgURah1yMNi_EdA@mail.gmail.com>
-X-Mailer: Evolution 3.0.3 (3.0.3-1.fc15) 
-Message-ID: <1317414101.11645.26.camel@scimitar>
-Mime-Version: 1.0
-Subject: Re: MINUTES: OE-TSC meeting 29-Sep-2011
+	(envelope-from <jefro.net@gmail.com>)
+	id 1R9l0p-0004fD-Vr; Fri, 30 Sep 2011 23:52:56 +0200
+Received: by iadx2 with SMTP id x2so2397994iad.6
+	for <multiple recipients>; Fri, 30 Sep 2011 14:47:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
+	:from:to:content-type;
+	bh=QtH5BNe4Oc80bDYbekTjmdFlBaGokJP4An3kywTLlaU=;
+	b=WAJ4PZ0vreuX+eD6bXe1jlDYerfwPG01G9P1BWxIzIrS/glo2FoVFjYw0Tk1prki1w
+	M+eOM7D3Mc/cu7l6p6oGg7yecfgrvUh3aEgCXlUE7i04joNKKNf743IMsKp4xlpKpftH
+	z0Dqu6lC+CEXW7vWwpGdL1s8HlS/wwdDhaqh0=
+MIME-Version: 1.0
+Received: by 10.42.148.133 with SMTP id r5mr1635491icv.220.1317419244933; Fri,
+	30 Sep 2011 14:47:24 -0700 (PDT)
+Sender: jefro.net@gmail.com
+Received: by 10.42.240.8 with HTTP; Fri, 30 Sep 2011 14:47:24 -0700 (PDT)
+Date: Fri, 30 Sep 2011 14:47:24 -0700
+X-Google-Sender-Auth: SLCvjuq9HdG2dS8syyOYtK5LVb4
+Message-ID: <CA+YB3rbP8ZxQDG_SJEK6qb7OtEy1DsZRE1Rq74rg2Vu6AKgNqA@mail.gmail.com>
+From: Jeff Osier-Mixon <jefro@jefro.net>
+To: openembedded-core <openembedded-core@lists.openembedded.org>, 
+	openembedded-devel@lists.openembedded.org, tsc <tsc@lists.openembedded.org>
+Subject: TSC meeting minutes available on wiki
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,34 +37,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 20:27:12 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 30 Sep 2011 21:52:56 -0000
+Content-Type: multipart/alternative; boundary=90e6ba2121fd1d526204ae2f9223
 
-On Fri, 2011-09-30 at 13:08 -0700, Chris Larson wrote:
-> On Fri, Sep 30, 2011 at 12:59 PM, Joshua Lock <josh@linux.intel.com> wrote:
-> > On Fri, 2011-09-30 at 11:16 -0700, Chris Larson wrote:
-> >> On Fri, Sep 30, 2011 at 11:14 AM, Jeff Osier-Mixon <jefro@jefro.net> wrote:
-> >> > 1. Jefro
-> >> > 2. a. some minutes not making it to mailing list, Jefro to post on wiki
-> >> >    b. yocto evaluating gerrit, possible patchwork replacement for OE, khem
-> >> > will research
-> >>
-> >> ReviewBoard may be worth looking at as an alternative to gerritt, as well.
-> >
-> > I think people like PatchWork and Gerrit because of their command line
-> > tools - do you know if ReviewBoard has cli tools too?
-> 
-> It does, yeah. I don't have a lot of personal experience with either
-> one, but I think we should evaluate both.
+--90e6ba2121fd1d526204ae2f9223
+Content-Type: text/plain; charset=ISO-8859-1
 
-Good to know, I concur!
+I have updated the TSC wiki page to include all of the minutes since the
+interim TSC was announced by the board on Feb 10. Going forward, I will
+place new minutes on this page in date order.
 
-Joshua
+http://www.openembedded.org/wiki/TSC
+
+thanks,
 -- 
-Joshua Lock
-        Yocto Project "Johannes factotum"
-        Intel Open Source Technology Centre
+Jeff Osier-Mixon http://jefro.net/blog
+Yocto Project Community Manager @Intel http://yoctoproject.org
 
+--90e6ba2121fd1d526204ae2f9223
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+I have updated the TSC wiki page to include all of the minutes since the in=
+terim TSC was announced by the board on Feb 10. Going forward, I will place=
+ new minutes on this page in date order.<div><br></div><div><a href=3D"http=
+://www.openembedded.org/wiki/TSC">http://www.openembedded.org/wiki/TSC</a><=
+br clear=3D"all">
+<div><br></div><div>thanks,</div>-- <br>Jeff Osier-Mixon <a href=3D"http://=
+jefro.net/blog" target=3D"_blank">http://jefro.net/blog</a><div>Yocto Proje=
+ct Community Manager @Intel <a href=3D"http://yoctoproject.org" target=3D"_=
+blank">http://yoctoproject.org</a></div>
+<br>
+</div>
 
+--90e6ba2121fd1d526204ae2f9223--
