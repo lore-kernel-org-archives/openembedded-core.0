@@ -1,34 +1,34 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R9bVs-000623-3f for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 13:44:20 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8UBjF9S014087 for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 12:45:15 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id OJX8QSVdDfpU
+	(envelope-from <martin.jansa@gmail.com>) id 1R9bgL-00069L-BX
+	for openembedded-core@lists.openembedded.org;
+	Fri, 30 Sep 2011 13:55:09 +0200
+Received: by bke11 with SMTP id 11so1694069bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 12:45:14 +0100 (BST)
-Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8UBj8ml014083
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 12:45:10 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 30 Sep 2011 04:49:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=zsB2IZPoT3Z5l1YYzUGJgUthfdk2Qs+++MVKLPdGJXA=;
+	b=iSP8Kj5viBg4VWMWxt0jqO0MNqN4H9FyWbUWmqrsBphXen0NNiXHlTpo8uVV4BmqEy
+	N2YfdKzFN7u09Pv0TYHcPGpbmlvTBv60qOGvdhGP2x381pGu24TyFRRGRrraIHi2mXiN
+	Z7EsnXKhb/MlKuql2nJlOt/Fn/6wuthhONCX4=
+Received: by 10.204.152.26 with SMTP id e26mr7872116bkw.342.1317383380482;
+	Fri, 30 Sep 2011 04:49:40 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id s12sm4700610bkt.4.2011.09.30.04.49.38
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 30 Sep 2011 04:49:39 -0700 (PDT)
+Date: Fri, 30 Sep 2011 13:49:33 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Sep 2011 12:38:39 +0100
-In-Reply-To: <1317322353-30258-1-git-send-email-msm@freescale.com>
-References: <1317322353-30258-1-git-send-email-msm@freescale.com>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1317382729.12332.174.camel@ted>
-Mime-Version: 1.0
-Subject: Re: [PATCH v2 10/16] Fix mdadm for powerpc64
+Message-ID: <20110930114932.GD15856@jama.jama.net>
+References: <1317382380.12332.171.camel@ted>
+MIME-Version: 1.0
+In-Reply-To: <1317382380.12332.171.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: Slight change to merging procedure - master-next
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,47 +43,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 11:44:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 30 Sep 2011 11:55:09 -0000
+X-Groupsio-MsgNum: 10282
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="BI5RvnYi6R4T2M87"
+Content-Disposition: inline
 
-On Thu, 2011-09-29 at 13:52 -0500, Matthew McClintock wrote:
-> This fixes build failures from build warnings on powerpc64
-> 
-> Signed-off-by: Matthew McClintock <msm@freescale.com>
-> ---
->  meta/recipes-extended/mdadm/mdadm_3.2.2.bb |    3 ++-
->  1 files changed, 2 insertions(+), 1 deletions(-)
-> 
-> diff --git a/meta/recipes-extended/mdadm/mdadm_3.2.2.bb b/meta/recipes-extended/mdadm/mdadm_3.2.2.bb
-> index 5d29ae7..1c83f89 100644
-> --- a/meta/recipes-extended/mdadm/mdadm_3.2.2.bb
-> +++ b/meta/recipes-extended/mdadm/mdadm_3.2.2.bb
-> @@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
->                      file://mdmon.c;beginline=4;endline=18;md5=af7d8444d9c4d3e5c7caac0d9d34039d \
->                      file://mdadm.h;beglinlne=4;endline=22;md5=462bc9936ac0d3da110191a3f9994161"
->  
-> -PR = "r0"
-> +PR = "r1"
->  
->  SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.bz2"
->  
-> @@ -16,6 +16,7 @@ SRC_URI[md5sum] = "12ee2fbf3beddb60601fb7a4c4905651"
->  SRC_URI[sha256sum] = "0d1a04e688b082bc88846e3f524abd50bc782b6ffc06123140f7d358c8f9b906"
->  
->  CFLAGS += "-fno-strict-aliasing"
-> +EXTRA_OEMAKE_append_powerpc64 = "CXFLAGS=-Wno-error=format"
+--BI5RvnYi6R4T2M87
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-That isn't quite what I meant, that also overwrites anything existing in
-CXFLAGS just in a different way. Also, I suspect you mean CXXFLAGS?
+On Fri, Sep 30, 2011 at 12:32:54PM +0100, Richard Purdie wrote:
+> One of the issues I've been having is that I read through patches once
+> doing review and then have to wait ~24 hours before merging any patches
+> I think are acceptable in case others have comments. This means I have
+> to go through emails twice and its a bit of a pain.
+>=20
+> I'm therefore going to start maintaining master-next with patches I
+> think are ready. They'll sit there for 24 hours before being merged if
+> there aren't other issues raised by anyone else.
+>=20
+> I could just do this in private but I'm choosing to make it public. I
+> want to be clear that branch can rebase and change, its not definite
+> until it hits master. I hope some people find it useful.
 
-I'd meant something like:
+I do find it useful, thanks for that.
 
-CXXFLAGS_append_powerpc64 = " -Wno-error=format"
+/me already rebasing remaining changes from xorg patchset on top of
+master-next ;)
 
-Cheers,
+BTW: is there any plan to give some information when something is
+dropped from master-next? Like: "dropping this from master-next, because
+of feedback from Joe, please send updated patch"
 
-Richard
+Regards,
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--BI5RvnYi6R4T2M87
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk6FrMwACgkQN1Ujt2V2gBycqwCfZ+lK0IVvmmD3K1H4xeCoEXwj
+4IAAoLDxZiTmkikaVvetozGXnbZQc0n8
+=nNM5
+-----END PGP SIGNATURE-----
+
+--BI5RvnYi6R4T2M87--
