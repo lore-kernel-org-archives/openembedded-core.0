@@ -1,34 +1,34 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1R9XbX-0005dU-NK
+	(envelope-from <martin.jansa@gmail.com>) id 1R9Xbf-0005dc-Lo
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Sep 2011 09:33:55 +0200
-Received: by mail-bw0-f47.google.com with SMTP id 11so1506817bke.6
+	Fri, 30 Sep 2011 09:34:03 +0200
+Received: by mail-bw0-f47.google.com with SMTP id 11so1506871bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 00:28:29 -0700 (PDT)
+	Fri, 30 Sep 2011 00:28:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=6jdbJgu3mmlfsQrGSUhRe5lwALIna6qu7J13+zQtlfU=;
-	b=n5aT4QmUVKYPRSpQOmO4PXFMOLiaI+RDKPX5tKWVfyfmW5ywE8/sIonNQ0rFeOZJr7
-	K+fawENVMkoY0peGZayDeexcnUCNdhefrTdjeID/N/WSnXv5cL5sBKU52ifwYSApJvpF
-	zE3lccjelWpviHEEFAbjaXUtT2vg5QstkbSO0=
-Received: by 10.204.144.15 with SMTP id x15mr4067983bku.9.1317367709414;
-	Fri, 30 Sep 2011 00:28:29 -0700 (PDT)
+	bh=IH/BfheSpubq7Y6xSTbmJ1PWmLGwMkc0ENt27kGiqlI=;
+	b=sfEcmnnvm1shgdMbvDqFL8pMUBVOOE/3ckY1/HiDbbXy92Vp8d31OErbaDjzy0gxAv
+	coZ5vPKinhtn+XJhiQ9H2NjmsOj0rWgNxuzN52KQ3gmVXsrTnYlDGrIsmw3kIakruv7M
+	rfZIBpd++sTvytJzMwucaT2KO4JWZgWviKbuQ=
+Received: by 10.204.142.200 with SMTP id r8mr7761257bku.213.1317367717170;
+	Fri, 30 Sep 2011 00:28:37 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id j16sm3941512bks.3.2011.09.30.00.28.27
+	by mx.google.com with ESMTPS id j16sm3941775bks.3.2011.09.30.00.28.35
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 30 Sep 2011 00:28:28 -0700 (PDT)
+	Fri, 30 Sep 2011 00:28:36 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Sep 2011 09:27:19 +0200
-Message-Id: <99d9aa4c389e2b3a32a82969ac1fc5c0d86c93d4.1317367429.git.Martin.Jansa@gmail.com>
+Date: Fri, 30 Sep 2011 09:27:20 +0200
+Message-Id: <121b26267ee494182d88e07b7fe63761088b8bde.1317367429.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.6.1
 In-Reply-To: <06d9f58329265e028db9c5104ecbd7726daa077c.1317367429.git.Martin.Jansa@gmail.com>
 References: <06d9f58329265e028db9c5104ecbd7726daa077c.1317367429.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1317367429.git.Martin.Jansa@gmail.com>
 References: <cover.1317367429.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 08/13] xf86-video-omapfb: bump SRCREV and add patch from meta-oe
+Subject: [PATCH 09/13] xserver-nodm-init: merge some changes from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,392 +43,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 07:33:55 -0000
+X-List-Received-Date: Fri, 30 Sep 2011 07:34:03 -0000
+
+* /etc/X11/Xusername handling should be moved to x11-common so the same
+  username and logic is used from initscript and when user starts it
+  from terminal
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../0004-Attempt-to-fix-VRFB.patch                 |  325 ++++++++++++++++++++
- .../xorg-driver/xf86-video-omapfb_git.bb           |   20 +-
- 2 files changed, 335 insertions(+), 10 deletions(-)
- create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-omapfb/0004-Attempt-to-fix-VRFB.patch
+ .../x11-common/xserver-nodm-init/xserver-nodm      |   30 ++++++--------------
+ 1 files changed, 9 insertions(+), 21 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-omapfb/0004-Attempt-to-fix-VRFB.patch b/meta/recipes-graphics/xorg-driver/xf86-video-omapfb/0004-Attempt-to-fix-VRFB.patch
-new file mode 100644
-index 0000000..6b59b9f
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-omapfb/0004-Attempt-to-fix-VRFB.patch
-@@ -0,0 +1,325 @@
-+From 9f034f7a83751e4d1bbff6dd742d54bd96d38230 Mon Sep 17 00:00:00 2001
-+From: Eino-Ville Talvala <talvala@stanford.edu>
-+Date: Tue, 23 Aug 2011 18:37:01 +0200
-+Subject: [PATCH] Attempt to fix VRFB 
+diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
+index c707a4b..9cd7904 100755
+--- a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
++++ b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
+@@ -8,10 +8,7 @@
+ # Default-Stop:      0 1 6
+ ### END INIT INFO
+ 
+-killproc() {            # kill the named process(es)
+-        pid=`/bin/pidof $1`
+-        [ "$pid" != "" ] && kill $pid
+-}
++. /etc/init.d/functions
+ 
+ read CMDLINE < /proc/cmdline
+ for x in $CMDLINE; do
+@@ -25,25 +22,16 @@ done
+ 
+ case "$1" in
+   start)
++    # We don't want this script to block the rest of the boot process
++    if [ "$2" != "background" ]; then
++      $0 $1 background &
++    else
+        . /etc/profile
+-       username=root
 +
-+Upstream-Status: Pending
-+
-+http://dominion.thruhere.net/git/cgit.cgi/xf86-video-omapfb/commit/?h=koen/fixups&id=6833fc9f795265e4943d248103fbaf3463b515d6
-+
-+Signed-off-by: Sebastian Krzyszkowiak <dos@dosowisko.net>
-+
-+---
-+ src/image-format-conversions.c |    4 +-
-+ src/image-format-conversions.h |    2 +-
-+ src/omapfb-driver.c            |   28 +++++++++++++--
-+ src/omapfb-xv-blizzard.c       |    1 +
-+ src/omapfb-xv-generic.c        |   72 +++++++++++++++++++++++++++++++--------
-+ src/omapfb-xv.c                |    3 ++
-+ 6 files changed, 88 insertions(+), 22 deletions(-)
-+
-+diff --git a/src/image-format-conversions.c b/src/image-format-conversions.c
-+index dcefa9b..d43427d 100644
-+--- a/src/image-format-conversions.c
-++++ b/src/image-format-conversions.c
-+@@ -38,13 +38,13 @@
-+ #include "image-format-conversions.h"
-+ 
-+ /* Basic line-based copy for packed formats */
-+-void packed_line_copy(int w, int h, int stride, uint8_t *src, uint8_t *dest)
-++void packed_line_copy(int w, int h, int src_stride, int dst_stride, uint8_t *src, uint8_t *dest)
-+ {
-+ 	int i;
-+ 	int len = w * 2;
-+ 	for (i = 0; i < h; i++)
-+ 	{
-+-		memcpy(dest + i * len, src + i * stride, len);
-++		memcpy(dest + i * dst_stride, src + i * src_stride, len);
-+ 	}
-+ }
-+ 
-+diff --git a/src/image-format-conversions.h b/src/image-format-conversions.h
-+index 584896a..ba7caf2 100644
-+--- a/src/image-format-conversions.h
-++++ b/src/image-format-conversions.h
-+@@ -27,7 +27,7 @@
-+ #include <stdint.h>
-+ 
-+ /* Basic line-based copy for packed formats */
-+-void packed_line_copy(int w, int h, int stride, uint8_t *src, uint8_t *dest);
-++void packed_line_copy(int w, int h, int src_stride, int dst_stride, uint8_t *src, uint8_t *dest);
-+ 
-+ /* Basic C implementation of YV12/I420 to UYVY conversion */
-+ void uv12_to_uyvy(int w, int h, int y_pitch, int uv_pitch, uint8_t *y_p, uint8_t *u_p, uint8_t *v_p, uint8_t *dest);
-+diff --git a/src/omapfb-driver.c b/src/omapfb-driver.c
-+index 48aa09c..07989f5 100644
-+--- a/src/omapfb-driver.c
-++++ b/src/omapfb-driver.c
-+@@ -66,6 +66,7 @@
-+ #define OMAPFB_VERSION 1000
-+ #define OMAPFB_DRIVER_NAME "OMAPFB"
-+ #define OMAPFB_NAME "omapfb"
-++#define ENFORCE_MODES
-+ 
-+ static Bool OMAPFBProbe(DriverPtr drv, int flags);
-+ static Bool OMAPFBPreInit(ScrnInfoPtr pScrn, int flags);
-+@@ -105,11 +106,13 @@ static SymTabRec OMAPFBChipsets[] = {
-+ typedef enum {
-+ 	OPTION_ACCELMETHOD,
-+ 	OPTION_FB,
-++	OPTION_ROTATE,
-+ } FBDevOpts;
-+ 
-+ static const OptionInfoRec OMAPFBOptions[] = {
-+ 	{ OPTION_ACCELMETHOD,	"AccelMethod",	OPTV_STRING,	{0},	FALSE },
-+ 	{ OPTION_FB,		"fb",		OPTV_STRING,	{0},	FALSE },
-++	{ OPTION_ROTATE,	"rotation",	OPTV_STRING,	{0},	FALSE },
-+ 	{ -1,			NULL,		OPTV_NONE,	{0},	FALSE }
-+ };
-+ 
-+@@ -286,6 +289,7 @@ OMAPFBPreInit(ScrnInfoPtr pScrn, int flags)
-+ {
-+ 	OMAPFBPtr ofb;
-+ 	EntityInfoPtr pEnt;
-++	char *rotate;
-+ 	rgb zeros = { 0, 0, 0 };
-+ 	struct stat st;
-+ 
-+@@ -379,6 +383,8 @@ OMAPFBPreInit(ScrnInfoPtr pScrn, int flags)
-+ 	pScrn->progClock = TRUE;
-+ 	pScrn->chipset   = "omapfb";
-+ 	
-++	xf86DrvMsg(pScrn->scrnIndex, X_INFO, "Rotate test version 0.02\n");
-++	
-+ 	/* Start with configured virtual size */
-+ 	pScrn->virtualX = pScrn->display->virtualX;
-+ 	pScrn->virtualY = pScrn->display->virtualY;
-+@@ -496,12 +502,21 @@ OMAPFBScreenInit(int scrnIndex, ScreenPtr pScreen, int argc, char **argv)
-+ 	ofb->CloseScreen = pScreen->CloseScreen;
-+ 	pScreen->CloseScreen = OMAPFBCloseScreen;
-+ 
-++	/* Enforce the default mode (this is silly I guess) */
-++#ifdef ENFORCE_MODES
-++	//xf86DrvMsg(pScrn->scrnIndex, X_INFO, "Enforcing modes\n");
-++	//set_mode(ofb, &ofb->default_mode);
-++	//pScrn->displayWidth = ofb->fixed_info.line_length /
-++	//  (ofb->state_info.bits_per_pixel>>3); //ofb->state_info.xres;
-++#endif
-++
-+ 	/* Map our framebuffer memory */
-++	ofb->mem_info.size = ofb->fixed_info.line_length * ofb->state_info.yres;
-+ 	ofb->fb = mmap (NULL, ofb->mem_info.size,
-+ 	                PROT_READ | PROT_WRITE, MAP_SHARED,
-+ 	                ofb->fd, 0);
-+-	if (ofb->fb == NULL) {
-+-		xf86DrvMsg(scrnIndex, X_ERROR, "Mapping framebuffer memory failed\n");
-++	if (ofb->fb == MAP_FAILED) {
-++		xf86DrvMsg(scrnIndex, X_ERROR, "Mapping framebuffer memory failed, wanted %d bytes.\n", ofb->mem_info.size);
-+ 		return FALSE;
-+ 	}
-+ 
-+@@ -578,8 +593,13 @@ OMAPFBScreenInit(int scrnIndex, ScreenPtr pScreen, int argc, char **argv)
-+ 	} else if (!ofb->dss) {
-+ 
-+ 		ofb->plane_info.enabled = 1;
-+-		ofb->plane_info.out_width = ofb->state_info.xres;
-+-		ofb->plane_info.out_height = ofb->state_info.yres;
-++		if (ofb->state_info.rotate == 0 || ofb->state_info.rotate == 2) {
-++			ofb->plane_info.out_width = ofb->state_info.xres;
-++			ofb->plane_info.out_height = ofb->state_info.yres;
-++		} else {
-++			ofb->plane_info.out_width = ofb->state_info.yres;
-++			ofb->plane_info.out_height = ofb->state_info.xres;
-++		}
-+ 
-+ 		if (ioctl (ofb->fd, OMAPFB_SETUP_PLANE, &ofb->plane_info)) {
-+ 			xf86DrvMsg(scrnIndex, X_ERROR,
-+diff --git a/src/omapfb-xv-blizzard.c b/src/omapfb-xv-blizzard.c
-+index 406ffc6..b71d2aa 100644
-+--- a/src/omapfb-xv-blizzard.c
-++++ b/src/omapfb-xv-blizzard.c
-+@@ -220,6 +220,7 @@ int OMAPFBXVPutImageBlizzard (ScrnInfoPtr pScrn,
-+ 			packed_line_copy(src_w & ~3,
-+ 			                 src_h & ~3,
-+ 			                 ((src_w + 1) & ~1) * 2,
-++					 ofb->port->fixed_info.line_length,
-+ 			                 (uint8_t*)buf,
-+ 			                 (uint8_t*)ofb->port->fb);
-+ 			break;
-+diff --git a/src/omapfb-xv-generic.c b/src/omapfb-xv-generic.c
-+index e6f89fe..b33f344 100644
-+--- a/src/omapfb-xv-generic.c
-++++ b/src/omapfb-xv-generic.c
-+@@ -62,7 +62,7 @@ int OMAPXVAllocPlane(ScrnInfoPtr pScrn)
-+ {
-+ 	OMAPFBPtr ofb = OMAPFB(pScrn);
-+ 
-+-	/* The memory size is already set in OMAPFBXVQueryImageAttributes */
-++	/* The memory size is already set before we get here */
-+ 	if (ioctl(ofb->port->fd, OMAPFB_SETUP_MEM, &ofb->port->mem_info) != 0) {
-+ 		xf86DrvMsg(pScrn->scrnIndex, X_ERROR,
-+ 		           "Failed to allocate video plane memory\n");
-+@@ -73,19 +73,20 @@ int OMAPXVAllocPlane(ScrnInfoPtr pScrn)
-+ 	ofb->port->fb = mmap (NULL, ofb->port->mem_info.size,
-+ 	                PROT_READ | PROT_WRITE, MAP_SHARED,
-+ 	                ofb->port->fd, 0);
-+-	if (ofb->port->fb == NULL) {
-++	if (ofb->port->fb == MAP_FAILED) {
-+ 		xf86DrvMsg(pScrn->scrnIndex, X_ERROR,
-+ 		           "Mapping video memory failed\n");
-+ 		return XvBadAlloc;
-+ 	}
-+ 
-+ 	/* Update the state info */
-++	/* Let's not - it's bad
-+ 	if (ioctl (ofb->port->fd, FBIOGET_VSCREENINFO, &ofb->port->state_info))
-+ 	{
-+ 		xf86Msg(X_ERROR, "%s: Reading state info failed\n", __FUNCTION__);
-+ 		return XvBadAlloc;
-+ 	}
-+-
-++	*/
-+ 	return Success;
-+ }
-+ 
-+@@ -93,6 +94,7 @@ int OMAPXVAllocPlane(ScrnInfoPtr pScrn)
-+ int OMAPXVSetupVideoPlane(ScrnInfoPtr pScrn)
-+ {
-+ 	OMAPFBPtr ofb = OMAPFB(pScrn);
-++	int ret;
-+ 
-+ 	if (ioctl (ofb->port->fd, FBIOPUT_VSCREENINFO, &ofb->port->state_info))
-+ 	{
-+@@ -104,6 +106,31 @@ int OMAPXVSetupVideoPlane(ScrnInfoPtr pScrn)
-+ 		xf86Msg(X_ERROR, "%s: Reading state info failed\n", __FUNCTION__);
-+ 		return XvBadAlloc;
-+ 	}
-++	/* Changing rotation/nonstd flags can change the fixed info! */
-++	if (ioctl (ofb->port->fd, FBIOGET_FSCREENINFO, &ofb->port->fixed_info))
-++	{
-++		xf86Msg(X_ERROR, "%s: Reading state info failed\n", __FUNCTION__);
-++		return XvBadAlloc;
-++	}
-++	/* Correct fixed info requires recalculation of needed memory */
-++	ofb->port->mem_info.size = ofb->port->fixed_info.line_length * ofb->port->state_info.yres;
-++
-++	/* Allocate buffer memory */
-++	ret = OMAPXVAllocPlane(pScrn);
-++	if (ret != Success)
-++		return ret;
-++
-++	/* Workaround for reset of mode after memory allo */
-++	if (ioctl (ofb->port->fd, FBIOPUT_VSCREENINFO, &ofb->port->state_info))
-++	{
-++		xf86Msg(X_ERROR, "%s: setting state info failed\n", __FUNCTION__);
-++		return XvBadAlloc;
-++	}
-++	if (ioctl (ofb->port->fd, FBIOGET_VSCREENINFO, &ofb->port->state_info))
-++	{
-++		xf86Msg(X_ERROR, "%s: Reading state info failed\n", __FUNCTION__);
-++		return XvBadAlloc;
-++	}
-+ 
-+ 	if(ioctl(ofb->port->fd, OMAPFB_SETUP_PLANE,
-+ 	   &ofb->port->plane_info) != 0) {
-+@@ -124,6 +151,8 @@ int OMAPFBXVPutImageGeneric (ScrnInfoPtr pScrn,
-+                              DrawablePtr pDraw)
-+ {
-+ 	OMAPFBPtr ofb = OMAPFB(pScrn);
-++	short drw_temp;
-++	short rot_xres, rot_yres;
-+ 
-+ 	if (!ofb->port->plane_info.enabled
-+ 	 || ofb->port->update_window.x != src_x
-+@@ -163,13 +192,6 @@ int OMAPFBXVPutImageGeneric (ScrnInfoPtr pScrn,
-+ 			return Success;
-+ 		}
-+ 
-+-		/* If we don't have the plane running, enable it */
-+-		if (!ofb->port->plane_info.enabled) {
-+-			ret = OMAPXVAllocPlane(pScrn);
-+-			if (ret != Success)
-+-				return ret;
-+-		}
-+-
-+ 		/* Set up the state info, xres and yres will be used for
-+ 		 * scaling to the values in the plane info struct
-+ 		 */
-+@@ -179,12 +201,31 @@ int OMAPFBXVPutImageGeneric (ScrnInfoPtr pScrn,
-+ 		ofb->port->state_info.yres_virtual = 0;
-+ 		ofb->port->state_info.xoffset = 0;
-+ 		ofb->port->state_info.yoffset = 0;
-+-		ofb->port->state_info.rotate = 0;
-++		//ofb->port->state_info.rotate = 0;
-+ 		ofb->port->state_info.grayscale = 0;
-+ 		ofb->port->state_info.activate = FB_ACTIVATE_NOW;
-+ 		ofb->port->state_info.bits_per_pixel = 0;
-+ 		ofb->port->state_info.nonstd = xv_to_omapfb_format(image);
-+ 
-++		/* Plane info does not rotate with state_info */
-++		if (ofb->port->state_info.rotate == 1 ||
-++		  ofb->port->state_info.rotate == 3) {
-++			drw_temp = drw_x;
-++			drw_x = drw_y;
-++			drw_y = drw_temp;
-++
-++			drw_temp = drw_w;
-++			drw_w = drw_h;
-++			drw_h = drw_temp;
-++
-++			rot_xres = ofb->port->state_info.yres;
-++			rot_yres = ofb->port->state_info.xres;
-++		} else {
-++			rot_xres = ofb->port->state_info.xres;
-++			rot_yres = ofb->port->state_info.yres;
-++		}
-++
-++
-+ 		/* Set up the video plane info */
-+ 		ofb->port->plane_info.enabled = 1;
-+ 		ofb->port->plane_info.pos_x = drw_x;
-+@@ -193,13 +234,13 @@ int OMAPFBXVPutImageGeneric (ScrnInfoPtr pScrn,
-+ 		ofb->port->plane_info.out_height = drw_h & ~15;
-+ 
-+ 		/* Cap output to screen size */
-+-		if (ofb->port->plane_info.out_width > ofb->state_info.xres) {
-++		if (ofb->port->plane_info.out_width > rot_xres) {
-+ 			ofb->port->plane_info.pos_x = 0;
-+-			ofb->port->plane_info.out_width = ofb->state_info.xres;
-++			ofb->port->plane_info.out_width = rot_xres;
-+ 		}
-+-		if (ofb->port->plane_info.out_height > ofb->state_info.yres) {
-++		if (ofb->port->plane_info.out_height > rot_yres) {
-+ 			ofb->port->plane_info.pos_y = 0;
-+-			ofb->port->plane_info.out_height = ofb->state_info.yres;
-++			ofb->port->plane_info.out_height = rot_yres;
-+ 		}
-+ 
-+ 		ret = OMAPXVSetupVideoPlane(pScrn);
-+@@ -223,6 +264,7 @@ int OMAPFBXVPutImageGeneric (ScrnInfoPtr pScrn,
-+ 			packed_line_copy(src_w & ~15,
-+ 			                 src_h & ~15,
-+ 			                 ((src_w + 1) & ~1) * 2,
-++			                 ofb->port->fixed_info.line_length,
-+ 			                 (uint8_t*)buf,
-+ 			                 (uint8_t*)ofb->port->fb);
-+ 			break;
-+diff --git a/src/omapfb-xv.c b/src/omapfb-xv.c
-+index 1df651e..0fee2c6 100644
-+--- a/src/omapfb-xv.c
-++++ b/src/omapfb-xv.c
-+@@ -169,8 +169,11 @@ static int OMAPFBXVQueryImageAttributes (ScrnInfoPtr pScrn,
-+ 	h = *height;
-+ 
-+ 	w = (w + 1) & ~1;
-++
-++	/* Can't calculate these here - don't know line length
-+ 	ofb->port->mem_info.size = w << 1;
-+ 	ofb->port->mem_info.size *= h;
-++	*/
-+ 
-+ 	return size;
-+ }
-+-- 
-+1.7.5.4
-+
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb b/meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb
-index cf58302..565ad7e 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb
-@@ -1,25 +1,25 @@
--require xorg-driver-driver.inc
-+require xorg-driver-video.inc
+        echo "Starting Xserver"
+-       if [ -f /etc/X11/Xusername ]; then
+-           username=`cat /etc/X11/Xusername`
+-           # setting for rootless X
+-           chmod o+w /var/log
+-           chmod g+r /dev/tty[0-3]
+-           chmod o+rw /dev/input/*
+-           # hidraw device is probably needed
+-           if [ -e /dev/hidraw0 ]; then
+-               chmod o+rw /dev/hidraw*
+-           fi
+-       fi
+-       # Using su rather than sudo as latest 1.8.1 cause failure [YOCTO #1211]
+-       su -l -c '/etc/X11/Xserver&' $username 
+-       # Wait for the desktop to say its finished loading
+-       # before loading the rest of the system
+-       # dbus-wait org.matchbox_project.desktop Loaded
++       . /etc/X11/xserver-common
++       xinit /etc/X11/Xsession -- `which $XSERVER` $ARGS >/var/log/Xsession.log 2>&1
++    fi 
+   ;;
  
- SUMMARY = "X.Org X server -- Texas Instruments OMAP framebuffer driver"
- 
- DESCRIPTION = "omapfb driver supports the basic Texas Instruments OMAP \
- framebuffer."
- 
--LICENSE = "MIT-X"
--LIC_FILES_CHKSUM = "file://src/omapfb-driver.c;beginline=1;endline=30;md5=a44c2a37e04d1c2c5f0313afb493f833"
-+LICENSE = "MIT-X & GPLv2+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=63e2cbac53863f60e2f43343fb34367f"
- DEPENDS += "virtual/libx11"
- 
--SRCREV = "044617665d6737f4909aab96f91b06261dff05d2"
--PE = "1"
--PR = "${INC_PR}.0"
--PV = "0.1.1+git${SRCPV}"
-+SRCREV = "28c006c94e57ea71df11ec4fff79d7ffcfc4860f"
-+PR = "${INC_PR}.5"
-+PV = "0.1.1+gitr${SRCPV}"
- 
--SRC_URI = "git://git.pingu.fi/xf86-video-omapfb.git;protocol=http \
-+SRC_URI = "git://git.pingu.fi/xf86-video-omapfb;protocol=http \
-             file://omap-revert-set-CRTC-limit.patch \
-             file://omap-revert-set-virtual-size.patch \
-             file://omap-force-plain-mode.patch  \
-             file://omap-blacklist-tv-out.patch  \
--	"
-+            file://0004-Attempt-to-fix-VRFB.patch \
-+"
- 
- S = "${WORKDIR}/git"
- 
-@@ -28,5 +28,5 @@ CFLAGS += " -I${STAGING_INCDIR}/xorg "
- 
- # Use overlay 2 on omap3 to enable other apps to use overlay 1 (e.g. dmai or omapfbplay)
- do_compile_prepend_armv7a () {
--	sed -i -e s:fb1:fb2:g ${S}/src/omapfb-xv.c
-+        sed -i -e s:fb1:fb2:g ${S}/src/omapfb-xv.c
- }
+   stop)
 -- 
 1.7.6.1
 
