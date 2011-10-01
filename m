@@ -1,34 +1,31 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>)
-	id 1RA3j9-0005aN-UM; Sat, 01 Oct 2011 19:51:56 +0200
-Received: by bke11 with SMTP id 11so3247230bke.6
-	for <multiple recipients>; Sat, 01 Oct 2011 10:46:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
-	:content-transfer-encoding;
-	bh=IXEzEABLbE3F1ZisndxeVS1TeJcoSC7qgWaDBeA2ncg=;
-	b=Sn+ZYafk8xgjPTSypSdIkohNDpSNQx+sAZgsmkjPjdmQHnQK/q4o2xjeF4sAC6Aibb
-	I5bqCMWROY4etMwYH2o3hfK3HQNnGhk1g+bwN7w6xVDZsMCZ7PEs1Ov5EsFL0Uju84zX
-	9+gC4n4IJiSH5GE3D4QNgE4oD7FtgTTi/soHY=
-MIME-Version: 1.0
-Received: by 10.204.138.193 with SMTP id b1mr8677023bku.114.1317491185270;
-	Sat, 01 Oct 2011 10:46:25 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.35.198 with HTTP; Sat, 1 Oct 2011 10:46:25 -0700 (PDT)
-In-Reply-To: <33AB447FBD802F4E932063B962385B3512DAF448FB@shsmsx501.ccr.corp.intel.com>
+	(envelope-from <koen@dominion.thruhere.net>)
+	id 1RA3nn-0005f9-Kd; Sat, 01 Oct 2011 19:56:43 +0200
+Received: by gyg8 with SMTP id 8so2379381gyg.6
+	for <multiple recipients>; Sat, 01 Oct 2011 10:51:13 -0700 (PDT)
+Received: by 10.101.165.2 with SMTP id s2mr5146726ano.58.1317491472731;
+	Sat, 01 Oct 2011 10:51:12 -0700 (PDT)
+Received: from [10.1.10.78] (rrcs-97-79-162-178.sw.biz.rr.com. [97.79.162.178])
+	by mx.google.com with ESMTPS id u4sm23426222ane.21.2011.10.01.10.51.11
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 01 Oct 2011 10:51:12 -0700 (PDT)
 References: <4E85D3E0.7070807@intel.com> <4E863AE8.7020901@mlbassoc.com>
 	<33AB447FBD802F4E932063B962385B3512DAF448FB@shsmsx501.ccr.corp.intel.com>
-Date: Sat, 1 Oct 2011 14:46:25 -0300
-X-Google-Sender-Auth: IAxt3DBdb_HeusFjC7hyPJiPKWs
-Message-ID: <CAP9ODKpnvcCJWCYDMbyL5n_HDjxb+6cwy54BWTaXqM2eH5=G_w@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+	<CAP9ODKpnvcCJWCYDMbyL5n_HDjxb+6cwy54BWTaXqM2eH5=G_w@mail.gmail.com>
+In-Reply-To: <CAP9ODKpnvcCJWCYDMbyL5n_HDjxb+6cwy54BWTaXqM2eH5=G_w@mail.gmail.com>
+Mime-Version: 1.0 (iPhone Mail 8L1)
+Message-Id: <EE88C9B7-2646-4305-A8A8-4BD2BA031C27@dominion.thruhere.net>
+X-Mailer: iPhone Mail (8L1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Sat, 1 Oct 2011 12:51:06 -0500
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Cc: "Lock, Joshua" <joshua.lock@intel.com>,
 	"bitbake-devel@lists.openembedded.org"
-	<bitbake-devel@lists.openembedded.org>
+	<bitbake-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: Feedback on HOB (new image creator GUI)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -44,30 +41,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Oct 2011 17:51:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sat, 01 Oct 2011 17:56:43 -0000
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-On Fri, Sep 30, 2011 at 21:23, Yu, Ke <ke.yu@intel.com> wrote:
-...
-> So currently, if you name your own image with XXX-image, HOB should be ab=
+
+
+Op 1 okt. 2011 om 12:46 heeft Otavio Salvador <otavio@ossystems.com.br> het v=
+olgende geschreven:
+
+> On Fri, Sep 30, 2011 at 21:23, Yu, Ke <ke.yu@intel.com> wrote:
+> ...
+>> So currently, if you name your own image with XXX-image, HOB should be ab=
 le to automatically add it in the drop-down list.
->
-> And yes, it is helpful to allow user adding item into base image list. it=
- can be done by adding one item in "Edit"->"Preference". I will add this re=
-quirement to my plan. For base image filtering, I am not sure if it is nece=
-ssary, since base image list is not that long. How do you think?
-...
+>>=20
+>> And yes, it is helpful to allow user adding item into base image list. it=
+ can be done by adding one item in "Edit"->"Preference". I will add this req=
+uirement to my plan. For base image filtering, I am not sure if it is necess=
+ary, since base image list is not that long. How do you think?
+> ...
+>=20
+> It would be nice to have a way to filter out images too. In case we're
+> customizing oe-core to a customer we might want to reduce the options
+> to avoid unsupported images to be built.
 
-It would be nice to have a way to filter out images too. In case we're
-customizing oe-core to a customer we might want to reduce the options
-to avoid unsupported images to be built.
+Like a whitelist regexp on hob.conf
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+
+>=20
+> --=20
+> Otavio Salvador                             O.S. Systems
+> E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+> Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
