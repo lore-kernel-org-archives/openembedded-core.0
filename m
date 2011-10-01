@@ -1,33 +1,37 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <julian.pidancet@gmail.com>) id 1R9mPC-0006NH-DH
-	for openembedded-core@lists.openembedded.org;
-	Sat, 01 Oct 2011 01:22:10 +0200
-Received: by mail-wy0-f175.google.com with SMTP id 5so1681120wyh.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Sep 2011 16:16:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=fiC9SRPmLNqcYfK1KEQ8SGVYgyCJUHVQc+4rqo9nwzU=;
-	b=TgmG5WYizQm8lrYL7fvEJoDGZeW66FEjUYNiwlZmQQOD0h/tdIhsC+FTzBJpcAFjzE
-	3ebLEZif24SBGhH6RCaYKmMSjHe925OQUT6b7bofPuplDR/2HAlViQm8AOIh7oUDIE6s
-	O0Qmgb3AWJZC+RDF83AK+qgyMI1Lya2bXW/sc=
-Received: by 10.216.161.66 with SMTP id v44mr342409wek.32.1317424602251;
-	Fri, 30 Sep 2011 16:16:42 -0700 (PDT)
-Received: from localhost.localdomain (188-223-88-44.zone14.bethere.co.uk.
-	[188.223.88.44])
-	by mx.google.com with ESMTPS id i29sm11252793wbp.22.2011.09.30.16.16.40
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 30 Sep 2011 16:16:41 -0700 (PDT)
-From: Julian Pidancet <julian.pidancet@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  1 Oct 2011 01:10:16 +0100
-Message-Id: <1317427816-31888-3-git-send-email-julian.pidancet@gmail.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <1317427816-31888-1-git-send-email-julian.pidancet@gmail.com>
-References: <1317427816-31888-1-git-send-email-julian.pidancet@gmail.com>
-Cc: Julian Pidancet <julian.pidancet@gmail.com>
-Subject: [PATCH v2 2/2] Use useradd and update-rc.d classes in the OpenSSH recipe
+	(envelope-from <ke.yu@intel.com>)
+	id 1R9nSd-0007Pa-NM; Sat, 01 Oct 2011 02:29:47 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 30 Sep 2011 17:23:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="57894048"
+Received: from pgsmsx603.gar.corp.intel.com ([10.221.43.87])
+	by orsmga001.jf.intel.com with ESMTP; 30 Sep 2011 17:23:11 -0700
+Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
+	pgsmsx603.gar.corp.intel.com (10.221.43.87) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Sat, 1 Oct 2011 08:23:10 +0800
+Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
+	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi; Sat, 1 Oct 2011
+	08:23:10 +0800
+From: "Yu, Ke" <ke.yu@intel.com>
+To: Gary Thomas <gary@mlbassoc.com>, Patches and discussions about the oe-core
+	layer <openembedded-core@lists.openembedded.org>
+Date: Sat, 1 Oct 2011 08:23:07 +0800
+Thread-Topic: [OE-core] Feedback on HOB (new image creator GUI)
+Thread-Index: Acx/u7wCyDF/D/FDSdqSuqcGLy6/hAAEdL/Q
+Message-ID: <33AB447FBD802F4E932063B962385B3512DAF448FB@shsmsx501.ccr.corp.intel.com>
+References: <4E85D3E0.7070807@intel.com> <4E863AE8.7020901@mlbassoc.com>
+In-Reply-To: <4E863AE8.7020901@mlbassoc.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+Cc: "Lock, Joshua" <joshua.lock@intel.com>,
+	"bitbake-devel@lists.openembedded.org"
+	<bitbake-devel@lists.openembedded.org>
+Subject: Re: Feedback on HOB (new image creator GUI)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,78 +46,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 23:22:10 -0000
+X-List-Received-Date: Sat, 01 Oct 2011 00:29:48 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-The current sshd postinst and postrm scripts in the OpenSSH make the
-package dependant of the adduser/addgroup scripts which may not be
-available on all systems.
+> -----Original Message-----
+> From: Gary Thomas [mailto:gary@mlbassoc.com]
+> Sent: Saturday, October 01, 2011 5:56 AM
+> To: Patches and discussions about the oe-core layer
+> Cc: Yu, Ke; bitbake-devel@lists.openembedded.org; Lock, Joshua
+> Subject: Re: [OE-core] Feedback on HOB (new image creator GUI)
+>=20
+> On 2011-09-30 08:36, Yu Ke wrote:
+> > Hi,
+> >
+> > As you may already know, a new GUI has been added to bitbake recently,
+> > i.e. HOB (Human Oriented Builder). It is a graphical image creator that=
+ allows
+> user to freely choose which packages to be built in the image. The wiki
+> https://wiki.yoctoproject.org/wiki/BitBake/GUI/Hob has more detail.
+> >
+> > This email is to collect your feedback on the HOB. Current HOB is our
+> > first version, and it surely has many place to improve. We has the plan=
+ to
+> enhance it in Yocto 1.2. So we really hope that you can use it and provid=
+e your
+> valuable feedback . We do think user's feedback/requirement is the right =
+way to
+> go. Looking forward your valuable input.
+> >
+> > Best Regards
+> > Ke
+> >
+> > Ps. The simple way to run hob is:
+> > # touch conf/hob-pre.conf conf/hob-post.conf # bitbake -u hob -r
+> > conf/hob-pre.conf -R conf/hob-post.conf
+> >
+> > Where conf/hob-pre.conf conf/hob-post.conf is the configuration file, w=
+hich
+> can be empty in above case.
+>=20
+> I build images which are not based on any of the core-XXX images listed b=
+y HOB.
+> How can I get them into the drop-down base list?
+> Is there a way I can filter out some of the base images?  tasks?
 
-This patch replaces the sshd postinst and postrm scripts with proper
-usage of the useradd and update-rc.d classes.
+Gary, thanks for trying and giving out the input. It is helpful.
 
-This patch had been modified from the previous proposed version to
-use useradd long options for more clarity.
+For the base image list, HOB generate it by searching all the task whose na=
+me containing "image", and we plan to improve it in Yocto 1.2 by searching =
+task who inherits image.bbclass. =20
 
-Signed-off-by: Julian Pidancet <julian.pidancet@gmail.com>
----
- meta/recipes-connectivity/openssh/openssh_5.8p2.bb |   29 +++++--------------
- 1 files changed, 8 insertions(+), 21 deletions(-)
+So currently, if you name your own image with XXX-image, HOB should be able=
+ to automatically add it in the drop-down list.
 
-diff --git a/meta/recipes-connectivity/openssh/openssh_5.8p2.bb b/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
-index 030a83b..5f5f0bc 100644
---- a/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
-@@ -29,6 +29,14 @@ PAM_SRC_URI = "file://sshd"
- SRC_URI[md5sum] = "0541579adf9d55abb15ef927048d372e"
- SRC_URI[sha256sum] = "5c35ec7c966ce05cc4497ac59c0b54a556e55ae7368165cc8c4129694654f314"
- 
-+inherit useradd update-rc.d
-+
-+USERADD_PACKAGES = "${PN}-sshd"
-+USERADD_PARAM_${PN}-sshd = "--system --no-create-home --home-dir /var/run/sshd --shell /bin/false --user-group sshd"
-+INITSCRIPT_PACKAGES = "${PN}-sshd"
-+INITSCRIPT_NAME_${PN}-sshd = "sshd"
-+INITSCRIPT_PARAMS_${PN}-sshd = "defaults 9"
-+
- inherit autotools
- 
- # LFS support:
-@@ -91,16 +99,6 @@ RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
- DEPENDS_${PN}-sshd += "update-rc.d"
- RDEPENDS_${PN}-sshd += "update-rc.d ${PN}-keygen"
- 
--pkg_postinst_${PN}-sshd () {
--	if [ "x$D" != "x" ]; then
--		exit 1
--	else
--		addgroup sshd
--		adduser --system --home /var/run/sshd --no-create-home --disabled-password --ingroup sshd -s /bin/false sshd
--		update-rc.d sshd defaults 9
--	fi
--}
--
- pkg_postinst_${PN}-scp () {
- 	update-alternatives --install ${bindir}/scp scp scp.${PN} 90
- }
-@@ -117,16 +115,5 @@ pkg_postrm_${PN}-scp () {
- 	update-alternatives --remove ${bindir}/scp scp.${PN}
- }
- 
--pkg_postrm_${PN}-sshd () {
--	if [ "x$D" != "x" ]; then
--		exit 1
--	else
--		${sysconfdir}/init.d/sshd stop
--		deluser sshd
--		delgroup sshd
--		update-rc.d -f sshd remove
--	fi
--}
--
- CONFFILES_${PN}-sshd = "${sysconfdir}/ssh/sshd_config"
- CONFFILES_${PN}-ssh = "${sysconfdir}/ssh/ssh_config"
--- 
-Julian Pidancet
+And yes, it is helpful to allow user adding item into base image list. it c=
+an be done by adding one item in "Edit"->"Preference". I will add this requ=
+irement to my plan. For base image filtering, I am not sure if it is necess=
+ary, since base image list is not that long. How do you think?
 
+Regards
+Ke
+
+>=20
+> I ask these questions because in particular, I use a lot of the recipes i=
+n meta and
+> meta-yocto, but none of the images or tasks (because they don't really ad=
+dress
+> my needs, don't take offense, I just want more control than they offer)
+>=20
+> --
+> ------------------------------------------------------------
+> Gary Thomas                 |  Consulting for the
+> MLB Associates              |    Embedded world
+> ------------------------------------------------------------
 
 
