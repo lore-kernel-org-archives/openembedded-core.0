@@ -1,34 +1,31 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1R9lbT-0005cO-4F for openembedded-core@lists.openembedded.org;
-	Sat, 01 Oct 2011 00:30:47 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8UMVbf8013385; Fri, 30 Sep 2011 23:31:37 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id hJf65fFqfPcu; Fri, 30 Sep 2011 23:31:37 +0100 (BST)
-Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p8UMVVVx013358
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Fri, 30 Sep 2011 23:31:33 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: McClintock Matthew-B29882 <B29882@freescale.com>, Patches and
-	discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Sep 2011 23:25:04 +0100
-In-Reply-To: <CAEsOVNcEkg_=xSWg2Z-k+NM7F21NqT_j2gLnjkQys1_RZU-jmg@mail.gmail.com>
-References: <1317347777-10288-1-git-send-email-msm@freescale.com>
-	<1317374475.12332.134.camel@ted>
-	<CAEsOVNdKPk833GDMYrjGgjOMhmOxGWPzevEWUy3CzUsa2LCHSw@mail.gmail.com>
-	<CAEsOVNcEkg_=xSWg2Z-k+NM7F21NqT_j2gLnjkQys1_RZU-jmg@mail.gmail.com>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1317421512.4454.5.camel@ted>
-Mime-Version: 1.0
-Subject: Re: [PATCH] Add bash as RDEPENDS for gstreamer
+	(envelope-from <julian.pidancet@gmail.com>) id 1R9mP5-0006NH-DE
+	for openembedded-core@lists.openembedded.org;
+	Sat, 01 Oct 2011 01:22:03 +0200
+Received: by wyh5 with SMTP id 5so1681120wyh.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Sep 2011 16:16:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=svWLR1NeoRWi5wuBCMzrYjG76rckaeSPtKIoVJf7etE=;
+	b=FY/Kb1o9uhtln4CLGyABEmHO0gVjaT7oMW+LoaIBF/Y2PqBWzQYVZDb78BYOgJyAQV
+	6XwBJuLAqhA4WtYS7KnP/znZgIbJMFksKOuosta4MaB3ZcViRqRWGWB1cztCd5HETlLK
+	iYz6LobWC6e6J+BGAWX2/ZiP04fpmX5zIG+ns=
+Received: by 10.227.137.210 with SMTP id x18mr2531771wbt.57.1317424593092;
+	Fri, 30 Sep 2011 16:16:33 -0700 (PDT)
+Received: from localhost.localdomain (188-223-88-44.zone14.bethere.co.uk.
+	[188.223.88.44])
+	by mx.google.com with ESMTPS id i29sm11252793wbp.22.2011.09.30.16.16.30
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 30 Sep 2011 16:16:31 -0700 (PDT)
+From: Julian Pidancet <julian.pidancet@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  1 Oct 2011 01:10:14 +0100
+Message-Id: <1317427816-31888-1-git-send-email-julian.pidancet@gmail.com>
+X-Mailer: git-send-email 1.7.3.4
+Cc: Julian Pidancet <julian.pidancet@gmail.com>
+Subject: [PATCH v2 0/2] Fix useradd class to accept useradd long options.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,35 +40,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Sep 2011 22:30:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 30 Sep 2011 23:22:03 -0000
 
-On Fri, 2011-09-30 at 16:30 +0000, McClintock Matthew-B29882 wrote:
-> On Fri, Sep 30, 2011 at 10:47 AM, Matthew McClintock <msm@freescale.com> wrote:
-> > On Fri, Sep 30, 2011 at 4:20 AM, Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> >> What image target are you building? I'm having trouble visualising an
-> >> image that doesn't include bash or busybox and if either of these are
-> >> present, that dependency should be met...
-> >>
-> >> If this is a toolchain/SDK, there were some recent tweaks which address
-> >> this problem.
-> >
-> > It was meta-toolchain-sdk, please drop this patch if that is the case.
-> 
-> FYI, I've been testing this on the 'edison' branch. Seems like this
-> should be addressed - assuming someone else can reproduce this
-> issue...
-> 
-> Any comments?
+This first patch fixes the --root option for programs in shadow-native and
+allow one to specify useradd long options when using the useradd class
+in a recipe.
 
-I think we were missing a fix, I've sent out a patch which I think
-should resolve this once and for all.
+This is demonstrated in the second patch which is a respin of another patch
+for the OpenSSH recipe I proposed earlier. As suggested by Saul, it had
+been reworked to use useradd long options in the USERADD_PARAM variable.
 
-Cheers,
+v2: Fixed a typo in add_root_cmd_options.patch, --root is equivalent to -Q
+instead of -R.
 
-Richard
+NOTE: Phil's patch "shadow: add patch for useradd lossage" doesn't fix the
+long options issue as it has been suggested in an answer to one of my
+initial post.
+
+Julian Pidancet (2):
+  Fix the --root option in shadow-native programs.
+  Use useradd and update-rc.d classes in the OpenSSH recipe
+
+ meta/recipes-connectivity/openssh/openssh_5.8p2.bb |   29 +---
+ .../shadow/files/add_root_cmd_options.patch        |  180 ++++++++++----------
+ 2 files changed, 97 insertions(+), 112 deletions(-)
+
+-- 
+Julian Pidancet
 
 
 
