@@ -1,21 +1,35 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1RA1DH-0002pU-1H
-	for openembedded-core@lists.openembedded.org;
-	Sat, 01 Oct 2011 17:10:51 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 01 Oct 2011 08:05:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,473,1312182000"; d="scan'208";a="69354405"
-Received: from unknown (HELO [10.255.15.15]) ([10.255.15.15])
-	by fmsmga001.fm.intel.com with ESMTP; 01 Oct 2011 08:05:19 -0700
-From: Tom Zanussi <tom.zanussi@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 01 Oct 2011 10:05:34 -0500
-Message-ID: <1317481534.2323.14.camel@elmorro>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.28.3 
-Subject: [PATCH] kexec-tools: fix architecture mismatch QA error
+	(envelope-from <otavio.salvador@gmail.com>)
+	id 1RA3j9-0005aN-UM; Sat, 01 Oct 2011 19:51:56 +0200
+Received: by bke11 with SMTP id 11so3247230bke.6
+	for <multiple recipients>; Sat, 01 Oct 2011 10:46:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=IXEzEABLbE3F1ZisndxeVS1TeJcoSC7qgWaDBeA2ncg=;
+	b=Sn+ZYafk8xgjPTSypSdIkohNDpSNQx+sAZgsmkjPjdmQHnQK/q4o2xjeF4sAC6Aibb
+	I5bqCMWROY4etMwYH2o3hfK3HQNnGhk1g+bwN7w6xVDZsMCZ7PEs1Ov5EsFL0Uju84zX
+	9+gC4n4IJiSH5GE3D4QNgE4oD7FtgTTi/soHY=
+MIME-Version: 1.0
+Received: by 10.204.138.193 with SMTP id b1mr8677023bku.114.1317491185270;
+	Sat, 01 Oct 2011 10:46:25 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.35.198 with HTTP; Sat, 1 Oct 2011 10:46:25 -0700 (PDT)
+In-Reply-To: <33AB447FBD802F4E932063B962385B3512DAF448FB@shsmsx501.ccr.corp.intel.com>
+References: <4E85D3E0.7070807@intel.com> <4E863AE8.7020901@mlbassoc.com>
+	<33AB447FBD802F4E932063B962385B3512DAF448FB@shsmsx501.ccr.corp.intel.com>
+Date: Sat, 1 Oct 2011 14:46:25 -0300
+X-Google-Sender-Auth: IAxt3DBdb_HeusFjC7hyPJiPKWs
+Message-ID: <CAP9ODKpnvcCJWCYDMbyL5n_HDjxb+6cwy54BWTaXqM2eH5=G_w@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Cc: "Lock, Joshua" <joshua.lock@intel.com>,
+	"bitbake-devel@lists.openembedded.org"
+	<bitbake-devel@lists.openembedded.org>
+Subject: Re: Feedback on HOB (new image creator GUI)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,37 +44,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Oct 2011 15:10:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 01 Oct 2011 17:51:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Building sato-sdk for an x86_64 target throws this QA error:
+On Fri, Sep 30, 2011 at 21:23, Yu, Ke <ke.yu@intel.com> wrote:
+...
+> So currently, if you name your own image with XXX-image, HOB should be ab=
+le to automatically add it in the drop-down list.
+>
+> And yes, it is helpful to allow user adding item into base image list. it=
+ can be done by adding one item in "Edit"->"Preference". I will add this re=
+quirement to my plan. For base image filtering, I am not sure if it is nece=
+ssary, since base image list is not that long. How do you think?
+...
 
-| ERROR: QA Issue: Architecture did not match (62 to 3) on /work/x86_64-poky-li\
-nux/kexec-tools-2.0.2-r1/packages-split/kexec-tools/usr/lib/kexec-tools/kexec_t\
-est
+It would be nice to have a way to filter out images too. In case we're
+customizing oe-core to a customer we might want to reduce the options
+to avoid unsupported images to be built.
 
-kexec_test uses 32-bit code for testing - add an INSANE_SKIP exception for it.
-
-Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
----
- meta/recipes-kernel/kexec/kexec-tools.inc |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
-
-diff --git a/meta/recipes-kernel/kexec/kexec-tools.inc b/meta/recipes-kernel/kexec/kexec-tools.inc
-index bbfb20f..278ce34 100644
---- a/meta/recipes-kernel/kexec/kexec-tools.inc
-+++ b/meta/recipes-kernel/kexec/kexec-tools.inc
-@@ -13,3 +13,5 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz
- inherit autotools
- 
- COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-(linux|freebsd.*)'
-+
-+INSANE_SKIP_${PN} = "arch"
--- 
-1.7.0.4
-
-
-
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
