@@ -1,32 +1,36 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RA4fe-0006uq-GB
+	(envelope-from <otavio.salvador@gmail.com>) id 1RA4h7-0006wy-8w
 	for openembedded-core@lists.openembedded.org;
-	Sat, 01 Oct 2011 20:52:22 +0200
-Received: by bke11 with SMTP id 11so3293799bke.6
+	Sat, 01 Oct 2011 20:53:53 +0200
+Received: by bke11 with SMTP id 11so3294855bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 01 Oct 2011 11:46:52 -0700 (PDT)
+	Sat, 01 Oct 2011 11:48:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
 	:content-transfer-encoding;
-	bh=ytwJOkUx1KvyH4yg0Cy+j6hfL4I67Kot/L/dN9M7/E0=;
-	b=hc0OprqibYa3GeltrN/fEigCgeryenBob1a7q0HCSTT6JyyekHX6CX41Dzaa1fX/aR
-	Gh3BAaKM93FXXZg2DvFZQM0RSXZa+LDvVe0OnUiMdAJyu/OzqggGrMzg7C6dIMkaE24N
-	4B1ChcN376OqfYBhoh1iEq6l6uv/KL1rjBxdk=
+	bh=8/d0aGppcPdmnNdoul0uEUzgTyNUeFYaXT3EObgwybM=;
+	b=kbwBeyuy6iF4Cm7QpMUJ1O1PWjenXz9EAC5jJLvc0hav+oj0Ok+TS9xImB3+FACE4b
+	McxLROcfZTFdtKH2A9yOPEO7dd6PGrn0a/mUFuQnCFEgtEysp9W9L/yTtSolQ6ouAxV6
+	9+PLwWpwSdgdB0LfHQIYvGbY6P5BG2sJ0cDBs=
 MIME-Version: 1.0
-Received: by 10.204.144.67 with SMTP id y3mr2938455bku.322.1317494811672; Sat,
-	01 Oct 2011 11:46:51 -0700 (PDT)
+Received: by 10.204.139.20 with SMTP id c20mr9484660bku.218.1317494900166;
+	Sat, 01 Oct 2011 11:48:20 -0700 (PDT)
 Sender: otavio.salvador@gmail.com
-Received: by 10.204.35.198 with HTTP; Sat, 1 Oct 2011 11:46:51 -0700 (PDT)
-In-Reply-To: <1317370770-27225-1-git-send-email-Martin.Jansa@gmail.com>
+Received: by 10.204.35.198 with HTTP; Sat, 1 Oct 2011 11:48:20 -0700 (PDT)
+In-Reply-To: <1317402578.12332.218.camel@ted>
 References: <1317370770-27225-1-git-send-email-Martin.Jansa@gmail.com>
-Date: Sat, 1 Oct 2011 15:46:51 -0300
-X-Google-Sender-Auth: drsI9T5fWdZkQy0N2ZO7bCxBN5A
-Message-ID: <CAP9ODKpWtBM4jD78p7oFKnJ12EjUamDkaVEsKKKs8M1pp03xOQ@mail.gmail.com>
+	<1317392122.12332.208.camel@ted>
+	<20110930164658.GB7364@jama.jama.net>
+	<1317402578.12332.218.camel@ted>
+Date: Sat, 1 Oct 2011 15:48:20 -0300
+X-Google-Sender-Auth: 4ChFsu0H1VnDSJxAwVqTmt747Qg
+Message-ID: <CAP9ODKqb8RGLi_5-_+uegLmtZ7Wo-70oDJcF_R6yaSJ2q9mGwg@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+Cc: Martin Jansa <martin.jansa@gmail.com>
 Subject: Re: [PATCH] Improve handling of 'all' architecture recipes and their interaction with sstate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -42,20 +46,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Oct 2011 18:52:22 -0000
+X-List-Received-Date: Sat, 01 Oct 2011 18:53:53 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 30, 2011 at 05:19, Martin Jansa <martin.jansa@gmail.com> wrote:
-....
-> =A0meta/recipes-support/hal/hal-info.inc =A0 =A0 =A0 =A0 =A0 =A0 =A0| =A0=
- =A01 -
-> =A0meta/recipes-support/hal/hal-info_20091130.bb =A0 =A0 =A0| =A0 =A02 +
-> =A0meta/recipes-support/hal/hal-info_git.bb =A0 =A0 =A0 =A0 =A0 | =A0 =A0=
-2 +-
+On Fri, Sep 30, 2011 at 14:09, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+...
+> Thanks. I've taken the two patches. I'd love to get rid of hal, in fact
+> its on my list of things that need to migrate out of OE-Core...
 ...
 
-Please use INC_PR for those.
+From default images this shouldn't be difficult but don't remove hal
+from oe-core since many embedded OS still use it and haven't migrate
+to udev or devicekit yet.
 
 --=20
 Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
