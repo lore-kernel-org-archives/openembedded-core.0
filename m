@@ -1,30 +1,35 @@
-Received: from mail-gx0-f175.google.com ([209.85.161.175])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RAQfb-0003Zq-BF
+	(envelope-from <otavio.salvador@gmail.com>) id 1RAQfc-0003Zr-Jn
 	for openembedded-core@lists.openembedded.org;
-	Sun, 02 Oct 2011 20:21:47 +0200
-Received: by ggnq1 with SMTP id q1so267884ggn.6
+	Sun, 02 Oct 2011 20:21:49 +0200
+Received: by yxj17 with SMTP id 17so2819477yxj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 02 Oct 2011 11:16:12 -0700 (PDT)
+	Sun, 02 Oct 2011 11:16:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=sender:from:to:subject:date:message-id:x-mailer;
-	bh=QzBweGUWUPYA5B+OWP6oV6Urat1f8joPd3KAB/HCPuQ=;
-	b=vZYoD+zqTxieEb93Hx0DkZ/z8ajhVpbvOQVCSerjtgveRg5qteXpJ+/Mq+OS7sxGl/
-	J+XeznIBh5dLkUM5qhgkaJd+RzYrdzwy+hGPATbwsCBXztEVrXDtxPjdZ/qvumdLaz1M
-	xnJye7nRm2NPMTM8ZjCQl39HOL7O3qxd44yl0=
-Received: by 10.236.197.104 with SMTP id s68mr84760345yhn.20.1317579372411;
-	Sun, 02 Oct 2011 11:16:12 -0700 (PDT)
+	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
+	:references:in-reply-to:references;
+	bh=LmObYtPiD+QRWxPOFqmsMbWKHN7nhZg2pc9llF7pleM=;
+	b=KhDB3eeaOlFwJEf/vcdiZ+Avyk+1cZO2AIBQtV0oQVSkcLjwrfI//Z8HWWamSYU5Kh
+	9uvvY+EajdMDhILz9QzftGnmAs1uPLBeNJyOl7U7TvMAboBFEiJMJoVmjxgti5HreucZ
+	dHF9PNe36HEUKag3PczJvw0Q4SV7IFN4pXQeY=
+Received: by 10.236.124.11 with SMTP id w11mr2949241yhh.130.1317579376562;
+	Sun, 02 Oct 2011 11:16:16 -0700 (PDT)
 Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id r30sm13093379yhj.20.2011.10.02.11.16.10
+	by mx.google.com with ESMTPS id r30sm13093379yhj.20.2011.10.02.11.16.14
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 02 Oct 2011 11:16:11 -0700 (PDT)
+	Sun, 02 Oct 2011 11:16:15 -0700 (PDT)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  2 Oct 2011 18:15:54 +0000
-Message-Id: <cover.1317579313.git.otavio@ossystems.com.br>
+Date: Sun,  2 Oct 2011 18:15:56 +0000
+Message-Id: <8619b1806c0c26bb5f42a066d582d79ba92a2452.1317579313.git.otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.7.2.5
-Subject: [PATCH 0/3] Minor and trivial fixes
+In-Reply-To: <cover.1317579313.git.otavio@ossystems.com.br>
+References: <cover.1317579313.git.otavio@ossystems.com.br>
+In-Reply-To: <cover.1317579313.git.otavio@ossystems.com.br>
+References: <cover.1317579313.git.otavio@ossystems.com.br>
+Subject: [PATCH 2/3] image-live.bbclass: allow images to override ROOTFS and INITRD
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,26 +44,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 02 Oct 2011 18:21:47 -0000
+X-List-Received-Date: Sun, 02 Oct 2011 18:21:49 -0000
 
-The following changes since commit c54c1280fc0d06a53e23339c3913ec88eead13d9:
-
-  base.bbclass: Drop unneeded dependency (2011-09-30 11:34:44 +0100)
-
-are available in the git repository at:
-  git://github.com/OSSystems/oe-core master
-  https://github.com/OSSystems/oe-core/tree/HEAD
-
-Otavio Salvador (3):
-  image.bbclass: improve comments regarding exported functions
-  image-live.bbclass: allow images to override ROOTFS and INITRD
-  bootimg.bbclass: fix comment typo
-
- meta/classes/bootimg.bbclass    |    2 +-
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
  meta/classes/image-live.bbclass |    4 ++--
- meta/classes/image.bbclass      |    5 +----
- 3 files changed, 4 insertions(+), 7 deletions(-)
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
+index c910488..1d184a1 100644
+--- a/meta/classes/image-live.bbclass
++++ b/meta/classes/image-live.bbclass
+@@ -1,11 +1,11 @@
+ 
+ AUTO_SYSLINUXCFG = "1"
+-INITRD = "${DEPLOY_DIR_IMAGE}/core-image-minimal-initramfs-${MACHINE}.cpio.gz"
++INITRD ?= "${DEPLOY_DIR_IMAGE}/core-image-minimal-initramfs-${MACHINE}.cpio.gz"
+ APPEND += "root=/dev/ram0 "
+ TIMEOUT = "10"
+ LABELS += "boot install"
+ 
+-ROOTFS = "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext3"
++ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext3"
+ 
+ do_bootimg[depends] += "core-image-minimal-initramfs:do_rootfs"
+ do_bootimg[depends] += "${IMAGE_BASENAME}:do_rootfs"
 -- 
 1.7.2.5
 
