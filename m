@@ -1,30 +1,32 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dbaryshkov@gmail.com>) id 1RATyb-0007nk-I5
+	(envelope-from <dbaryshkov@gmail.com>) id 1RATyc-0007nl-Tw
 	for openembedded-core@lists.openembedded.org;
-	Sun, 02 Oct 2011 23:53:37 +0200
-Received: by bke11 with SMTP id 11so4594393bke.6
+	Sun, 02 Oct 2011 23:53:38 +0200
+Received: by bke11 with SMTP id 11so4594411bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 02 Oct 2011 14:48:06 -0700 (PDT)
+	Sun, 02 Oct 2011 14:48:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=MoA/pjivVWxk6C4YyIFRYanS8QSDbSB69TCeehu9TcM=;
-	b=e4dgUAxf4jlE+ExL02PTVtU3ZVI2eJ+JwUZJAnYBNNmxiZuJWfTJHvMcovnpipw9lD
-	CEfqQhVY8VwbwYpFYBGeFJYWtQ9gs42GVjMG63w053BTvuwIY+dASof6VYBD+JGqpQLH
-	dYlsqtoJmi+Q/KE7mHZaw2lud+Im0EEzS3qQ8=
-Received: by 10.204.150.202 with SMTP id z10mr212745bkv.279.1317592086025;
-	Sun, 02 Oct 2011 14:48:06 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=P9YKcUbCNP4Tc2E0Y4YkyATuPWRLcD8WeLOoxPzae+g=;
+	b=MlF2cZWn3egyV0DzQQilJAH6KlmK/c0Y7K/lRPAz+rgHnLlCJxOEK1hCejb5KqguNe
+	mFHV2BEypz+cNhTAPXFsU3cuBfHvXVysIxiqvnW33h0+TnJNqdORzzTWP0Ki4GAeXY8J
+	oNe2D2YMnsJApjE1RL+ViBYlt2bAG8vemNa9c=
+Received: by 10.204.148.23 with SMTP id n23mr472390bkv.133.1317592087543;
+	Sun, 02 Oct 2011 14:48:07 -0700 (PDT)
 Received: from localhost.localdomain ([194.85.238.22])
-	by mx.google.com with ESMTPS id e14sm11120209bka.0.2011.10.02.14.48.03
+	by mx.google.com with ESMTPS id e14sm11120209bka.0.2011.10.02.14.48.06
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 02 Oct 2011 14:48:04 -0700 (PDT)
+	Sun, 02 Oct 2011 14:48:06 -0700 (PDT)
 From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Oct 2011 01:46:10 +0400
-Message-Id: <1317591971-22553-1-git-send-email-dbaryshkov@gmail.com>
+Date: Mon,  3 Oct 2011 01:46:11 +0400
+Message-Id: <1317591971-22553-2-git-send-email-dbaryshkov@gmail.com>
 X-Mailer: git-send-email 1.7.2.5
+In-Reply-To: <1317591971-22553-1-git-send-email-dbaryshkov@gmail.com>
+References: <1317591971-22553-1-git-send-email-dbaryshkov@gmail.com>
 Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Subject: [PATCH 1/2] qt4: Fix translation support
+Subject: [PATCH 2/2] qt4: packaging fixup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,124 +41,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 02 Oct 2011 21:53:37 -0000
+X-List-Received-Date: Sun, 02 Oct 2011 21:53:39 -0000
 
-From: Otavio Salvador <otavio@ossystems.com.br>
+Improve packaging:
+* Add phrasebook packages to DYNAMIC_PACKAGES
+* Correct phrasebook packages generation
+* Include more files into -dbg packages
+* Package fontdir and fonts README.
 
-The translation support was disable in build. The
-fix-translation.patch was imported from OpenEmbedded to fix a linking
-issue in phonon translation support.
-
-[Dmitry Eremin-Solenikov: ported to apply to qt 4.7.4 build, bumped PR]
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 ---
- meta/recipes-qt/qt4/qt-4.7.4.inc                   |    9 ++---
- .../recipes-qt/qt4/qt-4.7.4/fix-translations.patch |   32 ++++++++++++++++++++
- meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb          |    2 +-
- meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb          |    2 +-
- 4 files changed, 38 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-qt/qt4/qt-4.7.4/fix-translations.patch
+ meta/recipes-qt/qt4/qt4-embedded.inc |    2 +-
+ meta/recipes-qt/qt4/qt4-x11-free.inc |    2 +-
+ meta/recipes-qt/qt4/qt4.inc          |   13 ++++++++-----
+ 3 files changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-qt/qt4/qt-4.7.4.inc b/meta/recipes-qt/qt4/qt-4.7.4.inc
-index 5c06bbe..bc33b6b 100644
---- a/meta/recipes-qt/qt4/qt-4.7.4.inc
-+++ b/meta/recipes-qt/qt4/qt-4.7.4.inc
-@@ -13,6 +13,7 @@ SRC_URI = "http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${PV}.
-            file://0009-support-2bpp.patch \
-            file://0001-Added-Openembedded-crossarch-option.patch \
-            file://blacklist-diginotar-certs.diff \
-+           file://fix-translations.patch \
-            file://g++.conf \
-            file://linux.conf \
-            file://fix-qtbug-20925.patch \
-@@ -27,7 +28,9 @@ FILES_${QT_BASE_NAME}-tools                += "${bindir}/qml"
+diff --git a/meta/recipes-qt/qt4/qt4-embedded.inc b/meta/recipes-qt/qt4/qt4-embedded.inc
+index 53e1297..79473c9 100644
+--- a/meta/recipes-qt/qt4/qt4-embedded.inc
++++ b/meta/recipes-qt/qt4/qt4-embedded.inc
+@@ -3,7 +3,7 @@ SECTION = "libs"
+ LICENSE = "LGPLv2.1 | GPLv3"
+ HOMEPAGE = "http://qt.nokia.com"
+ DEPENDS += "directfb tslib"
+-INC_PR = "r34"
++INC_PR = "r35"
  
- do_configure_prepend() {
-     for pro in $(find ${S} -name "*.pro") ; do
--        sed -i 's:$$QT_BUILD_TREE/bin/lrelease:${OE_QMAKE_LRELEASE}:g' $pro
-+        sed -i \
-+            -e 's:$$QT_BUILD_TREE/bin/lrelease:${OE_QMAKE_LRELEASE}:g' \
-+            -e 's:qtPrepareTool(LRELEASE, lrelease):LRELEASE = ${OE_QMAKE_LRELEASE}:g' $pro
-     done
+ QT_BASE_NAME ?= "qt4-embedded"
+ QT_BASE_LIB  ?= "libqt-embedded"
+diff --git a/meta/recipes-qt/qt4/qt4-x11-free.inc b/meta/recipes-qt/qt4/qt4-x11-free.inc
+index f76a97f..f391028 100644
+--- a/meta/recipes-qt/qt4/qt4-x11-free.inc
++++ b/meta/recipes-qt/qt4/qt4-x11-free.inc
+@@ -5,7 +5,7 @@ HOMEPAGE = "http://qt.nokia.com"
+ SECTION = "x11/libs"
+ DEPENDS += "virtual/libgl virtual/libx11 fontconfig libxft libxext libxrender libxrandr libxcursor"
  
-     sed -i s:SEDME:${S}: ${WORKDIR}/linux.conf
-@@ -39,10 +42,6 @@ do_configure_prepend() {
-     ${S}/configure
- }
+-INC_PR = "r31"
++INC_PR = "r32"
  
--do_configure_append() {
--    sed -e '/QMAKE_TARGET /d' -e '/TARGET /d' -i ${S}/translations/Makefile
--}
--
- QT_GLFLAGS ?= ""
- QT_CONFIG_FLAGS += " -xmlpatterns -no-rpath -qt3support -reduce-relocations -silent ${QT_GLFLAGS}"
+ QT_GLFLAGS ?= "${@base_contains('DISTRO_FEATURES', 'opengl', '-opengl', '-no-opengl', d)} "
+ QT_GLFLAGS_qemux86 = "-opengl"
+diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
+index eb01a1b..d6382f5 100644
+--- a/meta/recipes-qt/qt4/qt4.inc
++++ b/meta/recipes-qt/qt4/qt4.inc
+@@ -50,7 +50,7 @@ python __anonymous () {
+                   ${libdir}/lib%(name)s${QT_LIBINFIX}.so
+                   ${includedir}/${QT_DIR_NAME}/%(incname)s
+                   ${libdir}/pkgconfig/%(name)s${QT_LIBINFIX}.pc""" % locals(), d)
+-        bb.data.setVar("FILES_%s-dbg" % pkg, "${libdir}/.debug/lib%(name)s${QT_LIBINFIX}.so.*" % locals(), d)
++        bb.data.setVar("FILES_%s-dbg" % pkg, "${libdir}/.debug/lib%(name)s${QT_LIBINFIX}.so*" % locals(), d)
+         bb.data.setVar("RRECOMMENDS_%s-dbg" % pkg, "${PN}-dbg", d)
+         lib_packages.append(pkg)
+         dev_packages.append("%s-dev" % pkg)
+@@ -67,7 +67,7 @@ python __anonymous () {
+                   ${libdir}/lib%(name)s.so
+                   ${includedir}/${QT_DIR_NAME}/%(incname)s
+                   ${libdir}/pkgconfig/%(name)s.pc""" % locals(), d)
+-        bb.data.setVar("FILES_%s-dbg" % pkg, "${libdir}/.debug/lib%(name)s.so.*" % locals(), d)
++        bb.data.setVar("FILES_%s-dbg" % pkg, "${libdir}/.debug/lib%(name)s.so*" % locals(), d)
+         bb.data.setVar("RRECOMMENDS_%s-dbg" % pkg, "${PN}-dbg", d)
+         lib_packages.append(pkg)
+         dev_packages.append("%s-dev" % pkg)
+@@ -104,7 +104,7 @@ OTHER_PACKAGES = "\
+ #We prepend so ${QT_BASE_NAME}-demos-doc comes before ${PN}-doc,so the packaging of FILES_ get done before.
+ PACKAGES =+ "${QT_BASE_NAME}-demos-doc"
+ PACKAGES += "${LIB_PACKAGES} ${DEV_PACKAGES} ${DBG_PACKAGES} ${OTHER_PACKAGES}"
+-PACKAGES_DYNAMIC = "${QT_BASE_NAME}-plugin-* ${QT_BASE_NAME}-translation-* ${QT_BASE_NAME}-fonts-*"
++PACKAGES_DYNAMIC = "${QT_BASE_NAME}-plugin-* ${QT_BASE_NAME}-translation-* ${QT_BASE_NAME}-phrasebook-* ${QT_BASE_NAME}-fonts-*"
  
-diff --git a/meta/recipes-qt/qt4/qt-4.7.4/fix-translations.patch b/meta/recipes-qt/qt4/qt-4.7.4/fix-translations.patch
-new file mode 100644
-index 0000000..906d4e3
---- /dev/null
-+++ b/meta/recipes-qt/qt4/qt-4.7.4/fix-translations.patch
-@@ -0,0 +1,32 @@
-+fix phony translation linking error
-+
-+  | .../usr/lib/crt1.o: In function `_start':
-+  | .../../sysdeps/i386/elf/start.S:115: undefined reference to `main'
-+  | collect2: ld returned 1 exit status
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-+
-+diff --git a/translations/translations.pro b/translations/translations.pro
-+index cdaf04a..24fa668 100644
-+--- a/translations/translations.pro
-++++ b/translations/translations.pro
-+@@ -20,7 +20,7 @@ updateqm.name = LRELEASE ${QMAKE_FILE_IN}
-+ updateqm.CONFIG += no_link
-+ QMAKE_EXTRA_COMPILERS += updateqm
-+ 
-+-isEmpty(vcproj) {
-++!isEmpty(vcproj) {
-+     QMAKE_LINK = @: IGNORE THIS LINE
-+     OBJECTS_DIR =
-+     win32:CONFIG -= embed_manifest_exe
-+@@ -30,7 +30,7 @@ isEmpty(vcproj) {
-+     phony_src.input = PHONY_DEPS
-+     phony_src.output = phony.c
-+     phony_src.variable_out = GENERATED_SOURCES
-+-    phony_src.commands = echo int main() { return 0; } > phony.c
-++    phony_src.commands = echo \"int main() { return 0; }\" > phony.c
-+     phony_src.name = CREATE phony.c
-+     phony_src.CONFIG += combine
-+     QMAKE_EXTRA_COMPILERS += phony_src
-diff --git a/meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb b/meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb
-index 9d893f9..34061cb 100644
---- a/meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb
-+++ b/meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb
-@@ -1,7 +1,7 @@
- require qt-${PV}.inc
- require qt4-embedded.inc
+ ALLOW_EMPTY_${PN} = "1"
+ ALLOW_EMPTY_${QT_BASE_NAME}-fonts = "1"
+@@ -157,6 +157,7 @@ FILES_${QT_BASE_NAME}-fonts-ttf-dejavu     = "${libdir}/fonts/DejaVu*.ttf"
+ FILES_${QT_BASE_NAME}-fonts-pfa            = "${libdir}/fonts/*.pfa"
+ FILES_${QT_BASE_NAME}-fonts-pfb            = "${libdir}/fonts/*.pfb"
+ FILES_${QT_BASE_NAME}-fonts-qpf            = "${libdir}/fonts/*.qpf"
++FILES_${QT_BASE_NAME}-fonts                = "${libdir}/fonts/README ${libdir}/fonts/fontdir"
+ FILES_${QT_BASE_NAME}-linguist             = "${bindir}/*linguist* ${bindir}/lrelease ${bindir}/lupdate ${bindir}/lconvert ${bindir}/qm2ts"
+ FILES_${QT_BASE_NAME}-linguist-dbg         = "${bindir}/.debug/*linguist* ${bindir}/.debug/lrelease ${bindir}/.debug/lupdate ${bindir}/.debug/lconvert ${bindir}/.debug/qm2ts"
+ FILES_${QT_BASE_NAME}-pixeltool            = "${bindir}/pixeltool"
+@@ -171,7 +172,7 @@ FILES_${QT_BASE_NAME}-mkspecs              = "${datadir}/${QT_DIR_NAME}/mkspecs/
+ FILES_${QT_BASE_NAME}-xmlpatterns          = "${bindir}/xmlpatterns*"
+ FILES_${QT_BASE_NAME}-xmlpatterns-dbg      = "${bindir}/.debug/xmlpatterns*"
+ FILES_${QT_BASE_NAME}-qml-plugins          = "${libdir}/${QT_DIR_NAME}/imports/* ${libdir}/${QT_DIR_NAME}/plugins/qmltooling/*"
+-FILES_${QT_BASE_NAME}-qml-plugins-dbg      = "${libdir}/${QT_DIR_NAME}/imports/*/*/*/.debug/* ${libdir}/${QT_DIR_NAME}/imports/*/.debug"
++FILES_${QT_BASE_NAME}-qml-plugins-dbg      = "${libdir}/${QT_DIR_NAME}/imports/*/*/*/.debug/* ${libdir}/${QT_DIR_NAME}/imports/*/.debug ${libdir}/${QT_DIR_NAME}/plugins/qmltooling/.debug"
  
--PR = "${INC_PR}.2"
-+PR = "${INC_PR}.3"
- 
- QT_CONFIG_FLAGS_append_armv6-vfp = " -no-neon "
- 
-diff --git a/meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb b/meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb
-index 2f39ec0..0290313 100644
---- a/meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb
-+++ b/meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb
-@@ -1,7 +1,7 @@
- require qt4-x11-free.inc
- require qt-${PV}.inc
- 
--PR = "${INC_PR}.2"
-+PR = "${INC_PR}.3"
- 
- QT_CONFIG_FLAGS_append_armv6-vfp = " -no-neon "
- 
+ do_configure() {
+ 	unset QMAKESPEC
+@@ -233,8 +234,10 @@ python populate_packages_prepend() {
+         phrasebook_dir = bb.data.expand('${datadir}/${QT_DIR_NAME}/phrasebooks/', d)
+         phrasebook_name = bb.data.expand('${QT_BASE_NAME}-phrasebook-%s', d)
+         import os;
+-        if os.path.exists(phrasebook_dir):
++        if os.path.exists("%s%s" % (bb.data.expand('${D}',d), phrasebook_dir)):
+                 do_split_packages(d, phrasebook_dir, '^(.*)\.qph$', phrasebook_name, '${PN} phrasebook for %s', extra_depends='' )
++        else:
++                bb.note("The path does not exist:", bb.data.expand('${D}', d), phrasebook_dir)
+  
+         # Package all the plugins and their -dbg version and create a meta package
+         def qtopia_split(path, name, glob):
 -- 
 1.7.2.5
 
