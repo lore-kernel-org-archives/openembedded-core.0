@@ -1,34 +1,30 @@
-Received: from 14.mo1.mail-out.ovh.net ([178.32.97.215]
-	helo=mo1.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1RASD8-0005vK-Cs
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <dbaryshkov@gmail.com>) id 1RATyb-0007nk-I5
 	for openembedded-core@lists.openembedded.org;
-	Sun, 02 Oct 2011 22:00:30 +0200
-Received: from mail405.ha.ovh.net (b6.ovh.net [213.186.33.56])
-	by mo1.mail-out.ovh.net (Postfix) with SMTP id 8A7A910043E6
+	Sun, 02 Oct 2011 23:53:37 +0200
+Received: by bke11 with SMTP id 11so4594393bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  2 Oct 2011 21:47:20 +0200 (CEST)
-Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
-	by b0.ovh.net with SMTP; 2 Oct 2011 21:46:01 +0200
-Received: from tal33-3-82-233-81-124.fbx.proxad.net (HELO
-	localhost.localdomain) (ebenard%eukrea.com@82.233.81.124)
-	by ns0.ovh.net with SMTP; 2 Oct 2011 21:45:59 +0200
-From: =?UTF-8?q?Eric=20B=C3=A9nard?= <eric@eukrea.com>
+	Sun, 02 Oct 2011 14:48:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=MoA/pjivVWxk6C4YyIFRYanS8QSDbSB69TCeehu9TcM=;
+	b=e4dgUAxf4jlE+ExL02PTVtU3ZVI2eJ+JwUZJAnYBNNmxiZuJWfTJHvMcovnpipw9lD
+	CEfqQhVY8VwbwYpFYBGeFJYWtQ9gs42GVjMG63w053BTvuwIY+dASof6VYBD+JGqpQLH
+	dYlsqtoJmi+Q/KE7mHZaw2lud+Im0EEzS3qQ8=
+Received: by 10.204.150.202 with SMTP id z10mr212745bkv.279.1317592086025;
+	Sun, 02 Oct 2011 14:48:06 -0700 (PDT)
+Received: from localhost.localdomain ([194.85.238.22])
+	by mx.google.com with ESMTPS id e14sm11120209bka.0.2011.10.02.14.48.03
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 02 Oct 2011 14:48:04 -0700 (PDT)
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 To: openembedded-core@lists.openembedded.org
-X-Ovh-Mailout: 178.32.228.1 (mo1.mail-out.ovh.net)
-Date: Sun,  2 Oct 2011 21:45:39 +0200
-Message-Id: <1317584739-9480-1-git-send-email-eric@eukrea.com>
-X-Mailer: git-send-email 1.7.6.2
-In-Reply-To: <j6abik$9f7$1@dough.gmane.org>
-References: <j6abik$9f7$1@dough.gmane.org>
-MIME-Version: 1.0
-X-Ovh-Tracer-Id: 13796495983753276866
-X-Ovh-Remote: 82.233.81.124 (tal33-3-82-233-81-124.fbx.proxad.net)
-X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
-X-Spam-Check: DONE|U 0.5/N
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -20
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeftddrfeeiucetggdotefuucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenuchlihhnuhigvdigucdlqddvtddm
-Subject: [PATCH] qt-4.7.4: fix translation support
+Date: Mon,  3 Oct 2011 01:46:10 +0400
+Message-Id: <1317591971-22553-1-git-send-email-dbaryshkov@gmail.com>
+X-Mailer: git-send-email 1.7.2.5
+Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Subject: [PATCH 1/2] qt4: Fix translation support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,36 +39,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 02 Oct 2011 20:00:30 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 02 Oct 2011 21:53:37 -0000
 
-- this was fiexed in 4.7.3 by :
-d8b9aad9e3fa0cacbde4597d45f68652009af001
-- but forgotten in the 4.7.4 upgrade in :
-c3a784cb13f0afc0616ae3ed4102271c6dde17af
+From: Otavio Salvador <otavio@ossystems.com.br>
 
-Thanks to Dmitry Eremin-Solenikov for noticing this.
+The translation support was disable in build. The
+fix-translation.patch was imported from OpenEmbedded to fix a linking
+issue in phonon translation support.
 
-Signed-off-by: Eric B=C3=A9nard <eric@eukrea.com>
+[Dmitry Eremin-Solenikov: ported to apply to qt 4.7.4 build, bumped PR]
+
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 ---
  meta/recipes-qt/qt4/qt-4.7.4.inc                   |    9 ++---
- .../recipes-qt/qt4/qt-4.7.4/fix-translations.patch |   32 ++++++++++++++=
-++++++
- meta/recipes-qt/qt4/qt4-embedded.inc               |    2 +-
- meta/recipes-qt/qt4/qt4-native.inc                 |    2 +-
- meta/recipes-qt/qt4/qt4-tools-nativesdk.inc        |    2 +-
- meta/recipes-qt/qt4/qt4-x11-free.inc               |    2 +-
- 6 files changed, 40 insertions(+), 9 deletions(-)
+ .../recipes-qt/qt4/qt-4.7.4/fix-translations.patch |   32 ++++++++++++++++++++
+ meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb          |    2 +-
+ meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb          |    2 +-
+ 4 files changed, 38 insertions(+), 7 deletions(-)
  create mode 100644 meta/recipes-qt/qt4/qt-4.7.4/fix-translations.patch
 
-diff --git a/meta/recipes-qt/qt4/qt-4.7.4.inc b/meta/recipes-qt/qt4/qt-4.=
-7.4.inc
+diff --git a/meta/recipes-qt/qt4/qt-4.7.4.inc b/meta/recipes-qt/qt4/qt-4.7.4.inc
 index 5c06bbe..bc33b6b 100644
 --- a/meta/recipes-qt/qt4/qt-4.7.4.inc
 +++ b/meta/recipes-qt/qt4/qt-4.7.4.inc
-@@ -13,6 +13,7 @@ SRC_URI =3D "http://get.qt.nokia.com/qt/source/qt-every=
-where-opensource-src-${PV}.
+@@ -13,6 +13,7 @@ SRC_URI = "http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${PV}.
             file://0009-support-2bpp.patch \
             file://0001-Added-Openembedded-crossarch-option.patch \
             file://blacklist-diginotar-certs.diff \
@@ -80,35 +71,29 @@ where-opensource-src-${PV}.
             file://g++.conf \
             file://linux.conf \
             file://fix-qtbug-20925.patch \
-@@ -27,7 +28,9 @@ FILES_${QT_BASE_NAME}-tools                +=3D "${bind=
-ir}/qml"
-=20
+@@ -27,7 +28,9 @@ FILES_${QT_BASE_NAME}-tools                += "${bindir}/qml"
+ 
  do_configure_prepend() {
      for pro in $(find ${S} -name "*.pro") ; do
--        sed -i 's:$$QT_BUILD_TREE/bin/lrelease:${OE_QMAKE_LRELEASE}:g' $=
-pro
+-        sed -i 's:$$QT_BUILD_TREE/bin/lrelease:${OE_QMAKE_LRELEASE}:g' $pro
 +        sed -i \
 +            -e 's:$$QT_BUILD_TREE/bin/lrelease:${OE_QMAKE_LRELEASE}:g' \
-+            -e 's:qtPrepareTool(LRELEASE, lrelease):LRELEASE =3D ${OE_QM=
-AKE_LRELEASE}:g' $pro
++            -e 's:qtPrepareTool(LRELEASE, lrelease):LRELEASE = ${OE_QMAKE_LRELEASE}:g' $pro
      done
-=20
+ 
      sed -i s:SEDME:${S}: ${WORKDIR}/linux.conf
 @@ -39,10 +42,6 @@ do_configure_prepend() {
      ${S}/configure
  }
-=20
+ 
 -do_configure_append() {
--    sed -e '/QMAKE_TARGET /d' -e '/TARGET /d' -i ${S}/translations/Makef=
-ile
+-    sed -e '/QMAKE_TARGET /d' -e '/TARGET /d' -i ${S}/translations/Makefile
 -}
 -
- QT_GLFLAGS ?=3D ""
- QT_CONFIG_FLAGS +=3D " -xmlpatterns -no-rpath -qt3support -reduce-reloca=
-tions -silent ${QT_GLFLAGS}"
-=20
-diff --git a/meta/recipes-qt/qt4/qt-4.7.4/fix-translations.patch b/meta/r=
-ecipes-qt/qt4/qt-4.7.4/fix-translations.patch
+ QT_GLFLAGS ?= ""
+ QT_CONFIG_FLAGS += " -xmlpatterns -no-rpath -qt3support -reduce-relocations -silent ${QT_GLFLAGS}"
+ 
+diff --git a/meta/recipes-qt/qt4/qt-4.7.4/fix-translations.patch b/meta/recipes-qt/qt4/qt-4.7.4/fix-translations.patch
 new file mode 100644
 index 0000000..906d4e3
 --- /dev/null
@@ -124,92 +109,56 @@ index 0000000..906d4e3
 +
 +Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 +
-+diff --git a/translations/translations.pro b/translations/translations.p=
-ro
++diff --git a/translations/translations.pro b/translations/translations.pro
 +index cdaf04a..24fa668 100644
 +--- a/translations/translations.pro
 ++++ b/translations/translations.pro
-+@@ -20,7 +20,7 @@ updateqm.name =3D LRELEASE ${QMAKE_FILE_IN}
-+ updateqm.CONFIG +=3D no_link
-+ QMAKE_EXTRA_COMPILERS +=3D updateqm
-+=20
++@@ -20,7 +20,7 @@ updateqm.name = LRELEASE ${QMAKE_FILE_IN}
++ updateqm.CONFIG += no_link
++ QMAKE_EXTRA_COMPILERS += updateqm
++ 
 +-isEmpty(vcproj) {
 ++!isEmpty(vcproj) {
-+     QMAKE_LINK =3D @: IGNORE THIS LINE
-+     OBJECTS_DIR =3D
-+     win32:CONFIG -=3D embed_manifest_exe
++     QMAKE_LINK = @: IGNORE THIS LINE
++     OBJECTS_DIR =
++     win32:CONFIG -= embed_manifest_exe
 +@@ -30,7 +30,7 @@ isEmpty(vcproj) {
-+     phony_src.input =3D PHONY_DEPS
-+     phony_src.output =3D phony.c
-+     phony_src.variable_out =3D GENERATED_SOURCES
-+-    phony_src.commands =3D echo int main() { return 0; } > phony.c
-++    phony_src.commands =3D echo \"int main() { return 0; }\" > phony.c
-+     phony_src.name =3D CREATE phony.c
-+     phony_src.CONFIG +=3D combine
-+     QMAKE_EXTRA_COMPILERS +=3D phony_src
-diff --git a/meta/recipes-qt/qt4/qt4-embedded.inc b/meta/recipes-qt/qt4/q=
-t4-embedded.inc
-index 53e1297..79473c9 100644
---- a/meta/recipes-qt/qt4/qt4-embedded.inc
-+++ b/meta/recipes-qt/qt4/qt4-embedded.inc
-@@ -3,7 +3,7 @@ SECTION =3D "libs"
- LICENSE =3D "LGPLv2.1 | GPLv3"
- HOMEPAGE =3D "http://qt.nokia.com"
- DEPENDS +=3D "directfb tslib"
--INC_PR =3D "r34"
-+INC_PR =3D "r35"
-=20
- QT_BASE_NAME ?=3D "qt4-embedded"
- QT_BASE_LIB  ?=3D "libqt-embedded"
-diff --git a/meta/recipes-qt/qt4/qt4-native.inc b/meta/recipes-qt/qt4/qt4=
--native.inc
-index ebbee9b..a3ffe03 100644
---- a/meta/recipes-qt/qt4/qt4-native.inc
-+++ b/meta/recipes-qt/qt4/qt4-native.inc
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE.LGPL;md5=3Dfbc093901=
-857fcd118f065f900982c24 \
-                     file://LICENSE.GPL3;md5=3Dbabc5b6b77441da277f5c06b2e=
-547720 \
-                     file://LGPL_EXCEPTION.txt;md5=3D411080a56ff917a5a1aa=
-08c98acae354"
-=20
--INC_PR =3D "r13"
-+INC_PR =3D "r14"
-=20
- inherit native
-=20
-diff --git a/meta/recipes-qt/qt4/qt4-tools-nativesdk.inc b/meta/recipes-q=
-t/qt4/qt4-tools-nativesdk.inc
-index a71c3ae..b1a5661 100644
---- a/meta/recipes-qt/qt4/qt4-tools-nativesdk.inc
-+++ b/meta/recipes-qt/qt4/qt4-tools-nativesdk.inc
-@@ -4,7 +4,7 @@ SECTION =3D "libs"
- HOMEPAGE =3D "http://qt.nokia.com"
- LICENSE =3D "LGPLv2.1 | GPLv3"
-=20
--INC_PR =3D "r7"
-+INC_PR =3D "r8"
-=20
- FILESEXTRAPATHS =3D. "${FILE_DIRNAME}/qt-${PV}:"
-=20
-diff --git a/meta/recipes-qt/qt4/qt4-x11-free.inc b/meta/recipes-qt/qt4/q=
-t4-x11-free.inc
-index f76a97f..f391028 100644
---- a/meta/recipes-qt/qt4/qt4-x11-free.inc
-+++ b/meta/recipes-qt/qt4/qt4-x11-free.inc
-@@ -5,7 +5,7 @@ HOMEPAGE =3D "http://qt.nokia.com"
- SECTION =3D "x11/libs"
- DEPENDS +=3D "virtual/libgl virtual/libx11 fontconfig libxft libxext lib=
-xrender libxrandr libxcursor"
-=20
--INC_PR =3D "r31"
-+INC_PR =3D "r32"
-=20
- QT_GLFLAGS ?=3D "${@base_contains('DISTRO_FEATURES', 'opengl', '-opengl'=
-, '-no-opengl', d)} "
- QT_GLFLAGS_qemux86 =3D "-opengl"
---=20
-1.7.6.2
++     phony_src.input = PHONY_DEPS
++     phony_src.output = phony.c
++     phony_src.variable_out = GENERATED_SOURCES
++-    phony_src.commands = echo int main() { return 0; } > phony.c
+++    phony_src.commands = echo \"int main() { return 0; }\" > phony.c
++     phony_src.name = CREATE phony.c
++     phony_src.CONFIG += combine
++     QMAKE_EXTRA_COMPILERS += phony_src
+diff --git a/meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb b/meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb
+index 9d893f9..34061cb 100644
+--- a/meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb
++++ b/meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb
+@@ -1,7 +1,7 @@
+ require qt-${PV}.inc
+ require qt4-embedded.inc
+ 
+-PR = "${INC_PR}.2"
++PR = "${INC_PR}.3"
+ 
+ QT_CONFIG_FLAGS_append_armv6-vfp = " -no-neon "
+ 
+diff --git a/meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb b/meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb
+index 2f39ec0..0290313 100644
+--- a/meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb
++++ b/meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb
+@@ -1,7 +1,7 @@
+ require qt4-x11-free.inc
+ require qt-${PV}.inc
+ 
+-PR = "${INC_PR}.2"
++PR = "${INC_PR}.3"
+ 
+ QT_CONFIG_FLAGS_append_armv6-vfp = " -no-neon "
+ 
+-- 
+1.7.2.5
 
 
 
