@@ -1,37 +1,36 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RAnxA-0007gL-AL
+	(envelope-from <raj.khem@gmail.com>) id 1RAo1j-0007lc-Fc
 	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Oct 2011 21:13:28 +0200
-Received: by eya25 with SMTP id 25so3406849eya.6
+	Mon, 03 Oct 2011 21:18:20 +0200
+Received: by yxj17 with SMTP id 17so3766825yxj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Oct 2011 12:07:55 -0700 (PDT)
+	Mon, 03 Oct 2011 12:12:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=RzNlKbyEIYMNJgBM0dbyndl9kIjABbtLV+Cmcrd9VjI=;
-	b=EEu/8baTRAMVL6YYjAliSqbJBSeIuYD0KJSULr2ZMs+hKOpVJXnKXpRjzGY5aRuauu
-	qRYlMn+c90tm9/I2arR8ZMEaYFevQGUFT652YnQzJRZlYTzMsjA2elu4g4rylZXLH8c6
-	5Ry+CRcTLGannPMR3ZNKqmit/JLhJ4vqVKW78=
-Received: by 10.223.55.136 with SMTP id u8mr363632fag.46.1317668673082;
-	Mon, 03 Oct 2011 12:04:33 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id a7sm22302072fam.22.2011.10.03.12.04.31
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 03 Oct 2011 12:04:31 -0700 (PDT)
-Date: Mon, 3 Oct 2011 21:04:25 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111003190425.GS7364@jama.jama.net>
-References: <1317403283-17471-1-git-send-email-msm@freescale.com>
-	<20110930172628.GE7364@jama.jama.net>
-	<CAEsOVNdMVdbMaM-E0X2T4+v-Y_TbpiFMdcV+Lu3s7gX4dHLPHA@mail.gmail.com>
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=hr7/A8c+qLs34yDmGa6woJN+dayN5ZGOpFlMIk1BuTc=;
+	b=K7iceG6PZBg5Cp+lJnN5Q+JzIyQj/FeYT8InZZvGbwjEETI4H5fOd0V8Pc/zRmIojH
+	S2+Cz1uR+cK42EQEIsaOaWcGHb//BQgA0G43XRaoyRqHpQ7Y++6sf76TmcZ1aAvk/O+i
+	6UVxHMhWlIoL2MY4xL+npbNgyXprivadZfA+w=
+Received: by 10.151.85.9 with SMTP id n9mr466476ybl.428.1317669153915;
+	Mon, 03 Oct 2011 12:12:33 -0700 (PDT)
+Received: from [172.23.2.133] (natint3.juniper.net. [66.129.224.36])
+	by mx.google.com with ESMTPS id c9sm2814202yba.28.2011.10.03.12.12.28
+	(version=SSLv3 cipher=OTHER); Mon, 03 Oct 2011 12:12:29 -0700 (PDT)
+Message-ID: <4E8A091B.6040503@gmail.com>
+Date: Mon, 03 Oct 2011 12:12:27 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1;
+	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
 MIME-Version: 1.0
-In-Reply-To: <CAEsOVNdMVdbMaM-E0X2T4+v-Y_TbpiFMdcV+Lu3s7gX4dHLPHA@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH v3 01/16] libnl2: Fix a race on route/pktloc_syntax.h
+To: openembedded-core@lists.openembedded.org
+References: <CAMKF1spia2JSMq_jQwUUKJWUzjNC+pD-qKTiBAaSDujHuB3iPg@mail.gmail.com>
+	<1317151788.3120.7.camel@lenovo.internal.reciva.com>
+	<CAMKF1srO6v3DFRT-JN=FZ8riMo3hyWk8cDjtwYt-tiAYOXhf-A@mail.gmail.com>
+	<1317305306.3304.8.camel@lenovo.internal.reciva.com>
+In-Reply-To: <1317305306.3304.8.camel@lenovo.internal.reciva.com>
+Subject: Re: Selectable linker (ld or gold) per recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,63 +45,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Oct 2011 19:13:28 -0000
-X-Groupsio-MsgNum: 10438
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="magLDk5D4XGaUXcd"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 03 Oct 2011 19:18:20 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---magLDk5D4XGaUXcd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 9/29/2011 7:08 AM, Phil Blundell wrote:
+> On Tue, 2011-09-27 at 18:10 -0700, Khem Raj wrote:
+>> I have thought of that and we know about kernel and eglibc but we
+>> don't know about rest of apps
+>> that we build. I don't know if gold has been deployed distro wide
+>> thats why the approach was to have gold replace parts where it really matters
+>> then we might have packages where they use linker directly and or have
+>> own linker
+>> scripts which are tuned to ld and may yield something different with
+>> gold of-course
+>> those problems should be fixed but having something in place to make package
+>> wise choice sounded better to me.
+>
+> I think I would rather wait until such issues actually arise before
+> trying to fix them.  Adding per-recipe linker selection seems like quite
+> a lot of mechanism, with associated potential fragility, to solve a
+> problem that might not even exist in reality.
+>
+> Also, thinking about this more, I am not convinced that wrapping ld
+> directly is going to work reliably.  If I remember right, gcc inspects
+> some attributes of the target linker (plugin support being the most
+> obvious one) during configure and adapts itself accordingly.
 
-On Mon, Oct 03, 2011 at 06:39:52PM +0000, McClintock Matthew-B29882 wrote:
-> On Fri, Sep 30, 2011 at 12:26 PM, Martin Jansa <martin.jansa@gmail.com> w=
-rote:
-> > On Fri, Sep 30, 2011 at 12:21:23PM -0500, Matthew McClintock wrote:
-> >> From: Tom Rini <tom_rini@mentor.com>
-> >>
-> >> At issue is that route/pktloc.c (not generated) depends on
-> >> route/pktloc_syntax.h (generated).
-> >
-> > On Fri, Sep 30, 2011 at 9:13 AM, Martin Jansa <martin.jansa@gmail.com> =
-wrote:
-> >
-> > and when you're at it, please also add packaging changes from meta-oe,
-> > so we can remove libnl from meta-oe and keep only libnl1 there.
->=20
-> Sorry, I'm not sure I follow. Are you referring to all the other stuff
-> in the old openembedded? I'm not following this package particularly
-> closely.
+plugin support is now supported in both linkers 2.21+ should not be any 
+issue
+any other differences between both linkers I am not aware that gcc
+would care when configuring itself
 
-just see diff oe-core/meta/recipes*/libnl* and meta-openembedded/meta-oe/re=
-cipes*/libnl*
-and it will be clearer
+> Subsequently swapping out the linker under its feet at runtime seems
+> like it would be a bad idea.  If it does turn out that there are
+> packages which simply must be built with BFD ld, I think we should
+> either:
+>
+> a) just declare them incompatible with the ld-is-gold DISTRO_FEATURE,
+> and say that the programs in question aren't supported by such DISTROs
+> (which might or might not be a defensible position, depending on the
+> extent to which such programs are a fringe interest); or
 
-Regards,
+this could be a starter
 
-> * 9fef5f0 Add 'ucred' structure declaration in netlink headers for the in=
-tegrity
-> * f9e4241 libnl-1.1: rename to libnl1 and build only static lib
-> * 4ccaf2c libnl_git: remove fix-pktloc-dep-race.patch from this version
-> * 91e03b2 libnl: add libnl.inc and use INC_PR
-> * 4702231 libnl: don't use /usr/include/libnl2 anymore
-> * 5ef679a libnl: rename libnl2 to libnl as used in openembedded-core
+>
+> b) fix the programs and/or gold to make them compatible, or if that's
+> really intractable; or
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+obviously wanted to avoid that
 
---magLDk5D4XGaUXcd
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+>
+> c) work with upstream gcc to figurd
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
+yes
 
-iEYEARECAAYFAk6KBzkACgkQN1Ujt2V2gBy2lQCfQUN7vhOWNgU/haDISITUcfrg
-CQ4AoLdXH6Wh+cca6FV+WhP4TpKFdy9G
-=Hxts
------END PGP SIGNATURE-----
+>
+> c) build a parallel toolchain which uses BFD ld and has its own copy of
+> gcc which is appropriately configured, and arrange for the recipes in
+> question to find that toolchain in their $PATH.
+>
+> p.
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
---magLDk5D4XGaUXcd--
+
+
