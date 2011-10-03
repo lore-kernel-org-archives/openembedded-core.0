@@ -1,32 +1,35 @@
-Received: from mail-out.m-online.net ([212.18.0.10])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mokml@mnet-online.de>) id 1RAf2q-0007x3-MS
+	(envelope-from <martin.jansa@gmail.com>) id 1RAg0j-0000fF-Gs
 	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Oct 2011 11:42:44 +0200
-Received: from frontend1.mail.m-online.net (frontend1.mail.intern.m-online.net
-	[192.168.8.180])
-	by mail-out.m-online.net (Postfix) with ESMTP id BB621186DECA;
-	Mon,  3 Oct 2011 11:31:32 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.8.164])
-	by mail.m-online.net (Postfix) with ESMTP id 0D39D1C000B5;
-	Mon,  3 Oct 2011 11:31:33 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.180])
-	by localhost (dynscan1.mail.m-online.net [192.168.8.164]) (amavisd-new,
-	port 10024)
-	with ESMTP id vH7a+pc2b8bQ; Mon,  3 Oct 2011 11:31:31 +0200 (CEST)
-Received: from kallare.istmein.de (ppp-93-104-187-108.dynamic.mnet-online.de
-	[93.104.187.108]) by mail.mnet-online.de (Postfix) with ESMTP;
-	Mon,  3 Oct 2011 11:31:31 +0200 (CEST)
-Received: from gonzales.palutemo by kallare.istmein.de with esmtp
-	(emil_HkmZPQSX21F2G); Mon, 03 Oct 2011 11:31:29 +0200
-From: mokml@mnet-online.de
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Oct 2011 11:30:09 +0200
-Message-Id: <1317634209-3154-1-git-send-email-mokml@mnet-online.de>
-X-Mailer: git-send-email 1.7.6.4
-Cc: Klaus Kurzmann <mok@fluxnetz.de>
-Subject: [PATCH] eglibc-2.14: add patch to fix libdl crash
+	Mon, 03 Oct 2011 12:44:38 +0200
+Received: by bke11 with SMTP id 11so5197318bke.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 03 Oct 2011 03:39:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=G2UB4770sqxhoMx+mdUF719uA0/LKk4z/0k5f/kSih4=;
+	b=cDSzeGWndVGzbUy41nJJ6/Vthndfl99BZqN0qx57vrT4pz0HawVwPT5l/l3GYz6Lj7
+	+4vp/2gAkYbSGPr9g/LH1+CxJTdD6An9IAQRG39cQi4oh27ZoDt35omemQLZc9mp0wZt
+	6VQSLNEY8BaEPpdniXnYsZ6gfk+PvvszDmhQ0=
+Received: by 10.204.155.74 with SMTP id r10mr3211947bkw.244.1317638345304;
+	Mon, 03 Oct 2011 03:39:05 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id z7sm12723865bkt.5.2011.10.03.03.39.00
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 03 Oct 2011 03:39:01 -0700 (PDT)
+Date: Mon, 3 Oct 2011 12:38:55 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20111003103855.GN7364@jama.jama.net>
+References: <cover.1317367429.git.Martin.Jansa@gmail.com>
+	<1317382126.12332.167.camel@ted>
+MIME-Version: 1.0
+In-Reply-To: <1317382126.12332.167.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH 00/13] Xorg related changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,181 +44,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Oct 2011 09:42:44 -0000
+X-List-Received-Date: Mon, 03 Oct 2011 10:44:38 -0000
+X-Groupsio-MsgNum: 10388
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="um2V5WpqCyd73IVb"
+Content-Disposition: inline
 
-From: Klaus Kurzmann <mok@fluxnetz.de>
+--um2V5WpqCyd73IVb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-* Without this patch programs using alsa-lib crash (alsamixer for example).
-* This patch is taken verbatim from ArchLinux.
+On Fri, Sep 30, 2011 at 12:28:39PM +0100, Richard Purdie wrote:
+> On Fri, 2011-09-30 at 09:26 +0200, Martin Jansa wrote:
+> > Hi,
+> >=20
+> > this patchset brings meta-oe and oe-core xorg stuff together and most o=
+f=20
+> > xorg recipes will be removed from meta-oe (sending another pull request=
+ now).
+> >=20
+> > This step is needed to be able to separate common x11 to meta-x11 or wh=
+atever later.
+> >=20
+> > The following changes since commit 96241de59fdf548ae0f80cc9e4668f9ba119=
+24ef:
+> >=20
+> >   Fix flac build on e500mc cores (2011-09-29 19:31:38 +0100)
+> >=20
+> > are available in the git repository at:
+> >   git://git.openembedded.org/openembedded-core-contrib jansa/x11
+> >   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?=
+h=3Djansa/x11
+> >=20
+> > Martin Jansa (13):
+> >  xorg-driver: rename .inc files and merge some changes from meta-oe
+> >  libxft, libxrender, renderproto: add native BBCLASSEXTEND
+> >  xorg-app-common: merge some changes from meta-oe
+> >  xf86-video-omapfb: bump SRCREV and add patch from meta-oe
+> >  rgb: import from meta-oe layer
+> >  libdrm: improve packaging
+>=20
+> I'll take these ones. I've queued them on a master-next branch for now
+> as I want to give other people some time to comment on them. If there
+> isn't negative feedback I'll take them in ~24 hours.
+>=20
+> I've given feedback on why I think these need further work:
+>=20
+> >   xserver-xf86: upgrade to 1.11.0 and move shared definitions to .inc
+> >     files
+> >   xserver-xf86-dri-lite: remove COMPATIBLE_HOST
+> >   libx11: upgrade to 1.4.4
+> >   default-providers: define PREFERRED_PROVIDER_virtual/libx11-native
+> >   xserver-nodm-init: merge some changes from meta-oe
+> >  glx-use-tls: add from meta-oe layer
+> >  mesa: upgrade to 7.11
 
-Signed-off-by: Klaus Kurzmann <mok@fluxnetz.de>
----
- .../eglibc-2.14/glibc-2.14-libdl-crash.patch       |  132 ++++++++++++++++++++
- meta/recipes-core/eglibc/eglibc_2.14.bb            |    3 +-
- 2 files changed, 134 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch
+I've updated jansa/x11 branch according to your comments, now 17 patches
+instead of 7 :).
 
-diff --git a/meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch b/meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch
-new file mode 100644
-index 0000000..ee29f8c
---- /dev/null
-+++ b/meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch
-@@ -0,0 +1,132 @@
-+diff --git a/elf/dl-close.c b/elf/dl-close.c
-+index 73b2a2f..9bd91e3 100644
-+--- a/elf/dl-close.c
-++++ b/elf/dl-close.c
-+@@ -1,5 +1,5 @@
-+ /* Close a shared object opened by `_dl_open'.
-+-   Copyright (C) 1996-2007, 2009, 2010, 2011 Free Software Foundation, Inc.
-++   Copyright (C) 1996-2007, 2009, 2010 Free Software Foundation, Inc.
-+    This file is part of the GNU C Library.
-+ 
-+    The GNU C Library is free software; you can redistribute it and/or
-+@@ -119,17 +119,8 @@ _dl_close_worker (struct link_map *map)
-+   if (map->l_direct_opencount > 0 || map->l_type != lt_loaded
-+       || dl_close_state != not_pending)
-+     {
-+-      if (map->l_direct_opencount == 0)
-+-	{
-+-	  if (map->l_type == lt_loaded)
-+-	    dl_close_state = rerun;
-+-	  else if (map->l_type == lt_library)
-+-	    {
-+-	      struct link_map **oldp = map->l_initfini;
-+-	      map->l_initfini = map->l_orig_initfini;
-+-	      _dl_scope_free (oldp);
-+-	    }
-+-	}
-++      if (map->l_direct_opencount == 0 && map->l_type == lt_loaded)
-++	dl_close_state = rerun;
-+ 
-+       /* There are still references to this object.  Do nothing more.  */
-+       if (__builtin_expect (GLRO(dl_debug_mask) & DL_DEBUG_FILES, 0))
-+diff --git a/elf/dl-deps.c b/elf/dl-deps.c
-+index 9e30594..3890d00 100644
-+--- a/elf/dl-deps.c
-++++ b/elf/dl-deps.c
-+@@ -478,6 +478,7 @@ _dl_map_object_deps (struct link_map *map,
-+ 		  nneeded * sizeof needed[0]);
-+ 	  atomic_write_barrier ();
-+ 	  l->l_initfini = l_initfini;
-++	  l->l_free_initfini = 1;
-+ 	}
-+ 
-+       /* If we have no auxiliary objects just go on to the next map.  */
-+@@ -681,6 +682,7 @@ Filters not supported with LD_TRACE_PRELINKING"));
-+   l_initfini[nlist] = NULL;
-+   atomic_write_barrier ();
-+   map->l_initfini = l_initfini;
-++  map->l_free_initfini = 1;
-+   if (l_reldeps != NULL)
-+     {
-+       atomic_write_barrier ();
-+@@ -689,5 +691,5 @@ Filters not supported with LD_TRACE_PRELINKING"));
-+       _dl_scope_free (old_l_reldeps);
-+     }
-+   if (old_l_initfini != NULL)
-+-      map->l_orig_initfini = old_l_initfini;
-++    _dl_scope_free (old_l_initfini);
-+ }
-+diff --git a/elf/dl-libc.c b/elf/dl-libc.c
-+index 7be9483..a13fce3 100644
-+--- a/elf/dl-libc.c
-++++ b/elf/dl-libc.c
-+@@ -265,13 +265,13 @@ libc_freeres_fn (free_mem)
-+ 
-+   for (Lmid_t ns = 0; ns < GL(dl_nns); ++ns)
-+     {
-+-      /* Remove all additional names added to the objects.  */
-+       for (l = GL(dl_ns)[ns]._ns_loaded; l != NULL; l = l->l_next)
-+ 	{
-+ 	  struct libname_list *lnp = l->l_libname->next;
-+ 
-+ 	  l->l_libname->next = NULL;
-+ 
-++	  /* Remove all additional names added to the objects.  */
-+ 	  while (lnp != NULL)
-+ 	    {
-+ 	      struct libname_list *old = lnp;
-+@@ -279,6 +279,10 @@ libc_freeres_fn (free_mem)
-+ 	      if (! old->dont_free)
-+ 		free (old);
-+ 	    }
-++
-++	  /* Free the initfini dependency list.  */
-++	  if (l->l_free_initfini)
-++	    free (l->l_initfini);
-+ 	}
-+ 
-+       if (__builtin_expect (GL(dl_ns)[ns]._ns_global_scope_alloc, 0) != 0
-+diff --git a/elf/rtld.c b/elf/rtld.c
-+index 4a9109e..617e30e 100644
-+--- a/elf/rtld.c
-++++ b/elf/rtld.c
-+@@ -2251,6 +2251,7 @@ ERROR: ld.so: object '%s' cannot be loaded as audit interface: %s; ignored.\n",
-+ 	      lnp->dont_free = 1;
-+ 	      lnp = lnp->next;
-+ 	    }
-++	  l->l_free_initfini = 0;
-+ 
-+ 	  if (l != &GL(dl_rtld_map))
-+ 	    _dl_relocate_object (l, l->l_scope, GLRO(dl_lazy) ? RTLD_LAZY : 0,
-+diff --git a/include/link.h b/include/link.h
-+index e877104..051b99a 100644
-+--- a/include/link.h
-++++ b/include/link.h
-+@@ -1,6 +1,6 @@
-+ /* Data structure for communication from the run-time dynamic linker for
-+    loaded ELF shared objects.
-+-   Copyright (C) 1995-2006, 2007, 2009, 2010, 2011 Free Software Foundation, Inc.
-++   Copyright (C) 1995-2006, 2007, 2009, 2010 Free Software Foundation, Inc.
-+    This file is part of the GNU C Library.
-+ 
-+    The GNU C Library is free software; you can redistribute it and/or
-+@@ -192,6 +192,9 @@ struct link_map
-+ 						 during LD_TRACE_PRELINKING=1
-+ 						 contains any DT_SYMBOLIC
-+ 						 libraries.  */
-++    unsigned int l_free_initfini:1; /* Nonzero if l_initfini can be
-++				       freed, ie. not allocated with
-++				       the dummy malloc in ld.so.  */
-+ 
-+     /* Collected information about own RPATH directories.  */
-+     struct r_search_path_struct l_rpath_dirs;
-+@@ -240,9 +243,6 @@ struct link_map
-+ 
-+     /* List of object in order of the init and fini calls.  */
-+     struct link_map **l_initfini;
-+-    /* The init and fini list generated at startup, saved when the
-+-       object is also loaded dynamically.  */
-+-    struct link_map **l_orig_initfini;
-+ 
-+     /* List of the dependencies introduced through symbol binding.  */
-+     struct link_map_reldeps
-diff --git a/meta/recipes-core/eglibc/eglibc_2.14.bb b/meta/recipes-core/eglibc/eglibc_2.14.bb
-index b2821db..4129947 100644
---- a/meta/recipes-core/eglibc/eglibc_2.14.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.14.bb
-@@ -3,7 +3,7 @@ require eglibc.inc
- SRCREV = "15225"
- 
- DEPENDS += "gperf-native"
--PR = "r0"
-+PR = "r1"
- PR_append = "+svnr${SRCPV}"
- 
- EGLIBC_BRANCH="eglibc-2_14"
-@@ -19,6 +19,7 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http
-            file://ppc-sqrt.patch \
-            file://multilib_readlib.patch \
-            file://eglibc-rpc-export-again.patch \
-+	   file://glibc-2.14-libdl-crash.patch \
- 	   "
- LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
-       file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
--- 
-1.7.6.4
+Before I send updated pull-request, what do you think about renaming
+xserver-xf86 to xserver-xorg which is closer to upstream naming and
+that's how it's named in OE-classic and meta-oe? It would make meta-oe
+transition easier and better to do it now then convert meta-oe to
+xserver-xf86 and then rename it back later.
 
+Regards,
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--um2V5WpqCyd73IVb
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk6JkL8ACgkQN1Ujt2V2gBzsyQCguoX85HeWl32dfF6vKrawzcYf
+5TkAoI9qBSo1qWn/2o+uGvKi1ZOH1LVl
+=e+BD
+-----END PGP SIGNATURE-----
+
+--um2V5WpqCyd73IVb--
