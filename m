@@ -1,24 +1,24 @@
-Received: from mailout-de.gmx.net ([213.165.64.23])
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <schnitzeltony@gmx.de>) id 1RAj8h-0007nU-N5
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <philb@gnu.org>) id 1RAk0Q-0002dL-3Z
 	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Oct 2011 16:05:03 +0200
-Received: (qmail invoked by alias); 03 Oct 2011 13:59:31 -0000
-Received: from p5B0A2BEE.dip.t-dialin.net (EHLO localhost.localdomain)
-	[91.10.43.238]
-	by mail.gmx.net (mp007) with SMTP; 03 Oct 2011 15:59:31 +0200
-X-Authenticated: #62780362
-X-Provags-ID: V01U2FsdGVkX19ydWxOvvByeWkBCVUcsaGfSMWUDAeCGv4VL4JINV
-	fIdwKWXhX/+bpz
-From: Andreas =?iso-8859-1?q?M=FCller?= <schnitzeltony@gmx.de>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 3 Oct 2011 16:03:30 +0200
-User-Agent: KMail/1.13.7 (Linux/2.6.35.14-96.fc14.x86_64; KDE/4.6.5; x86_64; ;
-	)
-MIME-Version: 1.0
-Message-Id: <201110031603.31007.schnitzeltony@gmx.de>
-X-Y-GMX-Trusted: 0
-Subject: bitbake webkit-gtk fails with clean temp dir
+	Mon, 03 Oct 2011 17:00:34 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RAjv4-0008C9-IG
+	for openembedded-core@lists.openembedded.org;
+	Mon, 03 Oct 2011 16:55:02 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 03 Oct 2011 15:55:01 +0100
+In-Reply-To: <CALT56yPoAbv43D_CGsGHMjr+eQxhNUJAW_Ryznoi7Tz8tb7THA@mail.gmail.com>
+References: <CALT56yPoAbv43D_CGsGHMjr+eQxhNUJAW_Ryznoi7Tz8tb7THA@mail.gmail.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1317653702.13337.4.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [RFC] .la files cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,60 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Oct 2011 14:05:03 -0000
-Content-Type: Text/Plain;
-  charset="us-ascii"
+X-List-Received-Date: Mon, 03 Oct 2011 15:00:34 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Have pulled yesterday all the angstom layers (oe-core / meta-oe ..) and deleted all files from temp build dir. For
+On Mon, 2011-10-03 at 14:58 +0400, Dmitry Eremin-Solenikov wrote:
+> My proposal would be to include a special task or a
+> do_install_append() part that
+> will remove specified .la files. (like ${libdir}/xorg/modules/*/.la,
+> ${libdir}/matchbox-panel/*.la, etc.). I see this usually done in
+> do_install or in special do_install_append
+> parts, but I think it would be better to handle this globally.
 
-bitbake webkit-gtk 
+I guess the ideal solution would be to find a way to stop libtool from
+installing these things in the first place.  It isn't totally obvious to
+me that the .la files are a net benefit even for real shared libraries,
+and for plugins I think they are probably a net loss in most/all cases.
 
-I get
+When this issue last came up it seemed that Richard's preferred fix was
+to just ship the .la files in FILES_${PN}-dev, and I guess that approach
+does at least have the merit of simplicity.  See:
 
-NOTE: package webkit-gtk-1.5.1+svnr90727-r0: task do_compile: Started
-ERROR: Function 'do_compile' failed (see /home/Superandy/tmp/oe-core-eglibc/work/armv7a-angstrom-linux-gnueabi/webkit-gtk-1.5.1+svnr90727-r0/temp/log.do_compile.13377 for further information)
-ERROR: Logfile of failure stored in: /home/Superandy/tmp/oe-core-eglibc/work/armv7a-angstrom-linux-gnueabi/webkit-gtk-1.5.1+svnr90727-r0/temp/log.do_compile.13377
-Log data follows:
-| DEBUG: SITE files ['endian-little', 'bit-32', 'arm-common', 'common-linux', 'common-glibc', 'arm-linux', 'arm-linux-gnueabi', 'common']
-| + cd /home/Superandy/tmp/oe-core-eglibc/work/armv7a-angstrom-linux-gnueabi/webkit-gtk-1.5.1+svnr90727-r0/
-| + do_compile
-| + base_do_compile
-| + '[' -e Makefile -o -e makefile ']'
-| + oe_runmake
-| + '[' xmake = x ']'
-| + bbnote make -j 4
-| + echo 'NOTE: make -j 4'
-| NOTE: make -j 4
-| + make -j 4
-| /usr/bin/perl -I./Source/WebCore/bindings/scripts ./Source/WebCore/bindings/scripts/generate-bindings.pl --include ./Source/WebCore/dom --include ./Source/WebCore/html --include ./Source/WebCore/css --include ./Source/WebCore/page --include ./Source/WebCore/xml --include ./Source/WebCore/svg --outputDir "./DerivedSources/webkit" --defines "LANGUAGE_GOBJECT=1 ENABLE_CHANNEL_MESSAGING=1 ENABLE_METER_TAG=1 ENABLE_PROGRESS_TAG=1 ENABLE_JAVASCRIPT_DEBUGGER=1 ENABLE_OFFLINE_WEB_APPLICATIONS=1 ENABLE_DATABASE=1 ENABLE_DATALIST=1 ENABLE_EVENTSOURCE=1 ENABLE_DOM_STORAGE=1 ENABLE_VIDEO=1 ENABLE_FULLSCREEN_API=1 ENABLE_VIDEO_TRACK=1 ENABLE_XPATH=1 ENABLE_XSLT=1 ENABLE_WORKERS=1 ENABLE_SHARED_WORKERS=1 ENABLE_FILTERS=1 ENABLE_WEB_SOCKETS=1 ENABLE_BLOB=1" --generator GObject ./Source/WebCore/css/CSSRule.idl
-| /usr/bin/perl -I./Source/WebCore/bindings/scripts ./Source/WebCore/bindings/scripts/generate-bindings.pl --include ./Source/WebCore/dom --include ./Source/WebCore/html --include ./Source/WebCore/css --include ./Source/WebCore/page --include ./Source/WebCore/xml --include ./Source/WebCore/svg --outputDir "./DerivedSources/webkit" --defines "LANGUAGE_GOBJECT=1 ENABLE_CHANNEL_MESSAGING=1 ENABLE_METER_TAG=1 ENABLE_PROGRESS_TAG=1 ENABLE_JAVASCRIPT_DEBUGGER=1 ENABLE_OFFLINE_WEB_APPLICATIONS=1 ENABLE_DATABASE=1 ENABLE_DATALIST=1 ENABLE_EVENTSOURCE=1 ENABLE_DOM_STORAGE=1 ENABLE_VIDEO=1 ENABLE_FULLSCREEN_API=1 ENABLE_VIDEO_TRACK=1 ENABLE_XPATH=1 ENABLE_XSLT=1 ENABLE_WORKERS=1 ENABLE_SHARED_WORKERS=1 ENABLE_FILTERS=1 ENABLE_WEB_SOCKETS=1 ENABLE_BLOB=1" --generator GObject ./Source/WebCore/css/CSSRuleList.idl
-| /usr/bin/perl -I./Source/WebCore/bindings/scripts ./Source/WebCore/bindings/scripts/generate-bindings.pl --include ./Source/WebCore/dom --include ./Source/WebCore/html --include ./Source/WebCore/css --include ./Source/WebCore/page --include ./Source/WebCore/xml --include ./Source/WebCore/svg --outputDir "./DerivedSources/webkit" --defines "LANGUAGE_GOBJECT=1 ENABLE_CHANNEL_MESSAGING=1 ENABLE_METER_TAG=1 ENABLE_PROGRESS_TAG=1 ENABLE_JAVASCRIPT_DEBUGGER=1 ENABLE_OFFLINE_WEB_APPLICATIONS=1 ENABLE_DATABASE=1 ENABLE_DATALIST=1 ENABLE_EVENTSOURCE=1 ENABLE_DOM_STORAGE=1 ENABLE_VIDEO=1 ENABLE_FULLSCREEN_API=1 ENABLE_VIDEO_TRACK=1 ENABLE_XPATH=1 ENABLE_XSLT=1 ENABLE_WORKERS=1 ENABLE_SHARED_WORKERS=1 ENABLE_FILTERS=1 ENABLE_WEB_SOCKETS=1 ENABLE_BLOB=1" --generator GObject ./Source/WebCore/css/CSSStyleDeclaration.idl
-| /usr/bin/perl -I./Source/WebCore/bindings/scripts ./Source/WebCore/bindings/scripts/generate-bindings.pl --include ./Source/WebCore/dom --include ./Source/WebCore/html --include ./Source/WebCore/css --include ./Source/WebCore/page --include ./Source/WebCore/xml --include ./Source/WebCore/svg --outputDir "./DerivedSources/webkit" --defines "LANGUAGE_GOBJECT=1 ENABLE_CHANNEL_MESSAGING=1 ENABLE_METER_TAG=1 ENABLE_PROGRESS_TAG=1 ENABLE_JAVASCRIPT_DEBUGGER=1 ENABLE_OFFLINE_WEB_APPLICATIONS=1 ENABLE_DATABASE=1 ENABLE_DATALIST=1 ENABLE_EVENTSOURCE=1 ENABLE_DOM_STORAGE=1 ENABLE_VIDEO=1 ENABLE_FULLSCREEN_API=1 ENABLE_VIDEO_TRACK=1 ENABLE_XPATH=1 ENABLE_XSLT=1 ENABLE_WORKERS=1 ENABLE_SHARED_WORKERS=1 ENABLE_FILTERS=1 ENABLE_WEB_SOCKETS=1 ENABLE_BLOB=1" --generator GObject ./Source/WebCore/css/CSSStyleSheet.idl
-| Unquoted string "attributes" may clash with future reserved word at Source/WebCore/bindings/scripts/CodeGeneratorGObject.pm line 1036.
-| Unquoted string "attributes" may clash with future reserved word at Source/WebCore/bindings/scripts/CodeGeneratorGObject.pm line 1036.
-| Unquoted string "attributes" may clash with future reserved word at Source/WebCore/bindings/scripts/CodeGeneratorGObject.pm line 1036.
-| Couldn't open file ./DerivedSources/webkit/WebKitDOMCSSRuleListPrivate.h for writing at Source/WebCore/bindings/scripts/CodeGeneratorGObject.pm line 1122.
-| Couldn't open file ./DerivedSources/webkit/WebKitDOMCSSStyleSheetPrivate.h for writing at Source/WebCore/bindings/scripts/CodeGeneratorGObject.pm line 1122.
-| make: *** [DerivedSources/webkit/WebKitDOMCSSRuleList.h] Error 2
-| make: *** Waiting for unfinished jobs....
-| Couldn't open file ./DerivedSources/webkit/WebKitDOMCSSStyleDeclarationPrivate.h for writing at Source/WebCore/bindings/scripts/CodeGeneratorGObject.pm line 1122.
-| make: *** [DerivedSources/webkit/WebKitDOMCSSStyleSheet.h] Error 2
-| make: *** [DerivedSources/webkit/WebKitDOMCSSStyleDeclaration.h] Error 2
-| Unquoted string "attributes" may clash with future reserved word at Source/WebCore/bindings/scripts/CodeGeneratorGObject.pm line 1036.
-| Couldn't open file ./DerivedSources/webkit/WebKitDOMCSSRulePrivate.h for writing at Source/WebCore/bindings/scripts/CodeGeneratorGObject.pm line 1122.
-| make: *** [DerivedSources/webkit/WebKitDOMCSSRule.h] Error 2
-| + die 'oe_runmake failed'
-| + bbfatal 'oe_runmake failed'
-| + echo 'ERROR: oe_runmake failed'
-| ERROR: oe_runmake failed
-| + exit 1
-| ERROR: Function 'do_compile' failed (see /home/Superandy/tmp/oe-core-eglibc/work/armv7a-angstrom-linux-gnueabi/webkit-gtk-1.5.1+svnr90727-r0/temp/log.do_compile.13377 for further information)
-NOTE: package webkit-gtk-1.5.1+svnr90727-r0: task do_compile: Failed
-ERROR: Task 7 (/home/Superandy/data/oe-core/sources/openembedded-core/meta/recipes-sato/webkit/webkit-gtk_svn.bb, do_compile) failed with exit code '1'
+http://lists.linuxtogo.org/pipermail/openembedded-core/2011-July/005533.html
 
-ideas what causes this?
+p.
 
-Andreas
+
 
 
