@@ -1,26 +1,31 @@
-Received: from mail-vw0-f47.google.com ([209.85.212.47])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dbaryshkov@gmail.com>) id 1RAgMk-0001Kg-2o
-	for openembedded-core@openembedded.org; Mon, 03 Oct 2011 13:07:22 +0200
-Received: by vwe42 with SMTP id 42so2797300vwe.6
-	for <openembedded-core@openembedded.org>;
-	Mon, 03 Oct 2011 04:01:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=B2WEdL5qL+yBIb2X7ElMcpUi+mysumJnw7zfk0Bi/vM=;
-	b=GjlB0F3yseXq4aSwKCFL86whkMQ+D8vJxR52t0XTX/KKwWJyw2ZetmDH9icwKFtZlB
-	z/Che3npxkfMCHXQE6Xp/p2FWuk+Z/2i51EWJ5/anerhQJwKsHs3D0n/NsIjJnAjKIgF
-	sNOLocbMyrVWgna6fegN6DyUh+MvMU/O+bc0w=
-MIME-Version: 1.0
-Received: by 10.52.94.112 with SMTP id db16mr13563903vdb.497.1317639709315;
-	Mon, 03 Oct 2011 04:01:49 -0700 (PDT)
-Received: by 10.52.181.226 with HTTP; Mon, 3 Oct 2011 04:01:49 -0700 (PDT)
-Date: Mon, 3 Oct 2011 15:01:49 +0400
-Message-ID: <CALT56yPSLXF13FjunSPOYtMHNpgaXD1zQuHicmhiowR1rSGeow@mail.gmail.com>
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-To: openembedded-core <openembedded-core@openembedded.org>, 
-	openembedded-devel <openembedded-devel@lists.openembedded.org>
-Subject: oe-core/meta-oe PN clash
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RAgqk-0001iZ-Ja for openembedded-core@lists.openembedded.org;
+	Mon, 03 Oct 2011 13:38:22 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p93BdEL9010515; Mon, 3 Oct 2011 12:39:14 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 03ouEE4gwWYw; Mon,  3 Oct 2011 12:39:14 +0100 (BST)
+Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p93Bd9c6010509
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Mon, 3 Oct 2011 12:39:11 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 03 Oct 2011 12:32:40 +0100
+In-Reply-To: <CALT56yPoAbv43D_CGsGHMjr+eQxhNUJAW_Ryznoi7Tz8tb7THA@mail.gmail.com>
+References: <CALT56yPoAbv43D_CGsGHMjr+eQxhNUJAW_Ryznoi7Tz8tb7THA@mail.gmail.com>
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1317641569.12684.0.camel@ted>
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@openembedded.org>
+Subject: Re: [RFC] .la files cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,20 +40,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Oct 2011 11:07:22 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 03 Oct 2011 11:38:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hello,
+On Mon, 2011-10-03 at 14:58 +0400, Dmitry Eremin-Solenikov wrote:
+> Proposal: extend some bbclass with a task to remove unused .la files
+> 
+> Rationale: There are lots of recipes, which install tons of .la files
+> (thanks libtool),
+> but then do not ship them (correctly as most of them are unused in
+> real systems).
+> My proposal would be to include a special task or a
+> do_install_append() part that
+> will remove specified .la files. (like ${libdir}/xorg/modules/*/.la,
+> ${libdir}/matchbox-panel/*.la, etc.). I see this usually done in
+> do_install or in special do_install_append
+> parts, but I think it would be better to handle this globally.
 
-I've stumbled upon two different packages with same PN (screenshot):
-One is a sato-related screenshoter from oe-core,
-second is a e17 screenshot module from meta-efl.
+I think the simple append to the recipes concerned is just as simple as
+any addition to core classes to try and do this generically...
 
-I'd propose to rename a sato screenshot package, since e17 one
-depends on PN being equal to internal module name in several places.
+Cheers,
 
--- 
-With best wishes
-Dmitry
+Richard
+
+
+
+
 
 
