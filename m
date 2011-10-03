@@ -1,36 +1,29 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RAkE9-0002qd-4J
+	(envelope-from <koen@dominion.thruhere.net>) id 1RAkTS-00034S-4G
 	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Oct 2011 17:14:45 +0200
-Received: by eya25 with SMTP id 25so3136757eya.6
+	Mon, 03 Oct 2011 17:30:34 +0200
+Received: by gyg8 with SMTP id 8so3469762gyg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Oct 2011 08:09:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=xpJcqMzg/KGUtxwGD+MXbIKzmsW59oUsa3KaloOhXDA=;
-	b=DCHBOTbGFrI5DW8ST71ajrvdbF4Ct5CYINuURjbHQGm3NPKyHsT388g34gfg0gUKIT
-	u+t91QXy/4HWAyUWwfJatB/jp780cyjCA4t3peodbhDNq+eOmt4/36wt/eaM5yPJJ/g2
-	sEcZ+P+rZ4InBiwe2cmci5mT9SCNoeSp9FY3M=
-Received: by 10.223.58.198 with SMTP id i6mr40557fah.91.1317654552001;
-	Mon, 03 Oct 2011 08:09:12 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id c1sm21584103fab.15.2011.10.03.08.09.09
+	Mon, 03 Oct 2011 08:24:59 -0700 (PDT)
+Received: by 10.236.187.70 with SMTP id x46mr341800yhm.71.1317655499722;
+	Mon, 03 Oct 2011 08:24:59 -0700 (PDT)
+Received: from [10.0.1.3] (adsl-68-88-70-1.dsl.rcsntx.swbell.net. [68.88.70.1])
+	by mx.google.com with ESMTPS id r30sm15962011yhj.20.2011.10.03.08.24.57
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 03 Oct 2011 08:09:10 -0700 (PDT)
-Date: Mon, 3 Oct 2011 17:09:04 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Mon, 03 Oct 2011 08:24:58 -0700 (PDT)
+References: <201110031603.31007.schnitzeltony@gmx.de>
+In-Reply-To: <201110031603.31007.schnitzeltony@gmx.de>
+Mime-Version: 1.0 (iPhone Mail 8L1)
+Message-Id: <C4A96559-DE0F-4549-8A49-909A168B8A66@dominion.thruhere.net>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: iPhone Mail (8L1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Mon, 3 Oct 2011 10:24:55 -0500
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111003150904.GR7364@jama.jama.net>
-References: <5fa396a1acd9897ae22dbec57c1fb36a7a0223ac.1317648040.git.Martin.Jansa@gmail.com>
-	<3ffacbd5138165278774387c51b4bd3bb625eaff.1317648041.git.Martin.Jansa@gmail.com>
-	<1317654131.13337.6.camel@phil-desktop>
-MIME-Version: 1.0
-In-Reply-To: <1317654131.13337.6.camel@phil-desktop>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCHv2 26/30] glx-use-tls: add from meta-oe layer
+Subject: Re: bitbake webkit-gtk fails with clean temp dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,79 +38,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Oct 2011 15:14:45 -0000
-X-Groupsio-MsgNum: 10427
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="oN4OvwWIcd1E23D1"
-Content-Disposition: inline
-
---oN4OvwWIcd1E23D1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 03 Oct 2011 15:30:34 -0000
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-On Mon, Oct 03, 2011 at 04:02:10PM +0100, Phil Blundell wrote:
-> Can you add some commentary explaining why this is necessary -- i.e.
-> what exactly is lacking in uClibc to mean it doesn't have "prober TLS
-> support"?
 
-I'm not using uClibc myself and tracking original bbclass in OE-classic
-leads to this commit
-http://git.openembedded.org/cgit.cgi/openembedded/commit/packages/mesa/mesa=
--tls.inc?id=3Db527d8f723c98c77f2f5c5358062e5348493d767
 
-So I'm CCing woglinde and he will probably explain it.
+Op 3 okt. 2011 om 09:03 heeft Andreas M=C3=BCller <schnitzeltony@gmx.de> het=
+ volgende geschreven:
 
-Regards,
+> Have pulled yesterday all the angstom layers (oe-core / meta-oe ..) and de=
+leted all files from temp build dir. For
+>=20
+> bitbake webkit-gtk=20
+>=20
+> I get
+>=20
+> NOTE: package webkit-gtk-1.5.1+svnr90727-r0: task do_compile: Started
+> ERROR: Function 'do_compile' failed (see /home/Superandy/tmp/oe-core-eglib=
+c/work/armv7a-angstrom-linux-gnueabi/webkit-gtk-1.5.1+svnr90727-r0/temp/log.=
+do_compile.13377 for further information)
+> ERROR: Logfile of failure stored in: /home/Superandy/tmp/oe-core-eglibc/wo=
+rk/armv7a-angstrom-linux-gnueabi/webkit-gtk-1.5.1+svnr90727-r0/temp/log.do_c=
+ompile.13377
+> Log data follows:
+> | DEBUG: SITE files ['endian-little', 'bit-32', 'arm-common', 'common-linu=
+x', 'common-glibc', 'arm-linux', 'arm-linux-gnueabi', 'common']
+> | + cd /home/Superandy/tmp/oe-core-eglibc/work/armv7a-angstrom-linux-gnuea=
+bi/webkit-gtk-1.5.1+svnr90727-r0/
+> | + do_compile
+> | + base_do_compile
+> | + '[' -e Makefile -o -e makefile ']'
+> | + oe_runmake
+> | + '[' xmake =3D x ']'
+> | + bbnote make -j 4
+> | + echo 'NOTE: make -j 4'
+> | NOTE: make -j 4
+> | + make -j 4
+> | /usr/bin/perl -I./Source/WebCore/bindings/scripts ./Source/WebCore/bindi=
+ngs/scripts/generate-bindings.pl --include ./Source/WebCore/dom --include ./=
+Source/WebCore/html --include ./Source/WebCore/css --include ./Source/WebCor=
+e/page --include ./Source/WebCore/xml --include ./Source/WebCore/svg --outpu=
+tDir "./DerivedSources/webkit" --defines "LANGUAGE_GOBJECT=3D1 ENABLE_CHANNE=
+L_MESSAGING=3D1 ENABLE_METER_TAG=3D1 ENABLE_PROGRESS_TAG=3D1 ENABLE_JAVASCRI=
+PT_DEBUGGER=3D1 ENABLE_OFFLINE_WEB_APPLICATIONS=3D1 ENABLE_DATABASE=3D1 ENAB=
+LE_DATALIST=3D1 ENABLE_EVENTSOURCE=3D1 ENABLE_DOM_STORAGE=3D1 ENABLE_VIDEO=3D=
+1 ENABLE_FULLSCREEN_API=3D1 ENABLE_VIDEO_TRACK=3D1 ENABLE_XPATH=3D1 ENABLE_X=
+SLT=3D1 ENABLE_WORKERS=3D1 ENABLE_SHARED_WORKERS=3D1 ENABLE_FILTERS=3D1 ENAB=
+LE_WEB_SOCKETS=3D1 ENABLE_BLOB=3D1" --generator GObject ./Source/WebCore/css=
+/CSSRule.idl
+> | /usr/bin/perl -I./Source/WebCore/bindings/scripts ./Source/WebCore/bindi=
+ngs/scripts/generate-bindings.pl --include ./Source/WebCore/dom --include ./=
+Source/WebCore/html --include ./Source/WebCore/css --include ./Source/WebCor=
+e/page --include ./Source/WebCore/xml --include ./Source/WebCore/svg --outpu=
+tDir "./DerivedSources/webkit" --defines "LANGUAGE_GOBJECT=3D1 ENABLE_CHANNE=
+L_MESSAGING=3D1 ENABLE_METER_TAG=3D1 ENABLE_PROGRESS_TAG=3D1 ENABLE_JAVASCRI=
+PT_DEBUGGER=3D1 ENABLE_OFFLINE_WEB_APPLICATIONS=3D1 ENABLE_DATABASE=3D1 ENAB=
+LE_DATALIST=3D1 ENABLE_EVENTSOURCE=3D1 ENABLE_DOM_STORAGE=3D1 ENABLE_VIDEO=3D=
+1 ENABLE_FULLSCREEN_API=3D1 ENABLE_VIDEO_TRACK=3D1 ENABLE_XPATH=3D1 ENABLE_X=
+SLT=3D1 ENABLE_WORKERS=3D1 ENABLE_SHARED_WORKERS=3D1 ENABLE_FILTERS=3D1 ENAB=
+LE_WEB_SOCKETS=3D1 ENABLE_BLOB=3D1" --generator GObject ./Source/WebCore/css=
+/CSSRuleList.idl
+> | /usr/bin/perl -I./Source/WebCore/bindings/scripts ./Source/WebCore/bindi=
+ngs/scripts/generate-bindings.pl --include ./Source/WebCore/dom --include ./=
+Source/WebCore/html --include ./Source/WebCore/css --include ./Source/WebCor=
+e/page --include ./Source/WebCore/xml --include ./Source/WebCore/svg --outpu=
+tDir "./DerivedSources/webkit" --defines "LANGUAGE_GOBJECT=3D1 ENABLE_CHANNE=
+L_MESSAGING=3D1 ENABLE_METER_TAG=3D1 ENABLE_PROGRESS_TAG=3D1 ENABLE_JAVASCRI=
+PT_DEBUGGER=3D1 ENABLE_OFFLINE_WEB_APPLICATIONS=3D1 ENABLE_DATABASE=3D1 ENAB=
+LE_DATALIST=3D1 ENABLE_EVENTSOURCE=3D1 ENABLE_DOM_STORAGE=3D1 ENABLE_VIDEO=3D=
+1 ENABLE_FULLSCREEN_API=3D1 ENABLE_VIDEO_TRACK=3D1 ENABLE_XPATH=3D1 ENABLE_X=
+SLT=3D1 ENABLE_WORKERS=3D1 ENABLE_SHARED_WORKERS=3D1 ENABLE_FILTERS=3D1 ENAB=
+LE_WEB_SOCKETS=3D1 ENABLE_BLOB=3D1" --generator GObject ./Source/WebCore/css=
+/CSSStyleDeclaration.idl
+> | /usr/bin/perl -I./Source/WebCore/bindings/scripts ./Source/WebCore/bindi=
+ngs/scripts/generate-bindings.pl --include ./Source/WebCore/dom --include ./=
+Source/WebCore/html --include ./Source/WebCore/css --include ./Source/WebCor=
+e/page --include ./Source/WebCore/xml --include ./Source/WebCore/svg --outpu=
+tDir "./DerivedSources/webkit" --defines "LANGUAGE_GOBJECT=3D1 ENABLE_CHANNE=
+L_MESSAGING=3D1 ENABLE_METER_TAG=3D1 ENABLE_PROGRESS_TAG=3D1 ENABLE_JAVASCRI=
+PT_DEBUGGER=3D1 ENABLE_OFFLINE_WEB_APPLICATIONS=3D1 ENABLE_DATABASE=3D1 ENAB=
+LE_DATALIST=3D1 ENABLE_EVENTSOURCE=3D1 ENABLE_DOM_STORAGE=3D1 ENABLE_VIDEO=3D=
+1 ENABLE_FULLSCREEN_API=3D1 ENABLE_VIDEO_TRACK=3D1 ENABLE_XPATH=3D1 ENABLE_X=
+SLT=3D1 ENABLE_WORKERS=3D1 ENABLE_SHARED_WORKERS=3D1 ENABLE_FILTERS=3D1 ENAB=
+LE_WEB_SOCKETS=3D1 ENABLE_BLOB=3D1" --generator GObject ./Source/WebCore/css=
+/CSSStyleSheet.idl
+> | Unquoted string "attributes" may clash with future reserved word at Sour=
+ce/WebCore/bindings/scripts/CodeGeneratorGObject.pm line 1036.
+> | Unquoted string "attributes" may clash with future reserved word at Sour=
+ce/WebCore/bindings/scripts/CodeGeneratorGObject.pm line 1036.
+> | Unquoted string "attributes" may clash with future reserved word at Sour=
+ce/WebCore/bindings/scripts/CodeGeneratorGObject.pm line 1036.
+> | Couldn't open file ./DerivedSources/webkit/WebKitDOMCSSRuleListPrivate.h=
+ for writing at Source/WebCore/bindings/scripts/CodeGeneratorGObject.pm line=
+ 1122.
+> | Couldn't open file ./DerivedSources/webkit/WebKitDOMCSSStyleSheetPrivate=
+.h for writing at Source/WebCore/bindings/scripts/CodeGeneratorGObject.pm li=
+ne 1122.
+> | make: *** [DerivedSources/webkit/WebKitDOMCSSRuleList.h] Error 2
+> | make: *** Waiting for unfinished jobs....
+> | Couldn't open file ./DerivedSources/webkit/WebKitDOMCSSStyleDeclarationP=
+rivate.h for writing at Source/WebCore/bindings/scripts/CodeGeneratorGObject=
+.pm line 1122.
+> | make: *** [DerivedSources/webkit/WebKitDOMCSSStyleSheet.h] Error 2
+> | make: *** [DerivedSources/webkit/WebKitDOMCSSStyleDeclaration.h] Error 2=
+
+> | Unquoted string "attributes" may clash with future reserved word at Sour=
+ce/WebCore/bindings/scripts/CodeGeneratorGObject.pm line 1036.
+> | Couldn't open file ./DerivedSources/webkit/WebKitDOMCSSRulePrivate.h for=
+ writing at Source/WebCore/bindings/scripts/CodeGeneratorGObject.pm line 112=
+2.
+> | make: *** [DerivedSources/webkit/WebKitDOMCSSRule.h] Error 2
+> | + die 'oe_runmake failed'
+> | + bbfatal 'oe_runmake failed'
+> | + echo 'ERROR: oe_runmake failed'
+> | ERROR: oe_runmake failed
+> | + exit 1
+> | ERROR: Function 'do_compile' failed (see /home/Superandy/tmp/oe-core-egl=
+ibc/work/armv7a-angstrom-linux-gnueabi/webkit-gtk-1.5.1+svnr90727-r0/temp/lo=
+g.do_compile.13377 for further information)
+> NOTE: package webkit-gtk-1.5.1+svnr90727-r0: task do_compile: Failed
+> ERROR: Task 7 (/home/Superandy/data/oe-core/sources/openembedded-core/meta=
+/recipes-sato/webkit/webkit-gtk_svn.bb, do_compile) failed with exit code '1=
+'
+>=20
+> ideas what causes this?
+
+no idea, but I get the same error
+
+
 
 >=20
-> p.
->=20
-> On Mon, 2011-10-03 at 15:28 +0200, Martin Jansa wrote:
-> > * it's in .bbclass instead of .inc because it's used by mesa and
-> >   xserver-xf86 recipes
-> >=20
-> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > ---
-> >  meta/classes/glx-use-tls.bbclass |    7 +++++++
-> >  1 files changed, 7 insertions(+), 0 deletions(-)
-> >  create mode 100644 meta/classes/glx-use-tls.bbclass
-> >=20
-> > diff --git a/meta/classes/glx-use-tls.bbclass b/meta/classes/glx-use-tl=
-s.bbclass
-> > new file mode 100644
-> > index 0000000..7530872
-> > --- /dev/null
-> > +++ b/meta/classes/glx-use-tls.bbclass
-> > @@ -0,0 +1,7 @@
-> > +def get_tls_setting(bb, d):
-> > +    # until we have no prober TLS support in uclibc disable it
-> > +    if bb.data.getVar('TARGET_OS', d, 1).find('uclibc') >=3D 0 :
-> > +        return ""
-> > +    return "--enable-glx-tls"
-> > +
-> > +EXTRA_OECONF +=3D "${@get_tls_setting(bb, d)}"
->=20
->=20
+> Andreas
 >=20
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---oN4OvwWIcd1E23D1
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk6J0BAACgkQN1Ujt2V2gBzzDQCggIfOaik4Uy4ryzYHCjivYA7G
-eG0AoIJ/qykfg3KdRNEw9D51aGZHLEH9
-=AVm/
------END PGP SIGNATURE-----
-
---oN4OvwWIcd1E23D1--
