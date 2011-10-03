@@ -1,28 +1,32 @@
-Received: from smtp21.4emm.com ([69.18.222.6])
+Received: from mail-out.m-online.net ([212.18.0.10])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <james@digitalmatter.com.au>) id 1RAZID-0006P4-Hk
+	(envelope-from <mokml@mnet-online.de>) id 1RAf2q-0007x3-MS
 	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Oct 2011 05:34:13 +0200
-Received: from MBX20.4emm.local ([fe80::382d:f6d3:f4de:a97f]) by
-	HUB21.4emm.local ([::1]) with mapi id 14.01.0289.001; Sun, 2 Oct 2011
-	23:28:42 -0400
-From: James Limbouris <james@digitalmatter.com.au>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] Problem building gcc-cross-initial with latest
-	linaro patches.
-Thread-Index: AcyBdW3EAFRrhFolRvKbyBPHL5SDZAAJyaKAAAfwhJA=
-Date: Mon, 3 Oct 2011 03:28:42 +0000
-Message-ID: <840A81C1B782724A8EB52725BD519EFF19CD7C@MBX20.4emm.local>
-References: <840A81C1B782724A8EB52725BD519EFF19BD42@MBX20.4emm.local>
-	<CAEsOVNd8rh+-KqYWd=Tngp1GfLavxb5FZgNEAHMc42iK5Gn-dw@mail.gmail.com>
-In-Reply-To: <CAEsOVNd8rh+-KqYWd=Tngp1GfLavxb5FZgNEAHMc42iK5Gn-dw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [203.59.132.158]
-MIME-Version: 1.0
-Subject: Re: Problem building gcc-cross-initial with latest linaro patches.
+	Mon, 03 Oct 2011 11:42:44 +0200
+Received: from frontend1.mail.m-online.net (frontend1.mail.intern.m-online.net
+	[192.168.8.180])
+	by mail-out.m-online.net (Postfix) with ESMTP id BB621186DECA;
+	Mon,  3 Oct 2011 11:31:32 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.8.164])
+	by mail.m-online.net (Postfix) with ESMTP id 0D39D1C000B5;
+	Mon,  3 Oct 2011 11:31:33 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.180])
+	by localhost (dynscan1.mail.m-online.net [192.168.8.164]) (amavisd-new,
+	port 10024)
+	with ESMTP id vH7a+pc2b8bQ; Mon,  3 Oct 2011 11:31:31 +0200 (CEST)
+Received: from kallare.istmein.de (ppp-93-104-187-108.dynamic.mnet-online.de
+	[93.104.187.108]) by mail.mnet-online.de (Postfix) with ESMTP;
+	Mon,  3 Oct 2011 11:31:31 +0200 (CEST)
+Received: from gonzales.palutemo by kallare.istmein.de with esmtp
+	(emil_HkmZPQSX21F2G); Mon, 03 Oct 2011 11:31:29 +0200
+From: mokml@mnet-online.de
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  3 Oct 2011 11:30:09 +0200
+Message-Id: <1317634209-3154-1-git-send-email-mokml@mnet-online.de>
+X-Mailer: git-send-email 1.7.6.4
+Cc: Klaus Kurzmann <mok@fluxnetz.de>
+Subject: [PATCH] eglibc-2.14: add patch to fix libdl crash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,37 +41,181 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Oct 2011 03:34:13 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 03 Oct 2011 09:42:44 -0000
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> McClintock Matthew-B29882
-> Sent: Monday, 3 October 2011 11:18 AM
-> To: Patches and discussions about the oe-core layer
-> Subject: Re: [OE-core] Problem building gcc-cross-initial with latest lin=
-aro
-> patches.
->=20
-> On Sun, Oct 2, 2011 at 9:46 PM, James Limbouris
-> <james@digitalmatter.com.au> wrote:
-> > | xterm Xt error: Can't open display:
-> > | xterm: =A0DISPLAY is not set
-> > | ERROR: Error executing a python function in /home/james/oe/sources/oe=
--
-> core/meta/recipes-devtools/
->=20
-> Did you have the DISPLAY setup properly though? I noticed some issue
-> with this. Some point in the past an xterm would pop up properly, then
-> it stopped working and I could not longer get a TERMCMD prompt.
->=20
-> -M
+From: Klaus Kurzmann <mok@fluxnetz.de>
 
-I have a working DISPLAY in the shell that I launch bitbake from. Is anyone=
- aware of any additional setup required?
+* Without this patch programs using alsa-lib crash (alsamixer for example).
+* This patch is taken verbatim from ArchLinux.
+
+Signed-off-by: Klaus Kurzmann <mok@fluxnetz.de>
+---
+ .../eglibc-2.14/glibc-2.14-libdl-crash.patch       |  132 ++++++++++++++++++++
+ meta/recipes-core/eglibc/eglibc_2.14.bb            |    3 +-
+ 2 files changed, 134 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch
+
+diff --git a/meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch b/meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch
+new file mode 100644
+index 0000000..ee29f8c
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch
+@@ -0,0 +1,132 @@
++diff --git a/elf/dl-close.c b/elf/dl-close.c
++index 73b2a2f..9bd91e3 100644
++--- a/elf/dl-close.c
+++++ b/elf/dl-close.c
++@@ -1,5 +1,5 @@
++ /* Close a shared object opened by `_dl_open'.
++-   Copyright (C) 1996-2007, 2009, 2010, 2011 Free Software Foundation, Inc.
+++   Copyright (C) 1996-2007, 2009, 2010 Free Software Foundation, Inc.
++    This file is part of the GNU C Library.
++ 
++    The GNU C Library is free software; you can redistribute it and/or
++@@ -119,17 +119,8 @@ _dl_close_worker (struct link_map *map)
++   if (map->l_direct_opencount > 0 || map->l_type != lt_loaded
++       || dl_close_state != not_pending)
++     {
++-      if (map->l_direct_opencount == 0)
++-	{
++-	  if (map->l_type == lt_loaded)
++-	    dl_close_state = rerun;
++-	  else if (map->l_type == lt_library)
++-	    {
++-	      struct link_map **oldp = map->l_initfini;
++-	      map->l_initfini = map->l_orig_initfini;
++-	      _dl_scope_free (oldp);
++-	    }
++-	}
+++      if (map->l_direct_opencount == 0 && map->l_type == lt_loaded)
+++	dl_close_state = rerun;
++ 
++       /* There are still references to this object.  Do nothing more.  */
++       if (__builtin_expect (GLRO(dl_debug_mask) & DL_DEBUG_FILES, 0))
++diff --git a/elf/dl-deps.c b/elf/dl-deps.c
++index 9e30594..3890d00 100644
++--- a/elf/dl-deps.c
+++++ b/elf/dl-deps.c
++@@ -478,6 +478,7 @@ _dl_map_object_deps (struct link_map *map,
++ 		  nneeded * sizeof needed[0]);
++ 	  atomic_write_barrier ();
++ 	  l->l_initfini = l_initfini;
+++	  l->l_free_initfini = 1;
++ 	}
++ 
++       /* If we have no auxiliary objects just go on to the next map.  */
++@@ -681,6 +682,7 @@ Filters not supported with LD_TRACE_PRELINKING"));
++   l_initfini[nlist] = NULL;
++   atomic_write_barrier ();
++   map->l_initfini = l_initfini;
+++  map->l_free_initfini = 1;
++   if (l_reldeps != NULL)
++     {
++       atomic_write_barrier ();
++@@ -689,5 +691,5 @@ Filters not supported with LD_TRACE_PRELINKING"));
++       _dl_scope_free (old_l_reldeps);
++     }
++   if (old_l_initfini != NULL)
++-      map->l_orig_initfini = old_l_initfini;
+++    _dl_scope_free (old_l_initfini);
++ }
++diff --git a/elf/dl-libc.c b/elf/dl-libc.c
++index 7be9483..a13fce3 100644
++--- a/elf/dl-libc.c
+++++ b/elf/dl-libc.c
++@@ -265,13 +265,13 @@ libc_freeres_fn (free_mem)
++ 
++   for (Lmid_t ns = 0; ns < GL(dl_nns); ++ns)
++     {
++-      /* Remove all additional names added to the objects.  */
++       for (l = GL(dl_ns)[ns]._ns_loaded; l != NULL; l = l->l_next)
++ 	{
++ 	  struct libname_list *lnp = l->l_libname->next;
++ 
++ 	  l->l_libname->next = NULL;
++ 
+++	  /* Remove all additional names added to the objects.  */
++ 	  while (lnp != NULL)
++ 	    {
++ 	      struct libname_list *old = lnp;
++@@ -279,6 +279,10 @@ libc_freeres_fn (free_mem)
++ 	      if (! old->dont_free)
++ 		free (old);
++ 	    }
+++
+++	  /* Free the initfini dependency list.  */
+++	  if (l->l_free_initfini)
+++	    free (l->l_initfini);
++ 	}
++ 
++       if (__builtin_expect (GL(dl_ns)[ns]._ns_global_scope_alloc, 0) != 0
++diff --git a/elf/rtld.c b/elf/rtld.c
++index 4a9109e..617e30e 100644
++--- a/elf/rtld.c
+++++ b/elf/rtld.c
++@@ -2251,6 +2251,7 @@ ERROR: ld.so: object '%s' cannot be loaded as audit interface: %s; ignored.\n",
++ 	      lnp->dont_free = 1;
++ 	      lnp = lnp->next;
++ 	    }
+++	  l->l_free_initfini = 0;
++ 
++ 	  if (l != &GL(dl_rtld_map))
++ 	    _dl_relocate_object (l, l->l_scope, GLRO(dl_lazy) ? RTLD_LAZY : 0,
++diff --git a/include/link.h b/include/link.h
++index e877104..051b99a 100644
++--- a/include/link.h
+++++ b/include/link.h
++@@ -1,6 +1,6 @@
++ /* Data structure for communication from the run-time dynamic linker for
++    loaded ELF shared objects.
++-   Copyright (C) 1995-2006, 2007, 2009, 2010, 2011 Free Software Foundation, Inc.
+++   Copyright (C) 1995-2006, 2007, 2009, 2010 Free Software Foundation, Inc.
++    This file is part of the GNU C Library.
++ 
++    The GNU C Library is free software; you can redistribute it and/or
++@@ -192,6 +192,9 @@ struct link_map
++ 						 during LD_TRACE_PRELINKING=1
++ 						 contains any DT_SYMBOLIC
++ 						 libraries.  */
+++    unsigned int l_free_initfini:1; /* Nonzero if l_initfini can be
+++				       freed, ie. not allocated with
+++				       the dummy malloc in ld.so.  */
++ 
++     /* Collected information about own RPATH directories.  */
++     struct r_search_path_struct l_rpath_dirs;
++@@ -240,9 +243,6 @@ struct link_map
++ 
++     /* List of object in order of the init and fini calls.  */
++     struct link_map **l_initfini;
++-    /* The init and fini list generated at startup, saved when the
++-       object is also loaded dynamically.  */
++-    struct link_map **l_orig_initfini;
++ 
++     /* List of the dependencies introduced through symbol binding.  */
++     struct link_map_reldeps
+diff --git a/meta/recipes-core/eglibc/eglibc_2.14.bb b/meta/recipes-core/eglibc/eglibc_2.14.bb
+index b2821db..4129947 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.14.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.14.bb
+@@ -3,7 +3,7 @@ require eglibc.inc
+ SRCREV = "15225"
+ 
+ DEPENDS += "gperf-native"
+-PR = "r0"
++PR = "r1"
+ PR_append = "+svnr${SRCPV}"
+ 
+ EGLIBC_BRANCH="eglibc-2_14"
+@@ -19,6 +19,7 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http
+            file://ppc-sqrt.patch \
+            file://multilib_readlib.patch \
+            file://eglibc-rpc-export-again.patch \
++	   file://glibc-2.14-libdl-crash.patch \
+ 	   "
+ LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
+       file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
+-- 
+1.7.6.4
 
 
 
