@@ -1,55 +1,41 @@
-Received: from tx2ehsobe002.messaging.microsoft.com ([65.55.88.12]
-	helo=TX2EHSOBE004.bigfish.com)
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RApx5-0001xO-DP
+	(envelope-from <raj.khem@gmail.com>) id 1RApya-000209-S2
 	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Oct 2011 23:21:32 +0200
-Received: from mail16-tx2-R.bigfish.com (10.9.14.252) by
-	TX2EHSOBE004.bigfish.com (10.9.40.24) with Microsoft SMTP Server id
-	14.1.225.22; Mon, 3 Oct 2011 21:15:58 +0000
-Received: from mail16-tx2 (localhost.localdomain [127.0.0.1])	by
-	mail16-tx2-R.bigfish.com (Postfix) with ESMTP id 031AEEB8291	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon,  3 Oct 2011 21:15:58 +0000 (UTC)
-X-SpamScore: -12
-X-BigFish: VS-12(zz9371K1432N98dKzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
-	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 13,
-Received: from mail16-tx2 (localhost.localdomain [127.0.0.1]) by mail16-tx2
-	(MessageSwitch) id 1317676488190262_9518;
-	Mon,  3 Oct 2011 21:14:48 +0000 (UTC)
-Received: from TX2EHSMHS036.bigfish.com (unknown [10.9.14.248])	by
-	mail16-tx2.bigfish.com (Postfix) with ESMTP id 711C39C8081	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon,  3 Oct 2011 21:12:08 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS036.bigfish.com
-	(10.9.99.136) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Mon, 3 Oct 2011 21:12:00 +0000
-Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.230]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.01.0323.007; Mon, 3 Oct 2011 16:12:00 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] sstate_clean() overzealous?
-Thread-Index: AQHMghEWByaZDBNudkeuZ/nyp+AU3Q==
-Date: Mon, 3 Oct 2011 21:11:59 +0000
-Message-ID: <CAEsOVNcZbs3TBQiBYnpzk4UgbfSwFYNHfkChhjN3FOcjnp4qUw@mail.gmail.com>
-References: <1317660469.13337.16.camel@phil-desktop>
-In-Reply-To: <1317660469.13337.16.camel@phil-desktop>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
+	Mon, 03 Oct 2011 23:23:05 +0200
+Received: by ywf7 with SMTP id 7so3814871ywf.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 03 Oct 2011 14:17:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=ylO3GnugotHD8gF00FnM6ECItaPE0aPyY+3V8SRaC3s=;
+	b=TaaCNIN/pzeIjWoHfLyv/rhEZwNacW5D7iM5t4MWU7MpsOjnOAv7y8p8JTzRcaQIIp
+	5zwhz9CfFAKfN9y9aE1H1TBd880Ua4+Nms2e9jC6KQLZiSpXhcf2+ET3uQVcdWWor1iA
+	j5Aetzb9YRr/34tLBvoB0nLycPSk3mhY6xHIE=
+Received: by 10.150.254.16 with SMTP id b16mr603283ybi.343.1317676651878;
+	Mon, 03 Oct 2011 14:17:31 -0700 (PDT)
+Received: from [172.23.2.133] (natint3.juniper.net. [66.129.224.36])
+	by mx.google.com with ESMTPS id z5sm39568446anz.7.2011.10.03.14.17.29
+	(version=SSLv3 cipher=OTHER); Mon, 03 Oct 2011 14:17:30 -0700 (PDT)
+Message-ID: <4E8A2667.4090700@gmail.com>
+Date: Mon, 03 Oct 2011 14:17:27 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1;
+	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: sstate_clean() overzealous?
+To: McClintock Matthew-B29882 <B29882@freescale.com>, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1317322353-30258-1-git-send-email-msm@freescale.com>
+	<4E8A0B81.1080507@gmail.com>
+	<CAEsOVNcvCgboed7tx68aT_CemeN_pVd_k0JM_cWVDiMtRrCG0w@mail.gmail.com>
+In-Reply-To: <CAEsOVNcvCgboed7tx68aT_CemeN_pVd_k0JM_cWVDiMtRrCG0w@mail.gmail.com>
+Subject: Re: [PATCH v2 10/16] Fix mdadm for powerpc64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -60,36 +46,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Oct 2011 21:21:32 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <3740AC1B94B4FA408F75B1E2BA90E409@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 03 Oct 2011 21:23:05 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 3, 2011 at 11:47 AM, Phil Blundell <philb@gnu.org> wrote:
-> The sstate_clean() function in sstate.bbclass is doing (inter alia):
+On 10/3/2011 2:14 PM, McClintock Matthew-B29882 wrote:
+> On Mon, Oct 3, 2011 at 2:22 PM, Khem Raj<raj.khem@gmail.com>  wrote:
+>>> -PR = "r0"
+>>> +PR = "r1"
+>>>
+>>>   SRC_URI =
+>>> "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.bz2"
+>>>
+>>> @@ -16,6 +16,7 @@ SRC_URI[md5sum] = "12ee2fbf3beddb60601fb7a4c4905651"
+>>>   SRC_URI[sha256sum] =
+>>> "0d1a04e688b082bc88846e3f524abd50bc782b6ffc06123140f7d358c8f9b906"
+>>>
+>>>   CFLAGS += "-fno-strict-aliasing"
+>>> +EXTRA_OEMAKE_append_powerpc64 = "CXFLAGS=-Wno-error=format"
+>>>
+>>>   inherit autotools
+>>>
+>>
+>> what kind of errors do you get ? and I wonder why they dont show up on
+>> x86_64. It may be something to fix in the madadm code.
 >
-> =A0 =A0stfile =3D d.getVar("STAMP", True) + ".do_" + ss['task']
-> =A0 =A0[...]
-> =A0 =A0oe.path.remove(stfile + ".*")
-> =A0 =A0oe.path.remove(stfile + "_setscene" + ".*")
->
-> which means that, for tasks which set the stamp-extra-info flag to
-> ${MACHINE}, it ends up blowing away the stamps for all machines rather
-> than just the current one. =A0The net effect of this seems to be that
-> there is no way to have the setscene stamps populated for more than one
-> MACHINE at any time, and hence all those tasks get rerun every time you
-> change MACHINE even if nothing else has been altered.
->
-> Is this behaviour deliberate? =A0It is certainly a little bit annoying bu=
-t
-> I don't understand the internals of sstate well enough to judge what
-> exactly that glob is trying to accomplish.
+> I can't find a log of this anywhere, it's probably the default
+> compiler warnings for our platform are different?
 
-I've noticed that changing the MACHINE will also invalidate the
--native stuff as well.
+It would be handy to understand them since I dont see gcc 
+differentiating formats between ppc64 and x86_64 which both are 64bit 
+hosts. But obviously there is something missing.
 
--M=
+>
+> You could try enabling those errors and see if your build fails:
+
+If I had a ppc64 build around
+
+>
+> EXTRA_OEMAKE_append_x86-64 = "CXFLAGS=-Werror=format"
+>
+> -M
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
