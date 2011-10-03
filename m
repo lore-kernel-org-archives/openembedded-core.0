@@ -1,38 +1,57 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from db3ehsobe002.messaging.microsoft.com ([213.199.154.140]
+	helo=DB3EHSOBE002.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RApDP-0000wu-3n
+	(envelope-from <B29882@freescale.com>) id 1RApvR-0001v1-N9
 	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Oct 2011 22:34:19 +0200
-Received: by ywf7 with SMTP id 7so3766424ywf.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Oct 2011 13:28:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=MVvh55+F6lhfW2uYQbnAF+nDQ4VyNZsK0CzlSrIkTQY=;
-	b=B8Kam15yqmwIsKkBUmiSyIkU7MHG/ZYTnjOHABR2uWvoEkF64c56hR+gUnS1iKKN59
-	9H3OxCXB1fDhth396aomY1O/vLJQY95kGJ4+UNWdJkRRWU2GZUpKhaLklBHM2/n07I6l
-	fZkyTqyqwvnKozzEtdkxZTXSJKVyinulDiZAM=
-Received: by 10.150.72.27 with SMTP id u27mr560036yba.246.1317673725805;
-	Mon, 03 Oct 2011 13:28:45 -0700 (PDT)
-Received: from [172.23.2.133] (natint3.juniper.net. [66.129.224.36])
-	by mx.google.com with ESMTPS id z5sm39290978anz.7.2011.10.03.13.28.44
-	(version=SSLv3 cipher=OTHER); Mon, 03 Oct 2011 13:28:45 -0700 (PDT)
-Message-ID: <4E8A1AFA.3060409@gmail.com>
-Date: Mon, 03 Oct 2011 13:28:42 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1;
-	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
+	Mon, 03 Oct 2011 23:19:49 +0200
+Received: from mail90-db3-R.bigfish.com (10.3.81.243) by
+	DB3EHSOBE002.bigfish.com (10.3.84.22) with Microsoft SMTP Server id
+	14.1.225.22; Mon, 3 Oct 2011 21:14:17 +0000
+Received: from mail90-db3 (localhost.localdomain [127.0.0.1])	by
+	mail90-db3-R.bigfish.com (Postfix) with ESMTP id E25387D00F4	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon,  3 Oct 2011 21:14:16 +0000 (UTC)
+X-SpamScore: -12
+X-BigFish: VS-12(zz9371K1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h61h)
+X-Spam-TCS-SCL: 0:0
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
+	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
+X-FB-SS: 0,
+Received: from mail90-db3 (localhost.localdomain [127.0.0.1]) by mail90-db3
+	(MessageSwitch) id 131767645625629_19154;
+	Mon,  3 Oct 2011 21:14:16 +0000 (UTC)
+Received: from DB3EHSMHS015.bigfish.com (unknown [10.3.81.246])	by
+	mail90-db3.bigfish.com (Postfix) with ESMTP id 00E1618D8051	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon,  3 Oct 2011 21:14:16 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS015.bigfish.com
+	(10.3.87.115) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Mon, 3 Oct 2011 21:14:14 +0000
+Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.230]) by
+	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
+	14.01.0323.007; Mon, 3 Oct 2011 16:14:11 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH v2 10/16] Fix mdadm for powerpc64
+Thread-Index: AQHMggIJ6+1og7PNnEGyLP1+hESaEJVrcnwA
+Date: Mon, 3 Oct 2011 21:14:10 +0000
+Message-ID: <CAEsOVNcvCgboed7tx68aT_CemeN_pVd_k0JM_cWVDiMtRrCG0w@mail.gmail.com>
+References: <1317322353-30258-1-git-send-email-msm@freescale.com>
+	<4E8A0B81.1080507@gmail.com>
+In-Reply-To: <4E8A0B81.1080507@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <CALT56yPoAbv43D_CGsGHMjr+eQxhNUJAW_Ryznoi7Tz8tb7THA@mail.gmail.com>
-	<1317653702.13337.4.camel@phil-desktop>
-In-Reply-To: <1317653702.13337.4.camel@phil-desktop>
-Subject: Re: [RFC] .la files cleanup
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH v2 10/16] Fix mdadm for powerpc64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -43,42 +62,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Oct 2011 20:34:19 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 03 Oct 2011 21:19:49 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <19BC758BEB23844B925F1DDA7C78560C@freescale.net>
+Content-Transfer-Encoding: quoted-printable
 
-On 10/3/2011 7:55 AM, Phil Blundell wrote:
-> On Mon, 2011-10-03 at 14:58 +0400, Dmitry Eremin-Solenikov wrote:
->> My proposal would be to include a special task or a
->> do_install_append() part that
->> will remove specified .la files. (like ${libdir}/xorg/modules/*/.la,
->> ${libdir}/matchbox-panel/*.la, etc.). I see this usually done in
->> do_install or in special do_install_append
->> parts, but I think it would be better to handle this globally.
+On Mon, Oct 3, 2011 at 2:22 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>> -PR =3D "r0"
+>> +PR =3D "r1"
+>>
+>> =A0SRC_URI =3D
+>> "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.bz2"
+>>
+>> @@ -16,6 +16,7 @@ SRC_URI[md5sum] =3D "12ee2fbf3beddb60601fb7a4c4905651"
+>> =A0SRC_URI[sha256sum] =3D
+>> "0d1a04e688b082bc88846e3f524abd50bc782b6ffc06123140f7d358c8f9b906"
+>>
+>> =A0CFLAGS +=3D "-fno-strict-aliasing"
+>> +EXTRA_OEMAKE_append_powerpc64 =3D "CXFLAGS=3D-Wno-error=3Dformat"
+>>
+>> =A0inherit autotools
+>>
 >
-> I guess the ideal solution would be to find a way to stop libtool from
-> installing these things in the first place.  It isn't totally obvious to
-> me that the .la files are a net benefit even for real shared libraries,
-> and for plugins I think they are probably a net loss in most/all cases.
->
+> what kind of errors do you get ? and I wonder why they dont show up on
+> x86_64. It may be something to fix in the madadm code.
 
-I also have this opinion. I think we need to experiment by not 
-installing .la at all and see what breaks. I would guess very little
+I can't find a log of this anywhere, it's probably the default
+compiler warnings for our platform are different?
 
-> When this issue last came up it seemed that Richard's preferred fix was
-> to just ship the .la files in FILES_${PN}-dev, and I guess that approach
-> does at least have the merit of simplicity.  See:
->
-> http://lists.linuxtogo.org/pipermail/openembedded-core/2011-July/005533.html
->
-> p.
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+You could try enabling those errors and see if your build fails:
+
+EXTRA_OEMAKE_append_x86-64 =3D "CXFLAGS=3D-Werror=3Dformat"
+
+-M=
 
 
 
