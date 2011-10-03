@@ -1,34 +1,34 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RAigq-0005A2-GN
+	(envelope-from <martin.jansa@gmail.com>) id 1RAih7-0005A2-0D
 	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Oct 2011 15:36:16 +0200
+	Mon, 03 Oct 2011 15:36:33 +0200
 Received: by mail-bw0-f47.google.com with SMTP id 11so5356292bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Oct 2011 06:30:46 -0700 (PDT)
+	Mon, 03 Oct 2011 06:31:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=74waluX5Tq7APG4SgrX9b+qvYJp1HwbtQ5zXlD3EjkY=;
-	b=Ta7ZdS/YcUcxh51rDXSkjnPk11apXIfJt5KVIZAlcUr4/d6ozlnx37aIVhfl+gOqaH
-	v53vU3Rh1VdfpSMaoV9eUS6Q+pN2398Mm7rUwZl0p/+urAwUBjlEfmB+sfgfToz69auP
-	mgIU0fIxdqjf4HAYXIwmww7iDzona9fpkpkAs=
-Received: by 10.204.141.8 with SMTP id k8mr536900bku.192.1317648646172;
-	Mon, 03 Oct 2011 06:30:46 -0700 (PDT)
+	bh=tj10kD8ZEqB7o6KMlQFB6zKCSp67LV9uSf6haG809Po=;
+	b=RCh98nLoFtgyqgYjbiZ0TqrB/cPPgt9wHjvjuPAlMEYDqHXFtQolCd6544Qo1TYB90
+	e2u1ZqWULehk/Q9dx6xXbZh+xdgSTHKC4t727ef+c6YLiHXkTxw/1K2yCQf5BmSTy0/1
+	XJN3Rcv8uHmiesoGIYPUjtIgsZ6lvppXF+hqo=
+Received: by 10.204.155.71 with SMTP id r7mr9926590bkw.205.1317648662913;
+	Mon, 03 Oct 2011 06:31:02 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id w3sm13219302bkp.10.2011.10.03.06.30.43
+	by mx.google.com with ESMTPS id w3sm13220172bkp.10.2011.10.03.06.31.00
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 03 Oct 2011 06:30:45 -0700 (PDT)
+	Mon, 03 Oct 2011 06:31:02 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Oct 2011 15:28:44 +0200
-Message-Id: <0d45000224ab9f9b49042bd408e8d088984a257c.1317648041.git.Martin.Jansa@gmail.com>
+Date: Mon,  3 Oct 2011 15:28:46 +0200
+Message-Id: <ef3e42648af17e12e60948eb7193be76150f890d.1317648041.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.7
 In-Reply-To: <5fa396a1acd9897ae22dbec57c1fb36a7a0223ac.1317648040.git.Martin.Jansa@gmail.com>
 References: <5fa396a1acd9897ae22dbec57c1fb36a7a0223ac.1317648040.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1317648040.git.Martin.Jansa@gmail.com>
 References: <cover.1317648040.git.Martin.Jansa@gmail.com>
-Subject: [PATCHv2 13/30] xserver-xf86: drop unused files
+Subject: [PATCHv2 15/30] xserver-xf86(-dri)-lite: rename to xserver-xorg and xserver-xorg-lite
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,440 +43,255 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Oct 2011 13:36:59 -0000
+X-List-Received-Date: Mon, 03 Oct 2011 13:37:07 -0000
+
+* xserver-xorg is closer to upstream naming and
+  that's how it's named in OE-classic and meta-oe? It would make meta-oe
+  transition easier and better to do it now then convert meta-oe to
+  xserver-xf86 and then rename it back later.
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../xorg-xserver/files/macro_tweak.patch           |   20 --
- .../cache-xkbcomp-output-for-fast-start-up.patch   |  360 --------------------
- .../xserver-xf86-dri-lite/fix_macros1.patch        |   24 --
- 3 files changed, 0 insertions(+), 404 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-xserver/files/macro_tweak.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/cache-xkbcomp-output-for-fast-start-up.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/fix_macros1.patch
+ meta/conf/distro/include/default-providers.inc     |    4 ++--
+ .../conf/distro/include/distro_tracking_fields.inc |   20 ++++++++++----------
+ meta/conf/machine/qemux86-64.conf                  |    6 +++---
+ meta/conf/machine/qemux86.conf                     |    6 +++---
+ meta/conf/multilib.conf                            |    2 +-
+ .../xorg-xserver/xserver-xf86-dri-lite_1.11.1.bb   |    4 ----
+ .../xorg-xserver/xserver-xf86-lite_1.11.1.bb       |    4 ----
+ ...ver-xf86-1.11.1.inc => xserver-xorg-1.11.1.inc} |    0
+ .../crosscompile.patch                             |    0
+ .../fix_open_max_preprocessor_error.patch          |    0
+ .../macro_tweak.patch                              |    0
+ ...ver-xf86-common.inc => xserver-xorg-common.inc} |    1 +
+ ...xserver-xf86-lite.inc => xserver-xorg-lite.inc} |    2 +-
+ .../xorg-xserver/xserver-xorg-lite_1.11.1.bb       |    4 ++++
+ ...{xserver-xf86-dri-lite.inc => xserver-xorg.inc} |    2 +-
+ .../xorg-xserver/xserver-xorg_1.11.1.bb            |    4 ++++
+ 16 files changed, 30 insertions(+), 29 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite_1.11.1.bb
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-lite_1.11.1.bb
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xf86-1.11.1.inc => xserver-xorg-1.11.1.inc} (100%)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xf86-dri-lite-1.11.1 => xserver-xorg-1.11.1}/crosscompile.patch (100%)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xf86-dri-lite-1.11.1 => xserver-xorg-1.11.1}/fix_open_max_preprocessor_error.patch (100%)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xf86-dri-lite-1.11.1 => xserver-xorg-1.11.1}/macro_tweak.patch (100%)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xf86-common.inc => xserver-xorg-common.inc} (99%)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xf86-lite.inc => xserver-xorg-lite.inc} (73%)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg-lite_1.11.1.bb
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xf86-dri-lite.inc => xserver-xorg.inc} (87%)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg_1.11.1.bb
 
-diff --git a/meta/recipes-graphics/xorg-xserver/files/macro_tweak.patch b/meta/recipes-graphics/xorg-xserver/files/macro_tweak.patch
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index d51ac64..a5cdb5b 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -3,8 +3,8 @@
+ #
+ PREFERRED_PROVIDER_virtual/db ?= "db"
+ PREFERRED_PROVIDER_virtual/db-native ?= "db-native"
+-PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xf86"
+-PREFERRED_PROVIDER_virtual/xserver-xf86 ?= "xserver-xf86-dri-lite"
++PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
++PREFERRED_PROVIDER_virtual/xserver-xf86 ?= "xserver-xorg"
+ PREFERRED_PROVIDER_virtual/libgl ?= "mesa-xlib"
+ PREFERRED_PROVIDER_virtual/update-alternatives ?= "update-alternatives-cworth"
+ PREFERRED_PROVIDER_virtual/update-alternatives-native ?= "opkg-native"
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index 47fa7bf..eaaafaa 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -3680,14 +3680,14 @@ RECIPE_INTEL_SECTION_pn-mesa-xlib="graphic core"
+ RECIPE_LAST_UPDATE_pn-mesa-xlib = "Nov 27, 2010"
+ RECIPE_MAINTAINER_pn-mesa-xlib="Yu Ke <ke.yu@intel.com>"
+ 
+-RECIPE_STATUS_pn-xserver-xf86-dri-lite="green" # no update needed
+-RECIPE_LATEST_VERSION_pn-xserver-xf86-dri-lite="1.8.99.904"
+-RECIPE_NO_OF_PATCHES_pn-xserver-xf86-dri-lite="2"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-xserver-xf86-dri-lite="2 monthes"
+-RECIPE_LATEST_RELEASE_DATE_pn-xserver-xf86-dri-lite="2010/07/01"
+-RECIPE_INTEL_SECTION_pn-xserver-xf86-dri-lite="graphic core"
+-RECIPE_LAST_UPDATE_pn-xserver-xf86-dri-lite = "Jan 18, 2011"
+-RECIPE_MAINTAINER_pn-xserver-xf86-dri-lite="Yu Ke <ke.yu@intel.com>"
++RECIPE_STATUS_pn-xserver-xorg="green" # no update needed
++RECIPE_LATEST_VERSION_pn-xserver-xorg="1.8.99.904"
++RECIPE_NO_OF_PATCHES_pn-xserver-xorg="2"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-xserver-xorg="2 monthes"
++RECIPE_LATEST_RELEASE_DATE_pn-xserver-xorg="2010/07/01"
++RECIPE_INTEL_SECTION_pn-xserver-xorg="graphic core"
++RECIPE_LAST_UPDATE_pn-xserver-xorg = "Jan 18, 2011"
++RECIPE_MAINTAINER_pn-xserver-xorg="Yu Ke <ke.yu@intel.com>"
+ 
+ RECIPE_STATUS_pn-xf86-input-synaptics = "red"
+ DISTRO_PN_ALIAS_pn-xf86-input-synaptics = "Meego=xorg-x11-drv-synaptics Fedora=xorg-x11-drv-synaptics Ubuntu=xserver-xorg-input-synaptics Mandriva=x11-driver-input-synaptics Debian=xfree86-driver-synaptics"
+@@ -5895,8 +5895,8 @@ DISTRO_PN_ALIAS_pn-pseudo = "Windriver"
+ 
+ DISTRO_PN_ALIAS_pn-btrfs-tools = "Debian=btrfs-tools Fedora=btrfs-progs"
+ DISTRO_PN_ALIAS_pn-rt-tests = "Debian=rt-tests Ubuntu=rt-tests"
+-DISTRO_PN_ALIAS_pn-xserver-xf86-lite = "Fedora=xorg-x11-server Ubuntu=xserver-xorg"
+-DISTRO_PN_ALIAS_pn-xserver-xf86-dri-lite = "Fedora=xorg-x11-server Ubuntu=xserver-xorg"
++DISTRO_PN_ALIAS_pn-xserver-xorg = "Fedora=xorg-x11-server Ubuntu=xserver-xorg"
++DISTRO_PN_ALIAS_pn-xserver-xorg = "Fedora=xorg-x11-server Ubuntu=xserver-xorg"
+ DISTRO_PN_ALIAS_pn-xserver-kdrive = "Fedora=xorg-x11-server Ubuntu=xserver-xorg"
+ DISTRO_PN_ALIAS_pn-dtc = "Fedora=dtc Ubuntu=dtc"
+ DISTRO_PN_ALIAS_pn-dtc-native = "Fedora=dtc Ubuntu=dtc"
+diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
+index 18a7513..f28cf08 100644
+--- a/meta/conf/machine/qemux86-64.conf
++++ b/meta/conf/machine/qemux86-64.conf
+@@ -4,8 +4,8 @@
+ 
+ PREFERRED_PROVIDER_virtual/libgl  = "mesa-dri"
+ PREFERRED_PROVIDER_virtual/libx11 ?= "libx11-trim"
+-PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xf86-dri-lite"
+-PREFERRED_PROVIDER_virtual/xserver-xf86 ?= "xserver-xf86-dri-lite"
++PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
++PREFERRED_PROVIDER_virtual/xserver-xf86 ?= "xserver-xorg"
+ 
+ require conf/machine/include/tune-x86_64.inc
+ require conf/machine/include/qemu.inc
+@@ -17,7 +17,7 @@ KERNEL_IMAGETYPE = "bzImage"
+ SERIAL_CONSOLE = "115200 ttyS0"
+ 
+ # We bypass swrast but we need it to be present for X to load correctly
+-XSERVER ?= "xserver-xf86-dri-lite \
++XSERVER ?= "xserver-xorg \
+            mesa-dri-driver-swrast \
+            xf86-input-vmmouse \
+            xf86-input-keyboard \
+diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
+index 5d0d03e..75c9042 100644
+--- a/meta/conf/machine/qemux86.conf
++++ b/meta/conf/machine/qemux86.conf
+@@ -4,8 +4,8 @@
+ 
+ PREFERRED_PROVIDER_virtual/libgl  = "mesa-dri"
+ PREFERRED_PROVIDER_virtual/libx11 ?= "libx11-trim"
+-PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xf86-dri-lite"
+-PREFERRED_PROVIDER_virtual/xserver-xf86 ?= "xserver-xf86-dri-lite"
++PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
++PREFERRED_PROVIDER_virtual/xserver-xf86 ?= "xserver-xorg"
+ 
+ require conf/machine/include/tune-i586.inc
+ require conf/machine/include/qemu.inc
+@@ -17,7 +17,7 @@ KERNEL_IMAGETYPE = "bzImage"
+ SERIAL_CONSOLE = "115200 ttyS0"
+ 
+ # We bypass swrast but we need it to be present for X to load correctly
+-XSERVER ?= "xserver-xf86-dri-lite \
++XSERVER ?= "xserver-xorg \
+            mesa-dri-driver-swrast \
+            xf86-input-vmmouse \
+            xf86-input-keyboard \
+diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
+index b9da33a..5e4b435 100644
+--- a/meta/conf/multilib.conf
++++ b/meta/conf/multilib.conf
+@@ -442,7 +442,7 @@ BBCLASSEXTEND_append_pn-xrandr = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-xrestop = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-xserver-nodm-init = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-xserver-xf86-config = " ${MULTILIBS}"
+-BBCLASSEXTEND_append_pn-xserver-xf86-dri-lite = " ${MULTILIBS}"
++BBCLASSEXTEND_append_pn-xserver-xorg = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-xset = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-xtrans = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-xtscal = " ${MULTILIBS}"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite_1.11.1.bb b/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite_1.11.1.bb
 deleted file mode 100644
-index c4af228..0000000
---- a/meta/recipes-graphics/xorg-xserver/files/macro_tweak.patch
+index 54ff37a..0000000
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite_1.11.1.bb
 +++ /dev/null
-@@ -1,20 +0,0 @@
--Upstream-Status: Pending
+@@ -1,4 +0,0 @@
+-require xserver-xf86-dri-lite.inc
+-require xserver-xf86-${PV}.inc
 -
--Index: xorg-server-1.5.0/xorg-server.m4
--===================================================================
----- xorg-server-1.5.0.orig/xorg-server.m4	2007-05-29 20:36:51.000000000 +0100
--+++ xorg-server-1.5.0/xorg-server.m4	2008-11-04 23:56:55.000000000 +0000
--@@ -28,9 +28,12 @@
-- # Checks for the $1 define in xorg-server.h (from the sdk).  If it
-- # is defined, then add $1 to $REQUIRED_MODULES.
-- 
--+m4_pattern_allow(PKG_CONFIG_SYSROOT_DIR)
--+
-- AC_DEFUN([XORG_DRIVER_CHECK_EXT],[
--+	PKG_PROG_PKG_CONFIG
-- 	SAVE_CFLAGS="$CFLAGS"
---	CFLAGS="$CFLAGS -I`pkg-config --variable=sdkdir xorg-server`"
--+	CFLAGS="$CFLAGS -I$PKG_CONFIG_SYSROOT_DIR`pkg-config --variable=sdkdir xorg-server`"
-- 	AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
-- #include "xorg-server.h"
-- #if !defined $1
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/cache-xkbcomp-output-for-fast-start-up.patch b/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/cache-xkbcomp-output-for-fast-start-up.patch
+-PE = "1"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-lite_1.11.1.bb b/meta/recipes-graphics/xorg-xserver/xserver-xf86-lite_1.11.1.bb
 deleted file mode 100644
-index 6b1b40f..0000000
---- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/cache-xkbcomp-output-for-fast-start-up.patch
+index e214dec..0000000
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-lite_1.11.1.bb
 +++ /dev/null
-@@ -1,360 +0,0 @@
--From 0f70ba9d3412b17ac4e08e33e1be3c226c06ea54 Mon Sep 17 00:00:00 2001
--From: Yan Li <yan.i.li@intel.com>
--Date: Tue, 12 May 2009 17:49:07 +0800
--Subject: [PATCH] XKB: cache xkbcomp output for fast start-up v5 for 1.6.1
--Organization: Intel
+@@ -1,4 +0,0 @@
+-require xserver-xf86-lite.inc
+-require xserver-xf86-${PV}.inc
 -
--xkbcomp outputs will be cached in files with hashed keymap as
--names. This saves boot time for around 1s on commodity netbooks.
--
--Upstream-Status: Pending
--
--Signed-off-by: Yan Li <yan.i.li@intel.com>
-----
-- configure.ac        |    6 +-
-- xkb/README.compiled |    8 +-
-- xkb/ddxLoad.c       |  192 +++++++++++++++++++++++++++++++++++++++++---------
-- 3 files changed, 164 insertions(+), 42 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index 4c4c797..7a5020a 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -476,9 +476,9 @@ AC_ARG_WITH(default-font-path, AS_HELP_STRING([--with-default-font-path=PATH], [
-- AC_ARG_WITH(xkb-path,         AS_HELP_STRING([--with-xkb-path=PATH], [Path to XKB base dir (default: ${datadir}/X11/xkb)]),
-- 				[ XKBPATH="$withval" ],
-- 				[ XKBPATH="${datadir}/X11/xkb" ])
---AC_ARG_WITH(xkb-output,       AS_HELP_STRING([--with-xkb-output=PATH], [Path to XKB output dir (default: ${datadir}/X11/xkb/compiled)]),
--+AC_ARG_WITH(xkb-output,       AS_HELP_STRING([--with-xkb-output=PATH], [Path to XKB output dir (default: ${localstatedir}/cache/xkb)]),
-- 				[ XKBOUTPUT="$withval" ],
---				[ XKBOUTPUT="compiled" ])
--+				[ XKBOUTPUT="${localstatedir}/cache/xkb" ])
-- AC_ARG_WITH(serverconfig-path, AS_HELP_STRING([--with-serverconfig-path=PATH],
-- 				   [Directory where ancillary server config files are installed (default: ${libdir}/xorg)]),
-- 				[ SERVERCONFIG="$withval" ],
--@@ -1757,7 +1757,7 @@ AC_DEFINE_DIR(XKB_BIN_DIRECTORY, bindir, [Path to XKB bin dir])
-- XKBOUTPUT_FIRSTCHAR=`echo $XKBOUTPUT | cut -b 1`
-- 
-- if [[ x$XKBOUTPUT_FIRSTCHAR != x/ ]] ; then
---   XKBOUTPUT="$XKB_BASE_DIRECTORY/$XKBOUTPUT"
--+   AC_MSG_ERROR([xkb-output must be an absolute path.])
-- fi
-- 
-- # XKM_OUTPUT_DIR (used in code) must end in / or file names get hosed
--diff --git a/xkb/README.compiled b/xkb/README.compiled
--index 71caa2f..a4a2ae0 100644
----- a/xkb/README.compiled
--+++ b/xkb/README.compiled
--@@ -4,10 +4,10 @@ current keymap and/or any scratch keymaps used by clients.  The X server
-- or some other tool might destroy or replace the files in this directory,
-- so it is not a safe place to store compiled keymaps for long periods of
-- time.  The default keymap for any server is usually stored in:
---     X<num>-default.xkm
---where <num> is the display number of the server in question, which makes
---it possible for several servers *on the same host* to share the same 
---directory.
--+     server-<SHA1>.xkm
--+
--+where <SHA1> is the SHA1 hash of keymap source, so that compiled
--+keymap of different keymap sources are stored in different files.
-- 
-- Unless the X server is modified, sharing this directory between servers on
-- different hosts could cause problems.
--diff --git a/xkb/ddxLoad.c b/xkb/ddxLoad.c
--index 4d5dfb6..60a68af 100644
----- a/xkb/ddxLoad.c
--+++ b/xkb/ddxLoad.c
--@@ -32,6 +32,12 @@ THE USE OR PERFORMANCE OF THIS SOFTWARE.
-- #include <xkb-config.h>
-- #endif
-- 
--+#ifdef HAVE_SHA1_IN_LIBMD /* Use libmd for SHA1 */
--+# include <sha1.h>
--+#else /* Use OpenSSL's libcrypto */
--+# include <stddef.h>  /* buggy openssl/sha.h wants size_t */
--+# include <openssl/sha.h>
--+#endif
-- #include <stdio.h>
-- #include <ctype.h>
-- #define	NEED_EVENTS 1
--@@ -46,24 +52,13 @@ THE USE OR PERFORMANCE OF THIS SOFTWARE.
-- #define	XKBSRV_NEED_FILE_FUNCS
-- #include <xkbsrv.h>
-- #include <X11/extensions/XI.h>
--+#include <errno.h>
-- #include "xkb.h"
-- 
-- #if defined(CSRG_BASED) || defined(linux) || defined(__GNU__)
-- #include <paths.h>
-- #endif
-- 
---	/*
---	 * If XKM_OUTPUT_DIR specifies a path without a leading slash, it is
---	 * relative to the top-level XKB configuration directory.
---	 * Making the server write to a subdirectory of that directory
---	 * requires some work in the general case (install procedure
---	 * has to create links to /var or somesuch on many machines),
---	 * so we just compile into /usr/tmp for now.
---	 */
---#ifndef XKM_OUTPUT_DIR
---#define	XKM_OUTPUT_DIR	"compiled/"
---#endif
---
-- #define	PRE_ERROR_MSG "\"The XKEYBOARD keymap compiler (xkbcomp) reports:\""
-- #define	ERROR_PREFIX	"\"> \""
-- #define	POST_ERROR_MSG1 "\"Errors from xkbcomp are not fatal to the X server\""
--@@ -179,6 +174,45 @@ OutputDirectory(
-- }
-- 
-- static Bool    	
--+Sha1Asc(char sha1Asc[SHA_DIGEST_LENGTH*2+1], const char * input)
--+{
--+    int i;
--+    unsigned char sha1[SHA_DIGEST_LENGTH];
--+
--+#ifdef HAVE_SHA1_IN_LIBMD /* Use libmd for SHA1 */
--+    SHA1_CTX ctx;
--+
--+    SHA1Init (&ctx);
--+    SHA1Update (&ctx, input, strlen(input));
--+    SHA1Final (sha1, &ctx);
--+#else /* Use OpenSSL's libcrypto */
--+    SHA_CTX ctx;
--+    int success;
--+
--+    success = SHA1_Init (&ctx);
--+    if (! success)
--+	return BadAlloc;
--+
--+    success = SHA1_Update (&ctx, input, strlen(input));
--+    if (! success)
--+	return BadAlloc;
--+
--+    success = SHA1_Final (sha1, &ctx);
--+    if (! success)
--+	return BadAlloc;
--+#endif
--+
--+    /* convert sha1 to sha1_asc */
--+    for(i=0; i<SHA_DIGEST_LENGTH; ++i) {
--+        sprintf(sha1Asc+i*2, "%02X", sha1[i]);
--+    }
--+
--+    return Success;
--+}
--+
--+/* call xkbcomp and compile XKB keymap, return xkm file name in
--+   nameRtrn */
--+static Bool
-- XkbDDXCompileKeymapByNames(	XkbDescPtr		xkb,
-- 				XkbComponentNamesPtr	names,
-- 				unsigned		want,
--@@ -187,7 +221,11 @@ XkbDDXCompileKeymapByNames(	XkbDescPtr		xkb,
-- 				int			nameRtrnLen)
-- {
--     FILE *	out;
---    char	*buf = NULL, keymap[PATH_MAX], xkm_output_dir[PATH_MAX];
--+    char *	buf = NULL, xkmfile[PATH_MAX], xkm_output_dir[PATH_MAX];
--+    char *	tmpXkmFile = NULL;
--+    char *	canonicalXkmFileName = NULL;
--+    char	sha1Asc[SHA_DIGEST_LENGTH*2+1], xkbKeyMapBuf[100*1024];
--+    int	ret, result;
-- 
--     const char	*emptystring = "";
--     const char	*xkbbasedirflag = emptystring;
--@@ -198,16 +236,70 @@ XkbDDXCompileKeymapByNames(	XkbDescPtr		xkb,
--     /* WIN32 has no popen. The input must be stored in a file which is
--        used as input for xkbcomp. xkbcomp does not read from stdin. */
--     char tmpname[PATH_MAX];
---    const char *xkmfile = tmpname;
--+    const char *xkbfile = tmpname;
-- #else
---    const char *xkmfile = "-";
--+    const char *xkbfile = "-";
-- #endif
-- 
---    snprintf(keymap, sizeof(keymap), "server-%s", display);
--+    /* Write keymap source (xkbfile) to memory buffer `xkbKeyMapBuf',
--+       of which SHA1 is generated and used as result xkm file name  */
--+    memset(xkbKeyMapBuf, 0, sizeof(xkbKeyMapBuf));
--+    out = fmemopen(xkbKeyMapBuf, sizeof(xkbKeyMapBuf), "w");
--+    if (NULL == out) {
--+        ErrorF("[xkb] Open xkbKeyMapBuf for writing failed\n");
--+        return False;
--+    }
--+    ret = XkbWriteXKBKeymapForNames(out, names, xkb, want, need);
--+    if (fclose(out) !=0)
--+    {
--+        ErrorF("[xkb] XkbWriteXKBKeymapForNames error, perhaps xkbKeyMapBuf is too small\n");
--+        return False;
--+    }
--+#ifdef DEBUG
--+    if (xkbDebugFlags) {
--+       ErrorF("[xkb] XkbDDXCompileKeymapByNames compiling keymap:\n");
--+       fputs(xkbKeyMapBuf, stderr);
--+    }
--+#endif
--+    if (!ret) {
--+        ErrorF("[xkb] Generating XKB Keymap failed, giving up compiling keymap\n");
--+        return False;
--+    }
--+
--+    DebugF("[xkb] computing SHA1 of keymap\n");
--+    if (Success == Sha1Asc(sha1Asc, xkbKeyMapBuf)) {
--+        snprintf(xkmfile, sizeof(xkmfile), "server-%s", sha1Asc);
--+    }
--+    else {
--+        ErrorF("[xkb] Computing SHA1 of keymap failed, "
--+               "using display name instead as xkm file name\n");
--+        snprintf(xkmfile, sizeof(xkmfile), "server-%s", display);
--+    }
-- 
---    XkbEnsureSafeMapName(keymap);
--+    XkbEnsureSafeMapName(xkmfile);
--     OutputDirectory(xkm_output_dir, sizeof(xkm_output_dir));
-- 
--+    /* set nameRtrn, fail if it's too small */
--+    if ((strlen(xkmfile)+1 > nameRtrnLen) && nameRtrn) {
--+        ErrorF("[xkb] nameRtrn too small to hold xkmfile name\n");
--+        return False;
--+    }
--+    strncpy(nameRtrn, xkmfile, nameRtrnLen);
--+
--+    /* if the xkm file already exists, reuse it */
--+    canonicalXkmFileName = Xprintf("%s%s.xkm", xkm_output_dir, xkmfile);
--+    if (access(canonicalXkmFileName, R_OK) == 0) {
--+        /* yes, we can reuse the old xkm file */
--+        LogMessage(X_INFO, "XKB: reuse xkmfile %s\n", canonicalXkmFileName);
--+        result = True;
--+        goto _ret;
--+    }
--+    LogMessage(X_INFO, "XKB: generating xkmfile %s\n", canonicalXkmFileName);
--+
--+    /* continue to call xkbcomp to compile the keymap. to avoid race
--+       condition, we compile it to a tmpfile then rename it to
--+       xkmfile */
--+
-- #ifdef WIN32
--     strcpy(tmpname, Win32TempDir());
--     strcat(tmpname, "\\xkb_XXXXXX");
--@@ -230,19 +322,30 @@ XkbDDXCompileKeymapByNames(	XkbDescPtr		xkb,
-- 	}
--     }
-- 
--+    if ( (tmpXkmFile = tempnam(xkm_output_dir, NULL)) == NULL ) {
--+        ErrorF("[xkb] Can't generate temp xkm file name");
--+        result = False;
--+        goto _ret;
--+    }
--+
--     buf = Xprintf("\"%s%sxkbcomp\" -w %d %s -xkm \"%s\" "
---		  "-em1 %s -emp %s -eml %s \"%s%s.xkm\"",
--+		  "-em1 %s -emp %s -eml %s \"%s\"",
-- 		  xkbbindir, xkbbindirsep,
-- 		  ( (xkbDebugFlags < 2) ? 1 :
-- 		    ((xkbDebugFlags > 10) ? 10 : (int)xkbDebugFlags) ),
---		  xkbbasedirflag, xkmfile,
--+		  xkbbasedirflag, xkbfile,
-- 		  PRE_ERROR_MSG, ERROR_PREFIX, POST_ERROR_MSG1,
---		  xkm_output_dir, keymap);
--+		  tmpXkmFile);
-- 
--     if (xkbbasedirflag != emptystring) {
-- 	xfree(xkbbasedirflag);
--     }
--     
--+    /* there's a potential race condition between calling tempnam()
--+       and invoking xkbcomp to write the result file (potential temp
--+       file name conflicts), but since xkbcomp is a standalone
--+       program, we have to live with this */
--+
-- #ifndef WIN32
--     out= Popen(buf,"w");
-- #else
--@@ -250,31 +353,43 @@ XkbDDXCompileKeymapByNames(	XkbDescPtr		xkb,
-- #endif
--     
--     if (out!=NULL) {
---#ifdef DEBUG
---    if (xkbDebugFlags) {
---       ErrorF("[xkb] XkbDDXCompileKeymapByNames compiling keymap:\n");
---       XkbWriteXKBKeymapForNames(stderr,names,xkb,want,need);
--+        /* write XKBKeyMapBuf to xkbcomp */
--+        if (EOF==fputs(xkbKeyMapBuf, out))
--+        {
--+            ErrorF("[xkb] Sending keymap to xkbcomp failed\n");
--+            result = False;
--+            goto _ret;
--     }
---#endif
---	XkbWriteXKBKeymapForNames(out,names,xkb,want,need);
-- #ifndef WIN32
-- 	if (Pclose(out)==0)
-- #else
-- 	if (fclose(out)==0 && System(buf) >= 0)
-- #endif
-- 	{
--+        /* xkbcomp success */
--             if (xkbDebugFlags)
--                 DebugF("[xkb] xkb executes: %s\n",buf);
---	    if (nameRtrn) {
---		strncpy(nameRtrn,keymap,nameRtrnLen);
---		nameRtrn[nameRtrnLen-1]= '\0';
--+
--+            /* if canonicalXkmFileName already exists now, we simply
--+               overwrite it, this is OK */
--+            ret = rename(tmpXkmFile, canonicalXkmFileName);
--+            if (0 != ret) {
--+                ErrorF("[xkb] Can't rename %s to %s, error: %s\n",
--+                       tmpXkmFile, canonicalXkmFileName,
--+                       strerror(errno));
--+
--+                /* in case of error, don't unlink tmpXkmFile, leave it
--+                   for debugging */
--+
--+                result = False;
--+                goto _ret;
-- 	    }
---            if (buf != NULL)
---                xfree (buf);
---	    return True;
--+
--+            result = True;
--+            goto _ret;
-- 	}
-- 	else
---	    LogMessage(X_ERROR, "Error compiling keymap (%s)\n", keymap);
--+           LogMessage(X_ERROR, "Error compiling keymap (%s)\n", xkbfile);
-- #ifdef WIN32
--         /* remove the temporary file */
--         unlink(tmpname);
--@@ -289,9 +404,17 @@ XkbDDXCompileKeymapByNames(	XkbDescPtr		xkb,
--     }
--     if (nameRtrn)
-- 	nameRtrn[0]= '\0';
--+    result = False;
--+
--+_ret:
--+    if (tmpXkmFile)
--+        free(tmpXkmFile);
--+    if (canonicalXkmFileName)
--+        xfree(canonicalXkmFileName);
--     if (buf != NULL)
--         xfree (buf);
---    return False;
--+
--+    return result;
-- }
-- 
-- static FILE *
--@@ -375,7 +498,6 @@ unsigned	missing;
-- 	DebugF("Loaded XKB keymap %s, defined=0x%x\n",fileName,(*xkbRtrn)->defined);
--     }
--     fclose(file);
---    (void) unlink (fileName);
--     return (need|want)&(~missing);
-- }
-- 
---- 
--1.5.6.5
--
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/fix_macros1.patch b/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/fix_macros1.patch
-deleted file mode 100644
-index b2c8d58..0000000
---- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/fix_macros1.patch
-+++ /dev/null
-@@ -1,24 +0,0 @@
--We need to insert the sysroot path into compiler commandlines for this
--kind of variable use, otherwise we're looking into /usr/include/.
--
--RP - 26/11/09
--
--Upstream-Status: Pending
--
--Index: git/xorg-server.m4
--===================================================================
----- git.orig/xorg-server.m4	2010-02-05 10:00:55.000000000 +0000
--+++ git/xorg-server.m4	2010-02-05 10:02:12.000000000 +0000
--@@ -28,10 +28,11 @@
-- # Checks for the $1 define in xorg-server.h (from the sdk).  If it
-- # is defined, then add $1 to $REQUIRED_MODULES.
-- 
--+m4_pattern_allow([^PKG_CONFIG_SYSROOT_DIR$])
-- AC_DEFUN([XORG_DRIVER_CHECK_EXT],[
-- 	AC_REQUIRE([PKG_PROG_PKG_CONFIG])
-- 	SAVE_CFLAGS="$CFLAGS"
---	CFLAGS="$CFLAGS -I`$PKG_CONFIG --variable=sdkdir xorg-server`"
--+	CFLAGS="$CFLAGS -I$PKG_CONFIG_SYSROOT_DIR`$PKG_CONFIG --variable=sdkdir xorg-server`"
-- 	AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
-- #include "xorg-server.h"
-- #if !defined $1
+-FILESEXTRAPATHS_append := "${THISDIR}/xserver-xf86-dri-lite:${THISDIR}/xserver-xf86-dri-lite-${PV}:"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-1.11.1.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.1.inc
+similarity index 100%
+rename from meta/recipes-graphics/xorg-xserver/xserver-xf86-1.11.1.inc
+rename to meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.1.inc
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite-1.11.1/crosscompile.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.1/crosscompile.patch
+similarity index 100%
+rename from meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite-1.11.1/crosscompile.patch
+rename to meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.1/crosscompile.patch
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite-1.11.1/fix_open_max_preprocessor_error.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.1/fix_open_max_preprocessor_error.patch
+similarity index 100%
+rename from meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite-1.11.1/fix_open_max_preprocessor_error.patch
+rename to meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.1/fix_open_max_preprocessor_error.patch
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite-1.11.1/macro_tweak.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.1/macro_tweak.patch
+similarity index 100%
+rename from meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite-1.11.1/macro_tweak.patch
+rename to meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.1/macro_tweak.patch
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-common.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
+similarity index 99%
+rename from meta/recipes-graphics/xorg-xserver/xserver-xf86-common.inc
+rename to meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
+index 81abfc9..16f2a23 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-common.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
+@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=74df27b6254cc88d2799b5f4f5949c00"
+ 
+ # xf86-*-* packages depend on an X server built with the xfree86 DDX
+ # so we have a virtual to represent that:
++# deprecated, we should use virtual/xserver instead
+ PROVIDES = "virtual/xserver-xf86"
+ 
+ # Other packages tend to just care that there is *an* X server:
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-lite.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc
+similarity index 73%
+rename from meta/recipes-graphics/xorg-xserver/xserver-xf86-lite.inc
+rename to meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc
+index a785e64..be84e9e 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-lite.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc
+@@ -1,4 +1,4 @@
+-require xserver-xf86-common.inc
++require xserver-xorg-common.inc
+ 
+ EXTRA_OECONF += "\
+                  --disable-dri \
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite_1.11.1.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite_1.11.1.bb
+new file mode 100644
+index 0000000..ec29b21
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite_1.11.1.bb
+@@ -0,0 +1,4 @@
++require xserver-xorg-lite.inc
++require xserver-xorg-${PV}.inc
++
++FILESEXTRAPATHS_append := "${THISDIR}/xserver-xorg:${THISDIR}/xserver-xorg-${PV}:"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+similarity index 87%
+rename from meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite.inc
+rename to meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index 0d956b5..9a057f1 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -1,4 +1,4 @@
+-require xserver-xf86-common.inc
++require xserver-xorg-common.inc
+ 
+ PROTO_DEPS += "xf86driproto dri2proto"
+ LIB_DEPS += "virtual/libgl"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.11.1.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.11.1.bb
+new file mode 100644
+index 0000000..8e97888
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.11.1.bb
+@@ -0,0 +1,4 @@
++require xserver-xorg.inc
++require xserver-xorg-${PV}.inc
++
++PE = "1"
 -- 
 1.7.7
 
