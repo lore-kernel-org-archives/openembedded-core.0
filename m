@@ -1,30 +1,34 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RBBsU-0005Av-1H
+	(envelope-from <otavio.salvador@gmail.com>) id 1RBBzR-0005LP-4N
 	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Oct 2011 22:46:14 +0200
-Received: by bke11 with SMTP id 11so1148357bke.6
+	Tue, 04 Oct 2011 22:53:25 +0200
+Received: by bke11 with SMTP id 11so1156244bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Oct 2011 13:40:40 -0700 (PDT)
+	Tue, 04 Oct 2011 13:47:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
-	:from:to:content-type:content-transfer-encoding;
-	bh=8SDGjYiPPppbKnDvx8BwZq09hdtWDDIVF6dZL4ShsOg=;
-	b=AeAPh2UdRuBbNEYz1zBNVFNVpfpznBCUznj5hd6BDF0rh+v6NpSddLOPS1Fkd/+Geu
-	V+l/I3bAPx2sIjOLnW6uQ3yCQllL/KbGs1PNTHoK+X5vA4w+gAzHnaPAahd4F11yEkwy
-	gUaT3NJiBf09OZVrz3uRiYJxkGecwGvEkZCfI=
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=Td4PUbw4tIEG7WKNMMpp1PySJ45gkdlym0mLmVt6cC8=;
+	b=wizVsjmgdYzC1Zv1bEEc7VlRvY6H2LlBJHQwajhalLIt6Z8vr3EwyG5twEtBTtHwJ9
+	sFm+gD/ppDrvsYMs09ghc9k5K3DqPcUqs23fM0uPoMzgvzNwC7cnbWb9MQX29gB92apJ
+	M8st1AR7nysNuP4nIVFnV+VYiQjrwU0bTXmnk=
 MIME-Version: 1.0
-Received: by 10.204.138.193 with SMTP id b1mr1042764bku.114.1317760840133;
-	Tue, 04 Oct 2011 13:40:40 -0700 (PDT)
+Received: by 10.204.128.203 with SMTP id l11mr1071341bks.270.1317761270819;
+	Tue, 04 Oct 2011 13:47:50 -0700 (PDT)
 Sender: otavio.salvador@gmail.com
-Received: by 10.204.35.198 with HTTP; Tue, 4 Oct 2011 13:40:40 -0700 (PDT)
-Date: Tue, 4 Oct 2011 17:40:40 -0300
-X-Google-Sender-Auth: ZQE4KLN2fYL8IxSiym___GWWpSQ
-Message-ID: <CAP9ODKqPytjP_RCU_DQMewMp2TV9p86qVk8YT=eBC_jwNPaWYw@mail.gmail.com>
+Received: by 10.204.35.198 with HTTP; Tue, 4 Oct 2011 13:47:50 -0700 (PDT)
+In-Reply-To: <CAP9ODKqPytjP_RCU_DQMewMp2TV9p86qVk8YT=eBC_jwNPaWYw@mail.gmail.com>
+References: <CAP9ODKqPytjP_RCU_DQMewMp2TV9p86qVk8YT=eBC_jwNPaWYw@mail.gmail.com>
+Date: Tue, 4 Oct 2011 17:47:50 -0300
+X-Google-Sender-Auth: OmhxgpDm-Ab7QBXxv2g7FjavVLM
+Message-ID: <CAP9ODKqJh54j2akHEaPUfKn2LSojK6p3D0gv-A=aS3pOOqgG0A@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: gdb-cross-canadian fails to build
+	<openembedded-core@lists.openembedded.org>, 
+	Nitin A Kamble <nitin.a.kamble@intel.com>
+Subject: Re: gdb-cross-canadian fails to build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,67 +43,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Oct 2011 20:46:14 -0000
+X-List-Received-Date: Tue, 04 Oct 2011 20:53:25 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Tue, Oct 4, 2011 at 17:40, Otavio Salvador <otavio@ossystems.com.br> wro=
+te:
+...
+> Log data follows:
+> | NOTE: Applying patch 'no-werror.patch'
+> (openembedded-core/meta/recipes-devtools/gdb/gdb/no-werror.patch)
+...
+> /home/otavio/hacking/ossystems/embedded-linux/openembedded-core/meta/reci=
+pes-devtools/gdb/gdb-cross-canadian_7.3.1.bb:
+...
 
-Today's tip fails with:
+It seems to have been broken by: 9002f664383d71682767546524e1299137b6fe4f
 
-Log data follows:
-| NOTE: Applying patch 'no-werror.patch'
-(openembedded-core/meta/recipes-devtools/gdb/gdb/no-werror.patch)
-| xterm Xt error: Can't open display:
-| xterm:  DISPLAY is not set
-| ERROR: Error executing a python function in
-/home/otavio/hacking/ossystems/embedded-linux/openembedded-core/meta/recipe=
-s-devtools/gdb/gdb-cross-canadian_7.3.1.bb:
-| AttributeError: 'module' object has no attribute 'domain'
-|
-| ERROR: The stack trace of python calls that resulted in this
-exception/failure was:
-| ERROR:   File "patch_do_patch", line 136, in <module>
-| ERROR:
-| ERROR:   File "patch_do_patch", line 133, in patch_do_patch
-| ERROR:
-| ERROR:   File
-"/home/otavio/hacking/ossystems/embedded-linux/openembedded-core/meta/lib/o=
-e/patch.py",
-line 379, in Resolve
-| ERROR:     bb.msg.fatal(bb.msg.domain.Build, ("Cannot proceed with
-manual patch resolution - '%s' not found. " \
-| ERROR:
-| ERROR: The code that was being executed was:
-| ERROR:      0132:                     raise
-bb.build.FuncFailed(str(sys.exc_value))
-| ERROR:      0133:             resolver.Resolve()
-| ERROR:      0134:
-| ERROR:      0135:
-| ERROR:  *** 0136:patch_do_patch(d)
-| ERROR:      0137:
-| ERROR: (file: 'patch_do_patch', lineno: 136, function: <module>)
-| ERROR:      0129:                     patchset.Import({"file":local,
-"remote":url, "strippath": striplevel}, True)
-| ERROR:      0130:             except Exception:
-| ERROR:      0131:                     import sys
-| ERROR:      0132:                     raise
-bb.build.FuncFailed(str(sys.exc_value))
-| ERROR:  *** 0133:             resolver.Resolve()
-| ERROR:      0134:
-| ERROR:      0135:
-| ERROR:      0136:patch_do_patch(d)
-| ERROR:      0137:
-| ERROR: (file: 'patch_do_patch', lineno: 133, function: patch_do_patch)
-| ERROR: Function 'patch_do_patch' failed
-NOTE: package gdb-cross-canadian-i586-7.3.1-r4.0: task do_patch: Failed
-ERROR: Task 758
-(/home/otavio/hacking/ossystems/embedded-linux/openembedded-core/meta/recip=
-es-devtools/gdb/gdb-cross-canadian_7.3.1.bb,
-do_patch) failed with exit code '1'
-
-
-Clues?
+Nitin, can you take a look?
 
 --=20
 Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
