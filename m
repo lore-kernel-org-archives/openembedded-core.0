@@ -1,34 +1,47 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from tx2ehsobe004.messaging.microsoft.com ([65.55.88.14]
+	helo=TX2EHSOBE008.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RBD7N-0007d9-PY for openembedded-core@lists.openembedded.org;
-	Wed, 05 Oct 2011 00:05:41 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p94M6ZLd025380; Tue, 4 Oct 2011 23:06:35 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id EDa6uYgBJfyU; Tue,  4 Oct 2011 23:06:34 +0100 (BST)
-Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p94M6Vl4025358
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Tue, 4 Oct 2011 23:06:33 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 04 Oct 2011 23:00:01 +0100
-In-Reply-To: <CAP9ODKqb8RGLi_5-_+uegLmtZ7Wo-70oDJcF_R6yaSJ2q9mGwg@mail.gmail.com>
-References: <1317370770-27225-1-git-send-email-Martin.Jansa@gmail.com>
-	<1317392122.12332.208.camel@ted> <20110930164658.GB7364@jama.jama.net>
-	<1317402578.12332.218.camel@ted>
-	<CAP9ODKqb8RGLi_5-_+uegLmtZ7Wo-70oDJcF_R6yaSJ2q9mGwg@mail.gmail.com>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1317765609.14671.118.camel@ted>
-Mime-Version: 1.0
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: Re: [PATCH] Improve handling of 'all' architecture recipes and their interaction with sstate
+	(envelope-from <B29882@freescale.com>) id 1RBDAJ-0007gh-Eq
+	for openembedded-core@lists.openembedded.org;
+	Wed, 05 Oct 2011 00:08:43 +0200
+Received: from mail51-tx2-R.bigfish.com (10.9.14.248) by
+	TX2EHSOBE008.bigfish.com (10.9.40.28) with Microsoft SMTP Server id
+	14.1.225.22; Tue, 4 Oct 2011 22:03:11 +0000
+Received: from mail51-tx2 (localhost.localdomain [127.0.0.1])	by
+	mail51-tx2-R.bigfish.com (Postfix) with ESMTP id C5DF614D8268	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue,  4 Oct 2011 22:03:10 +0000 (UTC)
+X-SpamScore: 6
+X-BigFish: VS6(z37d5kzzz1202h1082kzz8275bh8275dhz2dh2a8h668h839h)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
+	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail51-tx2 (localhost.localdomain [127.0.0.1]) by mail51-tx2
+	(MessageSwitch) id 1317765790700509_6223;
+	Tue,  4 Oct 2011 22:03:10 +0000 (UTC)
+Received: from TX2EHSMHS028.bigfish.com (unknown [10.9.14.251])	by
+	mail51-tx2.bigfish.com (Postfix) with ESMTP id A06521198051	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue,  4 Oct 2011 22:03:10 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS028.bigfish.com
+	(10.9.99.128) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Tue, 4 Oct 2011 22:03:10 +0000
+Received: from az33smr02.freescale.net (10.64.34.200) by
+	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
+	Server id 14.1.323.7; Tue, 4 Oct 2011 17:03:10 -0500
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
+	by az33smr02.freescale.net (8.13.1/8.13.0) with ESMTP id
+	p94M38JI010861	for <openembedded-core@lists.openembedded.org>;
+	Tue, 4 Oct 2011 17:03:09 -0500 (CDT)
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 4 Oct 2011 17:03:05 -0500
+Message-ID: <1317765787-19127-4-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.6.1
+In-Reply-To: <1317765787-19127-1-git-send-email-msm@freescale.com>
+References: <1317765787-19127-1-git-send-email-msm@freescale.com>
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: [PATCH 4/6] scripts/oe-buildenv-internal: Add SOCKS5_{USER, PASSWD} to BB_ENV_EXTRAWHITE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,32 +56,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Oct 2011 22:05:42 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Oct 2011 22:08:43 -0000
+Content-Type: text/plain
 
-On Sat, 2011-10-01 at 15:48 -0300, Otavio Salvador wrote:
-> On Fri, Sep 30, 2011 at 14:09, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> ...
-> > Thanks. I've taken the two patches. I'd love to get rid of hal, in fact
-> > its on my list of things that need to migrate out of OE-Core...
-> ...
-> 
-> From default images this shouldn't be difficult but don't remove hal
-> from oe-core since many embedded OS still use it and haven't migrate
-> to udev or devicekit yet.
+From: Kumar Gala <galak@kernel.crashing.org>
 
-Really? hal doesn't really replace udev though, we can just use udev
-directly in place of it for many things now?
+If a SOCKS5 gateway is needed for a proxy access like git it might also
+require authentication to the proxy via a password and username.  Adding
+SOCKS5_USER & SOCKS5_PASSWD to BB_ENV_EXTRAWHITE allow for automation
+of the authentication request to occur when something like a git fetch
+is going through the proxy.
 
-Specifically which applications are people using with dependencies on
-hal? As has been pointed out we can fix the xserver and that appears to
-be the only thing remaining in OE-Core?
+This patch requires the bitbake patch to add extra exportvars so
+these variables get passed from Env -> bitbake -> fetcher
 
-Cheers,
+Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+This requires a bitbake patch that was just sent:
 
-Richard
+http://lists.linuxtogo.org/pipermail/bitbake-devel/2011-October/001453.html
+
+ scripts/oe-buildenv-internal |    3 +--
+ 1 files changed, 1 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
+index 61ac18c..21b92b0 100755
+--- a/scripts/oe-buildenv-internal
++++ b/scripts/oe-buildenv-internal
+@@ -70,5 +70,4 @@ unset BITBAKEDIR
+ # Used by the runqemu script
+ export BUILDDIR
+ export PATH
+-
+-export BB_ENV_EXTRAWHITE="MACHINE DISTRO TCMODE TCLIBC http_proxy ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND"
++export BB_ENV_EXTRAWHITE="MACHINE DISTRO TCMODE TCLIBC http_proxy ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND GIT_PROXY_IGNORE SOCKS5_PASSWD SOCKS5_USER"
+-- 
+1.7.6.1
+
 
 
 
