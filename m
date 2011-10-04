@@ -1,20 +1,36 @@
-Received: from outbound.icp-qv1-irony-out3.iinet.net.au ([203.59.1.148])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <james@digitalmatter.com.au>) id 1RAwYL-0000cp-0F
+	(envelope-from <martin.jansa@gmail.com>) id 1RAzFu-00047g-Cw
 	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Oct 2011 06:24:25 +0200
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: ApsHACyIik7LO4Se/2dsb2JhbABCmTSOUIEFglMogSnAF4chBId1kTCMCQ
-X-IronPort-AV: E=Sophos;i="4.68,483,1312128000"; d="scan'208";a="731378859"
-Received: from unknown (HELO gentoo_vm.DMA.local) ([203.59.132.158])
-	by outbound.icp-qv1-irony-out3.iinet.net.au with ESMTP;
-	04 Oct 2011 12:18:48 +0800
-From: James Limbouris <james@digitalmatter.com.au>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Oct 2011 09:42:22 +0800
-Message-Id: <1317692542-32543-1-git-send-email-james@digitalmatter.com.au>
-X-Mailer: git-send-email 1.7.3.4
-Subject: [PATCH] qt4-embedded: move qt4-embedded-conf from RDEPENDS to RRECOMMENDS
+	Tue, 04 Oct 2011 09:17:34 +0200
+Received: by bke11 with SMTP id 11so292863bke.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 04 Oct 2011 00:12:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=faQalTYZeuOQDSw1diPAkbDvyaq/AgRQyNr741Zwzkk=;
+	b=BIRTdbxXV3AjRSmyIZu2XPrYbzhzABhYqwCzI1DXaEoeVgtr7FzrI8DPuJsE5ZDNoZ
+	EEaxXi6dJ6ceK76zUz5RPkcnqevNj5XNinHAzPxnrQRAhUaIncN3A/RXt2ypPHDfUMNc
+	M5q4uEbcLuHDI0po4mz5RctJD/gisvQf4ZHek=
+Received: by 10.204.135.73 with SMTP id m9mr455607bkt.340.1317712320040;
+	Tue, 04 Oct 2011 00:12:00 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id k26sm11799304bks.1.2011.10.04.00.11.57
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 04 Oct 2011 00:11:58 -0700 (PDT)
+Date: Tue, 4 Oct 2011 09:11:52 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20111004071152.GA19366@jama.jama.net>
+References: <06d9f58329265e028db9c5104ecbd7726daa077c.1317367429.git.Martin.Jansa@gmail.com>
+	<c341f97c3102144d6ae36e6669c69905ac9de240.1317367429.git.Martin.Jansa@gmail.com>
+	<4E8A169A.5080207@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <4E8A169A.5080207@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH 02/13] xserver-xf86-dri-lite: remove COMPATIBLE_HOST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,41 +45,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Oct 2011 04:24:25 -0000
+X-List-Received-Date: Tue, 04 Oct 2011 07:17:34 -0000
+X-Groupsio-MsgNum: 10461
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="opJtzjQTFsWo+cga"
+Content-Disposition: inline
 
-qt4-embedded-conf contains an environment setup script for profile.d.
-It has been packaged seperately to allow for its exclusion, but this is
-only practical if it is added to RRECOMMENDS, rather than RDEPENDS.
+--opJtzjQTFsWo+cga
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: James Limbouris <james@digitalmatter.com.au>
----
- meta/recipes-qt/qt4/qt4-embedded.inc |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+On Mon, Oct 03, 2011 at 01:10:02PM -0700, Khem Raj wrote:
+> On 9/30/2011 12:27 AM, Martin Jansa wrote:
+> > * ie om-gta02 has mesa-dri module too
+> >
+> > Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
+> > ---
+> >   .../xorg-xserver/xserver-xf86-dri-lite.inc         |    3 ---
+> >   1 files changed, 0 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite.i=
+nc b/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite.inc
+> > index 093e049..2e35917 100644
+> > --- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite.inc
+> > +++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite.inc
+> > @@ -10,6 +10,3 @@ EXTRA_OECONF +=3D "\
+> >                    --with-pic \
+> >                    --with-int10=3Dx86emu \
+> >   "
+> > -
+> > -# Due to mesa-dri
+> > -COMPATIBLE_HOST =3D '(i.86.*-linux|x86_64.*-linux)'
+>=20
+> how about powerpc and mips ? they will also become supported with this=20
+> change have you tested that
 
-diff --git a/meta/recipes-qt/qt4/qt4-embedded.inc b/meta/recipes-qt/qt4/qt4-embedded.inc
-index ed872b0..c04c49c 100644
---- a/meta/recipes-qt/qt4/qt4-embedded.inc
-+++ b/meta/recipes-qt/qt4/qt4-embedded.inc
-@@ -3,7 +3,7 @@ SECTION = "libs"
- LICENSE = "LGPLv2.1 | GPLv3"
- HOMEPAGE = "http://qt.nokia.com"
- DEPENDS += "directfb tslib"
--INC_PR = "r32"
-+INC_PR = "r33"
- 
- QT_BASE_NAME ?= "qt4-embedded"
- QT_BASE_LIB  ?= "libqt-embedded"
-@@ -31,7 +31,7 @@ do_install_append() {
- # with depending on the global package qt4-embedded
- PACKAGES += " ${PN}-conf"
- FILES_${PN}-conf += " ${sysconfdir}/profile.d/qte.sh"
--RDEPENDS_${PN} += " ${PN}-conf"
-+RRECOMMENDS_${PN} += " ${PN}-conf"
- 
- inherit qt4e
- 
--- 
-1.7.3.4
+Haven't tested it but iirc building dri extension worked even for
+powerpc and mips in OE-classic and because xserver-xf86-dri-lite get's
+default later in this patchset I think it's better without
+overrestrictive COMPATIBLE_HOST.
 
+And as the comment says, the restriction should be in mesa-dri if
+somewhere (at least only in one place to .bbappend my COMPATIBLE_HOSTs
+in layer).
 
+Regards,
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--opJtzjQTFsWo+cga
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk6KsbgACgkQN1Ujt2V2gBwM9QCgmB6YM0Bu5ftRgZbDfHcKI8lO
+nOIAnAtThGj5cv/5BQ5wV+y7M+7n9MhN
+=DNTO
+-----END PGP SIGNATURE-----
+
+--opJtzjQTFsWo+cga--
