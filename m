@@ -1,48 +1,47 @@
-Received: from tx2ehsobe001.messaging.microsoft.com ([65.55.88.11]
-	helo=TX2EHSOBE001.bigfish.com)
+Received: from tx2ehsobe004.messaging.microsoft.com ([65.55.88.14]
+	helo=TX2EHSOBE007.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RBDAN-0007gn-ER
+	(envelope-from <B29882@freescale.com>) id 1RBDAU-0007iq-AS
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Oct 2011 00:08:47 +0200
-Received: from mail151-tx2-R.bigfish.com (10.9.14.251) by
-	TX2EHSOBE001.bigfish.com (10.9.40.21) with Microsoft SMTP Server id
-	14.1.225.22; Tue, 4 Oct 2011 22:03:13 +0000
-Received: from mail151-tx2 (localhost.localdomain [127.0.0.1])	by
-	mail151-tx2-R.bigfish.com (Postfix) with ESMTP id 32F01D38322	for
+	Wed, 05 Oct 2011 00:08:54 +0200
+Received: from mail138-tx2-R.bigfish.com (10.9.14.241) by
+	TX2EHSOBE007.bigfish.com (10.9.40.27) with Microsoft SMTP Server id
+	14.1.225.22; Tue, 4 Oct 2011 22:03:19 +0000
+Received: from mail138-tx2 (localhost.localdomain [127.0.0.1])	by
+	mail138-tx2-R.bigfish.com (Postfix) with ESMTP id AA08F1F03F7	for
 	<openembedded-core@lists.openembedded.org>;
-	Tue,  4 Oct 2011 22:03:13 +0000 (UTC)
-X-SpamScore: -12
-X-BigFish: VS-12(zzbb2dK1454K13e6Qzz1202h1082kzz8275bh8275dhz2dh2a8h668h839h)
+	Tue,  4 Oct 2011 22:03:19 +0000 (UTC)
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202h1082kzz8275bh8275dhz2dh2a8h668h839h)
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
 	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 0,
-Received: from mail151-tx2 (localhost.localdomain [127.0.0.1]) by mail151-tx2
-	(MessageSwitch) id 1317765792944799_16226;
-	Tue,  4 Oct 2011 22:03:12 +0000 (UTC)
-Received: from TX2EHSMHS014.bigfish.com (unknown [10.9.14.249])	by
-	mail151-tx2.bigfish.com (Postfix) with ESMTP id E05A1ED8056	for
+Received: from mail138-tx2 (localhost.localdomain [127.0.0.1]) by mail138-tx2
+	(MessageSwitch) id 1317765793157846_18205;
+	Tue,  4 Oct 2011 22:03:13 +0000 (UTC)
+Received: from TX2EHSMHS035.bigfish.com (unknown [10.9.14.245])	by
+	mail138-tx2.bigfish.com (Postfix) with ESMTP id 1E04C127004B	for
 	<openembedded-core@lists.openembedded.org>;
-	Tue,  4 Oct 2011 22:03:12 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS014.bigfish.com
-	(10.9.99.114) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Tue, 4 Oct 2011 22:03:10 +0000
+	Tue,  4 Oct 2011 22:03:13 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS035.bigfish.com
+	(10.9.99.135) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Tue, 4 Oct 2011 22:03:09 +0000
 Received: from az33smr02.freescale.net (10.64.34.200) by
 	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
-	Server id 14.1.323.7; Tue, 4 Oct 2011 17:03:10 -0500
+	Server id 14.1.323.7; Tue, 4 Oct 2011 17:03:09 -0500
 Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
 	by az33smr02.freescale.net (8.13.1/8.13.0) with ESMTP id
-	p94M38JK010861	for <openembedded-core@lists.openembedded.org>;
-	Tue, 4 Oct 2011 17:03:09 -0500 (CDT)
+	p94M38JH010861	for <openembedded-core@lists.openembedded.org>;
+	Tue, 4 Oct 2011 17:03:08 -0500 (CDT)
 From: Matthew McClintock <msm@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 4 Oct 2011 17:03:07 -0500
-Message-ID: <1317765787-19127-6-git-send-email-msm@freescale.com>
+Date: Tue, 4 Oct 2011 17:03:04 -0500
+Message-ID: <1317765787-19127-3-git-send-email-msm@freescale.com>
 X-Mailer: git-send-email 1.7.6.1
 In-Reply-To: <1317765787-19127-1-git-send-email-msm@freescale.com>
 References: <1317765787-19127-1-git-send-email-msm@freescale.com>
 MIME-Version: 1.0
 X-OriginatorOrg: freescale.com
-Subject: [PATCH 6/6] Bring libnl up to date with meta-openebedded
+Subject: [PATCH 3/6] Add new IMAGE_CLASSES variable for classes for image generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -57,202 +56,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Oct 2011 22:08:47 -0000
+X-List-Received-Date: Tue, 04 Oct 2011 22:08:54 -0000
 Content-Type: text/plain
+
+Allows us to import classes only for images and not to the global
+namespace
 
 Signed-off-by: Matthew McClintock <msm@freescale.com>
 ---
-This is a blind copy of libnl-2.0 from meta-openembedded
+Work around to solve issue from this thread:
 
-Not sure how to completly verify this is working, feel free
-to squash the previous patch with this one
+https://lists.yoctoproject.org/pipermail/yocto/2011-September/005059.html
 
- .../libnl/libnl-2.0/fix-makefile.patch             |   32 --------------------
- meta/recipes-support/libnl/libnl.inc               |    9 +++++
- .../recipes-support/libnl/libnl/fix-makefile.patch |   32 ++++++++++++++++++++
- meta/recipes-support/libnl/libnl/fix-pc-file.patch |   11 +++++++
- .../libnl/libnl/fix-pktloc-dep-race.patch          |   20 ++++++++++++
- meta/recipes-support/libnl/libnl_2.0.bb            |   24 ++++++++------
- 6 files changed, 86 insertions(+), 42 deletions(-)
- delete mode 100644 meta/recipes-support/libnl/libnl-2.0/fix-makefile.patch
- create mode 100644 meta/recipes-support/libnl/libnl.inc
- create mode 100644 meta/recipes-support/libnl/libnl/fix-makefile.patch
- create mode 100644 meta/recipes-support/libnl/libnl/fix-pc-file.patch
- create mode 100644 meta/recipes-support/libnl/libnl/fix-pktloc-dep-race.patch
+ meta/classes/image.bbclass |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-support/libnl/libnl-2.0/fix-makefile.patch b/meta/recipes-support/libnl/libnl-2.0/fix-makefile.patch
-deleted file mode 100644
-index 3e88fbd..0000000
---- a/meta/recipes-support/libnl/libnl-2.0/fix-makefile.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--Upstream-Status: Pending
--
--12/03/2010
--
--add explicit rules for header files generated by lex and yacc,
--otherwise the build of lib/route/pktloc.c may fail in a parallel
--environment.
--
--Signed-off-by: Qing He <qing.he@intel.com>
--
--12/06/2010
--
--the dependency rule should really read pktloc.lo instead of
--pktloc.$(OBJEXT), since it's in a libtool setup.
--
--Signed-off-by: Qing He <qing.he@intel.com>
--
--diff --git a/lib/Makefile.am b/lib/Makefile.am
--index 92a916e..e8b8ef3 100644
----- a/lib/Makefile.am
--+++ b/lib/Makefile.am
--@@ -35,6 +35,10 @@ route/pktloc_grammar.c: route/pktloc_grammar.l
-- route/pktloc_syntax.c: route/pktloc_syntax.y
-- 	$(YACC) -d $(YFLAGS) -o $@ $^
-- 
--+route/pktloc.lo: route/pktloc_syntax.h route/pktloc_grammar.h
--+route/pktloc_syntax.h: route/pktloc_syntax.c
--+route/pktloc_grammar.h: route/pktloc_grammar.c
--+
-- libnl_route_la_LDFLAGS = -version-info 2:0:0
-- libnl_route_la_LIBADD  = libnl.la
-- libnl_route_la_SOURCES = \
-diff --git a/meta/recipes-support/libnl/libnl.inc b/meta/recipes-support/libnl/libnl.inc
-new file mode 100644
-index 0000000..6f502b1
---- /dev/null
-+++ b/meta/recipes-support/libnl/libnl.inc
-@@ -0,0 +1,9 @@
-+DESCRIPTION = "libnl is a library for applications dealing with netlink sockets"
-+SECTION = "libs/network"
-+LICENSE = "LGPL"
-+HOMEPAGE = "http://www.infradead.org/~tgr/libnl/"
-+
-+INC_PR = "r5"
-+
-+inherit autotools pkgconfig
-+
-diff --git a/meta/recipes-support/libnl/libnl/fix-makefile.patch b/meta/recipes-support/libnl/libnl/fix-makefile.patch
-new file mode 100644
-index 0000000..3e88fbd
---- /dev/null
-+++ b/meta/recipes-support/libnl/libnl/fix-makefile.patch
-@@ -0,0 +1,32 @@
-+Upstream-Status: Pending
-+
-+12/03/2010
-+
-+add explicit rules for header files generated by lex and yacc,
-+otherwise the build of lib/route/pktloc.c may fail in a parallel
-+environment.
-+
-+Signed-off-by: Qing He <qing.he@intel.com>
-+
-+12/06/2010
-+
-+the dependency rule should really read pktloc.lo instead of
-+pktloc.$(OBJEXT), since it's in a libtool setup.
-+
-+Signed-off-by: Qing He <qing.he@intel.com>
-+
-+diff --git a/lib/Makefile.am b/lib/Makefile.am
-+index 92a916e..e8b8ef3 100644
-+--- a/lib/Makefile.am
-++++ b/lib/Makefile.am
-+@@ -35,6 +35,10 @@ route/pktloc_grammar.c: route/pktloc_grammar.l
-+ route/pktloc_syntax.c: route/pktloc_syntax.y
-+ 	$(YACC) -d $(YFLAGS) -o $@ $^
-+ 
-++route/pktloc.lo: route/pktloc_syntax.h route/pktloc_grammar.h
-++route/pktloc_syntax.h: route/pktloc_syntax.c
-++route/pktloc_grammar.h: route/pktloc_grammar.c
-++
-+ libnl_route_la_LDFLAGS = -version-info 2:0:0
-+ libnl_route_la_LIBADD  = libnl.la
-+ libnl_route_la_SOURCES = \
-diff --git a/meta/recipes-support/libnl/libnl/fix-pc-file.patch b/meta/recipes-support/libnl/libnl/fix-pc-file.patch
-new file mode 100644
-index 0000000..17666fb
---- /dev/null
-+++ b/meta/recipes-support/libnl/libnl/fix-pc-file.patch
-@@ -0,0 +1,11 @@
-+Index: libnl-2.0/libnl-2.0.pc.in
-+===================================================================
-+--- libnl-2.0.orig/libnl-2.0.pc.in
-++++ libnl-2.0/libnl-2.0.pc.in
-+@@ -6,5 +6,5 @@
-+ Name: libnl
-+ Description: Convenience library for netlink sockets
-+ Version: @PACKAGE_VERSION@
-+-Libs: -L${libdir} -lnl
-++Libs: -L${libdir} -lnl -lnl-genl -lnl-nf -lnl-route
-+ Cflags: -I${includedir}
-diff --git a/meta/recipes-support/libnl/libnl/fix-pktloc-dep-race.patch b/meta/recipes-support/libnl/libnl/fix-pktloc-dep-race.patch
-new file mode 100644
-index 0000000..ee21744
---- /dev/null
-+++ b/meta/recipes-support/libnl/libnl/fix-pktloc-dep-race.patch
-@@ -0,0 +1,20 @@
-+Index: libnl-2.0/lib/Makefile.am
-+===================================================================
-+--- libnl-2.0.orig/lib/Makefile.am
-++++ libnl-2.0/lib/Makefile.am
-+@@ -27,11 +27,15 @@ CLEANFILES = \
-+ 	route/pktloc_grammar.c route/pktloc_grammar.h \
-+ 	route/pktloc_syntax.c route/pktloc_syntax.h
-+ 
-++BUILT_SOURCES = route/pktloc_syntax.h route/pktloc_grammar.h
-++
-+ # Hack to avoid using ylwrap. It does not function correctly in combination
-+ # with --header-file=
-++route/pktloc_grammar.h: route/pktloc_grammar.c
-+ route/pktloc_grammar.c: route/pktloc_grammar.l
-+ 	$(LEX) --header-file=route/pktloc_grammar.h $(LFLAGS) -o $@ $^
-+ 
-++route/pktloc_syntax.h: route/pktloc_syntax.c
-+ route/pktloc_syntax.c: route/pktloc_syntax.y
-+ 	$(YACC) -d $(YFLAGS) -o $@ $^
-+ 
-diff --git a/meta/recipes-support/libnl/libnl_2.0.bb b/meta/recipes-support/libnl/libnl_2.0.bb
-index 0dfcaf6..f2c88aa 100644
---- a/meta/recipes-support/libnl/libnl_2.0.bb
-+++ b/meta/recipes-support/libnl/libnl_2.0.bb
-@@ -1,20 +1,24 @@
--DESCRIPTION = "libnl is a library for applications dealing with netlink sockets."
--HOMEPAGE = "http://www.infradead.org/~tgr/libnl/"
--SECTION = "libs/network"
-+require libnl.inc
-+PE = "1"
-+PR = "${INC_PR}.0"
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index f17e989..f03df5b 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -111,7 +111,8 @@ def get_devtable_list(d):
+         str += " %s" % bb.which(bb.data.getVar('BBPATH', d, 1), devtable)
+     return str
  
- LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=2b41e13261a330ee784153ecbb6a82bc"
+-inherit image_types
++IMAGE_CLASESS ??= ""
++inherit image_types ${IMAGE_CLASSES}
  
- DEPENDS = "flex-native bison-native"
--PR = "r2"
- 
--SRC_URI= "http://www.infradead.org/~tgr/libnl/files/${BPN}-${PV}.tar.gz \
--          file://fix-makefile.patch \
--         "
-+SRC_URI = "\
-+  http://www.infradead.org/~tgr/libnl/files/${BPN}-${PV}.tar.gz \
-+  file://fix-pc-file.patch \
-+  file://fix-pktloc-dep-race.patch \
-+  file://fix-makefile.patch \
-+"
- 
- SRC_URI[md5sum] = "6aaf1e9802a17a7d702bb0638044ffa7"
- SRC_URI[sha256sum] = "5a40dc903d3ca1074da7424b908bec8ff16936484798c7e46e53e9db8bc87a9c"
- 
--inherit autotools pkgconfig
--
--LEAD_SONAME = "libnl.so"
-+PACKAGES =+ "${PN}-route ${PN}-nf ${PN}-genl ${PN}-cli"
-+FILES_${PN}-route = "${libdir}/libnl-route.so.*"
-+FILES_${PN}-nf    = "${libdir}/libnl-nf.so.*"
-+FILES_${PN}-genl  = "${libdir}/libnl-genl.so.*"
-+FILES_${PN}-cli   = "${libdir}/libnl-cli.so.*"
+ IMAGE_POSTPROCESS_COMMAND ?= ""
+ MACHINE_POSTPROCESS_COMMAND ?= ""
 -- 
 1.7.6.1
 
