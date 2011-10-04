@@ -1,34 +1,59 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from db3ehsobe006.messaging.microsoft.com ([213.199.154.144]
+	helo=DB3EHSOBE006.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RBCoZ-0006tC-2e for openembedded-core@lists.openembedded.org;
-	Tue, 04 Oct 2011 23:46:16 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p94Ll675024829; Tue, 4 Oct 2011 22:47:06 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id CFspEYuQe4oZ; Tue,  4 Oct 2011 22:47:06 +0100 (BST)
-Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p94Ll04O024813
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Tue, 4 Oct 2011 22:47:02 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Tue, 04 Oct 2011 22:40:30 +0100
-In-Reply-To: <cover.1317762176.git.bruce.ashfield@windriver.com>
-References: <cover.1317762176.git.bruce.ashfield@windriver.com>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1317764439.14671.114.camel@ted>
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: Re: [PATCH 0/1] linux-yocto: update live boot configuration
+	(envelope-from <B29882@freescale.com>) id 1RBD0L-00076j-3T
+	for openembedded-core@lists.openembedded.org;
+	Tue, 04 Oct 2011 23:58:25 +0200
+Received: from mail55-db3-R.bigfish.com (10.3.81.248) by
+	DB3EHSOBE006.bigfish.com (10.3.84.26) with Microsoft SMTP Server id
+	14.1.225.22; Tue, 4 Oct 2011 21:52:51 +0000
+Received: from mail55-db3 (localhost.localdomain [127.0.0.1])	by
+	mail55-db3-R.bigfish.com (Postfix) with ESMTP id CF6597D02FD	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue,  4 Oct 2011 21:52:50 +0000 (UTC)
+X-SpamScore: -12
+X-BigFish: VS-12(zz9371K1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
+	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
+X-FB-SS: 0,
+Received: from mail55-db3 (localhost.localdomain [127.0.0.1]) by mail55-db3
+	(MessageSwitch) id 1317765170700477_29862;
+	Tue,  4 Oct 2011 21:52:50 +0000 (UTC)
+Received: from DB3EHSMHS016.bigfish.com (unknown [10.3.81.240])	by
+	mail55-db3.bigfish.com (Postfix) with ESMTP id A279B18A8051	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue,  4 Oct 2011 21:52:50 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS016.bigfish.com
+	(10.3.87.116) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Tue, 4 Oct 2011 21:52:49 +0000
+Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.230]) by
+	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
+	14.01.0323.007; Tue, 4 Oct 2011 16:52:49 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH v2 10/16] Fix mdadm for powerpc64
+Thread-Index: AQHMggIJ6+1og7PNnEGyLP1+hESaEJVrcnwAgAABBYCAAZwagA==
+Date: Tue, 4 Oct 2011 21:52:48 +0000
+Message-ID: <CAEsOVNdahRcHTCfVhaqFZiVaKhAtM2a6L6GTm61RtsGoJxjB6A@mail.gmail.com>
+References: <1317322353-30258-1-git-send-email-msm@freescale.com>
+	<4E8A0B81.1080507@gmail.com>
+	<CAEsOVNcvCgboed7tx68aT_CemeN_pVd_k0JM_cWVDiMtRrCG0w@mail.gmail.com>
+	<4E8A2667.4090700@gmail.com>
+In-Reply-To: <4E8A2667.4090700@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>
+Subject: Re: [PATCH v2 10/16] Fix mdadm for powerpc64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -39,44 +64,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Oct 2011 21:46:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Oct 2011 21:58:25 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <D2F86A1C5112134289296FF0DF4189CD@freescale.net>
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2011-10-04 at 17:08 -0400, Bruce Ashfield wrote:
-> Richard/Saul,
-> 
-> Apologies to anyone that prefers these to be pushed out on top of oe-core,
-> but my machine with those repos went down today and I wanted to get these
-> out quickly, so this is based on top of my yocto/poky tree. I've also had
-> to do this on top of my master branch (hence why you see the distro
-> version patch), if we do need this on another branch let me know and I'll
-> spend the time to re-create my environment on another machine to get
-> things staged differently.
-> 
-> This is a series of changes from Tom to synchronize live boot settings
-> across more machines, which are nicely isolated to a few boards.
-> 
-> Cheers,
-> 
-> Bruce
-> 
-> cc: Tom Zanussi <tom.zanussi@intel.com>
-> 
-> The following changes since commit c88b9915267f9a89983bb58faf3c30fe1dcdab43:
-> 
->   poky.conf: Increment DISTRO_VERSION (2011-10-04 18:33:54 +0100)
-> 
-> are available in the git repository at:
->   git://git.pokylinux.org/poky-contrib zedd/kernel
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-> 
-> Bruce Ashfield (1):
->   linux-yocto: update live boot configuration
+On Mon, Oct 3, 2011 at 4:17 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>> I can't find a log of this anywhere, it's probably the default
+>> compiler warnings for our platform are different?
+>
+> It would be handy to understand them since I dont see gcc differentiating
+> formats between ppc64 and x86_64 which both are 64bit hosts. But obviousl=
+y
+> there is something missing.
 
-Merged to master, thanks.
+I finally got around to rerunning this without my patch and the errors
+are below.
 
-Richard
+/.mdadm/failed-slots\" -DUSE_PTHREADS   -c -o mdmon.o mdmon.c
+| powerpc64-fsl-linux-gcc -Wall -Werror -Wstrict-prototypes -Wextra
+-Wno-unused-parameter -ggdb -DSendmail=3D\""/usr/sbin/sendmail -t"\"
+-DCONFFILE=3D\"/etc/mdadm.conf\" -DCONFFILE2=3D\"/etc/mdadm/mdadm.conf\"
+-DMAP_DIR=3D\"/dev/.mdadm\" -DMAP_FILE=3D\"map\"
+-DMDMON_DIR=3D\"/dev/.mdadm\"
+-DFAILED_SLOTS_DIR=3D\"/dev/.mdadm/failed-slots\" -DUSE_PTHREADS   -c -o
+monitor.o monitor.c
+| powerpc64-fsl-linux-gcc -Wall -Werror -Wstrict-prototypes -Wextra
+-Wno-unused-parameter -ggdb -DSendmail=3D\""/usr/sbin/sendmail -t"\"
+-DCONFFILE=3D\"/etc/mdadm.conf\" -DCONFFILE2=3D\"/etc/mdadm/mdadm.conf\"
+-DMAP_DIR=3D\"/dev/.mdadm\" -DMAP_FILE=3D\"map\"
+-DMDMON_DIR=3D\"/dev/.mdadm\"
+-DFAILED_SLOTS_DIR=3D\"/dev/.mdadm/failed-slots\" -DUSE_PTHREADS   -c -o
+managemon.o managemon.c
+| super-intel.c: In function 'getinfo_super_imsm_volume':
+| super-intel.c:2327:4: error: format '%llu' expects argument of type
+'long long unsigned int', but argument 3 has type '__u64'
+[-Werror=3Dformat]
+| super-intel.c:2327:4: error: format '%llu' expects argument of type
+'long long unsigned int', but argument 4 has type '__u64'
+[-Werror=3Dformat]
+| cc1: all warnings being treated as errors
+
+-M=
 
 
 
