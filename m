@@ -1,35 +1,47 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
+Received: from va3ehsobe005.messaging.microsoft.com ([216.32.180.31]
+	helo=VA3EHSOBE005.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RBDOl-00081P-Q3
+	(envelope-from <B29882@freescale.com>) id 1RBDP2-00082u-4a
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Oct 2011 00:23:39 +0200
-Received: by gyg8 with SMTP id 8so997156gyg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Oct 2011 15:18:05 -0700 (PDT)
-Received: by 10.236.183.170 with SMTP id q30mr10144081yhm.42.1317766685267;
-	Tue, 04 Oct 2011 15:18:05 -0700 (PDT)
-Received: from [10.74.16.251] ([198.47.23.255])
-	by mx.google.com with ESMTPS id f24sm21409969yhk.5.2011.10.04.15.18.03
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 04 Oct 2011 15:18:04 -0700 (PDT)
-References: <1317370770-27225-1-git-send-email-Martin.Jansa@gmail.com>
-	<1317392122.12332.208.camel@ted>
-	<20110930164658.GB7364@jama.jama.net>
-	<1317402578.12332.218.camel@ted>
-	<CAP9ODKqb8RGLi_5-_+uegLmtZ7Wo-70oDJcF_R6yaSJ2q9mGwg@mail.gmail.com>
-	<1317765609.14671.118.camel@ted>
-In-Reply-To: <1317765609.14671.118.camel@ted>
-Mime-Version: 1.0 (iPhone Mail 8L1)
-Message-Id: <8B86DE10-DF74-4727-B6FF-0CD3FAB992CF@dominion.thruhere.net>
-X-Mailer: iPhone Mail (8L1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Tue, 4 Oct 2011 17:18:00 -0500
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: Martin Jansa <martin.jansa@gmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Improve handling of 'all' architecture recipes and their interaction with sstate
+	Wed, 05 Oct 2011 00:23:56 +0200
+Received: from mail188-va3-R.bigfish.com (10.7.14.243) by
+	VA3EHSOBE005.bigfish.com (10.7.40.25) with Microsoft SMTP Server id
+	14.1.225.22; Tue, 4 Oct 2011 22:03:15 +0000
+Received: from mail188-va3 (localhost.localdomain [127.0.0.1])	by
+	mail188-va3-R.bigfish.com (Postfix) with ESMTP id 1596F1C601F7	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue,  4 Oct 2011 22:03:15 +0000 (UTC)
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839h)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
+	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail188-va3 (localhost.localdomain [127.0.0.1]) by mail188-va3
+	(MessageSwitch) id 1317765794999157_16536;
+	Tue,  4 Oct 2011 22:03:14 +0000 (UTC)
+Received: from VA3EHSMHS028.bigfish.com (unknown [10.7.14.252])	by
+	mail188-va3.bigfish.com (Postfix) with ESMTP id E5471D88050	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue,  4 Oct 2011 22:03:14 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS028.bigfish.com
+	(10.7.99.38) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Tue, 4 Oct 2011 22:03:11 +0000
+Received: from az33smr02.freescale.net (10.64.34.200) by
+	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
+	Server id 14.1.323.7; Tue, 4 Oct 2011 17:03:10 -0500
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
+	by az33smr02.freescale.net (8.13.1/8.13.0) with ESMTP id
+	p94M38JJ010861	for <openembedded-core@lists.openembedded.org>;
+	Tue, 4 Oct 2011 17:03:09 -0500 (CDT)
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 4 Oct 2011 17:03:06 -0500
+Message-ID: <1317765787-19127-5-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.6.1
+In-Reply-To: <1317765787-19127-1-git-send-email-msm@freescale.com>
+References: <1317765787-19127-1-git-send-email-msm@freescale.com>
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: [PATCH 5/6] Fix sysprof for powerpc64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,49 +56,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Oct 2011 22:23:40 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+X-List-Received-Date: Tue, 04 Oct 2011 22:23:56 -0000
+Content-Type: text/plain
+
+sysprof will not build properly without this defined
+
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+No comments on original patch sent
+
+ meta/recipes-kernel/sysprof/sysprof_git.bb |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+
+diff --git a/meta/recipes-kernel/sysprof/sysprof_git.bb b/meta/recipes-kernel/sysprof/sysprof_git.bb
+index 10bde04..271b5d8 100644
+--- a/meta/recipes-kernel/sysprof/sysprof_git.bb
++++ b/meta/recipes-kernel/sysprof/sysprof_git.bb
+@@ -16,6 +16,8 @@ SRC_URI_append_arm  = " file://rmb-arm.patch"
+ SRC_URI_append_mips = " file://rmb-mips.patch"
+ SRC_URI_append_powerpc = " file://ppc-macro-fix.patch"
+ 
++export CFLAGS_append_powerpc64 = " -D__ppc64__"
++
+ S = "${WORKDIR}/git"
+ 
+ inherit autotools
+-- 
+1.7.6.1
 
 
-
-Op 4 okt. 2011 om 17:00 heeft Richard Purdie <richard.purdie@linuxfoundation=
-.org> het volgende geschreven:
-
-> On Sat, 2011-10-01 at 15:48 -0300, Otavio Salvador wrote:
->> On Fri, Sep 30, 2011 at 14:09, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->> ...
->>> Thanks. I've taken the two patches. I'd love to get rid of hal, in fact
->>> its on my list of things that need to migrate out of OE-Core...
->> ...
->>=20
->> =46rom default images this shouldn't be difficult but don't remove hal
->> from oe-core since many embedded OS still use it and haven't migrate
->> to udev or devicekit yet.
->=20
-> Really? hal doesn't really replace udev though, we can just use udev
-> directly in place of it for many things now?
->=20
-> Specifically which applications are people using with dependencies on
-> hal? As has been pointed out we can fix the xserver and that appears to
-> be the only thing remaining in OE-Core?
-
-Angstrom is completely hal-less nowadays :)
-
-
-
-
->=20
-> Cheers,
->=20
-> Richard
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
