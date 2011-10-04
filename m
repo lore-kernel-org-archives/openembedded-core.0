@@ -1,25 +1,36 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1RB78U-000791-7H
-	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Oct 2011 17:42:26 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RB738-0001AQ-UA
-	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Oct 2011 17:36:55 +0200
-From: Phil Blundell <philb@gnu.org>
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RB7E0-0007Eq-E5 for openembedded-core@lists.openembedded.org;
+	Tue, 04 Oct 2011 17:48:08 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p94Fn2aK009458 for <openembedded-core@lists.openembedded.org>;
+	Tue, 4 Oct 2011 16:49:03 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id rSydVBwHYILW
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  4 Oct 2011 16:49:02 +0100 (BST)
+Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p94FmuFk009448
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 4 Oct 2011 16:48:59 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 04 Oct 2011 16:36:54 +0100
-In-Reply-To: <62e9da86a45eef3dd374bd8c7e110f619f620f80.1316890497.git.sgw@linux.intel.com>
-References: <cover.1316890497.git.sgw@linux.intel.com>
-	<62e9da86a45eef3dd374bd8c7e110f619f620f80.1316890497.git.sgw@linux.intel.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1317742614.13337.47.camel@phil-desktop>
+Date: Tue, 04 Oct 2011 16:42:26 +0100
+In-Reply-To: <1317740599.13337.43.camel@phil-desktop>
+References: <1317660469.13337.16.camel@phil-desktop>
+	<1317725702.14671.33.camel@ted>
+	<1317740599.13337.43.camel@phil-desktop>
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1317742955.14671.62.camel@ted>
 Mime-Version: 1.0
-Subject: Re: [PATCH 1/2] attr/acl: add SSTATEPOSTINSTFUNC
+Subject: Re: sstate_clean() overzealous?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,28 +45,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Oct 2011 15:42:26 -0000
+X-List-Received-Date: Tue, 04 Oct 2011 15:48:08 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sat, 2011-09-24 at 11:56 -0700, Saul Wold wrote:
-> +fix_symlink () {
-> +	# Remove bad symlinks & create the correct symlinks
-> +	if test -L ${libdir}/lib${BPN}.so ; then
-> +		rm -rf ${libdir}/lib${BPN}.so
-> +		ln -sf ${base_libdir}/lib${BPN}.so ${libdir}/lib${BPN}.so
-> +	fi
+On Tue, 2011-10-04 at 16:03 +0100, Phil Blundell wrote:
+> On Tue, 2011-10-04 at 11:54 +0100, Richard Purdie wrote:
+> > I think we need to teach this clean function about stamp-extra-info and
+> > instead of stfile + ".*", remove stfile + ".*." + stamp-extra-info if
+> > stamp-extra-info is set. That would likely fix the problem you're
+> > seeing.
+> 
+> Okay, thanks.  I applied this change locally:
+> 
+> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+> index 91f209a..7f38800 100644
+> --- a/meta/classes/sstate.bbclass
+> +++ b/meta/classes/sstate.bbclass
+> @@ -258,10 +258,15 @@ def sstate_clean(ss, d):
+>              bb.utils.unlockfile(lock)
+>  
+>      stfile = d.getVar("STAMP", True) + ".do_" + ss['task']
+> +    extrainf = d.getVarFlag("do_" + ss['task'], 'stamp-extra-info')
+>      oe.path.remove(stfile)
+>      oe.path.remove(stfile + "_setscene")
+> -    oe.path.remove(stfile + ".*")
+> -    oe.path.remove(stfile + "_setscene" + ".*")
+> +    if extrainf:
+> +        oe.path.remove(stfile + ".*." + extrainf)
+> +       oe.path.remove(stfile + "_setscene" + ".*." + extrainf)
 
-This breaks the build for me on micro.  I end up with a symlink pointing
-to itself:
+Thinking further about this it may need to be ".*" instead of ".*.". I
+suspect with the above it wouldn't be wiping out some of the stamps it
+should be with OE-Core and the Basic siggen code. BasicHash would work
+though.
 
-lrwxrwxrwx 1 pb pb 76 2011-10-04
-16:09 /home/pb/oe/build-epia/build/tmp-eglibc/sysroots/x86_64-linux/lib/libattr.so -> /home/pb/oe/build-epia/build/tmp-eglibc/sysroots/x86_64-linux/lib/libattr.so
+Cheers,
 
-with predictably bad results.
-
-p.
-
+Richard
 
 
 
