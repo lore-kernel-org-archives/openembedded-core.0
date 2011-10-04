@@ -1,33 +1,23 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1RBC0t-0005OI-E3
+	(envelope-from <bruce.ashfield@windriver.com>) id 1RBCJt-00067o-6P
 	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Oct 2011 22:54:55 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 04 Oct 2011 13:49:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,487,1312182000"; d="scan'208";a="74571378"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
-	by fmsmga002.fm.intel.com with ESMTP; 04 Oct 2011 13:49:05 -0700
-Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
-	orsmsx604.amr.corp.intel.com ([10.250.113.17]) with mapi;
-	Tue, 4 Oct 2011 13:48:54 -0700
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>, Patches and discussions about
-	the oe-core layer <openembedded-core@lists.openembedded.org>
-Date: Tue, 4 Oct 2011 13:48:53 -0700
-Thread-Topic: gdb-cross-canadian fails to build
-Thread-Index: AcyC1uLn+dPS0xL+SymFRd0XwG/ZzgAAA+GQ
-Message-ID: <9DA5872FEF993D41B7173F58FCF6BE94E098FD75@orsmsx504.amr.corp.intel.com>
-References: <CAP9ODKqPytjP_RCU_DQMewMp2TV9p86qVk8YT=eBC_jwNPaWYw@mail.gmail.com>
-	<CAP9ODKqJh54j2akHEaPUfKn2LSojK6p3D0gv-A=aS3pOOqgG0A@mail.gmail.com>
-In-Reply-To: <CAP9ODKqJh54j2akHEaPUfKn2LSojK6p3D0gv-A=aS3pOOqgG0A@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US
-MIME-Version: 1.0
-Subject: Re: gdb-cross-canadian fails to build
+	Tue, 04 Oct 2011 23:14:33 +0200
+Received: from yow-bashfiel-l1.corp.ad.wrs.com
+	(dhcp-145-174.ottawa.windriver.com [128.224.145.174])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p94L8t8r008797;
+	Tue, 4 Oct 2011 14:08:56 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Tue,  4 Oct 2011 17:08:54 -0400
+Message-Id: <1a26fa5d55193094ecc52b67e8446acd9f486bc0.1317762176.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
+In-Reply-To: <cover.1317762176.git.bruce.ashfield@windriver.com>
+References: <cover.1317762176.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1317762176.git.bruce.ashfield@windriver.com>
+References: <cover.1317762176.git.bruce.ashfield@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: [PATCH 1/1] linux-yocto: update live boot configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,47 +32,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Oct 2011 20:54:55 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 04 Oct 2011 21:14:33 -0000
 
+Updating the meta SRCREV to import a series of changes to synchronize
+live booting between multiple targets:
 
+  d05450e meta/fri2: enable booting from iso
+  3da7d2a meta/fishriver: enable booting from iso
+  52e1c49 meta/emenlow: enable booting from iso
+  87918ae meta/crownbay: enable booting from iso
 
-> -----Original Message-----
-> From: otavio.salvador@gmail.com [mailto:otavio.salvador@gmail.com] On
-> Behalf Of Otavio Salvador
-> Sent: Tuesday, October 04, 2011 1:48 PM
-> To: Patches and discussions about the oe-core layer; Kamble, Nitin A
-> Subject: Re: gdb-cross-canadian fails to build
->=20
-> On Tue, Oct 4, 2011 at 17:40, Otavio Salvador <otavio@ossystems.com.br>
-> wrote:
-> ...
-> > Log data follows:
-> > | NOTE: Applying patch 'no-werror.patch'
-> > (openembedded-core/meta/recipes-devtools/gdb/gdb/no-werror.patch)
-> ...
-> > /home/otavio/hacking/ossystems/embedded-linux/openembedded-
-> core/meta/recipes-devtools/gdb/gdb-cross-canadian_7.3.1.bb:
-> ...
->=20
-> It seems to have been broken by:
-> 9002f664383d71682767546524e1299137b6fe4f
->=20
-> Nitin, can you take a look?
-Sure, I will look into it.
+Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb    |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Thanks,
-Nitin
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
+index 0c59a5b..9746f1a 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
+@@ -16,7 +16,7 @@ LINUX_KERNEL_TYPE = "preempt-rt"
+ 
+ SRCREV_machine ?= "0936e13cc65d816f1759e2322c5e3fc82a5037f3"
+ SRCREV_machine_qemuppc ?= "0936e13cc65d816f1759e2322c5e3fc82a5037f3"
+-SRCREV_meta ?= "67a46a608f47c19f16995be7de7b272025864b1b"
++SRCREV_meta ?= "d05450e4aef02c1b7137398ab3a9f8f96da74f52"
+ 
+ PR = "r1"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+index 9ece25c..c36e8b5 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+@@ -18,7 +18,7 @@ SRCREV_machine_qemuppc ?= "eccd57eaa4c2b580b9adbbc39e19ecbff56779ae"
+ SRCREV_machine_qemux86 ?= "72671808fdbe69a9fe03fd8f094e7c59da04a28c"
+ SRCREV_machine_qemux86-64 ?= "2b2d0954a6fd12b4bb7f02f019bc62633c8060a1"
+ SRCREV_machine ?= "6b2c7d65b844e686eae7d5cccb9b638887afe28e"
+-SRCREV_meta ?= "67a46a608f47c19f16995be7de7b272025864b1b"
++SRCREV_meta ?= "d05450e4aef02c1b7137398ab3a9f8f96da74f52"
+ 
+ PR = "r2"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+-- 
+1.7.4.1
 
-
->=20
-> --
-> Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0O.S. Systems
-> E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-> Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.oss=
-ystems.com.br
 
 
