@@ -1,30 +1,21 @@
-Received: from mail-pz0-f43.google.com ([209.85.210.43])
+Received: from mail.geekisp.com ([216.168.135.169] helo=starfish.geekisp.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RBApE-0003QQ-Hp
+	(envelope-from <philip@balister.org>) id 1RBBDh-0004Av-Vs
 	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Oct 2011 21:38:49 +0200
-Received: by pzd13 with SMTP id 13so2333676pzd.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Oct 2011 12:33:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=g6Ik8IH3uRkpXwwMqe11EO7Pn6UXOBtyfy730YA4WEc=;
-	b=w5g0u7HQUj4fXTRXAiZGa7SRbkfcuWzyC+OkH/6GGRW3I2oaBMqkd1xqdoC7ft/xxi
-	sO1Hd/QeOVO+vPq2vCLlQtsi8YHbtMNircCHkSXfBPUHHWoI//W/zILZZLZbVyD8ACvG
-	I1YZbr6qH8mxOzNkJrv+DD886gQaSYDNrUvPk=
-Received: by 10.68.54.65 with SMTP id h1mr12376437pbp.11.1317756787596;
-	Tue, 04 Oct 2011 12:33:07 -0700 (PDT)
-Received: from localhost.localdomain
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
-	by mx.google.com with ESMTPS id u1sm67841229pbr.9.2011.10.04.12.33.06
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 04 Oct 2011 12:33:07 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Oct 2011 12:32:43 -0700
-Message-Id: <1317756763-21114-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH] runqemu-export-rootfs: Add HOW-TO for ubuntu 11.10 for rpcbind problem
+	Tue, 04 Oct 2011 22:04:06 +0200
+Received: (qmail 30884 invoked by uid 1003); 4 Oct 2011 19:58:31 -0000
+Received: from unknown (HELO ?192.168.1.108?)
+	(philip@opensdr.com@96.240.179.234)
+	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
+	4 Oct 2011 19:58:31 -0000
+Message-ID: <4E8B6564.4090002@balister.org>
+Date: Tue, 04 Oct 2011 15:58:28 -0400
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.22) Gecko/20110906 Fedora/3.1.14-1.fc14 Thunderbird/3.1.14
+MIME-Version: 1.0
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Bringing an image from OE to OE-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,35 +30,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Oct 2011 19:38:49 -0000
+X-List-Received-Date: Tue, 04 Oct 2011 20:04:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The existing instruction to tackle
-RPC: Authentication error; why = Client credential too weak
-Are not applicable to ubuntu 11.10 especially
+I'm about to start bringing some images I use from OE to OE-core. The 
+first issue I saw is there is no task-proper-tools in oe-core (where 
+oe-core means the set of layers created by the Angstrom setup scripts).
 
-Therefore add the magic needed for ubuntu 11.10
+Should I add task-proper-tools to meta-oe, or is there a better way to 
+add a full features set of tools to an image? Basically, the image is 
+more desktop like than embedded.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- scripts/runqemu-export-rootfs |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
-
-diff --git a/scripts/runqemu-export-rootfs b/scripts/runqemu-export-rootfs
-index 3ee3112..fec288a 100755
---- a/scripts/runqemu-export-rootfs
-+++ b/scripts/runqemu-export-rootfs
-@@ -118,6 +118,9 @@ case "$1" in
- 		echo "    echo RPCBIND_OPTIONS=-i >> /etc/sysconfig/rpcbind"
- 		echo "    /etc/init.d/rpcbind restart"
- 		echo "==============================================="
-+		echo "For Ubuntu 11.10 hosts"
-+		echo "Add OPTIONS=\"-i -w\"  to /etc/default/rpcbind"
-+		echo "sudo service portmap restart"
- 	    fi
- 	    exit 1
- 	fi
--- 
-1.7.5.4
-
+Philip
 
 
