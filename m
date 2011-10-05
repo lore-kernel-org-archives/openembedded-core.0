@@ -1,21 +1,21 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1RBItY-0006G5-Ue
+	(envelope-from <saul.wold@intel.com>) id 1RBIxB-0006Kb-Ef
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Oct 2011 06:15:49 +0200
+	Wed, 05 Oct 2011 06:19:33 +0200
 Received: from mail-bw0-f52.google.com ([209.85.214.52])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 04 Oct 2011 21:10:12 -0700
-Received: by bke5 with SMTP id 5so1466022bke.25
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 04 Oct 2011 21:13:55 -0700
+Received: by bke5 with SMTP id 5so1468849bke.25
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Oct 2011 21:10:11 -0700 (PDT)
-Received: by 10.223.88.197 with SMTP id b5mr534278fam.143.1317787811324;
-	Tue, 04 Oct 2011 21:10:11 -0700 (PDT)
+	Tue, 04 Oct 2011 21:13:53 -0700 (PDT)
+Received: by 10.223.10.14 with SMTP id n14mr2909668fan.37.1317788033443;
+	Tue, 04 Oct 2011 21:13:53 -0700 (PDT)
 Received: from [10.6.18.233] (c-71-193-189-117.hsd1.wa.comcast.net.
 	[71.193.189.117])
-	by mx.google.com with ESMTPS id n18sm496423fah.2.2011.10.04.21.10.09
-	(version=SSLv3 cipher=OTHER); Tue, 04 Oct 2011 21:10:10 -0700 (PDT)
-Message-ID: <4E8BD89F.70306@intel.com>
-Date: Tue, 04 Oct 2011 21:10:07 -0700
+	by mx.google.com with ESMTPS id u6sm474867fan.17.2011.10.04.21.13.51
+	(version=SSLv3 cipher=OTHER); Tue, 04 Oct 2011 21:13:52 -0700 (PDT)
+Message-ID: <4E8BD97D.9060705@intel.com>
+Date: Tue, 04 Oct 2011 21:13:49 -0700
 From: Saul Wold <saul.wold@intel.com>
 Organization: Intel
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
@@ -23,9 +23,10 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1317370299.git.lei.mei@intel.com>
-In-Reply-To: <cover.1317370299.git.lei.mei@intel.com>
-Subject: Re: [PATCH 0/4]Recipe upgrades
+References: <1317390278-15364-1-git-send-email-Martin.Jansa@gmail.com>
+In-Reply-To: <1317390278-15364-1-git-send-email-Martin.Jansa@gmail.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: [PATCH] libproxy: upgrade to 0.4.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,57 +41,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2011 04:15:49 -0000
+X-List-Received-Date: Wed, 05 Oct 2011 04:19:33 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/30/2011 01:16 AM, Mei Lei wrote:
-> This commit includes some recipes upgrade: curl,diffutils,dropbear.
-> And update the distro_tracking_fields.inc
+On 09/30/2011 06:44 AM, Martin Jansa wrote:
+> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
+> ---
+>   meta/recipes-support/libproxy/libproxy_0.4.6.bb |   29 -----------------------
+>   meta/recipes-support/libproxy/libproxy_0.4.7.bb |   27 +++++++++++++++++++++
+>   2 files changed, 27 insertions(+), 29 deletions(-)
+>   delete mode 100644 meta/recipes-support/libproxy/libproxy_0.4.6.bb
+>   create mode 100644 meta/recipes-support/libproxy/libproxy_0.4.7.bb
 >
-> Thanks,
-> Lei
->
-> The following changes since commit 96241de59fdf548ae0f80cc9e4668f9ba11924ef:
->    Matthew McClintock (1):
->          Fix flac build on e500mc cores
->
-> are available in the git repository at:
->
->    git://git.pokylinux.org/poky-contrib lmei3/upgrade-0928
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=lmei3/upgrade-0928
->
-> Mei Lei (4):
->    curl: Upgrade from 7.21.7 to 7.22.0
->    diffutils: Upgrade from 3.0 to 3.2.
->    dropbear: Upgrade from 0.52 to 0.53.1
->    distro_tracking_fields.inc: Update upgrade information
->
->   .../conf/distro/include/distro_tracking_fields.inc |   25 +++++++++--------
->   .../configure.patch                                |    0
->   meta/recipes-core/dropbear/dropbear.inc            |    1 +
->   .../dropbear/dropbear/allow-nopw.patch             |   14 +++++-----
->   .../dropbear-0.53.1-static_build_fix.patch         |   29 ++++++++++++++++++++
->   .../urandom-xauth-changes-to-options.h.patch       |   11 ++++---
->   meta/recipes-core/dropbear/dropbear_0.52.bb        |    6 ----
->   meta/recipes-core/dropbear/dropbear_0.53.1.bb      |    6 ++++
->   .../{diffutils_3.0.bb =>  diffutils_3.2.bb}         |    4 +-
->   .../curl/{curl_7.21.7.bb =>  curl_7.22.0.bb}        |    4 +-
->   10 files changed, 66 insertions(+), 34 deletions(-)
->   rename meta/recipes-core/dropbear/{dropbear-0.52 =>  dropbear-0.53.1}/configure.patch (100%)
->   create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear-0.53.1-static_build_fix.patch
->   delete mode 100644 meta/recipes-core/dropbear/dropbear_0.52.bb
->   create mode 100644 meta/recipes-core/dropbear/dropbear_0.53.1.bb
->   rename meta/recipes-extended/diffutils/{diffutils_3.0.bb =>  diffutils_3.2.bb} (84%)
->   rename meta/recipes-support/curl/{curl_7.21.7.bb =>  curl_7.22.0.bb} (92%)
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-Merged into master with the md5sum fix by Richard
+> diff --git a/meta/recipes-support/libproxy/libproxy_0.4.6.bb b/meta/recipes-support/libproxy/libproxy_0.4.6.bb
+> deleted file mode 100644
+> index d907c55..0000000
+> --- a/meta/recipes-support/libproxy/libproxy_0.4.6.bb
+> +++ /dev/null
+> @@ -1,29 +0,0 @@
+> -DESCRIPTION = "A library that provides automatic proxy configuration management"
+> -HOMEPAGE = "http://code.google.com/p/libproxy/"
+> -BUGTRACKER = "http://code.google.com/p/libproxy/issues/list"
+> -SECTION = "libs"
+> -LICENSE = "LGPLv2.1+"
+> -LIC_FILES_CHKSUM = "file://COPYING;md5=7d7044444a7b1b116e8783edcdb44ff4 \
+> -                    file://utils/proxy.c;beginline=1;endline=18;md5=55152a1006d7dafbef32baf9c30a99c0"
+> -
+> -
+> -DEPENDS = "gconf"
+> -
+> -SRC_URI = "http://libproxy.googlecode.com/files/libproxy-${PV}.tar.gz"
+> -
+> -SRC_URI[md5sum] = "199c6b120baf1f7258a55f38d5ec74f5"
+> -SRC_URI[sha256sum] = "9ad912e63b1efca98fb442240a2bc7302e6021c1d0b1b9363327729f29462f30"
+> -
+> -PR = "r2"
+> -
+> -inherit cmake pkgconfig
+> -
+> -EXTRA_OECMAKE = "-DWITH_WEBKIT=no -DWITH_GNOME=yes -DWITH_KDE4=no \
+> -	      -DWITH_PYTHON=no -DWITH_PERL=no -DWITH_MOZJS=no -DWITH_NM=no -DLIB_INSTALL_DIR=${libdir}"
+> -
+> -FILES_${PN}-dbg += "${libdir}/libproxy/${PV}/plugins/.debug/ ${libdir}/libproxy/${PV}/modules/.debug/"
+> -
+> -do_configure_prepend() {
+> -	export HOST_SYS=${HOST_SYS}
+> -	export BUILD_SYS=${BUILD_SYS}
+> -}
+> diff --git a/meta/recipes-support/libproxy/libproxy_0.4.7.bb b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+> new file mode 100644
+> index 0000000..2793b41
+> --- /dev/null
+> +++ b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+> @@ -0,0 +1,27 @@
+> +DESCRIPTION = "A library that provides automatic proxy configuration management"
+> +HOMEPAGE = "http://code.google.com/p/libproxy/"
+> +BUGTRACKER = "http://code.google.com/p/libproxy/issues/list"
+> +SECTION = "libs"
+> +LICENSE = "LGPLv2.1+"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=7d7044444a7b1b116e8783edcdb44ff4 \
+> +                    file://utils/proxy.c;beginline=1;endline=18;md5=55152a1006d7dafbef32baf9c30a99c0"
+> +
+> +
+> +DEPENDS = "gconf"
+> +
+> +SRC_URI = "http://libproxy.googlecode.com/files/libproxy-${PV}.tar.gz"
+> +
+> +SRC_URI[md5sum] = "509e03a488a61cd62bfbaf3ab6a2a7a5"
+> +SRC_URI[sha256sum] = "8fe0a58810139ba3c2e186deccf3e68adcd127aa0e972b0862b30b3dde493797"
+> +
+> +inherit cmake pkgconfig
+> +
+> +EXTRA_OECMAKE = "-DWITH_WEBKIT=no -DWITH_GNOME=yes -DWITH_KDE4=no \
+> +	      -DWITH_PYTHON=no -DWITH_PERL=no -DWITH_MOZJS=no -DWITH_NM=no -DLIB_INSTALL_DIR=${libdir}"
+> +
+> +FILES_${PN}-dbg += "${libdir}/libproxy/${PV}/plugins/.debug/ ${libdir}/libproxy/${PV}/modules/.debug/"
+> +
+> +do_configure_prepend() {
+> +	export HOST_SYS=${HOST_SYS}
+> +	export BUILD_SYS=${BUILD_SYS}
+> +}
+
+Looks like the v1 set of changes got merged by RP, both this and the 
+json-glib patch
 
 Thanks
 	Sau!
