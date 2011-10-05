@@ -1,34 +1,33 @@
-Received: from stoexhubfe01.domain01.net ([83.145.59.140])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <openembedded-devel-bounces@lists.openembedded.org>)
-	id 1RBNKF-0007iz-3t; Wed, 05 Oct 2011 10:59:39 +0200
-Received: from Pickup by stoexhubfe01.domain01.net with Microsoft SMTP Server
-	id 8.3.137.0; Wed, 5 Oct 2011 08:52:30 +0000
-X-Sender: openembedded-devel-bounces@lists.openembedded.org
-X-Receiver: anders@chargestorm.se
-x-endofinjectedxheaders: 19633
-X-Spam-Status: No, score=-0.344 tagged_above=-1000 required=4.5
-	tests=[AWL=-0.344, BAYES_00=-2, GENERAL_FISHING_1_04=1,
-	GENERAL_FISHING_1_08=1]
-Date: Tue, 4 Oct 2011 16:19:14 -0400
-X-OldMsgId: <E1RBBSM-0002CW-KH@happy.bec-systems.com>
-X-Mailer: Nodemailer (0.1.13; +http://www.nodemailer.org)
-From: <cliff.brake@gmail.com>
-To: <openembedded-core@lists.openembedded.org>,
-	<openembedded-devel@lists.openembedded.org>,
-	<angstrom-distro-devel@linuxtogo.org>
+	(envelope-from <azarnasab@gmail.com>) id 1RBNky-0000LY-LM
+	for Openembedded-core@lists.openembedded.org;
+	Wed, 05 Oct 2011 11:27:16 +0200
+Received: by bke11 with SMTP id 11so1896490bke.6
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 05 Oct 2011 02:21:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
+	:from:to:content-type:content-transfer-encoding;
+	bh=t6NoZugE5cdT29cza/S3xqQzn5QM0bH8VQ2rVfwGawU=;
+	b=uzALqkdzWfhdw8JFJtu3tr+5O3O+cmxEjc9PZRA+EFDqgwHM7WC3GWQAXWT5umkJWd
+	aHM/fsKv1s68ECOF3elzqIf5+pZ6tUT9NY5ZXfBbCKWGyenVWUi7ZAfHUznmK5BfFtUS
+	nmIMR27u/xarwrdNQapwuN3rBdng1iCEX/Q+o=
 MIME-Version: 1.0
-X-BeenThere: openembedded-devel@lists.openembedded.org
+Received: by 10.204.156.16 with SMTP id u16mr1399752bkw.54.1317806502121; Wed,
+	05 Oct 2011 02:21:42 -0700 (PDT)
+Sender: azarnasab@gmail.com
+Received: by 10.204.142.154 with HTTP; Wed, 5 Oct 2011 02:21:42 -0700 (PDT)
+Date: Wed, 5 Oct 2011 03:21:42 -0600
+X-Google-Sender-Auth: 57gCPwu7rb-gExA0rJ9O4JxrOHc
+Message-ID: <CADWjqk4pPWNYzO7Cua7xYXa55g=BWqwAY8taHhLwV=xaesDWPA@mail.gmail.com>
+From: dashesy <dashesy@gmail.com>
+To: Openembedded-core@lists.openembedded.org
+Subject: pkg-config bug crashes 'bitbake glib-2.0-native' in FC15.x86_64
+X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Sender: <openembedded-devel-bounces@lists.openembedded.org>
-Errors-To: openembedded-devel-bounces@lists.openembedded.org
-X-GFI-SMTP-Submission: 1
-Message-ID: <a2ca422d-ab9d-4429-8e04-2b5f89848035@stoexhubfe01.domain01.net>
-Subject: [oe] OE Changelog for 2011-09-26 to 2011-10-3
-X-BeenThere: openembedded-core@lists.openembedded.org
-Reply-To: openembedded-devel@lists.openembedded.org,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -39,221 +38,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2011 08:59:39 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 05 Oct 2011 09:27:16 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Q2hhbmdlbG9nIGZvciAyMDExLTA5LTI2IHRvIDIwMTEtMTAtMy4gIFByb2plY3RzIGluY2x1ZGVk
-IGluIHRoaXMgcmVwb3J0OgoKYml0YmFrZTogZ2l0Oi8vZ2l0Lm9wZW5lbWJlZGRlZC5vcmcvYml0
-YmFrZQpvcGVuZW1iZWRkZWQtY29yZTogZ2l0Oi8vZ2l0Lm9wZW5lbWJlZGRlZC5vcmcvb3BlbmVt
-YmVkZGVkLWNvcmUKbWV0YS1vcGVuZW1iZWRkZWQ6IGdpdDovL2dpdC5vcGVuZW1iZWRkZWQub3Jn
-L21ldGEtb3BlbmVtYmVkZGVkCm1ldGEtYW5nc3Ryb206IGdpdDovL2dpdC5hbmdzdHJvbS1kaXN0
-cmlidXRpb24ub3JnL21ldGEtYW5nc3Ryb20KbWV0YS15b2N0bzogZ2l0Oi8vZ2l0LnlvY3RvcHJv
-amVjdC5vcmcvcG9reQptZXRhLXRleGFzaW5zdHJ1bWVudHM6IGdpdDovL2dpdC5hbmdzdHJvbS1k
-aXN0cmlidXRpb24ub3JnL21ldGEtdGV4YXNpbnN0cnVtZW50cwptZXRhLXNtYXJ0cGhvbmU6IGh0
-dHA6Ly9naXQuc2hyLXByb2plY3Qub3JnL3JlcG8vbWV0YS1zbWFydHBob25lLmdpdAptZXRhLW1p
-Y3JvOiBnaXQ6Ly9naXQub3BlbmVtYmVkZGVkLm9yZy9tZXRhLW1pY3JvCm1ldGEtc2x1Z29zOiBn
-aXQ6Ly9naXRodWIuY29tL2tyYWovbWV0YS1zbHVnb3MKbWV0YS1uc2x1MjogZ2l0Oi8vZ2l0aHVi
-LmNvbS9rcmFqL21ldGEtbnNsdTIKbWV0YS1pbnRlbDogZ2l0Oi8vZ2l0LnlvY3RvcHJvamVjdC5v
-cmcvbWV0YS1pbnRlbAptZXRhLWhhbmRoZWxkOiBnaXQ6Ly9naXQub3BlbmVtYmVkZGVkLm9yZy9t
-ZXRhLWhhbmRoZWxkCm1ldGEtb3BpZTogZ2l0Oi8vZ2l0Lm9wZW5lbWJlZGRlZC5vcmcvbWV0YS1v
-cGllCm9wZW5lbWJlZGRlZDogZ2l0Oi8vZ2l0Lm9wZW5lbWJlZGRlZC5vcmcvb3BlbmVtYmVkZGVk
-Cgo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CkNo
-YW5nZWxvZyBmb3IgYml0YmFrZToKCk1hdHRoZXcgTWNDbGludG9jayAoMSk6CiAgZmV0Y2gyL2dp
-dDogTWFrZSBnaXQgZmV0Y2ggcnVuIHdpdGggLWYgc28gcmViYXNlZCBicmFuY2hlcyBkb24ndCBm
-YWlsCgo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-CkNoYW5nZWxvZyBmb3Igb3BlbmVtYmVkZGVkLWNvcmU6CgpBbmRyZXcgR2FiYmFzb3YgKDQpOgog
-IGNtYWtlLmJiY2xhc3M6IGFkZGluZyBleHRlbmRhYmxlIGV4dHJhIHZhcmlhYmxlIHRvIHJvb3Qg
-cGF0aAogIGxpYnBhbTogYWRkIGZsZXgtbmF0aXZlIHRvIERFUEVORFMKICBhcHI6IHVzZSAke0hP
-U1RfU1lTfS1saWJ0b29sCiAgYXBtZDogdXNlICR7SE9TVF9TWVN9LWxpYnRvb2wKCkJydWNlIEFz
-aGZpZWxkICgxKToKICBsaW51eC15b2N0by9tZXRhOiBlZzIwdCBhbmQgbGl2ZSBib290IGNvbmZp
-ZyBjaGFuZ2VzCgpEbWl0cnkgRXJlbWluLVNvbGVuaWtvdiAoMyk6CiAga2VybmVsLmJiY2xhc3M6
-IGJsYWNrbGlzdCAncGVyZi1kYmcnIGFzIHdlbGwgZm9yIHRoZSBtb2R1bGVzIG1ldGFwYWNrYWdl
-CiAga2VybmVsLmJiY2xhc3M6IGhhbmRsZSAuY2lzIGZpcm13YXJlCiAga2VybmVsLmJiY2xhc3M6
-IHJlbW92ZSB1bnNoaXBwZWQgZmlsZXMgaW4gZG9faW5zdGFsbAoKRG9uZ3hpYW8gWHUgKDYpOgog
-IG11bHRpbGliLmJiY2xhc3M6IG1hcCBSREVQRU5EUyBhbmQgTElOR1VBU19JTlNUQUxMIGZvciBp
-bWFnZSByZWNpcGVzCiAgbXVsdGlsaWI6IHJlbW92ZSB0aGUgbXVsdGlsaWIgaGFuZGxpbmcgdG8g
-YWxsYXJjaAogIHBhY2thZ2VfcnBtOiBjb21iaW5lIG5vcm1hbCBhbmQgbXVsdGlsaWIgc29sdXRp
-b24gbWFuaWZlc3QgdG9nZXRoZXIKICBsaWJjLXBhY2thZ2UuYmJjbGFzczogYWRkIE1MUFJFRklY
-IHdoZW4gc2V0IHZhbHVlcyB0byBQQUNLQUdFUwogIHR1bmUtaTU4NjogZml4IGhhcmRjb2RlZCBU
-VU5FX1BLR0FSQ0gKICBtdWx0aWxpYjogYWRkIE1MUFJFRklYIHRvIGRlcGxveSBmb2xkZXIKCkhl
-bm5pbmcgSGVpbm9sZCAoMSk6CiAgdHVuZS1jb3J0ZXhhOS5pbmM6IGFkZCB0dW5lZmlsZSBmb3Ig
-Y29ydGV4YTkgc29jcwoKSmVzc2ljYSBaaGFuZyAoMSk6CiAgRml4ZWQgYSB0eXBvIGZvciBzZXR0
-aW5nIHVwIE9FQ09SRV9BQ0xPQ0FMX09QVFMgZm9yIGFkdC1pbnN0YWxsZXIgY2FzZQoKSm9zaHVh
-IExvY2sgKDEpOgogIGdob3N0c2NyaXB0OiBkaXNhYmxlIGNoZWNrIGZvciB0aW1lLmgKCktoZW0g
-UmFqICg0KToKICBjb25mLHJlY2lwZXM6IEFkZCBuZXcgdmFyaWFibGUgTElOS0VSX0hBU0hfU1RZ
-TEUKICBnY2MtNC42OiBVc2UgLS13aXRoLWxpbmtlci1oYXNoLXN0eWxlIGNvbmZpZ3VyZSBvcHRp
-b24KICBlZ2xpYmM6IEFkZCByZWNpcGVzIGZvciAyLjE0CiAgZ2NjLTQuNjogVXBkYXRlIHRvIHRp
-cCBvZiBGU0YgZ2NjLTRfNi1icmFuY2gKCktvZW4gS29vaSAoMSk6CiAgYXZhaGk6IGZpeCBhdmFo
-aS1zeXN0ZW1kIGRlcGVuZGVuY2llcwoKTWFydGluIEphbnNhICgxKToKICBhdGs6IGFkZCBwYXRj
-aCB0byByZXBsYWNlIEdfQ09OU1RfUkVUVVJOIHdpdGggY29uc3QKCk1hdHRoZXcgTWNDbGludG9j
-ayAoMTApOgogIEZpeHVwIGtleGVjLXRvb2xzIGNvbXBhdGlibGUgaG9zdCBmb3IgcG93ZXJwYwog
-IEFkZCBhdXRvY29uZiBjYWNoZSBmb3Igc2NyZWVuIG9uIHBvd2VycGM2NAogIEFkZCBzdXBwb3J0
-IGZvciBnZW5lcmF0aW5nIGV4dDIuYnoyeywgLnUtYm9vdH0gaW1hZ2VzCiAgQWRkIHN1cHBvcnQg
-Zm9yIGdlbmVyYXRpbmcgZXh0Mi5sem1heywgLnUtYm9vdH0gaW1hZ2VzCiAgRml4IGdob3N0c2Ny
-aXB0IG9uIHBvd2VycGM2NAogIEZpeCBIQUwgb24gbmV3ZXIga2VybmVscyB3aXRob3V0IGhlYWRl
-ciBmaWxlCiAgQWRkIHVkZXYgcGF0Y2ggdG8gY29tcGlsZSBhZ2FpbnN0IG5ld2VyIGtlcm5lbHMK
-ICBGaXggc3lza2xvZ2QgYnVpbGQgb24gZTUwMHYyIGNvcmVzCiAgQWRkIHByb3BlciBkZXBzIGZv
-ciBuZnMtdXRpbHMsIHV0aWwtbGludXgsIGFuZCBzdHJhY2UKICBGaXggZmxhYyBidWlsZCBvbiBl
-NTAwbWMgY29yZXMKCk1laSBMZWkgKDQpOgogIGN1cmw6IFVwZ3JhZGUgZnJvbSA3LjIxLjcgdG8g
-Ny4yMi4wCiAgZGlmZnV0aWxzOiBVcGdyYWRlIGZyb20gMy4wIHRvIDMuMi4KICBkcm9wYmVhcjog
-VXBncmFkZSBmcm9tIDAuNTIgdG8gMC41My4xCiAgZGlzdHJvX3RyYWNraW5nX2ZpZWxkcy5pbmM6
-IFVwZGF0ZSB1cGdyYWRlIGluZm9ybWF0aW9uCgpQYXVsIEVnZ2xldG9uICgyKToKICBzY3JpcHRz
-OiB1c2UgT0VfVE1QRElSIGluc3RlYWQgb2YgVE1QRElSIGV4dGVybmFsIHZhcmlhYmxlCiAgc2Ny
-aXB0cy9vZS1zZXR1cC1ycG1yZXBvOiB1c2Ugc2V0dXBfdG1wZGlyIGZyb20gcnVucWVtdQoKUmlj
-aGFyZCBQdXJkaWUgKDEzKToKICBnY2M6IEZpeCB0d28gUUEgaXNzdWVzCiAgZ3J1YjogRml4IGlu
-c2FuZS9RQSBhcmNoaXRlY3R1cmUgd2FybmluZwogIHNxbGl0ZTM6IEZpeCBuYXRpdmVzZGsgcGFj
-a2FnaW5nL1FBIHdhcm5pbmdzCiAgcHNldWRvOiBGaXggUUEgd2FybmluZ3MKICBiaXRiYWtlLmNv
-bmY6IEZpeCByZXZlcnNlZCBsaW5rZXIgaGFzaCBzdHlsZSBsb2dpYwogIG9wZW5zc2w6IEVuc3Vy
-ZSBwZXJsIHNjcmlwdHMgcmVmZXJlbmNlIHRoZSBjb3JyZWN0IHBlcmwKICBtYzogRW5zdXJlIHBl
-cmwgc2NyaXB0cyByZWZlcmVuY2UgdGhlIGNvcnJlY3QgcGVybAogIHV0aWwtbGludXg6IEVuc3Vy
-ZSBwZXJsIHNjcmlwdHMgcmVmZXJlbmNlIHRoZSBjb3JyZWN0IHBlcmwKICBpbnNhbmU6IFByb21v
-dGUgbW9zdCB3YXJuaW5ncyBpbnRvIFFBIGVycm9ycyBieSBkZWZhdWx0CiAgUmVtb3ZlIGhlbHAy
-bWFuIGRlcGVuZGVuY3kKICBhdXRvdG9vbHM6IERpc2FibGUgZGVwZW5kZW5jeSB0cmFja2luZwog
-IGJhc2UuYmJjbGFzczogRHJvcCB1bm5lZWRlZCBkZXBlbmRlbmN5CiAgYml0YmFrZS5jb25mOiBT
-dGFydCB1c2luZyBwYXJhbGxlbCBtYWtlIGZvciBkb19pbnN0YWxsCgpTYXVsIFdvbGQgKDcpOgog
-IHJwbTogZW5zdXJlIHRoYXQgbWFnaWMgZmlsZSBpcyByZWxvY2F0YWJsZQogIHp5cHBlciAmIHNh
-dC1zb2x2ZXI6IG5lZWRzIFJERVBFTkRTIG9uIHJwbS1saWIKICBycG06IGZpeCBRQSBXYXJuaW5n
-IG9uIGluc3RhbGxlZCBidXQgbm90IHNoaXBwZWQgc3RhdGljZGV2IGZpbGVzdwogIGRpc3Ryb190
-cmFja2luZzogVXBkYXRlIE1hbnVhbCBVcGdyYWRlIENoZWNrcwogIGdsZXc6IHVwZGF0ZSB0byAx
-LjcuMAogIHN5c3N0YXQ6IHVwZGF0ZSB0byAxMC4wLjIKICBweXRob246IGZpeCBzcWxpdGUgUlBB
-VEggaXNzdWUKClNpbW9uIEJ1c2NoICgyKToKICBtZXRhOiBxdDQ6IGZpeCBwb3N0cHJvY2Vzc2lu
-ZyBvZiBwa2ctY29uZmlnIGZpbGVzCiAgcXQ0LWVtYmVkZGVkOiBtb3ZlIHF0ZS5zaCBwcm9maWxl
-IHNjcmlwdCBpbnRvIG93biBwYWNrYWdlCgpUb20gWmFudXNzaSAoMik6CiAgc3lzcHJvZjogdXBk
-YXRlIHRvIHZlcnNpb24gMS4xLjgKICBibGt0cmFjZTogdXBkYXRlIHRvIHZlcnNpb24gMS4wLjMK
-ClpoYWkgRWR3aW4gKDQpOgogIG9wcm9maWxldWk6IHJlbW92ZSBkZXBlbmRlbmNlIG9uIGdub21l
-LXZmcwogIGxpYmdzZjogcmVtb3ZlIGRlcGVuZGVuY2Ugb24gZ25vbWUtdmZzCiAgdGFibGVzOiBy
-ZW1vdmUgaXQgYXMgb2Jzb2xldGUgcmVjaXBlCiAgb3Byb2ZpbGV1aTogVXBkYXRlIFNSQ1JFViB0
-byByZWZsZWN0IHJlY2VudCBhY2NwZXRlZCBwYXRjaGVzIGJ5IHVwc3RyZWFtCgo9PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CkNoYW5nZWxvZyBmb3Ig
-bWV0YS1vcGVuZW1iZWRkZWQ6CgpBbmRyZWFzIE3DvGxsZXIgKDIpOgogIG1pZG9yaTogdXBkYXRl
-IHRvIDAuNC4wIC8gYnVpbGRhYmxlIGJ5IHVwc3RyZWFtIHBhdGNoICYgTERGTEFHU19hcHBlbmQg
-LyBtaW4KICBtaWRvcmk6IGFkZGVkIFJSRUNPTU1FTkRTIGdsaWItbmV0d29ya2luZwoKS2hlbSBS
-YWogKDUpOgogIGZ1c2U6IFVwZ3JhZGUgcmVjaXBlIHRvIHZlcnNpb24gMi44LjYKICBnbm9tZS1k
-aXNrLXV0aWxpdHk6IEZpeCBidWlsZCBvbiBnbm9tZWxzcyBob3N0IHN5c3RlbXMKICBnZG06IEZp
-eCBidWlsZCBvbiBnbm9tZSdsZXNzIGJ1aWxkIHN5c3RlbXMKICBnbm9tZS1wb3dlci1tYW5hZ2Vy
-OiBGaXggYnVpbGQgb24gZ25vbWUnbGVzcyBidWlsZCBzeXN0ZW1zCiAgdGNwLXdyYXBwZXJzOiBV
-c2UgdGhlIHJlY2lwZSBmcm9tIG9lLWNvcmUKCktvZW4gS29vaSAoMyk6CiAgc3lzdGVtZDogcmVw
-bGFjZSBhbmFseXplIHBhdGNoIHdpdGggdXBzdHJlYW0gdmVyc2lvbgogIEhBQ0s6IGxpYmNncm91
-cDogb3ZlcnJpZGUgRVJST1JfUUEKICBzeXN0ZW1kOiB1cGRhdGUgdG8gbGF0ZXN0IGdpdAoKPT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQpDaGFuZ2Vs
-b2cgZm9yIG1ldGEtYW5nc3Ryb206CgpLb2VuIEtvb2kgKDMpOgogIGhhcmR3YXJlLWJyaW5ndXAt
-aW1hZ2U6IGFzIHRoZSBuYW1lIHNheXMgYW4gaW1hZ2UgdG8gYWlkIGluIGh3IGJyaW5ndXAKICBo
-YXJkd2FyZS1icmluZ3VwLWltYWdlOiBhZGQgbW9yZSB0b29scwogIGJhc2UtZmlsZXMgMy4wLjE0
-OiBtYWtlIC92YXIvcnVuIGEgZGlyZWN0b3J5LCBub3QgYSBzeW1saW5rCgo9PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CkNoYW5nZWxvZyBmb3IgbWV0
-YS15b2N0bzoKCkFuZHJldyBHYWJiYXNvdiAoNCk6CiAgY21ha2UuYmJjbGFzczogYWRkaW5nIGV4
-dGVuZGFibGUgZXh0cmEgdmFyaWFibGUgdG8gcm9vdCBwYXRoCiAgbGlicGFtOiBhZGQgZmxleC1u
-YXRpdmUgdG8gREVQRU5EUwogIGFwcjogdXNlICR7SE9TVF9TWVN9LWxpYnRvb2wKICBhcG1kOiB1
-c2UgJHtIT1NUX1NZU30tbGlidG9vbAoKQnJ1Y2UgQXNoZmllbGQgKDEpOgogIGxpbnV4LXlvY3Rv
-L21ldGE6IGVnMjB0IGFuZCBsaXZlIGJvb3QgY29uZmlnIGNoYW5nZXMKCkRtaXRyeSBFcmVtaW4t
-U29sZW5pa292ICg4KToKICBiaXRiYWtlLmNvbmY6IGNoYW5nZSBjY2FjaGUgcGF0aCB0byB1c2Ug
-TVVMVElNQUNIX0hPU1RfU1lTCiAgaWNlY2MtY3JlYXRlLWVudi1uYXRpdmU6IHByb3ZpZGUgdGhl
-IHNjcmlwdCByaWdodCBpbiB0aGUgdHJlZQogIGdjYzogZml4IHBvc3NpYmxlIHByb2JsZW1zIHdp
-dGggbnNjZCBjb21waWxhdGlvbiBkdXJpbmcgZWdsaWJjLW5hdGl2ZXNkayBidWkKICBnY29uZi1k
-YnVzOiBwYWNrYWdpbmcgZml4dXAKICBsaWJmZmk6IHJlYWxseSBwb3B1bGF0ZSAtZGV2IHBhY2th
-Z2UKICBrZXJuZWwuYmJjbGFzczogYmxhY2tsaXN0ICdwZXJmLWRiZycgYXMgd2VsbCBmb3IgdGhl
-IG1vZHVsZXMgbWV0YXBhY2thZ2UKICBrZXJuZWwuYmJjbGFzczogaGFuZGxlIC5jaXMgZmlybXdh
-cmUKICBrZXJuZWwuYmJjbGFzczogcmVtb3ZlIHVuc2hpcHBlZCBmaWxlcyBpbiBkb19pbnN0YWxs
-CgpEb25neGlhbyBYdSAoNik6CiAgbXVsdGlsaWIuYmJjbGFzczogbWFwIFJERVBFTkRTIGFuZCBM
-SU5HVUFTX0lOU1RBTEwgZm9yIGltYWdlIHJlY2lwZXMKICBtdWx0aWxpYjogcmVtb3ZlIHRoZSBt
-dWx0aWxpYiBoYW5kbGluZyB0byBhbGxhcmNoCiAgcGFja2FnZV9ycG06IGNvbWJpbmUgbm9ybWFs
-IGFuZCBtdWx0aWxpYiBzb2x1dGlvbiBtYW5pZmVzdCB0b2dldGhlcgogIGxpYmMtcGFja2FnZS5i
-YmNsYXNzOiBhZGQgTUxQUkVGSVggd2hlbiBzZXQgdmFsdWVzIHRvIFBBQ0tBR0VTCiAgdHVuZS1p
-NTg2OiBmaXggaGFyZGNvZGVkIFRVTkVfUEtHQVJDSAogIG11bHRpbGliOiBhZGQgTUxQUkVGSVgg
-dG8gZGVwbG95IGZvbGRlcgoKSGVubmluZyBIZWlub2xkICgxKToKICB0dW5lLWNvcnRleGE5Lmlu
-YzogYWRkIHR1bmVmaWxlIGZvciBjb3J0ZXhhOSBzb2NzCgpKZXNzaWNhIFpoYW5nICgxKToKICBG
-aXhlZCBhIHR5cG8gZm9yIHNldHRpbmcgdXAgT0VDT1JFX0FDTE9DQUxfT1BUUyBmb3IgYWR0LWlu
-c3RhbGxlciBjYXNlCgpKb3NodWEgTG9jayAoMSk6CiAgZ2hvc3RzY3JpcHQ6IGRpc2FibGUgY2hl
-Y2sgZm9yIHRpbWUuaAoKS2hlbSBSYWogKDUpOgogIGdub21lLWRvYy11dGlsczogUHJlcGVuZCBQ
-S0dfQ09ORklHX1NZU1JPT1RfRElSIHRvIHRoZSBwYXRoIHJldHVybmVkIGZyb20gUEsKICBjb25m
-LHJlY2lwZXM6IEFkZCBuZXcgdmFyaWFibGUgTElOS0VSX0hBU0hfU1RZTEUKICBnY2MtNC42OiBV
-c2UgLS13aXRoLWxpbmtlci1oYXNoLXN0eWxlIGNvbmZpZ3VyZSBvcHRpb24KICBlZ2xpYmM6IEFk
-ZCByZWNpcGVzIGZvciAyLjE0CiAgZ2NjLTQuNjogVXBkYXRlIHRvIHRpcCBvZiBGU0YgZ2NjLTRf
-Ni1icmFuY2gKCktvZW4gS29vaSAoMSk6CiAgYXZhaGk6IGZpeCBhdmFoaS1zeXN0ZW1kIGRlcGVu
-ZGVuY2llcwoKTWF0dGhldyBNY0NsaW50b2NrICg5KToKICBGaXh1cCBrZXhlYy10b29scyBjb21w
-YXRpYmxlIGhvc3QgZm9yIHBvd2VycGMKICBBZGQgYXV0b2NvbmYgY2FjaGUgZm9yIHNjcmVlbiBv
-biBwb3dlcnBjNjQKICBBZGQgc3VwcG9ydCBmb3IgZ2VuZXJhdGluZyBleHQyLmJ6MnssIC51LWJv
-b3R9IGltYWdlcwogIEFkZCBzdXBwb3J0IGZvciBnZW5lcmF0aW5nIGV4dDIubHptYXssIC51LWJv
-b3R9IGltYWdlcwogIEZpeCBnaG9zdHNjcmlwdCBvbiBwb3dlcnBjNjQKICBGaXggSEFMIG9uIG5l
-d2VyIGtlcm5lbHMgd2l0aG91dCBoZWFkZXIgZmlsZQogIEFkZCB1ZGV2IHBhdGNoIHRvIGNvbXBp
-bGUgYWdhaW5zdCBuZXdlciBrZXJuZWxzCiAgRml4IHN5c2tsb2dkIGJ1aWxkIG9uIGU1MDB2MiBj
-b3JlcwogIEFkZCBwcm9wZXIgZGVwcyBmb3IgbmZzLXV0aWxzLCB1dGlsLWxpbnV4LCBhbmQgc3Ry
-YWNlCgpQYXVsIEVnZ2xldG9uICgzKToKICBzY3JpcHRzOiB1c2UgT0VfVE1QRElSIGluc3RlYWQg
-b2YgVE1QRElSIGV4dGVybmFsIHZhcmlhYmxlCiAgc2NyaXB0cy9vZS1zZXR1cC1ycG1yZXBvOiB1
-c2Ugc2V0dXBfdG1wZGlyIGZyb20gcnVucWVtdQogIGJlYWdsZWJvYXJkLWF1ZGlvOiBmaXggUkRF
-UEVORFMgb24gYWxzYS11dGlscy1hbWl4ZXIKClJpY2hhcmQgUHVyZGllICg5KToKICBnY2M6IEZp
-eCB0d28gUUEgaXNzdWVzCiAgZ3J1YjogRml4IGluc2FuZS9RQSBhcmNoaXRlY3R1cmUgd2Fybmlu
-ZwogIHNxbGl0ZTM6IEZpeCBuYXRpdmVzZGsgcGFja2FnaW5nL1FBIHdhcm5pbmdzCiAgcHNldWRv
-OiBGaXggUUEgd2FybmluZ3MKICBiaXRiYWtlLmNvbmY6IEZpeCByZXZlcnNlZCBsaW5rZXIgaGFz
-aCBzdHlsZSBsb2dpYwogIG9wZW5zc2w6IEVuc3VyZSBwZXJsIHNjcmlwdHMgcmVmZXJlbmNlIHRo
-ZSBjb3JyZWN0IHBlcmwKICBtYzogRW5zdXJlIHBlcmwgc2NyaXB0cyByZWZlcmVuY2UgdGhlIGNv
-cnJlY3QgcGVybAogIHV0aWwtbGludXg6IEVuc3VyZSBwZXJsIHNjcmlwdHMgcmVmZXJlbmNlIHRo
-ZSBjb3JyZWN0IHBlcmwKICBpbnNhbmU6IFByb21vdGUgbW9zdCB3YXJuaW5ncyBpbnRvIFFBIGVy
-cm9ycyBieSBkZWZhdWx0CgpTYXVsIFdvbGQgKDcpOgogIHJwbTogZW5zdXJlIHRoYXQgbWFnaWMg
-ZmlsZSBpcyByZWxvY2F0YWJsZQogIHp5cHBlciAmIHNhdC1zb2x2ZXI6IG5lZWRzIFJERVBFTkRT
-IG9uIHJwbS1saWIKICBycG06IGZpeCBRQSBXYXJuaW5nIG9uIGluc3RhbGxlZCBidXQgbm90IHNo
-aXBwZWQgc3RhdGljZGV2IGZpbGVzdwogIGRpc3Ryb190cmFja2luZzogVXBkYXRlIE1hbnVhbCBV
-cGdyYWRlIENoZWNrcwogIGdsZXc6IHVwZGF0ZSB0byAxLjcuMAogIHN5c3N0YXQ6IHVwZGF0ZSB0
-byAxMC4wLjIKICBweXRob246IGZpeCBzcWxpdGUgUlBBVEggaXNzdWUKClNpbW9uIEJ1c2NoICgy
-KToKICBtZXRhOiBxdDQ6IGZpeCBwb3N0cHJvY2Vzc2luZyBvZiBwa2ctY29uZmlnIGZpbGVzCiAg
-cXQ0LWVtYmVkZGVkOiBtb3ZlIHF0ZS5zaCBwcm9maWxlIHNjcmlwdCBpbnRvIG93biBwYWNrYWdl
-CgpUb20gWmFudXNzaSAoMik6CiAgc3lzcHJvZjogdXBkYXRlIHRvIHZlcnNpb24gMS4xLjgKICBi
-bGt0cmFjZTogdXBkYXRlIHRvIHZlcnNpb24gMS4wLjMKClpoYWkgRWR3aW4gKDMpOgogIG9wcm9m
-aWxldWk6IHJlbW92ZSBkZXBlbmRlbmNlIG9uIGdub21lLXZmcwogIGxpYmdzZjogcmVtb3ZlIGRl
-cGVuZGVuY2Ugb24gZ25vbWUtdmZzCiAgdGFibGVzOiByZW1vdmUgaXQgYXMgb2Jzb2xldGUgcmVj
-aXBlCgpsdW1hZyAoMSk6CiAgZ2NjOiBpbmNsdWRlIGxpYmdjb3YuYSBpbnRvIGxpYmdjYy1kZXYg
-cGFja2FnZQoKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PQpDaGFuZ2Vsb2cgZm9yIG1ldGEtdGV4YXNpbnN0cnVtZW50czoKCj09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KQ2hhbmdlbG9nIGZvciBtZXRh
-LXNtYXJ0cGhvbmU6CgpEZW5pcyAnR05VdG9vJyBDYXJpa2xpICgxMCk6CiAgbWV0YS1mc286IGFu
-ZHJvaWQtaW1hZ2UtdXRpbHMtbmF0aXZlOiBmaXggTElDRU5TRSBhbmQgTElDX0ZJTEVTX0NIS1NV
-TQogIG1ldGEtc2hyOiBwcmVmZXJyZWQtc2hyLXZlcnNpb25zLmluYyBhbHNvIHNldCBQUkVGRVJS
-RURfUVRfVkVSU0lPTiBmb3IgcXQ0LW4KICBtZXRhLWh0YzogY2hhbmdlIHRoZSBodGNkcmVhbSBj
-b25maWcgdG8gYXJtdjYtbm92ZnAKICBtZXRhLWh0YzogYWRkIGxpbnV4LWxldmlhdGhhbgogIG1l
-dGEtaHRjOiBhZGQgYSBuZXh1c29uZSBtYWNoaW5lIGNvbmZpZyBmaWxlCiAgbWV0YS1odGM6IGFk
-ZCBsaW51eC1uZXh1c29uZSByZWNpcGUKICBBZGQgbmV3IG1ldGEtb3Ntb2NvbWJiIGxheWVyCiAg
-bWV0YS1vc21vY29tYmI6IEFkZCBsaWJvc21vY29yZSByZWNpcGUKICBtZXRhLW9zbW9jb21iYjog
-QWRkIHRoZSBvc21vY29uIHJlY2lwZShvc21vY29tYmIgbG9hZGVyKQogIG1ldGEtaHRjOiBodGNk
-cmVhbS5jb25mOiByZW1vdmUgdGhlIGRlcGVuZGVuY3kgb24gdGhlIGR1bW15IHdsMTI1MSB0aSBm
-aXJtd2EKCk1hcnRpbiBKYW5zYSAoMTEpOgogIG1ldGEtZnNvOiBjb3JudWNvcGlhOiBidW1wIFNS
-Q1JFVgogIG1ldGEtZnNvOiBtc21jb21tOiBidW1wIFNSQ1JFVgogIG9wZW5zc2g6IGFsdGVyIHNz
-aGQgY29uZmlnIHRvIGFsbG93IGVtcHR5IHBhc3N3b3JkIGlmIHNvbWVvbmUgcmVhbGx5IHdhbnRz
-IHQKICBSZXZlcnQgInRhc2stc2hyLW1pbmltYWw6IGRyb3AgbGlicGhvbmUtdWkgYW5kIGxpYnBo
-b25lLXVpLXNociBhcyB0aGV5IHNob3VsCiAgbWV0YS1zaHI6IHByZWZlciBnbGliLTIuMzAKICBt
-ZXRhLXNocjogcHJlZmVyIGVnbGliYyAyLjE0CiAgbGlic2hyLWdsaWI6IGJ1bXAgU1JDUkVWIHRv
-IGZpeCBidWlsZCB3aXRoIGdsaWItMi4zMC4wCiAgcmVjaXBlczogdXNlIGFsbGFyY2ggaW5zdGVh
-ZCBvZiBQQUNLQUdFX0FSQ0ggPSBhbGwgb3IgZHJvcCBQQUNLQUdFX0FSQ0ggc2V0dAogIHNoci1z
-ZXR0aW5nczogYnVtcCBTUkNSRVYKICBzaHItc2V0dGluZ3M6IGJ1bXAgU1JDUkVWIGZvciBzZXR1
-cHRvb2xzIGNoYW5nZQogIGxpYnBob25lLXVpLXNocjogYnVtcCBQUiB0byByZWJ1aWxkIGFnYWlu
-c3QgbmV3ZXIgcG9wcGxlcgoKU2ltb24gQnVzY2ggKDgpOgogIG1ldGEtc2Ftc3VuZzogbGludXgt
-c2Ftc3VuZy1jcmVzcG86IGVuYWJsZSBkZXZ0bXBmcyBrZXJuZWwgZmVhdHVyZQogIG1ldGEtc2Ft
-c3VuZzogaW5pdHNjcmlwdHM6IGFkZCBhZGRpdGlvbmFsIGluaXRzY3JpcHRzIGZvciBjcmVzcG8g
-bWFjaGluZQogIG1ldGEtc2Ftc3VuZzogYWRkIGV4dDIgYXMgcHJlZmVycmVkIGltYWdlIGZvcm1h
-dCB0byBtYWNoaW5lIGNvbmZpZ3VyYXRpb24KICBtZXRhLWZzbzogaW1hZ2VzOiBhZGQgYSBtb2Rp
-ZmllZCBmc28yLWNvbnNvbGUtaW1hZ2UgZnJvbSBvZS1kZXYKICBtZXRhLXBhbG06IHJlbW92ZSBt
-YWNoaW5lIHNwZWNpZmljIHByb2ZpbGUgc2NyaXB0IGZvciBxdDQtZW1iZWRkZWQKICBtZXRhLXNh
-bXN1bmc6IGxpbnV4LXNhbXN1bmctY3Jlc3BvOiBidW1wIFNSQ1JFViBhbmQgdXBkYXRlIGRlZmNv
-bmZpZwogIG1ldGEtZnNvOiBzZXJpYWwtdXRpbHM6IGltcG9ydCBmcm9tIG9lLWRldgogIG1ldGEt
-c2Ftc3VuZzogYWRkIHJlY2lwZSBmb3IgbGlic2Ftc3VuZy1pcGMKCj09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KQ2hhbmdlbG9nIGZvciBtZXRhLW1p
-Y3JvOgoKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PQpDaGFuZ2Vsb2cgZm9yIG1ldGEtc2x1Z29zOgoKPT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PQpDaGFuZ2Vsb2cgZm9yIG1ldGEtbnNsdTI6Cgo9PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CkNoYW5nZWxv
-ZyBmb3IgbWV0YS1pbnRlbDoKClRvbSBaYW51c3NpICg4KToKICBtZXRhLWludGVsOiB1cGRhdGUg
-U1JDUkVWcwogIG1ldGEtaW50ZWw6IGZpeCBzeW1saW5rIHR5cG8gYW5kIFFBIGNoZWNrcyBpbiBl
-bWdkLWRyaXZlci1iaW4KICBtZXRhLWNyb3duYmF5OiByZW1vdmUgZW1nZC0xLjYKICB4cHNiLWds
-eDogTW92ZSB0aGUgcGtnY29uZmlnIGZpbGUocykgdG8gdGhlIC1kZXYgcGFja2FnZQogIG1ldGEt
-ZW1lbmxvdzogdXBkYXRlIFJFQURNRQogIG1ldGEtZmlzaHJpdmVyOiB1cGRhdGUgUkVBRE1FCiAg
-bWV0YS1qYXNwZXJmb3Jlc3Q6IHVwZGF0ZSBSRUFETUUKICBtZXRhLXN1Z2FyYmF5OiB1cGRhdGUg
-UkVBRE1FCgo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09CkNoYW5nZWxvZyBmb3IgbWV0YS1oYW5kaGVsZDoKCj09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KQ2hhbmdlbG9nIGZvciBtZXRhLW9waWU6Cgo9
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CkNoYW5n
-ZWxvZyBmb3Igb3BlbmVtYmVkZGVkOgoKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpPcGVuZW1iZWRkZWQtZGV2ZWwgbWFpbGluZyBsaXN0Ck9wZW5lbWJl
-ZGRlZC1kZXZlbEBsaXN0cy5vcGVuZW1iZWRkZWQub3JnCmh0dHA6Ly9saXN0cy5saW51eHRvZ28u
-b3JnL2NnaS1iaW4vbWFpbG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtZGV2ZWwK
+Hi,
+
+I am using these in my local.conf with master branch of oe-core:
+DISTRO=3D"angstrom-2010.x"
+MACHINE=3D"beagleboard"
+
+The build for 'bitbake glib-2.0-native' (or actually 'bitbake
+meta-toolchain') will finally reach a run.do_configure for 'package
+glib-2.0-native-1_2.28.8-r5: task do_configure: Started'
+which runs the "oe-core/build/tmp-eglibc/sysroots/x86_64-linux/usr/bin/pkg-=
+config"
+ for auto build
+This leads to the following chain
+pkg-config(cross)->gnome-config->pkg-config->glib-config->pkg-config->...
+
+dashesy  21266 21265 21266  0    1 01:56 pts/0    00:00:00 /bin/sh -e
+/home/dashesy/buildroot/oe-core/build/tmp-eglibc/work/x86_64-linux/glib-2.0=
+-native-1_2.28.8-r5/temp/run.do_configure.21265
+root     21870   935 21870  0    1 01:56 ?        00:00:00 sleep 60
+dashesy  22246 21266 22246  0    1 01:56 pts/0    00:00:00 /bin/sh
+/home/dashesy/buildroot/oe-core/build/tmp-eglibc/work/x86_64-linux/glib-2.0=
+-native-1_2.28.8-r5/glib-2.28.8/configure
+--build=3Dx86_64-linux --host=3Dx86_64-linux --target=3Dx86_64-linux
+--prefix=3D/home/dashesy/buildroot/oe-core/build/tmp-eglibc/sysroots/x86_64=
+-linux/usr
+--exec_prefix=3D/home/dashesy/buildroot/oe-core/build/tmp-eglibc/sysroots/x=
+86_64-linux/usr
+--bindir=3D/home/dashesy/buildroot/oe-core/build/tmp-eglibc/sysroots/x86_64=
+-linux/usr/bin
+--sbindir=3D/home/dashesy/buildroot/oe-core/build/tmp-eglibc/sysroots/x86_6=
+4-linux/usr/sbin
+--libexecdir=3D/home/dashesy/buildroot/oe-core/build/tmp-eglibc/sysroots/x8=
+6_64-linux/usr/libexec
+--datadir=3D/home/dashesy/buildroot/oe-core/build/tmp-eglibc/sysroots/x86_6=
+4-linux/usr/share
+--sysconfdir=3D/home/dashesy/buildroot/oe-core/build/tmp-eglibc/sysroots/x8=
+6_64-linux/etc
+--sharedstatedir=3D/home/dashesy/buildroot/oe-core/build/tmp-eglibc/sysroot=
+s/x86_64-linux/com
+--localstatedir=3D/home/dashesy/buildroot/oe-core/build/tmp-eglibc/sysroots=
+/x86_64-linux/var
+--libdir=3D/home/dashesy/buildroot/oe-core/build/tmp-eglibc/sysroots/x86_64=
+-linux/usr/lib
+--includedir=3D/home/dashesy/buildroot/oe-core/build/tmp-eglibc/sysroots/x8=
+6_64-linux/usr/include
+--oldincludedir=3D/home/dashesy/buildroot/oe-core/build/tmp-eglibc/sysroots=
+/x86_64-linux/usr/include
+--infodir=3D/home/dashesy/buildroot/oe-core/build/tmp-eglibc/sysroots/x86_6=
+4-linux/usr/share/info
+--mandir=3D/home/dashesy/buildroot/oe-core/build/tmp-eglibc/sysroots/x86_64=
+-linux/usr/share/man
+--disable-silent-rules --disable-dependency-tracking --disable-dtrace
+--disable-systemtap --enable-nls --enable-dtrace=3Dno
+dashesy  22671 22246 22671  0    1 01:56 pts/0    00:00:00
+/home/dashesy/buildroot/oe-core/build/tmp-eglibc/sysroots/x86_64-linux/usr/=
+bin/pkg-config
+--exists --print-errors zlib
+dashesy  22672 22671 22672  0    1 01:56 pts/0    00:00:00 sh -c
+gnome-config --libs zlib > /dev/null 2>&1
+dashesy  22673 22672 22673  0    1 01:56 pts/0    00:00:00 /bin/sh
+/usr/bin/gnome-config --libs zlib
+dashesy  22674 22673 22674  0    1 01:56 pts/0    00:00:00 pkg-config
+--variable=3Dlibdir glib
+dashesy  22675 22674 22675  0    1 01:56 pts/0    00:00:00 /bin/sh
+/usr/bin/glib-config --version
+dashesy  22676 22675 22676  0    1 01:56 pts/0    00:00:00 pkg-config
+--variable prefix glib
+dashesy  22677 22676 22677  0    1 01:56 pts/0    00:00:00 /bin/sh
+/usr/bin/glib-config --version
+dashesy  22678 22677 22678  0    1 01:56 pts/0    00:00:00 pkg-config
+--variable prefix glib
+dashesy  22679 22678 22679  0    1 01:56 pts/0    00:00:00 /bin/sh
+/usr/bin/glib-config --version
+
+I first saw this problem in angstrom-2008 in oe, then in angstrom-2010
+in oe (both with pkg-config version 0.23), and now the same phenomenon
+in angstrom-2010 in oe-core with version 0.25 whcih is same as my
+local machine.
+
+It is easy to reproduce this without bitbake too
+
+First set the environment variables (PATH, PKG_CONFIG_* as I copied
+from the run_doconfigure file):
+
+export PATH=3D"/home/dashesy/buildroot/oe-core/build/tmp-eglibc/sysroots/x8=
+6_64-linux/usr/bin/armv7a-linux:/home/dashesy/buildroot/oe-core/build/tmp-e=
+glibc/sysroots/x86_64-linux/usr/bin:/home/dashesy/buildroot/oe-core/build/t=
+mp-eglibc/sysroots/x86_64-linux/usr/sbin:/home/dashesy/buildroot/oe-core/bu=
+ild/tmp-eglibc/sysroots/x86_64-linux/usr/bin:/home/dashesy/buildroot/oe-cor=
+e/build/tmp-eglibc/sysroots/x86_64-linux/sbin:/home/dashesy/buildroot/oe-co=
+re/build/tmp-eglibc/sysroots/x86_64-linux//bin:/home/dashesy/buildroot/oe-c=
+ore/scripts/native-intercept:/home/dashesy/buildroot/oe-core/scripts:/home/=
+dashesy/buildroot/oe-core/bitbake/bin:/usr/lib64/ccache:/usr/local/bin:/usr=
+/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/dashesy/bin:/home/dashesy/b=
+uildroot/oe-core/scripts"
+export PKG_CONFIG_DIR=3D"/home/dashesy/buildroot/oe-core/build/tmp-eglibc/s=
+ysroots/x86_64-linux/usr/lib/pkgconfig"
+export PKG_CONFIG_LIBDIR=3D"/home/dashesy/buildroot/oe-core/build/tmp-eglib=
+c/sysroots/x86_64-linux/usr/lib/pkgconfig"
+export PKG_CONFIG_DISABLE_UNINSTALLED=3D"yes"
+export PKG_CONFIG_PATH=3D"/home/dashesy/buildroot/oe-core/build/tmp-eglibc/=
+sysroots/x86_64-linux/usr/lib/pkgconfig:/home/dashesy/buildroot/oe-core/bui=
+ld/tmp-eglibc/sysroots/x86_64-linux/usr/share/pkgconfig"
+
+Then run either of these two comamnds:
+/home/dashesy/buildroot/oe-core/build/tmp-eglibc/sysroots/x86_64-linux/usr/=
+bin/pkg-config
+--variable=3Dlibdir glib
+or
+/home/dashesy/buildroot/oe-core/build/tmp-eglibc/sysroots/x86_64-linux/usr/=
+bin/pkg-config
+--exists --print-errors zlib
+
+Notice, this might crash or halt your system
 
 
