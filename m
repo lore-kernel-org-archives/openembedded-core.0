@@ -1,57 +1,37 @@
-Received: from ch1ehsobe002.messaging.microsoft.com ([216.32.181.182]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RBaQj-0004Vo-IY
-	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Oct 2011 00:59:13 +0200
-Received: from mail74-ch1-R.bigfish.com (10.43.68.253) by
-	CH1EHSOBE008.bigfish.com (10.43.70.58) with Microsoft SMTP Server id
-	14.1.225.22; Wed, 5 Oct 2011 22:53:37 +0000
-Received: from mail74-ch1 (localhost.localdomain [127.0.0.1])	by
-	mail74-ch1-R.bigfish.com (Postfix) with ESMTP id D6C6B1AA84C3	for
-	<openembedded-core@lists.openembedded.org>;
-	Wed,  5 Oct 2011 22:53:37 +0000 (UTC)
-X-SpamScore: -6
-X-BigFish: VS-6(zz9371K98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
-	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 13,
-Received: from mail74-ch1 (localhost.localdomain [127.0.0.1]) by mail74-ch1
-	(MessageSwitch) id 1317855170355445_27101;
-	Wed,  5 Oct 2011 22:52:50 +0000 (UTC)
-Received: from CH1EHSMHS026.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.248])	by mail74-ch1.bigfish.com (Postfix) with ESMTP id
-	A63F2CF814B for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Oct 2011 22:52:18 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS026.bigfish.com
-	(10.43.70.26) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Wed, 5 Oct 2011 22:52:16 +0000
-Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.230]) by
-	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
-	14.01.0323.007; Wed, 5 Oct 2011 17:52:15 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: "openembedded-core@lists.openembedded.org"
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RBbMo-0005eN-9g for openembedded-core@lists.openembedded.org;
+	Thu, 06 Oct 2011 01:59:14 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p960060A015718; Thu, 6 Oct 2011 01:00:06 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id MFUZMOxe6IGR; Thu,  6 Oct 2011 01:00:06 +0100 (BST)
+Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p95NxwqR015691
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Thu, 6 Oct 2011 01:00:00 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: McClintock Matthew-B29882 <B29882@freescale.com>, Patches and
+	discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 3/6] Add new IMAGE_CLASSES variable for
-	classes for image generation
-Thread-Index: AQHMg7FtYqexAWTY0EGfrD7QF392mg==
-Date: Wed, 5 Oct 2011 22:52:15 +0000
-Message-ID: <CAEsOVNeNerChRP+bA8D354J2M+og5TPkWO9e_83rNLLbRZS4Jw@mail.gmail.com>
+Date: Thu, 06 Oct 2011 00:53:22 +0100
+In-Reply-To: <CAEsOVNeNerChRP+bA8D354J2M+og5TPkWO9e_83rNLLbRZS4Jw@mail.gmail.com>
 References: <1317765787-19127-1-git-send-email-msm@freescale.com>
 	<1317765787-19127-3-git-send-email-msm@freescale.com>
-In-Reply-To: <1317765787-19127-3-git-send-email-msm@freescale.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
+	<CAEsOVNeNerChRP+bA8D354J2M+og5TPkWO9e_83rNLLbRZS4Jw@mail.gmail.com>
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1317858811.6398.36.camel@ted>
+Mime-Version: 1.0
 Subject: Re: [PATCH 3/6] Add new IMAGE_CLASSES variable for classes for image generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -62,41 +42,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2011 22:59:13 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <C690FAEB1A8C9D4F9E8B32846F4C14A7@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 05 Oct 2011 23:59:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Oct 4, 2011 at 5:03 PM, Matthew McClintock <msm@freescale.com> wrot=
-e:
-> -inherit image_types
-> +IMAGE_CLASESS ??=3D ""
-> +inherit image_types ${IMAGE_CLASSES}
+On Wed, 2011-10-05 at 22:52 +0000, McClintock Matthew-B29882 wrote:
+> On Tue, Oct 4, 2011 at 5:03 PM, Matthew McClintock <msm@freescale.com> wrote:
+> > -inherit image_types
+> > +IMAGE_CLASESS ??= ""
+> > +inherit image_types ${IMAGE_CLASSES}
+> 
+> So this does not work properly, I thought I tested it but... need to
+> do something like this:
+> 
+> IMAGE_CLASSES = "image_types"
+> inherit ${IMAGE_CLASSES}
+> 
+> then let the user added via
+> 
+> IMAGE_CLASESS += "image_types_uboot"
+> 
+> then there will always be something that is expanded to avoid this issue:
+> 
+> ERROR: Could not inherit file classes/$IMAGE_CLASSES.bbclass
+>                            | ETA:  --:--:--
+> ERROR: Command execution failed: Exited with 1
 
-So this does not work properly, I thought I tested it but... need to
-do something like this:
+Its not expanding the variables? :/ This happened even when
+IMAGE_CLASSES had a value before the inherit?
 
-IMAGE_CLASSES =3D "image_types"
-inherit ${IMAGE_CLASSES}
+> or
+> 
+> ERROR: Could not inherit file classes/.bbclass
+>              | ETA:  --:--:--
+> ERROR: Command execution failed: Exited with 1
 
-then let the user added via
+I'd be prepared to call this last one a bitbake bug...
 
-IMAGE_CLASESS +=3D "image_types_uboot"
+Cheers,
 
-then there will always be something that is expanded to avoid this issue:
-
-ERROR: Could not inherit file classes/$IMAGE_CLASSES.bbclass
-                           | ETA:  --:--:--
-ERROR: Command execution failed: Exited with 1
-
-or
-
-ERROR: Could not inherit file classes/.bbclass
-             | ETA:  --:--:--
-ERROR: Command execution failed: Exited with 1
-
--M=
+Richard
 
 
 
