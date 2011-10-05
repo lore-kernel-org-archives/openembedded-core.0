@@ -1,57 +1,34 @@
-Received: from ch1ehsobe002.messaging.microsoft.com ([216.32.181.182]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mail-qw0-f47.google.com ([209.85.216.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RBWqn-0006gI-JV
+	(envelope-from <raj.khem@gmail.com>) id 1RBWzM-0006p5-Gn
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Oct 2011 21:09:53 +0200
-Received: from mail2-ch1-R.bigfish.com (10.43.68.245) by
-	CH1EHSOBE002.bigfish.com (10.43.70.52) with Microsoft SMTP Server id
-	14.1.225.22; Wed, 5 Oct 2011 19:04:18 +0000
-Received: from mail2-ch1 (localhost.localdomain [127.0.0.1])	by
-	mail2-ch1-R.bigfish.com (Postfix) with ESMTP id 430D019B8270	for
-	<openembedded-core@lists.openembedded.org>;
-	Wed,  5 Oct 2011 19:04:18 +0000 (UTC)
-X-SpamScore: -12
-X-BigFish: VS-12(zz9371K1432N98dKzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
-	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 13,
-Received: from mail2-ch1 (localhost.localdomain [127.0.0.1]) by mail2-ch1
-	(MessageSwitch) id 1317841458110759_12288;
-	Wed,  5 Oct 2011 19:04:18 +0000 (UTC)
-Received: from CH1EHSMHS009.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.243])	by mail2-ch1.bigfish.com (Postfix) with ESMTP id
-	1515BBF804D for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Oct 2011 19:04:18 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS009.bigfish.com
-	(10.43.70.9) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Wed, 5 Oct 2011 19:04:17 +0000
-Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.230]) by
-	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
-	14.01.0323.007; Wed, 5 Oct 2011 14:04:17 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
+	Wed, 05 Oct 2011 21:18:44 +0200
+Received: by qadc1 with SMTP id c1so1558283qad.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Oct 2011 12:13:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=1fZHOhMH1+m/jsjfwpClZi2hdG1kfoldyDum3+zwbQk=;
+	b=JOWstIpxDEOMBzqYDcpBSwuXpXmikdtB77Yz465FcSFj9L9yKdbhwYUx2cUwexdgIl
+	TfKal5cWgGU+dvogUEZnJgHmeZlPgNQ29FPieowKMq5LPyKXuAdjrAKwlrAeGV0wbfO/
+	F1jZQsjqK6bqg5iru0VqHzeD+jXr2dkH/6fWM=
+Received: by 10.68.19.196 with SMTP id h4mr21019909pbe.39.1317841989057; Wed,
+	05 Oct 2011 12:13:09 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.68.49.129 with HTTP; Wed, 5 Oct 2011 12:12:39 -0700 (PDT)
+In-Reply-To: <1317841365-32051-1-git-send-email-msm@freescale.com>
+References: <1317841365-32051-1-git-send-email-msm@freescale.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 5 Oct 2011 12:12:39 -0700
+Message-ID: <CAMKF1spPPnQiOddrG9S7PGPwAXYA4RNgcPrS6f0_o83V-1NrmA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 2/6] Fix perl for powerpc64 build
-Thread-Index: AQHMg5GU8cOir1liD0yhm0P6URX2wQ==
-Date: Wed, 5 Oct 2011 19:04:16 +0000
-Message-ID: <CAEsOVNdUTaVc1NR0hDH7PU1gVCXotJWEJquiz=EMQXQ231GmzA@mail.gmail.com>
-References: <1317765787-19127-1-git-send-email-msm@freescale.com>
-	<1317765787-19127-2-git-send-email-msm@freescale.com>
-	<1317815212.14671.142.camel@ted>
-In-Reply-To: <1317815212.14671.142.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH 2/6] Fix perl for powerpc64 build
+Subject: Re: [PATCH v2 5/6] Fix sysprof for powerpc64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -62,53 +39,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2011 19:09:53 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <A780C0E8186CB44F90CA01D63828F1D7@freescale.net>
+X-List-Received-Date: Wed, 05 Oct 2011 19:18:44 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 5, 2011 at 6:46 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->> --- a/meta/recipes-devtools/perl/perl_5.12.3.bb
->> +++ b/meta/recipes-devtools/perl/perl_5.12.3.bb
->> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM =3D "file://Copying;md5=3D2b4c6ffbcfcbd=
-ee469f02565f253d81a \
->> =A0# We need gnugrep (for -I)
->> =A0DEPENDS =3D "virtual/db grep-native"
->> =A0DEPENDS +=3D "gdbm zlib"
->> -PR =3D "r5"
->> +PR =3D "r6"
->>
->> =A0# 5.10.1 has Module::Build built-in
->> =A0PROVIDES +=3D "libmodule-build-perl"
->> @@ -95,6 +95,8 @@ export LDDLFLAGS =3D "${LDFLAGS} -shared"
->> =A0# We're almost Debian, aren't we?
->> =A0CFLAGS +=3D "-DDEBIAN"
->>
->> +export ARCH_powerpc64 =3D "powerpc64"
->> +
+On Wed, Oct 5, 2011 at 12:02 PM, Matthew McClintock <msm@freescale.com> wro=
+te:
+> __ppc64__ is not defined on powerpc64, rather __powerpc64__ is, this
+> uses a patch that is already upstream to fix builds for powerpc64
 >
-> I'm finding it really hard to believe this makes any difference. I just
-> tried a powerpc64 build here and perl built fine. I can't find any
-> evidence for any part of the perl build using an ARCH variable
-> (TARGET_ARCH is used but that isn't ARCH).
+> Signed-off-by: Matthew McClintock <msm@freescale.com>
+> ---
+> =C2=A0...PowerPC-checks-for-__NR_perf_counter_open.patch | =C2=A0 35 ++++=
+++++++++++++++++
+> =C2=A0meta/recipes-kernel/sysprof/sysprof_git.bb =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | =C2=A0 =C2=A01 +
+> =C2=A02 files changed, 36 insertions(+), 0 deletions(-)
+> =C2=A0create mode 100644 meta/recipes-kernel/sysprof/files/0001-Fix-Power=
+PC-checks-for-__NR_perf_counter_open.patch
 >
-> Can you give some further information about how/where this is used?
+> diff --git a/meta/recipes-kernel/sysprof/files/0001-Fix-PowerPC-checks-fo=
+r-__NR_perf_counter_open.patch b/meta/recipes-kernel/sysprof/files/0001-Fix=
+-PowerPC-checks-for-__NR_perf_counter_open.patch
+> new file mode 100644
+> index 0000000..041054e
+> --- /dev/null
+> +++ b/meta/recipes-kernel/sysprof/files/0001-Fix-PowerPC-checks-for-__NR_=
+perf_counter_open.patch
+> @@ -0,0 +1,35 @@
+> +Upstream-Status: Backport
+> +
+> +From 4708a509aa9d65ae93e9824e42ddbc6e8d42d90c Mon Sep 17 00:00:00 2001
+> +From: =3D?UTF-8?q?Michel=3D20D=3DC3=3DA4nzer?=3D <michel@daenzer.net>
+> +Date: Sat, 27 Aug 2011 20:04:44 +0200
+> +Subject: [PATCH] Fix PowerPC checks for __NR_perf_counter_open.
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=3DUTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +__ppc__ isn't defined here on Debian powerpc. Grepping through the heade=
+rs
+> +installed in /usr/include, there are a few references to __ppc__ and
+> +__ppc64__, but I suspect they're for other OSs.
+> +
 
-I'm trying to reproduce this again on 'edison' as well and it does not
-appear to be occurring anymore! The problem before had to do with a
-configuration script error:
+is sysprof linux specific? if not then this change will mean that it wont w=
+ork
+on other OSes which dont define __powerpc64__ e.g. darwin. Better solution =
+is to
+check for both __ppc64__ and __powerpc64__
 
-config.sh-powerpc64-linux
+but thats something for sysprof upstream to consider. For OE this
+patch is sufficient
 
-This script was getting invoked as 'config.sh-powerpc-linux' on the
-64bit build, then the file did not exist and the configure step failed
-out. Not sure if this was somehow fixed in a different manner.
-
-Please drop this patch for now. I'll bring it up again if I see issues.
-
--M=
-
+> +Signed-off-by: Michel D=C3=A4nzer <michel@daenzer.net>
+> +---
+> + collector.c | =C2=A0 =C2=A02 +-
+> + 1 files changed, 1 insertions(+), 1 deletions(-)
+> +
+> +diff --git a/collector.c b/collector.c
+> +index b28964f..fe16967 100644
+> +--- a/collector.c
+> ++++ b/collector.c
+> +@@ -175,7 +175,7 @@ sysprof_perf_counter_open (struct perf_counter_attr =
+*attr,
+> + #define __NR_perf_counter_open 337
+> + #elif defined(__hppa__)
+> + #define __NR_perf_counter_open 318
+> +-#elif defined(__ppc__) || defined(__ppc64__)
+> ++#elif defined(__powerpc__) || defined(__powerpc64__)
+> + #define __NR_perf_counter_open 319
+> + #elif defined(__s390__)
+> + #define __NR_perf_counter_open 331
+> +--
+> +1.7.6.1
+> +
+> diff --git a/meta/recipes-kernel/sysprof/sysprof_git.bb b/meta/recipes-ke=
+rnel/sysprof/sysprof_git.bb
+> index 10bde04..c553263 100644
+> --- a/meta/recipes-kernel/sysprof/sysprof_git.bb
+> +++ b/meta/recipes-kernel/sysprof/sysprof_git.bb
+> @@ -10,6 +10,7 @@ PV =3D "1.1.8+git${SRCPV}"
+>
+> =C2=A0SRC_URI =3D "git://git.gnome.org/sysprof;protocol=3Dgit \
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://define-NT_GNU_BUILD_ID.pa=
+tch \
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Fix-PowerPC-checks-for-__=
+NR_perf_counter_open.patch \
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 "
+>
+> =C2=A0SRC_URI_append_arm =C2=A0=3D " file://rmb-arm.patch"
+> --
+> 1.7.6.1
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
