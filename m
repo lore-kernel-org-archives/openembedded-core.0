@@ -1,35 +1,39 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RBQ1R-0003XV-GF for openembedded-core@lists.openembedded.org;
-	Wed, 05 Oct 2011 13:52:25 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p95BrKLc017087 for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Oct 2011 12:53:20 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id K45vdZ8BzQWF
+	(envelope-from <otavio.salvador@gmail.com>) id 1RBQNw-0004Cd-Q6
+	for openembedded-core@lists.openembedded.org;
+	Wed, 05 Oct 2011 14:15:41 +0200
+Received: by bke11 with SMTP id 11so2055229bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Oct 2011 12:53:20 +0100 (BST)
-Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p95BrFlH017079
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Oct 2011 12:53:16 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Wed, 05 Oct 2011 05:10:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=WWz+gJjqH33eXQMPW97hh5n4sYfWZTpX111NEyLqlwE=;
+	b=C/2CfNIVZOm9ncjZpZ31sC5oqOmwYA6NDMp/jPPgfcmB0VIWJavoTWoOuUOvyaN8DK
+	anFKpWZPvhLvbLAkeo5v7FswHDjCoSa/nA0BZgRbK88BYSEb+KANHEAqzXevvOwDTumi
+	te4jt4pN2eTGyGTi2hjN5e23Xvo8HY/Y/OkV8=
+MIME-Version: 1.0
+Received: by 10.204.157.136 with SMTP id b8mr1515730bkx.10.1317816603728; Wed,
+	05 Oct 2011 05:10:03 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.35.198 with HTTP; Wed, 5 Oct 2011 05:10:03 -0700 (PDT)
+In-Reply-To: <1317765609.14671.118.camel@ted>
+References: <1317370770-27225-1-git-send-email-Martin.Jansa@gmail.com>
+	<1317392122.12332.208.camel@ted>
+	<20110930164658.GB7364@jama.jama.net>
+	<1317402578.12332.218.camel@ted>
+	<CAP9ODKqb8RGLi_5-_+uegLmtZ7Wo-70oDJcF_R6yaSJ2q9mGwg@mail.gmail.com>
+	<1317765609.14671.118.camel@ted>
+Date: Wed, 5 Oct 2011 09:10:03 -0300
+X-Google-Sender-Auth: R7um-qJfDvNO21w1uNYq0QdPaSQ
+Message-ID: <CAP9ODKrfDeDMomqeJCeyJBWqD_KqdMO=WBvjVY5d_j+btn3DfQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 05 Oct 2011 12:46:44 +0100
-In-Reply-To: <1317765787-19127-2-git-send-email-msm@freescale.com>
-References: <1317765787-19127-1-git-send-email-msm@freescale.com>
-	<1317765787-19127-2-git-send-email-msm@freescale.com>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1317815212.14671.142.camel@ted>
-Mime-Version: 1.0
-Subject: Re: [PATCH 2/6] Fix perl for powerpc64 build
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: [PATCH] Improve handling of 'all' architecture recipes and their interaction with sstate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,69 +48,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2011 11:52:25 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Oct 2011 12:15:41 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2011-10-04 at 17:03 -0500, Matthew McClintock wrote:
-> Build environment for ARCH was set to powerpc on a powerpc64
-> build, this adds an override to set this to powerpc64 when
-> doing this type of build
-> 
-> Signed-off-by: Matthew McClintock <msm@freescale.com>
-> ---
-> No comments on original patch:
-> 
-> http://lists.linuxtogo.org/pipermail/openembedded-core/2011-September/010340.html
-> 
->  meta/recipes-devtools/perl/perl_5.12.3.bb |    6 ++++--
->  1 files changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-devtools/perl/perl_5.12.3.bb b/meta/recipes-devtools/perl/perl_5.12.3.bb
-> index e4769a4..d1ac0e8 100644
-> --- a/meta/recipes-devtools/perl/perl_5.12.3.bb
-> +++ b/meta/recipes-devtools/perl/perl_5.12.3.bb
-> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
->  # We need gnugrep (for -I)
->  DEPENDS = "virtual/db grep-native"
->  DEPENDS += "gdbm zlib"
-> -PR = "r5"
-> +PR = "r6"
->  
->  # 5.10.1 has Module::Build built-in
->  PROVIDES += "libmodule-build-perl"
-> @@ -95,6 +95,8 @@ export LDDLFLAGS = "${LDFLAGS} -shared"
->  # We're almost Debian, aren't we?
->  CFLAGS += "-DDEBIAN"
->  
-> +export ARCH_powerpc64 = "powerpc64"
-> +
+On Tue, Oct 4, 2011 at 19:00, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Really? hal doesn't really replace udev though, we can just use udev
+> directly in place of it for many things now?
 
-I'm finding it really hard to believe this makes any difference. I just
-tried a powerpc64 build here and perl built fine. I can't find any
-evidence for any part of the perl build using an ARCH variable
-(TARGET_ARCH is used but that isn't ARCH).
+Yes, many moved from hal to udev.
 
-Can you give some further information about how/where this is used?
+> Specifically which applications are people using with dependencies on
+> hal? As has been pointed out we can fix the xserver and that appears to
+> be the only thing remaining in OE-Core?
 
->  do_nolargefile() {
->  	sed -i -e "s,\(uselargefiles=\)'define',\1'undef',g" \
->  		-e "s,\(d_readdir64_r=\)'define',\1'undef',g" \
-> @@ -156,7 +158,7 @@ do_configure() {
->              config.sh-${TARGET_ARCH}-${TARGET_OS}
->  
->  	case "${TARGET_ARCH}" in
-> -		x86_64 | powerpc | s390)
-> +		x86_64 | powerpc | powerpc64 | s390)
->  			sed -i -e "s,\(need_va_copy=\)'undef',\1'define',g" \
->  				config.sh-${TARGET_ARCH}-${TARGET_OS}
->  			;;
+OE-Core can be easily hal-less but I just ask for hal to not be
+removed from meta data as I and probably others hasn't finish the move
+to udev yet.
 
-This bit is fine...
-
-Cheers,
-
-Richard
-
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
