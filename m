@@ -1,20 +1,20 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jason.wessel@windriver.com>) id 1RBWYi-00062x-AH
+	(envelope-from <jason.wessel@windriver.com>) id 1RBWmr-0006ad-0q
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Oct 2011 20:51:12 +0200
+	Wed, 05 Oct 2011 21:05:49 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p95Ijai5023814
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p95FS72G016120
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Oct 2011 11:45:36 -0700 (PDT)
+	Wed, 5 Oct 2011 08:28:07 -0700 (PDT)
 Received: from ord-lpggp2.lombard (128.224.65.244) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 5 Oct 2011 11:45:35 -0700
+	Wed, 5 Oct 2011 08:28:07 -0700
 From: Jason Wessel <jason.wessel@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 5 Oct 2011 13:43:59 -0500
-Message-ID: <1317840239-5290-1-git-send-email-jason.wessel@windriver.com>
+Date: Wed, 5 Oct 2011 10:26:30 -0500
+Message-ID: <1317828390-17212-1-git-send-email-jason.wessel@windriver.com>
 X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
 Subject: [PATCH] Allow user mode NFS server to run without rpcbind / portmap
@@ -32,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2011 18:51:12 -0000
+X-List-Received-Date: Wed, 05 Oct 2011 19:05:49 -0000
 Content-Type: text/plain
 
 From the 2.6.39 linux kernel and up it is possible to use
