@@ -1,28 +1,29 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1RBDnB-0008PM-Qh
+Received: from mailout-de.gmx.net ([213.165.64.22])
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <schnitzeltony@gmx.de>) id 1RBF0o-0001RR-NJ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Oct 2011 00:48:54 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p94MhIoT021199
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 4 Oct 2011 15:43:18 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.232) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 4 Oct 2011 15:43:17 -0700
-Message-ID: <4E8B8C05.5050508@windriver.com>
-Date: Tue, 4 Oct 2011 17:43:17 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
+	Wed, 05 Oct 2011 02:07:02 +0200
+Received: (qmail invoked by alias); 05 Oct 2011 00:01:22 -0000
+Received: from p4FDF0968.dip.t-dialin.net (EHLO localhost.localdomain)
+	[79.223.9.104]
+	by mail.gmx.net (mp006) with SMTP; 05 Oct 2011 02:01:22 +0200
+X-Authenticated: #62780362
+X-Provags-ID: V01U2FsdGVkX18JBrER2U8JBiveg4myTVZRQy8g0nsm5KqUsj04l3
+	acX6DIu/vzAMep
+From: Andreas =?utf-8?q?M=C3=BCller?= <schnitzeltony@gmx.de>
+To: "Patches and discussions about the oe-core layer"
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 5 Oct 2011 02:05:24 +0200
+User-Agent: KMail/1.13.7 (Linux/2.6.35.14-96.fc14.x86_64; KDE/4.6.5; x86_64; ;
+	)
+References: <201110031603.31007.schnitzeltony@gmx.de>
+	<201110032045.14771.schnitzeltony@gmx.de>
+	<1317732057.14671.38.camel@ted>
+In-Reply-To: <1317732057.14671.38.camel@ted>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <4E8B6564.4090002@balister.org> <4E8B67C5.8050602@intel.com>
-	<4E8B6C17.80509@balister.org> <4E8B6D47.9000600@intel.com>
-In-Reply-To: <4E8B6D47.9000600@intel.com>
-Subject: Re: Bringing an image from OE to OE-Core
+Message-Id: <201110050205.24428.schnitzeltony@gmx.de>
+X-Y-GMX-Trusted: 0
+Subject: Re: bitbake webkit-gtk fails with clean temp dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,78 +38,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Oct 2011 22:48:54 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Oct 2011 00:07:02 -0000
+Content-Type: Text/Plain;
+  charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/4/11 3:32 PM, Saul Wold wrote:
-> On 10/04/2011 01:27 PM, Philip Balister wrote:
->> On 10/04/2011 04:08 PM, Saul Wold wrote:
->>> On 10/04/2011 12:58 PM, Philip Balister wrote:
->>>> I'm about to start bringing some images I use from OE to OE-core. The
->>>> first issue I saw is there is no task-proper-tools in oe-core (where
->>>> oe-core means the set of layers created by the Angstrom setup scripts).
->>>>
->>> Philip,
->>>
->>> Have you looked at task-core-basic, it is supposed to be more of a
->>> desktop like set of tools, the idea being it's heavier weight than core,
->>> will move to supporting the non-graphical part of LSB.
->>>
->>> Another caveat for task-core-basic is that it's the largetest non-gplv3
->>> task that is used by core-image-basic.
->>>
->>> Does this task approach what you are looking for?
->>
->> It looks like a start, but I notice it brings in rpm. I'm not sure if I
->> want that. I would have thought that the package manager would be a
->> distro decision.
->>
-> That's a bug that I would certainly take a patch for, unless rpm is 
-> required as part of LSB, that will need to be verified.
+On Tuesday, October 04, 2011 02:40:49 PM Richard Purdie wrote:
+> On Mon, 2011-10-03 at 20:45 +0200, Andreas M=C3=BCller wrote:
+> > On Monday, October 03, 2011 05:29:52 PM Gary Thomas wrote:
+> > > >> NOTE: package webkit-gtk-1.5.1+svnr90727-r0: task do_compile: Fail=
+ed
+> > > >> ERROR: Task 7 (/home/Superandy/data/oe-core/sources/openembedded-c=
+ore/meta/recipes-sato/webkit/webkit-gtk_svn.bb, do_compile) failed with exi=
+t code '1'
+> > > >>
+> > > >> ideas what causes this?
+> > > >
+> > > > no idea, but I get the same error
+> > > >
+> > >=20
+> > > It builds in Yocto/Poky so you might compare with those recipes.
+> > Dit you pull [1] and rebuild webkit-gtk?
+> > >=20
+> > >=20
+> > some investigation later: by diff'ing log files created by working envi=
+ronment with the current environment I fell over log.do_configure:=20
+> >=20
+> > --disable-dependency-tracking=20
+> >=20
+> > was added in [1]. Tried manual bisecting by
+> >=20
+> > git reset --hard 288343e30604b944dc18fd82172febd314d9c520
+> >=20
+> > =C3=A9 voil=C3=A0: webkit-gtk builds again. Will send a patch with --en=
+able-dependency-tracking after testing...
+> >=20
+> > Andreas
+>=20
+>=20
+> I'm planning to add this commit:
+>=20
+> http://cgit.openembedded.org/cgit.cgi/openembedded-core/commit/?h=3Dmaste=
+r-next&id=3Dd53a0282be132a4ced507c0277925ae4a0f2f40d
+>=20
+> which means you should just be able to set:
+>=20
+> CONFIGUREOPT_DEPTRACK =3D ""
+>=20
+> for this recipe rather than having multiple configure options and hoping
+> the right one wins.
+I thought recipe's EXTRA_OECONF is by design ensured being appended and the=
+reby overwriting options of same target.
+>=20
+> I'd also note this means there is a bug somewhere in the webkit
+> makefiles...
+Agreed - somebody with time & skills willing to take care?
+>=20
+If there are no objections I'll send a patch with
 
-The ability to install RPM packages is required by the LSB.  The LSB does not
-require RPM however.  (yes I know, odd requirement, but with things like alien
-it's doable on debian systems.)
+CONFIGUREOPT_DEPTRACK =3D ""
 
-But yes, RPM is included to satisfy that requirement.
+for webkit-gtk as soon as d53a0282be132a4ced507c0277925ae4a0f2f40d becomes =
+part of master branch
 
---Mark
-
-> Sau!
-> 
->> Philip
->>
->>
->>>
->>> Sau!
->>>
->>>
->>>> Should I add task-proper-tools to meta-oe, or is there a better way to
->>>> add a full features set of tools to an image? Basically, the image is
->>>> more desktop like than embedded.
->>>>
->>>> Philip
->>>>
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>>
->>>
->>>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+Andreas
 
 
