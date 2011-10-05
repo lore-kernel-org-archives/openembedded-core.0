@@ -1,36 +1,34 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RBPqo-0003NG-8K for openembedded-core@lists.openembedded.org;
-	Wed, 05 Oct 2011 13:41:26 +0200
+	id 1RBPtf-0003QW-Hj for openembedded-core@lists.openembedded.org;
+	Wed, 05 Oct 2011 13:44:23 +0200
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p95BgLJJ016524 for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Oct 2011 12:42:21 +0100
+	p95BjIks016627 for <openembedded-core@lists.openembedded.org>;
+	Wed, 5 Oct 2011 12:45:18 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id wCEnKdv25Kex
+	with LMTP id hJ5YQSk5bO1f
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Oct 2011 12:42:21 +0100 (BST)
+	Wed,  5 Oct 2011 12:45:18 +0100 (BST)
 Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p95BgI4c016519
+	p95BjFw5016611
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Oct 2011 12:42:20 +0100
+	Wed, 5 Oct 2011 12:45:17 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 05 Oct 2011 12:35:48 +0100
-In-Reply-To: <4E8B9F2C.5030706@gmail.com>
-References: <1317765787-19127-1-git-send-email-msm@freescale.com>
-	<1317765787-19127-5-git-send-email-msm@freescale.com>
-	<4E8B9F2C.5030706@gmail.com>
+Date: Wed, 05 Oct 2011 12:38:45 +0100
+In-Reply-To: <4E8C3603.9000803@gmail.com>
+References: <4E8C3603.9000803@gmail.com>
 X-Mailer: Evolution 3.1.91- 
-Message-ID: <1317814555.14671.137.camel@ted>
+Message-ID: <1317814733.14671.139.camel@ted>
 Mime-Version: 1.0
-Subject: Re: [PATCH 5/6] Fix sysprof for powerpc64
+Subject: Re: Workaround to compile linux-omap_2.6.39.bb?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,35 +43,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2011 11:41:26 -0000
+X-List-Received-Date: Wed, 05 Oct 2011 11:44:24 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-10-04 at 17:05 -0700, Khem Raj wrote:
-> On 10/4/2011 3:03 PM, Matthew McClintock wrote:
-> > sysprof will not build properly without this defined
-> >
-> > Signed-off-by: Matthew McClintock<msm@freescale.com>
-> > ---
-> > No comments on original patch sent
-> >
-> >   meta/recipes-kernel/sysprof/sysprof_git.bb |    2 ++
-> >   1 files changed, 2 insertions(+), 0 deletions(-)
-> >
-> > diff --git a/meta/recipes-kernel/sysprof/sysprof_git.bb b/meta/recipes-kernel/sysprof/sysprof_git.bb
-> > index 10bde04..271b5d8 100644
-> > --- a/meta/recipes-kernel/sysprof/sysprof_git.bb
-> > +++ b/meta/recipes-kernel/sysprof/sysprof_git.bb
-> > @@ -16,6 +16,8 @@ SRC_URI_append_arm  = " file://rmb-arm.patch"
-> >   SRC_URI_append_mips = " file://rmb-mips.patch"
-> >   SRC_URI_append_powerpc = " file://ppc-macro-fix.patch"
-> >
-> > +export CFLAGS_append_powerpc64 = " -D__ppc64__"
-> > +
+On Wed, 2011-10-05 at 12:48 +0200, Tasslehoff Kjappfot wrote:
+> I need to compile linux-omap_2.6.39.bb, but it fails since the 
+> tmlind-repos are not currently on kernel.org.
 > 
-> this is a gcc built-in define I wonder why you need to add it explicitly
+> I have downloaded 
+> git_git.kernel.org.pub.scm.linux.kernel.git.tmlind.linux-omap-2.6.git_v2.6.39.tar.gz 
+> from the angstrom mirrors. Can I extract that into my downloads/ in a 
+> way that will make bitbake find and accept it?
 
-Are you sure? Is the built-in define not __powerpc64__ ?
+OE-Core uses fetch2 and that is a tarball from fetch1. You'd need to
+convert that tarball into the form that fetch2 expects and rename it,
+then you stand some chance of it working.
+
+Also note that your recipes needs to be using a fixed source revision
+and that revision needs to be present in that tarball.
 
 Cheers,
 
