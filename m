@@ -1,55 +1,40 @@
-Received: from ch1ehsobe004.messaging.microsoft.com ([216.32.181.184]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RBZoD-0002Rj-Jd
+	(envelope-from <saul.wold@intel.com>) id 1RBaOR-0004T0-OI
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Oct 2011 00:19:25 +0200
-Received: from mail53-ch1-R.bigfish.com (10.43.68.240) by
-	CH1EHSOBE002.bigfish.com (10.43.70.52) with Microsoft SMTP Server id
-	14.1.225.22; Wed, 5 Oct 2011 22:13:50 +0000
-Received: from mail53-ch1 (localhost.localdomain [127.0.0.1])	by
-	mail53-ch1-R.bigfish.com (Postfix) with ESMTP id D0269740421	for
-	<openembedded-core@lists.openembedded.org>;
-	Wed,  5 Oct 2011 22:13:49 +0000 (UTC)
-X-SpamScore: -15
-X-BigFish: VS-15(zzbb2dK9371K1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
-	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail53-ch1 (localhost.localdomain [127.0.0.1]) by mail53-ch1
-	(MessageSwitch) id 1317852827782100_17721;
-	Wed,  5 Oct 2011 22:13:47 +0000 (UTC)
-Received: from CH1EHSMHS011.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.241])	by mail53-ch1.bigfish.com (Postfix) with ESMTP id
-	B23C7DE8052 for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Oct 2011 22:13:47 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS011.bigfish.com
-	(10.43.70.11) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Wed, 5 Oct 2011 22:13:47 +0000
-Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.230]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.01.0323.007; Wed, 5 Oct 2011 17:13:46 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
+	Thu, 06 Oct 2011 00:56:51 +0200
+Received: from mail-bw0-f52.google.com ([209.85.214.52])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 05 Oct 2011 15:51:15 -0700
+Received: by bke5 with SMTP id 5so2489779bke.25
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Oct 2011 15:51:13 -0700 (PDT)
+Received: by 10.204.156.26 with SMTP id u26mr39089bkw.11.1317855072845;
+	Wed, 05 Oct 2011 15:51:12 -0700 (PDT)
+Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id b10sm4290679fam.1.2011.10.05.15.51.10
+	(version=SSLv3 cipher=OTHER); Wed, 05 Oct 2011 15:51:12 -0700 (PDT)
+Message-ID: <4E8CDF5C.7050008@intel.com>
+Date: Wed, 05 Oct 2011 15:51:08 -0700
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:6.0.2) Gecko/20110906 Thunderbird/6.0.2
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v2 1/6] Fix mdadm for powerpc64
-Thread-Index: AQHMg6wNWNf59z4fNk20NqvShekmSw==
-Date: Wed, 5 Oct 2011 22:13:46 +0000
-Message-ID: <CAEsOVNcMYeYiKrsF93OstcmEwXCPw9rmtQkS50TTaHcA5m+Uxg@mail.gmail.com>
-References: <1317850009-7714-1-git-send-email-msm@freescale.com>
-	<4E8CD4A9.5020802@gmail.com>
-In-Reply-To: <4E8CD4A9.5020802@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH v2 1/6] Fix mdadm for powerpc64
+References: <4E8B6564.4090002@balister.org>
+	<4E8B67C5.8050602@intel.com>	<4E8B6C17.80509@balister.org>
+	<4E8B6D47.9000600@intel.com>	<4E8B8C05.5050508@windriver.com>
+	<4E8C662B.4090300@balister.org>
+	<CAMKF1soVx-m6aa0xhHeSvPDSBQvwc+L37r1xgTs58ZuCs+XhzQ@mail.gmail.com>
+	<4E8CB801.7050003@balister.org>
+In-Reply-To: <4E8CB801.7050003@balister.org>
+Subject: Re: Bringing an image from OE to OE-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -60,22 +45,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2011 22:19:25 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <10E14CC06B10D846B333C37DF33A8AC4@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 05 Oct 2011 22:56:52 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 5, 2011 at 5:05 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On 10/5/2011 2:26 PM, Matthew McClintock wrote:
+On 10/05/2011 01:03 PM, Philip Balister wrote:
+> On 10/05/2011 03:35 PM, Khem Raj wrote:
+>> On Wed, Oct 5, 2011 at 7:14 AM, Philip Balister<philip@balister.org>
+>> wrote:
+>>>
+>>> 1) I do not want rpm in the image. This would confuse my customer base.
+>>> 2) I am tired of dropbear, I want openssh only.
+>>> 3) I need the full versions of tools, not the busybox ones.
+>>> 4) I am not limited to gpv2 software.
+>>>
+>>> Richard, it looks to me like we should add an item for the next Yocto
+>>> development cycle to review how images are built and try to make the
+>>> base
+>>> stuff in oe-core more usable by everyone. We need to define what
+>>> choices are
+>>> made by distros. For example opkg, rpm, no package management in image.
+>>> Images may want dropbear or openssh.
+>>>
+>>> Short term, I think I'll copy the tasks/images into my bsp and get some
+>>> stuff together for testing. I'd like a better long term solution though.
 >>
->> This takes an upstream fix for compiling on powerpc64
+>> There always will be customizations needed. But we can strive for
+>> better basic blocks
 >
-> where is the patch ? Did you forget git add
+> Sure. The immediate things I noticed are rpm being installed and lack of
+> a way to chose between dropbear/openssh.
+>
+> I think it is worth having a conversation to find out if when can make
+> it easier for users to create images, with a small number of knobs to turn.
+>
+I agree, your 4 items above make sense and we could create a set of 
+tasks that can be use it as building blocks, I think that 
+task-core-basic could be a starting point for that.
 
-Ugh yes, resent.
+We did work to enable the selection of either openssh/dropbear but at an 
+IMAGE_FEATURE level, not as a DISTRO_FEATURE or virtual.
 
--M=
+Let's see what you come up with for your tasks and we can go from there.
+
+Thanks
+Sau!
+
+> Philip
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
 
