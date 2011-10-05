@@ -1,37 +1,56 @@
-Received: from mail-qy0-f175.google.com ([209.85.216.175])
+Received: from db3ehsobe004.messaging.microsoft.com ([213.199.154.142]
+	helo=DB3EHSOBE004.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RBX0b-0006rM-QR
+	(envelope-from <B29882@freescale.com>) id 1RBX4D-0006vk-4o
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Oct 2011 21:20:01 +0200
-Received: by qyk10 with SMTP id 10so5261572qyk.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Oct 2011 12:14:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=buAMbPGWYa4/jR6MGTAV8ZLqSOcZyf+3dC7zVE7fzM8=;
-	b=tq37IGrPji4yL13cmPI8fIS9SVTmK6Yp7oYqGkq0VyL0IhgyNfon2YNJCuy1W2AGZy
-	4VADU/VfaJEQCsOv5R7F5omH6mF2m8FVDwTXgXQmn54Lnvq0p1X3WXMihGVk2EBm8LiZ
-	1kWmri5/SWjn3+i1Y7u8gzfO4ZWMeHM7fkIVA=
-Received: by 10.68.32.73 with SMTP id g9mr21039229pbi.56.1317842066112; Wed,
-	05 Oct 2011 12:14:26 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.68.49.129 with HTTP; Wed, 5 Oct 2011 12:13:56 -0700 (PDT)
-In-Reply-To: <1317839445.2979.0.camel@lenovo.internal.reciva.com>
-References: <1317765787-19127-1-git-send-email-msm@freescale.com>
-	<1317765787-19127-5-git-send-email-msm@freescale.com>
-	<4E8B9F2C.5030706@gmail.com> <1317814555.14671.137.camel@ted>
-	<1317839445.2979.0.camel@lenovo.internal.reciva.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 5 Oct 2011 12:13:56 -0700
-Message-ID: <CAMKF1so-npfO_L9namDF5xgO3gxP1E1MyrjtfFdQTY-1WZy2dg@mail.gmail.com>
+	Wed, 05 Oct 2011 21:23:45 +0200
+Received: from mail105-db3-R.bigfish.com (10.3.81.251) by
+	DB3EHSOBE004.bigfish.com (10.3.84.24) with Microsoft SMTP Server id
+	14.1.225.22; Wed, 5 Oct 2011 19:18:03 +0000
+Received: from mail105-db3 (localhost.localdomain [127.0.0.1])	by
+	mail105-db3-R.bigfish.com (Postfix) with ESMTP id 459601270299	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed,  5 Oct 2011 19:18:03 +0000 (UTC)
+X-SpamScore: -12
+X-BigFish: VS-12(zz9371K1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
+	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
+X-FB-SS: 0,
+Received: from mail105-db3 (localhost.localdomain [127.0.0.1]) by mail105-db3
+	(MessageSwitch) id 1317842283205919_30018;
+	Wed,  5 Oct 2011 19:18:03 +0000 (UTC)
+Received: from DB3EHSMHS007.bigfish.com (unknown [10.3.81.246])	by
+	mail105-db3.bigfish.com (Postfix) with ESMTP id 274744E004D	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed,  5 Oct 2011 19:18:03 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS007.bigfish.com
+	(10.3.87.107) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Wed, 5 Oct 2011 19:18:02 +0000
+Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.230]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.01.0323.007; Wed, 5 Oct 2011 14:18:00 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/6] Fix sysprof for powerpc64
+Thread-Topic: [OE-core] [PATCH v2 5/6] Fix sysprof for powerpc64
+Thread-Index: AQHMg5N/IC9M4rjpUUqfnzPQVOORcQ==
+Date: Wed, 5 Oct 2011 19:18:00 +0000
+Message-ID: <CAEsOVNepDDF-h882sj_vEw_zgKNh2vcXQz30bU_-P0uUKOYQ5A@mail.gmail.com>
+References: <1317841365-32051-1-git-send-email-msm@freescale.com>
+	<CAMKF1spPPnQiOddrG9S7PGPwAXYA4RNgcPrS6f0_o83V-1NrmA@mail.gmail.com>
+In-Reply-To: <CAMKF1spPPnQiOddrG9S7PGPwAXYA4RNgcPrS6f0_o83V-1NrmA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH v2 5/6] Fix sysprof for powerpc64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -42,56 +61,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2011 19:20:02 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 05 Oct 2011 19:23:45 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <DCE123E5AC9B924EBD6E979CD9740455@freescale.net>
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 5, 2011 at 11:30 AM, Phil Blundell <philb@gnu.org> wrote:
-> On Wed, 2011-10-05 at 12:35 +0100, Richard Purdie wrote:
->> On Tue, 2011-10-04 at 17:05 -0700, Khem Raj wrote:
->> > On 10/4/2011 3:03 PM, Matthew McClintock wrote:
->> > > sysprof will not build properly without this defined
->> > >
->> > > Signed-off-by: Matthew McClintock<msm@freescale.com>
->> > > ---
->> > > No comments on original patch sent
->> > >
->> > > =C2=A0 meta/recipes-kernel/sysprof/sysprof_git.bb | =C2=A0 =C2=A02 +=
-+
->> > > =C2=A0 1 files changed, 2 insertions(+), 0 deletions(-)
->> > >
->> > > diff --git a/meta/recipes-kernel/sysprof/sysprof_git.bb b/meta/recip=
-es-kernel/sysprof/sysprof_git.bb
->> > > index 10bde04..271b5d8 100644
->> > > --- a/meta/recipes-kernel/sysprof/sysprof_git.bb
->> > > +++ b/meta/recipes-kernel/sysprof/sysprof_git.bb
->> > > @@ -16,6 +16,8 @@ SRC_URI_append_arm =C2=A0=3D " file://rmb-arm.patc=
-h"
->> > > =C2=A0 SRC_URI_append_mips =3D " file://rmb-mips.patch"
->> > > =C2=A0 SRC_URI_append_powerpc =3D " file://ppc-macro-fix.patch"
->> > >
->> > > +export CFLAGS_append_powerpc64 =3D " -D__ppc64__"
->> > > +
->> >
->> > this is a gcc built-in define I wonder why you need to add it explicit=
-ly
->>
->> Are you sure? Is the built-in define not __powerpc64__ ?
+On Wed, Oct 5, 2011 at 2:12 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> is sysprof linux specific? if not then this change will mean that it wont=
+ work
+> on other OSes which dont define __powerpc64__ e.g. darwin. Better solutio=
+n is to
+> check for both __ppc64__ and __powerpc64__
 >
-> Yes, __powerpc64__ is the generic one. =C2=A0I think __ppc64__ is only a
-> predefine on Darwin.
+> but thats something for sysprof upstream to consider. For OE this
+> patch is sufficient
 
-__powerpc64__ is not generic. Its Linux specific.
+They will address this issue if they hit it, as this patch is in
+upstream already...
 
->
-> p.
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+-Matthew=
+
 
 
