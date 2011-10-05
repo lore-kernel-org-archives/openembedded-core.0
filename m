@@ -1,61 +1,50 @@
-Received: from ch1ehsobe003.messaging.microsoft.com ([216.32.181.183]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from tx2ehsobe002.messaging.microsoft.com ([65.55.88.12]
+	helo=TX2EHSOBE003.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RBYuW-0001Ee-KA
+	(envelope-from <B29882@freescale.com>) id 1RBZ4n-0001NH-4b
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Oct 2011 23:21:55 +0200
-Received: from mail97-ch1-R.bigfish.com (10.43.68.254) by
-	CH1EHSOBE006.bigfish.com (10.43.70.56) with Microsoft SMTP Server id
-	14.1.225.22; Wed, 5 Oct 2011 21:16:16 +0000
-Received: from mail97-ch1 (localhost.localdomain [127.0.0.1])	by
-	mail97-ch1-R.bigfish.com (Postfix) with ESMTP id C9279F603C6	for
+	Wed, 05 Oct 2011 23:32:29 +0200
+Received: from mail75-tx2-R.bigfish.com (10.9.14.244) by
+	TX2EHSOBE003.bigfish.com (10.9.40.23) with Microsoft SMTP Server id
+	14.1.225.22; Wed, 5 Oct 2011 21:26:53 +0000
+Received: from mail75-tx2 (localhost.localdomain [127.0.0.1])	by
+	mail75-tx2-R.bigfish.com (Postfix) with ESMTP id 02B331140249	for
 	<openembedded-core@lists.openembedded.org>;
-	Wed,  5 Oct 2011 21:16:16 +0000 (UTC)
-X-SpamScore: -15
-X-BigFish: VS-15(zz9371K936eK1432N98dKzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3h)
+	Wed,  5 Oct 2011 21:26:53 +0000 (UTC)
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839h)
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
 	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 0,13,
-Received: from mail97-ch1 (localhost.localdomain [127.0.0.1]) by mail97-ch1
-	(MessageSwitch) id 1317849360916144_15336;
-	Wed,  5 Oct 2011 21:16:00 +0000 (UTC)
-Received: from CH1EHSMHS008.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.246])	by mail97-ch1.bigfish.com (Postfix) with ESMTP id
-	D740AA40051 for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Oct 2011 21:16:00 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS008.bigfish.com
-	(10.43.70.8) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Wed, 5 Oct 2011 21:15:59 +0000
-Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.230]) by
-	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
-	14.01.0323.007; Wed, 5 Oct 2011 16:15:58 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v2 10/16] Fix mdadm for powerpc64
-Thread-Index: AQHMggIJ6+1og7PNnEGyLP1+hESaEJVrcnwAgAABBYCAAZwagIAA5biAgACCdICAAB/fAA==
-Date: Wed, 5 Oct 2011 21:15:58 +0000
-Message-ID: <CAEsOVNfT0DwcWLOXUOr-Q6Yn3r971KQSh=KOLDUpYpofbZTniQ@mail.gmail.com>
-References: <1317322353-30258-1-git-send-email-msm@freescale.com>
-	<4E8A0B81.1080507@gmail.com>
-	<CAEsOVNcvCgboed7tx68aT_CemeN_pVd_k0JM_cWVDiMtRrCG0w@mail.gmail.com>
-	<4E8A2667.4090700@gmail.com>
-	<CAEsOVNdahRcHTCfVhaqFZiVaKhAtM2a6L6GTm61RtsGoJxjB6A@mail.gmail.com>
-	<1317814486.14671.136.camel@ted>
-	<CAMKF1sqwRyc3M53NNjk+usgwtWWcz=gcV9rxqdQCAiRqcMiq7Q@mail.gmail.com>
-In-Reply-To: <CAMKF1sqwRyc3M53NNjk+usgwtWWcz=gcV9rxqdQCAiRqcMiq7Q@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
+X-FB-SS: 13,
+Received: from mail75-tx2 (localhost.localdomain [127.0.0.1]) by mail75-tx2
+	(MessageSwitch) id 1317850012910880_15999;
+	Wed,  5 Oct 2011 21:26:52 +0000 (UTC)
+Received: from TX2EHSMHS035.bigfish.com (unknown [10.9.14.248])	by
+	mail75-tx2.bigfish.com (Postfix) with ESMTP id D44CFEF005B	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed,  5 Oct 2011 21:26:52 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS035.bigfish.com
+	(10.9.99.135) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Wed, 5 Oct 2011 21:26:50 +0000
+Received: from az33smr02.freescale.net (10.64.34.200) by
+	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
+	Server id 14.1.323.7; Wed, 5 Oct 2011 16:26:50 -0500
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
+	by az33smr02.freescale.net (8.13.1/8.13.0) with ESMTP id
+	p95LQnwY011502	for <openembedded-core@lists.openembedded.org>;
+	Wed, 5 Oct 2011 16:26:50 -0500 (CDT)
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 5 Oct 2011 16:26:48 -0500
+Message-ID: <1317850009-7714-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.6.1
 MIME-Version: 1.0
 X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH v2 10/16] Fix mdadm for powerpc64
+Subject: [PATCH v2 1/6] Fix mdadm for powerpc64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -66,58 +55,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2011 21:21:55 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <AF12853CDF990344B44A788EFAD74378@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 05 Oct 2011 21:32:29 -0000
+Content-Type: text/plain
 
-On Wed, Oct 5, 2011 at 2:21 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Wed, Oct 5, 2011 at 4:34 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Tue, 2011-10-04 at 21:52 +0000, McClintock Matthew-B29882 wrote:
->>> On Mon, Oct 3, 2011 at 4:17 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>> >> I can't find a log of this anywhere, it's probably the default
->>> >> compiler warnings for our platform are different?
->>> >
->>> > It would be handy to understand them since I dont see gcc differentia=
-ting
->>> > formats between ppc64 and x86_64 which both are 64bit hosts. But obvi=
-ously
->>> > there is something missing.
->>>
->>> I finally got around to rerunning this without my patch and the errors
->>> are below.
->>
->> I dug into this a bit. To quote asm/types.h:
->>
->> /*
->> =A0* This is here because we used to use l64 for 64bit powerpc
->> =A0* and we don't want to impact user mode with our change to ll64
->> =A0* in the kernel.
->> =A0*/
->> #if defined(__powerpc64__) && !defined(__KERNEL__)
->> # include <asm-generic/int-l64.h>
->> #else
->> # include <asm-generic/int-ll64.h>
->> #endif
->>
->> So ppc64 kernel space uses ll64 and userspace uses l64.
->>
->
-> thanks this is what I was interested in.
->
->> This means __u64 is a long for ppc64 but a long long for x86_64. The
->> format errors occurs rightly because a ull is being printed from a ul
->> variable. This will happen to work but its messy.
->
-> havent seen the code but =A0if its printf like then PRIu64 macro could he=
-lp.
+This takes an upstream fix for compiling on powerpc64
 
-Well there is an upstream fix for this as well... I've learned my
-lesson now to check upstream repo's..
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+ meta/recipes-extended/mdadm/mdadm_3.2.2.bb |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
 
--M=
+diff --git a/meta/recipes-extended/mdadm/mdadm_3.2.2.bb b/meta/recipes-extended/mdadm/mdadm_3.2.2.bb
+index 5d29ae7..492cc8e 100644
+--- a/meta/recipes-extended/mdadm/mdadm_3.2.2.bb
++++ b/meta/recipes-extended/mdadm/mdadm_3.2.2.bb
+@@ -8,9 +8,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+                     file://mdmon.c;beginline=4;endline=18;md5=af7d8444d9c4d3e5c7caac0d9d34039d \
+                     file://mdadm.h;beglinlne=4;endline=22;md5=462bc9936ac0d3da110191a3f9994161"
+ 
+-PR = "r0"
++PR = "r1"
+ 
+-SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.bz2"
++SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.bz2 \
++	    file://0001-mdadm-fix-build-failures-ppc64.patch \
++	  "
+ 
+ SRC_URI[md5sum] = "12ee2fbf3beddb60601fb7a4c4905651"
+ SRC_URI[sha256sum] = "0d1a04e688b082bc88846e3f524abd50bc782b6ffc06123140f7d358c8f9b906"
+-- 
+1.7.6.1
+
 
 
 
