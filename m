@@ -1,29 +1,39 @@
-Received: from mailout-de.gmx.net ([213.165.64.22])
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <schnitzeltony@gmx.de>) id 1RBVzo-0005JK-H3
+Received: from 13.mo1.mail-out.ovh.net ([178.33.253.128]
+	helo=mo1.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <eric@eukrea.com>) id 1RBWEY-0005bW-IR
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Oct 2011 20:15:08 +0200
-Received: (qmail invoked by alias); 05 Oct 2011 18:09:33 -0000
-Received: from p4FDF0233.dip.t-dialin.net (EHLO localhost.localdomain)
-	[79.223.2.51]
-	by mail.gmx.net (mp050) with SMTP; 05 Oct 2011 20:09:33 +0200
-X-Authenticated: #62780362
-X-Provags-ID: V01U2FsdGVkX19oMvRLoLZoyjSVtd5i3LfO6Hl6pHj0qwl76ZC7jb
-	DgFHB9mWz6K4Hr
-From: Andreas =?utf-8?q?M=C3=BCller?= <schnitzeltony@gmx.de>
-To: "Patches and discussions about the oe-core layer"
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 5 Oct 2011 20:13:37 +0200
-User-Agent: KMail/1.13.7 (Linux/2.6.35.14-96.fc14.x86_64; KDE/4.6.5; x86_64; ;
-	)
-References: <201110031603.31007.schnitzeltony@gmx.de>
-	<201110050205.24428.schnitzeltony@gmx.de>
-	<1317821868.14671.154.camel@ted>
-In-Reply-To: <1317821868.14671.154.camel@ted>
+	Wed, 05 Oct 2011 20:30:22 +0200
+Received: from mail189.ha.ovh.net (b6.ovh.net [213.186.33.56])
+	by mo1.mail-out.ovh.net (Postfix) with SMTP id EC0A81004B52
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  5 Oct 2011 16:48:32 +0200 (CEST)
+Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
+	by b0.ovh.net with SMTP; 5 Oct 2011 16:47:08 +0200
+Received: from pac33-2-82-240-38-71.fbx.proxad.net (HELO ?192.168.1.15?)
+	(ebenard%eukrea.com@82.240.38.71)
+	by ns0.ovh.net with SMTP; 5 Oct 2011 16:47:05 +0200
+Message-ID: <4E8C6DE8.2080506@eukrea.com>
+Date: Wed, 05 Oct 2011 16:47:04 +0200
+From: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
 MIME-Version: 1.0
-Message-Id: <201110052013.37982.schnitzeltony@gmx.de>
-X-Y-GMX-Trusted: 0
-Subject: Re: bitbake webkit-gtk fails with clean temp dir
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Ovh-Mailout: 178.32.228.1 (mo1.mail-out.ovh.net)
+References: <4E8B6564.4090002@balister.org>
+	<4E8B67C5.8050602@intel.com>	<4E8B6C17.80509@balister.org>
+	<4E8B6D47.9000600@intel.com> <4E8B8C05.5050508@windriver.com>
+	<4E8C662B.4090300@balister.org>
+In-Reply-To: <4E8C662B.4090300@balister.org>
+X-Ovh-Tracer-Id: 7919861420454948290
+X-Ovh-Remote: 82.240.38.71 (pac33-2-82-240-38-71.fbx.proxad.net)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-Spam-Check: DONE|U 0.5/N
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeftddrfeeiucetggdotefuucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+Subject: Re: Bringing an image from OE to OE-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,78 +48,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2011 18:15:08 -0000
-Content-Type: Text/Plain;
-  charset="utf-8"
+X-List-Received-Date: Wed, 05 Oct 2011 18:30:22 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-On Wednesday, October 05, 2011 03:37:40 PM Richard Purdie wrote:
-> On Wed, 2011-10-05 at 02:05 +0200, Andreas M=C3=BCller wrote:
-> > On Tuesday, October 04, 2011 02:40:49 PM Richard Purdie wrote:
-> > > On Mon, 2011-10-03 at 20:45 +0200, Andreas M=C3=BCller wrote:
-> > > > On Monday, October 03, 2011 05:29:52 PM Gary Thomas wrote:
-> > > > > >> NOTE: package webkit-gtk-1.5.1+svnr90727-r0: task do_compile: =
-=46ailed
-> > > > > >> ERROR: Task 7 (/home/Superandy/data/oe-core/sources/openembedd=
-ed-core/meta/recipes-sato/webkit/webkit-gtk_svn.bb, do_compile) failed with=
- exit code '1'
-> > > > > >>
-> > > > > >> ideas what causes this?
-> > > > > >
-> > > > > > no idea, but I get the same error
-> > > > > >
-> > > > >=20
-> > > > > It builds in Yocto/Poky so you might compare with those recipes.
-> > > > Dit you pull [1] and rebuild webkit-gtk?
-> > > > >=20
-> > > > >=20
-> > > > some investigation later: by diff'ing log files created by working =
-environment with the current environment I fell over log.do_configure:=20
-> > > >=20
-> > > > --disable-dependency-tracking=20
-> > > >=20
-> > > > was added in [1]. Tried manual bisecting by
-> > > >=20
-> > > > git reset --hard 288343e30604b944dc18fd82172febd314d9c520
-> > > >=20
-> > > > =C3=A9 voil=C3=A0: webkit-gtk builds again. Will send a patch with =
-=2D-enable-dependency-tracking after testing...
-> > > >=20
-> > > > Andreas
-> > >=20
-> > >=20
-> > > I'm planning to add this commit:
-> > >=20
-> > > http://cgit.openembedded.org/cgit.cgi/openembedded-core/commit/?h=3Dm=
-aster-next&id=3Dd53a0282be132a4ced507c0277925ae4a0f2f40d
-> > >=20
-> > > which means you should just be able to set:
-> > >=20
-> > > CONFIGUREOPT_DEPTRACK =3D ""
-> > >=20
-> > > for this recipe rather than having multiple configure options and hop=
-ing
-> > > the right one wins.
-> > I thought recipe's EXTRA_OECONF is by design ensured being appended and=
- thereby overwriting options of same target.
-> > >=20
-> > > I'd also note this means there is a bug somewhere in the webkit
-> > > makefiles...
-> > Agreed - somebody with time & skills willing to take care?
->=20
-> I'm not sure I have the time or the right skillset for that one but at
-> least we've highighted there is a problem there...
->=20
-> > If there are no objections I'll send a patch with
-> >=20
-> > CONFIGUREOPT_DEPTRACK =3D ""
-> >=20
-> > for webkit-gtk as soon as d53a0282be132a4ced507c0277925ae4a0f2f40d beco=
-mes part of master branch
->=20
-> I've gone ahead and added this since I think we're all agreed on what is
-> needed here :)
->=20
-Thanks :))
+Hi Philip,
+
+Le 05/10/2011 16:14, Philip Balister a =E9crit :
+> Short term, I think I'll copy the tasks/images into my bsp and get some
+> stuff together for testing. I'd like a better long term solution though=
+.
+>
+that's what we also did here to get the wanted result without using "stan=
+dard"
+variables which bring too much things in the image.
+
+Eric
 
 
