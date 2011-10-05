@@ -1,23 +1,46 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from va3ehsobe003.messaging.microsoft.com ([216.32.180.13]
+	helo=VA3EHSOBE003.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jason.wessel@windriver.com>) id 1RBWmr-0006ad-0q
+	(envelope-from <B29882@freescale.com>) id 1RBWqM-0006eo-1l
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Oct 2011 21:05:49 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p95FS72G016120
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Oct 2011 08:28:07 -0700 (PDT)
-Received: from ord-lpggp2.lombard (128.224.65.244) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 5 Oct 2011 08:28:07 -0700
-From: Jason Wessel <jason.wessel@windriver.com>
+	Wed, 05 Oct 2011 21:09:26 +0200
+Received: from mail74-va3-R.bigfish.com (10.7.14.242) by
+	VA3EHSOBE003.bigfish.com (10.7.40.23) with Microsoft SMTP Server id
+	14.1.225.22; Wed, 5 Oct 2011 19:03:50 +0000
+Received: from mail74-va3 (localhost.localdomain [127.0.0.1])	by
+	mail74-va3-R.bigfish.com (Postfix) with ESMTP id 483EB390243	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed,  5 Oct 2011 19:03:50 +0000 (UTC)
+X-SpamScore: 3
+X-BigFish: VS3(z3e12hzc89bhzz1202h1082kzz8275ch8275bh8275dhz2dh2a8h668h839h93fh)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
+	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
+X-FB-SS: 13,
+Received: from mail74-va3 (localhost.localdomain [127.0.0.1]) by mail74-va3
+	(MessageSwitch) id 1317841430115002_8028;
+	Wed,  5 Oct 2011 19:03:50 +0000 (UTC)
+Received: from VA3EHSMHS006.bigfish.com (unknown [10.7.14.242])	by
+	mail74-va3.bigfish.com (Postfix) with ESMTP id 160611320050	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed,  5 Oct 2011 19:03:50 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS006.bigfish.com
+	(10.7.99.16) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Wed, 5 Oct 2011 19:02:46 +0000
+Received: from az33smr02.freescale.net (10.64.34.200) by
+	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
+	Server id 14.1.323.7; Wed, 5 Oct 2011 14:02:46 -0500
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
+	by az33smr02.freescale.net (8.13.1/8.13.0) with ESMTP id
+	p95J2jQB009617	for <openembedded-core@lists.openembedded.org>;
+	Wed, 5 Oct 2011 14:02:45 -0500 (CDT)
+From: Matthew McClintock <msm@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 5 Oct 2011 10:26:30 -0500
-Message-ID: <1317828390-17212-1-git-send-email-jason.wessel@windriver.com>
-X-Mailer: git-send-email 1.7.1
+Date: Wed, 5 Oct 2011 14:02:45 -0500
+Message-ID: <1317841365-32051-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.6.1
 MIME-Version: 1.0
-Subject: [PATCH] Allow user mode NFS server to run without rpcbind / portmap
+X-OriginatorOrg: freescale.com
+Subject: [PATCH v2 5/6] Fix sysprof for powerpc64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,139 +55,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2011 19:05:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 05 Oct 2011 19:09:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From the 2.6.39 linux kernel and up it is possible to use
-and nfsroot mount without the need to talk to an RPC info
-server as long as the port numbers for mountd and nfsd
-are known in advance.
+__ppc64__ is not defined on powerpc64, rather __powerpc64__ is, this
+uses a patch that is already upstream to fix builds for powerpc64
 
-This patch updates the qemu startup scripts and the
-user mode NFS server to have the ability to start
-without the need to use rpcbind or portmap services.
-
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+Signed-off-by: Matthew McClintock <msm@freescale.com>
 ---
- .../023-no-rpc-register.patch                      |   34 ++++++++++++++++++++
- .../unfs-server/unfs-server_2.1+2.2beta47.bb       |    3 +-
- scripts/runqemu-export-rootfs                      |    4 ++-
- scripts/runqemu-internal                           |   16 +++------
- 4 files changed, 44 insertions(+), 13 deletions(-)
- create mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/023-no-rpc-register.patch
+ ...PowerPC-checks-for-__NR_perf_counter_open.patch |   35 ++++++++++++++=
+++++++
+ meta/recipes-kernel/sysprof/sysprof_git.bb         |    1 +
+ 2 files changed, 36 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-kernel/sysprof/files/0001-Fix-PowerPC-ch=
+ecks-for-__NR_perf_counter_open.patch
 
-diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/023-no-rpc-register.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/023-no-rpc-register.patch
+diff --git a/meta/recipes-kernel/sysprof/files/0001-Fix-PowerPC-checks-fo=
+r-__NR_perf_counter_open.patch b/meta/recipes-kernel/sysprof/files/0001-F=
+ix-PowerPC-checks-for-__NR_perf_counter_open.patch
 new file mode 100644
-index 0000000..50f23fc
+index 0000000..041054e
 --- /dev/null
-+++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/023-no-rpc-register.patch
-@@ -0,0 +1,34 @@
-+Upstream-Status: Inappropriate [other]
-+Upstream is not making further releases of this software.
++++ b/meta/recipes-kernel/sysprof/files/0001-Fix-PowerPC-checks-for-__NR_=
+perf_counter_open.patch
+@@ -0,0 +1,35 @@
++Upstream-Status: Backport
 +
-+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
++From 4708a509aa9d65ae93e9824e42ddbc6e8d42d90c Mon Sep 17 00:00:00 2001
++From: =3D?UTF-8?q?Michel=3D20D=3DC3=3DA4nzer?=3D <michel@daenzer.net>
++Date: Sat, 27 Aug 2011 20:04:44 +0200
++Subject: [PATCH] Fix PowerPC checks for __NR_perf_counter_open.
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
 +
-+# Allow user mode NFS to work without rpcbind / portmap
-+# Patch origin: Wind River
++__ppc__ isn't defined here on Debian powerpc. Grepping through the heade=
+rs
++installed in /usr/include, there are a few references to __ppc__ and
++__ppc64__, but I suspect they're for other OSs.
 +
++Signed-off-by: Michel D=C3=A4nzer <michel@daenzer.net>
 +---
-+ rpcmisc.c |    6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
++ collector.c |    2 +-
++ 1 files changed, 1 insertions(+), 1 deletions(-)
 +
-+--- a/rpcmisc.c
-++++ b/rpcmisc.c
-+@@ -91,7 +91,8 @@ not_inetd:
-+ 		if (transp == NULL)
-+ 			Dprintf(L_FATAL, "cannot create udp service.");
-+ 		for (i = 0; (vers = verstbl[i]) != 0; i++) {
-+-			if (!svc_register(transp, prog, vers, dispatch, IPPROTO_UDP)) {
-++			if (!(svc_register(transp, prog, vers, dispatch, IPPROTO_UDP) ||
-++			      svc_register(transp, prog, vers, dispatch, 0))) {
-+ 				Dprintf(L_FATAL,
-+ 					"unable to register (%s, %d, udp).",
-+ 					name, vers);
-+@@ -110,7 +111,8 @@ not_inetd:
-+ 		transp->xp_ops->xp_recv = auth_rendevouser;
-+ #endif
-+ 		for (i = 0; (vers = verstbl[i]) != 0; i++) {
-+-			if (!svc_register(transp, prog, vers, dispatch, IPPROTO_TCP)) {
-++			if (!(svc_register(transp, prog, vers, dispatch, IPPROTO_TCP) ||
-++			      svc_register(transp, prog, vers, dispatch, 0))) {
-+ 				Dprintf(L_FATAL,
-+ 					"unable to register (%s, %d, tcp).",
-+ 					name, vers);
-diff --git a/meta/recipes-devtools/unfs-server/unfs-server_2.1+2.2beta47.bb b/meta/recipes-devtools/unfs-server/unfs-server_2.1+2.2beta47.bb
-index 8ed2e33..29c7052 100644
---- a/meta/recipes-devtools/unfs-server/unfs-server_2.1+2.2beta47.bb
-+++ b/meta/recipes-devtools/unfs-server/unfs-server_2.1+2.2beta47.bb
-@@ -7,7 +7,7 @@ RDEPENDS_${PN} = "pseudo"
- RDEPENDS_${PN}_virtclass-native = "pseudo-native"
- RDEPENDS_${PN}_virtclass-nativesdk = "pseudo-nativesdk"
- BASEPV = "2.2beta47"
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "ftp://linux.mathematik.tu-darmstadt.de/pub/linux/oldstuff/people/okir/nfs-server-${BASEPV}.tar.gz \
-            file://001-2.2b47-2.2b51.patch \
-@@ -32,6 +32,7 @@ SRC_URI = "ftp://linux.mathematik.tu-darmstadt.de/pub/linux/oldstuff/people/okir
-            file://020-undefined-chmod-fix.patch \
-            file://021-nolibwrap.patch \
-            file://022-add-close-on-exec-descriptors.patch \
-+           file://023-no-rpc-register.patch \
++diff --git a/collector.c b/collector.c
++index b28964f..fe16967 100644
++--- a/collector.c
+++++ b/collector.c
++@@ -175,7 +175,7 @@ sysprof_perf_counter_open (struct perf_counter_attr =
+*attr,
++ #define __NR_perf_counter_open 337
++ #elif defined(__hppa__)
++ #define __NR_perf_counter_open 318
++-#elif defined(__ppc__) || defined(__ppc64__)
+++#elif defined(__powerpc__) || defined(__powerpc64__)
++ #define __NR_perf_counter_open 319
++ #elif defined(__s390__)
++ #define __NR_perf_counter_open 331
++--=20
++1.7.6.1
++
+diff --git a/meta/recipes-kernel/sysprof/sysprof_git.bb b/meta/recipes-ke=
+rnel/sysprof/sysprof_git.bb
+index 10bde04..c553263 100644
+--- a/meta/recipes-kernel/sysprof/sysprof_git.bb
++++ b/meta/recipes-kernel/sysprof/sysprof_git.bb
+@@ -10,6 +10,7 @@ PV =3D "1.1.8+git${SRCPV}"
+=20
+ SRC_URI =3D "git://git.gnome.org/sysprof;protocol=3Dgit \
+            file://define-NT_GNU_BUILD_ID.patch \
++	   file://0001-Fix-PowerPC-checks-for-__NR_perf_counter_open.patch \
            "
- 
- SRC_URI[md5sum] = "79a29fe9f79b2f3241d4915767b8c511"
-diff --git a/scripts/runqemu-export-rootfs b/scripts/runqemu-export-rootfs
-index 3ee3112..5cb4bf2 100755
---- a/scripts/runqemu-export-rootfs
-+++ b/scripts/runqemu-export-rootfs
-@@ -83,10 +83,12 @@ NFS_MOUNTPROG=$[ 21111 + $NFS_INSTANCE ]
- NFS_NFSPROG=$[ 11111 + $NFS_INSTANCE ]
- # NFS port number
- NFS_PORT=$[ 3049 + $NFS_INSTANCE ]
-+# mountd port number
-+MOUNT_PORT=$[ 3048 + $NFS_INSTANCE ]
- 
- ## For debugging you would additionally add
- ## --debug all
--MOUNTD_OPTS="--allow-non-root --mount-pid $MOUNTPID -f $EXPORTS --rmtab $RMTAB --prog $NFS_MOUNTPROG -r"
-+MOUNTD_OPTS="--allow-non-root --mount-pid $MOUNTPID -f $EXPORTS --rmtab $RMTAB --prog $NFS_MOUNTPROG -r -P $MOUNT_PORT"
- NFSD_OPTS="--allow-non-root --nfs-pid $NFSPID -f $EXPORTS --prog $NFS_NFSPROG -P $NFS_PORT -r"
- 
- # Setup the exports file
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index ce3291f..2968ed9 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -258,21 +258,15 @@ fi
- if [ "$FSTYPE" = "nfs" ]; then
-     NFS_SERVER="192.168.7.1"
-     NFS_DIR=`echo $ROOTFS | sed 's/^[^:]*:\(.*\)/\1/'`
--    MOUNTD_PORT=$[ 21111 + $NFS_INSTANCE ]
--    NFSD_PORT=$[ 11111 + $NFS_INSTANCE ]
--    UNFS_OPTS="nfsvers=2,mountprog=$MOUNTD_PORT,nfsprog=$NFSD_PORT,udp"
-+    MOUNTD_RPCPORT=$[ 21111 + $NFS_INSTANCE ]
-+    NFSD_RPCPORT=$[ 11111 + $NFS_INSTANCE ]
-+    NFSD_PORT=$[ 3049 + $NFS_INSTANCE ]
-+    MOUNTD_PORT=$[ 3048 + $NFS_INSTANCE ]
-+    UNFS_OPTS="nfsvers=2,mountprog=$MOUNTD_RPCPORT,nfsprog=$NFSD_RPCPORT,udp,port=$NFSD_PORT,mountport=$MOUNTD_PORT"
- 
-     PSEUDO_LOCALSTATEDIR=~/.runqemu-sdk/pseudo
-     export PSEUDO_LOCALSTATEDIR
- 
--    rpcbind_running=`ps ax | grep rpcbind | grep -v grep | wc -l`
--    portmap_running=`ps ax | grep portmap | grep -v grep | wc -l`
--    if [[ $rpcbind_running == 0 && $portmap_running == 0 ]]; then
--        echo "You need to be running either rpcbind or portmap to continue"
--        cleanup
--        return
--    fi
--
-     # Start the userspace NFS server
-     echo "runqemu-export-rootfs restart $ROOTFS"
-     runqemu-export-rootfs restart $ROOTFS
--- 
-1.7.1
+=20
+ SRC_URI_append_arm  =3D " file://rmb-arm.patch"
+--=20
+1.7.6.1
+
 
 
 
