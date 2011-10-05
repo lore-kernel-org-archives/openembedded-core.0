@@ -1,34 +1,28 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail.geekisp.com ([216.168.135.169] helo=starfish.geekisp.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tasskjapp@gmail.com>) id 1RBYD8-0000GE-8s
+	(envelope-from <philip@balister.org>) id 1RBYmR-00016w-In
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Oct 2011 22:37:02 +0200
-Received: by bke11 with SMTP id 11so2682125bke.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Oct 2011 13:31:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=aUewOcgYEoTYxz7LskWQLisncuLAOhkPMysSiVGuumA=;
-	b=TYc5nJ2uR+J2fZegDzNwC4DZBockVViKvufZLPQe1l4U3mlrSihRfS+aMaL2JgmaOY
-	6tt9k3pxHQuCk99Ui0Q+HY5T/AW0GfhkXPFyWXygHBTWYN1zgwcOLyDdQw7nKjRFn7na
-	gdQm/SBymsKXU+gLGzd3VekXi27v53zW2pRe0=
-Received: by 10.204.7.207 with SMTP id e15mr1874807bke.62.1317846687050;
-	Wed, 05 Oct 2011 13:31:27 -0700 (PDT)
-Received: from [192.168.1.3] (145.79-161-31.customer.lyse.net. [79.161.31.145])
-	by mx.google.com with ESMTPS id l15sm3087667bkw.9.2011.10.05.13.31.25
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 05 Oct 2011 13:31:26 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Tasslehoff Kjappfot <tasskjapp@gmail.com>
-In-Reply-To: <1317814733.14671.139.camel@ted>
-Date: Wed, 5 Oct 2011 22:31:23 +0200
-Message-Id: <7A8ADFF6-FC88-49F4-97DD-AEFD5FBFC434@gmail.com>
-References: <4E8C3603.9000803@gmail.com> <1317814733.14671.139.camel@ted>
+	Wed, 05 Oct 2011 23:13:31 +0200
+Received: (qmail 27276 invoked by uid 1003); 5 Oct 2011 21:07:55 -0000
+Received: from unknown (HELO ?192.168.1.108?)
+	(philip@opensdr.com@96.240.183.10)
+	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
+	5 Oct 2011 21:07:55 -0000
+Message-ID: <4E8CC72B.4000506@balister.org>
+Date: Wed, 05 Oct 2011 17:07:55 -0400
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.22) Gecko/20110906 Fedora/3.1.14-1.fc14 Thunderbird/3.1.14
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1244.3)
-Subject: Re: Workaround to compile linux-omap_2.6.39.bb?
+References: <4E8B6564.4090002@balister.org>
+	<4E8B67C5.8050602@intel.com>	<4E8B6C17.80509@balister.org>
+	<4E8B6D47.9000600@intel.com>	<4E8B8C05.5050508@windriver.com>
+	<4E8C662B.4090300@balister.org>
+	<1763F0CC-3233-4C5B-A933-7A00805D7CF4@dominion.thruhere.net>
+In-Reply-To: <1763F0CC-3233-4C5B-A933-7A00805D7CF4@dominion.thruhere.net>
+Subject: Re: Bringing an image from OE to OE-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,24 +37,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2011 20:37:02 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 05 Oct 2011 21:13:31 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 10/05/2011 12:20 PM, Koen Kooi wrote:
+>
+>
+> Op 5 okt. 2011 om 09:14 heeft Philip Balister<philip@balister.org>  het volgende geschreven:
+>
+>> On 10/04/2011 06:43 PM, Mark Hatle wrote:
+>>> On 10/4/11 3:32 PM, Saul Wold wrote:
+>>>> On 10/04/2011 01:27 PM, Philip Balister wrote:
+>>>>> On 10/04/2011 04:08 PM, Saul Wold wrote:
+>>>>>> On 10/04/2011 12:58 PM, Philip Balister wrote:
+>>>>>>> I'm about to start bringing some images I use from OE to OE-core. The
+>>>>>>> first issue I saw is there is no task-proper-tools in oe-core (where
+>>>>>>> oe-core means the set of layers created by the Angstrom setup scripts).
+>>>>>>>
+>>>>>> Philip,
+>>>>>>
+>>>>>> Have you looked at task-core-basic, it is supposed to be more of a
+>>>>>> desktop like set of tools, the idea being it's heavier weight than core,
+>>>>>> will move to supporting the non-graphical part of LSB.
+>>>>>>
+>>>>>> Another caveat for task-core-basic is that it's the largetest non-gplv3
+>>>>>> task that is used by core-image-basic.
+>>>>>>
+>>>>>> Does this task approach what you are looking for?
+>>>>>
+>>>>> It looks like a start, but I notice it brings in rpm. I'm not sure if I
+>>>>> want that. I would have thought that the package manager would be a
+>>>>> distro decision.
+>>>>>
+>>>> That's a bug that I would certainly take a patch for, unless rpm is
+>>>> required as part of LSB, that will need to be verified.
+>>>
+>>> The ability to install RPM packages is required by the LSB.  The LSB does not
+>>> require RPM however.  (yes I know, odd requirement, but with things like alien
+>>> it's doable on debian systems.)
+>>>
+>>> But yes, RPM is included to satisfy that requirement.
+>>
+>> This is beginning to look like a trickier problem than I would like. Between oe-core and meta-angstrom, there are a number of tasks/images to start from, but they each have something I don't like:
+>>
+>> 1) I do not want rpm in the image. This would confuse my customer base.
+>> 2) I am tired of dropbear, I want openssh only.
+>
+> fwiw 0.53 fixed most of my problems (e.g x11 forwarding), does it fix your issues as well?
 
-> OE-Core uses fetch2 and that is a tarball from fetch1. You'd need to
-> convert that tarball into the form that fetch2 expects and rename it,
-> then you stand some chance of it working.
->=20
-> Also note that your recipes needs to be using a fixed source revision
-> and that revision needs to be present in that tarball.
->=20
+It is more that users know openssh and sometimes have issues with 
+dropbear. And image size is not an issue.
 
-Thanks for the response, but I managed to find a mirror of linux-omap in =
-the end, and I think I read on the linux-omap ML that the tmlind-repos =
-will be back at kernel.org soon.
-
-- Tasslehoff
-
+Philip
 
 
