@@ -1,36 +1,31 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RBOlG-0001z5-Mp for openembedded-core@lists.openembedded.org;
-	Wed, 05 Oct 2011 12:31:39 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p95AWXPr014101 for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Oct 2011 11:32:33 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id NseWvLHk1neP
+	(envelope-from <tasskjapp@gmail.com>) id 1RBP76-0002QZ-5H
+	for openembedded-core@lists.openembedded.org;
+	Wed, 05 Oct 2011 12:54:12 +0200
+Received: by eya25 with SMTP id 25so1510551eya.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Oct 2011 11:32:33 +0100 (BST)
-Received: from [192.168.1.40] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p95AWVPn014095
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Oct 2011 11:32:32 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 05 Oct 2011 11:26:00 +0100
-In-Reply-To: <201110050819.46880.schnitzeltony@gmx.de>
-References: <201110050819.46880.schnitzeltony@gmx.de>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1317810368.14671.129.camel@ted>
-Mime-Version: 1.0
-X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
-	p95AWXPr014101
-Subject: Re: conman-gnome sources missing
+	Wed, 05 Oct 2011 03:48:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:subject
+	:content-type:content-transfer-encoding;
+	bh=9XV60JP6IgDhtNuk+iogYwvYNnwYsfmgU0L0qXkdmgY=;
+	b=Uf5GZftxMFT4lZk6/vDYD/QCzMBp2tFlpm6TPJtIEaxVZmIgTBu6nF3GE71epCwPYW
+	ygftYP63+sU0OX4si1oS2T75qIUBdsBXSXR9h4chKiWaWJ9UBe3XzyNflGI9OCttiZba
+	ZfV5DPkzRUy1Sdy4rtZYMVWEgvYIyYTtjtSuw=
+Received: by 10.213.22.141 with SMTP id n13mr1111770ebb.120.1317811717065;
+	Wed, 05 Oct 2011 03:48:37 -0700 (PDT)
+Received: from [192.168.0.111] (147.84-49-231.nextgentel.com. [84.49.231.147])
+	by mx.google.com with ESMTPS id 69sm96342eeh.7.2011.10.05.03.48.35
+	(version=SSLv3 cipher=OTHER); Wed, 05 Oct 2011 03:48:36 -0700 (PDT)
+Message-ID: <4E8C3603.9000803@gmail.com>
+Date: Wed, 05 Oct 2011 12:48:35 +0200
+From: Tasslehoff Kjappfot <tasskjapp@gmail.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.23) Gecko/20110922 Thunderbird/3.1.15
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+Subject: Workaround to compile linux-omap_2.6.39.bb?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,31 +40,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2011 10:31:39 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 05 Oct 2011 10:54:12 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-10-05 at 08:19 +0200, Andreas M=C3=BCller wrote:
-> Although kernel.org seems up again I cannot download sources for conman=
--gnome
->=20
-> | ERROR: Function 'Fetcher failure for URL: 'git://git.kernel.org/pub/s=
-cm/network/connman/connman-gnome.git;protocol=3Dgit'. Unable to fetch URL=
- git://git.kernel.org/pub/scm/network/connman/connman-gnome.git;protocol=3D=
-git from any source.' failed
-> |=20
-> NOTE: package connman-gnome-0.5-r7: task do_fetch: Failed
->=20
-> Where can I get the sources?
+I need to compile linux-omap_2.6.39.bb, but it fails since the 
+tmlind-repos are not currently on kernel.org.
 
-There is a copy on the Yocto sources mirror:
+I have downloaded 
+git_git.kernel.org.pub.scm.linux.kernel.git.tmlind.linux-omap-2.6.git_v2.6.39.tar.gz 
+from the angstrom mirrors. Can I extract that into my downloads/ in a 
+way that will make bitbake find and accept it?
 
-http://autobuilder.yoctoproject.org/pub/sources/git2_git.kernel.org.pub.s=
-cm.network.connman.connman-gnome.git.tar.gz
-
-Cheers,
-
-Richard
-
+- Tasslehoff
 
 
