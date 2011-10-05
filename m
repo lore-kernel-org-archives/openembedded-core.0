@@ -1,36 +1,40 @@
-Received: from mail-qy0-f182.google.com ([209.85.216.182])
+Received: from mail-pz0-f43.google.com ([209.85.210.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RBX7w-00070K-Rs
+	(envelope-from <raj.khem@gmail.com>) id 1RBXI8-0007Ay-JX
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Oct 2011 21:27:37 +0200
-Received: by qyk4 with SMTP id 4so2224510qyk.6
+	Wed, 05 Oct 2011 21:38:09 +0200
+Received: by pzd13 with SMTP id 13so5205257pzd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Oct 2011 12:22:01 -0700 (PDT)
+	Wed, 05 Oct 2011 12:32:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=P7c/ErrADfI06Bf8KmrnAlhnZQ4et3tsgCx/4+HbHaM=;
-	b=gVmGrkqNqcbzRUV0Fufisg3Db2S78DohD7gLOpK1yA+o2i/iMKLBFun6zWLyewblPg
-	V98Sy47SSavEkbRUh3J6UYkO4ikxMrdmqce+kpO9eZppJiIzj3eZmjDrENgC/jemf5v2
-	KRrQoCnkdQQRD294QgcuXjZEUV+wKUFpWVvm4=
-Received: by 10.68.32.73 with SMTP id g9mr21085817pbi.56.1317842521227; Wed,
-	05 Oct 2011 12:22:01 -0700 (PDT)
+	:cc:content-type;
+	bh=2G7FJcQJW8o1mqQ+PO6Iy3v+k0pl7nNikmWYIqI1HRM=;
+	b=vjqu2xwGvZQBoLDdEPF3Naiy3iIAQUZl2brzmFyWD4iM+7SF2lGo8fx76JSfNjEGQV
+	JDBvXKP8WivE8Ul+2Ilu9j4oLoWymYMbadK933LLHbOamQblM4muo0zXWpyamLcOCw7b
+	UtR9PvFn7+bNVs1TYgFIyuVjvi8ubmO9O29E0=
+Received: by 10.68.19.196 with SMTP id h4mr21140969pbe.39.1317843152068; Wed,
+	05 Oct 2011 12:32:32 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.68.49.129 with HTTP; Wed, 5 Oct 2011 12:21:31 -0700 (PDT)
-In-Reply-To: <1317814486.14671.136.camel@ted>
-References: <1317322353-30258-1-git-send-email-msm@freescale.com>
-	<4E8A0B81.1080507@gmail.com>
-	<CAEsOVNcvCgboed7tx68aT_CemeN_pVd_k0JM_cWVDiMtRrCG0w@mail.gmail.com>
-	<4E8A2667.4090700@gmail.com>
-	<CAEsOVNdahRcHTCfVhaqFZiVaKhAtM2a6L6GTm61RtsGoJxjB6A@mail.gmail.com>
-	<1317814486.14671.136.camel@ted>
+Received: by 10.68.49.129 with HTTP; Wed, 5 Oct 2011 12:32:02 -0700 (PDT)
+In-Reply-To: <1317819780.14671.144.camel@ted>
+References: <1317370770-27225-1-git-send-email-Martin.Jansa@gmail.com>
+	<1317392122.12332.208.camel@ted> <20110930164658.GB7364@jama.jama.net>
+	<1317402578.12332.218.camel@ted>
+	<CAP9ODKqb8RGLi_5-_+uegLmtZ7Wo-70oDJcF_R6yaSJ2q9mGwg@mail.gmail.com>
+	<1317765609.14671.118.camel@ted>
+	<CAP9ODKrfDeDMomqeJCeyJBWqD_KqdMO=WBvjVY5d_j+btn3DfQ@mail.gmail.com>
+	<11F8FF03-4C38-4D33-9250-66B5C180698C@dominion.thruhere.net>
+	<CAP9ODKp5+nmtPfm+AabX5K9YoGnY_KVE6E1HxP=DJ2c+H2WdcQ@mail.gmail.com>
+	<7F30A97F-D852-4A45-9023-D979D974866A@dominion.thruhere.net>
+	<20111005123433.GG19366@jama.jama.net> <1317819780.14671.144.camel@ted>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 5 Oct 2011 12:21:31 -0700
-Message-ID: <CAMKF1sqwRyc3M53NNjk+usgwtWWcz=gcV9rxqdQCAiRqcMiq7Q@mail.gmail.com>
+Date: Wed, 5 Oct 2011 12:32:02 -0700
+Message-ID: <CAMKF1sre-NpRxwJocSYQkCjbq47FmPS7Hw9u3bR=hFJwU1FNgQ@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>
-Subject: Re: [PATCH v2 10/16] Fix mdadm for powerpc64
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH] Improve handling of 'all' architecture recipes and their interaction with sstate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,56 +49,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2011 19:27:37 -0000
+X-List-Received-Date: Wed, 05 Oct 2011 19:38:09 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 5, 2011 at 4:34 AM, Richard Purdie
+On Wed, Oct 5, 2011 at 6:02 AM, Richard Purdie
 <richard.purdie@linuxfoundation.org> wrote:
-> On Tue, 2011-10-04 at 21:52 +0000, McClintock Matthew-B29882 wrote:
->> On Mon, Oct 3, 2011 at 4:17 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> >> I can't find a log of this anywhere, it's probably the default
->> >> compiler warnings for our platform are different?
+> On Wed, 2011-10-05 at 14:34 +0200, Martin Jansa wrote:
+>> On Wed, Oct 05, 2011 at 07:29:10AM -0500, Koen Kooi wrote:
 >> >
->> > It would be handy to understand them since I dont see gcc differentiat=
-ing
->> > formats between ppc64 and x86_64 which both are 64bit hosts. But obvio=
-usly
->> > there is something missing.
+>> >
+>> > Op 5 okt. 2011 om 07:27 heeft Otavio Salvador <otavio@ossystems.com.br> het volgende geschreven:
+>> >
+>> > > On Wed, Oct 5, 2011 at 09:22, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>> > >> Op 5 okt. 2011 om 07:10 heeft Otavio Salvador <otavio@ossystems.com.br> het volgende geschreven:
+>> > >>> On Tue, Oct 4, 2011 at 19:00, Richard Purdie
+>> > >>> <richard.purdie@linuxfoundation.org> wrote:
+>> > >>>> Really? hal doesn't really replace udev though, we can just use udev
+>> > >>>> directly in place of it for many things now?
+>> > >>>
+>> > >>> Yes, many moved from hal to udev.
+>> > >>>
+>> > >>>> Specifically which applications are people using with dependencies on
+>> > >>>> hal? As has been pointed out we can fix the xserver and that appears to
+>> > >>>> be the only thing remaining in OE-Core?
+>> > >>>
+>> > >>> OE-Core can be easily hal-less but I just ask for hal to not be
+>> > >>> removed from meta data as I and probably others hasn't finish the move
+>> > >>> to udev yet.
+>> > >>
+>> > >> Put it in your own layer if you need it. No point in keeping obsolete stuff in oe-core.
+>> > >
+>> > > I wouldn't call it obsolete as it is still a valid option to Xorg and
+>> > > maybe others. So people might want to use it. I use it.
+>> >
+>> > So put it in your own layer, it has no place in oe-core anymore.
 >>
->> I finally got around to rerunning this without my patch and the errors
->> are below.
+>> Agreed, that it has no place in oe-core anymore, but not sure if we can
+>> keep
+>> CONFIG_MANAGER_OPTION +=
+>> "${@['--disable-config-hal','--enable-config-hal',''][bb.data.getVar('DISTRO_XORG_CONFIG_MANAGER',d)
+>> in ['hal']]}"
+>>
+>> in xserver-xorg or we'll force averybody with hal in his layer to
+>> .bbappend xserver-xorg too.
 >
-> I dug into this a bit. To quote asm/types.h:
->
-> /*
-> =C2=A0* This is here because we used to use l64 for 64bit powerpc
-> =C2=A0* and we don't want to impact user mode with our change to ll64
-> =C2=A0* in the kernel.
-> =C2=A0*/
-> #if defined(__powerpc64__) && !defined(__KERNEL__)
-> # include <asm-generic/int-l64.h>
-> #else
-> # include <asm-generic/int-ll64.h>
-> #endif
->
-> So ppc64 kernel space uses ll64 and userspace uses l64.
->
+> I don't mind that staying in the xserver recipe config for now, I do
+> think hal needs to move somewhere other than oe-core though. A
+> deprecated layer in meta-oe might be one idea which would keep a common
+> recipe around for now but make it clear its on its way out.
 
-thanks this is what I was interested in.
-
-> This means __u64 is a long for ppc64 but a long long for x86_64. The
-> format errors occurs rightly because a ull is being printed from a ul
-> variable. This will happen to work but its messy.
-
-havent seen the code but  if its printf like then PRIu64 macro could help.
+I think if there are more than one usecases then moving it to
+meta-retired or some such
+would be ok otherwise I am of opinion that it should be part of distro
+layer which wants to use it
 
 >
 > Cheers,
 >
 > Richard
->
->
 >
 >
 > _______________________________________________
