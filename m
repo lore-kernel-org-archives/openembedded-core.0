@@ -1,34 +1,31 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RBF4M-0001Ua-NG
+	(envelope-from <saul.wold@intel.com>) id 1RBIsB-0006DC-Rv
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Oct 2011 02:10:42 +0200
-Received: by yxj17 with SMTP id 17so1070817yxj.6
+	Wed, 05 Oct 2011 06:14:24 +0200
+Received: from mail-bw0-f52.google.com ([209.85.214.52])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 04 Oct 2011 21:08:47 -0700
+Received: by bke5 with SMTP id 5so1465036bke.25
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Oct 2011 17:05:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=Ab1i1Mm3U6hiWG0zofKwxwerAozGvleSsXAzwtjQN7Y=;
-	b=IECuQy99tqkx15nCFAghgnECHcZzoXs1Iaf6KjRy+LfPIL9cCb+WuXpg2+3/z6nn6d
-	AiLTmBFaBpbd799QImaUziVlQtIV26EjhC484fuzXWLYuuV90wrOuipO/e10nIe3aI6/
-	Fo+WiTZz1r7bBse8u87zw/OiGryPiIhE418vM=
-Received: by 10.150.145.18 with SMTP id s18mr1812771ybd.293.1317773104993;
-	Tue, 04 Oct 2011 17:05:04 -0700 (PDT)
-Received: from [172.23.2.168] (natint3.juniper.net. [66.129.224.36])
-	by mx.google.com with ESMTPS id e10sm27285718ani.8.2011.10.04.17.05.03
-	(version=SSLv3 cipher=OTHER); Tue, 04 Oct 2011 17:05:04 -0700 (PDT)
-Message-ID: <4E8B9F2C.5030706@gmail.com>
-Date: Tue, 04 Oct 2011 17:05:00 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1;
-	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
+	Tue, 04 Oct 2011 21:08:46 -0700 (PDT)
+Received: by 10.223.38.196 with SMTP id c4mr700583fae.32.1317787726160;
+	Tue, 04 Oct 2011 21:08:46 -0700 (PDT)
+Received: from [10.6.18.233] (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id a7sm447924fam.22.2011.10.04.21.08.42
+	(version=SSLv3 cipher=OTHER); Tue, 04 Oct 2011 21:08:45 -0700 (PDT)
+Message-ID: <4E8BD848.90801@intel.com>
+Date: Tue, 04 Oct 2011 21:08:40 -0700
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:6.0.2) Gecko/20110906 Thunderbird/6.0.2
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1317765787-19127-1-git-send-email-msm@freescale.com>
-	<1317765787-19127-5-git-send-email-msm@freescale.com>
-In-Reply-To: <1317765787-19127-5-git-send-email-msm@freescale.com>
-Subject: Re: [PATCH 5/6] Fix sysprof for powerpc64
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1317371971.git.edwin.zhai@intel.com>
+In-Reply-To: <cover.1317371971.git.edwin.zhai@intel.com>
+Subject: Re: [PATCH 0/1] oprofileui: Update SRCREV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,36 +40,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Oct 2011 00:10:42 -0000
+X-List-Received-Date: Wed, 05 Oct 2011 04:14:24 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/4/2011 3:03 PM, Matthew McClintock wrote:
-> sysprof will not build properly without this defined
+On 09/30/2011 01:42 AM, edwin.zhai@intel.com wrote:
+> From: Zhai Edwin<edwin.zhai@intel.com>
 >
-> Signed-off-by: Matthew McClintock<msm@freescale.com>
-> ---
-> No comments on original patch sent
+> Hi,
+> This patch update the oprofileui SRCREV to reflect following 2 patches already in upstream:
+> migrate-from-gnomevfs-to-gio.patch&  dso_linking_change_build_fix.patch
 >
->   meta/recipes-kernel/sysprof/sysprof_git.bb |    2 ++
->   1 files changed, 2 insertions(+), 0 deletions(-)
+> Pls. help to pull.
 >
-> diff --git a/meta/recipes-kernel/sysprof/sysprof_git.bb b/meta/recipes-kernel/sysprof/sysprof_git.bb
-> index 10bde04..271b5d8 100644
-> --- a/meta/recipes-kernel/sysprof/sysprof_git.bb
-> +++ b/meta/recipes-kernel/sysprof/sysprof_git.bb
-> @@ -16,6 +16,8 @@ SRC_URI_append_arm  = " file://rmb-arm.patch"
->   SRC_URI_append_mips = " file://rmb-mips.patch"
->   SRC_URI_append_powerpc = " file://ppc-macro-fix.patch"
+> Thanks,
+> Edwin
 >
-> +export CFLAGS_append_powerpc64 = " -D__ppc64__"
-> +
+> The following changes since commit 9d1db6cc928199f8ac4960e8d4648563ef141427:
+>
+>    python: fix sqlite RPATH issue (2011-09-29 16:57:30 +0100)
+>
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib gzhai/master2
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/master2
+>
+> Zhai Edwin (1):
+>    oprofileui: Update SRCREV to reflect recent accpeted patches by
+>      upstream
+>
+>   meta/recipes-kernel/oprofile/oprofileui_git.bb |    8 +++-----
+>   1 files changed, 3 insertions(+), 5 deletions(-)
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+Merged into OE-Core
 
-this is a gcc built-in define I wonder why you need to add it explicitly
-
->   S = "${WORKDIR}/git"
->
->   inherit autotools
+Thanks
+	Sau!
 
 
 
