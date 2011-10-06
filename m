@@ -1,34 +1,20 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RBvsk-00013w-Qv for openembedded-core@lists.openembedded.org;
-	Thu, 06 Oct 2011 23:53:35 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p96LsTDg000366 for <openembedded-core@lists.openembedded.org>;
-	Thu, 6 Oct 2011 22:54:29 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id LxuRZPJEsemr
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Oct 2011 22:54:29 +0100 (BST)
-Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p96LsQVe000362
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 6 Oct 2011 22:54:28 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 06 Oct 2011 22:47:49 +0100
-In-Reply-To: <4E8DBF9E.70600@windriver.com>
-References: <1317910843.6398.87.camel@ted> <4E8DBF9E.70600@windriver.com>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1317937677.6398.130.camel@ted>
-Mime-Version: 1.0
-Subject: Re: [PATCH] native.bbclass: Ensure native recipes have a deterministic baselib value
+	(envelope-from <josh@linux.intel.com>) id 1RBwFA-0002Bv-LU
+	for openembedded-core@lists.openembedded.org;
+	Fri, 07 Oct 2011 00:16:45 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 06 Oct 2011 15:11:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="60705840"
+Received: from scimitar.jf.intel.com ([10.7.199.63])
+	by orsmga002.jf.intel.com with ESMTP; 06 Oct 2011 15:11:07 -0700
+From: Joshua Lock <josh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Oct 2011 15:11:07 -0700
+Message-Id: <1317939067-16798-1-git-send-email-josh@linux.intel.com>
+X-Mailer: git-send-email 1.7.6.4
+Subject: [PATCH] mutter: update to 2.29.1 and fix SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,36 +29,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2011 21:53:35 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Oct 2011 22:16:45 -0000
 
-On Thu, 2011-10-06 at 09:47 -0500, Mark Hatle wrote:
-> On 10/6/11 9:20 AM, Richard Purdie wrote:
-> > Changes to baselib by specific machine configuration were resulting
-> > in sstate cache invalidation, particularly in multilib configurations.
-> > 
-> > This patch ensures this doesn't happen and native sstate cache files
-> > are reusable.
-> 
-> Likely throwing in a can of worms here, but for our existing (non-OE based)
-> work, we generally change the baselib to "lib64" on 64-bit machines.  Without
-> patching native.bbclass, is it possible to do that?
+mutter has been hosted by the gnome community for some time now, update the
+recipe to use the new SRC_URI and a more recernt version - this is the last
+version to support Gtk+ 2.
 
-Yes, you could set this based on the build system architecture no
-problem at all.
+Signed-off-by: Joshua Lock <josh@linux.intel.com>
+---
+ meta/recipes-graphics/mutter/mutter_2.28.1.bb |   14 --------------
+ meta/recipes-graphics/mutter/mutter_2.29.1.bb |   13 +++++++++++++
+ 2 files changed, 13 insertions(+), 14 deletions(-)
+ delete mode 100644 meta/recipes-graphics/mutter/mutter_2.28.1.bb
+ create mode 100644 meta/recipes-graphics/mutter/mutter_2.29.1.bb
 
-The reason for this change is to have a single value for native packages
-which doesn't change based on MACHINE. That doesn't stop you changing it
-based on something specific the native binaries themselves.
-
-The native sysroots are different depending on the build system
-architecture anyway so this actually might be a non-issue for you
-anyway.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-graphics/mutter/mutter_2.28.1.bb b/meta/recipes-graphics/mutter/mutter_2.28.1.bb
+deleted file mode 100644
+index 50f2647..0000000
+--- a/meta/recipes-graphics/mutter/mutter_2.28.1.bb
++++ /dev/null
+@@ -1,14 +0,0 @@
+-require mutter.inc
+-
+-PR = "r1"
+-
+-LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+-
+-SRC_URI = "http://download.moblin.org/sources/mutter/2.28/mutter-2.28.1_0.0.tar.bz2 \
+-           file://nodocs.patch \
+-           file://nozenity.patch \
+-           file://fix_pkgconfig.patch \
+-           file://fix_CGL_TEXTURE_RECTANGLE_ARB.patch \
+-           "
+-
+-S = "${WORKDIR}/mutter-2.28.1_0.0"
+diff --git a/meta/recipes-graphics/mutter/mutter_2.29.1.bb b/meta/recipes-graphics/mutter/mutter_2.29.1.bb
+new file mode 100644
+index 0000000..5d031f6
+--- /dev/null
++++ b/meta/recipes-graphics/mutter/mutter_2.29.1.bb
+@@ -0,0 +1,13 @@
++require mutter.inc
++
++PR = "r0"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
++
++SRC_URI += "file://nodocs.patch \
++            file://nozenity.patch \
++            file://fix_pkgconfig.patch \
++           "
++SRC_URI[archive.md5sum] = "ebe3c04751741fb2a028a3c6c4f1c2d7"
++SRC_URI[archive.sha256sum] = "175f3adcc5ad5c6f23772ca15c862f275fc3d9a9c3104e9146cf265847a4a10a"
++
+-- 
+1.7.6.4
 
 
 
