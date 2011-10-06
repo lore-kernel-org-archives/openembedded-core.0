@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RBqgf-0008VG-8A
+	(envelope-from <sgw@linux.intel.com>) id 1RBqgf-0008V7-RS
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Oct 2011 18:20:45 +0200
+	Thu, 06 Oct 2011 18:20:46 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 06 Oct 2011 09:15:06 -0700
+	by azsmga102.ch.intel.com with ESMTP; 06 Oct 2011 09:15:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,496,1312182000"; d="scan'208";a="59495938"
+X-IronPort-AV: E=Sophos;i="4.68,496,1312182000"; d="scan'208";a="59495942"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.197])
-	by azsmga001.ch.intel.com with ESMTP; 06 Oct 2011 09:15:06 -0700
+	by azsmga001.ch.intel.com with ESMTP; 06 Oct 2011 09:15:07 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Oct 2011 09:14:52 -0700
-Message-Id: <53a109adec8c2ba909c0af1358e0939aa7726f54.1317917297.git.sgw@linux.intel.com>
+Date: Thu,  6 Oct 2011 09:14:54 -0700
+Message-Id: <47bfdab445bf8f942286298989395a7389c8163e.1317917297.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.2
 In-Reply-To: <cover.1317917297.git.sgw@linux.intel.com>
 References: <cover.1317917297.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1317917297.git.sgw@linux.intel.com>
 References: <cover.1317917297.git.sgw@linux.intel.com>
-Subject: [PATCH 13/21] gconf-dbus: Add SRC_URI Checksum
+Subject: [PATCH 15/21] boost-jam-native: Add SRC_URI Checksum
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,35 +33,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2011 16:20:45 -0000
+X-List-Received-Date: Thu, 06 Oct 2011 16:20:46 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-gnome/gnome/gconf-dbus_705.bb |    5 ++++-
- 1 files changed, 4 insertions(+), 1 deletions(-)
+ meta/recipes-support/boost/boost-jam-native.inc    |    2 +-
+ .../boost/boost-jam-native_3.1.18.bb               |    4 ++++
+ 2 files changed, 5 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-gnome/gnome/gconf-dbus_705.bb b/meta/recipes-gnome/gnome/gconf-dbus_705.bb
-index c0c2e28..52e8a08 100644
---- a/meta/recipes-gnome/gnome/gconf-dbus_705.bb
-+++ b/meta/recipes-gnome/gnome/gconf-dbus_705.bb
-@@ -10,13 +10,16 @@ RPROVIDES_${PN}-dev = "gconf-dev"
+diff --git a/meta/recipes-support/boost/boost-jam-native.inc b/meta/recipes-support/boost/boost-jam-native.inc
+index e6b2529..c5a9d99 100644
+--- a/meta/recipes-support/boost/boost-jam-native.inc
++++ b/meta/recipes-support/boost/boost-jam-native.inc
+@@ -7,7 +7,7 @@ DESCRIPTION = "Make system for boost (native)"
+ HOMEPAGE = "http://www.boost.org/"
+ SECTION = "devel"
+ LICENSE = "Boost"
+-PR = "r0"
++INC_PR = "r1"
  
- #SRCREV = "705"
- #PV = "2.16.0+svnr${SRCPV}"
--PR = "r1"
-+PR = "r2"
+ LIC_FILES_CHKSUM = "file://LICENSE_1_0.txt;md5=e4224ccaecb14d942c71d31bef20d78c"
  
- # This SVN repo is no longer available use a tarball mirror site until
- # we move to proper gconf recipe.
- #SRC_URI = "svn://developer.imendio.com/svn/gconf-dbus;module=trunk;proto=http"
- SRC_URI = "http://autobuilder.pokylinux.org/sources/trunk_developer.imendio.com_.svn.gconf-dbus_705_.tar.gz"
+diff --git a/meta/recipes-support/boost/boost-jam-native_3.1.18.bb b/meta/recipes-support/boost/boost-jam-native_3.1.18.bb
+index 2e92146..7a0b1a8 100644
+--- a/meta/recipes-support/boost/boost-jam-native_3.1.18.bb
++++ b/meta/recipes-support/boost/boost-jam-native_3.1.18.bb
+@@ -1,4 +1,8 @@
+ include boost-jam-native.inc
  
-+SRC_URI[md5sum] = "dba8d534b0c6262d24817c842b36369d"
-+SRC_URI[sha256sum] = "5552b1884d42d4072a199c93e35a28dc1799f9166baefbf9243394966039e416"
++PR = "${INC_PR}.0"
 +
- S = "${WORKDIR}/trunk"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/boost/boost-jam-${PV}.tgz"
  
- inherit pkgconfig autotools
++SRC_URI[md5sum] = "f790e022d658db38db5cc4aeeccad3f1"
++SRC_URI[sha256sum] = "85dbb72c29837ba89cb5408782c82459b34fdecaedea8b54ce1cb3cb9990121a"
 -- 
 1.7.6.2
 
