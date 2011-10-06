@@ -1,56 +1,28 @@
-Received: from ch1ehsobe002.messaging.microsoft.com ([216.32.181.182]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from vms173005pub.verizon.net ([206.46.173.5])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RBvOt-0000Y9-Lx
-	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Oct 2011 23:22:43 +0200
-Received: from mail90-ch1-R.bigfish.com (10.43.68.247) by
-	CH1EHSOBE011.bigfish.com (10.43.70.61) with Microsoft SMTP Server id
-	14.1.225.22; Thu, 6 Oct 2011 21:02:01 +0000
-Received: from mail90-ch1 (localhost.localdomain [127.0.0.1])	by
-	mail90-ch1-R.bigfish.com (Postfix) with ESMTP id 5D140F504C9	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu,  6 Oct 2011 21:02:01 +0000 (UTC)
-X-SpamScore: -12
-X-BigFish: VS-12(zz9371K1432N98dKzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
-	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 13,
-Received: from mail90-ch1 (localhost.localdomain [127.0.0.1]) by mail90-ch1
-	(MessageSwitch) id 1317934876633011_12741;
-	Thu,  6 Oct 2011 21:01:16 +0000 (UTC)
-Received: from CH1EHSMHS010.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.247])	by mail90-ch1.bigfish.com (Postfix) with ESMTP id
-	96164D5004B for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Oct 2011 21:01:16 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS010.bigfish.com
-	(10.43.70.10) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Thu, 6 Oct 2011 21:01:14 +0000
-Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.230]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.01.0323.007; Thu, 6 Oct 2011 16:01:13 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] native.bbclass: Ensure native recipes have a
-	deterministic baselib value
-Thread-Index: AQHMhGsUWelqhD2EokWvl0yXRKZ0SQ==
-Date: Thu, 6 Oct 2011 21:01:12 +0000
-Message-ID: <CAEsOVNfOE5+52BuT2TbeSsWZz21+13YPqsCr_7ar2+yh9HV=QA@mail.gmail.com>
-References: <1317910843.6398.87.camel@ted>
-In-Reply-To: <1317910843.6398.87.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH] native.bbclass: Ensure native recipes have a deterministic baselib value
+	(envelope-from <denis@denix.org>)
+	id 1RBvpN-0000v7-G2; Thu, 06 Oct 2011 23:50:05 +0200
+Received: from gandalf.denix.org ([unknown] [71.191.138.237])
+	by vms173005.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009))
+	with ESMTPA id <0LSN00HTCW9QDZG6@vms173005.mailsrvcs.net>; Thu,
+	06 Oct 2011 15:44:15 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id AAE3814AF5D; Thu,
+	06 Oct 2011 16:44:14 -0400 (EDT)
+Date: Thu, 06 Oct 2011 16:44:14 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-members@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Message-id: <20111006204414.GF3125@denix.org>
+MIME-version: 1.0
+User-Agent: Mutt/1.5.16 (2007-06-09)
+Subject: Minutes: OpenEmbedded eV Board meeting, 22-Sep-2011
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -61,25 +33,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2011 21:22:43 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <C9492F732A04494F963129D4AC166EB7@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 06 Oct 2011 21:50:05 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-On Thu, Oct 6, 2011 at 9:20 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> Changes to baselib by specific machine configuration were resulting
-> in sstate cache invalidation, particularly in multilib configurations.
->
-> This patch ensures this doesn't happen and native sstate cache files
-> are reusable.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Minutes: OpenEmbedded eV Board meeting, 22-Sep-2011
 
-This fixes native sstate-cache (re)usage when enabling multilib.
+Attendees:
 
--M=
+Michael Lauer (mickey)
+Philip Balister (Crofton)
+Florian Boor (florian)
+Denys Dmytriyenko (denix)
 
+
+00) action items from last meeting:
+* no changes on the event box
+  ** ready for next event?
+  ** ELCE doesn't have real community exhibit though
+* open credit card with the bank
+  ** no updates so far, florian to check again
+* follow up on Intel's donation offer
+
+01) agenda:
+* Yocto updates
+* status of Crofton's meeting with OSUOSL team
+* TSC elections for second (Khem's) seat
+* GA arrangements and proxy logistics
+* LF server donation status, receipt & accounting processing
+* general budget
+
+02) follow up on Intel's donation offer
+* no progress - expedite the process:
+  ** work with DaveS or Dirk
+  ** florian to handle the financial side
+  ** Crofton to handle any leagl questions, reuse prev form from TI donation
+  ** denix to initiate the dialog
+
+03) Yocto advocacy group
+* a group separate from advisory board
+  ** marketing oriented - t-shirts, logos on merchandise etc.
+* works on the project "messaging" aspects
+  ** especially important for oe-core based distros outside of Yocto
+  ** clear up for the upcoming Yocto 1.1 release @ ELCE
+* need someone to attend the calls and follow the progress
+
+04) short status on Yocto advisory board meetings
+* trying to figure out the budget and members fees
+* auto-builders issues
+  ** wearing out disks often
+
+05) status of Crofton's meeting with OSUOSL team
+* OSUOSL is not going away - high prestige
+* Lance is a new paid admin for OSUOSL
+* improve collaboration with OSUOSL team
+  ** share/offload some of the simple admin tasks to OSUOSL admins
+  ** possibly get them to host Wiki, solve Spam issues
+* figure out a way for regular donations to OSUOSL
+  ** try to reach the next Patron level from current Champion
+  ** see if donations to OSUOSL can be made directly in OE name
+* Crofton to continue discussions with Lance and Tom
+
+06) TSC elections for Khem's seat
+* run the election process:
+  ** call for candidates - denix
+  ** in case of 1 candidate, appoint by acclamation
+  ** otherwise run the voting process and process the results - denix
+  ** consult with Graeme for previous experience
+
+07) GA arrangements and proxy logistics
+* check with Jefro (or Dirk) on meeting space
+* proxy form was discussed on the list and made available
+* schedule the formal election process for the Board seat, currently occupied by denix
+* check, if possible to have GA meetings in the US, e.g. at ELC
+  ** maybe too often to have GAs every 6 month
+  ** but will help people that are unable to travel to Europe
+  ** making formal GA meetings more accessible would make people feel more included
+* check if anybody is interested in free pass to ELCE (Martin/JaMa is local, but may not be able to attend)
+
+08) LF servers donations, receipt processing
+* LF has donated 2 servers for OE infrastructure
+* Tom is receiving and setting them up
+* need to handle receipts and accounting
+  ** need to get the original receipt from Mike Woster and provide donation receipt
+  ** florian to take care of the financial paperwork, along with mickey
+  ** denix to ping Mike for the original (sales) receipt
+
+09) general budget
+* florian to start the initial draft of the budget plans
+* waiting for Tom's proposal on the infrasture spending budget
+* figure out possible ways to encourage donations
+  ** branded merchandise - t-shirts, mugs, etc.
+  ** own printed publication - magazine, newspaper with news and tutorials from oe and yocto
+  ** friends/sponsors of the project page, inspired by OSUOSL implementation
 
 
