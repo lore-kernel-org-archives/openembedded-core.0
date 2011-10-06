@@ -1,24 +1,34 @@
-Received: from vms173005pub.verizon.net ([206.46.173.5])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@denix.org>)
-	id 1RBvpN-0000v7-G2; Thu, 06 Oct 2011 23:50:05 +0200
-Received: from gandalf.denix.org ([unknown] [71.191.138.237])
-	by vms173005.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009))
-	with ESMTPA id <0LSN00HTCW9QDZG6@vms173005.mailsrvcs.net>; Thu,
-	06 Oct 2011 15:44:15 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id AAE3814AF5D; Thu,
-	06 Oct 2011 16:44:14 -0400 (EDT)
-Date: Thu, 06 Oct 2011 16:44:14 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-members@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Message-id: <20111006204414.GF3125@denix.org>
-MIME-version: 1.0
-User-Agent: Mutt/1.5.16 (2007-06-09)
-Subject: Minutes: OpenEmbedded eV Board meeting, 22-Sep-2011
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RBvsk-00013w-Qv for openembedded-core@lists.openembedded.org;
+	Thu, 06 Oct 2011 23:53:35 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p96LsTDg000366 for <openembedded-core@lists.openembedded.org>;
+	Thu, 6 Oct 2011 22:54:29 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id LxuRZPJEsemr
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  6 Oct 2011 22:54:29 +0100 (BST)
+Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p96LsQVe000362
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 6 Oct 2011 22:54:28 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 06 Oct 2011 22:47:49 +0100
+In-Reply-To: <4E8DBF9E.70600@windriver.com>
+References: <1317910843.6398.87.camel@ted> <4E8DBF9E.70600@windriver.com>
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1317937677.6398.130.camel@ted>
+Mime-Version: 1.0
+Subject: Re: [PATCH] native.bbclass: Ensure native recipes have a deterministic baselib value
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,98 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2011 21:50:05 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Thu, 06 Oct 2011 21:53:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Minutes: OpenEmbedded eV Board meeting, 22-Sep-2011
+On Thu, 2011-10-06 at 09:47 -0500, Mark Hatle wrote:
+> On 10/6/11 9:20 AM, Richard Purdie wrote:
+> > Changes to baselib by specific machine configuration were resulting
+> > in sstate cache invalidation, particularly in multilib configurations.
+> > 
+> > This patch ensures this doesn't happen and native sstate cache files
+> > are reusable.
+> 
+> Likely throwing in a can of worms here, but for our existing (non-OE based)
+> work, we generally change the baselib to "lib64" on 64-bit machines.  Without
+> patching native.bbclass, is it possible to do that?
 
-Attendees:
+Yes, you could set this based on the build system architecture no
+problem at all.
 
-Michael Lauer (mickey)
-Philip Balister (Crofton)
-Florian Boor (florian)
-Denys Dmytriyenko (denix)
+The reason for this change is to have a single value for native packages
+which doesn't change based on MACHINE. That doesn't stop you changing it
+based on something specific the native binaries themselves.
 
+The native sysroots are different depending on the build system
+architecture anyway so this actually might be a non-issue for you
+anyway.
 
-00) action items from last meeting:
-* no changes on the event box
-  ** ready for next event?
-  ** ELCE doesn't have real community exhibit though
-* open credit card with the bank
-  ** no updates so far, florian to check again
-* follow up on Intel's donation offer
+Cheers,
 
-01) agenda:
-* Yocto updates
-* status of Crofton's meeting with OSUOSL team
-* TSC elections for second (Khem's) seat
-* GA arrangements and proxy logistics
-* LF server donation status, receipt & accounting processing
-* general budget
+Richard
 
-02) follow up on Intel's donation offer
-* no progress - expedite the process:
-  ** work with DaveS or Dirk
-  ** florian to handle the financial side
-  ** Crofton to handle any leagl questions, reuse prev form from TI donation
-  ** denix to initiate the dialog
-
-03) Yocto advocacy group
-* a group separate from advisory board
-  ** marketing oriented - t-shirts, logos on merchandise etc.
-* works on the project "messaging" aspects
-  ** especially important for oe-core based distros outside of Yocto
-  ** clear up for the upcoming Yocto 1.1 release @ ELCE
-* need someone to attend the calls and follow the progress
-
-04) short status on Yocto advisory board meetings
-* trying to figure out the budget and members fees
-* auto-builders issues
-  ** wearing out disks often
-
-05) status of Crofton's meeting with OSUOSL team
-* OSUOSL is not going away - high prestige
-* Lance is a new paid admin for OSUOSL
-* improve collaboration with OSUOSL team
-  ** share/offload some of the simple admin tasks to OSUOSL admins
-  ** possibly get them to host Wiki, solve Spam issues
-* figure out a way for regular donations to OSUOSL
-  ** try to reach the next Patron level from current Champion
-  ** see if donations to OSUOSL can be made directly in OE name
-* Crofton to continue discussions with Lance and Tom
-
-06) TSC elections for Khem's seat
-* run the election process:
-  ** call for candidates - denix
-  ** in case of 1 candidate, appoint by acclamation
-  ** otherwise run the voting process and process the results - denix
-  ** consult with Graeme for previous experience
-
-07) GA arrangements and proxy logistics
-* check with Jefro (or Dirk) on meeting space
-* proxy form was discussed on the list and made available
-* schedule the formal election process for the Board seat, currently occupied by denix
-* check, if possible to have GA meetings in the US, e.g. at ELC
-  ** maybe too often to have GAs every 6 month
-  ** but will help people that are unable to travel to Europe
-  ** making formal GA meetings more accessible would make people feel more included
-* check if anybody is interested in free pass to ELCE (Martin/JaMa is local, but may not be able to attend)
-
-08) LF servers donations, receipt processing
-* LF has donated 2 servers for OE infrastructure
-* Tom is receiving and setting them up
-* need to handle receipts and accounting
-  ** need to get the original receipt from Mike Woster and provide donation receipt
-  ** florian to take care of the financial paperwork, along with mickey
-  ** denix to ping Mike for the original (sales) receipt
-
-09) general budget
-* florian to start the initial draft of the budget plans
-* waiting for Tom's proposal on the infrasture spending budget
-* figure out possible ways to encourage donations
-  ** branded merchandise - t-shirts, mugs, etc.
-  ** own printed publication - magazine, newspaper with news and tutorials from oe and yocto
-  ** friends/sponsors of the project page, inspired by OSUOSL implementation
 
 
