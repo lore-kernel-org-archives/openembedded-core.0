@@ -1,20 +1,31 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RBwFA-0002Bv-LU
-	for openembedded-core@lists.openembedded.org;
-	Fri, 07 Oct 2011 00:16:45 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 06 Oct 2011 15:11:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="60705840"
-Received: from scimitar.jf.intel.com ([10.7.199.63])
-	by orsmga002.jf.intel.com with ESMTP; 06 Oct 2011 15:11:07 -0700
-From: Joshua Lock <josh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Oct 2011 15:11:07 -0700
-Message-Id: <1317939067-16798-1-git-send-email-josh@linux.intel.com>
-X-Mailer: git-send-email 1.7.6.4
-Subject: [PATCH] mutter: update to 2.29.1 and fix SRC_URI
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RBwyl-0003Cw-Dy for openembedded-core@lists.openembedded.org;
+	Fri, 07 Oct 2011 01:03:51 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p96N4kvL004578 for <openembedded-core@lists.openembedded.org>;
+	Fri, 7 Oct 2011 00:04:46 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 3pp-m+tXj+uS
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  7 Oct 2011 00:04:46 +0100 (BST)
+Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p96N4iHV004560
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 7 Oct 2011 00:04:46 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 06 Oct 2011 23:58:07 +0100
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1317941895.19281.0.camel@ted>
+Mime-Version: 1.0
+Subject: [PATCH] pkgconfig: Fix logic that was accidently leaving legacy pkg-config functionality enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,61 +40,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2011 22:16:45 -0000
+X-List-Received-Date: Thu, 06 Oct 2011 23:03:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-mutter has been hosted by the gnome community for some time now, update the
-recipe to use the new SRC_URI and a more recernt version - this is the last
-version to support Gtk+ 2.
-
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-graphics/mutter/mutter_2.28.1.bb |   14 --------------
- meta/recipes-graphics/mutter/mutter_2.29.1.bb |   13 +++++++++++++
- 2 files changed, 13 insertions(+), 14 deletions(-)
- delete mode 100644 meta/recipes-graphics/mutter/mutter_2.28.1.bb
- create mode 100644 meta/recipes-graphics/mutter/mutter_2.29.1.bb
+diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig/disable-legacy.patch b/meta/recipes-devtools/pkgconfig/pkgconfig/disable-legacy.patch
+index 1b3c12a..30db36c 100644
+--- a/meta/recipes-devtools/pkgconfig/pkgconfig/disable-legacy.patch
++++ b/meta/recipes-devtools/pkgconfig/pkgconfig/disable-legacy.patch
+@@ -7,13 +7,13 @@ pkgconfig with the --disable-legacy-scripts option, to maintain compatibility
+ the default is to leave the scripts enabled.
+ 
+ JL - 22/06/10
+-Index: pkg-config-0.23/configure.in
++Index: pkg-config-0.25/configure.in
+ ===================================================================
+---- pkg-config-0.23.orig/configure.in	2008-01-16 22:48:07.000000000 +0000
+-+++ pkg-config-0.23/configure.in	2010-06-22 13:05:58.951984140 +0100
+-@@ -125,6 +125,14 @@
+-   AC_CONFIG_SUBDIRS(glib-1.2.10)
+- fi # !native_win32
++--- pkg-config-0.25.orig/configure.in	2011-10-05 18:52:24.879726050 +0100
+++++ pkg-config-0.25/configure.in	2011-10-05 18:55:39.639726152 +0100
++@@ -151,6 +151,18 @@
++ AC_SUBST([POPT_LIBS])
++ AM_CONDITIONAL([USE_INSTALLED_POPT], [test "x$with_installed_popt" = xyes])
+  
+ +# legacy *-configure scripts can cause headaches, add option to disable
+ +AC_ARG_ENABLE(legacy-scripts,
+@@ -21,20 +21,24 @@ Index: pkg-config-0.23/configure.in
+ +                        [Whether pkg-config will try and use legacy scripts such as glib-config and gnome-config @<:@default=yes@:>@])],
+ +        [],
+ +        [enable_legacy=yes])
+-+AM_CONDITIONAL([LEGACY_SCRIPTS], [test x$enable_legacy = xyes])
+++AM_CONDITIONAL([NO_LEGACY_SCRIPTS], [test x$enable_legacy != xyes])
+++if test x$enable_legacy != xyes; then
+++  AC_DEFINE(NO_LEGACY_SCRIPTS, 1, [We are not using legacy scripts])
+++fi
+++
+ +
+  AC_FUNC_ALLOCA
+  
+  AC_CHECK_FUNCS(setresuid setreuid,break)
+-Index: pkg-config-0.23/parse.c
++Index: pkg-config-0.25/parse.c
+ ===================================================================
+---- pkg-config-0.23.orig/parse.c	2008-01-16 20:42:49.000000000 +0000
+-+++ pkg-config-0.23/parse.c	2010-06-22 13:09:10.410129471 +0100
+-@@ -1195,6 +1195,11 @@
++--- pkg-config-0.25.orig/parse.c	2011-10-05 18:52:24.869726050 +0100
+++++ pkg-config-0.25/parse.c	2011-10-05 18:54:49.909726133 +0100
++@@ -1237,6 +1237,11 @@
+     * messages.
+     */
+    return NULL;
+-+#elif defined(LEGACY_SCRIPTS)
+++#elif defined(NO_LEGACY_SCRIPTS)
+ +  /* There are scenarios where we might not want to use these legacy
+ +   * scripts even if they are available.
+ +   */
+diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig_0.25.bb b/meta/recipes-devtools/pkgconfig/pkgconfig_0.25.bb
+index a1f9508..76c0df9 100644
+--- a/meta/recipes-devtools/pkgconfig/pkgconfig_0.25.bb
++++ b/meta/recipes-devtools/pkgconfig/pkgconfig_0.25.bb
+@@ -1,6 +1,6 @@
+ require pkgconfig.inc
+ 
+-PR = "r0"
++PR = "r2"
+ 
+ SRC_URI[md5sum] = "a3270bab3f4b69b7dc6dbdacbcae9745"
+ SRC_URI[sha256sum] = "3ba691ee2431f32ccb8efa131e59bf23e37f122dc66791309023ca6dcefcd10e"
 
-diff --git a/meta/recipes-graphics/mutter/mutter_2.28.1.bb b/meta/recipes-graphics/mutter/mutter_2.28.1.bb
-deleted file mode 100644
-index 50f2647..0000000
---- a/meta/recipes-graphics/mutter/mutter_2.28.1.bb
-+++ /dev/null
-@@ -1,14 +0,0 @@
--require mutter.inc
--
--PR = "r1"
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
--
--SRC_URI = "http://download.moblin.org/sources/mutter/2.28/mutter-2.28.1_0.0.tar.bz2 \
--           file://nodocs.patch \
--           file://nozenity.patch \
--           file://fix_pkgconfig.patch \
--           file://fix_CGL_TEXTURE_RECTANGLE_ARB.patch \
--           "
--
--S = "${WORKDIR}/mutter-2.28.1_0.0"
-diff --git a/meta/recipes-graphics/mutter/mutter_2.29.1.bb b/meta/recipes-graphics/mutter/mutter_2.29.1.bb
-new file mode 100644
-index 0000000..5d031f6
---- /dev/null
-+++ b/meta/recipes-graphics/mutter/mutter_2.29.1.bb
-@@ -0,0 +1,13 @@
-+require mutter.inc
-+
-+PR = "r0"
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
-+
-+SRC_URI += "file://nodocs.patch \
-+            file://nozenity.patch \
-+            file://fix_pkgconfig.patch \
-+           "
-+SRC_URI[archive.md5sum] = "ebe3c04751741fb2a028a3c6c4f1c2d7"
-+SRC_URI[archive.sha256sum] = "175f3adcc5ad5c6f23772ca15c862f275fc3d9a9c3104e9146cf265847a4a10a"
-+
--- 
-1.7.6.4
 
 
 
