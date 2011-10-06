@@ -1,20 +1,32 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RBsjJ-0003fI-9o
+	(envelope-from <saul.wold@intel.com>) id 1RBv4V-0000Cs-Ub
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Oct 2011 20:31:37 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 06 Oct 2011 11:25:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="60635651"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.197])
-	by orsmga002.jf.intel.com with ESMTP; 06 Oct 2011 11:25:57 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Oct 2011 11:25:55 -0700
-Message-Id: <cover.1317925433.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.6.2
-Subject: [PATCH 0/1] acl/attr fix for libdir = base_libdir
+	Thu, 06 Oct 2011 23:01:40 +0200
+Received: from mail-qy0-f173.google.com ([209.85.216.173])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 06 Oct 2011 13:56:02 -0700
+Received: by qyc1 with SMTP id 1so70599qyc.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 06 Oct 2011 13:56:01 -0700 (PDT)
+Received: by 10.68.209.37 with SMTP id mj5mr8132807pbc.123.1317934561022;
+	Thu, 06 Oct 2011 13:56:01 -0700 (PDT)
+Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id p4sm23170116pbs.6.2011.10.06.13.56.00
+	(version=SSLv3 cipher=OTHER); Thu, 06 Oct 2011 13:56:00 -0700 (PDT)
+Message-ID: <4E8E15DE.1050300@intel.com>
+Date: Thu, 06 Oct 2011 13:55:58 -0700
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:6.0.2) Gecko/20110906 Thunderbird/6.0.2
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1317917297.git.sgw@linux.intel.com>
+	<1b41379e5232701f7d96ea78c673d34aa4132c2f.1317917297.git.sgw@linux.intel.com>
+In-Reply-To: <1b41379e5232701f7d96ea78c673d34aa4132c2f.1317917297.git.sgw@linux.intel.com>
+Subject: Re: [PATCH 20/21] apt: Update to 0.8.15.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,34 +41,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2011 18:31:37 -0000
+X-List-Received-Date: Thu, 06 Oct 2011 21:01:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Richard,
+On 10/06/2011 09:14 AM, Saul Wold wrote:
+> Signed-off-by: Saul Wold<sgw@linux.intel.com>
+> ---
+>   .../includes-fix.patch                             |    0
+>   .../no-ko-translation.patch                        |    0
+>   .../{apt-0.7.14 =>  apt-0.8.15.8}/noconfigure.patch |    0
+>   .../apt/{apt-0.7.14 =>  apt-0.8.15.8}/nodoc.patch   |    0
+>   .../{apt-0.7.14 =>  apt-0.8.15.8}/use-host.patch    |    0
+>   ...apt-native_0.7.14.bb =>  apt-native_0.8.15.8.bb} |    6 +++---
+>   .../apt/{apt_0.7.14.bb =>  apt_0.8.15.8.bb}         |    6 +++---
+>   7 files changed, 6 insertions(+), 6 deletions(-)
+>   rename meta/recipes-devtools/apt/{apt-0.7.14 =>  apt-0.8.15.8}/includes-fix.patch (100%)
+>   rename meta/recipes-devtools/apt/{apt-0.7.14 =>  apt-0.8.15.8}/no-ko-translation.patch (100%)
+>   rename meta/recipes-devtools/apt/{apt-0.7.14 =>  apt-0.8.15.8}/noconfigure.patch (100%)
+>   rename meta/recipes-devtools/apt/{apt-0.7.14 =>  apt-0.8.15.8}/nodoc.patch (100%)
+>   rename meta/recipes-devtools/apt/{apt-0.7.14 =>  apt-0.8.15.8}/use-host.patch (100%)
+>   rename meta/recipes-devtools/apt/{apt-native_0.7.14.bb =>  apt-native_0.8.15.8.bb} (60%)
+>   rename meta/recipes-devtools/apt/{apt_0.7.14.bb =>  apt_0.8.15.8.bb} (67%)
+>
+> diff --git a/meta/recipes-devtools/apt/apt-0.7.14/includes-fix.patch b/meta/recipes-devtools/apt/apt-0.8.15.8/includes-fix.patch
+> similarity index 100%
+> rename from meta/recipes-devtools/apt/apt-0.7.14/includes-fix.patch
+> rename to meta/recipes-devtools/apt/apt-0.8.15.8/includes-fix.patch
+> diff --git a/meta/recipes-devtools/apt/apt-0.7.14/no-ko-translation.patch b/meta/recipes-devtools/apt/apt-0.8.15.8/no-ko-translation.patch
+> similarity index 100%
+> rename from meta/recipes-devtools/apt/apt-0.7.14/no-ko-translation.patch
+> rename to meta/recipes-devtools/apt/apt-0.8.15.8/no-ko-translation.patch
+> diff --git a/meta/recipes-devtools/apt/apt-0.7.14/noconfigure.patch b/meta/recipes-devtools/apt/apt-0.8.15.8/noconfigure.patch
+> similarity index 100%
+> rename from meta/recipes-devtools/apt/apt-0.7.14/noconfigure.patch
+> rename to meta/recipes-devtools/apt/apt-0.8.15.8/noconfigure.patch
+> diff --git a/meta/recipes-devtools/apt/apt-0.7.14/nodoc.patch b/meta/recipes-devtools/apt/apt-0.8.15.8/nodoc.patch
+> similarity index 100%
+> rename from meta/recipes-devtools/apt/apt-0.7.14/nodoc.patch
+> rename to meta/recipes-devtools/apt/apt-0.8.15.8/nodoc.patch
+> diff --git a/meta/recipes-devtools/apt/apt-0.7.14/use-host.patch b/meta/recipes-devtools/apt/apt-0.8.15.8/use-host.patch
+> similarity index 100%
+> rename from meta/recipes-devtools/apt/apt-0.7.14/use-host.patch
+> rename to meta/recipes-devtools/apt/apt-0.8.15.8/use-host.patch
+> diff --git a/meta/recipes-devtools/apt/apt-native_0.7.14.bb b/meta/recipes-devtools/apt/apt-native_0.8.15.8.bb
+> similarity index 60%
+> rename from meta/recipes-devtools/apt/apt-native_0.7.14.bb
+> rename to meta/recipes-devtools/apt/apt-native_0.8.15.8.bb
+> index c82d606..0c532c7 100644
+> --- a/meta/recipes-devtools/apt/apt-native_0.7.14.bb
+> +++ b/meta/recipes-devtools/apt/apt-native_0.8.15.8.bb
+> @@ -1,13 +1,13 @@
+>   require apt-native.inc
+>
+> -PR = "r5"
+> +PR = "r0"
+>
+>   SRC_URI += "file://nodoc.patch \
+>               file://noconfigure.patch \
+>   	    file://no-curl.patch \
+>   	    file://includes-fix.patch"
+>
+> -SRC_URI[md5sum] = "19efa18fb1ef20c58b9b44e94258b814"
+> -SRC_URI[sha256sum] = "8fc06effaf8a4e4333308eedcdc6840f1c8056f2e924210f151dfc076bcd4045"
+> +SRC_URI[md5sum] = "9727845eaeff0d1191403f4d8b8d1e35"
+> +SRC_URI[sha256sum] = "d19efceb04b927a1c6cdac01fd29b7f0f927c8e168c1e722ddf7808438262742"
+>
+>   LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
+> diff --git a/meta/recipes-devtools/apt/apt_0.7.14.bb b/meta/recipes-devtools/apt/apt_0.8.15.8.bb
+> similarity index 67%
+> rename from meta/recipes-devtools/apt/apt_0.7.14.bb
+> rename to meta/recipes-devtools/apt/apt_0.8.15.8.bb
+> index 93eebe9..37ca85b 100644
+> --- a/meta/recipes-devtools/apt/apt_0.7.14.bb
+> +++ b/meta/recipes-devtools/apt/apt_0.8.15.8.bb
+> @@ -3,13 +3,13 @@ RDEPENDS_${PN} = "dpkg"
+>   LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
+>   require apt.inc
+>
+> -PR = "r8"
+> +PR = "r0"
+>
+>   SRC_URI += "file://nodoc.patch \
+>               file://includes-fix.patch "
+>
+> -SRC_URI[md5sum] = "19efa18fb1ef20c58b9b44e94258b814"
+> -SRC_URI[sha256sum] = "8fc06effaf8a4e4333308eedcdc6840f1c8056f2e924210f151dfc076bcd4045"
+> +SRC_URI[md5sum] = "9727845eaeff0d1191403f4d8b8d1e35"
+> +SRC_URI[sha256sum] = "d19efceb04b927a1c6cdac01fd29b7f0f927c8e168c1e722ddf7808438262742"
+>
+>   require apt-package.inc
+>
 
-This should address the above situation.
-
-Phil, please let me know if this works for you.
-
-Thanks
+Please disregard this patch.
 
 Sau!
-
-The following changes since commit cc626b9e1671670a931ea3e528ea4b0f7b2e923b:
-
-  webkit-gtk: Enable dependency tracking since the webkit makefiles have bugs (2011-10-05 14:36:18 +0100)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/fix
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
-
-Saul Wold (1):
-  acl/attr: don't make symlink if base_libdir = libdir
-
- meta/recipes-support/attr/ea-acl.inc |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
-
--- 
-1.7.6.2
 
 
 
