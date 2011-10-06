@@ -1,24 +1,20 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RBsjI-0003fI-GQ
+	(envelope-from <sgw@linux.intel.com>) id 1RBsjJ-0003fI-9o
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Oct 2011 20:31:36 +0200
+	Thu, 06 Oct 2011 20:31:37 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 06 Oct 2011 11:25:58 -0700
+	by orsmga101.jf.intel.com with ESMTP; 06 Oct 2011 11:25:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="60635656"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="60635651"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.197])
-	by orsmga002.jf.intel.com with ESMTP; 06 Oct 2011 11:25:58 -0700
+	by orsmga002.jf.intel.com with ESMTP; 06 Oct 2011 11:25:57 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Oct 2011 11:25:56 -0700
-Message-Id: <5930749806604b40d1dd6c36ec4b44c2507b4493.1317925433.git.sgw@linux.intel.com>
+Date: Thu,  6 Oct 2011 11:25:55 -0700
+Message-Id: <cover.1317925433.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.2
-In-Reply-To: <cover.1317925433.git.sgw@linux.intel.com>
-References: <cover.1317925433.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1317925433.git.sgw@linux.intel.com>
-References: <cover.1317925433.git.sgw@linux.intel.com>
-Subject: [PATCH 1/1] acl/attr: don't make symlink if base_libdir = libdir
+Subject: [PATCH 0/1] acl/attr fix for libdir = base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,27 +29,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2011 18:31:36 -0000
+X-List-Received-Date: Thu, 06 Oct 2011 18:31:37 -0000
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
+Richard,
+
+This should address the above situation.
+
+Phil, please let me know if this works for you.
+
+Thanks
+
+Sau!
+
+The following changes since commit cc626b9e1671670a931ea3e528ea4b0f7b2e923b:
+
+  webkit-gtk: Enable dependency tracking since the webkit makefiles have bugs (2011-10-05 14:36:18 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/fix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
+
+Saul Wold (1):
+  acl/attr: don't make symlink if base_libdir = libdir
+
  meta/recipes-support/attr/ea-acl.inc |    3 +++
  1 files changed, 3 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-support/attr/ea-acl.inc b/meta/recipes-support/attr/ea-acl.inc
-index 22d7848..6a45858 100644
---- a/meta/recipes-support/attr/ea-acl.inc
-+++ b/meta/recipes-support/attr/ea-acl.inc
-@@ -37,6 +37,9 @@ LDFLAGS_append_libc-uclibc = "${@['', ' -lintl '][(bb.data.getVar('PN', d, True)
- EXTRA_OECONF_append_libc-uclibc = "${@['', ' --disable-gettext '][(bb.data.getVar('PN', d, True) == bb.data.getVar('BPN', d , True)) and (bb.data.getVar('USE_NLS', d, True) == 'no')]}"
- 
- fix_symlink () {
-+	if test "${libdir}" = "${base_libdir}" ; then
-+		return
-+	fi
- 	# Remove bad symlinks & create the correct symlinks
- 	if test -L ${libdir}/lib${BPN}.so ; then
- 		rm -rf ${libdir}/lib${BPN}.so
 -- 
 1.7.6.2
 
