@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RBqgi-0008V4-B3
+	(envelope-from <sgw@linux.intel.com>) id 1RBqgi-0008V7-Be
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Oct 2011 18:20:48 +0200
+	Thu, 06 Oct 2011 18:20:49 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga102.ch.intel.com with ESMTP; 06 Oct 2011 09:15:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,496,1312182000"; d="scan'208";a="59495953"
+X-IronPort-AV: E=Sophos;i="4.68,496,1312182000"; d="scan'208";a="59495960"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.14.197])
-	by azsmga001.ch.intel.com with ESMTP; 06 Oct 2011 09:15:08 -0700
+	by azsmga001.ch.intel.com with ESMTP; 06 Oct 2011 09:15:09 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Oct 2011 09:14:59 -0700
-Message-Id: <1b41379e5232701f7d96ea78c673d34aa4132c2f.1317917297.git.sgw@linux.intel.com>
+Date: Thu,  6 Oct 2011 09:15:00 -0700
+Message-Id: <2c379feebd0a2fbcb38ee5cb80a41701ca4c1421.1317917297.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.2
 In-Reply-To: <cover.1317917297.git.sgw@linux.intel.com>
 References: <cover.1317917297.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1317917297.git.sgw@linux.intel.com>
 References: <cover.1317917297.git.sgw@linux.intel.com>
-Subject: [PATCH 20/21] apt: Update to 0.8.15.8
+Subject: [PATCH 21/21] distro_tracking: Updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,90 +37,178 @@ X-List-Received-Date: Thu, 06 Oct 2011 16:20:49 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../includes-fix.patch                             |    0
- .../no-ko-translation.patch                        |    0
- .../{apt-0.7.14 => apt-0.8.15.8}/noconfigure.patch |    0
- .../apt/{apt-0.7.14 => apt-0.8.15.8}/nodoc.patch   |    0
- .../{apt-0.7.14 => apt-0.8.15.8}/use-host.patch    |    0
- ...apt-native_0.7.14.bb => apt-native_0.8.15.8.bb} |    6 +++---
- .../apt/{apt_0.7.14.bb => apt_0.8.15.8.bb}         |    6 +++---
- 7 files changed, 6 insertions(+), 6 deletions(-)
- rename meta/recipes-devtools/apt/{apt-0.7.14 => apt-0.8.15.8}/includes-fix.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.7.14 => apt-0.8.15.8}/no-ko-translation.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.7.14 => apt-0.8.15.8}/noconfigure.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.7.14 => apt-0.8.15.8}/nodoc.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.7.14 => apt-0.8.15.8}/use-host.patch (100%)
- rename meta/recipes-devtools/apt/{apt-native_0.7.14.bb => apt-native_0.8.15.8.bb} (60%)
- rename meta/recipes-devtools/apt/{apt_0.7.14.bb => apt_0.8.15.8.bb} (67%)
+ .../conf/distro/include/distro_tracking_fields.inc |   62 ++++++++++++--------
+ 1 files changed, 37 insertions(+), 25 deletions(-)
 
-diff --git a/meta/recipes-devtools/apt/apt-0.7.14/includes-fix.patch b/meta/recipes-devtools/apt/apt-0.8.15.8/includes-fix.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-0.7.14/includes-fix.patch
-rename to meta/recipes-devtools/apt/apt-0.8.15.8/includes-fix.patch
-diff --git a/meta/recipes-devtools/apt/apt-0.7.14/no-ko-translation.patch b/meta/recipes-devtools/apt/apt-0.8.15.8/no-ko-translation.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-0.7.14/no-ko-translation.patch
-rename to meta/recipes-devtools/apt/apt-0.8.15.8/no-ko-translation.patch
-diff --git a/meta/recipes-devtools/apt/apt-0.7.14/noconfigure.patch b/meta/recipes-devtools/apt/apt-0.8.15.8/noconfigure.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-0.7.14/noconfigure.patch
-rename to meta/recipes-devtools/apt/apt-0.8.15.8/noconfigure.patch
-diff --git a/meta/recipes-devtools/apt/apt-0.7.14/nodoc.patch b/meta/recipes-devtools/apt/apt-0.8.15.8/nodoc.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-0.7.14/nodoc.patch
-rename to meta/recipes-devtools/apt/apt-0.8.15.8/nodoc.patch
-diff --git a/meta/recipes-devtools/apt/apt-0.7.14/use-host.patch b/meta/recipes-devtools/apt/apt-0.8.15.8/use-host.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-0.7.14/use-host.patch
-rename to meta/recipes-devtools/apt/apt-0.8.15.8/use-host.patch
-diff --git a/meta/recipes-devtools/apt/apt-native_0.7.14.bb b/meta/recipes-devtools/apt/apt-native_0.8.15.8.bb
-similarity index 60%
-rename from meta/recipes-devtools/apt/apt-native_0.7.14.bb
-rename to meta/recipes-devtools/apt/apt-native_0.8.15.8.bb
-index c82d606..0c532c7 100644
---- a/meta/recipes-devtools/apt/apt-native_0.7.14.bb
-+++ b/meta/recipes-devtools/apt/apt-native_0.8.15.8.bb
-@@ -1,13 +1,13 @@
- require apt-native.inc
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index dd0fbf8..7b6c4a9 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -418,7 +418,7 @@ RECIPE_INTEL_SECTION_pn-readline = "base libs"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-readline = "11 months"
+ RECIPE_LATEST_RELEASE_DATE_pn-readline = "Feb 13, 2011"
+ RECIPE_COMMENTS_pn-readline = ""
+-RECIPE_MANUAL_CHECK_DATE_pn-readline = "Sept 27, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-readline = "Sep 27, 2011"
  
--PR = "r5"
-+PR = "r0"
+ RECIPE_STATUS_pn-libgcrypt = "green"
+ RECIPE_LAST_UPDATE_pn-libgcrypt = "Jul 29, 2010"
+@@ -432,16 +432,16 @@ RECIPE_LATEST_RELEASE_DATE_pn-libgcrypt = "12/2009"
+ RECIPE_COMMENTS_pn-libgcrypt = ""
  
- SRC_URI += "file://nodoc.patch \
-             file://noconfigure.patch \
- 	    file://no-curl.patch \
- 	    file://includes-fix.patch"
+ RECIPE_STATUS_pn-gnutls = "yellow"   # need explict pre configure
+-RECIPE_LAST_UPDATE_pn-gnutls = "May 25, 2011"
++RECIPE_LATEST_VERSION_pn-gnutls = "2.12.11"
++RECIPE_LATEST_RELEASE_DATE_pn-gnutls = "Sep 18, 2011"
++RECIPE_LAST_UPDATE_pn-gnutls = "Oct 6, 2011"
+ RECIPE_MAINTAINER_pn-gnutls = "Yu Ke <ke.yu@intel.com>"
+ RECIPE_DEPENDENCY_CHECK_pn-gnutls = "done"
+-RECIPE_LATEST_VERSION_pn-gnutls = "2.12.5"
+ RECIPE_PATCH_pn-gnutls+gnutls-openssl = "unkown"
+ RECIPE_PATCH_pn-gnutls+gnutls-texinfo-euro = "fix if @euro is missing in texinfo"
+ RECIPE_PATCH_pn-gnutls+configure-fix = "fix Requires.private and Libs.private in autotools script"
+ RECIPE_INTEL_SECTION_pn-gnutls = "base libs"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-gnutls = "4 months"
+-RECIPE_LATEST_RELEASE_DATE_pn-gnutls = "May 14, 2011"
+ RECIPE_COMMENTS_pn-gnutls = "requires libtasn1, but has an internal copy"
  
--SRC_URI[md5sum] = "19efa18fb1ef20c58b9b44e94258b814"
--SRC_URI[sha256sum] = "8fc06effaf8a4e4333308eedcdc6840f1c8056f2e924210f151dfc076bcd4045"
-+SRC_URI[md5sum] = "9727845eaeff0d1191403f4d8b8d1e35"
-+SRC_URI[sha256sum] = "d19efceb04b927a1c6cdac01fd29b7f0f927c8e168c1e722ddf7808438262742"
+ RECIPE_STATUS_pn-lzo = "green"
+@@ -479,11 +479,12 @@ RECIPE_INTEL_SECTION_pn-libnss-mdns = "base libs"
+ RECIPE_LATEST_RELEASE_DATE_pn-libnss-mdns = "05/2007"
  
- LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
-diff --git a/meta/recipes-devtools/apt/apt_0.7.14.bb b/meta/recipes-devtools/apt/apt_0.8.15.8.bb
-similarity index 67%
-rename from meta/recipes-devtools/apt/apt_0.7.14.bb
-rename to meta/recipes-devtools/apt/apt_0.8.15.8.bb
-index 93eebe9..37ca85b 100644
---- a/meta/recipes-devtools/apt/apt_0.7.14.bb
-+++ b/meta/recipes-devtools/apt/apt_0.8.15.8.bb
-@@ -3,13 +3,13 @@ RDEPENDS_${PN} = "dpkg"
- LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
- require apt.inc
+ RECIPE_STATUS_pn-ncurses = "green"
+-RECIPE_LAST_UPDATE_pn-ncurses = "Dec 30, 2010"
+-RECIPE_MAINTAINER_pn-ncurses = "Saul Wold <sgw@linux.intel.com>"
++RECIPE_LATEST_RELEASE_DATE_pn-ncurses = "Apr 04, 2011"
+ RECIPE_LATEST_VERSION_pn-ncurses = "5.9"
++RECIPE_LAST_UPDATE_pn-ncurses = "Apr 06, 2011"
+ RECIPE_INTEL_SECTION_pn-ncurses = "base libs"
+-RECIPE_LATEST_RELEASE_DATE_pn-ncurses = "Apr 04, 2011"
++RECIPE_MAINTAINER_pn-ncurses = "Saul Wold <sgw@linux.intel.com>"
++RECIPE_MANUAL_CHECK_DATE_pn-ncurses = "Sep 29, 2011"
  
--PR = "r8"
-+PR = "r0"
+ RECIPE_STATUS_pn-popt = "green"
+ RECIPE_LAST_UPDATE_pn-popt = "Jul 5, 2010"
+@@ -563,8 +564,8 @@ RECIPE_MAINTAINER_pn-tcp-wrappers = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_LATEST_VERSION_pn-tcp-wrappers = "7.6"
+ RECIPE_INTEL_SECTION_pn-tcp-wrappers = "base libs"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-tcp-wrappers = "n/a"
+-RECIPE_LATEST_RELEASE_DATE_pn-tcp-wrappers = "n/a"
+-RECIPE_MANUAL_CHECK_DATE_pn-tcp-wrappers = "Jul 12, 2011"
++RECIPE_LATEST_RELEASE_DATE_pn-tcp-wrappers = "Apr 04, 1997"
++RECIPE_MANUAL_CHECK_DATE_pn-tcp-wrappers = "Sep 28, 2011"
+ RECIPE_COMMENTS_pn-tcp-wrappers = "Consider looking at ipv6.4 version"
+ RECIPE_NO_UPDATE_REASON_pn-tcp-wrapers = "7.6 is last Stable release"
  
- SRC_URI += "file://nodoc.patch \
-             file://includes-fix.patch "
+@@ -1170,8 +1171,9 @@ RECIPE_LAST_UPDATE_pn-apr-util = "Jul 28, 2011"
+ RECIPE_MAINTAINER_pn-apr-util = "Zhai Edwin <edwin.zhai@intel.com>"
  
--SRC_URI[md5sum] = "19efa18fb1ef20c58b9b44e94258b814"
--SRC_URI[sha256sum] = "8fc06effaf8a4e4333308eedcdc6840f1c8056f2e924210f151dfc076bcd4045"
-+SRC_URI[md5sum] = "9727845eaeff0d1191403f4d8b8d1e35"
-+SRC_URI[sha256sum] = "d19efceb04b927a1c6cdac01fd29b7f0f927c8e168c1e722ddf7808438262742"
+ RECIPE_STATUS_pn-apt = "red"
+-RECIPE_LATEST_VERSION_pn-apt = "0.7.25.3"
+-RECIPE_LAST_UPDATE_pn-apt = "Jun 19, 2008"
++RECIPE_LATEST_VERSION_pn-apt = "0.8.15.8"
++RECIPE_LATEST_RELEASE_DATE_pn-apt = "Sep 14, 2011"
++RECIPE_LAST_UPDATE_pn-apt = "Oct 6, 2011"
+ RECIPE_MAINTAINER_pn-apt = "Mei Lei <lei.mei@intel.com>"
+ RECIPE_NO_UPDATE_REASON_pn-apt="similar to zypper, defer the upgrading"
  
- require apt-package.inc
+@@ -1682,11 +1684,11 @@ RECIPE_LATEST_RELEASE_DATE_pn-strace = "04/2010"
+ RECIPE_COMMENTS_pn-strace = "3-clause BSD"
  
+ RECIPE_STATUS_pn-dhcp = "green"
+-RECIPE_LAST_UPDATE_pn-dhcp = "Nov 17, 2010"
++RECIPE_LAST_UPDATE_pn-dhcp = "Sep 28, 2011"
++RECIPE_LATEST_VERSION_pn-dhcp = "4.2.2
++RECIPE_LATEST_RELEASE_DATE_pn-dhcp = "Aug 10, 2011
+ RECIPE_MAINTAINER_pn-dhcp = "Saul Wold <sgw@linux.intel.com>"
+-RECIPE_LATEST_VERSION_pn-dhcp = "4.2.0-P2"
+ RECIPE_INTEL_SECTION_pn-dhcp = "base utils"
+-RECIPE_LATEST_RELEASE_DATE_pn-dhcp = "12/2010"
+ RECIPE_COMMENTS_pn-dhcp = "several major release, others are 3.1.3, 4.0.2-P1, need to identify"
+ 
+ RECIPE_STATUS_pn-v86d = "yellow"   # self written configure
+@@ -1712,14 +1714,14 @@ RECIPE_LATEST_RELEASE_DATE_pn-udev = "06/2010"
+ RECIPE_COMMENTS_pn-udev = "may need different versions for different kernels"
+ 
+ RECIPE_STATUS_pn-tzdata = "green"
+-RECIPE_LAST_UPDATE_pn-tzdata = "May 24, 2010"
++RECIPE_LATEST_VERSION_pn-tzdata = "2011k"
++RECIPE_LATEST_RELEASE_DATE_pn-tzdata = "Sep 26, 2011"
++RECIPE_LAST_UPDATE_pn-tzdata = "Oct 6, 2011"
+ RECIPE_MAINTAINER_pn-tzdata = "Zhai Edwin <edwin.zhai@intel.com>"
+ RECIPE_DEPENDENCY_CHECK_pn-tzdata = "not done"
+-RECIPE_LATEST_VERSION_pn-tzdata = "2011g"
+ RECIPE_INTEL_SECTION_pn-tzdata = "base utils"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-tzdata = "1 month"
+-RECIPE_LATEST_RELEASE_DATE_pn-tzdata = "05/2010"
+-RECIPE_MANUAL_CHECK_DATE_pn-tzdata = "May 24, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-tzdata = "Oct 6, 2011"
+ RECIPE_COMMENTS_pn-tzdata = ""
+ DISTRO_PN_ALIAS_pn-tzcode = "OSPDT"
+ 
+@@ -1807,9 +1809,9 @@ DISTRO_PN_ALIAS_pn-zypper = "OpenSuse=zypper Meego=zypper"
+ 
+ RECIPE_STATUS_pn-sysstat = "green"
+ RECIPE_LAST_UPDATE_pn-sysstat = "Sep 27, 2011"
+-RECIPE_MAINTAINER_pn-sysstat = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_LATEST_VERSION_pn-sysstat = "10.0.2"
+ RECIPE_MANUAL_CHECK_DATE_pn-sysstat = "Sep 27, 2011"
++RECIPE_MAINTAINER_pn-sysstat = "Saul Wold <sgw@linux.intel.com>"
+ 
+ RECIPE_STATUS_pn-sysklogd = "red"    # need upgrade
+ RECIPE_LAST_UPDATE_pn-sysklogd = "Aug 27, 2010"
+@@ -3189,9 +3191,9 @@ RECIPE_LATEST_VERSION_pn-oh-puzzles = "0.1+svnr23"
+ RECIPE_NO_OF_PATCHES_pn-oh-puzzles = "1"
+ RECIPE_INTEL_SECTION_pn-oh-puzzles = "graphic apps"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-oh-puzzles = "n/a"
+-RECIPE_LATEST_RELEASE_DATE_pn-oh-puzzles = "04/2008"
++RECIPE_LATEST_RELEASE_DATE_pn-oh-puzzles = "Oct 1, 2011"
+ RECIPE_COMMENTS_pn-oh-puzzles = ""
+-RECIPE_LAST_UPDATE_pn-oh-puzzles = "Apr 8, 2008"
++RECIPE_LAST_UPDATE_pn-oh-puzzles = "Oct 6, 2011"
+ RECIPE_MAINTAINER_pn-oh-puzzles = "Zhai Edwin <edwin.zhai@intel.com>"
+ 
+ RECIPE_STATUS_pn-gnome-terminal = "red"
+@@ -5704,9 +5706,12 @@ RECIPE_LATEST_VERSION_pn-man-pages = "3.32"
+ RECIPE_LATEST_VERSION_pn-qmmp = "0.4.3"
+ RECIPE_LATEST_VERSION_pn-sysprof = "6b5b8432711ef5c747f8375073cd9af88922d3c6"
+ RECIPE_LATEST_VERSION_pn-table = "d42a44938699ee30a998fc42bc149aebf69389db"
++
+ RECIPE_LATEST_VERSION_pn-texinfo = "4.13a"
+-RECIPE_NO_UPDATE_REASON_pn-texinfo = "Checking script parse directory wrong"
+-RECIPE_MANUAL_CHECK_DATE_pn-texinfo = "Feb 28, 2011"
++RECIPE_LATEST_RELEASE_DATE_pn-texinfo = "Sep 22, 2008"
++RECIPE_LAST_UPDATE_pn-texinfo = "Sep 16, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-texinfo = "Sep 28, 2011"
++RECIPE_NO_UPDATE_REASON_pn-texinfo = "Checking script parses directory wrong"
+ 
+ RECIPE_LATEST_VERSION_pn-blktrace = "a788dfde86dfaff8f1c277a233f92c1822e06b76"
+ RECIPE_LATEST_VERSION_pn-dtc = "37c0b6a0916c31a5eae0a9ddfcc5d0b8fb4569c6"
+@@ -5833,6 +5838,12 @@ RECIPE_LAST_UPDATE_pn-slang = "Jul 28, 2011"
+ RECIPE_MANUAL_CHECK_DATE_pn-slang = "Jun 28, 2011"
+ RECIPE_MAINTAINER_pn-slang = "Kai Kang <kai.kang@windriver.com>"
+ 
++RECIPE_STATUS_pn-cups = "red"
++RECIPE_LATEST_VERSION_pn-cups = "1.5.0"
++RECIPE_LATEST_RELEASE_DATE_pn-cups = "Jul 25, 2011"
++RECIPE_LAST_UPDATE_pn-cups = "Feb 1, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-cups = "Sep 28, 2011"
++
+ RECIPE_STATUS_pn-libnewt = "green"
+ DISTRO_PN_ALIAS_pn-libnewt = "Debian=libnewt0.52 Fedora=newt"
+ RECIPE_LATEST_VERSION_pn-libnewt = "0.52.13"
+@@ -5883,8 +5894,9 @@ RECIPE_MANUAL_CHECK_DATE_pn-mesa-demos = "Jun 7, 2011"
+ 
+ RECIPE_STATUS_pn-gettext = "red"
+ RECIPE_LATEST_VERSION_pn-gettext = "0.18.1.1"
+-RECIPE_LAST_UPDATE_pn-gettext = "Jun 6, 2010"
+-RECIPE_MANUAL_CHECK_DATE_pn-gettext = "Jun 7, 2011" 
++RECIPE_LATEST_RELEASE_DATE_pn-gettext = "Jun 06, 2010"
++RECIPE_LAST_UPDATE_pn-gettext = "May 24, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-gettext = "Sep 29, 2011" 
+ 
+ RECIPE_STATUS_pn-pseudo = "green"
+ RECIPE_LATEST_VERSION_pn-pseudo = "1.1.1"
 -- 
 1.7.6.2
 
