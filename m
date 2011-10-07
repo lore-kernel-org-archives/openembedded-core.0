@@ -1,31 +1,24 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RCBcw-000386-9S for openembedded-core@lists.openembedded.org;
-	Fri, 07 Oct 2011 16:43:18 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p97Eh8T1011313; Fri, 7 Oct 2011 15:43:08 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id FUPBwf1Oumjf; Fri,  7 Oct 2011 15:43:08 +0100 (BST)
-Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p97Eh3sA011307
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Fri, 7 Oct 2011 15:43:05 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 07 Oct 2011 15:36:25 +0100
-In-Reply-To: <1317913185-11345-1-git-send-email-koen@dominion.thruhere.net>
-References: <1317913185-11345-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1317998193.8533.2.camel@ted>
-Mime-Version: 1.0
+	(envelope-from <koen@dominion.thruhere.net>) id 1RCBdz-00038j-79
+	for openembedded-core@lists.openembedded.org;
+	Fri, 07 Oct 2011 16:43:23 +0200
+Received: by yxj17 with SMTP id 17so3748459yxj.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 07 Oct 2011 07:37:44 -0700 (PDT)
+Received: by 10.223.4.132 with SMTP id 4mr11048376far.12.1317998264533;
+	Fri, 07 Oct 2011 07:37:44 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id u6sm12987149fan.17.2011.10.07.07.37.43
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 07 Oct 2011 07:37:43 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  7 Oct 2011 16:37:39 +0200
+Message-Id: <1317998259-4330-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH v2] util-linux: split fsck* into its own subpackage
+Subject: [PATCH] gnutls: disable p11-kit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,22 +33,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Oct 2011 14:43:19 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 07 Oct 2011 14:43:23 -0000
 
-On Thu, 2011-10-06 at 16:59 +0200, Koen Kooi wrote:
-> This will allow systemd to run /sbin/fsck without dragging in all of util-linux
-> 
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> ---
->  meta/recipes-core/util-linux/util-linux.inc       |   16 +++++++++++++---
->  meta/recipes-core/util-linux/util-linux_2.19.1.bb |    2 +-
->  2 files changed, 14 insertions(+), 4 deletions(-)
+| checking for P11_KIT... configure: error: Package requirements (p11-kit-1 >= 0.2) were not met:
+|
+| No package 'p11-kit-1' found
+|
+| Consider adjusting the PKG_CONFIG_PATH environment variable if you
+| installed software in a non-standard prefix.
+|
+| Alternatively, you may set the environment variables P11_KIT_CFLAGS
+| and P11_KIT_LIBS to avoid the need to call pkg-config.
+| See the pkg-config man page for more details.
+|
+| + bbfatal 'oe_runconf failed'
 
-Merged to master, thanks.
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-support/gnutls/gnutls.inc |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
-Richard
+diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
+index 9257880..67e44ba 100644
+--- a/meta/recipes-support/gnutls/gnutls.inc
++++ b/meta/recipes-support/gnutls/gnutls.inc
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.gnu.org/software/gnutls/"
+ BUGTRACKER = "https://savannah.gnu.org/support/?group=gnutls"
+ DEPENDS = "zlib lzo libtasn1 libgcrypt (>= 1.4.2) libcap"
+ 
+-INC_PR = "r2"
++INC_PR = "r3"
+ 
+ LICENSE = "GPLv3+ & LGPLv2.1+"
+ LICENSE_${PN} = "LGPLv2.1+"
+@@ -25,6 +25,7 @@ EXTRA_OECONF="--with-included-opencdk --with-included-libcfg --disable-rpath \
+               --with-libdl-prefix=${STAGING_DIR_HOST}${prefix} \
+               --with-libpthread-prefix=${STAGING_DIR_HOST}${prefix} \
+               --with-lzo --disable-guile \
++              --without-p11-kit \
+               "
+ do_configure_prepend() {
+ 	for dir in . lib libextra; do
+-- 
+1.6.6.1
 
 
 
