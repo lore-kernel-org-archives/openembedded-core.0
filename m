@@ -1,31 +1,31 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RC7bp-0002SZ-K7 for openembedded-core@lists.openembedded.org;
-	Fri, 07 Oct 2011 12:24:53 +0200
+	id 1RC7cU-0002Wl-1d for openembedded-core@lists.openembedded.org;
+	Fri, 07 Oct 2011 12:25:34 +0200
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p97APmhj029647 for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Oct 2011 11:25:48 +0100
+	p97AQTu7029699 for <openembedded-core@lists.openembedded.org>;
+	Fri, 7 Oct 2011 11:26:29 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ePJJ0d56iG+9
+	with LMTP id g14GyJNTt2Yi
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Oct 2011 11:25:48 +0100 (BST)
+	Fri,  7 Oct 2011 11:26:29 +0100 (BST)
 Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p97APfZB029639
+	p97AQMA7029695
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Oct 2011 11:25:43 +0100
+	Fri, 7 Oct 2011 11:26:24 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 07 Oct 2011 11:19:03 +0100
+Date: Fri, 07 Oct 2011 11:19:44 +0100
 X-Mailer: Evolution 3.1.91- 
-Message-ID: <1317982751.2405.2.camel@ted>
+Message-ID: <1317982791.2405.3.camel@ted>
 Mime-Version: 1.0
-Subject: [PATCH] task-core-basic: Drop hal dependency, its deprecated
+Subject: [PATCH] connman: Drop hal dependency and udev configure option, neither is used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,33 +40,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Oct 2011 10:24:53 -0000
+X-List-Received-Date: Fri, 07 Oct 2011 10:25:34 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/recipes-extended/tasks/task-core-basic.bb b/meta/recipes-extended/tasks/task-core-basic.bb
-index e2a37d1..8bab0db 100644
---- a/meta/recipes-extended/tasks/task-core-basic.bb
-+++ b/meta/recipes-extended/tasks/task-core-basic.bb
-@@ -3,7 +3,7 @@
- #
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index a72c34a..ae1b725 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -13,7 +13,7 @@ LICENSE  = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+                     file://src/main.c;beginline=1;endline=20;md5=4b55b550fa6b33cc2055ef30dd262b3e"
  
- DESCRIPTION = "Create Basic Image Tasks"
--PR = "r3"
-+PR = "r4"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-@@ -140,7 +140,6 @@ RDEPENDS_task-core-sys-services = "\
-     python-dbus \
-     elfutils \
-     gzip \
--    hal \
-     less \
-     libcap \
-     libevent \
+-DEPENDS  = "libgdbus dbus glib-2.0 hal iptables"
++DEPENDS  = "libgdbus dbus glib-2.0 iptables"
+ 
+ INITSCRIPT_NAME = "connman"
+ INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
+diff --git a/meta/recipes-connectivity/connman/connman_0.75.bb b/meta/recipes-connectivity/connman/connman_0.75.bb
+index 5a7b284..4c25fcc 100644
+--- a/meta/recipes-connectivity/connman/connman_0.75.bb
++++ b/meta/recipes-connectivity/connman/connman_0.75.bb
+@@ -13,7 +13,6 @@ EXTRA_OECONF += "\
+   --enable-dnsproxy \
+   --disable-dhclient \
+   --enable-test \
+-  --disable-udev \
+   --disable-polkit \
+   --enable-client \
+   --enable-ofono \
 
 
 
