@@ -1,34 +1,28 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RCJ1U-00074L-LW for openembedded-core@lists.openembedded.org;
-	Sat, 08 Oct 2011 00:36:08 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p97Mb3bA032497 for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Oct 2011 23:37:03 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id g+c0YYZ1yIP3
+	(envelope-from <koen@beagleboard.org>) id 1RCJ5Z-00078z-7v
+	for openembedded-core@lists.openembedded.org;
+	Sat, 08 Oct 2011 00:40:22 +0200
+Received: by bke11 with SMTP id 11so5518573bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Oct 2011 23:37:03 +0100 (BST)
-Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p97MaxOs032493
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Oct 2011 23:37:01 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 07 Oct 2011 15:34:40 -0700 (PDT)
+Received: by 10.223.75.27 with SMTP id w27mr462709faj.11.1318026880280;
+	Fri, 07 Oct 2011 15:34:40 -0700 (PDT)
+Received: from [172.20.1.6] (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id r6sm2611575fam.0.2011.10.07.15.34.38
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 07 Oct 2011 15:34:39 -0700 (PDT)
+Message-Id: <7F3A6782-444C-4722-8791-6D75B70FEB57@dominion.thruhere.net>
+From: Koen Kooi <koen@beagleboard.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 07 Oct 2011 23:30:21 +0100
-In-Reply-To: <E7A9054A5ACABE48B0E540E46E862B0F0177E5@NAEMMAIL01.na.leapfrog.com>
-References: <E7A9054A5ACABE48B0E540E46E862B0F0177E5@NAEMMAIL01.na.leapfrog.com>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1318026629.8533.57.camel@ted>
-Mime-Version: 1.0
-Subject: Re: Use for filedeps/rpmdeps data?
+In-Reply-To: <bc7e830e85f9f5242e0178dee517d24cbdfc9fa3.1318021323.git.kergoth@gmail.com>
+Mime-Version: 1.0 (Apple Message framework v936)
+Date: Sat, 8 Oct 2011 00:34:30 +0200
+References: <cover.1318021323.git.kergoth@gmail.com>
+	<bc7e830e85f9f5242e0178dee517d24cbdfc9fa3.1318021323.git.kergoth@gmail.com>
+X-Mailer: Apple Mail (2.936)
+Subject: Re: [PATCH 1/3] autotools: fix multi-word arguments for EXTRA_OECONF
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,45 +37,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Oct 2011 22:36:08 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 07 Oct 2011 22:40:22 -0000
+Content-Type: text/plain; charset=US-ASCII; format=flowed; delsp=yes
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-10-07 at 21:21 +0000, Daniel Lazzari wrote:
-> Hey everyone,
-> 
-> I noticed today that one of our recipes takes a very long time to get
-> through the do_package task. The recipe has a couple of binaries and a
-> whole lot of assets (thousands of audio files). It takes over 20
-> minutes for the do_package task to complete on my local desktop. I
-> finally tracked it down to the package_do_filedeps function which
-> appears to be running an rpmdeps process for each file in each
-> package. As far as I can tell, it just then dumps that data to text
-> files in pkgdata and only seems concerned with the binaries. Can
-> anyone shed some light on what this info is used for? Should it only
-> be concerned with executables and libraries (there is currently no
-> filter on it)? Do I even need that data if we are using ipkg instead
-> of rpm?
 
-This is why there is a line in package.bbclass which says:
+Op 7 okt 2011, om 23:02 heeft Christopher Larson het volgende  
+geschreven:
 
-		if pkg.endswith('-dbg') or pkg.endswith('-doc') or pkg.find('-locale-') != -1 or pkg.find('-localedata-') != -1 or pkg.find('-gconv-') != -1 or pkg.find('-charmap-') != -1 or pkg.startswith('kernel-module-'):
-			continue
+> This is needed to better support things like the following (with a
+> multi-word BUILD_CC):
+>
+>    EXTRA_OECONF += '"ac_cv_prog_CC_FOR_BUILD=${BUILD_CC}"'
+>
+> Signed-off-by: Christopher Larson <kergoth@gmail.com>
+> ---
+> meta/classes/autotools.bbclass |   14 ++++++--------
+> 1 files changed, 6 insertions(+), 8 deletions(-)
+>
+> diff --git a/meta/classes/autotools.bbclass b/meta/classes/ 
+> autotools.bbclass
+> index a4ce851..135be33 100644
+> --- a/meta/classes/autotools.bbclass
+> +++ b/meta/classes/autotools.bbclass
+> @@ -70,14 +70,12 @@ CONFIGUREOPT_DEPTRACK = "--disable-dependency- 
+> tracking"
+>
+>
+> oe_runconf () {
+> -	if [ -x ${S}/configure ] ; then
+> -		cfgcmd="${S}/configure \
+> -		${CONFIGUREOPTS} ${EXTRA_OECONF} $@"
+> -		bbnote "Running $cfgcmd..."
+> -		$cfgcmd || bbfatal "oe_runconf failed"
+> -	else
+> -		bbfatal "no configure script found"
+> -	fi
+> +       if [ -x ${S}/configure ] ; then
+> +	       bbnote "Running ${S}/configure ${CONFIGUREOPTS} $ 
+> {EXTRA_OECONF} $@"
+> +	       ${S}/configure ${CONFIGUREOPTS} ${EXTRA_OECONF} "$@" ||  
+> bbfatal "oe_runconf failed"
+> +       else
+> +	       bbfatal "no configure script found"
+> +       f
 
-since those are packages we know we're not going to get useful
-information from. It finds perl and python module dependencies so its
-not just executable binaries/libraries unfortunately :/.
-
-It would probably be useful to have a way of flagging other packages as
-uninteresting though. The idea is the information is used by all the
-package backends. At present it is used more by some than by others and
-the ipk backend is limited in its use iirc. That will be changing over
-time though.
-
-Cheers,
-
-Richard
-
-
+Was the tab->spaces conversion intentional?
 
 
