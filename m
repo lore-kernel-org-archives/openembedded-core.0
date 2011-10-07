@@ -1,31 +1,31 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RCBD0-0000xj-Ao for openembedded-core@lists.openembedded.org;
-	Fri, 07 Oct 2011 16:15:30 +0200
+	id 1RCBHs-0002Sb-SE for openembedded-core@lists.openembedded.org;
+	Fri, 07 Oct 2011 16:20:33 +0200
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p97EGPUS010117 for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Oct 2011 15:16:25 +0100
+	p97ELSVr010272 for <openembedded-core@lists.openembedded.org>;
+	Fri, 7 Oct 2011 15:21:28 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id bJ0FasxF9ogr
+	with LMTP id y7EOq0xSGmz0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Oct 2011 15:16:25 +0100 (BST)
+	Fri,  7 Oct 2011 15:21:28 +0100 (BST)
 Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p97EGJl4010101
+	p97ELOPY010260
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Oct 2011 15:16:20 +0100
+	Fri, 7 Oct 2011 15:21:27 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 07 Oct 2011 15:09:40 +0100
+Date: Fri, 07 Oct 2011 15:14:45 +0100
 X-Mailer: Evolution 3.1.91- 
-Message-ID: <1317996588.2405.18.camel@ted>
+Message-ID: <1317996895.2405.19.camel@ted>
 Mime-Version: 1.0
-Subject: Convoluted dependencies
+Subject: [PATCH] hicolor-icon-theme: Convert to allarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,31 +40,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Oct 2011 14:15:30 -0000
+X-List-Received-Date: Fri, 07 Oct 2011 14:20:33 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-I've been trying to figure out why our builds take as long as they do.
-It appears our dependency chains are getting more and more convoluted
-and this certainly isn't helping things. Specific pain points look like:
-
-bison-native -> gettext-native
-flex-native -> gettext-native
-(which limits binutils-cross)
-
-gettext-native -> libxml2-native -> python-native
-(hence gettext takes a *long* time to be built)
-What uses the python xml bindings?
-
-pseudo-native -> sqlite3-native
-(dragging out the time our effectively single threaded init takes)
-
-I'm mentioning this in case anyone has good ideas for fixing some of
-these...
-
-Cheers,
-
-Richard
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
+index c9d65a2..759c9d8 100644
+--- a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
++++ b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
+@@ -6,7 +6,9 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f08a446809913fc9b3c718f0eaea0426"
+ 
+ SECTION = "unknown"
+-inherit gnome
++inherit gnome allarch
++
++DEPENDS = ""
+ 
+ PR = "r0"
+ 
+@@ -16,8 +18,6 @@ SRC_URI = "http://icon-theme.freedesktop.org/releases/${BPN}-${PV}.tar.gz \
+ SRC_URI[md5sum] = "55cafbcef8bcf7107f6d502149eb4d87"
+ SRC_URI[sha256sum] = "9edca690617eaa19054951ca53501c802180262be8880ed84754ac46c93bec73"
+ 
+-PACKAGE_ARCH = "all"
+-
+ FILES_${PN} += "${datadir}/icons"
+ 
+ do_install_append () {
 
 
 
