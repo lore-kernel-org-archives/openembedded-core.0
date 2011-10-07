@@ -1,59 +1,28 @@
-Received: from ch1ehsobe002.messaging.microsoft.com ([216.32.181.182]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RCD2Z-0002vr-G1
+	(envelope-from <sgw@linux.intel.com>) id 1RCDT4-0005jI-Pm
 	for openembedded-core@lists.openembedded.org;
-	Fri, 07 Oct 2011 18:12:51 +0200
-Received: from mail176-ch1-R.bigfish.com (10.43.68.252) by
-	CH1EHSOBE015.bigfish.com (10.43.70.65) with Microsoft SMTP Server id
-	14.1.225.22; Fri, 7 Oct 2011 16:07:14 +0000
-Received: from mail176-ch1 (localhost.localdomain [127.0.0.1])	by
-	mail176-ch1-R.bigfish.com (Postfix) with ESMTP id 1171DCC0344	for
-	<openembedded-core@lists.openembedded.org>;
-	Fri,  7 Oct 2011 16:07:14 +0000 (UTC)
-X-SpamScore: -12
-X-BigFish: VS-12(zz9371K1432N98dKzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
-	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 13,
-Received: from mail176-ch1 (localhost.localdomain [127.0.0.1]) by mail176-ch1
-	(MessageSwitch) id 1318003633989141_19840;
-	Fri,  7 Oct 2011 16:07:13 +0000 (UTC)
-Received: from CH1EHSMHS016.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.242])	by mail176-ch1.bigfish.com (Postfix) with ESMTP id
-	E82DD16D0053	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Oct 2011 16:07:13 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS016.bigfish.com
-	(10.43.70.16) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Fri, 7 Oct 2011 16:07:13 +0000
-Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.230]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.01.0323.007; Fri, 7 Oct 2011 11:07:12 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 2/6] Fix perl for powerpc64 build
-Thread-Index: AQHMg5GU8cOir1liD0yhm0P6URX2wZVxXwaAgAAD5YA=
-Date: Fri, 7 Oct 2011 16:07:11 +0000
-Message-ID: <CAEsOVNeFud2ev-T+++AnV+A-kqM0v5ni2ADO7GzrSbodXFrXyw@mail.gmail.com>
-References: <1317765787-19127-1-git-send-email-msm@freescale.com>
-	<1317765787-19127-2-git-send-email-msm@freescale.com>
-	<1317815212.14671.142.camel@ted>
-	<CAEsOVNdUTaVc1NR0hDH7PU1gVCXotJWEJquiz=EMQXQ231GmzA@mail.gmail.com>
-	<1318002781.8533.16.camel@ted>
-In-Reply-To: <1318002781.8533.16.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
+	Fri, 07 Oct 2011 18:40:15 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 07 Oct 2011 09:34:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.68,503,1312182000"; d="scan'208";a="24213719"
+Received: from unknown (HELO [10.255.14.198]) ([10.255.14.198])
+	by AZSMGA002.ch.intel.com with ESMTP; 07 Oct 2011 09:34:33 -0700
+Message-ID: <4E8F2A19.4030808@linux.intel.com>
+Date: Fri, 07 Oct 2011 09:34:33 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:6.0.2) Gecko/20110906 Thunderbird/6.0.2
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH 2/6] Fix perl for powerpc64 build
+To: openembedded-core@lists.openembedded.org
+References: <1317996588.2405.18.camel@ted>
+In-Reply-To: <1317996588.2405.18.camel@ted>
+Subject: Re: Convoluted dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -64,30 +33,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Oct 2011 16:12:51 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <47FBC6DDDB67604EB3B89D67A3223F31@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 07 Oct 2011 16:40:15 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 7, 2011 at 10:52 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> Do you still need this bit:
+On 10/07/2011 07:09 AM, Richard Purdie wrote:
+> I've been trying to figure out why our builds take as long as they do.
+> It appears our dependency chains are getting more and more convoluted
+> and this certainly isn't helping things. Specific pain points look like:
 >
-> =A0 =A0 =A0 =A0case "${TARGET_ARCH}" in
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 x86_64 | powerpc | s390)
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 x86_64 | powerpc | powerpc64 | s390)
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0sed -i -e "s,\(need_va_cop=
-y=3D\)'undef',\1'define',g" \
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0config.sh-=
-${TARGET_ARCH}-${TARGET_OS}
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0;;
+> bison-native ->  gettext-native
+> flex-native ->  gettext-native
+> (which limits binutils-cross)
+>
+> gettext-native ->  libxml2-native ->  python-native
+> (hence gettext takes a *long* time to be built)
+> What uses the python xml bindings?
+>
+I thought that by having the --with-included-libxml, we got rid of the 
+libxml2-native dependency, we should investigate that further.
 
-Missing this does not seem to affect things negatively so far, I've
-been build testing mostly though - will revisit this later if
-something comes up.
+Digging shows that it is needed for python to create the xml2po tool for 
+doc translation.
 
--M=
+Sau!
 
+
+> pseudo-native ->  sqlite3-native
+> (dragging out the time our effectively single threaded init takes)
+>
+> I'm mentioning this in case anyone has good ideas for fixing some of
+> these...
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
