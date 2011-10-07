@@ -1,34 +1,34 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RCDxm-0005jd-L9
+	(envelope-from <martin.jansa@gmail.com>) id 1RCDxw-0005r4-E5
 	for openembedded-core@lists.openembedded.org;
-	Fri, 07 Oct 2011 19:11:58 +0200
-Received: by mail-yw0-f47.google.com with SMTP id 7so3895515ywf.6
+	Fri, 07 Oct 2011 19:12:08 +0200
+Received: by eyx24 with SMTP id 24so2129441eyx.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Oct 2011 10:06:23 -0700 (PDT)
+	Fri, 07 Oct 2011 10:06:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=YgYNMpbZbl0qxfLFb+LA2iZM6AKDo3YVQy4Od2/bFtI=;
-	b=B+qrM6LRvJpQhjtwBgEPaLs3UseQY2Btj5EUeBo9n8xODDtb8+WtnM2NTMxai6kXMF
-	lUgG08csmmm0ufq30e0Rex7+KoTRNaAkFGMgTSCe9T67JQ5MwBY911eYIp5ekZvKhIUm
-	BczCJ9JhLpGQKqCtAEoLveyZndY7XXROW+f+Q=
-Received: by 10.223.64.65 with SMTP id d1mr11889740fai.32.1318007183365;
-	Fri, 07 Oct 2011 10:06:23 -0700 (PDT)
+	bh=ojpWiKNlPCDLr1l6qePoUWMShc3qQQlV0WnZUWfB6Qk=;
+	b=Wx0KrvZR3i9TE+7Rml5TpdKj5lNndY1SVreT5GWBUKD4laidYJGuo6VbhBP137/imc
+	uR8mhk0UHW+W/Cb66GLfb+RrGNSzInqybN5xB/752DLL14HcpTusNki60yFvGejcsrmf
+	WCe5psSFHMAl/vT4r1ZDJFL2TPRprrW4gsH7k=
+Received: by 10.223.62.16 with SMTP id v16mr12364155fah.35.1318007191302;
+	Fri, 07 Oct 2011 10:06:31 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id n1sm13590291fad.20.2011.10.07.10.06.20
+	by mx.google.com with ESMTPS id f25sm13623727faf.7.2011.10.07.10.06.29
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 07 Oct 2011 10:06:21 -0700 (PDT)
+	Fri, 07 Oct 2011 10:06:30 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Oct 2011 19:05:02 +0200
-Message-Id: <7ba7c68c4d193b35f52f4927a9e8311613c4e708.1318007055.git.Martin.Jansa@gmail.com>
+Date: Fri,  7 Oct 2011 19:05:03 +0200
+Message-Id: <e8bd9688265db3d7ee9ad8c48b1f3d1aefee3892.1318007055.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.7
 In-Reply-To: <8267017169d00aaa5a487a6f5d72cd67dad9c327.1318007055.git.Martin.Jansa@gmail.com>
 References: <8267017169d00aaa5a487a6f5d72cd67dad9c327.1318007055.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1318007055.git.Martin.Jansa@gmail.com>
 References: <cover.1318007055.git.Martin.Jansa@gmail.com>
-Subject: [PATCHv3 07/31] xserver-xorg-common: improve packaging
+Subject: [PATCHv3 08/31] xserver-xorg-common: move shared PROTO_DEPS and LIB_DEPS from xserver-xorg.inc and xserver-xorg-lite.inc to xserver-xorg-common.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,42 +43,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Oct 2011 17:11:58 -0000
+X-List-Received-Date: Fri, 07 Oct 2011 17:12:08 -0000
 
-* add ${bindir} and protocol.txt to ${PN}
-* SecurityPolicy is now in ${PN}-security-policy
-* package .la files to ${PN}-dev
-* README.compiled is lately in ${localstatedir}/lib/xkb so add it too to ${PN}-doc
+* xserver-xorg.inc is appending extra xf86driproto dri2proto to PROTO_DEPS and virtual/libgl to LIB_DEPS
+* both lite and dri variants now depend on font-util (from DEPENDS in xserver-xorg-common.inc)
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../xorg-xserver/xserver-xorg-common.inc           |   11 +++++------
- 1 files changed, 5 insertions(+), 6 deletions(-)
+ .../xorg-xserver/xserver-xorg-common.inc           |    4 ++++
+ .../xorg-xserver/xserver-xorg-lite.inc             |    6 ------
+ .../recipes-graphics/xorg-xserver/xserver-xorg.inc |    7 ++-----
+ 3 files changed, 6 insertions(+), 11 deletions(-)
 
 diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
-index c0fcf8b..0a5d8b6 100644
+index 0a5d8b6..d901e2c 100644
 --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
 +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
-@@ -58,14 +58,13 @@ PACKAGES =+ "${PN}-security-policy \
+@@ -20,6 +20,10 @@ S = "${WORKDIR}/${XORG_PN}-${PV}"
  
- RDEPENDS_${PN} += "xserver-xf86-config xkeyboard-config"
+ inherit autotools pkgconfig
  
--FILES_${PN} = "${libdir}/X11/Options ${libdir}/X11/Cards ${libdir}/X11/getconfig ${libdir}/X11/etc ${libdir}/xserver/SecurityPolicy ${libdir}/xorg/modules/*.so ${libdir}/xorg/modules/*/*.so ${libdir}/xorg/modules/*/*/*.so /etc/X11 "
--FILES_${PN}-doc += "${libdir}/X11/doc ${datadir}/X11/xkb/compiled/README.compiled"
++PROTO_DEPS = "randrproto renderproto fixesproto damageproto xextproto xproto xf86dgaproto xf86miscproto xf86rushproto xf86vidmodeproto xf86bigfontproto compositeproto recordproto resourceproto videoproto scrnsaverproto evieext trapproto xineramaproto fontsproto kbproto inputproto bigreqsproto xcmiscproto glproto"
++LIB_DEPS = "pixman libxfont xtrans libxau libxext libxdmcp libdrm libxkbfile libpciaccess openssl"
++DEPENDS = "${PROTO_DEPS} ${LIB_DEPS} font-util"
++
+ # Split out some modules and extensions from the main package
+ # These aren't needed for basic operations and only take up space:
+ #  32.0k   libdri.so
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc
+index f1cef1b..a942a11 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc
+@@ -1,11 +1,5 @@
+ require xserver-xorg-common.inc
+ 
+-PROTO_DEPS = "randrproto renderproto fixesproto damageproto xextproto xproto xf86dgaproto xf86miscproto xf86rushproto xf86vidmodeproto xf86bigfontproto compositeproto recordproto resourceproto videoproto scrnsaverproto evieext trapproto xineramaproto fontsproto kbproto inputproto bigreqsproto xcmiscproto glproto"
 -
-+FILES_${PN} = "${bindir} ${libdir}/X11/Options ${libdir}/X11/Cards ${libdir}/X11/getconfig ${libdir}/X11/etc ${libdir}/modules/*.so ${libdir}/xorg/modules/*.so /etc/X11 ${libdir}/xorg/protocol.txt ${datadir}/X11/xorg.conf.d"
-+FILES_${PN}-dev += "${libdir}/xorg/modules/*.la ${libdir}/xorg/modules/*/*.la"
-+FILES_${PN}-doc += "${libdir}/X11/doc ${datadir}/X11/xkb/compiled/README.compiled ${localstatedir}/lib/xkb/README.compiled"
- FILES_${PN}-dbg += "${libdir}/xorg/modules/.debug \
-                     ${libdir}/xorg/modules/*/.debug \
--		    ${libdir}/xorg/modules/*/*/.debug \
--		    "
+-LIB_DEPS = "pixman libxfont xtrans libxau libxext libxdmcp libdrm libxkbfile libpciaccess openssl"
 -
-+                    ${libdir}/xorg/modules/*/*/.debug \
-+                    "
- FILES_${PN}-security-policy += "${libdir}/xserver/SecurityPolicy"
- FILES_${PN}-sdl = "${bindir}/Xsdl"
- FILES_${PN}-fbdev = "${bindir}/Xfbdev"
+-DEPENDS = "${PROTO_DEPS} ${LIB_DEPS}"
+-
+ RDEPENDS_${PN} += "xorg-minimal-fonts"
+ 
+ FILES_${PN} += "${bindir}/Xorg "
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index 9bc0ee4..71754f7 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -1,10 +1,7 @@
+ require xserver-xorg-common.inc
+ 
+-PROTO_DEPS = "randrproto renderproto fixesproto damageproto xextproto xproto xf86dgaproto xf86miscproto xf86rushproto xf86vidmodeproto xf86bigfontproto compositeproto recordproto resourceproto videoproto scrnsaverproto evieext trapproto xineramaproto fontsproto kbproto inputproto bigreqsproto xcmiscproto glproto"
+-
+-LIB_DEPS = "pixman virtual/libgl libxfont xtrans libxau libxext libxdmcp libdrm libxkbfile libpciaccess openssl"
+-
+-DEPENDS = "${PROTO_DEPS} ${LIB_DEPS}"
++PROTO_DEPS += "xf86driproto dri2proto"
++LIB_DEPS += "virtual/libgl"
+ 
+ RDEPENDS_${PN} += "xorg-minimal-fonts"
+ 
 -- 
 1.7.7
 
