@@ -1,36 +1,34 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RCC9Q-00057H-Il for openembedded-core@lists.openembedded.org;
-	Fri, 07 Oct 2011 17:15:55 +0200
+	id 1RCCou-0001Cv-7R for openembedded-core@lists.openembedded.org;
+	Fri, 07 Oct 2011 17:58:45 +0200
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p97FGlHl013280 for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Oct 2011 16:16:48 +0100
+	p97FxakW015208; Fri, 7 Oct 2011 16:59:36 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id RNgapMhBYRhW
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Oct 2011 16:16:47 +0100 (BST)
+	with LMTP id 7em0UHeKHBpm; Fri,  7 Oct 2011 16:59:36 +0100 (BST)
 Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p97FGisf013258
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Oct 2011 16:16:46 +0100
+	p97FxVjk015203
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Fri, 7 Oct 2011 16:59:33 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+To: McClintock Matthew-B29882 <B29882@freescale.com>, Patches and
+	discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 07 Oct 2011 16:10:05 +0100
-In-Reply-To: <CADWjqk4vMeDa12__Ckg=v_eYb38hQkrx9JQfi25wh58eE5G7YA@mail.gmail.com>
-References: <CADWjqk4pPWNYzO7Cua7xYXa55g=BWqwAY8taHhLwV=xaesDWPA@mail.gmail.com>
-	<1317808871.14671.126.camel@ted> <1317809123.14671.127.camel@ted>
-	<CADWjqk4vMeDa12__Ckg=v_eYb38hQkrx9JQfi25wh58eE5G7YA@mail.gmail.com>
+Date: Fri, 07 Oct 2011 16:52:53 +0100
+In-Reply-To: <CAEsOVNdUTaVc1NR0hDH7PU1gVCXotJWEJquiz=EMQXQ231GmzA@mail.gmail.com>
+References: <1317765787-19127-1-git-send-email-msm@freescale.com>
+	<1317765787-19127-2-git-send-email-msm@freescale.com>
+	<1317815212.14671.142.camel@ted>
+	<CAEsOVNdUTaVc1NR0hDH7PU1gVCXotJWEJquiz=EMQXQ231GmzA@mail.gmail.com>
 X-Mailer: Evolution 3.1.91- 
-Message-ID: <1318000214.8533.6.camel@ted>
+Message-ID: <1318002781.8533.16.camel@ted>
 Mime-Version: 1.0
-Subject: Re: pkg-config bug crashes 'bitbake glib-2.0-native' in FC15.x86_64
+Subject: Re: [PATCH 2/6] Fix perl for powerpc64 build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,61 +43,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Oct 2011 15:15:55 -0000
+X-List-Received-Date: Fri, 07 Oct 2011 15:58:45 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-10-06 at 02:38 -0600, dashesy wrote:
-> On Wed, Oct 5, 2011 at 4:05 AM, Richard Purdie
+On Wed, 2011-10-05 at 19:04 +0000, McClintock Matthew-B29882 wrote:
+> On Wed, Oct 5, 2011 at 6:46 AM, Richard Purdie
 > <richard.purdie@linuxfoundation.org> wrote:
-> > On Wed, 2011-10-05 at 11:01 +0100, Richard Purdie wrote:
-> >> On Wed, 2011-10-05 at 03:21 -0600, dashesy wrote:
-> >> > Hi,
-> >> >
-> >> > I am using these in my local.conf with master branch of oe-core:
-> >> > DISTRO="angstrom-2010.x"
-> >> > MACHINE="beagleboard"
-> >> >
-> >> > The build for 'bitbake glib-2.0-native' (or actually 'bitbake
-> >> > meta-toolchain') will finally reach a run.do_configure for 'package
-> >> > glib-2.0-native-1_2.28.8-r5: task do_configure: Started'
-> >> > which runs the "oe-core/build/tmp-eglibc/sysroots/x86_64-linux/usr/bin/pkg-config"
-> >> >  for auto build
-> >> > This leads to the following chain
-> >> > pkg-config(cross)->gnome-config->pkg-config->glib-config->pkg-config->...
-> >> >
-> >> > dashesy  21266 21265 21266  0    1 01:56 pts/0    00:00:00 /bin/sh -e
-> >> > /home/dashesy/buildroot/oe-core/build/tmp-eglibc/work/x86_64-linux/glib-2.0-native-1_2.28.8-r5/temp/run.do_configure.21265
-> >> > root     21870   935 21870  0    1 01:56 ?        00:00:00 sleep 60
-> >> > dashesy  22246 21266 22246  0    1 01:56 pts/0    00:00:00 /bin/sh
-> >> > /home/dashesy/buildroot/oe-core/build/tmp-eglibc/work/x86_64-linux/glib-2.0-native-1_2.28.8-r5/glib-2.28.8/configure
-[...]
-> >> > --disable-silent-rules --disable-dependency-tracking --disable-dtrace
-> >> > --disable-systemtap --enable-nls --enable-dtrace=no
-> >> > dashesy  22671 22246 22671  0    1 01:56 pts/0    00:00:00
-> >> > /home/dashesy/buildroot/oe-core/build/tmp-eglibc/sysroots/x86_64-linux/usr/bin/pkg-config
-> >> > --exists --print-errors zlib
-> >> > dashesy  22672 22671 22672  0    1 01:56 pts/0    00:00:00 sh -c
-> >> > gnome-config --libs zlib > /dev/null 2>&1
+> >> --- a/meta/recipes-devtools/perl/perl_5.12.3.bb
+> >> +++ b/meta/recipes-devtools/perl/perl_5.12.3.bb
+> >> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
+> >>  # We need gnugrep (for -I)
+> >>  DEPENDS = "virtual/db grep-native"
+> >>  DEPENDS += "gdbm zlib"
+> >> -PR = "r5"
+> >> +PR = "r6"
 > >>
-> >> Something odd is happening here. We have a patch in OE-Core against
-> >> pkg-config which should disable "leagacy" pkg-config functionality.
+> >>  # 5.10.1 has Module::Build built-in
+> >>  PROVIDES += "libmodule-build-perl"
+> >> @@ -95,6 +95,8 @@ export LDDLFLAGS = "${LDFLAGS} -shared"
+> >>  # We're almost Debian, aren't we?
+> >>  CFLAGS += "-DDEBIAN"
 > >>
-> >> I took a look and it somehow looks like the patch got broken. Could you
-> >> try again with
-> >>
-> >> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/wip8&id=de51d6ffae1d6a4f594687d5bdef25e731f44dfa
-> >>
-> >> applied please? I think this should fix this problem.
+> >> +export ARCH_powerpc64 = "powerpc64"
+> >> +
 > >
-> > Sorry, this should be:
+> > I'm finding it really hard to believe this makes any difference. I just
+> > tried a powerpc64 build here and perl built fine. I can't find any
+> > evidence for any part of the perl build using an ARCH variable
+> > (TARGET_ARCH is used but that isn't ARCH).
 > >
-> > http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/wip8&id=8d04d67271e5698ede8c08d3b6e3d4d7e38ffb0c
-> >
+> > Can you give some further information about how/where this is used?
 > 
-> The patch worked, no more recursive calls and bitbake succeeds too, thanks!
+> I'm trying to reproduce this again on 'edison' as well and it does not
+> appear to be occurring anymore! The problem before had to do with a
+> configuration script error:
+> 
+> config.sh-powerpc64-linux
+> 
+> This script was getting invoked as 'config.sh-powerpc-linux' on the
+> 64bit build, then the file did not exist and the configure step failed
+> out. Not sure if this was somehow fixed in a different manner.
+> 
+> Please drop this patch for now. I'll bring it up again if I see issues.
 
-Thanks for testing. The fix has been merged into master.
+Do you still need this bit:
+
+        case "${TARGET_ARCH}" in
+-               x86_64 | powerpc | s390)
++               x86_64 | powerpc | powerpc64 | s390)
+                        sed -i -e "s,\(need_va_copy=\)'undef',\1'define',g" \
+                                config.sh-${TARGET_ARCH}-${TARGET_OS}
+                        ;;
+
+?
 
 Cheers,
 
