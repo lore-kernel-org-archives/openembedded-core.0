@@ -1,35 +1,36 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RCC52-0004pH-Cr for openembedded-core@lists.openembedded.org;
-	Fri, 07 Oct 2011 17:11:20 +0200
+	id 1RCC9Q-00057H-Il for openembedded-core@lists.openembedded.org;
+	Fri, 07 Oct 2011 17:15:55 +0200
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p97FCFd1013154 for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Oct 2011 16:12:15 +0100
+	p97FGlHl013280 for <openembedded-core@lists.openembedded.org>;
+	Fri, 7 Oct 2011 16:16:48 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id HsIaWDKFhaOc
+	with LMTP id RNgapMhBYRhW
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Oct 2011 16:12:15 +0100 (BST)
+	Fri,  7 Oct 2011 16:16:47 +0100 (BST)
 Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p97FCDvQ013149
+	p97FGisf013258
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Oct 2011 16:12:14 +0100
+	Fri, 7 Oct 2011 16:16:46 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 07 Oct 2011 16:05:34 +0100
-In-Reply-To: <e27a2c33117539c39c8c9961d0e16ca5c0bdff89.1317397204.git.Martin.Jansa@gmail.com>
-References: <cover.1317397204.git.Martin.Jansa@gmail.com>
-	<e27a2c33117539c39c8c9961d0e16ca5c0bdff89.1317397204.git.Martin.Jansa@gmail.com>
+Date: Fri, 07 Oct 2011 16:10:05 +0100
+In-Reply-To: <CADWjqk4vMeDa12__Ckg=v_eYb38hQkrx9JQfi25wh58eE5G7YA@mail.gmail.com>
+References: <CADWjqk4pPWNYzO7Cua7xYXa55g=BWqwAY8taHhLwV=xaesDWPA@mail.gmail.com>
+	<1317808871.14671.126.camel@ted> <1317809123.14671.127.camel@ted>
+	<CADWjqk4vMeDa12__Ckg=v_eYb38hQkrx9JQfi25wh58eE5G7YA@mail.gmail.com>
 X-Mailer: Evolution 3.1.91- 
-Message-ID: <1317999942.8533.5.camel@ted>
+Message-ID: <1318000214.8533.6.camel@ted>
 Mime-Version: 1.0
-Subject: Re: [WIP][PATCH 8/9] glib: upgrade to 2.30.0
+Subject: Re: pkg-config bug crashes 'bitbake glib-2.0-native' in FC15.x86_64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,32 +45,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Oct 2011 15:11:21 -0000
+X-List-Received-Date: Fri, 07 Oct 2011 15:15:55 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-09-30 at 17:43 +0200, Martin Jansa wrote:
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  ...003-gatomic-proper-pointer-get-cast.patch.patch |   28 ----------
->  .../0005-glib-mkenums-interpreter.patch.patch      |   25 ---------
->  .../60_wait-longer-for-threads-to-die.patch        |   24 +++++-----
->  meta/recipes-core/glib-2.0/glib-2.0/no-iconv.patch |    2 -
->  .../glib-2.0/remove.test.for.qsort_r.patch         |   53 ++++++++++++++++++++
->  meta/recipes-core/glib-2.0/glib-2.0_2.28.8.bb      |   23 ---------
->  meta/recipes-core/glib-2.0/glib-2.0_2.30.0.bb      |   41 +++++++++++++++
->  7 files changed, 106 insertions(+), 90 deletions(-)
->  delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0003-gatomic-proper-pointer-get-cast.patch.patch
->  delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0005-glib-mkenums-interpreter.patch.patch
->  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/remove.test.for.qsort_r.patch
->  delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0_2.28.8.bb
->  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0_2.30.0.bb
+On Thu, 2011-10-06 at 02:38 -0600, dashesy wrote:
+> On Wed, Oct 5, 2011 at 4:05 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Wed, 2011-10-05 at 11:01 +0100, Richard Purdie wrote:
+> >> On Wed, 2011-10-05 at 03:21 -0600, dashesy wrote:
+> >> > Hi,
+> >> >
+> >> > I am using these in my local.conf with master branch of oe-core:
+> >> > DISTRO="angstrom-2010.x"
+> >> > MACHINE="beagleboard"
+> >> >
+> >> > The build for 'bitbake glib-2.0-native' (or actually 'bitbake
+> >> > meta-toolchain') will finally reach a run.do_configure for 'package
+> >> > glib-2.0-native-1_2.28.8-r5: task do_configure: Started'
+> >> > which runs the "oe-core/build/tmp-eglibc/sysroots/x86_64-linux/usr/bin/pkg-config"
+> >> >  for auto build
+> >> > This leads to the following chain
+> >> > pkg-config(cross)->gnome-config->pkg-config->glib-config->pkg-config->...
+> >> >
+> >> > dashesy  21266 21265 21266  0    1 01:56 pts/0    00:00:00 /bin/sh -e
+> >> > /home/dashesy/buildroot/oe-core/build/tmp-eglibc/work/x86_64-linux/glib-2.0-native-1_2.28.8-r5/temp/run.do_configure.21265
+> >> > root     21870   935 21870  0    1 01:56 ?        00:00:00 sleep 60
+> >> > dashesy  22246 21266 22246  0    1 01:56 pts/0    00:00:00 /bin/sh
+> >> > /home/dashesy/buildroot/oe-core/build/tmp-eglibc/work/x86_64-linux/glib-2.0-native-1_2.28.8-r5/glib-2.28.8/configure
+[...]
+> >> > --disable-silent-rules --disable-dependency-tracking --disable-dtrace
+> >> > --disable-systemtap --enable-nls --enable-dtrace=no
+> >> > dashesy  22671 22246 22671  0    1 01:56 pts/0    00:00:00
+> >> > /home/dashesy/buildroot/oe-core/build/tmp-eglibc/sysroots/x86_64-linux/usr/bin/pkg-config
+> >> > --exists --print-errors zlib
+> >> > dashesy  22672 22671 22672  0    1 01:56 pts/0    00:00:00 sh -c
+> >> > gnome-config --libs zlib > /dev/null 2>&1
+> >>
+> >> Something odd is happening here. We have a patch in OE-Core against
+> >> pkg-config which should disable "leagacy" pkg-config functionality.
+> >>
+> >> I took a look and it somehow looks like the patch got broken. Could you
+> >> try again with
+> >>
+> >> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/wip8&id=de51d6ffae1d6a4f594687d5bdef25e731f44dfa
+> >>
+> >> applied please? I think this should fix this problem.
+> >
+> > Sorry, this should be:
+> >
+> > http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/wip8&id=8d04d67271e5698ede8c08d3b6e3d4d7e38ffb0c
+> >
+> 
+> The patch worked, no more recursive calls and bitbake succeeds too, thanks!
 
-> +DEPENDS += "libffi python-argparse-native"
-> +DEPENDS_virtclass-native += "libffi-native python-argparse-native"
-
-Just to be clear on the status of this, the above dependencies present a
-problem for OE-Core :(
+Thanks for testing. The fix has been merged into master.
 
 Cheers,
 
