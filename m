@@ -1,33 +1,33 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <julian.pidancet@gmail.com>) id 1RBxJj-0003W7-79
+	(envelope-from <julian.pidancet@gmail.com>) id 1RBxJm-0003WS-Um
 	for openembedded-core@lists.openembedded.org;
-	Fri, 07 Oct 2011 01:25:31 +0200
-Received: by mail-wy0-f175.google.com with SMTP id 5so3650223wyh.6
+	Fri, 07 Oct 2011 01:25:35 +0200
+Received: by wwf27 with SMTP id 27so4170306wwf.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Oct 2011 16:19:57 -0700 (PDT)
+	Thu, 06 Oct 2011 16:19:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=fiC9SRPmLNqcYfK1KEQ8SGVYgyCJUHVQc+4rqo9nwzU=;
-	b=WfBKF5UuuQIDNko6LpXgYHcWAQhb+KrGopiWIaydhAPdnyk+Ln90uadvmK5GgxegnZ
-	EjaUpfIPnxDkkt5eH6cgUQX7b2b4gqe8qSsX4pyXaGFFnOf+DQm13l0b/B1AeL6LJiy+
-	y5d584n61YJaUWxmk3NKCm/KrTpJKOAwvaCLk=
-Received: by 10.227.7.25 with SMTP id b25mr1620019wbb.103.1317943197263;
-	Thu, 06 Oct 2011 16:19:57 -0700 (PDT)
+	bh=sM52aS2I5joaf2PMua1/ietMOoOY5PF9l+8XPkZpjO4=;
+	b=EQp+GzZ1QULKjeNJlXpKR3NQ1V23CMRpjG5bryxPGUGjopI6PjMU+DSbufI5Tfs+Ij
+	e+QGW0v/Rui+6pzDT+bvqdpXE8DM00lUscCcVCHlTfyzAw65Ks20/Q/6WQfewh1DGcdC
+	vJuNH0efFe9MKICRKQ1T+8XqR088alNslqf0w=
+Received: by 10.227.5.213 with SMTP id 21mr1597426wbw.40.1317943195312;
+	Thu, 06 Oct 2011 16:19:55 -0700 (PDT)
 Received: from localhost.localdomain (188-223-88-44.zone14.bethere.co.uk.
 	[188.223.88.44]) by mx.google.com with ESMTPS id
-	fy13sm12798307wbb.18.2011.10.06.16.19.55
+	fy13sm12798307wbb.18.2011.10.06.16.19.53
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 06 Oct 2011 16:19:56 -0700 (PDT)
+	Thu, 06 Oct 2011 16:19:54 -0700 (PDT)
 From: Julian Pidancet <julian.pidancet@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Oct 2011 01:13:41 +0100
-Message-Id: <09194231241e5668aa14f252345a1a2872ecfbdd.1317946258.git.julian.pidancet@gmail.com>
+Date: Fri,  7 Oct 2011 01:13:40 +0100
+Message-Id: <7cf9b1f0a6d69f9baeb36ca5dd893c683dd063c6.1317946258.git.julian.pidancet@gmail.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1317946258.git.julian.pidancet@gmail.com>
 References: <cover.1317946258.git.julian.pidancet@gmail.com>
 Cc: julian.pidancet@gmail.com
-Subject: [PATCH v3 2/2] Use useradd and update-rc.d classes in the OpenSSH recipe
+Subject: [PATCH v3 1/2] Fix the --root option in shadow-native programs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,76 +42,486 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2011 23:25:31 -0000
+X-List-Received-Date: Thu, 06 Oct 2011 23:25:35 -0000
 
-The current sshd postinst and postrm scripts in the OpenSSH make the
-package dependant of the adduser/addgroup scripts which may not be
-available on all systems.
+The add_root_cmd_options.patch that we apply to shadow-native allow the
+various programs from the shadow utility package to chroot() so they can
+be used to modify etc/passwd and etc/group if they are located in a
+sysroot.
 
-This patch replaces the sshd postinst and postrm scripts with proper
-usage of the useradd and update-rc.d classes.
+Some of the shadow programs (gpasswd, useradd and usermod) need to parse
+the command line in two passes. But we can't use getopt_long() twice
+because getopt_long() reorders the command line arguments, and
+consequently corrupts the option parsing during the second pass.
 
-This patch had been modified from the previous proposed version to
-use useradd long options for more clarity.
+This patch fixes this issue by replacing the first pass by a very simple
+manual walk of the command line to handle the --root argument.
+
+This change is a patch of another patch, I apologize if it is
+difficult to read. But IMHO it wouldn't make sense to put the patch for
+this issue in another separated file.
+
+The --root options in groupadd and useradd are needed to make the
+useradd class work, and this issue was preventing to use useradd and
+groupadd long options while using the class.
 
 Signed-off-by: Julian Pidancet <julian.pidancet@gmail.com>
 ---
- meta/recipes-connectivity/openssh/openssh_5.8p2.bb |   29 +++++--------------
- 1 files changed, 8 insertions(+), 21 deletions(-)
+ .../shadow/files/add_root_cmd_options.patch        |  189 ++++++++++----------
+ 1 files changed, 98 insertions(+), 91 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh_5.8p2.bb b/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
-index 030a83b..5f5f0bc 100644
---- a/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
-@@ -29,6 +29,14 @@ PAM_SRC_URI = "file://sshd"
- SRC_URI[md5sum] = "0541579adf9d55abb15ef927048d372e"
- SRC_URI[sha256sum] = "5c35ec7c966ce05cc4497ac59c0b54a556e55ae7368165cc8c4129694654f314"
+diff --git a/meta/recipes-extended/shadow/files/add_root_cmd_options.patch b/meta/recipes-extended/shadow/files/add_root_cmd_options.patch
+index c5f2bec..5edd3b8 100644
+--- a/meta/recipes-extended/shadow/files/add_root_cmd_options.patch
++++ b/meta/recipes-extended/shadow/files/add_root_cmd_options.patch
+@@ -25,9 +25,18 @@ Workaround is specific to our build system.
  
-+inherit useradd update-rc.d
+ Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+ 
++2011-09-29 Fix the parsing of the --root option in gpasswd, useradd, usermod:
 +
-+USERADD_PACKAGES = "${PN}-sshd"
-+USERADD_PARAM_${PN}-sshd = "--system --no-create-home --home-dir /var/run/sshd --shell /bin/false --user-group sshd"
-+INITSCRIPT_PACKAGES = "${PN}-sshd"
-+INITSCRIPT_NAME_${PN}-sshd = "sshd"
-+INITSCRIPT_PARAMS_${PN}-sshd = "defaults 9"
++In programs which need to scan the command line in two passes to handle 
++--root option separately from the rest of the arguments, replace the first
++calls to getopt_long with a simple iteration over the argument list since 
++getopt_long has the bad habit of reordering arguments on the command line.
 +
- inherit autotools
- 
- # LFS support:
-@@ -91,16 +99,6 @@ RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
- DEPENDS_${PN}-sshd += "update-rc.d"
- RDEPENDS_${PN}-sshd += "update-rc.d ${PN}-keygen"
- 
--pkg_postinst_${PN}-sshd () {
--	if [ "x$D" != "x" ]; then
--		exit 1
--	else
--		addgroup sshd
--		adduser --system --home /var/run/sshd --no-create-home --disabled-password --ingroup sshd -s /bin/false sshd
--		update-rc.d sshd defaults 9
--	fi
--}
--
- pkg_postinst_${PN}-scp () {
- 	update-alternatives --install ${bindir}/scp scp scp.${PN} 90
- }
-@@ -117,16 +115,5 @@ pkg_postrm_${PN}-scp () {
- 	update-alternatives --remove ${bindir}/scp scp.${PN}
- }
- 
--pkg_postrm_${PN}-sshd () {
--	if [ "x$D" != "x" ]; then
--		exit 1
--	else
--		${sysconfdir}/init.d/sshd stop
--		deluser sshd
--		delgroup sshd
--		update-rc.d -f sshd remove
--	fi
--}
--
- CONFFILES_${PN}-sshd = "${sysconfdir}/ssh/sshd_config"
- CONFFILES_${PN}-ssh = "${sysconfdir}/ssh/ssh_config"
++Signed-off-by: Julian Pidancet <julian.pidancet@gmail.com>
++
+ diff -urN shadow-4.1.4.3.orig//src/gpasswd.c shadow-4.1.4.3//src/gpasswd.c
+---- shadow-4.1.4.3.orig//src/gpasswd.c	2011-02-13 09:58:16.000000000 -0800
+-+++ shadow-4.1.4.3//src/gpasswd.c	2011-06-28 15:12:03.539504372 -0700
++--- shadow-4.1.4.3.orig//src/gpasswd.c	2011-09-29 12:00:45.211000091 +0100
+++++ shadow-4.1.4.3//src/gpasswd.c	2011-09-29 12:09:54.590000090 +0100
+ @@ -63,6 +63,7 @@
+   * (/etc/gshadow present) */
+  static bool is_shadowgrp;
+@@ -52,7 +61,7 @@ diff -urN shadow-4.1.4.3.orig//src/gpasswd.c shadow-4.1.4.3//src/gpasswd.c
+  	           "  -r, --remove-password         remove the GROUP's password\n"
+  	           "  -R, --restrict                restrict access to GROUP to its members\n"
+  	           "  -M, --members USER,...        set the list of members of GROUP\n"
+-@@ -226,6 +229,55 @@
++@@ -226,6 +229,57 @@
+  }
+  
+  /*
+@@ -68,23 +77,26 @@ diff -urN shadow-4.1.4.3.orig//src/gpasswd.c shadow-4.1.4.3//src/gpasswd.c
+ +	/*
+ +	 * Parse the command line options.
+ +	 */
+-+	int flag;
+-+	int option_index = 0;
+-+	static struct option long_options[] = {
+-+		{"root", required_argument, NULL, 'Q'},
+-+		{NULL, 0, NULL, '\0'}
+-+	};
+++	int i;
+++        char *root;
+ +
+-+	while ((flag = getopt_long (argc, argv, "a:A:d:gM:Q:rR", long_options, &option_index)) != -1) {
+-+		switch (flag) {
+-+		case 'Q':
+-+			if ('/' != optarg[0]) {
+++        for (i = 0; i < argc; i++) {
+++		if (!strcmp (argv[i], "--root") || !strcmp (argv[i], "-Q")) {
+++			if (i + 1 == argc) {
+++				fprintf (stderr,
+++				         _("%s: option '%s' requires an argument\n"),
+++				         Prog, argv[i]);
+++				exit (E_BAD_ARG);
+++			}
+++			root = argv[i + 1];
+++
+++			if ('/' != root[0]) {
+ +				fprintf (stderr,
+ +				         _("%s: invalid chroot path '%s'\n"),
+-+				         Prog, optarg);
+++				         Prog, root);
+ +				exit (E_BAD_ARG);
+ +			}
+-+			newroot = optarg;
+++			newroot = root;
+ +
+ +			if (access (newroot, F_OK) != 0) {
+ +				fprintf(stderr,
+@@ -99,7 +111,6 @@ diff -urN shadow-4.1.4.3.orig//src/gpasswd.c shadow-4.1.4.3//src/gpasswd.c
+ +				exit (E_BAD_ARG);
+ +			}
+ +			break;
+-+		/* no-op on everything else - they will be hanled by process_flags() */
+ +		}
+ +	}
+ +}
+@@ -108,7 +119,7 @@ diff -urN shadow-4.1.4.3.orig//src/gpasswd.c shadow-4.1.4.3//src/gpasswd.c
+   * process_flags - process the command line options and arguments
+   */
+  static void process_flags (int argc, char **argv)
+-@@ -235,6 +287,7 @@
++@@ -235,6 +289,7 @@
+  	static struct option long_options[] = {
+  		{"add", required_argument, NULL, 'a'},
+  		{"delete", required_argument, NULL, 'd'},
+@@ -116,7 +127,7 @@ diff -urN shadow-4.1.4.3.orig//src/gpasswd.c shadow-4.1.4.3//src/gpasswd.c
+  		{"remove-password", no_argument, NULL, 'r'},
+  		{"restrict", no_argument, NULL, 'R'},
+  		{"administrators", required_argument, NULL, 'A'},
+-@@ -242,7 +295,7 @@
++@@ -242,7 +297,7 @@
+  		{NULL, 0, NULL, '\0'}
+  		};
+  
+@@ -125,7 +136,7 @@ diff -urN shadow-4.1.4.3.orig//src/gpasswd.c shadow-4.1.4.3//src/gpasswd.c
+  		switch (flag) {
+  		case 'a':	/* add a user */
+  			aflg = true;
+-@@ -283,6 +336,9 @@
++@@ -283,6 +338,9 @@
+  			}
+  			Mflg = true;
+  			break;
+@@ -135,7 +146,7 @@ diff -urN shadow-4.1.4.3.orig//src/gpasswd.c shadow-4.1.4.3//src/gpasswd.c
+  		case 'r':	/* remove group password */
+  			rflg = true;
+  			break;
+-@@ -995,6 +1051,8 @@
++@@ -995,6 +1053,8 @@
+  	setbuf (stdout, NULL);
+  	setbuf (stderr, NULL);
+  
+@@ -145,8 +156,8 @@ diff -urN shadow-4.1.4.3.orig//src/gpasswd.c shadow-4.1.4.3//src/gpasswd.c
+  	is_shadowgrp = sgr_file_present ();
+  #endif
+ diff -urN shadow-4.1.4.3.orig//src/groupadd.c shadow-4.1.4.3//src/groupadd.c
+---- shadow-4.1.4.3.orig//src/groupadd.c	2011-02-13 09:58:16.000000000 -0800
+-+++ shadow-4.1.4.3//src/groupadd.c	2011-06-28 15:12:03.539504372 -0700
++--- shadow-4.1.4.3.orig//src/groupadd.c	2011-09-29 12:00:45.212000091 +0100
+++++ shadow-4.1.4.3//src/groupadd.c	2011-09-29 11:59:28.386000092 +0100
+ @@ -76,6 +76,7 @@
+  static gid_t group_id;
+  static /*@null@*/char *group_passwd;
+@@ -208,8 +219,8 @@ diff -urN shadow-4.1.4.3.orig//src/groupadd.c shadow-4.1.4.3//src/groupadd.c
+  			rflg = true;
+  			break;
+ diff -urN shadow-4.1.4.3.orig//src/groupdel.c shadow-4.1.4.3//src/groupdel.c
+---- shadow-4.1.4.3.orig//src/groupdel.c	2011-02-13 09:58:16.000000000 -0800
+-+++ shadow-4.1.4.3//src/groupdel.c	2011-06-28 15:12:03.539504372 -0700
++--- shadow-4.1.4.3.orig//src/groupdel.c	2011-09-29 12:00:45.212000091 +0100
+++++ shadow-4.1.4.3//src/groupdel.c	2011-09-29 11:59:28.386000092 +0100
+ @@ -36,6 +36,7 @@
+  
+  #include <ctype.h>
+@@ -340,8 +351,8 @@ diff -urN shadow-4.1.4.3.orig//src/groupdel.c shadow-4.1.4.3//src/groupdel.c
+  #ifdef USE_PAM
+  	{
+ diff -urN shadow-4.1.4.3.orig//src/groupmod.c shadow-4.1.4.3//src/groupmod.c
+---- shadow-4.1.4.3.orig//src/groupmod.c	2011-02-13 09:58:16.000000000 -0800
+-+++ shadow-4.1.4.3//src/groupmod.c	2011-06-28 15:12:03.539504372 -0700
++--- shadow-4.1.4.3.orig//src/groupmod.c	2011-09-29 12:00:45.212000091 +0100
+++++ shadow-4.1.4.3//src/groupmod.c	2011-09-29 11:59:28.387000092 +0100
+ @@ -79,6 +79,7 @@
+  static char *group_passwd;
+  static gid_t group_id;
+@@ -401,8 +412,8 @@ diff -urN shadow-4.1.4.3.orig//src/groupmod.c shadow-4.1.4.3//src/groupmod.c
+  			usage ();
+  		}
+ diff -urN shadow-4.1.4.3.orig//src/grpconv.c shadow-4.1.4.3//src/grpconv.c
+---- shadow-4.1.4.3.orig//src/grpconv.c	2011-02-13 09:58:16.000000000 -0800
+-+++ shadow-4.1.4.3//src/grpconv.c	2011-06-28 15:12:03.539504372 -0700
++--- shadow-4.1.4.3.orig//src/grpconv.c	2011-09-29 12:00:45.213000091 +0100
+++++ shadow-4.1.4.3//src/grpconv.c	2011-09-29 11:59:28.387000092 +0100
+ @@ -39,6 +39,7 @@
+  
+  #include <errno.h>
+@@ -527,8 +538,8 @@ diff -urN shadow-4.1.4.3.orig//src/grpconv.c shadow-4.1.4.3//src/grpconv.c
+  		fprintf (stderr,
+  		         _("%s: cannot lock %s; try again later.\n"),
+ diff -urN shadow-4.1.4.3.orig//src/grpunconv.c shadow-4.1.4.3//src/grpunconv.c
+---- shadow-4.1.4.3.orig//src/grpunconv.c	2011-02-13 09:58:16.000000000 -0800
+-+++ shadow-4.1.4.3//src/grpunconv.c	2011-06-28 15:12:03.539504372 -0700
++--- shadow-4.1.4.3.orig//src/grpunconv.c	2011-09-29 12:00:45.213000091 +0100
+++++ shadow-4.1.4.3//src/grpunconv.c	2011-09-29 11:59:28.387000092 +0100
+ @@ -43,6 +43,7 @@
+  #include <stdlib.h>
+  #include <string.h>
+@@ -653,8 +664,8 @@ diff -urN shadow-4.1.4.3.orig//src/grpunconv.c shadow-4.1.4.3//src/grpunconv.c
+  		exit (0);	/* no /etc/gshadow, nothing to do */
+  	}
+ diff -urN shadow-4.1.4.3.orig//src/passwd.c shadow-4.1.4.3//src/passwd.c
+---- shadow-4.1.4.3.orig//src/passwd.c	2011-02-13 09:58:16.000000000 -0800
+-+++ shadow-4.1.4.3//src/passwd.c	2011-06-28 15:12:03.539504372 -0700
++--- shadow-4.1.4.3.orig//src/passwd.c	2011-09-29 12:00:45.214000091 +0100
+++++ shadow-4.1.4.3//src/passwd.c	2011-09-29 11:59:28.388000092 +0100
+ @@ -75,6 +75,7 @@
+  static char *name;		/* The name of user whose password is being changed */
+  static char *myname;		/* The current user's name */
+@@ -718,8 +729,8 @@ diff -urN shadow-4.1.4.3.orig//src/passwd.c shadow-4.1.4.3//src/passwd.c
+  				/* -r repository (files|nis|nisplus) */
+  				/* only "files" supported for now */
+ diff -urN shadow-4.1.4.3.orig//src/pwconv.c shadow-4.1.4.3//src/pwconv.c
+---- shadow-4.1.4.3.orig//src/pwconv.c	2011-02-13 09:58:16.000000000 -0800
+-+++ shadow-4.1.4.3//src/pwconv.c	2011-06-28 15:12:03.539504372 -0700
++--- shadow-4.1.4.3.orig//src/pwconv.c	2011-09-29 12:00:45.214000091 +0100
+++++ shadow-4.1.4.3//src/pwconv.c	2011-09-29 11:59:28.388000092 +0100
+ @@ -59,6 +59,7 @@
+  
+  #include <errno.h>
+@@ -847,8 +858,8 @@ diff -urN shadow-4.1.4.3.orig//src/pwconv.c shadow-4.1.4.3//src/pwconv.c
+  		fprintf (stderr,
+  		         _("%s: cannot lock %s; try again later.\n"),
+ diff -urN shadow-4.1.4.3.orig//src/pwunconv.c shadow-4.1.4.3//src/pwunconv.c
+---- shadow-4.1.4.3.orig//src/pwunconv.c	2011-02-13 09:58:16.000000000 -0800
+-+++ shadow-4.1.4.3//src/pwunconv.c	2011-06-28 15:12:03.539504372 -0700
++--- shadow-4.1.4.3.orig//src/pwunconv.c	2011-09-29 12:00:45.214000091 +0100
+++++ shadow-4.1.4.3//src/pwunconv.c	2011-09-29 11:59:28.388000092 +0100
+ @@ -35,6 +35,7 @@
+  #ident "$Id: pwunconv.c 2852 2009-04-30 21:44:35Z nekral-guest $"
+  
+@@ -969,8 +980,8 @@ diff -urN shadow-4.1.4.3.orig//src/pwunconv.c shadow-4.1.4.3//src/pwunconv.c
+  		/* shadow not installed, do nothing */
+  		exit (0);
+ diff -urN shadow-4.1.4.3.orig//src/useradd.c shadow-4.1.4.3//src/useradd.c
+---- shadow-4.1.4.3.orig//src/useradd.c	2011-02-13 09:58:16.000000000 -0800
+-+++ shadow-4.1.4.3//src/useradd.c	2011-06-28 15:12:14.608787030 -0700
++--- shadow-4.1.4.3.orig//src/useradd.c	2011-09-29 12:00:45.215000091 +0100
+++++ shadow-4.1.4.3//src/useradd.c	2011-09-29 11:59:28.520000092 +0100
+ @@ -112,6 +112,7 @@
+  #ifdef WITH_SELINUX
+  static const char *user_selinux = "";
+@@ -995,7 +1006,7 @@ diff -urN shadow-4.1.4.3.orig//src/useradd.c shadow-4.1.4.3//src/useradd.c
+  	(void) fputs (_("  -r, --system                  create a system account\n"), stderr);
+  	(void) fputs (_("  -s, --shell SHELL             login shell of the new account\n"), stderr);
+  	(void) fputs (_("  -u, --uid UID                 user ID of the new account\n"), stderr);
+-@@ -943,6 +946,59 @@
++@@ -943,6 +946,57 @@
+  }
+  
+  /*
+@@ -1011,27 +1022,26 @@ diff -urN shadow-4.1.4.3.orig//src/useradd.c shadow-4.1.4.3//src/useradd.c
+ +	/*
+ +	 * Parse the command line options.
+ +	 */
+-+	int c;
+-+	static struct option long_options[] = {
+-+		{"root", required_argument, NULL, 'R'},
+-+		{NULL, 0, NULL, '\0'}
+-+	};
+-+	while ((c = getopt_long (argc, argv,
+-+#ifdef WITH_SELINUX
+-+	                         "b:c:d:De:f:g:G:k:K:lmMNop:R:rs:u:UZ:",
+-+#else
+-+	                         "b:c:d:De:f:g:G:k:K:lmMNop:R:rs:u:U",
+-+#endif
+-+	                         long_options, NULL)) != -1) {
+-+		switch (c) {
+-+		case 'R':
+-+			if ('/' != optarg[0]) {
+++	int i;
+++        char *root;
+++
+++        for (i = 0; i < argc; i++) {
+++		if (!strcmp (argv[i], "--root") || !strcmp (argv[i], "-R")) {
+++			if (i + 1 == argc) {
+++				fprintf (stderr,
+++				         _("%s: option '%s' requires an argument\n"),
+++				         Prog, argv[i]);
+++				exit (E_BAD_ARG);
+++			}
+++			root = argv[i + 1];
+++
+++			if ('/' != root[0]) {
+ +				fprintf (stderr,
+ +				         _("%s: invalid chroot path '%s'\n"),
+-+				         Prog, optarg);
+++				         Prog, root);
+ +				exit (E_BAD_ARG);
+ +			}
+-+			newroot = optarg;
+++			newroot = root;
+ +
+ +			if (access (newroot, F_OK) != 0) {
+ +				fprintf(stderr,
+@@ -1046,7 +1056,6 @@ diff -urN shadow-4.1.4.3.orig//src/useradd.c shadow-4.1.4.3//src/useradd.c
+ +				exit (E_BAD_ARG);
+ +			}
+ +			break;
+-+		/* no-op on everything else - they will be hanled by process_flags() */
+ +		}
+ +	}
+ +}
+@@ -1055,7 +1064,7 @@ diff -urN shadow-4.1.4.3.orig//src/useradd.c shadow-4.1.4.3//src/useradd.c
+   * process_flags - perform command line argument setting
+   *
+   *	process_flags() interprets the command line arguments and sets
+-@@ -978,6 +1034,7 @@
++@@ -978,6 +1032,7 @@
+  			{"no-user-group", no_argument, NULL, 'N'},
+  			{"non-unique", no_argument, NULL, 'o'},
+  			{"password", required_argument, NULL, 'p'},
+@@ -1063,7 +1072,7 @@ diff -urN shadow-4.1.4.3.orig//src/useradd.c shadow-4.1.4.3//src/useradd.c
+  			{"system", no_argument, NULL, 'r'},
+  			{"shell", required_argument, NULL, 's'},
+  #ifdef WITH_SELINUX
+-@@ -989,9 +1046,9 @@
++@@ -989,9 +1044,9 @@
+  		};
+  		while ((c = getopt_long (argc, argv,
+  #ifdef WITH_SELINUX
+@@ -1075,7 +1084,7 @@ diff -urN shadow-4.1.4.3.orig//src/useradd.c shadow-4.1.4.3//src/useradd.c
+  #endif
+  		                         long_options, NULL)) != -1) {
+  			switch (c) {
+-@@ -1156,6 +1213,9 @@
++@@ -1156,6 +1211,9 @@
+  				}
+  				user_pass = optarg;
+  				break;
+@@ -1085,7 +1094,7 @@ diff -urN shadow-4.1.4.3.orig//src/useradd.c shadow-4.1.4.3//src/useradd.c
+  			case 'r':
+  				rflg = true;
+  				break;
+-@@ -1735,6 +1795,36 @@
++@@ -1735,6 +1793,36 @@
+  	}
+  }
+  #endif
+@@ -1122,7 +1131,7 @@ diff -urN shadow-4.1.4.3.orig//src/useradd.c shadow-4.1.4.3//src/useradd.c
+  /*
+   * create_home - create the user's home directory
+   *
+-@@ -1748,34 +1838,31 @@
++@@ -1748,34 +1836,31 @@
+  #ifdef WITH_SELINUX
+  		selinux_file_context (user_home);
+  #endif
+@@ -1175,7 +1184,7 @@ diff -urN shadow-4.1.4.3.orig//src/useradd.c shadow-4.1.4.3//src/useradd.c
+  }
+  
+  /*
+-@@ -1861,6 +1948,7 @@
++@@ -1861,6 +1946,7 @@
+  	 */
+  	user_groups[0] = (char *) 0;
+  
+@@ -1184,8 +1193,8 @@ diff -urN shadow-4.1.4.3.orig//src/useradd.c shadow-4.1.4.3//src/useradd.c
+  	is_shadow_pwd = spw_file_present ();
+  #ifdef SHADOWGRP
+ diff -urN shadow-4.1.4.3.orig//src/userdel.c shadow-4.1.4.3//src/userdel.c
+---- shadow-4.1.4.3.orig//src/userdel.c	2011-02-13 09:58:16.000000000 -0800
+-+++ shadow-4.1.4.3//src/userdel.c	2011-06-28 15:12:03.549503721 -0700
++--- shadow-4.1.4.3.orig//src/userdel.c	2011-09-29 12:00:45.216000091 +0100
+++++ shadow-4.1.4.3//src/userdel.c	2011-09-29 11:59:28.389000092 +0100
+ @@ -79,6 +79,7 @@
+  static char *user_name;
+  static uid_t user_id;
+@@ -1239,8 +1248,8 @@ diff -urN shadow-4.1.4.3.orig//src/userdel.c shadow-4.1.4.3//src/userdel.c
+  				rflg = true;
+  				break;
+ diff -urN shadow-4.1.4.3.orig//src/usermod.c shadow-4.1.4.3//src/usermod.c
+---- shadow-4.1.4.3.orig//src/usermod.c	2011-02-13 09:58:16.000000000 -0800
+-+++ shadow-4.1.4.3//src/usermod.c	2011-06-28 15:12:03.549503721 -0700
++--- shadow-4.1.4.3.orig//src/usermod.c	2011-09-29 12:00:45.216000091 +0100
+++++ shadow-4.1.4.3//src/usermod.c	2011-09-29 11:59:28.390000092 +0100
+ @@ -110,6 +110,7 @@
+  static long user_newinactive;
+  static long sys_ngroups;
+@@ -1265,7 +1274,7 @@ diff -urN shadow-4.1.4.3.orig//src/usermod.c shadow-4.1.4.3//src/usermod.c
+  	         "  -s, --shell SHELL             new login shell for the user account\n"
+  	         "  -u, --uid UID                 new UID for the user account\n"
+  	         "  -U, --unlock                  unlock the user account\n"
+-@@ -802,6 +805,60 @@
++@@ -802,6 +805,58 @@
+  }
+  
+  /*
+@@ -1281,28 +1290,27 @@ diff -urN shadow-4.1.4.3.orig//src/usermod.c shadow-4.1.4.3//src/usermod.c
+ +	/*
+ +	 * Parse the command line options.
+ +	 */
+-+	int c;
+-+	static struct option long_options[] = {
+-+		{"root", required_argument, NULL, 'R'},
+-+		{NULL, 0, NULL, '\0'}
+-+	};
+-+	while ((c = getopt_long (argc, argv,
+-+#ifdef WITH_SELINUX
+-+                             "ac:d:e:f:g:G:hl:Lmop:R:s:u:UZ:",
+-+#else
+-+	                         "ac:d:e:f:g:G:hl:Lmop:R:s:u:U",
+-+#endif
+-+	                         long_options, NULL)) != -1) {
+-+		switch (c) {
+-+		case 'R':
+-+			if (    (!VALID (optarg) ) 
+-+				|| (   ('/' != optarg[0]) ) ) {
+++	int i;
+++        char *root;
+++
+++        for (i = 0; i < argc; i++) {
+++		if (!strcmp (argv[i], "--root") || !strcmp (argv[i], "-R")) {
+++			if (i + 1 == argc) {
+++				fprintf (stderr,
+++				         _("%s: option '%s' requires an argument\n"),
+++				         Prog, argv[i]);
+++				exit (E_BAD_ARG);
+++			}
+++			root = argv[i + 1];
+++
+++			if (    (!VALID (root) ) 
+++				|| (   ('/' != root[0]) ) ) {
+ +				fprintf (stderr,
+ +				         _("%s: invalid chroot path '%s'\n"),
+-+				         Prog, optarg);
+++				         Prog, root);
+ +				exit (E_BAD_ARG);
+ +			}
+-+			newroot = optarg;
+++			newroot = root;
+ +
+ +			if (access (newroot, F_OK) != 0) {
+ +				fprintf(stderr,
+@@ -1317,7 +1325,6 @@ diff -urN shadow-4.1.4.3.orig//src/usermod.c shadow-4.1.4.3//src/usermod.c
+ +				exit (E_BAD_ARG);
+ +			}
+ +			break;
+-+		/* no-op on everything else - they will be hanled by process_flags() */
+ +		}
+ +	}
+ +}
+@@ -1326,7 +1333,7 @@ diff -urN shadow-4.1.4.3.orig//src/usermod.c shadow-4.1.4.3//src/usermod.c
+   * process_flags - perform command line argument setting
+   *
+   *	process_flags() interprets the command line arguments and sets the
+-@@ -895,6 +952,7 @@
++@@ -895,6 +950,7 @@
+  			{"move-home", no_argument, NULL, 'm'},
+  			{"non-unique", no_argument, NULL, 'o'},
+  			{"password", required_argument, NULL, 'p'},
+@@ -1334,7 +1341,7 @@ diff -urN shadow-4.1.4.3.orig//src/usermod.c shadow-4.1.4.3//src/usermod.c
+  #ifdef WITH_SELINUX
+  			{"selinux-user", required_argument, NULL, 'Z'},
+  #endif
+-@@ -905,9 +963,9 @@
++@@ -905,9 +961,9 @@
+  		};
+  		while ((c = getopt_long (argc, argv,
+  #ifdef WITH_SELINUX
+@@ -1346,7 +1353,7 @@ diff -urN shadow-4.1.4.3.orig//src/usermod.c shadow-4.1.4.3//src/usermod.c
+  #endif
+  			                 long_options, NULL)) != -1) {
+  			switch (c) {
+-@@ -999,6 +1057,9 @@
++@@ -999,6 +1055,9 @@
+  				user_pass = optarg;
+  				pflg = true;
+  				break;
+@@ -1356,7 +1363,7 @@ diff -urN shadow-4.1.4.3.orig//src/usermod.c shadow-4.1.4.3//src/usermod.c
+  			case 's':
+  				if (!VALID (optarg)) {
+  					fprintf (stderr,
+-@@ -1715,6 +1776,8 @@
++@@ -1715,6 +1774,8 @@
+  
+  	OPENLOG ("usermod");
+  
 -- 
 Julian Pidancet
 
