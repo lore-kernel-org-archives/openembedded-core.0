@@ -1,33 +1,33 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-vw0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <julian.pidancet@gmail.com>) id 1RBxJm-0003WS-Um
+	(envelope-from <fransmeulenbroeks@gmail.com>) id 1RC3Qp-0004pD-7q
 	for openembedded-core@lists.openembedded.org;
-	Fri, 07 Oct 2011 01:25:35 +0200
-Received: by wwf27 with SMTP id 27so4170306wwf.24
+	Fri, 07 Oct 2011 07:57:15 +0200
+Received: by vwe42 with SMTP id 42so3059735vwe.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Oct 2011 16:19:55 -0700 (PDT)
+	Thu, 06 Oct 2011 22:51:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=sM52aS2I5joaf2PMua1/ietMOoOY5PF9l+8XPkZpjO4=;
-	b=EQp+GzZ1QULKjeNJlXpKR3NQ1V23CMRpjG5bryxPGUGjopI6PjMU+DSbufI5Tfs+Ij
-	e+QGW0v/Rui+6pzDT+bvqdpXE8DM00lUscCcVCHlTfyzAw65Ks20/Q/6WQfewh1DGcdC
-	vJuNH0efFe9MKICRKQ1T+8XqR088alNslqf0w=
-Received: by 10.227.5.213 with SMTP id 21mr1597426wbw.40.1317943195312;
-	Thu, 06 Oct 2011 16:19:55 -0700 (PDT)
-Received: from localhost.localdomain (188-223-88-44.zone14.bethere.co.uk.
-	[188.223.88.44]) by mx.google.com with ESMTPS id
-	fy13sm12798307wbb.18.2011.10.06.16.19.53
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 06 Oct 2011 16:19:54 -0700 (PDT)
-From: Julian Pidancet <julian.pidancet@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Oct 2011 01:13:40 +0100
-Message-Id: <7cf9b1f0a6d69f9baeb36ca5dd893c683dd063c6.1317946258.git.julian.pidancet@gmail.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1317946258.git.julian.pidancet@gmail.com>
-References: <cover.1317946258.git.julian.pidancet@gmail.com>
-Cc: julian.pidancet@gmail.com
-Subject: [PATCH v3 1/2] Fix the --root option in shadow-native programs
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=S9yUL+L3ADXnpIIuFRfG+XnMOfFlaeKsrTkrODoH+OA=;
+	b=Q9XIqJfnTEVq386VrVEJIupfRPLhQXMLZ5nOg9DpW4NbodIupU1lsA2aHEOU4jmxqK
+	KW2yazVVpkiPBZQqblnNWztkS9qQxZbESXk7oXTUhEuRRTrrXNBmNNAa0VmjZ/2gF6dN
+	G2E8Qs7pKsjDr8bqWUjSuPRlb+H8inYW7TgPg=
+MIME-Version: 1.0
+Received: by 10.52.67.84 with SMTP id l20mr1154766vdt.73.1317966697889; Thu,
+	06 Oct 2011 22:51:37 -0700 (PDT)
+Received: by 10.52.186.162 with HTTP; Thu, 6 Oct 2011 22:51:37 -0700 (PDT)
+In-Reply-To: <4E8CDF5C.7050008@intel.com>
+References: <4E8B6564.4090002@balister.org> <4E8B67C5.8050602@intel.com>
+	<4E8B6C17.80509@balister.org> <4E8B6D47.9000600@intel.com>
+	<4E8B8C05.5050508@windriver.com> <4E8C662B.4090300@balister.org>
+	<CAMKF1soVx-m6aa0xhHeSvPDSBQvwc+L37r1xgTs58ZuCs+XhzQ@mail.gmail.com>
+	<4E8CB801.7050003@balister.org> <4E8CDF5C.7050008@intel.com>
+Date: Fri, 7 Oct 2011 07:51:37 +0200
+Message-ID: <CACW_hTYMOLUgL-OGy3rJUGnkaBEOsRxdF3anerUt2x+HhSMT6A@mail.gmail.com>
+From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Bringing an image from OE to OE-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,488 +42,171 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Oct 2011 23:25:35 -0000
+X-List-Received-Date: Fri, 07 Oct 2011 05:57:15 -0000
+Content-Type: multipart/alternative; boundary=20cf307d012ada80d904aeaf08c6
 
-The add_root_cmd_options.patch that we apply to shadow-native allow the
-various programs from the shadow utility package to chroot() so they can
-be used to modify etc/passwd and etc/group if they are located in a
-sysroot.
+--20cf307d012ada80d904aeaf08c6
+Content-Type: text/plain; charset=ISO-8859-1
 
-Some of the shadow programs (gpasswd, useradd and usermod) need to parse
-the command line in two passes. But we can't use getopt_long() twice
-because getopt_long() reorders the command line arguments, and
-consequently corrupts the option parsing during the second pass.
+2011/10/6 Saul Wold <saul.wold@intel.com>
 
-This patch fixes this issue by replacing the first pass by a very simple
-manual walk of the command line to handle the --root argument.
+> On 10/05/2011 01:03 PM, Philip Balister wrote:
+>
+>> On 10/05/2011 03:35 PM, Khem Raj wrote:
+>>
+>>> On Wed, Oct 5, 2011 at 7:14 AM, Philip Balister<philip@balister.org>
+>>> wrote:
+>>>
+>>>>
+>>>> 1) I do not want rpm in the image. This would confuse my customer base.
+>>>> 2) I am tired of dropbear, I want openssh only.
+>>>> 3) I need the full versions of tools, not the busybox ones.
+>>>> 4) I am not limited to gpv2 software.
+>>>>
+>>>> Richard, it looks to me like we should add an item for the next Yocto
+>>>> development cycle to review how images are built and try to make the
+>>>> base
+>>>> stuff in oe-core more usable by everyone. We need to define what
+>>>> choices are
+>>>> made by distros. For example opkg, rpm, no package management in image.
+>>>> Images may want dropbear or openssh.
+>>>>
+>>>> Short term, I think I'll copy the tasks/images into my bsp and get some
+>>>> stuff together for testing. I'd like a better long term solution though.
+>>>>
+>>>
+>>> There always will be customizations needed. But we can strive for
+>>> better basic blocks
+>>>
+>>
+>> Sure. The immediate things I noticed are rpm being installed and lack of
+>> a way to chose between dropbear/openssh.
+>>
+>> I think it is worth having a conversation to find out if when can make
+>> it easier for users to create images, with a small number of knobs to
+>> turn.
+>>
+>>  I agree, your 4 items above make sense and we could create a set of tasks
+> that can be use it as building blocks, I think that task-core-basic could be
+> a starting point for that.
+>
+> We did work to enable the selection of either openssh/dropbear but at an
+> IMAGE_FEATURE level, not as a DISTRO_FEATURE or virtual.
+>
+> Let's see what you come up with for your tasks and we can go from there.
+>
+> Thanks
+> Sau!
+>
+> The usability of tasks in general greatly depends on the use case you are
+in.
+To give an idea of our use case.
+We make embedded systems to which the user only can interact in a specified
+way. No online upgrading of packages let alone installing new ones (actually
+some of the boards do not even have a network interface).
+As we are limited on flash space our images are hand crafted, only to
+contain those packages that we really need.
+Wrt kernel: we hardly use modules, almost everything is configured into the
+kernel (as we exactly know our hardware).
 
-This change is a patch of another patch, I apologize if it is
-difficult to read. But IMHO it wouldn't make sense to put the patch for
-this issue in another separated file.
+Then again if you have more space and or need to be more flexible tasks
+definitely can have their merits. (especially when mapping machine features
+to kernel modules etc).
 
-The --root options in groupadd and useradd are needed to make the
-useradd class work, and this issue was preventing to use useradd and
-groupadd long options while using the class.
+For the specific case with dropbear.
+OE classic task-base.bb contained
+DISTRO_SSH_DAEMON ?= "dropbear"
+and then used the variable in the image list
+OE classic task-poky.bb hardcoded dropbear.
 
-Signed-off-by: Julian Pidancet <julian.pidancet@gmail.com>
----
- .../shadow/files/add_root_cmd_options.patch        |  189 ++++++++++----------
- 1 files changed, 98 insertions(+), 91 deletions(-)
+Personally I don't really see too much value in having the package in a var.
+It is more work to type ${DISTRO_SSH_DAEMON} in the IMAGE-INSTALL than it is
+to type dropbear or openssh.
 
-diff --git a/meta/recipes-extended/shadow/files/add_root_cmd_options.patch b/meta/recipes-extended/shadow/files/add_root_cmd_options.patch
-index c5f2bec..5edd3b8 100644
---- a/meta/recipes-extended/shadow/files/add_root_cmd_options.patch
-+++ b/meta/recipes-extended/shadow/files/add_root_cmd_options.patch
-@@ -25,9 +25,18 @@ Workaround is specific to our build system.
- 
- Signed-off-by: Scott Garman <scott.a.garman@intel.com>
- 
-+2011-09-29 Fix the parsing of the --root option in gpasswd, useradd, usermod:
-+
-+In programs which need to scan the command line in two passes to handle 
-+--root option separately from the rest of the arguments, replace the first
-+calls to getopt_long with a simple iteration over the argument list since 
-+getopt_long has the bad habit of reordering arguments on the command line.
-+
-+Signed-off-by: Julian Pidancet <julian.pidancet@gmail.com>
-+
- diff -urN shadow-4.1.4.3.orig//src/gpasswd.c shadow-4.1.4.3//src/gpasswd.c
----- shadow-4.1.4.3.orig//src/gpasswd.c	2011-02-13 09:58:16.000000000 -0800
--+++ shadow-4.1.4.3//src/gpasswd.c	2011-06-28 15:12:03.539504372 -0700
-+--- shadow-4.1.4.3.orig//src/gpasswd.c	2011-09-29 12:00:45.211000091 +0100
-++++ shadow-4.1.4.3//src/gpasswd.c	2011-09-29 12:09:54.590000090 +0100
- @@ -63,6 +63,7 @@
-   * (/etc/gshadow present) */
-  static bool is_shadowgrp;
-@@ -52,7 +61,7 @@ diff -urN shadow-4.1.4.3.orig//src/gpasswd.c shadow-4.1.4.3//src/gpasswd.c
-  	           "  -r, --remove-password         remove the GROUP's password\n"
-  	           "  -R, --restrict                restrict access to GROUP to its members\n"
-  	           "  -M, --members USER,...        set the list of members of GROUP\n"
--@@ -226,6 +229,55 @@
-+@@ -226,6 +229,57 @@
-  }
-  
-  /*
-@@ -68,23 +77,26 @@ diff -urN shadow-4.1.4.3.orig//src/gpasswd.c shadow-4.1.4.3//src/gpasswd.c
- +	/*
- +	 * Parse the command line options.
- +	 */
--+	int flag;
--+	int option_index = 0;
--+	static struct option long_options[] = {
--+		{"root", required_argument, NULL, 'Q'},
--+		{NULL, 0, NULL, '\0'}
--+	};
-++	int i;
-++        char *root;
- +
--+	while ((flag = getopt_long (argc, argv, "a:A:d:gM:Q:rR", long_options, &option_index)) != -1) {
--+		switch (flag) {
--+		case 'Q':
--+			if ('/' != optarg[0]) {
-++        for (i = 0; i < argc; i++) {
-++		if (!strcmp (argv[i], "--root") || !strcmp (argv[i], "-Q")) {
-++			if (i + 1 == argc) {
-++				fprintf (stderr,
-++				         _("%s: option '%s' requires an argument\n"),
-++				         Prog, argv[i]);
-++				exit (E_BAD_ARG);
-++			}
-++			root = argv[i + 1];
-++
-++			if ('/' != root[0]) {
- +				fprintf (stderr,
- +				         _("%s: invalid chroot path '%s'\n"),
--+				         Prog, optarg);
-++				         Prog, root);
- +				exit (E_BAD_ARG);
- +			}
--+			newroot = optarg;
-++			newroot = root;
- +
- +			if (access (newroot, F_OK) != 0) {
- +				fprintf(stderr,
-@@ -99,7 +111,6 @@ diff -urN shadow-4.1.4.3.orig//src/gpasswd.c shadow-4.1.4.3//src/gpasswd.c
- +				exit (E_BAD_ARG);
- +			}
- +			break;
--+		/* no-op on everything else - they will be hanled by process_flags() */
- +		}
- +	}
- +}
-@@ -108,7 +119,7 @@ diff -urN shadow-4.1.4.3.orig//src/gpasswd.c shadow-4.1.4.3//src/gpasswd.c
-   * process_flags - process the command line options and arguments
-   */
-  static void process_flags (int argc, char **argv)
--@@ -235,6 +287,7 @@
-+@@ -235,6 +289,7 @@
-  	static struct option long_options[] = {
-  		{"add", required_argument, NULL, 'a'},
-  		{"delete", required_argument, NULL, 'd'},
-@@ -116,7 +127,7 @@ diff -urN shadow-4.1.4.3.orig//src/gpasswd.c shadow-4.1.4.3//src/gpasswd.c
-  		{"remove-password", no_argument, NULL, 'r'},
-  		{"restrict", no_argument, NULL, 'R'},
-  		{"administrators", required_argument, NULL, 'A'},
--@@ -242,7 +295,7 @@
-+@@ -242,7 +297,7 @@
-  		{NULL, 0, NULL, '\0'}
-  		};
-  
-@@ -125,7 +136,7 @@ diff -urN shadow-4.1.4.3.orig//src/gpasswd.c shadow-4.1.4.3//src/gpasswd.c
-  		switch (flag) {
-  		case 'a':	/* add a user */
-  			aflg = true;
--@@ -283,6 +336,9 @@
-+@@ -283,6 +338,9 @@
-  			}
-  			Mflg = true;
-  			break;
-@@ -135,7 +146,7 @@ diff -urN shadow-4.1.4.3.orig//src/gpasswd.c shadow-4.1.4.3//src/gpasswd.c
-  		case 'r':	/* remove group password */
-  			rflg = true;
-  			break;
--@@ -995,6 +1051,8 @@
-+@@ -995,6 +1053,8 @@
-  	setbuf (stdout, NULL);
-  	setbuf (stderr, NULL);
-  
-@@ -145,8 +156,8 @@ diff -urN shadow-4.1.4.3.orig//src/gpasswd.c shadow-4.1.4.3//src/gpasswd.c
-  	is_shadowgrp = sgr_file_present ();
-  #endif
- diff -urN shadow-4.1.4.3.orig//src/groupadd.c shadow-4.1.4.3//src/groupadd.c
----- shadow-4.1.4.3.orig//src/groupadd.c	2011-02-13 09:58:16.000000000 -0800
--+++ shadow-4.1.4.3//src/groupadd.c	2011-06-28 15:12:03.539504372 -0700
-+--- shadow-4.1.4.3.orig//src/groupadd.c	2011-09-29 12:00:45.212000091 +0100
-++++ shadow-4.1.4.3//src/groupadd.c	2011-09-29 11:59:28.386000092 +0100
- @@ -76,6 +76,7 @@
-  static gid_t group_id;
-  static /*@null@*/char *group_passwd;
-@@ -208,8 +219,8 @@ diff -urN shadow-4.1.4.3.orig//src/groupadd.c shadow-4.1.4.3//src/groupadd.c
-  			rflg = true;
-  			break;
- diff -urN shadow-4.1.4.3.orig//src/groupdel.c shadow-4.1.4.3//src/groupdel.c
----- shadow-4.1.4.3.orig//src/groupdel.c	2011-02-13 09:58:16.000000000 -0800
--+++ shadow-4.1.4.3//src/groupdel.c	2011-06-28 15:12:03.539504372 -0700
-+--- shadow-4.1.4.3.orig//src/groupdel.c	2011-09-29 12:00:45.212000091 +0100
-++++ shadow-4.1.4.3//src/groupdel.c	2011-09-29 11:59:28.386000092 +0100
- @@ -36,6 +36,7 @@
-  
-  #include <ctype.h>
-@@ -340,8 +351,8 @@ diff -urN shadow-4.1.4.3.orig//src/groupdel.c shadow-4.1.4.3//src/groupdel.c
-  #ifdef USE_PAM
-  	{
- diff -urN shadow-4.1.4.3.orig//src/groupmod.c shadow-4.1.4.3//src/groupmod.c
----- shadow-4.1.4.3.orig//src/groupmod.c	2011-02-13 09:58:16.000000000 -0800
--+++ shadow-4.1.4.3//src/groupmod.c	2011-06-28 15:12:03.539504372 -0700
-+--- shadow-4.1.4.3.orig//src/groupmod.c	2011-09-29 12:00:45.212000091 +0100
-++++ shadow-4.1.4.3//src/groupmod.c	2011-09-29 11:59:28.387000092 +0100
- @@ -79,6 +79,7 @@
-  static char *group_passwd;
-  static gid_t group_id;
-@@ -401,8 +412,8 @@ diff -urN shadow-4.1.4.3.orig//src/groupmod.c shadow-4.1.4.3//src/groupmod.c
-  			usage ();
-  		}
- diff -urN shadow-4.1.4.3.orig//src/grpconv.c shadow-4.1.4.3//src/grpconv.c
----- shadow-4.1.4.3.orig//src/grpconv.c	2011-02-13 09:58:16.000000000 -0800
--+++ shadow-4.1.4.3//src/grpconv.c	2011-06-28 15:12:03.539504372 -0700
-+--- shadow-4.1.4.3.orig//src/grpconv.c	2011-09-29 12:00:45.213000091 +0100
-++++ shadow-4.1.4.3//src/grpconv.c	2011-09-29 11:59:28.387000092 +0100
- @@ -39,6 +39,7 @@
-  
-  #include <errno.h>
-@@ -527,8 +538,8 @@ diff -urN shadow-4.1.4.3.orig//src/grpconv.c shadow-4.1.4.3//src/grpconv.c
-  		fprintf (stderr,
-  		         _("%s: cannot lock %s; try again later.\n"),
- diff -urN shadow-4.1.4.3.orig//src/grpunconv.c shadow-4.1.4.3//src/grpunconv.c
----- shadow-4.1.4.3.orig//src/grpunconv.c	2011-02-13 09:58:16.000000000 -0800
--+++ shadow-4.1.4.3//src/grpunconv.c	2011-06-28 15:12:03.539504372 -0700
-+--- shadow-4.1.4.3.orig//src/grpunconv.c	2011-09-29 12:00:45.213000091 +0100
-++++ shadow-4.1.4.3//src/grpunconv.c	2011-09-29 11:59:28.387000092 +0100
- @@ -43,6 +43,7 @@
-  #include <stdlib.h>
-  #include <string.h>
-@@ -653,8 +664,8 @@ diff -urN shadow-4.1.4.3.orig//src/grpunconv.c shadow-4.1.4.3//src/grpunconv.c
-  		exit (0);	/* no /etc/gshadow, nothing to do */
-  	}
- diff -urN shadow-4.1.4.3.orig//src/passwd.c shadow-4.1.4.3//src/passwd.c
----- shadow-4.1.4.3.orig//src/passwd.c	2011-02-13 09:58:16.000000000 -0800
--+++ shadow-4.1.4.3//src/passwd.c	2011-06-28 15:12:03.539504372 -0700
-+--- shadow-4.1.4.3.orig//src/passwd.c	2011-09-29 12:00:45.214000091 +0100
-++++ shadow-4.1.4.3//src/passwd.c	2011-09-29 11:59:28.388000092 +0100
- @@ -75,6 +75,7 @@
-  static char *name;		/* The name of user whose password is being changed */
-  static char *myname;		/* The current user's name */
-@@ -718,8 +729,8 @@ diff -urN shadow-4.1.4.3.orig//src/passwd.c shadow-4.1.4.3//src/passwd.c
-  				/* -r repository (files|nis|nisplus) */
-  				/* only "files" supported for now */
- diff -urN shadow-4.1.4.3.orig//src/pwconv.c shadow-4.1.4.3//src/pwconv.c
----- shadow-4.1.4.3.orig//src/pwconv.c	2011-02-13 09:58:16.000000000 -0800
--+++ shadow-4.1.4.3//src/pwconv.c	2011-06-28 15:12:03.539504372 -0700
-+--- shadow-4.1.4.3.orig//src/pwconv.c	2011-09-29 12:00:45.214000091 +0100
-++++ shadow-4.1.4.3//src/pwconv.c	2011-09-29 11:59:28.388000092 +0100
- @@ -59,6 +59,7 @@
-  
-  #include <errno.h>
-@@ -847,8 +858,8 @@ diff -urN shadow-4.1.4.3.orig//src/pwconv.c shadow-4.1.4.3//src/pwconv.c
-  		fprintf (stderr,
-  		         _("%s: cannot lock %s; try again later.\n"),
- diff -urN shadow-4.1.4.3.orig//src/pwunconv.c shadow-4.1.4.3//src/pwunconv.c
----- shadow-4.1.4.3.orig//src/pwunconv.c	2011-02-13 09:58:16.000000000 -0800
--+++ shadow-4.1.4.3//src/pwunconv.c	2011-06-28 15:12:03.539504372 -0700
-+--- shadow-4.1.4.3.orig//src/pwunconv.c	2011-09-29 12:00:45.214000091 +0100
-++++ shadow-4.1.4.3//src/pwunconv.c	2011-09-29 11:59:28.388000092 +0100
- @@ -35,6 +35,7 @@
-  #ident "$Id: pwunconv.c 2852 2009-04-30 21:44:35Z nekral-guest $"
-  
-@@ -969,8 +980,8 @@ diff -urN shadow-4.1.4.3.orig//src/pwunconv.c shadow-4.1.4.3//src/pwunconv.c
-  		/* shadow not installed, do nothing */
-  		exit (0);
- diff -urN shadow-4.1.4.3.orig//src/useradd.c shadow-4.1.4.3//src/useradd.c
----- shadow-4.1.4.3.orig//src/useradd.c	2011-02-13 09:58:16.000000000 -0800
--+++ shadow-4.1.4.3//src/useradd.c	2011-06-28 15:12:14.608787030 -0700
-+--- shadow-4.1.4.3.orig//src/useradd.c	2011-09-29 12:00:45.215000091 +0100
-++++ shadow-4.1.4.3//src/useradd.c	2011-09-29 11:59:28.520000092 +0100
- @@ -112,6 +112,7 @@
-  #ifdef WITH_SELINUX
-  static const char *user_selinux = "";
-@@ -995,7 +1006,7 @@ diff -urN shadow-4.1.4.3.orig//src/useradd.c shadow-4.1.4.3//src/useradd.c
-  	(void) fputs (_("  -r, --system                  create a system account\n"), stderr);
-  	(void) fputs (_("  -s, --shell SHELL             login shell of the new account\n"), stderr);
-  	(void) fputs (_("  -u, --uid UID                 user ID of the new account\n"), stderr);
--@@ -943,6 +946,59 @@
-+@@ -943,6 +946,57 @@
-  }
-  
-  /*
-@@ -1011,27 +1022,26 @@ diff -urN shadow-4.1.4.3.orig//src/useradd.c shadow-4.1.4.3//src/useradd.c
- +	/*
- +	 * Parse the command line options.
- +	 */
--+	int c;
--+	static struct option long_options[] = {
--+		{"root", required_argument, NULL, 'R'},
--+		{NULL, 0, NULL, '\0'}
--+	};
--+	while ((c = getopt_long (argc, argv,
--+#ifdef WITH_SELINUX
--+	                         "b:c:d:De:f:g:G:k:K:lmMNop:R:rs:u:UZ:",
--+#else
--+	                         "b:c:d:De:f:g:G:k:K:lmMNop:R:rs:u:U",
--+#endif
--+	                         long_options, NULL)) != -1) {
--+		switch (c) {
--+		case 'R':
--+			if ('/' != optarg[0]) {
-++	int i;
-++        char *root;
-++
-++        for (i = 0; i < argc; i++) {
-++		if (!strcmp (argv[i], "--root") || !strcmp (argv[i], "-R")) {
-++			if (i + 1 == argc) {
-++				fprintf (stderr,
-++				         _("%s: option '%s' requires an argument\n"),
-++				         Prog, argv[i]);
-++				exit (E_BAD_ARG);
-++			}
-++			root = argv[i + 1];
-++
-++			if ('/' != root[0]) {
- +				fprintf (stderr,
- +				         _("%s: invalid chroot path '%s'\n"),
--+				         Prog, optarg);
-++				         Prog, root);
- +				exit (E_BAD_ARG);
- +			}
--+			newroot = optarg;
-++			newroot = root;
- +
- +			if (access (newroot, F_OK) != 0) {
- +				fprintf(stderr,
-@@ -1046,7 +1056,6 @@ diff -urN shadow-4.1.4.3.orig//src/useradd.c shadow-4.1.4.3//src/useradd.c
- +				exit (E_BAD_ARG);
- +			}
- +			break;
--+		/* no-op on everything else - they will be hanled by process_flags() */
- +		}
- +	}
- +}
-@@ -1055,7 +1064,7 @@ diff -urN shadow-4.1.4.3.orig//src/useradd.c shadow-4.1.4.3//src/useradd.c
-   * process_flags - perform command line argument setting
-   *
-   *	process_flags() interprets the command line arguments and sets
--@@ -978,6 +1034,7 @@
-+@@ -978,6 +1032,7 @@
-  			{"no-user-group", no_argument, NULL, 'N'},
-  			{"non-unique", no_argument, NULL, 'o'},
-  			{"password", required_argument, NULL, 'p'},
-@@ -1063,7 +1072,7 @@ diff -urN shadow-4.1.4.3.orig//src/useradd.c shadow-4.1.4.3//src/useradd.c
-  			{"system", no_argument, NULL, 'r'},
-  			{"shell", required_argument, NULL, 's'},
-  #ifdef WITH_SELINUX
--@@ -989,9 +1046,9 @@
-+@@ -989,9 +1044,9 @@
-  		};
-  		while ((c = getopt_long (argc, argv,
-  #ifdef WITH_SELINUX
-@@ -1075,7 +1084,7 @@ diff -urN shadow-4.1.4.3.orig//src/useradd.c shadow-4.1.4.3//src/useradd.c
-  #endif
-  		                         long_options, NULL)) != -1) {
-  			switch (c) {
--@@ -1156,6 +1213,9 @@
-+@@ -1156,6 +1211,9 @@
-  				}
-  				user_pass = optarg;
-  				break;
-@@ -1085,7 +1094,7 @@ diff -urN shadow-4.1.4.3.orig//src/useradd.c shadow-4.1.4.3//src/useradd.c
-  			case 'r':
-  				rflg = true;
-  				break;
--@@ -1735,6 +1795,36 @@
-+@@ -1735,6 +1793,36 @@
-  	}
-  }
-  #endif
-@@ -1122,7 +1131,7 @@ diff -urN shadow-4.1.4.3.orig//src/useradd.c shadow-4.1.4.3//src/useradd.c
-  /*
-   * create_home - create the user's home directory
-   *
--@@ -1748,34 +1838,31 @@
-+@@ -1748,34 +1836,31 @@
-  #ifdef WITH_SELINUX
-  		selinux_file_context (user_home);
-  #endif
-@@ -1175,7 +1184,7 @@ diff -urN shadow-4.1.4.3.orig//src/useradd.c shadow-4.1.4.3//src/useradd.c
-  }
-  
-  /*
--@@ -1861,6 +1948,7 @@
-+@@ -1861,6 +1946,7 @@
-  	 */
-  	user_groups[0] = (char *) 0;
-  
-@@ -1184,8 +1193,8 @@ diff -urN shadow-4.1.4.3.orig//src/useradd.c shadow-4.1.4.3//src/useradd.c
-  	is_shadow_pwd = spw_file_present ();
-  #ifdef SHADOWGRP
- diff -urN shadow-4.1.4.3.orig//src/userdel.c shadow-4.1.4.3//src/userdel.c
----- shadow-4.1.4.3.orig//src/userdel.c	2011-02-13 09:58:16.000000000 -0800
--+++ shadow-4.1.4.3//src/userdel.c	2011-06-28 15:12:03.549503721 -0700
-+--- shadow-4.1.4.3.orig//src/userdel.c	2011-09-29 12:00:45.216000091 +0100
-++++ shadow-4.1.4.3//src/userdel.c	2011-09-29 11:59:28.389000092 +0100
- @@ -79,6 +79,7 @@
-  static char *user_name;
-  static uid_t user_id;
-@@ -1239,8 +1248,8 @@ diff -urN shadow-4.1.4.3.orig//src/userdel.c shadow-4.1.4.3//src/userdel.c
-  				rflg = true;
-  				break;
- diff -urN shadow-4.1.4.3.orig//src/usermod.c shadow-4.1.4.3//src/usermod.c
----- shadow-4.1.4.3.orig//src/usermod.c	2011-02-13 09:58:16.000000000 -0800
--+++ shadow-4.1.4.3//src/usermod.c	2011-06-28 15:12:03.549503721 -0700
-+--- shadow-4.1.4.3.orig//src/usermod.c	2011-09-29 12:00:45.216000091 +0100
-++++ shadow-4.1.4.3//src/usermod.c	2011-09-29 11:59:28.390000092 +0100
- @@ -110,6 +110,7 @@
-  static long user_newinactive;
-  static long sys_ngroups;
-@@ -1265,7 +1274,7 @@ diff -urN shadow-4.1.4.3.orig//src/usermod.c shadow-4.1.4.3//src/usermod.c
-  	         "  -s, --shell SHELL             new login shell for the user account\n"
-  	         "  -u, --uid UID                 new UID for the user account\n"
-  	         "  -U, --unlock                  unlock the user account\n"
--@@ -802,6 +805,60 @@
-+@@ -802,6 +805,58 @@
-  }
-  
-  /*
-@@ -1281,28 +1290,27 @@ diff -urN shadow-4.1.4.3.orig//src/usermod.c shadow-4.1.4.3//src/usermod.c
- +	/*
- +	 * Parse the command line options.
- +	 */
--+	int c;
--+	static struct option long_options[] = {
--+		{"root", required_argument, NULL, 'R'},
--+		{NULL, 0, NULL, '\0'}
--+	};
--+	while ((c = getopt_long (argc, argv,
--+#ifdef WITH_SELINUX
--+                             "ac:d:e:f:g:G:hl:Lmop:R:s:u:UZ:",
--+#else
--+	                         "ac:d:e:f:g:G:hl:Lmop:R:s:u:U",
--+#endif
--+	                         long_options, NULL)) != -1) {
--+		switch (c) {
--+		case 'R':
--+			if (    (!VALID (optarg) ) 
--+				|| (   ('/' != optarg[0]) ) ) {
-++	int i;
-++        char *root;
-++
-++        for (i = 0; i < argc; i++) {
-++		if (!strcmp (argv[i], "--root") || !strcmp (argv[i], "-R")) {
-++			if (i + 1 == argc) {
-++				fprintf (stderr,
-++				         _("%s: option '%s' requires an argument\n"),
-++				         Prog, argv[i]);
-++				exit (E_BAD_ARG);
-++			}
-++			root = argv[i + 1];
-++
-++			if (    (!VALID (root) ) 
-++				|| (   ('/' != root[0]) ) ) {
- +				fprintf (stderr,
- +				         _("%s: invalid chroot path '%s'\n"),
--+				         Prog, optarg);
-++				         Prog, root);
- +				exit (E_BAD_ARG);
- +			}
--+			newroot = optarg;
-++			newroot = root;
- +
- +			if (access (newroot, F_OK) != 0) {
- +				fprintf(stderr,
-@@ -1317,7 +1325,6 @@ diff -urN shadow-4.1.4.3.orig//src/usermod.c shadow-4.1.4.3//src/usermod.c
- +				exit (E_BAD_ARG);
- +			}
- +			break;
--+		/* no-op on everything else - they will be hanled by process_flags() */
- +		}
- +	}
- +}
-@@ -1326,7 +1333,7 @@ diff -urN shadow-4.1.4.3.orig//src/usermod.c shadow-4.1.4.3//src/usermod.c
-   * process_flags - perform command line argument setting
-   *
-   *	process_flags() interprets the command line arguments and sets the
--@@ -895,6 +952,7 @@
-+@@ -895,6 +950,7 @@
-  			{"move-home", no_argument, NULL, 'm'},
-  			{"non-unique", no_argument, NULL, 'o'},
-  			{"password", required_argument, NULL, 'p'},
-@@ -1334,7 +1341,7 @@ diff -urN shadow-4.1.4.3.orig//src/usermod.c shadow-4.1.4.3//src/usermod.c
-  #ifdef WITH_SELINUX
-  			{"selinux-user", required_argument, NULL, 'Z'},
-  #endif
--@@ -905,9 +963,9 @@
-+@@ -905,9 +961,9 @@
-  		};
-  		while ((c = getopt_long (argc, argv,
-  #ifdef WITH_SELINUX
-@@ -1346,7 +1353,7 @@ diff -urN shadow-4.1.4.3.orig//src/usermod.c shadow-4.1.4.3//src/usermod.c
-  #endif
-  			                 long_options, NULL)) != -1) {
-  			switch (c) {
--@@ -999,6 +1057,9 @@
-+@@ -999,6 +1055,9 @@
-  				user_pass = optarg;
-  				pflg = true;
-  				break;
-@@ -1356,7 +1363,7 @@ diff -urN shadow-4.1.4.3.orig//src/usermod.c shadow-4.1.4.3//src/usermod.c
-  			case 's':
-  				if (!VALID (optarg)) {
-  					fprintf (stderr,
--@@ -1715,6 +1776,8 @@
-+@@ -1715,6 +1774,8 @@
-  
-  	OPENLOG ("usermod");
-  
--- 
-Julian Pidancet
+Frans
 
+--20cf307d012ada80d904aeaf08c6
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<br><br><div class=3D"gmail_quote">2011/10/6 Saul Wold <span dir=3D"ltr">&l=
+t;<a href=3D"mailto:saul.wold@intel.com">saul.wold@intel.com</a>&gt;</span>=
+<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
+t:1px #ccc solid;padding-left:1ex;">
+<div class=3D"im">On 10/05/2011 01:03 PM, Philip Balister wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+On 10/05/2011 03:35 PM, Khem Raj wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+On Wed, Oct 5, 2011 at 7:14 AM, Philip Balister&lt;<a href=3D"mailto:philip=
+@balister.org" target=3D"_blank">philip@balister.org</a>&gt;<br>
+wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+<br>
+1) I do not want rpm in the image. This would confuse my customer base.<br>
+2) I am tired of dropbear, I want openssh only.<br>
+3) I need the full versions of tools, not the busybox ones.<br>
+4) I am not limited to gpv2 software.<br>
+<br>
+Richard, it looks to me like we should add an item for the next Yocto<br>
+development cycle to review how images are built and try to make the<br>
+base<br>
+stuff in oe-core more usable by everyone. We need to define what<br>
+choices are<br>
+made by distros. For example opkg, rpm, no package management in image.<br>
+Images may want dropbear or openssh.<br>
+<br>
+Short term, I think I&#39;ll copy the tasks/images into my bsp and get some=
+<br>
+stuff together for testing. I&#39;d like a better long term solution though=
+.<br>
+</blockquote>
+<br>
+There always will be customizations needed. But we can strive for<br>
+better basic blocks<br>
+</blockquote>
+<br>
+Sure. The immediate things I noticed are rpm being installed and lack of<br=
+>
+a way to chose between dropbear/openssh.<br>
+<br>
+I think it is worth having a conversation to find out if when can make<br>
+it easier for users to create images, with a small number of knobs to turn.=
+<br>
+<br>
+</blockquote></div>
+I agree, your 4 items above make sense and we could create a set of tasks t=
+hat can be use it as building blocks, I think that task-core-basic could be=
+ a starting point for that.<br>
+<br>
+We did work to enable the selection of either openssh/dropbear but at an IM=
+AGE_FEATURE level, not as a DISTRO_FEATURE or virtual.<br>
+<br>
+Let&#39;s see what you come up with for your tasks and we can go from there=
+.<br>
+<br>
+Thanks<br>
+Sau!<div><div></div><div class=3D"h5"><br></div></div></blockquote></div>Th=
+e usability of tasks in general greatly depends on the use case you are in.=
+<br>To give an idea of our use case.<br>We make embedded systems to which t=
+he user only can interact in a specified way. No online upgrading of packag=
+es let alone installing new ones (actually some of the boards do not even h=
+ave a network interface).<br>
+As we are limited on flash space our images are hand crafted, only to conta=
+in those packages that we really need.<br>Wrt kernel: we hardly use modules=
+, almost everything is configured into the kernel (as we exactly know our h=
+ardware).<br>
+<br>Then again if you have more space and or need to be more flexible tasks=
+ definitely can have their merits. (especially when mapping machine feature=
+s to kernel modules etc).<br><br>For the specific case with dropbear.<br>
+OE classic <a href=3D"http://task-base.bb">task-base.bb</a> contained<br>DI=
+STRO_SSH_DAEMON ?=3D &quot;dropbear&quot;<br>and then used the variable in =
+the image list<br>OE classic <a href=3D"http://task-poky.bb">task-poky.bb</=
+a> hardcoded dropbear.<br>
+<br>Personally I don&#39;t really see too much value in having the package =
+in a var.<br>It is more work to type ${DISTRO_SSH_DAEMON} in the IMAGE-INST=
+ALL than it is to type dropbear or openssh.<br><br>Frans<br>
 
+--20cf307d012ada80d904aeaf08c6--
