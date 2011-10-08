@@ -1,26 +1,24 @@
 Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RCJwN-00087r-D2
+	(envelope-from <koen@dominion.thruhere.net>) id 1RCLHW-0003Lm-93
 	for openembedded-core@lists.openembedded.org;
-	Sat, 08 Oct 2011 01:34:55 +0200
-Received: by eyx24 with SMTP id 24so2425090eyx.6
+	Sat, 08 Oct 2011 03:00:50 +0200
+Received: by eyx24 with SMTP id 24so2476182eyx.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Oct 2011 16:29:17 -0700 (PDT)
-Received: by 10.223.14.153 with SMTP id g25mr11592891faa.6.1318030157457;
-	Fri, 07 Oct 2011 16:29:17 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id o22sm15164519fab.11.2011.10.07.16.29.16
+	Fri, 07 Oct 2011 17:55:12 -0700 (PDT)
+Received: by 10.223.17.11 with SMTP id q11mr14483500faa.13.1318035309425;
+	Fri, 07 Oct 2011 17:55:09 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id b10sm15517471fam.1.2011.10.07.17.55.07
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 07 Oct 2011 16:29:16 -0700 (PDT)
+	Fri, 07 Oct 2011 17:55:08 -0700 (PDT)
 From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Sat, 8 Oct 2011 01:29:10 +0200
-Message-Id: <D3F85958-4E8C-4D2C-B8BD-C7AF341FAF47@dominion.thruhere.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-X-Mailer: Apple Mail (2.1244.3)
-Subject: Bitbake dependency failure with git fetcher
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  8 Oct 2011 02:55:02 +0200
+Message-Id: <1318035302-1354-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] git: update to 1.7.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,25 +33,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Oct 2011 23:34:55 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 08 Oct 2011 01:00:50 -0000
 
-Hi,
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-devtools/git/git_1.7.5.1.bb |   10 ----------
+ meta/recipes-devtools/git/git_1.7.7.bb   |   10 ++++++++++
+ 2 files changed, 10 insertions(+), 10 deletions(-)
+ delete mode 100644 meta/recipes-devtools/git/git_1.7.5.1.bb
+ create mode 100644 meta/recipes-devtools/git/git_1.7.7.bb
 
-Everytime openssl and a git recipe get changed at the same time, I end =
-up with:
+diff --git a/meta/recipes-devtools/git/git_1.7.5.1.bb b/meta/recipes-devtools/git/git_1.7.5.1.bb
+deleted file mode 100644
+index b5eb015..0000000
+--- a/meta/recipes-devtools/git/git_1.7.5.1.bb
++++ /dev/null
+@@ -1,10 +0,0 @@
+-require git.inc
+-
+-PR = "r3"
+-
+-EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no ac_cv_c_c99_format=yes \
+-                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
+-                 "
+-
+-SRC_URI[md5sum] = "a49291116e3b0564e069ae989e4db6fb"
+-SRC_URI[sha256sum] = "a1d4a1c59300e68fbc493a2cbe9257048d4d6f4363924bf34f38c413a825f80c"
+diff --git a/meta/recipes-devtools/git/git_1.7.7.bb b/meta/recipes-devtools/git/git_1.7.7.bb
+new file mode 100644
+index 0000000..486e2e5
+--- /dev/null
++++ b/meta/recipes-devtools/git/git_1.7.7.bb
+@@ -0,0 +1,10 @@
++require git.inc
++
++SRC_URI = "http://git-core.googlecode.com/files/git-${PV}.tar.gz"
++SRC_URI[md5sum] = "5d645884e688921e773186783b65ce33"
++SRC_URI[sha256sum] = "5a977bc01e4989b9928345e99aab15ce896cf5897c6e32eb449538574df377f6"
++
++EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no ac_cv_c_c99_format=yes \
++                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
++                 "
++
+-- 
+1.6.6.1
 
-| =
-/angstrom/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/usr/bin/g=
-it.real: error while loading shared libraries: libcrypto.so.1.0.0: =
-cannot open shared object file: No such file or directory
-
-Why is bitbake not resolving the git-native -> openssl-native dep before =
-invoking the git fetcher?
-
-regards,
-
-Koen=
 
 
