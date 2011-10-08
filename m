@@ -1,34 +1,20 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RCS3G-0001oK-4Q for openembedded-core@lists.openembedded.org;
-	Sat, 08 Oct 2011 10:14:34 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p988FSDo018663 for <openembedded-core@lists.openembedded.org>;
-	Sat, 8 Oct 2011 09:15:28 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id yvHP-UrAnj6K
-	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Oct 2011 09:15:27 +0100 (BST)
-Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p988FOwj018658
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 8 Oct 2011 09:15:26 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Sat, 08 Oct 2011 09:08:45 +0100
-In-Reply-To: <D3F85958-4E8C-4D2C-B8BD-C7AF341FAF47@dominion.thruhere.net>
-References: <D3F85958-4E8C-4D2C-B8BD-C7AF341FAF47@dominion.thruhere.net>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1318061333.8533.58.camel@ted>
-Mime-Version: 1.0
-Subject: Re: Bitbake dependency failure with git fetcher
+	(envelope-from <edwin.zhai@intel.com>) id 1RCSSr-0002Ej-Bw
+	for openembedded-core@lists.openembedded.org;
+	Sat, 08 Oct 2011 10:41:01 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 08 Oct 2011 01:35:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="61168953"
+Received: from yocto-build3.sh.intel.com ([10.239.48.58])
+	by orsmga002.jf.intel.com with ESMTP; 08 Oct 2011 01:35:21 -0700
+From: edwin.zhai@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  8 Oct 2011 16:30:42 +0800
+Message-Id: <cover.1318062305.git.edwin.zhai@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/1] gnutls: fix configure failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,24 +29,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Oct 2011 08:14:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 08 Oct 2011 08:41:01 -0000
 
-On Sat, 2011-10-08 at 01:29 +0200, Koen Kooi wrote:
-> Everytime openssl and a git recipe get changed at the same time, I end
-> up with:
-> 
-> | /angstrom/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/usr/bin/git.real: error while loading shared libraries: libcrypto.so.1.0.0: cannot open shared object file: No such file or directory
-> 
-> Why is bitbake not resolving the git-native -> openssl-native dep
-> before invoking the git fetcher?
+From: Zhai Edwin <edwin.zhai@intel.com>
 
-I suspect you're using rm_work?
+All,
+This patch fix configure failure of guntls after last upgrade.
+Pls. help to review.
 
-Cheers,
+Thanks,
+Edwin
 
-Richard
+The following changes since commit 0d8c8cf462e5df446669355b554b3d5fdc532a11:
+
+  mutter: update to 2.29.1 and fix SRC_URI (2011-10-07 11:35:50 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib gzhai/master2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/master2
+
+Zhai Edwin (1):
+  gnutls: Fix configure failure
+
+ meta/recipes-support/gnutls/gnutls.inc |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
 
 
