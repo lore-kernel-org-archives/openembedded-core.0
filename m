@@ -1,24 +1,29 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1RCSSs-0002Ej-2b
+	(envelope-from <koen@dominion.thruhere.net>) id 1RCUDY-0004fg-1g
 	for openembedded-core@lists.openembedded.org;
-	Sat, 08 Oct 2011 10:41:02 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 08 Oct 2011 01:35:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="61168955"
-Received: from yocto-build3.sh.intel.com ([10.239.48.58])
-	by orsmga002.jf.intel.com with ESMTP; 08 Oct 2011 01:35:22 -0700
-From: edwin.zhai@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  8 Oct 2011 16:30:43 +0800
-Message-Id: <e315a66f8b76ba1c3282ed8907d276ba298050db.1318062305.git.edwin.zhai@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1318062305.git.edwin.zhai@intel.com>
-References: <cover.1318062305.git.edwin.zhai@intel.com>
-In-Reply-To: <cover.1318062305.git.edwin.zhai@intel.com>
-References: <cover.1318062305.git.edwin.zhai@intel.com>
-Subject: [PATCH 1/1] gnutls: Fix configure failure
+	Sat, 08 Oct 2011 12:33:20 +0200
+Received: by eyx24 with SMTP id 24so2607814eyx.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 08 Oct 2011 03:27:41 -0700 (PDT)
+Received: by 10.223.91.87 with SMTP id l23mr17847659fam.5.1318069661598;
+	Sat, 08 Oct 2011 03:27:41 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id f10sm17851627fac.14.2011.10.08.03.27.40
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 08 Oct 2011 03:27:40 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1318061333.8533.58.camel@ted>
+Date: Sat, 8 Oct 2011 12:27:39 +0200
+Message-Id: <5F487E45-9539-4DE6-AF5F-5664351F86C9@dominion.thruhere.net>
+References: <D3F85958-4E8C-4D2C-B8BD-C7AF341FAF47@dominion.thruhere.net>
+	<1318061333.8533.58.camel@ted>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1244.3)
+Subject: Re: Bitbake dependency failure with git fetcher
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,58 +38,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Oct 2011 08:41:02 -0000
-
-From: Zhai Edwin <edwin.zhai@intel.com>
-
-gnutls fails in configure as depends on p11-kit after last upgrade. Removing
-this dependency via configure option can fix following error:
+X-List-Received-Date: Sat, 08 Oct 2011 10:33:20 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
-| checking for fork... (cached) yes
-| checking for P11_KIT... configure: error: Package requirements (p11-kit-1 >= 0.2) were not met:
-|
-| No package 'p11-kit-1' found
-|
-| Consider adjusting the PKG_CONFIG_PATH environment variable if you
-| installed software in a non-standard prefix.
-|
-| Alternatively, you may set the environment variables P11_KIT_CFLAGS
-| and P11_KIT_LIBS to avoid the need to call pkg-config.
-| See the pkg-config man page for more details.
-|
-| ERROR: oe_runconf failed
+Op 8 okt. 2011, om 10:08 heeft Richard Purdie het volgende geschreven:
 
+> On Sat, 2011-10-08 at 01:29 +0200, Koen Kooi wrote:
+>> Everytime openssl and a git recipe get changed at the same time, I =
+end
+>> up with:
+>>=20
+>> | =
+/angstrom/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/usr/bin/g=
+it.real: error while loading shared libraries: libcrypto.so.1.0.0: =
+cannot open shared object file: No such file or directory
+>>=20
+>> Why is bitbake not resolving the git-native -> openssl-native dep
+>> before invoking the git fetcher?
+>=20
+> I suspect you're using rm_work?
 
-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
----
- meta/recipes-support/gnutls/gnutls.inc |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
-index 9257880..8818c32 100644
---- a/meta/recipes-support/gnutls/gnutls.inc
-+++ b/meta/recipes-support/gnutls/gnutls.inc
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.gnu.org/software/gnutls/"
- BUGTRACKER = "https://savannah.gnu.org/support/?group=gnutls"
- DEPENDS = "zlib lzo libtasn1 libgcrypt (>= 1.4.2) libcap"
- 
--INC_PR = "r2"
-+INC_PR = "r3"
- 
- LICENSE = "GPLv3+ & LGPLv2.1+"
- LICENSE_${PN} = "LGPLv2.1+"
-@@ -24,7 +24,7 @@ EXTRA_OECONF="--with-included-opencdk --with-included-libcfg --disable-rpath \
-               --with-libgcrypt --with-libgcrypt-prefix=${STAGING_DIR_HOST}${prefix} \
-               --with-libdl-prefix=${STAGING_DIR_HOST}${prefix} \
-               --with-libpthread-prefix=${STAGING_DIR_HOST}${prefix} \
--              --with-lzo --disable-guile \
-+              --with-lzo --disable-guile --without-p11-kit \
-               "
- do_configure_prepend() {
- 	for dir in . lib libextra; do
--- 
-1.7.1
-
+Yes I do=
 
 
