@@ -1,24 +1,29 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RCLHW-0003Lm-93
+	(envelope-from <scott.a.garman@intel.com>) id 1RCLL0-0003Ru-6M
 	for openembedded-core@lists.openembedded.org;
-	Sat, 08 Oct 2011 03:00:50 +0200
-Received: by eyx24 with SMTP id 24so2476182eyx.6
+	Sat, 08 Oct 2011 03:04:32 +0200
+Received: from mail-yw0-f52.google.com ([209.85.213.52])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 07 Oct 2011 17:57:42 -0700
+Received: by ywp31 with SMTP id 31so7847191ywp.25
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Oct 2011 17:55:12 -0700 (PDT)
-Received: by 10.223.17.11 with SMTP id q11mr14483500faa.13.1318035309425;
-	Fri, 07 Oct 2011 17:55:09 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
-	by mx.google.com with ESMTPS id b10sm15517471fam.1.2011.10.07.17.55.07
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 07 Oct 2011 17:55:08 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
+	Fri, 07 Oct 2011 17:57:42 -0700 (PDT)
+Received: by 10.68.209.37 with SMTP id mj5mr17366349pbc.123.1318035461885;
+	Fri, 07 Oct 2011 17:57:41 -0700 (PDT)
+Received: from [192.168.1.103] (c-98-246-165-28.hsd1.or.comcast.net.
+	[98.246.165.28])
+	by mx.google.com with ESMTPS id ki1sm36765143pbb.3.2011.10.07.17.57.39
+	(version=SSLv3 cipher=OTHER); Fri, 07 Oct 2011 17:57:39 -0700 (PDT)
+Message-ID: <4E8FA001.4000702@intel.com>
+Date: Fri, 07 Oct 2011 17:57:37 -0700
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  8 Oct 2011 02:55:02 +0200
-Message-Id: <1318035302-1354-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] git: update to 1.7.7
+References: <cover.1317946258.git.julian.pidancet@gmail.com>
+In-Reply-To: <cover.1317946258.git.julian.pidancet@gmail.com>
+Subject: Re: [PATCH v3 0/2] Fix useradd class to accept useradd long options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,50 +38,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Oct 2011 01:00:50 -0000
+X-List-Received-Date: Sat, 08 Oct 2011 01:04:32 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/recipes-devtools/git/git_1.7.5.1.bb |   10 ----------
- meta/recipes-devtools/git/git_1.7.7.bb   |   10 ++++++++++
- 2 files changed, 10 insertions(+), 10 deletions(-)
- delete mode 100644 meta/recipes-devtools/git/git_1.7.5.1.bb
- create mode 100644 meta/recipes-devtools/git/git_1.7.7.bb
+On 10/06/2011 05:13 PM, Julian Pidancet wrote:
+> This first patch fixes the --root option for programs in shadow-native and
+> allow one to specify useradd long options when using the useradd class
+> in a recipe.
+>
+> The second patch demonstrates usage of the useradd class and ability to
+> specify long options in the USERADD_PARAM variable by converting the OpenSSH
+> recipe to useradd.
+>
+> v2: Fixed a typo in add_root_cmd_options.patch, --root is equivalent to -Q
+> instead of -R.
+>
+> v3: Comment modifications and add Signed-off-by line in the modified patch
+> directly.
 
-diff --git a/meta/recipes-devtools/git/git_1.7.5.1.bb b/meta/recipes-devtools/git/git_1.7.5.1.bb
-deleted file mode 100644
-index b5eb015..0000000
---- a/meta/recipes-devtools/git/git_1.7.5.1.bb
-+++ /dev/null
-@@ -1,10 +0,0 @@
--require git.inc
--
--PR = "r3"
--
--EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no ac_cv_c_c99_format=yes \
--                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
--                 "
--
--SRC_URI[md5sum] = "a49291116e3b0564e069ae989e4db6fb"
--SRC_URI[sha256sum] = "a1d4a1c59300e68fbc493a2cbe9257048d4d6f4363924bf34f38c413a825f80c"
-diff --git a/meta/recipes-devtools/git/git_1.7.7.bb b/meta/recipes-devtools/git/git_1.7.7.bb
-new file mode 100644
-index 0000000..486e2e5
---- /dev/null
-+++ b/meta/recipes-devtools/git/git_1.7.7.bb
-@@ -0,0 +1,10 @@
-+require git.inc
-+
-+SRC_URI = "http://git-core.googlecode.com/files/git-${PV}.tar.gz"
-+SRC_URI[md5sum] = "5d645884e688921e773186783b65ce33"
-+SRC_URI[sha256sum] = "5a977bc01e4989b9928345e99aab15ce896cf5897c6e32eb449538574df377f6"
-+
-+EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no ac_cv_c_c99_format=yes \
-+                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
-+                 "
-+
+Thank you Julian for these fixes.
+
+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+
 -- 
-1.6.6.1
-
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
