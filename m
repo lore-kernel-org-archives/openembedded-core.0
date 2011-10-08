@@ -1,28 +1,24 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RCUE6-0004hR-Mo
+Received: from mailout-de.gmx.net ([213.165.64.22])
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <schnitzeltony@gmx.de>) id 1RCXCb-0000B6-D4
 	for openembedded-core@lists.openembedded.org;
-	Sat, 08 Oct 2011 12:33:54 +0200
-Received: by bke11 with SMTP id 11so6180540bke.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 08 Oct 2011 03:28:16 -0700 (PDT)
-Received: by 10.223.7.83 with SMTP id c19mr17284822fac.16.1318069695934;
-	Sat, 08 Oct 2011 03:28:15 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id f10sm17851627fac.14.2011.10.08.03.28.14
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 08 Oct 2011 03:28:15 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <cover.1318062305.git.edwin.zhai@intel.com>
-Date: Sat, 8 Oct 2011 12:28:14 +0200
-Message-Id: <DE38EBEF-E7F8-48C4-8BCB-E855102AF1DF@dominion.thruhere.net>
-References: <cover.1318062305.git.edwin.zhai@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1244.3)
-Subject: Re: [PATCH 0/1] gnutls: fix configure failure
+	Sat, 08 Oct 2011 15:44:33 +0200
+Received: (qmail invoked by alias); 08 Oct 2011 13:38:54 -0000
+Received: from p4FDF0806.dip.t-dialin.net (EHLO localhost.localdomain)
+	[79.223.8.6]
+	by mail.gmx.net (mp008) with SMTP; 08 Oct 2011 15:38:54 +0200
+X-Authenticated: #62780362
+X-Provags-ID: V01U2FsdGVkX19NA0E6pTdNb0mf4oxpWtKg1/6Qj+0gJlMQ3Adpbz
+	uGV6TbAbwOiDrQ
+From: Andreas =?iso-8859-1?q?M=FCller?= <schnitzeltony@gmx.de>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 8 Oct 2011 15:43:11 +0200
+User-Agent: KMail/1.13.7 (Linux/2.6.35.14-97.fc14.x86_64; KDE/4.6.5; x86_64; ;
+	)
+MIME-Version: 1.0
+Message-Id: <201110081543.11799.schnitzeltony@gmx.de>
+X-Y-GMX-Trusted: 0
+Subject: tiff compile fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,47 +33,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Oct 2011 10:33:54 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 08 Oct 2011 13:44:33 -0000
+Content-Type: Text/Plain;
+  charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-h=
-ttp://cgit.openembedded.org/cgit.cgi/openembedded-core/commit/?id=3D808b31=
-23e359f1aebabb8af44694275e4075e031
+With latest git pull for oe-core/meta-oe... & clean build dir I get
 
+| arm-angstrom-linux-gnueabi-libtool: compile:  ccache arm-angstrom-linux-gnueabi-g++ -march=armv7-a -fno-tree-vectorize -mthumb-interwork -mfloat-abi=softfp -mfpu=neon -mtune=cortex-a8 -mthumb-interwork -mno-thumb --sysroot=/home/Superandy/tmp/oe-core-eglibc/sysroots/overo -DHAVE_CONFIG_H -I. -O2 -pipe -g -feliminate-unused-debug-types -fpermissive -fvisibility-inlines-hidden -fvisibility-inlines-hidden -MT tif_stream.lo -MD -MP -MF .deps/tif_stream.Tpo -c tif_stream.cxx  -fPIC -DPIC -o .libs/tif_stream.o
+| tif_stream.cxx:31:20: fatal error: iostream: No such file or directory
+| compilation terminated.
+| make[2]: *** [tif_stream.lo] Error 1
 
-Op 8 okt. 2011, om 10:30 heeft edwin.zhai@intel.com het volgende =
-geschreven:
+I think it is not tiff to blame - but which one is it?
 
-> From: Zhai Edwin <edwin.zhai@intel.com>
->=20
-> All,
-> This patch fix configure failure of guntls after last upgrade.
-> Pls. help to review.
->=20
-> Thanks,
-> Edwin
->=20
-> The following changes since commit =
-0d8c8cf462e5df446669355b554b3d5fdc532a11:
->=20
->  mutter: update to 2.29.1 and fix SRC_URI (2011-10-07 11:35:50 +0100)
->=20
-> are available in the git repository at:
->  git://git.pokylinux.org/poky-contrib gzhai/master2
->  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dgzhai/master2
->=20
-> Zhai Edwin (1):
->  gnutls: Fix configure failure
->=20
-> meta/recipes-support/gnutls/gnutls.inc |    4 ++--
-> 1 files changed, 2 insertions(+), 2 deletions(-)
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+Andreas
 
 
