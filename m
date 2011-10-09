@@ -1,25 +1,35 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RCnYe-0004lL-99
+	(envelope-from <martin.jansa@gmail.com>) id 1RCnuK-00053w-Hs
 	for openembedded-core@lists.openembedded.org;
-	Sun, 09 Oct 2011 09:12:24 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p9976isP016447
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sun, 09 Oct 2011 09:34:48 +0200
+Received: by bke11 with SMTP id 11so7087068bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 9 Oct 2011 00:06:44 -0700 (PDT)
-Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Sun, 9 Oct 2011 00:06:44 -0700
-Message-ID: <8110c8b70b1778b7aa9b34a984c7073c800c1a96.1317030097.git.xiaofeng.yan@windriver.com>
-In-Reply-To: <cover.1317030097.git.xiaofeng.yan@windriver.com>
-References: <cover.1317030097.git.xiaofeng.yan@windriver.com>
-Old-Date: Mon, 26 Sep 2011 17:31:59 +0800
-Date: Sun, 9 Oct 2011 15:11:48 +0800
-To: <openembedded-core@lists.openembedded.org>
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+	Sun, 09 Oct 2011 00:29:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=x3fOHu5vNJ3qBbA53NetNmkPlglzYXOhV6jLMDQN35o=;
+	b=gTtsd1exD8GLMJ3RBi2p2xRH99dRRFeHIyPNQvXdaTLjTRxtz/m1aBYKYaQ4NsTO5F
+	TLrsDVn+oaTIPmDS99tbnBHOTj2DiTENteQNEAg+H6O7ILjAmWWgF6NE/A8HEybYFb8x
+	lXIM8zeN2PLIZh6lnYVEUaTazIgWIPT7yCRG4=
+Received: by 10.223.64.65 with SMTP id d1mr23169092fai.32.1318145348868;
+	Sun, 09 Oct 2011 00:29:08 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id n12sm23436810fan.9.2011.10.09.00.29.06
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 09 Oct 2011 00:29:07 -0700 (PDT)
+Date: Sun, 9 Oct 2011 09:29:00 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20111009072900.GA3847@jama.jama.net>
+References: <4E907597.3090507@balister.org>
+	<CAMKF1soz1FCyCZwA2Oe14q2e=RrxVZmJ3iVjQ=-P+fUghRYP3g@mail.gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] lsb: Change link of ${baselib} to lib64 for 64bits system
+In-Reply-To: <CAMKF1soz1FCyCZwA2Oe14q2e=RrxVZmJ3iVjQ=-P+fUghRYP3g@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: binutils from meta-oe does build build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,61 +44,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Oct 2011 07:12:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 09 Oct 2011 07:34:48 -0000
+X-Groupsio-MsgNum: 10718
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="WIyZ46R2i8wDzkSu"
+Content-Disposition: inline
 
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+--WIyZ46R2i8wDzkSu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Binaries of lsb test suite need ld-linux.so* in /lib64.
-for example:
-Target$ ./lsbcmdchk
--sh: ./lsbcmdchk: No such file or directory
-Target$ strings lsbcmdchk | grep "ld-"
-/lib64/ld-lsb-x86-64.so.3
+On Sat, Oct 08, 2011 at 06:01:36PM -0700, Khem Raj wrote:
+> On Sat, Oct 8, 2011 at 9:08 AM, Philip Balister <philip@balister.org> wro=
+te:
+> > http://pastebin.com/M0Gw0Db2
+> >
+> > Basically, warnings are being treated as errors and the compile fails.
+>=20
+> you might add  --disable-werror to EXTRA_OECONF
+> in meta-oe/recipes-devtools/binutils/binutils.inc
 
-"lsbcmdchk" from lsb test suite is a binary program.
-A new modification to lsb_1.4.bb caused that binaries from lsb test suite can't run
-because binaries of lsb test suite need ld-linux.so* in /lib64.
-But the link is changed due to adding multilib. I changed this link again.
+what about adding
+-Wno-error=3Duninitialized
+only to CFLAGS?
 
-Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
----
- meta/recipes-extended/lsb/lsb_1.4.bb |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-diff --git a/meta/recipes-extended/lsb/lsb_1.4.bb b/meta/recipes-extended/lsb/lsb_1.4.bb
-index d472012..5df08b8 100644
---- a/meta/recipes-extended/lsb/lsb_1.4.bb
-+++ b/meta/recipes-extended/lsb/lsb_1.4.bb
-@@ -2,7 +2,7 @@ DESCRIPTION = "LSB support for Poky Linux"
- SECTION = "console/utils"
- HOMEPAGE = "http://prdownloads.sourceforge.net/lsb"
- LICENSE = "GPLv2+"
--PR = "r1"
-+PR = "r2"
- 
- LIC_FILES_CHKSUM = "file://README;md5=12da544b1a3a5a1795a21160b49471cf"
- 
-@@ -69,7 +69,7 @@ do_install_append(){
-        install -m 0755 ${WORKDIR}/init-functions ${D}/${baselib}/lsb
-        if [ "${TARGET_ARCH}" == "x86_64" ];then
- 	       cd ${D}
--	       ln -sf ${baselib} lib
-+	       ln -sf ${baselib} lib64
- 	       cd ${D}/${baselib}
-                ln -sf ld-linux-x86-64.so.2 ld-lsb-x86-64.so.2
-                ln -sf ld-linux-x86-64.so.2 ld-lsb-x86-64.so.3
-@@ -82,7 +82,7 @@ do_install_append(){
-  
-        if [ "${TARGET_ARCH}" == "powerpc64" ];then
-   	       cd ${D}
--	       ln -sf ${baselib} lib
-+	       ln -sf ${baselib} lib64
-                cd ${D}/${baselib}
-                ln -sf ld64.so.1 ld-lsb-ppc64.so.2
-                ln -sf ld64.so.1 ld-lsb-ppc64.so.3
--- 
-1.7.0.4
+--WIyZ46R2i8wDzkSu
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
 
+iEYEARECAAYFAk6RTTwACgkQN1Ujt2V2gBw9lQCgih6BMU6v9o0u8R/vtGeiixcW
+7d4An0kmEnOHdD9TwGPK19Q6fOhOVLw7
+=C9+9
+-----END PGP SIGNATURE-----
 
+--WIyZ46R2i8wDzkSu--
