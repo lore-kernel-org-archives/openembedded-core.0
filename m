@@ -1,24 +1,28 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RCqMt-0007WE-2m
+	(envelope-from <koen@dominion.thruhere.net>) id 1RCral-0000A4-Nm
 	for openembedded-core@lists.openembedded.org;
-	Sun, 09 Oct 2011 12:12:27 +0200
-Received: by bke11 with SMTP id 11so7199160bke.6
+	Sun, 09 Oct 2011 13:30:51 +0200
+Received: by bke11 with SMTP id 11so7256635bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 09 Oct 2011 03:06:47 -0700 (PDT)
-Received: by 10.223.5.3 with SMTP id 3mr24046584fat.4.1318154807526;
-	Sun, 09 Oct 2011 03:06:47 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
-	by mx.google.com with ESMTPS id y8sm24182377faj.10.2011.10.09.03.06.46
+	Sun, 09 Oct 2011 04:25:12 -0700 (PDT)
+Received: by 10.223.13.131 with SMTP id c3mr25221513faa.10.1318159512380;
+	Sun, 09 Oct 2011 04:25:12 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id a7sm24539796fam.22.2011.10.09.04.25.10
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 09 Oct 2011 03:06:46 -0700 (PDT)
+	Sun, 09 Oct 2011 04:25:10 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
 From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  9 Oct 2011 12:06:41 +0200
-Message-Id: <1318154801-28945-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [RFC][PATCH] linux-firmware: update, merge in OE classic updates, fix packaging
+In-Reply-To: <1317910796.6398.86.camel@ted>
+Date: Sun, 9 Oct 2011 13:25:09 +0200
+Message-Id: <37FC7DDC-D175-45B4-AF8A-F4D5AF384750@dominion.thruhere.net>
+References: <1317910796.6398.86.camel@ted>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1244.3)
+Subject: Re: sstate.bbclass: Ensure machine specific stamps are only wiped for the current task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,133 +37,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Oct 2011 10:12:27 -0000
+X-List-Received-Date: Sun, 09 Oct 2011 11:30:51 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Update: move to latest SRCREV, use non-kernel.org URI
-Merge: wl12xx symlink + packaging, install all firmwares
-Fix: * all entries in PACKAGES are in PROVIDES already
-     * A package always RPROVIDES itself
-     * A file can only get packaged *once* so only one rtlwifi package will get the license
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
+Op 6 okt. 2011, om 16:19 heeft Richard Purdie het volgende geschreven:
 
-Both this and the OE classic version give the me "there must be another way" feeling. Anyway, this patch gives me what I want, namely the wilink files. If people want other firmware files subpackaged, respond to the RFC and I'll have a look.
+> sstate was being a little too ethusiastic about removing stamp files =
+and
+> was removing stamp files for other machines when it shouldn't have =
+been.
+>=20
+> This patch teaches sstate about machine specific stamp extensions and
+> allows it to only remove the current task's stampfiles.
 
-I'd really like the wl12xx packaging (and associated SRCREV bump) to go into the 1.1 release. But as it is with ponies and world peace, we might not all get what we want :)
+Not sure if it's related to this problem or not but sstate is still not =
+working as intented for me when switching machines, it keeps rebuilding =
+the toolchain when switching machine. What I did this morning:
 
- .../linux-firmware/linux-firmware_git.bb           |   54 ++++++++-----------
- 1 files changed, 23 insertions(+), 31 deletions(-)
+1) wipe out tmp, sstate-cache, pseudodone
+2) MACHINE=3Dbeagleboard bitbake u-boot
+3) cp conf/machine/beagleboard.conf conf/machine/brokensstate.conf
+4) MACHINE=3Dbrokensstate bitbake u-boot
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 660877e..e64ee92 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -1,32 +1,24 @@
- DESCRIPTION = "Firmware files for use with Linux kernel"
- SECTION = "kernel"
- LICENSE = "Proprietary"
--LICENSE_${PN}-sd8686 = "Firmware:LICENSE.libertas"
--LICENSE_${PN}-rtl8192cu = "Firmware:LICENCE.rtlwifi_firmware"
--LICENSE_${PN}-rtl8192ce = "Firmware:LICENCE.rtlwifi_firmware"
--LICENSE_${PN}-rtl8192su = "Firmware:LICENCE.rtlwifi_firmware"
- 
- LIC_FILES_CHKSUM = "file://LICENSE.radeon_rlc;md5=4c243f7854d2884b483abda991adef43 \
-                     file://LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431 \
-                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-                     file://LICENCE.ralink-firmware.txt;md5=ab2c269277c45476fb449673911a2dfd \
-                     file://LICENCE.qla2xxx;md5=4005328a134054f0fa077bdc37aa64f2 \
--                    file://LICENCE.mwl8k;md5=9ddea1734a4baf3c78d845151f42a37a \
--                    file://LICENCE.libertas;md5=2d2127d203ac000f1afabfce593659ce \
-                     file://LICENCE.iwlwifi_firmware;md5=311cc823df5b1be4f00fbf0f17d96a6b \
-                     file://LICENCE.i2400m;md5=14b901969e23c41881327c0d9e4b7d36 \
--                    file://LICENCE.atheros_firmware;md5=62748c8fecfa12010fd76409db4b5459 \
-+                    file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
-                     file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
-                     file://LICENCE.rtlwifi_firmware.txt;md5=00d06cfd3eddd5a2698948ead2ad54a5 \
-                    "
- 
--PROVIDES += "linux-firmware-sd8686 linux-firmware-rtl8192cu linux-firmware-rtl8192ce linux-firmware-rtl8192su"
--
--SRCREV = "40c0f950be7040614dc45df54e25e54d00e3b73b"
-+SRCREV = "d543c1d98fc240267ee59fff93f7a0f36d9e2fc3"
- PV = "0.0+git${SRCPV}"
--PR = "r1"
-+PR = "r2"
- 
--SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/dwmw2/linux-firmware.git;protocol=git"
-+SRC_URI = "git://git.infradead.org/users/dwmw2/linux-firmware.git;protocol=git"
- 
- S = "${WORKDIR}/git"
- 
-@@ -36,46 +28,46 @@ do_compile() {
- 
- do_install() {
- 	install -d  ${D}/lib/firmware/
-+	cp -RpP * ${D}/lib/firmware/
-+
- 	# Libertas sd8686
- 	install -m 0644 libertas/sd8686_v9.bin ${D}/lib/firmware/sd8686.bin
- 	install -m 0644 libertas/sd8686_v9_helper.bin ${D}/lib/firmware/sd8686_helper.bin
--	install -m 0644 LICENCE.libertas ${D}/lib/firmware/
-+
- 	# Realtek rtl8192* 
--	install -d ${D}/lib/firmware/rtlwifi/
--	install -m 0644 rtlwifi/rtl8192cufw.bin ${D}/lib/firmware/rtlwifi/rtl8192cufw.bin
--	install -m 0644 rtlwifi/rtl8192cfw.bin ${D}/lib/firmware/rtlwifi/rtl8192cfw.bin
--	install -m 0644 rtlwifi/rtl8712u.bin ${D}/lib/firmware/rtlwifi/rtl8712u.bin	
- 	install -m 0644 LICENCE.rtlwifi_firmware.txt ${D}/lib/firmware/rtlwifi/LICENCE.rtlwifi_firmware.txt
-+
-+	# fixup wl12xx location, after 2.6.37 the kernel searches a different location for it
-+	( cd ${D}/lib/firmware ; ln -sf ti-connectivity/* . )
- }
- 
--PACKAGES = "${PN}-sd8686 ${PN}-rtl8192cu linux-firmware-rtl8192ce linux-firmware-rtl8192su"
-+PACKAGES =+ "${PN}-sd8686 ${PN}-rtl8192cu linux-firmware-rtl8192ce linux-firmware-rtl8192su ${PN}-wl12xx"
- 
-+LICENSE_${PN}-sd8686 = "Firmware:LICENSE.libertas"
- FILES_${PN}-sd8686 = "/lib/firmware/sd8686* /lib/firmware/LICENCE.libertas"
- 
--RPROVIDES_${PN}-sd8686 = "${PN}-sd8686"
--
--FILES_${PN}-rtl8192cu = " \
--  /lib/firmware/rtlwifi/rtl8192cufw.bin \
--  /lib/firmware/rtlwifi/LICENCE.rtlwifi_firmware.txt \
--"
--RPROVIDES_${PN}-rtl8192cu = "${PN}-rtl8192cu"
--
-+LICENSE_${PN}-rtl8192cu = "Firmware:LICENCE.rtlwifi_firmware"
- FILES_${PN}-rtl8192cu = " \
-   /lib/firmware/rtlwifi/rtl8192cufw.bin \
-   /lib/firmware/rtlwifi/LICENCE.rtlwifi_firmware.txt \
- "
--RPROVIDES_${PN}-rtl8192cu = "${PN}-rtl8192cu"
- 
-+LICENSE_${PN}-rtl8192ce = "Firmware:LICENCE.rtlwifi_firmware"
- FILES_${PN}-rtl8192ce = " \
-   /lib/firmware/rtlwifi/rtl8192cfw.bin \
--  /lib/firmware/rtlwifi/LICENCE.rtlwifi_firmware.txt \
- "
--RPROVIDES_${PN}-rtl8192ce = "${PN}-rtl8192ce"
- 
-+LICENSE_${PN}-rtl8192su = "Firmware:LICENCE.rtlwifi_firmware"
- FILES_${PN}-rtl8192su = " \
-   /lib/firmware/rtlwifi/rtl8712u.bin \
--  /lib/firmware/rtlwifi/LICENCE.rtlwifi_firmware.txt \
- "
--RPROVIDES_${PN}-rtl8192su = "${PN}-rtl8192su"
-+
-+FILES_${PN}-wl12xx = " \
-+  /lib/firmware/wl12* \
-+  /lib/firmware/TI* \
-+  /lib/firmware/ti-connectivity \
-+"
-+
-+FILES_${PN} += "/lib/firmware/*"
- 
- PACKAGE_ARCH = "all"
--- 
-1.6.6.1
+And behold:
+
+NOTE: Resolving any missing task queue dependencies
+NOTE: Preparing runqueue
+NOTE: Executing SetScene Tasks
+NOTE: package gcc-cross-4.5-r43+svnr178923: task =
+do_populate_sysroot_setscene: Started
+NOTE: package mtd-utils-1.4.6-r0: task do_populate_sysroot_setscene: =
+Started
+NOTE: package gcc-runtime-4.5-r43+svnr178923: task =
+do_populate_sysroot_setscene: Started
+NOTE: package eglibc-2.12-r27: task do_populate_sysroot_setscene: =
+Started
+NOTE: package mtd-utils-1.4.6-r0: task do_populate_sysroot_setscene: =
+Succeeded
+NOTE: package bash-4.1-r2: task do_populate_sysroot_setscene: Started
+NOTE: package bash-4.1-r2: task do_populate_sysroot_setscene: Succeeded
+NOTE: package gcc-cross-4.5-r43+svnr178923: task =
+do_populate_sysroot_setscene: Succeeded
+NOTE: package binutils-cross-2.20.1-r7: task =
+do_populate_sysroot_setscene: Started
+NOTE: package linux-libc-headers-2.6.39-r2: task =
+do_populate_sysroot_setscene: Started
+NOTE: package eglibc-2.12-r27: task do_populate_sysroot_setscene: =
+Succeeded
+NOTE: package binutils-cross-2.20.1-r7: task =
+do_populate_sysroot_setscene: Succeeded
+NOTE: package linux-libc-headers-2.6.39-r2: task =
+do_populate_sysroot_setscene: Succeeded
+NOTE: package libgcc-4.5-r43+svnr178923: task =
+do_populate_sysroot_setscene: Started
+NOTE: package gcc-runtime-4.5-r43+svnr178923: task =
+do_populate_sysroot_setscene: Succeeded
+NOTE: package gcc-cross-intermediate-4.5-r43+svnr178923: task =
+do_populate_sysroot_setscene: Started
+NOTE: package zlib-1.2.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: package libgcc-4.5-r43+svnr178923: task =
+do_populate_sysroot_setscene: Succeeded
+NOTE: package lzo-2.05-r0: task do_populate_sysroot_setscene: Started
+NOTE: package zlib-1.2.5-r0: task do_populate_sysroot_setscene: =
+Succeeded
+NOTE: package e2fsprogs-1.41.14-r2: task do_populate_sysroot_setscene: =
+Started
+NOTE: package util-linux-2.19.1-r7: task do_populate_sysroot_setscene: =
+Started
+NOTE: package lzo-2.05-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: package e2fsprogs-1.41.14-r2: task do_populate_sysroot_setscene: =
+Succeeded
+NOTE: package libtool-cross-2.4-r4: task do_populate_sysroot_setscene: =
+Started
+NOTE: package gettext-0.18.1.1-r4: task do_populate_sysroot_setscene: =
+Started
+NOTE: package libtool-cross-2.4-r4: task do_populate_sysroot_setscene: =
+Succeeded
+NOTE: package util-linux-2.19.1-r7: task do_populate_sysroot_setscene: =
+Succeeded
+NOTE: package gcc-cross-intermediate-4.5-r43+svnr178923: task =
+do_populate_sysroot_setscene: Succeeded
+NOTE: package ncurses-5.9-r1.1: task do_populate_sysroot_setscene: =
+Started
+NOTE: package perl-5.12.3-r5: task do_populate_sysroot_setscene: Started
+NOTE: package eglibc-initial-2.12-r27: task =
+do_populate_sysroot_setscene: Started
+NOTE: package eglibc-initial-2.12-r27: task =
+do_populate_sysroot_setscene: Succeeded
+NOTE: package ncurses-5.9-r1.1: task do_populate_sysroot_setscene: =
+Succeeded
+NOTE: package db-5.1.19-r3: task do_populate_sysroot_setscene: Started
+NOTE: package expat-2.0.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: package expat-2.0.1-r0: task do_populate_sysroot_setscene: =
+Succeeded
+NOTE: package perl-5.12.3-r5: task do_populate_sysroot_setscene: =
+Succeeded
+NOTE: package gettext-0.18.1.1-r4: task do_populate_sysroot_setscene: =
+Succeeded
+NOTE: package gdbm-1.8.3-r4: task do_populate_sysroot_setscene: Started
+NOTE: package gcc-cross-initial-4.5-r43+svnr178923: task =
+do_populate_sysroot_setscene: Started
+NOTE: package gdbm-1.8.3-r4: task do_populate_sysroot_setscene: =
+Succeeded
+NOTE: package db-5.1.19-r3: task do_populate_sysroot_setscene: Succeeded
+NOTE: package gcc-cross-initial-4.5-r43+svnr178923: task =
+do_populate_sysroot_setscene: Succeeded
+NOTE: Executing RunQueue Tasks
+NOTE: Running task 536 of 920 (ID: 918, =
+/OE/tentacle/sources/meta-openembedded/meta-oe/recipes-devtools/gcc/gcc-cr=
+oss-initial_4.5.bb, do_populate_lic)
+NOTE: Running task 549 of 920 (ID: 452, =
+/OE/tentacle/sources/meta-openembedded/meta-oe/recipes-devtools/binutils/b=
+inutils-cross_2.20.1.bb, do_fetch)
+NOTE: Running task 553 of 920 (ID: 504, =
+/OE/tentacle/sources/openembedded-core/meta/recipes-kernel/linux-libc-head=
+ers/linux-libc-headers_2.6.39.bb, do_fetch)
+NOTE: Running task 558 of 920 (ID: 538, =
+/OE/tentacle/sources/meta-openembedded/meta-oe/recipes-devtools/gcc/gcc-cr=
+oss-intermediate_4.5.bb, do_populate_lic)
+NOTE: package gcc-cross-initial-4.5-r43+svnr178923: task =
+do_populate_lic: Started
+NOTE: package binutils-cross-2.20.1-r7: task do_fetch: Started
+[..]
+NOTE: package eglibc-2.12-r27: task do_compile: Started
+
+
+What I suspect is happing is that angstrom is somehow putting $MACHINE =
+in a var that upsets the sstate logic and/or rm_work upsets sstate =
+and/or something else is broken. The problem is that I have no idea how =
+to debug this except to ping Richard and get the magic diffsigs =
+incantation.
+
+regards,
+
+Koen
 
 
 
