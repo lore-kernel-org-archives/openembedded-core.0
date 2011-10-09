@@ -1,26 +1,26 @@
-Received: from mail.geekisp.com ([216.168.135.169] helo=starfish.geekisp.com)
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philip@balister.org>) id 1RCtxM-0002iz-D1
+	(envelope-from <koen@dominion.thruhere.net>) id 1RCuXc-00036i-60
 	for openembedded-core@lists.openembedded.org;
-	Sun, 09 Oct 2011 16:02:20 +0200
-Received: (qmail 10749 invoked by uid 1003); 9 Oct 2011 13:56:33 -0000
-Received: from unknown (HELO ?192.168.1.108?)
-	(philip@opensdr.com@96.240.183.10)
-	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
-	9 Oct 2011 13:56:33 -0000
-Message-ID: <4E91A80D.70200@balister.org>
-Date: Sun, 09 Oct 2011 09:56:29 -0400
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.22) Gecko/20110906 Fedora/3.1.14-1.fc14 Thunderbird/3.1.14
-MIME-Version: 1.0
+	Sun, 09 Oct 2011 16:39:49 +0200
+Received: by bke11 with SMTP id 11so7411176bke.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 09 Oct 2011 07:34:08 -0700 (PDT)
+Received: by 10.223.4.132 with SMTP id 4mr25362476far.12.1318170848686;
+	Sun, 09 Oct 2011 07:34:08 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id g19sm25499043fai.8.2011.10.09.07.34.07
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 09 Oct 2011 07:34:07 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Sun, 9 Oct 2011 16:34:05 +0200
+Message-Id: <3641B9F4-58D3-4AA1-B3D8-A08C57A97A11@dominion.thruhere.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <4E907597.3090507@balister.org>
-	<CAMKF1soz1FCyCZwA2Oe14q2e=RrxVZmJ3iVjQ=-P+fUghRYP3g@mail.gmail.com>
-In-Reply-To: <CAMKF1soz1FCyCZwA2Oe14q2e=RrxVZmJ3iVjQ=-P+fUghRYP3g@mail.gmail.com>
-X-Enigmail-Version: 1.1.2
-Subject: Re: binutils from meta-oe does build build
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+X-Mailer: Apple Mail (2.1244.3)
+Subject: shared-mime-info fails to build if intltool-native is present
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,40 +35,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Oct 2011 14:02:21 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 09 Oct 2011 14:39:49 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 10/08/2011 09:01 PM, Khem Raj wrote:
-> On Sat, Oct 8, 2011 at 9:08 AM, Philip Balister <philip@balister.org> wrote:
->> http://pastebin.com/M0Gw0Db2
->>
->> Basically, warnings are being treated as errors and the compile fails.
-> 
-> you might add  --disable-werror to EXTRA_OECONF
-> in meta-oe/recipes-devtools/binutils/binutils.inc
+Hi,
 
-That worked. There are a number of CFLAGS in the .inc file and it is was
-not obvious the proper place to insert Martin's suggestion.
+I finally tracked down the cause of the intermittent shared-mime-info =
+build failures I was seeing. No patch yet, but now you all know what's =
+causing it :)
 
-I'll submit a patch later. RL intrudes.
+regards,
 
-Philip
-
-> 
->>
->> Philip
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> 
+Koen=
 
 
