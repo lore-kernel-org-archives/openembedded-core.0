@@ -1,28 +1,26 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail.geekisp.com ([216.168.135.169] helo=starfish.geekisp.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RCral-0000A4-Nm
+	(envelope-from <philip@balister.org>) id 1RCtxM-0002iz-D1
 	for openembedded-core@lists.openembedded.org;
-	Sun, 09 Oct 2011 13:30:51 +0200
-Received: by bke11 with SMTP id 11so7256635bke.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 09 Oct 2011 04:25:12 -0700 (PDT)
-Received: by 10.223.13.131 with SMTP id c3mr25221513faa.10.1318159512380;
-	Sun, 09 Oct 2011 04:25:12 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id a7sm24539796fam.22.2011.10.09.04.25.10
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 09 Oct 2011 04:25:10 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1317910796.6398.86.camel@ted>
-Date: Sun, 9 Oct 2011 13:25:09 +0200
-Message-Id: <37FC7DDC-D175-45B4-AF8A-F4D5AF384750@dominion.thruhere.net>
-References: <1317910796.6398.86.camel@ted>
+	Sun, 09 Oct 2011 16:02:20 +0200
+Received: (qmail 10749 invoked by uid 1003); 9 Oct 2011 13:56:33 -0000
+Received: from unknown (HELO ?192.168.1.108?)
+	(philip@opensdr.com@96.240.183.10)
+	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
+	9 Oct 2011 13:56:33 -0000
+Message-ID: <4E91A80D.70200@balister.org>
+Date: Sun, 09 Oct 2011 09:56:29 -0400
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.22) Gecko/20110906 Fedora/3.1.14-1.fc14 Thunderbird/3.1.14
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1244.3)
-Subject: Re: sstate.bbclass: Ensure machine specific stamps are only wiped for the current task
+References: <4E907597.3090507@balister.org>
+	<CAMKF1soz1FCyCZwA2Oe14q2e=RrxVZmJ3iVjQ=-P+fUghRYP3g@mail.gmail.com>
+In-Reply-To: <CAMKF1soz1FCyCZwA2Oe14q2e=RrxVZmJ3iVjQ=-P+fUghRYP3g@mail.gmail.com>
+X-Enigmail-Version: 1.1.2
+Subject: Re: binutils from meta-oe does build build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,142 +35,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Oct 2011 11:30:51 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 09 Oct 2011 14:02:21 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
+On 10/08/2011 09:01 PM, Khem Raj wrote:
+> On Sat, Oct 8, 2011 at 9:08 AM, Philip Balister <philip@balister.org> wrote:
+>> http://pastebin.com/M0Gw0Db2
+>>
+>> Basically, warnings are being treated as errors and the compile fails.
+> 
+> you might add  --disable-werror to EXTRA_OECONF
+> in meta-oe/recipes-devtools/binutils/binutils.inc
 
-Op 6 okt. 2011, om 16:19 heeft Richard Purdie het volgende geschreven:
+That worked. There are a number of CFLAGS in the .inc file and it is was
+not obvious the proper place to insert Martin's suggestion.
 
-> sstate was being a little too ethusiastic about removing stamp files =
-and
-> was removing stamp files for other machines when it shouldn't have =
-been.
->=20
-> This patch teaches sstate about machine specific stamp extensions and
-> allows it to only remove the current task's stampfiles.
+I'll submit a patch later. RL intrudes.
 
-Not sure if it's related to this problem or not but sstate is still not =
-working as intented for me when switching machines, it keeps rebuilding =
-the toolchain when switching machine. What I did this morning:
+Philip
 
-1) wipe out tmp, sstate-cache, pseudodone
-2) MACHINE=3Dbeagleboard bitbake u-boot
-3) cp conf/machine/beagleboard.conf conf/machine/brokensstate.conf
-4) MACHINE=3Dbrokensstate bitbake u-boot
-
-And behold:
-
-NOTE: Resolving any missing task queue dependencies
-NOTE: Preparing runqueue
-NOTE: Executing SetScene Tasks
-NOTE: package gcc-cross-4.5-r43+svnr178923: task =
-do_populate_sysroot_setscene: Started
-NOTE: package mtd-utils-1.4.6-r0: task do_populate_sysroot_setscene: =
-Started
-NOTE: package gcc-runtime-4.5-r43+svnr178923: task =
-do_populate_sysroot_setscene: Started
-NOTE: package eglibc-2.12-r27: task do_populate_sysroot_setscene: =
-Started
-NOTE: package mtd-utils-1.4.6-r0: task do_populate_sysroot_setscene: =
-Succeeded
-NOTE: package bash-4.1-r2: task do_populate_sysroot_setscene: Started
-NOTE: package bash-4.1-r2: task do_populate_sysroot_setscene: Succeeded
-NOTE: package gcc-cross-4.5-r43+svnr178923: task =
-do_populate_sysroot_setscene: Succeeded
-NOTE: package binutils-cross-2.20.1-r7: task =
-do_populate_sysroot_setscene: Started
-NOTE: package linux-libc-headers-2.6.39-r2: task =
-do_populate_sysroot_setscene: Started
-NOTE: package eglibc-2.12-r27: task do_populate_sysroot_setscene: =
-Succeeded
-NOTE: package binutils-cross-2.20.1-r7: task =
-do_populate_sysroot_setscene: Succeeded
-NOTE: package linux-libc-headers-2.6.39-r2: task =
-do_populate_sysroot_setscene: Succeeded
-NOTE: package libgcc-4.5-r43+svnr178923: task =
-do_populate_sysroot_setscene: Started
-NOTE: package gcc-runtime-4.5-r43+svnr178923: task =
-do_populate_sysroot_setscene: Succeeded
-NOTE: package gcc-cross-intermediate-4.5-r43+svnr178923: task =
-do_populate_sysroot_setscene: Started
-NOTE: package zlib-1.2.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: package libgcc-4.5-r43+svnr178923: task =
-do_populate_sysroot_setscene: Succeeded
-NOTE: package lzo-2.05-r0: task do_populate_sysroot_setscene: Started
-NOTE: package zlib-1.2.5-r0: task do_populate_sysroot_setscene: =
-Succeeded
-NOTE: package e2fsprogs-1.41.14-r2: task do_populate_sysroot_setscene: =
-Started
-NOTE: package util-linux-2.19.1-r7: task do_populate_sysroot_setscene: =
-Started
-NOTE: package lzo-2.05-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: package e2fsprogs-1.41.14-r2: task do_populate_sysroot_setscene: =
-Succeeded
-NOTE: package libtool-cross-2.4-r4: task do_populate_sysroot_setscene: =
-Started
-NOTE: package gettext-0.18.1.1-r4: task do_populate_sysroot_setscene: =
-Started
-NOTE: package libtool-cross-2.4-r4: task do_populate_sysroot_setscene: =
-Succeeded
-NOTE: package util-linux-2.19.1-r7: task do_populate_sysroot_setscene: =
-Succeeded
-NOTE: package gcc-cross-intermediate-4.5-r43+svnr178923: task =
-do_populate_sysroot_setscene: Succeeded
-NOTE: package ncurses-5.9-r1.1: task do_populate_sysroot_setscene: =
-Started
-NOTE: package perl-5.12.3-r5: task do_populate_sysroot_setscene: Started
-NOTE: package eglibc-initial-2.12-r27: task =
-do_populate_sysroot_setscene: Started
-NOTE: package eglibc-initial-2.12-r27: task =
-do_populate_sysroot_setscene: Succeeded
-NOTE: package ncurses-5.9-r1.1: task do_populate_sysroot_setscene: =
-Succeeded
-NOTE: package db-5.1.19-r3: task do_populate_sysroot_setscene: Started
-NOTE: package expat-2.0.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: package expat-2.0.1-r0: task do_populate_sysroot_setscene: =
-Succeeded
-NOTE: package perl-5.12.3-r5: task do_populate_sysroot_setscene: =
-Succeeded
-NOTE: package gettext-0.18.1.1-r4: task do_populate_sysroot_setscene: =
-Succeeded
-NOTE: package gdbm-1.8.3-r4: task do_populate_sysroot_setscene: Started
-NOTE: package gcc-cross-initial-4.5-r43+svnr178923: task =
-do_populate_sysroot_setscene: Started
-NOTE: package gdbm-1.8.3-r4: task do_populate_sysroot_setscene: =
-Succeeded
-NOTE: package db-5.1.19-r3: task do_populate_sysroot_setscene: Succeeded
-NOTE: package gcc-cross-initial-4.5-r43+svnr178923: task =
-do_populate_sysroot_setscene: Succeeded
-NOTE: Executing RunQueue Tasks
-NOTE: Running task 536 of 920 (ID: 918, =
-/OE/tentacle/sources/meta-openembedded/meta-oe/recipes-devtools/gcc/gcc-cr=
-oss-initial_4.5.bb, do_populate_lic)
-NOTE: Running task 549 of 920 (ID: 452, =
-/OE/tentacle/sources/meta-openembedded/meta-oe/recipes-devtools/binutils/b=
-inutils-cross_2.20.1.bb, do_fetch)
-NOTE: Running task 553 of 920 (ID: 504, =
-/OE/tentacle/sources/openembedded-core/meta/recipes-kernel/linux-libc-head=
-ers/linux-libc-headers_2.6.39.bb, do_fetch)
-NOTE: Running task 558 of 920 (ID: 538, =
-/OE/tentacle/sources/meta-openembedded/meta-oe/recipes-devtools/gcc/gcc-cr=
-oss-intermediate_4.5.bb, do_populate_lic)
-NOTE: package gcc-cross-initial-4.5-r43+svnr178923: task =
-do_populate_lic: Started
-NOTE: package binutils-cross-2.20.1-r7: task do_fetch: Started
-[..]
-NOTE: package eglibc-2.12-r27: task do_compile: Started
-
-
-What I suspect is happing is that angstrom is somehow putting $MACHINE =
-in a var that upsets the sstate logic and/or rm_work upsets sstate =
-and/or something else is broken. The problem is that I have no idea how =
-to debug this except to ping Richard and get the magic diffsigs =
-incantation.
-
-regards,
-
-Koen
-
+> 
+>>
+>> Philip
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> 
 
 
