@@ -1,34 +1,28 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RDFUC-0004pL-Pk for openembedded-core@lists.openembedded.org;
-	Mon, 10 Oct 2011 15:01:40 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9AD2ZHB022071 for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Oct 2011 14:02:36 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id VS5Av66z7eZg
+	(envelope-from <koen@dominion.thruhere.net>) id 1RDFzh-0007ot-LC
+	for openembedded-core@lists.openembedded.org;
+	Mon, 10 Oct 2011 15:34:13 +0200
+Received: by yxj17 with SMTP id 17so5353789yxj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Oct 2011 14:02:35 +0100 (BST)
-Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9AD2UNa022061
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Oct 2011 14:02:33 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Mon, 10 Oct 2011 06:28:30 -0700 (PDT)
+Received: by 10.223.5.3 with SMTP id 3mr32368231fat.4.1318253309038;
+	Mon, 10 Oct 2011 06:28:29 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id c1sm31614073fab.15.2011.10.10.06.28.27
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 10 Oct 2011 06:28:28 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1318251309.23801.28.camel@ted>
+Date: Mon, 10 Oct 2011 15:28:27 +0200
+Message-Id: <F3F33339-BAD6-4175-AD3C-5F58D2B08660@dominion.thruhere.net>
+References: <1318251309.23801.28.camel@ted>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 10 Oct 2011 13:55:47 +0100
-In-Reply-To: <3641B9F4-58D3-4AA1-B3D8-A08C57A97A11@dominion.thruhere.net>
-References: <3641B9F4-58D3-4AA1-B3D8-A08C57A97A11@dominion.thruhere.net>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1318251360.23801.29.camel@ted>
-Mime-Version: 1.0
-Subject: Re: shared-mime-info fails to build if intltool-native is present
+X-Mailer: Apple Mail (2.1244.3)
+Subject: Re: shared-mime-info: Fix a parallel make race
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,20 +37,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Oct 2011 13:01:41 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 10 Oct 2011 13:34:13 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 2011-10-09 at 16:34 +0200, Koen Kooi wrote:
-> I finally tracked down the cause of the intermittent shared-mime-info
-> build failures I was seeing. No patch yet, but now you all know what's
-> causing it :)
 
-Try the patch I just sent to the list ;-)
+Op 10 okt. 2011, om 14:54 heeft Richard Purdie het volgende geschreven:
 
-Cheers,
+>=20
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> diff --git =
+a/meta/recipes-support/shared-mime-info/shared-mime-info/parallelmake.patc=
+h =
+b/meta/recipes-support/shared-mime-info/shared-mime-info/parallelmake.patc=
+h
+> new file mode 100644
+> index 0000000..9e86a71
+> --- a/dev/null
+> +++ =
+b/meta/recipes-support/shared-mime-info/shared-mime-info/parallelmake.patc=
+h
+> @@ -0,0 +1,32 @@
+> +The Makefile used by shared-mime-info is one big race with the =
+SUBDIRS=20
+> +option and the dependency specifically calling make all combining to
+> +create multiple make instances all of which may try and build targets
+> +like update-mime-database.
+> +
+> +This patch removes those options meaning make can correctly identify
+> +dependencies and stop itself racing itself.
+> +
+> +RP 10/10/2011
+> +
+> +Upstream-status: Pending
+> +
+> +Index: shared-mime-info-0.91/Makefile.am
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +--- shared-mime-info-0.91.orig/Makefile.am	2011-10-10 =
+21:47:19.834173921 +0100
+> ++++ shared-mime-info-0.91/Makefile.am	2011-10-10 =
+21:45:57.000000000 +0100
+> +@@ -1,5 +1,3 @@
+> +-SUBDIRS=3D. po
+> +-
+> + INCLUDES =3D $(ALL_CFLAGS)
+> +=20
+> + packagesdir =3D $(datadir)/mime/packages
+> +@@ -70,8 +68,7 @@
+> +=20
+> + all: check create-pot
+> +=20
+> +-create-pot:
+> +-	$(MAKE) -C po shared-mime-info.pot
+> ++create-pot: po
+> +=20
+> + check: create-pot freedesktop.org.xml update-mime-database =
+check-translations
+> + 	if test -e $(top_builddir)/freedesktop.org.xml; then \
+> diff --git =
+a/meta/recipes-support/shared-mime-info/shared-mime-info_0.91.bb =
+b/meta/recipes-support/shared-mime-info/shared-mime-info_0.91.bb
+> index 76d2756..ac2dde1 100644
+> --- a/meta/recipes-support/shared-mime-info/shared-mime-info_0.91.bb
+> +++ b/meta/recipes-support/shared-mime-info/shared-mime-info_0.91.bb
+> @@ -4,3 +4,4 @@ PR =3D "r0"
+> SRC_URI[md5sum] =3D "982a211560ba4c47dc791ccff34e8fbc"
+> SRC_URI[sha256sum] =3D =
+"98cfebe1d809afb24934e634373821e2a1dfa86fc6462cab230589a1c80988bd"
+>=20
+> +SRC_URI =3D+ "file://parallelmake.patch"
 
-Richard
-
+Missing PR bump=
 
 
