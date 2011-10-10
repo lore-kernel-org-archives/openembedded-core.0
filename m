@@ -1,30 +1,29 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-gx0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RDLre-0001EZ-0q
+	(envelope-from <koen@dominion.thruhere.net>) id 1RDM7h-0001qh-8Z
 	for openembedded-core@lists.openembedded.org;
-	Mon, 10 Oct 2011 21:50:18 +0200
-Received: by bke11 with SMTP id 11so8922216bke.6
+	Mon, 10 Oct 2011 22:06:53 +0200
+Received: by ggnq1 with SMTP id q1so4881453ggn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Oct 2011 12:44:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
-	:from:to:content-type:content-transfer-encoding;
-	bh=RGuwkYMe2LsqQ4KnizEV16cM/XbxJOoM2hUuHjeFZLw=;
-	b=NjUyjuHQuzmCsMDNU/lx5haYDQelZBfCgAkVkRjoDk7pTCY0DI+R5gQo+CoxkpZHWP
-	W7J8shN9oZX3xyagRRO+9BnZvJkd9sgYyQpzn1rsnQ64Vz7Y7qXsS7FdEIrvOz/aKdVK
-	y4+SpUMPCIIfbeKi9YuP0r6xXricQKRoeZ/dA=
-MIME-Version: 1.0
-Received: by 10.204.148.84 with SMTP id o20mr7091498bkv.33.1318275875554; Mon,
-	10 Oct 2011 12:44:35 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.138.72 with HTTP; Mon, 10 Oct 2011 12:44:35 -0700 (PDT)
-Date: Mon, 10 Oct 2011 16:44:35 -0300
-X-Google-Sender-Auth: MqhY4SyhdhmIHJPMbByTIe8abPU
-Message-ID: <CAP9ODKqsZJmiU3Roi7grZPe5Oi6SmEdYdQF2GSuqMRRg9Rj8qg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+	Mon, 10 Oct 2011 13:01:11 -0700 (PDT)
+Received: by 10.223.75.137 with SMTP id y9mr34294273faj.14.1318276871177;
+	Mon, 10 Oct 2011 13:01:11 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id l8sm33396496fai.16.2011.10.10.13.01.10
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 10 Oct 2011 13:01:10 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAP9ODKq+9Bhu9A8jZhYH-uBVSWcncsNQvAxyNxLnG133J237iA@mail.gmail.com>
+Date: Mon, 10 Oct 2011 22:01:07 +0200
+Message-Id: <CDD7988D-2486-484F-B1A5-347A38D64F01@dominion.thruhere.net>
+References: <678AE8F3-DBF3-4315-83A5-AA2CA040C5D8@dominion.thruhere.net>
+	<CAP9ODKq+9Bhu9A8jZhYH-uBVSWcncsNQvAxyNxLnG133J237iA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Use of mingetty
+X-Mailer: Apple Mail (2.1244.3)
+Subject: Re: Multiple git repos in SRC_URI and/or git submodules support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,28 +38,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Oct 2011 19:50:18 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 10 Oct 2011 20:06:53 -0000
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-Hello,
 
-I've trying to build a minimal image here and found that it fails with
-getty being not available.
+Op 10 okt. 2011, om 21:40 heeft Otavio Salvador het volgende geschreven:
 
-I want to know how this is suppose to work since the only way I got it
-more or less working is doing:
+> On Mon, Oct 10, 2011 at 15:19, Koen Kooi <koen@dominion.thruhere.net> =
+wrote:
+> ...
+>> I'm not going to do 1), 3) is unlikely, so I want to ask if 2) is =
+already supported. I've seen various patches that add an 'unpackdir' or =
+similar, but I can't find any docs on it. Can someone enlighten me on =
+the current status of that?
+> ...
+>=20
+> Yes, this works. I have added support to SRCREV_FORMAT into gitpkgv =
+too ;-)
 
-...
-ROOTFS_POSTPROCESS_COMMAND +=3D "(cd ${IMAGE_ROOTFS}/sbin ; ln -s
-mingetty getty); "
-...
-
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+So what's the magic param I need to pass to the fetcher to make this =
+work?=
 
 
