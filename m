@@ -1,40 +1,35 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RDH8Z-0001W9-PD
+	(envelope-from <kergoth@gmail.com>) id 1RDHQN-00028h-LP
 	for openembedded-core@lists.openembedded.org;
-	Mon, 10 Oct 2011 16:47:27 +0200
-Received: by bke11 with SMTP id 11so8584240bke.6
+	Mon, 10 Oct 2011 17:05:51 +0200
+Received: by wyh5 with SMTP id 5so6403718wyh.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Oct 2011 07:41:47 -0700 (PDT)
+	Mon, 10 Oct 2011 08:00:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=K+LVhP3WDfEKrLZIN3ZfzxCjB1rI1sJ/+Xcf3eeP/ew=;
-	b=duL2VqTzQdm0HxVRmxUe4Y1YItw9y1tSXKoOHzlc1CSGO75f8UeGO0tpWEY6GYLqf9
-	EXzHXcv85PK+PbDQGCogzCHyXgAs0uvqSX0gGKJze5VXj5lGx6lW0GpJ3QIKy9sUdtvi
-	MsKu+112m4qrAOWeAD0EpgsiuRQVuH0Pde+H0=
-Received: by 10.204.134.131 with SMTP id j3mr6600845bkt.53.1318257705097;
-	Mon, 10 Oct 2011 07:41:45 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id k26sm18197943bks.1.2011.10.10.07.41.43
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 10 Oct 2011 07:41:43 -0700 (PDT)
-Date: Mon, 10 Oct 2011 16:41:36 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:content-type
+	:content-transfer-encoding;
+	bh=LsbhDBkjddYgpaiy8X5UVskGkpL7anQvUiWtlnrVc+g=;
+	b=BuNuQJJPmYG6Gd+SW5oLP5rHcWhVUPZL23IwF8fDLf0haxeXE2UkG7b1M1Sugc0iD3
+	6ry7g5hxgXsRkj8ssHJIs5BweqXC3VcBALDoR/fbxt10Wr503zGheEG1lvuu2qWP5EHl
+	gAmHp/yXaDgHR79r832yJWTqnYRDmH2izx38Q=
+Received: by 10.216.230.83 with SMTP id i61mr7025323weq.54.1318258750113; Mon,
+	10 Oct 2011 07:59:10 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.216.160.80 with HTTP; Mon, 10 Oct 2011 07:58:50 -0700 (PDT)
+In-Reply-To: <7F3A6782-444C-4722-8791-6D75B70FEB57@dominion.thruhere.net>
+References: <cover.1318021323.git.kergoth@gmail.com>
+	<bc7e830e85f9f5242e0178dee517d24cbdfc9fa3.1318021323.git.kergoth@gmail.com>
+	<7F3A6782-444C-4722-8791-6D75B70FEB57@dominion.thruhere.net>
+From: Chris Larson <clarson@kergoth.com>
+Date: Mon, 10 Oct 2011 07:58:50 -0700
+X-Google-Sender-Auth: 9JT3d1dA1MCJlDMqfCwdldj9rwY
+Message-ID: <CABcZAN=Kv1=Nq-2mmAASVpnPic3W+DZpHgXZimx1AJCY5YLkqQ@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111010144136.GD5065@jama.jama.net>
-References: <1317910796.6398.86.camel@ted>
-	<37FC7DDC-D175-45B4-AF8A-F4D5AF384750@dominion.thruhere.net>
-	<20111009181016.GB3847@jama.jama.net>
-	<9CD7A2A3-228F-46AE-AE56-5D73C9372E4A@dominion.thruhere.net>
-	<20111010114506.GC5065@jama.jama.net>
-	<1318256216.23801.37.camel@ted>
-	<20848535-6A4E-47B5-9F7D-E96F00402867@dominion.thruhere.net>
-MIME-Version: 1.0
-In-Reply-To: <20848535-6A4E-47B5-9F7D-E96F00402867@dominion.thruhere.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: sstate.bbclass: Ensure machine specific stamps are only wiped for the current task
+Subject: Re: [PATCH 1/3] autotools: fix multi-word arguments for EXTRA_OECONF
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,158 +44,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Oct 2011 14:47:27 -0000
-X-Groupsio-MsgNum: 10757
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="kvUQC+jR9YzypDnK"
-Content-Disposition: inline
-
---kvUQC+jR9YzypDnK
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 10 Oct 2011 15:05:51 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 10, 2011 at 04:37:51PM +0200, Koen Kooi wrote:
->=20
-> Op 10 okt. 2011, om 16:16 heeft Richard Purdie het volgende geschreven:
->=20
-> > On Mon, 2011-10-10 at 13:45 +0200, Martin Jansa wrote:
-> >> On Sun, Oct 09, 2011 at 08:11:45PM +0200, Koen Kooi wrote:
-> >>>=20
-> >>> Op 9 okt. 2011, om 20:10 heeft Martin Jansa het volgende geschreven:
-> >>>=20
-> >>>> On Sun, Oct 09, 2011 at 01:25:09PM +0200, Koen Kooi wrote:
-> >>>>>=20
-> >>>>> Op 6 okt. 2011, om 16:19 heeft Richard Purdie het volgende geschrev=
-en:
-> >>>>>=20
-> >>>>>> sstate was being a little too ethusiastic about removing stamp fil=
-es and
-> >>>>>> was removing stamp files for other machines when it shouldn't have=
- been.
-> >>>>>>=20
-> >>>>>> This patch teaches sstate about machine specific stamp extensions =
-and
-> >>>>>> allows it to only remove the current task's stampfiles.
-> >>>>>=20
-> >>>>> Not sure if it's related to this problem or not but sstate is still=
- not working as intented for me when switching machines, it keeps rebuildin=
-g the toolchain when switching machine. What I did this morning:
-> >>>>>=20
-> >>>>> 1) wipe out tmp, sstate-cache, pseudodone
-> >>>>> 2) MACHINE=3Dbeagleboard bitbake u-boot
-> >>>>> 3) cp conf/machine/beagleboard.conf conf/machine/brokensstate.conf
-> >>>>> 4) MACHINE=3Dbrokensstate bitbake u-boot
-> >>>>=20
-> >>>> Same here.. :/ (building 3 armv7 machines.. always "from scratch").
-> >>>=20
-> >>> To eliminate varables: Angstrom/shr/aurora/micro/other/all of the abo=
-ve?
-> >>=20
-> >> DISTRO=3Dshr
-> >>=20
-> >> MACHINE=3Dnokia900 bitbake shr-image -> builds from scratch, finished =
-ok
-> >> MACHINE=3Dpalmpre bitbake shr-image -> builds from scratch, finished ok
-> >> MACHINE=3Dpalmpre2 bitbake shr-image -> builds from scratch, finished =
-ok
-> >>=20
-> >> without wiping anything (same tmp, same sstate-cache, same pseudodone)
-> >>=20
-> >> MACHINE=3Dpalmpre bitbake shr-image -> builds from scratch, again!, fi=
-nished ok
-> >> MACHINE=3Dpalmpre2 bitbake shr-image -> builds from scratch, again!, f=
-inished ok
-> >> MACHINE=3Dnokia900 bitbake shr-image -> builds from scratch, again!, f=
-inished ok
-> >>=20
-> >> palmpre and palmpre2 are "the same"
-> >> $ cat meta-smartphone/meta-palm/conf/machine/palmpre.conf | grep -v ^#
-> >> require conf/machine/include/palmpre.inc
-> >>=20
-> >> $ cat meta-smartphone/meta-palm/conf/machine/palmpre2.conf | grep -v ^#
-> >> require conf/machine/include/palmpre.inc
-> >>=20
-> >> nokia900 is also armv7a-vfp-neon (that's why all packages except
-> >> MACHINE_ARCH were always reused without rebuilding in OE-classic).
-> >>=20
-> >> I have tried to debug sigdata files to see why and also tried to add
-> >> MACHINEOVERRIDES[vardepsexclude] =3D "MACHINE"
-> >> as RP suggested, but sofar haven't found solution at least to reuse
-> >> already built sstate packages for armv7a-vfp-neon.
-> >=20
-> > Also as a tip for debugging this, you can do what is in the following
-> > commit (patch also inline below):
-> >=20
-> > http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=3Drpurdie/w=
-ip9&id=3D1261cc69b152f33b934c2448020dfa3c95f312c6
-> >=20
-> > which will mean bitbake -n generates stamp files for a given bitbake
-> > run. You can then quickly do:
-> >=20
-> > MACHINE=3DA bitbake -n foo
-> > MACHINE=3DB bitbake -n foo
-> >=20
-> > for example and then look for cases where two stamp sigdata files were
-> > generated. If you see them you can "bitbake-diffsigs A B" and I'll be
-> > very interested in the results of that and "bitbake-diffsigs A"...
-> >=20
-> > Cheers,
-> >=20
-> > Richard
-> >=20
-> > bitbake: Allow easier dry run stamp debugging
-> >=20
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> > diff --git a/bitbake/lib/bb/build.py b/bitbake/lib/bb/build.py
->=20
-> This seems to be against poky instead of bitbake and doesn't apply agains=
-t bitbake master:
->=20
-> koen@dominion:/OE/tentacle/sources/bitbake$ patch -p2 < dry=20
-> patching file lib/bb/build.py
-> Hunk #1 succeeded at 257 (offset 2 lines).
-> Hunk #2 succeeded at 319 (offset 2 lines).
-> Hunk #3 succeeded at 360 (offset 2 lines).
-> patching file lib/bb/runqueue.py
-> Hunk #1 FAILED at 1156.
-> 1 out of 1 hunk FAILED -- saving rejects to file lib/bb/runqueue.py.rej
+On Fri, Oct 7, 2011 at 3:34 PM, Koen Kooi <koen@beagleboard.org> wrote:
+>>
+>> oe_runconf () {
+>> - =C2=A0 =C2=A0 =C2=A0 if [ -x ${S}/configure ] ; then
+>> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cfgcmd=3D"${S}/config=
+ure \
+>> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${CONFIGUREOPTS} ${EX=
+TRA_OECONF} $@"
+>> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bbnote "Running $cfgc=
+md..."
+>> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 $cfgcmd || bbfatal "o=
+e_runconf failed"
+>> - =C2=A0 =C2=A0 =C2=A0 else
+>> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bbfatal "no configure=
+ script found"
+>> - =C2=A0 =C2=A0 =C2=A0 fi
+>> + =C2=A0 =C2=A0 =C2=A0 if [ -x ${S}/configure ] ; then
+>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bbnote "Running ${S}/c=
+onfigure ${CONFIGUREOPTS}
+>> ${EXTRA_OECONF} $@"
+>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${S}/configure ${CONFI=
+GUREOPTS} ${EXTRA_OECONF} "$@" ||
+>> bbfatal "oe_runconf failed"
+>> + =C2=A0 =C2=A0 =C2=A0 else
+>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bbfatal "no configure =
+script found"
+>> + =C2=A0 =C2=A0 =C2=A0 f
+>
+> Was the tab->spaces conversion intentional?
 
-Same problem here.. seems like diff is bigger then it was before:
-both current master
-
-OE @ ~/projects $ diff -rq poky/bitbake/ bitbake/ | grep -v pyc | grep -v p=
-yo | grep -v .git
-Only in bitbake/: MANIFEST.in
-Only in bitbake/: TODO
-Only in poky/bitbake/bin: bitbake-runtask
-Only in bitbake/: classes
-Only in bitbake/: conf
-Files poky/bitbake/lib/bb/__init__.py and bitbake/lib/bb/__init__.py differ
-Files poky/bitbake/lib/bb/build.py and bitbake/lib/bb/build.py differ
-Files poky/bitbake/lib/bb/cooker.py and bitbake/lib/bb/cooker.py differ
-Files poky/bitbake/lib/bb/parse/parse_py/BBHandler.py and bitbake/lib/bb/pa=
-rse/parse_py/BBHandler.py differ
-Files poky/bitbake/lib/bb/pysh/pyshtables.py and bitbake/lib/bb/pysh/pyshta=
-bles.py differ
-Files poky/bitbake/lib/bb/runqueue.py and bitbake/lib/bb/runqueue.py differ
-Only in poky/bitbake/lib/bb: shell.py
-Only in bitbake/: setup.py
-
+Erm, nope, well spotted, thanks.
 --=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
---kvUQC+jR9YzypDnK
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk6TBCAACgkQN1Ujt2V2gBwN4ACghiVMtIoJfNEskj6bRmgOFCcP
-3XsAn2NtoTObwEZQpORosame0e4Y3/6+
-=sq6S
------END PGP SIGNATURE-----
-
---kvUQC+jR9YzypDnK--
