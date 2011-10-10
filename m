@@ -1,30 +1,32 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1RD87y-0006lS-GK
+	(envelope-from <s.stirtzel@googlemail.com>) id 1RDAD0-0000bh-9S
 	for openembedded-core@lists.openembedded.org;
-	Mon, 10 Oct 2011 07:10:14 +0200
-Received: from mail-bw0-f52.google.com ([209.85.214.52])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 09 Oct 2011 22:04:32 -0700
-Received: by bke5 with SMTP id 5so7485932bke.25
+	Mon, 10 Oct 2011 09:23:34 +0200
+Received: by iadx2 with SMTP id x2so7552315iad.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 09 Oct 2011 22:04:31 -0700 (PDT)
-Received: by 10.223.5.3 with SMTP id 3mr29850611fat.4.1318223070018;
-	Sun, 09 Oct 2011 22:04:30 -0700 (PDT)
-Received: from [192.168.128.188] ([68.178.104.162])
-	by mx.google.com with ESMTPS id u6sm29423757faf.3.2011.10.09.22.04.27
-	(version=SSLv3 cipher=OTHER); Sun, 09 Oct 2011 22:04:29 -0700 (PDT)
-Message-ID: <4E927CD9.2040505@intel.com>
-Date: Sun, 09 Oct 2011 22:04:25 -0700
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:6.0.2) Gecko/20110906 Thunderbird/6.0.2
+	Mon, 10 Oct 2011 00:17:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=dZrQnAGVVydfUC7wfvci4jKJ4dBi2KYDcfOuPwiNxeM=;
+	b=YSrNHuxTB9JQzy2uZzBe1uDhF5zknUf7HIHwbrx7PX56JQOCh80YNc20vmIp46vXNQ
+	rSEIwGNhAKRowwvl1EPO/ykf//dUQjYneG69c2v+24qLBI7bNwzvs3YXM11auJUGtYDH
+	fiPZkf0j4JevXl2qqeW7culCqTpT7ZIu/uE1Y=
 MIME-Version: 1.0
+Received: by 10.42.244.137 with SMTP id lq9mr14599183icb.28.1318231072873;
+	Mon, 10 Oct 2011 00:17:52 -0700 (PDT)
+Received: by 10.42.226.10 with HTTP; Mon, 10 Oct 2011 00:17:52 -0700 (PDT)
+In-Reply-To: <702d65b93492008812ac8778fc010f30e904383e.1318021323.git.kergoth@gmail.com>
+References: <cover.1318021323.git.kergoth@gmail.com>
+	<702d65b93492008812ac8778fc010f30e904383e.1318021323.git.kergoth@gmail.com>
+Date: Mon, 10 Oct 2011 09:17:52 +0200
+Message-ID: <CAGiJk9ceiROvLEL-FsT2kLR50rG16xCDo-__cRyqryfSAO0AOQ@mail.gmail.com>
+From: Samuel Stirtzel <s.stirtzel@googlemail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1317840239-5290-1-git-send-email-jason.wessel@windriver.com>
-In-Reply-To: <1317840239-5290-1-git-send-email-jason.wessel@windriver.com>
-Subject: Re: [PATCH] Allow user mode NFS server to run without rpcbind / portmap
+Subject: Re: [PATCH 3/3] oe.patch: drop bb.msg.domain reference
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,146 +41,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Oct 2011 05:10:14 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 10 Oct 2011 07:23:34 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 10/05/2011 11:43 AM, Jason Wessel wrote:
->> From the 2.6.39 linux kernel and up it is possible to use
-> and nfsroot mount without the need to talk to an RPC info
-> server as long as the port numbers for mountd and nfsd
-> are known in advance.
->
-> This patch updates the qemu startup scripts and the
-> user mode NFS server to have the ability to start
-> without the need to use rpcbind or portmap services.
->
-Jason,
+Hi,
+there was already a patch for this [1] (Yes I know, I should have
+added more descriptions), according to the patch from Richard [2] the
+message domain can be constructed dynamical now.
+Since your patch seems a little bit different (dropping the message
+domain completely) I can't tell if my resolution was inadequate.
 
-I have not fully tested this yet, but if someone has rpcbind and/or 
-portmap services are running, what affect will this patch have?
+For this patch I think it wouldn't make a big difference for the user,
+feel free to apply the one that best suits in resolving the problem.
 
-Sau!
 
-> Signed-off-by: Jason Wessel<jason.wessel@windriver.com>
+[1] http://lists.linuxtogo.org/pipermail/openembedded-core/2011-September/0=
+09474.html
+[2] http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3Da6c48298b17e6a58=
+44b3638b422fe226e3b67b89
+
+2011/10/7 Christopher Larson <kergoth@gmail.com>:
+> Signed-off-by: Christopher Larson <kergoth@gmail.com>
 > ---
->   .../023-no-rpc-register.patch                      |   34 ++++++++++++++++++++
->   .../unfs-server/unfs-server_2.1+2.2beta47.bb       |    3 +-
->   scripts/runqemu-export-rootfs                      |    4 ++-
->   scripts/runqemu-internal                           |   16 +++------
->   4 files changed, 44 insertions(+), 13 deletions(-)
->   create mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/023-no-rpc-register.patch
+> =A0meta/lib/oe/patch.py | =A0 =A04 ++--
+> =A01 files changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/023-no-rpc-register.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/023-no-rpc-register.patch
-> new file mode 100644
-> index 0000000..50f23fc
-> --- /dev/null
-> +++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/023-no-rpc-register.patch
-> @@ -0,0 +1,34 @@
-> +Upstream-Status: Inappropriate [other]
-> +Upstream is not making further releases of this software.
-> +
-> +Signed-off-by: Jason Wessel<jason.wessel@windriver.com>
-> +
-> +# Allow user mode NFS to work without rpcbind / portmap
-> +# Patch origin: Wind River
-> +
-> +---
-> + rpcmisc.c |    6 ++++--
-> + 1 file changed, 4 insertions(+), 2 deletions(-)
-> +
-> +--- a/rpcmisc.c
-> ++++ b/rpcmisc.c
-> +@@ -91,7 +91,8 @@ not_inetd:
-> + 		if (transp == NULL)
-> + 			Dprintf(L_FATAL, "cannot create udp service.");
-> + 		for (i = 0; (vers = verstbl[i]) != 0; i++) {
-> +-			if (!svc_register(transp, prog, vers, dispatch, IPPROTO_UDP)) {
-> ++			if (!(svc_register(transp, prog, vers, dispatch, IPPROTO_UDP) ||
-> ++			      svc_register(transp, prog, vers, dispatch, 0))) {
-> + 				Dprintf(L_FATAL,
-> + 					"unable to register (%s, %d, udp).",
-> + 					name, vers);
-> +@@ -110,7 +111,8 @@ not_inetd:
-> + 		transp->xp_ops->xp_recv = auth_rendevouser;
-> + #endif
-> + 		for (i = 0; (vers = verstbl[i]) != 0; i++) {
-> +-			if (!svc_register(transp, prog, vers, dispatch, IPPROTO_TCP)) {
-> ++			if (!(svc_register(transp, prog, vers, dispatch, IPPROTO_TCP) ||
-> ++			      svc_register(transp, prog, vers, dispatch, 0))) {
-> + 				Dprintf(L_FATAL,
-> + 					"unable to register (%s, %d, tcp).",
-> + 					name, vers);
-> diff --git a/meta/recipes-devtools/unfs-server/unfs-server_2.1+2.2beta47.bb b/meta/recipes-devtools/unfs-server/unfs-server_2.1+2.2beta47.bb
-> index 8ed2e33..29c7052 100644
-> --- a/meta/recipes-devtools/unfs-server/unfs-server_2.1+2.2beta47.bb
-> +++ b/meta/recipes-devtools/unfs-server/unfs-server_2.1+2.2beta47.bb
-> @@ -7,7 +7,7 @@ RDEPENDS_${PN} = "pseudo"
->   RDEPENDS_${PN}_virtclass-native = "pseudo-native"
->   RDEPENDS_${PN}_virtclass-nativesdk = "pseudo-nativesdk"
->   BASEPV = "2.2beta47"
-> -PR = "r0"
-> +PR = "r1"
+> diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+> index 1406e19..9b0ff37 100644
+> --- a/meta/lib/oe/patch.py
+> +++ b/meta/lib/oe/patch.py
+> @@ -376,8 +376,8 @@ class UserResolver(Resolver):
+> =A0 =A0 =A0 =A0 =A0 =A0 os.environ['SHELLCMDS'] =3D "bash --rcfile " + rc=
+file
+> =A0 =A0 =A0 =A0 =A0 =A0 rc =3D os.system(bb.data.getVar('TERMCMDRUN', sel=
+f.patchset.d, 1))
+> =A0 =A0 =A0 =A0 =A0 =A0 if os.WIFEXITED(rc) and os.WEXITSTATUS(rc) !=3D 0=
+:
+> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0bb.msg.fatal(bb.msg.domain.Build, ("Cann=
+ot proceed with manual patch resolution - '%s' not found. " \
+> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0+ "Check TERMCMDRUN variable.") =
+% bb.data.getVar('TERMCMDRUN', self.patchset.d, 1))
+> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0bb.fatal(("Cannot proceed with manual pa=
+tch resolution - '%s' not found. "
+> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0+ "Check TERMCMDRUN =
+variable.") % bb.data.getVar('TERMCMDRUN', self.patchset.d, 1))
 >
->   SRC_URI = "ftp://linux.mathematik.tu-darmstadt.de/pub/linux/oldstuff/people/okir/nfs-server-${BASEPV}.tar.gz \
->              file://001-2.2b47-2.2b51.patch \
-> @@ -32,6 +32,7 @@ SRC_URI = "ftp://linux.mathematik.tu-darmstadt.de/pub/linux/oldstuff/people/okir
->              file://020-undefined-chmod-fix.patch \
->              file://021-nolibwrap.patch \
->              file://022-add-close-on-exec-descriptors.patch \
-> +           file://023-no-rpc-register.patch \
->             "
+> =A0 =A0 =A0 =A0 =A0 =A0 # Construct a new PatchSet after the user's chang=
+es, compare the
+> =A0 =A0 =A0 =A0 =A0 =A0 # sets, checking patches for modifications, and d=
+oing a remote
+> --
+> 1.7.4.1
 >
->   SRC_URI[md5sum] = "79a29fe9f79b2f3241d4915767b8c511"
-> diff --git a/scripts/runqemu-export-rootfs b/scripts/runqemu-export-rootfs
-> index 3ee3112..5cb4bf2 100755
-> --- a/scripts/runqemu-export-rootfs
-> +++ b/scripts/runqemu-export-rootfs
-> @@ -83,10 +83,12 @@ NFS_MOUNTPROG=$[ 21111 + $NFS_INSTANCE ]
->   NFS_NFSPROG=$[ 11111 + $NFS_INSTANCE ]
->   # NFS port number
->   NFS_PORT=$[ 3049 + $NFS_INSTANCE ]
-> +# mountd port number
-> +MOUNT_PORT=$[ 3048 + $NFS_INSTANCE ]
 >
->   ## For debugging you would additionally add
->   ## --debug all
-> -MOUNTD_OPTS="--allow-non-root --mount-pid $MOUNTPID -f $EXPORTS --rmtab $RMTAB --prog $NFS_MOUNTPROG -r"
-> +MOUNTD_OPTS="--allow-non-root --mount-pid $MOUNTPID -f $EXPORTS --rmtab $RMTAB --prog $NFS_MOUNTPROG -r -P $MOUNT_PORT"
->   NFSD_OPTS="--allow-non-root --nfs-pid $NFSPID -f $EXPORTS --prog $NFS_NFSPROG -P $NFS_PORT -r"
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
->   # Setup the exports file
-> diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-> index ce3291f..2968ed9 100755
-> --- a/scripts/runqemu-internal
-> +++ b/scripts/runqemu-internal
-> @@ -258,21 +258,15 @@ fi
->   if [ "$FSTYPE" = "nfs" ]; then
->       NFS_SERVER="192.168.7.1"
->       NFS_DIR=`echo $ROOTFS | sed 's/^[^:]*:\(.*\)/\1/'`
-> -    MOUNTD_PORT=$[ 21111 + $NFS_INSTANCE ]
-> -    NFSD_PORT=$[ 11111 + $NFS_INSTANCE ]
-> -    UNFS_OPTS="nfsvers=2,mountprog=$MOUNTD_PORT,nfsprog=$NFSD_PORT,udp"
-> +    MOUNTD_RPCPORT=$[ 21111 + $NFS_INSTANCE ]
-> +    NFSD_RPCPORT=$[ 11111 + $NFS_INSTANCE ]
-> +    NFSD_PORT=$[ 3049 + $NFS_INSTANCE ]
-> +    MOUNTD_PORT=$[ 3048 + $NFS_INSTANCE ]
-> +    UNFS_OPTS="nfsvers=2,mountprog=$MOUNTD_RPCPORT,nfsprog=$NFSD_RPCPORT,udp,port=$NFSD_PORT,mountport=$MOUNTD_PORT"
->
->       PSEUDO_LOCALSTATEDIR=~/.runqemu-sdk/pseudo
->       export PSEUDO_LOCALSTATEDIR
->
-> -    rpcbind_running=`ps ax | grep rpcbind | grep -v grep | wc -l`
-> -    portmap_running=`ps ax | grep portmap | grep -v grep | wc -l`
-> -    if [[ $rpcbind_running == 0&&  $portmap_running == 0 ]]; then
-> -        echo "You need to be running either rpcbind or portmap to continue"
-> -        cleanup
-> -        return
-> -    fi
-> -
->       # Start the userspace NFS server
->       echo "runqemu-export-rootfs restart $ROOTFS"
->       runqemu-export-rootfs restart $ROOTFS
 
+
+
+--=20
+Regards
+Samuel
 
 
