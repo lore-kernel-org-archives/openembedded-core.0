@@ -1,56 +1,37 @@
-Received: from va3ehsobe003.messaging.microsoft.com ([216.32.180.13]
-	helo=VA3EHSOBE003.bigfish.com)
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RDKaJ-0005oR-5Q
+	(envelope-from <otavio.salvador@gmail.com>) id 1RDLno-00018T-BF
 	for openembedded-core@lists.openembedded.org;
-	Mon, 10 Oct 2011 20:28:19 +0200
-Received: from mail17-va3-R.bigfish.com (10.7.14.244) by
-	VA3EHSOBE003.bigfish.com (10.7.40.23) with Microsoft SMTP Server id
-	14.1.225.22; Mon, 10 Oct 2011 18:22:37 +0000
-Received: from mail17-va3 (localhost.localdomain [127.0.0.1])	by
-	mail17-va3-R.bigfish.com (Postfix) with ESMTP id 996019B8357	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon, 10 Oct 2011 18:22:37 +0000 (UTC)
-X-SpamScore: -17
-X-BigFish: VS-17(zz9371Kdf9M1432N98dKzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3h61h)
-X-Spam-TCS-SCL: 0:0
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
-	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail17-va3 (localhost.localdomain [127.0.0.1]) by mail17-va3
-	(MessageSwitch) id 13182708768114_17528; Mon, 10 Oct 2011 18:21:16 +0000
-	(UTC)
-Received: from VA3EHSMHS033.bigfish.com (unknown [10.7.14.252])	by
-	mail17-va3.bigfish.com (Postfix) with ESMTP id 041DD1B480E5	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon, 10 Oct 2011 18:21:05 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS033.bigfish.com
-	(10.7.99.43) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Mon, 10 Oct 2011 18:21:04 +0000
-Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.230]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.01.0339.002; Mon, 10 Oct 2011 13:21:03 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [RFC] Fix typo in meta/classes/sanity.bbclass
-Thread-Index: AQHMgibzlr5dWtwVF0OgQMSBfYhJs5V2QiIA
-Date: Mon, 10 Oct 2011 18:21:02 +0000
-Message-ID: <CAEsOVNfpf97anznqn8ZqgOXmJEZp3sA4pK7aALT2w=3G2SjPbA@mail.gmail.com>
-References: <1317685187-9041-1-git-send-email-msm@freescale.com>
-	<CAEsOVNdbpyesRT7UHdcXWMmp8fv1Wiyx6dUiTi40AVNgaOogGQ@mail.gmail.com>
-In-Reply-To: <CAEsOVNdbpyesRT7UHdcXWMmp8fv1Wiyx6dUiTi40AVNgaOogGQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
+	Mon, 10 Oct 2011 21:46:20 +0200
+Received: by bke11 with SMTP id 11so8918782bke.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Oct 2011 12:40:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=+cDhdXwrT0EnUnWajM7owXI+sQifdwJw5ifByYuRuoU=;
+	b=wA9lLqWQf+wjLRccyeNL5pUIPAPhJKVi4CFlm91jaPGiBA4XrQZNwCZ4+p26zACHez
+	9VP/SJv32Bp2xUAZKjk5n3EjVxUUz/sLc678g0X4SNyaYVboEG18S4rYhDQ6fRwlfN4K
+	G1g3oDiYvxZ03W39pf9VE7RCcurRNPT9sZ4Ss=
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [RFC] Fix typo in meta/classes/sanity.bbclass
+Received: by 10.204.155.90 with SMTP id r26mr7234419bkw.7.1318275638452; Mon,
+	10 Oct 2011 12:40:38 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.138.72 with HTTP; Mon, 10 Oct 2011 12:40:38 -0700 (PDT)
+In-Reply-To: <678AE8F3-DBF3-4315-83A5-AA2CA040C5D8@dominion.thruhere.net>
+References: <678AE8F3-DBF3-4315-83A5-AA2CA040C5D8@dominion.thruhere.net>
+Date: Mon, 10 Oct 2011 16:40:38 -0300
+X-Google-Sender-Auth: s3UQd-wJVNyIh5UpEoQKwszK5Js
+Message-ID: <CAP9ODKq+9Bhu9A8jZhYH-uBVSWcncsNQvAxyNxLnG133J237iA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Multiple git repos in SRC_URI and/or git submodules support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -61,77 +42,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Oct 2011 18:28:19 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <70DA0D07FBBC1146BC806DCF9BB30652@freescale.net>
+X-List-Received-Date: Mon, 10 Oct 2011 19:46:20 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-Ping? Any comments?
+On Mon, Oct 10, 2011 at 15:19, Koen Kooi <koen@dominion.thruhere.net> wrote=
+:
+...
+> I'm not going to do 1), 3) is unlikely, so I want to ask if 2) is already=
+ supported. I've seen various patches that add an 'unpackdir' or similar, b=
+ut I can't find any docs on it. Can someone enlighten me on the current sta=
+tus of that?
+...
 
--M
+Yes, this works. I have added support to SRCREV_FORMAT into gitpkgv too ;-)
 
-On Mon, Oct 3, 2011 at 6:48 PM, McClintock Matthew-B29882
-<B29882@freescale.com> wrote:
-> On Mon, Oct 3, 2011 at 6:39 PM, Matthew McClintock <msm@freescale.com> wr=
-ote:
->> Signed-off-by: Matthew McClintock <msm@freescale.com>
->
-> Whoops =3D)
->
->> ---
->> Not sure if this is correct but it looks like a typo, also
->> there appears to be some issues with the fix as well
->>
->> =A0meta/classes/sanity.bbclass | =A0 =A02 +-
->> =A01 files changed, 1 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
->> index 4067408..cf30927 100644
->> --- a/meta/classes/sanity.bbclass
->> +++ b/meta/classes/sanity.bbclass
->> @@ -169,7 +169,7 @@ def check_sanity_validmachine(e):
->> =A0 =A0 =A0 =A0 messages =3D messages + 'TUNE_ARCH is unset. Please ensu=
-re your MACHINE configuration includes a valid tune configuration file whic=
-h will set this correctly.\n'
->>
->> =A0 =A0 # Check TARGET_ARCH is set correctly
->> - =A0 =A0if data.getVar('TARGE_ARCH', e.data, False) =3D=3D '${TUNE_ARCH=
-}':
->> + =A0 =A0if data.getVar('TARGET_ARCH', e.data, False) =3D=3D '${TUNE_ARC=
-H}':
->> =A0 =A0 =A0 =A0 messages =3D messages + 'TARGET_ARCH is being overwritte=
-n, likely by your MACHINE configuration files.\nPlease use a valid tune con=
-figuration file which should set this correctly automatically\nand avoid se=
-tting this in the machine configuration. See the OE-Core mailing list for m=
-ore information.\n'
->>
->> =A0 =A0 # Check TARGET_OS is set
->
-> After fixing this I see the following:
->
-> ERROR: =A0Poky's config sanity checker detected a potential misconfigurat=
-ion.
-> =A0 =A0Either fix the cause of this error or at your own risk disable the
-> checker (see sanity.conf).
-> =A0 =A0Following is the list of potential problems / advisories:
->
-> =A0 =A0TARGET_ARCH is being overwritten, likely by your MACHINE
-> configuration files.
-> Please use a valid tune configuration file which should set this
-> correctly automatically
-> and avoid setting this in the machine configuration. See the OE-Core
-> mailing list for more information.
->
-> ERROR: Execution of event handler 'check_sanity_eventhandler' failed
->
-> -M
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->=
-
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
