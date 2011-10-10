@@ -1,28 +1,40 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RDHSr-0002C0-Ow
-	for openembedded-core@lists.openembedded.org;
-	Mon, 10 Oct 2011 17:08:25 +0200
-Received: by bke11 with SMTP id 11so8606915bke.6
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RDHhZ-0002Rp-So for openembedded-core@lists.openembedded.org;
+	Mon, 10 Oct 2011 17:23:38 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p9AFOT8B030277 for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Oct 2011 16:24:30 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Bl0HgknHiMt3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Oct 2011 08:02:40 -0700 (PDT)
-Received: by 10.223.64.65 with SMTP id d1mr32770703fai.32.1318258959889;
-	Mon, 10 Oct 2011 08:02:39 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id a7sm32026185fam.22.2011.10.10.08.02.38
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 10 Oct 2011 08:02:38 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1318255623.23801.31.camel@ted>
-Date: Mon, 10 Oct 2011 17:02:32 +0200
-Message-Id: <1FEC2574-7F52-460C-A837-4A66C9DF1834@dominion.thruhere.net>
-References: <1318255623.23801.31.camel@ted>
+	Mon, 10 Oct 2011 16:24:29 +0100 (BST)
+Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p9AFOQla030262
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Oct 2011 16:24:28 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1244.3)
-Subject: Re: [PATCH] bitbake.conf: Exclude MACHINE from OVERRIDES variable dependency list
+Date: Mon, 10 Oct 2011 16:17:45 +0100
+In-Reply-To: <20111010144136.GD5065@jama.jama.net>
+References: <1317910796.6398.86.camel@ted>
+	<37FC7DDC-D175-45B4-AF8A-F4D5AF384750@dominion.thruhere.net>
+	<20111009181016.GB3847@jama.jama.net>
+	<9CD7A2A3-228F-46AE-AE56-5D73C9372E4A@dominion.thruhere.net>
+	<20111010114506.GC5065@jama.jama.net> <1318256216.23801.37.camel@ted>
+	<20848535-6A4E-47B5-9F7D-E96F00402867@dominion.thruhere.net>
+	<20111010144136.GD5065@jama.jama.net>
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1318259874.23801.46.camel@ted>
+Mime-Version: 1.0
+Subject: Re: sstate.bbclass: Ensure machine specific stamps are only wiped for the current task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,115 +49,229 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Oct 2011 15:08:25 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 10 Oct 2011 15:23:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Mon, 2011-10-10 at 16:41 +0200, Martin Jansa wrote:
+> On Mon, Oct 10, 2011 at 04:37:51PM +0200, Koen Kooi wrote:
+> > 
+> > Op 10 okt. 2011, om 16:16 heeft Richard Purdie het volgende geschreven:
+> > 
+> > > On Mon, 2011-10-10 at 13:45 +0200, Martin Jansa wrote:
+> > >> On Sun, Oct 09, 2011 at 08:11:45PM +0200, Koen Kooi wrote:
+> > >>> 
+> > >>> Op 9 okt. 2011, om 20:10 heeft Martin Jansa het volgende geschreven:
+> > >>> 
+> > >>>> On Sun, Oct 09, 2011 at 01:25:09PM +0200, Koen Kooi wrote:
+> > >>>>> 
+> > >>>>> Op 6 okt. 2011, om 16:19 heeft Richard Purdie het volgende geschreven:
+> > >>>>> 
+> > >>>>>> sstate was being a little too ethusiastic about removing stamp files and
+> > >>>>>> was removing stamp files for other machines when it shouldn't have been.
+> > >>>>>> 
+> > >>>>>> This patch teaches sstate about machine specific stamp extensions and
+> > >>>>>> allows it to only remove the current task's stampfiles.
+> > >>>>> 
+> > >>>>> Not sure if it's related to this problem or not but sstate is still not working as intented for me when switching machines, it keeps rebuilding the toolchain when switching machine. What I did this morning:
+> > >>>>> 
+> > >>>>> 1) wipe out tmp, sstate-cache, pseudodone
+> > >>>>> 2) MACHINE=beagleboard bitbake u-boot
+> > >>>>> 3) cp conf/machine/beagleboard.conf conf/machine/brokensstate.conf
+> > >>>>> 4) MACHINE=brokensstate bitbake u-boot
+> > >>>> 
+> > >>>> Same here.. :/ (building 3 armv7 machines.. always "from scratch").
+> > >>> 
+> > >>> To eliminate varables: Angstrom/shr/aurora/micro/other/all of the above?
+> > >> 
+> > >> DISTRO=shr
+> > >> 
+> > >> MACHINE=nokia900 bitbake shr-image -> builds from scratch, finished ok
+> > >> MACHINE=palmpre bitbake shr-image -> builds from scratch, finished ok
+> > >> MACHINE=palmpre2 bitbake shr-image -> builds from scratch, finished ok
+> > >> 
+> > >> without wiping anything (same tmp, same sstate-cache, same pseudodone)
+> > >> 
+> > >> MACHINE=palmpre bitbake shr-image -> builds from scratch, again!, finished ok
+> > >> MACHINE=palmpre2 bitbake shr-image -> builds from scratch, again!, finished ok
+> > >> MACHINE=nokia900 bitbake shr-image -> builds from scratch, again!, finished ok
+> > >> 
+> > >> palmpre and palmpre2 are "the same"
+> > >> $ cat meta-smartphone/meta-palm/conf/machine/palmpre.conf | grep -v ^#
+> > >> require conf/machine/include/palmpre.inc
+> > >> 
+> > >> $ cat meta-smartphone/meta-palm/conf/machine/palmpre2.conf | grep -v ^#
+> > >> require conf/machine/include/palmpre.inc
+> > >> 
+> > >> nokia900 is also armv7a-vfp-neon (that's why all packages except
+> > >> MACHINE_ARCH were always reused without rebuilding in OE-classic).
+> > >> 
+> > >> I have tried to debug sigdata files to see why and also tried to add
+> > >> MACHINEOVERRIDES[vardepsexclude] = "MACHINE"
+> > >> as RP suggested, but sofar haven't found solution at least to reuse
+> > >> already built sstate packages for armv7a-vfp-neon.
+> > > 
+> > > Also as a tip for debugging this, you can do what is in the following
+> > > commit (patch also inline below):
+> > > 
+> > > http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/wip9&id=1261cc69b152f33b934c2448020dfa3c95f312c6
+> > > 
+> > > which will mean bitbake -n generates stamp files for a given bitbake
+> > > run. You can then quickly do:
+> > > 
+> > > MACHINE=A bitbake -n foo
+> > > MACHINE=B bitbake -n foo
+> > > 
+> > > for example and then look for cases where two stamp sigdata files were
+> > > generated. If you see them you can "bitbake-diffsigs A B" and I'll be
+> > > very interested in the results of that and "bitbake-diffsigs A"...
+> > > 
+> > > Cheers,
+> > > 
+> > > Richard
+> > > 
+> > > bitbake: Allow easier dry run stamp debugging
+> > > 
+> > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > > ---
+> > > diff --git a/bitbake/lib/bb/build.py b/bitbake/lib/bb/build.py
+> > 
+> > This seems to be against poky instead of bitbake and doesn't apply against bitbake master:
+> > 
+> > koen@dominion:/OE/tentacle/sources/bitbake$ patch -p2 < dry 
+> > patching file lib/bb/build.py
+> > Hunk #1 succeeded at 257 (offset 2 lines).
+> > Hunk #2 succeeded at 319 (offset 2 lines).
+> > Hunk #3 succeeded at 360 (offset 2 lines).
+> > patching file lib/bb/runqueue.py
+> > Hunk #1 FAILED at 1156.
+> > 1 out of 1 hunk FAILED -- saving rejects to file lib/bb/runqueue.py.rej
+> 
+> Same problem here.. seems like diff is bigger then it was before:
+> both current master
+> 
+> OE @ ~/projects $ diff -rq poky/bitbake/ bitbake/ | grep -v pyc | grep -v pyo | grep -v .git
+> Only in bitbake/: MANIFEST.in
+> Only in bitbake/: TODO
+> Only in bitbake/: classes
+> Only in bitbake/: conf
+>Only in bitbake/: setup.py
+
+These are deliberate and don't make sense in poky.
+
+>Only in poky/bitbake/bin: bitbake-runtask
+>Files poky/bitbake/lib/bb/cooker.py and bitbake/lib/bb/cooker.py differ
+
+These are related and I need to get this fixed, there is an open bug
+about this.
+
+> Files poky/bitbake/lib/bb/__init__.py and bitbake/lib/bb/__init__.py differ
+
+Not showing up here for me...
+
+> Files poky/bitbake/lib/bb/parse/parse_py/BBHandler.py and bitbake/lib/bb/parse/parse_py/BBHandler.py differ
+
+This is whitespace only.
+
+> Files poky/bitbake/lib/bb/pysh/pyshtables.py and bitbake/lib/bb/pysh/pyshtables.py differ
+
+This is a generated file and in neither repository.
+
+> Only in poky/bitbake/lib/bb: shell.py
+
+This is a reminder that we'd like a bitbake shell to come back.
+
+>Files poky/bitbake/lib/bb/runqueue.py and bitbake/lib/bb/runqueue.py differ
+>Files poky/bitbake/lib/bb/build.py and bitbake/lib/bb/build.py differ
+
+and these are the main "problem". Some is related to the bitbake-runtask
+piece above, there were also a couple of patches I didn't like to
+bitbake and didn't take into poky.
+
+There isn't anything particularly major here, just reminders of areas
+that could do with some dedicated cleanup or rethinking. Bitbake master
+takes the short cut of skipping tasks during dry run without forking. My
+patch assumes that the fork is made to generate the stamps. An updated
+patch is below.
+
+Cheers,
+
+Richard
 
 
-Op 10 okt. 2011, om 16:06 heeft Richard Purdie het volgende geschreven:
+diff --git a/lib/bb/build.py b/lib/bb/build.py
+index 70cc809..5ae8ba4 100644
+--- a/lib/bb/build.py
++++ b/lib/bb/build.py
+@@ -257,7 +257,7 @@ def _task_data(fn, task, d):
+     data.expandKeys(localdata)
+     return localdata
+ 
+-def _exec_task(fn, task, d, quieterr):
++def _exec_task(fn, task, d, quieterr, dryrun=False):
+     """Execute a BB 'task'
+ 
+     Execution of a task involves a bit more setup than executing a function,
+@@ -319,10 +319,13 @@ def _exec_task(fn, task, d, quieterr):
+     event.fire(TaskStarted(task, localdata), localdata)
+     try:
+         for func in (prefuncs or '').split():
+-            exec_func(func, localdata)
+-        exec_func(task, localdata)
++            if not dryrun:
++                exec_func(func, localdata)
++        if not dryrun:
++            exec_func(task, localdata)
+         for func in (postfuncs or '').split():
+-            exec_func(func, localdata)
++            if not dryrun:
++                exec_func(func, localdata)
+     except FuncFailed as exc:
+         if not quieterr:
+             logger.error(str(exc))
+@@ -357,13 +360,13 @@ def _exec_task(fn, task, d, quieterr):
+ 
+     return 0
+ 
+-def exec_task(fn, task, d):
++def exec_task(fn, task, d, dryrun=False):
+     try: 
+         quieterr = False
+         if d.getVarFlag(task, "quieterrors") is not None:
+             quieterr = True
+ 
+-        return _exec_task(fn, task, d, quieterr)
++        return _exec_task(fn, task, d, quieterr, dryrun)
+     except Exception:
+         from traceback import format_exc
+         if not quieterr:
+diff --git a/lib/bb/runqueue.py b/lib/bb/runqueue.py
+index 9a1bad7..61aba1b 100644
+--- a/lib/bb/runqueue.py
++++ b/lib/bb/runqueue.py
+@@ -1156,7 +1156,7 @@ class RunQueueExecute:
+                     logger.critical(str(exc))
+                 os._exit(1)
+             try:
+-                ret = bb.build.exec_task(fn, taskname, the_data)
++                ret = bb.build.exec_task(fn, taskname, the_data, self.cooker.configuration.dry_run)
+                 os._exit(ret)
+             except:
+                 os._exit(1)
+@@ -1329,12 +1329,6 @@ class RunQueueExecuteTasks(RunQueueExecute):
+                                 self.rqdata.get_user_idstring(task))
+                 self.task_skip(task)
+                 return True
+-            elif self.cooker.configuration.dry_run:
+-                self.runq_running[task] = 1
+-                self.runq_buildable[task] = 1
+-                self.stats.taskActive()
+-                self.task_complete(task)
+-                return True
+ 
+             taskdep = self.rqdata.dataCache.task_deps[fn]
+             if 'noexec' in taskdep and taskname in taskdep['noexec']:
 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index a1420cf..11d76b8 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -669,6 +669,7 @@ AUTO_LIBNAME_PKGS =3D "${PACKAGES}"
-> OVERRIDES =3D =
-"${TARGET_OS}:${TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES=
-}:${DISTROOVERRIDES}:forcevariable"
-> DISTROOVERRIDES ?=3D "${DISTRO}"
-> MACHINEOVERRIDES ?=3D "${MACHINE}"
-> +OVERRIDES[vardepsexclude] =3D "MACHINE"
->=20
-> CPU_FEATURES ?=3D ""
-> CPU_FEATURES_arm ?=3D "vfp"
-
-
-MACHINE=3Domap4430-panda bitbake bash -c cleansstate
-MACHINE=3Dbeagleboard bitbake bash
-MACHINE=3Domap4430-panda bitbake bash
-
-It fully built bash in both case, the diffsig sleuthing I was able to =
-do:
-
-=
-koen@dominion:/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/stamps/armv7a-=
-angstrom-linux-gnueabi$ ls | grep bash | grep sigdata | sort
-bash-4.1-r2.do_cleansstate.sigdata.dade34525ff3d7567b7e86b24a36307b
-bash-4.1-r2.do_fetch.sigdata.15f6bc3de53f1de78303e73688c4f340
-bash-4.1-r2.do_unpack.sigdata.980bf1d8267fee1ac36b68c96c4f268c
-bash-4.1-r2.do_patch.sigdata.0185f3c332733ffa162bc38244f2f0b4
-bash-4.1-r2.do_configure.sigdata.4527bef6d2e22f73a51628c2ac5e7d4e
-bash-4.1-r2.do_compile.sigdata.d5cb0399ec5f76911c78cfc99a05663a
-bash-4.1-r2.do_install.sigdata.b1781f7a0718ba9922a970820d565455
-bash-4.1-r2.do_package.sigdata.2a38d9a1a086e31e620321c1b346514f
-bash-4.1-r2.do_package.sigdata.4c4f326e3ba2029d207aca186c9ea332
-=
-bash-4.1-r2.do_package_write_ipk.sigdata.191dbf64100c3b552a86c361a07e134f
-bash-4.1-r2.do_populate_sysroot.sigdata.1643e8bfc8905ff3f269b8ca40d16d17
-bash-4.1-r2.do_rm_work_all.sigdata.25cbc1786f8d193c1569e77497d098af
-bash-4.1-r2.do_rm_work_all.sigdata.d019b1e392601856aa407615da0c54af
-bash-4.1-r2.do_rm_work.sigdata.1453d491285d51b9a88a913bcc6cc72c
-bash-4.1-r2.do_rm_work.sigdata.b8f0f9e26355b721638b66069ad83e4e
-bash-4.1-r2.do_populate_lic.sigdata.c7c785ae2f366e5a0d8bea4e144e43d0
-
-=
-koen@dominion:/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/stamps/armv7a-=
-angstrom-linux-gnueabi$ bitbake-diffsigs =
-bash-4.1-r2.do_package.sigdata.2a38d9a1a086e31e620321c1b346514f =
-bash-4.1-r2.do_package.sigdata.4c4f326e3ba2029d207aca186c9ea332
-basehash changed from da302dbd386f214d39fbd6fb01267c8d to =
-1b439cf1d8c12894e96e96b299a27c12
-Variable MACHINE value changed from beagleboard to omap4430-panda
-Hash for dependent task =
-/OE/tentacle/sources/openembedded-core/meta/recipes-devtools/libtool/libto=
-ol-cross_2.4.bb.do_package changed from 98213433ce27776be6f1aa236cbcb6d6 =
-to 49add8f8b038b933aa29dd5d90f06c5b
-Hash for dependent task =
-virtual:native:/OE/tentacle/sources/openembedded-core/meta/recipes-devtool=
-s/autoconf/autoconf_2.68.bb.do_package changed from =
-dd35fff900f7fd369bbb9eb360308c38 to beef6d088d6d3fff588e78a87a4a4380
-Hash for dependent task =
-virtual:native:/OE/tentacle/sources/openembedded-core/meta/recipes-core/ge=
-ttext/gettext_0.18.1.1.bb.do_package changed from =
-30e0a0e6c69119f07c8d1a0d697a86e9 to 2087c79a461c2b312b7c988b29e7cb2d
-Hash for dependent task =
-virtual:native:/OE/tentacle/sources/openembedded-core/meta/recipes-devtool=
-s/gnu-config/gnu-config_20080123.bb.do_package changed from =
-017db30f24324e1d2db3ca2b664b68cc to 411dfae70ffa50f8b52a2d9a07948c91
-Hash for dependent task =
-/OE/tentacle/sources/openembedded-core/meta/recipes-core/gettext/gettext_0=
-.18.1.1.bb.do_package changed from 035d53ae6aa5c89a0272671f28214949 to =
-b160afaacda3f764244c16dfa4455cf0
-Hash for dependent task =
-virtual:native:/OE/tentacle/sources/openembedded-core/meta/recipes-devtool=
-s/automake/automake_1.11.1.bb.do_package changed from =
-feb06b92c7f806cfe8fc24e1914c0047 to 45f0207af62a6142d66da0692f3d6121
-Hash for dependent task =
-/OE/tentacle/sources/meta-openembedded/meta-oe/recipes-core/eglibc/eglibc_=
-2.12.bb.do_package changed from 04dcab1d3d0c51bdb6c415c8a2b9ff54 to =
-c23a8d2301faed76bbb7be8883a9aa88
-Hash for dependent task =
-/OE/tentacle/sources/meta-openembedded/meta-oe/recipes-devtools/gcc/gcc-cr=
-oss_4.5.bb.do_package changed from 8666b64d68eb05e4060759f0a6a4db5e to =
-183f985ad016d9eecf65a117df3b5ef2
-Hash for dependent task =
-virtual:native:/OE/tentacle/sources/openembedded-core/meta/recipes-devtool=
-s/bison/bison_2.5.bb.do_package changed from =
-b8a24af74efee0ca32c2cb8e2b8d14e3 to d3b72610abb4dba152942df5f2455665
-Hash for dependent task =
-/OE/tentacle/sources/openembedded-core/meta/recipes-devtools/libtool/libto=
-ol-native_2.4.bb.do_package changed from =
-03ef6e8d51de68fe2f59511a286e6039 to c3e0e363794b7f783b436ac974a1343c
-Hash for dependent task =
-/OE/tentacle/sources/meta-openembedded/meta-oe/recipes-devtools/gcc/gcc-ru=
-ntime_4.5.bb.do_package changed from e377698b3e70352a515f783e416c9506 to =
-ca985e80d151e9ccded4caff4c462fa6
-Hash for dependent task =
-/OE/tentacle/sources/openembedded-core/meta/recipes-core/ncurses/ncurses_5=
-.9.bb.do_package changed from 7975ab7832c91d8d2d62136fa16c7c4d to =
-7177629405a668b2cab828455c418302
 
 
 
