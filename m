@@ -1,24 +1,25 @@
-Received: from mga01.intel.com ([192.55.52.88])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RDkum-0003XV-CZ
+Received: from mailout-de.gmx.net ([213.165.64.23])
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <schnitzeltony@gmx.de>) id 1RDlUI-0004al-LO
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Oct 2011 00:35:12 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 11 Oct 2011 15:29:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.68,525,1312182000"; d="scan'208";a="72530512"
-Received: from unknown (HELO scimitar.amr.corp.intel.com) ([10.255.15.64])
-	by fmsmga001.fm.intel.com with ESMTP; 11 Oct 2011 15:29:28 -0700
-From: Joshua Lock <josh@linux.intel.com>
+	Wed, 12 Oct 2011 01:11:54 +0200
+Received: (qmail invoked by alias); 11 Oct 2011 23:06:12 -0000
+Received: from p5B0A3D7B.dip.t-dialin.net (EHLO localhost.localdomain)
+	[91.10.61.123]
+	by mail.gmx.net (mp035) with SMTP; 12 Oct 2011 01:06:12 +0200
+X-Authenticated: #62780362
+X-Provags-ID: V01U2FsdGVkX19HSi8dE8BHCmQSrrrhB4MYGVU7OAlWoAPWV3H5oh
+	TYKDtQsOBC/5Av
+From: Andreas =?iso-8859-1?q?M=FCller?= <schnitzeltony@gmx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Oct 2011 15:29:22 -0700
-Message-Id: <8ed04d4eed9093c6cb12303ffe1efd0eadaa7df2.1318371066.git.josh@linux.intel.com>
-X-Mailer: git-send-email 1.7.6.4
-In-Reply-To: <cover.1318371066.git.josh@linux.intel.com>
-References: <cover.1318371066.git.josh@linux.intel.com>
-In-Reply-To: <cover.1318371066.git.josh@linux.intel.com>
-References: <cover.1318371066.git.josh@linux.intel.com>
-Subject: [RFC PATCH 1/1] insane.bbclass: add qa check to ensure declared packages exist
+Date: Wed, 12 Oct 2011 01:10:38 +0200
+User-Agent: KMail/1.13.7 (Linux/2.6.35.14-97.fc14.x86_64; KDE/4.6.5; x86_64; ;
+	)
+MIME-Version: 1.0
+Message-Id: <201110120110.38951.schnitzeltony@gmx.de>
+X-Y-GMX-Trusted: 0
+Cc: openembedded-devel@lists.openembedded.org
+Subject: oe parse fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,52 +34,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Oct 2011 22:35:12 -0000
+X-List-Received-Date: Tue, 11 Oct 2011 23:11:54 -0000
+Content-Type: Text/Plain;
+  charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-This patch adds an extra package sanity check to test whether any extra
-packages defined by the recipe (i.e. anything other than -dev, -dbg, -doc,
--staticdev and -locale packages) are actually created.
+Angstrom environment / fresh pull / clean tmp dir -> error
 
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
----
- meta/classes/insane.bbclass |    9 ++++++++-
- 1 files changed, 8 insertions(+), 1 deletions(-)
+Pseudo is not present but is required, building this first before the main build
+NOTE: angstrom DOES NOT support libiconv because the eglibc provided iconv library is used                                                                                                        | ETA:  00:00:34
+NOTE: angstrom DOES NOT support libiconv because the eglibc provided iconv library is used
+NOTE: angstrom DOES NOT support gconf-dbus because gconf-dbus has been merged back into main GConf                                                                                                | ETA:  00:00:34
+NOTE: angstrom DOES NOT support gconf-dbus-native because gconf-dbus has been merged back into main GConf
+ERROR: Could not include required file recipes-graphics/xorg-xserver/xserver-xf86-dri-lite.inc##############################################################                                      | ETA:  00:00:09
+ERROR: Command execution failed: Exited with 1
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index b861e85..ccc0d1c 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -520,6 +520,8 @@ python do_package_qa () {
-     g = globals()
-     walk_sane = True
-     rdepends_sane = True
-+    exists = True
-+
-     for package in packages.split():
-         skip = (bb.data.getVar('INSANE_SKIP_' + package, d, True) or "").split()
-         if skip:
-@@ -539,13 +541,18 @@ python do_package_qa () {
- 
-         bb.note("Checking Package: %s" % package)
-         path = "%s/%s" % (pkgdest, package)
-+        if not package.endswith("-dev") and not package.endswith("-dbg") and not package.endswith("-doc") and not package.endswith("-staticdev") and not package.endswith("-locale"):
-+            contents_len = os.listdir(path)
-+            if not contents_len:
-+                bb.error("QA Issue: PACKAGE %s defined but not created" % package)
-+                exists = False
-         if not package_qa_walk(path, warnchecks, errorchecks, skip, package, d):
-             walk_sane  = False
-         if not package_qa_check_rdepends(package, pkgdest, skip, d):
-             rdepends_sane = False
- 
- 
--    if not walk_sane or not rdepends_sane:
-+    if not walk_sane or not rdepends_sane or not exists:
-         bb.fatal("QA run found fatal errors. Please consider fixing them.")
-     bb.note("DONE with PACKAGE QA")
- }
--- 
-1.7.6.4
-
+Andreas
 
 
