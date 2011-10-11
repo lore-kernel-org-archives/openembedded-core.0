@@ -1,33 +1,25 @@
-Received: from dan.rpsys.net ([93.97.175.187])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RDa9O-0002TS-Sb for openembedded-core@lists.openembedded.org;
-	Tue, 11 Oct 2011 13:05:36 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9BB6Tqa008361 for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2011 12:06:29 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id zRF7HpZVPN8M
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2011 12:06:29 +0100 (BST)
-Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9BB6QpZ008357
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2011 12:06:28 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 11 Oct 2011 11:59:45 +0100
+Received: from mailout-de.gmx.net ([213.165.64.23])
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <Schnitzeltony@gmx.de>) id 1RDaVx-0002rU-0X
+	for openembedded-core@lists.openembedded.org;
+	Tue, 11 Oct 2011 13:28:53 +0200
+Received: (qmail 9403 invoked by uid 0); 11 Oct 2011 11:23:08 -0000
+Received: from 95.222.156.232 by www023.gmx.net with HTTP;
+	Tue, 11 Oct 2011 13:23:06 +0200 (CEST)
+Date: Tue, 11 Oct 2011 13:23:06 +0200
+From: =?iso-8859-1?Q?=22Andreas_M=FCller=22?= <Schnitzeltony@gmx.de>
 In-Reply-To: <DDA1B8C5-0867-406F-BB88-0D33B7501900@dominion.thruhere.net>
+Message-ID: <20111011112306.15960@gmx.net>
+MIME-Version: 1.0
 References: <DDA1B8C5-0867-406F-BB88-0D33B7501900@dominion.thruhere.net>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1318330793.23801.88.camel@ted>
-Mime-Version: 1.0
+To: openembedded-core@lists.openembedded.org, schnitzeltony@gmx.de
+X-Authenticated: #62780362
+X-Flags: 0001
+X-Mailer: WWW-Mail 6100 (Global Message Exchange)
+X-Priority: 3
+X-Provags-ID: V01U2FsdGVkX18sZqIRQeUsGted99SPvJgKD2iCQePz8UXJ9v0nxh
+	BfSUpCYlTgMafjpT/mCHfpx0UB8ypYv5Od8Q== 
+X-GMX-UID: IxWtewdLeWUocaKSznZzuQ0xU3U4Nw9k
 Subject: Re: How to overlay files/fs-perms.txt?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -43,44 +35,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Oct 2011 11:05:36 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Oct 2011 11:28:53 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2011-10-11 at 12:42 +0200, Koen Kooi wrote:
-> In angstrom we have base-files overlayed to clean out /var and files/fs-perms.txt is getting in the way of that:
+See
+
+I guess it is found in line 553 of oe-core package.bbclass
+
+fs_perms_tables = bb.data.getVar('FILESYSTEM_PERMS_TABLES', d, True)
+
+Andreas
+-------- Original-Nachricht --------
+> Datum: Tue, 11 Oct 2011 12:42:01 +0200
+> Von: Koen Kooi <koen@dominion.thruhere.net>
+> An: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+> Betreff: [OE-core] How to overlay files/fs-perms.txt?
+
+> Hi,
 > 
-> koen@dominion:/OE/tentacle/sources/openembedded-core/meta$ grep localstate files/fs-perms.txt 
+> In angstrom we have base-files overlayed to clean out /var and
+> files/fs-perms.txt is getting in the way of that:
+> 
+> koen@dominion:/OE/tentacle/sources/openembedded-core/meta$ grep localstate
+> files/fs-perms.txt 
 > ${localstatedir}/cache	link	volatile/cache
 > ${localstatedir}/run	link	volatile/run
 > ${localstatedir}/log	link	volatile/log
 > ${localstatedir}/lock	link	volatile/lock
 > ${localstatedir}/tmp	link	volatile/tmp
 > 
-> In angstrom those aren't symlinks anymore, but tmpfs bind mounts managed by systemd.
+> In angstrom those aren't symlinks anymore, but tmpfs bind mounts managed
+> by systemd.
 > 
 > So, how doI overlay that file in this oe-core layer universe?
+> 
+> regards,
+> 
+> Koen
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-To quote package.bbclass:
-
-	# Return a list of configuration files based on either the default
-	# files/fs-perms.txt or the contents of FILESYSTEM_PERMS_TABLES
-	# paths are resolved via BBPATH
-	def get_fs_perms_list(d):
-		str = ""
-		fs_perms_tables = bb.data.getVar('FILESYSTEM_PERMS_TABLES', d, True)
-		if not fs_perms_tables:
-			fs_perms_tables = 'files/fs-perms.txt'
-		for conf_file in fs_perms_tables.split():
-			str += " %s" % bb.which(bb.data.getVar('BBPATH', d, True), conf_file)
-		return str
-
-
-so it looks for a "files/fs-perms.txt" in BBPATH...
-
-Cheers,
-
-Richard
-
+-- 
+NEU: FreePhone - 0ct/min Handyspartarif mit Geld-zurück-Garantie!		
+Jetzt informieren: http://www.gmx.net/de/go/freephone
 
 
