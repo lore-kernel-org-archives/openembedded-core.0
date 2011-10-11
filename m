@@ -1,35 +1,32 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-pz0-f43.google.com ([209.85.210.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RDgRx-0001AX-D2 for openembedded-core@lists.openembedded.org;
-	Tue, 11 Oct 2011 19:49:09 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9BHo39W001262 for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2011 18:50:04 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 1Sv7G-8KG51m
+	(envelope-from <raj.khem@gmail.com>) id 1RDgoc-0006fe-S2
+	for openembedded-core@lists.openembedded.org;
+	Tue, 11 Oct 2011 20:12:35 +0200
+Received: by pzd13 with SMTP id 13so21025563pzd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2011 18:50:03 +0100 (BST)
-Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9BHnwK9001257
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2011 18:50:00 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Tue, 11 Oct 2011 11:06:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=Sos+bizP73X2nFQ+bS25JeXnNvFKaO+kokWNop/zBH4=;
+	b=LDRSndVqDUxsloM/bpgena1tgcDEWJRStOOI9IoT3MEJBlRjxlC5hAEDbv6aUyIhPL
+	X06XNXJ7AdNSRZQGGEMTRUrmcNPscRFNdQJ9qbTCBqoiDe1z3+jlHpoQQ3x19ElMn1Mv
+	cgR70MeQy80xrSk+o7SN9JR0mPpvelwXr3YXM=
+Received: by 10.68.8.195 with SMTP id t3mr47361865pba.107.1318356412052; Tue,
+	11 Oct 2011 11:06:52 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.68.49.129 with HTTP; Tue, 11 Oct 2011 11:06:22 -0700 (PDT)
+In-Reply-To: <4E1CC160-8612-47C0-A2DB-E66830F84366@dominion.thruhere.net>
+References: <cover.1318007055.git.Martin.Jansa@gmail.com>
+	<A8FC601D-2A25-46D0-8AB0-3FE9E8561B01@dominion.thruhere.net>
+	<20111011070820.GB27073@jama.jama.net>
+	<4E1CC160-8612-47C0-A2DB-E66830F84366@dominion.thruhere.net>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 11 Oct 2011 11:06:22 -0700
+Message-ID: <CAMKF1sq1tC68xfuNSQeP3onQQiK=AyOS+38-tQs5W-HYjjvsgw@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 11 Oct 2011 18:43:17 +0100
-In-Reply-To: <F3F33339-BAD6-4175-AD3C-5F58D2B08660@dominion.thruhere.net>
-References: <1318251309.23801.28.camel@ted>
-	<F3F33339-BAD6-4175-AD3C-5F58D2B08660@dominion.thruhere.net>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1318355005.23801.112.camel@ted>
-Mime-Version: 1.0
-Subject: Re: shared-mime-info: Fix a parallel make race
+Subject: Re: [PATCHv3 00/31] Xorg related changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,72 +41,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Oct 2011 17:49:09 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Oct 2011 18:12:35 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, 2011-10-10 at 15:28 +0200, Koen Kooi wrote:
-> Op 10 okt. 2011, om 14:54 heeft Richard Purdie het volgende geschreven:
-> 
-> > 
-> > 
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> > diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info/parallelmake.patch b/meta/recipes-support/shared-mime-info/shared-mime-info/parallelmake.patch
-> > new file mode 100644
-> > index 0000000..9e86a71
-> > --- a/dev/null
-> > +++ b/meta/recipes-support/shared-mime-info/shared-mime-info/parallelmake.patch
-> > @@ -0,0 +1,32 @@
-> > +The Makefile used by shared-mime-info is one big race with the SUBDIRS 
-> > +option and the dependency specifically calling make all combining to
-> > +create multiple make instances all of which may try and build targets
-> > +like update-mime-database.
-> > +
-> > +This patch removes those options meaning make can correctly identify
-> > +dependencies and stop itself racing itself.
-> > +
-> > +RP 10/10/2011
-> > +
-> > +Upstream-status: Pending
-> > +
-> > +Index: shared-mime-info-0.91/Makefile.am
-> > +===================================================================
-> > +--- shared-mime-info-0.91.orig/Makefile.am	2011-10-10 21:47:19.834173921 +0100
-> > ++++ shared-mime-info-0.91/Makefile.am	2011-10-10 21:45:57.000000000 +0100
-> > +@@ -1,5 +1,3 @@
-> > +-SUBDIRS=. po
-> > +-
-> > + INCLUDES = $(ALL_CFLAGS)
-> > + 
-> > + packagesdir = $(datadir)/mime/packages
-> > +@@ -70,8 +68,7 @@
-> > + 
-> > + all: check create-pot
-> > + 
-> > +-create-pot:
-> > +-	$(MAKE) -C po shared-mime-info.pot
-> > ++create-pot: po
-> > + 
-> > + check: create-pot freedesktop.org.xml update-mime-database check-translations
-> > + 	if test -e $(top_builddir)/freedesktop.org.xml; then \
-> > diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info_0.91.bb b/meta/recipes-support/shared-mime-info/shared-mime-info_0.91.bb
-> > index 76d2756..ac2dde1 100644
-> > --- a/meta/recipes-support/shared-mime-info/shared-mime-info_0.91.bb
-> > +++ b/meta/recipes-support/shared-mime-info/shared-mime-info_0.91.bb
-> > @@ -4,3 +4,4 @@ PR = "r0"
-> > SRC_URI[md5sum] = "982a211560ba4c47dc791ccff34e8fbc"
-> > SRC_URI[sha256sum] = "98cfebe1d809afb24934e634373821e2a1dfa86fc6462cab230589a1c80988bd"
-> > 
-> > +SRC_URI =+ "file://parallelmake.patch"
-> 
-> Missing PR bump
+On Tue, Oct 11, 2011 at 12:37 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> I know it's small, it's a minimal collection of fonts from my debian system a few years ago :) It's not a real package, just a hack to get an ancient X working years ago.
 
-Merged to master, with a PR bump.
-
-Cheers,
-
-Richard
-
+if its not needed throw it out.
 
 
