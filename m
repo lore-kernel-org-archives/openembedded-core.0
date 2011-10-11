@@ -1,26 +1,34 @@
-Received: from mailout-de.gmx.net ([213.165.64.23])
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <Schnitzeltony@gmx.de>) id 1RDaVx-0002rU-0X
-	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Oct 2011 13:28:53 +0200
-Received: (qmail 9403 invoked by uid 0); 11 Oct 2011 11:23:08 -0000
-Received: from 95.222.156.232 by www023.gmx.net with HTTP;
-	Tue, 11 Oct 2011 13:23:06 +0200 (CEST)
-Date: Tue, 11 Oct 2011 13:23:06 +0200
-From: =?iso-8859-1?Q?=22Andreas_M=FCller=22?= <Schnitzeltony@gmx.de>
-In-Reply-To: <DDA1B8C5-0867-406F-BB88-0D33B7501900@dominion.thruhere.net>
-Message-ID: <20111011112306.15960@gmx.net>
-MIME-Version: 1.0
-References: <DDA1B8C5-0867-406F-BB88-0D33B7501900@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org, schnitzeltony@gmx.de
-X-Authenticated: #62780362
-X-Flags: 0001
-X-Mailer: WWW-Mail 6100 (Global Message Exchange)
-X-Priority: 3
-X-Provags-ID: V01U2FsdGVkX18sZqIRQeUsGted99SPvJgKD2iCQePz8UXJ9v0nxh
-	BfSUpCYlTgMafjpT/mCHfpx0UB8ypYv5Od8Q== 
-X-GMX-UID: IxWtewdLeWUocaKSznZzuQ0xU3U4Nw9k
-Subject: Re: How to overlay files/fs-perms.txt?
+Received: from dan.rpsys.net ([93.97.175.187])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RDai1-00032S-Br for openembedded-core@lists.openembedded.org;
+	Tue, 11 Oct 2011 13:41:21 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p9BBgG8O010227 for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Oct 2011 12:42:16 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id shqqXDgVuwew
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Oct 2011 12:42:16 +0100 (BST)
+Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p9BBgB7g010222
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Oct 2011 12:42:15 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 11 Oct 2011 12:35:28 +0100
+In-Reply-To: <1318279539.23801.68.camel@ted>
+References: <1318279539.23801.68.camel@ted>
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1318332940.23801.90.camel@ted>
+Mime-Version: 1.0
+Subject: Re: Some further build dependency timings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,51 +43,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Oct 2011 11:28:53 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 11 Oct 2011 11:41:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-See
+On Mon, 2011-10-10 at 21:45 +0100, Richard Purdie wrote:
+> Just for reference, with a base configuration, sato image:
+> 
+> real	50m8.223s
+> user	298m41.450s
+> sys	52m42.200s
+> 
+> adding:
+> 
+> ASSUME_PROVIDED =+ "bison-native flex-native sqlite3-native git-native"
+> 
+> (and hacking the pseudo recipe to use a sqlite3-native):
+> 
+> real	42m6.740s
+> user	296m21.940s
+> sys	52m25.220s
+> 
+> We continue to have real dependency issues around gettext in both the
+> native and target builds...
 
-I guess it is found in line 553 of oe-core package.bbclass
+So to continue the story, adding:
 
-fs_perms_tables = bb.data.getVar('FILESYSTEM_PERMS_TABLES', d, True)
+DEBUG_FLAGS = ""
+INHERIT_INSANE = ""
+PACKAGE_CLASSES = "package_ipk"
+USER_CLASSES = ""
 
-Andreas
--------- Original-Nachricht --------
-> Datum: Tue, 11 Oct 2011 12:42:01 +0200
-> Von: Koen Kooi <koen@dominion.thruhere.net>
-> An: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-> Betreff: [OE-core] How to overlay files/fs-perms.txt?
+Results in:
 
-> Hi,
-> 
-> In angstrom we have base-files overlayed to clean out /var and
-> files/fs-perms.txt is getting in the way of that:
-> 
-> koen@dominion:/OE/tentacle/sources/openembedded-core/meta$ grep localstate
-> files/fs-perms.txt 
-> ${localstatedir}/cache	link	volatile/cache
-> ${localstatedir}/run	link	volatile/run
-> ${localstatedir}/log	link	volatile/log
-> ${localstatedir}/lock	link	volatile/lock
-> ${localstatedir}/tmp	link	volatile/tmp
-> 
-> In angstrom those aren't symlinks anymore, but tmpfs bind mounts managed
-> by systemd.
-> 
-> So, how doI overlay that file in this oe-core layer universe?
-> 
-> regards,
-> 
-> Koen
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+real	38m23.053s
+user	237m7.430s
+sys	39m3.720s
 
--- 
-NEU: FreePhone - 0ct/min Handyspartarif mit Geld-zurück-Garantie!		
-Jetzt informieren: http://www.gmx.net/de/go/freephone
+Then adding PSEUDO_RELOADED=yes to the environment of tasks not needing
+pseudo (hack patch below):
+
+real	36m20.683s
+user	236m19.580s
+sys	37m54.450s
+
+Finally, adding:
+
+DISABLESTATIC = "--disable-static"
+DISABLESTATIC_pn-qemu = ""
+DISABLESTATIC_pn-qemu-native = ""
+DISABLESTATIC_pn-openssl = ""
+DISABLESTATIC_pn-openssl-native = ""
+EXTRA_OECONF += "${DISABLESTATIC}"
+
+real	34m53.877s
+user	233m34.780s
+sys	38m50.190s
+
+Cheers,
+
+Richard
+
+
+--- a/bitbake/lib/bb/runqueue.py
++++ b/bitbake/lib/bb/runqueue.py
+@@ -1096,6 +1096,10 @@ class RunQueueExecute:
+ 
+             logger.debug(2, 'Running %s:%s under fakeroot, fakedirs: %s' %
+                             (fn, taskname, ', '.join(fakedirs)))
++        else:
++            envbackup["PSEUDO_RELOADED"] = os.environ.get("PSEUDO_RELOADED")
++            os.environ["PSEUDO_RELOADED"] = "yes"
++            fakeenv["PSEUDO_RELOADED"] = "yes"
+ 
+         sys.stdout.flush()
+         sys.stderr.flush()
+
+
+
 
 
