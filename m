@@ -1,60 +1,39 @@
-Received: from tx2ehsobe005.messaging.microsoft.com ([65.55.88.15]
-	helo=TX2EHSOBE010.bigfish.com)
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RDfaA-000373-6U
-	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Oct 2011 18:53:34 +0200
-Received: from mail115-tx2-R.bigfish.com (10.9.14.242) by
-	TX2EHSOBE010.bigfish.com (10.9.40.30) with Microsoft SMTP Server id
-	14.1.225.22; Tue, 11 Oct 2011 16:47:51 +0000
-Received: from mail115-tx2 (localhost.localdomain [127.0.0.1])	by
-	mail115-tx2-R.bigfish.com (Postfix) with ESMTP id B131B5703CC	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2011 16:47:51 +0000 (UTC)
-X-SpamScore: -12
-X-BigFish: VS-12(zz9371K1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h61h)
-X-Spam-TCS-SCL: 0:0
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
-	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail115-tx2 (localhost.localdomain [127.0.0.1]) by mail115-tx2
-	(MessageSwitch) id 1318351589994729_25866;
-	Tue, 11 Oct 2011 16:46:29 +0000 (UTC)
-Received: from TX2EHSMHS024.bigfish.com (unknown [10.9.14.243])	by
-	mail115-tx2.bigfish.com (Postfix) with ESMTP id 7E629AA8373	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2011 16:44:47 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS024.bigfish.com
-	(10.9.99.124) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Tue, 11 Oct 2011 16:44:46 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.154]) by
-	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
-	14.01.0339.002; Tue, 11 Oct 2011 11:44:45 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RDgRx-0001AX-D2 for openembedded-core@lists.openembedded.org;
+	Tue, 11 Oct 2011 19:49:09 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p9BHo39W001262 for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Oct 2011 18:50:04 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 1Sv7G-8KG51m
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Oct 2011 18:50:03 +0100 (BST)
+Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p9BHnwK9001257
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Oct 2011 18:50:00 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 3/6] Add new IMAGE_CLASSES variable for
-	classes for image generation
-Thread-Index: AQHMg7FtYqexAWTY0EGfrD7QF392mpVuwFwAgAAIzQCACO1TAA==
-Date: Tue, 11 Oct 2011 16:44:45 +0000
-Message-ID: <CAEsOVNcXS61xX3wCbG+Vy7KLkxsv=FRDAm1jA5i27GAxu0AuHA@mail.gmail.com>
-References: <1317765787-19127-1-git-send-email-msm@freescale.com>
-	<1317765787-19127-3-git-send-email-msm@freescale.com>
-	<CAEsOVNeNerChRP+bA8D354J2M+og5TPkWO9e_83rNLLbRZS4Jw@mail.gmail.com>
-	<1317858811.6398.36.camel@ted>
-	<CAEsOVNdG_O9ssO1HFsBwprmLyN=HjkyqrUg-Bp42aub7_SMhCQ@mail.gmail.com>
-In-Reply-To: <CAEsOVNdG_O9ssO1HFsBwprmLyN=HjkyqrUg-Bp42aub7_SMhCQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH 3/6] Add new IMAGE_CLASSES variable for classes for image generation
+Date: Tue, 11 Oct 2011 18:43:17 +0100
+In-Reply-To: <F3F33339-BAD6-4175-AD3C-5F58D2B08660@dominion.thruhere.net>
+References: <1318251309.23801.28.camel@ted>
+	<F3F33339-BAD6-4175-AD3C-5F58D2B08660@dominion.thruhere.net>
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1318355005.23801.112.camel@ted>
+Mime-Version: 1.0
+Subject: Re: shared-mime-info: Fix a parallel make race
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -65,29 +44,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Oct 2011 16:53:34 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <8D588EE8A6FC9E49803772146BC7C180@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 11 Oct 2011 17:49:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 5, 2011 at 7:24 PM, Matthew McClintock <msm@freescale.com> wrot=
-e:
->> Its not expanding the variables? :/ This happened even when
->> IMAGE_CLASSES had a value before the inherit?
->
-> If I added a IMAGE_CLASSES to something other than "" it worked fine.
-> If I left it as "" it tried to expand the blank var and look in the
-> BBPATHS or wherever it looks for classes for an unnamed ".bbclass"
-> file.
+On Mon, 2011-10-10 at 15:28 +0200, Koen Kooi wrote:
+> Op 10 okt. 2011, om 14:54 heeft Richard Purdie het volgende geschreven:
+> 
+> > 
+> > 
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > ---
+> > diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info/parallelmake.patch b/meta/recipes-support/shared-mime-info/shared-mime-info/parallelmake.patch
+> > new file mode 100644
+> > index 0000000..9e86a71
+> > --- a/dev/null
+> > +++ b/meta/recipes-support/shared-mime-info/shared-mime-info/parallelmake.patch
+> > @@ -0,0 +1,32 @@
+> > +The Makefile used by shared-mime-info is one big race with the SUBDIRS 
+> > +option and the dependency specifically calling make all combining to
+> > +create multiple make instances all of which may try and build targets
+> > +like update-mime-database.
+> > +
+> > +This patch removes those options meaning make can correctly identify
+> > +dependencies and stop itself racing itself.
+> > +
+> > +RP 10/10/2011
+> > +
+> > +Upstream-status: Pending
+> > +
+> > +Index: shared-mime-info-0.91/Makefile.am
+> > +===================================================================
+> > +--- shared-mime-info-0.91.orig/Makefile.am	2011-10-10 21:47:19.834173921 +0100
+> > ++++ shared-mime-info-0.91/Makefile.am	2011-10-10 21:45:57.000000000 +0100
+> > +@@ -1,5 +1,3 @@
+> > +-SUBDIRS=. po
+> > +-
+> > + INCLUDES = $(ALL_CFLAGS)
+> > + 
+> > + packagesdir = $(datadir)/mime/packages
+> > +@@ -70,8 +68,7 @@
+> > + 
+> > + all: check create-pot
+> > + 
+> > +-create-pot:
+> > +-	$(MAKE) -C po shared-mime-info.pot
+> > ++create-pot: po
+> > + 
+> > + check: create-pot freedesktop.org.xml update-mime-database check-translations
+> > + 	if test -e $(top_builddir)/freedesktop.org.xml; then \
+> > diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info_0.91.bb b/meta/recipes-support/shared-mime-info/shared-mime-info_0.91.bb
+> > index 76d2756..ac2dde1 100644
+> > --- a/meta/recipes-support/shared-mime-info/shared-mime-info_0.91.bb
+> > +++ b/meta/recipes-support/shared-mime-info/shared-mime-info_0.91.bb
+> > @@ -4,3 +4,4 @@ PR = "r0"
+> > SRC_URI[md5sum] = "982a211560ba4c47dc791ccff34e8fbc"
+> > SRC_URI[sha256sum] = "98cfebe1d809afb24934e634373821e2a1dfa86fc6462cab230589a1c80988bd"
+> > 
+> > +SRC_URI =+ "file://parallelmake.patch"
+> 
+> Missing PR bump
 
->> IMAGE_CLASSES =3D "image_types"
->> inherit ${IMAGE_CLASSES}
+Merged to master, with a PR bump.
 
-Should I update this patch to look like the above? Tracking down the
-bitbake issue will be a little more involved for me =3D)
+Cheers,
 
--M=
+Richard
 
 
 
