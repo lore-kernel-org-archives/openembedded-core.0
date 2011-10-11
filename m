@@ -1,36 +1,35 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RDWSj-0005X9-0r
+	(envelope-from <martin.jansa@gmail.com>) id 1RDWXW-0005bZ-4Z
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Oct 2011 09:09:17 +0200
-Received: by bke11 with SMTP id 11so9536361bke.6
+	Tue, 11 Oct 2011 09:14:14 +0200
+Received: by bke11 with SMTP id 11so9540222bke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2011 00:03:35 -0700 (PDT)
+	Tue, 11 Oct 2011 00:08:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=date:from:to:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=ME/5NXhDdER5YlCz4LRaW0p4OWCDO9yc/hhQEyk+3wM=;
-	b=cIXt0UxZqVu3A3Gn/YABtQrzS1gVqGMEP7H5aqh9XYQK+azgX6tVgc3Eei0p9GXIqB
-	2m7JQPRe0Z2vLcST0jKZdBjMkQb3RhN8rFC+Slq/W3QwDRVo/Kcffda6P3xcLquMetJn
-	M5xOwz17VdyHntvn7qZyd9XrkVeYlOHNOK0I4=
-Received: by 10.204.143.5 with SMTP id s5mr8645624bku.65.1318316615751;
-	Tue, 11 Oct 2011 00:03:35 -0700 (PDT)
+	bh=HyXfCFqqOZik2lknpaDksxmKlzzvh46SgPGRq064FWQ=;
+	b=i6dGQ79DunvuarAVPnVnKeCfEgX9OKJx77TrfGfqWvTbCnF6B3wEbuuHkYyReG9DVF
+	tzPmzgoz+mLSGGHdD/ACfOAO7X1/XCskV+hBGE4ERhdOqtI+yK9xKyEtaWjlTJMCI4KI
+	RdHs0o+DBCHozPMxuP0STUID040ri9AA2PdBk=
+Received: by 10.204.145.15 with SMTP id b15mr8720739bkv.52.1318316909812;
+	Tue, 11 Oct 2011 00:08:29 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id ex8sm20024956bkc.2.2011.10.11.00.03.33
+	by mx.google.com with ESMTPS id d17sm20013953bkq.11.2011.10.11.00.08.26
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 11 Oct 2011 00:03:34 -0700 (PDT)
-Date: Tue, 11 Oct 2011 09:03:27 +0200
+	Tue, 11 Oct 2011 00:08:27 -0700 (PDT)
+Date: Tue, 11 Oct 2011 09:08:20 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111011070327.GA27073@jama.jama.net>
+Message-ID: <20111011070820.GB27073@jama.jama.net>
 References: <cover.1318007055.git.Martin.Jansa@gmail.com>
-	<8267017169d00aaa5a487a6f5d72cd67dad9c327.1318007055.git.Martin.Jansa@gmail.com>
-	<4E93E69A.7070402@windriver.com>
+	<A8FC601D-2A25-46D0-8AB0-3FE9E8561B01@dominion.thruhere.net>
 MIME-Version: 1.0
-In-Reply-To: <4E93E69A.7070402@windriver.com>
+In-Reply-To: <A8FC601D-2A25-46D0-8AB0-3FE9E8561B01@dominion.thruhere.net>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCHv3 01/31] xserver-xf86(-dri)-lite: rename to xserver-xorg and xserver-xorg-lite
+Subject: Re: [PATCHv3 00/31] Xorg related changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,97 +44,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Oct 2011 07:09:17 -0000
-X-Groupsio-MsgNum: 10785
+X-List-Received-Date: Tue, 11 Oct 2011 07:14:14 -0000
+X-Groupsio-MsgNum: 10786
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="+HP7ph2BbKc20aGI"
+	protocol="application/pgp-signature"; boundary="0ntfKIWw70PvrIHh"
 Content-Disposition: inline
 
---+HP7ph2BbKc20aGI
+--0ntfKIWw70PvrIHh
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 11, 2011 at 02:47:54PM +0800, Kang Kai wrote:
-> On 2011?10?08? 01:04, Martin Jansa wrote:
-> > * xserver-xorg is closer to upstream naming and
-> >    that's how it's named in OE-classic and meta-oe? It would make meta-=
-oe
-> >    transition easier and better to do it now then convert meta-oe to
-> >    xserver-xf86 and then rename it back later.
-> >
-> > Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
-> > ---
-> > diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta=
-/conf/distro/include/distro_tracking_fields.inc
-> > index 7b6c4a9..8af80c7 100644
-> > --- a/meta/conf/distro/include/distro_tracking_fields.inc
-> > +++ b/meta/conf/distro/include/distro_tracking_fields.inc
-> > @@ -3683,14 +3683,14 @@ RECIPE_INTEL_SECTION_pn-mesa-xlib=3D"graphic co=
-re"
-> >   RECIPE_LAST_UPDATE_pn-mesa-xlib =3D "Nov 27, 2010"
-> >   RECIPE_MAINTAINER_pn-mesa-xlib=3D"Yu Ke<ke.yu@intel.com>"
-> >
-> > -RECIPE_STATUS_pn-xserver-xf86-dri-lite=3D"green" # no update needed
-> > -RECIPE_LATEST_VERSION_pn-xserver-xf86-dri-lite=3D"1.8.99.904"
-> > -RECIPE_NO_OF_PATCHES_pn-xserver-xf86-dri-lite=3D"2"
-> > -RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-xserver-xf86-dri-lite=3D"2 mo=
-nthes"
-> > -RECIPE_LATEST_RELEASE_DATE_pn-xserver-xf86-dri-lite=3D"2010/07/01"
-> > -RECIPE_INTEL_SECTION_pn-xserver-xf86-dri-lite=3D"graphic core"
-> > -RECIPE_LAST_UPDATE_pn-xserver-xf86-dri-lite =3D "Jan 18, 2011"
-> > -RECIPE_MAINTAINER_pn-xserver-xf86-dri-lite=3D"Yu Ke<ke.yu@intel.com>"
-> > +RECIPE_STATUS_pn-xserver-xorg=3D"green" # no update needed
-> > +RECIPE_LATEST_VERSION_pn-xserver-xorg=3D"1.8.99.904"
-> > +RECIPE_NO_OF_PATCHES_pn-xserver-xorg=3D"2"
-> > +RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-xserver-xorg=3D"2 monthes"
-> > +RECIPE_LATEST_RELEASE_DATE_pn-xserver-xorg=3D"2010/07/01"
-> > +RECIPE_INTEL_SECTION_pn-xserver-xorg=3D"graphic core"
-> > +RECIPE_LAST_UPDATE_pn-xserver-xorg =3D "Jan 18, 2011"
-> > +RECIPE_MAINTAINER_pn-xserver-xorg=3D"Yu Ke<ke.yu@intel.com>"
-> >
-> >   RECIPE_STATUS_pn-xf86-input-synaptics =3D "red"
-> >   DISTRO_PN_ALIAS_pn-xf86-input-synaptics =3D "Meego=3Dxorg-x11-drv-syn=
-aptics Fedora=3Dxorg-x11-drv-synaptics Ubuntu=3Dxserver-xorg-input-synaptic=
-s Mandriva=3Dx11-driver-input-synaptics Debian=3Dxfree86-driver-synaptics"
-> > @@ -5908,8 +5908,8 @@ DISTRO_PN_ALIAS_pn-pseudo =3D "Windriver"
-> >
-> >   DISTRO_PN_ALIAS_pn-btrfs-tools =3D "Debian=3Dbtrfs-tools Fedora=3Dbtr=
-fs-progs"
-> >   DISTRO_PN_ALIAS_pn-rt-tests =3D "Debian=3Drt-tests Ubuntu=3Drt-tests"
-> > -DISTRO_PN_ALIAS_pn-xserver-xf86-lite =3D "Fedora=3Dxorg-x11-server Ubu=
-ntu=3Dxserver-xorg"
-> > -DISTRO_PN_ALIAS_pn-xserver-xf86-dri-lite =3D "Fedora=3Dxorg-x11-server=
- Ubuntu=3Dxserver-xorg"
+On Mon, Oct 10, 2011 at 12:40:08PM +0200, Koen Kooi wrote:
 >=20
-> Hi Martin,
-> > +DISTRO_PN_ALIAS_pn-xserver-xorg =3D "Fedora=3Dxorg-x11-server Ubuntu=
-=3Dxserver-xorg"
-> I guess this should be xserver-xorg-lite.
+> Op 7 okt. 2011, om 19:05 heeft Martin Jansa het volgende geschreven:
 >=20
-> Regards,
-> Kai
+> > this patchset brings meta-oe and oe-core xorg stuff together and most of
+> > xorg recipes will be removed from meta-oe (sending another pull request=
+ now).
+> >=20
+> > This step is needed to be able to separate common x11 to meta-x11 or wh=
+atever later.
+> >=20
+> > The following changes since commit 808b3123e359f1aebabb8af44694275e4075=
+e031:
+> >=20
+> >  gnutls: Disable p11-kit dependency explicitly to resolve build failure=
+s (2011-10-07 15:40:42 +0100)
+> >=20
+> > are available in the git repository at:
+> >  git://git.openembedded.org/openembedded-core-contrib jansa/x11-v2
+> >  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=
+=3Djansa/x11-v2
+> >=20
+> > Martin Jansa (31):
+> >=20
+> >  xserver-xorg-common: move RDEPENDS_${PN} +=3D xorg-minimal-fonts to
+> >    shared .inc
+>=20
+> I have been running X images without minimal fonts for some time now, so =
+AFAICS it can be dropped completely.
 
-You're right, I've added patch for that on top of jansa/x11-v2.
-
-RP: I'll squash it to 01/31 if you want, but I didn't want to rebase as
-you already have it in master-next.. so it's on top.
+I'm also fine without (as it was in meta-oe and OE-classic), but it's
+quite small:
+276	KiB /all/xorg-minimal-fonts_1.0-r1_all.ipk
+so I've kept it as it was..
 
 Regards,
-
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---+HP7ph2BbKc20aGI
+--0ntfKIWw70PvrIHh
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.18 (GNU/Linux)
 
-iEYEARECAAYFAk6T6j8ACgkQN1Ujt2V2gBw3kwCfcsXvq3V17gD6H6b5+vuo6ppZ
-GAoAnRJhAeCrK+hF9dVw97dTKo+O57RC
-=cAuL
+iEYEARECAAYFAk6T62QACgkQN1Ujt2V2gBw+7QCglfHvMLBlki7UbD8cUQEhyEHv
+Hx8AniC24IatLNVqBz7aD6oB1ChMzy+k
+=YZVI
 -----END PGP SIGNATURE-----
 
---+HP7ph2BbKc20aGI--
+--0ntfKIWw70PvrIHh--
