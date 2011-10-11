@@ -1,35 +1,32 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RDhwe-0000BC-6K
+	(envelope-from <saul.wold@intel.com>) id 1RDjKZ-0004Az-B9
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Oct 2011 21:24:56 +0200
-Received: by gyg8 with SMTP id 8so7010611gyg.6
+	Tue, 11 Oct 2011 22:53:44 +0200
+Received: from mail-ey0-f180.google.com ([209.85.215.180])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 11 Oct 2011 13:47:59 -0700
+Received: by eyg5 with SMTP id 5so23170eyg.25
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2011 12:19:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references;
-	bh=FpyqBM+pvhWXkFOv2c1R/OKt2NMaJqMFEy2uEriYebk=;
-	b=XvmOPkrGnbbDwyRN1AWNGypjVhlbQ6kMVnfV1Wpa+xRb03FBZucI8T6pgYmrUVK3JJ
-	K8Z8BG8v6aUrm7/Y6Mf2CfccK1+VFORhVzhmtU71nkvBQxmnRo5uDJwXRvGZXenZRETK
-	naXdpu3YGaPg+2mmirRmExwzl8vNLL4bolE9g=
-Received: by 10.151.50.5 with SMTP id c5mr11543445ybk.66.1318360750042;
-	Tue, 11 Oct 2011 12:19:10 -0700 (PDT)
-Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id g23sm11205147ani.16.2011.10.11.12.19.08
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 11 Oct 2011 12:19:09 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Oct 2011 19:18:49 +0000
-Message-Id: <d3355b4af81a70d8a0c96a11f19b085bc0d29e91.1318360701.git.otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <cover.1318360701.git.otavio@ossystems.com.br>
-References: <cover.1318360701.git.otavio@ossystems.com.br>
-In-Reply-To: <cover.1318360701.git.otavio@ossystems.com.br>
-References: <cover.1318360701.git.otavio@ossystems.com.br>
-Subject: [PATCH 1/2] image-live.bbclass: allow override of initrd image
+	Tue, 11 Oct 2011 13:47:58 -0700 (PDT)
+Received: by 10.223.62.16 with SMTP id v16mr43223108fah.35.1318366078025;
+	Tue, 11 Oct 2011 13:47:58 -0700 (PDT)
+Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id o22sm114351fab.11.2011.10.11.13.47.56
+	(version=SSLv3 cipher=OTHER); Tue, 11 Oct 2011 13:47:57 -0700 (PDT)
+Message-ID: <4E94AB7A.6050603@intel.com>
+Date: Tue, 11 Oct 2011 13:47:54 -0700
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1317403283-17471-1-git-send-email-msm@freescale.com>
+In-Reply-To: <1317403283-17471-1-git-send-email-msm@freescale.com>
+Cc: Matthew McClintock <msm@freescale.com>
+Subject: Re: [PATCH v3 01/16] libnl2: Fix a race on route/pktloc_syntax.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,36 +41,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Oct 2011 19:24:56 -0000
+X-List-Received-Date: Tue, 11 Oct 2011 20:53:44 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/classes/image-live.bbclass |    5 +++--
- 1 files changed, 3 insertions(+), 2 deletions(-)
+On 09/30/2011 10:21 AM, Matthew McClintock wrote:
+> From: Tom Rini<tom_rini@mentor.com>
+>
+> At issue is that route/pktloc.c (not generated) depends on
+> route/pktloc_syntax.h (generated).
+>
+> Signed-off-by: Tom Rini<tom_rini@mentor.com>
+> Signed-off-by: Matthew McClintock<msm@freescale.com>
+> ---
+>   .../libnl/fix-pktloc_syntax_h-race.patch           |   26 ++++++++++++++++++++
+I just noticed that this patch get put in the libnl directory, not the 
+libnl-2.0 directory.
 
-diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
-index 1d184a1..e85ac1e 100644
---- a/meta/classes/image-live.bbclass
-+++ b/meta/classes/image-live.bbclass
-@@ -1,13 +1,14 @@
- 
- AUTO_SYSLINUXCFG = "1"
--INITRD ?= "${DEPLOY_DIR_IMAGE}/core-image-minimal-initramfs-${MACHINE}.cpio.gz"
-+INITRD_IMAGE ?= "core-image-minimal-initramfs"
-+INITRD ?= "${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE}-${MACHINE}.cpio.gz"
- APPEND += "root=/dev/ram0 "
- TIMEOUT = "10"
- LABELS += "boot install"
- 
- ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext3"
- 
--do_bootimg[depends] += "core-image-minimal-initramfs:do_rootfs"
-+do_bootimg[depends] += "${INITRD_IMAGE}:do_rootfs"
- do_bootimg[depends] += "${IMAGE_BASENAME}:do_rootfs"
- 
- inherit bootimg
--- 
-1.7.2.5
+Can you pull all the libnl changes together and resbumit this, also is 
+there a reason you can not just update this to the latest libnl 3.2.1?
+
+Cab you test that against the wpa-supplicant which seems to be libnl's 
+sole dependee.
+
+Thanks
+	Sau!
+
+
+>   meta/recipes-support/libnl/libnl_2.0.bb            |    3 +-
+>   2 files changed, 28 insertions(+), 1 deletions(-)
+>   create mode 100644 meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch
+>
+> diff --git a/meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch b/meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch
+> new file mode 100644
+> index 0000000..05d75db
+> --- /dev/null
+> +++ b/meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch
+> @@ -0,0 +1,26 @@
+> +Upstream-Status: Inappropriate [configuration]
+> +
+> +libnl has progressed to 0.3.2 and there does not appear to be any
+> +"make -j" issues with this build after my limited testing on that
+> +newer version so we can assume this issue is fixed upstream
+> +
+> +Index: libnl-2.0/lib/Makefile.am
+> +===================================================================
+> +--- libnl-2.0.orig/lib/Makefile.am
+> ++++ libnl-2.0/lib/Makefile.am
+> +@@ -27,11 +27,15 @@ CLEANFILES = \
+> + 	route/pktloc_grammar.c route/pktloc_grammar.h \
+> + 	route/pktloc_syntax.c route/pktloc_syntax.h
+> +
+> ++BUILT_SOURCES = route/pktloc_syntax.h route/pktloc_grammar.h
+> ++
+> + # Hack to avoid using ylwrap. It does not function correctly in combination
+> + # with --header-file=
+> ++route/pktloc_grammar.h: route/pktloc_grammar.c
+> + route/pktloc_grammar.c: route/pktloc_grammar.l
+> + 	$(LEX) --header-file=route/pktloc_grammar.h $(LFLAGS) -o $@ $^
+> +
+> ++route/pktloc_syntax.h: route/pktloc_syntax.c
+> + route/pktloc_syntax.c: route/pktloc_syntax.y
+> + 	$(YACC) -d $(YFLAGS) -o $@ $^
+> +
+> diff --git a/meta/recipes-support/libnl/libnl_2.0.bb b/meta/recipes-support/libnl/libnl_2.0.bb
+> index 0dfcaf6..5339846 100644
+> --- a/meta/recipes-support/libnl/libnl_2.0.bb
+> +++ b/meta/recipes-support/libnl/libnl_2.0.bb
+> @@ -6,10 +6,11 @@ LICENSE = "LGPLv2.1"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=2b41e13261a330ee784153ecbb6a82bc"
+>
+>   DEPENDS = "flex-native bison-native"
+> -PR = "r2"
+> +PR = "r3"
+>
+>   SRC_URI= "http://www.infradead.org/~tgr/libnl/files/${BPN}-${PV}.tar.gz \
+>             file://fix-makefile.patch \
+> +	  file://fix-pktloc_syntax_h-race.patch \
+>            "
+>
+>   SRC_URI[md5sum] = "6aaf1e9802a17a7d702bb0638044ffa7"
 
 
 
