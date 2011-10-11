@@ -1,35 +1,29 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mail-qw0-f47.google.com ([209.85.216.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1RDjYR-0004rr-Ml
-	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Oct 2011 23:08:03 +0200
-Received: from mail-ey0-f180.google.com ([209.85.215.180])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 11 Oct 2011 14:02:19 -0700
-Received: by eyg5 with SMTP id 5so36396eyg.25
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Oct 2011 14:02:18 -0700 (PDT)
-Received: by 10.223.65.76 with SMTP id h12mr41763451fai.7.1318366938184;
-	Tue, 11 Oct 2011 14:02:18 -0700 (PDT)
-Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id f25sm181733faf.7.2011.10.11.14.02.16
-	(version=SSLv3 cipher=OTHER); Tue, 11 Oct 2011 14:02:17 -0700 (PDT)
-Message-ID: <4E94AED6.6030000@intel.com>
-Date: Tue, 11 Oct 2011 14:02:14 -0700
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
+	(envelope-from <raj.khem@gmail.com>)
+	id 1RDk93-0000pS-LW; Tue, 11 Oct 2011 23:45:53 +0200
+Received: by qadc1 with SMTP id c1so47234qad.6
+	for <multiple recipients>; Tue, 11 Oct 2011 14:40:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=NRyzlXc5mDamT5v9AK+2TL1eTUHLKnyF1KKDo6KAIg0=;
+	b=JC/+U5LHodjP0CwyR0gqgHA3Er/V+oikNrYd4Ss4h5h7AUQn3NQO4ClnYz+ONp6kf4
+	oz5+yiUl/J7tWOBqJdwVelKVxs0lgV5AuXS724NSnUMQRwFFJqgG2pUpN1yZIkGSQ8+m
+	mw66phcK+ydR+Jt43gfyIzjV6GAUClpJ9TtDg=
+Received: by 10.68.28.4 with SMTP id x4mr48899265pbg.56.1318369210207; Tue, 11
+	Oct 2011 14:40:10 -0700 (PDT)
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1317403283-17471-1-git-send-email-msm@freescale.com>
-	<4E94AB7A.6050603@intel.com>
-	<CBC51C50-4E8D-45AC-98D5-7131F7A5A28E@dominion.thruhere.net>
-In-Reply-To: <CBC51C50-4E8D-45AC-98D5-7131F7A5A28E@dominion.thruhere.net>
-Cc: Matthew McClintock <msm@freescale.com>,
-	Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH v3 01/16] libnl2: Fix a race on route/pktloc_syntax.h
+Received: by 10.68.49.129 with HTTP; Tue, 11 Oct 2011 14:39:40 -0700 (PDT)
+In-Reply-To: <1318361177.3726.1.camel@mattotaupa>
+References: <CAOd_LFzbT0j3wSjp+d3POcTUo9X9+aiYtax4d6tep3YXmTwb2g@mail.gmail.com>
+	<1318361177.3726.1.camel@mattotaupa>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 11 Oct 2011 14:39:40 -0700
+Message-ID: <CAMKF1spJMNhsANhzLyrr20WZAKAEscskNJgoWYCCUBgft-ZrSA@mail.gmail.com>
+To: openembedded-devel@lists.openembedded.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [oe] git server move
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,44 +38,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Oct 2011 21:08:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Oct 2011 21:45:54 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 10/11/2011 01:59 PM, Koen Kooi wrote:
+On Tue, Oct 11, 2011 at 12:26 PM, Paul Menzel
+<paulepanter@users.sourceforge.net> wrote:
+> Dear Cliff,
 >
-> Op 11 okt. 2011, om 22:47 heeft Saul Wold het volgende geschreven:
 >
->> On 09/30/2011 10:21 AM, Matthew McClintock wrote:
->>> From: Tom Rini<tom_rini@mentor.com>
->>>
->>> At issue is that route/pktloc.c (not generated) depends on
->>> route/pktloc_syntax.h (generated).
->>>
->>> Signed-off-by: Tom Rini<tom_rini@mentor.com>
->>> Signed-off-by: Matthew McClintock<msm@freescale.com>
->>> ---
->>>   .../libnl/fix-pktloc_syntax_h-race.patch           |   26 ++++++++++++++++++++
->> I just noticed that this patch get put in the libnl directory, not the libnl-2.0 directory.
+> Am Dienstag, den 11.10.2011, 15:11 -0400 schrieb Cliff Brake:
+>> Hi, we are moving git.openembedded.org to a new server.
+>
+> is there more information about the reasons? Is it just a new machine?
+> Where is it hosted now?
+
+Its just a new machine at same space. This is a 64bit instance all OE servi=
+ces
+are being moved to this server and the old instance will be decommissioned.
+
+>
+>> SSH access on the old server has been disabled. =C2=A0git:// still works=
+ there.
 >>
->> Can you pull all the libnl changes together and resbumit this, also is there a reason you can not just update this to the latest libnl 3.2.1?
+>> As soon as DNS propagates, SSH access will work with the new server.
+>>
+>> Let me know if you see any problems.
+>>
+>> SSH keys will likely change, so expect messages about that.
 >
-> libnl3 is *again* incompatible with its previous version, like libnl2 is incompatible with libnl1.
+> So what are the fingerprints of the new keys? ;-)
 >
-Koen,
-
-Thanks for that bit of info, I had not gotten much further into 
-investigating libnl, other than seeing the newer version out there.
-
-Sau!
-
 >
+> Thanks,
+>
+> Paul
 >
 > _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> Openembedded-devel mailing list
+> Openembedded-devel@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-devel
 >
-
+>
 
 
