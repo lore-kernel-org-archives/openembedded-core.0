@@ -1,31 +1,36 @@
-Received: from gravedo.de ([85.214.79.159])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <morphis@gravedo.de>) id 1RE3jM-0000dX-Pf
+	(envelope-from <kergoth@gmail.com>) id 1RE4Dk-0001Zx-6V
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Oct 2011 20:40:40 +0200
-Received: by gravedo.de (Postfix, from userid 5001)
-	id 1802D79908B; Wed, 12 Oct 2011 20:35:00 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.2.5 (2008-06-10) on
-	h1108419.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-4.3 required=6.0 tests=ALL_TRUSTED,AWL,BAYES_00
-	autolearn=ham version=3.2.5
-Received: from [192.168.178.21] (dslb-088-071-249-031.pools.arcor-ip.net
-	[88.71.249.31]) by gravedo.de (Postfix) with ESMTPSA id 08F45799088
+	Wed, 12 Oct 2011 21:12:04 +0200
+Received: by wyh5 with SMTP id 5so1126112wyh.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2011 20:34:58 +0200 (CEST)
-Message-ID: <4E95DDD0.7020302@gravedo.de>
-Date: Wed, 12 Oct 2011 20:34:56 +0200
-From: Simon Busch <morphis@gravedo.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
+	Wed, 12 Oct 2011 12:06:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type
+	:content-transfer-encoding;
+	bh=zZRiryd3Vtk/hG2dZ5ZxCGiqnVO2vupppd2aH7XXXkM=;
+	b=QXUuzmOac48pWivMX4L9Ql4dE56jDIB1ezcMEUbANoYiOy92yfRjM+wwvJoy/mT9Ek
+	v3+M79vxkOri7KRVXO8ZYp7BlZpPtW/+m00paXTg0RzC0nw7caFCWSNXe1Nf38m6+3SP
+	ov9D/ptPQHqFyOeOHcSP0DPvgLVAdaLx+nKGs=
+Received: by 10.216.136.3 with SMTP id v3mr2972461wei.39.1318446381326; Wed,
+	12 Oct 2011 12:06:21 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+Sender: kergoth@gmail.com
+Received: by 10.216.160.80 with HTTP; Wed, 12 Oct 2011 12:04:58 -0700 (PDT)
+In-Reply-To: <E9665FD1-F0CD-4ADB-941C-68FC58674D08@dominion.thruhere.net>
 References: <cover.1318405370.git.Martin.Jansa@gmail.com>
 	<49a800f40bd08aa23d227dccafd34b3e59a7ccb5.1318405370.git.Martin.Jansa@gmail.com>
-	<4E954984.7020202@eukrea.com> <4E95D811.7090105@gravedo.de>
-	<1E1E70C9-6B15-497F-8571-78D2EF0CD081@dominion.thruhere.net>
-In-Reply-To: <1E1E70C9-6B15-497F-8571-78D2EF0CD081@dominion.thruhere.net>
+	<4E954984.7020202@eukrea.com>
+	<E9665FD1-F0CD-4ADB-941C-68FC58674D08@dominion.thruhere.net>
+From: Chris Larson <clarson@kergoth.com>
+Date: Wed, 12 Oct 2011 12:04:58 -0700
+X-Google-Sender-Auth: cXWd64WuDvFmmLG0D-B_pYKoMgg
+Message-ID: <CABcZAN=AZZjPcf6apKW82nOGF0K_9+3mmLx+5+uVmgLR7p9P+A@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Cc: Martin Jansa <martin.jansa@gmail.com>
 Subject: Re: [oe-core 1/4] qt4-embedded: remove dependency on tslib and use std. linux input
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -41,55 +46,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Oct 2011 18:40:40 -0000
+X-List-Received-Date: Wed, 12 Oct 2011 19:12:04 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On 12.10.2011 20:14, Koen Kooi wrote:
->=20
->=20
-> Op 12 okt. 2011 om 20:10 heeft Simon Busch <morphis@gravedo.de> het vol=
-gende geschreven:
->=20
->> On 12.10.2011 10:02, Eric B=C3=A9nard wrote:
->>> Hi,
+On Wed, Oct 12, 2011 at 2:20 AM, Koen Kooi <koen@dominion.thruhere.net> wro=
+te:
+> Op 12 okt. 2011, om 10:02 heeft Eric B=C3=A9nard het volgende geschreven:
+>
+>> Hi,
+>>
+>> Le 12/10/2011 09:45, Martin Jansa a =C3=A9crit :
+>>> From: Simon Busch<morphis@gravedo.de>
 >>>
->>> Le 12/10/2011 09:45, Martin Jansa a =C3=A9crit :
->>>> From: Simon Busch<morphis@gravedo.de>
->>>>
->>>> In most cases we don't need tslib in std. configuration as touchscre=
-en
->>>> access in most
->>>> devices today is done with linux input interface. If some specific
->>>> machine has a need for
->>>> tslib support it should add the dependency in it's machine layer aga=
-in
->>>> and modify the
->>>> profile script accordingly.
->>>>
->>> When using a resistive touchscreen, tslib is a common solution to han=
-dle
->>> calibration and raw value processing : do you think this is a good th=
-ing
->>> to remove this ?
->>
->> Thats up to the environment you are using qt4-embedded in. In my case
->> the setup is a little bit more complicated. We're using tslib but not
->> directly in qt4-embedded (we can get rid of tslib completely but time =
-is
->> missing).
->>
->> I removed the dependency from qt4-embedded as qt4-embedded in oe-core
->> should be the general thing used in all environments and therefore
->> should be only a minimal setup with minimal dependencies.
->=20
-> No, it should work in most cases, breaking qt:e like is not acceptable.
+>>> In most cases we don't need tslib in std. configuration as touchscreen =
+access in most
+>>> devices today is done with linux input interface. If some specific mach=
+ine has a need for
+>>> tslib support it should add the dependency in it's machine layer again =
+and modify the
+>>> profile script accordingly.
+>>>
+>> When using a resistive touchscreen, tslib is a common solution to handle=
+ calibration and raw value processing : do you think this is a good thing t=
+o remove this ?
+>
+> We ran into this at work and like Eric, I'm curious how calibration (and =
+e.g. dejitter) works in the linux-input world combined with qt/e.
 
-What is breaking qt:e in this case? For me it's just a feature reduction
-and not a break (as qt:e still works fine with the linux input interface)=
-.
-
+Not directly applicable, but I keep meaning to take a look at
+http://atrey.karlin.mff.cuni.cz/~metan/evfilter/ - it seems quite
+interesting.
 --=20
-Simon Busch - http://mm.gravedo.de/blog/
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
 
