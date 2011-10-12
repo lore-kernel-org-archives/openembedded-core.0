@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RE2vf-0007dr-A1
+	(envelope-from <josh@linux.intel.com>) id 1RE2wa-0007gN-M2
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Oct 2011 19:49:21 +0200
+	Wed, 12 Oct 2011 19:50:19 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 12 Oct 2011 10:43:29 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 12 Oct 2011 10:44:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,335,1315206000"; d="scan'208";a="72822456"
+X-IronPort-AV: E=Sophos;i="4.69,335,1315206000"; d="scan'208";a="72822668"
 Received: from unknown (HELO [10.255.15.65]) ([10.255.15.65])
-	by fmsmga001.fm.intel.com with ESMTP; 12 Oct 2011 10:43:29 -0700
-Message-ID: <4E95D1C1.2020000@linux.intel.com>
-Date: Wed, 12 Oct 2011 10:43:29 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 12 Oct 2011 10:44:29 -0700
+Message-ID: <4E95D1FD.3020608@linux.intel.com>
+Date: Wed, 12 Oct 2011 10:44:29 -0700
 From: Joshua Lock <josh@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:7.0.1) Gecko/20110930 Thunderbird/7.0.1
 MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
 References: <cover.1318371066.git.josh@linux.intel.com>
-	<1318423059.23801.151.camel@ted>
-In-Reply-To: <1318423059.23801.151.camel@ted>
+	<1318423185.23801.153.camel@ted>
+In-Reply-To: <1318423185.23801.153.camel@ted>
 Subject: Re: [RFC PATCH 0/1] QA check for defined packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -34,12 +34,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Oct 2011 17:49:21 -0000
+X-List-Received-Date: Wed, 12 Oct 2011 17:50:20 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On 10/12/2011 05:37 AM, Richard Purdie wrote:
+
+
+On 10/12/2011 05:39 AM, Richard Purdie wrote:
 > On Tue, 2011-10-11 at 15:29 -0700, Joshua Lock wrote:
+>> Folks,
+>>
 >> I'm looking for some comments on this WIP patch.
 >>
 >> The reason I've added this is because the hob GUI requires us to offer much
@@ -55,56 +59,14 @@ On 10/12/2011 05:37 AM, Richard Purdie wrote:
 >> * linux-yocto
 >> * linux-libc-headers
 >> * gcc-runtime
->>
->> Thoughts?
 > 
-> I think we probably do need to cleanup some of that data.
-> 
-> I have some thoughts about where we're at with hob and this is probably
-> as good a time as any to share them.
-> 
-> Effectively the problem is that there is a large body of data we only
-> compute during the build process. This includes what the exact runtime
-> dependencies of packages are, which packages exactly are generated
-> (PACKAGES_DYNAMIC), what the size of the packages are, how long they
-> take to build and so on. Some things we can fix, some things we can hack
-> around but at the end of the day there are some things we just plain
-> can't change.
-> 
-> I'm beginning to think we need to have two phases of control of the
-> system:
-> 
-> a) The build phase
-> 
-> This is the step that generates the package feeds.
-> 
-> b) The image construction phase
-> 
-> This is the step that takes the package feed data and turns it into an
-> image.
+> You'd probably get much better results from this patch if you account
+> for ALLOW_EMPTY_<pkgname> btw...
 
-I actually think this is a neat idea, in fact we have the beginnings of
-a Gtk+ GUI to create images from a package feed which Rob Bradford
-worked on some 3 years or so ago - puccho. It's no doubt bit-rotten but
-may be worth a look.
+Indeed, that does look useful.
 
-I think we can reuse pieces from puccho and hob to create a GUI per this
-high-level design and I think we'd be much better off for it.
-
-> Obviously, you can skip to b) if you already have a package feed.
-
-a), right? Indeed I expect that this will be more in line with certain
-proposed use cases.
-
-> So we'd be talking about two UI's that could effectively hand off to
-> each other and share a "build in progress" feedback to the user system.
-> The image construction dialog would have a "Missing Packages? Build them
-> here" type switch. This would mean the build system can continue on at
-> what it does best yet the UI can let the users do what they want to do,
-> particularly on a prebuilt package feed.
-
-I like it. I think we had to "write one to throw away" to realise quite
-how much data we're missing up front but I support the proposed design.
+So, ignoring the Hob discussion I still think this QA check will be
+generally useful. Are others open to this if I work on it further?
 
 Regards,
 
