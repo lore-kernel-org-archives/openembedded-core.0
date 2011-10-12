@@ -1,34 +1,25 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>)
-	id 1RE0tf-0004ap-0T; Wed, 12 Oct 2011 17:39:07 +0200
-Received: by wwf27 with SMTP id 27so184388wwf.24
-	for <multiple recipients>; Wed, 12 Oct 2011 08:33:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type
-	:content-transfer-encoding;
-	bh=AfE8I/OcJzUpv7mXelpfy2O4sVEuewdab2REYgmgscI=;
-	b=E2syyjexIYrfoJS9yw0OMXR4hbOzY4rHMHwn49R13OLQQSxej3zRaLunLSa7arZNQB
-	e+ScpAS5VOMZEFDeG4vNWzi3/kr5ONxKby9ltRG+yBiB6heufjGYiFTk2qtj/5kMS0XE
-	f7SwF9C9H/rqj/Y8/LFzIZwpKZktVfX9i6sNo=
-Received: by 10.216.159.4 with SMTP id r4mr2689550wek.9.1318433401221; Wed, 12
-	Oct 2011 08:30:01 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.216.160.80 with HTTP; Wed, 12 Oct 2011 08:25:46 -0700 (PDT)
-In-Reply-To: <CAMKF1srW_j_H1EKJvs9LMOcFeXauLbK5_9W7jcr2RjTtN5OeQQ@mail.gmail.com>
+	(envelope-from <paul.eggleton@linux.intel.com>)
+	id 1RE18J-0004wS-J1; Wed, 12 Oct 2011 17:54:15 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 12 Oct 2011 08:48:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="62249814"
+Received: from unknown (HELO helios.localnet) ([10.252.120.213])
+	by orsmga001.jf.intel.com with ESMTP; 12 Oct 2011 08:48:30 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-devel@lists.openembedded.org
+Date: Wed, 12 Oct 2011 16:48:29 +0100
+User-Agent: KMail/1.13.6 (Linux/2.6.38-11-generic-pae; KDE/4.6.5; i686; ; )
 References: <CAOd_LFzbT0j3wSjp+d3POcTUo9X9+aiYtax4d6tep3YXmTwb2g@mail.gmail.com>
-	<j73ifb$3kl$1@dough.gmane.org>
 	<CAMKF1srHT5uh5a=z=mt0kOpF2YO9YyKkEdkRK9ZT8=LaGY6JSA@mail.gmail.com>
 	<6C40DE44-FE7C-4C0A-AB7F-1B78CE95216F@dominion.thruhere.net>
-	<CAMKF1srW_j_H1EKJvs9LMOcFeXauLbK5_9W7jcr2RjTtN5OeQQ@mail.gmail.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Wed, 12 Oct 2011 08:25:46 -0700
-X-Google-Sender-Auth: rKDf-c3QI5FOPqs9KN-8UKmDmaY
-Message-ID: <CABcZANnaPSrgGSsKuXW6jEXZ98+-kQohRd4r4uSq+spWfSNTOg@mail.gmail.com>
-To: openembedded-devel@lists.openembedded.org
-Cc: Patches and discussions about the oe-core layer
+In-Reply-To: <6C40DE44-FE7C-4C0A-AB7F-1B78CE95216F@dominion.thruhere.net>
+MIME-Version: 1.0
+Message-Id: <201110121648.29478.paul.eggleton@linux.intel.com>
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [oe] git server move
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -45,48 +36,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Oct 2011 15:39:07 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 12 Oct 2011 15:54:16 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 12, 2011 at 8:22 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Wed, Oct 12, 2011 at 8:18 AM, Koen Kooi <koen@dominion.thruhere.net> w=
-rote:
->>
->> Op 12 okt. 2011, om 17:16 heeft Khem Raj het volgende geschreven:
->>
->>> On Wed, Oct 12, 2011 at 1:17 AM, Koen Kooi <koen@dominion.thruhere.net>=
- wrote:
->>>> -----BEGIN PGP SIGNED MESSAGE-----
->>>> Hash: SHA1
->>>>
->>>> Op 11-10-11 21:11, Cliff Brake schreef:
->>>>> Hi, we are moving git.openembedded.org to a new server.
->>>>>
->>>>> SSH access on the old server has been disabled. =C2=A0git:// still wo=
-rks
->>>>> there.
->>>>>
->>>>> As soon as DNS propagates, SSH access will work with the new server.
->>>>>
->>>>> Let me know if you see any problems.
->>>>
->>>> When will cgit be back up?
->>>
->>> It should be up already. Do Ctrl+f5 in your browser on git.openembedded=
-.org
->>
->> Let me rephrase: when will it be working again? I still get "No reposito=
-ries found" when clicking on a repo.
->
-> Weird I see all the repos fine.
+On Wednesday 12 October 2011 16:18:37 Koen Kooi wrote:
+> Op 12 okt. 2011, om 17:16 heeft Khem Raj het volgende geschreven:
+> > On Wed, Oct 12, 2011 at 1:17 AM, Koen Kooi <koen@dominion.thruhere.net> 
+wrote:
+> >> -----BEGIN PGP SIGNED MESSAGE-----
+> >> Hash: SHA1
+> >> 
+> >> Op 11-10-11 21:11, Cliff Brake schreef:
+> >>> Hi, we are moving git.openembedded.org to a new server.
+> >>> 
+> >>> SSH access on the old server has been disabled.  git:// still works
+> >>> there.
+> >>> 
+> >>> As soon as DNS propagates, SSH access will work with the new server.
+> >>> 
+> >>> Let me know if you see any problems.
+> >> 
+> >> When will cgit be back up?
+> > 
+> > It should be up already. Do Ctrl+f5 in your browser on
+> > git.openembedded.org
+> 
+> Let me rephrase: when will it be working again? I still get "No
+> repositories found" when clicking on a repo.
 
-Works here too.
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+I think you may find it's the "/cgit.cgi" part of the URL that's causing 
+problems. It used to work, now it doesn't - if you remove it then you get a 
+working interface.
+
+FWIW I'd be in favour of fixing it however; all of the links to cgit on my 
+layer index page are now broken for example.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
