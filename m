@@ -1,31 +1,31 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RDz5W-0001BQ-6l for openembedded-core@lists.openembedded.org;
-	Wed, 12 Oct 2011 15:43:14 +0200
+	id 1RDz6K-0001Dx-Nc for openembedded-core@lists.openembedded.org;
+	Wed, 12 Oct 2011 15:44:04 +0200
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9CDi8Cb005779 for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2011 14:44:08 +0100
+	p9CDixgo005790 for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Oct 2011 14:45:00 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id HQ2K-7up29mv
+	with LMTP id 1GOvg8nKcXTt
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2011 14:44:08 +0100 (BST)
+	Wed, 12 Oct 2011 14:44:59 +0100 (BST)
 Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9CDi3wk005775
+	p9CDiuNp005785
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2011 14:44:05 +0100
+	Wed, 12 Oct 2011 14:44:57 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Oct 2011 14:37:21 +0100
+Date: Wed, 12 Oct 2011 14:38:13 +0100
 X-Mailer: Evolution 3.1.91- 
-Message-ID: <1318426649.23801.161.camel@ted>
+Message-ID: <1318426702.23801.162.camel@ted>
 Mime-Version: 1.0
-Subject: [PATCH] atk: Upgrade 1.32.0 -> 2.2.0
+Subject: [PATCH] pango: Update to work with glib-2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,667 +40,442 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Oct 2011 13:43:14 -0000
+X-List-Received-Date: Wed, 12 Oct 2011 13:44:05 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/recipes-support/atk/atk-1.32.0/remove.G_CONST_RETURN.patch b/meta/recipes-support/atk/atk-1.32.0/remove.G_CONST_RETURN.patch
-deleted file mode 100644
-index 0de3f26..0000000
---- a/meta/recipes-support/atk/atk-1.32.0/remove.G_CONST_RETURN.patch
-+++ b/dev/null
-@@ -1,630 +0,0 @@
--Upstream-Status: Accepted
--
--Similar patch is already included in 2.0.1 and newer
--http://ftp.gnome.org/pub/gnome/sources/atk/2.0/atk-2.0.1.news
--
--Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
--
--diff -uNr atk-1.32.0.orig/atk/atkaction.c atk-1.32.0/atk/atkaction.c
----- atk-1.32.0.orig/atk/atkaction.c	2010-09-06 08:45:45.000000000 +0200
--+++ atk-1.32.0/atk/atkaction.c	2011-09-30 10:29:49.896997586 +0200
--@@ -101,7 +101,7 @@
--  * Returns a description string, or %NULL
--  * if @action does not implement this interface.
--  **/
---G_CONST_RETURN gchar*
--+const gchar*
-- atk_action_get_description (AtkAction *obj,
--                             gint      i)
-- {
--@@ -140,7 +140,7 @@
--  * Returns a name string, or %NULL
--  * if @action does not implement this interface.
--  **/
---G_CONST_RETURN gchar*
--+const gchar*
-- atk_action_get_name (AtkAction *obj,
--                      gint      i)
-- {
--@@ -166,7 +166,7 @@
--  * Returns a name string, or %NULL
--  * if @action does not implement this interface.
--  **/
---G_CONST_RETURN gchar*
--+const gchar*
-- atk_action_get_localized_name (AtkAction *obj,
--                                gint      i)
-- {
--@@ -203,7 +203,7 @@
--  * if there is no keybinding for this action.
--  *
--  **/
---G_CONST_RETURN gchar*
--+const gchar*
-- atk_action_get_keybinding (AtkAction *obj,
--                            gint      i)
-- {
--diff -uNr atk-1.32.0.orig/atk/atkaction.h atk-1.32.0/atk/atkaction.h
----- atk-1.32.0.orig/atk/atkaction.h	2010-09-06 08:45:45.000000000 +0200
--+++ atk-1.32.0/atk/atkaction.h	2011-09-30 10:29:49.897997588 +0200
--@@ -55,16 +55,16 @@
--   gboolean                (*do_action)         (AtkAction         *action,
--                                                 gint              i);
--   gint                    (*get_n_actions)     (AtkAction         *action);
---  G_CONST_RETURN gchar*   (*get_description)   (AtkAction         *action,
--+  const gchar*   (*get_description)   (AtkAction         *action,
--                                                 gint              i);
---  G_CONST_RETURN gchar*   (*get_name)          (AtkAction         *action,
--+  const gchar*   (*get_name)          (AtkAction         *action,
--                                                 gint              i);
---  G_CONST_RETURN gchar*   (*get_keybinding)    (AtkAction         *action,
--+  const gchar*   (*get_keybinding)    (AtkAction         *action,
--                                                 gint              i);
--   gboolean                (*set_description)   (AtkAction         *action,
--                                                 gint              i,
--                                                 const gchar       *desc);
---  G_CONST_RETURN gchar*   (*get_localized_name)(AtkAction         *action,
--+  const gchar*   (*get_localized_name)(AtkAction         *action,
-- 						gint              i);
--   AtkFunction             pad2;
-- };
--@@ -85,11 +85,11 @@
-- gboolean   atk_action_do_action                (AtkAction         *action,
--                                             gint              i);
-- gint   atk_action_get_n_actions            (AtkAction *action);
---G_CONST_RETURN gchar* atk_action_get_description  (AtkAction         *action,
--+const gchar* atk_action_get_description  (AtkAction         *action,
--                                                    gint              i);
---G_CONST_RETURN gchar* atk_action_get_name         (AtkAction         *action,
--+const gchar* atk_action_get_name         (AtkAction         *action,
--                                                    gint              i);
---G_CONST_RETURN gchar* atk_action_get_keybinding   (AtkAction         *action,
--+const gchar* atk_action_get_keybinding   (AtkAction         *action,
--                                                    gint              i);
-- gboolean              atk_action_set_description  (AtkAction         *action,
--                                                    gint              i,
--@@ -97,7 +97,7 @@
-- 
-- /* NEW in ATK 1.1: */
-- 
---G_CONST_RETURN gchar* atk_action_get_localized_name (AtkAction       *action,
--+const gchar* atk_action_get_localized_name (AtkAction       *action,
-- 						     gint            i);
-- 
-- /*
--diff -uNr atk-1.32.0.orig/atk/atkdocument.c atk-1.32.0/atk/atkdocument.c
----- atk-1.32.0.orig/atk/atkdocument.c	2010-09-06 08:45:45.000000000 +0200
--+++ atk-1.32.0/atk/atkdocument.c	2011-09-30 10:29:49.898997588 +0200
--@@ -93,7 +93,7 @@
--  *
--  * Returns: a string indicating the document type
--  **/
---G_CONST_RETURN gchar*
--+const gchar*
-- atk_document_get_document_type (AtkDocument *document)
-- {
--   AtkDocumentIface *iface;
--@@ -155,7 +155,7 @@
--  *          locale of the document content as a whole, or NULL if
--  *          the document content does not specify a locale.
--  **/
---G_CONST_RETURN gchar *
--+const gchar *
-- atk_document_get_locale (AtkDocument *document)
-- {
--   AtkDocumentIface *iface;
--@@ -219,7 +219,7 @@
--  *    document, or NULL if a value for #attribute_name has not been specified
--  *    for this document.
--  */
---G_CONST_RETURN gchar *
--+const gchar *
-- atk_document_get_attribute_value (AtkDocument *document, 
-- 				  const gchar *attribute_name)
-- {
--diff -uNr atk-1.32.0.orig/atk/atkdocument.h atk-1.32.0/atk/atkdocument.h
----- atk-1.32.0.orig/atk/atkdocument.h	2010-09-06 08:45:45.000000000 +0200
--+++ atk-1.32.0/atk/atkdocument.h	2011-09-30 10:29:49.899997588 +0200
--@@ -49,12 +49,12 @@
-- struct _AtkDocumentIface
-- {
--   GTypeInterface parent;
---  G_CONST_RETURN gchar* ( *get_document_type) (AtkDocument              *document);
--+  const gchar* ( *get_document_type) (AtkDocument              *document);
--   gpointer              ( *get_document)      (AtkDocument              *document);
-- 
---  G_CONST_RETURN gchar* ( *get_document_locale) (AtkDocument              *document);
--+  const gchar* ( *get_document_locale) (AtkDocument              *document);
--   AtkAttributeSet *     ( *get_document_attributes) (AtkDocument        *document);
---  G_CONST_RETURN gchar* ( *get_document_attribute_value) (AtkDocument   *document,
--+  const gchar* ( *get_document_attribute_value) (AtkDocument   *document,
--                                                           const gchar   *attribute_name);
--   gboolean              ( *set_document_attribute) (AtkDocument         *document,
--                                                     const gchar         *attribute_name,
--@@ -68,11 +68,11 @@
-- 
-- GType  atk_document_get_type             (void);
-- 
---G_CONST_RETURN gchar* atk_document_get_document_type (AtkDocument   *document);
--+const gchar* atk_document_get_document_type (AtkDocument   *document);
-- gpointer atk_document_get_document (AtkDocument   *document);
---G_CONST_RETURN gchar* atk_document_get_locale (AtkDocument *document);
--+const gchar* atk_document_get_locale (AtkDocument *document);
-- AtkAttributeSet*      atk_document_get_attributes (AtkDocument *document);
---G_CONST_RETURN gchar* atk_document_get_attribute_value (AtkDocument *document, 
--+const gchar* atk_document_get_attribute_value (AtkDocument *document, 
--                                                         const gchar *attribute_name);
-- gboolean              atk_document_set_attribute_value (AtkDocument *document,
--                                                         const gchar *attribute_name,
--diff -uNr atk-1.32.0.orig/atk/atkimage.c atk-1.32.0/atk/atkimage.c
----- atk-1.32.0.orig/atk/atkimage.c	2010-09-06 08:45:45.000000000 +0200
--+++ atk-1.32.0/atk/atkimage.c	2011-09-30 10:29:49.900997587 +0200
--@@ -46,7 +46,7 @@
--  *
--  * Returns: a string representing the image description
--  **/
---G_CONST_RETURN gchar*
--+const gchar*
-- atk_image_get_image_description (AtkImage *image)
-- {
--   AtkImageIface *iface;
--@@ -192,7 +192,7 @@
--  * Returns a string corresponding to the POSIX LC_MESSAGES locale used by the image description, or NULL if the image does not specify a locale. 
--  *
--  */
---G_CONST_RETURN gchar* 
--+const gchar* 
-- atk_image_get_image_locale (AtkImage   *image)
-- {
-- 	
--diff -uNr atk-1.32.0.orig/atk/atkimage.h atk-1.32.0/atk/atkimage.h
----- atk-1.32.0.orig/atk/atkimage.h	2010-09-06 08:45:45.000000000 +0200
--+++ atk-1.32.0/atk/atkimage.h	2011-09-30 10:29:49.901997587 +0200
--@@ -53,13 +53,13 @@
--                                                    gint                  *x,
-- 				                   gint	                 *y,
--     			                           AtkCoordType	         coord_type);
---  G_CONST_RETURN gchar* ( *get_image_description) (AtkImage              *image);
--+  const gchar* ( *get_image_description) (AtkImage              *image);
--   void                  ( *get_image_size)        (AtkImage              *image,
--                                                    gint                  *width,
--                                                    gint                  *height);
--   gboolean              ( *set_image_description) (AtkImage              *image,
--                                                    const gchar           *description);
---  G_CONST_RETURN gchar* ( *get_image_locale)      (AtkImage              *image);
--+  const gchar* ( *get_image_locale)      (AtkImage              *image);
-- 
--   AtkFunction           pad1;
-- 	
--@@ -67,7 +67,7 @@
-- 
-- GType  atk_image_get_type             (void);
-- 
---G_CONST_RETURN gchar* atk_image_get_image_description (AtkImage   *image);
--+const gchar* atk_image_get_image_description (AtkImage   *image);
-- 
-- void     atk_image_get_image_size        (AtkImage           *image,
--                                           gint               *width,
--@@ -80,7 +80,7 @@
-- 					  gint	             *y,
--     					  AtkCoordType	     coord_type);
-- 
---G_CONST_RETURN gchar* atk_image_get_image_locale (AtkImage   *image);
--+const gchar* atk_image_get_image_locale (AtkImage   *image);
-- 
-- G_END_DECLS
-- 
--diff -uNr atk-1.32.0.orig/atk/atkobject.c atk-1.32.0/atk/atkobject.c
----- atk-1.32.0.orig/atk/atkobject.c	2010-09-06 08:45:45.000000000 +0200
--+++ atk-1.32.0/atk/atkobject.c	2011-09-30 10:29:49.905997587 +0200
--@@ -285,9 +285,9 @@
--                                                      GValue          *value,
--                                                      GParamSpec      *pspec);
-- static void            atk_object_finalize          (GObject         *object);
---static G_CONST_RETURN gchar*
--+static const gchar*
--                        atk_object_real_get_name     (AtkObject       *object);
---static G_CONST_RETURN gchar*
--+static const gchar*
--                        atk_object_real_get_description    
--                                                    (AtkObject       *object);
-- static AtkObject*      atk_object_real_get_parent  (AtkObject       *object);
--@@ -692,7 +692,7 @@
--  *
--  * Returns: a character string representing the accessible name of the object.
--  **/
---G_CONST_RETURN gchar*
--+const gchar*
-- atk_object_get_name (AtkObject *accessible)
-- {
--   AtkObjectClass *klass;
--@@ -716,7 +716,7 @@
--  * of the accessible.
--  *
--  **/
---G_CONST_RETURN gchar*
--+const gchar*
-- atk_object_get_description (AtkObject *accessible)
-- {
--   AtkObjectClass *klass;
--@@ -1123,7 +1123,7 @@
--                                 AtkState  state,
--                                 gboolean  value)
-- {
---  G_CONST_RETURN gchar* name;
--+  const gchar* name;
-- 
--   g_return_if_fail (ATK_IS_OBJECT (accessible));
-- 
--@@ -1319,13 +1319,13 @@
--   G_OBJECT_CLASS (parent_class)->finalize (object);
-- }
-- 
---static G_CONST_RETURN gchar*
--+static const gchar*
-- atk_object_real_get_name (AtkObject *object)
-- {
--   return object->name;
-- }
-- 
---static G_CONST_RETURN gchar*
--+static const gchar*
-- atk_object_real_get_description (AtkObject *object)
-- {
--   return object->description;
--@@ -1487,7 +1487,7 @@
--  *
--  * Returns: the string describing the AtkRole
--  */
---G_CONST_RETURN gchar*
--+const gchar*
-- atk_role_get_name (AtkRole role)
-- {
--   if (role >= 0 && role < ATK_ROLE_LAST_DEFINED)
--@@ -1514,7 +1514,7 @@
--  *
--  * Returns: the localized string describing the AtkRole
--  **/
---G_CONST_RETURN gchar*
--+const gchar*
-- atk_role_get_localized_name (AtkRole role)
-- {
--   gettext_initialization ();
--diff -uNr atk-1.32.0.orig/atk/atkobject.h atk-1.32.0/atk/atkobject.h
----- atk-1.32.0.orig/atk/atkobject.h	2010-09-06 08:45:45.000000000 +0200
--+++ atk-1.32.0/atk/atkobject.h	2011-09-30 10:29:49.907997585 +0200
--@@ -381,11 +381,11 @@
--   /*
--    * Gets the accessible name of the object
--    */
---  G_CONST_RETURN gchar*    (* get_name)            (AtkObject                *accessible);
--+  const gchar*    (* get_name)            (AtkObject                *accessible);
--   /*
--    * Gets the accessible description of the object
--    */
---  G_CONST_RETURN gchar*    (* get_description)     (AtkObject                *accessible);
--+  const gchar*    (* get_description)     (AtkObject                *accessible);
--   /*
--    * Gets the accessible parent of the object
--    */
--@@ -535,8 +535,8 @@
--  * Properties directly supported by AtkObject
--  */
-- 
---G_CONST_RETURN gchar*   atk_object_get_name                       (AtkObject *accessible);
---G_CONST_RETURN gchar*   atk_object_get_description                (AtkObject *accessible);
--+const gchar*   atk_object_get_name                       (AtkObject *accessible);
--+const gchar*   atk_object_get_description                (AtkObject *accessible);
-- AtkObject*              atk_object_get_parent                     (AtkObject *accessible);
-- gint                    atk_object_get_n_accessible_children      (AtkObject *accessible);
-- AtkObject*              atk_object_ref_accessible_child           (AtkObject *accessible,
--@@ -571,7 +571,7 @@
-- void                 atk_object_initialize                       (AtkObject                     *accessible,
--                                                                   gpointer                      data);
--                                     
---G_CONST_RETURN gchar* atk_role_get_name      (AtkRole         role);
--+const gchar* atk_role_get_name      (AtkRole         role);
-- AtkRole               atk_role_for_name      (const gchar     *name);
-- 
-- 
--@@ -582,7 +582,7 @@
-- gboolean              atk_object_remove_relationship           (AtkObject      *object,
-- 								AtkRelationType relationship,
-- 								AtkObject      *target);
---G_CONST_RETURN gchar* atk_role_get_localized_name              (AtkRole     role);
--+const gchar* atk_role_get_localized_name              (AtkRole     role);
-- 
-- /* */
-- 
--diff -uNr atk-1.32.0.orig/atk/atkrelation.c atk-1.32.0/atk/atkrelation.c
----- atk-1.32.0.orig/atk/atkrelation.c	2010-09-06 08:45:45.000000000 +0200
--+++ atk-1.32.0/atk/atkrelation.c	2011-09-30 10:29:49.908997585 +0200
--@@ -130,7 +130,7 @@
--  *
--  * Returns: the string describing the AtkRelationType
--  */
---G_CONST_RETURN gchar*
--+const gchar*
-- atk_relation_type_get_name (AtkRelationType type)
-- {
--   GTypeClass *type_class;
--diff -uNr atk-1.32.0.orig/atk/atkrelation.h atk-1.32.0/atk/atkrelation.h
----- atk-1.32.0.orig/atk/atkrelation.h	2010-09-06 08:45:45.000000000 +0200
--+++ atk-1.32.0/atk/atkrelation.h	2011-09-30 10:29:49.909997586 +0200
--@@ -61,7 +61,7 @@
-- GType atk_relation_get_type (void);
-- 
-- AtkRelationType       atk_relation_type_register      (const gchar     *name);
---G_CONST_RETURN gchar* atk_relation_type_get_name      (AtkRelationType type);
--+const gchar* atk_relation_type_get_name      (AtkRelationType type);
-- AtkRelationType       atk_relation_type_for_name      (const gchar     *name);
-- 
-- /*
--diff -uNr atk-1.32.0.orig/atk/atkstate.c atk-1.32.0/atk/atkstate.c
----- atk-1.32.0.orig/atk/atkstate.c	2010-09-06 08:45:45.000000000 +0200
--+++ atk-1.32.0/atk/atkstate.c	2011-09-30 10:29:49.910997587 +0200
--@@ -57,7 +57,7 @@
--  *
--  * Returns: the string describing the AtkStateType
--  */
---G_CONST_RETURN gchar*
--+const gchar*
-- atk_state_type_get_name (AtkStateType type)
-- {
--   GTypeClass *type_class;
--diff -uNr atk-1.32.0.orig/atk/atkstate.h atk-1.32.0/atk/atkstate.h
----- atk-1.32.0.orig/atk/atkstate.h	2010-09-06 08:45:45.000000000 +0200
--+++ atk-1.32.0/atk/atkstate.h	2011-09-30 10:29:49.911997587 +0200
--@@ -170,7 +170,7 @@
-- 
-- AtkStateType atk_state_type_register            (const gchar *name);
-- 
---G_CONST_RETURN gchar* atk_state_type_get_name   (AtkStateType type);
--+const gchar* atk_state_type_get_name   (AtkStateType type);
-- AtkStateType          atk_state_type_for_name   (const gchar  *name);
-- 
-- G_END_DECLS
--diff -uNr atk-1.32.0.orig/atk/atkstreamablecontent.c atk-1.32.0/atk/atkstreamablecontent.c
----- atk-1.32.0.orig/atk/atkstreamablecontent.c	2010-09-06 08:45:45.000000000 +0200
--+++ atk-1.32.0/atk/atkstreamablecontent.c	2011-09-30 10:29:49.912997587 +0200
--@@ -73,7 +73,7 @@
--  * Returns : a gchar* representing the specified mime type; the caller
--  * should not free the character string.
--  **/
---G_CONST_RETURN gchar*
--+const gchar*
-- atk_streamable_content_get_mime_type (AtkStreamableContent *streamable,
--                                       gint                 i)
-- {
--diff -uNr atk-1.32.0.orig/atk/atkstreamablecontent.h atk-1.32.0/atk/atkstreamablecontent.h
----- atk-1.32.0.orig/atk/atkstreamablecontent.h	2010-09-06 08:45:45.000000000 +0200
--+++ atk-1.32.0/atk/atkstreamablecontent.h	2011-09-30 10:29:49.913997587 +0200
--@@ -54,11 +54,11 @@
--    * at index 0 should be considered the "default" data type for the stream.
--    *
--    * This assumes that the strings for the mime types are stored in the
---   * AtkStreamableContent. Alternatively the G_CONST_RETURN could be removed
--+   * AtkStreamableContent. Alternatively the const could be removed
--    * and the caller would be responsible for calling g_free() on the
--    * returned value.
--    */
---  G_CONST_RETURN gchar*     (* get_mime_type)     (AtkStreamableContent     *streamable,
--+  const gchar*     (* get_mime_type)     (AtkStreamableContent     *streamable,
--                                                    gint                     i);
--   /*
--    * One possible implementation for this method is that it constructs the
--@@ -80,7 +80,7 @@
--  * constructed.  Note that it is possible for get_uri to return NULL but for
--  * get_stream to work nonetheless, since not all GIOChannels connect to URIs.
--  */
---    G_CONST_RETURN  gchar*  (* get_uri)           (AtkStreamableContent     *streamable,
--+    const  gchar*  (* get_uri)           (AtkStreamableContent     *streamable,
--                                                    const gchar              *mime_type);
-- 
-- 
--@@ -92,7 +92,7 @@
-- 
-- gint                   atk_streamable_content_get_n_mime_types (AtkStreamableContent     *streamable);
--                                                        
---G_CONST_RETURN gchar*  atk_streamable_content_get_mime_type    (AtkStreamableContent     *streamable,
--+const gchar*  atk_streamable_content_get_mime_type    (AtkStreamableContent     *streamable,
--                                                                 gint                     i);
-- GIOChannel*             atk_streamable_content_get_stream       (AtkStreamableContent     *streamable,
--                                                                  const gchar              *mime_type);
--diff -uNr atk-1.32.0.orig/atk/atktable.c atk-1.32.0/atk/atktable.c
----- atk-1.32.0.orig/atk/atktable.c	2010-09-06 08:45:45.000000000 +0200
--+++ atk-1.32.0/atk/atktable.c	2011-09-30 10:29:49.915997586 +0200
--@@ -300,7 +300,7 @@
--  * Returns: a gchar* representing the column description, or %NULL
--  * if value does not implement this interface.
--  **/
---G_CONST_RETURN gchar*
--+const gchar*
-- atk_table_get_column_description (AtkTable *table,
--                                   gint     column)
-- {
--@@ -404,7 +404,7 @@
--  * Returns: a gchar* representing the row description, or %NULL
--  * if value does not implement this interface.
--  **/
---G_CONST_RETURN gchar*
--+const gchar*
-- atk_table_get_row_description (AtkTable *table,
--                                gint      row)
-- {
--diff -uNr atk-1.32.0.orig/atk/atktable.h atk-1.32.0/atk/atktable.h
----- atk-1.32.0.orig/atk/atktable.h	2010-09-06 08:45:45.000000000 +0200
--+++ atk-1.32.0/atk/atktable.h	2011-09-30 10:29:49.916997586 +0200
--@@ -69,12 +69,12 @@
--                                                   gint          column);
--   AtkObject*
--                     (* get_caption)              (AtkTable      *table);
---  G_CONST_RETURN gchar*
--+  const gchar*
--                     (* get_column_description)   (AtkTable      *table,
--                                                   gint          column);
--   AtkObject*        (* get_column_header)        (AtkTable      *table,
-- 						  gint		column);
---  G_CONST_RETURN gchar*
--+  const gchar*
--                     (* get_row_description)      (AtkTable      *table,
--                                                   gint          row);
--   AtkObject*        (* get_row_header)           (AtkTable      *table,
--@@ -163,12 +163,12 @@
--                                                   gint             column);
-- AtkObject*
--                   atk_table_get_caption          (AtkTable         *table);
---G_CONST_RETURN gchar*
--+const gchar*
--                   atk_table_get_column_description (AtkTable         *table,
--                                                   gint             column);
-- AtkObject*        atk_table_get_column_header    (AtkTable         *table,
-- 						  gint		   column);
---G_CONST_RETURN gchar*
--+const gchar*
--                   atk_table_get_row_description  (AtkTable         *table,
--                                                   gint             row);
-- AtkObject*        atk_table_get_row_header       (AtkTable         *table,
--diff -uNr atk-1.32.0.orig/atk/atktext.c atk-1.32.0/atk/atktext.c
----- atk-1.32.0.orig/atk/atktext.c	2010-09-27 09:07:09.000000000 +0200
--+++ atk-1.32.0/atk/atktext.c	2011-09-30 10:29:49.919997586 +0200
--@@ -1054,7 +1054,7 @@
--  *
--  * Returns: a string containing the name; this string should not be freed
--  **/
---G_CONST_RETURN gchar*
--+const gchar*
-- atk_text_attribute_get_name (AtkTextAttribute attr)
-- {
--   GTypeClass *type_class;
--@@ -1150,7 +1150,7 @@
--  * Returns: a string containing the value; this string should not be freed;
--  * NULL is returned if there are no values maintained for the attr value. 
--  **/
---G_CONST_RETURN gchar*
--+const gchar*
-- atk_text_attribute_get_value (AtkTextAttribute attr,
--                               gint             index)
-- {
--diff -uNr atk-1.32.0.orig/atk/atktext.h atk-1.32.0/atk/atktext.h
----- atk-1.32.0.orig/atk/atktext.h	2010-09-27 09:07:09.000000000 +0200
--+++ atk-1.32.0/atk/atktext.h	2011-09-30 10:29:49.921997586 +0200
--@@ -355,9 +355,9 @@
--                                                            AtkTextClipType  y_clip_type);
-- void          atk_text_free_ranges                        (AtkTextRange     **ranges);
-- void 	      atk_attribute_set_free                      (AtkAttributeSet  *attrib_set);
---G_CONST_RETURN gchar*  atk_text_attribute_get_name        (AtkTextAttribute attr);
--+const gchar*  atk_text_attribute_get_name        (AtkTextAttribute attr);
-- AtkTextAttribute       atk_text_attribute_for_name        (const gchar      *name);
---G_CONST_RETURN gchar*  atk_text_attribute_get_value       (AtkTextAttribute attr,
--+const gchar*  atk_text_attribute_get_value       (AtkTextAttribute attr,
--                                                            gint             index_);
-- 
-- G_END_DECLS
--diff -uNr atk-1.32.0.orig/atk/atkutil.c atk-1.32.0/atk/atkutil.c
----- atk-1.32.0.orig/atk/atkutil.c	2010-09-06 08:45:45.000000000 +0200
--+++ atk-1.32.0/atk/atkutil.c	2011-09-30 10:29:49.922997586 +0200
--@@ -340,7 +340,7 @@
--  *
--  * Returns: name string for the GUI toolkit implementing ATK for this application
--  **/
---G_CONST_RETURN gchar*
--+const gchar*
-- atk_get_toolkit_name (void)
-- {
--   const gchar *retval;
--@@ -365,7 +365,7 @@
--  *
--  * Returns: version string for the GUI toolkit implementing ATK for this application
--  **/
---G_CONST_RETURN gchar*
--+const gchar*
-- atk_get_toolkit_version (void)
-- {
--   const gchar *retval;
--@@ -391,7 +391,7 @@
--  * Returns: version string for ATK
--  **/
-- 
---G_CONST_RETURN gchar *
--+const gchar *
-- atk_get_version (void)
-- {
--   return VERSION;
--diff -uNr atk-1.32.0.orig/atk/atkutil.h atk-1.32.0/atk/atkutil.h
----- atk-1.32.0.orig/atk/atkutil.h	2010-09-06 08:45:45.000000000 +0200
--+++ atk-1.32.0/atk/atkutil.h	2011-09-30 10:29:49.923997586 +0200
--@@ -147,8 +147,8 @@
-- 						  gpointer data);
--    void         (* remove_key_event_listener)    (guint               listener_id);
--    AtkObject*   (* get_root)                     (void);
---   G_CONST_RETURN gchar* (* get_toolkit_name)    (void);
---   G_CONST_RETURN gchar* (* get_toolkit_version) (void);
--+   const gchar* (* get_toolkit_name)    (void);
--+   const gchar* (* get_toolkit_version) (void);
-- };
-- GType atk_util_get_type (void);
-- 
--@@ -229,17 +229,17 @@
-- /*
--  * Returns name string for the GUI toolkit.
--  */
---G_CONST_RETURN gchar *atk_get_toolkit_name (void);
--+const gchar *atk_get_toolkit_name (void);
-- 
-- /*
--  * Returns version string for the GUI toolkit.
--  */
---G_CONST_RETURN gchar *atk_get_toolkit_version (void);
--+const gchar *atk_get_toolkit_version (void);
-- 
-- /*
--  * Gets the current version of ATK
--  */
---G_CONST_RETURN gchar *atk_get_version (void);
--+const gchar *atk_get_version (void);
-- 
-- /* --- GType boilerplate --- */
-- /* convenience macros for atk type implementations, which for a type GtkGadgetAccessible will:
--diff -uNr atk-1.32.0.orig/tests/testrelation.c atk-1.32.0/tests/testrelation.c
----- atk-1.32.0.orig/tests/testrelation.c	2010-09-06 08:45:45.000000000 +0200
--+++ atk-1.32.0/tests/testrelation.c	2011-09-30 10:29:49.924997586 +0200
--@@ -28,7 +28,7 @@
-- test_relation (void)
-- {
--   AtkRelationType type1, type2;
---  G_CONST_RETURN gchar *name;
--+  const gchar *name;
--   AtkObject *obj;
--   gboolean ret_value;
--   AtkRelationSet *set;
--@@ -169,7 +169,7 @@
-- test_role (void)
-- {
--   AtkRole role1, role2;
---  G_CONST_RETURN gchar *name;
--+  const gchar *name;
-- 
--   name = atk_role_get_name (ATK_ROLE_PAGE_TAB);
--   g_return_val_if_fail (name, FALSE);
--@@ -230,7 +230,7 @@
-- test_text_attr (void)
-- {
--   AtkTextAttribute attr1, attr2;
---  G_CONST_RETURN gchar *name;
--+  const gchar *name;
-- 
--   name = atk_text_attribute_get_name (ATK_TEXT_ATTR_PIXELS_INSIDE_WRAP);
--   g_return_val_if_fail (name, FALSE);
--diff -uNr atk-1.32.0.orig/tests/teststateset.c atk-1.32.0/tests/teststateset.c
----- atk-1.32.0.orig/tests/teststateset.c	2010-09-06 08:45:45.000000000 +0200
--+++ atk-1.32.0/tests/teststateset.c	2011-09-30 10:29:49.926997586 +0200
--@@ -208,7 +208,7 @@
-- test_state (void)
-- {
--   AtkStateType type1, type2;
---  G_CONST_RETURN gchar *name;
--+  const gchar *name;
-- 
--   name = atk_state_type_get_name (ATK_STATE_VISIBLE);
--   g_return_val_if_fail (name, FALSE);
-diff --git a/meta/recipes-support/atk/atk_1.32.0.bb b/meta/recipes-support/atk/atk_2.2.0.bb
-index db8ca1f..1358f3e 100644
---- a/meta/recipes-support/atk/atk_1.32.0.bb
-+++ b/meta/recipes-support/atk/atk_2.2.0.bb
-@@ -5,12 +5,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
-                     file://atk/atk.h;endline=20;md5=c58238d688c24387376d6c69d06248a7"
+diff --git a/meta/recipes-graphics/pango/pango-1.28.4/noconst.patch b/meta/recipes-graphics/pango/pango-1.28.4/noconst.patch
+new file mode 100644
+index 0000000..d4832a5
+--- a/dev/null
++++ b/meta/recipes-graphics/pango/pango-1.28.4/noconst.patch
+@@ -0,0 +1,408 @@
++G_CONST_RETURN is deprecated in glib 2.30 so remove to to avoid
++build failures.
++
++RP 2011/10/12
++
++Upstream-Status: Pending
++
++Index: pango-1.28.4/pango/fonts.c
++===================================================================
++--- pango-1.28.4.orig/pango/fonts.c	2011-10-12 01:32:09.372046342 +0100
+++++ pango-1.28.4/pango/fonts.c	2011-10-12 01:32:34.512036630 +0100
++@@ -165,7 +165,7 @@
++  *               %NULL if not previously set.  This has the same life-time
++  *               as the font description itself and should not be freed.
++  **/
++-G_CONST_RETURN char *
+++const char *
++ pango_font_description_get_family (const PangoFontDescription *desc)
++ {
++   g_return_val_if_fail (desc != NULL, NULL);
++@@ -1927,7 +1927,7 @@
++  * Return value: the name of the family. This string is owned
++  *   by the family object and must not be modified or freed.
++  **/
++-G_CONST_RETURN char *
+++const char *
++ pango_font_family_get_name (PangoFontFamily  *family)
++ {
++   g_return_val_if_fail (PANGO_IS_FONT_FAMILY (family), NULL);
++@@ -2060,7 +2060,7 @@
++  * Return value: the face name for the face. This string is
++  *   owned by the face object and must not be modified or freed.
++  **/
++-G_CONST_RETURN char *
+++const char *
++ pango_font_face_get_face_name (PangoFontFace *face)
++ {
++   g_return_val_if_fail (PANGO_IS_FONT_FACE (face), NULL);
++Index: pango-1.28.4/pango/pango-attributes.c
++===================================================================
++--- pango-1.28.4.orig/pango/pango-attributes.c	2011-10-12 01:32:09.552046155 +0100
+++++ pango-1.28.4/pango/pango-attributes.c	2011-10-12 01:32:34.522037975 +0100
++@@ -97,7 +97,7 @@
++  *
++  * Since: 1.22
++  **/
++-G_CONST_RETURN char *
+++const char *
++ pango_attr_type_get_name (PangoAttrType type)
++ {
++   const char *result = NULL;
++Index: pango-1.28.4/pango/pango-attributes.h
++===================================================================
++--- pango-1.28.4.orig/pango/pango-attributes.h	2011-10-12 01:32:12.712046218 +0100
+++++ pango-1.28.4/pango/pango-attributes.h	2011-10-12 01:32:36.342045777 +0100
++@@ -180,7 +180,7 @@
++ };
++ 
++ PangoAttrType         pango_attr_type_register (const gchar        *name);
++-G_CONST_RETURN char * pango_attr_type_get_name (PangoAttrType       type) G_GNUC_CONST;
+++const char * pango_attr_type_get_name (PangoAttrType       type) G_GNUC_CONST;
++ 
++ void             pango_attribute_init        (PangoAttribute       *attr,
++ 					      const PangoAttrClass *klass);
++Index: pango-1.28.4/pango/pango-context.c
++===================================================================
++--- pango-1.28.4.orig/pango/pango-context.c	2011-10-12 01:32:09.782046152 +0100
+++++ pango-1.28.4/pango/pango-context.c	2011-10-12 01:32:34.532039187 +0100
++@@ -188,7 +188,7 @@
++  *
++  * Since: 1.6
++  **/
++-G_CONST_RETURN PangoMatrix *
+++const PangoMatrix *
++ pango_context_get_matrix (PangoContext *context)
++ {
++   g_return_val_if_fail (PANGO_IS_CONTEXT (context), NULL);
++Index: pango-1.28.4/pango/pango-context.h
++===================================================================
++--- pango-1.28.4.orig/pango/pango-context.h	2011-10-12 01:32:12.892046153 +0100
+++++ pango-1.28.4/pango/pango-context.h	2011-10-12 01:32:36.352046105 +0100
++@@ -86,7 +86,7 @@
++ 
++ void                        pango_context_set_matrix (PangoContext      *context,
++ 						      const PangoMatrix *matrix);
++-G_CONST_RETURN PangoMatrix *pango_context_get_matrix (PangoContext      *context);
+++const PangoMatrix *pango_context_get_matrix (PangoContext      *context);
++ 
++ /* Break a string of Unicode characters into segments with
++  * consistent shaping/language engine and bidrectional level.
++Index: pango-1.28.4/pango/pango-font.h
++===================================================================
++--- pango-1.28.4.orig/pango/pango-font.h	2011-10-12 01:32:13.072046150 +0100
+++++ pango-1.28.4/pango/pango-font.h	2011-10-12 01:32:36.362046243 +0100
++@@ -117,7 +117,7 @@
++ 							       const char           *family);
++ void                 pango_font_description_set_family_static (PangoFontDescription *desc,
++ 							       const char           *family);
++-G_CONST_RETURN char *pango_font_description_get_family        (const PangoFontDescription *desc) G_GNUC_PURE;
+++const char *pango_font_description_get_family        (const PangoFontDescription *desc) G_GNUC_PURE;
++ void                 pango_font_description_set_style         (PangoFontDescription *desc,
++ 							       PangoStyle            style);
++ PangoStyle           pango_font_description_get_style         (const PangoFontDescription *desc) G_GNUC_PURE;
++@@ -212,7 +212,7 @@
++ void                 pango_font_family_list_faces (PangoFontFamily  *family,
++ 						   PangoFontFace  ***faces,
++ 						   int              *n_faces);
++-G_CONST_RETURN char *pango_font_family_get_name   (PangoFontFamily  *family) G_GNUC_PURE;
+++const char *pango_font_family_get_name   (PangoFontFamily  *family) G_GNUC_PURE;
++ gboolean   pango_font_family_is_monospace         (PangoFontFamily  *family) G_GNUC_PURE;
++ 
++ #ifdef PANGO_ENABLE_BACKEND
++@@ -261,7 +261,7 @@
++ GType      pango_font_face_get_type       (void) G_GNUC_CONST;
++ 
++ PangoFontDescription *pango_font_face_describe       (PangoFontFace  *face);
++-G_CONST_RETURN char  *pango_font_face_get_face_name  (PangoFontFace  *face) G_GNUC_PURE;
+++const char  *pango_font_face_get_face_name  (PangoFontFace  *face) G_GNUC_PURE;
++ void                  pango_font_face_list_sizes     (PangoFontFace  *face,
++ 						      int           **sizes,
++ 						      int            *n_sizes);
++Index: pango-1.28.4/pango/pango-fontmap.c
++===================================================================
++--- pango-1.28.4.orig/pango/pango-fontmap.c	2011-10-12 01:32:09.912046152 +0100
+++++ pango-1.28.4/pango/pango-fontmap.c	2011-10-12 01:32:34.542040267 +0100
++@@ -290,7 +290,7 @@
++  *
++  * Since: 1.4
++  **/
++-G_CONST_RETURN char *
+++const char *
++ pango_font_map_get_shape_engine_type (PangoFontMap *fontmap)
++ {
++   g_return_val_if_fail (PANGO_IS_FONT_MAP (fontmap), NULL);
++Index: pango-1.28.4/pango/pango-language.c
++===================================================================
++--- pango-1.28.4.orig/pango/pango-language.c	2011-10-12 01:32:10.052046151 +0100
+++++ pango-1.28.4/pango/pango-language.c	2011-10-12 01:32:34.542040267 +0100
++@@ -319,7 +319,7 @@
++  * Returns: a string representing the language tag.  This is owned by
++  *          Pango and should not be freed.
++  */
++-G_CONST_RETURN char *
+++const char *
++ (pango_language_to_string) (PangoLanguage *language)
++ {
++   return pango_language_to_string (language);
++@@ -531,7 +531,7 @@
++  * Return value: the sample string. This value is owned by Pango
++  *   and should not be freed.
++  **/
++-G_CONST_RETURN char *
+++const char *
++ pango_language_get_sample_string (PangoLanguage *language)
++ {
++   const LangInfo *lang_info;
++@@ -592,7 +592,7 @@
++  
++  * Since: 1.22
++  **/
++-G_CONST_RETURN PangoScript *
+++const PangoScript *
++ pango_language_get_scripts (PangoLanguage *language,
++ 			    int           *num_scripts)
++ {
++Index: pango-1.28.4/pango/pango-language.h
++===================================================================
++--- pango-1.28.4.orig/pango/pango-language.h	2011-10-12 01:32:13.262046150 +0100
+++++ pango-1.28.4/pango/pango-language.h	2011-10-12 01:32:36.362046243 +0100
++@@ -34,11 +34,11 @@
++ GType          pango_language_get_type    (void) G_GNUC_CONST;
++ PangoLanguage *pango_language_from_string (const char *language);
++ 
++-G_CONST_RETURN char *pango_language_to_string   (PangoLanguage *language) G_GNUC_CONST;
+++const char *pango_language_to_string   (PangoLanguage *language) G_GNUC_CONST;
++ /* For back compat.  Will have to keep indefinitely. */
++ #define pango_language_to_string(language) ((const char *)language)
++ 
++-G_CONST_RETURN char *pango_language_get_sample_string (PangoLanguage *language) G_GNUC_CONST;
+++const char *pango_language_get_sample_string (PangoLanguage *language) G_GNUC_CONST;
++ PangoLanguage *pango_language_get_default (void) G_GNUC_CONST;
++ 
++ gboolean      pango_language_matches  (PangoLanguage *language,
++@@ -48,7 +48,7 @@
++ 
++ gboolean		    pango_language_includes_script (PangoLanguage *language,
++ 							    PangoScript    script) G_GNUC_PURE;
++-G_CONST_RETURN PangoScript *pango_language_get_scripts	   (PangoLanguage *language,
+++const PangoScript *pango_language_get_scripts	   (PangoLanguage *language,
++ 							    int           *num_scripts);
++ 
++ G_END_DECLS
++Index: pango-1.28.4/pango/pango-layout.c
++===================================================================
++--- pango-1.28.4.orig/pango/pango-layout.c	2011-10-12 01:32:10.072046151 +0100
+++++ pango-1.28.4/pango/pango-layout.c	2011-10-12 01:32:34.552041215 +0100
++@@ -677,7 +677,7 @@
++  *
++  * Since: 1.8
++  **/
++-G_CONST_RETURN PangoFontDescription *
+++const PangoFontDescription *
++ pango_layout_get_font_description (PangoLayout *layout)
++ {
++   g_return_val_if_fail (PANGO_IS_LAYOUT (layout), NULL);
++@@ -1087,7 +1087,7 @@
++  *
++  * Return value: the text in the @layout.
++  **/
++-G_CONST_RETURN char*
+++const char*
++ pango_layout_get_text (PangoLayout *layout)
++ {
++   g_return_val_if_fail (PANGO_IS_LAYOUT (layout), NULL);
++Index: pango-1.28.4/pango/pango-layout.h
++===================================================================
++--- pango-1.28.4.orig/pango/pango-layout.h	2011-10-12 01:32:13.302046150 +0100
+++++ pango-1.28.4/pango/pango-layout.h	2011-10-12 01:32:36.362046243 +0100
++@@ -116,7 +116,7 @@
++ void           pango_layout_set_font_description (PangoLayout                *layout,
++ 						  const PangoFontDescription *desc);
++ 
++-G_CONST_RETURN PangoFontDescription *pango_layout_get_font_description (PangoLayout *layout);
+++const PangoFontDescription *pango_layout_get_font_description (PangoLayout *layout);
++ 
++ void           pango_layout_set_width            (PangoLayout                *layout,
++ 						  int                         width);
++Index: pango-1.28.4/pango/pango-ot-ruleset.c
++===================================================================
++--- pango-1.28.4.orig/pango/pango-ot-ruleset.c	2011-10-12 01:32:10.152046150 +0100
+++++ pango-1.28.4/pango/pango-ot-ruleset.c	2011-10-12 01:32:34.552041215 +0100
++@@ -107,7 +107,7 @@
++  *
++  * Since: 1.18
++  **/
++-G_CONST_RETURN PangoOTRuleset *
+++const PangoOTRuleset *
++ pango_ot_ruleset_get_for_description (PangoOTInfo                     *info,
++ 				      const PangoOTRulesetDescription *desc)
++ {
++Index: pango-1.28.4/pango/pango-renderer.c
++===================================================================
++--- pango-1.28.4.orig/pango/pango-renderer.c	2011-10-12 01:32:10.192046151 +0100
+++++ pango-1.28.4/pango/pango-renderer.c	2011-10-12 01:32:34.562041682 +0100
++@@ -1352,7 +1352,7 @@
++  *
++  * Since: 1.8
++  **/
++-G_CONST_RETURN PangoMatrix *
+++const PangoMatrix *
++ pango_renderer_get_matrix (PangoRenderer *renderer)
++ {
++   g_return_val_if_fail (PANGO_IS_RENDERER (renderer), NULL);
++Index: pango-1.28.4/pango/pango-renderer.h
++===================================================================
++--- pango-1.28.4.orig/pango/pango-renderer.h	2011-10-12 01:32:13.402046150 +0100
+++++ pango-1.28.4/pango/pango-renderer.h	2011-10-12 01:32:36.362046243 +0100
++@@ -249,7 +249,7 @@
++ 
++ void                        pango_renderer_set_matrix (PangoRenderer     *renderer,
++ 						       const PangoMatrix *matrix);
++-G_CONST_RETURN PangoMatrix *pango_renderer_get_matrix (PangoRenderer     *renderer);
+++const PangoMatrix *pango_renderer_get_matrix (PangoRenderer     *renderer);
++ 
++ PangoLayout     *pango_renderer_get_layout      (PangoRenderer     *renderer);
++ PangoLayoutLine *pango_renderer_get_layout_line (PangoRenderer     *renderer);
++Index: pango-1.28.4/pango/pango-script.c
++===================================================================
++--- pango-1.28.4.orig/pango/pango-script.c	2011-10-12 01:32:10.212046151 +0100
+++++ pango-1.28.4/pango/pango-script.c	2011-10-12 01:32:34.562041682 +0100
++@@ -165,8 +165,8 @@
++  **/
++ void
++ pango_script_iter_get_range (PangoScriptIter      *iter,
++-			     G_CONST_RETURN char **start,
++-			     G_CONST_RETURN char **end,
+++			     const char **start,
+++			     const char **end,
++ 			     PangoScript          *script)
++ {
++   if (start)
++Index: pango-1.28.4/pango/pango-script.h
++===================================================================
++--- pango-1.28.4.orig/pango/pango-script.h	2011-10-12 01:32:13.422046150 +0100
+++++ pango-1.28.4/pango/pango-script.h	2011-10-12 01:32:36.362046243 +0100
++@@ -129,8 +129,8 @@
++ PangoScriptIter *pango_script_iter_new       (const char          *text,
++ 					      int                  length);
++ void             pango_script_iter_get_range (PangoScriptIter      *iter,
++-					      G_CONST_RETURN char **start,
++-					      G_CONST_RETURN char **end,
+++					      const char **start,
+++					      const char **end,
++ 					      PangoScript          *script);
++ gboolean         pango_script_iter_next      (PangoScriptIter      *iter);
++ void             pango_script_iter_free      (PangoScriptIter      *iter);
++Index: pango-1.28.4/pango/pango-utils.c
++===================================================================
++--- pango-1.28.4.orig/pango/pango-utils.c	2011-10-12 01:32:10.242046149 +0100
+++++ pango-1.28.4/pango/pango-utils.c	2011-10-12 01:32:34.562041682 +0100
++@@ -689,7 +689,7 @@
++  * Return value: the Pango sysconf directory. The returned string should
++  * not be freed.
++  */
++-G_CONST_RETURN char *
+++const char *
++ pango_get_sysconf_subdirectory (void)
++ {
++ #ifdef G_OS_WIN32
++@@ -718,7 +718,7 @@
++  * Return value: the Pango lib directory. The returned string should
++  * not be freed.
++  */
++-G_CONST_RETURN char *
+++const char *
++ pango_get_lib_subdirectory (void)
++ {
++ #ifdef G_OS_WIN32
++Index: pango-1.28.4/pango/pango-utils.h
++===================================================================
++--- pango-1.28.4.orig/pango/pango-utils.h	2011-10-12 01:32:13.512046149 +0100
+++++ pango-1.28.4/pango/pango-utils.h	2011-10-12 01:32:36.362046243 +0100
++@@ -82,13 +82,13 @@
++  * stored in the registry). The returned string should not be
++  * g_free'd.
++  */
++-G_CONST_RETURN char *   pango_get_sysconf_subdirectory (void) G_GNUC_PURE;
+++const char *   pango_get_sysconf_subdirectory (void) G_GNUC_PURE;
++ 
++ /* Ditto for LIBDIR/pango. On Win32, use the same Pango
++  * installation directory. This returned string should not be
++  * g_free'd either.
++  */
++-G_CONST_RETURN char *   pango_get_lib_subdirectory (void) G_GNUC_PURE;
+++const char *   pango_get_lib_subdirectory (void) G_GNUC_PURE;
++ 
++ #endif /* PANGO_ENABLE_BACKEND */
++ 
++@@ -131,10 +131,10 @@
++ int pango_version (void) G_GNUC_CONST;
++ 
++ /* Return run-time Pango version as an string */
++-G_CONST_RETURN char * pango_version_string (void) G_GNUC_CONST;
+++const char * pango_version_string (void) G_GNUC_CONST;
++ 
++ /* Check that run-time Pango is as new as required */
++-G_CONST_RETURN char * pango_version_check (int required_major,
+++const char * pango_version_check (int required_major,
++ 					   int required_minor,
++ 					   int required_micro) G_GNUC_CONST;
++ 
++Index: pango-1.28.4/pango/pangocairo-context.c
++===================================================================
++--- pango-1.28.4.orig/pango/pangocairo-context.c	2011-10-12 01:32:09.622046154 +0100
+++++ pango-1.28.4/pango/pangocairo-context.c	2011-10-12 01:32:34.522037975 +0100
++@@ -260,7 +260,7 @@
++  *
++  * Since: 1.10
++  **/
++-G_CONST_RETURN cairo_font_options_t *
+++const cairo_font_options_t *
++ pango_cairo_context_get_font_options (PangoContext *context)
++ {
++   PangoCairoContextInfo *info;
++@@ -286,7 +286,7 @@
++  * Return value: the combined set of font options. This value is owned
++  * by the context and must not be modified or freed.
++  **/
++-G_CONST_RETURN cairo_font_options_t *
+++const cairo_font_options_t *
++ _pango_cairo_context_get_merged_font_options (PangoContext *context)
++ {
++   PangoCairoContextInfo *info = get_context_info (context, TRUE);
++Index: pango-1.28.4/pango/pangoft2.c
++===================================================================
++--- pango-1.28.4.orig/pango/pangoft2.c	2011-10-12 01:32:09.942046152 +0100
+++++ pango-1.28.4/pango/pangoft2.c	2011-10-12 01:32:34.542040267 +0100
++@@ -520,7 +520,7 @@
++   return ((ft_error_description *) pkey)->code - ((ft_error_description *) pbase)->code;
++ }
++ 
++-G_CONST_RETURN char *
+++const char *
++ _pango_ft2_ft_strerror (FT_Error error)
++ {
++ #undef __FTERRORS_H__
++Index: pango-1.28.4/pango/pangox-fontmap.c
++===================================================================
++--- pango-1.28.4.orig/pango/pangox-fontmap.c	2011-10-12 01:32:10.352046151 +0100
+++++ pango-1.28.4/pango/pangox-fontmap.c	2011-10-12 01:32:34.572042704 +0100
++@@ -1441,7 +1441,7 @@
++ }
++ 
++ 
++-G_CONST_RETURN char *
+++const char *
++ pango_x_fontmap_name_from_atom (PangoFontMap *fontmap,
++ 				Atom          atom)
++ {
++@@ -1645,7 +1645,7 @@
++     }
++ }
++ 
++-static G_CONST_RETURN char *
+++static const char *
++ pango_x_family_get_name (PangoFontFamily  *family)
++ {
++   PangoXFamily *xfamily = PANGO_X_FAMILY (family);
+diff --git a/meta/recipes-graphics/pango/pango_1.28.4.bb b/meta/recipes-graphics/pango/pango_1.28.4.bb
+index 68ab700..2cbd372 100644
+--- a/meta/recipes-graphics/pango/pango_1.28.4.bb
++++ b/meta/recipes-graphics/pango/pango_1.28.4.bb
+@@ -2,9 +2,10 @@ require pango.inc
  
- PR = "r1"
--SRC_URI = "http://download.gnome.org/sources/atk/1.32/${BPN}-${PV}.tar.bz2 \
--           file://remove.G_CONST_RETURN.patch \
--"
-+SRC_URI = "http://download.gnome.org/sources/atk/2.2/${BPN}-${PV}.tar.bz2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
  
--SRC_URI[md5sum] = "b9a19a3e426cd9ca930f0108c4ee343f"
--SRC_URI[sha256sum] = "e9a3e598f75c4db1af914f8b052dd9f7e89e920a96cc187c18eb06b8339cb16e"
-+SRC_URI[md5sum] = "4894e9b04f0a9f1c37a624a1e8d6d73f"
-+SRC_URI[sha256sum] = "d201e3f5808aef0b1aec2277bfa61074f68863e405428adb57a73aab5c838450"
+-PR = "r1"
++PR = "r2"
  
+ SRC_URI += "file://no-tests.patch"
++SRC_URI += "file://noconst.patch"
  
- 
+ SRC_URI[archive.md5sum] = "3f3989700f04e9117d30544a9078b3a0"
+ SRC_URI[archive.sha256sum] = "7eb035bcc10dd01569a214d5e2bc3437de95d9ac1cfa9f50035a687c45f05a9f"
 
 
 
