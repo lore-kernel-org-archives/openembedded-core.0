@@ -1,35 +1,30 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-qy0-f175.google.com ([209.85.216.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RE0Db-00030E-KJ for openembedded-core@lists.openembedded.org;
-	Wed, 12 Oct 2011 16:55:39 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9CEuS1A009316 for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2011 15:56:28 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id AXj00Jm5NEnj
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2011 15:56:28 +0100 (BST)
-Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9CEuOHr009301
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2011 15:56:26 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	(envelope-from <raj.khem@gmail.com>)
+	id 1RE0dd-0003vm-7o; Wed, 12 Oct 2011 17:22:33 +0200
+Received: by qyk10 with SMTP id 10so5118488qyk.6
+	for <multiple recipients>; Wed, 12 Oct 2011 08:16:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=3tV72OvAGr5IeMYkem4HLAUSGBfD6IGMaZ4peQqDTu8=;
+	b=jYBW2nbDo6a+pkupnvmqCfajLomoOxJBgVA6Z5sj9C6P4ui2fC+1+B6WmnMYxqV4+U
+	FwUCpFaaW6nrIt64k/bjFrA435NzNo1VtcEXmN6Wp+uRZOqj74bVq5fcRw7dSSJUxveg
+	kQ1MaxlycuUPHmpompnk1RS/ooyWKUlejVrJg=
+Received: by 10.68.208.229 with SMTP id mh5mr1718610pbc.124.1318432606631;
+	Wed, 12 Oct 2011 08:16:46 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.68.58.168 with HTTP; Wed, 12 Oct 2011 08:16:16 -0700 (PDT)
+In-Reply-To: <j73ifb$3kl$1@dough.gmane.org>
+References: <CAOd_LFzbT0j3wSjp+d3POcTUo9X9+aiYtax4d6tep3YXmTwb2g@mail.gmail.com>
+	<j73ifb$3kl$1@dough.gmane.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 12 Oct 2011 08:16:16 -0700
+Message-ID: <CAMKF1srHT5uh5a=z=mt0kOpF2YO9YyKkEdkRK9ZT8=LaGY6JSA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Oct 2011 15:49:42 +0100
-In-Reply-To: <4E95A6E5.6090402@windriver.com>
-References: <1318279539.23801.68.camel@ted> <1318332940.23801.90.camel@ted>
-	<4E95A6E5.6090402@windriver.com>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1318430990.23801.176.camel@ted>
-Mime-Version: 1.0
-Subject: Re: Some further build dependency timings
+Cc: openembedded-devel@lists.openembedded.org
+Subject: Re: git server move
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,80 +39,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Oct 2011 14:55:39 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 12 Oct 2011 15:22:33 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2011-10-12 at 09:40 -0500, Mark Hatle wrote:
-> > --- a/bitbake/lib/bb/runqueue.py
-> > +++ b/bitbake/lib/bb/runqueue.py
-> > @@ -1096,6 +1096,10 @@ class RunQueueExecute:
-> >  
-> >              logger.debug(2, 'Running %s:%s under fakeroot, fakedirs: %s' %
-> >                              (fn, taskname, ', '.join(fakedirs)))
-> > +        else:
-> > +            envbackup["PSEUDO_RELOADED"] = os.environ.get("PSEUDO_RELOADED")
-> > +            os.environ["PSEUDO_RELOADED"] = "yes"
-> > +            fakeenv["PSEUDO_RELOADED"] = "yes"
-> 
-> PSEUDO_RELOADED was intended to only be used internally by pseudo.  Specifically
-> to signify to fork/exec that we're about to run the pseudo server process and to
-> remove PSEUDO from the LD_PRELOAD on the next fork/exec.
-
-Right, I realised I was abusing it here, its good for a performance
-measurement though ;-)
-
-> The system simply checks the environment on the fork-exec and doesn't check the
-> value on pseudo-load.  This is why it works.
-> 
-> That side effect means that any subsequent calls can NOT re-enable pseudo as
-> it's no longer in memory at all.
+On Wed, Oct 12, 2011 at 1:17 AM, Koen Kooi <koen@dominion.thruhere.net> wro=
+te:
+> -----BEGIN PGP SIGNED MESSAGE-----
+> Hash: SHA1
 >
-> So what you are seeing at best is the time difference from avoiding the
-> LD_PRELOAD and the jump table setup.  (Even when pseudo is disabled, we need to
-> enable the jump table, we just pass the call to the original function.)
-> 
-> But more then likely because pseudo is no longer memory resident for the called
-> processes and it's sub-processes.. there is likely some place in the system that
-> uses pseudo functionality that is no longer functioning properly.
+> Op 11-10-11 21:11, Cliff Brake schreef:
+>> Hi, we are moving git.openembedded.org to a new server.
+>>
+>> SSH access on the old server has been disabled. =C2=A0git:// still works
+>> there.
+>>
+>> As soon as DNS propagates, SSH access will work with the new server.
+>>
+>> Let me know if you see any problems.
+>
+> When will cgit be back up?
 
-I'm not sure that there is in our use cases. If we need pseudo
-functionality the tasks are marked as "fakeroot" with a flag. If that
-flag is not set (which is when the above code triggers), its perfectly
-fine to have pseudo unload at the next exec.
+It should be up already. Do Ctrl+f5 in your browser on git.openembedded.org
 
-> It would be interesting to determine first off, if there is anywhere pseudo
-> should be running that it currently isn't.  And second if this is simply due to
-> LD_PRELOAD time, or if enabling the jump table is the culprit.
-> 
-> One potential optimization, when PSEUDO_DISABLE=1 is to only setup the jump
-> table entries for fork/exec items.
-
-Agreed, I don't know where the time is being spent exactly at this
-point. I do know we execute an absolute ton of exec/fork calls so
-removing any overhead from them will improve our speed though. This
-change means do_configure won't run with pseudo enabled for example
-which is a very exec heavy task. 
-
-> Also if it is desired to unload pseudo, I'd suggest we add a new environment
-> variable to pseudo that is specific about unloading pseudo, instead of using the
-> existing PSEUDO_RELOADED.  Not only is the name confusing, but since it's an
-> internal item it's behavior may change or go away in the future.
-> 
-> (Below is from the pseudo man page:
-> 
->       PSEUDO_RELOADED
->                This purely internal variable is used to track state while try-
->                ing to re-execute to get  rid  of  the  LD_PRELOAD  value  when
->                spawning  a  server.  (The pseudo server itself cannot function
->                running in the pseudo environment.)
-> )
-
-I suspect we may need a dedicated option for this...
-
-Cheers,
-
-Richard
-
+> -----BEGIN PGP SIGNATURE-----
+> Version: GnuPG v1.4.5 (Darwin)
+> Comment: GPGTools - http://gpgtools.org
+>
+> iD8DBQFOlU0rMkyGM64RGpERArroAJ9EuHaOEcv64o9q9kJLZk50/OLoSQCgmKjd
+> Yxh2H5CGKREmOq32gr36aes=3D
+> =3DXubc
+> -----END PGP SIGNATURE-----
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
