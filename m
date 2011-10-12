@@ -1,31 +1,27 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RDzAt-0001Si-T7 for openembedded-core@lists.openembedded.org;
-	Wed, 12 Oct 2011 15:48:48 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9CDneX3005981 for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2011 14:49:40 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id tmQFkHKnsqKc
+	(envelope-from <mark.hatle@windriver.com>) id 1RE04h-0002j3-Jm
+	for openembedded-core@lists.openembedded.org;
+	Wed, 12 Oct 2011 16:46:27 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p9CEefsR024933
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2011 14:49:40 +0100 (BST)
-Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9CDnZHO005977
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2011 14:49:36 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Oct 2011 14:42:52 +0100
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1318426981.23801.169.camel@ted>
-Mime-Version: 1.0
-Subject: [PATCH] cogl: Add git recipe (required by clutter)
+	Wed, 12 Oct 2011 07:40:42 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 12 Oct 2011 07:40:39 -0700
+Message-ID: <4E95A6E5.6090402@windriver.com>
+Date: Wed, 12 Oct 2011 09:40:37 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1318279539.23801.68.camel@ted> <1318332940.23801.90.camel@ted>
+In-Reply-To: <1318332940.23801.90.camel@ted>
+Subject: Re: Some further build dependency timings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,66 +36,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Oct 2011 13:48:48 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 12 Oct 2011 14:46:28 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-graphics/clutter/cogl.inc b/meta/recipes-graphics/clutter/cogl.inc
-new file mode 100644
-index 0000000..387f6ec
---- a/dev/null
-+++ b/meta/recipes-graphics/clutter/cogl.inc
-@@ -0,0 +1,22 @@
-+DESCRIPTION = "Clutter graphics library"
-+HOMEPAGE = "http://www.clutter-project.org/"
-+LICENSE = "LGPL"
-+
-+STDDEPENDS = "virtual/libx11 gtk-doc-native pango glib-2.0 libxfixes gdk-pixbuf libxi"
-+BASE_CONF = "--disable-gtk-doc ${@get_clutter_fpu_setting(bb, d)}"
-+
-+DEPENDS = "${STDDEPENDS} virtual/libgl"
-+EXTRA_OECONF = "${BASE_CONF} --with-flavour=glx"
-+
-+FILESPATH = "${FILE_DIRNAME}/clutter"
-+
-+inherit autotools pkgconfig gtk-doc gettext
-+
-+#check for TARGET_FPU=soft and inform configure of the result so it can disable some floating points
-+require clutter-fpu.inc
-+
-+#Fix up some weirdness in the docs
-+do_configure_prepend() {
-+        sed -i s:doc/reference/Makefile::g ${S}/configure.ac
-+        sed -i s:doc::g ${S}/Makefile.am
-+}
-diff --git a/meta/recipes-graphics/clutter/cogl_git.bb b/meta/recipes-graphics/clutter/cogl_git.bb
-new file mode 100644
-index 0000000..890c654
---- a/dev/null
-+++ b/meta/recipes-graphics/clutter/cogl_git.bb
-@@ -0,0 +1,19 @@
-+require cogl.inc
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
-+
-+SRCREV = "0a70a159c65357809740971570b2e301451161b5"
-+PV = "1.8.0+git${SRCPV}"
-+PR = "r0"
-+
-+DEFAULT_PREFERENCE = "-1"
-+
-+SRC_URI = "git://git.gnome.org/cogl;protocol=git;branch=master"
-+S = "${WORKDIR}/git"
-+
-+AUTOTOOLS_AUXDIR = "${S}/build"
-+
-+do_configure_prepend () {
-+	# Disable DOLT
-+	sed -i -e 's/^DOLT//' ${S}/configure.ac
-+}
+On 10/11/11 6:35 AM, Richard Purdie wrote:
+> On Mon, 2011-10-10 at 21:45 +0100, Richard Purdie wrote:
+>> Just for reference, with a base configuration, sato image:
+>>
+>> real	50m8.223s
+>> user	298m41.450s
+>> sys	52m42.200s
+>>
+>> adding:
+>>
+>> ASSUME_PROVIDED =+ "bison-native flex-native sqlite3-native git-native"
+>>
+>> (and hacking the pseudo recipe to use a sqlite3-native):
+>>
+>> real	42m6.740s
+>> user	296m21.940s
+>> sys	52m25.220s
+>>
+>> We continue to have real dependency issues around gettext in both the
+>> native and target builds...
+> 
+> So to continue the story, adding:
+> 
+> DEBUG_FLAGS = ""
+> INHERIT_INSANE = ""
+> PACKAGE_CLASSES = "package_ipk"
+> USER_CLASSES = ""
+> 
+> Results in:
+> 
+> real	38m23.053s
+> user	237m7.430s
+> sys	39m3.720s
+> 
+> Then adding PSEUDO_RELOADED=yes to the environment of tasks not needing
+> pseudo (hack patch below):
+> 
+> real	36m20.683s
+> user	236m19.580s
+> sys	37m54.450s
+> 
+> Finally, adding:
+> 
+> DISABLESTATIC = "--disable-static"
+> DISABLESTATIC_pn-qemu = ""
+> DISABLESTATIC_pn-qemu-native = ""
+> DISABLESTATIC_pn-openssl = ""
+> DISABLESTATIC_pn-openssl-native = ""
+> EXTRA_OECONF += "${DISABLESTATIC}"
+> 
+> real	34m53.877s
+> user	233m34.780s
+> sys	38m50.190s
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
+> --- a/bitbake/lib/bb/runqueue.py
+> +++ b/bitbake/lib/bb/runqueue.py
+> @@ -1096,6 +1096,10 @@ class RunQueueExecute:
+>  
+>              logger.debug(2, 'Running %s:%s under fakeroot, fakedirs: %s' %
+>                              (fn, taskname, ', '.join(fakedirs)))
+> +        else:
+> +            envbackup["PSEUDO_RELOADED"] = os.environ.get("PSEUDO_RELOADED")
+> +            os.environ["PSEUDO_RELOADED"] = "yes"
+> +            fakeenv["PSEUDO_RELOADED"] = "yes"
 
+PSEUDO_RELOADED was intended to only be used internally by pseudo.  Specifically
+to signify to fork/exec that we're about to run the pseudo server process and to
+remove PSEUDO from the LD_PRELOAD on the next fork/exec.
+
+The system simply checks the environment on the fork-exec and doesn't check the
+value on pseudo-load.  This is why it works.
+
+That side effect means that any subsequent calls can NOT re-enable pseudo as
+it's no longer in memory at all.
+
+So what you are seeing at best is the time difference from avoiding the
+LD_PRELOAD and the jump table setup.  (Even when pseudo is disabled, we need to
+enable the jump table, we just pass the call to the original function.)
+
+But more then likely because pseudo is no longer memory resident for the called
+processes and it's sub-processes.. there is likely some place in the system that
+uses pseudo functionality that is no longer functioning properly.
+
+It would be interesting to determine first off, if there is anywhere pseudo
+should be running that it currently isn't.  And second if this is simply due to
+LD_PRELOAD time, or if enabling the jump table is the culprit.
+
+One potential optimization, when PSEUDO_DISABLE=1 is to only setup the jump
+table entries for fork/exec items.
+
+Also if it is desired to unload pseudo, I'd suggest we add a new environment
+variable to pseudo that is specific about unloading pseudo, instead of using the
+existing PSEUDO_RELOADED.  Not only is the name confusing, but since it's an
+internal item it's behavior may change or go away in the future.
+
+(Below is from the pseudo man page:
+
+      PSEUDO_RELOADED
+               This purely internal variable is used to track state while try-
+               ing to re-execute to get  rid  of  the  LD_PRELOAD  value  when
+               spawning  a  server.  (The pseudo server itself cannot function
+               running in the pseudo environment.)
+)
+
+>  
+>          sys.stdout.flush()
+>          sys.stderr.flush()
+> 
+> 
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
