@@ -1,19 +1,25 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1RE5yO-0005UL-HT
+	(envelope-from <philb@gnu.org>) id 1RE6Pl-00065K-JD
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Oct 2011 23:04:20 +0200
-Received: from yow-bashfiel-l1.corp.ad.wrs.com
-	(yow-bashfiel-d3.ottawa.windriver.com [128.224.147.67])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p9CKwXdl028745;
-	Wed, 12 Oct 2011 13:58:33 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Wed, 12 Oct 2011 16:58:21 -0400
-Message-Id: <cover.1318452930.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
-Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: [PATCH 0/1] linux-yocto: config cleanup and streamlining
+	Wed, 12 Oct 2011 23:32:37 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RE6KG-0001yk-OO
+	for openembedded-core@lists.openembedded.org;
+	Wed, 12 Oct 2011 23:26:56 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <9e0189cadfc1211c918dac076619f71ec3e4d19a.1318405370.git.Martin.Jansa@gmail.com>
+References: <49a800f40bd08aa23d227dccafd34b3e59a7ccb5.1318405370.git.Martin.Jansa@gmail.com>
+	<9e0189cadfc1211c918dac076619f71ec3e4d19a.1318405370.git.Martin.Jansa@gmail.com>
+Date: Wed, 12 Oct 2011 22:26:50 +0100
+Message-ID: <1318454810.3052.9.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.3 
+Subject: Re: [oe-core 3/4] conf: machine: includes: add armv6-novfp support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,52 +34,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Oct 2011 21:04:20 -0000
+X-List-Received-Date: Wed, 12 Oct 2011 21:32:37 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Richard/Saul,
+On Wed, 2011-10-12 at 09:45 +0200, Martin Jansa wrote:
+>-TUNE_FEATURES_tune-armv6 ?= "armv6 vfp"
+<-TUNE_FEATURES_tune-armv6t ?= "armv6 vfp thumb"
+> +AVAILTUNES += "armv6 armv6t"
+> +TUNE_FEATURES_tune-armv6 ?= "armv6"
+> +TUNE_FEATURES_tune-armv6t ?= "armv6 thumb"
+> +PACKAGE_EXTRA_ARCHS_tune-armv6 = "${PACKAGE_EXTRA_ARCHS_tune-armv5} armv6"
+> +PACKAGE_EXTRA_ARCHS_tune-armv6t = "${PACKAGE_EXTRA_ARCHS_tune-armv5t} armv6 armv6t"
+> +
+> +# Little Endian +  VFP
+> +AVAILTUNES += "armv6-vfp armv6t-vfp armv6hf-vfp armv6thf-vfp"
+> +TUNE_FEATURES_tune-armv6-vfp ?= "armv6 vfp"
 
-This is a master only pull request (not that I need to
-tell you that) that contains some cleanups that Tom has been
-doing for various intel BSPs (although the changes will be
-useful elsewhere).
+This patch doesn't seem to do what it says in the subject line.  It
+doesn't add an "armv6-novfp" tune, instead it removes vfp from the
+existing armv6 and armv6t tunes.
 
-I've also pushed these out to the dev kernel, in case anyone
-is interested.
+p.
 
-This incorporates the following meta branch commits:
-
-  353d43d fri2: cleanup bsp config
-  2a605e2 sugarbay: cleanup bsp config
-  47b76ed fishriver: cleanup bsp config
-  ad6edab jasperforest: cleanup bsp config
-  07f7e89 emenlow: cleanup bsp config
-  d32a651 crownbay: cleanup bsp config
-  ad2d621 meta: add vesafb feature
-  913facf features/drm-psb: add related config options
-
-cc: Tom Zanussi <tom.zanussi@intel.com>
-
-Cheers,
-
-Bruce
-
-The following changes since commit 2cf9fb4df498fe0e4fa8356dc663fdfdec9a98cc:
-
-  hal/hal-info: This is unsed in OE-Core and deprecated, drop (2011-10-12 14:12:10 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib zedd/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (1):
-  linux-yocto: config cleanup and streamlining
-
- meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb |    2 +-
- meta/recipes-kernel/linux/linux-yocto_3.0.bb    |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
--- 
-1.7.4.1
 
 
 
