@@ -1,31 +1,31 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RDzAV-0001QH-Vg for openembedded-core@lists.openembedded.org;
-	Wed, 12 Oct 2011 15:48:25 +0200
+	id 1RDzAt-0001Si-T7 for openembedded-core@lists.openembedded.org;
+	Wed, 12 Oct 2011 15:48:48 +0200
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9CDnJXc005972 for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2011 14:49:19 +0100
+	p9CDneX3005981 for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Oct 2011 14:49:40 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id YLyMDVADeybf
+	with LMTP id tmQFkHKnsqKc
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2011 14:49:19 +0100 (BST)
+	Wed, 12 Oct 2011 14:49:40 +0100 (BST)
 Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9CDnG0k005960
+	p9CDnZHO005977
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2011 14:49:17 +0100
+	Wed, 12 Oct 2011 14:49:36 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Oct 2011 14:42:33 +0100
+Date: Wed, 12 Oct 2011 14:42:52 +0100
 X-Mailer: Evolution 3.1.91- 
-Message-ID: <1318426962.23801.168.camel@ted>
+Message-ID: <1318426981.23801.169.camel@ted>
 Mime-Version: 1.0
-Subject: [PATCH] autotools: Enhance gettext handling to better work with SCM versions of code
+Subject: [PATCH] cogl: Add git recipe (required by clutter)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,49 +40,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Oct 2011 13:48:25 -0000
+X-List-Received-Date: Wed, 12 Oct 2011 13:48:48 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-If we pull SCM based code using gettext, Makefile.in.in in the
-po directory can be missing. We therefore need to add this if
-its not already present. We could use gettextize if it wasn't
-so broken (for example requiring user input on stdin and installing
-way more files that we ever care about such as the m4 files).
-
-We also have a problem if a recipe sets a different AUX dir, for
-now fix this by allowing recipes to specify when this is being done
-using the AUTOTOOLS_AUXDIR variable. Ultimately we could likely
-figure this out automatically.
-
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-index a4ce851..0413322 100644
---- a/meta/classes/autotools.bbclass
-+++ b/meta/classes/autotools.bbclass
-@@ -80,6 +80,8 @@ oe_runconf () {
- 	fi
- }
- 
-+AUTOTOOLS_AUXDIR ?= "${S}"
+diff --git a/meta/recipes-graphics/clutter/cogl.inc b/meta/recipes-graphics/clutter/cogl.inc
+new file mode 100644
+index 0000000..387f6ec
+--- a/dev/null
++++ b/meta/recipes-graphics/clutter/cogl.inc
+@@ -0,0 +1,22 @@
++DESCRIPTION = "Clutter graphics library"
++HOMEPAGE = "http://www.clutter-project.org/"
++LICENSE = "LGPL"
 +
- autotools_do_configure() {
- 	case ${PN} in
- 	autoconf*)
-@@ -144,7 +146,11 @@ autotools_do_configure() {
- 			      echo "no" | glib-gettextize --force --copy
- 			    fi
- 			  else if grep "^[[:space:]]*AM_GNU_GETTEXT" $CONFIGURE_AC >/dev/null; then
--			    cp ${STAGING_DATADIR}/gettext/config.rpath ${S}/
-+                            # We'd call gettextize here if it wasn't so broken...
-+			    cp ${STAGING_DATADIR}/gettext/config.rpath ${AUTOTOOLS_AUXDIR}/
-+			    if [ ! -e ${S}/po/Makefile.in.in ]; then
-+			      cp ${STAGING_DATADIR}/gettext/po/Makefile.in.in ${S}/po/
-+                            fi
- 			  fi
- 			fi
- 			fi
++STDDEPENDS = "virtual/libx11 gtk-doc-native pango glib-2.0 libxfixes gdk-pixbuf libxi"
++BASE_CONF = "--disable-gtk-doc ${@get_clutter_fpu_setting(bb, d)}"
++
++DEPENDS = "${STDDEPENDS} virtual/libgl"
++EXTRA_OECONF = "${BASE_CONF} --with-flavour=glx"
++
++FILESPATH = "${FILE_DIRNAME}/clutter"
++
++inherit autotools pkgconfig gtk-doc gettext
++
++#check for TARGET_FPU=soft and inform configure of the result so it can disable some floating points
++require clutter-fpu.inc
++
++#Fix up some weirdness in the docs
++do_configure_prepend() {
++        sed -i s:doc/reference/Makefile::g ${S}/configure.ac
++        sed -i s:doc::g ${S}/Makefile.am
++}
+diff --git a/meta/recipes-graphics/clutter/cogl_git.bb b/meta/recipes-graphics/clutter/cogl_git.bb
+new file mode 100644
+index 0000000..890c654
+--- a/dev/null
++++ b/meta/recipes-graphics/clutter/cogl_git.bb
+@@ -0,0 +1,19 @@
++require cogl.inc
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
++
++SRCREV = "0a70a159c65357809740971570b2e301451161b5"
++PV = "1.8.0+git${SRCPV}"
++PR = "r0"
++
++DEFAULT_PREFERENCE = "-1"
++
++SRC_URI = "git://git.gnome.org/cogl;protocol=git;branch=master"
++S = "${WORKDIR}/git"
++
++AUTOTOOLS_AUXDIR = "${S}/build"
++
++do_configure_prepend () {
++	# Disable DOLT
++	sed -i -e 's/^DOLT//' ${S}/configure.ac
++}
 
 
 
