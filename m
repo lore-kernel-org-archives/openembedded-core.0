@@ -1,35 +1,31 @@
-Received: from lo.gmane.org ([80.91.229.12])
+Received: from mail-dy0-f47.google.com ([209.85.220.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1RDu6J-0006b0-Q3 for openembedded-core@lists.openembedded.org;
-	Wed, 12 Oct 2011 10:23:43 +0200
-Received: from list by lo.gmane.org with local (Exim 4.69)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1RDu0l-0005g9-ES for openembedded-core@lists.openembedded.org;
-	Wed, 12 Oct 2011 10:17:59 +0200
-Received: from ip545070eb.adsl-surfen.hetnet.nl ([84.80.112.235])
-	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
-	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2011 10:17:59 +0200
-Received: from koen by ip545070eb.adsl-surfen.hetnet.nl with local (Gmexim 0.1
-	(Debian)) id 1AlnuQ-0007hv-00
+	(envelope-from <koen@dominion.thruhere.net>) id 1RDv58-0008NC-Pi
+	for openembedded-core@lists.openembedded.org;
+	Wed, 12 Oct 2011 11:26:34 +0200
+Received: by dyk17 with SMTP id 17so10849dyk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2011 10:17:59 +0200
-X-Injected-Via-Gmane: http://gmane.org/
-To: openembedded-core@lists.openembedded.org
+	Wed, 12 Oct 2011 02:20:48 -0700 (PDT)
+Received: by 10.223.92.144 with SMTP id r16mr45609668fam.23.1318411247734;
+	Wed, 12 Oct 2011 02:20:47 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id b10sm2677932fam.1.2011.10.12.02.20.46
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 12 Oct 2011 02:20:46 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
 From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Wed, 12 Oct 2011 10:17:47 +0200
-Message-ID: <j73ifb$3kl$1@dough.gmane.org>
-References: <CAOd_LFzbT0j3wSjp+d3POcTUo9X9+aiYtax4d6tep3YXmTwb2g@mail.gmail.com>
-Mime-Version: 1.0
-X-Complaints-To: usenet@dough.gmane.org
-X-Gmane-NNTP-Posting-Host: ip545070eb.adsl-surfen.hetnet.nl
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:7.0) Gecko/20110922 Thunderbird/7.0
-In-Reply-To: <CAOd_LFzbT0j3wSjp+d3POcTUo9X9+aiYtax4d6tep3YXmTwb2g@mail.gmail.com>
-X-Enigmail-Version: 1.3.2
-Cc: openembedded-devel@lists.openembedded.org
-Subject: Re: git server move
+In-Reply-To: <4E954984.7020202@eukrea.com>
+Date: Wed, 12 Oct 2011 11:20:41 +0200
+Message-Id: <E9665FD1-F0CD-4ADB-941C-68FC58674D08@dominion.thruhere.net>
+References: <cover.1318405370.git.Martin.Jansa@gmail.com>
+	<49a800f40bd08aa23d227dccafd34b3e59a7ccb5.1318405370.git.Martin.Jansa@gmail.com>
+	<4E954984.7020202@eukrea.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1244.3)
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: [oe-core 1/4] qt4-embedded: remove dependency on tslib and use std. linux input
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,32 +40,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Oct 2011 08:23:43 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 12 Oct 2011 09:26:34 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
 
-Op 11-10-11 21:11, Cliff Brake schreef:
-> Hi, we are moving git.openembedded.org to a new server.
-> 
-> SSH access on the old server has been disabled.  git:// still works
-> there.
-> 
-> As soon as DNS propagates, SSH access will work with the new server.
-> 
-> Let me know if you see any problems.
+Op 12 okt. 2011, om 10:02 heeft Eric B=E9nard het volgende geschreven:
 
-When will cgit be back up?
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.5 (Darwin)
-Comment: GPGTools - http://gpgtools.org
+> Hi,
+>=20
+> Le 12/10/2011 09:45, Martin Jansa a =E9crit :
+>> From: Simon Busch<morphis@gravedo.de>
+>>=20
+>> In most cases we don't need tslib in std. configuration as =
+touchscreen access in most
+>> devices today is done with linux input interface. If some specific =
+machine has a need for
+>> tslib support it should add the dependency in it's machine layer =
+again and modify the
+>> profile script accordingly.
+>>=20
+> When using a resistive touchscreen, tslib is a common solution to =
+handle calibration and raw value processing : do you think this is a =
+good thing to remove this ?
 
-iD8DBQFOlU0rMkyGM64RGpERArroAJ9EuHaOEcv64o9q9kJLZk50/OLoSQCgmKjd
-Yxh2H5CGKREmOq32gr36aes=
-=Xubc
------END PGP SIGNATURE-----
+We ran into this at work and like Eric, I'm curious how calibration (and =
+e.g. dejitter) works in the linux-input world combined with qt/e.
 
+regards,
+
+Koen=
 
 
