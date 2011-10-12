@@ -1,31 +1,26 @@
-Received: from mail-qy0-f182.google.com ([209.85.216.182])
+Received: from smtp2-g21.free.fr ([212.27.42.2])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>)
-	id 1RE0jZ-0004Dc-JO; Wed, 12 Oct 2011 17:28:41 +0200
-Received: by qyk4 with SMTP id 4so175671qyk.6
-	for <multiple recipients>; Wed, 12 Oct 2011 08:22:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=6ZWEd2Fxbdt1nqQrp5yPhoAWQWfoJ5uESB55ZaJOLLk=;
-	b=mm7P80SonnAQJejfheONy4EpSEMj1XrQUOmLgeFWmOMOQd6gOtXrlxDtJAcQU8c+cz
-	BRY/sLc1SERVnhuFmeqcZaW0WWRsZRWJ7Agb7eQfS1P9mrA0L/Tzx7t6edhBGNEdEWyz
-	ZvG5bcQ3J2aU7fBRHryRU3OZxYDxHDYrzikzA=
-Received: by 10.68.8.195 with SMTP id t3mr1807836pba.107.1318432978116; Wed,
-	12 Oct 2011 08:22:58 -0700 (PDT)
+	(envelope-from <eric@eukrea.com>) id 1RE0ol-0004OY-Di
+	for openembedded-core@lists.openembedded.org;
+	Wed, 12 Oct 2011 17:34:04 +0200
+Received: from [192.168.1.15] (unknown [82.240.38.71])
+	by smtp2-g21.free.fr (Postfix) with ESMTP id 268DB4B0175
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Oct 2011 17:28:16 +0200 (CEST)
+Message-ID: <4E95B20F.4040101@eukrea.com>
+Date: Wed, 12 Oct 2011 17:28:15 +0200
+From: =?UTF-8?B?RXJpYyBCw6luYXJk?= <eric@eukrea.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
 MIME-Version: 1.0
-Received: by 10.68.58.168 with HTTP; Wed, 12 Oct 2011 08:22:28 -0700 (PDT)
-In-Reply-To: <6C40DE44-FE7C-4C0A-AB7F-1B78CE95216F@dominion.thruhere.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 References: <CAOd_LFzbT0j3wSjp+d3POcTUo9X9+aiYtax4d6tep3YXmTwb2g@mail.gmail.com>
 	<j73ifb$3kl$1@dough.gmane.org>
 	<CAMKF1srHT5uh5a=z=mt0kOpF2YO9YyKkEdkRK9ZT8=LaGY6JSA@mail.gmail.com>
 	<6C40DE44-FE7C-4C0A-AB7F-1B78CE95216F@dominion.thruhere.net>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 12 Oct 2011 08:22:28 -0700
-Message-ID: <CAMKF1srW_j_H1EKJvs9LMOcFeXauLbK5_9W7jcr2RjTtN5OeQQ@mail.gmail.com>
-To: openembedded-devel@lists.openembedded.org
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	<CAMKF1srW_j_H1EKJvs9LMOcFeXauLbK5_9W7jcr2RjTtN5OeQQ@mail.gmail.com>
+In-Reply-To: <CAMKF1srW_j_H1EKJvs9LMOcFeXauLbK5_9W7jcr2RjTtN5OeQQ@mail.gmail.com>
 Subject: Re: [oe] git server move
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -41,68 +36,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Oct 2011 15:28:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 12 Oct 2011 15:34:04 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 12, 2011 at 8:18 AM, Koen Kooi <koen@dominion.thruhere.net> wro=
-te:
->
-> Op 12 okt. 2011, om 17:16 heeft Khem Raj het volgende geschreven:
->
->> On Wed, Oct 12, 2011 at 1:17 AM, Koen Kooi <koen@dominion.thruhere.net> =
-wrote:
->>> -----BEGIN PGP SIGNED MESSAGE-----
->>> Hash: SHA1
+Le 12/10/2011 17:22, Khem Raj a =C3=A9crit :
+> On Wed, Oct 12, 2011 at 8:18 AM, Koen Kooi<koen@dominion.thruhere.net> =
+ wrote:
+>> Op 12 okt. 2011, om 17:16 heeft Khem Raj het volgende geschreven:
+>>> On Wed, Oct 12, 2011 at 1:17 AM, Koen Kooi<koen@dominion.thruhere.net=
+>  wrote:
+>>>> When will cgit be back up?
 >>>
->>> Op 11-10-11 21:11, Cliff Brake schreef:
->>>> Hi, we are moving git.openembedded.org to a new server.
->>>>
->>>> SSH access on the old server has been disabled. =C2=A0git:// still wor=
-ks
->>>> there.
->>>>
->>>> As soon as DNS propagates, SSH access will work with the new server.
->>>>
->>>> Let me know if you see any problems.
->>>
->>> When will cgit be back up?
+>>> It should be up already. Do Ctrl+f5 in your browser on git.openembedd=
+ed.org
 >>
->> It should be up already. Do Ctrl+f5 in your browser on git.openembedded.=
-org
+>> Let me rephrase: when will it be working again? I still get "No reposi=
+tories found" when clicking on a repo.
 >
-> Let me rephrase: when will it be working again? I still get "No repositor=
-ies found" when clicking on a repo.
+> Weird I see all the repos fine.
 
-Weird I see all the repos fine.
->
->>
->>> -----BEGIN PGP SIGNATURE-----
->>> Version: GnuPG v1.4.5 (Darwin)
->>> Comment: GPGTools - http://gpgtools.org
->>>
->>> iD8DBQFOlU0rMkyGM64RGpERArroAJ9EuHaOEcv64o9q9kJLZk50/OLoSQCgmKjd
->>> Yxh2H5CGKREmOq32gr36aes=3D
->>> =3DXubc
->>> -----END PGP SIGNATURE-----
->>>
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
-> _______________________________________________
-> Openembedded-devel mailing list
-> Openembedded-devel@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-devel
->
+also works fine here on http://cgit.openembedded.org/
+
+Eric
 
 
