@@ -1,31 +1,31 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RDzA5-0001Nw-Af for openembedded-core@lists.openembedded.org;
-	Wed, 12 Oct 2011 15:47:57 +0200
+	id 1RDzAV-0001QH-Vg for openembedded-core@lists.openembedded.org;
+	Wed, 12 Oct 2011 15:48:25 +0200
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9CDmqcL005956 for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2011 14:48:52 +0100
+	p9CDnJXc005972 for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Oct 2011 14:49:19 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id l4u61rVwXi5a
+	with LMTP id YLyMDVADeybf
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2011 14:48:52 +0100 (BST)
+	Wed, 12 Oct 2011 14:49:19 +0100 (BST)
 Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9CDmlwS005953
+	p9CDnG0k005960
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2011 14:48:49 +0100
+	Wed, 12 Oct 2011 14:49:17 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Oct 2011 14:42:05 +0100
+Date: Wed, 12 Oct 2011 14:42:33 +0100
 X-Mailer: Evolution 3.1.91- 
-Message-ID: <1318426933.23801.167.camel@ted>
+Message-ID: <1318426962.23801.168.camel@ted>
 Mime-Version: 1.0
-Subject: [PATCH] clutter-1.6: update to 1.6.18
+Subject: [PATCH] autotools: Enhance gettext handling to better work with SCM versions of code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,29 +40,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Oct 2011 13:47:57 -0000
+X-List-Received-Date: Wed, 12 Oct 2011 13:48:25 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-From 345e2bbbb41830ea193c282691479add4a00b0d8 Mon Sep 17 00:00:00 2001
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Wed, 12 Oct 2011 13:15:11 +0000
-Subject: 
+If we pull SCM based code using gettext, Makefile.in.in in the
+po directory can be missing. We therefore need to add this if
+its not already present. We could use gettextize if it wasn't
+so broken (for example requiring user input on stdin and installing
+way more files that we ever care about such as the m4 files).
+
+We also have a problem if a recipe sets a different AUX dir, for
+now fix this by allowing recipes to specify when this is being done
+using the AUTOTOOLS_AUXDIR variable. Ultimately we could likely
+figure this out automatically.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/recipes-graphics/clutter/clutter-1.6_1.6.14.bb b/meta/recipes-graphics/clutter/clutter-1.6_1.6.18.bb
-index 555133f..9c32efd 100644
---- a/meta/recipes-graphics/clutter/clutter-1.6_1.6.14.bb
-+++ b/meta/recipes-graphics/clutter/clutter-1.6_1.6.18.bb
-@@ -22,5 +22,5 @@ do_configure_prepend () {
- 	sed -i -e 's/^DOLT//' ${S}/configure.ac
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index a4ce851..0413322 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -80,6 +80,8 @@ oe_runconf () {
+ 	fi
  }
  
--SRC_URI[md5sum] = "1da9f983115f9bd28b0be8176e53fe36"
--SRC_URI[sha256sum] = "0564e57ca8eb24e76014627c0bb28a80a6c01b620ba14bc4198365562549576d"
-+SRC_URI[md5sum] = "7302513c96b00588b7779918fae0b33b"
-+SRC_URI[sha256sum] = "d849f92944be193e9d8e707f1371e6bab7fca473e09a492265e2e2296febd749"
++AUTOTOOLS_AUXDIR ?= "${S}"
++
+ autotools_do_configure() {
+ 	case ${PN} in
+ 	autoconf*)
+@@ -144,7 +146,11 @@ autotools_do_configure() {
+ 			      echo "no" | glib-gettextize --force --copy
+ 			    fi
+ 			  else if grep "^[[:space:]]*AM_GNU_GETTEXT" $CONFIGURE_AC >/dev/null; then
+-			    cp ${STAGING_DATADIR}/gettext/config.rpath ${S}/
++                            # We'd call gettextize here if it wasn't so broken...
++			    cp ${STAGING_DATADIR}/gettext/config.rpath ${AUTOTOOLS_AUXDIR}/
++			    if [ ! -e ${S}/po/Makefile.in.in ]; then
++			      cp ${STAGING_DATADIR}/gettext/po/Makefile.in.in ${S}/po/
++                            fi
+ 			  fi
+ 			fi
+ 			fi
 
 
 
