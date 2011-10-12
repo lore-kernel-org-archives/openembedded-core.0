@@ -1,31 +1,31 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RDz6K-0001Dx-Nc for openembedded-core@lists.openembedded.org;
-	Wed, 12 Oct 2011 15:44:04 +0200
+	id 1RDz7B-0001GA-DJ for openembedded-core@lists.openembedded.org;
+	Wed, 12 Oct 2011 15:44:57 +0200
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9CDixgo005790 for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2011 14:45:00 +0100
+	p9CDjqQ5005822 for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Oct 2011 14:45:52 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 1GOvg8nKcXTt
+	with LMTP id lkZFAs7cY-T3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2011 14:44:59 +0100 (BST)
+	Wed, 12 Oct 2011 14:45:52 +0100 (BST)
 Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9CDiuNp005785
+	p9CDjjPa005795
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2011 14:44:57 +0100
+	Wed, 12 Oct 2011 14:45:47 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Oct 2011 14:38:13 +0100
+Date: Wed, 12 Oct 2011 14:39:03 +0100
 X-Mailer: Evolution 3.1.91- 
-Message-ID: <1318426702.23801.162.camel@ted>
+Message-ID: <1318426752.23801.163.camel@ted>
 Mime-Version: 1.0
-Subject: [PATCH] pango: Update to work with glib-2.0
+Subject: [PATCH] libunique: Update to work with glib-2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,18 +40,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Oct 2011 13:44:05 -0000
+X-List-Received-Date: Wed, 12 Oct 2011 13:44:57 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/recipes-graphics/pango/pango-1.28.4/noconst.patch b/meta/recipes-graphics/pango/pango-1.28.4/noconst.patch
+diff --git a/meta/recipes-gnome/libunique/libunique/noconst.patch b/meta/recipes-gnome/libunique/libunique/noconst.patch
 new file mode 100644
-index 0000000..d4832a5
+index 0000000..2cc0347
 --- a/dev/null
-+++ b/meta/recipes-graphics/pango/pango-1.28.4/noconst.patch
-@@ -0,0 +1,408 @@
++++ b/meta/recipes-gnome/libunique/libunique/noconst.patch
+@@ -0,0 +1,130 @@
 +G_CONST_RETURN is deprecated in glib 2.30 so remove to to avoid
 +build failures.
 +
@@ -59,423 +59,149 @@ index 0000000..d4832a5
 +
 +Upstream-Status: Pending
 +
-+Index: pango-1.28.4/pango/fonts.c
++Index: libunique-1.1.6/unique/uniqueapp.c
 +===================================================================
-+--- pango-1.28.4.orig/pango/fonts.c	2011-10-12 01:32:09.372046342 +0100
-++++ pango-1.28.4/pango/fonts.c	2011-10-12 01:32:34.512036630 +0100
-+@@ -165,7 +165,7 @@
-+  *               %NULL if not previously set.  This has the same life-time
-+  *               as the font description itself and should not be freed.
-+  **/
-+-G_CONST_RETURN char *
-++const char *
-+ pango_font_description_get_family (const PangoFontDescription *desc)
++--- libunique-1.1.6.orig/unique/uniqueapp.c	2011-10-12 01:21:25.842046488 +0100
+++++ libunique-1.1.6/unique/uniqueapp.c	2011-10-12 01:21:55.062046796 +0100
++@@ -781,7 +781,7 @@
++ }
++ 
++ 
++-G_CONST_RETURN gchar *
+++const gchar *
++ unique_command_to_string (UniqueApp *app,
++                           gint       command)
 + {
-+   g_return_val_if_fail (desc != NULL, NULL);
-+@@ -1927,7 +1927,7 @@
-+  * Return value: the name of the family. This string is owned
-+  *   by the family object and must not be modified or freed.
-+  **/
-+-G_CONST_RETURN char *
-++const char *
-+ pango_font_family_get_name (PangoFontFamily  *family)
++@@ -863,7 +863,7 @@
++   return retval;
++ }
++ 
++-G_CONST_RETURN gchar *
+++const gchar *
++ unique_response_to_string (UniqueResponse response)
 + {
-+   g_return_val_if_fail (PANGO_IS_FONT_FAMILY (family), NULL);
-+@@ -2060,7 +2060,7 @@
-+  * Return value: the face name for the face. This string is
-+  *   owned by the face object and must not be modified or freed.
-+  **/
-+-G_CONST_RETURN char *
-++const char *
-+ pango_font_face_get_face_name (PangoFontFace *face)
-+ {
-+   g_return_val_if_fail (PANGO_IS_FONT_FACE (face), NULL);
-+Index: pango-1.28.4/pango/pango-attributes.c
++   GEnumClass *enum_class;
++Index: libunique-1.1.6/unique/uniquebackend.c
 +===================================================================
-+--- pango-1.28.4.orig/pango/pango-attributes.c	2011-10-12 01:32:09.552046155 +0100
-++++ pango-1.28.4/pango/pango-attributes.c	2011-10-12 01:32:34.522037975 +0100
-+@@ -97,7 +97,7 @@
++--- libunique-1.1.6.orig/unique/uniquebackend.c	2011-10-12 01:21:25.742046323 +0100
+++++ libunique-1.1.6/unique/uniquebackend.c	2011-10-12 01:21:55.062046796 +0100
++@@ -111,7 +111,7 @@
 +  *
-+  * Since: 1.22
-+  **/
-+-G_CONST_RETURN char *
-++const char *
-+ pango_attr_type_get_name (PangoAttrType type)
-+ {
-+   const char *result = NULL;
-+Index: pango-1.28.4/pango/pango-attributes.h
-+===================================================================
-+--- pango-1.28.4.orig/pango/pango-attributes.h	2011-10-12 01:32:12.712046218 +0100
-++++ pango-1.28.4/pango/pango-attributes.h	2011-10-12 01:32:36.342045777 +0100
-+@@ -180,7 +180,7 @@
-+ };
-+ 
-+ PangoAttrType         pango_attr_type_register (const gchar        *name);
-+-G_CONST_RETURN char * pango_attr_type_get_name (PangoAttrType       type) G_GNUC_CONST;
-++const char * pango_attr_type_get_name (PangoAttrType       type) G_GNUC_CONST;
-+ 
-+ void             pango_attribute_init        (PangoAttribute       *attr,
-+ 					      const PangoAttrClass *klass);
-+Index: pango-1.28.4/pango/pango-context.c
-+===================================================================
-+--- pango-1.28.4.orig/pango/pango-context.c	2011-10-12 01:32:09.782046152 +0100
-++++ pango-1.28.4/pango/pango-context.c	2011-10-12 01:32:34.532039187 +0100
-+@@ -188,7 +188,7 @@
-+  *
-+  * Since: 1.6
-+  **/
-+-G_CONST_RETURN PangoMatrix *
-++const PangoMatrix *
-+ pango_context_get_matrix (PangoContext *context)
-+ {
-+   g_return_val_if_fail (PANGO_IS_CONTEXT (context), NULL);
-+Index: pango-1.28.4/pango/pango-context.h
-+===================================================================
-+--- pango-1.28.4.orig/pango/pango-context.h	2011-10-12 01:32:12.892046153 +0100
-++++ pango-1.28.4/pango/pango-context.h	2011-10-12 01:32:36.352046105 +0100
-+@@ -86,7 +86,7 @@
-+ 
-+ void                        pango_context_set_matrix (PangoContext      *context,
-+ 						      const PangoMatrix *matrix);
-+-G_CONST_RETURN PangoMatrix *pango_context_get_matrix (PangoContext      *context);
-++const PangoMatrix *pango_context_get_matrix (PangoContext      *context);
-+ 
-+ /* Break a string of Unicode characters into segments with
-+  * consistent shaping/language engine and bidrectional level.
-+Index: pango-1.28.4/pango/pango-font.h
-+===================================================================
-+--- pango-1.28.4.orig/pango/pango-font.h	2011-10-12 01:32:13.072046150 +0100
-++++ pango-1.28.4/pango/pango-font.h	2011-10-12 01:32:36.362046243 +0100
-+@@ -117,7 +117,7 @@
-+ 							       const char           *family);
-+ void                 pango_font_description_set_family_static (PangoFontDescription *desc,
-+ 							       const char           *family);
-+-G_CONST_RETURN char *pango_font_description_get_family        (const PangoFontDescription *desc) G_GNUC_PURE;
-++const char *pango_font_description_get_family        (const PangoFontDescription *desc) G_GNUC_PURE;
-+ void                 pango_font_description_set_style         (PangoFontDescription *desc,
-+ 							       PangoStyle            style);
-+ PangoStyle           pango_font_description_get_style         (const PangoFontDescription *desc) G_GNUC_PURE;
-+@@ -212,7 +212,7 @@
-+ void                 pango_font_family_list_faces (PangoFontFamily  *family,
-+ 						   PangoFontFace  ***faces,
-+ 						   int              *n_faces);
-+-G_CONST_RETURN char *pango_font_family_get_name   (PangoFontFamily  *family) G_GNUC_PURE;
-++const char *pango_font_family_get_name   (PangoFontFamily  *family) G_GNUC_PURE;
-+ gboolean   pango_font_family_is_monospace         (PangoFontFamily  *family) G_GNUC_PURE;
-+ 
-+ #ifdef PANGO_ENABLE_BACKEND
-+@@ -261,7 +261,7 @@
-+ GType      pango_font_face_get_type       (void) G_GNUC_CONST;
-+ 
-+ PangoFontDescription *pango_font_face_describe       (PangoFontFace  *face);
-+-G_CONST_RETURN char  *pango_font_face_get_face_name  (PangoFontFace  *face) G_GNUC_PURE;
-++const char  *pango_font_face_get_face_name  (PangoFontFace  *face) G_GNUC_PURE;
-+ void                  pango_font_face_list_sizes     (PangoFontFace  *face,
-+ 						      int           **sizes,
-+ 						      int            *n_sizes);
-+Index: pango-1.28.4/pango/pango-fontmap.c
-+===================================================================
-+--- pango-1.28.4.orig/pango/pango-fontmap.c	2011-10-12 01:32:09.912046152 +0100
-++++ pango-1.28.4/pango/pango-fontmap.c	2011-10-12 01:32:34.542040267 +0100
-+@@ -290,7 +290,7 @@
-+  *
-+  * Since: 1.4
-+  **/
-+-G_CONST_RETURN char *
-++const char *
-+ pango_font_map_get_shape_engine_type (PangoFontMap *fontmap)
-+ {
-+   g_return_val_if_fail (PANGO_IS_FONT_MAP (fontmap), NULL);
-+Index: pango-1.28.4/pango/pango-language.c
-+===================================================================
-+--- pango-1.28.4.orig/pango/pango-language.c	2011-10-12 01:32:10.052046151 +0100
-++++ pango-1.28.4/pango/pango-language.c	2011-10-12 01:32:34.542040267 +0100
-+@@ -319,7 +319,7 @@
-+  * Returns: a string representing the language tag.  This is owned by
-+  *          Pango and should not be freed.
++  * Return value: FIXME
 +  */
-+-G_CONST_RETURN char *
-++const char *
-+ (pango_language_to_string) (PangoLanguage *language)
++-G_CONST_RETURN gchar *
+++const gchar *
++ unique_backend_get_name (UniqueBackend *backend)
 + {
-+   return pango_language_to_string (language);
-+@@ -531,7 +531,7 @@
-+  * Return value: the sample string. This value is owned by Pango
-+  *   and should not be freed.
-+  **/
-+-G_CONST_RETURN char *
-++const char *
-+ pango_language_get_sample_string (PangoLanguage *language)
++   g_return_val_if_fail (UNIQUE_IS_BACKEND (backend), NULL);
++@@ -154,7 +154,7 @@
++  *
++  * Return value: FIXME
++  */
++-G_CONST_RETURN gchar *
+++const gchar *
++ unique_backend_get_startup_id (UniqueBackend *backend)
 + {
-+   const LangInfo *lang_info;
-+@@ -592,7 +592,7 @@
-+  
-+  * Since: 1.22
-+  **/
-+-G_CONST_RETURN PangoScript *
-++const PangoScript *
-+ pango_language_get_scripts (PangoLanguage *language,
-+ 			    int           *num_scripts)
-+ {
-+Index: pango-1.28.4/pango/pango-language.h
++   g_return_val_if_fail (UNIQUE_IS_BACKEND (backend), NULL);
++Index: libunique-1.1.6/unique/uniquebackend.h
 +===================================================================
-+--- pango-1.28.4.orig/pango/pango-language.h	2011-10-12 01:32:13.262046150 +0100
-++++ pango-1.28.4/pango/pango-language.h	2011-10-12 01:32:36.362046243 +0100
-+@@ -34,11 +34,11 @@
-+ GType          pango_language_get_type    (void) G_GNUC_CONST;
-+ PangoLanguage *pango_language_from_string (const char *language);
++--- libunique-1.1.6.orig/unique/uniquebackend.h	2011-10-12 01:21:25.992046521 +0100
+++++ libunique-1.1.6/unique/uniquebackend.h	2011-10-12 01:21:56.512047875 +0100
++@@ -94,10 +94,10 @@
 + 
-+-G_CONST_RETURN char *pango_language_to_string   (PangoLanguage *language) G_GNUC_CONST;
-++const char *pango_language_to_string   (PangoLanguage *language) G_GNUC_CONST;
-+ /* For back compat.  Will have to keep indefinitely. */
-+ #define pango_language_to_string(language) ((const char *)language)
++ UniqueBackend *       unique_backend_create         (void);
 + 
-+-G_CONST_RETURN char *pango_language_get_sample_string (PangoLanguage *language) G_GNUC_CONST;
-++const char *pango_language_get_sample_string (PangoLanguage *language) G_GNUC_CONST;
-+ PangoLanguage *pango_language_get_default (void) G_GNUC_CONST;
++-G_CONST_RETURN gchar *unique_backend_get_name       (UniqueBackend     *backend);
+++const gchar *unique_backend_get_name       (UniqueBackend     *backend);
++ void                  unique_backend_set_name       (UniqueBackend     *backend,
++                                                      const gchar       *name);
++-G_CONST_RETURN gchar *unique_backend_get_startup_id (UniqueBackend     *backend);
+++const gchar *unique_backend_get_startup_id (UniqueBackend     *backend);
++ void                  unique_backend_set_startup_id (UniqueBackend     *backend,
++                                                      const gchar       *startup_id);
++ GdkScreen *           unique_backend_get_screen     (UniqueBackend     *backend);
++Index: libunique-1.1.6/unique/uniqueinternals.h
++===================================================================
++--- libunique-1.1.6.orig/unique/uniqueinternals.h	2011-10-12 01:21:25.892046532 +0100
+++++ libunique-1.1.6/unique/uniqueinternals.h	2011-10-12 01:21:56.512047875 +0100
++@@ -44,11 +44,11 @@
++  * and then back into an id
++  */
++ UniqueResponse        unique_response_from_string  (const gchar    *response);
++-G_CONST_RETURN gchar *unique_response_to_string    (UniqueResponse  response);
+++const gchar *unique_response_to_string    (UniqueResponse  response);
 + 
-+ gboolean      pango_language_matches  (PangoLanguage *language,
-+@@ -48,7 +48,7 @@
-+ 
-+ gboolean		    pango_language_includes_script (PangoLanguage *language,
-+ 							    PangoScript    script) G_GNUC_PURE;
-+-G_CONST_RETURN PangoScript *pango_language_get_scripts	   (PangoLanguage *language,
-++const PangoScript *pango_language_get_scripts	   (PangoLanguage *language,
-+ 							    int           *num_scripts);
++ gint                  unique_command_from_string   (UniqueApp      *app,
++                                                     const gchar    *command);
++-G_CONST_RETURN gchar *unique_command_to_string     (UniqueApp      *app,
+++const gchar *unique_command_to_string     (UniqueApp      *app,
++                                                     gint            command);
 + 
 + G_END_DECLS
-+Index: pango-1.28.4/pango/pango-layout.c
++Index: libunique-1.1.6/unique/uniquemessage.c
 +===================================================================
-+--- pango-1.28.4.orig/pango/pango-layout.c	2011-10-12 01:32:10.072046151 +0100
-++++ pango-1.28.4/pango/pango-layout.c	2011-10-12 01:32:34.552041215 +0100
-+@@ -677,7 +677,7 @@
++--- libunique-1.1.6.orig/unique/uniquemessage.c	2011-10-12 01:21:25.942046524 +0100
+++++ libunique-1.1.6/unique/uniquemessage.c	2011-10-12 01:21:55.072046595 +0100
++@@ -185,7 +185,7 @@
 +  *
-+  * Since: 1.8
-+  **/
-+-G_CONST_RETURN PangoFontDescription *
-++const PangoFontDescription *
-+ pango_layout_get_font_description (PangoLayout *layout)
-+ {
-+   g_return_val_if_fail (PANGO_IS_LAYOUT (layout), NULL);
-+@@ -1087,7 +1087,7 @@
-+  *
-+  * Return value: the text in the @layout.
-+  **/
-+-G_CONST_RETURN char*
-++const char*
-+ pango_layout_get_text (PangoLayout *layout)
-+ {
-+   g_return_val_if_fail (PANGO_IS_LAYOUT (layout), NULL);
-+Index: pango-1.28.4/pango/pango-layout.h
-+===================================================================
-+--- pango-1.28.4.orig/pango/pango-layout.h	2011-10-12 01:32:13.302046150 +0100
-++++ pango-1.28.4/pango/pango-layout.h	2011-10-12 01:32:36.362046243 +0100
-+@@ -116,7 +116,7 @@
-+ void           pango_layout_set_font_description (PangoLayout                *layout,
-+ 						  const PangoFontDescription *desc);
-+ 
-+-G_CONST_RETURN PangoFontDescription *pango_layout_get_font_description (PangoLayout *layout);
-++const PangoFontDescription *pango_layout_get_font_description (PangoLayout *layout);
-+ 
-+ void           pango_layout_set_width            (PangoLayout                *layout,
-+ 						  int                         width);
-+Index: pango-1.28.4/pango/pango-ot-ruleset.c
-+===================================================================
-+--- pango-1.28.4.orig/pango/pango-ot-ruleset.c	2011-10-12 01:32:10.152046150 +0100
-++++ pango-1.28.4/pango/pango-ot-ruleset.c	2011-10-12 01:32:34.552041215 +0100
-+@@ -107,7 +107,7 @@
-+  *
-+  * Since: 1.18
-+  **/
-+-G_CONST_RETURN PangoOTRuleset *
-++const PangoOTRuleset *
-+ pango_ot_ruleset_get_for_description (PangoOTInfo                     *info,
-+ 				      const PangoOTRulesetDescription *desc)
-+ {
-+Index: pango-1.28.4/pango/pango-renderer.c
-+===================================================================
-+--- pango-1.28.4.orig/pango/pango-renderer.c	2011-10-12 01:32:10.192046151 +0100
-++++ pango-1.28.4/pango/pango-renderer.c	2011-10-12 01:32:34.562041682 +0100
-+@@ -1352,7 +1352,7 @@
-+  *
-+  * Since: 1.8
-+  **/
-+-G_CONST_RETURN PangoMatrix *
-++const PangoMatrix *
-+ pango_renderer_get_matrix (PangoRenderer *renderer)
-+ {
-+   g_return_val_if_fail (PANGO_IS_RENDERER (renderer), NULL);
-+Index: pango-1.28.4/pango/pango-renderer.h
-+===================================================================
-+--- pango-1.28.4.orig/pango/pango-renderer.h	2011-10-12 01:32:13.402046150 +0100
-++++ pango-1.28.4/pango/pango-renderer.h	2011-10-12 01:32:36.362046243 +0100
-+@@ -249,7 +249,7 @@
-+ 
-+ void                        pango_renderer_set_matrix (PangoRenderer     *renderer,
-+ 						       const PangoMatrix *matrix);
-+-G_CONST_RETURN PangoMatrix *pango_renderer_get_matrix (PangoRenderer     *renderer);
-++const PangoMatrix *pango_renderer_get_matrix (PangoRenderer     *renderer);
-+ 
-+ PangoLayout     *pango_renderer_get_layout      (PangoRenderer     *renderer);
-+ PangoLayoutLine *pango_renderer_get_layout_line (PangoRenderer     *renderer);
-+Index: pango-1.28.4/pango/pango-script.c
-+===================================================================
-+--- pango-1.28.4.orig/pango/pango-script.c	2011-10-12 01:32:10.212046151 +0100
-++++ pango-1.28.4/pango/pango-script.c	2011-10-12 01:32:34.562041682 +0100
-+@@ -165,8 +165,8 @@
-+  **/
-+ void
-+ pango_script_iter_get_range (PangoScriptIter      *iter,
-+-			     G_CONST_RETURN char **start,
-+-			     G_CONST_RETURN char **end,
-++			     const char **start,
-++			     const char **end,
-+ 			     PangoScript          *script)
-+ {
-+   if (start)
-+Index: pango-1.28.4/pango/pango-script.h
-+===================================================================
-+--- pango-1.28.4.orig/pango/pango-script.h	2011-10-12 01:32:13.422046150 +0100
-++++ pango-1.28.4/pango/pango-script.h	2011-10-12 01:32:36.362046243 +0100
-+@@ -129,8 +129,8 @@
-+ PangoScriptIter *pango_script_iter_new       (const char          *text,
-+ 					      int                  length);
-+ void             pango_script_iter_get_range (PangoScriptIter      *iter,
-+-					      G_CONST_RETURN char **start,
-+-					      G_CONST_RETURN char **end,
-++					      const char **start,
-++					      const char **end,
-+ 					      PangoScript          *script);
-+ gboolean         pango_script_iter_next      (PangoScriptIter      *iter);
-+ void             pango_script_iter_free      (PangoScriptIter      *iter);
-+Index: pango-1.28.4/pango/pango-utils.c
-+===================================================================
-+--- pango-1.28.4.orig/pango/pango-utils.c	2011-10-12 01:32:10.242046149 +0100
-++++ pango-1.28.4/pango/pango-utils.c	2011-10-12 01:32:34.562041682 +0100
-+@@ -689,7 +689,7 @@
-+  * Return value: the Pango sysconf directory. The returned string should
-+  * not be freed.
++  * Since: 1.0.2
 +  */
-+-G_CONST_RETURN char *
-++const char *
-+ pango_get_sysconf_subdirectory (void)
++-G_CONST_RETURN guchar *
+++const guchar *
++ unique_message_data_get (UniqueMessageData *message_data,
++                          gsize             *length)
 + {
-+ #ifdef G_OS_WIN32
-+@@ -718,7 +718,7 @@
-+  * Return value: the Pango lib directory. The returned string should
-+  * not be freed.
++@@ -525,7 +525,7 @@
++  *   owned by the #UniqueMessageData structure and should not be
++  *   modified or freed
 +  */
-+-G_CONST_RETURN char *
-++const char *
-+ pango_get_lib_subdirectory (void)
++-G_CONST_RETURN gchar *
+++const gchar *
++ unique_message_data_get_startup_id (UniqueMessageData *message_data)
 + {
-+ #ifdef G_OS_WIN32
-+Index: pango-1.28.4/pango/pango-utils.h
++   g_return_val_if_fail (message_data != NULL, NULL);
++Index: libunique-1.1.6/unique/uniquemessage.h
 +===================================================================
-+--- pango-1.28.4.orig/pango/pango-utils.h	2011-10-12 01:32:13.512046149 +0100
-++++ pango-1.28.4/pango/pango-utils.h	2011-10-12 01:32:36.362046243 +0100
-+@@ -82,13 +82,13 @@
-+  * stored in the registry). The returned string should not be
-+  * g_free'd.
-+  */
-+-G_CONST_RETURN char *   pango_get_sysconf_subdirectory (void) G_GNUC_PURE;
-++const char *   pango_get_sysconf_subdirectory (void) G_GNUC_PURE;
++--- libunique-1.1.6.orig/unique/uniquemessage.h	2011-10-12 01:21:25.792046596 +0100
+++++ libunique-1.1.6/unique/uniquemessage.h	2011-10-12 01:21:56.512047875 +0100
++@@ -48,7 +48,7 @@
++ void                   unique_message_data_set            (UniqueMessageData *message_data,
++                                                            const guchar      *data,
++                                                            gsize              length);
++-G_CONST_RETURN guchar *unique_message_data_get            (UniqueMessageData *message_data,
+++const guchar *unique_message_data_get            (UniqueMessageData *message_data,
++                                                            gsize             *length);
 + 
-+ /* Ditto for LIBDIR/pango. On Win32, use the same Pango
-+  * installation directory. This returned string should not be
-+  * g_free'd either.
-+  */
-+-G_CONST_RETURN char *   pango_get_lib_subdirectory (void) G_GNUC_PURE;
-++const char *   pango_get_lib_subdirectory (void) G_GNUC_PURE;
++ gboolean               unique_message_data_set_text       (UniqueMessageData *message_data,
++@@ -63,7 +63,7 @@
++ gchar *                unique_message_data_get_filename   (UniqueMessageData *message_data);
 + 
-+ #endif /* PANGO_ENABLE_BACKEND */
++ GdkScreen *            unique_message_data_get_screen     (UniqueMessageData *message_data);
++-G_CONST_RETURN gchar * unique_message_data_get_startup_id (UniqueMessageData *message_data);
+++const gchar * unique_message_data_get_startup_id (UniqueMessageData *message_data);
++ guint                  unique_message_data_get_workspace  (UniqueMessageData *message_data);
 + 
-+@@ -131,10 +131,10 @@
-+ int pango_version (void) G_GNUC_CONST;
-+ 
-+ /* Return run-time Pango version as an string */
-+-G_CONST_RETURN char * pango_version_string (void) G_GNUC_CONST;
-++const char * pango_version_string (void) G_GNUC_CONST;
-+ 
-+ /* Check that run-time Pango is as new as required */
-+-G_CONST_RETURN char * pango_version_check (int required_major,
-++const char * pango_version_check (int required_major,
-+ 					   int required_minor,
-+ 					   int required_micro) G_GNUC_CONST;
-+ 
-+Index: pango-1.28.4/pango/pangocairo-context.c
-+===================================================================
-+--- pango-1.28.4.orig/pango/pangocairo-context.c	2011-10-12 01:32:09.622046154 +0100
-++++ pango-1.28.4/pango/pangocairo-context.c	2011-10-12 01:32:34.522037975 +0100
-+@@ -260,7 +260,7 @@
-+  *
-+  * Since: 1.10
-+  **/
-+-G_CONST_RETURN cairo_font_options_t *
-++const cairo_font_options_t *
-+ pango_cairo_context_get_font_options (PangoContext *context)
-+ {
-+   PangoCairoContextInfo *info;
-+@@ -286,7 +286,7 @@
-+  * Return value: the combined set of font options. This value is owned
-+  * by the context and must not be modified or freed.
-+  **/
-+-G_CONST_RETURN cairo_font_options_t *
-++const cairo_font_options_t *
-+ _pango_cairo_context_get_merged_font_options (PangoContext *context)
-+ {
-+   PangoCairoContextInfo *info = get_context_info (context, TRUE);
-+Index: pango-1.28.4/pango/pangoft2.c
-+===================================================================
-+--- pango-1.28.4.orig/pango/pangoft2.c	2011-10-12 01:32:09.942046152 +0100
-++++ pango-1.28.4/pango/pangoft2.c	2011-10-12 01:32:34.542040267 +0100
-+@@ -520,7 +520,7 @@
-+   return ((ft_error_description *) pkey)->code - ((ft_error_description *) pbase)->code;
-+ }
-+ 
-+-G_CONST_RETURN char *
-++const char *
-+ _pango_ft2_ft_strerror (FT_Error error)
-+ {
-+ #undef __FTERRORS_H__
-+Index: pango-1.28.4/pango/pangox-fontmap.c
-+===================================================================
-+--- pango-1.28.4.orig/pango/pangox-fontmap.c	2011-10-12 01:32:10.352046151 +0100
-++++ pango-1.28.4/pango/pangox-fontmap.c	2011-10-12 01:32:34.572042704 +0100
-+@@ -1441,7 +1441,7 @@
-+ }
-+ 
-+ 
-+-G_CONST_RETURN char *
-++const char *
-+ pango_x_fontmap_name_from_atom (PangoFontMap *fontmap,
-+ 				Atom          atom)
-+ {
-+@@ -1645,7 +1645,7 @@
-+     }
-+ }
-+ 
-+-static G_CONST_RETURN char *
-++static const char *
-+ pango_x_family_get_name (PangoFontFamily  *family)
-+ {
-+   PangoXFamily *xfamily = PANGO_X_FAMILY (family);
-diff --git a/meta/recipes-graphics/pango/pango_1.28.4.bb b/meta/recipes-graphics/pango/pango_1.28.4.bb
-index 68ab700..2cbd372 100644
---- a/meta/recipes-graphics/pango/pango_1.28.4.bb
-+++ b/meta/recipes-graphics/pango/pango_1.28.4.bb
-@@ -2,9 +2,10 @@ require pango.inc
++ G_END_DECLS
+diff --git a/meta/recipes-gnome/libunique/libunique_1.1.6.bb b/meta/recipes-gnome/libunique/libunique_1.1.6.bb
+index 4f3cdb6..9435e97 100644
+--- a/meta/recipes-gnome/libunique/libunique_1.1.6.bb
++++ b/meta/recipes-gnome/libunique/libunique_1.1.6.bb
+@@ -3,12 +3,13 @@ HOMEPAGE = "http://live.gnome.org/LibUnique"
+ BUGTRACKER = "https://bugzilla.gnome.org/enter_bug.cgi?product=libunique"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
+ SRC_URI = "${GNOME_MIRROR}/libunique/1.1/libunique-${PV}.tar.bz2 \
+-	file://fix_for_compile_with_gcc-4.6.0.patch"
++	file://fix_for_compile_with_gcc-4.6.0.patch \
++	file://noconst.patch"
  
--PR = "r1"
-+PR = "r2"
+ SRC_URI[md5sum] = "7955769ef31f1bc4f83446dbb3625e6d"
+ SRC_URI[sha256sum] = "e5c8041cef8e33c55732f06a292381cb345db946cf792a4ae18aa5c66cdd4fbb"
  
- SRC_URI += "file://no-tests.patch"
-+SRC_URI += "file://noconst.patch"
+-PR = "r3"
++PR = "r4"
  
- SRC_URI[archive.md5sum] = "3f3989700f04e9117d30544a9078b3a0"
- SRC_URI[archive.sha256sum] = "7eb035bcc10dd01569a214d5e2bc3437de95d9ac1cfa9f50035a687c45f05a9f"
+ DEPENDS = "glib-2.0 gtk+ dbus"
+ 
 
 
 
