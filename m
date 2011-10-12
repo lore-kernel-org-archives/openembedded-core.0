@@ -1,24 +1,35 @@
-Received: from smtp2-g21.free.fr ([212.27.42.2])
+Received: from lo.gmane.org ([80.91.229.12])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1RDtr4-0006H6-5S
-	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Oct 2011 10:07:58 +0200
-Received: from [192.168.1.15] (unknown [82.240.38.71])
-	by smtp2-g21.free.fr (Postfix) with ESMTP id 5C1114B02E6;
-	Wed, 12 Oct 2011 10:02:13 +0200 (CEST)
-Message-ID: <4E954984.7020202@eukrea.com>
-Date: Wed, 12 Oct 2011 10:02:12 +0200
-From: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1318405370.git.Martin.Jansa@gmail.com>
-	<49a800f40bd08aa23d227dccafd34b3e59a7ccb5.1318405370.git.Martin.Jansa@gmail.com>
-In-Reply-To: <49a800f40bd08aa23d227dccafd34b3e59a7ccb5.1318405370.git.Martin.Jansa@gmail.com>
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: Re: [oe-core 1/4] qt4-embedded: remove dependency on tslib and use std. linux input
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1RDu6J-0006b0-Q3 for openembedded-core@lists.openembedded.org;
+	Wed, 12 Oct 2011 10:23:43 +0200
+Received: from list by lo.gmane.org with local (Exim 4.69)
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1RDu0l-0005g9-ES for openembedded-core@lists.openembedded.org;
+	Wed, 12 Oct 2011 10:17:59 +0200
+Received: from ip545070eb.adsl-surfen.hetnet.nl ([84.80.112.235])
+	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
+	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Oct 2011 10:17:59 +0200
+Received: from koen by ip545070eb.adsl-surfen.hetnet.nl with local (Gmexim 0.1
+	(Debian)) id 1AlnuQ-0007hv-00
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Oct 2011 10:17:59 +0200
+X-Injected-Via-Gmane: http://gmane.org/
+To: openembedded-core@lists.openembedded.org
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Wed, 12 Oct 2011 10:17:47 +0200
+Message-ID: <j73ifb$3kl$1@dough.gmane.org>
+References: <CAOd_LFzbT0j3wSjp+d3POcTUo9X9+aiYtax4d6tep3YXmTwb2g@mail.gmail.com>
+Mime-Version: 1.0
+X-Complaints-To: usenet@dough.gmane.org
+X-Gmane-NNTP-Posting-Host: ip545070eb.adsl-surfen.hetnet.nl
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
+	rv:7.0) Gecko/20110922 Thunderbird/7.0
+In-Reply-To: <CAOd_LFzbT0j3wSjp+d3POcTUo9X9+aiYtax4d6tep3YXmTwb2g@mail.gmail.com>
+X-Enigmail-Version: 1.3.2
+Cc: openembedded-devel@lists.openembedded.org
+Subject: Re: git server move
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,28 +44,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Oct 2011 08:07:58 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 12 Oct 2011 08:23:43 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
 
-Le 12/10/2011 09:45, Martin Jansa a =E9crit :
-> From: Simon Busch<morphis@gravedo.de>
->
-> In most cases we don't need tslib in std. configuration as touchscreen =
-access in most
-> devices today is done with linux input interface. If some specific mach=
-ine has a need for
-> tslib support it should add the dependency in it's machine layer again =
-and modify the
-> profile script accordingly.
->
-When using a resistive touchscreen, tslib is a common solution to handle=20
-calibration and raw value processing : do you think this is a good thing =
-to=20
-remove this ?
+Op 11-10-11 21:11, Cliff Brake schreef:
+> Hi, we are moving git.openembedded.org to a new server.
+> 
+> SSH access on the old server has been disabled.  git:// still works
+> there.
+> 
+> As soon as DNS propagates, SSH access will work with the new server.
+> 
+> Let me know if you see any problems.
 
-Eric
+When will cgit be back up?
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.5 (Darwin)
+Comment: GPGTools - http://gpgtools.org
+
+iD8DBQFOlU0rMkyGM64RGpERArroAJ9EuHaOEcv64o9q9kJLZk50/OLoSQCgmKjd
+Yxh2H5CGKREmOq32gr36aes=
+=Xubc
+-----END PGP SIGNATURE-----
+
 
 
