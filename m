@@ -1,27 +1,29 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-gx0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1RE04h-0002j3-Jm
-	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Oct 2011 16:46:27 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p9CEefsR024933
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2011 07:40:42 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 12 Oct 2011 07:40:39 -0700
-Message-ID: <4E95A6E5.6090402@windriver.com>
-Date: Wed, 12 Oct 2011 09:40:37 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
+	(envelope-from <cliff.brake@gmail.com>)
+	id 1RE08b-0002np-E4; Wed, 12 Oct 2011 16:50:30 +0200
+Received: by ggnq1 with SMTP id q1so750430ggn.6
+	for <multiple recipients>; Wed, 12 Oct 2011 07:44:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=Viyp3eW8G7+VbdDDC1N6PrwmWOncqxTN+kvLDijUU9s=;
+	b=QHSSbbd7uFNX/qKNMpOMMHYuXAM0a+Yg+64LLgI6qtEa5ZEmwTE1JMPdIhdxpYpWDp
+	LA5UjGrSR1+DnRXUwF1VEfeIgvGR7K05HmLEknzyxolugxuHpQeNi3JxGg2XCRsDdtZM
+	RIsFoa6E2pBkQW3XSCKr6X5zuJZH9Ab57UhvM=
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1318279539.23801.68.camel@ted> <1318332940.23801.90.camel@ted>
-In-Reply-To: <1318332940.23801.90.camel@ted>
-Subject: Re: Some further build dependency timings
+Received: by 10.236.123.37 with SMTP id u25mr37752237yhh.50.1318430682647;
+	Wed, 12 Oct 2011 07:44:42 -0700 (PDT)
+Received: by 10.236.209.97 with HTTP; Wed, 12 Oct 2011 07:44:42 -0700 (PDT)
+In-Reply-To: <1318361177.3726.1.camel@mattotaupa>
+References: <CAOd_LFzbT0j3wSjp+d3POcTUo9X9+aiYtax4d6tep3YXmTwb2g@mail.gmail.com>
+	<1318361177.3726.1.camel@mattotaupa>
+Date: Wed, 12 Oct 2011 10:44:42 -0400
+Message-ID: <CAOd_LFy94B+0ApZYLu3Q3FxNtME9gH-eAnRrGKt=Aa=NR-QFBQ@mail.gmail.com>
+From: Cliff Brake <cliff.brake@gmail.com>
+To: openembedded-devel@lists.openembedded.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [oe] git server move
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,130 +38,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Oct 2011 14:46:28 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 12 Oct 2011 14:50:30 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 10/11/11 6:35 AM, Richard Purdie wrote:
-> On Mon, 2011-10-10 at 21:45 +0100, Richard Purdie wrote:
->> Just for reference, with a base configuration, sato image:
->>
->> real	50m8.223s
->> user	298m41.450s
->> sys	52m42.200s
->>
->> adding:
->>
->> ASSUME_PROVIDED =+ "bison-native flex-native sqlite3-native git-native"
->>
->> (and hacking the pseudo recipe to use a sqlite3-native):
->>
->> real	42m6.740s
->> user	296m21.940s
->> sys	52m25.220s
->>
->> We continue to have real dependency issues around gettext in both the
->> native and target builds...
-> 
-> So to continue the story, adding:
-> 
-> DEBUG_FLAGS = ""
-> INHERIT_INSANE = ""
-> PACKAGE_CLASSES = "package_ipk"
-> USER_CLASSES = ""
-> 
-> Results in:
-> 
-> real	38m23.053s
-> user	237m7.430s
-> sys	39m3.720s
-> 
-> Then adding PSEUDO_RELOADED=yes to the environment of tasks not needing
-> pseudo (hack patch below):
-> 
-> real	36m20.683s
-> user	236m19.580s
-> sys	37m54.450s
-> 
-> Finally, adding:
-> 
-> DISABLESTATIC = "--disable-static"
-> DISABLESTATIC_pn-qemu = ""
-> DISABLESTATIC_pn-qemu-native = ""
-> DISABLESTATIC_pn-openssl = ""
-> DISABLESTATIC_pn-openssl-native = ""
-> EXTRA_OECONF += "${DISABLESTATIC}"
-> 
-> real	34m53.877s
-> user	233m34.780s
-> sys	38m50.190s
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
-> --- a/bitbake/lib/bb/runqueue.py
-> +++ b/bitbake/lib/bb/runqueue.py
-> @@ -1096,6 +1096,10 @@ class RunQueueExecute:
->  
->              logger.debug(2, 'Running %s:%s under fakeroot, fakedirs: %s' %
->                              (fn, taskname, ', '.join(fakedirs)))
-> +        else:
-> +            envbackup["PSEUDO_RELOADED"] = os.environ.get("PSEUDO_RELOADED")
-> +            os.environ["PSEUDO_RELOADED"] = "yes"
-> +            fakeenv["PSEUDO_RELOADED"] = "yes"
+On Tue, Oct 11, 2011 at 3:26 PM, Paul Menzel
+<paulepanter@users.sourceforge.net> wrote:
 
-PSEUDO_RELOADED was intended to only be used internally by pseudo.  Specifically
-to signify to fork/exec that we're about to run the pseudo server process and to
-remove PSEUDO from the LD_PRELOAD on the next fork/exec.
+> is there more information about the reasons? Is it just a new machine?
+> Where is it hosted now?
 
-The system simply checks the environment on the fork-exec and doesn't check the
-value on pseudo-load.  This is why it works.
+Certainly.  It is still hosted at OSUOSL.  We had some problems with
+the original VM (Melo), so git has been running on a temporary VM
+(Garnet, our build instance).  Now that we have a replacement for Melo
+(Opal), we are moving to this machine.
 
-That side effect means that any subsequent calls can NOT re-enable pseudo as
-it's no longer in memory at all.
+> So what are the fingerprints of the new keys? ;-)
 
-So what you are seeing at best is the time difference from avoiding the
-LD_PRELOAD and the jump table setup.  (Even when pseudo is disabled, we need to
-enable the jump table, we just pass the call to the original function.)
+1024 ad:8e:65:4e:dc:4c:d9:63:8f:67:b3:87:03:c9:a1:73 ssh_host_dsa_key.pub (DSA)
+2048 ed:99:0d:c1:6e:6c:02:75:df:36:25:4d:62:39:b7:e5 ssh_host_rsa_key.pub (RSA)
 
-But more then likely because pseudo is no longer memory resident for the called
-processes and it's sub-processes.. there is likely some place in the system that
-uses pseudo functionality that is no longer functioning properly.
+Let me know if you have any more questions.
 
-It would be interesting to determine first off, if there is anywhere pseudo
-should be running that it currently isn't.  And second if this is simply due to
-LD_PRELOAD time, or if enabling the jump table is the culprit.
+Thanks,
+Cliff
 
-One potential optimization, when PSEUDO_DISABLE=1 is to only setup the jump
-table entries for fork/exec items.
-
-Also if it is desired to unload pseudo, I'd suggest we add a new environment
-variable to pseudo that is specific about unloading pseudo, instead of using the
-existing PSEUDO_RELOADED.  Not only is the name confusing, but since it's an
-internal item it's behavior may change or go away in the future.
-
-(Below is from the pseudo man page:
-
-      PSEUDO_RELOADED
-               This purely internal variable is used to track state while try-
-               ing to re-execute to get  rid  of  the  LD_PRELOAD  value  when
-               spawning  a  server.  (The pseudo server itself cannot function
-               running in the pseudo environment.)
-)
-
->  
->          sys.stdout.flush()
->          sys.stderr.flush()
-> 
-> 
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+-- 
+=================
+http://bec-systems.com
 
 
