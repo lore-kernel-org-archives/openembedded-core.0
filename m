@@ -1,32 +1,42 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RDswK-0002YZ-CP
+	(envelope-from <dexuan.cui@intel.com>) id 1RDtEp-00036a-0P
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Oct 2011 09:09:20 +0200
-Received: by bke11 with SMTP id 11so580690bke.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2011 00:03:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=uHvhtVLPlKnsd/rXdKildU+PI1zZHrzaEyIt+qUegK8=;
-	b=eCzDuXKGXSsBqlKoxkoMLwgA0EqPhJVWKHLx5qvFpItM1j4IX2At4QJtxoT3hEzokk
-	QiP0GqoClSKfoWEnIrgogfT2dYiJFqjjQ/zh6eiYpZxyN6M33F2guXj0jdDSHYrieJI5
-	sABvd+9gUIt1DuMwuOan6qAAe9JqZifQR7HiQ=
-Received: by 10.204.130.153 with SMTP id t25mr11955522bks.11.1318403018034;
-	Wed, 12 Oct 2011 00:03:38 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id ex8sm962669bkc.2.2011.10.12.00.03.34
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 12 Oct 2011 00:03:35 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Oct 2011 09:03:21 +0200
-Message-Id: <1318403001-30440-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.7
-In-Reply-To: <1317634209-3154-1-git-send-email-mokml@mnet-online.de>
-References: <1317634209-3154-1-git-send-email-mokml@mnet-online.de>
-Cc: Klaus Kurzmann <mok@fluxnetz.de>
-Subject: [PATCHv2] eglibc-2.14: add patch to fix libdl crash
+	Wed, 12 Oct 2011 09:28:28 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 12 Oct 2011 00:22:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,333,1315206000"; d="scan'208";a="72644977"
+Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
+	by fmsmga001.fm.intel.com with ESMTP; 12 Oct 2011 00:22:43 -0700
+Received: from pgsmsx102.gar.corp.intel.com (10.221.44.80) by
+	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 12 Oct 2011 15:22:11 +0800
+Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
+	PGSMSX102.gar.corp.intel.com (10.221.44.80) with Microsoft SMTP Server
+	(TLS) id 14.1.323.3; Wed, 12 Oct 2011 15:22:11 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
+	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
+	Wed, 12 Oct 2011 15:22:10 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 12 Oct 2011 15:22:08 +0800
+Thread-Topic: [OE-core] [oe-core][PATCHv3 01/31] xserver-xf86(-dri)-lite:
+	rename	to xserver-xorg and xserver-xorg-lite
+Thread-Index: AcyFE2XXgJ1HdkKETGygn3hnGLtX8gDfiseQAAd8J2A=
+Message-ID: <1865303E0DED764181A9D882DEF65FB6D23164EA0E@shsmsx502.ccr.corp.intel.com>
+References: <cover.1318007055.git.Martin.Jansa@gmail.com>
+	<8267017169d00aaa5a487a6f5d72cd67dad9c327.1318007055.git.Martin.Jansa@gmail.com>
+	<1865303E0DED764181A9D882DEF65FB6D23164E84D@shsmsx502.ccr.corp.intel.com>
+In-Reply-To: <1865303E0DED764181A9D882DEF65FB6D23164E84D@shsmsx502.ccr.corp.intel.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: zh-CN, en-US
+MIME-Version: 1.0
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: [PATCHv3 01/31] xserver-xf86(-dri)-lite: rename	to xserver-xorg and xserver-xorg-lite
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,183 +51,519 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Oct 2011 07:09:20 -0000
+X-List-Received-Date: Wed, 12 Oct 2011 07:28:28 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Klaus Kurzmann <mok@fluxnetz.de>
+BTW, I sent out 2 patches (to poky@yoctoproject.org) for bug 1670: http://b=
+ugzilla.pokylinux.org/show_bug.cgi?id=3D1670#c2
 
-* Without this patch programs using alsa-lib crash (alsamixer for example).
-* This patch is taken verbatim from ArchLinux.
+Thanks,
+-- Dexuan
 
-Signed-off-by: Klaus Kurzmann <mok@fluxnetz.de>
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- .../eglibc-2.14/glibc-2.14-libdl-crash.patch       |  131 ++++++++++++++++++++
- meta/recipes-core/eglibc/eglibc_2.14.bb            |    5 +-
- 2 files changed, 134 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch
 
-diff --git a/meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch b/meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch
-new file mode 100644
-index 0000000..e1f135c
---- /dev/null
-+++ b/meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch
-@@ -0,0 +1,131 @@
-+Without this patch programs using alsa-lib crash (alsamixer for example).
-+Removed Copyright reverts
-+
-+Upstream-Status: Pending
-+
-+http://sourceware.org/git/?p=glibc.git;a=commitdiff;h=675155e9
-+http://sourceware.org/ml/libc-alpha/2011-06/msg00006.html
-+
-+many distributions are using this already
-+http://chakra-project.org/ccr/packages/glibc/glibc/PKGBUILD
-+http://mailman.archlinux.org/pipermail/arch-commits/2011-June/137142.html
-+http://svn.mandriva.com/cgi-bin/viewvc.cgi/packages/cooker/glibc/current/SOURCES/glibc-2.14-libdl-crash.patch?view=markup&pathrev=691343
-+http://repos.archlinuxppc.org/wsvn/filedetails.php?repname=packages&path=%2Fglibc%2Ftrunk%2Fglibc-2.14-libdl-crash.patch
-+
-+diff --git a/elf/dl-close.c b/elf/dl-close.c
-+index 73b2a2f..9bd91e3 100644
-+--- a/elf/dl-close.c
-++++ b/elf/dl-close.c
-+@@ -119,17 +119,8 @@ _dl_close_worker (struct link_map *map)
-+   if (map->l_direct_opencount > 0 || map->l_type != lt_loaded
-+       || dl_close_state != not_pending)
-+     {
-+-      if (map->l_direct_opencount == 0)
-+-	{
-+-	  if (map->l_type == lt_loaded)
-+-	    dl_close_state = rerun;
-+-	  else if (map->l_type == lt_library)
-+-	    {
-+-	      struct link_map **oldp = map->l_initfini;
-+-	      map->l_initfini = map->l_orig_initfini;
-+-	      _dl_scope_free (oldp);
-+-	    }
-+-	}
-++      if (map->l_direct_opencount == 0 && map->l_type == lt_loaded)
-++	dl_close_state = rerun;
-+ 
-+       /* There are still references to this object.  Do nothing more.  */
-+       if (__builtin_expect (GLRO(dl_debug_mask) & DL_DEBUG_FILES, 0))
-+diff --git a/elf/dl-deps.c b/elf/dl-deps.c
-+index 9e30594..3890d00 100644
-+--- a/elf/dl-deps.c
-++++ b/elf/dl-deps.c
-+@@ -478,6 +478,7 @@ _dl_map_object_deps (struct link_map *map,
-+ 		  nneeded * sizeof needed[0]);
-+ 	  atomic_write_barrier ();
-+ 	  l->l_initfini = l_initfini;
-++	  l->l_free_initfini = 1;
-+ 	}
-+ 
-+       /* If we have no auxiliary objects just go on to the next map.  */
-+@@ -681,6 +682,7 @@ Filters not supported with LD_TRACE_PRELINKING"));
-+   l_initfini[nlist] = NULL;
-+   atomic_write_barrier ();
-+   map->l_initfini = l_initfini;
-++  map->l_free_initfini = 1;
-+   if (l_reldeps != NULL)
-+     {
-+       atomic_write_barrier ();
-+@@ -689,5 +691,5 @@ Filters not supported with LD_TRACE_PRELINKING"));
-+       _dl_scope_free (old_l_reldeps);
-+     }
-+   if (old_l_initfini != NULL)
-+-      map->l_orig_initfini = old_l_initfini;
-++    _dl_scope_free (old_l_initfini);
-+ }
-+diff --git a/elf/dl-libc.c b/elf/dl-libc.c
-+index 7be9483..a13fce3 100644
-+--- a/elf/dl-libc.c
-++++ b/elf/dl-libc.c
-+@@ -265,13 +265,13 @@ libc_freeres_fn (free_mem)
-+ 
-+   for (Lmid_t ns = 0; ns < GL(dl_nns); ++ns)
-+     {
-+-      /* Remove all additional names added to the objects.  */
-+       for (l = GL(dl_ns)[ns]._ns_loaded; l != NULL; l = l->l_next)
-+ 	{
-+ 	  struct libname_list *lnp = l->l_libname->next;
-+ 
-+ 	  l->l_libname->next = NULL;
-+ 
-++	  /* Remove all additional names added to the objects.  */
-+ 	  while (lnp != NULL)
-+ 	    {
-+ 	      struct libname_list *old = lnp;
-+@@ -279,6 +279,10 @@ libc_freeres_fn (free_mem)
-+ 	      if (! old->dont_free)
-+ 		free (old);
-+ 	    }
-++
-++	  /* Free the initfini dependency list.  */
-++	  if (l->l_free_initfini)
-++	    free (l->l_initfini);
-+ 	}
-+ 
-+       if (__builtin_expect (GL(dl_ns)[ns]._ns_global_scope_alloc, 0) != 0
-+diff --git a/elf/rtld.c b/elf/rtld.c
-+index 4a9109e..617e30e 100644
-+--- a/elf/rtld.c
-++++ b/elf/rtld.c
-+@@ -2251,6 +2251,7 @@ ERROR: ld.so: object '%s' cannot be loaded as audit interface: %s; ignored.\n",
-+ 	      lnp->dont_free = 1;
-+ 	      lnp = lnp->next;
-+ 	    }
-++	  l->l_free_initfini = 0;
-+ 
-+ 	  if (l != &GL(dl_rtld_map))
-+ 	    _dl_relocate_object (l, l->l_scope, GLRO(dl_lazy) ? RTLD_LAZY : 0,
-+diff --git a/include/link.h b/include/link.h
-+index e877104..051b99a 100644
-+--- a/include/link.h
-++++ b/include/link.h
-+@@ -192,6 +192,9 @@ struct link_map
-+ 						 during LD_TRACE_PRELINKING=1
-+ 						 contains any DT_SYMBOLIC
-+ 						 libraries.  */
-++    unsigned int l_free_initfini:1; /* Nonzero if l_initfini can be
-++				       freed, ie. not allocated with
-++				       the dummy malloc in ld.so.  */
-+ 
-+     /* Collected information about own RPATH directories.  */
-+     struct r_search_path_struct l_rpath_dirs;
-+@@ -240,9 +243,6 @@ struct link_map
-+ 
-+     /* List of object in order of the init and fini calls.  */
-+     struct link_map **l_initfini;
-+-    /* The init and fini list generated at startup, saved when the
-+-       object is also loaded dynamically.  */
-+-    struct link_map **l_orig_initfini;
-+ 
-+     /* List of the dependencies introduced through symbol binding.  */
-+     struct link_map_reldeps
-diff --git a/meta/recipes-core/eglibc/eglibc_2.14.bb b/meta/recipes-core/eglibc/eglibc_2.14.bb
-index b2821db..571d39d 100644
---- a/meta/recipes-core/eglibc/eglibc_2.14.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.14.bb
-@@ -3,7 +3,7 @@ require eglibc.inc
- SRCREV = "15225"
- 
- DEPENDS += "gperf-native"
--PR = "r0"
-+PR = "r1"
- PR_append = "+svnr${SRCPV}"
- 
- EGLIBC_BRANCH="eglibc-2_14"
-@@ -19,7 +19,8 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http
-            file://ppc-sqrt.patch \
-            file://multilib_readlib.patch \
-            file://eglibc-rpc-export-again.patch \
--	   "
-+           file://glibc-2.14-libdl-crash.patch \
-+          "
- LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
-       file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
-       file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
--- 
-1.7.7
-
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Cui, Dexuan
+> Sent: Wednesday, October 12, 2011 11:49 AM
+> To: Patches and discussions about the oe-core layer
+> Cc: Martin Jansa
+> Subject: Re: [OE-core] [oe-core][PATCHv3 01/31] xserver-xf86(-dri)-lite: =
+rename
+> to xserver-xorg and xserver-xorg-lite
+>
+> Glad to see the patches to upgrade xserver and libx11. Good work! :-)
+>
+> BTW, we also need to upgrade meta-intel's side since BSP can't build now:
+> http://bugzilla.pokylinux.org/show_bug.cgi?id=3D1670
+> I'm working on this bug.
+>
+> Thanks,
+> -- Dexuan
+>
+>
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> Of
+> > Martin Jansa
+> > Sent: Saturday, October 08, 2011 1:05 AM
+> > To: openembedded-core@lists.openembedded.org
+> > Subject: [OE-core] [oe-core][PATCHv3 01/31] xserver-xf86(-dri)-lite: re=
+name to
+> > xserver-xorg and xserver-xorg-lite
+> >
+> > * xserver-xorg is closer to upstream naming and
+> >   that's how it's named in OE-classic and meta-oe? It would make meta-o=
+e
+> >   transition easier and better to do it now then convert meta-oe to
+> >   xserver-xf86 and then rename it back later.
+> >
+> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > ---
+> >  meta/conf/distro/include/default-providers.inc     |    4 ++--
+> >  .../conf/distro/include/distro_tracking_fields.inc |   20
+> ++++++++++----------
+> >  meta/conf/machine/qemux86-64.conf                  |    6 +++---
+> >  meta/conf/machine/qemux86.conf                     |    6 +++---
+> >  meta/conf/multilib.conf                            |    2 +-
+> >  ...ver-xf86-common.inc =3D> xserver-xorg-common.inc} |    1 +
+> >  ...xserver-xf86-lite.inc =3D> xserver-xorg-lite.inc} |    4 +---
+> >  .../crosscompile.patch                             |    0
+> >  .../fix_open_max_preprocessor_error.patch          |    0
+> >  .../macro_tweak.patch                              |    2 +-
+> >  ...-lite_1.10.1.bb =3D> xserver-xorg-lite_1.10.1.bb} |    2 +-
+> >  ...{xserver-xf86-dri-lite.inc =3D> xserver-xorg.inc} |    2 +-
+> >  .../cache-xkbcomp-output-for-fast-start-up.patch   |    0
+> >  .../crosscompile.patch                             |    0
+> >  .../fix_macros1.patch                              |    0
+> >  .../fix_open_max_preprocessor_error.patch          |    0
+> >  .../macro_tweak.patch                              |    2 +-
+> >  ...6-dri-lite_1.10.1.bb =3D> xserver-xorg_1.10.1.bb} |    2 +-
+> >  ...er-xf86-dri-lite_git.bb =3D> xserver-xorg_git.bb} |    2 +-
+> >  19 files changed, 27 insertions(+), 28 deletions(-)
+> >  rename meta/recipes-graphics/xorg-xserver/{xserver-xf86-common.inc =3D=
+>
+> > xserver-xorg-common.inc} (96%)
+> >  rename meta/recipes-graphics/xorg-xserver/{xserver-xf86-lite.inc =3D>
+> > xserver-xorg-lite.inc} (95%)
+> >  rename meta/recipes-graphics/xorg-xserver/{xserver-xf86-dri-lite =3D>
+> > xserver-xorg-lite}/crosscompile.patch (100%)
+> >  rename meta/recipes-graphics/xorg-xserver/{xserver-xf86-lite =3D>
+> > xserver-xorg-lite}/fix_open_max_preprocessor_error.patch (100%)
+> >  rename meta/recipes-graphics/xorg-xserver/{xserver-xf86-lite =3D>
+> > xserver-xorg-lite}/macro_tweak.patch (93%)
+> >  rename meta/recipes-graphics/xorg-xserver/{xserver-xf86-lite_1.10.1.bb
+> =3D>
+> > xserver-xorg-lite_1.10.1.bb} (89%)
+> >  rename meta/recipes-graphics/xorg-xserver/{xserver-xf86-dri-lite.inc =
+=3D>
+> > xserver-xorg.inc} (97%)
+> >  rename meta/recipes-graphics/xorg-xserver/{xserver-xf86-dri-lite =3D>
+> > xserver-xorg}/cache-xkbcomp-output-for-fast-start-up.patch (100%)
+> >  rename meta/recipes-graphics/xorg-xserver/{xserver-xf86-lite =3D>
+> > xserver-xorg}/crosscompile.patch (100%)
+> >  rename meta/recipes-graphics/xorg-xserver/{xserver-xf86-dri-lite =3D>
+> > xserver-xorg}/fix_macros1.patch (100%)
+> >  rename meta/recipes-graphics/xorg-xserver/{xserver-xf86-dri-lite =3D>
+> > xserver-xorg}/fix_open_max_preprocessor_error.patch (100%)
+> >  rename meta/recipes-graphics/xorg-xserver/{xserver-xf86-dri-lite =3D>
+> > xserver-xorg}/macro_tweak.patch (93%)
+> >  rename
+> meta/recipes-graphics/xorg-xserver/{xserver-xf86-dri-lite_1.10.1.bb =3D>
+> > xserver-xorg_1.10.1.bb} (93%)
+> >  rename meta/recipes-graphics/xorg-xserver/{xserver-xf86-dri-lite_git.b=
+b =3D>
+> > xserver-xorg_git.bb} (94%)
+> >
+> > diff --git a/meta/conf/distro/include/default-providers.inc
+> > b/meta/conf/distro/include/default-providers.inc
+> > index d51ac64..a5cdb5b 100644
+> > --- a/meta/conf/distro/include/default-providers.inc
+> > +++ b/meta/conf/distro/include/default-providers.inc
+> > @@ -3,8 +3,8 @@
+> >  #
+> >  PREFERRED_PROVIDER_virtual/db ?=3D "db"
+> >  PREFERRED_PROVIDER_virtual/db-native ?=3D "db-native"
+> > -PREFERRED_PROVIDER_virtual/xserver ?=3D "xserver-xf86"
+> > -PREFERRED_PROVIDER_virtual/xserver-xf86 ?=3D "xserver-xf86-dri-lite"
+> > +PREFERRED_PROVIDER_virtual/xserver ?=3D "xserver-xorg"
+> > +PREFERRED_PROVIDER_virtual/xserver-xf86 ?=3D "xserver-xorg"
+> >  PREFERRED_PROVIDER_virtual/libgl ?=3D "mesa-xlib"
+> >  PREFERRED_PROVIDER_virtual/update-alternatives ?=3D
+> > "update-alternatives-cworth"
+> >  PREFERRED_PROVIDER_virtual/update-alternatives-native ?=3D
+> "opkg-native"
+> > diff --git a/meta/conf/distro/include/distro_tracking_fields.inc
+> > b/meta/conf/distro/include/distro_tracking_fields.inc
+> > index 7b6c4a9..8af80c7 100644
+> > --- a/meta/conf/distro/include/distro_tracking_fields.inc
+> > +++ b/meta/conf/distro/include/distro_tracking_fields.inc
+> > @@ -3683,14 +3683,14 @@ RECIPE_INTEL_SECTION_pn-mesa-xlib=3D"graphic
+> > core"
+> >  RECIPE_LAST_UPDATE_pn-mesa-xlib =3D "Nov 27, 2010"
+> >  RECIPE_MAINTAINER_pn-mesa-xlib=3D"Yu Ke <ke.yu@intel.com>"
+> >
+> > -RECIPE_STATUS_pn-xserver-xf86-dri-lite=3D"green" # no update needed
+> > -RECIPE_LATEST_VERSION_pn-xserver-xf86-dri-lite=3D"1.8.99.904"
+> > -RECIPE_NO_OF_PATCHES_pn-xserver-xf86-dri-lite=3D"2"
+> > -RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-xserver-xf86-dri-lite=3D"2
+> > monthes"
+> > -RECIPE_LATEST_RELEASE_DATE_pn-xserver-xf86-dri-lite=3D"2010/07/01"
+> > -RECIPE_INTEL_SECTION_pn-xserver-xf86-dri-lite=3D"graphic core"
+> > -RECIPE_LAST_UPDATE_pn-xserver-xf86-dri-lite =3D "Jan 18, 2011"
+> > -RECIPE_MAINTAINER_pn-xserver-xf86-dri-lite=3D"Yu Ke <ke.yu@intel.com>"
+> > +RECIPE_STATUS_pn-xserver-xorg=3D"green" # no update needed
+> > +RECIPE_LATEST_VERSION_pn-xserver-xorg=3D"1.8.99.904"
+> > +RECIPE_NO_OF_PATCHES_pn-xserver-xorg=3D"2"
+> > +RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-xserver-xorg=3D"2
+> > monthes"
+> > +RECIPE_LATEST_RELEASE_DATE_pn-xserver-xorg=3D"2010/07/01"
+> > +RECIPE_INTEL_SECTION_pn-xserver-xorg=3D"graphic core"
+> > +RECIPE_LAST_UPDATE_pn-xserver-xorg =3D "Jan 18, 2011"
+> > +RECIPE_MAINTAINER_pn-xserver-xorg=3D"Yu Ke <ke.yu@intel.com>"
+> >
+> >  RECIPE_STATUS_pn-xf86-input-synaptics =3D "red"
+> >  DISTRO_PN_ALIAS_pn-xf86-input-synaptics =3D
+> "Meego=3Dxorg-x11-drv-synaptics
+> > Fedora=3Dxorg-x11-drv-synaptics Ubuntu=3Dxserver-xorg-input-synaptics
+> > Mandriva=3Dx11-driver-input-synaptics Debian=3Dxfree86-driver-synaptics=
+"
+> > @@ -5908,8 +5908,8 @@ DISTRO_PN_ALIAS_pn-pseudo =3D "Windriver"
+> >
+> >  DISTRO_PN_ALIAS_pn-btrfs-tools =3D "Debian=3Dbtrfs-tools
+> Fedora=3Dbtrfs-progs"
+> >  DISTRO_PN_ALIAS_pn-rt-tests =3D "Debian=3Drt-tests Ubuntu=3Drt-tests"
+> > -DISTRO_PN_ALIAS_pn-xserver-xf86-lite =3D "Fedora=3Dxorg-x11-server
+> > Ubuntu=3Dxserver-xorg"
+> > -DISTRO_PN_ALIAS_pn-xserver-xf86-dri-lite =3D "Fedora=3Dxorg-x11-server
+> > Ubuntu=3Dxserver-xorg"
+> > +DISTRO_PN_ALIAS_pn-xserver-xorg =3D "Fedora=3Dxorg-x11-server
+> > Ubuntu=3Dxserver-xorg"
+> > +DISTRO_PN_ALIAS_pn-xserver-xorg =3D "Fedora=3Dxorg-x11-server
+> > Ubuntu=3Dxserver-xorg"
+> >  DISTRO_PN_ALIAS_pn-xserver-kdrive =3D "Fedora=3Dxorg-x11-server
+> > Ubuntu=3Dxserver-xorg"
+> >  DISTRO_PN_ALIAS_pn-dtc =3D "Fedora=3Ddtc Ubuntu=3Ddtc"
+> >  DISTRO_PN_ALIAS_pn-dtc-native =3D "Fedora=3Ddtc Ubuntu=3Ddtc"
+> > diff --git a/meta/conf/machine/qemux86-64.conf
+> > b/meta/conf/machine/qemux86-64.conf
+> > index 18a7513..f28cf08 100644
+> > --- a/meta/conf/machine/qemux86-64.conf
+> > +++ b/meta/conf/machine/qemux86-64.conf
+> > @@ -4,8 +4,8 @@
+> >
+> >  PREFERRED_PROVIDER_virtual/libgl  =3D "mesa-dri"
+> >  PREFERRED_PROVIDER_virtual/libx11 ?=3D "libx11-trim"
+> > -PREFERRED_PROVIDER_virtual/xserver ?=3D "xserver-xf86-dri-lite"
+> > -PREFERRED_PROVIDER_virtual/xserver-xf86 ?=3D "xserver-xf86-dri-lite"
+> > +PREFERRED_PROVIDER_virtual/xserver ?=3D "xserver-xorg"
+> > +PREFERRED_PROVIDER_virtual/xserver-xf86 ?=3D "xserver-xorg"
+> >
+> >  require conf/machine/include/tune-x86_64.inc
+> >  require conf/machine/include/qemu.inc
+> > @@ -17,7 +17,7 @@ KERNEL_IMAGETYPE =3D "bzImage"
+> >  SERIAL_CONSOLE =3D "115200 ttyS0"
+> >
+> >  # We bypass swrast but we need it to be present for X to load correctl=
+y
+> > -XSERVER ?=3D "xserver-xf86-dri-lite \
+> > +XSERVER ?=3D "xserver-xorg \
+> >             mesa-dri-driver-swrast \
+> >             xf86-input-vmmouse \
+> >             xf86-input-keyboard \
+> > diff --git a/meta/conf/machine/qemux86.conf
+> > b/meta/conf/machine/qemux86.conf
+> > index 5d0d03e..75c9042 100644
+> > --- a/meta/conf/machine/qemux86.conf
+> > +++ b/meta/conf/machine/qemux86.conf
+> > @@ -4,8 +4,8 @@
+> >
+> >  PREFERRED_PROVIDER_virtual/libgl  =3D "mesa-dri"
+> >  PREFERRED_PROVIDER_virtual/libx11 ?=3D "libx11-trim"
+> > -PREFERRED_PROVIDER_virtual/xserver ?=3D "xserver-xf86-dri-lite"
+> > -PREFERRED_PROVIDER_virtual/xserver-xf86 ?=3D "xserver-xf86-dri-lite"
+> > +PREFERRED_PROVIDER_virtual/xserver ?=3D "xserver-xorg"
+> > +PREFERRED_PROVIDER_virtual/xserver-xf86 ?=3D "xserver-xorg"
+> >
+> >  require conf/machine/include/tune-i586.inc
+> >  require conf/machine/include/qemu.inc
+> > @@ -17,7 +17,7 @@ KERNEL_IMAGETYPE =3D "bzImage"
+> >  SERIAL_CONSOLE =3D "115200 ttyS0"
+> >
+> >  # We bypass swrast but we need it to be present for X to load correctl=
+y
+> > -XSERVER ?=3D "xserver-xf86-dri-lite \
+> > +XSERVER ?=3D "xserver-xorg \
+> >             mesa-dri-driver-swrast \
+> >             xf86-input-vmmouse \
+> >             xf86-input-keyboard \
+> > diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
+> > index b9da33a..5e4b435 100644
+> > --- a/meta/conf/multilib.conf
+> > +++ b/meta/conf/multilib.conf
+> > @@ -442,7 +442,7 @@ BBCLASSEXTEND_append_pn-xrandr =3D "
+> > ${MULTILIBS}"
+> >  BBCLASSEXTEND_append_pn-xrestop =3D " ${MULTILIBS}"
+> >  BBCLASSEXTEND_append_pn-xserver-nodm-init =3D " ${MULTILIBS}"
+> >  BBCLASSEXTEND_append_pn-xserver-xf86-config =3D " ${MULTILIBS}"
+> > -BBCLASSEXTEND_append_pn-xserver-xf86-dri-lite =3D " ${MULTILIBS}"
+> > +BBCLASSEXTEND_append_pn-xserver-xorg =3D " ${MULTILIBS}"
+> >  BBCLASSEXTEND_append_pn-xset =3D " ${MULTILIBS}"
+> >  BBCLASSEXTEND_append_pn-xtrans =3D " ${MULTILIBS}"
+> >  BBCLASSEXTEND_append_pn-xtscal =3D " ${MULTILIBS}"
+> > diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-common.inc
+> > b/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
+> > similarity index 96%
+> > rename from meta/recipes-graphics/xorg-xserver/xserver-xf86-common.inc
+> > rename to meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
+> > index 17d456c..78c5f2e 100644
+> > --- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-common.inc
+> > +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
+> > @@ -7,6 +7,7 @@ LIC_FILES_CHKSUM =3D
+> > "file://COPYING;md5=3D3dd2bbe3563837f80ed8926b06c1c353"
+> >
+> >  # xf86-*-* packages depend on an X server built with the xfree86 DDX
+> >  # so we have a virtual to represent that:
+> > +# deprecated, we should use virtual/xserver instead
+> >  PROVIDES =3D "virtual/xserver-xf86"
+> >
+> >  # Other packages tend to just care that there is *an* X server:
+> > diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-lite.inc
+> > b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc
+> > similarity index 95%
+> > rename from meta/recipes-graphics/xorg-xserver/xserver-xf86-lite.inc
+> > rename to meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc
+> > index 131c258..f1cef1b 100644
+> > --- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-lite.inc
+> > +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc
+> > @@ -1,6 +1,4 @@
+> > -require xserver-xf86-common.inc
+> > -
+> > -PROVIDES +=3D "xserver-xf86-lite"
+> > +require xserver-xorg-common.inc
+> >
+> >  PROTO_DEPS =3D "randrproto renderproto fixesproto damageproto xextprot=
+o
+> > xproto xf86dgaproto xf86miscproto xf86rushproto xf86vidmodeproto
+> > xf86bigfontproto compositeproto recordproto resourceproto videoproto
+> > scrnsaverproto evieext trapproto xineramaproto fontsproto kbproto
+> inputproto
+> > bigreqsproto xcmiscproto glproto"
+> >
+> > diff --git
+> >
+> a/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/crosscompile.p=
+atch
+> > b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite/crosscompile.pat=
+ch
+> > similarity index 100%
+> > rename from
+> > meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/crosscompile.p=
+atch
+> > rename to
+> > meta/recipes-graphics/xorg-xserver/xserver-xorg-lite/crosscompile.patch
+> > diff --git
+> >
+> a/meta/recipes-graphics/xorg-xserver/xserver-xf86-lite/fix_open_max_prepr=
+oc
+> > essor_error.patch
+> >
+> b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite/fix_open_max_prepr=
+oc
+> > essor_error.patch
+> > similarity index 100%
+> > rename from
+> >
+> meta/recipes-graphics/xorg-xserver/xserver-xf86-lite/fix_open_max_preproc=
+es
+> > sor_error.patch
+> > rename to
+> >
+> meta/recipes-graphics/xorg-xserver/xserver-xorg-lite/fix_open_max_preproc=
+e
+> > ssor_error.patch
+> > diff --git
+> > a/meta/recipes-graphics/xorg-xserver/xserver-xf86-lite/macro_tweak.patc=
+h
+> > b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite/macro_tweak.patc=
+h
+> > similarity index 93%
+> > rename from
+> > meta/recipes-graphics/xorg-xserver/xserver-xf86-lite/macro_tweak.patch
+> > rename to
+> > meta/recipes-graphics/xorg-xserver/xserver-xorg-lite/macro_tweak.patch
+> > index 2b75427..2b32d4e 100644
+> > ---
+> a/meta/recipes-graphics/xorg-xserver/xserver-xf86-lite/macro_tweak.patch
+> > +++
+> > b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite/macro_tweak.patc=
+h
+> > @@ -2,7 +2,7 @@ This is the revised version of files/macro_tweak.patch =
+for
+> >  xorg-server 1.8.99.904.
+> >
+> >  the files/macro_tweak.patch can not removed now since it is used by
+> > -xserver-kdrive-1.7.99.2 and xserver-xf86-lite_1.7.99.2. Once they
+> > +xserver-kdrive-1.7.99.2 and xserver-xorg(-lite). Once they
+> >  are all upgraded to 1.8.99.904, the the files/macro_tweak.patch
+> >  can be safely replace by this patch.
+> >
+> > diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-lite_1.10.=
+1.bb
+> > b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite_1.10.1.bb
+> > similarity index 89%
+> > rename from meta/recipes-graphics/xorg-xserver/xserver-xf86-lite_1.10.1=
+.bb
+> > rename to meta/recipes-graphics/xorg-xserver/xserver-xorg-lite_1.10.1.b=
+b
+> > index e42f27d..63b2c38 100644
+> > --- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-lite_1.10.1.bb
+> > +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite_1.10.1.bb
+> > @@ -1,4 +1,4 @@
+> > -require xserver-xf86-lite.inc
+> > +require xserver-xorg-lite.inc
+> >
+> >  LIC_FILES_CHKSUM =3D
+> > "file://COPYING;md5=3D74df27b6254cc88d2799b5f4f5949c00"
+> >
+> > diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite.i=
+nc
+> > b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+> > similarity index 97%
+> > rename from meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite.in=
+c
+> > rename to meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+> > index 6b13873..9bc0ee4 100644
+> > --- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite.inc
+> > +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+> > @@ -1,4 +1,4 @@
+> > -require xserver-xf86-common.inc
+> > +require xserver-xorg-common.inc
+> >
+> >  PROTO_DEPS =3D "randrproto renderproto fixesproto damageproto xextprot=
+o
+> > xproto xf86dgaproto xf86miscproto xf86rushproto xf86vidmodeproto
+> > xf86bigfontproto compositeproto recordproto resourceproto videoproto
+> > scrnsaverproto evieext trapproto xineramaproto fontsproto kbproto
+> inputproto
+> > bigreqsproto xcmiscproto glproto"
+> >
+> > diff --git
+> >
+> a/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/cache-xkbcomp-=
+out
+> > put-for-fast-start-up.patch
+> >
+> b/meta/recipes-graphics/xorg-xserver/xserver-xorg/cache-xkbcomp-output-fo=
+r
+> > -fast-start-up.patch
+> > similarity index 100%
+> > rename from
+> >
+> meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/cache-xkbcomp-ou=
+tpu
+> > t-for-fast-start-up.patch
+> > rename to
+> >
+> meta/recipes-graphics/xorg-xserver/xserver-xorg/cache-xkbcomp-output-for-=
+fa
+> > st-start-up.patch
+> > diff --git
+> > a/meta/recipes-graphics/xorg-xserver/xserver-xf86-lite/crosscompile.pat=
+ch
+> > b/meta/recipes-graphics/xorg-xserver/xserver-xorg/crosscompile.patch
+> > similarity index 100%
+> > rename from
+> > meta/recipes-graphics/xorg-xserver/xserver-xf86-lite/crosscompile.patch
+> > rename to
+> > meta/recipes-graphics/xorg-xserver/xserver-xorg/crosscompile.patch
+> > diff --git
+> >
+> a/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/fix_macros1.pa=
+tch
+> > b/meta/recipes-graphics/xorg-xserver/xserver-xorg/fix_macros1.patch
+> > similarity index 100%
+> > rename from
+> > meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/fix_macros1.pa=
+tch
+> > rename to
+> > meta/recipes-graphics/xorg-xserver/xserver-xorg/fix_macros1.patch
+> > diff --git
+> >
+> a/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/fix_open_max_p=
+rep
+> > rocessor_error.patch
+> >
+> b/meta/recipes-graphics/xorg-xserver/xserver-xorg/fix_open_max_preprocess
+> > or_error.patch
+> > similarity index 100%
+> > rename from
+> >
+> meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/fix_open_max_pre=
+pro
+> > cessor_error.patch
+> > rename to
+> >
+> meta/recipes-graphics/xorg-xserver/xserver-xorg/fix_open_max_preprocessor
+> > _error.patch
+> > diff --git
+> >
+> a/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/macro_tweak.pa=
+tc
+> > h b/meta/recipes-graphics/xorg-xserver/xserver-xorg/macro_tweak.patch
+> > similarity index 93%
+> > rename from
+> > meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/macro_tweak.pa=
+tch
+> > rename to
+> > meta/recipes-graphics/xorg-xserver/xserver-xorg/macro_tweak.patch
+> > index 2b75427..2b32d4e 100644
+> > ---
+> >
+> a/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/macro_tweak.pa=
+tc
+> > h
+> > +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/macro_tweak.patch
+> > @@ -2,7 +2,7 @@ This is the revised version of files/macro_tweak.patch =
+for
+> >  xorg-server 1.8.99.904.
+> >
+> >  the files/macro_tweak.patch can not removed now since it is used by
+> > -xserver-kdrive-1.7.99.2 and xserver-xf86-lite_1.7.99.2. Once they
+> > +xserver-kdrive-1.7.99.2 and xserver-xorg(-lite). Once they
+> >  are all upgraded to 1.8.99.904, the the files/macro_tweak.patch
+> >  can be safely replace by this patch.
+> >
+> > diff --git
+> a/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite_1.10.1.bb
+> > b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.10.1.bb
+> > similarity index 93%
+> > rename from
+> > meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite_1.10.1.bb
+> > rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_1.10.1.bb
+> > index b797f97..0194798 100644
+> > --- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite_1.10.1.b=
+b
+> > +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.10.1.bb
+> > @@ -1,4 +1,4 @@
+> > -require xserver-xf86-dri-lite.inc
+> > +require xserver-xorg.inc
+> >
+> >  LIC_FILES_CHKSUM =3D
+> > "file://COPYING;md5=3D74df27b6254cc88d2799b5f4f5949c00"
+> >
+> > diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite_g=
+it.bb
+> > b/meta/recipes-graphics/xorg-xserver/xserver-xorg_git.bb
+> > similarity index 94%
+> > rename from meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite_gi=
+t.bb
+> > rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_git.bb
+> > index 87ba040..beef06a 100644
+> > --- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite_git.bb
+> > +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_git.bb
+> > @@ -1,4 +1,4 @@
+> > -require xserver-xf86-dri-lite.inc
+> > +require xserver-xorg.inc
+> >
+> >  LIC_FILES_CHKSUM =3D
+> > "file://COPYING;md5=3D74df27b6254cc88d2799b5f4f5949c00"
+> >
+> > --
+> > 1.7.7
+> >
+> >
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
