@@ -1,29 +1,20 @@
-Received: from mail-qw0-f47.google.com ([209.85.216.47])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>)
-	id 1RDoDc-0001TK-2w; Wed, 12 Oct 2011 04:06:52 +0200
-Received: by qadc1 with SMTP id c1so200251qad.6
-	for <multiple recipients>; Tue, 11 Oct 2011 19:01:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=xoKFPnh1MxzOriGAXxv1ZvWalNiVfXbrwnKz0uvK//s=;
-	b=Dz8wAb7Z2k5RaxkUjG2O+hpdJsRV+yO+jHEFCp26jw7L0Psr8EfD7PqtxI8UuJH25e
-	JPOznwkb4F+75Ehb2LQpIoth7Di2Juk79skPsgWihaeSBETJuq7jA00zrcSxpcesyA0E
-	jiVTgBSygQnSw2MY0DPHtLwTkN9busIpaSElA=
-Received: by 10.68.208.229 with SMTP id mh5mr50053956pbc.124.1318384869104;
-	Tue, 11 Oct 2011 19:01:09 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.68.49.129 with HTTP; Tue, 11 Oct 2011 19:00:39 -0700 (PDT)
-In-Reply-To: <201110120110.38951.schnitzeltony@gmx.de>
-References: <201110120110.38951.schnitzeltony@gmx.de>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 11 Oct 2011 19:00:39 -0700
-Message-ID: <CAMKF1srfiOy0k2714bkmkfSnvgQ=UGg3CDWUYUEnV1OFXcVKxQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: openembedded-devel@lists.openembedded.org
-Subject: Re: oe parse fails
+	(envelope-from <edwin.zhai@intel.com>) id 1RDoae-0001nu-As
+	for openembedded-core@lists.openembedded.org;
+	Wed, 12 Oct 2011 04:30:40 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 11 Oct 2011 19:24:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="62005499"
+Received: from yocto-build3.sh.intel.com ([10.239.48.58])
+	by orsmga001.jf.intel.com with ESMTP; 11 Oct 2011 19:24:56 -0700
+From: edwin.zhai@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 12 Oct 2011 10:20:10 +0800
+Message-Id: <cover.1318385789.git.edwin.zhai@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/2] Upgrade libfm/pcmanfm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,52 +29,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Oct 2011 02:06:52 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 12 Oct 2011 02:30:40 -0000
 
-On Tue, Oct 11, 2011 at 4:10 PM, Andreas M=C3=BCller <schnitzeltony@gmx.de>=
- wrote:
-> Angstrom environment / fresh pull / clean tmp dir -> error
->
-> Pseudo is not present but is required, building this first before the mai=
-n build
-> NOTE: angstrom DOES NOT support libiconv because the eglibc provided icon=
-v library is used =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0| ETA: =C2=A000:00:34
-> NOTE: angstrom DOES NOT support libiconv because the eglibc provided icon=
-v library is used
-> NOTE: angstrom DOES NOT support gconf-dbus because gconf-dbus has been me=
-rged back into main GConf =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| ETA: =
-=C2=A000:00:34
-> NOTE: angstrom DOES NOT support gconf-dbus-native because gconf-dbus has =
-been merged back into main GConf
-> ERROR: Could not include required file recipes-graphics/xorg-xserver/xser=
-ver-xf86-dri-lite.inc######################################################=
-######## =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| ETA: =
-=C2=A000:00:09
-> ERROR: Command execution failed: Exited with 1
->
+From: Zhai Edwin <edwin.zhai@intel.com>
 
-the recent xorg changes in oe-core needs to be adapted into layers. I
-have posted some patches, they may be wrong
-but they help in getting over the parse issues while using angstrom.
+All,
+These 2 patches upgrade libfm and pcmanfm. Pls. help to review and pull.
 
-> Andreas
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Thanks,
+Edwin
+
+The following changes since commit 0d8c8cf462e5df446669355b554b3d5fdc532a11:
+
+  mutter: update to 2.29.1 and fix SRC_URI (2011-10-07 11:35:50 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib gzhai/master2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/master2
+
+Zhai Edwin (2):
+  libfm: Upgrade to 0.1.16
+  pcmanfm: Upgrade to 0.9.9
+
+ .../pcmanfm/files/owl-window-menu.patch            |   53 ++++++++++----------
+ .../pcmanfm/{pcmanfm_0.9.8.bb => pcmanfm_0.9.9.bb} |    6 +-
+ .../libfm/libfm-0.1.14/use_deprecate_func.patch    |   13 -----
+ .../libfm/libfm-0.1.16/configure_fix.patch         |   19 +++++++
+ .../libfm/{libfm_0.1.14.bb => libfm_0.1.16.bb}     |    8 ++--
+ 5 files changed, 52 insertions(+), 47 deletions(-)
+ rename meta/recipes-sato/pcmanfm/{pcmanfm_0.9.8.bb => pcmanfm_0.9.9.bb} (87%)
+ delete mode 100644 meta/recipes-support/libfm/libfm-0.1.14/use_deprecate_func.patch
+ create mode 100644 meta/recipes-support/libfm/libfm-0.1.16/configure_fix.patch
+ rename meta/recipes-support/libfm/{libfm_0.1.14.bb => libfm_0.1.16.bb} (73%)
+
 
 
