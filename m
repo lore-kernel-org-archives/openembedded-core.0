@@ -1,33 +1,25 @@
-Received: from mail-qy0-f175.google.com ([209.85.216.175])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>)
-	id 1RE2Sb-00073z-13; Wed, 12 Oct 2011 19:19:17 +0200
-Received: by qyk10 with SMTP id 10so5272969qyk.6
-	for <multiple recipients>; Wed, 12 Oct 2011 10:13:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=mTPIQe4S+nKVfJNwuCqeD5ioiC7dvqng9hOam90EVD0=;
-	b=FTV+OM9vb6vTcPUEB/mLhKpWQrwTpuguWH5xId+TgCNksLI3JMGbN2XlfD6aCvvwMN
-	GZcfThlp/zqwupxlAiVFCUPjsUsAeDpHum7xQyirwbFN30NECcUo4FG/Yhd+gcvTbazy
-	HvYKBaCirSXoH/suKIlD7FvzjsYPiYYo7TKDk=
-Received: by 10.68.208.229 with SMTP id mh5mr2314622pbc.124.1318439610062;
-	Wed, 12 Oct 2011 10:13:30 -0700 (PDT)
+	(envelope-from <josh@linux.intel.com>) id 1RE2vf-0007dr-A1
+	for openembedded-core@lists.openembedded.org;
+	Wed, 12 Oct 2011 19:49:21 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 12 Oct 2011 10:43:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,335,1315206000"; d="scan'208";a="72822456"
+Received: from unknown (HELO [10.255.15.65]) ([10.255.15.65])
+	by fmsmga001.fm.intel.com with ESMTP; 12 Oct 2011 10:43:29 -0700
+Message-ID: <4E95D1C1.2020000@linux.intel.com>
+Date: Wed, 12 Oct 2011 10:43:29 -0700
+From: Joshua Lock <josh@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0.1) Gecko/20110930 Thunderbird/7.0.1
 MIME-Version: 1.0
-Received: by 10.68.58.168 with HTTP; Wed, 12 Oct 2011 10:13:00 -0700 (PDT)
-In-Reply-To: <201110121648.29478.paul.eggleton@linux.intel.com>
-References: <CAOd_LFzbT0j3wSjp+d3POcTUo9X9+aiYtax4d6tep3YXmTwb2g@mail.gmail.com>
-	<CAMKF1srHT5uh5a=z=mt0kOpF2YO9YyKkEdkRK9ZT8=LaGY6JSA@mail.gmail.com>
-	<6C40DE44-FE7C-4C0A-AB7F-1B78CE95216F@dominion.thruhere.net>
-	<201110121648.29478.paul.eggleton@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 12 Oct 2011 10:13:00 -0700
-Message-ID: <CAMKF1sohuOYX=bRf-t7mCOCjOL6xmiw3z=MtzJ7Rahiga3VWww@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	openembedded-devel@lists.openembedded.org
-Subject: Re: [oe] git server move
+To: openembedded-core@lists.openembedded.org
+References: <cover.1318371066.git.josh@linux.intel.com>
+	<1318423059.23801.151.camel@ted>
+In-Reply-To: <1318423059.23801.151.camel@ted>
+Subject: Re: [RFC PATCH 0/1] QA check for defined packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,69 +34,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Oct 2011 17:19:17 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 12 Oct 2011 17:49:21 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 12, 2011 at 8:48 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> On Wednesday 12 October 2011 16:18:37 Koen Kooi wrote:
->> Op 12 okt. 2011, om 17:16 heeft Khem Raj het volgende geschreven:
->> > On Wed, Oct 12, 2011 at 1:17 AM, Koen Kooi <koen@dominion.thruhere.net=
->
-> wrote:
->> >> -----BEGIN PGP SIGNED MESSAGE-----
->> >> Hash: SHA1
->> >>
->> >> Op 11-10-11 21:11, Cliff Brake schreef:
->> >>> Hi, we are moving git.openembedded.org to a new server.
->> >>>
->> >>> SSH access on the old server has been disabled. =C2=A0git:// still w=
-orks
->> >>> there.
->> >>>
->> >>> As soon as DNS propagates, SSH access will work with the new server.
->> >>>
->> >>> Let me know if you see any problems.
->> >>
->> >> When will cgit be back up?
->> >
->> > It should be up already. Do Ctrl+f5 in your browser on
->> > git.openembedded.org
+On 10/12/2011 05:37 AM, Richard Purdie wrote:
+> On Tue, 2011-10-11 at 15:29 -0700, Joshua Lock wrote:
+>> I'm looking for some comments on this WIP patch.
 >>
->> Let me rephrase: when will it be working again? I still get "No
->> repositories found" when clicking on a repo.
->
-> I think you may find it's the "/cgit.cgi" part of the URL that's causing
-> problems. It used to work, now it doesn't - if you remove it then you get=
- a
-> working interface.
->
-> FWIW I'd be in favour of fixing it however; all of the links to cgit on m=
-y
-> layer index page are now broken for example.
+>> The reason I've added this is because the hob GUI requires us to offer much
+>> more reliable metadata - we show the user available packages, as defined by
+>> each recipe, to add to their image. Should a recipe define a package and yet
+>> not actually create it and the user has included that in their image we cause
+>> errors at build time.
+>>
+>> However whilst the idea seems sound enough, there are some caveats - running
+>> a world build with this patch I see failures fairly early on at least a few
+>> of which I'd expect we'll need to special-case:
+>> * eglibc-local
+>> * linux-yocto
+>> * linux-libc-headers
+>> * gcc-runtime
+>>
+>> Thoughts?
+> 
+> I think we probably do need to cleanup some of that data.
+> 
+> I have some thoughts about where we're at with hob and this is probably
+> as good a time as any to share them.
+> 
+> Effectively the problem is that there is a large body of data we only
+> compute during the build process. This includes what the exact runtime
+> dependencies of packages are, which packages exactly are generated
+> (PACKAGES_DYNAMIC), what the size of the packages are, how long they
+> take to build and so on. Some things we can fix, some things we can hack
+> around but at the end of the day there are some things we just plain
+> can't change.
+> 
+> I'm beginning to think we need to have two phases of control of the
+> system:
+> 
+> a) The build phase
+> 
+> This is the step that generates the package feeds.
+> 
+> b) The image construction phase
+> 
+> This is the step that takes the package feed data and turns it into an
+> image.
 
-Yes, however the new webserver is running on nginx so coming up with
-correct set of
-rules to reproduce old urls is a bit of challange. Right now the mails
-to openembedded-commit
-ml are probably not going and the url mentioned in those emails dont
-resolve as well
-but eventually they will
+I actually think this is a neat idea, in fact we have the beginnings of
+a Gtk+ GUI to create images from a package feed which Rob Bradford
+worked on some 3 years or so ago - puccho. It's no doubt bit-rotten but
+may be worth a look.
 
->
-> Cheers,
-> Paul
->
-> --
->
-> Paul Eggleton
-> Intel Open Source Technology Centre
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+I think we can reuse pieces from puccho and hob to create a GUI per this
+high-level design and I think we'd be much better off for it.
+
+> Obviously, you can skip to b) if you already have a package feed.
+
+a), right? Indeed I expect that this will be more in line with certain
+proposed use cases.
+
+> So we'd be talking about two UI's that could effectively hand off to
+> each other and share a "build in progress" feedback to the user system.
+> The image construction dialog would have a "Missing Packages? Build them
+> here" type switch. This would mean the build system can continue on at
+> what it does best yet the UI can let the users do what they want to do,
+> particularly on a prebuilt package feed.
+
+I like it. I think we had to "write one to throw away" to realise quite
+how much data we're missing up front but I support the proposed design.
+
+Regards,
+
+Joshua
+--
+Joshua Lock
+        Yocto Project "Johannes factotum"
+        Intel Open Source Technology Centre
 
 
