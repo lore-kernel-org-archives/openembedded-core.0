@@ -1,40 +1,34 @@
-Received: from mail-vw0-f47.google.com ([209.85.212.47])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RDxnb-0007CT-AR
-	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Oct 2011 14:20:40 +0200
-Received: by vwe42 with SMTP id 42so483614vwe.6
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RDy9b-0007pk-PS for openembedded-core@lists.openembedded.org;
+	Wed, 12 Oct 2011 14:43:23 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p9CCiIKv003440 for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Oct 2011 13:44:19 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id duXBSveSAFcd
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2011 05:14:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=resent-from:resent-date:resent-message-id:resent-to:mime-version
-	:in-reply-to:references:date:delivered-to:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=Hkd3IBKX0Nf/x6VaDfdv5WRrXTf9hm3DCKXOzGdrx5s=;
-	b=LCMR255vLSOOfE85McoHZ/YmWyUMVa7R/pzB86gT/11sI7H460a73TtJW8iXb8caaz
-	gccLsFJPba6K6M+sjttZTa/bpxwuCF6egtsFeip/OC4FCb2uuV8Vzc78qGTppHBf+K6Y
-	LCWExpW6fH+FXnEZsPmkjacpDvGc8wHGLiCgY=
-Received: by 10.204.8.24 with SMTP id f24mr13190794bkf.64.1318421263807;
-	Wed, 12 Oct 2011 05:07:43 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id d17sm1839518bkq.11.2011.10.12.05.07.41
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 12 Oct 2011 05:07:43 -0700 (PDT)
-Resent-From: Martin Jansa <Martin.Jansa@gmail.com>
-Resent-Date: Wed, 12 Oct 2011 14:07:32 +0200
-Resent-Message-ID: <20111012120732.GN27073@jama.jama.net>
-Resent-To: openembedded-core@lists.openembedded.org
-MIME-Version: 1.0
-Received: by 10.142.172.12 with HTTP; Wed, 12 Oct 2011 05:06:32 -0700 (PDT)
-In-Reply-To: <1317275552-19908-7-git-send-email-msm@freescale.com>
-References: <1317275552-19908-1-git-send-email-msm@freescale.com>
-	<1317275552-19908-7-git-send-email-msm@freescale.com>
-Date: Wed, 12 Oct 2011 14:06:32 +0200
-Message-ID: <CA+chaQerLbLcFTuuHZs_KimTQmqOHkhyFUCx-7FzTZfKHFkMgQ@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Matthew McClintock <msm@freescale.com>
-Cc: yocto@yoctoproject.org
-Subject: Re: [yocto] [PATCH 7/7] Add proper deps for nfs-utils, util-linux, and strace
+	Wed, 12 Oct 2011 13:44:18 +0100 (BST)
+Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p9CCiCEF003434
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Oct 2011 13:44:14 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 12 Oct 2011 13:37:30 +0100
+In-Reply-To: <cover.1318371066.git.josh@linux.intel.com>
+References: <cover.1318371066.git.josh@linux.intel.com>
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1318423059.23801.151.camel@ted>
+Mime-Version: 1.0
+Subject: Re: [RFC PATCH 0/1] QA check for defined packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,112 +43,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Oct 2011 12:20:40 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 12 Oct 2011 12:43:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 29, 2011 at 7:52 AM, Matthew McClintock <msm@freescale.com> wro=
-te:
-> These packages need these deps for the RPM generation stage:
+On Tue, 2011-10-11 at 15:29 -0700, Joshua Lock wrote:
+> I'm looking for some comments on this WIP patch.
+> 
+> The reason I've added this is because the hob GUI requires us to offer much
+> more reliable metadata - we show the user available packages, as defined by
+> each recipe, to add to their image. Should a recipe define a package and yet
+> not actually create it and the user has included that in their image we cause
+> errors at build time.
+> 
+> However whilst the idea seems sound enough, there are some caveats - running
+> a world build with this patch I see failures fairly early on at least a few
+> of which I'd expect we'll need to special-case:
+> * eglibc-local
+> * linux-yocto
+> * linux-libc-headers
+> * gcc-runtime
+> 
+> Thoughts?
 
-This was already applied, but I'll reply here and please send next
-patch adressing those comments.
+I think we probably do need to cleanup some of that data.
 
-Today I've noticed that perl and libperl are pulled to my images only
-because of util-linux and strace I belive I don't need them, see
-inline comments
+I have some thoughts about where we're at with hob and this is probably
+as good a time as any to share them.
 
-> =C2=A0error: Failed dependencies:
-> | =C2=A0 =C2=A0 =C2=A0 /usr/bin/python is needed by nfs-utils-1.2.3-r2.pp=
-ce5500
-> | =C2=A0 =C2=A0 =C2=A0 /usr/bin/perl is needed by util-linux-2.19.1-r4.pp=
-ce5500
-> | =C2=A0 =C2=A0 =C2=A0 /usr/bin/perl is needed by strace-4.5.20-r2.ppce55=
-00
->
-> Signed-off-by: Matthew McClintock <msm@freescale.com>
-> ---
-> =C2=A0.../nfs-utils/nfs-utils_1.2.3.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A02 +-
-> =C2=A0meta/recipes-core/util-linux/util-linux.inc =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0| =C2=A0 =C2=A02 +-
-> =C2=A0meta/recipes-devtools/strace/strace_4.5.20.bb =C2=A0 =C2=A0 =C2=A0|=
- =C2=A0 =C2=A02 ++
-> =C2=A03 files changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb b/met=
-a/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
-> index 08468fe..e8b0490 100644
-> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
-> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
-> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D0636e73ff0215e=
-8d672dc4c32c317bb3"
->
-> =C2=A0# util-linux for libblkid
-> =C2=A0DEPENDS =3D "libcap libnfsidmap libevent util-linux tcp-wrappers"
-> -RDEPENDS_${PN} =3D "portmap"
-> +RDEPENDS_${PN} =3D "portmap python"
+Effectively the problem is that there is a large body of data we only
+compute during the build process. This includes what the exact runtime
+dependencies of packages are, which packages exactly are generated
+(PACKAGES_DYNAMIC), what the size of the packages are, how long they
+take to build and so on. Some things we can fix, some things we can hack
+around but at the end of the day there are some things we just plain
+can't change.
 
-python is needed only for
-./usr/sbin/mountstats:#!/usr/bin/env python
-./usr/sbin/nfsiostat:#!/usr/bin/python
-could you please move them to separate packages and keep python
-runtime dependency only there?
+I'm beginning to think we need to have two phases of control of the
+system:
 
-> =C2=A0RRECOMMENDS_${PN} =3D "kernel-module-nfsd"
->
-> =C2=A0PR =3D "r2"
-> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-c=
-ore/util-linux/util-linux.inc
-> index 1f242b7..afce673 100644
-> --- a/meta/recipes-core/util-linux/util-linux.inc
-> +++ b/meta/recipes-core/util-linux/util-linux.inc
-> @@ -55,7 +55,7 @@ FILES_util-linux-libuuid-dev =3D "${libdir}/libuuid.so =
-${libdir}/libuuid.a ${libdi
-> =C2=A0FILES_util-linux-lscpu =3D "${bindir}/lscpu"
->
-> =C2=A0RRECOMMENDS_${PN} =3D "util-linux-fdisk util-linux-cfdisk util-linu=
-x-sfdisk util-linux-mount util-linux-readprofile "
-> -RDEPENDS_${PN} =3D "util-linux-umount util-linux-swaponoff util-linux-lo=
-setup"
-> +RDEPENDS_${PN} =3D "util-linux-umount util-linux-swaponoff util-linux-lo=
-setup perl"
+a) The build phase
 
-perl is needed only for
-/usr/bin/chkdupexe
-could you please move chkdupexe to separate package and add perl only
-to RDEPENDS_${PN}-chkdupexe?
+This is the step that generates the package feeds.
 
-> =C2=A0RRECOMMENDS_${PN}_virtclass-native =3D ""
-> =C2=A0RDEPENDS_${PN}_virtclass-native =3D ""
-> diff --git a/meta/recipes-devtools/strace/strace_4.5.20.bb b/meta/recipes=
--devtools/strace/strace_4.5.20.bb
-> index 391669f..b3d2aa5 100644
-> --- a/meta/recipes-devtools/strace/strace_4.5.20.bb
-> +++ b/meta/recipes-devtools/strace/strace_4.5.20.bb
-> @@ -5,6 +5,8 @@ LICENSE =3D "BSD"
-> =C2=A0LIC_FILES_CHKSUM =3D "file://COPYRIGHT;md5=3D4535377ede62550fdeaf39=
-f595fd550a"
-> =C2=A0PR =3D "r2"
->
-> +RDEPENDS =3D "perl"
+b) The image construction phase
 
-This should be RDEPENDS_${PN}
-and much better would be to split
-strace-graph to separate package and add perl only to
-RDEPENDS_${PN}-graph
+This is the step that takes the package feed data and turns it into an
+image.
 
-> +
-> =C2=A0SRC_URI =3D "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.bz2 \
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://sigmask.patch \
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 "
-> --
-> 1.7.6.1
+Obviously, you can skip to b) if you already have a package feed.
 
-And also you need to bump PR when you're changing RDEPENDs (otherwise
-issues are shown much later when it's rebuild because of some other
-changes).
+So we'd be talking about two UI's that could effectively hand off to
+each other and share a "build in progress" feedback to the user system.
+The image construction dialog would have a "Missing Packages? Build them
+here" type switch. This would mean the build system can continue on at
+what it does best yet the UI can let the users do what they want to do,
+particularly on a prebuilt package feed.
 
-Regards,
+Thoughts?
+
+Cheers,
+
+Richard
+
 
 
