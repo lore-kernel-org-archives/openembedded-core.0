@@ -1,34 +1,34 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1REJbz-00043l-Kv
+	(envelope-from <martin.jansa@gmail.com>) id 1REJct-00043l-Jb
 	for openembedded-core@lists.openembedded.org;
-	Thu, 13 Oct 2011 13:38:07 +0200
+	Thu, 13 Oct 2011 13:39:03 +0200
 Received: by mail-bw0-f47.google.com with SMTP id t8so435342bka.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2011 04:32:26 -0700 (PDT)
+	Thu, 13 Oct 2011 04:33:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=yRJrwwP1FpiphCX1BOT9875Swg3XNibOTUsLuQWN1OE=;
-	b=DqlhBSsep8gZI7r1IouQ7DbQJexWenUq5Iz7NWajA2cktee19dpnhsMJa5sW0xIYC2
-	Pk8H6PQS8S+dWxAxiKorZQ+V99u7b+GDgD+FfjJeVwYvedgJr8DEu4JrpqEhsNpnE4PW
-	/g73QrCLXEIhyFSxE5Fbsd5JlBWrLJ/78rZzs=
-Received: by 10.204.133.71 with SMTP id e7mr2404294bkt.50.1318505546147;
-	Thu, 13 Oct 2011 04:32:26 -0700 (PDT)
+	bh=scVsYV4Hk4ZsX6+evpt4MgkP12lsP64U2NfHnKALdxs=;
+	b=oXDQAWjCPYRrbTsBr04TuK+jJ8BcFEGJ3IIhFjK1RGncczkmRb8LKBP08xlKc7ceMP
+	s4ovdSujisumOMrHmWgpF18YGCc0aUkTXPFJePsMcR+MwUfpDyloVQo39ZsOr2xbhd+V
+	+Ni3LxzXgIwY+iOaWpZLbN3AnIvKiBzZ7T7qw=
+Received: by 10.204.145.15 with SMTP id b15mr2457538bkv.52.1318505602086;
+	Thu, 13 Oct 2011 04:33:22 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id r12sm3279682bkw.5.2011.10.13.04.32.24
+	by mx.google.com with ESMTPS id k6sm3268821bkv.8.2011.10.13.04.33.20
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 13 Oct 2011 04:32:25 -0700 (PDT)
+	Thu, 13 Oct 2011 04:33:21 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Oct 2011 13:30:31 +0200
-Message-Id: <68623a9b9e77eda71aa6c6921cb1c486f8a5101f.1318505196.git.Martin.Jansa@gmail.com>
+Date: Thu, 13 Oct 2011 13:30:38 +0200
+Message-Id: <a054cf4e1168e4af1c809ee7b5cdc500005e31b4.1318505196.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.7
 In-Reply-To: <bf4f1d2b7aab8e0825c54831c4282207cf7a9bc3.1318505196.git.Martin.Jansa@gmail.com>
 References: <bf4f1d2b7aab8e0825c54831c4282207cf7a9bc3.1318505196.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1318505196.git.Martin.Jansa@gmail.com>
 References: <cover.1318505196.git.Martin.Jansa@gmail.com>
-Subject: [oe-core 13/20] mesa-dri: move shared options to mesa-dri.inc
+Subject: [oe-core 20/20] mesa-git: fix LIC_FILES_CHKSUM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,125 +45,36 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 13 Oct 2011 11:42:00 -0000
 
+* only wording was changed a bit and GLUT is not named explicitly
+  $ diff docs/license.html 7.11/Mesa-7.11/docs/license.html
+  41,44c41,44
+  < and licenses apply to different components.  For example, some demo programs
+  < are copyrighted by SGI, some of the Mesa device drivers are copyrighted by
+  < their authors.  See below for a list of Mesa's main components and the license
+  < for each.
+  ---
+  > and licenses apply to different components.  For example, GLUT is copyrighted
+  > by Mark Kilgard, some demo programs are copyrighted by SGI, some of the Mesa
+  > device drivers are copyrighted by their authors.  See below for a list of
+  > Mesa's main components and the license for each.
+
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-graphics/mesa/mesa-dri.inc     |   20 ++++++++++++++++++++
- meta/recipes-graphics/mesa/mesa-dri_7.11.bb |   22 ++--------------------
- meta/recipes-graphics/mesa/mesa-dri_git.bb  |   19 +------------------
- 3 files changed, 23 insertions(+), 38 deletions(-)
- create mode 100644 meta/recipes-graphics/mesa/mesa-dri.inc
+ meta/recipes-graphics/mesa/mesa-git.inc |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-dri.inc b/meta/recipes-graphics/mesa/mesa-dri.inc
-new file mode 100644
-index 0000000..603438e
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/mesa-dri.inc
-@@ -0,0 +1,20 @@
-+PROTO_DEPS += "dri2proto"
-+LIB_DEPS += "libdrm expat"
-+
-+# most of our targets do not have DRI so will use mesa-xlib
-+DEFAULT_PREFERENCE = "-1"
-+
-+EXTRA_OECONF += "--with-driver=dri --disable-egl --disable-gallium --without-gallium-drivers"
-+
-+python populate_packages_prepend() {
-+	import os.path
-+
-+	dri_drivers_root = os.path.join(bb.data.getVar('libdir', d, 1), "dri")
-+
-+	do_split_packages(d, dri_drivers_root, '^(.*)_dri\.so$', 'mesa-dri-driver-%s', 'Mesa %s DRI driver', extra_depends='')
-+}
-+
-+PACKAGES_DYNAMIC = "mesa-dri-driver-*"
-+
-+FILES_${PN}-dbg += "${libdir}/dri/.debug/*"
-+
-diff --git a/meta/recipes-graphics/mesa/mesa-dri_7.11.bb b/meta/recipes-graphics/mesa/mesa-dri_7.11.bb
-index 8ab1941..2cb2e05 100644
---- a/meta/recipes-graphics/mesa/mesa-dri_7.11.bb
-+++ b/meta/recipes-graphics/mesa/mesa-dri_7.11.bb
-@@ -1,28 +1,10 @@
- include mesa-common.inc
- include mesa-${PV}.inc
--
--PROTO_DEPS += "dri2proto"
--LIB_DEPS += "libdrm expat"
--
-+include mesa-dri.inc
- PR = "${INC_PR}.0"
+diff --git a/meta/recipes-graphics/mesa/mesa-git.inc b/meta/recipes-graphics/mesa/mesa-git.inc
+index c9b17a9..594d9b8 100644
+--- a/meta/recipes-graphics/mesa/mesa-git.inc
++++ b/meta/recipes-graphics/mesa/mesa-git.inc
+@@ -3,6 +3,7 @@ DEPENDS += "mesa-dri-glsl-native"
+ SRCREV = "983fa4ad523535debf2e94cf6ac1fd4c5630c0d2"
+ PV = "7.11+gitr${SRCPV}"
  
--# most of our targets do not have DRI so will use mesa-xlib
--DEFAULT_PREFERENCE = "-1"
--
- LEAD_SONAME = "libGL.so.1"
++LIC_FILES_CHKSUM = "file://docs/license.html;md5=03ccdc4c379c4289aecfb8892c546f67"
+ FILESEXTRAPATHS_prepend := "${THISDIR}/mesa-git:"
  
--EXTRA_OECONF += "--with-driver=dri --disable-egl -with-dri-drivers=swrast,i915,i965 --without-gallium-drivers"
--
--python populate_packages_prepend() {
--	import os.path
--
--	dri_drivers_root = os.path.join(bb.data.getVar('libdir', d, 1), "dri")
--
--	do_split_packages(d, dri_drivers_root, '^(.*)_dri\.so$', 'mesa-dri-driver-%s', 'Mesa %s DRI driver', extra_depends='')
--}
-+EXTRA_OECONF += "--with-dri-drivers=swrast,i915,i965"
- 
- COMPATIBLE_HOST = '(i.86.*-linux|x86_64.*-linux)'
--
--PACKAGES_DYNAMIC = "mesa-dri-driver-*"
--
--FILES_${PN}-dbg += "${libdir}/dri/.debug/*"
-diff --git a/meta/recipes-graphics/mesa/mesa-dri_git.bb b/meta/recipes-graphics/mesa/mesa-dri_git.bb
-index 10ebd1c..aaa3073 100644
---- a/meta/recipes-graphics/mesa/mesa-dri_git.bb
-+++ b/meta/recipes-graphics/mesa/mesa-dri_git.bb
-@@ -1,4 +1,5 @@
- include mesa-common.inc
-+include mesa-dri.inc
- 
- SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa;protocol=git \
-            file://cross2.patch \
-@@ -6,26 +7,16 @@ SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa;protocol=git \
- #           file://mesa-DRI2Swapbuffer.patch "
- S = "${WORKDIR}/git"
- 
--PROTO_DEPS += "dri2proto"
--LIB_DEPS += "libdrm expat"
--
- SRCREV = "1bf94d419805538ac23a4d0b04d31ac5e4487aca"
- PV = "7.7+git${SRCPV}"
- PR = "${INC_PR}.0"
- 
--# most of our targets do not have DRI so will use mesa-xlib
--DEFAULT_PREFERENCE = "-1"
--
- PACKAGES =+ "${PN}-xprogs"
--PACKAGES_DYNAMIC = "mesa-dri-driver-*"
- 
--FILES_${PN}-dbg += "${libdir}/dri/.debug/*"
- FILES_${PN}-xprogs = "${bindir}/glxdemo ${bindir}/glxgears ${bindir}/glxheads ${bindir}/glxinfo"
- 
- LEAD_SONAME = "libGL.so.1"
- 
--EXTRA_OECONF += "--with-driver=dri --disable-egl --disable-gallium"
--
- do_configure_prepend () {
-     cp ${WORKDIR}/matypes.h ${S}/src/mesa/x86
-     touch ${S}/src/mesa/x86/matypes.h
-@@ -44,12 +35,4 @@ do_install_append () {
-     install -m 0755 ${S}/progs/xdemos/{glxdemo,glxgears,glxheads,glxinfo} ${D}/usr/bin/
- }
- 
--python populate_packages_prepend() {
--	import os.path
--
--	dri_drivers_root = os.path.join(bb.data.getVar('libdir', d, 1), "dri")
--
--	do_split_packages(d, dri_drivers_root, '^(.*)_dri\.so$', 'mesa-dri-driver-%s', 'Mesa %s DRI driver', extra_depends='')
--}
--
- COMPATIBLE_HOST = '(i.86|x86_64).*-linux'
+ SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa;protocol=git"
 -- 
 1.7.7
 
