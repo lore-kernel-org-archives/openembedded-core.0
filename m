@@ -1,34 +1,34 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1REJbn-00043l-9d
+	(envelope-from <martin.jansa@gmail.com>) id 1REJcd-00043l-Ib
 	for openembedded-core@lists.openembedded.org;
-	Thu, 13 Oct 2011 13:37:55 +0200
+	Thu, 13 Oct 2011 13:38:47 +0200
 Received: by mail-bw0-f47.google.com with SMTP id t8so435342bka.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2011 04:32:10 -0700 (PDT)
+	Thu, 13 Oct 2011 04:33:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=Kuzy4njO8m24VYVymn7GZDZIF2xthBJtFRWzCMtSSe0=;
-	b=DkP5I/QYsjFVrLf0vabtILDBJUarOqxrfQTx+YfLFWghUCvLw3PpjbRJ2nI+XHfRKp
-	ZADZI1kwqwB5n/D1Qw1MKNELtMiEKl8HGMXQeDPrIHg2AwlLBqN4kUYoIu0+rIh78Id+
-	9mqW0lYNOMcRbGsXuviy9idZhWkGo9xgFeifM=
-Received: by 10.204.10.67 with SMTP id o3mr2464409bko.3.1318505530257;
-	Thu, 13 Oct 2011 04:32:10 -0700 (PDT)
+	bh=MPihrbamQ2Ev/+A35rxoLB7noQwaJO0FUENiHafLL4M=;
+	b=YP44PxWrT0qURamAFomq1mYMQeFmHp8bcGV+bGfKCwWvW416I8WXGKll/EjvGXkKC+
+	LHv3BK5ByfCUYr43tKK5byWEMx0cTTLCv1ooP31H2cGPKBlAXoHslNz0sAfaRcIh1+cs
+	d5UZBO6nwnBzi4OomDnwoOHH8Wyo1tgKLAdI8=
+Received: by 10.204.133.77 with SMTP id e13mr2331315bkt.94.1318505586063;
+	Thu, 13 Oct 2011 04:33:06 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id d17sm3245698bkq.11.2011.10.13.04.32.08
+	by mx.google.com with ESMTPS id rc12sm3255831bkb.10.2011.10.13.04.33.04
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 13 Oct 2011 04:32:08 -0700 (PDT)
+	Thu, 13 Oct 2011 04:33:05 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Oct 2011 13:30:29 +0200
-Message-Id: <7278a507dcecff4a27ceeb81a2d2de5b9cb84c87.1318505196.git.Martin.Jansa@gmail.com>
+Date: Thu, 13 Oct 2011 13:30:36 +0200
+Message-Id: <d693215f618e5d80fab17501d1ef80ab680affff.1318505196.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.7
 In-Reply-To: <bf4f1d2b7aab8e0825c54831c4282207cf7a9bc3.1318505196.git.Martin.Jansa@gmail.com>
 References: <bf4f1d2b7aab8e0825c54831c4282207cf7a9bc3.1318505196.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1318505196.git.Martin.Jansa@gmail.com>
 References: <cover.1318505196.git.Martin.Jansa@gmail.com>
-Subject: [oe-core 11/20] mesa: package gl/egl/osmesa to separate packages
+Subject: [oe-core 18/20] mesa-git: lower D_P a bit more then all mesa-dri
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,41 +45,42 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 13 Oct 2011 11:42:19 -0000
 
-* also install internal GL headers to libgl-dev
+* it needs to be done in .bb because mesa-dri.inc is included after
+  mesa-git.inc
+* lower it for mesa-xlib to same value
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-graphics/mesa/mesa-common.inc |   18 ++++++++++++++++--
- 1 files changed, 16 insertions(+), 2 deletions(-)
+ meta/recipes-graphics/mesa/mesa-dri_git.bb  |    4 ++++
+ meta/recipes-graphics/mesa/mesa-xlib_git.bb |    4 ++++
+ 2 files changed, 8 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
-index 89ef0cf..62d9b24 100644
---- a/meta/recipes-graphics/mesa/mesa-common.inc
-+++ b/meta/recipes-graphics/mesa/mesa-common.inc
-@@ -40,7 +40,21 @@ require glx-use-tls.inc
- # Multiple virtual/gl providers being built breaks staging
- EXCLUDE_FROM_WORLD = "1"
- 
--PACKAGES =+ "libglu libglu-dev"
--
-+PACKAGES =+ "libegl libegl-dev libegl-dbg libglu libglu-dev libosmesa libosmesa-dev libgl libgl-dev"
-+FILES_libegl = "${libdir}/libEGL.so.* ${libdir}/egl/*.so"
-+FILES_libgl = "${libdir}/libGL.so.*"
- FILES_libglu = "${libdir}/libGLU.so.*"
-+FILES_libosmesa = "${libdir}/libOSMesa.so.*"
+diff --git a/meta/recipes-graphics/mesa/mesa-dri_git.bb b/meta/recipes-graphics/mesa/mesa-dri_git.bb
+index 7ba3117..ce1c8c7 100644
+--- a/meta/recipes-graphics/mesa/mesa-dri_git.bb
++++ b/meta/recipes-graphics/mesa/mesa-dri_git.bb
+@@ -1,4 +1,8 @@
+ include mesa-common.inc
+ include mesa-git.inc
+ include mesa-dri.inc
 +
-+FILES_libegl-dev = "${libdir}/libEGL.* ${includedir}/EGL"
-+FILES_libgl-dev = "${libdir}/libGL.* ${includedir}/GL"
- FILES_libglu-dev = "${libdir}/libGLU.* ${includedir}/GL/glu*.h"
-+FILES_libosmesa-dev = "${libdir}/libOSMesa.* ${includedir}/osmesa.h"
++# this needs to be lower than -1 because all mesa-dri have -1 and git version has highest PV, but shouldn't be default
++DEFAULT_PREFERENCE = "-2"
 +
-+FILES_${PN}-dbg += "${libdir}/dri/.debug/*"
-+FILES_libegl-dbg += "${libdir}/egl/.debug/*"
+ PR = "${INC_PR}.0"
+diff --git a/meta/recipes-graphics/mesa/mesa-xlib_git.bb b/meta/recipes-graphics/mesa/mesa-xlib_git.bb
+index 7f827a7..97cac51 100644
+--- a/meta/recipes-graphics/mesa/mesa-xlib_git.bb
++++ b/meta/recipes-graphics/mesa/mesa-xlib_git.bb
+@@ -1,4 +1,8 @@
+ include mesa-common.inc
+ include mesa-git.inc
+ include mesa-xlib.inc
 +
-+do_install_append () {
-+    install -d ${D}/${includedir}/GL
-+    cp -pPr ${S}/include/GL/internal* ${D}/${includedir}/GL
-+}
++# this needs to be lower than -1 because all mesa-dri have -1 and git version has highest PV, but shouldn't be default
++DEFAULT_PREFERENCE = "-2"
++
+ PR = "${INC_PR}.0"
 -- 
 1.7.7
 
