@@ -1,34 +1,28 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1REJcG-00043l-8T
+	(envelope-from <koen@dominion.thruhere.net>) id 1REJj0-0004gp-Hd
 	for openembedded-core@lists.openembedded.org;
-	Thu, 13 Oct 2011 13:38:24 +0200
-Received: by mail-bw0-f47.google.com with SMTP id t8so435342bka.6
+	Thu, 13 Oct 2011 13:45:22 +0200
+Received: by bkat8 with SMTP id t8so445147bka.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2011 04:32:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=YHJWhtryzslgizgMh9CF5Q5j/Y3EP3xnFV1T7Cchaxk=;
-	b=A15IlOR8mBdgd6SRQyiJnkS9r7yy2PXz86+Nyr71oFN7lNxoPnlnw0epwJyW+FLNZ7
-	y0sIzn23FFau2jKmeqZx8JdAQvJovBu+WDr3h1bC2daJr1TfteNgrmdmxcas1V7iR0Zd
-	BtlbjwYR/fZO6lr59xpTLV3NtKUpahxItlnSc=
-Received: by 10.204.141.142 with SMTP id m14mr2293827bku.89.1318505562529;
-	Thu, 13 Oct 2011 04:32:42 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id e14sm3302050bka.0.2011.10.13.04.32.40
+	Thu, 13 Oct 2011 04:39:38 -0700 (PDT)
+Received: by 10.223.17.3 with SMTP id q3mr5556151faa.28.1318505958108;
+	Thu, 13 Oct 2011 04:39:18 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id a1sm9426849fab.4.2011.10.13.04.39.16
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 13 Oct 2011 04:32:41 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Oct 2011 13:30:33 +0200
-Message-Id: <d94093d6f0979eb53ee82687b1117b39d3a03352.1318505196.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.7
-In-Reply-To: <bf4f1d2b7aab8e0825c54831c4282207cf7a9bc3.1318505196.git.Martin.Jansa@gmail.com>
-References: <bf4f1d2b7aab8e0825c54831c4282207cf7a9bc3.1318505196.git.Martin.Jansa@gmail.com>
+	Thu, 13 Oct 2011 04:39:16 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
 In-Reply-To: <cover.1318505196.git.Martin.Jansa@gmail.com>
+Date: Thu, 13 Oct 2011 13:39:11 +0200
+Message-Id: <85FB45B1-2E4E-4E36-8792-3876018AF714@dominion.thruhere.net>
 References: <cover.1318505196.git.Martin.Jansa@gmail.com>
-Subject: [oe-core 15/20] mesa-dri: LEAD_SONAME shouldn't be needed now, when we're packaging each lib in separate package
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [oe-core 00/20] Xorg, mesa changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,40 +37,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Oct 2011 11:42:20 -0000
+X-List-Received-Date: Thu, 13 Oct 2011 11:45:22 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-graphics/mesa/mesa-dri_7.11.bb |    2 --
- meta/recipes-graphics/mesa/mesa-dri_git.bb  |    2 --
- 2 files changed, 0 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-dri_7.11.bb b/meta/recipes-graphics/mesa/mesa-dri_7.11.bb
-index 11fdc9b..f9c6d89 100644
---- a/meta/recipes-graphics/mesa/mesa-dri_7.11.bb
-+++ b/meta/recipes-graphics/mesa/mesa-dri_7.11.bb
-@@ -3,6 +3,4 @@ include mesa-${PV}.inc
- include mesa-dri.inc
- PR = "${INC_PR}.0"
- 
--LEAD_SONAME = "libGL.so.1"
--
- COMPATIBLE_HOST = '(i.86.*-linux|x86_64.*-linux)'
-diff --git a/meta/recipes-graphics/mesa/mesa-dri_git.bb b/meta/recipes-graphics/mesa/mesa-dri_git.bb
-index aaa3073..1485213 100644
---- a/meta/recipes-graphics/mesa/mesa-dri_git.bb
-+++ b/meta/recipes-graphics/mesa/mesa-dri_git.bb
-@@ -15,8 +15,6 @@ PACKAGES =+ "${PN}-xprogs"
- 
- FILES_${PN}-xprogs = "${bindir}/glxdemo ${bindir}/glxgears ${bindir}/glxheads ${bindir}/glxinfo"
- 
--LEAD_SONAME = "libGL.so.1"
--
- do_configure_prepend () {
-     cp ${WORKDIR}/matypes.h ${S}/src/mesa/x86
-     touch ${S}/src/mesa/x86/matypes.h
--- 
-1.7.7
+Op 13 okt. 2011, om 13:30 heeft Martin Jansa het volgende geschreven:
+
+> Mostly cleanup in mesa directory.
+>=20
+> Most controversial is=20
+> mesa-dri: introduce MACHINE_DRI_MODULES
+> but maybe we can use it as distro variable and keep it with default =
+arch.
+> But then we cannot just add ie glamo dri module from meta-openmoko =
+like this:
+> =
+http://git.shr-project.org/git/?p=3Dmeta-smartphone.git;a=3Dcommit;h=3Db50=
+c8d00cf764c276b0792c0623b8eda3d18d343
+> without distro (setting MACHINE_DRI_MODULES) depending on such bsp =
+layer.
+>=20
+> The following changes since commit =
+5ad1ca59dea6d5045f252ed7b786ad193faced64:
+>=20
+>  xf86-video-intel: Update 2.15.0 -> 2.16.0 (2011-10-12 22:59:14 +0100)
+>=20
+> are available in the git repository at:
+>  git://git.openembedded.org/openembedded-core-contrib jansa/x11-v4
+>  =
+http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=3Dj=
+ansa/x11-v4
+>=20
+> Martin Jansa (20):
+>  xserver-xorg: drop xorg-minimal-fonts from RDEPENDS
+>  xserver-xorg: move PE to xserver-xorg-common and bump it
+>  xorg-driver-common: bump PE for upgrade path for meta-oe users
+>  mesa-dri-glsl-native: fix LICENSE
+>  mesa: move common patches which could be used in both mesa-dri and
+>    mesa-xlib from mesa-dri to mesa
+>  mesa-common: add common LIC_FILES_CHKSUM for newer mesa versions
+>  mesa-common: MesaDemos is now separate recipes, bump PE, introduce
+>    INC_PR
+>  mesa-common: use glx-use-tls.inc instead of enabling glx-tls every
+>    time
+>  mesa-7.11: move shared DEPENDS, SRC_URI, checksums and
+>    do_configure_prepend to shared .inc file
+>  mesa: move shared PROTO_DEPS, LIB_DEPS and DEPENDS to common .inc
+>  mesa: package gl/egl/osmesa to separate packages
+>  mesa-xlib: move shared options to .inc
+>  mesa-dri: move shared options to mesa-dri.inc
+>  mesa-dri: introduce MACHINE_DRI_MODULES
+>  mesa-dri: LEAD_SONAME shouldn't be needed now, when we're packaging
+>    each lib in separate package
+>  mesa-dri: drop COMPATIBLE_HOST, swrast should work for everybody
+>  mesa-git: move shared parts from mesa-dri_git to mesa-git.inc and add
+>    mesa-xlib_git
+>  mesa-git: lower D_P a bit more then all mesa-dri
+>  mesa-git: upgrade from 7.7+git to 7.11+git
+>  mesa-git: fix LIC_FILES_CHKSUM
+
+These changes all look sane to me, but I must admit I haven't tried a =
+build with them yet.
+
 
 
 
