@@ -1,34 +1,34 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1REJcW-00043l-0T
+	(envelope-from <martin.jansa@gmail.com>) id 1REJbc-00043l-2v
 	for openembedded-core@lists.openembedded.org;
-	Thu, 13 Oct 2011 13:38:40 +0200
+	Thu, 13 Oct 2011 13:37:44 +0200
 Received: by mail-bw0-f47.google.com with SMTP id t8so435342bka.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2011 04:32:58 -0700 (PDT)
+	Thu, 13 Oct 2011 04:32:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=g0pdZTGH7PGVXiNEFNOv2cI4W+yexS2/K3/dg/wlb5Y=;
-	b=mEb3gz5ChDQg5qUEEaWlmRQr4QlTxv9a6qq/Qe64ot0gHpS9VHw1AR3VgI3QJcp3B6
-	ia+KMmByaHiYfVmibwrN2BgGuMsRde/+0R31J/sF2RR7Og1ZjD4WX5zn3IEWHcuCYnzQ
-	+m5SX1C52YKNmo49IqB7ggF6yUCGglZELXuvA=
-Received: by 10.204.138.216 with SMTP id b24mr2368772bku.68.1318505578153;
-	Thu, 13 Oct 2011 04:32:58 -0700 (PDT)
+	bh=yPZYxuzKz7YWVCVRMZAo7w0IM/LgcPXBQGI1d9wJ7M4=;
+	b=Cti7g659Y7D7+dUcEEs5bhdzTVW2XJHf8rD8b+v+37f0/e3CsHF80yBDFM4xDmkSTg
+	prUEF1/PI9q1a0zF+ltmRsGCOQxdEMGQkb3rshR8wU2ToE8yKmMKsc4uF4hfNKmftfEx
+	WGRIYKgdmtlWEdIHIYDHz2FC1jpGctrZ2dynU=
+Received: by 10.204.152.201 with SMTP id h9mr2276186bkw.99.1318505521786;
+	Thu, 13 Oct 2011 04:32:01 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id s12sm3284051bkt.4.2011.10.13.04.32.56
+	by mx.google.com with ESMTPS id s12sm3280643bkt.4.2011.10.13.04.31.59
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 13 Oct 2011 04:32:57 -0700 (PDT)
+	Thu, 13 Oct 2011 04:32:00 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Oct 2011 13:30:35 +0200
-Message-Id: <c2e967a084472198dc4883d2c70b079cc719e2ba.1318505196.git.Martin.Jansa@gmail.com>
+Date: Thu, 13 Oct 2011 13:30:28 +0200
+Message-Id: <aef3363b2dcf92e031b90e6bc5a560d8295c6a2d.1318505196.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.7
 In-Reply-To: <bf4f1d2b7aab8e0825c54831c4282207cf7a9bc3.1318505196.git.Martin.Jansa@gmail.com>
 References: <bf4f1d2b7aab8e0825c54831c4282207cf7a9bc3.1318505196.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1318505196.git.Martin.Jansa@gmail.com>
 References: <cover.1318505196.git.Martin.Jansa@gmail.com>
-Subject: [oe-core 17/20] mesa-git: move shared parts from mesa-dri_git to mesa-git.inc and add mesa-xlib_git
+Subject: [oe-core 10/20] mesa: move shared PROTO_DEPS, LIB_DEPS and DEPENDS to common .inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,99 +47,79 @@ X-List-Received-Date: Thu, 13 Oct 2011 11:42:19 -0000
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-graphics/mesa/mesa-dri_git.bb  |   32 +--------------------------
- meta/recipes-graphics/mesa/mesa-git.inc     |   30 +++++++++++++++++++++++++
- meta/recipes-graphics/mesa/mesa-xlib_git.bb |    4 +++
- 3 files changed, 35 insertions(+), 31 deletions(-)
- create mode 100644 meta/recipes-graphics/mesa/mesa-git.inc
- create mode 100644 meta/recipes-graphics/mesa/mesa-xlib_git.bb
+ meta/recipes-graphics/mesa/mesa-common.inc   |    5 +++++
+ meta/recipes-graphics/mesa/mesa-dri_7.11.bb  |    7 ++-----
+ meta/recipes-graphics/mesa/mesa-dri_git.bb   |    6 ++----
+ meta/recipes-graphics/mesa/mesa-xlib_7.11.bb |    5 -----
+ 4 files changed, 9 insertions(+), 14 deletions(-)
 
+diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
+index 1596832..89ef0cf 100644
+--- a/meta/recipes-graphics/mesa/mesa-common.inc
++++ b/meta/recipes-graphics/mesa/mesa-common.inc
+@@ -18,6 +18,11 @@ PE = "2"
+ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2"
+ S = "${WORKDIR}/Mesa-${PV}"
+ 
++PROTO_DEPS = "xf86driproto glproto"
++LIB_DEPS = "virtual/libx11 libxext libxxf86vm libxdamage libxfixes libxml2-native"
++
++DEPENDS = "makedepend-native python-native ${PROTO_DEPS} ${LIB_DEPS}"
++
+ PROVIDES = "virtual/libgl"
+ 
+ # for mesa-dri and mesa-xlib
+diff --git a/meta/recipes-graphics/mesa/mesa-dri_7.11.bb b/meta/recipes-graphics/mesa/mesa-dri_7.11.bb
+index 90873aa..8ab1941 100644
+--- a/meta/recipes-graphics/mesa/mesa-dri_7.11.bb
++++ b/meta/recipes-graphics/mesa/mesa-dri_7.11.bb
+@@ -1,11 +1,8 @@
+ include mesa-common.inc
+ include mesa-${PV}.inc
+ 
+-PROTO_DEPS = "xf86driproto glproto dri2proto"
+-LIB_DEPS = "libdrm virtual/libx11 libxext libxxf86vm libxdamage libxfixes expat \
+-            libxml2-native"
+-
+-DEPENDS = "${PROTO_DEPS}  ${LIB_DEPS} makedepend-native python-native"
++PROTO_DEPS += "dri2proto"
++LIB_DEPS += "libdrm expat"
+ 
+ PR = "${INC_PR}.0"
+ 
 diff --git a/meta/recipes-graphics/mesa/mesa-dri_git.bb b/meta/recipes-graphics/mesa/mesa-dri_git.bb
-index 6a7ab76..7ba3117 100644
+index c50ba15..10ebd1c 100644
 --- a/meta/recipes-graphics/mesa/mesa-dri_git.bb
 +++ b/meta/recipes-graphics/mesa/mesa-dri_git.bb
-@@ -1,34 +1,4 @@
+@@ -6,10 +6,8 @@ SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa;protocol=git \
+ #           file://mesa-DRI2Swapbuffer.patch "
+ S = "${WORKDIR}/git"
+ 
+-PROTO_DEPS = "xf86driproto glproto dri2proto"
+-LIB_DEPS = "libdrm virtual/libx11 libxext libxxf86vm libxdamage libxfixes expat"
+-
+-DEPENDS = "${PROTO_DEPS}  ${LIB_DEPS}"
++PROTO_DEPS += "dri2proto"
++LIB_DEPS += "libdrm expat"
+ 
+ SRCREV = "1bf94d419805538ac23a4d0b04d31ac5e4487aca"
+ PV = "7.7+git${SRCPV}"
+diff --git a/meta/recipes-graphics/mesa/mesa-xlib_7.11.bb b/meta/recipes-graphics/mesa/mesa-xlib_7.11.bb
+index 44719a0..08277ac 100644
+--- a/meta/recipes-graphics/mesa/mesa-xlib_7.11.bb
++++ b/meta/recipes-graphics/mesa/mesa-xlib_7.11.bb
+@@ -1,11 +1,6 @@
  include mesa-common.inc
-+include mesa-git.inc
- include mesa-dri.inc
+ include mesa-${PV}.inc
+ 
+-PROTO_DEPS = "xf86driproto glproto"
+-LIB_DEPS = "virtual/libx11 libxext libxxf86vm libxdamage libxfixes libxml2-native"
 -
--SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa;protocol=git \
--           file://cross2.patch \
--           file://matypes.h"
--#           file://mesa-DRI2Swapbuffer.patch "
--S = "${WORKDIR}/git"
+-DEPENDS = "${PROTO_DEPS}  ${LIB_DEPS} makedepend-native"
 -
--SRCREV = "1bf94d419805538ac23a4d0b04d31ac5e4487aca"
--PV = "7.7+git${SRCPV}"
  PR = "${INC_PR}.0"
--
--PACKAGES =+ "${PN}-xprogs"
--
--FILES_${PN}-xprogs = "${bindir}/glxdemo ${bindir}/glxgears ${bindir}/glxheads ${bindir}/glxinfo"
--
--do_configure_prepend () {
--    cp ${WORKDIR}/matypes.h ${S}/src/mesa/x86
--    touch ${S}/src/mesa/x86/matypes.h
--}
--
--do_compile () {
--	oe_runmake clean
--	oe_runmake -C src/glsl CC='${BUILD_CC}' CFLAGS=""
--	mv ${S}/src/glsl/apps/compile ${S}/host_compile
--	oe_runmake clean
--	oe_runmake GLSL_CL="${S}/host_compile"
--}
--
--do_install_append () {
--    install -d ${D}/usr/bin
--    install -m 0755 ${S}/progs/xdemos/{glxdemo,glxgears,glxheads,glxinfo} ${D}/usr/bin/
--}
-diff --git a/meta/recipes-graphics/mesa/mesa-git.inc b/meta/recipes-graphics/mesa/mesa-git.inc
-new file mode 100644
-index 0000000..2f27ef1
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/mesa-git.inc
-@@ -0,0 +1,30 @@
-+SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa;protocol=git \
-+           file://cross2.patch \
-+           file://matypes.h"
-+#           file://mesa-DRI2Swapbuffer.patch "
-+S = "${WORKDIR}/git"
-+
-+SRCREV = "1bf94d419805538ac23a4d0b04d31ac5e4487aca"
-+PV = "7.7+git${SRCPV}"
-+
-+PACKAGES =+ "${PN}-xprogs"
-+
-+FILES_${PN}-xprogs = "${bindir}/glxdemo ${bindir}/glxgears ${bindir}/glxheads ${bindir}/glxinfo"
-+
-+do_configure_prepend () {
-+    cp ${WORKDIR}/matypes.h ${S}/src/mesa/x86
-+    touch ${S}/src/mesa/x86/matypes.h
-+}
-+
-+do_compile () {
-+	oe_runmake clean
-+	oe_runmake -C src/glsl CC='${BUILD_CC}' CFLAGS=""
-+	mv ${S}/src/glsl/apps/compile ${S}/host_compile
-+	oe_runmake clean
-+	oe_runmake GLSL_CL="${S}/host_compile"
-+}
-+
-+do_install_append () {
-+    install -d ${D}/usr/bin
-+    install -m 0755 ${S}/progs/xdemos/{glxdemo,glxgears,glxheads,glxinfo} ${D}/usr/bin/
-+}
-diff --git a/meta/recipes-graphics/mesa/mesa-xlib_git.bb b/meta/recipes-graphics/mesa/mesa-xlib_git.bb
-new file mode 100644
-index 0000000..7f827a7
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/mesa-xlib_git.bb
-@@ -0,0 +1,4 @@
-+include mesa-common.inc
-+include mesa-git.inc
-+include mesa-xlib.inc
-+PR = "${INC_PR}.0"
+ 
+ EXTRA_OECONF += "--with-driver=xlib --without-gallium-drivers"
 -- 
 1.7.7
 
