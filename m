@@ -1,25 +1,26 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Wenzong.Fan@windriver.com>) id 1REAx5-0003bW-76
+	(envelope-from <koen@dominion.thruhere.net>) id 1REGg7-0005s4-LV
 	for openembedded-core@lists.openembedded.org;
-	Thu, 13 Oct 2011 04:23:19 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p9D2HZeR004301
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 13 Oct 2011 10:30:11 +0200
+Received: by eyd9 with SMTP id 9so1572096eyd.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Oct 2011 19:17:35 -0700 (PDT)
-Received: from localhost.localdomain (128.224.162.28) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Wed, 12 Oct 2011 19:17:35 -0700
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 13 Oct 2011 10:22:59 +0800
-Message-ID: <98a9c26c02e87af50d659b4c3f2c83dca9921277.1318472103.git.wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1318472103.git.wenzong.fan@windriver.com>
-References: <cover.1318472103.git.wenzong.fan@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] qt4-x11-free: Fix broken regexes in qt4-x11-free's recipe.
+	Thu, 13 Oct 2011 01:24:26 -0700 (PDT)
+Received: by 10.223.65.68 with SMTP id h4mr4609617fai.24.1318494266452;
+	Thu, 13 Oct 2011 01:24:26 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id c1sm8613054fab.15.2011.10.13.01.24.25
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 13 Oct 2011 01:24:25 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Thu, 13 Oct 2011 10:24:19 +0200
+Message-Id: <F17AC24E-C897-4BF3-990D-F9EE0A97E99E@dominion.thruhere.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+X-Mailer: Apple Mail (2.1251.1)
+Subject: missing mesa-dri dependency?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,49 +35,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Oct 2011 02:23:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 13 Oct 2011 08:30:11 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
+Hi,
 
-[YOCTO #1671]
+I remember fixing this in meta-oe, but now exactly how. IIRC both =
+mesa-xlib and mesa-dri needed to get built.
 
-qt4-x11-free's recipe includes a sed script to sanitize it's .prl files,
-which are used by qmake to generate a list of libs and includes in the
-Makefiles it generates. It however, fails to take into account the possibility
-of trailing slashes, and thus leaves them in, and breaks gcc's syntax.
-Update these regexes to account for them.
+configure: error: Package requirements (glproto >=3D 1.4.14 dri >=3D =
+7.8.0) were not met:
+|=20
+| No package 'dri' found
+|=20
+| Consider adjusting the PKG_CONFIG_PATH environment variable if you
+| installed software in a non-standard prefix.
+|=20
+| Alternatively, you may set the environment variables DRI_CFLAGS
+| and DRI_LIBS to avoid the need to call pkg-config.
+| See the pkg-config man page for more details.
+| + bbfatal 'oe_runconf failed'
+| + echo 'ERROR: oe_runconf failed'
+| ERROR: oe_runconf failed
+| + exit 1
+| ERROR: Function 'do_configure' failed (see =
+/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-g=
+nueabi/xserver-xorg-1_1.11.1-r0/temp/log.do_configure.3602 for further =
+information)
+NOTE: package xserver-xorg-1_1.11.1-r0: task do_configure: Failed
+ERROR: Task 1842 =
+(/OE/tentacle/sources/openembedded-core/meta/recipes-graphics/xorg-xserver=
+/xserver-xorg_1.11.1.bb, do_configure) failed with exit code '1'
 
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
----
- meta/recipes-qt/qt4/qt4.inc |   10 +++++-----
- 1 files changed, 5 insertions(+), 5 deletions(-)
+regards,
 
-diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
-index d6382f5..1406a87 100644
---- a/meta/recipes-qt/qt4/qt4.inc
-+++ b/meta/recipes-qt/qt4/qt4.inc
-@@ -294,13 +294,13 @@ do_install() {
- 	rm -f ${D}/${bindir}/lrelease
- 
- 	# fix pkgconfig, libtool and prl files
--	sed -i -e s#-L${S}/lib##g \
--			-e s#-L${STAGING_LIBDIR}##g \
-+	sed -i -e s#-L${S}/lib/\?##g \
-+			-e s#-L${STAGING_LIBDIR}/\?##g \
- 			-e 's#STAGING_LIBDIR}#libdir}'#g \
--			-e s#-L${libdir}##g \
-+			-e s#-L${libdir}/\?##g \
- 			-e s#'$(OE_QMAKE_LIBS_X11)'#"${OE_QMAKE_LIBS_X11}"#g \
--			-e s#" -Wl,-rpath-link,${S}/lib"##g \
--			-e s#" -Wl,-rpath-link,${libdir}"##g \
-+			-e s#" -Wl,-rpath-link,${S}/lib/\?"##g \
-+			-e s#" -Wl,-rpath-link,${libdir}/\?"##g \
- 			-e 's#Iin#I${in#g' \
- 			${D}${libdir}/*.la ${D}${libdir}/*.prl ${D}${libdir}/pkgconfig/*.pc
- 
--- 
-1.7.0.4
-
+Koen=
 
 
