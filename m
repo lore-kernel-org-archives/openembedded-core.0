@@ -1,35 +1,35 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1REMZD-0001M0-PL
+	(envelope-from <otavio.salvador@gmail.com>) id 1REMZD-0001Ig-Ni
 	for openembedded-core@lists.openembedded.org;
-	Thu, 13 Oct 2011 16:47:27 +0200
-Received: by ywf7 with SMTP id 7so1220889ywf.6
+	Thu, 13 Oct 2011 16:47:28 +0200
+Received: by mail-gy0-f175.google.com with SMTP id 15so82885gyc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2011 07:41:43 -0700 (PDT)
+	Thu, 13 Oct 2011 07:41:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
 	:references:in-reply-to:references;
-	bh=hCcOk9fSx46g8jdX1ZDf4NMacEdxb1lHuE/JX6n8idk=;
-	b=WizHR+XbvLVFC/yG6xh2P/wvlWOxRGQTVruqgmuTdZHGS8Dm+t1vlJ0fI8I823RXkC
-	A0At4zqhhHwNSBFCX2S0BveF6JD6FgwZ3PjahUAonu7a98NqvLicW8Fu1CExgs7XapMX
-	/a8PcibiNoQKKk4Z0EAWOLAjsryG330mGDBHQ=
-Received: by 10.150.206.6 with SMTP id d6mr4844456ybg.60.1318516902335;
-	Thu, 13 Oct 2011 07:41:42 -0700 (PDT)
+	bh=PU11RgeQiEmIptBEUg0RJOsOT2wM937on/FAG+mf6Pc=;
+	b=DxfMWZHs7id0TTQ51SZzkr39lvkSbjx6IiVezD/M5bhcRmZKErZAQr/v1DJG8nspFd
+	A4i01BZ9+QjdjkdYTG/iX3GhImz73h5uTXTsBsAtS28dIwvDxOinfJ7V9R4oZg2+Rk8C
+	mQhFHwSv7pkCf552UiRTcdKTWGO55XZea8IkA=
+Received: by 10.101.175.35 with SMTP id c35mr811855anp.15.1318516905868;
+	Thu, 13 Oct 2011 07:41:45 -0700 (PDT)
 Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id v20sm122509anv.17.2011.10.13.07.41.39
+	by mx.google.com with ESMTPS id v20sm122509anv.17.2011.10.13.07.41.42
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 13 Oct 2011 07:41:41 -0700 (PDT)
+	Thu, 13 Oct 2011 07:41:44 -0700 (PDT)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Oct 2011 14:41:18 +0000
-Message-Id: <e6b0646a52c93799636078b8b9cb9b53c85272e5.1318516840.git.otavio@ossystems.com.br>
+Date: Thu, 13 Oct 2011 14:41:19 +0000
+Message-Id: <640b4887602a9d44bed5449fca4d28669e5ffd51.1318516840.git.otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.7.2.5
 In-Reply-To: <cover.1318516840.git.otavio@ossystems.com.br>
 References: <cover.1318516840.git.otavio@ossystems.com.br>
 In-Reply-To: <cover.1318516840.git.otavio@ossystems.com.br>
 References: <cover.1318516840.git.otavio@ossystems.com.br>
-Subject: [PATCH 3/4] qt4: use 4.7.4 as default preference
+Subject: [PATCH 4/4] distro_tracking_fields.inc: update qt4 related entries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,54 +44,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Oct 2011 14:47:27 -0000
+X-List-Received-Date: Thu, 13 Oct 2011 14:47:28 -0000
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb        |    1 -
- meta/recipes-qt/qt4/qt4-native_4.7.4.bb          |    1 -
- meta/recipes-qt/qt4/qt4-tools-nativesdk_4.7.4.bb |    2 --
- meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb        |    2 --
- 4 files changed, 0 insertions(+), 6 deletions(-)
+ .../conf/distro/include/distro_tracking_fields.inc |   32 ++++++++++----------
+ 1 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb b/meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb
-index 34061cb..e34ec8d 100644
---- a/meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb
-+++ b/meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb
-@@ -9,4 +9,3 @@ QT_CONFIG_FLAGS += " \
-  -exceptions \
- "
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index b07209e..95bdda1 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -3445,34 +3445,34 @@ RECIPE_MAINTAINER_pn-imake = "Yu Ke <ke.yu@intel.com>"
+ DISTRO_PN_ALIAS_pn-imake = "Mandriva=xutils Ubuntu=xutils"
  
--DEFAULT_PREFERENCE = "-1"
-diff --git a/meta/recipes-qt/qt4/qt4-native_4.7.4.bb b/meta/recipes-qt/qt4/qt4-native_4.7.4.bb
-index 7196c73..3be4d73 100644
---- a/meta/recipes-qt/qt4/qt4-native_4.7.4.bb
-+++ b/meta/recipes-qt/qt4/qt4-native_4.7.4.bb
-@@ -15,4 +15,3 @@ TOBUILD := "src/tools/bootstrap ${TOBUILD}"
- SRC_URI[md5sum] = "9831cf1dfa8d0689a06c2c54c5c65aaf"
- SRC_URI[sha256sum] = "97195ebce8a46f9929fb971d9ae58326d011c4d54425389e6e936514f540221e"
+ RECIPE_STATUS_pn-qt4-tools-native = "green" # no update needed
+-RECIPE_LATEST_VERSION_pn-qt4-tools-native = "4.7.3"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-qt4-tools-native = "2 months"
+-RECIPE_LATEST_RELEASE_DATE_pn-qt4-tools-native = "2011/05/04"
+-RECIPE_LAST_UPDATE_pn-qt4-tools-native = "May 12, 2011"
++RECIPE_LATEST_VERSION_pn-qt4-tools-native = "4.7.4"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-qt4-tools-native = "4 months"
++RECIPE_LATEST_RELEASE_DATE_pn-qt4-tools-native = "2011/09/01"
++RECIPE_LAST_UPDATE_pn-qt4-tools-native = "September 10, 2011"
+ RECIPE_MAINTAINER_pn-qt4-tools-native = "Paul Eggleton <paul.eggleton@linux.intel.com>"
+ DISTRO_PN_ALIAS_pn-qt4-tools-native = "Mandriva=libqt4-devel Ubuntu=libqt4-dev"
  
--DEFAULT_PREFERENCE = "-1"
-diff --git a/meta/recipes-qt/qt4/qt4-tools-nativesdk_4.7.4.bb b/meta/recipes-qt/qt4/qt4-tools-nativesdk_4.7.4.bb
-index 77e1f36..4c90d57 100644
---- a/meta/recipes-qt/qt4/qt4-tools-nativesdk_4.7.4.bb
-+++ b/meta/recipes-qt/qt4/qt4-tools-nativesdk_4.7.4.bb
-@@ -7,5 +7,3 @@ SRC_URI += "file://blacklist-diginotar-certs.diff \
+ RECIPE_STATUS_pn-qt4-tools-nativesdk = "green"
+-RECIPE_LATEST_VERSION_pn-qt4-tools-nativesdk = "4.7.3"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-qt4-tools-nativesdk = "2 months"
+-RECIPE_LATEST_RELEASE_DATE_pn-qt4-tools-nativesdk = "2011/05/04"
+-RECIPE_LAST_UPDATE_pn-qt4-tools-nativesdk = "May 12, 2011"
++RECIPE_LATEST_VERSION_pn-qt4-tools-nativesdk = "4.7.4"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-qt4-tools-nativesdk = "4 months"
++RECIPE_LATEST_RELEASE_DATE_pn-qt4-tools-nativesdk = "2011/09/01"
++RECIPE_LAST_UPDATE_pn-qt4-tools-nativesdk = "September 10, 2011"
+ RECIPE_MAINTAINER_pn-qt4-tools-nativesdk = "Paul Eggleton <paul.eggleton@linux.intel.com>"
+ DISTRO_PN_ALIAS_pn-qt4-tools-nativesdk = "Mandriva=libqt4-devel Ubuntu=libqt4-dev"
  
- SRC_URI[md5sum] = "9831cf1dfa8d0689a06c2c54c5c65aaf"
- SRC_URI[sha256sum] = "97195ebce8a46f9929fb971d9ae58326d011c4d54425389e6e936514f540221e"
--
--DEFAULT_PREFERENCE = "-1"
-diff --git a/meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb b/meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb
-index 0290313..8c48936 100644
---- a/meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb
-+++ b/meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb
-@@ -9,5 +9,3 @@ QT_CONFIG_FLAGS += " \
-  -no-embedded \
-  -xrandr \
-  -x11"
--
--DEFAULT_PREFERENCE = "-1"
+ RECIPE_STATUS_pn-qt4-embedded = "green"
+-RECIPE_LATEST_VERSION_pn-qt4-embedded = "4.7.3"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-qt4-embedded = "2 months"
+-RECIPE_LATEST_RELEASE_DATE_pn-qt4-embedded = "2011/05/04"
+-RECIPE_LAST_UPDATE_pn-qt4-embedded = "May 12, 2011"
++RECIPE_LATEST_VERSION_pn-qt4-embedded = "4.7.4"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-qt4-embedded = "4 months"
++RECIPE_LATEST_RELEASE_DATE_pn-qt4-embedded = "2011/09/01"
++RECIPE_LAST_UPDATE_pn-qt4-embedded = "September 10, 2011"
+ RECIPE_MAINTAINER_pn-qt4-embedded = "Paul Eggleton <paul.eggleton@linux.intel.com>"
+ DISTRO_PN_ALIAS_pn-qt4-embedded = "OSPDT"
+ 
+ RECIPE_STATUS_pn-qt4-x11-free = "green"
+-RECIPE_LATEST_VERSION_pn-qt4-x11-free = "4.7.3"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-qt4-x11-free = "2 months"
+-RECIPE_LATEST_RELEASE_DATE_pn-qt4-x11-free = "2011/05/04"
+-RECIPE_LAST_UPDATE_pn-qt4-x11-free = "May 12, 2011"
++RECIPE_LATEST_VERSION_pn-qt4-x11-free = "4.7.4"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-qt4-x11-free = "4 months"
++RECIPE_LATEST_RELEASE_DATE_pn-qt4-x11-free = "2011/09/01"
++RECIPE_LAST_UPDATE_pn-qt4-x11-free = "September 10, 2011"
+ RECIPE_MAINTAINER_pn-qt4-x11-free = "Paul Eggleton <paul.eggleton@linux.intel.com"
+ DISTRO_PN_ALIAS_pn-qt4-x11-free = "Ubuntu=qt-x11-free Debian=qt-x11-free"
+ 
 -- 
 1.7.2.5
 
