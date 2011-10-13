@@ -1,44 +1,20 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1RETfA-0004jf-OT
+	(envelope-from <nitin.a.kamble@intel.com>) id 1REURW-00063V-2m
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Oct 2011 00:22:04 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 13 Oct 2011 15:16:19 -0700
+	Fri, 14 Oct 2011 01:12:02 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 13 Oct 2011 16:06:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="62762947"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
-	by orsmga001.jf.intel.com with ESMTP; 13 Oct 2011 15:16:19 -0700
-Received: from orsmsx606.amr.corp.intel.com (10.22.226.128) by
-	orsmsx604.amr.corp.intel.com (10.22.226.87) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 13 Oct 2011 15:16:18 -0700
-Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
-	orsmsx606.amr.corp.intel.com ([10.22.226.128]) with mapi;
-	Thu, 13 Oct 2011 15:16:18 -0700
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 13 Oct 2011 15:16:18 -0700
-Thread-Topic: [OE-core] [PATCH 4/4] python, python-native: upgrade from
-	2.6.6 to 2.7.2
-Thread-Index: AcyJ8MspOoEkYhXPS1OXtsKFEDEdQAAA4CoQ
-Message-ID: <9DA5872FEF993D41B7173F58FCF6BE94E0BCED05@orsmsx504.amr.corp.intel.com>
-References: <cover.1317344910.git.nitin.a.kamble@intel.com>
-	<efb11f0fc00b6406194a37db473d25409569ba81.1317344910.git.nitin.a.kamble@intel.com>
-	<20110930183732.GH7364@jama.jama.net>
-	<9DA5872FEF993D41B7173F58FCF6BE94E0905BBC@orsmsx504.amr.corp.intel.com>
-	<20110930184603.GI7364@jama.jama.net>
-	<CA+chaQcSHh=j9rGCYehU4ce4iQw_ZCoL_oaqxH7kWFZB16NqyQ@mail.gmail.com>
-	<9DA5872FEF993D41B7173F58FCF6BE94E0BCEAC0@orsmsx504.amr.corp.intel.com>
-	<20111013214048.GA3542@jama.jama.net>
-In-Reply-To: <20111013214048.GA3542@jama.jama.net>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] python, python-native: upgrade from 2.6.6 to 2.7.2
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="63062438"
+Received: from nbuild2.sc.intel.com ([172.25.110.37])
+	by orsmga002.jf.intel.com with ESMTP; 13 Oct 2011 16:06:15 -0700
+From: nitin.a.kamble@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 13 Oct 2011 16:06:11 -0700
+Message-Id: <cover.1318547063.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.4.4
+Subject: [review/test 0/5] Python upgrade and other commits
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,92 +29,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Oct 2011 22:22:05 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 13 Oct 2011 23:12:02 -0000
 
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-
-> -----Original Message-----
-> From: Martin Jansa [mailto:martin.jansa@gmail.com]
-> Sent: Thursday, October 13, 2011 2:41 PM
-> To: Kamble, Nitin A
-> Cc: Patches and discussions about the oe-core layer
-> Subject: Re: [OE-core] [PATCH 4/4] python, python-native: upgrade from
-> 2.6.6 to 2.7.2
->=20
-> On Thu, Oct 13, 2011 at 01:09:15PM -0700, Kamble, Nitin A wrote:
-> > Martin,
-> >   I am fixing the python 2.7.2 recipe, and I need to update the
-> generate-manifest-2.7.py script slightly, to get more files included in
-> the python-core package.
->=20
-> great, I was debuging it a bit more today and found out that the
-> problem seems to be in python-native, because with python-native-2.7.2
-> when I try to build old python-2.6.6 it's also tring to link extra
-> modules to -native libpython2.7 and fails:
-> /OE/shr-core/tmp/sysroots/x86_64-linux/usr/lib/libpython2.7.so: file
-> not recognized: File format not recognized
->=20
-> but even after comparing sysroots/builddirs/logs from 2.6.6 and 2.7.2 I
-> still don't see why it picked right libpython2.6 before and now it
-> fails.
-> I've tried it without multilib support and partially reverted changes
-> in patches from 2.6.6 and still it fails :/
->=20
-> btw: there seems to be also issue in runtime SHR root@gjama ~ $ python
-> -v Could not find platform independent libraries <prefix> Consider
-> setting $PYTHONHOME to <prefix>[:<exec_prefix>] # installing zipimport
-> hook import zipimport # builtin # installed zipimport hook
-> ImportError: No module named site
-> # clear __builtin__._
-> # clear sys.path
-> # clear sys.argv
-> # clear sys.ps1
-> # clear sys.ps2
-> # clear sys.exitfunc
-> # clear sys.exc_type
-> # clear sys.exc_value
-> # clear sys.exc_traceback
-> # clear sys.last_type
-> # clear sys.last_value
-> # clear sys.last_traceback
-> # clear sys.path_hooks
-> # clear sys.path_importer_cache
-> # clear sys.meta_path
-> # clear sys.flags
-> # clear sys.float_info
-> # restore sys.stdin
-> # restore sys.stdout
-> # restore sys.stderr
-> # cleanup __main__
-> # cleanup[1] zipimport
-> # cleanup[1] signal
-> # cleanup[1] exceptions
-> # cleanup[1] _warnings
-> # cleanup sys
-> # cleanup __builtin__
-> # cleanup ints: 5 unfreed ints
-> # cleanup floats
->=20
-> > BTW how to run this script ? some documentation of it in the script
-> would be useful.
-
-I got python 2.7.2 to work inside the qemux86 machine now. I will send a pu=
-ll request for review/test today.
+I tested and found that python 2.7.2 is working as expected inside qemux86 machine. 
+Please give it a try and let me know your experience.
 
 Thanks,
 Nitin
 
+The following changes since commit 5ed59ae0f25bf673d514df2371da7e0415b62bb2:
 
->=20
-> just execute it and it prints manifest, so something like this:
-> openembedded-core $ scripts/contrib/python/generate-manifest-2.7.py >
-> meta/recipes-devtools/python/python-2.7-manifest.inc
->=20
-> Regards,
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+  local.conf.sample: Disable interactive patch resolution for now since doesn't work well (2011-10-07 00:00:21 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/upgrades
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/upgrades
+
+Martin Jansa (1):
+  python: update generate-manifest for 2.7 version and regenerate it
+
+Nitin A Kamble (4):
+  x86 tune files: set baselib for x32 tune as libx32
+  python-dbus: upgrade from 0.83.2 to 0.84.0
+  python, python-native: upgrade from 2.6.6 to 2.7.2
+  update python 2.7 manifest
+
+ meta/conf/distro/include/default-versions.inc      |    6 +-
+ meta/conf/machine/include/ia32/arch-ia32.inc       |    2 +-
+ meta/conf/machine/include/tune-core2.inc           |    2 +-
+ ...on-2.6-manifest.inc => python-2.7-manifest.inc} |  124 +++++-----
+ ...python-dbus_0.83.2.bb => python-dbus_0.84.0.bb} |    4 +-
+ .../python/python-native/multilib.patch            |  240 ++++++++++++++++++++
+ .../python/python-native/nohostlibs.patch          |   36 ++-
+ ...thon-native_2.6.6.bb => python-native_2.7.2.bb} |   13 +-
+ meta/recipes-devtools/python/python.inc            |   16 +-
+ .../01-use-proper-tools-for-cross-build.patch      |   80 ++++---
+ .../python/python/02-remove-test-for-cross.patch   |  108 ---------
+ .../06-avoid_usr_lib_termcap_path_in_linking.patch |   12 +-
+ .../python/06-ctypes-libffi-fix-configure.patch    |   42 ++---
+ meta/recipes-devtools/python/python/multilib.patch |  126 ++++++-----
+ .../python/python/security_issue_2254_fix.patch    |  184 ---------------
+ .../python/{python_2.6.6.bb => python_2.7.2.bb}    |   11 +-
+ meta/site/common-linux                             |    3 +
+ ...te-manifest-2.6.py => generate-manifest-2.7.py} |    6 +-
+ 18 files changed, 495 insertions(+), 520 deletions(-)
+ rename meta/recipes-devtools/python/{python-2.6-manifest.inc => python-2.7-manifest.inc} (52%)
+ rename meta/recipes-devtools/python/{python-dbus_0.83.2.bb => python-dbus_0.84.0.bb} (83%)
+ create mode 100644 meta/recipes-devtools/python/python-native/multilib.patch
+ rename meta/recipes-devtools/python/{python-native_2.6.6.bb => python-native_2.7.2.bb} (74%)
+ delete mode 100644 meta/recipes-devtools/python/python/02-remove-test-for-cross.patch
+ delete mode 100644 meta/recipes-devtools/python/python/security_issue_2254_fix.patch
+ rename meta/recipes-devtools/python/{python_2.6.6.bb => python_2.7.2.bb} (92%)
+ rename scripts/contrib/python/{generate-manifest-2.6.py => generate-manifest-2.7.py} (99%)
+
+-- 
+1.7.4.4
+
 
 
