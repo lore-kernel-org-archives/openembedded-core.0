@@ -1,29 +1,39 @@
-Received: from ocean.emcraft.com ([213.221.7.182])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dima_ch@emcraft.com>) id 1REjiD-0000HH-R7
-	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Oct 2011 17:30:18 +0200
-Received: from vladimir.emcraft.com ([172.17.0.253])
-	by ocean.emcraft.com with esmtp (Exim 4.76)
-	(envelope-from <dima_ch@emcraft.com>)
-	id 1REjce-0002QW-HM; Fri, 14 Oct 2011 19:24:32 +0400
-From: Dmitry Cherukhin <dima_ch@emcraft.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-In-Reply-To: <201109281521.07861.paul.eggleton@linux.intel.com>
-References: <c477d260c34472a416ccb6eec9af0300a40d576f>
-	<1317202559-17845-1-git-send-email-dima_ch@emcraft.com>
-	<201109281521.07861.paul.eggleton@linux.intel.com>
-Organization: Emcraft Systems
-Date: Fri, 14 Oct 2011 19:24:32 +0400
-Message-ID: <1318605872.23340.587.camel@vladimir.emcraft.com>
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1REjj8-0000KO-EY for openembedded-core@lists.openembedded.org;
+	Fri, 14 Oct 2011 17:31:40 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p9EFW6Bf021920 for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Oct 2011 16:32:06 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Ft3-44i1E7qz
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Oct 2011 16:32:06 +0100 (BST)
+Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p9EFW0n4021917
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Oct 2011 16:32:02 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 14 Oct 2011 16:25:16 +0100
+In-Reply-To: <CAP9ODKod1GCk5gFPq0YkEPb0rZ3NHsD6YBu7cAQVDPLW0PN7xA@mail.gmail.com>
+References: <1318603356.2342.20.camel@ted>
+	<CAP9ODKod1GCk5gFPq0YkEPb0rZ3NHsD6YBu7cAQVDPLW0PN7xA@mail.gmail.com>
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1318605925.2342.24.camel@ted>
 Mime-Version: 1.0
-X-Mailer: Evolution 2.28.3 (2.28.3-1.fc12) 
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] qt4: Added support for QtMobility 1.2
+Subject: Re: [PATCH] mesa-dri: Enable swrast only by default and intel drivers only on IA platform
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: dima_ch@emcraft.com, Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -34,32 +44,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2011 15:30:18 -0000
+X-List-Received-Date: Fri, 14 Oct 2011 15:31:40 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-09-28 at 15:21 +0100, Paul Eggleton wrote:
-> On Wednesday 28 September 2011 10:35:59 Dmitry Cherukhin wrote:
-> > The QtMobility is a Qt add-on which allows to include standard mobile
-> > functionality to Qt applications. For details, see
-> >    http://qt.nokia.com/products/qt-addons/mobility/
-> > The patch is intended to add support for the QtMobility 1.2 package to OE.
+On Fri, 2011-10-14 at 11:46 -0300, Otavio Salvador wrote:
+> +1
 > 
-> So apart from adding Qt Mobility this attempts to work around two issues by 
-> removing the checks rather than fixing the underlying cause of the checks 
-> failing. These checks look fine to me, so why are they not working?
-> 
+> Just another thing, I'd prefer to have DRIDRIVERS as ?= so machine can
+> override it.
 
-These checks was not working because the file .../mkspecs/qconfig.pri
-was not included to the main QtMobility project file. I include it
-manually. Also I removed all .patch files because they deal with the
-configuration, not with the code. You can find new version of the patch
-here:
-http://thread.gmane.org/gmane.comp.handhelds.openembedded.core/8708
+I really wouldn't recommend overriding this on a per machine basis, it
+needs to be on a per arch basis. This is because the recipe is not
+machine specific (nor should it be).
 
-Thanks,
-Dima
+Configuration therefore falls to the distro, not machine.
 
+Cheers,
+
+Richard
 
 
 
