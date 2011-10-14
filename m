@@ -1,25 +1,31 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1REkpy-0002bo-4y
+	(envelope-from <saul.wold@intel.com>) id 1REksV-0002hn-LQ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Oct 2011 18:42:29 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 14 Oct 2011 09:35:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,347,1315206000"; d="scan'208";a="78191650"
-Received: from unknown (HELO [10.255.15.120]) ([10.255.15.120])
-	by fmsmga002.fm.intel.com with ESMTP; 14 Oct 2011 09:35:50 -0700
-Message-ID: <4E9864E6.8030304@linux.intel.com>
-Date: Fri, 14 Oct 2011 09:35:50 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Fri, 14 Oct 2011 18:44:59 +0200
+Received: from mail-ww0-f44.google.com ([74.125.82.44])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 14 Oct 2011 09:39:12 -0700
+Received: by wwf22 with SMTP id 22so2578210wwf.13
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Oct 2011 09:39:11 -0700 (PDT)
+Received: by 10.227.58.84 with SMTP id f20mr3679166wbh.9.1318610350861;
+	Fri, 14 Oct 2011 09:39:10 -0700 (PDT)
+Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id ek13sm15156195wbb.3.2011.10.14.09.39.08
+	(version=SSLv3 cipher=OTHER); Fri, 14 Oct 2011 09:39:10 -0700 (PDT)
+Message-ID: <4E9865AB.3070804@intel.com>
+Date: Fri, 14 Oct 2011 09:39:07 -0700
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
-To: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-References: <cover.1318318965.git.xiaofeng.yan@windriver.com>
-In-Reply-To: <cover.1318318965.git.xiaofeng.yan@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1] distro_tracking_fields.inc: Add maintainer for some packages without maintainer
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1318385789.git.edwin.zhai@intel.com>
+In-Reply-To: <cover.1318385789.git.edwin.zhai@intel.com>
+Subject: Re: [PATCH 0/2] Upgrade libfm/pcmanfm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,46 +40,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2011 16:42:29 -0000
+X-List-Received-Date: Fri, 14 Oct 2011 16:44:59 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/11/2011 01:51 AM, Xiaofeng Yan wrote:
-> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
+On 10/11/2011 07:20 PM, edwin.zhai@intel.com wrote:
+> From: Zhai Edwin<edwin.zhai@intel.com>
 >
-> Add maintainer's name for the following packages:
->            bind
->            libx11-diet
->            qmmp
->            libarchive
->            xserver-kdrive
->            xserver-xf86-lite
->            directfb
->
-> Pull URL: git://git.pokylinux.org/poky-contrib.git
->    Branch: xiaofeng/maintainer
->    Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/maintainer
+> All,
+> These 2 patches upgrade libfm and pcmanfm. Pls. help to review and pull.
 >
 > Thanks,
->      Xiaofeng Yan<xiaofeng.yan@windriver.com>
-> ---
+> Edwin
 >
+> The following changes since commit 0d8c8cf462e5df446669355b554b3d5fdc532a11:
 >
-> Xiaofeng Yan (1):
->    distro_tracking_fields.inc: Add maintainer for some packages without
->      maintainer
+>    mutter: update to 2.29.1 and fix SRC_URI (2011-10-07 11:35:50 +0100)
 >
->   .../conf/distro/include/distro_tracking_fields.inc |   15 +++++++++++++++
->   1 files changed, 15 insertions(+), 0 deletions(-)
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib gzhai/master2
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/master2
 >
+> Zhai Edwin (2):
+>    libfm: Upgrade to 0.1.16
+>    pcmanfm: Upgrade to 0.9.9
+>
+>   .../pcmanfm/files/owl-window-menu.patch            |   53 ++++++++++----------
+>   .../pcmanfm/{pcmanfm_0.9.8.bb =>  pcmanfm_0.9.9.bb} |    6 +-
+>   .../libfm/libfm-0.1.14/use_deprecate_func.patch    |   13 -----
+>   .../libfm/libfm-0.1.16/configure_fix.patch         |   19 +++++++
+>   .../libfm/{libfm_0.1.14.bb =>  libfm_0.1.16.bb}     |    8 ++--
+>   5 files changed, 52 insertions(+), 47 deletions(-)
+>   rename meta/recipes-sato/pcmanfm/{pcmanfm_0.9.8.bb =>  pcmanfm_0.9.9.bb} (87%)
+>   delete mode 100644 meta/recipes-support/libfm/libfm-0.1.14/use_deprecate_func.patch
+>   create mode 100644 meta/recipes-support/libfm/libfm-0.1.16/configure_fix.patch
+>   rename meta/recipes-support/libfm/{libfm_0.1.14.bb =>  libfm_0.1.16.bb} (73%)
 >
 
-Merged into OE-Core.
-
-Please send any corrected updates for this file, I think I may have 
-merged the older version.
+Merged into OE-Core
 
 Thanks
 	Sau!
+
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
 
 
