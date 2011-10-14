@@ -1,21 +1,21 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1REksV-0002hn-LQ
+	(envelope-from <saul.wold@intel.com>) id 1REktw-0002kp-8p
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Oct 2011 18:44:59 +0200
-Received: from mail-ww0-f44.google.com ([74.125.82.44])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 14 Oct 2011 09:39:12 -0700
-Received: by wwf22 with SMTP id 22so2578210wwf.13
+	Fri, 14 Oct 2011 18:46:28 +0200
+Received: from mail-wy0-f180.google.com ([74.125.82.180])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 14 Oct 2011 09:40:41 -0700
+Received: by wyh11 with SMTP id 11so3202233wyh.25
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2011 09:39:11 -0700 (PDT)
-Received: by 10.227.58.84 with SMTP id f20mr3679166wbh.9.1318610350861;
-	Fri, 14 Oct 2011 09:39:10 -0700 (PDT)
+	Fri, 14 Oct 2011 09:40:40 -0700 (PDT)
+Received: by 10.227.133.144 with SMTP id f16mr3153095wbt.97.1318610439481;
+	Fri, 14 Oct 2011 09:40:39 -0700 (PDT)
 Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
 	[71.193.189.117])
-	by mx.google.com with ESMTPS id ek13sm15156195wbb.3.2011.10.14.09.39.08
-	(version=SSLv3 cipher=OTHER); Fri, 14 Oct 2011 09:39:10 -0700 (PDT)
-Message-ID: <4E9865AB.3070804@intel.com>
-Date: Fri, 14 Oct 2011 09:39:07 -0700
+	by mx.google.com with ESMTPS id e7sm15128840wbh.12.2011.10.14.09.40.36
+	(version=SSLv3 cipher=OTHER); Fri, 14 Oct 2011 09:40:38 -0700 (PDT)
+Message-ID: <4E986603.7090601@intel.com>
+Date: Fri, 14 Oct 2011 09:40:35 -0700
 From: Saul Wold <saul.wold@intel.com>
 Organization: Intel
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
@@ -23,9 +23,11 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1318385789.git.edwin.zhai@intel.com>
-In-Reply-To: <cover.1318385789.git.edwin.zhai@intel.com>
-Subject: Re: [PATCH 0/2] Upgrade libfm/pcmanfm
+References: <1317634209-3154-1-git-send-email-mokml@mnet-online.de>
+	<1318403001-30440-1-git-send-email-Martin.Jansa@gmail.com>
+In-Reply-To: <1318403001-30440-1-git-send-email-Martin.Jansa@gmail.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>, Klaus Kurzmann <mok@fluxnetz.de>
+Subject: Re: [PATCHv2] eglibc-2.14: add patch to fix libdl crash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,54 +42,188 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2011 16:44:59 -0000
+X-List-Received-Date: Fri, 14 Oct 2011 16:46:29 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/11/2011 07:20 PM, edwin.zhai@intel.com wrote:
-> From: Zhai Edwin<edwin.zhai@intel.com>
+On 10/12/2011 12:03 AM, Martin Jansa wrote:
+> From: Klaus Kurzmann<mok@fluxnetz.de>
 >
-> All,
-> These 2 patches upgrade libfm and pcmanfm. Pls. help to review and pull.
+> * Without this patch programs using alsa-lib crash (alsamixer for example).
+> * This patch is taken verbatim from ArchLinux.
 >
-> Thanks,
-> Edwin
+> Signed-off-by: Klaus Kurzmann<mok@fluxnetz.de>
+> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
+> ---
+>   .../eglibc-2.14/glibc-2.14-libdl-crash.patch       |  131 ++++++++++++++++++++
+>   meta/recipes-core/eglibc/eglibc_2.14.bb            |    5 +-
+>   2 files changed, 134 insertions(+), 2 deletions(-)
+>   create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch
 >
-> The following changes since commit 0d8c8cf462e5df446669355b554b3d5fdc532a11:
+> diff --git a/meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch b/meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch
+> new file mode 100644
+> index 0000000..e1f135c
+> --- /dev/null
+> +++ b/meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch
+> @@ -0,0 +1,131 @@
+> +Without this patch programs using alsa-lib crash (alsamixer for example).
+> +Removed Copyright reverts
+> +
+> +Upstream-Status: Pending
+> +
+> +http://sourceware.org/git/?p=glibc.git;a=commitdiff;h=675155e9
+> +http://sourceware.org/ml/libc-alpha/2011-06/msg00006.html
+> +
+> +many distributions are using this already
+> +http://chakra-project.org/ccr/packages/glibc/glibc/PKGBUILD
+> +http://mailman.archlinux.org/pipermail/arch-commits/2011-June/137142.html
+> +http://svn.mandriva.com/cgi-bin/viewvc.cgi/packages/cooker/glibc/current/SOURCES/glibc-2.14-libdl-crash.patch?view=markup&pathrev=691343
+> +http://repos.archlinuxppc.org/wsvn/filedetails.php?repname=packages&path=%2Fglibc%2Ftrunk%2Fglibc-2.14-libdl-crash.patch
+> +
+> +diff --git a/elf/dl-close.c b/elf/dl-close.c
+> +index 73b2a2f..9bd91e3 100644
+> +--- a/elf/dl-close.c
+> ++++ b/elf/dl-close.c
+> +@@ -119,17 +119,8 @@ _dl_close_worker (struct link_map *map)
+> +   if (map->l_direct_opencount>  0 || map->l_type != lt_loaded
+> +       || dl_close_state != not_pending)
+> +     {
+> +-      if (map->l_direct_opencount == 0)
+> +-	{
+> +-	  if (map->l_type == lt_loaded)
+> +-	    dl_close_state = rerun;
+> +-	  else if (map->l_type == lt_library)
+> +-	    {
+> +-	      struct link_map **oldp = map->l_initfini;
+> +-	      map->l_initfini = map->l_orig_initfini;
+> +-	      _dl_scope_free (oldp);
+> +-	    }
+> +-	}
+> ++      if (map->l_direct_opencount == 0&&  map->l_type == lt_loaded)
+> ++	dl_close_state = rerun;
+> +
+> +       /* There are still references to this object.  Do nothing more.  */
+> +       if (__builtin_expect (GLRO(dl_debug_mask)&  DL_DEBUG_FILES, 0))
+> +diff --git a/elf/dl-deps.c b/elf/dl-deps.c
+> +index 9e30594..3890d00 100644
+> +--- a/elf/dl-deps.c
+> ++++ b/elf/dl-deps.c
+> +@@ -478,6 +478,7 @@ _dl_map_object_deps (struct link_map *map,
+> + 		  nneeded * sizeof needed[0]);
+> + 	  atomic_write_barrier ();
+> + 	  l->l_initfini = l_initfini;
+> ++	  l->l_free_initfini = 1;
+> + 	}
+> +
+> +       /* If we have no auxiliary objects just go on to the next map.  */
+> +@@ -681,6 +682,7 @@ Filters not supported with LD_TRACE_PRELINKING"));
+> +   l_initfini[nlist] = NULL;
+> +   atomic_write_barrier ();
+> +   map->l_initfini = l_initfini;
+> ++  map->l_free_initfini = 1;
+> +   if (l_reldeps != NULL)
+> +     {
+> +       atomic_write_barrier ();
+> +@@ -689,5 +691,5 @@ Filters not supported with LD_TRACE_PRELINKING"));
+> +       _dl_scope_free (old_l_reldeps);
+> +     }
+> +   if (old_l_initfini != NULL)
+> +-      map->l_orig_initfini = old_l_initfini;
+> ++    _dl_scope_free (old_l_initfini);
+> + }
+> +diff --git a/elf/dl-libc.c b/elf/dl-libc.c
+> +index 7be9483..a13fce3 100644
+> +--- a/elf/dl-libc.c
+> ++++ b/elf/dl-libc.c
+> +@@ -265,13 +265,13 @@ libc_freeres_fn (free_mem)
+> +
+> +   for (Lmid_t ns = 0; ns<  GL(dl_nns); ++ns)
+> +     {
+> +-      /* Remove all additional names added to the objects.  */
+> +       for (l = GL(dl_ns)[ns]._ns_loaded; l != NULL; l = l->l_next)
+> + 	{
+> + 	  struct libname_list *lnp = l->l_libname->next;
+> +
+> + 	  l->l_libname->next = NULL;
+> +
+> ++	  /* Remove all additional names added to the objects.  */
+> + 	  while (lnp != NULL)
+> + 	    {
+> + 	      struct libname_list *old = lnp;
+> +@@ -279,6 +279,10 @@ libc_freeres_fn (free_mem)
+> + 	      if (! old->dont_free)
+> + 		free (old);
+> + 	    }
+> ++
+> ++	  /* Free the initfini dependency list.  */
+> ++	  if (l->l_free_initfini)
+> ++	    free (l->l_initfini);
+> + 	}
+> +
+> +       if (__builtin_expect (GL(dl_ns)[ns]._ns_global_scope_alloc, 0) != 0
+> +diff --git a/elf/rtld.c b/elf/rtld.c
+> +index 4a9109e..617e30e 100644
+> +--- a/elf/rtld.c
+> ++++ b/elf/rtld.c
+> +@@ -2251,6 +2251,7 @@ ERROR: ld.so: object '%s' cannot be loaded as audit interface: %s; ignored.\n",
+> + 	      lnp->dont_free = 1;
+> + 	      lnp = lnp->next;
+> + 	    }
+> ++	  l->l_free_initfini = 0;
+> +
+> + 	  if (l !=&GL(dl_rtld_map))
+> + 	    _dl_relocate_object (l, l->l_scope, GLRO(dl_lazy) ? RTLD_LAZY : 0,
+> +diff --git a/include/link.h b/include/link.h
+> +index e877104..051b99a 100644
+> +--- a/include/link.h
+> ++++ b/include/link.h
+> +@@ -192,6 +192,9 @@ struct link_map
+> + 						 during LD_TRACE_PRELINKING=1
+> + 						 contains any DT_SYMBOLIC
+> + 						 libraries.  */
+> ++    unsigned int l_free_initfini:1; /* Nonzero if l_initfini can be
+> ++				       freed, ie. not allocated with
+> ++				       the dummy malloc in ld.so.  */
+> +
+> +     /* Collected information about own RPATH directories.  */
+> +     struct r_search_path_struct l_rpath_dirs;
+> +@@ -240,9 +243,6 @@ struct link_map
+> +
+> +     /* List of object in order of the init and fini calls.  */
+> +     struct link_map **l_initfini;
+> +-    /* The init and fini list generated at startup, saved when the
+> +-       object is also loaded dynamically.  */
+> +-    struct link_map **l_orig_initfini;
+> +
+> +     /* List of the dependencies introduced through symbol binding.  */
+> +     struct link_map_reldeps
+> diff --git a/meta/recipes-core/eglibc/eglibc_2.14.bb b/meta/recipes-core/eglibc/eglibc_2.14.bb
+> index b2821db..571d39d 100644
+> --- a/meta/recipes-core/eglibc/eglibc_2.14.bb
+> +++ b/meta/recipes-core/eglibc/eglibc_2.14.bb
+> @@ -3,7 +3,7 @@ require eglibc.inc
+>   SRCREV = "15225"
 >
->    mutter: update to 2.29.1 and fix SRC_URI (2011-10-07 11:35:50 +0100)
+>   DEPENDS += "gperf-native"
+> -PR = "r0"
+> +PR = "r1"
+>   PR_append = "+svnr${SRCPV}"
 >
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib gzhai/master2
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/master2
->
-> Zhai Edwin (2):
->    libfm: Upgrade to 0.1.16
->    pcmanfm: Upgrade to 0.9.9
->
->   .../pcmanfm/files/owl-window-menu.patch            |   53 ++++++++++----------
->   .../pcmanfm/{pcmanfm_0.9.8.bb =>  pcmanfm_0.9.9.bb} |    6 +-
->   .../libfm/libfm-0.1.14/use_deprecate_func.patch    |   13 -----
->   .../libfm/libfm-0.1.16/configure_fix.patch         |   19 +++++++
->   .../libfm/{libfm_0.1.14.bb =>  libfm_0.1.16.bb}     |    8 ++--
->   5 files changed, 52 insertions(+), 47 deletions(-)
->   rename meta/recipes-sato/pcmanfm/{pcmanfm_0.9.8.bb =>  pcmanfm_0.9.9.bb} (87%)
->   delete mode 100644 meta/recipes-support/libfm/libfm-0.1.14/use_deprecate_func.patch
->   create mode 100644 meta/recipes-support/libfm/libfm-0.1.16/configure_fix.patch
->   rename meta/recipes-support/libfm/{libfm_0.1.14.bb =>  libfm_0.1.16.bb} (73%)
->
+>   EGLIBC_BRANCH="eglibc-2_14"
+> @@ -19,7 +19,8 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http
+>              file://ppc-sqrt.patch \
+>              file://multilib_readlib.patch \
+>              file://eglibc-rpc-export-again.patch \
+> -	   "
+> +           file://glibc-2.14-libdl-crash.patch \
+> +          "
+>   LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
+>         file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
+>         file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
 
 Merged into OE-Core
 
 Thanks
 	Sau!
-
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
 
 
