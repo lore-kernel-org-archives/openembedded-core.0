@@ -1,32 +1,31 @@
-Received: from mail-dy0-f47.google.com ([209.85.220.47])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1REkho-0002Kh-H9
+	(envelope-from <saul.wold@intel.com>) id 1REkjl-0002Pe-Ni
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Oct 2011 18:33:56 +0200
-Received: by dyk17 with SMTP id 17so157275dyk.6
+	Fri, 14 Oct 2011 18:35:57 +0200
+Received: from mail-wy0-f180.google.com ([74.125.82.180])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 14 Oct 2011 09:30:10 -0700
+Received: by wyh11 with SMTP id 11so3191310wyh.25
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2011 09:28:10 -0700 (PDT)
-Received: by 10.223.92.144 with SMTP id r16mr4995640fam.23.1318609687935;
-	Fri, 14 Oct 2011 09:28:07 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id m26sm4546039fac.6.2011.10.14.09.28.06
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 14 Oct 2011 09:28:06 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4E986233.8020505@linux.intel.com>
-Date: Fri, 14 Oct 2011 18:28:04 +0200
-Message-Id: <3C978CB0-754A-4835-9A02-DC29A5AC882B@dominion.thruhere.net>
-References: <f63c9c5991312f05bffee750086a0c7398770f8a>
-	<1316787194-17442-1-git-send-email-dima_ch@emcraft.com>
-	<4E810B74.7010001@linux.intel.com>
-	<1318605488.23340.580.camel@vladimir.emcraft.com>
-	<4E986233.8020505@linux.intel.com>
+	Fri, 14 Oct 2011 09:30:08 -0700 (PDT)
+Received: by 10.216.4.158 with SMTP id 30mr172336wej.54.1318609804139;
+	Fri, 14 Oct 2011 09:30:04 -0700 (PDT)
+Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id p2sm15063582wbo.17.2011.10.14.09.30.02
+	(version=SSLv3 cipher=OTHER); Fri, 14 Oct 2011 09:30:03 -0700 (PDT)
+Message-ID: <4E986388.8040504@intel.com>
+Date: Fri, 14 Oct 2011 09:30:00 -0700
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH] qt4: Added support for QtMobility 1.2
+References: <1318009017-6186-1-git-send-email-raj.khem@gmail.com>
+In-Reply-To: <1318009017-6186-1-git-send-email-raj.khem@gmail.com>
+Subject: Re: [PATCH] farsight2, ldconfig-native, gnutls: There is no GPLv2.1, correct the fields
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,88 +40,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2011 16:33:56 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 14 Oct 2011 16:35:58 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 10/07/2011 10:36 AM, Khem Raj wrote:
+> The licenses were either LGPLv2.1 or GPLv2
+> make the changes appropriately
+>
+> Signed-off-by: Khem Raj<raj.khem@gmail.com>
+> ---
+>   .../farsight/farsight2_0.0.9.bb                    |    4 ++--
+>   meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb |    4 ++--
+>   meta/recipes-support/gnutls/gnutls.inc             |    4 ++--
+>   3 files changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/meta-demoapps/recipes-connectivity/farsight/farsight2_0.0.9.bb b/meta-demoapps/recipes-connectivity/farsight/farsight2_0.0.9.bb
+> index a7bdc97..ee0ce8a 100644
+> --- a/meta-demoapps/recipes-connectivity/farsight/farsight2_0.0.9.bb
+> +++ b/meta-demoapps/recipes-connectivity/farsight/farsight2_0.0.9.bb
+> @@ -1,12 +1,12 @@
+>   DESCRIPTION = "FarSight is an audio/video conferencing framework specifically designed for Instant Messengers."
+>   HOMEPAGE = "http://farsight.sf.net"
+>   SRC_URI = "http://farsight.freedesktop.org/releases/farsight2/${BPN}-${PV}.tar.gz"
+> -LICENSE = "GPLv2.1"
+> +LICENSE = "LGPLv2.1"
+>   DEPENDS = "libnice glib-2.0 libxml2 zlib dbus gstreamer gst-plugins-base"
+>
+>   inherit autotools
+>
+> -PR = "r1"
+> +PR = "r2"
+>
+>   EXTRA_OECONF = " \
+>     --disable-debug \
+> diff --git a/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb b/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb
+> index 00edb6e..2a93913 100644
+> --- a/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb
+> +++ b/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb
+> @@ -1,6 +1,6 @@
+>   DESCRIPTION = "A standalone native ldconfig build"
+>
+> -LICENSE = "GPLv2.1"
+> +LICENSE = "GPLv2+"
+>
+>   LIC_FILES_CHKSUM = "file://${S}/ldconfig.c;endline=17;md5=1d15f20937c055cb5de2329a4c054399"
+>
+> @@ -12,7 +12,7 @@ SRC_URI = "file://ldconfig-native-2.12.1.tar.bz2 \
+>              file://flag_fix.patch \
+>              file://endianess-header.patch"
+>
+> -PR = "r1"
+> +PR = "r2"
+>
+>   inherit native
+>
+> diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
+> index 9257880..d73c799 100644
+> --- a/meta/recipes-support/gnutls/gnutls.inc
+> +++ b/meta/recipes-support/gnutls/gnutls.inc
+> @@ -3,11 +3,11 @@ HOMEPAGE = "http://www.gnu.org/software/gnutls/"
+>   BUGTRACKER = "https://savannah.gnu.org/support/?group=gnutls"
+>   DEPENDS = "zlib lzo libtasn1 libgcrypt (>= 1.4.2) libcap"
+>
+> -INC_PR = "r2"
+> +INC_PR = "r3"
+>
+>   LICENSE = "GPLv3+&  LGPLv2.1+"
+>   LICENSE_${PN} = "LGPLv2.1+"
+> -LICENSE_${PN}-xx = "GPLv2.1+"
+> +LICENSE_${PN}-xx = "LGPLv2.1+"
+>   LICENSE_${PN}-bin = "GPLv3+"
+>   LICENSE_${PN}-extra = "GPLv3+"
+>   LICENSE_${PN}-openssl = "GPLv3+"
+	
+Merged into OE-Core
 
-Op 14 okt. 2011, om 18:24 heeft Saul Wold het volgende geschreven:
-
-> On 10/14/2011 08:18 AM, Dmitry Cherukhin wrote:
->> On Mon, 2011-09-26 at 16:32 -0700, Saul Wold wrote:
->>> On 09/23/2011 07:13 AM, Dmitry Cherukhin wrote:
->>>> This patch is indented to add new functionality,
->>>> specifically, the patch adds support for
->>>> the QtMobility 1.2 package.
->>>>=20
->>>> Added two recipes:
->>>> 1) qt-mobility-x11 builds the QtMobility 1.2 package
->>>>     on the basis of qt4-x11-free;
->>>> 2) qt-mobility-embedded builds the QtMobility 1.2 package
->>>>     on the basis of qt4-embedded.
->>>>=20
->>>> Signed-off-by: Dmitry Cherukhin<dima_ch@emcraft.com>
->>>> ---
->>>>   meta/recipes-qt/qt4/files/qtm_qtmobility_pro.patch |   28 =
-+++++++++++
->>>>   meta/recipes-qt/qt4/files/qtme_gstreamer_pro.patch |   16 ++++++
->>>>   meta/recipes-qt/qt4/qt-mobility-embedded_1.2.0.bb  |   13 +++++
->>>>   meta/recipes-qt/qt4/qt-mobility-x11_1.2.0.bb       |   11 ++++
->>>>   meta/recipes-qt/qt4/qt-mobility_1.2.0.inc          |   51 =
-++++++++++++++++++++
->>>>   5 files changed, 119 insertions(+), 0 deletions(-)
->>>>   create mode 100644 =
-meta/recipes-qt/qt4/files/qtm_qtmobility_pro.patch
->>>>   create mode 100644 =
-meta/recipes-qt/qt4/files/qtme_gstreamer_pro.patch
->>>>   create mode 100644 =
-meta/recipes-qt/qt4/qt-mobility-embedded_1.2.0.bb
->>>>   create mode 100644 meta/recipes-qt/qt4/qt-mobility-x11_1.2.0.bb
->>>>   create mode 100644 meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
->>>>=20
->>>> diff --git a/meta/recipes-qt/qt4/files/qtm_qtmobility_pro.patch =
-b/meta/recipes-qt/qt4/files/qtm_qtmobility_pro.patch
->>>> new file mode 100644
->>>> index 0000000..689c224
->>>> --- /dev/null
->>>> +++ b/meta/recipes-qt/qt4/files/qtm_qtmobility_pro.patch
->>>> @@ -0,0 +1,28 @@
->>>> +This patch fixes the following issue at the configure stage:
->>>> +   Project ERROR: Qt Mobility requires Qt 4.6 or higher. Qt was =
-found.
->>>> +The version of Qt is already 4.7.3, so this is misconfiguration =
-problem.
->>>> +
->>>> +The origin of this patch is:
->>>> +   =
-http://neophysis.git.sourceforge.net/git/gitweb.cgi?p=3Dneophysis/openembe=
-dded;
->>>> +   =
-a=3Dblob;f=3Drecipes/neophysis/qt-mobility-1.0.0/qtmobility_pro.patch;
->>>> +   =
-h=3Dfc5e1691aed47bc50d87e5c33497354182cacda4;hb=3Drefs/heads/neophysis-tes=
-ting-0.3
->>>> +Upstream-Status: not-appropriate
->>>=20
->>> Please refer to wiki page on www.openembedded.org for the corrcet
->>> formating of the Upstream-Status field.  You are also missing a
->>> Signed-off-by: line for each patch file.
->>>=20
->>> (I would give the exact page, but the site appears to be having =
-problems)
->>>=20
->>=20
->> Thanks!
->> I removed all .patch files, new version of the patch is here:
->> http://thread.gmane.org/gmane.comp.handhelds.openembedded.core/8708
->>=20
-> That's great, but that reader seems to mangle emails in a way that I =
-can't use them for patching, it would be great if you could just send =
-the v2 to this mailing list.
-
-The reader is just a view into the mail archive, so if you scroll back 8 =
-days in your oe-core folder, you should see the patch :)
-
-
+Thanks
+	Sau!
 
 
