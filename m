@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1REaUY-0002YD-7v
+	(envelope-from <sgw@linux.intel.com>) id 1REaUY-0002Sz-RF
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Oct 2011 07:39:34 +0200
+	Fri, 14 Oct 2011 07:39:35 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 13 Oct 2011 22:33:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,344,1315206000"; d="scan'208";a="73540458"
+X-IronPort-AV: E=Sophos;i="4.69,344,1315206000"; d="scan'208";a="73540456"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.120])
 	by fmsmga001.fm.intel.com with ESMTP; 13 Oct 2011 22:33:36 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Oct 2011 22:33:12 -0700
-Message-Id: <02facddc389100b239827830f9e7dbf6a1b5c123.1318570250.git.sgw@linux.intel.com>
+Date: Thu, 13 Oct 2011 22:33:10 -0700
+Message-Id: <e4dbd916c029abca10e538f70fb06380c21bdd83.1318570250.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.2
 In-Reply-To: <cover.1318570250.git.sgw@linux.intel.com>
 References: <cover.1318570250.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1318570250.git.sgw@linux.intel.com>
 References: <cover.1318570250.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 14/28] initramfs-live-boot: make it more generic and easy to use
+Subject: [CONSOLIDATED PULL 12/28] libnl2: Fix a race on route/pktloc_syntax.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,111 +33,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2011 05:39:34 -0000
+X-List-Received-Date: Fri, 14 Oct 2011 05:39:35 -0000
 
-From: Otavio Salvador <otavio@ossystems.com.br>
+From: Tom Rini <tom_rini@mentor.com>
 
-The script was making some assumptions that enforced many requirement
-in the machine kernel configuration and usage, besides it were too
-while booting.
+At issue is that route/pktloc.c (not generated) depends on
+route/pktloc_syntax.h (generated).
 
-Changes included:
-
- * fix indentation;
- * rdepends on udev;
- * allow use of isofs as module;
- * remove rootdelay param parsing as it was unused;
- * don't verbosely kill udevd and mknod;
- * mount devtmpfs into rootfs, if available, before swithing root;
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Tom Rini <tom_rini@mentor.com>
+Signed-off-by: Matthew McClintock <msm@freescale.com>
 ---
- meta/recipes-core/initrdscripts/files/init-live.sh |   32 ++++++++++++-------
- .../initrdscripts/initramfs-live-boot_1.0.bb       |    3 +-
- 2 files changed, 22 insertions(+), 13 deletions(-)
+ .../libnl/fix-pktloc_syntax_h-race.patch           |   26 ++++++++++++++++++++
+ meta/recipes-support/libnl/libnl_2.0.bb            |    3 +-
+ 2 files changed, 28 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
-index c054863..eb5ab5b 100644
---- a/meta/recipes-core/initrdscripts/files/init-live.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-live.sh
-@@ -13,6 +13,11 @@ early_setup() {
-     mkdir /sys
-     mount -t proc proc /proc
-     mount -t sysfs sysfs /sys
+diff --git a/meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch b/meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch
+new file mode 100644
+index 0000000..05d75db
+--- /dev/null
++++ b/meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch
+@@ -0,0 +1,26 @@
++Upstream-Status: Inappropriate [configuration]
 +
-+    # support modular kernel
-+    modprobe isofs 2> /dev/null
++libnl has progressed to 0.3.2 and there does not appear to be any
++"make -j" issues with this build after my limited testing on that
++newer version so we can assume this issue is fixed upstream
 +
-+    mkdir /run
-     udevd --daemon
-     udevadm trigger --action=add
- }
-@@ -25,21 +30,25 @@ read_args() {
-             root=*)
-                 ROOT_DEVICE=$optarg ;;
-             rootfstype=*)
--                ROOT_FSTYPE=$optarg ;;
--            rootdelay=*)
--                rootdelay=$optarg ;;
--	    LABEL=*)
--		label=$optarg ;;
--	    video=*)
--		video_mode=$arg ;;
--	    vga=*)
--		vga_mode=$arg ;;
-+                modprobe $optarg 2> /dev/null ;;
-+            LABEL=*)
-+                label=$optarg ;;
-+            video=*)
-+                video_mode=$arg ;;
-+            vga=*)
-+                vga_mode=$arg ;;
-         esac
-     done
- }
++Index: libnl-2.0/lib/Makefile.am
++===================================================================
++--- libnl-2.0.orig/lib/Makefile.am
+++++ libnl-2.0/lib/Makefile.am
++@@ -27,11 +27,15 @@ CLEANFILES = \
++ 	route/pktloc_grammar.c route/pktloc_grammar.h \
++ 	route/pktloc_syntax.c route/pktloc_syntax.h
++ 
+++BUILT_SOURCES = route/pktloc_syntax.h route/pktloc_grammar.h
+++
++ # Hack to avoid using ylwrap. It does not function correctly in combination
++ # with --header-file=
+++route/pktloc_grammar.h: route/pktloc_grammar.c
++ route/pktloc_grammar.c: route/pktloc_grammar.l
++ 	$(LEX) --header-file=route/pktloc_grammar.h $(LFLAGS) -o $@ $^
++ 
+++route/pktloc_syntax.h: route/pktloc_syntax.c
++ route/pktloc_syntax.c: route/pktloc_syntax.y
++ 	$(YACC) -d $(YFLAGS) -o $@ $^
++ 
+diff --git a/meta/recipes-support/libnl/libnl_2.0.bb b/meta/recipes-support/libnl/libnl_2.0.bb
+index 0dfcaf6..5339846 100644
+--- a/meta/recipes-support/libnl/libnl_2.0.bb
++++ b/meta/recipes-support/libnl/libnl_2.0.bb
+@@ -6,10 +6,11 @@ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=2b41e13261a330ee784153ecbb6a82bc"
  
- boot_live_root() {
--    killall udevd
-+    killall udevd 2>/dev/null
-+
-+    # use devtmpfs if available
-+    if grep -q devtmpfs /proc/filesystems; then
-+        mount -t devtmpfs devtmpfs $ROOT_MOUNT/dev
-+    fi
-+
-     cd $ROOT_MOUNT
-     exec switch_root -c /dev/console $ROOT_MOUNT /sbin/init
- }
-@@ -78,7 +87,7 @@ done
- case $label in
-     boot)
- 	mkdir $ROOT_MOUNT
--	mknod /dev/loop0 b 7 0
-+	mknod /dev/loop0 b 7 0 2>/dev/null
+ DEPENDS = "flex-native bison-native"
+-PR = "r2"
++PR = "r3"
  
- 	if ! $MOUNT -o rw,loop,noatime,nodiratime /media/$i/$ISOLINUX/$ROOT_IMAGE $ROOT_MOUNT ; then
- 	    fatal "Couldnt mount rootfs image"
-@@ -97,4 +106,3 @@ case $label in
- 	fatal "Installation image failed"
- 	;;
- esac
--
-diff --git a/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
-index b404f8c..e85a0e1 100644
---- a/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
-@@ -1,9 +1,10 @@
- DESCRIPTION = "A live image init script"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+RDEPENDS = "udev"
- SRC_URI = "file://init-live.sh"
+ SRC_URI= "http://www.infradead.org/~tgr/libnl/files/${BPN}-${PV}.tar.gz \
+           file://fix-makefile.patch \
++	  file://fix-pktloc_syntax_h-race.patch \
+          "
  
--PR = "r6"
-+PR = "r7"
- 
- do_install() {
-         install -m 0755 ${WORKDIR}/init-live.sh ${D}/init
+ SRC_URI[md5sum] = "6aaf1e9802a17a7d702bb0638044ffa7"
 -- 
 1.7.6.2
 
