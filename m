@@ -1,37 +1,30 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from ocean.emcraft.com ([213.221.7.182])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1REj78-0007d4-5R
+	(envelope-from <dima_ch@emcraft.com>) id 1REjc0-00008R-W4
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Oct 2011 16:51:58 +0200
-Received: by bkat8 with SMTP id t8so2064993bka.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2011 07:46:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=iIf8fkYhi+tf3ApWS41pE60kz4pgzMp0nyjyYLDxEtY=;
-	b=vCRhe8Z8HdUhrrbxKjqyxU8RwFmXfvle4XLqTzh5mPAP8HQEQJGO+9Ww99EXa/Qb/q
-	6hbXQ4YqcJqjb08x4MEJ+X9cooa/I5R5OoMbodPFOliLRJ5SF1mTwAuntueTdbOe3LY/
-	46dbbcfdmVCNKKvQ7HAoqft62dzUMwrsOoSQA=
-MIME-Version: 1.0
-Received: by 10.204.135.65 with SMTP id m1mr7044952bkt.85.1318603571979; Fri,
-	14 Oct 2011 07:46:11 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.138.72 with HTTP; Fri, 14 Oct 2011 07:46:11 -0700 (PDT)
-In-Reply-To: <1318603356.2342.20.camel@ted>
-References: <1318603356.2342.20.camel@ted>
-Date: Fri, 14 Oct 2011 11:46:11 -0300
-X-Google-Sender-Auth: AXTpuC7G6oaOfi-HuG6d-pBYoQw
-Message-ID: <CAP9ODKod1GCk5gFPq0YkEPb0rZ3NHsD6YBu7cAQVDPLW0PN7xA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
+	Fri, 14 Oct 2011 17:23:53 +0200
+Received: from vladimir.emcraft.com ([172.17.0.253])
+	by ocean.emcraft.com with esmtp (Exim 4.76)
+	(envelope-from <dima_ch@emcraft.com>)
+	id 1REjWT-0002Mh-CE; Fri, 14 Oct 2011 19:18:09 +0400
+From: Dmitry Cherukhin <dima_ch@emcraft.com>
+To: Saul Wold <sgw@linux.intel.com>
+In-Reply-To: <4E810B74.7010001@linux.intel.com>
+References: <f63c9c5991312f05bffee750086a0c7398770f8a>
+	<1316787194-17442-1-git-send-email-dima_ch@emcraft.com>
+	<4E810B74.7010001@linux.intel.com>
+Organization: Emcraft Systems
+Date: Fri, 14 Oct 2011 19:18:08 +0400
+Message-ID: <1318605488.23340.580.camel@vladimir.emcraft.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.28.3 (2.28.3-1.fc12) 
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa-dri: Enable swrast only by default and intel drivers only on IA platform
+Subject: Re: [PATCH] qt4: Added support for QtMobility 1.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: dima_ch@emcraft.com, Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -42,79 +35,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2011 14:51:58 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 14 Oct 2011 15:23:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-+1
+On Mon, 2011-09-26 at 16:32 -0700, Saul Wold wrote:
+> On 09/23/2011 07:13 AM, Dmitry Cherukhin wrote:
+> > This patch is indented to add new functionality,
+> > specifically, the patch adds support for
+> > the QtMobility 1.2 package.
+> >
+> > Added two recipes:
+> > 1) qt-mobility-x11 builds the QtMobility 1.2 package
+> >     on the basis of qt4-x11-free;
+> > 2) qt-mobility-embedded builds the QtMobility 1.2 package
+> >     on the basis of qt4-embedded.
+> >
+> > Signed-off-by: Dmitry Cherukhin<dima_ch@emcraft.com>
+> > ---
+> >   meta/recipes-qt/qt4/files/qtm_qtmobility_pro.patch |   28 +++++++++++
+> >   meta/recipes-qt/qt4/files/qtme_gstreamer_pro.patch |   16 ++++++
+> >   meta/recipes-qt/qt4/qt-mobility-embedded_1.2.0.bb  |   13 +++++
+> >   meta/recipes-qt/qt4/qt-mobility-x11_1.2.0.bb       |   11 ++++
+> >   meta/recipes-qt/qt4/qt-mobility_1.2.0.inc          |   51 ++++++++++++++++++++
+> >   5 files changed, 119 insertions(+), 0 deletions(-)
+> >   create mode 100644 meta/recipes-qt/qt4/files/qtm_qtmobility_pro.patch
+> >   create mode 100644 meta/recipes-qt/qt4/files/qtme_gstreamer_pro.patch
+> >   create mode 100644 meta/recipes-qt/qt4/qt-mobility-embedded_1.2.0.bb
+> >   create mode 100644 meta/recipes-qt/qt4/qt-mobility-x11_1.2.0.bb
+> >   create mode 100644 meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+> >
+> > diff --git a/meta/recipes-qt/qt4/files/qtm_qtmobility_pro.patch b/meta/recipes-qt/qt4/files/qtm_qtmobility_pro.patch
+> > new file mode 100644
+> > index 0000000..689c224
+> > --- /dev/null
+> > +++ b/meta/recipes-qt/qt4/files/qtm_qtmobility_pro.patch
+> > @@ -0,0 +1,28 @@
+> > +This patch fixes the following issue at the configure stage:
+> > +   Project ERROR: Qt Mobility requires Qt 4.6 or higher. Qt was found.
+> > +The version of Qt is already 4.7.3, so this is misconfiguration problem.
+> > +
+> > +The origin of this patch is:
+> > +   http://neophysis.git.sourceforge.net/git/gitweb.cgi?p=neophysis/openembedded;
+> > +   a=blob;f=recipes/neophysis/qt-mobility-1.0.0/qtmobility_pro.patch;
+> > +   h=fc5e1691aed47bc50d87e5c33497354182cacda4;hb=refs/heads/neophysis-testing-0.3
+> > +Upstream-Status: not-appropriate
+> 
+> Please refer to wiki page on www.openembedded.org for the corrcet 
+> formating of the Upstream-Status field.  You are also missing a 
+> Signed-off-by: line for each patch file.
+> 
+> (I would give the exact page, but the site appears to be having problems)
+> 
 
-Just another thing, I'd prefer to have DRIDRIVERS as ?=3D so machine can
-override it.
+Thanks!
+I removed all .patch files, new version of the patch is here:
+http://thread.gmane.org/gmane.comp.handhelds.openembedded.core/8708
 
-On Fri, Oct 14, 2011 at 11:42, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/recipes-graphics/mesa/mesa-dri.inc b/meta/recipes-graph=
-ics/mesa/mesa-dri.inc
-> index 603438e..795144a 100644
-> --- a/meta/recipes-graphics/mesa/mesa-dri.inc
-> +++ b/meta/recipes-graphics/mesa/mesa-dri.inc
-> @@ -4,7 +4,11 @@ LIB_DEPS +=3D "libdrm expat"
-> =A0# most of our targets do not have DRI so will use mesa-xlib
-> =A0DEFAULT_PREFERENCE =3D "-1"
->
-> -EXTRA_OECONF +=3D "--with-driver=3Ddri --disable-egl --disable-gallium -=
--without-gallium-drivers"
-> +DRIDRIVERS =3D "swrast"
-> +DRIDRIVERS_x86 =3D "swrast,i915,i965"
-> +DRIDRIVERS_x86-64 =3D "swrast,i915,i965"
-> +
-> +EXTRA_OECONF +=3D "--with-driver=3Ddri --disable-egl --disable-gallium -=
--without-gallium-drivers --with-dri-drivers=3D${DRIDRIVERS}"
->
-> =A0python populate_packages_prepend() {
-> =A0 =A0 =A0 =A0import os.path
-> diff --git a/meta/recipes-graphics/mesa/mesa-dri_7.11.bb b/meta/recipes-g=
-raphics/mesa/mesa-dri_7.11.bb
-> index 6a4f9a9..5d25127 100644
-> --- a/meta/recipes-graphics/mesa/mesa-dri_7.11.bb
-> +++ b/meta/recipes-graphics/mesa/mesa-dri_7.11.bb
-> @@ -2,7 +2,3 @@ include mesa-common.inc
-> =A0include mesa-${PV}.inc
-> =A0include mesa-dri.inc
-> =A0PR =3D "${INC_PR}.0"
-> -
-> -EXTRA_OECONF +=3D "--with-dri-drivers=3Dswrast,i915,i965"
-> -
-> -COMPATIBLE_HOST =3D '(i.86.*-linux|x86_64.*-linux)'
-> diff --git a/meta/recipes-graphics/mesa/mesa-dri_git.bb b/meta/recipes-gr=
-aphics/mesa/mesa-dri_git.bb
-> index 15cde60..a0e1945 100644
-> --- a/meta/recipes-graphics/mesa/mesa-dri_git.bb
-> +++ b/meta/recipes-graphics/mesa/mesa-dri_git.bb
-> @@ -7,5 +7,3 @@ DEFAULT_PREFERENCE =3D "-2"
->
-> =A0PR =3D "${INC_PR}.0"
->
-> -COMPATIBLE_HOST =3D '(i.86|x86_64).*-linux'
-> -
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Dima
 
-
-
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
 
 
