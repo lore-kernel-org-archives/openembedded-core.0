@@ -1,29 +1,31 @@
-Received: from mail-yx0-f169.google.com ([209.85.213.169])
+Received: from mail-vw0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1REiXn-0006Qk-VE
+	(envelope-from <philip.balister@gmail.com>) id 1REitj-00075l-VH
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Oct 2011 16:15:28 +0200
-Received: by yxs7 with SMTP id 7so1817980yxs.28
+	Fri, 14 Oct 2011 16:38:08 +0200
+Received: by vwe42 with SMTP id 42so89051vwe.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2011 07:09:42 -0700 (PDT)
-Received: by 10.223.63.130 with SMTP id b2mr4494631fai.35.1318601382179;
-	Fri, 14 Oct 2011 07:09:42 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id o22sm3908750fab.11.2011.10.14.07.09.40
+	Fri, 14 Oct 2011 07:32:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=lO2qzR1nxDblNeduGds2vXzF7PJrmi31bUp5YwLhGsY=;
+	b=xesSMB2q9qyUqExKduYszxeWMYmPD8KrCFCgRPYGjRC1TGVBoWMCfXxVDd9ZQkM0i+
+	cS6rhAffa33Dlr59xEpMYAqUPQoCPwJF8b1cPcxS5wec7zvEVc8ATR2N2/BFlrZvExOI
+	VzYuWSFY7aandN1PfwG2zgRQ0H8a7+GiWbhrk=
+Received: by 10.52.35.69 with SMTP id f5mr8826386vdj.74.1318602726225;
+	Fri, 14 Oct 2011 07:32:06 -0700 (PDT)
+Received: from localhost.localdomain
+	(pool-96-240-183-10.ronkva.east.verizon.net. [96.240.183.10])
+	by mx.google.com with ESMTPS id c20sm7844410vdt.6.2011.10.14.07.32.05
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 14 Oct 2011 07:09:41 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <9adcdda8d76bf9201fd6275b3d140498c2ddd774.1318601142.git.paul.eggleton@linux.intel.com>
-Date: Fri, 14 Oct 2011 16:09:35 +0200
-Message-Id: <303535AA-4E7A-489D-96E7-7F57755B65C3@dominion.thruhere.net>
-References: <cover.1318601142.git.paul.eggleton@linux.intel.com>
-	<9adcdda8d76bf9201fd6275b3d140498c2ddd774.1318601142.git.paul.eggleton@linux.intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH 1/2] pulseaudio: make bluetooth support conditional upon DISTRO_FEATURES
+	Fri, 14 Oct 2011 07:32:05 -0700 (PDT)
+Sender: Philip Balister <philip.balister@gmail.com>
+From: Philip Balister <philip@balister.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Oct 2011 10:31:38 -0400
+Message-Id: <1318602698-13435-1-git-send-email-philip@balister.org>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [PATCH 1/1] cmake : Disable building ccmake.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,24 +40,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2011 14:15:28 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 14 Oct 2011 14:38:08 -0000
 
+ccmake fails to build due to an as-needed type error with -ltinfo. Disable
+it for now since the build fails and cmake is what we need for target
+sdk.
 
-Op 14 okt. 2011, om 16:07 heeft Paul Eggleton het volgende geschreven:
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ meta/recipes-devtools/cmake/cmake_2.8.5.bb |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-> If "bluetooth" is in DISTRO_FEATURES then enable bluetooth and depend =
-on
-> bluez4, otherwise disable it.
->=20
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> ---
-> meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    5 +++--
-> .../pulseaudio/pulseaudio_0.9.22.bb                |    2 +-
-> .../pulseaudio/pulseaudio_0.9.23.bb                |    2 +-
+diff --git a/meta/recipes-devtools/cmake/cmake_2.8.5.bb b/meta/recipes-devtools/cmake/cmake_2.8.5.bb
+index 4fa9562..c0c5cad 100644
+--- a/meta/recipes-devtools/cmake/cmake_2.8.5.bb
++++ b/meta/recipes-devtools/cmake/cmake_2.8.5.bb
+@@ -30,6 +30,7 @@ EXTRA_OECMAKE=" \
+     -DCMAKE_DOC_DIR=${docdir_stripped}/cmake-${CMAKE_MAJOR_VERSION} \
+     -DCMAKE_USE_SYSTEM_LIBRARIES=1 \
+     -DKWSYS_CHAR_IS_SIGNED=1 \
++    -DBUILD_CursesDialog=0 \
+     ${@base_contains('DISTRO_FEATURES', 'largefile', '-DKWSYS_LFS_WORKS=1', '-DKWSYS_LFS_DISABLE=1', d)} \
+ "
+ 
+-- 
+1.7.3.4
 
-Slightly off-topic, PA has had a 1.0 release recently, any volunteers =
-for adding it?=
 
 
