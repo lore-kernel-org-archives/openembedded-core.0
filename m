@@ -1,33 +1,32 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-qy0-f175.google.com ([209.85.216.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1REktw-0002kp-8p
+	(envelope-from <raj.khem@gmail.com>) id 1REku4-0002m3-JZ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Oct 2011 18:46:28 +0200
-Received: from mail-wy0-f180.google.com ([74.125.82.180])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 14 Oct 2011 09:40:41 -0700
-Received: by wyh11 with SMTP id 11so3202233wyh.25
+	Fri, 14 Oct 2011 18:46:39 +0200
+Received: by qyk10 with SMTP id 10so1432571qyk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2011 09:40:40 -0700 (PDT)
-Received: by 10.227.133.144 with SMTP id f16mr3153095wbt.97.1318610439481;
-	Fri, 14 Oct 2011 09:40:39 -0700 (PDT)
-Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id e7sm15128840wbh.12.2011.10.14.09.40.36
-	(version=SSLv3 cipher=OTHER); Fri, 14 Oct 2011 09:40:38 -0700 (PDT)
-Message-ID: <4E986603.7090601@intel.com>
-Date: Fri, 14 Oct 2011 09:40:35 -0700
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
+	Fri, 14 Oct 2011 09:40:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=/5HMLbdR3dNjbQ4OZGLSLgLjFORQEbH2BSCvCK14lSE=;
+	b=b0TghaOSYOwftVgKG6PIXpwGM6kjCbwop36IyEwbsTBySaLafe3sNIkQ1Y0oHlSZp3
+	0cHpTusWZwTQ/uQKXR44TIwp3/SYEYuzfeBawRUq8MoZLn7fGrublN9Z1/NnwX8AgIOH
+	P4bUigdItQZ3iT3+89uHa9ZBWypls7rn8pNEc=
+Received: by 10.68.74.4 with SMTP id p4mr17894761pbv.47.1318610447130; Fri, 14
+	Oct 2011 09:40:47 -0700 (PDT)
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+Received: by 10.68.48.230 with HTTP; Fri, 14 Oct 2011 09:40:17 -0700 (PDT)
+In-Reply-To: <4E98641D.8040608@intel.com>
+References: <cover.1317843784.git.raj.khem@gmail.com>
+	<4E98641D.8040608@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 14 Oct 2011 09:40:17 -0700
+Message-ID: <CAMKF1sqgHLhwuHrXKgUq20jhM-wUFk8FcuVqCcJWE6z_YA++nA@mail.gmail.com>
+To: Saul Wold <saul.wold@intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1317634209-3154-1-git-send-email-mokml@mnet-online.de>
-	<1318403001-30440-1-git-send-email-Martin.Jansa@gmail.com>
-In-Reply-To: <1318403001-30440-1-git-send-email-Martin.Jansa@gmail.com>
-Cc: Martin Jansa <martin.jansa@gmail.com>, Klaus Kurzmann <mok@fluxnetz.de>
-Subject: Re: [PATCHv2] eglibc-2.14: add patch to fix libdl crash
+Subject: Re: [PATCH 0/1] QEMU 0.15 update please test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,188 +41,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2011 16:46:29 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 14 Oct 2011 16:46:41 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 10/12/2011 12:03 AM, Martin Jansa wrote:
-> From: Klaus Kurzmann<mok@fluxnetz.de>
+On Fri, Oct 14, 2011 at 9:32 AM, Saul Wold <saul.wold@intel.com> wrote:
+> On 10/05/2011 12:45 PM, Khem Raj wrote:
+>>
+>> This brings in qemu-0.15 into OE-core I have had limited testing
+>> on it and mainly on qemuarm. Please help testing it on other architectur=
+es
+>> I will also work on getting it more solidified and bring some backports
+>> as needed.
+>>
+>> The following changes since commit
+>> abde9f65b1617ec61e964c4b3502fd4ad2215dcf:
+>>
+>> =C2=A0 shared-mime-info: Upgrade recipes from 0.90 -> =C2=A00.91 (2011-1=
+0-05
+>> 12:39:47 -0700)
+>>
+>> are available in the git repository at:
+>> =C2=A0 git://git.openembedded.org/openembedded-core-contrib kraj/qemu-up=
+date
+>>
+>> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=
+=3Dkraj/qemu-update
+>>
+>> Khem Raj (1):
+>> =C2=A0 qemu-0.15: Add recipe and forward port patches from 0.14
+>>
+>> =C2=A0.../qemu/qemu-0.15.0/arm-bgr.patch =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 30 +
+>> =C2=A0.../qemu/qemu-0.15.0/enable-i386-linux-user.patch =C2=A0| =C2=A0 5=
+5 +
+>> =C2=A0.../fallback-to-safe-mmap_min_addr.patch =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 | =C2=A0 39 +
+>> =C2=A0.../qemu/qemu-0.15.0/fix-configure-checks.patch =C2=A0 =C2=A0| =C2=
+=A0 22 +
+>> =C2=A0.../qemu/qemu-0.15.0/fix-nogl.patch =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0127 +
+>> =C2=A0.../qemu/qemu-0.15.0/glflags.patch =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 15 +
+>> =C2=A0.../qemu/qemu-0.15.0/init-info.patch =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 | =C2=A0 18 +
+>> =C2=A0.../qemu/qemu-0.15.0/larger_default_ram_size.patch | =C2=A0 22 +
+>> =C2=A0.../qemu/qemu-0.15.0/linker-flags.patch =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0| =C2=A0 25 +
+>> =C2=A0.../qemu/qemu-0.15.0/no-strip.patch =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 15 +
+>> =C2=A0.../qemu/qemu-0.15.0/opengl-sdl-fix.patch =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0| =C2=A0 43 +
+>> =C2=A0.../qemu/qemu-0.15.0/powerpc_rom.bin =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 | =C2=A0Bin 0 -> =C2=A04096
+>> bytes
+>> =C2=A0.../qemu/qemu-0.15.0/qemu-git-qemugl-host.patch =C2=A0 =C2=A0|3436=
+8
+>> ++++++++++++++++++++
+>> =C2=A0.../qemu/qemu-0.15.0/qemu-vmware-vga-depth.patch =C2=A0 | =C2=A011=
+8 +
+>> =C2=A0.../qemugl-allow-glxcontext-release.patch =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0| =C2=A0 65 +
+>> =C2=A0.../qemu/qemu-0.15.0/qemugl-fix.patch =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0| =C2=A0 74 +
+>> =C2=A0meta/recipes-devtools/qemu/qemu_0.15.0.bb =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0| =C2=A0 45 +
+>> =C2=A017 files changed, 35081 insertions(+), 0 deletions(-)
+>> =C2=A0create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.0/arm-bgr.=
+patch
+>> =C2=A0create mode 100644
+>> meta/recipes-devtools/qemu/qemu-0.15.0/enable-i386-linux-user.patch
+>> =C2=A0create mode 100644
+>> meta/recipes-devtools/qemu/qemu-0.15.0/fallback-to-safe-mmap_min_addr.pa=
+tch
+>> =C2=A0create mode 100644
+>> meta/recipes-devtools/qemu/qemu-0.15.0/fix-configure-checks.patch
+>> =C2=A0create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.0/fix-nogl=
+.patch
+>> =C2=A0create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.0/glflags.=
+patch
+>> =C2=A0create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.0/init-inf=
+o.patch
+>> =C2=A0create mode 100644
+>> meta/recipes-devtools/qemu/qemu-0.15.0/larger_default_ram_size.patch
+>> =C2=A0create mode 100644
+>> meta/recipes-devtools/qemu/qemu-0.15.0/linker-flags.patch
+>> =C2=A0create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.0/no-strip=
+.patch
+>> =C2=A0create mode 100644
+>> meta/recipes-devtools/qemu/qemu-0.15.0/opengl-sdl-fix.patch
+>> =C2=A0create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.0/powerpc_=
+rom.bin
+>> =C2=A0create mode 100644
+>> meta/recipes-devtools/qemu/qemu-0.15.0/qemu-git-qemugl-host.patch
+>> =C2=A0create mode 100644
+>> meta/recipes-devtools/qemu/qemu-0.15.0/qemu-vmware-vga-depth.patch
+>> =C2=A0create mode 100644
+>> meta/recipes-devtools/qemu/qemu-0.15.0/qemugl-allow-glxcontext-release.p=
+atch
+>> =C2=A0create mode 100644
+>> meta/recipes-devtools/qemu/qemu-0.15.0/qemugl-fix.patch
+>> =C2=A0create mode 100644 meta/recipes-devtools/qemu/qemu_0.15.0.bb
+>>
 >
-> * Without this patch programs using alsa-lib crash (alsamixer for example).
-> * This patch is taken verbatim from ArchLinux.
+> Merged into OE-Core
 >
-> Signed-off-by: Klaus Kurzmann<mok@fluxnetz.de>
-> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
-> ---
->   .../eglibc-2.14/glibc-2.14-libdl-crash.patch       |  131 ++++++++++++++++++++
->   meta/recipes-core/eglibc/eglibc_2.14.bb            |    5 +-
->   2 files changed, 134 insertions(+), 2 deletions(-)
->   create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch
->
-> diff --git a/meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch b/meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch
-> new file mode 100644
-> index 0000000..e1f135c
-> --- /dev/null
-> +++ b/meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch
-> @@ -0,0 +1,131 @@
-> +Without this patch programs using alsa-lib crash (alsamixer for example).
-> +Removed Copyright reverts
-> +
-> +Upstream-Status: Pending
-> +
-> +http://sourceware.org/git/?p=glibc.git;a=commitdiff;h=675155e9
-> +http://sourceware.org/ml/libc-alpha/2011-06/msg00006.html
-> +
-> +many distributions are using this already
-> +http://chakra-project.org/ccr/packages/glibc/glibc/PKGBUILD
-> +http://mailman.archlinux.org/pipermail/arch-commits/2011-June/137142.html
-> +http://svn.mandriva.com/cgi-bin/viewvc.cgi/packages/cooker/glibc/current/SOURCES/glibc-2.14-libdl-crash.patch?view=markup&pathrev=691343
-> +http://repos.archlinuxppc.org/wsvn/filedetails.php?repname=packages&path=%2Fglibc%2Ftrunk%2Fglibc-2.14-libdl-crash.patch
-> +
-> +diff --git a/elf/dl-close.c b/elf/dl-close.c
-> +index 73b2a2f..9bd91e3 100644
-> +--- a/elf/dl-close.c
-> ++++ b/elf/dl-close.c
-> +@@ -119,17 +119,8 @@ _dl_close_worker (struct link_map *map)
-> +   if (map->l_direct_opencount>  0 || map->l_type != lt_loaded
-> +       || dl_close_state != not_pending)
-> +     {
-> +-      if (map->l_direct_opencount == 0)
-> +-	{
-> +-	  if (map->l_type == lt_loaded)
-> +-	    dl_close_state = rerun;
-> +-	  else if (map->l_type == lt_library)
-> +-	    {
-> +-	      struct link_map **oldp = map->l_initfini;
-> +-	      map->l_initfini = map->l_orig_initfini;
-> +-	      _dl_scope_free (oldp);
-> +-	    }
-> +-	}
-> ++      if (map->l_direct_opencount == 0&&  map->l_type == lt_loaded)
-> ++	dl_close_state = rerun;
-> +
-> +       /* There are still references to this object.  Do nothing more.  */
-> +       if (__builtin_expect (GLRO(dl_debug_mask)&  DL_DEBUG_FILES, 0))
-> +diff --git a/elf/dl-deps.c b/elf/dl-deps.c
-> +index 9e30594..3890d00 100644
-> +--- a/elf/dl-deps.c
-> ++++ b/elf/dl-deps.c
-> +@@ -478,6 +478,7 @@ _dl_map_object_deps (struct link_map *map,
-> + 		  nneeded * sizeof needed[0]);
-> + 	  atomic_write_barrier ();
-> + 	  l->l_initfini = l_initfini;
-> ++	  l->l_free_initfini = 1;
-> + 	}
-> +
-> +       /* If we have no auxiliary objects just go on to the next map.  */
-> +@@ -681,6 +682,7 @@ Filters not supported with LD_TRACE_PRELINKING"));
-> +   l_initfini[nlist] = NULL;
-> +   atomic_write_barrier ();
-> +   map->l_initfini = l_initfini;
-> ++  map->l_free_initfini = 1;
-> +   if (l_reldeps != NULL)
-> +     {
-> +       atomic_write_barrier ();
-> +@@ -689,5 +691,5 @@ Filters not supported with LD_TRACE_PRELINKING"));
-> +       _dl_scope_free (old_l_reldeps);
-> +     }
-> +   if (old_l_initfini != NULL)
-> +-      map->l_orig_initfini = old_l_initfini;
-> ++    _dl_scope_free (old_l_initfini);
-> + }
-> +diff --git a/elf/dl-libc.c b/elf/dl-libc.c
-> +index 7be9483..a13fce3 100644
-> +--- a/elf/dl-libc.c
-> ++++ b/elf/dl-libc.c
-> +@@ -265,13 +265,13 @@ libc_freeres_fn (free_mem)
-> +
-> +   for (Lmid_t ns = 0; ns<  GL(dl_nns); ++ns)
-> +     {
-> +-      /* Remove all additional names added to the objects.  */
-> +       for (l = GL(dl_ns)[ns]._ns_loaded; l != NULL; l = l->l_next)
-> + 	{
-> + 	  struct libname_list *lnp = l->l_libname->next;
-> +
-> + 	  l->l_libname->next = NULL;
-> +
-> ++	  /* Remove all additional names added to the objects.  */
-> + 	  while (lnp != NULL)
-> + 	    {
-> + 	      struct libname_list *old = lnp;
-> +@@ -279,6 +279,10 @@ libc_freeres_fn (free_mem)
-> + 	      if (! old->dont_free)
-> + 		free (old);
-> + 	    }
-> ++
-> ++	  /* Free the initfini dependency list.  */
-> ++	  if (l->l_free_initfini)
-> ++	    free (l->l_initfini);
-> + 	}
-> +
-> +       if (__builtin_expect (GL(dl_ns)[ns]._ns_global_scope_alloc, 0) != 0
-> +diff --git a/elf/rtld.c b/elf/rtld.c
-> +index 4a9109e..617e30e 100644
-> +--- a/elf/rtld.c
-> ++++ b/elf/rtld.c
-> +@@ -2251,6 +2251,7 @@ ERROR: ld.so: object '%s' cannot be loaded as audit interface: %s; ignored.\n",
-> + 	      lnp->dont_free = 1;
-> + 	      lnp = lnp->next;
-> + 	    }
-> ++	  l->l_free_initfini = 0;
-> +
-> + 	  if (l !=&GL(dl_rtld_map))
-> + 	    _dl_relocate_object (l, l->l_scope, GLRO(dl_lazy) ? RTLD_LAZY : 0,
-> +diff --git a/include/link.h b/include/link.h
-> +index e877104..051b99a 100644
-> +--- a/include/link.h
-> ++++ b/include/link.h
-> +@@ -192,6 +192,9 @@ struct link_map
-> + 						 during LD_TRACE_PRELINKING=1
-> + 						 contains any DT_SYMBOLIC
-> + 						 libraries.  */
-> ++    unsigned int l_free_initfini:1; /* Nonzero if l_initfini can be
-> ++				       freed, ie. not allocated with
-> ++				       the dummy malloc in ld.so.  */
-> +
-> +     /* Collected information about own RPATH directories.  */
-> +     struct r_search_path_struct l_rpath_dirs;
-> +@@ -240,9 +243,6 @@ struct link_map
-> +
-> +     /* List of object in order of the init and fini calls.  */
-> +     struct link_map **l_initfini;
-> +-    /* The init and fini list generated at startup, saved when the
-> +-       object is also loaded dynamically.  */
-> +-    struct link_map **l_orig_initfini;
-> +
-> +     /* List of the dependencies introduced through symbol binding.  */
-> +     struct link_map_reldeps
-> diff --git a/meta/recipes-core/eglibc/eglibc_2.14.bb b/meta/recipes-core/eglibc/eglibc_2.14.bb
-> index b2821db..571d39d 100644
-> --- a/meta/recipes-core/eglibc/eglibc_2.14.bb
-> +++ b/meta/recipes-core/eglibc/eglibc_2.14.bb
-> @@ -3,7 +3,7 @@ require eglibc.inc
->   SRCREV = "15225"
->
->   DEPENDS += "gperf-native"
-> -PR = "r0"
-> +PR = "r1"
->   PR_append = "+svnr${SRCPV}"
->
->   EGLIBC_BRANCH="eglibc-2_14"
-> @@ -19,7 +19,8 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http
->              file://ppc-sqrt.patch \
->              file://multilib_readlib.patch \
->              file://eglibc-rpc-export-again.patch \
-> -	   "
-> +           file://glibc-2.14-libdl-crash.patch \
-> +          "
->   LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
->         file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
->         file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
+> I needed to add an additional patch to add glib-2.0-native to the
+> qemu-native depends
 
-Merged into OE-Core
+yes that patch was already there on branch. I wonder why you did not get it=
+.
 
-Thanks
-	Sau!
+>
+> We will remove qemu-0.14 after we get through a QA cycle.
+>
+> Thanks
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0Sau!
+>
+>
 
 
