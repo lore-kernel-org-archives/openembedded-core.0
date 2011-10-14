@@ -1,30 +1,34 @@
-Received: from mail-yx0-f169.google.com ([209.85.213.169])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1REgMK-0006Kp-Ni
-	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Oct 2011 13:55:28 +0200
-Received: by yxs7 with SMTP id 7so1631054yxs.28
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1REgQt-0007F0-B6 for openembedded-core@lists.openembedded.org;
+	Fri, 14 Oct 2011 14:00:11 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p9EC16A9011333 for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Oct 2011 13:01:07 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 6FxpcHLpGFc5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2011 04:49:43 -0700 (PDT)
-Received: by 10.223.85.134 with SMTP id o6mr3485909fal.8.1318592982868;
-	Fri, 14 Oct 2011 04:49:42 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id o16sm3273570fag.21.2011.10.14.04.49.41
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 14 Oct 2011 04:49:42 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1318592560.942.3.camel@ted>
-Date: Fri, 14 Oct 2011 13:49:36 +0200
-Message-Id: <BF4FDC68-E435-4309-8B20-8415A7C990EE@dominion.thruhere.net>
-References: <20111014075529.GB4437@ad.chargestorm.se>
-	<20111014104745.GD4437@ad.chargestorm.se>
-	<1318592560.942.3.camel@ted>
+	Fri, 14 Oct 2011 13:01:06 +0100 (BST)
+Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p9EC102I011259
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Oct 2011 13:01:02 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [RFC] Preventing race when compiling external kernel modules
+Date: Fri, 14 Oct 2011 12:54:17 +0100
+In-Reply-To: <cover.1318570250.git.sgw@linux.intel.com>
+References: <cover.1318570250.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1318593265.2342.0.camel@ted>
+Mime-Version: 1.0
+Subject: Re: [CONSOLIDATED PULL 00/28] Catching up & Upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,39 +43,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2011 11:55:28 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 14 Oct 2011 12:00:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Thu, 2011-10-13 at 22:32 -0700, Saul Wold wrote:
+> Richard,
+> 
+> This is a batch of pull requests that have been pending for a bit
+> and seem to be clean, I have also included some updates that have 
+> been built.
+> 
+> Thanks
+> 	Sau!
+> 
+> 
+> The following changes since commit 4d5c0f9838a3e96d1cfb4ca2fb27161d6cf0de8f:
+> 
+>   xf86-video-intel_2.16.0: fix buildfix.patch to apply (2011-10-14 00:46:53 +0100)
+> 
+> are available in the git repository at:
+>   git://git.openembedded.org/openembedded-core-contrib sgw/stage
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+> 
+> Bruce Ashfield (1):
+>   linux-yocto: config cleanup and streamlining
+> 
+> Christopher Larson (2):
+>   autoconf: no need to hardcode the full path to m4
+>   autotools: fix multi-word arguments for EXTRA_OECONF
+> 
+> Khem Raj (4):
+>   farsight2, ldconfig-native, gnutls: There is no GPLv2.1, correct the
+>     fields
+>   qemu-0.15: Add recipe and forward port patches from 0.14
+>   glib-2.0: Extend to provide nativesdk recipe
+>   qemu.inc: Add glib-2.0-nativesdk to qemu-nativesdk DEPENDS
+> 
+> Klaus Kurzmann (1):
+>   eglibc-2.14: add patch to fix libdl crash
+> 
+> Noor Ahsan (1):
+>   bluez4: Add ending quote of FILES_${PN}-dbg
+> 
+> Otavio Salvador (2):
+>   image-live.bbclass: allow override of initrd image
+>   initramfs-live-boot: make it more generic and easy to use
+> 
+> Saul Wold (11):
+>   shadow-native: Bump PR for patch update
+>   distro_tracking_fields: Updates
+>   v86d: update to 0.1.10
+>   libaio: Update to 0.3.109
+>   libtiff: Update to 3.9.5
+>   augeas: Update to 0.9.0
+>   libgcrypt: Update to 1.5.0
+>   rxvt-unicode: Update to 9.12
+>   rsync: Update to 3.0.9
+>   bash: update to 4.2
+>   qemu.inc: qemu-native also needs glib-2.0 native
+> 
+> Tom Rini (1):
+>   libnl2: Fix a race on route/pktloc_syntax.h
+> 
+> Wenzong Fan (1):
+>   qt4-x11-free: Fix broken regexes in qt4-x11-free's recipe.
+> 
+> Xiaofeng Yan (2):
+>   lsb: Change link of ${baselib} to lib64 for 64bits system
+>   distro_tracking_fields.inc: Add maintainer for some packages without
+>     maintainer
+> 
+> Zhai Edwin (2):
+>   libfm: Upgrade to 0.1.16
+>   pcmanfm: Upgrade to 0.9.9
 
-Op 14 okt. 2011, om 13:42 heeft Richard Purdie het volgende geschreven:
+Merged to master, thanks apart from the lsb change which I'll reply to.
 
-> On Fri, 2011-10-14 at 12:47 +0200, Anders Darander wrote:
->> * Anders Darander <anders@chargestorm.se> [111014 09:55]:
->>> In our local tree, I've circumvented this race by applying a patch =
-like
->>> [3]. (Well, we could likely have put the lock in do_make_scripts()
->>> instead of module_do_compile(), as we have done currently). =
-Obviously,
->>> I'm not proposing to apply this patch, as it depends on lockfile =
-from
->>> the procmail-package (host-package).
->>=20
->> Just to confirm, it seems (after a very few tests) that it indeed is
->> enough to guard the do_make_scripts() with the lock.
->>=20
->> However, the question on how to make the real solution remains...
->=20
-> I've not tested this but it might give you enough info to test
-> something:
->=20
-> (Basic idea is to promote that function to a task, then apply a lock =
-to
-> it).
+Cheers,
 
-Or taking a step back, deleting the scripts to save 0.002 kilobytes in =
-sysroot was not a good idea. Shall we just stop deleting them and go =
-back to the old way which actually worked?
+Richard
 
 
 
