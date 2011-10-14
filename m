@@ -1,33 +1,36 @@
-Received: from mail-yx0-f173.google.com ([209.85.213.173])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1REVQp-0007mn-Bm
+	(envelope-from <nitin.a.kamble@intel.com>) id 1REYcM-0004DE-4D
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Oct 2011 02:15:23 +0200
-Received: by yxk38 with SMTP id 38so243214yxk.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2011 17:09:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=QhnTNZhrhHMqb8Vf/xVReQNkaN+HznUK3NHoehhKtrQ=;
-	b=r2/pbxoFU/5jTLpNhncXhIQN43z1kmljZLVG2Z/UtbePh4Ex9PVrcc5nn4s+JyM+Jh
-	rSXJQKMmFS6s0QcK4fgQ8jxc0hcYZ9jtesXWnzHQrls0U9H04YPnVuOw6l7nw8qYgMvD
-	X/sekwzMIz4tsIoscbWSjtGnab8TvBX9NQkDM=
-Received: by 10.68.8.233 with SMTP id u9mr12549411pba.30.1318550978054; Thu,
-	13 Oct 2011 17:09:38 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.68.48.230 with HTTP; Thu, 13 Oct 2011 17:09:08 -0700 (PDT)
-In-Reply-To: <1318535180.3158.4.camel@lenovo.internal.reciva.com>
-References: <5fa396a1acd9897ae22dbec57c1fb36a7a0223ac.1317648040.git.Martin.Jansa@gmail.com>
-	<3ffacbd5138165278774387c51b4bd3bb625eaff.1317648041.git.Martin.Jansa@gmail.com>
-	<1317654131.13337.6.camel@phil-desktop>
-	<20111003150904.GR7364@jama.jama.net>
-	<1318535180.3158.4.camel@lenovo.internal.reciva.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 13 Oct 2011 17:09:08 -0700
-Message-ID: <CAMKF1spsGP=k24dbbX+p4dQLncBcaP5BX6Qf0S4ZrcttnfqSGw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
+	Fri, 14 Oct 2011 05:39:30 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 13 Oct 2011 20:33:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,343,1315206000"; d="scan'208";a="73516202"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.226.49])
+	by fmsmga001.fm.intel.com with ESMTP; 13 Oct 2011 20:33:43 -0700
+Received: from orsmsx605.amr.corp.intel.com (10.22.226.10) by
+	orsmsx603.amr.corp.intel.com (10.22.226.49) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Thu, 13 Oct 2011 20:33:43 -0700
+Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
+	orsmsx605.amr.corp.intel.com ([10.22.226.10]) with mapi;
+	Thu, 13 Oct 2011 20:33:43 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 26/30] glx-use-tls: add from meta-oe layer
+Date: Thu, 13 Oct 2011 20:33:42 -0700
+Thread-Topic: [review/test 0/5] Python upgrade and other commits
+Thread-Index: AcyJ/L+MJKSpmW5HT9y0Rnrc3UbgeQAJTvAA
+Message-ID: <9DA5872FEF993D41B7173F58FCF6BE94E0BCEFD0@orsmsx504.amr.corp.intel.com>
+References: <cover.1318547063.git.nitin.a.kamble@intel.com>
+In-Reply-To: <cover.1318547063.git.nitin.a.kamble@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+Subject: Re: [review/test 0/5] Python upgrade and other commits
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,41 +45,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2011 00:15:23 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 14 Oct 2011 03:39:30 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 13, 2011 at 12:46 PM, Phil Blundell <philb@gnu.org> wrote:
-> On Mon, 2011-10-03 at 17:09 +0200, Martin Jansa wrote:
->> On Mon, Oct 03, 2011 at 04:02:10PM +0100, Phil Blundell wrote:
->> > Can you add some commentary explaining why this is necessary -- i.e.
->> > what exactly is lacking in uClibc to mean it doesn't have "prober TLS
->> > support"?
->>
->> I'm not using uClibc myself and tracking original bbclass in OE-classic
->> leads to this commit
->> http://git.openembedded.org/cgit.cgi/openembedded/commit/packages/mesa/mesa-tls.inc?id=b527d8f723c98c77f2f5c5358062e5348493d767
->>
->> So I'm CCing woglinde and he will probably explain it.
->
-> I see this patch has been applied in the meantime so I guess it's a
-> slightly academic question now, but I still think it would benefit from
-> some further explanation.
+I also tested on qemuppc and python's basic functionality is working inside=
+ qemuppc machine.
 
-This patch is no longer needed. Since uclibc now supports TLS/NPTL and
-we do not support
-Linuxthreads in OE (starting with oe-core) if we did configure with LT
-then uclibc does
-not have TLS implementation that goes with LT but thats a moot point in oe-core
+Thanks,
+Nitin
 
->
-> p.
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+
+> -----Original Message-----
+> From: Kamble, Nitin A
+> Sent: Thursday, October 13, 2011 4:06 PM
+> To: openembedded-core@lists.openembedded.org
+> Cc: Kamble, Nitin A; Martin Jansa
+> Subject: [review/test 0/5] Python upgrade and other commits
+>=20
+> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+>=20
+> I tested and found that python 2.7.2 is working as expected inside
+> qemux86 machine.
+> Please give it a try and let me know your experience.
+>=20
+> Thanks,
+> Nitin
+>=20
+> The following changes since commit
+> 5ed59ae0f25bf673d514df2371da7e0415b62bb2:
+>=20
+>   local.conf.sample: Disable interactive patch resolution for now since
+> doesn't work well (2011-10-07 00:00:21 +0100)
+>=20
+> are available in the git repository at:
+>   git://git.pokylinux.org/poky-contrib nitin/upgrades
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dnitin/upgrades
+>=20
+> Martin Jansa (1):
+>   python: update generate-manifest for 2.7 version and regenerate it
+>=20
+> Nitin A Kamble (4):
+>   x86 tune files: set baselib for x32 tune as libx32
+>   python-dbus: upgrade from 0.83.2 to 0.84.0
+>   python, python-native: upgrade from 2.6.6 to 2.7.2
+>   update python 2.7 manifest
+>=20
+>  meta/conf/distro/include/default-versions.inc      |    6 +-
+>  meta/conf/machine/include/ia32/arch-ia32.inc       |    2 +-
+>  meta/conf/machine/include/tune-core2.inc           |    2 +-
+>  ...on-2.6-manifest.inc =3D> python-2.7-manifest.inc} |  124 +++++-----
+>  ...python-dbus_0.83.2.bb =3D> python-dbus_0.84.0.bb} |    4 +-
+>  .../python/python-native/multilib.patch            |  240
+> ++++++++++++++++++++
+>  .../python/python-native/nohostlibs.patch          |   36 ++-
+>  ...thon-native_2.6.6.bb =3D> python-native_2.7.2.bb} |   13 +-
+>  meta/recipes-devtools/python/python.inc            |   16 +-
+>  .../01-use-proper-tools-for-cross-build.patch      |   80 ++++---
+>  .../python/python/02-remove-test-for-cross.patch   |  108 ---------
+>  .../06-avoid_usr_lib_termcap_path_in_linking.patch |   12 +-
+>  .../python/06-ctypes-libffi-fix-configure.patch    |   42 ++---
+>  meta/recipes-devtools/python/python/multilib.patch |  126 ++++++-----
+>  .../python/python/security_issue_2254_fix.patch    |  184 ------------
+> ---
+>  .../python/{python_2.6.6.bb =3D> python_2.7.2.bb}    |   11 +-
+>  meta/site/common-linux                             |    3 +
+>  ...te-manifest-2.6.py =3D> generate-manifest-2.7.py} |    6 +-
+>  18 files changed, 495 insertions(+), 520 deletions(-)
+>  rename meta/recipes-devtools/python/{python-2.6-manifest.inc =3D>
+> python-2.7-manifest.inc} (52%)
+>  rename meta/recipes-devtools/python/{python-dbus_0.83.2.bb =3D> python-
+> dbus_0.84.0.bb} (83%)
+>  create mode 100644 meta/recipes-devtools/python/python-
+> native/multilib.patch
+>  rename meta/recipes-devtools/python/{python-native_2.6.6.bb =3D> python-
+> native_2.7.2.bb} (74%)
+>  delete mode 100644 meta/recipes-devtools/python/python/02-remove-test-
+> for-cross.patch
+>  delete mode 100644 meta/recipes-
+> devtools/python/python/security_issue_2254_fix.patch
+>  rename meta/recipes-devtools/python/{python_2.6.6.bb =3D>
+> python_2.7.2.bb} (92%)
+>  rename scripts/contrib/python/{generate-manifest-2.6.py =3D> generate-
+> manifest-2.7.py} (99%)
+>=20
+> --
+> 1.7.4.4
+
 
 
