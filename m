@@ -1,24 +1,37 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1REaUf-0002Sz-CI
+	(envelope-from <martin.jansa@gmail.com>) id 1REbeB-0005CZ-Of
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Oct 2011 07:39:41 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 13 Oct 2011 22:33:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,344,1315206000"; d="scan'208";a="73540473"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.120])
-	by fmsmga001.fm.intel.com with ESMTP; 13 Oct 2011 22:33:39 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Oct 2011 22:33:24 -0700
-Message-Id: <eba42cfb8efb6a1270e1c6fd020a56854b2b6162.1318570250.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.6.2
-In-Reply-To: <cover.1318570250.git.sgw@linux.intel.com>
-References: <cover.1318570250.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1318570250.git.sgw@linux.intel.com>
-References: <cover.1318570250.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 26/28] eglibc-2.14: add patch to fix libdl crash
+	Fri, 14 Oct 2011 08:53:35 +0200
+Received: by eyd9 with SMTP id 9so860176eyd.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Oct 2011 23:47:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=MVH80MVzVAxVQVlzFmcy56Q+WToCcocrr8cl5acMEyY=;
+	b=DI7dEmqboaNepg5Aes8YFq5N7dgF9kq6BwKKEykWJBRUb87FU/Zwzc7QKCgKT7kHK/
+	orxnrPBHxmIw6INGE6budrPbjCl7nFOLzyGYopOXcZrO8Rfn0pMdYr6k92KVW7/JgH9m
+	+P8enoSimWxZbqrt6vrRkfeSMxrZYqeBRZJYQ=
+Received: by 10.223.61.211 with SMTP id u19mr1991792fah.29.1318574727100;
+	Thu, 13 Oct 2011 23:45:27 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id x4sm905174fad.1.2011.10.13.23.45.24
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 13 Oct 2011 23:45:25 -0700 (PDT)
+Date: Fri, 14 Oct 2011 08:45:19 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20111014064518.GB3542@jama.jama.net>
+References: <cover.1318505196.git.Martin.Jansa@gmail.com>
+	<bf4f1d2b7aab8e0825c54831c4282207cf7a9bc3.1318505196.git.Martin.Jansa@gmail.com>
+	<6c75399b6bd39f4eafaf4b4964cab9e3273dd7a2.1318505196.git.Martin.Jansa@gmail.com>
+	<CAMKF1sozmZ-meS18DmRejQppG9pSpvxkTosodibbcf38z6OK2w@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAMKF1sozmZ-meS18DmRejQppG9pSpvxkTosodibbcf38z6OK2w@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [oe-core 07/20] mesa-common: MesaDemos is now separate recipes, bump PE, introduce INC_PR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,183 +46,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2011 05:42:02 -0000
+X-List-Received-Date: Fri, 14 Oct 2011 06:53:35 -0000
+X-Groupsio-MsgNum: 10992
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="98e8jtXdkpgskNou"
+Content-Disposition: inline
 
-From: Klaus Kurzmann <mok@fluxnetz.de>
+--98e8jtXdkpgskNou
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-* Without this patch programs using alsa-lib crash (alsamixer for example).
-* This patch is taken verbatim from ArchLinux.
+On Thu, Oct 13, 2011 at 04:45:06PM -0700, Khem Raj wrote:
+> On Thu, Oct 13, 2011 at 4:30 AM, Martin Jansa <martin.jansa@gmail.com> wr=
+ote:
+> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > ---
+> > =A0meta/recipes-graphics/mesa/mesa-common.inc =A0 | =A0 =A05 +++--
+> > =A0meta/recipes-graphics/mesa/mesa-dri_7.11.bb =A0| =A0 =A02 +-
+> > =A0meta/recipes-graphics/mesa/mesa-dri_git.bb =A0 | =A0 =A02 +-
+> > =A0meta/recipes-graphics/mesa/mesa-xlib_7.11.bb | =A0 =A03 +--
+> > =A04 files changed, 6 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-=
+graphics/mesa/mesa-common.inc
+> > index fb9a216..ee359ba 100644
+> > --- a/meta/recipes-graphics/mesa/mesa-common.inc
+> > +++ b/meta/recipes-graphics/mesa/mesa-common.inc
+> > @@ -12,9 +12,10 @@ SECTION =3D "x11"
+> > =A0LICENSE =3D "MIT"
+> > =A0LIC_FILES_CHKSUM =3D "file://docs/license.html;md5=3D7a3373c039b6b92=
+5c427755a4f779c1d"
+> >
+> > -SRC_URI =3D "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.ta=
+r.bz2;name=3Dmesalib \
+> > - =A0 =A0 =A0 =A0 =A0 ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaDemo=
+s-${PV}.tar.bz2;name=3Dmesademos "
+> > +INC_PR =3D "r12"
+> > +PE =3D "2"
+>=20
+> Do u really need PE ?
 
-Signed-off-by: Klaus Kurzmann <mok@fluxnetz.de>
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- .../eglibc-2.14/glibc-2.14-libdl-crash.patch       |  131 ++++++++++++++++++++
- meta/recipes-core/eglibc/eglibc_2.14.bb            |    5 +-
- 2 files changed, 134 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch
+Yes because I wanted upgrade path for meta-oe users.. (same with PE
+bumping patches for xserver-xorg and xorg-drivers..)
 
-diff --git a/meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch b/meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch
-new file mode 100644
-index 0000000..e1f135c
---- /dev/null
-+++ b/meta/recipes-core/eglibc/eglibc-2.14/glibc-2.14-libdl-crash.patch
-@@ -0,0 +1,131 @@
-+Without this patch programs using alsa-lib crash (alsamixer for example).
-+Removed Copyright reverts
-+
-+Upstream-Status: Pending
-+
-+http://sourceware.org/git/?p=glibc.git;a=commitdiff;h=675155e9
-+http://sourceware.org/ml/libc-alpha/2011-06/msg00006.html
-+
-+many distributions are using this already
-+http://chakra-project.org/ccr/packages/glibc/glibc/PKGBUILD
-+http://mailman.archlinux.org/pipermail/arch-commits/2011-June/137142.html
-+http://svn.mandriva.com/cgi-bin/viewvc.cgi/packages/cooker/glibc/current/SOURCES/glibc-2.14-libdl-crash.patch?view=markup&pathrev=691343
-+http://repos.archlinuxppc.org/wsvn/filedetails.php?repname=packages&path=%2Fglibc%2Ftrunk%2Fglibc-2.14-libdl-crash.patch
-+
-+diff --git a/elf/dl-close.c b/elf/dl-close.c
-+index 73b2a2f..9bd91e3 100644
-+--- a/elf/dl-close.c
-++++ b/elf/dl-close.c
-+@@ -119,17 +119,8 @@ _dl_close_worker (struct link_map *map)
-+   if (map->l_direct_opencount > 0 || map->l_type != lt_loaded
-+       || dl_close_state != not_pending)
-+     {
-+-      if (map->l_direct_opencount == 0)
-+-	{
-+-	  if (map->l_type == lt_loaded)
-+-	    dl_close_state = rerun;
-+-	  else if (map->l_type == lt_library)
-+-	    {
-+-	      struct link_map **oldp = map->l_initfini;
-+-	      map->l_initfini = map->l_orig_initfini;
-+-	      _dl_scope_free (oldp);
-+-	    }
-+-	}
-++      if (map->l_direct_opencount == 0 && map->l_type == lt_loaded)
-++	dl_close_state = rerun;
-+ 
-+       /* There are still references to this object.  Do nothing more.  */
-+       if (__builtin_expect (GLRO(dl_debug_mask) & DL_DEBUG_FILES, 0))
-+diff --git a/elf/dl-deps.c b/elf/dl-deps.c
-+index 9e30594..3890d00 100644
-+--- a/elf/dl-deps.c
-++++ b/elf/dl-deps.c
-+@@ -478,6 +478,7 @@ _dl_map_object_deps (struct link_map *map,
-+ 		  nneeded * sizeof needed[0]);
-+ 	  atomic_write_barrier ();
-+ 	  l->l_initfini = l_initfini;
-++	  l->l_free_initfini = 1;
-+ 	}
-+ 
-+       /* If we have no auxiliary objects just go on to the next map.  */
-+@@ -681,6 +682,7 @@ Filters not supported with LD_TRACE_PRELINKING"));
-+   l_initfini[nlist] = NULL;
-+   atomic_write_barrier ();
-+   map->l_initfini = l_initfini;
-++  map->l_free_initfini = 1;
-+   if (l_reldeps != NULL)
-+     {
-+       atomic_write_barrier ();
-+@@ -689,5 +691,5 @@ Filters not supported with LD_TRACE_PRELINKING"));
-+       _dl_scope_free (old_l_reldeps);
-+     }
-+   if (old_l_initfini != NULL)
-+-      map->l_orig_initfini = old_l_initfini;
-++    _dl_scope_free (old_l_initfini);
-+ }
-+diff --git a/elf/dl-libc.c b/elf/dl-libc.c
-+index 7be9483..a13fce3 100644
-+--- a/elf/dl-libc.c
-++++ b/elf/dl-libc.c
-+@@ -265,13 +265,13 @@ libc_freeres_fn (free_mem)
-+ 
-+   for (Lmid_t ns = 0; ns < GL(dl_nns); ++ns)
-+     {
-+-      /* Remove all additional names added to the objects.  */
-+       for (l = GL(dl_ns)[ns]._ns_loaded; l != NULL; l = l->l_next)
-+ 	{
-+ 	  struct libname_list *lnp = l->l_libname->next;
-+ 
-+ 	  l->l_libname->next = NULL;
-+ 
-++	  /* Remove all additional names added to the objects.  */
-+ 	  while (lnp != NULL)
-+ 	    {
-+ 	      struct libname_list *old = lnp;
-+@@ -279,6 +279,10 @@ libc_freeres_fn (free_mem)
-+ 	      if (! old->dont_free)
-+ 		free (old);
-+ 	    }
-++
-++	  /* Free the initfini dependency list.  */
-++	  if (l->l_free_initfini)
-++	    free (l->l_initfini);
-+ 	}
-+ 
-+       if (__builtin_expect (GL(dl_ns)[ns]._ns_global_scope_alloc, 0) != 0
-+diff --git a/elf/rtld.c b/elf/rtld.c
-+index 4a9109e..617e30e 100644
-+--- a/elf/rtld.c
-++++ b/elf/rtld.c
-+@@ -2251,6 +2251,7 @@ ERROR: ld.so: object '%s' cannot be loaded as audit interface: %s; ignored.\n",
-+ 	      lnp->dont_free = 1;
-+ 	      lnp = lnp->next;
-+ 	    }
-++	  l->l_free_initfini = 0;
-+ 
-+ 	  if (l != &GL(dl_rtld_map))
-+ 	    _dl_relocate_object (l, l->l_scope, GLRO(dl_lazy) ? RTLD_LAZY : 0,
-+diff --git a/include/link.h b/include/link.h
-+index e877104..051b99a 100644
-+--- a/include/link.h
-++++ b/include/link.h
-+@@ -192,6 +192,9 @@ struct link_map
-+ 						 during LD_TRACE_PRELINKING=1
-+ 						 contains any DT_SYMBOLIC
-+ 						 libraries.  */
-++    unsigned int l_free_initfini:1; /* Nonzero if l_initfini can be
-++				       freed, ie. not allocated with
-++				       the dummy malloc in ld.so.  */
-+ 
-+     /* Collected information about own RPATH directories.  */
-+     struct r_search_path_struct l_rpath_dirs;
-+@@ -240,9 +243,6 @@ struct link_map
-+ 
-+     /* List of object in order of the init and fini calls.  */
-+     struct link_map **l_initfini;
-+-    /* The init and fini list generated at startup, saved when the
-+-       object is also loaded dynamically.  */
-+-    struct link_map **l_orig_initfini;
-+ 
-+     /* List of the dependencies introduced through symbol binding.  */
-+     struct link_map_reldeps
-diff --git a/meta/recipes-core/eglibc/eglibc_2.14.bb b/meta/recipes-core/eglibc/eglibc_2.14.bb
-index b2821db..571d39d 100644
---- a/meta/recipes-core/eglibc/eglibc_2.14.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.14.bb
-@@ -3,7 +3,7 @@ require eglibc.inc
- SRCREV = "15225"
- 
- DEPENDS += "gperf-native"
--PR = "r0"
-+PR = "r1"
- PR_append = "+svnr${SRCPV}"
- 
- EGLIBC_BRANCH="eglibc-2_14"
-@@ -19,7 +19,8 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http
-            file://ppc-sqrt.patch \
-            file://multilib_readlib.patch \
-            file://eglibc-rpc-export-again.patch \
--	   "
-+           file://glibc-2.14-libdl-crash.patch \
-+          "
- LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
-       file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
-       file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
--- 
-1.7.6.2
+>=20
+> >
+> > +SRC_URI =3D "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.ta=
+r.bz2"
+> > =A0S =3D "${WORKDIR}/Mesa-${PV}"
+> >
+> > =A0PROVIDES =3D "virtual/libgl"
+> > diff --git a/meta/recipes-graphics/mesa/mesa-dri_7.11.bb b/meta/recipes=
+-graphics/mesa/mesa-dri_7.11.bb
+> > index 5f15091..5f14346 100644
+> > --- a/meta/recipes-graphics/mesa/mesa-dri_7.11.bb
+> > +++ b/meta/recipes-graphics/mesa/mesa-dri_7.11.bb
+> > @@ -7,7 +7,7 @@ LIB_DEPS =3D "libdrm virtual/libx11 libxext libxxf86vm =
+libxdamage libxfixes expat
+> > =A0DEPENDS =3D "${PROTO_DEPS} =A0${LIB_DEPS} makedepend-native python-n=
+ative"
+> > =A0DEPENDS +=3D "mesa-dri-glsl-native"
+> >
+> > -PR =3D "r5"
+> > +PR =3D "${INC_PR}.0"
+> >
+> > =A0SRC_URI =3D "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.=
+tar.bz2 \
+> > =A0 =A0 =A0 =A0 =A0 =A0file://crossfix.patch \
+> > diff --git a/meta/recipes-graphics/mesa/mesa-dri_git.bb b/meta/recipes-=
+graphics/mesa/mesa-dri_git.bb
+> > index 9e32d0a..c50ba15 100644
+> > --- a/meta/recipes-graphics/mesa/mesa-dri_git.bb
+> > +++ b/meta/recipes-graphics/mesa/mesa-dri_git.bb
+> > @@ -13,7 +13,7 @@ DEPENDS =3D "${PROTO_DEPS} =A0${LIB_DEPS}"
+> >
+> > =A0SRCREV =3D "1bf94d419805538ac23a4d0b04d31ac5e4487aca"
+> > =A0PV =3D "7.7+git${SRCPV}"
+> > -PR =3D "r2"
+> > +PR =3D "${INC_PR}.0"
+> >
+> > =A0# most of our targets do not have DRI so will use mesa-xlib
+> > =A0DEFAULT_PREFERENCE =3D "-1"
+> > diff --git a/meta/recipes-graphics/mesa/mesa-xlib_7.11.bb b/meta/recipe=
+s-graphics/mesa/mesa-xlib_7.11.bb
+> > index 8b83378..1e0d821 100644
+> > --- a/meta/recipes-graphics/mesa/mesa-xlib_7.11.bb
+> > +++ b/meta/recipes-graphics/mesa/mesa-xlib_7.11.bb
+> > @@ -12,8 +12,7 @@ LIB_DEPS =3D "virtual/libx11 libxext libxxf86vm libxd=
+amage libxfixes libxml2-nativ
+> >
+> > =A0DEPENDS =3D "${PROTO_DEPS} =A0${LIB_DEPS} makedepend-native"
+> >
+> > -PE =3D "1"
+> > -PR =3D "r1"
+> > +PR =3D "${INC_PR}.0"
+> >
+> > =A0EXTRA_OECONF +=3D "--with-driver=3Dxlib --without-gallium-drivers"
+> >
+> > --
+> > 1.7.7
+> >
+> >
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> >
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--98e8jtXdkpgskNou
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk6X2n4ACgkQN1Ujt2V2gBzC8ACdFlpD01PNwqr89yR0QtpCu3TO
+IToAn3Sxc9zY1hRBGHt+nIphyvi28lED
+=lpjH
+-----END PGP SIGNATURE-----
+
+--98e8jtXdkpgskNou--
