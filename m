@@ -1,34 +1,35 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1REgQt-0007F0-B6 for openembedded-core@lists.openembedded.org;
-	Fri, 14 Oct 2011 14:00:11 +0200
+	id 1REgTM-0007MW-Ac for openembedded-core@lists.openembedded.org;
+	Fri, 14 Oct 2011 14:02:44 +0200
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9EC16A9011333 for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2011 13:01:07 +0100
+	p9EC3aMJ011416 for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Oct 2011 13:03:36 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 6FxpcHLpGFc5
+	with LMTP id IIuilDG0CAHa
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2011 13:01:06 +0100 (BST)
+	Fri, 14 Oct 2011 13:03:35 +0100 (BST)
 Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9EC102I011259
+	p9EC3Xr0011412
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2011 13:01:02 +0100
+	Fri, 14 Oct 2011 13:03:35 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 14 Oct 2011 12:54:17 +0100
-In-Reply-To: <cover.1318570250.git.sgw@linux.intel.com>
-References: <cover.1318570250.git.sgw@linux.intel.com>
+Date: Fri, 14 Oct 2011 12:56:50 +0100
+In-Reply-To: <8110c8b70b1778b7aa9b34a984c7073c800c1a96.1317030097.git.xiaofeng.yan@windriver.com>
+References: <cover.1317030097.git.xiaofeng.yan@windriver.com>
+	<8110c8b70b1778b7aa9b34a984c7073c800c1a96.1317030097.git.xiaofeng.yan@windriver.com>
 X-Mailer: Evolution 3.1.91- 
-Message-ID: <1318593265.2342.0.camel@ted>
+Message-ID: <1318593418.2342.2.camel@ted>
 Mime-Version: 1.0
-Subject: Re: [CONSOLIDATED PULL 00/28] Catching up & Upgrades
+Subject: Re: [PATCH 1/1] lsb: Change link of ${baselib} to lib64 for 64bits system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,82 +44,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2011 12:00:11 -0000
+X-List-Received-Date: Fri, 14 Oct 2011 12:02:44 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-10-13 at 22:32 -0700, Saul Wold wrote:
-> Richard,
+On Sun, 2011-10-09 at 15:11 +0800, Xiaofeng Yan wrote:
+> From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 > 
-> This is a batch of pull requests that have been pending for a bit
-> and seem to be clean, I have also included some updates that have 
-> been built.
+> Binaries of lsb test suite need ld-linux.so* in /lib64.
+> for example:
+> Target$ ./lsbcmdchk
+> -sh: ./lsbcmdchk: No such file or directory
+> Target$ strings lsbcmdchk | grep "ld-"
+> /lib64/ld-lsb-x86-64.so.3
 > 
-> Thanks
-> 	Sau!
+> "lsbcmdchk" from lsb test suite is a binary program.
+> A new modification to lsb_1.4.bb caused that binaries from lsb test suite can't run
+> because binaries of lsb test suite need ld-linux.so* in /lib64.
+> But the link is changed due to adding multilib. I changed this link again.
 > 
+> Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+> ---
+>  meta/recipes-extended/lsb/lsb_1.4.bb |    6 +++---
+>  1 files changed, 3 insertions(+), 3 deletions(-)
 > 
-> The following changes since commit 4d5c0f9838a3e96d1cfb4ca2fb27161d6cf0de8f:
-> 
->   xf86-video-intel_2.16.0: fix buildfix.patch to apply (2011-10-14 00:46:53 +0100)
-> 
-> are available in the git repository at:
->   git://git.openembedded.org/openembedded-core-contrib sgw/stage
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-> 
-> Bruce Ashfield (1):
->   linux-yocto: config cleanup and streamlining
-> 
-> Christopher Larson (2):
->   autoconf: no need to hardcode the full path to m4
->   autotools: fix multi-word arguments for EXTRA_OECONF
-> 
-> Khem Raj (4):
->   farsight2, ldconfig-native, gnutls: There is no GPLv2.1, correct the
->     fields
->   qemu-0.15: Add recipe and forward port patches from 0.14
->   glib-2.0: Extend to provide nativesdk recipe
->   qemu.inc: Add glib-2.0-nativesdk to qemu-nativesdk DEPENDS
-> 
-> Klaus Kurzmann (1):
->   eglibc-2.14: add patch to fix libdl crash
-> 
-> Noor Ahsan (1):
->   bluez4: Add ending quote of FILES_${PN}-dbg
-> 
-> Otavio Salvador (2):
->   image-live.bbclass: allow override of initrd image
->   initramfs-live-boot: make it more generic and easy to use
-> 
-> Saul Wold (11):
->   shadow-native: Bump PR for patch update
->   distro_tracking_fields: Updates
->   v86d: update to 0.1.10
->   libaio: Update to 0.3.109
->   libtiff: Update to 3.9.5
->   augeas: Update to 0.9.0
->   libgcrypt: Update to 1.5.0
->   rxvt-unicode: Update to 9.12
->   rsync: Update to 3.0.9
->   bash: update to 4.2
->   qemu.inc: qemu-native also needs glib-2.0 native
-> 
-> Tom Rini (1):
->   libnl2: Fix a race on route/pktloc_syntax.h
-> 
-> Wenzong Fan (1):
->   qt4-x11-free: Fix broken regexes in qt4-x11-free's recipe.
-> 
-> Xiaofeng Yan (2):
->   lsb: Change link of ${baselib} to lib64 for 64bits system
->   distro_tracking_fields.inc: Add maintainer for some packages without
->     maintainer
-> 
-> Zhai Edwin (2):
->   libfm: Upgrade to 0.1.16
->   pcmanfm: Upgrade to 0.9.9
+> diff --git a/meta/recipes-extended/lsb/lsb_1.4.bb b/meta/recipes-extended/lsb/lsb_1.4.bb
+> index d472012..5df08b8 100644
+> --- a/meta/recipes-extended/lsb/lsb_1.4.bb
+> +++ b/meta/recipes-extended/lsb/lsb_1.4.bb
+> @@ -2,7 +2,7 @@ DESCRIPTION = "LSB support for Poky Linux"
+>  SECTION = "console/utils"
+>  HOMEPAGE = "http://prdownloads.sourceforge.net/lsb"
+>  LICENSE = "GPLv2+"
+> -PR = "r1"
+> +PR = "r2"
+>  
+>  LIC_FILES_CHKSUM = "file://README;md5=12da544b1a3a5a1795a21160b49471cf"
+>  
+> @@ -69,7 +69,7 @@ do_install_append(){
+>         install -m 0755 ${WORKDIR}/init-functions ${D}/${baselib}/lsb
+>         if [ "${TARGET_ARCH}" == "x86_64" ];then
+>  	       cd ${D}
+> -	       ln -sf ${baselib} lib
+> +	       ln -sf ${baselib} lib64
+>  	       cd ${D}/${baselib}
+>                 ln -sf ld-linux-x86-64.so.2 ld-lsb-x86-64.so.2
+>                 ln -sf ld-linux-x86-64.so.2 ld-lsb-x86-64.so.3
+> @@ -82,7 +82,7 @@ do_install_append(){
+>   
+>         if [ "${TARGET_ARCH}" == "powerpc64" ];then
+>    	       cd ${D}
+> -	       ln -sf ${baselib} lib
+> +	       ln -sf ${baselib} lib64
+>                 cd ${D}/${baselib}
+>                 ln -sf ld64.so.1 ld-lsb-ppc64.so.2
+>                 ln -sf ld64.so.1 ld-lsb-ppc64.so.3
 
-Merged to master, thanks apart from the lsb change which I'll reply to.
+I'm afraid we need to add a bit more logic here. $baselib can be "lib",
+"lib64" or anything else the user desires. I'd suggest we do something
+like:
+
+if [ "${baselib}" != "lib64" ]; then
+	ln -sf ${baselib} lib64
+fi
 
 Cheers,
 
