@@ -1,32 +1,31 @@
-Received: from mail-qy0-f175.google.com ([209.85.216.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1REku4-0002m3-JZ
+	(envelope-from <saul.wold@intel.com>) id 1REkuK-0002oR-Mj
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Oct 2011 18:46:39 +0200
-Received: by qyk10 with SMTP id 10so1432571qyk.6
+	Fri, 14 Oct 2011 18:46:52 +0200
+Received: from mail-ww0-f42.google.com ([74.125.82.42])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 14 Oct 2011 09:41:06 -0700
+Received: by wwn22 with SMTP id 22so1025719wwn.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2011 09:40:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=/5HMLbdR3dNjbQ4OZGLSLgLjFORQEbH2BSCvCK14lSE=;
-	b=b0TghaOSYOwftVgKG6PIXpwGM6kjCbwop36IyEwbsTBySaLafe3sNIkQ1Y0oHlSZp3
-	0cHpTusWZwTQ/uQKXR44TIwp3/SYEYuzfeBawRUq8MoZLn7fGrublN9Z1/NnwX8AgIOH
-	P4bUigdItQZ3iT3+89uHa9ZBWypls7rn8pNEc=
-Received: by 10.68.74.4 with SMTP id p4mr17894761pbv.47.1318610447130; Fri, 14
-	Oct 2011 09:40:47 -0700 (PDT)
+	Fri, 14 Oct 2011 09:41:04 -0700 (PDT)
+Received: by 10.216.230.83 with SMTP id i61mr3485620weq.54.1318610464581;
+	Fri, 14 Oct 2011 09:41:04 -0700 (PDT)
+Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id p2sm15117306wbo.17.2011.10.14.09.41.02
+	(version=SSLv3 cipher=OTHER); Fri, 14 Oct 2011 09:41:03 -0700 (PDT)
+Message-ID: <4E98661C.9060501@intel.com>
+Date: Fri, 14 Oct 2011 09:41:00 -0700
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
-Received: by 10.68.48.230 with HTTP; Fri, 14 Oct 2011 09:40:17 -0700 (PDT)
-In-Reply-To: <4E98641D.8040608@intel.com>
-References: <cover.1317843784.git.raj.khem@gmail.com>
-	<4E98641D.8040608@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 14 Oct 2011 09:40:17 -0700
-Message-ID: <CAMKF1sqgHLhwuHrXKgUq20jhM-wUFk8FcuVqCcJWE6z_YA++nA@mail.gmail.com>
-To: Saul Wold <saul.wold@intel.com>
-Cc: Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/1] QEMU 0.15 update please test
+References: <cover.1318452930.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1318452930.git.bruce.ashfield@windriver.com>
+Subject: Re: [PATCH 0/1] linux-yocto: config cleanup and streamlining
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,123 +40,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2011 16:46:41 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 14 Oct 2011 16:46:52 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 14, 2011 at 9:32 AM, Saul Wold <saul.wold@intel.com> wrote:
-> On 10/05/2011 12:45 PM, Khem Raj wrote:
->>
->> This brings in qemu-0.15 into OE-core I have had limited testing
->> on it and mainly on qemuarm. Please help testing it on other architectur=
-es
->> I will also work on getting it more solidified and bring some backports
->> as needed.
->>
->> The following changes since commit
->> abde9f65b1617ec61e964c4b3502fd4ad2215dcf:
->>
->> =C2=A0 shared-mime-info: Upgrade recipes from 0.90 -> =C2=A00.91 (2011-1=
-0-05
->> 12:39:47 -0700)
->>
->> are available in the git repository at:
->> =C2=A0 git://git.openembedded.org/openembedded-core-contrib kraj/qemu-up=
-date
->>
->> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=
-=3Dkraj/qemu-update
->>
->> Khem Raj (1):
->> =C2=A0 qemu-0.15: Add recipe and forward port patches from 0.14
->>
->> =C2=A0.../qemu/qemu-0.15.0/arm-bgr.patch =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 30 +
->> =C2=A0.../qemu/qemu-0.15.0/enable-i386-linux-user.patch =C2=A0| =C2=A0 5=
-5 +
->> =C2=A0.../fallback-to-safe-mmap_min_addr.patch =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 | =C2=A0 39 +
->> =C2=A0.../qemu/qemu-0.15.0/fix-configure-checks.patch =C2=A0 =C2=A0| =C2=
-=A0 22 +
->> =C2=A0.../qemu/qemu-0.15.0/fix-nogl.patch =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0127 +
->> =C2=A0.../qemu/qemu-0.15.0/glflags.patch =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 15 +
->> =C2=A0.../qemu/qemu-0.15.0/init-info.patch =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | =C2=A0 18 +
->> =C2=A0.../qemu/qemu-0.15.0/larger_default_ram_size.patch | =C2=A0 22 +
->> =C2=A0.../qemu/qemu-0.15.0/linker-flags.patch =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0| =C2=A0 25 +
->> =C2=A0.../qemu/qemu-0.15.0/no-strip.patch =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 15 +
->> =C2=A0.../qemu/qemu-0.15.0/opengl-sdl-fix.patch =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0| =C2=A0 43 +
->> =C2=A0.../qemu/qemu-0.15.0/powerpc_rom.bin =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | =C2=A0Bin 0 -> =C2=A04096
->> bytes
->> =C2=A0.../qemu/qemu-0.15.0/qemu-git-qemugl-host.patch =C2=A0 =C2=A0|3436=
-8
->> ++++++++++++++++++++
->> =C2=A0.../qemu/qemu-0.15.0/qemu-vmware-vga-depth.patch =C2=A0 | =C2=A011=
-8 +
->> =C2=A0.../qemugl-allow-glxcontext-release.patch =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0| =C2=A0 65 +
->> =C2=A0.../qemu/qemu-0.15.0/qemugl-fix.patch =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| =C2=A0 74 +
->> =C2=A0meta/recipes-devtools/qemu/qemu_0.15.0.bb =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0| =C2=A0 45 +
->> =C2=A017 files changed, 35081 insertions(+), 0 deletions(-)
->> =C2=A0create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.0/arm-bgr.=
-patch
->> =C2=A0create mode 100644
->> meta/recipes-devtools/qemu/qemu-0.15.0/enable-i386-linux-user.patch
->> =C2=A0create mode 100644
->> meta/recipes-devtools/qemu/qemu-0.15.0/fallback-to-safe-mmap_min_addr.pa=
-tch
->> =C2=A0create mode 100644
->> meta/recipes-devtools/qemu/qemu-0.15.0/fix-configure-checks.patch
->> =C2=A0create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.0/fix-nogl=
-.patch
->> =C2=A0create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.0/glflags.=
-patch
->> =C2=A0create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.0/init-inf=
-o.patch
->> =C2=A0create mode 100644
->> meta/recipes-devtools/qemu/qemu-0.15.0/larger_default_ram_size.patch
->> =C2=A0create mode 100644
->> meta/recipes-devtools/qemu/qemu-0.15.0/linker-flags.patch
->> =C2=A0create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.0/no-strip=
-.patch
->> =C2=A0create mode 100644
->> meta/recipes-devtools/qemu/qemu-0.15.0/opengl-sdl-fix.patch
->> =C2=A0create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.0/powerpc_=
-rom.bin
->> =C2=A0create mode 100644
->> meta/recipes-devtools/qemu/qemu-0.15.0/qemu-git-qemugl-host.patch
->> =C2=A0create mode 100644
->> meta/recipes-devtools/qemu/qemu-0.15.0/qemu-vmware-vga-depth.patch
->> =C2=A0create mode 100644
->> meta/recipes-devtools/qemu/qemu-0.15.0/qemugl-allow-glxcontext-release.p=
-atch
->> =C2=A0create mode 100644
->> meta/recipes-devtools/qemu/qemu-0.15.0/qemugl-fix.patch
->> =C2=A0create mode 100644 meta/recipes-devtools/qemu/qemu_0.15.0.bb
->>
+On 10/12/2011 01:58 PM, Bruce Ashfield wrote:
+> Richard/Saul,
 >
-> Merged into OE-Core
+> This is a master only pull request (not that I need to
+> tell you that) that contains some cleanups that Tom has been
+> doing for various intel BSPs (although the changes will be
+> useful elsewhere).
 >
-> I needed to add an additional patch to add glib-2.0-native to the
-> qemu-native depends
+> I've also pushed these out to the dev kernel, in case anyone
+> is interested.
+>
+> This incorporates the following meta branch commits:
+>
+>    353d43d fri2: cleanup bsp config
+>    2a605e2 sugarbay: cleanup bsp config
+>    47b76ed fishriver: cleanup bsp config
+>    ad6edab jasperforest: cleanup bsp config
+>    07f7e89 emenlow: cleanup bsp config
+>    d32a651 crownbay: cleanup bsp config
+>    ad2d621 meta: add vesafb feature
+>    913facf features/drm-psb: add related config options
+>
+> cc: Tom Zanussi<tom.zanussi@intel.com>
+>
+> Cheers,
+>
+> Bruce
+>
+> The following changes since commit 2cf9fb4df498fe0e4fa8356dc663fdfdec9a98cc:
+>
+>    hal/hal-info: This is unsed in OE-Core and deprecated, drop (2011-10-12 14:12:10 +0100)
+>
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib zedd/kernel
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+>
+> Bruce Ashfield (1):
+>    linux-yocto: config cleanup and streamlining
+>
+>   meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb |    2 +-
+>   meta/recipes-kernel/linux/linux-yocto_3.0.bb    |    2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
+>
+Merged into OE-Core
 
-yes that patch was already there on branch. I wonder why you did not get it=
-.
+Thanks
+	Sau!
 
->
-> We will remove qemu-0.14 after we get through a QA cycle.
->
-> Thanks
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0Sau!
->
->
 
 
