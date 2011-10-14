@@ -1,36 +1,27 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from stoexhubfe01.domain01.net ([83.145.59.140])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1REdtS-0001Rq-1v
+	(envelope-from <anders@chargestorm.se>) id 1REfOC-0003iH-LG
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Oct 2011 11:17:30 +0200
-Received: by bkat8 with SMTP id t8so1740748bka.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2011 02:11:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=u8sC4gMewfzDssmCjlOIRmXQxhNj22ygiOeEyw8icLk=;
-	b=h5TUuG8Cwj5uNbZUDH9js7xfu+nBPHTNIPOcgw9rK4NBZ1Up3Ita2XDH0d405NNKzy
-	Ru9dLhYEzAdJpG701HyUmaj9RN2ds5KZxPXIzSa0C58c/SSImp+QL4Aki1JgTWeqJVTP
-	fOeih+nCWwKPP+oZ0PPgg9X9nC3Oy6bm+G9qU=
-Received: by 10.204.134.19 with SMTP id h19mr6048758bkt.79.1318583504346;
-	Fri, 14 Oct 2011 02:11:44 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id r12sm7688123bkw.5.2011.10.14.02.11.42
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 14 Oct 2011 02:11:43 -0700 (PDT)
-Date: Fri, 14 Oct 2011 11:11:36 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111014091136.GE3542@jama.jama.net>
-References: <cover.1318547063.git.nitin.a.kamble@intel.com>
-	<70807dd62c2c498616cc544869bd710b351b7212.1318547063.git.nitin.a.kamble@intel.com>
-	<20111014081939.GC3542@jama.jama.net>
+	Fri, 14 Oct 2011 12:53:20 +0200
+Received: from ad.chargestorm.se (85.231.30.150) by stoexhubfe01.domain01.net
+	(10.12.10.6) with Microsoft SMTP Server (TLS) id 8.3.137.0;
+	Fri, 14 Oct 2011 12:47:31 +0200
+Date: Fri, 14 Oct 2011 12:47:45 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20111014104745.GD4437@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <20111014075529.GB4437@ad.chargestorm.se>
 MIME-Version: 1.0
-In-Reply-To: <20111014081939.GC3542@jama.jama.net>
+In-Reply-To: <20111014075529.GB4437@ad.chargestorm.se>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [review/test 3/5] python, python-native: upgrade from 2.6.6 to 2.7.2
+X-GFI-SMTP-Submission: 1
+Subject: Re: [RFC] Preventing race when compiling external kernel modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,87 +36,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2011 09:17:30 -0000
-X-Groupsio-MsgNum: 10997
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="jKBxcB1XkHIR0Eqt"
+X-List-Received-Date: Fri, 14 Oct 2011 10:53:20 -0000
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
 
---jKBxcB1XkHIR0Eqt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+* Anders Darander <anders@chargestorm.se> [111014 09:55]:
+> In our local tree, I've circumvented this race by applying a patch like
+> [3]. (Well, we could likely have put the lock in do_make_scripts()
+> instead of module_do_compile(), as we have done currently). Obviously,
+> I'm not proposing to apply this patch, as it depends on lockfile from
+> the procmail-package (host-package).
 
-On Fri, Oct 14, 2011 at 10:19:39AM +0200, Martin Jansa wrote:
-> On Thu, Oct 13, 2011 at 04:06:13PM -0700, nitin.a.kamble@intel.com wrote:
-> > From: Nitin A Kamble <nitin.a.kamble@intel.com>
-> >=20
->=20
-> This patch does not apply after
-> 9f9612d15acc6ee3b71f52bdb3f1ec4cb56b1a17
->=20
-> can you rebase on top of oe-core?
->=20
-> Also please drop
-> DEFAULT_PREFERENCE =3D "-27"
->=20
-> we have only one python version so I guess it's not usefull at all
-> anymore
->=20
-> I'll apply it manually, test it here.. and report if those modules are
-> build later..
+Just to confirm, it seems (after a very few tests) that it indeed is
+enough to guard the do_make_scripts() with the lock.
 
-seems the same as with previous version..=20
+However, the question on how to make the real solution remains...
 
-log.do_compile full of
-/OE/shr-core/tmp/sysroots/x86_64-linux/usr/lib/libpython2.7.so: file not re=
-cognized: File format not recognized
-collect2: ld returned 1 exit status
+Cheers,
+Anders
 
-and only built module is sqlite
-OE @ ~/shr-core/tmp/work/armv4t-oe-linux-gnueabi/python-2.7.2-r0.0 $ ls Pyt=
-hon-2.7.2/build/lib.linux-x86_64-2.7/
-_sqlite3.so
+> [3]
+> $ cat 0001-module.bbclass-add-lock-to-prevent-error-bulding-ext.patch 
+> From 9e23beb2ec499cdba04a11165efe8867ad4dc42a Mon Sep 17 00:00:00 2001
+> From: Anders Darander <anders@chargestorm.se>
+> Date: Mon, 10 Oct 2011 14:26:20 +0200
+> Subject: [PATCH] module.bbclass: add lock to prevent error bulding ext
+>  modules
 
-while with 2.6 we had a lot of modules
-$ ls Python-2.6.6/build/lib.linux-x86_64-2.6/
-_bisect.so          _codecs_jp.so    _ctypes.so        _fileio.so     _json=
-=2Eso             _random.so   _testcapi.so  bz2.so        datetime.so     =
-    itertools.so  parser.so    spwd.so     unicodedata.so
-_bytesio.so         _codecs_kr.so    _ctypes_test.so   _functools.so  _loca=
-le.so           _socket.so   _weakref.so   cPickle.so    fcntl.so          =
-  math.so       pyexpat.so   strop.so    zlib.so
-_codecs_cn.so       _codecs_tw.so    _curses.so        _hashlib.so    _lspr=
-of.so           _sqlite3.so  array.so      cStringIO.so  future_builtins.so=
-  mmap.so       readline.so  syslog.so
-_codecs_hk.so       _collections.so  _curses_panel.so  _heapq.so      _mult=
-ibytecodec.so   _ssl.so      audioop.so    cmath.so      gdbm.so           =
-  nis.so        resource.so  termios.so
-_codecs_iso2022.so  _csv.so          _elementtree.so   _hotshot.so    _mult=
-iprocessing.so  _struct.so   binascii.so   crypt.so      grp.so            =
-  operator.so   select.so    time.so
+> When external modules are built, certain files in STAGING_KERNEL_DIR
+> might get rebuilt.
+> This raises a potential race condition. Prevent this by using a lockfile
+> to make external
+> modules build in sequence.
 
-Can you please test that you have non-empty python-syslog python-resource p=
-ython-elementtree python-fcntl python-zlib?=20
-And test build for qemuarm, because I guess that it links to -native libpyt=
-hon2.7 when you're building qemux86 on x86 host.
+> This patch is not applicable upstream, as it requires lockfile from
+> procmail.
 
-But it seems that python runtime works now, thanks!
+> Signed-off-by: Anders Darander <anders@chargestorm.se>
+> ---
+>  meta/classes/module.bbclass |    4 ++++
+>  1 files changed, 4 insertions(+), 0 deletions(-)
 
-Regards,
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
+> index 572df0d..46abd81 100644
+> --- a/meta/classes/module.bbclass
+> +++ b/meta/classes/module.bbclass
+> @@ -15,6 +15,8 @@ do_make_scripts() {
+>  }
 
---jKBxcB1XkHIR0Eqt
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+>  module_do_compile() {
+> +       trap "rm -f ${STAGING_KERNEL_DIR}/external_modules.lock; exit 1"
+> INT TERM EXIT
+> +       lockfile -r-1 ${STAGING_KERNEL_DIR}/external_modules.lock
+>         do_make_scripts
+>         unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+>         oe_runmake KERNEL_PATH=${STAGING_KERNEL_DIR}   \
+> @@ -23,6 +25,8 @@ module_do_compile() {
+>                    CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
+>                    AR="${KERNEL_AR}" \
+>                    ${MAKE_TARGETS}
+> +       rm -f ${STAGING_KERNEL_DIR}/external_modules.lock
+> +        trap - INT TERM EXIT
+>  }
+>  module_do_install() {
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
+-- 
+Anders Darander
+ChargeStorm AB / eStorm AB
 
-iEYEARECAAYFAk6X/MgACgkQN1Ujt2V2gBzz/gCeOVDeIysEinTPU7i8mwNadGSZ
-0hMAmQFci6ds016DVzUuugsJNIei5zy0
-=aD+A
------END PGP SIGNATURE-----
 
---jKBxcB1XkHIR0Eqt--
