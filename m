@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1REaUI-0002Sz-T2
+	(envelope-from <sgw@linux.intel.com>) id 1REaUK-0002Sz-Nc
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Oct 2011 07:39:20 +0200
+	Fri, 14 Oct 2011 07:39:21 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 13 Oct 2011 22:33:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,344,1315206000"; d="scan'208";a="73540438"
+X-IronPort-AV: E=Sophos;i="4.69,344,1315206000"; d="scan'208";a="73540439"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.120])
 	by fmsmga001.fm.intel.com with ESMTP; 13 Oct 2011 22:33:28 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Oct 2011 22:33:00 -0700
-Message-Id: <148327c445d75a599c6c13b98026ff7dfe7eb670.1318570250.git.sgw@linux.intel.com>
+Date: Thu, 13 Oct 2011 22:33:01 -0700
+Message-Id: <04f4acac350e1399a01205ab66369cf9c20b77aa.1318570250.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.2
 In-Reply-To: <cover.1318570250.git.sgw@linux.intel.com>
 References: <cover.1318570250.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1318570250.git.sgw@linux.intel.com>
 References: <cover.1318570250.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 02/28] distro_tracking_fields: Updates
+Subject: [CONSOLIDATED PULL 03/28] farsight2, ldconfig-native, gnutls: There is no GPLv2.1, correct the fields
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,90 +33,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2011 05:39:20 -0000
+X-List-Received-Date: Fri, 14 Oct 2011 05:39:21 -0000
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+
+The licenses were either LGPLv2.1 or GPLv2
+make the changes appropriately
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |   25 +++++++++++++++----
- 1 files changed, 19 insertions(+), 6 deletions(-)
+ .../farsight/farsight2_0.0.9.bb                    |    4 ++--
+ meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb |    4 ++--
+ meta/recipes-support/gnutls/gnutls.inc             |    4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index b07209e..4b46c15 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -421,14 +421,14 @@ RECIPE_COMMENTS_pn-readline = ""
- RECIPE_MANUAL_CHECK_DATE_pn-readline = "Sep 27, 2011"
+diff --git a/meta-demoapps/recipes-connectivity/farsight/farsight2_0.0.9.bb b/meta-demoapps/recipes-connectivity/farsight/farsight2_0.0.9.bb
+index a7bdc97..ee0ce8a 100644
+--- a/meta-demoapps/recipes-connectivity/farsight/farsight2_0.0.9.bb
++++ b/meta-demoapps/recipes-connectivity/farsight/farsight2_0.0.9.bb
+@@ -1,12 +1,12 @@
+ DESCRIPTION = "FarSight is an audio/video conferencing framework specifically designed for Instant Messengers."
+ HOMEPAGE = "http://farsight.sf.net"
+ SRC_URI = "http://farsight.freedesktop.org/releases/farsight2/${BPN}-${PV}.tar.gz"
+-LICENSE = "GPLv2.1"
++LICENSE = "LGPLv2.1"
+ DEPENDS = "libnice glib-2.0 libxml2 zlib dbus gstreamer gst-plugins-base"
  
- RECIPE_STATUS_pn-libgcrypt = "green"
--RECIPE_LAST_UPDATE_pn-libgcrypt = "Jul 29, 2010"
-+RECIPE_LATEST_VERSION_pn-libgcrypt = "1.5.0"
-+RECIPE_LATEST_RELEASE_DATE_pn-libgcrypt = "Jun 6, 2011"
-+RECIPE_LAST_UPDATE_pn-libgcrypt = "Oct 10, 2011"
- RECIPE_MAINTAINER_pn-libgcrypt = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-libgcrypt = "not done"
--RECIPE_LATEST_VERSION_pn-libgcrypt = "1.4.5"
- RECIPE_PATCH_pn-libgcrypt+add-pkgconfig-support = "add .pc file"
- RECIPE_INTEL_SECTION_pn-libgcrypt = "base libs"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libgcrypt = "11 months"
--RECIPE_LATEST_RELEASE_DATE_pn-libgcrypt = "12/2009"
- RECIPE_COMMENTS_pn-libgcrypt = ""
+ inherit autotools
  
- RECIPE_STATUS_pn-gnutls = "yellow"   # need explict pre configure
-@@ -5635,7 +5635,6 @@ RECIPE_STATUS_pn-desktop-file-utils-native = "red"
- RECIPE_STATUS_pn-dtc = "red"
- RECIPE_STATUS_pn-gcalctool = "red"
- RECIPE_STATUS_pn-swabber = "red"
--RECIPE_STATUS_pn-mc = "red"
- RECIPE_STATUS_pn-man = "red"
- RECIPE_STATUS_pn-man-pages = "red"
- RECIPE_STATUS_pn-guilt-native = "red"
-@@ -5718,9 +5717,11 @@ RECIPE_LATEST_VERSION_pn-dtc = "37c0b6a0916c31a5eae0a9ddfcc5d0b8fb4569c6"
- RECIPE_LATEST_VERSION_pn-bind = "9.7.2-P3"
- RECIPE_NO_UPDATE_REASON_pn-bind = "Latest Stable version, newer versions are Alpha/Beta"
- RECIPE_LATEST_VERSION_pn-man = "1.6f"
--RECIPE_LATEST_VERSION_pn-mc = "4.7.5-pre1"
-+
-+RECIPE_STATUS_pn-mc = "red"
-+RECIPE_LATEST_VERSION_pn-mc = "4.8.0-pre2"
- RECIPE_MAINTAINER_pn-mc = "Saul Wold <sgw@linux.intel.com>"
--RECIPE_NO_UPDATE_REASON_pn-bind = "Latest Stable version, 4.7.5-pre1 is Alpha/Beta"
-+RECIPE_NO_UPDATE_REASON_pn-mc = "4.7.5.5 is latest stable version, 4.8.0-pre2 is Alpha/Beta"
+-PR = "r1"
++PR = "r2"
  
- RECIPE_STATUS_pn-sgml-common = "green"
- RECIPE_DEPENDENCY_CHECK_pn-sgml-common = "not done"
-@@ -5907,20 +5908,32 @@ RECIPE_MANUAL_CHECK_DATE_pn-pseudo = "Jun 06, 2011"
- DISTRO_PN_ALIAS_pn-pseudo = "Windriver"
+ EXTRA_OECONF = " \
+   --disable-debug \
+diff --git a/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb b/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb
+index 00edb6e..2a93913 100644
+--- a/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb
++++ b/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb
+@@ -1,6 +1,6 @@
+ DESCRIPTION = "A standalone native ldconfig build"
  
- DISTRO_PN_ALIAS_pn-btrfs-tools = "Debian=btrfs-tools Fedora=btrfs-progs"
-+RECIPE_MAINTAINER_pn-btrfs-tools = "Nitin A Kamble <nitin.a.kamble@intel.com>"
-+
- DISTRO_PN_ALIAS_pn-rt-tests = "Debian=rt-tests Ubuntu=rt-tests"
-+RECIPE_MAINTAINER_pn-rt-tests = "Darren Hart <dvhart@linux.intel.com>"
-+
- DISTRO_PN_ALIAS_pn-xserver-xorg-lite = "Fedora=xorg-x11-server Ubuntu=xserver-xorg"
- DISTRO_PN_ALIAS_pn-xserver-xorg = "Fedora=xorg-x11-server Ubuntu=xserver-xorg"
-+DISTRO_PN_ALIAS_pn-xserver-xf86-lite = "Fedora=xorg-x11-server Ubuntu=xserver-xorg"
-+DISTRO_PN_ALIAS_pn-xserver-xf86-dri-lite = "Fedora=xorg-x11-server Ubuntu=xserver-xorg"
- DISTRO_PN_ALIAS_pn-xserver-kdrive = "Fedora=xorg-x11-server Ubuntu=xserver-xorg"
- DISTRO_PN_ALIAS_pn-dtc = "Fedora=dtc Ubuntu=dtc"
- DISTRO_PN_ALIAS_pn-dtc-native = "Fedora=dtc Ubuntu=dtc"
- DISTRO_PN_ALIAS_pn-gail = "Fedora=gail Ubuntu=libgail-3-0"
-+
- DISTRO_PN_ALIAS_pn-linux-yocto = "Debian=linux-base Ubuntu=linux"
-+RECIPE_MAINTAINER_pn-linux-yocto = "Darren Hart <dvhart@linux.intel.com>"
-+
- DISTRO_PN_ALIAS_pn-linux-yocto-rt = "Debian=linux-base Ubuntu=linux"
-+RECIPE_MAINTAINER_pn-linux-yocto-rt = "Darren Hart <dvhart@linux.intel.com>"
-+
- DISTRO_PN_ALIAS_pn-libsdl = "Fedora=SDL Opensuse=SDL"
- DISTRO_PN_ALIAS_pn-lame = "Debian=lame Ubuntu=lame"
- DISTRO_PN_ALIAS_pn-libiconv = "Fedora=mingw-libiconv Opensuse=cross-mingw-libiconv"
- DISTRO_PN_ALIAS_pn-qt4-native = "Fedora=qt4 Debian=qt4-dev-tools"
- DISTRO_PN_ALIAS_pn-update-alternatives-dpkg = "Opensuse=update-alternatives Mandriva=update-alternatives"
-+RECIPE_MAINTAINER_pn-update-alternatives-dpkg = "Dongxiao Xu <dongxiao.xu@intel.com"
- DISTRO_PN_ALIAS_pn-emgd-driver-bin = "Intel"
- DISTRO_PN_ALIAS_pn-external-csl-toolchain = "OE-Core"
- DISTRO_PN_ALIAS_pn-external-poky-toolchain = "OE-Core"
+-LICENSE = "GPLv2.1"
++LICENSE = "GPLv2+"
+ 
+ LIC_FILES_CHKSUM = "file://${S}/ldconfig.c;endline=17;md5=1d15f20937c055cb5de2329a4c054399"
+ 
+@@ -12,7 +12,7 @@ SRC_URI = "file://ldconfig-native-2.12.1.tar.bz2 \
+            file://flag_fix.patch \
+            file://endianess-header.patch"
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ inherit native
+ 
+diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
+index 3569648..cdcf85b 100644
+--- a/meta/recipes-support/gnutls/gnutls.inc
++++ b/meta/recipes-support/gnutls/gnutls.inc
+@@ -3,11 +3,11 @@ HOMEPAGE = "http://www.gnu.org/software/gnutls/"
+ BUGTRACKER = "https://savannah.gnu.org/support/?group=gnutls"
+ DEPENDS = "zlib lzo libtasn1 libgcrypt (>= 1.4.2) libcap"
+ 
+-INC_PR = "r2"
++INC_PR = "r3"
+ 
+ LICENSE = "GPLv3+ & LGPLv2.1+"
+ LICENSE_${PN} = "LGPLv2.1+"
+-LICENSE_${PN}-xx = "GPLv2.1+"
++LICENSE_${PN}-xx = "LGPLv2.1+"
+ LICENSE_${PN}-bin = "GPLv3+"
+ LICENSE_${PN}-extra = "GPLv3+"
+ LICENSE_${PN}-openssl = "GPLv3+"
 -- 
 1.7.6.2
 
