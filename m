@@ -1,35 +1,39 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1REhGe-0000SK-UD for openembedded-core@lists.openembedded.org;
-	Fri, 14 Oct 2011 14:53:49 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9ECsXg1014467 for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2011 13:54:33 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id MM6+upUwJ2Uh
+	(envelope-from <otavio.salvador@gmail.com>) id 1REhlQ-0004Lv-9O
+	for openembedded-core@lists.openembedded.org;
+	Fri, 14 Oct 2011 15:25:29 +0200
+Received: by bkat8 with SMTP id t8so1968238bka.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2011 13:54:33 +0100 (BST)
-Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9ECsR59014441
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2011 13:54:28 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 14 Oct 2011 06:19:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=feEWbK/Na/nZCNmA7WPJAX6f5319/wXuD+U9SBql4bE=;
+	b=XAFoVA7gmtXiSHLfp9izlNl3ai9iDHGqEbKIv673jx0Ch+5oqbcc46NxF2UzUNt5wz
+	1drwvAoeLuyZeOD8MfEgGVMzA2LvjNDMo3jz41LAnzM6TXzCfAuJA9IEwFstLPp+9/D9
+	noxeQ0XJG6RMkBO1duiyhuAHtiM9aFaqynl2s=
+MIME-Version: 1.0
+Received: by 10.204.135.65 with SMTP id m1mr6772471bkt.85.1318598383340; Fri,
+	14 Oct 2011 06:19:43 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.138.72 with HTTP; Fri, 14 Oct 2011 06:19:43 -0700 (PDT)
+In-Reply-To: <1318591756.23801.259.camel@ted>
+References: <cover.1318505196.git.Martin.Jansa@gmail.com>
+	<c30a13301850b76b1e7362b99322ffad72598612.1318505196.git.Martin.Jansa@gmail.com>
+	<1318512243.23801.217.camel@ted>
+	<20111013133221.GC28525@jama.jama.net>
+	<1318514192.23801.229.camel@ted>
+	<CAP9ODKp-CRpH0U7=k3inmg3gKqLFuHSUOA2JTc9+Jev+Op5p_Q@mail.gmail.com>
+	<1318591756.23801.259.camel@ted>
+Date: Fri, 14 Oct 2011 10:19:43 -0300
+X-Google-Sender-Auth: 9tt17EUHHFF-e4CceEbGMeuzYCc
+Message-ID: <CAP9ODKrN91FXYfxKXrLj-yJyS2ef+DqmA0n0xC0qwTuxSzApWw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 14 Oct 2011 13:47:43 +0100
-In-Reply-To: <1315913433-32608-2-git-send-email-s.stirtzel@googlemail.com>
-References: <1315913433-32608-1-git-send-email-s.stirtzel@googlemail.com>
-	<1315913433-32608-2-git-send-email-s.stirtzel@googlemail.com>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1318596472.2342.15.camel@ted>
-Mime-Version: 1.0
-Subject: Re: [PATCH 2/2] data.py: fixed message domain errors
+Subject: Re: [oe-core 14/20] mesa-dri: introduce MACHINE_DRI_MODULES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,24 +48,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2011 12:53:49 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 14 Oct 2011 13:25:29 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2011-09-13 at 13:30 +0200, Samuel Stirtzel wrote:
-> The dynamic message domain was introduced by Richard Purdie with the following patch:
-> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=a6c48298b17e6a5844b3638b422fe226e3b67b89
-> 
-> Signed-off-by: Samuel Stirtzel <s.stirtzel@googlemail.com>
-> ---
->  meta/lib/oe/data.py |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
+On Fri, Oct 14, 2011 at 08:29, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+...
+>> At least here it hadn't built i915 or i965 drivers.
+>
+> I think there is a slight change in behaviour as the architectures it
+> would have built certain modules on used to get applied, now it doesn't
+> as we're passing a fixed list. We need to fix this but it shouldn't be
+> hard.
 
-Patches 1 and 2 merged to master, thanks.
+I am sorry but I didn't get what you meant.
 
-Sorry about the delay.
-
-Richard
-
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
