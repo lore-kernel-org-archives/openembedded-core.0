@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1REaUd-0002Sz-Eo
+	(envelope-from <sgw@linux.intel.com>) id 1REaUc-0002Sz-0o
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Oct 2011 07:39:39 +0200
+	Fri, 14 Oct 2011 07:39:38 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 13 Oct 2011 22:33:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,344,1315206000"; d="scan'208";a="73540469"
+X-IronPort-AV: E=Sophos;i="4.69,344,1315206000"; d="scan'208";a="73540465"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.120])
-	by fmsmga001.fm.intel.com with ESMTP; 13 Oct 2011 22:33:38 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 13 Oct 2011 22:33:37 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Oct 2011 22:33:21 -0700
-Message-Id: <7cf69fb08ef5ed5640f1aa26ee47b61c8e69f9a8.1318570250.git.sgw@linux.intel.com>
+Date: Thu, 13 Oct 2011 22:33:18 -0700
+Message-Id: <355c39f9357576bdb72b2534b3df4c4374eceba1.1318570250.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.2
 In-Reply-To: <cover.1318570250.git.sgw@linux.intel.com>
 References: <cover.1318570250.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1318570250.git.sgw@linux.intel.com>
 References: <cover.1318570250.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 23/28] linux-yocto: config cleanup and streamlining
+Subject: [CONSOLIDATED PULL 20/28] rxvt-unicode: Update to 9.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,52 +35,62 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 14 Oct 2011 05:42:00 -0000
 
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-
-This incorporates the following meta branch commits:
-
-  353d43d fri2: cleanup bsp config
-  2a605e2 sugarbay: cleanup bsp config
-  47b76ed fishriver: cleanup bsp config
-  ad6edab jasperforest: cleanup bsp config
-  07f7e89 emenlow: cleanup bsp config
-  d32a651 crownbay: cleanup bsp config
-  ad2d621 meta: add vesafb feature
-  913facf features/drm-psb: add related config options
-
-Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb |    2 +-
- meta/recipes-kernel/linux/linux-yocto_3.0.bb    |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ .../rxvt.desktop                                   |    0
+ .../rxvt.png                                       |  Bin 2847 -> 2847 bytes
+ .../xwc.patch                                      |    0
+ .../{rxvt-unicode_9.11.bb => rxvt-unicode_9.12.bb} |   10 ++++++----
+ 4 files changed, 6 insertions(+), 4 deletions(-)
+ rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode-9.11 => rxvt-unicode-9.12}/rxvt.desktop (100%)
+ rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode-9.11 => rxvt-unicode-9.12}/rxvt.png (100%)
+ rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode-9.11 => rxvt-unicode-9.12}/xwc.patch (100%)
+ rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode_9.11.bb => rxvt-unicode_9.12.bb} (93%)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-index 9746f1a..72db7bf 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-@@ -16,7 +16,7 @@ LINUX_KERNEL_TYPE = "preempt-rt"
+diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.11/rxvt.desktop b/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.12/rxvt.desktop
+similarity index 100%
+rename from meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.11/rxvt.desktop
+rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.12/rxvt.desktop
+diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.11/rxvt.png b/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.12/rxvt.png
+similarity index 100%
+rename from meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.11/rxvt.png
+rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.12/rxvt.png
+diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.11/xwc.patch b/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.12/xwc.patch
+similarity index 100%
+rename from meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.11/xwc.patch
+rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.12/xwc.patch
+diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.11.bb b/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.12.bb
+similarity index 93%
+rename from meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.11.bb
+rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.12.bb
+index db18169..5625245 100644
+--- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.11.bb
++++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.12.bb
+@@ -8,11 +8,16 @@ same time, including Xft fonts."
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+                     file://src/main.C;beginline=1;endline=31;md5=775485398a09fa7aee6f90464af88432"
++
++PR = "r0"
++
+ SRC_URI = "http://dist.schmorp.de/rxvt-unicode/Attic/rxvt-unicode-${PV}.tar.bz2 \
+ 	   file://xwc.patch \
+ 	   file://rxvt.desktop \
+ 	   file://rxvt.png"
+-PR = "r1"
++
++SRC_URI[md5sum] = "945af37d661c8c45a7cac292160e7c70"
++SRC_URI[sha256sum] = "1db334204bfb264b3134e01d9d3cf446c5ac7d47514909435f914f3906f37e7e"
  
- SRCREV_machine ?= "0936e13cc65d816f1759e2322c5e3fc82a5037f3"
- SRCREV_machine_qemuppc ?= "0936e13cc65d816f1759e2322c5e3fc82a5037f3"
--SRCREV_meta ?= "d05450e4aef02c1b7137398ab3a9f8f96da74f52"
-+SRCREV_meta ?= "353d43d340e87996b4be4c5f6ddb4447e050b65c"
+ inherit autotools update-alternatives
  
- PR = "r1"
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-index c36e8b5..9da7cc1 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-@@ -18,7 +18,7 @@ SRCREV_machine_qemuppc ?= "eccd57eaa4c2b580b9adbbc39e19ecbff56779ae"
- SRCREV_machine_qemux86 ?= "72671808fdbe69a9fe03fd8f094e7c59da04a28c"
- SRCREV_machine_qemux86-64 ?= "2b2d0954a6fd12b4bb7f02f019bc62633c8060a1"
- SRCREV_machine ?= "6b2c7d65b844e686eae7d5cccb9b638887afe28e"
--SRCREV_meta ?= "d05450e4aef02c1b7137398ab3a9f8f96da74f52"
-+SRCREV_meta ?= "353d43d340e87996b4be4c5f6ddb4447e050b65c"
+@@ -60,6 +65,3 @@ do_install_append () {
+ }
  
- PR = "r2"
- PV = "${LINUX_VERSION}+git${SRCPV}"
+ FILES_${PN} += "${datadir}/applications/rxvt.desktop ${datadir}/pixmaps/rxvt.png"
+-
+-SRC_URI[md5sum] = "1bed5bfeed026e0bfafa0e9e4f62aa37"
+-SRC_URI[sha256sum] = "0452c00066774ef6e32fcd0a1e6f09230392ea9f6f42e1c2ef7b91d6fcb82d85"
 -- 
 1.7.6.2
 
