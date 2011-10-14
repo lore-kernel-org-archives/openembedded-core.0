@@ -1,27 +1,35 @@
-Received: from stoexhubfe01.domain01.net ([83.145.59.140])
+Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1REfOC-0003iH-LG
-	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Oct 2011 12:53:20 +0200
-Received: from ad.chargestorm.se (85.231.30.150) by stoexhubfe01.domain01.net
-	(10.12.10.6) with Microsoft SMTP Server (TLS) id 8.3.137.0;
-	Fri, 14 Oct 2011 12:47:31 +0200
-Date: Fri, 14 Oct 2011 12:47:45 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20111014104745.GD4437@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <20111014075529.GB4437@ad.chargestorm.se>
-MIME-Version: 1.0
-In-Reply-To: <20111014075529.GB4437@ad.chargestorm.se>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-GFI-SMTP-Submission: 1
-Subject: Re: [RFC] Preventing race when compiling external kernel modules
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1REfmA-0004pk-U5 for openembedded-core@lists.openembedded.org;
+	Fri, 14 Oct 2011 13:18:07 +0200
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p9EBIxOk009429 for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Oct 2011 12:18:59 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 2AQWMQTy9TCc
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Oct 2011 12:18:59 +0100 (BST)
+Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
+	p9EBIsDb009419
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Oct 2011 12:18:56 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 14 Oct 2011 12:12:11 +0100
+In-Reply-To: <7278a507dcecff4a27ceeb81a2d2de5b9cb84c87.1318505196.git.Martin.Jansa@gmail.com>
+References: <cover.1318505196.git.Martin.Jansa@gmail.com>
+	<7278a507dcecff4a27ceeb81a2d2de5b9cb84c87.1318505196.git.Martin.Jansa@gmail.com>
+X-Mailer: Evolution 3.1.91- 
+Message-ID: <1318590739.23801.253.camel@ted>
+Mime-Version: 1.0
+Subject: Re: [oe-core 11/20] mesa: package gl/egl/osmesa to separate packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,72 +44,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2011 10:53:20 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 14 Oct 2011 11:18:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* Anders Darander <anders@chargestorm.se> [111014 09:55]:
-> In our local tree, I've circumvented this race by applying a patch like
-> [3]. (Well, we could likely have put the lock in do_make_scripts()
-> instead of module_do_compile(), as we have done currently). Obviously,
-> I'm not proposing to apply this patch, as it depends on lockfile from
-> the procmail-package (host-package).
+On Thu, 2011-10-13 at 13:30 +0200, Martin Jansa wrote:
+> * also install internal GL headers to libgl-dev
+> 
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/recipes-graphics/mesa/mesa-common.inc |   18 ++++++++++++++++--
+>  1 files changed, 16 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
+> index 89ef0cf..62d9b24 100644
+> --- a/meta/recipes-graphics/mesa/mesa-common.inc
+> +++ b/meta/recipes-graphics/mesa/mesa-common.inc
+> @@ -40,7 +40,21 @@ require glx-use-tls.inc
+>  # Multiple virtual/gl providers being built breaks staging
+>  EXCLUDE_FROM_WORLD = "1"
+>  
+> -PACKAGES =+ "libglu libglu-dev"
+> -
+> +PACKAGES =+ "libegl libegl-dev libegl-dbg libglu libglu-dev libosmesa libosmesa-dev libgl libgl-dev"
+> +FILES_libegl = "${libdir}/libEGL.so.* ${libdir}/egl/*.so"
+> +FILES_libgl = "${libdir}/libGL.so.*"
+>  FILES_libglu = "${libdir}/libGLU.so.*"
+> +FILES_libosmesa = "${libdir}/libOSMesa.so.*"
+> +
+> +FILES_libegl-dev = "${libdir}/libEGL.* ${includedir}/EGL"
+> +FILES_libgl-dev = "${libdir}/libGL.* ${includedir}/GL"
+>  FILES_libglu-dev = "${libdir}/libGLU.* ${includedir}/GL/glu*.h"
+> +FILES_libosmesa-dev = "${libdir}/libOSMesa.* ${includedir}/osmesa.h"
+> +
+> +FILES_${PN}-dbg += "${libdir}/dri/.debug/*"
+> +FILES_libegl-dbg += "${libdir}/egl/.debug/*"
+> +
+> +do_install_append () {
+> +    install -d ${D}/${includedir}/GL
+> +    cp -pPr ${S}/include/GL/internal* ${D}/${includedir}/GL
+> +}
 
-Just to confirm, it seems (after a very few tests) that it indeed is
-enough to guard the do_make_scripts() with the lock.
+This last do_install_append is wrong. Things should only be using
+installed header files, not internal uninstalled ones. If the need
+anything else there is a bug. I know the intel video driver had issues
+in this area but those were fixed in the driver.
 
-However, the question on how to make the real solution remains...
+What other issues are people seeing without this piece?
 
 Cheers,
-Anders
 
-> [3]
-> $ cat 0001-module.bbclass-add-lock-to-prevent-error-bulding-ext.patch 
-> From 9e23beb2ec499cdba04a11165efe8867ad4dc42a Mon Sep 17 00:00:00 2001
-> From: Anders Darander <anders@chargestorm.se>
-> Date: Mon, 10 Oct 2011 14:26:20 +0200
-> Subject: [PATCH] module.bbclass: add lock to prevent error bulding ext
->  modules
+Richard
 
-> When external modules are built, certain files in STAGING_KERNEL_DIR
-> might get rebuilt.
-> This raises a potential race condition. Prevent this by using a lockfile
-> to make external
-> modules build in sequence.
 
-> This patch is not applicable upstream, as it requires lockfile from
-> procmail.
-
-> Signed-off-by: Anders Darander <anders@chargestorm.se>
-> ---
->  meta/classes/module.bbclass |    4 ++++
->  1 files changed, 4 insertions(+), 0 deletions(-)
-
-> diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
-> index 572df0d..46abd81 100644
-> --- a/meta/classes/module.bbclass
-> +++ b/meta/classes/module.bbclass
-> @@ -15,6 +15,8 @@ do_make_scripts() {
->  }
-
->  module_do_compile() {
-> +       trap "rm -f ${STAGING_KERNEL_DIR}/external_modules.lock; exit 1"
-> INT TERM EXIT
-> +       lockfile -r-1 ${STAGING_KERNEL_DIR}/external_modules.lock
->         do_make_scripts
->         unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
->         oe_runmake KERNEL_PATH=${STAGING_KERNEL_DIR}   \
-> @@ -23,6 +25,8 @@ module_do_compile() {
->                    CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
->                    AR="${KERNEL_AR}" \
->                    ${MAKE_TARGETS}
-> +       rm -f ${STAGING_KERNEL_DIR}/external_modules.lock
-> +        trap - INT TERM EXIT
->  }
->  module_do_install() {
-
--- 
-Anders Darander
-ChargeStorm AB / eStorm AB
 
 
