@@ -1,37 +1,31 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1REbeB-0005CZ-Of
+	(envelope-from <koen@dominion.thruhere.net>) id 1REccV-000729-7F
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Oct 2011 08:53:35 +0200
-Received: by eyd9 with SMTP id 9so860176eyd.6
+	Fri, 14 Oct 2011 09:55:55 +0200
+Received: by bkat8 with SMTP id t8so1675625bka.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Oct 2011 23:47:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=MVH80MVzVAxVQVlzFmcy56Q+WToCcocrr8cl5acMEyY=;
-	b=DI7dEmqboaNepg5Aes8YFq5N7dgF9kq6BwKKEykWJBRUb87FU/Zwzc7QKCgKT7kHK/
-	orxnrPBHxmIw6INGE6budrPbjCl7nFOLzyGYopOXcZrO8Rfn0pMdYr6k92KVW7/JgH9m
-	+P8enoSimWxZbqrt6vrRkfeSMxrZYqeBRZJYQ=
-Received: by 10.223.61.211 with SMTP id u19mr1991792fah.29.1318574727100;
-	Thu, 13 Oct 2011 23:45:27 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id x4sm905174fad.1.2011.10.13.23.45.24
+	Fri, 14 Oct 2011 00:50:10 -0700 (PDT)
+Received: by 10.223.17.91 with SMTP id r27mr2314440faa.20.1318578610133;
+	Fri, 14 Oct 2011 00:50:10 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id n12sm2217890fan.9.2011.10.14.00.50.07
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 13 Oct 2011 23:45:25 -0700 (PDT)
-Date: Fri, 14 Oct 2011 08:45:19 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Fri, 14 Oct 2011 00:50:08 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAP9ODKrz1nVjCyBAoWA_mcVwSmG7kgCBSTn2hkLksHW6sj1U+g@mail.gmail.com>
+Date: Fri, 14 Oct 2011 09:50:02 +0200
+Message-Id: <B804FAA7-CDE1-40E9-B35E-2B25F6A85FD1@dominion.thruhere.net>
+References: <678AE8F3-DBF3-4315-83A5-AA2CA040C5D8@dominion.thruhere.net>
+	<CAP9ODKq+9Bhu9A8jZhYH-uBVSWcncsNQvAxyNxLnG133J237iA@mail.gmail.com>
+	<CDD7988D-2486-484F-B1A5-347A38D64F01@dominion.thruhere.net>
+	<CAP9ODKrz1nVjCyBAoWA_mcVwSmG7kgCBSTn2hkLksHW6sj1U+g@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111014064518.GB3542@jama.jama.net>
-References: <cover.1318505196.git.Martin.Jansa@gmail.com>
-	<bf4f1d2b7aab8e0825c54831c4282207cf7a9bc3.1318505196.git.Martin.Jansa@gmail.com>
-	<6c75399b6bd39f4eafaf4b4964cab9e3273dd7a2.1318505196.git.Martin.Jansa@gmail.com>
-	<CAMKF1sozmZ-meS18DmRejQppG9pSpvxkTosodibbcf38z6OK2w@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1sozmZ-meS18DmRejQppG9pSpvxkTosodibbcf38z6OK2w@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [oe-core 07/20] mesa-common: MesaDemos is now separate recipes, bump PE, introduce INC_PR
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: Multiple git repos in SRC_URI and/or git submodules support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,132 +40,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2011 06:53:35 -0000
-X-Groupsio-MsgNum: 10992
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="98e8jtXdkpgskNou"
-Content-Disposition: inline
-
---98e8jtXdkpgskNou
+X-List-Received-Date: Fri, 14 Oct 2011 07:55:55 -0000
 Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 13, 2011 at 04:45:06PM -0700, Khem Raj wrote:
-> On Thu, Oct 13, 2011 at 4:30 AM, Martin Jansa <martin.jansa@gmail.com> wr=
-ote:
-> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > ---
-> > =A0meta/recipes-graphics/mesa/mesa-common.inc =A0 | =A0 =A05 +++--
-> > =A0meta/recipes-graphics/mesa/mesa-dri_7.11.bb =A0| =A0 =A02 +-
-> > =A0meta/recipes-graphics/mesa/mesa-dri_git.bb =A0 | =A0 =A02 +-
-> > =A0meta/recipes-graphics/mesa/mesa-xlib_7.11.bb | =A0 =A03 +--
-> > =A04 files changed, 6 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-=
-graphics/mesa/mesa-common.inc
-> > index fb9a216..ee359ba 100644
-> > --- a/meta/recipes-graphics/mesa/mesa-common.inc
-> > +++ b/meta/recipes-graphics/mesa/mesa-common.inc
-> > @@ -12,9 +12,10 @@ SECTION =3D "x11"
-> > =A0LICENSE =3D "MIT"
-> > =A0LIC_FILES_CHKSUM =3D "file://docs/license.html;md5=3D7a3373c039b6b92=
-5c427755a4f779c1d"
-> >
-> > -SRC_URI =3D "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.ta=
-r.bz2;name=3Dmesalib \
-> > - =A0 =A0 =A0 =A0 =A0 ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaDemo=
-s-${PV}.tar.bz2;name=3Dmesademos "
-> > +INC_PR =3D "r12"
-> > +PE =3D "2"
+
+Op 10 okt. 2011, om 22:14 heeft Otavio Salvador het volgende geschreven:
+
+> On Mon, Oct 10, 2011 at 17:01, Koen Kooi <koen@dominion.thruhere.net> =
+wrote:
+>>=20
+>> Op 10 okt. 2011, om 21:40 heeft Otavio Salvador het volgende =
+geschreven:
+>>=20
+>>> On Mon, Oct 10, 2011 at 15:19, Koen Kooi =
+<koen@dominion.thruhere.net> wrote:
+>>> ...
+>>>> I'm not going to do 1), 3) is unlikely, so I want to ask if 2) is =
+already supported. I've seen various patches that add an 'unpackdir' or =
+similar, but I can't find any docs on it. Can someone enlighten me on =
+the current status of that?
+>>> ...
+>>>=20
+>>> Yes, this works. I have added support to SRCREV_FORMAT into gitpkgv =
+too ;-)
+>>=20
+>> So what's the magic param I need to pass to the fetcher to make this =
+work?
 >=20
-> Do u really need PE ?
-
-Yes because I wanted upgrade path for meta-oe users.. (same with PE
-bumping patches for xserver-xorg and xorg-drivers..)
-
+> Basic example:
 >=20
-> >
-> > +SRC_URI =3D "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.ta=
-r.bz2"
-> > =A0S =3D "${WORKDIR}/Mesa-${PV}"
-> >
-> > =A0PROVIDES =3D "virtual/libgl"
-> > diff --git a/meta/recipes-graphics/mesa/mesa-dri_7.11.bb b/meta/recipes=
--graphics/mesa/mesa-dri_7.11.bb
-> > index 5f15091..5f14346 100644
-> > --- a/meta/recipes-graphics/mesa/mesa-dri_7.11.bb
-> > +++ b/meta/recipes-graphics/mesa/mesa-dri_7.11.bb
-> > @@ -7,7 +7,7 @@ LIB_DEPS =3D "libdrm virtual/libx11 libxext libxxf86vm =
-libxdamage libxfixes expat
-> > =A0DEPENDS =3D "${PROTO_DEPS} =A0${LIB_DEPS} makedepend-native python-n=
-ative"
-> > =A0DEPENDS +=3D "mesa-dri-glsl-native"
-> >
-> > -PR =3D "r5"
-> > +PR =3D "${INC_PR}.0"
-> >
-> > =A0SRC_URI =3D "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.=
-tar.bz2 \
-> > =A0 =A0 =A0 =A0 =A0 =A0file://crossfix.patch \
-> > diff --git a/meta/recipes-graphics/mesa/mesa-dri_git.bb b/meta/recipes-=
-graphics/mesa/mesa-dri_git.bb
-> > index 9e32d0a..c50ba15 100644
-> > --- a/meta/recipes-graphics/mesa/mesa-dri_git.bb
-> > +++ b/meta/recipes-graphics/mesa/mesa-dri_git.bb
-> > @@ -13,7 +13,7 @@ DEPENDS =3D "${PROTO_DEPS} =A0${LIB_DEPS}"
-> >
-> > =A0SRCREV =3D "1bf94d419805538ac23a4d0b04d31ac5e4487aca"
-> > =A0PV =3D "7.7+git${SRCPV}"
-> > -PR =3D "r2"
-> > +PR =3D "${INC_PR}.0"
-> >
-> > =A0# most of our targets do not have DRI so will use mesa-xlib
-> > =A0DEFAULT_PREFERENCE =3D "-1"
-> > diff --git a/meta/recipes-graphics/mesa/mesa-xlib_7.11.bb b/meta/recipe=
-s-graphics/mesa/mesa-xlib_7.11.bb
-> > index 8b83378..1e0d821 100644
-> > --- a/meta/recipes-graphics/mesa/mesa-xlib_7.11.bb
-> > +++ b/meta/recipes-graphics/mesa/mesa-xlib_7.11.bb
-> > @@ -12,8 +12,7 @@ LIB_DEPS =3D "virtual/libx11 libxext libxxf86vm libxd=
-amage libxfixes libxml2-nativ
-> >
-> > =A0DEPENDS =3D "${PROTO_DEPS} =A0${LIB_DEPS} makedepend-native"
-> >
-> > -PE =3D "1"
-> > -PR =3D "r1"
-> > +PR =3D "${INC_PR}.0"
-> >
-> > =A0EXTRA_OECONF +=3D "--with-driver=3Dxlib --without-gallium-drivers"
-> >
-> > --
-> > 1.7.7
-> >
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> >
+> SRCREV_main =3D "..."
+> SRCREV_core =3D "...."
 >=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> SRC_URI =3D " \
+>  git://fooserver/git/foo.git;name=3Dmain \
+>  git://fooserver/git/foo-core.git;name=3Dcore;destsuffix=3Dgit/foo-core"=
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> S =3D "${WORKDIR}/git"
+>=20
+> SRCREV_FORMAT =3D "main-core"
 
---98e8jtXdkpgskNou
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Thanks, I'm going to try the following:
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
+SRC_URI =3D "git://github.com/ajaxorg/cloud9.git;name=3Dcloud9ide \
+           =
+git://github.com/ajaxorg/connect.git;destsuffix=3Dsupport/connect;name=3Dc=
+onnect \
+           =
+git://github.com/ajaxorg/async.js.git;destsuffix=3Dsupport/asyncjs;name=3D=
+asyncjs \
+           =
+git://github.com/ajaxorg/jsDAV.git;destsuffix=3Dsupport/jsdav;name=3Djsdav=
+ \
+           =
+git://github.com/ajaxorg/lib-v8debug.git;destsuffix=3Dsupport/lib-v8debug;=
+name=3Dlib-v8debug \
+           =
+git://github.com/ajaxorg/ace.git;destsuffix=3Dsupport/ace;name=3Dace \
+           =
+git://github.com/ajaxorg/apf.git;destsuffix=3Dsupport/apf;name=3Dapf \
+           =
+git://github.com/ajaxorg/node-builds-v4.git;destsuffix=3Dsupport/node-buil=
+ds-v4;name=3Dnode-builds-v4 \
+           =
+git://github.com/ajaxorg/gnu-builds.git;destsuffix=3Dsupport/gnu-builds;na=
+me=3Dgnu-builds \
+           =
+git://github.com/ajaxorg/socket.io.git;destsuffix=3Dsupport/socket.io;name=
+=3Dsocketio \
+           =
+git://github.com/ajaxorg/socket.io-client.git;destsuffix=3Dsupport/socket.=
+io-client;name=3Dsocketio-client \
+           =
+git://github.com/ajaxorg/UglifyJS.git;destsuffix=3Dsupport/uglify-js;name=3D=
+uglifyjs \
+           file://cloud9.service \
+          "
 
-iEYEARECAAYFAk6X2n4ACgkQN1Ujt2V2gBzC8ACdFlpD01PNwqr89yR0QtpCu3TO
-IToAn3Sxc9zY1hRBGHt+nIphyvi28lED
-=lpjH
------END PGP SIGNATURE-----
+SRCREV_cloud9ide =3D "593948c9aaded845cb8f3ced49ef41428e351264"
+SRCREV_connect =3D "3d1d77a113fa2f18020f562832dca3d4c2d717a2"
+SRCREV_asyncjs =3D "d36ead408e2959b1e99572114ef3a1b6a48c1072"
+SRCREV_jsdav =3D "f1d1f691fdb521701c1c06d158d213575e4e4e5e"
+SRCREV_lib-v8debug =3D "29b20d01e6854da2173e1665ea141dab6b5a8104"
+SRCREV_ace =3D "d85acd115e88e4461a04fafc6a93a801aeb057ec"
+SRCREV_apf =3D "a7e0daa29573f319f22be5a6cfa275243502604b"
+SRCREV_node-builds-v4 =3D "2e3ac47b7b8d506147feb08372cc36b988b6195a"
+SRCREV_gnu-builds =3D "9ff133d95f9a41d749fe16220d81517dad9a2db3"
+SRCREV_socketio =3D "8f82b1e4e1076a3092fed77e0dc9379425f59b9d"
+SRCREV_socketio-client =3D "7b5335d1ed88564928a5d00d8a750ff9f9c627a5"
+SRCREV_uglifyjs =3D "941c845c4a01e4e47a158458fe846eb36d0828ad"
 
---98e8jtXdkpgskNou--
+SRCREV_FORMAT =3D "cloud9ide"
+
+
+
