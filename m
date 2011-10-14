@@ -1,31 +1,26 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from stoexhub01.domain01.net ([83.145.59.142])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1REccV-000729-7F
+	(envelope-from <anders@chargestorm.se>) id 1REchT-0007XZ-Ip
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Oct 2011 09:55:55 +0200
-Received: by bkat8 with SMTP id t8so1675625bka.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Oct 2011 00:50:10 -0700 (PDT)
-Received: by 10.223.17.91 with SMTP id r27mr2314440faa.20.1318578610133;
-	Fri, 14 Oct 2011 00:50:10 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id n12sm2217890fan.9.2011.10.14.00.50.07
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 14 Oct 2011 00:50:08 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAP9ODKrz1nVjCyBAoWA_mcVwSmG7kgCBSTn2hkLksHW6sj1U+g@mail.gmail.com>
-Date: Fri, 14 Oct 2011 09:50:02 +0200
-Message-Id: <B804FAA7-CDE1-40E9-B35E-2B25F6A85FD1@dominion.thruhere.net>
-References: <678AE8F3-DBF3-4315-83A5-AA2CA040C5D8@dominion.thruhere.net>
-	<CAP9ODKq+9Bhu9A8jZhYH-uBVSWcncsNQvAxyNxLnG133J237iA@mail.gmail.com>
-	<CDD7988D-2486-484F-B1A5-347A38D64F01@dominion.thruhere.net>
-	<CAP9ODKrz1nVjCyBAoWA_mcVwSmG7kgCBSTn2hkLksHW6sj1U+g@mail.gmail.com>
+	Fri, 14 Oct 2011 10:01:03 +0200
+Received: from ad.chargestorm.se (85.231.30.150) by STOEXHUB01.domain01.net
+	(10.12.10.1) with Microsoft SMTP Server (TLS) id 8.3.137.0;
+	Fri, 14 Oct 2011 09:55:18 +0200
+Date: Fri, 14 Oct 2011 09:55:31 +0200
+From: Anders Darander <anders@chargestorm.se>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: Multiple git repos in SRC_URI and/or git submodules support
+Message-ID: <20111014075529.GB4437@ad.chargestorm.se>
+Mail-Followup-To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+MIME-Version: 1.0
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: [RFC] Preventing race when compiling external kernel modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,98 +35,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2011 07:55:55 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 14 Oct 2011 08:01:03 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
 
-Op 10 okt. 2011, om 22:14 heeft Otavio Salvador het volgende geschreven:
+Hi,
 
-> On Mon, Oct 10, 2011 at 17:01, Koen Kooi <koen@dominion.thruhere.net> =
-wrote:
->>=20
->> Op 10 okt. 2011, om 21:40 heeft Otavio Salvador het volgende =
-geschreven:
->>=20
->>> On Mon, Oct 10, 2011 at 15:19, Koen Kooi =
-<koen@dominion.thruhere.net> wrote:
->>> ...
->>>> I'm not going to do 1), 3) is unlikely, so I want to ask if 2) is =
-already supported. I've seen various patches that add an 'unpackdir' or =
-similar, but I can't find any docs on it. Can someone enlighten me on =
-the current status of that?
->>> ...
->>>=20
->>> Yes, this works. I have added support to SRCREV_FORMAT into gitpkgv =
-too ;-)
->>=20
->> So what's the magic param I need to pass to the fetcher to make this =
-work?
->=20
-> Basic example:
->=20
-> SRCREV_main =3D "..."
-> SRCREV_core =3D "...."
->=20
-> SRC_URI =3D " \
->  git://fooserver/git/foo.git;name=3Dmain \
->  git://fooserver/git/foo-core.git;name=3Dcore;destsuffix=3Dgit/foo-core"=
+As I've detailed in [1] (originally in [2], but [1] shows a more typical
+error), we're experiencing a race when including several external
+modules in our image.
 
-> S =3D "${WORKDIR}/git"
->=20
-> SRCREV_FORMAT =3D "main-core"
+The race occurs during the compile step of the modules. Usually the
+problem shows up when compiling (or calculating the dependencies) of
+scripts/basic/fixdeps in $STAGING_KERNEL_DIR.
 
-Thanks, I'm going to try the following:
+In our local tree, I've circumvented this race by applying a patch like
+[3]. (Well, we could likely have put the lock in do_make_scripts()
+instead of module_do_compile(), as we have done currently). Obviously,
+I'm not proposing to apply this patch, as it depends on lockfile from
+the procmail-package (host-package).
 
-SRC_URI =3D "git://github.com/ajaxorg/cloud9.git;name=3Dcloud9ide \
-           =
-git://github.com/ajaxorg/connect.git;destsuffix=3Dsupport/connect;name=3Dc=
-onnect \
-           =
-git://github.com/ajaxorg/async.js.git;destsuffix=3Dsupport/asyncjs;name=3D=
-asyncjs \
-           =
-git://github.com/ajaxorg/jsDAV.git;destsuffix=3Dsupport/jsdav;name=3Djsdav=
- \
-           =
-git://github.com/ajaxorg/lib-v8debug.git;destsuffix=3Dsupport/lib-v8debug;=
-name=3Dlib-v8debug \
-           =
-git://github.com/ajaxorg/ace.git;destsuffix=3Dsupport/ace;name=3Dace \
-           =
-git://github.com/ajaxorg/apf.git;destsuffix=3Dsupport/apf;name=3Dapf \
-           =
-git://github.com/ajaxorg/node-builds-v4.git;destsuffix=3Dsupport/node-buil=
-ds-v4;name=3Dnode-builds-v4 \
-           =
-git://github.com/ajaxorg/gnu-builds.git;destsuffix=3Dsupport/gnu-builds;na=
-me=3Dgnu-builds \
-           =
-git://github.com/ajaxorg/socket.io.git;destsuffix=3Dsupport/socket.io;name=
-=3Dsocketio \
-           =
-git://github.com/ajaxorg/socket.io-client.git;destsuffix=3Dsupport/socket.=
-io-client;name=3Dsocketio-client \
-           =
-git://github.com/ajaxorg/UglifyJS.git;destsuffix=3Dsupport/uglify-js;name=3D=
-uglifyjs \
-           file://cloud9.service \
-          "
+I've noticed that we have some bitbake functionality to implement
+locking, bb.utils.lockfile() and bb.utils.unlockfile(), but I'm not sure
+how to use that to guard the module_do_compile (or do_make_script)
+steps, as these are shell scritp functions.
 
-SRCREV_cloud9ide =3D "593948c9aaded845cb8f3ced49ef41428e351264"
-SRCREV_connect =3D "3d1d77a113fa2f18020f562832dca3d4c2d717a2"
-SRCREV_asyncjs =3D "d36ead408e2959b1e99572114ef3a1b6a48c1072"
-SRCREV_jsdav =3D "f1d1f691fdb521701c1c06d158d213575e4e4e5e"
-SRCREV_lib-v8debug =3D "29b20d01e6854da2173e1665ea141dab6b5a8104"
-SRCREV_ace =3D "d85acd115e88e4461a04fafc6a93a801aeb057ec"
-SRCREV_apf =3D "a7e0daa29573f319f22be5a6cfa275243502604b"
-SRCREV_node-builds-v4 =3D "2e3ac47b7b8d506147feb08372cc36b988b6195a"
-SRCREV_gnu-builds =3D "9ff133d95f9a41d749fe16220d81517dad9a2db3"
-SRCREV_socketio =3D "8f82b1e4e1076a3092fed77e0dc9379425f59b9d"
-SRCREV_socketio-client =3D "7b5335d1ed88564928a5d00d8a750ff9f9c627a5"
-SRCREV_uglifyjs =3D "941c845c4a01e4e47a158458fe846eb36d0828ad"
+Any advice on how to make a fix that would be upstreamable to
+oe-core/yocto? I'd prefer to be able to remove as much local patches as
+possible from our internal build tree...
 
-SRCREV_FORMAT =3D "cloud9ide"
+Thanks in advance!
+Cheers,
+Anders
+
+
+[1] http://lists.linuxtogo.org/pipermail/openembedded-core/2011-September/009401.html
+[2] http://lists.linuxtogo.org/pipermail/openembedded-core/2011-September/009371.html
+
+[3]
+$ cat 0001-module.bbclass-add-lock-to-prevent-error-bulding-ext.patch 
+From 9e23beb2ec499cdba04a11165efe8867ad4dc42a Mon Sep 17 00:00:00 2001
+From: Anders Darander <anders@chargestorm.se>
+Date: Mon, 10 Oct 2011 14:26:20 +0200
+Subject: [PATCH] module.bbclass: add lock to prevent error bulding ext
+ modules
+
+When external modules are built, certain files in STAGING_KERNEL_DIR
+might get rebuilt.
+This raises a potential race condition. Prevent this by using a lockfile
+to make external
+modules build in sequence.
+
+This patch is not applicable upstream, as it requires lockfile from
+procmail.
+
+Signed-off-by: Anders Darander <anders@chargestorm.se>
+---
+ meta/classes/module.bbclass |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
+
+diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
+index 572df0d..46abd81 100644
+--- a/meta/classes/module.bbclass
++++ b/meta/classes/module.bbclass
+@@ -15,6 +15,8 @@ do_make_scripts() {
+ }
+ 
+ module_do_compile() {
++       trap "rm -f ${STAGING_KERNEL_DIR}/external_modules.lock; exit 1"
+INT TERM EXIT
++       lockfile -r-1 ${STAGING_KERNEL_DIR}/external_modules.lock
+        do_make_scripts
+        unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+        oe_runmake KERNEL_PATH=${STAGING_KERNEL_DIR}   \
+@@ -23,6 +25,8 @@ module_do_compile() {
+                   CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
+                   AR="${KERNEL_AR}" \
+                   ${MAKE_TARGETS}
++       rm -f ${STAGING_KERNEL_DIR}/external_modules.lock
++        trap - INT TERM EXIT
+ }
+ 
+ module_do_install() {
+-- 
+1.7.7
+
+
+-- 
+Anders Darander
+ChargeStorm AB / eStorm AB	
 
 
 
