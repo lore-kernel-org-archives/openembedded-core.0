@@ -1,31 +1,29 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RF1VW-0007Cy-AW
+	(envelope-from <koen@dominion.thruhere.net>) id 1RF1Zg-0007Ih-33
 	for openembedded-core@lists.openembedded.org;
-	Sat, 15 Oct 2011 12:30:22 +0200
-Received: by mail-bw0-f47.google.com with SMTP id t8so3116035bka.6
+	Sat, 15 Oct 2011 12:34:40 +0200
+Received: by bkat8 with SMTP id t8so3119782bka.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Oct 2011 03:24:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=sm6PPhD56aMHaLVTJVSoAzxb2BbNA2seRjPPM/e7hsw=;
-	b=tOh86c9KDZHP/iKyx7uiCXhK9vDiH/BhFZyHA2rEX1aK/sEwmlOZTR5kDO7EU2lA3I
-	Qb1jTT9E/lW9vaROmTSlqn2Nr1mNOteHmp8O+2pTvWG2Wxv3tVmhshoLbSJDGGue4k1k
-	ZLQJRlV1yK1FvjnHkwJRCqx3k5tOlwtuIuaRg=
-Received: by 10.223.77.26 with SMTP id e26mr842886fak.37.1318674277462;
-	Sat, 15 Oct 2011 03:24:37 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id k26sm9479141fab.12.2011.10.15.03.24.35
+	Sat, 15 Oct 2011 03:28:54 -0700 (PDT)
+Received: by 10.223.76.135 with SMTP id c7mr8901357fak.16.1318674533212;
+	Sat, 15 Oct 2011 03:28:53 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id u6sm9500484faf.3.2011.10.15.03.28.51
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 15 Oct 2011 03:24:36 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 15 Oct 2011 12:24:20 +0200
-Message-Id: <1318674260-8320-2-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.7
-In-Reply-To: <1318674260-8320-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1318674260-8320-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCH 2/2] mesa-dri: move extra DRIMODULES to EXTRA_DRIMODULES
+	Sat, 15 Oct 2011 03:28:52 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1318672491-31826-2-git-send-email-Martin.Jansa@gmail.com>
+Date: Sat, 15 Oct 2011 12:28:50 +0200
+Message-Id: <D00A742C-29A5-41B0-9869-84B485F431FF@dominion.thruhere.net>
+References: <1318672491-31826-1-git-send-email-Martin.Jansa@gmail.com>
+	<1318672491-31826-2-git-send-email-Martin.Jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH 2/2] mesa-common: install internal GL headers to libgl-dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,38 +38,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Oct 2011 10:30:22 -0000
+X-List-Received-Date: Sat, 15 Oct 2011 10:34:40 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-* this way we can use
-  EXTRA_DRIMODULES_armv4t += ",glamo" in meta-openmoko layer and
-  EXTRA_DRIMODULES_armv4t += ",foo" in meta-bar layer without knowledge
-  of other modules in other layers in stack
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-graphics/mesa/mesa-dri.inc |    6 ++++--
- 1 files changed, 4 insertions(+), 2 deletions(-)
+Op 15 okt. 2011, om 11:54 heeft Martin Jansa het volgende geschreven:
 
-diff --git a/meta/recipes-graphics/mesa/mesa-dri.inc b/meta/recipes-graphics/mesa/mesa-dri.inc
-index 795144a..4557bf8 100644
---- a/meta/recipes-graphics/mesa/mesa-dri.inc
-+++ b/meta/recipes-graphics/mesa/mesa-dri.inc
-@@ -4,9 +4,11 @@ LIB_DEPS += "libdrm expat"
- # most of our targets do not have DRI so will use mesa-xlib
- DEFAULT_PREFERENCE = "-1"
- 
-+EXTRA_DRIDRIVERS = ""
-+EXTRA_DRIDRIVERS_x86 = ",i915,i965"
-+EXTRA_DRIDRIVERS_x86-64 = ",i915,i965"
- DRIDRIVERS = "swrast"
--DRIDRIVERS_x86 = "swrast,i915,i965"
--DRIDRIVERS_x86-64 = "swrast,i915,i965"
-+DRIDRIVERS += "${EXTRA_DRIDRIVERS}"
- 
- EXTRA_OECONF += "--with-driver=dri --disable-egl --disable-gallium --without-gallium-drivers --with-dri-drivers=${DRIDRIVERS}"
- 
--- 
-1.7.7
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+
+Acked-by: Koen Kooi <k-kooi@ti.com>
+
+> ---
+> meta/recipes-graphics/mesa/mesa-common.inc |    5 +++++
+> 1 files changed, 5 insertions(+), 0 deletions(-)
+>=20
+> diff --git a/meta/recipes-graphics/mesa/mesa-common.inc =
+b/meta/recipes-graphics/mesa/mesa-common.inc
+> index b8f2289..ca2d931 100644
+> --- a/meta/recipes-graphics/mesa/mesa-common.inc
+> +++ b/meta/recipes-graphics/mesa/mesa-common.inc
+> @@ -51,3 +51,8 @@ FILES_libosmesa-dev =3D "${libdir}/libOSMesa.* =
+${includedir}/osmesa.h"
+>=20
+> FILES_${PN}-dbg +=3D "${libdir}/dri/.debug/*"
+> FILES_libegl-dbg +=3D "${libdir}/egl/.debug/*"
+> +
+> +do_install_append () {
+> +    install -d ${D}/${includedir}/GL
+> +    cp -pPr ${S}/include/GL/internal* ${D}/${includedir}/GL
+> +}
+> --=20
+> 1.7.7
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
