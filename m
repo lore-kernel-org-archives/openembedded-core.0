@@ -1,35 +1,26 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RF5Pi-0003zT-1l
+	(envelope-from <philb@gnu.org>) id 1RF6Lz-0007Qy-M8
 	for openembedded-core@lists.openembedded.org;
-	Sat, 15 Oct 2011 16:40:38 +0200
-Received: by bkat8 with SMTP id t8so3319156bka.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Oct 2011 07:34:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=9WJewBsxYd404mypeeIcvkST4NND1LKWyTSbZRavDsg=;
-	b=aitTqamMvgi/rBbMAynj6Kr+EFV+DQ60AcmKnkVn81llj5Xka9nT/f+7r3t8ngVfJP
-	9EgdLS+E0LH9PzpPEgA307h6zcq9IZNUVTByhfs+QEhtPXyJzu8Y/yOqq3akNCgkDCTQ
-	HIHtmyLrDf4C+A+0Ui+w7+tW+QAMaVNGYUSp4=
-Received: by 10.223.76.201 with SMTP id d9mr6164753fak.12.1318689291657;
-	Sat, 15 Oct 2011 07:34:51 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id m26sm10709737fac.6.2011.10.15.07.34.49
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 15 Oct 2011 07:34:50 -0700 (PDT)
-Date: Sat, 15 Oct 2011 16:34:44 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Sat, 15 Oct 2011 17:40:51 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RF6GR-0005bb-Lh
+	for openembedded-core@lists.openembedded.org;
+	Sat, 15 Oct 2011 17:35:07 +0200
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111015143444.GD12684@jama.jama.net>
+In-Reply-To: <20111015143444.GD12684@jama.jama.net>
 References: <1318674260-8320-1-git-send-email-Martin.Jansa@gmail.com>
 	<1318674260-8320-2-git-send-email-Martin.Jansa@gmail.com>
 	<1318689013.3158.7.camel@lenovo.internal.reciva.com>
-MIME-Version: 1.0
-In-Reply-To: <1318689013.3158.7.camel@lenovo.internal.reciva.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+	<20111015143444.GD12684@jama.jama.net>
+Date: Sat, 15 Oct 2011 15:40:10 +0100
+Message-ID: <1318689610.3158.8.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.3 
 Subject: Re: [PATCH 2/2] mesa-dri: move extra DRIMODULES to EXTRA_DRIMODULES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -45,51 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Oct 2011 14:40:38 -0000
-X-Groupsio-MsgNum: 11075
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="0/kgSOzhNoDC5T3a"
-Content-Disposition: inline
+X-List-Received-Date: Sat, 15 Oct 2011 15:40:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---0/kgSOzhNoDC5T3a
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sat, 2011-10-15 at 16:34 +0200, Martin Jansa wrote:
+> On Sat, Oct 15, 2011 at 03:30:13PM +0100, Phil Blundell wrote:
+> > On Sat, 2011-10-15 at 12:24 +0200, Martin Jansa wrote:
+> > > * this way we can use
+> > >   EXTRA_DRIMODULES_armv4t += ",glamo" in meta-openmoko layer and
+> > >   EXTRA_DRIMODULES_armv4t += ",foo" in meta-bar layer without knowledge
+> > >   of other modules in other layers in stack
+> > 
+> > Is this really better than using "DRIMODULES_append_armv4t = ..."?  
+> 
+> the point is that you don't need to know who is setting swrast there for
+> armv4t...
 
-On Sat, Oct 15, 2011 at 03:30:13PM +0100, Phil Blundell wrote:
-> On Sat, 2011-10-15 at 12:24 +0200, Martin Jansa wrote:
-> > * this way we can use
-> >   EXTRA_DRIMODULES_armv4t +=3D ",glamo" in meta-openmoko layer and
-> >   EXTRA_DRIMODULES_armv4t +=3D ",foo" in meta-bar layer without knowled=
-ge
-> >   of other modules in other layers in stack
->=20
-> Is this really better than using "DRIMODULES_append_armv4t =3D ..."? =20
+I'm not sure I understand what you're saying there.  Can you be more
+concrete?
 
-the point is that you don't need to know who is setting swrast there for
-armv4t...
+> > 
+> > It's not really true that you can do it without any knowledge of what
+> > other layers are doing since if you end up with two competing
+> > EXTRA_DRIMODULES_foo overrides then one of them will get lost.
+> > 
+> 
+> so EXTRA_DRIMODULES_append_armv4t should be fine, right?
 
->=20
-> It's not really true that you can do it without any knowledge of what
-> other layers are doing since if you end up with two competing
-> EXTRA_DRIMODULES_foo overrides then one of them will get lost.
->=20
+Well, yes, but in that case it doesn't seem as though the EXTRA_ bit
+(and this patch) buys anything.
 
-so EXTRA_DRIMODULES_append_armv4t should be fine, right?
+p.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---0/kgSOzhNoDC5T3a
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
 
-iEYEARECAAYFAk6ZmgQACgkQN1Ujt2V2gByYXQCfXS5lhUlbg2Dr0qxxZYoEpDs7
-ANkAni6/92BwLgL9WtKE1ogy8k7sFidJ
-=1Cj4
------END PGP SIGNATURE-----
-
---0/kgSOzhNoDC5T3a--
