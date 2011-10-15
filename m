@@ -1,29 +1,31 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RF1ae-0007Kb-CJ
+	(envelope-from <martin.jansa@gmail.com>) id 1RF1jU-0007S1-9R
 	for openembedded-core@lists.openembedded.org;
-	Sat, 15 Oct 2011 12:35:40 +0200
-Received: by bkat8 with SMTP id t8so3120722bka.6
+	Sat, 15 Oct 2011 12:44:48 +0200
+Received: by bkat8 with SMTP id t8so3130069bka.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Oct 2011 03:29:54 -0700 (PDT)
-Received: by 10.223.65.68 with SMTP id h4mr10088668fai.24.1318674593891;
-	Sat, 15 Oct 2011 03:29:53 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id u6sm9500484faf.3.2011.10.15.03.29.52
+	Sat, 15 Oct 2011 03:39:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=QimvF7WN9YTEZ25CxJqr0hm1+ePhZCgcrnNt+/v3x8o=;
+	b=WK99y0ooGjRIQJooskqN1Ie6u5o+4b5BwYFiaR+RgInEGLDsiVxEitWmxf1DhaJOlQ
+	M/1R8CYhZC+5td+kWYfuoQUuIgndR9AzsQPLeGgjqyRTLc3RmHcSym9mgYQsuW8T/eG/
+	8OZKZkkorYDoSr1hMukFJAiooTsDyw5LJVc4Q=
+Received: by 10.223.16.82 with SMTP id n18mr10147993faa.2.1318675142300;
+	Sat, 15 Oct 2011 03:39:02 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id r16sm9550174fam.8.2011.10.15.03.39.00
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 15 Oct 2011 03:29:53 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1318674260-8320-2-git-send-email-Martin.Jansa@gmail.com>
-Date: Sat, 15 Oct 2011 12:29:52 +0200
-Message-Id: <363ECAF1-8602-4139-ADC9-2044FCB5456C@dominion.thruhere.net>
-References: <1318674260-8320-1-git-send-email-Martin.Jansa@gmail.com>
-	<1318674260-8320-2-git-send-email-Martin.Jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH 2/2] mesa-dri: move extra DRIMODULES to EXTRA_DRIMODULES
+	Sat, 15 Oct 2011 03:39:01 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 15 Oct 2011 12:38:52 +0200
+Message-Id: <1318675132-9265-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.7
+In-Reply-To: <363ECAF1-8602-4139-ADC9-2044FCB5456C@dominion.thruhere.net>
+References: <363ECAF1-8602-4139-ADC9-2044FCB5456C@dominion.thruhere.net>
+Subject: [PATCH] mesa-dri: move extra DRIMODULES to EXTRA_DRIMODULES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,54 +40,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Oct 2011 10:35:40 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 15 Oct 2011 10:44:48 -0000
 
+* this way we can use
+  EXTRA_DRIDRIVERS_armv4t += ",glamo" in meta-openmoko layer and
+  EXTRA_DRIDRIVERS_armv4t += ",foo" in meta-bar layer without knowledge
+  of other modules in other layers in stack
+* actually it's like old MACHINE_DRI_MODULES from OE-classic but renamed
+  to indicate that it should be used for architecture not machine
 
-Op 15 okt. 2011, om 12:24 heeft Martin Jansa het volgende geschreven:
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-graphics/mesa/mesa-dri.inc |    8 ++++----
+ 1 files changed, 4 insertions(+), 4 deletions(-)
 
-> * this way we can use
->  EXTRA_DRIMODULES_armv4t +=3D ",glamo" in meta-openmoko layer and
->  EXTRA_DRIMODULES_armv4t +=3D ",foo" in meta-bar layer without =
-knowledge
->  of other modules in other layers in stack
-
-The above talks about 'MODULES', the actual patch about 'DRIVERS' :)
-
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
-> meta/recipes-graphics/mesa/mesa-dri.inc |    6 ++++--
-> 1 files changed, 4 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-graphics/mesa/mesa-dri.inc =
-b/meta/recipes-graphics/mesa/mesa-dri.inc
-> index 795144a..4557bf8 100644
-> --- a/meta/recipes-graphics/mesa/mesa-dri.inc
-> +++ b/meta/recipes-graphics/mesa/mesa-dri.inc
-> @@ -4,9 +4,11 @@ LIB_DEPS +=3D "libdrm expat"
-> # most of our targets do not have DRI so will use mesa-xlib
-> DEFAULT_PREFERENCE =3D "-1"
->=20
-> +EXTRA_DRIDRIVERS =3D ""
-> +EXTRA_DRIDRIVERS_x86 =3D ",i915,i965"
-> +EXTRA_DRIDRIVERS_x86-64 =3D ",i915,i965"
-> DRIDRIVERS =3D "swrast"
-> -DRIDRIVERS_x86 =3D "swrast,i915,i965"
-> -DRIDRIVERS_x86-64 =3D "swrast,i915,i965"
-> +DRIDRIVERS +=3D "${EXTRA_DRIDRIVERS}"
->=20
-> EXTRA_OECONF +=3D "--with-driver=3Ddri --disable-egl --disable-gallium =
---without-gallium-drivers --with-dri-drivers=3D${DRIDRIVERS}"
->=20
-> --=20
-> 1.7.7
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-graphics/mesa/mesa-dri.inc b/meta/recipes-graphics/mesa/mesa-dri.inc
+index 795144a..ef0e8cf 100644
+--- a/meta/recipes-graphics/mesa/mesa-dri.inc
++++ b/meta/recipes-graphics/mesa/mesa-dri.inc
+@@ -4,11 +4,11 @@ LIB_DEPS += "libdrm expat"
+ # most of our targets do not have DRI so will use mesa-xlib
+ DEFAULT_PREFERENCE = "-1"
+ 
+-DRIDRIVERS = "swrast"
+-DRIDRIVERS_x86 = "swrast,i915,i965"
+-DRIDRIVERS_x86-64 = "swrast,i915,i965"
++EXTRA_DRIDRIVERS = ""
++EXTRA_DRIDRIVERS_x86 = "i915,i965"
++EXTRA_DRIDRIVERS_x86-64 = "i915,i965"
+ 
+-EXTRA_OECONF += "--with-driver=dri --disable-egl --disable-gallium --without-gallium-drivers --with-dri-drivers=${DRIDRIVERS}"
++EXTRA_OECONF += "--with-driver=dri --disable-egl --disable-gallium --without-gallium-drivers --with-dri-drivers=swrast,${EXTRA_DRIDRIVERS}"
+ 
+ python populate_packages_prepend() {
+ 	import os.path
+-- 
+1.7.7
 
 
 
