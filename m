@@ -1,36 +1,32 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RF40v-0002No-3O
+	(envelope-from <koen@dominion.thruhere.net>) id 1RF4uf-0003Sg-Du
 	for openembedded-core@lists.openembedded.org;
-	Sat, 15 Oct 2011 15:10:57 +0200
-Received: by eyd9 with SMTP id 9so1847036eyd.6
+	Sat, 15 Oct 2011 16:08:33 +0200
+Received: by bkat8 with SMTP id t8so3295748bka.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Oct 2011 06:05:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=/1CRyJob0WL0cp7ViRbA1fvazjQ6zlGKpfeXUjLCv0I=;
-	b=rJ4LBxzbtzAKGnvlwNFtCGpz4NmIB7TG1XIbNpocfqCkvrf8hdSpemwL2Xf+mR3WGX
-	sNrTiXkvzj82bWKyEjfhq58nGYHtneeGxEo3g+6ulkwFoMSZs2CTU0xiIxfKXSG7woPK
-	w3sttWstfRCxubGI7jgHOzlnPOC9hmi8DVDj4=
-Received: by 10.223.77.26 with SMTP id e26mr1606059fak.37.1318683908734;
-	Sat, 15 Oct 2011 06:05:08 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id a1sm10269025fab.4.2011.10.15.06.05.06
+	Sat, 15 Oct 2011 07:02:43 -0700 (PDT)
+Received: by 10.223.85.134 with SMTP id o6mr11083949fal.8.1318687363267;
+	Sat, 15 Oct 2011 07:02:43 -0700 (PDT)
+Received: from [172.20.2.72] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id l8sm10550241fai.16.2011.10.15.07.02.41
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 15 Oct 2011 06:05:07 -0700 (PDT)
-Date: Sat, 15 Oct 2011 15:05:00 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Sat, 15 Oct 2011 07:02:42 -0700 (PDT)
+References: <F17AC24E-C897-4BF3-990D-F9EE0A97E99E@dominion.thruhere.net>
+	<201110151452.31950.schnitzeltony@gmx.de>
+	<20111015130007.GB12684@jama.jama.net>
+In-Reply-To: <20111015130007.GB12684@jama.jama.net>
+Mime-Version: 1.0 (1.0)
+Message-Id: <BFB012E8-D9BB-4FD9-A03F-C72751EE50CD@dominion.thruhere.net>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: iPhone Mail (9A334)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Sat, 15 Oct 2011 16:02:32 +0200
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111015130500.GC12684@jama.jama.net>
-References: <cover.1318547063.git.nitin.a.kamble@intel.com>
-	<70807dd62c2c498616cc544869bd710b351b7212.1318547063.git.nitin.a.kamble@intel.com>
-	<20111014081939.GC3542@jama.jama.net>
-MIME-Version: 1.0
-In-Reply-To: <20111014081939.GC3542@jama.jama.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [review/test 3/5] python, python-native: upgrade from 2.6.6 to 2.7.2
+Subject: Re: missing mesa-dri dependency?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,92 +41,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Oct 2011 13:10:57 -0000
-X-Groupsio-MsgNum: 11071
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="1ccMZA6j1vT5UqiK"
-Content-Disposition: inline
-
---1ccMZA6j1vT5UqiK
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Sat, 15 Oct 2011 14:08:33 -0000
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-On Fri, Oct 14, 2011 at 10:19:39AM +0200, Martin Jansa wrote:
-> On Thu, Oct 13, 2011 at 04:06:13PM -0700, nitin.a.kamble@intel.com wrote:
-> > From: Nitin A Kamble <nitin.a.kamble@intel.com>
-> >=20
+
+
+Op 15 okt. 2011 om 15:00 heeft Martin Jansa <martin.jansa@gmail.com> het vol=
+gende geschreven:
+
+> On Sat, Oct 15, 2011 at 02:52:31PM +0200, Andreas M=C3=BCller wrote:
+>> On Thursday, October 13, 2011 10:24:19 AM Koen Kooi wrote:
+>>> Hi,
+>>>=20
+>>> I remember fixing this in meta-oe, but now exactly how. IIRC both mesa-x=
+lib and mesa-dri needed to get built.
+>>>=20
+>>> configure: error: Package requirements (glproto >=3D 1.4.14 dri >=3D 7.8=
+.0) were not met:
+>>> |=20
+>>> | No package 'dri' found
+>>> |=20
+>>> | Consider adjusting the PKG_CONFIG_PATH environment variable if you
+>>> | installed software in a non-standard prefix.
+>>> |=20
+>>> | Alternatively, you may set the environment variables DRI_CFLAGS
+>>> | and DRI_LIBS to avoid the need to call pkg-config.
+>>> | See the pkg-config man page for more details.
+>>> | + bbfatal 'oe_runconf failed'
+>>> | + echo 'ERROR: oe_runconf failed'
+>>> | ERROR: oe_runconf failed
+>>> | + exit 1
+>>> | ERROR: Function 'do_configure' failed (see /OE/tentacle/build/tmp-angs=
+trom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/xserver-xorg-1_1.11.1-=
+r0/temp/log.do_configure.3602 for further information)
+>>> NOTE: package xserver-xorg-1_1.11.1-r0: task do_configure: Failed
+>>> ERROR: Task 1842 (/OE/tentacle/sources/openembedded-core/meta/recipes-gr=
+aphics/xorg-xserver/xserver-xorg_1.11.1.bb, do_configure) failed with exit c=
+ode '1'
+>>>=20
+>>> regards,
+>>>=20
+>>> Koen
+>> ping - or how do you workaround this for machines not supporting mesa-dri=
+?
 >=20
-> This patch does not apply after
-> 9f9612d15acc6ee3b71f52bdb3f1ec4cb56b1a17
+> use mesa-dri (with swrast) or mesa-xlib with xserver-xorg-lite
+
+Switching to the -lite would troublesome from an upgrade path of view. As fo=
+r TI chips I need to figure out how to enable using our new powervr dri modu=
+le in this new setup.
+
+regards,
+
+koen
+
+
+
+>>=20
+>> Andreas
+>>=20
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >=20
-> can you rebase on top of oe-core?
->=20
-> Also please drop
-> DEFAULT_PREFERENCE =3D "-27"
->=20
-> we have only one python version so I guess it's not usefull at all
-> anymore
->=20
-> I'll apply it manually, test it here.. and report if those modules are
-> build later..
+> --=20
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-I've tried also to build it for qemux86-64 (my host is x86-64 too) and
-it fails to build a bit sooner before building modules:
 
-| x86_64-oe-linux-ar rc libpython2.7.a Modules/config.o Modules/getpath.o M=
-odules/main.o Modules/gcmodule.o
-| x86_64-oe-linux-ar rc libpython2.7.a Modules/threadmodule.o  Modules/sign=
-almodule.o  Modules/posixmodule.o  Modules/errnomodule.o  Modules/pwdmodule=
-=2Eo  Modules/_sre.o  Modules/_codecsmodule.o  Modules/_weakref.o  Modules/=
-zipimport.o  Modules/symtablemodule.o  Modules/xxsubtype.o
-| x86_64-oe-linux-ranlib libpython2.7.a
-| x86_64-oe-linux-gcc    -m64 --sysroot=3D/OE/shr-core/tmp/sysroots/qemux86=
--64 -Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed -Xlinker -export-dynamic=
- -o python \
-|                       Modules/python.o \
-|                       -L. -lpython2.7 -lpthread -ldl  -lpthread -lutil   =
--lm
-| /OE/shr-core/tmp/sysroots/x86_64-linux/usr/bin/python: /lib64/libc.so.6: =
-version `GLIBC_2.14' not found (required by /OE/shr-core/tmp/work/x86_64-oe=
--linux/python-2.7.2-r0.0/Python-2.7.2/libpython2.7.so.1.0)
-| make: *** [sharedmods] Error 1
-| + die 'oe_runmake failed'
-| + bbfatal 'oe_runmake failed'
-| + echo 'ERROR: oe_runmake failed'
-| ERROR: oe_runmake failed
-| + exit 1
-NOTE: package python-2.7.2-r0.0: task do_compile: Failed
-ERROR: Task 230 (/OE/shr-core/openembedded-core/meta/recipes-devtools/pytho=
-n/python_2.7.2.bb, do_compile) failed with exit code '1'
-ERROR: '/OE/shr-core/openembedded-core/meta/recipes-devtools/python/python_=
-2.7.2.bb' failed
-
-and
-OE qemux86-64@shr ~/shr-core $ find /OE/shr-core/tmp/sysroots/qemux86-64 -n=
-ame libc.so.6
-/OE/shr-core/tmp/sysroots/qemux86-64/lib/libc.so.6
-/OE/shr-core/tmp/sysroots/qemux86-64/usr/include/eglibc-locale-internal-x86=
-_64-oe-linux/lib/libc.so.6
-
-I have not special MULTILIB settings.. just used MACHINE=3Dqemux86-64 as it=
- is and build from scratch
-
-Regards,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---1ccMZA6j1vT5UqiK
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk6ZhPwACgkQN1Ujt2V2gBzhnQCfeYSCVIQyE5X5fId/wP9D9q7v
-RY0An3beDqynNXm2PwLuq00z1HyntOfP
-=ZVID
------END PGP SIGNATURE-----
-
---1ccMZA6j1vT5UqiK--
