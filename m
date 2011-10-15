@@ -1,40 +1,29 @@
-Received: from dan.rpsys.net ([93.97.175.187])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RErY6-0007NU-6H for openembedded-core@lists.openembedded.org;
-	Sat, 15 Oct 2011 01:52:22 +0200
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9ENrHvR006301 for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Oct 2011 00:53:17 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 06qWxDAmVABC
+	(envelope-from <martin.jansa@gmail.com>) id 1RF12t-0006jI-Rw
+	for openembedded-core@lists.openembedded.org;
+	Sat, 15 Oct 2011 12:00:48 +0200
+Received: by bkat8 with SMTP id t8so3087329bka.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Oct 2011 00:53:17 +0100 (BST)
-Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9ENrEVX006294
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Oct 2011 00:53:16 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Sat, 15 Oct 2011 00:46:30 +0100
-In-Reply-To: <CAP9ODKrN91FXYfxKXrLj-yJyS2ef+DqmA0n0xC0qwTuxSzApWw@mail.gmail.com>
-References: <cover.1318505196.git.Martin.Jansa@gmail.com>
-	<c30a13301850b76b1e7362b99322ffad72598612.1318505196.git.Martin.Jansa@gmail.com>
-	<1318512243.23801.217.camel@ted> <20111013133221.GC28525@jama.jama.net>
-	<1318514192.23801.229.camel@ted>
-	<CAP9ODKp-CRpH0U7=k3inmg3gKqLFuHSUOA2JTc9+Jev+Op5p_Q@mail.gmail.com>
-	<1318591756.23801.259.camel@ted>
-	<CAP9ODKrN91FXYfxKXrLj-yJyS2ef+DqmA0n0xC0qwTuxSzApWw@mail.gmail.com>
-X-Mailer: Evolution 3.1.91- 
-Message-ID: <1318635999.2342.73.camel@ted>
-Mime-Version: 1.0
-Subject: Re: [oe-core 14/20] mesa-dri: introduce MACHINE_DRI_MODULES
+	Sat, 15 Oct 2011 02:55:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=WXFPwbS1IeRzFL8WmKjPb64a3dS5hRtc+0CqL21cO1c=;
+	b=sp/yGCgTZFN2MJAcDo4eDHW/bUwbhyTscEIsMoZODbfg6m7byEdky9/qrq1On15ApL
+	DK+xfVUD5hxlIJ7Q7Za/7rrf76lODDsJtU3kvqL+O3kbWAKzqa4X0UVi3Nn0in9ehvin
+	BiLe5vQ2MuNk4+scMvwLDddamlCofIvloYnjc=
+Received: by 10.223.7.18 with SMTP id b18mr10029091fab.31.1318672501250;
+	Sat, 15 Oct 2011 02:55:01 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id n18sm9332072fah.2.2011.10.15.02.54.59
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 15 Oct 2011 02:54:59 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 15 Oct 2011 11:54:50 +0200
+Message-Id: <1318672491-31826-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.7
+Subject: [PATCH 1/2] mesa: package gl/egl/osmesa to separate packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,39 +38,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Oct 2011 23:52:22 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 15 Oct 2011 10:00:48 -0000
 
-On Fri, 2011-10-14 at 10:19 -0300, Otavio Salvador wrote:
-> On Fri, Oct 14, 2011 at 08:29, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> ...
-> >> At least here it hadn't built i915 or i965 drivers.
-> >
-> > I think there is a slight change in behaviour as the architectures it
-> > would have built certain modules on used to get applied, now it doesn't
-> > as we're passing a fixed list. We need to fix this but it shouldn't be
-> > hard.
-> 
-> I am sorry but I didn't get what you meant.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-graphics/mesa/mesa-common.inc |   13 +++++++++++--
+ 1 files changed, 11 insertions(+), 2 deletions(-)
 
-The old recipe just said "enable dri" and left it to the makefile to
-decide what to build which it did based upon the target architecture.
-
-I then changed the recipe to say i915 and i965 since the recipe was
-marked x86 only. Now I've merged changes to default to swrast apart from
-x86 (23 and 64 bit) where the intel modules are enabled. As and when any
-other dependencies are fixed and people need other modules we'll enable
-those on a per arch basis too.
-
-This should hopefully resolve most of the issues people were seeing.
-
-Cheers,
-
-Richard
-
-
+diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
+index 06ebb75..b8f2289 100644
+--- a/meta/recipes-graphics/mesa/mesa-common.inc
++++ b/meta/recipes-graphics/mesa/mesa-common.inc
+@@ -38,7 +38,16 @@ EXTRA_OECONF = "--enable-glu \
+ # Multiple virtual/gl providers being built breaks staging
+ EXCLUDE_FROM_WORLD = "1"
+ 
+-PACKAGES =+ "libglu libglu-dev"
+-
++PACKAGES =+ "libegl libegl-dev libegl-dbg libglu libglu-dev libosmesa libosmesa-dev libgl libgl-dev"
++FILES_libegl = "${libdir}/libEGL.so.* ${libdir}/egl/*.so"
++FILES_libgl = "${libdir}/libGL.so.*"
+ FILES_libglu = "${libdir}/libGLU.so.*"
++FILES_libosmesa = "${libdir}/libOSMesa.so.*"
++
++FILES_libegl-dev = "${libdir}/libEGL.* ${includedir}/EGL"
++FILES_libgl-dev = "${libdir}/libGL.* ${includedir}/GL"
+ FILES_libglu-dev = "${libdir}/libGLU.* ${includedir}/GL/glu*.h"
++FILES_libosmesa-dev = "${libdir}/libOSMesa.* ${includedir}/osmesa.h"
++
++FILES_${PN}-dbg += "${libdir}/dri/.debug/*"
++FILES_libegl-dbg += "${libdir}/egl/.debug/*"
+-- 
+1.7.7
 
 
 
