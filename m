@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RFXEm-0003VG-4W
+	(envelope-from <sgw@linux.intel.com>) id 1RFXEm-0003VD-KI
 	for openembedded-core@lists.openembedded.org;
 	Sun, 16 Oct 2011 22:23:12 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga101.fm.intel.com with ESMTP; 16 Oct 2011 13:17:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,354,1315206000"; d="scan'208";a="74375150"
+X-IronPort-AV: E=Sophos;i="4.69,354,1315206000"; d="scan'208";a="74375151"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.6])
 	by fmsmga001.fm.intel.com with ESMTP; 16 Oct 2011 13:17:21 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 16 Oct 2011 13:17:05 -0700
-Message-Id: <8ebaf58aead356286278166c98bd00f9ad373390.1318796061.git.sgw@linux.intel.com>
+Date: Sun, 16 Oct 2011 13:17:06 -0700
+Message-Id: <0808a9ad87d52a3a2d254f2eea2c1e59b817c267.1318796061.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.2
 In-Reply-To: <cover.1318796061.git.sgw@linux.intel.com>
 References: <cover.1318796061.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1318796061.git.sgw@linux.intel.com>
 References: <cover.1318796061.git.sgw@linux.intel.com>
-Subject: [v2 -CONSOLIDATED PULL 03/14] default-provider: also define a default provider for gconf-native
+Subject: [v2 -CONSOLIDATED PULL 04/14] qt4: Added support for QtMobility 1.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,26 +35,130 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 16 Oct 2011 20:23:12 -0000
 
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+From: Dmitry Cherukhin <dima_ch@emcraft.com>
 
-Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+The QtMobility is a Qt add-on which allows to include standard mobile
+functionality to Qt applications. For details, see
+    http://qt.nokia.com/products/qt-addons/mobility/
+The patch is intended to add support for the QtMobility 1.2 package to OE.
+
+Added two recipes:
+1) qt-mobility-x11 builds the QtMobility 1.2 package
+   on the basis of Qt/X11 using the qt4-x11-free package;
+2) qt-mobility-embedded builds the QtMobility 1.2 package
+   on the basis of Qt/Embedded using the qt4-embedded package.
+
+Signed-off-by: Dmitry Cherukhin <dima_ch@emcraft.com>
 ---
- meta/conf/distro/include/default-providers.inc |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+ meta/recipes-qt/qt4/qt-mobility-embedded_1.2.0.bb |   11 ++++
+ meta/recipes-qt/qt4/qt-mobility-x11_1.2.0.bb      |   10 +++
+ meta/recipes-qt/qt4/qt-mobility_1.2.0.inc         |   62 +++++++++++++++++++++
+ 3 files changed, 83 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-qt/qt4/qt-mobility-embedded_1.2.0.bb
+ create mode 100644 meta/recipes-qt/qt4/qt-mobility-x11_1.2.0.bb
+ create mode 100644 meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
 
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-index a5cdb5b..66f7ff3 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -22,6 +22,7 @@ VIRTUAL-RUNTIME_update-alternatives ?= "update-alternatives-cworth"
- PREFERRED_PROVIDER_dbus-glib ?= "dbus-glib"
- PREFERRED_PROVIDER_dbus-glib-native ?= "dbus-glib-native"
- PREFERRED_PROVIDER_gconf ?= "gconf-dbus"
-+PREFERRED_PROVIDER_gconf-native ?= "gconf-dbus-native"
- PREFERRED_PROVIDER_gdk-pixbuf ?= "gdk-pixbuf"
- PREFERRED_PROVIDER_libgcc ?= "libgcc"
- PREFERRED_PROVIDER_libgcc-nativesdk ?= "libgcc-nativesdk"
+diff --git a/meta/recipes-qt/qt4/qt-mobility-embedded_1.2.0.bb b/meta/recipes-qt/qt4/qt-mobility-embedded_1.2.0.bb
+new file mode 100644
+index 0000000..0c30e5f
+--- /dev/null
++++ b/meta/recipes-qt/qt4/qt-mobility-embedded_1.2.0.bb
+@@ -0,0 +1,11 @@
++DESCRIPTION = "Qt Mobility 1.2.0 - version for Qt/Embedded"
++DEPENDS = "qt4-embedded"
++SECTION = "libs"
++qtm_embedded := "embedded"
++qtm_dir = "qtopia"
++qtm_glflags := "-=opengl"
++qtm_extra_config := "gstreamer-photography_enabled = no"
++
++inherit qt4e
++require qt-mobility_${PV}.inc
++
+diff --git a/meta/recipes-qt/qt4/qt-mobility-x11_1.2.0.bb b/meta/recipes-qt/qt4/qt-mobility-x11_1.2.0.bb
+new file mode 100644
+index 0000000..cd7d5b5
+--- /dev/null
++++ b/meta/recipes-qt/qt4/qt-mobility-x11_1.2.0.bb
+@@ -0,0 +1,10 @@
++DESCRIPTION = "Qt Mobility 1.2.0 - version for Qt/X11"
++DEPENDS = "qt4-x11-free"
++SECTION = "x11/libs"
++qtm_embedded := ""
++qtm_dir = "qt4"
++qtm_glflags := "${@base_contains('DISTRO_FEATURES', 'opengl', '+=opengl', '-=opengl', d)} "
++qtm_extra_config := ""
++
++inherit qt4x11
++require qt-mobility_${PV}.inc
+diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+new file mode 100644
+index 0000000..f665e64
+--- /dev/null
++++ b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+@@ -0,0 +1,62 @@
++HOMEPAGE = "http://qt.nokia.com"
++DEPENDS += "pulseaudio bluez4"
++
++LICENSE = "LGPLv2.1"
++LIC_FILES_CHKSUM = "file://LICENSE.LGPL;md5=fbc093901857fcd118f065f900982c24 \
++		    file://LGPL_EXCEPTION.txt;md5=411080a56ff917a5a1aa08c98acae354"
++
++SRC_URI = "http://get.qt.nokia.com/qt/add-ons/qt-mobility-opensource-src-${PV}.tar.gz "
++
++SRC_URI[md5sum]="ea5db5a8d3dd4709c2926dceda646bd8"
++SRC_URI[sha256sum]="ee3c88975e04139ac9589f76d4be646d44fcbc4c8c1cf2db621abc154cf0ba44"
++
++S = "${WORKDIR}/qt-mobility-opensource-src-${PV}"
++
++qtm_bin		:= "/usr/bin/${qtm_dir}"
++qtm_lib		:= "/usr/lib"
++qtm_include	:= "/usr/include/${qtm_dir}"
++qtm_examples	:= "/usr/bin/${qtm_dir}/examples/QtMobility"
++qtm_demos	:= "/usr/bin/${qtm_dir}/demos/QtMobility"
++qtm_plugins	:= "/usr/lib/${qtm_dir}/plugins/QtMobility"
++qtm_data	:= "/usr/share/${qtm_dir}"
++qtm_imports	:= "/usr/lib/${qtm_dir}/imports"
++
++do_configure_prepend() {
++	cp qtmobility.pro qtmobility.pro.old
++	sed -e 's@...QT_INSTALL_DATA.@${qtm_data}@' <qtmobility.pro.old >qtmobility.pro
++	for NAME in plugins/declarative/*/*.pro
++	do
++	    cp $NAME $NAME.old
++	    sed -e 's@...QT_INSTALL_IMPORTS.@${qtm_imports}@' <$NAME.old >$NAME
++	done
++	cp staticconfig.pri staticconfig.pri.old
++	echo "include(${STAGING_DATADIR}/${qtm_dir}/mkspecs/qconfig.pri)" >staticconfig.pri
++	cat staticconfig.pri.old >>staticconfig.pri
++	./configure -qmake-exec qmake2 -prefix /usr -examples -demos
++	echo QT_MOBILITY_BIN = ${qtm_bin} >>./config.pri
++	echo QT_MOBILITY_LIB = ${qtm_lib} >>./config.pri
++	echo QT_MOBILITY_INCLUDE = ${qtm_include} >>./config.pri
++	echo QT_MOBILITY_PLUGINS = ${qtm_plugins} >>./config.pri
++	echo QT_MOBILITY_EXAMPLES = ${qtm_examples} >>./config.pri
++	echo QT_MOBILITY_DEMOS = ${qtm_demos} >>./config.pri
++	echo QT_CONFIG ${qtm_glflags} >>./config.pri
++	echo bluez_enabled = yes >>./config.pri
++	echo ${qtm_extra_config} >>./config.pri
++	echo CONFIG += ${qtm_embedded} >>./config.pri
++}
++
++do_install() {
++	for NAME in */*.prf
++	do
++	    cp $NAME $NAME.old
++	    sed -e 's@/usr@${STAGING_BINDIR}/..@' <$NAME.old >$NAME
++	done
++	oe_runmake install INSTALL_ROOT=${D}
++}
++
++PACKAGES = "${PN}-dbg ${PN} ${PN}-dev"
++
++FILES_${PN}-dbg = "${qtm_bin}/.debug ${qtm_examples}/.debug ${qtm_demos}/.debug ${qtm_lib}/.debug ${qtm_plugins}/*/.debug \
++		${qtm_imports}/*/.debug ${qtm_imports}/*/*/.debug /usr/src/debug"
++FILES_${PN} = "${qtm_bin} ${qtm_examples} ${qtm_demos} ${qtm_lib}/*.so.1* ${qtm_plugins} ${qtm_imports}"
++FILES_${PN}-dev = "/usr"
 -- 
 1.7.6.2
 
