@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RFLW1-00028N-JH
+	(envelope-from <sgw@linux.intel.com>) id 1RFLW1-00028G-IW
 	for openembedded-core@lists.openembedded.org;
 	Sun, 16 Oct 2011 09:52:13 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 16 Oct 2011 00:46:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="63341615"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="63341614"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.120])
-	by orsmga001.jf.intel.com with ESMTP; 16 Oct 2011 00:46:23 -0700
+	by orsmga001.jf.intel.com with ESMTP; 16 Oct 2011 00:46:22 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 16 Oct 2011 00:46:14 -0700
-Message-Id: <27ae5e4d088c10fc77c614f345db684203d6f5aa.1318751027.git.sgw@linux.intel.com>
+Date: Sun, 16 Oct 2011 00:46:13 -0700
+Message-Id: <2779fd4a0344d9a7c033325899e14a44f1d1f1c6.1318751027.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.2
 In-Reply-To: <cover.1318751027.git.sgw@linux.intel.com>
 References: <cover.1318751027.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1318751027.git.sgw@linux.intel.com>
 References: <cover.1318751027.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 09/14] qmmp: Fix QA Packaging Errors
+Subject: [CONSOLIDATED PULL 08/14] glib-2.0: Add nativesdk depends for libffi
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,68 +37,46 @@ X-List-Received-Date: Sun, 16 Oct 2011 07:52:14 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-qt/qt-apps/qmmp_0.5.1.bb |   36 +++++++++++++++++++++++++++-----
- 1 files changed, 30 insertions(+), 6 deletions(-)
+ meta/recipes-core/glib-2.0/glib-2.0_2.30.0.bb |    3 ++-
+ meta/recipes-gnome/libffi/libffi_3.0.9.bb     |    4 ++--
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-qt/qt-apps/qmmp_0.5.1.bb b/meta/recipes-qt/qt-apps/qmmp_0.5.1.bb
-index 948c32a..3f710f5 100644
---- a/meta/recipes-qt/qt-apps/qmmp_0.5.1.bb
-+++ b/meta/recipes-qt/qt-apps/qmmp_0.5.1.bb
-@@ -4,7 +4,7 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
- SECTION = "multimedia"
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.30.0.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.30.0.bb
+index 8fc6c81..566355d 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.30.0.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.30.0.bb
+@@ -1,10 +1,11 @@
+ require glib.inc
  
--PR = "r0"
-+PR = "r1"
+-PR = "r1"
++PR = "r2"
+ PE = "1"
  
- DEPENDS = "qt4-x11-free taglib libmad libvorbis libogg alsa-lib"
- RDEPENDS_${PN} += "taglib alsa-lib curl"
-@@ -29,16 +29,40 @@ export EXTRA_OECMAKE = "-DQT_QMAKE_EXECUTABLE=${OE_QMAKE_QMAKE} \
-                         -DQT_QTCORE_INCLUDE_DIR=${OE_QMAKE_INCDIR_QT}/QtCore \
-                         "
+ DEPENDS += "libffi python-argparse-native"
+ DEPENDS_virtclass-native += "libffi-native python-argparse-native"
++DEPENDS_virtclass-nativesdk += "libffi-nativesdk python-argparse-native zlib-nativesdk"
  
--FILES_${PN} = "${bindir}/qmmp ${libdir}/*.so* \ 
--               ${libdir}/qmmp/PlaylistFormats/*.so \
--               ${libdir}/qmmp/Output/libalsa.so \
--               ${libdir}/qmmp/Transports/libhttp.so \
--               ${libdir}/qmmp/Visual/libanalyzer.so \
-+FILES_${PN} = "${bindir}/qmmp ${libdir}/*${SOLIBS} \ 
-+               ${libdir}/qmmp/PlaylistFormats/*${SOLIBS} \
-+               ${libdir}/qmmp/Output/libalsa${SOLIBS} \
-+               ${libdir}/qmmp/Transports/libhttp${SOLIBS} \
-+               ${libdir}/qmmp/Visual/libanalyzer${SOLIBS} \
-                ${datadir}/icons/* \
-                ${datadir}/qmmp/images/* \
-                ${datadir}/applications/qmmp.desktop \
-                "
+ SHRT_VER = "${@bb.data.getVar('PV',d,1).split('.')[0]}.${@bb.data.getVar('PV',d,1).split('.')[1]}"
  
-+FILES_${PN}-dev += "${libdir}/qmmp/PlaylistFormats/*${SOLIBSDEV} \
-+               ${libdir}/qmmp/Output/libalsa${SOLIBSDEV} \
-+               ${libdir}/qmmp/Transports/libhttp${SOLIBSDEV} \
-+               ${libdir}/qmmp/Visual/libanalyzer${SOLIBSDEV} \
-+               "
-+
-+FILES_${PN}-dbg += "${libdir}/qmmp/PlaylistFormats/.debug \
-+               ${libdir}/qmmp/Output/.debug/libalsa* \
-+               ${libdir}/qmmp/Transports/.debug/libhttp* \
-+               ${libdir}/qmmp/Visual/.debug/libanalyzer* \
-+               "
-+
-+FILES_${PN}-others-dbg = "${libdir}/qmmp/PlaylistFormats/.debug \
-+               ${libdir}/qmmp/General/.debug \
-+               ${libdir}/qmmp/Input/.debug \
-+               ${libdir}/qmmp/Output/.debug \
-+               ${libdir}/qmmp/Effect/.debug \
-+               ${libdir}/qmmp/Engines/.debug \
-+               ${libdir}/qmmp/FileDialogs/.debug \
-+               ${libdir}/qmmp/Transports/.debug \
-+               ${libdir}/qmmp/Visual/.debug \
-+               ${libdir}/qmmp/CommandLineOptions/.debug \
-+               "
-+
- PACKAGES += "${PN}-plugin-input-mad ${PN}-plugin-input-vorbis"
+diff --git a/meta/recipes-gnome/libffi/libffi_3.0.9.bb b/meta/recipes-gnome/libffi/libffi_3.0.9.bb
+index 0ea2284..fae1adb 100644
+--- a/meta/recipes-gnome/libffi/libffi_3.0.9.bb
++++ b/meta/recipes-gnome/libffi/libffi_3.0.9.bb
+@@ -7,7 +7,7 @@ library really only provides the lowest, machine dependent layer of a fully feat
+ A layer must exist above `libffi' that handles type conversions for values passed between the two languages."
+ SRC_URI = "ftp://sourceware.org/pub/libffi/${BPN}-${PV}.tar.gz"
  
- FILES_${PN}-plugin-input-mad = "${libdir}/qmmp/Input/libmad.so"
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI[md5sum] = "1f300a7a7f975d4046f51c3022fa5ff1"
+ SRC_URI[sha256sum] = "589d25152318bc780cd8919b14670793f4971d9838dab46ed38c32b3ee92c452"
+@@ -16,4 +16,4 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=fa09cb778aaba64dc9eac37ab7e4e5d8"
+ inherit autotools
+ 
+ FILES_${PN}-dev += "${libdir}/libffi-${PV}"
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
 -- 
 1.7.6.2
 
