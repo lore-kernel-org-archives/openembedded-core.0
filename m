@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RFLVz-000288-WA
+	(envelope-from <sgw@linux.intel.com>) id 1RFLW0-00028N-OC
 	for openembedded-core@lists.openembedded.org;
 	Sun, 16 Oct 2011 09:52:12 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 16 Oct 2011 00:46:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="63341610"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="63341612"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.120])
-	by orsmga001.jf.intel.com with ESMTP; 16 Oct 2011 00:46:21 -0700
+	by orsmga001.jf.intel.com with ESMTP; 16 Oct 2011 00:46:22 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 16 Oct 2011 00:46:09 -0700
-Message-Id: <3047a6350fbbafc2e2607b29583a68ed152a9d96.1318751027.git.sgw@linux.intel.com>
+Date: Sun, 16 Oct 2011 00:46:11 -0700
+Message-Id: <daa891cec3d371ed8091e508fec162eb05485357.1318751027.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.2
 In-Reply-To: <cover.1318751027.git.sgw@linux.intel.com>
 References: <cover.1318751027.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1318751027.git.sgw@linux.intel.com>
 References: <cover.1318751027.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 04/14] qt4: Added support for QtMobility 1.2
+Subject: [CONSOLIDATED PULL 06/14] pulseaudio: make bluetooth support conditional upon DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,132 +33,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Oct 2011 07:52:12 -0000
+X-List-Received-Date: Sun, 16 Oct 2011 07:52:13 -0000
 
-From: Dmitry Cherukhin <dima_ch@emcraft.com>
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-The QtMobility is a Qt add-on which allows to include standard mobile
-functionality to Qt applications. For details, see
-    http://qt.nokia.com/products/qt-addons/mobility/
-The patch is intended to add support for the QtMobility 1.2 package to OE.
+If "bluetooth" is in DISTRO_FEATURES then enable bluetooth and depend on
+bluez4, otherwise disable it.
 
-Added two recipes:
-1) qt-mobility-x11 builds the QtMobility 1.2 package
-   on the basis of Qt/X11 using the qt4-x11-free package;
-2) qt-mobility-embedded builds the QtMobility 1.2 package
-   on the basis of Qt/Embedded using the qt4-embedded package.
-
-Signed-off-by: Dmitry Cherukhin <dima_ch@emcraft.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-qt/qt4/qt-mobility-embedded_1.2.0.bb |   11 ++++
- meta/recipes-qt/qt4/qt-mobility-x11_1.2.0.bb      |   10 +++
- meta/recipes-qt/qt4/qt-mobility_1.2.0.inc         |   62 +++++++++++++++++++++
- 3 files changed, 83 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-qt/qt4/qt-mobility-embedded_1.2.0.bb
- create mode 100644 meta/recipes-qt/qt4/qt-mobility-x11_1.2.0.bb
- create mode 100644 meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    5 +++--
+ .../pulseaudio/pulseaudio_0.9.22.bb                |    2 +-
+ .../pulseaudio/pulseaudio_0.9.23.bb                |    2 +-
+ 3 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-qt/qt4/qt-mobility-embedded_1.2.0.bb b/meta/recipes-qt/qt4/qt-mobility-embedded_1.2.0.bb
-new file mode 100644
-index 0000000..0c30e5f
---- /dev/null
-+++ b/meta/recipes-qt/qt4/qt-mobility-embedded_1.2.0.bb
-@@ -0,0 +1,11 @@
-+DESCRIPTION = "Qt Mobility 1.2.0 - version for Qt/Embedded"
-+DEPENDS = "qt4-embedded"
-+SECTION = "libs"
-+qtm_embedded := "embedded"
-+qtm_dir = "qtopia"
-+qtm_glflags := "-=opengl"
-+qtm_extra_config := "gstreamer-photography_enabled = no"
-+
-+inherit qt4e
-+require qt-mobility_${PV}.inc
-+
-diff --git a/meta/recipes-qt/qt4/qt-mobility-x11_1.2.0.bb b/meta/recipes-qt/qt4/qt-mobility-x11_1.2.0.bb
-new file mode 100644
-index 0000000..cd7d5b5
---- /dev/null
-+++ b/meta/recipes-qt/qt4/qt-mobility-x11_1.2.0.bb
-@@ -0,0 +1,10 @@
-+DESCRIPTION = "Qt Mobility 1.2.0 - version for Qt/X11"
-+DEPENDS = "qt4-x11-free"
-+SECTION = "x11/libs"
-+qtm_embedded := ""
-+qtm_dir = "qt4"
-+qtm_glflags := "${@base_contains('DISTRO_FEATURES', 'opengl', '+=opengl', '-=opengl', d)} "
-+qtm_extra_config := ""
-+
-+inherit qt4x11
-+require qt-mobility_${PV}.inc
-diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-new file mode 100644
-index 0000000..f665e64
---- /dev/null
-+++ b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-@@ -0,0 +1,62 @@
-+HOMEPAGE = "http://qt.nokia.com"
-+DEPENDS += "pulseaudio bluez4"
-+
-+LICENSE = "LGPLv2.1"
-+LIC_FILES_CHKSUM = "file://LICENSE.LGPL;md5=fbc093901857fcd118f065f900982c24 \
-+		    file://LGPL_EXCEPTION.txt;md5=411080a56ff917a5a1aa08c98acae354"
-+
-+SRC_URI = "http://get.qt.nokia.com/qt/add-ons/qt-mobility-opensource-src-${PV}.tar.gz "
-+
-+SRC_URI[md5sum]="ea5db5a8d3dd4709c2926dceda646bd8"
-+SRC_URI[sha256sum]="ee3c88975e04139ac9589f76d4be646d44fcbc4c8c1cf2db621abc154cf0ba44"
-+
-+S = "${WORKDIR}/qt-mobility-opensource-src-${PV}"
-+
-+qtm_bin		:= "/usr/bin/${qtm_dir}"
-+qtm_lib		:= "/usr/lib"
-+qtm_include	:= "/usr/include/${qtm_dir}"
-+qtm_examples	:= "/usr/bin/${qtm_dir}/examples/QtMobility"
-+qtm_demos	:= "/usr/bin/${qtm_dir}/demos/QtMobility"
-+qtm_plugins	:= "/usr/lib/${qtm_dir}/plugins/QtMobility"
-+qtm_data	:= "/usr/share/${qtm_dir}"
-+qtm_imports	:= "/usr/lib/${qtm_dir}/imports"
-+
-+do_configure_prepend() {
-+	cp qtmobility.pro qtmobility.pro.old
-+	sed -e 's@...QT_INSTALL_DATA.@${qtm_data}@' <qtmobility.pro.old >qtmobility.pro
-+	for NAME in plugins/declarative/*/*.pro
-+	do
-+	    cp $NAME $NAME.old
-+	    sed -e 's@...QT_INSTALL_IMPORTS.@${qtm_imports}@' <$NAME.old >$NAME
-+	done
-+	cp staticconfig.pri staticconfig.pri.old
-+	echo "include(${STAGING_DATADIR}/${qtm_dir}/mkspecs/qconfig.pri)" >staticconfig.pri
-+	cat staticconfig.pri.old >>staticconfig.pri
-+	./configure -qmake-exec qmake2 -prefix /usr -examples -demos
-+	echo QT_MOBILITY_BIN = ${qtm_bin} >>./config.pri
-+	echo QT_MOBILITY_LIB = ${qtm_lib} >>./config.pri
-+	echo QT_MOBILITY_INCLUDE = ${qtm_include} >>./config.pri
-+	echo QT_MOBILITY_PLUGINS = ${qtm_plugins} >>./config.pri
-+	echo QT_MOBILITY_EXAMPLES = ${qtm_examples} >>./config.pri
-+	echo QT_MOBILITY_DEMOS = ${qtm_demos} >>./config.pri
-+	echo QT_CONFIG ${qtm_glflags} >>./config.pri
-+	echo bluez_enabled = yes >>./config.pri
-+	echo ${qtm_extra_config} >>./config.pri
-+	echo CONFIG += ${qtm_embedded} >>./config.pri
-+}
-+
-+do_install() {
-+	for NAME in */*.prf
-+	do
-+	    cp $NAME $NAME.old
-+	    sed -e 's@/usr@${STAGING_BINDIR}/..@' <$NAME.old >$NAME
-+	done
-+	oe_runmake install INSTALL_ROOT=${D}
-+}
-+
-+PACKAGES = "${PN}-dbg ${PN} ${PN}-dev"
-+
-+FILES_${PN}-dbg = "${qtm_bin}/.debug ${qtm_examples}/.debug ${qtm_demos}/.debug ${qtm_lib}/.debug ${qtm_plugins}/*/.debug \
-+		${qtm_imports}/*/.debug ${qtm_imports}/*/*/.debug /usr/src/debug"
-+FILES_${PN} = "${qtm_bin} ${qtm_examples} ${qtm_demos} ${qtm_lib}/*.so.1* ${qtm_plugins} ${qtm_imports}"
-+FILES_${PN}-dev = "/usr"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 2a8e74d..bb32467 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -9,7 +9,8 @@ LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
+                     file://src/pulsecore/vector.h;beginline=1;endline=21;md5=1b561f0a2ca47b1fa49862a6ccaacff1"
+ DEPENDS = "libatomics-ops liboil avahi libsamplerate0 libsndfile1 libtool virtual/libx11"
+ # optional
+-DEPENDS += "bluez4 udev alsa-lib glib-2.0 dbus consolekit"
++DEPENDS += "udev alsa-lib glib-2.0 dbus consolekit \
++           ${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)}"
+ 
+ SRC_URI = "http://0pointer.de/lennart/projects/pulseaudio/pulseaudio-${PV}.tar.gz \
+            file://gcc4-compile-fix.patch \
+@@ -19,7 +20,7 @@ inherit autotools pkgconfig
+ 
+ EXTRA_OECONF = "\
+ 		--disable-lynx \
+-		--enable-bluez \
++		${@base_contains('DISTRO_FEATURES', 'bluetooth', '--enable-bluez', '--disable-bluez', d)} \
+ 		--disable-polkit \
+ 		--with-x \
+ 		--without-jack \
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb
+index da2e988..3067365 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb
+@@ -1,6 +1,6 @@
+ require pulseaudio.inc
+ 
+-PR = "r6"
++PR = "r7"
+ 
+ DEPENDS += "gdbm speex"
+ 
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
+index 1edd913..33f5e15 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
+@@ -1,6 +1,6 @@
+ require pulseaudio.inc
+ 
+-PR = "r4"
++PR = "r5"
+ 
+ DEPENDS += "gdbm speex"
+ 
 -- 
 1.7.6.2
 
