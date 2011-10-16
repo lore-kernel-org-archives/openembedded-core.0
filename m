@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RFLW2-00028G-HI
+	(envelope-from <sgw@linux.intel.com>) id 1RFLW2-000288-WF
 	for openembedded-core@lists.openembedded.org;
-	Sun, 16 Oct 2011 09:52:14 +0200
+	Sun, 16 Oct 2011 09:52:15 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 16 Oct 2011 00:46:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="63341617"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="63341619"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.120])
-	by orsmga001.jf.intel.com with ESMTP; 16 Oct 2011 00:46:23 -0700
+	by orsmga001.jf.intel.com with ESMTP; 16 Oct 2011 00:46:24 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 16 Oct 2011 00:46:16 -0700
-Message-Id: <61bbe287c95a4567c49a22069ee2cc0af7bfeb69.1318751027.git.sgw@linux.intel.com>
+Date: Sun, 16 Oct 2011 00:46:18 -0700
+Message-Id: <619b2797b7eb857336fcc1ebcc59ef13d860fb0d.1318751027.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.2
 In-Reply-To: <cover.1318751027.git.sgw@linux.intel.com>
 References: <cover.1318751027.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1318751027.git.sgw@linux.intel.com>
 References: <cover.1318751027.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 11/14] Distro Tracking: Fix dates
+Subject: [CONSOLIDATED PULL 13/14] mktemp: Add patch to fix parallel make install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,54 +37,57 @@ X-List-Received-Date: Sun, 16 Oct 2011 07:52:15 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |   16 ++++++++--------
- 1 files changed, 8 insertions(+), 8 deletions(-)
+ .../mktemp/files/fix-parallel-make.patch           |   23 ++++++++++++++++++++
+ meta/recipes-extended/mktemp/mktemp_1.7.bb         |    3 +-
+ 2 files changed, 25 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-extended/mktemp/files/fix-parallel-make.patch
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index eeac5d2..abc2cbf 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -3447,32 +3447,32 @@ DISTRO_PN_ALIAS_pn-imake = "Mandriva=xutils Ubuntu=xutils"
- RECIPE_STATUS_pn-qt4-tools-native = "green" # no update needed
- RECIPE_LATEST_VERSION_pn-qt4-tools-native = "4.7.4"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-qt4-tools-native = "4 months"
--RECIPE_LATEST_RELEASE_DATE_pn-qt4-tools-native = "2011/09/01"
--RECIPE_LAST_UPDATE_pn-qt4-tools-native = "September 10, 2011"
-+RECIPE_LATEST_RELEASE_DATE_pn-qt4-tools-native = "Sep 01, 2011"
-+RECIPE_LAST_UPDATE_pn-qt4-tools-native = "Sep 10, 2011"
- RECIPE_MAINTAINER_pn-qt4-tools-native = "Paul Eggleton <paul.eggleton@linux.intel.com>"
- DISTRO_PN_ALIAS_pn-qt4-tools-native = "Mandriva=libqt4-devel Ubuntu=libqt4-dev"
+diff --git a/meta/recipes-extended/mktemp/files/fix-parallel-make.patch b/meta/recipes-extended/mktemp/files/fix-parallel-make.patch
+new file mode 100644
+index 0000000..30b8741
+--- /dev/null
++++ b/meta/recipes-extended/mktemp/files/fix-parallel-make.patch
+@@ -0,0 +1,23 @@
++This fixes the parallel make install failure
++
++Upstream-status: pending
++
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++
++Index: mktemp-1.7/Makefile.in
++===================================================================
++--- mktemp-1.7.orig/Makefile.in
+++++ mktemp-1.7/Makefile.in
++@@ -94,10 +94,10 @@ install-dirs:
++ 	$(SHELL) $(srcdir)/mkinstalldirs $(DESTDIR)$(bindir) \
++ 	    $(DESTDIR)$(mandir)/man1
++ 
++-install-binaries: $(PROG)
+++install-binaries: install-dirs $(PROG)
++ 	$(INSTALL) -m 0555 $(PROG) $(DESTDIR)$(bindir)/$(PROG)
++ 
++-install-man:
+++install-man: install-dirs
++ 	$(INSTALL) -m 0444 $(srcdir)/mktemp.$(mantype) \
++ 	    $(DESTDIR)$(mandir)/man1/mktemp.1
++ 
+diff --git a/meta/recipes-extended/mktemp/mktemp_1.7.bb b/meta/recipes-extended/mktemp/mktemp_1.7.bb
+index d0479ce..65f542e 100644
+--- a/meta/recipes-extended/mktemp/mktemp_1.7.bb
++++ b/meta/recipes-extended/mktemp/mktemp_1.7.bb
+@@ -5,10 +5,11 @@ SECTION = "console/utils"
+ LICENSE = "ISC"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=430680f6322a1eb87199b5e01a82c0d4"
  
- RECIPE_STATUS_pn-qt4-tools-nativesdk = "green"
- RECIPE_LATEST_VERSION_pn-qt4-tools-nativesdk = "4.7.4"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-qt4-tools-nativesdk = "4 months"
--RECIPE_LATEST_RELEASE_DATE_pn-qt4-tools-nativesdk = "2011/09/01"
--RECIPE_LAST_UPDATE_pn-qt4-tools-nativesdk = "September 10, 2011"
-+RECIPE_LATEST_RELEASE_DATE_pn-qt4-tools-nativesdk = "Sep 01, 2011"
-+RECIPE_LAST_UPDATE_pn-qt4-tools-nativesdk = "Sep 10, 2011"
- RECIPE_MAINTAINER_pn-qt4-tools-nativesdk = "Paul Eggleton <paul.eggleton@linux.intel.com>"
- DISTRO_PN_ALIAS_pn-qt4-tools-nativesdk = "Mandriva=libqt4-devel Ubuntu=libqt4-dev"
+-PR = "r0"
++PR = "r1"
  
- RECIPE_STATUS_pn-qt4-embedded = "green"
- RECIPE_LATEST_VERSION_pn-qt4-embedded = "4.7.4"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-qt4-embedded = "4 months"
--RECIPE_LATEST_RELEASE_DATE_pn-qt4-embedded = "2011/09/01"
--RECIPE_LAST_UPDATE_pn-qt4-embedded = "September 10, 2011"
-+RECIPE_LATEST_RELEASE_DATE_pn-qt4-embedded = "Sep 01, 2011"
-+RECIPE_LAST_UPDATE_pn-qt4-embedded = "Sep 10, 2011"
- RECIPE_MAINTAINER_pn-qt4-embedded = "Paul Eggleton <paul.eggleton@linux.intel.com>"
- DISTRO_PN_ALIAS_pn-qt4-embedded = "OSPDT"
+ SRC_URI = "ftp://ftp.mktemp.org/pub/mktemp/${BPN}-${PV}.tar.gz \
+         file://disable-strip.patch \
++        file://fix-parallel-make.patch \
+         "
  
- RECIPE_STATUS_pn-qt4-x11-free = "green"
- RECIPE_LATEST_VERSION_pn-qt4-x11-free = "4.7.4"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-qt4-x11-free = "4 months"
--RECIPE_LATEST_RELEASE_DATE_pn-qt4-x11-free = "2011/09/01"
--RECIPE_LAST_UPDATE_pn-qt4-x11-free = "September 10, 2011"
-+RECIPE_LATEST_RELEASE_DATE_pn-qt4-x11-free = "Sep 01, 2011"
-+RECIPE_LAST_UPDATE_pn-qt4-x11-free = "Sep 10, 2011"
- RECIPE_MAINTAINER_pn-qt4-x11-free = "Paul Eggleton <paul.eggleton@linux.intel.com"
- DISTRO_PN_ALIAS_pn-qt4-x11-free = "Ubuntu=qt-x11-free Debian=qt-x11-free"
- 
+ SRC_URI[md5sum] = "787bbed9fa2ee8e7645733c0e8e65172"
 -- 
 1.7.6.2
 
