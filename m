@@ -1,37 +1,35 @@
 Received: from dan.rpsys.net ([93.97.175.187])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RFmWu-0005VV-53 for openembedded-core@lists.openembedded.org;
-	Mon, 17 Oct 2011 14:42:56 +0200
+	id 1RFmco-0005p5-8p for openembedded-core@lists.openembedded.org;
+	Mon, 17 Oct 2011 14:49:02 +0200
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9HChoWj008218 for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2011 13:43:51 +0100
+	p9HCnvpP008606 for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Oct 2011 13:49:58 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id CX4a4cEOSzaB
+	with LMTP id 5Nsjwt14ahCq
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2011 13:43:50 +0100 (BST)
+	Mon, 17 Oct 2011 13:49:57 +0100 (BST)
 Received: from [192.168.1.66] (tim [93.97.173.237]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.2/8.14.2/Debian-2build1) with ESMTP id
-	p9HChkC9008213
+	p9HCntSg008602
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2011 13:43:48 +0100
+	Mon, 17 Oct 2011 13:49:57 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 17 Oct 2011 13:37:00 +0100
-In-Reply-To: <201110151452.31950.schnitzeltony@gmx.de>
-References: <F17AC24E-C897-4BF3-990D-F9EE0A97E99E@dominion.thruhere.net>
-	<201110151452.31950.schnitzeltony@gmx.de>
+Date: Mon, 17 Oct 2011 13:43:09 +0100
+In-Reply-To: <9b6df8992d50fe277f28786dec2a13c75d09ad95.1318843077.git.xiaofeng.yan@windriver.com>
+References: <cover.1318843077.git.xiaofeng.yan@windriver.com>
+	<9b6df8992d50fe277f28786dec2a13c75d09ad95.1318843077.git.xiaofeng.yan@windriver.com>
 X-Mailer: Evolution 3.1.91- 
-Message-ID: <1318855029.21775.7.camel@ted>
+Message-ID: <1318855398.21775.8.camel@ted>
 Mime-Version: 1.0
-X-MIME-Autoconverted: from 8bit to quoted-printable by dan.rpsys.net id
-	p9HChoWj008218
-Subject: Re: missing mesa-dri dependency?
+Subject: Re: [PATCH 1/1] lsb: Change link of ${baselib} to lib64 for 64bits system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,51 +44,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Oct 2011 12:42:56 -0000
+X-List-Received-Date: Mon, 17 Oct 2011 12:49:02 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Sat, 2011-10-15 at 14:52 +0200, Andreas M=C3=BCller wrote:
-> On Thursday, October 13, 2011 10:24:19 AM Koen Kooi wrote:
-> > Hi,
-> >=20
-> > I remember fixing this in meta-oe, but now exactly how. IIRC both mes=
-a-xlib and mesa-dri needed to get built.
-> >=20
-> > configure: error: Package requirements (glproto >=3D 1.4.14 dri >=3D =
-7.8.0) were not met:
-> > |=20
-> > | No package 'dri' found
-> > |=20
-> > | Consider adjusting the PKG_CONFIG_PATH environment variable if you
-> > | installed software in a non-standard prefix.
-> > |=20
-> > | Alternatively, you may set the environment variables DRI_CFLAGS
-> > | and DRI_LIBS to avoid the need to call pkg-config.
-> > | See the pkg-config man page for more details.
-> > | + bbfatal 'oe_runconf failed'
-> > | + echo 'ERROR: oe_runconf failed'
-> > | ERROR: oe_runconf failed
-> > | + exit 1
-> > | ERROR: Function 'do_configure' failed (see /OE/tentacle/build/tmp-a=
-ngstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/xserver-xorg-1_1=
-.11.1-r0/temp/log.do_configure.3602 for further information)
-> > NOTE: package xserver-xorg-1_1.11.1-r0: task do_configure: Failed
-> > ERROR: Task 1842 (/OE/tentacle/sources/openembedded-core/meta/recipes=
--graphics/xorg-xserver/xserver-xorg_1.11.1.bb, do_configure) failed with =
-exit code '1'
-> >=20
-> > regards,
-> >=20
-> > Koen
-> ping - or how do you workaround this for machines not supporting mesa-d=
-ri?
+On Mon, 2011-10-17 at 17:24 +0800, Xiaofeng Yan wrote:
+> From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+> 
+> Correct two faults:
+> 
+> 1 Binaries of lsb test suite need ld-linux.so* in /lib64.
+> for example:
+> Target$ ./lsbcmdchk
+> -sh: ./lsbcmdchk: No such file or directory
+> Target$ strings lsbcmdchk | grep "ld-"
+> /lib64/ld-lsb-x86-64.so.3
+> 
+> "lsbcmdchk" from lsb test suite is a binary program.
+> A new modification to lsb_1.4.bb caused that binaries from lsb test suite can't run
+> because binaries of lsb test suite need ld-linux.so* in /lib64.
+> But the link is changed due to adding multilib. I changed this link again.
+> 
+> 2 correct mandir
+> Waring will appear when running task task do_populate_sysroot
+> 
+> NOTE: package lsb-1.4-r2: task do_populate_sysroot: Succeeded
+> WARNING: For recipe lsb, the following files were installed but not shipped in any package:
+> WARNING:   /{datadir}/man/man1/lsb_release.1.gz
+> 
+> I changed mandir=${D}/man to mandir=${D}/${datadir}/man
+> 
+> Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+> ---
+>  meta/recipes-extended/lsb/lsb_1.4.bb |   12 ++++++++----
+>  1 files changed, 8 insertions(+), 4 deletions(-)
 
-All machines should support mesa-dri with just the swrast backend
-enabled (which is the default). Xgl now requires dri. If you don't want
-xgl you can use the xserver-xorg-lite recipe.
-
-Cheers,
+Merged to master, thanks.
 
 Richard
 
