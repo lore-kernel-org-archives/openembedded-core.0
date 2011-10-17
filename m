@@ -1,29 +1,31 @@
-Received: from stoexhubfe01.domain01.net ([83.145.59.140])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1RFlrb-0004nf-1L
+	(envelope-from <martin.jansa@gmail.com>) id 1RFmF5-00058t-Pu
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Oct 2011 14:00:15 +0200
-Received: from ad.chargestorm.se (193.235.91.228) by stoexhubfe01.domain01.net
-	(10.12.10.6) with Microsoft SMTP Server (TLS) id 8.3.137.0;
-	Mon, 17 Oct 2011 13:54:25 +0200
-Date: Mon, 17 Oct 2011 13:54:41 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20111017115440.GC3496@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <20111014075529.GB4437@ad.chargestorm.se>
-	<20111014104745.GD4437@ad.chargestorm.se>
-	<1318592560.942.3.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1318592560.942.3.camel@ted>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-GFI-SMTP-Submission: 1
-Subject: Re: [RFC] Preventing race when compiling external kernel modules
+	Mon, 17 Oct 2011 14:24:32 +0200
+Received: by bkat8 with SMTP id t8so5703376bka.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Oct 2011 05:18:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=RlHaJDoZL61LVQuwv0AiBnE69Kq/fVFMCC/TPjU7mtE=;
+	b=dLWke4RMim1+66IVZPEDU/WF+1eakOt6BtNhQlWUXzdCpA9T3jN/S+dzKnaE8a2nWy
+	gwEMM2S0NmCyCsMmi/Pqx+DwMYnVQUC/Ka4f/OTk9VwxdojEL1SO+8h8GJCq6vcgwoqm
+	89JfAX9je78xXvvQ8itXFfuPKtYBJJOPkCQno=
+Received: by 10.204.132.199 with SMTP id c7mr14225280bkt.45.1318853923251;
+	Mon, 17 Oct 2011 05:18:43 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id k6sm16952817bkv.8.2011.10.17.05.18.41
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 17 Oct 2011 05:18:42 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 17 Oct 2011 14:18:28 +0200
+Message-Id: <1318853908-5984-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.7
+In-Reply-To: <1318849592.21775.0.camel@ted>
+References: <1318849592.21775.0.camel@ted>
+Subject: [PATCH] mesa-dri: use DRIDRIVERS_append_arch to promote right usage for BSP layer maintainers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,60 +40,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Oct 2011 12:00:15 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 17 Oct 2011 12:24:32 -0000
 
-* Richard Purdie <richard.purdie@linuxfoundation.org> [111014 13:43]:
-> On Fri, 2011-10-14 at 12:47 +0200, Anders Darander wrote:
-> > * Anders Darander <anders@chargestorm.se> [111014 09:55]:
-> > > In our local tree, I've circumvented this race by applying a patch like
-> > > [3]. (Well, we could likely have put the lock in do_make_scripts()
-> > > instead of module_do_compile(), as we have done currently). Obviously,
-> > > I'm not proposing to apply this patch, as it depends on lockfile from
-> > > the procmail-package (host-package).
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-graphics/mesa/mesa-dri.inc |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-> > Just to confirm, it seems (after a very few tests) that it indeed is
-> > enough to guard the do_make_scripts() with the lock.
-
-> > However, the question on how to make the real solution remains...
-
-> I've not tested this but it might give you enough info to test
-> something:
-
-> (Basic idea is to promote that function to a task, then apply a lock to
-> it).
-
-Thanks!
-
-I had an idea that it might be something like this, but I didn't really
-know if I was completely off... I'll try this and see if I can come up
-with something that works reliable for us. When I've got something
-ready, I'll send a real patch.
-
-Cheers,
-Anders
-
-
-> diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
-> index 572df0d..5602e74 100644
-> --- a/meta/classes/module.bbclass
-> +++ b/meta/classes/module.bbclass
-> @@ -14,8 +14,10 @@ do_make_scripts() {
->                    -C ${STAGING_KERNEL_DIR} scripts
->  }
-
-> +addtask make_scripts before compile
-> +do_make_scripts[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
-> +
->  module_do_compile() {
-> -       do_make_scripts
->         unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
->         oe_runmake KERNEL_PATH=${STAGING_KERNEL_DIR}   \
->                    KERNEL_SRC=${STAGING_KERNEL_DIR}    \
-
+diff --git a/meta/recipes-graphics/mesa/mesa-dri.inc b/meta/recipes-graphics/mesa/mesa-dri.inc
+index 795144a..fcce259 100644
+--- a/meta/recipes-graphics/mesa/mesa-dri.inc
++++ b/meta/recipes-graphics/mesa/mesa-dri.inc
+@@ -5,8 +5,8 @@ LIB_DEPS += "libdrm expat"
+ DEFAULT_PREFERENCE = "-1"
+ 
+ DRIDRIVERS = "swrast"
+-DRIDRIVERS_x86 = "swrast,i915,i965"
+-DRIDRIVERS_x86-64 = "swrast,i915,i965"
++DRIDRIVERS_append_x86 = ",i915,i965"
++DRIDRIVERS_append_x86-64 = ",i915,i965"
+ 
+ EXTRA_OECONF += "--with-driver=dri --disable-egl --disable-gallium --without-gallium-drivers --with-dri-drivers=${DRIDRIVERS}"
+ 
 -- 
-Anders Darander
-ChargeStorm AB / eStorm AB
+1.7.7
+
 
 
