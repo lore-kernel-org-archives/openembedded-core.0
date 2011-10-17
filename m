@@ -1,25 +1,38 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RFjQu-0008NX-Ie
+	(envelope-from <martin.jansa@gmail.com>) id 1RFjvK-0000Sq-Bi
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Oct 2011 11:24:32 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p9H9IhGG012727
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 17 Oct 2011 11:55:59 +0200
+Received: by bkat8 with SMTP id t8so5585099bka.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2011 02:18:43 -0700 (PDT)
-Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Mon, 17 Oct 2011 02:18:43 -0700
-Message-ID: <9b6df8992d50fe277f28786dec2a13c75d09ad95.1318843077.git.xiaofeng.yan@windriver.com>
-In-Reply-To: <cover.1318843077.git.xiaofeng.yan@windriver.com>
-References: <cover.1318843077.git.xiaofeng.yan@windriver.com>
-Old-Date: Mon, 17 Oct 2011 16:57:19 +0800
-Date: Mon, 17 Oct 2011 17:24:34 +0800
-To: <openembedded-core@lists.openembedded.org>
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+	Mon, 17 Oct 2011 02:50:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=Gr8EKshp/C6CNET/Qik6rpH1U5ZL046eFmldINwLKE4=;
+	b=YwoitGr+rgc9ZTlQcJnhG4IFxvQj7MqFGR1s3kbbNhPnhkc9Tz4fPPBIJNe4wWn3Dq
+	Rd6uCqy2gAQK3uOg+QkheowXEzDTo81QNJzOByZASgrMa+T1zU3EUiKHn2O3h6gmAIrN
+	efZV71u5OK+wVWPXpnJ402j0Mr2VPjcIJXrw0=
+Received: by 10.204.136.16 with SMTP id p16mr13772564bkt.61.1318845010019;
+	Mon, 17 Oct 2011 02:50:10 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id w8sm2815752bks.11.2011.10.17.02.50.07
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 17 Oct 2011 02:50:08 -0700 (PDT)
+Date: Mon, 17 Oct 2011 11:50:02 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20111017095002.GG12684@jama.jama.net>
+References: <1318674260-8320-1-git-send-email-Martin.Jansa@gmail.com>
+	<1318674260-8320-2-git-send-email-Martin.Jansa@gmail.com>
+	<1318689013.3158.7.camel@lenovo.internal.reciva.com>
+	<20111015143444.GD12684@jama.jama.net>
+	<1318689610.3158.8.camel@lenovo.internal.reciva.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] lsb: Change link of ${baselib} to lib64 for 64bits system
+In-Reply-To: <1318689610.3158.8.camel@lenovo.internal.reciva.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH 2/2] mesa-dri: move extra DRIMODULES to EXTRA_DRIMODULES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,85 +47,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Oct 2011 09:24:33 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 17 Oct 2011 09:56:00 -0000
+X-Groupsio-MsgNum: 11113
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="HKEL+t8MFpg/ASTE"
+Content-Disposition: inline
 
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+--HKEL+t8MFpg/ASTE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Correct two faults:
+On Sat, Oct 15, 2011 at 03:40:10PM +0100, Phil Blundell wrote:
+> On Sat, 2011-10-15 at 16:34 +0200, Martin Jansa wrote:
+> > On Sat, Oct 15, 2011 at 03:30:13PM +0100, Phil Blundell wrote:
+> > > On Sat, 2011-10-15 at 12:24 +0200, Martin Jansa wrote:
+> > > > * this way we can use
+> > > >   EXTRA_DRIMODULES_armv4t +=3D ",glamo" in meta-openmoko layer and
+> > > >   EXTRA_DRIMODULES_armv4t +=3D ",foo" in meta-bar layer without kno=
+wledge
+> > > >   of other modules in other layers in stack
+> > >=20
+> > > Is this really better than using "DRIMODULES_append_armv4t =3D ..."? =
+=20
+> >=20
+> > the point is that you don't need to know who is setting swrast there for
+> > armv4t...
+>=20
+> I'm not sure I understand what you're saying there.  Can you be more
+> concrete?
+>=20
+> > >=20
+> > > It's not really true that you can do it without any knowledge of what
+> > > other layers are doing since if you end up with two competing
+> > > EXTRA_DRIMODULES_foo overrides then one of them will get lost.
+> > >=20
+> >=20
+> > so EXTRA_DRIMODULES_append_armv4t should be fine, right?
+>=20
+> Well, yes, but in that case it doesn't seem as though the EXTRA_ bit
+> (and this patch) buys anything.
 
-1 Binaries of lsb test suite need ld-linux.so* in /lib64.
-for example:
-Target$ ./lsbcmdchk
--sh: ./lsbcmdchk: No such file or directory
-Target$ strings lsbcmdchk | grep "ld-"
-/lib64/ld-lsb-x86-64.so.3
+OK, forget this patch.. I've forgot this behavior of _append_armv4t
+syntax.. and I've changed meta-openmoko to use this too.
 
-"lsbcmdchk" from lsb test suite is a binary program.
-A new modification to lsb_1.4.bb caused that binaries from lsb test suite can't run
-because binaries of lsb test suite need ld-linux.so* in /lib64.
-But the link is changed due to adding multilib. I changed this link again.
+can we change x86 and x86-64 examples in mesa-dri.inc to
+DRIDRIVERS_append_x86 =3D ",i915,i965"
+DRIDRIVERS_append_x86-64 =3D ",i915,i965"
+so it will work as example for BSP layer maintainers that thay don't
+need to care about setting
+DRIDRIVERS =3D "swrast"
+for their arch?
 
-2 correct mandir
-Waring will appear when running task task do_populate_sysroot
+Regards,
 
-NOTE: package lsb-1.4-r2: task do_populate_sysroot: Succeeded
-WARNING: For recipe lsb, the following files were installed but not shipped in any package:
-WARNING:   /{datadir}/man/man1/lsb_release.1.gz
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-I changed mandir=${D}/man to mandir=${D}/${datadir}/man
+--HKEL+t8MFpg/ASTE
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
----
- meta/recipes-extended/lsb/lsb_1.4.bb |   12 ++++++++----
- 1 files changed, 8 insertions(+), 4 deletions(-)
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
 
-diff --git a/meta/recipes-extended/lsb/lsb_1.4.bb b/meta/recipes-extended/lsb/lsb_1.4.bb
-index d472012..7cecdf2 100644
---- a/meta/recipes-extended/lsb/lsb_1.4.bb
-+++ b/meta/recipes-extended/lsb/lsb_1.4.bb
-@@ -2,7 +2,7 @@ DESCRIPTION = "LSB support for Poky Linux"
- SECTION = "console/utils"
- HOMEPAGE = "http://prdownloads.sourceforge.net/lsb"
- LICENSE = "GPLv2+"
--PR = "r1"
-+PR = "r2"
- 
- LIC_FILES_CHKSUM = "file://README;md5=12da544b1a3a5a1795a21160b49471cf"
- 
-@@ -19,7 +19,7 @@ SRC_URI[sha256sum] = "99321288f8d62e7a1d485b7c6bdccf06766fb8ca603c6195806e4457fd
- S = ${WORKDIR}/lsb-release-${PV}
- 
- do_install(){
--	oe_runmake install prefix=${D}  mandir=${D}/man/ DESTDIR=${D} 
-+	oe_runmake install prefix=${D}  mandir=${D}/${datadir}/man/ DESTDIR=${D} 
- 	mkdir -p ${D}/bin
- 	mkdir -p ${D}/${baselib}
- 	mkdir -p ${D}/etc/lsb-release.d
-@@ -69,7 +69,9 @@ do_install_append(){
-        install -m 0755 ${WORKDIR}/init-functions ${D}/${baselib}/lsb
-        if [ "${TARGET_ARCH}" == "x86_64" ];then
- 	       cd ${D}
--	       ln -sf ${baselib} lib
-+               if [ "${baselib}" != "lib64" ]; then
-+                   ln -sf ${baselib} lib64
-+               fi
- 	       cd ${D}/${baselib}
-                ln -sf ld-linux-x86-64.so.2 ld-lsb-x86-64.so.2
-                ln -sf ld-linux-x86-64.so.2 ld-lsb-x86-64.so.3
-@@ -82,7 +84,9 @@ do_install_append(){
-  
-        if [ "${TARGET_ARCH}" == "powerpc64" ];then
-   	       cd ${D}
--	       ln -sf ${baselib} lib
-+               if [ "${baselib}" != "lib64" ]; then
-+                   ln -sf ${baselib} lib64
-+               fi
-                cd ${D}/${baselib}
-                ln -sf ld64.so.1 ld-lsb-ppc64.so.2
-                ln -sf ld64.so.1 ld-lsb-ppc64.so.3
--- 
-1.7.0.4
+iEYEARECAAYFAk6b+koACgkQN1Ujt2V2gBwCiwCgn3vjuwkwjF2uGJdtZ5vZ+Y7I
+9ToAnixKs0Fm0oYFL+7E0KwhcZAVljmL
+=7Eb+
+-----END PGP SIGNATURE-----
 
-
-
+--HKEL+t8MFpg/ASTE--
