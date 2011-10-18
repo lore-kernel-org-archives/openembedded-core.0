@@ -1,35 +1,29 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from stoexhub03.domain01.net ([83.145.59.144])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RG4b3-0007ub-P6
+	(envelope-from <anders@chargestorm.se>) id 1RG4zb-0000C6-Ng
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Oct 2011 10:00:25 +0200
-Received: by bkat8 with SMTP id t8so535547bka.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Oct 2011 00:54:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=It8VvU7NPUVPZ49d8wxxEMeixmUIP8xUQH1TACmiFW8=;
-	b=XV9NmYfP9ItV8q42/usLk8C92MJuaZYfvmgU6UwyoEM4iV3nKn5zZO3QFbaWP5auzi
-	cVQzvvB/uBAWchDi20FStYII7uQId79zFKx0d+LQnBCcsicP7hlv7jxlaxxDcg7eSo2q
-	aMnODEZoZXkmY0tfJ6NpEhxDzu12IoUqHd9/o=
-Received: by 10.205.83.73 with SMTP id af9mr887250bkc.24.1318924475638;
-	Tue, 18 Oct 2011 00:54:35 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id z9sm1068794bkn.7.2011.10.18.00.54.33
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 18 Oct 2011 00:54:34 -0700 (PDT)
-Date: Tue, 18 Oct 2011 09:54:27 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111018075427.GB20678@jama.jama.net>
-References: <cover.1318901607.git.raj.khem@gmail.com>
-	<32b67c2bc8ebfcbf0db650e93a2152399ca89ee7.1318901607.git.raj.khem@gmail.com>
+	Tue, 18 Oct 2011 10:25:47 +0200
+Received: from ad.chargestorm.se (193.235.91.228) by stoexhub03.domain01.net
+	(10.12.10.3) with Microsoft SMTP Server (TLS) id 8.3.137.0;
+	Tue, 18 Oct 2011 10:18:50 +0200
+Date: Tue, 18 Oct 2011 10:19:05 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20111018081905.GB3751@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <20111014075529.GB4437@ad.chargestorm.se>
+	<20111014104745.GD4437@ad.chargestorm.se>
+	<1318592560.942.3.camel@ted>
 MIME-Version: 1.0
-In-Reply-To: <32b67c2bc8ebfcbf0db650e93a2152399ca89ee7.1318901607.git.raj.khem@gmail.com>
+In-Reply-To: <1318592560.942.3.camel@ted>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 3/3] gcc-4.6: Backport PR46934 fix
+X-GFI-SMTP-Submission: 1
+Subject: Re: [RFC] Preventing race when compiling external kernel modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,45 +38,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Oct 2011 08:00:25 -0000
-X-Groupsio-MsgNum: 11154
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Y7xTucakfITjPcLV"
+X-List-Received-Date: Tue, 18 Oct 2011 08:25:48 -0000
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
 
---Y7xTucakfITjPcLV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+* Richard Purdie <richard.purdie@linuxfoundation.org> [111014 13:43]:
+> On Fri, 2011-10-14 at 12:47 +0200, Anders Darander wrote:
+> > * Anders Darander <anders@chargestorm.se> [111014 09:55]:
+> > > In our local tree, I've circumvented this race by applying a patch like
+> > > [3]. (Well, we could likely have put the lock in do_make_scripts()
+> > > instead of module_do_compile(), as we have done currently). Obviously,
+> > > I'm not proposing to apply this patch, as it depends on lockfile from
+> > > the procmail-package (host-package).
 
-On Mon, Oct 17, 2011 at 06:39:27PM -0700, Khem Raj wrote:
-> We have been hitting this issue on ARM/thumb and
-> have a workaround in place to compile samba
-> http://git.openembedded.org/openembedded/commit/recipes/samba/samba_3.2.1=
-5.bb?id=3D4ba7aa07c0dcd28f94515ff9927e2a04403fcf15
-> This backport should fix the gcc bug
->=20
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > Just to confirm, it seems (after a very few tests) that it indeed is
+> > enough to guard the do_make_scripts() with the lock.
 
-I can confirm that samba build with this works again (without forcing
-ARM mode), I'm going to run more build tests with it but for now:
+> > However, the question on how to make the real solution remains...
 
-Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
+> I've not tested this but it might give you enough info to test
+> something:
 
-(holds also for 2/3)
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> (Basic idea is to promote that function to a task, then apply a lock to
+> it).
 
---Y7xTucakfITjPcLV
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Just to give you some status feedback. 
+Your code gave me enough to get my previously failed attempt at
+promoting the function to a task. Which obviously showed a few new
+problems, which I think I've solved. I'll just want to test it a few
+more times, but expect a patch today or tomorrow.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
+Cheers,
+Anders
 
-iEYEARECAAYFAk6dMLMACgkQN1Ujt2V2gBxVsACgg3HohSVOszto9596v/0r8po4
-vCIAnR5zD4Su+J0CaFINW5vbWfh0cWD8
-=4I+M
------END PGP SIGNATURE-----
+-- 
+Anders Darander
+ChargeStorm AB / eStorm AB
 
---Y7xTucakfITjPcLV--
+
