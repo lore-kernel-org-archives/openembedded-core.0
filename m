@@ -1,35 +1,23 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RFykN-0001jk-Od
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RG27b-0002Go-J4
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Oct 2011 03:45:40 +0200
-Received: by ywm39 with SMTP id 39so97967ywm.6
+	Tue, 18 Oct 2011 07:21:51 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p9I5G04w028828
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2011 18:39:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=UYiDoktH9nhfsvoz+h/Sx0M+Z+XKcslnem3hFQvfFN8=;
-	b=di9Zw42n/5tmG/o8Y9+ZBZM6ZDZDhQXiGp/nr9SkWAAsQjIQlaTYxDc6xu2F/emjvG
-	EFsmEJDbxAj4zo4KoJ7hXT19wVzgExmLmS/GZxdZltgJOPLEUUxnRhCTaxfoZbS2Bv9w
-	8n88nX3V2zD+cU2Dq2TSaCOGaZuvIRmGXwZMM=
-Received: by 10.68.13.35 with SMTP id e3mr1206187pbc.31.1318901988023;
-	Mon, 17 Oct 2011 18:39:48 -0700 (PDT)
-Received: from localhost.localdomain
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
-	by mx.google.com with ESMTPS id ji3sm1897253pbc.2.2011.10.17.18.39.47
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 17 Oct 2011 18:39:47 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Oct 2011 18:39:27 -0700
-Message-Id: <32b67c2bc8ebfcbf0db650e93a2152399ca89ee7.1318901607.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <bb4834366391a733cbb331a52cae44f295bda2a1.1318901607.git.raj.khem@gmail.com>
-References: <bb4834366391a733cbb331a52cae44f295bda2a1.1318901607.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1318901607.git.raj.khem@gmail.com>
-References: <cover.1318901607.git.raj.khem@gmail.com>
-Subject: [PATCH 3/3] gcc-4.6: Backport PR46934 fix
+	Mon, 17 Oct 2011 22:16:00 -0700 (PDT)
+Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Mon, 17 Oct 2011 22:16:00 -0700
+Message-ID: <cover.1318904555.git.xiaofeng.yan@windriver.com>
+Old-Date: Tue, 18 Oct 2011 10:22:35 +0800
+Date: Tue, 18 Oct 2011 13:21:56 +0800
+To: <openembedded-core@lists.openembedded.org>
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 0/2] update packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,440 +32,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Oct 2011 01:45:41 -0000
+X-List-Received-Date: Tue, 18 Oct 2011 05:21:52 -0000
+Content-Type: text/plain
 
-We have been hitting this issue on ARM/thumb and
-have a workaround in place to compile samba
-http://git.openembedded.org/openembedded/commit/recipes/samba/samba_3.2.15.bb?id=4ba7aa07c0dcd28f94515ff9927e2a04403fcf15
-This backport should fix the gcc bug
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Update packages "qmmp" and "libx11-diet".
+
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: xiaofeng/update
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/update
+
+Thanks,
+    Xiaofeng Yan <xiaofeng.yan@windriver.com>
 ---
- meta/recipes-devtools/gcc/gcc-4.6.inc           |    3 +-
- meta/recipes-devtools/gcc/gcc-4.6/pr46934.patch |  392 +++++++++++++++++++++++
- 2 files changed, 394 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.6/pr46934.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
-index 0fb6287..fbc90ea 100644
---- a/meta/recipes-devtools/gcc/gcc-4.6.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
-@@ -1,6 +1,6 @@
- require gcc-common.inc
- 
--PR = "r14"
-+PR = "r15"
- 
- # Third digit in PV should be incremented after a minor release
- # happens from this branch on gcc e.g. currently its 4.6.0
-@@ -69,6 +69,7 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
- 	   file://powerpc-e5500.patch \
-            file://fix-for-ice-50099.patch \
- 	   file://gcc-with-linker-hash-style.patch \
-+	   file://pr46934.patch \
- 	  "
- 
- SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch "
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6/pr46934.patch b/meta/recipes-devtools/gcc/gcc-4.6/pr46934.patch
-new file mode 100644
-index 0000000..afd3eef
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.6/pr46934.patch
-@@ -0,0 +1,392 @@
-+2011-09-19  chengbin  <bin.cheng@arm.com>
-+
-+	Backport r174035 from mainline
-+	2011-05-22  Tom de Vries  <tom@codesourcery.com>
-+
-+	PR middle-end/48689
-+	* fold-const.c (fold_checksum_tree): Guard TREE_CHAIN use with
-+	CODE_CONTAINS_STRUCT (TS_COMMON).
-+
-+	Backport r172297 from mainline
-+	2011-04-11  Chung-Lin Tang  <cltang@codesourcery.com>
-+		Richard Earnshaw  <rearnsha@arm.com>
-+
-+	PR target/48250
-+	* config/arm/arm.c (arm_legitimize_reload_address): Update cases
-+	to use sign-magnitude offsets. Reject unsupported unaligned
-+	cases. Add detailed description in comments.
-+	* config/arm/arm.md (reload_outdf): Disable for ARM mode; change
-+	condition from TARGET_32BIT to TARGET_ARM.
-+
-+	Backport r171978 from mainline
-+	2011-04-05  Tom de Vries  <tom@codesourcery.com>
-+
-+	PR target/43920
-+	* config/arm/arm.h (BRANCH_COST): Set to 1 for Thumb-2 when optimizing
-+	for size.
-+
-+	Backport r171632 from mainline
-+	2011-03-28  Richard Sandiford  <richard.sandiford@linaro.org>
-+
-+	* builtins.c (expand_builtin_memset_args): Use gen_int_mode
-+	instead of GEN_INT.
-+
-+	Backport r171379 from mainline
-+	2011-03-23  Chung-Lin Tang  <cltang@codesourcery.com>
-+
-+	PR target/46934
-+	* config/arm/arm.md (casesi): Use the gen_int_mode() function
-+	to subtract lower bound instead of GEN_INT().
-+
-+	Backport r171251 from mainline 
-+	2011-03-21  Daniel Jacobowitz  <dan@codesourcery.com>
-+
-+	* config/arm/unwind-arm.c (__gnu_unwind_pr_common): Correct test
-+	for barrier handlers.
-+
-+	Backport r171096 from mainline
-+	2011-03-17  Chung-Lin Tang  <cltang@codesourcery.com>
-+
-+	PR target/43872
-+	* config/arm/arm.c (arm_get_frame_offsets): Adjust early
-+	return condition with !cfun->calls_alloca.
-+
-+Index: gcc-4_6-branch/gcc/builtins.c
-+===================================================================
-+--- gcc-4_6-branch.orig/gcc/builtins.c	2011-10-17 17:45:32.050502963 -0700
-++++ gcc-4_6-branch/gcc/builtins.c	2011-10-17 17:46:11.154696878 -0700
-+@@ -3972,6 +3972,7 @@
-+ {
-+   tree fndecl, fn;
-+   enum built_in_function fcode;
-++  enum machine_mode val_mode;
-+   char c;
-+   unsigned int dest_align;
-+   rtx dest_mem, dest_addr, len_rtx;
-+@@ -4006,14 +4007,14 @@
-+ 
-+   len_rtx = expand_normal (len);
-+   dest_mem = get_memory_rtx (dest, len);
-++  val_mode = TYPE_MODE (unsigned_char_type_node);
-+ 
-+   if (TREE_CODE (val) != INTEGER_CST)
-+     {
-+       rtx val_rtx;
-+ 
-+       val_rtx = expand_normal (val);
-+-      val_rtx = convert_to_mode (TYPE_MODE (unsigned_char_type_node),
-+-				 val_rtx, 0);
-++      val_rtx = convert_to_mode (val_mode, val_rtx, 0);
-+ 
-+       /* Assume that we can memset by pieces if we can store
-+        * the coefficients by pieces (in the required modes).
-+@@ -4024,8 +4025,7 @@
-+ 				  builtin_memset_read_str, &c, dest_align,
-+ 				  true))
-+ 	{
-+-	  val_rtx = force_reg (TYPE_MODE (unsigned_char_type_node),
-+-			       val_rtx);
-++	  val_rtx = force_reg (val_mode, val_rtx);
-+ 	  store_by_pieces (dest_mem, tree_low_cst (len, 1),
-+ 			   builtin_memset_gen_str, val_rtx, dest_align,
-+ 			   true, 0);
-+@@ -4051,7 +4051,8 @@
-+ 				  true))
-+ 	store_by_pieces (dest_mem, tree_low_cst (len, 1),
-+ 			 builtin_memset_read_str, &c, dest_align, true, 0);
-+-      else if (!set_storage_via_setmem (dest_mem, len_rtx, GEN_INT (c),
-++      else if (!set_storage_via_setmem (dest_mem, len_rtx,
-++					gen_int_mode (c, val_mode),
-+ 					dest_align, expected_align,
-+ 					expected_size))
-+ 	goto do_libcall;
-+Index: gcc-4_6-branch/gcc/config/arm/arm.c
-+===================================================================
-+--- gcc-4_6-branch.orig/gcc/config/arm/arm.c	2011-10-17 17:45:41.914551883 -0700
-++++ gcc-4_6-branch/gcc/config/arm/arm.c	2011-10-17 17:48:35.447412371 -0700
-+@@ -6406,23 +6406,126 @@
-+       HOST_WIDE_INT val = INTVAL (XEXP (*p, 1));
-+       HOST_WIDE_INT low, high;
-+ 
-+-      if (mode == DImode || (mode == DFmode && TARGET_SOFT_FLOAT))
-+-	low = ((val & 0xf) ^ 0x8) - 0x8;
-+-      else if (TARGET_MAVERICK && TARGET_HARD_FLOAT)
-+-	/* Need to be careful, -256 is not a valid offset.  */
-+-	low = val >= 0 ? (val & 0xff) : -((-val) & 0xff);
-+-      else if (mode == SImode
-+-	       || (mode == SFmode && TARGET_SOFT_FLOAT)
-+-	       || ((mode == HImode || mode == QImode) && ! arm_arch4))
-+-	/* Need to be careful, -4096 is not a valid offset.  */
-+-	low = val >= 0 ? (val & 0xfff) : -((-val) & 0xfff);
-+-      else if ((mode == HImode || mode == QImode) && arm_arch4)
-+-	/* Need to be careful, -256 is not a valid offset.  */
-+-	low = val >= 0 ? (val & 0xff) : -((-val) & 0xff);
-+-      else if (GET_MODE_CLASS (mode) == MODE_FLOAT
-+-	       && TARGET_HARD_FLOAT && TARGET_FPA)
-+-	/* Need to be careful, -1024 is not a valid offset.  */
-+-	low = val >= 0 ? (val & 0x3ff) : -((-val) & 0x3ff);
-++      /* Detect coprocessor load/stores.  */
-++      bool coproc_p = ((TARGET_HARD_FLOAT
-++			&& (TARGET_VFP || TARGET_FPA || TARGET_MAVERICK)
-++			&& (mode == SFmode || mode == DFmode
-++			    || (mode == DImode && TARGET_MAVERICK)))
-++		       || (TARGET_REALLY_IWMMXT
-++			   && VALID_IWMMXT_REG_MODE (mode))
-++		       || (TARGET_NEON
-++			   && (VALID_NEON_DREG_MODE (mode)
-++			       || VALID_NEON_QREG_MODE (mode))));
-++
-++      /* For some conditions, bail out when lower two bits are unaligned.  */
-++      if ((val & 0x3) != 0
-++	  /* Coprocessor load/store indexes are 8-bits + '00' appended.  */
-++	  && (coproc_p
-++	      /* For DI, and DF under soft-float: */
-++	      || ((mode == DImode || mode == DFmode)
-++		  /* Without ldrd, we use stm/ldm, which does not
-++		     fair well with unaligned bits.  */
-++		  && (! TARGET_LDRD
-++		      /* Thumb-2 ldrd/strd is [-1020,+1020] in steps of 4.  */
-++		      || TARGET_THUMB2))))
-++	return false;
-++
-++      /* When breaking down a [reg+index] reload address into [(reg+high)+low],
-++	 of which the (reg+high) gets turned into a reload add insn,
-++	 we try to decompose the index into high/low values that can often
-++	 also lead to better reload CSE.
-++	 For example:
-++	         ldr r0, [r2, #4100]  // Offset too large
-++		 ldr r1, [r2, #4104]  // Offset too large
-++
-++	 is best reloaded as:
-++	         add t1, r2, #4096
-++		 ldr r0, [t1, #4]
-++		 add t2, r2, #4096
-++		 ldr r1, [t2, #8]
-++
-++	 which post-reload CSE can simplify in most cases to eliminate the
-++	 second add instruction:
-++	         add t1, r2, #4096
-++		 ldr r0, [t1, #4]
-++		 ldr r1, [t1, #8]
-++
-++	 The idea here is that we want to split out the bits of the constant
-++	 as a mask, rather than as subtracting the maximum offset that the
-++	 respective type of load/store used can handle.
-++
-++	 When encountering negative offsets, we can still utilize it even if
-++	 the overall offset is positive; sometimes this may lead to an immediate
-++	 that can be constructed with fewer instructions.
-++	 For example:
-++	         ldr r0, [r2, #0x3FFFFC]
-++
-++	 This is best reloaded as:
-++	         add t1, r2, #0x400000
-++		 ldr r0, [t1, #-4]
-++
-++	 The trick for spotting this for a load insn with N bits of offset
-++	 (i.e. bits N-1:0) is to look at bit N; if it is set, then chose a
-++	 negative offset that is going to make bit N and all the bits below
-++	 it become zero in the remainder part.
-++
-++	 The SIGN_MAG_LOW_ADDR_BITS macro below implements this, with respect
-++	 to sign-magnitude addressing (i.e. separate +- bit, or 1's complement),
-++	 used in most cases of ARM load/store instructions.  */
-++
-++#define SIGN_MAG_LOW_ADDR_BITS(VAL, N)					\
-++      (((VAL) & ((1 << (N)) - 1))					\
-++       ? (((VAL) & ((1 << ((N) + 1)) - 1)) ^ (1 << (N))) - (1 << (N))	\
-++       : 0)
-++
-++      if (coproc_p)
-++	low = SIGN_MAG_LOW_ADDR_BITS (val, 10);
-++      else if (GET_MODE_SIZE (mode) == 8)
-++	{
-++	  if (TARGET_LDRD)
-++	    low = (TARGET_THUMB2
-++		   ? SIGN_MAG_LOW_ADDR_BITS (val, 10)
-++		   : SIGN_MAG_LOW_ADDR_BITS (val, 8));
-++	  else
-++	    /* For pre-ARMv5TE (without ldrd), we use ldm/stm(db/da/ib)
-++	       to access doublewords. The supported load/store offsets are
-++	       -8, -4, and 4, which we try to produce here.  */
-++	    low = ((val & 0xf) ^ 0x8) - 0x8;
-++	}
-++      else if (GET_MODE_SIZE (mode) < 8)
-++	{
-++	  /* NEON element load/stores do not have an offset.  */
-++	  if (TARGET_NEON_FP16 && mode == HFmode)
-++	    return false;
-++
-++	  if (TARGET_THUMB2)
-++	    {
-++	      /* Thumb-2 has an asymmetrical index range of (-256,4096).
-++		 Try the wider 12-bit range first, and re-try if the result
-++		 is out of range.  */
-++	      low = SIGN_MAG_LOW_ADDR_BITS (val, 12);
-++	      if (low < -255)
-++		low = SIGN_MAG_LOW_ADDR_BITS (val, 8);
-++	    }
-++	  else
-++	    {
-++	      if (mode == HImode || mode == HFmode)
-++		{
-++		  if (arm_arch4)
-++		    low = SIGN_MAG_LOW_ADDR_BITS (val, 8);
-++		  else
-++		    {
-++		      /* The storehi/movhi_bytes fallbacks can use only
-++			 [-4094,+4094] of the full ldrb/strb index range.  */
-++		      low = SIGN_MAG_LOW_ADDR_BITS (val, 12);
-++		      if (low == 4095 || low == -4095)
-++			return false;
-++		    }
-++		}
-++	      else
-++		low = SIGN_MAG_LOW_ADDR_BITS (val, 12);
-++	    }
-++	}
-+       else
-+ 	return false;
-+ 
-+@@ -15415,7 +15518,10 @@
-+   offsets->soft_frame = offsets->saved_regs + CALLER_INTERWORKING_SLOT_SIZE;
-+   /* A leaf function does not need any stack alignment if it has nothing
-+      on the stack.  */
-+-  if (leaf && frame_size == 0)
-++  if (leaf && frame_size == 0
-++      /* However if it calls alloca(), we have a dynamically allocated
-++	 block of BIGGEST_ALIGNMENT on stack, so still do stack alignment.  */
-++      && ! cfun->calls_alloca)
-+     {
-+       offsets->outgoing_args = offsets->soft_frame;
-+       offsets->locals_base = offsets->soft_frame;
-+Index: gcc-4_6-branch/gcc/config/arm/arm.h
-+===================================================================
-+--- gcc-4_6-branch.orig/gcc/config/arm/arm.h	2011-10-17 17:45:41.910551858 -0700
-++++ gcc-4_6-branch/gcc/config/arm/arm.h	2011-10-17 17:48:35.447412371 -0700
-+@@ -2041,7 +2041,8 @@
-+ /* Try to generate sequences that don't involve branches, we can then use
-+    conditional instructions */
-+ #define BRANCH_COST(speed_p, predictable_p) \
-+-  (TARGET_32BIT ? 4 : (optimize > 0 ? 2 : 0))
-++  (TARGET_32BIT ? (TARGET_THUMB2 && !speed_p ? 1 : 4) \
-++		: (optimize > 0 ? 2 : 0))
-+ 
-+ /* Position Independent Code.  */
-+ /* We decide which register to use based on the compilation options and
-+Index: gcc-4_6-branch/gcc/config/arm/arm.md
-+===================================================================
-+--- gcc-4_6-branch.orig/gcc/config/arm/arm.md	2011-10-17 17:46:11.002696119 -0700
-++++ gcc-4_6-branch/gcc/config/arm/arm.md	2011-10-17 17:46:11.202697111 -0700
-+@@ -6187,7 +6187,7 @@
-+   [(match_operand:DF 0 "arm_reload_memory_operand" "=o")
-+    (match_operand:DF 1 "s_register_operand" "r")
-+    (match_operand:SI 2 "s_register_operand" "=&r")]
-+-  "TARGET_32BIT"
-++  "TARGET_THUMB2"
-+   "
-+   {
-+     enum rtx_code code = GET_CODE (XEXP (operands[0], 0));
-+@@ -8359,7 +8359,8 @@
-+ 	rtx reg = gen_reg_rtx (SImode);
-+ 
-+ 	emit_insn (gen_addsi3 (reg, operands[0],
-+-			       GEN_INT (-INTVAL (operands[1]))));
-++			       gen_int_mode (-INTVAL (operands[1]),
-++			       		     SImode)));
-+ 	operands[0] = reg;
-+       }
-+ 
-+Index: gcc-4_6-branch/gcc/config/arm/unwind-arm.c
-+===================================================================
-+--- gcc-4_6-branch.orig/gcc/config/arm/unwind-arm.c	2011-10-17 17:45:41.390549278 -0700
-++++ gcc-4_6-branch/gcc/config/arm/unwind-arm.c	2011-10-17 17:46:11.000000000 -0700
-+@@ -1196,8 +1196,6 @@
-+ 		  ucbp->barrier_cache.bitpattern[4] = (_uw) &data[1];
-+ 
-+ 		  if (data[0] & uint32_highbit)
-+-		    phase2_call_unexpected_after_unwind = 1;
-+-		  else
-+ 		    {
-+ 		      data += rtti_count + 1;
-+ 		      /* Setup for entry to the handler.  */
-+@@ -1207,6 +1205,8 @@
-+ 		      _Unwind_SetGR (context, 0, (_uw) ucbp);
-+ 		      return _URC_INSTALL_CONTEXT;
-+ 		    }
-++		  else
-++		    phase2_call_unexpected_after_unwind = 1;
-+ 		}
-+ 	      if (data[0] & uint32_highbit)
-+ 		data++;
-+Index: gcc-4_6-branch/gcc/fold-const.c
-+===================================================================
-+--- gcc-4_6-branch.orig/gcc/fold-const.c	2011-10-17 17:45:32.050502963 -0700
-++++ gcc-4_6-branch/gcc/fold-const.c	2011-10-17 17:46:11.178696990 -0700
-+@@ -13788,7 +13788,8 @@
-+   if (TREE_CODE_CLASS (code) != tcc_type
-+       && TREE_CODE_CLASS (code) != tcc_declaration
-+       && code != TREE_LIST
-+-      && code != SSA_NAME)
-++      && code != SSA_NAME
-++      && CODE_CONTAINS_STRUCT (code, TS_COMMON))
-+     fold_checksum_tree (TREE_CHAIN (expr), ctx, ht);
-+   switch (TREE_CODE_CLASS (code))
-+     {
-+Index: gcc-4_6-branch/gcc/testsuite/gcc.target/arm/pr40887.c
-+===================================================================
-+--- gcc-4_6-branch.orig/gcc/testsuite/gcc.target/arm/pr40887.c	2011-06-24 08:13:47.000000000 -0700
-++++ gcc-4_6-branch/gcc/testsuite/gcc.target/arm/pr40887.c	2011-10-17 17:46:11.182697014 -0700
-+@@ -1,5 +1,6 @@
-+ /* { dg-options "-O2 -march=armv5te" }  */
-+ /* { dg-final { scan-assembler "blx" } } */
-++/* { dg-prune-output "switch .* conflicts with" } */
-+ 
-+ int (*indirect_func)();
-+ 
-+Index: gcc-4_6-branch/gcc/testsuite/gcc.target/arm/pr42575.c
-+===================================================================
-+--- gcc-4_6-branch.orig/gcc/testsuite/gcc.target/arm/pr42575.c	2011-06-24 08:13:47.000000000 -0700
-++++ gcc-4_6-branch/gcc/testsuite/gcc.target/arm/pr42575.c	2011-10-17 17:46:11.182697014 -0700
-+@@ -1,4 +1,4 @@
-+-/* { dg-options "-O2 -march=armv7-a" }  */
-++/* { dg-options "-O2" }  */
-+ /* Make sure RA does good job allocating registers and avoids
-+    unnecessary moves.  */
-+ /* { dg-final { scan-assembler-not "mov" } } */
-+Index: gcc-4_6-branch/gcc/testsuite/gcc.target/arm/pr43698.c
-+===================================================================
-+--- gcc-4_6-branch.orig/gcc/testsuite/gcc.target/arm/pr43698.c	2011-06-24 08:13:47.000000000 -0700
-++++ gcc-4_6-branch/gcc/testsuite/gcc.target/arm/pr43698.c	2011-10-17 17:46:11.182697014 -0700
-+@@ -1,5 +1,5 @@
-+ /* { dg-do run } */
-+-/* { dg-options "-Os -march=armv7-a" } */
-++/* { dg-options "-Os" } */
-+ #include <stdint.h>
-+ #include <stdlib.h>
-+ 
-+Index: gcc-4_6-branch/gcc/testsuite/gcc.target/arm/pr44788.c
-+===================================================================
-+--- gcc-4_6-branch.orig/gcc/testsuite/gcc.target/arm/pr44788.c	2011-06-24 08:13:47.000000000 -0700
-++++ gcc-4_6-branch/gcc/testsuite/gcc.target/arm/pr44788.c	2011-10-17 17:46:11.182697014 -0700
-+@@ -1,6 +1,6 @@
-+ /* { dg-do compile } */
-+ /* { dg-require-effective-target arm_thumb2_ok } */
-+-/* { dg-options "-Os -fno-strict-aliasing -fPIC -mthumb -march=armv7-a -mfpu=vfp3 -mfloat-abi=softfp" } */
-++/* { dg-options "-Os -fno-strict-aliasing -fPIC -mthumb -mfpu=vfp3 -mfloat-abi=softfp" } */
-+ 
-+ void joint_decode(float* mlt_buffer1, int t) {
-+     int i;
-+Index: gcc-4_6-branch/gcc/testsuite/gcc.target/arm/sync-1.c
-+===================================================================
-+--- gcc-4_6-branch.orig/gcc/testsuite/gcc.target/arm/sync-1.c	2011-06-24 08:13:47.000000000 -0700
-++++ gcc-4_6-branch/gcc/testsuite/gcc.target/arm/sync-1.c	2011-10-17 17:46:11.182697014 -0700
-+@@ -1,5 +1,6 @@
-+-/* { dg-do run } */
-+-/* { dg-options "-O2 -march=armv7-a" } */
-++
-++/* { dg-do run { target sync_int_long } } */
-++/* { dg-options "-O2" } */
-+ 
-+ volatile int mem;
-+ 
--- 
-1.7.5.4
+
+Xiaofeng Yan (2):
+  qmmp: update to 0.5.2
+  libx11-diet: update to 1.4.4
+
+ .../xorg-lib/libx11-diet-1.4.4/X18NCMSstubs.diff   |  540 ++++++++++++++++++++
+ .../libx11-diet-1.4.4/fix-disable-xlocale.diff     |   16 +
+ .../libx11-diet-1.4.4/fix-utf8-wrong-define.patch  |   17 +
+ .../xorg-lib/libx11-diet-1.4.4/include_fix.patch   |   25 +
+ .../xorg-lib/libx11-diet-1.4.4/nodolt.patch        |   14 +
+ .../libx11-diet-1.4.4/x11_disable_makekeys.patch   |   31 ++
+ .../recipes-graphics/xorg-lib/libx11-diet_1.4.4.bb |   27 +
+ meta/recipes-qt/qt-apps/qmmp_0.5.2.bb              |   49 ++
+ 8 files changed, 719 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11-diet-1.4.4/X18NCMSstubs.diff
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11-diet-1.4.4/fix-disable-xlocale.diff
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11-diet-1.4.4/fix-utf8-wrong-define.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11-diet-1.4.4/include_fix.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11-diet-1.4.4/nodolt.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11-diet-1.4.4/x11_disable_makekeys.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11-diet_1.4.4.bb
+ create mode 100644 meta/recipes-qt/qt-apps/qmmp_0.5.2.bb
 
 
 
