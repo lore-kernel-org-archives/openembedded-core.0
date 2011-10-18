@@ -1,32 +1,35 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RG2an-0003AA-C0
+	(envelope-from <martin.jansa@gmail.com>) id 1RG4b3-0007ub-P6
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Oct 2011 07:52:01 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p9I5kBkl001395
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 17 Oct 2011 22:46:11 -0700 (PDT)
-Received: from [128.224.162.146] (128.224.162.146) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Mon, 17 Oct 2011 22:46:10 -0700
-Message-ID: <4E9D123F.6090102@windriver.com>
-Date: Tue, 18 Oct 2011 13:44:31 +0800
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.18) Gecko/20110617 Thunderbird/3.1.11
-MIME-Version: 1.0
-To: Saul Wold <saul.wold@intel.com>
-References: <cover.1318904555.git.xiaofeng.yan@windriver.com>
-	<ff63f110f1f657a011c24f5c8cfb8e7328fae49a.1318904555.git.xiaofeng.yan@windriver.com>
-	<4E9D103B.10506@intel.com>
-In-Reply-To: <4E9D103B.10506@intel.com>
-X-Originating-IP: [128.224.162.146]
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
-	p9I5kBkl001395
-Cc: Patches and discussions about the oe-core layer
+	Tue, 18 Oct 2011 10:00:25 +0200
+Received: by bkat8 with SMTP id t8so535547bka.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Oct 2011 00:54:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=It8VvU7NPUVPZ49d8wxxEMeixmUIP8xUQH1TACmiFW8=;
+	b=XV9NmYfP9ItV8q42/usLk8C92MJuaZYfvmgU6UwyoEM4iV3nKn5zZO3QFbaWP5auzi
+	cVQzvvB/uBAWchDi20FStYII7uQId79zFKx0d+LQnBCcsicP7hlv7jxlaxxDcg7eSo2q
+	aMnODEZoZXkmY0tfJ6NpEhxDzu12IoUqHd9/o=
+Received: by 10.205.83.73 with SMTP id af9mr887250bkc.24.1318924475638;
+	Tue, 18 Oct 2011 00:54:35 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id z9sm1068794bkn.7.2011.10.18.00.54.33
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 18 Oct 2011 00:54:34 -0700 (PDT)
+Date: Tue, 18 Oct 2011 09:54:27 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] qmmp: update to 0.5.2
+Message-ID: <20111018075427.GB20678@jama.jama.net>
+References: <cover.1318901607.git.raj.khem@gmail.com>
+	<32b67c2bc8ebfcbf0db650e93a2152399ca89ee7.1318901607.git.raj.khem@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <32b67c2bc8ebfcbf0db650e93a2152399ca89ee7.1318901607.git.raj.khem@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH 3/3] gcc-4.6: Backport PR46934 fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,120 +44,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Oct 2011 05:52:01 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Tue, 18 Oct 2011 08:00:25 -0000
+X-Groupsio-MsgNum: 11154
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="Y7xTucakfITjPcLV"
+Content-Disposition: inline
+
+--Y7xTucakfITjPcLV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 2011=E5=B9=B410=E6=9C=8818=E6=97=A5 13:35, Saul Wold wrote:
-> On 10/17/2011 10:21 PM, Xiaofeng Yan wrote:
->> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
->>
->> The new version of qmmp can run on core-image-sato by test.
->> $qmmp *.mp3
->>
->> Signed-off-by: Xiaofeng Yan<xiaofeng.yan@windriver.com>
->> ---
->> meta/recipes-qt/qt-apps/qmmp_0.5.2.bb | 49=20
->> +++++++++++++++++++++++++++++++++
->> 1 files changed, 49 insertions(+), 0 deletions(-)
->> create mode 100644 meta/recipes-qt/qt-apps/qmmp_0.5.2.bb
->>
->> diff --git a/meta/recipes-qt/qt-apps/qmmp_0.5.2.bb=20
->> b/meta/recipes-qt/qt-apps/qmmp_0.5.2.bb
->> new file mode 100644
->> index 0000000..f31409b
->> --- /dev/null
->> +++ b/meta/recipes-qt/qt-apps/qmmp_0.5.2.bb
->> @@ -0,0 +1,49 @@
->> +dESCRIPTION =3D "Qmmp (Qt-based Multimedia Player) is an audio-player=
-,=20
->> written with help of Qt library"
->> +HOMEPAGE =3D "http://qmmp.ylsoftware.com"
->> +LICENSE =3D "GPLv2"
->> +LIC_FILES_CHKSUM =3D=20
->> "file://COPYING;md5=3D393a5ca445f6965873eca0259a17f833"
->> +SECTION =3D "multimedia"
->> +
->> +PR =3D "r3"
->> +
->> +PROVIDES =3D "qmmp"
->> +DEPENDS =3D "qt4-x11-free taglib libmad libvorbis libogg alsa-lib"
->> +RDEPENDS_${PN} +=3D "taglib alsa-lib libmad curl"
->> +
->> +SRC_URI =3D "http://qmmp.ylsoftware.com/files/${BPN}-${PV}.tar.bz2"
->> +
->> +SRC_URI[md5sum] =3D "20852f3cce3471bfc5affa9b2e947dc6"
->> +SRC_URI[sha256sum] =3D=20
->> "6391dec020d2a381d7f4b7890fae6c49eadf88b3c9aef571fe3c5e96140822ec"
->> +
->> +
->> +PARALLEL_MAKE =3D ""
->> +
->> +inherit qmake2 cmake
->> +
->> +export EXTRA_OECMAKE =3D "-DQT_QMAKE_EXECUTABLE=3D${OE_QMAKE_QMAKE} \
->> + -DQT_LRELEASE_EXECUTABLE=3D${OE_QMAKE_LRELEASE} \
->> + -DQT_MOC_EXECUTABLE=3D${OE_QMAKE_MOC} \
->> + -DQT_UIC_EXECUTABLE=3D${OE_QMAKE_UIC} \
->> + -DQT_RCC_EXECUTABLE=3D${OE_QMAKE_RCC} \
->> + -DQT_LIBRARY_DIR=3D${OE_QMAKE_LIBDIR_QT} \
->> + -DQT_HEADERS_DIR=3D${OE_QMAKE_INCDIR_QT} \
->> + -DQT_QTCORE_INCLUDE_DIR=3D${OE_QMAKE_INCDIR_QT}/QtCore \
->> + "
->> +
->> +FILES_${PN} =3D+ "\
->> + ${libdir}/qmmp/*/*.so \
->> + ${datadir}/icons/* \
->> + ${datadir}/qmmp/images/* \
->> + ${datadir}/applications/qmmp.desktop \
->> + "
->> +
-> Xiaofeng,
->
-> I was looking into this also, I think it would be better to split all=20
-> the various plugins into separate packages using do_split_packages(), i=
-n
-> the packages.bbclass.
->
-> I started with this code:
->> PACKAGES_DYNAMIC =3D "qmmp-plugin-*"
->>
->> python populate_packages_prepend () {
->> qmmp_libdir =3D bb.data.expand('${libdir}/qmmp', d)
->>
->> do_split_packages(d, qmmp_libdir, '^(.*)/(.*)\.so$',=20
->> 'qmmp-plugin-%s-%s', 'Qmmp %s Plugin for %s', extra_depends=3D'')
->> }
->
-> But have not completed it yet, if you have time to investigate further=20
-> and complete this correctly, there might be a problem with using=20
-> multiple Regular expressions in the do_split_packages code, but I have=20
-> not fully debugged this yet.
->
-> Please let me know if you can complete this task.
->
-Thanks for your reply and I will investigate it according to your=20
-suggestion.
+On Mon, Oct 17, 2011 at 06:39:27PM -0700, Khem Raj wrote:
+> We have been hitting this issue on ARM/thumb and
+> have a workaround in place to compile samba
+> http://git.openembedded.org/openembedded/commit/recipes/samba/samba_3.2.1=
+5.bb?id=3D4ba7aa07c0dcd28f94515ff9927e2a04403fcf15
+> This backport should fix the gcc bug
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 
-Thanks
-Yan
-> Thanks
-> Sau!
->
->
->> +FILES_${PN}-dbg +=3D "\
->> + ${libdir}/qmmp/*/.debug/* \
->> + "
->> +
->> +PACKAGES +=3D "${PN}-plugin-input-mad ${PN}-plugin-input-vorbis"
->> +
->> +FILES_${PN}-plugin-input-mad =3D "${libdir}/qmmp/Input/libmad.so"
->> +RDEPENDS_${PN}-plugin-input-mad =3D "libmad"
->> +FILES_${PN}-plugin-input-vorbis =3D "${libdir}/qmmp/Input/libvorbis.s=
-o"
->> +RDEPENDS_${PN}-plugin-input-vorbis =3D "libvorbis libogg"
->
->
+I can confirm that samba build with this works again (without forcing
+ARM mode), I'm going to run more build tests with it but for now:
 
+Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
 
+(holds also for 2/3)
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--Y7xTucakfITjPcLV
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk6dMLMACgkQN1Ujt2V2gBxVsACgg3HohSVOszto9596v/0r8po4
+vCIAnR5zD4Su+J0CaFINW5vbWfh0cWD8
+=4I+M
+-----END PGP SIGNATURE-----
+
+--Y7xTucakfITjPcLV--
