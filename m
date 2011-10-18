@@ -1,29 +1,30 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-pz0-f43.google.com ([209.85.210.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RFvSx-0004xK-F1
+	(envelope-from <raj.khem@gmail.com>) id 1RFyjj-0001fu-OQ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Oct 2011 00:15:27 +0200
-Received: by bkat8 with SMTP id t8so10186bka.6
+	Tue, 18 Oct 2011 03:44:59 +0200
+Received: by pzk33 with SMTP id 33so269451pzk.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2011 15:09:38 -0700 (PDT)
+	Mon, 17 Oct 2011 18:39:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=Yk2FaFuy3VtCQ1Y+SImtfUvL3mX8fd+5oumj+gu26iM=;
-	b=i9W6sdkp7e/gQdLaUEID7Ch0PB4W9d0/nuJPhE7hmg4TR7AltCXUxRi/A8uPsYK6fJ
-	eyEEOrh6RErMZtkTJPVsLkyCBOGxmcoFDFF/m/5ZXPastcZzDBdcO2+L4Ke78Q7oTzLJ
-	Vg1P/KSvFcKvWMsAffACoLl2Vm1Qs6Nz46ud8=
-Received: by 10.204.151.217 with SMTP id d25mr15516823bkw.88.1318889369955;
-	Mon, 17 Oct 2011 15:09:29 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id k6sm18650088bkv.8.2011.10.17.15.09.28
+	bh=Mnp8uqIYb4mnzlRKn4trImJdOUCF+AW0Ne5hQRIilSw=;
+	b=hj5gh/pXLvG+pvkpj/2Ts9STVf55WO5VluFW0b5gD+i2S+CSNPa4r8ilYZhY7AIhTE
+	YkBN11g0e4ox+jTZda2qphveUT0/EH/ZoJQD/1GN9EUkqA/2tZDKCm2oBC/xhUD+wHtv
+	TMRwI7ajfBXr/UHudjzxqwdszM9hg4kUQFnA0=
+Received: by 10.68.13.35 with SMTP id e3mr1202466pbc.31.1318901949078;
+	Mon, 17 Oct 2011 18:39:09 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
+	by mx.google.com with ESMTPS id ko15sm1811845pbb.9.2011.10.17.18.39.07
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 17 Oct 2011 15:09:28 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Mon, 17 Oct 2011 18:39:08 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Oct 2011 00:09:20 +0200
-Message-Id: <1318889360-23524-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.7
-Subject: [PATCH] fontconfig: fix fix-pkgconfig.patch
+Date: Mon, 17 Oct 2011 18:38:50 -0700
+Message-Id: <cover.1318901607.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/3] gcc update and bug fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,44 +39,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Oct 2011 22:15:27 -0000
+X-List-Received-Date: Tue, 18 Oct 2011 01:45:00 -0000
 
-* missing $ is causing problems ie when building webkit-efl
-* see http://lists.linuxtogo.org/pipermail/openembedded-core/2011-June/003798.html
-  for details
+This patchset does two things for gcc
+1. Updates to latest from FSF gcc-4_6-branch 
+2. Backport the fix for PR46934
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- .../fontconfig-2.8.0/fix-pkgconfig.patch           |    2 +-
- .../fontconfig/fontconfig_2.8.0.bb                 |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+The changes that come from FSF gcc are listed here
+http://sakrah.homelinux.org/files/gcc-4.6-ChangeLog-r180099_r180099.txt
 
-diff --git a/meta/recipes-graphics/fontconfig/fontconfig-2.8.0/fix-pkgconfig.patch b/meta/recipes-graphics/fontconfig/fontconfig-2.8.0/fix-pkgconfig.patch
-index c8a3bf5..30415fc 100644
---- a/meta/recipes-graphics/fontconfig/fontconfig-2.8.0/fix-pkgconfig.patch
-+++ b/meta/recipes-graphics/fontconfig/fontconfig-2.8.0/fix-pkgconfig.patch
-@@ -11,5 +11,5 @@ Upstream-Status: Inappropriate [configuration]
-  Version: @VERSION@
-  Libs: -L${libdir} -lfontconfig
- -Libs.private: @LIBXML2_LIBS@ @EXPAT_LIBS@ @FREETYPE_LIBS@ @ICONV_LIBS@
--+Libs.private: @LIBXML2_LIBS@ @EXPAT_LIBS@ -L{libdir} -lfreetype @ICONV_LIBS@
-++Libs.private: @LIBXML2_LIBS@ @EXPAT_LIBS@ -L${libdir} -lfreetype @ICONV_LIBS@
-  Cflags: -I${includedir}
-diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb b/meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb
-index 5381065..55c04cc 100644
---- a/meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb
-+++ b/meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb
-@@ -20,7 +20,7 @@ SECTION = "libs"
- 
- DEPENDS = "expat freetype zlib"
- 
--PR = "r3"
-+PR = "r4"
- 
- SRC_URI = "http://fontconfig.org/release/fontconfig-${PV}.tar.gz \
-            file://fix-pkgconfig.patch \
+3. Bluez4 needed glib.h therefore depend on glib-2.0
+
+The following changes since commit 8bc098475f58b60bfb24ec0fd338e49ac2387c50:
+
+  gcc-4.6: Backport PR46934 fix (2011-10-17 18:00:29 -0700)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib kraj/gcc-update
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/gcc-update
+
+Khem Raj (3):
+  bluez4: Add glib-2.0 to DEPENDS
+  gcc-4.6: Upgrade SRCREV to latest FSF 4.6 branch
+  gcc-4.6: Backport PR46934 fix
+
+ meta/recipes-connectivity/bluez/bluez4.inc      |    2 +-
+ meta/recipes-connectivity/bluez/bluez4_4.96.bb  |    2 +-
+ meta/recipes-devtools/gcc/gcc-4.6.inc           |    5 +-
+ meta/recipes-devtools/gcc/gcc-4.6/pr46934.patch |  392 +++++++++++++++++++++++
+ 4 files changed, 397 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6/pr46934.patch
+
 -- 
-1.7.7
+1.7.5.4
 
 
 
