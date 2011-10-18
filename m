@@ -1,35 +1,36 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-pz0-f43.google.com ([209.85.210.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RGGBl-0001xl-9v
+	(envelope-from <raj.khem@gmail.com>) id 1RGGjp-0004SM-PD
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Oct 2011 22:23:06 +0200
-Received: by bkat8 with SMTP id t8so1364975bka.6
+	Tue, 18 Oct 2011 22:58:18 +0200
+Received: by pzk33 with SMTP id 33so2582919pzk.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Oct 2011 13:17:15 -0700 (PDT)
+	Tue, 18 Oct 2011 13:52:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=date:from:to:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=5RaITlbgvg8cNu5JHNbqPjdcKh6xwkLO0Wb7ifAoIa4=;
-	b=Py1iJ3wmvQJXJqP18H0uSFag6kJ5LrV/bxd/OR0cHoLIyvtXGOXT2eGB5EhjsCbPeH
-	RgzxYjJR39v+1mL6DR5/ee69yb16QgDQFKeUnPm2Z3VKEpFq/VEGwdCu1zh0msAW0b+x
-	sUcPeL/x1c7UPO2xukEqG2fslLkjN2oVOLO6M=
-Received: by 10.204.9.214 with SMTP id m22mr2974582bkm.4.1318969034745;
-	Tue, 18 Oct 2011 13:17:14 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id e14sm3457629bka.0.2011.10.18.13.17.13
+	bh=VFHNY/cbSwCoR6yMjPfaAFeUnxZ8miNi8QsNuX+rquo=;
+	b=LuC7haB26Q/KqYi0EujOmxgeGZnyNbUdYvjjgmw8i9TR8XH6yXAX1IxDW7BkcBrGx8
+	sY3xjg1xZjR65xtwwof3RzHLmWUh4NgqSEcMx+2oQwuwC7z2mc67toqj/ghxCWGytuDf
+	rfKktRR940MmXM3G0YFXiVtwPPQFwwLV5KWDM=
+Received: by 10.68.36.232 with SMTP id t8mr7457429pbj.54.1318971146832;
+	Tue, 18 Oct 2011 13:52:26 -0700 (PDT)
+Received: from sakrah.homelinux.org
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
+	by mx.google.com with ESMTPS id z1sm10638379pbl.5.2011.10.18.13.52.26
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 18 Oct 2011 13:17:13 -0700 (PDT)
-Date: Tue, 18 Oct 2011 22:17:08 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Tue, 18 Oct 2011 13:52:26 -0700 (PDT)
+Date: Tue, 18 Oct 2011 13:53:46 -0700
+From: Khem Raj <raj.khem@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111018201708.GC556@jama.jama.net>
-References: <20111018183520.GB556@jama.jama.net>
-	<CAMKF1spkExdtaVSXxhVShSXR-UQUx-JML34tCPa6KaaUQb-2Rw@mail.gmail.com>
+Message-ID: <20111018205346.GB27472@sakrah.homelinux.org>
+References: <cover.1318968860.git.nitin.a.kamble@intel.com>
+	<09731abe1a3295426dfef8d54c52c7f6805fe5dc.1318968860.git.nitin.a.kamble@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1spkExdtaVSXxhVShSXR-UQUx-JML34tCPa6KaaUQb-2Rw@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: Race condition or something when fetching local files?
+In-Reply-To: <09731abe1a3295426dfef8d54c52c7f6805fe5dc.1318968860.git.nitin.a.kamble@intel.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: [PATCH 2/5] gmp: also generate the libgmpcxx library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,62 +45,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Oct 2011 20:23:06 -0000
-X-Groupsio-MsgNum: 11175
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="tqI+Z3u+9OQ7kwn0"
-Content-Disposition: inline
-
---tqI+Z3u+9OQ7kwn0
+X-List-Received-Date: Tue, 18 Oct 2011 20:58:18 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 18, 2011 at 01:09:43PM -0700, Khem Raj wrote:
-> On Tue, Oct 18, 2011 at 11:35 AM, Martin Jansa <martin.jansa@gmail.com> w=
-rote:
-> > I have noticed that even local patches are stored in downloads dir,
-> > but today I've noticed that wrong file was used later in do_patch.
-> > I have latest oe-core/meta-oe + latest bitbake.
-> >
-> > Pulseaudio was building here for first time
-> >
-> > downloads/buildfix.patch is from previous build of xf86-video-intel-2.1=
-6.0
-> > $ head downloads/buildfix.patch
->=20
-> looking in bitbake lib/bb/fetch2/local.py it seems it searches DL_DIR
-> before other
+On (18/10/11 13:14), nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> 
+> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> ---
+>  meta/recipes-support/gmp/gmp.inc      |    2 ++
+>  meta/recipes-support/gmp/gmp_4.2.1.bb |    2 +-
+>  meta/recipes-support/gmp/gmp_5.0.2.bb |    2 +-
+>  3 files changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-support/gmp/gmp.inc b/meta/recipes-support/gmp/gmp.inc
+> index 66349e6..77ce10d 100644
+> --- a/meta/recipes-support/gmp/gmp.inc
+> +++ b/meta/recipes-support/gmp/gmp.inc
+> @@ -14,3 +14,5 @@ ARM_INSTRUCTION_SET = "arm"
+>  acpaths = ""
+>  
+>  BBCLASSEXTEND = "native nativesdk"
+> +
+> +EXTRA_OECONF += " --enable-cxx=yes"
 
-Which would be wrong for sure if I have
-foo_1.0.bb with SRC_URI =3D "file://bar.patch"
+if you want 'yes' then just --enable-cxx is enough have you tried with
+--enable-cxx=detect that would make sure that C++ compiler and runtime
+is ok. Secondly is this option needed for native recipes too ?
 
-foo-1.0/om-gta02/bar.patch
-foo-1.0/nokia900/bar.patch
+> diff --git a/meta/recipes-support/gmp/gmp_4.2.1.bb b/meta/recipes-support/gmp/gmp_4.2.1.bb
+> index 74da6b8..97ac4b2 100644
+> --- a/meta/recipes-support/gmp/gmp_4.2.1.bb
+> +++ b/meta/recipes-support/gmp/gmp_4.2.1.bb
+> @@ -6,7 +6,7 @@ LICENSE = "LGPLv2.1+"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=892f569a555ba9c07a568a7c0c4fa63a \
+>                      file://COPYING.LIB;md5=fbc093901857fcd118f065f900982c24 \
+>                      file://gmp-h.in;startline=6;endline=21;md5=5e25ffd16996faba8c1cd27b04b16099"
+> -PR = "r0"
+> +PR = "r1"
+>  
+>  SRC_URI = "${GNU_MIRROR}/gmp/${BP}.tar.bz2 \
+>             file://disable-stdc.patch"
+> diff --git a/meta/recipes-support/gmp/gmp_5.0.2.bb b/meta/recipes-support/gmp/gmp_5.0.2.bb
+> index 03fef45..f80971e 100644
+> --- a/meta/recipes-support/gmp/gmp_5.0.2.bb
+> +++ b/meta/recipes-support/gmp/gmp_5.0.2.bb
+> @@ -2,7 +2,7 @@ require gmp.inc
+>  LICENSE="LGPLv3&GPLv3"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+>  		    file://version.c;endline=18;md5=d8c56b52b9092346b9f93b4da65ef790"
+> -PR = "r0"
+> +PR = "r1"
+>  
+>  SRC_URI_append += "file://sh4-asmfix.patch \
+>                     file://use-includedir.patch "
+> -- 
+> 1.7.4.4
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-Then I don't want to use bar.patch from downloads/bar.patch where it's
-=66rom om-gta02 build when I'm building nokia900 now.
-
-Regards,
-
-> search paths. cleansstate might not have information that the patch
-> was downloaded
-> and not applied from local metadata after the recipe is updated.
+-- 
+-Khem
 
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---tqI+Z3u+9OQ7kwn0
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk6d3sQACgkQN1Ujt2V2gByi5wCfTImt3wmax8Md7eiulU5ODy2T
-At4An0PqJrZK+FKUmz4ivMfVrTg+CQ7L
-=fkjL
------END PGP SIGNATURE-----
-
---tqI+Z3u+9OQ7kwn0--
