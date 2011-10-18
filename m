@@ -1,30 +1,32 @@
-Received: from mail-pz0-f43.google.com ([209.85.210.43])
+Received: from mail-gx0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RFyjj-0001fu-OQ
+	(envelope-from <raj.khem@gmail.com>) id 1RFykG-0001h9-3V
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Oct 2011 03:44:59 +0200
-Received: by pzk33 with SMTP id 33so269451pzk.2
+	Tue, 18 Oct 2011 03:45:32 +0200
+Received: by mail-gx0-f175.google.com with SMTP id q1so96059ggn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Oct 2011 18:39:09 -0700 (PDT)
+	Mon, 17 Oct 2011 18:39:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=Mnp8uqIYb4mnzlRKn4trImJdOUCF+AW0Ne5hQRIilSw=;
-	b=hj5gh/pXLvG+pvkpj/2Ts9STVf55WO5VluFW0b5gD+i2S+CSNPa4r8ilYZhY7AIhTE
-	YkBN11g0e4ox+jTZda2qphveUT0/EH/ZoJQD/1GN9EUkqA/2tZDKCm2oBC/xhUD+wHtv
-	TMRwI7ajfBXr/UHudjzxqwdszM9hg4kUQFnA0=
-Received: by 10.68.13.35 with SMTP id e3mr1202466pbc.31.1318901949078;
-	Mon, 17 Oct 2011 18:39:09 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=s6HvvAT4R9HNzXnGtb2km6Fj2brRbUEKjs1vJ9/KFvw=;
+	b=ENvJvj1EsLOitPbgCSmSn2LH1DkpTwxM7nYeBJ2zwwkp4PvahBr1wZIuTw79LUJha1
+	L4BinTaeLfPTfq6G1sderIm4R91xuwgp5Gtq42vdZ4w6GbsrxIOEKIJGujOEoR6LcIWt
+	PDkl8Whya3jp6+IZw9T1NVohFwRiSq4o4T2q0=
+Received: by 10.68.26.101 with SMTP id k5mr1286319pbg.4.1318901984694;
+	Mon, 17 Oct 2011 18:39:44 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
-	by mx.google.com with ESMTPS id ko15sm1811845pbb.9.2011.10.17.18.39.07
+	by mx.google.com with ESMTPS id ji3sm1897253pbc.2.2011.10.17.18.39.43
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 17 Oct 2011 18:39:08 -0700 (PDT)
+	Mon, 17 Oct 2011 18:39:44 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Oct 2011 18:38:50 -0700
-Message-Id: <cover.1318901607.git.raj.khem@gmail.com>
+Date: Mon, 17 Oct 2011 18:39:25 -0700
+Message-Id: <bb4834366391a733cbb331a52cae44f295bda2a1.1318901607.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH 0/3] gcc update and bug fix
+In-Reply-To: <cover.1318901607.git.raj.khem@gmail.com>
+References: <cover.1318901607.git.raj.khem@gmail.com>
+Subject: [PATCH 1/3] bluez4: Add glib-2.0 to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,37 +41,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Oct 2011 01:45:00 -0000
+X-List-Received-Date: Tue, 18 Oct 2011 01:45:32 -0000
 
-This patchset does two things for gcc
-1. Updates to latest from FSF gcc-4_6-branch 
-2. Backport the fix for PR46934
+Fixes
 
-The changes that come from FSF gcc are listed here
-http://sakrah.homelinux.org/files/gcc-4.6-ChangeLog-r180099_r180099.txt
+| attrib/utils.c:25:18: fatal error: glib.h: No such file or directory
+| compilation terminated.
+| make[1]: *** [attrib/utils.o] Error 1
+| make[1]: *** Waiting for unfinished jobs....
+| attrib/interactive.c:27:18: fatal error: glib.h: No such file or
+directory
+| compilation terminated.
+| make[1]: *** [attrib/interactive.o] Error 1
+| make: *** [all] Error 2
 
-3. Bluez4 needed glib.h therefore depend on glib-2.0
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-connectivity/bluez/bluez4.inc     |    2 +-
+ meta/recipes-connectivity/bluez/bluez4_4.96.bb |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-The following changes since commit 8bc098475f58b60bfb24ec0fd338e49ac2387c50:
-
-  gcc-4.6: Backport PR46934 fix (2011-10-17 18:00:29 -0700)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib kraj/gcc-update
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/gcc-update
-
-Khem Raj (3):
-  bluez4: Add glib-2.0 to DEPENDS
-  gcc-4.6: Upgrade SRCREV to latest FSF 4.6 branch
-  gcc-4.6: Backport PR46934 fix
-
- meta/recipes-connectivity/bluez/bluez4.inc      |    2 +-
- meta/recipes-connectivity/bluez/bluez4_4.96.bb  |    2 +-
- meta/recipes-devtools/gcc/gcc-4.6.inc           |    5 +-
- meta/recipes-devtools/gcc/gcc-4.6/pr46934.patch |  392 +++++++++++++++++++++++
- 4 files changed, 397 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.6/pr46934.patch
-
+diff --git a/meta/recipes-connectivity/bluez/bluez4.inc b/meta/recipes-connectivity/bluez/bluez4.inc
+index fc515f6..9158687 100644
+--- a/meta/recipes-connectivity/bluez/bluez4.inc
++++ b/meta/recipes-connectivity/bluez/bluez4.inc
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+                     file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
+                     file://src/main.c;beginline=1;endline=24;md5=9bc54b93cd7e17bf03f52513f39f926e \
+                     file://sbc/sbc.c;beginline=1;endline=25;md5=1a40781ed30d50d8639323a184aeb191"
+-DEPENDS = "udev alsa-lib libusb dbus-glib"
++DEPENDS = "udev alsa-lib libusb dbus-glib glib-2.0"
+ RDEPENDS_${PN}-dev = "bluez-hcidump"
+ 
+ ASNEEDED = ""
+diff --git a/meta/recipes-connectivity/bluez/bluez4_4.96.bb b/meta/recipes-connectivity/bluez/bluez4_4.96.bb
+index 52268cf..88ec7a4 100644
+--- a/meta/recipes-connectivity/bluez/bluez4_4.96.bb
++++ b/meta/recipes-connectivity/bluez/bluez4_4.96.bb
+@@ -1,6 +1,6 @@
+ require bluez4.inc
+ 
+-PR = "r3"
++PR = "r4"
+ 
+ SRC_URI += "file://bluetooth.conf"
+ 
 -- 
 1.7.5.4
 
