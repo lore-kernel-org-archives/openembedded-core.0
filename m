@@ -1,28 +1,34 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RGAay-0006az-Gq
+	(envelope-from <saul.wold@intel.com>) id 1RGCuu-0002H4-MU
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Oct 2011 16:24:44 +0200
-Received: by eyd9 with SMTP id 9so599754eyd.6
+	Tue, 18 Oct 2011 18:53:28 +0200
+Received: from mail-wy0-f180.google.com ([74.125.82.180])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 18 Oct 2011 09:47:33 -0700
+Received: by wyg24 with SMTP id 24so795650wyg.25
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Oct 2011 07:18:45 -0700 (PDT)
-Received: by 10.213.113.145 with SMTP id a17mr345966ebq.5.1318947525463;
-	Tue, 18 Oct 2011 07:18:45 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id a49sm6235029eea.2.2011.10.18.07.18.33
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 18 Oct 2011 07:18:33 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1318889360-23524-1-git-send-email-Martin.Jansa@gmail.com>
-Date: Tue, 18 Oct 2011 16:18:31 +0200
-Message-Id: <F0FD9E7A-B580-49A3-B82B-843458DD212A@dominion.thruhere.net>
-References: <1318889360-23524-1-git-send-email-Martin.Jansa@gmail.com>
+	Tue, 18 Oct 2011 09:47:32 -0700 (PDT)
+Received: by 10.216.51.77 with SMTP id a55mr5879876wec.5.1318956451732;
+	Tue, 18 Oct 2011 09:47:31 -0700 (PDT)
+Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id 11sm4550597wby.15.2011.10.18.09.47.22
+	(version=SSLv3 cipher=OTHER); Tue, 18 Oct 2011 09:47:24 -0700 (PDT)
+Message-ID: <4E9DAD99.9080508@intel.com>
+Date: Tue, 18 Oct 2011 09:47:21 -0700
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH] fontconfig: fix fix-pkgconfig.patch
+References: <bb4834366391a733cbb331a52cae44f295bda2a1.1318901607.git.raj.khem@gmail.com>
+	<32b67c2bc8ebfcbf0db650e93a2152399ca89ee7.1318901607.git.raj.khem@gmail.com>
+	<7B75FA82-846A-4B85-872E-0B611C41C11D@dominion.thruhere.net>
+In-Reply-To: <7B75FA82-846A-4B85-872E-0B611C41C11D@dominion.thruhere.net>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH 3/3] gcc-4.6: Backport PR46934 fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,25 +43,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Oct 2011 14:24:44 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 18 Oct 2011 16:53:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
+
+On 10/18/2011 07:18 AM, Koen Kooi wrote:
+>
+> Op 18 okt. 2011, om 03:39 heeft Khem Raj het volgende geschreven:
+>
+>> We have been hitting this issue on ARM/thumb and
+>> have a workaround in place to compile samba
+>> http://git.openembedded.org/openembedded/commit/recipes/samba/samba_3.2.15.bb?id=4ba7aa07c0dcd28f94515ff9927e2a04403fcf15
+>> This backport should fix the gcc bug
+>
+> Can I have a rough ETA when this is going into master? There are meta-oe patches depending on this. No rush, this is just to order my patch queue more intelligently :)
+>
+Koen,
+
+We are working on it, I am doing builds with these changes to day and 
+will submit a consolidated pull for tonight and if all goes well RP will 
+pull tomorrow.
+
+Sau!
 
 
-Op 18 okt. 2011, om 00:09 heeft Martin Jansa het volgende geschreven:
+> regards,
+>
+> Koen
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
-> * missing $ is causing problems ie when building webkit-efl
-> * see =
-http://lists.linuxtogo.org/pipermail/openembedded-core/2011-June/003798.ht=
-ml
->  for details
-
-Can I have a rough ETA when this is going into master? There are meta-oe =
-patches depending on this. No rush, this is just to order my patch queue =
-more intelligently :)
-
-regards,
-
-Koen=
 
 
