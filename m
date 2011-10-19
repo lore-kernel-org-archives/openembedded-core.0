@@ -1,32 +1,31 @@
-Received: from gravedo.de ([85.214.79.159])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <morphis@gravedo.de>) id 1RGbUy-0000nM-Oy
+	(envelope-from <koen@dominion.thruhere.net>) id 1RGbmD-00012u-7m
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Oct 2011 21:08:20 +0200
-Received: by gravedo.de (Postfix, from userid 5001)
-	id 74F1215E001B; Wed, 19 Oct 2011 21:02:31 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.2.5 (2008-06-10) on
-	h1108419.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=6.0 tests=ALL_TRUSTED,AWL,BAYES_00
-	autolearn=ham version=3.2.5
-Received: from [192.168.178.21] (dslb-088-071-252-135.pools.arcor-ip.net
-	[88.71.252.135]) by gravedo.de (Postfix) with ESMTPSA id 69E8315E001A
+	Wed, 19 Oct 2011 21:26:09 +0200
+Received: by eyd9 with SMTP id 9so2018183eyd.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Oct 2011 21:02:30 +0200 (CEST)
-Message-ID: <4E9F1EC5.5030502@gravedo.de>
-Date: Wed, 19 Oct 2011 21:02:29 +0200
-From: Simon Busch <morphis@gravedo.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <49a800f40bd08aa23d227dccafd34b3e59a7ccb5.1318405370.git.Martin.Jansa@gmail.com>
-	<040b38fbd0ab7c7a1275b2e688dba177a907c716.1318405370.git.Martin.Jansa@gmail.com>
-	<201110121023.52795.paul.eggleton@linux.intel.com>
-	<4E95D6EB.4050703@gravedo.de>
-In-Reply-To: <4E95D6EB.4050703@gravedo.de>
-Subject: Re: [oe-core 2/4] qt4-x11-free: bring back pkg-config fixups
+	Wed, 19 Oct 2011 12:20:18 -0700 (PDT)
+Received: by 10.213.108.133 with SMTP id f5mr1093345ebp.39.1319052014386;
+	Wed, 19 Oct 2011 12:20:14 -0700 (PDT)
+Received: from [172.20.2.72] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id a10sm18459698een.6.2011.10.19.12.20.12
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 19 Oct 2011 12:20:13 -0700 (PDT)
+References: <CAMKF1spgu+h2_LD3Qp6129QCxb5XHKSru0ggOHt3vCqG=8s7Jw@mail.gmail.com>
+	<201110192102.50043.schnitzeltony@gmx.de>
+In-Reply-To: <201110192102.50043.schnitzeltony@gmx.de>
+Mime-Version: 1.0 (1.0)
+Message-Id: <19517CE2-2C1A-4FE7-9656-20BD83826DFC@dominion.thruhere.net>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: iPhone Mail (9A334)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Wed, 19 Oct 2011 21:19:59 +0200
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: xerver-xorg build problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,45 +40,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Oct 2011 19:08:20 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 19 Oct 2011 19:26:09 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-On 12.10.2011 20:05, Simon Busch wrote:
-> On 12.10.2011 11:23, Paul Eggleton wrote:
->> On Wednesday 12 October 2011 08:45:03 Martin Jansa wrote:
->>> From: Simon Busch <morphis@gravedo.de>
->>>
->>> With b40b9c024be5e1ec81a31961158b3e6b529acfe0 some pkg-config fixups where
->>> removed from qt4.inc which breaks the pkg-config files for qt4-embedded.
->>> Without that the pkg-config files for qt4-x11-free are broken. So this
->>> patch puts the fixes into the qt4-x11-free.inc file to be used by
->>> qt4-x11-free and not qt4-embedded.
->>
->> So why do we need these only in the X11 version? Surely they should be 
->> applicable to both embedded and X11, or not at all...?
-> 
-> With b40b9c024be5e1ec81a31961158b3e6b529acfe0 I removed this fixups from
-> qt4.inc as I had problems with building agains qt4-embedded as cflags
-> were incorrect in the created pkg-config files.
-> 
-> Now I switched my application to x11 and got other problems with the
-> pkg-config files from qt4-x11-free which can be resolved with the fixups
-> I removed before.
-> 
-> So you are right we need them for qt4-x11-free but not for qt4-embedded.
-> I didn't investigated from where these differences are coming.
-> 
-> regards,
-> Simon
-> 
+add mesa-dri to DEPENDS in the xorg .bb, not the .inc
 
-Still any comments on this or is the patch already accepted?
+Op 19 okt. 2011 om 21:02 heeft Andreas M=C3=BCller <schnitzeltony@gmx.de> he=
+t volgende geschreven:
 
-regards,
-Simon
-
--- 
-Simon Busch - http://mm.gravedo.de/blog/
+> On Wednesday, October 19, 2011 08:22:27 PM Khem Raj wrote:
+>> Hi
+>>=20
+>> I am seeing this error today
+>>=20
+>>=20
+>> | checking for GL... yes
+>> | checking for DRIPROTO... yes
+>> | checking for DRI... no
+>> | configure: error: Package requirements (glproto >=3D 1.4.14 dri >=3D
+>> 7.8.0) were not met:
+>> |
+>> | No package 'dri' found
+>> |
+>> | Consider adjusting the PKG_CONFIG_PATH environment variable if you
+>> | installed software in a non-standard prefix.
+>> |
+>> | Alternatively, you may set the environment variables DRI_CFLAGS
+>> | and DRI_LIBS to avoid the need to call pkg-config.
+>> | See the pkg-config man page for more details.
+>> | + bbfatal 'oe_runconf failed'
+>> | + echo 'ERROR: oe_runconf failed'
+>> | ERROR: oe_runconf failed
+>> | + exit 1
+>> | ERROR: Function 'do_configure' failed (see
+>> /home/kraj/work/angstrom/build/tmp-angstrom_2010_x-eglibc/work/ppc603e-an=
+gstrom-linux/xserver-xorg-2_1.11.1-r1/temp/log.do_configure.21621
+>> for further information)
+>> NOTE: package xserver-xorg-2_1.11.1-r1: task do_configure: Failed
+>> ERROR: Task 1518
+>> (/home/kraj/work/angstrom/sources/openembedded-core/meta/recipes-graphics=
+/xorg-xserver/xserver-xorg_1.11.1.bb,
+>> do_configure) failed with exit code '1'
+>> Waiting for 2 active tasks to finish:
+>>=20
+>>=20
+>> any hints ?
+>>=20
+> I think it is this one [1]: manually build mesa-xlib and mesa-dri. What co=
+uld be a proper solution on that?
+>=20
+> Andreas
+>=20
+> [1] http://lists.linuxtogo.org/pipermail/openembedded-core/2011-October/01=
+1281.html
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
