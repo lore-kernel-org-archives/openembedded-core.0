@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RGf2h-0002vD-2Z
+	(envelope-from <josh@linux.intel.com>) id 1RGf2h-0002vD-TF
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Oct 2011 00:55:23 +0200
+	Thu, 20 Oct 2011 00:55:24 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 19 Oct 2011 15:49:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="64819074"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="64819076"
 Received: from unknown (HELO shamshir.amr.corp.intel.com) ([10.255.15.35])
 	by orsmga001.jf.intel.com with ESMTP; 19 Oct 2011 15:49:29 -0700
 From: Joshua Lock <josh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Oct 2011 15:49:25 -0700
-Message-Id: <3cc35dcc701a2d69d2ad051d724460de69bfb718.1319064437.git.josh@linux.intel.com>
+Date: Wed, 19 Oct 2011 15:49:26 -0700
+Message-Id: <04a2c43182d07a54ec535dea8c7434f6741014e1.1319064437.git.josh@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1319064436.git.josh@linux.intel.com>
 References: <cover.1319064436.git.josh@linux.intel.com>
 In-Reply-To: <cover.1319064436.git.josh@linux.intel.com>
 References: <cover.1319064436.git.josh@linux.intel.com>
-Subject: [PATCH 3/4] tzcode-native: update SRC_URI to new IANA location
+Subject: [PATCH 4/4] gst-plugins-good: correctly handle gconf schema
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,30 +33,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Oct 2011 22:55:23 -0000
+X-List-Received-Date: Wed, 19 Oct 2011 22:55:24 -0000
 
-The TZ database has moved, it's now hosted by IANA.
+Add the shipped gconf schema to the base package and inherit the gconf class
+so that scheme processing is handled via post* scripts.
 
 Signed-off-by: Joshua Lock <josh@linux.intel.com>
 ---
- .../recipes-extended/tzcode/tzcode-native_2011i.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ .../gstreamer/gst-plugins-good_0.10.30.bb          |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/tzcode/tzcode-native_2011i.bb b/meta/recipes-extended/tzcode/tzcode-native_2011i.bb
-index 0cdf400..b8ccff0 100644
---- a/meta/recipes-extended/tzcode/tzcode-native_2011i.bb
-+++ b/meta/recipes-extended/tzcode/tzcode-native_2011i.bb
-@@ -4,8 +4,8 @@ PR = "r0"
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.30.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.30.bb
+index 96855aa..d63b09a 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.30.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.30.bb
+@@ -7,9 +7,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
  
- LIC_FILES_CHKSUM = "file://${WORKDIR}/README;md5=3ae8198f82258417ce29066d3b034035"
+ DEPENDS += "gst-plugins-base gconf cairo jpeg libpng gtk+ zlib libid3tag flac \
+ 	    speex libsoup-2.4 pulseaudio"
+-PR = "r2"
++PR = "r3"
  
--SRC_URI = "ftp://elsie.nci.nih.gov/pub/tzcode${PV}.tar.gz;name=tzcode \
--           ftp://elsie.nci.nih.gov/pub/tzdata2011i.tar.gz;name=tzdata"
-+SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
-+           http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
+-inherit gettext
++inherit gettext gconf
  
- SRC_URI[tzcode.md5sum] = "cf7f4335b7c8682899fa2814e711c1b2"
- SRC_URI[tzcode.sha256sum] = "f0dd991de3f8d6c599c104e294377c9befa1ef40aa5a1d09e2e295a453f3c1ec"
+ EXTRA_OECONF += "--disable-aalib --disable-esd --disable-shout2 --disable-libcaca --disable-hal --without-check"
+ 
+@@ -20,3 +20,5 @@ do_configure_prepend() {
+ 
+ SRC_URI[md5sum] = "62fd7a3ef187c4f99b3d7c352d58dae9"
+ SRC_URI[sha256sum] = "b12cba90b27d8423cd0a808939098d19db3996cfb9bf528507c6321782e095f6"
++
++FILES_${PN} += "${sysconfdir}/gconf/schemas/gstreamer-0.10.schemas"
 -- 
 1.7.6.4
 
