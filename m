@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RGf2g-0002vD-8k
+	(envelope-from <josh@linux.intel.com>) id 1RGf2h-0002vD-2Z
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Oct 2011 00:55:22 +0200
+	Thu, 20 Oct 2011 00:55:23 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 19 Oct 2011 15:49:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="64819072"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="64819074"
 Received: from unknown (HELO shamshir.amr.corp.intel.com) ([10.255.15.35])
-	by orsmga001.jf.intel.com with ESMTP; 19 Oct 2011 15:49:28 -0700
+	by orsmga001.jf.intel.com with ESMTP; 19 Oct 2011 15:49:29 -0700
 From: Joshua Lock <josh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Oct 2011 15:49:24 -0700
-Message-Id: <f9bbdddc7ed21c16150343fff50e4daf46678cff.1319064437.git.josh@linux.intel.com>
+Date: Wed, 19 Oct 2011 15:49:25 -0700
+Message-Id: <3cc35dcc701a2d69d2ad051d724460de69bfb718.1319064437.git.josh@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1319064436.git.josh@linux.intel.com>
 References: <cover.1319064436.git.josh@linux.intel.com>
 In-Reply-To: <cover.1319064436.git.josh@linux.intel.com>
 References: <cover.1319064436.git.josh@linux.intel.com>
-Subject: [PATCH 2/4] tzdata: updated SRC_URI and update to 2011k
+Subject: [PATCH 3/4] tzcode-native: update SRC_URI to new IANA location
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,37 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Oct 2011 22:55:22 -0000
+X-List-Received-Date: Wed, 19 Oct 2011 22:55:23 -0000
 
-tzdata is now hosted by IANA at http://www.iana.org/time-zones
+The TZ database has moved, it's now hosted by IANA.
 
 Signed-off-by: Joshua Lock <josh@linux.intel.com>
 ---
- .../tzdata/{tzdata_2011k.bb => tzdata_2011l.bb}    |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/tzdata/{tzdata_2011k.bb => tzdata_2011l.bb} (96%)
+ .../recipes-extended/tzcode/tzcode-native_2011i.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/tzdata/tzdata_2011k.bb b/meta/recipes-extended/tzdata/tzdata_2011l.bb
-similarity index 96%
-rename from meta/recipes-extended/tzdata/tzdata_2011k.bb
-rename to meta/recipes-extended/tzdata/tzdata_2011l.bb
-index 45f2c4d..140f8ed 100644
---- a/meta/recipes-extended/tzdata/tzdata_2011k.bb
-+++ b/meta/recipes-extended/tzdata/tzdata_2011l.bb
-@@ -12,10 +12,10 @@ RCONFLICTS= "timezones timezone-africa timezone-america timezone-antarctica \
-              timezone-australia timezone-europe timezone-indian \
-              timezone-iso3166.tab timezone-pacific timezone-zone.tab"
+diff --git a/meta/recipes-extended/tzcode/tzcode-native_2011i.bb b/meta/recipes-extended/tzcode/tzcode-native_2011i.bb
+index 0cdf400..b8ccff0 100644
+--- a/meta/recipes-extended/tzcode/tzcode-native_2011i.bb
++++ b/meta/recipes-extended/tzcode/tzcode-native_2011i.bb
+@@ -4,8 +4,8 @@ PR = "r0"
  
--SRC_URI = "ftp://elsie.nci.nih.gov/pub/tzdata${PV}.tar.gz;name=tzdata"
-+SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
+ LIC_FILES_CHKSUM = "file://${WORKDIR}/README;md5=3ae8198f82258417ce29066d3b034035"
  
--SRC_URI[tzdata.md5sum] = "9da1c2d4d1a01f9f504b73ccd371830f"
--SRC_URI[tzdata.sha256sum] = "51f7d2a42b7fb9465feced642a6676afdf8b04a071e55f3fef1f0925bd67ef21"
-+SRC_URI[tzdata.md5sum] = "bae1b93673e1aef80186c90dfd493f1c"
-+SRC_URI[tzdata.sha256sum] = "cb9fec68a19c9c3b900bb71f3ca20d0051a863f765387b52fc2d144a5bbb0c7d"
+-SRC_URI = "ftp://elsie.nci.nih.gov/pub/tzcode${PV}.tar.gz;name=tzcode \
+-           ftp://elsie.nci.nih.gov/pub/tzdata2011i.tar.gz;name=tzdata"
++SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
++           http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
  
- S = "${WORKDIR}"
- 
+ SRC_URI[tzcode.md5sum] = "cf7f4335b7c8682899fa2814e711c1b2"
+ SRC_URI[tzcode.sha256sum] = "f0dd991de3f8d6c599c104e294377c9befa1ef40aa5a1d09e2e295a453f3c1ec"
 -- 
 1.7.6.4
 
