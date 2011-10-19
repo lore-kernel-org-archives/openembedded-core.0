@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RGRbM-0000or-Jn
+	(envelope-from <sgw@linux.intel.com>) id 1RGRbN-0000or-H2
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Oct 2011 10:34:16 +0200
+	Wed, 19 Oct 2011 10:34:17 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 19 Oct 2011 01:28:23 -0700
+	by orsmga102.jf.intel.com with ESMTP; 19 Oct 2011 01:28:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="64658105"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="64658114"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.6])
-	by orsmga002.jf.intel.com with ESMTP; 19 Oct 2011 01:28:22 -0700
+	by orsmga002.jf.intel.com with ESMTP; 19 Oct 2011 01:28:24 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Oct 2011 01:28:09 -0700
-Message-Id: <59d35a9031f6520245077cfa24c7033a4fb51111.1319012721.git.sgw@linux.intel.com>
+Date: Wed, 19 Oct 2011 01:28:13 -0700
+Message-Id: <284d61614179b505695907792bcac63a0f032fff.1319012721.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.2
 In-Reply-To: <cover.1319012721.git.sgw@linux.intel.com>
 References: <cover.1319012721.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1319012721.git.sgw@linux.intel.com>
 References: <cover.1319012721.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 06/16] src_distribute.bbclass, src_distribute_local.bbclass: mostly rewritten
+Subject: [CONSOLIDATED PULL 10/16] gmp: also generate the libgmpcxx library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,149 +33,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Oct 2011 08:34:17 -0000
+X-List-Received-Date: Wed, 19 Oct 2011 08:34:18 -0000
 
-From: Otavio Salvador <otavio@ossystems.com.br>
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-The code used to reference unavailable variables and mistakenly define
-the tasks so fully demonstrating this have not been in use for a
-while.
+configure runs few checks to make sure c++ compiler and runtime are working as expected
+with the --enable-cxx=detect option.
 
-During the code rewrite, it was extended to copy also the patches into
-the source distribution directory but using the PF as prefix to avoid
-name colision among other recipes.
-
-As 'distsrcall' task was not properly defined and noone noticed it,
-until now, it got renamed to 'distribute_sources_all' as it is a
-better and more meanful name for the task.
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- meta/classes/src_distribute.bbclass       |   54 ++++++++++++++++++++---------
- meta/classes/src_distribute_local.bbclass |   28 ++++++++-------
- 2 files changed, 52 insertions(+), 30 deletions(-)
+ meta/recipes-support/gmp/gmp.inc      |    2 ++
+ meta/recipes-support/gmp/gmp_4.2.1.bb |    2 +-
+ meta/recipes-support/gmp/gmp_5.0.2.bb |    2 +-
+ 3 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/src_distribute.bbclass b/meta/classes/src_distribute.bbclass
-index 17d6c09..fbfbdf0 100644
---- a/meta/classes/src_distribute.bbclass
-+++ b/meta/classes/src_distribute.bbclass
-@@ -2,28 +2,48 @@ SRC_DISTRIBUTECOMMAND[func] = "1"
- python do_distribute_sources () {
- 	l = bb.data.createCopy(d)
- 	bb.data.update_data(l)
--	licenses = (bb.data.getVar('LICENSE', d, 1) or "unknown").split()
+diff --git a/meta/recipes-support/gmp/gmp.inc b/meta/recipes-support/gmp/gmp.inc
+index 66349e6..3c662a0 100644
+--- a/meta/recipes-support/gmp/gmp.inc
++++ b/meta/recipes-support/gmp/gmp.inc
+@@ -14,3 +14,5 @@ ARM_INSTRUCTION_SET = "arm"
+ acpaths = ""
  
- 	sources_dir = bb.data.getVar('SRC_DISTRIBUTEDIR', d, 1)
--	import re
--	for license in licenses:
--		for entry in license.split("|"):
--			for s in (bb.data.getVar('A', d, 1) or "").split():
--				s = re.sub(';.*$', '', s)
--				cmd = bb.data.getVar('SRC_DISTRIBUTECOMMAND', d, 1)
--				if not cmd:
--					raise bb.build.FuncFailed("Unable to distribute sources, SRC_DISTRIBUTECOMMAND not defined")
--				bb.data.setVar('SRC', s, d)
--				bb.data.setVar('SRC_DISTRIBUTEDIR', "%s/%s" % (sources_dir, entry), d)
--				bb.build.exec_func('SRC_DISTRIBUTECOMMAND', d)
-+	src_uri = bb.data.getVar('SRC_URI', d, 1).split()
-+	fetcher = bb.fetch2.Fetch(src_uri, d)
-+	ud = fetcher.ud
+ BBCLASSEXTEND = "native nativesdk"
 +
-+	licenses = bb.data.getVar('LICENSE', d, 1).replace('&', '|')
-+	licenses = licenses.replace('(', '').replace(')', '')
-+	clean_licenses = ""
-+	for x in licenses.split():
-+		if x.strip() == '' or x == 'CLOSED':
-+			continue
-+
-+		if x != "|":
-+			clean_licenses += x
-+
-+	for license in clean_licenses.split('|'):
-+		for url in ud.values():
-+			cmd = bb.data.getVar('SRC_DISTRIBUTECOMMAND', d, 1)
-+			if not cmd:
-+				raise bb.build.FuncFailed("Unable to distribute sources, SRC_DISTRIBUTECOMMAND not defined")
-+			url.setup_localpath(d)
-+			bb.data.setVar('SRC', url.localpath, d)
-+			if url.type == 'file':
-+				if url.basename == '*':
-+					import os.path
-+					dest_dir = os.path.basename(os.path.dirname(os.path.abspath(url.localpath)))
-+					bb.data.setVar('DEST', "%s_%s/" % (bb.data.getVar('PF', d, 1), dest_dir), d)
-+				else:
-+					bb.data.setVar('DEST', "%s_%s" % (bb.data.getVar('PF', d, 1), url.basename), d)
-+			else:
-+				bb.data.setVar('DEST', '', d)
-+
-+			bb.data.setVar('SRC_DISTRIBUTEDIR', "%s/%s" % (sources_dir, license), d)
-+			bb.build.exec_func('SRC_DISTRIBUTECOMMAND', d)
- }
++EXTRA_OECONF += " --enable-cxx=detect"
+diff --git a/meta/recipes-support/gmp/gmp_4.2.1.bb b/meta/recipes-support/gmp/gmp_4.2.1.bb
+index 74da6b8..97ac4b2 100644
+--- a/meta/recipes-support/gmp/gmp_4.2.1.bb
++++ b/meta/recipes-support/gmp/gmp_4.2.1.bb
+@@ -6,7 +6,7 @@ LICENSE = "LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=892f569a555ba9c07a568a7c0c4fa63a \
+                     file://COPYING.LIB;md5=fbc093901857fcd118f065f900982c24 \
+                     file://gmp-h.in;startline=6;endline=21;md5=5e25ffd16996faba8c1cd27b04b16099"
+-PR = "r0"
++PR = "r1"
  
- addtask distribute_sources before do_build after do_fetch
+ SRC_URI = "${GNU_MIRROR}/gmp/${BP}.tar.bz2 \
+            file://disable-stdc.patch"
+diff --git a/meta/recipes-support/gmp/gmp_5.0.2.bb b/meta/recipes-support/gmp/gmp_5.0.2.bb
+index 03fef45..f80971e 100644
+--- a/meta/recipes-support/gmp/gmp_5.0.2.bb
++++ b/meta/recipes-support/gmp/gmp_5.0.2.bb
+@@ -2,7 +2,7 @@ require gmp.inc
+ LICENSE="LGPLv3&GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+ 		    file://version.c;endline=18;md5=d8c56b52b9092346b9f93b4da65ef790"
+-PR = "r0"
++PR = "r1"
  
--addtask distsrcall after do_distribute_sources
--do_distall[recrdeptask] = "do_distribute_sources"
--base_do_distsrcall() {
-+addtask distribute_sources_all after do_distribute_sources
-+do_distribute_sources_all[recrdeptask] = "do_distribute_sources"
-+do_distribute_sources_all[nostamp] = "1"
-+do_distribute_sources_all () {
- 	:
- }
--
--EXPORT_FUNCTIONS do_distsrcall
-diff --git a/meta/classes/src_distribute_local.bbclass b/meta/classes/src_distribute_local.bbclass
-index 5f0cef5..17b67e3 100644
---- a/meta/classes/src_distribute_local.bbclass
-+++ b/meta/classes/src_distribute_local.bbclass
-@@ -1,31 +1,33 @@
- inherit src_distribute
- 
- # SRC_DIST_LOCAL possible values:
--# copy		copies the files from ${A} to the distributedir
--# symlink	symlinks the files from ${A} to the distributedir
-+# copy		copies the files to the distributedir
-+# symlink	symlinks the files to the distributedir
- # move+symlink	moves the files into distributedir, and symlinks them back
- SRC_DIST_LOCAL ?= "move+symlink"
- SRC_DISTRIBUTEDIR ?= "${DEPLOY_DIR}/sources"
- SRC_DISTRIBUTECOMMAND () {
- 	s="${SRC}"
--	if [ ! -L "$s" ] && (echo "$s"|grep "^${DL_DIR}"); then
--		:
--	else
--		exit 0;
--	fi
-+	d="${DEST}"
-+
- 	mkdir -p ${SRC_DISTRIBUTEDIR}
-+
-+	if echo $d | grep -q '/$'; then
-+		mkdir -p ${SRC_DISTRIBUTEDIR}/$d
-+	fi
-+
- 	case "${SRC_DIST_LOCAL}" in
- 		copy)
--			test -e $s.md5 && cp -f $s.md5 ${SRC_DISTRIBUTEDIR}/
--			cp -f $s ${SRC_DISTRIBUTEDIR}/
-+			test -e $s.md5 && cp -f $s.md5 ${SRC_DISTRIBUTEDIR}/$d.md5
-+			cp -f $s ${SRC_DISTRIBUTEDIR}/$d
- 			;;
- 		symlink)
--			test -e $s.md5 && ln -sf $s.md5 ${SRC_DISTRIBUTEDIR}/
--			ln -sf $s ${SRC_DISTRIBUTEDIR}/
-+			test -e $s.md5 && ln -sf $s.md5 ${SRC_DISTRIBUTEDIR}/$d.md5
-+			ln -sf $s ${SRC_DISTRIBUTEDIR}/$d
- 			;;
- 		move+symlink)
--			mv $s ${SRC_DISTRIBUTEDIR}/
--			ln -sf ${SRC_DISTRIBUTEDIR}/`basename $s` $s
-+			mv $s ${SRC_DISTRIBUTEDIR}/$d
-+			ln -sf ${SRC_DISTRIBUTEDIR}/$d $s
- 			;;
- 	esac
- }
+ SRC_URI_append += "file://sh4-asmfix.patch \
+                    file://use-includedir.patch "
 -- 
 1.7.6.2
 
