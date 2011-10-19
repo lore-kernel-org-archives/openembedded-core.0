@@ -1,21 +1,29 @@
-Received: from stoexhubfe02.domain01.net ([83.145.59.141])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1RGUCh-0005nB-52
+	(envelope-from <koen@dominion.thruhere.net>) id 1RGUZ3-00067G-La
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Oct 2011 13:20:59 +0200
-Received: from localhost (193.235.91.228) by stoexhubfe02.domain01.net
-	(10.12.10.7) with Microsoft SMTP Server id 8.3.137.0; Wed, 19 Oct 2011
-	13:15:05 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 19 Oct 2011 13:15:19 +0200
-Message-ID: <40dcebe98e97bb4fabfec74e9e7acb59548da091.1319022793.git.anders@chargestorm.se>
-X-Mailer: git-send-email 1.7.7
-In-Reply-To: <cover.1319022793.git.anders@chargestorm.se>
+	Wed, 19 Oct 2011 13:44:07 +0200
+Received: by eyd9 with SMTP id 9so1532094eyd.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Oct 2011 04:38:14 -0700 (PDT)
+Received: by 10.14.11.206 with SMTP id 54mr255791eex.107.1319024294595;
+	Wed, 19 Oct 2011 04:38:14 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id y11sm14753602eej.5.2011.10.19.04.38.12
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 19 Oct 2011 04:38:13 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <40dcebe98e97bb4fabfec74e9e7acb59548da091.1319022793.git.anders@chargestorm.se>
+Date: Wed, 19 Oct 2011 13:38:11 +0200
+Message-Id: <3D79364E-4D29-49B8-B196-4E1FBD4E82FE@dominion.thruhere.net>
 References: <cover.1319022793.git.anders@chargestorm.se>
-MIME-Version: 1.0
-X-GFI-SMTP-Submission: 1
-Subject: [PATCH 1/1] module.bbclass: add lock to prevent error bulding ext modules
+	<40dcebe98e97bb4fabfec74e9e7acb59548da091.1319022793.git.anders@chargestorm.se>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH 1/1] module.bbclass: add lock to prevent error bulding ext modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,39 +38,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Oct 2011 11:20:59 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 19 Oct 2011 11:44:07 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-When external modules are built, files in $STAGING_KERNEL_DIR/scripts/basic will/can get
-rebuilt.
-This raises a potential race condition. Prevent this by adding a lock around the
-do_make_scripts() function. Further, make sure that the kernel has been installed
-to the sysroot, prior to executing this new task.
 
-Signed-off-by: Anders Darander <anders@chargestorm.se>
----
- meta/classes/module.bbclass |    5 ++++-
- 1 files changed, 4 insertions(+), 1 deletions(-)
+Op 19 okt. 2011, om 13:15 heeft Anders Darander het volgende geschreven:
 
-diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
-index 572df0d..53c16b7 100644
---- a/meta/classes/module.bbclass
-+++ b/meta/classes/module.bbclass
-@@ -14,8 +14,11 @@ do_make_scripts() {
- 	           -C ${STAGING_KERNEL_DIR} scripts
- }
- 
-+addtask make_scripts before do_compile
-+do_make_scripts[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
-+do_make_scripts[deptask] = "do_populate_sysroot"
-+
- module_do_compile() {
--	do_make_scripts
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
- 	oe_runmake KERNEL_PATH=${STAGING_KERNEL_DIR}   \
- 		   KERNEL_SRC=${STAGING_KERNEL_DIR}    \
--- 
-1.7.7
+> When external modules are built, files in =
+$STAGING_KERNEL_DIR/scripts/basic will/can get
+> rebuilt.
+> This raises a potential race condition. Prevent this by adding a lock =
+around the
+> do_make_scripts() function. Further, make sure that the kernel has =
+been installed
+> to the sysroot, prior to executing this new task.
+
+So what do external module recipe that aren't using do_compile from =
+module.bbclass need to change to keep working?
+
 
 
 
