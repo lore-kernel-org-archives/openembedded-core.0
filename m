@@ -1,29 +1,20 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrea.adami@gmail.com>) id 1RGR5z-0006il-75
+	(envelope-from <sgw@linux.intel.com>) id 1RGRbI-0000ob-U3
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Oct 2011 10:01:51 +0200
-Received: by ywm39 with SMTP id 39so1369945ywm.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Oct 2011 00:55:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=lyynMq+pPFQoi6c1Az2fxXpqnQW8VYR51LcjnBpMR+8=;
-	b=xPfpE7S03mcq5n7xwBXyByIxq/hj/LZ8q0IbJclKC5RmLYiz1HNhGQ6y7MUPdk1we3
-	M1RDQ4wtYzE3ysOewszUs7jueWID17BhYhh4kcHmvXDP3vPvFZ3O0zOwr2IRyPI1emki
-	g+oZmZBm2qBKSNkjJPnFh5wo+22Qt6rmKXLp8=
-MIME-Version: 1.0
-Received: by 10.236.155.170 with SMTP id j30mr8081569yhk.19.1319010958069;
-	Wed, 19 Oct 2011 00:55:58 -0700 (PDT)
-Received: by 10.147.124.18 with HTTP; Wed, 19 Oct 2011 00:55:58 -0700 (PDT)
-In-Reply-To: <cover.1318976197.git.josh@linux.intel.com>
-References: <cover.1318976197.git.josh@linux.intel.com>
-Date: Wed, 19 Oct 2011 09:55:58 +0200
-Message-ID: <CAAQYJAs4KXjEQ5qTWCeidZ_1UzheuJi4bZy5PKRQ+C6DeTxwMg@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Update tzdata and gst-plugins-good
+	Wed, 19 Oct 2011 10:34:13 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 19 Oct 2011 01:28:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="64658090"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.6])
+	by orsmga002.jf.intel.com with ESMTP; 19 Oct 2011 01:28:21 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 19 Oct 2011 01:28:03 -0700
+Message-Id: <cover.1319012721.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.6.2
+Subject: [CONSOLIDATED PULL 00/16] Various Updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,58 +29,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Oct 2011 08:01:51 -0000
-Content-Type: multipart/alternative; boundary=20cf302d49849c4dcb04afa22b92
+X-List-Received-Date: Wed, 19 Oct 2011 08:34:13 -0000
 
---20cf302d49849c4dcb04afa22b92
-Content-Type: text/plain; charset=ISO-8859-1
+Richard, 
 
-On Wed, Oct 19, 2011 at 12:24 AM, Joshua Lock <josh@linux.intel.com> wrote:
+This set include upgrades from Khem for GCC along with Nitin for various 
+toolchain items. There are also some other good updates from Josh.
 
-> Per mailing requests, here are updates to the tzdata and gst-plugins-good
-> recipes.
->
-> Joshua
->
-> The following changes since commit
-> 95d0ff5e070c690314ab87665200099a52d37ebf:
->
->  tzdata: updated SRC_URI and update to 2011k (2011-10-18 11:16:58 -0700)
->
+Please look at the change from Otavio for src_distrubute, It looks good
+to me, but need another set of eyes on code.
 
-Thanks for the tzdata fix.
-Now, we have the same recipes in meta-oe with a slightly different
-do_install and packaging: I'm referring to /etc/localtime and /etc/timezone:
-which package do provide those in oe-core?
+Thanks
+	Sau!
 
-(We'll remove the tzdata/tzcodes from meta-oe once the recipes are matching)
 
-Regards
+The following changes since commit e31dd9b65f3b03f79cabab25eca157532de3bd9c:
 
-Andrea
+  fontconfig: fix fix-pkgconfig.patch (2011-10-18 18:13:47 +0100)
 
---20cf302d49849c4dcb04afa22b92
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
 
-<div class=3D"gmail_quote">On Wed, Oct 19, 2011 at 12:24 AM, Joshua Lock <s=
-pan dir=3D"ltr">&lt;<a href=3D"mailto:josh@linux.intel.com">josh@linux.inte=
-l.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex;">
-Per mailing requests, here are updates to the tzdata and gst-plugins-good r=
-ecipes.<br>
-<br>
-Joshua<br>
-<br>
-The following changes since commit 95d0ff5e070c690314ab87665200099a52d37ebf=
-:<br>
-<br>
- =A0tzdata: updated SRC_URI and update to 2011k (2011-10-18 11:16:58 -0700)=
-<br></blockquote></div><br>Thanks for the tzdata fix.<br>Now, we have the s=
-ame recipes in meta-oe with a slightly different do_install and packaging: =
-I&#39;m referring to /etc/localtime and /etc/timezone: which package do pro=
-vide those in oe-core?<br>
-<br>(We&#39;ll remove the tzdata/tzcodes from meta-oe once the recipes are =
-matching)<br><br>Regards<br><br>Andrea<br><br>
+Darren Hart (1):
+  insane.bbclass: print full path on invalid LICENSE_FILES_CHKSUM
 
---20cf302d49849c4dcb04afa22b92--
+Joshua Lock (2):
+  gst-plugins-good: update to 0.10.30
+  tzdata: updated SRC_URI and update to 2011k
+
+Khem Raj (3):
+  bluez4: Add glib-2.0 to DEPENDS
+  gcc-4.6: Upgrade SRCREV to latest FSF 4.6 branch
+  gcc-4.6: Backport PR46934 fix
+
+Lauri Hintsala (1):
+  poky: fix broken ubifs link in deploy folder
+
+Nitin A Kamble (6):
+  x86 tune files: set baselib for x32 tune as libx32
+  gmp: also generate the libgmpcxx library
+  python-scons: upgrade from 2.0.1 to 2.1.0
+  python-dbus: upgrade from 0.83.2 to 0.84.0
+  libxml-parser-perl: upgrade from 2.40 to 2.41
+  distro-tracking: update data for some toolchain recipes
+
+Otavio Salvador (1):
+  src_distribute.bbclass, src_distribute_local.bbclass: mostly
+    rewritten
+
+Saul Wold (2):
+  ghostscript: Disable parallel make due to install issues
+  ghostscript: renamed x86_64 to x86-64 for patch to work
+
+ meta/classes/image_types.bbclass                   |    2 +-
+ meta/classes/insane.bbclass                        |    2 +-
+ meta/classes/src_distribute.bbclass                |   54 ++-
+ meta/classes/src_distribute_local.bbclass          |   28 +-
+ .../conf/distro/include/distro_tracking_fields.inc |   42 ++-
+ meta/conf/machine/include/ia32/arch-ia32.inc       |    2 +-
+ meta/conf/machine/include/tune-core2.inc           |    2 +-
+ meta/recipes-connectivity/bluez/bluez4.inc         |    2 +-
+ meta/recipes-connectivity/bluez/bluez4_4.96.bb     |    2 +-
+ meta/recipes-devtools/gcc/gcc-4.6.inc              |    5 +-
+ meta/recipes-devtools/gcc/gcc-4.6/pr46934.patch    |  392 ++++++++++++++++++++
+ ...ser-perl_2.40.bb => libxml-parser-perl_2.41.bb} |    6 +-
+ ...python-dbus_0.83.2.bb => python-dbus_0.84.0.bb} |    4 +-
+ ...ative_2.0.1.bb => python-scons-native_2.1.0.bb} |    3 +-
+ ...python-scons_2.0.1.bb => python-scons_2.1.0.bb} |    6 +-
+ .../ghostscript/{x86_64 => x86-64}/objarch.h       |    0
+ .../ghostscript/{x86_64 => x86-64}/soobjarch.h     |    0
+ .../ghostscript/ghostscript_9.02.bb                |    4 +
+ .../tzdata/{tzdata_2011k.bb => tzdata_2011l.bb}    |    6 +-
+ ...good_0.10.28.bb => gst-plugins-good_0.10.30.bb} |    4 +-
+ meta/recipes-support/gmp/gmp.inc                   |    2 +
+ meta/recipes-support/gmp/gmp_4.2.1.bb              |    2 +-
+ meta/recipes-support/gmp/gmp_5.0.2.bb              |    2 +-
+ 23 files changed, 500 insertions(+), 72 deletions(-)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6/pr46934.patch
+ rename meta/recipes-devtools/perl/{libxml-parser-perl_2.40.bb => libxml-parser-perl_2.41.bb} (82%)
+ rename meta/recipes-devtools/python/{python-dbus_0.83.2.bb => python-dbus_0.84.0.bb} (83%)
+ rename meta/recipes-devtools/python/{python-scons-native_2.0.1.bb => python-scons-native_2.1.0.bb} (89%)
+ rename meta/recipes-devtools/python/{python-scons_2.0.1.bb => python-scons_2.1.0.bb} (51%)
+ rename meta/recipes-extended/ghostscript/ghostscript/{x86_64 => x86-64}/objarch.h (100%)
+ rename meta/recipes-extended/ghostscript/ghostscript/{x86_64 => x86-64}/soobjarch.h (100%)
+ rename meta/recipes-extended/tzdata/{tzdata_2011k.bb => tzdata_2011l.bb} (96%)
+ rename meta/recipes-multimedia/gstreamer/{gst-plugins-good_0.10.28.bb => gst-plugins-good_0.10.30.bb} (84%)
+
+-- 
+1.7.6.2
+
+
+
