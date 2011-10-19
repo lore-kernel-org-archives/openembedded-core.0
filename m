@@ -1,21 +1,21 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1RGfiY-0003l2-Js
+	(envelope-from <saul.wold@intel.com>) id 1RGfjc-0003op-Ro
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Oct 2011 01:38:38 +0200
+	Thu, 20 Oct 2011 01:39:45 +0200
 Received: from mail-bw0-f52.google.com ([209.85.214.52])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 19 Oct 2011 16:32:42 -0700
-Received: by bkbzs2 with SMTP id zs2so2692101bkb.25
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 19 Oct 2011 16:33:52 -0700
+Received: by bkbzs2 with SMTP id zs2so2692914bkb.25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Oct 2011 16:32:40 -0700 (PDT)
-Received: by 10.223.36.193 with SMTP id u1mr3338371fad.27.1319067160418;
-	Wed, 19 Oct 2011 16:32:40 -0700 (PDT)
+	Wed, 19 Oct 2011 16:33:50 -0700 (PDT)
+Received: by 10.223.63.206 with SMTP id c14mr14187124fai.7.1319067230186;
+	Wed, 19 Oct 2011 16:33:50 -0700 (PDT)
 Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
 	[71.193.189.117])
-	by mx.google.com with ESMTPS id x22sm12225027faa.5.2011.10.19.16.32.37
-	(version=SSLv3 cipher=OTHER); Wed, 19 Oct 2011 16:32:38 -0700 (PDT)
-Message-ID: <4E9F5E14.5010203@intel.com>
-Date: Wed, 19 Oct 2011 16:32:36 -0700
+	by mx.google.com with ESMTPS id l11sm12182845faj.19.2011.10.19.16.33.47
+	(version=SSLv3 cipher=OTHER); Wed, 19 Oct 2011 16:33:49 -0700 (PDT)
+Message-ID: <4E9F5E5A.6040002@intel.com>
+Date: Wed, 19 Oct 2011 16:33:46 -0700
 From: Saul Wold <saul.wold@intel.com>
 Organization: Intel
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
@@ -23,9 +23,22 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1319012299.git.wenzong.fan@windriver.com>
-In-Reply-To: <cover.1319012299.git.wenzong.fan@windriver.com>
-Subject: Re: [PATCH 0/2] Update packages
+References: <cover.1319012721.git.sgw@linux.intel.com>
+	<436a9b443962036ff35a5ffd86d80ad44350d5f2.1319012721.git.sgw@linux.intel.com>
+	<758B37BA-B417-4B39-BF1C-0CEC613F067D@dominion.thruhere.net>
+	<9DA5872FEF993D41B7173F58FCF6BE94E2F42EE2@orsmsx504.amr.corp.intel.com>
+	<E8FAD09F-4767-4ACB-9588-EFC57570F176@dominion.thruhere.net>
+	<9DA5872FEF993D41B7173F58FCF6BE94E2F42F6A@orsmsx504.amr.corp.intel.com>
+	<158EAB1C-0C40-4C5B-B47A-A4B8C90A2055@dominion.thruhere.net>
+	<1319042998.22985.257.camel@phil-desktop>
+	<4E9F018D.7030703@intel.com>
+	<CAMKF1srj1OrgnSwihsVGDCVasAc6zTHRJkfAkjFOpM80mUFM9A@mail.gmail.com>
+	<4E9F0CCF.3070404@intel.com>
+	<CAMKF1sqffiB0WMnhv3wVNseaMcL8TjXUePYXhvdUcwwk4roPag@mail.gmail.com>
+	<CAP9ODKoFRiVnimZ3MDvK9S2v8JLykpR2-pWmmwz_2ua0pr-HfA@mail.gmail.com>
+In-Reply-To: <CAP9ODKoFRiVnimZ3MDvK9S2v8JLykpR2-pWmmwz_2ua0pr-HfA@mail.gmail.com>
+Cc: Phil Blundell <philb@gnu.org>
+Subject: Re: [CONSOLIDATED PULL 14/16] distro-tracking: update data for some toolchain recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,46 +53,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Oct 2011 23:38:38 -0000
+X-List-Received-Date: Wed, 19 Oct 2011 23:39:45 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/19/2011 01:53 AM, wenzong.fan@windriver.com wrote:
-> From: Wenzong Fan<wenzong.fan@windriver.com>
+On 10/19/2011 12:00 PM, Otavio Salvador wrote:
+> On Wed, Oct 19, 2011 at 16:30, Khem Raj<raj.khem@gmail.com>  wrote:
+> ...
+>>>>> Many upstreams we can't track if updates are required automagically, so
+>>>>> we
+>>>>> need a place to record when the last manual check was, also possible
+>>>>> reasons
+>>>>> why we should not update to newer versions, ...
+>>
+>> hmm manual check means it has to be done manually is there any thing
+>> that needs it ?
+>>
+>> I think unless they are distro specific which seems not since they are
+>> in oe-core
+>> they could exist in recipes  thats my opinion.
 >
-> Update ccache/chkconfig to latest version.
+> I agree that this should be put into the recipes. Besides this allows
+> for checking if it was updated when the version has been updated.
 >
-> The following changes since commit b4757833c3548b5ee3a1cce58e2f059b3f63cb09:
->    Martin Jansa (1):
->          fontconfig: fix fix-pkgconfig.patch
+> If done right, when updating the version this data will be updated
+> together. I see no change in the amount of changes.
 >
-Please update the distro_tracking_fields file when updates recipes.
-
-Thanks
-	Sau!
-
-
-> are available in the git repository at:
->
->    git://git.pokylinux.org/poky-contrib wenzong/update_pkgs
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/update_pkgs
->
-> Wenzong Fan (2):
->    ccache: update to 3.1.6
->    chkconfig: Update to 1.3.55
->
->   .../ccache/{ccache_3.1.5.bb =>  ccache_3.1.6.bb}    |    4 ++--
->   .../{chkconfig_1.3.52.bb =>  chkconfig_1.3.55.bb}   |    6 +++---
->   2 files changed, 5 insertions(+), 5 deletions(-)
->   rename meta/recipes-devtools/ccache/{ccache_3.1.5.bb =>  ccache_3.1.6.bb} (47%)
->   rename meta/recipes-extended/chkconfig/{chkconfig_1.3.52.bb =>  chkconfig_1.3.55.bb} (83%)
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> A plus of this choice is it will be more difficult to forget to update
+> that info. This happened in last qt update for an example.
 >
 
+This may need to be something that the TSC brings up, possibly we can 
+talk about it in Prague next week.
+
+Sau!
 
 
