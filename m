@@ -1,29 +1,35 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RGRdg-0001I8-M5
+	(envelope-from <martin.jansa@gmail.com>) id 1RGRsw-0001wQ-AN
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Oct 2011 10:36:41 +0200
-Received: by eyd9 with SMTP id 9so1398833eyd.6
+	Wed, 19 Oct 2011 10:52:26 +0200
+Received: by bkat8 with SMTP id t8so2045091bka.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Oct 2011 01:30:49 -0700 (PDT)
-Received: by 10.213.4.194 with SMTP id 2mr1992628ebs.41.1319013049333;
-	Wed, 19 Oct 2011 01:30:49 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id w58sm13333759eeb.4.2011.10.19.01.30.48
+	Wed, 19 Oct 2011 01:46:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=tIGptrbNshB8bIFWART/fXBWuSStc87FwPJvg3p6AD8=;
+	b=V594mZiPacXZXzKdVnCr55MrwCSp50Wx/ZR+v1rij8K0s//kAyWQgoZ3CFbVv0k50u
+	wt7o3m/RKBIAc4pnuWrpH2ohBr6HRijUBCrK3kT8Mz86FsY/fvfeUrfQlAcEJU7Cl/MC
+	n7LqBn5SUhvguTaxEw36XXKE2pmEXuAKjHh6w=
+Received: by 10.204.7.206 with SMTP id e14mr4266233bke.87.1319013995827;
+	Wed, 19 Oct 2011 01:46:35 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id u18sm5042468bkn.6.2011.10.19.01.46.34
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 19 Oct 2011 01:30:48 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <436a9b443962036ff35a5ffd86d80ad44350d5f2.1319012721.git.sgw@linux.intel.com>
-Date: Wed, 19 Oct 2011 10:30:42 +0200
-Message-Id: <758B37BA-B417-4B39-BF1C-0CEC613F067D@dominion.thruhere.net>
-References: <cover.1319012721.git.sgw@linux.intel.com>
-	<436a9b443962036ff35a5ffd86d80ad44350d5f2.1319012721.git.sgw@linux.intel.com>
+	Wed, 19 Oct 2011 01:46:34 -0700 (PDT)
+Date: Wed, 19 Oct 2011 10:46:29 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [CONSOLIDATED PULL 14/16] distro-tracking: update data for some toolchain recipes
+Message-ID: <20111019084629.GC3522@jama.jama.net>
+References: <cover.1318976197.git.josh@linux.intel.com>
+	<36d6035f30aedab85ce5acf79d5a935151514f1f.1318976197.git.josh@linux.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <36d6035f30aedab85ce5acf79d5a935151514f1f.1318976197.git.josh@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH 1/2] gst-plugins-good: update to 0.10.30
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,164 +44,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Oct 2011 08:36:41 -0000
+X-List-Received-Date: Wed, 19 Oct 2011 08:52:26 -0000
+X-Groupsio-MsgNum: 11238
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="HG+GLK89HZ1zG0kk"
+Content-Disposition: inline
+
+--HG+GLK89HZ1zG0kk
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-btrfs-tools is a toolchain recipe?!?!?!
-
-
-
-Op 19 okt. 2011, om 10:28 heeft Saul Wold het volgende geschreven:
-
-> From: Nitin A Kamble <nitin.a.kamble@intel.com>
->=20
-> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+On Tue, Oct 18, 2011 at 03:24:11PM -0700, Joshua Lock wrote:
+> Signed-off-by: Joshua Lock <josh@linux.intel.com>
 > ---
-> .../conf/distro/include/distro_tracking_fields.inc |   42 =
-++++++++++++--------
-> 1 files changed, 25 insertions(+), 17 deletions(-)
+>  ...good_0.10.28.bb =3D> gst-plugins-good_0.10.30.bb} |    4 ++--
+>  1 files changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-multimedia/gstreamer/{gst-plugins-good_0.10.28.bb =
+=3D> gst-plugins-good_0.10.30.bb} (84%)
 >=20
-> diff --git a/meta/conf/distro/include/distro_tracking_fields.inc =
-b/meta/conf/distro/include/distro_tracking_fields.inc
-> index abc2cbf..e68bbe1 100644
-> --- a/meta/conf/distro/include/distro_tracking_fields.inc
-> +++ b/meta/conf/distro/include/distro_tracking_fields.inc
-> @@ -3005,11 +3005,19 @@ RECIPE_STATUS_pn-run-postinsts=3D"green" # all =
-local code
-> RECIPE_LATEST_VERSION_pn-postinsts=3D"1.0"
-> RECIPE_MAINTAINER_pn-postinsts =3D "Nitin A Kamble =
-<nitin.a.kamble@intel.com>"
->=20
-> -RECIPE_STATUS_pn-nasm=3D"green"=20
-> +RECIPE_STATUS_pn-nasm=3D"green"
-> RECIPE_LATEST_VERSION_pn-nasm=3D"2.07"
-> -RECIPE_MANUAL_CHECK_DATE_pn-nasm =3D "Jul 06, 2011"=20
-> +RECIPE_MANUAL_CHECK_DATE_pn-nasm =3D "Oct 18, 2011"
-> +RECIPE_LAST_UPDATE_pn-nasm =3D "Jun 23, 2010"
-> RECIPE_MAINTAINER_pn-nasm =3D "Nitin A Kamble =
-<nitin.a.kamble@intel.com>"
->=20
-> +RECIPE_STATUS_pn-btrfs-tools=3D"green"
-> +RECIPE_LATEST_VERSION_pn-btrfs-tools=3D"git"
-> +RECIPE_MANUAL_CHECK_DATE_pn-btrfs-tools =3D "Oct 18, 2011"
-> +RECIPE_LAST_UPDATE_pn-btrfs-tools =3D "Jun 09, 2011"
-> +RECIPE_MAINTAINER_pn-btrfs-tools =3D "Nitin A Kamble =
-<nitin.a.kamble@intel.com>"
-> +DISTRO_PN_ALIAS_pn-btrfs-tools =3D "Debian=3Dbtrfs-tools =
-Fedora=3Dbtrfs-progs"
-> +
-> RECIPE_STATUS_pn-perl=3D"red" # upgrade needed
-> RECIPE_LATEST_VERSION_pn-perl=3D"5.12.1"
-> RECIPE_LAST_UPDATE_pn-perl =3D "May 27, 2007"
-> @@ -3020,9 +3028,9 @@ =
-RECIPE_LATEST_VERSION_pn-prelink=3D"1.0+git0+0x909470ee441237563d6236c505c=
-b2d02ddc
-> RECIPE_LAST_UPDATE_pn-perl =3D "Jul 23, 2010"
-> RECIPE_MAINTAINER_pn-prelink =3D "Mark Hatle =
-<mark.hatle@windriver.com>"
->=20
-> -RECIPE_STATUS_pn-python-dbus=3D"red"=20
-> -RECIPE_LATEST_VERSION_pn-python-dbus=3D"0.83.1"
-> -RECIPE_LAST_UPDATE_pn-python-dbus =3D "Jul 7, 2010"
-> +RECIPE_STATUS_pn-python-dbus=3D"green"=20
-> +RECIPE_LATEST_VERSION_pn-python-dbus=3D"0.84.0"
-> +RECIPE_LAST_UPDATE_pn-python-dbus =3D "Oct 18, 2011"
-> RECIPE_MAINTAINER_pn-python-dbus =3D "Nitin A Kamble =
-<nitin.a.kamble@intel.com>"
-> DISTRO_PN_ALIAS_pn-python-dbus =3D "Ubuntu=3Dpython-dbus =
-Debian=3Dpython-dbus Mandriva=3Dpython-dbus"
->=20
-> @@ -3062,7 +3070,8 @@ RECIPE_MAINTAINER_pn-python-pyrex =3D "Nitin A =
-Kamble <nitin.a.kamble@intel.com>"
-> DISTRO_PN_ALIAS_pn-python-pyrex =3D "Mandriva=3Dpython-pyrex =
-Ubuntu=3Dpython-pyrex"
->=20
-> RECIPE_STATUS_pn-python-scons=3D"green"
-> -RECIPE_LATEST_VERSION_pn-python-scons=3D"2.0.1"
-> +RECIPE_LATEST_VERSION_pn-python-scons=3D"2.1.0"
-> +RECIPE_LAST_UPDATE_pn-python-scons =3D "Oct 18, 2011"
-> DISTRO_PN_ALIAS_pn-python-scons =3D "Fedora=3Dscons OpenSuSE=3Dscons =
-Ubuntu=3Dscons Mandriva=3Dscons Debian=3Dscons"
-> RECIPE_LAST_UPDATE_pn-python-scons =3D "Nov 8, 2010"
-> RECIPE_MAINTAINER_pn-python-scons =3D "Nitin A Kamble =
-<nitin.a.kamble@intel.com>"
-> @@ -3087,15 +3096,16 @@ RECIPE_LATEST_VERSION_pn-unifdef=3D"2.6.18+git"
-> RECIPE_MAINTAINER_pn-unifdef =3D "Nitin A Kamble =
-<nitin.a.kamble@intel.com>"
->=20
-> RECIPE_STATUS_pn-gnu-config=3D"green"=20
-> -RECIPE_LATEST_VERSION_pn-gnu-config=3D"0.0+git3155524"
-> +RECIPE_LATEST_VERSION_pn-gnu-config=3D"svn"
-> DISTRO_PN_ALIAS_pn-gnu-config =3D "OpenedHand"
-> RECIPE_LAST_UPDATE_pn-gnu-config =3D "Jun 21, 2010"
-> -RECIPE_MANUAL_CHECK_DATE_pn-gnu-config =3D "Jul 06, 2011"=20
-> +RECIPE_MANUAL_CHECK_DATE_pn-gnu-config =3D "Oct 18, 2011"=20
-> RECIPE_MAINTAINER_pn-gnu-config =3D "Nitin A Kamble =
-<nitin.a.kamble@intel.com>"
->=20
-> RECIPE_STATUS_pn-mpfr=3D"green"
-> -RECIPE_LATEST_VERSION_pn-mpfr=3D"3.0.0"
-> -RECIPE_MANUAL_CHECK_DATE_pn-mpfr =3D "Jul 06, 2011"=20
-> +RECIPE_LATEST_VERSION_pn-mpfr=3D"3.0.1"
-> +RECIPE_MANUAL_CHECK_DATE_pn-mpfr =3D "Oct 18, 2011"=20
-> +RECIPE_LAST_UPDATE_pn-mpfr =3D "Apr 07, 2011"
-> RECIPE_MAINTAINER_pn-mpfr =3D "Nitin A Kamble =
-<nitin.a.kamble@intel.com>"
->=20
-> RECIPE_STATUS_pn-gmp=3D"green"
-> @@ -3110,9 +3120,10 @@ RECIPE_MANUAL_CHECK_DATE_pn-libmpc =3D "Jan 25, =
-2011"
-> RECIPE_MAINTAINER_pn-libmpc =3D "Nitin A Kamble =
-<nitin.a.kamble@intel.com>"
-> DISTRO_PN_ALIAS_pn-libmpc =3D "Fedora=3Dlibmpc OpenSuse=3Dlibmpc2"
->=20
-> -RECIPE_STATUS_pn-byacc=3D"red"=20
-> +RECIPE_STATUS_pn-byacc=3D"green"=20
-> RECIPE_LATEST_VERSION_pn-byacc=3D"20101229"
-> -RECIPE_MANUAL_CHECK_DATE_pn-byacc =3D "Jul 06, 2011"=20
-> +RECIPE_MANUAL_CHECK_DATE_pn-byacc =3D "Oct 18, 2011"=20
-> +RECIPE_LAST_UPDATE_pn-byacc =3D "Oct 18, 2010"
-> RECIPE_MAINTAINER_pn-byacc =3D "Nitin A Kamble =
-<nitin.a.kamble@intel.com>"
->=20
-> RECIPE_STATUS_pn-libconvert-asn1-perl=3D"green"=20
-> @@ -3122,8 +3133,8 @@ RECIPE_LAST_UPDATE_pn-libconvert-asn1-perl =3D =
-"Aug 13, 2010"
-> RECIPE_MAINTAINER_pn-libconvert-asn1-perl =3D "Nitin A Kamble =
-<nitin.a.kamble@intel.com>"
->=20
-> RECIPE_STATUS_pn-libxml-parser-perl=3D"green"=20
-> -RECIPE_LATEST_VERSION_pn-libxml-parser-perl=3D"2.36"
-> -RECIPE_LAST_UPDATE_pn-libxml-parser-perl =3D "Nov 18, 2009"
-> +RECIPE_LATEST_VERSION_pn-libxml-parser-perl=3D"2.41"
-> +RECIPE_LAST_UPDATE_pn-libxml-parser-perl =3D "Oct 18, 2011"
-> RECIPE_MAINTAINER_pn-libxml-parser-perl =3D "Nitin A Kamble =
-<nitin.a.kamble@intel.com>"
->=20
-> RECIPE_STATUS_pn-cmake-native=3D"green"=20
-> @@ -5922,9 +5933,6 @@ RECIPE_COMMENTS_pn-pseudo =3D "Yocto Project =
-maintained"
-> RECIPE_MANUAL_CHECK_DATE_pn-pseudo =3D "Jun 06, 2011"=20
-> DISTRO_PN_ALIAS_pn-pseudo =3D "Windriver"
->=20
-> -DISTRO_PN_ALIAS_pn-btrfs-tools =3D "Debian=3Dbtrfs-tools =
-Fedora=3Dbtrfs-progs"
-> -RECIPE_MAINTAINER_pn-btrfs-tools =3D "Nitin A Kamble =
-<nitin.a.kamble@intel.com>"
-> -
-> DISTRO_PN_ALIAS_pn-rt-tests =3D "Debian=3Drt-tests Ubuntu=3Drt-tests"
-> RECIPE_MAINTAINER_pn-rt-tests =3D "Darren Hart =
-<dvhart@linux.intel.com>"
->=20
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.28.b=
+b b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.30.bb
+> similarity index 84%
+> rename from meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.28.bb
+> rename to meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.30.bb
+> index 6c837a7..96855aa 100644
+> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.28.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.30.bb
+> @@ -18,5 +18,5 @@ do_configure_prepend() {
+>  	rm ${S}/m4/lib-link.m4 || true
+>  }
+> =20
+> -SRC_URI[md5sum] =3D "6ef1588921f59d85c44ee2e49a3c97a0"
+> -SRC_URI[sha256sum] =3D "adfbce68b9fbadb7a7aeda2227af6afe1928ef025af41587=
+26617b9d6834b028"
+> +SRC_URI[md5sum] =3D "62fd7a3ef187c4f99b3d7c352d58dae9"
+> +SRC_URI[sha256sum] =3D "b12cba90b27d8423cd0a808939098d19db3996cfb9bf5285=
+07c6321782e095f6"
 > --=20
-> 1.7.6.2
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> 1.7.6.4
 
+Can you please fix:
+NOTE: Running task 2693 of 2701 (ID: 9, /OE/shr-core/openembedded-core/meta=
+/recipes-multimedia/gstreamer/gst-plugins-good_0.10.30.bb, do_package)
+NOTE: package gst-plugins-good-0.10.30-r2: task do_package: Started
+WARNING: For recipe gst-plugins-good, the following files were installed bu=
+t not shipped in any package:
+WARNING:   /etc/gconf/schemas/gstreamer-0.10.schemas
+NOTE: package gst-plugins-good-0.10.30-r2: task do_package: Succeeded
 
+Regards,
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--HG+GLK89HZ1zG0kk
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk6ejmUACgkQN1Ujt2V2gBxXHQCglPzoXbvfCW9k/GH4WdoVulGZ
+Io4AniCDc7fYD9lfRu1a4fRCZkFXUyCq
+=zXGe
+-----END PGP SIGNATURE-----
+
+--HG+GLK89HZ1zG0kk--
