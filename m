@@ -1,24 +1,36 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-pz0-f43.google.com ([209.85.210.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1RGKAU-0005ys-Mm
+	(envelope-from <raj.khem@gmail.com>) id 1RGKUU-0006TA-JP
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Oct 2011 02:38:03 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 18 Oct 2011 17:31:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="64550989"
-Received: from nbuild2.sc.intel.com ([172.25.110.37])
-	by orsmga002.jf.intel.com with ESMTP; 18 Oct 2011 17:31:02 -0700
-From: nitin.a.kamble@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Oct 2011 17:31:00 -0700
-Message-Id: <066f6bed29dff0b4faac586eba7a865584c4fe4b.1318984111.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.7.4.4
-In-Reply-To: <66cdd5054e220fcce980222ed68a2afc37f614af.1318984111.git.nitin.a.kamble@intel.com>
-References: <66cdd5054e220fcce980222ed68a2afc37f614af.1318984111.git.nitin.a.kamble@intel.com>
-In-Reply-To: <cover.1318984111.git.nitin.a.kamble@intel.com>
-References: <cover.1318984111.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 6/6] distro-tracking: update data for some toolchain recipes
+	Wed, 19 Oct 2011 02:58:42 +0200
+Received: by pzk33 with SMTP id 33so2998452pzk.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Oct 2011 17:52:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=F1VdQ01dqoXfqtKf/a7FDCONU0g5IE5MWPaAVZ8h1dc=;
+	b=RehIElnvijN5tOBDFktJRds7U8h7cn0SwwwE/3OyIHlivhidt+IW/dY5Mzxj14J0WL
+	N1a3m1L0jh+sOisCSP50AtzpP1E7FWD5RBvIFRKzszN8rvf1d1PhVgvA+02e1BVqhSkl
+	JHqXdJRRaOe1PpJGadLyXb7s0Rd16jD0ujPhI=
+Received: by 10.68.35.97 with SMTP id g1mr8683331pbj.38.1318985570989;
+	Tue, 18 Oct 2011 17:52:50 -0700 (PDT)
+Received: from sakrah.homelinux.org
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
+	by mx.google.com with ESMTPS id v7sm1320880pbr.10.2011.10.18.17.52.49
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 18 Oct 2011 17:52:50 -0700 (PDT)
+Date: Tue, 18 Oct 2011 17:54:11 -0700
+From: Khem Raj <raj.khem@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20111019005411.GB27915@sakrah.homelinux.org>
+References: <cover.1318976197.git.josh@linux.intel.com>
+	<f90833637d03ce25b7d84641c29fb60c90c375fa.1318976197.git.josh@linux.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <f90833637d03ce25b7d84641c29fb60c90c375fa.1318976197.git.josh@linux.intel.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: [PATCH 2/2] tzdata: updated SRC_URI and update to 2011k
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,121 +45,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Oct 2011 00:38:03 -0000
+X-List-Received-Date: Wed, 19 Oct 2011 00:58:42 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+On (18/10/11 15:24), Joshua Lock wrote:
+> tzdata is now hosted by IANA at http://www.iana.org/time-zones
+> 
+> Signed-off-by: Joshua Lock <josh@linux.intel.com>
+> ---
+>  .../tzdata/{tzdata_2011k.bb => tzdata_2011l.bb}    |    6 +++---
+>  1 files changed, 3 insertions(+), 3 deletions(-)
+>  rename meta/recipes-extended/tzdata/{tzdata_2011k.bb => tzdata_2011l.bb} (96%)
+> 
+> diff --git a/meta/recipes-extended/tzdata/tzdata_2011k.bb b/meta/recipes-extended/tzdata/tzdata_2011l.bb
+> similarity index 96%
+> rename from meta/recipes-extended/tzdata/tzdata_2011k.bb
+> rename to meta/recipes-extended/tzdata/tzdata_2011l.bb
+> index 45f2c4d..140f8ed 100644
+> --- a/meta/recipes-extended/tzdata/tzdata_2011k.bb
+> +++ b/meta/recipes-extended/tzdata/tzdata_2011l.bb
+> @@ -12,10 +12,10 @@ RCONFLICTS= "timezones timezone-africa timezone-america timezone-antarctica \
+>               timezone-australia timezone-europe timezone-indian \
+>               timezone-iso3166.tab timezone-pacific timezone-zone.tab"
+>  
+> -SRC_URI = "ftp://elsie.nci.nih.gov/pub/tzdata${PV}.tar.gz;name=tzdata"
+> +SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
 
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
----
- .../conf/distro/include/distro_tracking_fields.inc |   42 ++++++++++++--------
- 1 files changed, 25 insertions(+), 17 deletions(-)
+I think same would be needed for tzcode-native recipes. Could you also
+do that while you are at it.
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index abc2cbf..e68bbe1 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -3005,11 +3005,19 @@ RECIPE_STATUS_pn-run-postinsts="green" # all local code
- RECIPE_LATEST_VERSION_pn-postinsts="1.0"
- RECIPE_MAINTAINER_pn-postinsts = "Nitin A Kamble <nitin.a.kamble@intel.com>"
- 
--RECIPE_STATUS_pn-nasm="green" 
-+RECIPE_STATUS_pn-nasm="green"
- RECIPE_LATEST_VERSION_pn-nasm="2.07"
--RECIPE_MANUAL_CHECK_DATE_pn-nasm = "Jul 06, 2011" 
-+RECIPE_MANUAL_CHECK_DATE_pn-nasm = "Oct 18, 2011"
-+RECIPE_LAST_UPDATE_pn-nasm = "Jun 23, 2010"
- RECIPE_MAINTAINER_pn-nasm = "Nitin A Kamble <nitin.a.kamble@intel.com>"
- 
-+RECIPE_STATUS_pn-btrfs-tools="green"
-+RECIPE_LATEST_VERSION_pn-btrfs-tools="git"
-+RECIPE_MANUAL_CHECK_DATE_pn-btrfs-tools = "Oct 18, 2011"
-+RECIPE_LAST_UPDATE_pn-btrfs-tools = "Jun 09, 2011"
-+RECIPE_MAINTAINER_pn-btrfs-tools = "Nitin A Kamble <nitin.a.kamble@intel.com>"
-+DISTRO_PN_ALIAS_pn-btrfs-tools = "Debian=btrfs-tools Fedora=btrfs-progs"
-+
- RECIPE_STATUS_pn-perl="red" # upgrade needed
- RECIPE_LATEST_VERSION_pn-perl="5.12.1"
- RECIPE_LAST_UPDATE_pn-perl = "May 27, 2007"
-@@ -3020,9 +3028,9 @@ RECIPE_LATEST_VERSION_pn-prelink="1.0+git0+0x909470ee441237563d6236c505cb2d02ddc
- RECIPE_LAST_UPDATE_pn-perl = "Jul 23, 2010"
- RECIPE_MAINTAINER_pn-prelink = "Mark Hatle <mark.hatle@windriver.com>"
- 
--RECIPE_STATUS_pn-python-dbus="red" 
--RECIPE_LATEST_VERSION_pn-python-dbus="0.83.1"
--RECIPE_LAST_UPDATE_pn-python-dbus = "Jul 7, 2010"
-+RECIPE_STATUS_pn-python-dbus="green" 
-+RECIPE_LATEST_VERSION_pn-python-dbus="0.84.0"
-+RECIPE_LAST_UPDATE_pn-python-dbus = "Oct 18, 2011"
- RECIPE_MAINTAINER_pn-python-dbus = "Nitin A Kamble <nitin.a.kamble@intel.com>"
- DISTRO_PN_ALIAS_pn-python-dbus = "Ubuntu=python-dbus Debian=python-dbus Mandriva=python-dbus"
- 
-@@ -3062,7 +3070,8 @@ RECIPE_MAINTAINER_pn-python-pyrex = "Nitin A Kamble <nitin.a.kamble@intel.com>"
- DISTRO_PN_ALIAS_pn-python-pyrex = "Mandriva=python-pyrex Ubuntu=python-pyrex"
- 
- RECIPE_STATUS_pn-python-scons="green"
--RECIPE_LATEST_VERSION_pn-python-scons="2.0.1"
-+RECIPE_LATEST_VERSION_pn-python-scons="2.1.0"
-+RECIPE_LAST_UPDATE_pn-python-scons = "Oct 18, 2011"
- DISTRO_PN_ALIAS_pn-python-scons = "Fedora=scons OpenSuSE=scons Ubuntu=scons Mandriva=scons Debian=scons"
- RECIPE_LAST_UPDATE_pn-python-scons = "Nov 8, 2010"
- RECIPE_MAINTAINER_pn-python-scons = "Nitin A Kamble <nitin.a.kamble@intel.com>"
-@@ -3087,15 +3096,16 @@ RECIPE_LATEST_VERSION_pn-unifdef="2.6.18+git"
- RECIPE_MAINTAINER_pn-unifdef = "Nitin A Kamble <nitin.a.kamble@intel.com>"
- 
- RECIPE_STATUS_pn-gnu-config="green" 
--RECIPE_LATEST_VERSION_pn-gnu-config="0.0+git3155524"
-+RECIPE_LATEST_VERSION_pn-gnu-config="svn"
- DISTRO_PN_ALIAS_pn-gnu-config = "OpenedHand"
- RECIPE_LAST_UPDATE_pn-gnu-config = "Jun 21, 2010"
--RECIPE_MANUAL_CHECK_DATE_pn-gnu-config = "Jul 06, 2011" 
-+RECIPE_MANUAL_CHECK_DATE_pn-gnu-config = "Oct 18, 2011" 
- RECIPE_MAINTAINER_pn-gnu-config = "Nitin A Kamble <nitin.a.kamble@intel.com>"
- 
- RECIPE_STATUS_pn-mpfr="green"
--RECIPE_LATEST_VERSION_pn-mpfr="3.0.0"
--RECIPE_MANUAL_CHECK_DATE_pn-mpfr = "Jul 06, 2011" 
-+RECIPE_LATEST_VERSION_pn-mpfr="3.0.1"
-+RECIPE_MANUAL_CHECK_DATE_pn-mpfr = "Oct 18, 2011" 
-+RECIPE_LAST_UPDATE_pn-mpfr = "Apr 07, 2011"
- RECIPE_MAINTAINER_pn-mpfr = "Nitin A Kamble <nitin.a.kamble@intel.com>"
- 
- RECIPE_STATUS_pn-gmp="green"
-@@ -3110,9 +3120,10 @@ RECIPE_MANUAL_CHECK_DATE_pn-libmpc = "Jan 25, 2011"
- RECIPE_MAINTAINER_pn-libmpc = "Nitin A Kamble <nitin.a.kamble@intel.com>"
- DISTRO_PN_ALIAS_pn-libmpc = "Fedora=libmpc OpenSuse=libmpc2"
- 
--RECIPE_STATUS_pn-byacc="red" 
-+RECIPE_STATUS_pn-byacc="green" 
- RECIPE_LATEST_VERSION_pn-byacc="20101229"
--RECIPE_MANUAL_CHECK_DATE_pn-byacc = "Jul 06, 2011" 
-+RECIPE_MANUAL_CHECK_DATE_pn-byacc = "Oct 18, 2011" 
-+RECIPE_LAST_UPDATE_pn-byacc = "Oct 18, 2010"
- RECIPE_MAINTAINER_pn-byacc = "Nitin A Kamble <nitin.a.kamble@intel.com>"
- 
- RECIPE_STATUS_pn-libconvert-asn1-perl="green" 
-@@ -3122,8 +3133,8 @@ RECIPE_LAST_UPDATE_pn-libconvert-asn1-perl = "Aug 13, 2010"
- RECIPE_MAINTAINER_pn-libconvert-asn1-perl = "Nitin A Kamble <nitin.a.kamble@intel.com>"
- 
- RECIPE_STATUS_pn-libxml-parser-perl="green" 
--RECIPE_LATEST_VERSION_pn-libxml-parser-perl="2.36"
--RECIPE_LAST_UPDATE_pn-libxml-parser-perl = "Nov 18, 2009"
-+RECIPE_LATEST_VERSION_pn-libxml-parser-perl="2.41"
-+RECIPE_LAST_UPDATE_pn-libxml-parser-perl = "Oct 18, 2011"
- RECIPE_MAINTAINER_pn-libxml-parser-perl = "Nitin A Kamble <nitin.a.kamble@intel.com>"
- 
- RECIPE_STATUS_pn-cmake-native="green" 
-@@ -5922,9 +5933,6 @@ RECIPE_COMMENTS_pn-pseudo = "Yocto Project maintained"
- RECIPE_MANUAL_CHECK_DATE_pn-pseudo = "Jun 06, 2011" 
- DISTRO_PN_ALIAS_pn-pseudo = "Windriver"
- 
--DISTRO_PN_ALIAS_pn-btrfs-tools = "Debian=btrfs-tools Fedora=btrfs-progs"
--RECIPE_MAINTAINER_pn-btrfs-tools = "Nitin A Kamble <nitin.a.kamble@intel.com>"
--
- DISTRO_PN_ALIAS_pn-rt-tests = "Debian=rt-tests Ubuntu=rt-tests"
- RECIPE_MAINTAINER_pn-rt-tests = "Darren Hart <dvhart@linux.intel.com>"
- 
+>  
+> -SRC_URI[tzdata.md5sum] = "9da1c2d4d1a01f9f504b73ccd371830f"
+> -SRC_URI[tzdata.sha256sum] = "51f7d2a42b7fb9465feced642a6676afdf8b04a071e55f3fef1f0925bd67ef21"
+> +SRC_URI[tzdata.md5sum] = "bae1b93673e1aef80186c90dfd493f1c"
+> +SRC_URI[tzdata.sha256sum] = "cb9fec68a19c9c3b900bb71f3ca20d0051a863f765387b52fc2d144a5bbb0c7d"
+>  
+>  S = "${WORKDIR}"
+>  
+> -- 
+> 1.7.6.4
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 -- 
-1.7.4.4
-
+-Khem
 
 
