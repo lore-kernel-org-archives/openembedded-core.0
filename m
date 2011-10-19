@@ -1,31 +1,36 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-pz0-f43.google.com ([209.85.210.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RGbmD-00012u-7m
+	(envelope-from <raj.khem@gmail.com>) id 1RGdjd-000182-R1
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Oct 2011 21:26:09 +0200
-Received: by eyd9 with SMTP id 9so2018183eyd.6
+	Wed, 19 Oct 2011 23:31:39 +0200
+Received: by pzk33 with SMTP id 33so5448744pzk.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Oct 2011 12:20:18 -0700 (PDT)
-Received: by 10.213.108.133 with SMTP id f5mr1093345ebp.39.1319052014386;
-	Wed, 19 Oct 2011 12:20:14 -0700 (PDT)
-Received: from [172.20.2.72] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id a10sm18459698een.6.2011.10.19.12.20.12
+	Wed, 19 Oct 2011 14:25:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=cGeGJaRxm5P+hGpxKEMY2jEvc8+TqyKVUMA8VIpyhVk=;
+	b=s/THubeQNJ290ecTEYggEfzr0hasqnR6KNbVCvEnJp6HNtInkwt9NZvvFh7Xf9kznl
+	TWXG/HNtbcEMb74MSpwnYCbwTdMHig4qb8CIYxI4bvSoI8/9KJUgiMPJ0PrrrCz9ShZi
+	GvHLqkE9k3rJyD3Vee/ujDm3yP4qMWAqPATig=
+Received: by 10.68.26.169 with SMTP id m9mr15114555pbg.12.1319059540014;
+	Wed, 19 Oct 2011 14:25:40 -0700 (PDT)
+Received: from sakrah.homelinux.org
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
+	by mx.google.com with ESMTPS id ko15sm11212581pbb.9.2011.10.19.14.25.38
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 19 Oct 2011 12:20:13 -0700 (PDT)
-References: <CAMKF1spgu+h2_LD3Qp6129QCxb5XHKSru0ggOHt3vCqG=8s7Jw@mail.gmail.com>
-	<201110192102.50043.schnitzeltony@gmx.de>
-In-Reply-To: <201110192102.50043.schnitzeltony@gmx.de>
-Mime-Version: 1.0 (1.0)
-Message-Id: <19517CE2-2C1A-4FE7-9656-20BD83826DFC@dominion.thruhere.net>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: iPhone Mail (9A334)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Wed, 19 Oct 2011 21:19:59 +0200
+	Wed, 19 Oct 2011 14:25:38 -0700 (PDT)
+Date: Wed, 19 Oct 2011 14:26:59 -0700
+From: Khem Raj <raj.khem@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: xerver-xorg build problem
+Message-ID: <20111019212659.GA30050@sakrah.homelinux.org>
+References: <1319028214-27568-1-git-send-email-cliff.brake@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <1319028214-27568-1-git-send-email-cliff.brake@gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Cliff Brake <cbrake@bec-systems.com>
+Subject: Re: [PATCH] squashfs-tools: add recipe (2nd try)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,65 +45,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Oct 2011 19:26:09 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+X-List-Received-Date: Wed, 19 Oct 2011 21:31:39 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-add mesa-dri to DEPENDS in the xorg .bb, not the .inc
+On (19/10/11 08:43), Cliff Brake wrote:
+> From: Cliff Brake <cbrake@bec-systems.com>
+> 
+> added xz compression option, general cleanup
+> ---
+>  .../squashfs-tools/squashfs-tools_4.2.bb           |   38 ++++++++++++++++++++
+>  1 files changed, 38 insertions(+), 0 deletions(-)
+>  create mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb
+> 
 
-Op 19 okt. 2011 om 21:02 heeft Andreas M=C3=BCller <schnitzeltony@gmx.de> he=
-t volgende geschreven:
+IIRC they did not work with thumb mode so you might have to add option
+to always build for arm mode when building for arm architectures.
+Add ARM_INSTRUCTION_SET = "arm" to the recipe
 
-> On Wednesday, October 19, 2011 08:22:27 PM Khem Raj wrote:
->> Hi
->>=20
->> I am seeing this error today
->>=20
->>=20
->> | checking for GL... yes
->> | checking for DRIPROTO... yes
->> | checking for DRI... no
->> | configure: error: Package requirements (glproto >=3D 1.4.14 dri >=3D
->> 7.8.0) were not met:
->> |
->> | No package 'dri' found
->> |
->> | Consider adjusting the PKG_CONFIG_PATH environment variable if you
->> | installed software in a non-standard prefix.
->> |
->> | Alternatively, you may set the environment variables DRI_CFLAGS
->> | and DRI_LIBS to avoid the need to call pkg-config.
->> | See the pkg-config man page for more details.
->> | + bbfatal 'oe_runconf failed'
->> | + echo 'ERROR: oe_runconf failed'
->> | ERROR: oe_runconf failed
->> | + exit 1
->> | ERROR: Function 'do_configure' failed (see
->> /home/kraj/work/angstrom/build/tmp-angstrom_2010_x-eglibc/work/ppc603e-an=
-gstrom-linux/xserver-xorg-2_1.11.1-r1/temp/log.do_configure.21621
->> for further information)
->> NOTE: package xserver-xorg-2_1.11.1-r1: task do_configure: Failed
->> ERROR: Task 1518
->> (/home/kraj/work/angstrom/sources/openembedded-core/meta/recipes-graphics=
-/xorg-xserver/xserver-xorg_1.11.1.bb,
->> do_configure) failed with exit code '1'
->> Waiting for 2 active tasks to finish:
->>=20
->>=20
->> any hints ?
->>=20
-> I think it is this one [1]: manually build mesa-xlib and mesa-dri. What co=
-uld be a proper solution on that?
->=20
-> Andreas
->=20
-> [1] http://lists.linuxtogo.org/pipermail/openembedded-core/2011-October/01=
-1281.html
->=20
+> diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb
+> new file mode 100644
+> index 0000000..3a9f12a
+> --- /dev/null
+> +++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb
+> @@ -0,0 +1,38 @@
+> +# Note, we can probably remove the lzma option as it has be replaced with xz,
+> +# and I don't think the kernel supports it any more.
+> +DESCRIPTION = "Squashfs is a highly compressed read-only filesystem for Linux."
+
+I think this description is for the filesystem but the recipe is for
+tools. So probably saying something like "Tools for manipulate squashfs,
+..." would be nice.
+
+> +SECTION = "base"
+> +LICENSE = "GPLv2 & Public Domain"
+> +LIC_FILES_CHKSUM = "file://../COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+> +                    file://../../7zC.txt;beginline=12;endline=16;md5=2056cd6d919ebc3807602143c7449a7c \
+> +                   "
+> +DEPENDS = "attr zlib xz"
+> +PR = "0"
+> +
+> +SRC_URI = "${SOURCEFORGE_MIRROR}/squashfs/squashfs${PV}.tar.gz;name=squashfs \
+> +           http://downloads.sourceforge.net/sevenzip/lzma465.tar.bz2;name=lzma \
+> +          "
+> +SRC_URI[squashfs.md5sum] = "1b7a781fb4cf8938842279bd3e8ee852"
+> +SRC_URI[squashfs.sha256sum] = "d9e0195aa922dbb665ed322b9aaa96e04a476ee650f39bbeadb0d00b24022e96"
+> +SRC_URI[lzma.md5sum] = "29d5ffd03a5a3e51aef6a74e9eafb759"
+> +SRC_URI[lzma.sha256sum] = "c935fd04dd8e0e8c688a3078f3675d699679a90be81c12686837e0880aa0fa1e"
+> +
+> +S = "${WORKDIR}/squashfs${PV}/squashfs-tools"
+> +
+> +# EXTRA_OEMAKE is typically: -e MAKEFLAGS=
+> +# the -e causes problems as CFLAGS is modified in the Makefile, so
+> +# we redefine EXTRA_OEMAKE here
+> +EXTRA_OEMAKE = "MAKEFLAGS= LZMA_SUPPORT=1 LZMA_DIR=../.. XZ_SUPPORT=1"
+> +
+> +do_compile() {
+> +        oe_runmake mksquashfs
+> +}
+> +do_install () {
+> +        install -d ${D}${sbindir}
+> +        install -m 0755 mksquashfs ${D}${sbindir}/
+> +}
+> +
+> +# required to share same place with -lzma specific packages
+> +FILESPATHPKG =. "squashfs-tools-${PV}:"
+> +
+> +BBCLASSEXTEND = "native"
+> -- 
+> 1.7.1
+> 
+> 
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+-- 
+-Khem
 
 
