@@ -1,33 +1,24 @@
-Received: from mail-gx0-f175.google.com ([209.85.161.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cliff.brake@gmail.com>) id 1RGKhM-000779-7x
+	(envelope-from <Kai.Kang@windriver.com>) id 1RGLWi-0008E4-72
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Oct 2011 03:12:00 +0200
-Received: by ggnq1 with SMTP id q1so1174300ggn.6
+	Wed, 19 Oct 2011 04:05:04 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p9J1xCuv024207
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Oct 2011 18:06:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type;
-	bh=Y5kDtzRMgiJX3weSyo11Fxtz57/LED8ijU7enJfsLoM=;
-	b=GoYRVzRwQt2JMReDd5dw90a9NhzURY6zcXmWp0yijFa04i/ZHfZSwnGKvYBdzy5UC9
-	S3XPBc+njSkUOia9UT/tOprNr85dXWv+WVIEXBCHMMJHoldG77wMtZ0vQ+kWNbS0d3lt
-	Ga721BNLY1GEzJyalQYPVO29fsu9jrqs4IKGU=
+	Tue, 18 Oct 2011 18:59:12 -0700 (PDT)
+Received: from localhost (128.224.162.225) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Tue, 18 Oct 2011 18:59:12 -0700
+From: Kang Kai <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 19 Oct 2011 10:00:23 +0800
+Message-ID: <cover.1318989087.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.7.5.1.300.gc565c
 MIME-Version: 1.0
-Received: by 10.236.129.228 with SMTP id h64mr6973551yhi.101.1318986369468;
-	Tue, 18 Oct 2011 18:06:09 -0700 (PDT)
-Sender: cliff.brake@gmail.com
-Received: by 10.236.209.97 with HTTP; Tue, 18 Oct 2011 18:06:09 -0700 (PDT)
-In-Reply-To: <1AE11CCC-207A-4634-BFBB-E17671ADBA96@dominion.thruhere.net>
-References: <1318966354-9188-1-git-send-email-cliff.brake@gmail.com>
-	<1AE11CCC-207A-4634-BFBB-E17671ADBA96@dominion.thruhere.net>
-Date: Tue, 18 Oct 2011 21:06:09 -0400
-X-Google-Sender-Auth: SkA4Bhd3FXzhrk8xmN7fx9X9oRQ
-Message-ID: <CAOd_LFwrEZvgzce7g6+qb2moQGNZsahamtLS+RGJE4vPS8grhQ@mail.gmail.com>
-From: Cliff Brake <cbrake@bec-systems.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] squashfs-tools: add recipe
+X-Originating-IP: [128.224.162.225]
+Subject: [PATCH 0/4] Update packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,17 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Oct 2011 01:12:00 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 19 Oct 2011 02:05:04 -0000
+Content-Type: text/plain
 
-On Tue, Oct 18, 2011 at 3:54 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> The entries in this recipe are all over the place, could you run it through the oe-stylize.py in meta-openembedded/contrib? That should give you an idea on what goes where. The general rule of thumb:
->
-> 1) things belonging to the same task are grouped together (RDEPENDS/FILES/pkg_postinst)
-> 2) ordering follows task ordering, fetch, patch, configure, package, deploy, etc
+Hi All,
 
-Thanks for the suggestions -- I'll post a new patch in the near future.
+Update ghostscript, xdg-utils, libxml-sax-perl and liburi-perl to latest version.
 
-Cliff
+Regards,
+
+The following changes since commit 3c517bfe6c6d7781658f65bda4e0fdb499ca2b62:
+
+  bind 9.8.1: fix build after recent update (2011-10-17 16:58:14 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib kangkai/update-pkgs
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/update-pkgs
+
+Kang Kai (4):
+  ghostscript: update to 9.04
+  xdg-utils: update to 1.1.0 rc1
+  libxml-sax-perl: update to 0.96
+  liburi-perl: update to 1.59
+
+ .../{liburi-perl_1.58.bb => liburi-perl_1.59.bb}   |    6 +-
+ .../ghostscript-9.02-prevent_recompiling.patch     |   74 ++++++++++----------
+ .../{ghostscript_9.02.bb => ghostscript_9.04.bb}   |   24 +++---
+ ...ml-sax-perl_0.96.bb => libxml-sax-perl_0.99.bb} |    7 +-
+ .../{xdg-utils_1.0.2.bb => xdg-utils_1.1.0rc1.bb}  |   20 +++---
+ 5 files changed, 67 insertions(+), 64 deletions(-)
+ rename meta/recipes-devtools/perl/{liburi-perl_1.58.bb => liburi-perl_1.59.bb} (81%)
+ rename meta/recipes-extended/ghostscript/{ghostscript_9.02.bb => ghostscript_9.04.bb} (81%)
+ rename meta/recipes-extended/perl/{libxml-sax-perl_0.96.bb => libxml-sax-perl_0.99.bb} (85%)
+ rename meta/recipes-extended/xdg-utils/{xdg-utils_1.0.2.bb => xdg-utils_1.1.0rc1.bb} (57%)
+
+-- 
+1.7.5.1.300.gc565c
+
 
 
