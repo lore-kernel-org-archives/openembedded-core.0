@@ -1,24 +1,26 @@
-Received: from smtp22.4emm.com ([69.18.222.8])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <james@digitalmatter.com.au>) id 1RGo0p-0004wJ-6z
+	(envelope-from <philb@gnu.org>) id 1RGoah-00061Q-Vx
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Oct 2011 10:30:05 +0200
-Received: from MBX20.4emm.local ([fe80::382d:f6d3:f4de:a97f]) by
-	HUB22.4emm.local ([fe80::1428:544e:162c:c29b%14]) with mapi id
-	14.01.0289.001; Thu, 20 Oct 2011 04:22:20 -0400
-From: James Limbouris <james@digitalmatter.com.au>
-To: "openembedded-core@lists.openembedded.org"
+	Thu, 20 Oct 2011 11:07:08 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RGoV4-00056E-B1
+	for openembedded-core@lists.openembedded.org;
+	Thu, 20 Oct 2011 11:01:18 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: sdk path problem
-Thread-Index: AcyO/XTRcrseDRejRsCNTp7OP0osCQ==
-Date: Thu, 20 Oct 2011 08:22:19 +0000
-Message-ID: <840A81C1B782724A8EB52725BD519EFF1A8633@MBX20.4emm.local>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [203.59.132.158]
-MIME-Version: 1.0
-Subject: sdk path problem
+Date: Thu, 20 Oct 2011 10:01:17 +0100
+In-Reply-To: <4E9FD2B2.5000508@intel.com>
+References: <66cdd5054e220fcce980222ed68a2afc37f614af.1318984111.git.nitin.a.kamble@intel.com>
+	<35417d38f61615445ed0c4d875e0bd0aa5649af4.1318984111.git.nitin.a.kamble@intel.com>
+	<4E9FD2B2.5000508@intel.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1319101278.22985.258.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [PATCH 2/6] gmp: also generate the libgmpcxx library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,80 +35,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2011 08:30:05 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 20 Oct 2011 09:07:08 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Thu, 2011-10-20 at 00:50 -0700, Saul Wold wrote:
+> The example case I found was a coreutils package that was built prior to 
+> this change failed to fulfill it's dependencies after this change when 
+> creating an image.  If I rebuild coreutils with the newer gmp build, 
+> then all is well, I think we need to understand this better before 
+> making this change.
+> 
+> Did something else change in the packaging that would cause use to look 
+> the mapping above?
 
-I have been using meta-toolchain-qte in the past to cross compile a Qt app,=
- and the Linux kernel.
-Recently I replaced my old SDK image with a fresh one, and found that I cou=
-ld not link vmlinux anymore.
+If you've now got two DSOs in one output package (which it sounds like
+you might have, since libgmpcxx was apparently added) then the autonamer
+will be defeated.  They need to go in separate PACKAGES for that to work
+out right.
 
-When building the kernel, I use the following ('rica' is the distribution n=
-ame):
-export PATH=3D$PATH:/usr/local/rica-eglibc-i686-armv5te/sysroots/i686-ricas=
-dk-linux/usr/bin/armv5te-rica-linux-gnueabi/
-make ARCH=3Darm CROSS_COMPILE=3Darm-rica-linux-gnueabi- zImage
+p.
 
-The new error message is:
-
-Kernel: arch/arm/boot/Image is ready
-  AS      arch/arm/boot/compressed/head.o
-  GZIP    arch/arm/boot/compressed/piggy.gz
-  CC      arch/arm/boot/compressed/misc.o
-  AS      arch/arm/boot/compressed/piggy.o
-  LD      arch/arm/boot/compressed/vmlinux
-arm-rica-linux-gnueabi-ld: cannot find libgcc.a: No such file or directory
-
-Comparing the build with the old sdk to the build with the new one, I find =
-that the command line for linking has changed from:
-
-arm-rica-linux-gnueabi-ld -EL --defsym zreladdr=3D0x80008000 --defsym initr=
-d_phys=3D0x80800000 --defsym params_phys=3D0x80000100 -p --no-undefined -X =
-/usr/local/rica-eglibc-i686-armv5te/sysroots/arm-rica-linux-gnueabi/usr/lib=
-/arm-rica-linux-gnueabi/4.5.4/libgcc.a -T arch/arm/boot/compressed/vmlinux.=
-lds arch/arm/boot/compressed/head.o arch/arm/boot/compressed/piggy.o arch/a=
-rm/boot/compressed/misc.o -o arch/arm/boot/compressed/vmlinux
-
-to:
-
-arm-rica-linux-gnueabi-ld -EL --defsym zreladdr=3D0x80008000 --defsym initr=
-d_phys=3D0x80800000 --defsym params_phys=3D0x80000100 -p --no-undefined -X =
-libgcc.a -T arch/arm/boot/compressed/vmlinux.lds arch/arm/boot/compressed/h=
-ead.o arch/arm/boot/compressed/piggy.o arch/arm/boot/compressed/misc.o -o a=
-rch/arm/boot/compressed/vmlinux
-
-So libgcc.a has lost its path qualification.
-I also straced the two linker commands, and found that they differed in one=
- sequence.
-
-Old:
-lstat64("/usr/local/rica-eglibc-i686-armv5te", {st_mode=3DS_IFDIR|0755, st_=
-size=3D4096, ...}) =3D 0
-lstat64("/usr/local/rica-eglibc-i686-armv5te/sysroots", {st_mode=3DS_IFDIR|=
-0755, st_size=3D4096, ...}) =3D 0
-lstat64("/usr/local/rica-eglibc-i686-armv5te/sysroots/arm-rica-linux-gnueab=
-i", {st_mode=3DS_IFDIR|0755, st_size=3D4096, ...}) =3D 0
-
-New:
-lstat64("/usr/local/rica-eglibc-i686-armv5te", {st_mode=3DS_IFDIR|0755, st_=
-size=3D4096, ...}) =3D 0
-lstat64("/usr/local/rica-eglibc-i686-armv5te/sysroots", {st_mode=3DS_IFDIR|=
-0755, st_size=3D4096, ...}) =3D 0
-lstat64("/usr/local/rica-eglibc-i686-armv5te/sysroots/arm-rica-linux-gnueab=
-i", 0xbffe67cc) =3D -1 ENOENT (No such file or directory)
-
-Both toolchains are looking for a sysroot at 'arm-rica-linux-gnueabi', but =
-the new toolchain should be looking at 'armv5te-rica-linux-gnueabi', as the=
- names have changed.
-I'm not yet acquainted with the darker arts of toolchain generation. Can an=
-yone help with this?
-=A0=A0
-Regards,=A0
-James Limbouris
 
 
 
