@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RGnUt-0002nx-1e
+	(envelope-from <sgw@linux.intel.com>) id 1RGnUt-0002o6-2U
 	for openembedded-core@lists.openembedded.org;
 	Thu, 20 Oct 2011 09:57:03 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP; 20 Oct 2011 00:51:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="64982198"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="64982202"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.6])
-	by orsmga001.jf.intel.com with ESMTP; 20 Oct 2011 00:51:06 -0700
+	by orsmga001.jf.intel.com with ESMTP; 20 Oct 2011 00:51:07 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Oct 2011 00:50:47 -0700
-Message-Id: <e5aa54b4d7e4c741c76fdf14006611cd85ffb022.1319096633.git.sgw@linux.intel.com>
+Date: Thu, 20 Oct 2011 00:50:48 -0700
+Message-Id: <bcfd3a78cb93c3824a745ec549db1e104f923a02.1319096633.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.2
 In-Reply-To: <cover.1319096633.git.sgw@linux.intel.com>
 References: <cover.1319096633.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1319096633.git.sgw@linux.intel.com>
 References: <cover.1319096633.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL - v2 11/26] python-dbus: upgrade from 0.83.2 to 0.84.0
+Subject: [CONSOLIDATED PULL - v2 12/26] libxml-parser-perl: upgrade from 2.40 to 2.41
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,28 +39,32 @@ From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- ...python-dbus_0.83.2.bb => python-dbus_0.84.0.bb} |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python-dbus_0.83.2.bb => python-dbus_0.84.0.bb} (83%)
+ ...ser-perl_2.40.bb => libxml-parser-perl_2.41.bb} |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/perl/{libxml-parser-perl_2.40.bb => libxml-parser-perl_2.41.bb} (82%)
 
-diff --git a/meta/recipes-devtools/python/python-dbus_0.83.2.bb b/meta/recipes-devtools/python/python-dbus_0.84.0.bb
-similarity index 83%
-rename from meta/recipes-devtools/python/python-dbus_0.83.2.bb
-rename to meta/recipes-devtools/python/python-dbus_0.84.0.bb
-index 323dae5..fff8649 100644
---- a/meta/recipes-devtools/python/python-dbus_0.83.2.bb
-+++ b/meta/recipes-devtools/python/python-dbus_0.84.0.bb
-@@ -8,8 +8,8 @@ PR = "r0"
+diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.40.bb b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
+similarity index 82%
+rename from meta/recipes-devtools/perl/libxml-parser-perl_2.40.bb
+rename to meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
+index 1d1593b..caf5704 100644
+--- a/meta/recipes-devtools/perl/libxml-parser-perl_2.40.bb
++++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
+@@ -5,11 +5,11 @@ LIC_FILES_CHKSUM = "file://README;beginline=2;endline=6;md5=c8767d7516229f07b26e
  
- SRC_URI = "http://dbus.freedesktop.org/releases/dbus-python/dbus-python-${PV}.tar.gz"
+ DEPENDS += "expat expat-native"
  
--SRC_URI[md5sum] = "4ebcaa905bdcb4132b915196b0a3691b"
--SRC_URI[sha256sum] = "883729c98f40790021e3be0f7028ae863ee1c4a7b922a5578c1342592adfff64"
-+SRC_URI[md5sum] = "fe69a2613e824463e74f10913708c88a"
-+SRC_URI[sha256sum] = "b85bc7aaf1a976627ca461b1ca7b0c4ddddff709f52fe44c9b2d1d7d8fac5906"
- S = "${WORKDIR}/dbus-python-${PV}"
+-PR = "r4"
++PR = "r0"
  
- inherit distutils-base autotools pkgconfig
+ SRC_URI = "http://www.cpan.org/modules/by-module/XML/XML-Parser-${PV}.tar.gz"
+-SRC_URI[md5sum] = "c66e9adba003d0667cc40115ccd837a5"
+-SRC_URI[sha256sum] = "e5e433684e799ef7b6b852c0ca31b71054717628555444d3dc9fceac0df71512"
++SRC_URI[md5sum] = "c320d2ffa459e6cdc6f9f59c1185855e"
++SRC_URI[sha256sum] = "b48197cd2265a26c5f016489f11a7b450d8833cb8b3d6a46ee15975740894de9"
+ 
+ S = "${WORKDIR}/XML-Parser-${PV}"
+ 
 -- 
 1.7.6.2
 
