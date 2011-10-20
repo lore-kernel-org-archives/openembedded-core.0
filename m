@@ -1,30 +1,35 @@
-Received: from mail-pz0-f43.google.com ([209.85.210.43])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RGyUy-0005A3-UJ
+	(envelope-from <raj.khem@gmail.com>) id 1RGyVE-0005Bn-A4
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Oct 2011 21:41:53 +0200
-Received: by pzk33 with SMTP id 33so7979540pzk.2
+	Thu, 20 Oct 2011 21:42:08 +0200
+Received: by iafi7 with SMTP id i7so3669416iaf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2011 12:35:59 -0700 (PDT)
+	Thu, 20 Oct 2011 12:36:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=5KL3M27/Wp4n/P6KtkXNvDndxnoc2ReQ92q0zJIJwYo=;
-	b=G5LZVmKoCzHx/G5j/aoZbJgJht8parM3lMDI8C6InwEuBK9EJaka9fK1gND5JrC7Bi
-	1iPIaLerqGGTs8us9wlNFcuu4d9xSb532Z8Ny4Si4WhYC4dOfyZbZhe8HiaBGVD1SkA7
-	afig+y7wsDIcXv1XIVqCbMeXLZd7G1wQFuJvA=
-Received: by 10.68.72.167 with SMTP id e7mr5691116pbv.19.1319139359654;
-	Thu, 20 Oct 2011 12:35:59 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references;
+	bh=+9hNOoBIH1r+b6PYn7QgqBMcpO7ZHixl3fAFR6Ml8ks=;
+	b=F3TqXBynjhfhv0rOdODnOUZbSBcaoQMI4S8eMSX47mmHGsRMSU6Z+DJ/lbzk0hO+6B
+	PHKz80ayKCV8T/ohdS5aRNrDYiCF5qxyaVJxAHtg1KOVMYpDVYPe5dE2qBfgHmz0K2qC
+	vvHDANFVoe5MiynMqgvcUw8RzByZ/ypGI+11M=
+Received: by 10.43.49.131 with SMTP id va3mr19996170icb.51.1319139374790;
+	Thu, 20 Oct 2011 12:36:14 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
-	by mx.google.com with ESMTPS id x7sm21676287pbf.5.2011.10.20.12.35.58
+	by mx.google.com with ESMTPS id c2sm26057020iba.7.2011.10.20.12.36.13
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 20 Oct 2011 12:35:58 -0700 (PDT)
+	Thu, 20 Oct 2011 12:36:14 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Oct 2011 12:35:52 -0700
-Message-Id: <cover.1319139126.git.raj.khem@gmail.com>
+Date: Thu, 20 Oct 2011 12:36:02 -0700
+Message-Id: <712afcc9d364613d5f81e8f9b6f7cbbfc21e80ba.1319139126.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH 0/4] Update coreutils, libtool and fixes needed for gold
+In-Reply-To: <15763124703d12326c8ba4d296a2b2680528c2da.1319139126.git.raj.khem@gmail.com>
+References: <15763124703d12326c8ba4d296a2b2680528c2da.1319139126.git.raj.khem@gmail.com>
+In-Reply-To: <cover.1319139126.git.raj.khem@gmail.com>
+References: <cover.1319139126.git.raj.khem@gmail.com>
+Subject: [PATCH 2/4] gcc-4.6: Backport fix for PR32219
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,56 +44,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2011 19:41:53 -0000
+X-List-Received-Date: Thu, 20 Oct 2011 19:42:09 -0000
 
-This patchset does the following
+This fix is needed for gold to work. Otherwise
+connman fails to build since it used hidden weak
+symbols.
 
-1. Upgrades coreutils and libtool partially helped with gold
-2. Fixes a gcc bug thats highlighted by gold when linking connman
-3. Fixes a DEPENDS problem in xserver-xorg
+See
 
-With these changes I am able to build systemd-gnome-image for angstrom on arm
+http://gcc.gnu.org/bugzilla/PR32219
+http://www.cygwin.com/ml/binutils/2008-02/msg00239.html
 
-The following changes since commit 808b43dff8facfddae05ef14b7b7daf5fa993a3d:
+The fix proposed to gcc had reviews which were not addressed hence the
+patch is not yet
+applied to gcc upstream.
 
-  libtool: Upgrade from 2.4 -> 2.4.2 (2011-10-20 12:26:13 -0700)
+connman can also have workaround by changing the visibility of these
+symbols to be default
+ __attribute__ ((weak, visibility("hidden")))
 
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib kraj/gold-updates
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/gold-updates
+to
 
-Khem Raj (4):
-  xserver-xorg: Add mesa-dri to DEPENDS
-  gcc-4.6: Backport fix for PR32219
-  coreutils: Upgrade recipe 8.12 -> 8.14
-  libtool: Upgrade from 2.4 -> 2.4.2
+ __attribute__ ((weak, visibility("default")))
 
- .../remove-usr-local-lib-from-m4.patch             |   18 +++---
- .../{coreutils_8.12.bb => coreutils_8.14.bb}       |   11 ++--
- meta/recipes-devtools/gcc/gcc-4.6.inc              |    3 +-
- meta/recipes-devtools/gcc/gcc-4.6/pr32219.patch    |   71 ++++++++++++++++++++
- .../libtool/{libtool.inc => libtool-2.4.2.inc}     |   26 ++++++--
- meta/recipes-devtools/libtool/libtool-2.4.inc      |   13 ----
- ...libtool-cross_2.4.bb => libtool-cross_2.4.2.bb} |    2 +-
- ...btool-native_2.4.bb => libtool-native_2.4.2.bb} |    2 +-
- ...nativesdk_2.4.bb => libtool-nativesdk_2.4.2.bb} |    2 +-
- meta/recipes-devtools/libtool/libtool/prefix.patch |   46 ++++++------
- .../libtool/libtool/resolve-sysroot.patch          |   42 ------------
- .../libtool/{libtool_2.4.bb => libtool_2.4.2.bb}   |    2 +-
- .../xorg-xserver/xserver-xorg_1.11.1.bb            |    1 +
- meta/site/common-linux                             |    3 +
- 14 files changed, 139 insertions(+), 103 deletions(-)
- rename meta/recipes-core/coreutils/{coreutils-8.12 => coreutils-8.14}/remove-usr-local-lib-from-m4.patch (65%)
- rename meta/recipes-core/coreutils/{coreutils_8.12.bb => coreutils_8.14.bb} (90%)
+in include/plugin.h
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/gcc/gcc-4.6.inc           |    3 +-
+ meta/recipes-devtools/gcc/gcc-4.6/pr32219.patch |   71 +++++++++++++++++++++++
+ 2 files changed, 73 insertions(+), 1 deletions(-)
  create mode 100644 meta/recipes-devtools/gcc/gcc-4.6/pr32219.patch
- rename meta/recipes-devtools/libtool/{libtool.inc => libtool-2.4.2.inc} (57%)
- delete mode 100644 meta/recipes-devtools/libtool/libtool-2.4.inc
- rename meta/recipes-devtools/libtool/{libtool-cross_2.4.bb => libtool-cross_2.4.2.bb} (98%)
- rename meta/recipes-devtools/libtool/{libtool-native_2.4.bb => libtool-native_2.4.2.bb} (96%)
- rename meta/recipes-devtools/libtool/{libtool-nativesdk_2.4.bb => libtool-nativesdk_2.4.2.bb} (97%)
- delete mode 100644 meta/recipes-devtools/libtool/libtool/resolve-sysroot.patch
- rename meta/recipes-devtools/libtool/{libtool_2.4.bb => libtool_2.4.2.bb} (94%)
 
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
+index fbc90ea..469457c 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.6.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
+@@ -1,6 +1,6 @@
+ require gcc-common.inc
+ 
+-PR = "r15"
++PR = "r16"
+ 
+ # Third digit in PV should be incremented after a minor release
+ # happens from this branch on gcc e.g. currently its 4.6.0
+@@ -70,6 +70,7 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
+            file://fix-for-ice-50099.patch \
+ 	   file://gcc-with-linker-hash-style.patch \
+ 	   file://pr46934.patch \
++	   file://pr32219.patch \
+ 	  "
+ 
+ SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch "
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6/pr32219.patch b/meta/recipes-devtools/gcc/gcc-4.6/pr32219.patch
+new file mode 100644
+index 0000000..e310080
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.6/pr32219.patch
+@@ -0,0 +1,71 @@
++Hi,
++
++As suggested by richi.
++regtested on i686-linux-gnu with all default languages and no regressions.
++Ok for trunk?
++
++gcc/ChangeLog
++2010-03-15  Bernhard Reutner-Fischer  <aldot@gcc.gnu.org>
++
++	PR target/32219
++	* varasm.c (default_binds_local_p_1): Weak data is not local.
++
++gcc/testsuite/ChangeLog
++2010-03-15  Bernhard Reutner-Fischer  <aldot@gcc.gnu.org>
++
++	PR target/32219
++	* gcc.dg/visibility-21.c: New test.
++
++Signed-off-by: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
++---
++ gcc/testsuite/gcc.dg/visibility-21.c |   14 ++++++++++++++
++ gcc/varasm.c                         |    8 ++++----
++ 2 files changed, 18 insertions(+), 4 deletions(-)
++ create mode 100644 gcc/testsuite/gcc.dg/visibility-21.c
++
++Index: gcc-4_6-branch/gcc/testsuite/gcc.dg/visibility-21.c
++===================================================================
++--- /dev/null	1970-01-01 00:00:00.000000000 +0000
+++++ gcc-4_6-branch/gcc/testsuite/gcc.dg/visibility-21.c	2011-10-18 17:11:33.224827436 -0700
++@@ -0,0 +1,14 @@
+++/* PR target/32219 */
+++/* { dg-do run } */
+++/* { dg-require-visibility "" } */
+++/* { dg-options "-fPIC" { target fpic } } */
+++
+++extern void f() __attribute__((weak,visibility("hidden")));
+++extern int puts( char const* );
+++int main()
+++{
+++	if (f)
+++		f();
+++	return 0;
+++}
+++
++Index: gcc-4_6-branch/gcc/varasm.c
++===================================================================
++--- gcc-4_6-branch.orig/gcc/varasm.c	2011-09-16 19:58:21.000000000 -0700
+++++ gcc-4_6-branch/gcc/varasm.c	2011-10-18 17:19:06.431074788 -0700
++@@ -6760,6 +6760,10 @@
++   /* Static variables are always local.  */
++   else if (! TREE_PUBLIC (exp))
++     local_p = true;
+++  /* hidden weak can't be overridden by something non-local, all
+++     that is possible is that it is not defined at all. */
+++  else if (DECL_WEAK (exp))
+++    local_p = false;
++   /* A variable is local if the user has said explicitly that it will
++      be.  */
++   else if ((DECL_VISIBILITY_SPECIFIED (exp)
++@@ -6773,11 +6777,6 @@
++      local.  */
++   else if (DECL_VISIBILITY (exp) != VISIBILITY_DEFAULT)
++     local_p = true;
++-  /* Default visibility weak data can be overridden by a strong symbol
++-     in another module and so are not local.  */
++-  else if (DECL_WEAK (exp)
++-	   && !resolved_locally)
++-    local_p = false;
++   /* If PIC, then assume that any global name can be overridden by
++      symbols resolved from other modules.  */
++   else if (shlib)
 -- 
 1.7.5.4
 
