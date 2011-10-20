@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RGnUt-0002o6-2U
+	(envelope-from <sgw@linux.intel.com>) id 1RGnUt-0002nx-R8
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Oct 2011 09:57:03 +0200
+	Thu, 20 Oct 2011 09:57:04 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 20 Oct 2011 00:51:07 -0700
+	by orsmga101.jf.intel.com with ESMTP; 20 Oct 2011 00:51:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="64982202"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="64982217"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.6])
-	by orsmga001.jf.intel.com with ESMTP; 20 Oct 2011 00:51:07 -0700
+	by orsmga001.jf.intel.com with ESMTP; 20 Oct 2011 00:51:08 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Oct 2011 00:50:48 -0700
-Message-Id: <bcfd3a78cb93c3824a745ec549db1e104f923a02.1319096633.git.sgw@linux.intel.com>
+Date: Thu, 20 Oct 2011 00:50:51 -0700
+Message-Id: <81adbcd266912e731ba1625f424cac783f9cb9bd.1319096633.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.2
 In-Reply-To: <cover.1319096633.git.sgw@linux.intel.com>
 References: <cover.1319096633.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1319096633.git.sgw@linux.intel.com>
 References: <cover.1319096633.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL - v2 12/26] libxml-parser-perl: upgrade from 2.40 to 2.41
+Subject: [CONSOLIDATED PULL - v2 15/26] libxml-sax-perl: update to 0.99
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,37 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2011 07:57:03 -0000
+X-List-Received-Date: Thu, 20 Oct 2011 07:57:04 -0000
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+From: Kang Kai <kai.kang@windriver.com>
 
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+Update libxml-sax-perl to 0.99
+
+Signed-off-by: Kang Kai <kai.kang@windriver.com>
 ---
- ...ser-perl_2.40.bb => libxml-parser-perl_2.41.bb} |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/perl/{libxml-parser-perl_2.40.bb => libxml-parser-perl_2.41.bb} (82%)
+ ...ml-sax-perl_0.96.bb => libxml-sax-perl_0.99.bb} |    7 ++++---
+ 1 files changed, 4 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/perl/{libxml-sax-perl_0.96.bb => libxml-sax-perl_0.99.bb} (85%)
 
-diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.40.bb b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
-similarity index 82%
-rename from meta/recipes-devtools/perl/libxml-parser-perl_2.40.bb
-rename to meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
-index 1d1593b..caf5704 100644
---- a/meta/recipes-devtools/perl/libxml-parser-perl_2.40.bb
-+++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
-@@ -5,11 +5,11 @@ LIC_FILES_CHKSUM = "file://README;beginline=2;endline=6;md5=c8767d7516229f07b26e
- 
- DEPENDS += "expat expat-native"
- 
--PR = "r4"
+diff --git a/meta/recipes-extended/perl/libxml-sax-perl_0.96.bb b/meta/recipes-extended/perl/libxml-sax-perl_0.99.bb
+similarity index 85%
+rename from meta/recipes-extended/perl/libxml-sax-perl_0.96.bb
+rename to meta/recipes-extended/perl/libxml-sax-perl_0.99.bb
+index 97d2025..ee9ac30 100644
+--- a/meta/recipes-extended/perl/libxml-sax-perl_0.96.bb
++++ b/meta/recipes-extended/perl/libxml-sax-perl_0.99.bb
+@@ -11,13 +11,14 @@ SECTION = "libs"
+ LICENSE = "Artistic|GPLv1+"
+ DEPENDS += "libxml-namespacesupport-perl-native"
+ RDEPENDS_${PN} += "libxml-namespacesupport-perl perl-module-file-temp"
+-PR = "r1"
 +PR = "r0"
  
- SRC_URI = "http://www.cpan.org/modules/by-module/XML/XML-Parser-${PV}.tar.gz"
--SRC_URI[md5sum] = "c66e9adba003d0667cc40115ccd837a5"
--SRC_URI[sha256sum] = "e5e433684e799ef7b6b852c0ca31b71054717628555444d3dc9fceac0df71512"
-+SRC_URI[md5sum] = "c320d2ffa459e6cdc6f9f59c1185855e"
-+SRC_URI[sha256sum] = "b48197cd2265a26c5f016489f11a7b450d8833cb8b3d6a46ee15975740894de9"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=65c4cd8f39c24c7135ed70dacbcb09e3"
  
- S = "${WORKDIR}/XML-Parser-${PV}"
+ SRC_URI = "http://search.cpan.org/CPAN/authors/id/G/GR/GRANTM/XML-SAX-${PV}.tar.gz"
+-SRC_URI[md5sum] = "bdcd4119a62505184e211e9dfaef0ab1"
+-SRC_URI[sha256sum] = "9bbef613afa42c46df008d537decc5a61df7e92d65463f3c900769f39e5c8e08"
++
++SRC_URI[md5sum] = "290f5375ae87fdebfdb5bc3854019f24"
++SRC_URI[sha256sum] = "32b04b8e36b6cc4cfc486de2d859d87af5386dd930f2383c49347050d6f5ad84"
+ 
+ S = "${WORKDIR}/XML-SAX-${PV}"
  
 -- 
 1.7.6.2
