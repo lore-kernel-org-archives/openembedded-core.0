@@ -1,35 +1,39 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RGs4Z-0005sS-S8 for openembedded-core@lists.openembedded.org;
-	Thu, 20 Oct 2011 14:50:12 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9KCiKL0017489
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1RGsE7-00064q-Cn
+	for openembedded-core@lists.openembedded.org;
+	Thu, 20 Oct 2011 15:00:04 +0200
+Received: by eyd9 with SMTP id 9so2759822eyd.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2011 13:44:20 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 16810-06 for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2011 13:44:15 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9KCi9mM017479
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2011 13:44:10 +0100
-Message-ID: <1319114649.2410.8.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Thu, 20 Oct 2011 05:54:08 -0700 (PDT)
+Received: by 10.213.3.209 with SMTP id 17mr2681787ebo.120.1319115248357;
+	Thu, 20 Oct 2011 05:54:08 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id f16sm25312352eec.8.2011.10.20.05.54.07
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 20 Oct 2011 05:54:07 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1319114339.2410.5.camel@ted>
+Date: Thu, 20 Oct 2011 14:54:05 +0200
+Message-Id: <7D5D6BF3-6F21-4CE5-8A30-F9154CDB9449@dominion.thruhere.net>
+References: <1316297897-698-1-git-send-email-dbaryshkov@gmail.com>
+	<1316297897-698-2-git-send-email-dbaryshkov@gmail.com>
+	<CADkTA4NxfSaEinraLQMsLT4ZWQKOPAZ76uNujFXg0zSrRvVnFA@mail.gmail.com>
+	<0E901391-C9FC-48AE-88A4-C1064E57376E@dominion.thruhere.net>
+	<1317221697.12332.13.camel@ted>
+	<89CD0BCB-1457-4C76-87BA-5ED03454C343@dominion.thruhere.net>
+	<1317239461.12332.55.camel@ted>
+	<CAP9ODKopjm-bJY3WJriMiQDtwZcsOWeqZkqnm7F2PwiZvWY0bg@mail.gmail.com>
+	<67E90C92-F94E-4FF2-ADA5-A5295C4F1279@dominion.thruhere.net>
+	<1319109715.16061.4.camel@ted>
+	<46567209-1B97-42F5-B5DF-E34B823F6BF7@dominion.thruhere.net>
+	<1319114339.2410.5.camel@ted>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Oct 2011 13:44:09 +0100
-In-Reply-To: <1319101363.22985.259.camel@phil-desktop>
-References: <cover.1319096633.git.sgw@linux.intel.com>
-	<84da55babd48c9de760d3ff271ba97e6a65926c8.1319096633.git.sgw@linux.intel.com>
-	<1319101363.22985.259.camel@phil-desktop>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [CONSOLIDATED PULL - v2 09/26] x86 tune files: set baselib for x32 tune as libx32
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH 2/5] kernel.bbclass: respect MACHINE_KERNEL_PR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,26 +48,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2011 12:50:12 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 20 Oct 2011 13:00:04 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2011-10-20 at 10:02 +0100, Phil Blundell wrote:
-> On Thu, 2011-10-20 at 00:50 -0700, Saul Wold wrote:
-> > From: Nitin A Kamble <nitin.a.kamble@intel.com>
-> > 
-> > Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> 
-> Why is this a good thing?  There is no explanation in the commit
-> message.
 
-Agreed, we need to improve the commit messages. I've merged this one
-with some additional comments but can people please keep good commit
-messages in mind.
+Op 20 okt. 2011, om 14:38 heeft Richard Purdie het volgende geschreven:
 
-Cheers,
+> On Thu, 2011-10-20 at 13:29 +0200, Koen Kooi wrote:
+>> Op 20 okt. 2011, om 13:21 heeft Richard Purdie het volgende =
+geschreven:
+>>=20
+>>> On Thu, 2011-10-20 at 08:23 +0200, Koen Kooi wrote:
+>>>> Op 28 sep. 2011, om 22:04 heeft Otavio Salvador het volgende =
+geschreven:
+>>>>=20
+>>>>> On Wed, Sep 28, 2011 at 16:50, Richard Purdie
+>>>>> <richard.purdie@linuxfoundation.org> wrote:
+>>>>>>> This patch improves the current situation and I don't foresee =
+the
+>>>>>>> autoPR code working soon
+>>>>>>=20
+>>>>>> Which is why we need to switch to that model and shake out the =
+issues
+>>>>>> sooner than later. Enough is enough with the PR madness and we =
+need to
+>>>>>> get to grips and fix it.
+>>>>>=20
+>>>>> I fully agree this is the way to go but this doesn't mean we ought =
+to
+>>>>> hold this patch until all this happens. This patch allows the =
+removal
+>>>>> of the kernel.bbclass from meta-oe so reducing the delta between
+>>>>> oe-core and meta-oe.
+>>>>=20
+>>>> So a month later and no sign of the mythical working
+>>>> auto-PR-incrementer or work on it.
+>>>=20
+>>> A month where we were stabilising for a release. Its on the 1.2 =
+feature
+>>> list and as it happens I've been hearing questions about what is =
+needed
+>>> here.
+>>>=20
+>>>> So can this patch go in? It would mean we can drop kernel.bbclass
+>>>> from meta-oe.
+>>>=20
+>>> I *HATE* this PR bumping stuff. I've just been told we likely need =
+to
+>>> bump the PR for anything using libGL which once again shows that =
+build
+>>> system basically failing to automate building things.
+>>>=20
+>>> So I'm drawing a line here and no, we can't take this. If its fine =
+to
+>>> expect people to bump PR values manually for lib* changes, its fine =
+for
+>>> kernels too. I'd suggest you do drop this from meta-oe and we start
+>>> building up pressure for the problem to get fixed properly rather =
+than
+>>> letting people wallpaper over the cracks.
+>>=20
+>> I have products to ship, so treating meta-oe as a plaything and break
+>> this for the sake of breaking it is unacceptable. I'll let oe-core
+>> have the monopoly on high-qualitily, but broken metadata.
+>=20
+> Its not as if there isn't another way to handle this, it is a little
+> harder work I agree. This isn't breaking for the sake of breaking
+> either, its applying a bit of pressure to ensure we fix an underlying
+> problem we've had for a long time. I don't think fixing it will be =
+easy,
+> I do think we need to though.
+>=20
+> Also, the idea never was to have everyone using bleeding edge for
+> shipping products. This is what stable releases are for?
 
-Richard
+That's what stable releases are for, but I don't see a release for =
+OE-core, do you? I see a poky release, but not an OE-core release.
+
 
 
 
