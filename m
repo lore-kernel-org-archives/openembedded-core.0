@@ -1,35 +1,35 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RGyVN-0005DY-6C
+	(envelope-from <martin.jansa@gmail.com>) id 1RGydj-0005bl-Sy
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Oct 2011 21:42:18 +0200
-Received: by iafi7 with SMTP id i7so3669488iaf.6
+	Thu, 20 Oct 2011 21:50:55 +0200
+Received: by bkat8 with SMTP id t8so4162537bka.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2011 12:36:18 -0700 (PDT)
+	Thu, 20 Oct 2011 12:45:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=D5tmCfTzGrECezy6laic1W75123lAOSdmFsO4K1bdWM=;
-	b=ZLBJDY+gKJ9mwi6rfNtONqxERkXfXLr6VCY8ZybarvUBcSA1zSvRI6M04rePZdd9qt
-	zm6tEnfdA3ZBGsR6bMaIonHrp+Yo5Ll7+IipcTIaQM9eUSJOY5kLwbyFDkKwCcNLQVYh
-	RnqVxikhsiXDpXtvLe3+xu9rWLp28F+FME9+k=
-Received: by 10.42.148.198 with SMTP id s6mr20721047icv.56.1319139378803;
-	Thu, 20 Oct 2011 12:36:18 -0700 (PDT)
-Received: from localhost.localdomain
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
-	by mx.google.com with ESMTPS id c2sm26057020iba.7.2011.10.20.12.36.17
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=EtGNRVMWwgKy43yYZzPD2YU77GROkRaqQ5ijUILqWsU=;
+	b=Jj3Pybot29WpRp+oAwuu314kBy3Emzg3AiRprCG6B1Dn0zBV+wxRbunU4pe8kR8c1M
+	NARoPdE6YSvQMedBJ56ikG782j5mpEfBmFSLOA4MLqnHniURVAqO1SVGCWCuzXj3E3nr
+	ndIE5fqf0ZHBvBvW83yZcODLpVSn4m/efx4yE=
+Received: by 10.204.7.199 with SMTP id e7mr8797757bke.40.1319139900263;
+	Thu, 20 Oct 2011 12:45:00 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id f7sm2188343bkc.1.2011.10.20.12.44.58
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 20 Oct 2011 12:36:18 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Oct 2011 12:36:03 -0700
-Message-Id: <c85e744c887754c54b2ab7bb2b3e6f49bb7f010e.1319139126.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <15763124703d12326c8ba4d296a2b2680528c2da.1319139126.git.raj.khem@gmail.com>
-References: <15763124703d12326c8ba4d296a2b2680528c2da.1319139126.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1319139126.git.raj.khem@gmail.com>
+	Thu, 20 Oct 2011 12:44:59 -0700 (PDT)
+Date: Thu, 20 Oct 2011 21:44:53 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20111020194453.GL3522@jama.jama.net>
 References: <cover.1319139126.git.raj.khem@gmail.com>
-Subject: [PATCH 3/4] coreutils: Upgrade recipe 8.12 -> 8.14
+	<15763124703d12326c8ba4d296a2b2680528c2da.1319139126.git.raj.khem@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <15763124703d12326c8ba4d296a2b2680528c2da.1319139126.git.raj.khem@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH 1/4] xserver-xorg: Add mesa-dri to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,117 +44,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2011 19:42:18 -0000
+X-List-Received-Date: Thu, 20 Oct 2011 19:50:56 -0000
+X-Groupsio-MsgNum: 11365
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="8cpS+6Cx+xtICsjy"
+Content-Disposition: inline
 
-Change in site files is needed since in cross
-build envrionment the test to check for
-gl_cv_func_fstatat_zero_flag is a runtime test
+--8cpS+6Cx+xtICsjy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../remove-usr-local-lib-from-m4.patch             |   18 +++++++++---------
- .../{coreutils_8.12.bb => coreutils_8.14.bb}       |   11 ++++++-----
- meta/site/common-linux                             |    3 +++
- 3 files changed, 18 insertions(+), 14 deletions(-)
- rename meta/recipes-core/coreutils/{coreutils-8.12 => coreutils-8.14}/remove-usr-local-lib-from-m4.patch (65%)
- rename meta/recipes-core/coreutils/{coreutils_8.12.bb => coreutils_8.14.bb} (90%)
+On Thu, Oct 20, 2011 at 12:36:01PM -0700, Khem Raj wrote:
+> Fixes the compile problems e.g.
+>=20
+> | checking for GL... yes
+> | checking for DRIPROTO... yes
+> | checking for DRI... no
+> | configure: error: Package requirements (glproto >=3D 1.4.14 dri >=3D
+> 7.8.0) were not met:
+> |
+> | No package 'dri' found
+> |
+> | Consider adjusting the PKG_CONFIG_PATH environment variable if you
+> | installed software in a non-standard prefix.
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  .../xorg-xserver/xserver-xorg_1.11.1.bb            |    1 +
+>  1 files changed, 1 insertions(+), 0 deletions(-)
+>=20
+> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.11.1.bb b/=
+meta/recipes-graphics/xorg-xserver/xserver-xorg_1.11.1.bb
+> index 0f94fe2..2aa71e5 100644
+> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.11.1.bb
+> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.11.1.bb
+> @@ -1,2 +1,3 @@
+>  require xserver-xorg.inc
+>  require xserver-xorg-${PV}.inc
+> +DEPENDS +=3D "mesa-dri"
 
-diff --git a/meta/recipes-core/coreutils/coreutils-8.12/remove-usr-local-lib-from-m4.patch b/meta/recipes-core/coreutils/coreutils-8.14/remove-usr-local-lib-from-m4.patch
-similarity index 65%
-rename from meta/recipes-core/coreutils/coreutils-8.12/remove-usr-local-lib-from-m4.patch
-rename to meta/recipes-core/coreutils/coreutils-8.14/remove-usr-local-lib-from-m4.patch
-index aac097a..2ef8a54 100644
---- a/meta/recipes-core/coreutils/coreutils-8.12/remove-usr-local-lib-from-m4.patch
-+++ b/meta/recipes-core/coreutils/coreutils-8.14/remove-usr-local-lib-from-m4.patch
-@@ -8,24 +8,24 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
- 
- Upstream-Status: Inappropriate [Upstream does care for AIX while we may not]
- 
--Index: coreutils-8.12/m4/getloadavg.m4
-+Index: coreutils-8.14/m4/getloadavg.m4
- ===================================================================
----- coreutils-8.12.orig/m4/getloadavg.m4	2011-08-03 14:03:59.982197767 -0700
--+++ coreutils-8.12/m4/getloadavg.m4	2011-08-03 14:04:20.402197763 -0700
--@@ -44,16 +44,6 @@ AC_CHECK_FUNC([getloadavg], [],
--        [LIBS="-lutil $LIBS" gl_have_func=yes])
-+--- coreutils-8.14.orig/m4/getloadavg.m4	2011-09-19 08:09:24.000000000 -0700
-++++ coreutils-8.14/m4/getloadavg.m4	2011-10-19 21:42:00.385533357 -0700
-+@@ -41,16 +41,6 @@
-+        [LIBS="-lutil $LIBS" gl_func_getloadavg_done=yes])
-     fi
-  
---   if test $gl_have_func = no; then
-+-   if test $gl_func_getloadavg_done = no; then
- -     # There is a commonly available library for RS/6000 AIX.
- -     # Since it is not a standard part of AIX, it might be installed locally.
- -     gl_getloadavg_LIBS=$LIBS
- -     LIBS="-L/usr/local/lib $LIBS"
- -     AC_CHECK_LIB([getloadavg], [getloadavg],
---                  [LIBS="-lgetloadavg $LIBS" gl_have_func=yes],
-+-                  [LIBS="-lgetloadavg $LIBS" gl_func_getloadavg_done=yes],
- -                  [LIBS=$gl_getloadavg_LIBS])
- -   fi
- -
-     # Set up the replacement function if necessary.
--    if test $gl_have_func = no; then
--      AC_LIBOBJ([getloadavg])
-+    if test $gl_func_getloadavg_done = no; then
-+      HAVE_GETLOADAVG=0
-diff --git a/meta/recipes-core/coreutils/coreutils_8.12.bb b/meta/recipes-core/coreutils/coreutils_8.14.bb
-similarity index 90%
-rename from meta/recipes-core/coreutils/coreutils_8.12.bb
-rename to meta/recipes-core/coreutils/coreutils_8.14.bb
-index 0004ce7..f3b7af7 100644
---- a/meta/recipes-core/coreutils/coreutils_8.12.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.14.bb
-@@ -7,18 +7,17 @@ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
- LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
-                     file://src/ls.c;startline=5;endline=16;md5=e1a509558876db58fb6667ba140137ad"
--PR = "r3"
-+PR = "r0"
- DEPENDS = "gmp"
- DEPENDS_virtclass-native = ""
- 
- inherit autotools gettext
- 
--SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.gz \
-+SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
-            file://remove-usr-local-lib-from-m4.patch \
-           "
--
--SRC_URI[md5sum] = "fce7999953a67243d00d75cc86dbcaa6"
--SRC_URI[sha256sum] = "9e233a62c98a3378a7b0483d2ae3d662dbaf6cd3917d3830d3514665e12a85c8"
-+SRC_URI[md5sum] = "bcb135ce553493a45aba01b39eb3920a"
-+SRC_URI[sha256sum] = "0d120817c19292edb19e92ae6b8eac9020e03d51e0af9cb116cf82b65d18b02d"
- 
- EXTRA_OECONF_virtclass-native = "--without-gmp"
- 
-@@ -49,6 +48,8 @@ do_install_append() {
- 	# in update-alternatives to fail, therefore use lbracket - the name used
- 	# for the actual source file.
- 	mv ${D}${bindir}/[ ${D}${bindir}/lbracket.${PN}
-+	install -d ${D}${libdir}/coreutils
-+	mv ${D}${libexecdir}/coreutils/libstdbuf.so ${D}${libdir}/coreutils
- }
- 
- pkg_postinst_${PN} () {
-diff --git a/meta/site/common-linux b/meta/site/common-linux
-index 00ac717..947ed5b 100644
---- a/meta/site/common-linux
-+++ b/meta/site/common-linux
-@@ -34,6 +34,9 @@ bash_cv_job_control_missing=${bash_cv_job_control_missing=present}
- bash_cv_sys_named_pipes=${bash_cv_sys_named_pipes=present}
- bash_cv_unusable_rtsigs=${bash_cv_unusable_rtsigs=no}
- 
-+# coreutils
-+gl_cv_func_fstatat_zero_flag=${gl_cv_func_fstatat_zero_flag=yes}
-+
- # mysql
- ac_cv_sys_restartable_syscalls=${ac_cv_sys_restartable_syscalls=yes}
- ac_cv_conv_longlong_to_float=${ac_cv_conv_longlong_to_float=yes}
--- 
-1.7.5.4
+You can do this in xserver-xorg.inc
+just change
+LIB_DEPS +=3D "virtual/libgl" to
+LIB_DEPS +=3D "mesa-dri"
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--8cpS+6Cx+xtICsjy
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk6gejUACgkQN1Ujt2V2gBzgigCgmqI80bqxBv9VgF5C9J27wNTy
+dKgAoKwD8VgbbgwvpnSrDEMSQz5ghI4B
+=lRwA
+-----END PGP SIGNATURE-----
+
+--8cpS+6Cx+xtICsjy--
