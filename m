@@ -1,27 +1,35 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Wenzong.Fan@windriver.com>) id 1RGlpb-00082D-0K
+	(envelope-from <koen@dominion.thruhere.net>) id 1RGm8C-00006K-40
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Oct 2011 08:10:23 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p9K64Q3u003634
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 20 Oct 2011 08:29:32 +0200
+Received: by eyd9 with SMTP id 9so2474894eyd.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Oct 2011 23:04:26 -0700 (PDT)
-Received: from [128.224.162.191] (128.224.162.191) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 19 Oct 2011 23:04:26 -0700
-Message-ID: <4E9FB9EC.60203@windriver.com>
-Date: Thu, 20 Oct 2011 14:04:28 +0800
-From: wenzong fan <wenzong.fan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.1.11) Gecko/20100713 Thunderbird/3.0.6
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1319090166.git.wenzong.fan@windriver.com>
-	<b475d0b4e57ccfa1b7001238aabe7d88b0fa5c3d.1319090166.git.wenzong.fan@windriver.com>
-In-Reply-To: <b475d0b4e57ccfa1b7001238aabe7d88b0fa5c3d.1319090166.git.wenzong.fan@windriver.com>
-Subject: Re: [PATCH 1/3 v2] ccache: update to 3.1.6
+	Wed, 19 Oct 2011 23:23:40 -0700 (PDT)
+Received: by 10.223.17.11 with SMTP id q11mr16364478faa.13.1319091820084;
+	Wed, 19 Oct 2011 23:23:40 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id v20sm16123087faf.1.2011.10.19.23.23.37
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 19 Oct 2011 23:23:38 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAP9ODKopjm-bJY3WJriMiQDtwZcsOWeqZkqnm7F2PwiZvWY0bg@mail.gmail.com>
+Date: Thu, 20 Oct 2011 08:23:32 +0200
+Message-Id: <67E90C92-F94E-4FF2-ADA5-A5295C4F1279@dominion.thruhere.net>
+References: <1316297897-698-1-git-send-email-dbaryshkov@gmail.com>
+	<1316297897-698-2-git-send-email-dbaryshkov@gmail.com>
+	<CADkTA4NxfSaEinraLQMsLT4ZWQKOPAZ76uNujFXg0zSrRvVnFA@mail.gmail.com>
+	<0E901391-C9FC-48AE-88A4-C1064E57376E@dominion.thruhere.net>
+	<1317221697.12332.13.camel@ted>
+	<89CD0BCB-1457-4C76-87BA-5ED03454C343@dominion.thruhere.net>
+	<1317239461.12332.55.camel@ted>
+	<CAP9ODKopjm-bJY3WJriMiQDtwZcsOWeqZkqnm7F2PwiZvWY0bg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH 2/5] kernel.bbclass: respect MACHINE_KERNEL_PR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,41 +44,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2011 06:10:24 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 20 Oct 2011 06:29:32 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Recall this threads, they are duplicated with another one.
 
-Wenzong
+Op 28 sep. 2011, om 22:04 heeft Otavio Salvador het volgende geschreven:
 
-On 10/20/2011 01:59 PM, wenzong.fan@windriver.com wrote:
-> From: Wenzong Fan<wenzong.fan@windriver.com>
->
-> Update ccache to 3.1.6 from 3.1.5.
->
-> Signed-off-by: Wenzong Fan<wenzong.fan@windriver.com>
-> ---
->   .../ccache/{ccache_3.1.5.bb =>  ccache_3.1.6.bb}    |    4 ++--
->   1 files changed, 2 insertions(+), 2 deletions(-)
->   rename meta/recipes-devtools/ccache/{ccache_3.1.5.bb =>  ccache_3.1.6.bb} (47%)
->
-> diff --git a/meta/recipes-devtools/ccache/ccache_3.1.5.bb b/meta/recipes-devtools/ccache/ccache_3.1.6.bb
-> similarity index 47%
-> rename from meta/recipes-devtools/ccache/ccache_3.1.5.bb
-> rename to meta/recipes-devtools/ccache/ccache_3.1.6.bb
-> index 9a967b2..e87468a 100644
-> --- a/meta/recipes-devtools/ccache/ccache_3.1.5.bb
-> +++ b/meta/recipes-devtools/ccache/ccache_3.1.6.bb
-> @@ -4,5 +4,5 @@ PR = "r0"
->   LICENSE = "GPLv3+"
->   LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=80e92ec45d4fca91f127864fb9e5d932"
->
-> -SRC_URI[md5sum] = "b1a9684828eae68382d6afc98ce80d24"
-> -SRC_URI[sha256sum] = "54afc35c672ce451e04a478cfc0eb74c1ba184e27ef24881206602aa0eb94d63"
-> +SRC_URI[md5sum] = "e6565e7d6c95d1e35b7a0d67e39901e8"
-> +SRC_URI[sha256sum] = "59f58bb73f00db5bbff36b8eb530d3000c86b3110e34cf8dba9e2a5d19eb684f"
->    
+> On Wed, Sep 28, 2011 at 16:50, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>>> This patch improves the current situation and I don't foresee the
+>>> autoPR code working soon
+>>=20
+>> Which is why we need to switch to that model and shake out the issues
+>> sooner than later. Enough is enough with the PR madness and we need =
+to
+>> get to grips and fix it.
+>=20
+> I fully agree this is the way to go but this doesn't mean we ought to
+> hold this patch until all this happens. This patch allows the removal
+> of the kernel.bbclass from meta-oe so reducing the delta between
+> oe-core and meta-oe.
+
+So a month later and no sign of the mythical working auto-PR-incrementer =
+or work on it. So can this patch go in? It would mean we can drop =
+kernel.bbclass from meta-oe.
+
 
 
 
