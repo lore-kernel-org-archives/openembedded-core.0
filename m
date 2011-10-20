@@ -1,35 +1,32 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RGm8C-00006K-40
+	(envelope-from <saul.wold@intel.com>) id 1RGnNU-0002Tj-Kx
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Oct 2011 08:29:32 +0200
-Received: by eyd9 with SMTP id 9so2474894eyd.6
+	Thu, 20 Oct 2011 09:49:24 +0200
+Received: from mail-ww0-f44.google.com ([74.125.82.44])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 20 Oct 2011 00:43:27 -0700
+Received: by wwe6 with SMTP id 6so2575082wwe.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Oct 2011 23:23:40 -0700 (PDT)
-Received: by 10.223.17.11 with SMTP id q11mr16364478faa.13.1319091820084;
-	Wed, 19 Oct 2011 23:23:40 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id v20sm16123087faf.1.2011.10.19.23.23.37
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 19 Oct 2011 23:23:38 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAP9ODKopjm-bJY3WJriMiQDtwZcsOWeqZkqnm7F2PwiZvWY0bg@mail.gmail.com>
-Date: Thu, 20 Oct 2011 08:23:32 +0200
-Message-Id: <67E90C92-F94E-4FF2-ADA5-A5295C4F1279@dominion.thruhere.net>
-References: <1316297897-698-1-git-send-email-dbaryshkov@gmail.com>
-	<1316297897-698-2-git-send-email-dbaryshkov@gmail.com>
-	<CADkTA4NxfSaEinraLQMsLT4ZWQKOPAZ76uNujFXg0zSrRvVnFA@mail.gmail.com>
-	<0E901391-C9FC-48AE-88A4-C1064E57376E@dominion.thruhere.net>
-	<1317221697.12332.13.camel@ted>
-	<89CD0BCB-1457-4C76-87BA-5ED03454C343@dominion.thruhere.net>
-	<1317239461.12332.55.camel@ted>
-	<CAP9ODKopjm-bJY3WJriMiQDtwZcsOWeqZkqnm7F2PwiZvWY0bg@mail.gmail.com>
+	Thu, 20 Oct 2011 00:43:26 -0700 (PDT)
+Received: by 10.227.157.18 with SMTP id z18mr3564354wbw.85.1319096606395;
+	Thu, 20 Oct 2011 00:43:26 -0700 (PDT)
+Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id b5sm14290007wbh.4.2011.10.20.00.43.23
+	(version=SSLv3 cipher=OTHER); Thu, 20 Oct 2011 00:43:25 -0700 (PDT)
+Message-ID: <4E9FD119.4030307@intel.com>
+Date: Thu, 20 Oct 2011 00:43:21 -0700
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH 2/5] kernel.bbclass: respect MACHINE_KERNEL_PR
+References: <cover.1319090166.git.wenzong.fan@windriver.com>
+	<79447d2d8514eb75a5cda1a32d7b25d7fc66e50c.1319090166.git.wenzong.fan@windriver.com>
+In-Reply-To: <79447d2d8514eb75a5cda1a32d7b25d7fc66e50c.1319090166.git.wenzong.fan@windriver.com>
+Subject: Re: [PATCH 3/3 v2] distro_tracking_fields: update packages tracking fields
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,32 +41,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2011 06:29:32 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 20 Oct 2011 07:49:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 10/19/2011 10:59 PM, wenzong.fan@windriver.com wrote:
+> From: Wenzong Fan<wenzong.fan@windriver.com>
+>
+> Update packages tracking fields including ccache, chkconfig.
+>
+> Signed-off-by: Wenzong Fan<wenzong.fan@windriver.com>
+> ---
+>   .../conf/distro/include/distro_tracking_fields.inc |   12 ++++++++++++
+>   1 files changed, 12 insertions(+), 0 deletions(-)
+>
+> diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+> index abc2cbf..a7c2db5 100644
+> --- a/meta/conf/distro/include/distro_tracking_fields.inc
+> +++ b/meta/conf/distro/include/distro_tracking_fields.inc
+> @@ -5914,6 +5914,18 @@ RECIPE_LATEST_RELEASE_DATE_pn-gettext = "Jun 06, 2010"
+>   RECIPE_LAST_UPDATE_pn-gettext = "May 24, 2011"
+>   RECIPE_MANUAL_CHECK_DATE_pn-gettext = "Sep 29, 2011"
+>
+> +RECIPE_STATUS_pn-ccache = "green"
+> +RECIPE_MAINTAINER_pn-ccache = "Wenzong Fan<wenzong.fan@windriver.com>"
+> +RECIPE_LATEST_VERSION_pn-ccache = "3.1.6"
+> +RECIPE_LAST_UPDATE_pn-ccache = "June 24, 2011"
+You just updated this package, so this should be today's date
+Do you mean theis to be RECIPE_LATEST_RELEASE_DATE of June?  Is that 
+when the 3.1.6 tarball was released?
 
-Op 28 sep. 2011, om 22:04 heeft Otavio Salvador het volgende geschreven:
+> +RECIPE_MANUAL_CHECK_DATE_pn-ccache = "October 11, 2011"
+> +
+> +RECIPE_STATUS_pn-chkconfig = "green"
+> +RECIPE_MAINTAINER_pn-chkconfig = "Wenzong Fan<wenzong.fan@windriver.com>"
+> +RECIPE_LATEST_VERSION_pn-chkconfig = "1.3.55"
+> +RECIPE_LAST_UPDATE_pn-chkconfig = "May 24, 2011"
+Same as above!
 
-> On Wed, Sep 28, 2011 at 16:50, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->>> This patch improves the current situation and I don't foresee the
->>> autoPR code working soon
->>=20
->> Which is why we need to switch to that model and shake out the issues
->> sooner than later. Enough is enough with the PR madness and we need =
-to
->> get to grips and fix it.
->=20
-> I fully agree this is the way to go but this doesn't mean we ought to
-> hold this patch until all this happens. This patch allows the removal
-> of the kernel.bbclass from meta-oe so reducing the delta between
-> oe-core and meta-oe.
-
-So a month later and no sign of the mythical working auto-PR-incrementer =
-or work on it. So can this patch go in? It would mean we can drop =
-kernel.bbclass from meta-oe.
-
+Sau!
+> +RECIPE_MANUAL_CHECK_DATE_pn-chkconfig = "October 11, 2011"
+> +
+>   RECIPE_STATUS_pn-pseudo = "green"
+>   RECIPE_LATEST_VERSION_pn-pseudo = "1.1.1"
+>   RECIPE_LAST_UPDATE_pn-pseudo = "Jun 06, 2011"
 
 
 
