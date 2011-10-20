@@ -1,30 +1,29 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RGkIb-0005iQ-2p
+	(envelope-from <koen@dominion.thruhere.net>) id 1RGlTn-00072e-Ad
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Oct 2011 06:32:09 +0200
-Received: by bkat8 with SMTP id t8so3247503bka.6
+	Thu, 20 Oct 2011 07:47:47 +0200
+Received: by bkat8 with SMTP id t8so3326285bka.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Oct 2011 21:26:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
-	:from:to:content-type:content-transfer-encoding;
-	bh=Mcv8/qig6adoD2HIgt7qNQ6+x9ldH9KP6ULqkbohkDY=;
-	b=b3TRfyNf3Iq1uSg6IjDaj7URIxnwdtLjQsthlARviC4W3HiASDK2yGM91SSUFxP7pw
-	RnhTCzP54fKv5P2yLJaFzt9whUx3fXkU1+0IsWOYhDB40meUN5aW22QmNVcd2tMFeONo
-	FXBjIvGBWX6h0rul4RHd7B5lqmDGJ4OwGPl44=
-MIME-Version: 1.0
-Received: by 10.204.156.1 with SMTP id u1mr6774616bkw.18.1319084775698; Wed,
-	19 Oct 2011 21:26:15 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.205.114.204 with HTTP; Wed, 19 Oct 2011 21:26:15 -0700 (PDT)
-Date: Thu, 20 Oct 2011 02:26:15 -0200
-X-Google-Sender-Auth: 59IK4S6mlpifQDINpo6eUQlIVh8
-Message-ID: <CAP9ODKp+c9sXx6A7Bw9VnRXOKgNP_3q2uJmJEpvBwWT=dgXdBQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+	Wed, 19 Oct 2011 22:41:52 -0700 (PDT)
+Received: by 10.223.36.193 with SMTP id u1mr5220640fad.27.1319089311917;
+	Wed, 19 Oct 2011 22:41:51 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id n18sm13890755fah.2.2011.10.19.22.41.50
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 19 Oct 2011 22:41:51 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <04a2c43182d07a54ec535dea8c7434f6741014e1.1319064437.git.josh@linux.intel.com>
+Date: Thu, 20 Oct 2011 07:41:50 +0200
+Message-Id: <C07B2928-F2D1-4A85-BCFF-7D0360C8BFED@dominion.thruhere.net>
+References: <cover.1319064436.git.josh@linux.intel.com>
+	<04a2c43182d07a54ec535dea8c7434f6741014e1.1319064437.git.josh@linux.intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: useradd class not working
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH 4/4] gst-plugins-good: correctly handle gconf schema
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,24 +38,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2011 04:32:09 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 20 Oct 2011 05:47:47 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-Hello,
 
-I am using useradd in a recipe and it needs to add a group in the
-rootfs at build time. This doesn't work.
+Op 20 okt. 2011, om 00:49 heeft Joshua Lock het volgende geschreven:
 
-it seems groupadd does nothing.
+> Add the shipped gconf schema to the base package and inherit the gconf =
+class
+> so that scheme processing is handled via post* scripts.
+>=20
+> Signed-off-by: Joshua Lock <josh@linux.intel.com>
+> ---
+> .../gstreamer/gst-plugins-good_0.10.30.bb          |    6 ++++--
+> 1 files changed, 4 insertions(+), 2 deletions(-)
+>=20
+> diff --git =
+a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.30.bb =
+b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.30.bb
+> index 96855aa..d63b09a 100644
+> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.30.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.30.bb
+> @@ -7,9 +7,9 @@ LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3Da6f89e2100d9b6cdffcea4f398e37343 \
+>=20
+> DEPENDS +=3D "gst-plugins-base gconf cairo jpeg libpng gtk+ zlib =
+libid3tag flac \
+> 	    speex libsoup-2.4 pulseaudio"
+> -PR =3D "r2"
+> +PR =3D "r3"
+>=20
+> -inherit gettext
+> +inherit gettext gconf
+>=20
+> EXTRA_OECONF +=3D "--disable-aalib --disable-esd --disable-shout2 =
+--disable-libcaca --disable-hal --without-check"
+>=20
+> @@ -20,3 +20,5 @@ do_configure_prepend() {
+>=20
+> SRC_URI[md5sum] =3D "62fd7a3ef187c4f99b3d7c352d58dae9"
+> SRC_URI[sha256sum] =3D =
+"b12cba90b27d8423cd0a808939098d19db3996cfb9bf528507c6321782e095f6"
+> +
+> +FILES_${PN} +=3D "${sysconfdir}/gconf/schemas/gstreamer-0.10.schemas"
 
-Has someone used or tried it?
+If think that schema needs to go into the gconf-elements plugin package, =
+no?
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+regards,
+
+Koen=
 
 
