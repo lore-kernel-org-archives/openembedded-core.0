@@ -1,32 +1,34 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1RGwKc-0007BO-Bl
+	(envelope-from <otavio.salvador@gmail.com>) id 1RGwKr-0007Ct-Jh
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Oct 2011 19:23:02 +0200
-Received: from mail-gx0-f180.google.com ([209.85.161.180])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 20 Oct 2011 10:17:08 -0700
-Received: by ggnv2 with SMTP id v2so6755731ggn.25
+	Thu, 20 Oct 2011 19:23:18 +0200
+Received: by bkat8 with SMTP id t8so4002054bka.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2011 10:17:08 -0700 (PDT)
-Received: by 10.68.29.70 with SMTP id i6mr15491897pbh.108.1319131027894;
-	Thu, 20 Oct 2011 10:17:07 -0700 (PDT)
-Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id h5sm20794808pbq.11.2011.10.20.10.17.06
-	(version=SSLv3 cipher=OTHER); Thu, 20 Oct 2011 10:17:07 -0700 (PDT)
-Message-ID: <4EA05791.3030505@intel.com>
-Date: Thu, 20 Oct 2011 10:17:05 -0700
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
+	Thu, 20 Oct 2011 10:17:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=lVS+/c2f08DIaJmcxT6o1IbEjb5VSCXKbQv//FgalCM=;
+	b=T/riPceRiQ7ia1QHnEZEVO/dCswrs68kinzKJnCaZkIswo/gkLAx9hRMit+r1k2oLg
+	tEJguffynQo7qfMe8vSQY8dQflnhQEYi02NBUZ1qiTDEmRBWPoJAnqDBLUJaB18fikEi
+	gQwsJkev1CnDJZKfKfZRFDXXZNVGQIhJCzXRI=
 MIME-Version: 1.0
+Received: by 10.204.7.138 with SMTP id d10mr8624678bkd.31.1319131041635; Thu,
+	20 Oct 2011 10:17:21 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.205.114.204 with HTTP; Thu, 20 Oct 2011 10:17:21 -0700 (PDT)
+In-Reply-To: <4EA0485F.3080307@windriver.com>
+References: <CAP9ODKp+c9sXx6A7Bw9VnRXOKgNP_3q2uJmJEpvBwWT=dgXdBQ@mail.gmail.com>
+	<4EA0485F.3080307@windriver.com>
+Date: Thu, 20 Oct 2011 15:17:21 -0200
+X-Google-Sender-Auth: oIrKDrsTBRTCw-gVWzWsyI83zuw
+Message-ID: <CAP9ODKr1gZnmV_gdgJ4_5mPYpZf+SkCZ2-SD4aWr8nFGf6zC_Q@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1319022793.git.anders@chargestorm.se>
-In-Reply-To: <cover.1319022793.git.anders@chargestorm.se>
-Cc: Anders Darander <anders@chargestorm.se>
-Subject: Re: [PATCH 0/1] Fix race while building external modules
+Subject: Re: useradd class not working
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,44 +43,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2011 17:23:02 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 20 Oct 2011 17:23:19 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 10/19/2011 04:15 AM, Anders Darander wrote:
+On Thu, Oct 20, 2011 at 14:12, Mark Hatle <mark.hatle@windriver.com> wrote:
+...
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta-skeleton/recipes=
+-skeleton/useradd/useradd-example.bb
 >
-> When building an image with several external modules, a race is likely to
-> occur. This race is when building scripts in the staged kernel tree (sysroot).
->
-> To prevent this, we promote the do_make_scripts() function to a task, which we
-> protect by a lock. Tip on how to make this work was received by Richard in
-> [1]. To avoid new problems, introduced by this promotion, we make this new
-> task depend on do_populate_sysroot from the modules dependencies
-> (i.e. virtual/kernel).
->
-> This patch has been extensively tested on the 2011-1 release branch, on a
-> custom ARM-machine and distro with several external modules.
->
-> [1] http://lists.linuxtogo.org/pipermail/openembedded-core/2011-October/011163.html
->
-> The following changes since commit e31dd9b65f3b03f79cabab25eca157532de3bd9c:
->
->    fontconfig: fix fix-pkgconfig.patch (2011-10-18 18:13:47 +0100)
->
-> are available in the git repository at:
->    git://github.com/darander/oe-core ext-mod-race
->    https://github.com/darander/oe-core/tree/ext-mod-race
->
-> Anders Darander (1):
->    module.bbclass: add lock to prevent error bulding ext modules
->
->   meta/classes/module.bbclass |    5 ++++-
->   1 files changed, 4 insertions(+), 1 deletions(-)
->
-Merged into OE-Core
+> That is the recipe that was used when testing this feature. =A0If it no l=
+onger
+> works properly then something has recently broken in the groupadd functio=
+nality.
 
-Thanks
-	Sau!
+Yes and I used it and openssh as base to my package but it seem to do nothi=
+ng.
 
+I tried to debug it and changed rootfs_ipk class to use "sh -x" when
+running the preinst scripts of the packages and all seems fine however
+it keeps not adding the group into rootfs/etc/group
+
+I do appreciate help here since I am lost right now.
+
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
