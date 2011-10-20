@@ -1,34 +1,31 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RGwKr-0007Ct-Jh
+	(envelope-from <saul.wold@intel.com>) id 1RGwLu-0007HR-H8
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Oct 2011 19:23:18 +0200
-Received: by bkat8 with SMTP id t8so4002054bka.6
+	Thu, 20 Oct 2011 19:24:22 +0200
+Received: from mail-pz0-f44.google.com ([209.85.210.44])
+	by mga14.intel.com with ESMTP/TLS/RC4-MD5; 20 Oct 2011 10:18:29 -0700
+Received: by pzk4 with SMTP id 4so16299769pzk.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2011 10:17:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=lVS+/c2f08DIaJmcxT6o1IbEjb5VSCXKbQv//FgalCM=;
-	b=T/riPceRiQ7ia1QHnEZEVO/dCswrs68kinzKJnCaZkIswo/gkLAx9hRMit+r1k2oLg
-	tEJguffynQo7qfMe8vSQY8dQflnhQEYi02NBUZ1qiTDEmRBWPoJAnqDBLUJaB18fikEi
-	gQwsJkev1CnDJZKfKfZRFDXXZNVGQIhJCzXRI=
+	Thu, 20 Oct 2011 10:18:29 -0700 (PDT)
+Received: by 10.68.15.201 with SMTP id z9mr21713991pbc.36.1319131108228;
+	Thu, 20 Oct 2011 10:18:28 -0700 (PDT)
+Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id ki1sm20846636pbb.3.2011.10.20.10.18.25
+	(version=SSLv3 cipher=OTHER); Thu, 20 Oct 2011 10:18:25 -0700 (PDT)
+Message-ID: <4EA057E0.2080909@intel.com>
+Date: Thu, 20 Oct 2011 10:18:24 -0700
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
-Received: by 10.204.7.138 with SMTP id d10mr8624678bkd.31.1319131041635; Thu,
-	20 Oct 2011 10:17:21 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.205.114.204 with HTTP; Thu, 20 Oct 2011 10:17:21 -0700 (PDT)
-In-Reply-To: <4EA0485F.3080307@windriver.com>
-References: <CAP9ODKp+c9sXx6A7Bw9VnRXOKgNP_3q2uJmJEpvBwWT=dgXdBQ@mail.gmail.com>
-	<4EA0485F.3080307@windriver.com>
-Date: Thu, 20 Oct 2011 15:17:21 -0200
-X-Google-Sender-Auth: oIrKDrsTBRTCw-gVWzWsyI83zuw
-Message-ID: <CAP9ODKr1gZnmV_gdgJ4_5mPYpZf+SkCZ2-SD4aWr8nFGf6zC_Q@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: useradd class not working
+References: <cover.1318995438.git.kai.kang@windriver.com>
+In-Reply-To: <cover.1318995438.git.kai.kang@windriver.com>
+Subject: Re: [PATCH 0/5] Update packages V3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,34 +40,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2011 17:23:19 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 20 Oct 2011 17:24:22 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 20, 2011 at 14:12, Mark Hatle <mark.hatle@windriver.com> wrote:
-...
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta-skeleton/recipes=
--skeleton/useradd/useradd-example.bb
+On 10/18/2011 10:45 PM, Kang Kai wrote:
+> Hi Saul,
 >
-> That is the recipe that was used when testing this feature. =A0If it no l=
-onger
-> works properly then something has recently broken in the groupadd functio=
-nality.
+> Version 3: remove obsolete patches, and add distro tracking information.
+>
+> Version 2: only add libsdl update
+>
+> Update ghostscript, libxml-sax-perl and liburi-perl to latest version.
+>
+> Regards,
+>
+>
+> The following changes since commit 3c517bfe6c6d7781658f65bda4e0fdb499ca2b62:
+>
+>    bind 9.8.1: fix build after recent update (2011-10-17 16:58:14 +0100)
+>
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib kangkai/update-pkgs
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/update-pkgs
+>
+> Kang Kai (5):
+>    ghostscript: update to 9.04
+>    libxml-sax-perl: update to 0.99
+>    liburi-perl: update to 1.59
+>    libsdl: update to 1.2.14
+>    distro_tracking_fields: update packages tracking fields
+>
+>   .../conf/distro/include/distro_tracking_fields.inc |   24 ++
+>   .../{liburi-perl_1.58.bb =>  liburi-perl_1.59.bb}   |    6 +-
+>   .../ghostscript/ghostscript/arm/soobjarch.h        |   40 ---
+>   .../ghostscript-9.02-prevent_recompiling.patch     |   74 +++---
+>   .../ghostscript/ghostscript/i586/soobjarch.h       |   41 ---
+>   .../ghostscript/ghostscript/mips/soobjarch.h       |   40 ---
+>   .../ghostscript/ghostscript/powerpc/soobjarch.h    |   40 ---
+>   .../ghostscript/ghostscript/powerpc64/soobjarch.h  |   40 ---
+>   .../ghostscript/ghostscript/x86_64/soobjarch.h     |   40 ---
+>   .../{ghostscript_9.02.bb =>  ghostscript_9.04.bb}   |   24 +-
+>   ...ml-sax-perl_0.96.bb =>  libxml-sax-perl_0.99.bb} |    7 +-
+>   meta/recipes-graphics/libsdl/files/acinclude.m4    |  189 -------------
+>   .../libsdl/files/configure_tweak.patch             |  281 +++++++++-----------
+>   .../libsdl/files/kernel-asm-page.patch             |   15 -
+>   .../libsdl/{libsdl_1.2.11.bb =>  libsdl_1.2.14.bb}  |   17 +-
+>   15 files changed, 219 insertions(+), 659 deletions(-)
+>   rename meta/recipes-devtools/perl/{liburi-perl_1.58.bb =>  liburi-perl_1.59.bb} (81%)
+>   delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/arm/soobjarch.h
+>   delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/i586/soobjarch.h
+>   delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/mips/soobjarch.h
+>   delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/powerpc/soobjarch.h
+>   delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/powerpc64/soobjarch.h
+>   delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/x86_64/soobjarch.h
+>   rename meta/recipes-extended/ghostscript/{ghostscript_9.02.bb =>  ghostscript_9.04.bb} (81%)
+>   rename meta/recipes-extended/perl/{libxml-sax-perl_0.96.bb =>  libxml-sax-perl_0.99.bb} (85%)
+>   delete mode 100644 meta/recipes-graphics/libsdl/files/acinclude.m4
+>   delete mode 100644 meta/recipes-graphics/libsdl/files/kernel-asm-page.patch
+>   rename meta/recipes-graphics/libsdl/{libsdl_1.2.11.bb =>  libsdl_1.2.14.bb} (81%)
+>
 
-Yes and I used it and openssh as base to my package but it seem to do nothi=
-ng.
+Merged into OE-Core
 
-I tried to debug it and changed rootfs_ipk class to use "sh -x" when
-running the preinst scripts of the packages and all seems fine however
-it keeps not adding the group into rootfs/etc/group
+Thanks
+	Sau!
 
-I do appreciate help here since I am lost right now.
-
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
 
 
