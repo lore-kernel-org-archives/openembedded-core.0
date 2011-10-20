@@ -1,37 +1,31 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RH0Z7-0001bM-OR
+	(envelope-from <martin.jansa@gmail.com>) id 1RH0Zo-0001dY-IQ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Oct 2011 23:54:17 +0200
-Received: by bkat8 with SMTP id t8so4276155bka.6
+	Thu, 20 Oct 2011 23:55:00 +0200
+Received: by bkat8 with SMTP id t8so4276863bka.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2011 14:48:25 -0700 (PDT)
+	Thu, 20 Oct 2011 14:49:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=RnQd94p+AK6hoHnAN3Vt467sAhqvdNoVkO0QWtwGeTk=;
-	b=If8V52+kqLOYr4Fu42sPjF6jMH/enqq7YkaqlB7Hr2vM3KvNLJk+ksnNj6koQyk8y8
-	+jlvs1GjvzZPmld3z8R9CF3TqiZV9/bDPbNNc44LgR+fJJZ/oYFP2qKFh9ACsO5a5wEu
-	/Ik/FR+EcZS0rEDragmnBeaLZwi/VGI0I8uoc=
-Received: by 10.204.137.72 with SMTP id v8mr9330802bkt.35.1319147305346;
-	Thu, 20 Oct 2011 14:48:25 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=FxbcDe9YtMElytu40aaPvUD1gvZ8RtAw4qbj7fZHsR8=;
+	b=qRcEzlYehf8FQA8SvfkA00Q+XoRtHkwfORrLzdludiskcp+3P5AasI40Q1+B83k3qs
+	XsnnUGy1bjhzlLiDQMyqc7bYboByggOk2VD8VqNZAwIR3yJHk5AK1L1JxKKWMPQrW8C7
+	/9aQciH+2N7x4Am0MbvHpPj0U+lJA9rQ6lsWc=
+Received: by 10.204.140.6 with SMTP id g6mr9100196bku.90.1319147348287;
+	Thu, 20 Oct 2011 14:49:08 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id k6sm11244170bkv.8.2011.10.20.14.48.23
+	by mx.google.com with ESMTPS id f7sm2501533bkc.1.2011.10.20.14.49.06
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 20 Oct 2011 14:48:23 -0700 (PDT)
-Date: Thu, 20 Oct 2011 23:48:18 +0200
+	Thu, 20 Oct 2011 14:49:07 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111020214817.GM3522@jama.jama.net>
-References: <cover.1319139126.git.raj.khem@gmail.com>
-	<15763124703d12326c8ba4d296a2b2680528c2da.1319139126.git.raj.khem@gmail.com>
-	<20111020194453.GL3522@jama.jama.net>
-	<B412182F-53D6-406D-8751-2E179257D135@dominion.thruhere.net>
-MIME-Version: 1.0
-In-Reply-To: <B412182F-53D6-406D-8751-2E179257D135@dominion.thruhere.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 1/4] xserver-xorg: Add mesa-dri to DEPENDS
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Oct 2011 23:49:00 +0200
+Message-Id: <1319147340-23871-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.7
+In-Reply-To: <20111020214817.GM3522@jama.jama.net>
+References: <20111020214817.GM3522@jama.jama.net>
+Subject: [PATCH] default-providers: switch virtual/libgl from mesa-xlib to mesa-dri
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,75 +40,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2011 21:54:17 -0000
-X-Groupsio-MsgNum: 11370
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="rpGc+ACYPE+RMC+Z"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 20 Oct 2011 21:55:00 -0000
 
---rpGc+ACYPE+RMC+Z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+* to match default virtual/xserver
 
-On Thu, Oct 20, 2011 at 11:42:27PM +0200, Koen Kooi wrote:
->=20
-> Op 20 okt. 2011, om 21:44 heeft Martin Jansa het volgende geschreven:
->=20
-> > On Thu, Oct 20, 2011 at 12:36:01PM -0700, Khem Raj wrote:
-> >> Fixes the compile problems e.g.
-> >>=20
-> >> | checking for GL... yes
-> >> | checking for DRIPROTO... yes
-> >> | checking for DRI... no
-> >> | configure: error: Package requirements (glproto >=3D 1.4.14 dri >=3D
-> >> 7.8.0) were not met:
-> >> |
-> >> | No package 'dri' found
-> >> |
-> >> | Consider adjusting the PKG_CONFIG_PATH environment variable if you
-> >> | installed software in a non-standard prefix.
-> >>=20
-> >> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >> ---
-> >> .../xorg-xserver/xserver-xorg_1.11.1.bb            |    1 +
-> >> 1 files changed, 1 insertions(+), 0 deletions(-)
-> >>=20
-> >> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.11.1.bb=
- b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.11.1.bb
-> >> index 0f94fe2..2aa71e5 100644
-> >> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.11.1.bb
-> >> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.11.1.bb
-> >> @@ -1,2 +1,3 @@
-> >> require xserver-xorg.inc
-> >> require xserver-xorg-${PV}.inc
-> >> +DEPENDS +=3D "mesa-dri"
-> >=20
-> > You can do this in xserver-xorg.inc
-> > just change
-> > LIB_DEPS +=3D "virtual/libgl" to
-> > LIB_DEPS +=3D "mesa-dri"
->=20
-> that will drag it in for -lite as well, is that OK?
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/conf/distro/include/default-providers.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-No it will not, this is not xserver-xorg-common.inc
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index 66f7ff3..be23d36 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -5,7 +5,7 @@ PREFERRED_PROVIDER_virtual/db ?= "db"
+ PREFERRED_PROVIDER_virtual/db-native ?= "db-native"
+ PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
+ PREFERRED_PROVIDER_virtual/xserver-xf86 ?= "xserver-xorg"
+-PREFERRED_PROVIDER_virtual/libgl ?= "mesa-xlib"
++PREFERRED_PROVIDER_virtual/libgl ?= "mesa-dri"
+ PREFERRED_PROVIDER_virtual/update-alternatives ?= "update-alternatives-cworth"
+ PREFERRED_PROVIDER_virtual/update-alternatives-native ?= "opkg-native"
+ PREFERRED_PROVIDER_virtual/libx11 ?= "libx11-trim"
+-- 
+1.7.7
 
-I'll send patch for default-providers.inc to switch default to mesa-dri
-too.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---rpGc+ACYPE+RMC+Z
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk6glyEACgkQN1Ujt2V2gBzeEgCglbt2nh+RGMnl8m5FD1bQqTsW
-HAIAn0xh4Zdbe3Ys3DIi9hRHuzzI7zp7
-=KoZP
------END PGP SIGNATURE-----
-
---rpGc+ACYPE+RMC+Z--
