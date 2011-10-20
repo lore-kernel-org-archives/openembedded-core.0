@@ -1,31 +1,35 @@
-Received: from mail-qy0-f175.google.com ([209.85.216.175])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.rini@gmail.com>) id 1RGzFu-0006u5-J0
+	(envelope-from <otavio.salvador@gmail.com>) id 1RH0Bv-0000cV-9a
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Oct 2011 22:30:22 +0200
-Received: by qyk35 with SMTP id 35so5643091qyk.6
+	Thu, 20 Oct 2011 23:30:19 +0200
+Received: by bkat8 with SMTP id t8so4254846bka.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2011 13:24:26 -0700 (PDT)
+	Thu, 20 Oct 2011 14:24:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=J9dDiTh+jbotCeoS2+PtZ0Ytrc1s0A2QuZV0u+4bgEU=;
-	b=TAmzJvbPyN/21v2pHp8SOAI8SqX8fUuVdobr1fNJ4SjLfKTEyv8vGeGzD2SNGA4erj
-	HLdBJ0onZdx7ZjwxbLmXsFdjQw+UCAxRK5bPs1fUcjz6m/cmkzHcU+CrgobLRdPzPGw+
-	5lf59y3N+a7SZ2CYK8xRa0f9kWrkS+LVyn6F4=
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=Hz1XQ9bfLNl+7+C81t6x3/2oHowAJTFHrPb4nCVbSO4=;
+	b=ZLLXVeR1DWQfElXanOL9pogfua69w9AxAlKtwEHonP+TDh/fy9rK8El3AK9MMQw9qm
+	r/dEnvrn5z3X4LqTM5yY+zV+GNCedzSBg0XIx6y8gK6mJ1XDmA9t1Yir64Hx+KrduF7Z
+	jQ4YfbeteuU8OV0NBrs/gHEJ9tvVu5mHxr9Xg=
 MIME-Version: 1.0
-Received: by 10.229.251.73 with SMTP id mr9mr2622523qcb.264.1319142266608;
-	Thu, 20 Oct 2011 13:24:26 -0700 (PDT)
-Received: by 10.229.94.72 with HTTP; Thu, 20 Oct 2011 13:24:26 -0700 (PDT)
-In-Reply-To: <1319129657.2410.57.camel@ted>
-References: <840A81C1B782724A8EB52725BD519EFF1A8633@MBX20.4emm.local>
-	<1319129657.2410.57.camel@ted>
-Date: Thu, 20 Oct 2011 13:24:26 -0700
-Message-ID: <CA+M6bXm9zigRMzMQSdwntHAUYD+vBAmuLbAdNA7RPkBM=wwFNA@mail.gmail.com>
-From: Tom Rini <tom.rini@gmail.com>
+Received: by 10.204.13.68 with SMTP id b4mr9030142bka.96.1319145865300; Thu,
+	20 Oct 2011 14:24:25 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.205.114.204 with HTTP; Thu, 20 Oct 2011 14:24:25 -0700 (PDT)
+In-Reply-To: <CAP9ODKr1gZnmV_gdgJ4_5mPYpZf+SkCZ2-SD4aWr8nFGf6zC_Q@mail.gmail.com>
+References: <CAP9ODKp+c9sXx6A7Bw9VnRXOKgNP_3q2uJmJEpvBwWT=dgXdBQ@mail.gmail.com>
+	<4EA0485F.3080307@windriver.com>
+	<CAP9ODKr1gZnmV_gdgJ4_5mPYpZf+SkCZ2-SD4aWr8nFGf6zC_Q@mail.gmail.com>
+Date: Thu, 20 Oct 2011 19:24:25 -0200
+X-Google-Sender-Auth: VsauqAEdOYUzQQeS6HOhyZa2FXk
+Message-ID: <CAP9ODKqrchFdSdidPnH2Dh_Za664g2q3DBWr9EYdqP8hOjtUHg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: sdk path problem
+	<openembedded-core@lists.openembedded.org>, mark.hatle@windriver.com
+Subject: Re: useradd class not working
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,92 +44,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2011 20:30:22 -0000
+X-List-Received-Date: Thu, 20 Oct 2011 21:30:19 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 20, 2011 at 9:54 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Thu, 2011-10-20 at 08:22 +0000, James Limbouris wrote:
->> Hi,
+On Thu, Oct 20, 2011 at 15:17, Otavio Salvador <otavio@ossystems.com.br> wr=
+ote:
+> On Thu, Oct 20, 2011 at 14:12, Mark Hatle <mark.hatle@windriver.com> wrot=
+e:
+> ...
+>> http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta-skeleton/recipe=
+s-skeleton/useradd/useradd-example.bb
 >>
->> I have been using meta-toolchain-qte in the past to cross compile a Qt a=
-pp, and the Linux kernel.
->> Recently I replaced my old SDK image with a fresh one, and found that I =
-could not link vmlinux anymore.
->>
->> When building the kernel, I use the following ('rica' is the distributio=
-n name):
->> export PATH=3D$PATH:/usr/local/rica-eglibc-i686-armv5te/sysroots/i686-ri=
-casdk-linux/usr/bin/armv5te-rica-linux-gnueabi/
->> make ARCH=3Darm CROSS_COMPILE=3Darm-rica-linux-gnueabi- zImage
->>
->> The new error message is:
->>
->> Kernel: arch/arm/boot/Image is ready
->> =A0 AS =A0 =A0 =A0arch/arm/boot/compressed/head.o
->> =A0 GZIP =A0 =A0arch/arm/boot/compressed/piggy.gz
->> =A0 CC =A0 =A0 =A0arch/arm/boot/compressed/misc.o
->> =A0 AS =A0 =A0 =A0arch/arm/boot/compressed/piggy.o
->> =A0 LD =A0 =A0 =A0arch/arm/boot/compressed/vmlinux
->> arm-rica-linux-gnueabi-ld: cannot find libgcc.a: No such file or directo=
-ry
->>
->> Comparing the build with the old sdk to the build with the new one, I fi=
-nd that the command line for linking has changed from:
->>
->> arm-rica-linux-gnueabi-ld -EL --defsym zreladdr=3D0x80008000 --defsym in=
-itrd_phys=3D0x80800000 --defsym params_phys=3D0x80000100 -p --no-undefined =
--X /usr/local/rica-eglibc-i686-armv5te/sysroots/arm-rica-linux-gnueabi/usr/=
-lib/arm-rica-linux-gnueabi/4.5.4/libgcc.a -T arch/arm/boot/compressed/vmlin=
-ux.lds arch/arm/boot/compressed/head.o arch/arm/boot/compressed/piggy.o arc=
-h/arm/boot/compressed/misc.o -o arch/arm/boot/compressed/vmlinux
->>
->> to:
->>
->> arm-rica-linux-gnueabi-ld -EL --defsym zreladdr=3D0x80008000 --defsym in=
-itrd_phys=3D0x80800000 --defsym params_phys=3D0x80000100 -p --no-undefined =
--X libgcc.a -T arch/arm/boot/compressed/vmlinux.lds arch/arm/boot/compresse=
-d/head.o arch/arm/boot/compressed/piggy.o arch/arm/boot/compressed/misc.o -=
-o arch/arm/boot/compressed/vmlinux
->>
->> So libgcc.a has lost its path qualification.
->> I also straced the two linker commands, and found that they differed in =
-one sequence.
->>
->> Old:
->> lstat64("/usr/local/rica-eglibc-i686-armv5te", {st_mode=3DS_IFDIR|0755, =
-st_size=3D4096, ...}) =3D 0
->> lstat64("/usr/local/rica-eglibc-i686-armv5te/sysroots", {st_mode=3DS_IFD=
-IR|0755, st_size=3D4096, ...}) =3D 0
->> lstat64("/usr/local/rica-eglibc-i686-armv5te/sysroots/arm-rica-linux-gnu=
-eabi", {st_mode=3DS_IFDIR|0755, st_size=3D4096, ...}) =3D 0
->>
->> New:
->> lstat64("/usr/local/rica-eglibc-i686-armv5te", {st_mode=3DS_IFDIR|0755, =
-st_size=3D4096, ...}) =3D 0
->> lstat64("/usr/local/rica-eglibc-i686-armv5te/sysroots", {st_mode=3DS_IFD=
-IR|0755, st_size=3D4096, ...}) =3D 0
->> lstat64("/usr/local/rica-eglibc-i686-armv5te/sysroots/arm-rica-linux-gnu=
-eabi", 0xbffe67cc) =3D -1 ENOENT (No such file or directory)
->>
->> Both toolchains are looking for a sysroot at 'arm-rica-linux-gnueabi', b=
-ut the new toolchain should be looking at 'armv5te-rica-linux-gnueabi', as =
-the names have changed.
->> I'm not yet acquainted with the darker arts of toolchain generation. Can=
- anyone help with this?
+>> That is the recipe that was used when testing this feature. =A0If it no =
+longer
+>> works properly then something has recently broken in the groupadd functi=
+onality.
 >
-> There should be a --sysroot option being passed to the compiler/linker
-> to tell which sysroot to look at. We did recently change the sysroot
-> location to reflect the target architecture it was optimized for but
-> this does mean the compiler and other tools need the correct sysroot
-> path to be specified. The environment script that ships with the
-> toolchain should do this?
+> Yes and I used it and openssh as base to my package but it seem to do not=
+hing.
+>
+> I tried to debug it and changed rootfs_ipk class to use "sh -x" when
+> running the preinst scripts of the packages and all seems fine however
+> it keeps not adding the group into rootfs/etc/group
 
-At least not for things like u-boot and the kernel, no, this isn't
-enough.  Just re-confirmed.
+I got some more information during today's debug session ...
+
+useradd class is working perfectly for sysroot. I've added it to
+systemd package (from meta-oe) and the "lock" group shows in sysroot
+as expected. It fails for rootfs only.
+
+After long time researching the reasioning of failure I found it. I am
+going to send a patchset tomorrow.
 
 --=20
-Tom
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
