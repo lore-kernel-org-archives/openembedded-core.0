@@ -1,24 +1,22 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1RGwno-0000MB-SY
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RGwnm-0000Ls-CK
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Oct 2011 19:53:13 +0200
+	Thu, 20 Oct 2011 19:53:21 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 20 Oct 2011 10:47:13 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 20 Oct 2011 10:47:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,380,1315206000"; d="scan'208";a="75875099"
+X-IronPort-AV: E=Sophos;i="4.69,380,1315206000"; d="scan'208";a="75875095"
 Received: from nbuild2.sc.intel.com ([172.25.110.37])
 	by fmsmga001.fm.intel.com with ESMTP; 20 Oct 2011 10:47:11 -0700
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Oct 2011 10:47:09 -0700
-Message-Id: <ae26526088cce21d9566d5dc4dccc3e90115fb7a.1319132699.git.nitin.a.kamble@intel.com>
+Date: Thu, 20 Oct 2011 10:47:08 -0700
+Message-Id: <c12754ae1baee14c13a2467e31efd975f7f33258.1319132699.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.4.4
-In-Reply-To: <c12754ae1baee14c13a2467e31efd975f7f33258.1319132699.git.nitin.a.kamble@intel.com>
-References: <c12754ae1baee14c13a2467e31efd975f7f33258.1319132699.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1319132699.git.nitin.a.kamble@intel.com>
 References: <cover.1319132699.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 2/2] tcl: upgrade from 8.5.9 to 8.5.10
+Subject: [PATCH 1/2] perl: upgrade from 5.12.3 to 5.14.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,145 +31,12314 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2011 17:53:13 -0000
+X-List-Received-Date: Thu, 20 Oct 2011 17:53:21 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
+parallel build fix patches are not needed as they are upstream now.
+Got a new set of debian patch set for 5.14.2
+
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../tcltk/tcl/fix_non_native_build_issue.patch     |   16 +++---------
- .../tcltk/tcl/tcl-add-soname.patch                 |   26 ++++++++++----------
- .../tcltk/{tcl_8.5.9.bb => tcl_8.5.10.bb}          |    6 ++--
- 3 files changed, 20 insertions(+), 28 deletions(-)
- rename meta/recipes-devtools/tcltk/{tcl_8.5.9.bb => tcl_8.5.10.bb} (91%)
+ .../perl/files/Configure-multilib.patch            |   17 -
+ .../perl/perl-5.12.3/cross-generate_uudmap.patch   |   15 -
+ .../perl/perl-5.12.3/debian/arm_optim.diff         |   34 -
+ .../perl/perl-5.12.3/debian/cpan_config_path.diff  |   24 -
+ .../perl-5.12.3/debian/deprecate-with-apt.diff     |   61 -
+ .../debian/devel-ppport-ia64-optim.diff            |   34 -
+ .../perl/perl-5.12.3/debian/extutils_hacks.diff    |  315 -
+ .../perl-5.12.3/debian/fixes/autodie-flock.diff    |  100 -
+ .../debian/fixes/concat-stack-corruption.diff      |   39 -
+ .../debian/fixes/cpanplus-without-home.diff        |   32 -
+ .../perl-5.12.3/debian/fixes/h2ph-gcc-4.5.diff     |  108 -
+ .../perl-5.12.3/debian/fixes/lc-numeric-docs.diff  |   97 -
+ .../debian/fixes/lc-numeric-sprintf.diff           |   31 -
+ .../perl/perl-5.12.3/debian/fixes/processPL.diff   |   45 -
+ .../perl/perl-5.12.3/debian/patchlevel             |   45 -
+ .../perl/perl-5.12.3/debian/series                 |   34 -
+ .../perl/perl-5.12.3/parallel_build_fix_1.patch    |   27 -
+ .../perl/perl-5.12.3/parallel_build_fix_2.patch    |   24 -
+ .../perl/perl-5.12.3/parallel_build_fix_3.patch    | 6585 --------------------
+ .../perl/perl-5.12.3/parallel_build_fix_4.patch    |   57 -
+ .../perl/perl-5.12.3/parallel_build_fix_5.patch    |  430 --
+ .../perl/perl-5.12.3/parallel_build_fix_6.patch    |  158 -
+ .../09_fix_installperl.patch                       |    0
+ .../Configure-multilib.patch                       |    0
+ .../{perl-5.12.3 => perl-5.14.2}/MM_Unix.pm.patch  |    0
+ .../{perl-5.12.3 => perl-5.14.2}/Makefile.SH.patch |  122 +-
+ .../{perl-5.12.3 => perl-5.14.2}/Makefile.patch    |   17 +-
+ .../asm-pageh-fix.patch                            |    0
+ .../perl/{perl-5.12.3 => perl-5.14.2}/config.sh    |   65 +-
+ .../perl/{perl-5.12.3 => perl-5.14.2}/config.sh-32 |    0
+ .../{perl-5.12.3 => perl-5.14.2}/config.sh-32-be   |    0
+ .../{perl-5.12.3 => perl-5.14.2}/config.sh-32-le   |    0
+ .../perl/{perl-5.12.3 => perl-5.14.2}/config.sh-64 |    0
+ .../{perl-5.12.3 => perl-5.14.2}/config.sh-64-be   |    0
+ .../{perl-5.12.3 => perl-5.14.2}/config.sh-64-le   |    0
+ .../perl/perl-5.14.2/cross-generate_uudmap.patch   |   15 +
+ .../debian/arm_thread_stress_timeout.diff          |   13 +-
+ .../debian/cpan_definstalldirs.diff                |   18 +-
+ .../debian/cpanplus_config_path.diff               |   19 +-
+ .../debian/cpanplus_definstalldirs.diff            |   13 +-
+ .../debian/db_file_ver.diff                        |   12 +-
+ .../perl-5.14.2/debian/deprecate-with-apt.diff     |  406 ++
+ .../debian/disable-zlib-bundling.diff              |    7 +-
+ .../debian/doc_info.diff                           |   16 +-
+ .../debian/enc2xs_inc.diff                         |    9 +-
+ .../debian/errno_ver.diff                          |   23 +-
+ .../debian/extutils_set_libperl_path.diff          |   23 +
+ .../debian/fakeroot.diff                           |   15 +-
+ .../perl/perl-5.14.2/debian/find_html2text.diff    |   35 +
+ .../debian/fixes/document_makemaker_ccflags.diff   |   31 +
+ .../debian/fixes/extutils-cbuilder-cflags.diff     |   86 +
+ .../perl-5.14.2/debian/fixes/h2ph-multiarch.diff   |   69 +
+ .../debian/fixes/hurd-ccflags.diff                 |   12 +-
+ .../perl/perl-5.14.2/debian/fixes/hurd-hints.diff  |   48 +
+ .../perl-5.14.2/debian/fixes/index-tainting.diff   |   73 +
+ .../debian/fixes/module-build-home-directory.diff  |   37 +
+ .../debian/fixes/net_smtp_docs.diff                |   10 +-
+ .../perl/perl-5.14.2/debian/fixes/pod_fixes.diff   |  145 +
+ .../perl-5.14.2/debian/fixes/respect_umask.diff    |  153 +
+ .../fixes/sys-syslog-socket-timeout-kfreebsd.patch |   36 +
+ .../debian/instmodsh_doc.diff                      |    9 +-
+ .../debian/ld_run_path.diff                        |   15 +-
+ .../debian/libnet_config_path.diff                 |   12 +-
+ .../perl/perl-5.14.2/debian/libperl_embed_doc.diff |   26 +
+ .../debian/m68k_thread_stress.diff                 |   15 +-
+ .../debian/mod_paths.diff                          |   15 +-
+ .../debian/module_build_man_extensions.diff        |   16 +-
+ .../perl-5.14.2/debian/no_packlist_perllocal.diff  |   88 +
+ .../perl/perl-5.14.2/debian/patchlevel.diff        |   30 +
+ .../debian/perlivp.diff                            |   19 +-
+ .../perl/perl-5.14.2/debian/prefix_changes.diff    |  118 +
+ .../debian/prune_libs.diff                         |   16 +-
+ .../perl/perl-5.14.2/debian/series                 |   40 +
+ .../perl-5.14.2/debian/skip-kfreebsd-crash.diff    |   39 +
+ .../debian/skip-upstream-git-tests.diff            |   59 +
+ .../debian/squelch-locale-warnings.diff            |   14 +-
+ .../perl-5.14.2/debian/writable_site_dirs.diff     |   36 +
+ .../fix_bad_rpath.patch                            |   13 +-
+ .../{perl-5.12.3 => perl-5.14.2}/generate-sh.patch |    0
+ .../{perl-5.12.3 => perl-5.14.2}/installperl.patch |    0
+ .../letgcc-find-errno.patch                        |    0
+ .../native-nopacklist.patch                        |    0
+ .../native-perlinc.patch                           |    0
+ .../perl-configpm-switch.patch                     |   18 +-
+ .../{perl-5.12.3 => perl-5.14.2}/perl-configure.sh |    0
+ .../perl-dynloader.patch                           |   21 +-
+ .../perl-enable-gdbm.patch                         |    0
+ .../perl-moreconfig.patch                          |    0
+ ...perl-native_5.12.3.bb => perl-native_5.14.2.bb} |   32 +-
+ ...depends_5.12.3.inc => perl-rdepends_5.14.2.inc} |   54 +-
+ ...ovides_5.12.3.inc => perl-rprovides_5.14.2.inc} |    0
+ .../perl/{perl_5.12.3.bb => perl_5.14.2.bb}        |   49 +-
+ 92 files changed, 1951 insertions(+), 8643 deletions(-)
+ delete mode 100644 meta/recipes-devtools/perl/files/Configure-multilib.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/cross-generate_uudmap.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/arm_optim.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/cpan_config_path.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/deprecate-with-apt.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/devel-ppport-ia64-optim.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/extutils_hacks.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/autodie-flock.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/concat-stack-corruption.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/cpanplus-without-home.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/h2ph-gcc-4.5.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/lc-numeric-docs.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/lc-numeric-sprintf.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/processPL.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/patchlevel
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/series
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_1.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_2.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_3.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_4.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_5.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_6.patch
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/09_fix_installperl.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/Configure-multilib.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/MM_Unix.pm.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/Makefile.SH.patch (75%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/Makefile.patch (87%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/asm-pageh-fix.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/config.sh (94%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/config.sh-32 (100%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/config.sh-32-be (100%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/config.sh-32-le (100%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/config.sh-64 (100%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/config.sh-64-be (100%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/config.sh-64-le (100%)
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/cross-generate_uudmap.patch
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/arm_thread_stress_timeout.diff (66%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/cpan_definstalldirs.diff (80%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/cpanplus_config_path.diff (83%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/cpanplus_definstalldirs.diff (84%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/db_file_ver.diff (83%)
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/deprecate-with-apt.diff
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/disable-zlib-bundling.diff (83%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/doc_info.diff (78%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/enc2xs_inc.diff (90%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/errno_ver.diff (70%)
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/extutils_set_libperl_path.diff
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/fakeroot.diff (79%)
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/find_html2text.diff
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/document_makemaker_ccflags.diff
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/extutils-cbuilder-cflags.diff
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/h2ph-multiarch.diff
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/fixes/hurd-ccflags.diff (67%)
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/hurd-hints.diff
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/index-tainting.diff
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/module-build-home-directory.diff
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/fixes/net_smtp_docs.diff (76%)
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/pod_fixes.diff
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/respect_umask.diff
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/sys-syslog-socket-timeout-kfreebsd.patch
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/instmodsh_doc.diff (81%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/ld_run_path.diff (68%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/libnet_config_path.diff (85%)
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/libperl_embed_doc.diff
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/m68k_thread_stress.diff (78%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/mod_paths.diff (89%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/module_build_man_extensions.diff (81%)
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/no_packlist_perllocal.diff
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/patchlevel.diff
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/perlivp.diff (77%)
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/prefix_changes.diff
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/prune_libs.diff (81%)
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/series
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/skip-kfreebsd-crash.diff
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/skip-upstream-git-tests.diff
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/squelch-locale-warnings.diff (86%)
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/writable_site_dirs.diff
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/fix_bad_rpath.patch (70%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/generate-sh.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/installperl.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/letgcc-find-errno.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/native-nopacklist.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/native-perlinc.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/perl-configpm-switch.patch (76%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/perl-configure.sh (100%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/perl-dynloader.patch (69%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/perl-enable-gdbm.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/perl-moreconfig.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-native_5.12.3.bb => perl-native_5.14.2.bb} (74%)
+ rename meta/recipes-devtools/perl/{perl-rdepends_5.12.3.inc => perl-rdepends_5.14.2.inc} (90%)
+ rename meta/recipes-devtools/perl/{perl-rprovides_5.12.3.inc => perl-rprovides_5.14.2.inc} (100%)
+ rename meta/recipes-devtools/perl/{perl_5.12.3.bb => perl_5.14.2.bb} (92%)
 
-diff --git a/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch b/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
-index e9b6793..9c2d379 100644
---- a/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
-+++ b/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
-@@ -4,7 +4,7 @@ Index: unix/Makefile.in
- ===================================================================
- --- unix.orig/Makefile.in
- +++ unix/Makefile.in
--@@ -619,20 +619,20 @@ ro-test: tcltest@EXEEXT@
-+@@ -619,13 +619,13 @@ ro-test: tcltest@EXEEXT@
-  shell: ${TCL_EXE}
-  	@LD_LIBRARY_PATH_VAR@="`pwd`:$${@LD_LIBRARY_PATH_VAR@}"; export @LD_LIBRARY_PATH_VAR@; \
-  	TCL_LIBRARY="${TCL_BUILDTIME_LIBRARY}"; export TCL_LIBRARY; \
-@@ -19,16 +19,8 @@ Index: unix/Makefile.in
- +	$(GDB) ${TCL_EXE} --command=gdb.run
-  	rm gdb.run
-  
-- # This target can be used to run tclsh inside ddd
-- ddd: ${TCL_EXE}
-- 	@echo "set env @LD_LIBRARY_PATH_VAR@=\"`pwd`:$${@LD_LIBRARY_PATH_VAR@}\"" > gdb.run
-- 	@echo "set env TCL_LIBRARY=${TCL_BUILDTIME_LIBRARY}" >> gdb.run
---	$(DDD) -command=gdb.run ./${TCL_EXE}
--+	$(DDD) -command=gdb.run ${TCL_EXE}
-- 	rm gdb.run
+diff --git a/meta/recipes-devtools/perl/files/Configure-multilib.patch b/meta/recipes-devtools/perl/files/Configure-multilib.patch
+deleted file mode 100644
+index 085a2ff..0000000
+--- a/meta/recipes-devtools/perl/files/Configure-multilib.patch
++++ /dev/null
+@@ -1,17 +0,0 @@
+-Upstream-Status: Inappropriate [embedded specific]
+-
+-Index: perl-5.12.2/Configure
+-===================================================================
+---- perl-5.12.2.orig/Configure
+-+++ perl-5.12.2/Configure
+-@@ -1316,8 +1316,9 @@ loclibpth="/usr/local/lib /opt/local/lib
+- loclibpth="$loclibpth /opt/gnu/lib /usr/GNU/lib /opt/GNU/lib"
 - 
-  VALGRINDARGS=--tool=memcheck --num-callers=8 --leak-resolution=high --leak-check=yes --show-reachable=yes -v
--@@ -645,7 +645,7 @@ valgrind: ${TCL_EXE} tcltest@EXEEXT@
-+@@ -638,7 +638,7 @@ valgrind: ${TCL_EXE} tcltest@EXEEXT@
-  valgrindshell: ${TCL_EXE}
-  	@LD_LIBRARY_PATH_VAR@="`pwd`:$${@LD_LIBRARY_PATH_VAR@}"; export @LD_LIBRARY_PATH_VAR@; \
-  	TCL_LIBRARY="${TCL_BUILDTIME_LIBRARY}"; export TCL_LIBRARY; \
-@@ -37,7 +29,7 @@ Index: unix/Makefile.in
-  
-  # The following target outputs the name of the top-level source directory for
-  # Tcl (it is used by Tk's configure script, for example). The .NO_PARALLEL
--@@ -809,14 +809,14 @@ install-tzdata: ${TCL_EXE}
-+@@ -802,14 +802,14 @@ install-tzdata: ${TCL_EXE}
-  	@echo "Installing time zone data"
-  	@@LD_LIBRARY_PATH_VAR@="`pwd`:$${@LD_LIBRARY_PATH_VAR@}"; export @LD_LIBRARY_PATH_VAR@; \
-  	TCL_LIBRARY="${TCL_BUILDTIME_LIBRARY}"; export TCL_LIBRARY; \
-@@ -54,7 +46,7 @@ Index: unix/Makefile.in
-  	    $(TOP_DIR)/library/msgs "$(SCRIPT_INSTALL_DIR)"/msgs
-  
-  install-doc: doc
--@@ -1756,7 +1756,7 @@ html-tk: ${TCL_EXE}
-+@@ -1730,7 +1730,7 @@ html-tk: ${TCL_EXE}
-  BUILD_HTML = \
-  	@@LD_LIBRARY_PATH_VAR@="`pwd`:$${@LD_LIBRARY_PATH_VAR@}"; export @LD_LIBRARY_PATH_VAR@; \
-  	TCL_LIBRARY="${TCL_BUILDTIME_LIBRARY}"; export TCL_LIBRARY; \
-diff --git a/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch b/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch
-index 963576d..93ef186 100644
---- a/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch
-+++ b/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch
-@@ -4,9 +4,9 @@ Index: unix/configure
- ===================================================================
- --- unix.orig/configure
- +++ unix/configure
--@@ -6726,6 +6726,7 @@ fi
-- 	    # symbols when dynamically loaded into tclsh.
-- 	    SHLIB_LD_LIBS='${LIBS}'
-+@@ -6757,6 +6757,7 @@ fi
-+ 	    LIBS="$LIBS -lc"
-+ 	    SHLIB_CFLAGS=""
-  	    SHLIB_SUFFIX=".so"
- +	    SHARED_LIB_SUFFIX='${VERSION}\$\{DBGX\}.so.0'
-  
-@@ -16,15 +16,7 @@ Index: unix/tcl.m4
- ===================================================================
- --- unix.orig/tcl.m4
- +++ unix/tcl.m4
--@@ -1424,6 +1424,7 @@ dnl AC_CHECK_TOOL(AR, ar)
-- 	    SHLIB_CFLAGS="-fPIC"
-- 	    SHLIB_LD_LIBS='${LIBS}'
-- 	    SHLIB_SUFFIX=".so"
--+	    SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}\$\{DBGX\}.so.0'
+- : general looking path for locating libraries
+--glibpth="/lib /usr/lib $xlibpth"
+-+glibpth="/lib /usr/lib /lib64 /usr/lib64 $xlibpth"
+- glibpth="$glibpth /usr/ccs/lib /usr/ucblib /usr/local/lib"
+-+test -f /usr/lib/*-linux-gnu/libc.so && glibpth="/usr/lib/*-linux-gnu $glibpth"
+- test -f /usr/shlib/libc.so && glibpth="/usr/shlib $glibpth"
+- test -f /shlib/libc.so     && glibpth="/shlib $glibpth"
+- test -d /usr/lib64         && glibpth="$glibpth /lib64 /usr/lib64 /usr/local/lib64"
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/cross-generate_uudmap.patch b/meta/recipes-devtools/perl/perl-5.12.3/cross-generate_uudmap.patch
+deleted file mode 100644
+index d59ad8d..0000000
+--- a/meta/recipes-devtools/perl/perl-5.12.3/cross-generate_uudmap.patch
++++ /dev/null
+@@ -1,15 +0,0 @@
+-Upstream-Status:Inappropriate [embedded specific]
+-
+-Index: perl-5.10.1/Makefile.SH
+-===================================================================
+---- perl-5.10.1.orig/Makefile.SH	2010-02-12 19:06:17.000000000 +0300
+-+++ perl-5.10.1/Makefile.SH	2010-02-12 19:10:13.000000000 +0300
+-@@ -596,7 +596,7 @@
+- 	\$(RUN) ./generate_uudmap\$(HOST_EXE_EXT) >uudmap.h
 - 
-- 	    CFLAGS_OPTIMIZE="-O2"
-- 	    # egcs-2.91.66 on Redhat Linux 6.0 generates lots of warnings 
--@@ -1431,12 +1432,15 @@ dnl AC_CHECK_TOOL(AR, ar)
-+@@ -1399,12 +1399,15 @@ AC_DEFUN([SC_CONFIG_CFLAGS], [
-  	    # get rid of the warnings.
-  	    #CFLAGS_OPTIMIZE="${CFLAGS_OPTIMIZE} -D__NO_STRING_INLINES -D__NO_MATH_INLINES"
-  
-@@ -41,7 +33,15 @@ Index: unix/tcl.m4
-  	    LD_SEARCH_FLAGS=${CC_SEARCH_FLAGS}
-  	    AS_IF([test "`uname -m`" = "alpha"], [CFLAGS="$CFLAGS -mieee"])
-  	    AS_IF([test $do64bit = yes], [
--@@ -2079,7 +2083,7 @@ dnl # preprocessing tests use only CPPFL
-+@@ -1430,6 +1433,7 @@ AC_DEFUN([SC_CONFIG_CFLAGS], [
-+ 	GNU*)
-+ 	    SHLIB_CFLAGS="-fPIC"
-+ 	    SHLIB_SUFFIX=".so"
-++	    SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}\$\{DBGX\}.so.0'
-+ 
-+ 	    SHLIB_LD='${CC} -shared'
-+ 	    DL_OBJS=""
-+@@ -2081,7 +2085,7 @@ dnl # preprocessing tests use only CPPFL
-  
-      AS_IF([test "${SHARED_BUILD}" = 1 -a "${SHLIB_SUFFIX}" != ""], [
-          LIB_SUFFIX=${SHARED_LIB_SUFFIX}
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.5.9.bb b/meta/recipes-devtools/tcltk/tcl_8.5.10.bb
-similarity index 91%
-rename from meta/recipes-devtools/tcltk/tcl_8.5.9.bb
-rename to meta/recipes-devtools/tcltk/tcl_8.5.10.bb
-index 2eabb4d..a9d80af 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.5.9.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.5.10.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://../license.terms;md5=a47a9be26d03f925fc1fbd2784f27e11
-     file://../win/license.terms;md5=a47a9be26d03f925fc1fbd2784f27e11 \
-     "
+- generate_uudmap\$(HOST_EXE_EXT): generate_uudmap\$(OBJ_EXT)
+--	\$(CC) -o generate_uudmap\$(EXE_EXT) \$(LDFLAGS) generate_uudmap\$(OBJ_EXT) \$(libs)
+-+	\$(BUILD_CC) -o generate_uudmap\$(EXE_EXT) generate_uudmap.c
+- 
+- !GROK!THIS!
+- $spitshell >>$Makefile <<'!NO!SUBS!'
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/arm_optim.diff b/meta/recipes-devtools/perl/perl-5.12.3/debian/arm_optim.diff
+deleted file mode 100644
+index b5b952e..0000000
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/arm_optim.diff
++++ /dev/null
+@@ -1,34 +0,0 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
+-From: Niko Tyni <ntyni@debian.org>
+-Description: Downgrade the optimization of sv.c on arm due to a gcc-4.4 bug
+-Bug-Debian: http://bugs.debian.org/580334
+-
+-Regression from gcc-4.3, not reported yet.
+-
+- perl -e '"-2" =~ /(.+)/; @foo=(); push @foo, $_ for $1..undef; print @foo ? "ok\n" : "not ok\n"'
+-
+-
+----
+- cflags.SH |    6 +++++-
+- 1 files changed, 5 insertions(+), 1 deletions(-)
+-
+-diff --git a/cflags.SH b/cflags.SH
+-index a5d71b9..6914ba6 100755
+---- a/cflags.SH
+-+++ b/cflags.SH
+-@@ -312,7 +312,11 @@ for file do
+-     regexec) ;;
+-     run) ;;
+-     scope) ;;
+--    sv) ;;
+-+    sv)
+-+	case $archname in
+-+	arm-*|armeb-*)
+-+	    optimize=-O0;;
+-+	esac;;
+-     taint) ;;
+-     toke) ;;
+-     universal) ;;
+--- 
+-tg: (a508b62..) debian/arm_optim (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/cpan_config_path.diff b/meta/recipes-devtools/perl/perl-5.12.3/debian/cpan_config_path.diff
+deleted file mode 100644
+index 27b4a45..0000000
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/cpan_config_path.diff
++++ /dev/null
+@@ -1,24 +0,0 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
+-Subject: Set location of CPAN::Config to /etc/perl as /usr may not be writable.
+-
+-
+----
+- cpan/CPAN/lib/CPAN/HandleConfig.pm |    2 +-
+- 1 files changed, 1 insertions(+), 1 deletions(-)
+-
+-diff --git a/cpan/CPAN/lib/CPAN/HandleConfig.pm b/cpan/CPAN/lib/CPAN/HandleConfig.pm
+-index 76cd81e..65a3b27 100644
+---- a/cpan/CPAN/lib/CPAN/HandleConfig.pm
+-+++ b/cpan/CPAN/lib/CPAN/HandleConfig.pm
+-@@ -543,7 +543,7 @@ sub load {
+-         $configpm = $INC{"CPAN/MyConfig.pm"};
+-         $redo++;
+-     } else {
+--        my($path_to_cpan) = File::Basename::dirname($INC{"CPAN.pm"});
+-+        my($path_to_cpan) = '/etc/perl';
+-         my($configpmdir) = File::Spec->catdir($path_to_cpan,"CPAN");
+-         my($configpmtest) = File::Spec->catfile($configpmdir,"Config.pm");
+-         my $inc_key;
+--- 
+-tg: (a508b62..) debian/cpan_config_path (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/deprecate-with-apt.diff b/meta/recipes-devtools/perl/perl-5.12.3/debian/deprecate-with-apt.diff
+deleted file mode 100644
+index ad0b0cf..0000000
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/deprecate-with-apt.diff
++++ /dev/null
+@@ -1,61 +0,0 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
+-From: Niko Tyni <ntyni@debian.org>
+-Subject: Point users to Debian packages of deprecated core modules
+-Bug-Debian: http://bugs.debian.org/580034
+-
+-Class::ISA, Switch, Pod::Plainer, and (partially) Shell were
+-deprecated from the Perl core in 5.12.0.
+-
+-To get a clean transition, perl-modules is going to recommend the separate
+-Debian packages of these for one release cycle so that they will be
+-pulled in by default on upgrades.
+-
+-However, on systems configured to ignore recommendations the deprecation
+-warnings will still be useful, so modify them slightly to point to the
+-separate packages instead.
+-
+----
+- lib/deprecate.pm |   18 +++++++++++++++++-
+- 1 files changed, 17 insertions(+), 1 deletions(-)
+-
+-diff --git a/lib/deprecate.pm b/lib/deprecate.pm
+-index 7b92e0b..9db7330 100644
+---- a/lib/deprecate.pm
+-+++ b/lib/deprecate.pm
+-@@ -7,6 +7,16 @@ our $VERSION = 0.01;
+- our %Config;
+- unless (%Config) { require Config; *Config = \%Config::Config; }
+- 
+-+# Debian-specific change: recommend the separate Debian packages of
+-+# deprecated modules where available
+-+
+-+my %DEBIAN_PACKAGES = (
+-+    "Class::ISA"	=> "libclass-isa-perl",
+-+    "Pod::Plainer"	=> "libpod-plainer-perl",
+-+    "Switch"		=> "libswitch-perl",
+-+    "Shell"		=> "libshell-perl",
+-+);
+-+
+- sub import {
+-     my ($package, $file, $line) = caller;
+-     my $expect_leaf = "$package.pm";
+-@@ -44,9 +54,15 @@ EOM
+- 	    if (defined $callers_bitmask
+-             	&& (vec($callers_bitmask, $warnings::Offsets{deprecated}, 1)
+- 		    || vec($callers_bitmask, $warnings::Offsets{all}, 1))) {
+--		warn <<"EOM";
+-+		if (my $deb = $DEBIAN_PACKAGES{$package}) {
+-+		    warn <<"EOM";
+-+$package will be removed from the Perl core distribution in the next major release. Please install the separate $deb package. It is being used at $call_file, line $call_line.
+-+EOM
+-+		} else {
+-+		    warn <<"EOM";
+- $package will be removed from the Perl core distribution in the next major release. Please install it from CPAN. It is being used at $call_file, line $call_line.
+- EOM
+-+		}
+- 	    }
+- 	    return;
+- 	}
+--- 
+-tg: (a508b62..) debian/deprecate-with-apt (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/devel-ppport-ia64-optim.diff b/meta/recipes-devtools/perl/perl-5.12.3/debian/devel-ppport-ia64-optim.diff
+deleted file mode 100644
+index e57a315..0000000
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/devel-ppport-ia64-optim.diff
++++ /dev/null
+@@ -1,34 +0,0 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
+-From: Niko Tyni <ntyni@debian.org>
+-Subject: Work around an ICE on ia64
+-Closes: 548943
+-
+-Temporarily work around an internal compiler error in Devel::PPPort
+-on ia64+gcc-4.3.
+-
+-
+----
+- cpan/Devel-PPPort/Makefile.PL |    7 +++++++
+- 1 files changed, 7 insertions(+), 0 deletions(-)
+-
+-diff --git a/cpan/Devel-PPPort/Makefile.PL b/cpan/Devel-PPPort/Makefile.PL
+-index 67eebc1..f1ef7a2 100644
+---- a/cpan/Devel-PPPort/Makefile.PL
+-+++ b/cpan/Devel-PPPort/Makefile.PL
+-@@ -75,6 +75,13 @@ sub configure
+-     push @moreopts, INSTALLDIRS => ($] >= 5.007003 ? 'perl' : 'site');
+-   }
+- 
+-+
+-+  # temporary Debian hack, see http://bugs.debian.org/548943
+-+  require Config;
+-+  if ($Config::Config{archname} =~ /^ia64/) {
+-+    push @moreopts, OPTIMIZE => '-g -O0';
+-+  }
+-+
+-   if ($opt{'apicheck'}) {
+-     $PL_FILES{'apicheck_c.PL'} = 'apicheck.c';
+-     push @C_FILES, qw{ apicheck.c };
+--- 
+-tg: (a508b62..) debian/devel-ppport-ia64-optim (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/extutils_hacks.diff b/meta/recipes-devtools/perl/perl-5.12.3/debian/extutils_hacks.diff
+deleted file mode 100644
+index e1cbdb5..0000000
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/extutils_hacks.diff
++++ /dev/null
+@@ -1,315 +0,0 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
+-Subject: Various debian-specific ExtUtils changes
+-
+- * Respect umask during installation, and set as appropriate for each of
+-   perl, vendor and site (policy requires group writable site dirs).
+-
+- * Don't install .packlist or perllocal.pod for perl or vendor.
+- * Fiddle with *PREFIX and variables written to the makefile so that
+-   install directories may be changed when make is run by passing
+-   PREFIX= to the "make install" command (used when packaging
+-   modules).
+-
+- * Set location of libperl.a to /usr/lib.
+- * Note that libperl-dev package is required for embedded linking.
+- * Change install target dependencies to facilitate parallel makes.
+-
+-
+----
+- cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Any.pm  |   12 +++---
+- cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm |   44 +++++-----------------
+- cpan/ExtUtils-MakeMaker/t/INST.t                |    4 +--
+- cpan/ExtUtils-MakeMaker/t/INST_PREFIX.t         |   10 +++---
+- dist/ExtUtils-Install/lib/ExtUtils/Install.pm   |   18 +++++-----
+- lib/ExtUtils/Embed.pm                           |    3 ++
+- 6 files changed, 34 insertions(+), 57 deletions(-)
+-
+-diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Any.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Any.pm
+-index 4905aeb..a80ac20 100644
+---- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Any.pm
+-+++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Any.pm
+-@@ -701,8 +701,6 @@ all POD files in MAN1PODS and MAN3PODS.
+- sub manifypods_target {
+-     my($self) = shift;
+- 
+--    my $man1pods      = '';
+--    my $man3pods      = '';
+-     my $dependencies  = '';
+- 
+-     # populate manXpods & dependencies:
+-@@ -718,7 +716,7 @@ END
+-     foreach my $section (qw(1 3)) {
+-         my $pods = $self->{"MAN${section}PODS"};
+-         push @man_cmds, $self->split_command(<<CMD, %$pods);
+--	\$(NOECHO) \$(POD2MAN) --section=$section --perm_rw=\$(PERM_RW)
+-+	\$(NOECHO) \$(POD2MAN) --section=\$(MAN${section}EXT) --perm_rw=\$(PERM_RW)
+- CMD
+-     }
+- 
+-@@ -1428,9 +1426,11 @@ sub init_INSTALL_from_PREFIX {
+-         $self->{SITEPREFIX}   ||= $sprefix;
+-         $self->{VENDORPREFIX} ||= $vprefix;
+- 
+--        # Lots of MM extension authors like to use $(PREFIX) so we
+--        # put something sensible in there no matter what.
+--        $self->{PREFIX} = '$('.uc $self->{INSTALLDIRS}.'PREFIX)';
+-+	my $p = $self->{PREFIX} = $self->{PERLPREFIX};
+-+	for my $t (qw/PERL SITE VENDOR/)
+-+	{
+-+	    $self->{"${t}PREFIX"} =~ s!^\Q$p\E(?=/|$)!\$(PREFIX)!;
+-+	}
+-     }
+- 
+-     my $arch    = $Config{archname};
+-diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-index 239d6df..940de38 100644
+---- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-+++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-@@ -2046,9 +2046,7 @@ doc__install : doc_site_install
+- 	$(NOECHO) $(ECHO) INSTALLDIRS not defined, defaulting to INSTALLDIRS=site
+- 
+- pure_perl_install :: all
+--	$(NOECHO) $(MOD_INSTALL) \
+--		read }.$self->catfile('$(PERL_ARCHLIB)','auto','$(FULLEXT)','.packlist').q{ \
+--		write }.$self->catfile('$(DESTINSTALLARCHLIB)','auto','$(FULLEXT)','.packlist').q{ \
+-+	$(NOECHO) umask 022; $(MOD_INSTALL) \
+- 		$(INST_LIB) $(DESTINSTALLPRIVLIB) \
+- 		$(INST_ARCHLIB) $(DESTINSTALLARCHLIB) \
+- 		$(INST_BIN) $(DESTINSTALLBIN) \
+-@@ -2060,7 +2058,7 @@ pure_perl_install :: all
+- 
+- 
+- pure_site_install :: all
+--	$(NOECHO) $(MOD_INSTALL) \
+-+	$(NOECHO) umask 02; $(MOD_INSTALL) \
+- 		read }.$self->catfile('$(SITEARCHEXP)','auto','$(FULLEXT)','.packlist').q{ \
+- 		write }.$self->catfile('$(DESTINSTALLSITEARCH)','auto','$(FULLEXT)','.packlist').q{ \
+- 		$(INST_LIB) $(DESTINSTALLSITELIB) \
+-@@ -2073,9 +2071,7 @@ pure_site_install :: all
+- 		}.$self->catdir('$(PERL_ARCHLIB)','auto','$(FULLEXT)').q{
+- 
+- pure_vendor_install :: all
+--	$(NOECHO) $(MOD_INSTALL) \
+--		read }.$self->catfile('$(VENDORARCHEXP)','auto','$(FULLEXT)','.packlist').q{ \
+--		write }.$self->catfile('$(DESTINSTALLVENDORARCH)','auto','$(FULLEXT)','.packlist').q{ \
+-+	$(NOECHO) umask 022; $(MOD_INSTALL) \
+- 		$(INST_LIB) $(DESTINSTALLVENDORLIB) \
+- 		$(INST_ARCHLIB) $(DESTINSTALLVENDORARCH) \
+- 		$(INST_BIN) $(DESTINSTALLVENDORBIN) \
+-@@ -2084,37 +2080,19 @@ pure_vendor_install :: all
+- 		$(INST_MAN3DIR) $(DESTINSTALLVENDORMAN3DIR)
+- 
+- doc_perl_install :: all
+--	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLARCHLIB)/perllocal.pod
+--	-$(NOECHO) $(MKPATH) $(DESTINSTALLARCHLIB)
+--	-$(NOECHO) $(DOC_INSTALL) \
+--		"Module" "$(NAME)" \
+--		"installed into" "$(INSTALLPRIVLIB)" \
+--		LINKTYPE "$(LINKTYPE)" \
+--		VERSION "$(VERSION)" \
+--		EXE_FILES "$(EXE_FILES)" \
+--		>> }.$self->catfile('$(DESTINSTALLARCHLIB)','perllocal.pod').q{
+- 
+- doc_site_install :: all
+--	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLARCHLIB)/perllocal.pod
+--	-$(NOECHO) $(MKPATH) $(DESTINSTALLARCHLIB)
+--	-$(NOECHO) $(DOC_INSTALL) \
+-+	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLSITEARCH)/perllocal.pod
+-+	-$(NOECHO) umask 02; $(MKPATH) $(DESTINSTALLSITEARCH)
+-+	-$(NOECHO) umask 02; $(DOC_INSTALL) \
+- 		"Module" "$(NAME)" \
+- 		"installed into" "$(INSTALLSITELIB)" \
+- 		LINKTYPE "$(LINKTYPE)" \
+- 		VERSION "$(VERSION)" \
+- 		EXE_FILES "$(EXE_FILES)" \
+--		>> }.$self->catfile('$(DESTINSTALLARCHLIB)','perllocal.pod').q{
+-+		>> }.$self->catfile('$(DESTINSTALLSITEARCH)','perllocal.pod').q{
+- 
+- doc_vendor_install :: all
+--	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLARCHLIB)/perllocal.pod
+--	-$(NOECHO) $(MKPATH) $(DESTINSTALLARCHLIB)
+--	-$(NOECHO) $(DOC_INSTALL) \
+--		"Module" "$(NAME)" \
+--		"installed into" "$(INSTALLVENDORLIB)" \
+--		LINKTYPE "$(LINKTYPE)" \
+--		VERSION "$(VERSION)" \
+--		EXE_FILES "$(EXE_FILES)" \
+--		>> }.$self->catfile('$(DESTINSTALLARCHLIB)','perllocal.pod').q{
+- 
+- };
+- 
+-@@ -2123,13 +2101,12 @@ uninstall :: uninstall_from_$(INSTALLDIRS)dirs
+- 	$(NOECHO) $(NOOP)
+- 
+- uninstall_from_perldirs ::
+--	$(NOECHO) $(UNINSTALL) }.$self->catfile('$(PERL_ARCHLIB)','auto','$(FULLEXT)','.packlist').q{
+- 
+- uninstall_from_sitedirs ::
+- 	$(NOECHO) $(UNINSTALL) }.$self->catfile('$(SITEARCHEXP)','auto','$(FULLEXT)','.packlist').q{
+- 
+- uninstall_from_vendordirs ::
+--	$(NOECHO) $(UNINSTALL) }.$self->catfile('$(VENDORARCHEXP)','auto','$(FULLEXT)','.packlist').q{
+-+
+- };
+- 
+-     join("",@m);
+-@@ -2402,7 +2379,7 @@ MAP_PRELIBS   = $Config{perllibs} $Config{cryptlib}
+- 	($lperl = $libperl) =~ s/\$\(A\)/$self->{LIB_EXT}/;
+-     }
+-     unless ($libperl && -f $lperl) { # Ilya's code...
+--	my $dir = $self->{PERL_SRC} || "$self->{PERL_ARCHLIB}/CORE";
+-+	my $dir = $self->{PERL_SRC} || "/usr/lib";
+- 	$dir = "$self->{PERL_ARCHLIB}/.." if $self->{UNINSTALLED_PERL};
+- 	$libperl ||= "libperl$self->{LIB_EXT}";
+- 	$libperl   = "$dir/$libperl";
+-@@ -2998,8 +2975,7 @@ sub prefixify {
+-     print STDERR "  prefixify $var => $path\n" if $Verbose >= 2;
+-     print STDERR "    from $sprefix to $rprefix\n" if $Verbose >= 2;
+- 
+--    if( $self->{ARGS}{PREFIX} &&
+--        $path !~ s{^\Q$sprefix\E\b}{$rprefix}s ) 
+-+    if( $path !~ s{^\Q$sprefix\E\b}{$rprefix}s && $self->{ARGS}{PREFIX} )
+-     {
+- 
+-         print STDERR "    cannot prefix, using default.\n" if $Verbose >= 2;
+-diff --git a/cpan/ExtUtils-MakeMaker/t/INST.t b/cpan/ExtUtils-MakeMaker/t/INST.t
+-index 8a140eb..cf1410e 100755
+---- a/cpan/ExtUtils-MakeMaker/t/INST.t
+-+++ b/cpan/ExtUtils-MakeMaker/t/INST.t
+-@@ -59,9 +59,7 @@ isa_ok( $mm, 'ExtUtils::MakeMaker' );
+- is( $mm->{NAME}, 'Big::Dummy',  'NAME' );
+- is( $mm->{VERSION}, 0.01,            'VERSION' );
+- 
+--my $config_prefix = $Config{installprefixexp} || $Config{installprefix} ||
+--                    $Config{prefixexp}        || $Config{prefix};
+--is( $mm->{PERLPREFIX}, $config_prefix,   'PERLPREFIX' );
+-+is( $mm->{PERLPREFIX}, '$(PREFIX)',   'PERLPREFIX' );
+- 
+- is( !!$mm->{PERL_CORE}, !!$ENV{PERL_CORE}, 'PERL_CORE' );
+- 
+-diff --git a/cpan/ExtUtils-MakeMaker/t/INST_PREFIX.t b/cpan/ExtUtils-MakeMaker/t/INST_PREFIX.t
+-index 8bb9db8..316546d 100755
+---- a/cpan/ExtUtils-MakeMaker/t/INST_PREFIX.t
+-+++ b/cpan/ExtUtils-MakeMaker/t/INST_PREFIX.t
+-@@ -10,7 +10,7 @@ BEGIN {
+- }
+- 
+- use strict;
+--use Test::More tests => 52;
+-+use Test::More tests => 47;
+- use MakeMaker::Test::Utils;
+- use MakeMaker::Test::Setup::BFD;
+- use ExtUtils::MakeMaker;
+-@@ -56,16 +56,16 @@ like( $stdout->read, qr{
+-                         Writing\ $Makefile\ for\ Big::Dummy\n
+- }x );
+- 
+--is( $mm->{PREFIX}, '$(SITEPREFIX)', 'PREFIX set based on INSTALLDIRS' );
+-+#is( $mm->{PREFIX}, '$(SITEPREFIX)', 'PREFIX set based on INSTALLDIRS' );
+- 
+- isa_ok( $mm, 'ExtUtils::MakeMaker' );
+- 
+- is( $mm->{NAME}, 'Big::Dummy',  'NAME' );
+- is( $mm->{VERSION}, 0.01,            'VERSION' );
+- 
+--foreach my $prefix (qw(PREFIX PERLPREFIX SITEPREFIX VENDORPREFIX)) {
+--    unlike( $mm->{$prefix}, qr/\$\(PREFIX\)/ );
+--}
+-+#foreach my $prefix (qw(PREFIX PERLPREFIX SITEPREFIX VENDORPREFIX)) {
+-+#    unlike( $mm->{$prefix}, qr/\$\(PREFIX\)/ );
+-+#}
+- 
+- 
+- my $PREFIX = File::Spec->catdir('foo', 'bar');
+-diff --git a/dist/ExtUtils-Install/lib/ExtUtils/Install.pm b/dist/ExtUtils-Install/lib/ExtUtils/Install.pm
+-index da58365..d6d5c11 100644
+---- a/dist/ExtUtils-Install/lib/ExtUtils/Install.pm
+-+++ b/dist/ExtUtils-Install/lib/ExtUtils/Install.pm
+-@@ -468,7 +468,7 @@ sub _can_write_dir {
+- 
+- =pod
+- 
+--=item _mkpath($dir,$show,$mode,$verbose,$dry_run)
+-+=item _mkpath($dir,$show,$verbose,$dry_run)
+- 
+- Wrapper around File::Path::mkpath() to handle errors.
+- 
+-@@ -485,13 +485,13 @@ writable.
+- =cut
+- 
+- sub _mkpath {
+--    my ($dir,$show,$mode,$verbose,$dry_run)=@_;
+-+    my ($dir,$show,$verbose,$dry_run)=@_;
+-     if ( $verbose && $verbose > 1 && ! -d $dir) {
+-         $show= 1;
+--        printf "mkpath(%s,%d,%#o)\n", $dir, $show, $mode;
+-+        printf "mkpath(%s,%d)\n", $dir, $show;
+-     }
+-     if (!$dry_run) {
+--        if ( ! eval { File::Path::mkpath($dir,$show,$mode); 1 } ) {
+-+        if ( ! eval { File::Path::mkpath($dir,$show); 1 } ) {
+-             _choke("Can't create '$dir'","$@");
+-         }
+- 
+-@@ -796,7 +796,7 @@ sub install { #XXX OS-SPECIFIC
+-         _chdir($cwd);
+-     }
+-     foreach my $targetdir (sort keys %check_dirs) {
+--        _mkpath( $targetdir, 0, 0755, $verbose, $dry_run );
+-+        _mkpath( $targetdir, 0, $verbose, $dry_run );
+-     }
+-     foreach my $found (@found_files) {
+-         my ($diff, $ffd, $origfile, $mode, $size, $atime, $mtime,
+-@@ -810,7 +810,7 @@ sub install { #XXX OS-SPECIFIC
+-                     $targetfile= _unlink_or_rename( $targetfile, 'tryhard', 'install' )
+-                         unless $dry_run;
+-                 } elsif ( ! -d $targetdir ) {
+--                    _mkpath( $targetdir, 0, 0755, $verbose, $dry_run );
+-+                    _mkpath( $targetdir, 0, $verbose, $dry_run );
+-                 }
+-                 print "Installing $targetfile\n";
+- 
+-@@ -850,7 +850,7 @@ sub install { #XXX OS-SPECIFIC
+- 
+-     if ($pack{'write'}) {
+-         $dir = install_rooted_dir(dirname($pack{'write'}));
+--        _mkpath( $dir, 0, 0755, $verbose, $dry_run );
+-+        _mkpath( $dir, 0, $verbose, $dry_run );
+-         print "Writing $pack{'write'}\n" if $verbose;
+-         $packlist->write(install_rooted_file($pack{'write'})) unless $dry_run;
+-     }
+-@@ -1190,7 +1190,7 @@ be prepended as a directory to each installed file (and directory).
+- sub pm_to_blib {
+-     my($fromto,$autodir,$pm_filter) = @_;
+- 
+--    _mkpath($autodir,0,0755);
+-+    _mkpath($autodir,0);
+-     while(my($from, $to) = each %$fromto) {
+-         if( -f $to && -s $from == -s $to && -M $to < -M $from ) {
+-             print "Skip $to (unchanged)\n";
+-@@ -1213,7 +1213,7 @@ sub pm_to_blib {
+-             # we wont try hard here. its too likely to mess things up.
+-             forceunlink($to);
+-         } else {
+--            _mkpath(dirname($to),0,0755);
+-+            _mkpath(dirname($to),0);
+-         }
+-         if ($need_filtering) {
+-             run_filter($pm_filter, $from, $to);
+-diff --git a/lib/ExtUtils/Embed.pm b/lib/ExtUtils/Embed.pm
+-index 24ae909..12d421d 100644
+---- a/lib/ExtUtils/Embed.pm
+-+++ b/lib/ExtUtils/Embed.pm
+-@@ -305,6 +305,9 @@ and extensions in your C/C++ applications.
+- Typically, an application B<Makefile> will invoke ExtUtils::Embed
+- functions while building your application.  
+- 
+-+Note that on Debian systems the B<libperl-dev> package is required for
+-+compiling applications which embed an interpreter.
+-+
+- =head1 @EXPORT
+- 
+- ExtUtils::Embed exports the following functions:
+--- 
+-tg: (a508b62..) debian/extutils_hacks (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/autodie-flock.diff b/meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/autodie-flock.diff
+deleted file mode 100644
+index 375ae41..0000000
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/autodie-flock.diff
++++ /dev/null
+@@ -1,100 +0,0 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
+-From: Niko Tyni <ntyni@debian.org>
+-Subject: Allow for flock returning EAGAIN instead of EWOULDBLOCK on linux/parisc
+-Bug-Debian: http://bugs.debian.org/543731
+-Origin: upstream, http://github.com/pfenwick/autodie/commit/037738e11a6097734b0e1dabdd77b92e5fe35219
+-
+-
+----
+- cpan/autodie/lib/Fatal.pm |   14 +++++++++++++-
+- cpan/autodie/t/flock.t    |   12 ++++++++++--
+- 2 files changed, 23 insertions(+), 3 deletions(-)
+-
+-diff --git a/cpan/autodie/lib/Fatal.pm b/cpan/autodie/lib/Fatal.pm
+-old mode 100644
+-new mode 100755
+-index 18e71ed..c17a257
+---- a/cpan/autodie/lib/Fatal.pm
+-+++ b/cpan/autodie/lib/Fatal.pm
+-@@ -5,6 +5,7 @@ use Carp;
+- use strict;
+- use warnings;
+- use Tie::RefHash;   # To cache subroutine refs
+-+use Config;
+- 
+- use constant PERL510     => ( $] >= 5.010 );
+- 
+-@@ -52,6 +53,10 @@ our %_EWOULDBLOCK = (
+-     MSWin32 => 33,
+- );
+- 
+-+# the linux parisc port has separate EAGAIN and EWOULDBLOCK,
+-+# and the kernel returns EAGAIN
+-+my $try_EAGAIN = ($^O eq 'linux' and $Config{archname} =~ /hppa|parisc/) ? 1 : 0;
+-+
+- # We have some tags that can be passed in for use with import.
+- # These are all assumed to be CORE::
+- 
+-@@ -720,6 +725,11 @@ sub _one_invocation {
+-         my $EWOULDBLOCK = eval { POSIX::EWOULDBLOCK(); }
+-                           || $_EWOULDBLOCK{$^O}
+-                           || _autocroak("Internal error - can't overload flock - EWOULDBLOCK not defined on this system.");
+-+        my $EAGAIN = $EWOULDBLOCK;
+-+        if ($try_EAGAIN) {
+-+            $EAGAIN = eval { POSIX::EAGAIN(); }
+-+                          || _autocroak("Internal error - can't overload flock - EAGAIN not defined on this system.");
+-+        }
+- 
+-         require Fcntl;      # For Fcntl::LOCK_NB
+- 
+-@@ -735,7 +745,9 @@ sub _one_invocation {
+-             # If we failed, but we're using LOCK_NB and
+-             # returned EWOULDBLOCK, it's not a real error.
+- 
+--            if (\$_[1] & Fcntl::LOCK_NB() and \$! == $EWOULDBLOCK ) {
+-+            if (\$_[1] & Fcntl::LOCK_NB() and
+-+                (\$! == $EWOULDBLOCK or
+-+                ($try_EAGAIN and \$! == $EAGAIN ))) {
+-                 return \$retval;
+-             }
+- 
+-diff --git a/cpan/autodie/t/flock.t b/cpan/autodie/t/flock.t
+-index a7550ba..6421a56 100755
+---- a/cpan/autodie/t/flock.t
+-+++ b/cpan/autodie/t/flock.t
+-@@ -2,7 +2,8 @@
+- use strict;
+- use Test::More;
+- use Fcntl qw(:flock);
+--use POSIX qw(EWOULDBLOCK);
+-+use POSIX qw(EWOULDBLOCK EAGAIN);
+-+use Config;
+- 
+- require Fatal;
+- 
+-@@ -10,6 +11,9 @@ my $EWOULDBLOCK = eval { EWOULDBLOCK() }
+-                   || $Fatal::_EWOULDBLOCK{$^O}
+-                   || plan skip_all => "EWOULDBLOCK not defined on this system";
+- 
+-+my $try_EAGAIN = ($^O eq 'linux' and $Config{archname} =~ /hppa|parisc/) ? 1 : 0;
+-+my $EAGAIN = eval { EAGAIN() };
+-+
+- my ($self_fh, $self_fh2);
+- 
+- eval {
+-@@ -55,7 +59,11 @@ eval {
+-     $return = flock($self_fh2, LOCK_EX | LOCK_NB);
+- };
+- 
+--is($!+0, $EWOULDBLOCK, "Double-flocking should be EWOULDBLOCK");
+-+if (!$try_EAGAIN) {
+-+    is($!+0, $EWOULDBLOCK, "Double-flocking should be EWOULDBLOCK");
+-+} else {
+-+    ok($!+0 == $EWOULDBLOCK || $!+0 == $EAGAIN, "Double-flocking should be EWOULDBLOCK or EAGAIN");
+-+}
+- ok(!$return, "flocking a file twice should fail");
+- is($@, "", "Non-blocking flock should not fail on EWOULDBLOCK");
+- 
+--- 
+-tg: (a508b62..) fixes/autodie-flock (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/concat-stack-corruption.diff b/meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/concat-stack-corruption.diff
+deleted file mode 100644
+index 40437f3..0000000
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/concat-stack-corruption.diff
++++ /dev/null
+@@ -1,39 +0,0 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
+-From: Niko Tyni <ntyni@debian.org>
+-Subject: Fix stack pointer corruption in pp_concat() with 'use encoding'
+-Bug-Debian: http://bugs.debian.org/596105
+-Bug: http://rt.perl.org/rt3/Ticket/Display.html?id=78674
+-Origin: upstream, http://perl5.git.perl.org/perl.git/commit/e3393f51d48d8b790e26324eb0336fac9689fa46
+-
+-If the stack is reallocated during pp_concat() and 'use encoding' in
+-effect, the stack pointer gets corrupted, causing memory allocation bugs
+-and the like.
+-
+----
+- pp_hot.c |    3 +++
+- 1 files changed, 3 insertions(+), 0 deletions(-)
+-
+-diff --git a/pp_hot.c b/pp_hot.c
+-index ee699ef..c5ed14e 100644
+---- a/pp_hot.c
+-+++ b/pp_hot.c
+-@@ -271,6 +271,8 @@ PP(pp_concat)
+- 	rbyte = !DO_UTF8(right);
+-     }
+-     if (lbyte != rbyte) {
+-+	/* sv_utf8_upgrade_nomg() may reallocate the stack */
+-+	PUTBACK;
+- 	if (lbyte)
+- 	    sv_utf8_upgrade_nomg(TARG);
+- 	else {
+-@@ -279,6 +281,7 @@ PP(pp_concat)
+- 	    sv_utf8_upgrade_nomg(right);
+- 	    rpv = SvPV_const(right, rlen);
+- 	}
+-+	SPAGAIN;
+-     }
+-     sv_catpvn_nomg(TARG, rpv, rlen);
+- 
+--- 
+-tg: (a508b62..) fixes/concat-stack-corruption (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/cpanplus-without-home.diff b/meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/cpanplus-without-home.diff
+deleted file mode 100644
+index e7ff57c..0000000
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/cpanplus-without-home.diff
++++ /dev/null
+@@ -1,32 +0,0 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
+-From: Niko Tyni <ntyni@debian.org>
+-Subject: Fix CPANPLUS test failures when HOME doesn't exist
+-Bug: http://rt.cpan.org/Public/Bug/Display.html?id=52988
+-Bug-Debian: http://bugs.debian.org/577011
+-Origin: upstream
+-
+-The Debian autobuilders are configured with a non-existing $ENV{HOME},
+-triggering a bug in CPANPLUS that causes test failures.
+-
+-Fix from CPANPLUS-0.9001.
+-
+----
+- cpan/CPANPLUS/lib/CPANPLUS/Internals/Utils.pm |    2 +-
+- 1 files changed, 1 insertions(+), 1 deletions(-)
+-
+-diff --git a/cpan/CPANPLUS/lib/CPANPLUS/Internals/Utils.pm b/cpan/CPANPLUS/lib/CPANPLUS/Internals/Utils.pm
+-index 27d2abc..8475c36 100644
+---- a/cpan/CPANPLUS/lib/CPANPLUS/Internals/Utils.pm
+-+++ b/cpan/CPANPLUS/lib/CPANPLUS/Internals/Utils.pm
+-@@ -5,7 +5,7 @@ use strict;
+- use CPANPLUS::Error;
+- use CPANPLUS::Internals::Constants;
+- 
+--use Cwd qw[chdir];
+-+use Cwd                         qw[chdir cwd];
+- use File::Copy;
+- use Params::Check               qw[check];
+- use Module::Load::Conditional   qw[can_load];
+--- 
+-tg: (a508b62..) fixes/cpanplus-without-home (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/h2ph-gcc-4.5.diff b/meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/h2ph-gcc-4.5.diff
+deleted file mode 100644
+index 9faab81..0000000
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/h2ph-gcc-4.5.diff
++++ /dev/null
+@@ -1,108 +0,0 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
+-Author: Robin Barker <rmbarker@cpan.org>
+-Subject: h2ph fix for gcc 4.5
+-Bug-Debian: http://bugs.debian.org/599933
+-Origin: upstream, http://perl5.git.perl.org/perl.git/commit/8d66b3f930dc6d88b524d103e304308ae73a46e7 
+-
+-Fix h2ph and test. Needed to build with GCC 4.5.
+-
+-
+----
+- lib/h2ph.t    |   12 ++++++++++--
+- utils/h2ph.PL |   28 +++++++++++++++++++++++-----
+- 2 files changed, 33 insertions(+), 7 deletions(-)
+-
+-diff --git a/lib/h2ph.t b/lib/h2ph.t
+-index 27dd7b9..8d62d46 100755
+---- a/lib/h2ph.t
+-+++ b/lib/h2ph.t
+-@@ -18,7 +18,7 @@ if (!(-e $extracted_program)) {
+-     exit 0;
+- }
+- 
+--plan(4);
+-+plan(5);
+- 
+- # quickly compare two text files
+- sub txt_compare {
+-@@ -41,8 +41,16 @@ $result = runperl( progfile => 'lib/h2ph.pht',
+-                    stderr => 1 );
+- like( $result, qr/syntax OK$/, "output compiles");
+- 
+-+$result = runperl( progfile => '_h2ph_pre.ph',
+-+                   switches => ['-c'],
+-+                   stderr => 1 );
+-+like( $result, qr/syntax OK$/, "preamble compiles");
+-+
+- $result = runperl( switches => ["-w"], 
+--                   prog => '$SIG{__WARN__} = sub { die $_[0] }; require q(lib/h2ph.pht);');
+-+                   stderr => 1,
+-+                   prog => <<'PROG' );
+-+$SIG{__WARN__} = sub { die $_[0] }; require q(lib/h2ph.pht);
+-+PROG
+- is( $result, '', "output free of warnings" );
+- 
+- # cleanup
+-diff --git a/utils/h2ph.PL b/utils/h2ph.PL
+-index 8f56db4..1255807 100644
+---- a/utils/h2ph.PL
+-+++ b/utils/h2ph.PL
+-@@ -401,7 +401,10 @@ if ($opt_e && (scalar(keys %bad_file) > 0)) {
+- exit $Exit;
+- 
+- sub expr {
+--    $new = '"(assembly code)"' and return if /\b__asm__\b/; # freak out.
+-+    if (/\b__asm__\b/) {	# freak out
+-+	$new = '"(assembly code)"';
+-+	return
+-+    }
+-     my $joined_args;
+-     if(keys(%curargs)) {
+- 	$joined_args = join('|', keys(%curargs));
+-@@ -770,7 +773,7 @@ sub inc_dirs
+- sub build_preamble_if_necessary
+- {
+-     # Increment $VERSION every time this function is modified:
+--    my $VERSION     = 2;
+-+    my $VERSION     = 3;
+-     my $preamble    = "$Dest_dir/_h2ph_pre.ph";
+- 
+-     # Can we skip building the preamble file?
+-@@ -798,7 +801,16 @@ sub build_preamble_if_necessary
+- 		# parenthesized value:  d=(v)
+- 		$define{$_} = $1;
+- 	    }
+--	    if ($define{$_} =~ /^([+-]?(\d+)?\.\d+([eE][+-]?\d+)?)[FL]?$/) {
+-+	    if (/^(\w+)\((\w)\)$/) {
+-+		my($macro, $arg) = ($1, $2);
+-+		my $def = $define{$_};
+-+		$def =~ s/$arg/\$\{$arg\}/g;
+-+		print PREAMBLE <<DEFINE;
+-+unless (defined &$macro) { sub $macro(\$) { my (\$$arg) = \@_; \"$def\" } }
+-+
+-+DEFINE
+-+	    } elsif
+-+		($define{$_} =~ /^([+-]?(\d+)?\.\d+([eE][+-]?\d+)?)[FL]?$/) {
+- 		# float:
+- 		print PREAMBLE
+- 		    "unless (defined &$_) { sub $_() { $1 } }\n\n";
+-@@ -807,8 +819,14 @@ sub build_preamble_if_necessary
+- 		print PREAMBLE
+- 		    "unless (defined &$_) { sub $_() { $1 } }\n\n";
+- 	    } elsif ($define{$_} =~ /^\w+$/) {
+--		print PREAMBLE
+--		    "unless (defined &$_) { sub $_() { &$define{$_} } }\n\n";
+-+		my $def = $define{$_};
+-+		if ($isatype{$def}) {
+-+		  print PREAMBLE
+-+		    "unless (defined &$_) { sub $_() { \"$def\" } }\n\n";
+-+		} else {
+-+		  print PREAMBLE
+-+		    "unless (defined &$_) { sub $_() { &$def } }\n\n";
+-+	        }
+- 	    } else {
+- 		print PREAMBLE
+- 		    "unless (defined &$_) { sub $_() { \"",
+--- 
+-tg: (a508b62..) fixes/h2ph-gcc-4.5 (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/lc-numeric-docs.diff b/meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/lc-numeric-docs.diff
+deleted file mode 100644
+index 67a55da..0000000
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/lc-numeric-docs.diff
++++ /dev/null
+@@ -1,97 +0,0 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
+-From: Niko Tyni <ntyni@debian.org>
+-Subject: LC_NUMERIC documentation fixes
+-Bug-Debian: http://bugs.debian.org/379329
+-Bug: http://rt.perl.org/rt3/Ticket/Display.html?id=78452
+-Origin: upstream, http://perl5.git.perl.org/perl.git/commit/903eb63f7d8d47a38971a8e9af7201b9927882cf
+-
+-LC_NUMERIC documentation updates fixing two errors:
+-
+-    - the early parts of perllocale.pod still say printf() uses LC_NUMERIC
+-      with just 'use locale' when actually a POSIX::setlocale() call is
+-      also needed
+-    
+-    - format() hasn't used LC_NUMERIC unconditionally since 5.005_03
+-      (commit 097ee67dff1c60f201bc09435bc6eaeeafcd8123).
+-
+-Test cases from the upstream commit dropped for the sake of simplicity.
+-
+----
+- pod/perlform.pod   |   20 ++++++++------------
+- pod/perllocale.pod |   15 ++++++---------
+- 2 files changed, 14 insertions(+), 21 deletions(-)
+-
+-diff --git a/pod/perlform.pod b/pod/perlform.pod
+-index 3cfa1b7..df0f0a1 100644
+---- a/pod/perlform.pod
+-+++ b/pod/perlform.pod
+-@@ -166,9 +166,9 @@ token on the first line.  If an expression evaluates to a number with a
+- decimal part, and if the corresponding picture specifies that the decimal
+- part should appear in the output (that is, any picture except multiple "#"
+- characters B<without> an embedded "."), the character used for the decimal
+--point is B<always> determined by the current LC_NUMERIC locale.  This
+--means that, if, for example, the run-time environment happens to specify a
+--German locale, "," will be used instead of the default ".".  See
+-+point is determined by the current LC_NUMERIC locale if C<use locale> is in
+-+effect.  This means that, if, for example, the run-time environment happens
+-+to specify a German locale, "," will be used instead of the default ".".  See
+- L<perllocale> and L<"WARNINGS"> for more information.
+- 
+- 
+-@@ -442,15 +442,11 @@ Lexical variables (declared with "my") are not visible within a
+- format unless the format is declared within the scope of the lexical
+- variable.  (They weren't visible at all before version 5.001.)
+- 
+--Formats are the only part of Perl that unconditionally use information
+--from a program's locale; if a program's environment specifies an
+--LC_NUMERIC locale, it is always used to specify the decimal point
+--character in formatted output.  Perl ignores all other aspects of locale
+--handling unless the C<use locale> pragma is in effect.  Formatted output
+--cannot be controlled by C<use locale> because the pragma is tied to the
+--block structure of the program, and, for historical reasons, formats
+--exist outside that block structure.  See L<perllocale> for further
+--discussion of locale handling.
+-+If a program's environment specifies an LC_NUMERIC locale and C<use
+-+locale> is in effect when the format is declared, the locale is used
+-+to specify the decimal point character in formatted output.  Formatted
+-+output cannot be controlled by C<use locale> at the time when write()
+-+is called. See L<perllocale> for further discussion of locale handling.
+- 
+- Within strings that are to be displayed in a fixed length text field,
+- each control character is substituted by a space. (But remember the
+-diff --git a/pod/perllocale.pod b/pod/perllocale.pod
+-index 0dbabe7..0bec423 100644
+---- a/pod/perllocale.pod
+-+++ b/pod/perllocale.pod
+-@@ -115,8 +115,7 @@ ucfirst(), and lcfirst()) use C<LC_CTYPE>
+- 
+- =item *
+- 
+--B<The formatting functions> (printf(), sprintf() and write()) use
+--C<LC_NUMERIC>
+-+B<Format declarations> (format()) use C<LC_NUMERIC>
+- 
+- =item *
+- 
+-@@ -967,13 +966,11 @@ system's implementation of the locale system than by Perl.
+- 
+- =head2 write() and LC_NUMERIC
+- 
+--Formats are the only part of Perl that unconditionally use information
+--from a program's locale; if a program's environment specifies an
+--LC_NUMERIC locale, it is always used to specify the decimal point
+--character in formatted output.  Formatted output cannot be controlled by
+--C<use locale> because the pragma is tied to the block structure of the
+--program, and, for historical reasons, formats exist outside that block
+--structure.
+-+If a program's environment specifies an LC_NUMERIC locale and C<use
+-+locale> is in effect when the format is declared, the locale is used
+-+to specify the decimal point character in formatted output.  Formatted
+-+output cannot be controlled by C<use locale> at the time when write()
+-+is called.
+- 
+- =head2 Freely available locale definitions
+- 
+--- 
+-tg: (a508b62..) fixes/lc-numeric-docs (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/lc-numeric-sprintf.diff b/meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/lc-numeric-sprintf.diff
+deleted file mode 100644
+index 9fe07eb..0000000
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/lc-numeric-sprintf.diff
++++ /dev/null
+@@ -1,31 +0,0 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
+-From: Niko Tyni <ntyni@debian.org>
+-Subject: Fix sprintf not to ignore LC_NUMERIC with constants
+-Bug-Debian: http://bugs.debian.org/601549
+-Bug: http://rt.perl.org/rt3/Ticket/Display.html?id=78632
+-Origin: upstream, http://perl5.git.perl.org/perl.git/commit/b3fd61496ebc585b1115807e3195f17714662a09
+-
+-Don't fold constants in sprintf() if locales are used
+-    
+-An upstream regression in 5.10.1 made sprintf() ignore LC_NUMERIC for
+-numeric constants.
+-
+----
+- op.c |    1 +
+- 1 files changed, 1 insertions(+), 0 deletions(-)
+-
+-diff --git a/op.c b/op.c
+-index e94f158..3c6badb 100644
+---- a/op.c
+-+++ b/op.c
+-@@ -2503,6 +2503,7 @@ S_fold_constants(pTHX_ register OP *o)
+-     case OP_SLE:
+-     case OP_SGE:
+-     case OP_SCMP:
+-+    case OP_SPRINTF:
+- 	/* XXX what about the numeric ops? */
+- 	if (PL_hints & HINT_LOCALE)
+- 	    goto nope;
+--- 
+-tg: (a508b62..) fixes/lc-numeric-sprintf (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/processPL.diff b/meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/processPL.diff
+deleted file mode 100644
+index fa2d7c3..0000000
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/processPL.diff
++++ /dev/null
+@@ -1,45 +0,0 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
+-Subject: Always use PERLRUNINST when building perl modules.
+-Bug-Debian: http://bugs.debian.org/357264
+-Bug: http://rt.cpan.org/Public/Bug/Display.html?id=17224
+-
+-Revert part of upstream change 24524 to always use PERLRUNINST when
+-building perl modules:  Some PDL demos expect blib to be implicitly
+-searched.
+-
+-
+----
+- cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm |    5 +----
+- 1 files changed, 1 insertions(+), 4 deletions(-)
+-
+-diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-index 239d6df..294d266 100644
+---- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-+++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-@@ -3043,14 +3043,11 @@ sub processPL {
+- 	    # pm_to_blib depends on then it can't depend on pm_to_blib
+- 	    # else we have a dependency loop.
+- 	    my $pm_dep;
+--	    my $perlrun;
+- 	    if( defined $self->{PM}{$target} ) {
+- 		$pm_dep  = '';
+--		$perlrun = 'PERLRUN';
+- 	    }
+- 	    else {
+- 		$pm_dep  = 'pm_to_blib';
+--		$perlrun = 'PERLRUNINST';
+- 	    }
+- 
+-             $m .= <<MAKE_FRAG;
+-@@ -3059,7 +3056,7 @@ all :: $target
+- 	\$(NOECHO) \$(NOOP)
+- 
+- $target :: $plfile $pm_dep
+--	\$($perlrun) $plfile $target
+-+	\$(PERLRUNINST) $plfile $target
+- MAKE_FRAG
+- 
+- 	}
+--- 
+-tg: (a508b62..) fixes/processPL (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/patchlevel b/meta/recipes-devtools/perl/perl-5.12.3/debian/patchlevel
+deleted file mode 100644
+index 0839fbd..0000000
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/patchlevel
++++ /dev/null
+@@ -1,45 +0,0 @@
+-Subject: List packaged patches for 5.12.3-2 in patchlevel.h
+-Origin: vendor
+-Bug-Debian: http://bugs.debian.org/567489
+-
+-The list can be refreshed from information in debian/patches by running
+-'debian/rules refresh-patchlevel'.
+-
+-
+---- perl/patchlevel.bak
+-+++ perl/patchlevel.h
+-@@ -133,0 +134,34 @@
+-+	,"DEBPKG:debian/arm_thread_stress_timeout - http://bugs.debian.org/501970 Raise the timeout of ext/threads/shared/t/stress.t to accommodate slower build hosts"
+-+	,"DEBPKG:debian/cpan_config_path - Set location of CPAN::Config to /etc/perl as /usr may not be writable."
+-+	,"DEBPKG:debian/cpan_definstalldirs - Provide a sensible INSTALLDIRS default for modules installed from CPAN."
+-+	,"DEBPKG:debian/db_file_ver - http://bugs.debian.org/340047 Remove overly restrictive DB_File version check."
+-+	,"DEBPKG:debian/doc_info - Replace generic man(1) instructions with Debian-specific information."
+-+	,"DEBPKG:debian/enc2xs_inc - http://bugs.debian.org/290336 Tweak enc2xs to follow symlinks and ignore missing @INC directories."
+-+	,"DEBPKG:debian/errno_ver - http://bugs.debian.org/343351 Remove Errno version check due to upgrade problems with long-running processes."
+-+	,"DEBPKG:debian/extutils_hacks - Various debian-specific ExtUtils changes"
+-+	,"DEBPKG:debian/fakeroot - Postpone LD_LIBRARY_PATH evaluation to the binary targets."
+-+	,"DEBPKG:debian/instmodsh_doc - Debian policy doesn't install .packlist files for core or vendor."
+-+	,"DEBPKG:debian/ld_run_path - Remove standard libs from LD_RUN_PATH as per Debian policy."
+-+	,"DEBPKG:debian/libnet_config_path - Set location of libnet.cfg to /etc/perl/Net as /usr may not be writable."
+-+	,"DEBPKG:debian/m68k_thread_stress - http://bugs.debian.org/495826 Disable some threads tests on m68k for now due to missing TLS."
+-+	,"DEBPKG:debian/mod_paths - Tweak @INC ordering for Debian"
+-+	,"DEBPKG:debian/module_build_man_extensions - http://bugs.debian.org/479460 Adjust Module::Build manual page extensions for the Debian Perl policy"
+-+	,"DEBPKG:debian/prune_libs - http://bugs.debian.org/128355 Prune the list of libraries wanted to what we actually need."
+-+	,"DEBPKG:fixes/net_smtp_docs - http://bugs.debian.org/100195 [rt.cpan.org #36038] Document the Net::SMTP 'Port' option"
+-+	,"DEBPKG:fixes/processPL - http://bugs.debian.org/357264 [rt.cpan.org #17224] Always use PERLRUNINST when building perl modules."
+-+	,"DEBPKG:debian/perlivp - http://bugs.debian.org/510895 Make perlivp skip include directories in /usr/local"
+-+	,"DEBPKG:debian/disable-zlib-bundling - Disable zlib bundling in Compress::Raw::Zlib"
+-+	,"DEBPKG:debian/cpanplus_definstalldirs - http://bugs.debian.org/533707 Configure CPANPLUS to use the site directories by default."
+-+	,"DEBPKG:debian/cpanplus_config_path - Save local versions of CPANPLUS::Config::System into /etc/perl."
+-+	,"DEBPKG:fixes/autodie-flock - http://bugs.debian.org/543731 Allow for flock returning EAGAIN instead of EWOULDBLOCK on linux/parisc"
+-+	,"DEBPKG:debian/devel-ppport-ia64-optim - http://bugs.debian.org/548943 Work around an ICE on ia64"
+-+	,"DEBPKG:fixes/cpanplus-without-home - http://bugs.debian.org/577011 [rt.cpan.org #52988] Fix CPANPLUS test failures when HOME doesn't exist"
+-+	,"DEBPKG:debian/arm_optim - http://bugs.debian.org/580334 Downgrade the optimization of sv.c on arm due to a gcc-4.4 bug"
+-+	,"DEBPKG:debian/deprecate-with-apt - http://bugs.debian.org/580034 Point users to Debian packages of deprecated core modules"
+-+	,"DEBPKG:fixes/hurd-ccflags - http://bugs.debian.org/587901 Make hints/gnu.sh append to $ccflags rather than overriding them"
+-+	,"DEBPKG:debian/squelch-locale-warnings - http://bugs.debian.org/508764 Squelch locale warnings in Debian package maintainer scripts"
+-+	,"DEBPKG:fixes/lc-numeric-docs - http://bugs.debian.org/379329 [perl #78452] [903eb63] LC_NUMERIC documentation fixes"
+-+	,"DEBPKG:fixes/lc-numeric-sprintf - http://bugs.debian.org/601549 [perl #78632] [b3fd614] Fix sprintf not to ignore LC_NUMERIC with constants"
+-+	,"DEBPKG:fixes/concat-stack-corruption - http://bugs.debian.org/596105 [perl #78674] [e3393f5] Fix stack pointer corruption in pp_concat() with 'use encoding'"
+-+	,"DEBPKG:fixes/h2ph-gcc-4.5 - http://bugs.debian.org/599933 [8d66b3f] h2ph fix for gcc 4.5"
+-+	,"DEBPKG:patchlevel - http://bugs.debian.org/567489 List packaged patches for 5.12.3-2 in patchlevel.h"
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/series b/meta/recipes-devtools/perl/perl-5.12.3/debian/series
+deleted file mode 100644
+index 5425bc6..0000000
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/series
++++ /dev/null
+@@ -1,34 +0,0 @@
+-debian/arm_thread_stress_timeout.diff -p1
+-debian/cpan_config_path.diff -p1
+-debian/cpan_definstalldirs.diff -p1
+-debian/db_file_ver.diff -p1
+-debian/doc_info.diff -p1
+-debian/enc2xs_inc.diff -p1
+-debian/errno_ver.diff -p1
+-debian/extutils_hacks.diff -p1
+-debian/fakeroot.diff -p1
+-debian/instmodsh_doc.diff -p1
+-debian/ld_run_path.diff -p1
+-debian/libnet_config_path.diff -p1
+-debian/m68k_thread_stress.diff -p1
+-debian/mod_paths.diff -p1
+-debian/module_build_man_extensions.diff -p1
+-debian/prune_libs.diff -p1
+-fixes/net_smtp_docs.diff -p1
+-fixes/processPL.diff -p1
+-debian/perlivp.diff -p1
+-debian/disable-zlib-bundling.diff -p1
+-debian/cpanplus_definstalldirs.diff -p1
+-debian/cpanplus_config_path.diff -p1
+-fixes/autodie-flock.diff -p1
+-debian/devel-ppport-ia64-optim.diff -p1
+-fixes/cpanplus-without-home.diff -p1
+-debian/arm_optim.diff -p1
+-debian/deprecate-with-apt.diff -p1
+-fixes/hurd-ccflags.diff -p1
+-debian/squelch-locale-warnings.diff -p1
+-fixes/lc-numeric-docs.diff -p1
+-fixes/lc-numeric-sprintf.diff -p1
+-fixes/concat-stack-corruption.diff -p1
+-fixes/h2ph-gcc-4.5.diff -p1
+-patchlevel -p1
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_1.patch b/meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_1.patch
+deleted file mode 100644
+index d5a6295..0000000
+--- a/meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_1.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-Upstream-Status:Inappropriate [Backport]
+-
+-Imported from perl git tree by Nitin A Kamble <nitin.a.kamble@intel.com>
+-2011-02-23
+-
+-commit 6695a346c41138df5b2c0e26b9a49b1f96137da0
+-Author: Tony Cook <tony@openbsd32.tony.develop-help.com>
+-Date:   Thu Jul 22 09:54:13 2010 +1000
+-
+-    make_ext.pl populates @INC correctly, don't override it badly
+-    
+-    PERL5LIB is populated by make_ext.pl with paths to the modules we need
+-    to run, don't override this with "../../lib" since that may not have
+-    been populated yet in a parallel build.
+-
+-diff --git a/ext/POSIX/Makefile.PL b/ext/POSIX/Makefile.PL
+-index 392b6fb..9e6d091 100644
+---- a/ext/POSIX/Makefile.PL
+-+++ b/ext/POSIX/Makefile.PL
+-@@ -1,7 +1,3 @@
+--# Explicitly avoid including '.' in @INC; autoloader gets confused since it
+--# can find POSIX.pm, but can't find autosplit.ix.
+--BEGIN { @INC = '../../lib';}
+--#
+- use ExtUtils::MakeMaker;
+- use ExtUtils::Constant 0.11 'WriteConstants';
+- use Config;
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_2.patch b/meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_2.patch
+deleted file mode 100644
+index a3432ab..0000000
+--- a/meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_2.patch
++++ /dev/null
+@@ -1,24 +0,0 @@
+-Upstream-Status:Inappropriate [Backport]
+-
+-Imported from perl git tree by Nitin A Kamble <nitin.a.kamble@intel.com>
+-2011-02-23
+-
+-commit 24e93d7838b346d2ed632075f3d824a325170616
+-Author: Tony Cook <tony@develop-help.com>
+-Date:   Sat Aug 14 00:21:29 2010 +1000
+-
+-    POSIX/t/posix.t expects a certain start to Makefile.PL
+-    
+-    6695a346 changed the start of Makefile.PL, but t/posix.t reads that to
+-    test its read() implementation, restore enough of the original for the
+-    test to pass.
+-
+-diff --git a/ext/POSIX/Makefile.PL b/ext/POSIX/Makefile.PL
+-index 9e6d091..292882c 100644
+---- a/ext/POSIX/Makefile.PL
+-+++ b/ext/POSIX/Makefile.PL
+-@@ -1,3 +1,4 @@
+-+# Expect this line to be read by t/posix.t, don't change it
+- use ExtUtils::MakeMaker;
+- use ExtUtils::Constant 0.11 'WriteConstants';
+- use Config;
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_3.patch b/meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_3.patch
+deleted file mode 100644
+index 26af1f1..0000000
+--- a/meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_3.patch
++++ /dev/null
+@@ -1,6585 +0,0 @@
+-Upstream-Status:Inappropriate [Backport]
+-
+-Imported from perl git tree by Nitin A Kamble <nitin.a.kamble@intel.com>
+-2011-02-23
+-
+-commit 4feb80ac47a22e7de7d7c1c1d5dfb3d744a2a3a7
+-Author: Jerry D. Hedden <jdhedden@cpan.org>
+-Date:   Tue Aug 17 13:17:11 2010 -0400
+-
+-    Move POSIX.pm to lib/POSIX.pm to fix autosplitter problem
+-
+-diff --git a/MANIFEST b/MANIFEST
+-index 3036d73..faf8974 100644
+---- a/MANIFEST
+-+++ b/MANIFEST
+-@@ -3183,9 +3183,9 @@ ext/POSIX/hints/openbsd.pl	Hint for POSIX for named architecture
+- ext/POSIX/hints/sunos_4.pl	Hint for POSIX for named architecture
+- ext/POSIX/hints/svr4.pl		Hint for POSIX for named architecture
+- ext/POSIX/hints/uts.pl		Hint for POSIX for named architecture
+-+ext/POSIX/lib/POSIX.pm		POSIX extension Perl module
+-+ext/POSIX/lib/POSIX.pod		POSIX extension documentation
+- ext/POSIX/Makefile.PL		POSIX extension makefile writer
+--ext/POSIX/POSIX.pm		POSIX extension Perl module
+--ext/POSIX/POSIX.pod		POSIX extension documentation
+- ext/POSIX/POSIX.xs		POSIX extension external subroutines
+- ext/POSIX/t/is.t		See if POSIX isxxx() work
+- ext/POSIX/t/math.t		Basic math tests for POSIX
+-diff --git a/ext/POSIX/Makefile.PL b/ext/POSIX/Makefile.PL
+-index 292882c..07c3841 100644
+---- a/ext/POSIX/Makefile.PL
+-+++ b/ext/POSIX/Makefile.PL
+-@@ -18,7 +18,8 @@ WriteMakefile(
+-     NAME	=> 'POSIX',
+-     @libs,
+-     XSPROTOARG	=> '-noprototypes',	# XXX remove later?
+--    VERSION_FROM => 'POSIX.pm',
+-+    VERSION_FROM => 'lib/POSIX.pm',
+-+    ABSTRACT_FROM => 'lib/POSIX.pod',
+-     realclean	=> {FILES=> 'const-c.inc const-xs.inc'},
+- );
+- 
+-diff --git a/ext/POSIX/POSIX.pm b/ext/POSIX/POSIX.pm
+-deleted file mode 100644
+-index ffbd9de..0000000
+---- a/ext/POSIX/POSIX.pm
+-+++ /dev/null
+-@@ -1,1042 +0,0 @@
+--package POSIX;
+--use strict;
+--use warnings;
+--
+--our(@ISA, %EXPORT_TAGS, @EXPORT_OK, @EXPORT, $AUTOLOAD, %SIGRT) = ();
+--
+--our $VERSION = "1.19";
+--
+--use AutoLoader;
+--
+--use XSLoader ();
+--
+--use Fcntl qw(FD_CLOEXEC F_DUPFD F_GETFD F_GETFL F_GETLK F_RDLCK F_SETFD
+--	     F_SETFL F_SETLK F_SETLKW F_UNLCK F_WRLCK O_ACCMODE O_APPEND
+--	     O_CREAT O_EXCL O_NOCTTY O_NONBLOCK O_RDONLY O_RDWR O_TRUNC
+--	     O_WRONLY SEEK_CUR SEEK_END SEEK_SET
+--	     S_ISBLK S_ISCHR S_ISDIR S_ISFIFO S_ISREG
+--	     S_IRGRP S_IROTH S_IRUSR S_IRWXG S_IRWXO S_IRWXU S_ISGID S_ISUID
+--	     S_IWGRP S_IWOTH S_IWUSR S_IXGRP S_IXOTH S_IXUSR);
+--
+--# Grandfather old foo_h form to new :foo_h form
+--my $loaded;
+--
+--sub import {
+--    load_imports() unless $loaded++;
+--    my $this = shift;
+--    my @list = map { m/^\w+_h$/ ? ":$_" : $_ } @_;
+--    local $Exporter::ExportLevel = 1;
+--    Exporter::import($this,@list);
+--}
+--
+--sub croak { require Carp;  goto &Carp::croak }
+--# declare usage to assist AutoLoad
+--sub usage;
+--
+--XSLoader::load 'POSIX', $VERSION;
+--
+--sub AUTOLOAD {
+--    no strict;
+--    no warnings 'uninitialized';
+--    if ($AUTOLOAD =~ /::(_?[a-z])/) {
+--	# require AutoLoader;
+--	$AutoLoader::AUTOLOAD = $AUTOLOAD;
+--	goto &AutoLoader::AUTOLOAD
+--    }
+--    local $! = 0;
+--    my $constname = $AUTOLOAD;
+--    $constname =~ s/.*:://;
+--    my ($error, $val) = constant($constname);
+--    croak $error if $error;
+--    *$AUTOLOAD = sub { $val };
+--
+--    goto &$AUTOLOAD;
+--}
+--
+--package POSIX::SigAction;
+--
+--use AutoLoader 'AUTOLOAD';
+--
+--package POSIX::SigRt;
+--
+--use AutoLoader 'AUTOLOAD';
+--
+--use Tie::Hash;
+--
+--use vars qw($SIGACTION_FLAGS $_SIGRTMIN $_SIGRTMAX $_sigrtn @ISA);
+--@POSIX::SigRt::ISA = qw(Tie::StdHash);
+--
+--$SIGACTION_FLAGS = 0;
+--
+--tie %POSIX::SIGRT, 'POSIX::SigRt';
+--
+--sub DESTROY {};
+--
+--package POSIX;
+--
+--1;
+--__END__
+--
+--sub usage {
+--    my ($mess) = @_;
+--    croak "Usage: POSIX::$mess";
+--}
+--
+--sub redef {
+--    my ($mess) = @_;
+--    croak "Use method $mess instead";
+--}
+--
+--sub unimpl {
+--    my ($mess) = @_;
+--    $mess =~ s/xxx//;
+--    croak "Unimplemented: POSIX::$mess";
+--}
+--
+--sub assert {
+--    usage "assert(expr)" if @_ != 1;
+--    if (!$_[0]) {
+--	croak "Assertion failed";
+--    }
+--}
+--
+--sub tolower {
+--    usage "tolower(string)" if @_ != 1;
+--    lc($_[0]);
+--}
+--
+--sub toupper {
+--    usage "toupper(string)" if @_ != 1;
+--    uc($_[0]);
+--}
+--
+--sub closedir {
+--    usage "closedir(dirhandle)" if @_ != 1;
+--    CORE::closedir($_[0]);
+--}
+--
+--sub opendir {
+--    usage "opendir(directory)" if @_ != 1;
+--    my $dirhandle;
+--    CORE::opendir($dirhandle, $_[0])
+--	? $dirhandle
+--	: undef;
+--}
+--
+--sub readdir {
+--    usage "readdir(dirhandle)" if @_ != 1;
+--    CORE::readdir($_[0]);
+--}
+--
+--sub rewinddir {
+--    usage "rewinddir(dirhandle)" if @_ != 1;
+--    CORE::rewinddir($_[0]);
+--}
+--
+--sub errno {
+--    usage "errno()" if @_ != 0;
+--    $! + 0;
+--}
+--
+--sub creat {
+--    usage "creat(filename, mode)" if @_ != 2;
+--    &open($_[0], &O_WRONLY | &O_CREAT | &O_TRUNC, $_[1]);
+--}
+--
+--sub fcntl {
+--    usage "fcntl(filehandle, cmd, arg)" if @_ != 3;
+--    CORE::fcntl($_[0], $_[1], $_[2]);
+--}
+--
+--sub getgrgid {
+--    usage "getgrgid(gid)" if @_ != 1;
+--    CORE::getgrgid($_[0]);
+--}
+--
+--sub getgrnam {
+--    usage "getgrnam(name)" if @_ != 1;
+--    CORE::getgrnam($_[0]);
+--}
+--
+--sub atan2 {
+--    usage "atan2(x,y)" if @_ != 2;
+--    CORE::atan2($_[0], $_[1]);
+--}
+--
+--sub cos {
+--    usage "cos(x)" if @_ != 1;
+--    CORE::cos($_[0]);
+--}
+--
+--sub exp {
+--    usage "exp(x)" if @_ != 1;
+--    CORE::exp($_[0]);
+--}
+--
+--sub fabs {
+--    usage "fabs(x)" if @_ != 1;
+--    CORE::abs($_[0]);
+--}
+--
+--sub log {
+--    usage "log(x)" if @_ != 1;
+--    CORE::log($_[0]);
+--}
+--
+--sub pow {
+--    usage "pow(x,exponent)" if @_ != 2;
+--    $_[0] ** $_[1];
+--}
+--
+--sub sin {
+--    usage "sin(x)" if @_ != 1;
+--    CORE::sin($_[0]);
+--}
+--
+--sub sqrt {
+--    usage "sqrt(x)" if @_ != 1;
+--    CORE::sqrt($_[0]);
+--}
+--
+--sub getpwnam {
+--    usage "getpwnam(name)" if @_ != 1;
+--    CORE::getpwnam($_[0]);
+--}
+--
+--sub getpwuid {
+--    usage "getpwuid(uid)" if @_ != 1;
+--    CORE::getpwuid($_[0]);
+--}
+--
+--sub longjmp {
+--    unimpl "longjmp() is C-specific: use die instead";
+--}
+--
+--sub setjmp {
+--    unimpl "setjmp() is C-specific: use eval {} instead";
+--}
+--
+--sub siglongjmp {
+--    unimpl "siglongjmp() is C-specific: use die instead";
+--}
+--
+--sub sigsetjmp {
+--    unimpl "sigsetjmp() is C-specific: use eval {} instead";
+--}
+--
+--sub kill {
+--    usage "kill(pid, sig)" if @_ != 2;
+--    CORE::kill $_[1], $_[0];
+--}
+--
+--sub raise {
+--    usage "raise(sig)" if @_ != 1;
+--    CORE::kill $_[0], $$;	# Is this good enough?
+--}
+--
+--sub offsetof {
+--    unimpl "offsetof() is C-specific, stopped";
+--}
+--
+--sub clearerr {
+--    redef "IO::Handle::clearerr()";
+--}
+--
+--sub fclose {
+--    redef "IO::Handle::close()";
+--}
+--
+--sub fdopen {
+--    redef "IO::Handle::new_from_fd()";
+--}
+--
+--sub feof {
+--    redef "IO::Handle::eof()";
+--}
+--
+--sub fgetc {
+--    redef "IO::Handle::getc()";
+--}
+--
+--sub fgets {
+--    redef "IO::Handle::gets()";
+--}
+--
+--sub fileno {
+--    redef "IO::Handle::fileno()";
+--}
+--
+--sub fopen {
+--    redef "IO::File::open()";
+--}
+--
+--sub fprintf {
+--    unimpl "fprintf() is C-specific--use printf instead";
+--}
+--
+--sub fputc {
+--    unimpl "fputc() is C-specific--use print instead";
+--}
+--
+--sub fputs {
+--    unimpl "fputs() is C-specific--use print instead";
+--}
+--
+--sub fread {
+--    unimpl "fread() is C-specific--use read instead";
+--}
+--
+--sub freopen {
+--    unimpl "freopen() is C-specific--use open instead";
+--}
+--
+--sub fscanf {
+--    unimpl "fscanf() is C-specific--use <> and regular expressions instead";
+--}
+--
+--sub fseek {
+--    redef "IO::Seekable::seek()";
+--}
+--
+--sub fsync {
+--    redef "IO::Handle::sync()";
+--}
+--
+--sub ferror {
+--    redef "IO::Handle::error()";
+--}
+--
+--sub fflush {
+--    redef "IO::Handle::flush()";
+--}
+--
+--sub fgetpos {
+--    redef "IO::Seekable::getpos()";
+--}
+--
+--sub fsetpos {
+--    redef "IO::Seekable::setpos()";
+--}
+--
+--sub ftell {
+--    redef "IO::Seekable::tell()";
+--}
+--
+--sub fwrite {
+--    unimpl "fwrite() is C-specific--use print instead";
+--}
+--
+--sub getc {
+--    usage "getc(handle)" if @_ != 1;
+--    CORE::getc($_[0]);
+--}
+--
+--sub getchar {
+--    usage "getchar()" if @_ != 0;
+--    CORE::getc(STDIN);
+--}
+--
+--sub gets {
+--    usage "gets()" if @_ != 0;
+--    scalar <STDIN>;
+--}
+--
+--sub perror {
+--    print STDERR "@_: " if @_;
+--    print STDERR $!,"\n";
+--}
+--
+--sub printf {
+--    usage "printf(pattern, args...)" if @_ < 1;
+--    CORE::printf STDOUT @_;
+--}
+--
+--sub putc {
+--    unimpl "putc() is C-specific--use print instead";
+--}
+--
+--sub putchar {
+--    unimpl "putchar() is C-specific--use print instead";
+--}
+--
+--sub puts {
+--    unimpl "puts() is C-specific--use print instead";
+--}
+--
+--sub remove {
+--    usage "remove(filename)" if @_ != 1;
+--    (-d $_[0]) ? CORE::rmdir($_[0]) : CORE::unlink($_[0]);
+--}
+--
+--sub rename {
+--    usage "rename(oldfilename, newfilename)" if @_ != 2;
+--    CORE::rename($_[0], $_[1]);
+--}
+--
+--sub rewind {
+--    usage "rewind(filehandle)" if @_ != 1;
+--    CORE::seek($_[0],0,0);
+--}
+--
+--sub scanf {
+--    unimpl "scanf() is C-specific--use <> and regular expressions instead";
+--}
+--
+--sub sprintf {
+--    usage "sprintf(pattern,args)" if @_ == 0;
+--    CORE::sprintf(shift,@_);
+--}
+--
+--sub sscanf {
+--    unimpl "sscanf() is C-specific--use regular expressions instead";
+--}
+--
+--sub tmpfile {
+--    redef "IO::File::new_tmpfile()";
+--}
+--
+--sub ungetc {
+--    redef "IO::Handle::ungetc()";
+--}
+--
+--sub vfprintf {
+--    unimpl "vfprintf() is C-specific";
+--}
+--
+--sub vprintf {
+--    unimpl "vprintf() is C-specific";
+--}
+--
+--sub vsprintf {
+--    unimpl "vsprintf() is C-specific";
+--}
+--
+--sub abs {
+--    usage "abs(x)" if @_ != 1;
+--    CORE::abs($_[0]);
+--}
+--
+--sub atexit {
+--    unimpl "atexit() is C-specific: use END {} instead";
+--}
+--
+--sub atof {
+--    unimpl "atof() is C-specific, stopped";
+--}
+--
+--sub atoi {
+--    unimpl "atoi() is C-specific, stopped";
+--}
+--
+--sub atol {
+--    unimpl "atol() is C-specific, stopped";
+--}
+--
+--sub bsearch {
+--    unimpl "bsearch() not supplied";
+--}
+--
+--sub calloc {
+--    unimpl "calloc() is C-specific, stopped";
+--}
+--
+--sub div {
+--    unimpl "div() is C-specific, use /, % and int instead";
+--}
+--
+--sub exit {
+--    usage "exit(status)" if @_ != 1;
+--    CORE::exit($_[0]);
+--}
+--
+--sub free {
+--    unimpl "free() is C-specific, stopped";
+--}
+--
+--sub getenv {
+--    usage "getenv(name)" if @_ != 1;
+--    $ENV{$_[0]};
+--}
+--
+--sub labs {
+--    unimpl "labs() is C-specific, use abs instead";
+--}
+--
+--sub ldiv {
+--    unimpl "ldiv() is C-specific, use /, % and int instead";
+--}
+--
+--sub malloc {
+--    unimpl "malloc() is C-specific, stopped";
+--}
+--
+--sub qsort {
+--    unimpl "qsort() is C-specific, use sort instead";
+--}
+--
+--sub rand {
+--    unimpl "rand() is non-portable, use Perl's rand instead";
+--}
+--
+--sub realloc {
+--    unimpl "realloc() is C-specific, stopped";
+--}
+--
+--sub srand {
+--    unimpl "srand()";
+--}
+--
+--sub system {
+--    usage "system(command)" if @_ != 1;
+--    CORE::system($_[0]);
+--}
+--
+--sub memchr {
+--    unimpl "memchr() is C-specific, use index() instead";
+--}
+--
+--sub memcmp {
+--    unimpl "memcmp() is C-specific, use eq instead";
+--}
+--
+--sub memcpy {
+--    unimpl "memcpy() is C-specific, use = instead";
+--}
+--
+--sub memmove {
+--    unimpl "memmove() is C-specific, use = instead";
+--}
+--
+--sub memset {
+--    unimpl "memset() is C-specific, use x instead";
+--}
+--
+--sub strcat {
+--    unimpl "strcat() is C-specific, use .= instead";
+--}
+--
+--sub strchr {
+--    unimpl "strchr() is C-specific, use index() instead";
+--}
+--
+--sub strcmp {
+--    unimpl "strcmp() is C-specific, use eq instead";
+--}
+--
+--sub strcpy {
+--    unimpl "strcpy() is C-specific, use = instead";
+--}
+--
+--sub strcspn {
+--    unimpl "strcspn() is C-specific, use regular expressions instead";
+--}
+--
+--sub strerror {
+--    usage "strerror(errno)" if @_ != 1;
+--    local $! = $_[0];
+--    $! . "";
+--}
+--
+--sub strlen {
+--    unimpl "strlen() is C-specific, use length instead";
+--}
+--
+--sub strncat {
+--    unimpl "strncat() is C-specific, use .= instead";
+--}
+--
+--sub strncmp {
+--    unimpl "strncmp() is C-specific, use eq instead";
+--}
+--
+--sub strncpy {
+--    unimpl "strncpy() is C-specific, use = instead";
+--}
+--
+--sub strpbrk {
+--    unimpl "strpbrk() is C-specific, stopped";
+--}
+--
+--sub strrchr {
+--    unimpl "strrchr() is C-specific, use rindex() instead";
+--}
+--
+--sub strspn {
+--    unimpl "strspn() is C-specific, stopped";
+--}
+--
+--sub strstr {
+--    usage "strstr(big, little)" if @_ != 2;
+--    CORE::index($_[0], $_[1]);
+--}
+--
+--sub strtok {
+--    unimpl "strtok() is C-specific, stopped";
+--}
+--
+--sub chmod {
+--    usage "chmod(mode, filename)" if @_ != 2;
+--    CORE::chmod($_[0], $_[1]);
+--}
+--
+--sub fstat {
+--    usage "fstat(fd)" if @_ != 1;
+--    local *TMP;
+--    CORE::open(TMP, "<&$_[0]");		# Gross.
+--    my @l = CORE::stat(TMP);
+--    CORE::close(TMP);
+--    @l;
+--}
+--
+--sub mkdir {
+--    usage "mkdir(directoryname, mode)" if @_ != 2;
+--    CORE::mkdir($_[0], $_[1]);
+--}
+--
+--sub stat {
+--    usage "stat(filename)" if @_ != 1;
+--    CORE::stat($_[0]);
+--}
+--
+--sub umask {
+--    usage "umask(mask)" if @_ != 1;
+--    CORE::umask($_[0]);
+--}
+--
+--sub wait {
+--    usage "wait()" if @_ != 0;
+--    CORE::wait();
+--}
+--
+--sub waitpid {
+--    usage "waitpid(pid, options)" if @_ != 2;
+--    CORE::waitpid($_[0], $_[1]);
+--}
+--
+--sub gmtime {
+--    usage "gmtime(time)" if @_ != 1;
+--    CORE::gmtime($_[0]);
+--}
+--
+--sub localtime {
+--    usage "localtime(time)" if @_ != 1;
+--    CORE::localtime($_[0]);
+--}
+--
+--sub time {
+--    usage "time()" if @_ != 0;
+--    CORE::time;
+--}
+--
+--sub alarm {
+--    usage "alarm(seconds)" if @_ != 1;
+--    CORE::alarm($_[0]);
+--}
+--
+--sub chdir {
+--    usage "chdir(directory)" if @_ != 1;
+--    CORE::chdir($_[0]);
+--}
+--
+--sub chown {
+--    usage "chown(uid, gid, filename)" if @_ != 3;
+--    CORE::chown($_[0], $_[1], $_[2]);
+--}
+--
+--sub execl {
+--    unimpl "execl() is C-specific, stopped";
+--}
+--
+--sub execle {
+--    unimpl "execle() is C-specific, stopped";
+--}
+--
+--sub execlp {
+--    unimpl "execlp() is C-specific, stopped";
+--}
+--
+--sub execv {
+--    unimpl "execv() is C-specific, stopped";
+--}
+--
+--sub execve {
+--    unimpl "execve() is C-specific, stopped";
+--}
+--
+--sub execvp {
+--    unimpl "execvp() is C-specific, stopped";
+--}
+--
+--sub fork {
+--    usage "fork()" if @_ != 0;
+--    CORE::fork;
+--}
+--
+--sub getegid {
+--    usage "getegid()" if @_ != 0;
+--    $) + 0;
+--}
+--
+--sub geteuid {
+--    usage "geteuid()" if @_ != 0;
+--    $> + 0;
+--}
+--
+--sub getgid {
+--    usage "getgid()" if @_ != 0;
+--    $( + 0;
+--}
+--
+--sub getgroups {
+--    usage "getgroups()" if @_ != 0;
+--    my %seen;
+--    grep(!$seen{$_}++, split(' ', $) ));
+--}
+--
+--sub getlogin {
+--    usage "getlogin()" if @_ != 0;
+--    CORE::getlogin();
+--}
+--
+--sub getpgrp {
+--    usage "getpgrp()" if @_ != 0;
+--    CORE::getpgrp;
+--}
+--
+--sub getpid {
+--    usage "getpid()" if @_ != 0;
+--    $$;
+--}
+--
+--sub getppid {
+--    usage "getppid()" if @_ != 0;
+--    CORE::getppid;
+--}
+--
+--sub getuid {
+--    usage "getuid()" if @_ != 0;
+--    $<;
+--}
+--
+--sub isatty {
+--    usage "isatty(filehandle)" if @_ != 1;
+--    -t $_[0];
+--}
+--
+--sub link {
+--    usage "link(oldfilename, newfilename)" if @_ != 2;
+--    CORE::link($_[0], $_[1]);
+--}
+--
+--sub rmdir {
+--    usage "rmdir(directoryname)" if @_ != 1;
+--    CORE::rmdir($_[0]);
+--}
+--
+--sub setbuf {
+--    redef "IO::Handle::setbuf()";
+--}
+--
+--sub setvbuf {
+--    redef "IO::Handle::setvbuf()";
+--}
+--
+--sub sleep {
+--    usage "sleep(seconds)" if @_ != 1;
+--    $_[0] - CORE::sleep($_[0]);
+--}
+--
+--sub unlink {
+--    usage "unlink(filename)" if @_ != 1;
+--    CORE::unlink($_[0]);
+--}
+--
+--sub utime {
+--    usage "utime(filename, atime, mtime)" if @_ != 3;
+--    CORE::utime($_[1], $_[2], $_[0]);
+--}
+--
+--sub load_imports {
+--%EXPORT_TAGS = (
+--
+--    assert_h =>	[qw(assert NDEBUG)],
+--
+--    ctype_h =>	[qw(isalnum isalpha iscntrl isdigit isgraph islower
+--		isprint ispunct isspace isupper isxdigit tolower toupper)],
+--
+--    dirent_h =>	[],
+--
+--    errno_h =>	[qw(E2BIG EACCES EADDRINUSE EADDRNOTAVAIL EAFNOSUPPORT
+--		EAGAIN EALREADY EBADF EBUSY ECHILD ECONNABORTED
+--		ECONNREFUSED ECONNRESET EDEADLK EDESTADDRREQ EDOM EDQUOT
+--		EEXIST EFAULT EFBIG EHOSTDOWN EHOSTUNREACH EINPROGRESS
+--		EINTR EINVAL EIO EISCONN EISDIR ELOOP EMFILE EMLINK
+--		EMSGSIZE ENAMETOOLONG ENETDOWN ENETRESET ENETUNREACH
+--		ENFILE ENOBUFS ENODEV ENOENT ENOEXEC ENOLCK ENOMEM
+--		ENOPROTOOPT ENOSPC ENOSYS ENOTBLK ENOTCONN ENOTDIR
+--		ENOTEMPTY ENOTSOCK ENOTTY ENXIO EOPNOTSUPP EPERM
+--		EPFNOSUPPORT EPIPE EPROCLIM EPROTONOSUPPORT EPROTOTYPE
+--		ERANGE EREMOTE ERESTART EROFS ESHUTDOWN ESOCKTNOSUPPORT
+--		ESPIPE ESRCH ESTALE ETIMEDOUT ETOOMANYREFS ETXTBSY
+--		EUSERS EWOULDBLOCK EXDEV errno)],
+--
+--    fcntl_h =>	[qw(FD_CLOEXEC F_DUPFD F_GETFD F_GETFL F_GETLK F_RDLCK
+--		F_SETFD F_SETFL F_SETLK F_SETLKW F_UNLCK F_WRLCK
+--		O_ACCMODE O_APPEND O_CREAT O_EXCL O_NOCTTY O_NONBLOCK
+--		O_RDONLY O_RDWR O_TRUNC O_WRONLY
+--		creat
+--		SEEK_CUR SEEK_END SEEK_SET
+--		S_IRGRP S_IROTH S_IRUSR S_IRWXG S_IRWXO S_IRWXU
+--		S_ISBLK S_ISCHR S_ISDIR S_ISFIFO S_ISGID S_ISREG S_ISUID
+--		S_IWGRP S_IWOTH S_IWUSR)],
+--
+--    float_h =>	[qw(DBL_DIG DBL_EPSILON DBL_MANT_DIG
+--		DBL_MAX DBL_MAX_10_EXP DBL_MAX_EXP
+--		DBL_MIN DBL_MIN_10_EXP DBL_MIN_EXP
+--		FLT_DIG FLT_EPSILON FLT_MANT_DIG
+--		FLT_MAX FLT_MAX_10_EXP FLT_MAX_EXP
+--		FLT_MIN FLT_MIN_10_EXP FLT_MIN_EXP
+--		FLT_RADIX FLT_ROUNDS
+--		LDBL_DIG LDBL_EPSILON LDBL_MANT_DIG
+--		LDBL_MAX LDBL_MAX_10_EXP LDBL_MAX_EXP
+--		LDBL_MIN LDBL_MIN_10_EXP LDBL_MIN_EXP)],
+--
+--    grp_h =>	[],
+--
+--    limits_h =>	[qw( ARG_MAX CHAR_BIT CHAR_MAX CHAR_MIN CHILD_MAX
+--		INT_MAX INT_MIN LINK_MAX LONG_MAX LONG_MIN MAX_CANON
+--		MAX_INPUT MB_LEN_MAX NAME_MAX NGROUPS_MAX OPEN_MAX
+--		PATH_MAX PIPE_BUF SCHAR_MAX SCHAR_MIN SHRT_MAX SHRT_MIN
+--		SSIZE_MAX STREAM_MAX TZNAME_MAX UCHAR_MAX UINT_MAX
+--		ULONG_MAX USHRT_MAX _POSIX_ARG_MAX _POSIX_CHILD_MAX
+--		_POSIX_LINK_MAX _POSIX_MAX_CANON _POSIX_MAX_INPUT
+--		_POSIX_NAME_MAX _POSIX_NGROUPS_MAX _POSIX_OPEN_MAX
+--		_POSIX_PATH_MAX _POSIX_PIPE_BUF _POSIX_SSIZE_MAX
+--		_POSIX_STREAM_MAX _POSIX_TZNAME_MAX)],
+--
+--    locale_h =>	[qw(LC_ALL LC_COLLATE LC_CTYPE LC_MESSAGES
+--		    LC_MONETARY LC_NUMERIC LC_TIME NULL
+--		    localeconv setlocale)],
+--
+--    math_h =>	[qw(HUGE_VAL acos asin atan ceil cosh fabs floor fmod
+--		frexp ldexp log10 modf pow sinh tan tanh)],
+--
+--    pwd_h =>	[],
+--
+--    setjmp_h =>	[qw(longjmp setjmp siglongjmp sigsetjmp)],
+--
+--    signal_h =>	[qw(SA_NOCLDSTOP SA_NOCLDWAIT SA_NODEFER SA_ONSTACK
+--		SA_RESETHAND SA_RESTART SA_SIGINFO SIGABRT SIGALRM
+--		SIGCHLD SIGCONT SIGFPE SIGHUP SIGILL SIGINT SIGKILL
+--		SIGPIPE %SIGRT SIGRTMIN SIGRTMAX SIGQUIT SIGSEGV SIGSTOP
+--		SIGTERM SIGTSTP SIGTTIN	SIGTTOU SIGUSR1 SIGUSR2
+--		SIG_BLOCK SIG_DFL SIG_ERR SIG_IGN SIG_SETMASK SIG_UNBLOCK
+--		raise sigaction signal sigpending sigprocmask sigsuspend)],
+--
+--    stdarg_h =>	[],
+--
+--    stddef_h =>	[qw(NULL offsetof)],
+--
+--    stdio_h =>	[qw(BUFSIZ EOF FILENAME_MAX L_ctermid L_cuserid
+--		L_tmpname NULL SEEK_CUR SEEK_END SEEK_SET
+--		STREAM_MAX TMP_MAX stderr stdin stdout
+--		clearerr fclose fdopen feof ferror fflush fgetc fgetpos
+--		fgets fopen fprintf fputc fputs fread freopen
+--		fscanf fseek fsetpos ftell fwrite getchar gets
+--		perror putc putchar puts remove rewind
+--		scanf setbuf setvbuf sscanf tmpfile tmpnam
+--		ungetc vfprintf vprintf vsprintf)],
+--
+--    stdlib_h =>	[qw(EXIT_FAILURE EXIT_SUCCESS MB_CUR_MAX NULL RAND_MAX
+--		abort atexit atof atoi atol bsearch calloc div
+--		free getenv labs ldiv malloc mblen mbstowcs mbtowc
+--		qsort realloc strtod strtol strtoul wcstombs wctomb)],
+--
+--    string_h =>	[qw(NULL memchr memcmp memcpy memmove memset strcat
+--		strchr strcmp strcoll strcpy strcspn strerror strlen
+--		strncat strncmp strncpy strpbrk strrchr strspn strstr
+--		strtok strxfrm)],
+--
+--    sys_stat_h => [qw(S_IRGRP S_IROTH S_IRUSR S_IRWXG S_IRWXO S_IRWXU
+--		S_ISBLK S_ISCHR S_ISDIR S_ISFIFO S_ISGID S_ISREG
+--		S_ISUID S_IWGRP S_IWOTH S_IWUSR S_IXGRP S_IXOTH S_IXUSR
+--		fstat mkfifo)],
+--
+--    sys_times_h => [],
+--
+--    sys_types_h => [],
+--
+--    sys_utsname_h => [qw(uname)],
+--
+--    sys_wait_h => [qw(WEXITSTATUS WIFEXITED WIFSIGNALED WIFSTOPPED
+--		WNOHANG WSTOPSIG WTERMSIG WUNTRACED)],
+--
+--    termios_h => [qw( B0 B110 B1200 B134 B150 B1800 B19200 B200 B2400
+--		B300 B38400 B4800 B50 B600 B75 B9600 BRKINT CLOCAL
+--		CREAD CS5 CS6 CS7 CS8 CSIZE CSTOPB ECHO ECHOE ECHOK
+--		ECHONL HUPCL ICANON ICRNL IEXTEN IGNBRK IGNCR IGNPAR
+--		INLCR INPCK ISIG ISTRIP IXOFF IXON NCCS NOFLSH OPOST
+--		PARENB PARMRK PARODD TCIFLUSH TCIOFF TCIOFLUSH TCION
+--		TCOFLUSH TCOOFF TCOON TCSADRAIN TCSAFLUSH TCSANOW
+--		TOSTOP VEOF VEOL VERASE VINTR VKILL VMIN VQUIT VSTART
+--		VSTOP VSUSP VTIME
+--		cfgetispeed cfgetospeed cfsetispeed cfsetospeed tcdrain
+--		tcflow tcflush tcgetattr tcsendbreak tcsetattr )],
+--
+--    time_h =>	[qw(CLK_TCK CLOCKS_PER_SEC NULL asctime clock ctime
+--		difftime mktime strftime tzset tzname)],
+--
+--    unistd_h =>	[qw(F_OK NULL R_OK SEEK_CUR SEEK_END SEEK_SET
+--		STDERR_FILENO STDIN_FILENO STDOUT_FILENO W_OK X_OK
+--		_PC_CHOWN_RESTRICTED _PC_LINK_MAX _PC_MAX_CANON
+--		_PC_MAX_INPUT _PC_NAME_MAX _PC_NO_TRUNC _PC_PATH_MAX
+--		_PC_PIPE_BUF _PC_VDISABLE _POSIX_CHOWN_RESTRICTED
+--		_POSIX_JOB_CONTROL _POSIX_NO_TRUNC _POSIX_SAVED_IDS
+--		_POSIX_VDISABLE _POSIX_VERSION _SC_ARG_MAX
+--		_SC_CHILD_MAX _SC_CLK_TCK _SC_JOB_CONTROL
+--		_SC_NGROUPS_MAX _SC_OPEN_MAX _SC_PAGESIZE _SC_SAVED_IDS
+--		_SC_STREAM_MAX _SC_TZNAME_MAX _SC_VERSION
+--		_exit access ctermid cuserid
+--		dup2 dup execl execle execlp execv execve execvp
+--		fpathconf fsync getcwd getegid geteuid getgid getgroups
+--		getpid getuid isatty lseek pathconf pause setgid setpgid
+--		setsid setuid sysconf tcgetpgrp tcsetpgrp ttyname)],
+--
+--    utime_h =>	[],
+--
+--);
+--
+--# Exporter::export_tags();
+--{
+--  # De-duplicate the export list: 
+--  my %export;
+--  @export{map {@$_} values %EXPORT_TAGS} = ();
+--  # Doing the de-dup with a temporary hash has the advantage that the SVs in
+--  # @EXPORT are actually shared hash key sacalars, which will save some memory.
+--  push @EXPORT, keys %export;
+--}
+--
+--@EXPORT_OK = qw(
+--		abs
+--		alarm
+--		atan2
+--		chdir
+--		chmod
+--		chown
+--		close
+--		closedir
+--		cos
+--		exit
+--		exp
+--		fcntl
+--		fileno
+--		fork
+--		getc
+--		getgrgid
+--		getgrnam
+--		getlogin
+--		getpgrp
+--		getppid
+--		getpwnam
+--		getpwuid
+--		gmtime
+--		isatty
+--		kill
+--		lchown
+--		link
+--		localtime
+--		log
+--		mkdir
+--		nice
+--		open
+--		opendir
+--		pipe
+--		printf
+--		rand
+--		read
+--		readdir
+--		rename
+--		rewinddir
+--		rmdir
+--		sin
+--		sleep
+--		sprintf
+--		sqrt
+--		srand
+--		stat
+--		system
+--		time
+--		times
+--		umask
+--		unlink
+--		utime
+--		wait
+--		waitpid
+--		write
+--);
+--
+--require Exporter;
+--}
+--
+--package POSIX::SigAction;
+--
+--sub new { bless {HANDLER => $_[1], MASK => $_[2], FLAGS => $_[3] || 0, SAFE => 0}, $_[0] }
+--sub handler { $_[0]->{HANDLER} = $_[1] if @_ > 1; $_[0]->{HANDLER} };
+--sub mask    { $_[0]->{MASK}    = $_[1] if @_ > 1; $_[0]->{MASK} };
+--sub flags   { $_[0]->{FLAGS}   = $_[1] if @_ > 1; $_[0]->{FLAGS} };
+--sub safe    { $_[0]->{SAFE}    = $_[1] if @_ > 1; $_[0]->{SAFE} };
+--
+--package POSIX::SigRt;
+--
+--
+--sub _init {
+--    $_SIGRTMIN = &POSIX::SIGRTMIN;
+--    $_SIGRTMAX = &POSIX::SIGRTMAX;
+--    $_sigrtn   = $_SIGRTMAX - $_SIGRTMIN;
+--}
+--
+--sub _croak {
+--    &_init unless defined $_sigrtn;
+--    die "POSIX::SigRt not available" unless defined $_sigrtn && $_sigrtn > 0;
+--}
+--
+--sub _getsig {
+--    &_croak;
+--    my $rtsig = $_[0];
+--    # Allow (SIGRT)?MIN( + n)?, a common idiom when doing these things in C.
+--    $rtsig = $_SIGRTMIN + ($1 || 0)
+--	if $rtsig =~ /^(?:(?:SIG)?RT)?MIN(\s*\+\s*(\d+))?$/;
+--    return $rtsig;
+--}
+--
+--sub _exist {
+--    my $rtsig = _getsig($_[1]);
+--    my $ok    = $rtsig >= $_SIGRTMIN && $rtsig <= $_SIGRTMAX;
+--    ($rtsig, $ok);
+--}
+--
+--sub _check {
+--    my ($rtsig, $ok) = &_exist;
+--    die "No POSIX::SigRt signal $_[1] (valid range SIGRTMIN..SIGRTMAX, or $_SIGRTMIN..$_SIGRTMAX)"
+--	unless $ok;
+--    return $rtsig;
+--}
+--
+--sub new {
+--    my ($rtsig, $handler, $flags) = @_;
+--    my $sigset = POSIX::SigSet->new($rtsig);
+--    my $sigact = POSIX::SigAction->new($handler,
+--				       $sigset,
+--				       $flags);
+--    POSIX::sigaction($rtsig, $sigact);
+--}
+--
+--sub EXISTS { &_exist }
+--sub FETCH  { my $rtsig = &_check;
+--	     my $oa = POSIX::SigAction->new();
+--	     POSIX::sigaction($rtsig, undef, $oa);
+--	     return $oa->{HANDLER} }
+--sub STORE  { my $rtsig = &_check; new($rtsig, $_[2], $SIGACTION_FLAGS) }
+--sub DELETE { delete $SIG{ &_check } }
+--sub CLEAR  { &_exist; delete @SIG{ &POSIX::SIGRTMIN .. &POSIX::SIGRTMAX } }
+--sub SCALAR { &_croak; $_sigrtn + 1 }
+-diff --git a/ext/POSIX/POSIX.pod b/ext/POSIX/POSIX.pod
+-deleted file mode 100644
+-index 64852e9..0000000
+---- a/ext/POSIX/POSIX.pod
+-+++ /dev/null
+-@@ -1,2218 +0,0 @@
+--=head1 NAME
+--
+--POSIX - Perl interface to IEEE Std 1003.1
+--
+--=head1 SYNOPSIS
+--
+--    use POSIX;
+--    use POSIX qw(setsid);
+--    use POSIX qw(:errno_h :fcntl_h);
+--
+--    printf "EINTR is %d\n", EINTR;
+--
+--    $sess_id = POSIX::setsid();
+--
+--    $fd = POSIX::open($path, O_CREAT|O_EXCL|O_WRONLY, 0644);
+--	# note: that's a filedescriptor, *NOT* a filehandle
+--
+--=head1 DESCRIPTION
+--
+--The POSIX module permits you to access all (or nearly all) the standard
+--POSIX 1003.1 identifiers.  Many of these identifiers have been given Perl-ish
+--interfaces.
+--
+--I<Everything is exported by default> with the exception of any POSIX
+--functions with the same name as a built-in Perl function, such as
+--C<abs>, C<alarm>, C<rmdir>, C<write>, etc.., which will be exported
+--only if you ask for them explicitly.  This is an unfortunate backwards
+--compatibility feature.  You can stop the exporting by saying C<use
+--POSIX ()> and then use the fully qualified names (ie. C<POSIX::SEEK_END>).
+--
+--This document gives a condensed list of the features available in the POSIX
+--module.  Consult your operating system's manpages for general information on
+--most features.  Consult L<perlfunc> for functions which are noted as being
+--identical to Perl's builtin functions.
+--
+--The first section describes POSIX functions from the 1003.1 specification.
+--The second section describes some classes for signal objects, TTY objects,
+--and other miscellaneous objects.  The remaining sections list various
+--constants and macros in an organization which roughly follows IEEE Std
+--1003.1b-1993.
+--
+--=head1 NOTE
+--
+--The POSIX module is probably the most complex Perl module supplied with
+--the standard distribution.  It incorporates autoloading, namespace games,
+--and dynamic loading of code that's in Perl, C, or both.  It's a great
+--source of wisdom.
+--
+--=head1 CAVEATS
+--
+--A few functions are not implemented because they are C specific.  If you
+--attempt to call these, they will print a message telling you that they
+--aren't implemented, and suggest using the Perl equivalent should one
+--exist.  For example, trying to access the setjmp() call will elicit the
+--message "setjmp() is C-specific: use eval {} instead".
+--
+--Furthermore, some evil vendors will claim 1003.1 compliance, but in fact
+--are not so: they will not pass the PCTS (POSIX Compliance Test Suites).
+--For example, one vendor may not define EDEADLK, or the semantics of the
+--errno values set by open(2) might not be quite right.  Perl does not
+--attempt to verify POSIX compliance.  That means you can currently
+--successfully say "use POSIX",  and then later in your program you find
+--that your vendor has been lax and there's no usable ICANON macro after
+--all.  This could be construed to be a bug.
+--
+--=head1 FUNCTIONS
+--
+--=over 8
+--
+--=item _exit
+--
+--This is identical to the C function C<_exit()>.  It exits the program
+--immediately which means among other things buffered I/O is B<not> flushed.
+--
+--Note that when using threads and in Linux this is B<not> a good way to
+--exit a thread because in Linux processes and threads are kind of the
+--same thing (Note: while this is the situation in early 2003 there are
+--projects under way to have threads with more POSIXly semantics in Linux).
+--If you want not to return from a thread, detach the thread.
+--
+--=item abort
+--
+--This is identical to the C function C<abort()>.  It terminates the
+--process with a C<SIGABRT> signal unless caught by a signal handler or
+--if the handler does not return normally (it e.g.  does a C<longjmp>).
+--
+--=item abs
+--
+--This is identical to Perl's builtin C<abs()> function, returning
+--the absolute value of its numerical argument.
+--
+--=item access
+--
+--Determines the accessibility of a file.
+--
+--	if( POSIX::access( "/", &POSIX::R_OK ) ){
+--		print "have read permission\n";
+--	}
+--
+--Returns C<undef> on failure.  Note: do not use C<access()> for
+--security purposes.  Between the C<access()> call and the operation
+--you are preparing for the permissions might change: a classic
+--I<race condition>.
+--
+--=item acos
+--
+--This is identical to the C function C<acos()>, returning
+--the arcus cosine of its numerical argument.  See also L<Math::Trig>.
+--
+--=item alarm
+--
+--This is identical to Perl's builtin C<alarm()> function,
+--either for arming or disarming the C<SIGARLM> timer.
+--
+--=item asctime
+--
+--This is identical to the C function C<asctime()>.  It returns
+--a string of the form
+--
+--	"Fri Jun  2 18:22:13 2000\n\0"
+--
+--and it is called thusly
+--
+--	$asctime = asctime($sec, $min, $hour, $mday, $mon, $year,
+--			   $wday, $yday, $isdst);
+--
+--The C<$mon> is zero-based: January equals C<0>.  The C<$year> is
+--1900-based: 2001 equals C<101>.  C<$wday> and C<$yday> default to zero
+--(and are usually ignored anyway), and C<$isdst> defaults to -1.
+--
+--=item asin
+--
+--This is identical to the C function C<asin()>, returning
+--the arcus sine of its numerical argument.  See also L<Math::Trig>.
+--
+--=item assert
+--
+--Unimplemented, but you can use L<perlfunc/die> and the L<Carp> module
+--to achieve similar things.
+--
+--=item atan
+--
+--This is identical to the C function C<atan()>, returning the
+--arcus tangent of its numerical argument.  See also L<Math::Trig>.
+--
+--=item atan2
+--
+--This is identical to Perl's builtin C<atan2()> function, returning
+--the arcus tangent defined by its two numerical arguments, the I<y>
+--coordinate and the I<x> coordinate.  See also L<Math::Trig>.
+--
+--=item atexit
+--
+--atexit() is C-specific: use C<END {}> instead, see L<perlsub>.
+--
+--=item atof
+--
+--atof() is C-specific.  Perl converts strings to numbers transparently.
+--If you need to force a scalar to a number, add a zero to it.
+--
+--=item atoi
+--
+--atoi() is C-specific.  Perl converts strings to numbers transparently.
+--If you need to force a scalar to a number, add a zero to it.
+--If you need to have just the integer part, see L<perlfunc/int>.
+--
+--=item atol
+--
+--atol() is C-specific.  Perl converts strings to numbers transparently.
+--If you need to force a scalar to a number, add a zero to it.
+--If you need to have just the integer part, see L<perlfunc/int>.
+--
+--=item bsearch
+--
+--bsearch() not supplied.  For doing binary search on wordlists,
+--see L<Search::Dict>.
+--
+--=item calloc
+--
+--calloc() is C-specific.  Perl does memory management transparently.
+--
+--=item ceil
+--
+--This is identical to the C function C<ceil()>, returning the smallest
+--integer value greater than or equal to the given numerical argument.
+--
+--=item chdir
+--
+--This is identical to Perl's builtin C<chdir()> function, allowing
+--one to change the working (default) directory, see L<perlfunc/chdir>.
+--
+--=item chmod
+--
+--This is identical to Perl's builtin C<chmod()> function, allowing
+--one to change file and directory permissions, see L<perlfunc/chmod>.
+--
+--=item chown
+--
+--This is identical to Perl's builtin C<chown()> function, allowing one
+--to change file and directory owners and groups, see L<perlfunc/chown>.
+--
+--=item clearerr
+--
+--Use the method C<IO::Handle::clearerr()> instead, to reset the error
+--state (if any) and EOF state (if any) of the given stream.
+--
+--=item clock
+--
+--This is identical to the C function C<clock()>, returning the
+--amount of spent processor time in microseconds.
+--
+--=item close
+--
+--Close the file.  This uses file descriptors such as those obtained by calling
+--C<POSIX::open>.
+--
+--	$fd = POSIX::open( "foo", &POSIX::O_RDONLY );
+--	POSIX::close( $fd );
+--
+--Returns C<undef> on failure.
+--
+--See also L<perlfunc/close>.
+--
+--=item closedir
+--
+--This is identical to Perl's builtin C<closedir()> function for closing
+--a directory handle, see L<perlfunc/closedir>.
+--
+--=item cos
+--
+--This is identical to Perl's builtin C<cos()> function, for returning
+--the cosine of its numerical argument, see L<perlfunc/cos>.
+--See also L<Math::Trig>.
+--
+--=item cosh
+--
+--This is identical to the C function C<cosh()>, for returning
+--the hyperbolic cosine of its numeric argument.  See also L<Math::Trig>.
+--
+--=item creat
+--
+--Create a new file.  This returns a file descriptor like the ones returned by
+--C<POSIX::open>.  Use C<POSIX::close> to close the file.
+--
+--	$fd = POSIX::creat( "foo", 0611 );
+--	POSIX::close( $fd );
+--
+--See also L<perlfunc/sysopen> and its C<O_CREAT> flag.
+--
+--=item ctermid
+--
+--Generates the path name for the controlling terminal.
+--
+--	$path = POSIX::ctermid();
+--
+--=item ctime
+--
+--This is identical to the C function C<ctime()> and equivalent
+--to C<asctime(localtime(...))>, see L</asctime> and L</localtime>.
+--
+--=item cuserid
+--
+--Get the login name of the owner of the current process.
+--
+--	$name = POSIX::cuserid();
+--
+--=item difftime
+--
+--This is identical to the C function C<difftime()>, for returning
+--the time difference (in seconds) between two times (as returned
+--by C<time()>), see L</time>.
+--
+--=item div
+--
+--div() is C-specific, use L<perlfunc/int> on the usual C</> division and
+--the modulus C<%>.
+--
+--=item dup
+--
+--This is similar to the C function C<dup()>, for duplicating a file
+--descriptor.
+--
+--This uses file descriptors such as those obtained by calling
+--C<POSIX::open>.
+--
+--Returns C<undef> on failure.
+--
+--=item dup2
+--
+--This is similar to the C function C<dup2()>, for duplicating a file
+--descriptor to an another known file descriptor.
+--
+--This uses file descriptors such as those obtained by calling
+--C<POSIX::open>.
+--
+--Returns C<undef> on failure.
+--
+--=item errno
+--
+--Returns the value of errno.
+--
+--	$errno = POSIX::errno();
+--
+--This identical to the numerical values of the C<$!>, see L<perlvar/$ERRNO>.
+--
+--=item execl
+--
+--execl() is C-specific, see L<perlfunc/exec>.
+--
+--=item execle
+--
+--execle() is C-specific, see L<perlfunc/exec>.
+--
+--=item execlp
+--
+--execlp() is C-specific, see L<perlfunc/exec>.
+--
+--=item execv
+--
+--execv() is C-specific, see L<perlfunc/exec>.
+--
+--=item execve
+--
+--execve() is C-specific, see L<perlfunc/exec>.
+--
+--=item execvp
+--
+--execvp() is C-specific, see L<perlfunc/exec>.
+--
+--=item exit
+--
+--This is identical to Perl's builtin C<exit()> function for exiting the
+--program, see L<perlfunc/exit>.
+--
+--=item exp
+--
+--This is identical to Perl's builtin C<exp()> function for
+--returning the exponent (I<e>-based) of the numerical argument,
+--see L<perlfunc/exp>.
+--
+--=item fabs
+--
+--This is identical to Perl's builtin C<abs()> function for returning
+--the absolute value of the numerical argument, see L<perlfunc/abs>.
+--
+--=item fclose
+--
+--Use method C<IO::Handle::close()> instead, or see L<perlfunc/close>.
+--
+--=item fcntl
+--
+--This is identical to Perl's builtin C<fcntl()> function,
+--see L<perlfunc/fcntl>.
+--
+--=item fdopen
+--
+--Use method C<IO::Handle::new_from_fd()> instead, or see L<perlfunc/open>.
+--
+--=item feof
+--
+--Use method C<IO::Handle::eof()> instead, or see L<perlfunc/eof>.
+--
+--=item ferror
+--
+--Use method C<IO::Handle::error()> instead.
+--
+--=item fflush
+--
+--Use method C<IO::Handle::flush()> instead.
+--See also L<perlvar/$OUTPUT_AUTOFLUSH>.
+--
+--=item fgetc
+--
+--Use method C<IO::Handle::getc()> instead, or see L<perlfunc/read>.
+--
+--=item fgetpos
+--
+--Use method C<IO::Seekable::getpos()> instead, or see L<L/seek>.
+--
+--=item fgets
+--
+--Use method C<IO::Handle::gets()> instead.  Similar to E<lt>E<gt>, also known
+--as L<perlfunc/readline>.
+--
+--=item fileno
+--
+--Use method C<IO::Handle::fileno()> instead, or see L<perlfunc/fileno>.
+--
+--=item floor
+--
+--This is identical to the C function C<floor()>, returning the largest
+--integer value less than or equal to the numerical argument.
+--
+--=item fmod
+--
+--This is identical to the C function C<fmod()>.
+--
+--	$r = fmod($x, $y);
+--
+--It returns the remainder C<$r = $x - $n*$y>, where C<$n = trunc($x/$y)>.
+--The C<$r> has the same sign as C<$x> and magnitude (absolute value)
+--less than the magnitude of C<$y>.
+--
+--=item fopen
+--
+--Use method C<IO::File::open()> instead, or see L<perlfunc/open>.
+--
+--=item fork
+--
+--This is identical to Perl's builtin C<fork()> function
+--for duplicating the current process, see L<perlfunc/fork>
+--and L<perlfork> if you are in Windows.
+--
+--=item fpathconf
+--
+--Retrieves the value of a configurable limit on a file or directory.  This
+--uses file descriptors such as those obtained by calling C<POSIX::open>.
+--
+--The following will determine the maximum length of the longest allowable
+--pathname on the filesystem which holds C</var/foo>.
+--
+--	$fd = POSIX::open( "/var/foo", &POSIX::O_RDONLY );
+--	$path_max = POSIX::fpathconf( $fd, &POSIX::_PC_PATH_MAX );
+--
+--Returns C<undef> on failure.
+--
+--=item fprintf
+--
+--fprintf() is C-specific, see L<perlfunc/printf> instead.
+--
+--=item fputc
+--
+--fputc() is C-specific, see L<perlfunc/print> instead.
+--
+--=item fputs
+--
+--fputs() is C-specific, see L<perlfunc/print> instead.
+--
+--=item fread
+--
+--fread() is C-specific, see L<perlfunc/read> instead.
+--
+--=item free
+--
+--free() is C-specific.  Perl does memory management transparently.
+--
+--=item freopen
+--
+--freopen() is C-specific, see L<perlfunc/open> instead.
+--
+--=item frexp
+--
+--Return the mantissa and exponent of a floating-point number.
+--
+--	($mantissa, $exponent) = POSIX::frexp( 1.234e56 );
+--
+--=item fscanf
+--
+--fscanf() is C-specific, use E<lt>E<gt> and regular expressions instead.
+--
+--=item fseek
+--
+--Use method C<IO::Seekable::seek()> instead, or see L<perlfunc/seek>.
+--
+--=item fsetpos
+--
+--Use method C<IO::Seekable::setpos()> instead, or seek L<perlfunc/seek>.
+--
+--=item fstat
+--
+--Get file status.  This uses file descriptors such as those obtained by
+--calling C<POSIX::open>.  The data returned is identical to the data from
+--Perl's builtin C<stat> function.
+--
+--	$fd = POSIX::open( "foo", &POSIX::O_RDONLY );
+--	@stats = POSIX::fstat( $fd );
+--
+--=item fsync
+--
+--Use method C<IO::Handle::sync()> instead.
+--
+--=item ftell
+--
+--Use method C<IO::Seekable::tell()> instead, or see L<perlfunc/tell>.
+--
+--=item fwrite
+--
+--fwrite() is C-specific, see L<perlfunc/print> instead.
+--
+--=item getc
+--
+--This is identical to Perl's builtin C<getc()> function,
+--see L<perlfunc/getc>.
+--
+--=item getchar
+--
+--Returns one character from STDIN.  Identical to Perl's C<getc()>,
+--see L<perlfunc/getc>.
+--
+--=item getcwd
+--
+--Returns the name of the current working directory.
+--See also L<Cwd>.
+--
+--=item getegid
+--
+--Returns the effective group identifier.  Similar to Perl' s builtin
+--variable C<$(>, see L<perlvar/$EGID>.
+--
+--=item getenv
+--
+--Returns the value of the specified environment variable.
+--The same information is available through the C<%ENV> array.
+--
+--=item geteuid
+--
+--Returns the effective user identifier.  Identical to Perl's builtin C<$E<gt>>
+--variable, see L<perlvar/$EUID>.
+--
+--=item getgid
+--
+--Returns the user's real group identifier.  Similar to Perl's builtin
+--variable C<$)>, see L<perlvar/$GID>.
+--
+--=item getgrgid
+--
+--This is identical to Perl's builtin C<getgrgid()> function for
+--returning group entries by group identifiers, see
+--L<perlfunc/getgrgid>.
+--
+--=item getgrnam
+--
+--This is identical to Perl's builtin C<getgrnam()> function for
+--returning group entries by group names, see L<perlfunc/getgrnam>.
+--
+--=item getgroups
+--
+--Returns the ids of the user's supplementary groups.  Similar to Perl's
+--builtin variable C<$)>, see L<perlvar/$GID>.
+--
+--=item getlogin
+--
+--This is identical to Perl's builtin C<getlogin()> function for
+--returning the user name associated with the current session, see
+--L<perlfunc/getlogin>.
+--
+--=item getpgrp
+--
+--This is identical to Perl's builtin C<getpgrp()> function for
+--returning the process group identifier of the current process, see
+--L<perlfunc/getpgrp>.
+--
+--=item getpid
+--
+--Returns the process identifier.  Identical to Perl's builtin
+--variable C<$$>, see L<perlvar/$PID>.
+--
+--=item getppid
+--
+--This is identical to Perl's builtin C<getppid()> function for
+--returning the process identifier of the parent process of the current
+--process , see L<perlfunc/getppid>.
+--
+--=item getpwnam
+--
+--This is identical to Perl's builtin C<getpwnam()> function for
+--returning user entries by user names, see L<perlfunc/getpwnam>.
+--
+--=item getpwuid
+--
+--This is identical to Perl's builtin C<getpwuid()> function for
+--returning user entries by user identifiers, see L<perlfunc/getpwuid>.
+--
+--=item gets
+--
+--Returns one line from C<STDIN>, similar to E<lt>E<gt>, also known
+--as the C<readline()> function, see L<perlfunc/readline>.
+--
+--B<NOTE>: if you have C programs that still use C<gets()>, be very
+--afraid.  The C<gets()> function is a source of endless grief because
+--it has no buffer overrun checks.  It should B<never> be used.  The
+--C<fgets()> function should be preferred instead.
+--
+--=item getuid
+--
+--Returns the user's identifier.  Identical to Perl's builtin C<$E<lt>> variable,
+--see L<perlvar/$UID>.
+--
+--=item gmtime
+--
+--This is identical to Perl's builtin C<gmtime()> function for
+--converting seconds since the epoch to a date in Greenwich Mean Time,
+--see L<perlfunc/gmtime>.
+--
+--=item isalnum
+--
+--This is identical to the C function, except that it can apply to a
+--single character or to a whole string.  Note that locale settings may
+--affect what characters are considered C<isalnum>.  Does not work on
+--Unicode characters code point 256 or higher.  Consider using regular
+--expressions and the C</[[:alnum:]]/> construct instead, or possibly
+--the C</\w/> construct.
+--
+--=item isalpha
+--
+--This is identical to the C function, except that it can apply to
+--a single character or to a whole string.  Note that locale settings
+--may affect what characters are considered C<isalpha>.  Does not work
+--on Unicode characters code point 256 or higher.  Consider using regular
+--expressions and the C</[[:alpha:]]/> construct instead.
+--
+--=item isatty
+--
+--Returns a boolean indicating whether the specified filehandle is connected
+--to a tty.  Similar to the C<-t> operator, see L<perlfunc/-X>.
+--
+--=item iscntrl
+--
+--This is identical to the C function, except that it can apply to
+--a single character or to a whole string.  Note that locale settings
+--may affect what characters are considered C<iscntrl>.  Does not work
+--on Unicode characters code point 256 or higher.  Consider using regular
+--expressions and the C</[[:cntrl:]]/> construct instead.
+--
+--=item isdigit
+--
+--This is identical to the C function, except that it can apply to
+--a single character or to a whole string.  Note that locale settings
+--may affect what characters are considered C<isdigit> (unlikely, but
+--still possible). Does not work on Unicode characters code point 256
+--or higher.  Consider using regular expressions and the C</[[:digit:]]/>
+--construct instead, or the C</\d/> construct.
+--
+--=item isgraph
+--
+--This is identical to the C function, except that it can apply to
+--a single character or to a whole string.  Note that locale settings
+--may affect what characters are considered C<isgraph>.  Does not work
+--on Unicode characters code point 256 or higher.  Consider using regular
+--expressions and the C</[[:graph:]]/> construct instead.
+--
+--=item islower
+--
+--This is identical to the C function, except that it can apply to
+--a single character or to a whole string.  Note that locale settings
+--may affect what characters are considered C<islower>.  Does not work
+--on Unicode characters code point 256 or higher.  Consider using regular
+--expressions and the C</[[:lower:]]/> construct instead.  Do B<not> use
+--C</[a-z]/>.
+--
+--=item isprint
+--
+--This is identical to the C function, except that it can apply to
+--a single character or to a whole string.  Note that locale settings
+--may affect what characters are considered C<isprint>.  Does not work
+--on Unicode characters code point 256 or higher.  Consider using regular
+--expressions and the C</[[:print:]]/> construct instead.
+--
+--=item ispunct
+--
+--This is identical to the C function, except that it can apply to
+--a single character or to a whole string.  Note that locale settings
+--may affect what characters are considered C<ispunct>.  Does not work
+--on Unicode characters code point 256 or higher.  Consider using regular
+--expressions and the C</[[:punct:]]/> construct instead.
+--
+--=item isspace
+--
+--This is identical to the C function, except that it can apply to
+--a single character or to a whole string.  Note that locale settings
+--may affect what characters are considered C<isspace>.  Does not work
+--on Unicode characters code point 256 or higher.  Consider using regular
+--expressions and the C</[[:space:]]/> construct instead, or the C</\s/>
+--construct.  (Note that C</\s/> and C</[[:space:]]/> are slightly
+--different in that C</[[:space:]]/> can normally match a vertical tab,
+--while C</\s/> does not.)
+--
+--=item isupper
+--
+--This is identical to the C function, except that it can apply to
+--a single character or to a whole string.  Note that locale settings
+--may affect what characters are considered C<isupper>.  Does not work
+--on Unicode characters code point 256 or higher.  Consider using regular
+--expressions and the C</[[:upper:]]/> construct instead.  Do B<not> use
+--C</[A-Z]/>.
+--
+--=item isxdigit
+--
+--This is identical to the C function, except that it can apply to a single
+--character or to a whole string.  Note that locale settings may affect what
+--characters are considered C<isxdigit> (unlikely, but still possible).
+--Does not work on Unicode characters code point 256 or higher.
+--Consider using regular expressions and the C</[[:xdigit:]]/>
+--construct instead, or simply C</[0-9a-f]/i>.
+--
+--=item kill
+--
+--This is identical to Perl's builtin C<kill()> function for sending
+--signals to processes (often to terminate them), see L<perlfunc/kill>.
+--
+--=item labs
+--
+--(For returning absolute values of long integers.)
+--labs() is C-specific, see L<perlfunc/abs> instead.
+--
+--=item lchown
+--
+--This is identical to the C function, except the order of arguments is
+--consistent with Perl's builtin C<chown()> with the added restriction
+--of only one path, not an list of paths.  Does the same thing as the 
+--C<chown()> function but changes the owner of a symbolic link instead 
+--of the file the symbolic link points to.
+--
+--=item ldexp
+--
+--This is identical to the C function C<ldexp()>
+--for multiplying floating point numbers with powers of two.
+--
+--	$x_quadrupled = POSIX::ldexp($x, 2);
+--
+--=item ldiv
+--
+--(For computing dividends of long integers.)
+--ldiv() is C-specific, use C</> and C<int()> instead.
+--
+--=item link
+--
+--This is identical to Perl's builtin C<link()> function
+--for creating hard links into files, see L<perlfunc/link>.
+--
+--=item localeconv
+--
+--Get numeric formatting information.  Returns a reference to a hash
+--containing the current locale formatting values.
+--
+--Here is how to query the database for the B<de> (Deutsch or German) locale.
+--
+--	$loc = POSIX::setlocale( &POSIX::LC_ALL, "de" );
+--	print "Locale = $loc\n";
+--	$lconv = POSIX::localeconv();
+--	print "decimal_point	= ", $lconv->{decimal_point},	"\n";
+--	print "thousands_sep	= ", $lconv->{thousands_sep},	"\n";
+--	print "grouping	= ", $lconv->{grouping},	"\n";
+--	print "int_curr_symbol	= ", $lconv->{int_curr_symbol},	"\n";
+--	print "currency_symbol	= ", $lconv->{currency_symbol},	"\n";
+--	print "mon_decimal_point = ", $lconv->{mon_decimal_point}, "\n";
+--	print "mon_thousands_sep = ", $lconv->{mon_thousands_sep}, "\n";
+--	print "mon_grouping	= ", $lconv->{mon_grouping},	"\n";
+--	print "positive_sign	= ", $lconv->{positive_sign},	"\n";
+--	print "negative_sign	= ", $lconv->{negative_sign},	"\n";
+--	print "int_frac_digits	= ", $lconv->{int_frac_digits},	"\n";
+--	print "frac_digits	= ", $lconv->{frac_digits},	"\n";
+--	print "p_cs_precedes	= ", $lconv->{p_cs_precedes},	"\n";
+--	print "p_sep_by_space	= ", $lconv->{p_sep_by_space},	"\n";
+--	print "n_cs_precedes	= ", $lconv->{n_cs_precedes},	"\n";
+--	print "n_sep_by_space	= ", $lconv->{n_sep_by_space},	"\n";
+--	print "p_sign_posn	= ", $lconv->{p_sign_posn},	"\n";
+--	print "n_sign_posn	= ", $lconv->{n_sign_posn},	"\n";
+--
+--=item localtime
+--
+--This is identical to Perl's builtin C<localtime()> function for
+--converting seconds since the epoch to a date see L<perlfunc/localtime>.
+--
+--=item log
+--
+--This is identical to Perl's builtin C<log()> function,
+--returning the natural (I<e>-based) logarithm of the numerical argument,
+--see L<perlfunc/log>.
+--
+--=item log10
+--
+--This is identical to the C function C<log10()>,
+--returning the 10-base logarithm of the numerical argument.
+--You can also use
+--
+--    sub log10 { log($_[0]) / log(10) }
+--
+--or
+--
+--    sub log10 { log($_[0]) / 2.30258509299405 }
+--
+--or
+--
+--    sub log10 { log($_[0]) * 0.434294481903252 }
+--
+--=item longjmp
+--
+--longjmp() is C-specific: use L<perlfunc/die> instead.
+--
+--=item lseek
+--
+--Move the file's read/write position.  This uses file descriptors such as
+--those obtained by calling C<POSIX::open>.
+--
+--	$fd = POSIX::open( "foo", &POSIX::O_RDONLY );
+--	$off_t = POSIX::lseek( $fd, 0, &POSIX::SEEK_SET );
+--
+--Returns C<undef> on failure.
+--
+--=item malloc
+--
+--malloc() is C-specific.  Perl does memory management transparently.
+--
+--=item mblen
+--
+--This is identical to the C function C<mblen()>.
+--Perl does not have any support for the wide and multibyte
+--characters of the C standards, so this might be a rather
+--useless function.
+--
+--=item mbstowcs
+--
+--This is identical to the C function C<mbstowcs()>.
+--Perl does not have any support for the wide and multibyte
+--characters of the C standards, so this might be a rather
+--useless function.
+--
+--=item mbtowc
+--
+--This is identical to the C function C<mbtowc()>.
+--Perl does not have any support for the wide and multibyte
+--characters of the C standards, so this might be a rather
+--useless function.
+--
+--=item memchr
+--
+--memchr() is C-specific, see L<perlfunc/index> instead.
+--
+--=item memcmp
+--
+--memcmp() is C-specific, use C<eq> instead, see L<perlop>.
+--
+--=item memcpy
+--
+--memcpy() is C-specific, use C<=>, see L<perlop>, or see L<perlfunc/substr>.
+--
+--=item memmove
+--
+--memmove() is C-specific, use C<=>, see L<perlop>, or see L<perlfunc/substr>.
+--
+--=item memset
+--
+--memset() is C-specific, use C<x> instead, see L<perlop>.
+--
+--=item mkdir
+--
+--This is identical to Perl's builtin C<mkdir()> function
+--for creating directories, see L<perlfunc/mkdir>.
+--
+--=item mkfifo
+--
+--This is similar to the C function C<mkfifo()> for creating
+--FIFO special files.
+--
+--	if (mkfifo($path, $mode)) { ....
+--
+--Returns C<undef> on failure.  The C<$mode> is similar to the
+--mode of C<mkdir()>, see L<perlfunc/mkdir>, though for C<mkfifo>
+--you B<must> specify the C<$mode>.
+--
+--=item mktime
+--
+--Convert date/time info to a calendar time.
+--
+--Synopsis:
+--
+--	mktime(sec, min, hour, mday, mon, year, wday = 0, yday = 0, isdst = -1)
+--
+--The month (C<mon>), weekday (C<wday>), and yearday (C<yday>) begin at zero.
+--I.e. January is 0, not 1; Sunday is 0, not 1; January 1st is 0, not 1.  The
+--year (C<year>) is given in years since 1900.  I.e. The year 1995 is 95; the
+--year 2001 is 101.  Consult your system's C<mktime()> manpage for details
+--about these and the other arguments.
+--
+--Calendar time for December 12, 1995, at 10:30 am.
+--
+--	$time_t = POSIX::mktime( 0, 30, 10, 12, 11, 95 );
+--	print "Date = ", POSIX::ctime($time_t);
+--
+--Returns C<undef> on failure.
+--
+--=item modf
+--
+--Return the integral and fractional parts of a floating-point number.
+--
+--	($fractional, $integral) = POSIX::modf( 3.14 );
+--
+--=item nice
+--
+--This is similar to the C function C<nice()>, for changing
+--the scheduling preference of the current process.  Positive
+--arguments mean more polite process, negative values more
+--needy process.  Normal user processes can only be more polite.
+--
+--Returns C<undef> on failure.
+--
+--=item offsetof
+--
+--offsetof() is C-specific, you probably want to see L<perlfunc/pack> instead.
+--
+--=item open
+--
+--Open a file for reading for writing.  This returns file descriptors, not
+--Perl filehandles.  Use C<POSIX::close> to close the file.
+--
+--Open a file read-only with mode 0666.
+--
+--	$fd = POSIX::open( "foo" );
+--
+--Open a file for read and write.
+--
+--	$fd = POSIX::open( "foo", &POSIX::O_RDWR );
+--
+--Open a file for write, with truncation.
+--
+--	$fd = POSIX::open( "foo", &POSIX::O_WRONLY | &POSIX::O_TRUNC );
+--
+--Create a new file with mode 0640.  Set up the file for writing.
+--
+--	$fd = POSIX::open( "foo", &POSIX::O_CREAT | &POSIX::O_WRONLY, 0640 );
+--
+--Returns C<undef> on failure.
+--
+--See also L<perlfunc/sysopen>.
+--
+--=item opendir
+--
+--Open a directory for reading.
+--
+--	$dir = POSIX::opendir( "/var" );
+--	@files = POSIX::readdir( $dir );
+--	POSIX::closedir( $dir );
+--
+--Returns C<undef> on failure.
+--
+--=item pathconf
+--
+--Retrieves the value of a configurable limit on a file or directory.
+--
+--The following will determine the maximum length of the longest allowable
+--pathname on the filesystem which holds C</var>.
+--
+--	$path_max = POSIX::pathconf( "/var", &POSIX::_PC_PATH_MAX );
+--
+--Returns C<undef> on failure.
+--
+--=item pause
+--
+--This is similar to the C function C<pause()>, which suspends
+--the execution of the current process until a signal is received.
+--
+--Returns C<undef> on failure.
+--
+--=item perror
+--
+--This is identical to the C function C<perror()>, which outputs to the
+--standard error stream the specified message followed by ": " and the
+--current error string.  Use the C<warn()> function and the C<$!>
+--variable instead, see L<perlfunc/warn> and L<perlvar/$ERRNO>.
+--
+--=item pipe
+--
+--Create an interprocess channel.  This returns file descriptors like those
+--returned by C<POSIX::open>.
+--
+--	my ($read, $write) = POSIX::pipe();
+--	POSIX::write( $write, "hello", 5 );
+--	POSIX::read( $read, $buf, 5 );
+--
+--See also L<perlfunc/pipe>.
+--
+--=item pow
+--
+--Computes C<$x> raised to the power C<$exponent>.
+--
+--	$ret = POSIX::pow( $x, $exponent );
+--
+--You can also use the C<**> operator, see L<perlop>.
+--
+--=item printf
+--
+--Formats and prints the specified arguments to STDOUT.
+--See also L<perlfunc/printf>.
+--
+--=item putc
+--
+--putc() is C-specific, see L<perlfunc/print> instead.
+--
+--=item putchar
+--
+--putchar() is C-specific, see L<perlfunc/print> instead.
+--
+--=item puts
+--
+--puts() is C-specific, see L<perlfunc/print> instead.
+--
+--=item qsort
+--
+--qsort() is C-specific, see L<perlfunc/sort> instead.
+--
+--=item raise
+--
+--Sends the specified signal to the current process.
+--See also L<perlfunc/kill> and the C<$$> in L<perlvar/$PID>.
+--
+--=item rand
+--
+--C<rand()> is non-portable, see L<perlfunc/rand> instead.
+--
+--=item read
+--
+--Read from a file.  This uses file descriptors such as those obtained by
+--calling C<POSIX::open>.  If the buffer C<$buf> is not large enough for the
+--read then Perl will extend it to make room for the request.
+--
+--	$fd = POSIX::open( "foo", &POSIX::O_RDONLY );
+--	$bytes = POSIX::read( $fd, $buf, 3 );
+--
+--Returns C<undef> on failure.
+--
+--See also L<perlfunc/sysread>.
+--
+--=item readdir
+--
+--This is identical to Perl's builtin C<readdir()> function
+--for reading directory entries, see L<perlfunc/readdir>.
+--
+--=item realloc
+--
+--realloc() is C-specific.  Perl does memory management transparently.
+--
+--=item remove
+--
+--This is identical to Perl's builtin C<unlink()> function
+--for removing files, see L<perlfunc/unlink>.
+--
+--=item rename
+--
+--This is identical to Perl's builtin C<rename()> function
+--for renaming files, see L<perlfunc/rename>.
+--
+--=item rewind
+--
+--Seeks to the beginning of the file.
+--
+--=item rewinddir
+--
+--This is identical to Perl's builtin C<rewinddir()> function for
+--rewinding directory entry streams, see L<perlfunc/rewinddir>.
+--
+--=item rmdir
+--
+--This is identical to Perl's builtin C<rmdir()> function
+--for removing (empty) directories, see L<perlfunc/rmdir>.
+--
+--=item scanf
+--
+--scanf() is C-specific, use E<lt>E<gt> and regular expressions instead,
+--see L<perlre>.
+--
+--=item setgid
+--
+--Sets the real group identifier and the effective group identifier for
+--this process.  Similar to assigning a value to the Perl's builtin
+--C<$)> variable, see L<perlvar/$EGID>, except that the latter
+--will change only the real user identifier, and that the setgid()
+--uses only a single numeric argument, as opposed to a space-separated
+--list of numbers.
+--
+--=item setjmp
+--
+--C<setjmp()> is C-specific: use C<eval {}> instead,
+--see L<perlfunc/eval>.
+--
+--=item setlocale
+--
+--Modifies and queries program's locale.  The following examples assume
+--
+--	use POSIX qw(setlocale LC_ALL LC_CTYPE);
+--
+--has been issued.
+--
+--The following will set the traditional UNIX system locale behavior
+--(the second argument C<"C">).
+--
+--	$loc = setlocale( LC_ALL, "C" );
+--
+--The following will query the current LC_CTYPE category.  (No second
+--argument means 'query'.)
+--
+--	$loc = setlocale( LC_CTYPE );
+--
+--The following will set the LC_CTYPE behaviour according to the locale
+--environment variables (the second argument C<"">).
+--Please see your systems C<setlocale(3)> documentation for the locale
+--environment variables' meaning or consult L<perllocale>.
+--
+--	$loc = setlocale( LC_CTYPE, "" );
+--
+--The following will set the LC_COLLATE behaviour to Argentinian
+--Spanish. B<NOTE>: The naming and availability of locales depends on
+--your operating system. Please consult L<perllocale> for how to find
+--out which locales are available in your system.
+--
+--	$loc = setlocale( LC_COLLATE, "es_AR.ISO8859-1" );
+--
+--=item setpgid
+--
+--This is similar to the C function C<setpgid()> for
+--setting the process group identifier of the current process.
+--
+--Returns C<undef> on failure.
+--
+--=item setsid
+--
+--This is identical to the C function C<setsid()> for
+--setting the session identifier of the current process.
+--
+--=item setuid
+--
+--Sets the real user identifier and the effective user identifier for
+--this process.  Similar to assigning a value to the Perl's builtin
+--C<$E<lt>> variable, see L<perlvar/$UID>, except that the latter
+--will change only the real user identifier.
+--
+--=item sigaction
+--
+--Detailed signal management.  This uses C<POSIX::SigAction> objects for
+--the C<action> and C<oldaction> arguments (the oldaction can also be
+--just a hash reference).  Consult your system's C<sigaction> manpage
+--for details, see also C<POSIX::SigRt>.
+--
+--Synopsis:
+--
+--	sigaction(signal, action, oldaction = 0)
+--
+--Returns C<undef> on failure.  The C<signal> must be a number (like
+--SIGHUP), not a string (like "SIGHUP"), though Perl does try hard
+--to understand you.
+--
+--If you use the SA_SIGINFO flag, the signal handler will in addition to
+--the first argument, the signal name, also receive a second argument, a
+--hash reference, inside which are the following keys with the following
+--semantics, as defined by POSIX/SUSv3:
+--
+--    signo       the signal number
+--    errno       the error number
+--    code        if this is zero or less, the signal was sent by
+--                a user process and the uid and pid make sense,
+--                otherwise the signal was sent by the kernel
+--
+--The following are also defined by POSIX/SUSv3, but unfortunately
+--not very widely implemented:
+--
+--    pid         the process id generating the signal
+--    uid         the uid of the process id generating the signal
+--    status      exit value or signal for SIGCHLD
+--    band        band event for SIGPOLL
+--
+--A third argument is also passed to the handler, which contains a copy
+--of the raw binary contents of the siginfo structure: if a system has
+--some non-POSIX fields, this third argument is where to unpack() them
+--from.
+--
+--Note that not all siginfo values make sense simultaneously (some are
+--valid only for certain signals, for example), and not all values make
+--sense from Perl perspective, you should to consult your system's
+--C<sigaction> and possibly also C<siginfo> documentation.
+--
+--=item siglongjmp
+--
+--siglongjmp() is C-specific: use L<perlfunc/die> instead.
+--
+--=item sigpending
+--
+--Examine signals that are blocked and pending.  This uses C<POSIX::SigSet>
+--objects for the C<sigset> argument.  Consult your system's C<sigpending>
+--manpage for details.
+--
+--Synopsis:
+--
+--	sigpending(sigset)
+--
+--Returns C<undef> on failure.
+--
+--=item sigprocmask
+--
+--Change and/or examine calling process's signal mask.  This uses
+--C<POSIX::SigSet> objects for the C<sigset> and C<oldsigset> arguments.
+--Consult your system's C<sigprocmask> manpage for details.
+--
+--Synopsis:
+--
+--	sigprocmask(how, sigset, oldsigset = 0)
+--
+--Returns C<undef> on failure.
+--
+--=item sigsetjmp
+--
+--C<sigsetjmp()> is C-specific: use C<eval {}> instead,
+--see L<perlfunc/eval>.
+--
+--=item sigsuspend
+--
+--Install a signal mask and suspend process until signal arrives.  This uses
+--C<POSIX::SigSet> objects for the C<signal_mask> argument.  Consult your
+--system's C<sigsuspend> manpage for details.
+--
+--Synopsis:
+--
+--	sigsuspend(signal_mask)
+--
+--Returns C<undef> on failure.
+--
+--=item sin
+--
+--This is identical to Perl's builtin C<sin()> function
+--for returning the sine of the numerical argument,
+--see L<perlfunc/sin>.  See also L<Math::Trig>.
+--
+--=item sinh
+--
+--This is identical to the C function C<sinh()>
+--for returning the hyperbolic sine of the numerical argument.
+--See also L<Math::Trig>.
+--
+--=item sleep
+--
+--This is functionally identical to Perl's builtin C<sleep()> function
+--for suspending the execution of the current for process for certain
+--number of seconds, see L<perlfunc/sleep>.  There is one significant
+--difference, however: C<POSIX::sleep()> returns the number of
+--B<unslept> seconds, while the C<CORE::sleep()> returns the
+--number of slept seconds.
+--
+--=item sprintf
+--
+--This is similar to Perl's builtin C<sprintf()> function
+--for returning a string that has the arguments formatted as requested,
+--see L<perlfunc/sprintf>.
+--
+--=item sqrt
+--
+--This is identical to Perl's builtin C<sqrt()> function.
+--for returning the square root of the numerical argument,
+--see L<perlfunc/sqrt>.
+--
+--=item srand
+--
+--Give a seed the pseudorandom number generator, see L<perlfunc/srand>.
+--
+--=item sscanf
+--
+--sscanf() is C-specific, use regular expressions instead,
+--see L<perlre>.
+--
+--=item stat
+--
+--This is identical to Perl's builtin C<stat()> function
+--for returning information about files and directories.
+--
+--=item strcat
+--
+--strcat() is C-specific, use C<.=> instead, see L<perlop>.
+--
+--=item strchr
+--
+--strchr() is C-specific, see L<perlfunc/index> instead.
+--
+--=item strcmp
+--
+--strcmp() is C-specific, use C<eq> or C<cmp> instead, see L<perlop>.
+--
+--=item strcoll
+--
+--This is identical to the C function C<strcoll()>
+--for collating (comparing) strings transformed using
+--the C<strxfrm()> function.  Not really needed since
+--Perl can do this transparently, see L<perllocale>.
+--
+--=item strcpy
+--
+--strcpy() is C-specific, use C<=> instead, see L<perlop>.
+--
+--=item strcspn
+--
+--strcspn() is C-specific, use regular expressions instead,
+--see L<perlre>.
+--
+--=item strerror
+--
+--Returns the error string for the specified errno.
+--Identical to the string form of the C<$!>, see L<perlvar/$ERRNO>.
+--
+--=item strftime
+--
+--Convert date and time information to string.  Returns the string.
+--
+--Synopsis:
+--
+--	strftime(fmt, sec, min, hour, mday, mon, year, wday = -1, yday = -1, isdst = -1)
+--
+--The month (C<mon>), weekday (C<wday>), and yearday (C<yday>) begin at zero.
+--I.e. January is 0, not 1; Sunday is 0, not 1; January 1st is 0, not 1.  The
+--year (C<year>) is given in years since 1900.  I.e., the year 1995 is 95; the
+--year 2001 is 101.  Consult your system's C<strftime()> manpage for details
+--about these and the other arguments.
+--
+--If you want your code to be portable, your format (C<fmt>) argument
+--should use only the conversion specifiers defined by the ANSI C
+--standard (C89, to play safe).  These are C<aAbBcdHIjmMpSUwWxXyYZ%>.
+--But even then, the B<results> of some of the conversion specifiers are
+--non-portable.  For example, the specifiers C<aAbBcpZ> change according
+--to the locale settings of the user, and both how to set locales (the
+--locale names) and what output to expect are non-standard.
+--The specifier C<c> changes according to the timezone settings of the
+--user and the timezone computation rules of the operating system.
+--The C<Z> specifier is notoriously unportable since the names of
+--timezones are non-standard. Sticking to the numeric specifiers is the
+--safest route.
+--
+--The given arguments are made consistent as though by calling
+--C<mktime()> before calling your system's C<strftime()> function,
+--except that the C<isdst> value is not affected.
+--
+--The string for Tuesday, December 12, 1995.
+--
+--	$str = POSIX::strftime( "%A, %B %d, %Y", 0, 0, 0, 12, 11, 95, 2 );
+--	print "$str\n";
+--
+--=item strlen
+--
+--strlen() is C-specific, use C<length()> instead, see L<perlfunc/length>.
+--
+--=item strncat
+--
+--strncat() is C-specific, use C<.=> instead, see L<perlop>.
+--
+--=item strncmp
+--
+--strncmp() is C-specific, use C<eq> instead, see L<perlop>.
+--
+--=item strncpy
+--
+--strncpy() is C-specific, use C<=> instead, see L<perlop>.
+--
+--=item strpbrk
+--
+--strpbrk() is C-specific, use regular expressions instead,
+--see L<perlre>.
+--
+--=item strrchr
+--
+--strrchr() is C-specific, see L<perlfunc/rindex> instead.
+--
+--=item strspn
+--
+--strspn() is C-specific, use regular expressions instead,
+--see L<perlre>.
+--
+--=item strstr
+--
+--This is identical to Perl's builtin C<index()> function,
+--see L<perlfunc/index>.
+--
+--=item strtod
+--
+--String to double translation. Returns the parsed number and the number
+--of characters in the unparsed portion of the string.  Truly
+--POSIX-compliant systems set $! ($ERRNO) to indicate a translation
+--error, so clear $! before calling strtod.  However, non-POSIX systems
+--may not check for overflow, and therefore will never set $!.
+--
+--strtod should respect any POSIX I<setlocale()> settings.
+--
+--To parse a string $str as a floating point number use
+--
+--    $! = 0;
+--    ($num, $n_unparsed) = POSIX::strtod($str);
+--
+--The second returned item and $! can be used to check for valid input:
+--
+--    if (($str eq '') || ($n_unparsed != 0) || $!) {
+--        die "Non-numeric input $str" . ($! ? ": $!\n" : "\n");
+--    }
+--
+--When called in a scalar context strtod returns the parsed number.
+--
+--=item strtok
+--
+--strtok() is C-specific, use regular expressions instead, see
+--L<perlre>, or L<perlfunc/split>.
+--
+--=item strtol
+--
+--String to (long) integer translation.  Returns the parsed number and
+--the number of characters in the unparsed portion of the string.  Truly
+--POSIX-compliant systems set $! ($ERRNO) to indicate a translation
+--error, so clear $! before calling strtol.  However, non-POSIX systems
+--may not check for overflow, and therefore will never set $!.
+--
+--strtol should respect any POSIX I<setlocale()> settings.
+--
+--To parse a string $str as a number in some base $base use
+--
+--    $! = 0;
+--    ($num, $n_unparsed) = POSIX::strtol($str, $base);
+--
+--The base should be zero or between 2 and 36, inclusive.  When the base
+--is zero or omitted strtol will use the string itself to determine the
+--base: a leading "0x" or "0X" means hexadecimal; a leading "0" means
+--octal; any other leading characters mean decimal.  Thus, "1234" is
+--parsed as a decimal number, "01234" as an octal number, and "0x1234"
+--as a hexadecimal number.
+--
+--The second returned item and $! can be used to check for valid input:
+--
+--    if (($str eq '') || ($n_unparsed != 0) || !$!) {
+--        die "Non-numeric input $str" . $! ? ": $!\n" : "\n";
+--    }
+--
+--When called in a scalar context strtol returns the parsed number.
+--
+--=item strtoul
+--
+--String to unsigned (long) integer translation.  strtoul() is identical
+--to strtol() except that strtoul() only parses unsigned integers.  See
+--L</strtol> for details.
+--
+--Note: Some vendors supply strtod() and strtol() but not strtoul().
+--Other vendors that do supply strtoul() parse "-1" as a valid value.
+--
+--=item strxfrm
+--
+--String transformation.  Returns the transformed string.
+--
+--	$dst = POSIX::strxfrm( $src );
+--
+--Used in conjunction with the C<strcoll()> function, see L</strcoll>.
+--
+--Not really needed since Perl can do this transparently, see
+--L<perllocale>.
+--
+--=item sysconf
+--
+--Retrieves values of system configurable variables.
+--
+--The following will get the machine's clock speed.
+--
+--	$clock_ticks = POSIX::sysconf( &POSIX::_SC_CLK_TCK );
+--
+--Returns C<undef> on failure.
+--
+--=item system
+--
+--This is identical to Perl's builtin C<system()> function, see
+--L<perlfunc/system>.
+--
+--=item tan
+--
+--This is identical to the C function C<tan()>, returning the
+--tangent of the numerical argument.  See also L<Math::Trig>.
+--
+--=item tanh
+--
+--This is identical to the C function C<tanh()>, returning the
+--hyperbolic tangent of the numerical argument.   See also L<Math::Trig>.
+--
+--=item tcdrain
+--
+--This is similar to the C function C<tcdrain()> for draining
+--the output queue of its argument stream.
+--
+--Returns C<undef> on failure.
+--
+--=item tcflow
+--
+--This is similar to the C function C<tcflow()> for controlling
+--the flow of its argument stream.
+--
+--Returns C<undef> on failure.
+--
+--=item tcflush
+--
+--This is similar to the C function C<tcflush()> for flushing
+--the I/O buffers of its argument stream.
+--
+--Returns C<undef> on failure.
+--
+--=item tcgetpgrp
+--
+--This is identical to the C function C<tcgetpgrp()> for returning the
+--process group identifier of the foreground process group of the controlling
+--terminal.
+--
+--=item tcsendbreak
+--
+--This is similar to the C function C<tcsendbreak()> for sending
+--a break on its argument stream.
+--
+--Returns C<undef> on failure.
+--
+--=item tcsetpgrp
+--
+--This is similar to the C function C<tcsetpgrp()> for setting the
+--process group identifier of the foreground process group of the controlling
+--terminal.
+--
+--Returns C<undef> on failure.
+--
+--=item time
+--
+--This is identical to Perl's builtin C<time()> function
+--for returning the number of seconds since the epoch
+--(whatever it is for the system), see L<perlfunc/time>.
+--
+--=item times
+--
+--The times() function returns elapsed realtime since some point in the past
+--(such as system startup), user and system times for this process, and user
+--and system times used by child processes.  All times are returned in clock
+--ticks.
+--
+--    ($realtime, $user, $system, $cuser, $csystem) = POSIX::times();
+--
+--Note: Perl's builtin C<times()> function returns four values, measured in
+--seconds.
+--
+--=item tmpfile
+--
+--Use method C<IO::File::new_tmpfile()> instead, or see L<File::Temp>.
+--
+--=item tmpnam
+--
+--Returns a name for a temporary file.
+--
+--	$tmpfile = POSIX::tmpnam();
+--
+--For security reasons, which are probably detailed in your system's
+--documentation for the C library tmpnam() function, this interface
+--should not be used; instead see L<File::Temp>.
+--
+--=item tolower
+--
+--This is identical to the C function, except that it can apply to a single
+--character or to a whole string.  Consider using the C<lc()> function,
+--see L<perlfunc/lc>, or the equivalent C<\L> operator inside doublequotish
+--strings.
+--
+--=item toupper
+--
+--This is identical to the C function, except that it can apply to a single
+--character or to a whole string.  Consider using the C<uc()> function,
+--see L<perlfunc/uc>, or the equivalent C<\U> operator inside doublequotish
+--strings.
+--
+--=item ttyname
+--
+--This is identical to the C function C<ttyname()> for returning the
+--name of the current terminal.
+--
+--=item tzname
+--
+--Retrieves the time conversion information from the C<tzname> variable.
+--
+--	POSIX::tzset();
+--	($std, $dst) = POSIX::tzname();
+--
+--=item tzset
+--
+--This is identical to the C function C<tzset()> for setting
+--the current timezone based on the environment variable C<TZ>,
+--to be used by C<ctime()>, C<localtime()>, C<mktime()>, and C<strftime()>
+--functions.
+--
+--=item umask
+--
+--This is identical to Perl's builtin C<umask()> function
+--for setting (and querying) the file creation permission mask,
+--see L<perlfunc/umask>.
+--
+--=item uname
+--
+--Get name of current operating system.
+--
+--	($sysname, $nodename, $release, $version, $machine) = POSIX::uname();
+--
+--Note that the actual meanings of the various fields are not
+--that well standardized, do not expect any great portability.
+--The C<$sysname> might be the name of the operating system,
+--the C<$nodename> might be the name of the host, the C<$release>
+--might be the (major) release number of the operating system,
+--the C<$version> might be the (minor) release number of the
+--operating system, and the C<$machine> might be a hardware identifier.
+--Maybe.
+--
+--=item ungetc
+--
+--Use method C<IO::Handle::ungetc()> instead.
+--
+--=item unlink
+--
+--This is identical to Perl's builtin C<unlink()> function
+--for removing files, see L<perlfunc/unlink>.
+--
+--=item utime
+--
+--This is identical to Perl's builtin C<utime()> function
+--for changing the time stamps of files and directories,
+--see L<perlfunc/utime>.
+--
+--=item vfprintf
+--
+--vfprintf() is C-specific, see L<perlfunc/printf> instead.
+--
+--=item vprintf
+--
+--vprintf() is C-specific, see L<perlfunc/printf> instead.
+--
+--=item vsprintf
+--
+--vsprintf() is C-specific, see L<perlfunc/sprintf> instead.
+--
+--=item wait
+--
+--This is identical to Perl's builtin C<wait()> function,
+--see L<perlfunc/wait>.
+--
+--=item waitpid
+--
+--Wait for a child process to change state.  This is identical to Perl's
+--builtin C<waitpid()> function, see L<perlfunc/waitpid>.
+--
+--	$pid = POSIX::waitpid( -1, POSIX::WNOHANG );
+--	print "status = ", ($? / 256), "\n";
+--
+--=item wcstombs
+--
+--This is identical to the C function C<wcstombs()>.
+--Perl does not have any support for the wide and multibyte
+--characters of the C standards, so this might be a rather
+--useless function.
+--
+--=item wctomb
+--
+--This is identical to the C function C<wctomb()>.
+--Perl does not have any support for the wide and multibyte
+--characters of the C standards, so this might be a rather
+--useless function.
+--
+--=item write
+--
+--Write to a file.  This uses file descriptors such as those obtained by
+--calling C<POSIX::open>.
+--
+--	$fd = POSIX::open( "foo", &POSIX::O_WRONLY );
+--	$buf = "hello";
+--	$bytes = POSIX::write( $fd, $buf, 5 );
+--
+--Returns C<undef> on failure.
+--
+--See also L<perlfunc/syswrite>.
+--
+--=back
+--
+--=head1 CLASSES
+--
+--=head2 POSIX::SigAction
+--
+--=over 8
+--
+--=item new
+--
+--Creates a new C<POSIX::SigAction> object which corresponds to the C
+--C<struct sigaction>.  This object will be destroyed automatically when
+--it is no longer needed.  The first parameter is the handler, a sub
+--reference.  The second parameter is a C<POSIX::SigSet> object, it
+--defaults to the empty set.  The third parameter contains the
+--C<sa_flags>, it defaults to 0.
+--
+--	$sigset = POSIX::SigSet->new(SIGINT, SIGQUIT);
+--	$sigaction = POSIX::SigAction->new( \&handler, $sigset, &POSIX::SA_NOCLDSTOP );
+--
+--This C<POSIX::SigAction> object is intended for use with the C<POSIX::sigaction()>
+--function.
+--
+--=back
+--
+--=over 8
+--
+--=item handler
+--
+--=item mask
+--
+--=item flags
+--
+--accessor functions to get/set the values of a SigAction object.
+--
+--	$sigset = $sigaction->mask;
+--	$sigaction->flags(&POSIX::SA_RESTART);
+--
+--=item safe
+--
+--accessor function for the "safe signals" flag of a SigAction object; see
+--L<perlipc> for general information on safe (a.k.a. "deferred") signals.  If
+--you wish to handle a signal safely, use this accessor to set the "safe" flag
+--in the C<POSIX::SigAction> object:
+--
+--	$sigaction->safe(1);
+--
+--You may also examine the "safe" flag on the output action object which is
+--filled in when given as the third parameter to C<POSIX::sigaction()>:
+--
+--	sigaction(SIGINT, $new_action, $old_action);
+--	if ($old_action->safe) {
+--	    # previous SIGINT handler used safe signals
+--	}
+--
+--=back
+--
+--=head2 POSIX::SigRt
+--
+--=over 8
+--
+--=item %SIGRT
+--
+--A hash of the POSIX realtime signal handlers.  It is an extension of
+--the standard %SIG, the $POSIX::SIGRT{SIGRTMIN} is roughly equivalent
+--to $SIG{SIGRTMIN}, but the right POSIX moves (see below) are made with
+--the POSIX::SigSet and POSIX::sigaction instead of accessing the %SIG.
+--
+--You can set the %POSIX::SIGRT elements to set the POSIX realtime
+--signal handlers, use C<delete> and C<exists> on the elements, and use
+--C<scalar> on the C<%POSIX::SIGRT> to find out how many POSIX realtime
+--signals there are available (SIGRTMAX - SIGRTMIN + 1, the SIGRTMAX is
+--a valid POSIX realtime signal).
+--
+--Setting the %SIGRT elements is equivalent to calling this:
+--
+--  sub new {
+--    my ($rtsig, $handler, $flags) = @_;
+--    my $sigset = POSIX::SigSet($rtsig);
+--    my $sigact = POSIX::SigAction->new($handler, $sigset, $flags);
+--    sigaction($rtsig, $sigact);
+--  }
+--
+--The flags default to zero, if you want something different you can
+--either use C<local> on $POSIX::SigRt::SIGACTION_FLAGS, or you can
+--derive from POSIX::SigRt and define your own C<new()> (the tied hash
+--STORE method of the %SIGRT calls C<new($rtsig, $handler, $SIGACTION_FLAGS)>,
+--where the $rtsig ranges from zero to SIGRTMAX - SIGRTMIN + 1).
+--
+--Just as with any signal, you can use sigaction($rtsig, undef, $oa) to
+--retrieve the installed signal handler (or, rather, the signal action).
+--
+--B<NOTE:> whether POSIX realtime signals really work in your system, or
+--whether Perl has been compiled so that it works with them, is outside
+--of this discussion.
+--
+--=item SIGRTMIN
+--
+--Return the minimum POSIX realtime signal number available, or C<undef>
+--if no POSIX realtime signals are available.
+--
+--=item SIGRTMAX
+--
+--Return the maximum POSIX realtime signal number available, or C<undef>
+--if no POSIX realtime signals are available.
+--
+--=back
+--
+--=head2 POSIX::SigSet
+--
+--=over 8
+--
+--=item new
+--
+--Create a new SigSet object.  This object will be destroyed automatically
+--when it is no longer needed.  Arguments may be supplied to initialize the
+--set.
+--
+--Create an empty set.
+--
+--	$sigset = POSIX::SigSet->new;
+--
+--Create a set with SIGUSR1.
+--
+--	$sigset = POSIX::SigSet->new( &POSIX::SIGUSR1 );
+--
+--=item addset
+--
+--Add a signal to a SigSet object.
+--
+--	$sigset->addset( &POSIX::SIGUSR2 );
+--
+--Returns C<undef> on failure.
+--
+--=item delset
+--
+--Remove a signal from the SigSet object.
+--
+--	$sigset->delset( &POSIX::SIGUSR2 );
+--
+--Returns C<undef> on failure.
+--
+--=item emptyset
+--
+--Initialize the SigSet object to be empty.
+--
+--	$sigset->emptyset();
+--
+--Returns C<undef> on failure.
+--
+--=item fillset
+--
+--Initialize the SigSet object to include all signals.
+--
+--	$sigset->fillset();
+--
+--Returns C<undef> on failure.
+--
+--=item ismember
+--
+--Tests the SigSet object to see if it contains a specific signal.
+--
+--	if( $sigset->ismember( &POSIX::SIGUSR1 ) ){
+--		print "contains SIGUSR1\n";
+--	}
+--
+--=back
+--
+--=head2 POSIX::Termios
+--
+--=over 8
+--
+--=item new
+--
+--Create a new Termios object.  This object will be destroyed automatically
+--when it is no longer needed.  A Termios object corresponds to the termios
+--C struct.  new() mallocs a new one, getattr() fills it from a file descriptor,
+--and setattr() sets a file descriptor's parameters to match Termios' contents.
+--
+--	$termios = POSIX::Termios->new;
+--
+--=item getattr
+--
+--Get terminal control attributes.
+--
+--Obtain the attributes for stdin.
+--
+--	$termios->getattr( 0 ) # Recommended for clarity.
+--	$termios->getattr()
+--
+--Obtain the attributes for stdout.
+--
+--	$termios->getattr( 1 )
+--
+--Returns C<undef> on failure.
+--
+--=item getcc
+--
+--Retrieve a value from the c_cc field of a termios object.  The c_cc field is
+--an array so an index must be specified.
+--
+--	$c_cc[1] = $termios->getcc(1);
+--
+--=item getcflag
+--
+--Retrieve the c_cflag field of a termios object.
+--
+--	$c_cflag = $termios->getcflag;
+--
+--=item getiflag
+--
+--Retrieve the c_iflag field of a termios object.
+--
+--	$c_iflag = $termios->getiflag;
+--
+--=item getispeed
+--
+--Retrieve the input baud rate.
+--
+--	$ispeed = $termios->getispeed;
+--
+--=item getlflag
+--
+--Retrieve the c_lflag field of a termios object.
+--
+--	$c_lflag = $termios->getlflag;
+--
+--=item getoflag
+--
+--Retrieve the c_oflag field of a termios object.
+--
+--	$c_oflag = $termios->getoflag;
+--
+--=item getospeed
+--
+--Retrieve the output baud rate.
+--
+--	$ospeed = $termios->getospeed;
+--
+--=item setattr
+--
+--Set terminal control attributes.
+--
+--Set attributes immediately for stdout.
+--
+--	$termios->setattr( 1, &POSIX::TCSANOW );
+--
+--Returns C<undef> on failure.
+--
+--=item setcc
+--
+--Set a value in the c_cc field of a termios object.  The c_cc field is an
+--array so an index must be specified.
+--
+--	$termios->setcc( &POSIX::VEOF, 1 );
+--
+--=item setcflag
+--
+--Set the c_cflag field of a termios object.
+--
+--	$termios->setcflag( $c_cflag | &POSIX::CLOCAL );
+--
+--=item setiflag
+--
+--Set the c_iflag field of a termios object.
+--
+--	$termios->setiflag( $c_iflag | &POSIX::BRKINT );
+--
+--=item setispeed
+--
+--Set the input baud rate.
+--
+--	$termios->setispeed( &POSIX::B9600 );
+--
+--Returns C<undef> on failure.
+--
+--=item setlflag
+--
+--Set the c_lflag field of a termios object.
+--
+--	$termios->setlflag( $c_lflag | &POSIX::ECHO );
+--
+--=item setoflag
+--
+--Set the c_oflag field of a termios object.
+--
+--	$termios->setoflag( $c_oflag | &POSIX::OPOST );
+--
+--=item setospeed
+--
+--Set the output baud rate.
+--
+--	$termios->setospeed( &POSIX::B9600 );
+--
+--Returns C<undef> on failure.
+--
+--=item Baud rate values
+--
+--B38400 B75 B200 B134 B300 B1800 B150 B0 B19200 B1200 B9600 B600 B4800 B50 B2400 B110
+--
+--=item Terminal interface values
+--
+--TCSADRAIN TCSANOW TCOON TCIOFLUSH TCOFLUSH TCION TCIFLUSH TCSAFLUSH TCIOFF TCOOFF
+--
+--=item c_cc field values
+--
+--VEOF VEOL VERASE VINTR VKILL VQUIT VSUSP VSTART VSTOP VMIN VTIME NCCS
+--
+--=item c_cflag field values
+--
+--CLOCAL CREAD CSIZE CS5 CS6 CS7 CS8 CSTOPB HUPCL PARENB PARODD
+--
+--=item c_iflag field values
+--
+--BRKINT ICRNL IGNBRK IGNCR IGNPAR INLCR INPCK ISTRIP IXOFF IXON PARMRK
+--
+--=item c_lflag field values
+--
+--ECHO ECHOE ECHOK ECHONL ICANON IEXTEN ISIG NOFLSH TOSTOP
+--
+--=item c_oflag field values
+--
+--OPOST
+--
+--=back
+--
+--=head1 PATHNAME CONSTANTS
+--
+--=over 8
+--
+--=item Constants
+--
+--_PC_CHOWN_RESTRICTED _PC_LINK_MAX _PC_MAX_CANON _PC_MAX_INPUT _PC_NAME_MAX _PC_NO_TRUNC _PC_PATH_MAX _PC_PIPE_BUF _PC_VDISABLE
+--
+--=back
+--
+--=head1 POSIX CONSTANTS
+--
+--=over 8
+--
+--=item Constants
+--
+--_POSIX_ARG_MAX _POSIX_CHILD_MAX _POSIX_CHOWN_RESTRICTED _POSIX_JOB_CONTROL _POSIX_LINK_MAX _POSIX_MAX_CANON _POSIX_MAX_INPUT _POSIX_NAME_MAX _POSIX_NGROUPS_MAX _POSIX_NO_TRUNC _POSIX_OPEN_MAX _POSIX_PATH_MAX _POSIX_PIPE_BUF _POSIX_SAVED_IDS _POSIX_SSIZE_MAX _POSIX_STREAM_MAX _POSIX_TZNAME_MAX _POSIX_VDISABLE _POSIX_VERSION
+--
+--=back
+--
+--=head1 SYSTEM CONFIGURATION
+--
+--=over 8
+--
+--=item Constants
+--
+--_SC_ARG_MAX _SC_CHILD_MAX _SC_CLK_TCK _SC_JOB_CONTROL _SC_NGROUPS_MAX _SC_OPEN_MAX _SC_PAGESIZE _SC_SAVED_IDS _SC_STREAM_MAX _SC_TZNAME_MAX _SC_VERSION
+--
+--=back
+--
+--=head1 ERRNO
+--
+--=over 8
+--
+--=item Constants
+--
+--E2BIG EACCES EADDRINUSE EADDRNOTAVAIL EAFNOSUPPORT EAGAIN EALREADY EBADF
+--EBUSY ECHILD ECONNABORTED ECONNREFUSED ECONNRESET EDEADLK EDESTADDRREQ
+--EDOM EDQUOT EEXIST EFAULT EFBIG EHOSTDOWN EHOSTUNREACH EINPROGRESS EINTR
+--EINVAL EIO EISCONN EISDIR ELOOP EMFILE EMLINK EMSGSIZE ENAMETOOLONG
+--ENETDOWN ENETRESET ENETUNREACH ENFILE ENOBUFS ENODEV ENOENT ENOEXEC
+--ENOLCK ENOMEM ENOPROTOOPT ENOSPC ENOSYS ENOTBLK ENOTCONN ENOTDIR
+--ENOTEMPTY ENOTSOCK ENOTTY ENXIO EOPNOTSUPP EPERM EPFNOSUPPORT EPIPE
+--EPROCLIM EPROTONOSUPPORT EPROTOTYPE ERANGE EREMOTE ERESTART EROFS
+--ESHUTDOWN ESOCKTNOSUPPORT ESPIPE ESRCH ESTALE ETIMEDOUT ETOOMANYREFS
+--ETXTBSY EUSERS EWOULDBLOCK EXDEV
+--
+--=back
+--
+--=head1 FCNTL
+--
+--=over 8
+--
+--=item Constants
+--
+--FD_CLOEXEC F_DUPFD F_GETFD F_GETFL F_GETLK F_OK F_RDLCK F_SETFD F_SETFL F_SETLK F_SETLKW F_UNLCK F_WRLCK O_ACCMODE O_APPEND O_CREAT O_EXCL O_NOCTTY O_NONBLOCK O_RDONLY O_RDWR O_TRUNC O_WRONLY
+--
+--=back
+--
+--=head1 FLOAT
+--
+--=over 8
+--
+--=item Constants
+--
+--DBL_DIG DBL_EPSILON DBL_MANT_DIG DBL_MAX DBL_MAX_10_EXP DBL_MAX_EXP DBL_MIN DBL_MIN_10_EXP DBL_MIN_EXP FLT_DIG FLT_EPSILON FLT_MANT_DIG FLT_MAX FLT_MAX_10_EXP FLT_MAX_EXP FLT_MIN FLT_MIN_10_EXP FLT_MIN_EXP FLT_RADIX FLT_ROUNDS LDBL_DIG LDBL_EPSILON LDBL_MANT_DIG LDBL_MAX LDBL_MAX_10_EXP LDBL_MAX_EXP LDBL_MIN LDBL_MIN_10_EXP LDBL_MIN_EXP
+--
+--=back
+--
+--=head1 LIMITS
+--
+--=over 8
+--
+--=item Constants
+--
+--ARG_MAX CHAR_BIT CHAR_MAX CHAR_MIN CHILD_MAX INT_MAX INT_MIN LINK_MAX LONG_MAX LONG_MIN MAX_CANON MAX_INPUT MB_LEN_MAX NAME_MAX NGROUPS_MAX OPEN_MAX PATH_MAX PIPE_BUF SCHAR_MAX SCHAR_MIN SHRT_MAX SHRT_MIN SSIZE_MAX STREAM_MAX TZNAME_MAX UCHAR_MAX UINT_MAX ULONG_MAX USHRT_MAX
+--
+--=back
+--
+--=head1 LOCALE
+--
+--=over 8
+--
+--=item Constants
+--
+--LC_ALL LC_COLLATE LC_CTYPE LC_MONETARY LC_NUMERIC LC_TIME
+--
+--=back
+--
+--=head1 MATH
+--
+--=over 8
+--
+--=item Constants
+--
+--HUGE_VAL
+--
+--=back
+--
+--=head1 SIGNAL
+--
+--=over 8
+--
+--=item Constants
+--
+--SA_NOCLDSTOP SA_NOCLDWAIT SA_NODEFER SA_ONSTACK SA_RESETHAND SA_RESTART
+--SA_SIGINFO SIGABRT SIGALRM SIGCHLD SIGCONT SIGFPE SIGHUP SIGILL SIGINT
+--SIGKILL SIGPIPE SIGQUIT SIGSEGV SIGSTOP SIGTERM SIGTSTP SIGTTIN SIGTTOU
+--SIGUSR1 SIGUSR2 SIG_BLOCK SIG_DFL SIG_ERR SIG_IGN SIG_SETMASK
+--SIG_UNBLOCK
+--
+--=back
+--
+--=head1 STAT
+--
+--=over 8
+--
+--=item Constants
+--
+--S_IRGRP S_IROTH S_IRUSR S_IRWXG S_IRWXO S_IRWXU S_ISGID S_ISUID S_IWGRP S_IWOTH S_IWUSR S_IXGRP S_IXOTH S_IXUSR
+--
+--=item Macros
+--
+--S_ISBLK S_ISCHR S_ISDIR S_ISFIFO S_ISREG
+--
+--=back
+--
+--=head1 STDLIB
+--
+--=over 8
+--
+--=item Constants
+--
+--EXIT_FAILURE EXIT_SUCCESS MB_CUR_MAX RAND_MAX
+--
+--=back
+--
+--=head1 STDIO
+--
+--=over 8
+--
+--=item Constants
+--
+--BUFSIZ EOF FILENAME_MAX L_ctermid L_cuserid L_tmpname TMP_MAX
+--
+--=back
+--
+--=head1 TIME
+--
+--=over 8
+--
+--=item Constants
+--
+--CLK_TCK CLOCKS_PER_SEC
+--
+--=back
+--
+--=head1 UNISTD
+--
+--=over 8
+--
+--=item Constants
+--
+--R_OK SEEK_CUR SEEK_END SEEK_SET STDIN_FILENO STDOUT_FILENO STDERR_FILENO W_OK X_OK
+--
+--=back
+--
+--=head1 WAIT
+--
+--=over 8
+--
+--=item Constants
+--
+--WNOHANG WUNTRACED
+--
+--=over 16
+--
+--=item WNOHANG
+--
+--Do not suspend the calling process until a child process
+--changes state but instead return immediately.
+--
+--=item WUNTRACED
+--
+--Catch stopped child processes.
+--
+--=back
+--
+--=item Macros
+--
+--WIFEXITED WEXITSTATUS WIFSIGNALED WTERMSIG WIFSTOPPED WSTOPSIG
+--
+--=over 16
+--
+--=item WIFEXITED
+--
+--WIFEXITED($?) returns true if the child process exited normally
+--(C<exit()> or by falling off the end of C<main()>)
+--
+--=item WEXITSTATUS
+--
+--WEXITSTATUS($?) returns the normal exit status of the child process
+--(only meaningful if WIFEXITED($?) is true)
+--
+--=item WIFSIGNALED
+--
+--WIFSIGNALED($?) returns true if the child process terminated because
+--of a signal
+--
+--=item WTERMSIG
+--
+--WTERMSIG($?) returns the signal the child process terminated for
+--(only meaningful if WIFSIGNALED($?) is true)
+--
+--=item WIFSTOPPED
+--
+--WIFSTOPPED($?) returns true if the child process is currently stopped
+--(can happen only if you specified the WUNTRACED flag to waitpid())
+--
+--=item WSTOPSIG
+--
+--WSTOPSIG($?) returns the signal the child process was stopped for
+--(only meaningful if WIFSTOPPED($?) is true)
+--
+--=back
+--
+--=back
+--
+-diff --git a/ext/POSIX/lib/POSIX.pm b/ext/POSIX/lib/POSIX.pm
+-new file mode 100644
+-index 0000000..ffbd9de
+---- /dev/null
+-+++ b/ext/POSIX/lib/POSIX.pm
+-@@ -0,0 +1,1042 @@
+-+package POSIX;
+-+use strict;
+-+use warnings;
+-+
+-+our(@ISA, %EXPORT_TAGS, @EXPORT_OK, @EXPORT, $AUTOLOAD, %SIGRT) = ();
+-+
+-+our $VERSION = "1.19";
+-+
+-+use AutoLoader;
+-+
+-+use XSLoader ();
+-+
+-+use Fcntl qw(FD_CLOEXEC F_DUPFD F_GETFD F_GETFL F_GETLK F_RDLCK F_SETFD
+-+	     F_SETFL F_SETLK F_SETLKW F_UNLCK F_WRLCK O_ACCMODE O_APPEND
+-+	     O_CREAT O_EXCL O_NOCTTY O_NONBLOCK O_RDONLY O_RDWR O_TRUNC
+-+	     O_WRONLY SEEK_CUR SEEK_END SEEK_SET
+-+	     S_ISBLK S_ISCHR S_ISDIR S_ISFIFO S_ISREG
+-+	     S_IRGRP S_IROTH S_IRUSR S_IRWXG S_IRWXO S_IRWXU S_ISGID S_ISUID
+-+	     S_IWGRP S_IWOTH S_IWUSR S_IXGRP S_IXOTH S_IXUSR);
+-+
+-+# Grandfather old foo_h form to new :foo_h form
+-+my $loaded;
+-+
+-+sub import {
+-+    load_imports() unless $loaded++;
+-+    my $this = shift;
+-+    my @list = map { m/^\w+_h$/ ? ":$_" : $_ } @_;
+-+    local $Exporter::ExportLevel = 1;
+-+    Exporter::import($this,@list);
+-+}
+-+
+-+sub croak { require Carp;  goto &Carp::croak }
+-+# declare usage to assist AutoLoad
+-+sub usage;
+-+
+-+XSLoader::load 'POSIX', $VERSION;
+-+
+-+sub AUTOLOAD {
+-+    no strict;
+-+    no warnings 'uninitialized';
+-+    if ($AUTOLOAD =~ /::(_?[a-z])/) {
+-+	# require AutoLoader;
+-+	$AutoLoader::AUTOLOAD = $AUTOLOAD;
+-+	goto &AutoLoader::AUTOLOAD
+-+    }
+-+    local $! = 0;
+-+    my $constname = $AUTOLOAD;
+-+    $constname =~ s/.*:://;
+-+    my ($error, $val) = constant($constname);
+-+    croak $error if $error;
+-+    *$AUTOLOAD = sub { $val };
+-+
+-+    goto &$AUTOLOAD;
+-+}
+-+
+-+package POSIX::SigAction;
+-+
+-+use AutoLoader 'AUTOLOAD';
+-+
+-+package POSIX::SigRt;
+-+
+-+use AutoLoader 'AUTOLOAD';
+-+
+-+use Tie::Hash;
+-+
+-+use vars qw($SIGACTION_FLAGS $_SIGRTMIN $_SIGRTMAX $_sigrtn @ISA);
+-+@POSIX::SigRt::ISA = qw(Tie::StdHash);
+-+
+-+$SIGACTION_FLAGS = 0;
+-+
+-+tie %POSIX::SIGRT, 'POSIX::SigRt';
+-+
+-+sub DESTROY {};
+-+
+-+package POSIX;
+-+
+-+1;
+-+__END__
+-+
+-+sub usage {
+-+    my ($mess) = @_;
+-+    croak "Usage: POSIX::$mess";
+-+}
+-+
+-+sub redef {
+-+    my ($mess) = @_;
+-+    croak "Use method $mess instead";
+-+}
+-+
+-+sub unimpl {
+-+    my ($mess) = @_;
+-+    $mess =~ s/xxx//;
+-+    croak "Unimplemented: POSIX::$mess";
+-+}
+-+
+-+sub assert {
+-+    usage "assert(expr)" if @_ != 1;
+-+    if (!$_[0]) {
+-+	croak "Assertion failed";
+-+    }
+-+}
+-+
+-+sub tolower {
+-+    usage "tolower(string)" if @_ != 1;
+-+    lc($_[0]);
+-+}
+-+
+-+sub toupper {
+-+    usage "toupper(string)" if @_ != 1;
+-+    uc($_[0]);
+-+}
+-+
+-+sub closedir {
+-+    usage "closedir(dirhandle)" if @_ != 1;
+-+    CORE::closedir($_[0]);
+-+}
+-+
+-+sub opendir {
+-+    usage "opendir(directory)" if @_ != 1;
+-+    my $dirhandle;
+-+    CORE::opendir($dirhandle, $_[0])
+-+	? $dirhandle
+-+	: undef;
+-+}
+-+
+-+sub readdir {
+-+    usage "readdir(dirhandle)" if @_ != 1;
+-+    CORE::readdir($_[0]);
+-+}
+-+
+-+sub rewinddir {
+-+    usage "rewinddir(dirhandle)" if @_ != 1;
+-+    CORE::rewinddir($_[0]);
+-+}
+-+
+-+sub errno {
+-+    usage "errno()" if @_ != 0;
+-+    $! + 0;
+-+}
+-+
+-+sub creat {
+-+    usage "creat(filename, mode)" if @_ != 2;
+-+    &open($_[0], &O_WRONLY | &O_CREAT | &O_TRUNC, $_[1]);
+-+}
+-+
+-+sub fcntl {
+-+    usage "fcntl(filehandle, cmd, arg)" if @_ != 3;
+-+    CORE::fcntl($_[0], $_[1], $_[2]);
+-+}
+-+
+-+sub getgrgid {
+-+    usage "getgrgid(gid)" if @_ != 1;
+-+    CORE::getgrgid($_[0]);
+-+}
+-+
+-+sub getgrnam {
+-+    usage "getgrnam(name)" if @_ != 1;
+-+    CORE::getgrnam($_[0]);
+-+}
+-+
+-+sub atan2 {
+-+    usage "atan2(x,y)" if @_ != 2;
+-+    CORE::atan2($_[0], $_[1]);
+-+}
+-+
+-+sub cos {
+-+    usage "cos(x)" if @_ != 1;
+-+    CORE::cos($_[0]);
+-+}
+-+
+-+sub exp {
+-+    usage "exp(x)" if @_ != 1;
+-+    CORE::exp($_[0]);
+-+}
+-+
+-+sub fabs {
+-+    usage "fabs(x)" if @_ != 1;
+-+    CORE::abs($_[0]);
+-+}
+-+
+-+sub log {
+-+    usage "log(x)" if @_ != 1;
+-+    CORE::log($_[0]);
+-+}
+-+
+-+sub pow {
+-+    usage "pow(x,exponent)" if @_ != 2;
+-+    $_[0] ** $_[1];
+-+}
+-+
+-+sub sin {
+-+    usage "sin(x)" if @_ != 1;
+-+    CORE::sin($_[0]);
+-+}
+-+
+-+sub sqrt {
+-+    usage "sqrt(x)" if @_ != 1;
+-+    CORE::sqrt($_[0]);
+-+}
+-+
+-+sub getpwnam {
+-+    usage "getpwnam(name)" if @_ != 1;
+-+    CORE::getpwnam($_[0]);
+-+}
+-+
+-+sub getpwuid {
+-+    usage "getpwuid(uid)" if @_ != 1;
+-+    CORE::getpwuid($_[0]);
+-+}
+-+
+-+sub longjmp {
+-+    unimpl "longjmp() is C-specific: use die instead";
+-+}
+-+
+-+sub setjmp {
+-+    unimpl "setjmp() is C-specific: use eval {} instead";
+-+}
+-+
+-+sub siglongjmp {
+-+    unimpl "siglongjmp() is C-specific: use die instead";
+-+}
+-+
+-+sub sigsetjmp {
+-+    unimpl "sigsetjmp() is C-specific: use eval {} instead";
+-+}
+-+
+-+sub kill {
+-+    usage "kill(pid, sig)" if @_ != 2;
+-+    CORE::kill $_[1], $_[0];
+-+}
+-+
+-+sub raise {
+-+    usage "raise(sig)" if @_ != 1;
+-+    CORE::kill $_[0], $$;	# Is this good enough?
+-+}
+-+
+-+sub offsetof {
+-+    unimpl "offsetof() is C-specific, stopped";
+-+}
+-+
+-+sub clearerr {
+-+    redef "IO::Handle::clearerr()";
+-+}
+-+
+-+sub fclose {
+-+    redef "IO::Handle::close()";
+-+}
+-+
+-+sub fdopen {
+-+    redef "IO::Handle::new_from_fd()";
+-+}
+-+
+-+sub feof {
+-+    redef "IO::Handle::eof()";
+-+}
+-+
+-+sub fgetc {
+-+    redef "IO::Handle::getc()";
+-+}
+-+
+-+sub fgets {
+-+    redef "IO::Handle::gets()";
+-+}
+-+
+-+sub fileno {
+-+    redef "IO::Handle::fileno()";
+-+}
+-+
+-+sub fopen {
+-+    redef "IO::File::open()";
+-+}
+-+
+-+sub fprintf {
+-+    unimpl "fprintf() is C-specific--use printf instead";
+-+}
+-+
+-+sub fputc {
+-+    unimpl "fputc() is C-specific--use print instead";
+-+}
+-+
+-+sub fputs {
+-+    unimpl "fputs() is C-specific--use print instead";
+-+}
+-+
+-+sub fread {
+-+    unimpl "fread() is C-specific--use read instead";
+-+}
+-+
+-+sub freopen {
+-+    unimpl "freopen() is C-specific--use open instead";
+-+}
+-+
+-+sub fscanf {
+-+    unimpl "fscanf() is C-specific--use <> and regular expressions instead";
+-+}
+-+
+-+sub fseek {
+-+    redef "IO::Seekable::seek()";
+-+}
+-+
+-+sub fsync {
+-+    redef "IO::Handle::sync()";
+-+}
+-+
+-+sub ferror {
+-+    redef "IO::Handle::error()";
+-+}
+-+
+-+sub fflush {
+-+    redef "IO::Handle::flush()";
+-+}
+-+
+-+sub fgetpos {
+-+    redef "IO::Seekable::getpos()";
+-+}
+-+
+-+sub fsetpos {
+-+    redef "IO::Seekable::setpos()";
+-+}
+-+
+-+sub ftell {
+-+    redef "IO::Seekable::tell()";
+-+}
+-+
+-+sub fwrite {
+-+    unimpl "fwrite() is C-specific--use print instead";
+-+}
+-+
+-+sub getc {
+-+    usage "getc(handle)" if @_ != 1;
+-+    CORE::getc($_[0]);
+-+}
+-+
+-+sub getchar {
+-+    usage "getchar()" if @_ != 0;
+-+    CORE::getc(STDIN);
+-+}
+-+
+-+sub gets {
+-+    usage "gets()" if @_ != 0;
+-+    scalar <STDIN>;
+-+}
+-+
+-+sub perror {
+-+    print STDERR "@_: " if @_;
+-+    print STDERR $!,"\n";
+-+}
+-+
+-+sub printf {
+-+    usage "printf(pattern, args...)" if @_ < 1;
+-+    CORE::printf STDOUT @_;
+-+}
+-+
+-+sub putc {
+-+    unimpl "putc() is C-specific--use print instead";
+-+}
+-+
+-+sub putchar {
+-+    unimpl "putchar() is C-specific--use print instead";
+-+}
+-+
+-+sub puts {
+-+    unimpl "puts() is C-specific--use print instead";
+-+}
+-+
+-+sub remove {
+-+    usage "remove(filename)" if @_ != 1;
+-+    (-d $_[0]) ? CORE::rmdir($_[0]) : CORE::unlink($_[0]);
+-+}
+-+
+-+sub rename {
+-+    usage "rename(oldfilename, newfilename)" if @_ != 2;
+-+    CORE::rename($_[0], $_[1]);
+-+}
+-+
+-+sub rewind {
+-+    usage "rewind(filehandle)" if @_ != 1;
+-+    CORE::seek($_[0],0,0);
+-+}
+-+
+-+sub scanf {
+-+    unimpl "scanf() is C-specific--use <> and regular expressions instead";
+-+}
+-+
+-+sub sprintf {
+-+    usage "sprintf(pattern,args)" if @_ == 0;
+-+    CORE::sprintf(shift,@_);
+-+}
+-+
+-+sub sscanf {
+-+    unimpl "sscanf() is C-specific--use regular expressions instead";
+-+}
+-+
+-+sub tmpfile {
+-+    redef "IO::File::new_tmpfile()";
+-+}
+-+
+-+sub ungetc {
+-+    redef "IO::Handle::ungetc()";
+-+}
+-+
+-+sub vfprintf {
+-+    unimpl "vfprintf() is C-specific";
+-+}
+-+
+-+sub vprintf {
+-+    unimpl "vprintf() is C-specific";
+-+}
+-+
+-+sub vsprintf {
+-+    unimpl "vsprintf() is C-specific";
+-+}
+-+
+-+sub abs {
+-+    usage "abs(x)" if @_ != 1;
+-+    CORE::abs($_[0]);
+-+}
+-+
+-+sub atexit {
+-+    unimpl "atexit() is C-specific: use END {} instead";
+-+}
+-+
+-+sub atof {
+-+    unimpl "atof() is C-specific, stopped";
+-+}
+-+
+-+sub atoi {
+-+    unimpl "atoi() is C-specific, stopped";
+-+}
+-+
+-+sub atol {
+-+    unimpl "atol() is C-specific, stopped";
+-+}
+-+
+-+sub bsearch {
+-+    unimpl "bsearch() not supplied";
+-+}
+-+
+-+sub calloc {
+-+    unimpl "calloc() is C-specific, stopped";
+-+}
+-+
+-+sub div {
+-+    unimpl "div() is C-specific, use /, % and int instead";
+-+}
+-+
+-+sub exit {
+-+    usage "exit(status)" if @_ != 1;
+-+    CORE::exit($_[0]);
+-+}
+-+
+-+sub free {
+-+    unimpl "free() is C-specific, stopped";
+-+}
+-+
+-+sub getenv {
+-+    usage "getenv(name)" if @_ != 1;
+-+    $ENV{$_[0]};
+-+}
+-+
+-+sub labs {
+-+    unimpl "labs() is C-specific, use abs instead";
+-+}
+-+
+-+sub ldiv {
+-+    unimpl "ldiv() is C-specific, use /, % and int instead";
+-+}
+-+
+-+sub malloc {
+-+    unimpl "malloc() is C-specific, stopped";
+-+}
+-+
+-+sub qsort {
+-+    unimpl "qsort() is C-specific, use sort instead";
+-+}
+-+
+-+sub rand {
+-+    unimpl "rand() is non-portable, use Perl's rand instead";
+-+}
+-+
+-+sub realloc {
+-+    unimpl "realloc() is C-specific, stopped";
+-+}
+-+
+-+sub srand {
+-+    unimpl "srand()";
+-+}
+-+
+-+sub system {
+-+    usage "system(command)" if @_ != 1;
+-+    CORE::system($_[0]);
+-+}
+-+
+-+sub memchr {
+-+    unimpl "memchr() is C-specific, use index() instead";
+-+}
+-+
+-+sub memcmp {
+-+    unimpl "memcmp() is C-specific, use eq instead";
+-+}
+-+
+-+sub memcpy {
+-+    unimpl "memcpy() is C-specific, use = instead";
+-+}
+-+
+-+sub memmove {
+-+    unimpl "memmove() is C-specific, use = instead";
+-+}
+-+
+-+sub memset {
+-+    unimpl "memset() is C-specific, use x instead";
+-+}
+-+
+-+sub strcat {
+-+    unimpl "strcat() is C-specific, use .= instead";
+-+}
+-+
+-+sub strchr {
+-+    unimpl "strchr() is C-specific, use index() instead";
+-+}
+-+
+-+sub strcmp {
+-+    unimpl "strcmp() is C-specific, use eq instead";
+-+}
+-+
+-+sub strcpy {
+-+    unimpl "strcpy() is C-specific, use = instead";
+-+}
+-+
+-+sub strcspn {
+-+    unimpl "strcspn() is C-specific, use regular expressions instead";
+-+}
+-+
+-+sub strerror {
+-+    usage "strerror(errno)" if @_ != 1;
+-+    local $! = $_[0];
+-+    $! . "";
+-+}
+-+
+-+sub strlen {
+-+    unimpl "strlen() is C-specific, use length instead";
+-+}
+-+
+-+sub strncat {
+-+    unimpl "strncat() is C-specific, use .= instead";
+-+}
+-+
+-+sub strncmp {
+-+    unimpl "strncmp() is C-specific, use eq instead";
+-+}
+-+
+-+sub strncpy {
+-+    unimpl "strncpy() is C-specific, use = instead";
+-+}
+-+
+-+sub strpbrk {
+-+    unimpl "strpbrk() is C-specific, stopped";
+-+}
+-+
+-+sub strrchr {
+-+    unimpl "strrchr() is C-specific, use rindex() instead";
+-+}
+-+
+-+sub strspn {
+-+    unimpl "strspn() is C-specific, stopped";
+-+}
+-+
+-+sub strstr {
+-+    usage "strstr(big, little)" if @_ != 2;
+-+    CORE::index($_[0], $_[1]);
+-+}
+-+
+-+sub strtok {
+-+    unimpl "strtok() is C-specific, stopped";
+-+}
+-+
+-+sub chmod {
+-+    usage "chmod(mode, filename)" if @_ != 2;
+-+    CORE::chmod($_[0], $_[1]);
+-+}
+-+
+-+sub fstat {
+-+    usage "fstat(fd)" if @_ != 1;
+-+    local *TMP;
+-+    CORE::open(TMP, "<&$_[0]");		# Gross.
+-+    my @l = CORE::stat(TMP);
+-+    CORE::close(TMP);
+-+    @l;
+-+}
+-+
+-+sub mkdir {
+-+    usage "mkdir(directoryname, mode)" if @_ != 2;
+-+    CORE::mkdir($_[0], $_[1]);
+-+}
+-+
+-+sub stat {
+-+    usage "stat(filename)" if @_ != 1;
+-+    CORE::stat($_[0]);
+-+}
+-+
+-+sub umask {
+-+    usage "umask(mask)" if @_ != 1;
+-+    CORE::umask($_[0]);
+-+}
+-+
+-+sub wait {
+-+    usage "wait()" if @_ != 0;
+-+    CORE::wait();
+-+}
+-+
+-+sub waitpid {
+-+    usage "waitpid(pid, options)" if @_ != 2;
+-+    CORE::waitpid($_[0], $_[1]);
+-+}
+-+
+-+sub gmtime {
+-+    usage "gmtime(time)" if @_ != 1;
+-+    CORE::gmtime($_[0]);
+-+}
+-+
+-+sub localtime {
+-+    usage "localtime(time)" if @_ != 1;
+-+    CORE::localtime($_[0]);
+-+}
+-+
+-+sub time {
+-+    usage "time()" if @_ != 0;
+-+    CORE::time;
+-+}
+-+
+-+sub alarm {
+-+    usage "alarm(seconds)" if @_ != 1;
+-+    CORE::alarm($_[0]);
+-+}
+-+
+-+sub chdir {
+-+    usage "chdir(directory)" if @_ != 1;
+-+    CORE::chdir($_[0]);
+-+}
+-+
+-+sub chown {
+-+    usage "chown(uid, gid, filename)" if @_ != 3;
+-+    CORE::chown($_[0], $_[1], $_[2]);
+-+}
+-+
+-+sub execl {
+-+    unimpl "execl() is C-specific, stopped";
+-+}
+-+
+-+sub execle {
+-+    unimpl "execle() is C-specific, stopped";
+-+}
+-+
+-+sub execlp {
+-+    unimpl "execlp() is C-specific, stopped";
+-+}
+-+
+-+sub execv {
+-+    unimpl "execv() is C-specific, stopped";
+-+}
+-+
+-+sub execve {
+-+    unimpl "execve() is C-specific, stopped";
+-+}
+-+
+-+sub execvp {
+-+    unimpl "execvp() is C-specific, stopped";
+-+}
+-+
+-+sub fork {
+-+    usage "fork()" if @_ != 0;
+-+    CORE::fork;
+-+}
+-+
+-+sub getegid {
+-+    usage "getegid()" if @_ != 0;
+-+    $) + 0;
+-+}
+-+
+-+sub geteuid {
+-+    usage "geteuid()" if @_ != 0;
+-+    $> + 0;
+-+}
+-+
+-+sub getgid {
+-+    usage "getgid()" if @_ != 0;
+-+    $( + 0;
+-+}
+-+
+-+sub getgroups {
+-+    usage "getgroups()" if @_ != 0;
+-+    my %seen;
+-+    grep(!$seen{$_}++, split(' ', $) ));
+-+}
+-+
+-+sub getlogin {
+-+    usage "getlogin()" if @_ != 0;
+-+    CORE::getlogin();
+-+}
+-+
+-+sub getpgrp {
+-+    usage "getpgrp()" if @_ != 0;
+-+    CORE::getpgrp;
+-+}
+-+
+-+sub getpid {
+-+    usage "getpid()" if @_ != 0;
+-+    $$;
+-+}
+-+
+-+sub getppid {
+-+    usage "getppid()" if @_ != 0;
+-+    CORE::getppid;
+-+}
+-+
+-+sub getuid {
+-+    usage "getuid()" if @_ != 0;
+-+    $<;
+-+}
+-+
+-+sub isatty {
+-+    usage "isatty(filehandle)" if @_ != 1;
+-+    -t $_[0];
+-+}
+-+
+-+sub link {
+-+    usage "link(oldfilename, newfilename)" if @_ != 2;
+-+    CORE::link($_[0], $_[1]);
+-+}
+-+
+-+sub rmdir {
+-+    usage "rmdir(directoryname)" if @_ != 1;
+-+    CORE::rmdir($_[0]);
+-+}
+-+
+-+sub setbuf {
+-+    redef "IO::Handle::setbuf()";
+-+}
+-+
+-+sub setvbuf {
+-+    redef "IO::Handle::setvbuf()";
+-+}
+-+
+-+sub sleep {
+-+    usage "sleep(seconds)" if @_ != 1;
+-+    $_[0] - CORE::sleep($_[0]);
+-+}
+-+
+-+sub unlink {
+-+    usage "unlink(filename)" if @_ != 1;
+-+    CORE::unlink($_[0]);
+-+}
+-+
+-+sub utime {
+-+    usage "utime(filename, atime, mtime)" if @_ != 3;
+-+    CORE::utime($_[1], $_[2], $_[0]);
+-+}
+-+
+-+sub load_imports {
+-+%EXPORT_TAGS = (
+-+
+-+    assert_h =>	[qw(assert NDEBUG)],
+-+
+-+    ctype_h =>	[qw(isalnum isalpha iscntrl isdigit isgraph islower
+-+		isprint ispunct isspace isupper isxdigit tolower toupper)],
+-+
+-+    dirent_h =>	[],
+-+
+-+    errno_h =>	[qw(E2BIG EACCES EADDRINUSE EADDRNOTAVAIL EAFNOSUPPORT
+-+		EAGAIN EALREADY EBADF EBUSY ECHILD ECONNABORTED
+-+		ECONNREFUSED ECONNRESET EDEADLK EDESTADDRREQ EDOM EDQUOT
+-+		EEXIST EFAULT EFBIG EHOSTDOWN EHOSTUNREACH EINPROGRESS
+-+		EINTR EINVAL EIO EISCONN EISDIR ELOOP EMFILE EMLINK
+-+		EMSGSIZE ENAMETOOLONG ENETDOWN ENETRESET ENETUNREACH
+-+		ENFILE ENOBUFS ENODEV ENOENT ENOEXEC ENOLCK ENOMEM
+-+		ENOPROTOOPT ENOSPC ENOSYS ENOTBLK ENOTCONN ENOTDIR
+-+		ENOTEMPTY ENOTSOCK ENOTTY ENXIO EOPNOTSUPP EPERM
+-+		EPFNOSUPPORT EPIPE EPROCLIM EPROTONOSUPPORT EPROTOTYPE
+-+		ERANGE EREMOTE ERESTART EROFS ESHUTDOWN ESOCKTNOSUPPORT
+-+		ESPIPE ESRCH ESTALE ETIMEDOUT ETOOMANYREFS ETXTBSY
+-+		EUSERS EWOULDBLOCK EXDEV errno)],
+-+
+-+    fcntl_h =>	[qw(FD_CLOEXEC F_DUPFD F_GETFD F_GETFL F_GETLK F_RDLCK
+-+		F_SETFD F_SETFL F_SETLK F_SETLKW F_UNLCK F_WRLCK
+-+		O_ACCMODE O_APPEND O_CREAT O_EXCL O_NOCTTY O_NONBLOCK
+-+		O_RDONLY O_RDWR O_TRUNC O_WRONLY
+-+		creat
+-+		SEEK_CUR SEEK_END SEEK_SET
+-+		S_IRGRP S_IROTH S_IRUSR S_IRWXG S_IRWXO S_IRWXU
+-+		S_ISBLK S_ISCHR S_ISDIR S_ISFIFO S_ISGID S_ISREG S_ISUID
+-+		S_IWGRP S_IWOTH S_IWUSR)],
+-+
+-+    float_h =>	[qw(DBL_DIG DBL_EPSILON DBL_MANT_DIG
+-+		DBL_MAX DBL_MAX_10_EXP DBL_MAX_EXP
+-+		DBL_MIN DBL_MIN_10_EXP DBL_MIN_EXP
+-+		FLT_DIG FLT_EPSILON FLT_MANT_DIG
+-+		FLT_MAX FLT_MAX_10_EXP FLT_MAX_EXP
+-+		FLT_MIN FLT_MIN_10_EXP FLT_MIN_EXP
+-+		FLT_RADIX FLT_ROUNDS
+-+		LDBL_DIG LDBL_EPSILON LDBL_MANT_DIG
+-+		LDBL_MAX LDBL_MAX_10_EXP LDBL_MAX_EXP
+-+		LDBL_MIN LDBL_MIN_10_EXP LDBL_MIN_EXP)],
+-+
+-+    grp_h =>	[],
+-+
+-+    limits_h =>	[qw( ARG_MAX CHAR_BIT CHAR_MAX CHAR_MIN CHILD_MAX
+-+		INT_MAX INT_MIN LINK_MAX LONG_MAX LONG_MIN MAX_CANON
+-+		MAX_INPUT MB_LEN_MAX NAME_MAX NGROUPS_MAX OPEN_MAX
+-+		PATH_MAX PIPE_BUF SCHAR_MAX SCHAR_MIN SHRT_MAX SHRT_MIN
+-+		SSIZE_MAX STREAM_MAX TZNAME_MAX UCHAR_MAX UINT_MAX
+-+		ULONG_MAX USHRT_MAX _POSIX_ARG_MAX _POSIX_CHILD_MAX
+-+		_POSIX_LINK_MAX _POSIX_MAX_CANON _POSIX_MAX_INPUT
+-+		_POSIX_NAME_MAX _POSIX_NGROUPS_MAX _POSIX_OPEN_MAX
+-+		_POSIX_PATH_MAX _POSIX_PIPE_BUF _POSIX_SSIZE_MAX
+-+		_POSIX_STREAM_MAX _POSIX_TZNAME_MAX)],
+-+
+-+    locale_h =>	[qw(LC_ALL LC_COLLATE LC_CTYPE LC_MESSAGES
+-+		    LC_MONETARY LC_NUMERIC LC_TIME NULL
+-+		    localeconv setlocale)],
+-+
+-+    math_h =>	[qw(HUGE_VAL acos asin atan ceil cosh fabs floor fmod
+-+		frexp ldexp log10 modf pow sinh tan tanh)],
+-+
+-+    pwd_h =>	[],
+-+
+-+    setjmp_h =>	[qw(longjmp setjmp siglongjmp sigsetjmp)],
+-+
+-+    signal_h =>	[qw(SA_NOCLDSTOP SA_NOCLDWAIT SA_NODEFER SA_ONSTACK
+-+		SA_RESETHAND SA_RESTART SA_SIGINFO SIGABRT SIGALRM
+-+		SIGCHLD SIGCONT SIGFPE SIGHUP SIGILL SIGINT SIGKILL
+-+		SIGPIPE %SIGRT SIGRTMIN SIGRTMAX SIGQUIT SIGSEGV SIGSTOP
+-+		SIGTERM SIGTSTP SIGTTIN	SIGTTOU SIGUSR1 SIGUSR2
+-+		SIG_BLOCK SIG_DFL SIG_ERR SIG_IGN SIG_SETMASK SIG_UNBLOCK
+-+		raise sigaction signal sigpending sigprocmask sigsuspend)],
+-+
+-+    stdarg_h =>	[],
+-+
+-+    stddef_h =>	[qw(NULL offsetof)],
+-+
+-+    stdio_h =>	[qw(BUFSIZ EOF FILENAME_MAX L_ctermid L_cuserid
+-+		L_tmpname NULL SEEK_CUR SEEK_END SEEK_SET
+-+		STREAM_MAX TMP_MAX stderr stdin stdout
+-+		clearerr fclose fdopen feof ferror fflush fgetc fgetpos
+-+		fgets fopen fprintf fputc fputs fread freopen
+-+		fscanf fseek fsetpos ftell fwrite getchar gets
+-+		perror putc putchar puts remove rewind
+-+		scanf setbuf setvbuf sscanf tmpfile tmpnam
+-+		ungetc vfprintf vprintf vsprintf)],
+-+
+-+    stdlib_h =>	[qw(EXIT_FAILURE EXIT_SUCCESS MB_CUR_MAX NULL RAND_MAX
+-+		abort atexit atof atoi atol bsearch calloc div
+-+		free getenv labs ldiv malloc mblen mbstowcs mbtowc
+-+		qsort realloc strtod strtol strtoul wcstombs wctomb)],
+-+
+-+    string_h =>	[qw(NULL memchr memcmp memcpy memmove memset strcat
+-+		strchr strcmp strcoll strcpy strcspn strerror strlen
+-+		strncat strncmp strncpy strpbrk strrchr strspn strstr
+-+		strtok strxfrm)],
+-+
+-+    sys_stat_h => [qw(S_IRGRP S_IROTH S_IRUSR S_IRWXG S_IRWXO S_IRWXU
+-+		S_ISBLK S_ISCHR S_ISDIR S_ISFIFO S_ISGID S_ISREG
+-+		S_ISUID S_IWGRP S_IWOTH S_IWUSR S_IXGRP S_IXOTH S_IXUSR
+-+		fstat mkfifo)],
+-+
+-+    sys_times_h => [],
+-+
+-+    sys_types_h => [],
+-+
+-+    sys_utsname_h => [qw(uname)],
+-+
+-+    sys_wait_h => [qw(WEXITSTATUS WIFEXITED WIFSIGNALED WIFSTOPPED
+-+		WNOHANG WSTOPSIG WTERMSIG WUNTRACED)],
+-+
+-+    termios_h => [qw( B0 B110 B1200 B134 B150 B1800 B19200 B200 B2400
+-+		B300 B38400 B4800 B50 B600 B75 B9600 BRKINT CLOCAL
+-+		CREAD CS5 CS6 CS7 CS8 CSIZE CSTOPB ECHO ECHOE ECHOK
+-+		ECHONL HUPCL ICANON ICRNL IEXTEN IGNBRK IGNCR IGNPAR
+-+		INLCR INPCK ISIG ISTRIP IXOFF IXON NCCS NOFLSH OPOST
+-+		PARENB PARMRK PARODD TCIFLUSH TCIOFF TCIOFLUSH TCION
+-+		TCOFLUSH TCOOFF TCOON TCSADRAIN TCSAFLUSH TCSANOW
+-+		TOSTOP VEOF VEOL VERASE VINTR VKILL VMIN VQUIT VSTART
+-+		VSTOP VSUSP VTIME
+-+		cfgetispeed cfgetospeed cfsetispeed cfsetospeed tcdrain
+-+		tcflow tcflush tcgetattr tcsendbreak tcsetattr )],
+-+
+-+    time_h =>	[qw(CLK_TCK CLOCKS_PER_SEC NULL asctime clock ctime
+-+		difftime mktime strftime tzset tzname)],
+-+
+-+    unistd_h =>	[qw(F_OK NULL R_OK SEEK_CUR SEEK_END SEEK_SET
+-+		STDERR_FILENO STDIN_FILENO STDOUT_FILENO W_OK X_OK
+-+		_PC_CHOWN_RESTRICTED _PC_LINK_MAX _PC_MAX_CANON
+-+		_PC_MAX_INPUT _PC_NAME_MAX _PC_NO_TRUNC _PC_PATH_MAX
+-+		_PC_PIPE_BUF _PC_VDISABLE _POSIX_CHOWN_RESTRICTED
+-+		_POSIX_JOB_CONTROL _POSIX_NO_TRUNC _POSIX_SAVED_IDS
+-+		_POSIX_VDISABLE _POSIX_VERSION _SC_ARG_MAX
+-+		_SC_CHILD_MAX _SC_CLK_TCK _SC_JOB_CONTROL
+-+		_SC_NGROUPS_MAX _SC_OPEN_MAX _SC_PAGESIZE _SC_SAVED_IDS
+-+		_SC_STREAM_MAX _SC_TZNAME_MAX _SC_VERSION
+-+		_exit access ctermid cuserid
+-+		dup2 dup execl execle execlp execv execve execvp
+-+		fpathconf fsync getcwd getegid geteuid getgid getgroups
+-+		getpid getuid isatty lseek pathconf pause setgid setpgid
+-+		setsid setuid sysconf tcgetpgrp tcsetpgrp ttyname)],
+-+
+-+    utime_h =>	[],
+-+
+-+);
+-+
+-+# Exporter::export_tags();
+-+{
+-+  # De-duplicate the export list: 
+-+  my %export;
+-+  @export{map {@$_} values %EXPORT_TAGS} = ();
+-+  # Doing the de-dup with a temporary hash has the advantage that the SVs in
+-+  # @EXPORT are actually shared hash key sacalars, which will save some memory.
+-+  push @EXPORT, keys %export;
+-+}
+-+
+-+@EXPORT_OK = qw(
+-+		abs
+-+		alarm
+-+		atan2
+-+		chdir
+-+		chmod
+-+		chown
+-+		close
+-+		closedir
+-+		cos
+-+		exit
+-+		exp
+-+		fcntl
+-+		fileno
+-+		fork
+-+		getc
+-+		getgrgid
+-+		getgrnam
+-+		getlogin
+-+		getpgrp
+-+		getppid
+-+		getpwnam
+-+		getpwuid
+-+		gmtime
+-+		isatty
+-+		kill
+-+		lchown
+-+		link
+-+		localtime
+-+		log
+-+		mkdir
+-+		nice
+-+		open
+-+		opendir
+-+		pipe
+-+		printf
+-+		rand
+-+		read
+-+		readdir
+-+		rename
+-+		rewinddir
+-+		rmdir
+-+		sin
+-+		sleep
+-+		sprintf
+-+		sqrt
+-+		srand
+-+		stat
+-+		system
+-+		time
+-+		times
+-+		umask
+-+		unlink
+-+		utime
+-+		wait
+-+		waitpid
+-+		write
+-+);
+-+
+-+require Exporter;
+-+}
+-+
+-+package POSIX::SigAction;
+-+
+-+sub new { bless {HANDLER => $_[1], MASK => $_[2], FLAGS => $_[3] || 0, SAFE => 0}, $_[0] }
+-+sub handler { $_[0]->{HANDLER} = $_[1] if @_ > 1; $_[0]->{HANDLER} };
+-+sub mask    { $_[0]->{MASK}    = $_[1] if @_ > 1; $_[0]->{MASK} };
+-+sub flags   { $_[0]->{FLAGS}   = $_[1] if @_ > 1; $_[0]->{FLAGS} };
+-+sub safe    { $_[0]->{SAFE}    = $_[1] if @_ > 1; $_[0]->{SAFE} };
+-+
+-+package POSIX::SigRt;
+-+
+-+
+-+sub _init {
+-+    $_SIGRTMIN = &POSIX::SIGRTMIN;
+-+    $_SIGRTMAX = &POSIX::SIGRTMAX;
+-+    $_sigrtn   = $_SIGRTMAX - $_SIGRTMIN;
+-+}
+-+
+-+sub _croak {
+-+    &_init unless defined $_sigrtn;
+-+    die "POSIX::SigRt not available" unless defined $_sigrtn && $_sigrtn > 0;
+-+}
+-+
+-+sub _getsig {
+-+    &_croak;
+-+    my $rtsig = $_[0];
+-+    # Allow (SIGRT)?MIN( + n)?, a common idiom when doing these things in C.
+-+    $rtsig = $_SIGRTMIN + ($1 || 0)
+-+	if $rtsig =~ /^(?:(?:SIG)?RT)?MIN(\s*\+\s*(\d+))?$/;
+-+    return $rtsig;
+-+}
+-+
+-+sub _exist {
+-+    my $rtsig = _getsig($_[1]);
+-+    my $ok    = $rtsig >= $_SIGRTMIN && $rtsig <= $_SIGRTMAX;
+-+    ($rtsig, $ok);
+-+}
+-+
+-+sub _check {
+-+    my ($rtsig, $ok) = &_exist;
+-+    die "No POSIX::SigRt signal $_[1] (valid range SIGRTMIN..SIGRTMAX, or $_SIGRTMIN..$_SIGRTMAX)"
+-+	unless $ok;
+-+    return $rtsig;
+-+}
+-+
+-+sub new {
+-+    my ($rtsig, $handler, $flags) = @_;
+-+    my $sigset = POSIX::SigSet->new($rtsig);
+-+    my $sigact = POSIX::SigAction->new($handler,
+-+				       $sigset,
+-+				       $flags);
+-+    POSIX::sigaction($rtsig, $sigact);
+-+}
+-+
+-+sub EXISTS { &_exist }
+-+sub FETCH  { my $rtsig = &_check;
+-+	     my $oa = POSIX::SigAction->new();
+-+	     POSIX::sigaction($rtsig, undef, $oa);
+-+	     return $oa->{HANDLER} }
+-+sub STORE  { my $rtsig = &_check; new($rtsig, $_[2], $SIGACTION_FLAGS) }
+-+sub DELETE { delete $SIG{ &_check } }
+-+sub CLEAR  { &_exist; delete @SIG{ &POSIX::SIGRTMIN .. &POSIX::SIGRTMAX } }
+-+sub SCALAR { &_croak; $_sigrtn + 1 }
+-diff --git a/ext/POSIX/lib/POSIX.pod b/ext/POSIX/lib/POSIX.pod
+-new file mode 100644
+-index 0000000..64852e9
+---- /dev/null
+-+++ b/ext/POSIX/lib/POSIX.pod
+-@@ -0,0 +1,2218 @@
+-+=head1 NAME
+-+
+-+POSIX - Perl interface to IEEE Std 1003.1
+-+
+-+=head1 SYNOPSIS
+-+
+-+    use POSIX;
+-+    use POSIX qw(setsid);
+-+    use POSIX qw(:errno_h :fcntl_h);
+-+
+-+    printf "EINTR is %d\n", EINTR;
+-+
+-+    $sess_id = POSIX::setsid();
+-+
+-+    $fd = POSIX::open($path, O_CREAT|O_EXCL|O_WRONLY, 0644);
+-+	# note: that's a filedescriptor, *NOT* a filehandle
+-+
+-+=head1 DESCRIPTION
+-+
+-+The POSIX module permits you to access all (or nearly all) the standard
+-+POSIX 1003.1 identifiers.  Many of these identifiers have been given Perl-ish
+-+interfaces.
+-+
+-+I<Everything is exported by default> with the exception of any POSIX
+-+functions with the same name as a built-in Perl function, such as
+-+C<abs>, C<alarm>, C<rmdir>, C<write>, etc.., which will be exported
+-+only if you ask for them explicitly.  This is an unfortunate backwards
+-+compatibility feature.  You can stop the exporting by saying C<use
+-+POSIX ()> and then use the fully qualified names (ie. C<POSIX::SEEK_END>).
+-+
+-+This document gives a condensed list of the features available in the POSIX
+-+module.  Consult your operating system's manpages for general information on
+-+most features.  Consult L<perlfunc> for functions which are noted as being
+-+identical to Perl's builtin functions.
+-+
+-+The first section describes POSIX functions from the 1003.1 specification.
+-+The second section describes some classes for signal objects, TTY objects,
+-+and other miscellaneous objects.  The remaining sections list various
+-+constants and macros in an organization which roughly follows IEEE Std
+-+1003.1b-1993.
+-+
+-+=head1 NOTE
+-+
+-+The POSIX module is probably the most complex Perl module supplied with
+-+the standard distribution.  It incorporates autoloading, namespace games,
+-+and dynamic loading of code that's in Perl, C, or both.  It's a great
+-+source of wisdom.
+-+
+-+=head1 CAVEATS
+-+
+-+A few functions are not implemented because they are C specific.  If you
+-+attempt to call these, they will print a message telling you that they
+-+aren't implemented, and suggest using the Perl equivalent should one
+-+exist.  For example, trying to access the setjmp() call will elicit the
+-+message "setjmp() is C-specific: use eval {} instead".
+-+
+-+Furthermore, some evil vendors will claim 1003.1 compliance, but in fact
+-+are not so: they will not pass the PCTS (POSIX Compliance Test Suites).
+-+For example, one vendor may not define EDEADLK, or the semantics of the
+-+errno values set by open(2) might not be quite right.  Perl does not
+-+attempt to verify POSIX compliance.  That means you can currently
+-+successfully say "use POSIX",  and then later in your program you find
+-+that your vendor has been lax and there's no usable ICANON macro after
+-+all.  This could be construed to be a bug.
+-+
+-+=head1 FUNCTIONS
+-+
+-+=over 8
+-+
+-+=item _exit
+-+
+-+This is identical to the C function C<_exit()>.  It exits the program
+-+immediately which means among other things buffered I/O is B<not> flushed.
+-+
+-+Note that when using threads and in Linux this is B<not> a good way to
+-+exit a thread because in Linux processes and threads are kind of the
+-+same thing (Note: while this is the situation in early 2003 there are
+-+projects under way to have threads with more POSIXly semantics in Linux).
+-+If you want not to return from a thread, detach the thread.
+-+
+-+=item abort
+-+
+-+This is identical to the C function C<abort()>.  It terminates the
+-+process with a C<SIGABRT> signal unless caught by a signal handler or
+-+if the handler does not return normally (it e.g.  does a C<longjmp>).
+-+
+-+=item abs
+-+
+-+This is identical to Perl's builtin C<abs()> function, returning
+-+the absolute value of its numerical argument.
+-+
+-+=item access
+-+
+-+Determines the accessibility of a file.
+-+
+-+	if( POSIX::access( "/", &POSIX::R_OK ) ){
+-+		print "have read permission\n";
+-+	}
+-+
+-+Returns C<undef> on failure.  Note: do not use C<access()> for
+-+security purposes.  Between the C<access()> call and the operation
+-+you are preparing for the permissions might change: a classic
+-+I<race condition>.
+-+
+-+=item acos
+-+
+-+This is identical to the C function C<acos()>, returning
+-+the arcus cosine of its numerical argument.  See also L<Math::Trig>.
+-+
+-+=item alarm
+-+
+-+This is identical to Perl's builtin C<alarm()> function,
+-+either for arming or disarming the C<SIGARLM> timer.
+-+
+-+=item asctime
+-+
+-+This is identical to the C function C<asctime()>.  It returns
+-+a string of the form
+-+
+-+	"Fri Jun  2 18:22:13 2000\n\0"
+-+
+-+and it is called thusly
+-+
+-+	$asctime = asctime($sec, $min, $hour, $mday, $mon, $year,
+-+			   $wday, $yday, $isdst);
+-+
+-+The C<$mon> is zero-based: January equals C<0>.  The C<$year> is
+-+1900-based: 2001 equals C<101>.  C<$wday> and C<$yday> default to zero
+-+(and are usually ignored anyway), and C<$isdst> defaults to -1.
+-+
+-+=item asin
+-+
+-+This is identical to the C function C<asin()>, returning
+-+the arcus sine of its numerical argument.  See also L<Math::Trig>.
+-+
+-+=item assert
+-+
+-+Unimplemented, but you can use L<perlfunc/die> and the L<Carp> module
+-+to achieve similar things.
+-+
+-+=item atan
+-+
+-+This is identical to the C function C<atan()>, returning the
+-+arcus tangent of its numerical argument.  See also L<Math::Trig>.
+-+
+-+=item atan2
+-+
+-+This is identical to Perl's builtin C<atan2()> function, returning
+-+the arcus tangent defined by its two numerical arguments, the I<y>
+-+coordinate and the I<x> coordinate.  See also L<Math::Trig>.
+-+
+-+=item atexit
+-+
+-+atexit() is C-specific: use C<END {}> instead, see L<perlsub>.
+-+
+-+=item atof
+-+
+-+atof() is C-specific.  Perl converts strings to numbers transparently.
+-+If you need to force a scalar to a number, add a zero to it.
+-+
+-+=item atoi
+-+
+-+atoi() is C-specific.  Perl converts strings to numbers transparently.
+-+If you need to force a scalar to a number, add a zero to it.
+-+If you need to have just the integer part, see L<perlfunc/int>.
+-+
+-+=item atol
+-+
+-+atol() is C-specific.  Perl converts strings to numbers transparently.
+-+If you need to force a scalar to a number, add a zero to it.
+-+If you need to have just the integer part, see L<perlfunc/int>.
+-+
+-+=item bsearch
+-+
+-+bsearch() not supplied.  For doing binary search on wordlists,
+-+see L<Search::Dict>.
+-+
+-+=item calloc
+-+
+-+calloc() is C-specific.  Perl does memory management transparently.
+-+
+-+=item ceil
+-+
+-+This is identical to the C function C<ceil()>, returning the smallest
+-+integer value greater than or equal to the given numerical argument.
+-+
+-+=item chdir
+-+
+-+This is identical to Perl's builtin C<chdir()> function, allowing
+-+one to change the working (default) directory, see L<perlfunc/chdir>.
+-+
+-+=item chmod
+-+
+-+This is identical to Perl's builtin C<chmod()> function, allowing
+-+one to change file and directory permissions, see L<perlfunc/chmod>.
+-+
+-+=item chown
+-+
+-+This is identical to Perl's builtin C<chown()> function, allowing one
+-+to change file and directory owners and groups, see L<perlfunc/chown>.
+-+
+-+=item clearerr
+-+
+-+Use the method C<IO::Handle::clearerr()> instead, to reset the error
+-+state (if any) and EOF state (if any) of the given stream.
+-+
+-+=item clock
+-+
+-+This is identical to the C function C<clock()>, returning the
+-+amount of spent processor time in microseconds.
+-+
+-+=item close
+-+
+-+Close the file.  This uses file descriptors such as those obtained by calling
+-+C<POSIX::open>.
+-+
+-+	$fd = POSIX::open( "foo", &POSIX::O_RDONLY );
+-+	POSIX::close( $fd );
+-+
+-+Returns C<undef> on failure.
+-+
+-+See also L<perlfunc/close>.
+-+
+-+=item closedir
+-+
+-+This is identical to Perl's builtin C<closedir()> function for closing
+-+a directory handle, see L<perlfunc/closedir>.
+-+
+-+=item cos
+-+
+-+This is identical to Perl's builtin C<cos()> function, for returning
+-+the cosine of its numerical argument, see L<perlfunc/cos>.
+-+See also L<Math::Trig>.
+-+
+-+=item cosh
+-+
+-+This is identical to the C function C<cosh()>, for returning
+-+the hyperbolic cosine of its numeric argument.  See also L<Math::Trig>.
+-+
+-+=item creat
+-+
+-+Create a new file.  This returns a file descriptor like the ones returned by
+-+C<POSIX::open>.  Use C<POSIX::close> to close the file.
+-+
+-+	$fd = POSIX::creat( "foo", 0611 );
+-+	POSIX::close( $fd );
+-+
+-+See also L<perlfunc/sysopen> and its C<O_CREAT> flag.
+-+
+-+=item ctermid
+-+
+-+Generates the path name for the controlling terminal.
+-+
+-+	$path = POSIX::ctermid();
+-+
+-+=item ctime
+-+
+-+This is identical to the C function C<ctime()> and equivalent
+-+to C<asctime(localtime(...))>, see L</asctime> and L</localtime>.
+-+
+-+=item cuserid
+-+
+-+Get the login name of the owner of the current process.
+-+
+-+	$name = POSIX::cuserid();
+-+
+-+=item difftime
+-+
+-+This is identical to the C function C<difftime()>, for returning
+-+the time difference (in seconds) between two times (as returned
+-+by C<time()>), see L</time>.
+-+
+-+=item div
+-+
+-+div() is C-specific, use L<perlfunc/int> on the usual C</> division and
+-+the modulus C<%>.
+-+
+-+=item dup
+-+
+-+This is similar to the C function C<dup()>, for duplicating a file
+-+descriptor.
+-+
+-+This uses file descriptors such as those obtained by calling
+-+C<POSIX::open>.
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item dup2
+-+
+-+This is similar to the C function C<dup2()>, for duplicating a file
+-+descriptor to an another known file descriptor.
+-+
+-+This uses file descriptors such as those obtained by calling
+-+C<POSIX::open>.
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item errno
+-+
+-+Returns the value of errno.
+-+
+-+	$errno = POSIX::errno();
+-+
+-+This identical to the numerical values of the C<$!>, see L<perlvar/$ERRNO>.
+-+
+-+=item execl
+-+
+-+execl() is C-specific, see L<perlfunc/exec>.
+-+
+-+=item execle
+-+
+-+execle() is C-specific, see L<perlfunc/exec>.
+-+
+-+=item execlp
+-+
+-+execlp() is C-specific, see L<perlfunc/exec>.
+-+
+-+=item execv
+-+
+-+execv() is C-specific, see L<perlfunc/exec>.
+-+
+-+=item execve
+-+
+-+execve() is C-specific, see L<perlfunc/exec>.
+-+
+-+=item execvp
+-+
+-+execvp() is C-specific, see L<perlfunc/exec>.
+-+
+-+=item exit
+-+
+-+This is identical to Perl's builtin C<exit()> function for exiting the
+-+program, see L<perlfunc/exit>.
+-+
+-+=item exp
+-+
+-+This is identical to Perl's builtin C<exp()> function for
+-+returning the exponent (I<e>-based) of the numerical argument,
+-+see L<perlfunc/exp>.
+-+
+-+=item fabs
+-+
+-+This is identical to Perl's builtin C<abs()> function for returning
+-+the absolute value of the numerical argument, see L<perlfunc/abs>.
+-+
+-+=item fclose
+-+
+-+Use method C<IO::Handle::close()> instead, or see L<perlfunc/close>.
+-+
+-+=item fcntl
+-+
+-+This is identical to Perl's builtin C<fcntl()> function,
+-+see L<perlfunc/fcntl>.
+-+
+-+=item fdopen
+-+
+-+Use method C<IO::Handle::new_from_fd()> instead, or see L<perlfunc/open>.
+-+
+-+=item feof
+-+
+-+Use method C<IO::Handle::eof()> instead, or see L<perlfunc/eof>.
+-+
+-+=item ferror
+-+
+-+Use method C<IO::Handle::error()> instead.
+-+
+-+=item fflush
+-+
+-+Use method C<IO::Handle::flush()> instead.
+-+See also L<perlvar/$OUTPUT_AUTOFLUSH>.
+-+
+-+=item fgetc
+-+
+-+Use method C<IO::Handle::getc()> instead, or see L<perlfunc/read>.
+-+
+-+=item fgetpos
+-+
+-+Use method C<IO::Seekable::getpos()> instead, or see L<L/seek>.
+-+
+-+=item fgets
+-+
+-+Use method C<IO::Handle::gets()> instead.  Similar to E<lt>E<gt>, also known
+-+as L<perlfunc/readline>.
+-+
+-+=item fileno
+-+
+-+Use method C<IO::Handle::fileno()> instead, or see L<perlfunc/fileno>.
+-+
+-+=item floor
+-+
+-+This is identical to the C function C<floor()>, returning the largest
+-+integer value less than or equal to the numerical argument.
+-+
+-+=item fmod
+-+
+-+This is identical to the C function C<fmod()>.
+-+
+-+	$r = fmod($x, $y);
+-+
+-+It returns the remainder C<$r = $x - $n*$y>, where C<$n = trunc($x/$y)>.
+-+The C<$r> has the same sign as C<$x> and magnitude (absolute value)
+-+less than the magnitude of C<$y>.
+-+
+-+=item fopen
+-+
+-+Use method C<IO::File::open()> instead, or see L<perlfunc/open>.
+-+
+-+=item fork
+-+
+-+This is identical to Perl's builtin C<fork()> function
+-+for duplicating the current process, see L<perlfunc/fork>
+-+and L<perlfork> if you are in Windows.
+-+
+-+=item fpathconf
+-+
+-+Retrieves the value of a configurable limit on a file or directory.  This
+-+uses file descriptors such as those obtained by calling C<POSIX::open>.
+-+
+-+The following will determine the maximum length of the longest allowable
+-+pathname on the filesystem which holds C</var/foo>.
+-+
+-+	$fd = POSIX::open( "/var/foo", &POSIX::O_RDONLY );
+-+	$path_max = POSIX::fpathconf( $fd, &POSIX::_PC_PATH_MAX );
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item fprintf
+-+
+-+fprintf() is C-specific, see L<perlfunc/printf> instead.
+-+
+-+=item fputc
+-+
+-+fputc() is C-specific, see L<perlfunc/print> instead.
+-+
+-+=item fputs
+-+
+-+fputs() is C-specific, see L<perlfunc/print> instead.
+-+
+-+=item fread
+-+
+-+fread() is C-specific, see L<perlfunc/read> instead.
+-+
+-+=item free
+-+
+-+free() is C-specific.  Perl does memory management transparently.
+-+
+-+=item freopen
+-+
+-+freopen() is C-specific, see L<perlfunc/open> instead.
+-+
+-+=item frexp
+-+
+-+Return the mantissa and exponent of a floating-point number.
+-+
+-+	($mantissa, $exponent) = POSIX::frexp( 1.234e56 );
+-+
+-+=item fscanf
+-+
+-+fscanf() is C-specific, use E<lt>E<gt> and regular expressions instead.
+-+
+-+=item fseek
+-+
+-+Use method C<IO::Seekable::seek()> instead, or see L<perlfunc/seek>.
+-+
+-+=item fsetpos
+-+
+-+Use method C<IO::Seekable::setpos()> instead, or seek L<perlfunc/seek>.
+-+
+-+=item fstat
+-+
+-+Get file status.  This uses file descriptors such as those obtained by
+-+calling C<POSIX::open>.  The data returned is identical to the data from
+-+Perl's builtin C<stat> function.
+-+
+-+	$fd = POSIX::open( "foo", &POSIX::O_RDONLY );
+-+	@stats = POSIX::fstat( $fd );
+-+
+-+=item fsync
+-+
+-+Use method C<IO::Handle::sync()> instead.
+-+
+-+=item ftell
+-+
+-+Use method C<IO::Seekable::tell()> instead, or see L<perlfunc/tell>.
+-+
+-+=item fwrite
+-+
+-+fwrite() is C-specific, see L<perlfunc/print> instead.
+-+
+-+=item getc
+-+
+-+This is identical to Perl's builtin C<getc()> function,
+-+see L<perlfunc/getc>.
+-+
+-+=item getchar
+-+
+-+Returns one character from STDIN.  Identical to Perl's C<getc()>,
+-+see L<perlfunc/getc>.
+-+
+-+=item getcwd
+-+
+-+Returns the name of the current working directory.
+-+See also L<Cwd>.
+-+
+-+=item getegid
+-+
+-+Returns the effective group identifier.  Similar to Perl' s builtin
+-+variable C<$(>, see L<perlvar/$EGID>.
+-+
+-+=item getenv
+-+
+-+Returns the value of the specified environment variable.
+-+The same information is available through the C<%ENV> array.
+-+
+-+=item geteuid
+-+
+-+Returns the effective user identifier.  Identical to Perl's builtin C<$E<gt>>
+-+variable, see L<perlvar/$EUID>.
+-+
+-+=item getgid
+-+
+-+Returns the user's real group identifier.  Similar to Perl's builtin
+-+variable C<$)>, see L<perlvar/$GID>.
+-+
+-+=item getgrgid
+-+
+-+This is identical to Perl's builtin C<getgrgid()> function for
+-+returning group entries by group identifiers, see
+-+L<perlfunc/getgrgid>.
+-+
+-+=item getgrnam
+-+
+-+This is identical to Perl's builtin C<getgrnam()> function for
+-+returning group entries by group names, see L<perlfunc/getgrnam>.
+-+
+-+=item getgroups
+-+
+-+Returns the ids of the user's supplementary groups.  Similar to Perl's
+-+builtin variable C<$)>, see L<perlvar/$GID>.
+-+
+-+=item getlogin
+-+
+-+This is identical to Perl's builtin C<getlogin()> function for
+-+returning the user name associated with the current session, see
+-+L<perlfunc/getlogin>.
+-+
+-+=item getpgrp
+-+
+-+This is identical to Perl's builtin C<getpgrp()> function for
+-+returning the process group identifier of the current process, see
+-+L<perlfunc/getpgrp>.
+-+
+-+=item getpid
+-+
+-+Returns the process identifier.  Identical to Perl's builtin
+-+variable C<$$>, see L<perlvar/$PID>.
+-+
+-+=item getppid
+-+
+-+This is identical to Perl's builtin C<getppid()> function for
+-+returning the process identifier of the parent process of the current
+-+process , see L<perlfunc/getppid>.
+-+
+-+=item getpwnam
+-+
+-+This is identical to Perl's builtin C<getpwnam()> function for
+-+returning user entries by user names, see L<perlfunc/getpwnam>.
+-+
+-+=item getpwuid
+-+
+-+This is identical to Perl's builtin C<getpwuid()> function for
+-+returning user entries by user identifiers, see L<perlfunc/getpwuid>.
+-+
+-+=item gets
+-+
+-+Returns one line from C<STDIN>, similar to E<lt>E<gt>, also known
+-+as the C<readline()> function, see L<perlfunc/readline>.
+-+
+-+B<NOTE>: if you have C programs that still use C<gets()>, be very
+-+afraid.  The C<gets()> function is a source of endless grief because
+-+it has no buffer overrun checks.  It should B<never> be used.  The
+-+C<fgets()> function should be preferred instead.
+-+
+-+=item getuid
+-+
+-+Returns the user's identifier.  Identical to Perl's builtin C<$E<lt>> variable,
+-+see L<perlvar/$UID>.
+-+
+-+=item gmtime
+-+
+-+This is identical to Perl's builtin C<gmtime()> function for
+-+converting seconds since the epoch to a date in Greenwich Mean Time,
+-+see L<perlfunc/gmtime>.
+-+
+-+=item isalnum
+-+
+-+This is identical to the C function, except that it can apply to a
+-+single character or to a whole string.  Note that locale settings may
+-+affect what characters are considered C<isalnum>.  Does not work on
+-+Unicode characters code point 256 or higher.  Consider using regular
+-+expressions and the C</[[:alnum:]]/> construct instead, or possibly
+-+the C</\w/> construct.
+-+
+-+=item isalpha
+-+
+-+This is identical to the C function, except that it can apply to
+-+a single character or to a whole string.  Note that locale settings
+-+may affect what characters are considered C<isalpha>.  Does not work
+-+on Unicode characters code point 256 or higher.  Consider using regular
+-+expressions and the C</[[:alpha:]]/> construct instead.
+-+
+-+=item isatty
+-+
+-+Returns a boolean indicating whether the specified filehandle is connected
+-+to a tty.  Similar to the C<-t> operator, see L<perlfunc/-X>.
+-+
+-+=item iscntrl
+-+
+-+This is identical to the C function, except that it can apply to
+-+a single character or to a whole string.  Note that locale settings
+-+may affect what characters are considered C<iscntrl>.  Does not work
+-+on Unicode characters code point 256 or higher.  Consider using regular
+-+expressions and the C</[[:cntrl:]]/> construct instead.
+-+
+-+=item isdigit
+-+
+-+This is identical to the C function, except that it can apply to
+-+a single character or to a whole string.  Note that locale settings
+-+may affect what characters are considered C<isdigit> (unlikely, but
+-+still possible). Does not work on Unicode characters code point 256
+-+or higher.  Consider using regular expressions and the C</[[:digit:]]/>
+-+construct instead, or the C</\d/> construct.
+-+
+-+=item isgraph
+-+
+-+This is identical to the C function, except that it can apply to
+-+a single character or to a whole string.  Note that locale settings
+-+may affect what characters are considered C<isgraph>.  Does not work
+-+on Unicode characters code point 256 or higher.  Consider using regular
+-+expressions and the C</[[:graph:]]/> construct instead.
+-+
+-+=item islower
+-+
+-+This is identical to the C function, except that it can apply to
+-+a single character or to a whole string.  Note that locale settings
+-+may affect what characters are considered C<islower>.  Does not work
+-+on Unicode characters code point 256 or higher.  Consider using regular
+-+expressions and the C</[[:lower:]]/> construct instead.  Do B<not> use
+-+C</[a-z]/>.
+-+
+-+=item isprint
+-+
+-+This is identical to the C function, except that it can apply to
+-+a single character or to a whole string.  Note that locale settings
+-+may affect what characters are considered C<isprint>.  Does not work
+-+on Unicode characters code point 256 or higher.  Consider using regular
+-+expressions and the C</[[:print:]]/> construct instead.
+-+
+-+=item ispunct
+-+
+-+This is identical to the C function, except that it can apply to
+-+a single character or to a whole string.  Note that locale settings
+-+may affect what characters are considered C<ispunct>.  Does not work
+-+on Unicode characters code point 256 or higher.  Consider using regular
+-+expressions and the C</[[:punct:]]/> construct instead.
+-+
+-+=item isspace
+-+
+-+This is identical to the C function, except that it can apply to
+-+a single character or to a whole string.  Note that locale settings
+-+may affect what characters are considered C<isspace>.  Does not work
+-+on Unicode characters code point 256 or higher.  Consider using regular
+-+expressions and the C</[[:space:]]/> construct instead, or the C</\s/>
+-+construct.  (Note that C</\s/> and C</[[:space:]]/> are slightly
+-+different in that C</[[:space:]]/> can normally match a vertical tab,
+-+while C</\s/> does not.)
+-+
+-+=item isupper
+-+
+-+This is identical to the C function, except that it can apply to
+-+a single character or to a whole string.  Note that locale settings
+-+may affect what characters are considered C<isupper>.  Does not work
+-+on Unicode characters code point 256 or higher.  Consider using regular
+-+expressions and the C</[[:upper:]]/> construct instead.  Do B<not> use
+-+C</[A-Z]/>.
+-+
+-+=item isxdigit
+-+
+-+This is identical to the C function, except that it can apply to a single
+-+character or to a whole string.  Note that locale settings may affect what
+-+characters are considered C<isxdigit> (unlikely, but still possible).
+-+Does not work on Unicode characters code point 256 or higher.
+-+Consider using regular expressions and the C</[[:xdigit:]]/>
+-+construct instead, or simply C</[0-9a-f]/i>.
+-+
+-+=item kill
+-+
+-+This is identical to Perl's builtin C<kill()> function for sending
+-+signals to processes (often to terminate them), see L<perlfunc/kill>.
+-+
+-+=item labs
+-+
+-+(For returning absolute values of long integers.)
+-+labs() is C-specific, see L<perlfunc/abs> instead.
+-+
+-+=item lchown
+-+
+-+This is identical to the C function, except the order of arguments is
+-+consistent with Perl's builtin C<chown()> with the added restriction
+-+of only one path, not an list of paths.  Does the same thing as the 
+-+C<chown()> function but changes the owner of a symbolic link instead 
+-+of the file the symbolic link points to.
+-+
+-+=item ldexp
+-+
+-+This is identical to the C function C<ldexp()>
+-+for multiplying floating point numbers with powers of two.
+-+
+-+	$x_quadrupled = POSIX::ldexp($x, 2);
+-+
+-+=item ldiv
+-+
+-+(For computing dividends of long integers.)
+-+ldiv() is C-specific, use C</> and C<int()> instead.
+-+
+-+=item link
+-+
+-+This is identical to Perl's builtin C<link()> function
+-+for creating hard links into files, see L<perlfunc/link>.
+-+
+-+=item localeconv
+-+
+-+Get numeric formatting information.  Returns a reference to a hash
+-+containing the current locale formatting values.
+-+
+-+Here is how to query the database for the B<de> (Deutsch or German) locale.
+-+
+-+	$loc = POSIX::setlocale( &POSIX::LC_ALL, "de" );
+-+	print "Locale = $loc\n";
+-+	$lconv = POSIX::localeconv();
+-+	print "decimal_point	= ", $lconv->{decimal_point},	"\n";
+-+	print "thousands_sep	= ", $lconv->{thousands_sep},	"\n";
+-+	print "grouping	= ", $lconv->{grouping},	"\n";
+-+	print "int_curr_symbol	= ", $lconv->{int_curr_symbol},	"\n";
+-+	print "currency_symbol	= ", $lconv->{currency_symbol},	"\n";
+-+	print "mon_decimal_point = ", $lconv->{mon_decimal_point}, "\n";
+-+	print "mon_thousands_sep = ", $lconv->{mon_thousands_sep}, "\n";
+-+	print "mon_grouping	= ", $lconv->{mon_grouping},	"\n";
+-+	print "positive_sign	= ", $lconv->{positive_sign},	"\n";
+-+	print "negative_sign	= ", $lconv->{negative_sign},	"\n";
+-+	print "int_frac_digits	= ", $lconv->{int_frac_digits},	"\n";
+-+	print "frac_digits	= ", $lconv->{frac_digits},	"\n";
+-+	print "p_cs_precedes	= ", $lconv->{p_cs_precedes},	"\n";
+-+	print "p_sep_by_space	= ", $lconv->{p_sep_by_space},	"\n";
+-+	print "n_cs_precedes	= ", $lconv->{n_cs_precedes},	"\n";
+-+	print "n_sep_by_space	= ", $lconv->{n_sep_by_space},	"\n";
+-+	print "p_sign_posn	= ", $lconv->{p_sign_posn},	"\n";
+-+	print "n_sign_posn	= ", $lconv->{n_sign_posn},	"\n";
+-+
+-+=item localtime
+-+
+-+This is identical to Perl's builtin C<localtime()> function for
+-+converting seconds since the epoch to a date see L<perlfunc/localtime>.
+-+
+-+=item log
+-+
+-+This is identical to Perl's builtin C<log()> function,
+-+returning the natural (I<e>-based) logarithm of the numerical argument,
+-+see L<perlfunc/log>.
+-+
+-+=item log10
+-+
+-+This is identical to the C function C<log10()>,
+-+returning the 10-base logarithm of the numerical argument.
+-+You can also use
+-+
+-+    sub log10 { log($_[0]) / log(10) }
+-+
+-+or
+-+
+-+    sub log10 { log($_[0]) / 2.30258509299405 }
+-+
+-+or
+-+
+-+    sub log10 { log($_[0]) * 0.434294481903252 }
+-+
+-+=item longjmp
+-+
+-+longjmp() is C-specific: use L<perlfunc/die> instead.
+-+
+-+=item lseek
+-+
+-+Move the file's read/write position.  This uses file descriptors such as
+-+those obtained by calling C<POSIX::open>.
+-+
+-+	$fd = POSIX::open( "foo", &POSIX::O_RDONLY );
+-+	$off_t = POSIX::lseek( $fd, 0, &POSIX::SEEK_SET );
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item malloc
+-+
+-+malloc() is C-specific.  Perl does memory management transparently.
+-+
+-+=item mblen
+-+
+-+This is identical to the C function C<mblen()>.
+-+Perl does not have any support for the wide and multibyte
+-+characters of the C standards, so this might be a rather
+-+useless function.
+-+
+-+=item mbstowcs
+-+
+-+This is identical to the C function C<mbstowcs()>.
+-+Perl does not have any support for the wide and multibyte
+-+characters of the C standards, so this might be a rather
+-+useless function.
+-+
+-+=item mbtowc
+-+
+-+This is identical to the C function C<mbtowc()>.
+-+Perl does not have any support for the wide and multibyte
+-+characters of the C standards, so this might be a rather
+-+useless function.
+-+
+-+=item memchr
+-+
+-+memchr() is C-specific, see L<perlfunc/index> instead.
+-+
+-+=item memcmp
+-+
+-+memcmp() is C-specific, use C<eq> instead, see L<perlop>.
+-+
+-+=item memcpy
+-+
+-+memcpy() is C-specific, use C<=>, see L<perlop>, or see L<perlfunc/substr>.
+-+
+-+=item memmove
+-+
+-+memmove() is C-specific, use C<=>, see L<perlop>, or see L<perlfunc/substr>.
+-+
+-+=item memset
+-+
+-+memset() is C-specific, use C<x> instead, see L<perlop>.
+-+
+-+=item mkdir
+-+
+-+This is identical to Perl's builtin C<mkdir()> function
+-+for creating directories, see L<perlfunc/mkdir>.
+-+
+-+=item mkfifo
+-+
+-+This is similar to the C function C<mkfifo()> for creating
+-+FIFO special files.
+-+
+-+	if (mkfifo($path, $mode)) { ....
+-+
+-+Returns C<undef> on failure.  The C<$mode> is similar to the
+-+mode of C<mkdir()>, see L<perlfunc/mkdir>, though for C<mkfifo>
+-+you B<must> specify the C<$mode>.
+-+
+-+=item mktime
+-+
+-+Convert date/time info to a calendar time.
+-+
+-+Synopsis:
+-+
+-+	mktime(sec, min, hour, mday, mon, year, wday = 0, yday = 0, isdst = -1)
+-+
+-+The month (C<mon>), weekday (C<wday>), and yearday (C<yday>) begin at zero.
+-+I.e. January is 0, not 1; Sunday is 0, not 1; January 1st is 0, not 1.  The
+-+year (C<year>) is given in years since 1900.  I.e. The year 1995 is 95; the
+-+year 2001 is 101.  Consult your system's C<mktime()> manpage for details
+-+about these and the other arguments.
+-+
+-+Calendar time for December 12, 1995, at 10:30 am.
+-+
+-+	$time_t = POSIX::mktime( 0, 30, 10, 12, 11, 95 );
+-+	print "Date = ", POSIX::ctime($time_t);
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item modf
+-+
+-+Return the integral and fractional parts of a floating-point number.
+-+
+-+	($fractional, $integral) = POSIX::modf( 3.14 );
+-+
+-+=item nice
+-+
+-+This is similar to the C function C<nice()>, for changing
+-+the scheduling preference of the current process.  Positive
+-+arguments mean more polite process, negative values more
+-+needy process.  Normal user processes can only be more polite.
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item offsetof
+-+
+-+offsetof() is C-specific, you probably want to see L<perlfunc/pack> instead.
+-+
+-+=item open
+-+
+-+Open a file for reading for writing.  This returns file descriptors, not
+-+Perl filehandles.  Use C<POSIX::close> to close the file.
+-+
+-+Open a file read-only with mode 0666.
+-+
+-+	$fd = POSIX::open( "foo" );
+-+
+-+Open a file for read and write.
+-+
+-+	$fd = POSIX::open( "foo", &POSIX::O_RDWR );
+-+
+-+Open a file for write, with truncation.
+-+
+-+	$fd = POSIX::open( "foo", &POSIX::O_WRONLY | &POSIX::O_TRUNC );
+-+
+-+Create a new file with mode 0640.  Set up the file for writing.
+-+
+-+	$fd = POSIX::open( "foo", &POSIX::O_CREAT | &POSIX::O_WRONLY, 0640 );
+-+
+-+Returns C<undef> on failure.
+-+
+-+See also L<perlfunc/sysopen>.
+-+
+-+=item opendir
+-+
+-+Open a directory for reading.
+-+
+-+	$dir = POSIX::opendir( "/var" );
+-+	@files = POSIX::readdir( $dir );
+-+	POSIX::closedir( $dir );
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item pathconf
+-+
+-+Retrieves the value of a configurable limit on a file or directory.
+-+
+-+The following will determine the maximum length of the longest allowable
+-+pathname on the filesystem which holds C</var>.
+-+
+-+	$path_max = POSIX::pathconf( "/var", &POSIX::_PC_PATH_MAX );
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item pause
+-+
+-+This is similar to the C function C<pause()>, which suspends
+-+the execution of the current process until a signal is received.
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item perror
+-+
+-+This is identical to the C function C<perror()>, which outputs to the
+-+standard error stream the specified message followed by ": " and the
+-+current error string.  Use the C<warn()> function and the C<$!>
+-+variable instead, see L<perlfunc/warn> and L<perlvar/$ERRNO>.
+-+
+-+=item pipe
+-+
+-+Create an interprocess channel.  This returns file descriptors like those
+-+returned by C<POSIX::open>.
+-+
+-+	my ($read, $write) = POSIX::pipe();
+-+	POSIX::write( $write, "hello", 5 );
+-+	POSIX::read( $read, $buf, 5 );
+-+
+-+See also L<perlfunc/pipe>.
+-+
+-+=item pow
+-+
+-+Computes C<$x> raised to the power C<$exponent>.
+-+
+-+	$ret = POSIX::pow( $x, $exponent );
+-+
+-+You can also use the C<**> operator, see L<perlop>.
+-+
+-+=item printf
+-+
+-+Formats and prints the specified arguments to STDOUT.
+-+See also L<perlfunc/printf>.
+-+
+-+=item putc
+-+
+-+putc() is C-specific, see L<perlfunc/print> instead.
+-+
+-+=item putchar
+-+
+-+putchar() is C-specific, see L<perlfunc/print> instead.
+-+
+-+=item puts
+-+
+-+puts() is C-specific, see L<perlfunc/print> instead.
+-+
+-+=item qsort
+-+
+-+qsort() is C-specific, see L<perlfunc/sort> instead.
+-+
+-+=item raise
+-+
+-+Sends the specified signal to the current process.
+-+See also L<perlfunc/kill> and the C<$$> in L<perlvar/$PID>.
+-+
+-+=item rand
+-+
+-+C<rand()> is non-portable, see L<perlfunc/rand> instead.
+-+
+-+=item read
+-+
+-+Read from a file.  This uses file descriptors such as those obtained by
+-+calling C<POSIX::open>.  If the buffer C<$buf> is not large enough for the
+-+read then Perl will extend it to make room for the request.
+-+
+-+	$fd = POSIX::open( "foo", &POSIX::O_RDONLY );
+-+	$bytes = POSIX::read( $fd, $buf, 3 );
+-+
+-+Returns C<undef> on failure.
+-+
+-+See also L<perlfunc/sysread>.
+-+
+-+=item readdir
+-+
+-+This is identical to Perl's builtin C<readdir()> function
+-+for reading directory entries, see L<perlfunc/readdir>.
+-+
+-+=item realloc
+-+
+-+realloc() is C-specific.  Perl does memory management transparently.
+-+
+-+=item remove
+-+
+-+This is identical to Perl's builtin C<unlink()> function
+-+for removing files, see L<perlfunc/unlink>.
+-+
+-+=item rename
+-+
+-+This is identical to Perl's builtin C<rename()> function
+-+for renaming files, see L<perlfunc/rename>.
+-+
+-+=item rewind
+-+
+-+Seeks to the beginning of the file.
+-+
+-+=item rewinddir
+-+
+-+This is identical to Perl's builtin C<rewinddir()> function for
+-+rewinding directory entry streams, see L<perlfunc/rewinddir>.
+-+
+-+=item rmdir
+-+
+-+This is identical to Perl's builtin C<rmdir()> function
+-+for removing (empty) directories, see L<perlfunc/rmdir>.
+-+
+-+=item scanf
+-+
+-+scanf() is C-specific, use E<lt>E<gt> and regular expressions instead,
+-+see L<perlre>.
+-+
+-+=item setgid
+-+
+-+Sets the real group identifier and the effective group identifier for
+-+this process.  Similar to assigning a value to the Perl's builtin
+-+C<$)> variable, see L<perlvar/$EGID>, except that the latter
+-+will change only the real user identifier, and that the setgid()
+-+uses only a single numeric argument, as opposed to a space-separated
+-+list of numbers.
+-+
+-+=item setjmp
+-+
+-+C<setjmp()> is C-specific: use C<eval {}> instead,
+-+see L<perlfunc/eval>.
+-+
+-+=item setlocale
+-+
+-+Modifies and queries program's locale.  The following examples assume
+-+
+-+	use POSIX qw(setlocale LC_ALL LC_CTYPE);
+-+
+-+has been issued.
+-+
+-+The following will set the traditional UNIX system locale behavior
+-+(the second argument C<"C">).
+-+
+-+	$loc = setlocale( LC_ALL, "C" );
+-+
+-+The following will query the current LC_CTYPE category.  (No second
+-+argument means 'query'.)
+-+
+-+	$loc = setlocale( LC_CTYPE );
+-+
+-+The following will set the LC_CTYPE behaviour according to the locale
+-+environment variables (the second argument C<"">).
+-+Please see your systems C<setlocale(3)> documentation for the locale
+-+environment variables' meaning or consult L<perllocale>.
+-+
+-+	$loc = setlocale( LC_CTYPE, "" );
+-+
+-+The following will set the LC_COLLATE behaviour to Argentinian
+-+Spanish. B<NOTE>: The naming and availability of locales depends on
+-+your operating system. Please consult L<perllocale> for how to find
+-+out which locales are available in your system.
+-+
+-+	$loc = setlocale( LC_COLLATE, "es_AR.ISO8859-1" );
+-+
+-+=item setpgid
+-+
+-+This is similar to the C function C<setpgid()> for
+-+setting the process group identifier of the current process.
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item setsid
+-+
+-+This is identical to the C function C<setsid()> for
+-+setting the session identifier of the current process.
+-+
+-+=item setuid
+-+
+-+Sets the real user identifier and the effective user identifier for
+-+this process.  Similar to assigning a value to the Perl's builtin
+-+C<$E<lt>> variable, see L<perlvar/$UID>, except that the latter
+-+will change only the real user identifier.
+-+
+-+=item sigaction
+-+
+-+Detailed signal management.  This uses C<POSIX::SigAction> objects for
+-+the C<action> and C<oldaction> arguments (the oldaction can also be
+-+just a hash reference).  Consult your system's C<sigaction> manpage
+-+for details, see also C<POSIX::SigRt>.
+-+
+-+Synopsis:
+-+
+-+	sigaction(signal, action, oldaction = 0)
+-+
+-+Returns C<undef> on failure.  The C<signal> must be a number (like
+-+SIGHUP), not a string (like "SIGHUP"), though Perl does try hard
+-+to understand you.
+-+
+-+If you use the SA_SIGINFO flag, the signal handler will in addition to
+-+the first argument, the signal name, also receive a second argument, a
+-+hash reference, inside which are the following keys with the following
+-+semantics, as defined by POSIX/SUSv3:
+-+
+-+    signo       the signal number
+-+    errno       the error number
+-+    code        if this is zero or less, the signal was sent by
+-+                a user process and the uid and pid make sense,
+-+                otherwise the signal was sent by the kernel
+-+
+-+The following are also defined by POSIX/SUSv3, but unfortunately
+-+not very widely implemented:
+-+
+-+    pid         the process id generating the signal
+-+    uid         the uid of the process id generating the signal
+-+    status      exit value or signal for SIGCHLD
+-+    band        band event for SIGPOLL
+-+
+-+A third argument is also passed to the handler, which contains a copy
+-+of the raw binary contents of the siginfo structure: if a system has
+-+some non-POSIX fields, this third argument is where to unpack() them
+-+from.
+-+
+-+Note that not all siginfo values make sense simultaneously (some are
+-+valid only for certain signals, for example), and not all values make
+-+sense from Perl perspective, you should to consult your system's
+-+C<sigaction> and possibly also C<siginfo> documentation.
+-+
+-+=item siglongjmp
+-+
+-+siglongjmp() is C-specific: use L<perlfunc/die> instead.
+-+
+-+=item sigpending
+-+
+-+Examine signals that are blocked and pending.  This uses C<POSIX::SigSet>
+-+objects for the C<sigset> argument.  Consult your system's C<sigpending>
+-+manpage for details.
+-+
+-+Synopsis:
+-+
+-+	sigpending(sigset)
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item sigprocmask
+-+
+-+Change and/or examine calling process's signal mask.  This uses
+-+C<POSIX::SigSet> objects for the C<sigset> and C<oldsigset> arguments.
+-+Consult your system's C<sigprocmask> manpage for details.
+-+
+-+Synopsis:
+-+
+-+	sigprocmask(how, sigset, oldsigset = 0)
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item sigsetjmp
+-+
+-+C<sigsetjmp()> is C-specific: use C<eval {}> instead,
+-+see L<perlfunc/eval>.
+-+
+-+=item sigsuspend
+-+
+-+Install a signal mask and suspend process until signal arrives.  This uses
+-+C<POSIX::SigSet> objects for the C<signal_mask> argument.  Consult your
+-+system's C<sigsuspend> manpage for details.
+-+
+-+Synopsis:
+-+
+-+	sigsuspend(signal_mask)
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item sin
+-+
+-+This is identical to Perl's builtin C<sin()> function
+-+for returning the sine of the numerical argument,
+-+see L<perlfunc/sin>.  See also L<Math::Trig>.
+-+
+-+=item sinh
+-+
+-+This is identical to the C function C<sinh()>
+-+for returning the hyperbolic sine of the numerical argument.
+-+See also L<Math::Trig>.
+-+
+-+=item sleep
+-+
+-+This is functionally identical to Perl's builtin C<sleep()> function
+-+for suspending the execution of the current for process for certain
+-+number of seconds, see L<perlfunc/sleep>.  There is one significant
+-+difference, however: C<POSIX::sleep()> returns the number of
+-+B<unslept> seconds, while the C<CORE::sleep()> returns the
+-+number of slept seconds.
+-+
+-+=item sprintf
+-+
+-+This is similar to Perl's builtin C<sprintf()> function
+-+for returning a string that has the arguments formatted as requested,
+-+see L<perlfunc/sprintf>.
+-+
+-+=item sqrt
+-+
+-+This is identical to Perl's builtin C<sqrt()> function.
+-+for returning the square root of the numerical argument,
+-+see L<perlfunc/sqrt>.
+-+
+-+=item srand
+-+
+-+Give a seed the pseudorandom number generator, see L<perlfunc/srand>.
+-+
+-+=item sscanf
+-+
+-+sscanf() is C-specific, use regular expressions instead,
+-+see L<perlre>.
+-+
+-+=item stat
+-+
+-+This is identical to Perl's builtin C<stat()> function
+-+for returning information about files and directories.
+-+
+-+=item strcat
+-+
+-+strcat() is C-specific, use C<.=> instead, see L<perlop>.
+-+
+-+=item strchr
+-+
+-+strchr() is C-specific, see L<perlfunc/index> instead.
+-+
+-+=item strcmp
+-+
+-+strcmp() is C-specific, use C<eq> or C<cmp> instead, see L<perlop>.
+-+
+-+=item strcoll
+-+
+-+This is identical to the C function C<strcoll()>
+-+for collating (comparing) strings transformed using
+-+the C<strxfrm()> function.  Not really needed since
+-+Perl can do this transparently, see L<perllocale>.
+-+
+-+=item strcpy
+-+
+-+strcpy() is C-specific, use C<=> instead, see L<perlop>.
+-+
+-+=item strcspn
+-+
+-+strcspn() is C-specific, use regular expressions instead,
+-+see L<perlre>.
+-+
+-+=item strerror
+-+
+-+Returns the error string for the specified errno.
+-+Identical to the string form of the C<$!>, see L<perlvar/$ERRNO>.
+-+
+-+=item strftime
+-+
+-+Convert date and time information to string.  Returns the string.
+-+
+-+Synopsis:
+-+
+-+	strftime(fmt, sec, min, hour, mday, mon, year, wday = -1, yday = -1, isdst = -1)
+-+
+-+The month (C<mon>), weekday (C<wday>), and yearday (C<yday>) begin at zero.
+-+I.e. January is 0, not 1; Sunday is 0, not 1; January 1st is 0, not 1.  The
+-+year (C<year>) is given in years since 1900.  I.e., the year 1995 is 95; the
+-+year 2001 is 101.  Consult your system's C<strftime()> manpage for details
+-+about these and the other arguments.
+-+
+-+If you want your code to be portable, your format (C<fmt>) argument
+-+should use only the conversion specifiers defined by the ANSI C
+-+standard (C89, to play safe).  These are C<aAbBcdHIjmMpSUwWxXyYZ%>.
+-+But even then, the B<results> of some of the conversion specifiers are
+-+non-portable.  For example, the specifiers C<aAbBcpZ> change according
+-+to the locale settings of the user, and both how to set locales (the
+-+locale names) and what output to expect are non-standard.
+-+The specifier C<c> changes according to the timezone settings of the
+-+user and the timezone computation rules of the operating system.
+-+The C<Z> specifier is notoriously unportable since the names of
+-+timezones are non-standard. Sticking to the numeric specifiers is the
+-+safest route.
+-+
+-+The given arguments are made consistent as though by calling
+-+C<mktime()> before calling your system's C<strftime()> function,
+-+except that the C<isdst> value is not affected.
+-+
+-+The string for Tuesday, December 12, 1995.
+-+
+-+	$str = POSIX::strftime( "%A, %B %d, %Y", 0, 0, 0, 12, 11, 95, 2 );
+-+	print "$str\n";
+-+
+-+=item strlen
+-+
+-+strlen() is C-specific, use C<length()> instead, see L<perlfunc/length>.
+-+
+-+=item strncat
+-+
+-+strncat() is C-specific, use C<.=> instead, see L<perlop>.
+-+
+-+=item strncmp
+-+
+-+strncmp() is C-specific, use C<eq> instead, see L<perlop>.
+-+
+-+=item strncpy
+-+
+-+strncpy() is C-specific, use C<=> instead, see L<perlop>.
+-+
+-+=item strpbrk
+-+
+-+strpbrk() is C-specific, use regular expressions instead,
+-+see L<perlre>.
+-+
+-+=item strrchr
+-+
+-+strrchr() is C-specific, see L<perlfunc/rindex> instead.
+-+
+-+=item strspn
+-+
+-+strspn() is C-specific, use regular expressions instead,
+-+see L<perlre>.
+-+
+-+=item strstr
+-+
+-+This is identical to Perl's builtin C<index()> function,
+-+see L<perlfunc/index>.
+-+
+-+=item strtod
+-+
+-+String to double translation. Returns the parsed number and the number
+-+of characters in the unparsed portion of the string.  Truly
+-+POSIX-compliant systems set $! ($ERRNO) to indicate a translation
+-+error, so clear $! before calling strtod.  However, non-POSIX systems
+-+may not check for overflow, and therefore will never set $!.
+-+
+-+strtod should respect any POSIX I<setlocale()> settings.
+-+
+-+To parse a string $str as a floating point number use
+-+
+-+    $! = 0;
+-+    ($num, $n_unparsed) = POSIX::strtod($str);
+-+
+-+The second returned item and $! can be used to check for valid input:
+-+
+-+    if (($str eq '') || ($n_unparsed != 0) || $!) {
+-+        die "Non-numeric input $str" . ($! ? ": $!\n" : "\n");
+-+    }
+-+
+-+When called in a scalar context strtod returns the parsed number.
+-+
+-+=item strtok
+-+
+-+strtok() is C-specific, use regular expressions instead, see
+-+L<perlre>, or L<perlfunc/split>.
+-+
+-+=item strtol
+-+
+-+String to (long) integer translation.  Returns the parsed number and
+-+the number of characters in the unparsed portion of the string.  Truly
+-+POSIX-compliant systems set $! ($ERRNO) to indicate a translation
+-+error, so clear $! before calling strtol.  However, non-POSIX systems
+-+may not check for overflow, and therefore will never set $!.
+-+
+-+strtol should respect any POSIX I<setlocale()> settings.
+-+
+-+To parse a string $str as a number in some base $base use
+-+
+-+    $! = 0;
+-+    ($num, $n_unparsed) = POSIX::strtol($str, $base);
+-+
+-+The base should be zero or between 2 and 36, inclusive.  When the base
+-+is zero or omitted strtol will use the string itself to determine the
+-+base: a leading "0x" or "0X" means hexadecimal; a leading "0" means
+-+octal; any other leading characters mean decimal.  Thus, "1234" is
+-+parsed as a decimal number, "01234" as an octal number, and "0x1234"
+-+as a hexadecimal number.
+-+
+-+The second returned item and $! can be used to check for valid input:
+-+
+-+    if (($str eq '') || ($n_unparsed != 0) || !$!) {
+-+        die "Non-numeric input $str" . $! ? ": $!\n" : "\n";
+-+    }
+-+
+-+When called in a scalar context strtol returns the parsed number.
+-+
+-+=item strtoul
+-+
+-+String to unsigned (long) integer translation.  strtoul() is identical
+-+to strtol() except that strtoul() only parses unsigned integers.  See
+-+L</strtol> for details.
+-+
+-+Note: Some vendors supply strtod() and strtol() but not strtoul().
+-+Other vendors that do supply strtoul() parse "-1" as a valid value.
+-+
+-+=item strxfrm
+-+
+-+String transformation.  Returns the transformed string.
+-+
+-+	$dst = POSIX::strxfrm( $src );
+-+
+-+Used in conjunction with the C<strcoll()> function, see L</strcoll>.
+-+
+-+Not really needed since Perl can do this transparently, see
+-+L<perllocale>.
+-+
+-+=item sysconf
+-+
+-+Retrieves values of system configurable variables.
+-+
+-+The following will get the machine's clock speed.
+-+
+-+	$clock_ticks = POSIX::sysconf( &POSIX::_SC_CLK_TCK );
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item system
+-+
+-+This is identical to Perl's builtin C<system()> function, see
+-+L<perlfunc/system>.
+-+
+-+=item tan
+-+
+-+This is identical to the C function C<tan()>, returning the
+-+tangent of the numerical argument.  See also L<Math::Trig>.
+-+
+-+=item tanh
+-+
+-+This is identical to the C function C<tanh()>, returning the
+-+hyperbolic tangent of the numerical argument.   See also L<Math::Trig>.
+-+
+-+=item tcdrain
+-+
+-+This is similar to the C function C<tcdrain()> for draining
+-+the output queue of its argument stream.
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item tcflow
+-+
+-+This is similar to the C function C<tcflow()> for controlling
+-+the flow of its argument stream.
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item tcflush
+-+
+-+This is similar to the C function C<tcflush()> for flushing
+-+the I/O buffers of its argument stream.
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item tcgetpgrp
+-+
+-+This is identical to the C function C<tcgetpgrp()> for returning the
+-+process group identifier of the foreground process group of the controlling
+-+terminal.
+-+
+-+=item tcsendbreak
+-+
+-+This is similar to the C function C<tcsendbreak()> for sending
+-+a break on its argument stream.
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item tcsetpgrp
+-+
+-+This is similar to the C function C<tcsetpgrp()> for setting the
+-+process group identifier of the foreground process group of the controlling
+-+terminal.
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item time
+-+
+-+This is identical to Perl's builtin C<time()> function
+-+for returning the number of seconds since the epoch
+-+(whatever it is for the system), see L<perlfunc/time>.
+-+
+-+=item times
+-+
+-+The times() function returns elapsed realtime since some point in the past
+-+(such as system startup), user and system times for this process, and user
+-+and system times used by child processes.  All times are returned in clock
+-+ticks.
+-+
+-+    ($realtime, $user, $system, $cuser, $csystem) = POSIX::times();
+-+
+-+Note: Perl's builtin C<times()> function returns four values, measured in
+-+seconds.
+-+
+-+=item tmpfile
+-+
+-+Use method C<IO::File::new_tmpfile()> instead, or see L<File::Temp>.
+-+
+-+=item tmpnam
+-+
+-+Returns a name for a temporary file.
+-+
+-+	$tmpfile = POSIX::tmpnam();
+-+
+-+For security reasons, which are probably detailed in your system's
+-+documentation for the C library tmpnam() function, this interface
+-+should not be used; instead see L<File::Temp>.
+-+
+-+=item tolower
+-+
+-+This is identical to the C function, except that it can apply to a single
+-+character or to a whole string.  Consider using the C<lc()> function,
+-+see L<perlfunc/lc>, or the equivalent C<\L> operator inside doublequotish
+-+strings.
+-+
+-+=item toupper
+-+
+-+This is identical to the C function, except that it can apply to a single
+-+character or to a whole string.  Consider using the C<uc()> function,
+-+see L<perlfunc/uc>, or the equivalent C<\U> operator inside doublequotish
+-+strings.
+-+
+-+=item ttyname
+-+
+-+This is identical to the C function C<ttyname()> for returning the
+-+name of the current terminal.
+-+
+-+=item tzname
+-+
+-+Retrieves the time conversion information from the C<tzname> variable.
+-+
+-+	POSIX::tzset();
+-+	($std, $dst) = POSIX::tzname();
+-+
+-+=item tzset
+-+
+-+This is identical to the C function C<tzset()> for setting
+-+the current timezone based on the environment variable C<TZ>,
+-+to be used by C<ctime()>, C<localtime()>, C<mktime()>, and C<strftime()>
+-+functions.
+-+
+-+=item umask
+-+
+-+This is identical to Perl's builtin C<umask()> function
+-+for setting (and querying) the file creation permission mask,
+-+see L<perlfunc/umask>.
+-+
+-+=item uname
+-+
+-+Get name of current operating system.
+-+
+-+	($sysname, $nodename, $release, $version, $machine) = POSIX::uname();
+-+
+-+Note that the actual meanings of the various fields are not
+-+that well standardized, do not expect any great portability.
+-+The C<$sysname> might be the name of the operating system,
+-+the C<$nodename> might be the name of the host, the C<$release>
+-+might be the (major) release number of the operating system,
+-+the C<$version> might be the (minor) release number of the
+-+operating system, and the C<$machine> might be a hardware identifier.
+-+Maybe.
+-+
+-+=item ungetc
+-+
+-+Use method C<IO::Handle::ungetc()> instead.
+-+
+-+=item unlink
+-+
+-+This is identical to Perl's builtin C<unlink()> function
+-+for removing files, see L<perlfunc/unlink>.
+-+
+-+=item utime
+-+
+-+This is identical to Perl's builtin C<utime()> function
+-+for changing the time stamps of files and directories,
+-+see L<perlfunc/utime>.
+-+
+-+=item vfprintf
+-+
+-+vfprintf() is C-specific, see L<perlfunc/printf> instead.
+-+
+-+=item vprintf
+-+
+-+vprintf() is C-specific, see L<perlfunc/printf> instead.
+-+
+-+=item vsprintf
+-+
+-+vsprintf() is C-specific, see L<perlfunc/sprintf> instead.
+-+
+-+=item wait
+-+
+-+This is identical to Perl's builtin C<wait()> function,
+-+see L<perlfunc/wait>.
+-+
+-+=item waitpid
+-+
+-+Wait for a child process to change state.  This is identical to Perl's
+-+builtin C<waitpid()> function, see L<perlfunc/waitpid>.
+-+
+-+	$pid = POSIX::waitpid( -1, POSIX::WNOHANG );
+-+	print "status = ", ($? / 256), "\n";
+-+
+-+=item wcstombs
+-+
+-+This is identical to the C function C<wcstombs()>.
+-+Perl does not have any support for the wide and multibyte
+-+characters of the C standards, so this might be a rather
+-+useless function.
+-+
+-+=item wctomb
+-+
+-+This is identical to the C function C<wctomb()>.
+-+Perl does not have any support for the wide and multibyte
+-+characters of the C standards, so this might be a rather
+-+useless function.
+-+
+-+=item write
+-+
+-+Write to a file.  This uses file descriptors such as those obtained by
+-+calling C<POSIX::open>.
+-+
+-+	$fd = POSIX::open( "foo", &POSIX::O_WRONLY );
+-+	$buf = "hello";
+-+	$bytes = POSIX::write( $fd, $buf, 5 );
+-+
+-+Returns C<undef> on failure.
+-+
+-+See also L<perlfunc/syswrite>.
+-+
+-+=back
+-+
+-+=head1 CLASSES
+-+
+-+=head2 POSIX::SigAction
+-+
+-+=over 8
+-+
+-+=item new
+-+
+-+Creates a new C<POSIX::SigAction> object which corresponds to the C
+-+C<struct sigaction>.  This object will be destroyed automatically when
+-+it is no longer needed.  The first parameter is the handler, a sub
+-+reference.  The second parameter is a C<POSIX::SigSet> object, it
+-+defaults to the empty set.  The third parameter contains the
+-+C<sa_flags>, it defaults to 0.
+-+
+-+	$sigset = POSIX::SigSet->new(SIGINT, SIGQUIT);
+-+	$sigaction = POSIX::SigAction->new( \&handler, $sigset, &POSIX::SA_NOCLDSTOP );
+-+
+-+This C<POSIX::SigAction> object is intended for use with the C<POSIX::sigaction()>
+-+function.
+-+
+-+=back
+-+
+-+=over 8
+-+
+-+=item handler
+-+
+-+=item mask
+-+
+-+=item flags
+-+
+-+accessor functions to get/set the values of a SigAction object.
+-+
+-+	$sigset = $sigaction->mask;
+-+	$sigaction->flags(&POSIX::SA_RESTART);
+-+
+-+=item safe
+-+
+-+accessor function for the "safe signals" flag of a SigAction object; see
+-+L<perlipc> for general information on safe (a.k.a. "deferred") signals.  If
+-+you wish to handle a signal safely, use this accessor to set the "safe" flag
+-+in the C<POSIX::SigAction> object:
+-+
+-+	$sigaction->safe(1);
+-+
+-+You may also examine the "safe" flag on the output action object which is
+-+filled in when given as the third parameter to C<POSIX::sigaction()>:
+-+
+-+	sigaction(SIGINT, $new_action, $old_action);
+-+	if ($old_action->safe) {
+-+	    # previous SIGINT handler used safe signals
+-+	}
+-+
+-+=back
+-+
+-+=head2 POSIX::SigRt
+-+
+-+=over 8
+-+
+-+=item %SIGRT
+-+
+-+A hash of the POSIX realtime signal handlers.  It is an extension of
+-+the standard %SIG, the $POSIX::SIGRT{SIGRTMIN} is roughly equivalent
+-+to $SIG{SIGRTMIN}, but the right POSIX moves (see below) are made with
+-+the POSIX::SigSet and POSIX::sigaction instead of accessing the %SIG.
+-+
+-+You can set the %POSIX::SIGRT elements to set the POSIX realtime
+-+signal handlers, use C<delete> and C<exists> on the elements, and use
+-+C<scalar> on the C<%POSIX::SIGRT> to find out how many POSIX realtime
+-+signals there are available (SIGRTMAX - SIGRTMIN + 1, the SIGRTMAX is
+-+a valid POSIX realtime signal).
+-+
+-+Setting the %SIGRT elements is equivalent to calling this:
+-+
+-+  sub new {
+-+    my ($rtsig, $handler, $flags) = @_;
+-+    my $sigset = POSIX::SigSet($rtsig);
+-+    my $sigact = POSIX::SigAction->new($handler, $sigset, $flags);
+-+    sigaction($rtsig, $sigact);
+-+  }
+-+
+-+The flags default to zero, if you want something different you can
+-+either use C<local> on $POSIX::SigRt::SIGACTION_FLAGS, or you can
+-+derive from POSIX::SigRt and define your own C<new()> (the tied hash
+-+STORE method of the %SIGRT calls C<new($rtsig, $handler, $SIGACTION_FLAGS)>,
+-+where the $rtsig ranges from zero to SIGRTMAX - SIGRTMIN + 1).
+-+
+-+Just as with any signal, you can use sigaction($rtsig, undef, $oa) to
+-+retrieve the installed signal handler (or, rather, the signal action).
+-+
+-+B<NOTE:> whether POSIX realtime signals really work in your system, or
+-+whether Perl has been compiled so that it works with them, is outside
+-+of this discussion.
+-+
+-+=item SIGRTMIN
+-+
+-+Return the minimum POSIX realtime signal number available, or C<undef>
+-+if no POSIX realtime signals are available.
+-+
+-+=item SIGRTMAX
+-+
+-+Return the maximum POSIX realtime signal number available, or C<undef>
+-+if no POSIX realtime signals are available.
+-+
+-+=back
+-+
+-+=head2 POSIX::SigSet
+-+
+-+=over 8
+-+
+-+=item new
+-+
+-+Create a new SigSet object.  This object will be destroyed automatically
+-+when it is no longer needed.  Arguments may be supplied to initialize the
+-+set.
+-+
+-+Create an empty set.
+-+
+-+	$sigset = POSIX::SigSet->new;
+-+
+-+Create a set with SIGUSR1.
+-+
+-+	$sigset = POSIX::SigSet->new( &POSIX::SIGUSR1 );
+-+
+-+=item addset
+-+
+-+Add a signal to a SigSet object.
+-+
+-+	$sigset->addset( &POSIX::SIGUSR2 );
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item delset
+-+
+-+Remove a signal from the SigSet object.
+-+
+-+	$sigset->delset( &POSIX::SIGUSR2 );
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item emptyset
+-+
+-+Initialize the SigSet object to be empty.
+-+
+-+	$sigset->emptyset();
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item fillset
+-+
+-+Initialize the SigSet object to include all signals.
+-+
+-+	$sigset->fillset();
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item ismember
+-+
+-+Tests the SigSet object to see if it contains a specific signal.
+-+
+-+	if( $sigset->ismember( &POSIX::SIGUSR1 ) ){
+-+		print "contains SIGUSR1\n";
+-+	}
+-+
+-+=back
+-+
+-+=head2 POSIX::Termios
+-+
+-+=over 8
+-+
+-+=item new
+-+
+-+Create a new Termios object.  This object will be destroyed automatically
+-+when it is no longer needed.  A Termios object corresponds to the termios
+-+C struct.  new() mallocs a new one, getattr() fills it from a file descriptor,
+-+and setattr() sets a file descriptor's parameters to match Termios' contents.
+-+
+-+	$termios = POSIX::Termios->new;
+-+
+-+=item getattr
+-+
+-+Get terminal control attributes.
+-+
+-+Obtain the attributes for stdin.
+-+
+-+	$termios->getattr( 0 ) # Recommended for clarity.
+-+	$termios->getattr()
+-+
+-+Obtain the attributes for stdout.
+-+
+-+	$termios->getattr( 1 )
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item getcc
+-+
+-+Retrieve a value from the c_cc field of a termios object.  The c_cc field is
+-+an array so an index must be specified.
+-+
+-+	$c_cc[1] = $termios->getcc(1);
+-+
+-+=item getcflag
+-+
+-+Retrieve the c_cflag field of a termios object.
+-+
+-+	$c_cflag = $termios->getcflag;
+-+
+-+=item getiflag
+-+
+-+Retrieve the c_iflag field of a termios object.
+-+
+-+	$c_iflag = $termios->getiflag;
+-+
+-+=item getispeed
+-+
+-+Retrieve the input baud rate.
+-+
+-+	$ispeed = $termios->getispeed;
+-+
+-+=item getlflag
+-+
+-+Retrieve the c_lflag field of a termios object.
+-+
+-+	$c_lflag = $termios->getlflag;
+-+
+-+=item getoflag
+-+
+-+Retrieve the c_oflag field of a termios object.
+-+
+-+	$c_oflag = $termios->getoflag;
+-+
+-+=item getospeed
+-+
+-+Retrieve the output baud rate.
+-+
+-+	$ospeed = $termios->getospeed;
+-+
+-+=item setattr
+-+
+-+Set terminal control attributes.
+-+
+-+Set attributes immediately for stdout.
+-+
+-+	$termios->setattr( 1, &POSIX::TCSANOW );
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item setcc
+-+
+-+Set a value in the c_cc field of a termios object.  The c_cc field is an
+-+array so an index must be specified.
+-+
+-+	$termios->setcc( &POSIX::VEOF, 1 );
+-+
+-+=item setcflag
+-+
+-+Set the c_cflag field of a termios object.
+-+
+-+	$termios->setcflag( $c_cflag | &POSIX::CLOCAL );
+-+
+-+=item setiflag
+-+
+-+Set the c_iflag field of a termios object.
+-+
+-+	$termios->setiflag( $c_iflag | &POSIX::BRKINT );
+-+
+-+=item setispeed
+-+
+-+Set the input baud rate.
+-+
+-+	$termios->setispeed( &POSIX::B9600 );
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item setlflag
+-+
+-+Set the c_lflag field of a termios object.
+-+
+-+	$termios->setlflag( $c_lflag | &POSIX::ECHO );
+-+
+-+=item setoflag
+-+
+-+Set the c_oflag field of a termios object.
+-+
+-+	$termios->setoflag( $c_oflag | &POSIX::OPOST );
+-+
+-+=item setospeed
+-+
+-+Set the output baud rate.
+-+
+-+	$termios->setospeed( &POSIX::B9600 );
+-+
+-+Returns C<undef> on failure.
+-+
+-+=item Baud rate values
+-+
+-+B38400 B75 B200 B134 B300 B1800 B150 B0 B19200 B1200 B9600 B600 B4800 B50 B2400 B110
+-+
+-+=item Terminal interface values
+-+
+-+TCSADRAIN TCSANOW TCOON TCIOFLUSH TCOFLUSH TCION TCIFLUSH TCSAFLUSH TCIOFF TCOOFF
+-+
+-+=item c_cc field values
+-+
+-+VEOF VEOL VERASE VINTR VKILL VQUIT VSUSP VSTART VSTOP VMIN VTIME NCCS
+-+
+-+=item c_cflag field values
+-+
+-+CLOCAL CREAD CSIZE CS5 CS6 CS7 CS8 CSTOPB HUPCL PARENB PARODD
+-+
+-+=item c_iflag field values
+-+
+-+BRKINT ICRNL IGNBRK IGNCR IGNPAR INLCR INPCK ISTRIP IXOFF IXON PARMRK
+-+
+-+=item c_lflag field values
+-+
+-+ECHO ECHOE ECHOK ECHONL ICANON IEXTEN ISIG NOFLSH TOSTOP
+-+
+-+=item c_oflag field values
+-+
+-+OPOST
+-+
+-+=back
+-+
+-+=head1 PATHNAME CONSTANTS
+-+
+-+=over 8
+-+
+-+=item Constants
+-+
+-+_PC_CHOWN_RESTRICTED _PC_LINK_MAX _PC_MAX_CANON _PC_MAX_INPUT _PC_NAME_MAX _PC_NO_TRUNC _PC_PATH_MAX _PC_PIPE_BUF _PC_VDISABLE
+-+
+-+=back
+-+
+-+=head1 POSIX CONSTANTS
+-+
+-+=over 8
+-+
+-+=item Constants
+-+
+-+_POSIX_ARG_MAX _POSIX_CHILD_MAX _POSIX_CHOWN_RESTRICTED _POSIX_JOB_CONTROL _POSIX_LINK_MAX _POSIX_MAX_CANON _POSIX_MAX_INPUT _POSIX_NAME_MAX _POSIX_NGROUPS_MAX _POSIX_NO_TRUNC _POSIX_OPEN_MAX _POSIX_PATH_MAX _POSIX_PIPE_BUF _POSIX_SAVED_IDS _POSIX_SSIZE_MAX _POSIX_STREAM_MAX _POSIX_TZNAME_MAX _POSIX_VDISABLE _POSIX_VERSION
+-+
+-+=back
+-+
+-+=head1 SYSTEM CONFIGURATION
+-+
+-+=over 8
+-+
+-+=item Constants
+-+
+-+_SC_ARG_MAX _SC_CHILD_MAX _SC_CLK_TCK _SC_JOB_CONTROL _SC_NGROUPS_MAX _SC_OPEN_MAX _SC_PAGESIZE _SC_SAVED_IDS _SC_STREAM_MAX _SC_TZNAME_MAX _SC_VERSION
+-+
+-+=back
+-+
+-+=head1 ERRNO
+-+
+-+=over 8
+-+
+-+=item Constants
+-+
+-+E2BIG EACCES EADDRINUSE EADDRNOTAVAIL EAFNOSUPPORT EAGAIN EALREADY EBADF
+-+EBUSY ECHILD ECONNABORTED ECONNREFUSED ECONNRESET EDEADLK EDESTADDRREQ
+-+EDOM EDQUOT EEXIST EFAULT EFBIG EHOSTDOWN EHOSTUNREACH EINPROGRESS EINTR
+-+EINVAL EIO EISCONN EISDIR ELOOP EMFILE EMLINK EMSGSIZE ENAMETOOLONG
+-+ENETDOWN ENETRESET ENETUNREACH ENFILE ENOBUFS ENODEV ENOENT ENOEXEC
+-+ENOLCK ENOMEM ENOPROTOOPT ENOSPC ENOSYS ENOTBLK ENOTCONN ENOTDIR
+-+ENOTEMPTY ENOTSOCK ENOTTY ENXIO EOPNOTSUPP EPERM EPFNOSUPPORT EPIPE
+-+EPROCLIM EPROTONOSUPPORT EPROTOTYPE ERANGE EREMOTE ERESTART EROFS
+-+ESHUTDOWN ESOCKTNOSUPPORT ESPIPE ESRCH ESTALE ETIMEDOUT ETOOMANYREFS
+-+ETXTBSY EUSERS EWOULDBLOCK EXDEV
+-+
+-+=back
+-+
+-+=head1 FCNTL
+-+
+-+=over 8
+-+
+-+=item Constants
+-+
+-+FD_CLOEXEC F_DUPFD F_GETFD F_GETFL F_GETLK F_OK F_RDLCK F_SETFD F_SETFL F_SETLK F_SETLKW F_UNLCK F_WRLCK O_ACCMODE O_APPEND O_CREAT O_EXCL O_NOCTTY O_NONBLOCK O_RDONLY O_RDWR O_TRUNC O_WRONLY
+-+
+-+=back
+-+
+-+=head1 FLOAT
+-+
+-+=over 8
+-+
+-+=item Constants
+-+
+-+DBL_DIG DBL_EPSILON DBL_MANT_DIG DBL_MAX DBL_MAX_10_EXP DBL_MAX_EXP DBL_MIN DBL_MIN_10_EXP DBL_MIN_EXP FLT_DIG FLT_EPSILON FLT_MANT_DIG FLT_MAX FLT_MAX_10_EXP FLT_MAX_EXP FLT_MIN FLT_MIN_10_EXP FLT_MIN_EXP FLT_RADIX FLT_ROUNDS LDBL_DIG LDBL_EPSILON LDBL_MANT_DIG LDBL_MAX LDBL_MAX_10_EXP LDBL_MAX_EXP LDBL_MIN LDBL_MIN_10_EXP LDBL_MIN_EXP
+-+
+-+=back
+-+
+-+=head1 LIMITS
+-+
+-+=over 8
+-+
+-+=item Constants
+-+
+-+ARG_MAX CHAR_BIT CHAR_MAX CHAR_MIN CHILD_MAX INT_MAX INT_MIN LINK_MAX LONG_MAX LONG_MIN MAX_CANON MAX_INPUT MB_LEN_MAX NAME_MAX NGROUPS_MAX OPEN_MAX PATH_MAX PIPE_BUF SCHAR_MAX SCHAR_MIN SHRT_MAX SHRT_MIN SSIZE_MAX STREAM_MAX TZNAME_MAX UCHAR_MAX UINT_MAX ULONG_MAX USHRT_MAX
+-+
+-+=back
+-+
+-+=head1 LOCALE
+-+
+-+=over 8
+-+
+-+=item Constants
+-+
+-+LC_ALL LC_COLLATE LC_CTYPE LC_MONETARY LC_NUMERIC LC_TIME
+-+
+-+=back
+-+
+-+=head1 MATH
+-+
+-+=over 8
+-+
+-+=item Constants
+-+
+-+HUGE_VAL
+-+
+-+=back
+-+
+-+=head1 SIGNAL
+-+
+-+=over 8
+-+
+-+=item Constants
+-+
+-+SA_NOCLDSTOP SA_NOCLDWAIT SA_NODEFER SA_ONSTACK SA_RESETHAND SA_RESTART
+-+SA_SIGINFO SIGABRT SIGALRM SIGCHLD SIGCONT SIGFPE SIGHUP SIGILL SIGINT
+-+SIGKILL SIGPIPE SIGQUIT SIGSEGV SIGSTOP SIGTERM SIGTSTP SIGTTIN SIGTTOU
+-+SIGUSR1 SIGUSR2 SIG_BLOCK SIG_DFL SIG_ERR SIG_IGN SIG_SETMASK
+-+SIG_UNBLOCK
+-+
+-+=back
+-+
+-+=head1 STAT
+-+
+-+=over 8
+-+
+-+=item Constants
+-+
+-+S_IRGRP S_IROTH S_IRUSR S_IRWXG S_IRWXO S_IRWXU S_ISGID S_ISUID S_IWGRP S_IWOTH S_IWUSR S_IXGRP S_IXOTH S_IXUSR
+-+
+-+=item Macros
+-+
+-+S_ISBLK S_ISCHR S_ISDIR S_ISFIFO S_ISREG
+-+
+-+=back
+-+
+-+=head1 STDLIB
+-+
+-+=over 8
+-+
+-+=item Constants
+-+
+-+EXIT_FAILURE EXIT_SUCCESS MB_CUR_MAX RAND_MAX
+-+
+-+=back
+-+
+-+=head1 STDIO
+-+
+-+=over 8
+-+
+-+=item Constants
+-+
+-+BUFSIZ EOF FILENAME_MAX L_ctermid L_cuserid L_tmpname TMP_MAX
+-+
+-+=back
+-+
+-+=head1 TIME
+-+
+-+=over 8
+-+
+-+=item Constants
+-+
+-+CLK_TCK CLOCKS_PER_SEC
+-+
+-+=back
+-+
+-+=head1 UNISTD
+-+
+-+=over 8
+-+
+-+=item Constants
+-+
+-+R_OK SEEK_CUR SEEK_END SEEK_SET STDIN_FILENO STDOUT_FILENO STDERR_FILENO W_OK X_OK
+-+
+-+=back
+-+
+-+=head1 WAIT
+-+
+-+=over 8
+-+
+-+=item Constants
+-+
+-+WNOHANG WUNTRACED
+-+
+-+=over 16
+-+
+-+=item WNOHANG
+-+
+-+Do not suspend the calling process until a child process
+-+changes state but instead return immediately.
+-+
+-+=item WUNTRACED
+-+
+-+Catch stopped child processes.
+-+
+-+=back
+-+
+-+=item Macros
+-+
+-+WIFEXITED WEXITSTATUS WIFSIGNALED WTERMSIG WIFSTOPPED WSTOPSIG
+-+
+-+=over 16
+-+
+-+=item WIFEXITED
+-+
+-+WIFEXITED($?) returns true if the child process exited normally
+-+(C<exit()> or by falling off the end of C<main()>)
+-+
+-+=item WEXITSTATUS
+-+
+-+WEXITSTATUS($?) returns the normal exit status of the child process
+-+(only meaningful if WIFEXITED($?) is true)
+-+
+-+=item WIFSIGNALED
+-+
+-+WIFSIGNALED($?) returns true if the child process terminated because
+-+of a signal
+-+
+-+=item WTERMSIG
+-+
+-+WTERMSIG($?) returns the signal the child process terminated for
+-+(only meaningful if WIFSIGNALED($?) is true)
+-+
+-+=item WIFSTOPPED
+-+
+-+WIFSTOPPED($?) returns true if the child process is currently stopped
+-+(can happen only if you specified the WUNTRACED flag to waitpid())
+-+
+-+=item WSTOPSIG
+-+
+-+WSTOPSIG($?) returns the signal the child process was stopped for
+-+(only meaningful if WIFSTOPPED($?) is true)
+-+
+-+=back
+-+
+-+=back
+-+
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_4.patch b/meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_4.patch
+deleted file mode 100644
+index 98bf074..0000000
+--- a/meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_4.patch
++++ /dev/null
+@@ -1,57 +0,0 @@
+-Upstream-Status:Inappropriate [Backport]
+-
+-commit 43c0c913165d6abe1bc0cb45a784eb1c32c3700b
+-Author: Nicholas Clark <nick@ccl4.org>
+-Date:   Mon Feb 14 09:06:42 2011 +0000
+-
+-    For miniperl, use the USE_SITECUSTOMIZE feature to load the build-time @INC
+-    
+-    For miniperl (only), always enable USE_SITECUSTOMIZE, but change it to load
+-    a buildcustomize.pl file from $INC[0], if present. The default @INC for
+-    miniperl is '.', so by default this does nothing.
+-
+-diff --git a/perl.c b/perl.c
+-index 8f8565d..6bb9f46 100644
+---- a/perl.c
+-+++ b/perl.c
+-@@ -24,6 +24,10 @@
+-  * function of the interpreter; that can be found in perlmain.c
+-  */
+- 
+-+#ifdef PERL_IS_MINIPERL
+-+#  define USE_SITECUSTOMIZE
+-+#endif
+-+
+- #include "EXTERN.h"
+- #define PERL_IN_PERL_C
+- #include "perl.h"
+-@@ -1973,15 +1977,26 @@ S_parse_body(pTHX_ char **env, XSINIT_t xsinit)
+-     }
+-     }
+- 
+--#if defined(USE_SITECUSTOMIZE) && !defined(PERL_IS_MINIPERL)
+-+#if defined(USE_SITECUSTOMIZE)
+-     if (!minus_f) {
+--	/* SITELIB_EXP is a function call on Win32.
+--	   The games with local $! are to avoid setting errno if there is no
+-+	/* The games with local $! are to avoid setting errno if there is no
+- 	   sitecustomize script.  */
+-+#  ifdef PERL_IS_MINIPERL
+-+	AV *const inc = GvAV(PL_incgv);
+-+	SV **const inc0 = inc ? av_fetch(inc, 0, FALSE) : NULL;
+-+
+-+	if (inc0) {
+-+	    (void)Perl_av_create_and_unshift_one(aTHX_ &PL_preambleav,
+-+						 Perl_newSVpvf(aTHX_
+-+							       "BEGIN { do {local $!; -f '%"SVf"/buildcustomize.pl'} && do '%"SVf"/buildcustomize.pl' }", *inc0, *inc0));
+-+	}
+-+#  else
+-+	/* SITELIB_EXP is a function call on Win32.  */
+- 	const char *const sitelib = SITELIB_EXP;
+- 	(void)Perl_av_create_and_unshift_one(aTHX_ &PL_preambleav,
+- 					     Perl_newSVpvf(aTHX_
+- 							   "BEGIN { do {local $!; -f '%s/sitecustomize.pl'} && do '%s/sitecustomize.pl' }", sitelib, sitelib));
+-+#  endif
+-     }
+- #endif
+- 
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_5.patch b/meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_5.patch
+deleted file mode 100644
+index 5891ee6..0000000
+--- a/meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_5.patch
++++ /dev/null
+@@ -1,430 +0,0 @@
+-Upstream-Status:Inappropriate [Backport]
+-
+-Rebased by Nitin A Kamble <nitin.a.kamble@intel.com> on 3/11/2011
+-
+-commit 5e4c4c91bd52a48de59520d5e9b4e3478e49c613
+-Author: Nicholas Clark <nick@ccl4.org>
+-Date:   Mon Feb 14 10:14:18 2011 +0000
+-
+-    Use a buildcustomize.pl to set @INC in miniperl when building extensions.
+-    
+-    With the build tools now shipped in various subdirectories of cpan/ and dist/
+-    we need to add several paths to @INC when invoking MakeMaker (etc) to build
+-    extensions.
+-    
+-    The previous approach of using $ENV{PERL5LIB} was fragile, because:
+-    a: It was hitting the length limit for %ENV variables on VMS
+-    b: It was running the risk of race conditions in a parallel build -
+-       ExtUtils::Makemaker "knows" to add -I../..lib, which puts lib at the *front*
+-       of @INC, but if one parallel process happens to copy a module into lib/
+-       whilst another is searching for it, the second may get a partial read
+-    c: Overwriting $ENV{PERL5LIB} breaks any system where any of the installed
+-       build tools are actually implemented in Perl, if they are relying on
+-       $ENV{PERL5LIB} for setup
+-    
+-    This approach
+-    
+-    a: Doesn't have %ENV length limits
+-    b: Ensures that lib/ is last, so copy targets are always shadowing copy
+-       sources
+-    c: Only affects miniperl, and doesn't touch $ENV{PERL5LIB}
+-    
+-    Approaches that turned out to have fatal flaws:
+-    
+-    1: Using $ENV{PERL5OPT} with a module fails because ExtUtils::MakeMaker
+-       searches for the build perl without setting lib, and treats the error
+-       caused by a failed -M as "not a valid perl 5 binary"
+-    2: Refactoring ExtUtils::MakeMaker to *not* use -I for lib, and instead rely
+-       on $ENV{PERL5LIB} [which includes "../../lib"] fails because:
+-       some extensions have subdirectories, and on these EU::MM correctly uses
+-       -I../../../lib, where as $ENV{PERL5LIB} only has space for relative paths,
+-       and only with two levels.
+-    
+-    This approach actually takes advantage of ExtUtils::MakeMaker setting an -I
+-    option correct for the depth of directory being built.
+-
+-Index: perl-5.12.3/Cross/Makefile-cross-SH
+-===================================================================
+---- perl-5.12.3.orig/Cross/Makefile-cross-SH
+-+++ perl-5.12.3/Cross/Makefile-cross-SH
+-@@ -324,7 +324,7 @@ $spitshell >>$Makefile <<'!NO!SUBS!'
+- 
+- CONFIGPM = xlib/$(CROSS_NAME)/Config.pm
+- 
+--private = preplibrary $(CONFIGPM) $(CROSS_LIB)/Config.pod
+-+private = preplibrary $(CONFIGPM) $(CROSS_LIB)/Config.pod lib/buildcustomize.pl
+- 
+- shextract = Makefile cflags config.h makeaperl makedepend \
+- 	makedir myconfig writemain pod/Makefile
+-@@ -752,6 +752,9 @@ lib/lib.pm:	miniperl $(CONFIGPM)
+- 	@-rm -f $@
+- 	$(LDLIBPTH) ./miniperl -Ilib -MCross lib/lib_pm.PL
+- 
+-+lib/buildcustomize.pl: $(MINIPERL_EXE) write_buildcustomize.pl
+-+	$(MINIPERL) write_buildcustomize.pl >lib/buildcustomize.pl
+-+
+- unidatafiles $(unidatafiles): uni.data
+- 
+- uni.data: miniperl$(EXE_EXT) $(CONFIGPM) lib/unicore/mktables
+-@@ -922,16 +925,16 @@ manicheck:	FORCE
+- 
+- 
+- 
+--$(DYNALOADER):	preplibrary FORCE
+-+$(DYNALOADER): lib/buildcustomize.pl preplibrary FORCE
+- 	@$(LDLIBPTH) $(RUN) ./miniperl$(EXE_EXT) -Ilib make_ext.pl --cross $@ MAKE=$(MAKE) LIBPERL_A=$(LIBPERL) LINKTYPE=static $(STATIC_LDFLAGS)
+- 
+--d_dummy $(dynamic_ext):	miniperl$(EXE_EXT) preplibrary makeppport $(DYNALOADER) FORCE
+-+d_dummy $(dynamic_ext):	miniperl$(EXE_EXT) lib/buildcustomize.pl preplibrary makeppport $(DYNALOADER) FORCE
+- 	@$(LDLIBPTH) $(RUN) ./miniperl$(EXE_EXT) -Ilib make_ext.pl --cross $@ MAKE=$(MAKE) LIBPERL_A=$(LIBPERL) LINKTYPE=dynamic
+- 
+--s_dummy $(static_ext):	miniperl$(EXE_EXT) preplibrary makeppport $(DYNALOADER) FORCE
+-+s_dummy $(static_ext):	miniperl$(EXE_EXT) lib/buildcustomize.pl preplibrary makeppport $(DYNALOADER) FORCE
+- 	@$(LDLIBPTH) $(RUN) ./miniperl$(EXE_EXT) -Ilib make_ext.pl --cross $@ MAKE=$(MAKE) LIBPERL_A=$(LIBPERL) LINKTYPE=static $(STATIC_LDFLAGS)
+- 
+--n_dummy $(nonxs_ext):	miniperl$(EXE_EXT) preplibrary $(DYNALOADER) FORCE
+-+n_dummy $(nonxs_ext):	miniperl$(EXE_EXT) lib/buildcustomize.pl preplibrary $(DYNALOADER) FORCE
+- 	@$(LDLIBPTH) $(RUN) ./miniperl$(EXE_EXT) -Ilib make_ext.pl --cross $@ MAKE=$(MAKE) LIBPERL_A=$(LIBPERL)
+- !NO!SUBS!
+- 
+-Index: perl-5.12.3/MANIFEST
+-===================================================================
+---- perl-5.12.3.orig/MANIFEST
+-+++ perl-5.12.3/MANIFEST
+-@@ -4747,6 +4747,7 @@ win32/wince.c			WinCE port
+- win32/wince.h			WinCE port
+- win32/wincesck.c		WinCE port
+- writemain.SH			Generate perlmain.c from miniperlmain.c+extensions
+-+write_buildcustomize.pl		Generate lib/buildcustomize.pl
+- x2p/a2p.c			Output of a2p.y run through byacc
+- x2p/a2p.h			Global declarations
+- x2p/a2p.pod			Pod for awk to perl translator
+-Index: perl-5.12.3/Makefile.SH
+-===================================================================
+---- perl-5.12.3.orig/Makefile.SH
+-+++ perl-5.12.3/Makefile.SH
+-@@ -428,7 +428,7 @@ esac
+- ## In the following dollars and backticks do not need the extra backslash.
+- $spitshell >>$Makefile <<'!NO!SUBS!'
+- 
+--private = preplibrary $(CONFIGPM) $(CONFIGPOD) lib/ExtUtils/Miniperl.pm git_version.h
+-+private = preplibrary $(CONFIGPM) $(CONFIGPOD) lib/ExtUtils/Miniperl.pm git_version.h lib/buildcustomize.pl
+- 
+- # Files to be built with variable substitution before miniperl
+- # is available.
+-@@ -991,6 +991,9 @@ $(plextract):	$(MINIPERL_EXE) $(CONFIGPM
+- x2p/s2p: $(MINIPERL_EXE) $(CONFIGPM) $(dynamic_ext) x2p/s2p.PL
+- 	cd x2p; $(LDLIBPTH) $(MAKE) s2p
+- 
+-+lib/buildcustomize.pl: $(MINIPERL_EXE) write_buildcustomize.pl
+-+	$(MINIPERL) write_buildcustomize.pl >lib/buildcustomize.pl
+-+
+- unidatafiles $(unidatafiles) pod/perluniprops.pod: uni.data
+- 
+- uni.data: $(MINIPERL_EXE) $(CONFIGPM) lib/unicore/mktables $(nonxs_ext)
+-@@ -1160,16 +1163,16 @@ manicheck:	FORCE
+- #
+- # DynaLoader may be needed for extensions that use Makefile.PL.
+- 
+--$(DYNALOADER):	$(MINIPERL_EXE) preplibrary FORCE $(nonxs_ext)
+-+$(DYNALOADER):	$(MINIPERL_EXE) lib/buildcustomize.pl preplibrary FORCE $(nonxs_ext)
+- 	$(MINIPERL) make_ext.pl $@ MAKE=$(MAKE) LIBPERL_A=$(LIBPERL) LINKTYPE=static $(STATIC_LDFLAGS)
+- 
+--d_dummy $(dynamic_ext):	$(MINIPERL_EXE) preplibrary makeppport $(DYNALOADER) FORCE $(PERLEXPORT)
+-+d_dummy $(dynamic_ext):	$(MINIPERL_EXE) lib/buildcustomize.pl preplibrary makeppport $(DYNALOADER) FORCE $(PERLEXPORT)
+- 	$(MINIPERL) make_ext.pl $@ MAKE=$(MAKE) LIBPERL_A=$(LIBPERL) LINKTYPE=dynamic
+- 
+--s_dummy $(static_ext):	$(MINIPERL_EXE) preplibrary makeppport $(DYNALOADER) FORCE
+-+s_dummy $(static_ext):	$(MINIPERL_EXE) lib/buildcustomize.pl preplibrary makeppport $(DYNALOADER) FORCE
+- 	$(MINIPERL) make_ext.pl $@ MAKE=$(MAKE) LIBPERL_A=$(LIBPERL) LINKTYPE=static $(STATIC_LDFLAGS)
+- 
+--n_dummy $(nonxs_ext):	$(MINIPERL_EXE) preplibrary FORCE
+-+n_dummy $(nonxs_ext):	$(MINIPERL_EXE) lib/buildcustomize.pl preplibrary FORCE
+- 	$(MINIPERL) make_ext.pl $@ MAKE=$(MAKE) LIBPERL_A=$(LIBPERL)
+- !NO!SUBS!
+- 
+-Index: perl-5.12.3/installperl
+-===================================================================
+---- perl-5.12.3.orig/installperl
+-+++ perl-5.12.3/installperl
+-@@ -714,6 +714,8 @@ sub installlib {
+-     # ignore the test extensions
+-     return if $dir =~ m{\bXS/(?:APItest|Typemap)\b};
+-     return if $name =~ m{\b(?:APItest|Typemap)\.pm$};
+-+    # ignore the build support code
+-+    return if $name =~ /\bbuildcustomize\.pl$/;
+-     # ignore the demo files
+-     return if $dir =~ /\b(?:demos?|eg)\b/;
+- 
+-Index: perl-5.12.3/make_ext.pl
+-===================================================================
+---- perl-5.12.3.orig/make_ext.pl
+-+++ perl-5.12.3/make_ext.pl
+-@@ -4,11 +4,9 @@ use warnings;
+- use Config;
+- BEGIN {
+-     if ($^O eq 'MSWin32') {
+--	unshift @INC, ('../cpan/Cwd', '../cpan/Cwd/lib');
+--	require File::Spec::Functions;
+-+	unshift @INC, '../cpan/Cwd';
+- 	require FindExt;
+--    }
+--    else {
+-+    } else {
+- 	unshift @INC, 'cpan/Cwd';
+-     }
+- }
+-@@ -18,27 +16,6 @@ my $is_Win32 = $^O eq 'MSWin32';
+- my $is_VMS = $^O eq 'VMS';
+- my $is_Unix = !$is_Win32 && !$is_VMS;
+- 
+--# To clarify, this isn't the entire suite of modules considered "toolchain"
+--# It's not even all modules needed to build ext/
+--# It's just the source paths of the (minimum complete set of) modules in ext/
+--# needed to build the nonxs modules
+--# After which, all nonxs modules are in lib, which was always sufficient to
+--# allow miniperl to build everything else.
+--
+--# This list cannot get any longer without overflowing the length limit for
+--# environment variables on VMS
+--my @toolchain = qw(cpan/AutoLoader/lib
+--		   cpan/Cwd cpan/Cwd/lib
+--		   cpan/ExtUtils-Command/lib
+--		   dist/ExtUtils-Install/lib
+--		   cpan/ExtUtils-MakeMaker/lib
+--		   cpan/ExtUtils-Manifest/lib
+--		   cpan/File-Path/lib
+--		   );
+--
+--# Used only in ExtUtils::Liblist::Kid::_win32_ext()
+--push @toolchain, 'cpan/Text-ParseWords/lib' if $is_Win32;
+--
+- my @ext_dirs = qw(cpan dist ext);
+- my $ext_dirs_re = '(?:' . join('|', @ext_dirs) . ')';
+- 
+-@@ -295,16 +272,7 @@ sub build_extension {
+-     $perl ||= "$up/miniperl";
+-     my $return_dir = $up;
+-     my $lib_dir = "$up/lib";
+--    # $lib_dir must be last, as we're copying files into it, and in a parallel
+--    # make there's a race condition if one process tries to open a module that
+--    # another process has half-written.
+--    my @new_inc = ((map {"$up/$_"} @toolchain), $lib_dir);
+--    if ($is_Win32) {
+--	@new_inc = map {File::Spec::Functions::rel2abs($_)} @new_inc;
+--    }
+--    $ENV{PERL5LIB} = join $Config{path_sep}, @new_inc;
+-     $ENV{PERL_CORE} = 1;
+--    # warn $ENV{PERL5LIB};
+- 
+-     my $makefile;
+-     if ($is_VMS) {
+-@@ -375,7 +343,7 @@ EOM
+- 	    @cross = '-MCross';
+- 	}
+- 	    
+--	my @args = (@cross, 'Makefile.PL');
+-+	my @args = ("-I$lib_dir", @cross, 'Makefile.PL');
+- 	if ($is_VMS) {
+- 	    my $libd = VMS::Filespec::vmspath($lib_dir);
+- 	    push @args, "INST_LIB=$libd", "INST_ARCHLIB=$libd";
+-Index: perl-5.12.3/vms/descrip_mms.template
+-===================================================================
+---- perl-5.12.3.orig/vms/descrip_mms.template
+-+++ perl-5.12.3/vms/descrip_mms.template
+-@@ -360,7 +360,7 @@ CRTLOPTS =,$(CRTL)/Options
+- unidatadirs = lib/unicore/To lib/unicore/lib
+- 
+- # Modules which must be installed before we can build extensions
+--LIBPREREQ = $(ARCHDIR)Config.pm $(ARCHDIR)Config_heavy.pl [.lib.VMS]Filespec.pm $(ARCHDIR)vmspipe.com [.lib]re.pm
+-+LIBPREREQ = $(ARCHDIR)Config.pm $(ARCHDIR)Config_heavy.pl [.lib.VMS]Filespec.pm $(ARCHDIR)vmspipe.com [.lib]re.pm [.lib]buildcustomize.pl
+- 
+- utils1 = [.lib.pods]perldoc.com [.lib.ExtUtils]Miniperl.pm [.utils]c2ph.com [.utils]h2ph.com 
+- utils2 = [.utils]h2xs.com [.utils]libnetcfg.com [.lib]perlbug.com [.utils]dprofpp.com 
+-@@ -458,6 +458,9 @@ archcorefiles : $(ac) $(ARCHAUTO)time.st
+- [.lib]re.pm  : [.ext.re]re.pm
+- 	Copy/NoConfirm/Log $(MMS$SOURCE) [.lib]
+- 
+-+[.lib]buildcustomize.pl : write_buildcustomize.pl $(MINIPERL_EXE)
+-+       $(MINIPERL) write_buildcustomize.pl > [.lib]buildcustomize.pl
+-+
+- vmspipe.com : [.vms]vmspipe.com
+- 	Copy/NoConfirm/Log $(MMS$SOURCE) []
+- 
+-@@ -561,7 +564,7 @@ unidatafiles.ts : $(MINIPERL_EXE) [.lib]
+- 	@ If F$Search("$(MMS$TARGET)").nes."" Then Delete/NoLog/NoConfirm $(MMS$TARGET);*
+- 	@ Copy/NoConfirm _NLA0: $(MMS$TARGET)
+-  
+--DynaLoader$(O) : $(ARCHDIR)Config.pm $(MINIPERL_EXE) [.lib.VMS]Filespec.pm 
+-+DynaLoader$(O) : [.lib]buildcustomize.pl $(ARCHDIR)Config.pm $(MINIPERL_EXE) [.lib.VMS]Filespec.pm
+- 	$(MINIPERL) make_ext.pl "MAKE=$(MMS)" "DynaLoader"
+- 
+- dynext : $(LIBPREREQ) $(DBG)perlshr$(E) unidatafiles.ts DynaLoader$(O) preplibrary makeppport $(MINIPERL_EXE)
+-@@ -1856,6 +1859,7 @@ tidy : cleanlis
+- 	- If F$Search("[.utils]*.com;-1").nes."" Then Purge/NoConfirm/Log [.utils]*.com
+- 	- If F$Search("[.x2p]*.com;-1").nes."" Then Purge/NoConfirm/Log [.x2p]*.com
+- 	- If F$Search("[.lib.pods]*.com;-1").nes."" Then Purge/NoConfirm/Log [.lib.pods]*.com
+-+	- If F$Search("[.lib]buildcustomize.pl;-1").nes."" Then Purge/NoConfirm/Log [.lib]buildcustomize.pl
+- 
+- clean : tidy cleantest
+-       	- $(MINIPERL) make_ext.pl "MAKE=$(MMS)" "--all" "--target=clean"
+-Index: perl-5.12.3/win32/Makefile
+-===================================================================
+---- perl-5.12.3.orig/win32/Makefile
+-+++ perl-5.12.3/win32/Makefile
+-@@ -923,6 +923,9 @@ $(CONFIGPM) : $(MINIPERL) ..\config.sh c
+- 	-$(MINIPERL) -I..\lib $(ICWD) config_h.PL "INST_VER=$(INST_VER)"
+- 	if errorlevel 1 $(MAKE) /$(MAKEFLAGS) $(CONFIGPM)
+- 
+-+..\lib\buildcustomize.pl: $(MINIPERL) ..\write_buildcustomize.pl
+-+	$(MINIPERL) -I..\lib ..\write_buildcustomize.pl .. >..\lib\buildcustomize.pl
+-+
+- $(MINIPERL) : $(MINIDIR) $(MINI_OBJ)
+- 	$(LINK32) -subsystem:console -out:$@ @<<
+- 	$(LINK_FLAGS) $(LIBFILES) $(MINI_OBJ)
+-@@ -1045,24 +1048,24 @@ MakePPPort: $(MINIPERL) $(CONFIGPM) Exte
+- #-------------------------------------------------------------------------------
+- # There's no direct way to mark a dependency on
+- # DynaLoader.pm, so this will have to do
+--Extensions: ..\make_ext.pl $(PERLDEP) $(CONFIGPM) $(DYNALOADER)
+-+Extensions: ..\make_ext.pl ..\lib\buildcustomize.pl $(PERLDEP) $(CONFIGPM) $(DYNALOADER)
+- 	$(XCOPY) ..\*.h $(COREDIR)\*.*
+- 	$(MINIPERL) -I..\lib ..\make_ext.pl "MAKE=$(MAKE)" --dir=$(CPANDIR) --dir=$(DISTDIR) --dir=$(EXTDIR) --dynamic
+- 
+--Extensions_reonly: ..\make_ext.pl $(PERLDEP) $(CONFIGPM) $(DYNALOADER)
+-+Extensions_reonly: ..\make_ext.pl ..\lib\buildcustomize.pl $(PERLDEP) $(CONFIGPM) $(DYNALOADER)
+- 	$(XCOPY) ..\*.h $(COREDIR)\*.*
+- 	$(MINIPERL) -I..\lib ..\make_ext.pl "MAKE=$(MAKE)" --dir=$(CPANDIR) --dir=$(DISTDIR) --dir=$(EXTDIR) --dynamic +re
+- 
+--Extensions_static : ..\make_ext.pl list_static_libs.pl $(PERLDEP) $(CONFIGPM)
+-+Extensions_static : ..\make_ext.pl ..\lib\buildcustomize.pl list_static_libs.pl $(PERLDEP) $(CONFIGPM)
+- 	$(XCOPY) ..\*.h $(COREDIR)\*.*
+- 	$(MINIPERL) -I..\lib ..\make_ext.pl "MAKE=$(MAKE)" --dir=$(CPANDIR) --dir=$(DISTDIR) --dir=$(EXTDIR) --static
+- 	$(MINIPERL) -I..\lib list_static_libs.pl > Extensions_static
+- 
+--Extensions_nonxs: ..\make_ext.pl $(PERLDEP) $(CONFIGPM)
+-+Extensions_nonxs: ..\make_ext.pl ..\lib\buildcustomize.pl $(PERLDEP) $(CONFIGPM)
+- 	$(XCOPY) ..\*.h $(COREDIR)\*.*
+- 	$(MINIPERL) -I..\lib ..\make_ext.pl "MAKE=$(MAKE)" --dir=$(CPANDIR) --dir=$(DISTDIR) --dir=$(EXTDIR) --nonxs
+- 
+--$(DYNALOADER) : ..\make_ext.pl $(PERLDEP) $(CONFIGPM) Extensions_nonxs
+-+$(DYNALOADER) : ..\make_ext.pl ..\lib\buildcustomize.pl $(PERLDEP) $(CONFIGPM) Extensions_nonxs
+- 	$(XCOPY) ..\*.h $(COREDIR)\*.*
+- 	$(MINIPERL) -I..\lib ..\make_ext.pl "MAKE=$(MAKE)" --dir=$(EXTDIR) --dynaloader
+- 
+-@@ -1159,6 +1162,7 @@ distclean: realclean
+- 	-del /f $(LIBDIR)\Win32CORE.pm
+- 	-del /f $(LIBDIR)\Win32API\File.pm
+- 	-del /f $(LIBDIR)\Win32API\File\cFile.pc
+-+	-del /f $(LIBDIR)\buildcustomize.pl
+- 	-del /f $(DISTDIR)\XSLoader\XSLoader.pm
+- 	-if exist $(LIBDIR)\App rmdir /s /q $(LIBDIR)\App
+- 	-if exist $(LIBDIR)\Archive rmdir /s /q $(LIBDIR)\Archive
+-Index: perl-5.12.3/win32/makefile.mk
+-===================================================================
+---- perl-5.12.3.orig/win32/makefile.mk
+-+++ perl-5.12.3/win32/makefile.mk
+-@@ -1215,6 +1215,10 @@ $(CONFIGPM) : $(MINIPERL) ..\config.sh c
+- 	$(MINIPERL) -I..\lib $(ICWD) config_h.PL "INST_VER=$(INST_VER)" \
+- 	    || $(MAKE) $(MAKEMACROS) $(CONFIGPM) $(MAKEFILE)
+- 
+-+..\lib\buildcustomize.pl: $(MINIPERL) ..\write_buildcustomize.pl
+-+	$(MINIPERL) -I..\lib ..\write_buildcustomize.pl .. >..\lib\buildcustomize.pl
+-+
+-+
+- $(MINIPERL) : $(MINIDIR) $(MINI_OBJ) $(CRTIPMLIBS)
+- .IF "$(CCTYPE)" == "BORLAND"
+- 	if not exist $(CCLIBDIR)\PSDK\odbccp32.lib \
+-@@ -1423,24 +1427,24 @@ MakePPPort: $(MINIPERL) $(CONFIGPM) Exte
+- #-------------------------------------------------------------------------------
+- # There's no direct way to mark a dependency on
+- # DynaLoader.pm, so this will have to do
+--Extensions : ..\make_ext.pl $(PERLDEP) $(CONFIGPM) $(DYNALOADER)
+-+Extensions : ..\make_ext.pl ..\lib\buildcustomize.pl $(PERLDEP) $(CONFIGPM) $(DYNALOADER)
+- 	$(XCOPY) ..\*.h $(COREDIR)\*.*
+- 	$(MINIPERL) -I..\lib ..\make_ext.pl "MAKE=$(MAKE)" --dir=$(CPANDIR) --dir=$(DISTDIR) --dir=$(EXTDIR) --dynamic
+- 
+--Extensions_reonly : ..\make_ext.pl $(PERLDEP) $(CONFIGPM) $(DYNALOADER)
+-+Extensions_reonly : ..\make_ext.pl ..\lib\buildcustomize.pl $(PERLDEP) $(CONFIGPM) $(DYNALOADER)
+- 	$(XCOPY) ..\*.h $(COREDIR)\*.*
+- 	$(MINIPERL) -I..\lib ..\make_ext.pl "MAKE=$(MAKE)" --dir=$(CPANDIR) --dir=$(DISTDIR) --dir=$(EXTDIR) --dynamic +re
+- 
+--Extensions_static : ..\make_ext.pl list_static_libs.pl $(PERLDEP) $(CONFIGPM)
+-+Extensions_static : ..\make_ext.pl ..\lib\buildcustomize.pl list_static_libs.pl $(PERLDEP) $(CONFIGPM)
+- 	$(XCOPY) ..\*.h $(COREDIR)\*.*
+- 	$(MINIPERL) -I..\lib ..\make_ext.pl "MAKE=$(MAKE)" --dir=$(CPANDIR) --dir=$(DISTDIR) --dir=$(EXTDIR) --static
+- 	$(MINIPERL) -I..\lib list_static_libs.pl > Extensions_static
+- 
+--Extensions_nonxs : ..\make_ext.pl $(PERLDEP) $(CONFIGPM)
+-+Extensions_nonxs : ..\make_ext.pl ..\lib\buildcustomize.pl $(PERLDEP) $(CONFIGPM)
+- 	$(XCOPY) ..\*.h $(COREDIR)\*.*
+- 	$(MINIPERL) -I..\lib ..\make_ext.pl "MAKE=$(MAKE)" --dir=$(CPANDIR) --dir=$(DISTDIR) --dir=$(EXTDIR) --nonxs
+- 
+--$(DYNALOADER) : ..\make_ext.pl $(PERLDEP) $(CONFIGPM) Extensions_nonxs
+-+$(DYNALOADER) : ..\make_ext.pl ..\lib\buildcustomize.pl $(PERLDEP) $(CONFIGPM) Extensions_nonxs
+- 	$(XCOPY) ..\*.h $(COREDIR)\*.*
+- 	$(MINIPERL) -I..\lib ..\make_ext.pl "MAKE=$(MAKE)" --dir=$(EXTDIR) --dynaloader
+- 
+-@@ -1534,6 +1538,7 @@ distclean: realclean
+- 	-del /f $(LIBDIR)\Win32CORE.pm
+- 	-del /f $(LIBDIR)\Win32API\File.pm
+- 	-del /f $(LIBDIR)\Win32API\File\cFile.pc
+-+	-del /f $(LIBDIR)\buildcustomize.pl
+- 	-del /f $(DISTDIR)\XSLoader\XSLoader.pm
+- 	-if exist $(LIBDIR)\App rmdir /s /q $(LIBDIR)\App
+- 	-if exist $(LIBDIR)\Archive rmdir /s /q $(LIBDIR)\Archive
+-Index: perl-5.12.3/write_buildcustomize.pl
+-===================================================================
+---- /dev/null
+-+++ perl-5.12.3/write_buildcustomize.pl
+-@@ -0,0 +1,50 @@
+-+#!./miniperl -w
+-+
+-+use strict;
+-+if (@ARGV) {
+-+    my $dir = shift;
+-+    chdir $dir or die "Can't chdir '$dir': $!";
+-+    unshift @INC, 'lib';
+-+}
+-+
+-+unshift @INC, ('cpan/Cwd', 'cpan/Cwd/lib');
+-+require File::Spec::Functions;
+-+
+-+# To clarify, this isn't the entire suite of modules considered "toolchain"
+-+# It's not even all modules needed to build ext/
+-+# It's just the source paths of the (minimum complete set of) modules in ext/
+-+# needed to build the nonxs modules
+-+# After which, all nonxs modules are in lib, which was always sufficient to
+-+# allow miniperl to build everything else.
+-+
+-+my @toolchain = qw(cpan/AutoLoader/lib
+-+		   cpan/Cwd cpan/Cwd/lib
+-+		   cpan/ExtUtils-Command/lib
+-+		   dist/ExtUtils-Install/lib
+-+		   cpan/ExtUtils-MakeMaker/lib
+-+		   cpan/ExtUtils-Manifest/lib
+-+		   cpan/File-Path/lib
+-+		   );
+-+
+-+# Used only in ExtUtils::Liblist::Kid::_win32_ext()
+-+push @toolchain, 'cpan/Text-ParseWords/lib' if $^O eq 'MSWin32';
+-+
+-+# lib must be last, as the the toolchain modules write themselves into it
+-+# as they build, and it's important that @INC order ensures that the partially
+-+# written files are always masked by the complete versions.
+-+
+-+my $inc = join ",\n        ",
+-+    map { "q\0$_\0" }
+-+    (map {File::Spec::Functions::rel2abs($_)} @toolchain, 'lib'), '.';
+-+
+-+# If any of the system's build tools are written in Perl, then this module
+-+# may well be loaded by a much older version than we are building. So keep it
+-+# as backwards compatible as is easy.
+-+print <<"EOT";
+-+#!perl
+-+
+-+# We are miniperl, building extensions
+-+# Reset \@INC completely, adding the directories we need, and removing the
+-+# installed directories (which we don't need to read, and may confuse us)
+-+\@INC = ($inc);
+-+EOT
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_6.patch b/meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_6.patch
+deleted file mode 100644
+index 4267739..0000000
+--- a/meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_6.patch
++++ /dev/null
+@@ -1,158 +0,0 @@
+-Upstream-Status:Inappropriate [Backport]
+-
+-Rebased by Nitin A Kamble <nitin.a.kamble@intel.com> on 3/11/2011
+-
+-commit 7353f64c5bca6e7102582a1e0017c850930249c3
+-Author: Nicholas Clark <nick@ccl4.org>
+-Date:   Mon Feb 14 20:36:36 2011 +0000
+-
+-    Add ext/re/re.pm to the @INC set for miniperl by lib/buildcustomize.pl
+-    
+-    This avoids a build-time race condition where lib/re.pm might be read midway
+-    through the *second* copy of it (when ext/re/Makefile is being run). It also
+-    simplifies many [Mm]akefile* rules, which previously had a special case to
+-    copy it early.
+-
+-Index: perl-5.12.3/Cross/Makefile-cross-SH
+-===================================================================
+---- perl-5.12.3.orig/Cross/Makefile-cross-SH
+-+++ perl-5.12.3/Cross/Makefile-cross-SH
+-@@ -727,7 +727,7 @@ fi
+- $spitshell >>$Makefile <<'!NO!SUBS!'
+- 
+- .PHONY: preplibrary
+--preplibrary: miniperl $(CONFIGPM) lib/lib.pm lib/re.pm $(PREPLIBRARY_LIBPERL)
+-+preplibrary: miniperl $(CONFIGPM) lib/lib.pm $(PREPLIBRARY_LIBPERL)
+- 
+- .PHONY: makeppport
+- makeppport: miniperl$(EXE_EXT) $(CONFIGPM)
+-@@ -748,10 +748,6 @@ $(plextract):	miniperl $(CONFIGPM) x2p/s
+- 	@-rm -f $@
+- 	$(LDLIBPTH) ./miniperl -I`pwd`/lib $@.PL
+- 
+--lib/lib.pm:	miniperl $(CONFIGPM)
+--	@-rm -f $@
+--	$(LDLIBPTH) ./miniperl -Ilib -MCross lib/lib_pm.PL
+--
+- lib/buildcustomize.pl: $(MINIPERL_EXE) write_buildcustomize.pl
+- 	$(MINIPERL) write_buildcustomize.pl >lib/buildcustomize.pl
+- 
+-@@ -1212,7 +1208,7 @@ minitest.prep:
+- 
+- # Can't depend on lib/Config.pm because that might be where miniperl
+- # is crashing.
+--minitest: miniperl$(EXE_EXT) lib/re.pm minitest.prep
+-+minitest: miniperl$(EXE_EXT) minitest.prep
+- 	- cd t && (rm -f perl$(EXE_EXT); $(LNS) ../miniperl$(EXE_EXT) perl$(EXE_EXT)) \
+- 		&& $(LDLIBPTH) ./perl TEST -minitest base/*.t comp/*.t cmd/*.t run/*.t io/*.t op/*.t uni/*.t </dev/tty
+- 
+-Index: perl-5.12.3/Makefile.SH
+-===================================================================
+---- perl-5.12.3.orig/Makefile.SH
+-+++ perl-5.12.3/Makefile.SH
+-@@ -970,7 +970,7 @@ esac
+- $spitshell >>$Makefile <<'!NO!SUBS!'
+- 
+- .PHONY: preplibrary
+--preplibrary: $(MINIPERL_EXE) $(CONFIGPM) lib/re.pm $(PREPLIBRARY_LIBPERL)
+-+preplibrary: $(MINIPERL_EXE) $(CONFIGPM) $(PREPLIBRARY_LIBPERL)
+- 
+- $(CONFIGPM_FROM_CONFIG_SH): $(CONFIGPOD)
+- 
+-@@ -980,10 +980,6 @@ $(CONFIGPOD): config.sh $(MINIPERL_EXE) 
+- lib/ExtUtils/Miniperl.pm: miniperlmain.c $(MINIPERL_EXE) minimod.pl $(CONFIGPM)
+- 	$(MINIPERL) minimod.pl > lib/ExtUtils/Miniperl.pm
+- 
+--lib/re.pm: ext/re/re.pm
+--	@-rm -f $@
+--	cp ext/re/re.pm lib/re.pm
+--
+- $(plextract):	$(MINIPERL_EXE) $(CONFIGPM) x2p/s2p $(dynamic_ext)
+- 	@-rm -f $@
+- 	$(MINIPERL) $@.PL
+-@@ -1267,7 +1263,7 @@ _cleaner2:
+- 	rm -f lib/.exists lib/*/.exists lib/*/*/.exists
+- 	rm -f h2ph.man pstruct
+- 	rm -rf .config
+--	rm -f preload lib/re.pm
+-+	rm -f preload
+- 	rm -rf lib/Encode lib/Compress lib/Hash lib/re
+- 	rm -rf lib/TAP lib/Module/Pluggable lib/App
+- 	rm -rf lib/mro
+-@@ -1464,7 +1460,7 @@ minitest.prep:
+- 
+- # Can't depend on lib/Config.pm because that might be where miniperl
+- # is crashing.
+--minitest: $(MINIPERL_EXE) lib/re.pm minitest.prep
+-+minitest: $(MINIPERL_EXE) minitest.prep
+- 	- cd t && (rm -f $(PERL_EXE); $(LNS) ../$(MINIPERL_EXE) $(PERL_EXE)) \
+- 		&& $(RUN_PERL) TEST -minitest base/*.t comp/*.t cmd/*.t run/*.t io/*.t re/*.t op/*.t uni/*.t </dev/tty
+- 
+-Index: perl-5.12.3/vms/descrip_mms.template
+-===================================================================
+---- perl-5.12.3.orig/vms/descrip_mms.template
+-+++ perl-5.12.3/vms/descrip_mms.template
+-@@ -360,7 +360,7 @@ CRTLOPTS =,$(CRTL)/Options
+- unidatadirs = lib/unicore/To lib/unicore/lib
+- 
+- # Modules which must be installed before we can build extensions
+--LIBPREREQ = $(ARCHDIR)Config.pm $(ARCHDIR)Config_heavy.pl [.lib.VMS]Filespec.pm $(ARCHDIR)vmspipe.com [.lib]re.pm [.lib]buildcustomize.pl
+-+LIBPREREQ = $(ARCHDIR)Config.pm $(ARCHDIR)Config_heavy.pl [.lib.VMS]Filespec.pm $(ARCHDIR)vmspipe.com [.lib]buildcustomize.pl
+- 
+- utils1 = [.lib.pods]perldoc.com [.lib.ExtUtils]Miniperl.pm [.utils]c2ph.com [.utils]h2ph.com 
+- utils2 = [.utils]h2xs.com [.utils]libnetcfg.com [.lib]perlbug.com [.utils]dprofpp.com 
+-@@ -455,9 +455,6 @@ pod = $(pod0) $(pod1) $(pod2) $(pod3) $(
+- archcorefiles : $(ac) $(ARCHAUTO)time.stamp
+- 	@ $(NOOP)
+- 
+--[.lib]re.pm  : [.ext.re]re.pm
+--	Copy/NoConfirm/Log $(MMS$SOURCE) [.lib]
+--
+- [.lib]buildcustomize.pl : write_buildcustomize.pl $(MINIPERL_EXE)
+-        $(MINIPERL) write_buildcustomize.pl > [.lib]buildcustomize.pl
+- 
+-@@ -1487,7 +1484,7 @@ test_harness : all [.t.lib]vmsfspec.t
+- 	- @[.vms]test.com "$(E)" "$(__DEBUG__)"
+- 	@ $(MINIPERL) -e "print ""Ran tests"";" > [.t]rantests.
+- 
+--minitest : $(MINITEST_EXE) [.lib]re.pm [.lib.VMS]Filespec.pm unidatafiles.ts
+-+minitest : $(MINITEST_EXE) [.lib.VMS]Filespec.pm unidatafiles.ts
+- 	@ PERL_TEST_DRIVER == "minitest"
+- 	- @[.vms]test.com "$(E)" "$(__DEBUG__)"
+- 
+-Index: perl-5.12.3/win32/Makefile
+-===================================================================
+---- perl-5.12.3.orig/win32/Makefile
+-+++ perl-5.12.3/win32/Makefile
+-@@ -918,7 +918,6 @@ $(CONFIGPM) : $(MINIPERL) ..\config.sh c
+- 	if exist lib\* $(RCOPY) lib\*.* ..\lib\$(NULL)
+- 	$(XCOPY) ..\*.h $(COREDIR)\*.*
+- 	$(XCOPY) *.h $(COREDIR)\*.*
+--	$(XCOPY) ..\ext\re\re.pm $(LIBDIR)\*.*
+- 	$(RCOPY) include $(COREDIR)\*.*
+- 	-$(MINIPERL) -I..\lib $(ICWD) config_h.PL "INST_VER=$(INST_VER)"
+- 	if errorlevel 1 $(MAKE) /$(MAKEFLAGS) $(CONFIGPM)
+-Index: perl-5.12.3/win32/makefile.mk
+-===================================================================
+---- perl-5.12.3.orig/win32/makefile.mk
+-+++ perl-5.12.3/win32/makefile.mk
+-@@ -1210,7 +1210,6 @@ $(CONFIGPM) : $(MINIPERL) ..\config.sh c
+- 	if exist lib\* $(RCOPY) lib\*.* ..\lib\$(NULL)
+- 	$(XCOPY) ..\*.h $(COREDIR)\*.*
+- 	$(XCOPY) *.h $(COREDIR)\*.*
+--	$(XCOPY) ..\ext\re\re.pm $(LIBDIR)\*.*
+- 	$(RCOPY) include $(COREDIR)\*.*
+- 	$(MINIPERL) -I..\lib $(ICWD) config_h.PL "INST_VER=$(INST_VER)" \
+- 	    || $(MAKE) $(MAKEMACROS) $(CONFIGPM) $(MAKEFILE)
+-Index: perl-5.12.3/write_buildcustomize.pl
+-===================================================================
+---- perl-5.12.3.orig/write_buildcustomize.pl
+-+++ perl-5.12.3/write_buildcustomize.pl
+-@@ -24,6 +24,7 @@ my @toolchain = qw(cpan/AutoLoader/lib
+- 		   cpan/ExtUtils-MakeMaker/lib
+- 		   dist/ExtUtils-Manifest/lib
+- 		   cpan/File-Path/lib
+-+		   ext/re
+- 		   );
+- 
+- # Used only in ExtUtils::Liblist::Kid::_win32_ext()
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/09_fix_installperl.patch b/meta/recipes-devtools/perl/perl-5.14.2/09_fix_installperl.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl-5.12.3/09_fix_installperl.patch
+rename to meta/recipes-devtools/perl/perl-5.14.2/09_fix_installperl.patch
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/Configure-multilib.patch b/meta/recipes-devtools/perl/perl-5.14.2/Configure-multilib.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl-5.12.3/Configure-multilib.patch
+rename to meta/recipes-devtools/perl/perl-5.14.2/Configure-multilib.patch
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/MM_Unix.pm.patch b/meta/recipes-devtools/perl/perl-5.14.2/MM_Unix.pm.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl-5.12.3/MM_Unix.pm.patch
+rename to meta/recipes-devtools/perl/perl-5.14.2/MM_Unix.pm.patch
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/Makefile.SH.patch b/meta/recipes-devtools/perl/perl-5.14.2/Makefile.SH.patch
+similarity index 75%
+rename from meta/recipes-devtools/perl/perl-5.12.3/Makefile.SH.patch
+rename to meta/recipes-devtools/perl/perl-5.14.2/Makefile.SH.patch
+index 6371a3d..c9fd5e2 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/Makefile.SH.patch
++++ b/meta/recipes-devtools/perl/perl-5.14.2/Makefile.SH.patch
+@@ -1,29 +1,19 @@
+ Upstream-Status:Inappropriate [embedded specific]
  
--PR = "r1"
+-Index: perl-5.12.3/Makefile.SH
++Index: perl-5.14.2/Makefile.SH
+ ===================================================================
+---- perl-5.12.3.orig/Makefile.SH
+-+++ perl-5.12.3/Makefile.SH
+-@@ -50,12 +50,12 @@ case "$useshrplib" in
++--- perl-5.14.2.orig/Makefile.SH
+++++ perl-5.14.2/Makefile.SH
++@@ -36,7 +36,7 @@ case "$useshrplib" in
+  true)
+  	# Prefix all runs of 'miniperl' and 'perl' with
+  	# $ldlibpth so that ./perl finds *this* shared libperl.
+--	case "$LD_LIBRARY_PATH" in
+--	'')
+--		ldlibpth="LD_LIBRARY_PATH=`pwd`";;
+--	*)
+--		ldlibpth="LD_LIBRARY_PATH=`pwd`:${LD_LIBRARY_PATH}";;
+--	esac
+-+#	case "$LD_LIBRARY_PATH" in
+-+#	'')
+-+#		ldlibpth="LD_LIBRARY_PATH=`pwd`";;
+-+#	*)
+-+#		ldlibpth="LD_LIBRARY_PATH=`pwd`:${LD_LIBRARY_PATH}";;
+-+#	esac
++-	ldlibpth=LD_LIBRARY_PATH=`pwd`'$${LD_LIBRARY_PATH:+:}$$LD_LIBRARY_PATH'
+++	#ldlibpth=LD_LIBRARY_PATH=`pwd`'$${LD_LIBRARY_PATH:+:}$$LD_LIBRARY_PATH'
+  
+  	pldlflags="$cccdlflags"
+  	static_ldflags=''
+-@@ -133,7 +133,8 @@ true)
++@@ -114,7 +114,8 @@ true)
+  	        ldlibpth=''
+  	        ;;
+  	    *)
+@@ -33,7 +23,7 @@ Index: perl-5.12.3/Makefile.SH
+  		;;
+  	    esac
+  	    # Strip off any trailing :'s
+-@@ -154,18 +155,7 @@ true)
++@@ -135,18 +136,7 @@ true)
+  	    # INSTALL file, under "Building a shared perl library".
+  	    # If there is no pre-existing $libperl, we don't need
+  	    # to do anything further.
+@@ -53,7 +43,7 @@ Index: perl-5.12.3/Makefile.SH
+  	    ;;
+  	os390)	test -f /bin/env && ldlibpth="/bin/env $ldlibpth"
+  		;;
+-@@ -557,9 +547,19 @@ splintfiles = $(c1)
++@@ -529,9 +519,19 @@ splintfiles = $(c1)
+  .c.s:
+  	$(CCCMDSRC) -S $*.c
+  
+@@ -76,7 +66,7 @@ Index: perl-5.12.3/Makefile.SH
+  
+  .PHONY: all translators utilities
+  
+-@@ -567,16 +567,16 @@ all: $(FIRSTMAKEFILE) $(MINIPERL_EXE) $(
++@@ -539,7 +539,7 @@ all: $(FIRSTMAKEFILE) $(MINIPERL_EXE) $(
+  # by make_patchnum.pl.
+  git_version.h: lib/Config_git.pl
+  
+@@ -85,18 +75,45 @@ Index: perl-5.12.3/Makefile.SH
+  	$(MINIPERL) make_patchnum.pl
+  
+  # make sure that we recompile perl.c if the git version changes
+- perl$(OBJ_EXT): git_version.h
+- 
+--translators:	$(MINIPERL_EXE) $(CONFIGPM) $(dynamic_ext) FORCE
+-+translators:	$(CONFIGPM) $(dynamic_ext) FORCE
+- 	@echo " "; echo "	Making x2p stuff"; cd x2p; $(LDLIBPTH) $(MAKE) all
++@@ -552,8 +552,8 @@ perl$(OBJ_EXT): git_version.h
++ # loading, we need to build perl first.
++ case "$usedl" in
++ define)
++-    util_deps='$(MINIPERL_EXE) $(CONFIGPM) lib/auto/Cwd/Cwd$(DLSUFFIX) FORCE'
++-     x2p_deps='$(MINIPERL_EXE) $(CONFIGPM) $(dynamic_ext) FORCE'
+++    util_deps='$(CONFIGPM) lib/auto/Cwd/Cwd$(DLSUFFIX) FORCE'
+++     x2p_deps='$(CONFIGPM) $(dynamic_ext) FORCE'
++     ;;
++ *)  util_deps='$(PERL_EXE) $(CONFIGPM) FORCE'
++      x2p_deps='$(PERL_EXE) $(CONFIGPM) FORCE'
++@@ -627,7 +627,7 @@ generate_uudmap$(HOST_EXE_EXT): generate
++ miniperlmain$(OBJ_EXT): miniperlmain.c patchlevel.h
++ 	$(CCCMD) $(PLDLFLAGS) $*.c
++ 
++-perlmain.c: $(MINIPERL_EXE) lib/ExtUtils/Miniperl.pm
+++perlmain.c: lib/ExtUtils/Miniperl.pm
++ 	$(MINIPERL) -Ilib -MExtUtils::Miniperl -e 'writemain(@ARGV)' DynaLoader $(static_ext) > perlmain.c
++ 
++ perlmain$(OBJ_EXT): perlmain.c
++@@ -691,7 +691,7 @@ PERLEXPORT		= perl.exp
++ 	;;
++ 	esac
++ 	$spitshell >>$Makefile <<'!NO!SUBS!'
++-perl.exp: $(MINIPERLEXP) makedef.pl config.sh $(SYM) $(SYMH)
+++perl.exp: makedef.pl config.sh $(SYM) $(SYMH)
++ 	./$(MINIPERLEXP) makedef.pl PLATFORM=aix CC_FLAGS="$(OPTIMIZE)" | sort -u | sort -f > perl.exp
+  
+--utilities:	$(MINIPERL_EXE) $(CONFIGPM) $(plextract) FORCE
+-+utilities:	$(CONFIGPM) $(plextract) FORCE
+- 	@echo " "; echo "	Making utilities"; cd utils; $(LDLIBPTH) $(MAKE) all
++ !NO!SUBS!
++@@ -700,7 +700,7 @@ os2)
++ 	$spitshell >>$Makefile <<'!NO!SUBS!'
++ MINIPERLEXP		= miniperl
+  
++-perl5.def: $(MINIPERLEXP) makedef.pl config.sh $(SYM) $(SYMH) miniperl.map
+++perl5.def:  makedef.pl config.sh $(SYM) $(SYMH) miniperl.map
++ 	./$(MINIPERLEXP) makedef.pl PLATFORM=os2 -DPERL_DLL=$(PERL_DLL) CC_FLAGS="$(OPTIMIZE)" > perl5.def
+  
+-@@ -754,7 +754,7 @@ $(LIBPERL): $& $(obj) $(DYNALOADER) $(LI
++ !NO!SUBS!
++@@ -757,7 +757,7 @@ $(LIBPERL): $& $(obj) $(DYNALOADER) $(LI
+  	true)
+  		$spitshell >>$Makefile <<'!NO!SUBS!'
+  	rm -f $@
+@@ -105,7 +122,7 @@ Index: perl-5.12.3/Makefile.SH
+  !NO!SUBS!
+  		case "$osname" in
+  		aix)
+-@@ -795,7 +795,9 @@ $(MINIPERL_EXE): $& miniperlmain$(OBJ_EX
++@@ -798,7 +798,9 @@ $(MINIPERL_EXE): $& miniperlmain$(OBJ_EX
+  	$(CC) -o $(MINIPERL_EXE) $(CLDFLAGS) \
+  	    $(mini_obj) \
+  	    miniperlmain$(OBJ_EXT) opmini$(OBJ_EXT) perlmini$(OBJ_EXT) $(libs)
+@@ -116,7 +133,7 @@ Index: perl-5.12.3/Makefile.SH
+  !NO!SUBS!
+  		;;
+  	next4*)
+-@@ -803,7 +805,9 @@ $(MINIPERL_EXE): $& miniperlmain$(OBJ_EX
++@@ -806,7 +808,9 @@ $(MINIPERL_EXE): $& miniperlmain$(OBJ_EX
+  $(MINIPERL_EXE): $& miniperlmain$(OBJ_EXT) $(mini_obj) perlmini$(OBJ_EXT) opmini$(OBJ_EXT)
+  	$(CC) -o $(MINIPERL_EXE) $(mini_obj) \
+  	    miniperlmain$(OBJ_EXT) opmini$(OBJ_EXT) perlmini$(OBJ_EXT) $(libs)
+@@ -127,7 +144,7 @@ Index: perl-5.12.3/Makefile.SH
+  !NO!SUBS!
+  		;;
+  	darwin*)
+-@@ -825,7 +829,9 @@ $(MINIPERL_EXE): $& miniperlmain$(OBJ_EX
++@@ -828,7 +832,9 @@ $(MINIPERL_EXE): $& miniperlmain$(OBJ_EX
+  	$(CC) $(CLDFLAGS) $(NAMESPACEFLAGS) -o $(MINIPERL_EXE) \
+  	    $(mini_obj) \
+  	    miniperlmain$(OBJ_EXT) opmini$(OBJ_EXT) perlmini$(OBJ_EXT) $(libs)
+@@ -138,7 +155,7 @@ Index: perl-5.12.3/Makefile.SH
+  !NO!SUBS!
+  		;;
+  	*)
+-@@ -835,7 +841,10 @@ $(MINIPERL_EXE): $& miniperlmain$(OBJ_EX
++@@ -838,7 +844,10 @@ $(MINIPERL_EXE): $& miniperlmain$(OBJ_EX
+  	$(LDLIBPTH) $(CC) $(CLDFLAGS) -o $(MINIPERL_EXE) \
+  	    $(mini_obj) \
+  	    miniperlmain$(OBJ_EXT) opmini$(OBJ_EXT) perlmini$(OBJ_EXT) $(libs)
+@@ -150,7 +167,7 @@ Index: perl-5.12.3/Makefile.SH
+  !NO!SUBS!
+  		;;
+  	esac
+-@@ -957,7 +966,7 @@ case "${osname}" in
++@@ -960,7 +969,7 @@ case "${osname}" in
+  catamount)
+  $spitshell >>$Makefile <<!GROK!THIS!
+  .PHONY: makeppport
+@@ -159,7 +176,7 @@ Index: perl-5.12.3/Makefile.SH
+  	-@for f in Makefile.PL PPPort_pm.PL PPPort_xs.PL ppport_h.PL; do \
+  	(cd ext/Devel-PPPort && `pwd`/run.sh ../../$(MINIPERL_EXE) -I../../lib \$\$f); \
+  	done
+-@@ -967,7 +976,7 @@ makeppport: \$(MINIPERL_EXE) \$(CONFIGPM
++@@ -970,7 +979,7 @@ makeppport: \$(MINIPERL_EXE) \$(CONFIGPM
+  *)
+  $spitshell >>$Makefile <<'!NO!SUBS!'
+  .PHONY: makeppport
+@@ -168,7 +185,7 @@ Index: perl-5.12.3/Makefile.SH
+  	$(MINIPERL) $(Icwd) mkppport
+  
+  !NO!SUBS!
+-@@ -977,29 +986,29 @@ esac
++@@ -980,22 +989,22 @@ esac
+  $spitshell >>$Makefile <<'!NO!SUBS!'
+  
+  .PHONY: preplibrary
+@@ -185,15 +202,6 @@ Index: perl-5.12.3/Makefile.SH
+ +lib/ExtUtils/Miniperl.pm: miniperlmain.c minimod.pl $(CONFIGPM)
+  	$(MINIPERL) minimod.pl > lib/ExtUtils/Miniperl.pm
+  
+--$(plextract):	$(MINIPERL_EXE) $(CONFIGPM) x2p/s2p $(dynamic_ext)
+-+$(plextract):	$(CONFIGPM) x2p/s2p $(dynamic_ext)
+- 	@-rm -f $@
+- 	$(MINIPERL) $@.PL
+- 
+--x2p/s2p: $(MINIPERL_EXE) $(CONFIGPM) $(dynamic_ext) x2p/s2p.PL
+-+x2p/s2p: $(CONFIGPM) $(dynamic_ext) x2p/s2p.PL
+- 	cd x2p; $(LDLIBPTH) $(MAKE) s2p
+- 
+ -lib/buildcustomize.pl: $(MINIPERL_EXE) write_buildcustomize.pl
+ +lib/buildcustomize.pl: write_buildcustomize.pl
+  	$(MINIPERL) write_buildcustomize.pl >lib/buildcustomize.pl
+@@ -205,13 +213,13 @@ Index: perl-5.12.3/Makefile.SH
+  	$(MINIPERL) $(Icwd) lib/unicore/mktables -C lib/unicore -P pod -maketest -makelist -p
+  #	Commented out so always runs, mktables looks at far more files than we
+  #	can in this makefile to decide if needs to run or not
+-@@ -1008,21 +1017,21 @@ uni.data: $(MINIPERL_EXE) $(CONFIGPM) li
++@@ -1004,21 +1013,21 @@ uni.data: $(MINIPERL_EXE) $(CONFIGPM) li
+  # $(PERL_EXE) and ext because buildtoc uses Text::Wrap uses re
+  # But also this ensures that all extensions are built before we try to scan
+  # them, which picks up Devel::PPPort's documentation.
+ -pod/perltoc.pod: $(perltoc_pod_prereqs)  $(PERL_EXE) $(ext) pod/buildtoc
+ -	$(RUN_PERL) -f -Ilib pod/buildtoc --build-toc -q
+-+pod/perltoc.pod: $(perltoc_pod_prereqs) $(ext) pod/buildtoc
+++pod/perltoc.pod: $(perltoc_pod_prereqs)  $(ext) pod/buildtoc
+ +	$(MINIPERL) -f -Ilib pod/buildtoc --build-toc -q
+  
+  pod/perlapi.pod: pod/perlintern.pod
+@@ -224,15 +232,15 @@ Index: perl-5.12.3/Makefile.SH
+ +pod/perlmodlib.pod: pod/perlmodlib.PL MANIFEST
+  	$(MINIPERL) $(Icwd) pod/perlmodlib.PL -q
+  
+- pod/perldelta.pod: pod/perl5123delta.pod
+- 	$(LNS) perl5123delta.pod pod/perldelta.pod
++ pod/perl5142delta.pod: pod/perldelta.pod
++ 	$(LNS) perldelta.pod pod/perl5142delta.pod
+  
+ -extra.pods: $(MINIPERL_EXE)
+-+extra.pods:
+++extra.pods: 
+  	-@test ! -f extra.pods || rm -f `cat extra.pods`
+  	-@rm -f extra.pods
+  	-@for x in `grep -l '^=[a-z]' README.* | grep -v README.vms` ; do \
+-@@ -1065,11 +1074,7 @@ no-install:
++@@ -1058,11 +1067,7 @@ no-install:
+  INSTALL_DEPENDENCE = all
+  
+  install.perl:	$(INSTALL_DEPENDENCE) installperl
+@@ -245,7 +253,7 @@ Index: perl-5.12.3/Makefile.SH
+  
+  # XXX Experimental. Hardwired values, but useful for testing.
+  # Eventually Configure could ask for some of these values.
+-@@ -1166,16 +1171,16 @@ manicheck:	FORCE
++@@ -1161,16 +1166,16 @@ manicheck:	FORCE
+  #
+  # DynaLoader may be needed for extensions that use Makefile.PL.
+  
+@@ -266,12 +274,12 @@ Index: perl-5.12.3/Makefile.SH
+  	$(MINIPERL) make_ext.pl $@ MAKE=$(MAKE) LIBPERL_A=$(LIBPERL)
+  !NO!SUBS!
+  
+-@@ -1373,10 +1378,10 @@ _test:
++@@ -1365,10 +1370,10 @@ _test:
+  
+  test_prep_pre: preplibrary utilities $(nonxs_ext)
+  
+--test_prep: test_prep_pre $(MINIPERL_EXE) $(unidatafiles) $(PERL_EXE) $(dynamic_ext) $(TEST_PERL_DLL) runtests
+-+test_prep: test_prep_pre $(unidatafiles) $(PERL_EXE) $(dynamic_ext) $(TEST_PERL_DLL) runtests
++-test_prep: test_prep_pre $(MINIPERL_EXE) $(unidatafiles) $(PERL_EXE) $(dynamic_ext) $(TEST_PERL_DLL) runtests x2p/s2p $(generated_pods)
+++test_prep: test_prep_pre $(unidatafiles) $(PERL_EXE) $(dynamic_ext) $(TEST_PERL_DLL) runtests x2p/s2p $(generated_pods)
+  	cd t && (rm -f $(PERL_EXE); $(LNS) ../$(PERL_EXE) $(PERL_EXE))
+  
+ -test_prep_reonly: $(MINIPERL_EXE) $(PERL_EXE) $(dynamic_ext_re) $(TEST_PERL_DLL)
+@@ -279,12 +287,12 @@ Index: perl-5.12.3/Makefile.SH
+  	$(MINIPERL) make_ext.pl $(dynamic_ext_re) MAKE=$(MAKE) LIBPERL_A=$(LIBPERL) LINKTYPE=dynamic
+  	cd t && (rm -f $(PERL_EXE); $(LNS) ../$(PERL_EXE) $(PERL_EXE))
+  
+-@@ -1467,7 +1472,7 @@ minitest.prep:
++@@ -1459,7 +1464,7 @@ minitest.prep:
+  
+  # Can't depend on lib/Config.pm because that might be where miniperl
+  # is crashing.
+ -minitest: $(MINIPERL_EXE) minitest.prep
+ +minitest: minitest.prep
+  	- cd t && (rm -f $(PERL_EXE); $(LNS) ../$(MINIPERL_EXE) $(PERL_EXE)) \
+- 		&& $(RUN_PERL) TEST -minitest base/*.t comp/*.t cmd/*.t run/*.t io/*.t re/*.t op/*.t uni/*.t </dev/tty
++ 		&& $(RUN_PERL) TEST base/*.t comp/*.t cmd/*.t run/*.t io/*.t re/*.t op/*.t uni/*.t </dev/tty
+  
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/Makefile.patch b/meta/recipes-devtools/perl/perl-5.14.2/Makefile.patch
+similarity index 87%
+rename from meta/recipes-devtools/perl/perl-5.12.3/Makefile.patch
+rename to meta/recipes-devtools/perl/perl-5.14.2/Makefile.patch
+index 8a279a5..858e2e1 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/Makefile.patch
++++ b/meta/recipes-devtools/perl/perl-5.14.2/Makefile.patch
+@@ -1,12 +1,11 @@
+ Upstream-Status:Inappropriate [embedded specific]
+ 
+-Index: perl-5.12.3/Cross/Makefile
++Index: perl-5.14.2/Cross/Makefile
+ ===================================================================
+---- perl-5.12.3.orig/Cross/Makefile
+-+++ perl-5.12.3/Cross/Makefile
+-@@ -2,7 +2,8 @@
+- #
+- ## $Id: Makefile,v 1.5 2003/12/12 00:48:19 red Exp red $
++--- perl-5.14.2.orig/Cross/Makefile
+++++ perl-5.14.2/Cross/Makefile
++@@ -1,6 +1,7 @@
++ ## Toplevel Makefile for cross-compilation of perl
+  
+ -export TOPDIR=${shell pwd}
+ +override TOPDIR=${shell pwd}
+@@ -14,7 +13,7 @@ Index: perl-5.12.3/Cross/Makefile
+  include $(TOPDIR)/config
+  export CFLAGS
+  export SYS=$(ARCH)-$(OS)
+-@@ -12,7 +13,7 @@ export OPTIMIZATION = -O2
++@@ -10,7 +11,7 @@ export OPTIMIZATION = -O2
+  
+  export CC = $(CROSS)gcc
+  export CXX = $(CROSS)g++
+@@ -23,7 +22,7 @@ Index: perl-5.12.3/Cross/Makefile
+  export STRIP = $(CROSS)strip
+  export AR = $(CROSS)ar
+  export RANLIB = $(CROSS)ranlib
+-@@ -34,17 +35,6 @@ CFLAGS+=$(FULL_OPTIMIZATION)
++@@ -32,17 +33,6 @@ CFLAGS+=$(FULL_OPTIMIZATION)
+  all:
+  	@echo Please read the README file before doing anything else.
+  
+@@ -41,7 +40,7 @@ Index: perl-5.12.3/Cross/Makefile
+  perl:
+  	@echo Perl cross-build directory is $(TOPDIR)
+  	@echo Target arch is $(SYS)
+-@@ -54,11 +44,11 @@ perl:
++@@ -52,11 +42,11 @@ perl:
+  	$(TOPDIR)/generate_config_sh config.sh-$(SYS) > $(TOPDIR)/../config.sh
+  	cd $(TOPDIR)/.. ; ./Configure -S ; make depend ; make ; make more
+  	cd $(TOPDIR)/.. ; mkdir -p fake_config_library ; cp lib/Config.pm lib/Config_heavy.pl fake_config_library
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/asm-pageh-fix.patch b/meta/recipes-devtools/perl/perl-5.14.2/asm-pageh-fix.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl-5.12.3/asm-pageh-fix.patch
+rename to meta/recipes-devtools/perl/perl-5.14.2/asm-pageh-fix.patch
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/config.sh b/meta/recipes-devtools/perl/perl-5.14.2/config.sh
+similarity index 94%
+rename from meta/recipes-devtools/perl/perl-5.12.3/config.sh
+rename to meta/recipes-devtools/perl/perl-5.14.2/config.sh
+index f1c5001..b3e2d43 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/config.sh
++++ b/meta/recipes-devtools/perl/perl-5.14.2/config.sh
+@@ -14,7 +14,7 @@
+ 
+ : Configure command line arguments.
+ config_arg0='Configure'
+-config_args='-des -Doptimize=-O2 -Dmyhostname=localhost -Dperladmin=root@localhost -Dcc=gcc -Dcf_by=Open Embedded -Dinstallprefix=@DESTDIR@ -Dprefix=/usr -Dvendorprefix=/usr -Dsiteprefix=/usr -Dotherlibdirs=/usr/lib/perl5/5.12.3 -Duseshrplib -Dusethreads -Duseithreads -Duselargefiles -Ud_dosuid -Dd_semctl_semun -Ui_db -Ui_ndbm -Ui_gdbm -Di_shadow -Di_syslog -Dman3ext=3pm -Duseperlio -Dinstallusrbinperl -Ubincompat5005 -Uversiononly -Dpager=/usr/bin/less -isr'
++config_args='-des -Doptimize=-O2 -Dmyhostname=localhost -Dperladmin=root@localhost -Dcc=gcc -Dcf_by=Open Embedded -Dinstallprefix=@DESTDIR@ -Dprefix=/usr -Dvendorprefix=/usr -Dsiteprefix=/usr -Dotherlibdirs=/usr/lib/perl5/5.14.2 -Duseshrplib -Dusethreads -Duseithreads -Duselargefiles -Ud_dosuid -Dd_semctl_semun -Ui_db -Ui_ndbm -Ui_gdbm -Di_shadow -Di_syslog -Dman3ext=3pm -Duseperlio -Dinstallusrbinperl -Ubincompat5005 -Uversiononly -Dpager=/usr/bin/less -isr'
+ config_argc=28
+ config_arg1='-des'
+ config_arg2='-Doptimize=-O2'
+@@ -26,7 +26,7 @@ config_arg7='-Dinstallprefix=@DESTDIR@'
+ config_arg8='-Dprefix=/usr'
+ config_arg9='-Dvendorprefix=/usr'
+ config_arg10='-Dsiteprefix=/usr'
+-config_arg11='-Dotherlibdirs=/usr/lib/perl5/5.12.3'
++config_arg11='-Dotherlibdirs=/usr/lib/perl5/5.14.2'
+ config_arg12='-Duseshrplib'
+ config_arg13='-Dusethreads'
+ config_arg14='-Duseithreads'
+@@ -64,11 +64,11 @@ ansi2knr=''
+ aphostname=''
+ api_revision='5'
+ api_subversion='0'
+-api_version='12'
+-api_versionstring='5.12.0'
++api_version='14'
++api_versionstring='5.14.0'
+ ar='ar'
+-archlib='/usr/lib/perl5/5.12.3/@ARCH@-thread-multi'
+-archlibexp='/usr/lib/perl5/5.12.3/@ARCH@-thread-multi'
++archlib='/usr/lib/perl5/5.14.2/@ARCH@-thread-multi'
++archlibexp='/usr/lib/perl5/5.14.2/@ARCH@-thread-multi'
+ archname64=''
+ archname='@ARCH@-thread-multi'
+ archobjs=''
+@@ -86,7 +86,7 @@ castflags='0'
+ cat='cat'
+ cc='gcc'
+ cccdlflags='-fPIC'
+-ccdlflags='-Wl,-E -Wl,-rpath,/usr/lib/perl5/5.12.3/@ARCH@-thread-multi/CORE'
++ccdlflags='-Wl,-E -Wl,-rpath,/usr/lib/perl5/5.14.2/@ARCH@-thread-multi/CORE'
+ ccflags='-D_REENTRANT -D_GNU_SOURCE -fno-strict-aliasing -pipe -fstack-protector -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64'
+ ccflags_uselargefiles='-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64'
+ ccname='gcc'
+@@ -746,7 +746,7 @@ inc_version_list_init='0'
+ incpath=''
+ inews=''
+ initialinstalllocation='/usr/bin'
+-installarchlib='@DESTDIR@/lib/perl5/5.12.3/@ARCH@-thread-multi'
++installarchlib='@DESTDIR@/lib/perl5/5.14.2/@ARCH@-thread-multi'
+ installbin='@DESTDIR@/bin'
+ installhtml1dir=''
+ installhtml3dir=''
+@@ -754,23 +754,23 @@ installman1dir=''
+ installman3dir=''
+ installprefix='@DESTDIR@'
+ installprefixexp='@DESTDIR@'
+-installprivlib='@DESTDIR@/lib/perl5/5.12.3'
++installprivlib='@DESTDIR@/lib/perl5/5.14.2'
+ installscript='@DESTDIR@/bin'
+-installsitearch='@DESTDIR@/lib/perl5/site_perl/5.12.3/@ARCH@-thread-multi'
++installsitearch='@DESTDIR@/lib/perl5/site_perl/5.14.2/@ARCH@-thread-multi'
+ installsitebin='@DESTDIR@/bin'
+ installsitehtml1dir=''
+ installsitehtml3dir=''
+-installsitelib='@DESTDIR@/lib/perl5/site_perl/5.12.3'
++installsitelib='@DESTDIR@/lib/perl5/site_perl/5.14.2'
+ installsiteman1dir=''
+ installsiteman3dir=''
+ installsitescript='@DESTDIR@/bin'
+ installstyle='lib/perl5'
+ installusrbinperl='define'
+-installvendorarch='@DESTDIR@/lib/perl5/vendor_perl/5.12.3/@ARCH@-thread-multi'
++installvendorarch='@DESTDIR@/lib/perl5/vendor_perl/5.14.2/@ARCH@-thread-multi'
+ installvendorbin='@DESTDIR@/bin'
+ installvendorhtml1dir=''
+ installvendorhtml3dir=''
+-installvendorlib='@DESTDIR@/lib/perl5/vendor_perl/5.12.3'
++installvendorlib='@DESTDIR@/lib/perl5/vendor_perl/5.14.2'
+ installvendorman1dir=''
+ installvendorman3dir=''
+ installvendorscript='@DESTDIR@/bin'
+@@ -864,11 +864,11 @@ optimize='-O2'
+ orderlib='false'
+ osname='linux'
+ osvers='2.6.37-rc5-yocto-standard+'
+-otherlibdirs='/usr/lib/perl5/5.12.3'
++otherlibdirs='/usr/lib/perl5/5.14.2'
+ package='perl5'
+ pager='/usr/bin/less -isr'
+ passcat='cat /etc/passwd'
+-patchlevel='12'
++patchlevel='14'
+ path_sep=':'
+ perl5='/usr/bin/perl'
+ perl=''
+@@ -884,8 +884,8 @@ pmake=''
+ pr=''
+ prefix='/usr'
+ prefixexp='/usr'
+-privlib='/usr/lib/perl5/5.12.3'
+-privlibexp='/usr/lib/perl5/5.12.3'
++privlib='/usr/lib/perl5/5.14.2'
++privlibexp='/usr/lib/perl5/5.14.2'
+ procselfexe='"/proc/self/exe"'
+ prototype='define'
+ randbits='48'
+@@ -937,17 +937,17 @@ sig_num='0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26
+ sig_num_init='0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 6, 17, 29, 31, 0'
+ sig_size='69'
+ signal_t='void'
+-sitearch='/usr/lib/perl5/site_perl/5.12.3/@ARCH@-thread-multi'
+-sitearchexp='/usr/lib/perl5/site_perl/5.12.3/@ARCH@-thread-multi'
++sitearch='/usr/lib/perl5/site_perl/5.14.2/@ARCH@-thread-multi'
++sitearchexp='/usr/lib/perl5/site_perl/5.14.2/@ARCH@-thread-multi'
+ sitebin='/usr/bin'
+ sitebinexp='/usr/bin'
+ sitehtml1dir=''
+ sitehtml1direxp=''
+ sitehtml3dir=''
+ sitehtml3direxp=''
+-sitelib='/usr/lib/perl5/site_perl/5.12.3'
++sitelib='/usr/lib/perl5/site_perl/5.14.2'
+ sitelib_stem='/usr/lib/perl5/site_perl'
+-sitelibexp='/usr/lib/perl5/site_perl/5.12.3'
++sitelibexp='/usr/lib/perl5/site_perl/5.14.2'
+ siteman1dir=''
+ siteman1direxp=''
+ siteman3dir=''
+@@ -1045,17 +1045,17 @@ uvtype='unsigned long'
+ uvuformat='"lu"'
+ uvxformat='"lx"'
+ vaproto='define'
+-vendorarch='/usr/lib/perl5/vendor_perl/5.12.3/@ARCH@-thread-multi'
+-vendorarchexp='/usr/lib/perl5/vendor_perl/5.12.3/@ARCH@-thread-multi'
++vendorarch='/usr/lib/perl5/vendor_perl/5.14.2/@ARCH@-thread-multi'
++vendorarchexp='/usr/lib/perl5/vendor_perl/5.14.2/@ARCH@-thread-multi'
+ vendorbin='/usr/bin'
+ vendorbinexp='/usr/bin'
+ vendorhtml1dir=' '
+ vendorhtml1direxp=''
+ vendorhtml3dir=' '
+ vendorhtml3direxp=''
+-vendorlib='/usr/lib/perl5/vendor_perl/5.12.3'
++vendorlib='/usr/lib/perl5/vendor_perl/5.14.2'
+ vendorlib_stem='/usr/lib/perl5/vendor_perl'
+-vendorlibexp='/usr/lib/perl5/vendor_perl/5.12.3'
++vendorlibexp='/usr/lib/perl5/vendor_perl/5.14.2'
+ vendorman1dir=' '
+ vendorman1direxp=''
+ vendorman3dir=' '
+@@ -1064,8 +1064,8 @@ vendorprefix='/usr'
+ vendorprefixexp='/usr'
+ vendorscript='/usr/bin'
+ vendorscriptexp='/usr/bin'
+-version='5.12.3'
+-version_patchlevel_string='version 12 subversion 2'
++version='5.14.2'
++version_patchlevel_string='version 14 subversion 2'
+ versiononly='undef'
+ vi=''
+ voidflags='15'
+@@ -1075,12 +1075,19 @@ yaccflags=''
+ zcat=''
+ zip='zip'
+ PERL_REVISION=5
+-PERL_VERSION=12
++PERL_VERSION=14
+ PERL_SUBVERSION=2
+ PERL_API_REVISION=5
+-PERL_API_VERSION=12
++PERL_API_VERSION=14
+ PERL_API_SUBVERSION=0
+ PERL_PATCHLEVEL=''
+ PERL_CONFIG_SH=true
+ : Variables propagated from previous config.sh file.
+ libdb_needs_pthread='N'
++
++d_static_inline='define'
++d_sockaddr_sa_len='undef'
++d_sin6_scope_id='define'
++d_prctl='define'
++d_prctl_set_name='define'
++perl_static_inline='static __inline__'
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/config.sh-32 b/meta/recipes-devtools/perl/perl-5.14.2/config.sh-32
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl-5.12.3/config.sh-32
+rename to meta/recipes-devtools/perl/perl-5.14.2/config.sh-32
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/config.sh-32-be b/meta/recipes-devtools/perl/perl-5.14.2/config.sh-32-be
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl-5.12.3/config.sh-32-be
+rename to meta/recipes-devtools/perl/perl-5.14.2/config.sh-32-be
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/config.sh-32-le b/meta/recipes-devtools/perl/perl-5.14.2/config.sh-32-le
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl-5.12.3/config.sh-32-le
+rename to meta/recipes-devtools/perl/perl-5.14.2/config.sh-32-le
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/config.sh-64 b/meta/recipes-devtools/perl/perl-5.14.2/config.sh-64
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl-5.12.3/config.sh-64
+rename to meta/recipes-devtools/perl/perl-5.14.2/config.sh-64
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/config.sh-64-be b/meta/recipes-devtools/perl/perl-5.14.2/config.sh-64-be
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl-5.12.3/config.sh-64-be
+rename to meta/recipes-devtools/perl/perl-5.14.2/config.sh-64-be
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/config.sh-64-le b/meta/recipes-devtools/perl/perl-5.14.2/config.sh-64-le
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl-5.12.3/config.sh-64-le
+rename to meta/recipes-devtools/perl/perl-5.14.2/config.sh-64-le
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/cross-generate_uudmap.patch b/meta/recipes-devtools/perl/perl-5.14.2/cross-generate_uudmap.patch
+new file mode 100644
+index 0000000..a00ad61
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.14.2/cross-generate_uudmap.patch
+@@ -0,0 +1,15 @@
++Upstream-Status:Inappropriate [embedded specific]
++
++Index: perl-5.14.2/Makefile.SH
++===================================================================
++--- perl-5.14.2.orig/Makefile.SH
+++++ perl-5.14.2/Makefile.SH
++@@ -622,7 +622,7 @@ bitcount.h: generate_uudmap$(HOST_EXE_EX
++ 	$(RUN) ./generate_uudmap$(HOST_EXE_EXT) uudmap.h bitcount.h
++ 
++ generate_uudmap$(HOST_EXE_EXT): generate_uudmap$(OBJ_EXT)
++-	$(CC) -o generate_uudmap$(EXE_EXT) $(LDFLAGS) generate_uudmap$(OBJ_EXT) $(libs)
+++	$(BUILD_CC) -o generate_uudmap$(EXE_EXT) generate_uudmap.c
++ 
++ miniperlmain$(OBJ_EXT): miniperlmain.c patchlevel.h
++ 	$(CCCMD) $(PLDLFLAGS) $*.c
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/arm_thread_stress_timeout.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/arm_thread_stress_timeout.diff
+similarity index 66%
+rename from meta/recipes-devtools/perl/perl-5.12.3/debian/arm_thread_stress_timeout.diff
+rename to meta/recipes-devtools/perl/perl-5.14.2/debian/arm_thread_stress_timeout.diff
+index 700b344..1d80e95 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/arm_thread_stress_timeout.diff
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/arm_thread_stress_timeout.diff
+@@ -1,15 +1,18 @@
+-Upstream-Status:Inappropriate [debian patch]
++From f624a9f1206cdd44fde99c40d82e2f326db485dd Mon Sep 17 00:00:00 2001
++From: Niko Tyni <ntyni@debian.org>
++Date: Sat, 1 Nov 2008 15:10:16 +0200
++Subject: Raise the timeout of ext/threads/shared/t/stress.t to accommodate
++ slower build hosts
+ 
+-Subject: Raise the timeout of ext/threads/shared/t/stress.t to accommodate slower build hosts
+ Bug-Debian: http://bugs.debian.org/501970
+ 
+-
++Patch-Name: debian/arm_thread_stress_timeout.diff
+ ---
+  dist/threads-shared/t/stress.t |    2 +-
+  1 files changed, 1 insertions(+), 1 deletions(-)
+ 
+ diff --git a/dist/threads-shared/t/stress.t b/dist/threads-shared/t/stress.t
+-index adfd1ed..652a3e6 100755
++index adfd1ed..652a3e6 100644
+ --- a/dist/threads-shared/t/stress.t
+ +++ b/dist/threads-shared/t/stress.t
+ @@ -34,7 +34,7 @@ use threads::shared;
+@@ -21,5 +24,3 @@ index adfd1ed..652a3e6 100755
+  
+      my $mutex = 1;
+      share($mutex);
+--- 
+-tg: (a508b62..) debian/arm_thread_stress_timeout (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/cpan_definstalldirs.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/cpan_definstalldirs.diff
+similarity index 80%
+rename from meta/recipes-devtools/perl/perl-5.12.3/debian/cpan_definstalldirs.diff
+rename to meta/recipes-devtools/perl/perl-5.14.2/debian/cpan_definstalldirs.diff
+index 3931c2d..9fa9378 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/cpan_definstalldirs.diff
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/cpan_definstalldirs.diff
+@@ -1,21 +1,23 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
+-Subject: Provide a sensible INSTALLDIRS default for modules installed from CPAN.
++From 4b63b9a433661cd13cfb1448dbfb90c5f53a53be Mon Sep 17 00:00:00 2001
++From: Brendan O'Dea <bod@debian.org>
++Date: Tue, 8 Mar 2005 19:30:38 +1100
++Subject: Provide a sensible INSTALLDIRS default for modules installed from
++ CPAN.
+ 
+ Some modules which are included in core set INSTALLDIRS => 'perl'
+ explicitly in Makefile.PL or Build.PL.  This makes sense for the normal @INC
+ ordering, but not ours.
+ 
+-
++Patch-Name: debian/cpan_definstalldirs.diff
+ ---
+  cpan/CPAN/lib/CPAN/FirstTime.pm |    4 ++--
+  1 files changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/cpan/CPAN/lib/CPAN/FirstTime.pm b/cpan/CPAN/lib/CPAN/FirstTime.pm
+-index 53ffbf1..53976ff 100644
++index 667bdca..c38c890 100644
+ --- a/cpan/CPAN/lib/CPAN/FirstTime.pm
+ +++ b/cpan/CPAN/lib/CPAN/FirstTime.pm
+-@@ -947,7 +947,7 @@ sub init {
++@@ -990,7 +990,7 @@ sub init {
+      my_prompt_loop(prefer_installer => 'MB', $matcher, 'MB|EUMM|RAND');
+  
+      if (!$matcher or 'makepl_arg make_arg' =~ /$matcher/) {
+@@ -24,7 +26,7 @@ index 53ffbf1..53976ff 100644
+          my_dflt_prompt(make_arg => "", $matcher);
+          if ( $CPAN::Config->{makepl_arg} =~ /LIBS=|INC=/ ) {
+              $CPAN::Frontend->mywarn( 
+-@@ -969,7 +969,7 @@ sub init {
++@@ -1022,7 +1022,7 @@ sub init {
+      my_dflt_prompt(make_install_arg => $CPAN::Config->{make_arg} || "",
+                     $matcher);
+  
+@@ -33,5 +35,3 @@ index 53ffbf1..53976ff 100644
+      my_dflt_prompt(mbuild_arg => "", $matcher);
+  
+      if (exists $CPAN::HandleConfig::keys{mbuild_install_build_command}
+--- 
+-tg: (a508b62..) debian/cpan_definstalldirs (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/cpanplus_config_path.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/cpanplus_config_path.diff
+similarity index 83%
+rename from meta/recipes-devtools/perl/perl-5.12.3/debian/cpanplus_config_path.diff
+rename to meta/recipes-devtools/perl/perl-5.14.2/debian/cpanplus_config_path.diff
+index 8f2f5d2..e3e5ec9 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/cpanplus_config_path.diff
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/cpanplus_config_path.diff
+@@ -1,25 +1,26 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
++From 9825086b15f34f365a272cc8d6caf4e2044bede6 Mon Sep 17 00:00:00 2001
+ From: Niko Tyni <ntyni@debian.org>
++Date: Mon, 6 Jul 2009 22:17:53 +0300
+ Subject: Save local versions of CPANPLUS::Config::System into /etc/perl.
+-    
++
+ This is a configuration file and needs to go in /etc by policy.
+ Besides, /usr may not even be writable.
+-    
++
+ This mirrors the Debian setup of CPAN.pm in debian/cpan_config_path.
+ 
+ See #533707.
+ 
++Patch-Name: debian/cpanplus_config_path.diff
+ ---
+  cpan/CPANPLUS/lib/CPANPLUS/Configure.pm           |    1 +
+  cpan/CPANPLUS/lib/CPANPLUS/Internals/Constants.pm |    3 +++
+  2 files changed, 4 insertions(+), 0 deletions(-)
+ 
+ diff --git a/cpan/CPANPLUS/lib/CPANPLUS/Configure.pm b/cpan/CPANPLUS/lib/CPANPLUS/Configure.pm
+-index baac91d..a3794de 100644
++index ba1ca07..25cbe5f 100644
+ --- a/cpan/CPANPLUS/lib/CPANPLUS/Configure.pm
+ +++ b/cpan/CPANPLUS/lib/CPANPLUS/Configure.pm
+-@@ -276,6 +276,7 @@ Saves the configuration to the package name you provided.
++@@ -280,6 +280,7 @@ Saves the configuration to the package name you provided.
+  If this package is not C<CPANPLUS::Config::System>, it will
+  be saved in your C<.cpanplus> directory, otherwise it will
+  be attempted to be saved in the system wide directory.
+@@ -28,10 +29,10 @@ index baac91d..a3794de 100644
+  If no argument is provided, it will default to your personal
+  config.
+ diff --git a/cpan/CPANPLUS/lib/CPANPLUS/Internals/Constants.pm b/cpan/CPANPLUS/lib/CPANPLUS/Internals/Constants.pm
+-index 1a38200..6ee0d82 100644
++index 443d5a4..f7085a8 100644
+ --- a/cpan/CPANPLUS/lib/CPANPLUS/Internals/Constants.pm
+ +++ b/cpan/CPANPLUS/lib/CPANPLUS/Internals/Constants.pm
+-@@ -199,6 +199,9 @@ use constant CONFIG_USER_FILE    => sub {
++@@ -209,6 +209,9 @@ use constant CONFIG_USER_FILE    => sub {
+                                      ) . '.pm';
+                                  };
+  use constant CONFIG_SYSTEM_FILE  => sub {
+@@ -41,5 +42,3 @@ index 1a38200..6ee0d82 100644
+                                      require CPANPLUS::Internals;
+                                      require File::Basename;
+                                      my $dir = File::Basename::dirname(
+--- 
+-tg: (a508b62..) debian/cpanplus_config_path (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/cpanplus_definstalldirs.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/cpanplus_definstalldirs.diff
+similarity index 84%
+rename from meta/recipes-devtools/perl/perl-5.12.3/debian/cpanplus_definstalldirs.diff
+rename to meta/recipes-devtools/perl/perl-5.14.2/debian/cpanplus_definstalldirs.diff
+index bd5fe80..6d05c34 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/cpanplus_definstalldirs.diff
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/cpanplus_definstalldirs.diff
+@@ -1,18 +1,21 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
++From 66517b14790aa6410fd37e411dd62521e1e02b7f Mon Sep 17 00:00:00 2001
+ From: Niko Tyni <ntyni@debian.org>
++Date: Mon, 6 Jul 2009 21:58:41 +0300
+ Subject: Configure CPANPLUS to use the site directories by default.
+-Closes: 533707
+-    
++
++Bug-Debian: http://bugs.debian.org/533707
++
+ The core modules usually default to INSTALLDIRS=perl (ExtUtils::MakeMaker)
+ or installdirs=core (Module::Build), so we need to explicitly ask for
+ the site destination to get upgraded versions into /usr/local.
+ 
+ See also the sister patch, debian/cpan_definstalldirs .
+ 
++Patch-Name: debian/cpanplus_definstalldirs.diff
+ ---
+  cpan/CPANPLUS/lib/CPANPLUS/Config/System.pm |   30 +++++++++++++++++++++++++++
+  1 files changed, 30 insertions(+), 0 deletions(-)
++ create mode 100644 cpan/CPANPLUS/lib/CPANPLUS/Config/System.pm
+ 
+ diff --git a/cpan/CPANPLUS/lib/CPANPLUS/Config/System.pm b/cpan/CPANPLUS/lib/CPANPLUS/Config/System.pm
+ new file mode 100644
+@@ -50,5 +53,3 @@ index 0000000..5e6e11e
+ +}
+ +
+ +1;
+--- 
+-tg: (a508b62..) debian/cpanplus_definstalldirs (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/db_file_ver.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/db_file_ver.diff
+similarity index 83%
+rename from meta/recipes-devtools/perl/perl-5.12.3/debian/db_file_ver.diff
+rename to meta/recipes-devtools/perl/perl-5.14.2/debian/db_file_ver.diff
+index e9aa60a..ff07ec5 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/db_file_ver.diff
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/db_file_ver.diff
+@@ -1,17 +1,19 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
++From 0d1acf7af6da3a3f933faba8459ad9ff03fe3e5b Mon Sep 17 00:00:00 2001
++From: Brendan O'Dea <bod@debian.org>
++Date: Fri, 16 Dec 2005 01:32:14 +1100
+ Subject: Remove overly restrictive DB_File version check.
++
+ Bug-Debian: http://bugs.debian.org/340047
+ 
+ Package dependencies ensure the correct library is linked at run-time.
+ 
+-
++Patch-Name: debian/db_file_ver.diff
+ ---
+  cpan/DB_File/version.c |    2 ++
+  1 files changed, 2 insertions(+), 0 deletions(-)
+ 
+ diff --git a/cpan/DB_File/version.c b/cpan/DB_File/version.c
+-index 47158d3..67ccdff 100644
++index e01f6f6..544e6ee 100644
+ --- a/cpan/DB_File/version.c
+ +++ b/cpan/DB_File/version.c
+ @@ -48,6 +48,7 @@ __getBerkeleyDBInfo()
+@@ -30,5 +32,3 @@ index 47158d3..67ccdff 100644
+      
+      /* check that libdb is recent enough  -- we need 2.3.4 or greater */
+      if (Major == 2 && (Minor < 3 || (Minor ==  3 && Patch < 4)))
+--- 
+-tg: (a508b62..) debian/db_file_ver (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/debian/deprecate-with-apt.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/deprecate-with-apt.diff
+new file mode 100644
+index 0000000..65a132d
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/deprecate-with-apt.diff
+@@ -0,0 +1,406 @@
++From c2bd2059cfbba573643c748ace4ff4db4cbf015d Mon Sep 17 00:00:00 2001
++From: Dominic Hargreaves <dom@earth.li>
++Date: Mon, 17 May 2010 13:23:07 +0300
++Subject: Point users to Debian packages of deprecated core modules
++
++Bug-Debian: http://bugs.debian.org/580034
++
++Class::ISA, Switch, Pod::Plainer, and (partially) Shell were
++deprecated from the Perl core in 5.12.0.
++
++Class::ISA, Switch, Pod::Plainer were removed from the Perl core in
++5.14.0.
++
++Shell and Devel::DProf, and Perl 4 libraries, were deprecated from the
++Perl core in 5.14.0.
++
++To get a clean transition, perl/perl-modules is going to recommend the
++separate Debian packages of these for one release cycle so that they will be
++pulled in by default on upgrades.
++
++However, on systems configured to ignore recommendations the deprecation
++warnings will still be useful, so modify them slightly to point to the
++separate packages instead.
++
++Patch-Name: debian/deprecate-with-apt.diff
++---
++ lib/abbrev.pl     |    2 +-
++ lib/assert.pl     |    2 +-
++ lib/bigfloat.pl   |    2 +-
++ lib/bigint.pl     |    2 +-
++ lib/bigrat.pl     |    2 +-
++ lib/cacheout.pl   |    2 +-
++ lib/complete.pl   |    2 +-
++ lib/ctime.pl      |    2 +-
++ lib/deprecate.pm  |   16 +++++++++++++++-
++ lib/dotsh.pl      |    2 +-
++ lib/exceptions.pl |    2 +-
++ lib/fastcwd.pl    |    2 +-
++ lib/find.pl       |    2 +-
++ lib/finddepth.pl  |    2 +-
++ lib/flush.pl      |    2 +-
++ lib/getcwd.pl     |    2 +-
++ lib/getopt.pl     |    2 +-
++ lib/getopts.pl    |    2 +-
++ lib/hostname.pl   |    2 +-
++ lib/importenv.pl  |    2 +-
++ lib/look.pl       |    2 +-
++ lib/newgetopt.pl  |    2 +-
++ lib/open2.pl      |    2 +-
++ lib/open3.pl      |    2 +-
++ lib/pwd.pl        |    2 +-
++ lib/shellwords.pl |    2 +-
++ lib/stat.pl       |    2 +-
++ lib/syslog.pl     |    2 +-
++ lib/tainted.pl    |    2 +-
++ lib/termcap.pl    |    2 +-
++ lib/timelocal.pl  |    2 +-
++ lib/validate.pl   |    2 +-
++ 32 files changed, 46 insertions(+), 32 deletions(-)
++
++diff --git a/lib/abbrev.pl b/lib/abbrev.pl
++index d46321f..0168631 100644
++--- a/lib/abbrev.pl
+++++ b/lib/abbrev.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ ;# Usage:
++ ;#	%foo = ();
++diff --git a/lib/assert.pl b/lib/assert.pl
++index d47e006..80593c5 100644
++--- a/lib/assert.pl
+++++ b/lib/assert.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ #
++ # This library is no longer being maintained, and is included for backward
++diff --git a/lib/bigfloat.pl b/lib/bigfloat.pl
++index 82d0f5c..c21bac6 100644
++--- a/lib/bigfloat.pl
+++++ b/lib/bigfloat.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ package bigfloat;
++ require "bigint.pl";
++diff --git a/lib/bigint.pl b/lib/bigint.pl
++index 6de1c53..031e8ad 100644
++--- a/lib/bigint.pl
+++++ b/lib/bigint.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ package bigint;
++ #
++diff --git a/lib/bigrat.pl b/lib/bigrat.pl
++index aaf1713..146a8f4 100644
++--- a/lib/bigrat.pl
+++++ b/lib/bigrat.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ package bigrat;
++ require "bigint.pl";
++diff --git a/lib/cacheout.pl b/lib/cacheout.pl
++index a5da453..937405d 100644
++--- a/lib/cacheout.pl
+++++ b/lib/cacheout.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ #
++ # This library is no longer being maintained, and is included for backward
++diff --git a/lib/complete.pl b/lib/complete.pl
++index 9ed041c..2ab0c6a 100644
++--- a/lib/complete.pl
+++++ b/lib/complete.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ ;#
++ #
++diff --git a/lib/ctime.pl b/lib/ctime.pl
++index aa00d00..ac24e71 100644
++--- a/lib/ctime.pl
+++++ b/lib/ctime.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ ;# ctime.pl is a simple Perl emulation for the well known ctime(3C) function.
++ #
++diff --git a/lib/deprecate.pm b/lib/deprecate.pm
++index 7562c69..fc548b0 100644
++--- a/lib/deprecate.pm
+++++ b/lib/deprecate.pm
++@@ -7,6 +7,14 @@ our $VERSION = 0.02;
++ our %Config;
++ unless (%Config) { require Config; *Config = \%Config::Config; }
++ 
+++# Debian-specific change: recommend the separate Debian packages of
+++# deprecated modules where available
+++
+++my %DEBIAN_PACKAGES = (
+++    "Shell"		=> "libshell-perl",
+++    "Devel::DProf"	=> "libdevel-dprof-perl"
+++);
+++
++ # This isn't a public API. It's internal to code maintained by the perl-porters
++ # If you would like it to be a public API, please send a patch with
++ # documentation and tests. Until then, it may change without warning.
++@@ -58,9 +66,15 @@ EOM
++ 	if (defined $callers_bitmask
++ 	    && (vec($callers_bitmask, $warnings::Offsets{deprecated}, 1)
++ 		|| vec($callers_bitmask, $warnings::Offsets{all}, 1))) {
++-	    warn <<"EOM";
+++		if (my $deb = $DEBIAN_PACKAGES{$package}) {
+++		    warn <<"EOM";
+++$package will be removed from the Perl core distribution in the next major release. Please install the separate $deb package. It is being used at $call_file, line $call_line.
+++EOM
+++		} else {
+++		    warn <<"EOM";
++ $package will be removed from the Perl core distribution in the next major release. Please install it from CPAN. It is being used at $call_file, line $call_line.
++ EOM
+++		}
++ 	}
++     }
++ }
++diff --git a/lib/dotsh.pl b/lib/dotsh.pl
++index 92f1f4c..4085122 100644
++--- a/lib/dotsh.pl
+++++ b/lib/dotsh.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ #
++ #   @(#)dotsh.pl                                               03/19/94
++diff --git a/lib/exceptions.pl b/lib/exceptions.pl
++index 8af64c8..b5b1427 100644
++--- a/lib/exceptions.pl
+++++ b/lib/exceptions.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ # exceptions.pl
++ # tchrist@convex.com
++diff --git a/lib/fastcwd.pl b/lib/fastcwd.pl
++index 70007a1..2c7c42e 100644
++--- a/lib/fastcwd.pl
+++++ b/lib/fastcwd.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ # By John Bazik
++ #
++diff --git a/lib/find.pl b/lib/find.pl
++index 8e1b42c..7fb2fbf 100644
++--- a/lib/find.pl
+++++ b/lib/find.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ # This library is deprecated and unmaintained. It is included for
++ # compatibility with Perl 4 scripts which may use it, but it will be
++diff --git a/lib/finddepth.pl b/lib/finddepth.pl
++index 479905f..c07cea5 100644
++--- a/lib/finddepth.pl
+++++ b/lib/finddepth.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ # This library is deprecated and unmaintained. It is included for
++ # compatibility with Perl 4 scripts which may use it, but it will be
++diff --git a/lib/flush.pl b/lib/flush.pl
++index c427976..e5ed0ae 100644
++--- a/lib/flush.pl
+++++ b/lib/flush.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ #
++ # This library is no longer being maintained, and is included for backward
++diff --git a/lib/getcwd.pl b/lib/getcwd.pl
++index 77b2442..3810a99 100644
++--- a/lib/getcwd.pl
+++++ b/lib/getcwd.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ # By Brandon S. Allbery
++ #
++diff --git a/lib/getopt.pl b/lib/getopt.pl
++index 1d4008a..019a165 100644
++--- a/lib/getopt.pl
+++++ b/lib/getopt.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ ;# $RCSfile: getopt.pl,v $$Revision: 4.1 $$Date: 92/08/07 18:23:58 $
++ #
++diff --git a/lib/getopts.pl b/lib/getopts.pl
++index 37ecb4a..3d27418 100644
++--- a/lib/getopts.pl
+++++ b/lib/getopts.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ ;# getopts.pl - a better getopt.pl
++ #
++diff --git a/lib/hostname.pl b/lib/hostname.pl
++index f57375e..b055d30 100644
++--- a/lib/hostname.pl
+++++ b/lib/hostname.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ # From: asherman@fmrco.com (Aaron Sherman)
++ #
++diff --git a/lib/importenv.pl b/lib/importenv.pl
++index 625edf6..52ee722 100644
++--- a/lib/importenv.pl
+++++ b/lib/importenv.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ # This library is no longer being maintained, and is included for backward
++ # compatibility with Perl 4 programs which may require it.
++diff --git a/lib/look.pl b/lib/look.pl
++index 7be55b2..12dcace 100644
++--- a/lib/look.pl
+++++ b/lib/look.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ ;# Usage: &look(*FILEHANDLE,$key,$dict,$fold)
++ #
++diff --git a/lib/newgetopt.pl b/lib/newgetopt.pl
++index 4ac9470..08df6cb 100644
++--- a/lib/newgetopt.pl
+++++ b/lib/newgetopt.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ # This library is no longer being maintained, and is included for backward
++ # compatibility with Perl 4 programs which may require it.
++diff --git a/lib/open2.pl b/lib/open2.pl
++index ceb5653..a05f2ab 100644
++--- a/lib/open2.pl
+++++ b/lib/open2.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ # This legacy library is deprecated and will be removed in a future
++ # release of perl.
++diff --git a/lib/open3.pl b/lib/open3.pl
++index 9f4d5a4..27f7ab4 100644
++--- a/lib/open3.pl
+++++ b/lib/open3.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ # This legacy library is deprecated and will be removed in a future
++ # release of perl.
++diff --git a/lib/pwd.pl b/lib/pwd.pl
++index bd8123b..bdace6e 100644
++--- a/lib/pwd.pl
+++++ b/lib/pwd.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ ;# pwd.pl - keeps track of current working directory in PWD environment var
++ ;#
++diff --git a/lib/shellwords.pl b/lib/shellwords.pl
++index b562f5f..7f16375 100644
++--- a/lib/shellwords.pl
+++++ b/lib/shellwords.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ ;# This legacy library is deprecated and will be removed in a future
++ ;# release of perl.
++diff --git a/lib/stat.pl b/lib/stat.pl
++index feda273..910ce1c 100644
++--- a/lib/stat.pl
+++++ b/lib/stat.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ ;# This legacy library is deprecated and will be removed in a future
++ ;# release of perl.
++diff --git a/lib/syslog.pl b/lib/syslog.pl
++index 7504a5d..4c2b95f 100644
++--- a/lib/syslog.pl
+++++ b/lib/syslog.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ #
++ # syslog.pl
++diff --git a/lib/tainted.pl b/lib/tainted.pl
++index e88bca1..d58c765 100644
++--- a/lib/tainted.pl
+++++ b/lib/tainted.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ # This legacy library is deprecated and will be removed in a future
++ # release of perl.
++diff --git a/lib/termcap.pl b/lib/termcap.pl
++index a84cba3..e641f4d 100644
++--- a/lib/termcap.pl
+++++ b/lib/termcap.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ ;# $RCSfile: termcap.pl,v $$Revision: 4.1 $$Date: 92/08/07 18:24:16 $
++ #
++diff --git a/lib/timelocal.pl b/lib/timelocal.pl
++index fefb9da..2297888 100644
++--- a/lib/timelocal.pl
+++++ b/lib/timelocal.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ ;# timelocal.pl
++ ;#
++diff --git a/lib/validate.pl b/lib/validate.pl
++index fc2d16a..1a8aef4 100644
++--- a/lib/validate.pl
+++++ b/lib/validate.pl
++@@ -1,4 +1,4 @@
++-warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
+++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install the separate libperl4-corelibs-perl package. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
++ 
++ ;# The validate routine takes a single multiline string consisting of
++ ;# lines containing a filename plus a file test to try on it.  (The
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/disable-zlib-bundling.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/disable-zlib-bundling.diff
+similarity index 83%
+rename from meta/recipes-devtools/perl/perl-5.12.3/debian/disable-zlib-bundling.diff
+rename to meta/recipes-devtools/perl/perl-5.14.2/debian/disable-zlib-bundling.diff
+index 44349a5..80c0acb 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/disable-zlib-bundling.diff
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/disable-zlib-bundling.diff
+@@ -1,11 +1,12 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
++From 90c7967530102c66bbff25d89273d3f0bf189a83 Mon Sep 17 00:00:00 2001
+ From: Niko Tyni <ntyni@debian.org>
++Date: Fri, 10 Apr 2009 01:17:43 +0300
+ Subject: Disable zlib bundling in Compress::Raw::Zlib
+ 
+ Compress::Raw::Zlib statically links its bundled version of zlib
+ by default, but we use the system library instead.
+ 
++Patch-Name: debian/disable-zlib-bundling.diff
+ ---
+  cpan/Compress-Raw-Zlib/config.in |    6 +++---
+  1 files changed, 3 insertions(+), 3 deletions(-)
+@@ -27,5 +28,3 @@ index c56cc03..2c6659b 100644
+  
+  OLD_ZLIB        = False
+  GZIP_OS_CODE    = AUTO_DETECT
+--- 
+-tg: (a508b62..) debian/disable-zlib-bundling (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/doc_info.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/doc_info.diff
+similarity index 78%
+rename from meta/recipes-devtools/perl/perl-5.12.3/debian/doc_info.diff
+rename to meta/recipes-devtools/perl/perl-5.14.2/debian/doc_info.diff
+index be75f30..a118da3 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/doc_info.diff
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/doc_info.diff
+@@ -1,19 +1,21 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
+-Subject: Replace generic man(1) instructions with Debian-specific information.
++From 16ebe1f5232621d8894aa6c6210fdf2fc9b54a84 Mon Sep 17 00:00:00 2001
++From: Brendan O'Dea <bod@debian.org>
++Date: Fri, 18 Mar 2005 22:22:25 +1100
++Subject: Replace generic man(1) instructions with Debian-specific
++ information.
+ 
+ Indicate that the user needs to install the perl-doc package.
+ 
+-
++Patch-Name: debian/doc_info.diff
+ ---
+  pod/perl.pod |   12 ++++++++++--
+  1 files changed, 10 insertions(+), 2 deletions(-)
+ 
+ diff --git a/pod/perl.pod b/pod/perl.pod
+-index e67f062..3b8ae83 100644
++index 29cabf1..529ad6f 100644
+ --- a/pod/perl.pod
+ +++ b/pod/perl.pod
+-@@ -242,8 +242,16 @@ For ease of access, the Perl manual has been split up into several sections.
++@@ -261,8 +261,16 @@ For ease of access, the Perl manual has been split up into several sections.
+      perlwin32		Perl notes for Windows
+  
+  
+@@ -32,5 +34,3 @@ index e67f062..3b8ae83 100644
+  
+  In general, if something strange has gone wrong with your program and you're
+  not sure where you should look for help, try the B<-w> switch first.  It will
+--- 
+-tg: (a508b62..) debian/doc_info (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/enc2xs_inc.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/enc2xs_inc.diff
+similarity index 90%
+rename from meta/recipes-devtools/perl/perl-5.12.3/debian/enc2xs_inc.diff
+rename to meta/recipes-devtools/perl/perl-5.14.2/debian/enc2xs_inc.diff
+index 4cac4b7..7c33e90 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/enc2xs_inc.diff
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/enc2xs_inc.diff
+@@ -1,6 +1,8 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
++From e9fd6e7729b9ebd9bc74b8cf295cd3a7f5aa5472 Mon Sep 17 00:00:00 2001
++From: Brendan O'Dea <bod@debian.org>
++Date: Tue, 8 Mar 2005 19:30:38 +1100
+ Subject: Tweak enc2xs to follow symlinks and ignore missing @INC directories.
++
+ Bug-Debian: http://bugs.debian.org/290336
+ 
+ - ignore missing directories,
+@@ -8,6 +10,7 @@ Bug-Debian: http://bugs.debian.org/290336
+ - filter "." out when running "enc2xs -C", it's unnecessary and causes
+   issues with follow => 1 (see #603686 and [rt.cpan.org #64585])
+ 
++Patch-Name: debian/enc2xs_inc.diff
+ ---
+  cpan/Encode/bin/enc2xs |    8 ++++----
+  1 files changed, 4 insertions(+), 4 deletions(-)
+@@ -48,5 +51,3 @@ index 773c0a0..bc1ae1b 100644
+      $_ModLines = "";
+      for my $enc ( sort keys %LocalMod ) {
+          $_ModLines .=
+--- 
+-tg: (a508b62..) debian/enc2xs_inc (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/errno_ver.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/errno_ver.diff
+similarity index 70%
+rename from meta/recipes-devtools/perl/perl-5.12.3/debian/errno_ver.diff
+rename to meta/recipes-devtools/perl/perl-5.14.2/debian/errno_ver.diff
+index de73ed5..0f3bfa6 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/errno_ver.diff
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/errno_ver.diff
+@@ -1,25 +1,28 @@
+-Upstream-Status:Inappropriate [debian patch]
++From 973bed42db538804179f39d66dab37c82c6ade24 Mon Sep 17 00:00:00 2001
++From: Brendan O'Dea <bod@debian.org>
++Date: Fri, 16 Dec 2005 01:32:14 +1100
++Subject: Remove Errno version check due to upgrade problems with long-running
++ processes.
+ 
+-Subject: Remove Errno version check due to upgrade problems with long-running processes.
+ Bug-Debian: http://bugs.debian.org/343351
+ 
+ Remove version check which can cause problems for long running
+ processes embedding perl when upgrading to a newer version,
+ compatible, but built on a different machine.
+ 
+-
++Patch-Name: debian/errno_ver.diff
+ ---
+  ext/Errno/Errno_pm.PL |    5 -----
+  1 files changed, 0 insertions(+), 5 deletions(-)
+ 
+ diff --git a/ext/Errno/Errno_pm.PL b/ext/Errno/Errno_pm.PL
+-index 124b8fc..b554cd4 100644
++index 56bc815..01f510a 100644
+ --- a/ext/Errno/Errno_pm.PL
+ +++ b/ext/Errno/Errno_pm.PL
+-@@ -341,13 +341,8 @@ EOF
++@@ -332,13 +332,8 @@ EOF
++ 
+  package Errno;
+- our (\@EXPORT_OK,\%EXPORT_TAGS,\@ISA,\$VERSION,\%errno,\$AUTOLOAD);
+- use Exporter ();
++ require Exporter;
+ -use Config;
+  use strict;
+  
+@@ -27,8 +30,6 @@ index 124b8fc..b554cd4 100644
+ -"$Config{'archname'}-$Config{'osvers'}" or
+ -	die "Errno architecture ($Config{'archname'}-$Config{'osvers'}) does not match executable architecture (\$Config{'archname'}-\$Config{'osvers'})";
+ -
+- \$VERSION = "$VERSION";
++ our \$VERSION = "$VERSION";
+  \$VERSION = eval \$VERSION;
+- \@ISA = qw(Exporter);
+--- 
+-tg: (a508b62..) debian/errno_ver (depends on: upstream)
++ our \@ISA = 'Exporter';
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/debian/extutils_set_libperl_path.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/extutils_set_libperl_path.diff
+new file mode 100644
+index 0000000..4c2da32
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/extutils_set_libperl_path.diff
+@@ -0,0 +1,23 @@
++From 334ac01a8306485ed901f4fb45d79f39a944fe77 Mon Sep 17 00:00:00 2001
++From: Brendan O'Dea <bod@debian.org>
++Date: Tue, 8 Mar 2005 19:30:38 +1100
++Subject: EU:MM: Set location of libperl.a to /usr/lib
++
++Patch-Name: debian/extutils_set_libperl_path.diff
++---
++ cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm |    2 +-
++ 1 files changed, 1 insertions(+), 1 deletions(-)
++
++diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
++index 4ee6b3f..42bbb83 100644
++--- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+++++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
++@@ -2409,7 +2409,7 @@ MAP_PRELIBS   = $Config{perllibs} $Config{cryptlib}
++ 	($lperl = $libperl) =~ s/\$\(A\)/$self->{LIB_EXT}/;
++     }
++     unless ($libperl && -f $lperl) { # Ilya's code...
++-	my $dir = $self->{PERL_SRC} || "$self->{PERL_ARCHLIB}/CORE";
+++	my $dir = $self->{PERL_SRC} || "/usr/lib";
++ 	$dir = "$self->{PERL_ARCHLIB}/.." if $self->{UNINSTALLED_PERL};
++ 	$libperl ||= "libperl$self->{LIB_EXT}";
++ 	$libperl   = "$dir/$libperl";
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/fakeroot.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/fakeroot.diff
+similarity index 79%
+rename from meta/recipes-devtools/perl/perl-5.12.3/debian/fakeroot.diff
+rename to meta/recipes-devtools/perl/perl-5.14.2/debian/fakeroot.diff
+index 2c8def5..bd90af9 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/fakeroot.diff
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/fakeroot.diff
+@@ -1,5 +1,6 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
++From a46a7107fb045ffa6047488b8002fec97b621a11 Mon Sep 17 00:00:00 2001
++From: Brendan O'Dea <bod@debian.org>
++Date: Fri, 18 Mar 2005 22:22:25 +1100
+ Subject: Postpone LD_LIBRARY_PATH evaluation to the binary targets.
+ 
+ Modify the setting of LD_LIBRARY_PATH to append pre-existing values at the
+@@ -9,16 +10,16 @@ This is required when building packages with dpkg-buildpackage and fakeroot,
+ since fakeroot (which now sets LD_LIBRARY_PATH) is not used for the "build"
+ rule where the Makefile is created, but is for the clean/binary* targets.
+ 
+-
++Patch-Name: debian/fakeroot.diff
+ ---
+  Makefile.SH |    9 ++-------
+  1 files changed, 2 insertions(+), 7 deletions(-)
+ 
+ diff --git a/Makefile.SH b/Makefile.SH
+-index fc13b2b..d420229 100755
++index eb6326a..1dac585 100755
+ --- a/Makefile.SH
+ +++ b/Makefile.SH
+-@@ -50,12 +50,7 @@ case "$useshrplib" in
++@@ -36,12 +36,7 @@ case "$useshrplib" in
+  true)
+  	# Prefix all runs of 'miniperl' and 'perl' with
+  	# $ldlibpth so that ./perl finds *this* shared libperl.
+@@ -32,7 +33,7 @@ index fc13b2b..d420229 100755
+  
+  	pldlflags="$cccdlflags"
+  	static_ldflags=''
+-@@ -126,7 +121,7 @@ true)
++@@ -112,7 +107,7 @@ true)
+  	    ;;
+  	esac
+  	case "$ldlibpthname" in
+@@ -41,5 +42,3 @@ index fc13b2b..d420229 100755
+  	*)
+  	    case "$osname" in
+  	    os2)
+--- 
+-tg: (a508b62..) debian/fakeroot (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/debian/find_html2text.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/find_html2text.diff
+new file mode 100644
+index 0000000..16de7ad
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/find_html2text.diff
+@@ -0,0 +1,35 @@
++From ca66b95be369b47a6d372c3653be57cd737f7f21 Mon Sep 17 00:00:00 2001
++From: Andreas Marschke <andreas.marschke@googlemail.com>
++Date: Sat, 17 Sep 2011 11:38:42 +0100
++Subject: Configure CPAN::Distribution with correct name of html2text
++
++Bug-Debian: http://bugs.debian.org/640479
++Patch-Name: debian/find_html2text.diff
++
++If you use cpan from Debian you usually wind up trying to read online
++documentation through it. Unfortunately cpan can't find the
++html2text.pl script even though it is installed using the Debian
++package 'html2text'.
++
++Please see the attached patch for a quick fix of this issue.
++
++[Maintainer's note: html2text in Debian is not the same implementation
++as the html2text.pl which is expected, but should provide similar
++functionality].
++---
++ cpan/CPAN/lib/CPAN/Distribution.pm |    2 +-
++ 1 files changed, 1 insertions(+), 1 deletions(-)
++
++diff --git a/cpan/CPAN/lib/CPAN/Distribution.pm b/cpan/CPAN/lib/CPAN/Distribution.pm
++index 637ab27..a8193d9 100644
++--- a/cpan/CPAN/lib/CPAN/Distribution.pm
+++++ b/cpan/CPAN/lib/CPAN/Distribution.pm
++@@ -3715,7 +3715,7 @@ sub _display_url {
++       if $CPAN::DEBUG;
++ 
++     # should we define it in the config instead?
++-    my $html_converter = "html2text.pl";
+++    my $html_converter = "html2text";
++ 
++     my $web_browser = $CPAN::Config->{'lynx'} || undef;
++     my $web_browser_out = $web_browser
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/document_makemaker_ccflags.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/document_makemaker_ccflags.diff
+new file mode 100644
+index 0000000..3bda8f7
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/document_makemaker_ccflags.diff
+@@ -0,0 +1,31 @@
++From f0e3a51bd7286788e410510af86a6c07edac4445 Mon Sep 17 00:00:00 2001
++From: Niko Tyni <ntyni@debian.org>
++Date: Mon, 30 May 2011 22:54:24 +0300
++Subject: Document that CCFLAGS should include $Config{ccflags}
++
++Bug: https://rt.cpan.org/Public/Bug/Display.html?id=68613
++Bug-Debian: http://bugs.debian.org/628522
++
++Compiling XS extensions without $Config{ccflags} can break the
++binary interface on some platforms.
++
++Patch-Name: fixes/document_makemaker_ccflags.diff
++---
++ cpan/ExtUtils-MakeMaker/lib/ExtUtils/MakeMaker.pm |    4 ++++
++ 1 files changed, 4 insertions(+), 0 deletions(-)
++
++diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MakeMaker.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MakeMaker.pm
++index be9624e..c56ca8f 100644
++--- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MakeMaker.pm
+++++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MakeMaker.pm
++@@ -1524,6 +1524,10 @@ currently used by MakeMaker but may be handy in Makefile.PLs.
++ String that will be included in the compiler call command line between
++ the arguments INC and OPTIMIZE.
++ 
+++The default value is taken from $Config{ccflags}. When overriding
+++CCFLAGS, make sure to include the $Config{ccflags} settings to avoid
+++binary incompatibilities.
+++
++ =item CONFIG
++ 
++ Arrayref. E.g. [qw(archname manext)] defines ARCHNAME & MANEXT from
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/extutils-cbuilder-cflags.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/extutils-cbuilder-cflags.diff
+new file mode 100644
+index 0000000..cd86a76
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/extutils-cbuilder-cflags.diff
+@@ -0,0 +1,86 @@
++From 0c91624f1f9ec46a6f13cad3031b706213233479 Mon Sep 17 00:00:00 2001
++From: Niko Tyni <ntyni@debian.org>
++Date: Thu, 28 Apr 2011 09:18:54 +0300
++Subject: Append CFLAGS and LDFLAGS to their Config.pm counterparts in
++ EU::CBuilder
++
++Bug: http://rt.perl.org/rt3//Public/Bug/Display.html?id=89478
++Bug-Debian: http://bugs.debian.org/624460
++Origin: upstream, http://perl5.git.perl.org/perl.git/commitdiff/011e8fb476b5fb27c9aa613360d918aa0b798b3d
++
++Since ExtUtils::CBuilder 0.27_04 (bleadperl commit 06e8058f27e4),
++CFLAGS and LDFLAGS from the environment have overridden the Config.pm
++ccflags and ldflags settings. This can cause binary incompatibilities
++between the core Perl and extensions built with EU::CBuilder.
++
++Append to the Config.pm values rather than overriding them.
++
++Patch-Name: fixes/extutils-cbuilder-cflags.diff
++---
++ .../lib/ExtUtils/CBuilder/Base.pm                  |    6 +++-
++ dist/ExtUtils-CBuilder/t/04-base.t                 |   25 +++++++++++++++++++-
++ 2 files changed, 28 insertions(+), 3 deletions(-)
++
++diff --git a/dist/ExtUtils-CBuilder/lib/ExtUtils/CBuilder/Base.pm b/dist/ExtUtils-CBuilder/lib/ExtUtils/CBuilder/Base.pm
++index b572312..2255c51 100644
++--- a/dist/ExtUtils-CBuilder/lib/ExtUtils/CBuilder/Base.pm
+++++ b/dist/ExtUtils-CBuilder/lib/ExtUtils/CBuilder/Base.pm
++@@ -40,11 +40,13 @@ sub new {
++     $self->{config}{$k} = $v unless exists $self->{config}{$k};
++   }
++   $self->{config}{cc} = $ENV{CC} if defined $ENV{CC};
++-  $self->{config}{ccflags} = $ENV{CFLAGS} if defined $ENV{CFLAGS};
+++  $self->{config}{ccflags} = join(" ", $self->{config}{ccflags}, $ENV{CFLAGS})
+++     if defined $ENV{CFLAGS};
++   $self->{config}{cxx} = $ENV{CXX} if defined $ENV{CXX};
++   $self->{config}{cxxflags} = $ENV{CXXFLAGS} if defined $ENV{CXXFLAGS};
++   $self->{config}{ld} = $ENV{LD} if defined $ENV{LD};
++-  $self->{config}{ldflags} = $ENV{LDFLAGS} if defined $ENV{LDFLAGS};
+++  $self->{config}{ldflags} = join(" ", $self->{config}{ldflags}, $ENV{LDFLAGS})
+++     if defined $ENV{LDFLAGS};
++ 
++   unless ( exists $self->{config}{cxx} ) {
++     my ($ccpath, $ccbase, $ccsfx ) = fileparse($self->{config}{cc}, qr/\.[^.]*/);
++diff --git a/dist/ExtUtils-CBuilder/t/04-base.t b/dist/ExtUtils-CBuilder/t/04-base.t
++index db0ef98..49819a1 100644
++--- a/dist/ExtUtils-CBuilder/t/04-base.t
+++++ b/dist/ExtUtils-CBuilder/t/04-base.t
++@@ -1,7 +1,7 @@
++ #! perl -w
++ 
++ use strict;
++-use Test::More tests => 50;
+++use Test::More tests => 64;
++ use Config;
++ use Cwd;
++ use File::Path qw( mkpath );
++@@ -328,6 +328,29 @@ is_deeply( $mksymlists_args,
++     "_prepare_mksymlists_args(): got expected arguments for Mksymlists",
++ );
++ 
+++my %testvars = (
+++    CFLAGS  => 'ccflags',
+++    LDFLAGS => 'ldflags',
+++);
+++
+++while (my ($VAR, $var) = each %testvars) {
+++    local $ENV{$VAR};
+++    $base = ExtUtils::CBuilder::Base->new( quiet => 1 );
+++    ok( $base, "ExtUtils::CBuilder::Base->new() returned true value" );
+++    isa_ok( $base, 'ExtUtils::CBuilder::Base' );
+++    like($base->{config}{$var}, qr/\Q$Config{$var}/,
+++        "honours $var from Config.pm");
+++
+++    $ENV{$VAR} = "-foo -bar";
+++    $base = ExtUtils::CBuilder::Base->new( quiet => 1 );
+++    ok( $base, "ExtUtils::CBuilder::Base->new() returned true value" );
+++    isa_ok( $base, 'ExtUtils::CBuilder::Base' );
+++    like($base->{config}{$var}, qr/\Q$ENV{$VAR}/,
+++        "honours $VAR from the environment");
+++    like($base->{config}{$var}, qr/\Q$Config{$var}/,
+++        "doesn't override $var from Config.pm with $VAR from the environment");
+++}
+++
++ #####
++ 
++ for ($source_file, $object_file, $lib_file) {
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/h2ph-multiarch.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/h2ph-multiarch.diff
+new file mode 100644
+index 0000000..b18b464
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/h2ph-multiarch.diff
+@@ -0,0 +1,69 @@
++From 37969e249dfc593ebabfcb682893b6c69dc6b313 Mon Sep 17 00:00:00 2001
++From: Niko Tyni <ntyni@debian.org>
++Date: Wed, 18 May 2011 21:44:06 -0700
++Subject: Make h2ph correctly search gcc include directories
++
++Bug: http://rt.perl.org/rt3/Public/Bug/Display.html?id=90122
++Bug-Debian: http://bugs.debian.org/625808
++Origin: upstream, http://perl5.git.perl.org/perl.git/commit/e7ec705d9b91d35fa99dc50d0a232b6372160a77
++
++System header conversion with "h2ph -a" is currently broken on Ubuntu
++Natty and Oneiric (unless the gcc-multilib package is installed for
++backward compatibility), resulting in things like
++
++ # perl -e 'require "syscall.ph"'
++ Can't locate asm/unistd.ph in @INC [...]
++
++This happens because Ubuntu has switched to a 'multiarch' setup, see
++<https://wiki.ubuntu.com/MultiarchSpec> for details.
++
++The asm subdirectory isn't in $Config{usrinc} anymore: /usr/include/asm
++is now /usr/include/x86_64-linux-gnu/asm. (The third component of the
++new path varies with the actual architecture.)
++
++gcc --print-search-dirs doesn't really tell anything about where gcc
++looks for the include directories, it was just used to find the gcc
++internal directory prefix.
++
++Parse the output of "gcc -v -E" instead, and append $Config{usrinc}
++for safety. Duplicates shouldn't matter.
++
++The h2ph "-a" switch isn't currently tested automatically, and that
++seems nontrivial to do portably. Manual testing was done with
++
++ # mkdir ttt
++ # ./perl -Ilib ./utils/h2ph -a -d $(pwd)/ttt syscall.h
++
++The gcc invocation has been tested to work with gcc 4.6, 4.1, and 3.3.
++
++http://bugs.debian.org/625808
++https://bugs.launchpad.net/bugs/777903
++
++Patch-Name: fixes/h2ph-multiarch.diff
++---
++ utils/h2ph.PL |   12 ++----------
++ 1 files changed, 2 insertions(+), 10 deletions(-)
++
++diff --git a/utils/h2ph.PL b/utils/h2ph.PL
++index 87f3c7d..4545d6d 100644
++--- a/utils/h2ph.PL
+++++ b/utils/h2ph.PL
++@@ -761,16 +761,8 @@ sub queue_includes_from
++ # non-GCC?) C compilers, but gcc uses additional include directories.
++ sub inc_dirs
++ {
++-    my $from_gcc    = `LC_ALL=C $Config{cc} -v 2>&1`;
++-    if( !( $from_gcc =~ s:^Reading specs from (.*?)/specs\b.*:$1/include:s ) )
++-    { # gcc-4+ :
++-       $from_gcc   = `LC_ALL=C $Config{cc} -print-search-dirs 2>&1`;
++-       if ( !($from_gcc =~ s/^install:\s*([^\s]+[^\s\/])([\s\/]*).*$/$1\/include/s) )
++-       {
++-           $from_gcc = '';
++-       };
++-    };
++-    length($from_gcc) ? ($from_gcc, $from_gcc . "-fixed", $Config{usrinc}) : ($Config{usrinc});
+++    my $from_gcc   = `LC_ALL=C $Config{cc} -v -E - < /dev/null 2>&1 | awk '/^#include/, /^End of search list/' | grep '^ '`;
+++    length($from_gcc) ? (split(' ', $from_gcc), $Config{usrinc}) : ($Config{usrinc});
++ }
++ 
++ 
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/hurd-ccflags.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/hurd-ccflags.diff
+similarity index 67%
+rename from meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/hurd-ccflags.diff
+rename to meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/hurd-ccflags.diff
+index 8868c64..901f98d 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/hurd-ccflags.diff
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/hurd-ccflags.diff
+@@ -1,12 +1,16 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
+-Author: Samuel Thibault <sthibault@debian.org>
++From f66e8575cb0ca11171f43efe0f9e3c6e790b75bc Mon Sep 17 00:00:00 2001
++From: Samuel Thibault <sthibault@debian.org>
++Date: Wed, 4 Aug 2010 13:34:05 +0300
+ Subject: Make hints/gnu.sh append to $ccflags rather than overriding them
++
++Bug: http://rt.perl.org/rt3/Public/Bug/Display.html?id=92244
+ Bug-Debian: http://bugs.debian.org/587901
++Origin: upstream, http://perl5.git.perl.org/perl.git/commit/a190e648879
+ 
+ Don't override possible extra $ccflags values given to Configure
+ on GNU/Hurd.
+ 
++Patch-Name: fixes/hurd-ccflags.diff
+ ---
+  hints/gnu.sh |    2 +-
+  1 files changed, 1 insertions(+), 1 deletions(-)
+@@ -24,5 +28,3 @@ index 2cfce54..c1ba2db 100644
+  
+  # The following routines are only available as stubs in GNU libc.
+  # XXX remove this once metaconf detects the GNU libc stubs.
+--- 
+-tg: (a508b62..) fixes/hurd-ccflags (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/hurd-hints.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/hurd-hints.diff
+new file mode 100644
+index 0000000..1ba9cbd
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/hurd-hints.diff
+@@ -0,0 +1,48 @@
++From d6fd7595fcd04b332e7449f59ea298639f10a183 Mon Sep 17 00:00:00 2001
++From: Pino Toscano <pino@debian.org>
++Date: Wed, 10 Aug 2011 08:11:33 +0300
++Subject: Improve general GNU hints, needed for GNU/Hurd.
++
++Bug-Debian: http://bugs.debian.org/636609
++
++Patch-Name: fixes/hurd-hints.diff
++---
++ ext/ODBM_File/hints/gnu.pl |    1 +
++ hints/gnu.sh               |   12 ++++++++++++
++ 2 files changed, 13 insertions(+), 0 deletions(-)
++ create mode 100644 ext/ODBM_File/hints/gnu.pl
++
++diff --git a/ext/ODBM_File/hints/gnu.pl b/ext/ODBM_File/hints/gnu.pl
++new file mode 100644
++index 0000000..db63567
++--- /dev/null
+++++ b/ext/ODBM_File/hints/gnu.pl
++@@ -0,0 +1 @@
+++do './hints/linux.pl' or die $@;
++diff --git a/hints/gnu.sh b/hints/gnu.sh
++index c1ba2db..f075642 100644
++--- a/hints/gnu.sh
+++++ b/hints/gnu.sh
++@@ -8,10 +8,22 @@ set `echo X "$libswanted "| sed -e 's/ nsl / /' -e 's/ c / pthread /'`
++ shift
++ libswanted="$*"
++ 
+++# Debian 4.0 puts ndbm in the -lgdbm_compat library.
+++libswanted="$libswanted gdbm_compat"
+++
++ case "$optimize" in
++ '') optimize='-O2' ;;
++ esac
++ 
+++case "$plibpth" in
+++'') plibpth=`gcc -print-search-dirs | grep libraries |
+++        cut -f2- -d= | tr ':' $trnl | grep -v 'gcc' | sed -e 's:/$::'`
+++    set X $plibpth # Collapse all entries on one line
+++    shift
+++    plibpth="$*"
+++    ;;
+++esac
+++
++ # Flags needed to produce shared libraries.
++ lddlflags='-shared'
++ 
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/index-tainting.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/index-tainting.diff
+new file mode 100644
+index 0000000..204e999
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/index-tainting.diff
+@@ -0,0 +1,73 @@
++From e25298a339dd6679f1b080f0125ac1b237b87950 Mon Sep 17 00:00:00 2001
++From: David Mitchell <davem@iabyn.com>
++Date: Tue, 28 Jun 2011 17:04:40 +0100
++Subject: RT 64804: tainting with index() of a constant
++
++Bug: http://rt.perl.org/rt3/Public/Bug/Display.html?id=64804
++Bug-Debian: http://bugs.debian.org/291450
++Origin: upstream, http://perl5.git.perl.org/perl.git/commit/3b36395d31cf0a2f3a017505cd0ea857a7acb5d1
++
++At compile time, ck_index with a tainted constant set PL_tainted,
++which remained on during the rest of compilation, tainting all other
++constants.
++
++Fix this by saving and restoring PL_tainted across the call to
++fbm_compile, which is what sets PL_tainted.
++
++Patch-Name: fixes/index-tainting.diff
++---
++ op.c         |    5 ++++-
++ t/op/taint.t |   16 +++++++++++++++-
++ 2 files changed, 19 insertions(+), 2 deletions(-)
++
++diff --git a/op.c b/op.c
++index e21b9a4..973df13 100644
++--- a/op.c
+++++ b/op.c
++@@ -7780,8 +7780,11 @@ Perl_ck_index(pTHX_ OP *o)
++ 	OP *kid = cLISTOPo->op_first->op_sibling;	/* get past pushmark */
++ 	if (kid)
++ 	    kid = kid->op_sibling;			/* get past "big" */
++-	if (kid && kid->op_type == OP_CONST)
+++	if (kid && kid->op_type == OP_CONST) {
+++	    const bool save_taint = PL_tainted;
++ 	    fbm_compile(((SVOP*)kid)->op_sv, 0);
+++	    PL_tainted = save_taint;
+++	}
++     }
++     return ck_fun(o);
++ }
++diff --git a/t/op/taint.t b/t/op/taint.t
++index 9df6fee..a300b9b 100644
++--- a/t/op/taint.t
+++++ b/t/op/taint.t
++@@ -17,7 +17,7 @@ BEGIN {
++ use strict;
++ use Config;
++ 
++-plan tests => 774;
+++plan tests => 778;
++ 
++ $| = 1;
++ 
++@@ -2144,6 +2144,20 @@ end
++     is_tainted $dest, "ucfirst(tainted) taints its return value";
++ }
++ 
+++
+++# tainted constants and index()
+++#  RT 64804; http://bugs.debian.org/291450
+++{
+++    ok(tainted $old_env_path, "initial taintedness");
+++    BEGIN { no strict 'refs'; my $v = $old_env_path; *{"::C"} = sub () { $v }; }
+++    ok(tainted C, "constant is tainted properly");
+++    ok(!tainted "", "tainting not broken yet");
+++    index(undef, C);
+++    ok(!tainted "", "tainting still works after index() of the constant");
+++}
+++
+++
+++
++ # This may bomb out with the alarm signal so keep it last
++ SKIP: {
++     skip "No alarm()"  unless $Config{d_alarm};
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/module-build-home-directory.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/module-build-home-directory.diff
+new file mode 100644
+index 0000000..1c9009b
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/module-build-home-directory.diff
+@@ -0,0 +1,37 @@
++From 9266292f705f2a3b6e5b97fa50e5f2be31371d5c Mon Sep 17 00:00:00 2001
++From: Dominic Hargreaves <dom@earth.li>
++Date: Mon, 2 May 2011 10:35:04 +0100
++Subject: Fix failing tilde test when run under a UID without a passwd entry
++
++Bug: https://rt.cpan.org/Public/Bug/Display.html?id=67893
++Bug-Debian: http://bugs.debian.org/624850
++
++Patch-Name: fixes/module-build-home-directory.diff
++---
++ cpan/Module-Build/t/tilde.t |    6 ++++--
++ 1 files changed, 4 insertions(+), 2 deletions(-)
++
++diff --git a/cpan/Module-Build/t/tilde.t b/cpan/Module-Build/t/tilde.t
++index fac821b..04f0210 100644
++--- a/cpan/Module-Build/t/tilde.t
+++++ b/cpan/Module-Build/t/tilde.t
++@@ -46,7 +46,8 @@ SKIP: {
++ 
++     unless (defined $home) {
++       my @info = eval { getpwuid $> };
++-      skip "No home directory for tilde-expansion tests", 15 if $@;
+++      skip "No home directory for tilde-expansion tests", 15 if $@
+++        or !defined $info[7];
++       $home = $info[7];
++     }
++ 
++@@ -95,7 +96,8 @@ SKIP: {
++ # Again, with named users
++ SKIP: {
++     my @info = eval { getpwuid $> };
++-    skip "No home directory for tilde-expansion tests", 1 if $@;
+++    skip "No home directory for tilde-expansion tests", 1 if $@
+++        or !defined $info[7] or !defined $info[0];
++     my ($me, $home) = @info[0,7];
++ 
++     my $expected = "$home/fooxzy";
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/net_smtp_docs.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/net_smtp_docs.diff
+similarity index 76%
+rename from meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/net_smtp_docs.diff
+rename to meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/net_smtp_docs.diff
+index 2307a09..549fc10 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/net_smtp_docs.diff
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/net_smtp_docs.diff
+@@ -1,10 +1,12 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
++From ab32eba7fcc45d864c22e8f4ee02e0a6712070e0 Mon Sep 17 00:00:00 2001
++From: Brendan O'Dea <bod@debian.org>
++Date: Thu, 20 Sep 2007 19:47:14 +1000
+ Subject: Document the Net::SMTP 'Port' option
++
+ Bug-Debian: http://bugs.debian.org/100195
+ Bug: http://rt.cpan.org/Public/Bug/Display.html?id=36038
+ 
+-
++Patch-Name: fixes/net_smtp_docs.diff
+ ---
+  cpan/libnet/Net/SMTP.pm |    1 +
+  1 files changed, 1 insertions(+), 0 deletions(-)
+@@ -21,5 +23,3 @@ index a28496d..07b2498 100644
+  
+  Example:
+  
+--- 
+-tg: (a508b62..) fixes/net_smtp_docs (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/pod_fixes.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/pod_fixes.diff
+new file mode 100644
+index 0000000..eb0eb0b
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/pod_fixes.diff
+@@ -0,0 +1,145 @@
++From c6b1fdd18dab0236458502564e54c180bb0ce341 Mon Sep 17 00:00:00 2001
++From: Keith Thompson <kst@mib.org>
++Date: Fri, 29 Jul 2011 17:17:00 -0700
++Subject: Fix typos in several pod/perl*.pod files
++
++Bug-Debian: http://bugs.debian.org/637816
++Origin: http://perl5.git.perl.org/perl.git/commit/7698aede74509727f7bca31c58fc7a53b182315d
++Patch-Name: fixes/pod_fixes.diff
++---
++ pod/perlfunc.pod     |    8 ++++----
++ pod/perlglossary.pod |   10 +++++-----
++ pod/perlmod.pod      |    4 ++--
++ pod/perlretut.pod    |    6 +++---
++ 4 files changed, 14 insertions(+), 14 deletions(-)
++
++diff --git a/pod/perlfunc.pod b/pod/perlfunc.pod
++index 2ee3637..719a740 100644
++--- a/pod/perlfunc.pod
+++++ b/pod/perlfunc.pod
++@@ -3918,7 +3918,7 @@ count.  A numeric repeat count may optionally be enclosed in brackets, as
++ in C<pack("C[80]", @arr)>.  The repeat count gobbles that many values from
++ the LIST when used with all format types other than C<a>, C<A>, C<Z>, C<b>,
++ C<B>, C<h>, C<H>, C<@>, C<.>, C<x>, C<X>, and C<P>, where it means
++-something else, dscribed below.  Supplying a C<*> for the repeat count
+++something else, described below.  Supplying a C<*> for the repeat count
++ instead of a number means to use however many items are left, except for:
++ 
++ =over 
++@@ -5870,7 +5870,7 @@ sometimes saying the opposite, for example) the results are not
++ well-defined.
++ 
++ Because C<< <=> >> returns C<undef> when either operand is C<NaN>
++-(not-a-number), and laso because C<sort> raises an exception unless the
+++(not-a-number), and also because C<sort> raises an exception unless the
++ result of a comparison is defined, be careful when sorting with a
++ comparison function like C<< $a <=> $b >> any lists that might contain a
++ C<NaN>.  The following example takes advantage that C<NaN != NaN> to
++@@ -5958,7 +5958,7 @@ specified.
++ 
++ A pattern matching the empty string (not to be confused with
++ an empty pattern C<//>, which is just one member of the set of patterns
++-matching the epmty string), splits EXPR into individual
+++matching the empty string), splits EXPR into individual
++ characters.  For example:
++ 
++     print join(':', split(/ */, 'hi there')), "\n";
++@@ -6222,7 +6222,7 @@ For example:
++   printf '<%.1e>', 10; # prints "<1.0e+01>"
++ 
++ For "g" and "G", this specifies the maximum number of digits to show,
++-including thoe prior to the decimal point and those after it; for 
+++including those prior to the decimal point and those after it; for 
++ example:
++ 
++   # These examples are subject to system-specific variation.
++diff --git a/pod/perlglossary.pod b/pod/perlglossary.pod
++index 639ce33..191371c 100644
++--- a/pod/perlglossary.pod
+++++ b/pod/perlglossary.pod
++@@ -507,7 +507,7 @@ the class (its L<objects|/object>).  See also L</inheritance>.
++ 
++ =item class method
++ 
++-A L</method> whose L</invocand> is a L</package> name, not an
+++A L</method> whose L</invocant> is a L</package> name, not an
++ L</object> reference.  A method associated with the class as a whole.
++ 
++ =item client
++@@ -1470,7 +1470,7 @@ Perl, C<print STDOUT "$foo\n";> can be understood as "verb
++ indirect-object object" where L</STDOUT> is the recipient of the
++ L<print|perlfunc/print> action, and C<"$foo"> is the object being
++ printed.  Similarly, when invoking a L</method>, you might place the
++-invocand between the method and its arguments:
+++invocant between the method and its arguments:
++ 
++   $gollum = new Pathetic::Creature "Smeagol";
++   give $gollum "Fisssssh!";
++@@ -1548,11 +1548,11 @@ of compiler that takes a program and turns it into a more executable
++ form (L<syntax trees|/syntax tree>) within the I<perl> process itself,
++ which the Perl L</run time> system then interprets.
++ 
++-=item invocand
+++=item invocant
++ 
++ The agent on whose behalf a L</method> is invoked.  In a L</class>
++-method, the invocand is a package name.  In an L</instance> method,
++-the invocand is an object reference.
+++method, the invocant is a package name.  In an L</instance> method,
+++the invocant is an object reference.
++ 
++ =item invocation
++ 
++diff --git a/pod/perlmod.pod b/pod/perlmod.pod
++index 5266f19..17de73e 100644
++--- a/pod/perlmod.pod
+++++ b/pod/perlmod.pod
++@@ -571,7 +571,7 @@ like for example handle the cloning of non-Perl data, if necessary.
++ C<CLONE> will be called once as a class method for every package that has it
++ defined (or inherits it).  It will be called in the context of the new thread,
++ so all modifications are made in the new area.  Currently CLONE is called with
++-no parameters other than the invocand package name, but code should not assume
+++no parameters other than the invocant package name, but code should not assume
++ that this will remain unchanged, as it is likely that in future extra parameters
++ will be passed in to give more information about the state of cloning.
++ 
++@@ -593,7 +593,7 @@ to make use of the objects, then a more sophisticated approach is
++ needed.
++ 
++ Like C<CLONE>, C<CLONE_SKIP> is currently called with no parameters other
++-than the invocand package name, although that may change. Similarly, to
+++than the invocant package name, although that may change. Similarly, to
++ allow for future expansion, the return value should be a single C<0> or
++ C<1> value.
++ 
++diff --git a/pod/perlretut.pod b/pod/perlretut.pod
++index ea80594..1c65f5b 100644
++--- a/pod/perlretut.pod
+++++ b/pod/perlretut.pod
++@@ -781,7 +781,7 @@ so may lead to surprising and unsatisfactory results.
++ =head2 Relative backreferences
++ 
++ Counting the opening parentheses to get the correct number for a
++-backreference is errorprone as soon as there is more than one
+++backreference is error-prone as soon as there is more than one
++ capturing group.  A more convenient technique became available
++ with Perl 5.10: relative backreferences. To refer to the immediately
++ preceding capture group one now may write C<\g{-1}>, the next but
++@@ -1537,7 +1537,7 @@ the regexp in the I<last successful match> is used instead.  So we have
++ 
++ =head3 Global matching
++ 
++-The final two modifiers we will disccuss here,
+++The final two modifiers we will discuss here,
++ C<//g> and C<//c>, concern multiple matches.
++ The modifier C<//g> stands for global matching and allows the
++ matching operator to match within a string as many times as possible.
++@@ -1870,7 +1870,7 @@ substituted.
++ 
++ C<\Q>, C<\L>, C<\l>, C<\U>, C<\u> and C<\E> are actually part of
++ double-quotish syntax, and not part of regexp syntax proper.  They will
++-work if they appear in a regular expression embeddded directly in a
+++work if they appear in a regular expression embedded directly in a
++ program, but not when contained in a string that is interpolated in a
++ pattern.
++ 
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/respect_umask.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/respect_umask.diff
+new file mode 100644
+index 0000000..a84c9f9
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/respect_umask.diff
+@@ -0,0 +1,153 @@
++From 0d1ab4f799eb14d5488fcc959f4a6bdec548b370 Mon Sep 17 00:00:00 2001
++From: Brendan O'Dea <bod@debian.org>
++Date: Tue, 8 Mar 2005 19:30:38 +1100
++Subject: Respect umask during installation
++
++This is needed to satisfy Debian policy regarding group-writable
++site directories.
++
++Patch-Name: fixes/respect_umask.diff
++---
++ cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm |   18 +++++++++---------
++ dist/ExtUtils-Install/lib/ExtUtils/Install.pm   |   18 +++++++++---------
++ 2 files changed, 18 insertions(+), 18 deletions(-)
++
++diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
++index 6964eea..865d36d 100644
++--- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+++++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
++@@ -2053,7 +2053,7 @@ doc__install : doc_site_install
++ 	$(NOECHO) $(ECHO) INSTALLDIRS not defined, defaulting to INSTALLDIRS=site
++ 
++ pure_perl_install :: all
++-	$(NOECHO) $(MOD_INSTALL) \
+++	$(NOECHO) umask 022; $(MOD_INSTALL) \
++ 		read }.$self->catfile('$(PERL_ARCHLIB)','auto','$(FULLEXT)','.packlist').q{ \
++ 		write }.$self->catfile('$(DESTINSTALLARCHLIB)','auto','$(FULLEXT)','.packlist').q{ \
++ 		$(INST_LIB) $(DESTINSTALLPRIVLIB) \
++@@ -2067,7 +2067,7 @@ pure_perl_install :: all
++ 
++ 
++ pure_site_install :: all
++-	$(NOECHO) $(MOD_INSTALL) \
+++	$(NOECHO) umask 022; $(MOD_INSTALL) \
++ 		read }.$self->catfile('$(SITEARCHEXP)','auto','$(FULLEXT)','.packlist').q{ \
++ 		write }.$self->catfile('$(DESTINSTALLSITEARCH)','auto','$(FULLEXT)','.packlist').q{ \
++ 		$(INST_LIB) $(DESTINSTALLSITELIB) \
++@@ -2080,7 +2080,7 @@ pure_site_install :: all
++ 		}.$self->catdir('$(PERL_ARCHLIB)','auto','$(FULLEXT)').q{
++ 
++ pure_vendor_install :: all
++-	$(NOECHO) $(MOD_INSTALL) \
+++	$(NOECHO) umask 022; $(MOD_INSTALL) \
++ 		read }.$self->catfile('$(VENDORARCHEXP)','auto','$(FULLEXT)','.packlist').q{ \
++ 		write }.$self->catfile('$(DESTINSTALLVENDORARCH)','auto','$(FULLEXT)','.packlist').q{ \
++ 		$(INST_LIB) $(DESTINSTALLVENDORLIB) \
++@@ -2092,8 +2092,8 @@ pure_vendor_install :: all
++ 
++ doc_perl_install :: all
++ 	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLARCHLIB)/perllocal.pod
++-	-$(NOECHO) $(MKPATH) $(DESTINSTALLARCHLIB)
++-	-$(NOECHO) $(DOC_INSTALL) \
+++	-$(NOECHO) umask 022; $(MKPATH) $(DESTINSTALLARCHLIB)
+++	-$(NOECHO) umask 022; $(DOC_INSTALL) \
++ 		"Module" "$(NAME)" \
++ 		"installed into" "$(INSTALLPRIVLIB)" \
++ 		LINKTYPE "$(LINKTYPE)" \
++@@ -2103,8 +2103,8 @@ doc_perl_install :: all
++ 
++ doc_site_install :: all
++ 	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLARCHLIB)/perllocal.pod
++-	-$(NOECHO) $(MKPATH) $(DESTINSTALLARCHLIB)
++-	-$(NOECHO) $(DOC_INSTALL) \
+++	-$(NOECHO) umask 022; $(MKPATH) $(DESTINSTALLARCHLIB)
+++	-$(NOECHO) umask 022; $(DOC_INSTALL) \
++ 		"Module" "$(NAME)" \
++ 		"installed into" "$(INSTALLSITELIB)" \
++ 		LINKTYPE "$(LINKTYPE)" \
++@@ -2114,8 +2114,8 @@ doc_site_install :: all
++ 
++ doc_vendor_install :: all
++ 	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLARCHLIB)/perllocal.pod
++-	-$(NOECHO) $(MKPATH) $(DESTINSTALLARCHLIB)
++-	-$(NOECHO) $(DOC_INSTALL) \
+++	-$(NOECHO) umask 022; $(MKPATH) $(DESTINSTALLARCHLIB)
+++	-$(NOECHO) umask 022; $(DOC_INSTALL) \
++ 		"Module" "$(NAME)" \
++ 		"installed into" "$(INSTALLVENDORLIB)" \
++ 		LINKTYPE "$(LINKTYPE)" \
++diff --git a/dist/ExtUtils-Install/lib/ExtUtils/Install.pm b/dist/ExtUtils-Install/lib/ExtUtils/Install.pm
++index 3b030a5..cb0e9e0 100644
++--- a/dist/ExtUtils-Install/lib/ExtUtils/Install.pm
+++++ b/dist/ExtUtils-Install/lib/ExtUtils/Install.pm
++@@ -468,7 +468,7 @@ sub _can_write_dir {
++ 
++ =pod
++ 
++-=item _mkpath($dir,$show,$mode,$verbose,$dry_run)
+++=item _mkpath($dir,$show,$verbose,$dry_run)
++ 
++ Wrapper around File::Path::mkpath() to handle errors.
++ 
++@@ -485,13 +485,13 @@ writable.
++ =cut
++ 
++ sub _mkpath {
++-    my ($dir,$show,$mode,$verbose,$dry_run)=@_;
+++    my ($dir,$show,$verbose,$dry_run)=@_;
++     if ( $verbose && $verbose > 1 && ! -d $dir) {
++         $show= 1;
++-        printf "mkpath(%s,%d,%#o)\n", $dir, $show, $mode;
+++        printf "mkpath(%s,%d)\n", $dir, $show;
++     }
++     if (!$dry_run) {
++-        if ( ! eval { File::Path::mkpath($dir,$show,$mode); 1 } ) {
+++        if ( ! eval { File::Path::mkpath($dir,$show); 1 } ) {
++             _choke("Can't create '$dir'","$@");
++         }
++ 
++@@ -796,7 +796,7 @@ sub install { #XXX OS-SPECIFIC
++         _chdir($cwd);
++     }
++     foreach my $targetdir (sort keys %check_dirs) {
++-        _mkpath( $targetdir, 0, 0755, $verbose, $dry_run );
+++        _mkpath( $targetdir, 0, $verbose, $dry_run );
++     }
++     foreach my $found (@found_files) {
++         my ($diff, $ffd, $origfile, $mode, $size, $atime, $mtime,
++@@ -810,7 +810,7 @@ sub install { #XXX OS-SPECIFIC
++                     $targetfile= _unlink_or_rename( $targetfile, 'tryhard', 'install' )
++                         unless $dry_run;
++                 } elsif ( ! -d $targetdir ) {
++-                    _mkpath( $targetdir, 0, 0755, $verbose, $dry_run );
+++                    _mkpath( $targetdir, 0, $verbose, $dry_run );
++                 }
++                 print "Installing $targetfile\n";
++ 
++@@ -850,7 +850,7 @@ sub install { #XXX OS-SPECIFIC
++ 
++     if ($pack{'write'}) {
++         $dir = install_rooted_dir(dirname($pack{'write'}));
++-        _mkpath( $dir, 0, 0755, $verbose, $dry_run );
+++        _mkpath( $dir, 0, $verbose, $dry_run );
++         print "Writing $pack{'write'}\n" if $verbose;
++         $packlist->write(install_rooted_file($pack{'write'})) unless $dry_run;
++     }
++@@ -1190,7 +1190,7 @@ be prepended as a directory to each installed file (and directory).
++ sub pm_to_blib {
++     my($fromto,$autodir,$pm_filter) = @_;
++ 
++-    _mkpath($autodir,0,0755);
+++    _mkpath($autodir,0);
++     while(my($from, $to) = each %$fromto) {
++         if( -f $to && -s $from == -s $to && -M $to < -M $from ) {
++             print "Skip $to (unchanged)\n";
++@@ -1213,7 +1213,7 @@ sub pm_to_blib {
++             # we wont try hard here. its too likely to mess things up.
++             forceunlink($to);
++         } else {
++-            _mkpath(dirname($to),0,0755);
+++            _mkpath(dirname($to),0);
++         }
++         if ($need_filtering) {
++             run_filter($pm_filter, $from, $to);
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/sys-syslog-socket-timeout-kfreebsd.patch b/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/sys-syslog-socket-timeout-kfreebsd.patch
+new file mode 100644
+index 0000000..e29e9b0
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/sys-syslog-socket-timeout-kfreebsd.patch
+@@ -0,0 +1,36 @@
++From 9ba88d73444c22788b7c2a212e15dbfe3da2a1af Mon Sep 17 00:00:00 2001
++From: Niko Tyni <ntyni@debian.org>
++Date: Wed, 3 Aug 2011 22:36:24 +0300
++Subject: Use a socket timeout on GNU/kFreeBSD to catch ICMP port unreachable
++ messages
++
++Bug: http://rt.cpan.org/Ticket/Display.html?id=69997
++Bug-Debian: http://bugs.debian.org/627821
++
++Without this, openlog() on a UDP socket may succeed on the FreeBSD kernel
++even when there's no listener, causing test failures.
++
++It seems probable that all FreeBSD-based systems suffer from the
++same issue, but that's for upstream to decide.
++
++Patch-Name: fixes/sys-syslog-socket-timeout-kfreebsd.patch
++---
++ cpan/Sys-Syslog/Syslog.pm |    5 ++++-
++ 1 files changed, 4 insertions(+), 1 deletions(-)
++
++diff --git a/cpan/Sys-Syslog/Syslog.pm b/cpan/Sys-Syslog/Syslog.pm
++index 002e6e4..b445c66 100644
++--- a/cpan/Sys-Syslog/Syslog.pm
+++++ b/cpan/Sys-Syslog/Syslog.pm
++@@ -138,7 +138,10 @@ my @fallbackMethods = ();
++ # happy, the timeout is now zero by default on all systems 
++ # except on OSX where it is set to 250 msec, and can be set 
++ # with the infamous setlogsock() function.
++-$sock_timeout = 0.25 if $^O =~ /darwin/;
+++#
+++# Debian change: include Debian GNU/kFreeBSD, lower to 1ms
+++# see [rt.cpan.org #69997]
+++$sock_timeout = 0.001 if $^O =~ /darwin|gnukfreebsd/;
++ 
++ # coderef for a nicer handling of errors
++ my $err_sub = $options{nofatal} ? \&warnings::warnif : \&croak;
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/instmodsh_doc.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/instmodsh_doc.diff
+similarity index 81%
+rename from meta/recipes-devtools/perl/perl-5.12.3/debian/instmodsh_doc.diff
+rename to meta/recipes-devtools/perl/perl-5.14.2/debian/instmodsh_doc.diff
+index 5555dfc..ab0133d 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/instmodsh_doc.diff
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/instmodsh_doc.diff
+@@ -1,8 +1,9 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
++From ab89a31d1f46388a61953349c3546e4082cd38de Mon Sep 17 00:00:00 2001
++From: Brendan O'Dea <bod@debian.org>
++Date: Tue, 8 Mar 2005 19:30:38 +1100
+ Subject: Debian policy doesn't install .packlist files for core or vendor.
+ 
+-
++Patch-Name: debian/instmodsh_doc.diff
+ ---
+  cpan/ExtUtils-MakeMaker/bin/instmodsh |    4 +++-
+  1 files changed, 3 insertions(+), 1 deletions(-)
+@@ -24,5 +25,3 @@ index 5874aa6..6a2f03e 100644
+  =head1 SEE ALSO
+  
+  ExtUtils::Installed
+--- 
+-tg: (a508b62..) debian/instmodsh_doc (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/ld_run_path.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/ld_run_path.diff
+similarity index 68%
+rename from meta/recipes-devtools/perl/perl-5.12.3/debian/ld_run_path.diff
+rename to meta/recipes-devtools/perl/perl-5.14.2/debian/ld_run_path.diff
+index 02610d3..d38b04b 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/ld_run_path.diff
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/ld_run_path.diff
+@@ -1,25 +1,24 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
++From 704f6017119ce0301a9105944512120a38a43a02 Mon Sep 17 00:00:00 2001
++From: Brendan O'Dea <bod@debian.org>
++Date: Fri, 18 Mar 2005 22:22:25 +1100
+ Subject: Remove standard libs from LD_RUN_PATH as per Debian policy.
+ 
+-
++Patch-Name: debian/ld_run_path.diff
+ ---
+  .../ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm |    3 +++
+  1 files changed, 3 insertions(+), 0 deletions(-)
+ 
+ diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm
+-index b807e97..6c955d7 100644
++index cf4826f..eb212b5 100644
+ --- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm
+ +++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm
+-@@ -53,6 +53,9 @@ sub _unix_os2_ext {
++@@ -54,6 +54,9 @@ sub _unix_os2_ext {
+      my($pwd) = cwd(); # from Cwd.pm
+      my($found) = 0;
+  
+ +    # Debian-specific: don't use LD_RUN_PATH for standard dirs
+-+    $ld_run_path_seen{$_}++ for qw(/lib /usr/lib /usr/X11R6/lib);
+++    $ld_run_path_seen{$_}++ for @libpath;
+ +
+      foreach my $thislib (split ' ', $potential_libs) {
+  
+  	# Handle possible linker path arguments.
+--- 
+-tg: (a508b62..) debian/ld_run_path (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/libnet_config_path.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/libnet_config_path.diff
+similarity index 85%
+rename from meta/recipes-devtools/perl/perl-5.12.3/debian/libnet_config_path.diff
+rename to meta/recipes-devtools/perl/perl-5.14.2/debian/libnet_config_path.diff
+index a38e78a..6604d35 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/libnet_config_path.diff
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/libnet_config_path.diff
+@@ -1,8 +1,10 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
+-Subject: Set location of libnet.cfg to /etc/perl/Net as /usr may not be writable.
+-
++From 7465b6d008187580eabe655b9c8e75351d3d24b4 Mon Sep 17 00:00:00 2001
++From: Brendan O'Dea <bod@debian.org>
++Date: Tue, 8 Mar 2005 19:30:38 +1100
++Subject: Set location of libnet.cfg to /etc/perl/Net as /usr may not be
++ writable.
+ 
++Patch-Name: debian/libnet_config_path.diff
+ ---
+  cpan/libnet/Net/Config.pm |    7 +++----
+  1 files changed, 3 insertions(+), 4 deletions(-)
+@@ -33,5 +35,3 @@ index db51c1f..8404593 100644
+  can be done by having a C<.libnetrc> file in their home directory. This file
+  should return a reference to a HASH containing the keys described below.
+  For example
+--- 
+-tg: (a508b62..) debian/libnet_config_path (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/debian/libperl_embed_doc.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/libperl_embed_doc.diff
+new file mode 100644
+index 0000000..cc3e050
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/libperl_embed_doc.diff
+@@ -0,0 +1,26 @@
++From d70e88badfcc6edd05e884597f19fbbdcf2cf6a7 Mon Sep 17 00:00:00 2001
++From: Brendan O'Dea <bod@debian.org>
++Date: Tue, 8 Mar 2005 19:30:38 +1100
++Subject: Note that libperl-dev package is required for embedded linking
++
++Bug-Debian: http://bugs.debian.org/186778
++
++Patch-Name: debian/libperl_embed_doc.diff
++---
++ lib/ExtUtils/Embed.pm |    3 +++
++ 1 files changed, 3 insertions(+), 0 deletions(-)
++
++diff --git a/lib/ExtUtils/Embed.pm b/lib/ExtUtils/Embed.pm
++index 9710630..86f13b5 100644
++--- a/lib/ExtUtils/Embed.pm
+++++ b/lib/ExtUtils/Embed.pm
++@@ -305,6 +305,9 @@ and extensions in your C/C++ applications.
++ Typically, an application B<Makefile> will invoke ExtUtils::Embed
++ functions while building your application.  
++ 
+++Note that on Debian systems the B<libperl-dev> package is required for
+++compiling applications which embed an interpreter.
+++
++ =head1 @EXPORT
++ 
++ ExtUtils::Embed exports the following functions:
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/m68k_thread_stress.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/m68k_thread_stress.diff
+similarity index 78%
+rename from meta/recipes-devtools/perl/perl-5.12.3/debian/m68k_thread_stress.diff
+rename to meta/recipes-devtools/perl/perl-5.14.2/debian/m68k_thread_stress.diff
+index 675c9aa..f1dfe36 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/m68k_thread_stress.diff
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/m68k_thread_stress.diff
+@@ -1,16 +1,19 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
++From 55a718425dc4612ac01850ef786f75f072b20b9e Mon Sep 17 00:00:00 2001
++From: Niko Tyni <ntyni@debian.org>
++Date: Mon, 8 Sep 2008 20:48:14 +0300
+ Subject: Disable some threads tests on m68k for now due to missing TLS.
+-Closes: #495826, #517938
+ 
++Bug-Debian: http://bugs.debian.org/495826
++Bug-Debian: http://bugs.debian.org/517938
+ 
++Patch-Name: debian/m68k_thread_stress.diff
+ ---
+  dist/threads-shared/t/stress.t    |    4 ++++
+  dist/threads-shared/t/waithires.t |    6 ++++++
+  2 files changed, 10 insertions(+), 0 deletions(-)
+ 
+ diff --git a/dist/threads-shared/t/stress.t b/dist/threads-shared/t/stress.t
+-index adfd1ed..8573f1a 100755
++index 652a3e6..2f1b576 100644
+ --- a/dist/threads-shared/t/stress.t
+ +++ b/dist/threads-shared/t/stress.t
+ @@ -11,6 +11,10 @@ BEGIN {
+@@ -25,7 +28,7 @@ index adfd1ed..8573f1a 100755
+  
+  use ExtUtils::testlib;
+ diff --git a/dist/threads-shared/t/waithires.t b/dist/threads-shared/t/waithires.t
+-index e3a1086..633374e 100755
++index 3c3e852..349c5b4 100644
+ --- a/dist/threads-shared/t/waithires.t
+ +++ b/dist/threads-shared/t/waithires.t
+ @@ -16,6 +16,12 @@ BEGIN {
+@@ -41,5 +44,3 @@ index e3a1086..633374e 100755
+  }
+  
+  use ExtUtils::testlib;
+--- 
+-tg: (a508b62..) debian/m68k_thread_stress (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/mod_paths.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/mod_paths.diff
+similarity index 89%
+rename from meta/recipes-devtools/perl/perl-5.12.3/debian/mod_paths.diff
+rename to meta/recipes-devtools/perl/perl-5.14.2/debian/mod_paths.diff
+index 26d8ed0..2cc0946 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/mod_paths.diff
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/mod_paths.diff
+@@ -1,5 +1,6 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
++From 11633e598640b02e19329f323623af254fbac451 Mon Sep 17 00:00:00 2001
++From: Brendan O'Dea <bod@debian.org>
++Date: Fri, 18 Mar 2005 22:22:25 +1100
+ Subject: Tweak @INC ordering for Debian
+ 
+ Our order is:
+@@ -15,16 +16,16 @@ The rationale being that an admin (via site), or module packager
+ (vendor) can chose to shadow core modules when there is a newer
+ version than is included in core.
+ 
+-
++Patch-Name: debian/mod_paths.diff
+ ---
+  perl.c |   58 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  1 files changed, 58 insertions(+), 0 deletions(-)
+ 
+ diff --git a/perl.c b/perl.c
+-index 05cea40..023d6a0 100644
++index f756e02..d26dcb0 100644
+ --- a/perl.c
+ +++ b/perl.c
+-@@ -4125,6 +4125,11 @@ S_init_perllib(pTHX)
++@@ -4219,6 +4219,11 @@ S_init_perllib(pTHX)
+  		      INCPUSH_ADD_SUB_DIRS|INCPUSH_CAN_RELOCATE);
+  #endif
+  
+@@ -36,7 +37,7 @@ index 05cea40..023d6a0 100644
+  #ifdef SITEARCH_EXP
+      /* sitearch is always relative to sitelib on Windows for
+       * DLL-based path intuition to work correctly */
+-@@ -4242,6 +4247,59 @@ S_init_perllib(pTHX)
++@@ -4336,6 +4341,59 @@ S_init_perllib(pTHX)
+  		      INCPUSH_ADD_OLD_VERS|INCPUSH_CAN_RELOCATE);
+  #endif
+  
+@@ -96,5 +97,3 @@ index 05cea40..023d6a0 100644
+  #ifdef PERL_OTHERLIBDIRS
+      S_incpush_use_sep(aTHX_ STR_WITH_LEN(PERL_OTHERLIBDIRS),
+  		      INCPUSH_ADD_OLD_VERS|INCPUSH_ADD_ARCHONLY_SUB_DIRS
+--- 
+-tg: (a508b62..) debian/mod_paths (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/module_build_man_extensions.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/module_build_man_extensions.diff
+similarity index 81%
+rename from meta/recipes-devtools/perl/perl-5.12.3/debian/module_build_man_extensions.diff
+rename to meta/recipes-devtools/perl/perl-5.14.2/debian/module_build_man_extensions.diff
+index 63c8441..b11433f 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/module_build_man_extensions.diff
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/module_build_man_extensions.diff
+@@ -1,17 +1,21 @@
+-Upstream-Status:Inappropriate [debian patch]
++From fbb5f07872d45bac76b5c3c83b50a19aa5da10b0 Mon Sep 17 00:00:00 2001
++From: Niko Tyni <ntyni@debian.org>
++Date: Thu, 8 May 2008 14:32:33 +0300
++Subject: Adjust Module::Build manual page extensions for the Debian Perl
++ policy
+ 
+-Subject: Adjust Module::Build manual page extensions for the Debian Perl policy
+ Bug-Debian: http://bugs.debian.org/479460
+ 
++Patch-Name: debian/module_build_man_extensions.diff
+ ---
+  cpan/Module-Build/lib/Module/Build/Base.pm |    4 ++--
+  1 files changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/cpan/Module-Build/lib/Module/Build/Base.pm b/cpan/Module-Build/lib/Module/Build/Base.pm
+-index 5bd8ec7..b4e606a 100644
++index fba916a..82df4cc 100644
+ --- a/cpan/Module-Build/lib/Module/Build/Base.pm
+ +++ b/cpan/Module-Build/lib/Module/Build/Base.pm
+-@@ -3071,7 +3071,7 @@ sub manify_bin_pods {
++@@ -3246,7 +3246,7 @@ sub manify_bin_pods {
+    foreach my $file (keys %$files) {
+      # Pod::Simple based parsers only support one document per instance.
+      # This is expected to change in a future version (Pod::Simple > 3.03).
+@@ -20,7 +24,7 @@ index 5bd8ec7..b4e606a 100644
+      my $manpage = $self->man1page_name( $file ) . '.' .
+  	          $self->config( 'man1ext' );
+      my $outfile = File::Spec->catfile($mandir, $manpage);
+-@@ -3096,7 +3096,7 @@ sub manify_lib_pods {
++@@ -3271,7 +3271,7 @@ sub manify_lib_pods {
+    while (my ($file, $relfile) = each %$files) {
+      # Pod::Simple based parsers only support one document per instance.
+      # This is expected to change in a future version (Pod::Simple > 3.03).
+@@ -29,5 +33,3 @@ index 5bd8ec7..b4e606a 100644
+      my $manpage = $self->man3page_name( $relfile ) . '.' .
+  	          $self->config( 'man3ext' );
+      my $outfile = File::Spec->catfile( $mandir, $manpage);
+--- 
+-tg: (a508b62..) debian/module_build_man_extensions (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/debian/no_packlist_perllocal.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/no_packlist_perllocal.diff
+new file mode 100644
+index 0000000..3324c1e
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/no_packlist_perllocal.diff
+@@ -0,0 +1,88 @@
++From 44c7521619dd0e637920393184affcb26a27d5b7 Mon Sep 17 00:00:00 2001
++From: Brendan O'Dea <bod@debian.org>
++Date: Tue, 8 Mar 2005 19:30:38 +1100
++Subject: Don't install .packlist or perllocal.pod for perl or vendor
++
++Patch-Name: debian/no_packlist_perllocal.diff
++---
++ cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm |   31 +++--------------------
++ 1 files changed, 4 insertions(+), 27 deletions(-)
++
++diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
++index 42bbb83..a16e2d0 100644
++--- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+++++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
++@@ -2054,8 +2054,6 @@ doc__install : doc_site_install
++ 
++ pure_perl_install :: all
++ 	$(NOECHO) umask 022; $(MOD_INSTALL) \
++-		read }.$self->catfile('$(PERL_ARCHLIB)','auto','$(FULLEXT)','.packlist').q{ \
++-		write }.$self->catfile('$(DESTINSTALLARCHLIB)','auto','$(FULLEXT)','.packlist').q{ \
++ 		$(INST_LIB) $(DESTINSTALLPRIVLIB) \
++ 		$(INST_ARCHLIB) $(DESTINSTALLARCHLIB) \
++ 		$(INST_BIN) $(DESTINSTALLBIN) \
++@@ -2081,8 +2079,6 @@ pure_site_install :: all
++ 
++ pure_vendor_install :: all
++ 	$(NOECHO) umask 022; $(MOD_INSTALL) \
++-		read }.$self->catfile('$(VENDORARCHEXP)','auto','$(FULLEXT)','.packlist').q{ \
++-		write }.$self->catfile('$(DESTINSTALLVENDORARCH)','auto','$(FULLEXT)','.packlist').q{ \
++ 		$(INST_LIB) $(DESTINSTALLVENDORLIB) \
++ 		$(INST_ARCHLIB) $(DESTINSTALLVENDORARCH) \
++ 		$(INST_BIN) $(DESTINSTALLVENDORBIN) \
++@@ -2091,37 +2087,19 @@ pure_vendor_install :: all
++ 		$(INST_MAN3DIR) $(DESTINSTALLVENDORMAN3DIR)
++ 
++ doc_perl_install :: all
++-	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLARCHLIB)/perllocal.pod
++-	-$(NOECHO) umask 022; $(MKPATH) $(DESTINSTALLARCHLIB)
++-	-$(NOECHO) umask 022; $(DOC_INSTALL) \
++-		"Module" "$(NAME)" \
++-		"installed into" "$(INSTALLPRIVLIB)" \
++-		LINKTYPE "$(LINKTYPE)" \
++-		VERSION "$(VERSION)" \
++-		EXE_FILES "$(EXE_FILES)" \
++-		>> }.$self->catfile('$(DESTINSTALLARCHLIB)','perllocal.pod').q{
++ 
++ doc_site_install :: all
++-	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLARCHLIB)/perllocal.pod
++-	-$(NOECHO) umask 02; $(MKPATH) $(DESTINSTALLARCHLIB)
+++	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLSITEARCH)/perllocal.pod
+++	-$(NOECHO) umask 02; $(MKPATH) $(DESTINSTALLSITEARCH)
++ 	-$(NOECHO) umask 02; $(DOC_INSTALL) \
++ 		"Module" "$(NAME)" \
++ 		"installed into" "$(INSTALLSITELIB)" \
++ 		LINKTYPE "$(LINKTYPE)" \
++ 		VERSION "$(VERSION)" \
++ 		EXE_FILES "$(EXE_FILES)" \
++-		>> }.$self->catfile('$(DESTINSTALLARCHLIB)','perllocal.pod').q{
+++		>> }.$self->catfile('$(DESTINSTALLSITEARCH)','perllocal.pod').q{
++ 
++ doc_vendor_install :: all
++-	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLARCHLIB)/perllocal.pod
++-	-$(NOECHO) umask 022; $(MKPATH) $(DESTINSTALLARCHLIB)
++-	-$(NOECHO) umask 022; $(DOC_INSTALL) \
++-		"Module" "$(NAME)" \
++-		"installed into" "$(INSTALLVENDORLIB)" \
++-		LINKTYPE "$(LINKTYPE)" \
++-		VERSION "$(VERSION)" \
++-		EXE_FILES "$(EXE_FILES)" \
++-		>> }.$self->catfile('$(DESTINSTALLARCHLIB)','perllocal.pod').q{
++ 
++ };
++ 
++@@ -2130,13 +2108,12 @@ uninstall :: uninstall_from_$(INSTALLDIRS)dirs
++ 	$(NOECHO) $(NOOP)
++ 
++ uninstall_from_perldirs ::
++-	$(NOECHO) $(UNINSTALL) }.$self->catfile('$(PERL_ARCHLIB)','auto','$(FULLEXT)','.packlist').q{
++ 
++ uninstall_from_sitedirs ::
++ 	$(NOECHO) $(UNINSTALL) }.$self->catfile('$(SITEARCHEXP)','auto','$(FULLEXT)','.packlist').q{
++ 
++ uninstall_from_vendordirs ::
++-	$(NOECHO) $(UNINSTALL) }.$self->catfile('$(VENDORARCHEXP)','auto','$(FULLEXT)','.packlist').q{
+++
++ };
++ 
++     join("",@m);
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/debian/patchlevel.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/patchlevel.diff
+new file mode 100644
+index 0000000..0a8a467
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/patchlevel.diff
+@@ -0,0 +1,30 @@
++From cf928101697efa4a46ada500c2f449caeb854fd4 Mon Sep 17 00:00:00 2001
++From: Niko Tyni <ntyni@debian.org>
++Date: Sun, 15 May 2011 19:35:58 +0300
++Subject: List packaged patches in patchlevel.h
++
++Origin: vendor
++Bug-Debian: http://bugs.debian.org/567489
++
++The list of packaged patches is in patchlevel-debian.h, which is generated
++from the debian/patches/ directory when building the package.
++
++Patch-Name: debian/patchlevel.diff
++---
++ patchlevel.h |    3 +++
++ 1 files changed, 3 insertions(+), 0 deletions(-)
++
++diff --git a/patchlevel.h b/patchlevel.h
++index 5dc2a53..1356595 100644
++--- a/patchlevel.h
+++++ b/patchlevel.h
++@@ -137,6 +137,9 @@ static const char * const local_patches[] = {
++ 	,"uncommitted-changes"
++ #endif
++ 	PERL_GIT_UNPUSHED_COMMITS    	/* do not remove this line */
+++#ifdef DEBIAN
+++#include "patchlevel-debian.h"
+++#endif
++ 	,NULL
++ };
++ 
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/perlivp.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/perlivp.diff
+similarity index 77%
+rename from meta/recipes-devtools/perl/perl-5.12.3/debian/perlivp.diff
+rename to meta/recipes-devtools/perl/perl-5.14.2/debian/perlivp.diff
+index 304e4c1..98b1b50 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/perlivp.diff
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/perlivp.diff
+@@ -1,8 +1,9 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
++From 4c7e04f75c9513451d1622e5a6dd58c2c8377d81 Mon Sep 17 00:00:00 2001
+ From: Niko Tyni <ntyni@debian.org>
++Date: Fri, 9 Jan 2009 18:54:47 +0200
+ Subject: Make perlivp skip include directories in /usr/local
+-Closes: 510895
++
++Bug-Debian: http://bugs.debian.org/510895
+ 
+ On Sat, Jan 10, 2009 at 12:37:18AM +1100, Brendan O'Dea wrote:
+ > On Wed, Jan 7, 2009 at 12:21 AM, Niko Tyni <ntyni@debian.org> wrote:
+@@ -17,15 +18,15 @@ On Sat, Jan 10, 2009 at 12:37:18AM +1100, Brendan O'Dea wrote:
+ > installed any local packages.  As Niko points out, they will be
+ > created as required.
+ 
+-
+ Signed-off-by: Niko Tyni <ntyni@debian.org>
+ 
++Patch-Name: debian/perlivp.diff
+ ---
+  utils/perlivp.PL |    1 +
+  1 files changed, 1 insertions(+), 0 deletions(-)
+ 
+ diff --git a/utils/perlivp.PL b/utils/perlivp.PL
+-index 9783261..156146f 100644
++index 6fcb670..1401cac 100644
+ --- a/utils/perlivp.PL
+ +++ b/utils/perlivp.PL
+ @@ -142,6 +142,7 @@ my $INC_total = 0;
+@@ -33,8 +34,6 @@ index 9783261..156146f 100644
+  foreach (@INC) {
+      next if $_ eq '.'; # skip -d test here
+ +    next if m|/usr/local|; # not shipped on Debian
+-     if ($^O eq 'MacOS') {
+-         next if $_ eq ':'; # skip -d test here
+-         next if $_ eq 'Dev:Pseudo:'; # why is this in @INC?
+--- 
+-tg: (a508b62..) debian/perlivp (depends on: upstream)
++     if (-d $_) {
++         print "## Perl \@INC directory `$_' exists.\n" if $opt{'v'};
++         $INC_there++;
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/debian/prefix_changes.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/prefix_changes.diff
+new file mode 100644
+index 0000000..a1e17ce
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/prefix_changes.diff
+@@ -0,0 +1,118 @@
++From 148e2717682ce8c65475ffdeea84b3cdd1ab1649 Mon Sep 17 00:00:00 2001
++From: Brendan O'Dea <bod@debian.org>
++Date: Tue, 8 Mar 2005 19:30:38 +1100
++Subject: Fiddle with *PREFIX and variables written to the makefile
++
++Fiddle with *PREFIX and variables written to the makefile so that
++install directories may be changed when make is run by passing
++PREFIX= to the "make install" command (used when packaging
++modules).
++
++Patch-Name: debian/prefix_changes.diff
++---
++ cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Any.pm  |   12 ++++++------
++ cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm |    3 +--
++ cpan/ExtUtils-MakeMaker/t/INST.t                |    4 +---
++ cpan/ExtUtils-MakeMaker/t/INST_PREFIX.t         |   10 +++++-----
++ 4 files changed, 13 insertions(+), 16 deletions(-)
++
++diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Any.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Any.pm
++index a38f274..93d3fe9 100644
++--- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Any.pm
+++++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Any.pm
++@@ -701,8 +701,6 @@ all POD files in MAN1PODS and MAN3PODS.
++ sub manifypods_target {
++     my($self) = shift;
++ 
++-    my $man1pods      = '';
++-    my $man3pods      = '';
++     my $dependencies  = '';
++ 
++     # populate manXpods & dependencies:
++@@ -718,7 +716,7 @@ END
++     foreach my $section (qw(1 3)) {
++         my $pods = $self->{"MAN${section}PODS"};
++         push @man_cmds, $self->split_command(<<CMD, %$pods);
++-	\$(NOECHO) \$(POD2MAN) --section=$section --perm_rw=\$(PERM_RW)
+++	\$(NOECHO) \$(POD2MAN) --section=\$(MAN${section}EXT) --perm_rw=\$(PERM_RW)
++ CMD
++     }
++ 
++@@ -1521,9 +1519,11 @@ sub init_INSTALL_from_PREFIX {
++         $self->{SITEPREFIX}   ||= $sprefix;
++         $self->{VENDORPREFIX} ||= $vprefix;
++ 
++-        # Lots of MM extension authors like to use $(PREFIX) so we
++-        # put something sensible in there no matter what.
++-        $self->{PREFIX} = '$('.uc $self->{INSTALLDIRS}.'PREFIX)';
+++	my $p = $self->{PREFIX} = $self->{PERLPREFIX};
+++	for my $t (qw/PERL SITE VENDOR/)
+++	{
+++	    $self->{"${t}PREFIX"} =~ s!^\Q$p\E(?=/|$)!\$(PREFIX)!;
+++	}
++     }
++ 
++     my $arch    = $Config{archname};
++diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
++index a16e2d0..c308c49 100644
++--- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+++++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
++@@ -2981,8 +2981,7 @@ sub prefixify {
++     print STDERR "  prefixify $var => $path\n" if $Verbose >= 2;
++     print STDERR "    from $sprefix to $rprefix\n" if $Verbose >= 2;
++ 
++-    if( $self->{ARGS}{PREFIX} &&
++-        $path !~ s{^\Q$sprefix\E\b}{$rprefix}s ) 
+++    if( $path !~ s{^\Q$sprefix\E\b}{$rprefix}s && $self->{ARGS}{PREFIX} )
++     {
++ 
++         print STDERR "    cannot prefix, using default.\n" if $Verbose >= 2;
++diff --git a/cpan/ExtUtils-MakeMaker/t/INST.t b/cpan/ExtUtils-MakeMaker/t/INST.t
++index 6aac294..28294f2 100644
++--- a/cpan/ExtUtils-MakeMaker/t/INST.t
+++++ b/cpan/ExtUtils-MakeMaker/t/INST.t
++@@ -61,9 +61,7 @@ isa_ok( $mm, 'ExtUtils::MakeMaker' );
++ is( $mm->{NAME}, 'Big::Dummy',  'NAME' );
++ is( $mm->{VERSION}, 0.01,            'VERSION' );
++ 
++-my $config_prefix = $Config{installprefixexp} || $Config{installprefix} ||
++-                    $Config{prefixexp}        || $Config{prefix};
++-is( $mm->{PERLPREFIX}, $config_prefix,   'PERLPREFIX' );
+++is( $mm->{PERLPREFIX}, '$(PREFIX)',   'PERLPREFIX' );
++ 
++ is( !!$mm->{PERL_CORE}, !!$ENV{PERL_CORE}, 'PERL_CORE' );
++ 
++diff --git a/cpan/ExtUtils-MakeMaker/t/INST_PREFIX.t b/cpan/ExtUtils-MakeMaker/t/INST_PREFIX.t
++index fbb18a3..8987569 100644
++--- a/cpan/ExtUtils-MakeMaker/t/INST_PREFIX.t
+++++ b/cpan/ExtUtils-MakeMaker/t/INST_PREFIX.t
++@@ -10,7 +10,7 @@ BEGIN {
++ }
++ 
++ use strict;
++-use Test::More tests => 52;
+++use Test::More tests => 47;
++ use MakeMaker::Test::Utils;
++ use MakeMaker::Test::Setup::BFD;
++ use ExtUtils::MakeMaker;
++@@ -58,16 +58,16 @@ like( $stdout->read, qr{
++ 			Writing\ MYMETA.yml\n
++ }x );
++ 
++-is( $mm->{PREFIX}, '$(SITEPREFIX)', 'PREFIX set based on INSTALLDIRS' );
+++#is( $mm->{PREFIX}, '$(SITEPREFIX)', 'PREFIX set based on INSTALLDIRS' );
++ 
++ isa_ok( $mm, 'ExtUtils::MakeMaker' );
++ 
++ is( $mm->{NAME}, 'Big::Dummy',  'NAME' );
++ is( $mm->{VERSION}, 0.01,            'VERSION' );
++ 
++-foreach my $prefix (qw(PREFIX PERLPREFIX SITEPREFIX VENDORPREFIX)) {
++-    unlike( $mm->{$prefix}, qr/\$\(PREFIX\)/ );
++-}
+++#foreach my $prefix (qw(PREFIX PERLPREFIX SITEPREFIX VENDORPREFIX)) {
+++#    unlike( $mm->{$prefix}, qr/\$\(PREFIX\)/ );
+++#}
++ 
++ 
++ my $PREFIX = File::Spec->catdir('foo', 'bar');
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/prune_libs.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/prune_libs.diff
+similarity index 81%
+rename from meta/recipes-devtools/perl/perl-5.12.3/debian/prune_libs.diff
+rename to meta/recipes-devtools/perl/perl-5.14.2/debian/prune_libs.diff
+index 5bb072c..bb05a94 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/prune_libs.diff
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/prune_libs.diff
+@@ -1,21 +1,23 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
++From 063566907896ff32bea27897fa73cebbbd7bacce Mon Sep 17 00:00:00 2001
++From: Brendan O'Dea <bod@debian.org>
++Date: Fri, 18 Mar 2005 22:22:25 +1100
+ Subject: Prune the list of libraries wanted to what we actually need.
++
+ Bug-Debian: http://bugs.debian.org/128355
+ 
+ We want to keep the dependencies on perl-base as small as possible,
+ and some of the original list may be present on buildds (see Bug#128355).
+ 
+-
++Patch-Name: debian/prune_libs.diff
+ ---
+  Configure |    5 ++---
+  1 files changed, 2 insertions(+), 3 deletions(-)
+ 
+ diff --git a/Configure b/Configure
+-index 3a8732b..6013c86 100755
++index d9911f9..f59f75c 100755
+ --- a/Configure
+ +++ b/Configure
+-@@ -1363,8 +1363,7 @@ libswanted_uselargefiles=''
++@@ -1367,8 +1367,7 @@ libswanted_uselargefiles=''
+  : set usesocks on the Configure command line to enable socks.
+  : List of libraries we want.
+  : If anyone needs extra -lxxx, put those in a hint file.
+@@ -25,7 +27,7 @@ index 3a8732b..6013c86 100755
+  : We probably want to search /usr/shlib before most other libraries.
+  : This is only used by the lib/ExtUtils/MakeMaker.pm routine extliblist.
+  glibpth=`echo " $glibpth " | sed -e 's! /usr/shlib ! !'`
+-@@ -22179,7 +22178,7 @@ sunos*X4*)
++@@ -22308,7 +22307,7 @@ sunos*X4*)
+      ;;
+  *) case "$usedl" in
+      $define|true|[yY]*)
+@@ -34,5 +36,3 @@ index 3a8732b..6013c86 100755
+  	    shift
+  	    perllibs="$*"
+  	    ;;
+--- 
+-tg: (a508b62..) debian/prune_libs (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/debian/series b/meta/recipes-devtools/perl/perl-5.14.2/debian/series
+new file mode 100644
+index 0000000..08adca5
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/series
+@@ -0,0 +1,40 @@
++debian/arm_thread_stress_timeout.diff
++debian/cpan_definstalldirs.diff
++debian/db_file_ver.diff
++debian/doc_info.diff
++debian/enc2xs_inc.diff
++debian/errno_ver.diff
++debian/libperl_embed_doc.diff
++fixes/respect_umask.diff
++debian/writable_site_dirs.diff
++debian/extutils_set_libperl_path.diff
++debian/no_packlist_perllocal.diff
++debian/prefix_changes.diff
++debian/fakeroot.diff
++debian/instmodsh_doc.diff
++debian/ld_run_path.diff
++debian/libnet_config_path.diff
++debian/m68k_thread_stress.diff
++debian/mod_paths.diff
++debian/module_build_man_extensions.diff
++debian/prune_libs.diff
++fixes/net_smtp_docs.diff
++debian/perlivp.diff
++debian/disable-zlib-bundling.diff
++debian/cpanplus_definstalldirs.diff
++debian/cpanplus_config_path.diff
++debian/deprecate-with-apt.diff
++fixes/hurd-ccflags.diff
++debian/squelch-locale-warnings.diff
++debian/skip-upstream-git-tests.diff
++fixes/extutils-cbuilder-cflags.diff
++fixes/module-build-home-directory.diff
++debian/patchlevel.diff
++fixes/h2ph-multiarch.diff
++fixes/index-tainting.diff
++debian/skip-kfreebsd-crash.diff
++fixes/document_makemaker_ccflags.diff
++fixes/sys-syslog-socket-timeout-kfreebsd.patch
++fixes/hurd-hints.diff
++fixes/pod_fixes.diff
++debian/find_html2text.diff
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/debian/skip-kfreebsd-crash.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/skip-kfreebsd-crash.diff
+new file mode 100644
+index 0000000..7992129
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/skip-kfreebsd-crash.diff
+@@ -0,0 +1,39 @@
++From ff2815399ad94915da2e63cb3c4bbd2d02dac4b2 Mon Sep 17 00:00:00 2001
++From: Niko Tyni <ntyni@debian.org>
++Date: Fri, 5 Aug 2011 10:50:18 +0300
++Subject: Skip a crashing test case in t/op/threads.t on GNU/kFreeBSD
++
++Bug: http://rt.perl.org/rt3/Ticket/Display.html?id=96272
++Bug-Debian: http://bugs.debian.org/628493
++
++The crash is not a regression in 5.14, it just gets triggered there by
++a new unrelated test case.
++
++Skip the test until the culprit is found.
++
++Patch-Name: debian/skip-kfreebsd-crash.diff
++---
++ t/op/threads.t |    4 ++++
++ 1 files changed, 4 insertions(+), 0 deletions(-)
++
++diff --git a/t/op/threads.t b/t/op/threads.t
++index 24e84e4..6a91366 100644
++--- a/t/op/threads.t
+++++ b/t/op/threads.t
++@@ -342,6 +342,9 @@ threads->create(
++ 
++ EOI
++ 
+++SKIP: {
+++    skip "[perl #96272] avoid crash on GNU/kFreeBSD", 1
+++        if $^O eq 'gnukfreebsd';
++ # [perl #78494] Pipes shared between threads block when closed
++ watchdog 10;
++ {
++@@ -351,5 +354,6 @@ watchdog 10;
++   threads->create(sub { })->join;
++   ok(1, "Pipes shared between threads do not block when closed");
++ }
+++}
++ 
++ # EOF
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/debian/skip-upstream-git-tests.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/skip-upstream-git-tests.diff
+new file mode 100644
+index 0000000..a157bc7
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/skip-upstream-git-tests.diff
+@@ -0,0 +1,59 @@
++From 2be2eed9148c38d3e982d3371f379ce77021aeb5 Mon Sep 17 00:00:00 2001
++From: Niko Tyni <ntyni@debian.org>
++Date: Fri, 22 Apr 2011 11:15:32 +0300
++Subject: Skip tests specific to the upstream Git repository
++
++These tests fail if run from a different git repository than
++upstream. This complicates things needlessly for downstream packagers.
++
++Skip the tests altogether even if the .git directory exists.
++
++Patch-Name: debian/skip-upstream-git-tests.diff
++---
++ t/porting/authors.t     |    3 ++-
++ t/porting/cmp_version.t |    3 ++-
++ t/porting/manifest.t    |    3 ++-
++ 3 files changed, 6 insertions(+), 3 deletions(-)
++
++diff --git a/t/porting/authors.t b/t/porting/authors.t
++index 28ca1ca..3c7f069 100644
++--- a/t/porting/authors.t
+++++ b/t/porting/authors.t
++@@ -9,7 +9,8 @@ BEGIN {
++ use strict;
++ use warnings;
++ 
++-if (! -d '.git' ) {
+++# Debian change: skip as we're probably in a different git repository
+++if (1 || ! -d '.git' ) {
++     print "1..0 # SKIP: not being run from a git checkout\n";
++     exit 0;
++ }
++diff --git a/t/porting/cmp_version.t b/t/porting/cmp_version.t
++index b3c677c..f89f2a7 100644
++--- a/t/porting/cmp_version.t
+++++ b/t/porting/cmp_version.t
++@@ -25,7 +25,8 @@ use File::Spec::Functions qw(rel2abs abs2rel catfile catdir curdir);
++ use Getopt::Std;
++ use Maintainers;
++ 
++-if (! -d '.git' ) {
+++# Debian change: skip as we're probably in a different git repository
+++if (1 || ! -d '.git' ) {
++     print "1..0 # SKIP: not being run from a git checkout\n";
++     exit 0;
++ }
++diff --git a/t/porting/manifest.t b/t/porting/manifest.t
++index 48dd3ac..b08126b 100644
++--- a/t/porting/manifest.t
+++++ b/t/porting/manifest.t
++@@ -59,7 +59,8 @@ SKIP: {
++ 
++ SKIP: {
++     chdir "..";
++-    skip("not under git control", 3) unless -d '.git';
+++    # Debian change: skip as we're probably in a different git repository
+++    skip("not under git control", 3) unless 0 && -d '.git';
++     chomp(my @repo= grep { !/\.gitignore$/ } `git ls-files`);
++     skip("git ls-files didnt work",3)
++         if !@repo;
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/debian/squelch-locale-warnings.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/squelch-locale-warnings.diff
+similarity index 86%
+rename from meta/recipes-devtools/perl/perl-5.12.3/debian/squelch-locale-warnings.diff
+rename to meta/recipes-devtools/perl/perl-5.14.2/debian/squelch-locale-warnings.diff
+index eac0fc3..71660b0 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/debian/squelch-locale-warnings.diff
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/squelch-locale-warnings.diff
+@@ -1,7 +1,8 @@
+-Upstream-Status:Inappropriate [debian patch]
+-
++From 718e9cbd59f0739fc9104af111e42fff66f927a7 Mon Sep 17 00:00:00 2001
+ From: Niko Tyni <ntyni@debian.org>
++Date: Sun, 3 Oct 2010 21:36:17 +0300
+ Subject: Squelch locale warnings in Debian package maintainer scripts
++
+ Bug-Debian: http://bugs.debian.org/508764
+ 
+ The system locales are rather frequently out of sync with the C library
+@@ -12,13 +13,14 @@ by the DPKG_RUNNING_VERSION environment variable.
+ Any real locale problem will show up after the system upgrade too, and
+ the warning will be triggered normally again at that point.
+ 
++Patch-Name: debian/squelch-locale-warnings.diff
+ ---
+  locale.c           |    4 ++++
+  pod/perllocale.pod |    8 ++++++++
+  2 files changed, 12 insertions(+), 0 deletions(-)
+ 
+ diff --git a/locale.c b/locale.c
+-index 16ccce8..2592b3c 100644
++index 4631b86..94a0962 100644
+ --- a/locale.c
+ +++ b/locale.c
+ @@ -359,6 +359,10 @@ Perl_init_i18nl10n(pTHX_ int printwarn)
+@@ -33,10 +35,10 @@ index 16ccce8..2592b3c 100644
+  
+  	if (locwarn) {
+ diff --git a/pod/perllocale.pod b/pod/perllocale.pod
+-index 0dbabe7..60b7bab 100644
++index 8926d8b..6c55889 100644
+ --- a/pod/perllocale.pod
+ +++ b/pod/perllocale.pod
+-@@ -844,6 +844,14 @@ B<NOTE>: PERL_BADLANG only gives you a way to hide the warning message.
++@@ -861,6 +861,14 @@ B<NOTE>: PERL_BADLANG only gives you a way to hide the warning message.
+  The message tells about some problem in your system's locale support,
+  and you should investigate what the problem is.
+  
+@@ -51,5 +53,3 @@ index 0dbabe7..60b7bab 100644
+  =back
+  
+  The following environment variables are not specific to Perl: They are
+--- 
+-tg: (a508b62..) debian/squelch-locale-warnings (depends on: upstream)
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/debian/writable_site_dirs.diff b/meta/recipes-devtools/perl/perl-5.14.2/debian/writable_site_dirs.diff
+new file mode 100644
+index 0000000..a4fc32a
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.14.2/debian/writable_site_dirs.diff
+@@ -0,0 +1,36 @@
++From 492e0d6b4e3e0d786fb88b9058d581f6466c4a3e Mon Sep 17 00:00:00 2001
++From: Brendan O'Dea <bod@debian.org>
++Date: Tue, 8 Mar 2005 19:30:38 +1100
++Subject: Set umask approproately for site install directories
++
++Policy requires group writable site directories
++
++Patch-Name: debian/writable_site_dirs.diff
++---
++ cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm |    6 +++---
++ 1 files changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
++index 865d36d..4ee6b3f 100644
++--- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+++++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
++@@ -2067,7 +2067,7 @@ pure_perl_install :: all
++ 
++ 
++ pure_site_install :: all
++-	$(NOECHO) umask 022; $(MOD_INSTALL) \
+++	$(NOECHO) umask 02; $(MOD_INSTALL) \
++ 		read }.$self->catfile('$(SITEARCHEXP)','auto','$(FULLEXT)','.packlist').q{ \
++ 		write }.$self->catfile('$(DESTINSTALLSITEARCH)','auto','$(FULLEXT)','.packlist').q{ \
++ 		$(INST_LIB) $(DESTINSTALLSITELIB) \
++@@ -2103,8 +2103,8 @@ doc_perl_install :: all
++ 
++ doc_site_install :: all
++ 	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLARCHLIB)/perllocal.pod
++-	-$(NOECHO) umask 022; $(MKPATH) $(DESTINSTALLARCHLIB)
++-	-$(NOECHO) umask 022; $(DOC_INSTALL) \
+++	-$(NOECHO) umask 02; $(MKPATH) $(DESTINSTALLARCHLIB)
+++	-$(NOECHO) umask 02; $(DOC_INSTALL) \
++ 		"Module" "$(NAME)" \
++ 		"installed into" "$(INSTALLSITELIB)" \
++ 		LINKTYPE "$(LINKTYPE)" \
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/fix_bad_rpath.patch b/meta/recipes-devtools/perl/perl-5.14.2/fix_bad_rpath.patch
+similarity index 70%
+rename from meta/recipes-devtools/perl/perl-5.12.3/fix_bad_rpath.patch
+rename to meta/recipes-devtools/perl/perl-5.14.2/fix_bad_rpath.patch
+index 7b99857..69ac434 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/fix_bad_rpath.patch
++++ b/meta/recipes-devtools/perl/perl-5.14.2/fix_bad_rpath.patch
+@@ -10,16 +10,15 @@ This fixes this warning for perl recipe as well as libxml-parser-perl recipe.
+ It is a fix to MakeMaker within perl, so all such perl recipes will get 
+ fixed with this perl fix.
+ 
+-Index: perl-5.12.3/cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm
++Index: perl-5.14.2/cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm
+ ===================================================================
+---- perl-5.12.3.orig/cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm
+-+++ perl-5.12.3/cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm
+-@@ -54,7 +54,7 @@ sub _unix_os2_ext {
++--- perl-5.14.2.orig/cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm
+++++ perl-5.14.2/cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm
++@@ -55,6 +55,7 @@ sub _unix_os2_ext {
+      my($found) = 0;
+  
+      # Debian-specific: don't use LD_RUN_PATH for standard dirs
+--    $ld_run_path_seen{$_}++ for qw(/lib /usr/lib /usr/X11R6/lib);
+-+    $ld_run_path_seen{$_}++ for qw(/lib /usr/lib /usr/X11R6/lib SYSROOTLIB);
+++    push(@libpath, "SYSROOTLIB");
++     $ld_run_path_seen{$_}++ for @libpath;
+  
+      foreach my $thislib (split ' ', $potential_libs) {
+- 
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/generate-sh.patch b/meta/recipes-devtools/perl/perl-5.14.2/generate-sh.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl-5.12.3/generate-sh.patch
+rename to meta/recipes-devtools/perl/perl-5.14.2/generate-sh.patch
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/installperl.patch b/meta/recipes-devtools/perl/perl-5.14.2/installperl.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl-5.12.3/installperl.patch
+rename to meta/recipes-devtools/perl/perl-5.14.2/installperl.patch
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/letgcc-find-errno.patch b/meta/recipes-devtools/perl/perl-5.14.2/letgcc-find-errno.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl-5.12.3/letgcc-find-errno.patch
+rename to meta/recipes-devtools/perl/perl-5.14.2/letgcc-find-errno.patch
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/native-nopacklist.patch b/meta/recipes-devtools/perl/perl-5.14.2/native-nopacklist.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl-5.12.3/native-nopacklist.patch
+rename to meta/recipes-devtools/perl/perl-5.14.2/native-nopacklist.patch
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/native-perlinc.patch b/meta/recipes-devtools/perl/perl-5.14.2/native-perlinc.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl-5.12.3/native-perlinc.patch
+rename to meta/recipes-devtools/perl/perl-5.14.2/native-perlinc.patch
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/perl-configpm-switch.patch b/meta/recipes-devtools/perl/perl-5.14.2/perl-configpm-switch.patch
+similarity index 76%
+rename from meta/recipes-devtools/perl/perl-5.12.3/perl-configpm-switch.patch
+rename to meta/recipes-devtools/perl/perl-5.14.2/perl-configpm-switch.patch
+index 9e9f342..c6cc15c 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/perl-configpm-switch.patch
++++ b/meta/recipes-devtools/perl/perl-5.14.2/perl-configpm-switch.patch
+@@ -9,18 +9,20 @@ to use the settings appropriate for the native and/or target builds
+ as required. This also disables the use of the cache since the cached
+ values would be valid for the host only.
+ 
+---- perl-5.8.8/configpm	2007/04/30 03:10:43	1.1
+-+++ perl-5.8.8/configpm	2007/04/30 03:11:56
+-@@ -374,7 +374,7 @@
++Index: perl-5.14.2/configpm
++===================================================================
++--- perl-5.14.2.orig/configpm
+++++ perl-5.14.2/configpm
++@@ -658,7 +658,7 @@ sub FETCH {
+      my($self, $key) = @_;
+  
+      # check for cached value (which may be undef so we use exists not defined)
+--    return $self->{$key} if exists $self->{$key};
+-+    #return $self->{$key} if exists $self->{$key};
+- 
+-     return $self->fetch_string($key);
++-    return exists $self->{$key} ? $self->{$key} : $self->fetch_string($key);
+++    return $self->fetch_string($key);
+  }
+-@@ -530,7 +530,21 @@
++ 
++ ENDOFEND
++@@ -816,7 +816,21 @@ $config_txt .= sprintf <<'ENDOFTIE', $fa
+  sub DESTROY { }
+  
+  sub AUTOLOAD {
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/perl-configure.sh b/meta/recipes-devtools/perl/perl-5.14.2/perl-configure.sh
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl-5.12.3/perl-configure.sh
+rename to meta/recipes-devtools/perl/perl-5.14.2/perl-configure.sh
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/perl-dynloader.patch b/meta/recipes-devtools/perl/perl-5.14.2/perl-dynloader.patch
+similarity index 69%
+rename from meta/recipes-devtools/perl/perl-5.12.3/perl-dynloader.patch
+rename to meta/recipes-devtools/perl/perl-5.14.2/perl-dynloader.patch
+index 1840605..035beba 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.3/perl-dynloader.patch
++++ b/meta/recipes-devtools/perl/perl-5.14.2/perl-dynloader.patch
+@@ -7,12 +7,14 @@ system.
+ 
+ Update by Nitin A Kamble <nitin.a.kamble@intel.com> 2011/04/21
+ 
+---- perl-5.12.3/dist/XSLoader/XSLoader_pm.PL	2007/04/20 09:03:08	1.1
+-+++ perl-5.12.3/dist/XSLoader/XSLoader_pm.PL	2007/04/20 09:03:08
+-@@ -65,6 +65,19 @@
+- print OUT <<'EOT';
+-     my $modpname = join('/',@modparts);
+-     my $modlibname = (caller())[1];
++Index: perl-5.14.2/dist/XSLoader/XSLoader_pm.PL
++===================================================================
++--- perl-5.14.2.orig/dist/XSLoader/XSLoader_pm.PL
+++++ perl-5.14.2/dist/XSLoader/XSLoader_pm.PL
++@@ -28,6 +28,20 @@ sub load {
++ 
++     my ($module, $modlibname) = caller();
++ 
+ +    # OE: Allow env to form dynamic loader to look in a different place
+ +    # This is so it finds the host .so files, not the targets
+ +    if (defined $ENV{PERLHOSTLIB})
+@@ -26,6 +28,7 @@ Update by Nitin A Kamble <nitin.a.kamble@intel.com> 2011/04/21
+ +        }
+ +        print STDERR "*** Module name OUT: $modlibname\n";
+ +    }
+-     my $c = @modparts;
+-     $modlibname =~ s,[\\/][^\\/]+$,, while $c--;	# Q&D basename
+-     my $file = "$modlibname/auto/$modpname/$modfname.$dl_dlext";
+++
++     if (@_) {
++ 	$module = $_[0];
++     } else {
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/perl-enable-gdbm.patch b/meta/recipes-devtools/perl/perl-5.14.2/perl-enable-gdbm.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl-5.12.3/perl-enable-gdbm.patch
+rename to meta/recipes-devtools/perl/perl-5.14.2/perl-enable-gdbm.patch
+diff --git a/meta/recipes-devtools/perl/perl-5.12.3/perl-moreconfig.patch b/meta/recipes-devtools/perl/perl-5.14.2/perl-moreconfig.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl-5.12.3/perl-moreconfig.patch
+rename to meta/recipes-devtools/perl/perl-5.14.2/perl-moreconfig.patch
+diff --git a/meta/recipes-devtools/perl/perl-native_5.12.3.bb b/meta/recipes-devtools/perl/perl-native_5.14.2.bb
+similarity index 74%
+rename from meta/recipes-devtools/perl/perl-native_5.12.3.bb
+rename to meta/recipes-devtools/perl/perl-native_5.14.2.bb
+index a8e2346..0f49950 100644
+--- a/meta/recipes-devtools/perl/perl-native_5.12.3.bb
++++ b/meta/recipes-devtools/perl/perl-native_5.14.2.bb
+@@ -4,7 +4,7 @@ SECTION = "libs"
+ LICENSE = "Artistic|GPL"
+ LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
+ 		    file://Artistic;md5=f921793d03cc6d63ec4b15e9be8fd3f8"
+-PR = "r5"
 +PR = "r0"
  
- BASE_SRC_URI = "${SOURCEFORGE_MIRROR}/tcl/tcl${PV}-src.tar.gz \
-                 file://tcl-add-soname.patch"
-@@ -19,8 +19,8 @@ BASE_SRC_URI = "${SOURCEFORGE_MIRROR}/tcl/tcl${PV}-src.tar.gz \
- SRC_URI = "${BASE_SRC_URI} \
- 	   file://fix_non_native_build_issue.patch "
+ LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
+                     file://Artistic;md5=f921793d03cc6d63ec4b15e9be8fd3f8"
+@@ -12,18 +12,12 @@ LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
+ SRC_URI = "http://www.cpan.org/src/5.0/perl-${PV}.tar.gz \
+            file://Configure-multilib.patch \
+            file://perl-configpm-switch.patch \
+-           file://parallel_build_fix_1.patch \
+-           file://parallel_build_fix_2.patch \
+-           file://parallel_build_fix_3.patch \
+-           file://parallel_build_fix_4.patch \
+-           file://parallel_build_fix_5.patch \
+-           file://parallel_build_fix_6.patch \
+            file://native-nopacklist.patch \
+            file://native-perlinc.patch \
+            file://MM_Unix.pm.patch"
  
--SRC_URI[md5sum] = "8512d8db3233041dd68a81476906012a"
--SRC_URI[sha256sum] = "3ab671b417e3eeb41b9cef626d742d8f7f57425101e83e5fcad1d552cd99237d"
-+SRC_URI[md5sum] = "a08eaf8467c0631937067c1948dd326b"
-+SRC_URI[sha256sum] = "f582063edd5419a39ee8f7b5c8f95d557b5daad13efb0ed2f0967ca185613bb7"
+-SRC_URI[md5sum] = "29975a69dce54e47fcd6331c085c6c99"
+-SRC_URI[sha256sum] = "5678bfd5c2cd59253a26171bf3e681235433b00c730eea8a8046e1b225c11d2f"
++SRC_URI[md5sum] = "3306fbaf976dcebdcd49b2ac0be00eb9"
++SRC_URI[sha256sum] = "6488359573bd7d41761bf935f66f827dc220fb3df961ef9b775d51fbd66548d3"
  
- SRC_URI_virtclass-native = "${BASE_SRC_URI}"
+ S = "${WORKDIR}/perl-${PV}"
  
+@@ -88,15 +82,17 @@ do_install () {
+ 	install lib/ExtUtils/typemap ${D}${libdir}/perl/${PV}/ExtUtils/
+ 
+ 	# perl shared library headers
+-	for i in av.h embed.h gv.h keywords.h op.h perlio.h pp.h regexp.h \
+-	         uconfig.h XSUB.h cc_runtime.h embedvar.h handy.h opnames.h \
+-	         perliol.h pp_proto.h regnodes.h unixish.h config.h EXTERN.h \
+-	         hv.h malloc_ctl.h pad.h perlsdio.h proto.h scope.h utf8.h \
+-	         cop.h fakesdio.h INTERN.h mg.h patchlevel.h perlsfio.h \
+-	         reentr.h sv.h utfebcdic.h cv.h fakethr.h intrpvar.h \
+-	         nostdio.h perlapi.h perlvars.h util.h \
+-	         dosish.h form.h iperlsys.h opcode.h perl.h perly.h regcomp.h \
+-	         thread.h warnings.h; do
++	for i in av.h bitcount.h config.h cop.h cv.h dosish.h embed.h embedvar.h \
++		EXTERN.h fakesdio.h fakethr.h form.h gv.h handy.h hv.h INTERN.h \
++		intrpvar.h iperlsys.h keywords.h l1_char_class_tab.h malloc_ctl.h \
++		metaconfig.h mg.h mydtrace.h nostdio.h opcode.h op.h opnames.h \
++		op_reg_common.h overload.h pad.h parser.h patchlevel.h perlapi.h \
++		perl.h perlio.h perliol.h perlsdio.h perlsfio.h perlvars.h \
++		perly.h pp.h pp_proto.h proto.h reentr.h regcharclass.h regcomp.h \
++		regexp.h regnodes.h scope.h sv.h thread.h time64_config.h \
++		time64.h uconfig.h unixish.h utf8.h utfebcdic.h util.h \
++		uudmap.h warnings.h XSUB.h 
++	do
+ 		install $i ${D}${libdir}/perl/${PV}/CORE
+ 	done
+ 
+diff --git a/meta/recipes-devtools/perl/perl-rdepends_5.12.3.inc b/meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc
+similarity index 90%
+rename from meta/recipes-devtools/perl/perl-rdepends_5.12.3.inc
+rename to meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc
+index 309bd17..25b066a 100644
+--- a/meta/recipes-devtools/perl/perl-rdepends_5.12.3.inc
++++ b/meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc
+@@ -17,14 +17,15 @@ RDEPENDS_perl-module-math-bigint-calc += "perl-module-integer "
+ 
+ # Depends list
+ # copy contents of /tmp/1 in this file
+-RDEPENDS_perl-module-archive-tar += "perl-module-exporter"
+ RDEPENDS_perl-module-archive-tar-file += "perl-module-archive-tar"
++RDEPENDS_perl-module-archive-tar += "perl-module-exporter"
+ RDEPENDS_perl-module-attributes += "perl-module-xsloader"
+-RDEPENDS_perl-module-b += "perl-module-exporter"
+ RDEPENDS_perl-module-b-debug += "perl-module-b"
+ RDEPENDS_perl-module-bignum += "perl-module-bigint"
+ RDEPENDS_perl-module-bigrat += "perl-module-bigint"
+ RDEPENDS_perl-module-bigrat += "perl-module-exporter"
++RDEPENDS_perl-module-b += "perl-module-exporter"
++RDEPENDS_perl-module-build += "perl-module-module-metadata"
+ RDEPENDS_perl-module-carp += "perl-module-exporter"
+ RDEPENDS_perl-module-cgi-util += "perl-module-exporter"
+ RDEPENDS_perl-module-class-struct += "perl-module-exporter"
+@@ -32,27 +33,30 @@ RDEPENDS_perl-module-compress-raw-bzip2 += "perl-module-exporter"
+ RDEPENDS_perl-module-compress-raw-zlib += "perl-module-exporter"
+ RDEPENDS_perl-module-compress-zlib += "perl-module-exporter"
+ RDEPENDS_perl-module-config-extensions += "perl-module-exporter"
++RDEPENDS_perl-module-cpan += "perl-module-mac-buildtools"
+ RDEPENDS_perl-module-cpanplus += "perl-module-base"
++RDEPENDS_perl-module-cpanplus += "perl-module-cpanplus"
+ RDEPENDS_perl-module-cpanplus += "perl-module-exporter"
+ RDEPENDS_perl-module-cpanplus += "perl-module-tie-hash"
+ RDEPENDS_perl-module-data-dumper += "perl-module-exporter"
+ RDEPENDS_perl-module-data-dumper += "perl-module-overload"
+ RDEPENDS_perl-module-devel-peek += "perl-module-exporter"
++RDEPENDS_perl-module-devel-peek += "perl-module-xsloader"
+ RDEPENDS_perl-module-devel-selfstubber += "perl-module-selfloader"
+ RDEPENDS_perl-module-digest-md5 += "perl-module-exporter"
+ RDEPENDS_perl-module-digest-sha += "perl-module-dynaloader"
+ RDEPENDS_perl-module-digest-sha += "perl-module-exporter"
+-RDEPENDS_perl-module-dynaloader += "perl-module-autoloader"
+-RDEPENDS_perl-module-encode += "perl-module-encode-config"
+-RDEPENDS_perl-module-encode += "perl-module-exporter"
+ RDEPENDS_perl-module-encode-cjkconstants += "perl-module-exporter"
+ RDEPENDS_perl-module-encode-encoder += "perl-module-exporter"
+ RDEPENDS_perl-module-encode-encoding += "perl-module-encode"
++RDEPENDS_perl-module-encode += "perl-module-encode-config"
++RDEPENDS_perl-module-encode += "perl-module-exporter"
+ RDEPENDS_perl-module-encode-unicode += "perl-module-encode"
+ RDEPENDS_perl-module-english += "perl-module-exporter"
++RDEPENDS_perl-module-errno += "perl-module-exporter"
+ RDEPENDS_perl-module-exporter-heavy += "perl-module-exporter"
+-RDEPENDS_perl-module-extutils-command += "perl-module-exporter"
+ RDEPENDS_perl-module-extutils-command-mm += "perl-module-exporter"
++RDEPENDS_perl-module-extutils-command += "perl-module-exporter"
+ RDEPENDS_perl-module-extutils-constant-proxysubs += "perl-module-extutils-constant-xs"
+ RDEPENDS_perl-module-extutils-constant-xs += "perl-module-extutils-constant-base"
+ RDEPENDS_perl-module-extutils-embed += "perl-module-exporter"
+@@ -64,8 +68,6 @@ RDEPENDS_perl-module-extutils-makemaker += "perl-module-extutils-my"
+ RDEPENDS_perl-module-extutils-manifest += "perl-module-exporter"
+ RDEPENDS_perl-module-extutils-miniperl += "perl-module-exporter"
+ RDEPENDS_perl-module-extutils-mkbootstrap += "perl-module-exporter"
+-RDEPENDS_perl-module-extutils-mm += "perl-module-extutils-liblist"
+-RDEPENDS_perl-module-extutils-mm += "perl-module-extutils-makemaker"
+ RDEPENDS_perl-module-extutils-mm-aix += "perl-module-extutils-mm-unix"
+ RDEPENDS_perl-module-extutils-mm-beos += "perl-module-extutils-mm-any"
+ RDEPENDS_perl-module-extutils-mm-beos += "perl-module-extutils-mm-unix"
+@@ -76,6 +78,8 @@ RDEPENDS_perl-module-extutils-mm-dos += "perl-module-extutils-mm-unix"
+ RDEPENDS_perl-module-extutils-mm-nw5 += "perl-module-extutils-mm-win32"
+ RDEPENDS_perl-module-extutils-mm-os2 += "perl-module-extutils-mm-any"
+ RDEPENDS_perl-module-extutils-mm-os2 += "perl-module-extutils-mm-unix"
++RDEPENDS_perl-module-extutils-mm += "perl-module-extutils-liblist"
++RDEPENDS_perl-module-extutils-mm += "perl-module-extutils-makemaker"
+ RDEPENDS_perl-module-extutils-mm-qnx += "perl-module-extutils-mm-unix"
+ RDEPENDS_perl-module-extutils-mm-unix += "perl-module-extutils-mm-any"
+ RDEPENDS_perl-module-extutils-mm-uwin += "perl-module-extutils-mm-unix"
+@@ -89,6 +93,7 @@ RDEPENDS_perl-module-extutils-mm-win95 += "perl-module-extutils-mm-win32"
+ RDEPENDS_perl-module-extutils-my += "perl-module-extutils-mm"
+ RDEPENDS_perl-module-extutils-parsexs += "perl-module-exporter"
+ RDEPENDS_perl-module-fcntl += "perl-module-exporter"
++RDEPENDS_perl-module-fcntl += "perl-module-xsloader"
+ RDEPENDS_perl-module-file-basename += "perl-module-exporter"
+ RDEPENDS_perl-module-file-compare += "perl-module-exporter"
+ RDEPENDS_perl-module-file-copy += "perl-module-exporter"
+@@ -96,6 +101,8 @@ RDEPENDS_perl-module-file-find += "perl-module-cwd"
+ RDEPENDS_perl-module-file-find += "perl-module-exporter"
+ RDEPENDS_perl-module-file-find += "perl-module-file-basename"
+ RDEPENDS_perl-module-file-find += "perl-module-file-spec"
++RDEPENDS_perl-module-file-glob += "perl-module-xsloader"
++RDEPENDS_perl-module-filehandle += "perl-module-io-file"
+ RDEPENDS_perl-module-file-spec-cygwin += "perl-module-file-spec-unix"
+ RDEPENDS_perl-module-file-spec-epoc += "perl-module-file-spec-unix"
+ RDEPENDS_perl-module-file-spec-functions += "perl-module-exporter"
+@@ -104,27 +111,29 @@ RDEPENDS_perl-module-file-spec-os2 += "perl-module-file-spec-unix"
+ RDEPENDS_perl-module-file-spec-vms += "perl-module-file-spec-unix"
+ RDEPENDS_perl-module-file-spec-win32 += "perl-module-file-spec-unix"
+ RDEPENDS_perl-module-file-temp += "perl-module-symbol"
+-RDEPENDS_perl-module-filehandle += "perl-module-io-file"
+ RDEPENDS_perl-module-filter-util-call += "perl-module-dynaloader"
+ RDEPENDS_perl-module-filter-util-call += "perl-module-exporter"
+ RDEPENDS_perl-module-findbin += "perl-module-exporter"
++RDEPENDS_perl-module-gdbm-file += "perl-module-carp"
++RDEPENDS_perl-module-gdbm-file += "perl-module-exporter"
++RDEPENDS_perl-module-gdbm-file += "perl-module-tie-hash"
++RDEPENDS_perl-module-gdbm-file += "perl-module-xsloader"
+ RDEPENDS_perl-module-getopt-std += "perl-module-exporter"
+-RDEPENDS_perl-module-hash-util += "perl-module-dynaloader"
+-RDEPENDS_perl-module-hash-util += "perl-module-exporter"
+ RDEPENDS_perl-module-hash-util-fieldhash += "perl-module-exporter"
+-RDEPENDS_perl-module-i18n-collate += "perl-module-exporter"
+-RDEPENDS_perl-module-i18n-langinfo += "perl-module-dynaloader"
++RDEPENDS_perl-module-hash-util += "perl-module-exporter"
++RDEPENDS_perl-module-hash-util += "perl-module-xsloader"
+ RDEPENDS_perl-module-i18n-langinfo += "perl-module-exporter"
++RDEPENDS_perl-module-i18n-langinfo += "perl-module-xsloader"
+ RDEPENDS_perl-module-i18n-langtags += "perl-module-exporter"
+ RDEPENDS_perl-module-inc-latest += "perl-module-inc-latest-private"
+ RDEPENDS_perl-module-io-compress-base-common += "perl-module-exporter"
+ RDEPENDS_perl-module-io-compress-bzip2 += "perl-module-exporter "
+ RDEPENDS_perl-module-io-compress-deflate += "perl-module-exporter "
+-RDEPENDS_perl-module-io-compress-gzip += "perl-module-exporter "
+ RDEPENDS_perl-module-io-compress-gzip-constants += "perl-module-exporter"
++RDEPENDS_perl-module-io-compress-gzip += "perl-module-exporter "
+ RDEPENDS_perl-module-io-compress-rawdeflate += "perl-module-exporter "
+-RDEPENDS_perl-module-io-compress-zip += "perl-module-exporter "
+ RDEPENDS_perl-module-io-compress-zip-constants += "perl-module-exporter"
++RDEPENDS_perl-module-io-compress-zip += "perl-module-exporter "
+ RDEPENDS_perl-module-io-compress-zlib-constants += "perl-module-exporter"
+ RDEPENDS_perl-module-io-file += "perl-module-exporter"
+ RDEPENDS_perl-module-io-handle += "perl-module-exporter"
+@@ -152,6 +161,7 @@ RDEPENDS_perl-module-locale-currency += "perl-module-exporter"
+ RDEPENDS_perl-module-locale-language += "perl-module-exporter"
+ RDEPENDS_perl-module-locale-script += "perl-module-exporter"
+ RDEPENDS_perl-module-math-bigfloat += "perl-module-exporter"
++RDEPENDS_perl-module-math-bigint-fastcalc += "perl-module-xsloader"
+ RDEPENDS_perl-module-math-complex += "perl-module-exporter"
+ RDEPENDS_perl-module-math-trig += "perl-module-exporter"
+ RDEPENDS_perl-module-mime-base64 += "perl-module-exporter"
+@@ -168,30 +178,33 @@ RDEPENDS_perl-module-net-ftp-l += "perl-module-net-ftp-i"
+ RDEPENDS_perl-module-net-ping += "perl-module-exporter"
+ RDEPENDS_perl-module-net-time += "perl-module-exporter"
+ RDEPENDS_perl-module-object-accessor += "perl-module-overload"
++RDEPENDS_perl-module-perlio-encoding += "perl-module-xsloader"
++RDEPENDS_perl-module-perlio-scalar += "perl-module-xsloader"
++RDEPENDS_perl-module-perlio-via += "perl-module-xsloader"
+ RDEPENDS_perl-module-pod-escapes += "perl-module-exporter"
+ RDEPENDS_perl-module-pod-functions += "perl-module-exporter"
+-RDEPENDS_perl-module-pod-html += "perl-module-exporter"
+ RDEPENDS_perl-module-pod-latex += "perl-module-pod-parseutils"
+ RDEPENDS_perl-module-pod-simple-transcodesmart += "perl-module-encode"
+ RDEPENDS_perl-module-pod-usage += "perl-module-pod-select"
+ RDEPENDS_perl-module-posix += "perl-module-exporter"
++RDEPENDS_perl-module-posix += "perl-module-xsloader"
+ RDEPENDS_perl-module-safe += "perl-module-utf8"
+ RDEPENDS_perl-module-scalar-util += "perl-module-exporter"
+ RDEPENDS_perl-module-scalar-util += "perl-module-list-util"
+ RDEPENDS_perl-module-scalar-util-pp += "perl-module-exporter"
+ RDEPENDS_perl-module-sdbm-file += "perl-module-tie-hash"
++RDEPENDS_perl-module-sdbm-file += "perl-module-xsloader"
+ RDEPENDS_perl-module-search-dict += "perl-module-exporter"
+ RDEPENDS_perl-module-socket += "perl-module-exporter"
+-RDEPENDS_perl-module-storable += "perl-module-carp"
+-RDEPENDS_perl-module-storable += "perl-module-dynaloader"
++RDEPENDS_perl-module-socket += "perl-module-xsloader"
+ RDEPENDS_perl-module-storable += "perl-module-exporter"
++RDEPENDS_perl-module-storable += "perl-module-xsloader"
+ RDEPENDS_perl-module-symbol += "perl-module-exporter"
+-RDEPENDS_perl-module-sys-hostname += "perl-module-autoloader"
+ RDEPENDS_perl-module-sys-hostname += "perl-module-exporter"
+ RDEPENDS_perl-module-term-complete += "perl-module-exporter"
+-RDEPENDS_perl-module-test += "perl-module-exporter"
+ RDEPENDS_perl-module-test-builder-module += "perl-module-exporter"
+ RDEPENDS_perl-module-test-builder-tester-color += "perl-module-test-builder-tester"
++RDEPENDS_perl-module-test += "perl-module-exporter"
+ RDEPENDS_perl-module-text-abbrev += "perl-module-exporter"
+ RDEPENDS_perl-module-text-tabs += "perl-module-exporter"
+ RDEPENDS_perl-module-text-wrap += "perl-module-exporter"
+@@ -203,6 +216,7 @@ RDEPENDS_perl-module-time-hires += "perl-module-exporter"
+ RDEPENDS_perl-module-time-local += "perl-module-exporter"
+ RDEPENDS_perl-module-time-piece += "perl-module-dynaloader"
+ RDEPENDS_perl-module-time-piece += "perl-module-exporter"
++RDEPENDS_perl-module-unicode-collate += "perl-module-dynaloader"
+ RDEPENDS_perl-module-unicode-normalize += "perl-module-dynaloader"
+ RDEPENDS_perl-module-unicode-normalize += "perl-module-exporter"
+ RDEPENDS_perl-module-unicode-ucd += "perl-module-exporter"
+diff --git a/meta/recipes-devtools/perl/perl-rprovides_5.12.3.inc b/meta/recipes-devtools/perl/perl-rprovides_5.14.2.inc
+similarity index 100%
+rename from meta/recipes-devtools/perl/perl-rprovides_5.12.3.inc
+rename to meta/recipes-devtools/perl/perl-rprovides_5.14.2.inc
+diff --git a/meta/recipes-devtools/perl/perl_5.12.3.bb b/meta/recipes-devtools/perl/perl_5.14.2.bb
+similarity index 92%
+rename from meta/recipes-devtools/perl/perl_5.12.3.bb
+rename to meta/recipes-devtools/perl/perl_5.14.2.bb
+index e4769a4..6bd51ad 100644
+--- a/meta/recipes-devtools/perl/perl_5.12.3.bb
++++ b/meta/recipes-devtools/perl/perl_5.14.2.bb
+@@ -7,23 +7,25 @@ LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
+ # We need gnugrep (for -I)
+ DEPENDS = "virtual/db grep-native"
+ DEPENDS += "gdbm zlib"
+-PR = "r5"
++PR = "r0"
+ 
+ # 5.10.1 has Module::Build built-in
+ PROVIDES += "libmodule-build-perl"
+ 
+-# Major part of version
+-#PVM = "5.13"
+-
+ SRC_URI = "http://www.cpan.org/src/5.0/perl-${PV}.tar.gz \
+ 	file://debian/arm_thread_stress_timeout.diff \
+-	file://debian/cpan_config_path.diff \
+ 	file://debian/cpan_definstalldirs.diff \
+ 	file://debian/db_file_ver.diff \
+ 	file://debian/doc_info.diff \
+ 	file://debian/enc2xs_inc.diff \
+ 	file://debian/errno_ver.diff \
+-	file://debian/extutils_hacks.diff \
++	file://debian/libperl_embed_doc.diff \
++	file://debian/fixes/respect_umask.diff \
++	file://debian/writable_site_dirs.diff \
++	file://debian/extutils_set_libperl_path.diff \
++	file://debian/no_packlist_perllocal.diff \
++	file://debian/prefix_changes.diff \
++	file://debian/fakeroot.diff \
+ 	file://debian/instmodsh_doc.diff \
+ 	file://debian/ld_run_path.diff \
+ 	file://debian/libnet_config_path.diff \
+@@ -32,31 +34,26 @@ SRC_URI = "http://www.cpan.org/src/5.0/perl-${PV}.tar.gz \
+ 	file://debian/module_build_man_extensions.diff \
+ 	file://debian/prune_libs.diff \
+ 	file://debian/fixes/net_smtp_docs.diff \
+-	file://debian/fixes/processPL.diff \
+ 	file://debian/perlivp.diff \
+ 	file://debian/disable-zlib-bundling.diff \
+ 	file://debian/cpanplus_definstalldirs.diff \
+ 	file://debian/cpanplus_config_path.diff \
+-	file://debian/fixes/autodie-flock.diff \
+-	file://debian/devel-ppport-ia64-optim.diff \
+-	file://debian/fixes/cpanplus-without-home.diff \
+-	file://debian/arm_optim.diff \
+ 	file://debian/deprecate-with-apt.diff \
+ 	file://debian/fixes/hurd-ccflags.diff \
+ 	file://debian/squelch-locale-warnings.diff \
+-	file://debian/fixes/lc-numeric-docs.diff \
+-	file://debian/fixes/lc-numeric-sprintf.diff \
+-	file://debian/fixes/concat-stack-corruption.diff \
+-	file://debian/fixes/h2ph-gcc-4.5.diff \
+-	file://debian/patchlevel \
++	file://debian/skip-upstream-git-tests.diff \
++	file://debian/fixes/extutils-cbuilder-cflags.diff \
++	file://debian/fixes/module-build-home-directory.diff \
++	file://debian/fixes/h2ph-multiarch.diff \
++	file://debian/fixes/index-tainting.diff \
++	file://debian/skip-kfreebsd-crash.diff \
++	file://debian/fixes/document_makemaker_ccflags.diff \
++	file://debian/fixes/sys-syslog-socket-timeout-kfreebsd.patch \
++	file://debian/fixes/hurd-hints.diff \
++	file://debian/fixes/pod_fixes.diff \
++	file://debian/find_html2text.diff \
+ 	\
+         file://Makefile.patch \
+-        file://parallel_build_fix_1.patch \
+-        file://parallel_build_fix_2.patch \
+-        file://parallel_build_fix_3.patch \
+-        file://parallel_build_fix_4.patch \
+-        file://parallel_build_fix_5.patch \
+-        file://parallel_build_fix_6.patch \
+         file://Makefile.SH.patch \
+         file://installperl.patch \
+         file://perl-dynloader.patch \
+@@ -78,8 +75,8 @@ SRC_URI = "http://www.cpan.org/src/5.0/perl-${PV}.tar.gz \
+         file://config.sh-64-be"
+ #	file://debian/fakeroot.diff
+ 
+-SRC_URI[md5sum] = "29975a69dce54e47fcd6331c085c6c99"
+-SRC_URI[sha256sum] = "5678bfd5c2cd59253a26171bf3e681235433b00c730eea8a8046e1b225c11d2f"
++SRC_URI[md5sum] = "3306fbaf976dcebdcd49b2ac0be00eb9"
++SRC_URI[sha256sum] = "6488359573bd7d41761bf935f66f827dc220fb3df961ef9b775d51fbd66548d3"
+ 
+ inherit perlnative siteinfo
+ 
+@@ -210,6 +207,8 @@ do_install() {
+ PACKAGE_PREPROCESS_FUNCS += "perl_package_preprocess"
+ 
+ perl_package_preprocess () {
++	set -x
++	pwd
+         # Fix up installed configuration
+         sed -i -e "s,${D},,g" \
+                -e "s,-isystem${STAGING_INCDIR} ,,g" \
+@@ -220,8 +219,6 @@ perl_package_preprocess () {
+                -e "s,${STAGING_BINDIR_NATIVE}/,,g" \
+             ${PKGD}${bindir}/h2xs \
+             ${PKGD}${bindir}/h2ph \
+-            ${PKGD}${bindir}/pod2html \
+-            ${PKGD}${bindir}/pod2latex \
+             ${PKGD}${bindir}/pod2man \
+             ${PKGD}${bindir}/pod2text \
+             ${PKGD}${bindir}/pod2usage \
 -- 
 1.7.4.4
 
