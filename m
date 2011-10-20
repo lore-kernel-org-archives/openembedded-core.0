@@ -1,23 +1,25 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RGsE7-00064q-Cn
+	(envelope-from <otavio.salvador@gmail.com>) id 1RGsLq-0006ZK-RR
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Oct 2011 15:00:04 +0200
-Received: by eyd9 with SMTP id 9so2759822eyd.6
+	Thu, 20 Oct 2011 15:08:03 +0200
+Received: by bkat8 with SMTP id t8so3710064bka.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2011 05:54:08 -0700 (PDT)
-Received: by 10.213.3.209 with SMTP id 17mr2681787ebo.120.1319115248357;
-	Thu, 20 Oct 2011 05:54:08 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id f16sm25312352eec.8.2011.10.20.05.54.07
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 20 Oct 2011 05:54:07 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1319114339.2410.5.camel@ted>
-Date: Thu, 20 Oct 2011 14:54:05 +0200
-Message-Id: <7D5D6BF3-6F21-4CE5-8A30-F9154CDB9449@dominion.thruhere.net>
+	Thu, 20 Oct 2011 06:02:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=aQtn9zz8BJFZK3N7hc/bM8PbA6/+0YJnvulvXuJ0aDw=;
+	b=lgVhFsb5oBTP+eSzNl0nHpbeVCJ82q+lDxYZvysUw1bFVP1n3zoRl4plz4D+y6SzrT
+	2GjATjD2rZJNPYhURxHyBbdtyCw4cHrSyJKYBHZ8RbzE82pThCQNbI0H8vmc7n/8hIk7
+	kPxGXH6SpLLFZGVoyQm3dON99Vp6zReoXOolQ=
+MIME-Version: 1.0
+Received: by 10.204.157.142 with SMTP id b14mr8053509bkx.44.1319115730630;
+	Thu, 20 Oct 2011 06:02:10 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.205.114.204 with HTTP; Thu, 20 Oct 2011 06:02:10 -0700 (PDT)
+In-Reply-To: <7D5D6BF3-6F21-4CE5-8A30-F9154CDB9449@dominion.thruhere.net>
 References: <1316297897-698-1-git-send-email-dbaryshkov@gmail.com>
 	<1316297897-698-2-git-send-email-dbaryshkov@gmail.com>
 	<CADkTA4NxfSaEinraLQMsLT4ZWQKOPAZ76uNujFXg0zSrRvVnFA@mail.gmail.com>
@@ -30,9 +32,13 @@ References: <1316297897-698-1-git-send-email-dbaryshkov@gmail.com>
 	<1319109715.16061.4.camel@ted>
 	<46567209-1B97-42F5-B5DF-E34B823F6BF7@dominion.thruhere.net>
 	<1319114339.2410.5.camel@ted>
+	<7D5D6BF3-6F21-4CE5-8A30-F9154CDB9449@dominion.thruhere.net>
+Date: Thu, 20 Oct 2011 11:02:10 -0200
+X-Google-Sender-Auth: dWeH05tBanPH6sa3htoi05vn0Fc
+Message-ID: <CAP9ODKqFfswQ4Y6fJBJMTjrvnu0syiS3rAWxZjhdtwyx_Z_SWQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
 Subject: Re: [PATCH 2/5] kernel.bbclass: respect MACHINE_KERNEL_PR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -48,84 +54,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2011 13:00:04 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Thu, 20 Oct 2011 13:08:03 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
+On Thu, Oct 20, 2011 at 10:54, Koen Kooi <koen@dominion.thruhere.net> wrote=
+:
+...
+>> Also, the idea never was to have everyone using bleeding edge for
+>> shipping products. This is what stable releases are for?
+>
+> That's what stable releases are for, but I don't see a release for OE-cor=
+e, do you? I see a poky release, but not an OE-core release.
 
-Op 20 okt. 2011, om 14:38 heeft Richard Purdie het volgende geschreven:
+People, let's calm down.
 
-> On Thu, 2011-10-20 at 13:29 +0200, Koen Kooi wrote:
->> Op 20 okt. 2011, om 13:21 heeft Richard Purdie het volgende =
-geschreven:
->>=20
->>> On Thu, 2011-10-20 at 08:23 +0200, Koen Kooi wrote:
->>>> Op 28 sep. 2011, om 22:04 heeft Otavio Salvador het volgende =
-geschreven:
->>>>=20
->>>>> On Wed, Sep 28, 2011 at 16:50, Richard Purdie
->>>>> <richard.purdie@linuxfoundation.org> wrote:
->>>>>>> This patch improves the current situation and I don't foresee =
-the
->>>>>>> autoPR code working soon
->>>>>>=20
->>>>>> Which is why we need to switch to that model and shake out the =
-issues
->>>>>> sooner than later. Enough is enough with the PR madness and we =
-need to
->>>>>> get to grips and fix it.
->>>>>=20
->>>>> I fully agree this is the way to go but this doesn't mean we ought =
-to
->>>>> hold this patch until all this happens. This patch allows the =
-removal
->>>>> of the kernel.bbclass from meta-oe so reducing the delta between
->>>>> oe-core and meta-oe.
->>>>=20
->>>> So a month later and no sign of the mythical working
->>>> auto-PR-incrementer or work on it.
->>>=20
->>> A month where we were stabilising for a release. Its on the 1.2 =
-feature
->>> list and as it happens I've been hearing questions about what is =
-needed
->>> here.
->>>=20
->>>> So can this patch go in? It would mean we can drop kernel.bbclass
->>>> from meta-oe.
->>>=20
->>> I *HATE* this PR bumping stuff. I've just been told we likely need =
-to
->>> bump the PR for anything using libGL which once again shows that =
-build
->>> system basically failing to automate building things.
->>>=20
->>> So I'm drawing a line here and no, we can't take this. If its fine =
-to
->>> expect people to bump PR values manually for lib* changes, its fine =
-for
->>> kernels too. I'd suggest you do drop this from meta-oe and we start
->>> building up pressure for the problem to get fixed properly rather =
-than
->>> letting people wallpaper over the cracks.
->>=20
->> I have products to ship, so treating meta-oe as a plaything and break
->> this for the sake of breaking it is unacceptable. I'll let oe-core
->> have the monopoly on high-qualitily, but broken metadata.
->=20
-> Its not as if there isn't another way to handle this, it is a little
-> harder work I agree. This isn't breaking for the sake of breaking
-> either, its applying a bit of pressure to ensure we fix an underlying
-> problem we've had for a long time. I don't think fixing it will be =
-easy,
-> I do think we need to though.
->=20
-> Also, the idea never was to have everyone using bleeding edge for
-> shipping products. This is what stable releases are for?
+I think since Richard disagree about pushing this patch and more then
+one person disagree with Richard, TSC is the way to go.
 
-That's what stable releases are for, but I don't see a release for =
-OE-core, do you? I see a poky release, but not an OE-core release.
-
-
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
