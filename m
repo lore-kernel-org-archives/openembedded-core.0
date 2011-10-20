@@ -1,31 +1,35 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RH0Zo-0001dY-IQ
-	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Oct 2011 23:55:00 +0200
-Received: by bkat8 with SMTP id t8so4276863bka.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RH0sR-0002JW-Jy for openembedded-core@lists.openembedded.org;
+	Fri, 21 Oct 2011 00:14:15 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9KM8N1Q024244
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2011 14:49:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=FxbcDe9YtMElytu40aaPvUD1gvZ8RtAw4qbj7fZHsR8=;
-	b=qRcEzlYehf8FQA8SvfkA00Q+XoRtHkwfORrLzdludiskcp+3P5AasI40Q1+B83k3qs
-	XsnnUGy1bjhzlLiDQMyqc7bYboByggOk2VD8VqNZAwIR3yJHk5AK1L1JxKKWMPQrW8C7
-	/9aQciH+2N7x4Am0MbvHpPj0U+lJA9rQ6lsWc=
-Received: by 10.204.140.6 with SMTP id g6mr9100196bku.90.1319147348287;
-	Thu, 20 Oct 2011 14:49:08 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id f7sm2501533bkc.1.2011.10.20.14.49.06
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 20 Oct 2011 14:49:07 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Oct 2011 23:49:00 +0200
-Message-Id: <1319147340-23871-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.7
-In-Reply-To: <20111020214817.GM3522@jama.jama.net>
-References: <20111020214817.GM3522@jama.jama.net>
-Subject: [PATCH] default-providers: switch virtual/libgl from mesa-xlib to mesa-dri
+	Thu, 20 Oct 2011 23:08:23 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 24077-02 for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Oct 2011 23:08:19 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9KM8FsV024237
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Oct 2011 23:08:16 +0100
+Message-ID: <1319148494.2410.100.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 20 Oct 2011 23:08:14 +0100
+In-Reply-To: <CA+M6bXm9zigRMzMQSdwntHAUYD+vBAmuLbAdNA7RPkBM=wwFNA@mail.gmail.com>
+References: <840A81C1B782724A8EB52725BD519EFF1A8633@MBX20.4emm.local>
+	<1319129657.2410.57.camel@ted>
+	<CA+M6bXm9zigRMzMQSdwntHAUYD+vBAmuLbAdNA7RPkBM=wwFNA@mail.gmail.com>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: sdk path problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,30 +44,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2011 21:55:00 -0000
+X-List-Received-Date: Thu, 20 Oct 2011 22:14:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* to match default virtual/xserver
+On Thu, 2011-10-20 at 13:24 -0700, Tom Rini wrote:
+> On Thu, Oct 20, 2011 at 9:54 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Thu, 2011-10-20 at 08:22 +0000, James Limbouris wrote:
+> >> Hi,
+> >>
+> >> I have been using meta-toolchain-qte in the past to cross compile a Qt app, and the Linux kernel.
+> >> Recently I replaced my old SDK image with a fresh one, and found that I could not link vmlinux anymore.
+> >>
+> >> When building the kernel, I use the following ('rica' is the distribution name):
+> >> export PATH=$PATH:/usr/local/rica-eglibc-i686-armv5te/sysroots/i686-ricasdk-linux/usr/bin/armv5te-rica-linux-gnueabi/
+> >> make ARCH=arm CROSS_COMPILE=arm-rica-linux-gnueabi- zImage
+> >>
+> >> The new error message is:
+> >>
+> >> Kernel: arch/arm/boot/Image is ready
+> >>   AS      arch/arm/boot/compressed/head.o
+> >>   GZIP    arch/arm/boot/compressed/piggy.gz
+> >>   CC      arch/arm/boot/compressed/misc.o
+> >>   AS      arch/arm/boot/compressed/piggy.o
+> >>   LD      arch/arm/boot/compressed/vmlinux
+> >> arm-rica-linux-gnueabi-ld: cannot find libgcc.a: No such file or directory
+> >>
+> >> Comparing the build with the old sdk to the build with the new one, I find that the command line for linking has changed from:
+> >>
+> >> arm-rica-linux-gnueabi-ld -EL --defsym zreladdr=0x80008000 --defsym initrd_phys=0x80800000 --defsym params_phys=0x80000100 -p --no-undefined -X /usr/local/rica-eglibc-i686-armv5te/sysroots/arm-rica-linux-gnueabi/usr/lib/arm-rica-linux-gnueabi/4.5.4/libgcc.a -T arch/arm/boot/compressed/vmlinux.lds arch/arm/boot/compressed/head.o arch/arm/boot/compressed/piggy.o arch/arm/boot/compressed/misc.o -o arch/arm/boot/compressed/vmlinux
+> >>
+> >> to:
+> >>
+> >> arm-rica-linux-gnueabi-ld -EL --defsym zreladdr=0x80008000 --defsym initrd_phys=0x80800000 --defsym params_phys=0x80000100 -p --no-undefined -X libgcc.a -T arch/arm/boot/compressed/vmlinux.lds arch/arm/boot/compressed/head.o arch/arm/boot/compressed/piggy.o arch/arm/boot/compressed/misc.o -o arch/arm/boot/compressed/vmlinux
+> >>
+> >> So libgcc.a has lost its path qualification.
+> >> I also straced the two linker commands, and found that they differed in one sequence.
+> >>
+> >> Old:
+> >> lstat64("/usr/local/rica-eglibc-i686-armv5te", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+> >> lstat64("/usr/local/rica-eglibc-i686-armv5te/sysroots", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+> >> lstat64("/usr/local/rica-eglibc-i686-armv5te/sysroots/arm-rica-linux-gnueabi", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+> >>
+> >> New:
+> >> lstat64("/usr/local/rica-eglibc-i686-armv5te", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+> >> lstat64("/usr/local/rica-eglibc-i686-armv5te/sysroots", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+> >> lstat64("/usr/local/rica-eglibc-i686-armv5te/sysroots/arm-rica-linux-gnueabi", 0xbffe67cc) = -1 ENOENT (No such file or directory)
+> >>
+> >> Both toolchains are looking for a sysroot at 'arm-rica-linux-gnueabi', but the new toolchain should be looking at 'armv5te-rica-linux-gnueabi', as the names have changed.
+> >> I'm not yet acquainted with the darker arts of toolchain generation. Can anyone help with this?
+> >
+> > There should be a --sysroot option being passed to the compiler/linker
+> > to tell which sysroot to look at. We did recently change the sysroot
+> > location to reflect the target architecture it was optimized for but
+> > this does mean the compiler and other tools need the correct sysroot
+> > path to be specified. The environment script that ships with the
+> > toolchain should do this?
+> 
+> At least not for things like u-boot and the kernel, no, this isn't
+> enough.  Just re-confirmed.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/conf/distro/include/default-providers.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+The place I'd start looking is how to ensure the tools get called with
+the right flags.
 
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-index 66f7ff3..be23d36 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -5,7 +5,7 @@ PREFERRED_PROVIDER_virtual/db ?= "db"
- PREFERRED_PROVIDER_virtual/db-native ?= "db-native"
- PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
- PREFERRED_PROVIDER_virtual/xserver-xf86 ?= "xserver-xorg"
--PREFERRED_PROVIDER_virtual/libgl ?= "mesa-xlib"
-+PREFERRED_PROVIDER_virtual/libgl ?= "mesa-dri"
- PREFERRED_PROVIDER_virtual/update-alternatives ?= "update-alternatives-cworth"
- PREFERRED_PROVIDER_virtual/update-alternatives-native ?= "opkg-native"
- PREFERRED_PROVIDER_virtual/libx11 ?= "libx11-trim"
--- 
-1.7.7
+The end result may be we need to create separate cross bin directories
+for each target sysroot with wrapper scripts for the tools to ensure the
+right flags get passed. Rather nasty and I'd prefer not to but I don't
+see easy alternatives if getting the flags to the tools is a problem.
+
+Cheers,
+
+Richard
+
+
 
 
 
