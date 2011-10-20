@@ -1,28 +1,21 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RGx86-0002PZ-Lk
+	(envelope-from <josh@linux.intel.com>) id 1RGxdT-0007VX-6f
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Oct 2011 20:14:10 +0200
+	Thu, 20 Oct 2011 20:46:35 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 20 Oct 2011 11:08:17 -0700
+	by orsmga101.jf.intel.com with ESMTP; 20 Oct 2011 11:40:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="65218495"
-Received: from jbkonno-mobl.jf.intel.com (HELO [10.7.199.153]) ([10.7.199.153])
-	by orsmga001.jf.intel.com with ESMTP; 20 Oct 2011 11:08:17 -0700
-Message-ID: <4EA0638F.4040708@linux.intel.com>
-Date: Thu, 20 Oct 2011 11:08:15 -0700
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="65230710"
+Received: from jbkonno-mobl.jf.intel.com (HELO shamshir.jf.intel.com)
+	([10.7.199.153])
+	by orsmga001.jf.intel.com with ESMTP; 20 Oct 2011 11:40:41 -0700
 From: Joshua Lock <josh@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0.1) Gecko/20110930 Thunderbird/7.0.1
-MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-References: <cover.1319064436.git.josh@linux.intel.com>
-	<04a2c43182d07a54ec535dea8c7434f6741014e1.1319064437.git.josh@linux.intel.com>
-	<C07B2928-F2D1-4A85-BCFF-7D0360C8BFED@dominion.thruhere.net>
-	<4EA05D42.30500@linux.intel.com>
-	<FEAA96D9-206B-4993-B727-58BA40145FC4@dominion.thruhere.net>
-In-Reply-To: <FEAA96D9-206B-4993-B727-58BA40145FC4@dominion.thruhere.net>
-Subject: Re: [PATCH 4/4] gst-plugins-good: correctly handle gconf schema
+Date: Thu, 20 Oct 2011 11:40:36 -0700
+Message-Id: <cover.1319135920.git.josh@linux.intel.com>
+X-Mailer: git-send-email 1.7.6.4
+Subject: [PATCH 0/1] Handle gconf schema in gst-plugins-good
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,70 +30,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2011 18:14:10 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 20 Oct 2011 18:46:35 -0000
 
-
-
-On 10/20/2011 11:03 AM, Koen Kooi wrote:
-> Op 20 okt. 2011 om 19:41 heeft Joshua Lock <josh@linux.intel.com> het volgende geschreven:
-> 
->>
->>
->> On 10/19/2011 10:41 PM, Koen Kooi wrote:
->>>
->>> Op 20 okt. 2011, om 00:49 heeft Joshua Lock het volgende geschreven:
->>>
->>>> Add the shipped gconf schema to the base package and inherit the gconf class
->>>> so that scheme processing is handled via post* scripts.
->>>>
->>>> Signed-off-by: Joshua Lock <josh@linux.intel.com>
->>>> ---
->>>> .../gstreamer/gst-plugins-good_0.10.30.bb          |    6 ++++--
->>>> 1 files changed, 4 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.30.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.30.bb
->>>> index 96855aa..d63b09a 100644
->>>> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.30.bb
->>>> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.30.bb
->>>> @@ -7,9 +7,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
->>>>
->>>> DEPENDS += "gst-plugins-base gconf cairo jpeg libpng gtk+ zlib libid3tag flac \
->>>>        speex libsoup-2.4 pulseaudio"
->>>> -PR = "r2"
->>>> +PR = "r3"
->>>>
->>>> -inherit gettext
->>>> +inherit gettext gconf
->>>>
->>>> EXTRA_OECONF += "--disable-aalib --disable-esd --disable-shout2 --disable-libcaca --disable-hal --without-check"
->>>>
->>>> @@ -20,3 +20,5 @@ do_configure_prepend() {
->>>>
->>>> SRC_URI[md5sum] = "62fd7a3ef187c4f99b3d7c352d58dae9"
->>>> SRC_URI[sha256sum] = "b12cba90b27d8423cd0a808939098d19db3996cfb9bf528507c6321782e095f6"
->>>> +
->>>> +FILES_${PN} += "${sysconfdir}/gconf/schemas/gstreamer-0.10.schemas"
->>>
->>> If think that schema needs to go into the gconf-elements plugin package, no?
->>
->> Is that a statement or a question? That was my hunch but I was having a
->> hard time finding anything which explicitly stated that.
-> 
-> It was a question, there are few plugins that can hook into gconf, I lost track which plugins are in -good
-
-OK, I don't know either. gconf-elements is a part of plugins-good and
-some Makefile reading leads me to believe that the schema should be
-shipped with that package.
-
-Thanks Koen, updated pull request due shortly.
+Thanks to Koen's feedback this updated patch correctly ships the gconf schema with
+the gconfelements package.
 
 Cheers,
 Joshua
+
+The following changes since commit 99da9a4e65f9dffb04efc3ad60125194c476d6b3:
+
+  distro-tracking-fields: update fields for tzdata and gst-plugins-good (2011-10-20 13:07:16 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib josh/work
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/work
+
+Joshua Lock (1):
+  gst-plugins-good: correctly handle gconf schema
+
+ .../gstreamer/gst-plugins-good_0.10.30.bb          |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
+
 -- 
-Joshua Lock
-        Yocto Project "Johannes factotum"
-        Intel Open Source Technology Centre
+1.7.6.4
+
 
 
