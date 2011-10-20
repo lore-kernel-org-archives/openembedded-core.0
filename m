@@ -1,21 +1,21 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1RGnNU-0002Tj-Kx
+	(envelope-from <saul.wold@intel.com>) id 1RGnU1-0002ks-OA
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Oct 2011 09:49:24 +0200
-Received: from mail-ww0-f44.google.com ([74.125.82.44])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 20 Oct 2011 00:43:27 -0700
-Received: by wwe6 with SMTP id 6so2575082wwe.13
+	Thu, 20 Oct 2011 09:56:09 +0200
+Received: from mail-wy0-f180.google.com ([74.125.82.180])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 20 Oct 2011 00:50:16 -0700
+Received: by wyg24 with SMTP id 24so2556706wyg.25
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2011 00:43:26 -0700 (PDT)
-Received: by 10.227.157.18 with SMTP id z18mr3564354wbw.85.1319096606395;
-	Thu, 20 Oct 2011 00:43:26 -0700 (PDT)
+	Thu, 20 Oct 2011 00:50:14 -0700 (PDT)
+Received: by 10.227.127.205 with SMTP id h13mr3684923wbs.92.1319097014571;
+	Thu, 20 Oct 2011 00:50:14 -0700 (PDT)
 Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
 	[71.193.189.117])
-	by mx.google.com with ESMTPS id b5sm14290007wbh.4.2011.10.20.00.43.23
-	(version=SSLv3 cipher=OTHER); Thu, 20 Oct 2011 00:43:25 -0700 (PDT)
-Message-ID: <4E9FD119.4030307@intel.com>
-Date: Thu, 20 Oct 2011 00:43:21 -0700
+	by mx.google.com with ESMTPS id x40sm8062003wbn.19.2011.10.20.00.50.12
+	(version=SSLv3 cipher=OTHER); Thu, 20 Oct 2011 00:50:13 -0700 (PDT)
+Message-ID: <4E9FD2B2.5000508@intel.com>
+Date: Thu, 20 Oct 2011 00:50:10 -0700
 From: Saul Wold <saul.wold@intel.com>
 Organization: Intel
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
@@ -23,10 +23,10 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1319090166.git.wenzong.fan@windriver.com>
-	<79447d2d8514eb75a5cda1a32d7b25d7fc66e50c.1319090166.git.wenzong.fan@windriver.com>
-In-Reply-To: <79447d2d8514eb75a5cda1a32d7b25d7fc66e50c.1319090166.git.wenzong.fan@windriver.com>
-Subject: Re: [PATCH 3/3 v2] distro_tracking_fields: update packages tracking fields
+References: <66cdd5054e220fcce980222ed68a2afc37f614af.1318984111.git.nitin.a.kamble@intel.com>
+	<35417d38f61615445ed0c4d875e0bd0aa5649af4.1318984111.git.nitin.a.kamble@intel.com>
+In-Reply-To: <35417d38f61615445ed0c4d875e0bd0aa5649af4.1318984111.git.nitin.a.kamble@intel.com>
+Subject: Re: [PATCH 2/6] gmp: also generate the libgmpcxx library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,50 +41,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Oct 2011 07:49:24 -0000
+X-List-Received-Date: Thu, 20 Oct 2011 07:56:10 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/19/2011 10:59 PM, wenzong.fan@windriver.com wrote:
-> From: Wenzong Fan<wenzong.fan@windriver.com>
+On 10/18/2011 05:30 PM, nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble<nitin.a.kamble@intel.com>
 >
-> Update packages tracking fields including ccache, chkconfig.
+> configure runs few checks to make sure c++ compiler and runtime are working as expected
+> with the --enable-cxx=detect option.
 >
-> Signed-off-by: Wenzong Fan<wenzong.fan@windriver.com>
-> ---
->   .../conf/distro/include/distro_tracking_fields.inc |   12 ++++++++++++
->   1 files changed, 12 insertions(+), 0 deletions(-)
->
-> diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-> index abc2cbf..a7c2db5 100644
-> --- a/meta/conf/distro/include/distro_tracking_fields.inc
-> +++ b/meta/conf/distro/include/distro_tracking_fields.inc
-> @@ -5914,6 +5914,18 @@ RECIPE_LATEST_RELEASE_DATE_pn-gettext = "Jun 06, 2010"
->   RECIPE_LAST_UPDATE_pn-gettext = "May 24, 2011"
->   RECIPE_MANUAL_CHECK_DATE_pn-gettext = "Sep 29, 2011"
->
-> +RECIPE_STATUS_pn-ccache = "green"
-> +RECIPE_MAINTAINER_pn-ccache = "Wenzong Fan<wenzong.fan@windriver.com>"
-> +RECIPE_LATEST_VERSION_pn-ccache = "3.1.6"
-> +RECIPE_LAST_UPDATE_pn-ccache = "June 24, 2011"
-You just updated this package, so this should be today's date
-Do you mean theis to be RECIPE_LATEST_RELEASE_DATE of June?  Is that 
-when the 3.1.6 tarball was released?
+Somehow this change has also changed what the gmp package provides, 
+before this change the package provided libgmp10 via PKG_gmp: libgmp10, 
+after this change, the libgmp10 is no longer provided and causes other 
+breakage.
 
-> +RECIPE_MANUAL_CHECK_DATE_pn-ccache = "October 11, 2011"
-> +
-> +RECIPE_STATUS_pn-chkconfig = "green"
-> +RECIPE_MAINTAINER_pn-chkconfig = "Wenzong Fan<wenzong.fan@windriver.com>"
-> +RECIPE_LATEST_VERSION_pn-chkconfig = "1.3.55"
-> +RECIPE_LAST_UPDATE_pn-chkconfig = "May 24, 2011"
-Same as above!
+The example case I found was a coreutils package that was built prior to 
+this change failed to fulfill it's dependencies after this change when 
+creating an image.  If I rebuild coreutils with the newer gmp build, 
+then all is well, I think we need to understand this better before 
+making this change.
+
+Did something else change in the packaging that would cause use to look 
+the mapping above?
+
 
 Sau!
-> +RECIPE_MANUAL_CHECK_DATE_pn-chkconfig = "October 11, 2011"
+
+
+> Signed-off-by: Nitin A Kamble<nitin.a.kamble@intel.com>
+> ---
+>   meta/recipes-support/gmp/gmp.inc      |    2 ++
+>   meta/recipes-support/gmp/gmp_4.2.1.bb |    2 +-
+>   meta/recipes-support/gmp/gmp_5.0.2.bb |    2 +-
+>   3 files changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-support/gmp/gmp.inc b/meta/recipes-support/gmp/gmp.inc
+> index 66349e6..3c662a0 100644
+> --- a/meta/recipes-support/gmp/gmp.inc
+> +++ b/meta/recipes-support/gmp/gmp.inc
+> @@ -14,3 +14,5 @@ ARM_INSTRUCTION_SET = "arm"
+>   acpaths = ""
+>
+>   BBCLASSEXTEND = "native nativesdk"
 > +
->   RECIPE_STATUS_pn-pseudo = "green"
->   RECIPE_LATEST_VERSION_pn-pseudo = "1.1.1"
->   RECIPE_LAST_UPDATE_pn-pseudo = "Jun 06, 2011"
+> +EXTRA_OECONF += " --enable-cxx=detect"
+> diff --git a/meta/recipes-support/gmp/gmp_4.2.1.bb b/meta/recipes-support/gmp/gmp_4.2.1.bb
+> index 74da6b8..97ac4b2 100644
+> --- a/meta/recipes-support/gmp/gmp_4.2.1.bb
+> +++ b/meta/recipes-support/gmp/gmp_4.2.1.bb
+> @@ -6,7 +6,7 @@ LICENSE = "LGPLv2.1+"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=892f569a555ba9c07a568a7c0c4fa63a \
+>                       file://COPYING.LIB;md5=fbc093901857fcd118f065f900982c24 \
+>                       file://gmp-h.in;startline=6;endline=21;md5=5e25ffd16996faba8c1cd27b04b16099"
+> -PR = "r0"
+> +PR = "r1"
+>
+>   SRC_URI = "${GNU_MIRROR}/gmp/${BP}.tar.bz2 \
+>              file://disable-stdc.patch"
+> diff --git a/meta/recipes-support/gmp/gmp_5.0.2.bb b/meta/recipes-support/gmp/gmp_5.0.2.bb
+> index 03fef45..f80971e 100644
+> --- a/meta/recipes-support/gmp/gmp_5.0.2.bb
+> +++ b/meta/recipes-support/gmp/gmp_5.0.2.bb
+> @@ -2,7 +2,7 @@ require gmp.inc
+>   LICENSE="LGPLv3&GPLv3"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+>   		    file://version.c;endline=18;md5=d8c56b52b9092346b9f93b4da65ef790"
+> -PR = "r0"
+> +PR = "r1"
+>
+>   SRC_URI_append += "file://sh4-asmfix.patch \
+>                      file://use-includedir.patch "
 
 
 
