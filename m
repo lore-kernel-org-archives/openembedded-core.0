@@ -1,35 +1,28 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RHFuA-0005tJ-HS
+	(envelope-from <mark.hatle@windriver.com>) id 1RHGRu-0006ZY-TF
 	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Oct 2011 16:17:02 +0200
-Received: by gyc15 with SMTP id 15so3752999gyc.6
+	Fri, 21 Oct 2011 16:51:55 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p9LEjxcX014199
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Oct 2011 07:11:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references;
-	bh=oyubGhupKwWSoeRhYrbxSTP4pholCW5uYIf4oaCGVYs=;
-	b=ICdb1BlOZuz6jHOXHD2DonsP1hPtSso1cgi0pf4HVT8P2MOCNYGObfUQpx+tkme1Jg
-	isFiDtlkKOTiQYAQDpdWd/86RI/W5E0qv9W+laaOql9TVjb5fDL/euEaQWbIjSSGBI0R
-	rDvMZxNuo3z1GqMBXScCW4zE/vt5nI540veg8=
-Received: by 10.100.78.11 with SMTP id a11mr3327328anb.111.1319206264390;
-	Fri, 21 Oct 2011 07:11:04 -0700 (PDT)
-Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id r9sm24713630anh.8.2011.10.21.07.11.02
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 21 Oct 2011 07:11:03 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Oct 2011 14:10:46 +0000
-Message-Id: <889826463264f3a2aeb5062afb5b2f24b5dc75a0.1319206126.git.otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <cover.1319206126.git.otavio@ossystems.com.br>
-References: <cover.1319206126.git.otavio@ossystems.com.br>
-In-Reply-To: <cover.1319206126.git.otavio@ossystems.com.br>
-References: <cover.1319206126.git.otavio@ossystems.com.br>
-Subject: [PATCH 4/4] dbus: use useradd class to allow use in read-only filesystems
+	Fri, 21 Oct 2011 07:45:59 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.233) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Fri, 21 Oct 2011 07:45:59 -0700
+Message-ID: <4EA185A6.3050103@windriver.com>
+Date: Fri, 21 Oct 2011 09:45:58 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1319184832.git.Martin.Jansa@gmail.com>
+	<22ed6acc0a44d9bc0d6f7a2e800c039d77d75477.1319184832.git.Martin.Jansa@gmail.com>
+In-Reply-To: <22ed6acc0a44d9bc0d6f7a2e800c039d77d75477.1319184832.git.Martin.Jansa@gmail.com>
+Subject: Re: [PATCH 2/8] libatomics-ops: force ARM mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,99 +37,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Oct 2011 14:17:02 -0000
+X-List-Received-Date: Fri, 21 Oct 2011 14:51:56 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-Move creation of required user/groups to useradd class thus allowing
-use with read-only filesystems and booting the initial boot.
+On 10/21/11 3:17 AM, Martin Jansa wrote:
+> * otherwise ie spitz (armv5te) build fails with:
+> | make[3]: Entering directory `/OE/shr-core/tmp/work/armv5te-oe-linux-gnueabi/libatomics-ops-1.2-r5/libatomic_ops-1.2/src'
+> | arm-oe-linux-gnueabi-gcc  -march=armv5te  -mthumb -mthumb-interwork  -mtune=xscale --sysroot=/OE/shr-core/tmp/sysroots/spitz -DHAVE_CONFIG_H -I.    -fPIC -O
+> 2 -pipe -g -feliminate-unused-debug-types -DNDEBUG -c atomic_ops.c
+> | arm-oe-linux-gnueabi-gcc  -march=armv5te  -mthumb -mthumb-interwork  -mtune=xscale --sysroot=/OE/shr-core/tmp/sysroots/spitz -DHAVE_CONFIG_H -I.    -fPIC -O
+> 2 -pipe -g -feliminate-unused-debug-types -DNDEBUG -c atomic_ops_stack.c
+> | arm-oe-linux-gnueabi-gcc  -march=armv5te  -mthumb -mthumb-interwork  -mtune=xscale --sysroot=/OE/shr-core/tmp/sysroots/spitz -DHAVE_CONFIG_H -I.    -fPIC -O
+> 2 -pipe -g -feliminate-unused-debug-types -DNDEBUG -c atomic_ops_malloc.c
+> | atomic_ops_malloc.c: In function 'msb':
+> | atomic_ops_malloc.c:223:2: warning: right shift count >= width of type [enabled by default]
+> | rm -f libatomic_ops_gpl.a
+> | ar cru libatomic_ops_gpl.a atomic_ops_stack.o atomic_ops_malloc.o
+> | arm-oe-linux-gnueabi-ranlib libatomic_ops_gpl.a
+> | {standard input}: Assembler messages:
+> | {standard input}:286: Error: selected processor does not support Thumb mode `swp r1,r2,[r3]'
+> | {standard input}:329: Error: selected processor does not support Thumb mode `swp r0,r1,[r3]'
+> 
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  .../pulseaudio/libatomics-ops_1.2.bb               |    2 ++
+>  1 files changed, 2 insertions(+), 0 deletions(-)
+> 
+> diff --git a/meta/recipes-multimedia/pulseaudio/libatomics-ops_1.2.bb b/meta/recipes-multimedia/pulseaudio/libatomics-ops_1.2.bb
+> index 05b22e8..4d9ca0d 100644
+> --- a/meta/recipes-multimedia/pulseaudio/libatomics-ops_1.2.bb
+> +++ b/meta/recipes-multimedia/pulseaudio/libatomics-ops_1.2.bb
+> @@ -20,4 +20,6 @@ S = "${WORKDIR}/libatomic_ops-${PV}"
+>  
+>  ALLOW_EMPTY_${PN} = "1"
+>  
+> +ARM_INSTRUCTION_SET = "arm"
+> +
+>  inherit autotools pkgconfig
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/recipes-core/dbus/dbus.inc |   48 +++++++++++++++++----------------------
- 1 files changed, 21 insertions(+), 27 deletions(-)
+Wouldn't it be better to fix libatomic-ops to have proper thumb mode assembly,
+then fall back to non-thumb assembly?
 
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-index a8ecda8..2a97c02 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -10,15 +10,22 @@ DEPENDS = "expat virtual/libintl ${@base_contains('DISTRO_FEATURES', 'x11', '${X
- DEPENDS_virtclass-native = "expat-native virtual/libintl-native"
- DEPENDS_virtclass-nativesdk = "expat-nativesdk virtual/libintl-nativesdk virtual/libx11"
- 
-+PR = "r1"
-+
- SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
-            file://tmpdir.patch; \
-            file://dbus-1.init"
- 
--inherit autotools pkgconfig gettext update-rc.d
-+inherit useradd autotools pkgconfig gettext update-rc.d
- 
- INITSCRIPT_NAME = "dbus-1"
- INITSCRIPT_PARAMS = "start 02 5 3 2 . stop 20 0 1 6 ."
- 
-+USERADD_PACKAGES = "${PN}"
-+GROUPADD_PARAM_${PN} = "-r netdev"
-+USERADD_PARAM_${PN} = "--system --home ${localstatedir}/lib/dbus \
-+                       --no-create-home --user-group messagebus"
-+
- CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session.conf"
- 
- DEBIANNAME_${PN} = "dbus-1"
-@@ -44,32 +51,7 @@ RRECOMMENDS_${PN}-lib = "${PN}"
- FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool"
- 
- pkg_postinst_dbus() {
--	# can't do adduser stuff offline
--	if [ "x$D" != "x" ]; then
--		exit 1
--	fi
--
--	MESSAGEUSER=messagebus
--	MESSAGEHOME=/var/run/dbus
--	UUIDDIR=/var/lib/dbus
--
--	mkdir -p $MESSAGEHOME
--	mkdir -p $UUIDDIR
--	chgrp "$MESSAGEUSER" "$MESSAGEHOME" 2>/dev/null || addgroup "$MESSAGEUSER"
--	chown "$MESSAGEUSER":"$MESSAGEUSER" "$MESSAGEHOME" 2>/dev/null || \
--		adduser --system --home "$MESSAGEHOME" --no-create-home --disabled-password \
--			--ingroup "$MESSAGEUSER" "$MESSAGEUSER"
--
--	chown "$MESSAGEUSER":"$MESSAGEUSER" "$UUIDDIR"
--
--	grep -q netdev: /etc/group || addgroup netdev
--
--	chown root:"$MESSAGEUSER" /usr/libexec/dbus-daemon-launch-helper
--	chmod 4754 /usr/libexec/dbus-daemon-launch-helper
--
--	# add volatile after new user/grp are created
--	echo "d messagebus messagebus 0755 /var/run/dbus none" > /etc/default/volatiles/99_dbus
--	if [ -e /etc/init.d/populate-volatile.sh ] ; then
-+	if [ -z "${D}" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
- 		/etc/init.d/populate-volatile.sh update
- 	fi
- }
-@@ -92,6 +74,18 @@ do_install() {
- 	install -d ${D}${sysconfdir}/init.d
- 	install -m 0755 ${WORKDIR}/dbus-1.init ${D}${sysconfdir}/init.d/dbus-1
- 
-+	install -d ${D}${sysconfdir}/default/volatiles
-+	echo "d messagebus messagebus 0755 ${localstatedir}/run/dbus none" \
-+	     > ${D}${sysconfdir}/default/volatiles/99_dbus
-+
-+
-+	mkdir -p ${D}${localstatedir}/run/dbus ${D}${localstatedir}/lib/dbus
-+
-+	chown messagebus:messagebus ${D}${localstatedir}/run/dbus ${D}${localstatedir}/lib/dbus
-+
-+	chown root:messagebus ${D}${libexecdir}/dbus-daemon-launch-helper
-+	chmod 4754 ${D}${libexecdir}/dbus-daemon-launch-helper
-+
- 	# disable dbus-1 sysv script on systemd installs
- 	# nearly all distros call the initscript plain 'dbus', but OE-core is different
- 	ln -sf /dev/null ${D}/${base_libdir}/systemd/system/dbus-1.service
--- 
-1.7.2.5
+I swear I had a patch to do this in the past, but I'm currently not able to find it.
 
+--Mark
 
 
