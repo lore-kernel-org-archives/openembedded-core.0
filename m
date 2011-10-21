@@ -1,35 +1,30 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RH5ve-0004uy-Bz
+	(envelope-from <scott.a.garman@intel.com>) id 1RH65F-0005ah-9K
 	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Oct 2011 05:37:54 +0200
-Received: by yxj20 with SMTP id 20so1151205yxj.6
+	Fri, 21 Oct 2011 05:47:49 +0200
+Received: from mail-gy0-f180.google.com ([209.85.160.180])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 20 Oct 2011 20:41:55 -0700
+Received: by gyf1 with SMTP id 1so7808118gyf.25
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2011 20:31:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references;
-	bh=TIky/940Ap4A71JWxI3ptvhELVeU/gipvSgMovYgzys=;
-	b=CO7CbblJ02TRfMnw+gLg4VKr1xtmjBJBirLTJ73pXP9nddUgBbJxwOH9Rg3c+S2mIf
-	D2xqWvZ9jFHndt8zPp/ArHntiGouCActKRNw1u6rGrYZuEucP7wgy/Y2vvATx/s0ziRG
-	TPN6oXTvo0A7a/KeeQACA1lyKRg0WCJj6KvcI=
-Received: by 10.150.139.9 with SMTP id m9mr162434ybd.104.1319167915963;
-	Thu, 20 Oct 2011 20:31:55 -0700 (PDT)
-Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id m3sm32008971ang.0.2011.10.20.20.31.53
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 20 Oct 2011 20:31:55 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+	Thu, 20 Oct 2011 20:41:55 -0700 (PDT)
+Received: by 10.68.72.167 with SMTP id e7mr8339533pbv.19.1319168514641;
+	Thu, 20 Oct 2011 20:41:54 -0700 (PDT)
+Received: from [192.168.1.12] (c-98-246-160-155.hsd1.or.comcast.net.
+	[98.246.160.155])
+	by mx.google.com with ESMTPS id x7sm25501893pbf.5.2011.10.20.20.41.53
+	(version=SSLv3 cipher=OTHER); Thu, 20 Oct 2011 20:41:53 -0700 (PDT)
+Message-ID: <4EA0EA00.1050800@intel.com>
+Date: Thu, 20 Oct 2011 20:41:52 -0700
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.23) Gecko/20110922 Lightning/1.0b2 Thunderbird/3.1.15
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Oct 2011 03:31:41 +0000
-Message-Id: <d0e2424c7510f09a6733c16199e86c158cbfbb7c.1319167843.git.otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <cover.1319167843.git.otavio@ossystems.com.br>
 References: <cover.1319167843.git.otavio@ossystems.com.br>
-In-Reply-To: <cover.1319167843.git.otavio@ossystems.com.br>
-References: <cover.1319167843.git.otavio@ossystems.com.br>
-Subject: [PATCH 3/4] base-passwd: move initial criation of group and passwd to preinst
+	<9c3cff6e514e8ccc69b9462197c7bceeb117a55e.1319167843.git.otavio@ossystems.com.br>
+In-Reply-To: <9c3cff6e514e8ccc69b9462197c7bceeb117a55e.1319167843.git.otavio@ossystems.com.br>
+Subject: Re: [PATCH 2/4] useradd.bbclass: check if a group already exists manually
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,41 +39,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Oct 2011 03:37:54 -0000
+X-List-Received-Date: Fri, 21 Oct 2011 03:47:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-To allow use and manipulation of users and groups at rootfs building
-time, the '/etc/passwd' and '/etc/group' needs to be available as soon
-as possible.
+On 10/20/2011 08:31 PM, Otavio Salvador wrote:
+> The use of groupadd -f makes much more difficult to figure when a
+> group is not add. This was the case of the class not working for our
+> usage and this being caused by the lack of '/etc/group' file but
+> unnoticed as groupadd wasn't failing according.
+>
+> Signed-off-by: Otavio Salvador<otavio@ossystems.com.br>
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- .../recipes-core/base-passwd/base-passwd_3.5.22.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+Thanks for getting to the bottom of this!
 
-diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb
-index 137512d..9f81ba3 100644
---- a/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb
-+++ b/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb
-@@ -1,7 +1,7 @@
- SUMMARY = "Base system master password/group files."
- DESCRIPTION = "The master copies of the user database files (/etc/passwd and /etc/group).  The update-passwd tool is also provided to keep the system databases synchronized with these master files."
- SECTION = "base"
--PR = "r3"
-+PR = "r4"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a"
- 
-@@ -37,7 +37,7 @@ do_install () {
- 	install -p -m 644 debian/copyright ${D}${docdir}/${BPN}/
- }
- 
--pkg_postinst_${PN} () {
-+pkg_preinst_${PN} () {
- 	set -e
- 
- 	if [ ! -e $D${sysconfdir}/passwd ] ; then
+Acked-by: Scott Garman <scott.a.garman@intel.com>
+
+> ---
+>   meta/classes/useradd.bbclass |    8 +++++++-
+>   1 files changed, 7 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+> index 1e03a04..fb70b3e 100644
+> --- a/meta/classes/useradd.bbclass
+> +++ b/meta/classes/useradd.bbclass
+> @@ -37,7 +37,13 @@ if test "x$GROUPADD_PARAM" != "x"; then
+>   	opts=`echo "$GROUPADD_PARAM" | cut -d ';' -f 1`
+>   	remaining=`echo "$GROUPADD_PARAM" | cut -d ';' -f 2-`
+>   	while test "x$opts" != "x"; do
+> -		eval $PSEUDO groupadd -f $OPT $opts
+> +		groupname=`echo "$opts" | awk '{ print $NF }'`
+> +		group_exists=`grep "^$groupname:" $SYSROOT/etc/group || true`
+> +		if test "x$group_exists" = "x"; then
+> +			eval $PSEUDO groupadd  $OPT $opts
+> +		else
+> +			echo "Note: group $groupname already exists, not re-creating it"
+> +		fi
+>
+>   		if test "x$opts" = "x$remaining"; then
+>   			break
+
+
 -- 
-1.7.2.5
-
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
