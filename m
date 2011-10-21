@@ -1,31 +1,36 @@
-Received: from mail-pz0-f43.google.com ([209.85.210.43])
+Received: from lo.gmane.org ([80.91.229.12])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RH8Mj-0006TJ-My
-	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Oct 2011 08:14:02 +0200
-Received: by pzk33 with SMTP id 33so9011636pzk.2
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1RH8TP-0006oU-VX for openembedded-core@lists.openembedded.org;
+	Fri, 21 Oct 2011 08:20:56 +0200
+Received: from list by lo.gmane.org with local (Exim 4.69)
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1RH8Nk-0002Qh-Qf for openembedded-core@lists.openembedded.org;
+	Fri, 21 Oct 2011 08:15:04 +0200
+Received: from ip545070eb.adsl-surfen.hetnet.nl ([84.80.112.235])
+	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
+	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Oct 2011 08:15:04 +0200
+Received: from koen by ip545070eb.adsl-surfen.hetnet.nl with local (Gmexim 0.1
+	(Debian)) id 1AlnuQ-0007hv-00
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2011 23:08:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=4kJ3uFgJiHAQeRGDvsY7wKTMDbA+QB2NqcM2phWreOQ=;
-	b=rhdVc6m6ljzfQnuszHNKGC+oKSkGWGu8Xs/cQ+CBoK+KbKfAp9xyikTQ/Fv8kTU4Hd
-	Vo3lwXY/TP90Weh41vyp3UnNBiOjpT7aC6zEe8/yUk/VxS9+JRdBaxfAilaLNSzTYkQH
-	fsmxX4pniDxRzRJyJ1M08yXqt1df9/K1l8dgs=
-Received: by 10.68.17.193 with SMTP id q1mr25264045pbd.98.1319177280448; Thu,
-	20 Oct 2011 23:08:00 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.68.48.230 with HTTP; Thu, 20 Oct 2011 23:07:30 -0700 (PDT)
-In-Reply-To: <5980062f84b228fa8977cf3f14c064192ba91eee.1319167843.git.otavio@ossystems.com.br>
-References: <cover.1319167843.git.otavio@ossystems.com.br>
-	<5980062f84b228fa8977cf3f14c064192ba91eee.1319167843.git.otavio@ossystems.com.br>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 20 Oct 2011 23:07:30 -0700
-Message-ID: <CAMKF1sqpvqZ4cOg4jceaB9P6HMTcZqhYVFG1SqZxN4Um3G1fAA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] bootimg.bbclass: add support to disable HDD image building
+	Fri, 21 Oct 2011 08:15:04 +0200
+X-Injected-Via-Gmane: http://gmane.org/
+To: openembedded-core@lists.openembedded.org
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Fri, 21 Oct 2011 08:13:35 +0200
+Message-ID: <j7r2if$7jb$4@dough.gmane.org>
+References: <CAMKF1sqwC26Qo2MPCmNcwvsqweC-8F1P2y9myNOgihrBtCdTXA@mail.gmail.com>
+	<20111021002021.GV26170@denix.org>
+Mime-Version: 1.0
+X-Complaints-To: usenet@dough.gmane.org
+X-Gmane-NNTP-Posting-Host: ip545070eb.adsl-surfen.hetnet.nl
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
+	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
+In-Reply-To: <20111021002021.GV26170@denix.org>
+X-Enigmail-Version: 1.3.2
+Cc: openembedded-devel@lists.openembedded.org
+Subject: Re: [oe] [ANNOUNCEMENT] New Patchwork available for testing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,116 +45,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Oct 2011 06:14:02 -0000
+X-List-Received-Date: Fri, 21 Oct 2011 06:20:56 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 20, 2011 at 8:31 PM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
-> =C2=A0meta/classes/bootimg.bbclass | =C2=A0 44 +++++++++++++++++++++-----=
----------------
-> =C2=A01 files changed, 23 insertions(+), 21 deletions(-)
->
-> diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
-> index a5ba3cf..eecc2bf 100644
-> --- a/meta/classes/bootimg.bbclass
-> +++ b/meta/classes/bootimg.bbclass
-> @@ -48,34 +48,36 @@ SYSLINUXMENU =3D "${HDDDIR}/menu"
-> =C2=A0inherit syslinux
->
-> =C2=A0build_boot_bin() {
-> - =C2=A0 =C2=A0 =C2=A0 install -d ${HDDDIR}
-> - =C2=A0 =C2=A0 =C2=A0 install -m 0644 ${STAGING_DIR_HOST}/kernel/bzImage=
- \
-> - =C2=A0 =C2=A0 =C2=A0 ${HDDDIR}/vmlinuz
-> + =C2=A0 =C2=A0 =C2=A0 # Create an HDD image
-> + =C2=A0 =C2=A0 =C2=A0 if [ "${NOHDD}" !=3D "1" ] ; then
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
 
-please document this new variable NOHDD somewhere so people know how
-and when to use it
+Op 21-10-11 02:20, Denys Dmytriyenko schreef:
+> On Mon, Oct 17, 2011 at 12:06:04PM -0700, Khem Raj wrote:
+>> Hi
+>> 
+>> Here is a new instance of patchwork accessible at 
+>> http://patchwork.openembedded.org
+>> 
+>> This instance uses same database therefore it should not be any
+>> different than existing patches.openembedded.org
+>> 
+>> However with the new patchwork you will see additionally "Mail
+>> settings" link on the right hand upper corner this could be used to
+>> subscribe to patchwork activity. This is a new feature so try it out
+>> and report any issues.
+>> 
+>> The patch capturing is done by the new patchwork.
+>> 
+>> reiterating what Koen already announced, git post-recieve hook is 
+>> installed for meta-openembedded repository to interact with patchwork 
+>> on push so it will change the state of patch to "Accepted" once it has
+>> been pushed. This should avoid lot of manual work for the maintainers
+> 
+> Does this work for pull requests?
 
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d ${HDDDIR}
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0644 ${STAG=
-ING_DIR_HOST}/kernel/bzImage \
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${HDDDIR}/vmlinuz
->
-> - =C2=A0 =C2=A0 =C2=A0 if [ -n "${INITRD}" ] && [ -s "${INITRD}" ]; then
-> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0644 ${INIT=
-RD} ${HDDDIR}/initrd
-> - =C2=A0 =C2=A0 =C2=A0 fi
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -n "${INITRD}" ] =
-&& [ -s "${INITRD}" ]; then
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0644 ${INITRD} ${HDDDIR}/init=
-rd
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi
->
-> - =C2=A0 =C2=A0 =C2=A0 if [ -n "${ROOTFS}" ] && [ -s "${ROOTFS}" ]; then
-> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0644 ${ROOT=
-FS} ${HDDDIR}/rootfs.img
-> - =C2=A0 =C2=A0 =C2=A0 fi
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -n "${ROOTFS}" ] =
-&& [ -s "${ROOTFS}" ]; then
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0644 ${ROOTFS} ${HDDDIR}/root=
-fs.img
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi
->
-> - =C2=A0 =C2=A0 =C2=A0 install -m 444 ${STAGING_LIBDIR}/syslinux/ldlinux.=
-sys ${HDDDIR}/ldlinux.sys
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 444 ${STAGI=
-NG_LIBDIR}/syslinux/ldlinux.sys ${HDDDIR}/ldlinux.sys
->
-> - =C2=A0 =C2=A0 =C2=A0 # Do a little math, bash style
-> - =C2=A0 =C2=A0 =C2=A0 #BLOCKS=3D`du -s ${HDDDIR} | cut -f 1`
-> - =C2=A0 =C2=A0 =C2=A0 BLOCKS=3D`du -bks ${HDDDIR} | cut -f 1`
-> - =C2=A0 =C2=A0 =C2=A0 SIZE=3D`expr $BLOCKS + ${BOOTIMG_EXTRA_SPACE}`
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Do a little math, ba=
-sh style
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 BLOCKS=3D`du -bks ${HD=
-DDIR} | cut -f 1`
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 SIZE=3D`expr $BLOCKS +=
- ${BOOTIMG_EXTRA_SPACE}`
->
-> - =C2=A0 =C2=A0 =C2=A0 mkdosfs -n ${BOOTIMG_VOLUME_ID} -d ${HDDDIR} \
-> - =C2=A0 =C2=A0 =C2=A0 -C ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg $SIZE
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mkdosfs -n ${BOOTIMG_V=
-OLUME_ID} -d ${HDDDIR} \
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -C ${DEPLOY_DIR_IMAGE}=
-/${IMAGE_NAME}.hddimg $SIZE
->
-> - =C2=A0 =C2=A0 =C2=A0 syslinux ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
-> - =C2=A0 =C2=A0 =C2=A0 chmod 644 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 syslinux ${DEPLOY_DIR_=
-IMAGE}/${IMAGE_NAME}.hddimg
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 chmod 644 ${DEPLOY_DIR=
-_IMAGE}/${IMAGE_NAME}.hddimg
->
-> - =C2=A0 =C2=A0 =C2=A0 cd ${DEPLOY_DIR_IMAGE}
-> - =C2=A0 =C2=A0 =C2=A0 rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hddim=
-g
-> - =C2=A0 =C2=A0 =C2=A0 ln -s ${IMAGE_NAME}.hddimg ${DEPLOY_DIR_IMAGE}/${I=
-MAGE_LINK_NAME}.hddimg
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cd ${DEPLOY_DIR_IMAGE}
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f ${DEPLOY_DIR_IMA=
-GE}/${IMAGE_LINK_NAME}.hddimg
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ln -s ${IMAGE_NAME}.hd=
-dimg ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hddimg
-> + =C2=A0 =C2=A0 =C2=A0 fi
->
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0#Create an ISO if we have an INITRD
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -n "${INITRD}" ] && [ -s "${INITRD}" ] &&=
- [ "${NOISO}" !=3D "1" ] ; then
-> --
-> 1.7.2.5
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Yes, except for the coverletter, you need to archive that one manually.
+
+regards,
+
+Koen
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.5 (Darwin)
+Comment: GPGTools - http://gpgtools.org
+
+iD8DBQFOoQ2PMkyGM64RGpERAs6NAJ9F3xzg0VCswRttYTu0VSdKJZuQsACfa6/+
+psGXYPWGqACD0cQKaeNbdh8=
+=K4Xv
+-----END PGP SIGNATURE-----
+
 
 
