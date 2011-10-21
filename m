@@ -1,35 +1,30 @@
-Received: from mail-gx0-f175.google.com ([209.85.161.175])
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RH5vU-0004t4-NG
+	(envelope-from <otavio.salvador@gmail.com>) id 1RH5vW-0004t9-8y
 	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Oct 2011 05:37:44 +0200
-Received: by ggnj1 with SMTP id j1so1939142ggn.6
+	Fri, 21 Oct 2011 05:37:46 +0200
+Received: by gyc15 with SMTP id 15so3363880gyc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2011 20:31:51 -0700 (PDT)
+	Thu, 20 Oct 2011 20:31:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references;
-	bh=dYhYllkeq1CeJLwx6r7kYAIIoDvnjgkQhlV/TKRr/Ss=;
-	b=Kd6tJvBpmBp2+QnqDdBtAXLl0pN2wJmqDGAEUX3WtClPj3qoiekx9RgqsCMJPIsgjN
-	LNMgC1VOHqAfJ4NyRvH7j4gr4uCxv3RRrRXTIbRJbL8DDTIbECpCrBktCMPUFB4tYyV7
-	wdtpL5sBu2rHzyeuoVayAEiLoCMFjtiDCIoBY=
-Received: by 10.150.138.15 with SMTP id l15mr12197892ybd.21.1319167911704;
-	Thu, 20 Oct 2011 20:31:51 -0700 (PDT)
+	h=sender:from:to:subject:date:message-id:x-mailer;
+	bh=HZ3iQx0mmBVaTM31NSl7BRg5bfgs2M+3tpTOsn3RHuQ=;
+	b=jBVjqORU7qFcckxaFsKQywJTbuh7j9/yP+cX708chNI6Die5hUttNrUfE7V/O06A2F
+	BB+zpzPfqTRSeD9A5CTySSTvubfh2X68JYXl32fw0w4LaxcTSkHDOMMrg+QWUNkgbQy+
+	y0P0KEqj0zyme5YmdZFROB5N0tdN3IA1M9tOk=
+Received: by 10.151.21.4 with SMTP id y4mr12368537ybi.92.1319167909780;
+	Thu, 20 Oct 2011 20:31:49 -0700 (PDT)
 Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id m3sm32008971ang.0.2011.10.20.20.31.49
+	by mx.google.com with ESMTPS id m3sm32008971ang.0.2011.10.20.20.31.47
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 20 Oct 2011 20:31:51 -0700 (PDT)
+	Thu, 20 Oct 2011 20:31:48 -0700 (PDT)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Oct 2011 03:31:39 +0000
-Message-Id: <5980062f84b228fa8977cf3f14c064192ba91eee.1319167843.git.otavio@ossystems.com.br>
+Date: Fri, 21 Oct 2011 03:31:38 +0000
+Message-Id: <cover.1319167843.git.otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <cover.1319167843.git.otavio@ossystems.com.br>
-References: <cover.1319167843.git.otavio@ossystems.com.br>
-In-Reply-To: <cover.1319167843.git.otavio@ossystems.com.br>
-References: <cover.1319167843.git.otavio@ossystems.com.br>
-Subject: [PATCH 1/4] bootimg.bbclass: add support to disable HDD image building
+Subject: [PATCH 0/4] Fixes and improvements from O.S. Systems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,75 +39,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Oct 2011 03:37:44 -0000
+X-List-Received-Date: Fri, 21 Oct 2011 03:37:46 -0000
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/classes/bootimg.bbclass |   44 +++++++++++++++++++++--------------------
- 1 files changed, 23 insertions(+), 21 deletions(-)
+The following changes since commit 99da9a4e65f9dffb04efc3ad60125194c476d6b3:
 
-diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
-index a5ba3cf..eecc2bf 100644
---- a/meta/classes/bootimg.bbclass
-+++ b/meta/classes/bootimg.bbclass
-@@ -48,34 +48,36 @@ SYSLINUXMENU = "${HDDDIR}/menu"
- inherit syslinux
- 		
- build_boot_bin() {
--	install -d ${HDDDIR}
--	install -m 0644 ${STAGING_DIR_HOST}/kernel/bzImage \
--	${HDDDIR}/vmlinuz
-+	# Create an HDD image
-+	if [ "${NOHDD}" != "1" ] ; then
-+		install -d ${HDDDIR}
-+		install -m 0644 ${STAGING_DIR_HOST}/kernel/bzImage \
-+		${HDDDIR}/vmlinuz
- 
--	if [ -n "${INITRD}" ] && [ -s "${INITRD}" ]; then 
--    		install -m 0644 ${INITRD} ${HDDDIR}/initrd
--	fi
-+		if [ -n "${INITRD}" ] && [ -s "${INITRD}" ]; then
-+				install -m 0644 ${INITRD} ${HDDDIR}/initrd
-+		fi
- 
--	if [ -n "${ROOTFS}" ] && [ -s "${ROOTFS}" ]; then 
--    		install -m 0644 ${ROOTFS} ${HDDDIR}/rootfs.img
--	fi
-+		if [ -n "${ROOTFS}" ] && [ -s "${ROOTFS}" ]; then
-+				install -m 0644 ${ROOTFS} ${HDDDIR}/rootfs.img
-+		fi
- 
--	install -m 444 ${STAGING_LIBDIR}/syslinux/ldlinux.sys ${HDDDIR}/ldlinux.sys
-+		install -m 444 ${STAGING_LIBDIR}/syslinux/ldlinux.sys ${HDDDIR}/ldlinux.sys
- 
--	# Do a little math, bash style
--	#BLOCKS=`du -s ${HDDDIR} | cut -f 1`
--	BLOCKS=`du -bks ${HDDDIR} | cut -f 1`
--	SIZE=`expr $BLOCKS + ${BOOTIMG_EXTRA_SPACE}`	
-+		# Do a little math, bash style
-+		BLOCKS=`du -bks ${HDDDIR} | cut -f 1`
-+		SIZE=`expr $BLOCKS + ${BOOTIMG_EXTRA_SPACE}`
- 
--	mkdosfs -n ${BOOTIMG_VOLUME_ID} -d ${HDDDIR} \
--	-C ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg $SIZE 
-+		mkdosfs -n ${BOOTIMG_VOLUME_ID} -d ${HDDDIR} \
-+		-C ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg $SIZE
- 
--	syslinux ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
--	chmod 644 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
-+		syslinux ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
-+		chmod 644 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
- 
--	cd ${DEPLOY_DIR_IMAGE}
--	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hddimg
--	ln -s ${IMAGE_NAME}.hddimg ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hddimg
-+		cd ${DEPLOY_DIR_IMAGE}
-+		rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hddimg
-+		ln -s ${IMAGE_NAME}.hddimg ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hddimg
-+	fi
- 	
- 	#Create an ISO if we have an INITRD
- 	if [ -n "${INITRD}" ] && [ -s "${INITRD}" ] && [ "${NOISO}" != "1" ] ; then
+  distro-tracking-fields: update fields for tzdata and gst-plugins-good (2011-10-20 13:07:16 +0100)
+
+are available in the git repository at:
+  git://github.com/OSSystems/oe-core master
+  https://github.com/OSSystems/oe-core/tree/HEAD
+
+Otavio Salvador (4):
+  bootimg.bbclass: add support to disable HDD image building
+  useradd.bbclass: check if a group already exists manually
+  base-passwd: move initial criation of group and passwd to preinst
+  dbus: use useradd class to allow use in read-only filesystems
+
+ meta/classes/bootimg.bbclass                       |   44 +++++++++---------
+ meta/classes/useradd.bbclass                       |    8 +++-
+ .../recipes-core/base-passwd/base-passwd_3.5.22.bb |    4 +-
+ meta/recipes-core/dbus/dbus.inc                    |   48 +++++++++-----------
+ 4 files changed, 53 insertions(+), 51 deletions(-)
+
 -- 
 1.7.2.5
 
