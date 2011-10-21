@@ -1,34 +1,29 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RHAOs-0003FZ-CM
+	(envelope-from <koen@dominion.thruhere.net>) id 1RHAZW-0003i8-Kx
 	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Oct 2011 10:24:22 +0200
-Received: by mail-bw0-f47.google.com with SMTP id t8so4820551bka.6
+	Fri, 21 Oct 2011 10:35:22 +0200
+Received: by eyd9 with SMTP id 9so3791589eyd.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Oct 2011 01:18:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=8IxU7salbrCGcjBJH5brmZRHJBHasr2ziioj6cigG6I=;
-	b=p5hr39xO5W/fwYyFqo3NsAoBaYvJFOJaWtVyV78Ygc/DCCP9YsOw9wT2wjWhvZyQB8
-	zJmKuOHg30ginpmMsvzSJ9vu36r0ckRUlSIcxKJLXZaGgXlu+lBsR1J+tFUU3is84g/y
-	aaH0ynKFJ+Da68Nbx8xOwT1tCI4A9v4iTAK8s=
-Received: by 10.204.15.211 with SMTP id l19mr2537796bka.75.1319185111686;
-	Fri, 21 Oct 2011 01:18:31 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id e14sm12543929bka.0.2011.10.21.01.18.30
+	Fri, 21 Oct 2011 01:29:29 -0700 (PDT)
+Received: by 10.14.9.146 with SMTP id 18mr1705716eet.91.1319185769333;
+	Fri, 21 Oct 2011 01:29:29 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id v3sm19561220eej.7.2011.10.21.01.29.28
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 21 Oct 2011 01:18:30 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Oct 2011 10:17:31 +0200
-Message-Id: <bcdfb52940fbceb12549f4725ad808ae496afdb3.1319184832.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.7
-In-Reply-To: <bfd27053f71157d3f3d3c0bf523015347714d3f8.1319184832.git.Martin.Jansa@gmail.com>
+	Fri, 21 Oct 2011 01:29:28 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <9e9f9e73e7bfa4a5184196b874cfb1dfe179be24.1319184832.git.Martin.Jansa@gmail.com>
+Date: Fri, 21 Oct 2011 10:29:26 +0200
+Message-Id: <4C420436-8E73-4B8E-B12E-E7BAF72CCB76@dominion.thruhere.net>
 References: <bfd27053f71157d3f3d3c0bf523015347714d3f8.1319184832.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1319184832.git.Martin.Jansa@gmail.com>
-References: <cover.1319184832.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 8/8] subversion: add 1.7.0 with native support and negative D_P for now
+	<9e9f9e73e7bfa4a5184196b874cfb1dfe179be24.1319184832.git.Martin.Jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH 3/8] pulseaudio-0.9.23: force ARM mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,97 +38,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Oct 2011 08:24:22 -0000
+X-List-Received-Date: Fri, 21 Oct 2011 08:35:22 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-* be aware that checkouts from 1.7.0 are not compatible with older
-  subversion clients (ie when builder populating distro PREMIRROR is
-  using 1.7.0 all builders need to have also 1.7.0)
-* and also 1.7.0 client needs to call svn upgrade in checkout first in
-  order to use it (so if PREMIRROR has tarball from 1.6.x it won't work
-  on client using 1.7.0 unless fetcher2 is improved to detect this and
-  call svn upgrade)
-* tested on SHR distribution
-  http://wiki.shr-project.org/trac/wiki/Building%20SHR#subversion1.7inshr-chroot
-* only missing part is to add subversion-native dependency, so that
-  native subversion is built, before building ie elementary (because EFL
-  are using svnversion from configure.ac to detect source revision and
-  .svn dir needs to be from compatible version).
-* read http://subversion.apache.org/docs/release-notes/1.7.html
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- .../subversion/subversion-1.7.0/libtool2.patch     |   15 ++++++++
- .../subversion/subversion_1.7.0.bb                 |   37 ++++++++++++++++++++
- 2 files changed, 52 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.0/libtool2.patch
- create mode 100644 meta/recipes-devtools/subversion/subversion_1.7.0.bb
+Op 21 okt. 2011, om 10:17 heeft Martin Jansa het volgende geschreven:
 
-diff --git a/meta/recipes-devtools/subversion/subversion-1.7.0/libtool2.patch b/meta/recipes-devtools/subversion/subversion-1.7.0/libtool2.patch
-new file mode 100644
-index 0000000..5cd572b
---- /dev/null
-+++ b/meta/recipes-devtools/subversion/subversion-1.7.0/libtool2.patch
-@@ -0,0 +1,15 @@
-+Upstream-Status: Inappropriate [embedded specific]
-+
-+--- a/configure.ac	2011-10-20 21:56:02.230663987 +0200
-++++ b/configure.ac	2011-08-17 15:01:30.000000000 +0200
-+@@ -227,8 +227,8 @@
-+   LIBTOOL="$sh_libtool"
-+   SVN_LIBTOOL="$sh_libtool"
-+ else
-+-  sh_libtool="$abs_builddir/libtool"
-+-  SVN_LIBTOOL="\$(SHELL) $sh_libtool"
-++  sh_libtool="$abs_builddir/$host_alias-libtool"
-++  SVN_LIBTOOL="\$(SHELL) \$(abs_builddir)/$host_alias-libtool"
-+ fi
-+ AC_SUBST(SVN_LIBTOOL)
-+ 
-diff --git a/meta/recipes-devtools/subversion/subversion_1.7.0.bb b/meta/recipes-devtools/subversion/subversion_1.7.0.bb
-new file mode 100644
-index 0000000..396b35b
---- /dev/null
-+++ b/meta/recipes-devtools/subversion/subversion_1.7.0.bb
-@@ -0,0 +1,37 @@
-+DESCRIPTION = "The Subversion (svn) client"
-+SECTION = "console/network"
-+DEPENDS = "apr-util neon"
-+RDEPENDS_${PN} = "neon"
-+LICENSE = "Apache-2"
-+HOMEPAGE = "http://subversion.tigris.org"
-+
-+BBCLASSEXTEND = "native"
-+
-+# negative, because of new checkout format in 1.7.0 
-+# and distro PREMIRRORs need to be in sync with users
-+DEFAULT_PREFERENCE = "-1"
-+
-+SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-+           file://libtool2.patch \
-+"
-+SRC_URI[md5sum] = "930e6644a1b6094efd268fde6a318f04"
-+SRC_URI[sha256sum] = "64fd5f263a80e609717a3ca42f1f2625606a5c4a40a85716f82c866033780978"
-+
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=4a14fd2da3134e40a087eb4326a4ecd4"
-+
-+EXTRA_OECONF = " \
-+                --without-berkeley-db --without-apxs --without-apache \
-+                --without-swig --with-apr=${STAGING_BINDIR_CROSS} \
-+                --with-apr-util=${STAGING_BINDIR_CROSS}"
-+
-+inherit autotools
-+
-+export LDFLAGS += " -L${STAGING_LIBDIR} "
-+
-+acpaths = "-I build/ -I build/ac-macros/"
-+
-+do_configure_prepend () {
-+	rm -f ${S}/libtool
-+	rm -f ${S}/build/libtool.m4
-+	sed -i -e 's:with_sasl="/usr/local":with_sasl="${STAGING_DIR}":' ${S}/build/ac-macros/sasl.m4
-+}
--- 
-1.7.7
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+> .../pulseaudio/pulseaudio_0.9.23.bb                |    1 +
+> 1 files changed, 1 insertions(+), 0 deletions(-)
+>=20
+> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb =
+b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
+> index 4ac2418..2f872b8 100644
+> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
+> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
+> @@ -23,3 +23,4 @@ do_compile_prepend() {
+>     cp ${STAGING_LIBDIR}/libltdl* ${S}/libltdl
+> }
+>=20
+> +ARM_INSTRUCTION_SET =3D "arm"
 
+Missing PR bump=
 
 
