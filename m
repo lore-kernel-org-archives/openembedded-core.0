@@ -1,31 +1,35 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-gx0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RHEyU-0004Jy-7L
+	(envelope-from <otavio.salvador@gmail.com>) id 1RHFty-0005rP-Rh
 	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Oct 2011 15:17:26 +0200
-Received: by bkat8 with SMTP id t8so5091561bka.6
+	Fri, 21 Oct 2011 16:16:51 +0200
+Received: by ggnj1 with SMTP id j1so2327542ggn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Oct 2011 06:11:29 -0700 (PDT)
+	Fri, 21 Oct 2011 07:10:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=4bD9BIumDe0jyJJvtx3aFpWd6NwNzZH/jMAwEUjvVE8=;
-	b=ebeRP+a+jNyEO1RMXZyhZi9i7i6pv3Sv/ZVeB+PeKjyGX3svojVjtqZMghsxisyqMI
-	h7YpYhuIv63zN3GUmZkjA8zAL7BVm5O9PfkWVEtYMlVQNuGWN+/3nKY6w/QAqEf4B/Ep
-	y36TTVZXjuYnuOqTFW9ydE0v6odW1JsjwEaQM=
-Received: by 10.204.13.68 with SMTP id b4mr10705265bka.96.1319202689087;
-	Fri, 21 Oct 2011 06:11:29 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id j9sm13469749bkd.2.2011.10.21.06.11.27
+	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
+	:references:in-reply-to:references;
+	bh=hwwsePfS9b95gqSPS9GkVm5AB0pN6MISgtHWpv9gmXE=;
+	b=ufbJhkZ1jZyHlAun49pd4WkUDuBkQax9k5rT09a12s/bkVgs524AKjKWh92GE8XWB1
+	mCSpbHNoKFzLTwSgVvTijyhhI+BO6cHPU7lF5AB8BwadlCyuGj32VtY09a0qqsUPbn4E
+	9X0MPS/7wJMysIDMtKlBrxiM+hLJyvkao0IGQ=
+Received: by 10.101.163.33 with SMTP id q33mr3391453ano.145.1319206257262;
+	Fri, 21 Oct 2011 07:10:57 -0700 (PDT)
+Received: from localhost.localdomain ([189.114.111.55])
+	by mx.google.com with ESMTPS id r9sm24713630anh.8.2011.10.21.07.10.55
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 21 Oct 2011 06:11:28 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Fri, 21 Oct 2011 07:10:56 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Oct 2011 15:11:21 +0200
-Message-Id: <1319202681-3972-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.7
-In-Reply-To: <20111021112625.GQ3522@jama.jama.net>
-References: <20111021112625.GQ3522@jama.jama.net>
-Subject: [PATCH] subversion-1.6.15: add native support too
+Date: Fri, 21 Oct 2011 14:10:43 +0000
+Message-Id: <f19c9f1f513e4fc39aac80ba8a0f8f6aa5e71f92.1319206126.git.otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+In-Reply-To: <cover.1319206126.git.otavio@ossystems.com.br>
+References: <cover.1319206126.git.otavio@ossystems.com.br>
+In-Reply-To: <cover.1319206126.git.otavio@ossystems.com.br>
+References: <cover.1319206126.git.otavio@ossystems.com.br>
+Subject: [PATCH 1/4] bootimg.bbclass: add support to disable HDD image building
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,28 +44,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Oct 2011 13:17:26 -0000
+X-List-Received-Date: Fri, 21 Oct 2011 14:16:51 -0000
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+If an image sets NOHDD = "1" the HDD image won't be build.
+
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- .../subversion/subversion_1.6.15.bb                |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
+ meta/classes/bootimg.bbclass |   44 +++++++++++++++++++++--------------------
+ 1 files changed, 23 insertions(+), 21 deletions(-)
 
-diff --git a/meta/recipes-devtools/subversion/subversion_1.6.15.bb b/meta/recipes-devtools/subversion/subversion_1.6.15.bb
-index 9a9484f..d3c7392 100644
---- a/meta/recipes-devtools/subversion/subversion_1.6.15.bb
-+++ b/meta/recipes-devtools/subversion/subversion_1.6.15.bb
-@@ -5,6 +5,8 @@ RDEPENDS_${PN} = "neon"
- LICENSE = "Apache-2"
- HOMEPAGE = "http://subversion.tigris.org"
+diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
+index a5ba3cf..eecc2bf 100644
+--- a/meta/classes/bootimg.bbclass
++++ b/meta/classes/bootimg.bbclass
+@@ -48,34 +48,36 @@ SYSLINUXMENU = "${HDDDIR}/menu"
+ inherit syslinux
+ 		
+ build_boot_bin() {
+-	install -d ${HDDDIR}
+-	install -m 0644 ${STAGING_DIR_HOST}/kernel/bzImage \
+-	${HDDDIR}/vmlinuz
++	# Create an HDD image
++	if [ "${NOHDD}" != "1" ] ; then
++		install -d ${HDDDIR}
++		install -m 0644 ${STAGING_DIR_HOST}/kernel/bzImage \
++		${HDDDIR}/vmlinuz
  
-+BBCLASSEXTEND = "native"
-+
- PR = "r1"
+-	if [ -n "${INITRD}" ] && [ -s "${INITRD}" ]; then 
+-    		install -m 0644 ${INITRD} ${HDDDIR}/initrd
+-	fi
++		if [ -n "${INITRD}" ] && [ -s "${INITRD}" ]; then
++				install -m 0644 ${INITRD} ${HDDDIR}/initrd
++		fi
  
- SRC_URI = "http://subversion.tigris.org/downloads/${BPN}-${PV}.tar.bz2 \
+-	if [ -n "${ROOTFS}" ] && [ -s "${ROOTFS}" ]; then 
+-    		install -m 0644 ${ROOTFS} ${HDDDIR}/rootfs.img
+-	fi
++		if [ -n "${ROOTFS}" ] && [ -s "${ROOTFS}" ]; then
++				install -m 0644 ${ROOTFS} ${HDDDIR}/rootfs.img
++		fi
+ 
+-	install -m 444 ${STAGING_LIBDIR}/syslinux/ldlinux.sys ${HDDDIR}/ldlinux.sys
++		install -m 444 ${STAGING_LIBDIR}/syslinux/ldlinux.sys ${HDDDIR}/ldlinux.sys
+ 
+-	# Do a little math, bash style
+-	#BLOCKS=`du -s ${HDDDIR} | cut -f 1`
+-	BLOCKS=`du -bks ${HDDDIR} | cut -f 1`
+-	SIZE=`expr $BLOCKS + ${BOOTIMG_EXTRA_SPACE}`	
++		# Do a little math, bash style
++		BLOCKS=`du -bks ${HDDDIR} | cut -f 1`
++		SIZE=`expr $BLOCKS + ${BOOTIMG_EXTRA_SPACE}`
+ 
+-	mkdosfs -n ${BOOTIMG_VOLUME_ID} -d ${HDDDIR} \
+-	-C ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg $SIZE 
++		mkdosfs -n ${BOOTIMG_VOLUME_ID} -d ${HDDDIR} \
++		-C ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg $SIZE
+ 
+-	syslinux ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
+-	chmod 644 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
++		syslinux ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
++		chmod 644 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
+ 
+-	cd ${DEPLOY_DIR_IMAGE}
+-	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hddimg
+-	ln -s ${IMAGE_NAME}.hddimg ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hddimg
++		cd ${DEPLOY_DIR_IMAGE}
++		rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hddimg
++		ln -s ${IMAGE_NAME}.hddimg ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hddimg
++	fi
+ 	
+ 	#Create an ISO if we have an INITRD
+ 	if [ -n "${INITRD}" ] && [ -s "${INITRD}" ] && [ "${NOISO}" != "1" ] ; then
 -- 
-1.7.7
+1.7.2.5
 
 
 
