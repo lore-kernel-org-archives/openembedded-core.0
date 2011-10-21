@@ -1,32 +1,30 @@
-Received: from mail-gx0-f175.google.com ([209.85.161.175])
+Received: from smtp23.4emm.com ([69.18.222.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RH7Z4-0004en-Tr
+	(envelope-from <james@digitalmatter.com.au>) id 1RH7fa-0004oG-QO
 	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Oct 2011 07:22:43 +0200
-Received: by ggnj1 with SMTP id j1so1986581ggn.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2011 22:16:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=FQEjmwmIUT+hZMPCoaeh5H7qDvoaOP9u3OP1t8l4/XU=;
-	b=ks/KvzVz/kBss2qXstpvjK239UqzyNGuyqOq8WmpIlIscHhchrlD6ly78xmN4cpLTN
-	Re0VfqHsDxvZ5CTC4Jig0jP6AZ5XIVO+3Sc2T1FZOCdvw2n9h1YB0c8DcL4kbn+a4a2M
-	ZLqQeoUe0J12liroID1uRkxaoLluIXfSgwNtw=
-Received: by 10.68.23.6 with SMTP id i6mr25221458pbf.13.1319174209090; Thu, 20
-	Oct 2011 22:16:49 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.68.48.230 with HTTP; Thu, 20 Oct 2011 22:16:19 -0700 (PDT)
-In-Reply-To: <840A81C1B782724A8EB52725BD519EFF1A8929@MBX20.4emm.local>
+	Fri, 21 Oct 2011 07:29:27 +0200
+Received: from MBX20.4emm.local ([fe80::382d:f6d3:f4de:a97f]) by
+	HUB23.4emm.local ([::1]) with mapi id 14.01.0289.001; Fri, 21 Oct 2011
+	01:23:32 -0400
+From: James Limbouris <james@digitalmatter.com.au>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 3/3] gcc-configure-sdk: Point sysroot to
+	correct location
+Thread-Index: AQHMj7C0iQGrQ9GcvUmRjdh+BpmFEJWGRHhA
+Date: Fri, 21 Oct 2011 05:23:31 +0000
+Message-ID: <840A81C1B782724A8EB52725BD519EFF1A8959@MBX20.4emm.local>
 References: <1319173361-11527-1-git-send-email-raj.khem@gmail.com>
 	<1319173361-11527-3-git-send-email-raj.khem@gmail.com>
 	<840A81C1B782724A8EB52725BD519EFF1A8929@MBX20.4emm.local>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 20 Oct 2011 22:16:19 -0700
-Message-ID: <CAMKF1soXuZ84hVv9sN+rgR+Fh-o0jaDKKn7BMWs80xikiF7_bQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] gcc-configure-sdk: Point sysroot to correct location
+	<CAMKF1soXuZ84hVv9sN+rgR+Fh-o0jaDKKn7BMWs80xikiF7_bQ@mail.gmail.com>
+In-Reply-To: <CAMKF1soXuZ84hVv9sN+rgR+Fh-o0jaDKKn7BMWs80xikiF7_bQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [203.59.132.158]
+MIME-Version: 1.0
+Subject: Re: [PATCH 3/3] gcc-configure-sdk: Point sysroot to	correct location
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,70 +39,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Oct 2011 05:22:43 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 21 Oct 2011 05:29:27 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Thu, Oct 20, 2011 at 10:12 PM, James Limbouris
-<james@digitalmatter.com.au> wrote:
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org
->> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
->> Khem Raj
->> Sent: Friday, 21 October 2011 1:03 PM
->> To: openembedded-core@lists.openembedded.org
->> Subject: [OE-core] [PATCH 3/3] gcc-configure-sdk: Point sysroot to corre=
-ct
->> location
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->> =C2=A0meta/recipes-devtools/gcc/gcc-configure-sdk.inc | =C2=A0 =C2=A02 +=
--
->> =C2=A01 files changed, 1 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/gcc/gcc-configure-sdk.inc b/meta/reci=
-pes-
->> devtools/gcc/gcc-configure-sdk.inc
->> index de80870..98fd4c1 100644
->> --- a/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
->> +++ b/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
->> @@ -7,7 +7,7 @@ USE_NLS =3D '${@base_conditional( "TARGET_OS", "linux-
->> uclibceabi", "no", "", d )}'
->> =C2=A0EXTRA_OECONF_PATHS =3D "--with-local-
->> prefix=3D${SDKPATH}/sysroots/${TARGET_SYS}${target_exec_prefix} \
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0--with-gxx-include-dir=3D${target_includedir}/c++ \
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0--with-build-time-
->> tools=3D${STAGING_DIR_NATIVE}${prefix_native}/${TARGET_SYS}/bin \
->> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0--with-sysroot=3D${SDKPATH}/sysroots/${TARGET_SYS} \
->> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0--with-
->> sysroot=3D${SDKPATH}/sysroots/${TUNE_PKGARCH}${TARGET_VENDOR}-
->> ${TARGET_OS} \
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0--with-build-sysroot=3D${STAGING_DIR_TARGET}"
->>
->> =C2=A0#
->> --
->> 1.7.5.4
->>
->
-> Shouldn't --with-local-prefix be changed too? I am testing with both ${TA=
-RGET_SYS}'s replaced. Will post results shortly.
-
-yes I think both places it should change
-
->
-> James
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZS1i
+b3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gW21haWx0bzpvcGVuZW1iZWRkZWQtY29y
+ZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZiBPZg0KPiBLaGVtIFJh
+ag0KPiBTZW50OiBGcmlkYXksIDIxIE9jdG9iZXIgMjAxMSAxOjE2IFBNDQo+IFRvOiBQYXRjaGVz
+IGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllcg0KPiBTdWJqZWN0OiBSZTog
+W09FLWNvcmVdIFtQQVRDSCAzLzNdIGdjYy1jb25maWd1cmUtc2RrOiBQb2ludCBzeXNyb290IHRv
+IGNvcnJlY3QNCj4gbG9jYXRpb24NCj4gDQo+IE9uIFRodSwgT2N0IDIwLCAyMDExIGF0IDEwOjEy
+IFBNLCBKYW1lcyBMaW1ib3VyaXMNCj4gPGphbWVzQGRpZ2l0YWxtYXR0ZXIuY29tLmF1PiB3cm90
+ZToNCj4gPj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPj4gRnJvbTogb3BlbmVtYmVk
+ZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4+IFttYWlsdG86b3Bl
+bmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYN
+Cj4gT2YNCj4gPj4gS2hlbSBSYWoNCj4gPj4gU2VudDogRnJpZGF5LCAyMSBPY3RvYmVyIDIwMTEg
+MTowMyBQTQ0KPiA+PiBUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
+Zw0KPiA+PiBTdWJqZWN0OiBbT0UtY29yZV0gW1BBVENIIDMvM10gZ2NjLWNvbmZpZ3VyZS1zZGs6
+IFBvaW50IHN5c3Jvb3QgdG8gY29ycmVjdA0KPiA+PiBsb2NhdGlvbg0KPiA+Pg0KPiA+PiBTaWdu
+ZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPg0KPiA+PiAtLS0NCj4gPj4g
+wqBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2NjL2djYy1jb25maWd1cmUtc2RrLmluYyB8IMKgIMKg
+MiArLQ0KPiA+PiDCoDEgZmlsZXMgY2hhbmdlZCwgMSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9u
+cygtKQ0KPiA+Pg0KPiA+PiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2djYy9n
+Y2MtY29uZmlndXJlLXNkay5pbmMgYi9tZXRhL3JlY2lwZXMtDQo+ID4+IGRldnRvb2xzL2djYy9n
+Y2MtY29uZmlndXJlLXNkay5pbmMNCj4gPj4gaW5kZXggZGU4MDg3MC4uOThmZDRjMSAxMDA2NDQN
+Cj4gPj4gLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2djYy9nY2MtY29uZmlndXJlLXNkay5p
+bmMNCj4gPj4gKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2djYy9nY2MtY29uZmlndXJlLXNk
+ay5pbmMNCj4gPj4gQEAgLTcsNyArNyw3IEBAIFVTRV9OTFMgPSAnJHtAYmFzZV9jb25kaXRpb25h
+bCggIlRBUkdFVF9PUyIsICJsaW51eC0NCj4gPj4gdWNsaWJjZWFiaSIsICJubyIsICIiLCBkICl9
+Jw0KPiA+PiDCoEVYVFJBX09FQ09ORl9QQVRIUyA9ICItLXdpdGgtbG9jYWwtDQo+ID4+IHByZWZp
+eD0ke1NES1BBVEh9L3N5c3Jvb3RzLyR7VEFSR0VUX1NZU30ke3RhcmdldF9leGVjX3ByZWZpeH0g
+XA0KPiA+PiDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoC0td2l0aC1neHgtaW5j
+bHVkZS1kaXI9JHt0YXJnZXRfaW5jbHVkZWRpcn0vYysrIFwNCj4gPj4gwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAtLXdpdGgtYnVpbGQtdGltZS0NCj4gPj4gdG9vbHM9JHtTVEFH
+SU5HX0RJUl9OQVRJVkV9JHtwcmVmaXhfbmF0aXZlfS8ke1RBUkdFVF9TWVN9L2JpbiBcDQo+ID4+
+IC0gwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAtLXdpdGgtc3lzcm9vdD0ke1NES1BB
+VEh9L3N5c3Jvb3RzLyR7VEFSR0VUX1NZU30gXA0KPiA+PiArIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgLS13aXRoLQ0KPiA+PiBzeXNyb290PSR7U0RLUEFUSH0vc3lzcm9vdHMvJHtU
+VU5FX1BLR0FSQ0h9JHtUQVJHRVRfVkVORE9SfS0NCj4gPj4gJHtUQVJHRVRfT1N9IFwNCj4gPj4g
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAtLXdpdGgtYnVpbGQtc3lzcm9vdD0k
+e1NUQUdJTkdfRElSX1RBUkdFVH0iDQo+ID4+DQo+ID4+IMKgIw0KPiA+PiAtLQ0KPiA+PiAxLjcu
+NS40DQo+ID4+DQo+ID4NCj4gPiBTaG91bGRuJ3QgLS13aXRoLWxvY2FsLXByZWZpeCBiZSBjaGFu
+Z2VkIHRvbz8gSSBhbSB0ZXN0aW5nIHdpdGggYm90aA0KPiAke1RBUkdFVF9TWVN9J3MgcmVwbGFj
+ZWQuIFdpbGwgcG9zdCByZXN1bHRzIHNob3J0bHkuDQo+IA0KPiB5ZXMgSSB0aGluayBib3RoIHBs
+YWNlcyBpdCBzaG91bGQgY2hhbmdlDQo+IA0KDQpPaywgSSd2ZSB0ZXN0ZWQgd2l0aCBib3RoIGNo
+YW5nZWQsIGFuZCB0aGUgY29ycmVzcG9uZGluZyBiaW51dGlscyBwYXRjaCwgYW5kIGJvdGggUXQg
+YW5kIGtlcm5lbCBjb21waWxlcyBhcmUgd29ya2luZy4NCg0KVGhhbmtzLA0KSmFtZXMNCg0K
 
 
