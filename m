@@ -1,47 +1,35 @@
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <heinold@mi.fu-berlin.de>) id 1RHAnh-00040o-Jn
+	(envelope-from <martin.jansa@gmail.com>) id 1RHAsC-00045j-3y
 	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Oct 2011 10:50:01 +0200
-Received: from relay1.zedat.fu-berlin.de ([130.133.4.67])
-	by outpost1.zedat.fu-berlin.de (Exim 4.69)
-	for openembedded-core@lists.openembedded.org with esmtp
-	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1RHAi2-0003sP-So>; Fri, 21 Oct 2011 10:44:10 +0200
-Received: from hydra.imp.fu-berlin.de ([160.45.117.149]
-	helo=mail.imp.fu-berlin.de) by relay1.zedat.fu-berlin.de (Exim 4.69)
-	for openembedded-core@lists.openembedded.org with esmtp
-	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1RHAi2-0000Mu-Qo>; Fri, 21 Oct 2011 10:44:10 +0200
-Received: from andorra.imp.fu-berlin.de ([160.45.42.84])
-	by mail.imp.fu-berlin.de with esmtps (Exim 4.72) id 1RHBU7-0000Ge-9x
-	(envelope-from <heinold@mi.fu-berlin.de>)
+	Fri, 21 Oct 2011 10:54:40 +0200
+Received: by bkat8 with SMTP id t8so4847509bka.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Oct 2011 11:34:03 +0200
-Received: from heinold by internal andorra.imp.fu-berlin.de with local (Exim
-	4.72) id 1RHAhe-0006ZP-F4
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Oct 2011 10:43:46 +0200
-Date: Fri, 21 Oct 2011 10:43:46 +0200
-From: Henning Heinold <heinold@inf.fu-berlin.de>
+	Fri, 21 Oct 2011 01:48:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=5mVxxQ4hufeStYCpAw/4fzgvZzlb2NV+gCm+tJO0SEY=;
+	b=u23+uOMnSJ1QUt5uj4Ol8ogq+LaAkGUXKCjfrlb3JkjmrVAcJA/ijGXZVlAF56ben9
+	5dnMzopqEYOudpfwf1EDWmo7Luc6gsnNLQvfqLlC8cZryDMSucUzoJv7hsL8uVbE3Zet
+	6vUp4+shN3aY91Omoyyn3dAGFFj+d10u7jLg0=
+Received: by 10.204.156.150 with SMTP id x22mr10230733bkw.86.1319186926560;
+	Fri, 21 Oct 2011 01:48:46 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id u18sm12615897bkn.6.2011.10.21.01.48.45
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 21 Oct 2011 01:48:45 -0700 (PDT)
+Date: Fri, 21 Oct 2011 10:48:40 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111021084346.GA20103@mi.fu-berlin.de>
+Message-ID: <20111021084840.GP3522@jama.jama.net>
 References: <cover.1319184832.git.Martin.Jansa@gmail.com>
 	<22ed6acc0a44d9bc0d6f7a2e800c039d77d75477.1319184832.git.Martin.Jansa@gmail.com>
+	<20111021084346.GA20103@mi.fu-berlin.de>
 MIME-Version: 1.0
-In-Reply-To: <22ed6acc0a44d9bc0d6f7a2e800c039d77d75477.1319184832.git.Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Sender: Henning Heinold <heinold@mi.fu-berlin.de>
-X-Remote-IP: 160.45.42.84
-X-Spam_Score: -3.4
-X-exim-Spam_Score_Int: -33
-X-exim-Spam_Bar: ---
-X-Spam_Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	* -0.5 RP_MATCHES_RCVD Envelope sender domain matches handover relay
-	domain * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-X-Originating-IP: 160.45.117.149
+In-Reply-To: <20111021084346.GA20103@mi.fu-berlin.de>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Subject: Re: [PATCH 2/8] libatomics-ops: force ARM mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -57,20 +45,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Oct 2011 08:50:01 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Fri, 21 Oct 2011 08:54:40 -0000
+X-Groupsio-MsgNum: 11421
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="pleSNuEbvnUYtMxG"
 Content-Disposition: inline
 
-Hi,
+--pleSNuEbvnUYtMxG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-hm we should think of reworking this recipe now. Because since gcc 4.5
-pulseaudio for arm can use the gcc internal atomicstuff and in oe-core 
-and meta-oe we have 4.5 or 4.6 only. The lib is
-only needed for mips and it is still the old release, on cvs
-is a much better version, which supports thumb too, if
-remember correctly.
+On Fri, Oct 21, 2011 at 10:43:46AM +0200, Henning Heinold wrote:
+> Hi,
+>=20
+> hm we should think of reworking this recipe now. Because since gcc 4.5
+> pulseaudio for arm can use the gcc internal atomicstuff and in oe-core=20
+> and meta-oe we have 4.5 or 4.6 only. The lib is
+> only needed for mips and it is still the old release, on cvs
+> is a much better version, which supports thumb too, if
+> remember correctly.
 
-Bye Henning
+Agreed, I've added this only because pulseaudio is now needed for
+gst-plugins and I wasn't able to build any armv[45]t images.
 
+But because I don't know much about pulseaudio or libatomics-ops I was
+hoping that someone who maintains them will fix it properly and this
+work around will be needed only temporary.
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--pleSNuEbvnUYtMxG
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk6hMegACgkQN1Ujt2V2gByVeQCglhAELopkNlRbKK4rPhDUk1vE
+Vz4AnjminCtz7mqUrhte8DyaXye/mRH7
+=fA1S
+-----END PGP SIGNATURE-----
+
+--pleSNuEbvnUYtMxG--
