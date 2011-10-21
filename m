@@ -1,35 +1,33 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-qy0-f182.google.com ([209.85.216.182])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RHHdB-0000IK-UV
+	(envelope-from <raj.khem@gmail.com>) id 1RHHiL-0000RD-VD
 	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Oct 2011 18:07:37 +0200
-Received: by bkat8 with SMTP id t8so5292995bka.6
+	Fri, 21 Oct 2011 18:12:58 +0200
+Received: by qyg14 with SMTP id 14so4464447qyg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Oct 2011 09:01:41 -0700 (PDT)
+	Fri, 21 Oct 2011 09:07:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=dJ+TET9K4/H0+eB39KdsxSsY+3XZihGFc+E49/obqe0=;
-	b=Ue4Zd0yCy6R0sDrwXqsWsngxL/bOVhq9DDytoHWNbl6ykDP+h/asBklqLsQRUq0xVg
-	5QTjx4fzCYDCvNpXQqGULJ52OXxjFyUPABdadD16fzfBGC0oqjU1uG30slzy4ePIwmhD
-	NdGSafI1uo0CcDGZ4+FovCyFO0FN51J4Z3uDc=
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=w86bEE7lqddEVidTDqsgBhPpv3qoKT1EQDcep5oF97A=;
+	b=HlE9s6I4o4ywcahl+Pm5YKQHBZcZIkMb7S15Uv+iTyuwWxPAnUAVR/cL1Du+W8jVyX
+	KLHQp4VyZv59NAorVuHv35SgZCmDUrDlFyLJT3+O2qpERyD3BTR7eNX88pGzzQlWwdo3
+	kK5y/JBnLT6ti5xiLKJkNBD4ZZ6cV5GimU4/w=
+Received: by 10.68.74.4 with SMTP id p4mr28790869pbv.47.1319213224071; Fri, 21
+	Oct 2011 09:07:04 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.204.136.152 with SMTP id r24mr11172929bkt.5.1319212901083;
-	Fri, 21 Oct 2011 09:01:41 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.205.114.204 with HTTP; Fri, 21 Oct 2011 09:01:41 -0700 (PDT)
-In-Reply-To: <4EA18712.4050904@windriver.com>
-References: <cover.1319206126.git.otavio@ossystems.com.br>
-	<908ef7747e3391af158b7edb9f2b420b0016a7af.1319206126.git.otavio@ossystems.com.br>
-	<4EA18712.4050904@windriver.com>
-Date: Fri, 21 Oct 2011 14:01:41 -0200
-X-Google-Sender-Auth: jH9CzoCrJ4lhKzoB0UQrG6XYVN4
-Message-ID: <CAP9ODKpRww9C9z5H=xNPjCbS6YoGr6SVLg8HN2SnJ+jRYoSj2w@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by 10.68.48.230 with HTTP; Fri, 21 Oct 2011 09:06:34 -0700 (PDT)
+In-Reply-To: <20111021084840.GP3522@jama.jama.net>
+References: <cover.1319184832.git.Martin.Jansa@gmail.com>
+	<22ed6acc0a44d9bc0d6f7a2e800c039d77d75477.1319184832.git.Martin.Jansa@gmail.com>
+	<20111021084346.GA20103@mi.fu-berlin.de>
+	<20111021084840.GP3522@jama.jama.net>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 21 Oct 2011 09:06:34 -0700
+Message-ID: <CAMKF1soEYSZvnDKPTT+63r759mKV753wgXY2PuYU2rtii8KZLg@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] base-passwd: move initial criation of group and passwd to preinst
+Subject: Re: [PATCH 2/8] libatomics-ops: force ARM mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,27 +42,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Oct 2011 16:07:38 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 21 Oct 2011 16:12:58 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 21, 2011 at 12:52, Mark Hatle <mark.hatle@windriver.com> wrote:
-...
-> Any opinions from folks if this is even halfway reasonable for us to cons=
-ider?
+On Fri, Oct 21, 2011 at 1:48 AM, Martin Jansa <martin.jansa@gmail.com> wrot=
+e:
+> On Fri, Oct 21, 2011 at 10:43:46AM +0200, Henning Heinold wrote:
+>> Hi,
+>>
+>> hm we should think of reworking this recipe now. Because since gcc 4.5
+>> pulseaudio for arm can use the gcc internal atomicstuff and in oe-core
+>> and meta-oe we have 4.5 or 4.6 only. The lib is
+>> only needed for mips and it is still the old release, on cvs
+>> is a much better version, which supports thumb too, if
+>> remember correctly.
 >
-> (I'm guessing with some anon python code we could probably load in the
-> passwd/group files, place them into a variable and use the variable to em=
-bed
-> them within the preinst -- keeping the contents out of the recipe.)
+> Agreed, I've added this only because pulseaudio is now needed for
+> gst-plugins and I wasn't able to build any armv[45]t images.
+>
+> But because I don't know much about pulseaudio or libatomics-ops I was
+> hoping that someone who maintains them will fix it properly and this
+> work around will be needed only temporary.
 
-I like this idea but I'd prefer to have this merged before it.
+Would you have cycles to create a git recipe for it the git tree is here
+https://github.com/ivmai/libatomic_ops/
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+>
+> --
+> Martin 'JaMa' Jansa =C2=A0 =C2=A0 jabber: Martin.Jansa@gmail.com
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
