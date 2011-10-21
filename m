@@ -1,34 +1,41 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RHDKr-0006rl-HD
+	(envelope-from <koen@dominion.thruhere.net>) id 1RHDwn-0008RX-4N
 	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Oct 2011 13:32:25 +0200
-Received: by bkat8 with SMTP id t8so4992721bka.6
+	Fri, 21 Oct 2011 14:11:37 +0200
+Received: by eyd9 with SMTP id 9so3949842eyd.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Oct 2011 04:26:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=bYeGbejdai8jxR1bmB8wNM9hJ9yeNg4KGA4FBOn1mP4=;
-	b=ncHMG7FSfWjprN17tdHJqtlqUEf6UgGZl0DcOr14I7gVnAkrfI3dIeO90abfdBHLzb
-	eoqq/9/rlT8g3qbaw29I5o8emjdR4IUiZ0+Pm1mz/Cge+xp4NCh4GZ8HjOBkrJbXJcWI
-	imguAEqnVKqzCZekusPRQnI3LE/3yss/n87BQ=
-Received: by 10.204.7.199 with SMTP id e7mr10357206bke.40.1319196392172;
-	Fri, 21 Oct 2011 04:26:32 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id f7sm4373999bkc.1.2011.10.21.04.26.30
+	Fri, 21 Oct 2011 05:05:44 -0700 (PDT)
+Received: by 10.14.4.167 with SMTP id 39mr1789797eej.13.1319198743894;
+	Fri, 21 Oct 2011 05:05:43 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id z58sm34393497eea.3.2011.10.21.05.05.41
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 21 Oct 2011 04:26:31 -0700 (PDT)
-Date: Fri, 21 Oct 2011 13:26:25 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20111021112625.GQ3522@jama.jama.net>
-References: <bcdfb52940fbceb12549f4725ad808ae496afdb3.1319184832.git.Martin.Jansa@gmail.com>
-	<1319190483-5637-1-git-send-email-Martin.Jansa@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <1319190483-5637-1-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] base.bbclass: add subversion-native to DEPENDS if there is svn:// in SRC_URI
+	Fri, 21 Oct 2011 05:05:41 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAP9ODKqFfswQ4Y6fJBJMTjrvnu0syiS3rAWxZjhdtwyx_Z_SWQ@mail.gmail.com>
+Date: Fri, 21 Oct 2011 14:05:35 +0200
+Message-Id: <3968D33D-7086-4E22-9CA1-9B44BE0DBEBF@dominion.thruhere.net>
+References: <1316297897-698-1-git-send-email-dbaryshkov@gmail.com>
+	<1316297897-698-2-git-send-email-dbaryshkov@gmail.com>
+	<CADkTA4NxfSaEinraLQMsLT4ZWQKOPAZ76uNujFXg0zSrRvVnFA@mail.gmail.com>
+	<0E901391-C9FC-48AE-88A4-C1064E57376E@dominion.thruhere.net>
+	<1317221697.12332.13.camel@ted>
+	<89CD0BCB-1457-4C76-87BA-5ED03454C343@dominion.thruhere.net>
+	<1317239461.12332.55.camel@ted>
+	<CAP9ODKopjm-bJY3WJriMiQDtwZcsOWeqZkqnm7F2PwiZvWY0bg@mail.gmail.com>
+	<67E90C92-F94E-4FF2-ADA5-A5295C4F1279@dominion.thruhere.net>
+	<1319109715.16061.4.camel@ted>
+	<46567209-1B97-42F5-B5DF-E34B823F6BF7@dominion.thruhere.net>
+	<1319114339.2410.5.camel@ted>
+	<7D5D6BF3-6F21-4CE5-8A30-F9154CDB9449@dominion.thruhere.net>
+	<CAP9ODKqFfswQ4Y6fJBJMTjrvnu0syiS3rAWxZjhdtwyx_Z_SWQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH 2/5] kernel.bbclass: respect MACHINE_KERNEL_PR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,59 +50,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Oct 2011 11:32:25 -0000
-X-Groupsio-MsgNum: 11423
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="kPJUzav3owWaKxsz"
-Content-Disposition: inline
-
---kPJUzav3owWaKxsz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 21 Oct 2011 12:11:37 -0000
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 21, 2011 at 11:48:03AM +0200, Martin Jansa wrote:
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/classes/base.bbclass |    7 +++++++
->  1 files changed, 7 insertions(+), 0 deletions(-)
+
+Op 20 okt. 2011, om 15:02 heeft Otavio Salvador het volgende geschreven:
+
+> On Thu, Oct 20, 2011 at 10:54, Koen Kooi <koen@dominion.thruhere.net> =
+wrote:
+> ...
+>>> Also, the idea never was to have everyone using bleeding edge for
+>>> shipping products. This is what stable releases are for?
+>>=20
+>> That's what stable releases are for, but I don't see a release for =
+OE-core, do you? I see a poky release, but not an OE-core release.
 >=20
-> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> index f539744..bced226 100644
-> --- a/meta/classes/base.bbclass
-> +++ b/meta/classes/base.bbclass
-> @@ -401,6 +401,13 @@ python () {
->                      bb.note("SKIPPING %s because it's %s" % (pn, this_li=
-cense))
->                      raise bb.parse.SkipPackage("incompatible with licens=
-e %s" % this_license)
-> =20
-> +    # Svn packages should DEPEND on subversion-native
-> +    srcuri =3D bb.data.getVar('SRC_URI', d, 1)
-> +    if "svn://" in srcuri:
-> +        depends =3D bb.data.getVarFlag('do_fetch', 'depends', d) or ""
-> +        depends =3D depends + " subversion-native:do_populate_sysroot"
-> +        bb.data.setVarFlag('do_fetch', 'depends', depends, d)
-> +
->      # Git packages should DEPEND on git-native
->      srcuri =3D bb.data.getVar('SRC_URI', d, 1)
->      if "git://" in srcuri:
+> People, let's calm down.
+>=20
+> I think since Richard disagree about pushing this patch and more then
+> one person disagree with Richard, TSC is the way to go.
 
-For this to work correctly, we need to add BBCLASSEXTEND =3D "native" also
-to subversion_1.6* otherwise everybody will get subversion-native-1.7.0
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Executive summary of the TSC meeting:
 
---kPJUzav3owWaKxsz
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+1) This patch gets applied, but no more PR helpers will be allowed, =
+INC_PR and MACHINE_KERNEL_PR are the only ones tolerated for the time =
+being.
+2) kernel.bbclass gets dropped from meta-oe
+3) basic-hash will get turned on in master-next
+4) super-duper PR automation work will land in master-next and get =
+merged into master when it's deemed "good enough"
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
+The intermediate merge step into master-next is only done if enough =
+people test master-next. If people don't want to test it, the merge and =
+associated breakage will go straight into master.
 
-iEYEARECAAYFAk6hVuEACgkQN1Ujt2V2gBx+EwCgkQAxMk0otUOoE+y0YL4VgnZE
-fOQAoLYQLNEjrn3NQT0YXwlTLOwtxl80
-=cO99
------END PGP SIGNATURE-----
+regards,
 
---kPJUzav3owWaKxsz--
+Koen=
+
+
