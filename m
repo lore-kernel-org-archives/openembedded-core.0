@@ -1,35 +1,38 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1RHA23-0002Oa-Pk
+	(envelope-from <martin.jansa@gmail.com>) id 1RHAIt-000329-Gj
 	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Oct 2011 10:00:49 +0200
-Received: from mail-wy0-f180.google.com ([74.125.82.180])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 21 Oct 2011 00:54:49 -0700
-Received: by wyg24 with SMTP id 24so3684910wyg.25
+	Fri, 21 Oct 2011 10:18:11 +0200
+Received: by bkat8 with SMTP id t8so4816613bka.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Oct 2011 00:54:48 -0700 (PDT)
-Received: by 10.216.198.213 with SMTP id v63mr697153wen.98.1319183684787;
-	Fri, 21 Oct 2011 00:54:44 -0700 (PDT)
-Received: from [10.6.18.230] (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id l42sm1238098wbn.16.2011.10.21.00.54.41
-	(version=SSLv3 cipher=OTHER); Fri, 21 Oct 2011 00:54:43 -0700 (PDT)
-Message-ID: <4EA12540.9020002@intel.com>
-Date: Fri, 21 Oct 2011 00:54:40 -0700
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
-MIME-Version: 1.0
-To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-References: <66cdd5054e220fcce980222ed68a2afc37f614af.1318984111.git.nitin.a.kamble@intel.com>
-	<35417d38f61615445ed0c4d875e0bd0aa5649af4.1318984111.git.nitin.a.kamble@intel.com>
-	<4E9FD2B2.5000508@intel.com>
-	<9DA5872FEF993D41B7173F58FCF6BE94E32D2390@orsmsx504.amr.corp.intel.com>
-In-Reply-To: <9DA5872FEF993D41B7173F58FCF6BE94E32D2390@orsmsx504.amr.corp.intel.com>
-Cc: Patches and discussions about the oe-core layer
+	Fri, 21 Oct 2011 01:12:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=VsPPiRshiNAh/tVSc3brFewcq+e/0A9z+14Z0NN5fR0=;
+	b=ve+sjV8RhPhNbfKX4+XymKDcIjc6nvlje2xWjkaXez5SM+0dgWhN122YQXUUVbkRjq
+	YtIbCNU1aHT1iNYFgzzpo+cuAWaC5aNHEcGASz3TTIVMTKO/Vi5W2EAldd+lBtPS1EMz
+	tREt1P0fdnvdmSaHyvKgqpe+2m4yZ3jBl/pXU=
+Received: by 10.204.132.143 with SMTP id b15mr10091287bkt.79.1319184738329;
+	Fri, 21 Oct 2011 01:12:18 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id w8sm12496977bks.11.2011.10.21.01.12.14
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 21 Oct 2011 01:12:16 -0700 (PDT)
+Date: Fri, 21 Oct 2011 10:12:09 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/6] gmp: also generate the libgmpcxx library
+Message-ID: <20111021081209.GO3522@jama.jama.net>
+References: <363ECAF1-8602-4139-ADC9-2044FCB5456C@dominion.thruhere.net>
+	<1318675132-9265-1-git-send-email-Martin.Jansa@gmail.com>
+	<1318698176.2342.77.camel@ted>
+	<CA+chaQdAQm1jLLJxC1dSUSu+kgo-JqMffVDur=JNxpe-HGczMg@mail.gmail.com>
+	<7603E49D-D11F-4D4A-8883-B07E61B3FBC2@dominion.thruhere.net>
+MIME-Version: 1.0
+In-Reply-To: <7603E49D-D11F-4D4A-8883-B07E61B3FBC2@dominion.thruhere.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH] mesa-dri: move extra DRIMODULES to EXTRA_DRIMODULES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,115 +47,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Oct 2011 08:00:49 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 21 Oct 2011 08:18:11 -0000
+X-Groupsio-MsgNum: 11409
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="L5nTHegdhbHhzmSD"
+Content-Disposition: inline
 
-On 10/20/2011 11:04 PM, Kamble, Nitin A wrote:
->
->
->> -----Original Message-----
->> From: Saul Wold [mailto:saul.wold@intel.com]
->> Sent: Thursday, October 20, 2011 12:50 AM
->> To: Patches and discussions about the oe-core layer
->> Cc: Kamble, Nitin A
->> Subject: Re: [OE-core] [PATCH 2/6] gmp: also generate the libgmpcxx
->> library
->>
->> On 10/18/2011 05:30 PM, nitin.a.kamble@intel.com wrote:
->>> From: Nitin A Kamble<nitin.a.kamble@intel.com>
->>>
->>> configure runs few checks to make sure c++ compiler and runtime are
->> working as expected
->>> with the --enable-cxx=detect option.
->>>
->> Somehow this change has also changed what the gmp package provides,
->> before this change the package provided libgmp10 via PKG_gmp: libgmp10,
->> after this change, the libgmp10 is no longer provided and causes other
->> breakage.
->>
->> The example case I found was a coreutils package that was built prior
->> to
->> this change failed to fulfill it's dependencies after this change when
->> creating an image.  If I rebuild coreutils with the newer gmp build,
->> then all is well, I think we need to understand this better before
->> making this change.
->>
->> Did something else change in the packaging that would cause use to look
->> the mapping above?
->>
-> Saul,
->    In my testing I did not get any of these issues you mentioned above.
->
-> Also I tried to reproduce the issue with coreutils as mentioned above, and I can not reproduce the issue for creations of an image. Can you verify the issue one more time?
->
-Just to confirm, did you have a build of coreutils prior to your gmp 
-changes? Which image did you build?  Be sure you build an image that 
-includes coreutils, such at an -sdk image.
+--L5nTHegdhbHhzmSD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I can easily reproduce this issue.
+On Fri, Oct 21, 2011 at 09:54:21AM +0200, Koen Kooi wrote:
+>=20
+> Op 21 okt. 2011, om 09:34 heeft Martin Jansa het volgende geschreven:
+>=20
+> > On Sat, Oct 15, 2011 at 7:02 PM, Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> >> On Sat, 2011-10-15 at 12:38 +0200, Martin Jansa wrote:
+> >>> * this way we can use
+> >>>   EXTRA_DRIDRIVERS_armv4t +=3D ",glamo" in meta-openmoko layer and
+> >>>   EXTRA_DRIDRIVERS_armv4t +=3D ",foo" in meta-bar layer without knowl=
+edge
+> >>>   of other modules in other layers in stack
+> >>> * actually it's like old MACHINE_DRI_MODULES from OE-classic but rena=
+med
+> >>>   to indicate that it should be used for architecture not machine
+> >>=20
+> >> This is way overcomplicated. Just do:
+> >>=20
+> >> DRIDRIVERS_append_armv4t =3D ",glamo"
+> >=20
+> > Ah, is it expected that armv4t is no longer valid OVERRIDE?
+>=20
+> It is valid for angstrom:
 
-Sau!
+I was thinking about adding the same to shr config.. but can I expect
+that everybody who wants to use meta-openmoko will read README so
+carefully that it will be enough to say
+This layer depends on FEED_ARCH OVERRIDE?
 
-> Thanks,
-> Nitin
->
->>
->> Sau!
->>
->>
->>> Signed-off-by: Nitin A Kamble<nitin.a.kamble@intel.com>
->>> ---
->>>    meta/recipes-support/gmp/gmp.inc      |    2 ++
->>>    meta/recipes-support/gmp/gmp_4.2.1.bb |    2 +-
->>>    meta/recipes-support/gmp/gmp_5.0.2.bb |    2 +-
->>>    3 files changed, 4 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/meta/recipes-support/gmp/gmp.inc b/meta/recipes-
->> support/gmp/gmp.inc
->>> index 66349e6..3c662a0 100644
->>> --- a/meta/recipes-support/gmp/gmp.inc
->>> +++ b/meta/recipes-support/gmp/gmp.inc
->>> @@ -14,3 +14,5 @@ ARM_INSTRUCTION_SET = "arm"
->>>    acpaths = ""
->>>
->>>    BBCLASSEXTEND = "native nativesdk"
->>> +
->>> +EXTRA_OECONF += " --enable-cxx=detect"
->>> diff --git a/meta/recipes-support/gmp/gmp_4.2.1.bb b/meta/recipes-
->> support/gmp/gmp_4.2.1.bb
->>> index 74da6b8..97ac4b2 100644
->>> --- a/meta/recipes-support/gmp/gmp_4.2.1.bb
->>> +++ b/meta/recipes-support/gmp/gmp_4.2.1.bb
->>> @@ -6,7 +6,7 @@ LICENSE = "LGPLv2.1+"
->>>    LIC_FILES_CHKSUM =
->> "file://COPYING;md5=892f569a555ba9c07a568a7c0c4fa63a \
->>>
->> file://COPYING.LIB;md5=fbc093901857fcd118f065f900982c24 \
->>>                        file://gmp-
->> h.in;startline=6;endline=21;md5=5e25ffd16996faba8c1cd27b04b16099"
->>> -PR = "r0"
->>> +PR = "r1"
->>>
->>>    SRC_URI = "${GNU_MIRROR}/gmp/${BP}.tar.bz2 \
->>>               file://disable-stdc.patch"
->>> diff --git a/meta/recipes-support/gmp/gmp_5.0.2.bb b/meta/recipes-
->> support/gmp/gmp_5.0.2.bb
->>> index 03fef45..f80971e 100644
->>> --- a/meta/recipes-support/gmp/gmp_5.0.2.bb
->>> +++ b/meta/recipes-support/gmp/gmp_5.0.2.bb
->>> @@ -2,7 +2,7 @@ require gmp.inc
->>>    LICENSE="LGPLv3&GPLv3"
->>>    LIC_FILES_CHKSUM =
->> "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
->>>
->> file://version.c;endline=18;md5=d8c56b52b9092346b9f93b4da65ef790"
->>> -PR = "r0"
->>> +PR = "r1"
->>>
->>>    SRC_URI_append += "file://sh4-asmfix.patch \
->>>                       file://use-includedir.patch "
->
+Regards,
 
+> koen@dominion:/OE/tentacle/sources/meta-ti$ MACHINE=3Dom-gta01 bitbake -e=
+ | grep OVERRIDES
+> # DISTROOVERRIDES=3D${DISTRO}
+> DISTROOVERRIDES=3D"angstrom"
+> # MACHINEOVERRIDES=3D${MACHINE}:${@bb.data.getVar('FEED_ARCH', d,1).repla=
+ce('all','noarch')}:${SOC_FAMILY}
+> MACHINEOVERRIDES=3D"om-gta01:armv4t:Unknown"
+> # OVERRIDES=3D${OVERRIDE_THUMB}${OVERRIDE_INTERWORK}${TARGET_OS}:${TRANSL=
+ATED_TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOV=
+ERRIDES}:forcevariable${@bb.utils.contains("TUNE_FEATURES", "thumb", ":thum=
+b", "", d)}${@bb.utils.contains("TUNE_FEATURES", "no-thumb-interwork", ":th=
+umb-interwork", "", d)}:libc-glibc:libc-glibc
+>=20
+> regards,
+>=20
+> Koen
+>=20
+> >=20
+> > OVERRIDES=3D"linux-gnueabi:arm:build-linux:pn-libdrm:om-gta02::shr:forc=
+evariable:thumb:libc-glibc"
+> >=20
+> > # OVERRIDES=3D${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:build-${BUILD_OS}:=
+pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:forcevariable${@bb.utils.co=
+ntains("TUNE_FEATURES",
+> > "thumb", ":thumb", "", d)}${@bb.utils.contains("TUNE_FEATURES",
+> > "no-thumb-interwork", ":thumb-interwork", "", d)}:libc-glibc
+> >=20
+> > So I've to change it to
+> > DRIDRIVERS_append_arm
+> > or is it TRANSLATED_TARGET_ARCH fault?
+> >=20
+> > Regards,
+> >=20
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--L5nTHegdhbHhzmSD
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk6hKVkACgkQN1Ujt2V2gBwHCACff6d1vHz+DhcGtv6Afma6dAaX
+TNIAn0OJxyVJuCdNcWseNqNeCZaTnjwT
+=vqzI
+-----END PGP SIGNATURE-----
+
+--L5nTHegdhbHhzmSD--
