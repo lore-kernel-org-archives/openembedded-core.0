@@ -1,30 +1,30 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1RH65F-0005ah-9K
+	(envelope-from <scott.a.garman@intel.com>) id 1RH66M-0005d8-Hz
 	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Oct 2011 05:47:49 +0200
-Received: from mail-gy0-f180.google.com ([209.85.160.180])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 20 Oct 2011 20:41:55 -0700
-Received: by gyf1 with SMTP id 1so7808118gyf.25
+	Fri, 21 Oct 2011 05:48:58 +0200
+Received: from mail-pz0-f44.google.com ([209.85.210.44])
+	by mga11.intel.com with ESMTP/TLS/RC4-MD5; 20 Oct 2011 20:41:58 -0700
+Received: by pzk4 with SMTP id 4so18581566pzk.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2011 20:41:55 -0700 (PDT)
-Received: by 10.68.72.167 with SMTP id e7mr8339533pbv.19.1319168514641;
-	Thu, 20 Oct 2011 20:41:54 -0700 (PDT)
+	Thu, 20 Oct 2011 20:41:58 -0700 (PDT)
+Received: by 10.68.32.161 with SMTP id k1mr2020422pbi.112.1319168518401;
+	Thu, 20 Oct 2011 20:41:58 -0700 (PDT)
 Received: from [192.168.1.12] (c-98-246-160-155.hsd1.or.comcast.net.
 	[98.246.160.155])
-	by mx.google.com with ESMTPS id x7sm25501893pbf.5.2011.10.20.20.41.53
-	(version=SSLv3 cipher=OTHER); Thu, 20 Oct 2011 20:41:53 -0700 (PDT)
-Message-ID: <4EA0EA00.1050800@intel.com>
-Date: Thu, 20 Oct 2011 20:41:52 -0700
+	by mx.google.com with ESMTPS id w4sm25695028pbf.6.2011.10.20.20.41.57
+	(version=SSLv3 cipher=OTHER); Thu, 20 Oct 2011 20:41:57 -0700 (PDT)
+Message-ID: <4EA0EA04.2040009@intel.com>
+Date: Thu, 20 Oct 2011 20:41:56 -0700
 From: Scott Garman <scott.a.garman@intel.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 	rv:1.9.2.23) Gecko/20110922 Lightning/1.0b2 Thunderbird/3.1.15
 MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
 References: <cover.1319167843.git.otavio@ossystems.com.br>
-	<9c3cff6e514e8ccc69b9462197c7bceeb117a55e.1319167843.git.otavio@ossystems.com.br>
-In-Reply-To: <9c3cff6e514e8ccc69b9462197c7bceeb117a55e.1319167843.git.otavio@ossystems.com.br>
-Subject: Re: [PATCH 2/4] useradd.bbclass: check if a group already exists manually
+	<d0e2424c7510f09a6733c16199e86c158cbfbb7c.1319167843.git.otavio@ossystems.com.br>
+In-Reply-To: <d0e2424c7510f09a6733c16199e86c158cbfbb7c.1319167843.git.otavio@ossystems.com.br>
+Subject: Re: [PATCH 3/4] base-passwd: move initial criation of group and passwd to preinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,45 +39,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Oct 2011 03:47:49 -0000
+X-List-Received-Date: Fri, 21 Oct 2011 03:48:58 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 10/20/2011 08:31 PM, Otavio Salvador wrote:
-> The use of groupadd -f makes much more difficult to figure when a
-> group is not add. This was the case of the class not working for our
-> usage and this being caused by the lack of '/etc/group' file but
-> unnoticed as groupadd wasn't failing according.
+> To allow use and manipulation of users and groups at rootfs building
+> time, the '/etc/passwd' and '/etc/group' needs to be available as soon
+> as possible.
 >
 > Signed-off-by: Otavio Salvador<otavio@ossystems.com.br>
-
-Thanks for getting to the bottom of this!
 
 Acked-by: Scott Garman <scott.a.garman@intel.com>
 
 > ---
->   meta/classes/useradd.bbclass |    8 +++++++-
->   1 files changed, 7 insertions(+), 1 deletions(-)
+>   .../recipes-core/base-passwd/base-passwd_3.5.22.bb |    4 ++--
+>   1 files changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-> index 1e03a04..fb70b3e 100644
-> --- a/meta/classes/useradd.bbclass
-> +++ b/meta/classes/useradd.bbclass
-> @@ -37,7 +37,13 @@ if test "x$GROUPADD_PARAM" != "x"; then
->   	opts=`echo "$GROUPADD_PARAM" | cut -d ';' -f 1`
->   	remaining=`echo "$GROUPADD_PARAM" | cut -d ';' -f 2-`
->   	while test "x$opts" != "x"; do
-> -		eval $PSEUDO groupadd -f $OPT $opts
-> +		groupname=`echo "$opts" | awk '{ print $NF }'`
-> +		group_exists=`grep "^$groupname:" $SYSROOT/etc/group || true`
-> +		if test "x$group_exists" = "x"; then
-> +			eval $PSEUDO groupadd  $OPT $opts
-> +		else
-> +			echo "Note: group $groupname already exists, not re-creating it"
-> +		fi
+> diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb
+> index 137512d..9f81ba3 100644
+> --- a/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb
+> +++ b/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb
+> @@ -1,7 +1,7 @@
+>   SUMMARY = "Base system master password/group files."
+>   DESCRIPTION = "The master copies of the user database files (/etc/passwd and /etc/group).  The update-passwd tool is also provided to keep the system databases synchronized with these master files."
+>   SECTION = "base"
+> -PR = "r3"
+> +PR = "r4"
+>   LICENSE = "GPLv2+"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a"
 >
->   		if test "x$opts" = "x$remaining"; then
->   			break
+> @@ -37,7 +37,7 @@ do_install () {
+>   	install -p -m 644 debian/copyright ${D}${docdir}/${BPN}/
+>   }
+>
+> -pkg_postinst_${PN} () {
+> +pkg_preinst_${PN} () {
+>   	set -e
+>
+>   	if [ ! -e $D${sysconfdir}/passwd ] ; then
 
 
 -- 
