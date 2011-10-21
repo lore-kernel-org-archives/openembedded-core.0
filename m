@@ -1,30 +1,35 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RH5vW-0004t9-8y
+	(envelope-from <otavio.salvador@gmail.com>) id 1RH5vW-0004tB-U2
 	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Oct 2011 05:37:46 +0200
-Received: by gyc15 with SMTP id 15so3363880gyc.6
+	Fri, 21 Oct 2011 05:37:47 +0200
+Received: by ywf9 with SMTP id 9so1012306ywf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Oct 2011 20:31:50 -0700 (PDT)
+	Thu, 20 Oct 2011 20:31:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=sender:from:to:subject:date:message-id:x-mailer;
-	bh=HZ3iQx0mmBVaTM31NSl7BRg5bfgs2M+3tpTOsn3RHuQ=;
-	b=jBVjqORU7qFcckxaFsKQywJTbuh7j9/yP+cX708chNI6Die5hUttNrUfE7V/O06A2F
-	BB+zpzPfqTRSeD9A5CTySSTvubfh2X68JYXl32fw0w4LaxcTSkHDOMMrg+QWUNkgbQy+
-	y0P0KEqj0zyme5YmdZFROB5N0tdN3IA1M9tOk=
-Received: by 10.151.21.4 with SMTP id y4mr12368537ybi.92.1319167909780;
-	Thu, 20 Oct 2011 20:31:49 -0700 (PDT)
+	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
+	:references:in-reply-to:references;
+	bh=WY0s22nJ1w9/umrTVfJDqf845lshYp/9nlKmT69x2ok=;
+	b=QKssiyF3k0rVqCsVVhzevTNVeHNq2St8gyqI/4SuHerWI6ft5ghvVPOIaUi4jOIHri
+	qGqHXI+js3JZr5UYu8nzmj23C+wLxLCM6sqfHW3HaOQB7aketPIKCfUwGbMQmJ+Und7k
+	oH8QU73dWbkE1mbMooCg3bKxWygII3uRTp/4U=
+Received: by 10.150.188.9 with SMTP id l9mr12513931ybf.15.1319167913620;
+	Thu, 20 Oct 2011 20:31:53 -0700 (PDT)
 Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id m3sm32008971ang.0.2011.10.20.20.31.47
+	by mx.google.com with ESMTPS id m3sm32008971ang.0.2011.10.20.20.31.51
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 20 Oct 2011 20:31:48 -0700 (PDT)
+	Thu, 20 Oct 2011 20:31:52 -0700 (PDT)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Oct 2011 03:31:38 +0000
-Message-Id: <cover.1319167843.git.otavio@ossystems.com.br>
+Date: Fri, 21 Oct 2011 03:31:40 +0000
+Message-Id: <9c3cff6e514e8ccc69b9462197c7bceeb117a55e.1319167843.git.otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.7.2.5
-Subject: [PATCH 0/4] Fixes and improvements from O.S. Systems
+In-Reply-To: <cover.1319167843.git.otavio@ossystems.com.br>
+References: <cover.1319167843.git.otavio@ossystems.com.br>
+In-Reply-To: <cover.1319167843.git.otavio@ossystems.com.br>
+References: <cover.1319167843.git.otavio@ossystems.com.br>
+Subject: [PATCH 2/4] useradd.bbclass: check if a group already exists manually
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,28 +44,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Oct 2011 03:37:46 -0000
+X-List-Received-Date: Fri, 21 Oct 2011 03:37:47 -0000
 
-The following changes since commit 99da9a4e65f9dffb04efc3ad60125194c476d6b3:
+The use of groupadd -f makes much more difficult to figure when a
+group is not add. This was the case of the class not working for our
+usage and this being caused by the lack of '/etc/group' file but
+unnoticed as groupadd wasn't failing according.
 
-  distro-tracking-fields: update fields for tzdata and gst-plugins-good (2011-10-20 13:07:16 +0100)
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/classes/useradd.bbclass |    8 +++++++-
+ 1 files changed, 7 insertions(+), 1 deletions(-)
 
-are available in the git repository at:
-  git://github.com/OSSystems/oe-core master
-  https://github.com/OSSystems/oe-core/tree/HEAD
-
-Otavio Salvador (4):
-  bootimg.bbclass: add support to disable HDD image building
-  useradd.bbclass: check if a group already exists manually
-  base-passwd: move initial criation of group and passwd to preinst
-  dbus: use useradd class to allow use in read-only filesystems
-
- meta/classes/bootimg.bbclass                       |   44 +++++++++---------
- meta/classes/useradd.bbclass                       |    8 +++-
- .../recipes-core/base-passwd/base-passwd_3.5.22.bb |    4 +-
- meta/recipes-core/dbus/dbus.inc                    |   48 +++++++++-----------
- 4 files changed, 53 insertions(+), 51 deletions(-)
-
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index 1e03a04..fb70b3e 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -37,7 +37,13 @@ if test "x$GROUPADD_PARAM" != "x"; then
+ 	opts=`echo "$GROUPADD_PARAM" | cut -d ';' -f 1`
+ 	remaining=`echo "$GROUPADD_PARAM" | cut -d ';' -f 2-`
+ 	while test "x$opts" != "x"; do
+-		eval $PSEUDO groupadd -f $OPT $opts
++		groupname=`echo "$opts" | awk '{ print $NF }'`
++		group_exists=`grep "^$groupname:" $SYSROOT/etc/group || true`
++		if test "x$group_exists" = "x"; then
++			eval $PSEUDO groupadd  $OPT $opts
++		else
++			echo "Note: group $groupname already exists, not re-creating it"
++		fi
+ 
+ 		if test "x$opts" = "x$remaining"; then
+ 			break
 -- 
 1.7.2.5
 
