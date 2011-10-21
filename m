@@ -1,30 +1,32 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RH9GI-0000Tr-7X
+	(envelope-from <martin.jansa@gmail.com>) id 1RH9i9-0001eb-GB
 	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Oct 2011 09:11:26 +0200
-Received: by eyd9 with SMTP id 9so3729949eyd.6
+	Fri, 21 Oct 2011 09:40:13 +0200
+Received: by gyc15 with SMTP id 15so3477007gyc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Oct 2011 00:05:33 -0700 (PDT)
-Received: by 10.14.5.212 with SMTP id 60mr1658008eel.184.1319180733266;
-	Fri, 21 Oct 2011 00:05:33 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id 49sm32247726eec.1.2011.10.21.00.05.30
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 21 Oct 2011 00:05:31 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1319180084.3244.2.camel@lenovo.internal.reciva.com>
-Date: Fri, 21 Oct 2011 09:05:25 +0200
-Message-Id: <BC7562A7-EF47-47CE-8A4C-F024A9F01919@dominion.thruhere.net>
-References: <cover.1319167843.git.otavio@ossystems.com.br>
-	<67ee6e07c8d57d45682fb8962df79fb8d154c400.1319167843.git.otavio@ossystems.com.br>
-	<1319180084.3244.2.camel@lenovo.internal.reciva.com>
+	Fri, 21 Oct 2011 00:34:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=rhnhjUVgb2fUFEhWTvBIs4fhpmHJbrfNPicoVRphzRU=;
+	b=sOuG8Al9bO0IsbfHi2ysMGPsJzhIO04g/O/a/79jTbeyLcl66uQw86RdL6CItuoVPH
+	pZkHMuO+puzqGaMQYXF9Bnot5yabjpxZ6omTGjkpb+4NvXjLRmU8aUmaBrtY6XIRAOGG
+	Ytvrv0vC9xgBicqiH8gGVV+0eQDTfh/0DxPFY=
+MIME-Version: 1.0
+Received: by 10.150.47.12 with SMTP id u12mr3922239ybu.63.1319182459662; Fri,
+	21 Oct 2011 00:34:19 -0700 (PDT)
+Received: by 10.151.85.12 with HTTP; Fri, 21 Oct 2011 00:34:19 -0700 (PDT)
+In-Reply-To: <1318698176.2342.77.camel@ted>
+References: <363ECAF1-8602-4139-ADC9-2044FCB5456C@dominion.thruhere.net>
+	<1318675132-9265-1-git-send-email-Martin.Jansa@gmail.com>
+	<1318698176.2342.77.camel@ted>
+Date: Fri, 21 Oct 2011 09:34:19 +0200
+Message-ID: <CA+chaQdAQm1jLLJxC1dSUSu+kgo-JqMffVDur=JNxpe-HGczMg@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH 4/4] dbus: use useradd class to allow use in read-only filesystems
+Subject: Re: [PATCH] mesa-dri: move extra DRIMODULES to EXTRA_DRIMODULES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,52 +41,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Oct 2011 07:11:26 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Fri, 21 Oct 2011 07:40:14 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
+On Sat, Oct 15, 2011 at 7:02 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Sat, 2011-10-15 at 12:38 +0200, Martin Jansa wrote:
+>> * this way we can use
+>> =C2=A0 EXTRA_DRIDRIVERS_armv4t +=3D ",glamo" in meta-openmoko layer and
+>> =C2=A0 EXTRA_DRIDRIVERS_armv4t +=3D ",foo" in meta-bar layer without kno=
+wledge
+>> =C2=A0 of other modules in other layers in stack
+>> * actually it's like old MACHINE_DRI_MODULES from OE-classic but renamed
+>> =C2=A0 to indicate that it should be used for architecture not machine
+>
+> This is way overcomplicated. Just do:
+>
+> DRIDRIVERS_append_armv4t =3D ",glamo"
 
-Op 21 okt. 2011, om 08:54 heeft Phil Blundell het volgende geschreven:
+Ah, is it expected that armv4t is no longer valid OVERRIDE?
 
-> On Fri, 2011-10-21 at 03:31 +0000, Otavio Salvador wrote:
->> +USERADD_PACKAGES =3D "${PN}"
->> +GROUPADD_PARAM_${PN} =3D "-r netdev"
->> +USERADD_PARAM_${PN} =3D "--system --home ${localstatedir}/lib/dbus \
->> +                       --no-create-home --user-group messagebus"
->=20
-> Why does dbus need "netdev"?
+OVERRIDES=3D"linux-gnueabi:arm:build-linux:pn-libdrm:om-gta02::shr:forcevar=
+iable:thumb:libc-glibc"
 
+# OVERRIDES=3D${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:build-${BUILD_OS}:pn-$=
+{PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:forcevariable${@bb.utils.contai=
+ns("TUNE_FEATURES",
+"thumb", ":thumb", "", d)}${@bb.utils.contains("TUNE_FEATURES",
+"no-thumb-interwork", ":thumb-interwork", "", d)}:libc-glibc
 
-A little digging on the internet shows that some applications using dbus =
-use netdev and as a result dbus will complain about a missing netdev =
-group. Dbus itself doesn't seem to need it. A handfull of searchresults =
-imply that not dbus but e.g. networkmanager and wpa-supplicant should =
-create the group, but:
+So I've to change it to
+DRIDRIVERS_append_arm
+or is it TRANSLATED_TARGET_ARCH fault?
 
-root@beagleboard:/etc/dbus-1/system.d# ls
-ConsoleKit.conf           org.freedesktop.PolicyKit1.conf
-NetworkManager.conf       org.freedesktop.UDisks.conf
-avahi-dbus.conf           org.freedesktop.UPower.conf
-bluetooth.conf            org.freedesktop.hostname1.conf
-dbus-wpa_supplicant.conf  org.freedesktop.locale1.conf
-gdm.conf                  org.freedesktop.login1.conf
-nm-avahi-autoipd.conf     org.freedesktop.systemd1.conf
-nm-dhcp-client.conf       org.freedesktop.timedate1.conf
-nm-dispatcher.conf        org.gnome.GConf.Defaults.conf
-
-root@beagleboard:/etc/dbus-1/system.d# grep netdev *
-root@beagleboard:/etc/dbus-1/system.d#=20
-
-So it seems (but I am not certain!) that netdev is a relic of the past =
-and can go away. What I would propose:
-
-1) convert the existing *inst to useradd.bbclass
-2) bump PR, remove netdev
-
-That should give us a nice bisectable stack of commits.
-
-regards,
-
-Koen=
+Regards,
 
 
