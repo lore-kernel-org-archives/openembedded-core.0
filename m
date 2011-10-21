@@ -1,29 +1,48 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RHAZW-0003i8-Kx
+	(envelope-from <heinold@mi.fu-berlin.de>) id 1RHAnh-00040o-Jn
 	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Oct 2011 10:35:22 +0200
-Received: by eyd9 with SMTP id 9so3791589eyd.6
+	Fri, 21 Oct 2011 10:50:01 +0200
+Received: from relay1.zedat.fu-berlin.de ([130.133.4.67])
+	by outpost1.zedat.fu-berlin.de (Exim 4.69)
+	for openembedded-core@lists.openembedded.org with esmtp
+	(envelope-from <heinold@mi.fu-berlin.de>)
+	id <1RHAi2-0003sP-So>; Fri, 21 Oct 2011 10:44:10 +0200
+Received: from hydra.imp.fu-berlin.de ([160.45.117.149]
+	helo=mail.imp.fu-berlin.de) by relay1.zedat.fu-berlin.de (Exim 4.69)
+	for openembedded-core@lists.openembedded.org with esmtp
+	(envelope-from <heinold@mi.fu-berlin.de>)
+	id <1RHAi2-0000Mu-Qo>; Fri, 21 Oct 2011 10:44:10 +0200
+Received: from andorra.imp.fu-berlin.de ([160.45.42.84])
+	by mail.imp.fu-berlin.de with esmtps (Exim 4.72) id 1RHBU7-0000Ge-9x
+	(envelope-from <heinold@mi.fu-berlin.de>)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Oct 2011 01:29:29 -0700 (PDT)
-Received: by 10.14.9.146 with SMTP id 18mr1705716eet.91.1319185769333;
-	Fri, 21 Oct 2011 01:29:29 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id v3sm19561220eej.7.2011.10.21.01.29.28
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 21 Oct 2011 01:29:28 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <9e9f9e73e7bfa4a5184196b874cfb1dfe179be24.1319184832.git.Martin.Jansa@gmail.com>
-Date: Fri, 21 Oct 2011 10:29:26 +0200
-Message-Id: <4C420436-8E73-4B8E-B12E-E7BAF72CCB76@dominion.thruhere.net>
-References: <bfd27053f71157d3f3d3c0bf523015347714d3f8.1319184832.git.Martin.Jansa@gmail.com>
-	<9e9f9e73e7bfa4a5184196b874cfb1dfe179be24.1319184832.git.Martin.Jansa@gmail.com>
+	Fri, 21 Oct 2011 11:34:03 +0200
+Received: from heinold by internal andorra.imp.fu-berlin.de with local (Exim
+	4.72) id 1RHAhe-0006ZP-F4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Oct 2011 10:43:46 +0200
+Date: Fri, 21 Oct 2011 10:43:46 +0200
+From: Henning Heinold <heinold@inf.fu-berlin.de>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH 3/8] pulseaudio-0.9.23: force ARM mode
+Message-ID: <20111021084346.GA20103@mi.fu-berlin.de>
+References: <cover.1319184832.git.Martin.Jansa@gmail.com>
+	<22ed6acc0a44d9bc0d6f7a2e800c039d77d75477.1319184832.git.Martin.Jansa@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <22ed6acc0a44d9bc0d6f7a2e800c039d77d75477.1319184832.git.Martin.Jansa@gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Sender: Henning Heinold <heinold@mi.fu-berlin.de>
+X-Remote-IP: 160.45.42.84
+X-Spam_Score: -3.4
+X-exim-Spam_Score_Int: -33
+X-exim-Spam_Bar: ---
+X-Spam_Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	* -0.5 RP_MATCHES_RCVD Envelope sender domain matches handover relay
+	domain * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
+X-Originating-IP: 160.45.117.149
+Subject: Re: [PATCH 2/8] libatomics-ops: force ARM mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,29 +57,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Oct 2011 08:35:22 -0000
+X-List-Received-Date: Fri, 21 Oct 2011 08:50:01 -0000
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 
+Hi,
 
-Op 21 okt. 2011, om 10:17 heeft Martin Jansa het volgende geschreven:
+hm we should think of reworking this recipe now. Because since gcc 4.5
+pulseaudio for arm can use the gcc internal atomicstuff and in oe-core 
+and meta-oe we have 4.5 or 4.6 only. The lib is
+only needed for mips and it is still the old release, on cvs
+is a much better version, which supports thumb too, if
+remember correctly.
 
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
-> .../pulseaudio/pulseaudio_0.9.23.bb                |    1 +
-> 1 files changed, 1 insertions(+), 0 deletions(-)
->=20
-> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb =
-b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
-> index 4ac2418..2f872b8 100644
-> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
-> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
-> @@ -23,3 +23,4 @@ do_compile_prepend() {
->     cp ${STAGING_LIBDIR}/libltdl* ${S}/libltdl
-> }
->=20
-> +ARM_INSTRUCTION_SET =3D "arm"
+Bye Henning
 
-Missing PR bump=
 
 
