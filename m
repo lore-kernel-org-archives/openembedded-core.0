@@ -1,28 +1,33 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1RHarl-0002K8-Pq
+	(envelope-from <saul.wold@intel.com>) id 1RHfOn-0000Oh-CX
 	for openembedded-core@lists.openembedded.org;
-	Sat, 22 Oct 2011 14:39:57 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.3])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RHam5-0007Xd-CI
-	for openembedded-core@lists.openembedded.org;
-	Sat, 22 Oct 2011 14:34:05 +0200
-From: Phil Blundell <philb@gnu.org>
+	Sat, 22 Oct 2011 19:30:22 +0200
+Received: from mail-pz0-f44.google.com ([209.85.210.44])
+	by mga01.intel.com with ESMTP/TLS/RC4-MD5; 22 Oct 2011 10:24:22 -0700
+Received: by pzk4 with SMTP id 4so27497860pzk.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 22 Oct 2011 10:24:22 -0700 (PDT)
+Received: by 10.68.1.1 with SMTP id 1mr21749569pbi.55.1319304260462;
+	Sat, 22 Oct 2011 10:24:20 -0700 (PDT)
+Received: from [10.6.18.227] (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id x7sm44284316pbf.5.2011.10.22.10.24.19
+	(version=SSLv3 cipher=OTHER); Sat, 22 Oct 2011 10:24:19 -0700 (PDT)
+Message-ID: <4EA2FC42.7050206@intel.com>
+Date: Sat, 22 Oct 2011 10:24:18 -0700
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <20111021161620.GS3522@jama.jama.net>
-References: <cover.1319184832.git.Martin.Jansa@gmail.com>
-	<bfd27053f71157d3f3d3c0bf523015347714d3f8.1319184832.git.Martin.Jansa@gmail.com>
-	<9e9f9e73e7bfa4a5184196b874cfb1dfe179be24.1319184832.git.Martin.Jansa@gmail.com>
-	<CAMKF1soRAhf065VCJqZsQMUct1a0Ob5S2rJzN9QpE0A0R0SZ6g@mail.gmail.com>
-	<20111021161620.GS3522@jama.jama.net>
-Date: Sat, 22 Oct 2011 13:33:46 +0100
-Message-ID: <1319286826.3310.1.camel@lenovo.internal.reciva.com>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.3 
-Subject: Re: [PATCH 3/8] pulseaudio-0.9.23: force ARM mode
+References: <bcdfb52940fbceb12549f4725ad808ae496afdb3.1319184832.git.Martin.Jansa@gmail.com>
+	<1319190483-5637-1-git-send-email-Martin.Jansa@gmail.com>
+In-Reply-To: <1319190483-5637-1-git-send-email-Martin.Jansa@gmail.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: [PATCH] base.bbclass: add subversion-native to DEPENDS if there is svn:// in SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,41 +42,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Oct 2011 12:39:57 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 22 Oct 2011 17:30:22 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-10-21 at 18:16 +0200, Martin Jansa wrote:
-> On Fri, Oct 21, 2011 at 08:40:20AM -0700, Khem Raj wrote:
-> > On Fri, Oct 21, 2011 at 1:17 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> > > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > > ---
-> > >  .../pulseaudio/pulseaudio_0.9.23.bb                |    1 +
-> > >  1 files changed, 1 insertions(+), 0 deletions(-)
-> > >
-> > > diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
-> > > index 4ac2418..2f872b8 100644
-> > > --- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
-> > > +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
-> > > @@ -23,3 +23,4 @@ do_compile_prepend() {
-> > >     cp ${STAGING_LIBDIR}/libltdl* ${S}/libltdl
-> > >  }
-> > >
-> > > +ARM_INSTRUCTION_SET = "arm"
-> > 
-> > not averse to patch but it would be nice to know what fails in thumb mode.
-> 
-> selected processor does not support Thumb mode `swp r1,r2,[r3]'
+On 10/21/2011 02:48 AM, Martin Jansa wrote:
+> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
+> ---
+>   meta/classes/base.bbclass |    7 +++++++
+>   1 files changed, 7 insertions(+), 0 deletions(-)
+>
+> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> index f539744..bced226 100644
+> --- a/meta/classes/base.bbclass
+> +++ b/meta/classes/base.bbclass
+> @@ -401,6 +401,13 @@ python () {
+>                       bb.note("SKIPPING %s because it's %s" % (pn, this_license))
+>                       raise bb.parse.SkipPackage("incompatible with license %s" % this_license)
+>
+> +    # Svn packages should DEPEND on subversion-native
+> +    srcuri = bb.data.getVar('SRC_URI', d, 1)
+> +    if "svn://" in srcuri:
+> +        depends = bb.data.getVarFlag('do_fetch', 'depends', d) or ""
+> +        depends = depends + " subversion-native:do_populate_sysroot"
+> +        bb.data.setVarFlag('do_fetch', 'depends', depends, d)
+> +
+>       # Git packages should DEPEND on git-native
+>       srcuri = bb.data.getVar('SRC_URI', d, 1)
+>       if "git://" in srcuri:
+This change introduces a circular dependency when I tried to build.
 
-If it's only that one error (presumably some kind of home-grown atomic
-operation) then let's just fix the code in question rather than forcing
-the whole thing to build in ARM-state.  Or if the code is hard to fix,
-patch the makefile so that only the particular source files with the
-assembly in are built for ARM and let the rest stay as Thumb.  Making
-the whole package be ARM is a bit of a heavyweight fix for that issue.
-
-p.
-
-
+Sau!
 
 
