@@ -1,33 +1,34 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1RHfOn-0000Oh-CX
+	(envelope-from <cliff.brake@gmail.com>) id 1RHffv-0000gy-C2
 	for openembedded-core@lists.openembedded.org;
-	Sat, 22 Oct 2011 19:30:22 +0200
-Received: from mail-pz0-f44.google.com ([209.85.210.44])
-	by mga01.intel.com with ESMTP/TLS/RC4-MD5; 22 Oct 2011 10:24:22 -0700
-Received: by pzk4 with SMTP id 4so27497860pzk.3
+	Sat, 22 Oct 2011 19:48:03 +0200
+Received: by gyc15 with SMTP id 15so4548802gyc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Oct 2011 10:24:22 -0700 (PDT)
-Received: by 10.68.1.1 with SMTP id 1mr21749569pbi.55.1319304260462;
-	Sat, 22 Oct 2011 10:24:20 -0700 (PDT)
-Received: from [10.6.18.227] (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id x7sm44284316pbf.5.2011.10.22.10.24.19
-	(version=SSLv3 cipher=OTHER); Sat, 22 Oct 2011 10:24:19 -0700 (PDT)
-Message-ID: <4EA2FC42.7050206@intel.com>
-Date: Sat, 22 Oct 2011 10:24:18 -0700
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
+	Sat, 22 Oct 2011 10:42:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=Cf2FvcVZYZue9/qw6bzW3zh3qRpYzMvfqUa1B0XfnqM=;
+	b=VtsJ2LjGKkY5AhLURLfg7pxve6p4NXbJwFj2IPxaPLgsnMl00eV7B842Xy1A+v2off
+	KufFbri6Cfk9WeSsgE3AXjqyh2rszqQiUSg3UiXeC4gOHnvyO5yzPfK+wAAXAivNdO9W
+	UtSjeLBbk4vp93agk610E+aXBuFdTZ2EntySI=
 MIME-Version: 1.0
+Received: by 10.236.77.133 with SMTP id d5mr26940752yhe.75.1319305327926; Sat,
+	22 Oct 2011 10:42:07 -0700 (PDT)
+Sender: cliff.brake@gmail.com
+Received: by 10.236.60.198 with HTTP; Sat, 22 Oct 2011 10:42:07 -0700 (PDT)
+In-Reply-To: <4EA19B3E.2020302@intel.com>
+References: <1319028214-27568-1-git-send-email-cliff.brake@gmail.com>
+	<20111019212659.GA30050@sakrah.homelinux.org>
+	<4EA19B3E.2020302@intel.com>
+Date: Sat, 22 Oct 2011 13:42:07 -0400
+X-Google-Sender-Auth: UlK_sveQYzNhhYvQipDeGypOjWg
+Message-ID: <CAOd_LFw1UnP2QZh7M7QX5O6ftDLfpaZf=s4i6kw7uP+UpcNchQ@mail.gmail.com>
+From: Cliff Brake <cbrake@bec-systems.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <bcdfb52940fbceb12549f4725ad808ae496afdb3.1319184832.git.Martin.Jansa@gmail.com>
-	<1319190483-5637-1-git-send-email-Martin.Jansa@gmail.com>
-In-Reply-To: <1319190483-5637-1-git-send-email-Martin.Jansa@gmail.com>
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: Re: [PATCH] base.bbclass: add subversion-native to DEPENDS if there is svn:// in SRC_URI
+Subject: Re: [PATCH] squashfs-tools: add recipe (2nd try)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,36 +43,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Oct 2011 17:30:22 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 22 Oct 2011 17:48:03 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 10/21/2011 02:48 AM, Martin Jansa wrote:
-> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
-> ---
->   meta/classes/base.bbclass |    7 +++++++
->   1 files changed, 7 insertions(+), 0 deletions(-)
->
-> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> index f539744..bced226 100644
-> --- a/meta/classes/base.bbclass
-> +++ b/meta/classes/base.bbclass
-> @@ -401,6 +401,13 @@ python () {
->                       bb.note("SKIPPING %s because it's %s" % (pn, this_license))
->                       raise bb.parse.SkipPackage("incompatible with license %s" % this_license)
->
-> +    # Svn packages should DEPEND on subversion-native
-> +    srcuri = bb.data.getVar('SRC_URI', d, 1)
-> +    if "svn://" in srcuri:
-> +        depends = bb.data.getVarFlag('do_fetch', 'depends', d) or ""
-> +        depends = depends + " subversion-native:do_populate_sysroot"
-> +        bb.data.setVarFlag('do_fetch', 'depends', depends, d)
-> +
->       # Git packages should DEPEND on git-native
->       srcuri = bb.data.getVar('SRC_URI', d, 1)
->       if "git://" in srcuri:
-This change introduces a circular dependency when I tried to build.
+On Fri, Oct 21, 2011 at 12:18 PM, Saul Wold <saul.wold@intel.com> wrote:
+> This one is on hold pending an update from Cliff based on Khem's comments.
 
-Sau!
+v3 posted.  Thanks for all the feedback.
+
+Cliff
 
 
