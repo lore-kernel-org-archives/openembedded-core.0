@@ -1,20 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RI2r4-0005rb-Qb
+	(envelope-from <sgw@linux.intel.com>) id 1RI2r6-0005rb-9Z
 	for openembedded-core@lists.openembedded.org;
-	Sun, 23 Oct 2011 20:33:07 +0200
+	Sun, 23 Oct 2011 20:33:08 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 23 Oct 2011 11:27:09 -0700
+	by orsmga102.jf.intel.com with ESMTP; 23 Oct 2011 11:27:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="66250194"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="66250197"
 Received: from unknown (HELO swold-mobl.lan) ([10.255.14.219])
-	by orsmga001.jf.intel.com with ESMTP; 23 Oct 2011 11:27:08 -0700
+	by orsmga001.jf.intel.com with ESMTP; 23 Oct 2011 11:27:09 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 23 Oct 2011 11:26:38 -0700
-Message-Id: <cover.1319394187.git.sgw@linux.intel.com>
+Date: Sun, 23 Oct 2011 11:26:39 -0700
+Message-Id: <a15689d48724361f2d408942c87f8e53caf1aa46.1319394187.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
-Subject: [CONSOLIDATED PULL 00/27] Various Updates and fixes
+In-Reply-To: <cover.1319394187.git.sgw@linux.intel.com>
+References: <cover.1319394187.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1319394187.git.sgw@linux.intel.com>
+References: <cover.1319394187.git.sgw@linux.intel.com>
+Subject: [CONSOLIDATED PULL 01/27] tcl: upgrade from 8.5.9 to 8.5.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,332 +33,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 23 Oct 2011 18:33:07 -0000
+X-List-Received-Date: Sun, 23 Oct 2011 18:33:08 -0000
 
-Richard,
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-This pull requests adds some new recipes for supporting building
-oe-core with oe-core, also various patches and updates. 
-
-I also included the MACHINE_KERNEL_PR change from Dmitry per my 
-reading of the TSC Notes.
-
-Please review and commit
-
-Thanks
-	Sau!
-
-
-The following changes since commit 53f37ed45fe7286eae76fa237ee2b86061b6a021:
-
-  Merge branch 'master-next' of git://git.openembedded.org/openembedded-core into oe-core (2011-10-23 11:15:07 -0700)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-
-Cliff Brake (1):
-  squashfs-tools: add recipe
-
-Dmitry Eremin-Solenikov (1):
-  kernel.bbclass: respect MACHINE_KERNEL_PR
-
-Khem Raj (7):
-  tcmode-default.inc: Add TRANSLATED_TARGET_ARCH suffix to
-    binutils-cross-canadian
-  binutils-cross-canadian: Point sysroot to correct location
-  gcc-configure-sdk: Point sysroot to correct location
-  xserver-xorg: Add mesa-dri to depends instead of virtual/libgl
-  gcc-4.6: Backport fix for PR32219
-  coreutils: Upgrade recipe 8.12 -> 8.14
-  libtool: Upgrade from 2.4 -> 2.4.2
-
-Martin Jansa (7):
-  pulseaudio-0.9.23: inherit perlnative to work around build on host
-    without XML/Parser.pm
-  apr: add native support
-  neon: add native support
-  apr-util: add native support
-  subversion: add 1.7.0 with native support and negative D_P for now
-  subversion-1.6.15: add native support too
-  default-providers: switch virtual/libgl from mesa-xlib to mesa-dri
-
-Nitin A Kamble (2):
-  tcl: upgrade from 8.5.9 to 8.5.10
-  perl: upgrade from 5.12.3 to 5.14.2
-
-Otavio Salvador (4):
-  bootimg.bbclass: add support to disable HDD image building
-  useradd.bbclass: check if a group already exists manually
-  base-passwd: move initial criation of group and passwd to preinst
-  dbus: use useradd class to allow use in read-only filesystems
-
-Saul Wold (5):
-  wget: Add recipe from OE
-  texi2html: Added recipe from OE
-  oprofile: Update to 0.9.7 and convert cvs->git
-  abiword: convert to svn
-  perl: remove debug set -x; pwd
-
- meta-demoapps/recipes-gnome/abiword/abiword.inc    |    4 +-
- meta-demoapps/recipes-gnome/abiword/abiword_cvs.bb |   10 -
- meta-demoapps/recipes-gnome/abiword/abiword_svn.bb |   10 +
- meta/classes/bootimg.bbclass                       |   44 +-
- meta/classes/kernel.bbclass                        |    5 +
- meta/classes/useradd.bbclass                       |    8 +-
- meta/conf/distro/include/default-providers.inc     |    2 +-
- meta/conf/distro/include/tcmode-default.inc        |    2 +-
- .../recipes-core/base-passwd/base-passwd_3.5.22.bb |   19 +-
- .../remove-usr-local-lib-from-m4.patch             |   18 +-
- .../{coreutils_8.12.bb => coreutils_8.14.bb}       |   11 +-
- meta/recipes-core/dbus/dbus.inc                    |   48 +-
- .../binutils/binutils-cross-canadian.inc           |    2 +-
- .../binutils/binutils-cross-canadian_2.21.1a.bb    |    2 +-
- meta/recipes-devtools/gcc/gcc-4.6.inc              |    3 +-
- meta/recipes-devtools/gcc/gcc-4.6/pr32219.patch    |   71 +
- meta/recipes-devtools/gcc/gcc-configure-sdk.inc    |    4 +-
- .../libtool/{libtool.inc => libtool-2.4.2.inc}     |   26 +-
- meta/recipes-devtools/libtool/libtool-2.4.inc      |   13 -
- ...libtool-cross_2.4.bb => libtool-cross_2.4.2.bb} |    2 +-
- ...btool-native_2.4.bb => libtool-native_2.4.2.bb} |    2 +-
- ...nativesdk_2.4.bb => libtool-nativesdk_2.4.2.bb} |    2 +-
- meta/recipes-devtools/libtool/libtool/prefix.patch |   46 +-
- .../libtool/libtool/resolve-sysroot.patch          |   42 -
- .../libtool/{libtool_2.4.bb => libtool_2.4.2.bb}   |    2 +-
- .../perl/files/Configure-multilib.patch            |   17 -
- .../perl/perl-5.12.3/cross-generate_uudmap.patch   |   15 -
- .../perl/perl-5.12.3/debian/arm_optim.diff         |   34 -
- .../perl/perl-5.12.3/debian/cpan_config_path.diff  |   24 -
- .../perl-5.12.3/debian/deprecate-with-apt.diff     |   61 -
- .../debian/devel-ppport-ia64-optim.diff            |   34 -
- .../perl/perl-5.12.3/debian/extutils_hacks.diff    |  315 -
- .../perl-5.12.3/debian/fixes/autodie-flock.diff    |  100 -
- .../debian/fixes/concat-stack-corruption.diff      |   39 -
- .../debian/fixes/cpanplus-without-home.diff        |   32 -
- .../perl-5.12.3/debian/fixes/h2ph-gcc-4.5.diff     |  108 -
- .../perl-5.12.3/debian/fixes/lc-numeric-docs.diff  |   97 -
- .../debian/fixes/lc-numeric-sprintf.diff           |   31 -
- .../perl/perl-5.12.3/debian/fixes/processPL.diff   |   45 -
- .../perl/perl-5.12.3/debian/patchlevel             |   45 -
- .../perl/perl-5.12.3/debian/series                 |   34 -
- .../perl/perl-5.12.3/parallel_build_fix_1.patch    |   27 -
- .../perl/perl-5.12.3/parallel_build_fix_2.patch    |   24 -
- .../perl/perl-5.12.3/parallel_build_fix_3.patch    | 6585 --------------------
- .../perl/perl-5.12.3/parallel_build_fix_4.patch    |   57 -
- .../perl/perl-5.12.3/parallel_build_fix_5.patch    |  430 --
- .../perl/perl-5.12.3/parallel_build_fix_6.patch    |  158 -
- .../09_fix_installperl.patch                       |    0
- .../Configure-multilib.patch                       |    0
- .../{perl-5.12.3 => perl-5.14.2}/MM_Unix.pm.patch  |    0
- .../{perl-5.12.3 => perl-5.14.2}/Makefile.SH.patch |  122 +-
- .../{perl-5.12.3 => perl-5.14.2}/Makefile.patch    |   17 +-
- .../asm-pageh-fix.patch                            |    0
- .../perl/{perl-5.12.3 => perl-5.14.2}/config.sh    |   65 +-
- .../perl/{perl-5.12.3 => perl-5.14.2}/config.sh-32 |    0
- .../{perl-5.12.3 => perl-5.14.2}/config.sh-32-be   |    0
- .../{perl-5.12.3 => perl-5.14.2}/config.sh-32-le   |    0
- .../perl/{perl-5.12.3 => perl-5.14.2}/config.sh-64 |    0
- .../{perl-5.12.3 => perl-5.14.2}/config.sh-64-be   |    0
- .../{perl-5.12.3 => perl-5.14.2}/config.sh-64-le   |    0
- .../perl/perl-5.14.2/cross-generate_uudmap.patch   |   15 +
- .../debian/arm_thread_stress_timeout.diff          |   13 +-
- .../debian/cpan_definstalldirs.diff                |   18 +-
- .../debian/cpanplus_config_path.diff               |   19 +-
- .../debian/cpanplus_definstalldirs.diff            |   13 +-
- .../debian/db_file_ver.diff                        |   12 +-
- .../perl-5.14.2/debian/deprecate-with-apt.diff     |  406 ++
- .../debian/disable-zlib-bundling.diff              |    7 +-
- .../debian/doc_info.diff                           |   16 +-
- .../debian/enc2xs_inc.diff                         |    9 +-
- .../debian/errno_ver.diff                          |   23 +-
- .../debian/extutils_set_libperl_path.diff          |   23 +
- .../debian/fakeroot.diff                           |   15 +-
- .../perl/perl-5.14.2/debian/find_html2text.diff    |   35 +
- .../debian/fixes/document_makemaker_ccflags.diff   |   31 +
- .../debian/fixes/extutils-cbuilder-cflags.diff     |   86 +
- .../perl-5.14.2/debian/fixes/h2ph-multiarch.diff   |   69 +
- .../debian/fixes/hurd-ccflags.diff                 |   12 +-
- .../perl/perl-5.14.2/debian/fixes/hurd-hints.diff  |   48 +
- .../perl-5.14.2/debian/fixes/index-tainting.diff   |   73 +
- .../debian/fixes/module-build-home-directory.diff  |   37 +
- .../debian/fixes/net_smtp_docs.diff                |   10 +-
- .../perl/perl-5.14.2/debian/fixes/pod_fixes.diff   |  145 +
- .../perl-5.14.2/debian/fixes/respect_umask.diff    |  153 +
- .../fixes/sys-syslog-socket-timeout-kfreebsd.patch |   36 +
- .../debian/instmodsh_doc.diff                      |    9 +-
- .../debian/ld_run_path.diff                        |   15 +-
- .../debian/libnet_config_path.diff                 |   12 +-
- .../perl/perl-5.14.2/debian/libperl_embed_doc.diff |   26 +
- .../debian/m68k_thread_stress.diff                 |   15 +-
- .../debian/mod_paths.diff                          |   15 +-
- .../debian/module_build_man_extensions.diff        |   16 +-
- .../perl-5.14.2/debian/no_packlist_perllocal.diff  |   88 +
- .../perl/perl-5.14.2/debian/patchlevel.diff        |   30 +
- .../debian/perlivp.diff                            |   19 +-
- .../perl/perl-5.14.2/debian/prefix_changes.diff    |  118 +
- .../debian/prune_libs.diff                         |   16 +-
- .../perl/perl-5.14.2/debian/series                 |   40 +
- .../perl-5.14.2/debian/skip-kfreebsd-crash.diff    |   39 +
- .../debian/skip-upstream-git-tests.diff            |   59 +
- .../debian/squelch-locale-warnings.diff            |   14 +-
- .../perl-5.14.2/debian/writable_site_dirs.diff     |   36 +
- .../fix_bad_rpath.patch                            |   13 +-
- .../{perl-5.12.3 => perl-5.14.2}/generate-sh.patch |    0
- .../{perl-5.12.3 => perl-5.14.2}/installperl.patch |    0
- .../letgcc-find-errno.patch                        |    0
- .../native-nopacklist.patch                        |    0
- .../native-perlinc.patch                           |    0
- .../perl-configpm-switch.patch                     |   18 +-
- .../{perl-5.12.3 => perl-5.14.2}/perl-configure.sh |    0
- .../perl-dynloader.patch                           |   21 +-
- .../perl-enable-gdbm.patch                         |    0
- .../perl-moreconfig.patch                          |    0
- ...perl-native_5.12.3.bb => perl-native_5.14.2.bb} |   32 +-
- ...depends_5.12.3.inc => perl-rdepends_5.14.2.inc} |   54 +-
- ...ovides_5.12.3.inc => perl-rprovides_5.14.2.inc} |    0
- .../perl/{perl_5.12.3.bb => perl_5.14.2.bb}        |   47 +-
- .../squashfs-tools/squashfs-tools_4.2.bb           |   40 +
- .../subversion/subversion-1.7.0/libtool2.patch     |   15 +
- .../subversion/subversion_1.6.15.bb                |    2 +
- .../subversion/subversion_1.7.0.bb                 |   37 +
- .../tcltk/tcl/fix_non_native_build_issue.patch     |   16 +-
- .../tcltk/tcl/tcl-add-soname.patch                 |   26 +-
- .../tcltk/{tcl_8.5.9.bb => tcl_8.5.10.bb}          |    6 +-
- meta/recipes-extended/texi2html/texi2html_1.82.bb  |   14 +
- .../wget/wget-1.12/fix_makefile.patch              |   59 +
- .../wget/wget-1.12/gnutls.bzr.patch                |  266 +
- meta/recipes-extended/wget/wget.inc                |   40 +
- meta/recipes-extended/wget/wget_1.12.bb            |   11 +
- .../recipes-graphics/xorg-xserver/xserver-xorg.inc |    2 +-
- .../oprofile/{oprofile_0.9.6.bb => oprofile.inc}   |   13 +-
- meta/recipes-kernel/oprofile/oprofile_0.9.7.bb     |   11 +
- meta/recipes-kernel/oprofile/oprofile_cvs.bb       |   28 -
- meta/recipes-kernel/oprofile/oprofile_git.bb       |   11 +
- .../pulseaudio/pulseaudio_0.9.23.bb                |    2 +-
- meta/recipes-support/apr/apr-util_1.3.12.bb        |    8 +
- meta/recipes-support/apr/apr_1.4.5.bb              |    2 +
- meta/recipes-support/neon/neon_0.29.5.bb           |    3 +
- meta/site/common-linux                             |    3 +
- 139 files changed, 2724 insertions(+), 8881 deletions(-)
- delete mode 100644 meta-demoapps/recipes-gnome/abiword/abiword_cvs.bb
- create mode 100644 meta-demoapps/recipes-gnome/abiword/abiword_svn.bb
- rename meta/recipes-core/coreutils/{coreutils-8.12 => coreutils-8.14}/remove-usr-local-lib-from-m4.patch (65%)
- rename meta/recipes-core/coreutils/{coreutils_8.12.bb => coreutils_8.14.bb} (90%)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.6/pr32219.patch
- rename meta/recipes-devtools/libtool/{libtool.inc => libtool-2.4.2.inc} (57%)
- delete mode 100644 meta/recipes-devtools/libtool/libtool-2.4.inc
- rename meta/recipes-devtools/libtool/{libtool-cross_2.4.bb => libtool-cross_2.4.2.bb} (98%)
- rename meta/recipes-devtools/libtool/{libtool-native_2.4.bb => libtool-native_2.4.2.bb} (96%)
- rename meta/recipes-devtools/libtool/{libtool-nativesdk_2.4.bb => libtool-nativesdk_2.4.2.bb} (97%)
- delete mode 100644 meta/recipes-devtools/libtool/libtool/resolve-sysroot.patch
- rename meta/recipes-devtools/libtool/{libtool_2.4.bb => libtool_2.4.2.bb} (94%)
- delete mode 100644 meta/recipes-devtools/perl/files/Configure-multilib.patch
- delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/cross-generate_uudmap.patch
- delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/arm_optim.diff
- delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/cpan_config_path.diff
- delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/deprecate-with-apt.diff
- delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/devel-ppport-ia64-optim.diff
- delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/extutils_hacks.diff
- delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/autodie-flock.diff
- delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/concat-stack-corruption.diff
- delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/cpanplus-without-home.diff
- delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/h2ph-gcc-4.5.diff
- delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/lc-numeric-docs.diff
- delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/lc-numeric-sprintf.diff
- delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/fixes/processPL.diff
- delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/patchlevel
- delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/debian/series
- delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_1.patch
- delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_2.patch
- delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_3.patch
- delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_4.patch
- delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_5.patch
- delete mode 100644 meta/recipes-devtools/perl/perl-5.12.3/parallel_build_fix_6.patch
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/09_fix_installperl.patch (100%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/Configure-multilib.patch (100%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/MM_Unix.pm.patch (100%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/Makefile.SH.patch (75%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/Makefile.patch (87%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/asm-pageh-fix.patch (100%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/config.sh (94%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/config.sh-32 (100%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/config.sh-32-be (100%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/config.sh-32-le (100%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/config.sh-64 (100%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/config.sh-64-be (100%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/config.sh-64-le (100%)
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/cross-generate_uudmap.patch
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/arm_thread_stress_timeout.diff (66%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/cpan_definstalldirs.diff (80%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/cpanplus_config_path.diff (83%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/cpanplus_definstalldirs.diff (84%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/db_file_ver.diff (83%)
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/deprecate-with-apt.diff
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/disable-zlib-bundling.diff (83%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/doc_info.diff (78%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/enc2xs_inc.diff (90%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/errno_ver.diff (70%)
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/extutils_set_libperl_path.diff
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/fakeroot.diff (79%)
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/find_html2text.diff
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/document_makemaker_ccflags.diff
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/extutils-cbuilder-cflags.diff
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/h2ph-multiarch.diff
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/fixes/hurd-ccflags.diff (67%)
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/hurd-hints.diff
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/index-tainting.diff
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/module-build-home-directory.diff
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/fixes/net_smtp_docs.diff (76%)
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/pod_fixes.diff
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/respect_umask.diff
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/fixes/sys-syslog-socket-timeout-kfreebsd.patch
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/instmodsh_doc.diff (81%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/ld_run_path.diff (68%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/libnet_config_path.diff (85%)
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/libperl_embed_doc.diff
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/m68k_thread_stress.diff (78%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/mod_paths.diff (89%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/module_build_man_extensions.diff (81%)
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/no_packlist_perllocal.diff
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/patchlevel.diff
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/perlivp.diff (77%)
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/prefix_changes.diff
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/prune_libs.diff (81%)
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/series
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/skip-kfreebsd-crash.diff
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/skip-upstream-git-tests.diff
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/debian/squelch-locale-warnings.diff (86%)
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/debian/writable_site_dirs.diff
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/fix_bad_rpath.patch (70%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/generate-sh.patch (100%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/installperl.patch (100%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/letgcc-find-errno.patch (100%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/native-nopacklist.patch (100%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/native-perlinc.patch (100%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/perl-configpm-switch.patch (76%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/perl-configure.sh (100%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/perl-dynloader.patch (69%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/perl-enable-gdbm.patch (100%)
- rename meta/recipes-devtools/perl/{perl-5.12.3 => perl-5.14.2}/perl-moreconfig.patch (100%)
- rename meta/recipes-devtools/perl/{perl-native_5.12.3.bb => perl-native_5.14.2.bb} (74%)
- rename meta/recipes-devtools/perl/{perl-rdepends_5.12.3.inc => perl-rdepends_5.14.2.inc} (90%)
- rename meta/recipes-devtools/perl/{perl-rprovides_5.12.3.inc => perl-rprovides_5.14.2.inc} (100%)
- rename meta/recipes-devtools/perl/{perl_5.12.3.bb => perl_5.14.2.bb} (92%)
- create mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb
- create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.0/libtool2.patch
- create mode 100644 meta/recipes-devtools/subversion/subversion_1.7.0.bb
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+---
+ .../tcltk/tcl/fix_non_native_build_issue.patch     |   16 +++---------
+ .../tcltk/tcl/tcl-add-soname.patch                 |   26 ++++++++++----------
+ .../tcltk/{tcl_8.5.9.bb => tcl_8.5.10.bb}          |    6 ++--
+ 3 files changed, 20 insertions(+), 28 deletions(-)
  rename meta/recipes-devtools/tcltk/{tcl_8.5.9.bb => tcl_8.5.10.bb} (91%)
- create mode 100644 meta/recipes-extended/texi2html/texi2html_1.82.bb
- create mode 100644 meta/recipes-extended/wget/wget-1.12/fix_makefile.patch
- create mode 100644 meta/recipes-extended/wget/wget-1.12/gnutls.bzr.patch
- create mode 100644 meta/recipes-extended/wget/wget.inc
- create mode 100644 meta/recipes-extended/wget/wget_1.12.bb
- rename meta/recipes-kernel/oprofile/{oprofile_0.9.6.bb => oprofile.inc} (70%)
- create mode 100644 meta/recipes-kernel/oprofile/oprofile_0.9.7.bb
- delete mode 100644 meta/recipes-kernel/oprofile/oprofile_cvs.bb
- create mode 100644 meta/recipes-kernel/oprofile/oprofile_git.bb
 
+diff --git a/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch b/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
+index e9b6793..9c2d379 100644
+--- a/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
++++ b/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
+@@ -4,7 +4,7 @@ Index: unix/Makefile.in
+ ===================================================================
+ --- unix.orig/Makefile.in
+ +++ unix/Makefile.in
+-@@ -619,20 +619,20 @@ ro-test: tcltest@EXEEXT@
++@@ -619,13 +619,13 @@ ro-test: tcltest@EXEEXT@
+  shell: ${TCL_EXE}
+  	@LD_LIBRARY_PATH_VAR@="`pwd`:$${@LD_LIBRARY_PATH_VAR@}"; export @LD_LIBRARY_PATH_VAR@; \
+  	TCL_LIBRARY="${TCL_BUILDTIME_LIBRARY}"; export TCL_LIBRARY; \
+@@ -19,16 +19,8 @@ Index: unix/Makefile.in
+ +	$(GDB) ${TCL_EXE} --command=gdb.run
+  	rm gdb.run
+  
+- # This target can be used to run tclsh inside ddd
+- ddd: ${TCL_EXE}
+- 	@echo "set env @LD_LIBRARY_PATH_VAR@=\"`pwd`:$${@LD_LIBRARY_PATH_VAR@}\"" > gdb.run
+- 	@echo "set env TCL_LIBRARY=${TCL_BUILDTIME_LIBRARY}" >> gdb.run
+--	$(DDD) -command=gdb.run ./${TCL_EXE}
+-+	$(DDD) -command=gdb.run ${TCL_EXE}
+- 	rm gdb.run
+- 
+  VALGRINDARGS=--tool=memcheck --num-callers=8 --leak-resolution=high --leak-check=yes --show-reachable=yes -v
+-@@ -645,7 +645,7 @@ valgrind: ${TCL_EXE} tcltest@EXEEXT@
++@@ -638,7 +638,7 @@ valgrind: ${TCL_EXE} tcltest@EXEEXT@
+  valgrindshell: ${TCL_EXE}
+  	@LD_LIBRARY_PATH_VAR@="`pwd`:$${@LD_LIBRARY_PATH_VAR@}"; export @LD_LIBRARY_PATH_VAR@; \
+  	TCL_LIBRARY="${TCL_BUILDTIME_LIBRARY}"; export TCL_LIBRARY; \
+@@ -37,7 +29,7 @@ Index: unix/Makefile.in
+  
+  # The following target outputs the name of the top-level source directory for
+  # Tcl (it is used by Tk's configure script, for example). The .NO_PARALLEL
+-@@ -809,14 +809,14 @@ install-tzdata: ${TCL_EXE}
++@@ -802,14 +802,14 @@ install-tzdata: ${TCL_EXE}
+  	@echo "Installing time zone data"
+  	@@LD_LIBRARY_PATH_VAR@="`pwd`:$${@LD_LIBRARY_PATH_VAR@}"; export @LD_LIBRARY_PATH_VAR@; \
+  	TCL_LIBRARY="${TCL_BUILDTIME_LIBRARY}"; export TCL_LIBRARY; \
+@@ -54,7 +46,7 @@ Index: unix/Makefile.in
+  	    $(TOP_DIR)/library/msgs "$(SCRIPT_INSTALL_DIR)"/msgs
+  
+  install-doc: doc
+-@@ -1756,7 +1756,7 @@ html-tk: ${TCL_EXE}
++@@ -1730,7 +1730,7 @@ html-tk: ${TCL_EXE}
+  BUILD_HTML = \
+  	@@LD_LIBRARY_PATH_VAR@="`pwd`:$${@LD_LIBRARY_PATH_VAR@}"; export @LD_LIBRARY_PATH_VAR@; \
+  	TCL_LIBRARY="${TCL_BUILDTIME_LIBRARY}"; export TCL_LIBRARY; \
+diff --git a/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch b/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch
+index 963576d..93ef186 100644
+--- a/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch
++++ b/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch
+@@ -4,9 +4,9 @@ Index: unix/configure
+ ===================================================================
+ --- unix.orig/configure
+ +++ unix/configure
+-@@ -6726,6 +6726,7 @@ fi
+- 	    # symbols when dynamically loaded into tclsh.
+- 	    SHLIB_LD_LIBS='${LIBS}'
++@@ -6757,6 +6757,7 @@ fi
++ 	    LIBS="$LIBS -lc"
++ 	    SHLIB_CFLAGS=""
+  	    SHLIB_SUFFIX=".so"
+ +	    SHARED_LIB_SUFFIX='${VERSION}\$\{DBGX\}.so.0'
+  
+@@ -16,15 +16,7 @@ Index: unix/tcl.m4
+ ===================================================================
+ --- unix.orig/tcl.m4
+ +++ unix/tcl.m4
+-@@ -1424,6 +1424,7 @@ dnl AC_CHECK_TOOL(AR, ar)
+- 	    SHLIB_CFLAGS="-fPIC"
+- 	    SHLIB_LD_LIBS='${LIBS}'
+- 	    SHLIB_SUFFIX=".so"
+-+	    SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}\$\{DBGX\}.so.0'
+- 
+- 	    CFLAGS_OPTIMIZE="-O2"
+- 	    # egcs-2.91.66 on Redhat Linux 6.0 generates lots of warnings 
+-@@ -1431,12 +1432,15 @@ dnl AC_CHECK_TOOL(AR, ar)
++@@ -1399,12 +1399,15 @@ AC_DEFUN([SC_CONFIG_CFLAGS], [
+  	    # get rid of the warnings.
+  	    #CFLAGS_OPTIMIZE="${CFLAGS_OPTIMIZE} -D__NO_STRING_INLINES -D__NO_MATH_INLINES"
+  
+@@ -41,7 +33,15 @@ Index: unix/tcl.m4
+  	    LD_SEARCH_FLAGS=${CC_SEARCH_FLAGS}
+  	    AS_IF([test "`uname -m`" = "alpha"], [CFLAGS="$CFLAGS -mieee"])
+  	    AS_IF([test $do64bit = yes], [
+-@@ -2079,7 +2083,7 @@ dnl # preprocessing tests use only CPPFL
++@@ -1430,6 +1433,7 @@ AC_DEFUN([SC_CONFIG_CFLAGS], [
++ 	GNU*)
++ 	    SHLIB_CFLAGS="-fPIC"
++ 	    SHLIB_SUFFIX=".so"
+++	    SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}\$\{DBGX\}.so.0'
++ 
++ 	    SHLIB_LD='${CC} -shared'
++ 	    DL_OBJS=""
++@@ -2081,7 +2085,7 @@ dnl # preprocessing tests use only CPPFL
+  
+      AS_IF([test "${SHARED_BUILD}" = 1 -a "${SHLIB_SUFFIX}" != ""], [
+          LIB_SUFFIX=${SHARED_LIB_SUFFIX}
+diff --git a/meta/recipes-devtools/tcltk/tcl_8.5.9.bb b/meta/recipes-devtools/tcltk/tcl_8.5.10.bb
+similarity index 91%
+rename from meta/recipes-devtools/tcltk/tcl_8.5.9.bb
+rename to meta/recipes-devtools/tcltk/tcl_8.5.10.bb
+index 2eabb4d..a9d80af 100644
+--- a/meta/recipes-devtools/tcltk/tcl_8.5.9.bb
++++ b/meta/recipes-devtools/tcltk/tcl_8.5.10.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://../license.terms;md5=a47a9be26d03f925fc1fbd2784f27e11
+     file://../win/license.terms;md5=a47a9be26d03f925fc1fbd2784f27e11 \
+     "
+ 
+-PR = "r1"
++PR = "r0"
+ 
+ BASE_SRC_URI = "${SOURCEFORGE_MIRROR}/tcl/tcl${PV}-src.tar.gz \
+                 file://tcl-add-soname.patch"
+@@ -19,8 +19,8 @@ BASE_SRC_URI = "${SOURCEFORGE_MIRROR}/tcl/tcl${PV}-src.tar.gz \
+ SRC_URI = "${BASE_SRC_URI} \
+ 	   file://fix_non_native_build_issue.patch "
+ 
+-SRC_URI[md5sum] = "8512d8db3233041dd68a81476906012a"
+-SRC_URI[sha256sum] = "3ab671b417e3eeb41b9cef626d742d8f7f57425101e83e5fcad1d552cd99237d"
++SRC_URI[md5sum] = "a08eaf8467c0631937067c1948dd326b"
++SRC_URI[sha256sum] = "f582063edd5419a39ee8f7b5c8f95d557b5daad13efb0ed2f0967ca185613bb7"
+ 
+ SRC_URI_virtclass-native = "${BASE_SRC_URI}"
+ 
 -- 
 1.7.6.4
 
