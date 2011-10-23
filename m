@@ -1,32 +1,32 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RHs1a-0001zg-3e
+	(envelope-from <martin.jansa@gmail.com>) id 1RHt1Y-0003xs-UF
 	for openembedded-core@lists.openembedded.org;
-	Sun, 23 Oct 2011 08:59:14 +0200
-Received: by wwf10 with SMTP id 10so6217873wwf.24
+	Sun, 23 Oct 2011 10:03:16 +0200
+Received: by bkat8 with SMTP id t8so6984748bka.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Oct 2011 23:53:18 -0700 (PDT)
-Received: by 10.227.27.67 with SMTP id h3mr7714001wbc.30.1319352798564;
-	Sat, 22 Oct 2011 23:53:18 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235]) by mx.google.com with ESMTPS id
-	fw16sm23780748wbb.13.2011.10.22.23.53.17
+	Sun, 23 Oct 2011 00:57:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=YGjStWHSAr9ORV5N6QwWZJmD2DMbqcPTubN3l7nYR0Y=;
+	b=byx60u30D0BUJYnDroCUrMgq5IAkpk2FYCjNYas4LSXH+qPRtq6cQinaKrMiOxsNb6
+	vWDUxx71o+cEw9z3sp3qZnEDt5bTzKRkwFQ4s27M5R5s0t7C9pAFofHcpkn6hITGORbW
+	A3SsJh4XwJYDKjz4NAQPSptiwUsuJymFoj9ZA=
+Received: by 10.223.91.68 with SMTP id l4mr16865561fam.16.1319356641418;
+	Sun, 23 Oct 2011 00:57:21 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id o16sm34219469fag.21.2011.10.23.00.57.19
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 22 Oct 2011 23:53:17 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <9DA5872FEF993D41B7173F58FCF6BE94E33A6D8D@orsmsx504.amr.corp.intel.com>
-Date: Sun, 23 Oct 2011 08:53:15 +0200
-Message-Id: <BC5E1F03-7376-44DC-9A01-9CA2523EC6D1@dominion.thruhere.net>
-References: <cover.1318547063.git.nitin.a.kamble@intel.com>
-	<70807dd62c2c498616cc544869bd710b351b7212.1318547063.git.nitin.a.kamble@intel.com>
-	<20111014081939.GC3542@jama.jama.net>
-	<20111014091136.GE3542@jama.jama.net>
-	<9DA5872FEF993D41B7173F58FCF6BE94E33A6D8D@orsmsx504.amr.corp.intel.com>
+	Sun, 23 Oct 2011 00:57:20 -0700 (PDT)
+Date: Sun, 23 Oct 2011 09:57:15 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [review/test 3/5] python, python-native: upgrade from 2.6.6 to 2.7.2
+Message-ID: <20111023075715.GD3497@jama.jama.net>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: bitbake eating more than 6GB ram while parsing recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,19 +41,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 23 Oct 2011 06:59:14 -0000
+X-List-Received-Date: Sun, 23 Oct 2011 08:03:17 -0000
+X-Groupsio-MsgNum: 11458
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="+KJYzRxRHjYqLGl5"
+Content-Disposition: inline
+
+--+KJYzRxRHjYqLGl5
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hi,
 
-Op 23 okt. 2011, om 01:54 heeft Kamble, Nitin A het volgende geschreven:
+I know this was reported a while ago and I had this issue for few days
+with 4 GB RAM on my workstation it was hard to do anything when bitbake
+was parsing and today I've "resolved" it by removing cache.
 
-> Hi Martin,
->  I have kept my python work at nitin/python branch on poky contrib. 
+first I've tried to remove
+#PARALLEL_MAKE=3D"-j3"
+#BB_NUMBER_THREADS =3D "2"
+=66rom my local.conf and it didn't help I still had 6 bitbake processes
+4 eating ~ 1GB ad 2 with ~ 512MB. So I've removed tmp/cache except
+bb_persist_data.sqlite3:
 
-Do you have a branch against oe-core?
+OE om-gta02@shr ~/shr-core $ du -hs tmp/cache/*
+35M     tmp/cache/bb_codeparser.dat
+0       tmp/cache/bb_codeparser.dat.lock.13293
+0       tmp/cache/bb_codeparser.dat.lock.13294
+0       tmp/cache/bb_codeparser.dat.lock.13295
+0       tmp/cache/bb_codeparser.dat.lock.15708
+0       tmp/cache/bb_codeparser.dat.lock.16878
+0       tmp/cache/bb_codeparser.dat.lock.16879
+0       tmp/cache/bb_codeparser.dat.lock.16880
+0       tmp/cache/bb_codeparser.dat.lock.25605
+68K     tmp/cache/bb_persist_data.sqlite3
+87M     tmp/cache/default-eglibc
+OE om-gta02@shr ~/shr-core $ rm -rf tmp/cache/bb_codeparser.dat*
 
+OE om-gta02@shr ~/shr-core $ du -hs tmp/cache/default-eglibc/*
+13M     tmp/cache/default-eglibc/nokia900
+13M     tmp/cache/default-eglibc/om-gta02
+13M     tmp/cache/default-eglibc/palmpre
+13M     tmp/cache/default-eglibc/qemuarm
+13M     tmp/cache/default-eglibc/qemux86
+13M     tmp/cache/default-eglibc/qemux86-64
+13M     tmp/cache/default-eglibc/spitz
+OE om-gta02@shr ~/shr-core $ rm -rf tmp/cache/default-eglibc/
 
+and now it's sane again and memory used is < 2GB.
 
+Regards,
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--+KJYzRxRHjYqLGl5
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk6jyNoACgkQN1Ujt2V2gBy8DACfREci63uP1q0RdCMZLT19Rc78
+2/cAn3ygDCZTHwQ97Ibm0MRQS2e6P2vZ
+=xtNx
+-----END PGP SIGNATURE-----
+
+--+KJYzRxRHjYqLGl5--
