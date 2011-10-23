@@ -1,29 +1,31 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RI4Os-0003BY-Aw
+	(envelope-from <saul.wold@intel.com>) id 1RI4WI-0003O4-Km
 	for openembedded-core@lists.openembedded.org;
-	Sun, 23 Oct 2011 22:12:06 +0200
-Received: by gyc15 with SMTP id 15so4964121gyc.6
+	Sun, 23 Oct 2011 22:19:46 +0200
+Received: from mail-pz0-f44.google.com ([209.85.210.44])
+	by mga03.intel.com with ESMTP/TLS/RC4-MD5; 23 Oct 2011 13:13:49 -0700
+Received: by pzk4 with SMTP id 4so33709415pzk.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Oct 2011 13:06:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=4jKIieL2PxnCDwsKwP1iSpfBiER0nC6ZlwShIvMR5GY=;
-	b=b6l1ZRdi1ukDFCGm2jZJF/Uhgqq+4I5oBOFRhDmBAiLBwUzvc8uieEs+TupvVYFfbk
-	bxBKZVmd0fvFZuF5GoIUmUG2PQXvkPN7jsfYM3WtlFn6WWLI0QhVvDvCikM5yLbL3qpr
-	3BJk1CybE0kHYCVxtKs1M+a4w6SO4+J51DIoU=
+	Sun, 23 Oct 2011 13:13:49 -0700 (PDT)
+Received: by 10.68.74.4 with SMTP id p4mr43016626pbv.47.1319400828706;
+	Sun, 23 Oct 2011 13:13:48 -0700 (PDT)
+Received: from [192.168.0.34] ([96.24.77.242])
+	by mx.google.com with ESMTPS id e10sm50504632pbq.10.2011.10.23.13.13.47
+	(version=SSLv3 cipher=OTHER); Sun, 23 Oct 2011 13:13:48 -0700 (PDT)
+Message-ID: <4EA4757A.5010106@intel.com>
+Date: Sun, 23 Oct 2011 13:13:46 -0700
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
-Received: by 10.68.0.195 with SMTP id 3mr8718033pbg.132.1319400365609; Sun, 23
-	Oct 2011 13:06:05 -0700 (PDT)
-Received: by 10.68.48.230 with HTTP; Sun, 23 Oct 2011 13:06:05 -0700 (PDT)
-In-Reply-To: <9d70a72f5ab24bc0424f11311c8eb6b19f3d2987.1319394187.git.sgw@linux.intel.com>
-References: <cover.1319394187.git.sgw@linux.intel.com>
-	<9d70a72f5ab24bc0424f11311c8eb6b19f3d2987.1319394187.git.sgw@linux.intel.com>
-Date: Sun, 23 Oct 2011 13:06:05 -0700
-Message-ID: <CAMKF1soJ1Kv77_dNijQTWjzk8W+M5z2+yg2SUPxZtADLgum2CA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+References: <cover.1319394187.git.sgw@linux.intel.com>
+	<9d70a72f5ab24bc0424f11311c8eb6b19f3d2987.1319394187.git.sgw@linux.intel.com>
+	<CAMKF1soJ1Kv77_dNijQTWjzk8W+M5z2+yg2SUPxZtADLgum2CA@mail.gmail.com>
+In-Reply-To: <CAMKF1soJ1Kv77_dNijQTWjzk8W+M5z2+yg2SUPxZtADLgum2CA@mail.gmail.com>
 Subject: Re: [CONSOLIDATED PULL 24/27] texi2html: Added recipe from OE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -39,97 +41,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 23 Oct 2011 20:12:06 -0000
-Content-Type: multipart/alternative; boundary=bcaec53149a91bd2f804affcd674
+X-List-Received-Date: Sun, 23 Oct 2011 20:19:46 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---bcaec53149a91bd2f804affcd674
-Content-Type: text/plain; charset=UTF-8
-
-On Sunday, October 23, 2011, Saul Wold <sgw@linux.intel.com> wrote:
-> Needed to build oe-core with oe-core
-
-Oe-Core with oe-core did u mean meta-oe in one place ?
+On 10/23/2011 01:06 PM, Khem Raj wrote:
 >
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  meta/recipes-extended/texi2html/texi2html_1.82.bb |   14 ++++++++++++++
->  1 files changed, 14 insertions(+), 0 deletions(-)
->  create mode 100644 meta/recipes-extended/texi2html/texi2html_1.82.bb
 >
-> diff --git a/meta/recipes-extended/texi2html/texi2html_1.82.bbb/meta/recipes-extended/texi2html/
-texi2html_1.82.bb
-> new file mode 100644
-> index 0000000..f19b576
-> --- /dev/null
-> +++ b/meta/recipes-extended/texi2html/texi2html_1.82.bb
-> @@ -0,0 +1,14 @@
-> +DESCRIPTION = "Perl script that converts Texinfo to HTML"
-> +HOMEPAGE    = "http://www.nongnu.org/texi2html/"
-> +SECTION     = "console/utils"
-> +LICENSE     = "GPLv2"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
-> +
-> +PR = "r0"
-> +
-> +SRC_URI     = "
-http://download.savannah.gnu.org/releases/texi2html/${P}.tar.bz2"
-> +
-> +SRC_URI[md5sum] = "a8a9193c0ac1bec2f3ca7be40a5a82eb"
-> +SRC_URI[sha256sum] =
-"d69c1effc416896409003ea64fdb21152cc0a9a7c665d437a0a3bef9b588b4f1"
-> +
-> +inherit autotools
-> --
-> 1.7.6.4
+> On Sunday, October 23, 2011, Saul Wold <sgw@linux.intel.com
+> <mailto:sgw@linux.intel.com>> wrote:
+>  > Needed to build oe-core with oe-core
+>
+Nope, this is needed on the target image to build OE-core with an 
+OE-Core image.
+
+Sau!
+> Oe-Core with oe-core did u mean meta-oe in one place ?
+>  >
+>  > Signed-off-by: Saul Wold <sgw@linux.intel.com
+> <mailto:sgw@linux.intel.com>>
+>  > ---
+>  >  meta/recipes-extended/texi2html/texi2html_1.82.bb
+> <http://texi2html_1.82.bb> |   14 ++++++++++++++
+>  >  1 files changed, 14 insertions(+), 0 deletions(-)
+>  >  create mode 100644 meta/recipes-extended/texi2html/texi2html_1.82.bb
+> <http://texi2html_1.82.bb>
+>  >
+>  > diff --git a/meta/recipes-extended/texi2html/texi2html_1.82.bb
+> <http://texi2html_1.82.bb>
+> b/meta/recipes-extended/texi2html/texi2html_1.82.bb
+> <http://texi2html_1.82.bb>
+>  > new file mode 100644
+>  > index 0000000..f19b576
+>  > --- /dev/null
+>  > +++ b/meta/recipes-extended/texi2html/texi2html_1.82.bb
+> <http://texi2html_1.82.bb>
+>  > @@ -0,0 +1,14 @@
+>  > +DESCRIPTION = "Perl script that converts Texinfo to HTML"
+>  > +HOMEPAGE    = "http://www.nongnu.org/texi2html/"
+>  > +SECTION     = "console/utils"
+>  > +LICENSE     = "GPLv2"
+>  > +LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
+>  > +
+>  > +PR = "r0"
+>  > +
+>  > +SRC_URI     =
+> "http://download.savannah.gnu.org/releases/texi2html/${P}.tar.bz2"
+>  > +
+>  > +SRC_URI[md5sum] = "a8a9193c0ac1bec2f3ca7be40a5a82eb"
+>  > +SRC_URI[sha256sum] =
+> "d69c1effc416896409003ea64fdb21152cc0a9a7c665d437a0a3bef9b588b4f1"
+>  > +
+>  > +inherit autotools
+>  > --
+>  > 1.7.6.4
+>  >
+>  >
+>  > _______________________________________________
+>  > Openembedded-core mailing list
+>  > Openembedded-core@lists.openembedded.org
+> <mailto:Openembedded-core@lists.openembedded.org>
+>  > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>  >
 >
 >
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
---bcaec53149a91bd2f804affcd674
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<br><br>On Sunday, October 23, 2011, Saul Wold &lt;<a href=3D"mailto:sgw@li=
-nux.intel.com">sgw@linux.intel.com</a>&gt; wrote:<br>&gt; Needed to build o=
-e-core with oe-core<br><br>Oe-Core with oe-core did u mean meta-oe in one p=
-lace ?<br>
-&gt;<br>&gt; Signed-off-by: Saul Wold &lt;<a href=3D"mailto:sgw@linux.intel=
-.com">sgw@linux.intel.com</a>&gt;<br>&gt; ---<br>&gt; =C2=A0meta/recipes-ex=
-tended/texi2html/<a href=3D"http://texi2html_1.82.bb">texi2html_1.82.bb</a>=
- | =C2=A0 14 ++++++++++++++<br>
-&gt; =C2=A01 files changed, 14 insertions(+), 0 deletions(-)<br>&gt; =C2=A0=
-create mode 100644 meta/recipes-extended/texi2html/<a href=3D"http://texi2h=
-tml_1.82.bb">texi2html_1.82.bb</a><br>&gt;<br>&gt; diff --git a/meta/recipe=
-s-extended/texi2html/<a href=3D"http://texi2html_1.82.bb">texi2html_1.82.bb=
-</a> b/meta/recipes-extended/texi2html/<a href=3D"http://texi2html_1.82.bb"=
->texi2html_1.82.bb</a><br>
-&gt; new file mode 100644<br>&gt; index 0000000..f19b576<br>&gt; --- /dev/n=
-ull<br>&gt; +++ b/meta/recipes-extended/texi2html/<a href=3D"http://texi2ht=
-ml_1.82.bb">texi2html_1.82.bb</a><br>&gt; @@ -0,0 +1,14 @@<br>&gt; +DESCRIP=
-TION =3D &quot;Perl script that converts Texinfo to HTML&quot;<br>
-&gt; +HOMEPAGE =C2=A0 =C2=A0=3D &quot;<a href=3D"http://www.nongnu.org/texi=
-2html/">http://www.nongnu.org/texi2html/</a>&quot;<br>&gt; +SECTION =C2=A0 =
-=C2=A0 =3D &quot;console/utils&quot;<br>&gt; +LICENSE =C2=A0 =C2=A0 =3D &qu=
-ot;GPLv2&quot;<br>&gt; +LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D595=
-30bdf33659b29e73d4adb9f9f6552&quot;<br>
-&gt; +<br>&gt; +PR =3D &quot;r0&quot;<br>&gt; +<br>&gt; +SRC_URI =C2=A0 =C2=
-=A0 =3D &quot;<a href=3D"http://download.savannah.gnu.org/releases/texi2htm=
-l/${P}.tar.bz2">http://download.savannah.gnu.org/releases/texi2html/${P}.ta=
-r.bz2</a>&quot;<br>
-&gt; +<br>&gt; +SRC_URI[md5sum] =3D &quot;a8a9193c0ac1bec2f3ca7be40a5a82eb&=
-quot;<br>&gt; +SRC_URI[sha256sum] =3D &quot;d69c1effc416896409003ea64fdb211=
-52cc0a9a7c665d437a0a3bef9b588b4f1&quot;<br>&gt; +<br>&gt; +inherit autotool=
-s<br>
-&gt; --<br>&gt; 1.7.6.4<br>&gt;<br>&gt;<br>&gt; ___________________________=
-____________________<br>&gt; Openembedded-core mailing list<br>&gt; <a href=
-=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@list=
-s.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openemb=
-edded-core">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde=
-d-core</a><br>&gt;
 
---bcaec53149a91bd2f804affcd674--
