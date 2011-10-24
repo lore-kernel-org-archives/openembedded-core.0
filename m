@@ -1,30 +1,27 @@
-Received: from mx.insigma.com.cn ([115.236.48.170] helo=WX-Edge.insigma.com.cn)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <niqingliang@insigma.com.cn>) id 1RIAQa-0004WV-9V
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RIBKv-00063e-TX
 	for openembedded-core@lists.openembedded.org;
-	Mon, 24 Oct 2011 04:38:16 +0200
-Received: from WX-ExchMB.insigma.com.cn (10.0.1.203) by WX-Edge.insigma.com.cn
-	(10.0.1.205) with Microsoft SMTP Server (TLS) id 8.1.436.0;
-	Mon, 24 Oct 2011 10:32:18 +0800
-Received: from [192.168.0.98] (122.224.76.38) by WX-ExchMB.insigma.com.cn
-	(10.0.1.203) with Microsoft SMTP Server id 8.1.240.5; Mon, 24 Oct 2011
-	10:32:16 +0800
-From: Ni Qingliang <niqingliang@insigma.com.cn>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Oct 2011 10:31:21 +0800
-In-Reply-To: <1319421032.10032.22.camel@localhost.localdomain>
-References: <1319421032.10032.22.camel@localhost.localdomain>
-Organization: Insigma
-X-Mailer: Evolution 3.0.3 
-Message-ID: <1319423481.10032.24.camel@localhost.localdomain>
+	Mon, 24 Oct 2011 05:36:30 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p9O3UWri003720
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 23 Oct 2011 20:30:32 -0700 (PDT)
+Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Sun, 23 Oct 2011 20:30:32 -0700
+Message-ID: <cover.1319427162.git.xiaofeng.yan@windriver.com>
+Old-Date: Mon, 24 Oct 2011 11:32:42 +0800
+Date: Mon, 24 Oct 2011 11:37:02 +0800
+To: <openembedded-core@lists.openembedded.org>
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-Subject: Re: where is the binary file
+Subject: [PATCH 0/1] qmmp: update to 0.5.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: niqingliang@insigma.com.cn,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -35,48 +32,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Oct 2011 02:38:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 24 Oct 2011 03:36:30 -0000
+Content-Type: text/plain
 
-I have found out it!
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-the PN is tinbox, and I have installed the binary to '/usr/lib/tin/'
+Hi saul,
 
-the bitbake will process '/lib/${PN}/' and '/usr/lib/${PN}', skipped my
-own directory.
-after change to /usr/lib/${PN}, it works!
+Use do_split_package for each grouping and name them correctly besides updating package.
+The format to name plugins of qmmp:
+qmmp-plugin-<group>-<library>  with the Description: Qmmp <Group> plugin for %s"
 
-On Mon, 2011-10-24 at 09:50 +0800, Ni Qingliang wrote:
-> Hello All:
-> 
-> I have installed some binary file into the /lib/xxx directory (used for
-> FPGA), and can find them in the 'package' dir of the package. but can't
-> find any in the 'packages-split' dir of it (and also not in the final
-> image).
-> 
-> 
-> Does anyone can tell me what happened?
-> 
-> 
-> 
-> --
-> Yi Qingliang
-> niqingliang@insigma.com.cn
-> http://niqingliang2003.wordpress.com
-> 
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: xiaofeng/qmmp_update
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/qmmp_update
 
--- 
-Yi Qingliang
-niqingliang@insigma.com.cn
-http://niqingliang2003.wordpress.com
+Thanks,
+    Xiaofeng Yan <xiaofeng.yan@windriver.com>
+---
 
+
+Xiaofeng Yan (1):
+  qmmp: update to 0.5.2
+
+ meta/recipes-qt/qt-apps/qmmp_0.5.2.bb |   60 +++++++++++++++++++++++++++++++++
+ 1 files changed, 60 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-qt/qt-apps/qmmp_0.5.2.bb
 
 
 
