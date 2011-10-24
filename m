@@ -1,35 +1,38 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RILSi-0001lC-OE for openembedded-core@lists.openembedded.org;
-	Mon, 24 Oct 2011 16:25:12 +0200
+	id 1RILY1-0001rq-7H for openembedded-core@lists.openembedded.org;
+	Mon, 24 Oct 2011 16:30:42 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9OEJG9F029680
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9OEOgwc029810
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Oct 2011 15:19:16 +0100
+	Mon, 24 Oct 2011 15:24:42 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 29572-02 for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Oct 2011 15:19:12 +0100 (BST)
+	id 29625-04 for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Oct 2011 15:24:37 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9OEJ7OD029674
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9OEOZ4O029804
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Oct 2011 15:19:08 +0100
-Message-ID: <1319465947.25011.25.camel@ted>
+	Mon, 24 Oct 2011 15:24:36 +0100
+Message-ID: <1319466275.25011.27.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Oct 2011 15:19:07 +0100
-In-Reply-To: <20111024132405.GB3602@jama.jama.net>
+Date: Mon, 24 Oct 2011 15:24:35 +0100
+In-Reply-To: <C0347AB9-9B51-4127-AEB7-AA1F0BE53BD6@dominion.thruhere.net>
 References: <cover.1319394187.git.sgw@linux.intel.com>
-	<6038b7e0961ca4aec70cc6de8adbc79567500e2b.1319394187.git.sgw@linux.intel.com>
-	<1319462157.25011.1.camel@ted> <20111024132405.GB3602@jama.jama.net>
+	<d546fdc94cb627040c657facc23f00406967c838.1319394187.git.sgw@linux.intel.com>
+	<1319463290.25011.10.camel@ted>
+	<3D2F5FE5-B1DC-44C4-8A5A-E81C41F00125@dominion.thruhere.net>
+	<1319465445.25011.18.camel@ted>
+	<C0347AB9-9B51-4127-AEB7-AA1F0BE53BD6@dominion.thruhere.net>
 X-Mailer: Evolution 3.2.1- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [CONSOLIDATED PULL 11/27] pulseaudio-0.9.23: inherit perlnative to work around build on host without XML/Parser.pm
+Subject: Re: [CONSOLIDATED PULL 20/27] libtool: Upgrade from 2.4 -> 2.4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,50 +47,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Oct 2011 14:25:13 -0000
+X-List-Received-Date: Mon, 24 Oct 2011 14:30:42 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2011-10-24 at 15:24 +0200, Martin Jansa wrote:
-> On Mon, Oct 24, 2011 at 02:15:57PM +0100, Richard Purdie wrote:
-> > On Sun, 2011-10-23 at 11:26 -0700, Saul Wold wrote:
-> > > From: Martin Jansa <Martin.Jansa@gmail.com>
-> > > 
-> > > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > > ---
-> > >  .../pulseaudio/pulseaudio_0.9.23.bb                |    2 +-
-> > >  1 files changed, 1 insertions(+), 1 deletions(-)
-> > > 
-> > > diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
-> > > index 33f5e15..4ac2418 100644
-> > > --- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
-> > > +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
-> > > @@ -4,7 +4,7 @@ PR = "r5"
-> > >  
-> > >  DEPENDS += "gdbm speex"
-> > >  
-> > > -inherit gettext
-> > > +inherit gettext perlnative
+On Mon, 2011-10-24 at 16:18 +0200, Koen Kooi wrote:
+> Op 24 okt. 2011, om 16:10 heeft Richard Purdie het volgende geschreven:
+> 
+> > On Mon, 2011-10-24 at 15:37 +0200, Koen Kooi wrote:
+> >> Op 24 okt. 2011, om 15:34 heeft Richard Purdie het volgende geschreven:
+> >> 
+> >>> On Sun, 2011-10-23 at 11:26 -0700, Saul Wold wrote:
+> >>>> From: Khem Raj <raj.khem@gmail.com>
+> >>>> 
+> >>>> Adjust prefix.patch and delete resolve-sysroot.patch
+> >>>> since its already applied upstream
+> >>>> 
+> >>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> >>>> ---
+> >>>> .../libtool/{libtool.inc => libtool-2.4.2.inc}     |   26 +++++++++---
+> >>>> meta/recipes-devtools/libtool/libtool-2.4.inc      |   13 ------
+> >>>> ...libtool-cross_2.4.bb => libtool-cross_2.4.2.bb} |    2 +-
+> >>>> ...btool-native_2.4.bb => libtool-native_2.4.2.bb} |    2 +-
+> >>>> ...nativesdk_2.4.bb => libtool-nativesdk_2.4.2.bb} |    2 +-
+> >>>> meta/recipes-devtools/libtool/libtool/prefix.patch |   46 ++++++++++----------
+> >>>> .../libtool/libtool/resolve-sysroot.patch          |   42 ------------------
+> >>>> .../libtool/{libtool_2.4.bb => libtool_2.4.2.bb}   |    2 +-
+> >>>> 8 files changed, 47 insertions(+), 88 deletions(-)
+> >>>> rename meta/recipes-devtools/libtool/{libtool.inc => libtool-2.4.2.inc} (57%)
+> >>>> delete mode 100644 meta/recipes-devtools/libtool/libtool-2.4.inc
+> >>>> rename meta/recipes-devtools/libtool/{libtool-cross_2.4.bb => libtool-cross_2.4.2.bb} (98%)
+> >>>> rename meta/recipes-devtools/libtool/{libtool-native_2.4.bb => libtool-native_2.4.2.bb} (96%)
+> >>>> rename meta/recipes-devtools/libtool/{libtool-nativesdk_2.4.bb => libtool-nativesdk_2.4.2.bb} (97%)
+> >>>> delete mode 100644 meta/recipes-devtools/libtool/libtool/resolve-sysroot.patch
+> >>>> rename meta/recipes-devtools/libtool/{libtool_2.4.bb => libtool_2.4.2.bb} (94%)
+> >>>> 
+> >>>> diff --git a/meta/recipes-devtools/libtool/libtool.inc b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
+> >>>> similarity index 57%
+> >>>> rename from meta/recipes-devtools/libtool/libtool.inc
+> >>>> rename to meta/recipes-devtools/libtool/libtool-2.4.2.inc
+> >>>> index ef9095b..1f652ef 100644
+> >>>> --- a/meta/recipes-devtools/libtool/libtool.inc
+> >>>> +++ b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
+> >>>> @@ -1,4 +1,3 @@
+> >>>> -SUMMARY = "Generic library support script"
+> >>> 
+> >>> Why drop the SUMMARY field?
+> >> 
+> >> What's the difference between SUMMARY and DESCRIPTION? And what happens if both are set?
 > > 
-> > This doesn't look right. If we need xmlparser, we should state that in
-> > DEPENDS. If that is added to DEPENDS, I'm not sure we still need the
-> > inherit of perlnative?
+> > SUMMARY is a one line 74? character summary of the package, DESCRIPTION
+> > is a multiple line stream of text containing a more verbose description.
+> > What happens to the data is package backend specific, I know RPM has
+> > uses for both. There was definitely discussion about this on the mailing
+> > list at the time, I'm not sure what if anything made it into the manuals
+> > but if its not there it should be added.
 > 
-> Yes I've forgot to put it in DEPENDS, khem sent version where he is
-> adding this inherit and DEPENDs..
 > 
-> but both are needed and only work arounds because build is calling perl
-> (not env perl) and perlnative helps to put perl from perl-native before
-> perl from host in PATH.
+> It seems to get OR'd:
 > 
-> Reported here:
-> http://lists.linuxtogo.org/pipermail/openembedded-core/2011-October/011323.html
+> meta/classes/package_deb.bbclass:       summary = bb.data.getVar('SUMMARY', localdata, True) or bb.data.getVar('DESCRIPTION', localdata, True) or "."
+> package_deb.bbclass:                     description = bb.data.getVar('DESCRIPTION', localdata, True) or "."
 > 
-> And I've sent this as work around before I'll fill oe-core bug report or
-> someone updates it to 1.1 and maybe fix it too.
+> meta/classes/package_ipk.bbclass:         summary = bb.data.getVar('SUMMARY', localdata, True) or bb.data.getVar('DESCRIPTION', localdata, True) or "."
+> package_ipk.bbclass:                                    description = bb.data.getVar('DESCRIPTION', localdata, True) or "."
+> 
+> meta/classes/package_rpm.bbclass:       srcsummary = (bb.data.getVar('SUMMARY', d, True) or bb.data.getVar('DESCRIPTION', d, True) or ".")
+> package_rpm.bbclass:    srcdescription = bb.data.getVar('DESCRIPTION', d, True) or "."
 
-I've taken Khem's version of this so that should help address this
-problem.
+So the summary is SUMMARY if set, or DESCRIPTION if set else "."
+The description is DESCRIPTION if set else "."
+
+which was done to fall back to the case where recipes just set
+DESCRIPTION.
 
 Cheers,
 
