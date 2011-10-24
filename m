@@ -1,33 +1,36 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RIL9w-00005O-DR for openembedded-core@lists.openembedded.org;
-	Mon, 24 Oct 2011 16:05:49 +0200
+	id 1RILKf-0001Rq-N9 for openembedded-core@lists.openembedded.org;
+	Mon, 24 Oct 2011 16:16:54 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9ODxgEf029444
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9OEArxZ029554
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Oct 2011 14:59:42 +0100
+	Mon, 24 Oct 2011 15:10:53 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 29045-05 for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Oct 2011 14:59:37 +0100 (BST)
+	id 29045-06 for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Oct 2011 15:10:49 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9ODxYHv029438
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9OEAjQg029548
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Oct 2011 14:59:35 +0100
-Message-ID: <1319464775.25011.15.camel@ted>
+	Mon, 24 Oct 2011 15:10:46 +0100
+Message-ID: <1319465445.25011.18.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Oct 2011 14:59:35 +0100
-In-Reply-To: <cover.1319394187.git.sgw@linux.intel.com>
+Date: Mon, 24 Oct 2011 15:10:45 +0100
+In-Reply-To: <3D2F5FE5-B1DC-44C4-8A5A-E81C41F00125@dominion.thruhere.net>
 References: <cover.1319394187.git.sgw@linux.intel.com>
+	<d546fdc94cb627040c657facc23f00406967c838.1319394187.git.sgw@linux.intel.com>
+	<1319463290.25011.10.camel@ted>
+	<3D2F5FE5-B1DC-44C4-8A5A-E81C41F00125@dominion.thruhere.net>
 X-Mailer: Evolution 3.2.1- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [CONSOLIDATED PULL 00/27] Various Updates and fixes
+Subject: Re: [CONSOLIDATED PULL 20/27] libtool: Upgrade from 2.4 -> 2.4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,80 +45,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Oct 2011 14:05:49 -0000
+X-List-Received-Date: Mon, 24 Oct 2011 14:16:55 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sun, 2011-10-23 at 11:26 -0700, Saul Wold wrote:
-> This pull requests adds some new recipes for supporting building
-> oe-core with oe-core, also various patches and updates. 
-
-I've taken a chunk of this but there were some issues.
-
-> I also included the MACHINE_KERNEL_PR change from Dmitry per my 
-> reading of the TSC Notes.
-
-That isn't what I understood from the TSC meeting and this patch isn't
-getting merged.
-
-> Cliff Brake (1):
->   squashfs-tools: add recipe
+On Mon, 2011-10-24 at 15:37 +0200, Koen Kooi wrote:
+> Op 24 okt. 2011, om 15:34 heeft Richard Purdie het volgende geschreven:
 > 
-
->Khem Raj (7):
->   tcmode-default.inc: Add TRANSLATED_TARGET_ARCH suffix to
->     binutils-cross-canadian
->   binutils-cross-canadian: Point sysroot to correct location
->   gcc-configure-sdk: Point sysroot to correct location
->   xserver-xorg: Add mesa-dri to depends instead of virtual/libgl
->   gcc-4.6: Backport fix for PR32219
->   coreutils: Upgrade recipe 8.12 -> 8.14
->
->Martin Jansa (5):
->   apr: add native support
->   neon: add native support
->   apr-util: add native support
->   subversion-1.6.15: add native support too
->   default-providers: switch virtual/libgl from mesa-xlib to mesa-dri
+> > On Sun, 2011-10-23 at 11:26 -0700, Saul Wold wrote:
+> >> From: Khem Raj <raj.khem@gmail.com>
+> >> 
+> >> Adjust prefix.patch and delete resolve-sysroot.patch
+> >> since its already applied upstream
+> >> 
+> >> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> >> ---
+> >> .../libtool/{libtool.inc => libtool-2.4.2.inc}     |   26 +++++++++---
+> >> meta/recipes-devtools/libtool/libtool-2.4.inc      |   13 ------
+> >> ...libtool-cross_2.4.bb => libtool-cross_2.4.2.bb} |    2 +-
+> >> ...btool-native_2.4.bb => libtool-native_2.4.2.bb} |    2 +-
+> >> ...nativesdk_2.4.bb => libtool-nativesdk_2.4.2.bb} |    2 +-
+> >> meta/recipes-devtools/libtool/libtool/prefix.patch |   46 ++++++++++----------
+> >> .../libtool/libtool/resolve-sysroot.patch          |   42 ------------------
+> >> .../libtool/{libtool_2.4.bb => libtool_2.4.2.bb}   |    2 +-
+> >> 8 files changed, 47 insertions(+), 88 deletions(-)
+> >> rename meta/recipes-devtools/libtool/{libtool.inc => libtool-2.4.2.inc} (57%)
+> >> delete mode 100644 meta/recipes-devtools/libtool/libtool-2.4.inc
+> >> rename meta/recipes-devtools/libtool/{libtool-cross_2.4.bb => libtool-cross_2.4.2.bb} (98%)
+> >> rename meta/recipes-devtools/libtool/{libtool-native_2.4.bb => libtool-native_2.4.2.bb} (96%)
+> >> rename meta/recipes-devtools/libtool/{libtool-nativesdk_2.4.bb => libtool-nativesdk_2.4.2.bb} (97%)
+> >> delete mode 100644 meta/recipes-devtools/libtool/libtool/resolve-sysroot.patch
+> >> rename meta/recipes-devtools/libtool/{libtool_2.4.bb => libtool_2.4.2.bb} (94%)
+> >> 
+> >> diff --git a/meta/recipes-devtools/libtool/libtool.inc b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
+> >> similarity index 57%
+> >> rename from meta/recipes-devtools/libtool/libtool.inc
+> >> rename to meta/recipes-devtools/libtool/libtool-2.4.2.inc
+> >> index ef9095b..1f652ef 100644
+> >> --- a/meta/recipes-devtools/libtool/libtool.inc
+> >> +++ b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
+> >> @@ -1,4 +1,3 @@
+> >> -SUMMARY = "Generic library support script"
+> > 
+> > Why drop the SUMMARY field?
 > 
-> Nitin A Kamble (2):
->   tcl: upgrade from 8.5.9 to 8.5.10
->   perl: upgrade from 5.12.3 to 5.14.2
-> 
-> Otavio Salvador (4):
->   bootimg.bbclass: add support to disable HDD image building
->   useradd.bbclass: check if a group already exists manually
->   base-passwd: move initial criation of group and passwd to preinst
->   dbus: use useradd class to allow use in read-only filesystems
-> 
-> Saul Wold (2):
->  texi2html: Added recipe from OE
->  oprofile: Update to 0.9.7 and convert cvs->git
+> What's the difference between SUMMARY and DESCRIPTION? And what happens if both are set?
 
-The above were merged.
-
->Saul Wold (3):
->   wget: Add recipe from OE
->   abiword: convert to svn
->   perl: remove debug set -x; pwd
-
-I squashed the perl fix into the perl commit, I've commented on the
-other two.
-
->Dmitry Eremin-Solenikov (1):
->  kernel.bbclass: respect MACHINE_KERNEL_PR
->
->Khem Raj (1):
->  libtool: Upgrade from 2.4 -> 2.4.2
-> 
->Martin Jansa (2):
->  pulseaudio-0.9.23: inherit perlnative to work around build on host
->     without XML/Parser.pm
->  subversion: add 1.7.0 with native support and negative D_P for now
-
-I've also given feedback on these. I'm holding off subversion 1.7 until
-we can come up with a good plan for handling it, it likely needs bitbake
-fetcher support.
+SUMMARY is a one line 74? character summary of the package, DESCRIPTION
+is a multiple line stream of text containing a more verbose description.
+What happens to the data is package backend specific, I know RPM has
+uses for both. There was definitely discussion about this on the mailing
+list at the time, I'm not sure what if anything made it into the manuals
+but if its not there it should be added.
 
 Cheers,
 
