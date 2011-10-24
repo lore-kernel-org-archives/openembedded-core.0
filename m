@@ -1,38 +1,38 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RILY1-0001rq-7H for openembedded-core@lists.openembedded.org;
-	Mon, 24 Oct 2011 16:30:42 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9OEOgwc029810
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1RILYB-0001tG-VX
+	for openembedded-core@lists.openembedded.org;
+	Mon, 24 Oct 2011 16:30:52 +0200
+Received: by bkat8 with SMTP id t8so8431696bka.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Oct 2011 15:24:42 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 29625-04 for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Oct 2011 15:24:37 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9OEOZ4O029804
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Oct 2011 15:24:36 +0100
-Message-ID: <1319466275.25011.27.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Mon, 24 Oct 2011 07:24:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=c+a84YsP4neceWSCDK5AaKWM7M9P8mVFzr+o2DoliDc=;
+	b=hyiSnfsEJ3OTP4lxqxBXojMRcJsjvKQg7W6nmlrq/XEhuWBxF3aHLpLCT6jVqb0cOF
+	cipNbbnfyfro2oIKeTXIUecPErPriZnFUrfpcs2JQh5s9B1v1HNMW9EbWYF9RuXiaXS9
+	z/rqjWXFwCphIJ693HO1OUWciOTw+igxWhaoQ=
+Received: by 10.204.129.155 with SMTP id o27mr4289201bks.94.1319466293600;
+	Mon, 24 Oct 2011 07:24:53 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id u10sm23962333bkv.3.2011.10.24.07.24.52
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 24 Oct 2011 07:24:52 -0700 (PDT)
+Date: Mon, 24 Oct 2011 16:24:46 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Oct 2011 15:24:35 +0100
-In-Reply-To: <C0347AB9-9B51-4127-AEB7-AA1F0BE53BD6@dominion.thruhere.net>
+Message-ID: <20111024142446.GC3602@jama.jama.net>
 References: <cover.1319394187.git.sgw@linux.intel.com>
-	<d546fdc94cb627040c657facc23f00406967c838.1319394187.git.sgw@linux.intel.com>
-	<1319463290.25011.10.camel@ted>
-	<3D2F5FE5-B1DC-44C4-8A5A-E81C41F00125@dominion.thruhere.net>
-	<1319465445.25011.18.camel@ted>
-	<C0347AB9-9B51-4127-AEB7-AA1F0BE53BD6@dominion.thruhere.net>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [CONSOLIDATED PULL 20/27] libtool: Upgrade from 2.4 -> 2.4.2
+	<6038b7e0961ca4aec70cc6de8adbc79567500e2b.1319394187.git.sgw@linux.intel.com>
+	<1319462157.25011.1.camel@ted>
+	<91421698-3BCA-4B52-8C7C-AD842A2E62FB@dominion.thruhere.net>
+	<1319465707.25011.21.camel@ted>
+MIME-Version: 1.0
+In-Reply-To: <1319465707.25011.21.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [CONSOLIDATED PULL 11/27] pulseaudio-0.9.23: inherit perlnative to work around build on host without XML/Parser.pm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,83 +47,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Oct 2011 14:30:42 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 24 Oct 2011 14:30:52 -0000
+X-Groupsio-MsgNum: 11524
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="dkEUBIird37B8yKS"
+Content-Disposition: inline
 
-On Mon, 2011-10-24 at 16:18 +0200, Koen Kooi wrote:
-> Op 24 okt. 2011, om 16:10 heeft Richard Purdie het volgende geschreven:
-> 
-> > On Mon, 2011-10-24 at 15:37 +0200, Koen Kooi wrote:
-> >> Op 24 okt. 2011, om 15:34 heeft Richard Purdie het volgende geschreven:
-> >> 
-> >>> On Sun, 2011-10-23 at 11:26 -0700, Saul Wold wrote:
-> >>>> From: Khem Raj <raj.khem@gmail.com>
-> >>>> 
-> >>>> Adjust prefix.patch and delete resolve-sysroot.patch
-> >>>> since its already applied upstream
-> >>>> 
-> >>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >>>> ---
-> >>>> .../libtool/{libtool.inc => libtool-2.4.2.inc}     |   26 +++++++++---
-> >>>> meta/recipes-devtools/libtool/libtool-2.4.inc      |   13 ------
-> >>>> ...libtool-cross_2.4.bb => libtool-cross_2.4.2.bb} |    2 +-
-> >>>> ...btool-native_2.4.bb => libtool-native_2.4.2.bb} |    2 +-
-> >>>> ...nativesdk_2.4.bb => libtool-nativesdk_2.4.2.bb} |    2 +-
-> >>>> meta/recipes-devtools/libtool/libtool/prefix.patch |   46 ++++++++++----------
-> >>>> .../libtool/libtool/resolve-sysroot.patch          |   42 ------------------
-> >>>> .../libtool/{libtool_2.4.bb => libtool_2.4.2.bb}   |    2 +-
-> >>>> 8 files changed, 47 insertions(+), 88 deletions(-)
-> >>>> rename meta/recipes-devtools/libtool/{libtool.inc => libtool-2.4.2.inc} (57%)
-> >>>> delete mode 100644 meta/recipes-devtools/libtool/libtool-2.4.inc
-> >>>> rename meta/recipes-devtools/libtool/{libtool-cross_2.4.bb => libtool-cross_2.4.2.bb} (98%)
-> >>>> rename meta/recipes-devtools/libtool/{libtool-native_2.4.bb => libtool-native_2.4.2.bb} (96%)
-> >>>> rename meta/recipes-devtools/libtool/{libtool-nativesdk_2.4.bb => libtool-nativesdk_2.4.2.bb} (97%)
-> >>>> delete mode 100644 meta/recipes-devtools/libtool/libtool/resolve-sysroot.patch
-> >>>> rename meta/recipes-devtools/libtool/{libtool_2.4.bb => libtool_2.4.2.bb} (94%)
-> >>>> 
-> >>>> diff --git a/meta/recipes-devtools/libtool/libtool.inc b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
-> >>>> similarity index 57%
-> >>>> rename from meta/recipes-devtools/libtool/libtool.inc
-> >>>> rename to meta/recipes-devtools/libtool/libtool-2.4.2.inc
-> >>>> index ef9095b..1f652ef 100644
-> >>>> --- a/meta/recipes-devtools/libtool/libtool.inc
-> >>>> +++ b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
-> >>>> @@ -1,4 +1,3 @@
-> >>>> -SUMMARY = "Generic library support script"
-> >>> 
-> >>> Why drop the SUMMARY field?
-> >> 
-> >> What's the difference between SUMMARY and DESCRIPTION? And what happens if both are set?
-> > 
-> > SUMMARY is a one line 74? character summary of the package, DESCRIPTION
-> > is a multiple line stream of text containing a more verbose description.
-> > What happens to the data is package backend specific, I know RPM has
-> > uses for both. There was definitely discussion about this on the mailing
-> > list at the time, I'm not sure what if anything made it into the manuals
-> > but if its not there it should be added.
-> 
-> 
-> It seems to get OR'd:
-> 
-> meta/classes/package_deb.bbclass:       summary = bb.data.getVar('SUMMARY', localdata, True) or bb.data.getVar('DESCRIPTION', localdata, True) or "."
-> package_deb.bbclass:                     description = bb.data.getVar('DESCRIPTION', localdata, True) or "."
-> 
-> meta/classes/package_ipk.bbclass:         summary = bb.data.getVar('SUMMARY', localdata, True) or bb.data.getVar('DESCRIPTION', localdata, True) or "."
-> package_ipk.bbclass:                                    description = bb.data.getVar('DESCRIPTION', localdata, True) or "."
-> 
-> meta/classes/package_rpm.bbclass:       srcsummary = (bb.data.getVar('SUMMARY', d, True) or bb.data.getVar('DESCRIPTION', d, True) or ".")
-> package_rpm.bbclass:    srcdescription = bb.data.getVar('DESCRIPTION', d, True) or "."
+--dkEUBIird37B8yKS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-So the summary is SUMMARY if set, or DESCRIPTION if set else "."
-The description is DESCRIPTION if set else "."
+On Mon, Oct 24, 2011 at 03:15:07PM +0100, Richard Purdie wrote:
+> On Mon, 2011-10-24 at 15:19 +0200, Koen Kooi wrote:
+> > Op 24 okt. 2011, om 15:15 heeft Richard Purdie het volgende geschreven:
+> >=20
+> > > On Sun, 2011-10-23 at 11:26 -0700, Saul Wold wrote:
+> > >> From: Martin Jansa <Martin.Jansa@gmail.com>
+> > >>=20
+> > >> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > >> ---
+> > >> .../pulseaudio/pulseaudio_0.9.23.bb                |    2 +-
+> > >> 1 files changed, 1 insertions(+), 1 deletions(-)
+> > >>=20
+> > >> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb=
+ b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
+> > >> index 33f5e15..4ac2418 100644
+> > >> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
+> > >> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
+> > >> @@ -4,7 +4,7 @@ PR =3D "r5"
+> > >>=20
+> > >> DEPENDS +=3D "gdbm speex"
+> > >>=20
+> > >> -inherit gettext
+> > >> +inherit gettext perlnative
+> > >=20
+> > > This doesn't look right. If we need xmlparser, we should state that in
+> > > DEPENDS. If that is added to DEPENDS, I'm not sure we still need the
+> > > inherit of perlnative?
+> >=20
+> > If you need xmlparser during the build you almost always need the
+> > perlnative wrapper as well :(
+>=20
+> I was under the impression that we'd fixed most of those issues :/. It
+> could well be a valid dependency in this case so I'll take the patch
+> with the added DEPENDS.
 
-which was done to fall back to the case where recipes just set
-DESCRIPTION.
+Those were imho transitive deps from intltool, that's why this is a bit
+different.
 
 Cheers,
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Richard
+--dkEUBIird37B8yKS
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
 
+iEYEARECAAYFAk6ldS4ACgkQN1Ujt2V2gBz9DQCdEdRk3olsRZqKSMMfqSYOYEDT
+tdUAoLm1DWyHtwkQVWh73UQBAH2aXTDn
+=9NlG
+-----END PGP SIGNATURE-----
 
+--dkEUBIird37B8yKS--
