@@ -1,34 +1,34 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RIKdD-0007Yo-Mb for openembedded-core@lists.openembedded.org;
-	Mon, 24 Oct 2011 15:31:59 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9ODPpwH028770
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <saul.wold@intel.com>) id 1RIKiL-0007fi-Uj
+	for openembedded-core@lists.openembedded.org;
+	Mon, 24 Oct 2011 15:37:18 +0200
+Received: from mail-iy0-f180.google.com ([209.85.210.180])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 24 Oct 2011 06:31:16 -0700
+Received: by iakc1 with SMTP id c1so10538774iak.25
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Oct 2011 14:25:51 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 28282-04 for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Oct 2011 14:25:46 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9ODPicn028764
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Oct 2011 14:25:45 +0100
-Message-ID: <1319462745.25011.6.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Mon, 24 Oct 2011 06:31:15 -0700 (PDT)
+Received: by 10.68.1.1 with SMTP id 1mr33861314pbi.55.1319463073010;
+	Mon, 24 Oct 2011 06:31:13 -0700 (PDT)
+Received: from [10.192.3.184] ([85.13.70.251])
+	by mx.google.com with ESMTPS id h5sm67559104pbq.11.2011.10.24.06.31.11
+	(version=SSLv3 cipher=OTHER); Mon, 24 Oct 2011 06:31:12 -0700 (PDT)
+Message-ID: <4EA568A0.4000607@intel.com>
+Date: Mon, 24 Oct 2011 15:31:12 +0200
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Oct 2011 14:25:45 +0100
-In-Reply-To: <2c5ad68e4c5f715c91760839f482deff44fa9f06.1319394187.git.sgw@linux.intel.com>
 References: <cover.1319394187.git.sgw@linux.intel.com>
-	<2c5ad68e4c5f715c91760839f482deff44fa9f06.1319394187.git.sgw@linux.intel.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [CONSOLIDATED PULL 23/27] wget: Add recipe from OE
+	<dfc5efb4c54797a39c2471dfba7b7cbf14fb6476.1319394187.git.sgw@linux.intel.com>
+	<1319462069.25011.0.camel@ted>
+	<884DC19F-D167-41B9-B5E6-62A959BE99CB@dominion.thruhere.net>
+In-Reply-To: <884DC19F-D167-41B9-B5E6-62A959BE99CB@dominion.thruhere.net>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [CONSOLIDATED PULL 26/27] abiword: convert to svn
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,66 +43,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Oct 2011 13:31:59 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 24 Oct 2011 13:37:18 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-> diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/wget/wget.inc
-> new file mode 100644
-> index 0000000..c0d9ba9
-> --- /dev/null
-> +++ b/meta/recipes-extended/wget/wget.inc
-> @@ -0,0 +1,40 @@
-> +DESCRIPTION = "A console URL download utility featuring HTTP, FTP, and more."
-> +SECTION = "console/network"
-> +DEPENDS = ""
-> +DEPENDS_shr = "gnutls"
+On 10/24/2011 03:18 PM, Koen Kooi wrote:
+>
+> Op 24 okt. 2011, om 15:14 heeft Richard Purdie het volgende geschreven:
+>
+>> On Sun, 2011-10-23 at 11:27 -0700, Saul Wold wrote:
+>>> Signed-off-by: Saul Wold<sgw@linux.intel.com>
+>>> ---
+>>> meta-demoapps/recipes-gnome/abiword/abiword.inc    |    4 ++--
+>>> meta-demoapps/recipes-gnome/abiword/abiword_cvs.bb |   10 ----------
+>>> meta-demoapps/recipes-gnome/abiword/abiword_svn.bb |   10 ++++++++++
+>>> 3 files changed, 12 insertions(+), 12 deletions(-)
+>>> delete mode 100644 meta-demoapps/recipes-gnome/abiword/abiword_cvs.bb
+>>> create mode 100644 meta-demoapps/recipes-gnome/abiword/abiword_svn.bb
+>>>
+>>> diff --git a/meta-demoapps/recipes-gnome/abiword/abiword.inc b/meta-demoapps/recipes-gnome/abiword/abiword.inc
+>>> index b1b0f67..2b34a7a 100644
+>>> --- a/meta-demoapps/recipes-gnome/abiword/abiword.inc
+>>> +++ b/meta-demoapps/recipes-gnome/abiword/abiword.inc
+>>> @@ -13,8 +13,8 @@ RRECOMMENDS_${PN}    = "glibc-gconv-ibm850 glibc-gconv-cp1252 \
+>>> RELURI = "http://www.abiword.org/downloads/abiword/${PV}/source/abiword-${PV}.tar.gz"
+>>> RELSRC = "${WORKDIR}/abiword-${PV}/abi"
+>>>
+>>> -CVSURI = "cvs://anoncvs:anoncvs@anoncvs.abisource.com/cvsroot;module=abi"
+>>> -CVSSRC = "${WORKDIR}/abi"
+>>> +SVNURI = "cvs://svn.abisource.com/abiword/trunk;module=abiword;proto=http"
+>>> +SVNSRC = "${WORKDIR}/abi"
+>>>
+>> Er, its still using cvs:// ?!
+>
+> The whole abiword section is outdated, it has 2.5.2 which was released on 21-Aug-2007, latest is 2.8.6 released on 13-Jun-2010. I have an uncommited update in meta-oe to update abiword to 2.8.6, need to clean that up.
+>
+I will defer my patch for what Koen has pending then for meta-oe, 
+probably the better place for it anyways, it should be removed from the 
+meta-demoapps.
 
-Hmm. See below.
+Sau!
 
-> +LICENSE = "GPL"
-
-Which GPL?
-
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
-> +
-> +
-> +INC_PR = "r9"
-> +
-> +S = "${WORKDIR}/wget-${PV}"
-> +
-> +inherit autotools gettext
-> +
-> +# Disable checking for SSL since that searches the system paths
-> +EXTRA_OECONF = "--enable-ipv6 --without-ssl"
-> +
-> +# Enable SSL it's usefull
-> +EXTRA_OECONF_shr = "--enable-ipv6 --with-ssl=gnutls"
-> +# The unslung kernel does not support ipv6
-> +EXTRA_OECONF_unslung = "--without-ssl"
-> +# SlugOS kernels do not support ipv6. Can be loaded as a module.
-> +EXTRA_OECONF_slugos = "--without-ssl"
-
-So we go to interesting lengths here to customise this under a variety
-of conditions...
-
-> +inherit autotools update-alternatives
-> +
-> +EXTRA_OECONF = "--with-libc"
-
-... and then we overwrite half of it here. This needs cleaning up before
-it can merge. We could convert it to make these config items
-PACKAGECONFIG if people need to customise this.
-
->+do_configure() {
->+	autotools_do_configure
->+}
-
-This looks rather pointless?
-
-Cheers,
-
-Richard
+> regards,
+>
+> Koen
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
 
