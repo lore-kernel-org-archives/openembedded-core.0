@@ -1,37 +1,34 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RIbbA-0006OG-HH
-	for openembedded-core@lists.openembedded.org;
-	Tue, 25 Oct 2011 09:39:00 +0200
-Received: by bkat8 with SMTP id t8so170140bka.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RIbg2-0006c7-BO for openembedded-core@lists.openembedded.org;
+	Tue, 25 Oct 2011 09:44:02 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9P7c5oK005948
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2011 00:33:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=k4EkgXwKihx1nWrPeW0sahb1fXYaWvsYvwy0u7A4I+M=;
-	b=iRV8TBEtWYt+03smPN5rCR0oCCRWHMOn2D282r0NV0L92KT1TgMrgPhZHtRhE3cBeB
-	9nKLN4NWfUpje1Wyn9UP3aEUbfHc7sZPM5zCR3Ihis4keqiQWYCltkhZncxQABTTT8l1
-	YpysgKb3R2kPWsCITrdqjDPSwnMoEKs1Z5Og8=
-Received: by 10.204.153.1 with SMTP id i1mr19710548bkw.8.1319527983124;
-	Tue, 25 Oct 2011 00:33:03 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id f7sm10112634bkv.4.2011.10.25.00.33.01
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 25 Oct 2011 00:33:02 -0700 (PDT)
-Date: Tue, 25 Oct 2011 09:32:56 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Tue, 25 Oct 2011 08:38:05 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 05082-08 for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Oct 2011 08:38:01 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9P7buFP005942
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Oct 2011 08:37:57 +0100
+Message-ID: <1319528276.26563.39.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111025073256.GG3602@jama.jama.net>
-References: <cover.1319132699.git.nitin.a.kamble@intel.com>
-	<c12754ae1baee14c13a2467e31efd975f7f33258.1319132699.git.nitin.a.kamble@intel.com>
-	<20111025070642.GE3602@jama.jama.net>
-	<07537711-5DFF-43FE-8A23-4C173BDA4921@dominion.thruhere.net>
-MIME-Version: 1.0
-In-Reply-To: <07537711-5DFF-43FE-8A23-4C173BDA4921@dominion.thruhere.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 1/2] perl: upgrade from 5.12.3 to 5.14.2
+Date: Tue, 25 Oct 2011 08:37:56 +0100
+In-Reply-To: <1319527895-3628-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1319527042.26563.38.camel@ted>
+	<1319527895-3628-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] libxml-parser-perl, libxml-simple-perl, expat, sgmlspl-native, git: bump PR to rebuild after perl upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,57 +43,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Oct 2011 07:39:01 -0000
-X-Groupsio-MsgNum: 11541
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="vSsTm1kUtxIHoa7M"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 25 Oct 2011 07:44:02 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---vSsTm1kUtxIHoa7M
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, 2011-10-25 at 09:31 +0200, Martin Jansa wrote:
+> * this isn't probably complete list.. just what failed here
+> 
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/recipes-core/expat/expat_2.0.1.bb             |    2 +-
+>  meta/recipes-devtools/git/git_1.7.7.bb             |    2 ++
+>  .../perl/libxml-parser-perl_2.41.bb                |    2 +-
+>  .../perl/libxml-simple-perl_2.18.bb                |    2 +-
+>  .../sgmlspl/sgmlspl-native_1.03ii.bb               |    2 +-
+>  5 files changed, 6 insertions(+), 4 deletions(-)
 
-On Tue, Oct 25, 2011 at 09:17:11AM +0200, Koen Kooi wrote:
->=20
->=20
-> Op 25 okt. 2011 om 09:06 heeft Martin Jansa <martin.jansa@gmail.com> het =
-volgende geschreven:
->=20
-> > On Thu, Oct 20, 2011 at 10:47:08AM -0700, nitin.a.kamble@intel.com wrot=
-e:
-> >> From: Nitin A Kamble <nitin.a.kamble@intel.com>
-> >>=20
-> >> parallel build fix patches are not needed as they are upstream now.
-> >> Got a new set of debian patch set for 5.14.2
-> >=20
-> > I know that nobody wants PR bumps and nobody cares so much about upgrade
-> > paths on target
->=20
-> I care :) But I'm waiting on the python upgrade to go in so I can fix 2 b=
-reakages in one go.
+Merged to master, thanks.
 
-I've expected you to say that :).
+Richard
 
-I fear that python upgrade wont happend soon with nitin away and me
-failing to fix it, so I've sent PR bump for stuff which was failing here
-today.
 
-Cheers,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---vSsTm1kUtxIHoa7M
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk6mZigACgkQN1Ujt2V2gBwjsgCeMUs0mgHnyj9GOnxFI0rXIAgL
-f78AnRCY4RykHlBtYlyvV9YHQLzwCucM
-=SQWR
------END PGP SIGNATURE-----
-
---vSsTm1kUtxIHoa7M--
