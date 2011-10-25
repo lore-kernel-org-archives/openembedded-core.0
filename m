@@ -1,39 +1,31 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RIbVP-0006Do-Nl
+	(envelope-from <martin.jansa@gmail.com>) id 1RIbZx-0006Kv-AE
 	for openembedded-core@lists.openembedded.org;
-	Tue, 25 Oct 2011 09:33:04 +0200
-Received: by bkat8 with SMTP id t8so166874bka.6
+	Tue, 25 Oct 2011 09:37:45 +0200
+Received: by bkat8 with SMTP id t8so169438bka.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2011 00:27:06 -0700 (PDT)
+	Tue, 25 Oct 2011 00:31:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=0U4YXFYoCV8nV2oQRBKVIJ/867YG2t915lXSK3iYfrk=;
-	b=MVjKpxK0rxkktFXoXMH1xzB0JoOPlx08ZJ+goePFAji2h81uEf1MkrCXDe3W28g14m
-	/bNCBjLLzjm4+ozXhiE69HthdePNxnT4c1WsKz9bGKRTISWZJCKs3lF2uA+4pmF6tzDt
-	zZf5V9HfaBIJ3P/SsOyyX5GgmTgTLzaBSG+SQ=
-Received: by 10.204.129.146 with SMTP id o18mr19562231bks.95.1319527626009;
-	Tue, 25 Oct 2011 00:27:06 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=EDY4BAmfzoEHChA6DKTWvbmfd+ot4U4+xVHgKChvwic=;
+	b=USpO6nFsWbxXEUYyr5//rzZOzKBAZ8dGn5elRHoYfHHKRSaJN08hETBC+oh8k7IFGu
+	QX1laPeVmPZxXyUE3w4UqSVZRyag0G8pKRu/O83AW3hMNZnRLefrpB1rcHf7iPFG17Dx
+	JBOb9QkNKiFLZzKLrkqj8bfVM/x37qQqMM7Ow=
+Received: by 10.204.7.81 with SMTP id c17mr19700091bkc.25.1319527903141;
+	Tue, 25 Oct 2011 00:31:43 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id z9sm26467153bkn.7.2011.10.25.00.27.03
+	by mx.google.com with ESMTPS id w8sm26469470bks.11.2011.10.25.00.31.41
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 25 Oct 2011 00:27:04 -0700 (PDT)
-Date: Tue, 25 Oct 2011 09:26:58 +0200
+	Tue, 25 Oct 2011 00:31:42 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111025072658.GF3602@jama.jama.net>
-References: <cover.1319184832.git.Martin.Jansa@gmail.com>
-	<bfd27053f71157d3f3d3c0bf523015347714d3f8.1319184832.git.Martin.Jansa@gmail.com>
-	<9e9f9e73e7bfa4a5184196b874cfb1dfe179be24.1319184832.git.Martin.Jansa@gmail.com>
-	<CAMKF1soRAhf065VCJqZsQMUct1a0Ob5S2rJzN9QpE0A0R0SZ6g@mail.gmail.com>
-	<20111021161620.GS3522@jama.jama.net>
-	<1319286826.3310.1.camel@lenovo.internal.reciva.com>
-MIME-Version: 1.0
-In-Reply-To: <1319286826.3310.1.camel@lenovo.internal.reciva.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 3/8] pulseaudio-0.9.23: force ARM mode
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 25 Oct 2011 09:31:35 +0200
+Message-Id: <1319527895-3628-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.7
+In-Reply-To: <1319527042.26563.38.camel@ted>
+References: <1319527042.26563.38.camel@ted>
+Subject: [PATCH] libxml-parser-perl, libxml-simple-perl, expat, sgmlspl-native, git: bump PR to rebuild after perl upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,78 +40,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Oct 2011 07:33:04 -0000
-X-Groupsio-MsgNum: 11539
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Pql/uPZNXIm1JCle"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 25 Oct 2011 07:37:45 -0000
 
---Pql/uPZNXIm1JCle
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+* this isn't probably complete list.. just what failed here
 
-On Sat, Oct 22, 2011 at 01:33:46PM +0100, Phil Blundell wrote:
-> On Fri, 2011-10-21 at 18:16 +0200, Martin Jansa wrote:
-> > On Fri, Oct 21, 2011 at 08:40:20AM -0700, Khem Raj wrote:
-> > > On Fri, Oct 21, 2011 at 1:17 AM, Martin Jansa <martin.jansa@gmail.com=
-> wrote:
-> > > > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > > > ---
-> > > >  .../pulseaudio/pulseaudio_0.9.23.bb                |    1 +
-> > > >  1 files changed, 1 insertions(+), 0 deletions(-)
-> > > >
-> > > > diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.b=
-b b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
-> > > > index 4ac2418..2f872b8 100644
-> > > > --- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
-> > > > +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
-> > > > @@ -23,3 +23,4 @@ do_compile_prepend() {
-> > > >     cp ${STAGING_LIBDIR}/libltdl* ${S}/libltdl
-> > > >  }
-> > > >
-> > > > +ARM_INSTRUCTION_SET =3D "arm"
-> > >=20
-> > > not averse to patch but it would be nice to know what fails in thumb =
-mode.
-> >=20
-> > selected processor does not support Thumb mode `swp r1,r2,[r3]'
->=20
-> If it's only that one error (presumably some kind of home-grown atomic
-> operation) then let's just fix the code in question rather than forcing
-> the whole thing to build in ARM-state.  Or if the code is hard to fix,
-> patch the makefile so that only the particular source files with the
-> assembly in are built for ARM and let the rest stay as Thumb.  Making
-> the whole package be ARM is a bit of a heavyweight fix for that issue.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-core/expat/expat_2.0.1.bb             |    2 +-
+ meta/recipes-devtools/git/git_1.7.7.bb             |    2 ++
+ .../perl/libxml-parser-perl_2.41.bb                |    2 +-
+ .../perl/libxml-simple-perl_2.18.bb                |    2 +-
+ .../sgmlspl/sgmlspl-native_1.03ii.bb               |    2 +-
+ 5 files changed, 6 insertions(+), 4 deletions(-)
 
-That's why I've called it work around in cover, because I think that fixing=
- it in
-old 0.9.23 is not worth it, we can try to fix it in 1.1 when we have it.
+diff --git a/meta/recipes-core/expat/expat_2.0.1.bb b/meta/recipes-core/expat/expat_2.0.1.bb
+index a675922..30b5684 100644
+--- a/meta/recipes-core/expat/expat_2.0.1.bb
++++ b/meta/recipes-core/expat/expat_2.0.1.bb
+@@ -1,6 +1,6 @@
+ require expat.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1b71f681713d1256e1c23b0890920874"
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI[md5sum] = "ee8b492592568805593f81f8cdf2a04c"
+ SRC_URI[sha256sum] = "847660b4df86e707c9150e33cd8c25bc5cd828f708c7418e765e3e983a2e5e93"
+diff --git a/meta/recipes-devtools/git/git_1.7.7.bb b/meta/recipes-devtools/git/git_1.7.7.bb
+index 486e2e5..d383c10 100644
+--- a/meta/recipes-devtools/git/git_1.7.7.bb
++++ b/meta/recipes-devtools/git/git_1.7.7.bb
+@@ -1,5 +1,7 @@
+ require git.inc
+ 
++PR = "r1"
++
+ SRC_URI = "http://git-core.googlecode.com/files/git-${PV}.tar.gz"
+ SRC_URI[md5sum] = "5d645884e688921e773186783b65ce33"
+ SRC_URI[sha256sum] = "5a977bc01e4989b9928345e99aab15ce896cf5897c6e32eb449538574df377f6"
+diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
+index caf5704..ff61078 100644
+--- a/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
++++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://README;beginline=2;endline=6;md5=c8767d7516229f07b26e
+ 
+ DEPENDS += "expat expat-native"
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI = "http://www.cpan.org/modules/by-module/XML/XML-Parser-${PV}.tar.gz"
+ SRC_URI[md5sum] = "c320d2ffa459e6cdc6f9f59c1185855e"
+diff --git a/meta/recipes-devtools/perl/libxml-simple-perl_2.18.bb b/meta/recipes-devtools/perl/libxml-simple-perl_2.18.bb
+index f2abf9d..205aa4d 100644
+--- a/meta/recipes-devtools/perl/libxml-simple-perl_2.18.bb
++++ b/meta/recipes-devtools/perl/libxml-simple-perl_2.18.bb
+@@ -2,7 +2,7 @@ SECTION = "libs"
+ LICENSE = "Artistic"
+ LIC_FILES_CHKSUM = "file://README;beginline=70;md5=94aa5d46682b411a53a5494cfb22640e"
+ DEPENDS += "libxml-parser-perl"
+-PR = "r3"
++PR = "r4"
+ 
+ SRC_URI = "http://www.cpan.org/modules/by-module/XML/XML-Simple-${PV}.tar.gz"
+ 
+diff --git a/meta/recipes-devtools/sgmlspl/sgmlspl-native_1.03ii.bb b/meta/recipes-devtools/sgmlspl/sgmlspl-native_1.03ii.bb
+index 28e0e9f..1b612c0 100644
+--- a/meta/recipes-devtools/sgmlspl/sgmlspl-native_1.03ii.bb
++++ b/meta/recipes-devtools/sgmlspl/sgmlspl-native_1.03ii.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "http://search.cpan.org/src/DMEGG/SGMLSpm-1.03ii/DOC/HTML/SGMLSpm/sgm
+ SECTION = "libs"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
+-PR = "r2"
++PR = "r3"
+ 
+ SRC_URI = "http://www.cpan.org/authors/id/D/DM/DMEGG/SGMLSpm-${PV}.tar.gz \
+            file://combined.patch"
+-- 
+1.7.7
 
-And it's not the only one error, I've updated commit message with bigger
-chunk of log in=20
-http://git.openembedded.org/openembedded-core-contrib/log/?h=3Djansa/pull
 
-and for om-gta02 (armv4t) it's about
-selected processor does not support Thumb mode `mla r3,r7,r0,r3'
 
-while swp was from spitz (armv5te).
-
-Regards,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---Pql/uPZNXIm1JCle
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk6mZMIACgkQN1Ujt2V2gBxtGgCdEhUb8BWjzA0QCum0XU7ygsA1
-dzsAoIwygFG4EPVXWCRqVl9GnLGl6bxP
-=xCup
------END PGP SIGNATURE-----
-
---Pql/uPZNXIm1JCle--
