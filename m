@@ -1,22 +1,21 @@
 Received: from stoexhub02.domain01.net ([83.145.59.143])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1RIaJD-0004GX-LW
+	(envelope-from <anders@chargestorm.se>) id 1RIah3-0004kV-5j
 	for openembedded-core@lists.openembedded.org;
-	Tue, 25 Oct 2011 08:16:23 +0200
+	Tue, 25 Oct 2011 08:41:01 +0200
 Received: from localhost (85.231.30.150) by stoexhub02.domain01.net
 	(10.12.10.2) with Microsoft SMTP Server id 8.3.83.0; Tue, 25 Oct 2011
-	08:09:16 +0200
-From: Anders Darander <anders@chargestorm.se>
-Organization: ChargeStorm AB
+	08:34:58 +0200
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 25 Oct 2011 08:09:34 +0200
-User-Agent: KMail/1.13.7 (Linux/3.0.0-2-amd64; KDE/4.6.5; x86_64; ; )
+From: Anders Darander <anders@chargestorm.se>
+Organization: ChargeStorm AB
+Date: Tue, 25 Oct 2011 08:35:12 +0200
 X-Accept-Language: sv, en, de
 X-GPG-Key-Id: 0x920E938C
 X-GPG-Keyserver: hkp://keys.gnupg.net
 MIME-Version: 1.0
-Message-ID: <201110250809.34347.anders@chargestorm.se>
+Message-ID: <201110250835.14996.anders@chargestorm.se>
 X-GFI-SMTP-Submission: 1
 Subject: Issue with RDEPENDS in module.bbclass for initramfs
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -33,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Oct 2011 06:16:23 -0000
+X-List-Received-Date: Tue, 25 Oct 2011 06:41:02 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
