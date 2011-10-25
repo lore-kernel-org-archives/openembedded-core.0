@@ -1,24 +1,31 @@
-Received: from smtp3-g21.free.fr ([212.27.42.3])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1RIREj-00040P-8p
+	(envelope-from <julian.pidancet@gmail.com>) id 1RIUw9-00006Y-6t
 	for openembedded-core@lists.openembedded.org;
-	Mon, 24 Oct 2011 22:35:09 +0200
-Received: from [192.168.2.8] (unknown [82.233.81.124])
-	by smtp3-g21.free.fr (Postfix) with ESMTP id 9E0A4A62A2
+	Tue, 25 Oct 2011 02:32:13 +0200
+Received: by wwf10 with SMTP id 10so8125010wwf.24
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Oct 2011 22:29:08 +0200 (CEST)
-Message-ID: <4EA5CA93.5070506@eukrea.com>
-Date: Mon, 24 Oct 2011 22:29:07 +0200
-From: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <4EA5C803.1030205@eukrea.com>
-	<20111024202541.GA14251@mail.adw-basketball.de>
-In-Reply-To: <20111024202541.GA14251@mail.adw-basketball.de>
-Subject: Re: Dependency problem in mysql ?
+	Mon, 24 Oct 2011 17:26:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=hQW+PUXN60PjFZiVptHAordkO1PQKSPfS4bT81gXgyE=;
+	b=YJZLJri8FUqS5cxWUfR7JkIyDl9oN/BDZXsQH/0RrDByx+Z+sYOZDrce3rI9mT24Oa
+	hh0XRPEOpELijw/wnsrVt76ROD5jWVDoN59yBGKKCUowPCRedpN2WAMYTKmKXbYH7HSZ
+	d5xxQzcqDz0j68f0IpFsscHJthy7bI4QgBN0A=
+Received: by 10.227.197.71 with SMTP id ej7mr136836wbb.15.1319502372636;
+	Mon, 24 Oct 2011 17:26:12 -0700 (PDT)
+Received: from localhost.localdomain (188-223-88-44.zone14.bethere.co.uk.
+	[188.223.88.44])
+	by mx.google.com with ESMTPS id gd18sm41982592wbb.5.2011.10.24.17.26.08
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 24 Oct 2011 17:26:10 -0700 (PDT)
+From: Julian Pidancet <julian.pidancet@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 25 Oct 2011 02:18:51 +0100
+Message-Id: <1319505532-23199-1-git-send-email-julian.pidancet@gmail.com>
+X-Mailer: git-send-email 1.7.3.4
+Cc: Julian Pidancet <julian.pidancet@gmail.com>
+Subject: [PATCH] Introduce biarch DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,33 +40,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Oct 2011 20:35:09 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 25 Oct 2011 00:32:13 -0000
 
-Le 24/10/2011 22:25, Henning Heinold a =E9crit :
-> On Mon, Oct 24, 2011 at 10:18:11PM +0200, Eric B=E9nard wrote:
->> Hi,
->>
->> while testing a build from scratch of a configuration which was
->> working, I increased BB_NUMBER_THREADS to  "8" and PARALLEL_MAKE to
->> "-j6" and started to get problems with mysql (log at the end of this
->> mail).
->>
->> Reducing BB_NUMBER_THREADS to 4 "solved" the problem.
->>
->> Any idea what dependency could be missing in mysql ?
->>
->> Thanks,
->> Eric
->
-> None,
->
-> you just hit a parallel make error inside mysql I think.
->
-Thanks, I also reduced  PARALLEL_MAKE to j4 which seems to confirm this.
-I think I also met the same kind of problem with directfb.
+This patch introduces a distro feature which enables gcc to produce
+both 32bit and 64bit code, and enables binutils to operate on both
+32bit and 64bit binaries. It differs from multilib toolchains in
+that it does not require to compile a version of the libc for each
+architecture variant. However, the code produced for the secondary
+architecture will not be linkable against the libc.
 
-Eric
+This patch only works with x86 and x86_64 architectures, but can
+probably be extended to support other architectures as well.
+
+One use-case would be when one wants to compile a system which runs
+32bit userspace applications with a 64bit kernel without having to
+deal with two separate libc.
+
+Signed-off-by: Julian Pidancet <julian.pidancet@gmail.com>
+---
+ meta/recipes-devtools/binutils/binutils-cross.inc  |    3 ++-
+ meta/recipes-devtools/binutils/binutils.inc        |    3 ++-
+ meta/recipes-devtools/gcc/gcc-common.inc           |    5 +++++
+ meta/recipes-devtools/gcc/gcc-configure-common.inc |    3 ++-
+ 4 files changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-devtools/binutils/binutils-cross.inc b/meta/recipes-devtools/binutils/binutils-cross.inc
+index 982224f..3f76c59 100644
+--- a/meta/recipes-devtools/binutils/binutils-cross.inc
++++ b/meta/recipes-devtools/binutils/binutils-cross.inc
+@@ -10,7 +10,8 @@ EXTRA_OECONF = "--with-sysroot=${STAGING_DIR_TARGET} \
+                 --disable-werror \
+                 --disable-nls \
+                 --enable-poison-system-directories \
+-		${@base_contains('DISTRO_FEATURES', 'ld-is-gold', '--enable-gold=default', '', d)}"
++                ${@base_contains('DISTRO_FEATURES', 'ld-is-gold', '--enable-gold=default', '', d)} \
++                ${@base_contains('DISTRO_FEATURES', 'biarch', '--enable-64-bit-bfd', '', d)}"
+ 
+ do_install () {
+ 	oe_runmake 'DESTDIR=${D}' install
+diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
+index 58fee85..fe16b18 100644
+--- a/meta/recipes-devtools/binutils/binutils.inc
++++ b/meta/recipes-devtools/binutils/binutils.inc
+@@ -49,7 +49,8 @@ B = "${S}/build.${HOST_SYS}.${TARGET_SYS}"
+ 
+ EXTRA_OECONF = "--program-prefix=${TARGET_PREFIX} \
+                 --enable-install-libbfd \
+-                --enable-shared"
++                --enable-shared \
++                ${@base_contains('DISTRO_FEATURES', 'biarch', '--enable-64-bit-bfd', '', d)}"
+ 
+ EXTRA_OECONF_virtclass-native = "--enable-target=all --enable-64-bit-bfd --enable-install-libbfd"
+ 
+diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
+index f83f4da..fdbb77b 100644
+--- a/meta/recipes-devtools/gcc/gcc-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-common.inc
+@@ -21,6 +21,11 @@ def get_gcc_mips_plt_setting(bb, d):
+         return "--with-mips-plt"
+     return ""
+ 
++def get_gcc_x86_biarch_setting(bb, d):
++    if bb.data.getVar('TARGET_ARCH', d, 1) in [ 'i586', 'i686', 'x86_64' ] and 'biarch' in bb.data.getVar('DISTRO_FEATURES',d,1).split() :
++        return "--enable-targets=all"
++    return ""
++
+ # We really need HOST_SYS here for some packages and TARGET_SYS for others.
+ # For now, libgcc is most important so we fix for that - RP.
+ SHLIBSDIR = "${STAGING_DIR_TARGET}/shlibs"
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+index 2ddc3d7..55a0626 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+@@ -42,7 +42,8 @@ EXTRA_OECONF = "${@['--enable-clocale=generic', ''][bb.data.getVar('USE_NLS', d,
+                 ${EXTRA_OECONF_BASE} \
+                 ${EXTRA_OECONF_FPU} \
+                 ${EXTRA_OECONF_PATHS} \
+-                ${@get_gcc_mips_plt_setting(bb, d)}"
++                ${@get_gcc_mips_plt_setting(bb, d)} \
++                ${@get_gcc_x86_biarch_setting(bb, d)}"
+ 
+ # Build uclibc compilers without cxa_atexit support
+ EXTRA_OECONF_append_linux               = " --enable-__cxa_atexit"
+-- 
+Julian Pidancet
+
 
 
