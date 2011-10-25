@@ -1,32 +1,30 @@
-Received: from masterfoo.zenlinux.com ([207.192.74.254])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1RIom7-0004wA-VH
+	(envelope-from <philb@gnu.org>) id 1RIozK-0005Pj-Iu
 	for openembedded-core@lists.openembedded.org;
-	Tue, 25 Oct 2011 23:43:12 +0200
-Received: from localhost (c-98-246-160-155.hsd1.or.comcast.net
-	[98.246.160.155])
-	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 8CDDD304CC
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Oct 2011 17:37:06 -0400 (EDT)
-From: Scott Garman <scott.a.garman@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Oct 2011 14:36:33 -0700
-Message-Id: <62b3eae763911554ab01754726ed7adacad1a8a4.1319576293.git.scott.a.garman@intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1319576293.git.scott.a.garman@intel.com>
-References: <cover.1319576293.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1319576293.git.scott.a.garman@intel.com>
-References: <cover.1319576293.git.scott.a.garman@intel.com>
-X-MasterFoo-MailScanner-Information: Please contact the ISP for more
-	information
-X-MailScanner-ID: 8CDDD304CC.13966
-X-MasterFoo-MailScanner: Found to be clean
-X-MasterFoo-MailScanner-SpamCheck: not spam
-X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
-X-Spam-Status: No
-Subject: [PATCH 5/5] distro_tracking_fields: updates for sudo, mtools, grep, and openssh
+	Tue, 25 Oct 2011 23:56:50 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RIota-0002Jm-Gf
+	for openembedded-core@lists.openembedded.org;
+	Tue, 25 Oct 2011 23:50:54 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <20111025072658.GF3602@jama.jama.net>
+References: <cover.1319184832.git.Martin.Jansa@gmail.com>
+	<bfd27053f71157d3f3d3c0bf523015347714d3f8.1319184832.git.Martin.Jansa@gmail.com>
+	<9e9f9e73e7bfa4a5184196b874cfb1dfe179be24.1319184832.git.Martin.Jansa@gmail.com>
+	<CAMKF1soRAhf065VCJqZsQMUct1a0Ob5S2rJzN9QpE0A0R0SZ6g@mail.gmail.com>
+	<20111021161620.GS3522@jama.jama.net>
+	<1319286826.3310.1.camel@lenovo.internal.reciva.com>
+	<20111025072658.GF3602@jama.jama.net>
+Date: Tue, 25 Oct 2011 22:50:48 +0100
+Message-ID: <1319579448.16582.10.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.3 
+Subject: Re: [PATCH 3/8] pulseaudio-0.9.23: force ARM mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,84 +39,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Oct 2011 21:43:12 -0000
+X-List-Received-Date: Tue, 25 Oct 2011 21:56:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
----
- .../conf/distro/include/distro_tracking_fields.inc |   32 ++++++++++----------
- 1 files changed, 16 insertions(+), 16 deletions(-)
+On Tue, 2011-10-25 at 09:26 +0200, Martin Jansa wrote:
+> That's why I've called it work around in cover, because I think that fixing it in
+> old 0.9.23 is not worth it, we can try to fix it in 1.1 when we have it.
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 1f3540e..936ef81 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -813,12 +813,12 @@ RECIPE_MAINTAINER_pn-pax-utils = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-sudo = "green"
- RECIPE_DEPENDENCY_CHECK_pn-sudo = "not done"
--RECIPE_LATEST_VERSION_pn-sudo = "1.8.1p2"
-+RECIPE_LATEST_VERSION_pn-sudo = "1.8.3"
- RECIPE_INTEL_SECTION_pn-sudo = "base utils"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-sudo = "1 month"
--RECIPE_LATEST_RELEASE_DATE_pn-sudo = "2011/05/16"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-sudo = "2 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-sudo = "2011/10/21"
- RECIPE_COMMENTS_pn-sudo = ""
--RECIPE_LAST_UPDATE_pn-sudo = "Jun 14, 2011"
-+RECIPE_LAST_UPDATE_pn-sudo = "Oct 25, 2011"
- RECIPE_MAINTAINER_pn-sudo = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-blktool = "green"
-@@ -1290,12 +1290,12 @@ DISTRO_PN_ALIAS_pn-msynctool = "OpenSuse=msynctool Mandriva=msynctool"
- 
- RECIPE_STATUS_pn-mtools = "green"
- RECIPE_DEPENDENCY_CHECK_pn-mtools = "not done"
--RECIPE_LATEST_VERSION_pn-mtools = "4.0.16"
-+RECIPE_LATEST_VERSION_pn-mtools = "4.0.17"
- RECIPE_INTEL_SECTION_pn-mtools = "optional"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-mtools = "6 months"
--RECIPE_LATEST_RELEASE_DATE_pn-mtools = "2011/04/16"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-mtools = "2 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-mtools = "2011/06/28"
- RECIPE_COMMENTS_pn-mtools = ""
--RECIPE_LAST_UPDATE_pn-mtools = "Jun 15, 2011"
-+RECIPE_LAST_UPDATE_pn-mtools = "Oct 25, 2011"
- RECIPE_MAINTAINER_pn-mtools = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-pm-utils = "green"
-@@ -2016,22 +2016,22 @@ RECIPE_MAINTAINER_pn-cronie = "Dexuan Cui <dexuan.cui@intel.com>"
- 
- RECIPE_STATUS_pn-grep = "green" 
- RECIPE_DEPENDENCY_CHECK_pn-grep = "not done"
--RECIPE_LATEST_VERSION_pn-grep = "2.8"
-+RECIPE_LATEST_VERSION_pn-grep = "2.9"
- RECIPE_INTEL_SECTION_pn-grep = "base"
- RECIPE_NO_OF_PATCHES_pn-grep = "0"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-grep = "8 months"
--RECIPE_LATEST_RELEASE_DATE_pn-grep = "05/2011"
--RECIPE_LAST_UPDATE_pn-grep = "Jun 5, 2011"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-grep = "1 month"
-+RECIPE_LATEST_RELEASE_DATE_pn-grep = "06/2011"
-+RECIPE_LAST_UPDATE_pn-grep = "Oct 25, 2011"
- RECIPE_MAINTAINER_pn-grep = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-openssh = "green" 
- RECIPE_DEPENDENCY_CHECK_pn-openssh = "not done"
--RECIPE_LATEST_VERSION_pn-openssh = "5.8p2"
-+RECIPE_LATEST_VERSION_pn-openssh = "5.9p1"
- RECIPE_INTEL_SECTION_pn-openssh = "base"
- RECIPE_NO_OF_PATCHES_pn-openssh = "1"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-openssh = "3 months"
--RECIPE_LATEST_RELEASE_DATE_pn-openssh = "05/2011"
--RECIPE_LAST_UPDATE_pn-openssh = "Jun 5, 2011"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-openssh = "4 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-openssh = "09/2011"
-+RECIPE_LAST_UPDATE_pn-openssh = "Oct 25, 2011"
- RECIPE_MAINTAINER_pn-openssh = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-tar = "green" 
--- 
-1.7.5.4
+Fair enough, though as a general rule I don't think the cover letter is
+the right place for this sort of information.  Each patch that you send
+ought really to be able to stand on its own merits and whatever
+explanation is necessary ought to be in its own checkin message. 
+
+In particular, the cover letter does not form part of the permanent
+record in the git history, and it is liable to get lost if your patch is
+incorporated into any kind of consolidated pull. 
+
+p.
+
 
 
 
