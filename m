@@ -1,30 +1,23 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1RJ6qB-0006xa-1I
+	(envelope-from <bruce.ashfield@windriver.com>) id 1RJ8Gf-0000bQ-Ik
 	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Oct 2011 19:00:35 +0200
-Received: from mail-ww0-f44.google.com ([74.125.82.44])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 26 Oct 2011 09:53:26 -0700
-Received: by wwe6 with SMTP id 6so1963936wwe.13
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2011 09:53:25 -0700 (PDT)
-Received: by 10.216.24.13 with SMTP id w13mr1226889wew.84.1319648004882;
-	Wed, 26 Oct 2011 09:53:24 -0700 (PDT)
-Received: from [127.0.0.1] (masterfoo.zenlinux.com. [207.192.74.254])
-	by mx.google.com with ESMTPS id fr4sm4230832wbb.0.2011.10.26.09.53.22
-	(version=SSLv3 cipher=OTHER); Wed, 26 Oct 2011 09:53:23 -0700 (PDT)
-Message-ID: <4EA83ACB.4040001@intel.com>
-Date: Wed, 26 Oct 2011 09:52:27 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <840A81C1B782724A8EB52725BD519EFF1A8F25@MBX20.4emm.local>
-	<840A81C1B782724A8EB52725BD519EFF1A8F4E@MBX20.4emm.local>
-	<4EA825F0.1030504@windriver.com>
-In-Reply-To: <4EA825F0.1030504@windriver.com>
-Subject: Re: useradd changes to dbus, base-passwd
+	Wed, 26 Oct 2011 20:32:01 +0200
+Received: from localhost.localdomain (yow-bashfiel-d2.ottawa.windriver.com
+	[128.224.146.167])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p9QIPtdq024379;
+	Wed, 26 Oct 2011 11:25:57 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Wed, 26 Oct 2011 14:25:42 -0400
+Message-Id: <0ec24ded3f71c54e544d953de65d142717f48022.1319652972.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <cover.1319652972.git.bruce.ashfield@windriver.com>
+References: <cover.1319652972.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1319652972.git.bruce.ashfield@windriver.com>
+References: <cover.1319652972.git.bruce.ashfield@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: [PATCH 1/1] linux-libc-headers: provide 3.0.x and 3.1 headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,73 +32,186 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Oct 2011 17:00:35 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 26 Oct 2011 18:32:02 -0000
 
-On 10/26/2011 08:23 AM, Mark Hatle wrote:
-> On 10/25/11 10:37 PM, James Limbouris wrote:
->>> -----Original Message-----
->>> From: openembedded-core-bounces@lists.openembedded.org
->>> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
->>> James Limbouris
->>> Sent: Wednesday, 26 October 2011 9:35 AM
->>> To: openembedded-core@lists.openembedded.org
->>> Subject: [OE-core] useradd changes to dbus, base-passwd
->>>
->>> Hi,
->>>
->>> Recent changes to dbus have broken some sdk building:
->>>
->>> Missing or unbuildable dependency chain was: ['meta-toolchain-qte', 'task-qte-
->>> toolchain-host-nativesdk', 'qt4-tools-nativesdk', 'dbus-nativesdk', 'base-passwd-
->>> nativesdk']
->>>
->>> I think the commit introducing the base-passed dependency is
->>> 46e6c3fa8034b12d178d605f3f5d7efe69671a13 (dbus: use useradd class to
->>> allow use in read-only filesystems).
->>> I'm not too clear on how useradd works, so I can't tell if simply adding
->>> BBCLASSEXTEND = "native nativesdk" to base-passwd is sufficient. I'd expect
->>> that this would cause dbus to add itself to the sdk sysroot's passwd (which
->>> previously didn't exist?). Seems harmless enough... I'm giving it a try now, but
->>> any advice or opinions would be appreciated.
->>
->> It seems that adding BBCLASSEXTEND = "native nativesdk" to base-passwd and shadow-sysroot is not sufficient.
->> dbus itself will not build for nativesdk:
->>
->
-> ...
->
->> NOTE: package dbus-nativesdk-1.4.12-r1: task do_install: Failed
->> ERROR: Task 1370 (virtual:nativesdk:/home/james/oe/sources/oe-core/meta/recipes-core/dbus/dbus_1.4.12.bb, do_install) failed with exit code '1'
->>
->> Perhaps we should not inherit useradd when building for nativesdk? After all, the sdk sysroots have not had /etc/passwd in the past.
->
-> The useradd class should only be used in a target build.  Neither nativesdk or
-> native have a reasonable set of actions with useradd.
->
-> I am a bit confused as to why we are building dbus in a nativesdk situation.  I
-> would have thought that we'd be forced to use the host system's version of dbus
-> for compatibility sake.  Perhaps this is the root of the problem -- or I'm
-> mistaken and we do need to build it -- in that case we need to avoid including
-> useradd with non-target builds.
+This changes makes two different 3.x headers available to the
+toolchain. The latest 3.0.x and 3.1 tarballs. Compatibility is
+maintained with older 2.6 headers by creating a new variable
+that changes the SRC_URI based on the major version number of
+the kernel.
 
-Grepping through our classes, it looks like I can detect the nativesdk 
-within useradd.bbclass by checking for 
-bb.data.inherits_class('nativesdk', d).
+Tested with 2.6.37.2, 3.0.8 and 3.1 builds and boots.
 
-I've filed a bug for this and will develop a patch to ensure useradd is 
-becomes a no-op for nativesdk builds:
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/conf/distro/include/tcmode-default.inc        |    2 +-
+ .../linux-libc-headers/linux-libc-headers.inc      |   15 +++++-
+ .../linux-libc-headers/linux-libc-headers_3.0.8.bb |   53 ++++++++++++++++++++
+ .../linux-libc-headers/linux-libc-headers_3.1.bb   |   53 ++++++++++++++++++++
+ 4 files changed, 120 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.0.8.bb
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.1.bb
 
-http://bugzilla.pokylinux.org/show_bug.cgi?id=1702
-
-Thanks for reporting this!
-
-Scott
-
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 2bf1beb..ed722be 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -21,7 +21,7 @@ SDKGCCVERSION ?= "4.6%"
+ BINUVERSION ?= "2.21.1a"
+ EGLIBCVERSION ?= "2.13"
+ UCLIBCVERSION ?= "0.9.32"
+-LINUXLIBCVERSION ?= "2.6.37.2"
++LINUXLIBCVERSION ?= "3.1"
+ 
+ # Temporary preferred version overrides for PPC
+ PREFERRED_VERSION_u-boot-mkimage-native_powerpc ?= "2009.08"
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+index 014024f..4e874fe 100644
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+@@ -1,9 +1,20 @@
+-DESCRIPTION = "Sanitized set of 2.6 kernel headers for the C library's use."
++DESCRIPTION = "Sanitized set of kernel headers for the C library's use."
+ SECTION = "devel"
+ LICENSE = "GPLv2"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7" 
+-SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/v2.6/linux-${PV}.tar.bz2"
++
++python __anonymous () {
++    import bb, re, string
++
++    major = bb.data.getVar("PV",d,1).split('.')[0]
++    if major == "3":
++        bb.data.setVar("HEADER_FETCH_VER", "3.0", d)
++    else:
++        bb.data.setVar("HEADER_FETCH_VER", "2.6", d)
++}
++
++SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/v${HEADER_FETCH_VER}/linux-${PV}.tar.bz2"
+ 
+ #DEPENDS = "cross-linkage"
+ RDEPENDS_${PN}-dev = ""
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.0.8.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.0.8.bb
+new file mode 100644
+index 0000000..3c845ef
+--- /dev/null
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.0.8.bb
+@@ -0,0 +1,53 @@
++require linux-libc-headers.inc
++
++INHIBIT_DEFAULT_DEPS = "1"
++DEPENDS += "unifdef-native"
++PR = "r1"
++
++SRC_URI += " file://connector-msg-size-fix.patch"
++
++S = "${WORKDIR}/linux-${PV}"
++
++set_arch() {
++	case ${TARGET_ARCH} in
++		alpha*)   ARCH=alpha ;;
++		arm*)     ARCH=arm ;;
++		cris*)    ARCH=cris ;;
++		hppa*)    ARCH=parisc ;;
++		i*86*)    ARCH=i386 ;;
++		ia64*)    ARCH=ia64 ;;
++		mips*)    ARCH=mips ;;
++		m68k*)    ARCH=m68k ;;
++		powerpc*) ARCH=powerpc ;;
++		s390*)    ARCH=s390 ;;
++		sh*)      ARCH=sh ;;
++		sparc64*) ARCH=sparc64 ;;
++		sparc*)   ARCH=sparc ;;
++		x86_64*)  ARCH=x86_64 ;;
++		avr32*)   ARCH=avr32 ;;
++		bfin*)    ARCH=blackfin ;;
++		microblaze*) ARCH=microblaze ;;
++	esac
++}
++
++do_configure() {
++	set_arch
++	oe_runmake allnoconfig ARCH=$ARCH
++}
++
++do_compile () {
++}
++
++do_install() {
++	set_arch
++	oe_runmake headers_install INSTALL_HDR_PATH=${D}${exec_prefix} ARCH=$ARCH
++	# Kernel should not be exporting this header
++	rm -f ${D}${exec_prefix}/include/scsi/scsi.h
++
++	# The ..install.cmd conflicts between various configure runs
++	find ${D}${includedir} -name ..install.cmd | xargs rm -f
++}
++
++BBCLASSEXTEND = "nativesdk"
++SRC_URI[md5sum] = "eac4d398a0ecd98214487cd47a228998"
++SRC_URI[sha256sum] = "4ed16da319848f681f711dbda2ac2cf1b306a280ec22f90bae190cf23b533add"
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.1.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.1.bb
+new file mode 100644
+index 0000000..5f9fe64
+--- /dev/null
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.1.bb
+@@ -0,0 +1,53 @@
++require linux-libc-headers.inc
++
++INHIBIT_DEFAULT_DEPS = "1"
++DEPENDS += "unifdef-native"
++PR = "r1"
++
++SRC_URI += " file://connector-msg-size-fix.patch"
++
++S = "${WORKDIR}/linux-${PV}"
++
++set_arch() {
++	case ${TARGET_ARCH} in
++		alpha*)   ARCH=alpha ;;
++		arm*)     ARCH=arm ;;
++		cris*)    ARCH=cris ;;
++		hppa*)    ARCH=parisc ;;
++		i*86*)    ARCH=i386 ;;
++		ia64*)    ARCH=ia64 ;;
++		mips*)    ARCH=mips ;;
++		m68k*)    ARCH=m68k ;;
++		powerpc*) ARCH=powerpc ;;
++		s390*)    ARCH=s390 ;;
++		sh*)      ARCH=sh ;;
++		sparc64*) ARCH=sparc64 ;;
++		sparc*)   ARCH=sparc ;;
++		x86_64*)  ARCH=x86_64 ;;
++		avr32*)   ARCH=avr32 ;;
++		bfin*)    ARCH=blackfin ;;
++		microblaze*) ARCH=microblaze ;;
++	esac
++}
++
++do_configure() {
++	set_arch
++	oe_runmake allnoconfig ARCH=$ARCH
++}
++
++do_compile () {
++}
++
++do_install() {
++	set_arch
++	oe_runmake headers_install INSTALL_HDR_PATH=${D}${exec_prefix} ARCH=$ARCH
++	# Kernel should not be exporting this header
++	rm -f ${D}${exec_prefix}/include/scsi/scsi.h
++
++	# The ..install.cmd conflicts between various configure runs
++	find ${D}${includedir} -name ..install.cmd | xargs rm -f
++}
++
++BBCLASSEXTEND = "nativesdk"
++SRC_URI[md5sum] = "8d43453f8159b2332ad410b19d86a931"
++SRC_URI[sha256sum] = "2573d2378c754b0c602b57586e9311e5b38c5d1e6c137f02873833633a4b9359"
 -- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+1.7.0.4
+
 
 
