@@ -1,35 +1,37 @@
-Received: from smtpfb1-g21.free.fr ([212.27.42.9])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nicolas.francois@centraliens.net>)
-	id 1RJAXS-0007we-Id for openembedded-core@lists.openembedded.org;
-	Wed, 26 Oct 2011 22:57:30 +0200
-Received: from smtp5-g21.free.fr (smtp5-g21.free.fr [212.27.42.5])
-	by smtpfb1-g21.free.fr (Postfix) with ESMTP id 1D42A2E04F
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RJAaP-00006o-2l for openembedded-core@lists.openembedded.org;
+	Wed, 26 Oct 2011 23:00:33 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9QKsYOQ022512
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2011 22:51:30 +0200 (CEST)
-Received: from nekral.nekral.homelinux.net (unknown [82.224.24.210])
-	by smtp5-g21.free.fr (Postfix) with ESMTP id 5C834D481B2;
-	Wed, 26 Oct 2011 22:51:20 +0200 (CEST)
-Received: from fzt by nekral.nekral.homelinux.net with local (Exim 4.74)
-	(envelope-from <nicolas.francois@centraliens.net>)
-	id 1RJARN-0003At-Bh; Wed, 26 Oct 2011 22:51:13 +0200
-Date: Wed, 26 Oct 2011 22:51:13 +0200
-From: Nicolas =?iso-8859-1?Q?Fran=E7ois?= <nicolas.francois@centraliens.net>
-To: julian.pidancet@gmail.com
-Message-ID: <20111026205113.GB25451@nekral.nekral.homelinux.net>
-Mail-Followup-To: julian.pidancet@gmail.com,
-	openembedded-core@lists.openembedded.org,
-	Scott Garman <scott.a.garman@intel.com>,
-	pkg-shadow-devel@lists.alioth.debian.org
-References: <20111022115412.GM16703@nekral.nekral.homelinux.net>
-	<CAKZ=5EWt4QwLeVSJp5v6xgSOX6C_VRpz3hq_PjfCrAGBWU0DEw@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAKZ=5EWt4QwLeVSJp5v6xgSOX6C_VRpz3hq_PjfCrAGBWU0DEw@mail.gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: pkg-shadow-devel@lists.alioth.debian.org,
-	Scott Garman <scott.a.garman@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: --root option in upstream shadow
+	Wed, 26 Oct 2011 21:54:34 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 21433-02 for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Oct 2011 21:54:30 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9QKsPsl022506
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Oct 2011 21:54:26 +0100
+Message-ID: <1319662464.12054.1.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 26 Oct 2011 21:54:24 +0100
+In-Reply-To: <840A81C1B782724A8EB52725BD519EFF1A8959@MBX20.4emm.local>
+References: <1319173361-11527-1-git-send-email-raj.khem@gmail.com>
+	<1319173361-11527-3-git-send-email-raj.khem@gmail.com>
+	<840A81C1B782724A8EB52725BD519EFF1A8929@MBX20.4emm.local>
+	<CAMKF1soXuZ84hVv9sN+rgR+Fh-o0jaDKKn7BMWs80xikiF7_bQ@mail.gmail.com>
+	<840A81C1B782724A8EB52725BD519EFF1A8959@MBX20.4emm.local>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 3/3] gcc-configure-sdk: Point sysroot to	correct location
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,75 +46,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Oct 2011 20:57:31 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 26 Oct 2011 21:00:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Fri, 2011-10-21 at 05:23 +0000, James Limbouris wrote:
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> > Khem Raj
+> > Sent: Friday, 21 October 2011 1:16 PM
+> > To: Patches and discussions about the oe-core layer
+> > Subject: Re: [OE-core] [PATCH 3/3] gcc-configure-sdk: Point sysroot to correct
+> > location
+> > 
+> > On Thu, Oct 20, 2011 at 10:12 PM, James Limbouris
+> > <james@digitalmatter.com.au> wrote:
+> > >> -----Original Message-----
+> > >> From: openembedded-core-bounces@lists.openembedded.org
+> > >> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> > Of
+> > >> Khem Raj
+> > >> Sent: Friday, 21 October 2011 1:03 PM
+> > >> To: openembedded-core@lists.openembedded.org
+> > >> Subject: [OE-core] [PATCH 3/3] gcc-configure-sdk: Point sysroot to correct
+> > >> location
+> > >>
+> > >> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > >> ---
+> > >>  meta/recipes-devtools/gcc/gcc-configure-sdk.inc |    2 +-
+> > >>  1 files changed, 1 insertions(+), 1 deletions(-)
+> > >>
+> > >> diff --git a/meta/recipes-devtools/gcc/gcc-configure-sdk.inc b/meta/recipes-
+> > >> devtools/gcc/gcc-configure-sdk.inc
+> > >> index de80870..98fd4c1 100644
+> > >> --- a/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
+> > >> +++ b/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
+> > >> @@ -7,7 +7,7 @@ USE_NLS = '${@base_conditional( "TARGET_OS", "linux-
+> > >> uclibceabi", "no", "", d )}'
+> > >>  EXTRA_OECONF_PATHS = "--with-local-
+> > >> prefix=${SDKPATH}/sysroots/${TARGET_SYS}${target_exec_prefix} \
+> > >>                        --with-gxx-include-dir=${target_includedir}/c++ \
+> > >>                        --with-build-time-
+> > >> tools=${STAGING_DIR_NATIVE}${prefix_native}/${TARGET_SYS}/bin \
+> > >> -                      --with-sysroot=${SDKPATH}/sysroots/${TARGET_SYS} \
+> > >> +                      --with-
+> > >> sysroot=${SDKPATH}/sysroots/${TUNE_PKGARCH}${TARGET_VENDOR}-
+> > >> ${TARGET_OS} \
+> > >>                        --with-build-sysroot=${STAGING_DIR_TARGET}"
+> > >>
+> > >>  #
+> > >> --
+> > >> 1.7.5.4
+> > >>
+> > >
+> > > Shouldn't --with-local-prefix be changed too? I am testing with both
+> > ${TARGET_SYS}'s replaced. Will post results shortly.
+> > 
+> > yes I think both places it should change
+> > 
+> 
+> Ok, I've tested with both changed, and the corresponding binutils patch, and both Qt and kernel compiles are working.
 
-On Mon, Oct 24, 2011 at 01:06:11AM +0100, julian.pidancet@gmail.com wrote=
-:
-> On Sat, Oct 22, 2011 at 12:54 PM, Nicolas Fran=E7ois
-> <nicolas.francois@centraliens.net> wrote:
-> >
-> > What is the expected behavior when the utility authenticates the call=
-er?
-> > =A01] authenticate the caller in the caller's chroot
-> > =A02] authenticate the caller in the target's chroot
-> > =A03] both
-> >
-> > I currently think that 3] would be the right behavior: the caller nee=
-ds to
-> > be authenticated to make sure it is allowed to use the tool, then it
-> > should be authenticated on the target to make sure the operation is
-> > allowed.
-> > ...But this is much more complex.
-> >
-> > If this is fine for you, I would prefer to disable this feature when =
-the
-> > utility is setuid and not executed by root.
-> >
->=20
-> I'm affraid this patch does not do what you think it does. The --root
-> option does not apply to login, but only to the various administrative
-> tools that comes with it (gpasswd, groupadd, groupdel, groupmod,
-> grpconv, grpunconv, passwd, pwconv, pwunconv, useradd, userdel).
+I took these patches but I would like to stress that we shouldn't need
+to rely on the hardcoded path in the compiler, it should be picking up
+any alternative sysroot paths from the environment. If this isn't
+happening, we should be figuring out why not. This change therefore
+hides issues and does not fix the problem entirely :(.
 
-I understand this correctly.
+Cheers,
 
-Lets take the passwd use case.
-passwd usually authenticates the caller (when UID=3D=3D0, this authentica=
-tion
-is usually skipped), then asks for the new password, then update the
-password databases.
-passwd is suid and can be used by non root users to change the caller's
-password. What should be the behavior of passwd is such case?
-With the current patch, an user with UID 1000 will be allowed to change t=
-he
-password of the user from the target chroot with the same UID 1000.=20
+Richard
 
-In the patched tools you indicated, gpasswd is also suid.
-And all the others can be suid when configured with
---enable-account-tools-setuid
-
-My proposal is to only support --root for root. For non suid utils,
-regular users will be denied chroot anyway, hence: "disable this feature
-when the utility is setuid and not executed by root."
-
-In your use case (for packaging), I assume the tools are always called by
-root. Then this restriction should not affect you.
-
-> It allows OE to manipulate passwd and group files that are located in
-> a sysroot by chrooting into it, because all these programs have their
-> path to /etc/passwd and friends hardcoded.
-
-The advantage is not only that the destination user/group files are
-changed, but also that they are changed considering the configuration of
-the target system (e.g. PAM, /etc/login.defs, ...)
-
-Best Regards,
---=20
-Nekral
 
 
