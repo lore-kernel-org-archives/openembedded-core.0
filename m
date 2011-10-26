@@ -1,31 +1,35 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from smtpfb1-g21.free.fr ([212.27.42.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <julian.pidancet@gmail.com>) id 1RJAUu-0007a1-CH
-	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Oct 2011 22:55:05 +0200
-Received: by wyg19 with SMTP id 19so2257431wyg.6
+	(envelope-from <nicolas.francois@centraliens.net>)
+	id 1RJAXS-0007we-Id for openembedded-core@lists.openembedded.org;
+	Wed, 26 Oct 2011 22:57:30 +0200
+Received: from smtp5-g21.free.fr (smtp5-g21.free.fr [212.27.42.5])
+	by smtpfb1-g21.free.fr (Postfix) with ESMTP id 1D42A2E04F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2011 13:48:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=pXvFYYXCydRiCxHWIctClz1zlTyY42d0mnPA6j/DrHw=;
-	b=kbVLNXT6DSYzMujgbvAXV+AcVKHrsNhgjdqqYNkgVcsiMJ07X+921Vn5OYetODQ7I9
-	9Be23qe35jgYUOLV9xVAi8dnCJYvdRWkJdeR1S0pDI1SHzb9xaR+gCplrFFM55Y/iPs9
-	M5N8yOkwWHa2q77bQ1GX7Xeqf8SnrRDDQ/lyg=
-Received: by 10.227.208.71 with SMTP id gb7mr11870296wbb.7.1319662132202;
-	Wed, 26 Oct 2011 13:48:52 -0700 (PDT)
-Received: from localhost.localdomain (188-223-88-44.zone14.bethere.co.uk.
-	[188.223.88.44])
-	by mx.google.com with ESMTPS id gd18sm5340981wbb.5.2011.10.26.13.48.50
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 26 Oct 2011 13:48:51 -0700 (PDT)
-From: Julian Pidancet <julian.pidancet@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Oct 2011 22:41:23 +0100
-Message-Id: <326c1a05ec310abcb0ec8363bcbe952c05fdf9fb.1319665176.git.julian.pidancet@gmail.com>
-X-Mailer: git-send-email 1.7.3.4
-Cc: Julian Pidancet <julian.pidancet@gmail.com>
-Subject: [PATCH v2] Give coreutils a chance to build the df utility
+	Wed, 26 Oct 2011 22:51:30 +0200 (CEST)
+Received: from nekral.nekral.homelinux.net (unknown [82.224.24.210])
+	by smtp5-g21.free.fr (Postfix) with ESMTP id 5C834D481B2;
+	Wed, 26 Oct 2011 22:51:20 +0200 (CEST)
+Received: from fzt by nekral.nekral.homelinux.net with local (Exim 4.74)
+	(envelope-from <nicolas.francois@centraliens.net>)
+	id 1RJARN-0003At-Bh; Wed, 26 Oct 2011 22:51:13 +0200
+Date: Wed, 26 Oct 2011 22:51:13 +0200
+From: Nicolas =?iso-8859-1?Q?Fran=E7ois?= <nicolas.francois@centraliens.net>
+To: julian.pidancet@gmail.com
+Message-ID: <20111026205113.GB25451@nekral.nekral.homelinux.net>
+Mail-Followup-To: julian.pidancet@gmail.com,
+	openembedded-core@lists.openembedded.org,
+	Scott Garman <scott.a.garman@intel.com>,
+	pkg-shadow-devel@lists.alioth.debian.org
+References: <20111022115412.GM16703@nekral.nekral.homelinux.net>
+	<CAKZ=5EWt4QwLeVSJp5v6xgSOX6C_VRpz3hq_PjfCrAGBWU0DEw@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAKZ=5EWt4QwLeVSJp5v6xgSOX6C_VRpz3hq_PjfCrAGBWU0DEw@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: pkg-shadow-devel@lists.alioth.debian.org,
+	Scott Garman <scott.a.garman@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: --root option in upstream shadow
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,67 +44,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Oct 2011 20:55:05 -0000
+X-List-Received-Date: Wed, 26 Oct 2011 20:57:31 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The coreutils configure script is unable determine how to get free
-space from the Operating System when cross-compiling.
-This changes caches the result of the "statfs2_bsize" test for the
-coreutils configure script.
-Both glibc and uclibc defines statfs as a two-argument function
-and uses a struct statfs containing a f_bsize field. That's why
-the fu_cv_sys_stat_statfs2_bsize variable has to be defined for
-both libcs.
+Hi,
 
-Signed-off-by: Julian Pidancet <julian.pidancet@gmail.com>
----
- meta/recipes-core/coreutils/coreutils_8.14.bb |    2 +-
- meta/site/common-glibc                        |    3 +++
- meta/site/common-uclibc                       |    3 +++
- 3 files changed, 7 insertions(+), 1 deletions(-)
+On Mon, Oct 24, 2011 at 01:06:11AM +0100, julian.pidancet@gmail.com wrote=
+:
+> On Sat, Oct 22, 2011 at 12:54 PM, Nicolas Fran=E7ois
+> <nicolas.francois@centraliens.net> wrote:
+> >
+> > What is the expected behavior when the utility authenticates the call=
+er?
+> > =A01] authenticate the caller in the caller's chroot
+> > =A02] authenticate the caller in the target's chroot
+> > =A03] both
+> >
+> > I currently think that 3] would be the right behavior: the caller nee=
+ds to
+> > be authenticated to make sure it is allowed to use the tool, then it
+> > should be authenticated on the target to make sure the operation is
+> > allowed.
+> > ...But this is much more complex.
+> >
+> > If this is fine for you, I would prefer to disable this feature when =
+the
+> > utility is setuid and not executed by root.
+> >
+>=20
+> I'm affraid this patch does not do what you think it does. The --root
+> option does not apply to login, but only to the various administrative
+> tools that comes with it (gpasswd, groupadd, groupdel, groupmod,
+> grpconv, grpunconv, passwd, pwconv, pwunconv, useradd, userdel).
 
-diff --git a/meta/recipes-core/coreutils/coreutils_8.14.bb b/meta/recipes-core/coreutils/coreutils_8.14.bb
-index f3b7af7..fa2a2c9 100644
---- a/meta/recipes-core/coreutils/coreutils_8.14.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.14.bb
-@@ -27,7 +27,7 @@ bindir_progs = "base64 basename chcon cksum comm csplit cut dir dircolors dirnam
-                 join link logname md5sum mkfifo mktemp nice nl nohup nproc od paste pathchk \
-                 pinky pr printenv printf ptx readlink runcon seq sha1sum sha224sum sha256sum \
-                 sha384sum sha512sum shred shuf sort split stat stdbuf sum tac tail tee test timeout\
--                tr truncate tsort tty unexpand uniq unlink uptime users vdir wc who whoami yes"
-+                tr truncate tsort tty unexpand uniq unlink uptime users vdir wc who whoami yes df"
- 
- # hostname gets a special treatment and is not included in this
- base_bindir_progs = "cat chgrp chmod chown cp date dd echo false kill ln ls mkdir \
-diff --git a/meta/site/common-glibc b/meta/site/common-glibc
-index 9b74038..364ab67 100644
---- a/meta/site/common-glibc
-+++ b/meta/site/common-glibc
-@@ -25,6 +25,9 @@ clamav_av_have_in_port_t=${clamav_av_have_in_port_t=yes}
- clamav_av_have_in_addr_t=${clamav_av_have_in_addr_t=yes}
- ac_cv_func_mmap_fixed_mapped=${ac_cv_func_mmap_fixed_mapped=yes}
- 
-+# coreutils
-+fu_cv_sys_stat_statfs2_bsize=${fu_cv_sys_stat_statfs2_bsize=yes}
-+
- # glib
- glib_cv_strlcpy=${glib_cv_strlcpy=no}
- ac_cv_func_printf_unix98=${ac_cv_func_printf_unix98=yes}
-diff --git a/meta/site/common-uclibc b/meta/site/common-uclibc
-index bdad0e9..a264765 100644
---- a/meta/site/common-uclibc
-+++ b/meta/site/common-uclibc
-@@ -28,6 +28,9 @@ ac_cv_have_abstract_sockets=${ac_cv_have_abstract_sockets=yes}
- bash_cv_under_sys_siglist=${bash_cv_under_sys_siglist=no}
- bash_cv_sys_siglist=${bash_cv_sys_siglist=no}
- 
-+# coreutils
-+fu_cv_sys_stat_statfs2_bsize=${fu_cv_sys_stat_statfs2_bsize=yes}
-+
- # va_copy and _va_copy
- ac_cv_va_copy=${ac_cv_va_copy=yes}
- ac_cv___va_copy=${ac_cv___va_copy=yes}
--- 
-Julian Pidancet
+I understand this correctly.
 
+Lets take the passwd use case.
+passwd usually authenticates the caller (when UID=3D=3D0, this authentica=
+tion
+is usually skipped), then asks for the new password, then update the
+password databases.
+passwd is suid and can be used by non root users to change the caller's
+password. What should be the behavior of passwd is such case?
+With the current patch, an user with UID 1000 will be allowed to change t=
+he
+password of the user from the target chroot with the same UID 1000.=20
+
+In the patched tools you indicated, gpasswd is also suid.
+And all the others can be suid when configured with
+--enable-account-tools-setuid
+
+My proposal is to only support --root for root. For non suid utils,
+regular users will be denied chroot anyway, hence: "disable this feature
+when the utility is setuid and not executed by root."
+
+In your use case (for packaging), I assume the tools are always called by
+root. Then this restriction should not affect you.
+
+> It allows OE to manipulate passwd and group files that are located in
+> a sysroot by chrooting into it, because all these programs have their
+> path to /etc/passwd and friends hardcoded.
+
+The advantage is not only that the destination user/group files are
+changed, but also that they are changed considering the configuration of
+the target system (e.g. PAM, /etc/login.defs, ...)
+
+Best Regards,
+--=20
+Nekral
 
 
