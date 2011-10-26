@@ -1,28 +1,55 @@
-Received: from smtp23.4emm.com ([69.18.222.9])
+Received: from tx2ehsobe003.messaging.microsoft.com ([65.55.88.13]
+	helo=TX2EHSOBE005.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <james@digitalmatter.com.au>) id 1RIsU7-0006cQ-FG
+	(envelope-from <B29882@freescale.com>) id 1RIsra-0000UP-UJ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Oct 2011 03:40:51 +0200
-Received: from MBX20.4emm.local ([fe80::382d:f6d3:f4de:a97f]) by
-	HUB23.4emm.local ([::1]) with mapi id 14.01.0289.001; Tue, 25 Oct 2011
-	21:34:54 -0400
-From: James Limbouris <james@digitalmatter.com.au>
-To: "openembedded-core@lists.openembedded.org"
+	Wed, 26 Oct 2011 04:05:24 +0200
+Received: from mail58-tx2-R.bigfish.com (10.9.14.251) by
+	TX2EHSOBE005.bigfish.com (10.9.40.25) with Microsoft SMTP Server id
+	14.1.225.22; Wed, 26 Oct 2011 01:59:02 +0000
+Received: from mail58-tx2 (localhost.localdomain [127.0.0.1])	by
+	mail58-tx2-R.bigfish.com (Postfix) with ESMTP id B364F1B400CF;
+	Wed, 26 Oct 2011 01:59:04 +0000 (UTC)
+X-SpamScore: -6
+X-BigFish: VS-6(zz9371K98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h61h)
+X-Spam-TCS-SCL: 0:0
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
+	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
+X-FB-SS: 0,
+Received: from mail58-tx2 (localhost.localdomain [127.0.0.1]) by mail58-tx2
+	(MessageSwitch) id 1319594344671901_12418;
+	Wed, 26 Oct 2011 01:59:04 +0000 (UTC)
+Received: from TX2EHSMHS024.bigfish.com (unknown [10.9.14.238])	by
+	mail58-tx2.bigfish.com (Postfix) with ESMTP id 93DA8144804F;
+	Wed, 26 Oct 2011 01:59:04 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS024.bigfish.com
+	(10.9.99.124) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Wed, 26 Oct 2011 01:59:01 +0000
+Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.150]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.01.0339.002; Tue, 25 Oct 2011 20:59:06 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: useradd changes to dbus, base-passwd
-Thread-Index: AcyTffR7oe+bqeWKRRipl7TOziFjKQ==
-Date: Wed, 26 Oct 2011 01:34:52 +0000
-Message-ID: <840A81C1B782724A8EB52725BD519EFF1A8F25@MBX20.4emm.local>
+Thread-Topic: [OE-core] [PATCH] Give coreutils a chance to build the df utility
+Thread-Index: AQHMk4LYjh2mImZYCUuUCOULJ8+eoA==
+Date: Wed, 26 Oct 2011 01:59:06 +0000
+Message-ID: <CAEsOVNfvkJkLPMCg=x7Yu3JFQSt2GuupkZgXOpj+YhwFZJZryg@mail.gmail.com>
+References: <1319505532-23199-2-git-send-email-julian.pidancet@gmail.com>
+In-Reply-To: <1319505532-23199-2-git-send-email-julian.pidancet@gmail.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [203.59.132.158]
+x-originating-ip: [99.47.177.27]
 MIME-Version: 1.0
-Subject: useradd changes to dbus, base-passwd
+X-OriginatorOrg: freescale.com
+Cc: Julian Pidancet <julian.pidancet@gmail.com>
+Subject: Re: [PATCH] Give coreutils a chance to build the df utility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -33,30 +60,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Oct 2011 01:40:51 -0000
+X-List-Received-Date: Wed, 26 Oct 2011 02:05:51 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <02BE57BDCD976247A7352B7C3DEC830A@freescale.net>
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Mon, Oct 24, 2011 at 8:18 PM, Julian Pidancet
+<julian.pidancet@gmail.com> wrote:
+> +do_configure_prepend () {
+> + =A0 =A0 =A0 =A0export fu_cv_sys_stat_statfs2_bsize=3Dyes
 
-Recent changes to dbus have broken some sdk building:
+I'm asking out of curiosity.. why don't these go in meta/site/common instea=
+d?
 
-Missing or unbuildable dependency chain was: ['meta-toolchain-qte', 'task-q=
-te-toolchain-host-nativesdk', 'qt4-tools-nativesdk', 'dbus-nativesdk', 'bas=
-e-passwd-nativesdk']
-
-I think the commit introducing the base-passed dependency is 46e6c3fa8034b1=
-2d178d605f3f5d7efe69671a13 (dbus: use useradd class to allow use in read-on=
-ly filesystems).
-I'm not too clear on how useradd works, so I can't tell if simply adding BB=
-CLASSEXTEND =3D "native nativesdk" to base-passwd is sufficient. I'd expect=
- that this would cause dbus to add itself to the sdk sysroot's passwd (whic=
-h previously didn't exist?). Seems harmless enough... I'm giving it a try n=
-ow, but any advice or opinions would be appreciated.
-=A0=A0
-Regards,
-James Limbouris
+-M=
 
 
 
