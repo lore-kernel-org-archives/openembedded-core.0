@@ -1,26 +1,28 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1RJ493-0001Z6-E9
+	(envelope-from <mark.hatle@windriver.com>) id 1RJ5Q1-00033s-R3
 	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Oct 2011 16:07:53 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1RJ43I-0000YN-6v; Wed, 26 Oct 2011 16:01:56 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Oct 2011 15:01:55 +0100
-In-Reply-To: <CAKZ=5EUxO=fe+6p5qx4n5Y5_r1GQ+mokXOQhnuNgLbpx7Z4Heg@mail.gmail.com>
-References: <1319505532-23199-2-git-send-email-julian.pidancet@gmail.com>
-	<CAEsOVNfvkJkLPMCg=x7Yu3JFQSt2GuupkZgXOpj+YhwFZJZryg@mail.gmail.com>
-	<CAKZ=5EUxO=fe+6p5qx4n5Y5_r1GQ+mokXOQhnuNgLbpx7Z4Heg@mail.gmail.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1319637716.22985.368.camel@phil-desktop>
-Mime-Version: 1.0
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>
-Subject: Re: [PATCH] Give coreutils a chance to build the df utility
+	Wed, 26 Oct 2011 17:29:30 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p9QFNT1T023535
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Oct 2011 08:23:29 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.229) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 26 Oct 2011 08:23:28 -0700
+Message-ID: <4EA825F0.1030504@windriver.com>
+Date: Wed, 26 Oct 2011 10:23:28 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <840A81C1B782724A8EB52725BD519EFF1A8F25@MBX20.4emm.local>
+	<840A81C1B782724A8EB52725BD519EFF1A8F4E@MBX20.4emm.local>
+In-Reply-To: <840A81C1B782724A8EB52725BD519EFF1A8F4E@MBX20.4emm.local>
+Subject: Re: useradd changes to dbus, base-passwd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,31 +37,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Oct 2011 14:07:53 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 26 Oct 2011 15:29:30 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-10-26 at 14:58 +0100, Julian Pidancet wrote:
-> On Wed, Oct 26, 2011 at 2:59 AM, McClintock Matthew-B29882
-> <B29882@freescale.com> wrote:
-> > On Mon, Oct 24, 2011 at 8:18 PM, Julian Pidancet
-> > <julian.pidancet@gmail.com> wrote:
-> >> +do_configure_prepend () {
-> >> +        export fu_cv_sys_stat_statfs2_bsize=yes
-> >
-> > I'm asking out of curiosity.. why don't these go in meta/site/common instead?
+On 10/25/11 10:37 PM, James Limbouris wrote:
+>> -----Original Message-----
+>> From: openembedded-core-bounces@lists.openembedded.org
+>> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+>> James Limbouris
+>> Sent: Wednesday, 26 October 2011 9:35 AM
+>> To: openembedded-core@lists.openembedded.org
+>> Subject: [OE-core] useradd changes to dbus, base-passwd
+>>
+>> Hi,
+>>
+>> Recent changes to dbus have broken some sdk building:
+>>
+>> Missing or unbuildable dependency chain was: ['meta-toolchain-qte', 'task-qte-
+>> toolchain-host-nativesdk', 'qt4-tools-nativesdk', 'dbus-nativesdk', 'base-passwd-
+>> nativesdk']
+>>
+>> I think the commit introducing the base-passed dependency is
+>> 46e6c3fa8034b12d178d605f3f5d7efe69671a13 (dbus: use useradd class to
+>> allow use in read-only filesystems).
+>> I'm not too clear on how useradd works, so I can't tell if simply adding
+>> BBCLASSEXTEND = "native nativesdk" to base-passwd is sufficient. I'd expect
+>> that this would cause dbus to add itself to the sdk sysroot's passwd (which
+>> previously didn't exist?). Seems harmless enough... I'm giving it a try now, but
+>> any advice or opinions would be appreciated.
 > 
-> To be honest, I ignored the very existence of this file. Is this
-> globally applied to all the recipes ? Isn't there a risk of breaking
-> other packages by doing this ?
+> It seems that adding BBCLASSEXTEND = "native nativesdk" to base-passwd and shadow-sysroot is not sufficient.
+> dbus itself will not build for nativesdk:
+> 
 
-A small risk, yes.  On the other hand, by hardcoding one particular
-value in the recipe, there is a risk that it might be the wrong answer
-for some target systems.  Whereas the site files are, intentionally,
-target and OS specific.
+...
 
-p.
+> NOTE: package dbus-nativesdk-1.4.12-r1: task do_install: Failed
+> ERROR: Task 1370 (virtual:nativesdk:/home/james/oe/sources/oe-core/meta/recipes-core/dbus/dbus_1.4.12.bb, do_install) failed with exit code '1'
+> 
+> Perhaps we should not inherit useradd when building for nativesdk? After all, the sdk sysroots have not had /etc/passwd in the past.
 
+The useradd class should only be used in a target build.  Neither nativesdk or
+native have a reasonable set of actions with useradd.
+
+I am a bit confused as to why we are building dbus in a nativesdk situation.  I
+would have thought that we'd be forced to use the host system's version of dbus
+for compatibility sake.  Perhaps this is the root of the problem -- or I'm
+mistaken and we do need to build it -- in that case we need to avoid including
+useradd with non-target builds.
+
+--Mark
+
+> James
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
