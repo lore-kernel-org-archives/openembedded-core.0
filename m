@@ -1,37 +1,19 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RJAaP-00006o-2l for openembedded-core@lists.openembedded.org;
-	Wed, 26 Oct 2011 23:00:33 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9QKsYOQ022512
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2011 21:54:34 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 21433-02 for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2011 21:54:30 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9QKsPsl022506
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2011 21:54:26 +0100
-Message-ID: <1319662464.12054.1.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Oct 2011 21:54:24 +0100
-In-Reply-To: <840A81C1B782724A8EB52725BD519EFF1A8959@MBX20.4emm.local>
-References: <1319173361-11527-1-git-send-email-raj.khem@gmail.com>
-	<1319173361-11527-3-git-send-email-raj.khem@gmail.com>
-	<840A81C1B782724A8EB52725BD519EFF1A8929@MBX20.4emm.local>
-	<CAMKF1soXuZ84hVv9sN+rgR+Fh-o0jaDKKn7BMWs80xikiF7_bQ@mail.gmail.com>
-	<840A81C1B782724A8EB52725BD519EFF1A8959@MBX20.4emm.local>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 3/3] gcc-configure-sdk: Point sysroot to	correct location
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <bruce.ashfield@windriver.com>) id 1RJAc9-0000Hl-J2
+	for openembedded-core@lists.openembedded.org;
+	Wed, 26 Oct 2011 23:02:21 +0200
+Received: from localhost.localdomain (yow-bashfiel-d2.ottawa.windriver.com
+	[128.224.146.167])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p9QKuGga016825;
+	Wed, 26 Oct 2011 13:56:16 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Wed, 26 Oct 2011 16:56:00 -0400
+Message-Id: <cover.1319662382.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: [PATCH 0/2] RFC v2: provide 3.0.x and 3.1 libc headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,77 +28,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Oct 2011 21:00:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 26 Oct 2011 21:02:22 -0000
 
-On Fri, 2011-10-21 at 05:23 +0000, James Limbouris wrote:
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org
-> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> > Khem Raj
-> > Sent: Friday, 21 October 2011 1:16 PM
-> > To: Patches and discussions about the oe-core layer
-> > Subject: Re: [OE-core] [PATCH 3/3] gcc-configure-sdk: Point sysroot to correct
-> > location
-> > 
-> > On Thu, Oct 20, 2011 at 10:12 PM, James Limbouris
-> > <james@digitalmatter.com.au> wrote:
-> > >> -----Original Message-----
-> > >> From: openembedded-core-bounces@lists.openembedded.org
-> > >> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> > Of
-> > >> Khem Raj
-> > >> Sent: Friday, 21 October 2011 1:03 PM
-> > >> To: openembedded-core@lists.openembedded.org
-> > >> Subject: [OE-core] [PATCH 3/3] gcc-configure-sdk: Point sysroot to correct
-> > >> location
-> > >>
-> > >> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > >> ---
-> > >>  meta/recipes-devtools/gcc/gcc-configure-sdk.inc |    2 +-
-> > >>  1 files changed, 1 insertions(+), 1 deletions(-)
-> > >>
-> > >> diff --git a/meta/recipes-devtools/gcc/gcc-configure-sdk.inc b/meta/recipes-
-> > >> devtools/gcc/gcc-configure-sdk.inc
-> > >> index de80870..98fd4c1 100644
-> > >> --- a/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
-> > >> +++ b/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
-> > >> @@ -7,7 +7,7 @@ USE_NLS = '${@base_conditional( "TARGET_OS", "linux-
-> > >> uclibceabi", "no", "", d )}'
-> > >>  EXTRA_OECONF_PATHS = "--with-local-
-> > >> prefix=${SDKPATH}/sysroots/${TARGET_SYS}${target_exec_prefix} \
-> > >>                        --with-gxx-include-dir=${target_includedir}/c++ \
-> > >>                        --with-build-time-
-> > >> tools=${STAGING_DIR_NATIVE}${prefix_native}/${TARGET_SYS}/bin \
-> > >> -                      --with-sysroot=${SDKPATH}/sysroots/${TARGET_SYS} \
-> > >> +                      --with-
-> > >> sysroot=${SDKPATH}/sysroots/${TUNE_PKGARCH}${TARGET_VENDOR}-
-> > >> ${TARGET_OS} \
-> > >>                        --with-build-sysroot=${STAGING_DIR_TARGET}"
-> > >>
-> > >>  #
-> > >> --
-> > >> 1.7.5.4
-> > >>
-> > >
-> > > Shouldn't --with-local-prefix be changed too? I am testing with both
-> > ${TARGET_SYS}'s replaced. Will post results shortly.
-> > 
-> > yes I think both places it should change
-> > 
-> 
-> Ok, I've tested with both changed, and the corresponding binutils patch, and both Qt and kernel compiles are working.
+Richard,
 
-I took these patches but I would like to stress that we shouldn't need
-to rely on the hardcoded path in the compiler, it should be picking up
-any alternative sysroot paths from the environment. If this isn't
-happening, we should be figuring out why not. This change therefore
-hides issues and does not fix the problem entirely :(.
+Here's a quick respin of the series to factor out some code.
+
+Changes since v1:
+ 
+ - factored common code out into the .inc file. Captured in patch 1/2
+ - patch 2/2 is the introduction of the new headers
+
+Original Email is included below:
+
+Here's a RFC patch for updating the toolchain linux-libc headers to 3.x
+variants.
+
+The reason I'm calling it a RFC is:
+
+  - I wrote some anonymous python code (and I'm no python coder) to
+    deal with 2.6 / 3.0 tgz location differences. This could have
+    also been done with a variable set in the recipes and used by
+    the .inc. I wasn't sure of the preferred approach, hence the RFC.
+    I'll take no offense corrections here.
+
+  - I changed the .inc, but didn't bump the PR of the existing recipes
+    and didn't remove the existing 2.6 variants. If either of these
+    should have been done, let me know and I'll respin.
+
+  - I bumped the default to be 3.1. If that's too agressive for the
+    default, and we'd prefer 3.0.8, let me know and I'll respin.
+
+I built and booted all the qemu machines with the 3.1 kernel headers.  So
+from the testing I was able to do, this looks to be safe and ready to go.
+
+This is based on my yocto repo, I also did the changes in my oe-core
+repository, but I don't have a oe-core contrib branch that I could push to,
+so I chose to send the yocto variant. If someone points me to who I email for
+an oe-core contrib branch, I can push that variant as well.
 
 Cheers,
 
-Richard
+Bruce
+
+
+The following changes since commit fc94f925e848684244a38dcffe15cb1192dfbed8:
+  Martin Jansa (1):
+        libxml-parser-perl, libxml-simple-perl, expat, sgmlspl-native, git: bump PR to rebuild after perl upgrade
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/libc-headers-v2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/libc-headers-v2
+
+Bruce Ashfield (2):
+  linux-libc-headers: factor common code into linux-libc-headers.inc
+  linux-libc-headers: provide 3.0.x and 3.1 headers
+
+ meta/conf/distro/include/tcmode-default.inc        |    2 +-
+ .../linux-libc-headers/linux-libc-headers.inc      |   61 +++++++++++++++++++-
+ .../linux-libc-headers_2.6.37.2.bb                 |   46 +--------------
+ .../linux-libc-headers_2.6.39.bb                   |   47 +---------------
+ .../linux-libc-headers/linux-libc-headers_3.0.8.bb |    9 +++
+ .../linux-libc-headers/linux-libc-headers_3.1.bb   |    9 +++
+ 6 files changed, 79 insertions(+), 95 deletions(-)
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.0.8.bb
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.1.bb
 
 
 
