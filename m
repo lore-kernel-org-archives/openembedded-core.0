@@ -1,40 +1,58 @@
-Received: from mail-qy0-f182.google.com ([209.85.216.182])
+Received: from va3ehsobe004.messaging.microsoft.com ([216.32.180.14]
+	helo=VA3EHSOBE004.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.rini@gmail.com>) id 1RJHPM-0001Fu-HA
+	(envelope-from <B29882@freescale.com>) id 1RJHmr-0000KE-1M
 	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Oct 2011 06:17:36 +0200
-Received: by qyg14 with SMTP id 14so2992770qyg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Oct 2011 21:11:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=LL6Ni52RroiWles0aPbXTXSInj+IMVppaqyBcalSz4U=;
-	b=FpW1rXwijCgCFioGXouyf2dYm+wDtV8ZAy6TeswcJGRKNKkkHmkxyWZuxEo04X/anJ
-	hwqXbgcMWMQtzB4VTN/44wM+axhgYew+uKHCr+NYJvSiMLS6SofBMIgrWKxj2wbHQmJ+
-	rYw9E2WKVIdGqSQil2bRpVmAVcvDJTgUmAh+4=
-MIME-Version: 1.0
-Received: by 10.229.64.144 with SMTP id e16mr7382859qci.112.1319688696388;
-	Wed, 26 Oct 2011 21:11:36 -0700 (PDT)
-Received: by 10.229.94.72 with HTTP; Wed, 26 Oct 2011 21:11:36 -0700 (PDT)
-In-Reply-To: <840A81C1B782724A8EB52725BD519EFF1AA886@MBX20.4emm.local>
-References: <1319173361-11527-1-git-send-email-raj.khem@gmail.com>
-	<1319173361-11527-3-git-send-email-raj.khem@gmail.com>
-	<840A81C1B782724A8EB52725BD519EFF1A8929@MBX20.4emm.local>
-	<CAMKF1soXuZ84hVv9sN+rgR+Fh-o0jaDKKn7BMWs80xikiF7_bQ@mail.gmail.com>
-	<840A81C1B782724A8EB52725BD519EFF1A8959@MBX20.4emm.local>
-	<1319662464.12054.1.camel@ted>
-	<840A81C1B782724A8EB52725BD519EFF1AA886@MBX20.4emm.local>
-Date: Wed, 26 Oct 2011 21:11:36 -0700
-Message-ID: <CA+M6bX=U_beXYeo98fZnZ-B_M4MrwVCzm2VKbqqaNkQCLTJbUw@mail.gmail.com>
-From: Tom Rini <tom.rini@gmail.com>
+	Thu, 27 Oct 2011 06:41:54 +0200
+Received: from mail150-va3-R.bigfish.com (10.7.14.237) by
+	VA3EHSOBE004.bigfish.com (10.7.40.24) with Microsoft SMTP Server id
+	14.1.225.22; Thu, 27 Oct 2011 04:20:38 +0000
+Received: from mail150-va3 (localhost.localdomain [127.0.0.1])	by
+	mail150-va3-R.bigfish.com (Postfix) with ESMTP id CFA5D9F8060	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu, 27 Oct 2011 04:20:41 +0000 (UTC)
+X-SpamScore: -17
+X-BigFish: VS-17(zz9371K542M1432N98dKzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3h61h)
+X-Spam-TCS-SCL: 0:0
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail150-va3 (localhost.localdomain [127.0.0.1]) by mail150-va3
+	(MessageSwitch) id 1319689241330289_19434;
+	Thu, 27 Oct 2011 04:20:41 +0000 (UTC)
+Received: from VA3EHSMHS003.bigfish.com (unknown [10.7.14.239])	by
+	mail150-va3.bigfish.com (Postfix) with ESMTP id 4150A1328050	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu, 27 Oct 2011 04:20:41 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS003.bigfish.com
+	(10.7.99.13) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Thu, 27 Oct 2011 04:20:37 +0000
+Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.150]) by
+	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
+	14.01.0339.002; Wed, 26 Oct 2011 23:20:40 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] gcc-configure-sdk: Point sysroot to correct location
+Thread-Topic: [OE-core] [RFC] Fix libgcc nativesdk to install libgcc.a in
+	good location for tools
+Thread-Index: AQHMlF/IAAToIflzD0ytAU6VwP27+w==
+Date: Thu, 27 Oct 2011 04:20:39 +0000
+Message-ID: <CAEsOVNe0UdXEvaJuxT67wsdbK8ZVwEsgLJShoVneLDpNf+T0rQ@mail.gmail.com>
+References: <1312980634.6733.62.camel@phil-desktop>
+	<1319684838-24527-1-git-send-email-msm@freescale.com>
+	<840A81C1B782724A8EB52725BD519EFF1AA850@MBX20.4emm.local>
+In-Reply-To: <840A81C1B782724A8EB52725BD519EFF1AA850@MBX20.4emm.local>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: [RFC] Fix libgcc nativesdk to install libgcc.a in good location for tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -45,112 +63,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Oct 2011 04:17:36 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 27 Oct 2011 04:41:54 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <4B1476617950A947B5984E0D4C7B93DF@freescale.net>
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 26, 2011 at 8:52 PM, James Limbouris
+On Wed, Oct 26, 2011 at 10:40 PM, James Limbouris
 <james@digitalmatter.com.au> wrote:
 >> -----Original Message-----
 >> From: openembedded-core-bounces@lists.openembedded.org
 >> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
->> Richard Purdie
->> Sent: Thursday, 27 October 2011 4:54 AM
->> To: Patches and discussions about the oe-core layer
->> Subject: Re: [OE-core] [PATCH 3/3] gcc-configure-sdk: Point sysroot to c=
-orrect
->> location
+>> Matthew McClintock
+>> Sent: Thursday, 27 October 2011 11:07 AM
+>> To: openembedded-core@lists.openembedded.org
+>> Subject: [OE-core] [RFC] Fix libgcc nativesdk to install libgcc.a in goo=
+d location
+>> for tools
 >>
->> On Fri, 2011-10-21 at 05:23 +0000, James Limbouris wrote:
->> > > -----Original Message-----
->> > > From: openembedded-core-bounces@lists.openembedded.org
->> > > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
->> Of
->> > > Khem Raj
->> > > Sent: Friday, 21 October 2011 1:16 PM
->> > > To: Patches and discussions about the oe-core layer
->> > > Subject: Re: [OE-core] [PATCH 3/3] gcc-configure-sdk: Point sysroot =
-to
->> correct
->> > > location
->> > >
->> > > On Thu, Oct 20, 2011 at 10:12 PM, James Limbouris
->> > > <james@digitalmatter.com.au> wrote:
->> > > >> -----Original Message-----
->> > > >> From: openembedded-core-bounces@lists.openembedded.org
->> > > >> [mailto:openembedded-core-bounces@lists.openembedded.org] On
->> Behalf
->> > > Of
->> > > >> Khem Raj
->> > > >> Sent: Friday, 21 October 2011 1:03 PM
->> > > >> To: openembedded-core@lists.openembedded.org
->> > > >> Subject: [OE-core] [PATCH 3/3] gcc-configure-sdk: Point sysroot t=
-o
->> correct
->> > > >> location
->> > > >>
->> > > >> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> > > >> ---
->> > > >> =A0meta/recipes-devtools/gcc/gcc-configure-sdk.inc | =A0 =A02 +-
->> > > >> =A01 files changed, 1 insertions(+), 1 deletions(-)
->> > > >>
->> > > >> diff --git a/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
->> b/meta/recipes-
->> > > >> devtools/gcc/gcc-configure-sdk.inc
->> > > >> index de80870..98fd4c1 100644
->> > > >> --- a/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
->> > > >> +++ b/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
->> > > >> @@ -7,7 +7,7 @@ USE_NLS =3D '${@base_conditional( "TARGET_OS",
->> "linux-
->> > > >> uclibceabi", "no", "", d )}'
->> > > >> =A0EXTRA_OECONF_PATHS =3D "--with-local-
->> > > >> prefix=3D${SDKPATH}/sysroots/${TARGET_SYS}${target_exec_prefix} \
->> > > >> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0--with-gxx-include=
--dir=3D${target_includedir}/c++ \
->> > > >> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0--with-build-time-
->> > > >> tools=3D${STAGING_DIR_NATIVE}${prefix_native}/${TARGET_SYS}/bin \
->> > > >> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0--with-sysroot=3D${S=
-DKPATH}/sysroots/${TARGET_SYS} \
->> > > >> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0--with-
->> > > >> sysroot=3D${SDKPATH}/sysroots/${TUNE_PKGARCH}${TARGET_VENDOR}-
->> > > >> ${TARGET_OS} \
->> > > >> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0--with-build-sysro=
-ot=3D${STAGING_DIR_TARGET}"
->> > > >>
->> > > >> =A0#
->> > > >> --
->> > > >> 1.7.5.4
->> > > >>
->> > > >
->> > > > Shouldn't --with-local-prefix be changed too? I am testing with bo=
-th
->> > > ${TARGET_SYS}'s replaced. Will post results shortly.
->> > >
->> > > yes I think both places it should change
->> > >
->> >
->> > Ok, I've tested with both changed, and the corresponding binutils patc=
-h, and
->> both Qt and kernel compiles are working.
+>> This fixes an issue where we cannot find -lgcc when linking. We
+>> update the path to libgcc.a so the library can be installed
+>> correctly
 >>
->> I took these patches but I would like to stress that we shouldn't need
->> to rely on the hardcoded path in the compiler, it should be picking up
->> any alternative sysroot paths from the environment. If this isn't
->> happening, we should be figuring out why not. This change therefore
->> hides issues and does not fix the problem entirely :(.
+>> Signed-off-by: Matthew McClintock <msm@freescale.com>
+>> ---
+>> I really doubt this is the correct fix and I'm no expert but it's
+>> here for comments. This fixes a real u-boot cross compile build
+>> issue
 >>
->> Cheers,
+>> The previous mv command was failing as the files did not exist
+>> and I also rejiggered the packages since I was not sure if
+>> gdb-cross-canadian-powerpc-dev was included in my tarball of
+>> the toolchain
 >>
->> Richard
+>> =A0meta/recipes-devtools/gcc/libgcc_4.6.bb | =A0 =A06 +++---
+>> =A01 files changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/meta/recipes-devtools/gcc/libgcc_4.6.bb b/meta/recipes-
+>> devtools/gcc/libgcc_4.6.bb
+>> index 63a46ec..7f3ac55 100644
+>> --- a/meta/recipes-devtools/gcc/libgcc_4.6.bb
+>> +++ b/meta/recipes-devtools/gcc/libgcc_4.6.bb
+>> @@ -8,9 +8,8 @@ PACKAGES =3D "\
+>> =A0 =A0${PN}-dev \
+>> =A0 =A0"
+>>
+>> -FILES_${PN} =3D "${base_libdir}/libgcc*.so.*"
+>> +FILES_${PN} =3D "${base_libdir}/libgcc*"
+>> =A0FILES_${PN}-dev =3D " \
+>> - =A0${base_libdir}/libgcc*.so \
+>> =A0 =A0${libdir}/${TARGET_SYS}/${BINV}/crt* \
+>> =A0 =A0${libdir}/${TARGET_SYS}/${BINV}/libgcc*"
+>>
+>> @@ -29,9 +28,10 @@ do_install () {
+>> =A0 =A0 =A0 if [ -f ${D}${libdir}/nof/libgcc_s.so ]; then
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0 mv ${D}${libdir}/nof/libgcc* ${D}${base_libd=
+ir}
+>> =A0 =A0 =A0 else
+>> - =A0 =A0 =A0 =A0 =A0 =A0 mv ${D}${libdir}/libgcc* ${D}${base_libdir} ||=
+ true
+>> + =A0 =A0 =A0 =A0 =A0 =A0 cp ${D}${libdir}/${TARGET_SYS}/${BINV}/libgcc*
+>> ${D}${base_libdir}
+>> =A0 =A0 =A0 fi
+>>
+>> +
+>> =A0 =A0 =A0 chown -R root:root ${D}
+>> =A0 =A0 =A0 chmod +x ${D}${base_libdir}/libgcc_s.so.*
+>> =A0}
+>> --
+>> 1.7.6.1
+>>
 >
-> I'm not sure there was a problem apart from the hardcoded paths being wro=
-ng - in the use cases this fixed, the environment setup script was not bein=
-g sourced.
+> Is this perhaps related to the following issue: http://lists.linuxtogo.or=
+g/pipermail/openembedded-core/2011-October/011556.html ?
+> Some builds had trouble finding libgcc due to a sysroot misconfiguration,=
+ which has since been fixed in master.
 
-... except for u-boot / kernel which ignore such advice from the
-environment, often with reason.
+I  applied this patch first. It did not fix my toolchain.
 
---=20
-Tom
+The recipe above still is looking for this file
+'${D}${libdir}/libgcc*' before my patch - when that folder does not
+even exist and it's actually
+'${D}${libdir}/${TARGET_SYS}/${BINV}/libgcc*'. It's worth noting that
+FILES_${PN} is referencing the path where a file actually exists,
+which makes me wonder why they are different, esp. since these two
+lines were added in the same patch.
+
+-M
+
+-M=
+
 
 
