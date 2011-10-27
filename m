@@ -1,28 +1,27 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1RJWt1-0003qO-GC
+Received: from mailout-de.gmx.net ([213.165.64.22])
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <schnitzeltony@gmx.de>) id 1RJXja-0001tY-3E
 	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Oct 2011 22:49:18 +0200
-Received: from mail-pz0-f44.google.com ([209.85.210.44])
-	by mga01.intel.com with ESMTP/TLS/RC4-MD5; 27 Oct 2011 13:43:13 -0700
-Received: by pzk4 with SMTP id 4so16394406pzk.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Oct 2011 13:43:13 -0700 (PDT)
-Received: by 10.68.72.104 with SMTP id c8mr206809pbv.34.1319748193040;
-	Thu, 27 Oct 2011 13:43:13 -0700 (PDT)
-Received: from [192.168.1.12] (c-98-246-160-155.hsd1.or.comcast.net.
-	[98.246.160.155])
-	by mx.google.com with ESMTPS id l3sm718891pbn.8.2011.10.27.13.43.11
-	(version=SSLv3 cipher=OTHER); Thu, 27 Oct 2011 13:43:12 -0700 (PDT)
-Message-ID: <4EA9C265.80703@intel.com>
-Date: Thu, 27 Oct 2011 13:43:17 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+	Thu, 27 Oct 2011 23:43:34 +0200
+Received: (qmail invoked by alias); 27 Oct 2011 21:37:33 -0000
+Received: from p5B0A2075.dip.t-dialin.net (EHLO localhost.localdomain)
+	[91.10.32.117]
+	by mail.gmx.net (mp036) with SMTP; 27 Oct 2011 23:37:33 +0200
+X-Authenticated: #62780362
+X-Provags-ID: V01U2FsdGVkX19VzmENYONVmhskpE3ZeChbHg4AyWMfNK3fAsdyDG
+	tACGYWBkkVNCpd
+From: Andreas =?iso-8859-1?q?M=FCller?= <schnitzeltony@gmx.de>
+To: "Patches and discussions about the oe-core layer"
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 27 Oct 2011 23:42:19 +0200
+User-Agent: KMail/1.13.7 (Linux/2.6.35.14-97.fc14.x86_64; KDE/4.6.5; x86_64; ;
+	)
 References: <201110272230.29012.schnitzeltony@gmx.de>
-In-Reply-To: <201110272230.29012.schnitzeltony@gmx.de>
+	<4EA9C265.80703@intel.com>
+In-Reply-To: <4EA9C265.80703@intel.com>
+MIME-Version: 1.0
+Message-Id: <201110272342.19640.schnitzeltony@gmx.de>
+X-Y-GMX-Trusted: 0
 Subject: Re: Trouble by last dbus patch (46e6c3fa8034b12d178d605f3f5d7efe69671a13)?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -38,53 +37,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Oct 2011 20:49:18 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 27 Oct 2011 21:43:34 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/27/2011 01:30 PM, Andreas Müller wrote:
-> Since the last updates of all layers (angstrom based) I have issues with
->
-> * networkmanager/nm-applet (meta-oe): I am not allowed to change the settings
->    any more
-> * xfce-session (meta-oe): Logging out takes very long and Restart/Shutdown is
->    disabled
->
-> I remember that I had similar issues a while ago. That could be worked around
-> by starting some dbus stuff ( do not exactly remember what it was ).
->
-> With this vague idea I checked and found in oe-core:
->
-> | dbus: use useradd class to allow use in read-only filesystems
-> | author	Otavio Salvador<otavio@ossystems.com.br>
-> | commit	46e6c3fa8034b12d178d605f3f5d7efe69671a13
->
-> Not understanding totally what is all about I see in /etc/passw
->
-> | messagebus:x:999:998::/var/lib/dbus:/bin/sh
->
-> but I don't have /var/lib/dbus on my sytem!!
->
-> I did not check yet, but maybe this is an incompatibilty with angstrom custom
->
-> | FILESYSTEM_PERMS_TABLES = "fs-perms-angstrom.txt"
->
-> somebody around to enlight the darkness?
+On Thursday, October 27, 2011 10:43:17 PM Scott Garman wrote:
+> On 10/27/2011 01:30 PM, Andreas M=FCller wrote:
+> > Since the last updates of all layers (angstrom based) I have issues with
+> >
+> > * networkmanager/nm-applet (meta-oe): I am not allowed to change the se=
+ttings
+> >    any more
+> > * xfce-session (meta-oe): Logging out takes very long and Restart/Shutd=
+own is
+> >    disabled
+> >
+> > I remember that I had similar issues a while ago. That could be worked =
+around
+> > by starting some dbus stuff ( do not exactly remember what it was ).
+> >
+> > With this vague idea I checked and found in oe-core:
+> >
+> > | dbus: use useradd class to allow use in read-only filesystems
+> > | author	Otavio Salvador<otavio@ossystems.com.br>
+> > | commit	46e6c3fa8034b12d178d605f3f5d7efe69671a13
+> >
+> > Not understanding totally what is all about I see in /etc/passw
+> >
+> > | messagebus:x:999:998::/var/lib/dbus:/bin/sh
+> >
+> > but I don't have /var/lib/dbus on my sytem!!
+> >
+> > I did not check yet, but maybe this is an incompatibilty with angstrom =
+custom
+> >
+> > | FILESYSTEM_PERMS_TABLES =3D "fs-perms-angstrom.txt"
+> >
+> > somebody around to enlight the darkness?
+>=20
+> useradd should be creating the home directory automatically, but I'd=20
+> guess it's not being picked up during packaging. Try adding:
+>=20
+> ${localstatedir}/lib/dbus
+>=20
+> to FILES_${PN}
+>=20
+> This is a reasonable guess off the top of my head.
+>=20
+> Scott
+>=20
+>=20
+On the machine I created /var/lib/dbus and made messagebus owner but no cha=
+nge
+in behaviour..
 
-useradd should be creating the home directory automatically, but I'd 
-guess it's not being picked up during packaging. Try adding:
-
-${localstatedir}/lib/dbus
-
-to FILES_${PN}
-
-This is a reasonable guess off the top of my head.
-
-Scott
-
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+Andreas
 
 
