@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RJYBn-0002iM-MC
+	(envelope-from <sgw@linux.intel.com>) id 1RJYBo-0002iM-In
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Oct 2011 00:12:44 +0200
+	Fri, 28 Oct 2011 00:12:45 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 27 Oct 2011 15:06:42 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 27 Oct 2011 15:06:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,415,1315206000"; d="scan'208";a="83263167"
+X-IronPort-AV: E=Sophos;i="4.69,415,1315206000"; d="scan'208";a="83263173"
 Received: from unknown (HELO swold-mobl.Mikenopa.local) ([10.255.15.81])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Oct 2011 15:06:41 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 27 Oct 2011 15:06:42 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Oct 2011 00:06:21 +0200
-Message-Id: <e5eaaa8df9818ac0fd2e2d54dc61aba98aae5123.1319753141.git.sgw@linux.intel.com>
+Date: Fri, 28 Oct 2011 00:06:22 +0200
+Message-Id: <7d6585affe8c302c557d21d29abbfde9bb3e4f42.1319753141.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1319753141.git.sgw@linux.intel.com>
 References: <cover.1319753141.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1319753141.git.sgw@linux.intel.com>
 References: <cover.1319753141.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 01/18] libtool: Upgrade from 2.4 -> 2.4.2
+Subject: [CONSOLIDATED PULL 02/18] wget: Add recipe from OE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,316 +33,406 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Oct 2011 22:12:44 -0000
+X-List-Received-Date: Thu, 27 Oct 2011 22:12:45 -0000
 
-From: Khem Raj <raj.khem@gmail.com>
+Needed to support building oe-core with oe-core
 
-Adjust prefix.patch and delete resolve-sysroot.patch
-since its already applied upstream
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../libtool/{libtool.inc => libtool-2.4.2.inc}     |   26 +++++++++---
- meta/recipes-devtools/libtool/libtool-2.4.inc      |   13 ------
- ...libtool-cross_2.4.bb => libtool-cross_2.4.2.bb} |    2 +-
- ...btool-native_2.4.bb => libtool-native_2.4.2.bb} |    2 +-
- ...nativesdk_2.4.bb => libtool-nativesdk_2.4.2.bb} |    2 +-
- meta/recipes-devtools/libtool/libtool/prefix.patch |   46 ++++++++++----------
- .../libtool/libtool/resolve-sysroot.patch          |   42 ------------------
- .../libtool/{libtool_2.4.bb => libtool_2.4.2.bb}   |    2 +-
- 8 files changed, 47 insertions(+), 88 deletions(-)
- rename meta/recipes-devtools/libtool/{libtool.inc => libtool-2.4.2.inc} (57%)
- delete mode 100644 meta/recipes-devtools/libtool/libtool-2.4.inc
- rename meta/recipes-devtools/libtool/{libtool-cross_2.4.bb => libtool-cross_2.4.2.bb} (98%)
- rename meta/recipes-devtools/libtool/{libtool-native_2.4.bb => libtool-native_2.4.2.bb} (96%)
- rename meta/recipes-devtools/libtool/{libtool-nativesdk_2.4.bb => libtool-nativesdk_2.4.2.bb} (97%)
- delete mode 100644 meta/recipes-devtools/libtool/libtool/resolve-sysroot.patch
- rename meta/recipes-devtools/libtool/{libtool_2.4.bb => libtool_2.4.2.bb} (94%)
+ .../wget/wget-1.12/fix_makefile.patch              |   59 +++++
+ .../wget/wget-1.12/gnutls.bzr.patch                |  266 ++++++++++++++++++++
+ meta/recipes-extended/wget/wget.inc                |   24 ++
+ meta/recipes-extended/wget/wget_1.12.bb            |   11 +
+ 4 files changed, 360 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-extended/wget/wget-1.12/fix_makefile.patch
+ create mode 100644 meta/recipes-extended/wget/wget-1.12/gnutls.bzr.patch
+ create mode 100644 meta/recipes-extended/wget/wget.inc
+ create mode 100644 meta/recipes-extended/wget/wget_1.12.bb
 
-diff --git a/meta/recipes-devtools/libtool/libtool.inc b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
-similarity index 57%
-rename from meta/recipes-devtools/libtool/libtool.inc
-rename to meta/recipes-devtools/libtool/libtool-2.4.2.inc
-index ef9095b..1f652ef 100644
---- a/meta/recipes-devtools/libtool/libtool.inc
-+++ b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
-@@ -1,4 +1,3 @@
--SUMMARY = "Generic library support script"
- DESCRIPTION = "This is GNU libtool, a generic library support script. \
- Libtool hides the complexity of generating special library types \
- (such as shared libraries) behind a consistent interface."
-@@ -8,21 +7,36 @@ LICENSE = "GPLv2 & LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-     file://libltdl/COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
- 
-+INC_PR = "r0"
+diff --git a/meta/recipes-extended/wget/wget-1.12/fix_makefile.patch b/meta/recipes-extended/wget/wget-1.12/fix_makefile.patch
+new file mode 100644
+index 0000000..3f34c76
+--- /dev/null
++++ b/meta/recipes-extended/wget/wget-1.12/fix_makefile.patch
+@@ -0,0 +1,59 @@
 +
- SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
-            file://trailingslash.patch \
-            file://prefix-manpage-fix.patch \
-            file://rename-with-sysroot.patch \
--           file://resolve-sysroot.patch \
-            file://use-sysroot-in-libpath.patch \
-            file://fix-final-rpath.patch \
-            file://avoid_absolute_paths_for_general_utils.patch \
--           file://fix-rpath.patch "
-+           file://fix-rpath.patch \
++Upstream-Status: Pending
++
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++
++Index: wget-1.12/po/Makefile.in.in
++===================================================================
++--- wget-1.12.orig/po/Makefile.in.in	2009-09-04 09:31:54.000000000 -0700
+++++ wget-1.12/po/Makefile.in.in	2011-10-19 20:32:53.714812160 -0700
++@@ -8,8 +8,8 @@
++ # Please note that the actual code of GNU gettext is covered by the GNU
++ # General Public License and is *not* in the public domain.
++ #
++-# Origin: gettext-0.17
++-GETTEXT_MACRO_VERSION = 0.17
+++# Origin: gettext-0.18
+++GETTEXT_MACRO_VERSION = 0.18
++ 
++ PACKAGE = @PACKAGE@
++ VERSION = @VERSION@
++Index: wget-1.12/configure.ac
++===================================================================
++--- wget-1.12.orig/configure.ac	2009-09-22 09:39:49.000000000 -0700
+++++ wget-1.12/configure.ac	2011-10-19 20:32:53.714812160 -0700
++@@ -110,7 +110,7 @@
++ dnl Gettext
++ dnl
++ AM_GNU_GETTEXT([external],[need-ngettext])
++-AM_GNU_GETTEXT_VERSION([0.17])
+++AM_GNU_GETTEXT_VERSION([0.18])
++ 
++ AC_PROG_RANLIB
++ 
++Index: wget-1.12/configure
++===================================================================
++--- wget-1.12.orig/configure	2009-09-22 09:40:13.000000000 -0700
+++++ wget-1.12/configure	2011-10-19 20:33:46.578812174 -0700
++@@ -5297,7 +5297,7 @@
++ 
++ 
++ 
++-      GETTEXT_MACRO_VERSION=0.17
+++      GETTEXT_MACRO_VERSION=0.18
++ 
++ 
++ 
++Index: wget-1.12/m4/po.m4
++===================================================================
++--- wget-1.12.orig/m4/po.m4	2009-09-04 09:31:54.000000000 -0700
+++++ wget-1.12/m4/po.m4	2011-10-19 20:33:53.426812176 -0700
++@@ -30,7 +30,7 @@
++ 
++   dnl Release version of the gettext macros. This is used to ensure that
++   dnl the gettext macros and po/Makefile.in.in are in sync.
++-  AC_SUBST([GETTEXT_MACRO_VERSION], [0.17])
+++  AC_SUBST([GETTEXT_MACRO_VERSION], [0.18])
++ 
++   dnl Perform the following tests also if --disable-nls has been given,
++   dnl because they are needed for "make dist" to work.
+diff --git a/meta/recipes-extended/wget/wget-1.12/gnutls.bzr.patch b/meta/recipes-extended/wget/wget-1.12/gnutls.bzr.patch
+new file mode 100644
+index 0000000..6f0c2eb
+--- /dev/null
++++ b/meta/recipes-extended/wget/wget-1.12/gnutls.bzr.patch
+@@ -0,0 +1,266 @@
++--- wget-1.12/src/gnutls.c	2009-09-22 04:59:33.000000000 +0200
+++++ /OE/projects/wget/src/gnutls.c	2010-10-30 16:24:10.000000000 +0200
++@@ -1,6 +1,6 @@
++ /* SSL support via GnuTLS library.
++-   Copyright (C) 2005, 2006, 2007, 2008, 2009 Free Software Foundation,
++-   Inc.
+++   Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010 Free Software
+++   Foundation, Inc.
++ 
++ This file is part of GNU Wget.
++ 
++@@ -37,6 +37,8 @@
++ #endif
++ #include <string.h>
++ #include <stdio.h>
+++#include <dirent.h>
+++#include <stdlib.h>
++ 
++ #include <gnutls/gnutls.h>
++ #include <gnutls/x509.h>
++@@ -46,6 +48,10 @@
++ #include "url.h"
++ #include "ssl.h"
++ 
+++#ifdef WIN32
+++# include "w32sock.h"
+++#endif
+++
++ /* Note: some of the functions private to this file have names that
++    begin with "wgnutls_" (e.g. wgnutls_read) so that they wouldn't be
++    confused with actual gnutls functions -- such as the gnutls_read
++@@ -56,15 +62,50 @@
++ bool
++ ssl_init ()
++ {
+++  const char *ca_directory;
+++  DIR *dir;
+++
++   gnutls_global_init ();
++   gnutls_certificate_allocate_credentials (&credentials);
+++
+++  ca_directory = opt.ca_directory ? opt.ca_directory : "/etc/ssl/certs";
+++
+++  dir = opendir (ca_directory);
+++  if (dir == NULL)
+++    {
+++      if (opt.ca_directory)
+++        logprintf (LOG_NOTQUIET, _("ERROR: Cannot open directory %s.\n"),
+++                   opt.ca_directory);
+++    }
+++  else
+++    {
+++      struct dirent *dent;
+++      while ((dent = readdir (dir)) != NULL)
+++        {
+++          struct stat st;
+++          char *ca_file;
+++          asprintf (&ca_file, "%s/%s", ca_directory, dent->d_name);
+++
+++          stat (ca_file, &st);
+++
+++          if (S_ISREG (st.st_mode))
+++            gnutls_certificate_set_x509_trust_file (credentials, ca_file,
+++                                                    GNUTLS_X509_FMT_PEM);
+++
+++          free (ca_file);
+++        }
+++
+++      closedir (dir);
+++    }
+++
++   if (opt.ca_cert)
++     gnutls_certificate_set_x509_trust_file (credentials, opt.ca_cert,
++                                             GNUTLS_X509_FMT_PEM);
++   return true;
++ }
++ 
++-struct wgnutls_transport_context {
+++struct wgnutls_transport_context
+++{
++   gnutls_session session;       /* GnuTLS session handle */
++   int last_error;               /* last error returned by read/write/... */
++ 
++@@ -73,7 +114,7 @@
++      is stored to PEEKBUF, and wgnutls_read checks that buffer before
++      actually reading.  */
++   char peekbuf[512];
++-  int peekstart, peeklen;
+++  int peeklen;
++ };
++ 
++ #ifndef MIN
++@@ -83,19 +124,18 @@
++ static int
++ wgnutls_read (int fd, char *buf, int bufsize, void *arg)
++ {
++-  int ret;
+++  int ret = 0;
++   struct wgnutls_transport_context *ctx = arg;
++ 
++   if (ctx->peeklen)
++     {
++       /* If we have any peek data, simply return that. */
++       int copysize = MIN (bufsize, ctx->peeklen);
++-      memcpy (buf, ctx->peekbuf + ctx->peekstart, copysize);
+++      memcpy (buf, ctx->peekbuf, copysize);
++       ctx->peeklen -= copysize;
++       if (ctx->peeklen != 0)
++-        ctx->peekstart += copysize;
++-      else
++-        ctx->peekstart = 0;
+++        memmove (ctx->peekbuf, ctx->peekbuf + copysize, ctx->peeklen);
+++
++       return copysize;
++     }
++ 
++@@ -105,6 +145,7 @@
++ 
++   if (ret < 0)
++     ctx->last_error = ret;
+++
++   return ret;
++ }
++ 
++@@ -124,31 +165,49 @@
++ static int
++ wgnutls_poll (int fd, double timeout, int wait_for, void *arg)
++ {
++-  return 1;
+++  struct wgnutls_transport_context *ctx = arg;
+++  return ctx->peeklen || gnutls_record_check_pending (ctx->session)
+++    || select_fd (fd, timeout, wait_for);
++ }
++ 
++ static int
++ wgnutls_peek (int fd, char *buf, int bufsize, void *arg)
++ {
++-  int ret;
+++  int ret = 0;
++   struct wgnutls_transport_context *ctx = arg;
++-
++-  /* We don't support peeks following peeks: the reader must drain all
++-     peeked data before the next peek.  */
++-  assert (ctx->peeklen == 0);
+++  int offset = MIN (bufsize, ctx->peeklen);
++   if (bufsize > sizeof ctx->peekbuf)
++     bufsize = sizeof ctx->peekbuf;
++ 
++-  do
++-    ret = gnutls_record_recv (ctx->session, buf, bufsize);
++-  while (ret == GNUTLS_E_INTERRUPTED);
+++  if (ctx->peeklen)
+++    memcpy (buf, ctx->peekbuf, offset);
++ 
++-  if (ret >= 0)
+++  if (bufsize > offset)
++     {
++-      memcpy (ctx->peekbuf, buf, ret);
++-      ctx->peeklen = ret;
+++      do
+++        {
+++          ret = gnutls_record_recv (ctx->session, buf + offset,
+++                                    bufsize - offset);
+++        }
+++      while (ret == GNUTLS_E_INTERRUPTED);
+++
+++      if (ret < 0)
+++        {
+++          if (offset)
+++            ret = 0;
+++          else
+++            return ret;
+++        }
+++
+++      if (ret > 0)
+++        {
+++          memcpy (ctx->peekbuf + offset, buf + offset,
+++                  ret);
+++          ctx->peeklen += ret;
+++        }
++     }
++-  return ret;
+++
+++  return offset + ret;
++ }
++ 
++ static const char *
++@@ -165,23 +224,20 @@
++   /*gnutls_bye (ctx->session, GNUTLS_SHUT_RDWR);*/
++   gnutls_deinit (ctx->session);
++   xfree (ctx);
++-#ifndef WINDOWS
++   close (fd);
++-#else
++-  closesocket (fd);
++-#endif
++ }
++ 
++ /* gnutls_transport is the singleton that describes the SSL transport
++    methods provided by this file.  */
++ 
++-static struct transport_implementation wgnutls_transport = {
+++static struct transport_implementation wgnutls_transport =
+++{
++   wgnutls_read, wgnutls_write, wgnutls_poll,
++   wgnutls_peek, wgnutls_errstr, wgnutls_close
++ };
++ 
++ bool
++-ssl_connect (int fd)
+++ssl_connect_wget (int fd)
++ {
++   static const int cert_type_priority[] = {
++     GNUTLS_CRT_X509, GNUTLS_CRT_OPENPGP, 0
++@@ -189,11 +245,42 @@
++   struct wgnutls_transport_context *ctx;
++   gnutls_session session;
++   int err;
+++  int allowed_protocols[4] = {0, 0, 0, 0};
++   gnutls_init (&session, GNUTLS_CLIENT);
++   gnutls_set_default_priority (session);
++   gnutls_certificate_type_set_priority (session, cert_type_priority);
++   gnutls_credentials_set (session, GNUTLS_CRD_CERTIFICATE, credentials);
++-  gnutls_transport_set_ptr (session, (gnutls_transport_ptr) fd);
+++#ifndef FD_TO_SOCKET
+++# define FD_TO_SOCKET(X) (X)
+++#endif
+++  gnutls_transport_set_ptr (session, (gnutls_transport_ptr) FD_TO_SOCKET (fd));
+++
+++  err = 0;
+++  switch (opt.secure_protocol)
+++    {
+++    case secure_protocol_auto:
+++      break;
+++    case secure_protocol_sslv2:
+++    case secure_protocol_sslv3:
+++      allowed_protocols[0] = GNUTLS_SSL3;
+++      err = gnutls_protocol_set_priority (session, allowed_protocols);
+++      break;
+++    case secure_protocol_tlsv1:
+++      allowed_protocols[0] = GNUTLS_TLS1_0;
+++      allowed_protocols[1] = GNUTLS_TLS1_1;
+++      allowed_protocols[2] = GNUTLS_TLS1_2;
+++      err = gnutls_protocol_set_priority (session, allowed_protocols);
+++      break;
+++    default:
+++      abort ();
+++    }
+++  if (err < 0)
+++    {
+++      logprintf (LOG_NOTQUIET, "GnuTLS: %s\n", gnutls_strerror (err));
+++      gnutls_deinit (session);
+++      return false;
+++    }
+++
++   err = gnutls_handshake (session);
++   if (err < 0)
++     {
++@@ -201,6 +288,7 @@
++       gnutls_deinit (session);
++       return false;
++     }
+++
++   ctx = xnew0 (struct wgnutls_transport_context);
++   ctx->session = session;
++   fd_register_transport (fd, &wgnutls_transport, ctx);
+diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/wget/wget.inc
+new file mode 100644
+index 0000000..589d727
+--- /dev/null
++++ b/meta/recipes-extended/wget/wget.inc
+@@ -0,0 +1,24 @@
++DESCRIPTION = "A console URL download utility featuring HTTP, FTP, and more."
++SECTION = "console/network"
++LICENSE = "GPL"
++LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
++
++DEPENDS = ""
++
++INC_PR = "r10"
++
++S = "${WORKDIR}/wget-${PV}"
++
++inherit autotools gettext update-alternatives
++
++# Disable checking for SSL since that searches the system paths
++EXTRA_OECONF = "--with-libc --enable-ipv6 --without-ssl"
++
++do_install_append () {
++	mv ${D}${bindir}/wget ${D}${bindir}/wget.${PN}
++}
++
++ALTERNATIVE_NAME = "wget"
++ALTERNATIVE_LINK = "${base_bindir}/wget"
++ALTERNATIVE_PATH = "${base_bindir}/wget.${PN}"
++ALTERNATIVE_PRIORITY = "100"
+diff --git a/meta/recipes-extended/wget/wget_1.12.bb b/meta/recipes-extended/wget/wget_1.12.bb
+new file mode 100644
+index 0000000..cab27e9
+--- /dev/null
++++ b/meta/recipes-extended/wget/wget_1.12.bb
+@@ -0,0 +1,11 @@
++PR = "${INC_PR}.1"
++
++SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
++           file://gnutls.bzr.patch \
++           file://fix_makefile.patch \
 +          "
 +
-+SRC_URI[md5sum] = "d2f3b7d4627e69e13514a40e72a24d50"
-+SRC_URI[sha256sum] = "b38de44862a987293cd3d8dfae1c409d514b6c4e794ebc93648febf9afc38918"
- 
- do_compile_prepend () {
--	# Sometimes this file doesn't get rebuilt, force the issue
--	rm -f ${S}/libltdl/config/ltmain.sh
--	make libltdl/config/ltmain.sh
-+        # Sometimes this file doesn't get rebuilt, force the issue
-+        rm -f ${S}/libltdl/config/ltmain.sh
-+        make libltdl/config/ltmain.sh
- }
- 
- inherit autotools
- EXTRA_AUTORECONF = "--exclude=libtoolize"
++SRC_URI[md5sum] = "141461b9c04e454dc8933c9d1f2abf83"
++SRC_URI[sha256sum] = "7578ed0974e12caa71120581fa3962ee5a69f7175ddc3d6a6db0ecdcba65b572"
 +
-+DEPENDS = "libtool-native"
-+
-+PACKAGES =+ "libltdl libltdl-dev libltdl-dbg"
-+FILES_${PN} += "${datadir}/aclocal*"
-+FILES_libltdl = "${libdir}/libltdl.so.*"
-+FILES_libltdl-dev = "${libdir}/libltdl.* ${includedir}/ltdl.h"
-+FILES_libltdl-dbg = "${libdir}/.debug/"
-+
-+EXTRA_OECONF = "--with-sysroot"
-diff --git a/meta/recipes-devtools/libtool/libtool-2.4.inc b/meta/recipes-devtools/libtool/libtool-2.4.inc
-deleted file mode 100644
-index e3d17b7..0000000
---- a/meta/recipes-devtools/libtool/libtool-2.4.inc
-+++ /dev/null
-@@ -1,13 +0,0 @@
--require libtool.inc
--DEPENDS = "libtool-native"
--
--PACKAGES =+ "libltdl libltdl-dev libltdl-dbg"
--FILES_${PN} += "${datadir}/aclocal*"
--FILES_libltdl = "${libdir}/libltdl.so.*"
--FILES_libltdl-dev = "${libdir}/libltdl.* ${includedir}/ltdl.h"
--FILES_libltdl-dbg = "${libdir}/.debug/"
--
--SRC_URI[md5sum] = "b32b04148ecdd7344abc6fe8bd1bb021"
--SRC_URI[sha256sum] = "13df57ab63a94e196c5d6e95d64e53262834fe780d5e82c28f177f9f71ddf62e"
--
--EXTRA_OECONF = "--with-sysroot"
-\ No newline at end of file
-diff --git a/meta/recipes-devtools/libtool/libtool-cross_2.4.bb b/meta/recipes-devtools/libtool/libtool-cross_2.4.2.bb
-similarity index 98%
-rename from meta/recipes-devtools/libtool/libtool-cross_2.4.bb
-rename to meta/recipes-devtools/libtool/libtool-cross_2.4.2.bb
-index 6d512b1..b7fe851 100644
---- a/meta/recipes-devtools/libtool/libtool-cross_2.4.bb
-+++ b/meta/recipes-devtools/libtool/libtool-cross_2.4.2.bb
-@@ -1,6 +1,6 @@
- require libtool-${PV}.inc
- 
--PR = "r4"
-+PR = "${INC_PR}.0"
- PACKAGES = ""
- SRC_URI += "file://prefix.patch"
- 
-diff --git a/meta/recipes-devtools/libtool/libtool-native_2.4.bb b/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
-similarity index 96%
-rename from meta/recipes-devtools/libtool/libtool-native_2.4.bb
-rename to meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
-index 3d0998e..f12e6a1 100644
---- a/meta/recipes-devtools/libtool/libtool-native_2.4.bb
-+++ b/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
-@@ -2,7 +2,7 @@ require libtool-${PV}.inc
- 
- DEPENDS = ""
- 
--PR = "r4"
-+PR = "${INC_PR}.0"
- SRC_URI += "file://prefix.patch"
- 
- inherit native
-diff --git a/meta/recipes-devtools/libtool/libtool-nativesdk_2.4.bb b/meta/recipes-devtools/libtool/libtool-nativesdk_2.4.2.bb
-similarity index 97%
-rename from meta/recipes-devtools/libtool/libtool-nativesdk_2.4.bb
-rename to meta/recipes-devtools/libtool/libtool-nativesdk_2.4.2.bb
-index a96d1d1..bd45dfe 100644
---- a/meta/recipes-devtools/libtool/libtool-nativesdk_2.4.bb
-+++ b/meta/recipes-devtools/libtool/libtool-nativesdk_2.4.2.bb
-@@ -1,6 +1,6 @@
- require libtool-${PV}.inc
- 
--PR = "r4"
-+PR = "${INC_PR}.0"
- SRC_URI += "file://prefix.patch"
- 
- inherit nativesdk
-diff --git a/meta/recipes-devtools/libtool/libtool/prefix.patch b/meta/recipes-devtools/libtool/libtool/prefix.patch
-index 1b20324..fabec7a 100644
---- a/meta/recipes-devtools/libtool/libtool/prefix.patch
-+++ b/meta/recipes-devtools/libtool/libtool/prefix.patch
-@@ -9,11 +9,11 @@ Updated: Date: 2010/06/28
- Nitin A Kamble <nitin.a.kamble@intel.com>
- 
- 
--Index: libtool-2.4/libltdl/m4/libtool.m4
-+Index: libtool-2.4.2/libltdl/m4/libtool.m4
- ===================================================================
----- libtool-2.4.orig/libltdl/m4/libtool.m4
--+++ libtool-2.4/libltdl/m4/libtool.m4
--@@ -94,7 +94,8 @@ _LT_SET_OPTIONS([$0], [$1])
-+--- libtool-2.4.2.orig/libltdl/m4/libtool.m4	2011-10-19 21:22:53.000000000 -0700
-++++ libtool-2.4.2/libltdl/m4/libtool.m4	2011-10-19 21:23:30.716036612 -0700
-+@@ -94,7 +94,8 @@
-  LIBTOOL_DEPS="$ltmain"
-  
-  # Always use our own libtool.
-@@ -23,7 +23,7 @@ Index: libtool-2.4/libltdl/m4/libtool.m4
-  AC_SUBST(LIBTOOL)dnl
-  
-  _LT_SETUP
--@@ -204,7 +205,7 @@ aix3*)
-+@@ -206,7 +207,7 @@
-  esac
-  
-  # Global variables:
-@@ -32,11 +32,11 @@ Index: libtool-2.4/libltdl/m4/libtool.m4
-  can_build_shared=yes
-  
-  # All known linkers require a `.a' archive for static linking (except MSVC,
--Index: libtool-2.4/Makefile.am
-+Index: libtool-2.4.2/Makefile.am
- ===================================================================
----- libtool-2.4.orig/Makefile.am
--+++ libtool-2.4/Makefile.am
--@@ -31,7 +31,7 @@ AM_LDFLAGS		=
-+--- libtool-2.4.2.orig/Makefile.am	2011-10-19 21:22:53.000000000 -0700
-++++ libtool-2.4.2/Makefile.am	2011-10-19 21:25:33.152638032 -0700
-+@@ -31,7 +31,7 @@
-  DIST_SUBDIRS		= .
-  EXTRA_DIST		=
-  
-@@ -45,8 +45,17 @@ Index: libtool-2.4/Makefile.am
-  
-  CLEANFILES		=
-  MOSTLYCLEANFILES	=
--@@ -65,7 +65,7 @@ rebuild = rebuild=:; $(timestamp); corre
-- ## ---------------- ##
-+@@ -72,7 +72,7 @@
-+ 		  ChangeLog.2002 ChangeLog.2003 ChangeLog.2004 \
-+ 		  ChangeLog.2005 ChangeLog.2006 ChangeLog.2007 \
-+ 		  ChangeLog.2008 ChangeLog.2009 ChangeLog.2010
-+-CLEANFILES     += libtool libtoolize libtoolize.tmp \
-++CLEANFILES     += $(host_alias)-libtool libtoolize libtoolize.tmp \
-+ 		  $(auxdir)/ltmain.tmp $(m4dir)/ltversion.tmp
-+ 
-+ ## These are the replacements that need to be made at bootstrap time,
-+@@ -231,7 +231,7 @@
-+ 	-e 's,@SED\@,$(SED),g'
-  
-  # The libtool distributor and the standalone libtool script.
- -bin_SCRIPTS = libtoolize libtool
-@@ -54,7 +63,7 @@ Index: libtool-2.4/Makefile.am
-  
-  libtoolize: $(srcdir)/libtoolize.in $(top_builddir)/config.status
-  	rm -f libtoolize.tmp libtoolize
--@@ -90,8 +90,8 @@ $(srcdir)/libtoolize.in: $(sh_files) lib
-+@@ -244,8 +244,8 @@
-  # We used to do this with a 'stamp-vcl' file, but non-gmake builds
-  # would rerun configure on every invocation, so now we manually
-  # check the version numbers from the build rule when necessary.
-@@ -65,7 +74,7 @@ Index: libtool-2.4/Makefile.am
-  	if test -f "$$target"; then \
-  	  set dummy `./$$target --version | sed 1q`; actualver="$$5"; \
-  	  test "$$actualver" = "$$correctver" && rebuild=false; \
--@@ -100,8 +100,8 @@ libtool: $(top_builddir)/config.status $
-+@@ -254,8 +254,8 @@
-  	  case $$prereq in *ChangeLog);; *) rebuild=:;; esac; \
-  	done; \
-  	if $$rebuild; then \
-@@ -76,16 +85,7 @@ Index: libtool-2.4/Makefile.am
-  	fi
-  
-  .PHONY: configure-subdirs
--@@ -146,7 +146,7 @@ EXTRA_DIST     += bootstrap $(srcdir)/li
-- 		  ChangeLog.2002 ChangeLog.2003 ChangeLog.2004 \
-- 		  ChangeLog.2005 ChangeLog.2006 ChangeLog.2007 \
-- 		  ChangeLog.2008 ChangeLog.2009
---CLEANFILES     += libtool libtoolize libtoolize.tmp \
--+CLEANFILES     += $(host_alias)-libtool libtoolize libtoolize.tmp \
-- 		  $(auxdir)/ltmain.tmp $(m4dir)/ltversion.tmp
-- 
-- ## We build ltversion.m4 here, instead of from config.status,
--@@ -526,12 +526,12 @@ TESTS_ENVIRONMENT = MAKE="$(MAKE)" CC="$
-+@@ -535,12 +535,12 @@
-  
-  BUILDCHECK_ENVIRONMENT = _lt_pkgdatadir="$(abs_top_srcdir)" \
-  	LIBTOOLIZE="$(abs_top_builddir)/libtoolize" \
-diff --git a/meta/recipes-devtools/libtool/libtool/resolve-sysroot.patch b/meta/recipes-devtools/libtool/libtool/resolve-sysroot.patch
-deleted file mode 100644
-index 0341987..0000000
---- a/meta/recipes-devtools/libtool/libtool/resolve-sysroot.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--Upstream-Status: Pending
--
--Sometimes .las have =/a/b/c.la in dependency_libs. This should be
--resolved to sysroot.
--
---Khem Raj <raj.khem@gmail.com>
--
--Index: libtool-2.4/libltdl/config/ltmain.m4sh
--===================================================================
----- libtool-2.4.orig/libltdl/config/ltmain.m4sh
--+++ libtool-2.4/libltdl/config/ltmain.m4sh
--@@ -8479,7 +8479,8 @@ EOF
-- 	      *.la)
-- 		func_basename "$deplib"
-- 		name="$func_basename_result"
---		eval libdir=`${SED} -n -e 's/^libdir=\(.*\)$/\1/p' $deplib`
--+		func_resolve_sysroot "$deplib"
--+		eval libdir=`${SED} -n -e 's/^libdir=\(.*\)$/\1/p' $func_resolve_sysroot_result`
-- 		test -z "$libdir" && \
-- 		  func_fatal_error "\`$deplib' is not a valid libtool archive"
-- 		func_append newdependency_libs " ${lt_sysroot:+=}$libdir/$name"
--@@ -8505,7 +8506,9 @@ EOF
-- 	      *.la)
-- 	        func_basename "$lib"
-- 		name="$func_basename_result"
---		eval libdir=`${SED} -n -e 's/^libdir=\(.*\)$/\1/p' $lib`
--+		func_resolve_sysroot "$lib"
--+		eval libdir=`${SED} -n -e 's/^libdir=\(.*\)$/\1/p' $func_resolve_sysroot_result`
--+
-- 		test -z "$libdir" && \
-- 		  func_fatal_error "\`$lib' is not a valid libtool archive"
-- 		func_append newdlfiles " ${lt_sysroot:+=}$libdir/$name"
--@@ -8524,7 +8527,8 @@ EOF
-- 		# the library:
-- 		func_basename "$lib"
-- 		name="$func_basename_result"
---		eval libdir=`${SED} -n -e 's/^libdir=\(.*\)$/\1/p' $lib`
--+		func_resolve_sysroot "$lib"
--+		eval libdir=`${SED} -n -e 's/^libdir=\(.*\)$/\1/p' $func_resolve_sysroot_result`
-- 		test -z "$libdir" && \
-- 		  func_fatal_error "\`$lib' is not a valid libtool archive"
-- 		func_append newdlprefiles " ${lt_sysroot:+=}$libdir/$name"
-diff --git a/meta/recipes-devtools/libtool/libtool_2.4.bb b/meta/recipes-devtools/libtool/libtool_2.4.2.bb
-similarity index 94%
-rename from meta/recipes-devtools/libtool/libtool_2.4.bb
-rename to meta/recipes-devtools/libtool/libtool_2.4.2.bb
-index 3002215..a2eb4ea 100644
---- a/meta/recipes-devtools/libtool/libtool_2.4.bb
-+++ b/meta/recipes-devtools/libtool/libtool_2.4.2.bb
-@@ -1,6 +1,6 @@
- require libtool-${PV}.inc
- 
--PR = "r4"
-+PR = "${INC_PR}.0"
- 
- #
- # We want the results of libtool-cross preserved - don't stage anything ourselves.
++require wget.inc
 -- 
 1.7.6.4
 
