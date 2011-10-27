@@ -1,23 +1,57 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from ch1ehsobe005.messaging.microsoft.com ([216.32.181.185]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1RJR6x-0002cW-IT
+	(envelope-from <B29882@freescale.com>) id 1RJSYS-0005mi-2J
 	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Oct 2011 16:39:15 +0200
-Received: from localhost.localdomain (yow-bashfiel-d2.ottawa.windriver.com
-	[128.224.146.167])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p9REX3p1001648;
-	Thu, 27 Oct 2011 07:33:03 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Thu, 27 Oct 2011 10:32:46 -0400
-Message-Id: <cover.1319725711.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: [PATCH 0/3] RFC v3: provide 3.0.x and 3.1 libc headers
+	Thu, 27 Oct 2011 18:11:44 +0200
+Received: from mail150-ch1-R.bigfish.com (10.43.68.253) by
+	CH1EHSOBE008.bigfish.com (10.43.70.58) with Microsoft SMTP Server id
+	14.1.225.22; Thu, 27 Oct 2011 16:05:33 +0000
+Received: from mail150-ch1 (localhost.localdomain [127.0.0.1])	by
+	mail150-ch1-R.bigfish.com (Postfix) with ESMTP id C6260164034A	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu, 27 Oct 2011 16:05:36 +0000 (UTC)
+X-SpamScore: -18
+X-BigFish: VS-18(zz9371K936eK103dK1432N98dKzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3h)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
+	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
+X-FB-SS: 13,
+Received: from mail150-ch1 (localhost.localdomain [127.0.0.1]) by mail150-ch1
+	(MessageSwitch) id 1319731536711657_27305;
+	Thu, 27 Oct 2011 16:05:36 +0000 (UTC)
+Received: from CH1EHSMHS014.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.254])	by mail150-ch1.bigfish.com (Postfix) with ESMTP id
+	A657195004F	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Oct 2011 16:05:36 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS014.bigfish.com
+	(10.43.70.14) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Thu, 27 Oct 2011 16:05:31 +0000
+Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.150]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.01.0339.002; Thu, 27 Oct 2011 11:05:38 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] Add readline as dependecy for
+	gdb-cross-canadian
+Thread-Index: AQHMlMJDMOSX0NFt9Uq3ZeNXDPfN4Q==
+Date: Thu, 27 Oct 2011 16:05:37 +0000
+Message-ID: <CAEsOVNfqY2XcCXZJ+bMp1xcCTaQZGj32ZJe7v=tfwyaYtHcGmg@mail.gmail.com>
+References: <1319684612-24265-1-git-send-email-msm@freescale.com>
+	<1319701366.15601.7.camel@ted>
+In-Reply-To: <1319701366.15601.7.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH] Add readline as dependecy for gdb-cross-canadian
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -28,83 +62,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Oct 2011 14:39:16 -0000
+X-List-Received-Date: Thu, 27 Oct 2011 16:11:44 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <82D0749191C6294C8366596DBD71718D@freescale.net>
+Content-Transfer-Encoding: quoted-printable
 
-Richard,
+On Thu, Oct 27, 2011 at 2:42 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Wed, 2011-10-26 at 22:03 -0500, Matthew McClintock wrote:
+>> Got errors that we were unable to find -lreadline, this fixed the
+>> issue
+>>
+>> Signed-off-by: Matthew McClintock <msm@freescale.com>
+>> ---
+>> =A0meta/recipes-devtools/gdb/gdb-cross-canadian.inc =A0 | =A0 =A02 +-
+>> =A0.../gdb/gdb-cross-canadian_7.3a.bb =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 | =
+=A0 =A02 +-
+>> =A02 files changed, 2 insertions(+), 2 deletions(-)
+>
+> This patch didn't apply as it wasn't against master. I have manually
+> fixed it up but please send patches against master in future! :)
 
-Here's v3 of the series, the details are below.
+Thanks! Sorry, I've been working on edison lately this must have
+slipped my mind.
 
-Changes since v2:
-
- - moved more code into the .inc file
- - modifed the python code to not import unnecessary functions and
-   to use d.get/setVar. 
- - Included an optional patch 3/3 to remove 2.6 based header recipes.
-   Whether you want this or not .. is up to you!
-
-Changes since v1:
- 
- - factored common code out into the .inc file. Captured in patch 1/2
- - patch 2/2 is the introduction of the new headers
-
-v1 Email is included below:
-
-Here's a RFC patch for updating the toolchain linux-libc headers to 3.x
-variants.
-
-The reason I'm calling it a RFC is:
-
-  - I wrote some anonymous python code (and I'm no python coder) to
-    deal with 2.6 / 3.0 tgz location differences. This could have
-    also been done with a variable set in the recipes and used by
-    the .inc. I wasn't sure of the preferred approach, hence the RFC.
-    I'll take no offense corrections here.
-
-  - I changed the .inc, but didn't bump the PR of the existing recipes
-    and didn't remove the existing 2.6 variants. If either of these
-    should have been done, let me know and I'll respin.
-
-  - I bumped the default to be 3.1. If that's too agressive for the
-    default, and we'd prefer 3.0.8, let me know and I'll respin.
-
-I built and booted all the qemu machines with the 3.1 kernel headers.  So
-from the testing I was able to do, this looks to be safe and ready to go.
-
-This is based on my yocto repo, I also did the changes in my oe-core
-repository, but I don't have a oe-core contrib branch that I could push to,
-so I chose to send the yocto variant. If someone points me to who I email for
-an oe-core contrib branch, I can push that variant as well.
-
-Cheers,
-
-Bruce
-
-
-The following changes since commit fc94f925e848684244a38dcffe15cb1192dfbed8:
-  Martin Jansa (1):
-        libxml-parser-perl, libxml-simple-perl, expat, sgmlspl-native, git: bump PR to rebuild after perl upgrade
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib zedd/libc-headers-v3
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/libc-headers-v3
-
-Bruce Ashfield (3):
-  linux-libc-headers: factor common code into linux-libc-headers.inc
-  linux-libc-headers: provide 3.0.x and 3.1 headers
-  linux-libc-headers: remove older recipes
-
- meta/conf/distro/include/tcmode-default.inc        |    2 +-
- .../linux-libc-headers/linux-libc-headers.inc      |   62 +++++++++++++++++++-
- .../linux-libc-headers_2.6.37.2.bb                 |   53 -----------------
- .../linux-libc-headers_2.6.39.bb                   |   54 -----------------
- .../linux-libc-headers/linux-libc-headers_3.0.8.bb |    7 ++
- .../linux-libc-headers/linux-libc-headers_3.1.bb   |    7 ++
- 6 files changed, 74 insertions(+), 111 deletions(-)
- delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.37.2.bb
- delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.39.bb
- create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.0.8.bb
- create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.1.bb
+-M=
 
 
 
