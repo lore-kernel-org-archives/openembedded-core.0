@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RJYC0-0002rD-9z
+	(envelope-from <sgw@linux.intel.com>) id 1RJYC2-0002rD-9v
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Oct 2011 00:12:56 +0200
+	Fri, 28 Oct 2011 00:12:58 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 27 Oct 2011 15:06:55 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 27 Oct 2011 15:06:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,415,1315206000"; d="scan'208";a="83263245"
+X-IronPort-AV: E=Sophos;i="4.69,415,1315206000"; d="scan'208";a="83263263"
 Received: from unknown (HELO swold-mobl.Mikenopa.local) ([10.255.15.81])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Oct 2011 15:06:54 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 27 Oct 2011 15:06:56 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Oct 2011 00:06:35 +0200
-Message-Id: <5ff6fd336a732d83205745b1dde3187630f39924.1319753141.git.sgw@linux.intel.com>
+Date: Fri, 28 Oct 2011 00:06:38 +0200
+Message-Id: <d8a6eb65b86bea7b1262748575a1609c664163ec.1319753141.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1319753141.git.sgw@linux.intel.com>
 References: <cover.1319753141.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1319753141.git.sgw@linux.intel.com>
 References: <cover.1319753141.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 15/18] documentation-audit.sh: script for auditing documentation build status
+Subject: [CONSOLIDATED PULL 18/18] xserver-nodm-init: use useradd to create xuser
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,125 +33,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Oct 2011 22:12:57 -0000
+X-List-Received-Date: Thu, 27 Oct 2011 22:12:58 -0000
 
-From: Scott Garman <scott.a.garman@intel.com>
-
-This script is used to enumerate which recipes are building
-documentation. It does this by checking that a -doc package
-gets generated and contains files.
-
-The script works by building each recipe using the output from
-bitbake -s.
-
-It will generate several report files, listing which recipes
-include documentation, which are missing documentation, and
-which did not successfully build at all.
-
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- scripts/contrib/documentation-audit.sh |   92 ++++++++++++++++++++++++++++++++
- 1 files changed, 92 insertions(+), 0 deletions(-)
- create mode 100755 scripts/contrib/documentation-audit.sh
+ .../x11-common/xserver-nodm-init.bb                |   26 ++++---------------
+ 1 files changed, 6 insertions(+), 20 deletions(-)
 
-diff --git a/scripts/contrib/documentation-audit.sh b/scripts/contrib/documentation-audit.sh
-new file mode 100755
-index 0000000..5070fee
---- /dev/null
-+++ b/scripts/contrib/documentation-audit.sh
-@@ -0,0 +1,92 @@
-+#!/bin/bash
-+#
-+# Perform an audit of which packages provide documentation and which
-+# are missing -doc packages.
-+#
-+# Setup requirements: be sure to be building for MACHINE=qemux86. Run
-+# this script after source'ing the build environment script, so you're
-+# running it from build/ directory.
-+#
-+# Maintainer: Scott Garman <scott.a.garman@intel.com>
+diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init.bb b/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
+index ea4222d..33252cb 100644
+--- a/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
++++ b/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
+@@ -2,11 +2,10 @@ DESCRIPTION = "Simple Xserver Init Script (no dm)"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ SECTION = "x11"
+-PR = "r26"
++PR = "r27"
+ RDEPENDS_${PN} = "sudo"
+ 
+ SRC_URI = "file://xserver-nodm \
+-           file://Xusername \
+            file://gplv2-license.patch"
+ 
+ S = ${WORKDIR}
+@@ -19,27 +18,14 @@ do_install() {
+     install xserver-nodm ${D}/etc/init.d
+     if [ "${ROOTLESS_X}" = "1" ] ; then
+         install -d ${D}/etc/X11
+-        install Xusername ${D}/etc/X11
+     fi
+ }
+ 
+-pkg_postinst_${PN} () {
+-    if [ "x$D" != "x" ] ; then
+-        exit 1
+-    fi
+-
+-    if [ -f /etc/X11/Xusername ]; then
+-        # create the rootless X user, and add user to group tty, video, audio
+-        username=`cat /etc/X11/Xusername`
+-        adduser --disabled-password $username
+-        # FIXME: use addgroup if busybox addgroup is ready
+-        sed -i -e "s/^video:.*/&${username}/g" /etc/group
+-        sed -i -e "s/^tty:.*/&${username}/g" /etc/group
+-        sed -i -e "s/^audio:.*/&${username}/g" /etc/group
+-    fi
+-}
+-
+-inherit update-rc.d
++inherit update-rc.d useradd
+ 
+ INITSCRIPT_NAME = "xserver-nodm"
+ INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
 +
-+REPORT_DOC_SIMPLE="documentation_exists.txt"
-+REPORT_DOC_DETAIL="documentation_exists_detail.txt"
-+REPORT_MISSING_SIMPLE="documentation_missing.txt"
-+REPORT_MISSING_DETAIL="documentation_missing_detail.txt"
-+REPORT_BUILD_ERRORS="build_errors.txt"
++USERADD_PACKAGES = "${PN}"
++USERADD_PARAM_${PN} = "--system --no-create-home --home-dir /etc/X11 --shell /bin/false --groups video,tty,audio --user-group xuser"
 +
-+rm -rf $REPORT_DOC_SIMPLE $REPORT_DOC_DETAIL $REPORT_MISSING_SIMPLE $REPORT_MISSING_DETAIL
-+
-+BITBAKE=`which bitbake`
-+if [ -z "$BITBAKE" ]; then
-+	echo "Error: bitbake command not found."
-+	echo "Did you forget to source the build environment script?"
-+	exit 1
-+fi
-+
-+echo "REMINDER: you need to build for MACHINE=qemux86 or you won't get useful results"
-+echo "REMINDER: you need to have COMMERCIAL_LICENSE = \"\" in local.conf or you'll get false positives"
-+
-+for pkg in `bitbake -s | awk '{ print \$1 }'`; do
-+	if [[ "$pkg" == "Loading" || "$pkg" == "Loaded" ||
-+          "$pkg" == "Parsing" || "$pkg" == "Package" ||
-+          "$pkg" == "NOTE:"   || "$pkg" == "WARNING:" ||
-+          "$pkg" == "done."   || "$pkg" == "============" ]]
-+	then
-+		# Skip initial bitbake output
-+		continue
-+	fi
-+	if [[ "$pkg" =~ -native$ || "$pkg" =~ -nativesdk$ ||
-+          "$pkg" =~ -cross-canadian ]]; then
-+		# Skip native/nativesdk/cross-canadian recipes
-+		continue
-+	fi
-+	if [[ "$pkg" =~ ^meta- || "$pkg" =~ ^task- || "$pkg" =~ -image ]]; then
-+		# Skip meta, task and image recipes
-+		continue
-+	fi
-+	if [[ "$pkg" =~ ^glibc- || "$pkg" =~ ^libiconv$ ||
-+          "$pkg" =~ -toolchain$ || "$pkg" =~ ^package-index$ ||
-+          "$pkg" =~ ^linux- || "$pkg" =~ ^adt-installer$ ||
-+          "$pkg" =~ ^eds-tools$ || "$pkg" =~ ^external-python-tarball$ ||
-+          "$pkg" =~ ^qt4-embedded$ || "$pkg" =~ ^qt-mobility ]]; then
-+		# Skip glibc, libiconv, -toolchain, and other recipes known
-+		# to cause build conflicts or trigger false positives.
-+		continue
-+	fi	
-+
-+	echo "Building package $pkg..."
-+	bitbake $pkg > /dev/null
-+	if [ $? -ne 0 ]; then
-+		echo "There was an error building package $pkg" >> "$REPORT_MISSING_DETAIL"
-+		echo "$pkg" >> $REPORT_BUILD_ERRORS
-+
-+		# Do not skip the remaining tests, as sometimes the
-+		# exit status is 1 due to QA errors, and we can still
-+		# perform the -doc checks.
-+	fi
-+
-+	echo "$pkg built successfully, checking for a documentation package..."
-+	WORKDIR=`bitbake -e $pkg | grep ^WORKDIR | awk -F '=' '{ print \$2 }' | awk -F '"' '{ print \$2 }'`
-+	FIND_DOC_PKG=`find $WORKDIR/packages-split/*-doc -maxdepth 0 -type d`
-+	if [ -z "$FIND_DOC_PKG" ]; then
-+		# No -doc package was generated:
-+		echo "No -doc package: $pkg" >> "$REPORT_MISSING_DETAIL"
-+		echo "$pkg" >> $REPORT_MISSING_SIMPLE
-+		continue
-+	fi
-+
-+	FIND_DOC_FILES=`find $FIND_DOC_PKG -type f`
-+	if [ -z "$FIND_DOC_FILES" ]; then
-+		# No files shipped with the -doc package:
-+		echo "No files shipped with the -doc package: $pkg" >> "$REPORT_MISSING_DETAIL"
-+		echo "$pkg" >> $REPORT_MISSING_SIMPLE
-+		continue
-+	fi
-+
-+	echo "Documentation shipped with $pkg:" >> "$REPORT_DOC_DETAIL"
-+	echo "$FIND_DOC_FILES" >> "$REPORT_DOC_DETAIL"
-+	echo ""	>> "$REPORT_DOC_DETAIL"
-+
-+	echo "$pkg" >> "$REPORT_DOC_SIMPLE"
-+done
 -- 
 1.7.6.4
 
