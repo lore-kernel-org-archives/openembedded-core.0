@@ -1,34 +1,59 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from am1ehsobe003.messaging.microsoft.com ([213.199.154.206]
+	helo=AM1EHSOBE003.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1RJnk2-0003IK-HH
+	(envelope-from <B29882@freescale.com>) id 1RJon7-0006qR-M2
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Oct 2011 16:49:06 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p9SEh3uC013830
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Oct 2011 07:43:03 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.229) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 28 Oct 2011 07:43:03 -0700
-Message-ID: <4EAABF76.7080703@windriver.com>
-Date: Fri, 28 Oct 2011 09:43:02 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
+	Fri, 28 Oct 2011 17:56:21 +0200
+Received: from mail5-am1-R.bigfish.com (10.3.201.249) by
+	AM1EHSOBE003.bigfish.com (10.3.204.23) with Microsoft SMTP Server id
+	14.1.225.22; Fri, 28 Oct 2011 15:35:05 +0000
+Received: from mail5-am1 (localhost.localdomain [127.0.0.1])	by
+	mail5-am1-R.bigfish.com (Postfix) with ESMTP id C1B3D185831E	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 28 Oct 2011 15:35:09 +0000 (UTC)
+X-SpamScore: -12
+X-BigFish: VS-12(zz9371K1432N98dKzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3h61h)
+X-Spam-TCS-SCL: 0:0
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
+	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
+X-FB-SS: 0,
+Received: from mail5-am1 (localhost.localdomain [127.0.0.1]) by mail5-am1
+	(MessageSwitch) id 1319816090701336_18638;
+	Fri, 28 Oct 2011 15:34:50 +0000 (UTC)
+Received: from AM1EHSMHS002.bigfish.com (unknown [10.3.201.246])	by
+	mail5-am1.bigfish.com (Postfix) with ESMTP id 19C5A1820058	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 28 Oct 2011 15:34:50 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS002.bigfish.com
+	(10.3.207.102) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Fri, 28 Oct 2011 15:34:43 +0000
+Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.150]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.01.0339.002; Fri, 28 Oct 2011 10:34:50 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH v2 1/2] Add new strace-graph package to avoid
+	making perl a dependecy for all of strace
+Thread-Index: AQHMlYchXSoYbJnXKkys1U8GNYACDQ==
+Date: Fri, 28 Oct 2011 15:34:50 +0000
+Message-ID: <CAEsOVNdwf8xYTp0K1JftUcMfmuuzMbMKahrP56Q1wx5yf4VPBw@mail.gmail.com>
+References: <1319700362.15601.2.camel@ted>
+	<1319743874-9891-1-git-send-email-msm@freescale.com>
+	<1319792127.22423.1.camel@ted>
+In-Reply-To: <1319792127.22423.1.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1319780499.10032.46.camel@localhost.localdomain>
-	<CAGiJk9eo4FvhLZ6o9qdb75YyuZ5om19GYRLR6gDFEN_r0VWeuw@mail.gmail.com>
-	<1319785517.10032.48.camel@localhost.localdomain>
-	<CAAQYJAtJsSRSN5jLzK65iKUJPorc8h+RjqcnQBw2pyK34+ejjQ@mail.gmail.com>
-In-Reply-To: <CAAQYJAtJsSRSN5jLzK65iKUJPorc8h+RjqcnQBw2pyK34+ejjQ@mail.gmail.com>
-Subject: Re: how to set time zone
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH v2 1/2] Add new strace-graph package to avoid making perl a dependecy for all of strace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -39,72 +64,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Oct 2011 14:49:06 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 28 Oct 2011 15:56:21 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <FF739A4D6E635643A2FB9870AA14AB9E@freescale.net>
+Content-Transfer-Encoding: quoted-printable
 
-Setting the default TZ for the image is something that should be done in a post
-install script for the tzdata package or something similar.
+On Fri, Oct 28, 2011 at 3:55 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>> -RDEPENDS =3D "perl"
+>> +PACKAGES_prepend =3D "${PN}-graph "
+>> +FILES_${PN}-graph =3D "${bindir}/strace-graph"
+>> +RDEPENDS_${PN}-graph =3D "perl"
+>
+> I should have been clearer in my original email, pretty much every other
+> recipe uses +=3D or =3D+ in this context. Whilst the _prepend override is
+> probably ok, its probably a bit heavy in this case and the standard
+> operator should work just fine.
 
-Since the /etc/localtime is usually a copy/hardlink or symlink to the timezone
-data we don't want to package it up.  Instead we want to perform the actions
-that a program running on the target system itself would use to change the timezone.
+usr/bin/strace-graph will be picked up by the default rules for ${PN}
+- by prepending I thought I was letting strace-graph get picked out
+first in ${PN}-graph then everything else could go in ${PN} without
+having the explicitly list a new rule for ${PN}.
 
-So I think the easiest approach is to add a system level configuration variable
-(set the default).
-
-Then use this variable to populate the configuration file that specifies the
-system timezone... and then use the post install process to check the contents
-of a text file.
-
-Alternatively do this via an initscript -- but for folks w/ read-only
-filesystems I'm not sure that will work.
-
---Mark
-
-On 10/28/11 3:22 AM, Andrea Adami wrote:
-> On Fri, Oct 28, 2011 at 9:05 AM, Ni Qingliang <niqingliang@insigma.com.cn
-> <mailto:niqingliang@insigma.com.cn>> wrote:
-> 
->     THANKS!
-> 
->     I still want the native support by oe-core/yocto:-). If no, I will try
->     by myself.
-> 
-> 
-> I've asked three or four time the oe-core crow to improve the recipe...last one:
-> 
-> On Wed, Oct 19, 2011 at 12:24 AM, Joshua Lock <josh@linux.intel.com
-> <mailto:josh@linux.intel.com>> wrote:
-> 
->     Per mailing requests, here are updates to the tzdata and gst-plugins-good
->     recipes.
-> 
->     Joshua
-> 
->     The following changes since commit 95d0ff5e070c690314ab87665200099a52d37ebf:
-> 
->      tzdata: updated SRC_URI and update to 2011k (2011-10-18 11:16:58 -0700)
-> 
-> 
-> Thanks for the tzdata fix.
-> Now, we have the same recipes in meta-oe with a slightly different do_install
-> and packaging: I'm referring to /etc/localtime and /etc/timezone: which package
-> do provide those in oe-core?
-> 
-> (We'll remove the tzdata/tzcodes from meta-oe once the recipes are matching)
-> 
-> Regards
-> 
-> 
-> 
-> Andrea
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+-M=
 
 
 
