@@ -1,27 +1,33 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1RJork-0007Jv-SQ
+	(envelope-from <saul.wold@intel.com>) id 1RJpBx-0007f5-Rr
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Oct 2011 18:01:08 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1RJolw-0002eS-Lj; Fri, 28 Oct 2011 17:55:08 +0200
-From: Phil Blundell <philb@gnu.org>
-To: McClintock Matthew-B29882 <B29882@freescale.com>, Patches and
-	discussions about the oe-core layer
+	Fri, 28 Oct 2011 18:22:02 +0200
+Received: from mail-ey0-f180.google.com ([209.85.215.180])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 28 Oct 2011 09:15:58 -0700
+Received: by eyg5 with SMTP id 5so3948063eyg.25
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Oct 2011 09:15:56 -0700 (PDT)
+Received: by 10.213.112.200 with SMTP id x8mr429029ebp.12.1319818556154;
+	Fri, 28 Oct 2011 09:15:56 -0700 (PDT)
+Received: from [10.192.4.215] ([85.13.70.251])
+	by mx.google.com with ESMTPS id s43sm11988723eef.4.2011.10.28.09.15.54
+	(version=SSLv3 cipher=OTHER); Fri, 28 Oct 2011 09:15:55 -0700 (PDT)
+Message-ID: <4EAAD539.8000300@intel.com>
+Date: Fri, 28 Oct 2011 18:15:53 +0200
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 28 Oct 2011 16:54:47 +0100
-In-Reply-To: <CAEsOVNdwf8xYTp0K1JftUcMfmuuzMbMKahrP56Q1wx5yf4VPBw@mail.gmail.com>
-References: <1319700362.15601.2.camel@ted>
-	<1319743874-9891-1-git-send-email-msm@freescale.com>
-	<1319792127.22423.1.camel@ted>
-	<CAEsOVNdwf8xYTp0K1JftUcMfmuuzMbMKahrP56Q1wx5yf4VPBw@mail.gmail.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1319817308.22985.448.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: [PATCH v2 1/2] Add new strace-graph package to avoid making perl a dependecy for all of strace
+References: <1319780499.10032.46.camel@localhost.localdomain>
+	<CAGiJk9eo4FvhLZ6o9qdb75YyuZ5om19GYRLR6gDFEN_r0VWeuw@mail.gmail.com>
+	<1319785517.10032.48.camel@localhost.localdomain>
+	<CAAQYJAtJsSRSN5jLzK65iKUJPorc8h+RjqcnQBw2pyK34+ejjQ@mail.gmail.com>
+In-Reply-To: <CAAQYJAtJsSRSN5jLzK65iKUJPorc8h+RjqcnQBw2pyK34+ejjQ@mail.gmail.com>
+Subject: Re: how to set time zone
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,33 +42,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Oct 2011 16:01:09 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 28 Oct 2011 16:22:02 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-10-28 at 15:34 +0000, McClintock Matthew-B29882 wrote:
-> On Fri, Oct 28, 2011 at 3:55 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >> -RDEPENDS = "perl"
-> >> +PACKAGES_prepend = "${PN}-graph "
-> >> +FILES_${PN}-graph = "${bindir}/strace-graph"
-> >> +RDEPENDS_${PN}-graph = "perl"
-> >
-> > I should have been clearer in my original email, pretty much every other
-> > recipe uses += or =+ in this context. Whilst the _prepend override is
-> > probably ok, its probably a bit heavy in this case and the standard
-> > operator should work just fine.
-> 
-> usr/bin/strace-graph will be picked up by the default rules for ${PN}
-> - by prepending I thought I was letting strace-graph get picked out
-> first in ${PN}-graph then everything else could go in ${PN} without
-> having the explicitly list a new rule for ${PN}.
+On 10/28/2011 10:22 AM, Andrea Adami wrote:
+> On Fri, Oct 28, 2011 at 9:05 AM, Ni Qingliang
+> <niqingliang@insigma.com.cn <mailto:niqingliang@insigma.com.cn>> wrote:
+>
+>     THANKS!
+>
+>     I still want the native support by oe-core/yocto:-). If no, I will try
+>     by myself.
+>
+>
+> I've asked three or four time the oe-core crow to improve the
+> recipe...last one:
+>
+> On Wed, Oct 19, 2011 at 12:24 AM, Joshua Lock <josh@linux.intel.com
+> <mailto:josh@linux.intel.com>> wrote:
+>
+>     Per mailing requests, here are updates to the tzdata and
+>     gst-plugins-good recipes.
+>
+>     Joshua
+>
+>     The following changes since commit
+>     95d0ff5e070c690314ab87665200099a52d37ebf:
+>
+>       tzdata: updated SRC_URI and update to 2011k (2011-10-18 11:16:58
+>     -0700)
+>
+>
+> Thanks for the tzdata fix.
+> Now, we have the same recipes in meta-oe with a slightly different
+> do_install and packaging: I'm referring to /etc/localtime and
+> /etc/timezone: which package do provide those in oe-core?
+>
+> (We'll remove the tzdata/tzcodes from meta-oe once the recipes are matching)
+>
+I would welcome such a patch.
 
-That logic sounds reasonable, but I think Richard's point was that it's
-more conventional to use "=+" rather than an override for prepending.
-
-p.
-
+Thanks
+	Sau!
+> Regards
+>
+>
+>
+> Andrea
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
