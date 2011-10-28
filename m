@@ -1,31 +1,33 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-gx0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1RJYYr-0003X4-Qt
-	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Oct 2011 00:36:34 +0200
-Received: from mail-pz0-f44.google.com ([209.85.210.44])
-	by mga09.intel.com with ESMTP/TLS/RC4-MD5; 27 Oct 2011 15:30:32 -0700
-Received: by pzk4 with SMTP id 4so16718436pzk.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Oct 2011 15:30:32 -0700 (PDT)
-Received: by 10.68.30.5 with SMTP id o5mr706593pbh.9.1319754631932;
-	Thu, 27 Oct 2011 15:30:31 -0700 (PDT)
-Received: from [192.168.1.12] (c-98-246-160-155.hsd1.or.comcast.net.
-	[98.246.160.155])
-	by mx.google.com with ESMTPS id w8sm18117331pbn.11.2011.10.27.15.30.31
-	(version=SSLv3 cipher=OTHER); Thu, 27 Oct 2011 15:30:31 -0700 (PDT)
-Message-ID: <4EA9DB8C.7070504@intel.com>
-Date: Thu, 27 Oct 2011 15:30:36 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
+	(envelope-from <cliff.brake@gmail.com>)
+	id 1RJbvv-0004t0-0L; Fri, 28 Oct 2011 04:12:35 +0200
+Received: by ggnj1 with SMTP id j1so3217214ggn.6
+	for <multiple recipients>; Thu, 27 Oct 2011 19:06:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=0rtlgtbCHlbzW6gVnV8nC4bo4O9H+k0veqeJZjLO3z4=;
+	b=vh5anp0iAmhdMzqKdEHDj0DZsX8wymN4j4wMM7ewPonkPzg80T+4qlUyI0xiNHpKWG
+	WMlw3hMHjfYwatbBmBUMEynhal/KKB/Aks+BuuwmupFJR0hyiLs3ZsAGxgjlV/j2ukOl
+	BjioQ4bmDiduQoyEraM3QSdhOqrg6+WZDZWcw=
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <201110272230.29012.schnitzeltony@gmx.de>
-	<4EA9C265.80703@intel.com>
-	<201110272342.19640.schnitzeltony@gmx.de>
-In-Reply-To: <201110272342.19640.schnitzeltony@gmx.de>
-Subject: Re: Trouble by last dbus patch (46e6c3fa8034b12d178d605f3f5d7efe69671a13)?
+Received: by 10.236.124.17 with SMTP id w17mr471511yhh.126.1319767593043; Thu,
+	27 Oct 2011 19:06:33 -0700 (PDT)
+Received: by 10.236.60.198 with HTTP; Thu, 27 Oct 2011 19:06:32 -0700 (PDT)
+In-Reply-To: <20111027210911.GM15391@denix.org>
+References: <E1RJWkv-0001RX-LN@happy.bec-systems.com>
+	<20111027210911.GM15391@denix.org>
+Date: Thu, 27 Oct 2011 22:06:32 -0400
+Message-ID: <CAOd_LFw0kBsf-NDpUQ-rUHxYP+v_5Ff3nuSNTUK3QuSrB5_eHw@mail.gmail.com>
+From: Cliff Brake <cliff.brake@gmail.com>
+To: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>
+Cc: "angstrom-distro-devel@linuxtogo.org"
+	<angstrom-distro-devel@linuxtogo.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: OE Changelog for 2011-10-17 to 2011-10-24
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,65 +42,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Oct 2011 22:36:34 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 28 Oct 2011 02:12:35 -0000
+Content-Type: multipart/alternative; boundary=20cf300e4fbf91c6e804b0525609
 
-On 10/27/2011 02:42 PM, Andreas Müller wrote:
-> On Thursday, October 27, 2011 10:43:17 PM Scott Garman wrote:
->> On 10/27/2011 01:30 PM, Andreas Müller wrote:
->>> Since the last updates of all layers (angstrom based) I have issues with
->>>
->>> * networkmanager/nm-applet (meta-oe): I am not allowed to change the settings
->>>     any more
->>> * xfce-session (meta-oe): Logging out takes very long and Restart/Shutdown is
->>>     disabled
->>>
->>> I remember that I had similar issues a while ago. That could be worked around
->>> by starting some dbus stuff ( do not exactly remember what it was ).
->>>
->>> With this vague idea I checked and found in oe-core:
->>>
->>> | dbus: use useradd class to allow use in read-only filesystems
->>> | author	Otavio Salvador<otavio@ossystems.com.br>
->>> | commit	46e6c3fa8034b12d178d605f3f5d7efe69671a13
->>>
->>> Not understanding totally what is all about I see in /etc/passw
->>>
->>> | messagebus:x:999:998::/var/lib/dbus:/bin/sh
->>>
->>> but I don't have /var/lib/dbus on my sytem!!
->>>
->>> I did not check yet, but maybe this is an incompatibilty with angstrom custom
->>>
->>> | FILESYSTEM_PERMS_TABLES = "fs-perms-angstrom.txt"
->>>
->>> somebody around to enlight the darkness?
->>
->> useradd should be creating the home directory automatically, but I'd
->> guess it's not being picked up during packaging. Try adding:
->>
->> ${localstatedir}/lib/dbus
->>
->> to FILES_${PN}
->>
->> This is a reasonable guess off the top of my head.
->>
->> Scott
->>
->>
-> On the machine I created /var/lib/dbus and made messagebus owner but no change
-> in behaviour..
+--20cf300e4fbf91c6e804b0525609
+Content-Type: text/plain; charset=ISO-8859-1
 
-And in retrospect, I now realize the useradd utility should create this 
-home directory at rootfs creation time, so there's no chance it could be 
-a packaging problem. So forget my initial suggestion.
+On Thursday, October 27, 2011, Denys Dmytriyenko <denis@denix.org> wrote:
+> On Thu, Oct 27, 2011 at 04:40:53PM -0400, cliff.brake@gmail.com wrote:
+>> Changelog for 2011-10-17 to 2011-10-24.  Projects included in this
+report:
+>
+> Cliff,
+>
+> FYI, I think you have a bug in your scripts, where it misses commits made
+on
+> Monday, that were not included in the previous ChangeLog and they are
+being
+> skipped in this one...
 
-Scott
+Can you give me an example of a commit that got missed and I'll debug?
+
+>
+> Also, can you please include meta-ti@yoctoproject.org as the official
+mailing
+> list for meta-ti/meta-texasinstruments BSP layer. Thanks.
+>
+
+Ill look into something like that.  We currently don't have any type of
+email field, but something could be added.
+
+Thanks,
+Cliff
+
+
+> --
+> Denys
+>
+> _______________________________________________
+> Openembedded-devel mailing list
+> Openembedded-devel@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-devel
+>
 
 -- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+=================
+http://bec-systems.com
 
+--20cf300e4fbf91c6e804b0525609
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<br><br>On Thursday, October 27, 2011, Denys Dmytriyenko &lt;<a href=3D"mai=
+lto:denis@denix.org">denis@denix.org</a>&gt; wrote:<br>&gt; On Thu, Oct 27,=
+ 2011 at 04:40:53PM -0400, <a href=3D"mailto:cliff.brake@gmail.com">cliff.b=
+rake@gmail.com</a> wrote:<br>
+&gt;&gt; Changelog for 2011-10-17 to 2011-10-24. =A0Projects included in th=
+is report:<br>&gt;<br>&gt; Cliff,<br>&gt;<br>&gt; FYI, I think you have a b=
+ug in your scripts, where it misses commits made on<br>&gt; Monday, that we=
+re not included in the previous ChangeLog and they are being<br>
+&gt; skipped in this one...<br><br>Can you give me an example of a commit t=
+hat got missed and I&#39;ll debug?<br><br>&gt;<br>&gt; Also, can you please=
+ include <a href=3D"mailto:meta-ti@yoctoproject.org">meta-ti@yoctoproject.o=
+rg</a> as the official mailing<br>
+&gt; list for meta-ti/meta-texasinstruments BSP layer. Thanks.<br>&gt;<br><=
+br>Ill look into something like that. =A0We currently don&#39;t have any ty=
+pe of email field, but something could be added.<br><br>Thanks,<br>Cliff<br=
+>
+<br><br>&gt; --<br>&gt; Denys<br>&gt;<br>&gt; _____________________________=
+__________________<br>&gt; Openembedded-devel mailing list<br>&gt; <a href=
+=3D"mailto:Openembedded-devel@lists.openembedded.org">Openembedded-devel@li=
+sts.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openemb=
+edded-devel">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedd=
+ed-devel</a><br>&gt;<br><br>-- <br>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D<br><a href=3D"http://bec-systems.com" target=3D"_blank">http:/=
+/bec-systems.com</a><br>
+
+--20cf300e4fbf91c6e804b0525609--
