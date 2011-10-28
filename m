@@ -1,47 +1,41 @@
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
+Received: from mailbackup.inode.at ([213.229.60.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <heinold@mi.fu-berlin.de>) id 1RJgzw-0006Rp-4b
+	(envelope-from <wolfram.stering@hale.at>) id 1RJh0h-0006Tk-5f
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Oct 2011 09:37:04 +0200
-Received: from relay1.zedat.fu-berlin.de ([130.133.4.67])
-	by outpost1.zedat.fu-berlin.de (Exim 4.69)
-	for openembedded-core@lists.openembedded.org with esmtp
-	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1RJgu6-0002Zf-9q>; Fri, 28 Oct 2011 09:31:02 +0200
-Received: from hydra.imp.fu-berlin.de ([160.45.117.149]
-	helo=mail.imp.fu-berlin.de) by relay1.zedat.fu-berlin.de (Exim 4.69)
-	for openembedded-core@lists.openembedded.org with esmtp
-	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1RJgu6-0003cX-7r>; Fri, 28 Oct 2011 09:31:02 +0200
-Received: from andorra.imp.fu-berlin.de ([160.45.42.84])
-	by mail.imp.fu-berlin.de with esmtps (Exim 4.72) id 1RJgto-00040U-5I
-	(envelope-from <heinold@mi.fu-berlin.de>)
+	Fri, 28 Oct 2011 09:37:51 +0200
+Received: from [62.99.145.15] (port=58237 helo=mx.inode.at)
+	by mailbackup.inode.at with esmtp (Exim 4.76)
+	(envelope-from <wolfram.stering@hale.at>) id 1RJgoy-0007rk-Ed
+	for openembedded-core@lists.openembedded.org;
+	Fri, 28 Oct 2011 09:25:44 +0200
+Received: from [83.64.51.210] (port=3589 helo=gateway1.hale)
+	by smartmx-13.inode.at with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <wolfram.stering@hale.at>)
+	id 1RJgov-0000Y5-SJ for openembedded-core@lists.openembedded.org;
+	Fri, 28 Oct 2011 09:25:41 +0200
+Received: from mail1.hale.at (mail2.hale [192.168.100.12])
+	by gateway1.hale (8.13.8/8.13.7) with ESMTP id p9S7Pabf016772
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Oct 2011 09:30:55 +0200
-Received: from heinold by internal andorra.imp.fu-berlin.de with local (Exim
-	4.72) id 1RJgtj-00086H-1d
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Oct 2011 09:30:39 +0200
-Date: Fri, 28 Oct 2011 09:30:39 +0200
-From: Henning Heinold <heinold@inf.fu-berlin.de>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111028073038.GA29732@mi.fu-berlin.de>
-References: <201110272230.29012.schnitzeltony@gmx.de>
+	Fri, 28 Oct 2011 09:25:36 +0200
+Received: from entw42.hale ([192.168.100.73]) by hale.at with MailEnable ESMTP;
+	Fri, 28 Oct 2011 09:25:28 +0200
+Message-ID: <4EAA58E8.4090702@hale.at>
+Date: Fri, 28 Oct 2011 09:25:28 +0200
+From: Wolfram Stering <wolfram.stering@hale.at>
+Organization: HALE electronic GmbH
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.23) Gecko/20110928 Fedora/3.1.15-1.fc14
+	Lightning/1.0b3pre Thunderbird/3.1.15
 MIME-Version: 1.0
-In-Reply-To: <201110272230.29012.schnitzeltony@gmx.de>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Sender: Henning Heinold <heinold@mi.fu-berlin.de>
-X-Remote-IP: 160.45.42.84
-X-Spam_Score: -3.4
-X-exim-Spam_Score_Int: -33
-X-exim-Spam_Bar: ---
-X-Spam_Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	* -0.5 RP_MATCHES_RCVD Envelope sender domain matches handover relay
-	domain * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-X-Originating-IP: 160.45.117.149
-Subject: Re: Trouble by last dbus patch (46e6c3fa8034b12d178d605f3f5d7efe69671a13)?
+To: openembedded-core@lists.openembedded.org
+X-Enigmail-Version: 1.1.2
+X-HALE-MailScanner-Information: Please contact the ISP for more information
+X-MailScanner-ID: p9S7Pabf016772
+X-HALE-MailScanner: Found to be clean
+X-HALE-MailScanner-From: wolfram.stering@hale.at
+MailScanner-NULL-Check: 1320391537.85893@5/bVfE1eFk1vhqphkvFqFQ
+X-Spam-Status: No
+Subject: Problem with buildstats when building on a btrfs volume
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -56,18 +50,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Oct 2011 07:37:04 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+X-List-Received-Date: Fri, 28 Oct 2011 07:37:52 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 27, 2011 at 10:30:27PM +0200, Andreas M�ller wrote:
-> I remember that I had similar issues a while ago. That could be worked around
-> by starting some dbus stuff ( do not exactly remember what it was ).
+Hello All,
 
-You probably mean policykit, which has a ruleset for actions a user can do or not on dbus.
+I've encountered a problem when building (with TMPDIR residing) on a
+btrfs volume.
+
+It does not matter what is being built: starting clean, bitbake
+discoveres that pseudo needs to be built, it does so successfully but
+then gets an exception when doing the buildstats.
+
+ERROR: Execution of event handler 'run_buildstats' failed
+Traceback (most recent call last):
+  File "run_buildstats(e)", line 18, in run_buildstats(e=<bb.event.BuildStarted object at 0x5e33710>)
+  File "buildstats.bbclass", line 21, in set_device(e=<bb.event.BuildStarted object at 0x5e33710>)
+UnboundLocalError: local variable 'rdev' referenced before assignment
+
+The problem is related to the fact that btrfs reports a fake device id
+by stat(2) in st_dev.
+See there for more information:
+https://bugzilla.redhat.com/show_bug.cgi?id=711881
+http://permalink.gmane.org/gmane.comp.file-systems.btrfs/3509
+
+OE core uses stat on tmpdir to find out the major/minor device ids when
+collecting the build statistics, see function set_device in
+buildstats.bbclass. If the (fake) device id can't be found in
+/proc/diskstats, rdev is never set, but still used two lines later (this
+case should be detected and handled gracefully anyhow, IMHO, e.g.
+relinquishing buildstats).
+
+I don't know how to reliably solve this problem. /proc/self/mountinfo
+can't be used either, as the listed device id there is still different
+from what is reported by stat (see the first link above). One possible
+solution would be to match on the device name (third field in
+/proc/diskstats), but this information is not returned by stat so the
+actual mount point needs to be found as prefix of the TMPDIR path, then
+symlinks in the device name would need to be resolved as well (which is
+common, if LVM and the device mapper are used).
+
+I'm not good at python, otherwise I'd have proposed a patch...
+
+have a nice day,
+
+-wolfi
 
 
-Bye Henning
+-- 
+Wolfram Stering
+ (Entwicklung)
+HALE electronic GmbH
+Eugen-Müller-Straße 18, 5020 Salzburg, Austria
+ Tel: +43 (662) 439011 550
+ Fax: +43 (662) 439011 9
+http://www.hale.at/
+Firmenbuchnummer: FN 66801m HG Salzburg
+
+
+
+--
+Scanned by MailScanner.
+
 
 
