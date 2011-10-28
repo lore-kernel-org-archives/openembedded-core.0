@@ -1,30 +1,20 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1RJw3H-00007P-18
+	(envelope-from <josh@linux.intel.com>) id 1RJw9g-0000F1-Kb
 	for openembedded-core@lists.openembedded.org;
-	Sat, 29 Oct 2011 01:41:31 +0200
-Received: from mail-pz0-f44.google.com ([209.85.210.44])
-	by mga14.intel.com with ESMTP/TLS/RC4-MD5; 28 Oct 2011 16:35:25 -0700
-Received: by pzk4 with SMTP id 4so23191648pzk.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Oct 2011 16:35:24 -0700 (PDT)
-Received: by 10.68.33.227 with SMTP id u3mr15819pbi.72.1319844923480;
-	Fri, 28 Oct 2011 16:35:23 -0700 (PDT)
-Received: from [192.168.1.12] (c-98-246-160-155.hsd1.or.comcast.net.
-	[98.246.160.155])
-	by mx.google.com with ESMTPS id z3sm27541652pbu.7.2011.10.28.16.35.22
-	(version=SSLv3 cipher=OTHER); Fri, 28 Oct 2011 16:35:22 -0700 (PDT)
-Message-ID: <4EAB3C41.8000306@intel.com>
-Date: Fri, 28 Oct 2011 16:35:29 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
-MIME-Version: 1.0
+	Sat, 29 Oct 2011 01:48:08 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 28 Oct 2011 16:42:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="68744792"
+Received: from unknown (HELO shamshir.amr.corp.intel.com) ([10.255.15.141])
+	by orsmga002.jf.intel.com with ESMTP; 28 Oct 2011 16:42:05 -0700
+From: Joshua Lock <josh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1319580412.git.scott.a.garman@intel.com>
-	<4EAA4025.2010709@intel.com>
-In-Reply-To: <4EAA4025.2010709@intel.com>
-Subject: Re: [PATCH 0/1] documentation audit script
+Date: Fri, 28 Oct 2011 16:41:59 -0700
+Message-Id: <cover.1319844419.git.josh@linux.intel.com>
+X-Mailer: git-send-email 1.7.7
+Subject: [PATCH 0/4] Misc patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,48 +29,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Oct 2011 23:41:31 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 28 Oct 2011 23:48:08 -0000
 
-On 10/27/2011 10:39 PM, Saul Wold wrote:
-> On 10/26/2011 12:12 AM, Scott Garman wrote:
->> Hello,
->>
->> I've been using this script to perform audits of which packages
->> are producing documentation, and feel it's long overdue for this
->> to be added to the git tree. So here it is.
->>
->> The following changes since commit
->> f586aaa8d00361a9597a546d665077c75cf4d520:
->>
->> libxml-parser-perl, libxml-simple-perl, expat, sgmlspl-native, git:
->> bump PR to rebuild after perl upgrade (2011-10-25 08:36:01 +0100)
->>
->> are available in the git repository at:
->> git://git.yoctoproject.org/poky-contrib sgarman/docaudit-script
->> http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=sgarman/docaudit-script
->>
->>
->> Scott Garman (1):
->> documentation-audit.sh: script for auditing documentation build
->> status
->>
->> scripts/contrib/documentation-audit.sh | 92
->> ++++++++++++++++++++++++++++++++
->> 1 files changed, 92 insertions(+), 0 deletions(-)
->> create mode 100755 scripts/contrib/documentation-audit.sh
->>
->
-> Can you please run this and generate a report.
+A series of minor tweaks from my disk. The XFCE support in oe.terminal has
+only been tested on a Fedora machine so I would appreciate testing from XFCE
+users on other distros.
 
-I did this and sent the report to the yocto ML on 10/26.
+Regards,
 
-Scott
+Joshua
+
+The following changes since commit ddc9a58b8553599d2328ac1c4449b41681ae45d1:
+
+  Add readline as dependecy for gdb-cross-canadian (2011-10-27 08:37:53 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib josh/work
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/work
+
+Joshua Lock (4):
+  lib/oe/terminal: add support for XFCE's terminal emulator
+  libxslt: Fix packaging of xsltConf.sh
+  libcanberra: add new package for unpackaged files
+  clutter-gtk: add LIC_FILES_CHKSUM to include file
+
+ meta/lib/oe/terminal.py                            |   21 ++++++++++++++++++++
+ meta/recipes-graphics/clutter/clutter-gtk.inc      |    1 +
+ .../pulseaudio/libcanberra_0.28.bb                 |   11 ++++++++-
+ meta/recipes-support/libxslt/libxslt_1.1.26.bb     |    4 +-
+ 4 files changed, 33 insertions(+), 4 deletions(-)
 
 -- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+1.7.7
+
 
 
