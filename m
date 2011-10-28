@@ -1,34 +1,27 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mx.insigma.com.cn ([115.236.48.170] helo=WX-Edge.insigma.com.cn)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1RJfGO-00047P-7p
+	(envelope-from <niqingliang@insigma.com.cn>) id 1RJfJ4-0004BI-D4
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Oct 2011 07:45:56 +0200
-Received: from mail-wy0-f180.google.com ([74.125.82.180])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 27 Oct 2011 22:39:53 -0700
-Received: by wyg24 with SMTP id 24so3636714wyg.25
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Oct 2011 22:39:52 -0700 (PDT)
-Received: by 10.227.205.20 with SMTP id fo20mr1508359wbb.20.1319780392370;
-	Thu, 27 Oct 2011 22:39:52 -0700 (PDT)
-Received: from [10.192.3.184] ([85.13.70.251])
-	by mx.google.com with ESMTPS id es5sm13389763wbb.11.2011.10.27.22.39.50
-	(version=SSLv3 cipher=OTHER); Thu, 27 Oct 2011 22:39:51 -0700 (PDT)
-Message-ID: <4EAA4025.2010709@intel.com>
-Date: Fri, 28 Oct 2011 07:39:49 +0200
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
+	Fri, 28 Oct 2011 07:48:42 +0200
+Received: from WX-ExchMB.insigma.com.cn (10.0.1.203) by WX-Edge.insigma.com.cn
+	(10.0.1.205) with Microsoft SMTP Server (TLS) id 8.1.436.0;
+	Fri, 28 Oct 2011 13:42:25 +0800
+Received: from [192.168.0.98] (122.224.76.38) by WX-ExchMB.insigma.com.cn
+	(10.0.1.203) with Microsoft SMTP Server id 8.1.240.5; Fri, 28 Oct 2011
+	13:42:24 +0800
+From: Ni Qingliang <niqingliang@insigma.com.cn>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 28 Oct 2011 13:41:39 +0800
+Organization: Insigma
+X-Mailer: Evolution 3.0.3 
+Message-ID: <1319780499.10032.46.camel@localhost.localdomain>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1319580412.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1319580412.git.scott.a.garman@intel.com>
-Subject: Re: [PATCH 0/1] documentation audit script
+Subject: how to set time zone
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: niqingliang@insigma.com.cn,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -39,37 +32,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Oct 2011 05:45:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 28 Oct 2011 05:48:42 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 10/26/2011 12:12 AM, Scott Garman wrote:
-> Hello,
->
-> I've been using this script to perform audits of which packages
-> are producing documentation, and feel it's long overdue for this
-> to be added to the git tree. So here it is.
->
-> The following changes since commit f586aaa8d00361a9597a546d665077c75cf4d520:
->
->    libxml-parser-perl, libxml-simple-perl, expat, sgmlspl-native, git: bump PR to rebuild after perl upgrade (2011-10-25 08:36:01 +0100)
->
-> are available in the git repository at:
->    git://git.yoctoproject.org/poky-contrib sgarman/docaudit-script
->    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=sgarman/docaudit-script
->
-> Scott Garman (1):
->    documentation-audit.sh: script for auditing documentation build
->      status
->
->   scripts/contrib/documentation-audit.sh |   92 ++++++++++++++++++++++++++++++++
->   1 files changed, 92 insertions(+), 0 deletions(-)
->   create mode 100755 scripts/contrib/documentation-audit.sh
->
+Hello All:
 
-Can you please run this and generate a report.
+what is the right way to set timezone?
 
-Thanks
-     Sau!
+I have added tzdata into my image, and can find some variables in the
+etc, e.g. 'TZ'.
+
+on my archlinux, I can set TIMEZONE in the rc.conf, which is used in
+rc.sysvinit (which will link the /etc/localtime using TIMEZONE).
+
+what is the right place to locate similar setting code (e.g. link
+the /etc/localtime) in the yocto?
+
+thanks!
+
+
+
+-- 
+Yi Qingliang
+niqingliang@insigma.com.cn
+http://niqingliang2003.wordpress.com
+
+
 
 
