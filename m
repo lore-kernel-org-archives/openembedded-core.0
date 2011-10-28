@@ -1,26 +1,32 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-gx0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RJhWh-0007Lc-7v
+	(envelope-from <andrea.adami@gmail.com>) id 1RJhnO-0007ZB-Q6
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Oct 2011 10:10:55 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p9S84qZE017738
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 28 Oct 2011 10:28:10 +0200
+Received: by ggnj1 with SMTP id j1so3412098ggn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Oct 2011 01:04:52 -0700 (PDT)
-Received: from [128.224.162.146] (128.224.162.146) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Fri, 28 Oct 2011 01:04:52 -0700
-Message-ID: <4EAA6163.2090204@windriver.com>
-Date: Fri, 28 Oct 2011 16:01:39 +0800
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.18) Gecko/20110617 Thunderbird/3.1.11
+	Fri, 28 Oct 2011 01:22:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=vWZ6oeBHmlPVvn7MgLQuqPC3pT0fZIAhXgsCqrpzAuY=;
+	b=c1ZNhcUAQfmFwQtRMj6iSiFsJ6yhRqJkOdgS5+7mqT9ghqd3i7fC9aGr5CRAmBBWwJ
+	Kv0p+qoqKK4PK3tJgQ+vTlTCBRXsSEam1wang/rrwKkdvZN0ZFytZO6/Jq5cdi/t+Sp8
+	pLYY9Kvhk0FXPHgp4CbGHszFjkYEQsdWLQvXg=
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+Received: by 10.236.181.234 with SMTP id l70mr1825730yhm.49.1319790128756;
+	Fri, 28 Oct 2011 01:22:08 -0700 (PDT)
+Received: by 10.147.145.5 with HTTP; Fri, 28 Oct 2011 01:22:08 -0700 (PDT)
+In-Reply-To: <1319785517.10032.48.camel@localhost.localdomain>
+References: <1319780499.10032.46.camel@localhost.localdomain>
+	<CAGiJk9eo4FvhLZ6o9qdb75YyuZ5om19GYRLR6gDFEN_r0VWeuw@mail.gmail.com>
+	<1319785517.10032.48.camel@localhost.localdomain>
+Date: Fri, 28 Oct 2011 10:22:08 +0200
+Message-ID: <CAAQYJAtJsSRSN5jLzK65iKUJPorc8h+RjqcnQBw2pyK34+ejjQ@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+To: niqingliang@insigma.com.cn, 
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Originating-IP: [128.224.162.146]
-Subject: Seek help: keyboard can't work after updating xserver-kdrive
+Subject: Re: how to set time zone
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,33 +41,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Oct 2011 08:10:55 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 28 Oct 2011 08:28:10 -0000
+Content-Type: multipart/alternative; boundary=20cf305b14cecd78f404b05795f6
 
-Hi all,
+--20cf305b14cecd78f404b05795f6
+Content-Type: text/plain; charset=ISO-8859-1
 
-I am updating xserver-kdrive_1.7.99.2.bb to 
-xserver-kdrive_1.11.1.901.bb. Keyboard can't get action on 
-matchbox-terminal.
+On Fri, Oct 28, 2011 at 9:05 AM, Ni Qingliang <niqingliang@insigma.com.cn>wrote:
 
-I make a test like the following steps on matchbox-terminal with 
-matchbox-keyboard(virtual keyboard):
+> THANKS!
+>
+> I still want the native support by oe-core/yocto:-). If no, I will try
+> by myself.
+>
+>
+I've asked three or four time the oe-core crow to improve the recipe...last
+one:
 
-sh-4.1# cat /dev/input/event0
+On Wed, Oct 19, 2011 at 12:24 AM, Joshua Lock <josh@linux.intel.com> wrote:
 
-The screen show some messy code when I type words on keyboard.
-sh-4.1# cat /dev/tty0
+> Per mailing requests, here are updates to the tzdata and gst-plugins-good
+> recipes.
+>
+> Joshua
+>
+> The following changes since commit
+> 95d0ff5e070c690314ab87665200099a52d37ebf:
+>
+>  tzdata: updated SRC_URI and update to 2011k (2011-10-18 11:16:58 -0700)
+>
 
-The screen show words normally when I type words on keyboard.
+Thanks for the tzdata fix.
+Now, we have the same recipes in meta-oe with a slightly different
+do_install and packaging: I'm referring to /etc/localtime and /etc/timezone:
+which package do provide those in oe-core?
 
-So I don't know what cause that keyboard can't work on matchbox-terminal 
-when typing words.
+(We'll remove the tzdata/tzcodes from meta-oe once the recipes are matching)
 
-Who can give me some suggestion? Thank you  very much if you can 
-provide  your experience to me.
-
-Thanks
-Yan
+Regards
 
 
+
+Andrea
+
+--20cf305b14cecd78f404b05795f6
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div class=3D"gmail_quote">On Fri, Oct 28, 2011 at 9:05 AM, Ni Qingliang <s=
+pan dir=3D"ltr">&lt;<a href=3D"mailto:niqingliang@insigma.com.cn">niqinglia=
+ng@insigma.com.cn</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote=
+" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex;">
+THANKS!<br>
+<br>
+I still want the native support by oe-core/yocto:-). If no, I will try<br>
+by myself.<br>
+<div><div></div><br></div></blockquote></div><br>I&#39;ve asked three or fo=
+ur time the oe-core crow to improve the recipe...last one:<br><br><div clas=
+s=3D"im"><div class=3D"gmail_quote">On Wed, Oct 19, 2011 at 12:24 AM, Joshu=
+a Lock <span dir=3D"ltr">&lt;<a href=3D"mailto:josh@linux.intel.com" target=
+=3D"_blank">josh@linux.intel.com</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+Per mailing requests, here are updates to the tzdata and gst-plugins-good r=
+ecipes.<br>
+<br>
+Joshua<br>
+<br>
+The following changes since commit 95d0ff5e070c690314ab87665200099a52d37ebf=
+:<br>
+<br>
+ =A0tzdata: updated SRC_URI and update to 2011k (2011-10-18 11:16:58 -0700)=
+<br></blockquote></div><br></div>Thanks for the tzdata fix.<br>Now,
+ we have the same recipes in meta-oe with a slightly different=20
+do_install and packaging: I&#39;m referring to /etc/localtime and=20
+/etc/timezone: which package do provide those in oe-core?<br>
+<br>(We&#39;ll remove the tzdata/tzcodes from meta-oe once the recipes are =
+matching)<br><br>Regards<br><br><br><br>Andrea<br>
+
+--20cf305b14cecd78f404b05795f6--
