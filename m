@@ -1,34 +1,31 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1RJxKL-00028G-8U
+	(envelope-from <martin.jansa@gmail.com>) id 1RK6dC-00084T-02
 	for openembedded-core@lists.openembedded.org;
-	Sat, 29 Oct 2011 03:03:16 +0200
-Received: by wyg19 with SMTP id 19so4793652wyg.6
+	Sat, 29 Oct 2011 12:59:18 +0200
+Received: by faas16 with SMTP id s16so4810315faa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Oct 2011 17:57:02 -0700 (PDT)
+	Sat, 29 Oct 2011 03:53:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding;
-	bh=2v249MxlaFQoTGYRlcm+EhThCKWZO8yBSHh3xxFElao=;
-	b=NMq0ckvCrDocGxjY9a2WcGqgg1hbV7ZLsVVaj/jBAoW1MTXzYN69AAiYLqeM2Kc0e1
-	aM47lbZllbQz0SW47gU49k0hW6xymfecDXzDhTqBhSFz6Y3i2ZUcORgbDEpmL1g5BZRr
-	mYH1etW8fl9JWuI7LAW4x2NX54VOREQwBTVFw=
-Received: by 10.216.140.223 with SMTP id e73mr1894830wej.9.1319849822255; Fri,
-	28 Oct 2011 17:57:02 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.216.28.138 with HTTP; Fri, 28 Oct 2011 17:56:41 -0700 (PDT)
-In-Reply-To: <988279ad6b90b50cf85426709540ce19b00745e6.1319844419.git.josh@linux.intel.com>
-References: <cover.1319844419.git.josh@linux.intel.com>
-	<988279ad6b90b50cf85426709540ce19b00745e6.1319844419.git.josh@linux.intel.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Fri, 28 Oct 2011 17:56:41 -0700
-X-Google-Sender-Auth: XaQQOkYelmodXWSIEn8xfUdRN-g
-Message-ID: <CABcZANkS9zDK-qLtMxHdn7SE29vTz+HPMwCUtf=yP-uuGV=Dtg@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] lib/oe/terminal: add support for XFCE's terminal emulator
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=pZHMe/ptfYM+n7sZ8bMM7nIyGpRTTGRDDUQfM4OpBjk=;
+	b=NfC5969F9RJuv0QzQYNYm1OiXyKf86OqLwPlk3yLIsPHYaQ07jdU2sj0U+bBcK2Ijf
+	7WQBDxdIzz+EHwyu+LY/DsrCYV/DOriZTGCiy1qZqMB38EHV6YmkPmoWjQ0Xd97Hw1Nb
+	mbA0gCjG+j6FPZ/qvNZc3FgALjeyqJ0BLWjUw=
+Received: by 10.223.91.68 with SMTP id l4mr13084513fam.16.1319885595765;
+	Sat, 29 Oct 2011 03:53:15 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id x19sm15841609fag.5.2011.10.29.03.53.14
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 29 Oct 2011 03:53:14 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 29 Oct 2011 12:53:08 +0200
+Message-Id: <1319885588-5947-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.7.1
+In-Reply-To: <20111028205842.GA17752@gonzales.palutemo>
+References: <20111028205842.GA17752@gonzales.palutemo>
+Subject: [PATCH] dbus: add work around to set right owner in postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,73 +40,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Oct 2011 01:03:16 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 29 Oct 2011 10:59:18 -0000
 
-On Fri, Oct 28, 2011 at 4:42 PM, Joshua Lock <josh@linux.intel.com> wrote:
-> That's Terminal on Fedora and xfce4-terminal on Ubuntu/Debian... This
-> could get interesting!
->
-> Signed-off-by: Joshua Lock <josh@linux.intel.com>
-> ---
-> =C2=A0meta/lib/oe/terminal.py | =C2=A0 21 +++++++++++++++++++++
-> =C2=A01 files changed, 21 insertions(+), 0 deletions(-)
->
-> diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-> index 1455e8e..b90a1f2 100644
-> --- a/meta/lib/oe/terminal.py
-> +++ b/meta/lib/oe/terminal.py
-> @@ -57,6 +57,27 @@ class Gnome(XTerminal):
-> =C2=A0 =C2=A0 command =3D 'gnome-terminal --disable-factory -t "{title}" =
--x {command}'
-> =C2=A0 =C2=A0 priority =3D 2
->
-> +class Xfce(XTerminal):
-> + =C2=A0 =C2=A0def distro_name():
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0import subprocess as sub
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0try:
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0p =3D sub.Popen(['lsb_release'=
-, '-i'], stdout=3Dsub.PIPE,
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0stderr=3Dsub.PIPE)
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0out, err =3D p.communicate()
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0distro =3D out.split(':').stri=
-p()
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0except:
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0distro =3D "unknown"
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return distro
-> +
-> + =C2=A0 =C2=A0# Upstream binary name is Terminal but Debian/Ubuntu use
-> + =C2=A0 =C2=A0# xfce4-terminal to avoid possible(?) conflicts
-> + =C2=A0 =C2=A0distro =3D distro_name()
-> + =C2=A0 =C2=A0if distro =3D=3D 'Ubuntu' or distro =3D=3D 'Debian':
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0command =3D 'xfce4-terminal -T "{title}" -e =
-"{command}"'
-> + =C2=A0 =C2=A0else:
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0command =3D 'Terminal -T "{title}" -e "{comm=
-and}"'
-> + =C2=A0 =C2=A0priority =3D 2
+* even when I see right chown/chmod in log.do_install, files are still
+  owned by bitbake:bitbake (user running bitbake) and we need to fix it on target
+$ tail -n 4 temp/log.do_install.27768                                                                                                                         
++ chown messagebus:messagebus /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image/var/run/dbus /OE/shr-core/tmp/work/armv7a-vfp-neon-o
+e-linux-gnueabi/dbus-1.4.12-r2/image/var/lib/dbus
++ chown root:messagebus /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image/usr/libexec/dbus-daemon-launch-helper
++ chmod 4754 /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image/usr/libexec/dbus-daemon-launch-helper
++ ln -sf /dev/null /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image//lib/systemd/system/dbus-1.service
+                                                                                                                                                              
+$ ll -d /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image/var/run/dbus \                                                            
+  /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image/var/lib/dbus \                                                                  
+  /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image/usr/libexec/dbus-daemon-launch-helper \                                         
+ /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image/usr/libexec/dbus-daemon-launch-helper
+-rwsr-xr-- 1 bitbake bitbake 819869 Oct 29 12:35 /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image/usr/libexec/dbus-daemon-launch-he
+lper*                                                                                                                                                         
+-rwsr-xr-- 1 bitbake bitbake 819869 Oct 29 12:35 /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image/usr/libexec/dbus-daemon-launch-he
+lper*                                                                                                                                                         
+drwxr-xr-x 2 bitbake bitbake   4096 Oct 29 12:35 /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image/var/lib/dbus/
+drwxr-xr-x 2 bitbake bitbake   4096 Oct 29 12:35 /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image/var/run/dbus/
 
-The first problem I see with this is you're calling lsb_release at
-module import time. Doing things like that is generally a no-no. I'd
-suggest shifting it into the constructor. Set up the command there as
-self.command, and be sure to call the superclass constructor as well,
-after the command bits. The other thing is, and I'm sure you just
-copied & pasted it from konsole, but we already import a fully
-functional Popen -- it's the superclass of all the terminal classes.
-So there's no need to pull in subprocess's version of it. And the
-defaults of the Popen we use ensure the output is captured, so there's
-no need for the sub.PIPE bits at all if you use that one. Simply do p
-=3D Popen(['lsb_release', '-i']).
+* and we _cannot_ use ${D} in postinst script because it get's expanded
+  before including postinst file to ipk's control.tar.gz
+  and on target I see something like this:
+  if [ -z "/OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
+  which is wrong $D without {} works
 
-Thanks for adding this, I'm sure folks using stock Xubuntu and the
-like will find this helpful (I'm an rxvt-unicode guy myself).
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-core/dbus/dbus.inc |    9 +++++++--
+ 1 files changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index 2a97c02..b862bb4 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -10,7 +10,7 @@ DEPENDS = "expat virtual/libintl ${@base_contains('DISTRO_FEATURES', 'x11', '${X
+ DEPENDS_virtclass-native = "expat-native virtual/libintl-native"
+ DEPENDS_virtclass-nativesdk = "expat-nativesdk virtual/libintl-nativesdk virtual/libx11"
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
+            file://tmpdir.patch; \
+@@ -51,9 +51,14 @@ RRECOMMENDS_${PN}-lib = "${PN}"
+ FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool"
+ 
+ pkg_postinst_dbus() {
+-	if [ -z "${D}" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
++	if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
+ 		/etc/init.d/populate-volatile.sh update
+ 	fi
++	if [ -z "$D" ] ; then
++		chown messagebus:messagebus ${localstatedir}/run/dbus ${localstatedir}/lib/dbus
++		chown root:messagebus ${libexecdir}/dbus-daemon-launch-helper
++		chmod 4754 ${libexecdir}/dbus-daemon-launch-helper
++	fi
+ }
+ 
+ EXTRA_OECONF_X = "${@base_contains('DISTRO_FEATURES', 'x11', '--with-x', '--without-x', d)}"
+-- 
+1.7.7.1
+
 
 
