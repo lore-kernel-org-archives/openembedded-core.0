@@ -1,31 +1,41 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RK6dC-00084T-02
+	(envelope-from <martin.jansa@gmail.com>) id 1RKFUt-0006ky-9g
 	for openembedded-core@lists.openembedded.org;
-	Sat, 29 Oct 2011 12:59:18 +0200
-Received: by faas16 with SMTP id s16so4810315faa.6
+	Sat, 29 Oct 2011 22:27:19 +0200
+Received: by bkbzv3 with SMTP id zv3so1251432bkb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Oct 2011 03:53:15 -0700 (PDT)
+	Sat, 29 Oct 2011 13:21:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=pZHMe/ptfYM+n7sZ8bMM7nIyGpRTTGRDDUQfM4OpBjk=;
-	b=NfC5969F9RJuv0QzQYNYm1OiXyKf86OqLwPlk3yLIsPHYaQ07jdU2sj0U+bBcK2Ijf
-	7WQBDxdIzz+EHwyu+LY/DsrCYV/DOriZTGCiy1qZqMB38EHV6YmkPmoWjQ0Xd97Hw1Nb
-	mbA0gCjG+j6FPZ/qvNZc3FgALjeyqJ0BLWjUw=
-Received: by 10.223.91.68 with SMTP id l4mr13084513fam.16.1319885595765;
-	Sat, 29 Oct 2011 03:53:15 -0700 (PDT)
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=YiVrnAihYZsbMOF8jRh3fGz3yn0/VNR2yLC3vhfP18M=;
+	b=qnezbv1bdWsoX/2gZjQdNIATz/e4csFf4OUuqffKFOCTqv6pnLuPKlUatgX/aao5EI
+	/JYiRG1jWcirleApHZCmXYlOKrTE7PTHsOk50/SheXxTEyKL/F++bGyZPB9wsGzGU+O/
+	P7DAJMHpnORweC6mCwfwEdL21tLqDJqmvPn4s=
+Received: by 10.204.45.65 with SMTP id d1mr6284635bkf.9.1319919675441;
+	Sat, 29 Oct 2011 13:21:15 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id x19sm15841609fag.5.2011.10.29.03.53.14
+	by mx.google.com with ESMTPS id m4sm6667024fad.1.2011.10.29.13.21.12
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 29 Oct 2011 03:53:14 -0700 (PDT)
+	Sat, 29 Oct 2011 13:21:13 -0700 (PDT)
+Date: Sat, 29 Oct 2011 22:21:08 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 29 Oct 2011 12:53:08 +0200
-Message-Id: <1319885588-5947-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.7.1
-In-Reply-To: <20111028205842.GA17752@gonzales.palutemo>
-References: <20111028205842.GA17752@gonzales.palutemo>
-Subject: [PATCH] dbus: add work around to set right owner in postinst
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20111029202108.GH12609@jama.jama.net>
+References: <cover.1318547063.git.nitin.a.kamble@intel.com>
+	<70807dd62c2c498616cc544869bd710b351b7212.1318547063.git.nitin.a.kamble@intel.com>
+	<20111014081939.GC3542@jama.jama.net>
+	<20111014091136.GE3542@jama.jama.net>
+	<9DA5872FEF993D41B7173F58FCF6BE94E33A6D8D@orsmsx504.amr.corp.intel.com>
+	<20111023062813.GC3497@jama.jama.net>
+	<9DA5872FEF993D41B7173F58FCF6BE94E33A6EBB@orsmsx504.amr.corp.intel.com>
+	<20111024060535.GA3602@jama.jama.net>
+MIME-Version: 1.0
+In-Reply-To: <20111024060535.GA3602@jama.jama.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [review/test 3/5] python, python-native: upgrade from 2.6.6 to 2.7.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,70 +50,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Oct 2011 10:59:18 -0000
+X-List-Received-Date: Sat, 29 Oct 2011 20:27:19 -0000
+X-Groupsio-MsgNum: 11681
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="djJN5oi3zFpblwUd"
+Content-Disposition: inline
 
-* even when I see right chown/chmod in log.do_install, files are still
-  owned by bitbake:bitbake (user running bitbake) and we need to fix it on target
-$ tail -n 4 temp/log.do_install.27768                                                                                                                         
-+ chown messagebus:messagebus /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image/var/run/dbus /OE/shr-core/tmp/work/armv7a-vfp-neon-o
-e-linux-gnueabi/dbus-1.4.12-r2/image/var/lib/dbus
-+ chown root:messagebus /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image/usr/libexec/dbus-daemon-launch-helper
-+ chmod 4754 /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image/usr/libexec/dbus-daemon-launch-helper
-+ ln -sf /dev/null /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image//lib/systemd/system/dbus-1.service
-                                                                                                                                                              
-$ ll -d /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image/var/run/dbus \                                                            
-  /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image/var/lib/dbus \                                                                  
-  /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image/usr/libexec/dbus-daemon-launch-helper \                                         
- /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image/usr/libexec/dbus-daemon-launch-helper
--rwsr-xr-- 1 bitbake bitbake 819869 Oct 29 12:35 /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image/usr/libexec/dbus-daemon-launch-he
-lper*                                                                                                                                                         
--rwsr-xr-- 1 bitbake bitbake 819869 Oct 29 12:35 /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image/usr/libexec/dbus-daemon-launch-he
-lper*                                                                                                                                                         
-drwxr-xr-x 2 bitbake bitbake   4096 Oct 29 12:35 /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image/var/lib/dbus/
-drwxr-xr-x 2 bitbake bitbake   4096 Oct 29 12:35 /OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image/var/run/dbus/
+--djJN5oi3zFpblwUd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-* and we _cannot_ use ${D} in postinst script because it get's expanded
-  before including postinst file to ipk's control.tar.gz
-  and on target I see something like this:
-  if [ -z "/OE/shr-core/tmp/work/armv7a-vfp-neon-oe-linux-gnueabi/dbus-1.4.12-r2/image" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
-  which is wrong $D without {} works
+On Mon, Oct 24, 2011 at 08:05:36AM +0200, Martin Jansa wrote:
+> On Sun, Oct 23, 2011 at 05:07:30PM -0700, Kamble, Nitin A wrote:
+> > Hi Martin,
+> >   I tested python inside qemux86-64 and it was working fine. I could te=
+st small python scripts working as expected.
+> > Thanks,
+> > Nitin
+>=20
+> For me it builds only after I've upgraded host's glibc version to 2.14
+> while using eglibc-2.14 for qemux86-64.
+>=20
+> When I had glibc-2.13 on host and eglibc-2.14 for qemux86-64 it fails
+> like this:
+>=20
+> /OE/shr-core/tmp/sysroots/x86_64-linux/usr/bin/python: /lib64/libc.so.6:
+> version `GLIBC_2.14' not found (required by
+> /OE/shr-core/tmp/work/x86_64-oe-linux/python-2.7.2-r0.0/Python-2.7.2/libp=
+ython2.7.so.1.0)
+>=20
+> as reported here:
+> http://lists.linuxtogo.org/pipermail/openembedded-core/2011-October/01123=
+0.html
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-core/dbus/dbus.inc |    9 +++++++--
- 1 files changed, 7 insertions(+), 2 deletions(-)
+I've patch which allows me to build at least armv4t modules now, will
+test qemux86-64 and other machines over night and more runtime test
+tomorrow.
 
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-index 2a97c02..b862bb4 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -10,7 +10,7 @@ DEPENDS = "expat virtual/libintl ${@base_contains('DISTRO_FEATURES', 'x11', '${X
- DEPENDS_virtclass-native = "expat-native virtual/libintl-native"
- DEPENDS_virtclass-nativesdk = "expat-nativesdk virtual/libintl-nativesdk virtual/libx11"
- 
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
-            file://tmpdir.patch; \
-@@ -51,9 +51,14 @@ RRECOMMENDS_${PN}-lib = "${PN}"
- FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool"
- 
- pkg_postinst_dbus() {
--	if [ -z "${D}" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
-+	if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
- 		/etc/init.d/populate-volatile.sh update
- 	fi
-+	if [ -z "$D" ] ; then
-+		chown messagebus:messagebus ${localstatedir}/run/dbus ${localstatedir}/lib/dbus
-+		chown root:messagebus ${libexecdir}/dbus-daemon-launch-helper
-+		chmod 4754 ${libexecdir}/dbus-daemon-launch-helper
-+	fi
- }
- 
- EXTRA_OECONF_X = "${@base_contains('DISTRO_FEATURES', 'x11', '--with-x', '--without-x', d)}"
--- 
-1.7.7.1
+Regards,
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--djJN5oi3zFpblwUd
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk6sYDQACgkQN1Ujt2V2gByr2gCeMX45KpcMfuuVp+d7esfZKhmc
+M4EAn0bRU+uyZIu2Om1suxFT+3J1lxsk
+=ue+w
+-----END PGP SIGNATURE-----
+
+--djJN5oi3zFpblwUd--
