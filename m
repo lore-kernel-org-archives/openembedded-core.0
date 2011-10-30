@@ -1,31 +1,34 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RKFVx-0006nu-Mn
+	(envelope-from <otavio.salvador@gmail.com>) id 1RKMrd-0001Ms-Md
 	for openembedded-core@lists.openembedded.org;
-	Sat, 29 Oct 2011 22:28:25 +0200
-Received: by faas16 with SMTP id s16so5067293faa.6
+	Sun, 30 Oct 2011 05:19:17 +0100
+Received: by bkbzv3 with SMTP id zv3so1358778bkb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Oct 2011 13:22:23 -0700 (PDT)
+	Sat, 29 Oct 2011 21:13:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=H4HsAXU6Se2WttWutFRDh5rrBBMC+VMXdeDdAwg8qbA=;
-	b=XfABP3ABSbJnTO0aW1bJwQCVFhuYLsiUnM0hP0WgZ0bd0ahuxwDIww5Ndpxyf9AyNp
-	fP+bCct+sVmqGoLKqpHNLHSUXbbR+12ZXCFaP5CT/Eqb/Ehj9O7IMOvtR2dND+EyfDhL
-	LVEVnL/K+jqQeUzWUbs2bNcZnzJQF9XjOjwCU=
-Received: by 10.223.17.3 with SMTP id q3mr16083084faa.28.1319919742291;
-	Sat, 29 Oct 2011 13:22:22 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id t19sm26471110fac.0.2011.10.29.13.22.20
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 29 Oct 2011 13:22:21 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 29 Oct 2011 22:22:15 +0200
-Message-Id: <1319919735-2962-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.7.1
-In-Reply-To: <20111029202108.GH12609@jama.jama.net>
-References: <20111029202108.GH12609@jama.jama.net>
-Subject: [PATCH] python-2.7.2: fix build issues when additional modules are linked against host or native libpython instead of target
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=sCX2zqRWqf9cykCTxcYwGxMq+9ahssb/2Z6smBxjFPM=;
+	b=rAMswodKJGvyQSiRh1SErhcQ7QtmVQ+ZmsXZSDwXxR/F28ezTJpJwhoYgPxygHm+9U
+	0LedhYIKDnlTpDxVnHZGFCxQoMKGQh6KVB0jH40ezbh5iBFR1qVzskMAiy+1IIzXdJkD
+	YZCkcenWhDWdw5pce5ouK4g7Va8xWEWKCqQY8=
+MIME-Version: 1.0
+Received: by 10.204.38.16 with SMTP id z16mr6634828bkd.66.1319947994128; Sat,
+	29 Oct 2011 21:13:14 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.48.208 with HTTP; Sat, 29 Oct 2011 21:13:14 -0700 (PDT)
+In-Reply-To: <1319885588-5947-1-git-send-email-Martin.Jansa@gmail.com>
+References: <20111028205842.GA17752@gonzales.palutemo>
+	<1319885588-5947-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Sun, 30 Oct 2011 02:13:14 -0200
+X-Google-Sender-Auth: v9o8nhbSejzdBdYq0H2KqOKz8Pc
+Message-ID: <CAP9ODKq09hVbQSAkDoKHztUnnUwwPMg3GfhoZspOad3CMhQsOw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] dbus: add work around to set right owner in postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,27 +43,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Oct 2011 20:28:25 -0000
+X-List-Received-Date: Sun, 30 Oct 2011 04:19:17 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-devtools/python/python_2.7.2.bb |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+On Sat, Oct 29, 2011 at 08:53, Martin Jansa <martin.jansa@gmail.com> wrote:
+...
+> + =A0 =A0 =A0 if [ -z "$D" ] ; then
+> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 chown messagebus:messagebus ${localstatedir=
+}/run/dbus ${localstatedir}/lib/dbus
+> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 chown root:messagebus ${libexecdir}/dbus-da=
+emon-launch-helper
+> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 chmod 4754 ${libexecdir}/dbus-daemon-launch=
+-helper
+> + =A0 =A0 =A0 fi
 
-diff --git a/meta/recipes-devtools/python/python_2.7.2.bb b/meta/recipes-devtools/python/python_2.7.2.bb
-index af14adb..defe9c1 100644
---- a/meta/recipes-devtools/python/python_2.7.2.bb
-+++ b/meta/recipes-devtools/python/python_2.7.2.bb
-@@ -51,6 +51,7 @@ do_compile() {
- 	install -m 0644 Makefile Makefile.orig
- 	sed -i -e 's,${includedir},${STAGING_INCDIR},' Makefile
- 	sed -i -e 's,${libdir},${STAGING_LIBDIR},' Makefile
-+	sed -i -e 's,LDFLAGS=,LDFLAGS=-L.,' Makefile
- 	install -m 0644 Makefile ${STAGING_LIBDIR}/python${PYTHON_MAJMIN}/config/
- 	# save copy of it now, because if we do it in do_install and 
- 	# then call do_install twice we get Makefile.orig == Makefile.sysroot
--- 
-1.7.7.1
+If you use $D in directories it will work for in-target and rootfs
+installs allowing use of it in read-only-fs.
 
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
