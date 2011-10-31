@@ -1,34 +1,29 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RL0tg-0003CL-On for openembedded-core@lists.openembedded.org;
-	Tue, 01 Nov 2011 00:04:05 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9VMw0hj022631
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1RL1Pl-0003sk-Q0
+	for openembedded-core@lists.openembedded.org;
+	Tue, 01 Nov 2011 00:37:13 +0100
+Received: by faas16 with SMTP id s16so6705943faa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Oct 2011 22:58:00 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 21770-10 for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Oct 2011 22:57:56 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9VMvoY0022625
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Oct 2011 22:57:51 GMT
-Message-ID: <1320101870.8579.8.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 31 Oct 2011 22:57:50 +0000
-In-Reply-To: <83141bc3f748c34d7f19a03c0517d804fadc6024.1319772853.git.dongxiao.xu@intel.com>
-References: <cover.1319772853.git.dongxiao.xu@intel.com>
-	<83141bc3f748c34d7f19a03c0517d804fadc6024.1319772853.git.dongxiao.xu@intel.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 09/11] iptables: upgrade to version 1.4.12.1
+	Mon, 31 Oct 2011 16:31:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=ZkRmpPwz/gS3u34bVlfJoWEOP4qvQhnt+c8nFVXz8yw=;
+	b=vqv0pKkp1OSbS7VlsFyTPTsqunUJkrK1e0674fkx++3I0ZmEZswU2+Q42vqxCCfyHM
+	0AF6JQ/p1LZWpX1WXfClMta2UpG3+7D5ATrdbBY6wgeQgQKwHmiDTmQHc2pCQPaUinMk
+	24X+rHWlOOP3Rh+rq02fmQBeldLTcDfYGW4fw=
+Received: by 10.223.39.20 with SMTP id d20mr32306637fae.37.1320103868486;
+	Mon, 31 Oct 2011 16:31:08 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id w11sm40924149fad.7.2011.10.31.16.31.07
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 31 Oct 2011 16:31:07 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  1 Nov 2011 00:31:00 +0100
+Message-Id: <1320103860-20847-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.7.1
+Subject: [PATCH] bitbake.conf: drop STAGING_PYDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,76 +38,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Oct 2011 23:04:05 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 31 Oct 2011 23:37:13 -0000
 
-On Fri, 2011-10-28 at 11:35 +0800, Dongxiao Xu wrote:
-> Remove the do_configure_prepend() since some m4 files are needed when
-> doing configuration.
+* seems unused in oe-core
 
-I think we're going to have to specifically delete the libtool m4 files
-here. I know we've had problems with them being present in the past.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/conf/bitbake.conf |    1 -
+ 1 files changed, 0 insertions(+), 1 deletions(-)
 
-Also, there is no mention of the licence change here in the commit
-message?
-
-Cheers,
-
-Richard
-
-
-> Define correct FILE for iptables and iptables-dbg packages.
-> 
-> Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
-> ---
->  .../{iptables_1.4.9.bb => iptables_1.4.12.1.bb}    |   16 ++++++----------
->  1 files changed, 6 insertions(+), 10 deletions(-)
->  rename meta/recipes-extended/iptables/{iptables_1.4.9.bb => iptables_1.4.12.1.bb} (69%)
-> 
-> diff --git a/meta/recipes-extended/iptables/iptables_1.4.9.bb b/meta/recipes-extended/iptables/iptables_1.4.12.1.bb
-> similarity index 69%
-> rename from meta/recipes-extended/iptables/iptables_1.4.9.bb
-> rename to meta/recipes-extended/iptables/iptables_1.4.12.1.bb
-> index 7c9fbea..59a1bcb 100644
-> --- a/meta/recipes-extended/iptables/iptables_1.4.9.bb
-> +++ b/meta/recipes-extended/iptables/iptables_1.4.12.1.bb
-> @@ -4,8 +4,8 @@ filtering code in Linux."
->  HOMEPAGE = "http://www.netfilter.org/"
->  BUGTRACKER = "http://bugzilla.netfilter.org/"
->  LICENSE = "GPLv2+"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
-> -                    file://iptables.c;firstline=13;endline=25;md5=f1028f2401da1c120df27594b2be50ef"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263\
-> +                    file://iptables/iptables.c;firstline=13;endline=25;md5=f1028f2401da1c120df27594b2be50ef"
->  
->  PR = "r0"
->  
-> @@ -18,19 +18,15 @@ RRECOMMENDS_${PN} = "kernel-module-x-tables \
->                       kernel-module-nf-conntrack-ipv4 \
->                       kernel-module-nf-nat \
->                       kernel-module-ipt-masquerade"
-> -FILES_${PN}-dbg =+ "${libexecdir}/xtables/.debug"
-> +FILES_${PN} =+ "${libdir}/xtables/"
-> +FILES_${PN}-dbg =+ "${libdir}/xtables/.debug"
->  
->  SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2"
->  
-> -SRC_URI[md5sum] = "db1312f7ce5a4c11dc981a2ac76b26e8"
-> -SRC_URI[sha256sum] = "1ac719d6265cf64220c80c0974ed9d35febdac2986bb96eeaa9c8c7959a1d306"
-> +SRC_URI[md5sum] = "b08a1195ec2c1ebeaf072db3c55fdf43"
-> +SRC_URI[sha256sum] = "77e6581f21f15946a814fa311236e5f3f7c6593180f9d695cea06aa95e464aba"
->  
->  inherit autotools
->  
->  EXTRA_OECONF = "--with-kernel=${STAGING_INCDIR} \
->                  ${@base_contains('DISTRO_FEATURES', 'ipv6', '', '--disable-ipv6', d)}"
-> -
-> -do_configure_prepend() {
-> -	# they are all libtool m4 files
-> -	rm -rf ${S}/m4
-> -}
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index e2c1b6f..d0235ba 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -345,7 +345,6 @@ STAGING_DATADIR = "${STAGING_DIR_HOST}${datadir}"
+ STAGING_EXECPREFIXDIR = "${STAGING_DIR_HOST}${exec_prefix}"
+ STAGING_LOADER_DIR = "${STAGING_DIR_HOST}/loader"
+ STAGING_FIRMWARE_DIR = "${STAGING_DIR_HOST}/firmware"
+-STAGING_PYDIR = "${STAGING_DIR}/lib/python2.4"
+ 
+ STAGING_DIR_TARGET = "${STAGING_DIR}/${MACHINE}"
+ STAGING_DIR_TCBOOTSTRAP = "${STAGING_DIR_TARGET}-tcbootstrap"
+-- 
+1.7.7.1
 
 
 
