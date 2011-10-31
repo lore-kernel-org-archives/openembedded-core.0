@@ -1,24 +1,28 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RKzt6-0000KL-9w
+	(envelope-from <scott.a.garman@intel.com>) id 1RKztB-0000LC-VZ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 31 Oct 2011 22:59:24 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 31 Oct 2011 14:53:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="69521505"
-Received: from unknown (HELO shamshir.jf.intel.com) ([10.7.199.77])
-	by orsmga002.jf.intel.com with ESMTP; 31 Oct 2011 14:53:17 -0700
-From: Joshua Lock <josh@linux.intel.com>
+	Mon, 31 Oct 2011 22:59:30 +0100
+Received: from localhost (c-98-246-160-155.hsd1.or.comcast.net
+	[98.246.160.155])
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id A078D30435
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 31 Oct 2011 17:53:19 -0400 (EDT)
+From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 31 Oct 2011 14:53:14 -0700
-Message-Id: <a80b8487fb7e392cfc167f427e7a00e9d035a7e0.1320097805.git.josh@linux.intel.com>
-X-Mailer: git-send-email 1.7.7
-In-Reply-To: <cover.1320097805.git.josh@linux.intel.com>
-References: <cover.1320097805.git.josh@linux.intel.com>
-In-Reply-To: <cover.1320097805.git.josh@linux.intel.com>
-References: <cover.1320097805.git.josh@linux.intel.com>
-Subject: [PATCH 1/1] lib/oe/terminal: add support for XFCE's terminal emulator
+Date: Mon, 31 Oct 2011 14:53:15 -0700
+Message-Id: <cover.1320097891.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.5.4
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: A078D30435.F3A77
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Subject: [PATCH 0/1] distro tracking date format fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,56 +37,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Oct 2011 21:59:24 -0000
+X-List-Received-Date: Mon, 31 Oct 2011 21:59:30 -0000
 
-That's Terminal on Fedora and xfce4-terminal on Ubuntu/Debian... This
-could get interesting!
+Hi Saul,
 
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
----
- meta/lib/oe/terminal.py |   23 +++++++++++++++++++++++
- 1 files changed, 23 insertions(+), 0 deletions(-)
+This converts all of the dates used in distro_tracking_fields.inc to
+use the format you've been requesting. 
 
-diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-index 1455e8e..43639d5 100644
---- a/meta/lib/oe/terminal.py
-+++ b/meta/lib/oe/terminal.py
-@@ -57,6 +57,20 @@ class Gnome(XTerminal):
-     command = 'gnome-terminal --disable-factory -t "{title}" -x {command}'
-     priority = 2
- 
-+class Xfce(XTerminal):
-+    command = 'Terminal -T "{title}" -e "{command}"'
-+    priority = 2
-+
-+    def __init__(self, command, title=None, env=None):
-+        # Upstream binary name is Terminal but Debian/Ubuntu use
-+        # xfce4-terminal to avoid possible(?) conflicts
-+        distro = distro_name()
-+        if distro == 'ubuntu' or distro == 'debian':
-+            cmd = 'xfce4-terminal -T "{title}" -e "{command}"'
-+        else:
-+            cmd = command
-+        XTerminal.__init__(self, cmd, title, env)
-+
- class Konsole(XTerminal):
-     command = 'konsole -T "{title}" -e {command}'
-     priority = 2
-@@ -131,3 +145,12 @@ def check_konsole_version(konsole):
-         if ver.startswith('Konsole'):
-             vernum = ver.split(' ')[-1]
-     return vernum
-+
-+def distro_name():
-+    try:
-+        p = Popen(['lsb_release', '-i'])
-+        out, err = p.communicate()
-+        distro = out.split(':')[1].strip().lower()
-+    except:
-+        distro = "unknown"
-+    return distro
+Scott
+
+The following changes since commit ff13e06892f102d915855cde50896349b07b3717:
+
+  clutter-gtk: add LIC_FILES_CHKSUM to include file (2011-10-31 10:46:59 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib sgarman/date-fmt-fix-final
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/date-fmt-fix-final
+
+Scott Garman (1):
+  distro_tracking_fields.inc: standardize date format
+
+ .../conf/distro/include/distro_tracking_fields.inc |  594 ++++++++++----------
+ 1 files changed, 297 insertions(+), 297 deletions(-)
+
 -- 
-1.7.7
+1.7.5.4
 
 
 
