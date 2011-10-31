@@ -1,33 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RL0gc-0002ae-Fd for openembedded-core@lists.openembedded.org;
-	Mon, 31 Oct 2011 23:50:34 +0100
+	id 1RL0tg-0003CL-On for openembedded-core@lists.openembedded.org;
+	Tue, 01 Nov 2011 00:04:05 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9VMiTsJ022465
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9VMw0hj022631
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Oct 2011 22:44:29 GMT
+	Mon, 31 Oct 2011 22:58:00 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 21770-08 for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Oct 2011 22:44:23 +0000 (GMT)
+	id 21770-10 for <openembedded-core@lists.openembedded.org>;
+	Mon, 31 Oct 2011 22:57:56 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9VMiLKt022459
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9VMvoY0022625
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Oct 2011 22:44:22 GMT
-Message-ID: <1320101061.8579.3.camel@ted>
+	Mon, 31 Oct 2011 22:57:51 GMT
+Message-ID: <1320101870.8579.8.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 31 Oct 2011 22:44:21 +0000
-In-Reply-To: <cover.1319753141.git.sgw@linux.intel.com>
-References: <cover.1319753141.git.sgw@linux.intel.com>
+Date: Mon, 31 Oct 2011 22:57:50 +0000
+In-Reply-To: <83141bc3f748c34d7f19a03c0517d804fadc6024.1319772853.git.dongxiao.xu@intel.com>
+References: <cover.1319772853.git.dongxiao.xu@intel.com>
+	<83141bc3f748c34d7f19a03c0517d804fadc6024.1319772853.git.dongxiao.xu@intel.com>
 X-Mailer: Evolution 3.2.1- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [CONSOLIDATED PULL 00/18] Patches, QA & Bug Fixes
+Subject: Re: [PATCH 09/11] iptables: upgrade to version 1.4.12.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,62 +43,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Oct 2011 22:50:34 -0000
+X-List-Received-Date: Mon, 31 Oct 2011 23:04:05 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-10-28 at 00:06 +0200, Saul Wold wrote:
-> Khem Raj (1):
->   libtool: Upgrade from 2.4 -> 2.4.2
+On Fri, 2011-10-28 at 11:35 +0800, Dongxiao Xu wrote:
+> Remove the do_configure_prepend() since some m4 files are needed when
+> doing configuration.
 
-This didn't go in since it doesn't have the whitespace and SUMMARY
-issues I previously mentioned fixed.
+I think we're going to have to specifically delete the libtool m4 files
+here. I know we've had problems with them being present in the past.
 
-> 
-> Paul Eggleton (3):
->   dbus: remove unused initscript
->   util-linux: split out mkfs into its own package
->   e2fsprogs: move mke2fs.conf to e2fsprogs-mke2fs package
-> 
-> Saul Wold (12):
->   wget: Add recipe from OE
-
-I've pushed a subsequent commit cleaning up a couple of things I noticed
-later on this one.
-
->   dbus-glib: fix QA Packaging issues
->   libgcc: fix QA Packaging issues
-
-The above patch has feedback directly.
-
->   at: fix QA Packaging issues
->   man: fix QA Packaging issues
->   mdadm: fix QA Packaging issues
->   libatomics-ops: fix QA Packaging issues
->   libproxy: fix QA Packaging issues
->   abiword: convert to svn
->   avahi: use useradd to create user
->   connman: create xuser
->   xserver-nodm-init: use useradd to create xuser
-
-I didn't take these last three since the avahi dbus restart needs to
-remain (but can be ignored at rootfs time with an exit 0), I think
-you're going to change the xuser homedir and the xserver-nodm-init needs
-to preserve the Xusername file since other scripts use it.
-
-> 
-> Scott Garman (1):
->   documentation-audit.sh: script for auditing documentation build
->     status
-> 
-> Wenzong Fan (1):
->   distro_tracking_fields: update packages tracking fields
-
-I merged everything else.
+Also, there is no mention of the licence change here in the commit
+message?
 
 Cheers,
 
 Richard
+
+
+> Define correct FILE for iptables and iptables-dbg packages.
+> 
+> Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+> ---
+>  .../{iptables_1.4.9.bb => iptables_1.4.12.1.bb}    |   16 ++++++----------
+>  1 files changed, 6 insertions(+), 10 deletions(-)
+>  rename meta/recipes-extended/iptables/{iptables_1.4.9.bb => iptables_1.4.12.1.bb} (69%)
+> 
+> diff --git a/meta/recipes-extended/iptables/iptables_1.4.9.bb b/meta/recipes-extended/iptables/iptables_1.4.12.1.bb
+> similarity index 69%
+> rename from meta/recipes-extended/iptables/iptables_1.4.9.bb
+> rename to meta/recipes-extended/iptables/iptables_1.4.12.1.bb
+> index 7c9fbea..59a1bcb 100644
+> --- a/meta/recipes-extended/iptables/iptables_1.4.9.bb
+> +++ b/meta/recipes-extended/iptables/iptables_1.4.12.1.bb
+> @@ -4,8 +4,8 @@ filtering code in Linux."
+>  HOMEPAGE = "http://www.netfilter.org/"
+>  BUGTRACKER = "http://bugzilla.netfilter.org/"
+>  LICENSE = "GPLv2+"
+> -LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
+> -                    file://iptables.c;firstline=13;endline=25;md5=f1028f2401da1c120df27594b2be50ef"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263\
+> +                    file://iptables/iptables.c;firstline=13;endline=25;md5=f1028f2401da1c120df27594b2be50ef"
+>  
+>  PR = "r0"
+>  
+> @@ -18,19 +18,15 @@ RRECOMMENDS_${PN} = "kernel-module-x-tables \
+>                       kernel-module-nf-conntrack-ipv4 \
+>                       kernel-module-nf-nat \
+>                       kernel-module-ipt-masquerade"
+> -FILES_${PN}-dbg =+ "${libexecdir}/xtables/.debug"
+> +FILES_${PN} =+ "${libdir}/xtables/"
+> +FILES_${PN}-dbg =+ "${libdir}/xtables/.debug"
+>  
+>  SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2"
+>  
+> -SRC_URI[md5sum] = "db1312f7ce5a4c11dc981a2ac76b26e8"
+> -SRC_URI[sha256sum] = "1ac719d6265cf64220c80c0974ed9d35febdac2986bb96eeaa9c8c7959a1d306"
+> +SRC_URI[md5sum] = "b08a1195ec2c1ebeaf072db3c55fdf43"
+> +SRC_URI[sha256sum] = "77e6581f21f15946a814fa311236e5f3f7c6593180f9d695cea06aa95e464aba"
+>  
+>  inherit autotools
+>  
+>  EXTRA_OECONF = "--with-kernel=${STAGING_INCDIR} \
+>                  ${@base_contains('DISTRO_FEATURES', 'ipv6', '', '--disable-ipv6', d)}"
+> -
+> -do_configure_prepend() {
+> -	# they are all libtool m4 files
+> -	rm -rf ${S}/m4
+> -}
+
 
 
 
