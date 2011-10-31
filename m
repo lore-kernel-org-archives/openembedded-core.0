@@ -1,27 +1,33 @@
-Received: from mga03.intel.com ([143.182.124.21])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RKnxK-0005Ff-3t
-	for openembedded-core@lists.openembedded.org;
-	Mon, 31 Oct 2011 10:14:58 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 31 Oct 2011 02:08:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,429,1315206000"; d="scan'208";a="31677294"
-Received: from unknown (HELO helios.localnet) ([10.252.121.56])
-	by AZSMGA002.ch.intel.com with ESMTP; 31 Oct 2011 02:08:51 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Saul Wold <saul.wold@intel.com>
-Date: Mon, 31 Oct 2011 09:08:45 +0000
-User-Agent: KMail/1.13.6 (Linux/2.6.38-11-generic-pae; KDE/4.6.5; i686; ; )
-References: <cover.1319576293.git.scott.a.garman@intel.com>
-	<62b3eae763911554ab01754726ed7adacad1a8a4.1319576293.git.scott.a.garman@intel.com>
-	<4EA86F93.4080407@intel.com>
-In-Reply-To: <4EA86F93.4080407@intel.com>
-MIME-Version: 1.0
-Message-Id: <201110310908.45138.paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RKpWw-0007kP-0O for openembedded-core@lists.openembedded.org;
+	Mon, 31 Oct 2011 11:55:50 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9VAnj2u015451
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 31 Oct 2011 10:49:45 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 15079-03 for <openembedded-core@lists.openembedded.org>;
+	Mon, 31 Oct 2011 10:49:41 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9VAna7U015445
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 31 Oct 2011 10:49:38 GMT
+Message-ID: <1320058176.21800.15.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/5] distro_tracking_fields: updates for sudo, mtools, grep, and openssh
+Date: Mon, 31 Oct 2011 10:49:36 +0000
+In-Reply-To: <cover.1319844419.git.josh@linux.intel.com>
+References: <cover.1319844419.git.josh@linux.intel.com>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 0/4] Misc patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,29 +42,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Oct 2011 09:14:58 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
+X-List-Received-Date: Mon, 31 Oct 2011 10:55:50 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wednesday 26 October 2011 21:37:39 Saul Wold wrote:
-> > -RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-sudo = "1 month"
-> > -RECIPE_LATEST_RELEASE_DATE_pn-sudo = "2011/05/16"
-> > +RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-sudo = "2 months"
-> > +RECIPE_LATEST_RELEASE_DATE_pn-sudo = "2011/10/21"
+On Fri, 2011-10-28 at 16:41 -0700, Joshua Lock wrote:
+> A series of minor tweaks from my disk. The XFCE support in oe.terminal has
+> only been tested on a Fedora machine so I would appreciate testing from XFCE
+> users on other distros.
 > 
-> These date formats should be MMM DD, YYYY also, for all the data listed
-> below also.
+> Regards,
+> 
+> Joshua
+> 
+> The following changes since commit ddc9a58b8553599d2328ac1c4449b41681ae45d1:
+> 
+>   Add readline as dependecy for gdb-cross-canadian (2011-10-27 08:37:53 +0100)
+> 
+> are available in the git repository at:
+>   git://git.openembedded.org/openembedded-core-contrib josh/work
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/work
+> 
+> Joshua Lock (4):
+>   lib/oe/terminal: add support for XFCE's terminal emulator
+>   libxslt: Fix packaging of xsltConf.sh
+>   libcanberra: add new package for unpackaged files
+>   clutter-gtk: add LIC_FILES_CHKSUM to include file
 
-I'd been meaning to ask this before - is there a good reason for not being 
-consistent and using the same format for all date fields in this file?
+I've merged these last three, Chris had some good feedback on the first
+one.
 
 Cheers,
-Paul
 
--- 
+Richard
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
