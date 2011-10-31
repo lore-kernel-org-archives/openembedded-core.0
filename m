@@ -1,33 +1,48 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from ch1ehsobe004.messaging.microsoft.com ([216.32.181.184]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RKuSf-0007Gm-Da
+	(envelope-from <B29882@freescale.com>) id 1RKun7-00080N-LF
 	for openembedded-core@lists.openembedded.org;
-	Mon, 31 Oct 2011 17:11:45 +0100
-Received: by wyh5 with SMTP id 5so1329021wyh.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Oct 2011 09:05:37 -0700 (PDT)
-Received: by 10.227.58.18 with SMTP id e18mr18767786wbh.23.1320077137050;
-	Mon, 31 Oct 2011 09:05:37 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id fy21sm15837203wbb.5.2011.10.31.09.05.35
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 31 Oct 2011 09:05:36 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4EAEC2CE.400@intel.com>
-Date: Mon, 31 Oct 2011 17:05:24 +0100
-Message-Id: <246C79CF-C5FA-4F86-AEEA-7734181C0594@dominion.thruhere.net>
-References: <cover.1319576293.git.scott.a.garman@intel.com>
-	<62b3eae763911554ab01754726ed7adacad1a8a4.1319576293.git.scott.a.garman@intel.com>
-	<4EA86F93.4080407@intel.com>
-	<201110310908.45138.paul.eggleton@linux.intel.com>
-	<4EAEC2CE.400@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH 5/5] distro_tracking_fields: updates for sudo, mtools, grep, and openssh
+	Mon, 31 Oct 2011 17:32:53 +0100
+Received: from mail118-ch1-R.bigfish.com (10.43.68.249) by
+	CH1EHSOBE016.bigfish.com (10.43.70.66) with Microsoft SMTP Server id
+	14.1.225.22; Mon, 31 Oct 2011 16:26:36 +0000
+Received: from mail118-ch1 (localhost.localdomain [127.0.0.1])	by
+	mail118-ch1-R.bigfish.com (Postfix) with ESMTP id 877192E0973	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon, 31 Oct 2011 16:26:42 +0000 (UTC)
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839h)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
+	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
+X-FB-SS: 13,
+Received: from mail118-ch1 (localhost.localdomain [127.0.0.1]) by mail118-ch1
+	(MessageSwitch) id 1320078401329790_30249;
+	Mon, 31 Oct 2011 16:26:41 +0000 (UTC)
+Received: from CH1EHSMHS014.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.251])	by mail118-ch1.bigfish.com (Postfix) with ESMTP id
+	473881920046	for <openembedded-core@lists.openembedded.org>;
+	Mon, 31 Oct 2011 16:26:41 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS014.bigfish.com
+	(10.43.70.14) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Mon, 31 Oct 2011 16:26:47 +0000
+Received: from az33smr02.freescale.net (10.64.34.200) by
+	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
+	Server id 14.1.339.2; Mon, 31 Oct 2011 11:26:44 -0500
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
+	by az33smr02.freescale.net (8.13.1/8.13.0) with ESMTP id
+	p9VGQhoH017966	for <openembedded-core@lists.openembedded.org>;
+	Mon, 31 Oct 2011 11:26:43 -0500 (CDT)
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 31 Oct 2011 11:26:43 -0500
+Message-ID: <1320078403-23724-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.6.1
+In-Reply-To: <201110310905.49436.paul.eggleton@linux.intel.com>
+References: <201110310905.49436.paul.eggleton@linux.intel.com>
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: [PATCH v3 1/2] Add new strace-graph package to avoid making perl a dependecy for all of strace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,62 +57,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Oct 2011 16:11:45 -0000
-X-Groupsio-MsgNum: 11694
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_C0E4FC82-6AA5-4C84-A691-B1453AE2AB04";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Mon, 31 Oct 2011 16:32:53 -0000
+Content-Type: text/plain
 
---Apple-Mail=_C0E4FC82-6AA5-4C84-A691-B1453AE2AB04
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+v2: Change to use PACKAGES_prepend instead of explictly listing all packages
+and also fixing the fact we missed the -dev and -dbg packages before
+
+v3: Use += instead of _prepend to add strace-graph packages
+
+ meta/recipes-devtools/strace/strace_4.5.20.bb |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
+
+diff --git a/meta/recipes-devtools/strace/strace_4.5.20.bb b/meta/recipes-devtools/strace/strace_4.5.20.bb
+index b3d2aa5..53df067 100644
+--- a/meta/recipes-devtools/strace/strace_4.5.20.bb
++++ b/meta/recipes-devtools/strace/strace_4.5.20.bb
+@@ -5,7 +5,9 @@ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=4535377ede62550fdeaf39f595fd550a"
+ PR = "r2"
+ 
+-RDEPENDS = "perl"
++PACKAGES =+ "${PN}-graph "
++FILES_${PN}-graph = "${bindir}/strace-graph"
++RDEPENDS_${PN}-graph = "perl"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.bz2 \
+            file://sigmask.patch \
+-- 
+1.7.6.1
 
 
-Op 31 okt. 2011, om 16:46 heeft Saul Wold het volgende geschreven:
 
-> On 10/31/2011 02:08 AM, Paul Eggleton wrote:
->> On Wednesday 26 October 2011 21:37:39 Saul Wold wrote:
->>>> -RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-sudo =3D "1 month"
->>>> -RECIPE_LATEST_RELEASE_DATE_pn-sudo =3D "2011/05/16"
->>>> +RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-sudo =3D "2 months"
->>>> +RECIPE_LATEST_RELEASE_DATE_pn-sudo =3D "2011/10/21"
->>>=20
->>> These date formats should be MMM DD, YYYY also, for all the data =
-listed
->>> below also.
->>=20
->> I'd been meaning to ask this before - is there a good reason for not =
-being
->> consistent and using the same format for all date fields in this =
-file?
->>=20
-> Maybe I am missing your comment, is that what I not suggested in my =
-comment above?  All date formats in the distro_tracking_fields should be =
-in the MMM DD, YYY format.
 
-Can we please use a format that makes sense for non-americans as well? =
-E.g. YYYY/MM/DD or DD/MM/YYYY or plain ISO (2011-10-31T17:04:31+01:00) =
-without the hours? Anything that doesn't put days in between months and =
-year.
-
-regards,
-
-KOen=
-
---Apple-Mail=_C0E4FC82-6AA5-4C84-A691-B1453AE2AB04
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-
-iEYEARECAAYFAk6ux0oACgkQMkyGM64RGpG61wCfe69UhJWXSHoH98YmMNdjwqFO
-7rEAoKLhUodL3XV3pY2jqpk0tmCJiOhT
-=P8zn
------END PGP SIGNATURE-----
-
---Apple-Mail=_C0E4FC82-6AA5-4C84-A691-B1453AE2AB04--
