@@ -1,34 +1,20 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RKzol-00009A-6h for openembedded-core@lists.openembedded.org;
-	Mon, 31 Oct 2011 22:54:56 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9VLmlmj021767
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Oct 2011 21:48:47 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 20466-10 for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Oct 2011 21:48:43 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p9VLmdk7021761
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Oct 2011 21:48:40 GMT
-Message-ID: <1320097718.15599.19.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 31 Oct 2011 21:48:38 +0000
-In-Reply-To: <1e2bfd8a59cefe4357257ef14f027d08ff7b29dc.1320082621.git.Martin.Jansa@gmail.com>
-References: <cover.1320082621.git.Martin.Jansa@gmail.com>
-	<1e2bfd8a59cefe4357257ef14f027d08ff7b29dc.1320082621.git.Martin.Jansa@gmail.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [oe-core 7/7] bitbake.conf: update STAGING_PYDIR to 2.7 version
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <josh@linux.intel.com>) id 1RKzt5-0000KL-Hu
+	for openembedded-core@lists.openembedded.org;
+	Mon, 31 Oct 2011 22:59:23 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 31 Oct 2011 14:53:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="69521504"
+Received: from unknown (HELO shamshir.jf.intel.com) ([10.7.199.77])
+	by orsmga002.jf.intel.com with ESMTP; 31 Oct 2011 14:53:17 -0700
+From: Joshua Lock <josh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 31 Oct 2011 14:53:13 -0700
+Message-Id: <cover.1320097805.git.josh@linux.intel.com>
+X-Mailer: git-send-email 1.7.7
+Subject: [PATCH 0/1] Xfce Terminal Support v2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,36 +29,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Oct 2011 21:54:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 31 Oct 2011 21:59:23 -0000
 
-On Mon, 2011-10-31 at 18:41 +0100, Martin Jansa wrote:
-> * is it still used somewhere?
->   seems unused in oe-core
-> 
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/conf/bitbake.conf |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
-> 
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index e2c1b6f..e9dec10 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -345,7 +345,7 @@ STAGING_DATADIR = "${STAGING_DIR_HOST}${datadir}"
->  STAGING_EXECPREFIXDIR = "${STAGING_DIR_HOST}${exec_prefix}"
->  STAGING_LOADER_DIR = "${STAGING_DIR_HOST}/loader"
->  STAGING_FIRMWARE_DIR = "${STAGING_DIR_HOST}/firmware"
-> -STAGING_PYDIR = "${STAGING_DIR}/lib/python2.4"
-> +STAGING_PYDIR = "${STAGING_DIR}/lib/python2.7"
+Turns out v1 of this was pretty useless, thanks to Chris for reviewing and
+spotting most of my bloopers. I keep telling myself not to submit patches
+before the weekend, but never listen.
 
-Given this has been pointing somewhere totally invalid for a while I'd
-suggest we just drop this variable...
+I've not had chance to test this on Ubuntu/Debian but am reasonably confident
+it'll work there now.
 
-Cheers,
+Thanks,
+Joshua
 
-Richard
+The following changes since commit ff13e06892f102d915855cde50896349b07b3717:
+
+  clutter-gtk: add LIC_FILES_CHKSUM to include file (2011-10-31 10:46:59 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib josh/work
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/work
+
+Joshua Lock (1):
+  lib/oe/terminal: add support for XFCE's terminal emulator
+
+ meta/lib/oe/terminal.py |   23 +++++++++++++++++++++++
+ 1 files changed, 23 insertions(+), 0 deletions(-)
+
+-- 
+1.7.7
 
 
 
