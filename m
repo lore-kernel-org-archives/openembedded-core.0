@@ -1,28 +1,34 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RLFeo-0000Cw-14
-	for openembedded-core@lists.openembedded.org;
-	Tue, 01 Nov 2011 15:49:42 +0100
-Received: by eyd9 with SMTP id 9so6206479eyd.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RLFni-0000Ns-B3 for openembedded-core@lists.openembedded.org;
+	Tue, 01 Nov 2011 15:58:54 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA1EqmgL030977
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Nov 2011 07:43:35 -0700 (PDT)
-Received: by 10.216.138.221 with SMTP id a71mr2583113wej.102.1320158615462;
-	Tue, 01 Nov 2011 07:43:35 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id ff6sm38739055wbb.10.2011.11.01.07.43.33
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 01 Nov 2011 07:43:34 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Tue, 1 Nov 2011 15:43:33 +0100
-In-Reply-To: <1320157607.15387.10.camel@ted>
+	Tue, 1 Nov 2011 14:52:48 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 30849-01 for <openembedded-core@lists.openembedded.org>;
+	Tue,  1 Nov 2011 14:52:44 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA1EqcVt030971
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 1 Nov 2011 14:52:39 GMT
+Message-ID: <1320159158.15387.13.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1320157607.15387.10.camel@ted>
-Message-Id: <CAD24AFF-6CC1-4BAC-ACAB-F2179BA2BFC8@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH] dbus: Use $D not ${D} in the postinstall
+Date: Tue, 01 Nov 2011 14:52:38 +0000
+In-Reply-To: <2908890.eKOgJmF2nS@helios>
+References: <cover.1319382376.git.paul.eggleton@linux.intel.com>
+	<2908890.eKOgJmF2nS@helios>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 0/3] Misc metadata fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,69 +43,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Nov 2011 14:49:42 -0000
-X-Groupsio-MsgNum: 11748
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_26AE3F06-6ACF-403F-9E87-0A29D6AC5419";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_26AE3F06-6ACF-403F-9E87-0A29D6AC5419
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-Op 1 nov. 2011, om 15:26 heeft Richard Purdie het volgende geschreven:
-
-> We need to do this as we don't want bitbake to expand the variable
-> but use the shell variable instead.
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-Acked-by: Koen Kooi <k-kooi@ti.com>
-
-Although it technically needs a PR bump, we can skip it since there's =
-one later in this patch set.
-
-> ---
-> diff --git a/meta/recipes-core/dbus/dbus.inc =
-b/meta/recipes-core/dbus/dbus.inc
-> index 4c7d87a..b378bda 100644
-> --- a/meta/recipes-core/dbus/dbus.inc
-> +++ b/meta/recipes-core/dbus/dbus.inc
-> @@ -51,7 +51,7 @@ RRECOMMENDS_${PN}-lib =3D "${PN}"
-> FILES_${PN}-dev +=3D "${libdir}/dbus-1.0/include =
-${bindir}/dbus-glib-tool"
->=20
-> pkg_postinst_dbus() {
-> -	if [ -z "${D}" ] && [ -e /etc/init.d/populate-volatile.sh ] ; =
-then
-> +	if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
-> 		/etc/init.d/populate-volatile.sh update
-> 	fi
-> }
->=20
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
---Apple-Mail=_26AE3F06-6ACF-403F-9E87-0A29D6AC5419
+X-List-Received-Date: Tue, 01 Nov 2011 14:58:54 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
+On Tue, 2011-11-01 at 11:53 +0000, Paul Eggleton wrote:
+> On Sunday 23 October 2011 16:07:14 Paul Eggleton wrote:
+> > The following changes since commit 99da9a4e65f9dffb04efc3ad60125194c476d6b3:
+> > 
+> >   distro-tracking-fields: update fields for tzdata and gst-plugins-good
+> > (2011-10-20 13:07:16 +0100)
+> > 
+> > are available in the git repository at:
+> >   git://git.openembedded.org/openembedded-core-contrib paule/fixes7
+> >  
+> > http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paul
+> > e/fixes7
+> > 
+> > Paul Eggleton (3):
+> >   dbus: remove unused initscript
+> >   util-linux: split out mkfs into its own package
+> >   e2fsprogs: move mke2fs.conf to e2fsprogs-mke2fs package
+> > 
+> >  meta/recipes-core/dbus/dbus.inc                    |    3 +++
+> >  meta/recipes-core/dbus/dbus_1.4.12.bb              |    3 +++
+> >  meta/recipes-core/util-linux/util-linux.inc        |    6 ++++--
+> >  meta/recipes-core/util-linux/util-linux_2.19.1.bb  |    2 +-
+> >  .../e2fsprogs/e2fsprogs_1.41.14.bb                 |    4 ++--
+> >  5 files changed, 13 insertions(+), 5 deletions(-)
+> 
+> Ping...?
 
-iEYEARECAAYFAk6wBZUACgkQMkyGM64RGpFkDQCfUbMsTNSx5VlN8ffNj3PWyf3h
-OuEAoLMfLFu1NkfXN+Zai9De2SeeKLqW
-=p8OJ
------END PGP SIGNATURE-----
+These got merged to master last night, updates on the list haven't quite
+caught up yet :)
 
---Apple-Mail=_26AE3F06-6ACF-403F-9E87-0A29D6AC5419--
+Cheers,
+
+Richard
+
+
+
+
