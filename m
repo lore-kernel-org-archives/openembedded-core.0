@@ -1,24 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1RL53B-000277-3g
+	(envelope-from <dongxiao.xu@intel.com>) id 1RL53B-000278-H2
 	for openembedded-core@lists.openembedded.org;
 	Tue, 01 Nov 2011 04:30:09 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 31 Oct 2011 20:24:04 -0700
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 31 Oct 2011 20:24:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,435,1315206000"; d="scan'208";a="69105207"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="69845148"
 Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by azsmga001.ch.intel.com with ESMTP; 31 Oct 2011 20:24:03 -0700
+	by orsmga001.jf.intel.com with ESMTP; 31 Oct 2011 20:24:02 -0700
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Nov 2011 11:38:28 +0800
-Message-Id: <5728a89450a5585a94fe71dce72c9458bfcba286.1320118475.git.dongxiao.xu@intel.com>
+Date: Tue,  1 Nov 2011 11:38:27 +0800
+Message-Id: <29db566e2b6b4b69a0135b766b4e87a35581d906.1320118475.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1320118475.git.dongxiao.xu@intel.com>
 References: <cover.1320118475.git.dongxiao.xu@intel.com>
 In-Reply-To: <cover.1320118475.git.dongxiao.xu@intel.com>
 References: <cover.1320118475.git.dongxiao.xu@intel.com>
-Subject: [PATCH 2/2] connman: add xtables_version to fix xtables API change
+Subject: [PATCH 1/2] iptables: upgrade to version 1.4.12.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,108 +35,65 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 01 Nov 2011 03:30:09 -0000
 
-After upgrade iptables to a newer version, some of its API are changed.
-Therefore we add related fixes to the current connman.
+Change do_configure_prepend() since some m4 file is needed when
+doing configuration.
 
-Currently we don't upgrade connman since kernel.org still doesn't work
-and we could not fetch the newer sources.
+Define correct FILE for iptables and iptables-dbg packages.
+
+License checksum changed (not essential part), and the license is
+still GPLv2.
 
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- .../connman/connman-0.75/xtables_version.patch     |   64 ++++++++++++++++++++
- meta/recipes-connectivity/connman/connman_0.75.bb  |    3 +-
- 2 files changed, 66 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-connectivity/connman/connman-0.75/xtables_version.patch
+ .../{iptables_1.4.9.bb => iptables_1.4.12.1.bb}    |   16 +++++++++-------
+ 1 files changed, 9 insertions(+), 7 deletions(-)
+ rename meta/recipes-extended/iptables/{iptables_1.4.9.bb => iptables_1.4.12.1.bb} (64%)
 
-diff --git a/meta/recipes-connectivity/connman/connman-0.75/xtables_version.patch b/meta/recipes-connectivity/connman/connman-0.75/xtables_version.patch
-new file mode 100644
-index 0000000..13e2c36
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman-0.75/xtables_version.patch
-@@ -0,0 +1,64 @@
-+xtables_merge_options API change, fix its calling in connman.
-+
-+Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
-+
-+Upstream-Status: Backport
-+
-+diff -ruN connman-0.75-orig//src/iptables.c connman-0.75/src/iptables.c
-+--- connman-0.75-orig//src/iptables.c	2011-02-22 12:16:25.000000000 +0800
-++++ connman-0.75/src/iptables.c	2011-10-26 09:21:33.941164000 +0800
-+@@ -1089,7 +1089,11 @@
-+ 			if (xt_t->init != NULL)
-+ 				xt_t->init(xt_t->t);
-+ 			iptables_globals.opts =
-+-				xtables_merge_options(iptables_globals.opts,
-++				xtables_merge_options(
-++#if XTABLES_VERSION_CODE > 5
-++                                                     iptables_globals.orig_opts,
-++#endif
-++                                                     iptables_globals.opts,
-+ 						     xt_t->extra_opts,
-+ 						     &xt_t->option_offset);
-+ 			if (iptables_globals.opts == NULL)
-+@@ -1113,7 +1117,11 @@
-+ 				xt_m->init(xt_m->m);
-+ 			if (xt_m != xt_m->next) {
-+ 				iptables_globals.opts =
-+-				xtables_merge_options(iptables_globals.opts,
-++				xtables_merge_options(
-++#if XTABLES_VERSION_CODE > 5
-++                                                iptables_globals.orig_opts,
-++#endif
-++                                                iptables_globals.opts,
-+ 						xt_m->extra_opts,
-+ 						&xt_m->option_offset);
-+ 				if (iptables_globals.opts == NULL)
-+diff -ruN connman-0.75-orig//tools/iptables-test.c connman-0.75/tools/iptables-test.c
-+--- connman-0.75-orig//tools/iptables-test.c	2011-02-22 12:16:25.000000000 +0800
-++++ connman-0.75/tools/iptables-test.c	2011-10-26 09:23:25.701164000 +0800
-+@@ -1076,7 +1076,11 @@
-+ 			if (xt_t->init != NULL)
-+ 				xt_t->init(xt_t->t);
-+ 			connman_iptables_globals.opts =
-+-				xtables_merge_options(connman_iptables_globals.opts,
-++				xtables_merge_options(
-++#if XTABLES_VERSION_CODE > 5
-++						     connman_iptables_globals.orig_opts,
-++#endif
-++						     connman_iptables_globals.opts,
-+ 						     xt_t->extra_opts,
-+ 						     &xt_t->option_offset);
-+ 			if (connman_iptables_globals.opts == NULL)
-+@@ -1102,7 +1106,11 @@
-+ 				xt_m->init(xt_m->m);
-+ 			if (xt_m != xt_m->next) {
-+ 				connman_iptables_globals.opts =
-+-					xtables_merge_options(connman_iptables_globals.opts,
-++					xtables_merge_options(
-++#if XTABLES_VERSION_CODE > 5
-++						connman_iptables_globals.orig_opts,
-++#endif
-++						connman_iptables_globals.opts,
-+ 						xt_m->extra_opts,
-+ 						&xt_m->option_offset);
-+ 				if (connman_iptables_globals.opts == NULL)
-diff --git a/meta/recipes-connectivity/connman/connman_0.75.bb b/meta/recipes-connectivity/connman/connman_0.75.bb
-index 4c25fcc..8a02753 100644
---- a/meta/recipes-connectivity/connman/connman_0.75.bb
-+++ b/meta/recipes-connectivity/connman/connman_0.75.bb
-@@ -1,5 +1,5 @@
- require connman.inc
--PR = "r1"
-+PR = "r2"
+diff --git a/meta/recipes-extended/iptables/iptables_1.4.9.bb b/meta/recipes-extended/iptables/iptables_1.4.12.1.bb
+similarity index 64%
+rename from meta/recipes-extended/iptables/iptables_1.4.9.bb
+rename to meta/recipes-extended/iptables/iptables_1.4.12.1.bb
+index 7c9fbea..52aa4d5 100644
+--- a/meta/recipes-extended/iptables/iptables_1.4.9.bb
++++ b/meta/recipes-extended/iptables/iptables_1.4.12.1.bb
+@@ -4,8 +4,8 @@ filtering code in Linux."
+ HOMEPAGE = "http://www.netfilter.org/"
+ BUGTRACKER = "http://bugzilla.netfilter.org/"
+ LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
+-                    file://iptables.c;firstline=13;endline=25;md5=f1028f2401da1c120df27594b2be50ef"
++LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263\
++                    file://iptables/iptables.c;firstline=13;endline=25;md5=f1028f2401da1c120df27594b2be50ef"
  
- EXTRA_OECONF += "\
-   ac_cv_path_WPASUPPLICANT=/usr/sbin/wpa_supplicant \
-@@ -21,6 +21,7 @@ EXTRA_OECONF += "\
- SRC_URI  = "\
-   ${KERNELORG_MIRROR}/linux/network/connman/connman-${PV}.tar.gz \
-   file://add_xuser_dbus_permission.patch \
-+  file://xtables_version.patch \
-   file://connman \
- "
+ PR = "r0"
  
+@@ -18,12 +18,13 @@ RRECOMMENDS_${PN} = "kernel-module-x-tables \
+                      kernel-module-nf-conntrack-ipv4 \
+                      kernel-module-nf-nat \
+                      kernel-module-ipt-masquerade"
+-FILES_${PN}-dbg =+ "${libexecdir}/xtables/.debug"
++FILES_${PN} =+ "${libdir}/xtables/"
++FILES_${PN}-dbg =+ "${libdir}/xtables/.debug"
+ 
+ SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2"
+ 
+-SRC_URI[md5sum] = "db1312f7ce5a4c11dc981a2ac76b26e8"
+-SRC_URI[sha256sum] = "1ac719d6265cf64220c80c0974ed9d35febdac2986bb96eeaa9c8c7959a1d306"
++SRC_URI[md5sum] = "b08a1195ec2c1ebeaf072db3c55fdf43"
++SRC_URI[sha256sum] = "77e6581f21f15946a814fa311236e5f3f7c6593180f9d695cea06aa95e464aba"
+ 
+ inherit autotools
+ 
+@@ -31,6 +32,7 @@ EXTRA_OECONF = "--with-kernel=${STAGING_INCDIR} \
+                 ${@base_contains('DISTRO_FEATURES', 'ipv6', '', '--disable-ipv6', d)}"
+ 
+ do_configure_prepend() {
+-	# they are all libtool m4 files
+-	rm -rf ${S}/m4
++	# Remove some libtool m4 files
++	# Keep ax_check_linker_flags.m4 which belongs to autoconf-archive.
++	rm -f libtool.m4 lt~obsolete.m4 ltoptions.m4 ltsugar.m4 ltversion.m4
+ }
 -- 
 1.7.1
 
