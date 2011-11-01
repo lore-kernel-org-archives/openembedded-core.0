@@ -1,34 +1,20 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RLFni-0000Ns-B3 for openembedded-core@lists.openembedded.org;
-	Tue, 01 Nov 2011 15:58:54 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA1EqmgL030977
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 1 Nov 2011 14:52:48 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 30849-01 for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Nov 2011 14:52:44 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA1EqcVt030971
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 1 Nov 2011 14:52:39 GMT
-Message-ID: <1320159158.15387.13.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 01 Nov 2011 14:52:38 +0000
-In-Reply-To: <2908890.eKOgJmF2nS@helios>
-References: <cover.1319382376.git.paul.eggleton@linux.intel.com>
-	<2908890.eKOgJmF2nS@helios>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/3] Misc metadata fixes
+Received: from mga01.intel.com ([192.55.52.88])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1RLH4u-0002it-AO
+	for openembedded-core@lists.openembedded.org;
+	Tue, 01 Nov 2011 17:20:44 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 01 Nov 2011 09:14:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,438,1315206000"; d="scan'208";a="80097634"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.93])
+	by fmsmga001.fm.intel.com with ESMTP; 01 Nov 2011 09:14:31 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  1 Nov 2011 16:14:27 +0000
+Message-Id: <cover.1320163967.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/2] udev fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,44 +29,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Nov 2011 14:58:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 01 Nov 2011 16:20:44 -0000
 
-On Tue, 2011-11-01 at 11:53 +0000, Paul Eggleton wrote:
-> On Sunday 23 October 2011 16:07:14 Paul Eggleton wrote:
-> > The following changes since commit 99da9a4e65f9dffb04efc3ad60125194c476d6b3:
-> > 
-> >   distro-tracking-fields: update fields for tzdata and gst-plugins-good
-> > (2011-10-20 13:07:16 +0100)
-> > 
-> > are available in the git repository at:
-> >   git://git.openembedded.org/openembedded-core-contrib paule/fixes7
-> >  
-> > http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paul
-> > e/fixes7
-> > 
-> > Paul Eggleton (3):
-> >   dbus: remove unused initscript
-> >   util-linux: split out mkfs into its own package
-> >   e2fsprogs: move mke2fs.conf to e2fsprogs-mke2fs package
-> > 
-> >  meta/recipes-core/dbus/dbus.inc                    |    3 +++
-> >  meta/recipes-core/dbus/dbus_1.4.12.bb              |    3 +++
-> >  meta/recipes-core/util-linux/util-linux.inc        |    6 ++++--
-> >  meta/recipes-core/util-linux/util-linux_2.19.1.bb  |    2 +-
-> >  .../e2fsprogs/e2fsprogs_1.41.14.bb                 |    4 ++--
-> >  5 files changed, 13 insertions(+), 5 deletions(-)
-> 
-> Ping...?
+Some rebased OE-core patches from Holger that got lost on the
+openembedded-devel list.
 
-These got merged to master last night, updates on the list haven't quite
-caught up yet :)
+The following changes since commit eff22e23b4c7d88254a6ac420bf0860f1fe2cd3e:
 
-Cheers,
+  coreutils: Add missing PR bump (2011-11-01 15:45:42 +0000)
 
-Richard
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/udev-glib
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/udev-glib
 
+Holger Hans Peter Freyther (2):
+  udev: Fix the packaging of libgudev
+  udev: Split out consolekit and udev-acl
+
+ meta/recipes-core/udev/udev-new.inc |   10 ++++++++--
+ meta/recipes-core/udev/udev_164.bb  |    2 +-
+ 2 files changed, 9 insertions(+), 3 deletions(-)
+
+-- 
+1.7.5.4
 
 
 
