@@ -1,24 +1,24 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from gravedo.de ([85.214.79.159])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RLME6-0004AL-D0
+	(envelope-from <morphis@gravedo.de>) id 1RLMb8-0005Bm-IA
 	for openembedded-core@lists.openembedded.org;
-	Tue, 01 Nov 2011 22:50:34 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 01 Nov 2011 14:44:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,440,1315206000"; d="scan'208";a="69447604"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.200])
-	by azsmga001.ch.intel.com with ESMTP; 01 Nov 2011 14:44:23 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Tue, 01 Nov 2011 23:14:22 +0100
+Received: by gravedo.de (Postfix, from userid 5001)
+	id 3B7CA79901A; Tue,  1 Nov 2011 23:08:17 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.2.5 (2008-06-10) on
+	h1108419.serverkompetenz.net
+X-Spam-Level: 
+X-Spam-Status: No, score=-4.2 required=6.0 tests=ALL_TRUSTED,AWL,BAYES_00
+	autolearn=ham version=3.2.5
+Received: from localhost (dslb-088-071-255-078.pools.arcor-ip.net
+	[88.71.255.78]) by gravedo.de (Postfix) with ESMTPSA id 902A7799011;
+	Tue,  1 Nov 2011 23:08:15 +0100 (CET)
+From: Simon Busch <morphis@gravedo.de>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Nov 2011 14:44:20 -0700
-Message-Id: <348a2f5a5980f1b04bc96099731224301673463e.1320183757.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.6.4
-In-Reply-To: <cover.1320183757.git.sgw@linux.intel.com>
-References: <cover.1320183757.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1320183757.git.sgw@linux.intel.com>
-References: <cover.1320183757.git.sgw@linux.intel.com>
-Subject: [Pull v2 4/4] dbus: fix up ADDUSER_PARAMS
+Date: Tue,  1 Nov 2011 23:08:10 +0100
+Message-Id: <1320185290-18117-1-git-send-email-morphis@gravedo.de>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH] meta: glib-2.0: don't apply qsort_r test removable patch for native version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,29 +33,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Nov 2011 21:50:35 -0000
+X-List-Received-Date: Tue, 01 Nov 2011 22:14:22 -0000
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+On some buildhosts with an older version of native glib-2.0 installed (in this case
+2.16.6) the qsort_r test removable patch leads to a compilation error:
+
+| ./.libs/libglib-2.0.so: undefined reference to `qsort_r'
+| collect2: ld returned 1 exit status
+
+This patch fixes this so the patch gets only applied for the native version of this
+recipe.
+
+Signed-off-by: Simon Busch <morphis@gravedo.de>
 ---
- meta/recipes-core/dbus/dbus.inc |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+ meta/recipes-core/glib-2.0/glib-2.0_2.30.0.bb |    7 +++++--
+ 1 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-index 5028310..caa781c 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -22,7 +22,8 @@ INITSCRIPT_PARAMS = "start 02 5 3 2 . stop 20 0 1 6 ."
- USERADD_PACKAGES = "${PN}"
- GROUPADD_PARAM_${PN} = "-r netdev"
- USERADD_PARAM_${PN} = "--system --home ${localstatedir}/lib/dbus \
--                       --no-create-home --user-group messagebus"
-+                       --no-create-home --shell /bin/false \
-+                       --user-group messagebus"
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.30.0.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.30.0.bb
+index 566355d..0efce40 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.30.0.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.30.0.bb
+@@ -1,6 +1,6 @@
+ require glib.inc
  
- CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session.conf"
+-PR = "r2"
++PR = "r3"
+ PE = "1"
  
+ DEPENDS += "libffi python-argparse-native"
+@@ -9,11 +9,14 @@ DEPENDS_virtclass-nativesdk += "libffi-nativesdk python-argparse-native zlib-nat
+ 
+ SHRT_VER = "${@bb.data.getVar('PV',d,1).split('.')[0]}.${@bb.data.getVar('PV',d,1).split('.')[1]}"
+ 
++QSORT_PATCH = "file://remove.test.for.qsort_r.patch"
++QSORT_PATCH_virtclass-native = ""
++
+ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.bz2 \
+            file://configure-libtool.patch \
+            file://60_wait-longer-for-threads-to-die.patch \
+            file://g_once_init_enter.patch \
+-           file://remove.test.for.qsort_r.patch \
++           ${QSORT_PATCH} \
+           "
+ SRC_URI[md5sum] = "fee101d9d7daa8ddfbae00325f307f3b"
+ SRC_URI[sha256sum] = "ca9c731017ab370859e847f8b70079bc6dcf389dc0ccb0d0419925aff81b9687"
 -- 
-1.7.6.4
+1.7.5.4
 
 
 
