@@ -1,28 +1,28 @@
 Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RLFdt-00009J-5o
+	(envelope-from <koen@dominion.thruhere.net>) id 1RLFeD-00009J-Pg
 	for openembedded-core@lists.openembedded.org;
-	Tue, 01 Nov 2011 15:48:45 +0100
-Received: by wwf4 with SMTP id 4so2634077wwf.24
+	Tue, 01 Nov 2011 15:49:05 +0100
+Received: by mail-ww0-f43.google.com with SMTP id 4so2634077wwf.24
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Nov 2011 07:42:38 -0700 (PDT)
-Received: by 10.216.221.31 with SMTP id q31mr4636172wep.37.1320158558152;
-	Tue, 01 Nov 2011 07:42:38 -0700 (PDT)
+	Tue, 01 Nov 2011 07:43:02 -0700 (PDT)
+Received: by 10.227.58.18 with SMTP id e18mr24416182wbh.23.1320158581827;
+	Tue, 01 Nov 2011 07:43:01 -0700 (PDT)
 Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
 	[84.80.112.235])
-	by mx.google.com with ESMTPS id ff6sm38739055wbb.10.2011.11.01.07.42.34
+	by mx.google.com with ESMTPS id ff6sm38739055wbb.10.2011.11.01.07.42.58
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 01 Nov 2011 07:42:36 -0700 (PDT)
+	Tue, 01 Nov 2011 07:43:00 -0700 (PDT)
 From: Koen Kooi <koen@dominion.thruhere.net>
 Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Tue, 1 Nov 2011 15:42:32 +0100
-In-Reply-To: <1320157872.15387.12.camel@ted>
+Date: Tue, 1 Nov 2011 15:42:58 +0100
+In-Reply-To: <1320157543.15387.8.camel@ted>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1320157872.15387.12.camel@ted>
-Message-Id: <D4412D3B-5E5D-4534-86B8-BBD6C98416E7@dominion.thruhere.net>
+References: <1320157543.15387.8.camel@ted>
+Message-Id: <9DF0EE52-2451-4CAF-8AA1-7EA28AD6F7FF@dominion.thruhere.net>
 X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH] dbus: Ensure localstatedir is added to the package
+Subject: Re: [PATCH] package_ipk: There is no longer any need to force owners/groups to root
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,46 +37,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Nov 2011 14:48:45 -0000
-X-Groupsio-MsgNum: 11746
+X-List-Received-Date: Tue, 01 Nov 2011 14:49:05 -0000
+X-Groupsio-MsgNum: 11747
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_63F945D5-7287-4D5F-9DE6-672B2C20F2D5";
+	boundary="Apple-Mail=_417CF7D3-FC6A-4F6E-A2F8-3D630E1A212B";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_63F945D5-7287-4D5F-9DE6-672B2C20F2D5
+--Apple-Mail=_417CF7D3-FC6A-4F6E-A2F8-3D630E1A212B
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=us-ascii
 
 
-Op 1 nov. 2011, om 15:31 heeft Richard Purdie het volgende geschreven:
+Op 1 nov. 2011, om 15:25 heeft Richard Purdie het volgende geschreven:
 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/recipes-core/dbus/dbus.inc =
-b/meta/recipes-core/dbus/dbus.inc
-> index b378bda..68d3535 100644
-> --- a/meta/recipes-core/dbus/dbus.inc
-> +++ b/meta/recipes-core/dbus/dbus.inc
-> @@ -10,7 +10,7 @@ DEPENDS =3D "expat virtual/libintl =
-${@base_contains('DISTRO_FEATURES', 'x11', '${X
-> DEPENDS_virtclass-native =3D "expat-native virtual/libintl-native"
-> DEPENDS_virtclass-nativesdk =3D "expat-nativesdk =
-virtual/libintl-nativesdk virtual/libx11"
+> Since the packaging process is run under pseudo, the default user
+> is now root so there is no longer any need to hardcode this. Also
+> take this opportunity to move the variable to package_ipk.bbclass
+> since this is the only user of it.
 >=20
-> -PR =3D "r1"
-> +PR =3D "r2"
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-As the PR police I must point out that the dbus_1.4.12.bb file also has =
-PR =3D "r1", which will win. With all the intermediate patches going =
-round, could you please bump it up to r6 please? Pretty, pretty please?
+Acked-by: Koen Kooi <k-kooi@ti.com>
 
-regards,
+> ---
+> diff --git a/meta/classes/package_ipk.bbclass =
+b/meta/classes/package_ipk.bbclass
+> index c0893a6..c97e36e 100644
+> --- a/meta/classes/package_ipk.bbclass
+> +++ b/meta/classes/package_ipk.bbclass
+> @@ -7,6 +7,9 @@ IPKGCONF_SDK =3D  "${WORKDIR}/opkg-sdk.conf"
+>=20
+> PKGWRITEDIRIPK =3D "${WORKDIR}/deploy-ipks"
+>=20
+> +# Program to be used to build opkg packages
+> +OPKGBUILDCMD ??=3D "opkg-build"
+> +
+> python package_ipk_fn () {
+> 	bb.data.setVar('PKGFN', bb.data.getVar('PKG',d), d)
+> }
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index e2c1b6f..0d05805 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -623,10 +623,6 @@ MKTEMPCMD =3D "mktemp -q ${TMPBASE}"
+>=20
+> export PATCH_GET=3D"0"
+>=20
+> -# Program to be used to build opkg packages
+> -
+> -OPKGBUILDCMD =3D "opkg-build -o 0 -g 0"
+> -
+> ##################################################################
+> # Not sure about the rest of this yet.
+> ##################################################################
+>=20
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-Koen
 
-
---Apple-Mail=_63F945D5-7287-4D5F-9DE6-672B2C20F2D5
+--Apple-Mail=_417CF7D3-FC6A-4F6E-A2F8-3D630E1A212B
 Content-Transfer-Encoding: 7bit
 Content-Disposition: inline;
 	filename=signature.asc
@@ -86,9 +110,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 
 -----BEGIN PGP SIGNATURE-----
 
-iEYEARECAAYFAk6wBVgACgkQMkyGM64RGpHE5wCdHxCP32ojgMAsI3Tb4PYgjEha
-goIAnjyX/nSWfkudmkCJwEos3U2BlOPv
-=er7V
+iEYEARECAAYFAk6wBXIACgkQMkyGM64RGpEZ2ACfdoqMXJN8Tu4XemXD1x8ItpgP
+IEYAoJGken1Nryu3V5ArFAKj7vpB3bHG
+=PLJ7
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_63F945D5-7287-4D5F-9DE6-672B2C20F2D5--
+--Apple-Mail=_417CF7D3-FC6A-4F6E-A2F8-3D630E1A212B--
