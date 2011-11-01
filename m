@@ -1,31 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1RL3pl-0000G8-M6
+	(envelope-from <dongxiao.xu@intel.com>) id 1RL53A-000277-9x
 	for openembedded-core@lists.openembedded.org;
-	Tue, 01 Nov 2011 03:12:14 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pA1265Rg022654
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 31 Oct 2011 19:06:05 -0700 (PDT)
-Received: from [128.224.162.225] (128.224.162.225) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Mon, 31 Oct 2011 19:06:05 -0700
-Message-ID: <4EAF545D.9000006@windriver.com>
-Date: Tue, 1 Nov 2011 10:07:25 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64;
-	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
-MIME-Version: 1.0
-To: Saul Wold <saul.wold@intel.com>
-References: <4EAE0428.2020209@windriver.com> <4EAE04FF.1070207@windriver.com>
-	<4EAED036.5070808@intel.com>
-In-Reply-To: <4EAED036.5070808@intel.com>
-X-Originating-IP: [128.224.162.225]
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
-	pA1265Rg022654
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: What is the strategy to update eglibc?
+	Tue, 01 Nov 2011 04:30:08 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 31 Oct 2011 20:24:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,435,1315206000"; d="scan'208";a="69105204"
+Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
+	by azsmga001.ch.intel.com with ESMTP; 31 Oct 2011 20:24:01 -0700
+From: Dongxiao Xu <dongxiao.xu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  1 Nov 2011 11:38:26 +0800
+Message-Id: <cover.1320118475.git.dongxiao.xu@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/2 v2][PULL] iptables: recipe upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,61 +29,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Nov 2011 02:12:14 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 01 Nov 2011 03:30:08 -0000
 
-On 2011=E5=B9=B411=E6=9C=8801=E6=97=A5 00:43, Saul Wold wrote:
-> On 10/30/2011 07:16 PM, Kang Kai wrote:
->> On 2011=E5=B9=B410=E6=9C=8831=E6=97=A5 10:12, Kang Kai wrote:
->>> Hi Saul,
->>>
->>> I just want to update eglibc but eglibc is using its 2.14 branch and
->>> use svn commit revision "15225" as current version. Of course it is
->>> behind the latest svn revision, but I don't quit sure about which is
->>> the right revision to update eglibc.
->> Hi Saul,
->>
->> And right now is 2 commits behind the latest revision, do it worth to
->> update right now?
->
-> Kai,
->
-> I know that Khem recently added the eglibc 2.14 recipe, but I think=20
-> that we are still actually using the 2.13 recipe as defined by=20
-> EGLIBCVERSION.
->
-> At this point, it might be good to know what's changed by those 2=20
-> commits and maybe do a full build and system test with EGLIBCVERSION=20
-> set to 2.14 to find out if the problems are resolved.  You might look=20
-> back in the email list to mid-June to see what the original set of=20
-> issues was.
+Hi Richard and Saul,
 
-Thanks, Saul! I'll try that.
+This is the second pull request for iptables and connman, please help to review and pull.
 
->
-> Sau!
->
->
->> Thanks!
->>
->>>
->>> Could you give me some guide? Thank you!
->>>
->>> Regards,
->>> Kai
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Thanks,
+Dongxiao
+
+The following changes since commit 4ce1f57e723cb6ccfd67ed1570228602547bd112:
+
+  distro_tracking: polkit, libsndfile, etc (2011-10-31 23:03:11 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dxu4/upgrade
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/upgrade
+
+Dongxiao Xu (2):
+  iptables: upgrade to version 1.4.12.1
+  connman: add xtables_version to fix xtables API change
+
+ .../connman/connman-0.75/xtables_version.patch     |   64 ++++++++++++++++++++
+ meta/recipes-connectivity/connman/connman_0.75.bb  |    3 +-
+ .../{iptables_1.4.9.bb => iptables_1.4.12.1.bb}    |   16 +++--
+ 3 files changed, 75 insertions(+), 8 deletions(-)
+ create mode 100644 meta/recipes-connectivity/connman/connman-0.75/xtables_version.patch
+ rename meta/recipes-extended/iptables/{iptables_1.4.9.bb => iptables_1.4.12.1.bb} (64%)
 
 
 
