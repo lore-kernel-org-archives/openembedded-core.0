@@ -1,59 +1,47 @@
-Received: from tx2ehsobe003.messaging.microsoft.com ([65.55.88.13]
-	helo=TX2EHSOBE006.bigfish.com)
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RLcRj-0000Oq-IN
+	(envelope-from <dexuan.cui@intel.com>) id 1RLd94-0001ZH-Tq
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 Nov 2011 16:09:43 +0100
-Received: from mail141-tx2-R.bigfish.com (10.9.14.248) by
-	TX2EHSOBE006.bigfish.com (10.9.40.26) with Microsoft SMTP Server id
-	14.1.225.22; Wed, 2 Nov 2011 15:03:21 +0000
-Received: from mail141-tx2 (localhost.localdomain [127.0.0.1])	by
-	mail141-tx2-R.bigfish.com (Postfix) with ESMTP id 0196D3A81D3	for
-	<openembedded-core@lists.openembedded.org>;
-	Wed,  2 Nov 2011 15:03:29 +0000 (UTC)
-X-SpamScore: -12
-X-BigFish: VS-12(zz9371K1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h61h)
-X-Spam-TCS-SCL: 0:0
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
-	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail141-tx2 (localhost.localdomain [127.0.0.1]) by mail141-tx2
-	(MessageSwitch) id 1320246207923225_30803;
-	Wed,  2 Nov 2011 15:03:27 +0000 (UTC)
-Received: from TX2EHSMHS035.bigfish.com (unknown [10.9.14.244])	by
-	mail141-tx2.bigfish.com (Postfix) with ESMTP id DC0523C0052	for
-	<openembedded-core@lists.openembedded.org>;
-	Wed,  2 Nov 2011 15:03:27 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS035.bigfish.com
-	(10.9.99.135) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Wed, 2 Nov 2011 15:03:15 +0000
-Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.150]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.01.0339.002; Wed, 2 Nov 2011 10:03:30 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] Add new IMAGE_CLASSES variable for classes
-	for image generation
-Thread-Index: AQHMmPbOspSkoZVEsEev/ZH2YkccWZWZFH4AgAAB4gCAAOyRAA==
-Date: Wed, 2 Nov 2011 15:03:30 +0000
-Message-ID: <CAEsOVNeWr9A+8e62+A7YxSNwWzDJsyxqmOnKh=+EqG+4L04YjA@mail.gmail.com>
-References: <1319786807-9015-1-git-send-email-msm@freescale.com>
-	<4EB08F6B.5080009@intel.com>
-	<CAEsOVNdaEPihB8ecoMuxzSw-TR-CsK1ZKsCgcj5nktjtHmA32Q@mail.gmail.com>
-	<4EB09538.3010701@intel.com>
-In-Reply-To: <4EB09538.3010701@intel.com>
-Accept-Language: en-US
+	Wed, 02 Nov 2011 16:54:31 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 02 Nov 2011 08:48:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,444,1315206000"; d="scan'208";a="80482027"
+Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
+	by fmsmga001.fm.intel.com with ESMTP; 02 Nov 2011 08:48:14 -0700
+Received: from pgsmsx102.gar.corp.intel.com (10.221.44.80) by
+	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 2 Nov 2011 23:48:13 +0800
+Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
+	PGSMSX102.gar.corp.intel.com (10.221.44.80) with Microsoft SMTP Server
+	(TLS) id 14.1.323.3; Wed, 2 Nov 2011 23:48:13 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
+	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi; Wed, 2 Nov 2011
+	23:48:12 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Wed, 2 Nov 2011 23:48:11 +0800
+Thread-Topic: [OE-core] [PATCH 1/1] bash: make job control really work
+Thread-Index: AcyZSx36nks1X/lQROmzTcxOGkm6JAAKyizw
+Message-ID: <1865303E0DED764181A9D882DEF65FB6D836780FE8@shsmsx502.ccr.corp.intel.com>
+References: <cover.1320134607.git.dexuan.cui@intel.com>
+	<ac7b821f266e932e267a4d62af83586ba3261a98.1320134607.git.dexuan.cui@intel.com>
+	<1320142868.13918.0.camel@ted>
+	<1865303E0DED764181A9D882DEF65FB6D836780D9E@shsmsx502.ccr.corp.intel.com>
+	<1320230106.20107.23.camel@ted>
+In-Reply-To: <1320230106.20107.23.camel@ted>
+Accept-Language: zh-CN, en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
+acceptlanguage: zh-CN, en-US
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH] Add new IMAGE_CLASSES variable for classes for image generation
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] bash: make job control really work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -64,38 +52,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Nov 2011 15:09:43 -0000
+X-List-Received-Date: Wed, 02 Nov 2011 15:54:31 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <9E0A6CCABB0E8B4189FD35935AB75359@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Tue, Nov 1, 2011 at 7:56 PM, Saul Wold <saul.wold@intel.com> wrote:
-> Right I understood that part from before I think. =A0But why can't you ha=
-ve
->
-> IMAGE_CLASSES ?=3D "image_types"
->
-> and then in the local.conf override that with
->
-> IMAGE_CLASSES =3D "image_types_uboot"
->
-> since image_types_uboot inherits image_types.
->
->> IMAGE_CLASSES +=3D "image_types_uboot" and leave the other bit as is...
->
-> I have to admit I like this a little better with the possible thought of
-> breaking up image_types a little more, keep more used ones in image_types=
-,
-> but move lesser used ones to their on .bbclass
->
-> Them IMAGE_CLASSES truly is a list of image_type classes.
-
-I think this is best, let the user override IMAGE_CLASSES to
-(eventually) be able to add individual image_types_XYZ. Will send new
-patch.
-
--M=
-
+UmljaGFyZCBQdXJkaWUgd3JvdGUgb24gMjAxMS0xMS0wMjoNCj4gT24gV2VkLCAyMDExLTExLTAy
+IGF0IDE1OjEwICswODAwLCBDdWksIERleHVhbiB3cm90ZToNCj4+IFJpY2hhcmQgUHVyZGllIHdy
+b3RlIG9uIDIwMTEtMTEtMDE6DQo+Pj4gT24gVHVlLCAyMDExLTExLTAxIGF0IDE2OjA1ICswODAw
+LCBEZXh1YW4gQ3VpIHdyb3RlOg0KPiBJIGhhZCBhIGdvIGF0IHRoaXMgcHJvYmxlbSBteXNlbGYg
+YW5kIGl0IHRvb2sgYSBiaXQgb2YgZmlndXJpbmcgb3V0Lg0KPiBUaGUgcHJvYmxlbSBpcyB0aGF0
+IGJhc2ggc2hpcHMgImNvbmZpZy5oLmluIiBidXQgYXV0b2hlYWRlciBvdmVyd3JpdGVzIGl0Lg0K
+PiBUaGlzIHJlbW92ZXMgdGhlIHN0YXJ0L2VuZCBpbmNsdWRlcyBmcm9tIGNvbmZpZy5oIG9yIGNv
+bmZpZy1ib3QuaCBhbmQNCj4gY29uZmlnLXRvcC5oLiBXZSBjYW4gZG8gc29tZXRoaW5nIGxpa2Ug
+dGhpczoNCj4gDQo+IGV4cG9ydCBBVVRPSEVBREVSID0gInRydWUiDQo+IA0KPiBkb19jb25maWd1
+cmVfcHJlcGVuZCAoKSB7DQo+ICAgICAgICBpZiBbICEgLWUgYWNpbmNsdWRlLm00IF07IHRoZW4N
+Cj4gICAgICAgICAgICAgICAgY2F0IGFjbG9jYWwubTQgPiBhY2luY2x1ZGUubTQNCj4gICAgICAg
+IGZpDQo+IH0NCj4gDQo+IGluc3RlYWQgb2YgdGhlIGN1cnJlbnQgZG9fY29uZmlndXJlIG92ZXJy
+aWRlLiBUaGUgX3ByZXBlbmQgZW5zdXJlcyB0aGUNCj4gYmFzaCBzcGVjaWZpYyBtYWNyb3MgYXJl
+IHByZXNlcnZlZCBhbmQgdGhlIGV4cG9ydCBBVVRPSEVBREVSIHN0b3BzDQo+IGF1dG9oZWFkZXIg
+ZnJvbSBydW5uaW5nIGF0IGFsbC4NCj4gDQo+IENvdWxkIHlvdSB0ZXN0IHRob3NlIGNoYW5nZXMg
+YWdhaW5zdCBiYXNoIDQueCBhbmQgYmFzaCAzLnggKHJlcGxhY2luZw0KPiB0aGUgY3VycmVudCBk
+b19jb25maWd1cmUgaW4gYmFzaC5pbmMpIGFuZCB0aGVuIGlmIHRoYXQgd29ya3Mgc2VuZCBhIHBh
+dGNoIHBsZWFzZT8NCkxvb2tzIGJ1ZyA0ODcgb25seSBoYXBwZW5zIHRvIGJhc2ggNC54IGFuZCBi
+YXNoIDMueCBkb2Vzbid0IGhhdmUgc3VjaCBhIGJ1ZyAodGhlDQpyZWNpcGUgb2YgYmFzaCAzLngg
+ZG9lc24ndCB1c2UgYmFzaC5pbmMsIGVpdGhlcikNCg0KUlAsIHRoYW5rcyBhIGxvdCBmb3IgdGhl
+IGhlbHAhIEhlcmUgaXMgdGhlIG5ldyBwYXRjaDoNCmh0dHA6Ly9naXQueW9jdG9wcm9qZWN0Lm9y
+Zy9jZ2l0L2NnaXQuY2dpL3Bva3ktY29udHJpYi9jb21taXQvP2g9ZGN1aS9idWc0ODcmaWQ9YjUy
+NDMzN2VkNTY3MGRlMmMwZDI5NGMzZjY5NzBlMjRmMjM4NDdlYg0KDQpUaGFua3MsDQotLSBEZXh1
+YW4NCg0K
 
 
