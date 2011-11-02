@@ -1,21 +1,21 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1RLOtn-0003tZ-Oc
+	(envelope-from <saul.wold@intel.com>) id 1RLOuy-0003x9-8m
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 Nov 2011 01:41:47 +0100
+	Wed, 02 Nov 2011 01:43:00 +0100
 Received: from mail-fx0-f52.google.com ([209.85.161.52])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 01 Nov 2011 17:35:39 -0700
-Received: by faan26 with SMTP id n26so7394061faa.25
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 01 Nov 2011 17:36:49 -0700
+Received: by faan26 with SMTP id n26so7394753faa.25
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Nov 2011 17:35:38 -0700 (PDT)
-Received: by 10.223.76.27 with SMTP id a27mr4340644fak.12.1320194138049;
-	Tue, 01 Nov 2011 17:35:38 -0700 (PDT)
+	Tue, 01 Nov 2011 17:36:48 -0700 (PDT)
+Received: by 10.223.17.23 with SMTP id q23mr4364379faa.11.1320194208324;
+	Tue, 01 Nov 2011 17:36:48 -0700 (PDT)
 Received: from [10.6.18.227] (c-71-193-189-117.hsd1.wa.comcast.net.
 	[71.193.189.117])
-	by mx.google.com with ESMTPS id l18sm1991908fab.9.2011.11.01.17.35.36
-	(version=SSLv3 cipher=OTHER); Tue, 01 Nov 2011 17:35:37 -0700 (PDT)
-Message-ID: <4EB09056.1050905@intel.com>
-Date: Tue, 01 Nov 2011 17:35:34 -0700
+	by mx.google.com with ESMTPS id o16sm1951523fag.21.2011.11.01.17.36.45
+	(version=SSLv3 cipher=OTHER); Tue, 01 Nov 2011 17:36:47 -0700 (PDT)
+Message-ID: <4EB0909C.5020202@intel.com>
+Date: Tue, 01 Nov 2011 17:36:44 -0700
 From: Saul Wold <saul.wold@intel.com>
 Organization: Intel
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
@@ -23,11 +23,9 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <201110310905.49436.paul.eggleton@linux.intel.com>
-	<1320078403-23724-1-git-send-email-msm@freescale.com>
-In-Reply-To: <1320078403-23724-1-git-send-email-msm@freescale.com>
-Cc: Matthew McClintock <msm@freescale.com>
-Subject: Re: [PATCH v3 1/2] Add new strace-graph package to avoid making perl a dependecy for all of strace
+References: <cover.1319510805.git.wenzong.fan@windriver.com>
+In-Reply-To: <cover.1319510805.git.wenzong.fan@windriver.com>
+Subject: Re: [PATCH 0/1] distro_tracking_fields: update packages tracking fields
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,38 +40,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Nov 2011 00:41:48 -0000
+X-List-Received-Date: Wed, 02 Nov 2011 00:43:01 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/31/2011 09:26 AM, Matthew McClintock wrote:
-> Signed-off-by: Matthew McClintock<msm@freescale.com>
-> ---
-> v2: Change to use PACKAGES_prepend instead of explictly listing all packages
-> and also fixing the fact we missed the -dev and -dbg packages before
+On 10/24/2011 07:49 PM, wenzong.fan@windriver.com wrote:
+> From: Wenzong Fan<wenzong.fan@windriver.com>
 >
-> v3: Use += instead of _prepend to add strace-graph packages
+> Update distro tracking fields for ccache, chkconfig.
 >
->   meta/recipes-devtools/strace/strace_4.5.20.bb |    4 +++-
->   1 files changed, 3 insertions(+), 1 deletions(-)
+> The following changes since commit 53ee27a1c5b589cba874f674c428e1a36557cc3b:
+>    Joshua Lock (1):
+>          doc: update manual for checksum changes
 >
-> diff --git a/meta/recipes-devtools/strace/strace_4.5.20.bb b/meta/recipes-devtools/strace/strace_4.5.20.bb
-> index b3d2aa5..53df067 100644
-> --- a/meta/recipes-devtools/strace/strace_4.5.20.bb
-> +++ b/meta/recipes-devtools/strace/strace_4.5.20.bb
-> @@ -5,7 +5,9 @@ LICENSE = "BSD"
->   LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=4535377ede62550fdeaf39f595fd550a"
->   PR = "r2"
+> are available in the git repository at:
 >
-> -RDEPENDS = "perl"
-> +PACKAGES =+ "${PN}-graph "
-> +FILES_${PN}-graph = "${bindir}/strace-graph"
-> +RDEPENDS_${PN}-graph = "perl"
+>    git://git.pokylinux.org/poky-contrib wenzong/distro_tracking_fields_update
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/distro_tracking_fields_update
 >
->   SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.bz2 \
->              file://sigmask.patch \
-
-Merged into OE-Core
+> Wenzong Fan (1):
+>    distro_tracking_fields: update packages tracking fields
+>
+>   .../conf/distro/include/distro_tracking_fields.inc |   12 ++++++++++++
+>   1 files changed, 12 insertions(+), 0 deletions(-)
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+This got pulled, but I still need a fix for Month format to MMM please
 
 Thanks
 	Sau!
