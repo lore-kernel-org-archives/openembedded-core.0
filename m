@@ -1,24 +1,20 @@
-Received: from bluegiga.fi ([194.100.31.45] helo=darkblue.bluegiga.com)
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Lauri.Hintsala@bluegiga.com>) id 1RLUAI-0007ga-BH
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1RLUdF-0008E7-Vh
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 Nov 2011 07:19:10 +0100
-Received: from [10.1.1.28] ([10.1.1.28]) by darkblue.bluegiga.com with
-	Microsoft SMTPSVC(6.0.3790.4675); Wed, 2 Nov 2011 08:11:59 +0200
-Message-ID: <4EB0DF26.1000200@bluegiga.com>
-Date: Wed, 02 Nov 2011 08:11:50 +0200
-From: Lauri Hintsala <lauri.hintsala@bluegiga.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.23) Gecko/20110922 Lightning/1.0b2 Thunderbird/3.1.15
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1320183757.git.sgw@linux.intel.com>
-	<453f61fd0043629181379d5d3766c118bdd46dd2.1320183757.git.sgw@linux.intel.com>
-In-Reply-To: <453f61fd0043629181379d5d3766c118bdd46dd2.1320183757.git.sgw@linux.intel.com>
-X-OriginalArrivalTime: 02 Nov 2011 06:11:59.0135 (UTC)
-	FILETIME=[54703AF0:01CC9926]
-Subject: Re: [Pull v2 2/4] xserver-nodm-init: Add xuser (hardcoded)
+	Wed, 02 Nov 2011 07:49:06 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 01 Nov 2011 23:41:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,442,1315206000"; d="scan'208";a="85115022"
+Received: from unknown (HELO cenodoxus.amr.corp.intel.com) ([10.255.15.252])
+	by fmsmga002.fm.intel.com with ESMTP; 01 Nov 2011 23:41:36 -0700
+From: Beth Flanagan <elizabeth.flanagan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  1 Nov 2011 23:41:34 -0700
+Message-Id: <cover.1320190748.git.elizabeth.flanagan@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/1] [Yocto Bug 1700] Fix for buildstats diskio on non physical disks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,75 +29,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Nov 2011 06:19:10 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 02 Nov 2011 06:49:06 -0000
 
-Hi Saul,
+From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
 
-On 11/01/2011 11:44 PM, Saul Wold wrote:
-> Signed-off-by: Saul Wold<sgw@linux.intel.com>
-> ---
->   .../x11-common/xserver-nodm-init.bb                |   30 +++++++------------
->   1 files changed, 11 insertions(+), 19 deletions(-)
->
-> diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init.bb b/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
-> index ea4222d..5b06bc6 100644
-> --- a/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
-> +++ b/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
-> @@ -2,7 +2,7 @@ DESCRIPTION = "Simple Xserver Init Script (no dm)"
->   LICENSE = "GPLv2"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
->   SECTION = "x11"
-> -PR = "r26"
-> +PR = "r28"
->   RDEPENDS_${PN} = "sudo"
->
->   SRC_URI = "file://xserver-nodm \
-> @@ -19,27 +19,19 @@ do_install() {
->       install xserver-nodm ${D}/etc/init.d
->       if [ "${ROOTLESS_X}" = "1" ] ; then
->           install -d ${D}/etc/X11
-> -        install Xusername ${D}/etc/X11
-> +	install Xusername ${D}/etc/X11
+tmpfs/encryptfs/ramfs have no entry in /proc/diskstats. This modifies 
+buildstats to not collect diskio statistics when we encounter a case where 
+the os.major/os.minor is not represented with an entry in /proc/diskstats.
 
-Is this indentation change a typo?
+Longer term solution to this is to:
+- Identify all fs types that don't have representation in /proc/diskstats
+- Gather meaningful iostats of these fs types if possible.
 
+The following changes since commit 4a951e0433a99cd985515843f0a48fadc7050aca:
 
-Lauri
+  Fix HOMEPAGE values in libzypp and sat-solver .bb files (2011-11-01 18:28:19 +0000)
 
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib eflanagan/diskio_bug1700
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=eflanagan/diskio_bug1700
 
->       fi
->   }
->
-> -pkg_postinst_${PN} () {
-> -    if [ "x$D" != "x" ] ; then
-> -        exit 1
-> -    fi
-> -
-> -    if [ -f /etc/X11/Xusername ]; then
-> -        # create the rootless X user, and add user to group tty, video, audio
-> -        username=`cat /etc/X11/Xusername`
-> -        adduser --disabled-password $username
-> -        # FIXME: use addgroup if busybox addgroup is ready
-> -        sed -i -e "s/^video:.*/&${username}/g" /etc/group
-> -        sed -i -e "s/^tty:.*/&${username}/g" /etc/group
-> -        sed -i -e "s/^audio:.*/&${username}/g" /etc/group
-> -    fi
-> -}
-> -
-> -inherit update-rc.d
-> +inherit update-rc.d useradd
->
->   INITSCRIPT_NAME = "xserver-nodm"
->   INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
-> +
-> +# Use fixed Xusername of xuser for now, this will need to be
-> +# fixed if the Xusername changes from xuser
-> +USERADD_PACKAGES = "${PN}"
-> +USERADD_PARAM_${PN} = "--system --no-create-home \
-> +                       --shell /bin/false --groups video,tty,audio \
-> +                       --user-group xuser"
-> +
+Elizabeth Flanagan (1):
+  [Yocto Bug 1700] Fix for buildstats on tmpfs
+
+ meta/classes/buildstats.bbclass |   37 ++++++++++++++++++++++++++-----------
+ 1 files changed, 26 insertions(+), 11 deletions(-)
+
 
 
