@@ -1,19 +1,29 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX19uQi35hmEvxwGUC0QbZ+wVcrjEPqB8pZI=])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1RLVpj-00028b-Re
+	(envelope-from <martin.jansa@gmail.com>) id 1RLW0y-0002Kc-DD
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 Nov 2011 09:06:04 +0100
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id pA27NEL9020817
+	Wed, 02 Nov 2011 09:17:40 +0100
+Received: by faas16 with SMTP id s16so155807faa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 2 Nov 2011 02:23:15 -0500
-From: Kumar Gala <galak@kernel.crashing.org>
+	Wed, 02 Nov 2011 01:11:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=uQAbf1u4rBdI4eZ3qrNMcPa+6d1GskwELJhuHaEyt3Y=;
+	b=lFezxdld3njMHxBLaQ3dTaifBJRHsokUn3cW8/mHAi834J70FPhpgY5BKo4Iaigh/N
+	gQX36UF4wZ2UStnaJIPpFtYpBAO0ySMkoqne4EXAEiI5CKOwN/UBKcDckZ7BNV+KzYgO
+	XbY/zW83MgUgXaH8N8f4WaBkbBU8vLDdeV38o=
+Received: by 10.223.92.135 with SMTP id r7mr6978986fam.35.1320221490750;
+	Wed, 02 Nov 2011 01:11:30 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id i3sm4043248faf.0.2011.11.02.01.11.29
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 02 Nov 2011 01:11:29 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Nov 2011 02:23:14 -0500
-Message-Id: <1320218594-13009-1-git-send-email-galak@kernel.crashing.org>
-X-Mailer: git-send-email 1.5.6.5
-Subject: [PATCH] udev-164: Update init script to do an explicit add action
+Date: Wed,  2 Nov 2011 09:11:18 +0100
+Message-Id: <1320221478-9707-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.7.1
+Subject: [PATCH] lame: add SRC_URI checksums
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,52 +38,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Nov 2011 08:06:04 -0000
+X-List-Received-Date: Wed, 02 Nov 2011 08:17:40 -0000
 
-With udev 152 or greater the default action for 'udevadm trigger' was
-modified to be 'change' instead of 'add.
-
-To ensure initial coldplug events at boot are seen be scripts the are
-expecting them as 'add' events we invoke udevadm with an explicit
-'--action=add'.
-
-Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
 ---
- meta/recipes-core/udev/udev-164/init |    4 ++--
- meta/recipes-core/udev/udev_164.bb   |    2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-multimedia/lame/lame_3.98.4.bb |    3 +++
+ 1 files changed, 3 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-core/udev/udev-164/init b/meta/recipes-core/udev/udev-164/init
-index 9ce95ee..073942f 100644
---- a/meta/recipes-core/udev/udev-164/init
-+++ b/meta/recipes-core/udev/udev-164/init
-@@ -48,10 +48,10 @@ kill_udevd > "/dev/null" 2>&1
+diff --git a/meta/recipes-multimedia/lame/lame_3.98.4.bb b/meta/recipes-multimedia/lame/lame_3.98.4.bb
+index 6e098c6..680ea48 100644
+--- a/meta/recipes-multimedia/lame/lame_3.98.4.bb
++++ b/meta/recipes-multimedia/lame/lame_3.98.4.bb
+@@ -10,6 +10,9 @@ PR = "r0"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/lame/lame-${PV}.tar.gz \
+            file://no-gtk1.patch"
  
-         /sbin/udevadm control --env=STARTUP=1
- 		if [ "$not_first_boot" != "" ];then
--			/sbin/udevadm trigger --subsystem-nomatch=tty --subsystem-nomatch=mem --subsystem-nomatch=vc --subsystem-nomatch=vtconsole --subsystem-nomatch=misc --subsystem-nomatch=dcon --subsystem-nomatch=pci_bus  --subsystem-nomatch=graphics  --subsystem-nomatch=backlight --subsystem-nomatch=video4linux  --subsystem-nomatch=platform
-+			/sbin/udevadm trigger --action=add --subsystem-nomatch=tty --subsystem-nomatch=mem --subsystem-nomatch=vc --subsystem-nomatch=vtconsole --subsystem-nomatch=misc --subsystem-nomatch=dcon --subsystem-nomatch=pci_bus  --subsystem-nomatch=graphics  --subsystem-nomatch=backlight --subsystem-nomatch=video4linux  --subsystem-nomatch=platform
- 			(/sbin/udevadm settle --timeout=3; /sbin/udevadm control --env=STARTUP=)&
- 		else
--			/sbin/udevadm trigger
-+			/sbin/udevadm trigger --action=add
- 			/sbin/udevadm settle
- 		fi
++SRC_URI[md5sum] = "8e9866ad6b570c6c95c8cba48060473f"
++SRC_URI[sha256sum] = "ac3144c76617223a9be4aaa3e28a66b51bcab28141050c3af04cb06836f772c8"
++
+ inherit autotools
  
-diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
-index 7cbe4d8..d487add 100644
---- a/meta/recipes-core/udev/udev_164.bb
-+++ b/meta/recipes-core/udev/udev_164.bb
-@@ -1,6 +1,6 @@
- include udev-new.inc
- 
--PR = "r6"
-+PR = "r7"
- 
- SRC_URI += "file://udev-166-v4l1-1.patch"
- 
+ PACKAGES += "libmp3lame libmp3lame-dev"
 -- 
-1.7.3.4
+1.7.7.1
 
 
 
