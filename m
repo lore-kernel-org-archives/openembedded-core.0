@@ -1,29 +1,20 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RLNzo-0001be-2g
+	(envelope-from <sgw@linux.intel.com>) id 1RLOfm-0003OV-JM
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 Nov 2011 00:43:56 +0100
-Received: by faas16 with SMTP id s16so7836762faa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Nov 2011 16:37:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=2vQpaAEIjCxZDoyaBoEruTY2XWDGrFWuGYTDN25OdGg=;
-	b=OVmL1EPPyu0Q9ribHG36KCPG/haxTrNrc6XC1s7uE/pYuRD8lseCA1jfvzPQtTivuN
-	PEz2xIKIyuxgUqyvumcBg0riryWtikWsk8U9qu2gIY/4oj/Wzvk4033at5d89aAX+fwt
-	J3vg82kNTgh+7Bqgh5JZrJqEpfP1KSaHUHIVI=
-Received: by 10.223.5.66 with SMTP id 2mr3978850fau.26.1320190669479;
-	Tue, 01 Nov 2011 16:37:49 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id k13sm21453746fah.0.2011.11.01.16.37.48
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 01 Nov 2011 16:37:49 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Wed, 02 Nov 2011 01:27:18 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 01 Nov 2011 17:21:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,440,1315206000"; d="scan'208";a="69498955"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.200])
+	by azsmga001.ch.intel.com with ESMTP; 01 Nov 2011 17:21:10 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Nov 2011 00:37:42 +0100
-Message-Id: <1320190662-748-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.7.1
-Subject: [PATCH] libxslt: don't replace COPYING with symlink to Copyright
+Date: Tue,  1 Nov 2011 17:21:05 -0700
+Message-Id: <cover.1320191934.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.6.4
+Subject: [Pull v3 0/4] Add User Fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,66 +29,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Nov 2011 23:43:56 -0000
+X-List-Received-Date: Wed, 02 Nov 2011 00:27:18 -0000
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- .../dont.replace.COPYING.with.symlink.patch        |   27 ++++++++++++++++++++
- meta/recipes-support/libxslt/libxslt_1.1.26.bb     |    3 +-
- 2 files changed, 29 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-support/libxslt/libxslt/dont.replace.COPYING.with.symlink.patch
+Richard,
 
-diff --git a/meta/recipes-support/libxslt/libxslt/dont.replace.COPYING.with.symlink.patch b/meta/recipes-support/libxslt/libxslt/dont.replace.COPYING.with.symlink.patch
-new file mode 100644
-index 0000000..a38b686
---- /dev/null
-+++ b/meta/recipes-support/libxslt/libxslt/dont.replace.COPYING.with.symlink.patch
-@@ -0,0 +1,27 @@
-+When it's replaced with symlink to Copyright, then we end with link to nonexistent file like this:
-+
-+OE om-gta02@shr ~/shr-core $ ll tmp/deploy/licenses/libxslt/
-+total 40
-+drwxr-xr-x   2 bitbake bitbake  4096 Nov  2 00:27 ./
-+drwxr-xr-x 818 bitbake bitbake 32768 Nov  2 00:27 ../
-+lrwxrwxrwx   1 bitbake bitbake     9 Nov  2 00:27 COPYING -> Copyright
-+lrwxrwxrwx   1 bitbake bitbake    52 Nov  2 00:27 generic_MIT -> /OE/shr-core/tmp/deploy/licenses/common-licenses/MIT
-+
-+Upstream-Status: Pending
-+
-+diff -uNr libxslt-1.1.26.orig/configure.in libxslt-1.1.26/configure.in
-+--- libxslt-1.1.26.orig/configure.in	2009-09-24 16:27:30.000000000 +0200
-++++ libxslt-1.1.26/configure.in	2011-11-02 00:30:47.651452392 +0100
-+@@ -671,12 +671,6 @@
-+ RELDATE=`date +'%a %b %e %Y'`
-+ AC_SUBST(RELDATE)
-+ 
-+-( cd $srcdir
-+-rm -f COPYING.LIB COPYING
-+-$LN_S Copyright COPYING
-+-)
-+-
-+-
-+ AC_OUTPUT([
-+ Makefile
-+ libxslt.pc
-diff --git a/meta/recipes-support/libxslt/libxslt_1.1.26.bb b/meta/recipes-support/libxslt/libxslt_1.1.26.bb
-index 96bffc6..4dd6b55 100644
---- a/meta/recipes-support/libxslt/libxslt_1.1.26.bb
-+++ b/meta/recipes-support/libxslt/libxslt_1.1.26.bb
-@@ -7,9 +7,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0cd9a07afbeb24026c9b03aecfeba458"
- 
- SECTION = "libs"
- DEPENDS = "libxml2"
--PR = "r3"
-+PR = "r4"
- 
- SRC_URI = "ftp://xmlsoft.org/libxslt//libxslt-${PV}.tar.gz \
-+           file://dont.replace.COPYING.with.symlink.patch \
-            file://pkgconfig_fix.patch"
- 
- SRC_URI[md5sum] = "e61d0364a30146aaa3001296f853b2b9"
+Hope that third times the charm!
+
+Fixes 1699, additional commit comments, fixed whitespace.
+
+Sau!
+
+
+The following changes since commit d0a2c87d068f2d769d47c8455bb1434b90a7a844:
+
+  Fix HOMEPAGE values in libzypp and sat-solver .bb files (2011-11-01 18:28:06 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/fix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
+
+Saul Wold (4):
+  avahi: use useradd to create avahi user for avahi-daemon
+  xserver-nodm-init: Use useradd to add the xuser for rootless X
+  connman: Use useradd to add the xuser for DBus
+  dbus: ensure that the useradd shell is set to /bin/false
+
+ meta/recipes-connectivity/avahi/avahi.inc          |   16 ++++++-----
+ meta/recipes-connectivity/connman/connman.inc      |    7 ++++-
+ meta/recipes-connectivity/connman/connman_0.75.bb  |    2 +-
+ meta/recipes-core/dbus/dbus.inc                    |    3 +-
+ .../x11-common/xserver-nodm-init.bb                |   28 +++++++------------
+ 5 files changed, 28 insertions(+), 28 deletions(-)
+
 -- 
-1.7.7.1
+1.7.6.4
 
 
 
