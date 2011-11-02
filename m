@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RLOfn-0003OV-D6
+	(envelope-from <sgw@linux.intel.com>) id 1RLOfo-0003OV-6x
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 Nov 2011 01:27:19 +0100
+	Wed, 02 Nov 2011 01:27:20 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 01 Nov 2011 17:21:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,440,1315206000"; d="scan'208";a="69498957"
+X-IronPort-AV: E=Sophos;i="4.69,440,1315206000"; d="scan'208";a="69498961"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.200])
 	by azsmga001.ch.intel.com with ESMTP; 01 Nov 2011 17:21:11 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Nov 2011 17:21:06 -0700
-Message-Id: <9ef4f9a56a7d68c636768d2a1dbfeb9d6542b5f4.1320191934.git.sgw@linux.intel.com>
+Date: Tue,  1 Nov 2011 17:21:07 -0700
+Message-Id: <2dd3e61a4e2e7e87d0bfbfc736ac2060e6f1292b.1320191934.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1320191934.git.sgw@linux.intel.com>
 References: <cover.1320191934.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1320191934.git.sgw@linux.intel.com>
 References: <cover.1320191934.git.sgw@linux.intel.com>
-Subject: [Pull v3 1/4] avahi: use useradd to create avahi user for avahi-daemon
+Subject: [Pull v3 2/4] xserver-nodm-init: Use useradd to add the xuser for rootless X
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,66 +33,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Nov 2011 00:27:19 -0000
+X-List-Received-Date: Wed, 02 Nov 2011 00:27:20 -0000
 
-DBus was failing to start correct since the avahi user was
-not setup.
-
-Keep the dbus reload since this could still be installed
-as a package an would require a dbus restart.
+This also address an issue with dbus and connman, since connmand
+needs to start as the xuser in the rootless X situation.
 
 Fixes: [YOCTO #1699]
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-connectivity/avahi/avahi.inc |   16 +++++++++-------
- 1 files changed, 9 insertions(+), 7 deletions(-)
+ .../x11-common/xserver-nodm-init.bb                |   28 +++++++------------
+ 1 files changed, 10 insertions(+), 18 deletions(-)
 
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index 5ad9db0..79cfd73 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -14,7 +14,7 @@ SECTION = "network"
- # python scripts are under GPLv2+
- LICENSE = "GPLv2+ & LGPLv2.1+"
+diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init.bb b/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
+index ea4222d..dbc1c42 100644
+--- a/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
++++ b/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
+@@ -2,7 +2,7 @@ DESCRIPTION = "Simple Xserver Init Script (no dm)"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ SECTION = "x11"
+-PR = "r26"
++PR = "r28"
+ RDEPENDS_${PN} = "sudo"
  
--INC_PR = "r8"
-+INC_PR = "r9"
- 
- DEPENDS = "expat libcap libdaemon dbus glib-2.0"
- 
-@@ -23,7 +23,12 @@ SRC_URI = "http://avahi.org/download/avahi-${PV}.tar.gz \
-           file://99avahi-autoipd \
-           file://initscript.patch"
- 
--inherit autotools pkgconfig update-rc.d gettext
-+USERADD_PACKAGES = "${PN}-daemon"
-+USERADD_PARAM_${PN}-daemon = "--system --home /var/run/avahi-daemon \
-+                              --no-create-home --shell /bin/false \
-+                              --user-group avahi"
-+
-+inherit autotools pkgconfig update-rc.d gettext useradd
- 
- EXTRA_OECONF = "--with-distro=debian \
-              --disable-introspection \
-@@ -116,15 +121,12 @@ do_install_avahi-autoipd() {
- 	install ${WORKDIR}/99avahi-autoipd ${D}${sysconfdir}/udhcpc.d
+ SRC_URI = "file://xserver-nodm \
+@@ -23,23 +23,15 @@ do_install() {
+     fi
  }
  
--# At the time the postinst runs, dbus might not be setup so only restart if running
-+# At the time the postinst runs, dbus might not be setup so only restart if running 
+-pkg_postinst_${PN} () {
+-    if [ "x$D" != "x" ] ; then
+-        exit 1
+-    fi
+-
+-    if [ -f /etc/X11/Xusername ]; then
+-        # create the rootless X user, and add user to group tty, video, audio
+-        username=`cat /etc/X11/Xusername`
+-        adduser --disabled-password $username
+-        # FIXME: use addgroup if busybox addgroup is ready
+-        sed -i -e "s/^video:.*/&${username}/g" /etc/group
+-        sed -i -e "s/^tty:.*/&${username}/g" /etc/group
+-        sed -i -e "s/^audio:.*/&${username}/g" /etc/group
+-    fi
+-}
+-
+-inherit update-rc.d
++inherit update-rc.d useradd
  
- pkg_postinst_avahi-daemon () {
--	# can't do this offline
- 	if [ "x$D" != "x" ]; then
--		exit 1
-+		exit 0
- 	fi
--	grep "^avahi:" /etc/group > /dev/null || addgroup avahi
--	grep "^avahi:" /etc/passwd > /dev/null || adduser --disabled-password --system --home /var/run/avahi-daemon --no-create-home avahi --ingroup avahi -g Avahi
- 
- 	DBUSPID=`pidof dbus-daemon`
- 
+ INITSCRIPT_NAME = "xserver-nodm"
+ INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
++
++# Use fixed Xusername of xuser for now, this will need to be
++# fixed if the Xusername changes from xuser
++USERADD_PACKAGES = "${PN}"
++USERADD_PARAM_${PN} = "--system --no-create-home \
++                       --shell /bin/false --groups video,tty,audio \
++                       --user-group xuser"
++
 -- 
 1.7.6.4
 
