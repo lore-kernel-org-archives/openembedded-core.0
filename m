@@ -1,43 +1,49 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from am1ehsobe005.messaging.microsoft.com ([213.199.154.208]
+	helo=AM1EHSOBE005.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1RLd94-0001ZH-Tq
+	(envelope-from <B29882@freescale.com>) id 1RLdjB-0002s6-HZ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 Nov 2011 16:54:31 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 02 Nov 2011 08:48:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,444,1315206000"; d="scan'208";a="80482027"
-Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by fmsmga001.fm.intel.com with ESMTP; 02 Nov 2011 08:48:14 -0700
-Received: from pgsmsx102.gar.corp.intel.com (10.221.44.80) by
-	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Wed, 2 Nov 2011 23:48:13 +0800
-Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
-	PGSMSX102.gar.corp.intel.com (10.221.44.80) with Microsoft SMTP Server
-	(TLS) id 14.1.323.3; Wed, 2 Nov 2011 23:48:13 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi; Wed, 2 Nov 2011
-	23:48:12 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Wed, 2 Nov 2011 23:48:11 +0800
-Thread-Topic: [OE-core] [PATCH 1/1] bash: make job control really work
-Thread-Index: AcyZSx36nks1X/lQROmzTcxOGkm6JAAKyizw
-Message-ID: <1865303E0DED764181A9D882DEF65FB6D836780FE8@shsmsx502.ccr.corp.intel.com>
-References: <cover.1320134607.git.dexuan.cui@intel.com>
-	<ac7b821f266e932e267a4d62af83586ba3261a98.1320134607.git.dexuan.cui@intel.com>
-	<1320142868.13918.0.camel@ted>
-	<1865303E0DED764181A9D882DEF65FB6D836780D9E@shsmsx502.ccr.corp.intel.com>
-	<1320230106.20107.23.camel@ted>
-In-Reply-To: <1320230106.20107.23.camel@ted>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
+	Wed, 02 Nov 2011 17:31:49 +0100
+Received: from mail116-am1-R.bigfish.com (10.3.201.248) by
+	AM1EHSOBE005.bigfish.com (10.3.204.25) with Microsoft SMTP Server id
+	14.1.225.22; Wed, 2 Nov 2011 16:25:23 +0000
+Received: from mail116-am1 (localhost.localdomain [127.0.0.1])	by
+	mail116-am1-R.bigfish.com (Postfix) with ESMTP id 57E311280346	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed,  2 Nov 2011 16:25:32 +0000 (UTC)
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839h62h)
+X-Spam-TCS-SCL: 1:0
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
+	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
+X-FB-SS: 0,
+Received: from mail116-am1 (localhost.localdomain [127.0.0.1]) by mail116-am1
+	(MessageSwitch) id 1320251122732109_4827;
+	Wed,  2 Nov 2011 16:25:22 +0000 (UTC)
+Received: from AM1EHSMHS019.bigfish.com (unknown [10.3.201.254])	by
+	mail116-am1.bigfish.com (Postfix) with ESMTP id A45BB1950052	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed,  2 Nov 2011 16:25:22 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS019.bigfish.com
+	(10.3.206.22) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Wed, 2 Nov 2011 16:25:09 +0000
+Received: from az33smr01.freescale.net (10.64.34.199) by
+	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
+	Server id 14.1.339.2; Wed, 2 Nov 2011 11:25:16 -0500
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
+	by az33smr01.freescale.net (8.13.1/8.13.0) with ESMTP id
+	pA2GPFJx007723	for <openembedded-core@lists.openembedded.org>;
+	Wed, 2 Nov 2011 11:25:15 -0500 (CDT)
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 2 Nov 2011 11:25:15 -0500
+Message-ID: <1320251115-29360-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.6.1
+In-Reply-To: <CAEsOVNeWr9A+8e62+A7YxSNwWzDJsyxqmOnKh=+EqG+4L04YjA@mail.gmail.com>
+References: <CAEsOVNeWr9A+8e62+A7YxSNwWzDJsyxqmOnKh=+EqG+4L04YjA@mail.gmail.com>
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] bash: make job control really work
+X-OriginatorOrg: freescale.com
+Subject: [PATCH v2] Add new IMAGE_CLASSES variable for classes for image generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,34 +58,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Nov 2011 15:54:31 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 02 Nov 2011 16:31:49 -0000
+Content-Type: text/plain
 
-UmljaGFyZCBQdXJkaWUgd3JvdGUgb24gMjAxMS0xMS0wMjoNCj4gT24gV2VkLCAyMDExLTExLTAy
-IGF0IDE1OjEwICswODAwLCBDdWksIERleHVhbiB3cm90ZToNCj4+IFJpY2hhcmQgUHVyZGllIHdy
-b3RlIG9uIDIwMTEtMTEtMDE6DQo+Pj4gT24gVHVlLCAyMDExLTExLTAxIGF0IDE2OjA1ICswODAw
-LCBEZXh1YW4gQ3VpIHdyb3RlOg0KPiBJIGhhZCBhIGdvIGF0IHRoaXMgcHJvYmxlbSBteXNlbGYg
-YW5kIGl0IHRvb2sgYSBiaXQgb2YgZmlndXJpbmcgb3V0Lg0KPiBUaGUgcHJvYmxlbSBpcyB0aGF0
-IGJhc2ggc2hpcHMgImNvbmZpZy5oLmluIiBidXQgYXV0b2hlYWRlciBvdmVyd3JpdGVzIGl0Lg0K
-PiBUaGlzIHJlbW92ZXMgdGhlIHN0YXJ0L2VuZCBpbmNsdWRlcyBmcm9tIGNvbmZpZy5oIG9yIGNv
-bmZpZy1ib3QuaCBhbmQNCj4gY29uZmlnLXRvcC5oLiBXZSBjYW4gZG8gc29tZXRoaW5nIGxpa2Ug
-dGhpczoNCj4gDQo+IGV4cG9ydCBBVVRPSEVBREVSID0gInRydWUiDQo+IA0KPiBkb19jb25maWd1
-cmVfcHJlcGVuZCAoKSB7DQo+ICAgICAgICBpZiBbICEgLWUgYWNpbmNsdWRlLm00IF07IHRoZW4N
-Cj4gICAgICAgICAgICAgICAgY2F0IGFjbG9jYWwubTQgPiBhY2luY2x1ZGUubTQNCj4gICAgICAg
-IGZpDQo+IH0NCj4gDQo+IGluc3RlYWQgb2YgdGhlIGN1cnJlbnQgZG9fY29uZmlndXJlIG92ZXJy
-aWRlLiBUaGUgX3ByZXBlbmQgZW5zdXJlcyB0aGUNCj4gYmFzaCBzcGVjaWZpYyBtYWNyb3MgYXJl
-IHByZXNlcnZlZCBhbmQgdGhlIGV4cG9ydCBBVVRPSEVBREVSIHN0b3BzDQo+IGF1dG9oZWFkZXIg
-ZnJvbSBydW5uaW5nIGF0IGFsbC4NCj4gDQo+IENvdWxkIHlvdSB0ZXN0IHRob3NlIGNoYW5nZXMg
-YWdhaW5zdCBiYXNoIDQueCBhbmQgYmFzaCAzLnggKHJlcGxhY2luZw0KPiB0aGUgY3VycmVudCBk
-b19jb25maWd1cmUgaW4gYmFzaC5pbmMpIGFuZCB0aGVuIGlmIHRoYXQgd29ya3Mgc2VuZCBhIHBh
-dGNoIHBsZWFzZT8NCkxvb2tzIGJ1ZyA0ODcgb25seSBoYXBwZW5zIHRvIGJhc2ggNC54IGFuZCBi
-YXNoIDMueCBkb2Vzbid0IGhhdmUgc3VjaCBhIGJ1ZyAodGhlDQpyZWNpcGUgb2YgYmFzaCAzLngg
-ZG9lc24ndCB1c2UgYmFzaC5pbmMsIGVpdGhlcikNCg0KUlAsIHRoYW5rcyBhIGxvdCBmb3IgdGhl
-IGhlbHAhIEhlcmUgaXMgdGhlIG5ldyBwYXRjaDoNCmh0dHA6Ly9naXQueW9jdG9wcm9qZWN0Lm9y
-Zy9jZ2l0L2NnaXQuY2dpL3Bva3ktY29udHJpYi9jb21taXQvP2g9ZGN1aS9idWc0ODcmaWQ9YjUy
-NDMzN2VkNTY3MGRlMmMwZDI5NGMzZjY5NzBlMjRmMjM4NDdlYg0KDQpUaGFua3MsDQotLSBEZXh1
-YW4NCg0K
+Allows us to import classes only for images and not to the global
+namespace
+
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+Change IMAGE_CLASSES definition to use ?= instead of =
+so it's clear we want to override this variable. This worked
+before because the value in my distro.conf file overwrote
+this value regardless of the fact it was set with =
+
+ meta-yocto/conf/local.conf.sample |    6 ++++++
+ meta/classes/image.bbclass        |    3 ++-
+ 2 files changed, 8 insertions(+), 1 deletions(-)
+
+diff --git a/meta-yocto/conf/local.conf.sample b/meta-yocto/conf/local.conf.sample
+index da3f8df..8177713 100644
+--- a/meta-yocto/conf/local.conf.sample
++++ b/meta-yocto/conf/local.conf.sample
+@@ -163,6 +163,12 @@ EXTRA_IMAGE_FEATURES = "debug-tweaks"
+ # NOTE: mklibs also needs to be explicitly enabled for a given image, see local.conf.extended
+ USER_CLASSES ?= "image-mklibs image-prelink"
+ 
++# Additional image generation features
++#
++# The following is a list of classes to import to use in the generation of images
++# currently an example class is image_types_uboot
++# IMAGE_CLASSES = " image_types_uboot"
++
+ #
+ # Runtime testing of images
+ #
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 05f4331..a2770a4 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -111,7 +111,8 @@ def get_devtable_list(d):
+         str += " %s" % bb.which(bb.data.getVar('BBPATH', d, 1), devtable)
+     return str
+ 
+-inherit image_types
++IMAGE_CLASSES ?= "image_types"
++inherit ${IMAGE_CLASSES}
+ 
+ IMAGE_POSTPROCESS_COMMAND ?= ""
+ MACHINE_POSTPROCESS_COMMAND ?= ""
+-- 
+1.7.6.1
+
+
 
 
