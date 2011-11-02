@@ -1,31 +1,33 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RLWke-0003j0-Eu
-	for openembedded-core@lists.openembedded.org;
-	Wed, 02 Nov 2011 10:04:52 +0100
-Received: by mail-fx0-f47.google.com with SMTP id s16so186973faa.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RLWug-00048X-6m for openembedded-core@lists.openembedded.org;
+	Wed, 02 Nov 2011 10:15:14 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA298v2v013143
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Nov 2011 01:58:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=Ta6ImTXPyEL0/5s9NY+Y030FI+1cbMbTx8Q5LpAayBA=;
-	b=ZPlcyMqm12SxgLzLaDYjz+A9DlNQGYTNkgRchUo8N+yVxYbJB4XGoCaV2lh0IztWtf
-	JP+mSDonhPwqJ8pzCtc1bY59F9msNwH9CSZ2BT4C4fFwgRyIRfdR/4YoZV2jt31c7OtY
-	aewQ0o2BH7n8u8YoLQ5uSeLUrDifLtAYYplao=
-Received: by 10.223.76.66 with SMTP id b2mr7321306fak.15.1320224327786;
-	Wed, 02 Nov 2011 01:58:47 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id w7sm4228324fab.6.2011.11.02.01.58.46
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 02 Nov 2011 01:58:47 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Nov 2011 09:58:25 +0100
-Message-Id: <1320224305-6747-3-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.7.1
-In-Reply-To: <1320224305-6747-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1320224305-6747-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCH 3/3] task-core-x11: use VIRTUAL-RUNTIME variables for xserver_common and graphical_init_manager
+	Wed, 2 Nov 2011 09:08:57 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 12973-02 for <openembedded-core@lists.openembedded.org>;
+	Wed,  2 Nov 2011 09:08:53 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA298mDN013137
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 2 Nov 2011 09:08:49 GMT
+Message-ID: <1320224928.20107.18.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 02 Nov 2011 09:08:48 +0000
+In-Reply-To: <1320185290-18117-1-git-send-email-morphis@gravedo.de>
+References: <1320185290-18117-1-git-send-email-morphis@gravedo.de>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] meta: glib-2.0: don't apply qsort_r test removable patch for native version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,43 +42,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Nov 2011 09:04:52 -0000
+X-List-Received-Date: Wed, 02 Nov 2011 09:15:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-sato/tasks/task-core-x11.bb |   10 ++++++++--
- 1 files changed, 8 insertions(+), 2 deletions(-)
+On Tue, 2011-11-01 at 23:08 +0100, Simon Busch wrote:
+> On some buildhosts with an older version of native glib-2.0 installed (in this case
+> 2.16.6) the qsort_r test removable patch leads to a compilation error:
+> 
+> | ./.libs/libglib-2.0.so: undefined reference to `qsort_r'
+> | collect2: ld returned 1 exit status
+> 
+> This patch fixes this so the patch gets only applied for the native version of this
+> recipe.
+> 
+> Signed-off-by: Simon Busch <morphis@gravedo.de>
+> ---
+>  meta/recipes-core/glib-2.0/glib-2.0_2.30.0.bb |    7 +++++--
+>  1 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-sato/tasks/task-core-x11.bb b/meta/recipes-sato/tasks/task-core-x11.bb
-index 26d550a..106bc0f 100644
---- a/meta/recipes-sato/tasks/task-core-x11.bb
-+++ b/meta/recipes-sato/tasks/task-core-x11.bb
-@@ -30,6 +30,12 @@ ALLOW_EMPTY = "1"
- FILEMANAGER ?= "pcmanfm"
- FILEMANAGER_mips ?= ""
- 
-+# xserver-common, x11-common
-+VIRTUAL-RUNTIME_xserver_common ?= "x11-common"
-+
-+# elsa, xserver-nodm-init
-+VIRTUAL-RUNTIME_graphical_init_manager ?= "xserver-nodm-init"
-+
- 
- RDEPENDS_task-core-x11-base = "\
-     dbus \
-@@ -42,8 +48,8 @@ RDEPENDS_task-core-x11-base = "\
-     matchbox-desktop \
-     matchbox-session \
-     ${XSERVER} \
--    x11-common \
--    xserver-nodm-init \
-+    ${VIRTUAL-RUNTIME_xserver_common} \
-+    ${VIRTUAL-RUNTIME_graphical_init_manager} \
-     liberation-fonts \
-     xauth \
-     xhost \
--- 
-1.7.7.1
+Merged to master, thanks.
+
+Richard
 
 
 
