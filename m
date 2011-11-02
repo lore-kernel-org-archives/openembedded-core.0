@@ -1,35 +1,34 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RLWCq-0002d4-Sp for openembedded-core@lists.openembedded.org;
-	Wed, 02 Nov 2011 09:29:57 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA28Nob9012638
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1RLWFK-0002hm-RG
+	for openembedded-core@lists.openembedded.org;
+	Wed, 02 Nov 2011 09:32:30 +0100
+Received: by faas16 with SMTP id s16so164700faa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 2 Nov 2011 08:23:50 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 11972-07 for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Nov 2011 08:23:46 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA28NfrF012632
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 2 Nov 2011 08:23:42 GMT
-Message-ID: <1320222221.20107.15.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Wed, 02 Nov 2011 01:26:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=Qafeu+kMUj/u5HKgPxALWPPYsW8HpW3mLfLShW2gdSU=;
+	b=YNGCsQSVJym9BBTQVC8tDkx16723mSA/PvEbFmQsSJUfmSLwC25sCQ0InVAfIzANtu
+	oFbdZkz5j7FDa4Ynpqu0vVmksqU72fqRR6BJxO8ONVPaVR8BEXjr2MViueaV78IYWCGw
+	WEgE9qLWQZSDf1SPwCY0+nnzsOTrWJTIKqMh0=
+Received: by 10.223.81.196 with SMTP id y4mr6971785fak.6.1320222380992;
+	Wed, 02 Nov 2011 01:26:20 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id k26sm4077327fab.8.2011.11.02.01.26.19
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 02 Nov 2011 01:26:20 -0700 (PDT)
+Date: Wed, 2 Nov 2011 09:26:13 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 02 Nov 2011 08:23:41 +0000
-In-Reply-To: <4EB0DF26.1000200@bluegiga.com>
-References: <cover.1320183757.git.sgw@linux.intel.com>
-	<453f61fd0043629181379d5d3766c118bdd46dd2.1320183757.git.sgw@linux.intel.com>
-	<4EB0DF26.1000200@bluegiga.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [Pull v2 2/4] xserver-nodm-init: Add xuser (hardcoded)
+Message-ID: <20111102082613.GC9949@jama.jama.net>
+References: <1320185290-18117-1-git-send-email-morphis@gravedo.de>
+MIME-Version: 1.0
+In-Reply-To: <1320185290-18117-1-git-send-email-morphis@gravedo.de>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH] meta: glib-2.0: don't apply qsort_r test removable patch for native version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,46 +43,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Nov 2011 08:29:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 02 Nov 2011 08:32:30 -0000
+X-Groupsio-MsgNum: 11807
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="Qbvjkv9qwOGw/5Fx"
+Content-Disposition: inline
 
-On Wed, 2011-11-02 at 08:11 +0200, Lauri Hintsala wrote:
-> Hi Saul,
-> 
-> On 11/01/2011 11:44 PM, Saul Wold wrote:
-> > Signed-off-by: Saul Wold<sgw@linux.intel.com>
-> > ---
-> >   .../x11-common/xserver-nodm-init.bb                |   30 +++++++------------
-> >   1 files changed, 11 insertions(+), 19 deletions(-)
-> >
-> > diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init.bb b/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
-> > index ea4222d..5b06bc6 100644
-> > --- a/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
-> > +++ b/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
-> > @@ -2,7 +2,7 @@ DESCRIPTION = "Simple Xserver Init Script (no dm)"
-> >   LICENSE = "GPLv2"
-> >   LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
-> >   SECTION = "x11"
-> > -PR = "r26"
-> > +PR = "r28"
-> >   RDEPENDS_${PN} = "sudo"
-> >
-> >   SRC_URI = "file://xserver-nodm \
-> > @@ -19,27 +19,19 @@ do_install() {
-> >       install xserver-nodm ${D}/etc/init.d
-> >       if [ "${ROOTLESS_X}" = "1" ] ; then
-> >           install -d ${D}/etc/X11
-> > -        install Xusername ${D}/etc/X11
-> > +	install Xusername ${D}/etc/X11
-> 
-> Is this indentation change a typo?
+--Qbvjkv9qwOGw/5Fx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Saul fixed this in the v3 which I've taken.
+On Tue, Nov 01, 2011 at 11:08:10PM +0100, Simon Busch wrote:
+> On some buildhosts with an older version of native glib-2.0 installed (in=
+ this case
+> 2.16.6) the qsort_r test removable patch leads to a compilation error:
+>=20
+> | ./.libs/libglib-2.0.so: undefined reference to `qsort_r'
+> | collect2: ld returned 1 exit status
+>=20
+> This patch fixes this so the patch gets only applied for the native versi=
+on of this
+> recipe.
+>=20
+> Signed-off-by: Simon Busch <morphis@gravedo.de>
 
-Cheers,
+Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
 
-Richard
+> ---
+>  meta/recipes-core/glib-2.0/glib-2.0_2.30.0.bb |    7 +++++--
+>  1 files changed, 5 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.30.0.bb b/meta/recipes=
+-core/glib-2.0/glib-2.0_2.30.0.bb
+> index 566355d..0efce40 100644
+> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.30.0.bb
+> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.30.0.bb
+> @@ -1,6 +1,6 @@
+>  require glib.inc
+> =20
+> -PR =3D "r2"
+> +PR =3D "r3"
+>  PE =3D "1"
+> =20
+>  DEPENDS +=3D "libffi python-argparse-native"
+> @@ -9,11 +9,14 @@ DEPENDS_virtclass-nativesdk +=3D "libffi-nativesdk pyth=
+on-argparse-native zlib-nat
+> =20
+>  SHRT_VER =3D "${@bb.data.getVar('PV',d,1).split('.')[0]}.${@bb.data.getV=
+ar('PV',d,1).split('.')[1]}"
+> =20
+> +QSORT_PATCH =3D "file://remove.test.for.qsort_r.patch"
+> +QSORT_PATCH_virtclass-native =3D ""
+> +
+>  SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.bz2 \
+>             file://configure-libtool.patch \
+>             file://60_wait-longer-for-threads-to-die.patch \
+>             file://g_once_init_enter.patch \
+> -           file://remove.test.for.qsort_r.patch \
+> +           ${QSORT_PATCH} \
+>            "
+>  SRC_URI[md5sum] =3D "fee101d9d7daa8ddfbae00325f307f3b"
+>  SRC_URI[sha256sum] =3D "ca9c731017ab370859e847f8b70079bc6dcf389dc0ccb0d0=
+419925aff81b9687"
+> --=20
+> 1.7.5.4
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--Qbvjkv9qwOGw/5Fx
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk6w/qUACgkQN1Ujt2V2gBx4LwCgghgvVMu1atWqj+tLzzf1r+nC
+MDwAmQGXZ+XXxfWQl8jIBgDMT3egAyqp
+=tbYA
+-----END PGP SIGNATURE-----
+
+--Qbvjkv9qwOGw/5Fx--
