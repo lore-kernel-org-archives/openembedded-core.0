@@ -1,32 +1,34 @@
-Received: from masterfoo.zenlinux.com ([207.192.74.254])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1RLeFc-0004Jj-1f
+	(envelope-from <andrea.adami@gmail.com>) id 1RLelU-0004xO-Ej
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 Nov 2011 18:05:20 +0100
-Received: from localhost (c-67-170-181-205.hsd1.or.comcast.net
-	[67.170.181.205])
-	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 57CA330466
+	Wed, 02 Nov 2011 18:38:17 +0100
+Received: by ywf9 with SMTP id 9so367738ywf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Nov 2011 12:58:56 -0400 (EDT)
-From: Scott Garman <scott.a.garman@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Nov 2011 09:58:42 -0700
-Message-Id: <c89ad3cee827cfa5de5c5cb37a3b947a401ff96d.1320252973.git.scott.a.garman@intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1320252973.git.scott.a.garman@intel.com>
-References: <cover.1320252973.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1320252973.git.scott.a.garman@intel.com>
-References: <cover.1320252973.git.scott.a.garman@intel.com>
-X-MasterFoo-MailScanner-Information: Please contact the ISP for more
-	information
-X-MailScanner-ID: 57CA330466.C2079
-X-MasterFoo-MailScanner: Found to be clean
-X-MasterFoo-MailScanner-SpamCheck: not spam
-X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
-X-Spam-Status: No
-Subject: [PATCH 1/1] distro_tracking_fields: updates for sudo, mtools, grep, and openssh
+	Wed, 02 Nov 2011 10:32:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=42s54TesBtWoa27UhWfQksVge+Ej62xTsvr8q+st+rY=;
+	b=SFUU8DGjF5Jr74SamOTjv+sM8cCr4zUvN0r+tvZCjpwrgRsJb2fvH16dZo25O4KLjt
+	2tXL0jhzkdgWxLdo+TIBYXTh/7eFtuE71HCEdeR/Mqad5hs16abxFmSA236a9ItCvicq
+	jwvLoeJOho0XcXPAq4kHt8KWVfvzTCAns4gRc=
+MIME-Version: 1.0
+Received: by 10.236.154.193 with SMTP id h41mr8686140yhk.15.1320255126493;
+	Wed, 02 Nov 2011 10:32:06 -0700 (PDT)
+Received: by 10.147.182.9 with HTTP; Wed, 2 Nov 2011 10:32:06 -0700 (PDT)
+In-Reply-To: <1320021891.10032.56.camel@localhost.localdomain>
+References: <1319780499.10032.46.camel@localhost.localdomain>
+	<CAGiJk9eo4FvhLZ6o9qdb75YyuZ5om19GYRLR6gDFEN_r0VWeuw@mail.gmail.com>
+	<1319785517.10032.48.camel@localhost.localdomain>
+	<CAAQYJAtJsSRSN5jLzK65iKUJPorc8h+RjqcnQBw2pyK34+ejjQ@mail.gmail.com>
+	<4EAABF76.7080703@windriver.com>
+	<1320021891.10032.56.camel@localhost.localdomain>
+Date: Wed, 2 Nov 2011 18:32:06 +0100
+Message-ID: <CAAQYJAt2ghQNxzw9EnpfChW0QrwepQLbSFcYD4AP+E32n4Wc5g@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: how to set time zone
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,84 +43,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Nov 2011 17:05:20 -0000
+X-List-Received-Date: Wed, 02 Nov 2011 17:38:17 -0000
+Content-Type: multipart/alternative; boundary=20cf303ea4a2d3d9bc04b0c3d929
 
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
----
- .../conf/distro/include/distro_tracking_fields.inc |   32 ++++++++++----------
- 1 files changed, 16 insertions(+), 16 deletions(-)
+--20cf303ea4a2d3d9bc04b0c3d929
+Content-Type: text/plain; charset=ISO-8859-1
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 998eabf..b2808a5 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -813,12 +813,12 @@ RECIPE_MAINTAINER_pn-pax-utils = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-sudo = "green"
- RECIPE_DEPENDENCY_CHECK_pn-sudo = "not done"
--RECIPE_LATEST_VERSION_pn-sudo = "1.8.1p2"
-+RECIPE_LATEST_VERSION_pn-sudo = "1.8.3"
- RECIPE_INTEL_SECTION_pn-sudo = "base utils"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-sudo = "1 month"
--RECIPE_LATEST_RELEASE_DATE_pn-sudo = "May 16, 2011"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-sudo = "2 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-sudo = "Oct 21, 2011"
- RECIPE_COMMENTS_pn-sudo = ""
--RECIPE_LAST_UPDATE_pn-sudo = "Jun 14, 2011"
-+RECIPE_LAST_UPDATE_pn-sudo = "Oct 25, 2011"
- RECIPE_MAINTAINER_pn-sudo = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-blktool = "green"
-@@ -1290,12 +1290,12 @@ DISTRO_PN_ALIAS_pn-msynctool = "OpenSuse=msynctool Mandriva=msynctool"
- 
- RECIPE_STATUS_pn-mtools = "green"
- RECIPE_DEPENDENCY_CHECK_pn-mtools = "not done"
--RECIPE_LATEST_VERSION_pn-mtools = "4.0.16"
-+RECIPE_LATEST_VERSION_pn-mtools = "4.0.17"
- RECIPE_INTEL_SECTION_pn-mtools = "optional"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-mtools = "6 months"
--RECIPE_LATEST_RELEASE_DATE_pn-mtools = "Apr 16, 2011"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-mtools = "2 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-mtools = "Jun 28, 2011"
- RECIPE_COMMENTS_pn-mtools = ""
--RECIPE_LAST_UPDATE_pn-mtools = "Jun 15, 2011"
-+RECIPE_LAST_UPDATE_pn-mtools = "Oct 25, 2011"
- RECIPE_MAINTAINER_pn-mtools = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-pm-utils = "green"
-@@ -2016,22 +2016,22 @@ RECIPE_MAINTAINER_pn-cronie = "Dexuan Cui <dexuan.cui@intel.com>"
- 
- RECIPE_STATUS_pn-grep = "green" 
- RECIPE_DEPENDENCY_CHECK_pn-grep = "not done"
--RECIPE_LATEST_VERSION_pn-grep = "2.8"
-+RECIPE_LATEST_VERSION_pn-grep = "2.9"
- RECIPE_INTEL_SECTION_pn-grep = "base"
- RECIPE_NO_OF_PATCHES_pn-grep = "0"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-grep = "8 months"
--RECIPE_LATEST_RELEASE_DATE_pn-grep = "May 01, 2011"
--RECIPE_LAST_UPDATE_pn-grep = "Jun 5, 2011"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-grep = "1 month"
-+RECIPE_LATEST_RELEASE_DATE_pn-grep = "Jun 01, 2011"
-+RECIPE_LAST_UPDATE_pn-grep = "Oct 25, 2011"
- RECIPE_MAINTAINER_pn-grep = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-openssh = "green" 
- RECIPE_DEPENDENCY_CHECK_pn-openssh = "not done"
--RECIPE_LATEST_VERSION_pn-openssh = "5.8p2"
-+RECIPE_LATEST_VERSION_pn-openssh = "5.9p1"
- RECIPE_INTEL_SECTION_pn-openssh = "base"
- RECIPE_NO_OF_PATCHES_pn-openssh = "1"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-openssh = "3 months"
--RECIPE_LATEST_RELEASE_DATE_pn-openssh = "May 01, 2011"
--RECIPE_LAST_UPDATE_pn-openssh = "Jun 5, 2011"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-openssh = "4 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-openssh = "Sep 01, 2011"
-+RECIPE_LAST_UPDATE_pn-openssh = "Oct 25, 2011"
- RECIPE_MAINTAINER_pn-openssh = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-tar = "green" 
--- 
-1.7.5.4
+On Mon, Oct 31, 2011 at 1:44 AM, Ni Qingliang <niqingliang@insigma.com.cn>wrote:
+
+> I'd like the 'system level configuration' solution.
+>
+> the /etc/localtime/ link can be done when packaging rootfs (using the
+> system level configuration).
+>
+> On Fri, 2011-10-28 at 22:43 +0800, Mark Hatle wrote:
+> > Setting the default TZ for the image is something that should be done in
+> a post
+> > install script for the tzdata package or something similar.
+> >
+> > Since the /etc/localtime is usually a copy/hardlink or symlink to the
+> timezone
+> > data we don't want to package it up.  Instead we want to perform the
+> actions
+> > that a program running on the target system itself would use to change
+> the timezone.
+> >
+> > So I think the easiest approach is to add a system level configuration
+> variable
+> > (set the default).
+> >
+> > Then use this variable to populate the configuration file that specifies
+> the
+> > system timezone... and then use the post install process to check the
+> contents
+> > of a text file.
+> >
+> > Alternatively do this via an initscript -- but for folks w/ read-only
+> > filesystems I'm not sure that will work.
+> >
+> > --Mark
+>
+<cut>
+
+Maybe I misunderstand "system level configuration" but in the meta-oe
+recipe we have
+
+DEFAULT_TIMEZONE ?= "Europe/London"
+
+Maybe UTC would be better?
+Note how the variable is weak thus can be overridden in local.conf.
+
+Secondly, why do it as post-install or at image do_rootfs stage when we
+have set the variable and are therefore able to provide sane defaults in
+do_install?
+
+Other points before starting to write a patch:
+-why is the recipe in oe-core doing   chown -R root:root ${D}   ?
+
+-the logic around   # libc is removing zoneinfo files from package
+  Is it only eglibc?
 
 
+Regards
 
+Andrea
+
+--20cf303ea4a2d3d9bc04b0c3d929
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div class=3D"gmail_quote">On Mon, Oct 31, 2011 at 1:44 AM, Ni Qingliang <s=
+pan dir=3D"ltr">&lt;<a href=3D"mailto:niqingliang@insigma.com.cn">niqinglia=
+ng@insigma.com.cn</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote=
+" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex;">
+I&#39;d like the &#39;system level configuration&#39; solution.<br>
+<br>
+the /etc/localtime/ link can be done when packaging rootfs (using the<br>
+system level configuration).<br>
+<div><div></div><div class=3D"h5"><br>
+On Fri, 2011-10-28 at 22:43 +0800, Mark Hatle wrote:<br>
+&gt; Setting the default TZ for the image is something that should be done =
+in a post<br>
+&gt; install script for the tzdata package or something similar.<br>
+&gt;<br>
+&gt; Since the /etc/localtime is usually a copy/hardlink or symlink to the =
+timezone<br>
+&gt; data we don&#39;t want to package it up. =A0Instead we want to perform=
+ the actions<br>
+&gt; that a program running on the target system itself would use to change=
+ the timezone.<br>
+&gt;<br>
+&gt; So I think the easiest approach is to add a system level configuration=
+ variable<br>
+&gt; (set the default).<br>
+&gt;<br>
+&gt; Then use this variable to populate the configuration file that specifi=
+es the<br>
+&gt; system timezone... and then use the post install process to check the =
+contents<br>
+&gt; of a text file.<br>
+&gt;<br>
+&gt; Alternatively do this via an initscript -- but for folks w/ read-only<=
+br>
+&gt; filesystems I&#39;m not sure that will work.<br>
+&gt;<br>
+&gt; --Mark<br></div></div></blockquote><div class=3D"h5">&lt;cut&gt;<br><b=
+r>Maybe I misunderstand &quot;system level configuration&quot; but in the m=
+eta-oe recipe we have<br><br>DEFAULT_TIMEZONE ?=3D &quot;Europe/London&quot=
+;<br>
+<br>Maybe UTC would be better?<br>Note how the variable is weak thus can be=
+ overridden in local.conf. =A0 <br>=A0<br>Secondly, why do it as post-insta=
+ll or at image do_rootfs stage when we have set the variable and are theref=
+ore able to provide sane defaults in do_install?<br>
+<br>Other points before starting to write a patch:<br>-why is the recipe in=
+ oe-core doing=A0=A0 chown -R root:root ${D}=A0=A0 ?<br><br>-the logic arou=
+nd=A0=A0 # libc is removing zoneinfo files from package<br>=A0 Is it only e=
+glibc?<br>
+<br><br>Regards<br><br>Andrea<br><br><code><br></code></div></div>
+
+--20cf303ea4a2d3d9bc04b0c3d929--
