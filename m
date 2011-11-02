@@ -1,32 +1,34 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RLYZj-0000ak-Ci
-	for openembedded-core@lists.openembedded.org;
-	Wed, 02 Nov 2011 12:01:45 +0100
-Received: by faas16 with SMTP id s16so281454faa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Nov 2011 03:55:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=vuPJzxmBmLtjXwfQy6atMrCiEhFQtUq27GsdVehxJJ0=;
-	b=CuI0cad/mY6WFRQ9U7QETWx4KppN2FW1bAMkYcVDfYujdjxiJ5DH9L09dpwvgQ+yu7
-	y3dUkMxzlXlW9RHfYFZt8RgbUUfdH4AFxLDGGa0g1A3KsZNVsBCNBc9jOlKfVwuQJ9zq
-	xqG4xSPYasjPDEBIOdEkB17gAUdcOHQsLFQg4=
-Received: by 10.223.76.197 with SMTP id d5mr7776639fak.13.1320231335577;
-	Wed, 02 Nov 2011 03:55:35 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id i3sm4780880faf.0.2011.11.02.03.55.34
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 02 Nov 2011 03:55:34 -0700 (PDT)
-Date: Wed, 2 Nov 2011 11:55:28 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RLZHx-0002rb-16 for openembedded-core@lists.openembedded.org;
+	Wed, 02 Nov 2011 12:47:26 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA2BfE6J014490;
+	Wed, 2 Nov 2011 11:41:14 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 12716-10; Wed,  2 Nov 2011 11:41:10 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA2Bf6FY014484
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 2 Nov 2011 11:41:07 GMT
+Message-ID: <1320234065.20107.30.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111102105528.GE9949@jama.jama.net>
-MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: dbus broken again
+Date: Wed, 02 Nov 2011 11:41:05 +0000
+In-Reply-To: <1320230106.20107.23.camel@ted>
+References: <cover.1320134607.git.dexuan.cui@intel.com>
+	<ac7b821f266e932e267a4d62af83586ba3261a98.1320134607.git.dexuan.cui@intel.com>
+	<1320142868.13918.0.camel@ted>
+	<1865303E0DED764181A9D882DEF65FB6D836780D9E@shsmsx502.ccr.corp.intel.com>
+	<1320230106.20107.23.camel@ted>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] bash: Ensure we fully reautoconf the recipes so site data is used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,89 +43,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Nov 2011 11:01:46 -0000
-X-Groupsio-MsgNum: 11815
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ep0oHQY+/Gbo/zt0"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 02 Nov 2011 11:47:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---ep0oHQY+/Gbo/zt0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This ensures bug 487 (missing job control functionality) really gets fixed.
 
-After last attempt to fix dbus there is new issue
+[YOCTO #487]
 
-I have talked with Richard on IRC already, but will repeat it here just
-to warn other dbus users.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
+index d55e517..876be1e 100644
+--- a/meta/recipes-extended/bash/bash.inc
++++ b/meta/recipes-extended/bash/bash.inc
+@@ -22,9 +22,12 @@ ALTERNATIVE_PATH = "${base_bindir}/bash"
+ ALTERNATIVE_LINK = "${base_bindir}/sh"
+ ALTERNATIVE_PRIORITY = "100"
+ 
+-do_configure () {
+-	gnu-configize
+-	oe_runconf
++export AUTOHEADER = "true"
++
++do_configure_prepend () {
++	if [ ! -e acinclude.m4 ]; then
++		cat aclocal.m4 > acinclude.m4
++	fi
+ }
+ 
+ pkg_postinst_${PN} () {
+diff --git a/meta/recipes-extended/bash/bash_3.2.48.bb b/meta/recipes-extended/bash/bash_3.2.48.bb
+index 1520c4e..f2ba572 100644
+--- a/meta/recipes-extended/bash/bash_3.2.48.bb
++++ b/meta/recipes-extended/bash/bash_3.2.48.bb
+@@ -6,7 +6,7 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=fd5d9bcabd8ed5a54a01ce8d183d592a"
+ DEPENDS = "ncurses"
+ 
+-PR = "r7"
++PR = "r8"
+ 
+ SRC_URI = "${GNU_MIRROR}/bash/bash-${PV}.tar.gz \
+            ${GNU_MIRROR}/bash/bash-3.2-patches/bash32-049;apply=yes;striplevel=0 \
+@@ -23,9 +23,12 @@ sbindir = "/sbin"
+ EXTRA_OECONF = "--with-ncurses"
+ export CC_FOR_BUILD = "${BUILD_CC}"
+ 
+-do_configure () {
+-	gnu-configize
+-	oe_runconf
++export AUTOHEADER = "true"
++
++do_configure_prepend () {
++	if [ ! -e acinclude.m4 ]; then
++		cat aclocal.m4 > acinclude.m4
++	fi
+ }
+ 
+ pkg_postinst_${PN} () {
+diff --git a/meta/recipes-extended/bash/bash_4.2.bb b/meta/recipes-extended/bash/bash_4.2.bb
+index a0f5e4e..8070918 100644
+--- a/meta/recipes-extended/bash/bash_4.2.bb
++++ b/meta/recipes-extended/bash/bash_4.2.bb
+@@ -1,6 +1,6 @@
+ require bash.inc
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI = "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=tarball \
+            ${GNU_MIRROR}/bash/bash-4.2-patches/bash42-001;apply=yes;striplevel=0;name=patch001 \
 
-Updated list of available packages in /var/lib/opkg/lists/jama-om_gta02.
-Upgrading dbus-1 on root from 1.4.12-r2 to 1.4.12-r7...
-Downloading
-http://jama.dyndns-home.com/org.openembedded.shr-core//armv4t/dbus-1_1.4.12=
--r7_armv4t.ipk.
-Running groupadd commands...
-Note: group netdev already exists, not re-creating it
-Running useradd commands...
-Note: username messagebus already exists, not re-creating it
-Upgrading libdbus-1-3 on root from 1.4.12-r2 to 1.4.12-r7...
-Downloading
-http://jama.dyndns-home.com/org.openembedded.shr-core//armv4t/libdbus-1-3_1=
-=2E4.12-r7_armv4t.ipk.
-Upgrading libglib-2.0-0 on root from 1:2.30.0-r2 to 1:2.30.0-r3...
-Downloading
-http://jama.dyndns-home.com/org.openembedded.shr-core//armv4t/libglib-2.0-0=
-_2.30.0-r3_armv4t.ipk.
-Configuring dbus-1.
- System startup links for /etc/init.d/dbus-1 already exist.
-Configuring libdbus-1-3.
-Configuring libglib-2.0-0.
-
-SHR root@gjama / $ ll /usr/libexec/dbus-daemon-launch-helper
--rwsr-xr-- 1 root 998 142748 Nov  2 10:12
-/usr/libexec/dbus-daemon-launch-helper
-
-SHR root@gjama / $ ll -d /var/lib/dbus
-drwxr-xr-x 2 999 998 4096 Nov  2 10:12 /var/lib/dbus
-
-SHR root@gjama / $ grep message /etc/group
-messagebus:x:101:
-SHR root@gjama / $ grep message /etc/passwd
-messagebus:x:42:101:Linux User,,,:/var/run/dbus:/bin/sh
 
 
-and that's because useradd.bbclass is using UID/GID from sysroots
-OE om-gta02@shr ~/shr-core $ grep message tmp/sysroots/om-gta02/etc/group
-messagebus:x:998:
-OE om-gta02@shr ~/shr-core $ grep message tmp/sysroots/om-gta02/etc/passwd
-messagebus:!:999:998::/var/lib/dbus:
 
-and nothing is updating /etc/passwd /etc/group IDs on target.
-
-The possible solution would be to force specified UID/GID in
-useradd.bbclass to make it consistent during rebuild from scratch or
-teach useradd postinst to update UID/GIDs and chown all runtime created
-files to new values instead of skiping useradd/groupadd commnads when
-user already exists, like it did now:
-Note: username messagebus already exists, not re-creating it
-Note: group netdev already exists, not re-creating it
-
-Also reported here:
-http://bugzilla.pokylinux.org/show_bug.cgi?id=3D1711
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---ep0oHQY+/Gbo/zt0
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk6xIaAACgkQN1Ujt2V2gBxHEQCcDhKTiikfWn9MCGdibGjNfSPg
-u3QAoIgyA5njLHLh/PA3UjQ5B/LPcLDd
-=q8FI
------END PGP SIGNATURE-----
-
---ep0oHQY+/Gbo/zt0--
