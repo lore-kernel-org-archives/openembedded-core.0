@@ -1,29 +1,24 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RLZzz-0004YH-HR
+	(envelope-from <koen@dominion.thruhere.net>) id 1RLbiR-0007bW-8d
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 Nov 2011 13:32:55 +0100
-Received: by faas16 with SMTP id s16so364946faa.6
+	Wed, 02 Nov 2011 15:22:55 +0100
+Received: by wyh5 with SMTP id 5so201724wyh.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Nov 2011 05:26:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=fUiE2dnFXb21AMgMoIQUV4s9vt7oXPtHPD4GX0DQnuw=;
-	b=PGLo+stP9KfF4bp5hgeaypkG9jl1T24ZLNSUJY4ZMUsYFlXm0rzOSQ0y7Is/86ShuB
-	bJqxcbQNduamIJ4NcoqoNuQJnXEhOhdwbv3gtwWS9r0Cr+FYcu4/itiarUzbEwMaI0MZ
-	ChdbON9nlbr6MsjeuLuf2QLEiMxdv3O4B/dQI=
-Received: by 10.223.91.68 with SMTP id l4mr8184746fam.16.1320236807774;
-	Wed, 02 Nov 2011 05:26:47 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id g25sm5135262fae.16.2011.11.02.05.26.46
+	Wed, 02 Nov 2011 07:16:48 -0700 (PDT)
+Received: by 10.227.202.70 with SMTP id fd6mr5797947wbb.27.1320243407896;
+	Wed, 02 Nov 2011 07:16:47 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id gg13sm4433719wbb.8.2011.11.02.07.16.46
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 02 Nov 2011 05:26:47 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Wed, 02 Nov 2011 07:16:46 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Nov 2011 13:26:40 +0100
-Message-Id: <1320236800-6978-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.7.1
-Subject: [PATCH] libcense.bbclass: fix OpenSSL mapping [BUGID# 1712]
+Date: Wed,  2 Nov 2011 15:16:42 +0100
+Message-Id: <1320243402-2116-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.2.5
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] image_types bbclass: use 4k bytes per inode so we don't run out of space immediately
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,41 +33,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Nov 2011 12:32:55 -0000
+X-List-Received-Date: Wed, 02 Nov 2011 14:22:55 -0000
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+genext2fs only creates the minimum number of inodes, after this patch it will scale with the rootfs size
+
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- meta/classes/license.bbclass                       |    2 +-
- .../recipes-connectivity/openssl/openssl_0.9.8r.bb |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/image_types.bbclass |   14 +++++++-------
+ 1 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 3f93bf5..baf35f0 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -44,7 +44,7 @@ SPDXLICENSEMAP[MPLv1.1] = "MPL-1"
- SPDXLICENSEMAP[MIT-X] = "MIT"
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 0d64705..9549a9e 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -38,36 +38,36 @@ IMAGE_CMD_jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime --output=${DEPLO
  
- #Openssl variations
--SPDXLICENSEMAP[openssl] = "Openssl"
-+SPDXLICENSEMAP[openssl] = "OpenSSL"
+ IMAGE_CMD_cramfs = "mkcramfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cramfs ${EXTRA_IMAGECMD}"
  
- #Other variations
- SPDXLICENSEMAP[AFL2.1] = "AFL-2"
-diff --git a/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb b/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb
-index 5add70e..555bacf 100644
---- a/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb
-@@ -1,6 +1,6 @@
- require openssl.inc
+-IMAGE_CMD_ext2 = "genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2"
++IMAGE_CMD_ext2 = "genext2fs -b $ROOTFS_SIZE -i 4096 -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2"
+ IMAGE_CMD_ext2.gz () {
+ 	rm -rf ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN} && mkdir ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}
+-	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext2
++	genext2fs -b $ROOTFS_SIZE -i 4096 -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext2
+ 	gzip -f -9 ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext2
+ 	mv ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext2.gz ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2.gz
+ 	rmdir ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}
+ }
+ IMAGE_CMD_ext2.bz2 () {
+ 	rm -rf ${DEPLOY_DIR_IMAGE}/tmp.gz && mkdir ${DEPLOY_DIR_IMAGE}/tmp.gz
+-	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2
++	genext2fs -b $ROOTFS_SIZE -i 4096 -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2
+ 	bzip2 -f -9 ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2
+ 	mv ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2.bz2 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2.bz2
+ 	rmdir ${DEPLOY_DIR_IMAGE}/tmp.gz
+ }
+ IMAGE_CMD_ext2.lzma () {
+ 	rm -rf ${DEPLOY_DIR_IMAGE}/tmp.gz && mkdir ${DEPLOY_DIR_IMAGE}/tmp.gz
+-	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2
++	genext2fs -b $ROOTFS_SIZE -i 4096 -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2
+ 	lzma -f -7 ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2
+ 	mv ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2.lzma ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2.lzma
+ 	rmdir ${DEPLOY_DIR_IMAGE}/tmp.gz
+ }
  
--PR = "r6"
-+PR = "r7"
- SRC_URI += "file://debian/ca.patch \
-             file://debian/config-hurd.patch;apply=no \
-             file://debian/debian-targets.patch \
+ IMAGE_CMD_ext3 () {
+-	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3
++	genext2fs -b $ROOTFS_SIZE -i 4096 -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3
+ 	tune2fs -j ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3
+ }
+ IMAGE_CMD_ext3.gz () {
+ 	rm -rf ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN} && mkdir ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}
+-	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext3
++	genext2fs -b $ROOTFS_SIZE -i 4096 -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext3
+ 	tune2fs -j ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext3
+ 	gzip -f -9 ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext3
+ 	mv ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext3.gz ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3.gz
+@@ -75,7 +75,7 @@ IMAGE_CMD_ext3.gz () {
+ }
+ 
+ oe_mkext4fs () {
+-	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} $1
++	genext2fs -b $ROOTFS_SIZE -i 4096 -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} $1
+ 	tune2fs -O extents,uninit_bg,dir_index,has_journal $1
+ 	e2fsck -yfDC0 $1 || chk=$?
+ 	case $chk in
 -- 
-1.7.7.1
+1.7.2.5
 
 
 
