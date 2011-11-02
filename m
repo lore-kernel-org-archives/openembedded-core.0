@@ -1,40 +1,31 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1RLV4W-0000it-10
+	(envelope-from <martin.jansa@gmail.com>) id 1RLVYg-0001Rk-Mc
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 Nov 2011 08:17:18 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 02 Nov 2011 00:11:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,442,1315206000"; d="scan'208";a="80334699"
-Received: from pgsmsx603.gar.corp.intel.com ([10.221.43.87])
-	by fmsmga001.fm.intel.com with ESMTP; 02 Nov 2011 00:11:06 -0700
-Received: from pgsmsx151.gar.corp.intel.com (172.30.236.41) by
-	pgsmsx603.gar.corp.intel.com (10.221.43.87) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Wed, 2 Nov 2011 15:10:58 +0800
-Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
-	PGSMSX151.gar.corp.intel.com (172.30.236.41) with Microsoft SMTP Server
-	(TLS) id 14.1.323.3; Wed, 2 Nov 2011 15:10:57 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi; Wed, 2 Nov 2011
-	15:10:56 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 2 Nov 2011 15:10:55 +0800
-Thread-Topic: [OE-core] [PATCH 1/1] bash: make job control really work
-Thread-Index: AcyYgAoaAlOnzbvDTdid8KG/MzZGlQArC18Q
-Message-ID: <1865303E0DED764181A9D882DEF65FB6D836780D9E@shsmsx502.ccr.corp.intel.com>
-References: <cover.1320134607.git.dexuan.cui@intel.com>
-	<ac7b821f266e932e267a4d62af83586ba3261a98.1320134607.git.dexuan.cui@intel.com>
-	<1320142868.13918.0.camel@ted>
-In-Reply-To: <1320142868.13918.0.camel@ted>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
-MIME-Version: 1.0
-Subject: Re: [PATCH 1/1] bash: make job control really work
+	Wed, 02 Nov 2011 08:48:26 +0100
+Received: by faas16 with SMTP id s16so136780faa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 02 Nov 2011 00:42:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=fR/ah2pF/WH28C7tN3C6H8hjevh/HcT7jwtT2rQJjAQ=;
+	b=NToJUDhEk82j7zghCxq7ExZgsDtC/4kGqwGjzbkjIuqHwu2lWxz7J4ciZeXpGU66ss
+	L3wuvF2oLKs+4PTLRCnhQNStIVULy6duYzLX94Ndx/Atc4e56w/6czflZNpfbg12RoM0
+	uNe5md5YvTmw/iUwG7rMP8BtfjdkPAiB6FwH8=
+Received: by 10.223.16.82 with SMTP id n18mr6737442faa.2.1320219736063;
+	Wed, 02 Nov 2011 00:42:16 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id o16sm3824190fag.21.2011.11.02.00.42.14
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 02 Nov 2011 00:42:15 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  2 Nov 2011 08:42:07 +0100
+Message-Id: <1320219727-9233-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.7.1
+In-Reply-To: <4EB08D70.4050602@intel.com>
+References: <4EB08D70.4050602@intel.com>
+Subject: [PATCH] libxslt: use Copyright in LIC_FILES_CHKSUM instead of COPYING
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,73 +40,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Nov 2011 07:17:18 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 02 Nov 2011 07:48:26 -0000
 
-Richard Purdie wrote on 2011-11-01:
-> On Tue, 2011-11-01 at 16:05 +0800, Dexuan Cui wrote:
->> It turns out 9393ff833f44570fd5f500bc9de6c72db94b0296 didn't really
->> fix the bug.
->>=20
->> This patch is made and tested after I read the link below
->> http://www.mail-archive.com/bug-bash@gnu.org/msg03107.html
->>=20
->> [YOCTO #487]
->>=20
->> Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
->> ---
->>  meta/recipes-extended/bash/bash.inc    |    1 +
->>  meta/recipes-extended/bash/bash_4.2.bb |    2 +-
->>  2 files changed, 2 insertions(+), 1 deletions(-)
->> diff --git a/meta/recipes-extended/bash/bash.inc
->> b/meta/recipes-extended/bash/bash.inc
->> index d55e517..d495538 100644
->> --- a/meta/recipes-extended/bash/bash.inc
->> +++ b/meta/recipes-extended/bash/bash.inc
->> @@ -23,6 +23,7 @@ ALTERNATIVE_LINK =3D "${base_bindir}/sh"
->>  ALTERNATIVE_PRIORITY =3D "100"
->> =20
->>  do_configure () { +	export bash_cv_job_control_missing=3Dpresent
->>  	gnu-configize 	oe_runconf }
->=20
-> This really should go into the common site files...
-Hi Richard,
-I found we do define the variable:
-meta/site/common-linux:33:bash_cv_job_control_missing=3D${bash_cv_job_contr=
-ol_missing=3Dpresent}
-but looks autoconf doesn't realize the variable has been assigned the value=
- 'present'?
-I think this is because of the below do_configure in bash.inc -- looks auto=
-reconf is skipped?
-do_configure () {
-    gnu-configize
-    oe_runconf
-}
-Why do we need a customized do_configure to replace autotools_do_configure?
+* COPYING is replaced by symlink to Copyright during do_configure
+  (see configure.in), then we end with link to nonexistent file like this:
 
-Later, after I added
-do_configure_prepend () {
-    autoreconf -f -i -s
-}
-The generated config.log does show bash_cv_job_control_missing is assigned =
-with 'present'.
-(BTW, common-linux also introduces many other variables -- would this be sa=
-fe? Actually here I only need to introduce bash_cv_job_control_missing.)
+OE om-gta02@shr ~/shr-core $ ll tmp/deploy/licenses/libxslt/
+total 40
+drwxr-xr-x   2 bitbake bitbake  4096 Nov  2 00:27 ./
+drwxr-xr-x 818 bitbake bitbake 32768 Nov  2 00:27 ../
+lrwxrwxrwx   1 bitbake bitbake     9 Nov  2 00:27 COPYING ->  Copyright
+lrwxrwxrwx   1 bitbake bitbake    52 Nov  2 00:27 generic_MIT ->  /OE/shr-core/tmp/deploy/licenses/common-licenses/MIT
 
-However, finally, do_compile got a strange failure:
-| shell.c: In function 'shell_reinitialize':
-| shell.c:1742:20: error: 'PPROMPT' undeclared (first use in this function)
-| shell.c:1742:20: note: each undeclared identifier is reported only once f=
-or each function it appears in
-| shell.c:1743:22: error: 'SPROMPT' undeclared (first use in this function)
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-support/libxslt/libxslt_1.1.26.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-Could you please give some suggestions?
-
-Thanks,
--- Dexuan
-
+diff --git a/meta/recipes-support/libxslt/libxslt_1.1.26.bb b/meta/recipes-support/libxslt/libxslt_1.1.26.bb
+index 96bffc6..addc863 100644
+--- a/meta/recipes-support/libxslt/libxslt_1.1.26.bb
++++ b/meta/recipes-support/libxslt/libxslt_1.1.26.bb
+@@ -3,11 +3,11 @@ HOMEPAGE = "http://xmlsoft.org/XSLT/"
+ BUGTRACKER = "https://bugzilla.gnome.org/"
+ 
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=0cd9a07afbeb24026c9b03aecfeba458"
++LIC_FILES_CHKSUM = "file://Copyright;md5=0cd9a07afbeb24026c9b03aecfeba458"
+ 
+ SECTION = "libs"
+ DEPENDS = "libxml2"
+-PR = "r3"
++PR = "r4"
+ 
+ SRC_URI = "ftp://xmlsoft.org/libxslt//libxslt-${PV}.tar.gz \
+            file://pkgconfig_fix.patch"
+-- 
+1.7.7.1
 
 
 
