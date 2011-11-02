@@ -1,31 +1,19 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from gate.crashing.org ([63.228.1.57]
+	ident=[U2FsdGVkX19uQi35hmEvxwGUC0QbZ+wVcrjEPqB8pZI=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RLVYg-0001Rk-Mc
+	(envelope-from <galak@kernel.crashing.org>) id 1RLVpj-00028b-Re
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 Nov 2011 08:48:26 +0100
-Received: by faas16 with SMTP id s16so136780faa.6
+	Wed, 02 Nov 2011 09:06:04 +0100
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id pA27NEL9020817
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Nov 2011 00:42:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=fR/ah2pF/WH28C7tN3C6H8hjevh/HcT7jwtT2rQJjAQ=;
-	b=NToJUDhEk82j7zghCxq7ExZgsDtC/4kGqwGjzbkjIuqHwu2lWxz7J4ciZeXpGU66ss
-	L3wuvF2oLKs+4PTLRCnhQNStIVULy6duYzLX94Ndx/Atc4e56w/6czflZNpfbg12RoM0
-	uNe5md5YvTmw/iUwG7rMP8BtfjdkPAiB6FwH8=
-Received: by 10.223.16.82 with SMTP id n18mr6737442faa.2.1320219736063;
-	Wed, 02 Nov 2011 00:42:16 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id o16sm3824190fag.21.2011.11.02.00.42.14
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 02 Nov 2011 00:42:15 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Wed, 2 Nov 2011 02:23:15 -0500
+From: Kumar Gala <galak@kernel.crashing.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Nov 2011 08:42:07 +0100
-Message-Id: <1320219727-9233-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.7.1
-In-Reply-To: <4EB08D70.4050602@intel.com>
-References: <4EB08D70.4050602@intel.com>
-Subject: [PATCH] libxslt: use Copyright in LIC_FILES_CHKSUM instead of COPYING
+Date: Wed,  2 Nov 2011 02:23:14 -0500
+Message-Id: <1320218594-13009-1-git-send-email-galak@kernel.crashing.org>
+X-Mailer: git-send-email 1.5.6.5
+Subject: [PATCH] udev-164: Update init script to do an explicit add action
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,43 +28,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Nov 2011 07:48:26 -0000
+X-List-Received-Date: Wed, 02 Nov 2011 08:06:04 -0000
 
-* COPYING is replaced by symlink to Copyright during do_configure
-  (see configure.in), then we end with link to nonexistent file like this:
+With udev 152 or greater the default action for 'udevadm trigger' was
+modified to be 'change' instead of 'add.
 
-OE om-gta02@shr ~/shr-core $ ll tmp/deploy/licenses/libxslt/
-total 40
-drwxr-xr-x   2 bitbake bitbake  4096 Nov  2 00:27 ./
-drwxr-xr-x 818 bitbake bitbake 32768 Nov  2 00:27 ../
-lrwxrwxrwx   1 bitbake bitbake     9 Nov  2 00:27 COPYING ->  Copyright
-lrwxrwxrwx   1 bitbake bitbake    52 Nov  2 00:27 generic_MIT ->  /OE/shr-core/tmp/deploy/licenses/common-licenses/MIT
+To ensure initial coldplug events at boot are seen be scripts the are
+expecting them as 'add' events we invoke udevadm with an explicit
+'--action=add'.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
 ---
- meta/recipes-support/libxslt/libxslt_1.1.26.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/udev/udev-164/init |    4 ++--
+ meta/recipes-core/udev/udev_164.bb   |    2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-support/libxslt/libxslt_1.1.26.bb b/meta/recipes-support/libxslt/libxslt_1.1.26.bb
-index 96bffc6..addc863 100644
---- a/meta/recipes-support/libxslt/libxslt_1.1.26.bb
-+++ b/meta/recipes-support/libxslt/libxslt_1.1.26.bb
-@@ -3,11 +3,11 @@ HOMEPAGE = "http://xmlsoft.org/XSLT/"
- BUGTRACKER = "https://bugzilla.gnome.org/"
+diff --git a/meta/recipes-core/udev/udev-164/init b/meta/recipes-core/udev/udev-164/init
+index 9ce95ee..073942f 100644
+--- a/meta/recipes-core/udev/udev-164/init
++++ b/meta/recipes-core/udev/udev-164/init
+@@ -48,10 +48,10 @@ kill_udevd > "/dev/null" 2>&1
  
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://COPYING;md5=0cd9a07afbeb24026c9b03aecfeba458"
-+LIC_FILES_CHKSUM = "file://Copyright;md5=0cd9a07afbeb24026c9b03aecfeba458"
+         /sbin/udevadm control --env=STARTUP=1
+ 		if [ "$not_first_boot" != "" ];then
+-			/sbin/udevadm trigger --subsystem-nomatch=tty --subsystem-nomatch=mem --subsystem-nomatch=vc --subsystem-nomatch=vtconsole --subsystem-nomatch=misc --subsystem-nomatch=dcon --subsystem-nomatch=pci_bus  --subsystem-nomatch=graphics  --subsystem-nomatch=backlight --subsystem-nomatch=video4linux  --subsystem-nomatch=platform
++			/sbin/udevadm trigger --action=add --subsystem-nomatch=tty --subsystem-nomatch=mem --subsystem-nomatch=vc --subsystem-nomatch=vtconsole --subsystem-nomatch=misc --subsystem-nomatch=dcon --subsystem-nomatch=pci_bus  --subsystem-nomatch=graphics  --subsystem-nomatch=backlight --subsystem-nomatch=video4linux  --subsystem-nomatch=platform
+ 			(/sbin/udevadm settle --timeout=3; /sbin/udevadm control --env=STARTUP=)&
+ 		else
+-			/sbin/udevadm trigger
++			/sbin/udevadm trigger --action=add
+ 			/sbin/udevadm settle
+ 		fi
  
- SECTION = "libs"
- DEPENDS = "libxml2"
--PR = "r3"
-+PR = "r4"
+diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
+index 7cbe4d8..d487add 100644
+--- a/meta/recipes-core/udev/udev_164.bb
++++ b/meta/recipes-core/udev/udev_164.bb
+@@ -1,6 +1,6 @@
+ include udev-new.inc
  
- SRC_URI = "ftp://xmlsoft.org/libxslt//libxslt-${PV}.tar.gz \
-            file://pkgconfig_fix.patch"
+-PR = "r6"
++PR = "r7"
+ 
+ SRC_URI += "file://udev-166-v4l1-1.patch"
+ 
 -- 
-1.7.7.1
+1.7.3.4
 
 
 
