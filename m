@@ -1,24 +1,27 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RLbiR-0007bW-8d
+	(envelope-from <koen@dominion.thruhere.net>) id 1RLbnX-0007ht-UW
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 Nov 2011 15:22:55 +0100
-Received: by wyh5 with SMTP id 5so201724wyh.6
+	Wed, 02 Nov 2011 15:28:12 +0100
+Received: by wwf4 with SMTP id 4so289930wwf.24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Nov 2011 07:16:48 -0700 (PDT)
-Received: by 10.227.202.70 with SMTP id fd6mr5797947wbb.27.1320243407896;
-	Wed, 02 Nov 2011 07:16:47 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
-	by mx.google.com with ESMTPS id gg13sm4433719wbb.8.2011.11.02.07.16.46
+	Wed, 02 Nov 2011 07:22:04 -0700 (PDT)
+Received: by 10.227.199.5 with SMTP id eq5mr6128445wbb.2.1320243724167;
+	Wed, 02 Nov 2011 07:22:04 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id fw16sm4442963wbb.13.2011.11.02.07.22.02
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 02 Nov 2011 07:16:46 -0700 (PDT)
+	Wed, 02 Nov 2011 07:22:03 -0700 (PDT)
 From: Koen Kooi <koen@dominion.thruhere.net>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Wed, 2 Nov 2011 15:22:01 +0100
+In-Reply-To: <1320243402-2116-1-git-send-email-koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Nov 2011 15:16:42 +0100
-Message-Id: <1320243402-2116-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.7.2.5
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] image_types bbclass: use 4k bytes per inode so we don't run out of space immediately
+References: <1320243402-2116-1-git-send-email-koen@dominion.thruhere.net>
+Message-Id: <A9A8E4DF-B854-41A4-BA2F-962A49B00035@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH] image_types bbclass: use 4k bytes per inode so we don't run out of space immediately
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,73 +36,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Nov 2011 14:22:55 -0000
+X-List-Received-Date: Wed, 02 Nov 2011 14:28:13 -0000
+X-Groupsio-MsgNum: 11820
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_D471D02F-8F14-4106-8FA3-EF3A57D36097";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-genext2fs only creates the minimum number of inodes, after this patch it will scale with the rootfs size
+--Apple-Mail=_D471D02F-8F14-4106-8FA3-EF3A57D36097
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/classes/image_types.bbclass |   14 +++++++-------
- 1 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 0d64705..9549a9e 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -38,36 +38,36 @@ IMAGE_CMD_jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime --output=${DEPLO
- 
- IMAGE_CMD_cramfs = "mkcramfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cramfs ${EXTRA_IMAGECMD}"
- 
--IMAGE_CMD_ext2 = "genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2"
-+IMAGE_CMD_ext2 = "genext2fs -b $ROOTFS_SIZE -i 4096 -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2"
- IMAGE_CMD_ext2.gz () {
- 	rm -rf ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN} && mkdir ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}
--	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext2
-+	genext2fs -b $ROOTFS_SIZE -i 4096 -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext2
- 	gzip -f -9 ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext2
- 	mv ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext2.gz ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2.gz
- 	rmdir ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}
- }
- IMAGE_CMD_ext2.bz2 () {
- 	rm -rf ${DEPLOY_DIR_IMAGE}/tmp.gz && mkdir ${DEPLOY_DIR_IMAGE}/tmp.gz
--	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2
-+	genext2fs -b $ROOTFS_SIZE -i 4096 -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2
- 	bzip2 -f -9 ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2
- 	mv ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2.bz2 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2.bz2
- 	rmdir ${DEPLOY_DIR_IMAGE}/tmp.gz
- }
- IMAGE_CMD_ext2.lzma () {
- 	rm -rf ${DEPLOY_DIR_IMAGE}/tmp.gz && mkdir ${DEPLOY_DIR_IMAGE}/tmp.gz
--	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2
-+	genext2fs -b $ROOTFS_SIZE -i 4096 -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2
- 	lzma -f -7 ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2
- 	mv ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2.lzma ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2.lzma
- 	rmdir ${DEPLOY_DIR_IMAGE}/tmp.gz
- }
- 
- IMAGE_CMD_ext3 () {
--	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3
-+	genext2fs -b $ROOTFS_SIZE -i 4096 -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3
- 	tune2fs -j ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3
- }
- IMAGE_CMD_ext3.gz () {
- 	rm -rf ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN} && mkdir ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}
--	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext3
-+	genext2fs -b $ROOTFS_SIZE -i 4096 -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext3
- 	tune2fs -j ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext3
- 	gzip -f -9 ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext3
- 	mv ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext3.gz ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3.gz
-@@ -75,7 +75,7 @@ IMAGE_CMD_ext3.gz () {
- }
- 
- oe_mkext4fs () {
--	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} $1
-+	genext2fs -b $ROOTFS_SIZE -i 4096 -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} $1
- 	tune2fs -O extents,uninit_bg,dir_index,has_journal $1
- 	e2fsck -yfDC0 $1 || chk=$?
- 	case $chk in
--- 
-1.7.2.5
+Op 2 nov. 2011, om 15:16 heeft Koen Kooi het volgende geschreven:
+
+> genext2fs only creates the minimum number of inodes, after this patch =
+it will scale with the rootfs size
+>=20
+> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+
+The matching OE classic commit is:
+
+koen@dominion:/OE/org.openembedded.dev$ git show 12275a16
+commit 12275a1604e2a5e9e66c7ef900c450b01e5cf622
+Author: Tom Rini <tom_rini@mentor.com>
+Date:   Fri Dec 17 10:45:32 2010 -0700
+
+    bitbake.conf: Use normal bytes per inode param to genext2fs
+
+    Without this we get an unusably small number of inodes in
+    our filesystem images.
+
+    Signed-off-by: Tom Rini <tom_rini@mentor.com>
 
 
 
+--Apple-Mail=_D471D02F-8F14-4106-8FA3-EF3A57D36097
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAk6xUgkACgkQMkyGM64RGpEl5gCgoYeRFpm0uLhWfvq+bCB2NNus
+lQoAoLxLJWruzJuRSQlQNoLfyTbt6Yv4
+=Z7NS
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_D471D02F-8F14-4106-8FA3-EF3A57D36097--
