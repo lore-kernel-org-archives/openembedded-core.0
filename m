@@ -1,22 +1,40 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1RLUfm-0008Hi-Ib
+	(envelope-from <dexuan.cui@intel.com>) id 1RLV4W-0000it-10
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 Nov 2011 07:51:43 +0100
+	Wed, 02 Nov 2011 08:17:18 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 01 Nov 2011 23:41:44 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 02 Nov 2011 00:11:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,442,1315206000"; d="scan'208";a="80327855"
-Received: from unknown (HELO cenodoxus.amr.corp.intel.com) ([10.255.15.252])
-	by fmsmga001.fm.intel.com with ESMTP; 01 Nov 2011 23:41:44 -0700
-From: Beth Flanagan <elizabeth.flanagan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Nov 2011 23:41:42 -0700
-Message-Id: <ac412c93c681ef335970a678465aa015164f1015.1320190748.git.elizabeth.flanagan@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1320190748.git.elizabeth.flanagan@intel.com>
-References: <cover.1320190748.git.elizabeth.flanagan@intel.com>
-Subject: [PATCH 1/1] [Yocto Bug 1700] Fix for buildstats on tmpfs
+X-IronPort-AV: E=Sophos;i="4.69,442,1315206000"; d="scan'208";a="80334699"
+Received: from pgsmsx603.gar.corp.intel.com ([10.221.43.87])
+	by fmsmga001.fm.intel.com with ESMTP; 02 Nov 2011 00:11:06 -0700
+Received: from pgsmsx151.gar.corp.intel.com (172.30.236.41) by
+	pgsmsx603.gar.corp.intel.com (10.221.43.87) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 2 Nov 2011 15:10:58 +0800
+Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
+	PGSMSX151.gar.corp.intel.com (172.30.236.41) with Microsoft SMTP Server
+	(TLS) id 14.1.323.3; Wed, 2 Nov 2011 15:10:57 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
+	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi; Wed, 2 Nov 2011
+	15:10:56 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 2 Nov 2011 15:10:55 +0800
+Thread-Topic: [OE-core] [PATCH 1/1] bash: make job control really work
+Thread-Index: AcyYgAoaAlOnzbvDTdid8KG/MzZGlQArC18Q
+Message-ID: <1865303E0DED764181A9D882DEF65FB6D836780D9E@shsmsx502.ccr.corp.intel.com>
+References: <cover.1320134607.git.dexuan.cui@intel.com>
+	<ac7b821f266e932e267a4d62af83586ba3261a98.1320134607.git.dexuan.cui@intel.com>
+	<1320142868.13918.0.camel@ted>
+In-Reply-To: <1320142868.13918.0.camel@ted>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: zh-CN, en-US
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/1] bash: make job control really work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,116 +49,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Nov 2011 06:51:43 -0000
+X-List-Received-Date: Wed, 02 Nov 2011 07:17:18 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
+Richard Purdie wrote on 2011-11-01:
+> On Tue, 2011-11-01 at 16:05 +0800, Dexuan Cui wrote:
+>> It turns out 9393ff833f44570fd5f500bc9de6c72db94b0296 didn't really
+>> fix the bug.
+>>=20
+>> This patch is made and tested after I read the link below
+>> http://www.mail-archive.com/bug-bash@gnu.org/msg03107.html
+>>=20
+>> [YOCTO #487]
+>>=20
+>> Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+>> ---
+>>  meta/recipes-extended/bash/bash.inc    |    1 +
+>>  meta/recipes-extended/bash/bash_4.2.bb |    2 +-
+>>  2 files changed, 2 insertions(+), 1 deletions(-)
+>> diff --git a/meta/recipes-extended/bash/bash.inc
+>> b/meta/recipes-extended/bash/bash.inc
+>> index d55e517..d495538 100644
+>> --- a/meta/recipes-extended/bash/bash.inc
+>> +++ b/meta/recipes-extended/bash/bash.inc
+>> @@ -23,6 +23,7 @@ ALTERNATIVE_LINK =3D "${base_bindir}/sh"
+>>  ALTERNATIVE_PRIORITY =3D "100"
+>> =20
+>>  do_configure () { +	export bash_cv_job_control_missing=3Dpresent
+>>  	gnu-configize 	oe_runconf }
+>=20
+> This really should go into the common site files...
+Hi Richard,
+I found we do define the variable:
+meta/site/common-linux:33:bash_cv_job_control_missing=3D${bash_cv_job_contr=
+ol_missing=3Dpresent}
+but looks autoconf doesn't realize the variable has been assigned the value=
+ 'present'?
+I think this is because of the below do_configure in bash.inc -- looks auto=
+reconf is skipped?
+do_configure () {
+    gnu-configize
+    oe_runconf
+}
+Why do we need a customized do_configure to replace autotools_do_configure?
 
-tmpfs/encryptfs/(and most likely, but not confirmed)ramfs TMPDIRs
-cause diskstats to choke. No device entry ends up in /proc/diskstats
-for these fs types, which ends up causing the failure.
+Later, after I added
+do_configure_prepend () {
+    autoreconf -f -i -s
+}
+The generated config.log does show bash_cv_job_control_missing is assigned =
+with 'present'.
+(BTW, common-linux also introduces many other variables -- would this be sa=
+fe? Actually here I only need to introduce bash_cv_job_control_missing.)
 
-The short term solution is to exclude these fs types from diskstat
-collection. Longer term we will want to see if we can collect
-meaningful diskio for each of these, and other, use cases, but for
-this cleans up Bug 1700.
+However, finally, do_compile got a strange failure:
+| shell.c: In function 'shell_reinitialize':
+| shell.c:1742:20: error: 'PPROMPT' undeclared (first use in this function)
+| shell.c:1742:20: note: each undeclared identifier is reported only once f=
+or each function it appears in
+| shell.c:1743:22: error: 'SPROMPT' undeclared (first use in this function)
 
-Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
----
- meta/classes/buildstats.bbclass |   37 ++++++++++++++++++++++++++-----------
- 1 files changed, 26 insertions(+), 11 deletions(-)
+Could you please give some suggestions?
 
-diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbclass
-index 55cbb3c..96c98d4 100644
---- a/meta/classes/buildstats.bbclass
-+++ b/meta/classes/buildstats.bbclass
-@@ -48,13 +48,24 @@ def set_device(e):
-     # something like stick DL_DIR on a different partition and this would
-     # throw stats gathering off. The same goes with SSTATE_DIR. However, let's
-     # get the basics in here and work on the cornercases later. 
-+    # A note. /proc/diskstats does not contain info on encryptfs, tmpfs, etc.
-+    # If we end up hitting one of these fs, we'll just skip diskstats collection.
-     ############################################################################
-     device=os.stat(tmpdir)
-     majordev=os.major(device.st_dev)
-     minordev=os.minor(device.st_dev)
-+    ############################################################################
-+    # Bug 1700: 
-+    # Because tmpfs/encryptfs/ramfs etc inserts no entry in /proc/diskstats
-+    # we set rdev to NoLogicalDevice and search for it later. If we find NLD
-+    # we do not collect diskstats as the method to collect meaningful statistics
-+    # for these fs types requires a bit more research. 
-+    ############################################################################
-     for line in open("/proc/diskstats", "r"):
-         if majordev == int(line.split()[0]) and minordev == int(line.split()[1]):
-            rdev=line.split()[2]
-+        else:
-+           rdev="NoLogicalDevice"
-     file = open(bb.data.getVar('DEVFILE', e.data, True), "w")
-     file.write(rdev)
-     file.close()
-@@ -133,10 +144,11 @@ def write_task_data(status, logfile, dev, e):
-     # For the best information, running things with BB_TOTAL_THREADS = "1"
-     # would return accurate per task results.
-     ############################################################################
--    diskdata = get_diskdata("__diskdata_task", dev, e.data)
--    if diskdata:
--        for key in sorted(diskdata.iterkeys()):
--            file.write(key + ": " + diskdata[key] + "\n")
-+    if dev != "NoLogicalDevice":
-+        diskdata = get_diskdata("__diskdata_task", dev, e.data)
-+        if diskdata:
-+            for key in sorted(diskdata.iterkeys()):
-+                file.write(key + ": " + diskdata[key] + "\n")
-     if status is "passed":
- 	    file.write("Status: PASSED \n")
-     else:
-@@ -169,7 +181,8 @@ python run_buildstats () {
-             bb.mkdirhier(bsdir)
-         except:
-             pass
--        set_diskdata("__diskdata_build", device, e.data)
-+        if device != "NoLogicalDevice":
-+            set_diskdata("__diskdata_build", device, e.data)
-         set_timedata("__timedata_build", e.data)
-         build_time = os.path.join(bsdir, "build_stats")
-         # write start of build into build_time
-@@ -185,7 +198,7 @@ python run_buildstats () {
-                 
-     elif isinstance(e, bb.event.BuildCompleted):
-         bn = get_bn(e)
--        dev = get_device(e)
-+        device = get_device(e)
-         bsdir = os.path.join(bb.data.getVar('BUILDSTATS_BASE', e.data, True), bn)
-         taskdir = os.path.join(bsdir, bb.data.expand("${PF}", e.data))
-         build_time = os.path.join(bsdir, "build_stats")
-@@ -201,10 +214,11 @@ python run_buildstats () {
-             file.write("Elapsed time: %0.2f seconds \n" % (time))
-             if cpu:
-                 file.write("CPU usage: %0.1f%% \n" % cpu)
--        diskio = get_diskdata("__diskdata_build", dev, e.data)
--        if diskio:
--            for key in sorted(diskio.iterkeys()):
--                file.write(key + ": " + diskio[key] + "\n")
-+        if device != "NoLogicalDevice":
-+            diskio = get_diskdata("__diskdata_build", device, e.data)
-+            if diskio:
-+                for key in sorted(diskio.iterkeys()):
-+                    file.write(key + ": " + diskio[key] + "\n")
-         file.close()
- 
-     if isinstance(e, bb.build.TaskStarted):
-@@ -212,7 +226,8 @@ python run_buildstats () {
-         device = get_device(e)
-         bsdir = os.path.join(bb.data.getVar('BUILDSTATS_BASE', e.data, True), bn)
-         taskdir = os.path.join(bsdir, bb.data.expand("${PF}", e.data))
--        set_diskdata("__diskdata_task", device, e.data)
-+        if device != "NoLogicalDevice":
-+            set_diskdata("__diskdata_task", device, e.data)
-         set_timedata("__timedata_task", e.data)
-         try:
-             bb.mkdirhier(taskdir)
--- 
-1.7.1
+Thanks,
+-- Dexuan
+
 
 
 
