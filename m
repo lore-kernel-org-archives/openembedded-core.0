@@ -1,31 +1,31 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mail-gx0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1RLzZC-0008Sw-BM
+	(envelope-from <martin.jansa@gmail.com>) id 1RLzji-0000aK-5a
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 Nov 2011 16:50:58 +0100
-Received: from mail-ww0-f44.google.com ([74.125.82.44])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 03 Nov 2011 08:44:47 -0700
-Received: by wwi36 with SMTP id 36so1410479wwi.13
+	Thu, 03 Nov 2011 17:01:50 +0100
+Received: by ggnj1 with SMTP id j1so1390609ggn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Nov 2011 08:44:46 -0700 (PDT)
-Received: by 10.227.203.132 with SMTP id fi4mr13051644wbb.6.1320335085959;
-	Thu, 03 Nov 2011 08:44:45 -0700 (PDT)
-Received: from [10.6.18.227] (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id fy21sm10883964wbb.5.2011.11.03.08.44.44
-	(version=SSLv3 cipher=OTHER); Thu, 03 Nov 2011 08:44:45 -0700 (PDT)
-Message-ID: <4EB2B6EA.6020400@intel.com>
-Date: Thu, 03 Nov 2011 08:44:42 -0700
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
+	Thu, 03 Nov 2011 08:55:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=QZNZTcmU423I3peBPtv2oQEBaxkZxHmO1srfHJFt2I4=;
+	b=jZd/KjmcYnDpMSKxAm9/U9bzOhcaDCVxwGT3nfG2uLrtzOApDN/3CC25BYcFw+Mn/2
+	fqmsZ9ue/BuXBgTD8EMXuzBesvc1orTvmbwTrHEjh8UeWy0lTV0w9dEnkXeGK+WoPCIO
+	CNKug1FCPeBJXyNFhY1MvGCDz5DYfWuJCr7Q0=
 MIME-Version: 1.0
+Received: by 10.151.86.7 with SMTP id o7mr10162312ybl.69.1320335734664; Thu,
+	03 Nov 2011 08:55:34 -0700 (PDT)
+Received: by 10.151.13.21 with HTTP; Thu, 3 Nov 2011 08:55:34 -0700 (PDT)
+In-Reply-To: <e4dbd916c029abca10e538f70fb06380c21bdd83.1318570250.git.sgw@linux.intel.com>
+References: <cover.1318570250.git.sgw@linux.intel.com>
+	<e4dbd916c029abca10e538f70fb06380c21bdd83.1318570250.git.sgw@linux.intel.com>
+Date: Thu, 3 Nov 2011 16:55:34 +0100
+Message-ID: <CA+chaQfT08+Vd7JyB4wZO8eF13HbY1Z_TiY8MVBV76vPsxd5fw@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1320212931.git.wenzong.fan@windriver.com>
-In-Reply-To: <cover.1320212931.git.wenzong.fan@windriver.com>
-Subject: Re: [PATCH 0/1] distro_tracking_fields: Update the Month to 'MMM'
+Subject: Re: [CONSOLIDATED PULL 12/28] libnl2: Fix a race on route/pktloc_syntax.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,40 +40,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Nov 2011 15:50:58 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 03 Nov 2011 16:01:50 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 11/01/2011 10:52 PM, wenzong.fan@windriver.com wrote:
-> From: Wenzong Fan<wenzong.fan@windriver.com>
+On Fri, Oct 14, 2011 at 7:33 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> From: Tom Rini <tom_rini@mentor.com>
 >
-> Update the format of Month to 'MMM' instead of spell it out.
+> At issue is that route/pktloc.c (not generated) depends on
+> route/pktloc_syntax.h (generated).
 >
-> The following changes since commit 4a951e0433a99cd985515843f0a48fadc7050aca:
->    Robert P. J. Day (1):
->          Fix HOMEPAGE values in libzypp and sat-solver .bb files
+> Signed-off-by: Tom Rini <tom_rini@mentor.com>
+> Signed-off-by: Matthew McClintock <msm@freescale.com>
+> ---
+> =C2=A0.../libnl/fix-pktloc_syntax_h-race.patch =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 | =C2=A0 26 ++++++++++++++++++++
+> =C2=A0meta/recipes-support/libnl/libnl_2.0.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0| =C2=A0 =C2=A03 +-
+> =C2=A02 files changed, 28 insertions(+), 1 deletions(-)
+> =C2=A0create mode 100644 meta/recipes-support/libnl/fix-pktloc_syntax_h-r=
+ace.patch
 >
-> are available in the git repository at:
+> diff --git a/meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch b/=
+meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch
+> new file mode 100644
+> index 0000000..05d75db
+> --- /dev/null
+> +++ b/meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch
+> @@ -0,0 +1,26 @@
+> +Upstream-Status: Inappropriate [configuration]
+> +
+> +libnl has progressed to 0.3.2 and there does not appear to be any
+> +"make -j" issues with this build after my limited testing on that
+> +newer version so we can assume this issue is fixed upstream
+> +
+> +Index: libnl-2.0/lib/Makefile.am
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +--- libnl-2.0.orig/lib/Makefile.am
+> ++++ libnl-2.0/lib/Makefile.am
+> +@@ -27,11 +27,15 @@ CLEANFILES =3D \
+> + =C2=A0 =C2=A0 =C2=A0 route/pktloc_grammar.c route/pktloc_grammar.h \
+> + =C2=A0 =C2=A0 =C2=A0 route/pktloc_syntax.c route/pktloc_syntax.h
+> +
+> ++BUILT_SOURCES =3D route/pktloc_syntax.h route/pktloc_grammar.h
+> ++
+> + # Hack to avoid using ylwrap. It does not function correctly in combina=
+tion
+> + # with --header-file=3D
+> ++route/pktloc_grammar.h: route/pktloc_grammar.c
+> + route/pktloc_grammar.c: route/pktloc_grammar.l
+> + =C2=A0 =C2=A0 =C2=A0 $(LEX) --header-file=3Droute/pktloc_grammar.h $(LF=
+LAGS) -o $@ $^
+> +
+> ++route/pktloc_syntax.h: route/pktloc_syntax.c
+> + route/pktloc_syntax.c: route/pktloc_syntax.y
+> + =C2=A0 =C2=A0 =C2=A0 $(YACC) -d $(YFLAGS) -o $@ $^
+> +
+> diff --git a/meta/recipes-support/libnl/libnl_2.0.bb b/meta/recipes-suppo=
+rt/libnl/libnl_2.0.bb
+> index 0dfcaf6..5339846 100644
+> --- a/meta/recipes-support/libnl/libnl_2.0.bb
+> +++ b/meta/recipes-support/libnl/libnl_2.0.bb
+> @@ -6,10 +6,11 @@ LICENSE =3D "LGPLv2.1"
+> =C2=A0LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D2b41e13261a330ee784153ec=
+bb6a82bc"
 >
->    git://git.pokylinux.org/poky-contrib wenzong/distro_tracking_fields_update
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/distro_tracking_fields_update
+> =C2=A0DEPENDS =3D "flex-native bison-native"
+> -PR =3D "r2"
+> +PR =3D "r3"
 >
-> Wenzong Fan (1):
->    distro_tracking_fields: Update the Month to 'MMM'
+> =C2=A0SRC_URI=3D "http://www.infradead.org/~tgr/libnl/files/${BPN}-${PV}.=
+tar.gz \
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://fix-makefile.patch \
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://fix-pktloc_syntax_h-race.patch \
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0"
 >
->   .../conf/distro/include/distro_tracking_fields.inc |    8 ++++----
->   1 files changed, 4 insertions(+), 4 deletions(-)
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+> =C2=A0SRC_URI[md5sum] =3D "6aaf1e9802a17a7d702bb0638044ffa7"
+> --
+> 1.7.6.2
 
-Merged into OE-Core
+Why is this fix-pktloc_syntax_h-race.patch in
+meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch
+instead of more common location
+meta/recipes-support/libnl/libnl-2.0/fix-pktloc_syntax_h-race.patch
 
-Thanks
-	Sau!
+and why is this separate from fix-makefile.patch when they both are
+trying to fix same issue?
+
+I'll send patch for this..
 
 
