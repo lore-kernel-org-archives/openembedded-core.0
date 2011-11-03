@@ -1,35 +1,31 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RM0Mi-00019H-BM
+	(envelope-from <martin.jansa@gmail.com>) id 1RM0d6-0003AC-04
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 Nov 2011 17:42:08 +0100
-Received: by bkbzv3 with SMTP id zv3so1294765bkb.6
+	Thu, 03 Nov 2011 17:59:04 +0100
+Received: by eyd9 with SMTP id 9so1322856eyd.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Nov 2011 09:35:57 -0700 (PDT)
+	Thu, 03 Nov 2011 09:52:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=oIzmXrD4LmmGVVUJvDSOdPsfL5+BEJ3Gxa+4FawxHVE=;
-	b=iir8NSjvr2H9dz3/kcmJut/HCa6Kud0kgM1LLsbDvIMpV67NJiblyh0riMlvEWoX0i
-	d5rYL9ew4zA77ja2ikMHa+P+YFWrJu1NfgBuHvc1iEO3W+Wx7v8BS0WBx5Xll8rtGBJC
-	9OrxBgYO+yDCyOcjT+nIPuUOclmziHs7DbyNw=
-MIME-Version: 1.0
-Received: by 10.204.10.81 with SMTP id o17mr3449633bko.65.1320338156856; Thu,
-	03 Nov 2011 09:35:56 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.48.208 with HTTP; Thu, 3 Nov 2011 09:35:56 -0700 (PDT)
-In-Reply-To: <CABcZANkh422mOBj38brHMuqRuvZB82NzyW3in56pzu5EcavK-w@mail.gmail.com>
-References: <F930E711-421C-439B-AAA8-EEBA0371ED86@dominion.thruhere.net>
-	<CACW_hTYqjsZzB2WRJ=EED4KGwqcGb2UVtKpKjZGNf-urO35G-w@mail.gmail.com>
-	<CABcZANkh422mOBj38brHMuqRuvZB82NzyW3in56pzu5EcavK-w@mail.gmail.com>
-Date: Thu, 3 Nov 2011 14:35:56 -0200
-X-Google-Sender-Auth: upZUaemDFaS6apy7AfW9kYxPB2M
-Message-ID: <CAP9ODKoLQUjJ0xAiN_a8qj=Nbn=VfmRMkeGPLpmJTz2NQABjug@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: serial-console: IMAGE_FEATURE, MACHINE_FEATURE or DISTRO_FEATURE?
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=4/qk3Axd6OOoamEJ/tK/OVjw5tEetk/dgNwUvJ6mDnY=;
+	b=IZ1GW9mTivh3KzmN6lso7zQoIlNKz6zeyJqNFPJxui2OxrfLkfrffFCnUdyGG3fuA6
+	gjFhWmFoWAe5efZP6l5m+ZY9qQhWTTpnQ8iEQ4tyH/EMz+Z/RVtYYsOoC+QRUarO0RFr
+	OL5fVBxupln3alswcLWOcEYa4X71yNx60U4H8=
+Received: by 10.14.11.20 with SMTP id 20mr1050183eew.61.1320339175010;
+	Thu, 03 Nov 2011 09:52:55 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id q28sm17387439eea.6.2011.11.03.09.52.53
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 03 Nov 2011 09:52:54 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  3 Nov 2011 17:52:42 +0100
+Message-Id: <1320339165-25029-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.7.2
+In-Reply-To: <CA+chaQfT08+Vd7JyB4wZO8eF13HbY1Z_TiY8MVBV76vPsxd5fw@mail.gmail.com>
+References: <CA+chaQfT08+Vd7JyB4wZO8eF13HbY1Z_TiY8MVBV76vPsxd5fw@mail.gmail.com>
+Subject: [PATCH 1/4] libnl-2.0: move fix-pktloc_syntax_h-race.patch to libnl-2.0 subdirectory and merge with fix-makefile.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,68 +40,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Nov 2011 16:42:08 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 03 Nov 2011 16:59:05 -0000
 
-On Mon, Oct 24, 2011 at 15:59, Chris Larson <clarson@kergoth.com> wrote:
-> On Mon, Oct 24, 2011 at 1:27 AM, Frans Meulenbroeks
-> <fransmeulenbroeks@gmail.com> wrote:
->> 2011/10/24 Koen Kooi <koen@dominion.thruhere.net>
->>>
->>> Hi,
->>>
->>> Otavio is cleaning up systemd in meta-oe to work with his initramfs set=
-up
->>> and we stumbled onto a challenge that we'd like some more feedback on.
->>>
->>> The old sysvinit recipes always hardcode a serial getty into inittab,
->>> systemd installs a getty@<port>.service file instead. Otavio doesn't ne=
-ed
->>> (or want) a getty on serial in his setup, but I need (and want) it on a=
-ll my
->>> setups. So we agreed that it needs to be a feature :)
->>>
->>> I nitially suggested MACHINE_FEATURE, which Otavio implemented here:
->>> http://patchwork.openembedded.org/patch/13713/
->>>
->>> , but I'm having second thoughs about it and am leaning toward an
->>> IMAGE_FEATURE instead. Since this involves *_FEATURE and we want system=
-d to
->>> move into oe-core eventually I'm moving the discussion from OE-devel to
->>> OE-core. Not much discussion has been going on, so I hope we'll get som=
-e
->>> more feedback here. I'll try to buttonhole some more OE developers at E=
-LC
->>> and report back as well.
->>>
->>
->>
->> Technically it is probably both.
->> I've seen embedded systems without a console. That seems to indicate a
->> machine feature.
->> Then again even if you have a console you might not want to enable it (e=
-.g.
->> in order not to give the customer root access or even info wrt printk et=
-c).
->> That seems to indicate a machine feature.
->> Probably the answer is inbetween: A machine feature HAS_CONSOLE or somet=
-hing
->> like that and an image feature CONSOLE_ENABLED.
->
-> That sounds analogous to
-> MACHINE_FEATURES+DISTRO_FEATURES=3D=3DCOMBINED_FEATURES, but by image
-> rather than distro?
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ .../libnl/libnl-2.0/fix-makefile.patch             |   32 --------------------
+ .../{ => libnl-2.0}/fix-pktloc_syntax_h-race.patch |    5 ++-
+ meta/recipes-support/libnl/libnl_2.0.bb            |    8 ++--
+ 3 files changed, 8 insertions(+), 37 deletions(-)
+ delete mode 100644 meta/recipes-support/libnl/libnl-2.0/fix-makefile.patch
+ rename meta/recipes-support/libnl/{ => libnl-2.0}/fix-pktloc_syntax_h-race.patch (86%)
 
-I'd like to go ahead in fixing it in a way or another.
+diff --git a/meta/recipes-support/libnl/libnl-2.0/fix-makefile.patch b/meta/recipes-support/libnl/libnl-2.0/fix-makefile.patch
+deleted file mode 100644
+index 3e88fbd..0000000
+--- a/meta/recipes-support/libnl/libnl-2.0/fix-makefile.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-Upstream-Status: Pending
+-
+-12/03/2010
+-
+-add explicit rules for header files generated by lex and yacc,
+-otherwise the build of lib/route/pktloc.c may fail in a parallel
+-environment.
+-
+-Signed-off-by: Qing He <qing.he@intel.com>
+-
+-12/06/2010
+-
+-the dependency rule should really read pktloc.lo instead of
+-pktloc.$(OBJEXT), since it's in a libtool setup.
+-
+-Signed-off-by: Qing He <qing.he@intel.com>
+-
+-diff --git a/lib/Makefile.am b/lib/Makefile.am
+-index 92a916e..e8b8ef3 100644
+---- a/lib/Makefile.am
+-+++ b/lib/Makefile.am
+-@@ -35,6 +35,10 @@ route/pktloc_grammar.c: route/pktloc_grammar.l
+- route/pktloc_syntax.c: route/pktloc_syntax.y
+- 	$(YACC) -d $(YFLAGS) -o $@ $^
+- 
+-+route/pktloc.lo: route/pktloc_syntax.h route/pktloc_grammar.h
+-+route/pktloc_syntax.h: route/pktloc_syntax.c
+-+route/pktloc_grammar.h: route/pktloc_grammar.c
+-+
+- libnl_route_la_LDFLAGS = -version-info 2:0:0
+- libnl_route_la_LIBADD  = libnl.la
+- libnl_route_la_SOURCES = \
+diff --git a/meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch b/meta/recipes-support/libnl/libnl-2.0/fix-pktloc_syntax_h-race.patch
+similarity index 86%
+rename from meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch
+rename to meta/recipes-support/libnl/libnl-2.0/fix-pktloc_syntax_h-race.patch
+index 05d75db..ea32e82 100644
+--- a/meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch
++++ b/meta/recipes-support/libnl/libnl-2.0/fix-pktloc_syntax_h-race.patch
+@@ -4,11 +4,13 @@ libnl has progressed to 0.3.2 and there does not appear to be any
+ "make -j" issues with this build after my limited testing on that
+ newer version so we can assume this issue is fixed upstream
+ 
++Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
++
+ Index: libnl-2.0/lib/Makefile.am
+ ===================================================================
+ --- libnl-2.0.orig/lib/Makefile.am
+ +++ libnl-2.0/lib/Makefile.am
+-@@ -27,11 +27,15 @@ CLEANFILES = \
++@@ -27,11 +27,16 @@ CLEANFILES = \
+  	route/pktloc_grammar.c route/pktloc_grammar.h \
+  	route/pktloc_syntax.c route/pktloc_syntax.h
+  
+@@ -16,6 +18,7 @@ Index: libnl-2.0/lib/Makefile.am
+ +
+  # Hack to avoid using ylwrap. It does not function correctly in combination
+  # with --header-file=
+++route/pktloc.lo: route/pktloc_syntax.h route/pktloc_grammar.h
+ +route/pktloc_grammar.h: route/pktloc_grammar.c
+  route/pktloc_grammar.c: route/pktloc_grammar.l
+  	$(LEX) --header-file=route/pktloc_grammar.h $(LFLAGS) -o $@ $^
+diff --git a/meta/recipes-support/libnl/libnl_2.0.bb b/meta/recipes-support/libnl/libnl_2.0.bb
+index 5339846..f783867 100644
+--- a/meta/recipes-support/libnl/libnl_2.0.bb
++++ b/meta/recipes-support/libnl/libnl_2.0.bb
+@@ -8,10 +8,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2b41e13261a330ee784153ecbb6a82bc"
+ DEPENDS = "flex-native bison-native"
+ PR = "r3"
+ 
+-SRC_URI= "http://www.infradead.org/~tgr/libnl/files/${BPN}-${PV}.tar.gz \
+-          file://fix-makefile.patch \
+-	  file://fix-pktloc_syntax_h-race.patch \
+-         "
++SRC_URI = "\
++  http://www.infradead.org/~tgr/${BPN}/files/${BP}.tar.gz \
++  file://fix-pktloc_syntax_h-race.patch \
++"
+ 
+ SRC_URI[md5sum] = "6aaf1e9802a17a7d702bb0638044ffa7"
+ SRC_URI[sha256sum] = "5a40dc903d3ca1074da7424b908bec8ff16936484798c7e46e53e9db8bc87a9c"
+-- 
+1.7.7.2
 
-What solution show we take?
-
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
 
 
