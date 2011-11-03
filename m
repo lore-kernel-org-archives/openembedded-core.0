@@ -1,34 +1,30 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RLwgR-0000Wy-66 for openembedded-core@lists.openembedded.org;
-	Thu, 03 Nov 2011 13:46:15 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA3Ce4XV027530
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1RLwgr-0000YX-3i
+	for openembedded-core@lists.openembedded.org;
+	Thu, 03 Nov 2011 13:46:41 +0100
+Received: by wyh5 with SMTP id 5so1237845wyh.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 3 Nov 2011 12:40:04 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 27251-02 for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Nov 2011 12:39:56 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA3CdpWN027516
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 3 Nov 2011 12:39:53 GMT
-Message-ID: <1320323991.20107.49.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Thu, 03 Nov 2011 05:40:32 -0700 (PDT)
+Received: by 10.216.135.37 with SMTP id t37mr2866899wei.44.1320324032641;
+	Thu, 03 Nov 2011 05:40:32 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id en13sm9907728wbb.22.2011.11.03.05.40.31
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 03 Nov 2011 05:40:31 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Thu, 3 Nov 2011 13:40:24 +0100
+In-Reply-To: <9971B226-F171-4D8E-B751-B358923CD41A@dominion.thruhere.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 03 Nov 2011 12:39:51 +0000
-In-Reply-To: <22CC451F-6D62-44A0-8984-489D40859F17@dominion.thruhere.net>
 References: <cover.1320191934.git.sgw@linux.intel.com>
 	<9ef4f9a56a7d68c636768d2a1dbfeb9d6542b5f4.1320191934.git.sgw@linux.intel.com>
 	<22CC451F-6D62-44A0-8984-489D40859F17@dominion.thruhere.net>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
+	<9971B226-F171-4D8E-B751-B358923CD41A@dominion.thruhere.net>
+Message-Id: <F5711950-4A76-4337-99BB-46863F3E1C45@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1251.1)
 Subject: Re: [Pull v3 1/4] avahi: use useradd to create avahi user for avahi-daemon
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -44,81 +40,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Nov 2011 12:46:15 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 03 Nov 2011 12:46:41 -0000
+X-Groupsio-MsgNum: 11855
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_60675073-3F0D-4850-9C7E-96BB308A5EC2";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_60675073-3F0D-4850-9C7E-96BB308A5EC2
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+
+Op 3 nov. 2011, om 13:38 heeft Koen Kooi het volgende geschreven:
+
+>=20
+> Op 3 nov. 2011, om 13:23 heeft Koen Kooi het volgende geschreven:
+>=20
+>>=20
+>> Op 2 nov. 2011, om 01:21 heeft Saul Wold het volgende geschreven:
+>>=20
+>>> DBus was failing to start correct since the avahi user was
+>>> not setup.
+>>>=20
+>>> Keep the dbus reload since this could still be installed
+>>> as a package an would require a dbus restart.
+>>=20
+>> This doesn't seem to work for me, I keep getting "Unknown username =
+'avahi' in message bus configuration file"
+>=20
+> Manually running the preinst on the target *does* work, so something =
+isn't right during do_rootfs.
+
++ sh =
+/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/beaglebone-angstrom-lin=
+ux-gnueabi/systemd-image-1.0-r0/rootfs/var/lib/opkg/info/avahi-daemon.prei=
+nst
+Running useradd commands...
+grep: =
+/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/beaglebone-angstrom-lin=
+ux-gnueabi/systemd-image-1.0-r0/rootfs/etc/passwd: No such file or =
+directory
+useradd: group '1000' does not exist
+useradd: the GROUP=3D configuration in /etc/default/useradd will be =
+ignored
+useradd: user 'avahi' already exists
+
+I think I know what's going wrong, patch coming soon!
+
+
+
+--Apple-Mail=_60675073-3F0D-4850-9C7E-96BB308A5EC2
 Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
-On Thu, 2011-11-03 at 13:23 +0100, Koen Kooi wrote:
-> Op 2 nov. 2011, om 01:21 heeft Saul Wold het volgende geschreven:
-> 
-> > DBus was failing to start correct since the avahi user was
-> > not setup.
-> > 
-> > Keep the dbus reload since this could still be installed
-> > as a package an would require a dbus restart.
-> 
-> This doesn't seem to work for me, I keep getting "Unknown username
-> 'avahi' in message bus configuration file"
+-----BEGIN PGP SIGNATURE-----
 
-From where? On target device upgrade? do_rootfs? populate_sysroot? More
-info would be useful here.
+iEYEARECAAYFAk6yi7gACgkQMkyGM64RGpEUMgCggwgw3ZvnNrqJMu8vND3OyFgw
+NuAAoIiH2qxCxfiYFDY4dWpMxkLIO1wR
+=2nyR
+-----END PGP SIGNATURE-----
 
-> > Fixes: [YOCTO #1699]
-> > 
-> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> > ---
-> > meta/recipes-connectivity/avahi/avahi.inc |   16 +++++++++-------
-> > 1 files changed, 9 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-> > index 5ad9db0..79cfd73 100644
-> > --- a/meta/recipes-connectivity/avahi/avahi.inc
-> > +++ b/meta/recipes-connectivity/avahi/avahi.inc
-> > @@ -14,7 +14,7 @@ SECTION = "network"
-> > # python scripts are under GPLv2+
-> > LICENSE = "GPLv2+ & LGPLv2.1+"
-> > 
-> > -INC_PR = "r8"
-> > +INC_PR = "r9"
-> > 
-> > DEPENDS = "expat libcap libdaemon dbus glib-2.0"
-> > 
-> > @@ -23,7 +23,12 @@ SRC_URI = "http://avahi.org/download/avahi-${PV}.tar.gz \
-> >           file://99avahi-autoipd \
-> >           file://initscript.patch"
-> > 
-> > -inherit autotools pkgconfig update-rc.d gettext
-> > +USERADD_PACKAGES = "${PN}-daemon"
-> > +USERADD_PARAM_${PN}-daemon = "--system --home /var/run/avahi-daemon \
-> > +                              --no-create-home --shell /bin/false \
-> > +                              --user-group avahi"
-> > +
-> > +inherit autotools pkgconfig update-rc.d gettext useradd
-> > 
-> > EXTRA_OECONF = "--with-distro=debian \
-> >              --disable-introspection \
-> > @@ -116,15 +121,12 @@ do_install_avahi-autoipd() {
-> > 	install ${WORKDIR}/99avahi-autoipd ${D}${sysconfdir}/udhcpc.d
-> > }
-> > 
-> > -# At the time the postinst runs, dbus might not be setup so only restart if running
-> > +# At the time the postinst runs, dbus might not be setup so only restart if running 
-> > 
-> > pkg_postinst_avahi-daemon () {
-> > -	# can't do this offline
-> > 	if [ "x$D" != "x" ]; then
-> > -		exit 1
-> > +		exit 0
-> > 	fi
-> 
-> Removing that check completely would be a better idea :)
-
-No it wouldn't, if we're installing this at do_rootfs time, we can just
-mark the postinstall as done.
-
-Cheers,
-
-Richard
-
-
-
+--Apple-Mail=_60675073-3F0D-4850-9C7E-96BB308A5EC2--
