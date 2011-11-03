@@ -1,35 +1,30 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RM2rh-0004aR-O2 for openembedded-core@lists.openembedded.org;
-	Thu, 03 Nov 2011 20:22:17 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA3JG6Y7031665;
-	Thu, 3 Nov 2011 19:16:06 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 30974-08; Thu,  3 Nov 2011 19:16:01 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA3JFulq031659
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Thu, 3 Nov 2011 19:15:57 GMT
-Message-ID: <1320347755.20107.72.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 03 Nov 2011 19:15:55 +0000
-In-Reply-To: <CADkTA4PyZ7r7aiGpENv1RSygtj-ni53XFOBPqOhETruUqem+Ew@mail.gmail.com>
-References: <cover.1320340081.git.bruce.ashfield@windriver.com>
-	<8B9E217B-2135-4E8D-9180-FAFD7E7478E0@dominion.thruhere.net>
-	<CADkTA4PQspBbSFTVS9GZcGokvSR7zgyAqSq_kEE-EUqxpbfYQw@mail.gmail.com>
-	<93B560B0-AFAE-4B57-B1A4-6516085B4E9E@dominion.thruhere.net>
-	<CADkTA4PyZ7r7aiGpENv1RSygtj-ni53XFOBPqOhETruUqem+Ew@mail.gmail.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: dvhart@linux.intel.com, saul.wold@intel.com
-Subject: Re: [PATCH 0/1] linux-yocto: update base to v3.0.8 + meta config changes
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <scott.a.garman@intel.com>) id 1RM4Yn-0001M0-6Q
+	for openembedded-core@lists.openembedded.org;
+	Thu, 03 Nov 2011 22:10:53 +0100
+Received: from mail-qw0-f52.google.com ([209.85.216.52])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 03 Nov 2011 14:04:42 -0700
+Received: by qaea17 with SMTP id a17so3517355qae.25
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 03 Nov 2011 14:04:42 -0700 (PDT)
+Received: by 10.224.33.76 with SMTP id g12mr5844291qad.46.1320354279293;
+	Thu, 03 Nov 2011 14:04:39 -0700 (PDT)
+Received: from [127.0.0.1] (masterfoo.zenlinux.com. [207.192.74.254])
+	by mx.google.com with ESMTPS id gg6sm7467950qab.3.2011.11.03.14.04.38
+	(version=SSLv3 cipher=OTHER); Thu, 03 Nov 2011 14:04:38 -0700 (PDT)
+Message-ID: <4EB301E5.9050809@intel.com>
+Date: Thu, 03 Nov 2011 14:04:37 -0700
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <1320325020-19012-1-git-send-email-koen@dominion.thruhere.net>
+	<86762F88-8EB9-47D0-B1F7-A867ADCCFB1C@dominion.thruhere.net>
+	<1320331161.20107.56.camel@ted>
+In-Reply-To: <1320331161.20107.56.camel@ted>
+Subject: Re: [PATCH] avahi: fix useradd race condition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,67 +39,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Nov 2011 19:22:18 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 03 Nov 2011 21:10:53 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-11-03 at 14:12 -0400, Bruce Ashfield wrote:
-> On Thu, Nov 3, 2011 at 2:07 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> >
-> > Op 3 nov. 2011, om 18:53 heeft Bruce Ashfield het volgende geschreven:
-> >
-> >> On Thu, Nov 3, 2011 at 1:22 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> >>>
-> >>> Op 3 nov. 2011, om 18:11 heeft Bruce Ashfield het volgende geschreven:
-> >>>
-> >>>> Richard/Saul,
-> >>>>
-> >>>> Here's a bump to 3.0.8 for the 3.0 kernel, and some config changes from TomZ.
-> >>>> These are destined for master and separate from any point updates to the 1.1
-> >>>> release.
-> >>>>
-> >>>> In case anyone cares my -dev kernel also has these changes, and it will take
-> >>>> them to the latest kernel shortly.
-> >>>>
-> >>>> This also doesn't bump the preempt-rt branches, since they'll be updated
-> >>>> to the new -rt first, before taking the 3.0.x stable updates.
-> >>>>
-> >>>> Built and booted for all the qemu targets.
-> >>>>
-> >>>> cc: Tom Zanussi <tom.zanussi@intel.com>
-> >>>> cc: Darren Hart <dvhart@linux.intel.com>
-> >>>>
-> >>>> Cheers,
-> >>>>
-> >>>> Bruce
-> >>>>
-> >>>> The following changes since commit 9b76e6a2cfc5a4d779f3b06e3acc5ff7b8275470:
-> >>>>
-> >>>>  meta: glib-2.0: don't apply qsort_r test removable patch for native version (2011-11-02 09:08:28 +0000)
-> >>>>
-> >>>> are available in the git repository at:
-> >>>>  git://git.pokylinux.org/poky-contrib zedd/kernel
-> >>>>  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-> >>>
-> >>> Do you also have a tree against oe-core?
-> >>
-> >> I don't have a contrib branch, I asked a few week ago, but still don't have it
-> >> created. So I have a tree, but no where to push submissions.
-> >
-> > Forking https://github.com/openembedded/oe-core is easy enough :)
-> 
-> Sure. But I dislike github in general (everyone has their preferences) and was
-> trying to get a contrib branch. There's a myriad of machines I could use for it
-> as well, but I see no reason for a contrib branch to be hard to get,
-> so I'm waiting
-> for the moment and focusing on getting some kernel work done.
+On 11/03/2011 07:39 AM, Richard Purdie wrote:
+> On Thu, 2011-11-03 at 14:04 +0100, Koen Kooi wrote:
+>> Op 3 nov. 2011, om 13:57 heeft Koen Kooi het volgende geschreven:
+>>
+>>> Avahi doesn't work at boot because of:
+>>>
+>>> + sh /OE/../rootfs/var/lib/opkg/info/avahi-daemon.preinst
+>>> Running useradd commands...
+>>> grep: /OE/../rootfs/etc/passwd: No such file or directory
+>>>
+>>> That is due to:
+>>>
+>>> Package: avahi-daemon
+>>> Version: 0.6.30-r9.0
+>>> [..]
+>>> Depends: libavahi-core7 (>= 0.6.30), libdaemon0 (>= 0.14), libcap2 (>= 2.22), libavahi-common3 (>= 0.6.30), libdbus-1-3 (>= 1.4.12), sysvinit-pidof, libc6 (>= 2.12), libexpat1 (>= 2.0.1)
+>>>
+>>> After this patch:
+>>>
+>>> Package: avahi-daemon
+>>> Version: 0.6.30-r10.0
+>>> [..]
+>>> Depends: libavahi-core7 (>= 0.6.30), libdaemon0 (>= 0.14), libcap2 (>= 2.22), libavahi-common3 (>= 0.6.30), libdbus-1-3 (>= 1.4.12), sysvinit-pidof, libc6 (>= 2.12), shadow, libexpat1 (>= 2.0.1), base-passwd
+>>>
+>>> This also changes ${PN}-daemon to avahi-daemon to be consistent with the PACKAGES/FILES lines below
+>>>
+>>> Signed-off-by: Koen Kooi<koen@dominion.thruhere.net>
+>>> ---
+>>> meta/recipes-connectivity/avahi/avahi.inc |    7 ++++---
+>>> 1 files changed, 4 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+>>> index 79cfd73..728c38f 100644
+>>> --- a/meta/recipes-connectivity/avahi/avahi.inc
+>>> +++ b/meta/recipes-connectivity/avahi/avahi.inc
+>>> @@ -14,7 +14,7 @@ SECTION = "network"
+>>> # python scripts are under GPLv2+
+>>> LICENSE = "GPLv2+&  LGPLv2.1+"
+>>>
+>>> -INC_PR = "r9"
+>>> +INC_PR = "r10"
+>>>
+>>> DEPENDS = "expat libcap libdaemon dbus glib-2.0"
+>>>
+>>> @@ -23,8 +23,9 @@ SRC_URI = "http://avahi.org/download/avahi-${PV}.tar.gz \
+>>>            file://99avahi-autoipd \
+>>>            file://initscript.patch"
+>>>
+>>> -USERADD_PACKAGES = "${PN}-daemon"
+>>> -USERADD_PARAM_${PN}-daemon = "--system --home /var/run/avahi-daemon \
+>>> +USERADDPN = "avahi-daemon"
+>>
+>> My gut feeling is that useradd.bbclass should add the RDEPENDS in its
+>> pythoncode instead of relying on people to set both USERADD_PACKAGES
+>> and USERADDPN to the same value.
+>
+> Agreed, looking at the code I think we can make this easier on the user.
+> I'll take the fix to solve the short term issues but we could do with
+> improving this.
 
-I also have a dislike of github. Are you after access to
-openembedded-core-contrib? I can sort that out...
+I've filed a bug and will work on a fix for this:
 
-Cheers,
+http://bugzilla.pokylinux.org/show_bug.cgi?id=1727
 
-Richard
+Thank you for uncovering the source of the problem.
 
+Scott
+
+-- 
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
