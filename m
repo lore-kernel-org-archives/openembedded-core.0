@@ -1,36 +1,31 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RLwnK-0000h0-Lv for openembedded-core@lists.openembedded.org;
-	Thu, 03 Nov 2011 13:53:55 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA3Cl9dO027690
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1RLwpf-0000kP-L7
+	for openembedded-core@lists.openembedded.org;
+	Thu, 03 Nov 2011 13:55:47 +0100
+Received: by wyh5 with SMTP id 5so1247181wyh.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 3 Nov 2011 12:47:09 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 27251-04 for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Nov 2011 12:47:06 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA3Cl2VI027684
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 3 Nov 2011 12:47:03 GMT
-Message-ID: <1320324422.20107.53.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Thu, 03 Nov 2011 05:49:39 -0700 (PDT)
+Received: by 10.216.80.18 with SMTP id j18mr3216722wee.18.1320324578926;
+	Thu, 03 Nov 2011 05:49:38 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id fw16sm9984778wbb.13.2011.11.03.05.49.34
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 03 Nov 2011 05:49:36 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Thu, 3 Nov 2011 13:49:33 +0100
+In-Reply-To: <1320323991.20107.49.camel@ted>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 03 Nov 2011 12:47:02 +0000
-In-Reply-To: <4EB1F3E9.8070103@windriver.com>
-References: <cover.1320268188.git.mark.hatle@windriver.com>
-	<20111102212240.GG9949@jama.jama.net> <4EB1B89E.8080505@windriver.com>
-	<20111102221116.GH9949@jama.jama.net> <4EB1C4DF.8070007@windriver.com>
-	<20111102224704.GI9949@jama.jama.net> <4EB1F3E9.8070103@windriver.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/1] Uprev to pseudo 1.2
+References: <cover.1320191934.git.sgw@linux.intel.com>
+	<9ef4f9a56a7d68c636768d2a1dbfeb9d6542b5f4.1320191934.git.sgw@linux.intel.com>
+	<22CC451F-6D62-44A0-8984-489D40859F17@dominion.thruhere.net>
+	<1320323991.20107.49.camel@ted>
+Message-Id: <CD42B7BF-FA58-42F6-AE08-4EF68B3F43AD@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [Pull v3 1/4] avahi: use useradd to create avahi user for avahi-daemon
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,53 +40,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Nov 2011 12:53:55 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 03 Nov 2011 12:55:47 -0000
+X-Groupsio-MsgNum: 11857
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_85D925CA-614B-47F9-BC82-5D5A5B1F6AE9";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_85D925CA-614B-47F9-BC82-5D5A5B1F6AE9
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+
+Op 3 nov. 2011, om 13:39 heeft Richard Purdie het volgende geschreven:
+
+> On Thu, 2011-11-03 at 13:23 +0100, Koen Kooi wrote:
+>> Op 2 nov. 2011, om 01:21 heeft Saul Wold het volgende geschreven:
+>>=20
+>>> DBus was failing to start correct since the avahi user was
+>>> not setup.
+>>>=20
+>>> Keep the dbus reload since this could still be installed
+>>> as a package an would require a dbus restart.
+>>=20
+>> This doesn't seem to work for me, I keep getting "Unknown username
+>> 'avahi' in message bus configuration file"
+>=20
+> =46rom where? On target device upgrade? do_rootfs? populate_sysroot? =
+More
+> info would be useful here.
+
+On target device boot. I've narrowed it down to an RDEPENDS problem, I'm =
+working out the correct cycle of _append and +=3D now
+
+The basic problem:
+
+Package: avahi-daemon
+Version: 0.6.30-r9.0
+ [..]
+Depends: libavahi-core7 (>=3D 0.6.30), libdaemon0 (>=3D 0.14), libcap2 =
+(>=3D 2.22), libavahi-common3 (>=3D 0.6.30), libdbus-1-3 (>=3D 1.4.12), =
+sysvinit-pidof, libc6 (>=3D 2.12), libexpat1 (>=3D 2.0.1)
+
+No 'base-passwd' in there.
+
+>=20
+>>> Fixes: [YOCTO #1699]
+>>>=20
+>>> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+>>> ---
+>>> meta/recipes-connectivity/avahi/avahi.inc |   16 +++++++++-------
+>>> 1 files changed, 9 insertions(+), 7 deletions(-)
+>>>=20
+>>> diff --git a/meta/recipes-connectivity/avahi/avahi.inc =
+b/meta/recipes-connectivity/avahi/avahi.inc
+>>> index 5ad9db0..79cfd73 100644
+>>> --- a/meta/recipes-connectivity/avahi/avahi.inc
+>>> +++ b/meta/recipes-connectivity/avahi/avahi.inc
+>>> @@ -14,7 +14,7 @@ SECTION =3D "network"
+>>> # python scripts are under GPLv2+
+>>> LICENSE =3D "GPLv2+ & LGPLv2.1+"
+>>>=20
+>>> -INC_PR =3D "r8"
+>>> +INC_PR =3D "r9"
+>>>=20
+>>> DEPENDS =3D "expat libcap libdaemon dbus glib-2.0"
+>>>=20
+>>> @@ -23,7 +23,12 @@ SRC_URI =3D =
+"http://avahi.org/download/avahi-${PV}.tar.gz \
+>>>          file://99avahi-autoipd \
+>>>          file://initscript.patch"
+>>>=20
+>>> -inherit autotools pkgconfig update-rc.d gettext
+>>> +USERADD_PACKAGES =3D "${PN}-daemon"
+>>> +USERADD_PARAM_${PN}-daemon =3D "--system --home =
+/var/run/avahi-daemon \
+>>> +                              --no-create-home --shell /bin/false \
+>>> +                              --user-group avahi"
+>>> +
+>>> +inherit autotools pkgconfig update-rc.d gettext useradd
+>>>=20
+>>> EXTRA_OECONF =3D "--with-distro=3Ddebian \
+>>>             --disable-introspection \
+>>> @@ -116,15 +121,12 @@ do_install_avahi-autoipd() {
+>>> 	install ${WORKDIR}/99avahi-autoipd ${D}${sysconfdir}/udhcpc.d
+>>> }
+>>>=20
+>>> -# At the time the postinst runs, dbus might not be setup so only =
+restart if running
+>>> +# At the time the postinst runs, dbus might not be setup so only =
+restart if running=20
+>>>=20
+>>> pkg_postinst_avahi-daemon () {
+>>> -	# can't do this offline
+>>> 	if [ "x$D" !=3D "x" ]; then
+>>> -		exit 1
+>>> +		exit 0
+>>> 	fi
+>>=20
+>> Removing that check completely would be a better idea :)
+>=20
+> No it wouldn't, if we're installing this at do_rootfs time, we can =
+just
+> mark the postinstall as done.
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_85D925CA-614B-47F9-BC82-5D5A5B1F6AE9
 Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
-On Wed, 2011-11-02 at 20:52 -0500, Mark Hatle wrote:
-> On 11/2/11 5:47 PM, Martin Jansa wrote:
-> > On Wed, Nov 02, 2011 at 05:31:59PM -0500, Mark Hatle wrote:
-> >> On 11/2/11 5:11 PM, Martin Jansa wrote:
-> >>> On Wed, Nov 02, 2011 at 04:39:42PM -0500, Mark Hatle wrote:
-> >>>>> with pseudo.log full of errors like this
-> >>>>> pseudo: path mismatch [12 links]: ino 39721500 db
-> >>>>> '/OE/shr-core/tmp/work/armv4t-oe-linux-gnueabi/vim-7.2.446-r10.3/image/usr/share/vim/vim72/tutor'
-> >>>>> req
-> >>>>> '/OE/shr-core/tmp/work/om_gta02-oe-linux-gnueabi/task-shr-feed-1.0-r96'.
-> >>>>
-> >>>> Are you building on a NFS filesystem?  NFS (and a few other filesystems) have a
-> >>>> habit of remapping inodes out from under the filesystem.  pseudo uses the inodes
-> >>>> as a validation that the file hasn't changed.  If these inodes are changing,
-> >>>> pseudo will do it's best to keep things in sync, but there is a chance it won't
-> >>>> always succeed.
-> >>>
-> >>> No I'm building on local ext3 filesystem, but I'm also using rm_work, so 
-> >>> /OE/shr-core/tmp/work/armv4t-oe-linux-gnueabi/vim-7.2.446-r10.3/image/usr/share/vim/vim72/tutor
-> >>> is probably long gone and inode 39721500 wasn't marked as unused in
-> >>> pseudo world or do I read it wrong?
-> >>
-> >> If you use rm_work, then the pseudo DB located within the work directory will
-> >> also be removed.  So I'm not sure why you would be having such a large DB.
-> > 
-> > But I was talking about pseudo db here:
-> > tmp/sysroots/x86_64-linux/var/pseudo/
-> 
-> I just checked my system and the logs in the sysroot isn't very large.  I'm
-> curious as to why things are as big on your system.
+-----BEGIN PGP SIGNATURE-----
 
-We did have a problem a while back where pseudo was active when it
-shouldn't have been and I noticed huge db/logs on my system too. The
-environment changes that were pushed shortly before 1.1 fixed that
-problem as far as I know but if this is an old build directory, it could
-have those left behind.
+iEYEARECAAYFAk6yjd0ACgkQMkyGM64RGpEbHgCfSJqOGiXIounsjm9+kVT9a0J3
+GnUAn2UW8XwXWh8tFe545/kh5Vkug4zj
+=hcx3
+-----END PGP SIGNATURE-----
 
-This actually accounted for the significant load time bitbake had on one
-of my systems too - it was spending the time loading the pseudo db.
-
-Cheers,
-
-Richard
-
-
-
+--Apple-Mail=_85D925CA-614B-47F9-BC82-5D5A5B1F6AE9--
