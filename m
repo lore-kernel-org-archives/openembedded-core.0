@@ -1,24 +1,24 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail-ww0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RLtL5-0006Eq-F1
+	(envelope-from <koen@dominion.thruhere.net>) id 1RLtak-0006fV-D6
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 Nov 2011 10:11:59 +0100
-Received: by wyh5 with SMTP id 5so1048371wyh.6
+	Thu, 03 Nov 2011 10:28:10 +0100
+Received: by wwf27 with SMTP id 27so325117wwf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Nov 2011 02:05:48 -0700 (PDT)
-Received: by 10.227.197.71 with SMTP id ej7mr10456519wbb.15.1320311148198;
-	Thu, 03 Nov 2011 02:05:48 -0700 (PDT)
+	Thu, 03 Nov 2011 02:21:59 -0700 (PDT)
+Received: by 10.227.205.213 with SMTP id fr21mr10762023wbb.16.1320312119086;
+	Thu, 03 Nov 2011 02:21:59 -0700 (PDT)
 Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
-	by mx.google.com with ESMTPS id em4sm91004wbb.20.2011.11.03.02.05.46
+	by mx.google.com with ESMTPS id fy21sm9032352wbb.5.2011.11.03.02.21.56
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 03 Nov 2011 02:05:47 -0700 (PDT)
+	Thu, 03 Nov 2011 02:21:57 -0700 (PDT)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Nov 2011 10:05:43 +0100
-Message-Id: <1320311143-5693-1-git-send-email-koen@dominion.thruhere.net>
+Date: Thu,  3 Nov 2011 10:21:53 +0100
+Message-Id: <1320312113-2492-1-git-send-email-koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.7.2.5
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] connman 0.75: bump PR for iptables library change
+Subject: [PATCH] rt-tests: update to 0.83
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,30 +33,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Nov 2011 09:11:59 -0000
+X-List-Received-Date: Thu, 03 Nov 2011 09:28:10 -0000
 
-connmand[180]: /usr/sbin/connmand: error while loading shared libraries: libxtables.so.5: cannot open shared object file: No such file or directory
-
-$ dpkg-deb -c ipk/armv7a/iptables_1.4.12.1-r0_armv7a.ipk  | grep libxtables
--rwxr-xr-x root/root     35252 2011-11-01 20:16 ./usr/lib/libxtables.so.7.0.0
-lrwxrwxrwx root/root         0 2011-11-01 20:16 ./usr/lib/libxtables.so.7 -> libxtables.so.7.0.0
+Fetch from github, kernel.org uri is gone
 
 Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- meta/recipes-connectivity/connman/connman_0.75.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ .../{rt-tests_0.73.bb => rt-tests_0.83.bb}         |   16 ++++++++++------
+ 1 files changed, 10 insertions(+), 6 deletions(-)
+ rename meta/recipes-rt/rt-tests/{rt-tests_0.73.bb => rt-tests_0.83.bb} (68%)
 
-diff --git a/meta/recipes-connectivity/connman/connman_0.75.bb b/meta/recipes-connectivity/connman/connman_0.75.bb
-index 78f2199..c6e911b 100644
---- a/meta/recipes-connectivity/connman/connman_0.75.bb
-+++ b/meta/recipes-connectivity/connman/connman_0.75.bb
-@@ -1,5 +1,5 @@
- require connman.inc
--PR = "r3"
-+PR = "r4"
+diff --git a/meta/recipes-rt/rt-tests/rt-tests_0.73.bb b/meta/recipes-rt/rt-tests/rt-tests_0.83.bb
+similarity index 68%
+rename from meta/recipes-rt/rt-tests/rt-tests_0.73.bb
+rename to meta/recipes-rt/rt-tests/rt-tests_0.83.bb
+index a2cf6be..78d51b3 100644
+--- a/meta/recipes-rt/rt-tests/rt-tests_0.73.bb
++++ b/meta/recipes-rt/rt-tests/rt-tests_0.83.bb
+@@ -6,16 +6,20 @@ LICENSE = "GPLv2 & GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+                     file://src/cyclictest/cyclictest.c;beginline=7;endline=9;md5=ce162fe491d19d2ec67dff6dbc938d50 \
+                     file://src/pi_tests/pi_stress.c;beginline=6;endline=19;md5=bd426a634a43ec612e9fbf125dfcc949"
+-# Version v0.73
+-SRCREV = "81da016fb0f6ab0511fbec81fc8ba1a50398a20d"
+-PV = "git${SRCPV}"
+-PR = "r0"
++# Version v0.83
++SRCREV = "5f1e84f8b015df3ff950056494134eca3f640d70"
  
- EXTRA_OECONF += "\
-   ac_cv_path_WPASUPPLICANT=/usr/sbin/wpa_supplicant \
+-SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git;protocol=git"
++# git -> 0.83 needs a PE bump
++PE = "1"
++
++SRC_URI = "git://github.com/clrkwllms/rt-tests.git"
+ 
+ S = "${WORKDIR}/git"
+ 
+-CFLAGS += "-I${S}/src/include -D_GNU_SOURCE -Wall -Wno-nonnull"
++CFLAGS += "-I${S}/src/include -D_GNU_SOURCE -Wall -Wno-nonnulli ${LDFLAGS}"
++
++# calling 'uname -m' is broken on crossbuilds
++EXTRA_OEMAKE = "NUMA=0"
+ 
+ do_install() {
+         oe_runmake install DESTDIR=${D} SBINDIR=${sbindir} MANDIR=${mandir} \
 -- 
 1.7.2.5
 
