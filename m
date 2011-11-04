@@ -1,30 +1,24 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lohmer.p@googlemail.com>) id 1RMG5y-0006Jf-4w
+	(envelope-from <koen@dominion.thruhere.net>) id 1RMG7e-0006Mw-04
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 Nov 2011 10:29:54 +0100
-Received: by faas16 with SMTP id s16so2664515faa.6
+	Fri, 04 Nov 2011 10:31:38 +0100
+Received: by wyh5 with SMTP id 5so2245741wyh.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Nov 2011 02:23:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=I9HXEw4Glcr9WHwvhzM/vLY7x9XKx8rWkf8wQYWmYvw=;
-	b=qg4t1uBzqGX6Jeq1iYGK1tYrX1IPwmR/DsQqam31S5PkH6A+Wtm+iDNcJlUyKr/BjA
-	Ovl8wcRHPMvUEhks6T+R0CeliYhTSVJY6wTscvwo8NMQKIs3bmxUYt4VL/B05u/NIQ8o
-	E5huHmhBANzNDHe4p+Sah4hC6yAdIohzvgxbs=
-MIME-Version: 1.0
-Received: by 10.223.58.134 with SMTP id g6mr9024111fah.0.1320398625008; Fri,
-	04 Nov 2011 02:23:45 -0700 (PDT)
-Received: by 10.223.15.89 with HTTP; Fri, 4 Nov 2011 02:23:44 -0700 (PDT)
-In-Reply-To: <CAE1-YAFQW1LXHfND8on-KBp-4fid32EAh5N12DD_hdmhc_54Qw@mail.gmail.com>
-References: <CAE1-YAFQW1LXHfND8on-KBp-4fid32EAh5N12DD_hdmhc_54Qw@mail.gmail.com>
-Date: Fri, 4 Nov 2011 10:23:44 +0100
-Message-ID: <CAE1-YAGuD3+ccvJ0kFgEFuJCpew_T0VX85YH3sMuNYdyu729CA@mail.gmail.com>
-From: Peter Lohmer <lohmer.p@googlemail.com>
+	Fri, 04 Nov 2011 02:25:28 -0700 (PDT)
+Received: by 10.227.205.20 with SMTP id fo20mr16694583wbb.20.1320398728367;
+	Fri, 04 Nov 2011 02:25:28 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id q30sm14910983wbn.17.2011.11.04.02.25.26
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 04 Nov 2011 02:25:27 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Subject: Error building any image
+Date: Fri,  4 Nov 2011 10:25:24 +0100
+Message-Id: <1320398724-22429-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.2.5
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] rootfs_ipk bbclass: special-case base-passwd preinst to run first
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,33 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Nov 2011 09:29:54 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 04 Nov 2011 09:31:38 -0000
 
-Hi all,
-after last oecore update building fails with the following error message:
+Preinst are run alphabetically which breaks when e.g. avahi-daemon needs /etc/passwd present.
 
-peter@p-lohmer-linux:~/oe-core$ bitbake -k xfce-nm-image
-Loading cache: 100%
-|##########################################################################=
-################################|
-ETA:=A0 00:00:00
-Loaded 1826 entries from dependency cache.
-Parsing recipes: 100%
-|##########################################################################=
-##############################|
-Time: 00:00:00
-Parsing of 1418 .bb files complete (1414 cached, 4 parsed). 1825
-targets, 72 skipped, 0 masked, 0 errors.
-ERROR: No recipes available for:
-=A0 /home/peter/oe-core/sources/meta-smartphone/meta-openmoko/recipes-multi=
-media/mplayer/mplayer2_git.bbappend
-ERROR: Command execution failed: Exited with 1
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/classes/rootfs_ipk.bbclass |    9 +++++++++
+ 1 files changed, 9 insertions(+), 0 deletions(-)
 
-I believe it's caused by meta-smartphone, does anyone face the same problem=
- ?
+diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
+index e02b816..3ae0529 100644
+--- a/meta/classes/rootfs_ipk.bbclass
++++ b/meta/classes/rootfs_ipk.bbclass
+@@ -77,6 +77,15 @@ fakeroot rootfs_ipk_do_rootfs () {
+ 	${ROOTFS_POSTINSTALL_COMMAND}
+ 	
+ 	runtime_script_required=0
++
++	# Base-passwd needs to run first to install /etc/passwd and friends
++	if [ -e ${IMAGE_ROOTFS}${opkglibdir}/info/base-passwd.preinst ] ; then
++		if ! sh ${IMAGE_ROOTFS}${opkglibdir}/info/base-passwd.preinst; then
++			runtime_script_required=1
++			opkg-cl ${IPKG_ARGS} flag unpacked base-passwd
++		fi
++	fi
++
+ 	for i in ${IMAGE_ROOTFS}${opkglibdir}/info/*.preinst; do
+ 		if [ -f $i ] && ! sh $i; then
+ 		     	runtime_script_required=1
+-- 
+1.7.2.5
 
-Regards Peter
 
 
