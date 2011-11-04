@@ -1,25 +1,25 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1RMI6D-0007qf-V6
+	(envelope-from <koen@dominion.thruhere.net>) id 1RMIIQ-000291-Rj
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 Nov 2011 12:38:18 +0100
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RMI0I-0004No-Dh
-	for openembedded-core@lists.openembedded.org;
-	Fri, 04 Nov 2011 12:32:10 +0100
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 04 Nov 2011 11:31:56 +0000
-In-Reply-To: <1320400712.1504.29.camel@localhost.localdomain>
-References: <1320375012.1504.22.camel@localhost.localdomain>
-	<1320400712.1504.29.camel@localhost.localdomain>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1320406330.22985.625.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: about the qemu net interface name
+	Fri, 04 Nov 2011 12:50:54 +0100
+Received: by wwf4 with SMTP id 4so2779367wwf.24
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 04 Nov 2011 04:44:45 -0700 (PDT)
+Received: by 10.216.136.33 with SMTP id v33mr775683wei.96.1320407085229;
+	Fri, 04 Nov 2011 04:44:45 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id
+	ei16sm15502490wbb.21.2011.11.04.04.44.43
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 04 Nov 2011 04:44:44 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  4 Nov 2011 12:44:39 +0100
+Message-Id: <1320407079-24810-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.2.5
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [Patch v3] rootfs_ipk bbclass: special-case base-passwd preinst to run first
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,24 +34,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Nov 2011 11:38:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 04 Nov 2011 11:50:54 -0000
 
-On Fri, 2011-11-04 at 17:58 +0800, Ni Qingliang wrote:
-> I have checked the version of ifconfig, it blongs to package
-> "net-tools".
-> 
-> only the latest version 1.60.20110819cvs-1 have the ":" after Interface
-> name. In this version, the output format of ifconfig has changed.
+Preinst are run alphabetically which breaks when e.g. avahi-daemon needs /etc/passwd present.
 
-Parsing the output of ifconfig isn't a very good way to get a list of
-devices (not least because ifconfig isn't guaranteed to be available).
-It would be better to read /proc/net/dev directly since this file is
-intended to be machine-readable.
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/classes/rootfs_ipk.bbclass |    6 ++++++
+ 1 files changed, 6 insertions(+), 0 deletions(-)
 
-p.
-
+diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
+index e02b816..3094c1a 100644
+--- a/meta/classes/rootfs_ipk.bbclass
++++ b/meta/classes/rootfs_ipk.bbclass
+@@ -77,6 +77,12 @@ fakeroot rootfs_ipk_do_rootfs () {
+ 	${ROOTFS_POSTINSTALL_COMMAND}
+ 	
+ 	runtime_script_required=0
++
++	# Base-passwd needs to run first to install /etc/passwd and friends
++	if [ -e ${IMAGE_ROOTFS}${opkglibdir}/info/base-passwd.preinst ] ; then
++		sh ${IMAGE_ROOTFS}${opkglibdir}/info/base-passwd.preinst
++	fi
++
+ 	for i in ${IMAGE_ROOTFS}${opkglibdir}/info/*.preinst; do
+ 		if [ -f $i ] && ! sh $i; then
+ 		     	runtime_script_required=1
+-- 
+1.7.2.5
 
 
 
