@@ -1,24 +1,35 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RMGKo-0006f8-DV
+	(envelope-from <martin.jansa@gmail.com>) id 1RMGRd-0006uj-P5
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 Nov 2011 10:45:14 +0100
-Received: by wwf4 with SMTP id 4so2635700wwf.24
+	Fri, 04 Nov 2011 10:52:17 +0100
+Received: by bkbzv3 with SMTP id zv3so1873423bkb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Nov 2011 02:39:02 -0700 (PDT)
-Received: by 10.227.59.207 with SMTP id m15mr17154110wbh.12.1320399541858;
-	Fri, 04 Nov 2011 02:39:01 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
-	by mx.google.com with ESMTPS id es5sm14994332wbb.11.2011.11.04.02.39.00
+	Fri, 04 Nov 2011 02:46:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=oQXZJWgG+swlBZrukZUFCsqXc9rDh9dV79wft1HRP8s=;
+	b=QJLTAjUnUavJaTlEK1q1A4+V9SajHMDFMm4gh2JduN8zjpgoSm8l03PU0MGxbKt4aS
+	N4278xktLXHtOdWmOH2xh27Goh0VtXC0Al6ttJx8ggRjhbri83aXRnF0PazVGhnqWuvu
+	mhiCjcmb12oJ+PjMuNtnDvPFkknetAC/va7ew=
+Received: by 10.204.143.74 with SMTP id t10mr552610bku.45.1320399962616;
+	Fri, 04 Nov 2011 02:46:02 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id k13sm6191696fah.0.2011.11.04.02.46.00
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 04 Nov 2011 02:39:00 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Nov 2011 10:38:53 +0100
-Message-Id: <1320399533-25156-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.7.2.5
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [Patch v2] rootfs_ipk bbclass: special-case base-passwd preinst to run first
+	Fri, 04 Nov 2011 02:46:01 -0700 (PDT)
+Date: Fri, 4 Nov 2011 10:45:59 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20111104094559.GS9949@jama.jama.net>
+References: <CAE1-YAFQW1LXHfND8on-KBp-4fid32EAh5N12DD_hdmhc_54Qw@mail.gmail.com>
+	<CAE1-YAGuD3+ccvJ0kFgEFuJCpew_T0VX85YH3sMuNYdyu729CA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAE1-YAGuD3+ccvJ0kFgEFuJCpew_T0VX85YH3sMuNYdyu729CA@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: Error building any image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,34 +44,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Nov 2011 09:45:14 -0000
+X-List-Received-Date: Fri, 04 Nov 2011 09:52:17 -0000
+X-Groupsio-MsgNum: 11895
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="0lx/R+CYDdR/AN/7"
+Content-Disposition: inline
 
-Preinst are run alphabetically which breaks when e.g. avahi-daemon needs /etc/passwd present.
+--0lx/R+CYDdR/AN/7
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/classes/rootfs_ipk.bbclass |    6 ++++++
- 1 files changed, 6 insertions(+), 0 deletions(-)
+On Fri, Nov 04, 2011 at 10:23:44AM +0100, Peter Lohmer wrote:
+> Hi all,
+> after last oecore update building fails with the following error message:
+>=20
+> peter@p-lohmer-linux:~/oe-core$ bitbake -k xfce-nm-image
+> Loading cache: 100%
+> |########################################################################=
+##################################|
+> ETA:=A0 00:00:00
+> Loaded 1826 entries from dependency cache.
+> Parsing recipes: 100%
+> |########################################################################=
+################################|
+> Time: 00:00:00
+> Parsing of 1418 .bb files complete (1414 cached, 4 parsed). 1825
+> targets, 72 skipped, 0 masked, 0 errors.
+> ERROR: No recipes available for:
+> =A0 /home/peter/oe-core/sources/meta-smartphone/meta-openmoko/recipes-mul=
+timedia/mplayer/mplayer2_git.bbappend
+> ERROR: Command execution failed: Exited with 1
+>=20
+> I believe it's caused by meta-smartphone, does anyone face the same probl=
+em ?
 
-diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
-index e02b816..47c4f94 100644
---- a/meta/classes/rootfs_ipk.bbclass
-+++ b/meta/classes/rootfs_ipk.bbclass
-@@ -77,6 +77,12 @@ fakeroot rootfs_ipk_do_rootfs () {
- 	${ROOTFS_POSTINSTALL_COMMAND}
- 	
- 	runtime_script_required=0
-+
-+	# Base-passwd needs to run first to install /etc/passwd and friends
-+	if [ -e ${IMAGE_ROOTFS}${opkglibdir}/info/base-passwd.preinst ] ; then
-+		sh ${IMAGE_ROOTFS}${opkglibdir}/info/base-passwd.preinst; then
-+	fi
-+
- 	for i in ${IMAGE_ROOTFS}${opkglibdir}/info/*.preinst; do
- 		if [ -f $i ] && ! sh $i; then
- 		     	runtime_script_required=1
--- 
-1.7.2.5
+Hi,
 
+yes it is, I'm sorry about that.
 
+yes it is, I've updated README to be more clear about dependencies
+http://git.shr-project.org/git/?p=3Dmeta-smartphone.git;a=3Dcommit;h=3D543e=
+9ccc533677f25146f5ab59fbb019907e3548
+http://git.shr-project.org/git/?p=3Dmeta-smartphone.git;a=3Dcommit;h=3Dbc70=
+51e466f3d48b70ed62df8fffef23a9329bf0
 
+and for now you can revert
+http://git.shr-project.org/git/?p=3Dmeta-smartphone.git;a=3Dcommit;h=3D38d8=
+1585f57c3df86771dc39f7408291798601a4
+or apply
+http://patches.openembedded.org/patch/14259/
+
+Regards,
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--0lx/R+CYDdR/AN/7
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk6ztFcACgkQN1Ujt2V2gBwKuQCfXBVW98VuVinzpYiSkjSPPCnj
+ExAAnjxT5FCSjMwzzR7gjHrf4gF2U9oP
+=gtyq
+-----END PGP SIGNATURE-----
+
+--0lx/R+CYDdR/AN/7--
