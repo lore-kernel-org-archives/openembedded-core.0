@@ -1,31 +1,25 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RMHU3-0006fR-F2 for openembedded-core@lists.openembedded.org;
-	Fri, 04 Nov 2011 11:58:52 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA4Aqh1W008641;
-	Fri, 4 Nov 2011 10:52:43 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 07309-09; Fri,  4 Nov 2011 10:52:39 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA4AqXpI008635
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 4 Nov 2011 10:52:35 GMT
-Message-ID: <1320403953.20107.111.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <philb@gnu.org>) id 1RMI6D-0007qf-V6
+	for openembedded-core@lists.openembedded.org;
+	Fri, 04 Nov 2011 12:38:18 +0100
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RMI0I-0004No-Dh
+	for openembedded-core@lists.openembedded.org;
+	Fri, 04 Nov 2011 12:32:10 +0100
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 04 Nov 2011 10:52:33 +0000
-In-Reply-To: <0C757E680E33864AB113392C7E83F910BE522C@GSX300A.mxchg.m.corp>
-References: <0C757E680E33864AB113392C7E83F910BE522C@GSX300A.mxchg.m.corp>
-X-Mailer: Evolution 3.2.1- 
+Date: Fri, 04 Nov 2011 11:31:56 +0000
+In-Reply-To: <1320400712.1504.29.camel@localhost.localdomain>
+References: <1320375012.1504.22.camel@localhost.localdomain>
+	<1320400712.1504.29.camel@localhost.localdomain>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1320406330.22985.625.camel@phil-desktop>
 Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-devel@lists.openembedded.org
-Subject: Re: Clean of qt4-embedded don't cleanup sysroot and deploy
+Subject: Re: about the qemu net interface name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,23 +34,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Nov 2011 10:58:52 -0000
+X-List-Received-Date: Fri, 04 Nov 2011 11:38:18 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-11-04 at 10:18 +0100, Hauser, Wolfgang (external) wrote:
-> if I do a bitbake -c clean for qt4-embedded or qt4-native all libraries
-> and binaries of QT are left in the sysroots and all created packages are
-> left in deploy. This is an result of splitting qt into several sub
-> packages and install them.
+On Fri, 2011-11-04 at 17:58 +0800, Ni Qingliang wrote:
+> I have checked the version of ifconfig, it blongs to package
+> "net-tools".
+> 
+> only the latest version 1.60.20110819cvs-1 have the ":" after Interface
+> name. In this version, the output format of ifconfig has changed.
 
-When you clean a package, everything it installed into the sysroot
-should get removed. If this doesn't happen there is a bug somewhere and
-we need to fix that bug...
+Parsing the output of ifconfig isn't a very good way to get a list of
+devices (not least because ifconfig isn't guaranteed to be available).
+It would be better to read /proc/net/dev directly since this file is
+intended to be machine-readable.
 
-Cheers,
+p.
 
-Richard
 
 
 
