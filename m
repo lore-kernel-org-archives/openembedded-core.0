@@ -1,27 +1,30 @@
-Received: from mail2.eads.net ([80.156.45.114] helo=mail.eads.net)
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Wolfgang.Hauser.external@cassidian.com>)
-	id 1RMG0h-00066H-1a; Fri, 04 Nov 2011 10:24:27 +0100
-Received: from gsx3071-vs5.mxchg.m.corp ([53.147.176.148])
-	by mail.eads.net (8.13.8/8.13.8/Debian-2) with ESMTP id pA49IGOE028331; 
-	Fri, 4 Nov 2011 10:18:17 +0100
-Received: from gsx300a.mxchg.m.corp ([10.43.212.131]) by
-	gsx3071-vs5.mxchg.m.corp with Microsoft SMTPSVC(6.0.3790.4675); 
-	Fri, 4 Nov 2011 10:18:14 +0100
-X-MimeOLE: Produced By Microsoft Exchange V6.5
+	(envelope-from <lohmer.p@googlemail.com>) id 1RMG5y-0006Jf-4w
+	for openembedded-core@lists.openembedded.org;
+	Fri, 04 Nov 2011 10:29:54 +0100
+Received: by faas16 with SMTP id s16so2664515faa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 04 Nov 2011 02:23:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=I9HXEw4Glcr9WHwvhzM/vLY7x9XKx8rWkf8wQYWmYvw=;
+	b=qg4t1uBzqGX6Jeq1iYGK1tYrX1IPwmR/DsQqam31S5PkH6A+Wtm+iDNcJlUyKr/BjA
+	Ovl8wcRHPMvUEhks6T+R0CeliYhTSVJY6wTscvwo8NMQKIs3bmxUYt4VL/B05u/NIQ8o
+	E5huHmhBANzNDHe4p+Sah4hC6yAdIohzvgxbs=
 MIME-Version: 1.0
-Date: Fri, 4 Nov 2011 10:18:14 +0100
-Message-ID: <0C757E680E33864AB113392C7E83F910BE522C@GSX300A.mxchg.m.corp>
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-Thread-Topic: Clean of qt4-embedded don't cleanup sysroot and deploy
-Thread-Index: AcyP4ovn6EzPVhcDTmCKRTj3ZlV1+g==
-From: "Hauser, Wolfgang (external)" <Wolfgang.Hauser.external@cassidian.com>
-To: <openembedded-devel@lists.openembedded.org>
-X-OriginalArrivalTime: 04 Nov 2011 09:18:14.0581 (UTC)
-	FILETIME=[AE597650:01CC9AD2]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Clean of qt4-embedded don't cleanup sysroot and deploy
+Received: by 10.223.58.134 with SMTP id g6mr9024111fah.0.1320398625008; Fri,
+	04 Nov 2011 02:23:45 -0700 (PDT)
+Received: by 10.223.15.89 with HTTP; Fri, 4 Nov 2011 02:23:44 -0700 (PDT)
+In-Reply-To: <CAE1-YAFQW1LXHfND8on-KBp-4fid32EAh5N12DD_hdmhc_54Qw@mail.gmail.com>
+References: <CAE1-YAFQW1LXHfND8on-KBp-4fid32EAh5N12DD_hdmhc_54Qw@mail.gmail.com>
+Date: Fri, 4 Nov 2011 10:23:44 +0100
+Message-ID: <CAE1-YAGuD3+ccvJ0kFgEFuJCpew_T0VX85YH3sMuNYdyu729CA@mail.gmail.com>
+From: Peter Lohmer <lohmer.p@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Error building any image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,36 +39,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Nov 2011 09:24:27 -0000
-Content-class: urn:content-classes:message
-Content-Type: text/plain;
-	charset="us-ascii"
+X-List-Received-Date: Fri, 04 Nov 2011 09:29:54 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-I didn't get an answer, so I ask it again.
+Hi all,
+after last oecore update building fails with the following error message:
 
-Hello,
+peter@p-lohmer-linux:~/oe-core$ bitbake -k xfce-nm-image
+Loading cache: 100%
+|##########################################################################=
+################################|
+ETA:=A0 00:00:00
+Loaded 1826 entries from dependency cache.
+Parsing recipes: 100%
+|##########################################################################=
+##############################|
+Time: 00:00:00
+Parsing of 1418 .bb files complete (1414 cached, 4 parsed). 1825
+targets, 72 skipped, 0 masked, 0 errors.
+ERROR: No recipes available for:
+=A0 /home/peter/oe-core/sources/meta-smartphone/meta-openmoko/recipes-multi=
+media/mplayer/mplayer2_git.bbappend
+ERROR: Command execution failed: Exited with 1
 
-if I do a bitbake -c clean for qt4-embedded or qt4-native all libraries
-and binaries of QT are left in the sysroots and all created packages are
-left in deploy. This is an result of splitting qt into several sub
-packages and install them.
+I believe it's caused by meta-smartphone, does anyone face the same problem=
+ ?
 
-This behavior makes problems if I change the used QT Version of the
-distro.
-If qt recipe builds, it first searches for the libraries in sysroot
-(standard library path of OE) and then it search in its working
-directory. While the sysroots contain libraries of a different QT
-version now, the build will fail.=20
-
-Is there a way to clean all sub packages of qt if I clean the
-qt4-embedded or qt4-native package ?
-
-An other solution may be to switch the order of the library paths in the
-linker command (-L) to search libraries in the package working path
-first. But how to do this in a proper way?
-
-Regards
-Wolfgang Hauser
+Regards Peter
 
 
