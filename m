@@ -1,40 +1,30 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mx.insigma.com.cn ([115.236.48.170] helo=WX-Edge.insigma.com.cn)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RMGeF-0007e1-Ng
+	(envelope-from <niqingliang@insigma.com.cn>) id 1RMGej-0007fj-E0
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 Nov 2011 11:05:19 +0100
-Received: by eyd9 with SMTP id 9so1832716eyd.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Nov 2011 02:59:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=4DQAHIEq68y3HaojpIQvdZkTveJNBtKdwo0kzc74590=;
-	b=fnigN9qrfbwWzBjathWEf3hE0seXB3NLqNuw1x9bnzyr7k47W1p+wsAU2FJvl4aR6E
-	OX1CpKzoY24TZ0aT0ArC4d/1T5QC9GHcT3Gop8hJMSDnOvRopYM5EjolAC1guZr65UDV
-	c3oZOpHT/H0mwmg0NS/UacGKt8btslHQH9Luo=
-Received: by 10.14.17.222 with SMTP id j70mr1289350eej.241.1320400747109;
-	Fri, 04 Nov 2011 02:59:07 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id a49sm23714989eea.2.2011.11.04.02.59.05
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 04 Nov 2011 02:59:06 -0700 (PDT)
-Date: Fri, 4 Nov 2011 10:59:04 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
+	Fri, 04 Nov 2011 11:05:49 +0100
+Received: from WX-ExchMB.insigma.com.cn (10.0.1.203) by WX-Edge.insigma.com.cn
+	(10.0.1.205) with Microsoft SMTP Server (TLS) id 8.1.436.0;
+	Fri, 4 Nov 2011 17:59:22 +0800
+Received: from [192.168.0.98] (122.224.76.38) by WX-ExchMB.insigma.com.cn
+	(10.0.1.203) with Microsoft SMTP Server id 8.1.240.5; Fri, 4 Nov 2011
+	17:59:21 +0800
+Message-ID: <1320400712.1504.29.camel@localhost.localdomain>
+From: Ni Qingliang <niqingliang@insigma.com.cn>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111104095904.GT9949@jama.jama.net>
-References: <CAE1-YAFQW1LXHfND8on-KBp-4fid32EAh5N12DD_hdmhc_54Qw@mail.gmail.com>
-	<CAE1-YAGuD3+ccvJ0kFgEFuJCpew_T0VX85YH3sMuNYdyu729CA@mail.gmail.com>
-	<20111104094559.GS9949@jama.jama.net>
+Date: Fri, 4 Nov 2011 17:58:32 +0800
+In-Reply-To: <1320375012.1504.22.camel@localhost.localdomain>
+References: <1320375012.1504.22.camel@localhost.localdomain>
+Organization: Insigma
+X-Mailer: Evolution 3.2.1 
 MIME-Version: 1.0
-In-Reply-To: <20111104094559.GS9949@jama.jama.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: Error building any image
+Subject: Re: about the qemu net interface name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: niqingliang@insigma.com.cn,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -45,78 +35,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Nov 2011 10:05:19 -0000
-X-Groupsio-MsgNum: 11896
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="skzcsJvRJWOW8YcK"
-Content-Disposition: inline
-
---skzcsJvRJWOW8YcK
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+X-List-Received-Date: Fri, 04 Nov 2011 10:05:49 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 04, 2011 at 10:45:59AM +0100, Martin Jansa wrote:
-> On Fri, Nov 04, 2011 at 10:23:44AM +0100, Peter Lohmer wrote:
-> > Hi all,
-> > after last oecore update building fails with the following error messag=
-e:
-> >=20
-> > peter@p-lohmer-linux:~/oe-core$ bitbake -k xfce-nm-image
-> > Loading cache: 100%
-> > |######################################################################=
-####################################|
-> > ETA:=A0 00:00:00
-> > Loaded 1826 entries from dependency cache.
-> > Parsing recipes: 100%
-> > |######################################################################=
-##################################|
-> > Time: 00:00:00
-> > Parsing of 1418 .bb files complete (1414 cached, 4 parsed). 1825
-> > targets, 72 skipped, 0 masked, 0 errors.
-> > ERROR: No recipes available for:
-> > =A0 /home/peter/oe-core/sources/meta-smartphone/meta-openmoko/recipes-m=
-ultimedia/mplayer/mplayer2_git.bbappend
-> > ERROR: Command execution failed: Exited with 1
-> >=20
-> > I believe it's caused by meta-smartphone, does anyone face the same pro=
-blem ?
->=20
-> Hi,
->=20
-> yes it is, I'm sorry about that.
->=20
-> yes it is, I've updated README to be more clear about dependencies
-> http://git.shr-project.org/git/?p=3Dmeta-smartphone.git;a=3Dcommit;h=3D54=
-3e9ccc533677f25146f5ab59fbb019907e3548
-> http://git.shr-project.org/git/?p=3Dmeta-smartphone.git;a=3Dcommit;h=3Dbc=
-7051e466f3d48b70ed62df8fffef23a9329bf0
->=20
-> and for now you can revert
-> http://git.shr-project.org/git/?p=3Dmeta-smartphone.git;a=3Dcommit;h=3D38=
-d81585f57c3df86771dc39f7408291798601a4
-> or apply
-> http://patches.openembedded.org/patch/14259/
+I have checked the version of ifconfig, it blongs to package
+"net-tools".
 
-I've also pushed without_shr branch to meta-smartphone which is master
-without this 3 patches and I'll merge master branch to it sometimes when
-I'll feel that currently we don't need anything critical from
-oe-core-contrib/shr or meta-oe-contrib/shr
+only the latest version 1.60.20110819cvs-1 have the ":" after Interface
+name. In this version, the output format of ifconfig has changed.
 
-Regards,
+On Fri, 2011-11-04 at 10:50 +0800, =E5=80=AA=E5=BA=86=E4=BA=AE wrote:
+> file: scripts/runqemu-internal
+> line153: POSSIBLE=3D`$IFCONFIG -a|grep '^tap' | awk `{print $1}'`
+>=20
+> on archlinux, I got that:
+> tap0:
+> tap1:
+>=20
+> maybe it should be:
+> tap0
+> tap1
+>=20
+> Is it right?
+>=20
+> so I change it to
+> POSSIBLE=3D`$IFCONFIG -a|grep '^tap' | awk `{print $1}' | sed 's/:$//'`
+>=20
+> --
+> Yi Qingliang
+> niqingliang@insigma.com.cn
+> https://niqingliang2003.wordpress.com
+>=20
+
 --=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Yi Qingliang
+niqingliang@insigma.com.cn
+https://niqingliang2003.wordpress.com
 
---skzcsJvRJWOW8YcK
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
 
-iEYEARECAAYFAk6zt2gACgkQN1Ujt2V2gBy+XACeOPZgfX3NmjlkhadE8Ll5jUxG
-jmUAn1YjIHbqnvEyfyAMACmBRjZ+4NCr
-=NdaN
------END PGP SIGNATURE-----
-
---skzcsJvRJWOW8YcK--
