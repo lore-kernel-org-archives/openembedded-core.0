@@ -1,30 +1,35 @@
-Received: from mx.insigma.com.cn ([115.236.48.170] helo=WX-Edge.insigma.com.cn)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <niqingliang@insigma.com.cn>) id 1RMGej-0007fj-E0
-	for openembedded-core@lists.openembedded.org;
-	Fri, 04 Nov 2011 11:05:49 +0100
-Received: from WX-ExchMB.insigma.com.cn (10.0.1.203) by WX-Edge.insigma.com.cn
-	(10.0.1.205) with Microsoft SMTP Server (TLS) id 8.1.436.0;
-	Fri, 4 Nov 2011 17:59:22 +0800
-Received: from [192.168.0.98] (122.224.76.38) by WX-ExchMB.insigma.com.cn
-	(10.0.1.203) with Microsoft SMTP Server id 8.1.240.5; Fri, 4 Nov 2011
-	17:59:21 +0800
-Message-ID: <1320400712.1504.29.camel@localhost.localdomain>
-From: Ni Qingliang <niqingliang@insigma.com.cn>
-To: "openembedded-core@lists.openembedded.org"
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RMHU3-0006fR-F2 for openembedded-core@lists.openembedded.org;
+	Fri, 04 Nov 2011 11:58:52 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA4Aqh1W008641;
+	Fri, 4 Nov 2011 10:52:43 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 07309-09; Fri,  4 Nov 2011 10:52:39 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA4AqXpI008635
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 4 Nov 2011 10:52:35 GMT
+Message-ID: <1320403953.20107.111.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 4 Nov 2011 17:58:32 +0800
-In-Reply-To: <1320375012.1504.22.camel@localhost.localdomain>
-References: <1320375012.1504.22.camel@localhost.localdomain>
-Organization: Insigma
-X-Mailer: Evolution 3.2.1 
-MIME-Version: 1.0
-Subject: Re: about the qemu net interface name
+Date: Fri, 04 Nov 2011 10:52:33 +0000
+In-Reply-To: <0C757E680E33864AB113392C7E83F910BE522C@GSX300A.mxchg.m.corp>
+References: <0C757E680E33864AB113392C7E83F910BE522C@GSX300A.mxchg.m.corp>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-devel@lists.openembedded.org
+Subject: Re: Clean of qt4-embedded don't cleanup sysroot and deploy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: niqingliang@insigma.com.cn,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -35,43 +40,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Nov 2011 10:05:49 -0000
+X-List-Received-Date: Fri, 04 Nov 2011 10:58:52 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-I have checked the version of ifconfig, it blongs to package
-"net-tools".
+On Fri, 2011-11-04 at 10:18 +0100, Hauser, Wolfgang (external) wrote:
+> if I do a bitbake -c clean for qt4-embedded or qt4-native all libraries
+> and binaries of QT are left in the sysroots and all created packages are
+> left in deploy. This is an result of splitting qt into several sub
+> packages and install them.
 
-only the latest version 1.60.20110819cvs-1 have the ":" after Interface
-name. In this version, the output format of ifconfig has changed.
+When you clean a package, everything it installed into the sysroot
+should get removed. If this doesn't happen there is a bug somewhere and
+we need to fix that bug...
 
-On Fri, 2011-11-04 at 10:50 +0800, =E5=80=AA=E5=BA=86=E4=BA=AE wrote:
-> file: scripts/runqemu-internal
-> line153: POSSIBLE=3D`$IFCONFIG -a|grep '^tap' | awk `{print $1}'`
->=20
-> on archlinux, I got that:
-> tap0:
-> tap1:
->=20
-> maybe it should be:
-> tap0
-> tap1
->=20
-> Is it right?
->=20
-> so I change it to
-> POSSIBLE=3D`$IFCONFIG -a|grep '^tap' | awk `{print $1}' | sed 's/:$//'`
->=20
-> --
-> Yi Qingliang
-> niqingliang@insigma.com.cn
-> https://niqingliang2003.wordpress.com
->=20
+Cheers,
 
---=20
-Yi Qingliang
-niqingliang@insigma.com.cn
-https://niqingliang2003.wordpress.com
+Richard
 
 
 
