@@ -1,33 +1,29 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RMOP4-0001Vi-Jb
+	(envelope-from <koen@dominion.thruhere.net>) id 1RMORG-0001av-OK
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 Nov 2011 19:22:10 +0100
-Received: by bkbzv3 with SMTP id zv3so2334257bkb.6
+	Fri, 04 Nov 2011 19:24:26 +0100
+Received: by wwf4 with SMTP id 4so3269173wwf.24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Nov 2011 11:16:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=KjhmnOfJDISI3SYt1sST1HRLaD+Md20KEmNVfMSa100=;
-	b=N/TtPI/2KQYjFTlunGOD5jlRkleBgkko+aEJAP7qtAtlOjVddEfX3vViC0+3HUveha
-	xcdcqZmS7tBd0LCSAUAMx6vM1aQq0a4pXymkTrfMCL7+ctUzikmmFVbP1XuBHdxVg5By
-	0UN8Pp/faOiRwrZzKCvyBu1Li7+H4oJPOm6aA=
-MIME-Version: 1.0
-Received: by 10.204.10.81 with SMTP id o17mr7419216bko.65.1320430559043; Fri,
-	04 Nov 2011 11:15:59 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.48.208 with HTTP; Fri, 4 Nov 2011 11:15:59 -0700 (PDT)
-In-Reply-To: <cover.1320429268.git.paul.eggleton@linux.intel.com>
-References: <cover.1320429268.git.paul.eggleton@linux.intel.com>
-Date: Fri, 4 Nov 2011 16:15:59 -0200
-X-Google-Sender-Auth: SAeh1GIhj64eFngrEpBEQfVEWYo
-Message-ID: <CAP9ODKr=5gbdM7CNSV7n3Ouq5fpcXmCTPGQWAjEKR59FA_ZGzw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+	Fri, 04 Nov 2011 11:18:17 -0700 (PDT)
+Received: by 10.216.9.141 with SMTP id 13mr1273002wet.79.1320430696026;
+	Fri, 04 Nov 2011 11:18:16 -0700 (PDT)
+Received: from [172.20.1.32] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id v6sm166250wiv.10.2011.11.04.11.18.14
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 04 Nov 2011 11:18:15 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Fri, 4 Nov 2011 19:18:09 +0100
+In-Reply-To: <8ae5b3cd9ef609e444cc360e226f857685e2e254.1320429060.git.paul.eggleton@linux.intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/7] combo-layer enhancements
+References: <cover.1320429060.git.paul.eggleton@linux.intel.com>
+	<8ae5b3cd9ef609e444cc360e226f857685e2e254.1320429060.git.paul.eggleton@linux.intel.com>
+Message-Id: <E2FAFDF6-ABD2-4242-8BAC-8124ED2B1013@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH 2/3] core-image-minimal-initramfs: force IMAGE_FSTYPES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,25 +38,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Nov 2011 18:22:10 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 04 Nov 2011 18:24:26 -0000
+X-Groupsio-MsgNum: 11923
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_BFB3FCA2-391A-4495-B408-7F15C77CF744";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_BFB3FCA2-391A-4495-B408-7F15C77CF744
 Content-Transfer-Encoding: quoted-printable
-
-On Fri, Nov 4, 2011 at 15:55, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-...
-> =A0scripts/combo-layer: auto-commit updated config file
-...
-
-As said on IRC I'd prefer to the auto-commit do not replace the author
-as it gives the possibility to easily figure who did the update on the
-repository.
-
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+Op 4 nov. 2011, om 18:52 heeft Paul Eggleton het volgende geschreven:
+
+> If the user has set their own value for IMAGE_FSTYPES, they may have
+> disabled the cpio.gz image type, preventing the initramfs from being
+> produced in the format that image-live.bbclass expects; so force
+> IMAGE_FSTYPES to cpio.gz within the initramfs image recipe.
+>=20
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+> .../images/core-image-minimal-initramfs.bb         |    1 +
+> 1 files changed, 1 insertions(+), 0 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb =
+b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+> index 0bac27a..e4d0e51 100644
+> --- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
+> +++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+> @@ -13,3 +13,4 @@ LICENSE =3D "MIT"
+> inherit core-image
+>=20
+> IMAGE_ROOTFS_SIZE =3D "8192"
+> +IMAGE_FSTYPES =3D "cpio.gz"
+
+_append or +=3D would give less suprises.
+
+regards,
+
+Koen=
+
+--Apple-Mail=_BFB3FCA2-391A-4495-B408-7F15C77CF744
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAk60LGIACgkQMkyGM64RGpGqzACeMWIFmRwmJ8YLdF5x9m/HZkYX
+PDEAmgLRQiXd3/tSJf+QlkPdD8LViRI9
+=M8CX
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_BFB3FCA2-391A-4495-B408-7F15C77CF744--
