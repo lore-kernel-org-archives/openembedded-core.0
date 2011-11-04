@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RMO5T-0000tc-4J
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1RMO5U-0000ta-Ig
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 Nov 2011 19:01:56 +0100
+	Fri, 04 Nov 2011 19:01:57 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 04 Nov 2011 10:55:46 -0700
+	by orsmga102.jf.intel.com with ESMTP; 04 Nov 2011 10:55:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="71129584"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="71129586"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.98])
-	by orsmga002.jf.intel.com with ESMTP; 04 Nov 2011 10:55:45 -0700
+	by orsmga002.jf.intel.com with ESMTP; 04 Nov 2011 10:55:46 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Nov 2011 17:55:35 +0000
-Message-Id: <5f0d61491981b454613fde87e92e6b92a426a0c5.1320429268.git.paul.eggleton@linux.intel.com>
+Date: Fri,  4 Nov 2011 17:55:36 +0000
+Message-Id: <246e94708cc57eab9f5440306d2a1f08f0de7e03.1320429268.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <cover.1320429268.git.paul.eggleton@linux.intel.com>
 References: <cover.1320429268.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1320429268.git.paul.eggleton@linux.intel.com>
 References: <cover.1320429268.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/7] scripts/combo-layer: make init set up initial component data
+Subject: [PATCH 3/7] scripts/combo-layer: tidy up config example
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,83 +33,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Nov 2011 18:01:56 -0000
+X-List-Received-Date: Fri, 04 Nov 2011 18:01:57 -0000
 
-The "init" subcommand will now copy the current state of each component
-repository into the combo layer repository, set last_revision for each
-component, and then use "git add" to set up the initial commit (but will
-not actually make the initial commit - that is left up to the user).
-Also take the opportunity to bump the version number.
+Move all example configuration to the example config file, tidy up a few
+long lines and fix some grammar.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/combo-layer              |   22 ++++++++++++++++++++--
- scripts/combo-layer.conf.example |    5 +++--
- 2 files changed, 23 insertions(+), 4 deletions(-)
+ scripts/combo-layer              |   47 +-------------------------------------
+ scripts/combo-layer.conf.example |   23 ++++++++++++++----
+ 2 files changed, 19 insertions(+), 51 deletions(-)
 
 diff --git a/scripts/combo-layer b/scripts/combo-layer
-index d6d238d..db38a95 100755
+index db38a95..e39e4e0 100755
 --- a/scripts/combo-layer
 +++ b/scripts/combo-layer
-@@ -26,7 +26,7 @@ import logging
- import subprocess
- import ConfigParser
- 
--__version__ = "0.1.0"
-+__version__ = "0.2.0"
- 
- def logger_create():
-     logger = logging.getLogger("")
-@@ -146,7 +146,7 @@ def runcmd(cmd,destdir=None):
- def action_init(conf, args):
+@@ -42,52 +42,7 @@ class Configuration(object):
      """
-         Clone component repositories
--        Check git initialised and working tree is clean
-+        Check git is initialised; if not, copy initial data from component repos
-     """
-     for name in conf.repos:
-         ldir = conf.repos[name]['local_repo_dir']
-@@ -155,6 +155,24 @@ def action_init(conf, args):
-             subprocess.check_call("git clone %s %s" % (conf.repos[name]['src_uri'], ldir), shell=True)
-     if not os.path.exists(".git"):
-         runcmd("git init")
-+        for name in conf.repos:
-+            ldir = conf.repos[name]['local_repo_dir']
-+            logger.info("copying data from %s..." % name)
-+            dest_dir = conf.repos[name]['dest_dir']
-+            if dest_dir and dest_dir != ".":
-+                extract_dir = os.path.join(os.getcwd(), dest_dir)
-+                os.makedirs(extract_dir)
-+            else:
-+                extract_dir = os.getcwd()
-+            file_filter = conf.repos[name].get('file_filter',"")
-+            runcmd("git archive master | tar -x -C %s %s" % (extract_dir, file_filter), ldir)
-+            lastrev = runcmd("git rev-parse HEAD", ldir).strip()
-+            conf.update(name, "last_revision", lastrev)
-+        runcmd("git add .")
-+        logger.info("Initial combo layer repository data has been created; please make any changes if desired and then use 'git commit' to make the initial commit.")
-+    else:
-+        logger.info("Repository already initialised, nothing to do.")
-+
+     Manages the configuration
  
- def check_repo_clean(repodir):
+-    A valid conf looks like:
+-
+-# component name
+-[bitbake]
+-
+-# mandatory options
+-
+-# git upstream uri
+-src_uri = git://git.openembedded.org/bitbake
+-
+-# the directory to clone the component repo
+-local_repo_dir = ~/src/bitbake
+-
+-# the relative dir to commit the repo patch
+-# use "." if it is root dir
+-dest_dir = bitbake
+-
+-# the updated revision last time.
+-# leave it empty if no commit updated yet, and then the tool
+-# will start from the first commit
+-last_revision =
+-
+-# optional options
+-
+-# file_filter: only include the interested file
+-# file_filter = [path] [path] ...
+-# example:
+-#   file_filter = src/  : only include the subdir src
+-#   file_filter = src/*.c : only include the src *.c file
+-#   file_filter = src/main.c src/Makefile.am : only include these two files
+-
+-[oe-core]
+-src_uri = git://git.openembedded.org/openembedded-core
+-local_repo_dir = ~/src/oecore
+-dest_dir = .
+-last_revision =
+-
+-# it's also possible to embed python code in the config values. Similar
+-# to bitbake it considers every value starting with @ to be a python script. 
+-# So local_repo could be easily configured using an environment variable as:
+-#
+-# [bitbake]
+-# local_repo = @os.getenv("LOCAL_REPO_DIR") + "/bitbake"
+-#
+-
+-# more components ...
++    For an example config file, see combo-layer.conf.example
+ 
      """
+     def __init__(self, options):
 diff --git a/scripts/combo-layer.conf.example b/scripts/combo-layer.conf.example
-index 09b9415..8cee04f 100644
+index 8cee04f..3865829 100644
 --- a/scripts/combo-layer.conf.example
 +++ b/scripts/combo-layer.conf.example
-@@ -11,8 +11,9 @@ local_repo_dir = /home/kyu3/src/test/bitbake
- # use "." if it is root dir
+@@ -1,3 +1,5 @@
++# combo-layer example configuration file
++
+ # component name
+ [bitbake]
+ # mandatory options
+@@ -7,8 +9,8 @@ src_uri = git://git.openembedded.org/bitbake
+ # the directory to clone the component repo
+ local_repo_dir = /home/kyu3/src/test/bitbake
+ 
+-# the relative dir to commit the repo patch
+-# use "." if it is root dir
++# the relative dir within the combo repo to put the component files
++# use "." if the files should be in the root dir
  dest_dir = bitbake
  
--# the updated revision last time.
--# If empty, the tool will start from the first commit
-+# the last update revision.
-+# "init" will set this automatically, however if it is empty when "update"
-+# is run, the tool will start from the first commit.
- last_revision =
+ # the last update revision.
+@@ -25,9 +27,10 @@ last_revision =
+ #   file_filter = src/*.c : only include the src *.c file
+ #   file_filter = src/main.c src/Makefile.am : only include these two files
  
- # optional options
+-# hook: if provided, the tool will call the hook to process the generated patch from upstream,
+-#       and then apply the modified patch to combo repo
+-# the hook's parameter is: ./hook patchpath revision reponame
++# hook: if provided, the tool will call the hook to process the generated
++#     patch from upstream, and then apply the modified patch to the combo
++#     repo.
++# the hook script is called as follows: ./hook patchpath revision reponame
+ # example:
+ #     hook = combo-layer-hook-default.sh
+ 
+@@ -36,3 +39,13 @@ src_uri = git://git.openembedded.org/openembedded-core
+ local_repo_dir = /home/kyu3/src/test/oecore
+ dest_dir = .
+ last_revision =
++
++# It is also possible to embed python code in the config values. Similar
++# to bitbake it considers every value starting with @ to be a python
++# script.
++# e.g. local_repo_dir could easily be configured using an environment
++# variable:
++#
++# [bitbake]
++# local_repo_dir = @os.getenv("LOCAL_REPO_DIR") + "/bitbake"
++#
 -- 
 1.7.5.4
 
