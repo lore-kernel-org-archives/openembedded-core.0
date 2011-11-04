@@ -1,30 +1,28 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RMMQh-0004z5-Rw
+	(envelope-from <mark.hatle@windriver.com>) id 1RMMeQ-0005ri-6B
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 Nov 2011 17:15:43 +0100
-Received: by wwf4 with SMTP id 4so3110694wwf.24
+	Fri, 04 Nov 2011 17:29:54 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pA4GNhxk011868
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Nov 2011 09:09:34 -0700 (PDT)
-Received: by 10.216.229.3 with SMTP id g3mr4479634weq.79.1320422974007;
-	Fri, 04 Nov 2011 09:09:34 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id fr4sm16802061wbb.0.2011.11.04.09.09.32
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 04 Nov 2011 09:09:33 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1320421523.20107.118.camel@ted>
-Date: Fri, 4 Nov 2011 17:09:28 +0100
-Message-Id: <9EE60FF1-8F0B-4F49-B807-3CC198A4F24A@dominion.thruhere.net>
+	Fri, 4 Nov 2011 09:23:43 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.228) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Fri, 4 Nov 2011 09:23:42 -0700
+Message-ID: <4EB4118E.50005@windriver.com>
+Date: Fri, 4 Nov 2011 11:23:42 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
 References: <1320407079-24810-1-git-send-email-koen@dominion.thruhere.net>
 	<1320421523.20107.118.camel@ted>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.1251.1)
-Cc: "saul.wold" <saul.wold@intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	<9EE60FF1-8F0B-4F49-B807-3CC198A4F24A@dominion.thruhere.net>
+In-Reply-To: <9EE60FF1-8F0B-4F49-B807-3CC198A4F24A@dominion.thruhere.net>
 Subject: Re: [Patch v3] rootfs_ipk bbclass: special-case base-passwd preinst to run first
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -40,53 +38,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Nov 2011 16:15:44 -0000
-X-Groupsio-MsgNum: 11906
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_A3D00590-B54B-4241-9977-8AAC3E156175";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_A3D00590-B54B-4241-9977-8AAC3E156175
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-Op 4 nov. 2011, om 16:45 heeft Richard Purdie het volgende geschreven:
-
-> On Fri, 2011-11-04 at 12:44 +0100, Koen Kooi wrote:
->> Preinst are run alphabetically which breaks when e.g. avahi-daemon =
-needs /etc/passwd present.
->>=20
->> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
->> ---
->> meta/classes/rootfs_ipk.bbclass |    6 ++++++
->> 1 files changed, 6 insertions(+), 0 deletions(-)
->=20
-> I've merged this to master. I'm not particularly happy about it but
-> right now I can't see a good way to fix this short/medium term.
-
-RP and discussed this and we're both not happy with it, but no viable =
-other options short/medium term. The idea is to see if we can have opkg =
-run all the preinsts since opkg does dependency resolving nowadays.
-
-regards,
-
-Koen=
-
---Apple-Mail=_A3D00590-B54B-4241-9977-8AAC3E156175
+X-List-Received-Date: Fri, 04 Nov 2011 16:29:54 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
+One way to possibly address this is to create a distribution image creation
+policy.  (That is how most of the distributions I'm aware of do it..
+desktop/server and embedded.)
 
-iEYEARECAAYFAk60DjkACgkQMkyGM64RGpGmewCeO2TrLBdxsFjSUHXmnu2LyZxz
-CkQAn0/RHlBoUnlrr9jWQnFi9+XZUHZJ
-=Atqt
------END PGP SIGNATURE-----
+The policy is generally:
 
---Apple-Mail=_A3D00590-B54B-4241-9977-8AAC3E156175--
+install passwd/group files
+install filesystem hierarchy (it's second because it needs uid/gids)
+install "everything else"
+
+Something needs to set down the base set of components so the filesystem is sane
+before we do the actual package installs and pre/post install scripts for each.
+
+We could make this generic by defining "critical" or "base" or whatever name you
+want packages and setting a specific order for these packages.  (The list needs
+to kept small, there generally are one or two items that need to be done very
+early.)
+
+--Mark
+
+
+On 11/4/11 11:09 AM, Koen Kooi wrote:
+> 
+> Op 4 nov. 2011, om 16:45 heeft Richard Purdie het volgende geschreven:
+> 
+>> On Fri, 2011-11-04 at 12:44 +0100, Koen Kooi wrote:
+>>> Preinst are run alphabetically which breaks when e.g. avahi-daemon needs /etc/passwd present.
+>>>
+>>> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+>>> ---
+>>> meta/classes/rootfs_ipk.bbclass |    6 ++++++
+>>> 1 files changed, 6 insertions(+), 0 deletions(-)
+>>
+>> I've merged this to master. I'm not particularly happy about it but
+>> right now I can't see a good way to fix this short/medium term.
+> 
+> RP and discussed this and we're both not happy with it, but no viable other options short/medium term. The idea is to see if we can have opkg run all the preinsts since opkg does dependency resolving nowadays.
+> 
+> regards,
+> 
+> Koen
+> 
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
+
