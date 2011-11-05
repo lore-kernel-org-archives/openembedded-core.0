@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RMk3O-00065C-Oh
+	(envelope-from <sgw@linux.intel.com>) id 1RMk3O-00065F-Pi
 	for openembedded-core@lists.openembedded.org;
 	Sat, 05 Nov 2011 18:29:15 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
 	by azsmga101.ch.intel.com with ESMTP; 05 Nov 2011 10:23:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,461,1315206000"; d="scan'208";a="33625104"
+X-IronPort-AV: E=Sophos;i="4.69,461,1315206000"; d="scan'208";a="33625106"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.12])
 	by AZSMGA002.ch.intel.com with ESMTP; 05 Nov 2011 10:23:00 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  5 Nov 2011 10:22:32 -0700
-Message-Id: <0224132d4fb780052e1bd7f76ab1642deacf8225.1320513631.git.sgw@linux.intel.com>
+Date: Sat,  5 Nov 2011 10:22:33 -0700
+Message-Id: <607373195e6d8f8327c1a4e5bc359e0dbb7f9463.1320513631.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1320513631.git.sgw@linux.intel.com>
 References: <cover.1320513631.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1320513631.git.sgw@linux.intel.com>
 References: <cover.1320513631.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 02/28] patch: Convert to use oe_terminal
+Subject: [CONSOLIDATED PULL 03/28] bitbake.conf: Drop remaining TERMCMD pieces and document OE_TERMINAL usage instead
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,99 +37,102 @@ X-List-Received-Date: Sat, 05 Nov 2011 17:29:15 -0000
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Unfortunately we can't access oe_terminal directly from patch.py
-so we have to pass in the correct terminal function pointer.
-
-[YOCTO #1587]
-
-(From OE-Core rev: 9e0a21dda24f285a1c4878488e887485a749f3f2)
+(From OE-Core rev: ddb825c87dd3e59d50841a993080a00d1459b1e7)
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/patch.bbclass |    4 +++-
- meta/lib/oe/patch.py       |   17 ++++++-----------
- 2 files changed, 9 insertions(+), 12 deletions(-)
 
-diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
-index 7622163..86046e1 100644
---- a/meta/classes/patch.bbclass
-+++ b/meta/classes/patch.bbclass
-@@ -5,6 +5,8 @@ QUILTRCFILE ?= "${STAGING_BINDIR_NATIVE}/quiltrc"
+[Yes, this one is against meta-yocto, I'll fix it to apply the same
+change to OE-Core's local.conf.sample in the final version]
+---
+ meta/classes/sanity.bbclass |   13 -------------
+ meta/conf/bitbake.conf      |   20 --------------------
+ meta/conf/local.conf.sample |   12 ++++--------
+ 3 files changed, 4 insertions(+), 41 deletions(-)
+
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 4067408..3f42b4f 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -331,19 +331,6 @@ def check_sanity(e):
+     if not data.getVar( 'DISPLAY', e.data, True ) and data.getVar( 'IMAGETEST', e.data, True ) == 'qemu':
+         messages = messages + 'qemuimagetest needs a X desktop to start qemu, please set DISPLAY correctly (e.g. DISPLAY=:1.0)\n'
  
- PATCHDEPENDENCY = "${PATCHTOOL}-native:do_populate_sysroot"
- 
-+inherit terminal
-+
- python patch_do_patch() {
- 	import oe.patch
- 
-@@ -124,7 +126,7 @@ python patch_do_patch() {
- 
- 		if not patchdir in classes:
- 			patchset = cls(patchdir, d)
--			resolver = rcls(patchset)
-+			resolver = rcls(patchset, oe_terminal)
- 			classes[patchdir] = (patchset, resolver)
- 			patchset.Clean()
- 		else:
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index 9768be0..75fb91e 100644
---- a/meta/lib/oe/patch.py
-+++ b/meta/lib/oe/patch.py
-@@ -311,7 +311,7 @@ class QuiltTree(PatchSet):
-             self._runcmd(args)
- 
- class Resolver(object):
--    def __init__(self, patchset):
-+    def __init__(self, patchset, terminal):
-         raise NotImplementedError()
- 
-     def Resolve(self):
-@@ -324,8 +324,9 @@ class Resolver(object):
-         raise NotImplementedError()
- 
- class NOOPResolver(Resolver):
--    def __init__(self, patchset):
-+    def __init__(self, patchset, terminal):
-         self.patchset = patchset
-+        self.terminal = terminal
- 
-     def Resolve(self):
-         olddir = os.path.abspath(os.curdir)
-@@ -341,13 +342,13 @@ class NOOPResolver(Resolver):
- # resolution, with the exception of refreshing the remote copy of the patch
- # files (the urls).
- class UserResolver(Resolver):
--    def __init__(self, patchset):
-+    def __init__(self, patchset, terminal):
-         self.patchset = patchset
-+        self.terminal = terminal
- 
-     # Force a push in the patchset, then drop to a shell for the user to
-     # resolve any rejected hunks
-     def Resolve(self):
+-    if data.getVar('PATCHRESOLVE', e.data, True) != 'noop':
+-        # Ensure we have the binary for TERMCMD, as when patch application fails the error is fairly intimidating
+-        termcmd = data.getVar("TERMCMD", e.data, True)
+-        term = termcmd.split()[0]
+-        if not check_app_exists(term, e.data):
+-            messages = messages + "The console for use in patch error resolution is not available, please install %s or set TERMCMD and TERMCMDRUN (as documented in local.conf).\n" % term
+-        elif "konsole" in term:
+-            import oe.terminal
+-            vernum = oe.terminal.check_konsole_version(term)
+-            if vernum:
+-                if vernum.split('.')[0] == '2':
+-                    messages = messages +  'Konsole from KDE 4.x will not work as TERMCMD/TERMCMDRUN, please specify a different terminal or set PATCHRESOLVE = "noop" to disable interactive patch resolution.\n'
 -
-         olddir = os.path.abspath(os.curdir)
-         os.chdir(self.patchset.dir)
-         try:
-@@ -368,16 +369,10 @@ class UserResolver(Resolver):
-             f.write("echo 'Run \"quilt refresh\" when patch is corrected, press CTRL+D to exit.'\n")
-             f.write("echo ''\n")
-             f.write(" ".join(patchcmd) + "\n")
--            f.write("#" + bb.data.getVar('TERMCMDRUN', self.patchset.d, 1))
-             f.close()
-             os.chmod(rcfile, 0775)
+     if os.path.basename(os.readlink('/bin/sh')) == 'dash':
+         messages = messages + "Using dash as /bin/sh causes various subtle build problems, please use bash instead (e.g. 'dpkg-reconfigure dash' on an Ubuntu system.\n"
  
--            os.environ['TERMWINDOWTITLE'] = "Bitbake: Please fix patch rejects manually"
--            os.environ['SHELLCMDS'] = "bash --rcfile " + rcfile
--            rc = os.system(bb.data.getVar('TERMCMDRUN', self.patchset.d, 1))
--            if os.WIFEXITED(rc) and os.WEXITSTATUS(rc) != 0:
--                bb.msg.fatal("Build", ("Cannot proceed with manual patch resolution - '%s' not found. " \
--                    + "Check TERMCMDRUN variable.") % bb.data.getVar('TERMCMDRUN', self.patchset.d, 1))
-+            self.terminal("bash --rcfile " + rcfile, 'Patch Rejects: Please fix patch rejects manually', self.patchset.d)
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 9938a67..d405b6a 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -589,26 +589,6 @@ FAKEROOTENV = "PSEUDO_PREFIX=${STAGING_DIR_NATIVE}${prefix_native} PSEUDO_LOCALS
+ FAKEROOTDIRS = "${PSEUDO_LOCALSTATEDIR}"
+ PREFERRED_PROVIDER_virtual/fakeroot-native ?= "pseudo-native"
  
-             # Construct a new PatchSet after the user's changes, compare the
-             # sets, checking patches for modifications, and doing a remote
+-
+-##################################################################
+-# UI/Interaction Configuration
+-##################################################################
+-
+-export SHELLCMDS = "bash"
+-# Some common terminal programs to choose from
+-GNOME_TERMCMD = 'gnome-terminal --disable-factory -t "$TERMWINDOWTITLE"'
+-GNOME_TERMCMDRUN = '${GNOME_TERMCMD} -x $SHELLCMDS'
+-SCREEN_TERMCMD = 'screen -D -m -t "$TERMWINDOWTITLE"'
+-SCREEN_TERMCMDRUN = '${SCREEN_TERMCMD} $SHELLCMDS'
+-XTERM_TERMCMD = 'xterm -T "$TERMWINDOWTITLE"'
+-XTERM_TERMCMDRUN = '${XTERM_TERMCMD} -e $SHELLCMDS'
+-KONSOLE_TERMCMD = 'konsole -T "$TERMWINDOWTITLE"'
+-KONSOLE_TERMCMDRUN = '${KONSOLE_TERMCMD} -e $SHELLCMDS'
+-
+-# Set a default
+-TERMCMD ?= "${XTERM_TERMCMD}"
+-TERMCMDRUN ?= "${XTERM_TERMCMDRUN}"
+-
+ ##################################################################
+ # Miscellaneous utilities.
+ ##################################################################
+diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+index 84ed964..73ab9f8 100644
+--- a/meta/conf/local.conf.sample
++++ b/meta/conf/local.conf.sample
+@@ -168,20 +168,16 @@ USER_CLASSES ?= "image-mklibs image-prelink"
+ # Under certain circumstances the system may need input from you and to do this it 
+ # can launch an interactive shell. It needs to do this since the build is 
+ # multithreaded and needs to be able to handle the case where more than one parallel
+-# process may require the user's attention. The default is to use xterm.
++# process may require the user's attention. The default is iterate over the available
++# terminal types to find one that works.
+ #
+ # Examples of the occasions this may happen are when resolving patches which cannot
+ # be applied, to use the devshell or the kernel menuconfig
+ #
+-# If you do not use (or have installed) xterm you will need to
+-# uncomment these variables and set them to the terminal you wish to use
+-# 
+-# Supported shell prefixes for *_TERMCMD and *_TERMCMDRUN are:
+-# GNOME, SCREEN, XTERM and KONSOLE
++# Supported values are auto, gnome, xfce, rxvt, xcreen, konsole (3.x only), none
+ # Note: currently, Konsole support only works for KDE 3.x due to the way
+ # newer Konsole versions behave
+-#TERMCMD = "${XTERM_TERMCMD}"
+-#TERMCMDRUN = "${XTERM_TERMCMDRUN}"
++#OE_TERMINAL = "auto"
+ # By default disable interactive patch resolution (tasks will just fail instead):
+ PATCHRESOLVE = "noop"
+ 
 -- 
 1.7.6.4
 
