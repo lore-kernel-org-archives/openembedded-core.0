@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RMk3R-00065F-Rz
+	(envelope-from <sgw@linux.intel.com>) id 1RMk3R-00065C-GQ
 	for openembedded-core@lists.openembedded.org;
 	Sat, 05 Nov 2011 18:29:19 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
 	by azsmga101.ch.intel.com with ESMTP; 05 Nov 2011 10:23:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,461,1315206000"; d="scan'208";a="33625121"
+X-IronPort-AV: E=Sophos;i="4.69,461,1315206000"; d="scan'208";a="33625120"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.12])
-	by AZSMGA002.ch.intel.com with ESMTP; 05 Nov 2011 10:23:03 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 05 Nov 2011 10:23:02 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  5 Nov 2011 10:22:41 -0700
-Message-Id: <81cc47b670a13b0f10df34fe50329c10f24f47e5.1320513631.git.sgw@linux.intel.com>
+Date: Sat,  5 Nov 2011 10:22:40 -0700
+Message-Id: <d18b1fbf8174d4b865b650d905b9de1c87a851c8.1320513631.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1320513631.git.sgw@linux.intel.com>
 References: <cover.1320513631.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1320513631.git.sgw@linux.intel.com>
 References: <cover.1320513631.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 11/28] tslib: fix the bug with loading libts-1.0.so
+Subject: [CONSOLIDATED PULL 10/28] udev-164: Update init script to do an explicit add action
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,98 +35,49 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 05 Nov 2011 17:29:20 -0000
 
-From: Dmitry Cherukhin <dima_ch@emcraft.com>
+From: Kumar Gala <galak@kernel.crashing.org>
 
-Touchpad did not work in the qtdemoE if the library libts-1.0.so was not loaded
-manually using the LD_PRELOAD variable. This problem was fixed in the tslib mainline
-https://github.com/kergoth/tslib after the 1.0 release. We just import the patch.
+With udev 152 or greater the default action for 'udevadm trigger' was
+modified to be 'change' instead of 'add.
 
-Signed-off-by: Dmitry Cherukhin <dima_ch@emcraft.com>
+To ensure initial coldplug events at boot are seen be scripts the are
+expecting them as 'add' events we invoke udevadm with an explicit
+'--action=add'.
+
+Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
 ---
- .../tslib/0001-Link-plugins-against-libts.patch    |   57 ++++++++++++++++++++
- meta/recipes-graphics/tslib/tslib_1.0.bb           |    3 +-
- 2 files changed, 59 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-graphics/tslib/tslib/0001-Link-plugins-against-libts.patch
+ meta/recipes-core/udev/udev-164/init |    4 ++--
+ meta/recipes-core/udev/udev_164.bb   |    2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/tslib/tslib/0001-Link-plugins-against-libts.patch b/meta/recipes-graphics/tslib/tslib/0001-Link-plugins-against-libts.patch
-new file mode 100644
-index 0000000..c6b9f59
---- /dev/null
-+++ b/meta/recipes-graphics/tslib/tslib/0001-Link-plugins-against-libts.patch
-@@ -0,0 +1,57 @@
-+From 9623bbedf4ff409e5036edfcfe52b2595932a6d7 Mon Sep 17 00:00:00 2001
-+From: Chris Larson <clarson@kergoth.com>
-+Date: Sat, 1 Nov 2008 20:46:07 +0000
-+Subject: [PATCH] Link plugins against libts
-+
-+Some plugins use tslib functions. Link those plugins against libts.
-+The problem is easy to see with LDFLAGS="-Wl,-no-undefined".
-+Without this change DirectFB in unable to use tslib because symbols
-+in the tslib plugins can't be resolved.
-+
-+Signed-off-by: Ville Syrjala <syrjala@sci.fi>
-+Signed-off-by: Chris Larson <clarson@kergoth.com>
-+
-+The patch was imported from git server git://github.com/kergoth/tslib.git
-+as of commit id 9623bbedf4ff409e5036edfcfe52b2595932a6d7.
-+
-+Upstream-Status: Accepted
-+Signed-off-by: Dmitry Cherukhin <dima_ch@emcraft.com>
-+---
-+ plugins/Makefile.am |    5 +++++
-+ 1 files changed, 5 insertions(+), 0 deletions(-)
-+
-+diff --git a/plugins/Makefile.am b/plugins/Makefile.am
-+index 3b902c2..4c4ef8b 100644
-+--- a/plugins/Makefile.am
-++++ b/plugins/Makefile.am
-+@@ -114,15 +114,19 @@ pluginexec_LTLIBRARIES = \
-+   
-+ variance_la_SOURCES	= variance.c
-+ variance_la_LDFLAGS	= -module $(LTVSN)
-++variance_la_LIBADD	= $(top_builddir)/src/libts.la
-+   
-+ dejitter_la_SOURCES	= dejitter.c
-+ dejitter_la_LDFLAGS	= -module $(LTVSN)
-++dejitter_la_LIBADD	= $(top_builddir)/src/libts.la
-+   
-+ linear_la_SOURCES	= linear.c
-+ linear_la_LDFLAGS	= -module $(LTVSN)
-++linear_la_LIBADD	= $(top_builddir)/src/libts.la
-+ 
-+ pthres_la_SOURCES	= pthres.c
-+ pthres_la_LDFLAGS	= -module $(LTVSN)
-++pthres_la_LIBADD	= $(top_builddir)/src/libts.la
-+ 
-+ # hw access
-+ corgi_la_SOURCES	= corgi-raw.c
-+@@ -148,6 +152,7 @@ tatung_la_LDFLAGS	= -module $(LTVSN)
-+ 
-+ input_la_SOURCES	= input-raw.c
-+ input_la_LDFLAGS	= -module $(LTVSN)
-++input_la_LIBADD		= $(top_builddir)/src/libts.la
-+ 
-+ linear_h2200_la_SOURCES	= linear-h2200.c
-+ linear_h2200_la_LDFLAGS	= -module $(LTVSN)
-+-- 
-+1.7.6.4
-+
-diff --git a/meta/recipes-graphics/tslib/tslib_1.0.bb b/meta/recipes-graphics/tslib/tslib_1.0.bb
-index 3704572..dbabce0 100644
---- a/meta/recipes-graphics/tslib/tslib_1.0.bb
-+++ b/meta/recipes-graphics/tslib/tslib_1.0.bb
-@@ -10,10 +10,11 @@ SECTION = "base"
- LICENSE = "LGPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=f30a9716ef3762e3467a2f62bf790f0a"
+diff --git a/meta/recipes-core/udev/udev-164/init b/meta/recipes-core/udev/udev-164/init
+index 9ce95ee..073942f 100644
+--- a/meta/recipes-core/udev/udev-164/init
++++ b/meta/recipes-core/udev/udev-164/init
+@@ -48,10 +48,10 @@ kill_udevd > "/dev/null" 2>&1
  
--PR = "r18"
-+PR = "r19"
+         /sbin/udevadm control --env=STARTUP=1
+ 		if [ "$not_first_boot" != "" ];then
+-			/sbin/udevadm trigger --subsystem-nomatch=tty --subsystem-nomatch=mem --subsystem-nomatch=vc --subsystem-nomatch=vtconsole --subsystem-nomatch=misc --subsystem-nomatch=dcon --subsystem-nomatch=pci_bus  --subsystem-nomatch=graphics  --subsystem-nomatch=backlight --subsystem-nomatch=video4linux  --subsystem-nomatch=platform
++			/sbin/udevadm trigger --action=add --subsystem-nomatch=tty --subsystem-nomatch=mem --subsystem-nomatch=vc --subsystem-nomatch=vtconsole --subsystem-nomatch=misc --subsystem-nomatch=dcon --subsystem-nomatch=pci_bus  --subsystem-nomatch=graphics  --subsystem-nomatch=backlight --subsystem-nomatch=video4linux  --subsystem-nomatch=platform
+ 			(/sbin/udevadm settle --timeout=3; /sbin/udevadm control --env=STARTUP=)&
+ 		else
+-			/sbin/udevadm trigger
++			/sbin/udevadm trigger --action=add
+ 			/sbin/udevadm settle
+ 		fi
  
- SRC_URI = "http://download.berlios.de/tslib/tslib-${PV}.tar.bz2 \
-            file://fix_version.patch \
-+           file://0001-Link-plugins-against-libts.patch \
-            file://ts.conf \
-            file://tslib.sh"
+diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
+index 7cbe4d8..d487add 100644
+--- a/meta/recipes-core/udev/udev_164.bb
++++ b/meta/recipes-core/udev/udev_164.bb
+@@ -1,6 +1,6 @@
+ include udev-new.inc
+ 
+-PR = "r6"
++PR = "r7"
+ 
+ SRC_URI += "file://udev-166-v4l1-1.patch"
  
 -- 
 1.7.6.4
