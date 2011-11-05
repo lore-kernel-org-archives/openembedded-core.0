@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RMk3N-00065C-V9
+	(envelope-from <sgw@linux.intel.com>) id 1RMk3O-00065C-Oh
 	for openembedded-core@lists.openembedded.org;
-	Sat, 05 Nov 2011 18:29:14 +0100
+	Sat, 05 Nov 2011 18:29:15 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
 	by azsmga101.ch.intel.com with ESMTP; 05 Nov 2011 10:23:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,461,1315206000"; d="scan'208";a="33625102"
+X-IronPort-AV: E=Sophos;i="4.69,461,1315206000"; d="scan'208";a="33625104"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.12])
-	by AZSMGA002.ch.intel.com with ESMTP; 05 Nov 2011 10:22:59 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 05 Nov 2011 10:23:00 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  5 Nov 2011 10:22:31 -0700
-Message-Id: <bad29ecfdd8463b485a88e013fa764244136ad69.1320513631.git.sgw@linux.intel.com>
+Date: Sat,  5 Nov 2011 10:22:32 -0700
+Message-Id: <0224132d4fb780052e1bd7f76ab1642deacf8225.1320513631.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1320513631.git.sgw@linux.intel.com>
 References: <cover.1320513631.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1320513631.git.sgw@linux.intel.com>
 References: <cover.1320513631.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 01/28] bash: Ensure we fully reautoconf the recipes so site data is used
+Subject: [CONSOLIDATED PULL 02/28] patch: Convert to use oe_terminal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,84 +33,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 Nov 2011 17:29:14 -0000
+X-List-Received-Date: Sat, 05 Nov 2011 17:29:15 -0000
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-This ensures bug 487 (missing job control functionality) really gets fixed.
+Unfortunately we can't access oe_terminal directly from patch.py
+so we have to pass in the correct terminal function pointer.
 
-[YOCTO #487]
+[YOCTO #1587]
 
-(From OE-Core rev: 08b78066bd5a9ff2819a42eb4263ee0a78cddb97)
+(From OE-Core rev: 9e0a21dda24f285a1c4878488e887485a749f3f2)
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-extended/bash/bash.inc       |    9 ++++++---
- meta/recipes-extended/bash/bash_3.2.48.bb |   11 +++++++----
- meta/recipes-extended/bash/bash_4.2.bb    |    2 +-
- 3 files changed, 14 insertions(+), 8 deletions(-)
+ meta/classes/patch.bbclass |    4 +++-
+ meta/lib/oe/patch.py       |   17 ++++++-----------
+ 2 files changed, 9 insertions(+), 12 deletions(-)
 
-diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
-index d55e517..876be1e 100644
---- a/meta/recipes-extended/bash/bash.inc
-+++ b/meta/recipes-extended/bash/bash.inc
-@@ -22,9 +22,12 @@ ALTERNATIVE_PATH = "${base_bindir}/bash"
- ALTERNATIVE_LINK = "${base_bindir}/sh"
- ALTERNATIVE_PRIORITY = "100"
+diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
+index 7622163..86046e1 100644
+--- a/meta/classes/patch.bbclass
++++ b/meta/classes/patch.bbclass
+@@ -5,6 +5,8 @@ QUILTRCFILE ?= "${STAGING_BINDIR_NATIVE}/quiltrc"
  
--do_configure () {
--	gnu-configize
--	oe_runconf
-+export AUTOHEADER = "true"
+ PATCHDEPENDENCY = "${PATCHTOOL}-native:do_populate_sysroot"
+ 
++inherit terminal
 +
-+do_configure_prepend () {
-+	if [ ! -e acinclude.m4 ]; then
-+		cat aclocal.m4 > acinclude.m4
-+	fi
- }
+ python patch_do_patch() {
+ 	import oe.patch
  
- pkg_postinst_${PN} () {
-diff --git a/meta/recipes-extended/bash/bash_3.2.48.bb b/meta/recipes-extended/bash/bash_3.2.48.bb
-index 1520c4e..f2ba572 100644
---- a/meta/recipes-extended/bash/bash_3.2.48.bb
-+++ b/meta/recipes-extended/bash/bash_3.2.48.bb
-@@ -6,7 +6,7 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=fd5d9bcabd8ed5a54a01ce8d183d592a"
- DEPENDS = "ncurses"
+@@ -124,7 +126,7 @@ python patch_do_patch() {
  
--PR = "r7"
-+PR = "r8"
+ 		if not patchdir in classes:
+ 			patchset = cls(patchdir, d)
+-			resolver = rcls(patchset)
++			resolver = rcls(patchset, oe_terminal)
+ 			classes[patchdir] = (patchset, resolver)
+ 			patchset.Clean()
+ 		else:
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index 9768be0..75fb91e 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -311,7 +311,7 @@ class QuiltTree(PatchSet):
+             self._runcmd(args)
  
- SRC_URI = "${GNU_MIRROR}/bash/bash-${PV}.tar.gz \
-            ${GNU_MIRROR}/bash/bash-3.2-patches/bash32-049;apply=yes;striplevel=0 \
-@@ -23,9 +23,12 @@ sbindir = "/sbin"
- EXTRA_OECONF = "--with-ncurses"
- export CC_FOR_BUILD = "${BUILD_CC}"
+ class Resolver(object):
+-    def __init__(self, patchset):
++    def __init__(self, patchset, terminal):
+         raise NotImplementedError()
  
--do_configure () {
--	gnu-configize
--	oe_runconf
-+export AUTOHEADER = "true"
-+
-+do_configure_prepend () {
-+	if [ ! -e acinclude.m4 ]; then
-+		cat aclocal.m4 > acinclude.m4
-+	fi
- }
+     def Resolve(self):
+@@ -324,8 +324,9 @@ class Resolver(object):
+         raise NotImplementedError()
  
- pkg_postinst_${PN} () {
-diff --git a/meta/recipes-extended/bash/bash_4.2.bb b/meta/recipes-extended/bash/bash_4.2.bb
-index a0f5e4e..8070918 100644
---- a/meta/recipes-extended/bash/bash_4.2.bb
-+++ b/meta/recipes-extended/bash/bash_4.2.bb
-@@ -1,6 +1,6 @@
- require bash.inc
+ class NOOPResolver(Resolver):
+-    def __init__(self, patchset):
++    def __init__(self, patchset, terminal):
+         self.patchset = patchset
++        self.terminal = terminal
  
--PR = "r0"
-+PR = "r1"
+     def Resolve(self):
+         olddir = os.path.abspath(os.curdir)
+@@ -341,13 +342,13 @@ class NOOPResolver(Resolver):
+ # resolution, with the exception of refreshing the remote copy of the patch
+ # files (the urls).
+ class UserResolver(Resolver):
+-    def __init__(self, patchset):
++    def __init__(self, patchset, terminal):
+         self.patchset = patchset
++        self.terminal = terminal
  
- SRC_URI = "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=tarball \
-            ${GNU_MIRROR}/bash/bash-4.2-patches/bash42-001;apply=yes;striplevel=0;name=patch001 \
+     # Force a push in the patchset, then drop to a shell for the user to
+     # resolve any rejected hunks
+     def Resolve(self):
+-
+         olddir = os.path.abspath(os.curdir)
+         os.chdir(self.patchset.dir)
+         try:
+@@ -368,16 +369,10 @@ class UserResolver(Resolver):
+             f.write("echo 'Run \"quilt refresh\" when patch is corrected, press CTRL+D to exit.'\n")
+             f.write("echo ''\n")
+             f.write(" ".join(patchcmd) + "\n")
+-            f.write("#" + bb.data.getVar('TERMCMDRUN', self.patchset.d, 1))
+             f.close()
+             os.chmod(rcfile, 0775)
+ 
+-            os.environ['TERMWINDOWTITLE'] = "Bitbake: Please fix patch rejects manually"
+-            os.environ['SHELLCMDS'] = "bash --rcfile " + rcfile
+-            rc = os.system(bb.data.getVar('TERMCMDRUN', self.patchset.d, 1))
+-            if os.WIFEXITED(rc) and os.WEXITSTATUS(rc) != 0:
+-                bb.msg.fatal("Build", ("Cannot proceed with manual patch resolution - '%s' not found. " \
+-                    + "Check TERMCMDRUN variable.") % bb.data.getVar('TERMCMDRUN', self.patchset.d, 1))
++            self.terminal("bash --rcfile " + rcfile, 'Patch Rejects: Please fix patch rejects manually', self.patchset.d)
+ 
+             # Construct a new PatchSet after the user's changes, compare the
+             # sets, checking patches for modifications, and doing a remote
 -- 
 1.7.6.4
 
