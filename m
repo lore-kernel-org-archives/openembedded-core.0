@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RMk3Q-00065C-Kr
+	(envelope-from <sgw@linux.intel.com>) id 1RMk3Q-00065F-Kz
 	for openembedded-core@lists.openembedded.org;
 	Sat, 05 Nov 2011 18:29:16 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
 	by azsmga101.ch.intel.com with ESMTP; 05 Nov 2011 10:23:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,461,1315206000"; d="scan'208";a="33625113"
+X-IronPort-AV: E=Sophos;i="4.69,461,1315206000"; d="scan'208";a="33625114"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.12])
-	by AZSMGA002.ch.intel.com with ESMTP; 05 Nov 2011 10:23:01 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 05 Nov 2011 10:23:02 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  5 Nov 2011 10:22:37 -0700
-Message-Id: <c5d59c1c20fa491cc75cd6b2ca7ef7972fc51eef.1320513631.git.sgw@linux.intel.com>
+Date: Sat,  5 Nov 2011 10:22:38 -0700
+Message-Id: <cd839b0b0948e6969685e1361356e2d22ee40ed4.1320513631.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1320513631.git.sgw@linux.intel.com>
 References: <cover.1320513631.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1320513631.git.sgw@linux.intel.com>
 References: <cover.1320513631.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 07/28] dtc: Add patch to correctly install shared libraries and links
+Subject: [CONSOLIDATED PULL 08/28] qmmp: Fix qmmp packaging, ensure lowercase package names
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,49 +37,31 @@ X-List-Received-Date: Sat, 05 Nov 2011 17:29:17 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-kernel/dtc/dtc.inc                |    3 ++-
- meta/recipes-kernel/dtc/dtc/make_install.patch |   15 +++++++++++++++
- 2 files changed, 17 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-kernel/dtc/dtc/make_install.patch
+ meta/recipes-qt/qt-apps/qmmp_0.5.2.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/dtc/dtc.inc b/meta/recipes-kernel/dtc/dtc.inc
-index 0f45d5f..9b4b768 100644
---- a/meta/recipes-kernel/dtc/dtc.inc
-+++ b/meta/recipes-kernel/dtc/dtc.inc
-@@ -7,10 +7,11 @@ DEPENDS = "flex-native bison-native"
- inherit autotools
+diff --git a/meta/recipes-qt/qt-apps/qmmp_0.5.2.bb b/meta/recipes-qt/qt-apps/qmmp_0.5.2.bb
+index 98ee907..3823234 100644
+--- a/meta/recipes-qt/qt-apps/qmmp_0.5.2.bb
++++ b/meta/recipes-qt/qt-apps/qmmp_0.5.2.bb
+@@ -4,7 +4,7 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
+ SECTION = "multimedia"
  
- SRC_URI = "git://www.jdl.com/software/dtc.git;protocol=git \
-+           file://make_install.patch \
- 	  "
+-PR = "r4"
++PR = "r2"
  
- EXTRA_OEMAKE='PREFIX="${prefix}"'
--INC_PR = "r1"
-+INC_PR = "r2"
+ PROVIDES = "qmmp"
+ DEPENDS = "qt4-x11-free taglib libmad libvorbis libogg alsa-lib"
+@@ -40,7 +40,7 @@ python populate_packages_prepend () {
  
- S = "${WORKDIR}/git"
+ 	for plug_dir in plug_dirs:
+ 		g_plug_dir = os.path.join(qmmp_libdir,plug_dir)
+-		do_split_packages(d, g_plug_dir, '^lib(.*)\.so$', 'qmmp-plugin-' + plug_dir + '-%s', 'Qmmp' + plug_dir  + 'plugin for %s')
++		do_split_packages(d, g_plug_dir, '^lib(.*)\.so$', 'qmmp-plugin-' + plug_dir.lower() + '-%s', 'Qmmp ' + plug_dir  + ' plugin for %s')
+ } 
  
-diff --git a/meta/recipes-kernel/dtc/dtc/make_install.patch b/meta/recipes-kernel/dtc/dtc/make_install.patch
-new file mode 100644
-index 0000000..2f7d809
---- /dev/null
-+++ b/meta/recipes-kernel/dtc/dtc/make_install.patch
-@@ -0,0 +1,15 @@
-+Index: git/Makefile
-+===================================================================
-+--- git.orig/Makefile	2011-11-02 14:52:17.243104779 -0700
-++++ git/Makefile	2011-11-02 15:06:01.555104982 -0700
-+@@ -161,8 +161,8 @@
-+ 	$(INSTALL) -d $(DESTDIR)$(BINDIR)
-+ 	$(INSTALL) $(BIN) $(SCRIPTS) $(DESTDIR)$(BINDIR)
-+ 	$(INSTALL) -d $(DESTDIR)$(LIBDIR)
-+-	$(INSTALL) $(LIBFDT_lib) $(DESTDIR)$(LIBDIR)
-+-	ln -sf $(notdir $(LIBFDT_lib)) $(DESTDIR)$(LIBDIR)/$(LIBFDT_soname)
-++	$(INSTALL) $(LIBFDT_lib) $(DESTDIR)$(LIBDIR)/$(LIBFDT_soname)
-++	ln -sf $(LIBFDT_soname) $(DESTDIR)$(LIBDIR)/$(notdir $(LIBFDT_lib))
-+ 	ln -sf $(LIBFDT_soname) $(DESTDIR)$(LIBDIR)/libfdt.$(SHAREDLIB_EXT)
-+ 	$(INSTALL) -m 644 $(LIBFDT_archive) $(DESTDIR)$(LIBDIR)
-+ 	$(INSTALL) -d $(DESTDIR)$(INCLUDEDIR)
+ FILES_${PN} = "\
 -- 
 1.7.6.4
 
