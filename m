@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RMk3P-00065F-R3
+	(envelope-from <sgw@linux.intel.com>) id 1RMk3P-00065C-Q4
 	for openembedded-core@lists.openembedded.org;
 	Sat, 05 Nov 2011 18:29:16 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
 	by azsmga101.ch.intel.com with ESMTP; 05 Nov 2011 10:23:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,461,1315206000"; d="scan'208";a="33625109"
+X-IronPort-AV: E=Sophos;i="4.69,461,1315206000"; d="scan'208";a="33625107"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.12])
-	by AZSMGA002.ch.intel.com with ESMTP; 05 Nov 2011 10:23:01 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 05 Nov 2011 10:23:00 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  5 Nov 2011 10:22:35 -0700
-Message-Id: <10ca1b76c9ae27055b5bdc829b078d3a3fff08f5.1320513631.git.sgw@linux.intel.com>
+Date: Sat,  5 Nov 2011 10:22:34 -0700
+Message-Id: <559eddedddae157939fd9f8501bfa2a445a58414.1320513631.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1320513631.git.sgw@linux.intel.com>
 References: <cover.1320513631.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1320513631.git.sgw@linux.intel.com>
 References: <cover.1320513631.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 05/28] dtc: update to latest git version
+Subject: [CONSOLIDATED PULL 04/28] cogl: COPYING file Updated FSF Address
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,149 +35,23 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 05 Nov 2011 17:29:16 -0000
 
-From: Matthew McClintock <msm@freescale.com>
-
-Also remove patches that are no longer needed, as well as use the
-installation that is provided by the Makefile. Put all the extra
-stuff in a new dtc-misc package
-
-Signed-off-by: Matthew McClintock <msm@freescale.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-kernel/dtc/dtc.inc                    |   12 ++--
- .../dtc/fix_for_compilation_with_gcc_4.6.0.patch   |   51 --------------------
- meta/recipes-kernel/dtc/dtc/remove_space_opt.patch |   18 -------
- meta/recipes-kernel/dtc/dtc_git.bb                 |   10 +---
- 4 files changed, 9 insertions(+), 82 deletions(-)
- delete mode 100644 meta/recipes-kernel/dtc/dtc/fix_for_compilation_with_gcc_4.6.0.patch
- delete mode 100644 meta/recipes-kernel/dtc/dtc/remove_space_opt.patch
+ meta/recipes-graphics/clutter/cogl_git.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-kernel/dtc/dtc.inc b/meta/recipes-kernel/dtc/dtc.inc
-index eae46ac..0f45d5f 100644
---- a/meta/recipes-kernel/dtc/dtc.inc
-+++ b/meta/recipes-kernel/dtc/dtc.inc
-@@ -6,13 +6,13 @@ DEPENDS = "flex-native bison-native"
+diff --git a/meta/recipes-graphics/clutter/cogl_git.bb b/meta/recipes-graphics/clutter/cogl_git.bb
+index 890c654..0702302 100644
+--- a/meta/recipes-graphics/clutter/cogl_git.bb
++++ b/meta/recipes-graphics/clutter/cogl_git.bb
+@@ -1,6 +1,6 @@
+ require cogl.inc
  
- inherit autotools
+-LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
++LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
  
--do_install() {
--	install -m 0755 -d ${D}${bindir}
--	install -m 755 dtc ${D}${bindir}/dtc
--}
- SRC_URI = "git://www.jdl.com/software/dtc.git;protocol=git \
--	file://fix_for_compilation_with_gcc_4.6.0.patch"
-+	  "
- 
--INC_PR = "r0"
-+EXTRA_OEMAKE='PREFIX="${prefix}"'
-+INC_PR = "r1"
- 
- S = "${WORKDIR}/git"
-+
-+PACKAGES =+ "${PN}-misc"
-+FILES_${PN}-misc = "${bindir}/convert-dtsv0 ${bindir}/ftdump ${bindir}/dtdiff"
-diff --git a/meta/recipes-kernel/dtc/dtc/fix_for_compilation_with_gcc_4.6.0.patch b/meta/recipes-kernel/dtc/dtc/fix_for_compilation_with_gcc_4.6.0.patch
-deleted file mode 100644
-index b34894d..0000000
---- a/meta/recipes-kernel/dtc/dtc/fix_for_compilation_with_gcc_4.6.0.patch
-+++ /dev/null
-@@ -1,51 +0,0 @@
--Upstream-Status: Pending
--
--Fix following compilation errors with gcc 4.6.0
--| dtc.c: In function 'main':
--| dtc.c:100:17: error: variable 'check' set but not used [-Werror=unused-but-set-variable]
--| cc1: all warnings being treated as errors
--| 
--| make: *** [dtc.o] Error 1
--| make: *** Waiting for unfinished jobs....
--| flattree.c: In function 'flat_read_mem_reserve':
--| flattree.c:700:14: error: variable 'p' set but not used [-Werror=unused-but-set-variable]
--| cc1: all warnings being treated as errors
--| 
--| make: *** [flattree.o] Error 1
--| ERROR: oe_runmake failed
--
--Nitin A Kamble <nitin.a.kamble@intel.com> 2011/05/10
--
--Index: git/dtc.c
--===================================================================
----- git.orig/dtc.c
--+++ git/dtc.c
--@@ -97,7 +97,7 @@ int main(int argc, char *argv[])
-- 	const char *inform = "dts";
-- 	const char *outform = "dts";
-- 	const char *outname = "-";
---	int force = 0, check = 0;
--+	int force = 0, __attribute__((__unused__)) check = 0;
-- 	const char *arg;
-- 	int opt;
-- 	FILE *outf = NULL;
--Index: git/flattree.c
--===================================================================
----- git.orig/flattree.c
--+++ git/flattree.c
--@@ -697,7 +697,6 @@ static struct reserve_info *flat_read_me
-- {
-- 	struct reserve_info *reservelist = NULL;
-- 	struct reserve_info *new;
---	const char *p;
-- 	struct fdt_reserve_entry re;
-- 
-- 	/*
--@@ -706,7 +705,6 @@ static struct reserve_info *flat_read_me
-- 	 *
-- 	 * First pass, count entries.
-- 	 */
---	p = inb->ptr;
-- 	while (1) {
-- 		flat_read_chunk(inb, &re, sizeof(re));
-- 		re.address  = fdt64_to_cpu(re.address);
-diff --git a/meta/recipes-kernel/dtc/dtc/remove_space_opt.patch b/meta/recipes-kernel/dtc/dtc/remove_space_opt.patch
-deleted file mode 100644
-index 8c26dec..0000000
---- a/meta/recipes-kernel/dtc/dtc/remove_space_opt.patch
-+++ /dev/null
-@@ -1,18 +0,0 @@
--Remove the -Os flag
--
--Upstream-Status: Inappropriate [configuration]
--
--Signed-off-by: Saul Wold <sgw@linux.intel.com>
--Index: git/Makefile
--===================================================================
----- git.orig/Makefile
--+++ git/Makefile
--@@ -18,7 +18,7 @@ CONFIG_LOCALVERSION =
-- CPPFLAGS = -I libfdt
-- WARNINGS = -Werror -Wall -Wpointer-arith -Wcast-qual -Wnested-externs \
-- 	-Wstrict-prototypes -Wmissing-prototypes
---CFLAGS = -g -Os -fPIC -Werror $(WARNINGS)
--+CFLAGS = -g -fPIC -Werror $(WARNINGS)
-- 
-- BISON = bison
-- LEX = flex
-diff --git a/meta/recipes-kernel/dtc/dtc_git.bb b/meta/recipes-kernel/dtc/dtc_git.bb
-index e010488..c205de7 100644
---- a/meta/recipes-kernel/dtc/dtc_git.bb
-+++ b/meta/recipes-kernel/dtc/dtc_git.bb
-@@ -3,14 +3,10 @@ require dtc.inc
- LIC_FILES_CHKSUM = "file://GPL;md5=94d55d512a9ba36caa9b7df079bae19f \
- 		    file://libfdt/libfdt.h;beginline=3;endline=52;md5=fb360963151f8ec2d6c06b055bcbb68c"
- 
--SRCREV = "73dca9ae0b9abe6924ba640164ecce9f8df69c5a"
-+SRCREV = "033089f29099bdfd5c2d6986cdb9fd07b16cfde0"
- PV = "1.3.0+git${SRCPV}"
--PR = "${INC_PR}.0"
-+PR = "${INC_PR}.1"
- 
- S = "${WORKDIR}/git"
- 
--SRC_URI_PATCH = " file://remove_space_opt.patch"
--SRC_URI_PATCH_virtclass-native = ""
--SRC_URI += "${SRC_URI_PATCH}"
--
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
+ SRCREV = "0a70a159c65357809740971570b2e301451161b5"
+ PV = "1.8.0+git${SRCPV}"
 -- 
 1.7.6.4
 
