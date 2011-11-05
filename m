@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RMk3R-00065L-2A
+	(envelope-from <sgw@linux.intel.com>) id 1RMk3R-00065F-Rz
 	for openembedded-core@lists.openembedded.org;
-	Sat, 05 Nov 2011 18:29:18 +0100
+	Sat, 05 Nov 2011 18:29:19 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 05 Nov 2011 10:23:02 -0700
+	by azsmga101.ch.intel.com with ESMTP; 05 Nov 2011 10:23:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,461,1315206000"; d="scan'208";a="33625118"
+X-IronPort-AV: E=Sophos;i="4.69,461,1315206000"; d="scan'208";a="33625121"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.12])
-	by AZSMGA002.ch.intel.com with ESMTP; 05 Nov 2011 10:23:02 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 05 Nov 2011 10:23:03 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  5 Nov 2011 10:22:39 -0700
-Message-Id: <fe9fab78a4b79191f2795cbb9f3ee0fc6a36c76d.1320513631.git.sgw@linux.intel.com>
+Date: Sat,  5 Nov 2011 10:22:41 -0700
+Message-Id: <81cc47b670a13b0f10df34fe50329c10f24f47e5.1320513631.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1320513631.git.sgw@linux.intel.com>
 References: <cover.1320513631.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1320513631.git.sgw@linux.intel.com>
 References: <cover.1320513631.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 09/28] buildstats: Fix for buildstats on tmpfs
+Subject: [CONSOLIDATED PULL 11/28] tslib: fix the bug with loading libts-1.0.so
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,118 +35,99 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 05 Nov 2011 17:29:20 -0000
 
-From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
+From: Dmitry Cherukhin <dima_ch@emcraft.com>
 
-tmpfs/encryptfs/(and most likely, but not confirmed)ramfs TMPDIRs
-cause diskstats to choke. No device entry ends up in /proc/diskstats
-for these fs types, which ends up causing the failure.
+Touchpad did not work in the qtdemoE if the library libts-1.0.so was not loaded
+manually using the LD_PRELOAD variable. This problem was fixed in the tslib mainline
+https://github.com/kergoth/tslib after the 1.0 release. We just import the patch.
 
-The short term solution is to exclude these fs types from diskstat
-collection. Longer term we will want to see if we can collect
-meaningful diskio for each of these, and other, use cases, but for
-this cleans up Bug 1700.
-
-[YOCTO #1700]
-
-Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
-
-Corrected YOCTO bug location and format
-
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Dmitry Cherukhin <dima_ch@emcraft.com>
 ---
- meta/classes/buildstats.bbclass |   37 ++++++++++++++++++++++++++-----------
- 1 files changed, 26 insertions(+), 11 deletions(-)
+ .../tslib/0001-Link-plugins-against-libts.patch    |   57 ++++++++++++++++++++
+ meta/recipes-graphics/tslib/tslib_1.0.bb           |    3 +-
+ 2 files changed, 59 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-graphics/tslib/tslib/0001-Link-plugins-against-libts.patch
 
-diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbclass
-index 55cbb3c..96c98d4 100644
---- a/meta/classes/buildstats.bbclass
-+++ b/meta/classes/buildstats.bbclass
-@@ -48,13 +48,24 @@ def set_device(e):
-     # something like stick DL_DIR on a different partition and this would
-     # throw stats gathering off. The same goes with SSTATE_DIR. However, let's
-     # get the basics in here and work on the cornercases later. 
-+    # A note. /proc/diskstats does not contain info on encryptfs, tmpfs, etc.
-+    # If we end up hitting one of these fs, we'll just skip diskstats collection.
-     ############################################################################
-     device=os.stat(tmpdir)
-     majordev=os.major(device.st_dev)
-     minordev=os.minor(device.st_dev)
-+    ############################################################################
-+    # Bug 1700: 
-+    # Because tmpfs/encryptfs/ramfs etc inserts no entry in /proc/diskstats
-+    # we set rdev to NoLogicalDevice and search for it later. If we find NLD
-+    # we do not collect diskstats as the method to collect meaningful statistics
-+    # for these fs types requires a bit more research. 
-+    ############################################################################
-     for line in open("/proc/diskstats", "r"):
-         if majordev == int(line.split()[0]) and minordev == int(line.split()[1]):
-            rdev=line.split()[2]
-+        else:
-+           rdev="NoLogicalDevice"
-     file = open(bb.data.getVar('DEVFILE', e.data, True), "w")
-     file.write(rdev)
-     file.close()
-@@ -133,10 +144,11 @@ def write_task_data(status, logfile, dev, e):
-     # For the best information, running things with BB_TOTAL_THREADS = "1"
-     # would return accurate per task results.
-     ############################################################################
--    diskdata = get_diskdata("__diskdata_task", dev, e.data)
--    if diskdata:
--        for key in sorted(diskdata.iterkeys()):
--            file.write(key + ": " + diskdata[key] + "\n")
-+    if dev != "NoLogicalDevice":
-+        diskdata = get_diskdata("__diskdata_task", dev, e.data)
-+        if diskdata:
-+            for key in sorted(diskdata.iterkeys()):
-+                file.write(key + ": " + diskdata[key] + "\n")
-     if status is "passed":
- 	    file.write("Status: PASSED \n")
-     else:
-@@ -169,7 +181,8 @@ python run_buildstats () {
-             bb.mkdirhier(bsdir)
-         except:
-             pass
--        set_diskdata("__diskdata_build", device, e.data)
-+        if device != "NoLogicalDevice":
-+            set_diskdata("__diskdata_build", device, e.data)
-         set_timedata("__timedata_build", e.data)
-         build_time = os.path.join(bsdir, "build_stats")
-         # write start of build into build_time
-@@ -185,7 +198,7 @@ python run_buildstats () {
-                 
-     elif isinstance(e, bb.event.BuildCompleted):
-         bn = get_bn(e)
--        dev = get_device(e)
-+        device = get_device(e)
-         bsdir = os.path.join(bb.data.getVar('BUILDSTATS_BASE', e.data, True), bn)
-         taskdir = os.path.join(bsdir, bb.data.expand("${PF}", e.data))
-         build_time = os.path.join(bsdir, "build_stats")
-@@ -201,10 +214,11 @@ python run_buildstats () {
-             file.write("Elapsed time: %0.2f seconds \n" % (time))
-             if cpu:
-                 file.write("CPU usage: %0.1f%% \n" % cpu)
--        diskio = get_diskdata("__diskdata_build", dev, e.data)
--        if diskio:
--            for key in sorted(diskio.iterkeys()):
--                file.write(key + ": " + diskio[key] + "\n")
-+        if device != "NoLogicalDevice":
-+            diskio = get_diskdata("__diskdata_build", device, e.data)
-+            if diskio:
-+                for key in sorted(diskio.iterkeys()):
-+                    file.write(key + ": " + diskio[key] + "\n")
-         file.close()
+diff --git a/meta/recipes-graphics/tslib/tslib/0001-Link-plugins-against-libts.patch b/meta/recipes-graphics/tslib/tslib/0001-Link-plugins-against-libts.patch
+new file mode 100644
+index 0000000..c6b9f59
+--- /dev/null
++++ b/meta/recipes-graphics/tslib/tslib/0001-Link-plugins-against-libts.patch
+@@ -0,0 +1,57 @@
++From 9623bbedf4ff409e5036edfcfe52b2595932a6d7 Mon Sep 17 00:00:00 2001
++From: Chris Larson <clarson@kergoth.com>
++Date: Sat, 1 Nov 2008 20:46:07 +0000
++Subject: [PATCH] Link plugins against libts
++
++Some plugins use tslib functions. Link those plugins against libts.
++The problem is easy to see with LDFLAGS="-Wl,-no-undefined".
++Without this change DirectFB in unable to use tslib because symbols
++in the tslib plugins can't be resolved.
++
++Signed-off-by: Ville Syrjala <syrjala@sci.fi>
++Signed-off-by: Chris Larson <clarson@kergoth.com>
++
++The patch was imported from git server git://github.com/kergoth/tslib.git
++as of commit id 9623bbedf4ff409e5036edfcfe52b2595932a6d7.
++
++Upstream-Status: Accepted
++Signed-off-by: Dmitry Cherukhin <dima_ch@emcraft.com>
++---
++ plugins/Makefile.am |    5 +++++
++ 1 files changed, 5 insertions(+), 0 deletions(-)
++
++diff --git a/plugins/Makefile.am b/plugins/Makefile.am
++index 3b902c2..4c4ef8b 100644
++--- a/plugins/Makefile.am
+++++ b/plugins/Makefile.am
++@@ -114,15 +114,19 @@ pluginexec_LTLIBRARIES = \
++   
++ variance_la_SOURCES	= variance.c
++ variance_la_LDFLAGS	= -module $(LTVSN)
+++variance_la_LIBADD	= $(top_builddir)/src/libts.la
++   
++ dejitter_la_SOURCES	= dejitter.c
++ dejitter_la_LDFLAGS	= -module $(LTVSN)
+++dejitter_la_LIBADD	= $(top_builddir)/src/libts.la
++   
++ linear_la_SOURCES	= linear.c
++ linear_la_LDFLAGS	= -module $(LTVSN)
+++linear_la_LIBADD	= $(top_builddir)/src/libts.la
++ 
++ pthres_la_SOURCES	= pthres.c
++ pthres_la_LDFLAGS	= -module $(LTVSN)
+++pthres_la_LIBADD	= $(top_builddir)/src/libts.la
++ 
++ # hw access
++ corgi_la_SOURCES	= corgi-raw.c
++@@ -148,6 +152,7 @@ tatung_la_LDFLAGS	= -module $(LTVSN)
++ 
++ input_la_SOURCES	= input-raw.c
++ input_la_LDFLAGS	= -module $(LTVSN)
+++input_la_LIBADD		= $(top_builddir)/src/libts.la
++ 
++ linear_h2200_la_SOURCES	= linear-h2200.c
++ linear_h2200_la_LDFLAGS	= -module $(LTVSN)
++-- 
++1.7.6.4
++
+diff --git a/meta/recipes-graphics/tslib/tslib_1.0.bb b/meta/recipes-graphics/tslib/tslib_1.0.bb
+index 3704572..dbabce0 100644
+--- a/meta/recipes-graphics/tslib/tslib_1.0.bb
++++ b/meta/recipes-graphics/tslib/tslib_1.0.bb
+@@ -10,10 +10,11 @@ SECTION = "base"
+ LICENSE = "LGPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f30a9716ef3762e3467a2f62bf790f0a"
  
-     if isinstance(e, bb.build.TaskStarted):
-@@ -212,7 +226,8 @@ python run_buildstats () {
-         device = get_device(e)
-         bsdir = os.path.join(bb.data.getVar('BUILDSTATS_BASE', e.data, True), bn)
-         taskdir = os.path.join(bsdir, bb.data.expand("${PF}", e.data))
--        set_diskdata("__diskdata_task", device, e.data)
-+        if device != "NoLogicalDevice":
-+            set_diskdata("__diskdata_task", device, e.data)
-         set_timedata("__timedata_task", e.data)
-         try:
-             bb.mkdirhier(taskdir)
+-PR = "r18"
++PR = "r19"
+ 
+ SRC_URI = "http://download.berlios.de/tslib/tslib-${PV}.tar.bz2 \
+            file://fix_version.patch \
++           file://0001-Link-plugins-against-libts.patch \
+            file://ts.conf \
+            file://tslib.sh"
+ 
 -- 
 1.7.6.4
 
