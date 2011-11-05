@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RMk3V-00065L-EE
+	(envelope-from <sgw@linux.intel.com>) id 1RMk3W-00065L-C1
 	for openembedded-core@lists.openembedded.org;
-	Sat, 05 Nov 2011 18:29:21 +0100
+	Sat, 05 Nov 2011 18:29:23 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 05 Nov 2011 10:23:04 -0700
+	by azsmga101.ch.intel.com with ESMTP; 05 Nov 2011 10:23:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,461,1315206000"; d="scan'208";a="33625126"
+X-IronPort-AV: E=Sophos;i="4.69,461,1315206000"; d="scan'208";a="33625130"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.12])
-	by AZSMGA002.ch.intel.com with ESMTP; 05 Nov 2011 10:23:04 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 05 Nov 2011 10:23:05 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  5 Nov 2011 10:22:45 -0700
-Message-Id: <0e028bc309944d62da16c8ac49ee8b69b6724fd1.1320513631.git.sgw@linux.intel.com>
+Date: Sat,  5 Nov 2011 10:22:48 -0700
+Message-Id: <428fe30440e553bbd65c4cc94f718dfd2986a740.1320513631.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1320513631.git.sgw@linux.intel.com>
 References: <cover.1320513631.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1320513631.git.sgw@linux.intel.com>
 References: <cover.1320513631.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 15/28] distro_tracking_fields: updates for sudo, mtools, grep, and openssh
+Subject: [CONSOLIDATED PULL 18/28] iproute2: update to 3.0.0 to fix build with updated iptables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,84 +33,174 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 Nov 2011 17:29:21 -0000
+X-List-Received-Date: Sat, 05 Nov 2011 17:29:25 -0000
 
-From: Scott Garman <scott.a.garman@intel.com>
+From: Koen Kooi <koen@dominion.thruhere.net>
 
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |   32 ++++++++++----------
- 1 files changed, 16 insertions(+), 16 deletions(-)
+ .../configure-cross.patch                          |   57 +++++++++++++-------
+ meta/recipes-connectivity/iproute2/iproute2.inc    |    7 ++-
+ .../iproute2/iproute2_2.6.38.bb                    |    9 ---
+ .../iproute2/iproute2_3.0.0.bb                     |    8 +++
+ 4 files changed, 51 insertions(+), 30 deletions(-)
+ rename meta/recipes-connectivity/iproute2/{iproute2-2.6.38 => iproute2-3.0.0}/configure-cross.patch (50%)
+ delete mode 100644 meta/recipes-connectivity/iproute2/iproute2_2.6.38.bb
+ create mode 100644 meta/recipes-connectivity/iproute2/iproute2_3.0.0.bb
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 7d7295c..ab34727 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -813,12 +813,12 @@ RECIPE_MAINTAINER_pn-pax-utils = "Scott Garman <scott.a.garman@intel.com>"
+diff --git a/meta/recipes-connectivity/iproute2/iproute2-2.6.38/configure-cross.patch b/meta/recipes-connectivity/iproute2/iproute2-3.0.0/configure-cross.patch
+similarity index 50%
+rename from meta/recipes-connectivity/iproute2/iproute2-2.6.38/configure-cross.patch
+rename to meta/recipes-connectivity/iproute2/iproute2-3.0.0/configure-cross.patch
+index e26e8ef..92c12be 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2-2.6.38/configure-cross.patch
++++ b/meta/recipes-connectivity/iproute2/iproute2-3.0.0/configure-cross.patch
+@@ -1,31 +1,38 @@
++From 85b0589b4843c03e8e6fd9416d71ea449a73c5c0 Mon Sep 17 00:00:00 2001
++From: Koen Kooi <koen@dominion.thruhere.net>
++Date: Thu, 3 Nov 2011 10:46:16 +0100
++Subject: [PATCH] make configure cross compile safe
++
++According to Kevin Tian:
+ Upstream-Status: Pending
  
- RECIPE_STATUS_pn-sudo = "green"
- RECIPE_DEPENDENCY_CHECK_pn-sudo = "not done"
--RECIPE_LATEST_VERSION_pn-sudo = "1.8.1p2"
-+RECIPE_LATEST_VERSION_pn-sudo = "1.8.3"
- RECIPE_INTEL_SECTION_pn-sudo = "base utils"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-sudo = "1 month"
--RECIPE_LATEST_RELEASE_DATE_pn-sudo = "May 16, 2011"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-sudo = "2 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-sudo = "Oct 21, 2011"
- RECIPE_COMMENTS_pn-sudo = ""
--RECIPE_LAST_UPDATE_pn-sudo = "Jun 14, 2011"
-+RECIPE_LAST_UPDATE_pn-sudo = "Oct 25, 2011"
- RECIPE_MAINTAINER_pn-sudo = "Scott Garman <scott.a.garman@intel.com>"
+-# borrow from OE, to handle cross compile mess
+-#
+-# ktian1, 06/28/2010 
+-Index: iproute2-2.6.34/configure
+-===================================================================
+---- iproute2-2.6.34.orig/configure
+-+++ iproute2-2.6.34/configure
+-@@ -4,7 +4,7 @@
++Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
++---
++ configure |   13 +++++++------
++ 1 files changed, 7 insertions(+), 6 deletions(-)
++
++diff --git a/configure b/configure
++index f5c3d40..bcc1948 100755
++--- a/configure
+++++ b/configure
++@@ -2,6 +2,7 @@
++ # This is not an autconf generated configure
++ #
+  INCLUDE=${1:-"$PWD/include"}
+- 
+- TABLES=
+--
+ +SYSROOT=$1
++ 
+  check_atm()
+  {
+- cat >/tmp/atmtest.c <<EOF
+-@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
++@@ -13,7 +14,7 @@ int main(int argc, char **argv) {
+  	return 0;
+  }
+  EOF
+ -gcc -I$INCLUDE -o /tmp/atmtest /tmp/atmtest.c -latm >/dev/null 2>&1 
+-+$CC -I$INCLUDE -o /tmp/atmtest /tmp/atmtest.c -latm >/dev/null 2>&1
+++$CC -I$INCLUDE -o /tmp/atmtest /tmp/atmtest.c -latm >/dev/null 2>&1 
+  if [ $? -eq 0 ]
+  then
+      echo "TC_CONFIG_ATM:=y" >>Config
+-@@ -49,7 +49,7 @@ int main(int argc, char **argv)
++@@ -47,7 +48,7 @@ int main(int argc, char **argv)
+  
+  EOF
+  
+@@ -34,7 +41,7 @@ Index: iproute2-2.6.34/configure
+  then
+  	echo "TC_CONFIG_XT:=y" >>Config
+  	echo "using xtables"
+-@@ -86,7 +86,7 @@ int main(int argc, char **argv) {
++@@ -84,7 +85,7 @@ int main(int argc, char **argv) {
+  }
+  
+  EOF
+@@ -43,7 +50,7 @@ Index: iproute2-2.6.34/configure
+  
+  if [ $? -eq 0 ]
+  then
+-@@ -126,7 +126,7 @@ int main(int argc, char **argv) {
++@@ -124,7 +125,7 @@ int main(int argc, char **argv) {
+  }
+  
+  EOF
+@@ -52,12 +59,24 @@ Index: iproute2-2.6.34/configure
+  
+  if [ $? -eq 0 ]
+  then
+-@@ -150,7 +150,7 @@ check_ipt()
++@@ -145,7 +146,7 @@ check_ipt()
+  check_ipt_lib_dir()
+  {
+  	IPT_LIB_DIR=""
+ -	for dir in /lib /usr/lib /usr/local/lib
+ +	for dir in $SYSROOT/lib $SYSROOT/usr/lib $SYSROOT/usr/local/lib
+  	do
+- 		for file in $dir/$TABLES/lib*t_*so ; do
++ 		for file in $dir/{xtables,iptables}/lib*t_*so ; do
+  			if [ -f $file ]; then
++@@ -168,7 +169,7 @@ int main(int argc, char **argv)
++ 	return 0;
++ }
++ EOF
++-gcc -I$INCLUDE -o /tmp/setnstest /tmp/setnstest.c >/dev/null 2>&1
+++$CC -I$INCLUDE -o /tmp/setnstest /tmp/setnstest.c >/dev/null 2>&1
++ if [ $? -eq 0 ]
++ then
++ 	echo "IP_CONFIG_SETNS:=y" >>Config
++-- 
++1.7.2.5
++
+diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
+index 0f27a01..6fc30a0 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2.inc
++++ b/meta/recipes-connectivity/iproute2/iproute2.inc
+@@ -23,8 +23,11 @@ do_install () {
+     rm ${D}/share -rf || true
+ }
  
- RECIPE_STATUS_pn-blktool = "green"
-@@ -1290,12 +1290,12 @@ DISTRO_PN_ALIAS_pn-msynctool = "OpenSuse=msynctool Mandriva=msynctool"
+-FILES_${PN} += "/usr/lib/tc/*"
+-FILES_${PN}-dbg += "/usr/lib/tc/.debug"
++# There are only .so files in iproute2
++INSANE_SKIP_${PN} = "dev-so"
++
++FILES_${PN} += "${base_libdir}/tc/*"
++FILES_${PN}-dbg += "${base_libdir}/tc/.debug"
  
- RECIPE_STATUS_pn-mtools = "green"
- RECIPE_DEPENDENCY_CHECK_pn-mtools = "not done"
--RECIPE_LATEST_VERSION_pn-mtools = "4.0.16"
-+RECIPE_LATEST_VERSION_pn-mtools = "4.0.17"
- RECIPE_INTEL_SECTION_pn-mtools = "optional"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-mtools = "6 months"
--RECIPE_LATEST_RELEASE_DATE_pn-mtools = "Apr 16, 2011"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-mtools = "2 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-mtools = "Jun 28, 2011"
- RECIPE_COMMENTS_pn-mtools = ""
--RECIPE_LAST_UPDATE_pn-mtools = "Jun 15, 2011"
-+RECIPE_LAST_UPDATE_pn-mtools = "Oct 25, 2011"
- RECIPE_MAINTAINER_pn-mtools = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-pm-utils = "green"
-@@ -2016,22 +2016,22 @@ RECIPE_MAINTAINER_pn-cronie = "Dexuan Cui <dexuan.cui@intel.com>"
- 
- RECIPE_STATUS_pn-grep = "green" 
- RECIPE_DEPENDENCY_CHECK_pn-grep = "not done"
--RECIPE_LATEST_VERSION_pn-grep = "2.8"
-+RECIPE_LATEST_VERSION_pn-grep = "2.9"
- RECIPE_INTEL_SECTION_pn-grep = "base"
- RECIPE_NO_OF_PATCHES_pn-grep = "0"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-grep = "8 months"
--RECIPE_LATEST_RELEASE_DATE_pn-grep = "May 01, 2011"
--RECIPE_LAST_UPDATE_pn-grep = "Jun 5, 2011"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-grep = "1 month"
-+RECIPE_LATEST_RELEASE_DATE_pn-grep = "Jun 01, 2011"
-+RECIPE_LAST_UPDATE_pn-grep = "Oct 25, 2011"
- RECIPE_MAINTAINER_pn-grep = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-openssh = "green" 
- RECIPE_DEPENDENCY_CHECK_pn-openssh = "not done"
--RECIPE_LATEST_VERSION_pn-openssh = "5.8p2"
-+RECIPE_LATEST_VERSION_pn-openssh = "5.9p1"
- RECIPE_INTEL_SECTION_pn-openssh = "base"
- RECIPE_NO_OF_PATCHES_pn-openssh = "1"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-openssh = "3 months"
--RECIPE_LATEST_RELEASE_DATE_pn-openssh = "May 01, 2011"
--RECIPE_LAST_UPDATE_pn-openssh = "Jun 5, 2011"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-openssh = "4 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-openssh = "Sep 01, 2011"
-+RECIPE_LAST_UPDATE_pn-openssh = "Oct 25, 2011"
- RECIPE_MAINTAINER_pn-openssh = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-tar = "green" 
+ ALTERNATIVE_NAME = "ip"
+ ALTERNATIVE_PATH = "${base_sbindir}/ip.iproute2"
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_2.6.38.bb b/meta/recipes-connectivity/iproute2/iproute2_2.6.38.bb
+deleted file mode 100644
+index 7abc41f..0000000
+--- a/meta/recipes-connectivity/iproute2/iproute2_2.6.38.bb
++++ /dev/null
+@@ -1,9 +0,0 @@
+-require iproute2.inc
+-
+-PR = "r0"
+-
+-SRC_URI = "http://developer.osdl.org/dev/iproute2/download/${BPN}-${PV}.tar.bz2 \
+-	   file://configure-cross.patch"
+-
+-SRC_URI[md5sum] = "a243bfea837e71824b7ca26c3bb45fa8"
+-SRC_URI[sha256sum] = "47629a4f547f21d94d8e823a87dd8e13042cadecefea2e2dc433e4134fa9aec4"
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_3.0.0.bb b/meta/recipes-connectivity/iproute2/iproute2_3.0.0.bb
+new file mode 100644
+index 0000000..8d1db85
+--- /dev/null
++++ b/meta/recipes-connectivity/iproute2/iproute2_3.0.0.bb
+@@ -0,0 +1,8 @@
++require iproute2.inc
++
++#v3.0.0 tag
++SRCREV = "ce691fb5ce78b2c75243c60a757a3990ae09681c"
++SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/shemminger/iproute2.git \
++           file://configure-cross.patch"
++S = "${WORKDIR}/git"
++
 -- 
 1.7.6.4
 
