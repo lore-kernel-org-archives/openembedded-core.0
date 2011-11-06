@@ -1,35 +1,28 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RMnAU-0006Tb-VC
+	(envelope-from <scott.a.garman@intel.com>) id 1RN8XW-0006PU-4A
 	for openembedded-core@lists.openembedded.org;
-	Sat, 05 Nov 2011 21:48:47 +0100
-Received: by bkbzv3 with SMTP id zv3so2943102bkb.6
+	Sun, 06 Nov 2011 20:37:58 +0100
+Received: from localhost (c-98-246-160-155.hsd1.or.comcast.net
+	[98.246.160.155])
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 15BD73044C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 05 Nov 2011 13:42:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=6MVYAH8iO7GDX+kErV9oJVsyVcfxSD5QiNkEgMGGNyU=;
-	b=eU+KxQkfq1XPZL/TvEwopEz9dROmj2xvs01IaYXEK8RbdmbVKKOaidZSjtXYlc96AA
-	c5DqOj5BtMyoo1cG6Rgnp3N5fdoEqNIv+PyJoSsUI/mTJhpeRnsWQ+PhFPi5zs6SJGxK
-	8uCrsYLpDyLIgwMdjEJTfCEyUq8HXjHb02phM=
-MIME-Version: 1.0
-Received: by 10.204.10.81 with SMTP id o17mr10014402bko.65.1320525753771; Sat,
-	05 Nov 2011 13:42:33 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.48.208 with HTTP; Sat, 5 Nov 2011 13:42:33 -0700 (PDT)
-In-Reply-To: <1320441432.3137.2.camel@lenovo.internal.reciva.com>
-References: <cover.1320430778.git.otavio@ossystems.com.br>
-	<7e3c2e21652019ed5dd2d45beff62a855152f0a4.1320430778.git.otavio@ossystems.com.br>
-	<1320441432.3137.2.camel@lenovo.internal.reciva.com>
-Date: Sat, 5 Nov 2011 18:42:33 -0200
-X-Google-Sender-Auth: n529cRTqLzGnmu56R6HEprXQhNo
-Message-ID: <CAP9ODKr2nX1j5S+rkd=tD+FNEjJoWCKx5whrRBVbV0B+h_6vYw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/5] dhcp: rename dhcp4.inc to dhcp.inc
+	Sun,  6 Nov 2011 14:31:40 -0500 (EST)
+From: Scott Garman <scott.a.garman@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  6 Nov 2011 11:31:41 -0800
+Message-Id: <cover.1320607825.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.5.4
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: 15BD73044C.D3CBB
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Subject: [PATCH 0/1] useradd.bbclass: fix how RDEPENDS is setup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,23 +37,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 Nov 2011 20:48:47 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 06 Nov 2011 19:37:58 -0000
 
-On Fri, Nov 4, 2011 at 19:17, Phil Blundell <philb@gnu.org> wrote:
-> Why is this patch an improvement? =A0I don't have anything against it
-> particularly but it doesn't seem that it buys much either, and there is
-> no clue in the commit message as to what it is trying to achieve.
+Fix bug where only packages named PN included base-passwd in
+RDEPENDS. Also remove shadow requirement, since some targets
+do not use shadow and file ownership can be changed with only
+passwd/group entries.
+    
+This fixes [YOCTO #1727]
 
-Since we dropped the dhcp3.inc file makes no sense to have it named
-dhcp4.inc so I renamed it. Just as simple as that.
+The following changes since commit e3c003282afb93ec52882496400b042620ab00ef:
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+  rt-tests: update to 0.83 (2011-11-04 15:43:19 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib sgarman/useradd-rdepends-final
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/useradd-rdepends-final
+
+Scott Garman (1):
+  useradd.bbclass: fix how RDEPENDS is setup
+
+ meta/classes/useradd.bbclass |    8 +++++++-
+ 1 files changed, 7 insertions(+), 1 deletions(-)
+
+-- 
+1.7.5.4
+
 
 
