@@ -1,34 +1,28 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1RNC3B-0005OF-KI
+	(envelope-from <scott.a.garman@intel.com>) id 1RNCDj-0005uD-IH
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Nov 2011 00:22:53 +0100
-Received: from mail-gy0-f180.google.com ([209.85.160.180])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 06 Nov 2011 15:16:39 -0800
-Received: by gyh20 with SMTP id 20so8572437gyh.25
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 06 Nov 2011 15:16:38 -0800 (PST)
-Received: by 10.43.44.199 with SMTP id uh7mr40388540icb.25.1320621395980;
-	Sun, 06 Nov 2011 15:16:35 -0800 (PST)
-Received: from [192.168.1.12] (c-98-246-160-155.hsd1.or.comcast.net.
+	Mon, 07 Nov 2011 00:33:47 +0100
+Received: from localhost (c-98-246-160-155.hsd1.or.comcast.net
 	[98.246.160.155])
-	by mx.google.com with ESMTPS id 3sm31105964pbx.14.2011.11.06.15.16.34
-	(version=SSLv3 cipher=OTHER); Sun, 06 Nov 2011 15:16:35 -0800 (PST)
-Message-ID: <4EB7155A.1050808@intel.com>
-Date: Sun, 06 Nov 2011 15:16:42 -0800
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 5F07530450
+	for <openembedded-core@lists.openembedded.org>;
+	Sun,  6 Nov 2011 18:27:31 -0500 (EST)
 From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
-MIME-Version: 1.0
-To: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
-References: <840A81C1B782724A8EB52725BD519EFF1A8F25@MBX20.4emm.local>
-	<840A81C1B782724A8EB52725BD519EFF1A8F4E@MBX20.4emm.local>
-	<4EA825F0.1030504@windriver.com> <4EA83ACB.4040001@intel.com>
-	<4EB6EE8E.4000401@eukrea.com>
-In-Reply-To: <4EB6EE8E.4000401@eukrea.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: useradd changes to dbus, base-passwd
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  6 Nov 2011 15:27:31 -0800
+Message-Id: <cover.1320621944.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.5.4
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: 5F07530450.75748
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Subject: [PATCH 0/1] useradd.bbclass: fix how RDEPENDS is setup [v2]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,47 +37,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Nov 2011 23:22:53 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 06 Nov 2011 23:33:47 -0000
 
-On 11/06/2011 12:31 PM, Eric Bénard wrote:
-> Hi Scott,
->
-> Le 26/10/2011 18:52, Scott Garman a écrit :
->> Grepping through our classes, it looks like I can detect the nativesdk
->> within
->> useradd.bbclass by checking for bb.data.inherits_class('nativesdk', d).
->>
->> I've filed a bug for this and will develop a patch to ensure useradd is
->> becomes a no-op for nativesdk builds:
->>
->> http://bugzilla.pokylinux.org/show_bug.cgi?id=1702
->>
-> here is a patch tentative which allowed me to compile meta-toolchain-qte.
-> Is that the right way to solve the problem (in which case I'll submit
-> the patch with comment & sob)?
+Fix bug where only packages named PN included base-passwd in
+RDEPENDS.
+   
+This fixes [YOCTO #1727]
 
-Hi Eric,
+Thanks to Phil Blundell for revewing my previous pull request, this
+is v2 based on his feedback.
 
-This looks good, thank you! Two questions though:
+The following changes since commit e3c003282afb93ec52882496400b042620ab00ef:
 
-When I was testing my own variation of this fix out, I found that 
-testing bb.data.inherits_class('nativesdk', d) did not work as I 
-expected. It returned false for a recipe I was testing with that used 
-BBCLASSEXTEND = "native nativesdk". So instead I was checking if PN 
-ended with -nativesdk. Are you certain the inherits_class test works?
+  rt-tests: update to 0.83 (2011-11-04 15:43:19 +0000)
 
-My second question is why the autotools_do_install is needed for the 
-nativesdk case?
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib sgarman/useradd-rdepends-final
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/useradd-rdepends-final
 
-Thanks,
+Scott Garman (1):
+  useradd.bbclass: fix how RDEPENDS is setup
 
-Scott
+ meta/classes/useradd.bbclass |    8 +++++++-
+ 1 files changed, 7 insertions(+), 1 deletions(-)
 
 -- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+1.7.5.4
+
 
 
