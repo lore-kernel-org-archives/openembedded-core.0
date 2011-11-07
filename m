@@ -1,24 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1RNVts-0002T1-P7
+	(envelope-from <tom.zanussi@intel.com>) id 1RNVtw-0002TC-D3
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Nov 2011 21:34:37 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 07 Nov 2011 12:28:25 -0800
+	Mon, 07 Nov 2011 21:34:40 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 07 Nov 2011 12:28:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,471,1315206000"; d="scan'208";a="34180016"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="71966810"
 Received: from unknown (HELO localhost) ([10.255.15.253])
-	by AZSMGA002.ch.intel.com with ESMTP; 07 Nov 2011 12:28:24 -0800
+	by orsmga002.jf.intel.com with ESMTP; 07 Nov 2011 12:28:28 -0800
 From: tom.zanussi@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Nov 2011 14:28:53 -0600
-Message-Id: <a02bc97e8f864a5970ce9fa2f877c3ec1eaaa9b1.1320697346.git.tom.zanussi@intel.com>
+Date: Mon,  7 Nov 2011 14:28:55 -0600
+Message-Id: <4768c13e9f66fa82a2bd536ff287a6d003d9df4c.1320697346.git.tom.zanussi@intel.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <bb5c0a2e7d5a9ee1c22a0eb1422ae5454b033b53.1320697346.git.tom.zanussi@intel.com>
 References: <bb5c0a2e7d5a9ee1c22a0eb1422ae5454b033b53.1320697346.git.tom.zanussi@intel.com>
 In-Reply-To: <cover.1320697346.git.tom.zanussi@intel.com>
 References: <cover.1320697346.git.tom.zanussi@intel.com>
-Subject: [PATCH 4/6] gmp_5.0.2: Set CC_FOR_BUILD to BUILD_CC
+Subject: [PATCH 6/6] python: skip setup.py 'import check' when cross-compiling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,42 +33,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2011 20:34:37 -0000
+X-List-Received-Date: Mon, 07 Nov 2011 20:34:40 -0000
 
 From: Tom Zanussi <tom.zanussi@intel.com>
 
-CC_FOR_BUILD was compiling the test programs using the target's
-compile options and executing those on the host, causing errors such
-as:
+build_extension() in setup.py, as part of the build process, does an
+'import check' on the built extension.  The import check in turn
+dlopen()'s the shared library associated with the extension, which
+isn't something that makes sense if that library was cross-compiled
+for a different architecture.
 
-/bin/sh: line 1: 15032 Illegal instruction     ./gen-bases table 64 0 > mpn/mp_bases.c
-/bin/sh: line 1: 15033 Illegal instruction     ./gen-bases header 64 0 > mp_bases.h
+This was noticed with an x86_64 target that was compiled with avx
+support, because it caused 'illegal instruction' exceptions:
 
-Export CC_FOR_BUILD using BUILD_CC to fix the problem.
+| /bin/sh: line 1: 14575 Illegal instruction ... -E ./setup.py -q build
+
+For other target architectures, it doesn't necessarily cause illegal
+instruction exceptions, but still fails.  For example, on arm, the
+failure pathway causes this warning:
+
+*** WARNING: renaming "cmath" since importing it failed: .../cmath.so:
+    wrong ELF class: ELFCLASS32
+
+This patch to setup.py and the associated recipe changes allow the
+whole 'import check' logic to be skipped when cross-compiling.
 
 Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
 ---
- meta/recipes-support/gmp/gmp_5.0.2.bb |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+ .../python/setup_py_skip_cross_import_check.patch  |   27 ++++++++++++++++++++
+ meta/recipes-devtools/python/python_2.7.2.bb       |    5 +++
+ 2 files changed, 32 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python/setup_py_skip_cross_import_check.patch
 
-diff --git a/meta/recipes-support/gmp/gmp_5.0.2.bb b/meta/recipes-support/gmp/gmp_5.0.2.bb
-index 03fef45..16bdcbc 100644
---- a/meta/recipes-support/gmp/gmp_5.0.2.bb
-+++ b/meta/recipes-support/gmp/gmp_5.0.2.bb
-@@ -2,11 +2,12 @@ require gmp.inc
- LICENSE="LGPLv3&GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
- 		    file://version.c;endline=18;md5=d8c56b52b9092346b9f93b4da65ef790"
--PR = "r0"
-+PR = "r1"
+diff --git a/meta/recipes-devtools/python/python/setup_py_skip_cross_import_check.patch b/meta/recipes-devtools/python/python/setup_py_skip_cross_import_check.patch
+new file mode 100644
+index 0000000..6ccdb94
+--- /dev/null
++++ b/meta/recipes-devtools/python/python/setup_py_skip_cross_import_check.patch
+@@ -0,0 +1,27 @@
++This patch skips over the 'import check' setup.py does when building
++extensions.  This generally won't work when cross-compiling.
++
++Upstream-Status: Inappropriate [embedded-specific]
++
++Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
++
++Index: Python-2.7.2/setup.py
++===================================================================
++--- Python-2.7.2.orig/setup.py	2011-11-04 16:46:34.553796410 -0500
+++++ Python-2.7.2/setup.py	2011-11-04 16:59:49.692802313 -0500
++@@ -287,6 +287,15 @@
++                           (ext.name, sys.exc_info()[1]))
++             self.failed.append(ext.name)
++             return
+++
+++        # If we're cross-compiling, we want to skip the import check
+++        # i.e. we shouldn't be dynamically loading target shared libs
+++        if os.environ.get('CROSS_COMPILE') is not None:
+++            self.announce(
+++                'WARNING: skipping import check for cross-compiled "%s"' %
+++                ext.name)
+++            return
+++
++         # Workaround for Mac OS X: The Carbon-based modules cannot be
++         # reliably imported into a command-line Python
++         if 'Carbon' in ext.extra_link_args:
+diff --git a/meta/recipes-devtools/python/python_2.7.2.bb b/meta/recipes-devtools/python/python_2.7.2.bb
+index bb088a4..360e64e 100644
+--- a/meta/recipes-devtools/python/python_2.7.2.bb
++++ b/meta/recipes-devtools/python/python_2.7.2.bb
+@@ -18,6 +18,7 @@ SRC_URI += "\
+   file://multilib.patch \
+   file://cgi_py.patch \
+   file://remove_sqlite_rpath.patch \
++  file://setup_py_skip_cross_import_check.patch \
+ "
  
- SRC_URI_append += "file://sh4-asmfix.patch \
-                    file://use-includedir.patch "
+ S = "${WORKDIR}/Python-${PV}"
+@@ -57,6 +58,8 @@ do_compile() {
+ 	# then call do_install twice we get Makefile.orig == Makefile.sysroot
+ 	install -m 0644 Makefile Makefile.sysroot
  
-+export CC_FOR_BUILD = "${BUILD_CC}"
- 
- SRC_URI[md5sum] = "0bbaedc82fb30315b06b1588b9077cd3"
- SRC_URI[sha256sum] = "dbc2db76fdd4e99f85d5e35aa378ed62c283e0d586b91bd8703aff75a7804c28"
++	export CROSS_COMPILE="${TARGET_PREFIX}"
++
+ 	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/pgen \
+ 		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python \
+ 		STAGING_LIBDIR=${STAGING_LIBDIR} \
+@@ -78,6 +81,8 @@ do_install() {
+ 	# make install needs the original Makefile, or otherwise the inclues would
+ 	# go to ${D}${STAGING...}/...
+ 	install -m 0644 Makefile.orig Makefile
++
++	export CROSS_COMPILE="${TARGET_PREFIX}"
+ 	
+ 	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/pgen \
+ 		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python \
 -- 
 1.7.0.4
 
