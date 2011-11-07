@@ -1,26 +1,29 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RNMJR-0006o9-50
+	(envelope-from <koen@dominion.thruhere.net>) id 1RNMLi-0006tt-Bm
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Nov 2011 11:20:21 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 07 Nov 2011 02:14:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,469,1315206000"; d="scan'208";a="86975181"
-Received: from unknown (HELO helios.localnet) ([10.252.121.109])
-	by fmsmga002.fm.intel.com with ESMTP; 07 Nov 2011 02:14:06 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Mon, 07 Nov 2011 10:14:04 +0000
-Message-ID: <10653267.IaxPiWSyZu@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.7.2 (Linux/3.0.0-12-generic-pae; KDE/4.7.2; i686; ; )
-In-Reply-To: <CAP9ODKr=5gbdM7CNSV7n3Ouq5fpcXmCTPGQWAjEKR59FA_ZGzw@mail.gmail.com>
+	Mon, 07 Nov 2011 11:22:42 +0100
+Received: by wyh5 with SMTP id 5so4481222wyh.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 Nov 2011 02:16:29 -0800 (PST)
+Received: by 10.216.221.170 with SMTP id r42mr433838wep.18.1320660989330;
+	Mon, 07 Nov 2011 02:16:29 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id ca18sm4821063wib.13.2011.11.07.02.16.27
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 07 Nov 2011 02:16:28 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <10653267.IaxPiWSyZu@helios>
+Date: Mon, 7 Nov 2011 11:16:26 +0100
+Message-Id: <4F626E19-A84B-4FB7-B6E0-24EC9FC6691A@dominion.thruhere.net>
 References: <cover.1320429268.git.paul.eggleton@linux.intel.com>
 	<CAP9ODKr=5gbdM7CNSV7n3Ouq5fpcXmCTPGQWAjEKR59FA_ZGzw@mail.gmail.com>
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
+	<10653267.IaxPiWSyZu@helios>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1251.1)
 Subject: Re: [PATCH 0/7] combo-layer enhancements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -36,23 +39,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2011 10:20:21 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 07 Nov 2011 10:22:42 -0000
+X-Groupsio-MsgNum: 11978
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_B8AC4394-783F-4BD7-8FEF-2301E95D1165";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-On Friday 04 November 2011 16:15:59 Otavio Salvador wrote:
-> As said on IRC I'd prefer to the auto-commit do not replace the author
-> as it gives the possibility to easily figure who did the update on the
-> repository.
-
-OK, I've removed the override of the author and re-pushed the branch.
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+--Apple-Mail=_B8AC4394-783F-4BD7-8FEF-2301E95D1165
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+Op 7 nov. 2011, om 11:14 heeft Paul Eggleton het volgende geschreven:
+
+> On Friday 04 November 2011 16:15:59 Otavio Salvador wrote:
+>> As said on IRC I'd prefer to the auto-commit do not replace the =
+author
+>> as it gives the possibility to easily figure who did the update on =
+the
+>> repository.
+>=20
+> OK, I've removed the override of the author and re-pushed the branch.
+
+With all the fixes in your branch does this allow creating a combo layer =
+from scratch with all the history present?
+
+regards,
+
+Koen=
+
+--Apple-Mail=_B8AC4394-783F-4BD7-8FEF-2301E95D1165
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAk63r/wACgkQMkyGM64RGpEMQgCdFl4OMm6zytWx97cHXFFUglFG
+d/YAnAt/98LUhZZxQoZeBiRZ3XqrzNWE
+=QsZs
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_B8AC4394-783F-4BD7-8FEF-2301E95D1165--
