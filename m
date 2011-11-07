@@ -1,58 +1,38 @@
-Received: from db3ehsobe004.messaging.microsoft.com ([213.199.154.142]
-	helo=DB3EHSOBE004.bigfish.com)
+Received: from mail-vx0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RNYK9-0000Cz-7e
+	(envelope-from <swaplinker@gmail.com>) id 1RNYVI-0000hN-Eh
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 00:09:53 +0100
-Received: from mail54-db3-R.bigfish.com (10.3.81.247) by
-	DB3EHSOBE004.bigfish.com (10.3.84.24) with Microsoft SMTP Server id
-	14.1.225.22; Mon, 7 Nov 2011 23:03:14 +0000
-Received: from mail54-db3 (localhost.localdomain [127.0.0.1])	by
-	mail54-db3-R.bigfish.com (Postfix) with ESMTP id E208CA8034D	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon,  7 Nov 2011 23:03:27 +0000 (UTC)
-X-SpamScore: -12
-X-BigFish: VS-12(zz9371K1432N98dKzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
-	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 13,
-Received: from mail54-db3 (localhost.localdomain [127.0.0.1]) by mail54-db3
-	(MessageSwitch) id 1320707007762401_17297;
-	Mon,  7 Nov 2011 23:03:27 +0000 (UTC)
-Received: from DB3EHSMHS014.bigfish.com (unknown [10.3.81.253])	by
-	mail54-db3.bigfish.com (Postfix) with ESMTP id B38C31B88055	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon,  7 Nov 2011 23:03:27 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS014.bigfish.com
-	(10.3.87.114) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Mon, 7 Nov 2011 23:03:11 +0000
-Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.150]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.01.0339.002; Mon, 7 Nov 2011 17:03:31 -0600
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v2] Introduce new SERIAL_CONSOLES to add
-	multiple consoles for your MACHINE
-Thread-Index: AQHMnaF36K23AM1ubkmAuCM3o0WGmg==
-Date: Mon, 7 Nov 2011 23:03:30 +0000
-Message-ID: <CAEsOVNdRnM_TachXg=WD4g6iYFGxSgGfx2bWx+PdArfhvuFseA@mail.gmail.com>
-References: <1320441301.3137.1.camel@lenovo.internal.reciva.com>
-	<1320441941-30850-1-git-send-email-msm@freescale.com>
-	<1320442499.3296.4.camel@lenovo.internal.reciva.com>
-In-Reply-To: <1320442499.3296.4.camel@lenovo.internal.reciva.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
+	Tue, 08 Nov 2011 00:21:24 +0100
+Received: by vcbfl17 with SMTP id fl17so1602083vcb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 Nov 2011 15:15:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=V7qCRJD6kRjLj+gnDrOpQPWwAtkTA85B+XrTeTwjHXM=;
+	b=BMNrQxdvqD8IKalsQYZXt7L1MVPej4rfCKRhPHO1iRWqs6CZxcpRACf3pVOkwZq7Bg
+	awmsOuNrP4fdXcQxA2yRpEuXFIZfFufl/qwUlDRE+OzYsR45buHszZb446+UMyZ55EEP
+	pexFKsXNv8w2ubW+9pkV/PsD166ZVizPQEisM=
+Received: by 10.52.114.232 with SMTP id jj8mr28714510vdb.94.1320707709205;
+	Mon, 07 Nov 2011 15:15:09 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH v2] Introduce new SERIAL_CONSOLES to add multiple consoles for your MACHINE
+Sender: swaplinker@gmail.com
+Received: by 10.52.106.198 with HTTP; Mon, 7 Nov 2011 15:14:48 -0800 (PST)
+In-Reply-To: <CAEsOVNen8kUVPge_jZDq5LjhC7BAG0YKx=wxO+ZysNGAd_KwQg@mail.gmail.com>
+References: <1319505532-23199-1-git-send-email-julian.pidancet@gmail.com>
+	<CAEsOVNen8kUVPge_jZDq5LjhC7BAG0YKx=wxO+ZysNGAd_KwQg@mail.gmail.com>
+From: Julian Pidancet <julian.pidancet@gmail.com>
+Date: Mon, 7 Nov 2011 23:14:48 +0000
+X-Google-Sender-Auth: zlUvYOAIGJvSVJ7P1PqSX77dJwY
+Message-ID: <CAKZ=5EVjCrBdH2NBrVD_4UD52h6ZG=p6m-QS5L9K8xfpUcUr1g@mail.gmail.com>
+To: McClintock Matthew-B29882 <B29882@freescale.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Introduce biarch DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -63,63 +43,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2011 23:09:53 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <34B89700F594D4449B9341CD937898AB@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 07 Nov 2011 23:21:24 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Fri, Nov 4, 2011 at 4:34 PM, Phil Blundell <philb@gnu.org> wrote:
->> --- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
->> +++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
->> @@ -25,6 +25,18 @@ do_install() {
->> =A0 =A0 =A0if [ ! -z "${SERIAL_CONSOLE}" ]; then
->> =A0 =A0 =A0 =A0 =A0echo "S:2345:respawn:${base_sbindir}/getty ${SERIAL_C=
-ONSOLE}" >> ${D}${sysconfdir}/inittab
->> =A0 =A0 =A0fi
->> +
->> + =A0 =A0idx=3D0
->> + =A0 =A0tmp=3D"${SERIAL_CONSOLES}"
->> + =A0 =A0if [ "x" !=3D "x$tmp" ]; then
->> + =A0 =A0 for i in $tmp
->> + =A0 =A0 do
->> + =A0 =A0 =A0 =A0 j=3D`echo ${i} | sed s/\;/\ /g`
->> + =A0 =A0 =A0 =A0 echo "${idx}:2345:respawn:${base_sbindir}/getty ${j}" =
->> ${D}${sysconfdir}/inittab
->> + =A0 =A0 =A0 =A0 idx=3D`expr $idx + 1`
->> + =A0 =A0 done
->> + =A0 =A0fi
->> +
+On Wed, Oct 26, 2011 at 3:09 AM, McClintock Matthew-B29882
+<B29882@freescale.com> wrote:
+> On Mon, Oct 24, 2011 at 8:18 PM, Julian Pidancet
+> <julian.pidancet@gmail.com> wrote:
+>> This patch introduces a distro feature which enables gcc to produce
+>> both 32bit and 64bit code, and enables binutils to operate on both
+>> 32bit and 64bit binaries. It differs from multilib toolchains in
+>> that it does not require to compile a version of the libc for each
+>> architecture variant. However, the code produced for the secondary
+>> architecture will not be linkable against the libc.
+>>
+>> This patch only works with x86 and x86_64 architectures, but can
+>> probably be extended to support other architectures as well.
+>>
+>> One use-case would be when one wants to compile a system which runs
+>> 32bit userspace applications with a 64bit kernel without having to
+>> deal with two separate libc.
 >
-> Did you test that this actually solves the problem? =A0It looks to me as
-> though it will still do the wrong thing if the variable is not defined
-> at all (as opposed to being defined to the empty string). =A0The added
-> "if" statement doesn't actually achieve much since, if $tmp is the empty
-> string, the for-loop wouldn't have executed anyway and there is no need
-> for an extra guard.
+> What happens with the native gcc on the root file system. And what
+> about meta-toolchain? Any effect?
 >
-> Also, for what it's worth, the "x$tmp" idiom is unnecessary if you're
-> going to quote the strings.
 
-I don't get it. I think the first version was still OK. The first
-version is pasted below.
+Hi Matthew, sorry for the late answer.
 
-> +    idx=3D0
-> +    tmp=3D"${SERIAL_CONSOLES}" <- If it's not defined this will catch it=
-.
-> +    for i in $tmp
-> +    do
-> +     j=3D`echo ${i} | sed s/\;/\ /g`
-> +        echo "${idx}:2345:respawn:${base_sbindir}/getty ${j}" >> ${D}${s=
-ysconfdir}/inittab
-> +     idx=3D`expr $idx + 1`
-> +    done
+I'm affraid I don't quite see what you mean by "the native gcc on the
+root file system". Are you refering to the version of GCC present on
+the build machine and built by OE ? Or are you refering instead about
+a potential version of GCC running on the target ?
 
-See my inline comment above, but if SERIAL_CONSOLES is not defined
-tmp=3D"" and the for loop won't execute. Not sure if there is a more
-standard way to do this though.
+This patch should only make gcc-cross, and gcc running on the target
+"biarch". It would also probably make sense to build a biarch GCC in
+the meta-toolchain case.
 
--M=
+To be honest, I have not really considered the meta-toolchain case as
+I've never used it before and not quite sure how it works.
 
+I can respin a patch to handle the meta-toolchain case. But in the
+mean-time, it would be nice if I could get an opinion on wether this
+"biarch" feature is a good idea or not, or, if not, maybe some
+suggestions about how to address this specific 32bit/64bit use-case
+differently.
+
+-- 
+Julian
 
 
