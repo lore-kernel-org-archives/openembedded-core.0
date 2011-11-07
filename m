@@ -1,33 +1,31 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RNPx4-0008Ru-RC for openembedded-core@lists.openembedded.org;
-	Mon, 07 Nov 2011 15:13:37 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA7E7I5R019861
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1RNQ8o-0000Rq-7O
+	for openembedded-core@lists.openembedded.org;
+	Mon, 07 Nov 2011 15:25:38 +0100
+Received: by faat2 with SMTP id t2so2512213faa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 7 Nov 2011 14:07:18 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 19698-02 for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Nov 2011 14:07:12 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA7E79JR019855
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 7 Nov 2011 14:07:10 GMT
-Message-ID: <1320674831.23708.12.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 07 Nov 2011 14:07:11 +0000
-In-Reply-To: <cover.1320513631.git.sgw@linux.intel.com>
-References: <cover.1320513631.git.sgw@linux.intel.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [CONSOLIDATED PULL 00/28]
+	Mon, 07 Nov 2011 06:19:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=uRqe0wvjOPXMFGf+dbTBI/SkwIWvS+ETEVifCxSv35Y=;
+	b=nD2YjZ/95Zph9rm2nQYJndeGYn3gw6t4SPZcxvs6cMgHjbrulVtJh3jY8MIoWtcltZ
+	RuWwFHr3uxZkD//Y4NRbtu9PbOkHvgS5XYbsT8ud3wIcfyPuzIBAkysO0fv4dLQRJ/wC
+	u0R3Ncl9T7YvUad0awJgrXmVMxc4Rl9OWID30=
+Received: by 10.152.106.163 with SMTP id gv3mr6596430lab.32.1320675564944;
+	Mon, 07 Nov 2011 06:19:24 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id pw12sm8611517lab.13.2011.11.07.06.19.23
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 07 Nov 2011 06:19:23 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Nov 2011 15:19:16 +0100
+Message-Id: <66b436c4cba411e56445c32a98e0f5e160ab13a8.1320675529.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.7.2
+In-Reply-To: <cover.1320675529.git.Martin.Jansa@gmail.com>
+References: <cover.1320675529.git.Martin.Jansa@gmail.com>
+Subject: [oe-core 1/6] libsdl: enable cdrom, alsa and tslib, disable rpath and add few fixes from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,81 +40,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2011 14:13:37 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 07 Nov 2011 14:25:38 -0000
 
-On Sat, 2011-11-05 at 10:22 -0700, Saul Wold wrote:
-> The following changes since commit e3c003282afb93ec52882496400b042620ab00ef:
-> 
->   rt-tests: update to 0.83 (2011-11-04 15:43:19 +0000)
-> 
-> are available in the git repository at:
->   git://git.openembedded.org/openembedded-core-contrib sgw/stage
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-> 
-> Bruce Ashfield (1):
->   linux-yocto_3.0: update base to v3.0.8 + meta config changes
-> 
-> Dmitry Cherukhin (1):
->   tslib: fix the bug with loading libts-1.0.so
-> 
-> Elizabeth Flanagan (1):
->   buildstats: Fix for buildstats on tmpfs
-> 
-> Koen Kooi (4):
->   image_types bbclass: use 4k bytes per inode so we don't run out of
->     space immediately
->   connman 0.75: bump PR for iptables library change
->   iproute2: update to 3.0.0 to fix build with updated iptables
->   lighttpd 1.4.29: rename index.html to avoid clashes with DL_DIR
-> 
-> Kumar Gala (1):
->   udev-164: Update init script to do an explicit add action
-> 
-> Martin Jansa (6):
->   libcense.bbclass: fix OpenSSL mapping
->   python: improve packaging
->   libnl-2.0: move fix-pktloc_syntax_h-race.patch to libnl-2.0
->     subdirectory and merge with fix-makefile.patch
->   libnl-2.0: add patch from meta-openembedded to fix pkg-config file
->   libnl-2.0: split to more packages, as meta-openembedded does
->   libnl-2.0: add PE/PR bump for upgradable patch for meta-openembedded
->     users
-> 
-> Matthew McClintock (2):
->   dtc: update to latest git version
->   Add new IMAGE_CLASSES variable for classes for image generation
-> 
-> Paul Eggleton (3):
->   allarch.bbclass: disable shlib and debug symbol processing
->   core-image-minimal-initramfs: force IMAGE_FSTYPES
->   qemugl: switch to new git repo
-> 
-> Richard Purdie (3):
->   bash: Ensure we fully reautoconf the recipes so site data is used
->   patch: Convert to use oe_terminal
->   bitbake.conf: Drop remaining TERMCMD pieces and document OE_TERMINAL
->     usage instead
-> 
-> Saul Wold (4):
->   cogl: COPYING file Updated FSF Address
->   dtc: Add patch to correctly install shared libraries and links
->   qmmp: Fix qmmp packaging, ensure lowercase package names
->   fotowall: disable videocapture since we do not have a webcam
-> 
-> Scott Garman (1):
->   distro_tracking_fields: updates for sudo, mtools, grep, and openssh
-> 
-> Xiaofeng Yan (1):
->   qmmp: update to 0.5.2
+* virtual/libsdl is used in sdl.bbclass but nothing was providing it
+* rpath disabled because otherwise libtool and ld try to link against
+  ${libdir}/libdl.so.2 on the host
+  (see OE-classic commit af1a2e0e7626e372f22afbcabf08d9ae6b0d7b01)
 
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-graphics/libsdl/libsdl_1.2.14.bb |   18 ++++++++++++------
+ 1 files changed, 12 insertions(+), 6 deletions(-)
 
-I've merged to master apart from where the patches had feedback.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+index 6b23344..17a3103 100644
+--- a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
++++ b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+@@ -10,10 +10,12 @@ SECTION = "libs"
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=27818cd7fd83877a8e3ef82b82798ef4"
+ 
+-DEPENDS = "${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} virtual/libx11 libxext libxrandr libxrender"
++PROVIDES = "virtual/libsdl"
++
++DEPENDS = "${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} virtual/libx11 libxext libxrandr libxrender alsa-lib tslib"
+ DEPENDS_virtclass-nativesdk = "libx11-nativesdk libxrandr-nativesdk libxrender-nativesdk libxext-nativesdk"
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI = "http://www.libsdl.org/release/SDL-${PV}.tar.gz \
+ 	   file://configure_tweak.patch \
+@@ -26,25 +28,29 @@ SRC_URI[sha256sum] = "5d927e287034cb6bb0ebccfa382cb1d185cb113c8ab5115a0759798642
+ 
+ inherit autotools binconfig pkgconfig
+ 
+-EXTRA_OECONF = "--disable-static --disable-debug --disable-cdrom --enable-threads --enable-timers --enable-endian \
+-                --enable-file --disable-oss --disable-alsa --disable-esd --disable-arts \
++EXTRA_OECONF = "--disable-static --disable-debug --enable-cdrom --enable-threads --enable-timers --enable-endian \
++                --enable-file --disable-oss --enable-alsa --disable-esd --disable-arts \
+                 --disable-diskaudio --disable-nas --disable-esd-shared --disable-esdtest \
+                 --disable-mintaudio --disable-nasm --enable-video-x11 --disable-video-dga \
+                 --disable-video-fbcon --disable-video-directfb --disable-video-ps2gs --disable-video-ps3 \
+                 --disable-video-xbios --disable-video-gem --disable-video-dummy \
+-                --enable-input-events --enable-pthreads \
++                --enable-input-events --enable-input-tslib --enable-pthreads \
+ 		${@base_contains('DISTRO_FEATURES', 'opengl', '--enable-video-opengl', '--disable-video-opengl', d)} \
+ 		--disable-video-svga \
+-                --disable-video-picogui --disable-video-qtopia --enable-dlopen"
++                --disable-video-picogui --disable-video-qtopia --enable-dlopen \
++                --disable-rpath"
+ 
+ PARALLEL_MAKE = ""
+ 
++EXTRA_AUTORECONF += "--include=acinclude --exclude=autoheader"
++
+ do_configure_prepend() {
+         # Remove old libtool macros.
+         MACROS="libtool.m4 lt~obsolete.m4 ltoptions.m4 ltsugar.m4 ltversion.m4"
+         for i in ${MACROS}; do
+                rm -f acinclude/$i
+         done
++        export SYSROOT=$PKG_CONFIG_SYSROOT_DIR
+ }
+ 
+ BBCLASSEXTEND = "nativesdk"
+-- 
+1.7.7.2
 
 
 
