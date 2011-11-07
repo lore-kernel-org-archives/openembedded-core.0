@@ -1,34 +1,20 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RNQA7-0000f7-9M
+	(envelope-from <tom.zanussi@intel.com>) id 1RNRbU-0006SL-Ur
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Nov 2011 15:26:59 +0100
-Received: by bkbzs2 with SMTP id zs2so405247bkb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Nov 2011 06:20:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=CbVx0ZDPMuSQsro/sZ0NMXfMf+gYY8j0RcSLQhI5lWU=;
-	b=kwoZwjm8igUZptN5BEiHEKhDDVBlupFybhm79DVLrjH7Kiyi5GwW6Fm/qfJdl0CGmo
-	2f9N1gJIT6CcT2o1Bb5il0denoJsilFUCuk+GyYgAoxO5WCETSHnGzNb061T7fr1eWJY
-	YDu4GvPP20A0az7SHav1Ik6CtbiHoe3ks76zA=
-MIME-Version: 1.0
-Received: by 10.204.140.215 with SMTP id j23mr9732258bku.52.1320675646224;
-	Mon, 07 Nov 2011 06:20:46 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.48.208 with HTTP; Mon, 7 Nov 2011 06:20:46 -0800 (PST)
-In-Reply-To: <1320673961.22985.653.camel@phil-desktop>
-References: <CAP9ODKp-5oZ3Fr=5EWbm7F1vR3ZFGXw9ezkPj-Ciui12SczM6A@mail.gmail.com>
-	<1320673961.22985.653.camel@phil-desktop>
-Date: Mon, 7 Nov 2011 12:20:46 -0200
-X-Google-Sender-Auth: ItxqiI6LqaPa8S1aYzNeZvieyyk
-Message-ID: <CAP9ODKo7EuOpHQ5s7tzWO=E-AkrB7SUQCf4fpHVAFNKr7qEqnA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Broken BAD_RECOMMENDATIONS support
+	Mon, 07 Nov 2011 16:59:21 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 07 Nov 2011 07:53:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,470,1315206000"; d="scan'208";a="87070050"
+Received: from unknown (HELO localhost) ([10.255.15.253])
+	by fmsmga002.fm.intel.com with ESMTP; 07 Nov 2011 07:53:01 -0800
+From: tom.zanussi@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Nov 2011 09:53:32 -0600
+Message-Id: <cover.1320638388.git.tom.zanussi@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+Subject: [PATCH 0/6] Add some intel-specific tune files, and related fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,41 +29,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2011 14:26:59 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 07 Nov 2011 15:59:21 -0000
 
-On Mon, Nov 7, 2011 at 11:52, Phil Blundell <philb@gnu.org> wrote:
-> On Mon, 2011-11-07 at 11:45 -0200, Otavio Salvador wrote:
->> Hello,
->>
->> It seems BAD_RECOMMENDATIONS support, in ipk, is broken.
->>
->> I checked and the rootfs_ipk is writting the contents into the opkg's
->> status file however it seems opkg when starts to install the packages
->> it overwrites or ignores it. People at IRC confirmated that this also
->> happens to them and thus this is indeed broken.
->>
->> Do someone know how I can debug opkg to see what's going on?
->
-> You can add -V4 to ${ipkg_args} in package_install_internal_ipk() to get
-> more verbosity, though the output is not always especially illuminating.
-> It might be easiest to just hack the scripting so that it bails out at
-> that point and then run opkg-cl by hand under the debugger.
+From: Tom Zanussi <tom.zanussi@intel.com>
 
-Tracing the rootfs generation it proves to be opkg-cl rewritting status fil=
-e.
+This patchset adds some new tune files for corei7, ivb, and atom.
 
-Before the first 'opkg-cl install' the status file contains the
-information about the bad recommendations but after it installs the
-package_linguas, in package_install_internal_ipk then status has no
-bad recommendated packages on it.
+The corei7 and atom were build- and boot-tested on sugarbay (with
+corei7-avx), jasperforest (corei7), crownbay, fri2, fishriver (atom).
+The ivb is one I'll be using for new Ivy Bridge development and
+hasn't been tested yet, but will be needed for that.
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+This patchset also contains a few patches for packages that had build
+problems with the corei7-avx tuning.  The python and gmp packages had
+problems because they tried to execute target code on the host and caused
+illegal instruction errors.  The libzypp failed compilation because of
+the hyphens in the tune name (corei7-avx).
+
+Tom Zanussi (6):
+  tune-corei7: Add tune file for Intel Core i7 machines
+  tune-ivb: Add tune file for Intel Ivy Bridge machines
+  machine/include/tune-atom.inc: add atom-specific settings
+  gmp_5.0.2: Set CC_FOR_BUILD to BUILD_CC
+  libzypp: fix mishandling of hyphenated arches
+  python: skip setup.py
+
+ meta/conf/machine/include/tune-atom.inc            |   26 +++++++++++++++++-
+ meta/conf/machine/include/tune-corei7.inc          |   17 ++++++++++++
+ meta/conf/machine/include/tune-ivb.inc             |   11 ++++++++
+ .../python/setup_py_skip_cross_import_check.patch  |   27 ++++++++++++++++++++
+ meta/recipes-devtools/python/python_2.7.2.bb       |    7 ++++-
+ meta/recipes-extended/libzypp/libzypp_git.bb       |    8 +++---
+ meta/recipes-support/gmp/gmp_5.0.2.bb              |    3 +-
+ 7 files changed, 91 insertions(+), 8 deletions(-)
+ create mode 100644 meta/conf/machine/include/tune-corei7.inc
+ create mode 100644 meta/conf/machine/include/tune-ivb.inc
+ create mode 100644 meta/recipes-devtools/python/python/setup_py_skip_cross_import_check.patch
+
 
 
