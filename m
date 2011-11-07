@@ -1,29 +1,23 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RNNbN-0001Re-3k
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RNNnY-0001xW-Ab
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Nov 2011 12:42:57 +0100
-Received: by wyh5 with SMTP id 5so4547802wyh.6
+	Mon, 07 Nov 2011 12:55:32 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pA7BnITV006255
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Nov 2011 03:36:43 -0800 (PST)
-Received: by 10.216.160.208 with SMTP id u58mr7118770wek.27.1320665803455;
-	Mon, 07 Nov 2011 03:36:43 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235]) by mx.google.com with ESMTPS id
-	et20sm27419983wbb.15.2011.11.07.03.36.41
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 07 Nov 2011 03:36:42 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Mon, 7 Nov 2011 12:36:37 +0100
-In-Reply-To: <2a7edb60d8e4495033d7e938fa6a1e2930529a8f.1320664163.git.xiaofeng.yan@windriver.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1320664163.git.xiaofeng.yan@windriver.com>
-	<2a7edb60d8e4495033d7e938fa6a1e2930529a8f.1320664163.git.xiaofeng.yan@windriver.com>
-Message-Id: <D8A7C44A-5902-42ED-986A-C0944BC7D0E0@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH 1/2] libarchive: update to 2.8.5
+	Mon, 7 Nov 2011 03:49:18 -0800 (PST)
+Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Mon, 7 Nov 2011 03:49:18 -0800
+Message-ID: <cover.1320665106.git.xiaofeng.yan@windriver.com>
+Old-Date: Mon, 7 Nov 2011 19:25:06 +0800
+Date: Mon, 7 Nov 2011 19:57:14 +0800
+To: <openembedded-core@lists.openembedded.org>
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 0/2] qmmp: update to 2.8.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,76 +32,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2011 11:42:57 -0000
-X-Groupsio-MsgNum: 11983
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_BF763E67-0B14-4DF2-A37C-2BB071F275C0";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Mon, 07 Nov 2011 11:55:32 -0000
+Content-Type: text/plain
 
---Apple-Mail=_BF763E67-0B14-4DF2-A37C-2BB071F275C0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
+Hi Saul,
 
-Op 7 nov. 2011, om 12:13 heeft Xiaofeng Yan het volgende geschreven:
+I make some changes to qmmp_0.5.2.bb according to koen's suggestion.
+Please check it again.
 
-> From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
->=20
-> libarchive: update to 2.8.5
->=20
-> Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-> ---
-> ...rchive_2.8.4.yocto.1.bb =3D> libarchive_2.8.5.bb} |    8 ++++----
-> 1 files changed, 4 insertions(+), 4 deletions(-)
-> rename meta/recipes-extended/libarchive/{libarchive_2.8.4.yocto.1.bb =
-=3D> libarchive_2.8.5.bb} (76%)
->=20
-> diff --git =
-a/meta/recipes-extended/libarchive/libarchive_2.8.4.yocto.1.bb =
-b/meta/recipes-extended/libarchive/libarchive_2.8.5.bb
-> similarity index 76%
-> rename from =
-meta/recipes-extended/libarchive/libarchive_2.8.4.yocto.1.bb
-> rename to meta/recipes-extended/libarchive/libarchive_2.8.5.bb
-> index 94d261b..1bc49e2 100644
-> --- a/meta/recipes-extended/libarchive/libarchive_2.8.4.yocto.1.bb
-> +++ b/meta/recipes-extended/libarchive/libarchive_2.8.5.bb
-> @@ -9,19 +9,19 @@ DEPENDS =3D "libxml2"
->=20
-> # We need to repack the tarball due undistributable content on the =
-upstream one.
-> # More details at =
-http://code.google.com/p/libarchive/issues/detail?id=3D162
-> -SRC_URI =3D =
-"http://autobuilder.yoctoproject.org/sources/libarchive-${PV}.tar.gz \
-> +SRC_URI =3D =
-"http://libarchive.googlecode.com/files/libarchive-${PV}.tar.gz \
->            file://0001-Patch-from-upstream-revision-1990.patch \
->            file://0002-Patch-from-upstream-revision-1991.patch \
-> -           file://0003-Patch-from-upstream-rev-2516.patch \
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: xiaofeng/qmmp
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/qmmp
 
-Why was only that patch removed? The commit message doesn't mention =
-anything about it.
-
-regards,
-
-Koen
+Thanks,
+    Xiaofeng Yan <xiaofeng.yan@windriver.com>
+---
 
 
---Apple-Mail=_BF763E67-0B14-4DF2-A37C-2BB071F275C0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+Xiaofeng Yan (2):
+  qmmp: update to 0.5.2
+  distro_tracking_fields.inc: Modify the status of qmmp
 
------BEGIN PGP SIGNATURE-----
+ .../conf/distro/include/distro_tracking_fields.inc |    8 ++-
+ meta/recipes-qt/qt-apps/qmmp_0.5.1.bb              |   47 -----------------
+ meta/recipes-qt/qt-apps/qmmp_0.5.2.bb              |   54 ++++++++++++++++++++
+ 3 files changed, 60 insertions(+), 49 deletions(-)
+ delete mode 100644 meta/recipes-qt/qt-apps/qmmp_0.5.1.bb
+ create mode 100644 meta/recipes-qt/qt-apps/qmmp_0.5.2.bb
 
-iEYEARECAAYFAk63wsgACgkQMkyGM64RGpEW/QCeJxGAPQXuUjR5e+FpOB/jZpPK
-XUgAoJWVWAD1pqy/8ps2tAP7IWtBWCqA
-=mY0V
------END PGP SIGNATURE-----
 
---Apple-Mail=_BF763E67-0B14-4DF2-A37C-2BB071F275C0--
+
