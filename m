@@ -1,35 +1,26 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1RNTxt-0005Up-VO
+	(envelope-from <sgw@linux.intel.com>) id 1RNUNY-0006Hr-Hh
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Nov 2011 19:30:38 +0100
-Received: from mail-vx0-f180.google.com ([209.85.220.180])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 07 Nov 2011 10:24:23 -0800
-Received: by vcbfo1 with SMTP id fo1so999317vcb.25
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Nov 2011 10:24:22 -0800 (PST)
-Received: by 10.68.73.33 with SMTP id i1mr1079553pbv.81.1320690262004;
-	Mon, 07 Nov 2011 10:24:22 -0800 (PST)
-Received: from [192.168.1.12] (c-98-246-160-155.hsd1.or.comcast.net.
-	[98.246.160.155])
-	by mx.google.com with ESMTPS id lt8sm38232744pbb.0.2011.11.07.10.24.20
-	(version=SSLv3 cipher=OTHER); Mon, 07 Nov 2011 10:24:20 -0800 (PST)
-Message-ID: <4EB8225D.6000804@intel.com>
-Date: Mon, 07 Nov 2011 10:24:29 -0800
-From: Scott Garman <scott.a.garman@intel.com>
+	Mon, 07 Nov 2011 19:57:08 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 07 Nov 2011 10:50:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,471,1315206000"; d="scan'208";a="71473762"
+Received: from unknown (HELO [10.255.12.14]) ([10.255.12.14])
+	by azsmga001.ch.intel.com with ESMTP; 07 Nov 2011 10:50:53 -0800
+Message-ID: <4EB8288D.3040304@linux.intel.com>
+Date: Mon, 07 Nov 2011 10:50:53 -0800
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
-To: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
-References: <840A81C1B782724A8EB52725BD519EFF1A8F25@MBX20.4emm.local>
-	<840A81C1B782724A8EB52725BD519EFF1A8F4E@MBX20.4emm.local>
-	<4EA825F0.1030504@windriver.com> <4EA83ACB.4040001@intel.com>
-	<4EB6EE8E.4000401@eukrea.com> <4EB7155A.1050808@intel.com>
-	<4EB79894.3050209@eukrea.com>
-In-Reply-To: <4EB79894.3050209@eukrea.com>
-Cc: Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: useradd changes to dbus, base-passwd
+References: <1320236800-6978-1-git-send-email-Martin.Jansa@gmail.com>
+In-Reply-To: <1320236800-6978-1-git-send-email-Martin.Jansa@gmail.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: [PATCH] libcense.bbclass: fix OpenSSL mapping [BUGID# 1712]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,79 +35,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2011 18:30:38 -0000
+X-List-Received-Date: Mon, 07 Nov 2011 18:57:08 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 11/07/2011 12:36 AM, Eric Bénard wrote:
-> Hi Scott,
+On 11/02/2011 05:26 AM, Martin Jansa wrote:
+> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
+> ---
+>   meta/classes/license.bbclass                       |    2 +-
+>   .../recipes-connectivity/openssl/openssl_0.9.8r.bb |    2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
 >
-> Le 07/11/2011 00:16, Scott Garman a écrit :
->> This looks good, thank you! Two questions though:
->>
->> When I was testing my own variation of this fix out, I found that testing
->> bb.data.inherits_class('nativesdk', d) did not work as I expected. It
->> returned
->> false for a recipe I was testing with that used BBCLASSEXTEND = "native
->> nativesdk". So instead I was checking if PN ended with -nativesdk. Are
->> you
->> certain the inherits_class test works?
->>
-> this seems to work as expected in the present case :
+> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+> index 3f93bf5..baf35f0 100644
+> --- a/meta/classes/license.bbclass
+> +++ b/meta/classes/license.bbclass
+> @@ -44,7 +44,7 @@ SPDXLICENSEMAP[MPLv1.1] = "MPL-1"
+>   SPDXLICENSEMAP[MIT-X] = "MIT"
 >
-> $ grep BBCLASSEXTEND
-> sources/openembedded-core/meta/recipes-core/dbus/dbus.inc
-> BBCLASSEXTEND = "native nativesdk"
+>   #Openssl variations
+> -SPDXLICENSEMAP[openssl] = "Openssl"
+> +SPDXLICENSEMAP[openssl] = "OpenSSL"
 >
-> $ bitbake dbus -e |grep ^DEPENDS=
-> DEPENDS="pkgconfig-native autoconf-native automake-native libtool-native
-> libtool-cross gnu-config-native virtual/gettext gettext-native
-> virtual/arm-angstrom-linux-gnueabi-gcc
-> virtual/arm-angstrom-linux-gnueabi-compilerlibs virtual/libc expat
-> virtual/libintl virtual/libx11 libsm shadow-native shadow-sysroot
-> base-passwd update-rc.d-native"
+>   #Other variations
+>   SPDXLICENSEMAP[AFL2.1] = "AFL-2"
+> diff --git a/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb b/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb
+> index 5add70e..555bacf 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb
+> @@ -1,6 +1,6 @@
+>   require openssl.inc
 >
-> $ bitbake dbus-native -e |grep ^DEPENDS=
-> DEPENDS="pkgconfig-native autoconf-native automake-native libtool-native
-> gnu-config-native gettext-minimal-native expat-native
-> virtual/libintl-native shadow-native shadow-sysroot base-passwd
-> update-rc.d-native"
->
-> $ bitbake dbus-nativesdk -e |grep ^DEPENDS=
-> DEPENDS="pkgconfig-native autoconf-native automake-native libtool-native
-> libtool-cross gnu-config-native virtual/gettext-nativesdk gettext-native
-> virtual/i686-angstromsdk-linux-gcc-crosssdk
-> virtual/i686-angstromsdk-linux-compilerlibs-nativesdk
-> virtual/libc-nativesdk expat-nativesdk virtual/libintl-nativesdk
-> virtual/libx11-nativesdk update-rc.d-native"
->
-> $ bitbake dbus-nativesdk -e |grep ^SSTATEPOSTIN
-> $ bitbake dbus-native -e |grep ^SSTATEPOSTIN
-> SSTATEPOSTINSTFUNCS="useradd_sysroot_sstate"
-> $ bitbake dbus -e |grep ^SSTATEPOSTIN
-> SSTATEPOSTINSTFUNCS="useradd_sysroot_sstate"
->
->
->> My second question is why the autotools_do_install is needed for the
->> nativesdk
->> case?
->>
-> because without the do_install_virtclass-nativesdk() , that's the
-> standard do_install which is used which tries to setup some rigths using
-> chown on the files and that fails (and is not very useful for a nativesdk).
-> Maybe we could use a similar do_install as the one used for native.
+> -PR = "r6"
+> +PR = "r7"
+>   SRC_URI += "file://debian/ca.patch \
+>               file://debian/config-hurd.patch;apply=no \
+>               file://debian/debian-targets.patch \
 
-Thanks for the explanation and verifying the inherit_class call.
+Merged into OE-Core with a tweak to the commit message formatting
 
-I'm happy to ack a patch for this, please submit it.
-
-Thanks!
-
-Scott
-
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+Thanks
+	Sau!
 
 
