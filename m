@@ -1,28 +1,32 @@
 Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1RNYpq-0001SS-ST
+	(envelope-from <scott.a.garman@intel.com>) id 1RNYps-0001Sc-Kc
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 00:42:39 +0100
+	Tue, 08 Nov 2011 00:42:40 +0100
 Received: from localhost (c-98-246-160-155.hsd1.or.comcast.net
 	[98.246.160.155])
 	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
 	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 89C983046A
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id CCEBA3046B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Nov 2011 18:36:19 -0500 (EST)
+	Mon,  7 Nov 2011 18:36:22 -0500 (EST)
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Nov 2011 15:36:22 -0800
-Message-Id: <cover.1320708905.git.scott.a.garman@intel.com>
+Date: Mon,  7 Nov 2011 15:36:23 -0800
+Message-Id: <5a66d5c0a8546166f76fb41cb48c033f8d6ed61f.1320708905.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <cover.1320708905.git.scott.a.garman@intel.com>
+References: <cover.1320708905.git.scott.a.garman@intel.com>
+In-Reply-To: <cover.1320708905.git.scott.a.garman@intel.com>
+References: <cover.1320708905.git.scott.a.garman@intel.com>
 X-MasterFoo-MailScanner-Information: Please contact the ISP for more
 	information
-X-MailScanner-ID: 89C983046A.35D1F
+X-MailScanner-ID: CCEBA3046B.D6951
 X-MasterFoo-MailScanner: Found to be clean
 X-MasterFoo-MailScanner-SpamCheck: not spam
 X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
 X-Spam-Status: No
-Subject: [PATCH 0/1] useradd.bbclass: fix how RDEPENDS is setup [v3]
+Subject: [PATCH 1/1] useradd.bbclass: fix how RDEPENDS is setup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,29 +41,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2011 23:42:39 -0000
+X-List-Received-Date: Mon, 07 Nov 2011 23:42:40 -0000
 
 Fix bug where only packages named PN included base-passwd in
 RDEPENDS.
-   
+
 This fixes [YOCTO #1727]
 
-Including one more tweak based on feedback from Richard.
-
-The following changes since commit e3c003282afb93ec52882496400b042620ab00ef:
-
-  rt-tests: update to 0.83 (2011-11-04 15:43:19 +0000)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib sgarman/useradd-rdepends-final
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/useradd-rdepends-final
-
-Scott Garman (1):
-  useradd.bbclass: fix how RDEPENDS is setup
-
+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+---
  meta/classes/useradd.bbclass |    6 +++++-
  1 files changed, 5 insertions(+), 1 deletions(-)
 
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index fb70b3e..0f9b84c 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -4,7 +4,6 @@ USERADDPN ?= "${PN}"
+ # target sysroot, and shadow -native and -sysroot provide the utilities
+ # and support files needed to add and modify user and group accounts
+ DEPENDS_append = " base-passwd shadow-native shadow-sysroot"
+-RDEPENDS_${USERADDPN}_append = " base-passwd shadow"
+ 
+ # This preinstall function will be run in two contexts: once for the
+ # native sysroot (as invoked by the useradd_sysroot() wrapper), and
+@@ -147,6 +146,11 @@ fakeroot python populate_packages_prepend () {
+ 		preinst += d.getVar('useradd_preinst', True)
+ 		bb.data.setVar('pkg_preinst_%s' % pkg, preinst, d)
+ 
++		# RDEPENDS setup
++		rdepends = d.getVar("RDEPENDS_%s" % pkg, True) or ""
++		rdepends += " base-passwd shadow"
++		bb.data.setVar("RDEPENDS_%s" % pkg, rdepends, d)
++		
+ 	# We add the user/group calls to all packages to allow any package
+ 	# to contain files owned by the users/groups defined in the recipe.
+ 	# The user/group addition code is careful not to create duplicate
 -- 
 1.7.5.4
 
