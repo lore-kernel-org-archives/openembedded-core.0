@@ -1,21 +1,21 @@
 Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1RNTRR-00046B-0E
+	(envelope-from <saul.wold@intel.com>) id 1RNTTD-0004AW-LN
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Nov 2011 18:57:05 +0100
-Received: from mail-wy0-f180.google.com ([74.125.82.180])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 07 Nov 2011 09:50:50 -0800
-Received: by wye20 with SMTP id 20so5188800wye.25
+	Mon, 07 Nov 2011 18:58:55 +0100
+Received: from mail-ww0-f44.google.com ([74.125.82.44])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 07 Nov 2011 09:52:41 -0800
+Received: by wwi36 with SMTP id 36so5057209wwi.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Nov 2011 09:50:48 -0800 (PST)
-Received: by 10.216.39.206 with SMTP id d56mr3994645web.80.1320688248689;
-	Mon, 07 Nov 2011 09:50:48 -0800 (PST)
+	Mon, 07 Nov 2011 09:52:39 -0800 (PST)
+Received: by 10.180.94.71 with SMTP id da7mr8709849wib.29.1320688283518;
+	Mon, 07 Nov 2011 09:51:23 -0800 (PST)
 Received: from [10.6.18.227] (c-71-193-189-117.hsd1.wa.comcast.net.
 	[71.193.189.117])
-	by mx.google.com with ESMTPS id z33sm2085105wbm.5.2011.11.07.09.50.46
-	(version=SSLv3 cipher=OTHER); Mon, 07 Nov 2011 09:50:47 -0800 (PST)
-Message-ID: <4EB81A75.1070709@intel.com>
-Date: Mon, 07 Nov 2011 09:50:45 -0800
+	by mx.google.com with ESMTPS id db1sm1595803wib.19.2011.11.07.09.51.21
+	(version=SSLv3 cipher=OTHER); Mon, 07 Nov 2011 09:51:22 -0800 (PST)
+Message-ID: <4EB81A97.6070703@intel.com>
+Date: Mon, 07 Nov 2011 09:51:19 -0800
 From: Saul Wold <saul.wold@intel.com>
 Organization: Intel
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
@@ -23,10 +23,9 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1320190748.git.elizabeth.flanagan@intel.com>
-	<ac412c93c681ef335970a678465aa015164f1015.1320190748.git.elizabeth.flanagan@intel.com>
-In-Reply-To: <ac412c93c681ef335970a678465aa015164f1015.1320190748.git.elizabeth.flanagan@intel.com>
-Subject: Re: [PATCH 1/1] [Yocto Bug 1700] Fix for buildstats on tmpfs
+References: <1320218594-13009-1-git-send-email-galak@kernel.crashing.org>
+In-Reply-To: <1320218594-13009-1-git-send-email-galak@kernel.crashing.org>
+Subject: Re: [PATCH] udev-164: Update init script to do an explicit add action
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,122 +40,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2011 17:57:05 -0000
+X-List-Received-Date: Mon, 07 Nov 2011 17:58:55 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/01/2011 11:41 PM, Beth Flanagan wrote:
-> From: Elizabeth Flanagan<elizabeth.flanagan@intel.com>
+On 11/02/2011 12:23 AM, Kumar Gala wrote:
+> With udev 152 or greater the default action for 'udevadm trigger' was
+> modified to be 'change' instead of 'add.
 >
-> tmpfs/encryptfs/(and most likely, but not confirmed)ramfs TMPDIRs
-> cause diskstats to choke. No device entry ends up in /proc/diskstats
-> for these fs types, which ends up causing the failure.
+> To ensure initial coldplug events at boot are seen be scripts the are
+> expecting them as 'add' events we invoke udevadm with an explicit
+> '--action=add'.
 >
-> The short term solution is to exclude these fs types from diskstat
-> collection. Longer term we will want to see if we can collect
-> meaningful diskio for each of these, and other, use cases, but for
-> this cleans up Bug 1700.
->
-> Signed-off-by: Elizabeth Flanagan<elizabeth.flanagan@intel.com>
+> Signed-off-by: Kumar Gala<galak@kernel.crashing.org>
 > ---
->   meta/classes/buildstats.bbclass |   37 ++++++++++++++++++++++++++-----------
->   1 files changed, 26 insertions(+), 11 deletions(-)
+>   meta/recipes-core/udev/udev-164/init |    4 ++--
+>   meta/recipes-core/udev/udev_164.bb   |    2 +-
+>   2 files changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbclass
-> index 55cbb3c..96c98d4 100644
-> --- a/meta/classes/buildstats.bbclass
-> +++ b/meta/classes/buildstats.bbclass
-> @@ -48,13 +48,24 @@ def set_device(e):
->       # something like stick DL_DIR on a different partition and this would
->       # throw stats gathering off. The same goes with SSTATE_DIR. However, let's
->       # get the basics in here and work on the cornercases later.
-> +    # A note. /proc/diskstats does not contain info on encryptfs, tmpfs, etc.
-> +    # If we end up hitting one of these fs, we'll just skip diskstats collection.
->       ############################################################################
->       device=os.stat(tmpdir)
->       majordev=os.major(device.st_dev)
->       minordev=os.minor(device.st_dev)
-> +    ############################################################################
-> +    # Bug 1700:
-> +    # Because tmpfs/encryptfs/ramfs etc inserts no entry in /proc/diskstats
-> +    # we set rdev to NoLogicalDevice and search for it later. If we find NLD
-> +    # we do not collect diskstats as the method to collect meaningful statistics
-> +    # for these fs types requires a bit more research.
-> +    ############################################################################
->       for line in open("/proc/diskstats", "r"):
->           if majordev == int(line.split()[0]) and minordev == int(line.split()[1]):
->              rdev=line.split()[2]
-> +        else:
-> +           rdev="NoLogicalDevice"
->       file = open(bb.data.getVar('DEVFILE', e.data, True), "w")
->       file.write(rdev)
->       file.close()
-> @@ -133,10 +144,11 @@ def write_task_data(status, logfile, dev, e):
->       # For the best information, running things with BB_TOTAL_THREADS = "1"
->       # would return accurate per task results.
->       ############################################################################
-> -    diskdata = get_diskdata("__diskdata_task", dev, e.data)
-> -    if diskdata:
-> -        for key in sorted(diskdata.iterkeys()):
-> -            file.write(key + ": " + diskdata[key] + "\n")
-> +    if dev != "NoLogicalDevice":
-> +        diskdata = get_diskdata("__diskdata_task", dev, e.data)
-> +        if diskdata:
-> +            for key in sorted(diskdata.iterkeys()):
-> +                file.write(key + ": " + diskdata[key] + "\n")
->       if status is "passed":
->   	    file.write("Status: PASSED \n")
->       else:
-> @@ -169,7 +181,8 @@ python run_buildstats () {
->               bb.mkdirhier(bsdir)
->           except:
->               pass
-> -        set_diskdata("__diskdata_build", device, e.data)
-> +        if device != "NoLogicalDevice":
-> +            set_diskdata("__diskdata_build", device, e.data)
->           set_timedata("__timedata_build", e.data)
->           build_time = os.path.join(bsdir, "build_stats")
->           # write start of build into build_time
-> @@ -185,7 +198,7 @@ python run_buildstats () {
+> diff --git a/meta/recipes-core/udev/udev-164/init b/meta/recipes-core/udev/udev-164/init
+> index 9ce95ee..073942f 100644
+> --- a/meta/recipes-core/udev/udev-164/init
+> +++ b/meta/recipes-core/udev/udev-164/init
+> @@ -48,10 +48,10 @@ kill_udevd>  "/dev/null" 2>&1
 >
->       elif isinstance(e, bb.event.BuildCompleted):
->           bn = get_bn(e)
-> -        dev = get_device(e)
-> +        device = get_device(e)
->           bsdir = os.path.join(bb.data.getVar('BUILDSTATS_BASE', e.data, True), bn)
->           taskdir = os.path.join(bsdir, bb.data.expand("${PF}", e.data))
->           build_time = os.path.join(bsdir, "build_stats")
-> @@ -201,10 +214,11 @@ python run_buildstats () {
->               file.write("Elapsed time: %0.2f seconds \n" % (time))
->               if cpu:
->                   file.write("CPU usage: %0.1f%% \n" % cpu)
-> -        diskio = get_diskdata("__diskdata_build", dev, e.data)
-> -        if diskio:
-> -            for key in sorted(diskio.iterkeys()):
-> -                file.write(key + ": " + diskio[key] + "\n")
-> +        if device != "NoLogicalDevice":
-> +            diskio = get_diskdata("__diskdata_build", device, e.data)
-> +            if diskio:
-> +                for key in sorted(diskio.iterkeys()):
-> +                    file.write(key + ": " + diskio[key] + "\n")
->           file.close()
+>           /sbin/udevadm control --env=STARTUP=1
+>   		if [ "$not_first_boot" != "" ];then
+> -			/sbin/udevadm trigger --subsystem-nomatch=tty --subsystem-nomatch=mem --subsystem-nomatch=vc --subsystem-nomatch=vtconsole --subsystem-nomatch=misc --subsystem-nomatch=dcon --subsystem-nomatch=pci_bus  --subsystem-nomatch=graphics  --subsystem-nomatch=backlight --subsystem-nomatch=video4linux  --subsystem-nomatch=platform
+> +			/sbin/udevadm trigger --action=add --subsystem-nomatch=tty --subsystem-nomatch=mem --subsystem-nomatch=vc --subsystem-nomatch=vtconsole --subsystem-nomatch=misc --subsystem-nomatch=dcon --subsystem-nomatch=pci_bus  --subsystem-nomatch=graphics  --subsystem-nomatch=backlight --subsystem-nomatch=video4linux  --subsystem-nomatch=platform
+>   			(/sbin/udevadm settle --timeout=3; /sbin/udevadm control --env=STARTUP=)&
+>   		else
+> -			/sbin/udevadm trigger
+> +			/sbin/udevadm trigger --action=add
+>   			/sbin/udevadm settle
+>   		fi
 >
->       if isinstance(e, bb.build.TaskStarted):
-> @@ -212,7 +226,8 @@ python run_buildstats () {
->           device = get_device(e)
->           bsdir = os.path.join(bb.data.getVar('BUILDSTATS_BASE', e.data, True), bn)
->           taskdir = os.path.join(bsdir, bb.data.expand("${PF}", e.data))
-> -        set_diskdata("__diskdata_task", device, e.data)
-> +        if device != "NoLogicalDevice":
-> +            set_diskdata("__diskdata_task", device, e.data)
->           set_timedata("__timedata_task", e.data)
->           try:
->               bb.mkdirhier(taskdir)
+> diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
+> index 7cbe4d8..d487add 100644
+> --- a/meta/recipes-core/udev/udev_164.bb
+> +++ b/meta/recipes-core/udev/udev_164.bb
+> @@ -1,6 +1,6 @@
+>   include udev-new.inc
+>
+> -PR = "r6"
+> +PR = "r7"
+>
+>   SRC_URI += "file://udev-166-v4l1-1.patch"
+>
 
-Merged into OE-Core with minor tweak to fix commit message formating
+Merged into OE-Core
 
 Thanks
 	Sau!
-
 
 
