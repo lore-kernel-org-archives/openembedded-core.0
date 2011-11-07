@@ -1,24 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1RNRbZ-0006So-CI
+	(envelope-from <tom.zanussi@intel.com>) id 1RNRba-0006TM-0F
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Nov 2011 16:59:25 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 07 Nov 2011 07:53:13 -0800
+	Mon, 07 Nov 2011 16:59:26 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 07 Nov 2011 07:53:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="71871828"
+X-IronPort-AV: E=Sophos;i="4.69,470,1315206000"; d="scan'208";a="34084380"
 Received: from unknown (HELO localhost) ([10.255.15.253])
-	by orsmga002.jf.intel.com with ESMTP; 07 Nov 2011 07:53:13 -0800
+	by AZSMGA002.ch.intel.com with ESMTP; 07 Nov 2011 07:53:11 -0800
 From: tom.zanussi@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Nov 2011 09:53:36 -0600
-Message-Id: <d63459605c026705c69d1748e399ba0dfda1ab8d.1320638388.git.tom.zanussi@intel.com>
+Date: Mon,  7 Nov 2011 09:53:35 -0600
+Message-Id: <4fc815d427cbc2573f4c8e55479770ba98ce2672.1320638388.git.tom.zanussi@intel.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <1803ea4bfa2a0cb07cf4cbcf4ca76f5beec75fea.1320638388.git.tom.zanussi@intel.com>
 References: <1803ea4bfa2a0cb07cf4cbcf4ca76f5beec75fea.1320638388.git.tom.zanussi@intel.com>
 In-Reply-To: <cover.1320638388.git.tom.zanussi@intel.com>
 References: <cover.1320638388.git.tom.zanussi@intel.com>
-Subject: [PATCH 6/6] python: skip setup.py
+Subject: [PATCH 5/6] libzypp: fix mishandling of hyphenated arches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,110 +33,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2011 15:59:25 -0000
+X-List-Received-Date: Mon, 07 Nov 2011 15:59:26 -0000
 
 From: Tom Zanussi <tom.zanussi@intel.com>
 
-build_extension() in setup.py, as part of the build process, does an
-'import check' on the built extension.  The import check in turn
-dlopen()'s the shared library associated with the extension, which
-isn't something that makes sense if that library was cross-compiled
-for a different architecture.
-
-This was noticed with an x86_64 target that was compiled with avx
-support, because it caused 'illegal instruction' exceptions:
-
-| /bin/sh: line 1: 14575 Illegal instruction ... -E ./setup.py -q build
-
-For other target architectures, it doesn't necessarily cause illegal
-instruction exceptions, but still fails.  For example, on arm, the
-failure pathway causes this warning:
-
-*** WARNING: renaming "cmath" since importing it failed: .../cmath.so:
-    wrong ELF class: ELFCLASS32
-
-This patch to setup.py and the associated recipe changes allow the
-whole 'import check' logic to be skipped when cross-compiling.
+Several hyphen-to-underscore translations were missing, causing
+compiler errors trying to build arches with hyphens in their names.
+This adds the missing translations.
 
 Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
 ---
- .../python/setup_py_skip_cross_import_check.patch  |   27 ++++++++++++++++++++
- meta/recipes-devtools/python/python_2.7.2.bb       |    7 ++++-
- 2 files changed, 33 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python/setup_py_skip_cross_import_check.patch
+ meta/recipes-extended/libzypp/libzypp_git.bb |    8 ++++----
+ 1 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python/setup_py_skip_cross_import_check.patch b/meta/recipes-devtools/python/python/setup_py_skip_cross_import_check.patch
-new file mode 100644
-index 0000000..6ccdb94
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/setup_py_skip_cross_import_check.patch
-@@ -0,0 +1,27 @@
-+This patch skips over the 'import check' setup.py does when building
-+extensions.  This generally won't work when cross-compiling.
-+
-+Upstream-Status: Inappropriate [embedded-specific]
-+
-+Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
-+
-+Index: Python-2.7.2/setup.py
-+===================================================================
-+--- Python-2.7.2.orig/setup.py	2011-11-04 16:46:34.553796410 -0500
-++++ Python-2.7.2/setup.py	2011-11-04 16:59:49.692802313 -0500
-+@@ -287,6 +287,15 @@
-+                           (ext.name, sys.exc_info()[1]))
-+             self.failed.append(ext.name)
-+             return
-++
-++        # If we're cross-compiling, we want to skip the import check
-++        # i.e. we shouldn't be dynamically loading target shared libs
-++        if os.environ.get('CROSS_COMPILE') is not None:
-++            self.announce(
-++                'WARNING: skipping import check for cross-compiled "%s"' %
-++                ext.name)
-++            return
-++
-+         # Workaround for Mac OS X: The Carbon-based modules cannot be
-+         # reliably imported into a command-line Python
-+         if 'Carbon' in ext.extra_link_args:
-diff --git a/meta/recipes-devtools/python/python_2.7.2.bb b/meta/recipes-devtools/python/python_2.7.2.bb
-index 45d8350..0981d5b 100644
---- a/meta/recipes-devtools/python/python_2.7.2.bb
-+++ b/meta/recipes-devtools/python/python_2.7.2.bb
-@@ -1,7 +1,7 @@
- require python.inc
- DEPENDS = "python-native db gdbm openssl readline sqlite3 zlib"
- DEPENDS_sharprom = "python-native db readline zlib gdbm openssl"
--PR = "${INC_PR}.0"
-+PR = "${INC_PR}.1"
+diff --git a/meta/recipes-extended/libzypp/libzypp_git.bb b/meta/recipes-extended/libzypp/libzypp_git.bb
+index 20e8f7c..a6b270c 100644
+--- a/meta/recipes-extended/libzypp/libzypp_git.bb
++++ b/meta/recipes-extended/libzypp/libzypp_git.bb
+@@ -11,7 +11,7 @@ DEPENDS  = "rpm boost curl libxml2 zlib sat-solver expat openssl udev"
+ S = "${WORKDIR}/git"
+ SRCREV = "15b6c52260bbc52b3d8e585e271b67e10cc7c433"
+ PV = "0.0-git${SRCPV}"
+-PR = "r15"
++PR = "r16"
  
- DISTRO_SRC_URI ?= "file://sitecustomize.py"
- DISTRO_SRC_URI_linuxstdbase = ""
-@@ -18,6 +18,7 @@ SRC_URI += "\
-   file://multilib.patch \
-   file://cgi_py.patch \
-   file://remove_sqlite_rpath.patch \
-+  file://setup_py_skip_cross_import_check.patch \
- "
- 
- S = "${WORKDIR}/Python-${PV}"
-@@ -57,6 +58,8 @@ do_compile() {
- 	# then call do_install twice we get Makefile.orig == Makefile.sysroot
- 	install -m 0644 Makefile Makefile.sysroot
- 
-+	export CROSS_COMPILE="${TARGET_PREFIX}"
-+
- 	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/pgen \
- 		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python \
- 		STAGING_LIBDIR=${STAGING_LIBDIR} \
-@@ -78,6 +81,8 @@ do_install() {
- 	# make install needs the original Makefile, or otherwise the inclues would
- 	# go to ${D}${STAGING...}/...
- 	install -m 0644 Makefile.orig Makefile
-+
-+	export CROSS_COMPILE="${TARGET_PREFIX}"
- 	
- 	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/pgen \
- 		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python \
+ SRC_URI = "git://github.com/openSUSE/libzypp.git;protocol=git \
+            file://no-doc.patch \
+@@ -98,10 +98,10 @@ do_archgen () {
+ 		esac
+ 		if [ "${AVOID_CONSTRUCTOR}" != "true" ]; then
+ 		  echo -n "  const Arch Arch_${each_arch} " | tr - _		>> zypp/oe-arch.h
+-		  echo "(_${each_arch});" 					>> zypp/oe-arch.h
++		  echo "(_${each_arch});" | tr - _				>> zypp/oe-arch.h
+ 		else
+ 		  echo -n "  const Arch Arch_${each_arch} " | tr - _		>> zypp/oe-arch.h
+-		  echo "( IdString ( \"${each_arch}\" ) );" 			>> zypp/oe-arch.h
++		  echo "( IdString ( \"${each_arch}\" ) );" | tr - _		>> zypp/oe-arch.h
+ 		fi
+ 	done
+ 	echo "#endif /* OE_PROTO */"						>> zypp/oe-arch.h
+@@ -142,7 +142,7 @@ do_archgen () {
+ 		COMPAT_WITH="${CARCH},${COMPAT} $COMPAT_WITH"
+ 	done
+ 	for each_compat in ${COMPAT_WITH} ; do
+-		echo "        defCompatibleWith( ${each_compat} );"		>> zypp/oe-arch.h
++		echo "        defCompatibleWith( ${each_compat} );" | tr - _	>> zypp/oe-arch.h
+ 	done
+ 	echo "#endif /* DEF_COMPAT */"						>> zypp/oe-arch.h
+ 	echo ""									>> zypp/oe-arch.h
 -- 
 1.7.0.4
 
