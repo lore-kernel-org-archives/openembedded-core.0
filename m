@@ -1,43 +1,27 @@
-Received: from 12.mo3.mail-out.ovh.net ([188.165.41.191]
-	helo=mo3.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1RNLM6-0006ZG-FV
+Received: from mga01.intel.com ([192.55.52.88])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1RNMJR-0006o9-50
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Nov 2011 10:19:02 +0100
-Received: from mail612.ha.ovh.net (b6.ovh.net [213.186.33.56])
-	by mo3.mail-out.ovh.net (Postfix) with SMTP id 88012FF9C44
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Nov 2011 09:42:31 +0100 (CET)
-Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
-	by b0.ovh.net with SMTP; 7 Nov 2011 10:36:39 +0200
-Received: from pac33-2-82-240-38-71.fbx.proxad.net (HELO ?192.168.1.15?)
-	(ebenard%eukrea.com@82.240.38.71)
-	by ns0.ovh.net with SMTP; 7 Nov 2011 10:36:37 +0200
-Message-ID: <4EB79894.3050209@eukrea.com>
-Date: Mon, 07 Nov 2011 09:36:36 +0100
-From: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
+	Mon, 07 Nov 2011 11:20:21 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 07 Nov 2011 02:14:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,469,1315206000"; d="scan'208";a="86975181"
+Received: from unknown (HELO helios.localnet) ([10.252.121.109])
+	by fmsmga002.fm.intel.com with ESMTP; 07 Nov 2011 02:14:06 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Mon, 07 Nov 2011 10:14:04 +0000
+Message-ID: <10653267.IaxPiWSyZu@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.7.2 (Linux/3.0.0-12-generic-pae; KDE/4.7.2; i686; ; )
+In-Reply-To: <CAP9ODKr=5gbdM7CNSV7n3Ouq5fpcXmCTPGQWAjEKR59FA_ZGzw@mail.gmail.com>
+References: <cover.1320429268.git.paul.eggleton@linux.intel.com>
+	<CAP9ODKr=5gbdM7CNSV7n3Ouq5fpcXmCTPGQWAjEKR59FA_ZGzw@mail.gmail.com>
 MIME-Version: 1.0
-To: Scott Garman <scott.a.garman@intel.com>
-X-Ovh-Mailout: 178.32.228.3 (mo3.mail-out.ovh.net)
-References: <840A81C1B782724A8EB52725BD519EFF1A8F25@MBX20.4emm.local>
-	<840A81C1B782724A8EB52725BD519EFF1A8F4E@MBX20.4emm.local>
-	<4EA825F0.1030504@windriver.com> <4EA83ACB.4040001@intel.com>
-	<4EB6EE8E.4000401@eukrea.com> <4EB7155A.1050808@intel.com>
-In-Reply-To: <4EB7155A.1050808@intel.com>
-X-Ovh-Tracer-Id: 10994694066957692234
-X-Ovh-Remote: 82.240.38.71 (pac33-2-82-240-38-71.fbx.proxad.net)
-X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
-X-OVH-SPAMSTATE: OK
-X-OVH-SPAMSCORE: -190
-X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfedvtddrvdduucetggdotefuucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnegruhhtohhmrghkvgikrghuthhotghonhhffeigucdlqdeitddmnehlihhnuhigfeigucdlqdeftddm
-X-Spam-Check: DONE|U 0.5/N
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -190
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeeftddrheekucetggdotefuucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnegruhhtohhmrghkvgikrghuthhotghonhhffeigucdlqdeitddmnehlihhnuhigfeigucdlqdeftddm
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: useradd changes to dbus, base-passwd
+Subject: Re: [PATCH 0/7] combo-layer enhancements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,76 +36,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2011 09:19:02 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 07 Nov 2011 10:20:21 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Scott,
+On Friday 04 November 2011 16:15:59 Otavio Salvador wrote:
+> As said on IRC I'd prefer to the auto-commit do not replace the author
+> as it gives the possibility to easily figure who did the update on the
+> repository.
 
-Le 07/11/2011 00:16, Scott Garman a =E9crit :
-> This looks good, thank you! Two questions though:
->
-> When I was testing my own variation of this fix out, I found that testi=
-ng
-> bb.data.inherits_class('nativesdk', d) did not work as I expected. It r=
-eturned
-> false for a recipe I was testing with that used BBCLASSEXTEND =3D "nati=
-ve
-> nativesdk". So instead I was checking if PN ended with -nativesdk. Are =
-you
-> certain the inherits_class test works?
->
-this seems to work as expected in the present case :
+OK, I've removed the override of the author and re-pushed the branch.
 
-$ grep BBCLASSEXTEND sources/openembedded-core/meta/recipes-core/dbus/dbu=
-s.inc
-BBCLASSEXTEND =3D "native nativesdk"
+Cheers,
+Paul
 
-$ bitbake dbus -e |grep ^DEPENDS=3D
-DEPENDS=3D"pkgconfig-native autoconf-native automake-native libtool-nativ=
-e=20
-libtool-cross gnu-config-native virtual/gettext gettext-native=20
-virtual/arm-angstrom-linux-gnueabi-gcc=20
-virtual/arm-angstrom-linux-gnueabi-compilerlibs virtual/libc  expat=20
-virtual/libintl virtual/libx11 libsm shadow-native shadow-sysroot base-pa=
-sswd=20
-update-rc.d-native"
+-- 
 
-$ bitbake dbus-native -e |grep ^DEPENDS=3D
-DEPENDS=3D"pkgconfig-native autoconf-native automake-native libtool-nativ=
-e=20
-gnu-config-native gettext-minimal-native  expat-native virtual/libintl-na=
-tive=20
-shadow-native shadow-sysroot base-passwd update-rc.d-native"
-
-$ bitbake dbus-nativesdk -e |grep ^DEPENDS=3D
-DEPENDS=3D"pkgconfig-native autoconf-native automake-native libtool-nativ=
-e=20
-libtool-cross gnu-config-native virtual/gettext-nativesdk gettext-native=20
-virtual/i686-angstromsdk-linux-gcc-crosssdk=20
-virtual/i686-angstromsdk-linux-compilerlibs-nativesdk virtual/libc-native=
-sdk=20
-expat-nativesdk virtual/libintl-nativesdk virtual/libx11-nativesdk=20
-update-rc.d-native"
-
-$ bitbake dbus-nativesdk -e |grep ^SSTATEPOSTIN
-$ bitbake dbus-native -e |grep ^SSTATEPOSTIN
-SSTATEPOSTINSTFUNCS=3D"useradd_sysroot_sstate"
-$ bitbake dbus -e |grep ^SSTATEPOSTIN
-SSTATEPOSTINSTFUNCS=3D"useradd_sysroot_sstate"
-
-
-> My second question is why the autotools_do_install is needed for the na=
-tivesdk
-> case?
->
-because without the do_install_virtclass-nativesdk() , that's the standar=
-d=20
-do_install which is used which tries to setup some rigths using chown on =
-the=20
-files and that fails (and is not very useful for a nativesdk).
-Maybe we could use a similar do_install as the one used for native.
-
-Eric
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
