@@ -1,25 +1,36 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RNXpQ-00076m-Nr
+	(envelope-from <martin.jansa@gmail.com>) id 1RNXt2-0007Ep-S0
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Nov 2011 23:38:08 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 07 Nov 2011 14:31:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="72007641"
-Received: from unknown (HELO [10.255.12.14]) ([10.255.12.14])
-	by orsmga002.jf.intel.com with ESMTP; 07 Nov 2011 14:31:53 -0800
-Message-ID: <4EB85C59.9080905@linux.intel.com>
-Date: Mon, 07 Nov 2011 14:31:53 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
+	Mon, 07 Nov 2011 23:41:52 +0100
+Received: by faat2 with SMTP id t2so3044589faa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 Nov 2011 14:35:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=wV0fwXHdpoOrHDi09szazdGNjewLzPNAmIjBxn3pW6A=;
+	b=XVcMLWyymxViWjvwGo+5UdU+IeGBcg/jvpnNRHu/gFCL9Bri6Ll8JGB7LDKBcnLJDr
+	+Q+whiSgTMDIuHMn/ELHWMURPG9q0cxZar9e+caX+3CbqpQYQVuyth5fZciZux03+GGo
+	1/bDjOZyLRlqCJ9JzggQfaTqoJDyyJ4PxoQAQ=
+Received: by 10.223.6.15 with SMTP id 15mr49994221fax.4.1320705335649;
+	Mon, 07 Nov 2011 14:35:35 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id k26sm33121325fab.8.2011.11.07.14.35.09
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 07 Nov 2011 14:35:24 -0800 (PST)
+Date: Mon, 7 Nov 2011 23:34:56 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Message-ID: <20111107223456.GA3641@jama.jama.net>
+References: <cover.1319184832.git.Martin.Jansa@gmail.com>
+	<4EB82DE0.3090504@linux.intel.com>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+In-Reply-To: <4EB82DE0.3090504@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1320697346.git.tom.zanussi@intel.com>
-In-Reply-To: <cover.1320697346.git.tom.zanussi@intel.com>
-Subject: Re: [PATCH 0/6][v2] Add some intel-specific tune files, and related fixes
+Subject: Re: [PATCH 0/8] Subversion-1.7.0 and arm/thumb work arounds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,69 +45,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2011 22:38:09 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 07 Nov 2011 22:41:52 -0000
+X-Groupsio-MsgNum: 12045
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="pWyiEgJYm5f9v55/"
+Content-Disposition: inline
 
-On 11/07/2011 12:28 PM, tom.zanussi@intel.com wrote:
-> From: Tom Zanussi<tom.zanussi@intel.com>
->
-> This patchset adds some new tune files for corei7, ivb, and atom.
->
-> The corei7 and atom were build- and boot-tested on sugarbay (with
-> corei7-avx), jasperforest (corei7), crownbay, fri2, fishriver (atom).
-> The ivb is one I'll be using for new Ivy Bridge development and
-> hasn't been tested yet, but will be needed for that.
->
-> This patchset also contains a few patches for packages that had build
-> problems with the corei7-avx tuning.  The python and gmp packages had
-> problems because they tried to execute target code on the host and caused
-> illegal instruction errors.  The libzypp failed compilation because of
-> the hyphens in the tune name (corei7-avx).
->
-> v2: do it using create-pull-request, fix subject on python patch
->
-> The following changes since commit 28940eb97d835b45ecbf832f25e94fc1574f25a1:
->    Koen Kooi (1):
->          lighttpd 1.4.29: rename index.html to avoid clashes with DL_DIR
->
-> are available in the git repository at:
->
->    git://git.yoctoproject.org/poky-contrib.git tzanussi/newtune-v0
->    http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/newtune-v0
->
-Tom,
+--pWyiEgJYm5f9v55/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thank you, this makes it much easier to pull and merge into the testing 
-branch that I work with.
+On Mon, Nov 07, 2011 at 11:13:36AM -0800, Saul Wold wrote:
+> On 10/21/2011 01:17 AM, Martin Jansa wrote:
+> > Hi,
+> >
+> > arm mode was forced without PR bump, because if it was failing for some=
+one he
+> > will notice.
+> >
+> > Be carefull with using subversion-1.7.0 (read the commit message).
+> >
+> > Pulseaudio-1.1 was released, so hopefully this work arounds won't be ne=
+eded
+> > there or they could be resolved better with upgrade.
+> >
+> > Regards,
+> >
+> > The following changes since commit 99da9a4e65f9dffb04efc3ad60125194c476=
+d6b3:
+> >
+> >    distro-tracking-fields: update fields for tzdata and gst-plugins-goo=
+d (2011-10-20 13:07:16 +0100)
+> >
+> > are available in the git repository at:
+> >    git://git.openembedded.org/openembedded-core-contrib jansa/pull2
+> >    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/=
+?h=3Djansa/pull2
+> >
+> > Martin Jansa (8):
+> >    pulseaudio-0.9.23: inherit perlnative to work around build on host
+> >      without XML/Parser.pm
+> >    libatomics-ops: force ARM mode
+> >    pulseaudio-0.9.23: force ARM mode
+> >    webkit-gtk: force arm mode to work around binutils segfault
+> Martin,
+>=20
+> What is the status of these various workarounds, did you do any further=
+=20
+> work to determine root causes, or do we still need these patches to do in?
 
-Sau!
+I've only updated commit messages in branch and added the same
+workaround for aspell which also fails for thumb.
 
-> Tom Zanussi (6):
->    tune-corei7: Add tune file for Intel Core i7 machines
->    tune-ivb: Add tune file for Intel Ivy Bridge machines
->    machine/include/tune-atom.inc: add atom-specific settings
->    gmp_5.0.2: Set CC_FOR_BUILD to BUILD_CC
->    libzypp: fix mishandling of hyphenated arches
->    python: skip setup.py 'import check' when cross-compiling
->
->   meta/conf/machine/include/tune-atom.inc            |   26 +++++++++++++++++-
->   meta/conf/machine/include/tune-corei7.inc          |   17 ++++++++++++
->   meta/conf/machine/include/tune-ivb.inc             |   11 ++++++++
->   .../python/setup_py_skip_cross_import_check.patch  |   27 ++++++++++++++++++++
->   meta/recipes-devtools/python/python_2.7.2.bb       |    5 +++
->   meta/recipes-extended/libzypp/libzypp_git.bb       |    8 +++---
->   meta/recipes-support/gmp/gmp_5.0.2.bb              |    3 +-
->   7 files changed, 90 insertions(+), 7 deletions(-)
->   create mode 100644 meta/conf/machine/include/tune-corei7.inc
->   create mode 100644 meta/conf/machine/include/tune-ivb.inc
->   create mode 100644 meta/recipes-devtools/python/python/setup_py_skip_cross_import_check.patch
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+All in jansa/pull
 
+>=20
+> Thanks
+> 	Sau!
+>=20
+> >    apr: add native support
+> >    neon: add native support
+> >    apr-util: add native support
+> >    subversion: add 1.7.0 with native support and negative D_P for now
+> >
+> >   .../subversion/subversion-1.7.0/libtool2.patch     |   15 ++++++++
+> >   .../subversion/subversion_1.7.0.bb                 |   37 +++++++++++=
++++++++++
+> >   .../pulseaudio/libatomics-ops_1.2.bb               |    2 +
+> >   .../pulseaudio/pulseaudio_0.9.23.bb                |    3 +-
+> >   meta/recipes-sato/webkit/webkit-gtk_svn.bb         |   17 +++++++++
+> >   meta/recipes-support/apr/apr-util_1.3.12.bb        |    8 ++++
+> >   meta/recipes-support/apr/apr_1.4.5.bb              |    2 +
+> >   meta/recipes-support/neon/neon_0.29.5.bb           |    3 ++
+> >   8 files changed, 86 insertions(+), 1 deletions(-)
+> >   create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.0/=
+libtool2.patch
+> >   create mode 100644 meta/recipes-devtools/subversion/subversion_1.7.0.=
+bb
+> >
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--pWyiEgJYm5f9v55/
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk64XRAACgkQN1Ujt2V2gBy/3gCdETT7cga4JBscPAMgMhRaHwYn
+WZwAn2A+T0TpoWameYEjnkz2DoalsdmI
+=nVx8
+-----END PGP SIGNATURE-----
+
+--pWyiEgJYm5f9v55/--
