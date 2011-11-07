@@ -1,24 +1,24 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1RNVtr-0002TC-Ru
+	(envelope-from <tom.zanussi@intel.com>) id 1RNVts-0002T1-P7
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Nov 2011 21:34:36 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 07 Nov 2011 12:28:21 -0800
+	Mon, 07 Nov 2011 21:34:37 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 07 Nov 2011 12:28:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="71966759"
+X-IronPort-AV: E=Sophos;i="4.69,471,1315206000"; d="scan'208";a="34180016"
 Received: from unknown (HELO localhost) ([10.255.15.253])
-	by orsmga002.jf.intel.com with ESMTP; 07 Nov 2011 12:28:21 -0800
+	by AZSMGA002.ch.intel.com with ESMTP; 07 Nov 2011 12:28:24 -0800
 From: tom.zanussi@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Nov 2011 14:28:51 -0600
-Message-Id: <1a5b579ec7f3f34b2bc3c99b4449eb50ada36df9.1320697346.git.tom.zanussi@intel.com>
+Date: Mon,  7 Nov 2011 14:28:53 -0600
+Message-Id: <a02bc97e8f864a5970ce9fa2f877c3ec1eaaa9b1.1320697346.git.tom.zanussi@intel.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <bb5c0a2e7d5a9ee1c22a0eb1422ae5454b033b53.1320697346.git.tom.zanussi@intel.com>
 References: <bb5c0a2e7d5a9ee1c22a0eb1422ae5454b033b53.1320697346.git.tom.zanussi@intel.com>
 In-Reply-To: <cover.1320697346.git.tom.zanussi@intel.com>
 References: <cover.1320697346.git.tom.zanussi@intel.com>
-Subject: [PATCH 2/6] tune-ivb: Add tune file for Intel Ivy Bridge machines
+Subject: [PATCH 4/6] gmp_5.0.2: Set CC_FOR_BUILD to BUILD_CC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,35 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2011 20:34:36 -0000
+X-List-Received-Date: Mon, 07 Nov 2011 20:34:37 -0000
 
 From: Tom Zanussi <tom.zanussi@intel.com>
 
-Add a tune file for Intel Ivy Bridge machines.
+CC_FOR_BUILD was compiling the test programs using the target's
+compile options and executing those on the host, causing errors such
+as:
+
+/bin/sh: line 1: 15032 Illegal instruction     ./gen-bases table 64 0 > mpn/mp_bases.c
+/bin/sh: line 1: 15033 Illegal instruction     ./gen-bases header 64 0 > mp_bases.h
+
+Export CC_FOR_BUILD using BUILD_CC to fix the problem.
 
 Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
 ---
- meta/conf/machine/include/tune-ivb.inc |   11 +++++++++++
- 1 files changed, 11 insertions(+), 0 deletions(-)
- create mode 100644 meta/conf/machine/include/tune-ivb.inc
+ meta/recipes-support/gmp/gmp_5.0.2.bb |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
-diff --git a/meta/conf/machine/include/tune-ivb.inc b/meta/conf/machine/include/tune-ivb.inc
-new file mode 100644
-index 0000000..3c0b670
---- /dev/null
-+++ b/meta/conf/machine/include/tune-ivb.inc
-@@ -0,0 +1,11 @@
-+DEFAULTTUNE ?= "ivb"
-+TUNE_PKGARCH ?= "${@bb.utils.contains("TUNE_FEATURES", "ivb", "ivb", "", d)}"
-+
-+require conf/machine/include/tune-x86_64.inc
-+
-+TUNEVALID[ivb] = "Enable ivb-specific processor optimizations"
-+TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ivb", "-march=core-avx-i", "", d)}"
-+
-+AVAILTUNES += "ivb"
-+TUNE_FEATURES_tune-ivb = "${TUNE_FEATURES_tune-x86-64} ivb"
-+PACKAGE_EXTRA_ARCHS_tune-ivb = "${PACKAGE_EXTRA_ARCHS_tune-x86-64} ivb"
+diff --git a/meta/recipes-support/gmp/gmp_5.0.2.bb b/meta/recipes-support/gmp/gmp_5.0.2.bb
+index 03fef45..16bdcbc 100644
+--- a/meta/recipes-support/gmp/gmp_5.0.2.bb
++++ b/meta/recipes-support/gmp/gmp_5.0.2.bb
+@@ -2,11 +2,12 @@ require gmp.inc
+ LICENSE="LGPLv3&GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+ 		    file://version.c;endline=18;md5=d8c56b52b9092346b9f93b4da65ef790"
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI_append += "file://sh4-asmfix.patch \
+                    file://use-includedir.patch "
+ 
++export CC_FOR_BUILD = "${BUILD_CC}"
+ 
+ SRC_URI[md5sum] = "0bbaedc82fb30315b06b1588b9077cd3"
+ SRC_URI[sha256sum] = "dbc2db76fdd4e99f85d5e35aa378ed62c283e0d586b91bd8703aff75a7804c28"
 -- 
 1.7.0.4
 
