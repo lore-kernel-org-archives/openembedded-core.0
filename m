@@ -1,30 +1,58 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from ch1ehsobe005.messaging.microsoft.com ([216.32.181.185]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1RNVQE-0001N4-2o
+	(envelope-from <B29882@freescale.com>) id 1RNVj9-00028V-2N
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Nov 2011 21:04:00 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 07 Nov 2011 11:57:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="71956050"
-Received: from unknown (HELO [10.255.15.253]) ([10.255.15.253])
-	by orsmga002.jf.intel.com with ESMTP; 07 Nov 2011 11:57:43 -0800
-From: Tom Zanussi <tom.zanussi@intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-In-Reply-To: <4EB83144.70600@linux.intel.com>
-References: <cover.1320638388.git.tom.zanussi@intel.com>
-	<4EB83144.70600@linux.intel.com>
-Date: Mon, 07 Nov 2011 13:58:19 -0600
-Message-ID: <1320695899.2605.24.camel@elmorro>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.28.3 
-Cc: Patches and discussions about the oe-core layer
+	Mon, 07 Nov 2011 21:23:31 +0100
+Received: from mail100-ch1-R.bigfish.com (10.43.68.245) by
+	CH1EHSOBE017.bigfish.com (10.43.70.67) with Microsoft SMTP Server id
+	14.1.225.22; Mon, 7 Nov 2011 20:16:55 +0000
+Received: from mail100-ch1 (localhost.localdomain [127.0.0.1])	by
+	mail100-ch1-R.bigfish.com (Postfix) with ESMTP id 2E4EB147033C	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon,  7 Nov 2011 20:17:07 +0000 (UTC)
+X-SpamScore: -6
+X-BigFish: VS-6(zz9371K98dKzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3h)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
+	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
+X-FB-SS: 0,13,
+Received: from mail100-ch1 (localhost.localdomain [127.0.0.1]) by mail100-ch1
+	(MessageSwitch) id 1320697000995005_13019;
+	Mon,  7 Nov 2011 20:16:40 +0000 (UTC)
+Received: from CH1EHSMHS031.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.250])	by mail100-ch1.bigfish.com (Postfix) with ESMTP id
+	F04A916804B	for <openembedded-core@lists.openembedded.org>;
+	Mon,  7 Nov 2011 20:16:40 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS031.bigfish.com
+	(10.43.70.31) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Mon, 7 Nov 2011 20:16:49 +0000
+Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.150]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.01.0339.002; Mon, 7 Nov 2011 14:16:48 -0600
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/6] Add some intel-specific tune files, and related fixes
+Thread-Topic: [OE-core] [CONSOLIDATED PULL 14/28] Add new IMAGE_CLASSES
+	variable for classes for image generation
+Thread-Index: AQHMnYotftQ28TtjPUeYcnXpxaGVLw==
+Date: Mon, 7 Nov 2011 20:16:47 +0000
+Message-ID: <CAEsOVNfsoM_JR7xX6aR0V801=hmbWRca0oXVH94p6uY2b0b4Og@mail.gmail.com>
+References: <cover.1320513631.git.sgw@linux.intel.com>
+	<8e793bb4092c80baf441a33f348852bfbd4a4420.1320513631.git.sgw@linux.intel.com>
+	<1320674653.23708.11.camel@ted>
+In-Reply-To: <1320674653.23708.11.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: [CONSOLIDATED PULL 14/28] Add new IMAGE_CLASSES variable for classes for image generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -35,69 +63,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2011 20:04:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 07 Nov 2011 20:23:31 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <F11AF3735A6BCF468A351CEED431FF41@freescale.net>
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2011-11-07 at 11:28 -0800, Saul Wold wrote:
-> On 11/07/2011 07:53 AM, tom.zanussi@intel.com wrote:
-> > From: Tom Zanussi<tom.zanussi@intel.com>
-> >
-> > This patchset adds some new tune files for corei7, ivb, and atom.
-> >
-> Tom,
-> 
-> Where is the repo containing this patch set?  Are you using the 
-> create_pull_request script, which generates the formatted message which 
-> includes the repo from which to pull this patchset?
-> 
+On Mon, Nov 7, 2011 at 8:04 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Most initial new users don't need to see this. Can we place this into
+> local.conf.sample.extended please?
 
-I didn't push this patchset to a contrib repo, just posted them as
-patches.  Not ok?
+Follow up patch sent on other thread.
 
-Tom  
-
-> Thanks
-> 	Sau!
-> 
-> > The corei7 and atom were build- and boot-tested on sugarbay (with
-> > corei7-avx), jasperforest (corei7), crownbay, fri2, fishriver (atom).
-> > The ivb is one I'll be using for new Ivy Bridge development and
-> > hasn't been tested yet, but will be needed for that.
-> >
-> > This patchset also contains a few patches for packages that had build
-> > problems with the corei7-avx tuning.  The python and gmp packages had
-> > problems because they tried to execute target code on the host and caused
-> > illegal instruction errors.  The libzypp failed compilation because of
-> > the hyphens in the tune name (corei7-avx).
-> >
-> > Tom Zanussi (6):
-> >    tune-corei7: Add tune file for Intel Core i7 machines
-> >    tune-ivb: Add tune file for Intel Ivy Bridge machines
-> >    machine/include/tune-atom.inc: add atom-specific settings
-> >    gmp_5.0.2: Set CC_FOR_BUILD to BUILD_CC
-> >    libzypp: fix mishandling of hyphenated arches
-> >    python: skip setup.py
-> >
-> >   meta/conf/machine/include/tune-atom.inc            |   26 +++++++++++++++++-
-> >   meta/conf/machine/include/tune-corei7.inc          |   17 ++++++++++++
-> >   meta/conf/machine/include/tune-ivb.inc             |   11 ++++++++
-> >   .../python/setup_py_skip_cross_import_check.patch  |   27 ++++++++++++++++++++
-> >   meta/recipes-devtools/python/python_2.7.2.bb       |    7 ++++-
-> >   meta/recipes-extended/libzypp/libzypp_git.bb       |    8 +++---
-> >   meta/recipes-support/gmp/gmp_5.0.2.bb              |    3 +-
-> >   7 files changed, 91 insertions(+), 8 deletions(-)
-> >   create mode 100644 meta/conf/machine/include/tune-corei7.inc
-> >   create mode 100644 meta/conf/machine/include/tune-ivb.inc
-> >   create mode 100644 meta/recipes-devtools/python/python/setup_py_skip_cross_import_check.patch
-> >
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> >
-
+-M=
 
 
 
