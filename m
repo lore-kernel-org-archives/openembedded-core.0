@@ -1,49 +1,25 @@
-Received: from ch1ehsobe004.messaging.microsoft.com ([216.32.181.184]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RNUpp-0007t2-KI
+	(envelope-from <sgw@linux.intel.com>) id 1RNUxX-0008FV-8P
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Nov 2011 20:26:22 +0100
-Received: from mail101-am1-R.bigfish.com (10.43.68.251) by
-	CH1EHSOBE006.bigfish.com (10.43.70.56) with Microsoft SMTP Server id
-	14.1.225.22; Mon, 7 Nov 2011 19:19:46 +0000
-Received: from mail101-am1 (localhost.localdomain [127.0.0.1])	by
-	mail101-am1-R.bigfish.com (Postfix) with ESMTP id 3B3C21B601C3	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon,  7 Nov 2011 19:19:59 +0000 (UTC)
-X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839h62h)
-X-Spam-TCS-SCL: 1:0
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
-	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 0,
-Received: from mail101-am1 (localhost.localdomain [127.0.0.1]) by mail101-am1
-	(MessageSwitch) id 13206935994608_12834;
-	Mon,  7 Nov 2011 19:19:59 +0000 (UTC)
-Received: from AM1EHSMHS009.bigfish.com (unknown [10.3.201.253])	by
-	mail101-am1.bigfish.com (Postfix) with ESMTP id E65991608053	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon,  7 Nov 2011 19:19:58 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS009.bigfish.com
-	(10.3.207.109) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Mon, 7 Nov 2011 19:19:45 +0000
-Received: from az33smr01.freescale.net (10.64.34.199) by
-	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
-	Server id 14.1.339.2; Mon, 7 Nov 2011 13:20:05 -0600
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
-	by az33smr01.freescale.net (8.13.1/8.13.0) with ESMTP id
-	pA7JK4xG026401	for <openembedded-core@lists.openembedded.org>;
-	Mon, 7 Nov 2011 13:20:05 -0600 (CST)
-From: Matthew McClintock <msm@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 7 Nov 2011 13:20:04 -0600
-Message-ID: <1320693604-24998-1-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.6.1
-In-Reply-To: <4EB82C5F.6020806@linux.intel.com>
-References: <4EB82C5F.6020806@linux.intel.com>
+	Mon, 07 Nov 2011 20:34:19 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 07 Nov 2011 11:28:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="71946993"
+Received: from unknown (HELO [10.255.12.14]) ([10.255.12.14])
+	by orsmga002.jf.intel.com with ESMTP; 07 Nov 2011 11:28:04 -0800
+Message-ID: <4EB83144.70600@linux.intel.com>
+Date: Mon, 07 Nov 2011 11:28:04 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH v3] Add new IMAGE_CLASSES variable for classes for image generation
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1320638388.git.tom.zanussi@intel.com>
+In-Reply-To: <cover.1320638388.git.tom.zanussi@intel.com>
+Subject: Re: [PATCH 0/6] Add some intel-specific tune files, and related fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -58,57 +34,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2011 19:26:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 07 Nov 2011 19:34:19 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Allows us to import classes only for images and not to the global
-namespace
+On 11/07/2011 07:53 AM, tom.zanussi@intel.com wrote:
+> From: Tom Zanussi<tom.zanussi@intel.com>
+>
+> This patchset adds some new tune files for corei7, ivb, and atom.
+>
+Tom,
 
-Signed-off-by: Matthew McClintock <msm@freescale.com>
----
+Where is the repo containing this patch set?  Are you using the 
+create_pull_request script, which generates the formatted message which 
+includes the repo from which to pull this patchset?
 
-v2: Change IMAGE_CLASSES definition to use ?= instead of =
-so it's clear we want to override this variable. This worked
-before because the value in my distro.conf file overwrote
-this value regardless of the fact it was set with =
+Thanks
+	Sau!
 
-v3: Move documentation to local.conf.sample.extended
-
- meta-yocto/conf/local.conf.sample.extended |    6 ++++++
- meta/classes/image.bbclass                 |    3 ++-
- 2 files changed, 8 insertions(+), 1 deletions(-)
-
-diff --git a/meta-yocto/conf/local.conf.sample.extended b/meta-yocto/conf/local.conf.sample.extended
-index 0c3197d..e9935ce 100644
---- a/meta-yocto/conf/local.conf.sample.extended
-+++ b/meta-yocto/conf/local.conf.sample.extended
-@@ -114,3 +114,9 @@
- # The network based PR service host and port
- #PRSERV_HOST = "localhost"
- #PRSERV_PORT = "8585"
-+
-+# Additional image generation features
-+#
-+# The following is a list of classes to import to use in the generation of images
-+# currently an example class is image_types_uboot
-+# IMAGE_CLASSES = " image_types_uboot"
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 05f4331..a2770a4 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -111,7 +111,8 @@ def get_devtable_list(d):
-         str += " %s" % bb.which(bb.data.getVar('BBPATH', d, 1), devtable)
-     return str
- 
--inherit image_types
-+IMAGE_CLASSES ?= "image_types"
-+inherit ${IMAGE_CLASSES}
- 
- IMAGE_POSTPROCESS_COMMAND ?= ""
- MACHINE_POSTPROCESS_COMMAND ?= ""
--- 
-1.7.6.1
-
-
+> The corei7 and atom were build- and boot-tested on sugarbay (with
+> corei7-avx), jasperforest (corei7), crownbay, fri2, fishriver (atom).
+> The ivb is one I'll be using for new Ivy Bridge development and
+> hasn't been tested yet, but will be needed for that.
+>
+> This patchset also contains a few patches for packages that had build
+> problems with the corei7-avx tuning.  The python and gmp packages had
+> problems because they tried to execute target code on the host and caused
+> illegal instruction errors.  The libzypp failed compilation because of
+> the hyphens in the tune name (corei7-avx).
+>
+> Tom Zanussi (6):
+>    tune-corei7: Add tune file for Intel Core i7 machines
+>    tune-ivb: Add tune file for Intel Ivy Bridge machines
+>    machine/include/tune-atom.inc: add atom-specific settings
+>    gmp_5.0.2: Set CC_FOR_BUILD to BUILD_CC
+>    libzypp: fix mishandling of hyphenated arches
+>    python: skip setup.py
+>
+>   meta/conf/machine/include/tune-atom.inc            |   26 +++++++++++++++++-
+>   meta/conf/machine/include/tune-corei7.inc          |   17 ++++++++++++
+>   meta/conf/machine/include/tune-ivb.inc             |   11 ++++++++
+>   .../python/setup_py_skip_cross_import_check.patch  |   27 ++++++++++++++++++++
+>   meta/recipes-devtools/python/python_2.7.2.bb       |    7 ++++-
+>   meta/recipes-extended/libzypp/libzypp_git.bb       |    8 +++---
+>   meta/recipes-support/gmp/gmp_5.0.2.bb              |    3 +-
+>   7 files changed, 91 insertions(+), 8 deletions(-)
+>   create mode 100644 meta/conf/machine/include/tune-corei7.inc
+>   create mode 100644 meta/conf/machine/include/tune-ivb.inc
+>   create mode 100644 meta/recipes-devtools/python/python/setup_py_skip_cross_import_check.patch
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
