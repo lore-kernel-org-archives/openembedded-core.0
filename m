@@ -1,24 +1,21 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from smtp3-g21.free.fr ([212.27.42.3])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1RNVu5-0002Xo-M1
+	(envelope-from <eric@eukrea.com>) id 1RNWa5-0004XU-TZ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Nov 2011 21:34:49 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 07 Nov 2011 12:28:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,471,1315206000"; d="scan'208";a="71507823"
-Received: from unknown (HELO localhost) ([10.255.15.253])
-	by azsmga001.ch.intel.com with ESMTP; 07 Nov 2011 12:28:26 -0800
-From: tom.zanussi@intel.com
+	Mon, 07 Nov 2011 22:18:14 +0100
+Received: from localhost.localdomain (unknown [82.233.81.124])
+	by smtp3-g21.free.fr (Postfix) with ESMTP id 5E620A636A
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  7 Nov 2011 22:11:58 +0100 (CET)
+From: =?UTF-8?q?Eric=20B=C3=A9nard?= <eric@eukrea.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Nov 2011 14:28:54 -0600
-Message-Id: <1ad950cdaccf7e97977adde51f43ef59302c9731.1320697346.git.tom.zanussi@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <bb5c0a2e7d5a9ee1c22a0eb1422ae5454b033b53.1320697346.git.tom.zanussi@intel.com>
-References: <bb5c0a2e7d5a9ee1c22a0eb1422ae5454b033b53.1320697346.git.tom.zanussi@intel.com>
-In-Reply-To: <cover.1320697346.git.tom.zanussi@intel.com>
-References: <cover.1320697346.git.tom.zanussi@intel.com>
-Subject: [PATCH 5/6] libzypp: fix mishandling of hyphenated arches
+Date: Mon,  7 Nov 2011 22:11:54 +0100
+Message-Id: <1320700315-11952-1-git-send-email-eric@eukrea.com>
+X-Mailer: git-send-email 1.7.6.4
+In-Reply-To: <4EB8225D.6000804@intel.com>
+References: <4EB8225D.6000804@intel.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/2] useradd.bbclass: handle nativesdk case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,56 +30,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2011 20:34:49 -0000
+X-List-Received-Date: Mon, 07 Nov 2011 21:18:14 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Tom Zanussi <tom.zanussi@intel.com>
+* without this patch, building dbus-nativesdk leads to a missing
+dependency on 'base-passwd-nativesdk'
+This was added by commit 46e6c3fa8034b12d178d605f3f5d7efe69671a13
+* this patch handle the nativesdk case in the class useradd
+* close bug 1702 http://bugzilla.pokylinux.org/show_bug.cgi?id=3D1702
 
-Several hyphen-to-underscore translations were missing, causing
-compiler errors trying to build arches with hyphens in their names.
-This adds the missing translations.
-
-Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+Signed-off-by: Eric B=C3=A9nard <eric@eukrea.com>
 ---
- meta/recipes-extended/libzypp/libzypp_git.bb |    8 ++++----
- 1 files changed, 4 insertions(+), 4 deletions(-)
+ meta/classes/useradd.bbclass |   18 +++++++++++++++---
+ 1 files changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/libzypp/libzypp_git.bb b/meta/recipes-extended/libzypp/libzypp_git.bb
-index 20e8f7c..a6b270c 100644
---- a/meta/recipes-extended/libzypp/libzypp_git.bb
-+++ b/meta/recipes-extended/libzypp/libzypp_git.bb
-@@ -11,7 +11,7 @@ DEPENDS  = "rpm boost curl libxml2 zlib sat-solver expat openssl udev"
- S = "${WORKDIR}/git"
- SRCREV = "15b6c52260bbc52b3d8e585e271b67e10cc7c433"
- PV = "0.0-git${SRCPV}"
--PR = "r15"
-+PR = "r16"
- 
- SRC_URI = "git://github.com/openSUSE/libzypp.git;protocol=git \
-            file://no-doc.patch \
-@@ -98,10 +98,10 @@ do_archgen () {
- 		esac
- 		if [ "${AVOID_CONSTRUCTOR}" != "true" ]; then
- 		  echo -n "  const Arch Arch_${each_arch} " | tr - _		>> zypp/oe-arch.h
--		  echo "(_${each_arch});" 					>> zypp/oe-arch.h
-+		  echo "(_${each_arch});" | tr - _				>> zypp/oe-arch.h
- 		else
- 		  echo -n "  const Arch Arch_${each_arch} " | tr - _		>> zypp/oe-arch.h
--		  echo "( IdString ( \"${each_arch}\" ) );" 			>> zypp/oe-arch.h
-+		  echo "( IdString ( \"${each_arch}\" ) );" | tr - _		>> zypp/oe-arch.h
- 		fi
- 	done
- 	echo "#endif /* OE_PROTO */"						>> zypp/oe-arch.h
-@@ -142,7 +142,7 @@ do_archgen () {
- 		COMPAT_WITH="${CARCH},${COMPAT} $COMPAT_WITH"
- 	done
- 	for each_compat in ${COMPAT_WITH} ; do
--		echo "        defCompatibleWith( ${each_compat} );"		>> zypp/oe-arch.h
-+		echo "        defCompatibleWith( ${each_compat} );" | tr - _	>> zypp/oe-arch.h
- 	done
- 	echo "#endif /* DEF_COMPAT */"						>> zypp/oe-arch.h
- 	echo ""									>> zypp/oe-arch.h
--- 
-1.7.0.4
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index fb70b3e..b935d01 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -3,9 +3,16 @@ USERADDPN ?=3D "${PN}"
+ # base-passwd-cross provides the default passwd and group files in the
+ # target sysroot, and shadow -native and -sysroot provide the utilities
+ # and support files needed to add and modify user and group accounts
+-DEPENDS_append =3D " base-passwd shadow-native shadow-sysroot"
+ RDEPENDS_${USERADDPN}_append =3D " base-passwd shadow"
+=20
++def useradd_dep_append(d):
++	deps =3D ' '
++	if not bb.data.inherits_class('nativesdk', d):
++		deps =3D ' shadow-native shadow-sysroot base-passwd'
++	return deps
++
++DEPENDS_append =3D "${@useradd_dep_append(d)}"
++
+ # This preinstall function will be run in two contexts: once for the
+ # native sysroot (as invoked by the useradd_sysroot() wrapper), and
+ # also as the preinst script in the target package.
+@@ -96,8 +103,13 @@ useradd_sysroot_sstate () {
+ 	fi
+ }
+=20
+-do_install[prefuncs] +=3D "useradd_sysroot"
+-SSTATEPOSTINSTFUNCS +=3D "useradd_sysroot_sstate"
++python () {
++	if not bb.data.inherits_class('nativesdk', d):
++		funcs =3D bb.data.getVarFlag('do_install', 'prefuncs', d) or ""
++		funcs +=3D 'useradd_sysroot'
++		bb.data.setVarFlag('do_install', 'prefuncs', funcs, d)
++		d.setVar('SSTATEPOSTINSTFUNCS', (bb.data.getVar('SSTATEPOSTINSTFUNCS',=
+ d, True) or "").join("useradd_sysroot_sstate"))
++}
+=20
+ # Recipe parse-time sanity checks
+ def update_useradd_after_parse(d):
+--=20
+1.7.6.4
 
 
 
