@@ -1,26 +1,27 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RNURc-0006rc-5F
+	(envelope-from <sgw@linux.intel.com>) id 1RNUW8-00072B-Bl
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Nov 2011 20:01:20 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 07 Nov 2011 10:55:06 -0800
+	Mon, 07 Nov 2011 20:06:00 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 07 Nov 2011 10:59:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,471,1315206000"; d="scan'208";a="34148492"
+X-IronPort-AV: E=Sophos;i="4.69,471,1315206000"; d="scan'208";a="71476832"
 Received: from unknown (HELO [10.255.12.14]) ([10.255.12.14])
-	by AZSMGA002.ch.intel.com with ESMTP; 07 Nov 2011 10:55:05 -0800
-Message-ID: <4EB82989.6020800@linux.intel.com>
-Date: Mon, 07 Nov 2011 10:55:05 -0800
+	by azsmga001.ch.intel.com with ESMTP; 07 Nov 2011 10:59:45 -0800
+Message-ID: <4EB82AA1.1030206@linux.intel.com>
+Date: Mon, 07 Nov 2011 10:59:45 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1320313970-2247-1-git-send-email-koen@dominion.thruhere.net>
-In-Reply-To: <1320313970-2247-1-git-send-email-koen@dominion.thruhere.net>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH] iproute2: update to 3.0.0 to fix build with updated iptables
+References: <CA+chaQfT08+Vd7JyB4wZO8eF13HbY1Z_TiY8MVBV76vPsxd5fw@mail.gmail.com>
+	<1320339165-25029-1-git-send-email-Martin.Jansa@gmail.com>
+In-Reply-To: <1320339165-25029-1-git-send-email-Martin.Jansa@gmail.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: [PATCH 1/4] libnl-2.0: move fix-pktloc_syntax_h-race.patch to libnl-2.0 subdirectory and merge with fix-makefile.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,180 +36,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2011 19:01:20 -0000
+X-List-Received-Date: Mon, 07 Nov 2011 19:06:00 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/03/2011 02:52 AM, Koen Kooi wrote:
-> Signed-off-by: Koen Kooi<koen@dominion.thruhere.net>
+On 11/03/2011 09:52 AM, Martin Jansa wrote:
+> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
 > ---
->   .../configure-cross.patch                          |   57 +++++++++++++-------
->   meta/recipes-connectivity/iproute2/iproute2.inc    |    7 ++-
->   .../iproute2/iproute2_2.6.38.bb                    |    9 ---
->   .../iproute2/iproute2_3.0.0.bb                     |    8 +++
->   4 files changed, 51 insertions(+), 30 deletions(-)
->   rename meta/recipes-connectivity/iproute2/{iproute2-2.6.38 =>  iproute2-3.0.0}/configure-cross.patch (50%)
->   delete mode 100644 meta/recipes-connectivity/iproute2/iproute2_2.6.38.bb
->   create mode 100644 meta/recipes-connectivity/iproute2/iproute2_3.0.0.bb
+>   .../libnl/libnl-2.0/fix-makefile.patch             |   32 --------------------
+>   .../{ =>  libnl-2.0}/fix-pktloc_syntax_h-race.patch |    5 ++-
+>   meta/recipes-support/libnl/libnl_2.0.bb            |    8 ++--
+>   3 files changed, 8 insertions(+), 37 deletions(-)
+>   delete mode 100644 meta/recipes-support/libnl/libnl-2.0/fix-makefile.patch
+>   rename meta/recipes-support/libnl/{ =>  libnl-2.0}/fix-pktloc_syntax_h-race.patch (86%)
 >
-> diff --git a/meta/recipes-connectivity/iproute2/iproute2-2.6.38/configure-cross.patch b/meta/recipes-connectivity/iproute2/iproute2-3.0.0/configure-cross.patch
-> similarity index 50%
-> rename from meta/recipes-connectivity/iproute2/iproute2-2.6.38/configure-cross.patch
-> rename to meta/recipes-connectivity/iproute2/iproute2-3.0.0/configure-cross.patch
-> index e26e8ef..92c12be 100644
-> --- a/meta/recipes-connectivity/iproute2/iproute2-2.6.38/configure-cross.patch
-> +++ b/meta/recipes-connectivity/iproute2/iproute2-3.0.0/configure-cross.patch
-> @@ -1,31 +1,38 @@
-> +From 85b0589b4843c03e8e6fd9416d71ea449a73c5c0 Mon Sep 17 00:00:00 2001
-> +From: Koen Kooi<koen@dominion.thruhere.net>
-> +Date: Thu, 3 Nov 2011 10:46:16 +0100
-> +Subject: [PATCH] make configure cross compile safe
-> +
-> +According to Kevin Tian:
->   Upstream-Status: Pending
->
-> -# borrow from OE, to handle cross compile mess
-> -#
-> -# ktian1, 06/28/2010
-> -Index: iproute2-2.6.34/configure
-> -===================================================================
-> ---- iproute2-2.6.34.orig/configure
-> -+++ iproute2-2.6.34/configure
-> -@@ -4,7 +4,7 @@
-> +Signed-off-by: Koen Kooi<koen@dominion.thruhere.net>
-> +---
-> + configure |   13 +++++++------
-> + 1 files changed, 7 insertions(+), 6 deletions(-)
-> +
-> +diff --git a/configure b/configure
-> +index f5c3d40..bcc1948 100755
-> +--- a/configure
-> ++++ b/configure
-> +@@ -2,6 +2,7 @@
-> + # This is not an autconf generated configure
-> + #
->    INCLUDE=${1:-"$PWD/include"}
-> -
-> - TABLES=
-> --
->   +SYSROOT=$1
-> +
->    check_atm()
->    {
-> - cat>/tmp/atmtest.c<<EOF
-> -@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
-> +@@ -13,7 +14,7 @@ int main(int argc, char **argv) {
->    	return 0;
->    }
->    EOF
->   -gcc -I$INCLUDE -o /tmp/atmtest /tmp/atmtest.c -latm>/dev/null 2>&1
-> -+$CC -I$INCLUDE -o /tmp/atmtest /tmp/atmtest.c -latm>/dev/null 2>&1
-> ++$CC -I$INCLUDE -o /tmp/atmtest /tmp/atmtest.c -latm>/dev/null 2>&1
->    if [ $? -eq 0 ]
->    then
->        echo "TC_CONFIG_ATM:=y">>Config
-> -@@ -49,7 +49,7 @@ int main(int argc, char **argv)
-> +@@ -47,7 +48,7 @@ int main(int argc, char **argv)
->
->    EOF
->
-> @@ -34,7 +41,7 @@ Index: iproute2-2.6.34/configure
->    then
->    	echo "TC_CONFIG_XT:=y">>Config
->    	echo "using xtables"
-> -@@ -86,7 +86,7 @@ int main(int argc, char **argv) {
-> +@@ -84,7 +85,7 @@ int main(int argc, char **argv) {
->    }
->
->    EOF
-> @@ -43,7 +50,7 @@ Index: iproute2-2.6.34/configure
->
->    if [ $? -eq 0 ]
->    then
-> -@@ -126,7 +126,7 @@ int main(int argc, char **argv) {
-> +@@ -124,7 +125,7 @@ int main(int argc, char **argv) {
->    }
->
->    EOF
-> @@ -52,12 +59,24 @@ Index: iproute2-2.6.34/configure
->
->    if [ $? -eq 0 ]
->    then
-> -@@ -150,7 +150,7 @@ check_ipt()
-> +@@ -145,7 +146,7 @@ check_ipt()
->    check_ipt_lib_dir()
->    {
->    	IPT_LIB_DIR=""
->   -	for dir in /lib /usr/lib /usr/local/lib
->   +	for dir in $SYSROOT/lib $SYSROOT/usr/lib $SYSROOT/usr/local/lib
->    	do
-> - 		for file in $dir/$TABLES/lib*t_*so ; do
-> + 		for file in $dir/{xtables,iptables}/lib*t_*so ; do
->    			if [ -f $file ]; then
-> +@@ -168,7 +169,7 @@ int main(int argc, char **argv)
-> + 	return 0;
-> + }
-> + EOF
-> +-gcc -I$INCLUDE -o /tmp/setnstest /tmp/setnstest.c>/dev/null 2>&1
-> ++$CC -I$INCLUDE -o /tmp/setnstest /tmp/setnstest.c>/dev/null 2>&1
-> + if [ $? -eq 0 ]
-> + then
-> + 	echo "IP_CONFIG_SETNS:=y">>Config
-> +--
-> +1.7.2.5
-> +
-> diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
-> index 0f27a01..6fc30a0 100644
-> --- a/meta/recipes-connectivity/iproute2/iproute2.inc
-> +++ b/meta/recipes-connectivity/iproute2/iproute2.inc
-> @@ -23,8 +23,11 @@ do_install () {
->       rm ${D}/share -rf || true
->   }
->
-> -FILES_${PN} += "/usr/lib/tc/*"
-> -FILES_${PN}-dbg += "/usr/lib/tc/.debug"
-> +# There are only .so files in iproute2
-> +INSANE_SKIP_${PN} = "dev-so"
-> +
-> +FILES_${PN} += "${base_libdir}/tc/*"
-> +FILES_${PN}-dbg += "${base_libdir}/tc/.debug"
->
->   ALTERNATIVE_NAME = "ip"
->   ALTERNATIVE_PATH = "${base_sbindir}/ip.iproute2"
-> diff --git a/meta/recipes-connectivity/iproute2/iproute2_2.6.38.bb b/meta/recipes-connectivity/iproute2/iproute2_2.6.38.bb
+> diff --git a/meta/recipes-support/libnl/libnl-2.0/fix-makefile.patch b/meta/recipes-support/libnl/libnl-2.0/fix-makefile.patch
 > deleted file mode 100644
-> index 7abc41f..0000000
-> --- a/meta/recipes-connectivity/iproute2/iproute2_2.6.38.bb
+> index 3e88fbd..0000000
+> --- a/meta/recipes-support/libnl/libnl-2.0/fix-makefile.patch
 > +++ /dev/null
-> @@ -1,9 +0,0 @@
-> -require iproute2.inc
+> @@ -1,32 +0,0 @@
+> -Upstream-Status: Pending
 > -
-> -PR = "r0"
+> -12/03/2010
 > -
-> -SRC_URI = "http://developer.osdl.org/dev/iproute2/download/${BPN}-${PV}.tar.bz2 \
-> -	   file://configure-cross.patch"
+> -add explicit rules for header files generated by lex and yacc,
+> -otherwise the build of lib/route/pktloc.c may fail in a parallel
+> -environment.
 > -
-> -SRC_URI[md5sum] = "a243bfea837e71824b7ca26c3bb45fa8"
-> -SRC_URI[sha256sum] = "47629a4f547f21d94d8e823a87dd8e13042cadecefea2e2dc433e4134fa9aec4"
-> diff --git a/meta/recipes-connectivity/iproute2/iproute2_3.0.0.bb b/meta/recipes-connectivity/iproute2/iproute2_3.0.0.bb
-> new file mode 100644
-> index 0000000..8d1db85
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/iproute2/iproute2_3.0.0.bb
-> @@ -0,0 +1,8 @@
-> +require iproute2.inc
+> -Signed-off-by: Qing He<qing.he@intel.com>
+> -
+> -12/06/2010
+> -
+> -the dependency rule should really read pktloc.lo instead of
+> -pktloc.$(OBJEXT), since it's in a libtool setup.
+> -
+> -Signed-off-by: Qing He<qing.he@intel.com>
+> -
+> -diff --git a/lib/Makefile.am b/lib/Makefile.am
+> -index 92a916e..e8b8ef3 100644
+> ---- a/lib/Makefile.am
+> -+++ b/lib/Makefile.am
+> -@@ -35,6 +35,10 @@ route/pktloc_grammar.c: route/pktloc_grammar.l
+> - route/pktloc_syntax.c: route/pktloc_syntax.y
+> - 	$(YACC) -d $(YFLAGS) -o $@ $^
+> -
+> -+route/pktloc.lo: route/pktloc_syntax.h route/pktloc_grammar.h
+> -+route/pktloc_syntax.h: route/pktloc_syntax.c
+> -+route/pktloc_grammar.h: route/pktloc_grammar.c
+> -+
+> - libnl_route_la_LDFLAGS = -version-info 2:0:0
+> - libnl_route_la_LIBADD  = libnl.la
+> - libnl_route_la_SOURCES = \
+> diff --git a/meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch b/meta/recipes-support/libnl/libnl-2.0/fix-pktloc_syntax_h-race.patch
+> similarity index 86%
+> rename from meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch
+> rename to meta/recipes-support/libnl/libnl-2.0/fix-pktloc_syntax_h-race.patch
+> index 05d75db..ea32e82 100644
+> --- a/meta/recipes-support/libnl/fix-pktloc_syntax_h-race.patch
+> +++ b/meta/recipes-support/libnl/libnl-2.0/fix-pktloc_syntax_h-race.patch
+> @@ -4,11 +4,13 @@ libnl has progressed to 0.3.2 and there does not appear to be any
+>   "make -j" issues with this build after my limited testing on that
+>   newer version so we can assume this issue is fixed upstream
+>
+> +Signed-off-by: Martin Jansa<martin.jansa@gmail.com>
 > +
-> +#v3.0.0 tag
-> +SRCREV = "ce691fb5ce78b2c75243c60a757a3990ae09681c"
-> +SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/shemminger/iproute2.git \
-> +           file://configure-cross.patch"
-> +S = "${WORKDIR}/git"
-> +
+>   Index: libnl-2.0/lib/Makefile.am
+>   ===================================================================
+>   --- libnl-2.0.orig/lib/Makefile.am
+>   +++ libnl-2.0/lib/Makefile.am
+> -@@ -27,11 +27,15 @@ CLEANFILES = \
+> +@@ -27,11 +27,16 @@ CLEANFILES = \
+>    	route/pktloc_grammar.c route/pktloc_grammar.h \
+>    	route/pktloc_syntax.c route/pktloc_syntax.h
+>
+> @@ -16,6 +18,7 @@ Index: libnl-2.0/lib/Makefile.am
+>   +
+>    # Hack to avoid using ylwrap. It does not function correctly in combination
+>    # with --header-file=
+> ++route/pktloc.lo: route/pktloc_syntax.h route/pktloc_grammar.h
+>   +route/pktloc_grammar.h: route/pktloc_grammar.c
+>    route/pktloc_grammar.c: route/pktloc_grammar.l
+>    	$(LEX) --header-file=route/pktloc_grammar.h $(LFLAGS) -o $@ $^
+> diff --git a/meta/recipes-support/libnl/libnl_2.0.bb b/meta/recipes-support/libnl/libnl_2.0.bb
+> index 5339846..f783867 100644
+> --- a/meta/recipes-support/libnl/libnl_2.0.bb
+> +++ b/meta/recipes-support/libnl/libnl_2.0.bb
+> @@ -8,10 +8,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2b41e13261a330ee784153ecbb6a82bc"
+>   DEPENDS = "flex-native bison-native"
+>   PR = "r3"
+>
+> -SRC_URI= "http://www.infradead.org/~tgr/libnl/files/${BPN}-${PV}.tar.gz \
+> -          file://fix-makefile.patch \
+> -	  file://fix-pktloc_syntax_h-race.patch \
+> -         "
+> +SRC_URI = "\
+> +  http://www.infradead.org/~tgr/${BPN}/files/${BP}.tar.gz \
+> +  file://fix-pktloc_syntax_h-race.patch \
+> +"
+>
+>   SRC_URI[md5sum] = "6aaf1e9802a17a7d702bb0638044ffa7"
+>   SRC_URI[sha256sum] = "5a40dc903d3ca1074da7424b908bec8ff16936484798c7e46e53e9db8bc87a9c"
 
 Merged into OE-Core
 
 Thanks
 	Sau!
-
 
 
