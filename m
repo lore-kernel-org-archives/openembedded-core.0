@@ -1,21 +1,21 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1RNTI8-0003hW-0f
+	(envelope-from <saul.wold@intel.com>) id 1RNTJH-0003lt-0i
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Nov 2011 18:47:28 +0100
-Received: from mail-ww0-f44.google.com ([74.125.82.44])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 07 Nov 2011 09:41:09 -0800
-Received: by wwi36 with SMTP id 36so5045257wwi.13
+	Mon, 07 Nov 2011 18:48:39 +0100
+Received: from mail-ww0-f42.google.com ([74.125.82.42])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 07 Nov 2011 09:42:06 -0800
+Received: by wwf22 with SMTP id 22so5240218wwf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Nov 2011 09:41:08 -0800 (PST)
-Received: by 10.227.203.132 with SMTP id fi4mr31088276wbb.6.1320687668430;
-	Mon, 07 Nov 2011 09:41:08 -0800 (PST)
+	Mon, 07 Nov 2011 09:42:05 -0800 (PST)
+Received: by 10.227.58.17 with SMTP id e17mr29922125wbh.18.1320687725475;
+	Mon, 07 Nov 2011 09:42:05 -0800 (PST)
 Received: from [10.6.18.227] (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117]) by mx.google.com with ESMTPS id
-	et20sm28511416wbb.15.2011.11.07.09.41.05
-	(version=SSLv3 cipher=OTHER); Mon, 07 Nov 2011 09:41:07 -0800 (PST)
-Message-ID: <4EB81830.9010606@intel.com>
-Date: Mon, 07 Nov 2011 09:41:04 -0800
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id q30sm28503306wbn.17.2011.11.07.09.42.03
+	(version=SSLv3 cipher=OTHER); Mon, 07 Nov 2011 09:42:04 -0800 (PST)
+Message-ID: <4EB8186A.4000807@intel.com>
+Date: Mon, 07 Nov 2011 09:42:02 -0800
 From: Saul Wold <saul.wold@intel.com>
 Organization: Intel
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
@@ -23,10 +23,10 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1320416813-22888-1-git-send-email-koen@dominion.thruhere.net>
-In-Reply-To: <1320416813-22888-1-git-send-email-koen@dominion.thruhere.net>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH] lighttpd 1.4.29: rename index.html to avoid clashes with DL_DIR
+References: <cover.1320429060.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1320429060.git.paul.eggleton@linux.intel.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH 0/3] Misc fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,68 +41,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2011 17:47:28 -0000
+X-List-Received-Date: Mon, 07 Nov 2011 17:48:39 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/04/2011 07:26 AM, Koen Kooi wrote:
-> As Martin Jansa pointed out before, bitbake will silently peek in DL_DIR before FILESPATH and use files from there if found.
+On 11/04/2011 10:52 AM, Paul Eggleton wrote:
+> The following changes since commit f01fbc17b5d9bf9a227d64fe858014376cd19432:
 >
-> The failure mode for lighttpd involves a 404 redirect placing index.html into DL_DIR, which will end up in the lighttpd packages. In my specific case iproute2 hit the linuxfoundation 404 redirect so lighttpd.ipk now serves the linuxfoundation frontpage :)
+>    avahi: fix useradd race condition (2011-11-03 14:48:42 +0000)
 >
-> Signed-off-by: Koen Kooi<koen@dominion.thruhere.net>
-> ---
->   meta/recipes-extended/lighttpd/files/index.html    |    1 -
->   .../lighttpd/files/index.html.lighttpd             |    1 +
->   meta/recipes-extended/lighttpd/lighttpd_1.4.29.bb  |    6 +++---
->   3 files changed, 4 insertions(+), 4 deletions(-)
->   delete mode 100644 meta/recipes-extended/lighttpd/files/index.html
->   create mode 100644 meta/recipes-extended/lighttpd/files/index.html.lighttpd
+> are available in the git repository at:
+>    git://git.openembedded.org/openembedded-core-contrib paule/fixes8
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/fixes8
 >
-> diff --git a/meta/recipes-extended/lighttpd/files/index.html b/meta/recipes-extended/lighttpd/files/index.html
-> deleted file mode 100644
-> index cd25bf1..0000000
-> --- a/meta/recipes-extended/lighttpd/files/index.html
-> +++ /dev/null
-> @@ -1 +0,0 @@
-> -<html><body><h1>It works!</h1></body></html>
-> \ No newline at end of file
-> diff --git a/meta/recipes-extended/lighttpd/files/index.html.lighttpd b/meta/recipes-extended/lighttpd/files/index.html.lighttpd
-> new file mode 100644
-> index 0000000..cd25bf1
-> --- /dev/null
-> +++ b/meta/recipes-extended/lighttpd/files/index.html.lighttpd
-> @@ -0,0 +1 @@
-> +<html><body><h1>It works!</h1></body></html>
-> \ No newline at end of file
-> diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.29.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.29.bb
-> index c1d5f81..9fdb5f6 100644
-> --- a/meta/recipes-extended/lighttpd/lighttpd_1.4.29.bb
-> +++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.29.bb
-> @@ -16,10 +16,10 @@ RDEPENDS_${PN} += " \
->                  lighttpd-module-staticfile \
->   "
+> Paul Eggleton (3):
+>    allarch.bbclass: disable shlib and debug symbol processing
+>    core-image-minimal-initramfs: force IMAGE_FSTYPES
+>    qemugl: switch to new git repo
 >
-> -PR = "r0"
-> +PR = "r1"
+>   meta/classes/allarch.bbclass                       |    5 +++++
+>   .../images/core-image-minimal-initramfs.bb         |    1 +
+>   meta/recipes-graphics/mesa/qemugl_git.bb           |    2 +-
+>   3 files changed, 7 insertions(+), 1 deletions(-)
 >
->   SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.tar.bz2 \
-> -        file://index.html \
-> +        file://index.html.lighttpd \
->           file://lighttpd.conf \
->           file://lighttpd \
->   "
-> @@ -48,7 +48,7 @@ do_install_append() {
->       install -d ${D}${sysconfdir}/init.d ${D}/www/logs ${D}/www/pages/dav ${D}/www/var
->       install -m 0755 ${WORKDIR}/lighttpd ${D}${sysconfdir}/init.d
->       install -m 0755 ${WORKDIR}/lighttpd.conf ${D}${sysconfdir}
-> -    install -m 0644 ${WORKDIR}/index.html ${D}/www/pages/
-> +    install -m 0644 ${WORKDIR}/index.html.lighttpd ${D}/www/pages/index.html
->   }
->
->   FILES_${PN} += "${sysconfdir} /www"
-
-Merged into OE-Core
+Merged into OE-Core with tweak to IMAGE_FSTYPES as suggested
 
 Thanks
 	Sau!
