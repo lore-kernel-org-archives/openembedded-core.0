@@ -1,26 +1,49 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from ch1ehsobe004.messaging.microsoft.com ([216.32.181.184]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RNUjX-0007ec-LU
+	(envelope-from <B29882@freescale.com>) id 1RNUpp-0007t2-KI
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Nov 2011 20:19:51 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 07 Nov 2011 11:13:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,471,1315206000"; d="scan'208";a="34154843"
-Received: from unknown (HELO [10.255.12.14]) ([10.255.12.14])
-	by AZSMGA002.ch.intel.com with ESMTP; 07 Nov 2011 11:13:36 -0800
-Message-ID: <4EB82DE0.3090504@linux.intel.com>
-Date: Mon, 07 Nov 2011 11:13:36 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
+	Mon, 07 Nov 2011 20:26:22 +0100
+Received: from mail101-am1-R.bigfish.com (10.43.68.251) by
+	CH1EHSOBE006.bigfish.com (10.43.70.56) with Microsoft SMTP Server id
+	14.1.225.22; Mon, 7 Nov 2011 19:19:46 +0000
+Received: from mail101-am1 (localhost.localdomain [127.0.0.1])	by
+	mail101-am1-R.bigfish.com (Postfix) with ESMTP id 3B3C21B601C3	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon,  7 Nov 2011 19:19:59 +0000 (UTC)
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839h62h)
+X-Spam-TCS-SCL: 1:0
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
+	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
+X-FB-SS: 0,
+Received: from mail101-am1 (localhost.localdomain [127.0.0.1]) by mail101-am1
+	(MessageSwitch) id 13206935994608_12834;
+	Mon,  7 Nov 2011 19:19:59 +0000 (UTC)
+Received: from AM1EHSMHS009.bigfish.com (unknown [10.3.201.253])	by
+	mail101-am1.bigfish.com (Postfix) with ESMTP id E65991608053	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon,  7 Nov 2011 19:19:58 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS009.bigfish.com
+	(10.3.207.109) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Mon, 7 Nov 2011 19:19:45 +0000
+Received: from az33smr01.freescale.net (10.64.34.199) by
+	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
+	Server id 14.1.339.2; Mon, 7 Nov 2011 13:20:05 -0600
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
+	by az33smr01.freescale.net (8.13.1/8.13.0) with ESMTP id
+	pA7JK4xG026401	for <openembedded-core@lists.openembedded.org>;
+	Mon, 7 Nov 2011 13:20:05 -0600 (CST)
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 7 Nov 2011 13:20:04 -0600
+Message-ID: <1320693604-24998-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.6.1
+In-Reply-To: <4EB82C5F.6020806@linux.intel.com>
+References: <4EB82C5F.6020806@linux.intel.com>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1319184832.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1319184832.git.Martin.Jansa@gmail.com>
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: Re: [PATCH 0/8] Subversion-1.7.0 and arm/thumb work arounds
+X-OriginatorOrg: freescale.com
+Subject: [PATCH v3] Add new IMAGE_CLASSES variable for classes for image generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,61 +58,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2011 19:19:51 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 07 Nov 2011 19:26:22 -0000
+Content-Type: text/plain
 
-On 10/21/2011 01:17 AM, Martin Jansa wrote:
-> Hi,
->
-> arm mode was forced without PR bump, because if it was failing for someone he
-> will notice.
->
-> Be carefull with using subversion-1.7.0 (read the commit message).
->
-> Pulseaudio-1.1 was released, so hopefully this work arounds won't be needed
-> there or they could be resolved better with upgrade.
->
-> Regards,
->
-> The following changes since commit 99da9a4e65f9dffb04efc3ad60125194c476d6b3:
->
->    distro-tracking-fields: update fields for tzdata and gst-plugins-good (2011-10-20 13:07:16 +0100)
->
-> are available in the git repository at:
->    git://git.openembedded.org/openembedded-core-contrib jansa/pull2
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/pull2
->
-> Martin Jansa (8):
->    pulseaudio-0.9.23: inherit perlnative to work around build on host
->      without XML/Parser.pm
->    libatomics-ops: force ARM mode
->    pulseaudio-0.9.23: force ARM mode
->    webkit-gtk: force arm mode to work around binutils segfault
-Martin,
+Allows us to import classes only for images and not to the global
+namespace
 
-What is the status of these various workarounds, did you do any further 
-work to determine root causes, or do we still need these patches to do in?
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
 
-Thanks
-	Sau!
+v2: Change IMAGE_CLASSES definition to use ?= instead of =
+so it's clear we want to override this variable. This worked
+before because the value in my distro.conf file overwrote
+this value regardless of the fact it was set with =
 
->    apr: add native support
->    neon: add native support
->    apr-util: add native support
->    subversion: add 1.7.0 with native support and negative D_P for now
->
->   .../subversion/subversion-1.7.0/libtool2.patch     |   15 ++++++++
->   .../subversion/subversion_1.7.0.bb                 |   37 ++++++++++++++++++++
->   .../pulseaudio/libatomics-ops_1.2.bb               |    2 +
->   .../pulseaudio/pulseaudio_0.9.23.bb                |    3 +-
->   meta/recipes-sato/webkit/webkit-gtk_svn.bb         |   17 +++++++++
->   meta/recipes-support/apr/apr-util_1.3.12.bb        |    8 ++++
->   meta/recipes-support/apr/apr_1.4.5.bb              |    2 +
->   meta/recipes-support/neon/neon_0.29.5.bb           |    3 ++
->   8 files changed, 86 insertions(+), 1 deletions(-)
->   create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.0/libtool2.patch
->   create mode 100644 meta/recipes-devtools/subversion/subversion_1.7.0.bb
->
+v3: Move documentation to local.conf.sample.extended
+
+ meta-yocto/conf/local.conf.sample.extended |    6 ++++++
+ meta/classes/image.bbclass                 |    3 ++-
+ 2 files changed, 8 insertions(+), 1 deletions(-)
+
+diff --git a/meta-yocto/conf/local.conf.sample.extended b/meta-yocto/conf/local.conf.sample.extended
+index 0c3197d..e9935ce 100644
+--- a/meta-yocto/conf/local.conf.sample.extended
++++ b/meta-yocto/conf/local.conf.sample.extended
+@@ -114,3 +114,9 @@
+ # The network based PR service host and port
+ #PRSERV_HOST = "localhost"
+ #PRSERV_PORT = "8585"
++
++# Additional image generation features
++#
++# The following is a list of classes to import to use in the generation of images
++# currently an example class is image_types_uboot
++# IMAGE_CLASSES = " image_types_uboot"
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 05f4331..a2770a4 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -111,7 +111,8 @@ def get_devtable_list(d):
+         str += " %s" % bb.which(bb.data.getVar('BBPATH', d, 1), devtable)
+     return str
+ 
+-inherit image_types
++IMAGE_CLASSES ?= "image_types"
++inherit ${IMAGE_CLASSES}
+ 
+ IMAGE_POSTPROCESS_COMMAND ?= ""
+ MACHINE_POSTPROCESS_COMMAND ?= ""
+-- 
+1.7.6.1
+
+
 
 
