@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RNZNE-0003DL-AP
+	(envelope-from <josh@linux.intel.com>) id 1RNZNF-0003Cy-5v
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 01:17:08 +0100
+	Tue, 08 Nov 2011 01:17:09 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 07 Nov 2011 16:10:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="72146539"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="72146540"
 Received: from unknown (HELO shamshir.jf.intel.com) ([10.7.199.75])
 	by orsmga001.jf.intel.com with ESMTP; 07 Nov 2011 16:10:50 -0800
 From: Joshua Lock <josh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Nov 2011 16:10:40 -0800
-Message-Id: <484f22280e380ecdf10dc1bd6b89f69c37be1f68.1320709417.git.josh@linux.intel.com>
+Date: Mon,  7 Nov 2011 16:10:41 -0800
+Message-Id: <49ddb74e47c9f09b36e8a54cca146f2ff94847e9.1320709417.git.josh@linux.intel.com>
 X-Mailer: git-send-email 1.7.7
 In-Reply-To: <cover.1320709417.git.josh@linux.intel.com>
 References: <cover.1320709417.git.josh@linux.intel.com>
 In-Reply-To: <cover.1320709417.git.josh@linux.intel.com>
 References: <cover.1320709417.git.josh@linux.intel.com>
-Subject: [PATCH 03/12] clutter-gst-1.8: add 1.4.2 for use with clutter 1.8
+Subject: [PATCH 04/12] clutter-gtk-1.8: add clutter-gtk 0.11.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,61 +37,28 @@ X-List-Received-Date: Tue, 08 Nov 2011 00:17:09 -0000
 
 Signed-off-by: Joshua Lock <josh@linux.intel.com>
 ---
- .../clutter/clutter-gst-1.8_1.4.2.bb               |   22 ++++++++++++++++++++
- .../clutter/clutter-gst/enable_tests-1.8.bb        |   15 +++++++++++++
- 2 files changed, 37 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-graphics/clutter/clutter-gst-1.8_1.4.2.bb
- create mode 100644 meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.8.bb
+ .../clutter/clutter-gtk-1.8_0.11.4.bb              |   11 +++++++++++
+ 1 files changed, 11 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-graphics/clutter/clutter-gtk-1.8_0.11.4.bb
 
-diff --git a/meta/recipes-graphics/clutter/clutter-gst-1.8_1.4.2.bb b/meta/recipes-graphics/clutter/clutter-gst-1.8_1.4.2.bb
+diff --git a/meta/recipes-graphics/clutter/clutter-gtk-1.8_0.11.4.bb b/meta/recipes-graphics/clutter/clutter-gtk-1.8_0.11.4.bb
 new file mode 100644
-index 0000000..54b1fc1
+index 0000000..0885ce1
 --- /dev/null
-+++ b/meta/recipes-graphics/clutter/clutter-gst-1.8_1.4.2.bb
-@@ -0,0 +1,22 @@
-+require recipes-graphics/clutter/clutter-gst.inc
++++ b/meta/recipes-graphics/clutter/clutter-gtk-1.8_0.11.4.bb
+@@ -0,0 +1,11 @@
++require recipes-graphics/clutter/clutter-gtk.inc
 +
-+PR = "r0"
++SRC_URI = "http://source.clutter-project.org/sources/clutter-gtk/0.11/clutter-gtk-${PV}.tar.bz2"
++SRC_URI[md5sum] = "8b88cfcb0358ecfe3e9228efd55f7ebc"
++SRC_URI[sha256sum] = "58d5b027c4589ff442d820f624d7991e25cbeaab795b05f2df2e4c7bc1af2cf6"
 +
-+LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
-+                    file://clutter-gst/clutter-gst.h;beginline=1;endline=24;md5=95baacba194e814c110ea3bdf25ddbf4"
++DEPENDS += "clutter-1.8"
 +
-+DEPENDS += "clutter-1.8 gstreamer"
-+RDEPENDS_${PN} += "gst-meta-base"
++inherit gettext
 +
-+SRC_URI = "http://source.clutter-project.org/sources/clutter-gst/1.4/clutter-gst-${PV}.tar.bz2 \
-+           file://enable_tests-1.8.patch"
-+
-+S = "${WORKDIR}/clutter-gst-${PV}"
-+
-+SRC_URI[md5sum] = "fd6b2a54f43d04382748e9e4d8a335c5"
-+SRC_URI[sha256sum] = "b0e7ff76ee14307b6d26856972ec9e718f62aec2bc8807fb3f2960e508e578b5"
-+
-+do_configure_prepend () {
-+       # Disable DOLT
-+       sed -i -e 's/^DOLT//' ${S}/configure.ac
-+}
-diff --git a/meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.8.bb b/meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.8.bb
-new file mode 100644
-index 0000000..35e60ca
---- /dev/null
-+++ b/meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.8.bb
-@@ -0,0 +1,15 @@
-+Install example binary needed for poky-image-clutter
-+
-+Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
-+Index: clutter-gst-1.3.8/examples/Makefile.am
-+===================================================================
-+--- clutter-gst-1.3.8.orig/examples/Makefile.am
-++++ clutter-gst-1.3.8/examples/Makefile.am
-+@@ -1,6 +1,6 @@
-+ NULL = #
-+ 
-+-noinst_PROGRAMS = video-player video-sink video-sink-navigation
-++bin_PROGRAMS = video-player video-sink video-sink-navigation
-+ 
-+ INCLUDES = -I$(top_srcdir) \
-+ 	   $(MAINTAINER_CFLAGS) \
++S = "${WORKDIR}/clutter-gtk-${PV}"
+\ No newline at end of file
 -- 
 1.7.7
 
