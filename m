@@ -1,34 +1,44 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RNmmK-0006d0-BD for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 15:35:56 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA8EThDq000521
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 Nov 2011 14:29:43 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 32646-05 for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Nov 2011 14:29:39 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA8ETYDx000515
+Received: from bear.ext.ti.com ([192.94.94.41])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin@ti.com>) id 1RNmme-0006fc-N8
+	for openembedded-core@lists.openembedded.org;
+	Tue, 08 Nov 2011 15:36:17 +0100
+Received: from dlep36.itg.ti.com ([157.170.170.91])
+	by bear.ext.ti.com (8.13.7/8.13.7) with ESMTP id pA8EShda006005
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 Nov 2011 14:29:35 GMT
-Message-ID: <1320762575.10843.45.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+	Tue, 8 Nov 2011 08:28:43 -0600
+Received: from dlep26.itg.ti.com (smtp-le.itg.ti.com [157.170.170.27])
+	by dlep36.itg.ti.com (8.13.8/8.13.8) with ESMTP id pA8EShFI022603
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 8 Nov 2011 08:28:43 -0600 (CST)
+Received: from DFLE70.ent.ti.com (localhost [127.0.0.1])
+	by dlep26.itg.ti.com (8.13.8/8.13.8) with ESMTP id pA8ESh1B014340
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 8 Nov 2011 08:28:43 -0600 (CST)
+Received: from DFLE30.ent.ti.com ([fe80::648b:2220:c6fb:4e6]) by
+	DFLE70.ent.ti.com ([fe80::db3:609a:aa62:e1ec%22]) with mapi id
+	14.01.0323.003; Tue, 8 Nov 2011 08:28:43 -0600
+From: "Ambrose, Martin" <martin@ti.com>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 08 Nov 2011 14:29:35 +0000
-In-Reply-To: <8d5fb3fc99567457b497c859f333fe68b49806cb.1320732950.git.dongxiao.xu@intel.com>
-References: <cover.1320732950.git.dongxiao.xu@intel.com>
-	<8d5fb3fc99567457b497c859f333fe68b49806cb.1320732950.git.dongxiao.xu@intel.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/1] multilib: Drop MULTILIB_IMAGE_INSTALL
+Thread-Topic: uClibc Errors
+Thread-Index: AcyeIrWWrQbxrcnUTeiV6gfV9UFbBg==
+Date: Tue, 8 Nov 2011 14:28:42 +0000
+Message-ID: <4E4787E2B8CABC46A0EF2ED925CDD8DD08FF5B@DFLE30.ent.ti.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-cr-hashedpuzzle: ARtu AZp1 BZ2r Buq5 CGWG Cq9E DLRE DMlB Dz33 D2he FIAq
+	Gk+O G6H2 H5XY Je5E Jxqs; 1;
+	bwBwAGUAbgBlAG0AYgBlAGQAZABlAGQALQBjAG8AcgBlAEAAbABpAHMAdABzAC4AbwBwAGUAbgBlAG0AYgBlAGQAZABlAGQALgBvAHIAZwA=;
+	Sosha1_v1; 7; {F8305C82-ED87-4733-89F8-22A7147FD511};
+	bQBhAHIAdABpAG4AQAB0AGkALgBjAG8AbQA=; Tue,
+	08 Nov 2011 14:28:39 GMT;dQBDAGwAaQBiAGMAIABFAHIAcgBvAHIAcwA=
+x-cr-puzzleid: {F8305C82-ED87-4733-89F8-22A7147FD511}
+x-originating-ip: [157.170.170.90]
+MIME-Version: 1.0
+Subject: uClibc Errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,40 +53,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2011 14:35:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 08 Nov 2011 14:36:17 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2011-11-08 at 14:19 +0800, Dongxiao Xu wrote:
-> There should just be a single IMAGE_INSTALL variable. If the package
-> backends need this split into different multilib components they should
-> be responsible for doing this, not the user.
-> 
-> This commit removes the MULTILIB_IMAGE_INSTALL variable.
-> 
-> [YOCTO #1564]
-> 
-> Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
-> ---
->  meta/classes/image.bbclass       |    4 +---
->  meta/classes/multilib.bbclass    |    5 ++---
->  meta/classes/package_ipk.bbclass |   31 ++++++++++++++++++++++++++++---
->  meta/classes/package_rpm.bbclass |   37 +++++++++----------------------------
->  meta/classes/rootfs_ipk.bbclass  |    3 +--
->  meta/classes/rootfs_rpm.bbclass  |    3 +--
->  6 files changed, 42 insertions(+), 41 deletions(-)
+Hello.
 
-I'll take this as its a definite improvement over the current situation.
-I did however wonder what happens if we try something tri-arch e.g.
-i586, x86_64 and x32?
+My goal is to get a baseline uClibc image for an arm architecture.
+I've tried various mechanisms but eventually end up with build/run-time err=
+ors.
 
-I get the feeling both package backends could really use some cleanup
-now we have the basics working and better abstraction of the code so we
-can loop over something like tri-arch (or more) easily...
+First attempt was to only use oe-core and specify the following in local.co=
+nf
+    TCLIBC =3D "uclibc"
+    USE_NLS =3D "no"
+    USE_NLS_glib-2.0 =3D "no"
+    USE_NLS_glib-2.0-native =3D "yes"
+    USE_NLS_gcc-cross =3D "no"
 
-Cheers,
+I try to build core-image-minimal but get an armv5te-oe-linux-uclibceabi/gl=
+ib-2.0-1_2.30.0-r2/glib-2.30.0 build error:
+	./.libs/libglib-2.0.so: undefined reference to `qsort_r'
 
-Richard
+I'm surprised this is even trying to build given my settings in local.conf.
+
+Next I tried with the meta-micro layer and replace the above conf changes w=
+ith just
+    DISTRO=3D "micro-uclibc"
+
+Then build micro-base-image and get this packaging error
+	ERROR: QA Issue: non -dev/-dbg/-nativesdk package contains symlink .so: uc=
+libc-thread-db path \
+	'/work/armv5te-oe-linux-uclibceabi/uclibc-0.9.32-r4.3/packages-split/uclib=
+c-thread-db/lib/libthread_db.so'
+
+I worked around this by overriding the OE packaging variables in local.conf=
+ (moved dev-so).
+	WARN_QA =3D "ldflags useless-rpaths rpaths dev-so"
+	ERROR_QA =3D "debug-deps dev-deps debug-files arch la2 pkgconfig la perms"
+
+Once built I get an immediate error on boot
+	/sbin/init: can't resolve symbol '__register_frame_info'
+	Kernel panic - not syncing: Attempted to kill init!
+
+I'm wondering if there is a simple mechanism to clean up the unwind binding=
+s via OE settings.
+
+In general, is there a "known-good" procedure for building/using uClibc via=
+ oe-core +/- layers?
+
+Regards,
+Martin
 
 
 
