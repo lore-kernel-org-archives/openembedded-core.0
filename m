@@ -1,20 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RNsSB-0006Vh-A8
+	(envelope-from <sgw@linux.intel.com>) id 1RNsSC-0006Vh-0t
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 21:39:31 +0100
+	Tue, 08 Nov 2011 21:39:32 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 08 Nov 2011 12:33:15 -0800
+	by orsmga101.jf.intel.com with ESMTP; 08 Nov 2011 12:33:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="72540280"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="72540283"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.14])
 	by orsmga001.jf.intel.com with ESMTP; 08 Nov 2011 12:33:15 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Nov 2011 12:33:13 -0800
-Message-Id: <cover.1320784301.git.sgw@linux.intel.com>
+Date: Tue,  8 Nov 2011 12:33:14 -0800
+Message-Id: <aa34f8427dfee492837c5762ad36fcf58e104ba9.1320784301.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
-Subject: [PATCH 0/1] Fix Sanity Test Failure
+In-Reply-To: <cover.1320784301.git.sgw@linux.intel.com>
+References: <cover.1320784301.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1320784301.git.sgw@linux.intel.com>
+References: <cover.1320784301.git.sgw@linux.intel.com>
+Subject: [PATCH 1/1] udev: Blacklist /dev/md
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,26 +33,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2011 20:39:31 -0000
+X-List-Received-Date: Tue, 08 Nov 2011 20:39:32 -0000
 
-Don't automount /dev/md0 via udev, so blacklist it.
-
-Sau!
-
-The following changes since commit 157db263b50fabf4afcbea3c2a5364c0752ae0e2:
-
-  clutter-gst: fix patch filename (2011-11-08 17:33:19 +0000)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/fix
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
-
-Saul Wold (1):
-  udev: Blacklist /dev/md
-
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
  meta/recipes-core/udev/files/mount.blacklist |    1 +
  1 files changed, 1 insertions(+), 0 deletions(-)
 
+diff --git a/meta/recipes-core/udev/files/mount.blacklist b/meta/recipes-core/udev/files/mount.blacklist
+index d3ebb17..7c7d938 100644
+--- a/meta/recipes-core/udev/files/mount.blacklist
++++ b/meta/recipes-core/udev/files/mount.blacklist
+@@ -1,3 +1,4 @@
+ /dev/loop
+ /dev/ram
+ /dev/mtdblock
++/dev/md
 -- 
 1.7.6.4
 
