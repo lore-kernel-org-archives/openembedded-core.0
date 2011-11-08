@@ -1,57 +1,37 @@
-Received: from ch1ehsobe002.messaging.microsoft.com ([216.32.181.182]
-	helo=ch1outboundpool.messaging.microsoft.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RNrmR-0004Ir-RP
-	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 20:56:24 +0100
-Received: from mail96-ch1-R.bigfish.com (10.43.68.245) by
-	CH1EHSOBE015.bigfish.com (10.43.70.65) with Microsoft SMTP Server id
-	14.1.225.22; Tue, 8 Nov 2011 19:49:43 +0000
-Received: from mail96-ch1 (localhost.localdomain [127.0.0.1])	by
-	mail96-ch1-R.bigfish.com (Postfix) with ESMTP id 74FBC578148	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue,  8 Nov 2011 19:49:55 +0000 (UTC)
-X-SpamScore: -12
-X-BigFish: VS-12(zz9371K1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
-	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail96-ch1 (localhost.localdomain [127.0.0.1]) by mail96-ch1
-	(MessageSwitch) id 1320781793331640_18271;
-	Tue,  8 Nov 2011 19:49:53 +0000 (UTC)
-Received: from CH1EHSMHS003.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.246])	by mail96-ch1.bigfish.com (Postfix) with ESMTP id
-	4560514D804F	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Nov 2011 19:49:53 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS003.bigfish.com
-	(10.43.70.3) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Tue, 8 Nov 2011 19:50:02 +0000
-Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.150]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.01.0339.002; Tue, 8 Nov 2011 13:50:02 -0600
-From: McClintock Matthew-B29882 <B29882@freescale.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RNsOe-0006M1-8y for openembedded-core@lists.openembedded.org;
+	Tue, 08 Nov 2011 21:35:52 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA8KTZC1005908;
+	Tue, 8 Nov 2011 20:29:35 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 05508-01; Tue,  8 Nov 2011 20:29:31 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA8KTPEK005894
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 8 Nov 2011 20:29:26 GMT
+Message-ID: <1320784166.10843.109.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] Introduce biarch DISTRO_FEATURE
-Thread-Index: AQHMk4RPSNNvOwcjRk+rCnxcs8KJIZWig6IAgAFZAYA=
-Date: Tue, 8 Nov 2011 19:50:01 +0000
-Message-ID: <CAEsOVNfcSiNnkJ3mL8ZOyDY1cbvfvbgsQ1tGj=QxfWoGtWKy4A@mail.gmail.com>
+Date: Tue, 08 Nov 2011 20:29:26 +0000
+In-Reply-To: <CAKZ=5EVjCrBdH2NBrVD_4UD52h6ZG=p6m-QS5L9K8xfpUcUr1g@mail.gmail.com>
 References: <1319505532-23199-1-git-send-email-julian.pidancet@gmail.com>
 	<CAEsOVNen8kUVPge_jZDq5LjhC7BAG0YKx=wxO+ZysNGAd_KwQg@mail.gmail.com>
 	<CAKZ=5EVjCrBdH2NBrVD_4UD52h6ZG=p6m-QS5L9K8xfpUcUr1g@mail.gmail.com>
-In-Reply-To: <CAKZ=5EVjCrBdH2NBrVD_4UD52h6ZG=p6m-QS5L9K8xfpUcUr1g@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
 Cc: McClintock Matthew-B29882 <B29882@freescale.com>
 Subject: Re: [PATCH] Introduce biarch DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -62,47 +42,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2011 19:56:24 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <9749B5E0AA465E49922D4E8A194A4D00@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 08 Nov 2011 20:35:52 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 7, 2011 at 5:14 PM, Julian Pidancet
-<julian.pidancet@gmail.com> wrote:
+On Mon, 2011-11-07 at 23:14 +0000, Julian Pidancet wrote:
+> On Wed, Oct 26, 2011 at 3:09 AM, McClintock Matthew-B29882
+> <B29882@freescale.com> wrote:
+> > On Mon, Oct 24, 2011 at 8:18 PM, Julian Pidancet
+> > <julian.pidancet@gmail.com> wrote:
+> >> This patch introduces a distro feature which enables gcc to produce
+> >> both 32bit and 64bit code, and enables binutils to operate on both
+> >> 32bit and 64bit binaries. It differs from multilib toolchains in
+> >> that it does not require to compile a version of the libc for each
+> >> architecture variant. However, the code produced for the secondary
+> >> architecture will not be linkable against the libc.
+> >>
+> >> This patch only works with x86 and x86_64 architectures, but can
+> >> probably be extended to support other architectures as well.
+> >>
+> >> One use-case would be when one wants to compile a system which runs
+> >> 32bit userspace applications with a 64bit kernel without having to
+> >> deal with two separate libc.
+> >
+> > What happens with the native gcc on the root file system. And what
+> > about meta-toolchain? Any effect?
+> >
+> 
 > Hi Matthew, sorry for the late answer.
->
+> 
 > I'm affraid I don't quite see what you mean by "the native gcc on the
 > root file system". Are you refering to the version of GCC present on
 > the build machine and built by OE ? Or are you refering instead about
 > a potential version of GCC running on the target ?
->
+> 
 > This patch should only make gcc-cross, and gcc running on the target
 > "biarch". It would also probably make sense to build a biarch GCC in
 > the meta-toolchain case.
-
-This is what I was referring too... cross gcc in /opt/poky/ that can
-build for multiple targets...
-
+> 
 > To be honest, I have not really considered the meta-toolchain case as
 > I've never used it before and not quite sure how it works.
-
-It just builds an installable tarball with the toolchain components
-and some other nativesdk components.
-
+> 
 > I can respin a patch to handle the meta-toolchain case. But in the
 > mean-time, it would be nice if I could get an opinion on wether this
 > "biarch" feature is a good idea or not, or, if not, maybe some
 > suggestions about how to address this specific 32bit/64bit use-case
 > differently.
 
-Can't really comment on your patch... but I know it would be nice to
-generate a cross gcc that supports more than just the target yocto is
-building for at the time. For instance, build support for all powerpc
-or all x86 targets poky could possibly build for when building
-meta-toolchain....
+I'm left wondering how useful the resulting compiler is to most users.
+In most cases a user would expect full libc support and hence this is
+likely to confuse them. I do appreciate people do have usecases for a
+compiler that can handle the other bit format though.
 
--M=
+I think my biggest worry is the "--enable-targets=all" option which may
+or may not enable things we might not want enabled. I've not had a
+chance to go and look at gcc and convince myself that piece is safe. The
+other pieces looked less worrying.
+
+Cheers,
+
+Richard
+
+
+
 
 
 
