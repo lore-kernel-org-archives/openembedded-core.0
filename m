@@ -1,23 +1,24 @@
 Received: from mail.gw90.de ([188.40.100.199])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RNtpm-0002nh-1o for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 23:07:58 +0100
+	id 1RNtw0-000338-4d for openembedded-core@lists.openembedded.org;
+	Tue, 08 Nov 2011 23:14:24 +0100
 Received: from f053044161.adsl.alicedsl.de ([78.53.44.161]
 	helo=[192.168.178.21])
 	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RNtjp-0001hy-Rj for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 22:01:50 +0000
-Message-ID: <1320789704.12955.12.camel@mattotaupa>
+	id 1RNtq4-0001j4-10 for openembedded-core@lists.openembedded.org;
+	Tue, 08 Nov 2011 22:08:16 +0000
+Message-ID: <1320790090.12955.16.camel@mattotaupa>
 From: Paul Menzel <paulepanter@users.sourceforge.net>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 08 Nov 2011 23:01:44 +0100
-In-Reply-To: <1320788033.10843.116.camel@ted>
-References: <1320788033.10843.116.camel@ted>
+Date: Tue, 08 Nov 2011 23:08:10 +0100
+In-Reply-To: <fb19df5b21e551c5dfdfa340438952560c5fa528.1320780004.git.sgw@linux.intel.com>
+References: <cover.1320780004.git.sgw@linux.intel.com>
+	<fb19df5b21e551c5dfdfa340438952560c5fa528.1320780004.git.sgw@linux.intel.com>
 X-Mailer: Evolution 3.0.3-2 
 Mime-Version: 1.0
-Subject: Re: [PATCH] Allow use of dash as /bin/sh
+Subject: Re: [CONSOLIDATED PULL 07/17] libarchive: update to 2.8.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,55 +33,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2011 22:07:58 -0000
-X-Groupsio-MsgNum: 12158
+X-List-Received-Date: Tue, 08 Nov 2011 22:14:24 -0000
+X-Groupsio-MsgNum: 12159
 Content-Type: multipart/signed; micalg="pgp-sha1";
 	protocol="application/pgp-signature"; 
-	boundary="=-QFpd28z1EOwBG7SUcr/N"
+	boundary="=-HTkbVs6HIxJ5TnmmLoBe"
 
---=-QFpd28z1EOwBG7SUcr/N
+--=-HTkbVs6HIxJ5TnmmLoBe
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Dear Richard,
+Dear Xiaofeng,
 
 
-Am Dienstag, den 08.11.2011, 21:33 +0000 schrieb Richard Purdie:
-> We've had the check for dash as /bin/sh for a long time. Dash has been
-> around long enough now that most major issues have been identified and
-> fixed from  build perspective.
+do I need to put people in CC?
+
+Am Dienstag, den 08.11.2011, 11:22 -0800 schrieb Saul Wold:
+> From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 >=20
-> This patch fixes a bashism in the openjade-native recipe. It also
-> adjusts libtool so that the header at the script is used and not the
-> value of $SHELL. This is because many Makefiles change $SHELL so dash
-> can get used to execute what is otherwise configured as a bash shell
-> script. Since we don't need to execute scipts this way on any system I'm
+> Remove patch "0003-Patch-from-upstream-rev-2516.patch" because it has bee=
+n merged
+> to source codes.
 
-sc*r*ipts
+Mentioning of the SRC_URI change would be also nice.
 
-> aware of us building upon, the simplest fix is just to remove $SHELL.
->=20
-> With these two changes the dash check can be removed and we can allow
-> builds with dash as /bin/sh
-
-Could also have been separate changes. But does not matter much.
-
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-Reviewed-by: Paul Menzel <paulepanter@users.sourceforge.net>
-
-> [Note: I know I need to add the description of the libtool change above
-> into the prefix.patch]
+> Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 > ---
+>  ...rchive_2.8.4.yocto.1.bb =3D> libarchive_2.8.5.bb} |    8 ++++----
+>  1 files changed, 4 insertions(+), 4 deletions(-)
+>  rename meta/recipes-extended/libarchive/{libarchive_2.8.4.yocto.1.bb =3D=
+> libarchive_2.8.5.bb} (76%)
+>=20
+> diff --git a/meta/recipes-extended/libarchive/libarchive_2.8.4.yocto.1.bb=
+ b/meta/recipes-extended/libarchive/libarchive_2.8.5.bb
+> similarity index 76%
+> rename from meta/recipes-extended/libarchive/libarchive_2.8.4.yocto.1.bb
+> rename to meta/recipes-extended/libarchive/libarchive_2.8.5.bb
+> index 94d261b..1bc49e2 100644
+> --- a/meta/recipes-extended/libarchive/libarchive_2.8.4.yocto.1.bb
+> +++ b/meta/recipes-extended/libarchive/libarchive_2.8.5.bb
+> @@ -9,19 +9,19 @@ DEPENDS =3D "libxml2"
+> =20
+>  # We need to repack the tarball due undistributable content on the upstr=
+eam one.
+>  # More details at http://code.google.com/p/libarchive/issues/detail?id=
+=3D162
+> -SRC_URI =3D "http://autobuilder.yoctoproject.org/sources/libarchive-${PV=
+}.tar.gz \
+> +SRC_URI =3D "http://libarchive.googlecode.com/files/libarchive-${PV}.tar=
+.gz \
 
-[=E2=80=A6]
+Reading the issues mentioned in the comment, I guess
+
+    I've just deleted them from libarchive/2.8 branch as well.
+
+means this landed in version 2.8.5? Please remove the comment then.
+
+>             file://0001-Patch-from-upstream-revision-1990.patch \
+>             file://0002-Patch-from-upstream-revision-1991.patch \
+> -           file://0003-Patch-from-upstream-rev-2516.patch \
+>             file://0004-Patch-from-upstream-rev-2514.patch \
+>             file://0005-Patch-from-upstream-rev-2520.patch \
+>             file://0006-Patch-from-upstream-rev-2521.patch \
+>             file://0007-Ignore-ENOSYS-error-when-setting-up-xattrs.-Close=
+s-5.patch \
+>             "
+> =20
+> -SRC_URI[md5sum] =3D "71242da5191f1218f13dd520d95a870e"
+> -SRC_URI[sha256sum] =3D "8cd55db11b1d6001ff8007e4d22b6f4a4bb215e70750e19a=
+b44b84b99ab76053"
+> +SRC_URI[md5sum] =3D "9caf51dcf6213e9c9f5a1c27448b9c90"
+> +SRC_URI[sha256sum] =3D "13993e0ffbd121ccda46ea226b1f8eac218de0fa8da7d8b1=
+f998093d5c32a72d"
+> =20
+>  inherit autotools lib_package
+> =20
+>  BBCLASSEXTEND =3D "nativesdk"
+> +
+
+No new line please.
 
 
 Thanks,
 
 Paul
 
---=-QFpd28z1EOwBG7SUcr/N
+--=-HTkbVs6HIxJ5TnmmLoBe
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
@@ -88,9 +126,9 @@ Content-Transfer-Encoding: 7bit
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.11 (GNU/Linux)
 
-iEYEABECAAYFAk65psgACgkQPX1aK2wOHVhJNQCdEWjezv0Uxud7h/3uiiUHAjeA
-iE8An1+/EA/H4+4ZcXHHr+soGpsakIEE
-=WNC8
+iEYEABECAAYFAk65qEoACgkQPX1aK2wOHVjt6wCfSnC8yM+7Z9AZNtZLySURCDu6
+7vEAoIT0U/OTMe8ybaxd/iE7xHXPtZVC
+=j9MO
 -----END PGP SIGNATURE-----
 
---=-QFpd28z1EOwBG7SUcr/N--
+--=-HTkbVs6HIxJ5TnmmLoBe--
