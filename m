@@ -1,25 +1,25 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RNjct-0007cC-9P
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RNjcv-0007cK-Nr
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 12:13:59 +0100
+	Tue, 08 Nov 2011 12:14:03 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pA8B7i1X014912
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pA8B7l82014916
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 Nov 2011 03:07:44 -0800 (PST)
+	Tue, 8 Nov 2011 03:07:47 -0800 (PST)
 Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Tue, 8 Nov 2011 03:07:44 -0800
-Message-ID: <e17895a6d5a92837d76cf88493479ec341b63c01.1320750179.git.xiaofeng.yan@windriver.com>
+	Tue, 8 Nov 2011 03:07:46 -0800
+Message-ID: <9d9675eee33b1f77242db3ecd556c82470696f61.1320750179.git.xiaofeng.yan@windriver.com>
 In-Reply-To: <cover.1320750179.git.xiaofeng.yan@windriver.com>
 References: <cover.1320750179.git.xiaofeng.yan@windriver.com>
-Old-Date: Tue, 8 Nov 2011 18:29:02 +0800
-Date: Tue, 8 Nov 2011 19:15:45 +0800
+Old-Date: Tue, 8 Nov 2011 18:35:14 +0800
+Date: Tue, 8 Nov 2011 19:15:48 +0800
 To: <openembedded-core@lists.openembedded.org>
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/7] qemu-config.bb: Fix bug 1674
+Subject: [PATCH 2/7] gtk+: Fix bug 1674
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,41 +34,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2011 11:13:59 -0000
+X-List-Received-Date: Tue, 08 Nov 2011 11:14:03 -0000
 Content-Type: text/plain
 
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
 [YOCTO #1674]
-qemu-config.bb: An image without x11 doesn't need dbus-x11
-"gtk over directfb" don't depend on x11, so remove x11 here when compiling gtk+-directfb.
+Image "gtk+ over directfb" doesn't need "x11".
+So I add "directfb" on configuration and gtk-demo to image for check \
+whether image based on gtk+-directfb work successfully.
 
 Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 ---
- meta/recipes-bsp/qemu-config/qemu-config.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-gnome/gtk+/gtk+.inc       |   18 ++++++++++++++----
+ meta/recipes-gnome/gtk+/gtk+_2.24.6.bb |   17 ++++++++++++-----
+ 2 files changed, 26 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-bsp/qemu-config/qemu-config.bb b/meta/recipes-bsp/qemu-config/qemu-config.bb
-index ebf957a..deaf3a5 100644
---- a/meta/recipes-bsp/qemu-config/qemu-config.bb
-+++ b/meta/recipes-bsp/qemu-config/qemu-config.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa
+diff --git a/meta/recipes-gnome/gtk+/gtk+.inc b/meta/recipes-gnome/gtk+/gtk+.inc
+index 0e5c45c..6ec5906 100644
+--- a/meta/recipes-gnome/gtk+/gtk+.inc
++++ b/meta/recipes-gnome/gtk+/gtk+.inc
+@@ -9,13 +9,18 @@ LICENSE = "LGPLv2 & LGPLv2+ & LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
  
- COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemumips|qemuppc)"
+ SECTION = "libs"
+-DEPENDS = "glib-2.0 pango atk jpeg libpng libxext libxcursor \
+-           gtk-doc-native docbook-utils-native libxrandr libgcrypt \
+-           libxdamage libxrender libxcomposite cairo gdk-pixbuf"
++X11DEPENDS = "virtual/libx11 libxext libxcursor libxrandr libxdamage libxrender libxcomposite"
++DIRECTFBDEPENDS = "directfb"
++
++DEPENDS = "glib-2.0 pango atk jpeg libpng gtk-doc-native gdk-pixbuf-native docbook-utils-native \
++           libgcrypt cairo gdk-pixbuf \
++           ${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)} \
++           ${@base_contains('DISTRO_FEATURES', 'directfb', '${DIRECTFBDEPENDS}', '', d)}"
++
  
--PR = "r22"
-+PR = "r23"
+ inherit autotools pkgconfig
  
- SRC_URI = "file://distcc.sh \
-            file://anjuta-remote-run \
-@@ -37,7 +37,7 @@ pkg_postinst_${PN} () {
-         sed -i $D${datadir}/applications/shutdown.desktop -e 's/^Exec=halt/Exec=reboot/'
- }
+-PACKAGES += "libgail"
++PACKAGES += "libgail gtk+-demo"
  
--RDEPENDS_${PN} = "distcc dbus-x11 task-core-nfs-server oprofileui-server rsync bash"
-+RDEPENDS_${PN} = "distcc ${@base_contains('DISTRO_FEATURES', 'x11', 'dbus-x11', '', d)}  task-core-nfs-server oprofileui-server rsync bash"
+ FILES_${PN} = "${bindir}/gtk-update-icon-cache \
+ 	${bindir}/gtk-query-immodules-2.0 \
+@@ -40,6 +45,11 @@ FILES_${PN}-dbg += " \
+ 	${libdir}/gtk-2.0/${LIBV}/engines/.debug/* \
+ 	${libdir}/gtk-2.0/${LIBV}/printbackends/.debug/*"
  
- inherit update-rc.d allarch
++FILES_gtk+-demo = " \
++        ${datadir}/gtk-2.0/demo/* \
++        ${bindir}/gtk-demo \
++        "
++
+ FILES_libgail = " \
+ 	${libdir}/gtk-2.0/modules/libgail.so \
+ 	${libdir}/gtk-2.0/modules/libferret.so \
+diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.6.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.6.bb
+index 01f4a11..5a9dc5e 100644
+--- a/meta/recipes-gnome/gtk+/gtk+_2.24.6.bb
++++ b/meta/recipes-gnome/gtk+/gtk+_2.24.6.bb
+@@ -8,7 +8,6 @@ SRC_URI = "http://download.gnome.org/sources/gtk+/2.24/gtk+-${PV}.tar.bz2 \
+            file://xsettings.patch \
+            file://run-iconcache.patch \
+            file://hardcoded_libtool.patch \
+-           file://no-demos.patch \
+            file://cellrenderer-cairo.patch;striplevel=0 \
+            file://toggle-font.diff;striplevel=0 \
+            file://0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch \
+@@ -25,13 +24,21 @@ SRC_URI = "http://download.gnome.org/sources/gtk+/2.24/gtk+-${PV}.tar.bz2 \
+ #           file://menu-deactivate.patch
+ #        file://combo-arrow-size.patch;striplevel=0
+ #            file://configurefix.patch
++#           file://no-demos.patch 
+ 
+-PR = "r1"
++PR = "r2"
+ 
+-SRC_URI[md5sum] = "421100f6597e613234f8dead6091a9fe"
+-SRC_URI[sha256sum] = "6f45bdbf9ea27eb3b5f977d7ee2365dede0d0ce454985680c26e5210163bbf37"
++SRC_URI[md5sum] = "4e977cb6a4530e9d4fe54d6ba70831c4"
++SRC_URI[sha256sum] = "9aade52339dca563780bca5c83b0fb02284393221bda4f55cb9ec7eae1661a1d"
++
++CONF_directfb=" --with-x=no --with-gdktarget=directfb"
++CONF_xorg=" --with-x=yes --with-gdktarget=x11"
++
++EXTRA_OECONF = "${@base_contains('DISTRO_FEATURES', 'directfb', \
++ '${CONF_directfb}', '${CONF_xorg}', d)} \
++ --without-libtiff --without-libjasper --enable-xkb \
++ --disable-glibtest --disable-cups --disable-xinerama"
+ 
+-EXTRA_OECONF = "--without-libtiff --without-libjasper --enable-xkb --disable-glibtest --disable-cups --disable-xinerama"
+ 
+ LIBV = "2.10.0"
  
 -- 
 1.7.0.4
