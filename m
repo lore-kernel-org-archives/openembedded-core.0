@@ -1,28 +1,26 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RNoff-0003O2-BO
+	(envelope-from <josh@linux.intel.com>) id 1RNokA-0003XW-2v
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 17:37:11 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 08 Nov 2011 08:30:55 -0800
+	Tue, 08 Nov 2011 17:41:50 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 08 Nov 2011 08:35:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="72345454"
+X-IronPort-AV: E=Sophos;i="4.69,477,1315206000"; d="scan'208";a="71890070"
 Received: from unknown (HELO [10.255.12.16]) ([10.255.12.16])
-	by orsmga002.jf.intel.com with ESMTP; 08 Nov 2011 08:30:49 -0800
-Message-ID: <4EB95939.40303@linux.intel.com>
-Date: Tue, 08 Nov 2011 08:30:49 -0800
+	by azsmga001.ch.intel.com with ESMTP; 08 Nov 2011 08:35:34 -0800
+Message-ID: <4EB95A56.4010805@linux.intel.com>
+Date: Tue, 08 Nov 2011 08:35:34 -0800
 From: Joshua Lock <josh@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:7.0.1) Gecko/20110930 Thunderbird/7.0.1
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
 References: <cover.1320709417.git.josh@linux.intel.com>
-	<484f22280e380ecdf10dc1bd6b89f69c37be1f68.1320709417.git.josh@linux.intel.com>
-	<4EB9546A.7070507@linux.intel.com>
-In-Reply-To: <4EB9546A.7070507@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 03/12] clutter-gst-1.8: add 1.4.2 for use with clutter 1.8
+	<bf140b91851fdaf45e2069923bad02f92ac3f2e7.1320709417.git.josh@linux.intel.com>
+	<1320761139.10843.35.camel@ted>
+In-Reply-To: <1320761139.10843.35.camel@ted>
+Subject: Re: [PATCH 06/12] classes/[gnome|gnomebase|mime]: merge meta-oe's enhance gnome related classes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,94 +35,197 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2011 16:37:11 -0000
+X-List-Received-Date: Tue, 08 Nov 2011 16:41:50 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-
-
-On 08/11/11 08:10, Saul Wold wrote:
-> On 11/07/2011 04:10 PM, Joshua Lock wrote:
->> Signed-off-by: Joshua Lock<josh@linux.intel.com>
+On 08/11/11 06:05, Richard Purdie wrote:
+> On Mon, 2011-11-07 at 16:10 -0800, Joshua Lock wrote:
+>> This patch pulls in the gnome related classes from meta-openembedded which
+>> adds extra packaging rules and functionality whilst modularising things
+>> so that one can get a subset of the gnome classes functionality without adding
+>> all of the extra dependencies.
+>>
+>> Signed-off-by: Joshua Lock <josh@linux.intel.com>
 >> ---
->>   .../clutter/clutter-gst-1.8_1.4.2.bb               |   22
->> ++++++++++++++++++++
->>   .../clutter/clutter-gst/enable_tests-1.8.bb        |   15 +++++++++++++
->>   2 files changed, 37 insertions(+), 0 deletions(-)
->>   create mode 100644
->> meta/recipes-graphics/clutter/clutter-gst-1.8_1.4.2.bb
->>   create mode 100644
->> meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.8.bb
->>
->> diff --git a/meta/recipes-graphics/clutter/clutter-gst-1.8_1.4.2.bb
->> b/meta/recipes-graphics/clutter/clutter-gst-1.8_1.4.2.bb
+>>  meta/classes/gnome-base.bbclass |   15 ++++++++++
+>>  meta/classes/gnome.bbclass      |   19 ++-----------
+>>  meta/classes/gnomebase.bbclass  |   32 ++++++++++++++++++++++
+>>  meta/classes/mime.bbclass       |   56 +++++++++++++++++++++++++++++++++++++++
+>>  4 files changed, 106 insertions(+), 16 deletions(-)
+>>  create mode 100644 meta/classes/gnome-base.bbclass
+>>  create mode 100644 meta/classes/gnomebase.bbclass
+> 
+> Couldn't we have better names for these? What is the difference betweem
+> gnome base and gnomebase?
+
+Oh, whoops - gnome-base is the class I wrote to facilitate the GConf
+recipe before realising/recalling that meta-oe probably had something
+similar. gnome-base is redundant here. Apologies for the noise.
+
+>> diff --git a/meta/classes/gnome.bbclass b/meta/classes/gnome.bbclass
+>> index 3d68b12..0a32a77 100644
+>> --- a/meta/classes/gnome.bbclass
+>> +++ b/meta/classes/gnome.bbclass
+>> @@ -1,17 +1,4 @@
+>> -def gnome_verdir(v):
+>> -	import re
+>> -	m = re.match("^([0-9]+)\.([0-9]+)", v)
+>> -	return "%s.%s" % (m.group(1), m.group(2))
+>> +inherit gnomebase gtk-icon-cache gconf mime
+>>  
+>> -SECTION ?= "x11/gnome"
+>> -SRC_URI = "${GNOME_MIRROR}/${BPN}/${@gnome_verdir("${PV}")}/${BPN}-${PV}.tar.bz2;name=archive"
+>> -
+>> -DEPENDS += "gnome-common"
+>> -
+>> -FILES_${PN} += "${datadir}/application-registry \
+>> -    ${datadir}/mime-info \
+>> -    ${datadir}/gnome-2.0"
+>> -
+>> -inherit autotools pkgconfig gconf
+>> -
+>> -EXTRA_OEMAKE += "GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1"
+>> +EXTRA_OECONF += "--enable-introspection=no"
+>> +BBCLASSEXTEND += "native"
+> 
+> Do we really need to BBCLASSEXTEND every gnome recipe?
+
+Probably not.
+
+> 
+>> diff --git a/meta/classes/gnomebase.bbclass b/meta/classes/gnomebase.bbclass
 >> new file mode 100644
->> index 0000000..54b1fc1
+>> index 0000000..5a332a0
 >> --- /dev/null
->> +++ b/meta/recipes-graphics/clutter/clutter-gst-1.8_1.4.2.bb
->> @@ -0,0 +1,22 @@
->> +require recipes-graphics/clutter/clutter-gst.inc
+>> +++ b/meta/classes/gnomebase.bbclass
+>> @@ -0,0 +1,32 @@
+>> +def gnome_verdir(v):
+>> +	import re
+>> +	m = re.match("^([0-9]+)\.([0-9]+)", v)
+>> +	return "%s.%s" % (m.group(1), m.group(2))
 >> +
->> +PR = "r0"
+>> +SECTION ?= "x11/gnome"
+>> +SRC_URI = "${GNOME_MIRROR}/${BPN}/${@gnome_verdir("${PV}")}/${BPN}-${PV}.tar.bz2;name=archive"
 >> +
->> +LIC_FILES_CHKSUM =
->> "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
->> +                   
->> file://clutter-gst/clutter-gst.h;beginline=1;endline=24;md5=95baacba194e814c110ea3bdf25ddbf4"
->>
+>> +DEPENDS += "gnome-common"
 >> +
->> +DEPENDS += "clutter-1.8 gstreamer"
->> +RDEPENDS_${PN} += "gst-meta-base"
+>> +FILES_${PN} += "${datadir}/application-registry  \
+>> +	${datadir}/mime-info \
+>> +	${datadir}/mime/packages \	
+>> +	${datadir}/mime/application \
+>> +	${datadir}/gnome-2.0 \
+>> +	${datadir}/polkit* \
+>> +	${datadir}/GConf \
+>> +	${datadir}/glib-2.0/schemas \
+>> +"
 >> +
->> +SRC_URI =
->> "http://source.clutter-project.org/sources/clutter-gst/1.4/clutter-gst-${PV}.tar.bz2
->> \
->> +           file://enable_tests-1.8.patch"
+>> +FILES_${PN}-doc += "${datadir}/devhelp"
 >> +
-> We seem to be missing the enable_tests-1.8.patch file
-
-It's further down this email, and in master:
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=65ce67a64ea0494e388b7f53275c70df71d06a6b
-
-Joshua
-
-> Sau!
+>> +inherit autotools pkgconfig
+>> +
+>> +AUTOTOOLS_STAGE_PKGCONFIG = "1"
 > 
+> That variable is long dead, please don't bring it back :)
+
+*whistles*
+
 > 
->> +S = "${WORKDIR}/clutter-gst-${PV}"
 >> +
->> +SRC_URI[md5sum] = "fd6b2a54f43d04382748e9e4d8a335c5"
->> +SRC_URI[sha256sum] =
->> "b0e7ff76ee14307b6d26856972ec9e718f62aec2bc8807fb3f2960e508e578b5"
->> +
->> +do_configure_prepend () {
->> +       # Disable DOLT
->> +       sed -i -e 's/^DOLT//' ${S}/configure.ac
+>> +do_install_append() {
+>> +	rm -rf ${D}${localstatedir}/lib/scrollkeeper/*
+>> +	rm -rf ${D}${localstatedir}/scrollkeeper/*
+>> +	rm -f ${D}${datadir}/applications/*.cache
 >> +}
->> diff --git
->> a/meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.8.bb
->> b/meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.8.bb
+>> +
+>> diff --git a/meta/classes/mime.bbclass b/meta/classes/mime.bbclass
 >> new file mode 100644
->> index 0000000..35e60ca
+>> index 0000000..b9cdd7b
 >> --- /dev/null
->> +++ b/meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.8.bb
->> @@ -0,0 +1,15 @@
->> +Install example binary needed for poky-image-clutter
+>> +++ b/meta/classes/mime.bbclass
+>> @@ -0,0 +1,56 @@
+>> +DEPENDS += "shared-mime-info-native shared-mime-info"
 >> +
->> +Signed-off-by: Zhai Edwin<edwin.zhai@intel.com>
->> +Index: clutter-gst-1.3.8/examples/Makefile.am
->> +===================================================================
->> +--- clutter-gst-1.3.8.orig/examples/Makefile.am
->> ++++ clutter-gst-1.3.8/examples/Makefile.am
->> +@@ -1,6 +1,6 @@
->> + NULL = #
->> +
->> +-noinst_PROGRAMS = video-player video-sink video-sink-navigation
->> ++bin_PROGRAMS = video-player video-sink video-sink-navigation
->> +
->> + INCLUDES = -I$(top_srcdir) \
->> +        $(MAINTAINER_CFLAGS) \
+>> +mime_postinst() {
+>> +if [ "$1" = configure ]; then
+>> +	if [ -x ${bindir}/update-mime-database ] ; then
+> 
+> This is wrong, it will use update-mime-database from the build system.
+> We should really use which to see if its available from the environment
+> and use PATH to resolve it.
 
+Will do.
+
+> 
+>> +		echo "Updating MIME database... this may take a while."
+>> +		update-mime-database $D${datadir}/mime
+> 
+> This however is using $D correctly making the above error all the more
+> bizarre! 
+> 
+>> +	else
+>> +		echo "Missing ${bindir}/update-mime-database, update of mime database failed!"
+>> +		exit 1
+>> +	fi
+>> +fi
+>> +}
+>> +
+>> +mime_postrm() {
+>> +if [ "$1" = remove ] || [ "$1" = upgrade ]; then
+>> +	if [ -x ${bindir}/update-mime-database ] ; then
+> 
+> ditto.
+> 
+>> +		echo "Updating MIME database... this may take a while."
+>> +		update-mime-database $D${datadir}/mime
+>> +	else
+>> +		echo "Missing ${bindir}/update-mime-database, update of mime database failed!"
+>> +		exit 1
+>> +	fi
+>> +fi
+>> +}
+>> +
+>> +python ppopulate_packages_append () {
+>> +	import os.path, re
+>> +	packages = bb.data.getVar('PACKAGES', d, 1).split()
+>> +	pkgdest =  bb.data.getVar('PKGDEST', d, 1)
+>> +	
+>> +	for pkg in packages:
+>> +		mime_dir = '%s/%s/usr/share/mime/packages' % (pkgdest, pkg)
+>> +		mimes = []
+>> +		mime_re = re.compile(".*\.xml$")
+>> +		if os.path.exists(mime_dir):
+>> +			for f in os.listdir(mime_dir):
+>> +				if mime_re.match(f):
+>> +					mimes.append(f)
+>> +		if mimes != []:
+>> +			bb.note("adding mime postinst and postrm scripts to %s" % pkg)
+>> +			postinst = bb.data.getVar('pkg_postinst_%s' % pkg, d, 1) or bb.data.getVar('pkg_postinst', d, 1)
+>> +			if not postinst:
+>> +				postinst = '#!/bin/sh\n'
+>> +			postinst += bb.data.getVar('mime_postinst', d, 1)
+>> +			bb.data.setVar('pkg_postinst_%s' % pkg, postinst, d)
+>> +			postrm = bb.data.getVar('pkg_postrm_%s' % pkg, d, 1) or bb.data.getVar('pkg_postrm', d, 1)
+>> +			if not postrm:
+>> +				postrm = '#!/bin/sh\n'
+>> +			postrm += bb.data.getVar('mime_postrm', d, 1)
+>> +			bb.data.setVar('pkg_postrm_%s' % pkg, postrm, d)
+>> +			bb.note("adding freedesktop-mime-info dependency to %s" % pkg)
+>> +			rdepends = explode_deps(bb.data.getVar('RDEPENDS_' + pkg, d, 0) or bb.data.getVar('RDEPENDS', d, 0) or "")
+>> +			rdepends.append("freedesktop-mime-info")
+>> +			bb.data.setVar('RDEPENDS_' + pkg, " " + " ".join(rdepends), d)
+>> +}
+> 
+> We don't have freedesktop-mime-info do we? Shouldn't this also check
+> DEPENDS and error out if it wasn't in DEPENDS else rootfs construction
+> will fail.
+> 
+
+Hmm, definitely needs more investigation. I'll spin a v2 with your
+comments addressed, thanks for the review.
+
+Cheers,
+Joshua
 -- 
 Joshua Lock
         Yocto Project "Johannes factotum"
