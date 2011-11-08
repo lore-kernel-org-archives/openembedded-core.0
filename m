@@ -1,28 +1,25 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RNkEm-0001kg-NV
+	(envelope-from <philb@gnu.org>) id 1RNkKD-0001t3-Sm
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 12:53:08 +0100
-Received: by eyd9 with SMTP id 9so219945eyd.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Nov 2011 03:46:54 -0800 (PST)
-Received: by 10.181.13.166 with SMTP id ez6mr12308419wid.13.1320752812354;
-	Tue, 08 Nov 2011 03:46:52 -0800 (PST)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id db1sm679413wib.19.2011.11.08.03.46.51
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 08 Nov 2011 03:46:51 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Tue, 8 Nov 2011 12:46:50 +0100
-In-Reply-To: <cover.1320750179.git.xiaofeng.yan@windriver.com>
+	Tue, 08 Nov 2011 12:58:45 +0100
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RNkED-0007J1-UB
+	for openembedded-core@lists.openembedded.org;
+	Tue, 08 Nov 2011 12:52:34 +0100
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+Date: Tue, 08 Nov 2011 11:52:05 +0000
+In-Reply-To: <a3bc0652da3fe9a2e90444030b4a364871c47549.1320750179.git.xiaofeng.yan@windriver.com>
 References: <cover.1320750179.git.xiaofeng.yan@windriver.com>
-Message-Id: <4FB7876F-7675-458C-BECE-93F8C62F11F7@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH 0/7] gtk+ over directfb: Fix bug 1674
+	<a3bc0652da3fe9a2e90444030b4a364871c47549.1320750179.git.xiaofeng.yan@windriver.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1320753153.22985.699.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [PATCH 3/7] cairo: Fix bug 1674
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,67 +34,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2011 11:53:08 -0000
-X-Groupsio-MsgNum: 12079
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_B4F9DF31-0FB1-46E1-8460-18AE5FC7BF1B";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_B4F9DF31-0FB1-46E1-8460-18AE5FC7BF1B
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-Op 8 nov. 2011, om 12:15 heeft Xiaofeng Yan het volgende geschreven:
-
-> From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
->=20
-> Image "gtk+ over directfb" without x11 depends on gtk+ and directfb. =
-Someone can develop software based on directfb or gtk+ without x11 in =
-their project.=20
-> So I added and modified some recipes for getting this image.
->=20
-> Pull URL: git://git.pokylinux.org/poky-contrib.git
->  Branch: xiaofeng/gtk+-directfb
->  Browse: =
-http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dxiaofeng/gtk+-dire=
-ctfb
->=20
-> Thanks,
->    Xiaofeng Yan <xiaofeng.yan@windriver.com>
-> ---
->=20
->=20
-> Xiaofeng Yan (7):
->  qemu-config.bb: Fix bug 1674
->  gtk+: Fix bug 1674
->  cairo: Fix bug 1674
->  directfb-examples: Fix bug 1674
->  core-image-gtk-directfb-sdk: Fix bug 1674
->  core-image-gtk-directfb: Fix bug 1674
->  pango: Fix bug 1674
-
-Please use a more descriptive summary for the commit message, people =
-looking at 'git shortlog' would appreciate that very much.
-
-regards,
-
-Koen=
-
---Apple-Mail=_B4F9DF31-0FB1-46E1-8460-18AE5FC7BF1B
+X-List-Received-Date: Tue, 08 Nov 2011 11:58:46 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
+On Tue, 2011-11-08 at 19:15 +0800, Xiaofeng Yan wrote:
+>  #check for TARGET_FPU=soft and inform configure of the result so it can disable some floating points 
+>  require cairo-fpu.inc
+> +CONF_directfb="--with-x=no --enable-xcb=no --enable-directfb=yes"
+> +CONF_xorg="--with-x=yes --enable-xcb=no --enable-directfb=no"
+> +
+>  EXTRA_OECONF += "${@get_cairo_fpu_setting(bb, d)} ${@base_contains('DISTRO_FEATURES', 'x11', '--with-x', '--without-x', d)}"
+> +EXTRA_OECONF += " ${@base_contains('DISTRO_FEATURES', 'directfb', '${CONF_directfb}', '${CONF_xorg}', d)}"
 
-iEYEARECAAYFAk65FqoACgkQMkyGM64RGpE9twCeJ5V/tTW1Eci7WsH/wxiq8ibL
-aB8AoIbWFkoikbZ9BQPxuDr+dyoqe9vK
-=HpOq
------END PGP SIGNATURE-----
+I don't think this can be correct.  That will force X11 on for anybody
+who isn't using DirectFB, right?  I think you need to preserve the
+previous semantics for building without X.
 
---Apple-Mail=_B4F9DF31-0FB1-46E1-8460-18AE5FC7BF1B--
+p.
+
+
+
+
