@@ -1,27 +1,26 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1RNoAV-0005K4-ID
+	(envelope-from <sgw@linux.intel.com>) id 1RNoLi-0006Av-Q9
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 17:04:59 +0100
-Received: from mail-gx0-f180.google.com ([209.85.161.180])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 08 Nov 2011 07:57:39 -0800
-Received: by ggnv5 with SMTP id v5so1201497ggn.25
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Nov 2011 07:57:39 -0800 (PST)
+	Tue, 08 Nov 2011 17:16:35 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 08 Nov 2011 08:10:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,477,1315206000"; d="scan'208";a="34515087"
+Received: from unknown (HELO [10.255.12.14]) ([10.255.12.14])
+	by AZSMGA002.ch.intel.com with ESMTP; 08 Nov 2011 08:10:19 -0800
+Message-ID: <4EB9546A.7070507@linux.intel.com>
+Date: Tue, 08 Nov 2011 08:10:18 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
-Received: by 10.50.197.167 with SMTP id iv7mr50316152igc.46.1320767858906;
-	Tue, 08 Nov 2011 07:57:38 -0800 (PST)
-Received: by 10.50.40.194 with HTTP; Tue, 8 Nov 2011 07:57:38 -0800 (PST)
-In-Reply-To: <4EB9507C.8060507@hale.at>
-References: <cover.1320190748.git.elizabeth.flanagan@intel.com>
-	<4EB90155.3070705@hale.at> <1320761558.10843.39.camel@ted>
-	<4EB9507C.8060507@hale.at>
-Date: Tue, 8 Nov 2011 07:57:38 -0800
-Message-ID: <CAPhnLPACHNsFC6rx1uNOcLKgn68D6qeTYcN=VGns+eRAEqKstw@mail.gmail.com>
-From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/1] [Yocto Bug 1700] Fix for buildstats diskio on non physical disks
+References: <cover.1320709417.git.josh@linux.intel.com>
+	<484f22280e380ecdf10dc1bd6b89f69c37be1f68.1320709417.git.josh@linux.intel.com>
+In-Reply-To: <484f22280e380ecdf10dc1bd6b89f69c37be1f68.1320709417.git.josh@linux.intel.com>
+Subject: Re: [PATCH 03/12] clutter-gst-1.8: add 1.4.2 for use with clutter 1.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,74 +35,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2011 16:04:59 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 08 Nov 2011 16:16:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 8, 2011 at 7:53 AM, Wolfram Stering <wolfram.stering@hale.at> w=
-rote:
-> On 11/08/2011 03:12 PM, Richard Purdie wrote:
->> On Tue, 2011-11-08 at 11:15 +0100, Wolfram Stering wrote:
->>> On 11/02/2011 07:41 AM, Beth Flanagan wrote:
->>>> From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
->>>>
->>>> tmpfs/encryptfs/ramfs have no entry in /proc/diskstats. This modifies
->>>> buildstats to not collect diskio statistics when we encounter a case w=
-here
->>>> the os.major/os.minor is not represented with an entry in /proc/diskst=
-ats.
->>> A similar issue exists for building on a btrfs partition.
->>> I posted a message on Oct 28 concerning buildstats on btrfs volumes.
->>> The problem there is, that btrfs's stat() reports fake device ids that
->>> cannot be found in /proc/diskstats.
->> Did this patch help address that problem for you too?
+On 11/07/2011 04:10 PM, Joshua Lock wrote:
+> Signed-off-by: Joshua Lock<josh@linux.intel.com>
+> ---
+>   .../clutter/clutter-gst-1.8_1.4.2.bb               |   22 ++++++++++++++++++++
+>   .../clutter/clutter-gst/enable_tests-1.8.bb        |   15 +++++++++++++
+>   2 files changed, 37 insertions(+), 0 deletions(-)
+>   create mode 100644 meta/recipes-graphics/clutter/clutter-gst-1.8_1.4.2.bb
+>   create mode 100644 meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.8.bb
 >
-> I'll be able to check that tomorrow and report back.
+> diff --git a/meta/recipes-graphics/clutter/clutter-gst-1.8_1.4.2.bb b/meta/recipes-graphics/clutter/clutter-gst-1.8_1.4.2.bb
+> new file mode 100644
+> index 0000000..54b1fc1
+> --- /dev/null
+> +++ b/meta/recipes-graphics/clutter/clutter-gst-1.8_1.4.2.bb
+> @@ -0,0 +1,22 @@
+> +require recipes-graphics/clutter/clutter-gst.inc
+> +
+> +PR = "r0"
+> +
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
+> +                    file://clutter-gst/clutter-gst.h;beginline=1;endline=24;md5=95baacba194e814c110ea3bdf25ddbf4"
+> +
+> +DEPENDS += "clutter-1.8 gstreamer"
+> +RDEPENDS_${PN} += "gst-meta-base"
+> +
+> +SRC_URI = "http://source.clutter-project.org/sources/clutter-gst/1.4/clutter-gst-${PV}.tar.bz2 \
+> +           file://enable_tests-1.8.patch"
+> +
+We seem to be missing the enable_tests-1.8.patch file
 
-It should as the patch will just disable diskio collection if it
-cannot find a valid device id in /proc/diskstats. Let me know if it
-doesn't and I'll rework it and resubmit.
-
--b
-
->
-> regards,
->
-> - wolfi
->
->> Cheers,
->>
->> Richard
->
->
->
-> --
-> Wolfram Stering
-> =A0(Entwicklung)
-> HALE electronic GmbH
-> Eugen-M=FCller-Stra=DFe 18, 5020 Salzburg, Austria
-> =A0Tel: +43 (662) 439011 550
-> =A0Fax: +43 (662) 439011 9
-> http://www.hale.at/
-> Firmenbuchnummer: FN 66801m HG Salzburg
->
->
->
-> --
-> Scanned by MailScanner.
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Sau!
 
 
-
---=20
-Elizabeth Flanagan
-Yocto Project
-Build and Release
+> +S = "${WORKDIR}/clutter-gst-${PV}"
+> +
+> +SRC_URI[md5sum] = "fd6b2a54f43d04382748e9e4d8a335c5"
+> +SRC_URI[sha256sum] = "b0e7ff76ee14307b6d26856972ec9e718f62aec2bc8807fb3f2960e508e578b5"
+> +
+> +do_configure_prepend () {
+> +       # Disable DOLT
+> +       sed -i -e 's/^DOLT//' ${S}/configure.ac
+> +}
+> diff --git a/meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.8.bb b/meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.8.bb
+> new file mode 100644
+> index 0000000..35e60ca
+> --- /dev/null
+> +++ b/meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.8.bb
+> @@ -0,0 +1,15 @@
+> +Install example binary needed for poky-image-clutter
+> +
+> +Signed-off-by: Zhai Edwin<edwin.zhai@intel.com>
+> +Index: clutter-gst-1.3.8/examples/Makefile.am
+> +===================================================================
+> +--- clutter-gst-1.3.8.orig/examples/Makefile.am
+> ++++ clutter-gst-1.3.8/examples/Makefile.am
+> +@@ -1,6 +1,6 @@
+> + NULL = #
+> +
+> +-noinst_PROGRAMS = video-player video-sink video-sink-navigation
+> ++bin_PROGRAMS = video-player video-sink video-sink-navigation
+> +
+> + INCLUDES = -I$(top_srcdir) \
+> + 	   $(MAINTAINER_CFLAGS) \
 
 
