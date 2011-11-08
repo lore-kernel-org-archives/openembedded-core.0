@@ -1,36 +1,30 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RNnwW-0003oz-2Q
+	(envelope-from <koen@dominion.thruhere.net>) id 1RNnxN-0003vv-GQ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 16:50:32 +0100
-Received: by faat2 with SMTP id t2so670123faa.6
+	Tue, 08 Nov 2011 16:51:25 +0100
+Received: by wyh5 with SMTP id 5so639074wyh.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Nov 2011 07:44:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=T6OLi4yQaHwNR1g6AxE7XjjZ5QCnpnlP0tYIHkAA1BM=;
-	b=d5XyPF9Kqh7Cclr6Kr84o5OmRwSeVrRtOkg5G3LetGYj4CdDcqEyv3rF7bQT52G5bJ
-	ROs65KTFxC4lJ3F260wYUe0zLF7eg0fQlifT5hH9mp+RfyrNsfI7a2O36XXFJWgmKduh
-	OD/jctFKoT/QEzEtLspW62/SeCb80MojKlo5Q=
-Received: by 10.223.76.197 with SMTP id d5mr55920075fak.13.1320767052912;
-	Tue, 08 Nov 2011 07:44:12 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id d3sm2582199fad.2.2011.11.08.07.44.11
+	Tue, 08 Nov 2011 07:45:11 -0800 (PST)
+Received: by 10.180.107.97 with SMTP id hb1mr13903165wib.18.1320767110903;
+	Tue, 08 Nov 2011 07:45:10 -0800 (PST)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id hn15sm1078504wib.22.2011.11.08.07.45.09
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 08 Nov 2011 07:44:12 -0800 (PST)
-Date: Tue, 8 Nov 2011 16:44:10 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Message-ID: <20111108154410.GE3641@jama.jama.net>
+	Tue, 08 Nov 2011 07:45:09 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <4EB94C93.1080100@linux.intel.com>
+Date: Tue, 8 Nov 2011 16:45:07 +0100
+Message-Id: <E6229E4A-95BA-4B21-BDCF-7CD59D50D8AF@dominion.thruhere.net>
 References: <66b436c4cba411e56445c32a98e0f5e160ab13a8.1320675529.git.Martin.Jansa@gmail.com>
 	<ea69345b97a6115caa6b77782f2fd58dd9eb2507.1320675529.git.Martin.Jansa@gmail.com>
 	<4EB94C93.1080100@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <4EB94C93.1080100@linux.intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1251.1)
+Cc: Martin Jansa <martin.jansa@gmail.com>
 Subject: Re: [oe-core 2/6] kbd: import from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -46,76 +40,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2011 15:50:32 -0000
-X-Groupsio-MsgNum: 12102
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="FEz7ebHBGB6b2e8X"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 08 Nov 2011 15:51:25 -0000
+X-Groupsio-MsgNum: 12103
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_1ABE1E51-8674-4ED0-88BF-70016D5EA514";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---FEz7ebHBGB6b2e8X
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--Apple-Mail=_1ABE1E51-8674-4ED0-88BF-70016D5EA514
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-On Tue, Nov 08, 2011 at 07:36:51AM -0800, Saul Wold wrote:
+
+Op 8 nov. 2011, om 16:36 heeft Saul Wold het volgende geschreven:
+
 > On 11/07/2011 06:19 AM, Martin Jansa wrote:
-> > * replaces console-tools used in keymaps
-> >
-> > Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
-> > ---
-> >   meta/recipes-core/kbd/kbd_1.15.2.bb |   19 +++++++++++++++++++
-> >   1 files changed, 19 insertions(+), 0 deletions(-)
-> >   create mode 100644 meta/recipes-core/kbd/kbd_1.15.2.bb
-> >
-> > diff --git a/meta/recipes-core/kbd/kbd_1.15.2.bb b/meta/recipes-core/kb=
-d/kbd_1.15.2.bb
-> > new file mode 100644
-> > index 0000000..36e68a0
-> > --- /dev/null
-> > +++ b/meta/recipes-core/kbd/kbd_1.15.2.bb
-> > @@ -0,0 +1,19 @@
-> > +DESCRIPTION =3D "This package contains keytable files and keyboard uti=
-lities"
-> > +# everything minus console-fonts is GPLv2+
-> > +LICENSE =3D "GPLv2+"
-> > +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D587ce626d15bd61699a64a6b8a5=
-afefb"
-> > +
-> > +inherit autotools gettext
-> > +
-> > +BBCLASSEXTEND =3D "native"
-> > +
-> > +SRC_URI=3D"${KERNELORG_MIRROR}/linux/utils/kbd/kbd-1.15.2.tar.bz2"
+>> * replaces console-tools used in keymaps
+>>=20
+>> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
+>> ---
+>>  meta/recipes-core/kbd/kbd_1.15.2.bb |   19 +++++++++++++++++++
+>>  1 files changed, 19 insertions(+), 0 deletions(-)
+>>  create mode 100644 meta/recipes-core/kbd/kbd_1.15.2.bb
+>>=20
+>> diff --git a/meta/recipes-core/kbd/kbd_1.15.2.bb =
+b/meta/recipes-core/kbd/kbd_1.15.2.bb
+>> new file mode 100644
+>> index 0000000..36e68a0
+>> --- /dev/null
+>> +++ b/meta/recipes-core/kbd/kbd_1.15.2.bb
+>> @@ -0,0 +1,19 @@
+>> +DESCRIPTION =3D "This package contains keytable files and keyboard =
+utilities"
+>> +# everything minus console-fonts is GPLv2+
+>> +LICENSE =3D "GPLv2+"
+>> +LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3D587ce626d15bd61699a64a6b8a5afefb"
+>> +
+>> +inherit autotools gettext
+>> +
+>> +BBCLASSEXTEND =3D "native"
+>> +
+>> +SRC_URI=3D"${KERNELORG_MIRROR}/linux/utils/kbd/kbd-1.15.2.tar.bz2"
 >=20
-> Apparently this is not currently fetchable, do you have an updated=20
-> location?  I found something at fossies.org, but the COPYING file is=20
-> different that your checksum, so I am not sure of the differences.
+> Apparently this is not currently fetchable, do you have an updated =
+location?  I found something at fossies.org, but the COPYING file is =
+different that your checksum, so I am not sure of the differences.
 
-Don't know about official mirror, but file on my premirror=20
-http://build.shr-project.org/sources/kbd-1.15.2.tar.bz2
-is the same as other google hits:
-http://pkgs.fedoraproject.org/repo/pkgs/kbd/kbd-1.15.2.tar.bz2/e850eb91e4d3=
-b94b194efe8e953204c5/kbd-1.15.2.tar.bz2
-http://mirror.anl.gov/pub/linux/utils/kbd/kbd-1.15.2.tar.bz2
+http://www.angstrom-distribution.org/unstable/sources/kbd-1.15.2.tar.bz2 =
+should be good for another 3 years.
 
-And I haven't found kbd-1.15.2.tar.bz2 (only 1.15.3) on fissies.org to comp=
-are.
+regards,
 
-Regards,
+Koen=
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---FEz7ebHBGB6b2e8X
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+--Apple-Mail=_1ABE1E51-8674-4ED0-88BF-70016D5EA514
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
 
-iEYEARECAAYFAk65TkoACgkQN1Ujt2V2gBwbYwCeP3a+aYhpF5kaYrjo9FAmjY+3
-888AoIQSjN3vkMKFl8mJfRmeo11olUDF
-=Sw2g
+iEYEARECAAYFAk65ToMACgkQMkyGM64RGpFkGQCfTYn4ATHA6OwpZLrcDQkUXTs9
+0cwAmgLWRnRMVWJfQnwxEpAaYh3yxgGW
+=Fazc
 -----END PGP SIGNATURE-----
 
---FEz7ebHBGB6b2e8X--
+--Apple-Mail=_1ABE1E51-8674-4ED0-88BF-70016D5EA514--
