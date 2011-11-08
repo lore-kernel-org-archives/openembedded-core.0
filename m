@@ -1,28 +1,24 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail.gw90.de ([188.40.100.199])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RNlBS-0001f6-BH
-	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 13:53:46 +0100
-Received: by wyh5 with SMTP id 5so427898wyh.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Nov 2011 04:47:32 -0800 (PST)
-Received: by 10.227.204.135 with SMTP id fm7mr33293199wbb.2.1320756449341;
-	Tue, 08 Nov 2011 04:47:29 -0800 (PST)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id fi11sm1615611wbb.9.2011.11.08.04.47.27
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 08 Nov 2011 04:47:28 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Tue, 8 Nov 2011 13:47:21 +0100
-In-Reply-To: <1320755519.3915.15.camel@mattotaupa>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	(envelope-from <paulepanter@users.sourceforge.net>)
+	id 1RNlMF-0002fe-Uw for openembedded-core@lists.openembedded.org;
+	Tue, 08 Nov 2011 14:04:55 +0100
+Received: from f053044161.adsl.alicedsl.de ([78.53.44.161]
+	helo=[192.168.178.21])
+	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
+	id 1RNlGJ-0008K6-1W for openembedded-core@lists.openembedded.org;
+	Tue, 08 Nov 2011 12:58:47 +0000
+Message-ID: <1320757122.3915.18.camel@mattotaupa>
+From: Paul Menzel <paulepanter@users.sourceforge.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 08 Nov 2011 13:58:42 +0100
+In-Reply-To: <D173D270-DC47-4EEB-8CC8-F0A10284EF56@dominion.thruhere.net>
 References: <1320755519.3915.15.camel@mattotaupa>
-Message-Id: <D173D270-DC47-4EEB-8CC8-F0A10284EF56@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH] xinit: Fix `startx` looking for `mcookie` in sysroot
+	<D173D270-DC47-4EEB-8CC8-F0A10284EF56@dominion.thruhere.net>
+X-Mailer: Evolution 3.0.3-2 
+Mime-Version: 1.0
+Subject: [PATCH v2] xinit: Fix `startx` looking for `mcookie` in sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,108 +33,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2011 12:53:46 -0000
-X-Groupsio-MsgNum: 12083
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_90B8B7A6-3B9C-43D7-BFE8-9AE12DEFA6BB";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Tue, 08 Nov 2011 13:04:56 -0000
+X-Groupsio-MsgNum: 12084
+Content-Type: multipart/signed; micalg="pgp-sha1";
+	protocol="application/pgp-signature"; 
+	boundary="=-U0ceJXMvVhgOwnn9d8H1"
 
---Apple-Mail=_90B8B7A6-3B9C-43D7-BFE8-9AE12DEFA6BB
+--=-U0ceJXMvVhgOwnn9d8H1
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=windows-1252
 
+Date: Tue, 8 Nov 2011 13:00:32 +0100
 
-Op 8 nov. 2011, om 13:31 heeft Paul Menzel het volgende geschreven:
+`startx` run on a system based on the demo systemd image [1] and `opkg`-ins=
+talled packages fails with the following error.
 
-> Date: Tue, 8 Nov 2011 13:00:32 +0100
->=20
-> `startx` run on a system based on the demo systemd image [1] and =
-`opkg`-installed packages fails with the following error.
->=20
-> 	/usr/bin/startx: line 139: =
-/OE/tentacle/build/tmp-angstrom_2010_x/sysroots/x68_64-linux/usr/bin/mcook=
-ie: No such file or directory
->=20
-> Applying commit 443bcc07 [1] from OE-classic
->=20
->        Author: Tom Rini <tom_rini@mentor.com>
->        Date:   Thu Apr 7 10:36:43 2011 -0700
->=20
->            xinit: Fix mcookie / util-linux-ng dependency
->=20
->            xinit just needs to know the runtime path of mcookie so we =
-need to
->            RDEPEND on util-linux-ng and pass the runtime path in via =
-EXTRA_OECONF
->=20
->            Signed-off-by: Tom Rini <tom_rini@mentor.com>
->=20
-> fixes this issue. Commit 7f6cec6f [2]
->=20
->        Author: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
->        Date:   Sun Feb 21 18:11:30 2010 +0100
->=20
->            xinit: add dependency on util-linux-ng
->=20
->        [=85]
->=20
-> tried to address the same problem but apparently did not help, because =
-Tom still had problems.
->=20
-> [1] =
-http://www.angstrom-distribution.org/demo/beagleboard/Angstrom-systemd-ima=
-ge-eglibc-ipk-v2011.11-core-beagleboard.rootfs.tar.bz2
-> [2] =
-http://git.openembedded.org/openembedded/commit/443bcc0785bc004e471b3750a3=
-4d12d2fd2e5dad
-> [3] =
-http://git.openembedded.org/openembedded/commit/7f6cec6f0adb6203a6dbaf8a43=
-c67c2c4f8bf84e
->=20
-> Signed-off-by: Paul Menzel <paulepanter@users.sourceforge.net>
-> ---
-> 1. Please note that I did neither build nor run tested this patch and =
+	/usr/bin/startx: line 139: /OE/tentacle/build/tmp-angstrom_2010_x/sysroots=
+/x68_64-linux/usr/bin/mcookie: No such file or directory
+
+Applying commit 443bcc07 [1] from OE-classic
+
+        Author: Tom Rini <tom_rini@mentor.com>
+        Date:   Thu Apr 7 10:36:43 2011 -0700
+       =20
+            xinit: Fix mcookie / util-linux-ng dependency
+       =20
+            xinit just needs to know the runtime path of mcookie so we need=
+ to
+            RDEPEND on util-linux-ng and pass the runtime path in via EXTRA=
+_OECONF
+       =20
+            Signed-off-by: Tom Rini <tom_rini@mentor.com>
+
+fixes this issue. Commit 7f6cec6f [2]
+
+        Author: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
+        Date:   Sun Feb 21 18:11:30 2010 +0100
+       =20
+            xinit: add dependency on util-linux-ng
+       =20
+        [=E2=80=A6]
+
+tried to address the same problem but apparently did not help, because Tom =
+still had problems.
+
+[1] http://www.angstrom-distribution.org/demo/beagleboard/Angstrom-systemd-=
+image-eglibc-ipk-v2011.11-core-beagleboard.rootfs.tar.bz2
+[2] http://git.openembedded.org/openembedded/commit/443bcc0785bc004e471b375=
+0a34d12d2fd2e5dad
+[3] http://git.openembedded.org/openembedded/commit/7f6cec6f0adb6203a6dbaf8=
+a43c67c2c4f8bf84e
+
+Signed-off-by: Paul Menzel <paulepanter@users.sourceforge.net>
+---
+1. Please note that I did neither build nor run tested this patch and
 just noticed the error trying the demo image.
-> 2. Koen mentioned something on IRC wanting to get rid of `startx` =
+2. Koen mentioned something on IRC wanting to get rid of `startx`
 entirely. But this patch should be applied nevertheless.
-> ---
-> meta/recipes-graphics/xorg-app/xinit_1.3.0.bb |    6 +++++-
-> 1 files changed, 5 insertions(+), 1 deletions(-)
->=20
-> diff --git a/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb =
-b/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
-> index ee7c64d..cdfc843 100644
-> --- a/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
-> +++ b/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
-> @@ -9,9 +9,13 @@ systems. When this first client exits, xinit will =
-kill the X server and \
-> then terminate."
->=20
-> LIC_FILES_CHKSUM =3D =
-"file://COPYING;md5=3D0d4b5eef75f1584ccbdc5e4a34314407"
-> -PR =3D "r0"
-> +RDEPENDS_${PN} +=3D "util-linux-ng"
 
-RDEPENDS go below do_install
+v2: move `RDEPENDS` further down as suggested by Koen
+---
+ meta/recipes-graphics/xorg-app/xinit_1.3.0.bb |    7 ++++++-
+ 1 files changed, 6 insertions(+), 1 deletions(-)
 
-regards,
+diff --git a/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb b/meta/recipes-g=
+raphics/xorg-app/xinit_1.3.0.bb
+index ee7c64d..20b378c 100644
+--- a/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
++++ b/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
+@@ -9,9 +9,14 @@ systems. When this first client exits, xinit will kill the=
+ X server and \
+ then terminate."
+=20
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D0d4b5eef75f1584ccbdc5e4a3431440=
+7"
+-PR =3D "r0"
++
++PR =3D "r1"
+ PE =3D "1"
+=20
++EXTRA_OECONF =3D "ac_cv_path_MCOOKIE=3D${bindir}/mcookie"
++
++RDEPENDS_${PN} +=3D "util-linux-ng"
++
+ FILES_${PN} +=3D "${libdir}X11/xinit"
+=20
+ SRC_URI[md5sum] =3D "bc4e8b7d1919597cc37a0d24aa149dda"
+--=20
+1.7.7.2
 
-Koen=
-
---Apple-Mail=_90B8B7A6-3B9C-43D7-BFE8-9AE12DEFA6BB
+--=-U0ceJXMvVhgOwnn9d8H1
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
 -----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
 
-iEYEARECAAYFAk65JNkACgkQMkyGM64RGpHLEACZARppWCY0B31Y72btmXft4kW1
-HNQAn0H0TYC524zqyZ6DMqt2oII3srmg
-=Y+OV
+iEYEABECAAYFAk65J4IACgkQPX1aK2wOHVjc9wCfa67A9U2Ok6rBn/2bUMbkJgSA
+tzoAnRv7HaQzpMFRI6uVMK44oSVJ94O3
+=M+3X
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_90B8B7A6-3B9C-43D7-BFE8-9AE12DEFA6BB--
+--=-U0ceJXMvVhgOwnn9d8H1--
