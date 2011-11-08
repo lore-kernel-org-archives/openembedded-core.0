@@ -1,29 +1,20 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1RNZ0j-0001lt-OF
+	(envelope-from <josh@linux.intel.com>) id 1RNZNA-0003Cy-Pt
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 00:53:54 +0100
-Received: from mail-pz0-f44.google.com ([209.85.210.44])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 07 Nov 2011 15:47:35 -0800
-Received: by pzk32 with SMTP id 32so762891pzk.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Nov 2011 15:47:35 -0800 (PST)
-Received: by 10.68.7.166 with SMTP id k6mr3146071pba.128.1320709653941;
-	Mon, 07 Nov 2011 15:47:33 -0800 (PST)
-Received: from [127.0.0.1] (masterfoo.zenlinux.com. [207.192.74.254])
-	by mx.google.com with ESMTPS id d8sm27836503pbb.6.2011.11.07.15.47.31
-	(version=SSLv3 cipher=OTHER); Mon, 07 Nov 2011 15:47:32 -0800 (PST)
-Message-ID: <4EB86E07.5020907@intel.com>
-Date: Mon, 07 Nov 2011 15:47:19 -0800
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
-MIME-Version: 1.0
+	Tue, 08 Nov 2011 01:17:04 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 07 Nov 2011 16:10:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="72146536"
+Received: from unknown (HELO shamshir.jf.intel.com) ([10.7.199.75])
+	by orsmga001.jf.intel.com with ESMTP; 07 Nov 2011 16:10:50 -0800
+From: Joshua Lock <josh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <4EB8225D.6000804@intel.com>
-	<1320700315-11952-1-git-send-email-eric@eukrea.com>
-In-Reply-To: <1320700315-11952-1-git-send-email-eric@eukrea.com>
-Subject: Re: [PATCH 1/2] useradd.bbclass: handle nativesdk case
+Date: Mon,  7 Nov 2011 16:10:37 -0800
+Message-Id: <cover.1320709417.git.josh@linux.intel.com>
+X-Mailer: git-send-email 1.7.7
+Subject: [PATCH 00/12] Recipe upgrades, fixes and additions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,45 +29,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Nov 2011 23:53:54 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 08 Nov 2011 00:17:05 -0000
 
-Hi Eric,
+All,
 
-Sorry to throw more churn into this, but can I ask you to submit a new 
-pull request for this?
+Here's a series of patches I developed whilst trying to play around with some
+Clutter based software.
 
-In discussions with Richard today, he pointed out a few tricks that 
-would improve the patchset:
+The interesting pieces may be:
+Clutter 1.8 series recipes - do we want/need to keep clutter 1.6 around?
+Are we OK with continuing to namespace the clutter recipes by clutter
+version?
 
-DEPENDS_append = "${USERADDDEPENDS}"
-USERADDDEPENDS = " base-passwd shadow-native shadow-sysroot"
-USERADDDEPENDS_virtclass-nativesdk = ""
+Gconf - I've pulled in GConf from upstream as the D-Bus backend is maintained
+there now. For this I pulled in the gnome-related classes from meta-oe as they
+simplified this recipe and I've been wanting to see them merged for some time.
 
-do_install[prefuncs] += "${SYSROOTFUNC}"
-SYSROOTFUNC = "useradd_sysroot"
-SYSROOTFUNC_virtclass-nativesdk = ""
+Pulseaudio - whilst adding a required build dependency I changed the recipe so
+that it doesn't require X unless the X11 distro feature is enabled.
 
-I didn't want to take away credit for your patch, so if you'd be willing 
-to make these changes and respin your patch set, we'll take that.
+Cheers,
+Joshua
 
-The second thing is to avoid merge conflicts, can you rebase you 
-patchset on top of this branch:
+The following changes since commit 0809f98e995d3a2ce24ad25bade3dcd5154061fd:
 
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=sgarman/useradd-rdepends-final
+  lighttpd 1.4.29: rename index.html to avoid clashes with DL_DIR (2011-11-07 14:03:38 +0000)
 
-...and Saul has been warned to apply these patches in the correct order.
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib josh/work
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/work
 
-Thanks,
+Joshua Lock (12):
+  cogl: add cogl 1.8.0 recipe
+  clutter-1.8: add 1.8.0
+  clutter-gst-1.8: add 1.4.2 for use with clutter 1.8
+  clutter-gtk-1.8: add clutter-gtk 0.11.4
+  mx: add mx toolkit 1.3.2
+  classes/[gnome|gnomebase|mime]: merge meta-oe's enhance gnome related
+    classes
+  gconf: add upstream GNOME gconf 3.2.3 and drop gconf-dbus
+  libcanberra: add libvorbis to DEPENDS
+  gypsy: fix packaging
+  connman: split scripts into separate package
+  pulseaudio: make X11 dependencies optional and add gtk+
+  contacts: fix packaging of icons
 
-Scott
-
-PS - if this is a hassle, just let me know and I'm happy to take care of it.
+ meta/classes/gnome-base.bbclass                    |   15 +++++
+ meta/classes/gnome.bbclass                         |   19 +-----
+ meta/classes/gnomebase.bbclass                     |   32 +++++++++++
+ meta/classes/mime.bbclass                          |   56 +++++++++++++++++++
+ meta/conf/distro/include/default-providers.inc     |    2 -
+ meta/conf/multilib.conf                            |    2 +-
+ meta/recipes-connectivity/connman/connman.inc      |    6 ++-
+ meta/recipes-connectivity/gypsy/gypsy_0.8.bb       |    4 +-
+ meta/recipes-gnome/gnome/gconf-3.2.3/nointro.patch |   59 ++++++++++++++++++++
+ meta/recipes-gnome/gnome/gconf-dbus_705.bb         |   43 --------------
+ meta/recipes-gnome/gnome/gconf_3.2.3.bb            |   43 ++++++++++++++
+ meta/recipes-graphics/clutter/clutter-1.8_1.8.0.bb |   26 +++++++++
+ .../clutter/clutter-gst-1.8_1.4.2.bb               |   22 +++++++
+ .../clutter/clutter-gst/enable_tests-1.8.bb        |   15 +++++
+ .../clutter/clutter-gtk-1.8_0.11.4.bb              |   11 ++++
+ meta/recipes-graphics/clutter/cogl.inc             |    2 +-
+ .../clutter/cogl/macro-versions.patch              |   26 +++++++++
+ meta/recipes-graphics/clutter/cogl_1.8.0.bb        |    9 +++
+ meta/recipes-graphics/mx/mx_1.3.2.bb               |   17 ++++++
+ .../pulseaudio/libcanberra_0.28.bb                 |    2 +-
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    4 +-
+ meta/recipes-sato/pimlico/contacts.inc             |    3 +-
+ 22 files changed, 348 insertions(+), 70 deletions(-)
+ create mode 100644 meta/classes/gnome-base.bbclass
+ create mode 100644 meta/classes/gnomebase.bbclass
+ create mode 100644 meta/classes/mime.bbclass
+ create mode 100644 meta/recipes-gnome/gnome/gconf-3.2.3/nointro.patch
+ delete mode 100644 meta/recipes-gnome/gnome/gconf-dbus_705.bb
+ create mode 100644 meta/recipes-gnome/gnome/gconf_3.2.3.bb
+ create mode 100644 meta/recipes-graphics/clutter/clutter-1.8_1.8.0.bb
+ create mode 100644 meta/recipes-graphics/clutter/clutter-gst-1.8_1.4.2.bb
+ create mode 100644 meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.8.bb
+ create mode 100644 meta/recipes-graphics/clutter/clutter-gtk-1.8_0.11.4.bb
+ create mode 100644 meta/recipes-graphics/clutter/cogl/macro-versions.patch
+ create mode 100644 meta/recipes-graphics/clutter/cogl_1.8.0.bb
+ create mode 100644 meta/recipes-graphics/mx/mx_1.3.2.bb
 
 -- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+1.7.7
+
 
 
