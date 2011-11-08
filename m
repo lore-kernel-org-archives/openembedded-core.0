@@ -1,20 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RNZNA-0003Cy-Pt
+	(envelope-from <josh@linux.intel.com>) id 1RNZNB-0003Cy-Gn
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 01:17:04 +0100
+	Tue, 08 Nov 2011 01:17:05 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 07 Nov 2011 16:10:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="72146536"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="72146537"
 Received: from unknown (HELO shamshir.jf.intel.com) ([10.7.199.75])
 	by orsmga001.jf.intel.com with ESMTP; 07 Nov 2011 16:10:50 -0800
 From: Joshua Lock <josh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Nov 2011 16:10:37 -0800
-Message-Id: <cover.1320709417.git.josh@linux.intel.com>
+Date: Mon,  7 Nov 2011 16:10:38 -0800
+Message-Id: <96395166a538efede5ce4d8f46f4a89177642a46.1320709417.git.josh@linux.intel.com>
 X-Mailer: git-send-email 1.7.7
-Subject: [PATCH 00/12] Recipe upgrades, fixes and additions
+In-Reply-To: <cover.1320709417.git.josh@linux.intel.com>
+References: <cover.1320709417.git.josh@linux.intel.com>
+In-Reply-To: <cover.1320709417.git.josh@linux.intel.com>
+References: <cover.1320709417.git.josh@linux.intel.com>
+Subject: [PATCH 01/12] cogl: add cogl 1.8.0 recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,86 +35,77 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 08 Nov 2011 00:17:05 -0000
 
-All,
+Cogl has been split into a separate recipe as of the clutter-1.8 series
 
-Here's a series of patches I developed whilst trying to play around with some
-Clutter based software.
-
-The interesting pieces may be:
-Clutter 1.8 series recipes - do we want/need to keep clutter 1.6 around?
-Are we OK with continuing to namespace the clutter recipes by clutter
-version?
-
-Gconf - I've pulled in GConf from upstream as the D-Bus backend is maintained
-there now. For this I pulled in the gnome-related classes from meta-oe as they
-simplified this recipe and I've been wanting to see them merged for some time.
-
-Pulseaudio - whilst adding a required build dependency I changed the recipe so
-that it doesn't require X unless the X11 distro feature is enabled.
-
-Cheers,
-Joshua
-
-The following changes since commit 0809f98e995d3a2ce24ad25bade3dcd5154061fd:
-
-  lighttpd 1.4.29: rename index.html to avoid clashes with DL_DIR (2011-11-07 14:03:38 +0000)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib josh/work
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/work
-
-Joshua Lock (12):
-  cogl: add cogl 1.8.0 recipe
-  clutter-1.8: add 1.8.0
-  clutter-gst-1.8: add 1.4.2 for use with clutter 1.8
-  clutter-gtk-1.8: add clutter-gtk 0.11.4
-  mx: add mx toolkit 1.3.2
-  classes/[gnome|gnomebase|mime]: merge meta-oe's enhance gnome related
-    classes
-  gconf: add upstream GNOME gconf 3.2.3 and drop gconf-dbus
-  libcanberra: add libvorbis to DEPENDS
-  gypsy: fix packaging
-  connman: split scripts into separate package
-  pulseaudio: make X11 dependencies optional and add gtk+
-  contacts: fix packaging of icons
-
- meta/classes/gnome-base.bbclass                    |   15 +++++
- meta/classes/gnome.bbclass                         |   19 +-----
- meta/classes/gnomebase.bbclass                     |   32 +++++++++++
- meta/classes/mime.bbclass                          |   56 +++++++++++++++++++
- meta/conf/distro/include/default-providers.inc     |    2 -
- meta/conf/multilib.conf                            |    2 +-
- meta/recipes-connectivity/connman/connman.inc      |    6 ++-
- meta/recipes-connectivity/gypsy/gypsy_0.8.bb       |    4 +-
- meta/recipes-gnome/gnome/gconf-3.2.3/nointro.patch |   59 ++++++++++++++++++++
- meta/recipes-gnome/gnome/gconf-dbus_705.bb         |   43 --------------
- meta/recipes-gnome/gnome/gconf_3.2.3.bb            |   43 ++++++++++++++
- meta/recipes-graphics/clutter/clutter-1.8_1.8.0.bb |   26 +++++++++
- .../clutter/clutter-gst-1.8_1.4.2.bb               |   22 +++++++
- .../clutter/clutter-gst/enable_tests-1.8.bb        |   15 +++++
- .../clutter/clutter-gtk-1.8_0.11.4.bb              |   11 ++++
+Signed-off-by: Joshua Lock <josh@linux.intel.com>
+---
  meta/recipes-graphics/clutter/cogl.inc             |    2 +-
- .../clutter/cogl/macro-versions.patch              |   26 +++++++++
- meta/recipes-graphics/clutter/cogl_1.8.0.bb        |    9 +++
- meta/recipes-graphics/mx/mx_1.3.2.bb               |   17 ++++++
- .../pulseaudio/libcanberra_0.28.bb                 |    2 +-
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    4 +-
- meta/recipes-sato/pimlico/contacts.inc             |    3 +-
- 22 files changed, 348 insertions(+), 70 deletions(-)
- create mode 100644 meta/classes/gnome-base.bbclass
- create mode 100644 meta/classes/gnomebase.bbclass
- create mode 100644 meta/classes/mime.bbclass
- create mode 100644 meta/recipes-gnome/gnome/gconf-3.2.3/nointro.patch
- delete mode 100644 meta/recipes-gnome/gnome/gconf-dbus_705.bb
- create mode 100644 meta/recipes-gnome/gnome/gconf_3.2.3.bb
- create mode 100644 meta/recipes-graphics/clutter/clutter-1.8_1.8.0.bb
- create mode 100644 meta/recipes-graphics/clutter/clutter-gst-1.8_1.4.2.bb
- create mode 100644 meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.8.bb
- create mode 100644 meta/recipes-graphics/clutter/clutter-gtk-1.8_0.11.4.bb
+ .../clutter/cogl/macro-versions.patch              |   26 ++++++++++++++++++++
+ meta/recipes-graphics/clutter/cogl_1.8.0.bb        |    9 +++++++
+ 3 files changed, 36 insertions(+), 1 deletions(-)
  create mode 100644 meta/recipes-graphics/clutter/cogl/macro-versions.patch
  create mode 100644 meta/recipes-graphics/clutter/cogl_1.8.0.bb
- create mode 100644 meta/recipes-graphics/mx/mx_1.3.2.bb
 
+diff --git a/meta/recipes-graphics/clutter/cogl.inc b/meta/recipes-graphics/clutter/cogl.inc
+index 387f6ec..f264151 100644
+--- a/meta/recipes-graphics/clutter/cogl.inc
++++ b/meta/recipes-graphics/clutter/cogl.inc
+@@ -8,7 +8,7 @@ BASE_CONF = "--disable-gtk-doc ${@get_clutter_fpu_setting(bb, d)}"
+ DEPENDS = "${STDDEPENDS} virtual/libgl"
+ EXTRA_OECONF = "${BASE_CONF} --with-flavour=glx"
+ 
+-FILESPATH = "${FILE_DIRNAME}/clutter"
++FILESPATH = "${FILE_DIRNAME}/cogl"
+ 
+ inherit autotools pkgconfig gtk-doc gettext
+ 
+diff --git a/meta/recipes-graphics/clutter/cogl/macro-versions.patch b/meta/recipes-graphics/clutter/cogl/macro-versions.patch
+new file mode 100644
+index 0000000..87ea1f7
+--- /dev/null
++++ b/meta/recipes-graphics/clutter/cogl/macro-versions.patch
+@@ -0,0 +1,26 @@
++Index: cogl-1.8.0/configure.ac
++===================================================================
++--- cogl-1.8.0.orig/configure.ac
+++++ cogl-1.8.0/configure.ac
++@@ -833,7 +833,7 @@ LT_INIT([disable-static])
++ dnl ================================================================
++ dnl I18n stuff.
++ dnl ================================================================
++-AM_GNU_GETTEXT_VERSION([0.17])
+++AM_GNU_GETTEXT_VERSION([0.18])
++ AM_GNU_GETTEXT([external])
++ 
++ GETTEXT_PACKAGE="cogl"
++Index: cogl-1.8.0/po/Makefile.in.in
++===================================================================
++--- cogl-1.8.0.orig/po/Makefile.in.in
+++++ cogl-1.8.0/po/Makefile.in.in
++@@ -9,7 +9,7 @@
++ # General Public License and is *not* in the public domain.
++ #
++ # Origin: gettext-0.17
++-GETTEXT_MACRO_VERSION = 0.17
+++GETTEXT_MACRO_VERSION = 0.18
++ 
++ PACKAGE = @PACKAGE@
++ VERSION = @VERSION@
+diff --git a/meta/recipes-graphics/clutter/cogl_1.8.0.bb b/meta/recipes-graphics/clutter/cogl_1.8.0.bb
+new file mode 100644
+index 0000000..02ed67c
+--- /dev/null
++++ b/meta/recipes-graphics/clutter/cogl_1.8.0.bb
+@@ -0,0 +1,9 @@
++require cogl.inc
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
++
++SRC_URI = "http://source.clutter-project.org/sources/cogl/1.8/${BPN}-${PV}.tar.bz2 \
++	   file://macro-versions.patch"
++
++SRC_URI[md5sum] = "cd18c28bf3dd0008b072cb9c5eed7821"
++SRC_URI[sha256sum] = "5ed9ee014367058a63d99a13e3fcc8cb8c6acb19ece00195c6df034fd8d8d8c7"
 -- 
 1.7.7
 
