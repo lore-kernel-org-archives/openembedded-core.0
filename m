@@ -1,21 +1,26 @@
-Received: from smtp2-g21.free.fr ([212.27.42.2])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1RNnyq-00049T-Lw
+	(envelope-from <sgw@linux.intel.com>) id 1RNo0b-0004Fo-U9
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 16:52:57 +0100
-Received: from e6520eb.lan (unknown [82.240.38.71])
-	by smtp2-g21.free.fr (Postfix) with ESMTP id A58544B0231;
-	Tue,  8 Nov 2011 16:46:39 +0100 (CET)
-From: =?UTF-8?q?Eric=20B=C3=A9nard?= <eric@eukrea.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Nov 2011 16:46:38 +0100
-Message-Id: <1320767198-15262-1-git-send-email-eric@eukrea.com>
-X-Mailer: git-send-email 1.7.6.4
-In-Reply-To: <1320761482.10843.38.camel@ted>
-References: <1320761482.10843.38.camel@ted>
+	Tue, 08 Nov 2011 16:54:46 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 08 Nov 2011 07:48:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="72432760"
+Received: from unknown (HELO [10.255.12.14]) ([10.255.12.14])
+	by orsmga001.jf.intel.com with ESMTP; 08 Nov 2011 07:48:30 -0800
+Message-ID: <4EB94F4E.1040102@linux.intel.com>
+Date: Tue, 08 Nov 2011 07:48:30 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
-Cc: Scott Garman <scott.a.garman@intel.com>
-Subject: [PATCH] useradd.bbclass: handle nativesdk case
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1320709417.git.josh@linux.intel.com>
+	<1320761883.10843.40.camel@ted>
+In-Reply-To: <1320761883.10843.40.camel@ted>
+Subject: Re: [PATCH 00/12] Recipe upgrades, fixes and additions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,55 +35,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2011 15:52:57 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 08 Nov 2011 15:54:46 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* without this patch, building dbus-nativesdk leads to a missing
-dependency on 'base-passwd-nativesdk'
-This was added by commit 46e6c3fa8034b12d178d605f3f5d7efe69671a13
-* this patch handle the nativesdk case in the class useradd
-* close bug 1702 http://bugzilla.pokylinux.org/show_bug.cgi?id=3D1702
-* v2 from Scott Garman with Richard Purdie's tricks
+On 11/08/2011 06:18 AM, Richard Purdie wrote:
+> On Mon, 2011-11-07 at 16:10 -0800, Joshua Lock wrote:
+>> All,
+>>
+>> Here's a series of patches I developed whilst trying to play around with some
+>> Clutter based software.
+>>
+>> The interesting pieces may be:
+>> Clutter 1.8 series recipes - do we want/need to keep clutter 1.6 around?
+>> Are we OK with continuing to namespace the clutter recipes by clutter
+>> version?
+>
+> Yes, I think this makes sense.
+>
+Yes to maintaining the version number, but not sure we want to keep 1.6 
+around, also do you need to add a similar .bbappend for clutter-1.8 for 
+the meta-yocto atom-pc configuration?
 
-Signed-off-by: Eric B=C3=A9nard <eric@eukrea.com>
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
----
- meta/classes/useradd.bbclass |   12 +++++++++---
- 1 files changed, 9 insertions(+), 3 deletions(-)
+Sau!
 
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-index 0f9b84c..a8a1c14 100644
---- a/meta/classes/useradd.bbclass
-+++ b/meta/classes/useradd.bbclass
-@@ -3,7 +3,9 @@ USERADDPN ?=3D "${PN}"
- # base-passwd-cross provides the default passwd and group files in the
- # target sysroot, and shadow -native and -sysroot provide the utilities
- # and support files needed to add and modify user and group accounts
--DEPENDS_append =3D " base-passwd shadow-native shadow-sysroot"
-+DEPENDS_append =3D "${USERADDDEPENDS}"
-+USERADDDEPENDS =3D " base-passwd shadow-native shadow-sysroot"
-+USERADDDEPENDS_virtclass-nativesdk =3D ""
-=20
- # This preinstall function will be run in two contexts: once for the
- # native sysroot (as invoked by the useradd_sysroot() wrapper), and
-@@ -95,8 +97,12 @@ useradd_sysroot_sstate () {
- 	fi
- }
-=20
--do_install[prefuncs] +=3D "useradd_sysroot"
--SSTATEPOSTINSTFUNCS +=3D "useradd_sysroot_sstate"
-+do_install[prefuncs] +=3D "${SYSROOTFUNC}"
-+SYSROOTFUNC =3D "useradd_sysroot"
-+SYSROOTFUNC_virtclass-nativesdk =3D ""
-+SSTATEPOSTINSTFUNCS +=3D "${SYSROOTPOSTFUNC}"
-+SYSROOTPOSTFUNC =3D "useradd_sysroot_sstate"
-+SYSROOTPOSTFUNC_virtclass-nativesdk =3D ""
-=20
- # Recipe parse-time sanity checks
- def update_useradd_after_parse(d):
---=20
-1.7.6.4
-
+>> Gconf - I've pulled in GConf from upstream as the D-Bus backend is maintained
+>> there now. For this I pulled in the gnome-related classes from meta-oe as they
+>> simplified this recipe and I've been wanting to see them merged for some time.
+>
+> I had to drop this patch as the gnome classes need a bit more work. I'd
+> like to get gconf resolved though.
+>
+>> Pulseaudio - whilst adding a required build dependency I changed the recipe so
+>> that it doesn't require X unless the X11 distro feature is enabled.
+>>
+>
+> So I merged the series apart from the gnome class and gconf pieces.
+>
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
