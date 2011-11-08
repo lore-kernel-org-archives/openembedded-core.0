@@ -1,34 +1,28 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RNoeq-0003JH-So for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 17:36:21 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA8GU5MM002121;
-	Tue, 8 Nov 2011 16:30:05 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 01962-02; Tue,  8 Nov 2011 16:30:00 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA8GTxbo002108
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 8 Nov 2011 16:29:59 GMT
-Message-ID: <1320769800.10843.64.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <josh@linux.intel.com>) id 1RNoff-0003O2-BO
+	for openembedded-core@lists.openembedded.org;
+	Tue, 08 Nov 2011 17:37:11 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 08 Nov 2011 08:30:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="72345454"
+Received: from unknown (HELO [10.255.12.16]) ([10.255.12.16])
+	by orsmga002.jf.intel.com with ESMTP; 08 Nov 2011 08:30:49 -0800
+Message-ID: <4EB95939.40303@linux.intel.com>
+Date: Tue, 08 Nov 2011 08:30:49 -0800
+From: Joshua Lock <josh@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0.1) Gecko/20110930 Thunderbird/7.0.1
+MIME-Version: 1.0
+To: Saul Wold <sgw@linux.intel.com>
+References: <cover.1320709417.git.josh@linux.intel.com>
+	<484f22280e380ecdf10dc1bd6b89f69c37be1f68.1320709417.git.josh@linux.intel.com>
+	<4EB9546A.7070507@linux.intel.com>
+In-Reply-To: <4EB9546A.7070507@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 08 Nov 2011 16:30:00 +0000
-In-Reply-To: <1320767198-15262-1-git-send-email-eric@eukrea.com>
-References: <1320761482.10843.38.camel@ted>
-	<1320767198-15262-1-git-send-email-eric@eukrea.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
-	pA8GU5MM002121
-Cc: Scott Garman <scott.a.garman@intel.com>
-Subject: Re: [PATCH] useradd.bbclass: handle nativesdk case
+Subject: Re: [PATCH 03/12] clutter-gst-1.8: add 1.4.2 for use with clutter 1.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,27 +37,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2011 16:36:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 08 Nov 2011 16:37:11 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-11-08 at 16:46 +0100, Eric B=C3=A9nard wrote:
-> * without this patch, building dbus-nativesdk leads to a missing
-> dependency on 'base-passwd-nativesdk'
-> This was added by commit 46e6c3fa8034b12d178d605f3f5d7efe69671a13
-> * this patch handle the nativesdk case in the class useradd
-> * close bug 1702 http://bugzilla.pokylinux.org/show_bug.cgi?id=3D1702
-> * v2 from Scott Garman with Richard Purdie's tricks
->=20
-> Signed-off-by: Eric B=C3=A9nard <eric@eukrea.com>
-> Signed-off-by: Scott Garman <scott.a.garman@intel.com>
-> ---
->  meta/classes/useradd.bbclass |   12 +++++++++---
->  1 files changed, 9 insertions(+), 3 deletions(-)
 
-Merged to master, thanks.
 
-Richard
+On 08/11/11 08:10, Saul Wold wrote:
+> On 11/07/2011 04:10 PM, Joshua Lock wrote:
+>> Signed-off-by: Joshua Lock<josh@linux.intel.com>
+>> ---
+>>   .../clutter/clutter-gst-1.8_1.4.2.bb               |   22
+>> ++++++++++++++++++++
+>>   .../clutter/clutter-gst/enable_tests-1.8.bb        |   15 +++++++++++++
+>>   2 files changed, 37 insertions(+), 0 deletions(-)
+>>   create mode 100644
+>> meta/recipes-graphics/clutter/clutter-gst-1.8_1.4.2.bb
+>>   create mode 100644
+>> meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.8.bb
+>>
+>> diff --git a/meta/recipes-graphics/clutter/clutter-gst-1.8_1.4.2.bb
+>> b/meta/recipes-graphics/clutter/clutter-gst-1.8_1.4.2.bb
+>> new file mode 100644
+>> index 0000000..54b1fc1
+>> --- /dev/null
+>> +++ b/meta/recipes-graphics/clutter/clutter-gst-1.8_1.4.2.bb
+>> @@ -0,0 +1,22 @@
+>> +require recipes-graphics/clutter/clutter-gst.inc
+>> +
+>> +PR = "r0"
+>> +
+>> +LIC_FILES_CHKSUM =
+>> "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
+>> +                   
+>> file://clutter-gst/clutter-gst.h;beginline=1;endline=24;md5=95baacba194e814c110ea3bdf25ddbf4"
+>>
+>> +
+>> +DEPENDS += "clutter-1.8 gstreamer"
+>> +RDEPENDS_${PN} += "gst-meta-base"
+>> +
+>> +SRC_URI =
+>> "http://source.clutter-project.org/sources/clutter-gst/1.4/clutter-gst-${PV}.tar.bz2
+>> \
+>> +           file://enable_tests-1.8.patch"
+>> +
+> We seem to be missing the enable_tests-1.8.patch file
 
+It's further down this email, and in master:
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=65ce67a64ea0494e388b7f53275c70df71d06a6b
+
+Joshua
+
+> Sau!
+> 
+> 
+>> +S = "${WORKDIR}/clutter-gst-${PV}"
+>> +
+>> +SRC_URI[md5sum] = "fd6b2a54f43d04382748e9e4d8a335c5"
+>> +SRC_URI[sha256sum] =
+>> "b0e7ff76ee14307b6d26856972ec9e718f62aec2bc8807fb3f2960e508e578b5"
+>> +
+>> +do_configure_prepend () {
+>> +       # Disable DOLT
+>> +       sed -i -e 's/^DOLT//' ${S}/configure.ac
+>> +}
+>> diff --git
+>> a/meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.8.bb
+>> b/meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.8.bb
+>> new file mode 100644
+>> index 0000000..35e60ca
+>> --- /dev/null
+>> +++ b/meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.8.bb
+>> @@ -0,0 +1,15 @@
+>> +Install example binary needed for poky-image-clutter
+>> +
+>> +Signed-off-by: Zhai Edwin<edwin.zhai@intel.com>
+>> +Index: clutter-gst-1.3.8/examples/Makefile.am
+>> +===================================================================
+>> +--- clutter-gst-1.3.8.orig/examples/Makefile.am
+>> ++++ clutter-gst-1.3.8/examples/Makefile.am
+>> +@@ -1,6 +1,6 @@
+>> + NULL = #
+>> +
+>> +-noinst_PROGRAMS = video-player video-sink video-sink-navigation
+>> ++bin_PROGRAMS = video-player video-sink video-sink-navigation
+>> +
+>> + INCLUDES = -I$(top_srcdir) \
+>> +        $(MAINTAINER_CFLAGS) \
+
+-- 
+Joshua Lock
+        Yocto Project "Johannes factotum"
+        Intel Open Source Technology Centre
 
 
