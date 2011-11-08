@@ -1,26 +1,27 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RNqI4-00085Q-6q
+	(envelope-from <josh@linux.intel.com>) id 1RNqYo-0000QM-GR
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 19:20:56 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 08 Nov 2011 10:14:40 -0800
+	Tue, 08 Nov 2011 19:38:16 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 08 Nov 2011 10:31:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,477,1315206000"; d="scan'208";a="71930810"
-Received: from unknown (HELO [10.255.12.14]) ([10.255.12.14])
-	by azsmga001.ch.intel.com with ESMTP; 08 Nov 2011 10:14:40 -0800
-Message-ID: <4EB97190.1060107@linux.intel.com>
-Date: Tue, 08 Nov 2011 10:14:40 -0800
-From: Saul Wold <sgw@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="72496229"
+Received: from unknown (HELO [10.255.12.16]) ([10.255.12.16])
+	by orsmga001.jf.intel.com with ESMTP; 08 Nov 2011 10:31:58 -0800
+Message-ID: <4EB9759E.5010705@linux.intel.com>
+Date: Tue, 08 Nov 2011 10:31:58 -0800
+From: Joshua Lock <josh@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
+	rv:7.0.1) Gecko/20110930 Thunderbird/7.0.1
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+To: Saul Wold <sgw@linux.intel.com>
+References: <cover.1320709417.git.josh@linux.intel.com>
+	<4EB968B2.8060606@linux.intel.com>
+In-Reply-To: <4EB968B2.8060606@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <135de91f015deb0c4e3c3d01d83963fc20ecc5f7>
-	<1320758932-4181-1-git-send-email-dima_ch@emcraft.com>
-In-Reply-To: <1320758932-4181-1-git-send-email-dima_ch@emcraft.com>
-Subject: Re: [PATCH] qt-mobility: qa_configure stage failed
+Subject: Re: [PATCH 00/12] Recipe upgrades, fixes and additions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,61 +36,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2011 18:20:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Tue, 08 Nov 2011 18:38:16 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On 11/08/2011 05:28 AM, Dmitry Cherukhin wrote:
-> The catalogue /usr/lib removed from Makefiles used for building configure tests.
->
-Even with this patch, I am still seeing Host Contamination issue with 
-all the QtMobility recipes.
+On 08/11/11 09:36, Saul Wold wrote:
+> On 11/07/2011 04:10 PM, Joshua Lock wrote:
+>> All,
+>>
+>> Here's a series of patches I developed whilst trying to play around
+>> with some
+>> Clutter based software.
+>>
+> Did you look at the clutter_git versions at all?  I thought I recently
+> saw a problem with clutter_git also with COGL.
 
-Sau!
+Sorry, I didn't do anything with the _git recipes.
 
-> Signed-off-by: Dmitry Cherukhin<dima_ch@emcraft.com>
-> ---
->   .../qt4/files/qt-mobility-configure.patch          |   17 +++++++++++++++++
->   meta/recipes-qt/qt4/qt-mobility_1.2.0.inc          |    3 ++-
->   2 files changed, 19 insertions(+), 1 deletions(-)
->   create mode 100644 meta/recipes-qt/qt4/files/qt-mobility-configure.patch
->
-> diff --git a/meta/recipes-qt/qt4/files/qt-mobility-configure.patch b/meta/recipes-qt/qt4/files/qt-mobility-configure.patch
-> new file mode 100644
-> index 0000000..d61ec03
-> --- /dev/null
-> +++ b/meta/recipes-qt/qt4/files/qt-mobility-configure.patch
-> @@ -0,0 +1,17 @@
-> +When building qt-mobility, the qa_configure stage failed because the catalogue /usr/lib
-> +is used in some Makefiles within configure tests. We manually removed this catalogue.
-> +
-> +Upstream-Status: Inappropriate [embedded]
-> +Signed-off-by: Dmitry Cherukhin<dima_ch@emcraft.com>
-> +
-> +--- qt-mobility-opensource-src-1.2.0/configure.orig	2011-05-10 10:06:01.000000000 +0200
-> ++++ qt-mobility-opensource-src-1.2.0/configure	2011-11-08 12:34:56.347645968 +0100
-> +@@ -583,6 +583,8 @@
-> +     fi
-> +
-> +     $QMAKE_EXEC $QMKSPEC "$relpath/config.tests/$2/$2.pro" 2>>  "$CONFIG_LOG">>  "$CONFIG_LOG"
-> ++    cp Makefile Makefile.old
-> ++    sed -e 's@-L/usr/lib@@'<Makefile.old>Makefile
-> +     printf  " ."
-> +     "$MAKE" clean>>  "$CONFIG_LOG"
-> +     printf "."
-> diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-> index f665e64..11aad8b 100644
-> --- a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-> +++ b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-> @@ -5,7 +5,8 @@ LICENSE = "LGPLv2.1"
->   LIC_FILES_CHKSUM = "file://LICENSE.LGPL;md5=fbc093901857fcd118f065f900982c24 \
->   		    file://LGPL_EXCEPTION.txt;md5=411080a56ff917a5a1aa08c98acae354"
->
-> -SRC_URI = "http://get.qt.nokia.com/qt/add-ons/qt-mobility-opensource-src-${PV}.tar.gz "
-> +SRC_URI = "http://get.qt.nokia.com/qt/add-ons/qt-mobility-opensource-src-${PV}.tar.gz \
-> +	   file://qt-mobility-configure.patch "
->
->   SRC_URI[md5sum]="ea5db5a8d3dd4709c2926dceda646bd8"
->   SRC_URI[sha256sum]="ee3c88975e04139ac9589f76d4be646d44fcbc4c8c1cf2db621abc154cf0ba44"
+Joshua
+-- 
+Joshua Lock
+        Yocto Project "Johannes factotum"
+        Intel Open Source Technology Centre
 
 
