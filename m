@@ -1,34 +1,25 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RNpeV-000634-G1 for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 18:40:03 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA8HXndB002948
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 Nov 2011 17:33:49 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 02911-01 for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Nov 2011 17:33:45 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA8HXe6E002942
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 Nov 2011 17:33:41 GMT
-Message-ID: <1320773623.10843.83.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga02.intel.com ([134.134.136.20])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1RNphV-0006Dn-3l
+	for openembedded-core@lists.openembedded.org;
+	Tue, 08 Nov 2011 18:43:09 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 08 Nov 2011 09:36:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="72368936"
+Received: from unknown (HELO [10.255.12.14]) ([10.255.12.14])
+	by orsmga002.jf.intel.com with ESMTP; 08 Nov 2011 09:36:50 -0800
+Message-ID: <4EB968B2.8060606@linux.intel.com>
+Date: Tue, 08 Nov 2011 09:36:50 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 08 Nov 2011 17:33:43 +0000
-In-Reply-To: <d66b2dd9538139b16969e63a08199cbb25c6cd0c.1320772004.git.josh@linux.intel.com>
-References: <cover.1320772004.git.josh@linux.intel.com>
-	<d66b2dd9538139b16969e63a08199cbb25c6cd0c.1320772004.git.josh@linux.intel.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/1] clutter-gst: fix patch filename
+References: <cover.1320709417.git.josh@linux.intel.com>
+In-Reply-To: <cover.1320709417.git.josh@linux.intel.com>
+Subject: Re: [PATCH 00/12] Recipe upgrades, fixes and additions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,22 +34,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2011 17:40:03 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 08 Nov 2011 17:43:09 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-11-08 at 09:10 -0800, Joshua Lock wrote:
-> Munged the patch filename somehow. Apologies for the noise.
-> 
-> Signed-off-by: Joshua Lock <josh@linux.intel.com>
-> ---
->  ...{enable_tests-1.8.bb => enable_tests-1.8.patch} |    0
->  1 files changed, 0 insertions(+), 0 deletions(-)
->  rename meta/recipes-graphics/clutter/clutter-gst/{enable_tests-1.8.bb => enable_tests-1.8.patch} (100%)
+On 11/07/2011 04:10 PM, Joshua Lock wrote:
+> All,
+>
+> Here's a series of patches I developed whilst trying to play around with some
+> Clutter based software.
+>
+Did you look at the clutter_git versions at all?  I thought I recently 
+saw a problem with clutter_git also with COGL.
 
-Merged to master, thanks.
+Sau!
 
-Richard
-
+> The interesting pieces may be:
+> Clutter 1.8 series recipes - do we want/need to keep clutter 1.6 around?
+> Are we OK with continuing to namespace the clutter recipes by clutter
+> version?
+>
+> Gconf - I've pulled in GConf from upstream as the D-Bus backend is maintained
+> there now. For this I pulled in the gnome-related classes from meta-oe as they
+> simplified this recipe and I've been wanting to see them merged for some time.
+>
+> Pulseaudio - whilst adding a required build dependency I changed the recipe so
+> that it doesn't require X unless the X11 distro feature is enabled.
+>
+> Cheers,
+> Joshua
+>
+> The following changes since commit 0809f98e995d3a2ce24ad25bade3dcd5154061fd:
+>
+>    lighttpd 1.4.29: rename index.html to avoid clashes with DL_DIR (2011-11-07 14:03:38 +0000)
+>
+> are available in the git repository at:
+>    git://git.openembedded.org/openembedded-core-contrib josh/work
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/work
+>
+> Joshua Lock (12):
+>    cogl: add cogl 1.8.0 recipe
+>    clutter-1.8: add 1.8.0
+>    clutter-gst-1.8: add 1.4.2 for use with clutter 1.8
+>    clutter-gtk-1.8: add clutter-gtk 0.11.4
+>    mx: add mx toolkit 1.3.2
+>    classes/[gnome|gnomebase|mime]: merge meta-oe's enhance gnome related
+>      classes
+>    gconf: add upstream GNOME gconf 3.2.3 and drop gconf-dbus
+>    libcanberra: add libvorbis to DEPENDS
+>    gypsy: fix packaging
+>    connman: split scripts into separate package
+>    pulseaudio: make X11 dependencies optional and add gtk+
+>    contacts: fix packaging of icons
+>
+>   meta/classes/gnome-base.bbclass                    |   15 +++++
+>   meta/classes/gnome.bbclass                         |   19 +-----
+>   meta/classes/gnomebase.bbclass                     |   32 +++++++++++
+>   meta/classes/mime.bbclass                          |   56 +++++++++++++++++++
+>   meta/conf/distro/include/default-providers.inc     |    2 -
+>   meta/conf/multilib.conf                            |    2 +-
+>   meta/recipes-connectivity/connman/connman.inc      |    6 ++-
+>   meta/recipes-connectivity/gypsy/gypsy_0.8.bb       |    4 +-
+>   meta/recipes-gnome/gnome/gconf-3.2.3/nointro.patch |   59 ++++++++++++++++++++
+>   meta/recipes-gnome/gnome/gconf-dbus_705.bb         |   43 --------------
+>   meta/recipes-gnome/gnome/gconf_3.2.3.bb            |   43 ++++++++++++++
+>   meta/recipes-graphics/clutter/clutter-1.8_1.8.0.bb |   26 +++++++++
+>   .../clutter/clutter-gst-1.8_1.4.2.bb               |   22 +++++++
+>   .../clutter/clutter-gst/enable_tests-1.8.bb        |   15 +++++
+>   .../clutter/clutter-gtk-1.8_0.11.4.bb              |   11 ++++
+>   meta/recipes-graphics/clutter/cogl.inc             |    2 +-
+>   .../clutter/cogl/macro-versions.patch              |   26 +++++++++
+>   meta/recipes-graphics/clutter/cogl_1.8.0.bb        |    9 +++
+>   meta/recipes-graphics/mx/mx_1.3.2.bb               |   17 ++++++
+>   .../pulseaudio/libcanberra_0.28.bb                 |    2 +-
+>   meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    4 +-
+>   meta/recipes-sato/pimlico/contacts.inc             |    3 +-
+>   22 files changed, 348 insertions(+), 70 deletions(-)
+>   create mode 100644 meta/classes/gnome-base.bbclass
+>   create mode 100644 meta/classes/gnomebase.bbclass
+>   create mode 100644 meta/classes/mime.bbclass
+>   create mode 100644 meta/recipes-gnome/gnome/gconf-3.2.3/nointro.patch
+>   delete mode 100644 meta/recipes-gnome/gnome/gconf-dbus_705.bb
+>   create mode 100644 meta/recipes-gnome/gnome/gconf_3.2.3.bb
+>   create mode 100644 meta/recipes-graphics/clutter/clutter-1.8_1.8.0.bb
+>   create mode 100644 meta/recipes-graphics/clutter/clutter-gst-1.8_1.4.2.bb
+>   create mode 100644 meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.8.bb
+>   create mode 100644 meta/recipes-graphics/clutter/clutter-gtk-1.8_0.11.4.bb
+>   create mode 100644 meta/recipes-graphics/clutter/cogl/macro-versions.patch
+>   create mode 100644 meta/recipes-graphics/clutter/cogl_1.8.0.bb
+>   create mode 100644 meta/recipes-graphics/mx/mx_1.3.2.bb
+>
 
 
