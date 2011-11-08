@@ -1,26 +1,39 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mx19.lb01.inode.at ([62.99.145.21] helo=mx.inode.at)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RNo0b-0004Fo-U9
+	(envelope-from <wolfram.stering@hale.at>) id 1RNo5d-0004ZH-MC
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 16:54:46 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 08 Nov 2011 07:48:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="72432760"
-Received: from unknown (HELO [10.255.12.14]) ([10.255.12.14])
-	by orsmga001.jf.intel.com with ESMTP; 08 Nov 2011 07:48:30 -0800
-Message-ID: <4EB94F4E.1040102@linux.intel.com>
-Date: Tue, 08 Nov 2011 07:48:30 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
+	Tue, 08 Nov 2011 16:59:58 +0100
+Received: from [83.64.51.210] (port=10461 helo=gateway1.hale)
+	by smartmx-19.inode.at with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <wolfram.stering@hale.at>)
+	id 1RNnzX-0007cb-UF for openembedded-core@lists.openembedded.org;
+	Tue, 08 Nov 2011 16:53:40 +0100
+Received: from mail1.hale.at (mail2.hale [192.168.100.12])
+	by gateway1.hale (8.13.8/8.13.7) with ESMTP id pA8FreT8005348
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 8 Nov 2011 16:53:40 +0100
+Received: from entw42.hale ([192.168.100.73]) by hale.at with MailEnable ESMTP;
+	Tue, 8 Nov 2011 16:53:32 +0100
+Message-ID: <4EB9507C.8060507@hale.at>
+Date: Tue, 08 Nov 2011 16:53:32 +0100
+From: Wolfram Stering <wolfram.stering@hale.at>
+Organization: HALE electronic GmbH
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.23) Gecko/20110928 Fedora/3.1.15-1.fc14
+	Lightning/1.0b3pre Thunderbird/3.1.15
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1320709417.git.josh@linux.intel.com>
-	<1320761883.10843.40.camel@ted>
-In-Reply-To: <1320761883.10843.40.camel@ted>
-Subject: Re: [PATCH 00/12] Recipe upgrades, fixes and additions
+To: openembedded-core@lists.openembedded.org
+References: <cover.1320190748.git.elizabeth.flanagan@intel.com>	<4EB90155.3070705@hale.at>
+	<1320761558.10843.39.camel@ted>
+In-Reply-To: <1320761558.10843.39.camel@ted>
+X-Enigmail-Version: 1.1.2
+X-HALE-MailScanner-Information: Please contact the ISP for more information
+X-MailScanner-ID: pA8FreT8005348
+X-HALE-MailScanner: Found to be clean
+X-HALE-MailScanner-From: wolfram.stering@hale.at
+MailScanner-NULL-Check: 1321372422.10948@cmpA/Evh0kc6um9zVXDQNQ
+X-Spam-Status: No
+Subject: Re: [PATCH 0/1] [Yocto Bug 1700] Fix for buildstats diskio on	non physical disks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,52 +48,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2011 15:54:46 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 08 Nov 2011 15:59:58 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
 
-On 11/08/2011 06:18 AM, Richard Purdie wrote:
-> On Mon, 2011-11-07 at 16:10 -0800, Joshua Lock wrote:
->> All,
->>
->> Here's a series of patches I developed whilst trying to play around with some
->> Clutter based software.
->>
->> The interesting pieces may be:
->> Clutter 1.8 series recipes - do we want/need to keep clutter 1.6 around?
->> Are we OK with continuing to namespace the clutter recipes by clutter
->> version?
->
-> Yes, I think this makes sense.
->
-Yes to maintaining the version number, but not sure we want to keep 1.6 
-around, also do you need to add a similar .bbappend for clutter-1.8 for 
-the meta-yocto atom-pc configuration?
+On 11/08/2011 03:12 PM, Richard Purdie wrote:
+> On Tue, 2011-11-08 at 11:15 +0100, Wolfram Stering wrote:
+>> On 11/02/2011 07:41 AM, Beth Flanagan wrote:
+>>> From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
+>>>
+>>> tmpfs/encryptfs/ramfs have no entry in /proc/diskstats. This modifies 
+>>> buildstats to not collect diskio statistics when we encounter a case where 
+>>> the os.major/os.minor is not represented with an entry in /proc/diskstats.
+>> A similar issue exists for building on a btrfs partition.
+>> I posted a message on Oct 28 concerning buildstats on btrfs volumes.
+>> The problem there is, that btrfs's stat() reports fake device ids that
+>> cannot be found in /proc/diskstats.
+> Did this patch help address that problem for you too?
 
-Sau!
+I'll be able to check that tomorrow and report back.
 
->> Gconf - I've pulled in GConf from upstream as the D-Bus backend is maintained
->> there now. For this I pulled in the gnome-related classes from meta-oe as they
->> simplified this recipe and I've been wanting to see them merged for some time.
->
-> I had to drop this patch as the gnome classes need a bit more work. I'd
-> like to get gconf resolved though.
->
->> Pulseaudio - whilst adding a required build dependency I changed the recipe so
->> that it doesn't require X unless the X11 distro feature is enabled.
->>
->
-> So I merged the series apart from the gnome class and gconf pieces.
->
+regards,
+
+- wolfi
+
 > Cheers,
 >
 > Richard
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+
+
+
+-- 
+Wolfram Stering
+ (Entwicklung)
+HALE electronic GmbH
+Eugen-Müller-Straße 18, 5020 Salzburg, Austria
+ Tel: +43 (662) 439011 550
+ Fax: +43 (662) 439011 9
+http://www.hale.at/
+Firmenbuchnummer: FN 66801m HG Salzburg
+
+
+
+--
+Scanned by MailScanner.
+
 
 
