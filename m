@@ -1,25 +1,27 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1RNr9x-00029r-78
+	(envelope-from <sgw@linux.intel.com>) id 1RNrFM-0002TB-82
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 20:16:37 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 08 Nov 2011 11:09:17 -0800
+	Tue, 08 Nov 2011 20:22:12 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 08 Nov 2011 11:15:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,477,1315206000"; d="scan'208";a="34582331"
-Received: from unknown (HELO localhost) ([10.255.12.17])
-	by AZSMGA002.ch.intel.com with ESMTP; 08 Nov 2011 11:09:17 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	tom_rini@mentor.com
-Date: Tue,  8 Nov 2011 11:08:49 -0800
-Message-Id: <6e5f3af0ae4f9f99f27bf2c909eef951599ff381.1320779076.git.dvhart@linux.intel.com>
-X-Mailer: git-send-email 1.7.6.4
-In-Reply-To: <cover.1320779076.git.dvhart@linux.intel.com>
-References: <cover.1320779076.git.dvhart@linux.intel.com>
-In-Reply-To: <cover.1320779076.git.dvhart@linux.intel.com>
-References: <cover.1320779076.git.dvhart@linux.intel.com>
-Subject: [PATCH 1/1] ncurses: refactor configure to avoid configuring widec when disabled
+X-IronPort-AV: E=Sophos;i="4.69,477,1315206000"; d="scan'208";a="82531353"
+Received: from unknown (HELO [10.255.12.14]) ([10.255.12.14])
+	by fmsmga001.fm.intel.com with ESMTP; 08 Nov 2011 11:15:56 -0800
+Message-ID: <4EB97FEC.3020602@linux.intel.com>
+Date: Tue, 08 Nov 2011 11:15:56 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1320675529.git.Martin.Jansa@gmail.com>
+	<66b436c4cba411e56445c32a98e0f5e160ab13a8.1320675529.git.Martin.Jansa@gmail.com>
+In-Reply-To: <66b436c4cba411e56445c32a98e0f5e160ab13a8.1320675529.git.Martin.Jansa@gmail.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: [oe-core 1/6] libsdl: enable cdrom, alsa and tslib, disable rpath and add few fixes from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,111 +36,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2011 19:16:37 -0000
+X-List-Received-Date: Tue, 08 Nov 2011 19:22:12 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The ENABLE_WIDEC variable can be used to disable ncurses wide character support
-when your C library doesn't support it. Currently, the do_configure step
-configures for both narrow and wide characters regardless and only checks
-ENABLE_WIDEC during compilation. This leads to QA failures with host
-contamination during configure if the C library doesn't support wide characters.
+On 11/07/2011 06:19 AM, Martin Jansa wrote:
+> * virtual/libsdl is used in sdl.bbclass but nothing was providing it
+> * rpath disabled because otherwise libtool and ld try to link against
+>    ${libdir}/libdl.so.2 on the host
+>    (see OE-classic commit af1a2e0e7626e372f22afbcabf08d9ae6b0d7b01)
+>
+> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
+> ---
+>   meta/recipes-graphics/libsdl/libsdl_1.2.14.bb |   18 ++++++++++++------
+>   1 files changed, 12 insertions(+), 6 deletions(-)
+>
+> diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+> index 6b23344..17a3103 100644
+> --- a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+> +++ b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+> @@ -10,10 +10,12 @@ SECTION = "libs"
+>   LICENSE = "LGPLv2.1"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=27818cd7fd83877a8e3ef82b82798ef4"
+>
+> -DEPENDS = "${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} virtual/libx11 libxext libxrandr libxrender"
+> +PROVIDES = "virtual/libsdl"
+> +
+> +DEPENDS = "${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} virtual/libx11 libxext libxrandr libxrender alsa-lib tslib"
+>   DEPENDS_virtclass-nativesdk = "libx11-nativesdk libxrandr-nativesdk libxrender-nativesdk libxext-nativesdk"
+>
+Shouldn't the enabling of alsa be based on the DISTRO_FEATURE of alsa?
 
-Refactor do_configure with a new ncurses_configure helper function and only
-configure for wide character support if ENABLE_WIDEC is true.
+Sau!
 
-Ensure that configure errors are propogated back through to do_configure.
-
-Tested with ENABLE_WIDEC as true and false via an ncurses bbappend on i586,
-including basic error injection.
-
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
----
- meta/recipes-core/ncurses/ncurses.inc |   64 +++++++++++++++++---------------
- 1 files changed, 34 insertions(+), 30 deletions(-)
-
-diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-index be7d387..d3a9b1c 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -26,6 +26,36 @@ ENABLE_WIDEC = "true"
- # builds.
- BUILD_CPPFLAGS += "-D_GNU_SOURCE"
- 
-+# Helper function for do_configure to allow multiple configurations
-+# $1 the directory to run configure in
-+# $@ the arguments to pass to configure
-+ncurses_configure() {
-+	mkdir -p $1
-+	cd $1
-+	shift
-+	oe_runconf \
-+	        --disable-static \
-+	        --without-debug \
-+	        --without-ada \
-+	        --without-gpm \
-+	        --enable-hard-tabs \
-+	        --enable-xmc-glitch \
-+	        --enable-colorfgbg \
-+	        --with-termpath='${sysconfdir}/termcap:${datadir}/misc/termcap' \
-+	        --with-terminfo-dirs='${sysconfdir}/terminfo:${datadir}/terminfo' \
-+	        --with-shared \
-+	        --disable-big-core \
-+	        --program-prefix= \
-+	        --with-ticlib \
-+	        --with-termlib=tinfo \
-+	        --enable-sigwinch \
-+	        --enable-pc-files \
-+	        --disable-rpath-hack \
-+	        --with-manpage-format=normal \
-+	        "$@" || return 1
-+	cd ..
-+}
-+
- # Override the function from the autotools class; ncurses requires a
- # patched autoconf213 to generate the configure script. This autoconf
- # is not available so that the shipped script will be used.
-@@ -35,36 +65,10 @@ do_configure() {
-         # not the case for /dev/null redirections)
-         export cf_cv_working_poll=yes
- 
--        for i in \
--        'narrowc' \
--        'widec   --enable-widec --without-progs'; do
--                set -- $i
--                mkdir -p $1
--                cd $1
--                shift
--
--                oe_runconf \
--                        --disable-static \
--                        --without-debug \
--                        --without-ada \
--                        --without-gpm \
--                        --enable-hard-tabs \
--                        --enable-xmc-glitch \
--                        --enable-colorfgbg \
--                        --with-termpath='${sysconfdir}/termcap:${datadir}/misc/termcap' \
--                        --with-terminfo-dirs='${sysconfdir}/terminfo:${datadir}/terminfo' \
--                        --with-shared \
--                        --disable-big-core \
--                        --program-prefix= \
--                        --with-ticlib \
--                        --with-termlib=tinfo \
--                        --enable-sigwinch \
--                        --enable-pc-files \
--                        --disable-rpath-hack \
--                        --with-manpage-format=normal \
--                        "$@"
--                cd ..
--        done
-+	ncurses_configure "narrowc" || \
-+		return 1
-+	! ${ENABLE_WIDEC} || \
-+		ncurses_configure "widec" "--enable-widec" "--without-progs"
- }
- 
- do_compile() {
--- 
-1.7.6.4
-
+> -PR = "r0"
+> +PR = "r1"
+>
+>   SRC_URI = "http://www.libsdl.org/release/SDL-${PV}.tar.gz \
+>   	   file://configure_tweak.patch \
+> @@ -26,25 +28,29 @@ SRC_URI[sha256sum] = "5d927e287034cb6bb0ebccfa382cb1d185cb113c8ab5115a0759798642
+>
+>   inherit autotools binconfig pkgconfig
+>
+> -EXTRA_OECONF = "--disable-static --disable-debug --disable-cdrom --enable-threads --enable-timers --enable-endian \
+> -                --enable-file --disable-oss --disable-alsa --disable-esd --disable-arts \
+> +EXTRA_OECONF = "--disable-static --disable-debug --enable-cdrom --enable-threads --enable-timers --enable-endian \
+> +                --enable-file --disable-oss --enable-alsa --disable-esd --disable-arts \
+>                   --disable-diskaudio --disable-nas --disable-esd-shared --disable-esdtest \
+>                   --disable-mintaudio --disable-nasm --enable-video-x11 --disable-video-dga \
+>                   --disable-video-fbcon --disable-video-directfb --disable-video-ps2gs --disable-video-ps3 \
+>                   --disable-video-xbios --disable-video-gem --disable-video-dummy \
+> -                --enable-input-events --enable-pthreads \
+> +                --enable-input-events --enable-input-tslib --enable-pthreads \
+>   		${@base_contains('DISTRO_FEATURES', 'opengl', '--enable-video-opengl', '--disable-video-opengl', d)} \
+>   		--disable-video-svga \
+> -                --disable-video-picogui --disable-video-qtopia --enable-dlopen"
+> +                --disable-video-picogui --disable-video-qtopia --enable-dlopen \
+> +                --disable-rpath"
+>
+>   PARALLEL_MAKE = ""
+>
+> +EXTRA_AUTORECONF += "--include=acinclude --exclude=autoheader"
+> +
+>   do_configure_prepend() {
+>           # Remove old libtool macros.
+>           MACROS="libtool.m4 lt~obsolete.m4 ltoptions.m4 ltsugar.m4 ltversion.m4"
+>           for i in ${MACROS}; do
+>                  rm -f acinclude/$i
+>           done
+> +        export SYSROOT=$PKG_CONFIG_SYSROOT_DIR
+>   }
+>
+>   BBCLASSEXTEND = "nativesdk"
 
 
