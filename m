@@ -1,24 +1,28 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RNsSC-0006Vh-0t
+	(envelope-from <philb@gnu.org>) id 1RNsgG-0007B4-Bn
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 21:39:32 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 08 Nov 2011 12:33:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="72540283"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.14])
-	by orsmga001.jf.intel.com with ESMTP; 08 Nov 2011 12:33:15 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Nov 2011 12:33:14 -0800
-Message-Id: <aa34f8427dfee492837c5762ad36fcf58e104ba9.1320784301.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.6.4
-In-Reply-To: <cover.1320784301.git.sgw@linux.intel.com>
-References: <cover.1320784301.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1320784301.git.sgw@linux.intel.com>
-References: <cover.1320784301.git.sgw@linux.intel.com>
-Subject: [PATCH 1/1] udev: Blacklist /dev/md
+	Tue, 08 Nov 2011 21:54:04 +0100
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>)
+	id 1RNsaF-0007XA-Sb; Tue, 08 Nov 2011 21:47:51 +0100
+From: Phil Blundell <philb@gnu.org>
+To: McClintock Matthew-B29882 <B29882@freescale.com>, Patches and
+	discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <CAEsOVNdLNUO+nDVjyU8DeoYzRDb0drGT3J2osopX_qGTZ4Swrg@mail.gmail.com>
+References: <1320441301.3137.1.camel@lenovo.internal.reciva.com>
+	<1320441941-30850-1-git-send-email-msm@freescale.com>
+	<1320442499.3296.4.camel@lenovo.internal.reciva.com>
+	<CAEsOVNdRnM_TachXg=WD4g6iYFGxSgGfx2bWx+PdArfhvuFseA@mail.gmail.com>
+	<CAEsOVNdLNUO+nDVjyU8DeoYzRDb0drGT3J2osopX_qGTZ4Swrg@mail.gmail.com>
+Date: Tue, 08 Nov 2011 20:47:44 +0000
+Message-ID: <1320785264.3080.1.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.3 
+Subject: Re: [PATCH v2] Introduce new SERIAL_CONSOLES to add multiple consoles for your MACHINE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,24 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2011 20:39:32 -0000
+X-List-Received-Date: Tue, 08 Nov 2011 20:54:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-core/udev/files/mount.blacklist |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+On Tue, 2011-11-08 at 19:36 +0000, McClintock Matthew-B29882 wrote:
+> On Mon, Nov 7, 2011 at 5:03 PM, Matthew McClintock <msm@freescale.com> wrote:
+> > I don't get it. I think the first version was still OK. The first
+> > version is pasted below.
+> >
+> >> +    idx=0
+> >> +    tmp="${SERIAL_CONSOLES}" <- If it's not defined this will catch it.
+> >> +    for i in $tmp
+> >> +    do
+> >> +     j=`echo ${i} | sed s/\;/\ /g`
+> >> +        echo "${idx}:2345:respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
+> >> +     idx=`expr $idx + 1`
+> >> +    done
+> >
+> > See my inline comment above, but if SERIAL_CONSOLES is not defined
+> > tmp="" and the for loop won't execute. Not sure if there is a more
+> > standard way to do this though.
+> 
+> ping..
 
-diff --git a/meta/recipes-core/udev/files/mount.blacklist b/meta/recipes-core/udev/files/mount.blacklist
-index d3ebb17..7c7d938 100644
---- a/meta/recipes-core/udev/files/mount.blacklist
-+++ b/meta/recipes-core/udev/files/mount.blacklist
-@@ -1,3 +1,4 @@
- /dev/loop
- /dev/ram
- /dev/mtdblock
-+/dev/md
--- 
-1.7.6.4
+Yeah, now I look at this again I think it is probably OK.  Bitbake won't
+expand ${SERIAL_CONSOLES} if it's unset, but the shell will and I think
+you probably will get the right results.  Assuming you've actually
+tested that case and it does work, I think I'm happy with what you have
+above.
+
+p.
+
 
 
 
