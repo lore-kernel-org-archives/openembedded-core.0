@@ -1,34 +1,18 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RNlfa-0003Zp-2D for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 14:24:57 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA8DIcxL031973
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 Nov 2011 13:18:38 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 31738-02 for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Nov 2011 13:18:32 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA8DITnR031967
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 Nov 2011 13:18:30 GMT
-Message-ID: <1320758312.10843.27.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 08 Nov 2011 13:18:32 +0000
-In-Reply-To: <9d9675eee33b1f77242db3ecd556c82470696f61.1320750179.git.xiaofeng.yan@windriver.com>
-References: <cover.1320750179.git.xiaofeng.yan@windriver.com>
-	<9d9675eee33b1f77242db3ecd556c82470696f61.1320750179.git.xiaofeng.yan@windriver.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 2/7] gtk+: Fix bug 1674
+Received: from host-82-135-33-74.customer.m-online.net ([82.135.33.74]
+	helo=sisyphus.denx.de) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <dima_ch@sisyphus.denx.de>) id 1RNlpo-0003sU-Q7
+	for openembedded-core@lists.openembedded.org;
+	Tue, 08 Nov 2011 14:35:28 +0100
+Received: by sisyphus.denx.de (Postfix, from userid 556)
+	id 9F2D74135B0C; Tue,  8 Nov 2011 14:29:14 +0100 (CET)
+From: Dmitry Cherukhin <dima_ch@emcraft.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  8 Nov 2011 14:28:52 +0100
+Message-Id: <1320758932-4181-1-git-send-email-dima_ch@emcraft.com>
+X-Mailer: git-send-email 1.7.6.4
+In-Reply-To: <135de91f015deb0c4e3c3d01d83963fc20ecc5f7>
+References: <135de91f015deb0c4e3c3d01d83963fc20ecc5f7>
+Subject: [PATCH] qt-mobility: qa_configure stage failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,126 +27,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2011 13:24:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 08 Nov 2011 13:35:28 -0000
 
-On Tue, 2011-11-08 at 19:15 +0800, Xiaofeng Yan wrote:
-> From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-> 
-> [YOCTO #1674]
-> Image "gtk+ over directfb" doesn't need "x11".
-> So I add "directfb" on configuration and gtk-demo to image for check \
-> whether image based on gtk+-directfb work successfully.
-> 
-> Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-> ---
->  meta/recipes-gnome/gtk+/gtk+.inc       |   18 ++++++++++++++----
->  meta/recipes-gnome/gtk+/gtk+_2.24.6.bb |   17 ++++++++++++-----
->  2 files changed, 26 insertions(+), 9 deletions(-)
-> 
-> diff --git a/meta/recipes-gnome/gtk+/gtk+.inc b/meta/recipes-gnome/gtk+/gtk+.inc
-> index 0e5c45c..6ec5906 100644
-> --- a/meta/recipes-gnome/gtk+/gtk+.inc
-> +++ b/meta/recipes-gnome/gtk+/gtk+.inc
-> @@ -9,13 +9,18 @@ LICENSE = "LGPLv2 & LGPLv2+ & LGPLv2.1+"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
->  
->  SECTION = "libs"
-> -DEPENDS = "glib-2.0 pango atk jpeg libpng libxext libxcursor \
-> -           gtk-doc-native docbook-utils-native libxrandr libgcrypt \
-> -           libxdamage libxrender libxcomposite cairo gdk-pixbuf"
-> +X11DEPENDS = "virtual/libx11 libxext libxcursor libxrandr libxdamage libxrender libxcomposite"
-> +DIRECTFBDEPENDS = "directfb"
-> +
-> +DEPENDS = "glib-2.0 pango atk jpeg libpng gtk-doc-native gdk-pixbuf-native docbook-utils-native \
-> +           libgcrypt cairo gdk-pixbuf \
-> +           ${@base_contains('DISTRO_FEATURES', 'x11', '', '', d)} \
-> +           ${@base_contains('DISTRO_FEATURES', 'directfb', '${DIRECTFBDEPENDS}', '', d)}"
-> +
->  
->  inherit autotools pkgconfig
->  
-> -PACKAGES += "libgail"
-> +PACKAGES += "libgail gtk+-demo"
->  
->  FILES_${PN} = "${bindir}/gtk-update-icon-cache \
->  	${bindir}/gtk-query-immodules-2.0 \
-> @@ -40,6 +45,11 @@ FILES_${PN}-dbg += " \
->  	${libdir}/gtk-2.0/${LIBV}/engines/.debug/* \
->  	${libdir}/gtk-2.0/${LIBV}/printbackends/.debug/*"
->  
-> +FILES_gtk+-demo = " \
-> +        ${datadir}/gtk-2.0/demo/* \
-> +        ${bindir}/gtk-demo \
-> +        "
-> +
->  FILES_libgail = " \
->  	${libdir}/gtk-2.0/modules/libgail.so \
->  	${libdir}/gtk-2.0/modules/libferret.so \
-> diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.6.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.6.bb
-> index 01f4a11..5a9dc5e 100644
-> --- a/meta/recipes-gnome/gtk+/gtk+_2.24.6.bb
-> +++ b/meta/recipes-gnome/gtk+/gtk+_2.24.6.bb
-> @@ -8,7 +8,6 @@ SRC_URI = "http://download.gnome.org/sources/gtk+/2.24/gtk+-${PV}.tar.bz2 \
->             file://xsettings.patch \
->             file://run-iconcache.patch \
->             file://hardcoded_libtool.patch \
-> -           file://no-demos.patch \
->             file://cellrenderer-cairo.patch;striplevel=0 \
->             file://toggle-font.diff;striplevel=0 \
->             file://0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch \
-> @@ -25,13 +24,21 @@ SRC_URI = "http://download.gnome.org/sources/gtk+/2.24/gtk+-${PV}.tar.bz2 \
->  #           file://menu-deactivate.patch
->  #        file://combo-arrow-size.patch;striplevel=0
->  #            file://configurefix.patch
-> +#           file://no-demos.patch 
-> 
-> -PR = "r1"
-> +PR = "r2"
->  
-> -SRC_URI[md5sum] = "421100f6597e613234f8dead6091a9fe"
-> -SRC_URI[sha256sum] = "6f45bdbf9ea27eb3b5f977d7ee2365dede0d0ce454985680c26e5210163bbf37"
-> +SRC_URI[md5sum] = "4e977cb6a4530e9d4fe54d6ba70831c4"
-> +SRC_URI[sha256sum] = "9aade52339dca563780bca5c83b0fb02284393221bda4f55cb9ec7eae1661a1d"
-> +
-> +CONF_directfb=" --with-x=no --with-gdktarget=directfb"
-> +CONF_xorg=" --with-x=yes --with-gdktarget=x11"
-> +
-> +EXTRA_OECONF = "${@base_contains('DISTRO_FEATURES', 'directfb', \
-> + '${CONF_directfb}', '${CONF_xorg}', d)} \
-> + --without-libtiff --without-libjasper --enable-xkb \
-> + --disable-glibtest --disable-cups --disable-xinerama"
->  
-> -EXTRA_OECONF = "--without-libtiff --without-libjasper --enable-xkb --disable-glibtest --disable-cups --disable-xinerama"
+The catalogue /usr/lib removed from Makefiles used for building configure tests.
 
-This is a horrible mess and its just going to get worse. We started
-adding PACKAGECONFIG to try and help with things like this problem.
-Instead of the above you should be able to do something like:
+Signed-off-by: Dmitry Cherukhin <dima_ch@emcraft.com>
+---
+ .../qt4/files/qt-mobility-configure.patch          |   17 +++++++++++++++++
+ meta/recipes-qt/qt4/qt-mobility_1.2.0.inc          |    3 ++-
+ 2 files changed, 19 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-qt/qt4/files/qt-mobility-configure.patch
 
-PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
-                   ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
-PACKAGECONFIG[directfb] = "--with-gdktarget=directfb,,directfb"
-PACKAGECONFIG[x11] = "--with-x=yes --with-gdktarget=x11,--with-x=no,${X11DEPENDS}"
-
-This commit also applies to the other places you're changing config
-options.
-
-Also some style issues:
-
-a) please put a decent one line summary at the start of commits
-b) mention the bug number a the end of the commit message in the for 
-   [YOCTO #1674]
-c) Please mention other details the patch changes. The patch above 
-   changes the checksums (why?)
-
-Cheers,
-
-Richard
-
-
-
-
+diff --git a/meta/recipes-qt/qt4/files/qt-mobility-configure.patch b/meta/recipes-qt/qt4/files/qt-mobility-configure.patch
+new file mode 100644
+index 0000000..d61ec03
+--- /dev/null
++++ b/meta/recipes-qt/qt4/files/qt-mobility-configure.patch
+@@ -0,0 +1,17 @@
++When building qt-mobility, the qa_configure stage failed because the catalogue /usr/lib
++is used in some Makefiles within configure tests. We manually removed this catalogue.
++
++Upstream-Status: Inappropriate [embedded]
++Signed-off-by: Dmitry Cherukhin <dima_ch@emcraft.com>
++
++--- qt-mobility-opensource-src-1.2.0/configure.orig	2011-05-10 10:06:01.000000000 +0200
+++++ qt-mobility-opensource-src-1.2.0/configure	2011-11-08 12:34:56.347645968 +0100
++@@ -583,6 +583,8 @@
++     fi
++ 
++     $QMAKE_EXEC $QMKSPEC "$relpath/config.tests/$2/$2.pro" 2>> "$CONFIG_LOG" >> "$CONFIG_LOG"
+++    cp Makefile Makefile.old
+++    sed -e 's@-L/usr/lib@@' <Makefile.old >Makefile
++     printf  " ."
++     "$MAKE" clean >> "$CONFIG_LOG"
++     printf "."
+diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+index f665e64..11aad8b 100644
+--- a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
++++ b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+@@ -5,7 +5,8 @@ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://LICENSE.LGPL;md5=fbc093901857fcd118f065f900982c24 \
+ 		    file://LGPL_EXCEPTION.txt;md5=411080a56ff917a5a1aa08c98acae354"
+ 
+-SRC_URI = "http://get.qt.nokia.com/qt/add-ons/qt-mobility-opensource-src-${PV}.tar.gz "
++SRC_URI = "http://get.qt.nokia.com/qt/add-ons/qt-mobility-opensource-src-${PV}.tar.gz \
++	   file://qt-mobility-configure.patch "
+ 
+ SRC_URI[md5sum]="ea5db5a8d3dd4709c2926dceda646bd8"
+ SRC_URI[sha256sum]="ee3c88975e04139ac9589f76d4be646d44fcbc4c8c1cf2db621abc154cf0ba44"
+-- 
+1.7.6.4
 
 
 
