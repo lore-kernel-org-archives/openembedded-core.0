@@ -1,22 +1,24 @@
 Received: from smtp2-g21.free.fr ([212.27.42.2])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1RNhLm-0008LO-8G
+	(envelope-from <eric@eukrea.com>) id 1RNhPA-0008TO-1Q
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 09:48:10 +0100
-Received: from e6520eb.lan (unknown [82.240.38.71])
-	by smtp2-g21.free.fr (Postfix) with ESMTP id 69EB64B0130
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Nov 2011 09:41:54 +0100 (CET)
-From: =?UTF-8?q?Eric=20B=C3=A9nard?= <eric@eukrea.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Nov 2011 09:41:48 +0100
-Message-Id: <1320741708-15019-2-git-send-email-eric@eukrea.com>
-X-Mailer: git-send-email 1.7.6.4
-In-Reply-To: <1320741708-15019-1-git-send-email-eric@eukrea.com>
-References: <4EB86E07.5020907@intel.com>
-	<1320741708-15019-1-git-send-email-eric@eukrea.com>
+	Tue, 08 Nov 2011 09:51:40 +0100
+Received: from [192.168.1.15] (unknown [82.240.38.71])
+	by smtp2-g21.free.fr (Postfix) with ESMTP id 1E3F84B01D6;
+	Tue,  8 Nov 2011 09:45:22 +0100 (CET)
+Message-ID: <4EB8EC21.9040801@eukrea.com>
+Date: Tue, 08 Nov 2011 09:45:21 +0100
+From: =?UTF-8?B?RXJpYyBCw6luYXJk?= <eric@eukrea.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
 MIME-Version: 1.0
-Subject: [PATCH 2/2] dbus: fix install for virtclass-nativesdk
+To: Scott Garman <scott.a.garman@intel.com>
+References: <4EB8225D.6000804@intel.com>
+	<1320700315-11952-1-git-send-email-eric@eukrea.com>
+	<4EB86E07.5020907@intel.com>
+In-Reply-To: <4EB86E07.5020907@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] useradd.bbclass: handle nativesdk case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,39 +33,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2011 08:48:10 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 08 Nov 2011 08:51:41 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-* 46e6c3fa8034b12d178d605f3f5d7efe69671a13 changed do_install
-which now fails for nativesdk (chown messagebus leads to no
-such user)
-* tested by building meta-toolchain-qte and running the generated
-sdk
+Hi Scott,
 
-Signed-off-by: Eric B=C3=A9nard <eric@eukrea.com>
-Acked-by: Scott Garman <scott.a.garman@intel.com>
----
- meta/recipes-core/dbus/dbus.inc |    4 ++++
- 1 files changed, 4 insertions(+), 0 deletions(-)
+Le 08/11/2011 00:47, Scott Garman a =C3=A9crit :
+> Sorry to throw more churn into this, but can I ask you to submit a new =
+pull
+> request for this?
+>
+> In discussions with Richard today, he pointed out a few tricks that wou=
+ld
+> improve the patchset:
+>
+> DEPENDS_append =3D "${USERADDDEPENDS}"
+> USERADDDEPENDS =3D " base-passwd shadow-native shadow-sysroot"
+> USERADDDEPENDS_virtclass-nativesdk =3D ""
+>
+> do_install[prefuncs] +=3D "${SYSROOTFUNC}"
+> SYSROOTFUNC =3D "useradd_sysroot"
+> SYSROOTFUNC_virtclass-nativesdk =3D ""
+>
+that's clean it removes all the python code and ... that works !
 
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbu=
-s.inc
-index caa781c..99b2fc7 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -105,4 +105,8 @@ do_install_virtclass-native() {
- 	# dbus-glib-native and dbus-glib need this xml file
- 	./bus/dbus-daemon --introspect > ${STAGING_DATADIR_NATIVE}/dbus/dbus-bu=
-s-introspect.xml
- }
-+
-+do_install_virtclass-nativesdk() {
-+	autotools_do_install
-+}
- BBCLASSEXTEND =3D "native nativesdk"
---=20
-1.7.6.4
+> I didn't want to take away credit for your patch, so if you'd be willin=
+g to
+> make these changes and respin your patch set, we'll take that.
+>
+well now you have written v2 of the patch so you also get the credits but=
+ the=20
+most important thing beyond the credits is to have this bug fixed ;-)
 
+> The second thing is to avoid merge conflicts, can you rebase you patchs=
+et on
+> top of this branch:
+>
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=3Dsgarman=
+/useradd-rdepends-final
+>
+>
+I just applied this patch and resent the 2 others on top of this one.
+
+Thanks,
+Eric
 
 
