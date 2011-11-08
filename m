@@ -1,21 +1,22 @@
 Received: from smtp2-g21.free.fr ([212.27.42.2])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1RNhLi-0008L6-Mc
+	(envelope-from <eric@eukrea.com>) id 1RNhLm-0008LO-8G
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Nov 2011 09:48:07 +0100
+	Tue, 08 Nov 2011 09:48:10 +0100
 Received: from e6520eb.lan (unknown [82.240.38.71])
-	by smtp2-g21.free.fr (Postfix) with ESMTP id 68FD64B02AE;
-	Tue,  8 Nov 2011 09:41:50 +0100 (CET)
+	by smtp2-g21.free.fr (Postfix) with ESMTP id 69EB64B0130
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  8 Nov 2011 09:41:54 +0100 (CET)
 From: =?UTF-8?q?Eric=20B=C3=A9nard?= <eric@eukrea.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Nov 2011 09:41:47 +0100
-Message-Id: <1320741708-15019-1-git-send-email-eric@eukrea.com>
+Date: Tue,  8 Nov 2011 09:41:48 +0100
+Message-Id: <1320741708-15019-2-git-send-email-eric@eukrea.com>
 X-Mailer: git-send-email 1.7.6.4
-In-Reply-To: <4EB86E07.5020907@intel.com>
+In-Reply-To: <1320741708-15019-1-git-send-email-eric@eukrea.com>
 References: <4EB86E07.5020907@intel.com>
+	<1320741708-15019-1-git-send-email-eric@eukrea.com>
 MIME-Version: 1.0
-Cc: Scott Garman <scott.a.garman@intel.com>
-Subject: [PATCH 1/2] useradd.bbclass: handle nativesdk case
+Subject: [PATCH 2/2] dbus: fix install for virtclass-nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,50 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Nov 2011 08:48:07 -0000
+X-List-Received-Date: Tue, 08 Nov 2011 08:48:10 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-* without this patch, building dbus-nativesdk leads to a missing
-dependency on 'base-passwd-nativesdk'
-This was added by commit 46e6c3fa8034b12d178d605f3f5d7efe69671a13
-* this patch handle the nativesdk case in the class useradd
-* close bug 1702 http://bugzilla.pokylinux.org/show_bug.cgi?id=3D1702
-* v2 from Scott Garman with Richard Purdie's tricks
+* 46e6c3fa8034b12d178d605f3f5d7efe69671a13 changed do_install
+which now fails for nativesdk (chown messagebus leads to no
+such user)
+* tested by building meta-toolchain-qte and running the generated
+sdk
 
 Signed-off-by: Eric B=C3=A9nard <eric@eukrea.com>
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+Acked-by: Scott Garman <scott.a.garman@intel.com>
 ---
- meta/classes/useradd.bbclass |    9 ++++++---
- 1 files changed, 6 insertions(+), 3 deletions(-)
+ meta/recipes-core/dbus/dbus.inc |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
 
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-index 0f9b84c..6c933e1 100644
---- a/meta/classes/useradd.bbclass
-+++ b/meta/classes/useradd.bbclass
-@@ -3,7 +3,9 @@ USERADDPN ?=3D "${PN}"
- # base-passwd-cross provides the default passwd and group files in the
- # target sysroot, and shadow -native and -sysroot provide the utilities
- # and support files needed to add and modify user and group accounts
--DEPENDS_append =3D " base-passwd shadow-native shadow-sysroot"
-+DEPENDS_append =3D "${USERADDDEPENDS}"
-+USERADDDEPENDS =3D " base-passwd shadow-native shadow-sysroot"
-+USERADDDEPENDS_virtclass-nativesdk =3D ""
-=20
- # This preinstall function will be run in two contexts: once for the
- # native sysroot (as invoked by the useradd_sysroot() wrapper), and
-@@ -95,8 +97,9 @@ useradd_sysroot_sstate () {
- 	fi
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbu=
+s.inc
+index caa781c..99b2fc7 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -105,4 +105,8 @@ do_install_virtclass-native() {
+ 	# dbus-glib-native and dbus-glib need this xml file
+ 	./bus/dbus-daemon --introspect > ${STAGING_DATADIR_NATIVE}/dbus/dbus-bu=
+s-introspect.xml
  }
-=20
--do_install[prefuncs] +=3D "useradd_sysroot"
--SSTATEPOSTINSTFUNCS +=3D "useradd_sysroot_sstate"
-+do_install[prefuncs] +=3D "${SYSROOTFUNC}"
-+SYSROOTFUNC =3D "useradd_sysroot"
-+SYSROOTFUNC_virtclass-nativesdk =3D ""
-=20
- # Recipe parse-time sanity checks
- def update_useradd_after_parse(d):
++
++do_install_virtclass-nativesdk() {
++	autotools_do_install
++}
+ BBCLASSEXTEND =3D "native nativesdk"
 --=20
 1.7.6.4
 
