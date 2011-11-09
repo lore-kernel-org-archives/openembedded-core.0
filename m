@@ -1,28 +1,28 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1RNxan-0005an-HW
+	(envelope-from <scott.a.garman@intel.com>) id 1RNyRA-0003H0-Ad
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Nov 2011 03:08:45 +0100
-Received: from mail-pz0-f44.google.com ([209.85.210.44])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 08 Nov 2011 18:02:15 -0800
-Received: by pzk32 with SMTP id 32so567537pzk.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Nov 2011 18:02:15 -0800 (PST)
-Received: by 10.68.23.130 with SMTP id m2mr1110752pbf.120.1320804134975;
-	Tue, 08 Nov 2011 18:02:14 -0800 (PST)
-Received: from [192.168.1.12] (c-98-246-160-155.hsd1.or.comcast.net.
+	Wed, 09 Nov 2011 04:02:52 +0100
+Received: from localhost (c-98-246-160-155.hsd1.or.comcast.net
 	[98.246.160.155])
-	by mx.google.com with ESMTPS id c3sm8822614pbt.12.2011.11.08.18.02.13
-	(version=SSLv3 cipher=OTHER); Tue, 08 Nov 2011 18:02:14 -0800 (PST)
-Message-ID: <4EB9DF31.7070904@intel.com>
-Date: Tue, 08 Nov 2011 18:02:25 -0800
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 396552FD07
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  8 Nov 2011 21:56:32 -0500 (EST)
 From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: openssl 1.0?
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  8 Nov 2011 18:56:35 -0800
+Message-Id: <cover.1320807056.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.5.4
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: 396552FD07.791FD
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Subject: [PATCH 0/4] More useradd cleanups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,27 +37,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2011 02:08:45 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 09 Nov 2011 03:02:52 -0000
 
 Hello,
 
-I wanted to get some feedback from the community about OpenSSL 1.0. We 
-currently only support 0.9.8 in oe-core. Specifically: should we add 
-openssl 1.0 to oe-core, and should the rest of our recipes build against 
-it by default?
+Richard pointed out that USERADDPN is no longer needed in
+useradd.bbclass. While removing that, I noticed that I was actually
+injecting the user/group preinst script into *all* packages whose
+recipe inherits useradd. That's not what we want, and is the reason
+for the USERADD_PACKAGES variable. So I refactored the class to fix
+that and clarified the useradd-example recipe documentation.
 
-I imagine if we add 1.0 we'll still want to keep the 0.9.8 around for 
-some time.
+Finally, I added another check to avoid modifying -nativesdk packages.
 
-Thoughts?
+The following changes since commit 25fae81538a92e15eab3fc169ebce44505f67839:
 
-Scott
+  python: skip setup.py 'import check' when cross-compiling (2011-11-08 21:44:23 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib sgarman/useradd-cleanup-final
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/useradd-cleanup-final
+
+Scott Garman (4):
+  useradd.bbclass: only modify packages in USERADD_PACKAGES
+  useradd.bbclass: do not modify -nativesdk packages
+  useradd-example.bb: update example documentation comments
+  avahi: remove USERADDPN
+
+ .../recipes-skeleton/useradd/useradd-example.bb    |    9 ++--
+ meta/classes/useradd.bbclass                       |   45 ++++++++------------
+ meta/recipes-connectivity/avahi/avahi.inc          |    1 -
+ 3 files changed, 22 insertions(+), 33 deletions(-)
 
 -- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+1.7.5.4
+
 
 
