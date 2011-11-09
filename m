@@ -1,29 +1,28 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1ROCtK-0001ha-M6
+	(envelope-from <mark.hatle@windriver.com>) id 1RODP2-0004oc-Kn
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Nov 2011 19:28:54 +0100
-Received: from mail-yw0-f52.google.com ([209.85.213.52])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 09 Nov 2011 10:21:32 -0800
-Received: by ywb5 with SMTP id 5so1488223ywb.25
+	Wed, 09 Nov 2011 20:01:41 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pA9ItMHi026027
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Nov 2011 10:21:32 -0800 (PST)
+	Wed, 9 Nov 2011 10:55:22 -0800 (PST)
+Received: from Macintosh-5.local (172.25.36.232) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 9 Nov 2011 10:55:22 -0800
+Message-ID: <4EBACC99.6040507@windriver.com>
+Date: Wed, 9 Nov 2011 12:55:21 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
 MIME-Version: 1.0
-Received: by 10.50.173.74 with SMTP id bi10mr4753127igc.4.1320862892157; Wed,
-	09 Nov 2011 10:21:32 -0800 (PST)
-Received: by 10.50.40.194 with HTTP; Wed, 9 Nov 2011 10:21:32 -0800 (PST)
-In-Reply-To: <92D35213-63C5-49E2-A1A8-3D6AC8F00079@dominion.thruhere.net>
-References: <cover.1320190748.git.elizabeth.flanagan@intel.com>
-	<4EB90155.3070705@hale.at> <1320761558.10843.39.camel@ted>
-	<4EB9507C.8060507@hale.at>
-	<CAPhnLPACHNsFC6rx1uNOcLKgn68D6qeTYcN=VGns+eRAEqKstw@mail.gmail.com>
-	<92D35213-63C5-49E2-A1A8-3D6AC8F00079@dominion.thruhere.net>
-Date: Wed, 9 Nov 2011 10:21:32 -0800
-Message-ID: <CAPhnLPC1KtJm0yvq62UekPOdudUfgMeA26iEtqJ4bk0+JDMx_A@mail.gmail.com>
-From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/1] [Yocto Bug 1700] Fix for buildstats diskio on non physical disks
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1320839130.git.paul.eggleton@linux.intel.com>
+	<80a2356434387648ef7903c88fbfa64edfeca880.1320839130.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <80a2356434387648ef7903c88fbfa64edfeca880.1320839130.git.paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH 1/2] classes/package_rpm: disable uninstall scripts for upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,72 +37,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2011 18:28:54 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 09 Nov 2011 19:01:41 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 9, 2011 at 4:13 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
->
-> Op 8 nov. 2011, om 16:57 heeft Flanagan, Elizabeth het volgende geschreven:
->
->> On Tue, Nov 8, 2011 at 7:53 AM, Wolfram Stering <wolfram.stering@hale.at> wrote:
->>> On 11/08/2011 03:12 PM, Richard Purdie wrote:
->>>> On Tue, 2011-11-08 at 11:15 +0100, Wolfram Stering wrote:
->>>>> On 11/02/2011 07:41 AM, Beth Flanagan wrote:
->>>>>> From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
->>>>>>
->>>>>> tmpfs/encryptfs/ramfs have no entry in /proc/diskstats. This modifies
->>>>>> buildstats to not collect diskio statistics when we encounter a case where
->>>>>> the os.major/os.minor is not represented with an entry in /proc/diskstats.
->>>>> A similar issue exists for building on a btrfs partition.
->>>>> I posted a message on Oct 28 concerning buildstats on btrfs volumes.
->>>>> The problem there is, that btrfs's stat() reports fake device ids that
->>>>> cannot be found in /proc/diskstats.
->>>> Did this patch help address that problem for you too?
->>>
->>> I'll be able to check that tomorrow and report back.
->>
->> It should as the patch will just disable diskio collection if it
->> cannot find a valid device id in /proc/diskstats. Let me know if it
->> doesn't and I'll rework it and resubmit.
->
-> Related question: what do you use to visualize the buildstats? I heard rumours about getting bootchart to support our format natively, is that the case? I will be needing pretty graphics for a report on the oe-core buildflow in a few weeks :)
->
-> regards,
+On 11/9/11 6:05 AM, Paul Eggleton wrote:
+> Our current assumption (based on the behaviour of opkg) when writing
+> recipes is that prerm and postrm do not get called during an upgrade.
+> When using rpm however, these are mapped to the rpm "preun" and "postun"
+> events which occur after postinst for upgrades, and when these contain
+> removal type operations (such as update-alternatives --remove) this
+> causes problems.
+> 
+> This patch wraps each preun and postun script for rpm in a check that
+> determines whether or not the script is being called during an upgrade,
+> and skips the entire script if it is, which mimics the behaviour of opkg
+> under the same conditions.
+> 
+> Fixes [YOCTO #1760]
+> 
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-Koen,
+Looks like the right solution to me.  (Paul and I previously discussed how to
+correct this.)
 
-There is a patch to pybootchartgui that allows visualization. RP has
-the patchset IIRC.  I'm going to be working on buildstats
-visualization soon and I'm leaning towards using jquery/flot to create
-a way to allow end users to generate via browser some comparative
-graphing of buildstats against different builds/statistics. This way I
-can set it up for the AB to compare all the builds we're doing there
-and end users can just use it through a browser either locally or via
-a server.
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 
--b
+> ---
+>  meta/classes/package_rpm.bbclass |   18 ++++++++++++++++--
+>  1 files changed, 16 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+> index df5a2db..2679e9f 100644
+> --- a/meta/classes/package_rpm.bbclass
+> +++ b/meta/classes/package_rpm.bbclass
+> @@ -471,6 +471,16 @@ python write_specfile () {
+>  				else:
+>  					target.append(path + "/" + file)
+>  
+> +	# Prevent the prerm/postrm scripts from being run during an upgrade
+> +	def wrap_uninstall(scriptvar):
+> +		scr = scriptvar.strip()
+> +		if scr.startswith("#!"):
+> +			pos = scr.find("\n") + 1
+> +		else:
+> +			pos = 0
+> +		scr = scr[:pos] + 'if [ "$1" = "0" ] ; then\n' + scr[pos:] + '\nfi'
+> +		return scr
+> +
+>  	packages = bb.data.getVar('PACKAGES', d, True)
+>  	if not packages or packages == '':
+>  		bb.debug(1, "No packages; nothing to do")
+> @@ -671,8 +681,10 @@ python write_specfile () {
+>  				spec_scriptlets_bottom.append('%%post -n %s' % splitname)
+>  			elif script == 'prerm':
+>  				spec_scriptlets_bottom.append('%%preun -n %s' % splitname)
+> +				scriptvar = wrap_uninstall(scriptvar)
+>  			elif script == 'postrm':
+>  				spec_scriptlets_bottom.append('%%postun -n %s' % splitname)
+> +				scriptvar = wrap_uninstall(scriptvar)
+>  			spec_scriptlets_bottom.append(scriptvar)
+>  			spec_scriptlets_bottom.append('')
+>  
+> @@ -758,11 +770,13 @@ python write_specfile () {
+>  		spec_scriptlets_top.append('')
+>  	if srcprerm:
+>  		spec_scriptlets_top.append('%preun')
+> -		spec_scriptlets_top.append(srcprerm)
+> +		scriptvar = wrap_uninstall(srcprerm)
+> +		spec_scriptlets_top.append(scriptvar)
+>  		spec_scriptlets_top.append('')
+>  	if srcpostrm:
+>  		spec_scriptlets_top.append('%postun')
+> -		spec_scriptlets_top.append(srcpostrm)
+> +		scriptvar = wrap_uninstall(srcpostrm)
+> +		spec_scriptlets_top.append(scriptvar)
+>  		spec_scriptlets_top.append('')
+>  
+>  	# Write the SPEC file
 
->
-> Koen
-> -----BEGIN PGP SIGNATURE-----
->
-> iEYEARECAAYFAk66bmcACgkQMkyGM64RGpHMCQCguHdgtS3SrIVV5+T1dOktTpAT
-> FkQAnRZzZqwPJlGa3QlGGmxRrZnNtv/8
-> =fEA3
-> -----END PGP SIGNATURE-----
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
-
-
-
--- 
-Elizabeth Flanagan
-Yocto Project
-Build and Release
 
 
