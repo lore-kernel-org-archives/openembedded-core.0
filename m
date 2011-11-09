@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RNwVu-0001qx-Tk
+	(envelope-from <josh@linux.intel.com>) id 1RNwVv-0001qx-NI
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Nov 2011 01:59:39 +0100
+	Wed, 09 Nov 2011 01:59:40 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
 	by azsmga102.ch.intel.com with ESMTP; 08 Nov 2011 16:53:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,479,1315206000"; d="scan'208";a="34688328"
+X-IronPort-AV: E=Sophos;i="4.69,479,1315206000"; d="scan'208";a="34688330"
 Received: from unknown (HELO shamshir.amr.corp.intel.com) ([10.255.12.16])
-	by AZSMGA002.ch.intel.com with ESMTP; 08 Nov 2011 16:53:21 -0800
+	by AZSMGA002.ch.intel.com with ESMTP; 08 Nov 2011 16:53:22 -0800
 From: Joshua Lock <josh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Nov 2011 16:53:19 -0800
-Message-Id: <dd949a69e2e7c9379caf5bb6162259c4f2584ea5.1320799787.git.josh@linux.intel.com>
+Date: Tue,  8 Nov 2011 16:53:20 -0800
+Message-Id: <227a87e41b4906aeadd7f878c221beb9f938b1af.1320799787.git.josh@linux.intel.com>
 X-Mailer: git-send-email 1.7.7
 In-Reply-To: <cover.1320799787.git.josh@linux.intel.com>
 References: <cover.1320799787.git.josh@linux.intel.com>
 In-Reply-To: <cover.1320799787.git.josh@linux.intel.com>
 References: <cover.1320799787.git.josh@linux.intel.com>
-Subject: [PATCH 2/3] classes/[gnome|gnomebase|mime]: enhance gnome related classes
+Subject: [PATCH 3/3] gconf: add upstream GNOME gconf 3.2.3 and drop gconf-dbus
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,156 +33,216 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2011 00:59:39 -0000
+X-List-Received-Date: Wed, 09 Nov 2011 00:59:40 -0000
 
-This patch pulls in the gnome related classes from oe-core which
-adds extra packaging rules and functionality whilst modularising things
-so that one can get a subset of gnome functionality without adding a lot
-of extra dependencies.
+The D-Bus backend has been integrated into upstream GConf so we can
+switch to upstream and drop gconf-dbus.
 
-These aren't an exact copy of the classes from meta-openembedded, notable
-differences are:
-* gnome.bbclass - I dropped the BBCLASSEXTEND
-* mime.bbclass:
-  - updated coding style
-  - use which to find update-mime-database program rather than hard coded
-  - fix typo in populate_packges_append such that it's actually called
+I've gone for a release in the 3.2 series as we disable Gtk+, and
+therefore are not impacted by the gtk+3 changes, and the D-Bus backend
+was unstable before this release.
 
-CC: Koen Kooi <koen@dominion.thruhere.net>
-CC: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Joshua Lock <josh@linux.intel.com>
 ---
- meta/classes/gnome.bbclass     |   18 +-----------
- meta/classes/gnomebase.bbclass |   30 ++++++++++++++++++++
- meta/classes/mime.bbclass      |   58 ++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 90 insertions(+), 16 deletions(-)
- create mode 100644 meta/classes/gnomebase.bbclass
- create mode 100644 meta/classes/mime.bbclass
+ meta/conf/distro/include/default-providers.inc     |    2 -
+ meta/conf/multilib.conf                            |    2 +-
+ meta/recipes-gnome/gnome/gconf-3.2.3/nointro.patch |   59 ++++++++++++++++++++
+ meta/recipes-gnome/gnome/gconf-dbus_705.bb         |   43 --------------
+ meta/recipes-gnome/gnome/gconf_3.2.3.bb            |   43 ++++++++++++++
+ 5 files changed, 103 insertions(+), 46 deletions(-)
+ create mode 100644 meta/recipes-gnome/gnome/gconf-3.2.3/nointro.patch
+ delete mode 100644 meta/recipes-gnome/gnome/gconf-dbus_705.bb
+ create mode 100644 meta/recipes-gnome/gnome/gconf_3.2.3.bb
 
-diff --git a/meta/classes/gnome.bbclass b/meta/classes/gnome.bbclass
-index 3d68b12..a19dd17 100644
---- a/meta/classes/gnome.bbclass
-+++ b/meta/classes/gnome.bbclass
-@@ -1,17 +1,3 @@
--def gnome_verdir(v):
--	import re
--	m = re.match("^([0-9]+)\.([0-9]+)", v)
--	return "%s.%s" % (m.group(1), m.group(2))
-+inherit gnomebase gtk-icon-cache gconf mime
- 
--SECTION ?= "x11/gnome"
--SRC_URI = "${GNOME_MIRROR}/${BPN}/${@gnome_verdir("${PV}")}/${BPN}-${PV}.tar.bz2;name=archive"
--
--DEPENDS += "gnome-common"
--
--FILES_${PN} += "${datadir}/application-registry \
--    ${datadir}/mime-info \
--    ${datadir}/gnome-2.0"
--
--inherit autotools pkgconfig gconf
--
--EXTRA_OEMAKE += "GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1"
-+EXTRA_OECONF += "--enable-introspection=no"
-diff --git a/meta/classes/gnomebase.bbclass b/meta/classes/gnomebase.bbclass
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index be23d36..afea5e7 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -21,8 +21,6 @@ VIRTUAL-RUNTIME_update-alternatives ?= "update-alternatives-cworth"
+ #
+ PREFERRED_PROVIDER_dbus-glib ?= "dbus-glib"
+ PREFERRED_PROVIDER_dbus-glib-native ?= "dbus-glib-native"
+-PREFERRED_PROVIDER_gconf ?= "gconf-dbus"
+-PREFERRED_PROVIDER_gconf-native ?= "gconf-dbus-native"
+ PREFERRED_PROVIDER_gdk-pixbuf ?= "gdk-pixbuf"
+ PREFERRED_PROVIDER_libgcc ?= "libgcc"
+ PREFERRED_PROVIDER_libgcc-nativesdk ?= "libgcc-nativesdk"
+diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
+index 5e4b435..de53540 100644
+--- a/meta/conf/multilib.conf
++++ b/meta/conf/multilib.conf
+@@ -103,7 +103,7 @@ BBCLASSEXTEND_append_pn-gcc-cross-initial = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-gcc-cross-intermediate = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-gcc-cross = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-gcc-runtime = " ${MULTILIBS}"
+-BBCLASSEXTEND_append_pn-gconf-dbus = " ${MULTILIBS}"
++BBCLASSEXTEND_append_pn-gconf = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-gdbm = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-gdb = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-gdk-pixbuf = " ${MULTILIBS}"
+diff --git a/meta/recipes-gnome/gnome/gconf-3.2.3/nointro.patch b/meta/recipes-gnome/gnome/gconf-3.2.3/nointro.patch
 new file mode 100644
-index 0000000..a4209a0
+index 0000000..29181e3
 --- /dev/null
-+++ b/meta/classes/gnomebase.bbclass
-@@ -0,0 +1,30 @@
-+def gnome_verdir(v):
-+	import re
-+	m = re.match("^([0-9]+)\.([0-9]+)", v)
-+	return "%s.%s" % (m.group(1), m.group(2))
++++ b/meta/recipes-gnome/gnome/gconf-3.2.3/nointro.patch
+@@ -0,0 +1,59 @@
++This is a hacky way to prevent GConf from trying to build the introspection related pieces.
++Clearly not appropriate for upstream.
 +
-+SECTION ?= "x11/gnome"
-+SRC_URI = "${GNOME_MIRROR}/${BPN}/${@gnome_verdir("${PV}")}/${BPN}-${PV}.tar.bz2;name=archive"
++Upstream-Status: Inappropriate
 +
-+DEPENDS += "gnome-common"
++Signed-off-by: Joshua Lock <josh@linux.intel.com>
 +
-+FILES_${PN} += "${datadir}/application-registry  \
-+	${datadir}/mime-info \
-+	${datadir}/mime/packages \	
-+	${datadir}/mime/application \
-+	${datadir}/gnome-2.0 \
-+	${datadir}/polkit* \
-+	${datadir}/GConf \
-+	${datadir}/glib-2.0/schemas \
-+"
++Index: GConf-3.2.2/gconf/Makefile.am
++===================================================================
++--- GConf-3.2.2.orig/gconf/Makefile.am
+++++ GConf-3.2.2/gconf/Makefile.am
++@@ -145,34 +145,6 @@ libgconf_2_la_LDFLAGS = -version-info $(
++ 
++ libgconf_2_la_LIBADD = $(INTLLIBS) $(DEPENDENT_LIBS) $(DEPENDENT_DBUS_LIBS) $(DEPENDENT_ORBIT_LIBS)
++ 
++--include $(INTROSPECTION_MAKEFILE)
++-INTROSPECTION_GIRS =
++-INTROSPECTION_SCANNER_ARGS = --warn-all --add-include-path=$(srcdir)
++-INTROSPECTION_COMPILER_ARGS= --includedir=$(srcdir)
++-
++-if HAVE_INTROSPECTION
++-introspection_files =				\
++-	$(gconfinclude_HEADERS)			\
++-	$(filter-out $(CORBA_SOURCECODE), $(filter %.c,$(libgconf_2_la_SOURCES)))
++-GConf-2.0.gir: libgconf-2.la Makefile
++-GConf_2_0_gir_INCLUDES = GObject-2.0
++-GConf_2_0_gir_CFLAGS = \
++-	$(INCLUDES)
++-GConf_2_0_gir_LIBS = libgconf-2.la
++-GConf_2_0_gir_FILES = $(addprefix $(srcdir)/, $(introspection_files))
++-GConf_2_0_gir_SCANNERFLAGS = --identifier-prefix=GConf --symbol-prefix=gconf --c-include "gconf/gconf.h"
++-GConf_2_0_gir_EXPORT_PACKAGES = gconf-2.0
++-INTROSPECTION_GIRS += GConf-2.0.gir
++-
++-girdir = $(datadir)/gir-1.0/
++-gir_DATA = $(INTROSPECTION_GIRS)
++-
++-typelibsdir = $(libdir)/girepository-1.0/
++-typelibs_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
++-
++-CLEANFILES += $(gir_DATA) $(typelibs_DATA)
++-endif
++-
++ EXTRA_DIST=GConfX.idl default.path.in org.gnome.GConf.service.in gconfmarshal.list regenerate-enum-header.sh regenerate-enum-footer.sh
++ 
++ default.path: $(srcdir)/default.path.in
++Index: GConf-3.2.2/configure.in
++===================================================================
++--- GConf-3.2.2.orig/configure.in
+++++ GConf-3.2.2/configure.in
++@@ -354,8 +354,6 @@ AM_GLIB_GNU_GETTEXT
++ 
++ AC_CHECK_FUNCS(bind_textdomain_codeset)
++ 
++-GOBJECT_INTROSPECTION_CHECK([0.9.5])
++-
++ AC_SUBST(CFLAGS)
++ AC_SUBST(CPPFLAGS)
++ AC_SUBST(LDFLAGS)
+diff --git a/meta/recipes-gnome/gnome/gconf-dbus_705.bb b/meta/recipes-gnome/gnome/gconf-dbus_705.bb
+deleted file mode 100644
+index 52e8a08..0000000
+--- a/meta/recipes-gnome/gnome/gconf-dbus_705.bb
++++ /dev/null
+@@ -1,43 +0,0 @@
+-DESCRIPTION = "Settings daemon using DBUS for communication."
+-SECTION = "x11/utils"
+-LICENSE = "LGPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
+-
+-DEPENDS = "intltool-native virtual/libintl glib-2.0 dbus dbus-glib libxml2 popt gtk-doc-native"
+-PROVIDES = "gconf"
+-RPROVIDES_${PN} = "gconf"
+-RPROVIDES_${PN}-dev = "gconf-dev"
+-
+-#SRCREV = "705"
+-#PV = "2.16.0+svnr${SRCPV}"
+-PR = "r2"
+-
+-# This SVN repo is no longer available use a tarball mirror site until
+-# we move to proper gconf recipe.
+-#SRC_URI = "svn://developer.imendio.com/svn/gconf-dbus;module=trunk;proto=http"
+-SRC_URI = "http://autobuilder.pokylinux.org/sources/trunk_developer.imendio.com_.svn.gconf-dbus_705_.tar.gz"
+-
+-SRC_URI[md5sum] = "dba8d534b0c6262d24817c842b36369d"
+-SRC_URI[sha256sum] = "5552b1884d42d4072a199c93e35a28dc1799f9166baefbf9243394966039e416"
+-
+-S = "${WORKDIR}/trunk"
+-
+-inherit pkgconfig autotools
+-
+-PARALLEL_MAKE = ""
+-
+-
+-EXTRA_OECONF = "--disable-gtk-doc --disable-gtk --enable-shared --disable-static --enable-debug=yes"
+-
+-
+-do_configure_prepend() {
+-        touch gtk-doc.make
+-}
+-
+-FILES_${PN} = "${libdir}/GConf-dbus/2/*.so ${libdir}/dbus-1.0 ${sysconfdir} ${datadir}/dbus* ${libdir}/*.so.* ${bindir}/* ${libexecdir}/*"
+-FILES_${PN}-dbg += " ${libdir}/GConf-dbus/2/.debug"
+-FILES_${PN}-dev += "${datadir}/sgml/gconf/gconf-1.0.dtd \
+-		    ${libdir}/GConf-dbus/2/*.la"
+-
+-BBCLASSEXTEND = "native"
+-
+diff --git a/meta/recipes-gnome/gnome/gconf_3.2.3.bb b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
+new file mode 100644
+index 0000000..0e06cb5
+--- /dev/null
++++ b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
+@@ -0,0 +1,43 @@
++DESCRIPTION = "GNOME configuration system"
++SECTION = "x11/gnome"
++LICENSE = "LGPLv2+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
 +
-+FILES_${PN}-doc += "${datadir}/devhelp"
++DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native polkit"
 +
-+inherit autotools pkgconfig
++inherit gnomebase
++
++SRC_URI = "${GNOME_MIRROR}/GConf/${@gnome_verdir("${PV}")}/GConf-${PV}.tar.bz2;name=archive \
++	   file://nointro.patch"
++
++SRC_URI[archive.md5sum] = "f80329173cd9d134ad07e36002dd2a15"
++SRC_URI[archive.sha256sum] = "52008a82a847527877d9e1e549a351c86cc53cada4733b8a70a1123925d6aff4"
++
++S = "${WORKDIR}/GConf-${PV}"
++
++EXTRA_OECONF = "--disable-gtk-doc --disable-gtk --enable-shared --disable-static --enable-debug=yes --disable-introspection --disable-orbit --with-openldap=no"
++
++do_configure_prepend () {
++	touch gtk-doc.make
++}
 +
 +do_install_append() {
-+	rm -rf ${D}${localstatedir}/lib/scrollkeeper/*
-+	rm -rf ${D}${localstatedir}/scrollkeeper/*
-+	rm -f ${D}${datadir}/applications/*.cache
++	# this directory need to be created to avoid an Error 256 at gdm launch
++	install -d ${D}${sysconfdir}/gconf/gconf.xml.system
++
++	# this stuff is unusable
++	rm ${D}${libdir}/GConf/*/*.*a
++	rm ${D}${libdir}/gio/*/*.*a
 +}
 +
-diff --git a/meta/classes/mime.bbclass b/meta/classes/mime.bbclass
-new file mode 100644
-index 0000000..2d17d9c
---- /dev/null
-+++ b/meta/classes/mime.bbclass
-@@ -0,0 +1,58 @@
-+DEPENDS += "shared-mime-info-native shared-mime-info"
++RDEPENDS_${PN} += "dbus-x11"
++FILES_${PN} += "${libdir}/GConf/* \
++	        ${libdir}/gio/*/*.so \
++		${datadir}/polkit* \
++	       	${datadir}/dbus-1/services/*.service \
++	       	${datadir}/dbus-1/system-services/*.service \
++	        "
++FILES_${PN}-dbg += "${libdir}/*/*/.debug"
++FILES_${PN}-dev += "${datadir}/sgml/gconf/gconf-1.0.dtd"
 +
-+mime_postinst() {
-+if [ "$1" = configure ]; then
-+	UPDATEMIMEDB=`which update-mime-database`
-+	if [ -x "$UPDATEMIMEDB" ] ; then
-+		echo "Updating MIME database... this may take a while."
-+		$UPDATEMIMEDB $D${datadir}/mime
-+	else
-+		echo "Missing update-mime-database, update of mime database failed!"
-+		exit 1
-+	fi
-+fi
-+}
-+
-+mime_postrm() {
-+if [ "$1" = remove ] || [ "$1" = upgrade ]; then
-+	UPDATEMIMEDB=`which update-mime-database`
-+	if [ -x "$UPDATEMIMEDB" ] ; then
-+		echo "Updating MIME database... this may take a while."
-+		$UPDATEMIMEDB $D${datadir}/mime
-+	else
-+		echo "Missing update-mime-database, update of mime database failed!"
-+		exit 1
-+	fi
-+fi
-+}
-+
-+python populate_packages_append () {
-+	import os.path, re
-+	packages = d.getVar('PACKAGES', True).split()
-+	pkgdest =  d.getVar('PKGDEST', True)
-+
-+	for pkg in packages:
-+		mime_dir = '%s/%s/usr/share/mime/packages' % (pkgdest, pkg)
-+		mimes = []
-+		mime_re = re.compile(".*\.xml$")
-+		if os.path.exists(mime_dir):
-+			for f in os.listdir(mime_dir):
-+				if mime_re.match(f):
-+					mimes.append(f)
-+		if mimes:
-+			bb.note("adding mime postinst and postrm scripts to %s" % pkg)
-+			postinst = d.getVar('pkg_postinst_%s' % pkg, True) or d.getVar('pkg_postinst', True)
-+			if not postinst:
-+				postinst = '#!/bin/sh\n'
-+			postinst += d.getVar('mime_postinst', True)
-+			d.setVar('pkg_postinst_%s' % pkg, postinst)
-+			postrm = d.getVar('pkg_postrm_%s' % pkg, True) or d.getVar('pkg_postrm', True)
-+			if not postrm:
-+				postrm = '#!/bin/sh\n'
-+			postrm += d.getVar('mime_postrm', True)
-+			d.setVar('pkg_postrm_%s' % pkg, postrm)
-+			bb.note("adding shared-mime-info-data dependency to %s" % pkg)
-+			rdepends = explode_deps(dgetVar('RDEPENDS_' + pkg, False) or d.getVar('RDEPENDS', False)) or ""
-+			rdepends.append("shared-mime-info-data")
-+			d.setVar('RDEPENDS_' + pkg, " " + " ".join(rdepends))
-+}
++BBCLASSEXTEND = "native"
 -- 
 1.7.7
 
