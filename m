@@ -1,31 +1,33 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RO5TD-0005Gz-Vc
-	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Nov 2011 11:33:28 +0100
-Received: by wwf4 with SMTP id 4so1763123wwf.24
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RO5YI-0005UZ-Jr for openembedded-core@lists.openembedded.org;
+	Wed, 09 Nov 2011 11:38:42 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA9AWOHo014263
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Nov 2011 02:27:12 -0800 (PST)
-Received: by 10.180.92.163 with SMTP id cn3mr1973140wib.26.1320834432485;
-	Wed, 09 Nov 2011 02:27:12 -0800 (PST)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id bl10sm2566024wib.15.2011.11.09.02.27.11
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 09 Nov 2011 02:27:11 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Wed, 9 Nov 2011 11:27:05 +0100
-In-Reply-To: <1320831447.10843.131.camel@ted>
+	Wed, 9 Nov 2011 10:32:24 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 13639-07 for <openembedded-core@lists.openembedded.org>;
+	Wed,  9 Nov 2011 10:32:20 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA9AWGCh014257
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 9 Nov 2011 10:32:17 GMT
+Message-ID: <1320834738.10843.159.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1320799787.git.josh@linux.intel.com>
-	<dd949a69e2e7c9379caf5bb6162259c4f2584ea5.1320799787.git.josh@linux.intel.com>
-	<8EF5D367-6159-471F-8F2C-F3FA3216F05D@dominion.thruhere.net>
-	<1320831447.10843.131.camel@ted>
-Message-Id: <0A7ED8DD-40A2-4E01-90A1-B2BB9849E500@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH 2/3] classes/[gnome|gnomebase|mime]: enhance gnome related classes
+Date: Wed, 09 Nov 2011 10:32:18 +0000
+In-Reply-To: <20111108143701.GC3641@jama.jama.net>
+References: <20111108143701.GC3641@jama.jama.net>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: BB_SIGNATURE_HANDLER = "basichash" unusable strict?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,89 +42,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2011 10:33:28 -0000
-X-Groupsio-MsgNum: 12195
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_7A0286F1-4CFC-4E99-857B-921078C5252F";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_7A0286F1-4CFC-4E99-857B-921078C5252F
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-Op 9 nov. 2011, om 10:37 heeft Richard Purdie het volgende geschreven:
-
-> On Wed, 2011-11-09 at 10:27 +0100, Koen Kooi wrote:
->> Op 9 nov. 2011, om 01:53 heeft Joshua Lock het volgende geschreven:
->>=20
->>> This patch pulls in the gnome related classes from oe-core which
->>> adds extra packaging rules and functionality whilst modularising =
-things
->>> so that one can get a subset of gnome functionality without adding a =
-lot
->>> of extra dependencies.
->>>=20
->>> These aren't an exact copy of the classes from meta-openembedded, =
-notable
->>> differences are:
->>> * gnome.bbclass - I dropped the BBCLASSEXTEND
->>=20
->> It looks that will break a number of things in meta-oe, why was it =
-dropped?
->=20
-> Unconditionally BBCLASSEXTENDing everything gnome is a great way to =
-hack
-> around build issues and create a convoluted dependency mess that isn't
-> really required. I'd much rather we try and minimise the amount of
-> -native dependencies to those actually needed.
->=20
-> Comparing our builds against other systems its becoming clear our
-> convoluted dependency trees are one of the areas we don't do as well =
-and
-> it hurts performance :(.
-
-The list of -native needed in meta-gnome:
-
-bison-native
-cairo-native
-docbook-utils-native
-flex-native
-gconf-native
-gdk-pixbuf-native
-glib-2.0-native
-gnome-doc-utils-native
-gobject-introspection-native
-gtk-doc-native
-icon-naming-utils-native
-intltool-native
-libffi-native
-libidl-native
-libxml-parser-perl-native
-orbit2-native
-pango-native
-perl-native
-popt-native
-python-native
-
-regards,
-
-Koen=
-
---Apple-Mail=_7A0286F1-4CFC-4E99-857B-921078C5252F
+X-List-Received-Date: Wed, 09 Nov 2011 10:38:42 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
+On Tue, 2011-11-08 at 15:37 +0100, Martin Jansa wrote:
+> Today I've started build from scratch and dediced to give basichash a try (as it is supposed to become default IIRC):
+> 
+> So after cleaning tmpdir, sstate cache, pseudo I've started clean build..
+> 
+> 1) bitbake -k gcc-cross | tee -a log.${MACHINE}; 
+> 2) bitbake -k virtual/kernel | tee -a log.${MACHINE}; 
+> 3) bitbake -k core-image-core | tee -a log.${MACHINE}; 
+> 4) bitbake -k shr-lite-image  | tee -a log.${MACHINE}; 
+> 
+> But then I've noticed that after successfull build of gcc-cross in step 1 it started another gcc-* build in step 2..
+[...]
+> Ah.. yes I did 2 small patches to libxml2 and openssl between step 1 and step2:
+> http://patchwork.openembedded.org/patch/14521/
+> http://patchwork.openembedded.org/patch/14519/
+> 
+> But do we want to rebuild everything after every change small like this?
 
-iEYEARECAAYFAk66VXkACgkQMkyGM64RGpEUkACgrr8X0UUU+NK22LcmysVeFlrM
-BDAAmwRSWJzhpjiYmMmCEKBjgHmP0FOQ
-=vuMY
------END PGP SIGNATURE-----
+The biggest problem we have here is deciding when to rebuild and when
+not to. Can you define when this should/shouldn't happen?
 
---Apple-Mail=_7A0286F1-4CFC-4E99-857B-921078C5252F--
+> Or is it configuration issue or just bug in sstate implementation?
+
+I think its behaving as currently configured. Whether that configuration
+is right/wrong and what it should be is the question. If we can define
+the configuration, we can then work out how to implement it which is a
+separate issue.
+
+> Btw libxml2 isn't first difference.. I can dig more..
+[...]
+> I have few extra patches in my branch so for this particular test case you also need ie
+> http://patchwork.openembedded.org/patch/13699/
+> 
+> But it shouldn't be hard to find similar issue for any other dependency tree (ie with git-native instead of subversion-native).
+
+The situation is currently configurable through:
+
+BB_HASHTASK_WHITELIST ?= "(.*-cross$|.*-native$|.*-cross-initial$|.*-cross-intermediate$|^virtual:native:.*|^virtual:nativesdk:.*)"
+
+however I have to admit looking at the bitbake code handling this its
+not that simple.
+
+The code only triggers for recipes which are not matched by the
+whitelist. For those not matching, it iterates through their
+dependencies and removes anything that matches the expression.
+
+So effectively it only modified target recipes, removes dependencies
+matching the above expressions.
+
+This isn't an easy problem and this is reminding me I wanted to revisit
+this code. I think we actually need some kind of double expression to
+match a regexp against like:
+
+<depender>___<depend>
+
+So we could then do:
+
+REGEXP_NONNATIVE = "(.*-cross|.*-native|.*-cross-initial|.*-cross-intermediate|virtual:native:.*|virtual:nativesdk:.*)"
+
+BB_HASHTASK_WHITELIST ?= "^.(?!${REGEXP_NONNATIVE})___${REGEXP_NONNATIVE}$"
+
+which would function as above but move more of the control into the code.
+
+I was then trying to come up with a further example to extend this but
+its not scaling. So lets throw away the idea of using regexps and use
+python. Coding off the top of my head, we could have something like:
+
+def filter_dep(depender, depend):
+    # Return True if we should keep the dependency, False to drop it
+    def isNative(x):
+        return x.startswith("virtual:native:") or x.endswith("-native")
+    def isCross(x):
+        return x.endswith("-cross") or x.endswith("-cross-initial") or x.endswith("-cross-intermediate")
+    def isNativeSDK(x):
+        return x.startswith("virtual:nativesdk:")
+
+    if isNative(depender) or isCross(depender) or isNativeSDK(depender):
+        return True
+
+    # Only target packages beyond here
+
+    if isNative(depend) or isCross(depend) or isNativeSDK(depend):
+        return False
+
+    return True
+
+which would then be easy to extend to for example ensure the python
+dependency on python-native is kept.
+
+The siggen code was designed to be a plugin so changing it to the above
+form isn't the problem. The real problem is deciding what the policy it
+implements should be.
+
+So to go back to the original question, out of those changes you made,
+which ones would you expect to change the hash and which ones would you
+not expect to see changes for?
+
+Cheers,
+
+Richard
+
+
+
+
