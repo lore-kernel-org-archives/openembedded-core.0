@@ -1,34 +1,34 @@
 Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1ROCHy-0007uS-SG
+	(envelope-from <martin.jansa@gmail.com>) id 1ROCI6-0007uS-Vk
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Nov 2011 18:50:18 +0100
+	Wed, 09 Nov 2011 18:50:29 +0100
 Received: by mail-fx0-f47.google.com with SMTP id t2so2005273faa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Nov 2011 09:44:05 -0800 (PST)
+	Wed, 09 Nov 2011 09:44:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=njHMv1qPwCVL8d8b3HoNfWnIb0V8AyD/YqRA5A2wc5k=;
-	b=dlJve2wHzJBcDnIb1Gyu9WZMR+GxmIcwDiILQtJPPu3ddQfHLqa0DDJhMHOdW9/NBI
-	gtbzInrb/p+EDYAPhhpkjMYHGv/bxXDRM8ua6kjSMooUE/aG7+0veBxCWSAbErVfXedh
-	TKroj/WEYqJdN8zEi6uSh/1eP4Mrrp/vuDee4=
-Received: by 10.223.61.131 with SMTP id t3mr6213092fah.26.1320860645477;
-	Wed, 09 Nov 2011 09:44:05 -0800 (PST)
+	bh=/6e8whj3iMTLaVuxlZP/Mga2ZeRG6bVjmnfU9FvQLWs=;
+	b=l7Ym3SunTYpSqXW29wAucpRYWK3HYRT+GKaj1TsSaxEyHFE9SNI2xpeMG835SCwSP0
+	CteA8rILlc81N03QFpC/P3TI4jkOIhXNr9bV5c8uSRprOwyY4EeqXNKOBCaOBwFjuVOE
+	UkGlvadum52oJX3B29X8uMxQ7phPQLP8hVB+E=
+Received: by 10.223.76.197 with SMTP id d5mr6280976fak.13.1320860653402;
+	Wed, 09 Nov 2011 09:44:13 -0800 (PST)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id r7sm7442736faa.3.2011.11.09.09.44.04
+	by mx.google.com with ESMTPS id i3sm7451406faf.0.2011.11.09.09.44.11
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 09 Nov 2011 09:44:04 -0800 (PST)
+	Wed, 09 Nov 2011 09:44:11 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Nov 2011 18:43:25 +0100
-Message-Id: <bed77a8e0a92cafcd83fd484b6f8b0fd2948f463.1320860288.git.Martin.Jansa@gmail.com>
+Date: Wed,  9 Nov 2011 18:43:26 +0100
+Message-Id: <68f2dabecbc86e3869b9c6310fa37ab33e2a3607.1320860288.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.8.rc1
 In-Reply-To: <9eb3a8573af150cb4bf27b0b4404e527c9cfe931.1320860288.git.Martin.Jansa@gmail.com>
 References: <9eb3a8573af150cb4bf27b0b4404e527c9cfe931.1320860288.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1320860288.git.Martin.Jansa@gmail.com>
 References: <cover.1320860288.git.Martin.Jansa@gmail.com>
-Subject: [PATCHv2][oe-core 04/10] keymaps: depend on kbd instead of console-tools
+Subject: [PATCHv2][oe-core 05/10] task-core-x11: use VIRTUAL-RUNTIME variables for xserver_common and graphical_init_manager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,34 +43,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2011 17:50:19 -0000
-
-* nowadays kbd seems more active
+X-List-Received-Date: Wed, 09 Nov 2011 17:50:29 -0000
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-bsp/keymaps/keymaps_1.0.bb |    5 +++--
- 1 files changed, 3 insertions(+), 2 deletions(-)
+ meta/recipes-sato/tasks/task-core-x11.bb |   10 ++++++++--
+ 1 files changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-bsp/keymaps/keymaps_1.0.bb b/meta/recipes-bsp/keymaps/keymaps_1.0.bb
-index 4fe7987..1876db8 100644
---- a/meta/recipes-bsp/keymaps/keymaps_1.0.bb
-+++ b/meta/recipes-bsp/keymaps/keymaps_1.0.bb
-@@ -5,11 +5,12 @@ SECTION = "base"
- # Distro can override initscripts provider
- VIRTUAL-RUNTIME_initscripts ?= "initscripts"
+diff --git a/meta/recipes-sato/tasks/task-core-x11.bb b/meta/recipes-sato/tasks/task-core-x11.bb
+index 26d550a..106bc0f 100644
+--- a/meta/recipes-sato/tasks/task-core-x11.bb
++++ b/meta/recipes-sato/tasks/task-core-x11.bb
+@@ -30,6 +30,12 @@ ALLOW_EMPTY = "1"
+ FILEMANAGER ?= "pcmanfm"
+ FILEMANAGER_mips ?= ""
  
--RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_initscripts} console-tools"
-+RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_initscripts} kbd"
++# xserver-common, x11-common
++VIRTUAL-RUNTIME_xserver_common ?= "x11-common"
 +
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
- PACKAGE_ARCH = "${MACHINE_ARCH}"
--PR = "r19"
-+PR = "r20"
++# elsa, xserver-nodm-init
++VIRTUAL-RUNTIME_graphical_init_manager ?= "xserver-nodm-init"
++
  
- INHIBIT_DEFAULT_DEPS = "1"
- 
+ RDEPENDS_task-core-x11-base = "\
+     dbus \
+@@ -42,8 +48,8 @@ RDEPENDS_task-core-x11-base = "\
+     matchbox-desktop \
+     matchbox-session \
+     ${XSERVER} \
+-    x11-common \
+-    xserver-nodm-init \
++    ${VIRTUAL-RUNTIME_xserver_common} \
++    ${VIRTUAL-RUNTIME_graphical_init_manager} \
+     liberation-fonts \
+     xauth \
+     xhost \
 -- 
 1.7.8.rc1
 
