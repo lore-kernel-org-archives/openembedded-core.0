@@ -1,37 +1,17 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from belief.htu.tuwien.ac.at ([128.131.95.14])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RO7d8-00066B-R4
+	(envelope-from <jin@mediatomb.cc>) id 1RO8QX-0007Fm-3D
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Nov 2011 13:51:50 +0100
-Received: by faat2 with SMTP id t2so1687475faa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Nov 2011 04:45:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=D58x1MYZ80zLlwQFwOMC6vMTEMgsvgLDAiVCVL8BRac=;
-	b=WXRWBHm4xsp8sZWYf1TUWBIPU0MM83kgxbedMWxNb7Ac1Zr9enxdwQkHDoOktnbNBy
-	dbaHBEjtWYHvxuBkOG/YWkf8by4hA89toTyViJwpYlfg3U6DGJij8W0rSFz+M87M9XBY
-	4HjEfUTgjyzAD/TYtk+3vLAdiv8D+ePuXGwTk=
-Received: by 10.223.57.132 with SMTP id c4mr4800018fah.0.1320842734379;
-	Wed, 09 Nov 2011 04:45:34 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id i3sm6519353faf.0.2011.11.09.04.45.32
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 09 Nov 2011 04:45:33 -0800 (PST)
-Date: Wed, 9 Nov 2011 13:45:21 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111109124521.GH3641@jama.jama.net>
-References: <20111108143701.GC3641@jama.jama.net>
-	<1320834738.10843.159.camel@ted>
-	<20111109115126.GG3641@jama.jama.net>
-	<1320840383.10843.173.camel@ted>
+	Wed, 09 Nov 2011 14:42:53 +0100
+Received: by belief.htu.tuwien.ac.at (Postfix, from userid 10004)
+	id ACD4D83874; Wed,  9 Nov 2011 14:04:24 +0100 (CET)
+Date: Wed, 9 Nov 2011 14:04:24 +0100
+From: Sergey 'Jin' Bostandzhyan <jin@mediatomb.cc>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20111109130424.GB31478@deadlock.dhs.org>
 MIME-Version: 1.0
-In-Reply-To: <1320840383.10843.173.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: BB_SIGNATURE_HANDLER = "basichash" unusable strict?
+User-Agent: Mutt/1.5.15 (2007-04-06)
+Subject: invalid recipe or a bug in bitbake?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,137 +26,166 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2011 12:51:51 -0000
-X-Groupsio-MsgNum: 12210
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="rCwQ2Y43eQY6RBgR"
+X-List-Received-Date: Wed, 09 Nov 2011 13:42:53 -0000
+X-Groupsio-MsgNum: 12211
+Content-Type: multipart/mixed; boundary="EVF5PPMfhYS0aIcm"
 Content-Disposition: inline
 
---rCwQ2Y43eQY6RBgR
+--EVF5PPMfhYS0aIcm
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 09, 2011 at 12:06:23PM +0000, Richard Purdie wrote:
-> On Wed, 2011-11-09 at 12:51 +0100, Martin Jansa wrote:
-> > I have talked with kergoth on IRC yesterday and he had very nice remark:
-> >=20
-> > 16:40:50 < kergoth_> JaMa: heh, the biggest weakness of the sstate
-> > signature bits, in my opinion, is that it only tracks inputs, not
-> > outputs. If task A depends on B, and the metadata input to B changes,
-> > then A will be rebuilt, even if the *output* of B didn't change as a=20
-> > result of the change to its metadata.
-> >=20
-> > And with this idea applied on those 2 changes I think that PR change in
-> > libxml2 should of course invalidate checksum for=20
-> > sstate-libxml2-native-x86_64-linux-2.7.8-r*populate-sysroot.tgz.siginfo
-> > and probably wont hurt so much when neon-native is also rebuilt, but th=
-en=20
-> > if the output of neon build is the same with new sstate checksum as it =
-was=20
-> > with older one (I know it's hard to detect ie if some file in build has=
-=20
-> > "generation timestamp inside"), then we won't continue to rebuild
-> > subversion, gcc, ... all (just because neon was rebuilt due to libxml2 =
-PR=20
-> > change which didn't influence neon output).
-> >=20
-> > The same with openssl PR change.. which can cause python-native rebuild,
-> > but as long as python-native build output is "the same" we don't need to
-> > rebuild everything which (even transitively) depends on python-native.
->=20
-> In an ideal world it would be nice to track the output. I've never seen
-> a proposal for how we could make this work in practise though. There are
-> at least two big problems that spring to mind:
->=20
-> a) How do you compare two sets of output and decide whether they're the
-> same? Same list of files? Same contents? How to deal with timestamps?
->=20
-> b) You can't know in advance that the output will or won't match and its
-> near impossible to calculate any kind of checksum without having the
-> output available to perform that calculation on. This breaks a lot of
-> the way bitbake runs the builds and makes it hard to compare two
-> configurations. Is A compatible with B? You'd have to build them both to
-> find out.
->=20
-> Whilst output tracking sounds nice, I think its trading one set of
-> problems for another and in the end, I'm not sure its the perfect
-> solution it might look like from our current position.
+Hi,
 
-This could be completely silly idea and I don't have any tmpdir to check
-it on real sstate data, but what if we extend
+I was trying to buld a simple native-only recipe and ran into a strange
+problem that can be triggered using theattached test recipe.
 
-sstate-libxml2-native-x86_64-linux-2.7.8-r4-x86_64-2-85a14f7a73ea96fe85227c=
-5a4bac3f1f_populate-sysroot.tgz.siginfo
-to contain checksums for every file included in
-sstate-libxml2-native-x86_64-linux-2.7.8-r4-x86_64-2-85a14f7a73ea96fe85227c=
-5a4bac3f1f_populate-sysroot.tgz
-maybe store them in new extra file like
-sstate-libxml2-native-x86_64-linux-85a14f7a73ea96fe85227c5a4bac3f1f_populat=
-e-sysroot.tgz.files.siginfo
-and add only checksum of this file to oridinal siginfo file
+The actual problem is that do_populate_sysroot fails, although I do not
+do anything in regard to that in my recipe, I only have a custom do_install.
 
-And then when neon-native do_configure task is in runqueue because of:
-Hash for dependent task virtual:native:/OE/shr-core/openembedded-core/meta/=
-recipes-core/libxml/libxml2_2.7.8.bb.do_populate_sysroot
-changed from 85a14f7a73ea96fe85227c5a4bac3f1f to f3bbb2f69cdef3ee60360fbbd6=
-fab311
+I do not see what I could be doing wrong in the recipe itself, it looks valid
+to me... but it always triggers the error where tar is getting wrong directories
+as parameters.
 
-We'll compare
-sstate-libxml2-native-x86_64-linux-85a14f7a73ea96fe85227c5a4bac3f1f_populat=
-e-sysroot.tgz.files.siginfo
-and
-sstate-libxml2-native-x86_64-linux-f3bbb2f69cdef3ee60360fbbd6fab311_populat=
-e-sysroot.tgz.files.siginfo
-and if they're the same, we can skip neon-native.do_configure and all
-followning tasks pulled to runqueue just because of libxml2-native PR
-change.
+I did look into sysroot_stage_dirs() in staging.bbclass, it's basically
+doing things like:
+    sysroot_stage_dir $from${includedir} $to${includedir}
 
-I know this still has a lot of false positives, but we can whitelist
-some files with something like filesdepsexclude (as vardepsexclude) so
-that files matching some pattern won't be included in files.siginfo
-because they contain ie build timestamp (in generated files) or they
-change name without change of content (like
-/usr/doc/share/foo-1.0/README could be the same as
-/usr/doc/share/foo-1.1/README and it's not important for other packages
-depending on foo).
+My $from and $to seem to be correct, but the appended dirs seem to be wrong.
+I did echo ${includedir} and ${includedir_native} in my do_install() in the
+recipe, and it looked OK there...
 
-What I fear is that change like this will force "rebuild almost from scratc=
-h"
-too often to finish build before another such change is pushed in some
-layer (=3D> cannot do continual builds on current hw anymore)
+I did build quite a few packages in this setup already, so it seems that my
+overall configuration is OK (setup is based angstrom 2010).
 
-Or that auto-PR-bump thing is going to use same checksum mechanism,=20
-so even opkg upgrade will be slower then reflashing the device.
+I am using OE core with bitbake:
+BitBake Build Tool Core version 1.13.3, bitbake version 1.13.3
 
-And my last thought yesterday was that it would be nice to be able to
-disable sstate completely, to save some IO (generating sstate-cache and
-siginfos) for people who know what they're doing (and can rebuild stuff
-manually when needed), as with basic signature handler it doesn't reuse
-sstate much in multimachine builds (when everything is built acording to=20
-basic signature handler, but sstate checksums are already somewhere
-else)
-http://lists.linuxtogo.org/pipermail/openembedded-core/2011-November/012053=
-=2Ehtml
-and when it does reuse sstate package, it sometimes causes troubles
-http://lists.linuxtogo.org/pipermail/openembedded-core/2011-November/012149=
-=2Ehtml
+Any ideas?
 
-Cheers,
+Kind regards,
+Jin
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---rCwQ2Y43eQY6RBgR
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+--EVF5PPMfhYS0aIcm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename="native-test_0.1.bb"
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
+DESCRIPTION="test for the sysroot staging error"
+LICENSE="GPL"
 
-iEYEARECAAYFAk66deEACgkQN1Ujt2V2gBwjawCgrk5qruyUZ/7T1iyOjeEcR/yC
-fk4An1CI3A6KfUnjjIjCD1J14xdb5Ge5
-=f56y
------END PGP SIGNATURE-----
+SRC_URI = "http://www.deadlock.dhs.org/jin/COPYING"
 
---rCwQ2Y43eQY6RBgR--
+LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+
+PR="r1"
+
+inherit native
+
+do_configure() {
+    :
+}
+
+do_install() {
+    install -d ${D}${includedir_native}
+    echo "test" > ${D}${includedir_native}/sometest.h
+}
+
+--EVF5PPMfhYS0aIcm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename="log.do_populate_sysroot.11889"
+
++ cd /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/native-test-0.1
++ sysroot_stage_all
++ sysroot_stage_dirs /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir/
++ from=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image
++ to=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir/
++ sysroot_stage_dir /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/include /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/include
++ src=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/include
++ dest=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/include
++ '[' '!' -d /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/include ']'
++ return
++ '[' x86_64-linux = x86_64-linux ']'
++ sysroot_stage_dir /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/bin /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/bin
++ src=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/bin
++ dest=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/bin
++ '[' '!' -d /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/bin ']'
++ return
++ sysroot_stage_dir /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/sbin /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/sbin
++ src=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/sbin
++ dest=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/sbin
++ '[' '!' -d /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/sbin ']'
++ return
++ sysroot_stage_dir /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/bin /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/bin
++ src=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/bin
++ dest=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/bin
++ '[' '!' -d /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/bin ']'
++ return
++ sysroot_stage_dir /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/sbin /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/sbin
++ src=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/sbin
++ dest=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/sbin
++ '[' '!' -d /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/sbin ']'
++ return
++ sysroot_stage_dir /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/libexec /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/libexec
++ src=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/libexec
++ dest=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/libexec
++ '[' '!' -d /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/libexec ']'
++ return
++ sysroot_stage_dir /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/etc /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/etc
++ src=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/etc
++ dest=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/etc
++ '[' '!' -d /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/etc ']'
++ return
++ sysroot_stage_dir /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/var /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/var
++ src=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/var
++ dest=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/var
++ '[' '!' -d /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/var ']'
++ return
++ '[' -d /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/lib ']'
++ '[' -d /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/lib ']'
++ sysroot_stage_dir /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/share /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/share
++ src=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/share
++ dest=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/share
++ '[' '!' -d /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/share ']'
++ return
+NOTE: QA checking staging
+ERROR: Error executing a python function in /dss-oe/dS/meta-dss11-devel/recipes-support/rubygems/native-test_0.1.bb:
+CalledProcessError: Command 'tar -cf - -C /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir///dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux -ps . | tar -xf - -C /dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux' returned non-zero exit status 2 with output tar: /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir///dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux: Cannot chdir: No such file or directory
+tar: Error is not recoverable: exiting now
+tar: This does not look like a tar archive
+tar: Exiting with failure status due to previous errors
+
+
+ERROR: The stack trace of python calls that resulted in this exception/failure was:
+ERROR:   File "sstate_task_postfunc", line 10, in <module>
+ERROR: 
+ERROR:   File "sstate_task_postfunc", line 4, in sstate_task_postfunc
+ERROR: 
+ERROR:   File "sstate.bbclass", line 19, in sstate_install
+ERROR: 
+ERROR:   File "/dss-oe/OE/openembedded-core/meta/lib/oe/path.py", line 59, in copytree
+ERROR:     check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+ERROR: 
+ERROR:   File "/dss-oe/OE/openembedded-core/meta/lib/oe/path.py", line 121, in check_output
+ERROR:     raise CalledProcessError(retcode, cmd, output=output)
+ERROR: 
+ERROR: The code that was being executed was:
+ERROR:      0006:        bb.build.exec_func(intercept, d)
+ERROR:      0007:    sstate_package(shared_state, d)
+ERROR:      0008:
+ERROR:      0009:
+ERROR:  *** 0010:sstate_task_postfunc(d)
+ERROR:      0011:
+ERROR: (file: 'sstate_task_postfunc', lineno: 10, function: <module>)
+ERROR:      0001:
+ERROR:      0002:def sstate_task_postfunc(d):
+ERROR:      0003:    shared_state = sstate_state_fromvars(d)
+ERROR:  *** 0004:    sstate_install(shared_state, d)
+ERROR:      0005:    for intercept in shared_state['interceptfuncs']:
+ERROR:      0006:        bb.build.exec_func(intercept, d)
+ERROR:      0007:    sstate_package(shared_state, d)
+ERROR:      0008:
+ERROR: (file: 'sstate_task_postfunc', lineno: 4, function: sstate_task_postfunc)
+ERROR: Function 'sstate_task_postfunc' failed
+
+--EVF5PPMfhYS0aIcm--
