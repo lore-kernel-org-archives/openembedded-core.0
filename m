@@ -1,28 +1,35 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RO4YK-0002M3-K8
-	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Nov 2011 10:34:40 +0100
-Received: by wyh5 with SMTP id 5so1496475wyh.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RO4hC-0002gR-5z for openembedded-core@lists.openembedded.org;
+	Wed, 09 Nov 2011 10:43:50 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA99bZm1013702
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Nov 2011 01:28:22 -0800 (PST)
-Received: by 10.227.57.147 with SMTP id c19mr1177271wbh.8.1320830902502;
-	Wed, 09 Nov 2011 01:28:22 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id gd6sm4970509wbb.1.2011.11.09.01.28.20
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 09 Nov 2011 01:28:21 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Wed, 9 Nov 2011 10:28:21 +0100
-In-Reply-To: <4EB9DF31.7070904@intel.com>
+	Wed, 9 Nov 2011 09:37:35 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 13639-01 for <openembedded-core@lists.openembedded.org>;
+	Wed,  9 Nov 2011 09:37:31 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA99bQnk013696
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 9 Nov 2011 09:37:26 GMT
+Message-ID: <1320831447.10843.131.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <4EB9DF31.7070904@intel.com>
-Message-Id: <19F0FAB3-A37C-4CB4-8A3D-771878983898@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: openssl 1.0?
+Date: Wed, 09 Nov 2011 09:37:27 +0000
+In-Reply-To: <8EF5D367-6159-471F-8F2C-F3FA3216F05D@dominion.thruhere.net>
+References: <cover.1320799787.git.josh@linux.intel.com>
+	<dd949a69e2e7c9379caf5bb6162259c4f2584ea5.1320799787.git.josh@linux.intel.com>
+	<8EF5D367-6159-471F-8F2C-F3FA3216F05D@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 2/3] classes/[gnome|gnomebase|mime]: enhance gnome related classes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,48 +44,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2011 09:34:40 -0000
-X-Groupsio-MsgNum: 12191
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_86C8142B-4B2E-4FEC-BCB5-08CF9290763A";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_86C8142B-4B2E-4FEC-BCB5-08CF9290763A
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-Op 9 nov. 2011, om 03:02 heeft Scott Garman het volgende geschreven:
-
-> Hello,
->=20
-> I wanted to get some feedback from the community about OpenSSL 1.0. We =
-currently only support 0.9.8 in oe-core. Specifically: should we add =
-openssl 1.0 to oe-core, and should the rest of our recipes build against =
-it by default?
-
-The openssl in meta-oe is working fine, just keep in mind that the =
-SOVERSION changed, so you need a PR bump for everything that links =
-against openssl when switching.
-
-regards,
-
-Koen=
-
---Apple-Mail=_86C8142B-4B2E-4FEC-BCB5-08CF9290763A
+X-List-Received-Date: Wed, 09 Nov 2011 09:43:50 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
+On Wed, 2011-11-09 at 10:27 +0100, Koen Kooi wrote:
+> Op 9 nov. 2011, om 01:53 heeft Joshua Lock het volgende geschreven:
+> 
+> > This patch pulls in the gnome related classes from oe-core which
+> > adds extra packaging rules and functionality whilst modularising things
+> > so that one can get a subset of gnome functionality without adding a lot
+> > of extra dependencies.
+> > 
+> > These aren't an exact copy of the classes from meta-openembedded, notable
+> > differences are:
+> > * gnome.bbclass - I dropped the BBCLASSEXTEND
+> 
+> It looks that will break a number of things in meta-oe, why was it dropped?
 
-iEYEARECAAYFAk66R7UACgkQMkyGM64RGpEn3wCZAT2ij9q5VcFkcu5QiKZFMwW/
-5K0AoLn4ow2UNOGLZS+4mUzTaaLfHdTy
-=uq7c
------END PGP SIGNATURE-----
+Unconditionally BBCLASSEXTENDing everything gnome is a great way to hack
+around build issues and create a convoluted dependency mess that isn't
+really required. I'd much rather we try and minimise the amount of
+-native dependencies to those actually needed.
 
---Apple-Mail=_86C8142B-4B2E-4FEC-BCB5-08CF9290763A--
+Comparing our builds against other systems its becoming clear our
+convoluted dependency trees are one of the areas we don't do as well and
+it hurts performance :(.
+
+Cheers,
+
+Richard
+
+
+
