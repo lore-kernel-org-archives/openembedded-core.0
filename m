@@ -1,26 +1,24 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail.gw90.de ([188.40.100.199])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RODhx-0007H2-VF
-	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Nov 2011 20:21:14 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 09 Nov 2011 11:14:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="72954584"
-Received: from unknown (HELO [10.255.12.15]) ([10.255.12.15])
-	by orsmga002.jf.intel.com with ESMTP; 09 Nov 2011 11:14:57 -0800
-Message-ID: <4EBAD131.1040000@linux.intel.com>
-Date: Wed, 09 Nov 2011 11:14:57 -0800
-From: Joshua Lock <josh@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0.1) Gecko/20110930 Thunderbird/7.0.1
-MIME-Version: 1.0
+	(envelope-from <paulepanter@users.sourceforge.net>)
+	id 1RODuh-0007mO-0R for openembedded-core@lists.openembedded.org;
+	Wed, 09 Nov 2011 20:34:24 +0100
+Received: from f053032093.adsl.alicedsl.de ([78.53.32.93]
+	helo=[192.168.178.21])
+	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
+	id 1RODol-0005nG-Gp for openembedded-core@lists.openembedded.org;
+	Wed, 09 Nov 2011 19:28:15 +0000
+Message-ID: <1320866887.4622.60.camel@mattotaupa>
+From: Paul Menzel <paulepanter@users.sourceforge.net>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1320799787.git.josh@linux.intel.com>
-	<dd949a69e2e7c9379caf5bb6162259c4f2584ea5.1320799787.git.josh@linux.intel.com>
-	<8EF5D367-6159-471F-8F2C-F3FA3216F05D@dominion.thruhere.net>
-In-Reply-To: <8EF5D367-6159-471F-8F2C-F3FA3216F05D@dominion.thruhere.net>
-Subject: Re: [PATCH 2/3] classes/[gnome|gnomebase|mime]: enhance gnome related classes
+Date: Wed, 09 Nov 2011 20:28:07 +0100
+In-Reply-To: <65800b1433cf95084cb7541fbc14419086234470.1320839130.git.paul.eggleton@linux.intel.com>
+References: <cover.1320839130.git.paul.eggleton@linux.intel.com>
+	<65800b1433cf95084cb7541fbc14419086234470.1320839130.git.paul.eggleton@linux.intel.com>
+X-Mailer: Evolution 3.0.3-2 
+Mime-Version: 1.0
+Subject: Re: [PATCH 2/2] busybox: add grep to temporary links during uninstall
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,49 +33,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2011 19:21:14 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 09 Nov 2011 19:34:24 -0000
+X-Groupsio-MsgNum: 12242
+Content-Type: multipart/signed; micalg="pgp-sha1";
+	protocol="application/pgp-signature"; 
+	boundary="=-rAcjEObniNJ7/PFii9ek"
+
+--=-rAcjEObniNJ7/PFii9ek
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Am Mittwoch, den 09.11.2011, 12:05 +0000 schrieb Paul Eggleton:
+> In the busybox package prerm we set up some temporary links and modify
+> PATH so that certain utilities are provided for the purpose of running
+> update-alternatives; if grep is not among these then you get errors when
+> removing busybox, so add a temporary link for grep as well.
+>=20
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+>  meta/recipes-core/busybox/busybox.inc       |    1 +
+>  meta/recipes-core/busybox/busybox_1.18.5.bb |    2 +-
+>  2 files changed, 2 insertions(+), 1 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/bu=
+sybox/busybox.inc
+> index acd635b..f8fee51 100644
+> --- a/meta/recipes-core/busybox/busybox.inc
+> +++ b/meta/recipes-core/busybox/busybox.inc
+> @@ -270,6 +270,7 @@ pkg_prerm_${PN} () {
+>  	ln -s /bin/busybox $tmpdir/rm
+>  	ln -s /bin/busybox $tmpdir/sed
+>  	ln -s /bin/busybox $tmpdir/sort
+> +	ln -s /bin/busybox $tmpdir/grep
+
+Should it be sorted?
+
+[=E2=80=A6]
+
+
+Thanks,
+
+Paul
+
+--=-rAcjEObniNJ7/PFii9ek
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
-On 09/11/11 01:27, Koen Kooi wrote:
-> 
-> Op 9 nov. 2011, om 01:53 heeft Joshua Lock het volgende geschreven:
-> 
->> This patch pulls in the gnome related classes from oe-core which
->> adds extra packaging rules and functionality whilst modularising things
->> so that one can get a subset of gnome functionality without adding a lot
->> of extra dependencies.
->>
->> These aren't an exact copy of the classes from meta-openembedded, notable
->> differences are:
->> * gnome.bbclass - I dropped the BBCLASSEXTEND
-> 
-> It looks that will break a number of things in meta-oe, why was it dropped?
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
 
-Richard didn't want us to add native variants of everything that uses
-the gnome class.
-At least in the short term it should be easy enough to keep meta-oe's
-gnome.bbclass where the BBCLASSEXTEND is still set.
+iEYEABECAAYFAk661EgACgkQPX1aK2wOHVjUywCdHCxoePOz6Gw+1AxMKXV0Jlt7
+Ra0AnRUNiG3loSDsxU59/Roan2goVgxE
+=pD+x
+-----END PGP SIGNATURE-----
 
-Whether you'd want to keep that or instead set BBCLASSEXTEND in the
-required places feels like a policy decision for meta-oe.
-
->> * mime.bbclass:
->>  - updated coding style
->>  - use which to find update-mime-database program rather than hard coded
->>  - fix typo in populate_packges_append such that it's actually called
-> 
-> Will it drag in the shared-mime-info-data package you created automatically now?
-> 
-> Also, do you have matching patches to update meta-oe now that these things are heading into oe-core?
-
-I have not, I wanted to see what the feedback on this series was.
-Particularly the BBCLASSEXTEND bit as above.
-
-Joshua
--- 
-Joshua Lock
-        Yocto Project "Johannes factotum"
-        Intel Open Source Technology Centre
-
-
+--=-rAcjEObniNJ7/PFii9ek--
