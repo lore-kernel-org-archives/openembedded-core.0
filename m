@@ -1,27 +1,26 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail.gw90.de ([188.40.100.199])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RO3gy-0007tZ-Uu
-	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Nov 2011 09:39:33 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 09 Nov 2011 00:33:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,483,1315206000"; d="scan'208";a="87815589"
-Received: from unknown (HELO [10.255.12.14]) ([10.255.12.14])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Nov 2011 00:33:16 -0800
-Message-ID: <4EBA3ACC.3000907@linux.intel.com>
-Date: Wed, 09 Nov 2011 00:33:16 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1320779076.git.dvhart@linux.intel.com>
-	<6e5f3af0ae4f9f99f27bf2c909eef951599ff381.1320779076.git.dvhart@linux.intel.com>
-In-Reply-To: <6e5f3af0ae4f9f99f27bf2c909eef951599ff381.1320779076.git.dvhart@linux.intel.com>
-Cc: Darren Hart <dvhart@linux.intel.com>, tom_rini@mentor.com
-Subject: Re: [PATCH 1/1] ncurses: refactor configure to avoid configuring widec when disabled
+	(envelope-from <paulepanter@users.sourceforge.net>)
+	id 1RO46I-0000wT-Gn for openembedded-core@lists.openembedded.org;
+	Wed, 09 Nov 2011 10:05:42 +0100
+Received: from f053032093.adsl.alicedsl.de ([78.53.32.93]
+	helo=[192.168.178.21])
+	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
+	id 1RO40M-0003Fl-LL for openembedded-core@lists.openembedded.org;
+	Wed, 09 Nov 2011 08:59:34 +0000
+Message-ID: <1320829161.4622.2.camel@mattotaupa>
+From: Paul Menzel <paulepanter@users.sourceforge.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 09 Nov 2011 09:59:21 +0100
+In-Reply-To: <4EBA3834.8030406@linux.intel.com>
+References: <1320755519.3915.15.camel@mattotaupa>
+	<D173D270-DC47-4EEB-8CC8-F0A10284EF56@dominion.thruhere.net>
+	<1320757122.3915.18.camel@mattotaupa>
+	<4EBA3834.8030406@linux.intel.com>
+X-Mailer: Evolution 3.0.3-2 
+Mime-Version: 1.0
+Subject: Re: [PATCH v3] xinit: Fix `startx` looking for `mcookie` in sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,115 +35,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2011 08:39:33 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 09 Nov 2011 09:05:42 -0000
+X-Groupsio-MsgNum: 12182
+Content-Type: multipart/signed; micalg="pgp-sha1";
+	protocol="application/pgp-signature"; 
+	boundary="=-eoKgYB/f1OT8go3RUIOv"
+
+--=-eoKgYB/f1OT8go3RUIOv
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Date: Tue, 8 Nov 2011 13:00:32 +0100
+
+`startx` run on a system based on the demo systemd image [1] and `opkg`-ins=
+talled packages fails with the following error.
+
+	/usr/bin/startx: line 139: /OE/tentacle/build/tmp-angstrom_2010_x/sysroots=
+/x68_64-linux/usr/bin/mcookie: No such file or directory
+
+Applying commit 443bcc07 [1] from OE-classic
+
+        Author: Tom Rini <tom_rini@mentor.com>
+        Date:   Thu Apr 7 10:36:43 2011 -0700
+       =20
+            xinit: Fix mcookie / util-linux-ng dependency
+       =20
+            xinit just needs to know the runtime path of mcookie so we need=
+ to
+            RDEPEND on util-linux-ng and pass the runtime path in via EXTRA=
+_OECONF
+       =20
+            Signed-off-by: Tom Rini <tom_rini@mentor.com>
+
+fixes this issue. Commit 7f6cec6f [2]
+
+        Author: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
+        Date:   Sun Feb 21 18:11:30 2010 +0100
+       =20
+            xinit: add dependency on util-linux-ng
+       =20
+        [=E2=80=A6]
+
+tried to address the same problem but apparently did not help, because Tom =
+still had problems.
+
+[1] http://www.angstrom-distribution.org/demo/beagleboard/Angstrom-systemd-=
+image-eglibc-ipk-v2011.11-core-beagleboard.rootfs.tar.bz2
+[2] http://git.openembedded.org/openembedded/commit/443bcc0785bc004e471b375=
+0a34d12d2fd2e5dad
+[3] http://git.openembedded.org/openembedded/commit/7f6cec6f0adb6203a6dbaf8=
+a43c67c2c4f8bf84e
+
+Signed-off-by: Paul Menzel <paulepanter@users.sourceforge.net>
+---
+1. Please note that I did neither build nor run tested this patch and
+just noticed the error trying the demo image.
+2. Koen mentioned something on IRC wanting to get rid of `startx`
+entirely. But this patch should be applied nevertheless.
+
+v2: move `RDEPENDS` further down as suggested by Koen
+v3: there is no util-linux-ng in OE-core as noted by Saul
+---
+ meta/recipes-graphics/xorg-app/xinit_1.3.0.bb |    7 ++++++-
+ 1 files changed, 6 insertions(+), 1 deletions(-)
+
+diff --git a/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb b/meta/recipes-g=
+raphics/xorg-app/xinit_1.3.0.bb
+index ee7c64d..6953ccc 100644
+--- a/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
++++ b/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
+@@ -9,9 +9,14 @@ systems. When this first client exits, xinit will kill the=
+ X server and \
+ then terminate."
+=20
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D0d4b5eef75f1584ccbdc5e4a3431440=
+7"
+-PR =3D "r0"
++
++PR =3D "r1"
+ PE =3D "1"
+=20
++EXTRA_OECONF =3D "ac_cv_path_MCOOKIE=3D${bindir}/mcookie"
++
++RDEPENDS_${PN} +=3D "util-linux"
++
+ FILES_${PN} +=3D "${libdir}X11/xinit"
+=20
+ SRC_URI[md5sum] =3D "bc4e8b7d1919597cc37a0d24aa149dda"
+--=20
+1.7.7.2
+
+--=-eoKgYB/f1OT8go3RUIOv
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
-On 11/08/2011 11:08 AM, Darren Hart wrote:
-> The ENABLE_WIDEC variable can be used to disable ncurses wide character support
-> when your C library doesn't support it. Currently, the do_configure step
-> configures for both narrow and wide characters regardless and only checks
-> ENABLE_WIDEC during compilation. This leads to QA failures with host
-> contamination during configure if the C library doesn't support wide characters.
->
-> Refactor do_configure with a new ncurses_configure helper function and only
-> configure for wide character support if ENABLE_WIDEC is true.
->
-> Ensure that configure errors are propogated back through to do_configure.
->
-> Tested with ENABLE_WIDEC as true and false via an ncurses bbappend on i586,
-> including basic error injection.
->
-> Signed-off-by: Darren Hart<dvhart@linux.intel.com>
-> ---
->   meta/recipes-core/ncurses/ncurses.inc |   64 +++++++++++++++++---------------
->   1 files changed, 34 insertions(+), 30 deletions(-)
->
-> diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-> index be7d387..d3a9b1c 100644
-> --- a/meta/recipes-core/ncurses/ncurses.inc
-> +++ b/meta/recipes-core/ncurses/ncurses.inc
-> @@ -26,6 +26,36 @@ ENABLE_WIDEC = "true"
->   # builds.
->   BUILD_CPPFLAGS += "-D_GNU_SOURCE"
->
-No PR Bump!
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
 
-Sau!
+iEYEABECAAYFAk66QOkACgkQPX1aK2wOHVgXxQCfa6z2xgwR3RL+m/tCwTis0U8U
+GkEAoIbO1hb1OVyHVowMoYHxy8Qdclza
+=JZ3q
+-----END PGP SIGNATURE-----
 
-> +# Helper function for do_configure to allow multiple configurations
-> +# $1 the directory to run configure in
-> +# $@ the arguments to pass to configure
-> +ncurses_configure() {
-> +	mkdir -p $1
-> +	cd $1
-> +	shift
-> +	oe_runconf \
-> +	        --disable-static \
-> +	        --without-debug \
-> +	        --without-ada \
-> +	        --without-gpm \
-> +	        --enable-hard-tabs \
-> +	        --enable-xmc-glitch \
-> +	        --enable-colorfgbg \
-> +	        --with-termpath='${sysconfdir}/termcap:${datadir}/misc/termcap' \
-> +	        --with-terminfo-dirs='${sysconfdir}/terminfo:${datadir}/terminfo' \
-> +	        --with-shared \
-> +	        --disable-big-core \
-> +	        --program-prefix= \
-> +	        --with-ticlib \
-> +	        --with-termlib=tinfo \
-> +	        --enable-sigwinch \
-> +	        --enable-pc-files \
-> +	        --disable-rpath-hack \
-> +	        --with-manpage-format=normal \
-> +	        "$@" || return 1
-> +	cd ..
-> +}
-> +
->   # Override the function from the autotools class; ncurses requires a
->   # patched autoconf213 to generate the configure script. This autoconf
->   # is not available so that the shipped script will be used.
-> @@ -35,36 +65,10 @@ do_configure() {
->           # not the case for /dev/null redirections)
->           export cf_cv_working_poll=yes
->
-> -        for i in \
-> -        'narrowc' \
-> -        'widec   --enable-widec --without-progs'; do
-> -                set -- $i
-> -                mkdir -p $1
-> -                cd $1
-> -                shift
-> -
-> -                oe_runconf \
-> -                        --disable-static \
-> -                        --without-debug \
-> -                        --without-ada \
-> -                        --without-gpm \
-> -                        --enable-hard-tabs \
-> -                        --enable-xmc-glitch \
-> -                        --enable-colorfgbg \
-> -                        --with-termpath='${sysconfdir}/termcap:${datadir}/misc/termcap' \
-> -                        --with-terminfo-dirs='${sysconfdir}/terminfo:${datadir}/terminfo' \
-> -                        --with-shared \
-> -                        --disable-big-core \
-> -                        --program-prefix= \
-> -                        --with-ticlib \
-> -                        --with-termlib=tinfo \
-> -                        --enable-sigwinch \
-> -                        --enable-pc-files \
-> -                        --disable-rpath-hack \
-> -                        --with-manpage-format=normal \
-> -                        "$@"
-> -                cd ..
-> -        done
-> +	ncurses_configure "narrowc" || \
-> +		return 1
-> +	! ${ENABLE_WIDEC} || \
-> +		ncurses_configure "widec" "--enable-widec" "--without-progs"
->   }
->
->   do_compile() {
-
-
+--=-eoKgYB/f1OT8go3RUIOv--
