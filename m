@@ -1,25 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RO4UG-0001w9-6O
+	(envelope-from <sgw@linux.intel.com>) id 1RO4UH-0001w9-42
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Nov 2011 10:30:28 +0100
+	Wed, 09 Nov 2011 10:30:29 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 09 Nov 2011 01:24:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,483,1315206000"; d="scan'208";a="72180422"
+X-IronPort-AV: E=Sophos;i="4.69,483,1315206000"; d="scan'208";a="72180428"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.14])
 	by azsmga001.ch.intel.com with ESMTP; 09 Nov 2011 01:24:10 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Nov 2011 01:24:05 -0800
-Message-Id: <9a28288f8f04d020bfda07dc65152f805a8b92c1.1320830515.git.sgw@linux.intel.com>
+Date: Wed,  9 Nov 2011 01:24:07 -0800
+Message-Id: <2d22eaca011efed73f3cce0ac144425969cd02be.1320830515.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1320830515.git.sgw@linux.intel.com>
 References: <cover.1320830515.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1320830515.git.sgw@linux.intel.com>
 References: <cover.1320830515.git.sgw@linux.intel.com>
-MIME-Version: 1.0
-Subject: [CONSOLIDATED PULL 3/5] libarchive: Remove obsolete comment and empty line at the end
+Subject: [CONSOLIDATED PULL 5/5] udev-extraconf: blacklist /dev/md
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,54 +33,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2011 09:30:28 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 09 Nov 2011 09:30:29 -0000
 
-From: Paul Menzel <paulepanter@users.sourceforge.net>
+Do not mount /dev/md by default via udev, this resolved a problem
+with the sanity test failing due to seeing the error while attempting
+to mount /dev/md0
 
-This is a fix up for
-
-        commit fb19df5b21e551c5dfdfa340438952560c5fa528
-        Author: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-        Date:   Mon Nov 7 20:03:53 2011 +0800
-
-            libarchive: update to 2.8.5
-
-            Remove patch "0003-Patch-from-upstream-rev-2516.patch" because it has been merged
-            to source codes.
-
-            Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-
-removing a now obsolete comment because the undistributable content was removed [1] from upstream’s tarball.
-
-Also remove an empty line at the end introduced in the above commit.
-
-[1] http://code.google.com/p/libarchive/issues/detail?id=162
-
-Signed-off-by: Paul Menzel <paulepanter@users.sourceforge.net>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../libarchive/libarchive_2.8.5.bb                 |    3 ---
- 1 files changed, 0 insertions(+), 3 deletions(-)
+ meta/recipes-core/udev/files/mount.blacklist |    1 +
+ meta/recipes-core/udev/udev-extraconf_0.0.bb |    2 +-
+ 2 files changed, 2 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-extended/libarchive/libarchive_2.8.5.bb b/meta/recipes-extended/libarchive/libarchive_2.8.5.bb
-index 1bc49e2..5cf13e6 100644
---- a/meta/recipes-extended/libarchive/libarchive_2.8.5.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_2.8.5.bb
-@@ -7,8 +7,6 @@ PR = "r0"
+diff --git a/meta/recipes-core/udev/files/mount.blacklist b/meta/recipes-core/udev/files/mount.blacklist
+index d3ebb17..7c7d938 100644
+--- a/meta/recipes-core/udev/files/mount.blacklist
++++ b/meta/recipes-core/udev/files/mount.blacklist
+@@ -1,3 +1,4 @@
+ /dev/loop
+ /dev/ram
+ /dev/mtdblock
++/dev/md
+diff --git a/meta/recipes-core/udev/udev-extraconf_0.0.bb b/meta/recipes-core/udev/udev-extraconf_0.0.bb
+index e17d944..d0d0e84 100644
+--- a/meta/recipes-core/udev/udev-extraconf_0.0.bb
++++ b/meta/recipes-core/udev/udev-extraconf_0.0.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Extra machine specific configuration files for udev, specifically
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
  
- DEPENDS = "libxml2"
+-PR = "r1"
++PR = "r2"
  
--# We need to repack the tarball due undistributable content on the upstream one.
--# More details at http://code.google.com/p/libarchive/issues/detail?id=162
- SRC_URI = "http://libarchive.googlecode.com/files/libarchive-${PV}.tar.gz \
-            file://0001-Patch-from-upstream-revision-1990.patch \
-            file://0002-Patch-from-upstream-revision-1991.patch \
-@@ -24,4 +22,3 @@ SRC_URI[sha256sum] = "13993e0ffbd121ccda46ea226b1f8eac218de0fa8da7d8b1f998093d5c
- inherit autotools lib_package
- 
- BBCLASSEXTEND = "nativesdk"
--
+ SRC_URI = "file://mount.blacklist \
+            file://COPYING.GPL"
 -- 
 1.7.6.4
 
