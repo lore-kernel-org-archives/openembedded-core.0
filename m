@@ -1,35 +1,29 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RO8zu-0008WM-MK for openembedded-core@lists.openembedded.org;
-	Wed, 09 Nov 2011 15:19:26 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA9EDBpn015971
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 9 Nov 2011 14:13:11 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 14395-10 for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Nov 2011 14:13:07 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pA9ED4WR015965
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 9 Nov 2011 14:13:05 GMT
-Message-ID: <1320847986.10843.184.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+Received: from mga02.intel.com ([134.134.136.20])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <dvhart@linux.intel.com>) id 1RO9Qq-0000ij-29
+	for openembedded-core@lists.openembedded.org;
+	Wed, 09 Nov 2011 15:47:16 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 09 Nov 2011 06:40:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="72812717"
+Received: from unknown (HELO envy.home) ([10.255.15.140])
+	by orsmga002.jf.intel.com with ESMTP; 09 Nov 2011 06:40:59 -0800
+Message-ID: <4EBA90FB.5010706@linux.intel.com>
+Date: Wed, 09 Nov 2011 06:40:59 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
+MIME-Version: 1.0
+To: Saul Wold <sgw@linux.intel.com>
+References: <cover.1320779076.git.dvhart@linux.intel.com>
+	<6e5f3af0ae4f9f99f27bf2c909eef951599ff381.1320779076.git.dvhart@linux.intel.com>
+	<4EBA3ACC.3000907@linux.intel.com>
+In-Reply-To: <4EBA3ACC.3000907@linux.intel.com>
+X-Enigmail-Version: 1.3.2
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 09 Nov 2011 14:13:06 +0000
-In-Reply-To: <20111109124521.GH3641@jama.jama.net>
-References: <20111108143701.GC3641@jama.jama.net>
-	<1320834738.10843.159.camel@ted> <20111109115126.GG3641@jama.jama.net>
-	<1320840383.10843.173.camel@ted> <20111109124521.GH3641@jama.jama.net>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: BB_SIGNATURE_HANDLER = "basichash" unusable strict?
+Subject: Re: [PATCH 1/1] ncurses: refactor configure to avoid configuring widec when disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,128 +38,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2011 14:19:27 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 09 Nov 2011 14:47:16 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-11-09 at 13:45 +0100, Martin Jansa wrote:
-> On Wed, Nov 09, 2011 at 12:06:23PM +0000, Richard Purdie wrote:
-> > On Wed, 2011-11-09 at 12:51 +0100, Martin Jansa wrote:
-> > > I have talked with kergoth on IRC yesterday and he had very nice remark:
-> > > 
-> > > 16:40:50 < kergoth_> JaMa: heh, the biggest weakness of the sstate
-> > > signature bits, in my opinion, is that it only tracks inputs, not
-> > > outputs. If task A depends on B, and the metadata input to B changes,
-> > > then A will be rebuilt, even if the *output* of B didn't change as a 
-> > > result of the change to its metadata.
-> > > 
-> > > And with this idea applied on those 2 changes I think that PR change in
-> > > libxml2 should of course invalidate checksum for 
-> > > sstate-libxml2-native-x86_64-linux-2.7.8-r*populate-sysroot.tgz.siginfo
-> > > and probably wont hurt so much when neon-native is also rebuilt, but then 
-> > > if the output of neon build is the same with new sstate checksum as it was 
-> > > with older one (I know it's hard to detect ie if some file in build has 
-> > > "generation timestamp inside"), then we won't continue to rebuild
-> > > subversion, gcc, ... all (just because neon was rebuilt due to libxml2 PR 
-> > > change which didn't influence neon output).
-> > > 
-> > > The same with openssl PR change.. which can cause python-native rebuild,
-> > > but as long as python-native build output is "the same" we don't need to
-> > > rebuild everything which (even transitively) depends on python-native.
-> > 
-> > In an ideal world it would be nice to track the output. I've never seen
-> > a proposal for how we could make this work in practise though. There are
-> > at least two big problems that spring to mind:
-> > 
-> > a) How do you compare two sets of output and decide whether they're the
-> > same? Same list of files? Same contents? How to deal with timestamps?
-> > 
-> > b) You can't know in advance that the output will or won't match and its
-> > near impossible to calculate any kind of checksum without having the
-> > output available to perform that calculation on. This breaks a lot of
-> > the way bitbake runs the builds and makes it hard to compare two
-> > configurations. Is A compatible with B? You'd have to build them both to
-> > find out.
-> > 
-> > Whilst output tracking sounds nice, I think its trading one set of
-> > problems for another and in the end, I'm not sure its the perfect
-> > solution it might look like from our current position.
-> 
-> This could be completely silly idea and I don't have any tmpdir to check
-> it on real sstate data, but what if we extend
-> 
-> sstate-libxml2-native-x86_64-linux-2.7.8-r4-x86_64-2-85a14f7a73ea96fe85227c5a4bac3f1f_populate-sysroot.tgz.siginfo
-> to contain checksums for every file included in
-> sstate-libxml2-native-x86_64-linux-2.7.8-r4-x86_64-2-85a14f7a73ea96fe85227c5a4bac3f1f_populate-sysroot.tgz
-> maybe store them in new extra file like
-> sstate-libxml2-native-x86_64-linux-85a14f7a73ea96fe85227c5a4bac3f1f_populate-sysroot.tgz.files.siginfo
-> and add only checksum of this file to oridinal siginfo file
-> 
-> And then when neon-native do_configure task is in runqueue because of:
-> Hash for dependent task virtual:native:/OE/shr-core/openembedded-core/meta/recipes-core/libxml/libxml2_2.7.8.bb.do_populate_sysroot
-> changed from 85a14f7a73ea96fe85227c5a4bac3f1f to f3bbb2f69cdef3ee60360fbbd6fab311
-> 
-> We'll compare
-> sstate-libxml2-native-x86_64-linux-85a14f7a73ea96fe85227c5a4bac3f1f_populate-sysroot.tgz.files.siginfo
-> and
-> sstate-libxml2-native-x86_64-linux-f3bbb2f69cdef3ee60360fbbd6fab311_populate-sysroot.tgz.files.siginfo
-> and if they're the same, we can skip neon-native.do_configure and all
-> followning tasks pulled to runqueue just because of libxml2-native PR
-> change.
+On 11/09/2011 12:33 AM, Saul Wold wrote:
+> On 11/08/2011 11:08 AM, Darren Hart wrote:
+>> The ENABLE_WIDEC variable can be used to disable ncurses wide character support
+>> when your C library doesn't support it. Currently, the do_configure step
+>> configures for both narrow and wide characters regardless and only checks
+>> ENABLE_WIDEC during compilation. This leads to QA failures with host
+>> contamination during configure if the C library doesn't support wide characters.
+>>
+>> Refactor do_configure with a new ncurses_configure helper function and only
+>> configure for wide character support if ENABLE_WIDEC is true.
+>>
+>> Ensure that configure errors are propogated back through to do_configure.
+>>
+>> Tested with ENABLE_WIDEC as true and false via an ncurses bbappend on i586,
+>> including basic error injection.
+>>
+>> Signed-off-by: Darren Hart<dvhart@linux.intel.com>
+>> ---
+>>   meta/recipes-core/ncurses/ncurses.inc |   64 +++++++++++++++++---------------
+>>   1 files changed, 34 insertions(+), 30 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+>> index be7d387..d3a9b1c 100644
+>> --- a/meta/recipes-core/ncurses/ncurses.inc
+>> +++ b/meta/recipes-core/ncurses/ncurses.inc
+>> @@ -26,6 +26,36 @@ ENABLE_WIDEC = "true"
+>>   # builds.
+>>   BUILD_CPPFLAGS += "-D_GNU_SOURCE"
+>>
+> No PR Bump!
 
-Two problems spring to mind to start with:
+Right, duh. Thanks for catching. I've pushed to the same location having
+added:
 
-a) bitbake could have to checksum the .tgz file each time it runs (yes
-we can add caches and so on but we've tried to be clever to avoid
-needing to md5sum data we don't already have)
+-INC_PR = "r1"
++INC_PR = "r2"
 
-b) I can't calculate in advance what the checksum of a given task should
-be without executing the task itself and generating the output files to
-checksum. This means remote sstate packages become effectively useless.
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=dvhart/tiny&id=170541c552017ca784f395a9b52aae6b7c9f3592
 
+Thanks,
 
-> I know this still has a lot of false positives, but we can whitelist
-> some files with something like filesdepsexclude (as vardepsexclude) so
-> that files matching some pattern won't be included in files.siginfo
-> because they contain ie build timestamp (in generated files) or they
-> change name without change of content (like
-> /usr/doc/share/foo-1.0/README could be the same as
-> /usr/doc/share/foo-1.1/README and it's not important for other packages
-> depending on foo).
-
-I suspect this logic is going to get very difficult to write
-maintain :(.
-
-> What I fear is that change like this will force "rebuild almost from scratch"
-> too often to finish build before another such change is pushed in some
-> layer (=> cannot do continual builds on current hw anymore)
-> 
-> Or that auto-PR-bump thing is going to use same checksum mechanism, 
-> so even opkg upgrade will be slower then reflashing the device.
-> 
-> And my last thought yesterday was that it would be nice to be able to
-> disable sstate completely, to save some IO (generating sstate-cache and
-> siginfos) for people who know what they're doing (and can rebuild stuff
-> manually when needed), as with basic signature handler it doesn't reuse
-> sstate much in multimachine builds (when everything is built acording to 
-> basic signature handler, but sstate checksums are already somewhere
-> else)
-> http://lists.linuxtogo.org/pipermail/openembedded-core/2011-November/012053.html
-> and when it does reuse sstate package, it sometimes causes troubles
-> http://lists.linuxtogo.org/pipermail/openembedded-core/2011-November/012149.html
-
-We can customise the siggen code to do whatever we think is appropriate,
-including just permanently just generate the same hash value with no
-computation, effectively disabling 99.9% of the code/overhead.
-
-I think there are ways to solve the problems and we will find a solution
-that works the majority of the time but until people start thinking
-about and using the code, its not going to happen. Its nice to see
-people starting to think about this though :)
-
-Cheers,
-
-Richard
-
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
