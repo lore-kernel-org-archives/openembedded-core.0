@@ -1,30 +1,29 @@
-Received: from mga01.intel.com ([192.55.52.88])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1ROEjA-0000s8-R6
+Received: from mailout-de.gmx.net ([213.165.64.23])
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <schnitzeltony@gmx.de>) id 1ROEwW-0001AS-E5
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Nov 2011 21:26:33 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 09 Nov 2011 12:20:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,485,1315206000"; d="scan'208";a="83075541"
-Received: from unknown (HELO [10.255.12.15]) ([10.255.12.15])
-	by fmsmga001.fm.intel.com with ESMTP; 09 Nov 2011 12:20:15 -0800
-Message-ID: <4EBAE07F.2060905@linux.intel.com>
-Date: Wed, 09 Nov 2011 12:20:15 -0800
-From: Joshua Lock <josh@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0.1) Gecko/20110930 Thunderbird/7.0.1
+	Wed, 09 Nov 2011 21:40:20 +0100
+Received: (qmail invoked by alias); 09 Nov 2011 20:34:04 -0000
+Received: from p5B0A37AB.dip.t-dialin.net (EHLO localhost.localdomain)
+	[91.10.55.171]
+	by mail.gmx.net (mp011) with SMTP; 09 Nov 2011 21:34:04 +0100
+X-Authenticated: #62780362
+X-Provags-ID: V01U2FsdGVkX18x6+Flyzsxw5sdHVArDQ7pBrnSYN30JN4MjQ4vQO
+	amQ28Ti7C2tmW6
+From: Andreas =?utf-8?q?M=C3=BCller?= <schnitzeltony@gmx.de>
+To: "Patches and discussions about the oe-core layer"
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 9 Nov 2011 21:38:57 +0100
+User-Agent: KMail/1.13.7 (Linux/2.6.35.14-100.fc14.x86_64; KDE/4.6.5; x86_64; ;
+	)
+References: <201110272230.29012.schnitzeltony@gmx.de>
+	<1319797331.22423.13.camel@ted>
+	<201110290033.46761.schnitzeltony@gmx.de>
+In-Reply-To: <201110290033.46761.schnitzeltony@gmx.de>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1320799787.git.josh@linux.intel.com>
-	<dd949a69e2e7c9379caf5bb6162259c4f2584ea5.1320799787.git.josh@linux.intel.com>
-	<8EF5D367-6159-471F-8F2C-F3FA3216F05D@dominion.thruhere.net>
-	<1320831447.10843.131.camel@ted>
-	<0A7ED8DD-40A2-4E01-90A1-B2BB9849E500@dominion.thruhere.net>
-	<1320834947.10843.161.camel@ted>
-	<215EB605-E036-4165-9C8B-0506C6E9E8C5@dominion.thruhere.net>
-In-Reply-To: <215EB605-E036-4165-9C8B-0506C6E9E8C5@dominion.thruhere.net>
-Subject: Re: [PATCH 2/3] classes/[gnome|gnomebase|mime]: enhance gnome related classes
+Message-Id: <201111092138.57868.schnitzeltony@gmx.de>
+X-Y-GMX-Trusted: 0
+Subject: Re: Trouble by last dbus patch (46e6c3fa8034b12d178d605f3f5d7efe69671a13)?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,80 +38,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2011 20:26:33 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 09 Nov 2011 20:40:20 -0000
+Content-Type: Text/Plain;
+  charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Saturday, October 29, 2011 12:33:46 AM Andreas M=C3=BCller wrote:
+> On Friday, October 28, 2011 12:22:11 PM Richard Purdie wrote:
+> > On Thu, 2011-10-27 at 22:30 +0200, Andreas M=C3=BCller wrote:
+> > > Since the last updates of all layers (angstrom based) I have issues
+> > > with
+> > >=20
+> > > * networkmanager/nm-applet (meta-oe): I am not allowed to change the
+> > > settings
+> > >=20
+> > >   any more
+> > >=20
+> > > * xfce-session (meta-oe): Logging out takes very long and
+> > > Restart/Shutdown is
+> > >=20
+> > >   disabled
+> > >=20
+> > > I remember that I had similar issues a while ago. That could be worked
+> > > around by starting some dbus stuff ( do not exactly remember what it
+> > > was ).
+> > >=20
+> > > With this vague idea I checked and found in oe-core:
+> > > | dbus: use useradd class to allow use in read-only filesystems
+> > > | author	Otavio Salvador <otavio@ossystems.com.br>
+> > > | commit	46e6c3fa8034b12d178d605f3f5d7efe69671a13
+> > >=20
+> > > Not understanding totally what is all about I see in /etc/passw
+> > >=20
+> > > | messagebus:x:999:998::/var/lib/dbus:/bin/sh
+> > >=20
+> > > but I don't have /var/lib/dbus on my sytem!!
+> > >=20
+> > > I did not check yet, but maybe this is an incompatibilty with angstrom
+> > > custom
+> > >=20
+> > > | FILESYSTEM_PERMS_TABLES =3D "fs-perms-angstrom.txt"
+> > >=20
+> > > somebody around to enlight the darkness?
+> >=20
+> > There are some issues due to the orcering of when we now start some of
+> > the services. After the above change the dbus service starts much
+> > earlier on first boot, before some of the other postinstalls have run.
+> > This can mean you see errors due to users which have not yet been
+> > created by postinstalls (e.g. avahi or xuser) yet the dbus files
+> > reference these and its trying to start those services.
+> >=20
+> > We're looking at fixing the remaining adduser type postinstalls to
+> > address this. I'm not sure if this is related to the problem you were
+> > seeing above or not.
+>=20
+> FYI: reverting the patch fixes mentioned issues here.
+>=20
+Maybe I missed something but after starting a new image - to get the errors=
+=20
+mentioned above worked around - I still have to do manually on the machine :
 
+chown messagebus:messagebus /var/run/dbus ${D}${localstatedir}/lib/dbus
+chown root:messagebus /usr/libexec/dbus-daemon-launch-helper
+chmod 4754 /usr/libexec/dbus-daemon-launch-helper
 
-On 09/11/11 03:18, Koen Kooi wrote:
-> 
-> Op 9 nov. 2011, om 11:35 heeft Richard Purdie het volgende geschreven:
-> 
->> On Wed, 2011-11-09 at 11:27 +0100, Koen Kooi wrote:
->>> Op 9 nov. 2011, om 10:37 heeft Richard Purdie het volgende geschreven:
->>>
->>>> On Wed, 2011-11-09 at 10:27 +0100, Koen Kooi wrote:
->>>>> Op 9 nov. 2011, om 01:53 heeft Joshua Lock het volgende geschreven:
->>>>>
->>>>>> This patch pulls in the gnome related classes from oe-core which
->>>>>> adds extra packaging rules and functionality whilst modularising things
->>>>>> so that one can get a subset of gnome functionality without adding a lot
->>>>>> of extra dependencies.
->>>>>>
->>>>>> These aren't an exact copy of the classes from meta-openembedded, notable
->>>>>> differences are:
->>>>>> * gnome.bbclass - I dropped the BBCLASSEXTEND
->>>>>
->>>>> It looks that will break a number of things in meta-oe, why was it dropped?
->>>>
->>>> Unconditionally BBCLASSEXTENDing everything gnome is a great way to hack
->>>> around build issues and create a convoluted dependency mess that isn't
->>>> really required. I'd much rather we try and minimise the amount of
->>>> -native dependencies to those actually needed.
->>>>
->>>> Comparing our builds against other systems its becoming clear our
->>>> convoluted dependency trees are one of the areas we don't do as well and
->>>> it hurts performance :(.
->>>
->>> The list of -native needed in meta-gnome:
->>>
->>> bison-native
->>> cairo-native
->>> docbook-utils-native
->>> flex-native
->>> gconf-native
->>> gdk-pixbuf-native
->>> glib-2.0-native
->>> gnome-doc-utils-native
->>> gobject-introspection-native
->>> gtk-doc-native
->>> icon-naming-utils-native
->>> intltool-native
->>> libffi-native
->>> libidl-native
->>> libxml-parser-perl-native
->>> orbit2-native
->>> pango-native
->>> perl-native
->>> popt-native
->>> python-native
->>
->> Many of which are not gnome bbclass derived recipes. I therefore think
->> it makes sense to put the BBCLASSEXTEND in the recipes where its needed
->> and not the core class...
-> 
-> Exactly! I did a lot of dependency cleanup when importing them, so the situation isn't as bad as it was in OE classic.
-> 
-> Josh, what kind of test builds did you do for the meta-gnome recipes after moving the classes?
-> 
+As long as this is not fixed, can we have this additionally in pkg_postinst=
+_dbus=20
+temporary?
 
-I'm sorry to say almost zero.
-
-Joshua
--- 
-Joshua Lock
-        Yocto Project "Johannes factotum"
-        Intel Open Source Technology Centre
+Andreas
 
 
