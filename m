@@ -1,32 +1,28 @@
-Received: from masterfoo.zenlinux.com ([207.192.74.254])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1RNyRN-0003LZ-0y
+	(envelope-from <sgw@linux.intel.com>) id 1RO3WH-0007Qk-AD
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Nov 2011 04:03:05 +0100
-Received: from localhost (c-98-246-160-155.hsd1.or.comcast.net
-	[98.246.160.155])
-	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 2B89D2FD07
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Nov 2011 21:56:46 -0500 (EST)
-From: Scott Garman <scott.a.garman@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Nov 2011 18:56:39 -0800
-Message-Id: <747159d992634741777e8b05dce036346cbf8de2.1320807056.git.scott.a.garman@intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1320807056.git.scott.a.garman@intel.com>
-References: <cover.1320807056.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1320807056.git.scott.a.garman@intel.com>
-References: <cover.1320807056.git.scott.a.garman@intel.com>
-X-MasterFoo-MailScanner-Information: Please contact the ISP for more
-	information
-X-MailScanner-ID: 2B89D2FD07.1CF1A
-X-MasterFoo-MailScanner: Found to be clean
-X-MasterFoo-MailScanner-SpamCheck: not spam
-X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
-X-Spam-Status: No
-Subject: [PATCH 4/4] avahi: remove USERADDPN
+	Wed, 09 Nov 2011 09:28:29 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 09 Nov 2011 00:22:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="72722364"
+Received: from unknown (HELO [10.255.12.14]) ([10.255.12.14])
+	by orsmga001.jf.intel.com with ESMTP; 09 Nov 2011 00:22:12 -0800
+Message-ID: <4EBA3834.8030406@linux.intel.com>
+Date: Wed, 09 Nov 2011 00:22:12 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1320755519.3915.15.camel@mattotaupa>
+	<D173D270-DC47-4EEB-8CC8-F0A10284EF56@dominion.thruhere.net>
+	<1320757122.3915.18.camel@mattotaupa>
+In-Reply-To: <1320757122.3915.18.camel@mattotaupa>
+Cc: Paul Menzel <paulepanter@users.sourceforge.net>
+Subject: Re: [PATCH v2] xinit: Fix `startx` looking for `mcookie` in sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,29 +37,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2011 03:03:05 -0000
+X-List-Received-Date: Wed, 09 Nov 2011 08:28:29 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
-USERADDPN is no longer used; remove it.
+On 11/08/2011 04:58 AM, Paul Menzel wrote:
+> Date: Tue, 8 Nov 2011 13:00:32 +0100
+>
+> `startx` run on a system based on the demo systemd image [1] and `opkg`-installed packages fails with the following error.
+>
+> 	/usr/bin/startx: line 139: /OE/tentacle/build/tmp-angstrom_2010_x/sysroots/x68_64-linux/usr/bin/mcookie: No such file or directory
+>
+> Applying commit 443bcc07 [1] from OE-classic
+>
+>          Author: Tom Rini<tom_rini@mentor.com>
+>          Date:   Thu Apr 7 10:36:43 2011 -0700
+>
+>              xinit: Fix mcookie / util-linux-ng dependency
+>
+>              xinit just needs to know the runtime path of mcookie so we need to
+>              RDEPEND on util-linux-ng and pass the runtime path in via EXTRA_OECONF
+>
+>              Signed-off-by: Tom Rini<tom_rini@mentor.com>
+>
+> fixes this issue. Commit 7f6cec6f [2]
+>
+>          Author: Frans Meulenbroeks<fransmeulenbroeks@gmail.com>
+>          Date:   Sun Feb 21 18:11:30 2010 +0100
+>
+>              xinit: add dependency on util-linux-ng
+>
+>          […]
+>
+> tried to address the same problem but apparently did not help, because Tom still had problems.
+>
+> [1] http://www.angstrom-distribution.org/demo/beagleboard/Angstrom-systemd-image-eglibc-ipk-v2011.11-core-beagleboard.rootfs.tar.bz2
+> [2] http://git.openembedded.org/openembedded/commit/443bcc0785bc004e471b3750a34d12d2fd2e5dad
+> [3] http://git.openembedded.org/openembedded/commit/7f6cec6f0adb6203a6dbaf8a43c67c2c4f8bf84e
+>
+> Signed-off-by: Paul Menzel<paulepanter@users.sourceforge.net>
+> ---
+> 1. Please note that I did neither build nor run tested this patch and
+> just noticed the error trying the demo image.
+> 2. Koen mentioned something on IRC wanting to get rid of `startx`
+> entirely. But this patch should be applied nevertheless.
+>
+> v2: move `RDEPENDS` further down as suggested by Koen
+> ---
+>   meta/recipes-graphics/xorg-app/xinit_1.3.0.bb |    7 ++++++-
+>   1 files changed, 6 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb b/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
+> index ee7c64d..20b378c 100644
+> --- a/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
+> +++ b/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
+> @@ -9,9 +9,14 @@ systems. When this first client exits, xinit will kill the X server and \
+>   then terminate."
+>
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=0d4b5eef75f1584ccbdc5e4a34314407"
+> -PR = "r0"
+> +
+> +PR = "r1"
+>   PE = "1"
+>
+> +EXTRA_OECONF = "ac_cv_path_MCOOKIE=${bindir}/mcookie"
+> +
+> +RDEPENDS_${PN} += "util-linux-ng"
+> +
+Do you really mean util-linux in oe-core?
 
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
----
- meta/recipes-connectivity/avahi/avahi.inc |    1 -
- 1 files changed, 0 insertions(+), 1 deletions(-)
+Sau!
 
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index 728c38f..deebbd6 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -23,7 +23,6 @@ SRC_URI = "http://avahi.org/download/avahi-${PV}.tar.gz \
-           file://99avahi-autoipd \
-           file://initscript.patch"
- 
--USERADDPN = "avahi-daemon"
- USERADD_PACKAGES = "avahi-daemon"
- USERADD_PARAM_avahi-daemon = "--system --home /var/run/avahi-daemon \
-                               --no-create-home --shell /bin/false \
--- 
-1.7.5.4
 
+>   FILES_${PN} += "${libdir}X11/xinit"
+>
+>   SRC_URI[md5sum] = "bc4e8b7d1919597cc37a0d24aa149dda"
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
