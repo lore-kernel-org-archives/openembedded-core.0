@@ -1,24 +1,30 @@
-Received: from mail.gw90.de ([188.40.100.199])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RODuh-0007mO-0R for openembedded-core@lists.openembedded.org;
-	Wed, 09 Nov 2011 20:34:24 +0100
-Received: from f053032093.adsl.alicedsl.de ([78.53.32.93]
-	helo=[192.168.178.21])
-	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RODol-0005nG-Gp for openembedded-core@lists.openembedded.org;
-	Wed, 09 Nov 2011 19:28:15 +0000
-Message-ID: <1320866887.4622.60.camel@mattotaupa>
-From: Paul Menzel <paulepanter@users.sourceforge.net>
+	(envelope-from <josh@linux.intel.com>) id 1ROEjA-0000s8-R6
+	for openembedded-core@lists.openembedded.org;
+	Wed, 09 Nov 2011 21:26:33 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 09 Nov 2011 12:20:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,485,1315206000"; d="scan'208";a="83075541"
+Received: from unknown (HELO [10.255.12.15]) ([10.255.12.15])
+	by fmsmga001.fm.intel.com with ESMTP; 09 Nov 2011 12:20:15 -0800
+Message-ID: <4EBAE07F.2060905@linux.intel.com>
+Date: Wed, 09 Nov 2011 12:20:15 -0800
+From: Joshua Lock <josh@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0.1) Gecko/20110930 Thunderbird/7.0.1
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 09 Nov 2011 20:28:07 +0100
-In-Reply-To: <65800b1433cf95084cb7541fbc14419086234470.1320839130.git.paul.eggleton@linux.intel.com>
-References: <cover.1320839130.git.paul.eggleton@linux.intel.com>
-	<65800b1433cf95084cb7541fbc14419086234470.1320839130.git.paul.eggleton@linux.intel.com>
-X-Mailer: Evolution 3.0.3-2 
-Mime-Version: 1.0
-Subject: Re: [PATCH 2/2] busybox: add grep to temporary links during uninstall
+References: <cover.1320799787.git.josh@linux.intel.com>
+	<dd949a69e2e7c9379caf5bb6162259c4f2584ea5.1320799787.git.josh@linux.intel.com>
+	<8EF5D367-6159-471F-8F2C-F3FA3216F05D@dominion.thruhere.net>
+	<1320831447.10843.131.camel@ted>
+	<0A7ED8DD-40A2-4E01-90A1-B2BB9849E500@dominion.thruhere.net>
+	<1320834947.10843.161.camel@ted>
+	<215EB605-E036-4165-9C8B-0506C6E9E8C5@dominion.thruhere.net>
+In-Reply-To: <215EB605-E036-4165-9C8B-0506C6E9E8C5@dominion.thruhere.net>
+Subject: Re: [PATCH 2/3] classes/[gnome|gnomebase|mime]: enhance gnome related classes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,59 +39,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2011 19:34:24 -0000
-X-Groupsio-MsgNum: 12242
-Content-Type: multipart/signed; micalg="pgp-sha1";
-	protocol="application/pgp-signature"; 
-	boundary="=-rAcjEObniNJ7/PFii9ek"
-
---=-rAcjEObniNJ7/PFii9ek
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Am Mittwoch, den 09.11.2011, 12:05 +0000 schrieb Paul Eggleton:
-> In the busybox package prerm we set up some temporary links and modify
-> PATH so that certain utilities are provided for the purpose of running
-> update-alternatives; if grep is not among these then you get errors when
-> removing busybox, so add a temporary link for grep as well.
->=20
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> ---
->  meta/recipes-core/busybox/busybox.inc       |    1 +
->  meta/recipes-core/busybox/busybox_1.18.5.bb |    2 +-
->  2 files changed, 2 insertions(+), 1 deletions(-)
->=20
-> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/bu=
-sybox/busybox.inc
-> index acd635b..f8fee51 100644
-> --- a/meta/recipes-core/busybox/busybox.inc
-> +++ b/meta/recipes-core/busybox/busybox.inc
-> @@ -270,6 +270,7 @@ pkg_prerm_${PN} () {
->  	ln -s /bin/busybox $tmpdir/rm
->  	ln -s /bin/busybox $tmpdir/sed
->  	ln -s /bin/busybox $tmpdir/sort
-> +	ln -s /bin/busybox $tmpdir/grep
-
-Should it be sorted?
-
-[=E2=80=A6]
-
-
-Thanks,
-
-Paul
-
---=-rAcjEObniNJ7/PFii9ek
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+X-List-Received-Date: Wed, 09 Nov 2011 20:26:33 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.11 (GNU/Linux)
 
-iEYEABECAAYFAk661EgACgkQPX1aK2wOHVjUywCdHCxoePOz6Gw+1AxMKXV0Jlt7
-Ra0AnRUNiG3loSDsxU59/Roan2goVgxE
-=pD+x
------END PGP SIGNATURE-----
 
---=-rAcjEObniNJ7/PFii9ek--
+On 09/11/11 03:18, Koen Kooi wrote:
+> 
+> Op 9 nov. 2011, om 11:35 heeft Richard Purdie het volgende geschreven:
+> 
+>> On Wed, 2011-11-09 at 11:27 +0100, Koen Kooi wrote:
+>>> Op 9 nov. 2011, om 10:37 heeft Richard Purdie het volgende geschreven:
+>>>
+>>>> On Wed, 2011-11-09 at 10:27 +0100, Koen Kooi wrote:
+>>>>> Op 9 nov. 2011, om 01:53 heeft Joshua Lock het volgende geschreven:
+>>>>>
+>>>>>> This patch pulls in the gnome related classes from oe-core which
+>>>>>> adds extra packaging rules and functionality whilst modularising things
+>>>>>> so that one can get a subset of gnome functionality without adding a lot
+>>>>>> of extra dependencies.
+>>>>>>
+>>>>>> These aren't an exact copy of the classes from meta-openembedded, notable
+>>>>>> differences are:
+>>>>>> * gnome.bbclass - I dropped the BBCLASSEXTEND
+>>>>>
+>>>>> It looks that will break a number of things in meta-oe, why was it dropped?
+>>>>
+>>>> Unconditionally BBCLASSEXTENDing everything gnome is a great way to hack
+>>>> around build issues and create a convoluted dependency mess that isn't
+>>>> really required. I'd much rather we try and minimise the amount of
+>>>> -native dependencies to those actually needed.
+>>>>
+>>>> Comparing our builds against other systems its becoming clear our
+>>>> convoluted dependency trees are one of the areas we don't do as well and
+>>>> it hurts performance :(.
+>>>
+>>> The list of -native needed in meta-gnome:
+>>>
+>>> bison-native
+>>> cairo-native
+>>> docbook-utils-native
+>>> flex-native
+>>> gconf-native
+>>> gdk-pixbuf-native
+>>> glib-2.0-native
+>>> gnome-doc-utils-native
+>>> gobject-introspection-native
+>>> gtk-doc-native
+>>> icon-naming-utils-native
+>>> intltool-native
+>>> libffi-native
+>>> libidl-native
+>>> libxml-parser-perl-native
+>>> orbit2-native
+>>> pango-native
+>>> perl-native
+>>> popt-native
+>>> python-native
+>>
+>> Many of which are not gnome bbclass derived recipes. I therefore think
+>> it makes sense to put the BBCLASSEXTEND in the recipes where its needed
+>> and not the core class...
+> 
+> Exactly! I did a lot of dependency cleanup when importing them, so the situation isn't as bad as it was in OE classic.
+> 
+> Josh, what kind of test builds did you do for the meta-gnome recipes after moving the classes?
+> 
+
+I'm sorry to say almost zero.
+
+Joshua
+-- 
+Joshua Lock
+        Yocto Project "Johannes factotum"
+        Intel Open Source Technology Centre
+
+
