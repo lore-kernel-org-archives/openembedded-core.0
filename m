@@ -1,17 +1,27 @@
-Received: from belief.htu.tuwien.ac.at ([128.131.95.14])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jin@mediatomb.cc>) id 1RO8QX-0007Fm-3D
+	(envelope-from <tom.zanussi@intel.com>) id 1RO8VA-0007WE-JJ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Nov 2011 14:42:53 +0100
-Received: by belief.htu.tuwien.ac.at (Postfix, from userid 10004)
-	id ACD4D83874; Wed,  9 Nov 2011 14:04:24 +0100 (CET)
-Date: Wed, 9 Nov 2011 14:04:24 +0100
-From: Sergey 'Jin' Bostandzhyan <jin@mediatomb.cc>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20111109130424.GB31478@deadlock.dhs.org>
-MIME-Version: 1.0
-User-Agent: Mutt/1.5.15 (2007-04-06)
-Subject: invalid recipe or a bug in bitbake?
+	Wed, 09 Nov 2011 14:47:41 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 09 Nov 2011 05:41:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,484,1315206000"; d="scan'208";a="87931175"
+Received: from unknown (HELO [10.255.15.253]) ([10.255.15.253])
+	by fmsmga002.fm.intel.com with ESMTP; 09 Nov 2011 05:41:20 -0800
+From: Tom Zanussi <tom.zanussi@intel.com>
+To: "Cui, Dexuan" <dexuan.cui@intel.com>
+In-Reply-To: <1865303E0DED764181A9D882DEF65FB6DF1AE8C698@shsmsx502.ccr.corp.intel.com>
+References: <cover.1320780004.git.sgw@linux.intel.com>
+	<9f8d5c15eb59611c86dee83180642f29dcc7a361.1320780004.git.sgw@linux.intel.com>
+	<1865303E0DED764181A9D882DEF65FB6DF1AE8C698@shsmsx502.ccr.corp.intel.com>
+Date: Wed, 09 Nov 2011 07:42:25 -0600
+Message-ID: <1320846145.16608.0.camel@elmorro>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.28.3 
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [CONSOLIDATED PULL 17/17] python: skip setup.py 'import	check' when cross-compiling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -26,166 +36,152 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2011 13:42:53 -0000
-X-Groupsio-MsgNum: 12211
-Content-Type: multipart/mixed; boundary="EVF5PPMfhYS0aIcm"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 09 Nov 2011 13:47:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---EVF5PPMfhYS0aIcm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Wed, 2011-11-09 at 02:34 -0800, Cui, Dexuan wrote:
+> How I wish I could notice the patch this morning so I could save 1 day!
+> 
 
-Hi,
+??? Can you please explain what you mean?
 
-I was trying to buld a simple native-only recipe and ran into a strange
-problem that can be triggered using theattached test recipe.
+> Anyway, thanks TomZ for the patch!  :-)
+> 
 
-The actual problem is that do_populate_sysroot fails, although I do not
-do anything in regard to that in my recipe, I only have a custom do_install.
+You're welcome, I guess!
 
-I do not see what I could be doing wrong in the recipe itself, it looks valid
-to me... but it always triggers the error where tar is getting wrong directories
-as parameters.
+Tom
 
-I did look into sysroot_stage_dirs() in staging.bbclass, it's basically
-doing things like:
-    sysroot_stage_dir $from${includedir} $to${includedir}
+> Thanks,
+> -- Dexuan
+> 
+> 
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> > Of Saul Wold
+> > Sent: Wednesday, November 09, 2011 3:23 AM
+> > To: openembedded-core@lists.openembedded.org
+> > Subject: [OE-core] [CONSOLIDATED PULL 17/17] python: skip setup.py
+> > 'import check' when cross-compiling
+> > 
+> > From: Tom Zanussi <tom.zanussi@intel.com>
+> > 
+> > build_extension() in setup.py, as part of the build process, does an
+> > 'import check' on the built extension.  The import check in turn
+> > dlopen()'s the shared library associated with the extension, which
+> > isn't something that makes sense if that library was cross-compiled
+> > for a different architecture.
+> > 
+> > This was noticed with an x86_64 target that was compiled with avx
+> > support, because it caused 'illegal instruction' exceptions:
+> > 
+> > | /bin/sh: line 1: 14575 Illegal instruction ... -E ./setup.py -q build
+> > 
+> > For other target architectures, it doesn't necessarily cause illegal
+> > instruction exceptions, but still fails.  For example, on arm, the
+> > failure pathway causes this warning:
+> > 
+> > *** WARNING: renaming "cmath" since importing it failed: .../cmath.so:
+> >     wrong ELF class: ELFCLASS32
+> > 
+> > This patch to setup.py and the associated recipe changes allow the
+> > whole 'import check' logic to be skipped when cross-compiling.
+> > 
+> > Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+> > ---
+> >  .../python/setup_py_skip_cross_import_check.patch  |   27
+> > ++++++++++++++++++++
+> >  meta/recipes-devtools/python/python_2.7.2.bb       |    5 +++
+> >  2 files changed, 32 insertions(+), 0 deletions(-)
+> >  create mode 100644
+> > meta/recipes-devtools/python/python/setup_py_skip_cross_import_check.
+> > patch
+> > 
+> > diff --git
+> > a/meta/recipes-devtools/python/python/setup_py_skip_cross_import_chec
+> > k.patch
+> > b/meta/recipes-devtools/python/python/setup_py_skip_cross_import_chec
+> > k.patch
+> > new file mode 100644
+> > index 0000000..6ccdb94
+> > --- /dev/null
+> > +++
+> > b/meta/recipes-devtools/python/python/setup_py_skip_cross_import_chec
+> > k.patch
+> > @@ -0,0 +1,27 @@
+> > +This patch skips over the 'import check' setup.py does when building
+> > +extensions.  This generally won't work when cross-compiling.
+> > +
+> > +Upstream-Status: Inappropriate [embedded-specific]
+> > +
+> > +Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+> > +
+> > +Index: Python-2.7.2/setup.py
+> > +==========================================================
+> > =========
+> > +--- Python-2.7.2.orig/setup.py	2011-11-04 16:46:34.553796410 -0500
+> > ++++ Python-2.7.2/setup.py	2011-11-04 16:59:49.692802313 -0500
+> > +@@ -287,6 +287,15 @@
+> > +                           (ext.name, sys.exc_info()[1]))
+> > +             self.failed.append(ext.name)
+> > +             return
+> > ++
+> > ++        # If we're cross-compiling, we want to skip the import check
+> > ++        # i.e. we shouldn't be dynamically loading target shared libs
+> > ++        if os.environ.get('CROSS_COMPILE') is not None:
+> > ++            self.announce(
+> > ++                'WARNING: skipping import check for cross-compiled
+> > "%s"' %
+> > ++                ext.name)
+> > ++            return
+> > ++
+> > +         # Workaround for Mac OS X: The Carbon-based modules cannot
+> > be
+> > +         # reliably imported into a command-line Python
+> > +         if 'Carbon' in ext.extra_link_args:
+> > diff --git a/meta/recipes-devtools/python/python_2.7.2.bb
+> > b/meta/recipes-devtools/python/python_2.7.2.bb
+> > index bb088a4..360e64e 100644
+> > --- a/meta/recipes-devtools/python/python_2.7.2.bb
+> > +++ b/meta/recipes-devtools/python/python_2.7.2.bb
+> > @@ -18,6 +18,7 @@ SRC_URI += "\
+> >    file://multilib.patch \
+> >    file://cgi_py.patch \
+> >    file://remove_sqlite_rpath.patch \
+> > +  file://setup_py_skip_cross_import_check.patch \
+> >  "
+> > 
+> >  S = "${WORKDIR}/Python-${PV}"
+> > @@ -57,6 +58,8 @@ do_compile() {
+> >  	# then call do_install twice we get Makefile.orig == Makefile.sysroot
+> >  	install -m 0644 Makefile Makefile.sysroot
+> > 
+> > +	export CROSS_COMPILE="${TARGET_PREFIX}"
+> > +
+> >  	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/pgen \
+> >  		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python \
+> >  		STAGING_LIBDIR=${STAGING_LIBDIR} \
+> > @@ -78,6 +81,8 @@ do_install() {
+> >  	# make install needs the original Makefile, or otherwise the inclues
+> > would
+> >  	# go to ${D}${STAGING...}/...
+> >  	install -m 0644 Makefile.orig Makefile
+> > +
+> > +	export CROSS_COMPILE="${TARGET_PREFIX}"
+> > 
+> >  	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/pgen \
+> >  		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python \
+> > --
+> > 1.7.6.4
+> > 
+> > 
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-My $from and $to seem to be correct, but the appended dirs seem to be wrong.
-I did echo ${includedir} and ${includedir_native} in my do_install() in the
-recipe, and it looked OK there...
-
-I did build quite a few packages in this setup already, so it seems that my
-overall configuration is OK (setup is based angstrom 2010).
-
-I am using OE core with bitbake:
-BitBake Build Tool Core version 1.13.3, bitbake version 1.13.3
-
-Any ideas?
-
-Kind regards,
-Jin
 
 
---EVF5PPMfhYS0aIcm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename="native-test_0.1.bb"
 
-DESCRIPTION="test for the sysroot staging error"
-LICENSE="GPL"
-
-SRC_URI = "http://www.deadlock.dhs.org/jin/COPYING"
-
-LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
-
-PR="r1"
-
-inherit native
-
-do_configure() {
-    :
-}
-
-do_install() {
-    install -d ${D}${includedir_native}
-    echo "test" > ${D}${includedir_native}/sometest.h
-}
-
---EVF5PPMfhYS0aIcm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename="log.do_populate_sysroot.11889"
-
-+ cd /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/native-test-0.1
-+ sysroot_stage_all
-+ sysroot_stage_dirs /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir/
-+ from=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image
-+ to=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir/
-+ sysroot_stage_dir /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/include /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/include
-+ src=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/include
-+ dest=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/include
-+ '[' '!' -d /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/include ']'
-+ return
-+ '[' x86_64-linux = x86_64-linux ']'
-+ sysroot_stage_dir /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/bin /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/bin
-+ src=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/bin
-+ dest=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/bin
-+ '[' '!' -d /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/bin ']'
-+ return
-+ sysroot_stage_dir /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/sbin /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/sbin
-+ src=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/sbin
-+ dest=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/sbin
-+ '[' '!' -d /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/sbin ']'
-+ return
-+ sysroot_stage_dir /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/bin /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/bin
-+ src=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/bin
-+ dest=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/bin
-+ '[' '!' -d /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/bin ']'
-+ return
-+ sysroot_stage_dir /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/sbin /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/sbin
-+ src=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/sbin
-+ dest=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/sbin
-+ '[' '!' -d /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/sbin ']'
-+ return
-+ sysroot_stage_dir /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/libexec /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/libexec
-+ src=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/libexec
-+ dest=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/libexec
-+ '[' '!' -d /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/libexec ']'
-+ return
-+ sysroot_stage_dir /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/etc /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/etc
-+ src=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/etc
-+ dest=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/etc
-+ '[' '!' -d /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/etc ']'
-+ return
-+ sysroot_stage_dir /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/var /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/var
-+ src=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/var
-+ dest=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/var
-+ '[' '!' -d /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/var ']'
-+ return
-+ '[' -d /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/lib ']'
-+ '[' -d /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/lib ']'
-+ sysroot_stage_dir /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/share /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/share
-+ src=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/share
-+ dest=/dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir//dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/share
-+ '[' '!' -d /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/image/dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux/usr/share ']'
-+ return
-NOTE: QA checking staging
-ERROR: Error executing a python function in /dss-oe/dS/meta-dss11-devel/recipes-support/rubygems/native-test_0.1.bb:
-CalledProcessError: Command 'tar -cf - -C /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir///dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux -ps . | tar -xf - -C /dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux' returned non-zero exit status 2 with output tar: /dss-oe/angstrom-devel-build-eglibc/work/x86_64-linux/native-test-0.1-r1/sysroot-destdir///dss-oe/angstrom-devel-build-eglibc/sysroots/x86_64-linux: Cannot chdir: No such file or directory
-tar: Error is not recoverable: exiting now
-tar: This does not look like a tar archive
-tar: Exiting with failure status due to previous errors
-
-
-ERROR: The stack trace of python calls that resulted in this exception/failure was:
-ERROR:   File "sstate_task_postfunc", line 10, in <module>
-ERROR: 
-ERROR:   File "sstate_task_postfunc", line 4, in sstate_task_postfunc
-ERROR: 
-ERROR:   File "sstate.bbclass", line 19, in sstate_install
-ERROR: 
-ERROR:   File "/dss-oe/OE/openembedded-core/meta/lib/oe/path.py", line 59, in copytree
-ERROR:     check_output(cmd, shell=True, stderr=subprocess.STDOUT)
-ERROR: 
-ERROR:   File "/dss-oe/OE/openembedded-core/meta/lib/oe/path.py", line 121, in check_output
-ERROR:     raise CalledProcessError(retcode, cmd, output=output)
-ERROR: 
-ERROR: The code that was being executed was:
-ERROR:      0006:        bb.build.exec_func(intercept, d)
-ERROR:      0007:    sstate_package(shared_state, d)
-ERROR:      0008:
-ERROR:      0009:
-ERROR:  *** 0010:sstate_task_postfunc(d)
-ERROR:      0011:
-ERROR: (file: 'sstate_task_postfunc', lineno: 10, function: <module>)
-ERROR:      0001:
-ERROR:      0002:def sstate_task_postfunc(d):
-ERROR:      0003:    shared_state = sstate_state_fromvars(d)
-ERROR:  *** 0004:    sstate_install(shared_state, d)
-ERROR:      0005:    for intercept in shared_state['interceptfuncs']:
-ERROR:      0006:        bb.build.exec_func(intercept, d)
-ERROR:      0007:    sstate_package(shared_state, d)
-ERROR:      0008:
-ERROR: (file: 'sstate_task_postfunc', lineno: 4, function: sstate_task_postfunc)
-ERROR: Function 'sstate_task_postfunc' failed
-
---EVF5PPMfhYS0aIcm--
