@@ -1,33 +1,43 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1ROISH-00075x-0O for openembedded-core@lists.openembedded.org;
-	Thu, 10 Nov 2011 01:25:21 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAA0J50c021926
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Nov 2011 00:19:05 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 21787-02 for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Nov 2011 00:19:01 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAA0Ixqg021889
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Nov 2011 00:19:00 GMT
-Message-ID: <1320884340.10843.252.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+Received: from mga03.intel.com ([143.182.124.21])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <dexuan.cui@intel.com>) id 1ROJ42-0007ty-LG
+	for openembedded-core@lists.openembedded.org;
+	Thu, 10 Nov 2011 02:04:22 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 09 Nov 2011 16:58:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,486,1315206000"; d="scan'208";a="72622565"
+Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
+	by azsmga001.ch.intel.com with ESMTP; 09 Nov 2011 16:58:05 -0800
+Received: from pgsmsx102.gar.corp.intel.com (10.221.44.80) by
+	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Thu, 10 Nov 2011 08:57:42 +0800
+Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
+	PGSMSX102.gar.corp.intel.com (10.221.44.80) with Microsoft SMTP Server
+	(TLS) id 14.1.323.3; Thu, 10 Nov 2011 08:57:41 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
+	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
+	Thu, 10 Nov 2011 08:57:41 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: "Zanussi, Tom" <tom.zanussi@intel.com>
+Date: Thu, 10 Nov 2011 08:57:40 +0800
+Thread-Topic: [OE-core] [CONSOLIDATED PULL 17/17] python: skip setup.py
+	'import	check' when cross-compiling
+Thread-Index: Acye5UZmNEd+QMqPQjyF4UjQtJOuygAXZH/w
+Message-ID: <1865303E0DED764181A9D882DEF65FB6DFA3CBDD9E@shsmsx502.ccr.corp.intel.com>
+References: <cover.1320780004.git.sgw@linux.intel.com>
+	<9f8d5c15eb59611c86dee83180642f29dcc7a361.1320780004.git.sgw@linux.intel.com>
+	<1865303E0DED764181A9D882DEF65FB6DF1AE8C698@shsmsx502.ccr.corp.intel.com>
+	<1320846145.16608.0.camel@elmorro>
+In-Reply-To: <1320846145.16608.0.camel@elmorro>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: zh-CN, en-US
+MIME-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 10 Nov 2011 00:19:00 +0000
-In-Reply-To: <1320839575.10843.165.camel@ted>
-References: <1320839575.10843.165.camel@ted>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: bb.data.*Var -> d.*Var conversion
+Subject: Re: [CONSOLIDATED PULL 17/17] python: skip setup.py 'import	check' when cross-compiling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,36 +52,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Nov 2011 00:25:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 10 Nov 2011 01:04:22 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Wed, 2011-11-09 at 11:52 +0000, Richard Purdie wrote:
-> I'm tempted to run the following over the metata to convert the
-> bb.data.*Var(...,d) and similar expressions to the form d.*Var(...).
-> 
-> Why? We get a lot of people doing copy, paste and edit of the code and
-> this way, we'll increase the chances of them finding better examples.
-> 
-> I'm still looking at the diff this generates to see if there are any
-> more corner cases I need to tweak the expression for but feedback
-> welcome.
-> 
-> sed \
-> -e 's:bb.data.\(setVar([^,]*,[^,]*\), \([^ )]*\) *):\2.\1):g' \
-> -e 's:bb.data.\(setVarFlag([^,]*,[^,]*,[^,]*\), \([^) ]*\) *):\2.\1):g' \
-> -e 's:bb.data.\(getVar([^,]*\), \([^, ]*\) *,\([^)]*\)):\2.\1,\3):g' \
-> -e 's:bb.data.\(getVarFlag([^,]*,[^,]*\), \([^, ]*\) *,\([^)]*\)):\2.\1,\3):g' \
-> -e 's:bb.data.\(getVarFlag([^,]*,[^,]*\), \([^) ]*\) *):\2.\1):g' \
-> -e 's:bb.data.\(getVar([^,]*\), \([^) ]*\) *):\2.\1):g' \
-> -i `grep -ril bb.data *`
-
-Incidentally this is worth about a 1.5% increase in parsing speed which
-makes sense since it removed one level of function indirection.
-
-Cheers,
-
-Richard
-
+WmFudXNzaSwgVG9tIHdyb3RlIG9uIDIwMTEtMTEtMDk6DQo+IE9uIFdlZCwgMjAxMS0xMS0wOSBh
+dCAwMjozNCAtMDgwMCwgQ3VpLCBEZXh1YW4gd3JvdGU6DQo+PiBIb3cgSSB3aXNoIEkgY291bGQg
+bm90aWNlIHRoZSBwYXRjaCB0aGlzIG1vcm5pbmcgc28gSSBjb3VsZCBzYXZlIDEgZGF5IQ0KPj4g
+DQo+IA0KPiA/Pz8gQ2FuIHlvdSBwbGVhc2UgZXhwbGFpbiB3aGF0IHlvdSBtZWFuPw0KSSBtZWFu
+dCBJIHNwZW50IDEgZGF5IG9uIGRlYnVnZ2luZyB0aGUgc2FtZSBpc3N1ZSBhbmQgZ290IHRoZSBj
+YXVzZSBidXQgd2Fzbid0IHN1cmUgaG93IHRoZSBwYXRjaCBzaG91bGQgYmUgbWFkZSwgc28gSSB3
+YW50ZWQgdG8gYXNrIGZvciBzdWdnZXN0aW9uIGluIHRoZSBNTCBhbmQgYmVmb3JlIHRoYXQgSSB0
+cmllZCB0byBmaW5kIG91dCBpZiBhbnlib2R5IHJlcG9ydGVkIHRoZSBzYW1lIGlzc3VlIGFuZCBJ
+IHNhdyB5b3VyIHBhdGNoIHRoYXQgd2FzIHNlbnQgMS41IGRheXMgYWdvLi4uIDotKQ0KDQo+PiBB
+bnl3YXksIHRoYW5rcyBUb21aIGZvciB0aGUgcGF0Y2ghICA6LSkNCj4+IA0KPiANCj4gWW91J3Jl
+IHdlbGNvbWUsIEkgZ3Vlc3MhDQo+IA0KPiBUb20NCj4gDQoNClRoYW5rcywNCi0tIERleHVhbg0K
+DQoNCg==
 
 
