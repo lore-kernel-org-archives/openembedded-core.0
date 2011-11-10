@@ -1,25 +1,31 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1ROYTi-0000Bx-Lj
+	(envelope-from <saul.wold@intel.com>) id 1ROYU7-0000E5-Ix
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Nov 2011 18:31:54 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 10 Nov 2011 09:25:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,489,1315206000"; d="scan'208";a="35482790"
-Received: from unknown (HELO [10.255.15.157]) ([10.255.15.157])
-	by AZSMGA002.ch.intel.com with ESMTP; 10 Nov 2011 09:25:36 -0800
-Message-ID: <4EBC0910.3040701@linux.intel.com>
-Date: Thu, 10 Nov 2011 09:25:36 -0800
-From: Saul Wold <sgw@linux.intel.com>
+	Thu, 10 Nov 2011 18:32:19 +0100
+Received: from mail-yx0-f180.google.com ([209.85.213.180])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 10 Nov 2011 09:26:00 -0800
+Received: by yenr11 with SMTP id r11so4923061yen.25
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Nov 2011 09:25:59 -0800 (PST)
+Received: by 10.68.74.132 with SMTP id t4mr16167031pbv.130.1320945959406;
+	Thu, 10 Nov 2011 09:25:59 -0800 (PST)
+Received: from [10.6.18.227] (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id 3sm22914751pbx.14.2011.11.10.09.25.57
+	(version=SSLv3 cipher=OTHER); Thu, 10 Nov 2011 09:25:58 -0800 (PST)
+Message-ID: <4EBC0925.3020900@intel.com>
+Date: Thu, 10 Nov 2011 09:25:57 -0800
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1320851307.git.tom.zanussi@intel.com>
-In-Reply-To: <cover.1320851307.git.tom.zanussi@intel.com>
-Subject: Re: [PATCH 0/1] python: fix missing PR bump
+References: <cover.1320855978.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1320855978.git.bruce.ashfield@windriver.com>
+Subject: Re: [PATCH 0/1] linux-yocto: config cleanups + romely rt support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,42 +40,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Nov 2011 17:31:54 -0000
+X-List-Received-Date: Thu, 10 Nov 2011 17:32:19 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/09/2011 07:11 AM, tom.zanussi@intel.com wrote:
-> From: Tom Zanussi<tom.zanussi@intel.com>
+On 11/09/2011 08:28 AM, Bruce Ashfield wrote:
+> The patch itself has all the details for this one. Just a minor update
+> to the meta branch of the 3.0 kernel to pickup the latest BSP config
+> updates from Tom and add -rt support from Kishore. These are also
+> present in the -dev kernel tree.
 >
-> Simple one-liner adding the missing PR bump for my previous python commit.
+> Cheers,
 >
-> Thanks to Koen Kooi for pointing it out...
+> Bruce
+>
+> cc: Tom Zanussi<tom.zanussi@intel.com>
+> cc: Kishore Bodke<kishore.k.bodke@intel.com>
 >
 > The following changes since commit 23d2eaf9d283cae47e52d1151f0d4ad53bbbe8a0:
->    Tom Zanussi (1):
->          python: skip setup.py 'import check' when cross-compiling
+>
+>    python: skip setup.py 'import check' when cross-compiling (2011-11-08 21:48:30 +0000)
 >
 > are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib zedd/kernel
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
 >
->    git://git.yoctoproject.org/poky-contrib.git tzanussi/python-pr-bump
->    http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/python-pr-bump
+> Bruce Ashfield (1):
+>    linux-yocto: config cleanups + romely rt support
 >
-> Tom Zanussi (1):
->    python: bump PR
->
->   meta/recipes-devtools/python/python_2.7.2.bb |    2 +-
+>   meta/recipes-kernel/linux/linux-yocto_3.0.bb |    2 +-
 >   1 files changed, 1 insertions(+), 1 deletions(-)
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
 
 Merged into OE-Core
 
 Thanks
 	Sau!
+
 
 
