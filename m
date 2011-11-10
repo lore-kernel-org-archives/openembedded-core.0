@@ -1,24 +1,25 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1ROPOD-0005aX-OD
+	(envelope-from <sgw@linux.intel.com>) id 1ROPOE-0005ag-7W
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Nov 2011 08:49:37 +0100
+	Thu, 10 Nov 2011 08:49:38 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 09 Nov 2011 23:43:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,488,1315206000"; d="scan'208";a="83351189"
+X-IronPort-AV: E=Sophos;i="4.69,488,1315206000"; d="scan'208";a="83351191"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.14])
-	by fmsmga001.fm.intel.com with ESMTP; 09 Nov 2011 23:43:17 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 09 Nov 2011 23:43:18 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Nov 2011 23:42:45 -0800
-Message-Id: <95e7807c0b00a1f6dee96d515e11fa6173bdf7b3.1320910946.git.sgw@linux.intel.com>
+Date: Wed,  9 Nov 2011 23:42:46 -0800
+Message-Id: <b5ccb900e94725c89b52418ca8628dcb77716031.1320910946.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1320910946.git.sgw@linux.intel.com>
 References: <cover.1320910946.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1320910946.git.sgw@linux.intel.com>
 References: <cover.1320910946.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL (v2) 03/33] Introduce new SERIAL_CONSOLES to add multiple consoles for your MACHINE
+MIME-Version: 1.0
+Subject: [CONSOLIDATED PULL (v2) 04/33] libarchive: Remove obsolete comment and empty line at the end
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,42 +35,53 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 10 Nov 2011 07:49:38 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Matthew McClintock <msm@freescale.com>
+From: Paul Menzel <paulepanter@users.sourceforge.net>
 
-Just define additional serial consoles like so:
+This is a fix up for
 
-SERIAL_CONSOLES="115200;ttyS0 115200;ttyS1 ... 115200;ttySN"
+        commit fb19df5b21e551c5dfdfa340438952560c5fa528
+        Author: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+        Date:   Mon Nov 7 20:03:53 2011 +0800
 
-Also be sure to remove SERIAL_CONSOLE (lacking the S) from your
-machine as they can conflict.
+            libarchive: update to 2.8.5
 
-Signed-off-by: Matthew McClintock <msm@freescale.com>
+            Remove patch "0003-Patch-from-upstream-rev-2516.patch" because it has been merged
+            to source codes.
+
+            Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+
+removing a now obsolete comment because the undistributable content was removed [1] from upstream’s tarball.
+
+Also remove an empty line at the end introduced in the above commit.
+
+[1] http://code.google.com/p/libarchive/issues/detail?id=162
+
+Signed-off-by: Paul Menzel <paulepanter@users.sourceforge.net>
 ---
- .../sysvinit/sysvinit-inittab_2.88dsf.bb           |   10 ++++++++++
- 1 files changed, 10 insertions(+), 0 deletions(-)
+ .../libarchive/libarchive_2.8.5.bb                 |    3 ---
+ 1 files changed, 0 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-index ba60c74..3a716d7 100644
---- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-@@ -25,6 +25,16 @@ do_install() {
-     if [ ! -z "${SERIAL_CONSOLE}" ]; then
-         echo "S:2345:respawn:${base_sbindir}/getty ${SERIAL_CONSOLE}" >> ${D}${sysconfdir}/inittab
-     fi
-+
-+    idx=0
-+    tmp="${SERIAL_CONSOLES}"
-+    for i in $tmp
-+    do
-+	j=`echo ${i} | sed s/\;/\ /g`
-+        echo "${idx}:2345:respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
-+	idx=`expr $idx + 1`
-+    done
-+
-     if [ "${USE_VT}" = "1" ]; then
-         cat <<EOF >>${D}${sysconfdir}/inittab
- # ${base_sbindir}/getty invocations for the runlevels.
+diff --git a/meta/recipes-extended/libarchive/libarchive_2.8.5.bb b/meta/recipes-extended/libarchive/libarchive_2.8.5.bb
+index 1bc49e2..5cf13e6 100644
+--- a/meta/recipes-extended/libarchive/libarchive_2.8.5.bb
++++ b/meta/recipes-extended/libarchive/libarchive_2.8.5.bb
+@@ -7,8 +7,6 @@ PR = "r0"
+ 
+ DEPENDS = "libxml2"
+ 
+-# We need to repack the tarball due undistributable content on the upstream one.
+-# More details at http://code.google.com/p/libarchive/issues/detail?id=162
+ SRC_URI = "http://libarchive.googlecode.com/files/libarchive-${PV}.tar.gz \
+            file://0001-Patch-from-upstream-revision-1990.patch \
+            file://0002-Patch-from-upstream-revision-1991.patch \
+@@ -24,4 +22,3 @@ SRC_URI[sha256sum] = "13993e0ffbd121ccda46ea226b1f8eac218de0fa8da7d8b1f998093d5c
+ inherit autotools lib_package
+ 
+ BBCLASSEXTEND = "nativesdk"
+-
 -- 
 1.7.6.4
 
