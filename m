@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1ROPOG-0005bO-8X
+	(envelope-from <sgw@linux.intel.com>) id 1ROPOG-0005aX-OW
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Nov 2011 08:49:40 +0100
+	Thu, 10 Nov 2011 08:49:41 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 09 Nov 2011 23:43:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,488,1315206000"; d="scan'208";a="83351202"
+X-IronPort-AV: E=Sophos;i="4.69,488,1315206000"; d="scan'208";a="83351207"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.14])
 	by fmsmga001.fm.intel.com with ESMTP; 09 Nov 2011 23:43:19 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Nov 2011 23:42:52 -0800
-Message-Id: <1cbf6306a4f4fda80983be4ef9aa91f713cb1ed9.1320910946.git.sgw@linux.intel.com>
+Date: Wed,  9 Nov 2011 23:42:54 -0800
+Message-Id: <b7a17670795d9b0f95a2298be9f6ac1b0cf4083a.1320910946.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1320910946.git.sgw@linux.intel.com>
 References: <cover.1320910946.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1320910946.git.sgw@linux.intel.com>
 References: <cover.1320910946.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL (v2) 10/33] kbd: import from meta-oe
+Subject: [CONSOLIDATED PULL (v2) 12/33] task-core-boot, keymaps: add another VIRTUAL-RUNTIME to allow distributions to use different set of initscripts or no initscripts at all
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,39 +37,60 @@ X-List-Received-Date: Thu, 10 Nov 2011 07:49:43 -0000
 
 From: Martin Jansa <Martin.Jansa@gmail.com>
 
-* replaces console-tools used in keymaps
-
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-core/kbd/kbd_1.15.2.bb |   19 +++++++++++++++++++
- 1 files changed, 19 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-core/kbd/kbd_1.15.2.bb
+ meta/recipes-bsp/keymaps/keymaps_1.0.bb   |    6 +++++-
+ meta/recipes-core/tasks/task-core-boot.bb |    6 ++++--
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/kbd/kbd_1.15.2.bb b/meta/recipes-core/kbd/kbd_1.15.2.bb
-new file mode 100644
-index 0000000..36e68a0
---- /dev/null
-+++ b/meta/recipes-core/kbd/kbd_1.15.2.bb
-@@ -0,0 +1,19 @@
-+DESCRIPTION = "This package contains keytable files and keyboard utilities"
-+# everything minus console-fonts is GPLv2+
-+LICENSE = "GPLv2+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=587ce626d15bd61699a64a6b8a5afefb"
+diff --git a/meta/recipes-bsp/keymaps/keymaps_1.0.bb b/meta/recipes-bsp/keymaps/keymaps_1.0.bb
+index 23a3051..4fe7987 100644
+--- a/meta/recipes-bsp/keymaps/keymaps_1.0.bb
++++ b/meta/recipes-bsp/keymaps/keymaps_1.0.bb
+@@ -1,7 +1,11 @@
+ SUMMARY = "Keyboard maps"
+ DESCRIPTION = "Keymaps and initscript to set the keymap on bootup."
+ SECTION = "base"
+-RDEPENDS_${PN} = "initscripts console-tools"
 +
-+inherit autotools gettext
++# Distro can override initscripts provider
++VIRTUAL-RUNTIME_initscripts ?= "initscripts"
 +
-+BBCLASSEXTEND = "native"
-+
-+SRC_URI="${KERNELORG_MIRROR}/linux/utils/kbd/kbd-1.15.2.tar.bz2"
-+SRC_URI[md5sum] = "e850eb91e4d3b94b194efe8e953204c5"
-+SRC_URI[sha256sum] = "b3602d191eef7a6a8317fc3cd231efa40a89ac235dce57a77cac825a2a21eba6"
-+
-+PACKAGES += "${PN}-consolefonts ${PN}-keymaps ${PN}-unimaps ${PN}-consoletrans"
-+
-+FILES_${PN}-consolefonts = "${datadir}/consolefonts"
-+FILES_${PN}-consoletrans = "${datadir}/consoletrans"
-+FILES_${PN}-keymaps = "${datadir}/keymaps"
-+FILES_${PN}-unimaps = "${datadir}/unimaps"
++RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_initscripts} console-tools"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+diff --git a/meta/recipes-core/tasks/task-core-boot.bb b/meta/recipes-core/tasks/task-core-boot.bb
+index 9e63ebb..05c280d 100644
+--- a/meta/recipes-core/tasks/task-core-boot.bb
++++ b/meta/recipes-core/tasks/task-core-boot.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ DEPENDS = "virtual/kernel"
+ ALLOW_EMPTY = "1"
+-PR = "r8"
++PR = "r9"
+ 
+ #
+ # Set by the machine configuration with packages essential for device bootup
+@@ -23,6 +23,8 @@ VIRTUAL-RUNTIME_dev_manager ?= "udev"
+ VIRTUAL-RUNTIME_login_manager ?= "tinylogin"
+ # Distro can override init_manager provider
+ VIRTUAL-RUNTIME_init_manager ?= "sysvinit"
++# Distro can override initscripts provider
++VIRTUAL-RUNTIME_initscripts ?= "initscripts"
+ 
+ PACKAGES = "\
+     task-core-boot \
+@@ -34,7 +36,7 @@ RDEPENDS_task-core-boot = "\
+     base-files \
+     base-passwd \
+     busybox \
+-    initscripts \
++    ${VIRTUAL-RUNTIME_initscripts} \
+     ${@base_contains("MACHINE_FEATURES", "keyboard", "keymaps", "", d)} \
+     modutils-initscripts \
+     netbase \
 -- 
 1.7.6.4
 
