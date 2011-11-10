@@ -1,30 +1,26 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1ROXiV-0007Gl-Ih
+	(envelope-from <sgw@linux.intel.com>) id 1ROYNI-0008Ka-Rf
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Nov 2011 17:43:07 +0100
-Received: by ywt2 with SMTP id 2so311068ywt.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Nov 2011 08:36:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=sender:from:to:subject:date:message-id:x-mailer;
-	bh=FsHWAThSQx4/dqnBDTLRU3c7clHWVRp4QFgjYZEr8mI=;
-	b=DsQZuFRpwSwRWt6YE7dx2X0BW1FcVAt3EOfLDhAOuu1JuRkVeXZhclYRDxDeuKkUKl
-	fH2ZV99dLEOrbIyMPCqWfeIbSJKVUOVvUNro9WgeWfF4ggmnrk74Uu22shYXFllFFucp
-	euttrEnTbsCHBcvrZAdXbfzUQAoi4b2WRJ8kI=
-Received: by 10.146.173.19 with SMTP id v19mr325391yae.4.1320942998341;
-	Thu, 10 Nov 2011 08:36:38 -0800 (PST)
-Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id y71sm12885073yhh.6.2011.11.10.08.36.36
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 10 Nov 2011 08:36:37 -0800 (PST)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Nov 2011 16:36:29 +0000
-Message-Id: <cover.1320942947.git.otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-Subject: [PATCH 0/1] dhcp fixes
+	Thu, 10 Nov 2011 18:25:17 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 10 Nov 2011 09:18:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,489,1315206000"; d="scan'208";a="88629735"
+Received: from unknown (HELO [10.255.15.157]) ([10.255.15.157])
+	by fmsmga002.fm.intel.com with ESMTP; 10 Nov 2011 09:18:58 -0800
+Message-ID: <4EBC0782.5090004@linux.intel.com>
+Date: Thu, 10 Nov 2011 09:18:58 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1320807056.git.scott.a.garman@intel.com>
+In-Reply-To: <cover.1320807056.git.scott.a.garman@intel.com>
+Cc: Scott Garman <scott.a.garman@intel.com>
+Subject: Re: [PATCH 0/4] More useradd cleanups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,25 +35,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Nov 2011 16:43:07 -0000
+X-List-Received-Date: Thu, 10 Nov 2011 17:25:17 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The following changes since commit 4c4498c38232a832bdbfadf54d2e1bf4bc34b171:
+On 11/08/2011 06:56 PM, Scott Garman wrote:
+> Hello,
+>
+> Richard pointed out that USERADDPN is no longer needed in
+> useradd.bbclass. While removing that, I noticed that I was actually
+> injecting the user/group preinst script into *all* packages whose
+> recipe inherits useradd. That's not what we want, and is the reason
+> for the USERADD_PACKAGES variable. So I refactored the class to fix
+> that and clarified the useradd-example recipe documentation.
+>
+> Finally, I added another check to avoid modifying -nativesdk packages.
+>
+> The following changes since commit 25fae81538a92e15eab3fc169ebce44505f67839:
+>
+>    python: skip setup.py 'import check' when cross-compiling (2011-11-08 21:44:23 +0000)
+>
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib sgarman/useradd-cleanup-final
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/useradd-cleanup-final
+>
+> Scott Garman (4):
+>    useradd.bbclass: only modify packages in USERADD_PACKAGES
+>    useradd.bbclass: do not modify -nativesdk packages
+>    useradd-example.bb: update example documentation comments
+>    avahi: remove USERADDPN
+>
+>   .../recipes-skeleton/useradd/useradd-example.bb    |    9 ++--
+>   meta/classes/useradd.bbclass                       |   45 ++++++++------------
+>   meta/recipes-connectivity/avahi/avahi.inc          |    1 -
+>   3 files changed, 22 insertions(+), 33 deletions(-)
+>
 
-  bitbake.conf: Unload pseudo when its not required for a given task (2011-11-10 12:07:29 +0000)
+Merged int OE-Core
 
-are available in the git repository at:
-  git://github.com/OSSystems/oe-core master
-  https://github.com/OSSystems/oe-core/tree/HEAD
-
-Otavio Salvador (1):
-  dhcp: generate initial leases files for server
-
- meta/recipes-connectivity/dhcp/dhcp.inc      |    9 ++++++++-
- meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb |    2 +-
- 2 files changed, 9 insertions(+), 2 deletions(-)
-
--- 
-1.7.2.5
-
+Thanks
+	Sau!
 
 
