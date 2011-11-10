@@ -1,26 +1,30 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1ROYNI-0008Ka-Rf
+	(envelope-from <sgw@linux.intel.com>) id 1ROYOi-0008Na-PT
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Nov 2011 18:25:17 +0100
+	Thu, 10 Nov 2011 18:26:44 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 10 Nov 2011 09:18:58 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 10 Nov 2011 09:20:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,489,1315206000"; d="scan'208";a="88629735"
+X-IronPort-AV: E=Sophos;i="4.69,489,1315206000"; d="scan'208";a="88630293"
 Received: from unknown (HELO [10.255.15.157]) ([10.255.15.157])
-	by fmsmga002.fm.intel.com with ESMTP; 10 Nov 2011 09:18:58 -0800
-Message-ID: <4EBC0782.5090004@linux.intel.com>
-Date: Thu, 10 Nov 2011 09:18:58 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 10 Nov 2011 09:20:27 -0800
+Message-ID: <4EBC07DB.2090907@linux.intel.com>
+Date: Thu, 10 Nov 2011 09:20:27 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1320807056.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1320807056.git.scott.a.garman@intel.com>
-Cc: Scott Garman <scott.a.garman@intel.com>
-Subject: Re: [PATCH 0/4] More useradd cleanups
+References: <1320755519.3915.15.camel@mattotaupa>
+	<D173D270-DC47-4EEB-8CC8-F0A10284EF56@dominion.thruhere.net>
+	<1320757122.3915.18.camel@mattotaupa>
+	<4EBA3834.8030406@linux.intel.com>
+	<1320829161.4622.2.camel@mattotaupa>
+In-Reply-To: <1320829161.4622.2.camel@mattotaupa>
+Cc: Paul Menzel <paulepanter@users.sourceforge.net>
+Subject: Re: [PATCH v3] xinit: Fix `startx` looking for `mcookie` in sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,45 +39,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Nov 2011 17:25:17 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 10 Nov 2011 17:26:45 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 11/08/2011 06:56 PM, Scott Garman wrote:
-> Hello,
+On 11/09/2011 12:59 AM, Paul Menzel wrote:
+> Date: Tue, 8 Nov 2011 13:00:32 +0100
 >
-> Richard pointed out that USERADDPN is no longer needed in
-> useradd.bbclass. While removing that, I noticed that I was actually
-> injecting the user/group preinst script into *all* packages whose
-> recipe inherits useradd. That's not what we want, and is the reason
-> for the USERADD_PACKAGES variable. So I refactored the class to fix
-> that and clarified the useradd-example recipe documentation.
+> `startx` run on a system based on the demo systemd image [1] and `opkg`-installed packages fails with the following error.
 >
-> Finally, I added another check to avoid modifying -nativesdk packages.
+> 	/usr/bin/startx: line 139: /OE/tentacle/build/tmp-angstrom_2010_x/sysroots/x68_64-linux/usr/bin/mcookie: No such file or directory
 >
-> The following changes since commit 25fae81538a92e15eab3fc169ebce44505f67839:
+> Applying commit 443bcc07 [1] from OE-classic
 >
->    python: skip setup.py 'import check' when cross-compiling (2011-11-08 21:44:23 +0000)
+>          Author: Tom Rini<tom_rini@mentor.com>
+>          Date:   Thu Apr 7 10:36:43 2011 -0700
 >
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib sgarman/useradd-cleanup-final
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/useradd-cleanup-final
+>              xinit: Fix mcookie / util-linux-ng dependency
 >
-> Scott Garman (4):
->    useradd.bbclass: only modify packages in USERADD_PACKAGES
->    useradd.bbclass: do not modify -nativesdk packages
->    useradd-example.bb: update example documentation comments
->    avahi: remove USERADDPN
+>              xinit just needs to know the runtime path of mcookie so we need to
+>              RDEPEND on util-linux-ng and pass the runtime path in via EXTRA_OECONF
 >
->   .../recipes-skeleton/useradd/useradd-example.bb    |    9 ++--
->   meta/classes/useradd.bbclass                       |   45 ++++++++------------
->   meta/recipes-connectivity/avahi/avahi.inc          |    1 -
->   3 files changed, 22 insertions(+), 33 deletions(-)
+>              Signed-off-by: Tom Rini<tom_rini@mentor.com>
 >
+> fixes this issue. Commit 7f6cec6f [2]
+>
+>          Author: Frans Meulenbroeks<fransmeulenbroeks@gmail.com>
+>          Date:   Sun Feb 21 18:11:30 2010 +0100
+>
+>              xinit: add dependency on util-linux-ng
+>
+>          […]
+>
+> tried to address the same problem but apparently did not help, because Tom still had problems.
+>
+> [1] http://www.angstrom-distribution.org/demo/beagleboard/Angstrom-systemd-image-eglibc-ipk-v2011.11-core-beagleboard.rootfs.tar.bz2
+> [2] http://git.openembedded.org/openembedded/commit/443bcc0785bc004e471b3750a34d12d2fd2e5dad
+> [3] http://git.openembedded.org/openembedded/commit/7f6cec6f0adb6203a6dbaf8a43c67c2c4f8bf84e
+>
+> Signed-off-by: Paul Menzel<paulepanter@users.sourceforge.net>
+> ---
+> 1. Please note that I did neither build nor run tested this patch and
+> just noticed the error trying the demo image.
+> 2. Koen mentioned something on IRC wanting to get rid of `startx`
+> entirely. But this patch should be applied nevertheless.
+>
+> v2: move `RDEPENDS` further down as suggested by Koen
+> v3: there is no util-linux-ng in OE-core as noted by Saul
+> ---
+>   meta/recipes-graphics/xorg-app/xinit_1.3.0.bb |    7 ++++++-
+>   1 files changed, 6 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb b/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
+> index ee7c64d..6953ccc 100644
+> --- a/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
+> +++ b/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
+> @@ -9,9 +9,14 @@ systems. When this first client exits, xinit will kill the X server and \
+>   then terminate."
+>
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=0d4b5eef75f1584ccbdc5e4a34314407"
+> -PR = "r0"
+> +
+> +PR = "r1"
+>   PE = "1"
+>
+> +EXTRA_OECONF = "ac_cv_path_MCOOKIE=${bindir}/mcookie"
+> +
+> +RDEPENDS_${PN} += "util-linux"
+> +
+>   FILES_${PN} += "${libdir}X11/xinit"
+>
+>   SRC_URI[md5sum] = "bc4e8b7d1919597cc37a0d24aa149dda"
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-Merged int OE-Core
+Merged into OE-Core
 
 Thanks
 	Sau!
+
 
 
