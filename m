@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1ROPOL-0005bO-DL
+	(envelope-from <sgw@linux.intel.com>) id 1ROPOM-0005aX-QR
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Nov 2011 08:49:46 +0100
+	Thu, 10 Nov 2011 08:49:47 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Nov 2011 23:43:22 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 09 Nov 2011 23:43:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,488,1315206000"; d="scan'208";a="83351231"
+X-IronPort-AV: E=Sophos;i="4.69,488,1315206000"; d="scan'208";a="83351244"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.14])
-	by fmsmga001.fm.intel.com with ESMTP; 09 Nov 2011 23:43:22 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 09 Nov 2011 23:43:23 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Nov 2011 23:43:06 -0800
-Message-Id: <75889c8d53b4220146d737c59cfe923784a2739b.1320910946.git.sgw@linux.intel.com>
+Date: Wed,  9 Nov 2011 23:43:10 -0800
+Message-Id: <934170087083831060cebb738ee672670443a91b.1320910946.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1320910946.git.sgw@linux.intel.com>
 References: <cover.1320910946.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1320910946.git.sgw@linux.intel.com>
 References: <cover.1320910946.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL (v2) 24/33] useradd.bbclass: do not modify -nativesdk packages
+Subject: [CONSOLIDATED PULL (v2) 28/33] bitbake.conf: Unload pseudo when its not required for a given task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,38 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Nov 2011 07:49:49 -0000
+X-List-Received-Date: Thu, 10 Nov 2011 07:49:54 -0000
 
-From: Scott Garman <scott.a.garman@intel.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Exclude the addition of user/group code and RDEPENDS changes for
--nativesdk packages.
+This yields a small performance boost due to the lack of the
+preload overhead on each task execution.
 
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/useradd.bbclass |    9 +++++----
- 1 files changed, 5 insertions(+), 4 deletions(-)
+ meta/conf/bitbake.conf |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-index 3b2d1db..64d6861 100644
---- a/meta/classes/useradd.bbclass
-+++ b/meta/classes/useradd.bbclass
-@@ -153,10 +153,11 @@ fakeroot python populate_packages_prepend () {
- 		rdepends = d.getVar("RDEPENDS_%s" % pkg, True) or ""
- 		rdepends += " base-passwd shadow"
- 		bb.data.setVar("RDEPENDS_%s" % pkg, rdepends, d)
--	
-+
- 	# Add the user/group preinstall scripts and RDEPENDS requirements
- 	# to packages specified by USERADD_PACKAGES
--	useradd_packages = d.getVar('USERADD_PACKAGES', True) or ""
--	for pkg in useradd_packages.split():
--		update_useradd_package(pkg)
-+	if not bb.data.inherits_class('nativesdk', d):
-+		useradd_packages = d.getVar('USERADD_PACKAGES', True) or ""
-+		for pkg in useradd_packages.split():
-+			update_useradd_package(pkg)
- }
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index d405b6a..44b8f31 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -586,6 +586,7 @@ export PSEUDO_DISABLED = "1"
+ #export PSEUDO_BINDIR = "${STAGING_DIR_NATIVE}${bindir_native}"
+ #export PSEUDO_LIBDIR = "${STAGING_DIR_NATIVE}$PSEUDOBINDIR/../lib/pseudo/lib
+ FAKEROOTENV = "PSEUDO_PREFIX=${STAGING_DIR_NATIVE}${prefix_native} PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_PASSWD=${STAGING_DIR_TARGET} PSEUDO_NOSYMLINKEXP=1 PSEUDO_DISABLED=0"
++FAKEROOTNOENV = "PSEUDO_UNLOAD=1"
+ FAKEROOTDIRS = "${PSEUDO_LOCALSTATEDIR}"
+ PREFERRED_PROVIDER_virtual/fakeroot-native ?= "pseudo-native"
+ 
 -- 
 1.7.6.4
 
