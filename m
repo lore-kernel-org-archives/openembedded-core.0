@@ -1,24 +1,25 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1ROPOK-0005br-Kg
+	(envelope-from <sgw@linux.intel.com>) id 1ROPOK-0005ag-Tk
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Nov 2011 08:49:44 +0100
+	Thu, 10 Nov 2011 08:49:45 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 09 Nov 2011 23:43:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,488,1315206000"; d="scan'208";a="83351222"
+X-IronPort-AV: E=Sophos;i="4.69,488,1315206000"; d="scan'208";a="83351227"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.14])
 	by fmsmga001.fm.intel.com with ESMTP; 09 Nov 2011 23:43:21 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Nov 2011 23:43:02 -0800
-Message-Id: <6bcb700b6e5e95752f18e247c5c7524e7bbc3118.1320910946.git.sgw@linux.intel.com>
+Date: Wed,  9 Nov 2011 23:43:04 -0800
+Message-Id: <bc7d30f3e12892ff208683c05fb29c5e9c631954.1320910946.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1320910946.git.sgw@linux.intel.com>
 References: <cover.1320910946.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1320910946.git.sgw@linux.intel.com>
 References: <cover.1320910946.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL (v2) 20/33] classes/[gnome|gnomebase|mime]: enhance gnome related classes
+MIME-Version: 1.0
+Subject: [CONSOLIDATED PULL (v2) 22/33] xinit: Fix `startx` looking for `mcookie` in sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,158 +34,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Nov 2011 07:49:45 -0000
+X-List-Received-Date: Thu, 10 Nov 2011 07:49:46 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Joshua Lock <josh@linux.intel.com>
+From: Paul Menzel <paulepanter@users.sourceforge.net>
 
-This patch pulls in the gnome related classes from oe-core which
-adds extra packaging rules and functionality whilst modularising things
-so that one can get a subset of gnome functionality without adding a lot
-of extra dependencies.
+`startx` run on a system based on the demo systemd image [1] and `opkg`-installed packages fails with the following error.
 
-These aren't an exact copy of the classes from meta-openembedded, notable
-differences are:
-* gnome.bbclass - I dropped the BBCLASSEXTEND
-* mime.bbclass:
-  - updated coding style
-  - use which to find update-mime-database program rather than hard coded
-  - fix typo in populate_packges_append such that it's actually called
+	/usr/bin/startx: line 139: /OE/tentacle/build/tmp-angstrom_2010_x/sysroots/x68_64-linux/usr/bin/mcookie: No such file or directory
 
-CC: Koen Kooi <koen@dominion.thruhere.net>
-CC: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
+Applying commit 443bcc07 [1] from OE-classic
+
+        Author: Tom Rini <tom_rini@mentor.com>
+        Date:   Thu Apr 7 10:36:43 2011 -0700
+
+            xinit: Fix mcookie / util-linux-ng dependency
+
+            xinit just needs to know the runtime path of mcookie so we need to
+            RDEPEND on util-linux-ng and pass the runtime path in via EXTRA_OECONF
+
+            Signed-off-by: Tom Rini <tom_rini@mentor.com>
+
+fixes this issue. Commit 7f6cec6f [2]
+
+        Author: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
+        Date:   Sun Feb 21 18:11:30 2010 +0100
+
+            xinit: add dependency on util-linux-ng
+
+        […]
+
+tried to address the same problem but apparently did not help, because Tom still had problems.
+
+[1] http://www.angstrom-distribution.org/demo/beagleboard/Angstrom-systemd-image-eglibc-ipk-v2011.11-core-beagleboard.rootfs.tar.bz2
+[2] http://git.openembedded.org/openembedded/commit/443bcc0785bc004e471b3750a34d12d2fd2e5dad
+[3] http://git.openembedded.org/openembedded/commit/7f6cec6f0adb6203a6dbaf8a43c67c2c4f8bf84e
+
+Signed-off-by: Paul Menzel <paulepanter@users.sourceforge.net>
 ---
- meta/classes/gnome.bbclass     |   18 +-----------
- meta/classes/gnomebase.bbclass |   30 ++++++++++++++++++++
- meta/classes/mime.bbclass      |   58 ++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 90 insertions(+), 16 deletions(-)
- create mode 100644 meta/classes/gnomebase.bbclass
- create mode 100644 meta/classes/mime.bbclass
+ meta/recipes-graphics/xorg-app/xinit_1.3.0.bb |    7 ++++++-
+ 1 files changed, 6 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/gnome.bbclass b/meta/classes/gnome.bbclass
-index 3d68b12..a19dd17 100644
---- a/meta/classes/gnome.bbclass
-+++ b/meta/classes/gnome.bbclass
-@@ -1,17 +1,3 @@
--def gnome_verdir(v):
--	import re
--	m = re.match("^([0-9]+)\.([0-9]+)", v)
--	return "%s.%s" % (m.group(1), m.group(2))
-+inherit gnomebase gtk-icon-cache gconf mime
+diff --git a/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb b/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
+index ee7c64d..6953ccc 100644
+--- a/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
++++ b/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
+@@ -9,9 +9,14 @@ systems. When this first client exits, xinit will kill the X server and \
+ then terminate."
  
--SECTION ?= "x11/gnome"
--SRC_URI = "${GNOME_MIRROR}/${BPN}/${@gnome_verdir("${PV}")}/${BPN}-${PV}.tar.bz2;name=archive"
--
--DEPENDS += "gnome-common"
--
--FILES_${PN} += "${datadir}/application-registry \
--    ${datadir}/mime-info \
--    ${datadir}/gnome-2.0"
--
--inherit autotools pkgconfig gconf
--
--EXTRA_OEMAKE += "GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1"
-+EXTRA_OECONF += "--enable-introspection=no"
-diff --git a/meta/classes/gnomebase.bbclass b/meta/classes/gnomebase.bbclass
-new file mode 100644
-index 0000000..a4209a0
---- /dev/null
-+++ b/meta/classes/gnomebase.bbclass
-@@ -0,0 +1,30 @@
-+def gnome_verdir(v):
-+	import re
-+	m = re.match("^([0-9]+)\.([0-9]+)", v)
-+	return "%s.%s" % (m.group(1), m.group(2))
+ LIC_FILES_CHKSUM = "file://COPYING;md5=0d4b5eef75f1584ccbdc5e4a34314407"
+-PR = "r0"
 +
-+SECTION ?= "x11/gnome"
-+SRC_URI = "${GNOME_MIRROR}/${BPN}/${@gnome_verdir("${PV}")}/${BPN}-${PV}.tar.bz2;name=archive"
++PR = "r1"
+ PE = "1"
+ 
++EXTRA_OECONF = "ac_cv_path_MCOOKIE=${bindir}/mcookie"
 +
-+DEPENDS += "gnome-common"
++RDEPENDS_${PN} += "util-linux"
 +
-+FILES_${PN} += "${datadir}/application-registry  \
-+	${datadir}/mime-info \
-+	${datadir}/mime/packages \	
-+	${datadir}/mime/application \
-+	${datadir}/gnome-2.0 \
-+	${datadir}/polkit* \
-+	${datadir}/GConf \
-+	${datadir}/glib-2.0/schemas \
-+"
-+
-+FILES_${PN}-doc += "${datadir}/devhelp"
-+
-+inherit autotools pkgconfig
-+
-+do_install_append() {
-+	rm -rf ${D}${localstatedir}/lib/scrollkeeper/*
-+	rm -rf ${D}${localstatedir}/scrollkeeper/*
-+	rm -f ${D}${datadir}/applications/*.cache
-+}
-+
-diff --git a/meta/classes/mime.bbclass b/meta/classes/mime.bbclass
-new file mode 100644
-index 0000000..4a2ce8b
---- /dev/null
-+++ b/meta/classes/mime.bbclass
-@@ -0,0 +1,58 @@
-+DEPENDS += "shared-mime-info-native shared-mime-info"
-+
-+mime_postinst() {
-+if [ "$1" = configure ]; then
-+	UPDATEMIMEDB=`which update-mime-database`
-+	if [ -x "$UPDATEMIMEDB" ] ; then
-+		echo "Updating MIME database... this may take a while."
-+		$UPDATEMIMEDB $D${datadir}/mime
-+	else
-+		echo "Missing update-mime-database, update of mime database failed!"
-+		exit 1
-+	fi
-+fi
-+}
-+
-+mime_postrm() {
-+if [ "$1" = remove ] || [ "$1" = upgrade ]; then
-+	UPDATEMIMEDB=`which update-mime-database`
-+	if [ -x "$UPDATEMIMEDB" ] ; then
-+		echo "Updating MIME database... this may take a while."
-+		$UPDATEMIMEDB $D${datadir}/mime
-+	else
-+		echo "Missing update-mime-database, update of mime database failed!"
-+		exit 1
-+	fi
-+fi
-+}
-+
-+python populate_packages_append () {
-+	import re
-+	packages = d.getVar('PACKAGES', True).split()
-+	pkgdest =  d.getVar('PKGDEST', True)
-+
-+	for pkg in packages:
-+		mime_dir = '%s/%s/usr/share/mime/packages' % (pkgdest, pkg)
-+		mimes = []
-+		mime_re = re.compile(".*\.xml$")
-+		if os.path.exists(mime_dir):
-+			for f in os.listdir(mime_dir):
-+				if mime_re.match(f):
-+					mimes.append(f)
-+		if mimes:
-+			bb.note("adding mime postinst and postrm scripts to %s" % pkg)
-+			postinst = d.getVar('pkg_postinst_%s' % pkg, True) or d.getVar('pkg_postinst', True)
-+			if not postinst:
-+				postinst = '#!/bin/sh\n'
-+			postinst += d.getVar('mime_postinst', True)
-+			d.setVar('pkg_postinst_%s' % pkg, postinst)
-+			postrm = d.getVar('pkg_postrm_%s' % pkg, True) or d.getVar('pkg_postrm', True)
-+			if not postrm:
-+				postrm = '#!/bin/sh\n'
-+			postrm += d.getVar('mime_postrm', True)
-+			d.setVar('pkg_postrm_%s' % pkg, postrm)
-+			bb.note("adding shared-mime-info-data dependency to %s" % pkg)
-+			rdepends = explode_deps(dgetVar('RDEPENDS_' + pkg, False) or d.getVar('RDEPENDS', False)) or ""
-+			rdepends.append("shared-mime-info-data")
-+			d.setVar('RDEPENDS_' + pkg, " " + " ".join(rdepends))
-+}
+ FILES_${PN} += "${libdir}X11/xinit"
+ 
+ SRC_URI[md5sum] = "bc4e8b7d1919597cc37a0d24aa149dda"
 -- 
 1.7.6.4
 
