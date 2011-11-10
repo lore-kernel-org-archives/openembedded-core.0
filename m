@@ -1,24 +1,36 @@
-Received: from mail-ww0-f41.google.com ([74.125.82.41])
+Received: from lo.gmane.org ([80.91.229.12])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1ROU5M-0005HC-O6
-	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Nov 2011 13:50:28 +0100
-Received: by wwf25 with SMTP id 25so417932wwf.0
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1ROUG2-00060r-8P for openembedded-core@lists.openembedded.org;
+	Thu, 10 Nov 2011 14:01:30 +0100
+Received: from list by lo.gmane.org with local (Exim 4.69)
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1ROU9s-00072W-GT for openembedded-core@lists.openembedded.org;
+	Thu, 10 Nov 2011 13:55:08 +0100
+Received: from 188-223-88-44.zone14.bethere.co.uk ([188.223.88.44])
+	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
+	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Nov 2011 13:55:08 +0100
+Received: from julian.pidancet by 188-223-88-44.zone14.bethere.co.uk with
+	local (Gmexim 0.1 (Debian)) id 1AlnuQ-0007hv-00
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Nov 2011 04:44:12 -0800 (PST)
-Received: by 10.180.84.33 with SMTP id v1mr5928752wiy.4.1320929052342;
-	Thu, 10 Nov 2011 04:44:12 -0800 (PST)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
-	by mx.google.com with ESMTPS id v10sm4775958wiy.23.2011.11.10.04.44.10
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 10 Nov 2011 04:44:11 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
+	Thu, 10 Nov 2011 13:55:08 +0100
+X-Injected-Via-Gmane: http://gmane.org/
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Nov 2011 13:44:04 +0100
-Message-Id: <1320929044-13077-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.7.2.5
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] hicolor-icon-theme 0.12: add BBCLASSEXTEND=native for xfce tools
+From: Julian Pidancet <julian.pidancet@gmail.com>
+Date: Thu, 10 Nov 2011 13:43:02 +0000
+Message-ID: <j9ghc8$ps7$1@dough.gmane.org>
+References: <1319505532-23199-1-git-send-email-julian.pidancet@gmail.com>
+	<CAEsOVNen8kUVPge_jZDq5LjhC7BAG0YKx=wxO+ZysNGAd_KwQg@mail.gmail.com>
+	<CAKZ=5EVjCrBdH2NBrVD_4UD52h6ZG=p6m-QS5L9K8xfpUcUr1g@mail.gmail.com>
+	<1320784166.10843.109.camel@ted>
+Mime-Version: 1.0
+X-Complaints-To: usenet@dough.gmane.org
+X-Gmane-NNTP-Posting-Host: 188-223-88-44.zone14.bethere.co.uk
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0.1) Gecko/20111110 Thunderbird/7.0.1
+In-Reply-To: <1320784166.10843.109.camel@ted>
+Subject: Re: [PATCH] Introduce biarch DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,28 +45,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Nov 2011 12:50:28 -0000
+X-List-Received-Date: Thu, 10 Nov 2011 13:01:30 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- .../hicolor-icon-theme/hicolor-icon-theme_0.12.bb  |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
+On 11/08/11 20:29, Richard Purdie wrote:
+> 
+> I'm left wondering how useful the resulting compiler is to most users.
+> In most cases a user would expect full libc support and hence this is
+> likely to confuse them. I do appreciate people do have usecases for a
+> compiler that can handle the other bit format though.
+> 
 
-diff --git a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
-index 759c9d8..aeb89c9 100644
---- a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
-+++ b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
-@@ -5,6 +5,8 @@ BUGTRACKER = "https://bugs.freedesktop.org/"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=f08a446809913fc9b3c718f0eaea0426"
- 
-+BBCLASSEXTEND = "native"
-+
- SECTION = "unknown"
- inherit gnome allarch
- 
+Standard linux distros out there like debian or gentoo already ship a
+biarch gcc per default. It wouldn't seem odd to me if OE had an option
+to enable the generation of a biarch compiler.
+
+> I think my biggest worry is the "--enable-targets=all" option which may
+> or may not enable things we might not want enabled. I've not had a
+> chance to go and look at gcc and convince myself that piece is safe. The
+> other pieces looked less worrying.
+> 
+
+In the patch, the --enable-targets=all is only active in the x86 case. I
+did not find any other way of enabling both -m32 and -m64 switches in gcc.
+
+I've been successfully using this patch to generate a complete x86 32bit
+distro with a 64bit Xen hypervisor (I believe the result would have been
+the same if I tried to compile a 64bit linux kernel). I did not have any
+issues with it so far.
+
+Cheers,
+
 -- 
-1.7.2.5
+Julian
 
 
 
