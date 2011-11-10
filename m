@@ -1,29 +1,35 @@
-Received: from mail-ww0-f41.google.com ([74.125.82.41])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1ROUw6-0007NO-Sl
+	(envelope-from <otavio.salvador@gmail.com>) id 1ROXiL-0007GF-Ng
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Nov 2011 14:44:58 +0100
-Received: by wwf25 with SMTP id 25so490332wwf.0
+	Thu, 10 Nov 2011 17:42:57 +0100
+Received: by yenm3 with SMTP id m3so2140664yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Nov 2011 05:38:42 -0800 (PST)
-Received: by 10.180.5.234 with SMTP id v10mr8656856wiv.44.1320932321373;
-	Thu, 10 Nov 2011 05:38:41 -0800 (PST)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id i8sm4875289wie.11.2011.11.10.05.38.40
+	Thu, 10 Nov 2011 08:36:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
+	:references:in-reply-to:references;
+	bh=cHc2B9rpQs/glQwdLK+AAyacvFX8sxm02REN8aiYU/8=;
+	b=FQ50QUD5v4zf+AwNSFbhbJSqCAY3e9sh7baYLCGQI6bMunzUgi30jx9jkApgDGXDgR
+	ixOpKdzMXALuE2Hw48zrABocvKmuR9PdHGc971KNufzh8zQ45k1JMdhKyMEVso/byJCI
+	mdB+WcybZPjQteI1jTYIQ8ZTpDyXbM+7edE/Q=
+Received: by 10.101.194.15 with SMTP id w15mr3684587anp.62.1320943000654;
+	Thu, 10 Nov 2011 08:36:40 -0800 (PST)
+Received: from localhost.localdomain ([189.114.111.55])
+	by mx.google.com with ESMTPS id y71sm12885073yhh.6.2011.11.10.08.36.38
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 10 Nov 2011 05:38:40 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1320931250.1165.18.camel@ted>
-Date: Thu, 10 Nov 2011 14:38:33 +0100
-Message-Id: <A8FB2C52-B689-46AF-9D24-D1EEBA2B19CF@dominion.thruhere.net>
-References: <1320929044-13077-1-git-send-email-koen@dominion.thruhere.net>
-	<1320931250.1165.18.camel@ted>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH] hicolor-icon-theme 0.12: add BBCLASSEXTEND=native for xfce tools
+	Thu, 10 Nov 2011 08:36:39 -0800 (PST)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 10 Nov 2011 16:36:30 +0000
+Message-Id: <a69f9c464cf0976ce52ea2f14a20a409b27615ff.1320942947.git.otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+In-Reply-To: <cover.1320942947.git.otavio@ossystems.com.br>
+References: <cover.1320942947.git.otavio@ossystems.com.br>
+In-Reply-To: <cover.1320942947.git.otavio@ossystems.com.br>
+References: <cover.1320942947.git.otavio@ossystems.com.br>
+Subject: [PATCH 1/1] dhcp: generate initial leases files for server
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,72 +44,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Nov 2011 13:44:59 -0000
-X-Groupsio-MsgNum: 12307
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_A0ECDD8D-D0D7-4042-83AD-B27428971574";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Thu, 10 Nov 2011 16:42:57 -0000
 
---Apple-Mail=_A0ECDD8D-D0D7-4042-83AD-B27428971574
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/recipes-connectivity/dhcp/dhcp.inc      |    9 ++++++++-
+ meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb |    2 +-
+ 2 files changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc b/meta/recipes-connectivity/dhcp/dhcp.inc
+index 1cc529d..f9d80e7 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp.inc
++++ b/meta/recipes-connectivity/dhcp/dhcp.inc
+@@ -51,13 +51,15 @@ do_install_append () {
+ 		mv ${D}${sbindir}/dhclient ${D}${base_sbindir}/
+ 	fi
+ 	install -m 0755 ${S}/client/scripts/linux ${D}${base_sbindir}/dhclient-script
++
++	install -d ${D}${localstatedir}/lib/dhcp/
+ }
+ 
+ PACKAGES += "dhcp-server dhcp-server-config dhcp-client dhcp-relay dhcp-omshell"
+ 
+ FILES_${PN} = ""
+ 
+-FILES_dhcp-server = "${sbindir}/dhcpd ${sysconfdir}/init.d/dhcp-server"
++FILES_dhcp-server = "${sbindir}/dhcpd ${sysconfdir}/init.d/dhcp-server ${localstatedir}/lib/dhcp/"
+ RRECOMMENDS_dhcp-server = "dhcp-server-config"
+ 
+ FILES_dhcp-server-config = "${sysconfdir}/default/dhcp-server ${sysconfdir}/dhcp/dhcpd.conf"
+@@ -68,3 +70,8 @@ FILES_dhcp-client = "${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${
+ RDEPENDS_dhcp-client = "bash"
+ 
+ FILES_dhcp-omshell = "${bindir}/omshell"
++
++pkg_postinst_dhcp-server() {
++    touch $D/${localstatedir}/lib/dhcp/dhcpd.leases
++    touch $D/${localstatedir}/lib/dhcp/dhcpd6.leases
++}
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb b/meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb
+index 8ed7d76..2471d61 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb
+@@ -1,6 +1,6 @@
+ require dhcp.inc
+ 
+-PR = "r3"
++PR = "r4"
+ 
+ SRC_URI += "file://fixincludes.patch \
+             file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
+-- 
+1.7.2.5
 
 
-Op 10 nov. 2011, om 14:20 heeft Richard Purdie het volgende geschreven:
 
-> On Thu, 2011-11-10 at 13:44 +0100, Koen Kooi wrote:
->> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
->> ---
->> .../hicolor-icon-theme/hicolor-icon-theme_0.12.bb  |    2 ++
->> 1 files changed, 2 insertions(+), 0 deletions(-)
->>=20
->> diff --git =
-a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb =
-b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
->> index 759c9d8..aeb89c9 100644
->> --- =
-a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
->> +++ =
-b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
->> @@ -5,6 +5,8 @@ BUGTRACKER =3D "https://bugs.freedesktop.org/"
->> LICENSE =3D "GPLv2"
->> LIC_FILES_CHKSUM =3D =
-"file://COPYING;md5=3Df08a446809913fc9b3c718f0eaea0426"
->>=20
->> +BBCLASSEXTEND =3D "native"
->> +
->> SECTION =3D "unknown"
->> inherit gnome allarch
->=20
-> This is interesting dilemma since this is an allarch recipe. What =
-issue
-> were you seeing to need this? Could we add the allarch sysroot =
-directory
-> to PATH to resolve this instead? We could add a PROVIDES
-> "hicolor-icon-theme-native" too...
-
-XFCE needs some native tools to run, one of which has hicolor-icon-theme =
-in its depends. Without this patch you can't build xfce. Andreas might =
-know more about this.
-
-regards,
-
-Koen=
-
---Apple-Mail=_A0ECDD8D-D0D7-4042-83AD-B27428971574
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-
-iEYEARECAAYFAk6709oACgkQMkyGM64RGpH/7ACgjfw4mAyCcuZuj4IYFDwhY7JS
-MVYAoKg2N+8b8iaaK0dHA+bYbWmswsdq
-=b2ar
------END PGP SIGNATURE-----
-
---Apple-Mail=_A0ECDD8D-D0D7-4042-83AD-B27428971574--
