@@ -1,25 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1ROPOK-0005ag-Tk
+	(envelope-from <sgw@linux.intel.com>) id 1ROPOK-0005aX-Vq
 	for openembedded-core@lists.openembedded.org;
 	Thu, 10 Nov 2011 08:49:45 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Nov 2011 23:43:21 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 09 Nov 2011 23:43:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,488,1315206000"; d="scan'208";a="83351227"
+X-IronPort-AV: E=Sophos;i="4.69,488,1315206000"; d="scan'208";a="83351229"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.14])
 	by fmsmga001.fm.intel.com with ESMTP; 09 Nov 2011 23:43:21 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Nov 2011 23:43:04 -0800
-Message-Id: <bc7d30f3e12892ff208683c05fb29c5e9c631954.1320910946.git.sgw@linux.intel.com>
+Date: Wed,  9 Nov 2011 23:43:05 -0800
+Message-Id: <e99c6b36d38910829179c94e62d78f43d3ede4de.1320910946.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1320910946.git.sgw@linux.intel.com>
 References: <cover.1320910946.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1320910946.git.sgw@linux.intel.com>
 References: <cover.1320910946.git.sgw@linux.intel.com>
-MIME-Version: 1.0
-Subject: [CONSOLIDATED PULL (v2) 22/33] xinit: Fix `startx` looking for `mcookie` in sysroot
+Subject: [CONSOLIDATED PULL (v2) 23/33] useradd.bbclass: only modify packages in USERADD_PACKAGES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,68 +33,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Nov 2011 07:49:46 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 10 Nov 2011 07:49:47 -0000
 
-From: Paul Menzel <paulepanter@users.sourceforge.net>
+From: Scott Garman <scott.a.garman@intel.com>
 
-`startx` run on a system based on the demo systemd image [1] and `opkg`-installed packages fails with the following error.
+Previously we injected the user/group preinstall script into all
+output packages. This fixes that so that only packages listed in
+USERADD_PACKAGES get modified.
 
-	/usr/bin/startx: line 139: /OE/tentacle/build/tmp-angstrom_2010_x/sysroots/x68_64-linux/usr/bin/mcookie: No such file or directory
+It also removes the USERADDPN variable, which is no longer needed.
 
-Applying commit 443bcc07 [1] from OE-classic
-
-        Author: Tom Rini <tom_rini@mentor.com>
-        Date:   Thu Apr 7 10:36:43 2011 -0700
-
-            xinit: Fix mcookie / util-linux-ng dependency
-
-            xinit just needs to know the runtime path of mcookie so we need to
-            RDEPEND on util-linux-ng and pass the runtime path in via EXTRA_OECONF
-
-            Signed-off-by: Tom Rini <tom_rini@mentor.com>
-
-fixes this issue. Commit 7f6cec6f [2]
-
-        Author: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
-        Date:   Sun Feb 21 18:11:30 2010 +0100
-
-            xinit: add dependency on util-linux-ng
-
-        […]
-
-tried to address the same problem but apparently did not help, because Tom still had problems.
-
-[1] http://www.angstrom-distribution.org/demo/beagleboard/Angstrom-systemd-image-eglibc-ipk-v2011.11-core-beagleboard.rootfs.tar.bz2
-[2] http://git.openembedded.org/openembedded/commit/443bcc0785bc004e471b3750a34d12d2fd2e5dad
-[3] http://git.openembedded.org/openembedded/commit/7f6cec6f0adb6203a6dbaf8a43c67c2c4f8bf84e
-
-Signed-off-by: Paul Menzel <paulepanter@users.sourceforge.net>
+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 ---
- meta/recipes-graphics/xorg-app/xinit_1.3.0.bb |    7 ++++++-
- 1 files changed, 6 insertions(+), 1 deletions(-)
+ meta/classes/useradd.bbclass |   42 ++++++++++++++++--------------------------
+ 1 files changed, 16 insertions(+), 26 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb b/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
-index ee7c64d..6953ccc 100644
---- a/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
-+++ b/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
-@@ -9,9 +9,14 @@ systems. When this first client exits, xinit will kill the X server and \
- then terminate."
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index a8a1c14..3b2d1db 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -1,5 +1,3 @@
+-USERADDPN ?= "${PN}"
+-
+ # base-passwd-cross provides the default passwd and group files in the
+ # target sysroot, and shadow -native and -sysroot provide the utilities
+ # and support files needed to add and modify user and group accounts
+@@ -106,30 +104,29 @@ SYSROOTPOSTFUNC_virtclass-nativesdk = ""
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=0d4b5eef75f1584ccbdc5e4a34314407"
--PR = "r0"
+ # Recipe parse-time sanity checks
+ def update_useradd_after_parse(d):
+-	if not d.getVar('USERADD_PACKAGES', False):
+-		if not d.getVar('USERADD_PARAM', False) and not d.getVar('GROUPADD_PARAM', False):
+-			raise bb.build.FuncFailed, "%s inherits useradd but doesn't set USERADD_PARAM or GROUPADD_PARAM" % bb.data.getVar('FILE', d)
++	useradd_packages = d.getVar('USERADD_PACKAGES', True)
 +
-+PR = "r1"
- PE = "1"
++	if not useradd_packages:
++		raise bb.build.FuncFailed, "%s inherits useradd but doesn't set USERADD_PACKAGES" % bb.data.getVar('FILE', d)
++
++	for pkg in useradd_packages.split():
++		if not d.getVar('USERADD_PARAM_%s' % pkg, True) and not d.getVar('GROUPADD_PARAM_%s' % pkg, True):
++			raise bb.build.FuncFailed, "%s inherits useradd but doesn't set USERADD_PARAM or GROUPADD_PARAM for package %s" % (bb.data.getVar('FILE', d), pkg)
  
-+EXTRA_OECONF = "ac_cv_path_MCOOKIE=${bindir}/mcookie"
-+
-+RDEPENDS_${PN} += "util-linux"
-+
- FILES_${PN} += "${libdir}X11/xinit"
+ python __anonymous() {
+ 	update_useradd_after_parse(d)
+ }
  
- SRC_URI[md5sum] = "bc4e8b7d1919597cc37a0d24aa149dda"
+ # Return a single [GROUP|USER]ADD_PARAM formatted string which includes the
+-# [group|user]add parameters for all packages in this recipe
++# [group|user]add parameters for all USERADD_PACKAGES in this recipe
+ def get_all_cmd_params(d, cmd_type):
+ 	import string
+ 	
+ 	param_type = cmd_type.upper() + "ADD_PARAM_%s"
+ 	params = []
+ 
+-	pkgs = d.getVar('USERADD_PACKAGES', True)
+-	if not pkgs:
+-		pkgs = d.getVar('USERADDPN', True)
+-		packages = (d.getVar('PACKAGES', True) or "").split()
+-		if packages and pkgs not in packages:
+-			pkgs = packages[0]
+-
+-	for pkg in pkgs.split():
++	useradd_packages = d.getVar('USERADD_PACKAGES', True) or ""
++	for pkg in useradd_packages.split():
+ 		param = d.getVar(param_type % pkg, True)
+ 		if param:
+ 			params.append(param)
+@@ -156,17 +153,10 @@ fakeroot python populate_packages_prepend () {
+ 		rdepends = d.getVar("RDEPENDS_%s" % pkg, True) or ""
+ 		rdepends += " base-passwd shadow"
+ 		bb.data.setVar("RDEPENDS_%s" % pkg, rdepends, d)
+-		
+-	# We add the user/group calls to all packages to allow any package
+-	# to contain files owned by the users/groups defined in the recipe.
+-	# The user/group addition code is careful not to create duplicate
+-	# entries, so this is safe.
+-	pkgs = d.getVar('USERADD_PACKAGES', True)
+-	if not pkgs:
+-		pkgs = d.getVar('USERADDPN', True)
+-		packages = (d.getVar('PACKAGES', True) or "").split()
+-		if packages and pkgs not in packages:
+-			pkgs = packages[0]
+-	for pkg in pkgs.split():
++	
++	# Add the user/group preinstall scripts and RDEPENDS requirements
++	# to packages specified by USERADD_PACKAGES
++	useradd_packages = d.getVar('USERADD_PACKAGES', True) or ""
++	for pkg in useradd_packages.split():
+ 		update_useradd_package(pkg)
+ }
 -- 
 1.7.6.4
 
