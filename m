@@ -1,40 +1,26 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1ROJ42-0007ty-LG
+	(envelope-from <tom.zanussi@intel.com>) id 1ROJB2-00085g-V3
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Nov 2011 02:04:22 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 09 Nov 2011 16:58:05 -0800
+	Thu, 10 Nov 2011 02:11:37 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 09 Nov 2011 17:05:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,486,1315206000"; d="scan'208";a="72622565"
-Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
-	by azsmga001.ch.intel.com with ESMTP; 09 Nov 2011 16:58:05 -0800
-Received: from pgsmsx102.gar.corp.intel.com (10.221.44.80) by
-	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 10 Nov 2011 08:57:42 +0800
-Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
-	PGSMSX102.gar.corp.intel.com (10.221.44.80) with Microsoft SMTP Server
-	(TLS) id 14.1.323.3; Thu, 10 Nov 2011 08:57:41 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
-	Thu, 10 Nov 2011 08:57:41 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: "Zanussi, Tom" <tom.zanussi@intel.com>
-Date: Thu, 10 Nov 2011 08:57:40 +0800
-Thread-Topic: [OE-core] [CONSOLIDATED PULL 17/17] python: skip setup.py
-	'import	check' when cross-compiling
-Thread-Index: Acye5UZmNEd+QMqPQjyF4UjQtJOuygAXZH/w
-Message-ID: <1865303E0DED764181A9D882DEF65FB6DFA3CBDD9E@shsmsx502.ccr.corp.intel.com>
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="73153438"
+Received: from unknown (HELO [10.255.15.253]) ([10.255.15.253])
+	by orsmga001.jf.intel.com with ESMTP; 09 Nov 2011 17:05:19 -0800
+From: Tom Zanussi <tom.zanussi@intel.com>
+To: "Cui, Dexuan" <dexuan.cui@intel.com>
+In-Reply-To: <1865303E0DED764181A9D882DEF65FB6DFA3CBDD9E@shsmsx502.ccr.corp.intel.com>
 References: <cover.1320780004.git.sgw@linux.intel.com>
 	<9f8d5c15eb59611c86dee83180642f29dcc7a361.1320780004.git.sgw@linux.intel.com>
 	<1865303E0DED764181A9D882DEF65FB6DF1AE8C698@shsmsx502.ccr.corp.intel.com>
 	<1320846145.16608.0.camel@elmorro>
-In-Reply-To: <1320846145.16608.0.camel@elmorro>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
-MIME-Version: 1.0
+	<1865303E0DED764181A9D882DEF65FB6DFA3CBDD9E@shsmsx502.ccr.corp.intel.com>
+Date: Wed, 09 Nov 2011 19:06:31 -0600
+Message-ID: <1320887191.16608.116.camel@elmorro>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.28.3 
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [CONSOLIDATED PULL 17/17] python: skip setup.py 'import	check' when cross-compiling
@@ -52,22 +38,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Nov 2011 01:04:22 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 10 Nov 2011 01:11:37 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-WmFudXNzaSwgVG9tIHdyb3RlIG9uIDIwMTEtMTEtMDk6DQo+IE9uIFdlZCwgMjAxMS0xMS0wOSBh
-dCAwMjozNCAtMDgwMCwgQ3VpLCBEZXh1YW4gd3JvdGU6DQo+PiBIb3cgSSB3aXNoIEkgY291bGQg
-bm90aWNlIHRoZSBwYXRjaCB0aGlzIG1vcm5pbmcgc28gSSBjb3VsZCBzYXZlIDEgZGF5IQ0KPj4g
-DQo+IA0KPiA/Pz8gQ2FuIHlvdSBwbGVhc2UgZXhwbGFpbiB3aGF0IHlvdSBtZWFuPw0KSSBtZWFu
-dCBJIHNwZW50IDEgZGF5IG9uIGRlYnVnZ2luZyB0aGUgc2FtZSBpc3N1ZSBhbmQgZ290IHRoZSBj
-YXVzZSBidXQgd2Fzbid0IHN1cmUgaG93IHRoZSBwYXRjaCBzaG91bGQgYmUgbWFkZSwgc28gSSB3
-YW50ZWQgdG8gYXNrIGZvciBzdWdnZXN0aW9uIGluIHRoZSBNTCBhbmQgYmVmb3JlIHRoYXQgSSB0
-cmllZCB0byBmaW5kIG91dCBpZiBhbnlib2R5IHJlcG9ydGVkIHRoZSBzYW1lIGlzc3VlIGFuZCBJ
-IHNhdyB5b3VyIHBhdGNoIHRoYXQgd2FzIHNlbnQgMS41IGRheXMgYWdvLi4uIDotKQ0KDQo+PiBB
-bnl3YXksIHRoYW5rcyBUb21aIGZvciB0aGUgcGF0Y2ghICA6LSkNCj4+IA0KPiANCj4gWW91J3Jl
-IHdlbGNvbWUsIEkgZ3Vlc3MhDQo+IA0KPiBUb20NCj4gDQoNClRoYW5rcywNCi0tIERleHVhbg0K
-DQoNCg==
+On Wed, 2011-11-09 at 16:57 -0800, Cui, Dexuan wrote:
+> Zanussi, Tom wrote on 2011-11-09:
+> > On Wed, 2011-11-09 at 02:34 -0800, Cui, Dexuan wrote:
+> >> How I wish I could notice the patch this morning so I could save 1 day!
+> >> 
+> > 
+> > ??? Can you please explain what you mean?
+> I meant I spent 1 day on debugging the same issue and got the cause but wasn't sure how the patch should be made, so I wanted to ask for suggestion in the ML and before that I tried to find out if anybody reported the same issue and I saw your patch that was sent 1.5 days ago... :-)
+> 
+
+Yeah, sure - I'm just kind of curious since I'd never seen it before
+until I added the avx instruction support.
+
+Just out of curiosity, what were your host and target arches?
+
+Tom 
+
+> >> Anyway, thanks TomZ for the patch!  :-)
+> >> 
+> > 
+> > You're welcome, I guess!
+> > 
+> > Tom
+> > 
+> 
+> Thanks,
+> -- Dexuan
+> 
+> 
+
+
 
 
