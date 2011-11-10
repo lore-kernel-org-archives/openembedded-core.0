@@ -1,35 +1,24 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mail.gw90.de ([188.40.100.199])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1ROcPY-0002jQ-A0
-	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Nov 2011 22:43:52 +0100
-Received: by yenm3 with SMTP id m3so2509358yen.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Nov 2011 13:37:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references;
-	bh=3v4hT9dEq8LJUyVTephz0wldWKLm6ZLSxk+vqljEr6M=;
-	b=NGjKEzCbcmVW0ItiX/vBSEzkFQvd+eV/pSjuxQm+wJ8LF6qDuy+2qmFVkn+Q9Nx/oH
-	HY+erovoOKYom0F8nCmIujfvxwyzF9dDWNJfHjM5yTGzZg8s9vxtjnVomftPweM55ROb
-	Qg+3obcmteE95hdqxIPN2TOEVDUDTxbKPrdIY=
-Received: by 10.101.137.38 with SMTP id p38mr4126895ann.33.1320961053398;
-	Thu, 10 Nov 2011 13:37:33 -0800 (PST)
-Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id d5sm13778798yhl.19.2011.11.10.13.37.31
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 10 Nov 2011 13:37:32 -0800 (PST)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+	(envelope-from <paulepanter@users.sourceforge.net>)
+	id 1ROcc3-00032d-IL for openembedded-core@lists.openembedded.org;
+	Thu, 10 Nov 2011 22:56:47 +0100
+Received: from g225081174.adsl.alicedsl.de ([92.225.81.174]
+	helo=[192.168.178.21])
+	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
+	id 1ROcW9-0003nJ-7E for openembedded-core@lists.openembedded.org;
+	Thu, 10 Nov 2011 21:50:41 +0000
+Message-ID: <1320961819.21414.0.camel@mattotaupa>
+From: Paul Menzel <paulepanter@users.sourceforge.net>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Nov 2011 21:37:18 +0000
-Message-Id: <d2cc2964dc67b5d428e53f6580b282ded72cc701.1320961001.git.otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <cover.1320961001.git.otavio@ossystems.com.br>
+Date: Thu, 10 Nov 2011 22:50:19 +0100
+In-Reply-To: <021aada776e7f9ee9711f2959d00f98035f53a06.1320961001.git.otavio@ossystems.com.br>
 References: <cover.1320961001.git.otavio@ossystems.com.br>
-In-Reply-To: <cover.1320961001.git.otavio@ossystems.com.br>
-References: <cover.1320961001.git.otavio@ossystems.com.br>
-Subject: [PATCH 3/3] xinit: rdepends on util-linux-mcookie to avoid brining whole util-linux
+	<021aada776e7f9ee9711f2959d00f98035f53a06.1320961001.git.otavio@ossystems.com.br>
+X-Mailer: Evolution 3.0.3-2 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/3] dhcp: generate initial leases files for server
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,34 +33,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Nov 2011 21:43:52 -0000
+X-List-Received-Date: Thu, 10 Nov 2011 21:56:47 -0000
+X-Groupsio-MsgNum: 12331
+Content-Type: multipart/signed; micalg="pgp-sha1";
+	protocol="application/pgp-signature"; 
+	boundary="=-4E1WXDxb5sAPPBJQCfcA"
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/recipes-graphics/xorg-app/xinit_1.3.0.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+--=-4E1WXDxb5sAPPBJQCfcA
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb b/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
-index 6953ccc..08dfe12 100644
---- a/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
-+++ b/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
-@@ -10,12 +10,12 @@ then terminate."
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=0d4b5eef75f1584ccbdc5e4a34314407"
- 
--PR = "r1"
-+PR = "r2"
- PE = "1"
- 
- EXTRA_OECONF = "ac_cv_path_MCOOKIE=${bindir}/mcookie"
- 
--RDEPENDS_${PN} += "util-linux"
-+RDEPENDS_${PN} += "util-linux-mcookie"
- 
- FILES_${PN} += "${libdir}X11/xinit"
- 
--- 
-1.7.2.5
+Am Donnerstag, den 10.11.2011, 21:37 +0000 schrieb Otavio Salvador:
+
+What is the error message you are getting?
+
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+>  meta/recipes-connectivity/dhcp/dhcp.inc      |    9 ++++++++-
+>  meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb |    2 +-
+>  2 files changed, 9 insertions(+), 2 deletions(-)
+
+[=E2=80=A6]
 
 
+Thanks,
 
+Paul
+
+--=-4E1WXDxb5sAPPBJQCfcA
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+
+iEYEABECAAYFAk68RxsACgkQPX1aK2wOHVggywCgiVhN0r+BFyRa6x5lQdz0dNb8
+/4QAn19zzKN24Yv6/3WPsc5X1vZTaFG4
+=UW+S
+-----END PGP SIGNATURE-----
+
+--=-4E1WXDxb5sAPPBJQCfcA--
