@@ -1,33 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1ROToK-0004f9-HB for openembedded-core@lists.openembedded.org;
-	Thu, 10 Nov 2011 13:32:53 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAACQZRF028759
+Received: from mail-ww0-f41.google.com ([74.125.82.41])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1ROU5M-0005HC-O6
+	for openembedded-core@lists.openembedded.org;
+	Thu, 10 Nov 2011 13:50:28 +0100
+Received: by wwf25 with SMTP id 25so417932wwf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Nov 2011 12:26:35 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 28200-08 for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Nov 2011 12:26:30 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAACQRCS028753
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Nov 2011 12:26:28 GMT
-Message-ID: <1320927990.1165.15.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 10 Nov 2011 12:26:30 +0000
-In-Reply-To: <cover.1320799787.git.josh@linux.intel.com>
-References: <cover.1320799787.git.josh@linux.intel.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/3] Switch to upstream GConf
+	Thu, 10 Nov 2011 04:44:12 -0800 (PST)
+Received: by 10.180.84.33 with SMTP id v1mr5928752wiy.4.1320929052342;
+	Thu, 10 Nov 2011 04:44:12 -0800 (PST)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id v10sm4775958wiy.23.2011.11.10.04.44.10
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 10 Nov 2011 04:44:11 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 10 Nov 2011 13:44:04 +0100
+Message-Id: <1320929044-13077-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.2.5
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] hicolor-icon-theme 0.12: add BBCLASSEXTEND=native for xfce tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,39 +33,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Nov 2011 12:32:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 10 Nov 2011 12:50:28 -0000
 
-On Tue, 2011-11-08 at 16:53 -0800, Joshua Lock wrote:
-> This series' primary goal is to switch us from gconf-dbus to the upstream
-> GConf, where the D-Bus backend is now maintained.
-> 
-> To ease recipe writing I also pulled in and cleaned up the GNOME related
-> classes from meta-openembedded.
-> 
-> Cheers,
-> Joshua
-> 
-> The following changes since commit 25fae81538a92e15eab3fc169ebce44505f67839:
-> 
->   python: skip setup.py 'import check' when cross-compiling (2011-11-08 21:44:23 +0000)
-> 
-> are available in the git repository at:
->   git://git.openembedded.org/openembedded-core-contrib josh/work
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/work
-> 
-> Joshua Lock (3):
->   shared-mime-info: package runtime data separately
->   classes/[gnome|gnomebase|mime]: enhance gnome related classes
->   gconf: add upstream GNOME gconf 3.2.3 and drop gconf-dbus
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ .../hicolor-icon-theme/hicolor-icon-theme_0.12.bb  |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-Merged to master, thanks. I did add a couple of follow up tweaks to
-these to fix various issues.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
+index 759c9d8..aeb89c9 100644
+--- a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
++++ b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
+@@ -5,6 +5,8 @@ BUGTRACKER = "https://bugs.freedesktop.org/"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f08a446809913fc9b3c718f0eaea0426"
+ 
++BBCLASSEXTEND = "native"
++
+ SECTION = "unknown"
+ inherit gnome allarch
+ 
+-- 
+1.7.2.5
 
 
 
