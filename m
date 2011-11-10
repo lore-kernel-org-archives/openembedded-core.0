@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1ROPOP-0005ag-S6
+	(envelope-from <sgw@linux.intel.com>) id 1ROPOT-0005br-QH
 	for openembedded-core@lists.openembedded.org;
 	Thu, 10 Nov 2011 08:49:57 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Nov 2011 23:43:23 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 09 Nov 2011 23:43:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,488,1315206000"; d="scan'208";a="83351247"
+X-IronPort-AV: E=Sophos;i="4.69,488,1315206000"; d="scan'208";a="83351249"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.14])
 	by fmsmga001.fm.intel.com with ESMTP; 09 Nov 2011 23:43:23 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Nov 2011 23:43:12 -0800
-Message-Id: <8cae1ba412c73e71f31fd5ee3bc8d605b7e400ba.1320910946.git.sgw@linux.intel.com>
+Date: Wed,  9 Nov 2011 23:43:13 -0800
+Message-Id: <427ed0f2e79d702701bbf3c0ff4a73248b57619f.1320910946.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1320910946.git.sgw@linux.intel.com>
 References: <cover.1320910946.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1320910946.git.sgw@linux.intel.com>
 References: <cover.1320910946.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL (v2) 30/33] classes: Remove various bashisms
+Subject: [CONSOLIDATED PULL (v2) 31/33] Allow use of dash as /bin/sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,99 +37,88 @@ X-List-Received-Date: Thu, 10 Nov 2011 07:50:02 -0000
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/image-prelink.bbclass |    2 +-
- meta/classes/kernel.bbclass        |    2 +-
- meta/classes/package_rpm.bbclass   |   18 +++++++++---------
- 3 files changed, 11 insertions(+), 11 deletions(-)
+We've had the check for dash as /bin/sh for a long time. Dash has been
+around long enough now that most major issues have been identified and
+fixed from  build perspective.
 
-diff --git a/meta/classes/image-prelink.bbclass b/meta/classes/image-prelink.bbclass
-index 350c29d..53ef47e 100644
---- a/meta/classes/image-prelink.bbclass
-+++ b/meta/classes/image-prelink.bbclass
-@@ -24,7 +24,7 @@ prelink_image () {
- 	${STAGING_DIR_NATIVE}${sbindir_native}/prelink --root ${IMAGE_ROOTFS} -amR -N -c ${sysconfdir}/prelink.conf
+This patch fixes a bashism in the openjade-native recipe. It also
+adjusts libtool so that the header at the script is used and not the
+value of $SHELL. This is because many Makefiles change $SHELL so dash
+can get used to execute what is otherwise configured as a bash shell
+script. Since we don't need to execute scripts this way on any system I'm
+aware of us building upon, the simplest fix is just to remove $SHELL.
+
+With these two changes the dash check can be removed and we can allow
+builds with dash as /bin/sh
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+[Note: I know I need to add the description of the libtool change above
+into the prefix.patch]
+---
+ meta/classes/sanity.bbclass                        |    3 ---
+ meta/recipes-devtools/libtool/libtool/prefix.patch |   11 ++++++++++-
+ .../openjade/openjade-native_1.3.2.bb              |    4 +++-
+ 3 files changed, 13 insertions(+), 5 deletions(-)
+
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 3f42b4f..838448f 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -331,9 +331,6 @@ def check_sanity(e):
+     if not data.getVar( 'DISPLAY', e.data, True ) and data.getVar( 'IMAGETEST', e.data, True ) == 'qemu':
+         messages = messages + 'qemuimagetest needs a X desktop to start qemu, please set DISPLAY correctly (e.g. DISPLAY=:1.0)\n'
  
- 	# Remove the prelink.conf if we had to add it.
--	if [ "$dummy_prelink_conf" == "true" ]; then
-+	if [ "$dummy_prelink_conf" = "true" ]; then
- 		rm -f ${IMAGE_ROOTFS}${sysconfdir}/prelink.conf
- 	fi
+-    if os.path.basename(os.readlink('/bin/sh')) == 'dash':
+-        messages = messages + "Using dash as /bin/sh causes various subtle build problems, please use bash instead (e.g. 'dpkg-reconfigure dash' on an Ubuntu system.\n"
+-
+     omask = os.umask(022)
+     if omask & 0755:
+         messages = messages + "Please use a umask which allows a+rx and u+rwx\n"
+diff --git a/meta/recipes-devtools/libtool/libtool/prefix.patch b/meta/recipes-devtools/libtool/libtool/prefix.patch
+index 1b20324..e6eca1f 100644
+--- a/meta/recipes-devtools/libtool/libtool/prefix.patch
++++ b/meta/recipes-devtools/libtool/libtool/prefix.patch
+@@ -8,6 +8,15 @@ Originally by: RP
+ Updated: Date: 2010/06/28
+ Nitin A Kamble <nitin.a.kamble@intel.com>
  
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 42543e0..dc711f2 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -152,7 +152,7 @@ kernel_do_install() {
- 	#
- 	cp -fR * $kerneldir
- 	cp .config $kerneldir
--	if [ ! "${S}" == "${B}" ]; then
-+	if [ "${S}" != "${B}" ]; then
- 		cp -fR ${S}/* $kerneldir
- 	fi
- 	install -m 0644 ${KERNEL_OUTPUT} $kerneldir/${KERNEL_IMAGETYPE}
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index c01863e..f122c70 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -87,22 +87,22 @@ package_generate_rpm_conf_common() {
- 	shift
++It also adjusts libtool so that the header at the script is used for 
++script execution and not thevalue of $SHELL. This is because many 
++Makefiles change $SHELL so dash can get used to execute what is 
++otherwise configured as a bash shell script. Since we don't need to 
++execute scipts this way on any system I'm aware of us building upon, 
++the simplest fix is just to remove $SHELL.
++
++Updated: Date: 2011/11/09
++RP
  
- 	printf "_solve_dbpath " > ${rpmconf_base}.macro
--	o_colon=false
-+	o_colon="false"
+ Index: libtool-2.4/libltdl/m4/libtool.m4
+ ===================================================================
+@@ -18,7 +27,7 @@ Index: libtool-2.4/libltdl/m4/libtool.m4
+  
+  # Always use our own libtool.
+ -LIBTOOL='$(SHELL) $(top_builddir)/libtool'
+-+LIBTOOL='$(SHELL) $(top_builddir)'
+++LIBTOOL='$(top_builddir)'
+ +LIBTOOL="$LIBTOOL/${host_alias}-libtool"
+  AC_SUBST(LIBTOOL)dnl
+  
+diff --git a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+index 6cc6bb5..0cce46e 100644
+--- a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
++++ b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+@@ -53,7 +53,9 @@ do_install() {
  
- 	for archvar in "$@"; do
- 		printf "_solve_dbpath " > ${rpmconf_base}-${archvar}.macro
--		colon=false
-+		colon="false"
- 		for each in `cat ${rpmconf_base}-${archvar}.conf` ; do
--			if [ "$o_colon" == true ]; then
-+			if [ "$o_colon" = "true" ]; then
- 				printf ":" >> ${rpmconf_base}.macro
- 			fi
--			if [ "$colon" == true ]; then
-+			if [ "$colon" = "true" ]; then
- 				printf ":" >> ${rpmconf_base}-${archvar}.macro
- 			fi
- 			printf "%s" $each >> ${rpmconf_base}.macro
--			o_colon=true
-+			o_colon="true"
- 			printf "%s" $each >> ${rpmconf_base}-${archvar}.macro
--			colon=true
-+			colon="true"
- 		done
- 		printf "\n" >> ${rpmconf_base}-${archvar}.macro
- 	done
-@@ -214,7 +214,7 @@ package_install_internal_rpm () {
- 				ml_prefix=`echo ${pkg} | cut -d'-' -f1`
- 				ml_pkg=$pkg
- 				for i in ${MULTILIB_PREFIX_LIST} ; do
--					if [ ${ml_prefix} == ${i} ]; then
-+					if [ ${ml_prefix} = ${i} ]; then
- 						ml_pkg=$(echo ${pkg} | sed "s,^${ml_prefix}-\(.*\),\1,")
- 						archvar=ml_archs
- 						manifest=install_multilib.manifest
-@@ -240,7 +240,7 @@ package_install_internal_rpm () {
- 			ml_prefix=`echo ${pkg} | cut -d'-' -f1`
- 			ml_pkg=$pkg
- 			for i in ${MULTILIB_PREFIX_LIST} ; do
--				if [ ${ml_prefix} == ${i} ]; then
-+				if [ ${ml_prefix} = ${i} ]; then
- 					ml_pkg=$(echo ${pkg} | sed "s,^${ml_prefix}-\(.*\),\1,")
- 					archvar=ml_archs
- 					manifest=install_multilib.manifest
-@@ -276,7 +276,7 @@ package_install_internal_rpm () {
- 			ml_prefix=`echo ${pkg} | cut -d'-' -f1`
- 			ml_pkg=$pkg
- 			for i in ${MULTILIB_PREFIX_LIST} ; do
--				if [ ${ml_prefix} == ${i} ]; then
-+				if [ ${ml_prefix} = ${i} ]; then
- 					ml_pkg=$(echo ${pkg} | sed "s,^${ml_prefix}-\(.*\),\1,")
- 					archvar=ml_archs
- 					break
+ 	install -d ${D}${datadir}/sgml/openjade-${PV}
+ 	install -m 644 dsssl/catalog ${D}${datadir}/sgml/openjade-${PV}
+-	install -m 644 dsssl/*.{dtd,dsl,sgm} ${D}${datadir}/sgml/openjade-${PV}
++	install -m 644 dsssl/*.dtd ${D}${datadir}/sgml/openjade-${PV}
++	install -m 644 dsssl/*.dsl ${D}${datadir}/sgml/openjade-${PV}
++	install -m 644 dsssl/*.sgm ${D}${datadir}/sgml/openjade-${PV}
+ 
+ 	install -d ${datadir}/sgml/openjade-${PV}
+ 	install -m 644 dsssl/catalog ${datadir}/sgml/openjade-${PV}/catalog
 -- 
 1.7.6.4
 
