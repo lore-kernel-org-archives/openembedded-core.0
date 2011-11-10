@@ -1,26 +1,30 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1ROGtJ-0004wL-F7
-	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Nov 2011 23:45:09 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pA9McqAn007255
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1ROICt-0006nW-5n for openembedded-core@lists.openembedded.org;
+	Thu, 10 Nov 2011 01:09:27 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAA03BwT021585
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 9 Nov 2011 14:38:52 -0800 (PST)
-Received: from Macintosh-5.local (172.25.36.232) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 9 Nov 2011 14:38:51 -0800
-Message-ID: <4EBB00FA.7000007@windriver.com>
-Date: Wed, 9 Nov 2011 16:38:50 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:7.0.1) Gecko/20110929 Thunderbird/7.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: user and group default policies
+	Thu, 10 Nov 2011 00:03:11 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 20755-05 for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Nov 2011 00:03:07 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAA035MS021579
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Nov 2011 00:03:06 GMT
+Message-ID: <1320883387.10843.243.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 10 Nov 2011 00:03:07 +0000
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] qemu: Ensure an internal qemugl script uses bash as it has bashisms
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,34 +39,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Nov 2011 22:45:09 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Thu, 10 Nov 2011 00:09:27 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-With shadow-utils enabled, a default user and group add policy is installed in
-/etc/default/adduser.  This policy specifies that group "1000" is used when
-adding new users, unless you specify a group.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/recipes-devtools/qemu/qemu-0.14.0/qemu-git-qemugl-host.patch b/meta/recipes-devtools/qemu/qemu-0.14.0/qemu-git-qemugl-host.patch
+index bbc9c9e..4fb972a 100644
+--- a/meta/recipes-devtools/qemu/qemu-0.14.0/qemu-git-qemugl-host.patch
++++ b/meta/recipes-devtools/qemu/qemu-0.14.0/qemu-git-qemugl-host.patch
+@@ -280,7 +280,7 @@ Index: qemu-0.14.0/target-i386/beginend_funcs.sh
+ --- /dev/null
+ +++ qemu-0.14.0/target-i386/beginend_funcs.sh
+ @@ -0,0 +1,23 @@
+-+#! /bin/sh
+++#! /bin/bash
+ +# Copyright 2008 (C) Intel Corporation
+ +#
+ +# echo names of functions that are legal between a glBegin and glEnd pair.
+diff --git a/meta/recipes-devtools/qemu/qemu-0.15.0/qemu-git-qemugl-host.patch b/meta/recipes-devtools/qemu/qemu-0.15.0/qemu-git-qemugl-host.patch
+index bbc9c9e..4fb972a 100644
+--- a/meta/recipes-devtools/qemu/qemu-0.15.0/qemu-git-qemugl-host.patch
++++ b/meta/recipes-devtools/qemu/qemu-0.15.0/qemu-git-qemugl-host.patch
+@@ -280,7 +280,7 @@ Index: qemu-0.14.0/target-i386/beginend_funcs.sh
+ --- /dev/null
+ +++ qemu-0.14.0/target-i386/beginend_funcs.sh
+ @@ -0,0 +1,23 @@
+-+#! /bin/sh
+++#! /bin/bash
+ +# Copyright 2008 (C) Intel Corporation
+ +#
+ +# echo names of functions that are legal between a glBegin and glEnd pair.
+diff --git a/meta/recipes-devtools/qemu/qemu-git/qemu-git-qemugl-host.patch b/meta/recipes-devtools/qemu/qemu-git/qemu-git-qemugl-host.patch
+index bbc9c9e..4fb972a 100644
+--- a/meta/recipes-devtools/qemu/qemu-git/qemu-git-qemugl-host.patch
++++ b/meta/recipes-devtools/qemu/qemu-git/qemu-git-qemugl-host.patch
+@@ -280,7 +280,7 @@ Index: qemu-0.14.0/target-i386/beginend_funcs.sh
+ --- /dev/null
+ +++ qemu-0.14.0/target-i386/beginend_funcs.sh
+ @@ -0,0 +1,23 @@
+-+#! /bin/sh
+++#! /bin/bash
+ +# Copyright 2008 (C) Intel Corporation
+ +#
+ +# echo names of functions that are legal between a glBegin and glEnd pair.
+diff --git a/meta/recipes-devtools/qemu/qemu_0.14.0.bb b/meta/recipes-devtools/qemu/qemu_0.14.0.bb
+index 03519ad..5a0cd55 100644
+--- a/meta/recipes-devtools/qemu/qemu_0.14.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_0.14.0.bb
+@@ -3,7 +3,7 @@ require qemu.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
+ 
+-PR = "r3"
++PR = "r4"
+ 
+ FILESPATH = "${FILE_DIRNAME}/qemu-${PV}"
+ FILESDIR = "${WORKDIR}"
+diff --git a/meta/recipes-devtools/qemu/qemu_0.15.0.bb b/meta/recipes-devtools/qemu/qemu_0.15.0.bb
+index baeb4e9..e2e1340 100644
+--- a/meta/recipes-devtools/qemu/qemu_0.15.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_0.15.0.bb
+@@ -3,7 +3,7 @@ require qemu.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ FILESPATH = "${FILE_DIRNAME}/qemu-${PV}"
+ FILESDIR = "${WORKDIR}"
+diff --git a/meta/recipes-devtools/qemu/qemu_git.bb b/meta/recipes-devtools/qemu/qemu_git.bb
+index 59fc7f1..3b4369b 100644
+--- a/meta/recipes-devtools/qemu/qemu_git.bb
++++ b/meta/recipes-devtools/qemu/qemu_git.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
+ 
+ PV = "0.14.0"
+-PR = "r1"
++PR = "r2"
+ 
+ FILESPATH = "${FILE_DIRNAME}/qemu-${PV}/:${FILE_DIRNAME}/qemu-git/"
+ FILESDIR = "${WORKDIR}"
 
-Well, we don't have a user 1000 by default, which results in the warning:
 
-useradd: group '1000' does not exist
-useradd: the GROUP= configuration in /etc/default/useradd will be ignored
-
-So my question is -- how should we resolve this.  What I see are a couple of
-possibilities:
-
-1) We create a default user "group"..  We then adjust the /etc/default/useradd
-to use that number... (if we don't user 1000 we'd have to change it.)
-
-2) Remove that setting..  I believe this means that useradd will always add a
-group for each user added.
-
-3) -- we do something else..
-
-Any comments?  I'd like to fix this -- but I'm not sure historically if OE has
-had a policy on this, or if we need to create one.. If we create one, it needs
-to be reasonable for the majority of the oe-core uses.
-
---Mark
 
 
