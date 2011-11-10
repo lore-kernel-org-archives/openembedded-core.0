@@ -1,35 +1,30 @@
 Received: from mail-gx0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1ROcPV-0002iy-1v
+	(envelope-from <otavio.salvador@gmail.com>) id 1ROcPV-0002ix-1u
 	for openembedded-core@lists.openembedded.org;
 	Thu, 10 Nov 2011 22:43:49 +0100
-Received: by ggnq4 with SMTP id q4so153575ggn.6
+Received: by ggnq4 with SMTP id q4so153572ggn.6
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 10 Nov 2011 13:37:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references;
-	bh=yVCLqVv2wTI/z7okNCW9nkkLoqCBmVYsRTvj1XPgHxs=;
-	b=e329J+fmnvd03vPlE5YDXf49rGiNFIWrPJKtFU1tdLq+pg0HGjvg+ksAi8UJWdOHyE
-	rhJr5c3wF5p1PFQ031kdUkTUqkHVDs4/5mRXCiA0/gg1JIAB0B9K2I9tSheT2LSLG42b
-	hMEnw2oOeqSwi2jSCVZECU8wkrGCTPkRkwuuo=
-Received: by 10.146.48.37 with SMTP id v37mr947552yav.6.1320961051230;
-	Thu, 10 Nov 2011 13:37:31 -0800 (PST)
+	h=sender:from:to:subject:date:message-id:x-mailer;
+	bh=XkesfYCLGgpYCKa7oYKXkI0W3PyFomnV1y8tW33GD7k=;
+	b=D3oRY5qiMGY9A6kJ7ZX/rE6Saj0rdaxPdyAkltY8vHXjVx6AdgNBTrRzOfjhx3GKz/
+	LtndqWPuz67QyDHWehR+p4FMoCQkEbWqw30bwm2UXhu+X5Twi0iEdvGSrR1VLtjV3rlh
+	0uK0KJXmx81N9g/R3pVLFKFdYIGqXYLTyA7As=
+Received: by 10.100.81.3 with SMTP id e3mr3974465anb.146.1320961046681;
+	Thu, 10 Nov 2011 13:37:26 -0800 (PST)
 Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id d5sm13778798yhl.19.2011.11.10.13.37.29
+	by mx.google.com with ESMTPS id d5sm13778798yhl.19.2011.11.10.13.37.24
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 10 Nov 2011 13:37:30 -0800 (PST)
+	Thu, 10 Nov 2011 13:37:25 -0800 (PST)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Nov 2011 21:37:17 +0000
-Message-Id: <970a806acfb6964c839411164ba0d2613417393a.1320961001.git.otavio@ossystems.com.br>
+Date: Thu, 10 Nov 2011 21:37:15 +0000
+Message-Id: <cover.1320961001.git.otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <cover.1320961001.git.otavio@ossystems.com.br>
-References: <cover.1320961001.git.otavio@ossystems.com.br>
-In-Reply-To: <cover.1320961001.git.otavio@ossystems.com.br>
-References: <cover.1320961001.git.otavio@ossystems.com.br>
-Subject: [PATCH 2/3] util-linux: split mcookie onto a package
+Subject: [PATCH 0/3] DHCP and reduction of amount of packages installer by xinit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,44 +41,27 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 10 Nov 2011 21:43:49 -0000
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+The following changes since commit 379c77d1516fe8fdbd1cd7063f709b5266872b03:
+
+  populate_*.bbclass: Correct INSTALL variable name after recent multilib changes (2011-11-10 18:05:06 +0000)
+
+are available in the git repository at:
+  git://github.com/OSSystems/oe-core master
+  https://github.com/OSSystems/oe-core/tree/HEAD
+
+Otavio Salvador (3):
+  dhcp: generate initial leases files for server
+  util-linux: split mcookie onto a package
+  xinit: rdepends on util-linux-mcookie to avoid brining whole
+    util-linux
+
+ meta/recipes-connectivity/dhcp/dhcp.inc           |    9 ++++++++-
+ meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb      |    2 +-
  meta/recipes-core/util-linux/util-linux.inc       |    3 ++-
  meta/recipes-core/util-linux/util-linux_2.19.1.bb |    2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ meta/recipes-graphics/xorg-app/xinit_1.3.0.bb     |    4 ++--
+ 5 files changed, 14 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 4db577c..dcf0ed9 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -30,7 +30,7 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
-              util-linux-mount util-linux-readprofile util-linux-libblkid \
-              util-linux-libblkid-dev util-linux-libuuid util-linux-libuuid-dev \
-              util-linux-uuidgen util-linux-lscpu util-linux-fsck util-linux-blkid \
--	     util-linux-chkdupexe util-linux-mkfs"
-+	     util-linux-chkdupexe util-linux-mkfs util-linux-mcookie"
- 
- EXTRA_OECONF = "--disable-use-tty-group --disable-makeinstall-chown --enable-elvtune --enable-init --enable-kill --enable-last \
-  --enable-mesg --enable-partx --enable-raw --enable-rdev --enable-reset \
-@@ -45,6 +45,7 @@ FILES_util-linux-sfdisk = "${sbindir}/sfdisk"
- FILES_util-linux-swaponoff = "${base_sbindir}/swapon.${PN} ${sbindir}/swapoff.${PN}"
- FILES_util-linux-losetup = "${base_sbindir}/losetup.${PN}"
- FILES_util-linux-mount = "${base_bindir}/mount.${PN}"
-+FILES_util-linux-mcookie = "${bindir}/mcookie"
- FILES_util-linux-umount = "${base_bindir}/umount.${PN}"
- FILES_util-linux-readprofile = "${base_sbindir}/readprofile.${PN}"
- FILES_util-linux-uuidgen = "${bindir}/uuidgen"
-diff --git a/meta/recipes-core/util-linux/util-linux_2.19.1.bb b/meta/recipes-core/util-linux/util-linux_2.19.1.bb
-index fb5637e..e2fb727 100644
---- a/meta/recipes-core/util-linux/util-linux_2.19.1.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.19.1.bb
-@@ -1,5 +1,5 @@
- MAJOR_VERSION = "2.19"
--PR = "r9"
-+PR = "r10"
- require util-linux.inc
- 
- # note that `lscpu' is under GPLv3+
 -- 
 1.7.2.5
 
