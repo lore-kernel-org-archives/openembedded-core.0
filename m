@@ -1,34 +1,34 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1ROu5K-0005YU-3R
+	(envelope-from <martin.jansa@gmail.com>) id 1ROu5S-0005YU-OF
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 Nov 2011 17:36:10 +0100
+	Fri, 11 Nov 2011 17:36:18 +0100
 Received: by mail-bw0-f47.google.com with SMTP id zs2so3543817bkb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Nov 2011 08:29:54 -0800 (PST)
+	Fri, 11 Nov 2011 08:30:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=qYxPaoixGbTgeSkc/hSFTHE/Y/WhSXpU12NcbekplB8=;
-	b=GCGcdUSJ+JKsSo5g0taGVKXd1zZkDQ0bzyejlZCLuAHO1KO1XxBQQSS9QQYFnTCR8s
-	/1dZl9eUu0JTch+b/UubH2ldrnqVU61Hf9GYeqnRKaZs8DpcWryEHYtnKyi395pXmuJ1
-	D6N2azxRWBjNllPKFhraf9zP73uQXHiacrL18=
-Received: by 10.205.132.69 with SMTP id ht5mr1180679bkc.115.1321028994446;
-	Fri, 11 Nov 2011 08:29:54 -0800 (PST)
+	bh=EQAKBx93uZeQjmRQu5Sw3//kmgESQ0ofVral7oPysBU=;
+	b=EnfJovjJV+OdMNllveX4i2BK2tmCR/arbgj3wd+2YWBgMaUHCo8e7/dZkp8/0YUeFF
+	oyf2GoSuURdtR97oizFKVnETIpNShNF5U3mX5CSVgS/KIe9QmU7TNyXED7hwzPo6giZz
+	OFfUuYzB92mh5qhCd7yvow2Zl8hhaTxgXtpWI=
+Received: by 10.204.145.211 with SMTP id e19mr8894677bkv.55.1321029003090;
+	Fri, 11 Nov 2011 08:30:03 -0800 (PST)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id z15sm11731914bkv.4.2011.11.11.08.29.52
+	by mx.google.com with ESMTPS id cc2sm9609635bkb.8.2011.11.11.08.30.01
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 11 Nov 2011 08:29:53 -0800 (PST)
+	Fri, 11 Nov 2011 08:30:02 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Nov 2011 17:28:43 +0100
-Message-Id: <529800a4e5b856350190662884bcf7483d7726c5.1321028799.git.Martin.Jansa@gmail.com>
+Date: Fri, 11 Nov 2011 17:28:44 +0100
+Message-Id: <ada5f3bb531072e713e2017989c3f8df3a55c075.1321028799.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.8.rc1
 In-Reply-To: <d99edd412e58edeb79c64112f7eb6ba522342bf9.1321028799.git.Martin.Jansa@gmail.com>
 References: <d99edd412e58edeb79c64112f7eb6ba522342bf9.1321028799.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1321028799.git.Martin.Jansa@gmail.com>
 References: <cover.1321028799.git.Martin.Jansa@gmail.com>
-Subject: [PATCH][oe-core 07/22] base.bbclass: add subversion-native to DEPENDS if there is svn:// in SRC_URI
+Subject: [PATCH][oe-core 08/22] mesa: package gl/egl/osmesa to separate packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,38 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Nov 2011 16:36:10 -0000
-
-* in some cases this could cause circual dependency (ie if we decide to
-  apr_svn.bb or something like that before subversion-native in dependency
-  tree), Saul said he had such case, but I wasn't able to reproduce it
-  here (here it builds subversion-native-1.7.0 fine).
+X-List-Received-Date: Fri, 11 Nov 2011 16:36:18 -0000
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes/base.bbclass |    8 +++++++-
- 1 files changed, 7 insertions(+), 1 deletions(-)
+ meta/recipes-graphics/mesa/mesa-common.inc |   13 +++++++++++--
+ 1 files changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index f3f798f..ba1f230 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -401,8 +401,14 @@ python () {
-                     bb.note("SKIPPING %s because it's %s" % (pn, this_license))
-                     raise bb.parse.SkipPackage("incompatible with license %s" % this_license)
+diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
+index 06ebb75..b8f2289 100644
+--- a/meta/recipes-graphics/mesa/mesa-common.inc
++++ b/meta/recipes-graphics/mesa/mesa-common.inc
+@@ -38,7 +38,16 @@ EXTRA_OECONF = "--enable-glu \
+ # Multiple virtual/gl providers being built breaks staging
+ EXCLUDE_FROM_WORLD = "1"
  
--    # Git packages should DEPEND on git-native
-     srcuri = d.getVar('SRC_URI', 1)
-+    # Svn packages should DEPEND on subversion-native
-+    if "svn://" in srcuri:
-+        depends = d.getVarFlag('do_fetch', 'depends') or ""
-+        depends = depends + " subversion-native:do_populate_sysroot"
-+        d.setVarFlag('do_fetch', 'depends', depends)
+-PACKAGES =+ "libglu libglu-dev"
+-
++PACKAGES =+ "libegl libegl-dev libegl-dbg libglu libglu-dev libosmesa libosmesa-dev libgl libgl-dev"
++FILES_libegl = "${libdir}/libEGL.so.* ${libdir}/egl/*.so"
++FILES_libgl = "${libdir}/libGL.so.*"
+ FILES_libglu = "${libdir}/libGLU.so.*"
++FILES_libosmesa = "${libdir}/libOSMesa.so.*"
 +
-+    # Git packages should DEPEND on git-native
-     if "git://" in srcuri:
-         depends = d.getVarFlag('do_fetch', 'depends') or ""
-         depends = depends + " git-native:do_populate_sysroot"
++FILES_libegl-dev = "${libdir}/libEGL.* ${includedir}/EGL"
++FILES_libgl-dev = "${libdir}/libGL.* ${includedir}/GL"
+ FILES_libglu-dev = "${libdir}/libGLU.* ${includedir}/GL/glu*.h"
++FILES_libosmesa-dev = "${libdir}/libOSMesa.* ${includedir}/osmesa.h"
++
++FILES_${PN}-dbg += "${libdir}/dri/.debug/*"
++FILES_libegl-dbg += "${libdir}/egl/.debug/*"
 -- 
 1.7.8.rc1
 
