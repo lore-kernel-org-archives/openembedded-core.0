@@ -1,34 +1,34 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1ROu5I-0005ch-1e
+	(envelope-from <martin.jansa@gmail.com>) id 1ROu5K-0005YU-3R
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 Nov 2011 17:36:08 +0100
-Received: by mail-fx0-f47.google.com with SMTP id t2so4356740faa.6
+	Fri, 11 Nov 2011 17:36:10 +0100
+Received: by mail-bw0-f47.google.com with SMTP id zs2so3543817bkb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Nov 2011 08:29:52 -0800 (PST)
+	Fri, 11 Nov 2011 08:29:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=VH3uaeEXHRtoSgzrgXD3N3W6B3qz6r76z5sXs07JGNg=;
-	b=M/AAjQya88+PFam8i0Z3qS2Y/3OHoskAOxQ4yy3fNGFHNmA9LqCRsAWysRYJbR4lEQ
-	sqw0Uosef0c8r6i7dsHbvmRiXpE3Ag56mjGg1l4ON83qq9uhu1U1iFj31xJvI5V/tp8M
-	A4Hij3n0Z9wJa1I/0wkpqidfmhRRD7JLQU7I8=
-Received: by 10.204.7.71 with SMTP id c7mr8851080bkc.34.1321028986488;
-	Fri, 11 Nov 2011 08:29:46 -0800 (PST)
+	bh=qYxPaoixGbTgeSkc/hSFTHE/Y/WhSXpU12NcbekplB8=;
+	b=GCGcdUSJ+JKsSo5g0taGVKXd1zZkDQ0bzyejlZCLuAHO1KO1XxBQQSS9QQYFnTCR8s
+	/1dZl9eUu0JTch+b/UubH2ldrnqVU61Hf9GYeqnRKaZs8DpcWryEHYtnKyi395pXmuJ1
+	D6N2azxRWBjNllPKFhraf9zP73uQXHiacrL18=
+Received: by 10.205.132.69 with SMTP id ht5mr1180679bkc.115.1321028994446;
+	Fri, 11 Nov 2011 08:29:54 -0800 (PST)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id z15sm11731242bkv.4.2011.11.11.08.29.45
+	by mx.google.com with ESMTPS id z15sm11731914bkv.4.2011.11.11.08.29.52
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 11 Nov 2011 08:29:45 -0800 (PST)
+	Fri, 11 Nov 2011 08:29:53 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Nov 2011 17:28:42 +0100
-Message-Id: <9ccabe2cccf4d74325e875e85e6bef1141bd9474.1321028799.git.Martin.Jansa@gmail.com>
+Date: Fri, 11 Nov 2011 17:28:43 +0100
+Message-Id: <529800a4e5b856350190662884bcf7483d7726c5.1321028799.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.8.rc1
 In-Reply-To: <d99edd412e58edeb79c64112f7eb6ba522342bf9.1321028799.git.Martin.Jansa@gmail.com>
 References: <d99edd412e58edeb79c64112f7eb6ba522342bf9.1321028799.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1321028799.git.Martin.Jansa@gmail.com>
 References: <cover.1321028799.git.Martin.Jansa@gmail.com>
-Subject: [PATCH][oe-core 06/22] subversion: add 1.7.0 with native support and negative D_P for now
+Subject: [PATCH][oe-core 07/22] base.bbclass: add subversion-native to DEPENDS if there is svn:// in SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,101 +43,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Nov 2011 16:36:08 -0000
+X-List-Received-Date: Fri, 11 Nov 2011 16:36:10 -0000
 
-* intentionaly with negative D_P, bitbake fetcher should be improved to
-  detect old checkout with newer subversion available or vice versa and
-  do svn upgrade automaticaly or show better error, but subversion as
-  client for target or -native for distributions which explicitly say
-  they want 1.7 (with PREFERRED_VERSION) can be available already from
-  oe-core.
-* be aware that checkouts from 1.7.0 are not compatible with older
-  subversion clients (ie when builder populating distro PREMIRROR is
-  using 1.7.0 all builders need to have also 1.7.0)
-* and also 1.7.0 client needs to call svn upgrade in checkout first in
-  order to use it (so if PREMIRROR has tarball from 1.6.x it won't work
-  on client using 1.7.0 unless fetcher2 is improved to detect this and
-  call svn upgrade)
-* tested on SHR distribution
-  http://wiki.shr-project.org/trac/wiki/Building%20SHR#subversion1.7inshr-chroot
-* only missing part is to add subversion-native dependency, so that
-  native subversion is built, before building ie elementary (because EFL
-  are using svnversion from configure.ac to detect source revision and
-  .svn dir needs to be from compatible version).
-* read http://subversion.apache.org/docs/release-notes/1.7.html
+* in some cases this could cause circual dependency (ie if we decide to
+  apr_svn.bb or something like that before subversion-native in dependency
+  tree), Saul said he had such case, but I wasn't able to reproduce it
+  here (here it builds subversion-native-1.7.0 fine).
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../subversion/subversion-1.7.0/libtool2.patch     |   15 ++++++++
- .../subversion/subversion_1.7.0.bb                 |   37 ++++++++++++++++++++
- 2 files changed, 52 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.0/libtool2.patch
- create mode 100644 meta/recipes-devtools/subversion/subversion_1.7.0.bb
+ meta/classes/base.bbclass |    8 +++++++-
+ 1 files changed, 7 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-devtools/subversion/subversion-1.7.0/libtool2.patch b/meta/recipes-devtools/subversion/subversion-1.7.0/libtool2.patch
-new file mode 100644
-index 0000000..5cd572b
---- /dev/null
-+++ b/meta/recipes-devtools/subversion/subversion-1.7.0/libtool2.patch
-@@ -0,0 +1,15 @@
-+Upstream-Status: Inappropriate [embedded specific]
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index f3f798f..ba1f230 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -401,8 +401,14 @@ python () {
+                     bb.note("SKIPPING %s because it's %s" % (pn, this_license))
+                     raise bb.parse.SkipPackage("incompatible with license %s" % this_license)
+ 
+-    # Git packages should DEPEND on git-native
+     srcuri = d.getVar('SRC_URI', 1)
++    # Svn packages should DEPEND on subversion-native
++    if "svn://" in srcuri:
++        depends = d.getVarFlag('do_fetch', 'depends') or ""
++        depends = depends + " subversion-native:do_populate_sysroot"
++        d.setVarFlag('do_fetch', 'depends', depends)
 +
-+--- a/configure.ac	2011-10-20 21:56:02.230663987 +0200
-++++ b/configure.ac	2011-08-17 15:01:30.000000000 +0200
-+@@ -227,8 +227,8 @@
-+   LIBTOOL="$sh_libtool"
-+   SVN_LIBTOOL="$sh_libtool"
-+ else
-+-  sh_libtool="$abs_builddir/libtool"
-+-  SVN_LIBTOOL="\$(SHELL) $sh_libtool"
-++  sh_libtool="$abs_builddir/$host_alias-libtool"
-++  SVN_LIBTOOL="\$(SHELL) \$(abs_builddir)/$host_alias-libtool"
-+ fi
-+ AC_SUBST(SVN_LIBTOOL)
-+ 
-diff --git a/meta/recipes-devtools/subversion/subversion_1.7.0.bb b/meta/recipes-devtools/subversion/subversion_1.7.0.bb
-new file mode 100644
-index 0000000..396b35b
---- /dev/null
-+++ b/meta/recipes-devtools/subversion/subversion_1.7.0.bb
-@@ -0,0 +1,37 @@
-+DESCRIPTION = "The Subversion (svn) client"
-+SECTION = "console/network"
-+DEPENDS = "apr-util neon"
-+RDEPENDS_${PN} = "neon"
-+LICENSE = "Apache-2"
-+HOMEPAGE = "http://subversion.tigris.org"
-+
-+BBCLASSEXTEND = "native"
-+
-+# negative, because of new checkout format in 1.7.0 
-+# and distro PREMIRRORs need to be in sync with users
-+DEFAULT_PREFERENCE = "-1"
-+
-+SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-+           file://libtool2.patch \
-+"
-+SRC_URI[md5sum] = "930e6644a1b6094efd268fde6a318f04"
-+SRC_URI[sha256sum] = "64fd5f263a80e609717a3ca42f1f2625606a5c4a40a85716f82c866033780978"
-+
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=4a14fd2da3134e40a087eb4326a4ecd4"
-+
-+EXTRA_OECONF = " \
-+                --without-berkeley-db --without-apxs --without-apache \
-+                --without-swig --with-apr=${STAGING_BINDIR_CROSS} \
-+                --with-apr-util=${STAGING_BINDIR_CROSS}"
-+
-+inherit autotools
-+
-+export LDFLAGS += " -L${STAGING_LIBDIR} "
-+
-+acpaths = "-I build/ -I build/ac-macros/"
-+
-+do_configure_prepend () {
-+	rm -f ${S}/libtool
-+	rm -f ${S}/build/libtool.m4
-+	sed -i -e 's:with_sasl="/usr/local":with_sasl="${STAGING_DIR}":' ${S}/build/ac-macros/sasl.m4
-+}
++    # Git packages should DEPEND on git-native
+     if "git://" in srcuri:
+         depends = d.getVarFlag('do_fetch', 'depends') or ""
+         depends = depends + " git-native:do_populate_sysroot"
 -- 
 1.7.8.rc1
 
