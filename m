@@ -1,25 +1,24 @@
-Received: from mail.gw90.de ([188.40.100.199])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paulepanter@users.sourceforge.net>)
-	id 1ROndl-0002Hr-Dp for openembedded-core@lists.openembedded.org;
-	Fri, 11 Nov 2011 10:43:17 +0100
-Received: from f053039250.adsl.alicedsl.de ([78.53.39.250]
-	helo=[192.168.178.21])
-	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
-	id 1ROnXr-0006D4-QM for openembedded-core@lists.openembedded.org;
-	Fri, 11 Nov 2011 09:37:12 +0000
-Message-ID: <1321004220.7415.31.camel@mattotaupa>
-From: Paul Menzel <paulepanter@users.sourceforge.net>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Nov 2011 10:37:00 +0100
-In-Reply-To: <1929090.otuKxihgDj@helios>
-References: <cover.1321000451.git.sgw@linux.intel.com>
-	<fc1facb090dba0065f13dcf704ba764e29372e4f.1321000451.git.sgw@linux.intel.com>
-	<1929090.otuKxihgDj@helios>
-X-Mailer: Evolution 3.0.3-2 
-Mime-Version: 1.0
-Subject: Re: [CONSOLIDATED PULL 7/9] dhcp: generate initial leases files for server
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1ROokU-00048b-Md
+	for openembedded-core@lists.openembedded.org;
+	Fri, 11 Nov 2011 11:54:19 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pABAlx00023949
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Nov 2011 02:47:59 -0800 (PST)
+Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Fri, 11 Nov 2011 02:47:59 -0800
+Message-ID: <cover.1321006415.git.xiaofeng.yan@windriver.com>
+Old-Date: Fri, 11 Nov 2011 18:13:35 +0800
+Date: Fri, 11 Nov 2011 18:56:18 +0800
+To: <openembedded-core@lists.openembedded.org>
+CC: 
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 0/1] directfb: update to 1.4.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,49 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Nov 2011 09:43:17 -0000
-X-Groupsio-MsgNum: 12350
-Content-Type: multipart/signed; micalg="pgp-sha1";
-	protocol="application/pgp-signature"; 
-	boundary="=-E3Wtip/G100iRQ/jwZy2"
+X-List-Received-Date: Fri, 11 Nov 2011 10:54:19 -0000
+Content-Type: text/plain
 
---=-E3Wtip/G100iRQ/jwZy2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-Am Freitag, den 11.11.2011, 09:33 +0000 schrieb Paul Eggleton:
-> On Friday 11 November 2011 00:36:33 Saul Wold wrote:
-> > From: Otavio Salvador <otavio@ossystems.com.br>
-> >=20
-> > Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->=20
-> Can we please get commit messages for every commit? Every change needs to=
- have=20
-> something so that if some time in the future we want to go back and figur=
-e out=20
-> *why* a change was made, we can do so.
+I update it to 1.4.15 because directfb at 1.5 or higher need instruction set of armv6.
+Some codes are realized with assemble language for new directfb but the current qemuarm base on armv5.
+Some error will appear like "No xxx instruction ..." when compiling directfb at 1.5.3 for qemuarm.
+For directfb running on more platform I update it to 1.4.15. 
+I will seek some patches to use instrcutions of armv5 instead of armv6 for new directfb on platform qemuarm.
+It could take some time for me. Please share your experience with me if you know. I will appreciate you very much.
 
-Great that I am not alone. See my response to the introductory message.
-
-Although for this patch, Otavio wrote a kind of commit message in his
-response to my response.
-
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: xiaofeng/directfb
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/directfb
 
 Thanks,
+    Xiaofeng Yan <xiaofeng.yan@windriver.com>
+---
 
-Paul
 
---=-E3Wtip/G100iRQ/jwZy2
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+Xiaofeng Yan (1):
+  diretfb: update to 1.4.15
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.11 (GNU/Linux)
+ .../{directfb_1.4.12.bb => directfb_1.4.15.bb}     |    9 ++++-
+ .../directfb-1.2.x-fix-pkgconfig-cflags.patch      |   36 +++++++++----------
+ 2 files changed, 24 insertions(+), 21 deletions(-)
+ rename meta/recipes-graphics/directfb/{directfb_1.4.12.bb => directfb_1.4.15.bb} (63%)
 
-iEYEABECAAYFAk687LwACgkQPX1aK2wOHVgg6ACeLUDLlA8fmSTwnAjxkbC8LBMT
-ZGUAnA+ozarjRGB4FAfoJmB4iGWfs1CG
-=3bTN
------END PGP SIGNATURE-----
 
---=-E3Wtip/G100iRQ/jwZy2--
+
