@@ -1,34 +1,34 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1ROu6V-0005YU-3u
+	(envelope-from <martin.jansa@gmail.com>) id 1ROu7Z-0005YU-OI
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 Nov 2011 17:37:23 +0100
+	Fri, 11 Nov 2011 17:38:29 +0100
 Received: by mail-bw0-f47.google.com with SMTP id zs2so3543817bkb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Nov 2011 08:31:07 -0800 (PST)
+	Fri, 11 Nov 2011 08:32:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=t+hxNcbklGmLK3C40G2IqJIbSTKbh0RkLptGtk+KPWg=;
-	b=dsXID2BQS/T0vZ9JadRo5M++zwp2WLMBYYs/GM6ZMcBJeuZlTdkdWpjsu6eVr7bIpO
-	DFXNdpYlFAbXCM0IlenDF1ElltQoXJOggEBl80+8XdQCeIcrnAISMS/+vbAKw2bbrCpO
-	0XloilLmWk4TUk8q5X4PzUESvXnVoZyPguA9w=
-Received: by 10.204.130.65 with SMTP id r1mr8878189bks.27.1321029066691;
-	Fri, 11 Nov 2011 08:31:06 -0800 (PST)
+	bh=+O++d+I4bFkkQxoT05Oz61VsJGOy2smNmcHsTUTZG5Q=;
+	b=JqQSWWyf/ZjppgfLXukCgLyiuGtDhcC+fjjWzwxde8d9BheAg+g00QvbJLi0Jd6Po9
+	FunZDVSkcMzuuq88C9X9YiYVRu5Zx2c5ptWKrLhmolSuBe5/O/tjwQ/W9qEGIyv/a5fH
+	oA6tl/s4UFrRJ5lCUVpnI3rkqnTMXlwwa+t0k=
+Received: by 10.204.145.211 with SMTP id e19mr8901338bkv.55.1321029134110;
+	Fri, 11 Nov 2011 08:32:14 -0800 (PST)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id by2sm1773684bkb.15.2011.11.11.08.31.04
+	by mx.google.com with ESMTPS id cc2sm9619855bkb.8.2011.11.11.08.32.12
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 11 Nov 2011 08:31:05 -0800 (PST)
+	Fri, 11 Nov 2011 08:32:13 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Nov 2011 17:28:51 +0100
-Message-Id: <4ae5661480a81af4bc80ed9a02c01bc3176d4f2b.1321028799.git.Martin.Jansa@gmail.com>
+Date: Fri, 11 Nov 2011 17:28:58 +0100
+Message-Id: <0dfbbc3f35ac424f970e74ff2d4eabf86aa0c76c.1321028799.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.8.rc1
 In-Reply-To: <d99edd412e58edeb79c64112f7eb6ba522342bf9.1321028799.git.Martin.Jansa@gmail.com>
 References: <d99edd412e58edeb79c64112f7eb6ba522342bf9.1321028799.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1321028799.git.Martin.Jansa@gmail.com>
 References: <cover.1321028799.git.Martin.Jansa@gmail.com>
-Subject: [PATCH][oe-core 15/22] libsdl: replace tabs with spaces
+Subject: [PATCH][oe-core 22/22] kbd: use u-a for chvt, deallocvt, fgconssole, openvt, conflicts with busybox
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,31 +47,53 @@ X-List-Received-Date: Fri, 11 Nov 2011 16:42:04 -0000
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-graphics/libsdl/libsdl_1.2.14.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/kbd/kbd_1.15.2.bb |   29 ++++++++++++++++++++++++++++-
+ 1 files changed, 28 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
-index 2f49f16..b1b2137 100644
---- a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
-+++ b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
-@@ -18,7 +18,7 @@ DEPENDS_virtclass-nativesdk = "libx11-nativesdk libxrandr-nativesdk libxrender-n
- PR = "r1"
+diff --git a/meta/recipes-core/kbd/kbd_1.15.2.bb b/meta/recipes-core/kbd/kbd_1.15.2.bb
+index 2e0406b..eea04a0 100644
+--- a/meta/recipes-core/kbd/kbd_1.15.2.bb
++++ b/meta/recipes-core/kbd/kbd_1.15.2.bb
+@@ -10,7 +10,7 @@ RREPLACES_${PN} = "console-tools"
+ RPROVIDES_${PN} = "console-tools"
+ RCONFLICTS_${PN} = "console-tools"
  
- SRC_URI = "http://www.libsdl.org/release/SDL-${PV}.tar.gz \
--	   file://configure_tweak.patch \
-+           file://configure_tweak.patch \
-        "
+-PR = "r1"
++PR = "r2"
  
- S = "${WORKDIR}/SDL-${PV}"
-@@ -35,7 +35,7 @@ EXTRA_OECONF = "--disable-static --disable-debug --enable-cdrom --enable-threads
-                 --disable-video-fbcon --disable-video-directfb --disable-video-ps2gs --disable-video-ps3 \
-                 --disable-video-xbios --disable-video-gem --disable-video-dummy \
-                 --enable-input-events --enable-input-tslib --enable-pthreads \
--		--disable-video-svga \
-+                --disable-video-svga \
-                 --disable-video-picogui --disable-video-qtopia --enable-dlopen \
-                 --disable-rpath"
- 
+ SRC_URI="${KERNELORG_MIRROR}/linux/utils/kbd/kbd-1.15.2.tar.bz2"
+ SRC_URI[md5sum] = "e850eb91e4d3b94b194efe8e953204c5"
+@@ -22,3 +22,30 @@ FILES_${PN}-consolefonts = "${datadir}/consolefonts"
+ FILES_${PN}-consoletrans = "${datadir}/consoletrans"
+ FILES_${PN}-keymaps = "${datadir}/keymaps"
+ FILES_${PN}-unimaps = "${datadir}/unimaps"
++
++ALTERNATIVE_NAMES_USRBIN = "chvt deallocvt fgconsole openvt"
++
++do_install_append() {
++  usrbinprogs_a="${ALTERNATIVE_NAMES_USRBIN}"
++  for p in $usrbinprogs_a; do
++    if [ -f "${D}${bindir}/$p" ]; then
++      mv "${D}${bindir}/$p" "${D}${bindir}/$p.${PN}"
++    fi
++  done
++}
++
++pkg_postinst_${PN} () {
++  usrbinprogs_a="${ALTERNATIVE_NAMES_USRBIN}"
++  for p in $usrbinprogs_a; do
++    if [ -f "$D${bindir}/$p" ]; then
++      update-alternatives --install ${bindir}/$p $p $p.${PN} 100
++    fi
++  done
++}
++
++pkg_postrm_${PN} () {
++  usrbinprogs_a="${ALTERNATIVE_NAMES_USRBIN}"
++  for p in $usrbinprogs_a; do
++    update-alternatives --remove $p $p.${PN}
++  done
++}
 -- 
 1.7.8.rc1
 
