@@ -1,34 +1,34 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1ROu5j-0005YU-R6
+	(envelope-from <martin.jansa@gmail.com>) id 1ROu5t-0005YU-57
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 Nov 2011 17:36:35 +0100
+	Fri, 11 Nov 2011 17:36:45 +0100
 Received: by mail-bw0-f47.google.com with SMTP id zs2so3543817bkb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Nov 2011 08:30:20 -0800 (PST)
+	Fri, 11 Nov 2011 08:30:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=7dwzSBmCVsU9cbfF3vtcQEQ9FVeyl10pBYKFnqlba3E=;
-	b=xCLJ0hW78BKJYVbKIjIuGp7spx/YUP8mGNZByIoen1EQKAx09ghwsrxog6lKUwF28j
-	Hf89zYVK4XZ7VL4mMAFyZRG+Jta7exE9t55Svbq7PIB7xtNODJ/+yWIBfye3+GYbbp+L
-	9UitrN1wTqPGu2fzyXKFtSnpWV3+PqrmdJCV0=
-Received: by 10.205.126.15 with SMTP id gu15mr1207626bkc.108.1321029020180;
-	Fri, 11 Nov 2011 08:30:20 -0800 (PST)
+	bh=r6OB0qjySzn40Wh+Z8qWg4qp+vqdg2q88sINNcB/XXg=;
+	b=yA7SeQWdAlGzYSpkQltZNobYXelrNcwyVbubui/8JHr704bhA6JwLddsOwjnGNYvMe
+	+l2JfNY04qH+pD6JcnA9FQVFb3jdgiM5vPK+kmlQQEuRur9MPZNutuSel9UjT5+F6rwO
+	Zc1Rz39nijnmxmkLKF0KlanErYRZWB0/vaY/Y=
+Received: by 10.205.129.10 with SMTP id hg10mr1176396bkc.135.1321029029490;
+	Fri, 11 Nov 2011 08:30:29 -0800 (PST)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id x14sm11720818bkf.10.2011.11.11.08.30.18
+	by mx.google.com with ESMTPS id cc2sm9611738bkb.8.2011.11.11.08.30.27
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 11 Nov 2011 08:30:19 -0800 (PST)
+	Fri, 11 Nov 2011 08:30:28 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Nov 2011 17:28:46 +0100
-Message-Id: <8af8989bc3e582e77f7ae9414de89f94bda76c01.1321028799.git.Martin.Jansa@gmail.com>
+Date: Fri, 11 Nov 2011 17:28:47 +0100
+Message-Id: <5cef4847711be5ee7b6f6af1a32b7375bbcc602c.1321028799.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.8.rc1
 In-Reply-To: <d99edd412e58edeb79c64112f7eb6ba522342bf9.1321028799.git.Martin.Jansa@gmail.com>
 References: <d99edd412e58edeb79c64112f7eb6ba522342bf9.1321028799.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1321028799.git.Martin.Jansa@gmail.com>
 References: <cover.1321028799.git.Martin.Jansa@gmail.com>
-Subject: [PATCH][oe-core 10/22] alsa-lib: add nativesdk BBCLASSEXTEND
+Subject: [PATCH][oe-core 11/22] libsdl: drop unused files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,28 +43,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Nov 2011 16:36:35 -0000
-
-* needed for libsdl-nativesdk when DISTRO_FEATURES have alsa
+X-List-Received-Date: Fri, 11 Nov 2011 16:36:45 -0000
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-multimedia/alsa/alsa-lib_1.0.24.1.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ .../libsdl/files/directfb_obsolete_calls.patch     |   35 ------------
+ .../recipes-graphics/libsdl/files/extra-keys.patch |   55 --------------------
+ 2 files changed, 0 insertions(+), 90 deletions(-)
+ delete mode 100644 meta/recipes-graphics/libsdl/files/directfb_obsolete_calls.patch
+ delete mode 100644 meta/recipes-graphics/libsdl/files/extra-keys.patch
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.0.24.1.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.0.24.1.bb
-index b787c54..d701031 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib_1.0.24.1.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-lib_1.0.24.1.bb
-@@ -6,7 +6,7 @@ LICENSE = "LGPLv2.1 & GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34 \
-                     file://src/socket.c;beginline=1;endline=26;md5=11ff89a8a7a4a690a5c78effe8159545"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
- 
- # configure.in sets -D__arm__ on the command line for any arm system
- # (not just those with the ARM instruction set), this should be removed,
+diff --git a/meta/recipes-graphics/libsdl/files/directfb_obsolete_calls.patch b/meta/recipes-graphics/libsdl/files/directfb_obsolete_calls.patch
+deleted file mode 100644
+index 3c526a6..0000000
+--- a/meta/recipes-graphics/libsdl/files/directfb_obsolete_calls.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-Upstream-Status: Pending
+-
+---- tmp/work/armv5te-angstrom-linux-gnueabi/libsdl-directfb-1.2.9-r1/SDL-1.2.9/src/video/directfb/SDL_DirectFB_video.c	2007-02-18 11:40:38.000000000 -0500
+-+++ SDL/src/video/directfb/SDL_DirectFB_video.c	2007-02-18 11:00:07.000000000 -0500
+-@@ -376,7 +376,7 @@
+- {
+-   int                      i;
+-   DFBResult                ret;
+--  DFBCardCapabilities      caps;
+-+  DFBGraphicsDeviceDescription      caps;
+-   DFBDisplayLayerConfig    dlc;
+-   struct DirectFBEnumRect *rect;
+-   IDirectFB               *dfb    = NULL;
+-@@ -448,7 +448,7 @@
+- 
+- 
+-   /* Query card capabilities to get the video memory size */
+--  dfb->GetCardCapabilities (dfb, &caps);
+-+  dfb->GetDeviceDescription (dfb, &caps);
+- 
+-   this->info.wm_available = 1;
+-   this->info.hw_available = 1;
+-diff -u'rNF^function' tmp/work/armv5te-angstrom-linux-gnueabi/libsdl-directfb-1.2.9-r1/SDL-1.2.9/src/video/directfb/SDL_Direct
+-/SDL_DirectFB_events.c
+---- tmp/work/armv5te-angstrom-linux-gnueabi/libsdl-directfb-1.2.9-r1/SDL-1.2.9/src/video/directfb/SDL_DirectFB_events.c 2004-0
+-+++ SDL/src/video/directfb/SDL_DirectFB_events.c        2007-02-18 11:00:07.000000000 -0500
+-@@ -161,7 +161,7 @@
+-   keymap[DIKI_SHIFT_L - DIKI_UNKNOWN] = SDLK_LSHIFT;
+-   keymap[DIKI_SHIFT_R - DIKI_UNKNOWN] = SDLK_RSHIFT;
+-   keymap[DIKI_ALT_L - DIKI_UNKNOWN] = SDLK_LALT;
+--  keymap[DIKI_ALTGR - DIKI_UNKNOWN] = SDLK_RALT;
+-+  keymap[DIKI_ALT_R - DIKI_UNKNOWN] = SDLK_RALT;
+-   keymap[DIKI_TAB - DIKI_UNKNOWN] = SDLK_TAB;
+-   keymap[DIKI_ENTER - DIKI_UNKNOWN] = SDLK_RETURN;
+-   keymap[DIKI_SPACE - DIKI_UNKNOWN] = SDLK_SPACE;
+diff --git a/meta/recipes-graphics/libsdl/files/extra-keys.patch b/meta/recipes-graphics/libsdl/files/extra-keys.patch
+deleted file mode 100644
+index 745b04e..0000000
+--- a/meta/recipes-graphics/libsdl/files/extra-keys.patch
++++ /dev/null
+@@ -1,55 +0,0 @@
+-Upstream-Status: Pending
+-
+-diff -upr --exclude=configure --exclude=Makefile --exclude=Makefile.in libsdl1.2-1.2.4/include/SDL_keysym.h libsdl1.2-1.2.4-arm/include/SDL_keysym.h
+---- libsdl1.2-1.2.4/include/SDL_keysym.h	2002-03-06 11:23:01.000000000 +0000
+-+++ libsdl1.2-1.2.4-arm/include/SDL_keysym.h	2002-11-08 20:43:09.000000000 +0000
+-@@ -286,6 +286,12 @@ typedef enum {
+- 	SDLK_EURO		= 321,		/* Some european keyboards */
+- 	SDLK_UNDO		= 322,		/* Atari keyboard has Undo */
+- 
+-+	SDLK_RECORD		= 322,
+-+	SDLK_CALENDAR		= 323,
+-+	SDLK_TELEPHONE		= 324,
+-+	SDLK_MAIL		= 325,
+-+	SDLK_START		= 326,
+-+
+- 	/* Add any other keys here */
+- 
+- 	SDLK_LAST
+-diff -upr --exclude=configure --exclude=Makefile --exclude=Makefile.in libsdl1.2-1.2.4/src/video/x11/SDL_x11events.c libsdl1.2-1.2.4-arm/src/video/x11/SDL_x11events.c
+---- libsdl1.2-1.2.4/src/video/x11/SDL_x11events.c	2002-03-06 11:23:08.000000000 +0000
+-+++ libsdl1.2-1.2.4-arm/src/video/x11/SDL_x11events.c	2002-11-08 21:01:41.000000000 +0000
+-@@ -34,6 +34,7 @@ static char rcsid =
+- #include <X11/Xlib.h>
+- #include <X11/Xutil.h>
+- #include <X11/keysym.h>
+-+#include <X11/XF86keysym.h>
+- #ifdef __SVR4
+- #include <X11/Sunkeysym.h>
+- #endif
+-@@ -655,6 +656,25 @@ SDL_keysym *X11_TranslateKey(Display *di
+- 			case 0xFF:
+- 				keysym->sym = MISC_keymap[xsym&0xFF];
+- 				break;
+-+			case 0x1008ff:
+-+				switch (xsym) {
+-+				case XF86XK_AudioRecord:
+-+					keysym->sym = SDLK_RECORD;
+-+					break;
+-+				case XF86XK_PowerDown:
+-+					keysym->sym = SDLK_POWER;
+-+					break;
+-+				case XF86XK_Calendar:
+-+					keysym->sym = SDLK_CALENDAR;
+-+					break;
+-+				case XF86XK_Mail:
+-+					keysym->sym = SDLK_MAIL;
+-+					break;
+-+				case XF86XK_Start:
+-+					keysym->sym = SDLK_START;
+-+					break;
+-+				}
+-+				break;
+- 			default:
+- 				fprintf(stderr,
+- 					"X11: Unknown xsym, sym = 0x%04x\n",
 -- 
 1.7.8.rc1
 
