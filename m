@@ -1,28 +1,35 @@
-Received: from stoexhub01.domain01.net ([83.145.59.142])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1ROr1M-0008Jv-As
+	(envelope-from <martin.jansa@gmail.com>) id 1ROrK0-0000LO-I3
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 Nov 2011 14:19:52 +0100
-Received: from ad.chargestorm.se (193.235.91.228) by STOEXHUB01.domain01.net
-	(10.12.10.1) with Microsoft SMTP Server (TLS) id 8.3.137.0;
-	Fri, 11 Nov 2011 14:13:31 +0100
-Date: Fri, 11 Nov 2011 14:13:32 +0100
-From: Anders Darander <anders@chargestorm.se>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20111111131331.GB6853@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <cover.1320998007.git.anders@chargestorm.se>
-	<cc21f9c195a7c79de19f0f59e41735cbbaa7f434.1320998007.git.anders@chargestorm.se>
-	<4EBD1D1B.2090805@eukrea.com>
+	Fri, 11 Nov 2011 14:39:10 +0100
+Received: by bkbzs2 with SMTP id zs2so3370879bkb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Nov 2011 05:32:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=MXBCy2tgnBK24tsPrCODIhjKnawIod0sCCtTpKVRCkY=;
+	b=iJaXWgJyoO6E5h13f5U1Na9xtYfyP8bogwwkZq6tZZLemFGTSo6DSrkluTSIUPyaQV
+	9AibBBthB3IgWv8EemTOf9tLkMOFNrAEJFATqS7nyYlgZtyEj/7IAJ5Fw+1TBtow3Zxq
+	McDrtnSOrzRQZX7wivXKpmHc+ujG1cBK3pa/E=
+Received: by 10.205.139.73 with SMTP id iv9mr3024469bkc.30.1321018370594;
+	Fri, 11 Nov 2011 05:32:50 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id z7sm10803048bka.1.2011.11.11.05.32.48
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 11 Nov 2011 05:32:49 -0800 (PST)
+Date: Fri, 11 Nov 2011 14:32:37 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20111111133237.GB3574@jama.jama.net>
+References: <cover.1321006415.git.xiaofeng.yan@windriver.com>
+	<916a101607fa80d75dc37e833a792f4373f03890.1321006415.git.xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <4EBD1D1B.2090805@eukrea.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
+In-Reply-To: <916a101607fa80d75dc37e833a792f4373f03890.1321006415.git.xiaofeng.yan@windriver.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [RFC PATCH 1/1] busybox: update to 1.19.3
+Subject: Re: [PATCH 1/1] diretfb: update to 1.4.15
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,37 +44,194 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Nov 2011 13:19:52 -0000
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Fri, 11 Nov 2011 13:39:10 -0000
+X-Groupsio-MsgNum: 12358
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="H+4ONPRPur6+Ovig"
+Content-Disposition: inline
+
+--H+4ONPRPur6+Ovig
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-* Eric B=E9nard <eric@eukrea.com> [111111 14:04]:
-> Hi Anders,
+On Fri, Nov 11, 2011 at 07:14:21PM +0800, Xiaofeng Yan wrote:
+> From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-> Le 11/11/2011 09:17, Anders Darander a =E9crit :
-> > The updates to patch busybox-udhcpc-no_deconfig.patch is not fully veri=
-fied.
+Now finish reading of 2nd line :)
 
-> > Signed-off-by: Anders Darander<anders@chargestorm.se>
+cover letter says 1.4.5 instead of 1.4.15
+and this says diretfb instead of directfb
 
-> you may also need to add the fixes for 1.19.3 :
-> http://busybox.net/downloads/fixes-1.19.3/
-
-Thanks for pointing this out.
-I might add the getty-patch in a later respin of this patch. (In case
-someone build without CBAUD being defined. I haven't check in which
-circumstances this might occur, though).
-
-The only other patch there is only adding an extra line to a comment.
-Might be nice if someone actually wants to use the information in that
-comment, but not necessary to add for us.
-
-Cheers,
-Anders
+>=20
+> The newest version for directfb is 1.5.3 but it's instruction set base on=
+ armv6.
+> Current qemuarm don't have some instructions for armv6 because some codes=
+ of \
+> the new version of directfb more than 1.5 are realized with assemble lang=
+uage,for example the lock. \
+> I update this recipe to 1.4.15 for directfb running more platform.
+>=20
+> Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+> ---
+>  .../{directfb_1.4.12.bb =3D> directfb_1.4.15.bb}     |    9 ++++-
+>  .../directfb-1.2.x-fix-pkgconfig-cflags.patch      |   36 +++++++++-----=
+-----
+>  2 files changed, 24 insertions(+), 21 deletions(-)
+>  rename meta/recipes-graphics/directfb/{directfb_1.4.12.bb =3D> directfb_=
+1.4.15.bb} (63%)
+>=20
+> diff --git a/meta/recipes-graphics/directfb/directfb_1.4.12.bb b/meta/rec=
+ipes-graphics/directfb/directfb_1.4.15.bb
+> similarity index 63%
+> rename from meta/recipes-graphics/directfb/directfb_1.4.12.bb
+> rename to meta/recipes-graphics/directfb/directfb_1.4.15.bb
+> index 4e8203b..71c0876 100644
+> --- a/meta/recipes-graphics/directfb/directfb_1.4.12.bb
+> +++ b/meta/recipes-graphics/directfb/directfb_1.4.15.bb
+> @@ -1,10 +1,15 @@
+>  require directfb.inc
+> =20
+> -RV =3D "1.4-5"
+> +RV =3D "1.4-6"
+>  PR =3D "r0"
+> =20
+>  DEPENDS +=3D "sysfsutils"
+> =20
+> +SRC_URI =3D " \
+> +    http://directfb.org/downloads/Core/DirectFB-1.4/DirectFB-${PV}.tar.g=
+z \
+> +    file://directfb-1.2.x-fix-pkgconfig-cflags.patch \
+> +    "
+> +
+>  EXTRA_OECONF =3D "\
+>    --enable-freetype=3Dyes \
+>    --enable-zlib \
+> @@ -14,7 +19,7 @@ EXTRA_OECONF =3D "\
+>    --disable-x11 \
+>  "
+> =20
+> -LEAD_SONAME =3D "libdirectfb-1.4.so.5"
+> +LEAD_SONAME =3D "libdirectfb-1.4.so.6"
+> =20
+>  SRC_URI[md5sum] =3D "2c779c9a8456790c6c29ad85459b2600"
+>  SRC_URI[sha256sum] =3D "b119ab9c5c0c505c23e32d41ae54bd04cb474c5e58900ec0=
+f1cf9482f892f9b2"
+> diff --git a/meta/recipes-graphics/directfb/files/directfb-1.2.x-fix-pkgc=
+onfig-cflags.patch b/meta/recipes-graphics/directfb/files/directfb-1.2.x-fi=
+x-pkgconfig-cflags.patch
+> index 274ad50..ee60718 100644
+> --- a/meta/recipes-graphics/directfb/files/directfb-1.2.x-fix-pkgconfig-c=
+flags.patch
+> +++ b/meta/recipes-graphics/directfb/files/directfb-1.2.x-fix-pkgconfig-c=
+flags.patch
+> @@ -1,9 +1,11 @@
+> +directfb: Get this patch from Openembedded
+> +
+>  Upstream-Status: Inappropriate [configuration]
+> +Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+> =20
+> -Index: DirectFB-1.4.11/directfb-internal.pc.in
+> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> ---- DirectFB-1.4.11.orig/directfb-internal.pc.in	2010-10-08 05:43:46.000=
+000000 -0700
+> -+++ DirectFB-1.4.11/directfb-internal.pc.in	2011-04-06 13:48:23.12092399=
+7 -0700
+> +diff -Nur DirectFB-1.4.15/directfb-internal.pc.in DirectFB-1.4.15.new//d=
+irectfb-internal.pc.in
+> +--- DirectFB-1.4.15/directfb-internal.pc.in	2011-09-29 17:51:21.00000000=
+0 +0800
+> ++++ DirectFB-1.4.15.new//directfb-internal.pc.in	2011-11-03 15:14:37.000=
+000000 +0800
+>  @@ -2,10 +2,10 @@
+>   exec_prefix=3D@exec_prefix@
+>   moduledir=3D@MODULEDIR@
+> @@ -17,31 +19,27 @@ Index: DirectFB-1.4.11/directfb-internal.pc.in
+>   Requires: directfb =3D @VERSION@
+>  -Cflags: @DFB_INTERNAL_CFLAGS@ -I@INTERNALINCLUDEDIR@
+>  +Cflags: @DFB_INTERNAL_CFLAGS@ -I${includedir}/directfb -I${includedir}
+> -Index: DirectFB-1.4.11/directfb.pc.in
+> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> ---- DirectFB-1.4.11.orig/directfb.pc.in	2010-11-15 13:13:59.000000000 -0=
+800
+> -+++ DirectFB-1.4.11/directfb.pc.in	2011-04-06 14:09:33.528923998 -0700
+> -@@ -9,4 +9,5 @@
+> +diff -Nur DirectFB-1.4.15/directfb.pc.in DirectFB-1.4.15.new//directfb.p=
+c.in
+> +--- DirectFB-1.4.15/directfb.pc.in	2011-09-29 17:51:21.000000000 +0800
+> ++++ DirectFB-1.4.15.new//directfb.pc.in	2011-11-03 15:15:55.000000000 +0=
+800
+> +@@ -9,4 +9,4 @@
+>   Requires: @DEP_VOODOO@ fusion direct
+>   Libs: -L${libdir} -ldirectfb @THREADLIB@ @OSX_LIBS@
+> - Libs.private: -L${libdir} @MEDIALIB@ @DYNLIB@ @ZLIB_LIBS@
+> + Libs.private: -L${libdir} @LIBM@ @DYNLIB@ @ZLIB_LIBS@
+>  -Cflags: @THREADFLAGS@ -I@INCLUDEDIR@
+>  +Cflags: @THREADFLAGS@ -I${includedir}/directfb
+> -+
+> -Index: DirectFB-1.4.11/lib/fusion/fusion.pc.in
+> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> ---- DirectFB-1.4.11.orig/lib/fusion/fusion.pc.in	2010-10-08 05:43:46.000=
+000000 -0700
+> -+++ DirectFB-1.4.11/lib/fusion/fusion.pc.in	2011-04-06 13:48:23.12092399=
+7 -0700
+> +diff -Nur DirectFB-1.4.15/lib/fusion/fusion.pc.in DirectFB-1.4.15.new//l=
+ib/fusion/fusion.pc.in
+> +--- DirectFB-1.4.15/lib/fusion/fusion.pc.in	2011-09-29 17:51:21.00000000=
+0 +0800
+> ++++ DirectFB-1.4.15.new//lib/fusion/fusion.pc.in	2011-11-03 15:16:46.000=
+000000 +0800
+>  @@ -8,4 +8,4 @@
+>   Version: @VERSION@
+>   Requires: direct
+>   Libs: -L${libdir} -lfusion
+>  -Cflags: -I@INCLUDEDIR@
+>  +Cflags: -I${includedir}/directfb -I${includedir}
+> -Index: DirectFB-1.4.11/lib/voodoo/voodoo.pc.in
+> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> ---- DirectFB-1.4.11.orig/lib/voodoo/voodoo.pc.in	2010-10-08 05:43:46.000=
+000000 -0700
+> -+++ DirectFB-1.4.11/lib/voodoo/voodoo.pc.in	2011-04-06 13:48:23.12092399=
+7 -0700
+> +diff -Nur DirectFB-1.4.15/lib/voodoo/voodoo.pc.in DirectFB-1.4.15.new//l=
+ib/voodoo/voodoo.pc.in
+> +--- DirectFB-1.4.15/lib/voodoo/voodoo.pc.in	2011-09-29 17:51:21.00000000=
+0 +0800
+> ++++ DirectFB-1.4.15.new//lib/voodoo/voodoo.pc.in	2011-11-03 15:17:34.000=
+000000 +0800
+>  @@ -8,4 +8,4 @@
+>   Version: @VERSION@
+>   Requires: direct
+> --=20
+> 1.7.0.4
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 --=20
-Anders Darander
-ChargeStorm AB / eStorm AB
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--H+4ONPRPur6+Ovig
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk69I/UACgkQN1Ujt2V2gBzXfgCggW4x2BQ8WF2YH/I2yNRDYAMZ
+JXQAoIiL1QB6XQRZ1j8Ru71EnUxWkcN2
+=cwx2
+-----END PGP SIGNATURE-----
+
+--H+4ONPRPur6+Ovig--
