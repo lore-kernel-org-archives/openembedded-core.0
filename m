@@ -1,34 +1,34 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1ROu4f-0005YU-Jl
+	(envelope-from <martin.jansa@gmail.com>) id 1ROu4q-0005ch-8e
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 Nov 2011 17:35:29 +0100
-Received: by mail-bw0-f47.google.com with SMTP id zs2so3543817bkb.6
+	Fri, 11 Nov 2011 17:35:40 +0100
+Received: by faat2 with SMTP id t2so4356740faa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Nov 2011 08:29:14 -0800 (PST)
+	Fri, 11 Nov 2011 08:29:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=WoS0cn1eKjBV7G8qwf0BQZCpZA3R7jWbQSsvfUdF2jE=;
-	b=tl5PLVzh5uzVjefv3yEqkSC74/DTpZbyUz/hZ6TTktkAOzxKh3gn9r3N95U9ymOjb1
-	RFeaYvSk0ZBc4YDIMlV7yecDr882cjyOXR88MbpDL1iJSCrzGxump23Ei95cIBfQvSf/
-	qY/aOu70EOBpFYHtPvA2ipacXKbrdHVOpXyMw=
-Received: by 10.204.154.151 with SMTP id o23mr8839717bkw.62.1321028953939;
-	Fri, 11 Nov 2011 08:29:13 -0800 (PST)
+	bh=NBZpvBaw8UWwVUnm85IsOoILc47t5APkZevvGp35hXQ=;
+	b=PuokPdQLM0Kii8ZEE9HQlxRf3J2iue2CCpTr4z4AjBd14P+LQQcB/unYYeNdXjXw/w
+	WeO5/Y1P5Ioh+1tVC97Z0CYUmNFe0Dgbh6uA78CzhAqU1VuZYFDlirop5AhFDNgYkiGV
+	JmsCdYGyYQ+e1GOgCdrqdfOvD+sVyr/ceJZbA=
+Received: by 10.204.12.68 with SMTP id w4mr8974413bkw.31.1321028961857;
+	Fri, 11 Nov 2011 08:29:21 -0800 (PST)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id by2sm1764504bkb.15.2011.11.11.08.29.12
+	by mx.google.com with ESMTPS id fu17sm11707946bkc.9.2011.11.11.08.29.20
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 11 Nov 2011 08:29:13 -0800 (PST)
+	Fri, 11 Nov 2011 08:29:20 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Nov 2011 17:28:38 +0100
-Message-Id: <53c36b587f93507a6a41a6f6e7760af585e59f82.1321028799.git.Martin.Jansa@gmail.com>
+Date: Fri, 11 Nov 2011 17:28:39 +0100
+Message-Id: <22f43619b78cf0d16c2c24c55f1b0c025229b322.1321028799.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.8.rc1
 In-Reply-To: <d99edd412e58edeb79c64112f7eb6ba522342bf9.1321028799.git.Martin.Jansa@gmail.com>
 References: <d99edd412e58edeb79c64112f7eb6ba522342bf9.1321028799.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1321028799.git.Martin.Jansa@gmail.com>
 References: <cover.1321028799.git.Martin.Jansa@gmail.com>
-Subject: [PATCH][oe-core 02/22] libatomics-ops: force ARM mode
+Subject: [PATCH][oe-core 03/22] pulseaudio-0.9.23: force ARM mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,60 +43,245 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Nov 2011 16:35:29 -0000
+X-List-Received-Date: Fri, 11 Nov 2011 16:35:40 -0000
 
-* otherwise ie spitz (armv5te) build fails with:
-| make[3]: Entering directory `/OE/shr-core/tmp/work/armv5te-oe-linux-gnueabi/libatomics-ops-1.2-r5/libatomic_ops-1.2/src'
-| arm-oe-linux-gnueabi-gcc  -march=armv5te  -mthumb -mthumb-interwork  -mtune=xscale --sysroot=/OE/shr-core/tmp/sysroots/spitz -DHAVE_CONFIG_H -I.    -fPIC -O
-2 -pipe -g -feliminate-unused-debug-types -DNDEBUG -c atomic_ops.c
-| arm-oe-linux-gnueabi-gcc  -march=armv5te  -mthumb -mthumb-interwork  -mtune=xscale --sysroot=/OE/shr-core/tmp/sysroots/spitz -DHAVE_CONFIG_H -I.    -fPIC -O
-2 -pipe -g -feliminate-unused-debug-types -DNDEBUG -c atomic_ops_stack.c
-| arm-oe-linux-gnueabi-gcc  -march=armv5te  -mthumb -mthumb-interwork  -mtune=xscale --sysroot=/OE/shr-core/tmp/sysroots/spitz -DHAVE_CONFIG_H -I.    -fPIC -O
-2 -pipe -g -feliminate-unused-debug-types -DNDEBUG -c atomic_ops_malloc.c
-| atomic_ops_malloc.c: In function 'msb':
-| atomic_ops_malloc.c:223:2: warning: right shift count >= width of type [enabled by default]
-| rm -f libatomic_ops_gpl.a
-| ar cru libatomic_ops_gpl.a atomic_ops_stack.o atomic_ops_malloc.o
-| arm-oe-linux-gnueabi-ranlib libatomic_ops_gpl.a
+* this is just work around, should be tested again after upgrade to
+  pulseaudio-1.1
+* otherwise build for armv4t (om-gta02) fails with this:
+| /bin/sh ../arm-oe-linux-gnueabi-libtool  --tag=CC   --mode=compile
+arm-oe-linux-gnueabi-gcc  -march=armv4t -mthumb -mthumb-interwork
+-mtune=arm920t --sysroot=/OE/shr-core/tmp/sysroots/om-gta02 -std=gnu99
+-DHAVE_CONFIG_H -I. -I..    -I../src -I../src -I../src/modules
+-I../src/modules -I../src/modules/rtp -I../src/modules/rtp
+-I../src/modules/gconf -I../src/modules/gconf -I../src/modules/bluetooth
+-I../src/modules/bluetooth -I../src/modules/oss -I../src/modules/oss
+-I../src/modules/alsa -I../src/modules/alsa -I../src/modules/raop
+-I../src/modules/raop -I../src/modules/x11 -I../src/modules/x11
+-I../src/modules/jack -I../src/modules/jack -I../src/modules/echo-cancel
+-I../src/modules/echo-cancel -pthread -D_POSIX_PTHREAD_SEMANTICS
+-DPA_BUILDDIR=\"/OE/shr-core/tmp/work/armv4t-oe-linux-gnueabi/pulseaudio-0.9.23-r6/pulseaudio-0.9.23/src\"
+-DPA_DLSEARCHPATH=\"/usr/lib/pulse-0.9.23/modules\"
+-DPA_DEFAULT_CONFIG_DIR=\"/etc/pulse\"
+-DPA_BINARY=\"/usr/bin/pulseaudio\"
+-DPA_SYSTEM_RUNTIME_PATH=\"/var/run/pulse\"
+-DPA_SYSTEM_CONFIG_PATH=\"/var/lib/pulse\"
+-DPA_SYSTEM_STATE_PATH=\"/var/lib/pulse\" -DAO_REQUIRE_CAS
+-DPULSE_LOCALEDIR=\"/usr/share/locale\"
+-DPA_MACHINE_ID=\"/var/lib/dbus/machine-id\"
+-DPA_ALSA_PATHS_DIR=\"/usr/share/pulseaudio/alsa-mixer/paths\"
+-DPA_ALSA_PROFILE_SETS_DIR=\"/usr/share/pulseaudio/alsa-mixer/profile-sets\"
+-O2 -pipe -g -feliminate-unused-debug-types -Wall -W -Wextra -pipe
+-Wno-long-long -Winline -Wvla -Wno-overlength-strings
+-Wunsafe-loop-optimizations -Wundef -Wformat=2 -Wlogical-op
+-Wsign-compare -Wformat-security -Wmissing-include-dirs
+-Wformat-nonliteral -Wold-style-definition -Wpointer-arith -Winit-self
+-Wdeclaration-after-statement -Wfloat-equal -Wmissing-prototypes
+-Wstrict-prototypes -Wredundant-decls -Wmissing-declarations
+-Wmissing-noreturn -Wshadow -Wendif-labels -Wcast-align
+-Wstrict-aliasing=2 -Wwrite-strings -Wno-unused-parameter -ffast-math
+-Wp,-D_FORTIFY_SOURCE=2 -fno-common -fdiagnostics-show-option -c -o
+libbluetooth_sbc_la-sbc.lo `test -f 'modules/bluetooth/sbc.c' || echo
+'./'`modules/bluetooth/sbc.ci
+
+| arm-oe-linux-gnueabi-libtool: compile:  arm-oe-linux-gnueabi-gcc
+-march=armv4t -mthumb -mthumb-interwork -mtune=arm920t
+--sysroot=/OE/shr-core/tmp/sysroots/om-gta02 -std=gnu99 -DHAVE_CONFIG_H
+-I. -I.. -I../src -I../src -I../src/modules -I../src/modules
+-I../src/modules/rtp -I../src/modules/rtp -I../src/modules/gconf
+-I../src/modules/gconf -I../src/modules/bluetooth
+-I../src/modules/bluetooth -I../src/modules/oss -I../src/modules/oss
+-I../src/modules/alsa -I../src/modules/alsa -I../src/modules/raop
+-I../src/modules/raop -I../src/modules/x11 -I../src/modules/x11
+-I../src/modules/jack -I../src/modules/jack -I../src/modules/echo-cancel
+-I../src/modules/echo-cancel -pthread -D_POSIX_PTHREAD_SEMANTICS
+-DPA_BUILDDIR=\"/OE/shr-core/tmp/work/armv4t-oe-linux-gnueabi/pulseaudio-0.9.23-r6/pulseaudio-0.9.23/src\"
+-DPA_DLSEARCHPATH=\"/usr/lib/pulse-0.9.23/modules\"
+-DPA_DEFAULT_CONFIG_DIR=\"/etc/pulse\"
+-DPA_BINARY=\"/usr/bin/pulseaudio\"
+-DPA_SYSTEM_RUNTIME_PATH=\"/var/run/pulse\"
+-DPA_SYSTEM_CONFIG_PATH=\"/var/lib/pulse\"
+-DPA_SYSTEM_STATE_PATH=\"/var/lib/pulse\" -DAO_REQUIRE_CAS
+-DPULSE_LOCALEDIR=\"/usr/share/locale\"
+-DPA_MACHINE_ID=\"/var/lib/dbus/machine-id\"
+-DPA_ALSA_PATHS_DIR=\"/usr/share/pulseaudio/alsa-mixer/paths\"
+-DPA_ALSA_PROFILE_SETS_DIR=\"/usr/share/pulseaudio/alsa-mixer/profile-sets\"
+-O2 -pipe -g -feliminate-unused-debug-types -Wall -W -Wextra -pipe
+-Wno-long-long -Winline -Wvla -Wno-overlength-strings
+-Wunsafe-loop-optimizations -Wundef -Wformat=2 -Wlogical-op
+-Wsign-compare -Wformat-security -Wmissing-include-dirs
+-Wformat-nonliteral -Wold-style-definition -Wpointer-arith -Winit-self
+-Wdeclaration-after-statement -Wfloat-equal -Wmissing-prototypes
+-Wstrict-prototypes -Wredundant-decls -Wmissing-declarations
+-Wmissing-noreturn -Wshadow -Wendif-labels -Wcast-align
+-Wstrict-aliasing=2 -Wwrite-strings -Wno-unused-parameter -ffast-math
+-Wp,-D_FORTIFY_SOURCE=2 -fno-common -fdiagnostics-show-option -c
+
+modules/bluetooth/sbc.c  -fPIC -DPIC -o .libs/libbluetooth_sbc_la-sbc.oi
+| modules/bluetooth/sbc.c: In function 'sbc_synthesize_four':
+| modules/bluetooth/sbc.c:553:18: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:553:18: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:553:18: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:553:18: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:553:18: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:553:18: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:553:18: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:553:18: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:565:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c: In function 'sbc_synthesize_eight':
+| modules/bluetooth/sbc.c:595:29: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:595:29: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:595:29: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:595:29: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:595:29: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:595:29: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:595:29: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:595:29: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:595:29: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:595:29: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:595:29: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:595:29: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:595:29: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:595:29: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:595:29: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:595:29: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:595:29: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:595:29: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:595:29: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:595:29: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:595:29: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:595:29: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:595:29: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:595:29: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: shadowed declaration is here [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: declaration of 'tmp' shadows a previous local [-Wshadow]
+| modules/bluetooth/sbc.c:611:40: warning: shadowed declaration is here [-Wshadow]
 | {standard input}: Assembler messages:
-| {standard input}:286: Error: selected processor does not support Thumb mode `swp r1,r2,[r3]'
-| {standard input}:329: Error: selected processor does not support Thumb mode `swp r0,r1,[r3]'
-
-* this is just work around, proper fix proposed by Henning Heinold
-  hm we should think of reworking this recipe now. Because since gcc 4.5
-  pulseaudio for arm can use the gcc internal atomicstuff and in oe-core
-  and meta-oe we have 4.5 or 4.6 only. The lib is
-  only needed for mips and it is still the old release, on cvs
-  is a much better version, which supports thumb too, if
-  remember correctly.
+| {standard input}:6997: Error: selected processor does not support Thumb mode `mla r3,r0,ip,r3'
+| {standard input}:7012: Error: selected processor does not support Thumb mode `mla r3,r1,ip,r3'
+| {standard input}:7026: Error: selected processor does not support Thumb mode `mla r3,ip,r0,r3'
+| {standard input}:7215: Error: selected processor does not support Thumb mode `mla r3,r7,r0,r3'
+| {standard input}:7230: Error: selected processor does not support Thumb mode `mla r3,r7,r0,r3'
+| {standard input}:7241: Error: selected processor does not support Thumb mode `mla r3,r0,r7,r3'
+| {standard input}:7256: Error: selected processor does not support Thumb mode `mla r3,r0,r7,r3'
+| {standard input}:7267: Error: selected processor does not support Thumb mode `mla r3,r7,r0,r3'
+| {standard input}:7287: Error: selected processor does not support Thumb mode `mla r3,r7,r6,r3'
+| {standard input}:7301: Error: selected processor does not support Thumb mode `mla r3,r6,r5,r3'
+| {standard input}:7319: Error: selected processor does not support Thumb mode `mla r3,r0,r5,r3'
+| {standard input}:7327: Error: selected processor does not support Thumb mode `mla r3,r1,r0,r3'
+| {standard input}:7594: Error: selected processor does not support Thumb mode `mla r3,r5,r6,r3'
+| {standard input}:7604: Error: selected processor does not support Thumb mode `mla r3,r5,r6,r3'
+| {standard input}:7614: Error: selected processor does not support Thumb mode `mla r3,r5,r6,r3'
+| {standard input}:7624: Error: selected processor does not support Thumb mode `mla r3,r5,r6,r3'
+| {standard input}:7634: Error: selected processor does not support Thumb mode `mla r3,r5,r6,r3'
+| {standard input}:7647: Error: selected processor does not support Thumb mode `mla r3,r2,r5,r3'
+| {standard input}:7657: Error: selected processor does not support Thumb mode `mla r3,r2,r5,r3'
+| {standard input}:7815: Error: selected processor does not support Thumb mode `mla r3,r9,r7,r3'
+| {standard input}:7837: Error: selected processor does not support Thumb mode `mla r3,r9,r0,r3'
+| {standard input}:7853: Error: selected processor does not support Thumb mode `mla r3,r9,r0,r3'
+| {standard input}:7875: Error: selected processor does not support Thumb mode `mla r3,r9,r7,r3'
+| {standard input}:7891: Error: selected processor does not support Thumb mode `mla r3,r9,r7,r3'
+| {standard input}:7908: Error: selected processor does not support Thumb mode `mla r3,r0,r6,r3'
+| {standard input}:7931: Error: selected processor does not support Thumb mode `mla r3,r6,r5,r3'
+| {standard input}:7952: Error: selected processor does not support Thumb mode `mla r3,r0,r5,r3'
+| {standard input}:7960: Error: selected processor does not support Thumb mode `mla r3,r2,r0,r3'
+| make[4]: *** [libbluetooth_sbc_la-sbc.lo] Error 1
+| make[4]: Leaving directory `/OE/shr-core/tmp/work/armv4t-oe-linux-gnueabi/pulseaudio-0.9.23-r6/pulseaudio-0.9.23/src'
+| make[3]: *** [all-recursive] Error 1
+| make[3]: Leaving directory `/OE/shr-core/tmp/work/armv4t-oe-linux-gnueabi/pulseaudio-0.9.23-r6/pulseaudio-0.9.23/src'
+| make[2]: *** [all] Error 2
+| make[2]: Leaving directory `/OE/shr-core/tmp/work/armv4t-oe-linux-gnueabi/pulseaudio-0.9.23-r6/pulseaudio-0.9.23/src'
+| make[1]: *** [all-recursive] Error 1
+| make[1]: Leaving directory `/OE/shr-core/tmp/work/armv4t-oe-linux-gnueabi/pulseaudio-0.9.23-r6/pulseaudio-0.9.23'
+| make: *** [all] Error 2
+| + die 'oe_runmake failed'
+| + bbfatal 'oe_runmake failed'
+| + echo 'ERROR: oe_runmake failed'
+| ERROR: oe_runmake failed
+| + exit 1
+| ERROR: Function 'do_compile' failed (see /OE/shr-core/tmp/work/armv4t-oe-linux-gnueabi/pulseaudio-0.9.23-r6/temp/log.do_compile.3404 for further information)
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../pulseaudio/libatomics-ops_1.2.bb               |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
+ .../pulseaudio/pulseaudio_0.9.23.bb                |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-multimedia/pulseaudio/libatomics-ops_1.2.bb b/meta/recipes-multimedia/pulseaudio/libatomics-ops_1.2.bb
-index ab7ccbe..c84917a 100644
---- a/meta/recipes-multimedia/pulseaudio/libatomics-ops_1.2.bb
-+++ b/meta/recipes-multimedia/pulseaudio/libatomics-ops_1.2.bb
-@@ -6,7 +6,7 @@ LICENSE = "GPLv2 & MIT"
- LIC_FILES_CHKSUM = "file://doc/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://doc/LICENSING.txt;md5=607073e04548eac7d1f763e480477bab \
- 		   "
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
+index 9521ab0..62832d9 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
+@@ -1,6 +1,6 @@
+ require pulseaudio.inc
+ 
 -PR = "r6"
 +PR = "r7"
  
- SRC_URI = "http://www.hpl.hp.com/research/linux/atomic_ops/download/libatomic_ops-${PV}.tar.gz \
-            file://fedora/libatomic_ops-1.2-ppclwzfix.patch \
-@@ -20,6 +20,8 @@ S = "${WORKDIR}/libatomic_ops-${PV}"
+ DEPENDS += "gdbm speex libxml-parser-perl-native"
  
- ALLOW_EMPTY_${PN} = "1"
+@@ -23,3 +23,4 @@ do_compile_prepend() {
+     cp ${STAGING_LIBDIR}/libltdl* ${S}/libltdl
+ }
  
 +ARM_INSTRUCTION_SET = "arm"
-+
- inherit autotools pkgconfig
- 
- do_install_append() {
 -- 
 1.7.8.rc1
 
