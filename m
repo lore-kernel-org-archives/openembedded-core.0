@@ -1,20 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1ROmhL-0000N8-HI
+	(envelope-from <sgw@linux.intel.com>) id 1ROmhM-0000N8-7K
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 Nov 2011 09:42:55 +0100
+	Fri, 11 Nov 2011 09:42:56 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 11 Nov 2011 00:36:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,494,1315206000"; d="scan'208";a="89010326"
+X-IronPort-AV: E=Sophos;i="4.69,494,1315206000"; d="scan'208";a="89010330"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.157])
 	by fmsmga002.fm.intel.com with ESMTP; 11 Nov 2011 00:36:36 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Nov 2011 00:36:26 -0800
-Message-Id: <cover.1321000451.git.sgw@linux.intel.com>
+Date: Fri, 11 Nov 2011 00:36:27 -0800
+Message-Id: <815560c0ee5a1a984b7d0fc8417c46606854e7fe.1321000451.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
-Subject: [CONSOLIDATED PULL 0/9] RPM Fixes and others
+In-Reply-To: <cover.1321000451.git.sgw@linux.intel.com>
+References: <cover.1321000451.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1321000451.git.sgw@linux.intel.com>
+References: <cover.1321000451.git.sgw@linux.intel.com>
+Subject: [CONSOLIDATED PULL 1/9] qt-mobility: qa_configure stage failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,62 +33,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Nov 2011 08:42:55 -0000
+X-List-Received-Date: Fri, 11 Nov 2011 08:42:56 -0000
 
-Richard,
+From: Dmitry Cherukhin <dima_ch@emcraft.com>
 
-This request includes Mark's changes along with some changes for qt-mobility
-and Otavio clean-ups.
+The catalogue /usr/lib removed from Makefiles used for building configure tests.
 
-Thanks
-	Sau!
-
-
-The following changes since commit 379c77d1516fe8fdbd1cd7063f709b5266872b03:
-
-  populate_*.bbclass: Correct INSTALL variable name after recent multilib changes (2011-11-10 18:05:06 +0000)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-
-Dmitry Cherukhin (1):
-  qt-mobility: qa_configure stage failed
-
-Mark Hatle (5):
-  rootfs_rpm.bbclass: Enable pre and post install scripts
-  rootfs_rpm.bbclass: Turn off script debugging
-  wpa-supplicant: Avoid blocking the post install script at cross
-    rootfs time.
-  shadow: Generate the shadow files at rootfs construction
-  sudo: Avoid post install scripts
-
-Otavio Salvador (3):
-  dhcp: generate initial leases files for server
-  util-linux: split mcookie into a package
-  xinit: rdepends on util-linux-mcookie to avoid brining whole
-    util-linux
-
- meta/classes/package_rpm.bbclass                   |   33 ++++-
- meta/classes/rootfs_rpm.bbclass                    |   27 +---
- meta/recipes-connectivity/dhcp/dhcp.inc            |    9 +-
- meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb       |    2 +-
- .../wpa-supplicant/wpa-supplicant-0.7.inc          |    4 +-
- .../wpa-supplicant/wpa-supplicant_0.7.3.bb         |    2 +-
- meta/recipes-core/util-linux/util-linux.inc        |    3 +-
- meta/recipes-core/util-linux/util-linux_2.19.1.bb  |    2 +-
- .../rpm/rpm/rpm-scriptletexechelper.patch          |  159 ++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.0.bb             |    3 +-
- meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |   12 +-
- meta/recipes-extended/sudo/sudo.inc                |    8 -
- meta/recipes-extended/sudo/sudo_1.8.3.bb           |    5 +-
- meta/recipes-graphics/xorg-app/xinit_1.3.0.bb      |    4 +-
- .../qt4/files/qt-mobility-configure.patch          |   17 ++
- meta/recipes-qt/qt4/qt-mobility_1.2.0.inc          |    3 +-
- 16 files changed, 247 insertions(+), 46 deletions(-)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-scriptletexechelper.patch
+Signed-off-by: Dmitry Cherukhin <dima_ch@emcraft.com>
+---
+ .../qt4/files/qt-mobility-configure.patch          |   17 +++++++++++++++++
+ meta/recipes-qt/qt4/qt-mobility_1.2.0.inc          |    3 ++-
+ 2 files changed, 19 insertions(+), 1 deletions(-)
  create mode 100644 meta/recipes-qt/qt4/files/qt-mobility-configure.patch
 
+diff --git a/meta/recipes-qt/qt4/files/qt-mobility-configure.patch b/meta/recipes-qt/qt4/files/qt-mobility-configure.patch
+new file mode 100644
+index 0000000..d61ec03
+--- /dev/null
++++ b/meta/recipes-qt/qt4/files/qt-mobility-configure.patch
+@@ -0,0 +1,17 @@
++When building qt-mobility, the qa_configure stage failed because the catalogue /usr/lib
++is used in some Makefiles within configure tests. We manually removed this catalogue.
++
++Upstream-Status: Inappropriate [embedded]
++Signed-off-by: Dmitry Cherukhin <dima_ch@emcraft.com>
++
++--- qt-mobility-opensource-src-1.2.0/configure.orig	2011-05-10 10:06:01.000000000 +0200
+++++ qt-mobility-opensource-src-1.2.0/configure	2011-11-08 12:34:56.347645968 +0100
++@@ -583,6 +583,8 @@
++     fi
++ 
++     $QMAKE_EXEC $QMKSPEC "$relpath/config.tests/$2/$2.pro" 2>> "$CONFIG_LOG" >> "$CONFIG_LOG"
+++    cp Makefile Makefile.old
+++    sed -e 's@-L/usr/lib@@' <Makefile.old >Makefile
++     printf  " ."
++     "$MAKE" clean >> "$CONFIG_LOG"
++     printf "."
+diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+index f665e64..11aad8b 100644
+--- a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
++++ b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+@@ -5,7 +5,8 @@ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://LICENSE.LGPL;md5=fbc093901857fcd118f065f900982c24 \
+ 		    file://LGPL_EXCEPTION.txt;md5=411080a56ff917a5a1aa08c98acae354"
+ 
+-SRC_URI = "http://get.qt.nokia.com/qt/add-ons/qt-mobility-opensource-src-${PV}.tar.gz "
++SRC_URI = "http://get.qt.nokia.com/qt/add-ons/qt-mobility-opensource-src-${PV}.tar.gz \
++	   file://qt-mobility-configure.patch "
+ 
+ SRC_URI[md5sum]="ea5db5a8d3dd4709c2926dceda646bd8"
+ SRC_URI[sha256sum]="ee3c88975e04139ac9589f76d4be646d44fcbc4c8c1cf2db621abc154cf0ba44"
 -- 
 1.7.6.4
 
