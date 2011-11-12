@@ -1,34 +1,31 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RPBdq-0000BR-KN
+	(envelope-from <martin.jansa@gmail.com>) id 1RPBkj-0000Mo-V3
 	for openembedded-core@lists.openembedded.org;
-	Sat, 12 Nov 2011 12:20:58 +0100
-Received: by bkbzs2 with SMTP id zs2so4240561bkb.6
+	Sat, 12 Nov 2011 12:28:06 +0100
+Received: by bkbzs2 with SMTP id zs2so4244880bkb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Nov 2011 03:14:40 -0800 (PST)
+	Sat, 12 Nov 2011 03:21:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=224/WkmUcIToWVNSzspZAAjDNDooxgAiDbA1zeQBilA=;
-	b=u5e4i3iNY7EDWjaDZoZ9AuxmvkmYziioz9y5IXcQqSGjSWG0UjF2J3ptB9+adXRxYL
-	ZusihUZHEjtmQWxQ+kaqpe1JfliHFze4znYxwFwql+/DgUJ0CGo2J8uz44U9OhEcNLwt
-	D/MaWY+vx2b81Y83gKlr345N8hJXHwqwe7qNw=
-Received: by 10.204.150.205 with SMTP id z13mr11762364bkv.67.1321096478843;
-	Sat, 12 Nov 2011 03:14:38 -0800 (PST)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=bfYP764QLSoCuclBCrpRzrtyW8G9z92n0CjF/Jtp3qc=;
+	b=Ic0W5a0l/4aoipsTDF8QmTvUhfvm/jmm2FWhlvoAYoLfU6+rAdejOSf3pKFy42C/g9
+	3CLt3ogOeEbhgm+vYR7Wo7RBbAPYTp20AzKGIxJZaqI/Uzxv0ZVJOm+5mkgazwPdw0xc
+	Bp/XLRXCwoBqpdgEW8ee/06EmBoaQciydxa3I=
+Received: by 10.204.132.211 with SMTP id c19mr11882401bkt.94.1321096906188;
+	Sat, 12 Nov 2011 03:21:46 -0800 (PST)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id m12sm7378434bkg.14.2011.11.12.03.14.36
+	by mx.google.com with ESMTPS id o7sm7424693bkw.16.2011.11.12.03.21.44
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 12 Nov 2011 03:14:37 -0800 (PST)
-Date: Sat, 12 Nov 2011 12:14:25 +0100
+	Sat, 12 Nov 2011 03:21:45 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111112111425.GA30296@jama.jama.net>
-References: <1321033528.26881.13.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1321033528.26881.13.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] opkg: Ensure we use the uname/gname fields when extracting tarballs
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 12 Nov 2011 12:21:34 +0100
+Message-Id: <1321096894-23997-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.rc1
+In-Reply-To: <20111112111425.GA30296@jama.jama.net>
+References: <20111112111425.GA30296@jama.jama.net>
+Subject: [PATCH] opkg: Ensure we use the uname/gname fields when extracting tarballs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,96 +40,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Nov 2011 11:20:58 -0000
-X-Groupsio-MsgNum: 12395
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="wac7ysb48OaltWcw"
-Content-Disposition: inline
+X-List-Received-Date: Sat, 12 Nov 2011 11:28:06 -0000
 
---wac7ysb48OaltWcw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-On Fri, Nov 11, 2011 at 05:45:28PM +0000, Richard Purdie wrote:
-> When extracting packages onto the target system in particular, we really
-> want to ensure the name fields in the tarball are used over and above
-> the numerical uid/gid values. This patch adds this functionality to opkg
-> and ensures package upgrades work correctly permission wise
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+When extracting packages onto the target system in particular, we really
+want to ensure the name fields in the tarball are used over and above
+the numerical uid/gid values. This patch adds this functionality to opkg
+and ensures package upgrades work correctly permission wise
 
-doesn't apply, seems like some parts are twice.. add_uname_support.patch
-is somehow added twice and opkg_svn.bb change is there also twice (one
-is empty).
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ .../opkg/opkg/add_uname_support.patch              |   85 ++++++++++++++++++++
+ meta/recipes-devtools/opkg/opkg_svn.bb             |    3 +-
+ 2 files changed, 87 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-devtools/opkg/opkg/add_uname_support.patch
 
-OE @ ~/shr-core/openembedded-core $ pw-am.sh.oe-core 14859
-2011-11-12 12:09:15
-URL:http://patchwork.openembedded.org/patch/14859/mbox/ [7429] ->
-"pw-am-14859.patch" [1]
-Applying: opkg: Ensure we use the uname/gname fields when extracting
-tarballs
-fatal: git apply: bad git-diff - expected /dev/null on line 7
-Patch failed at 0001 opkg: Ensure we use the uname/gname fields when
-extracting tarballs
-When you have resolved this problem run "git am --resolved".
-If you would prefer to skip this patch, instead run "git am --skip".
-To restore the original branch and stop patching run "git am --abort".
+diff --git a/meta/recipes-devtools/opkg/opkg/add_uname_support.patch b/meta/recipes-devtools/opkg/opkg/add_uname_support.patch
+new file mode 100644
+index 0000000..885f75f
+--- /dev/null
++++ b/meta/recipes-devtools/opkg/opkg/add_uname_support.patch
+@@ -0,0 +1,85 @@
++When updating packages on the target device we ideally want to match 
++user and group numbers from the existing file system. This patch encourages
++opkg to lookup the uname/gname fields first and only use the hardcoded
++numerical values if that fails.
++
++RP 11/11/11
++
++Index: trunk/libbb/unarchive.c
++===================================================================
++--- trunk.orig/libbb/unarchive.c	2011-11-11 15:52:59.761674091 +0000
+++++ trunk/libbb/unarchive.c	2011-11-11 17:04:56.501574419 +0000
++@@ -22,10 +22,13 @@
++ #include <stdio.h>
++ #include <errno.h>
++ #include <stdlib.h>
+++#include <stdbool.h>
++ #include <string.h>
++ #include <unistd.h>
++ #include <utime.h>
++ #include <libgen.h>
+++#include <grp.h>
+++#include <pwd.h>
++ 
++ #include "libbb.h"
++ 
++@@ -436,6 +439,42 @@
++ 	free(ar_entry);
++ }
++ 
+++static char uname_cache[32] = "";
+++static uid_t uid_cache;
+++
+++static bool update_unamecache(char *uname) {
+++	struct passwd *passwd;
+++	if (!uname)
+++		return FALSE;
+++	if (!uname_cache[0] && strcmp(uname_cache, uname) == 0)
+++		return TRUE;
+++	passwd = getpwnam(uname);
+++	if (passwd) {
+++		uid_cache = passwd->pw_uid;
+++		strncpy(uname, uname_cache, 32);
+++		return TRUE;
+++	}
+++	return FALSE;
+++}
+++
+++static char gname_cache[32] = "";
+++static gid_t gid_cache;
+++
+++static bool update_gnamecache(char *gname) {
+++	struct group *group;
+++	if (!gname)
+++		return FALSE;
+++	if (!gname_cache[0] && strcmp(gname_cache, gname) == 0)
+++		return TRUE;
+++	group = getgrnam(gname);
+++	if (group) {
+++		gid_cache = group->gr_gid;
+++		strncpy(gname, gname_cache, 32);
+++		return TRUE;
+++	}
+++	return FALSE;
+++}
+++
++ 
++ static file_header_t *
++ get_header_tar(FILE *tar_stream)
++@@ -515,8 +554,14 @@
++ */
++         tar_entry->mode = 07777 & strtol(tar.formated.mode, NULL, 8);
++ 
++-	tar_entry->uid   = strtol(tar.formated.uid, NULL, 8);
++-	tar_entry->gid   = strtol(tar.formated.gid, NULL, 8);
+++	if (update_unamecache(tar.formated.uname))
+++		tar_entry->uid = uid_cache;
+++	else
+++		tar_entry->uid = strtol(tar.formated.uid, NULL, 8);
+++	if (update_gnamecache(tar.formated.gname))
+++		tar_entry->gid = gid_cache;
+++	else
+++		tar_entry->gid = strtol(tar.formated.gid, NULL, 8);
++ 	tar_entry->size  = strtol(tar.formated.size, NULL, 8);
++ 	tar_entry->mtime = strtol(tar.formated.mtime, NULL, 8);
++ 
+diff --git a/meta/recipes-devtools/opkg/opkg_svn.bb b/meta/recipes-devtools/opkg/opkg_svn.bb
+index 099a373..8f50f67 100644
+--- a/meta/recipes-devtools/opkg/opkg_svn.bb
++++ b/meta/recipes-devtools/opkg/opkg_svn.bb
+@@ -11,13 +11,14 @@ RREPLACES_${PN} = "opkg-nogpg"
+ 
+ SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;proto=http \
+            file://add_vercmp.patch \
++           file://add_uname_support.patch \
+ "
+ 
+ S = "${WORKDIR}/trunk"
+ 
+ SRCREV = "625"
+ PV = "0.1.8+svnr${SRCPV}"
+-PR = "r2"
++PR = "r3"
+ 
+ PACKAGES =+ "libopkg${PKGSUFFIX}-dev libopkg${PKGSUFFIX} update-alternatives-cworth${PKGSUFFIX}"
+ 
+-- 
+1.7.8.rc1
 
 
-> diff --git a/meta/recipes-devtools/opkg/opkg/add_uname_support.patch b/me=
-ta/recipes-devtools/opkg/opkg/add_uname_support.patch
-> new file mode 100644
-> index 0000000..885f75f
-> --- a/dev/null
-> +++ b/meta/recipes-devtools/opkg/opkg/add_uname_support.patch
-> @@ -0,0 +1,85 @@
-> +When updating packages on the target device we ideally want to match=20
-=2E..
 
-> diff --git a/meta/recipes-devtools/opkg/opkg_svn.bb b/meta/recipes-devtoo=
-ls/opkg/opkg_svn.bb
-> index 099a373..8f50f67 10From a781e059562e91c6467be7c4aac43561413b3703 Mo=
-n Sep 17 00:00:00 2001
-> From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Date: Fri, 11 Nov 2011 17:17:01 +0000
-> Subject: opkg: Ensure we use the uname/gname fields when extracting tarba=
-lls
->=20
-> ---
-> diff --git a/meta/recipes-devtools/opkg/opkg/add_uname_support.patch b/me=
-ta/recipes-devtools/opkg/opkg/add_uname_support.patch
-> new file mode 100644
-> index 0000000..885f75f
-> --- a/dev/null
-> +++ b/meta/recipes-devtools/opkg/opkg/add_uname_support.patch
-> @@ -0,0 +1,85 @@
-> +When updating packages on the target device we ideally want to match=20
-=2E...
-> diff --git a/meta/recipes-devtools/opkg/opkg_svn.bb b/meta/recipes-devtoo=
-ls/opkg/opkg_svn.bb
-> index 099a373..8f50f67 100644
-> --- a/meta/recipes-devtools/opkg/opkg_svn.bb
-> +++ b/meta/recipes-devtools/opkg/opkg_svn.bb
-> @@ -11,13 +11,14 @@ RREPLACES_${PN} =3D "opkg-nogpg"
-> =20
->  SRC_URI =3D "svn://opkg.googlecode.com/svn;module=3Dtrunk;proto=3Dhttp \
->             file://add_vercmp.patch \
-=2E..
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---wac7ysb48OaltWcw
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk6+VREACgkQN1Ujt2V2gBzMxgCeONZEJqWKdTvewB7W0hjxOxVl
-UNQAn2L89jtU0Yp9mrjoAWoDgaT6979t
-=qkCl
------END PGP SIGNATURE-----
-
---wac7ysb48OaltWcw--
