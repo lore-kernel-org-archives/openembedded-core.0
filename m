@@ -1,31 +1,34 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RPBkj-0000Mo-V3
+	(envelope-from <martin.jansa@gmail.com>) id 1RPCUO-0001rd-UU
 	for openembedded-core@lists.openembedded.org;
-	Sat, 12 Nov 2011 12:28:06 +0100
-Received: by bkbzs2 with SMTP id zs2so4244880bkb.6
+	Sat, 12 Nov 2011 13:15:17 +0100
+Received: by bkbzs2 with SMTP id zs2so4272436bkb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Nov 2011 03:21:46 -0800 (PST)
+	Sat, 12 Nov 2011 04:08:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=bfYP764QLSoCuclBCrpRzrtyW8G9z92n0CjF/Jtp3qc=;
-	b=Ic0W5a0l/4aoipsTDF8QmTvUhfvm/jmm2FWhlvoAYoLfU6+rAdejOSf3pKFy42C/g9
-	3CLt3ogOeEbhgm+vYR7Wo7RBbAPYTp20AzKGIxJZaqI/Uzxv0ZVJOm+5mkgazwPdw0xc
-	Bp/XLRXCwoBqpdgEW8ee/06EmBoaQciydxa3I=
-Received: by 10.204.132.211 with SMTP id c19mr11882401bkt.94.1321096906188;
-	Sat, 12 Nov 2011 03:21:46 -0800 (PST)
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=Ki4xfGhMHU6/Ay4xpO9sFoPN20xCz4RDGBa3CLzMDLI=;
+	b=GimAINrR3keBqdHy9sXlA/l5TnZPYsJUOXgt5ynpSPBLf5SoQ7x1JrXLLig2xEcuyc
+	cqbem52luO4t1AJH6Lqx7Dh6KGUqg09t/rEag3Kxijx7ARxTsURmfg63Gc/elLwZZSTA
+	fURyYi8aLTwwzc6x8dXDSF1n4MokJJIJ1Qhfk=
+Received: by 10.205.83.78 with SMTP id af14mr11851916bkc.69.1321099734014;
+	Sat, 12 Nov 2011 04:08:54 -0800 (PST)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id o7sm7424693bkw.16.2011.11.12.03.21.44
+	by mx.google.com with ESMTPS id fu17sm17621329bkc.9.2011.11.12.04.08.52
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 12 Nov 2011 03:21:45 -0800 (PST)
+	Sat, 12 Nov 2011 04:08:53 -0800 (PST)
+Date: Sat, 12 Nov 2011 13:08:41 +0100
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 12 Nov 2011 12:21:34 +0100
-Message-Id: <1321096894-23997-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.rc1
-In-Reply-To: <20111112111425.GA30296@jama.jama.net>
+Message-ID: <20111112120841.GB30296@jama.jama.net>
 References: <20111112111425.GA30296@jama.jama.net>
-Subject: [PATCH] opkg: Ensure we use the uname/gname fields when extracting tarballs
+	<1321096894-23997-1-git-send-email-Martin.Jansa@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <1321096894-23997-1-git-send-email-Martin.Jansa@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH] opkg: Ensure we use the uname/gname fields when extracting tarballs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,136 +43,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Nov 2011 11:28:06 -0000
+X-List-Received-Date: Sat, 12 Nov 2011 12:15:17 -0000
+X-Groupsio-MsgNum: 12397
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="Fba/0zbH8Xs+Fj9o"
+Content-Disposition: inline
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+--Fba/0zbH8Xs+Fj9o
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-When extracting packages onto the target system in particular, we really
-want to ensure the name fields in the tarball are used over and above
-the numerical uid/gid values. This patch adds this functionality to opkg
-and ensures package upgrades work correctly permission wise
+On Sat, Nov 12, 2011 at 12:21:34PM +0100, Martin Jansa wrote:
+> From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- .../opkg/opkg/add_uname_support.patch              |   85 ++++++++++++++++++++
- meta/recipes-devtools/opkg/opkg_svn.bb             |    3 +-
- 2 files changed, 87 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/opkg/opkg/add_uname_support.patch
+Seems to work fine, thanks a lot!
 
-diff --git a/meta/recipes-devtools/opkg/opkg/add_uname_support.patch b/meta/recipes-devtools/opkg/opkg/add_uname_support.patch
-new file mode 100644
-index 0000000..885f75f
---- /dev/null
-+++ b/meta/recipes-devtools/opkg/opkg/add_uname_support.patch
-@@ -0,0 +1,85 @@
-+When updating packages on the target device we ideally want to match 
-+user and group numbers from the existing file system. This patch encourages
-+opkg to lookup the uname/gname fields first and only use the hardcoded
-+numerical values if that fails.
-+
-+RP 11/11/11
-+
-+Index: trunk/libbb/unarchive.c
-+===================================================================
-+--- trunk.orig/libbb/unarchive.c	2011-11-11 15:52:59.761674091 +0000
-++++ trunk/libbb/unarchive.c	2011-11-11 17:04:56.501574419 +0000
-+@@ -22,10 +22,13 @@
-+ #include <stdio.h>
-+ #include <errno.h>
-+ #include <stdlib.h>
-++#include <stdbool.h>
-+ #include <string.h>
-+ #include <unistd.h>
-+ #include <utime.h>
-+ #include <libgen.h>
-++#include <grp.h>
-++#include <pwd.h>
-+ 
-+ #include "libbb.h"
-+ 
-+@@ -436,6 +439,42 @@
-+ 	free(ar_entry);
-+ }
-+ 
-++static char uname_cache[32] = "";
-++static uid_t uid_cache;
-++
-++static bool update_unamecache(char *uname) {
-++	struct passwd *passwd;
-++	if (!uname)
-++		return FALSE;
-++	if (!uname_cache[0] && strcmp(uname_cache, uname) == 0)
-++		return TRUE;
-++	passwd = getpwnam(uname);
-++	if (passwd) {
-++		uid_cache = passwd->pw_uid;
-++		strncpy(uname, uname_cache, 32);
-++		return TRUE;
-++	}
-++	return FALSE;
-++}
-++
-++static char gname_cache[32] = "";
-++static gid_t gid_cache;
-++
-++static bool update_gnamecache(char *gname) {
-++	struct group *group;
-++	if (!gname)
-++		return FALSE;
-++	if (!gname_cache[0] && strcmp(gname_cache, gname) == 0)
-++		return TRUE;
-++	group = getgrnam(gname);
-++	if (group) {
-++		gid_cache = group->gr_gid;
-++		strncpy(gname, gname_cache, 32);
-++		return TRUE;
-++	}
-++	return FALSE;
-++}
-++
-+ 
-+ static file_header_t *
-+ get_header_tar(FILE *tar_stream)
-+@@ -515,8 +554,14 @@
-+ */
-+         tar_entry->mode = 07777 & strtol(tar.formated.mode, NULL, 8);
-+ 
-+-	tar_entry->uid   = strtol(tar.formated.uid, NULL, 8);
-+-	tar_entry->gid   = strtol(tar.formated.gid, NULL, 8);
-++	if (update_unamecache(tar.formated.uname))
-++		tar_entry->uid = uid_cache;
-++	else
-++		tar_entry->uid = strtol(tar.formated.uid, NULL, 8);
-++	if (update_gnamecache(tar.formated.gname))
-++		tar_entry->gid = gid_cache;
-++	else
-++		tar_entry->gid = strtol(tar.formated.gid, NULL, 8);
-+ 	tar_entry->size  = strtol(tar.formated.size, NULL, 8);
-+ 	tar_entry->mtime = strtol(tar.formated.mtime, NULL, 8);
-+ 
-diff --git a/meta/recipes-devtools/opkg/opkg_svn.bb b/meta/recipes-devtools/opkg/opkg_svn.bb
-index 099a373..8f50f67 100644
---- a/meta/recipes-devtools/opkg/opkg_svn.bb
-+++ b/meta/recipes-devtools/opkg/opkg_svn.bb
-@@ -11,13 +11,14 @@ RREPLACES_${PN} = "opkg-nogpg"
- 
- SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;proto=http \
-            file://add_vercmp.patch \
-+           file://add_uname_support.patch \
- "
- 
- S = "${WORKDIR}/trunk"
- 
- SRCREV = "625"
- PV = "0.1.8+svnr${SRCPV}"
--PR = "r2"
-+PR = "r3"
- 
- PACKAGES =+ "libopkg${PKGSUFFIX}-dev libopkg${PKGSUFFIX} update-alternatives-cworth${PKGSUFFIX}"
- 
--- 
-1.7.8.rc1
+Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
 
+SHR root@gjama / $ opkg remove -force-depends -force-remove dbus-1
+Removing package dbus-1 from root...
+Stopping system message bus:  Removing any system startup links for dbus-1 =
+=2E..
+  /etc/rc0.d/K20dbus-1
+  /etc/rc1.d/K20dbus-1
+  /etc/rc2.d/S02dbus-1
+  /etc/rc3.d/S02dbus-1
+  /etc/rc5.d/S02dbus-1
+  /etc/rc6.d/K20dbus-1
+Collected errors:
+ * pkg_run_script: package "dbus-1" prerm script returned status 1.
+SHR root@gjama / $ grep message /etc/passwd
+messagebus:x:42:101:Linux User,,,:/var/run/dbus:/bin/sh
+SHR root@gjama / $ grep message /etc/group
+messagebus:x:101:
+SHR root@gjama / $ opkg install dbus-1
+Installing dbus-1 (1.4.12-r7) to root...
+Downloading http://jama.dyndns-home.com/org.openembedded.shr-core//armv4t/d=
+bus-1_1.4.12-r7_armv4t.ipk.
+Running groupadd commands...
+Note: group netdev already exists, not re-creating it
+Running useradd commands...
+Note: username messagebus already exists, not re-creating it
+Configuring dbus-1.
+ Adding system startup for /etc/init.d/dbus-1.
+SHR root@gjama / $ ll /usr/libexec/dbus-daemon-launch-helper
+-rwsr-xr-- 1 root 998 142748 Nov 12 12:26 /usr/libexec/dbus-daemon-launch-h=
+elper
 
+SHR root@gjama / $ opkg remove -force-depends -force-remove dbus-1
+Removing package dbus-1 from root...
+Stopping system message bus:  Removing any system startup links for dbus-1 =
+=2E..
+  /etc/rc0.d/K20dbus-1
+  /etc/rc1.d/K20dbus-1
+  /etc/rc2.d/S02dbus-1
+  /etc/rc3.d/S02dbus-1
+  /etc/rc5.d/S02dbus-1
+  /etc/rc6.d/K20dbus-1
+Collected errors:
+ * pkg_run_script: package "dbus-1" prerm script returned status 1.
+SHR root@gjama / $ opkg update; opkg upgrade opkg; opkg install dbus-1
+Downloading http://jama.dyndns-home.com/org.openembedded.shr-core//all/Pack=
+ages.gz.
+Inflating http://jama.dyndns-home.com/org.openembedded.shr-core//all/Packag=
+es.gz.
+Updated list of available packages in /var/lib/opkg/lists/jama-all.
+Downloading http://jama.dyndns-home.com/org.openembedded.shr-core//armv4t/P=
+ackages.gz.
+Inflating http://jama.dyndns-home.com/org.openembedded.shr-core//armv4t/Pac=
+kages.gz.
+Updated list of available packages in /var/lib/opkg/lists/jama-armv4t.
+Downloading http://jama.dyndns-home.com/org.openembedded.shr-core//om_gta02=
+/Packages.gz.
+Inflating http://jama.dyndns-home.com/org.openembedded.shr-core//om_gta02/P=
+ackages.gz.
+Updated list of available packages in /var/lib/opkg/lists/jama-om_gta02.
+Installing opkg (1:0.1.8+svnr625-r3) to root...
+Downloading http://jama.dyndns-home.com/org.openembedded.shr-core//armv4t/o=
+pkg_0.1.8+svnr625-r3_armv4t.ipk.
+Installing opkg-config-base (1.0-r0) to root...
+Downloading http://jama.dyndns-home.com/org.openembedded.shr-core//om_gta02=
+/opkg-config-base_1.0-r0_om_gta02.ipk.
+Installing update-alternatives-cworth (1:0.1.8+svnr625-r3) to root...
+Downloading http://jama.dyndns-home.com/org.openembedded.shr-core//all/upda=
+te-alternatives-cworth_0.1.8+svnr625-r3_all.ipk.
+Installing libopkg1 (1:0.1.8+svnr625-r3) to root...
+Downloading http://jama.dyndns-home.com/org.openembedded.shr-core//armv4t/l=
+ibopkg1_0.1.8+svnr625-r3_armv4t.ipk.
+Configuring opkg-config-base.
+Configuring update-alternatives-cworth.
+Configuring libopkg1.
+Configuring opkg.
+update-alternatives: Linking //usr/bin/opkg to /usr/bin/opkg-cl
+Installing dbus-1 (1.4.12-r7) to root...
+Downloading http://jama.dyndns-home.com/org.openembedded.shr-core//armv4t/d=
+bus-1_1.4.12-r7_armv4t.ipk.
+Running groupadd commands...
+Note: group netdev already exists, not re-creating it
+Running useradd commands...
+Note: username messagebus already exists, not re-creating it
+Configuring dbus-1.
+ Adding system startup for /etc/init.d/dbus-1.
+SHR root@gjama / $ ll /usr/libexec/dbus-daemon-launch-helper
+-rwsr-xr-- 1 root messagebus 142748 Nov 12 12:26 /usr/libexec/dbus-daemon-l=
+aunch-helper
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--Fba/0zbH8Xs+Fj9o
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk6+YcgACgkQN1Ujt2V2gBzVuwCeI8mWu9FYQu5+meG2fZeWqUMC
+SMgAoIhnDS3X3F7GgfdLqZEYbzWvH+r5
+=Q/31
+-----END PGP SIGNATURE-----
+
+--Fba/0zbH8Xs+Fj9o--
