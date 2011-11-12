@@ -1,25 +1,25 @@
-Received: from vms173013pub.verizon.net ([206.46.173.13])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@denix.org>)
-	id 1RP0e9-0003AZ-H4; Sat, 12 Nov 2011 00:36:33 +0100
-Received: from gandalf.denix.org ([unknown] [96.240.135.93])
-	by vms173013.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009))
-	with ESMTPA id <0LUI004MGRXO77F2@vms173013.mailsrvcs.net>; Fri,
-	11 Nov 2011 17:30:01 -0600 (CST)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 5C0A014AF5D; Fri,
-	11 Nov 2011 18:29:48 -0500 (EST)
-Date: Fri, 11 Nov 2011 18:29:48 -0500
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-devel@lists.openembedded.org
-Message-id: <20111111232948.GE20602@denix.org>
-References: <4EBD2E8F.6060400@balister.org>
-MIME-version: 1.0
-In-reply-to: <4EBD2E8F.6060400@balister.org>
-User-Agent: Mutt/1.5.16 (2007-06-09)
-Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: Re: [oe] Guidelines for creating a layer
+	(envelope-from <sgw@linux.intel.com>) id 1RP1JU-0004q7-Oa
+	for openembedded-core@lists.openembedded.org;
+	Sat, 12 Nov 2011 01:19:16 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 11 Nov 2011 16:12:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,497,1315206000"; d="scan'208";a="84208668"
+Received: from unknown (HELO [10.255.15.157]) ([10.255.15.157])
+	by fmsmga001.fm.intel.com with ESMTP; 11 Nov 2011 16:12:57 -0800
+Message-ID: <4EBDBA08.2090306@linux.intel.com>
+Date: Fri, 11 Nov 2011 16:12:56 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1320961001.git.otavio@ossystems.com.br>
+In-Reply-To: <cover.1320961001.git.otavio@ossystems.com.br>
+Subject: Re: [PATCH 0/3] DHCP and reduction of amount of packages installer by xinit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,57 +34,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Nov 2011 23:36:33 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Sat, 12 Nov 2011 00:19:17 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Nov 11, 2011 at 09:17:51AM -0500, Philip Balister wrote:
-> Sorry to hack the subject and delete the earlier conversation, but Koen
-> raises a good point here and I do not want it lost in the earlier
-> discussion since I among others stopped reading the emails in detail.
-> 
-> Is there a good set of guidelines on the web site (not buried in a git
-> repo) to guide people making the decision when to create a new layer, as
-> opposed to contributing to an existing layer?
-> 
-> How do we make sure layers are well thought out and not people taking
-> the path of least resistance?
+On 11/10/2011 01:37 PM, Otavio Salvador wrote:
+> The following changes since commit 379c77d1516fe8fdbd1cd7063f709b5266872b03:
+>
+>    populate_*.bbclass: Correct INSTALL variable name after recent multilib changes (2011-11-10 18:05:06 +0000)
+>
+> are available in the git repository at:
+>    git://github.com/OSSystems/oe-core master
+>    https://github.com/OSSystems/oe-core/tree/HEAD
+>
+> Otavio Salvador (3):
+>    dhcp: generate initial leases files for server
+Need a better comment, I will update based on your email.
 
-I think this is a more generic and broad question to discuss it just between 
-OE devs. So, my apologies for cross-post, but lets ask wider audience...
+>    util-linux: split mcookie onto a package
+>    xinit: rdepends on util-linux-mcookie to avoid brining whole
+>      util-linux
+>
+Merged into OE-Core
 
-Denys
+Thanks
+	Sau!
 
 
-> -------- Original Message --------
-> Subject: Re: [oe] RFC Creation of a meta-telephony repository
-> Date: Fri, 11 Nov 2011 11:45:52 +0100
-> From: Koen Kooi <koen@dominion.thruhere.net>
-> Reply-To: openembedded-devel@lists.openembedded.org
-> To: openembedded-devel@lists.openembedded.org
-> 
-> 
-> Having worked with layers for quite a while now I go through the following
-> list before creating one:
-> 
-> Does it need to be a layer? -> no -> send patches to existing layers
-> 	|
-> 	yes
-> 	|
-> Does it need to be a seperate repo? -> no -> send patches to existing repos
-> 	|
-> 	yes
-> 	|
-> Is github/gitorious/etc good enough? -> no -> ...
-> 	|
-> 	yes
-> 	|
-> Create repo + layer
-> 
-> And after a I while re-evaluate it.
-> 
-> regards,
-> 
-> Koen
+>   meta/recipes-connectivity/dhcp/dhcp.inc           |    9 ++++++++-
+>   meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb      |    2 +-
+>   meta/recipes-core/util-linux/util-linux.inc       |    3 ++-
+>   meta/recipes-core/util-linux/util-linux_2.19.1.bb |    2 +-
+>   meta/recipes-graphics/xorg-app/xinit_1.3.0.bb     |    4 ++--
+>   5 files changed, 14 insertions(+), 6 deletions(-)
+>
 
 
