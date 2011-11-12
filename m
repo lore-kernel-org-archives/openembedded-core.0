@@ -1,36 +1,35 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RPIHE-0002nr-L3 for openembedded-core@lists.openembedded.org;
-	Sat, 12 Nov 2011 19:26:05 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pACIJjns029092
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1RPIJJ-0002sF-8j
+	for openembedded-core@lists.openembedded.org;
+	Sat, 12 Nov 2011 19:28:13 +0100
+Received: by bkbzs2 with SMTP id zs2so4507187bkb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Nov 2011 18:19:45 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 25600-10 for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Nov 2011 18:19:41 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pACIJZLa029086
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Nov 2011 18:19:36 GMT
-Message-ID: <1321121979.26881.25.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Sat, 12 Nov 2011 18:19:39 +0000
-In-Reply-To: <B6E31C49-661D-493B-9AA1-9499B35ED9AC@dominion.thruhere.net>
-References: <5050804@linux.intel.com>
-	<1321083345-29399-1-git-send-email-Martin.Jansa@gmail.com>
-	<1321085039.26881.14.camel@ted>
-	<B6E31C49-661D-493B-9AA1-9499B35ED9AC@dominion.thruhere.net>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] default-providers: add alsa to resolve multiple runtime providers
+	Sat, 12 Nov 2011 10:21:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=ac0ADby3AsdRmGBS1Rw9I4gKexf7lBcM1iaPruXlEis=;
+	b=ESa7EcTm+QgDWZLc/BgfTtexTDH4Lc1Zf6EmMrW3hHNh/AF4q3BOmzEDEs/aCXMJ69
+	jO4HQTHhtTD3tsKOXDN0H9yD5WZ/BdSSIVfGTmLwoqfy/3Af6hNiHkYKpAwjF+OW1Hoa
+	man9N6Hkl4KlEwVZw4sjGLokWHmpmZwNh4lmM=
+MIME-Version: 1.0
+Received: by 10.205.131.3 with SMTP id ho3mr1411502bkc.11.1321122109162; Sat,
+	12 Nov 2011 10:21:49 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.48.208 with HTTP; Sat, 12 Nov 2011 10:21:49 -0800 (PST)
+In-Reply-To: <1321121825.26881.23.camel@ted>
+References: <1321087015.26881.15.camel@ted>
+	<CAP9ODKpCZDJb_Cp7uOtXMmfRsfv5dS=nDFTCTk5JA4oPqOEtFA@mail.gmail.com>
+	<1321121825.26881.23.camel@ted>
+Date: Sat, 12 Nov 2011 16:21:49 -0200
+X-Google-Sender-Auth: EAjwwdA4FQuY2qYFA39qQBt2o7c
+Message-ID: <CAP9ODKoHWQwnz=yy6H6p=mKQaqkBO8sF8sZ1icZHBMgYRHfVSg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] rootfs_ipk.bbclass: Ensure bad recommendations persist in the status file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,53 +44,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Nov 2011 18:26:05 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 12 Nov 2011 18:28:13 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 2011-11-12 at 09:06 +0100, Koen Kooi wrote:
-> Op 12 nov. 2011, om 09:03 heeft Richard Purdie het volgende geschreven:
-> 
-> > On Sat, 2011-11-12 at 08:35 +0100, Martin Jansa wrote:
-> >> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> >> ---
-> >> meta/conf/distro/include/default-providers.inc |    1 +
-> >> 1 files changed, 1 insertions(+), 0 deletions(-)
-> >> 
-> >> diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-> >> index afea5e7..79785fb 100644
-> >> --- a/meta/conf/distro/include/default-providers.inc
-> >> +++ b/meta/conf/distro/include/default-providers.inc
-> >> @@ -19,6 +19,7 @@ VIRTUAL-RUNTIME_update-alternatives ?= "update-alternatives-cworth"
-> >> #
-> >> # Default recipe providers
-> >> #
-> >> +PREFERRED_PROVIDER_alsa-lib ?= "alsa-lib"
-> >> PREFERRED_PROVIDER_dbus-glib ?= "dbus-glib"
-> >> PREFERRED_PROVIDER_dbus-glib-native ?= "dbus-glib-native"
-> >> PREFERRED_PROVIDER_gdk-pixbuf ?= "gdk-pixbuf"
-> > 
-> > What else is providing "alsa-lib"? This sounds like a bug :/
-> 
-> According to Sau!:
-> 
-> NOTE: Resolving any missing task queue dependencies
-> NOTE: multiple providers are available for runtime libasound (alsa-lib, alsa-lib-nativesdk)
-> NOTE: consider defining a PREFERRED_PROVIDER entry to match libasound
+On Sat, Nov 12, 2011 at 16:17, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Sat, 2011-11-12 at 13:57 -0200, Otavio Salvador wrote:
+>> On Sat, Nov 12, 2011 at 06:36, Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>> > Currently bad recommendations are added to the status file with status
+>> > "ok". After a single opkg command, whilst it will ignore the recommend=
+ation,
+>> > the status changes to "installed" even if the recommended package was =
+not
+>> > installed. Whilst this is likely a glitch in opkg's logic, the correct
+>> > way to persist the information in the status file is to set the status
+>> > to "hold" as deinstall packages with that status remain. With this cha=
+nge
+>> > the bad recommendations persist accross multiple opkg runs and the sys=
+tem
+>> > behaves as expected.
+>>
+>> I personally dislike fixing it in rootfs_ipk instead of opkg ... opkg
+>> has change its behaviour behind the scenes and this needs to be fixed
+>> IMO.
+>
+> I'm not sure opkg has changed behaviour. We used to just do one single
+> "opkg install" after which the status file was incorrect but the bad
+> recommends was not installed. We started doing more than one "opkg
+> install" and this has muddied the waters so to speak. I'm still unclear
+> if the bad recommends actually make it onto the target system but
+> certainly the status file was incorrect.
 
-Which is a bug. alsa-lib-nativesdk should provide libasound-nativesdk,
-not libasound.
+It does end onto the target.
 
->NOTE: multiple providers are available for runtime alsa-conf-base (alsa-lib, alsa-lib-nativesdk)
->NOTE: consider defining a PREFERRED_PROVIDER entry to match alsa-conf-base
+> The summary is we were not using opkg correctly in the first place. This
+> patch corrects that problem so we do what we what that code intended to
+> do and persists the bad recommend into the status file. This fixes the
+> bug that was reported too.
+>
+> There look to be remaining issues in opkg but not ones that directly
+> affect the build system. Please do take this up with the opkg people but
+> I'm afraid I personally don't have time to start debugging opkg and I
+> think there are other more urgent priorities at the moment now this is a
+> non-issue for the builds.
 
-ditto.
+This does fix the problem we were having  but I am concerned about
+other possible behaviour changes it might happen.
 
-Lets fix the underlying bug please :)
+I think this patch ought to go but someone skilled on opkg might take
+a look at opkg code to see if this isn't a regression of lately
+changes.
 
-Cheers,
-
-Richard
-
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
