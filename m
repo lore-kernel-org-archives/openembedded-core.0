@@ -1,26 +1,27 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RP1LO-0004wd-J8
+	(envelope-from <sgw@linux.intel.com>) id 1RP2Si-0006at-Si
 	for openembedded-core@lists.openembedded.org;
-	Sat, 12 Nov 2011 01:21:14 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 11 Nov 2011 16:14:55 -0800
+	Sat, 12 Nov 2011 02:32:53 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 11 Nov 2011 17:26:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,497,1315206000"; d="scan'208";a="84208954"
+X-IronPort-AV: E=Sophos;i="4.69,497,1315206000"; d="scan'208";a="36099713"
 Received: from unknown (HELO [10.255.15.157]) ([10.255.15.157])
-	by fmsmga001.fm.intel.com with ESMTP; 11 Nov 2011 16:14:55 -0800
-Message-ID: <4EBDBA7F.7020902@linux.intel.com>
-Date: Fri, 11 Nov 2011 16:14:55 -0800
+	by AZSMGA002.ch.intel.com with ESMTP; 11 Nov 2011 17:26:32 -0800
+Message-ID: <4EBDCB48.5050804@linux.intel.com>
+Date: Fri, 11 Nov 2011 17:26:32 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <135de91f015deb0c4e3c3d01d83963fc20ecc5f7>
-	<1320758932-4181-1-git-send-email-dima_ch@emcraft.com>
-In-Reply-To: <1320758932-4181-1-git-send-email-dima_ch@emcraft.com>
-Subject: Re: [PATCH] qt-mobility: qa_configure stage failed
+References: <d99edd412e58edeb79c64112f7eb6ba522342bf9.1321028799.git.Martin.Jansa@gmail.com>
+	<8af8989bc3e582e77f7ae9414de89f94bda76c01.1321028799.git.Martin.Jansa@gmail.com>
+In-Reply-To: <8af8989bc3e582e77f7ae9414de89f94bda76c01.1321028799.git.Martin.Jansa@gmail.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: [PATCH][oe-core 10/22] alsa-lib: add nativesdk BBCLASSEXTEND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,63 +36,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Nov 2011 00:21:14 -0000
+X-List-Received-Date: Sat, 12 Nov 2011 01:32:53 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/08/2011 05:28 AM, Dmitry Cherukhin wrote:
-> The catalogue /usr/lib removed from Makefiles used for building configure tests.
+On 11/11/2011 08:28 AM, Martin Jansa wrote:
+> * needed for libsdl-nativesdk when DISTRO_FEATURES have alsa
 >
-> Signed-off-by: Dmitry Cherukhin<dima_ch@emcraft.com>
+> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
 > ---
->   .../qt4/files/qt-mobility-configure.patch          |   17 +++++++++++++++++
->   meta/recipes-qt/qt4/qt-mobility_1.2.0.inc          |    3 ++-
->   2 files changed, 19 insertions(+), 1 deletions(-)
->   create mode 100644 meta/recipes-qt/qt4/files/qt-mobility-configure.patch
+>   meta/recipes-multimedia/alsa/alsa-lib_1.0.24.1.bb |    2 +-
+>   1 files changed, 1 insertions(+), 1 deletions(-)
 >
-> diff --git a/meta/recipes-qt/qt4/files/qt-mobility-configure.patch b/meta/recipes-qt/qt4/files/qt-mobility-configure.patch
-> new file mode 100644
-> index 0000000..d61ec03
-> --- /dev/null
-> +++ b/meta/recipes-qt/qt4/files/qt-mobility-configure.patch
-> @@ -0,0 +1,17 @@
-> +When building qt-mobility, the qa_configure stage failed because the catalogue /usr/lib
-> +is used in some Makefiles within configure tests. We manually removed this catalogue.
-> +
-> +Upstream-Status: Inappropriate [embedded]
-> +Signed-off-by: Dmitry Cherukhin<dima_ch@emcraft.com>
-> +
-> +--- qt-mobility-opensource-src-1.2.0/configure.orig	2011-05-10 10:06:01.000000000 +0200
-> ++++ qt-mobility-opensource-src-1.2.0/configure	2011-11-08 12:34:56.347645968 +0100
-> +@@ -583,6 +583,8 @@
-> +     fi
-> +
-> +     $QMAKE_EXEC $QMKSPEC "$relpath/config.tests/$2/$2.pro" 2>>  "$CONFIG_LOG">>  "$CONFIG_LOG"
-> ++    cp Makefile Makefile.old
-> ++    sed -e 's@-L/usr/lib@@'<Makefile.old>Makefile
-> +     printf  " ."
-> +     "$MAKE" clean>>  "$CONFIG_LOG"
-> +     printf "."
-> diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-> index f665e64..11aad8b 100644
-> --- a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-> +++ b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-> @@ -5,7 +5,8 @@ LICENSE = "LGPLv2.1"
->   LIC_FILES_CHKSUM = "file://LICENSE.LGPL;md5=fbc093901857fcd118f065f900982c24 \
->   		    file://LGPL_EXCEPTION.txt;md5=411080a56ff917a5a1aa08c98acae354"
+> diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.0.24.1.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.0.24.1.bb
+> index b787c54..d701031 100644
+> --- a/meta/recipes-multimedia/alsa/alsa-lib_1.0.24.1.bb
+> +++ b/meta/recipes-multimedia/alsa/alsa-lib_1.0.24.1.bb
+> @@ -6,7 +6,7 @@ LICENSE = "LGPLv2.1&  GPLv2+"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34 \
+>                       file://src/socket.c;beginline=1;endline=26;md5=11ff89a8a7a4a690a5c78effe8159545"
 >
-> -SRC_URI = "http://get.qt.nokia.com/qt/add-ons/qt-mobility-opensource-src-${PV}.tar.gz "
-> +SRC_URI = "http://get.qt.nokia.com/qt/add-ons/qt-mobility-opensource-src-${PV}.tar.gz \
-> +	   file://qt-mobility-configure.patch "
+> -BBCLASSEXTEND = "native"
+> +BBCLASSEXTEND = "native nativesdk"
 >
->   SRC_URI[md5sum]="ea5db5a8d3dd4709c2926dceda646bd8"
->   SRC_URI[sha256sum]="ee3c88975e04139ac9589f76d4be646d44fcbc4c8c1cf2db621abc154cf0ba44"
+>   # configure.in sets -D__arm__ on the command line for any arm system
+>   # (not just those with the ARM instruction set), this should be removed,
 
-Problem solved, I had a goofed up build.
+This seems to have added some multiple provider issues:
 
-This is merged into OE-Core
+NOTE: Resolving any missing task queue dependencies
+NOTE: multiple providers are available for runtime libasound (alsa-lib, 
+alsa-lib-nativesdk)
+NOTE: consider defining a PREFERRED_PROVIDER entry to match libasound
+NOTE: multiple providers are available for runtime alsa-conf-base 
+(alsa-lib, alsa-lib-nativesdk)
+NOTE: consider defining a PREFERRED_PROVIDER entry to match alsa-conf-base
 
-Thanks
-	Sau!
+
+Sau!
 
 
