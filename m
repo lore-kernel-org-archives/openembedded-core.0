@@ -1,25 +1,26 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RP1K4-0004sd-NW
+	(envelope-from <sgw@linux.intel.com>) id 1RP1LO-0004wd-J8
 	for openembedded-core@lists.openembedded.org;
-	Sat, 12 Nov 2011 01:19:52 +0100
+	Sat, 12 Nov 2011 01:21:14 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 11 Nov 2011 16:13:33 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 11 Nov 2011 16:14:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,497,1315206000"; d="scan'208";a="84208797"
+X-IronPort-AV: E=Sophos;i="4.69,497,1315206000"; d="scan'208";a="84208954"
 Received: from unknown (HELO [10.255.15.157]) ([10.255.15.157])
-	by fmsmga001.fm.intel.com with ESMTP; 11 Nov 2011 16:13:33 -0800
-Message-ID: <4EBDBA2D.2050706@linux.intel.com>
-Date: Fri, 11 Nov 2011 16:13:33 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 11 Nov 2011 16:14:55 -0800
+Message-ID: <4EBDBA7F.7020902@linux.intel.com>
+Date: Fri, 11 Nov 2011 16:14:55 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1320949721.git.mark.hatle@windriver.com>
-In-Reply-To: <cover.1320949721.git.mark.hatle@windriver.com>
-Subject: Re: [PATCH 0/5] Change the way RPM handles pre/post scripts
+References: <135de91f015deb0c4e3c3d01d83963fc20ecc5f7>
+	<1320758932-4181-1-git-send-email-dima_ch@emcraft.com>
+In-Reply-To: <1320758932-4181-1-git-send-email-dima_ch@emcraft.com>
+Subject: Re: [PATCH] qt-mobility: qa_configure stage failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,46 +35,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Nov 2011 00:19:52 -0000
+X-List-Received-Date: Sat, 12 Nov 2011 00:21:14 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/10/2011 10:30 AM, Mark Hatle wrote:
-> We change the way rootfs_rpm handles pre / post scripts in order to
-> enable preinst scripts and better handling of post scripts.
+On 11/08/2011 05:28 AM, Dmitry Cherukhin wrote:
+> The catalogue /usr/lib removed from Makefiles used for building configure tests.
 >
-> The following changes since commit 379c77d1516fe8fdbd1cd7063f709b5266872b03:
+> Signed-off-by: Dmitry Cherukhin<dima_ch@emcraft.com>
+> ---
+>   .../qt4/files/qt-mobility-configure.patch          |   17 +++++++++++++++++
+>   meta/recipes-qt/qt4/qt-mobility_1.2.0.inc          |    3 ++-
+>   2 files changed, 19 insertions(+), 1 deletions(-)
+>   create mode 100644 meta/recipes-qt/qt4/files/qt-mobility-configure.patch
 >
->    populate_*.bbclass: Correct INSTALL variable name after recent multilib changes (2011-11-10 18:05:06 +0000)
+> diff --git a/meta/recipes-qt/qt4/files/qt-mobility-configure.patch b/meta/recipes-qt/qt4/files/qt-mobility-configure.patch
+> new file mode 100644
+> index 0000000..d61ec03
+> --- /dev/null
+> +++ b/meta/recipes-qt/qt4/files/qt-mobility-configure.patch
+> @@ -0,0 +1,17 @@
+> +When building qt-mobility, the qa_configure stage failed because the catalogue /usr/lib
+> +is used in some Makefiles within configure tests. We manually removed this catalogue.
+> +
+> +Upstream-Status: Inappropriate [embedded]
+> +Signed-off-by: Dmitry Cherukhin<dima_ch@emcraft.com>
+> +
+> +--- qt-mobility-opensource-src-1.2.0/configure.orig	2011-05-10 10:06:01.000000000 +0200
+> ++++ qt-mobility-opensource-src-1.2.0/configure	2011-11-08 12:34:56.347645968 +0100
+> +@@ -583,6 +583,8 @@
+> +     fi
+> +
+> +     $QMAKE_EXEC $QMKSPEC "$relpath/config.tests/$2/$2.pro" 2>>  "$CONFIG_LOG">>  "$CONFIG_LOG"
+> ++    cp Makefile Makefile.old
+> ++    sed -e 's@-L/usr/lib@@'<Makefile.old>Makefile
+> +     printf  " ."
+> +     "$MAKE" clean>>  "$CONFIG_LOG"
+> +     printf "."
+> diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+> index f665e64..11aad8b 100644
+> --- a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+> +++ b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+> @@ -5,7 +5,8 @@ LICENSE = "LGPLv2.1"
+>   LIC_FILES_CHKSUM = "file://LICENSE.LGPL;md5=fbc093901857fcd118f065f900982c24 \
+>   		    file://LGPL_EXCEPTION.txt;md5=411080a56ff917a5a1aa08c98acae354"
 >
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib mhatle/rpm
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/rpm
+> -SRC_URI = "http://get.qt.nokia.com/qt/add-ons/qt-mobility-opensource-src-${PV}.tar.gz "
+> +SRC_URI = "http://get.qt.nokia.com/qt/add-ons/qt-mobility-opensource-src-${PV}.tar.gz \
+> +	   file://qt-mobility-configure.patch "
 >
-> Mark Hatle (5):
->    rootfs_rpm.bbclass: Enable pre and post install scripts
->    rootfs_rpm.bbclass: Turn off script debugging
->    wpa-supplicant: Avoid blocking the post install script at cross
->      rootfs time.
->    shadow: Generate the shadow files at rootfs construction
->    sudo: Avoid post install scripts
->
->   meta/classes/package_rpm.bbclass                   |   33 ++++-
->   meta/classes/rootfs_rpm.bbclass                    |   27 +---
->   .../wpa-supplicant/wpa-supplicant-0.7.inc          |    4 +-
->   .../wpa-supplicant/wpa-supplicant_0.7.3.bb         |    2 +-
->   .../rpm/rpm/rpm-scriptletexechelper.patch          |  159 ++++++++++++++++++++
->   meta/recipes-devtools/rpm/rpm_5.4.0.bb             |    3 +-
->   meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |   12 +-
->   meta/recipes-extended/sudo/sudo.inc                |    8 -
->   meta/recipes-extended/sudo/sudo_1.8.3.bb           |    5 +-
->   9 files changed, 214 insertions(+), 39 deletions(-)
->   create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-scriptletexechelper.patch
->
-Merged into OE-Core
+>   SRC_URI[md5sum]="ea5db5a8d3dd4709c2926dceda646bd8"
+>   SRC_URI[sha256sum]="ee3c88975e04139ac9589f76d4be646d44fcbc4c8c1cf2db621abc154cf0ba44"
 
-Thanks	
+Problem solved, I had a goofed up build.
+
+This is merged into OE-Core
+
+Thanks
 	Sau!
-
 
 
