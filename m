@@ -1,30 +1,27 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RP8hz-0000d9-34
-	for openembedded-core@lists.openembedded.org;
-	Sat, 12 Nov 2011 09:13:03 +0100
-Received: by wyg8 with SMTP id 8so54483wyg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Nov 2011 00:06:44 -0800 (PST)
-Received: by 10.180.95.132 with SMTP id dk4mr17840237wib.30.1321085204347;
-	Sat, 12 Nov 2011 00:06:44 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id v10sm8258100wiy.23.2011.11.12.00.06.42
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 12 Nov 2011 00:06:43 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Sat, 12 Nov 2011 09:06:35 +0100
-In-Reply-To: <1321085039.26881.14.camel@ted>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <5050804@linux.intel.com>
-	<1321083345-29399-1-git-send-email-Martin.Jansa@gmail.com>
-	<1321085039.26881.14.camel@ted>
-Message-Id: <B6E31C49-661D-493B-9AA1-9499B35ED9AC@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH] default-providers: add alsa to resolve multiple runtime providers
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RP9BH-00019N-F8 for openembedded-core@lists.openembedded.org;
+	Sat, 12 Nov 2011 09:43:19 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAC8b2ke025749;
+	Sat, 12 Nov 2011 08:37:02 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 22862-09; Sat, 12 Nov 2011 08:36:55 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAC8arRM025743
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Sat, 12 Nov 2011 08:36:54 GMT
+Message-ID: <1321087015.26881.15.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sat, 12 Nov 2011 08:36:55 +0000
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] rootfs_ipk.bbclass: Ensure bad recommendations persist in the status file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,71 +36,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Nov 2011 08:13:03 -0000
-X-Groupsio-MsgNum: 12393
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_F08B6D8B-5BE2-4F37-9314-944B88D111F5";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_F08B6D8B-5BE2-4F37-9314-944B88D111F5
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-Op 12 nov. 2011, om 09:03 heeft Richard Purdie het volgende geschreven:
-
-> On Sat, 2011-11-12 at 08:35 +0100, Martin Jansa wrote:
->> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
->> ---
->> meta/conf/distro/include/default-providers.inc |    1 +
->> 1 files changed, 1 insertions(+), 0 deletions(-)
->>=20
->> diff --git a/meta/conf/distro/include/default-providers.inc =
-b/meta/conf/distro/include/default-providers.inc
->> index afea5e7..79785fb 100644
->> --- a/meta/conf/distro/include/default-providers.inc
->> +++ b/meta/conf/distro/include/default-providers.inc
->> @@ -19,6 +19,7 @@ VIRTUAL-RUNTIME_update-alternatives ?=3D =
-"update-alternatives-cworth"
->> #
->> # Default recipe providers
->> #
->> +PREFERRED_PROVIDER_alsa-lib ?=3D "alsa-lib"
->> PREFERRED_PROVIDER_dbus-glib ?=3D "dbus-glib"
->> PREFERRED_PROVIDER_dbus-glib-native ?=3D "dbus-glib-native"
->> PREFERRED_PROVIDER_gdk-pixbuf ?=3D "gdk-pixbuf"
->=20
-> What else is providing "alsa-lib"? This sounds like a bug :/
-
-According to Sau!:
-
-NOTE: Resolving any missing task queue dependencies
-NOTE: multiple providers are available for runtime libasound (alsa-lib, =
-alsa-lib-nativesdk)
-NOTE: consider defining a PREFERRED_PROVIDER entry to match libasound
-NOTE: multiple providers are available for runtime alsa-conf-base =
-(alsa-lib, alsa-lib-nativesdk)
-NOTE: consider defining a PREFERRED_PROVIDER entry to match =
-alsa-conf-base
-
-regards,
-
-Koen=
-
---Apple-Mail=_F08B6D8B-5BE2-4F37-9314-944B88D111F5
+X-List-Received-Date: Sat, 12 Nov 2011 08:43:19 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
+Currently bad recommendations are added to the status file with status
+"ok". After a single opkg command, whilst it will ignore the recommendation,
+the status changes to "installed" even if the recommended package was not
+installed. Whilst this is likely a glitch in opkg's logic, the correct
+way to persist the information in the status file is to set the status
+to "hold" as deinstall packages with that status remain. With this change
+the bad recommendations persist accross multiple opkg runs and the system
+behaves as expected.
 
-iEYEARECAAYFAk6+KQ0ACgkQMkyGM64RGpEPkwCgtOIE8z6zZ4uogdjX3PbNIx9G
-zOEAnR3IyGOK0omexlBpyOH14btuqlWC
-=yNBg
------END PGP SIGNATURE-----
+[YOCTO #1758]
 
---Apple-Mail=_F08B6D8B-5BE2-4F37-9314-944B88D111F5--
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
+index 3b4c392..4a5a2dd 100644
+--- a/meta/classes/rootfs_ipk.bbclass
++++ b/meta/classes/rootfs_ipk.bbclass
+@@ -44,7 +44,7 @@ fakeroot rootfs_ipk_do_rootfs () {
+ 		pkginfo="`opkg-cl ${IPKG_ARGS} info $i`"
+ 		if [ ! -z "$pkginfo" ]; then
+ 			echo "$pkginfo" | grep -e '^Package:' -e '^Architecture:' -e '^Version:' >> $STATUS
+-			echo "Status: deinstall ok not-installed" >> $STATUS
++			echo "Status: deinstall hold not-installed" >> $STATUS
+ 			echo >> $STATUS
+ 		else
+ 			echo "Requested ignored recommendation $i is not a package"
+
+
+
+
