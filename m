@@ -1,35 +1,29 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RPIJJ-0002sF-8j
+	(envelope-from <dbaryshkov@gmail.com>) id 1RPeJE-0003X8-40
 	for openembedded-core@lists.openembedded.org;
-	Sat, 12 Nov 2011 19:28:13 +0100
-Received: by bkbzs2 with SMTP id zs2so4507187bkb.6
+	Sun, 13 Nov 2011 18:57:36 +0100
+Received: by eyd9 with SMTP id 9so4465185eyd.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Nov 2011 10:21:50 -0800 (PST)
+	Sun, 13 Nov 2011 09:51:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
-	:content-transfer-encoding;
-	bh=ac0ADby3AsdRmGBS1Rw9I4gKexf7lBcM1iaPruXlEis=;
-	b=ESa7EcTm+QgDWZLc/BgfTtexTDH4Lc1Zf6EmMrW3hHNh/AF4q3BOmzEDEs/aCXMJ69
-	jO4HQTHhtTD3tsKOXDN0H9yD5WZ/BdSSIVfGTmLwoqfy/3Af6hNiHkYKpAwjF+OW1Hoa
-	man9N6Hkl4KlEwVZw4sjGLokWHmpmZwNh4lmM=
-MIME-Version: 1.0
-Received: by 10.205.131.3 with SMTP id ho3mr1411502bkc.11.1321122109162; Sat,
-	12 Nov 2011 10:21:49 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.48.208 with HTTP; Sat, 12 Nov 2011 10:21:49 -0800 (PST)
-In-Reply-To: <1321121825.26881.23.camel@ted>
-References: <1321087015.26881.15.camel@ted>
-	<CAP9ODKpCZDJb_Cp7uOtXMmfRsfv5dS=nDFTCTk5JA4oPqOEtFA@mail.gmail.com>
-	<1321121825.26881.23.camel@ted>
-Date: Sat, 12 Nov 2011 16:21:49 -0200
-X-Google-Sender-Auth: EAjwwdA4FQuY2qYFA39qQBt2o7c
-Message-ID: <CAP9ODKoHWQwnz=yy6H6p=mKQaqkBO8sF8sZ1icZHBMgYRHfVSg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] rootfs_ipk.bbclass: Ensure bad recommendations persist in the status file
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=Tp+OK8ZO+kWi+FSZAmFs0VWfmjl9JhlVpOiC4pn4ByU=;
+	b=xMOQ14AhUCRl+YCGDLOUaBkTzKPnntq391lxQ9uPzBRsRLZg2h5yI9VejXhGSmmYub
+	tg+LZ0SYMKe8a6aSDFduVcKHhLxT509LpmoriTWpsvTwSByIIfKty2sB0+RE6/BHcJO3
+	ttojzQn37RUH6/J1fEk20RzfRkm9R3ZvBmZuY=
+Received: by 10.213.9.69 with SMTP id k5mr300445ebk.69.1321206672118;
+	Sun, 13 Nov 2011 09:51:12 -0800 (PST)
+Received: from fangorn.rup.mentorg.com (nat-rup.mentorg.com. [139.181.168.34])
+	by mx.google.com with ESMTPS id 49sm51968781eec.1.2011.11.13.09.51.09
+	(version=SSLv3 cipher=OTHER); Sun, 13 Nov 2011 09:51:10 -0800 (PST)
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 13 Nov 2011 21:50:53 +0400
+Message-Id: <1321206654-14713-1-git-send-email-dbaryshkov@gmail.com>
+X-Mailer: git-send-email 1.7.7.1
+Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Subject: [PATCH 1/2] gobject-introspection: update frome meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,64 +38,170 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Nov 2011 18:28:13 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 13 Nov 2011 17:57:36 -0000
 
-On Sat, Nov 12, 2011 at 16:17, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Sat, 2011-11-12 at 13:57 -0200, Otavio Salvador wrote:
->> On Sat, Nov 12, 2011 at 06:36, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->> > Currently bad recommendations are added to the status file with status
->> > "ok". After a single opkg command, whilst it will ignore the recommend=
-ation,
->> > the status changes to "installed" even if the recommended package was =
-not
->> > installed. Whilst this is likely a glitch in opkg's logic, the correct
->> > way to persist the information in the status file is to set the status
->> > to "hold" as deinstall packages with that status remain. With this cha=
-nge
->> > the bad recommendations persist accross multiple opkg runs and the sys=
-tem
->> > behaves as expected.
->>
->> I personally dislike fixing it in rootfs_ipk instead of opkg ... opkg
->> has change its behaviour behind the scenes and this needs to be fixed
->> IMO.
->
-> I'm not sure opkg has changed behaviour. We used to just do one single
-> "opkg install" after which the status file was incorrect but the bad
-> recommends was not installed. We started doing more than one "opkg
-> install" and this has muddied the waters so to speak. I'm still unclear
-> if the bad recommends actually make it onto the target system but
-> certainly the status file was incorrect.
+OE-Core uses very old version of gobject-introspection. The recipe says
+0.10.8, but in reality it's GOBJECT_INTROSPECTION_0_6_3-41-gefa7266.
+That version e.g. doesn't compile with python 2.7 (default in some
+versions), etc.
 
-It does end onto the target.
+Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+---
+ .../gnome/gobject-introspection/configure.patch    |   27 ----------------
+ .../gnome/gobject-introspection/pathfix.patch      |   27 ----------------
+ .../use-usr-bin-env-for-python.patch               |   20 ++++++++++++
+ .../gnome/gobject-introspection_git.bb             |   32 +++++++++++--------
+ 4 files changed, 38 insertions(+), 68 deletions(-)
+ delete mode 100644 meta/recipes-gnome/gnome/gobject-introspection/configure.patch
+ delete mode 100644 meta/recipes-gnome/gnome/gobject-introspection/pathfix.patch
+ create mode 100644 meta/recipes-gnome/gnome/gobject-introspection/use-usr-bin-env-for-python.patch
 
-> The summary is we were not using opkg correctly in the first place. This
-> patch corrects that problem so we do what we what that code intended to
-> do and persists the bad recommend into the status file. This fixes the
-> bug that was reported too.
->
-> There look to be remaining issues in opkg but not ones that directly
-> affect the build system. Please do take this up with the opkg people but
-> I'm afraid I personally don't have time to start debugging opkg and I
-> think there are other more urgent priorities at the moment now this is a
-> non-issue for the builds.
+diff --git a/meta/recipes-gnome/gnome/gobject-introspection/configure.patch b/meta/recipes-gnome/gnome/gobject-introspection/configure.patch
+deleted file mode 100644
+index 5dcd9b0..0000000
+--- a/meta/recipes-gnome/gnome/gobject-introspection/configure.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+-Index: git/common.mk
+-===================================================================
+---- git.orig/common.mk	2009-08-19 11:11:26.000000000 +0100
+-+++ git/common.mk	2009-08-19 11:12:05.000000000 +0100
+-@@ -4,7 +4,7 @@
+- 	UNINSTALLED_INTROSPECTION_SRCDIR=$(top_srcdir) \
+- 	UNINSTALLED_INTROSPECTION_BUILDDIR=$(top_builddir)
+- SCANNER_ARGS = -v --add-include-path=$(top_builddir)/gir --add-include-path=.
+--SCANNER = $(AM_V_GEN) env LPATH=.libs $(CHECK_DEBUG) $(SCANNER_ENV) $(SCANNER_BIN) $(SCANNER_ARGS)
+-+SCANNER = $(AM_V_GEN) env LPATH=.libs $(CHECK_DEBUG) $(SCANNER_ENV) g-ir-scanner $(SCANNER_ARGS)
+- SCANNER_LIBS = \
+- 	$(top_srcdir)/giscanner/*.py \
+- 	$(top_builddir)/giscanner/libgiscanner.la \
+-Index: git/configure.ac
+-===================================================================
+---- git.orig/configure.ac	2009-08-19 11:11:26.000000000 +0100
+-+++ git/configure.ac	2009-08-19 11:11:28.000000000 +0100
+-@@ -201,7 +201,6 @@
+- 	pyexecdir=`echo $pyexecdir | tr '\\\\' '/'`
+- 	;;
+- esac
+--AM_CHECK_PYTHON_HEADERS(,AC_MSG_ERROR([Python headers not found]))
+- 
+- AC_CONFIG_FILES([
+- Makefile
+diff --git a/meta/recipes-gnome/gnome/gobject-introspection/pathfix.patch b/meta/recipes-gnome/gnome/gobject-introspection/pathfix.patch
+deleted file mode 100644
+index a96e4b1..0000000
+--- a/meta/recipes-gnome/gnome/gobject-introspection/pathfix.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-Upstream-Status: Pending
+-
+-Index: git/giscanner/dumper.py
+-===================================================================
+---- git.orig/giscanner/dumper.py	2010-11-29 15:14:35.000000000 -0800
+-+++ git/giscanner/dumper.py	2010-11-29 15:14:57.115747154 -0800
+-@@ -82,7 +82,7 @@
+-         self._tmpdir = tempfile.mkdtemp('', 'tmp-introspect', dir=os.getcwd())
+- 
+-         self._compiler_cmd = os.environ.get('CC', 'gcc')
+--        self._linker_cmd = os.environ.get('LD', self._compiler_cmd)
+-+        self._linker_cmd = os.environ.get('CCLD', self._compiler_cmd)
+-         self._pkgconfig_cmd = os.environ.get('PKG_CONFIG', 'pkg-config')
+- 
+-         self._uninst_srcdir = os.environ.get(
+-Index: git/giscanner/scannermain.py
+-===================================================================
+---- git.orig/giscanner/scannermain.py	2010-11-29 15:14:35.000000000 -0800
+-+++ git/giscanner/scannermain.py	2010-11-29 15:14:57.120747321 -0800
+-@@ -283,6 +283,7 @@
+-     shown_include_warning = False
+-     for include in options.includes:
+-         if os.sep in include:
+-+            continue
+-             raise ValueError("Invalid include path %r" % (include, ))
+-         include_obj = Include.from_string(include)
+-         transformer.register_include(include_obj)
+diff --git a/meta/recipes-gnome/gnome/gobject-introspection/use-usr-bin-env-for-python.patch b/meta/recipes-gnome/gnome/gobject-introspection/use-usr-bin-env-for-python.patch
+new file mode 100644
+index 0000000..67b8547
+--- /dev/null
++++ b/meta/recipes-gnome/gnome/gobject-introspection/use-usr-bin-env-for-python.patch
+@@ -0,0 +1,20 @@
++Index: gobject-introspection-0.9.10/tools/g-ir-annotation-tool.in
++===================================================================
++--- gobject-introspection-0.9.10.orig/tools/g-ir-annotation-tool.in
+++++ gobject-introspection-0.9.10/tools/g-ir-annotation-tool.in
++@@ -1,4 +1,4 @@
++-#!@PYTHON@
+++#!/usr/bin/env python
++ # -*- Mode: Python -*-
++ # GObject-Introspection - a framework for introspecting GObject libraries
++ # Copyright (C) 2008  Johan Dahlin
++Index: gobject-introspection-0.9.10/tools/g-ir-scanner.in
++===================================================================
++--- gobject-introspection-0.9.10.orig/tools/g-ir-scanner.in
+++++ gobject-introspection-0.9.10/tools/g-ir-scanner.in
++@@ -1,4 +1,4 @@
++-#!@PYTHON@
+++#!/usr/bin/env python
++ # -*- Mode: Python -*-
++ # GObject-Introspection - a framework for introspecting GObject libraries
++ # Copyright (C) 2008  Johan Dahlin
+diff --git a/meta/recipes-gnome/gnome/gobject-introspection_git.bb b/meta/recipes-gnome/gnome/gobject-introspection_git.bb
+index 5e37255..8352384 100644
+--- a/meta/recipes-gnome/gnome/gobject-introspection_git.bb
++++ b/meta/recipes-gnome/gnome/gobject-introspection_git.bb
+@@ -1,29 +1,33 @@
+-SRC_URI = "git://git.gnome.org/gobject-introspection;protocol=git \
+-           file://configure.patch \
+-           file://pathfix.patch"
++# NOTE: WIP! This recipe does not cross-compile atm., only -native
++DEPENDS = "glib-2.0 libffi python-native gobject-introspection-native"
++DEPENDS_virtclass-native = "glib-2.0-native libffi-native python-native bison-native flex-native"
++BBCLASSEXTEND = "native"
+ 
+-SRC_URI_virtclass-native = "git://git.gnome.org/gobject-introspection;protocol=git \
+-                            file://pathfix.patch"
++SRC_URI = "git://git.gnome.org/gobject-introspection;protocol=git \
++  file://use-usr-bin-env-for-python.patch \
++"
+ 
+ LICENSE = "GPLv2+ & LGPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING.tools;md5=94d55d512a9ba36caa9b7df079bae19f \
+ 		    file://COPYING.lib;md5=3bf50002aefd002f49e7bb854063f7e7"
+ 
+-SRCREV = "efa7266bcf78478ce62e8dd778a4f0417bfd4d15"
+-PV = "0.10.8+git${SRCPV}"
+-PR = "r4"
++SRCREV = "8d64bc23d2b837421ecf9c7b0e4b8d5d95ca0d21"
++PV = "1.29.0+gitr${SRCPV}"
++DEFAULT_PREFERENCE = "-1"
+ 
+ S = "${WORKDIR}/git"
+ 
+-DEPENDS = "libffi python-native gobject-introspection-native"
+-DEPENDS_virtclass-native = "libffi-native python-native bison-native flex-native"
+-
+ inherit autotools
+ 
+-TARGET_CFLAGS += "-I${STAGING_INCDIR_NATIVE}/python2.5"
++BBCLASSEXTEND = "native"
+ 
+ do_configure_prepend () {
+-	echo "EXTRA_DIST = " > ${S}/gtk-doc.make
++        echo "EXTRA_DIST = " > ${S}/gtk-doc.make
+ }
+ 
+-BBCLASSEXTEND = "native"
++EXTRA_OECONF = "\
++  --disable-gtk-doc \
++  --disable-gtk-doc-html \
++  --disable-gtk-doc-pdf \
++  --disable-tests \
++"
+-- 
+1.7.7.1
 
-This does fix the problem we were having  but I am concerned about
-other possible behaviour changes it might happen.
-
-I think this patch ought to go but someone skilled on opkg might take
-a look at opkg code to see if this isn't a regression of lately
-changes.
-
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
 
 
