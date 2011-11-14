@@ -1,28 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RQ4cW-00031m-89
+	(envelope-from <scott.a.garman@intel.com>) id 1RQ6FP-0005bO-PS
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 Nov 2011 23:03:16 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 14 Nov 2011 13:56:53 -0800
+	Tue, 15 Nov 2011 00:47:31 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 14 Nov 2011 15:41:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,511,1315206000"; d="scan'208";a="90400786"
-Received: from unknown (HELO helios.localnet) ([10.252.121.192])
-	by fmsmga002.fm.intel.com with ESMTP; 14 Nov 2011 13:56:52 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Mon, 14 Nov 2011 21:56:51 +0000
-Message-ID: <2738365.H3cX2LU5D7@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.7.3 (Linux/3.0.0-12-generic-pae; KDE/4.7.3; i686; ; )
-In-Reply-To: <22478035-0923-402B-8617-45F140D38288@dominion.thruhere.net>
-References: <cover.1321296476.git.paul.eggleton@linux.intel.com>
-	<1321303197.26881.74.camel@ted>
-	<22478035-0923-402B-8617-45F140D38288@dominion.thruhere.net>
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] distcc: make distccmon-gnome optional and default to off
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="75483398"
+Received: from miles.jf.intel.com (HELO localhost) ([10.7.199.81])
+	by orsmga001.jf.intel.com with ESMTP; 14 Nov 2011 15:41:09 -0800
+From: Scott Garman <scott.a.garman@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Nov 2011 15:41:07 -0800
+Message-Id: <94120a3b641486ec6c9a2af720767ce77ed8c041.1321313978.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <cover.1321313978.git.scott.a.garman@intel.com>
+References: <cover.1321313978.git.scott.a.garman@intel.com>
+In-Reply-To: <cover.1321313978.git.scott.a.garman@intel.com>
+References: <cover.1321313978.git.scott.a.garman@intel.com>
+Subject: [PATCH 1/1] distro_tracking: update manual checks for various recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,33 +33,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Nov 2011 22:03:16 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 14 Nov 2011 23:47:32 -0000
 
-On Monday 14 November 2011 21:55:28 Koen Kooi wrote:
-> This patch changes the default behaviour in a way that distros need to
-> update their configs in order to keep the status quo. I know I use
-> distccmon-gnome on my boards, 
+Updating manual check dates for the following recipes: tar, libpng,
+expat, dosfstools, e2fsprogs
 
-I have to say I'm surprised, I hadn't considered the distcc UI to be 
-particularly useful in our context so I'm surprised that anyone is actually 
-using it, but everyone has their own requirements I guess.
+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+---
+ .../conf/distro/include/distro_tracking_fields.inc |    8 ++++++--
+ 1 files changed, 6 insertions(+), 2 deletions(-)
 
-> but will I remember 2 months from now that
-> this patch went in? I asked this before in a different context, but I'll
-> ask again: do you expect distro maintainers to vet each and every commit
-> that goes into OE-core to find out when default got (silently) changed?
-
-There are degrees of "silently". Given that this patch is being reviewed on 
-the mailing list I think it's anything but silent.
-
-Cheers,
-Paul
-
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index 5cd4c37..87bf5a8 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -222,6 +222,7 @@ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-expat = "17 months"
+ RECIPE_LATEST_RELEASE_DATE_pn-expat = "Jun 01, 2007"
+ RECIPE_COMMENTS_pn-expat = ""
+ RECIPE_LAST_UPDATE_pn-expat = "Jul 7, 2010"
++RECIPE_MANUAL_CHECK_DATE_pn-expat = "Nov 14, 2011"
+ RECIPE_MAINTAINER_pn-expat = "Scott Garman <scott.a.garman@intel.com>"
+ 
+ RECIPE_STATUS_pn-dbus = "green"
+@@ -255,7 +256,7 @@ RECIPE_MAINTAINER_pn-neon = "Dongxiao Xu <dongxiao.xu@intel.com>"
+ 
+ RECIPE_STATUS_pn-libpng = "green"
+ RECIPE_DEPENDENCY_CHECK_pn-libpng = "not done"
+-RECIPE_LATEST_VERSION_pn-libpng = "1.5.4"
++RECIPE_LATEST_VERSION_pn-libpng = "1.5.6"
+ RECIPE_NO_UPDATE_REASON_pn-libpng = "1.4.3 and later changes the API and breaks libmatchbox. Sticking with the 1.2.x series instead"
+ RECIPE_PATCH_pn-libpng+makefile = "by RP; 2008; to define ECHO explicitly for lbitool 2.2.2. need check whether it's still valide for new libtool. candidate for upstream"
+ RECIPE_INTEL_SECTION_pn-libpng = "base libs"
+@@ -263,6 +264,7 @@ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libpng = "unknown"
+ RECIPE_LATEST_RELEASE_DATE_pn-libpng = "Jul 01, 2011"
+ RECIPE_COMMENTS_pn-libpng = ""
+ RECIPE_LAST_UPDATE_pn-libpng = "Jul 18, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-libpng = "Nov 14, 2011"
+ RECIPE_MAINTAINER_pn-libpng = "Scott Garman <scott.a.garman@intel.com>"
+ 
+ RECIPE_STATUS_pn-libidn = "green"
+@@ -639,6 +641,7 @@ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-e2fsprogs = "2 months"
+ RECIPE_LATEST_RELEASE_DATE_pn-e2fsprogs = "May 01, 2010"
+ RECIPE_COMMENTS_pn-e2fsprogs = ""
+ RECIPE_LAST_UPDATE_pn-e2fsprogs = "Jun 1, 2010"
++RECIPE_MANUAL_CHECK_DATE_pn-e2fsprogs = "Nov 14, 2011"
+ RECIPE_MAINTAINER_pn-e2fsprogs = "Scott Garman <scott.a.garman@intel.com>"
+ 
+ RECIPE_STATUS_pn-initramfs-boot = "green"
+@@ -1190,7 +1193,7 @@ RECIPE_LATEST_VERSION_pn-dosfstools = "2.11"
+ RECIPE_LATEST_RELEASE_DATE_pn-dosfstools = "Mar 12, 2005"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-dosfstools = "15 months"
+ RECIPE_LAST_UPDATE_pn-dosfstools = "Jun 4, 2011"
+-RECIPE_MANUAL_CHECK_DATE_pn-dosfstools = "Jul 12, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-dosfstools = "Nov 14, 2011"
+ RECIPE_MAINTAINER_pn-dosfstools = "Scott Garman <scott.a.garman@intel.com>"
+ 
+ RECIPE_STATUS_pn-eee-acpi-scripts = "green"
+@@ -2052,6 +2055,7 @@ RECIPE_NO_OF_PATCHES_pn-tar = "2"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-tar = "4 months"
+ RECIPE_LATEST_RELEASE_DATE_pn-tar = "Mar 01, 2011"
+ RECIPE_LAST_UPDATE_pn-tar = "Jun 5, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-tar = "Nov 14, 2011"
+ RECIPE_MAINTAINER_pn-tar = "Scott Garman <scott.a.garman@intel.com>"
+ 
+ RECIPE_STATUS_pn-lrzsz="yellow" # patch investigation needed.
 -- 
+1.7.5.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
