@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RPoG1-0002AH-TG
+	(envelope-from <sgw@linux.intel.com>) id 1RPoG8-0002Dy-FT
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 Nov 2011 05:35:00 +0100
+	Mon, 14 Nov 2011 05:35:05 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 13 Nov 2011 20:28:17 -0800
+	by orsmga102.jf.intel.com with ESMTP; 13 Nov 2011 20:28:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="75055140"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="75055145"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.217])
-	by orsmga001.jf.intel.com with ESMTP; 13 Nov 2011 20:28:17 -0800
+	by orsmga001.jf.intel.com with ESMTP; 13 Nov 2011 20:28:19 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 13 Nov 2011 20:28:06 -0800
-Message-Id: <49c50eb105236939df6bb5456044ab95b30b48c0.1321244755.git.sgw@linux.intel.com>
+Date: Sun, 13 Nov 2011 20:28:11 -0800
+Message-Id: <62cf8336055d2efe6a1c1d5fb9fff5f7f7fef6fc.1321244755.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1321244755.git.sgw@linux.intel.com>
 References: <cover.1321244755.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1321244755.git.sgw@linux.intel.com>
 References: <cover.1321244755.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 16/21] directfb: update to 1.4.15
+Subject: [CONSOLIDATED PULL 21/21] distro_tracking: Refect Recipe Updates & Status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,116 +35,163 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 14 Nov 2011 04:35:05 -0000
 
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+ * libnl    - NO_UPDATE_REASON due to incompatibility
+ * zlib     - has wrong version in update list (121)
+ * libtasn1 - Update to 2.10
+ * pkgconfig - NO_UPDATE_REASON due to removal of glib-conf
+ * file     - update to 5.09
+ * dchp     - New version is 4.2.3, not updated yet.
+ * tiff     - NO_UPDATE_REASON wait until 4.0.0
+ * gobject-interopsectio - NO_UPDATE_REASON can not cross-build
+ * gnu-config  - Udpate to git HEAD - requires ASSUME_PROVIDED += "git-native"
 
-The newest version for directfb is 1.5.3 but it's instruction set base on armv6.
-The current qemuarm don't have some instructions for armv6 because some codes of \
-the new version of directfb more than 1.5 are realized with assemble language,for example the lock. \
-I update this recipe to 1.4.15 for directfb running more platform.
-
-Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../{directfb_1.4.12.bb => directfb_1.4.15.bb}     |    9 ++++-
- .../directfb-1.2.x-fix-pkgconfig-cflags.patch      |   36 +++++++++----------
- 2 files changed, 24 insertions(+), 21 deletions(-)
- rename meta/recipes-graphics/directfb/{directfb_1.4.12.bb => directfb_1.4.15.bb} (63%)
+ .../conf/distro/include/distro_tracking_fields.inc |   49 ++++++++++----------
+ 1 files changed, 25 insertions(+), 24 deletions(-)
 
-diff --git a/meta/recipes-graphics/directfb/directfb_1.4.12.bb b/meta/recipes-graphics/directfb/directfb_1.4.15.bb
-similarity index 63%
-rename from meta/recipes-graphics/directfb/directfb_1.4.12.bb
-rename to meta/recipes-graphics/directfb/directfb_1.4.15.bb
-index 4e8203b..71c0876 100644
---- a/meta/recipes-graphics/directfb/directfb_1.4.12.bb
-+++ b/meta/recipes-graphics/directfb/directfb_1.4.15.bb
-@@ -1,10 +1,15 @@
- require directfb.inc
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index 5cd4c37..efe59ff 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -382,6 +382,7 @@ RECIPE_MAINTAINER_pn-libnl = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_LATEST_VERSION_pn-libnl = "2.0"
+ RECIPE_INTEL_SECTION_pn-libnl = "base libs"
+ RECIPE_LATEST_RELEASE_DATE_pn-libnl = "Oct 01, 2010"
++RECIPE_NO_UPDATE_REASON_pn-libnl = "libnl-3.2.2 is incompatible with libnl2, so no Upgrade"
  
--RV = "1.4-5"
-+RV = "1.4-6"
- PR = "r0"
+ RECIPE_STATUS_pn-zlib = "yellow"  # local config scripts
+ RECIPE_LAST_UPDATE_pn-zlib = "Jun 11, 2010"
+@@ -394,6 +395,7 @@ RECIPE_INTEL_SECTION_pn-zlib = "base libs"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-zlib = "3 months"
+ RECIPE_LATEST_RELEASE_DATE_pn-zlib = "Mar 01, 2010"
+ RECIPE_COMMENTS_pn-zlib = "rconflicts: libxml2 (< 2.7.7) (rbreaks)"
++RECIPE_NO_UPDATE_REASON_pn-zlib = "zlib-1.2.5 is latest, version parser reports 121 in error"
  
- DEPENDS += "sysfsutils"
+ RECIPE_STATUS_pn-libxml2 = "yellow"
+ RECIPE_LAST_UPDATE_pn-libxml2 = "Jun 18, 2010"
+@@ -452,15 +454,15 @@ RECIPE_INTEL_SECTION_pn-lzo = "base libs"
+ RECIPE_LATEST_RELEASE_DATE_pn-lzo = "Oct 01, 2010"
  
-+SRC_URI = " \
-+    http://directfb.org/downloads/Core/DirectFB-1.4/DirectFB-${PV}.tar.gz \
-+    file://directfb-1.2.x-fix-pkgconfig-cflags.patch \
-+    "
+ RECIPE_STATUS_pn-libtasn1 = "green"
+-RECIPE_LAST_UPDATE_pn-libtasn1 = "Dec 06, 2010"
++RECIPE_LATEST_VERSION_pn-libtasn1 = "2.10"
++RECIPE_LATEST_RELEASE_DATE_pn-libtasn1 = "Oct 25, 2011"
++RECIPE_LAST_UPDATE_pn-libtasn1 = "Nov 08, 2011"
+ RECIPE_MAINTAINER_pn-libtasn1 = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_DEPENDENCY_CHECK_pn-libtasn1 = "not done"
+-RECIPE_LATEST_VERSION_pn-libtasn1 = "2.9"
+ RECIPE_INTEL_SECTION_pn-libtasn1 = "base libs"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libtasn1 = "1 month"
+-RECIPE_LATEST_RELEASE_DATE_pn-libtasn1 = "Dec 06, 2010"
+ RECIPE_COMMENTS_pn-libtasn1 = ""
+-RECIPE_MANUAL_CHECK_DATE_pn-libtasn1 = "Sep 27, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-libtasn1 = "Nov 08, 2011"
+ 
+ RECIPE_STATUS_pn-openssl = "green"
+ RECIPE_LAST_UPDATE_pn-openssl = "Nov 17, 2010"
+@@ -1321,13 +1323,7 @@ RECIPE_LATEST_RELEASE_DATE_pn-boost = "Jul 12, 2011"
+ RECIPE_LAST_UPDATE_pn-boost = "Aug 19, 2010"
+ RECIPE_MANUAL_CHECK_DATE_pn-boost = "Nov 08, 2011"
+ RECIPE_MAINTAINER_pn-boost = "Saul Wold <sgw@linux.intel.com>"
+-
+-RECIPE_STATUS_pn-boost-jam-native = "green"
+-RECIPE_LATEST_VERSION_pn-boost-jam-native = "3.1.18"
+-RECIPE_LATEST_RELEASE_DATE_pn-boost-jam-native = "Mar 22, 2011"
+-RECIPE_LAST_UPDATE_pn-boost-jam-native = "Aug 19, 2010"
+-RECIPE_MANUAL_CHECK_DATE_pn-boost-jam-native = "Nov 08, 2011"
+-RECIPE_MAINTAINER_pn-boost-jam-native = "Saul Wold <sgw@linux.intel.com>"
++RECIPE_COMMENTS_pn-boost-jam-native = "Renamed to boost-native"
+ 
+ RECIPE_STATUS_pn-libfribidi = "red"
+ DISTRO_PN_ALIAS_pn-libfribidi = "OpenSuSE=fribidi Ubuntu=fribidi Mandriva=fribidi Debian=fribidi"
+@@ -1504,14 +1500,15 @@ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-elfutils="1 month"
+ RECIPE_LATEST_RELEASE_DATE_pn-elfutils="Jun 01, 2010"
+ 
+ RECIPE_STATUS_pn-pkgconfig = "green"
++RECIPE_LATEST_VERSION_pn-pkgconfig = "0.26"
++RECIPE_LATEST_RELEASE_DATE_pn-pkgconfig = "May 15, 2011"
+ RECIPE_LAST_UPDATE_pn-pkgconfig = "Jul 13, 2010"
+ RECIPE_MAINTAINER_pn-pkgconfig = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_DEPENDENCY_CHECK_pn-pkgconfig = "not done"
+-RECIPE_LATEST_VERSION_pn-pkgconfig = "0.25"
+ RECIPE_INTEL_SECTION_pn-pkgconfig = "base utils"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-pkgconfig = "n/a"
+-RECIPE_LATEST_RELEASE_DATE_pn-pkgconfig = "May 01, 2010"
+-RECIPE_COMMENTS_pn-pkgconfig = "git as candidate, 0.23: Jan 01, 2008, 0.24: 05/2010, 0.25: 05/2010"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-pkgconfig = "1 year"
++RECIPE_COMMENTS_pn-pkgconfig = ""
++RECIPE_NO_UPDATE_REASON_pn-pkgconfig = "0.26 removes glib-conf, adds circular depends"
+ 
+ RECIPE_STATUS_pn-less = "green"
+ RECIPE_LAST_UPDATE_pn-less = "May 24, 2011"
+@@ -1548,17 +1545,17 @@ RECIPE_LATEST_RELEASE_DATE_pn-findutils = "Jun 01, 2009"
+ RECIPE_COMMENTS_pn-findutils = ""
+ 
+ RECIPE_STATUS_pn-file = "green"
++RECIPE_LATEST_VERSION_pn-file = "5.09"
++RECIPE_LATEST_RELEASE_DATE_pn-file = "Sep 16, 2011"
+ RECIPE_LAST_UPDATE_pn-file = "Jul 12, 2011"
+ RECIPE_MAINTAINER_pn-file = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_DEPENDENCY_CHECK_pn-file = "done"
+-RECIPE_LATEST_VERSION_pn-file = "5.09"
+ RECIPE_PATCH_pn-file+dump = "some new magic data"
+ RECIPE_PATCH_pn-file+filesystems = "some other new magic data"
+ RECIPE_INTEL_SECTION_pn-file = "base utils"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-file = "1-3 months"
+-RECIPE_LATEST_RELEASE_DATE_pn-file = "Sep 16, 2011"
+ RECIPE_COMMENTS_pn-file = "2-clause BSD"
+-RECIPE_MANUAL_CHECK_DATE_pn-file = "Sep 27, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-file = "Nov 08, 2011"
+ 
+ RECIPE_STATUS_pn-rsync = "green"
+ RECIPE_LAST_UPDATE_pn-rsync = "Jul 6, 2010"
+@@ -1690,9 +1687,9 @@ RECIPE_LATEST_RELEASE_DATE_pn-strace = "Apr 01, 2010"
+ RECIPE_COMMENTS_pn-strace = "3-clause BSD"
+ 
+ RECIPE_STATUS_pn-dhcp = "green"
++RECIPE_LATEST_VERSION_pn-dhcp = "4.2.3
++RECIPE_LATEST_RELEASE_DATE_pn-dhcp = "Oct 19, 2011
+ RECIPE_LAST_UPDATE_pn-dhcp = "Sep 28, 2011"
+-RECIPE_LATEST_VERSION_pn-dhcp = "4.2.2
+-RECIPE_LATEST_RELEASE_DATE_pn-dhcp = "Aug 10, 2011
+ RECIPE_MAINTAINER_pn-dhcp = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_INTEL_SECTION_pn-dhcp = "base utils"
+ RECIPE_COMMENTS_pn-dhcp = "several major release, others are 3.1.3, 4.0.2-P1, need to identify"
+@@ -1929,6 +1926,7 @@ RECIPE_LATEST_VERSION_pn-tiff = "3.9.5"
+ RECIPE_LAST_UPDATE_pn-tiff = "Jul 12, 2011"
+ RECIPE_MAINTAINER_pn-tiff = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_MANUAL_CHECK_DATE_pn-tiff = "Jul 12, 2011"
++RECIPE_NO_UPDATE_REASON_pn-tiff = "Wait until 4.0.0 releases"
+ 
+ RECIPE_STATUS_pn-libexif = "green"
+ RECIPE_LATEST_VERSION_pn-libexif = "0.6.20"
+@@ -3106,10 +3104,10 @@ RECIPE_LATEST_VERSION_pn-unifdef="2.6.18+git"
+ RECIPE_MAINTAINER_pn-unifdef = "Nitin A Kamble <nitin.a.kamble@intel.com>"
+ 
+ RECIPE_STATUS_pn-gnu-config="green" 
+-RECIPE_LATEST_VERSION_pn-gnu-config="svn"
++RECIPE_LATEST_VERSION_pn-gnu-config="git"
+ DISTRO_PN_ALIAS_pn-gnu-config = "OpenedHand"
+-RECIPE_LAST_UPDATE_pn-gnu-config = "Jun 21, 2010"
+-RECIPE_MANUAL_CHECK_DATE_pn-gnu-config = "Oct 18, 2011" 
++RECIPE_LAST_UPDATE_pn-gnu-config = "Nov 08, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-gnu-config = "Nov 08, 2011"
+ RECIPE_MAINTAINER_pn-gnu-config = "Nitin A Kamble <nitin.a.kamble@intel.com>"
+ 
+ RECIPE_STATUS_pn-mpfr="green"
+@@ -5137,7 +5135,10 @@ RECIPE_NO_OF_PATCHES_pn-gobject-introspection = "3"
+ RECIPE_INTEL_SECTION_pn-gobject-introspection = "graphic UX"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-gobject-introspection = "1 months"
+ RECIPE_LATEST_RELEASE_DATE_pn-gobject-introspection = "Sep 01, 2010"
+-RECIPE_COMMENTS_pn-gobject-introspection = ""
++RECIPE_COMMENTS_pn-gobject-introspection = "m4 files are used but upstream source is not cross-compile-able"
++RECIPE_NO_UPDATE_REASON_pn-gobject_introspection = "Does not cross-compile"
++RECIPE_MAINTAINER_pn-gobject-introspection = "Kai Kang <kai.kang@windriver.org>"
 +
- EXTRA_OECONF = "\
-   --enable-freetype=yes \
-   --enable-zlib \
-@@ -14,7 +19,7 @@ EXTRA_OECONF = "\
-   --disable-x11 \
- "
+ RECIPE_LAST_UPDATE_pn-gnome-common = "Jul 7, 2010"
+ RECIPE_MAINTAINER_pn-gnome-common = "Zhai Edwin <edwin.zhai@intel.com>"
  
--LEAD_SONAME = "libdirectfb-1.4.so.5"
-+LEAD_SONAME = "libdirectfb-1.4.so.6"
- 
- SRC_URI[md5sum] = "2c779c9a8456790c6c29ad85459b2600"
- SRC_URI[sha256sum] = "b119ab9c5c0c505c23e32d41ae54bd04cb474c5e58900ec0f1cf9482f892f9b2"
-diff --git a/meta/recipes-graphics/directfb/files/directfb-1.2.x-fix-pkgconfig-cflags.patch b/meta/recipes-graphics/directfb/files/directfb-1.2.x-fix-pkgconfig-cflags.patch
-index 274ad50..ee60718 100644
---- a/meta/recipes-graphics/directfb/files/directfb-1.2.x-fix-pkgconfig-cflags.patch
-+++ b/meta/recipes-graphics/directfb/files/directfb-1.2.x-fix-pkgconfig-cflags.patch
-@@ -1,9 +1,11 @@
-+directfb: Get this patch from Openembedded
-+
- Upstream-Status: Inappropriate [configuration]
-+Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
- 
--Index: DirectFB-1.4.11/directfb-internal.pc.in
--===================================================================
----- DirectFB-1.4.11.orig/directfb-internal.pc.in	2010-10-08 05:43:46.000000000 -0700
--+++ DirectFB-1.4.11/directfb-internal.pc.in	2011-04-06 13:48:23.120923997 -0700
-+diff -Nur DirectFB-1.4.15/directfb-internal.pc.in DirectFB-1.4.15.new//directfb-internal.pc.in
-+--- DirectFB-1.4.15/directfb-internal.pc.in	2011-09-29 17:51:21.000000000 +0800
-++++ DirectFB-1.4.15.new//directfb-internal.pc.in	2011-11-03 15:14:37.000000000 +0800
- @@ -2,10 +2,10 @@
-  exec_prefix=@exec_prefix@
-  moduledir=@MODULEDIR@
-@@ -17,31 +19,27 @@ Index: DirectFB-1.4.11/directfb-internal.pc.in
-  Requires: directfb = @VERSION@
- -Cflags: @DFB_INTERNAL_CFLAGS@ -I@INTERNALINCLUDEDIR@
- +Cflags: @DFB_INTERNAL_CFLAGS@ -I${includedir}/directfb -I${includedir}
--Index: DirectFB-1.4.11/directfb.pc.in
--===================================================================
----- DirectFB-1.4.11.orig/directfb.pc.in	2010-11-15 13:13:59.000000000 -0800
--+++ DirectFB-1.4.11/directfb.pc.in	2011-04-06 14:09:33.528923998 -0700
--@@ -9,4 +9,5 @@
-+diff -Nur DirectFB-1.4.15/directfb.pc.in DirectFB-1.4.15.new//directfb.pc.in
-+--- DirectFB-1.4.15/directfb.pc.in	2011-09-29 17:51:21.000000000 +0800
-++++ DirectFB-1.4.15.new//directfb.pc.in	2011-11-03 15:15:55.000000000 +0800
-+@@ -9,4 +9,4 @@
-  Requires: @DEP_VOODOO@ fusion direct
-  Libs: -L${libdir} -ldirectfb @THREADLIB@ @OSX_LIBS@
-- Libs.private: -L${libdir} @MEDIALIB@ @DYNLIB@ @ZLIB_LIBS@
-+ Libs.private: -L${libdir} @LIBM@ @DYNLIB@ @ZLIB_LIBS@
- -Cflags: @THREADFLAGS@ -I@INCLUDEDIR@
- +Cflags: @THREADFLAGS@ -I${includedir}/directfb
--+
--Index: DirectFB-1.4.11/lib/fusion/fusion.pc.in
--===================================================================
----- DirectFB-1.4.11.orig/lib/fusion/fusion.pc.in	2010-10-08 05:43:46.000000000 -0700
--+++ DirectFB-1.4.11/lib/fusion/fusion.pc.in	2011-04-06 13:48:23.120923997 -0700
-+diff -Nur DirectFB-1.4.15/lib/fusion/fusion.pc.in DirectFB-1.4.15.new//lib/fusion/fusion.pc.in
-+--- DirectFB-1.4.15/lib/fusion/fusion.pc.in	2011-09-29 17:51:21.000000000 +0800
-++++ DirectFB-1.4.15.new//lib/fusion/fusion.pc.in	2011-11-03 15:16:46.000000000 +0800
- @@ -8,4 +8,4 @@
-  Version: @VERSION@
-  Requires: direct
-  Libs: -L${libdir} -lfusion
- -Cflags: -I@INCLUDEDIR@
- +Cflags: -I${includedir}/directfb -I${includedir}
--Index: DirectFB-1.4.11/lib/voodoo/voodoo.pc.in
--===================================================================
----- DirectFB-1.4.11.orig/lib/voodoo/voodoo.pc.in	2010-10-08 05:43:46.000000000 -0700
--+++ DirectFB-1.4.11/lib/voodoo/voodoo.pc.in	2011-04-06 13:48:23.120923997 -0700
-+diff -Nur DirectFB-1.4.15/lib/voodoo/voodoo.pc.in DirectFB-1.4.15.new//lib/voodoo/voodoo.pc.in
-+--- DirectFB-1.4.15/lib/voodoo/voodoo.pc.in	2011-09-29 17:51:21.000000000 +0800
-++++ DirectFB-1.4.15.new//lib/voodoo/voodoo.pc.in	2011-11-03 15:17:34.000000000 +0800
- @@ -8,4 +8,4 @@
-  Version: @VERSION@
-  Requires: direct
 -- 
 1.7.6.4
 
