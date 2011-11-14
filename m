@@ -1,20 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RPoFe-00022z-OI
+	(envelope-from <sgw@linux.intel.com>) id 1RPoFf-00022z-NL
 	for openembedded-core@lists.openembedded.org;
 	Mon, 14 Nov 2011 05:34:35 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 13 Nov 2011 20:28:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="75055109"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="75055112"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.217])
-	by orsmga001.jf.intel.com with ESMTP; 13 Nov 2011 20:28:12 -0800
+	by orsmga001.jf.intel.com with ESMTP; 13 Nov 2011 20:28:13 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 13 Nov 2011 20:27:50 -0800
-Message-Id: <cover.1321244755.git.sgw@linux.intel.com>
+Date: Sun, 13 Nov 2011 20:27:51 -0800
+Message-Id: <571b1f97de9d4b314cb84fec96dde1cb365c4219.1321244755.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
-Subject: [CONSOLIDATED PULL 00/21] Updates and Fixes
+In-Reply-To: <cover.1321244755.git.sgw@linux.intel.com>
+References: <cover.1321244755.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1321244755.git.sgw@linux.intel.com>
+References: <cover.1321244755.git.sgw@linux.intel.com>
+Subject: [CONSOLIDATED PULL 01/21] dhcp: generate initial leases files for server
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,109 +35,64 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 14 Nov 2011 04:34:35 -0000
 
-Richard,
+From: Otavio Salvador <otavio@ossystems.com.br>
 
-This set has been build tested and reviewed.  I did have to update
-bitbake.conf for both then gnu-config and base.bblcass changes to 
-modify ASSUME_PROVIDED, please review this.
+If not using the init script it fails as the leases are created by it.
+When used with systemd, this fails without the leases thus this allows
+it to work out of box.
 
-Thanks
-	Sau!
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 
-The following changes since commit a8ed4fcd79f6283c1d45f347dce894d784183900:
+Added commit meesage from Otavio's email
 
-  xinit: rdepends on util-linux-mcookie to avoid brining whole util-linux (2011-11-11 11:00:56 +0000)
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-connectivity/dhcp/dhcp.inc      |    9 ++++++++-
+ meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb |    2 +-
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-
-Martin Jansa (13):
-  libatomics-ops: force ARM mode
-  pulseaudio-0.9.23: force ARM mode
-  aspell: force ARM mode
-  webkit-gtk: force arm mode to work around binutils segfault
-  subversion: add 1.7.0 with native support and negative D_P for now
-  base.bbclass: add subversion-native to DEPENDS if there is svn:// in
-    SRC_URI
-  time: rename files dir to time-1.7 for faster lookup
-  time: drop default S and 2 useless comments
-  time: use u-a for time, conflicts with busybox
-  util-linux: use u-a for flock and blockdev, conflicts with busybox
-  util-linux: add missing u-a calls for setsid chrt
-  util-linux: bump PR after u-a changes
-  kbd: use u-a for chvt, deallocvt, fgconssole, openvt, conflicts with
-    busybox
-
-Otavio Salvador (1):
-  dhcp: generate initial leases files for server
-
-Saul Wold (5):
-  file: update to 5.09
-  gnu-config: update to git HEAD
-  boost: Update to 1.47.0 & Cleanup
-  bitbake.conf: Update ASSUME_PROVIDED
-  distro_tracking: Refect Recipe Updates & Status
-
-Simon Busch (1):
-  qt4-x11-free: bring back pkg-config fixups
-
-Xiaofeng Yan (1):
-  directfb: update to 1.4.15
-
- meta/classes/base.bbclass                          |    8 +-
- meta/conf/bitbake.conf                             |    7 +-
- .../conf/distro/include/distro_tracking_fields.inc |   49 ++--
- meta/recipes-connectivity/dhcp/dhcp.inc            |    9 +-
- meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb       |    2 +-
- meta/recipes-core/kbd/kbd_1.15.2.bb                |   29 ++-
- meta/recipes-core/util-linux/util-linux.inc        |   14 +-
- meta/recipes-core/util-linux/util-linux_2.19.1.bb  |    2 +-
- .../file/file/fix_version_check.patch              |   21 ++
- .../file/{file_5.04.bb => file_5.09.bb}            |    9 +-
- .../gnu-config/config-guess-uclibc.patch           |  145 +++++------
- .../{gnu-config_20080123.bb => gnu-config_git.bb}  |   15 +-
- .../subversion/subversion-1.7.0/libtool2.patch     |   15 ++
- .../subversion/subversion_1.7.0.bb                 |   37 +++
- .../time/{files => time-1.7}/debian.patch          |    0
- meta/recipes-extended/time/time.inc                |   10 +
- meta/recipes-extended/time/time_1.7.bb             |    5 +-
- .../{directfb_1.4.12.bb => directfb_1.4.15.bb}     |    9 +-
- .../directfb-1.2.x-fix-pkgconfig-cflags.patch      |   36 ++--
- .../pulseaudio/libatomics-ops_1.2.bb               |    2 +-
- .../pulseaudio/pulseaudio_0.9.23.bb                |    2 +-
- meta/recipes-qt/qt4/qt4-x11-free.inc               |   16 ++-
- meta/recipes-sato/webkit/webkit-gtk_svn.bb         |    2 +-
- meta/recipes-support/aspell/aspell_0.60.6.1.bb     |    2 +-
- meta/recipes-support/boost/boost-jam-native.inc    |   32 ---
- .../boost/boost-jam-native_3.1.18.bb               |    8 -
- .../boost/{boost-36.inc => boost.inc}              |   42 +++-
- .../boost/{boost_1.44.0.bb => boost_1.47.0.bb}     |   13 +-
- .../recipes-support/boost/files/1.34.1-gcc43.patch |  226 -----------------
- .../boost/files/atomic_count_gcc_atomicity.patch   |   15 --
- meta/recipes-support/boost/files/gcc41.patch       |   16 --
- meta/recipes-support/boost/files/gcc43.patch       |  258 --------------------
- .../recipes-support/boost/files/linux-uclibc.patch |   12 -
- .../boost/files/unit_test_log10f.patch             |   22 --
- 34 files changed, 333 insertions(+), 757 deletions(-)
- create mode 100644 meta/recipes-devtools/file/file/fix_version_check.patch
- rename meta/recipes-devtools/file/{file_5.04.bb => file_5.09.bb} (79%)
- rename meta/recipes-devtools/gnu-config/{gnu-config_20080123.bb => gnu-config_git.bb} (73%)
- create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.0/libtool2.patch
- create mode 100644 meta/recipes-devtools/subversion/subversion_1.7.0.bb
- rename meta/recipes-extended/time/{files => time-1.7}/debian.patch (100%)
- rename meta/recipes-graphics/directfb/{directfb_1.4.12.bb => directfb_1.4.15.bb} (63%)
- delete mode 100644 meta/recipes-support/boost/boost-jam-native.inc
- delete mode 100644 meta/recipes-support/boost/boost-jam-native_3.1.18.bb
- rename meta/recipes-support/boost/{boost-36.inc => boost.inc} (88%)
- rename meta/recipes-support/boost/{boost_1.44.0.bb => boost_1.47.0.bb} (66%)
- delete mode 100644 meta/recipes-support/boost/files/1.34.1-gcc43.patch
- delete mode 100644 meta/recipes-support/boost/files/atomic_count_gcc_atomicity.patch
- delete mode 100644 meta/recipes-support/boost/files/gcc41.patch
- delete mode 100644 meta/recipes-support/boost/files/gcc43.patch
- delete mode 100644 meta/recipes-support/boost/files/linux-uclibc.patch
- delete mode 100644 meta/recipes-support/boost/files/unit_test_log10f.patch
-
+diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc b/meta/recipes-connectivity/dhcp/dhcp.inc
+index 1cc529d..f9d80e7 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp.inc
++++ b/meta/recipes-connectivity/dhcp/dhcp.inc
+@@ -51,13 +51,15 @@ do_install_append () {
+ 		mv ${D}${sbindir}/dhclient ${D}${base_sbindir}/
+ 	fi
+ 	install -m 0755 ${S}/client/scripts/linux ${D}${base_sbindir}/dhclient-script
++
++	install -d ${D}${localstatedir}/lib/dhcp/
+ }
+ 
+ PACKAGES += "dhcp-server dhcp-server-config dhcp-client dhcp-relay dhcp-omshell"
+ 
+ FILES_${PN} = ""
+ 
+-FILES_dhcp-server = "${sbindir}/dhcpd ${sysconfdir}/init.d/dhcp-server"
++FILES_dhcp-server = "${sbindir}/dhcpd ${sysconfdir}/init.d/dhcp-server ${localstatedir}/lib/dhcp/"
+ RRECOMMENDS_dhcp-server = "dhcp-server-config"
+ 
+ FILES_dhcp-server-config = "${sysconfdir}/default/dhcp-server ${sysconfdir}/dhcp/dhcpd.conf"
+@@ -68,3 +70,8 @@ FILES_dhcp-client = "${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${
+ RDEPENDS_dhcp-client = "bash"
+ 
+ FILES_dhcp-omshell = "${bindir}/omshell"
++
++pkg_postinst_dhcp-server() {
++    touch $D/${localstatedir}/lib/dhcp/dhcpd.leases
++    touch $D/${localstatedir}/lib/dhcp/dhcpd6.leases
++}
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb b/meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb
+index 8ed7d76..2471d61 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.2.0.bb
+@@ -1,6 +1,6 @@
+ require dhcp.inc
+ 
+-PR = "r3"
++PR = "r4"
+ 
+ SRC_URI += "file://fixincludes.patch \
+             file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
 -- 
 1.7.6.4
 
