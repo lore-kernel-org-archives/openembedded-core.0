@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RPoG3-0002D5-EV
+	(envelope-from <sgw@linux.intel.com>) id 1RPoG1-0002AH-TG
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 Nov 2011 05:35:01 +0100
+	Mon, 14 Nov 2011 05:35:00 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 13 Nov 2011 20:28:18 -0800
+	by orsmga102.jf.intel.com with ESMTP; 13 Nov 2011 20:28:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="75055142"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="75055140"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.217])
-	by orsmga001.jf.intel.com with ESMTP; 13 Nov 2011 20:28:18 -0800
+	by orsmga001.jf.intel.com with ESMTP; 13 Nov 2011 20:28:17 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 13 Nov 2011 20:28:08 -0800
-Message-Id: <e963c0ceb70813edb2eb8527506acac3549155ec.1321244755.git.sgw@linux.intel.com>
+Date: Sun, 13 Nov 2011 20:28:06 -0800
+Message-Id: <49c50eb105236939df6bb5456044ab95b30b48c0.1321244755.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1321244755.git.sgw@linux.intel.com>
 References: <cover.1321244755.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1321244755.git.sgw@linux.intel.com>
 References: <cover.1321244755.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 18/21] gnu-config: update to git HEAD
+Subject: [CONSOLIDATED PULL 16/21] directfb: update to 1.4.15
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,274 +35,116 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 14 Nov 2011 04:35:05 -0000
 
-Licence has update timestamp and Copyright year.
-This change needs a coresponding change to ASSUME_PROVIDED
-to add git-native
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+The newest version for directfb is 1.5.3 but it's instruction set base on armv6.
+The current qemuarm don't have some instructions for armv6 because some codes of \
+the new version of directfb more than 1.5 are realized with assemble language,for example the lock. \
+I update this recipe to 1.4.15 for directfb running more platform.
+
+Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 ---
- .../gnu-config/config-guess-uclibc.patch           |  145 +++++++++-----------
- .../{gnu-config_20080123.bb => gnu-config_git.bb}  |   15 +-
- 2 files changed, 75 insertions(+), 85 deletions(-)
- rename meta/recipes-devtools/gnu-config/{gnu-config_20080123.bb => gnu-config_git.bb} (73%)
+ .../{directfb_1.4.12.bb => directfb_1.4.15.bb}     |    9 ++++-
+ .../directfb-1.2.x-fix-pkgconfig-cflags.patch      |   36 +++++++++----------
+ 2 files changed, 24 insertions(+), 21 deletions(-)
+ rename meta/recipes-graphics/directfb/{directfb_1.4.12.bb => directfb_1.4.15.bb} (63%)
 
-diff --git a/meta/recipes-devtools/gnu-config/gnu-config/config-guess-uclibc.patch b/meta/recipes-devtools/gnu-config/gnu-config/config-guess-uclibc.patch
-index f862c83..dc15d91 100644
---- a/meta/recipes-devtools/gnu-config/gnu-config/config-guess-uclibc.patch
-+++ b/meta/recipes-devtools/gnu-config/gnu-config/config-guess-uclibc.patch
-@@ -4,12 +4,14 @@ Patch courtesy gentoo-portage/sys-devel/gnuconfig/files/automake-1.8.5-config-gu
+diff --git a/meta/recipes-graphics/directfb/directfb_1.4.12.bb b/meta/recipes-graphics/directfb/directfb_1.4.15.bb
+similarity index 63%
+rename from meta/recipes-graphics/directfb/directfb_1.4.12.bb
+rename to meta/recipes-graphics/directfb/directfb_1.4.15.bb
+index 4e8203b..71c0876 100644
+--- a/meta/recipes-graphics/directfb/directfb_1.4.12.bb
++++ b/meta/recipes-graphics/directfb/directfb_1.4.15.bb
+@@ -1,10 +1,15 @@
+ require directfb.inc
  
- updated to 20050516 by Marcin 'Hrw' Juszkiewicz (by hand)
- updated to 20080123 by Nitin A Kamble (by hand)
-+updated to 20111001 by Saul Wold (by hand)
-+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+-RV = "1.4-5"
++RV = "1.4-6"
+ PR = "r0"
  
--Index: config/config.guess
-+Index: git/config.guess
- ===================================================================
----- config.orig/config.guess
--+++ config/config.guess
--@@ -139,6 +139,19 @@ UNAME_RELEASE=`(uname -r) 2>/dev/null` |
-+--- git.orig/config.guess	2011-10-20 15:15:25.000000000 -0700
-++++ git/config.guess	2011-10-20 16:56:43.810830229 -0700
-+@@ -140,6 +140,19 @@
-  UNAME_SYSTEM=`(uname -s) 2>/dev/null`  || UNAME_SYSTEM=unknown
-  UNAME_VERSION=`(uname -v) 2>/dev/null` || UNAME_VERSION=unknown
-  
-@@ -29,14 +31,26 @@ Index: config/config.guess
-  # Note: order is significant - the case branches are not exclusive.
-  
-  case "${UNAME_MACHINE}:${UNAME_SYSTEM}:${UNAME_RELEASE}:${UNAME_VERSION}" in
--@@ -840,13 +853,13 @@ EOF
-+@@ -871,15 +884,15 @@
-+ 	  EV68*) UNAME_MACHINE=alphaev68 ;;
-+ 	esac
-+ 	objdump --private-headers /bin/sh | grep -q ld.so.1
-+-	if test "$?" = 0 ; then LIBC="libc1" ; else LIBC="" ; fi
-+-	echo ${UNAME_MACHINE}-unknown-linux-gnu${LIBC}
-++	if test "$?" = 0 ; then LIBC="gnulibc1" ; else LIBC="" ; fi
-++	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
-+ 	exit ;;
-+     arm*:Linux:*:*)
-+ 	eval $set_cc_for_build
-  	if echo __ARM_EABI__ | $CC_FOR_BUILD -E - 2>/dev/null \
-  	    | grep -q __ARM_EABI__
-  	then
- -	    echo ${UNAME_MACHINE}-unknown-linux-gnu
- +	    echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
-  	else
-- 	    echo ${UNAME_MACHINE}-unknown-linux-gnueabi
-+ 	    if echo __ARM_PCS_VFP | $CC_FOR_BUILD -E - 2>/dev/null \
-+ 		| grep -q __ARM_PCS_VFP
-+@@ -891,19 +904,19 @@
-  	fi
-  	exit ;;
-      avr32*:Linux:*:*)
-@@ -44,13 +58,25 @@ Index: config/config.guess
- +	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
-  	exit ;;
-      cris:Linux:*:*)
-- 	echo cris-axis-linux-gnu
--@@ -855,16 +868,16 @@ EOF
-- 	echo crisv32-axis-linux-gnu
-+-	echo cris-axis-linux-gnu
-++	echo cris-axis-linux-${LIBC}
-+ 	exit ;;
-+     crisv32:Linux:*:*)
-+-	echo crisv32-axis-linux-gnu
-++	echo crisv32-axis-linux-${LIBC}
-  	exit ;;
-      frv:Linux:*:*)
---    	echo frv-unknown-linux-gnu
--+    	echo frv-unknown-linux-${LIBC}
-+-	echo frv-unknown-linux-gnu
-++	echo frv-unknown-linux-${LIBC}
-+ 	exit ;;
-+     hexagon:Linux:*:*)
-+-	echo hexagon-unknown-linux-gnu
-++	echo hexagon-unknown-linux-${LIBC}
-+ 	exit ;;
-+     i*86:Linux:*:*)
-+ 	LIBC=gnu
-+@@ -917,13 +930,13 @@
-+ 	echo "${UNAME_MACHINE}-pc-linux-${LIBC}"
-  	exit ;;
-      ia64:Linux:*:*)
- -	echo ${UNAME_MACHINE}-unknown-linux-gnu
-@@ -64,21 +90,12 @@ Index: config/config.guess
- -	echo ${UNAME_MACHINE}-unknown-linux-gnu
- +	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
-  	exit ;;
--     mips:Linux:*:*)
-+     mips:Linux:*:* | mips64:Linux:*:*)
-  	eval $set_cc_for_build
--@@ -887,7 +900,7 @@ EOF
-- 		s: ::g
-- 		p
-- 	    }'`"
---	test x"${CPU}" != x && { echo "${CPU}-unknown-linux-gnu"; exit; }
--+	test x"${CPU}" != x && { echo "${CPU}-unknown-linux-${LIBC}"; exit; }
-- 	;;
--     mips64:Linux:*:*)
-- 	eval $set_cc_for_build
--@@ -910,16 +923,16 @@ EOF
-- 		s: ::g
-- 		p
-- 	    }'`"
-+@@ -942,54 +955,54 @@
-+ 	#endif
-+ EOF
-+ 	eval `$CC_FOR_BUILD -E $dummy.c 2>/dev/null | grep '^CPU'`
- -	test x"${CPU}" != x && { echo "${CPU}-unknown-linux-gnu"; exit; }
- +	test x"${CPU}" != x && { echo "${CPU}-unknown-linux-${LIBC}"; exit; }
-  	;;
-@@ -86,24 +103,13 @@ Index: config/config.guess
- -	echo or32-unknown-linux-gnu
- +	echo or32-unknown-linux-${LIBC}
-  	exit ;;
--     ppc:Linux:*:*)
---	echo powerpc-unknown-linux-gnu
--+	echo powerpc-unknown-linux-${LIBC}
-- 	exit ;;
--     ppc64:Linux:*:*)
---	echo powerpc64-unknown-linux-gnu
--+	echo powerpc64-unknown-linux-${LIBC}
-+     padre:Linux:*:*)
-+-	echo sparc-unknown-linux-gnu
-++	echo sparc-unknown-linux-${LIBC}
-  	exit ;;
--     alpha:Linux:*:*)
-- 	case `sed -n '/^cpu model/s/^.*: \(.*\)/\1/p' < /proc/cpuinfo` in
--@@ -932,40 +945,40 @@ EOF
-- 	  EV68*) UNAME_MACHINE=alphaev68 ;;
--         esac
-- 	objdump --private-headers /bin/sh | grep ld.so.1 >/dev/null
---	if test "$?" = 0 ; then LIBC="libc1" ; else LIBC="" ; fi
---	echo ${UNAME_MACHINE}-unknown-linux-gnu${LIBC}
--+	if test "$?" = 0 ; then LIBC="gnulibc1" ; fi
--+	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
-+     parisc64:Linux:*:* | hppa64:Linux:*:*)
-+-	echo hppa64-unknown-linux-gnu
-++	echo hppa64-unknown-linux-${LIBC}
-  	exit ;;
-      parisc:Linux:*:* | hppa:Linux:*:*)
-  	# Look for CPU level
-@@ -116,16 +122,20 @@ Index: config/config.guess
- +	  *)    echo hppa-unknown-linux-${LIBC} ;;
-  	esac
-  	exit ;;
--     parisc64:Linux:*:* | hppa64:Linux:*:*)
---	echo hppa64-unknown-linux-gnu
--+	echo hppa64-unknown-linux-${LIBC}
-+     ppc64:Linux:*:*)
-+-	echo powerpc64-unknown-linux-gnu
-++	echo powerpc64-unknown-linux-${LIBC}
-+ 	exit ;;
-+     ppc:Linux:*:*)
-+-	echo powerpc-unknown-linux-gnu
-++	echo powerpc-unknown-linux-${LIBC}
-  	exit ;;
-      s390:Linux:*:* | s390x:Linux:*:*)
-  	echo ${UNAME_MACHINE}-ibm-linux
-  	exit ;;
-      sh64*:Linux:*:*)
---    	echo ${UNAME_MACHINE}-unknown-linux-gnu
--+    	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
-+-	echo ${UNAME_MACHINE}-unknown-linux-gnu
-++	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
-  	exit ;;
-      sh*:Linux:*:*)
- -	echo ${UNAME_MACHINE}-unknown-linux-gnu
-@@ -135,42 +145,21 @@ Index: config/config.guess
- -	echo ${UNAME_MACHINE}-unknown-linux-gnu
- +	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
-  	exit ;;
-+     tile*:Linux:*:*)
-+-	echo ${UNAME_MACHINE}-unknown-linux-gnu
-++	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
-+ 	exit ;;
-      vax:Linux:*:*)
-- 	echo ${UNAME_MACHINE}-dec-linux-gnu
-+-	echo ${UNAME_MACHINE}-dec-linux-gnu
-++	echo ${UNAME_MACHINE}-dec-linux-${LIBC}
-  	exit ;;
-      x86_64:Linux:*:*)
- -	echo x86_64-unknown-linux-gnu
- +	echo x86_64-unknown-linux-${LIBC}
-  	exit ;;
-      xtensa*:Linux:*:*)
---    	echo ${UNAME_MACHINE}-unknown-linux-gnu
--+    	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
-+-	echo ${UNAME_MACHINE}-unknown-linux-gnu
-++	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
-  	exit ;;
--     i*86:Linux:*:*)
-- 	# The BFD linker knows what the default object file format is, so
--@@ -980,20 +993,21 @@ EOF
-- 				    p'`
--         case "$ld_supported_targets" in
-- 	  elf32-i386)
---		TENTATIVE="${UNAME_MACHINE}-pc-linux-gnu"
--+		TENTATIVE="${UNAME_MACHINE}-pc-linux-${LIBC}"
-- 		;;
-- 	  a.out-i386-linux)
---		echo "${UNAME_MACHINE}-pc-linux-gnuaout"
--+		echo "${UNAME_MACHINE}-pc-linux-${LIBC}aout"
-- 		exit ;;
-- 	  coff-i386)
---		echo "${UNAME_MACHINE}-pc-linux-gnucoff"
--+		echo "${UNAME_MACHINE}-pc-linux-${LIBC}coff"
-- 		exit ;;
-- 	  "")
-- 		# Either a pre-BFD a.out linker (linux-gnuoldld) or
-- 		# one that does not give us useful --help.
---		echo "${UNAME_MACHINE}-pc-linux-gnuoldld"
--+		echo "${UNAME_MACHINE}-pc-linux-${LIBC}oldld"
-- 		exit ;;
-- 	esac
--+	if [ $LIBC != "gnu" -o $LIBC != "gnulibc1" ];then echo "$TENTATIVE" && exit; fi
-- 	# Determine whether the default compiler is a.out or elf
-- 	eval $set_cc_for_build
-- 	sed 's/^	//' << EOF >$dummy.c
-+     i*86:DYNIX/ptx:4*:*)
-+ 	# ptx 4.0 does uname -s correctly, with DYNIX/ptx in there.
-diff --git a/meta/recipes-devtools/gnu-config/gnu-config_20080123.bb b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
-similarity index 73%
-rename from meta/recipes-devtools/gnu-config/gnu-config_20080123.bb
-rename to meta/recipes-devtools/gnu-config/gnu-config_git.bb
-index f93d342..0fdee66 100644
---- a/meta/recipes-devtools/gnu-config/gnu-config_20080123.bb
-+++ b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
-@@ -1,21 +1,22 @@
- SUMMARY = "gnu-configize"
- DESCRIPTION = "Tool that installs the GNU config.guess / config.sub into a directory tree"
- SECTION = "devel"
--LICENSE = "GPLv1+"
--LIC_FILES_CHKSUM = "file://config.guess;endline=39;md5=a089987af4a25cb0419d1c2fd6d495e3"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://config.guess;endline=39;md5=0e6ca0501b27177f3bc640f7225e3ead"
+ DEPENDS += "sysfsutils"
  
- DEPENDS_virtclass-native = "perl-native-runtime"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
--FIXEDSRCDATE = "${@d.getVar('FILE', 1).split('_')[-1].split('.')[0]}"
--PV = "0.1+cvs${FIXEDSRCDATE}"
--PR = "r4"
-+SRCREV = "a47f842264fc19837f8a00eb1d2d254a4c527334"
-+PV = "1.0+git${SRCPV}"
-+PR = "r0"
- 
--SRC_URI = "cvs://anonymous@cvs.sv.gnu.org/cvsroot/config;module=config;method=pserver;date=${FIXEDSRCDATE} \
-+SRC_URI = "git://git.sv.gnu.org/config.git;protocol=git \
- 	   file://config-guess-uclibc.patch \
-            file://gnu-configize.in"
--S = "${WORKDIR}/config"
++SRC_URI = " \
++    http://directfb.org/downloads/Core/DirectFB-1.4/DirectFB-${PV}.tar.gz \
++    file://directfb-1.2.x-fix-pkgconfig-cflags.patch \
++    "
 +
-+S = "${WORKDIR}/git"
+ EXTRA_OECONF = "\
+   --enable-freetype=yes \
+   --enable-zlib \
+@@ -14,7 +19,7 @@ EXTRA_OECONF = "\
+   --disable-x11 \
+ "
  
- do_compile() {
- 	:
+-LEAD_SONAME = "libdirectfb-1.4.so.5"
++LEAD_SONAME = "libdirectfb-1.4.so.6"
+ 
+ SRC_URI[md5sum] = "2c779c9a8456790c6c29ad85459b2600"
+ SRC_URI[sha256sum] = "b119ab9c5c0c505c23e32d41ae54bd04cb474c5e58900ec0f1cf9482f892f9b2"
+diff --git a/meta/recipes-graphics/directfb/files/directfb-1.2.x-fix-pkgconfig-cflags.patch b/meta/recipes-graphics/directfb/files/directfb-1.2.x-fix-pkgconfig-cflags.patch
+index 274ad50..ee60718 100644
+--- a/meta/recipes-graphics/directfb/files/directfb-1.2.x-fix-pkgconfig-cflags.patch
++++ b/meta/recipes-graphics/directfb/files/directfb-1.2.x-fix-pkgconfig-cflags.patch
+@@ -1,9 +1,11 @@
++directfb: Get this patch from Openembedded
++
+ Upstream-Status: Inappropriate [configuration]
++Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+ 
+-Index: DirectFB-1.4.11/directfb-internal.pc.in
+-===================================================================
+---- DirectFB-1.4.11.orig/directfb-internal.pc.in	2010-10-08 05:43:46.000000000 -0700
+-+++ DirectFB-1.4.11/directfb-internal.pc.in	2011-04-06 13:48:23.120923997 -0700
++diff -Nur DirectFB-1.4.15/directfb-internal.pc.in DirectFB-1.4.15.new//directfb-internal.pc.in
++--- DirectFB-1.4.15/directfb-internal.pc.in	2011-09-29 17:51:21.000000000 +0800
+++++ DirectFB-1.4.15.new//directfb-internal.pc.in	2011-11-03 15:14:37.000000000 +0800
+ @@ -2,10 +2,10 @@
+  exec_prefix=@exec_prefix@
+  moduledir=@MODULEDIR@
+@@ -17,31 +19,27 @@ Index: DirectFB-1.4.11/directfb-internal.pc.in
+  Requires: directfb = @VERSION@
+ -Cflags: @DFB_INTERNAL_CFLAGS@ -I@INTERNALINCLUDEDIR@
+ +Cflags: @DFB_INTERNAL_CFLAGS@ -I${includedir}/directfb -I${includedir}
+-Index: DirectFB-1.4.11/directfb.pc.in
+-===================================================================
+---- DirectFB-1.4.11.orig/directfb.pc.in	2010-11-15 13:13:59.000000000 -0800
+-+++ DirectFB-1.4.11/directfb.pc.in	2011-04-06 14:09:33.528923998 -0700
+-@@ -9,4 +9,5 @@
++diff -Nur DirectFB-1.4.15/directfb.pc.in DirectFB-1.4.15.new//directfb.pc.in
++--- DirectFB-1.4.15/directfb.pc.in	2011-09-29 17:51:21.000000000 +0800
+++++ DirectFB-1.4.15.new//directfb.pc.in	2011-11-03 15:15:55.000000000 +0800
++@@ -9,4 +9,4 @@
+  Requires: @DEP_VOODOO@ fusion direct
+  Libs: -L${libdir} -ldirectfb @THREADLIB@ @OSX_LIBS@
+- Libs.private: -L${libdir} @MEDIALIB@ @DYNLIB@ @ZLIB_LIBS@
++ Libs.private: -L${libdir} @LIBM@ @DYNLIB@ @ZLIB_LIBS@
+ -Cflags: @THREADFLAGS@ -I@INCLUDEDIR@
+ +Cflags: @THREADFLAGS@ -I${includedir}/directfb
+-+
+-Index: DirectFB-1.4.11/lib/fusion/fusion.pc.in
+-===================================================================
+---- DirectFB-1.4.11.orig/lib/fusion/fusion.pc.in	2010-10-08 05:43:46.000000000 -0700
+-+++ DirectFB-1.4.11/lib/fusion/fusion.pc.in	2011-04-06 13:48:23.120923997 -0700
++diff -Nur DirectFB-1.4.15/lib/fusion/fusion.pc.in DirectFB-1.4.15.new//lib/fusion/fusion.pc.in
++--- DirectFB-1.4.15/lib/fusion/fusion.pc.in	2011-09-29 17:51:21.000000000 +0800
+++++ DirectFB-1.4.15.new//lib/fusion/fusion.pc.in	2011-11-03 15:16:46.000000000 +0800
+ @@ -8,4 +8,4 @@
+  Version: @VERSION@
+  Requires: direct
+  Libs: -L${libdir} -lfusion
+ -Cflags: -I@INCLUDEDIR@
+ +Cflags: -I${includedir}/directfb -I${includedir}
+-Index: DirectFB-1.4.11/lib/voodoo/voodoo.pc.in
+-===================================================================
+---- DirectFB-1.4.11.orig/lib/voodoo/voodoo.pc.in	2010-10-08 05:43:46.000000000 -0700
+-+++ DirectFB-1.4.11/lib/voodoo/voodoo.pc.in	2011-04-06 13:48:23.120923997 -0700
++diff -Nur DirectFB-1.4.15/lib/voodoo/voodoo.pc.in DirectFB-1.4.15.new//lib/voodoo/voodoo.pc.in
++--- DirectFB-1.4.15/lib/voodoo/voodoo.pc.in	2011-09-29 17:51:21.000000000 +0800
+++++ DirectFB-1.4.15.new//lib/voodoo/voodoo.pc.in	2011-11-03 15:17:34.000000000 +0800
+ @@ -8,4 +8,4 @@
+  Version: @VERSION@
+  Requires: direct
 -- 
 1.7.6.4
 
