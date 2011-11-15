@@ -1,36 +1,20 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RQQ4B-00012C-G7 for openembedded-core@lists.openembedded.org;
-	Tue, 15 Nov 2011 21:57:15 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAFKorXj029770
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2011 20:50:53 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 29037-05 for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2011 20:50:49 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAFKojwH029764
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2011 20:50:46 GMT
-Message-ID: <1321390249.26881.227.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Nov 2011 20:50:49 +0000
-In-Reply-To: <20111115201941.GA3773@rhein.zuhause.netz>
-References: <4EC24711.2010805@eukrea.com>
-	<20111115201941.GA3773@rhein.zuhause.netz>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
-	pAFKorXj029770
-Subject: Re: Reproducible build problem with BB_NUMBER_THREADS=8
+Received: from mga03.intel.com ([143.182.124.21])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1RQQBu-0001VX-Es
+	for openembedded-core@lists.openembedded.org;
+	Tue, 15 Nov 2011 22:05:14 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 15 Nov 2011 12:58:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,517,1315206000"; d="scan'208";a="37410678"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.35])
+	by AZSMGA002.ch.intel.com with ESMTP; 15 Nov 2011 12:58:50 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 Nov 2011 12:58:32 -0800
+Message-Id: <cover.1321389699.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.6.4
+Subject: [CONSOLIDATED PULL 00/16] Various Updates and Fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,64 +29,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Nov 2011 20:57:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 15 Nov 2011 21:05:15 -0000
 
-On Tue, 2011-11-15 at 21:19 +0100, Henning Heinold wrote:
-> On Tue, Nov 15, 2011 at 12:03:45PM +0100, Eric B=C3=A9nard wrote:
-> > Hi,
-> >=20
-> > I often meet a problem related to C++ headers which are not found
-> > (despite existing)n often when bitbake starts compiling mysql &
-> > directfb.
-> > I tested on 2 build hosts (both with Core i7, one i686 ubuntu, one
-> > x64_64 Fedora) and manage to reproduce the problem easily with
-> > BB_NUMBER_THREADS=3D8 in both cases.
-> >=20
-> > The configuration is quite simple :
-> > angstrom setup script + beagleboard machine + bitbake qt4e-demo-image
-> > with
-> > PARALLEL_MAKE     =3D "-j6"
-> > BB_NUMBER_THREADS =3D "8"
->=20
-> Hi Eric,
->=20
-> I found another problem with the crosscompiler setup and c++,
-> while compile llvm with cmake.
->=20
-> In recipes-devtools/gcc/gcc-configure-cross.inc we set
->=20
-> EXTRA_OECONF_PATHS =3D "--with-local-prefix=3D${STAGING_DIR_TARGET}${ta=
-rget_exec_prefix} \
->                       --with-gxx-include-dir=3D${target_includedir}/c++=
- \
->                        --with-sysroot=3D${STAGING_DIR_TARGET} \
->                        --with-build-sysroot=3D${STAGING_DIR_TARGET}"
->=20
->=20
-> which results in a headersearch path for c++
->=20
->  .../usr/usr/include/c++
->=20
-> unfornatly I do not have the time to test it some more. But this little=
- patch plus INC bumping
-> sovled it for my setup:
->=20
-> -EXTRA_OECONF_PATHS =3D "--with-local-prefix=3D${STAGING_DIR_TARGET}${t=
-arget_exec_prefix} \
-> +EXTRA_OECONF_PATHS =3D "--with-local-prefix=3D${STAGING_DIR_TARGET} \
+Richard,
 
-How does that cause something which sometimes works and sometimes does
-not? Either it would work or wouldn't if this were the problem but not
-"sometimes"?
+This request has the patches to correctly build subversion-native,
+I tested this and ensured we do not have a circular dependency issue.
 
-Cheers,
+I am not sure about the FILESDIR addition in the libx11-diet patch, so I 
+would like you review of that one.
 
-Richard
+Thanks
+	Sau!
 
 
+The following changes since commit da8425174529f10e16cde21fbea7f804284c38ae:
 
+  alsa-lib: add nativesdk BBCLASSEXTEND (2011-11-15 12:22:58 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Dmitry Eremin-Solenikov (2):
+  screenshot: rename to sato-screenshot
+  gobject-introspection: update frome meta-oe
+
+Martin Jansa (3):
+  base.bbclass: add subversion-native to DEPENDS if there is svn:// in
+    SRC_URI
+  default-providers: add alsa to resolve multiple runtime providers
+  apr-util: extend sed call to fix libtool patch for case without SHELL
+    in LIBTOOL variable
+
+Michael Brown (1):
+  gcc-4.6: fix toolchain build for SH4
+
+Saul Wold (8):
+  libgcrypt: add BBCLASSEXTEND native for gnutls-native
+  libgpg-error: add BBCLASSEXTEND native for libgcrypts and
+    gnutls-native
+  file: update to 5.09
+  gnu-config: update to git HEAD
+  gnu-config: Create 2011111 release
+  bitbake.conf: Update ASSUME_PROVIDED
+  boost: Update to 1.47.0 & Cleanup
+  distro_tracking: Refect Recipe Updates & Status
+
+Xiaofeng Yan (2):
+  libx11-diet: update to 1.4.4
+  directfb: update to 1.4.15
+
+ meta/classes/base.bbclass                          |    8 +-
+ meta/conf/bitbake.conf                             |    5 -
+ meta/conf/distro/include/default-providers.inc     |    1 +
+ .../conf/distro/include/distro_tracking_fields.inc |   50 ++--
+ .../file/file/fix_version_check.patch              |   21 ++
+ .../file/{file_5.04.bb => file_5.09.bb}            |    9 +-
+ meta/recipes-devtools/gcc/gcc-cross4.inc           |    2 +
+ .../gnu-config/config-guess-uclibc.patch           |  145 +++++------
+ .../gnu-config/gnu-config_20111111.bb              |   41 +++
+ .../{gnu-config_20080123.bb => gnu-config_git.bb}  |   15 +-
+ .../gnome/gobject-introspection/configure.patch    |   27 --
+ .../gnome/gobject-introspection/pathfix.patch      |   27 --
+ .../use-usr-bin-env-for-python.patch               |   20 ++
+ .../gnome/gobject-introspection_git.bb             |   32 ++-
+ .../{directfb_1.4.12.bb => directfb_1.4.15.bb}     |    9 +-
+ .../directfb-1.2.x-fix-pkgconfig-cflags.patch      |   36 ++--
+ .../xorg-lib/libx11-diet-1.3/include_fix.patch     |   25 --
+ .../xorg-lib/libx11-diet-1.3/nodolt.patch          |   14 -
+ .../X18NCMSstubs.diff                              |    1 +
+ .../fix-disable-xlocale.diff                       |    1 +
+ .../fix-utf8-wrong-define.patch                    |    2 +
+ .../libx11-diet-1.4.4/keysymdef_include.patch      |   23 ++
+ .../x11_disable_makekeys.patch                     |   23 +-
+ .../{libx11-diet_1.3.bb => libx11-diet_1.4.4.bb}   |   17 +-
+ .../files/fix_ldadd_order.patch                    |    0
+ .../sato-screenshot_git.bb}                        |    2 +-
+ meta/recipes-sato/tasks/task-core-x11.bb           |    2 +-
+ meta/recipes-support/apr/apr-util_1.3.12.bb        |    2 +
+ meta/recipes-support/boost/boost-jam-native.inc    |   32 ---
+ .../boost/boost-jam-native_3.1.18.bb               |    8 -
+ .../boost/{boost-36.inc => boost.inc}              |   42 +++-
+ .../boost/{boost_1.44.0.bb => boost_1.47.0.bb}     |   13 +-
+ .../recipes-support/boost/files/1.34.1-gcc43.patch |  226 -----------------
+ .../boost/files/atomic_count_gcc_atomicity.patch   |   15 --
+ meta/recipes-support/boost/files/gcc41.patch       |   16 --
+ meta/recipes-support/boost/files/gcc43.patch       |  258 --------------------
+ .../recipes-support/boost/files/linux-uclibc.patch |   12 -
+ .../boost/files/unit_test_log10f.patch             |   22 --
+ meta/recipes-support/libgcrypt/libgcrypt.inc       |    2 +
+ .../libgpg-error/libgpg-error_1.10.bb              |    2 +
+ 40 files changed, 339 insertions(+), 869 deletions(-)
+ create mode 100644 meta/recipes-devtools/file/file/fix_version_check.patch
+ rename meta/recipes-devtools/file/{file_5.04.bb => file_5.09.bb} (79%)
+ create mode 100644 meta/recipes-devtools/gnu-config/gnu-config_20111111.bb
+ rename meta/recipes-devtools/gnu-config/{gnu-config_20080123.bb => gnu-config_git.bb} (73%)
+ delete mode 100644 meta/recipes-gnome/gnome/gobject-introspection/configure.patch
+ delete mode 100644 meta/recipes-gnome/gnome/gobject-introspection/pathfix.patch
+ create mode 100644 meta/recipes-gnome/gnome/gobject-introspection/use-usr-bin-env-for-python.patch
+ rename meta/recipes-graphics/directfb/{directfb_1.4.12.bb => directfb_1.4.15.bb} (63%)
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libx11-diet-1.3/include_fix.patch
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libx11-diet-1.3/nodolt.patch
+ rename meta/recipes-graphics/xorg-lib/{libx11-diet-1.3 => libx11-diet-1.4.4}/X18NCMSstubs.diff (99%)
+ rename meta/recipes-graphics/xorg-lib/{libx11-diet-1.3 => libx11-diet-1.4.4}/fix-disable-xlocale.diff (90%)
+ rename meta/recipes-graphics/xorg-lib/{libx11-diet-1.3 => libx11-diet-1.4.4}/fix-utf8-wrong-define.patch (88%)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11-diet-1.4.4/keysymdef_include.patch
+ rename meta/recipes-graphics/xorg-lib/{libx11-diet-1.3 => libx11-diet-1.4.4}/x11_disable_makekeys.patch (43%)
+ rename meta/recipes-graphics/xorg-lib/{libx11-diet_1.3.bb => libx11-diet_1.4.4.bb} (49%)
+ rename meta/recipes-sato/{screenshot => sato-screenshot}/files/fix_ldadd_order.patch (100%)
+ rename meta/recipes-sato/{screenshot/screenshot_git.bb => sato-screenshot/sato-screenshot_git.bb} (92%)
+ delete mode 100644 meta/recipes-support/boost/boost-jam-native.inc
+ delete mode 100644 meta/recipes-support/boost/boost-jam-native_3.1.18.bb
+ rename meta/recipes-support/boost/{boost-36.inc => boost.inc} (88%)
+ rename meta/recipes-support/boost/{boost_1.44.0.bb => boost_1.47.0.bb} (66%)
+ delete mode 100644 meta/recipes-support/boost/files/1.34.1-gcc43.patch
+ delete mode 100644 meta/recipes-support/boost/files/atomic_count_gcc_atomicity.patch
+ delete mode 100644 meta/recipes-support/boost/files/gcc41.patch
+ delete mode 100644 meta/recipes-support/boost/files/gcc43.patch
+ delete mode 100644 meta/recipes-support/boost/files/linux-uclibc.patch
+ delete mode 100644 meta/recipes-support/boost/files/unit_test_log10f.patch
+
+-- 
+1.7.6.4
 
 
 
