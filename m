@@ -1,24 +1,20 @@
-Received: from mail.geekisp.com ([216.168.135.169] helo=starfish.geekisp.com)
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philip@balister.org>) id 1RQ7fv-0008KW-Cz
+	(envelope-from <scott.a.garman@intel.com>) id 1RQ7iB-0008O9-NZ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 15 Nov 2011 02:18:59 +0100
-Received: (qmail 5159 invoked by uid 1003); 15 Nov 2011 01:12:34 -0000
-Received: from unknown (HELO ?192.168.1.111?) (philip@opensdr.com@96.240.172.5)
-	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
-	15 Nov 2011 01:12:34 -0000
-Message-ID: <4EC1BC83.2010209@balister.org>
-Date: Mon, 14 Nov 2011 20:12:35 -0500
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.24) Gecko/20111108 Fedora/3.1.16-1.fc14 Thunderbird/3.1.16
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <4EC1A8A1.5010303@balister.org> <1321315894.26881.117.camel@ted>
-In-Reply-To: <1321315894.26881.117.camel@ted>
-X-Enigmail-Version: 1.1.2
-Subject: Re: Build failure in samba
+	Tue, 15 Nov 2011 02:21:19 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 14 Nov 2011 17:14:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="75374489"
+Received: from miles.jf.intel.com (HELO localhost) ([10.7.199.81])
+	by orsmga002.jf.intel.com with ESMTP; 14 Nov 2011 17:14:57 -0800
+From: Scott Garman <scott.a.garman@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Nov 2011 17:14:53 -0800
+Message-Id: <cover.1321319621.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/2] Some Upstream-Status patch updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,53 +29,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Nov 2011 01:18:59 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 Nov 2011 01:21:19 -0000
 
-Doesn't seem to help. Will look again tomorrow. Go to bed.
+Taking care of a few patch straglers that were missing Upstream-Status.
 
-Philip
+The following changes since commit f2316ff39670ed99382411e15ac035550360fbdd:
 
-On 11/14/2011 07:11 PM, Richard Purdie wrote:
-> On Mon, 2011-11-14 at 18:47 -0500, Philip Balister wrote:
->> Anyone have an idea about this failure building samba?
->>
->> http://pastebin.com/5PGX6MZr
->>
->> I'm going to look more tomorrow, just hoping someone sees something obvious.
-> 
-> Maybe this might help:
-> 
-> 
-> commit ce064001e628597cab9c5713f1351e03478a4aa5
-> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Date:   Wed Nov 2 14:24:37 2011 +0000
-> 
->     samba: Force python disabled for now to avoid host contamination
-> 
-> diff --git a/recipes-support/samba/samba_3.5.6.bb b/recipes-support/samba/samba_3.5.6.bb
-> index d5945f9..a44ce02 100644
-> --- a/recipes-support/samba/samba_3.5.6.bb
-> +++ b/recipes-support/samba/samba_3.5.6.bb
-> @@ -12,6 +12,7 @@ SRC_URI[sha256sum] = "466410868375d19a286ac3fc5d9f3c267ce359189f8e0d76e72ec10bd5
->  S = "${WORKDIR}/samba-${PV}/source3"
->  
->  EXTRA_OECONF += "\
-> +	ac_cv_path_PYTHON=/not/exist \
->  	SMB_BUILD_CC_NEGATIVE_ENUM_VALUES=yes \
->  	samba_cv_CC_NEGATIVE_ENUM_VALUES=yes \
->  	linux_getgrouplist_ok=no \
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> 
+  opkg: Ensure we use the uname/gname fields when extracting tarballs (2011-11-14 11:15:36 +0000)
+
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib sgarman/upstream-status-updates
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=sgarman/upstream-status-updates
+
+Scott Garman (2):
+  dosfstools: add Upstream-Status to patches
+  base-passwd: add Upstream-Status to patches, remove unused patch
+
+ .../base-passwd/base-passwd-3.5.22/mysql.patch     |   13 ----------
+ .../base-passwd/base-passwd-3.5.22/nobash.patch    |   25 +++++++++++--------
+ .../base-passwd/base-passwd-3.5.22/root-home.patch |   11 ++++++--
+ .../dosfstools/dosfstools/2.6.20-syscall.patch     |    7 +++++
+ .../dosfstools/dosfstools/alignment_hack.patch     |    4 +++
+ .../dosfstools/dosfstools-msdos_fs-types.patch     |    7 +++++
+ .../dosfstools/include-linux-types.patch           |    5 ++++
+ .../dosfstools/dosfstools/mkdosfs-bootcode.patch   |    7 +++++
+ .../dosfstools/dosfstools/mkdosfs-dir.patch        |    7 +++++
+ .../dosfstools/msdos_fat12_undefined.patch         |    7 +++++
+ 10 files changed, 66 insertions(+), 27 deletions(-)
+ delete mode 100644 meta/recipes-core/base-passwd/base-passwd-3.5.22/mysql.patch
+
+-- 
+1.7.5.4
+
 
 
