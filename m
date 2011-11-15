@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1RQ7iB-0008OA-UC
+	(envelope-from <scott.a.garman@intel.com>) id 1RQ7iC-0008OA-Sj
 	for openembedded-core@lists.openembedded.org;
-	Tue, 15 Nov 2011 02:21:20 +0100
+	Tue, 15 Nov 2011 02:21:21 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 14 Nov 2011 17:14:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="75519772"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="75519773"
 Received: from miles.jf.intel.com (HELO localhost) ([10.7.199.81])
 	by orsmga001.jf.intel.com with ESMTP; 14 Nov 2011 17:14:57 -0800
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Nov 2011 17:14:54 -0800
-Message-Id: <42c6fe7940f41f5f1ce2ca6c9486c65c9ce22d25.1321319621.git.scott.a.garman@intel.com>
+Date: Mon, 14 Nov 2011 17:14:55 -0800
+Message-Id: <600685b20ed9204c4e552da9d3f1dc9c14fe5135.1321319621.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <cover.1321319621.git.scott.a.garman@intel.com>
 References: <cover.1321319621.git.scott.a.garman@intel.com>
 In-Reply-To: <cover.1321319621.git.scott.a.garman@intel.com>
 References: <cover.1321319621.git.scott.a.garman@intel.com>
-Subject: [PATCH 1/2] dosfstools: add Upstream-Status to patches
+Subject: [PATCH 2/2] base-passwd: add Upstream-Status to patches, remove unused patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,125 +33,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Nov 2011 01:21:20 -0000
+X-List-Received-Date: Tue, 15 Nov 2011 01:21:21 -0000
+
+mysql.patch is not used by the recipe anymore, so delete it.
 
 Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 ---
- .../dosfstools/dosfstools/2.6.20-syscall.patch     |    7 +++++++
- .../dosfstools/dosfstools/alignment_hack.patch     |    4 ++++
- .../dosfstools/dosfstools-msdos_fs-types.patch     |    7 +++++++
- .../dosfstools/include-linux-types.patch           |    5 +++++
- .../dosfstools/dosfstools/mkdosfs-bootcode.patch   |    7 +++++++
- .../dosfstools/dosfstools/mkdosfs-dir.patch        |    7 +++++++
- .../dosfstools/msdos_fat12_undefined.patch         |    7 +++++++
- 7 files changed, 44 insertions(+), 0 deletions(-)
+ .../base-passwd/base-passwd-3.5.22/mysql.patch     |   13 ----------
+ .../base-passwd/base-passwd-3.5.22/nobash.patch    |   25 +++++++++++--------
+ .../base-passwd/base-passwd-3.5.22/root-home.patch |   11 ++++++--
+ 3 files changed, 22 insertions(+), 27 deletions(-)
+ delete mode 100644 meta/recipes-core/base-passwd/base-passwd-3.5.22/mysql.patch
 
-diff --git a/meta/recipes-devtools/dosfstools/dosfstools/2.6.20-syscall.patch b/meta/recipes-devtools/dosfstools/dosfstools/2.6.20-syscall.patch
-index 7cf2662..4460f06 100644
---- a/meta/recipes-devtools/dosfstools/dosfstools/2.6.20-syscall.patch
-+++ b/meta/recipes-devtools/dosfstools/dosfstools/2.6.20-syscall.patch
-@@ -1,3 +1,10 @@
-+Only use the system's llseek().
+diff --git a/meta/recipes-core/base-passwd/base-passwd-3.5.22/mysql.patch b/meta/recipes-core/base-passwd/base-passwd-3.5.22/mysql.patch
+deleted file mode 100644
+index 8bfd757..0000000
+--- a/meta/recipes-core/base-passwd/base-passwd-3.5.22/mysql.patch
++++ /dev/null
+@@ -1,13 +0,0 @@
+-# set correct uid/gid for mysql, from OE (8836cd807198c224ed23b05fa4f708f096881b27).
+-# however poky doesn't include mysql so far. Remove it from patch list, but keep
+-# this patch for a while
+-#
+-# comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
+---- base-passwd/group.master.orig	2005-07-08 06:36:07.717990112 +0200
+-+++ base-passwd/group.master	2005-07-08 06:36:32.000000000 +0200
+-@@ -36,4 +36,5 @@
+- staff:*:50:
+- games:*:60:
+- users:*:100:
+-+mysql:*:64001:
+- nogroup:*:65534:
+diff --git a/meta/recipes-core/base-passwd/base-passwd-3.5.22/nobash.patch b/meta/recipes-core/base-passwd/base-passwd-3.5.22/nobash.patch
+index 5265016..6371576 100644
+--- a/meta/recipes-core/base-passwd/base-passwd-3.5.22/nobash.patch
++++ b/meta/recipes-core/base-passwd/base-passwd-3.5.22/nobash.patch
+@@ -1,14 +1,17 @@
+-# use /bin/sh instead of /bin/bash, since the latter may not be included in
+-# some images such as minimal
+-#
+-# comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
+-#
+-# remove "*" for root since we don't have a /etc/shadow so far.
+-#
+-# by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
+-#
+-# Patch managed by http://www.mn-logistik.de/unsupported/pxa250/patcher
+-#
++use /bin/sh instead of /bin/bash, since the latter may not be included in
++some images such as minimal
 +
-+Upstream-Status: Inappropriate [licensing]
-+We're tracking an old release of dosfstools due to licensing issues.
++comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
++
++remove "*" for root since we don't have a /etc/shadow so far.
++
++by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
++
++Patch managed by http://www.mn-logistik.de/unsupported/pxa250/patcher
++
++Upstream-Status: Invalid [configuration]
 +
 +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
-+
- Index: dosfstools-2.10/dosfsck/io.c
- ===================================================================
- --- dosfstools-2.10.orig/dosfsck/io.c	2007-06-07 16:15:52.000000000 +0200
-diff --git a/meta/recipes-devtools/dosfstools/dosfstools/alignment_hack.patch b/meta/recipes-devtools/dosfstools/dosfstools/alignment_hack.patch
-index e15060a..b46b2db 100644
---- a/meta/recipes-devtools/dosfstools/dosfstools/alignment_hack.patch
-+++ b/meta/recipes-devtools/dosfstools/dosfstools/alignment_hack.patch
-@@ -8,6 +8,10 @@ memcpy into an 16bit aligned
  
-     -zecke
- 
-+Upstream-Status: Inappropriate [licensing]
-+We're tracking an old release of dosfstools due to licensing issues.
+ --- base-passwd/passwd.master~nobash
+ +++ base-passwd/passwd.master
+diff --git a/meta/recipes-core/base-passwd/base-passwd-3.5.22/root-home.patch b/meta/recipes-core/base-passwd/base-passwd-3.5.22/root-home.patch
+index 87c4655..eab77f1 100644
+--- a/meta/recipes-core/base-passwd/base-passwd-3.5.22/root-home.patch
++++ b/meta/recipes-core/base-passwd/base-passwd-3.5.22/root-home.patch
+@@ -1,6 +1,11 @@
+-# poky uses /home/root instead of /root.
+-#
+-# comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
++we use /home/root instead of /root
 +
-+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
- 
- --- dosfstools/dosfsck/boot.c.orig	2003-05-15 19:32:23.000000000 +0200
- +++ dosfstools/dosfsck/boot.c	2003-06-13 17:44:25.000000000 +0200
-diff --git a/meta/recipes-devtools/dosfstools/dosfstools/dosfstools-msdos_fs-types.patch b/meta/recipes-devtools/dosfstools/dosfstools/dosfstools-msdos_fs-types.patch
-index e70a3ea..35abd1a 100644
---- a/meta/recipes-devtools/dosfstools/dosfstools/dosfstools-msdos_fs-types.patch
-+++ b/meta/recipes-devtools/dosfstools/dosfstools/dosfstools-msdos_fs-types.patch
-@@ -1,3 +1,10 @@
-+Ensure the __s8 type is properly defined.
++Comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
 +
-+Upstream-Status: Inappropriate [licensing]
-+We're tracking an old release of dosfstools due to licensing issues.
++Upstream-Status: Inappropriate [configuration]
 +
 +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 +
- --- dosfstools-2.10/dosfsck/dosfsck.h.org	2006-02-21 08:36:14.000000000 -0700
- +++ dosfstools-2.10/dosfsck/dosfsck.h	2006-02-21 08:40:12.000000000 -0700
- @@ -22,6 +22,14 @@
-diff --git a/meta/recipes-devtools/dosfstools/dosfstools/include-linux-types.patch b/meta/recipes-devtools/dosfstools/dosfstools/include-linux-types.patch
-index 4bbd4e7..ab5c8cf 100644
---- a/meta/recipes-devtools/dosfstools/dosfstools/include-linux-types.patch
-+++ b/meta/recipes-devtools/dosfstools/dosfstools/include-linux-types.patch
-@@ -5,6 +5,11 @@ include asm/types.h. To work around this patch mkdosfs.c to explicity
- include linux/types.h which will in turn pull in asm/types.h which
- defines these variables.
- 
-+Upstream-Status: Inappropriate [licensing]
-+We're tracking an old release of dosfstools due to licensing issues.
-+
-+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
-+
- --- dosfstools-2.10/mkdosfs/mkdosfs.c~	2006-07-12 18:46:21.000000000 +1000
- +++ dosfstools-2.10/mkdosfs/mkdosfs.c	2006-07-12 18:46:21.000000000 +1000
- @@ -60,6 +60,7 @@
-diff --git a/meta/recipes-devtools/dosfstools/dosfstools/mkdosfs-bootcode.patch b/meta/recipes-devtools/dosfstools/dosfstools/mkdosfs-bootcode.patch
-index 52be862..dd5cc7f 100644
---- a/meta/recipes-devtools/dosfstools/dosfstools/mkdosfs-bootcode.patch
-+++ b/meta/recipes-devtools/dosfstools/dosfstools/mkdosfs-bootcode.patch
-@@ -1,3 +1,10 @@
-+Add option to read in bootcode from a file.
-+
-+Upstream-Status: Inappropriate [licensing]
-+We're tracking an old release of dosfstools due to licensing issues.
-+
-+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
-+
- diff -urN dosfstools-2.10.orig/mkdosfs/ChangeLog dosfstools-2.10/mkdosfs/ChangeLog
- --- dosfstools-2.10.orig/mkdosfs/ChangeLog	1997-06-18 03:09:38.000000000 -0700
- +++ dosfstools-2.10/mkdosfs/ChangeLog	2004-08-02 20:57:57.734939816 -0700
-diff --git a/meta/recipes-devtools/dosfstools/dosfstools/mkdosfs-dir.patch b/meta/recipes-devtools/dosfstools/dosfstools/mkdosfs-dir.patch
-index 8f753b0..7feee0f 100644
---- a/meta/recipes-devtools/dosfstools/dosfstools/mkdosfs-dir.patch
-+++ b/meta/recipes-devtools/dosfstools/dosfstools/mkdosfs-dir.patch
-@@ -1,3 +1,10 @@
-+Add -s <directory> support to populate the image.
-+
-+Upstream-Status: Inappropriate [licensing]
-+We're tracking an old release of dosfstools due to licensing issues.
-+
-+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
-+
- diff -urN dosfstools-2.10.orig/mkdosfs/mkdosfs.c dosfstools-2.10/mkdosfs/mkdosfs.c
- --- dosfstools-2.10.orig/mkdosfs/mkdosfs.c	2004-08-02 20:48:45.000000000 -0700
- +++ dosfstools-2.10/mkdosfs/mkdosfs.c	2004-08-02 20:49:44.296953792 -0700
-diff --git a/meta/recipes-devtools/dosfstools/dosfstools/msdos_fat12_undefined.patch b/meta/recipes-devtools/dosfstools/dosfstools/msdos_fat12_undefined.patch
-index 4987aa3..11e8a75 100644
---- a/meta/recipes-devtools/dosfstools/dosfstools/msdos_fat12_undefined.patch
-+++ b/meta/recipes-devtools/dosfstools/dosfstools/msdos_fat12_undefined.patch
-@@ -1,3 +1,10 @@
-+Fix a compilation error due to undefined MSDOS_FAT12.
-+
-+Upstream-Status: Inappropriate [licensing]
-+We're tracking an old release of dosfstools due to licensing issues.
-+
-+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
-+
- --- dosfstools-2.10/dosfsck/boot.c.orig	2004-10-15 08:51:42.394725176 -0600
- +++ dosfstools-2.10/dosfsck/boot.c	2004-10-15 08:49:16.776862456 -0600
- @@ -14,6 +14,9 @@
+ --- base-passwd/passwd.master.orig	2005-07-08 06:26:22.000000000 +0200
+ +++ base-passwd/passwd.master	2005-07-08 06:31:58.000000000 +0200
+ @@ -1,4 +1,4 @@
 -- 
 1.7.5.4
 
