@@ -1,33 +1,31 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RQHs9-0004qN-Qf for openembedded-core@lists.openembedded.org;
-	Tue, 15 Nov 2011 13:12:18 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAFC5tWd024910
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1RQI1A-000536-E4
+	for openembedded-core@lists.openembedded.org;
+	Tue, 15 Nov 2011 13:21:36 +0100
+Received: by wyg8 with SMTP id 8so2587042wyg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2011 12:05:55 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 24447-06 for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2011 12:05:51 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAFC5mTv024904
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2011 12:05:49 GMT
-Message-ID: <1321358753.26881.167.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Tue, 15 Nov 2011 04:15:14 -0800 (PST)
+Received: by 10.180.105.102 with SMTP id gl6mr29996170wib.46.1321359313985;
+	Tue, 15 Nov 2011 04:15:13 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id i8sm14218343wie.11.2011.11.15.04.15.12
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 15 Nov 2011 04:15:13 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1822275.d3xp7880vj@helios>
+Date: Tue, 15 Nov 2011 13:15:06 +0100
+Message-Id: <64A64AAB-6921-4A47-99FD-26BD1C58D15C@dominion.thruhere.net>
+References: <cover.1321296476.git.paul.eggleton@linux.intel.com>
+	<1321307338.26881.83.camel@ted>
+	<20A7BCF2-FB25-4E8F-91A5-00F5234AB184@dominion.thruhere.net>
+	<1822275.d3xp7880vj@helios>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Nov 2011 12:05:53 +0000
-In-Reply-To: <1321330597-12119-1-git-send-email-cwabbott0@gmail.com>
-References: <1321330597-12119-1-git-send-email-cwabbott0@gmail.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] mime.bbclass: fix typo
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH 3/4] distcc: make distccmon-gnome optional and default to off
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,22 +40,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Nov 2011 12:12:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 Nov 2011 12:21:36 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2011-11-14 at 23:16 -0500, Connor Abbott wrote:
-> Before this patch, nautilus would fail with:
-> ERROR: Error executing a python function in /home/connor/angstrom/sources/meta-openembedded/meta-gnome/recipes-gnome/nautilus/nautilus_2.32.2.bb:
-> NameError: global name 'dgetVar' is not defined
-> Signed-off-by: Connor Abbott <cwabbott0@gmail.com>
-> ---
->  meta/classes/mime.bbclass |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
 
-Merged to master, thanks.
+Op 15 nov. 2011, om 12:44 heeft Paul Eggleton het volgende geschreven:
 
-Richard
+> On Tuesday 15 November 2011 08:58:00 Koen Kooi wrote:
+>> Let's move this to the TSC and see if we can get this crap removed. =
+There is
+>> already an existing ruling that USEFLAGS should be a last resort. I'm =
+tired
+>> of yocto-marketing feel good patches making life harder for people =
+actually
+>> using oe-core and its output.
+>=20
+> Marketing has nothing to do with it. All I really want is to fix the =
+problem=20
+> that the build blows up if you try to build any image for any of the =
+qemu*=20
+> machines with x11 removed from DISTRO_FEATURES.
+
+Isn't a better question "Why are all images for qemu machines forcing =
+distcc to get built?"?
+
+> I think it would have been=20
+> nice to also be able to avoid having to build gtk+ and everything it =
+depends=20
+> upon for all such images regardless of whether or not it is really =
+needed, but=20
+> I can live without making that further cleanup if it's going to cause =
+such an=20
+> uproar.
+>=20
+> If PACKAGE_CONFIG is not an acceptable solution to this problem I'll =
+accept=20
+> checking for x11 in DISTRO_FEATURES alone, if that's what it takes to =
+get the=20
+> real problem fixed.
+
+Or just make a seperate recipe for distccmon-gnome, that would avoid the =
+need of any USEFLAGS. Should be just a matter of require distcc_$PV.bb ; =
+EXTRA_OEOCONF =3D foo
+
+regards,
+
+Koen
+
 
 
 
