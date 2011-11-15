@@ -1,26 +1,31 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RQQxg-0002hK-Dh
+	(envelope-from <martin.jansa@gmail.com>) id 1RQSlT-0004tU-H6
 	for openembedded-core@lists.openembedded.org;
-	Tue, 15 Nov 2011 22:54:36 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 15 Nov 2011 13:48:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="75808968"
-Received: from unknown (HELO [10.255.12.41]) ([10.255.12.41])
-	by orsmga002.jf.intel.com with ESMTP; 15 Nov 2011 13:48:12 -0800
-Message-ID: <4EC2DE1B.3070904@linux.intel.com>
-Date: Tue, 15 Nov 2011 13:48:11 -0800
-From: Joshua Lock <josh@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0.1) Gecko/20110930 Thunderbird/7.0.1
-MIME-Version: 1.0
+	Wed, 16 Nov 2011 00:50:07 +0100
+Received: by bkbzs2 with SMTP id zs2so7986251bkb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Nov 2011 15:43:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=2yPFHnCTzP35pLBX0tNJjt2eSjTv2vCJOrBc5zZL7n4=;
+	b=pLVcEFYcaw8voPyl+N/DRh9iQ7lGZHU8wh+kNlk69cEw3/d1uJXE3JgPTXGdKvvszq
+	rZ4ydGEn5LZh6pfIscOTgop6wQ/+LmTT5tFLzOjSwikTK/NwBBqDSfLeuuNV1+0Emtb1
+	ZjjciFxniopHMWuwEpjTBdESSGuT1kY8WFHuk=
+Received: by 10.204.143.140 with SMTP id v12mr26536547bku.15.1321400624496;
+	Tue, 15 Nov 2011 15:43:44 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id l18sm18780934fab.9.2011.11.15.15.43.41
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 15 Nov 2011 15:43:42 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1320709417.git.josh@linux.intel.com>
-	<1320761883.10843.40.camel@ted> <4EC2B797.4010503@linux.intel.com>
-	<1321393116.26881.229.camel@ted>
-In-Reply-To: <1321393116.26881.229.camel@ted>
-Subject: Re: [PATCH 00/12] Recipe upgrades, fixes and additions
+Date: Wed, 16 Nov 2011 00:43:34 +0100
+Message-Id: <1321400614-2758-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.rc1
+In-Reply-To: <d10d38e320b27bfbbf6d069e820a2b6c013bbbdc.1321028799.git.Martin.Jansa@gmail.com>
+References: <d10d38e320b27bfbbf6d069e820a2b6c013bbbdc.1321028799.git.Martin.Jansa@gmail.com>
+Subject: [PATCHv2] libsdl: enable alsa based on PACKAGECONFIG and respect DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,60 +40,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Nov 2011 21:54:36 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 Nov 2011 23:50:07 -0000
 
-On 15/11/11 13:38, Richard Purdie wrote:
-> On Tue, 2011-11-15 at 11:03 -0800, Saul Wold wrote:
->> On 11/08/2011 06:18 AM, Richard Purdie wrote:
->>> On Mon, 2011-11-07 at 16:10 -0800, Joshua Lock wrote:
->>>> All,
->>>>
->>>> Here's a series of patches I developed whilst trying to play around with some
->>>> Clutter based software.
->>>>
->>>> The interesting pieces may be:
->>>> Clutter 1.8 series recipes - do we want/need to keep clutter 1.6 around?
->>>> Are we OK with continuing to namespace the clutter recipes by clutter
->>>> version?
->>>
->>> Yes, I think this makes sense.
->>
->> Why do we want to continue the clutter the namespace with version 
->> numbers?  Was this not for a past issue with mis-matched API/ABI?
->>
->> If that problem is solved, then next remove that version info.
-> 
-> Clutter produces libraries with a very specific namespace so you can
-> parallel install clutter 1.4, 1.6 and 1.8. Applications compile against
-> a given version of the library.
-> 
-> Having the major lib version as part of the package name therefore makes
-> sense. There aren't a lot of projects that do this but this one does and
-> it continues to make sense to namespace it accordingly.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-graphics/libsdl/libsdl_1.2.14.bb |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
 
-With this knowledge "in hand" I've just re-read the 1.8 release notes[1]
-and, for better or for worse, this is no longer the case:
-
-"
-* This version is API and ABI compatible with the current stable release
-of Clutter.
-* Installing the contents of this release will overwrite the files from
-the installation of the current release of Clutter.
-"
-
-For point 1 I'd added a patch to PROVIDES = "clutter-1.6" but I'm not
-sure what makes sense in the context of point 2.
-
-Cheers,
-Joshua
-
-1.
-http://www.clutter-project.org/blogs/archive/2011-09/clutter-1.8.0-stable-release
+diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+index 17a3103..e5fdcc3 100644
+--- a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
++++ b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+@@ -29,7 +29,7 @@ SRC_URI[sha256sum] = "5d927e287034cb6bb0ebccfa382cb1d185cb113c8ab5115a0759798642
+ inherit autotools binconfig pkgconfig
+ 
+ EXTRA_OECONF = "--disable-static --disable-debug --enable-cdrom --enable-threads --enable-timers --enable-endian \
+-                --enable-file --disable-oss --enable-alsa --disable-esd --disable-arts \
++                --enable-file --disable-oss --disable-esd --disable-arts \
+                 --disable-diskaudio --disable-nas --disable-esd-shared --disable-esdtest \
+                 --disable-mintaudio --disable-nasm --enable-video-x11 --disable-video-dga \
+                 --disable-video-fbcon --disable-video-directfb --disable-video-ps2gs --disable-video-ps3 \
+@@ -40,6 +40,9 @@ EXTRA_OECONF = "--disable-static --disable-debug --enable-cdrom --enable-threads
+                 --disable-video-picogui --disable-video-qtopia --enable-dlopen \
+                 --disable-rpath"
+ 
++PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}"
++PACKAGECONFIG[alsa] = "--enable-alsa,--disable-alsa,alsa-lib,"
++
+ PARALLEL_MAKE = ""
+ 
+ EXTRA_AUTORECONF += "--include=acinclude --exclude=autoheader"
 -- 
-Joshua Lock
-        Yocto Project "Johannes factotum"
-        Intel Open Source Technology Centre
+1.7.8.rc1
+
 
 
