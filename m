@@ -1,33 +1,37 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RQIFI-0005aL-Vi for openembedded-core@lists.openembedded.org;
-	Tue, 15 Nov 2011 13:36:13 +0100
+	id 1RQJOn-0007Q3-Tl for openembedded-core@lists.openembedded.org;
+	Tue, 15 Nov 2011 14:50:06 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAFCTmD6025275
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAFDhhER025876
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2011 12:29:48 GMT
+	Tue, 15 Nov 2011 13:43:43 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 24931-05 for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2011 12:29:44 +0000 (GMT)
+	id 25200-07 for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Nov 2011 13:43:39 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAFCTfJ2025269
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAFDha6Y025870
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2011 12:29:42 GMT
-Message-ID: <1321360186.26881.181.camel@ted>
+	Tue, 15 Nov 2011 13:43:37 GMT
+Message-ID: <1321364620.26881.211.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Nov 2011 12:29:46 +0000
-In-Reply-To: <cover.1321028799.git.Martin.Jansa@gmail.com>
-References: <cover.1321028799.git.Martin.Jansa@gmail.com>
+Date: Tue, 15 Nov 2011 13:43:40 +0000
+In-Reply-To: <64A64AAB-6921-4A47-99FD-26BD1C58D15C@dominion.thruhere.net>
+References: <cover.1321296476.git.paul.eggleton@linux.intel.com>
+	<1321307338.26881.83.camel@ted>
+	<20A7BCF2-FB25-4E8F-91A5-00F5234AB184@dominion.thruhere.net>
+	<1822275.d3xp7880vj@helios>
+	<64A64AAB-6921-4A47-99FD-26BD1C58D15C@dominion.thruhere.net>
 X-Mailer: Evolution 3.2.1- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH][oe-core 00/22] QT4, thumb, subversion, mesa, libsdl, time, util-linux, kbd changes
+Subject: Re: [PATCH 3/4] distcc: make distccmon-gnome optional and default to off
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,64 +46,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Nov 2011 12:36:13 -0000
+X-List-Received-Date: Tue, 15 Nov 2011 13:50:06 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-11-11 at 17:28 +0100, Martin Jansa wrote:
-> Martin Jansa:
->   libatomics-ops: force ARM mode
->   pulseaudio-0.9.23: force ARM mode
->   aspell: force ARM mode
->   webkit-gtk: force arm mode to work around binutils segfault
->   subversion: add 1.7.0 with native support and negative D_P for now
->  alsa-lib: add nativesdk BBCLASSEXTEND
->  time: rename files dir to time-1.7 for faster lookup
->   time: drop default S and 2 useless comments
->   time: use u-a for time, conflicts with busybox
->   util-linux: use u-a for flock and blockdev, conflicts with busybox
->   util-linux: add missing u-a calls for setsid chrt
->   util-linux: bump PR after u-a changes
->   kbd: use u-a for chvt, deallocvt, fgconssole, openvt, conflicts with
->     busybox
->  
-> Simon Busch (1):
->   qt4-x11-free: bring back pkg-config fixups
+On Tue, 2011-11-15 at 13:15 +0100, Koen Kooi wrote:
+> Op 15 nov. 2011, om 12:44 heeft Paul Eggleton het volgende geschreven:
+> 
+> > On Tuesday 15 November 2011 08:58:00 Koen Kooi wrote:
+> >> Let's move this to the TSC and see if we can get this crap removed. There is
+> >> already an existing ruling that USEFLAGS should be a last resort. I'm tired
+> >> of yocto-marketing feel good patches making life harder for people actually
+> >> using oe-core and its output.
+> > 
+> > Marketing has nothing to do with it. All I really want is to fix the problem 
+> > that the build blows up if you try to build any image for any of the qemu* 
+> > machines with x11 removed from DISTRO_FEATURES.
+> 
+> Isn't a better question "Why are all images for qemu machines forcing distcc to get built?"?
 
-The above have all merged.
+Both questions are valid:
 
->   base.bbclass: add subversion-native to DEPENDS if there is svn:// in
->     SRC_URI
+a) If I build distcc and I have x11 disabled, it shouldn't break.
 
-I've taken this but I've also fixed the default ASSUME_PROVIDED to
-include subversion-native instead of svn-native in bitbake.conf. This
-may need some further thought but at least the system is more correct
-now.
+b) Should qemu include distcc?
 
->   mesa: package gl/egl/osmesa to separate packages
+Traditionally, qemu-config does pull it in. Why? The qemu scripts allow
+pass through of compilation to the build system instead of doing it
+under emulation for a significant speed up in compile time. It was
+originally felt that it should therefore maximally autoconfigure that
+stuff transparently to the user.
 
-This one I really want to take but there are some PR bumps missing or
-some renaming missing somewhere as its causing build issues :/. I'm
-holding off until these are tracked down.
+If we don't think that is useful we can drop it. That is a separate
+discussion to a) which seems to be the contentious problem and solving
+b) is just hiding from the issue.
 
->   mesa-common: install internal GL headers to libgl-dev
+> Or just make a seperate recipe for distccmon-gnome, that would avoid
+> the need of any USEFLAGS. Should be just a matter of require distcc_
+> $PV.bb ; EXTRA_OEOCONF = foo
 
-This one is a WIP.
+and the rest (resolving the various packaging conflicts so that
+distcc-gnome only packages the gnome pieces and removes everything
+else).
 
->   libsdl: drop unused files
->   libsdl: rename files dir to libsdl-1.2.14 for faster lookup
->   libsdl: enable cdrom, alsa and tslib, disable rpath and add few fixes
->     from meta-oe
->   libsdl: enable alsa/opengl based on PACKAGECONFIG and respect
->     DISTRO_FEATURES
->   libsdl: replace tabs with spaces
-
-There were some issues Saul was seeing around libsdl so I've left these
-for now as we're having a few too many build issues atm :/.
+To put this quite simply, I think there is no good reason we shouldn't
+use the mechanism we've selected to handle this kind of problem. We
+should have defaults the reflect backwards compatibility. Other than
+that where is the problem other than a general objection to
+PACKAGECONFIG?
 
 Cheers,
 
 Richard
+
+
+
 
 
 
