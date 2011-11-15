@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RQQC2-0001VX-WC
+	(envelope-from <sgw@linux.intel.com>) id 1RQQC3-0001Vb-Ai
 	for openembedded-core@lists.openembedded.org;
 	Tue, 15 Nov 2011 22:05:23 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
 	by azsmga101.ch.intel.com with ESMTP; 15 Nov 2011 12:58:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,517,1315206000"; d="scan'208";a="37410733"
+X-IronPort-AV: E=Sophos;i="4.69,517,1315206000"; d="scan'208";a="37410737"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.35])
 	by AZSMGA002.ch.intel.com with ESMTP; 15 Nov 2011 12:58:55 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Nov 2011 12:58:47 -0800
-Message-Id: <541a6b483a1f1cdd28c6e602812b9b6d63b05b9d.1321389699.git.sgw@linux.intel.com>
+Date: Tue, 15 Nov 2011 12:58:48 -0800
+Message-Id: <708881fd1eb32a139562ec068d651259e4361d0a.1321389699.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1321389699.git.sgw@linux.intel.com>
 References: <cover.1321389699.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1321389699.git.sgw@linux.intel.com>
 References: <cover.1321389699.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 15/16] gobject-introspection: update frome meta-oe
+Subject: [CONSOLIDATED PULL 16/16] distro_tracking: Refect Recipe Updates & Status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,170 +33,170 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Nov 2011 21:05:23 -0000
+X-List-Received-Date: Tue, 15 Nov 2011 21:05:24 -0000
 
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+ * libnl    - NO_UPDATE_REASON due to incompatibility
+ * zlib     - has wrong version in update list (121)
+ * libtasn1 - Update to 2.10
+ * pkgconfig - NO_UPDATE_REASON due to removal of glib-conf
+ * file     - update to 5.09
+ * dchp     - New version is 4.2.3, not updated yet.
+ * tiff     - NO_UPDATE_REASON wait until 4.0.0
+ * gobject-interopsectio - NO_UPDATE_REASON can not cross-build
+ * gnu-config  - Udpate to git HEAD - requires ASSUME_PROVIDED += "git-native"
+ * boost    - remove boost-jam-native since it's part of 1.47.0 Update
 
-OE-Core uses very old version of gobject-introspection. The recipe says
-0.10.8, but in reality it's GOBJECT_INTROSPECTION_0_6_3-41-gefa7266.
-That version e.g. doesn't compile with python 2.7 (default in some
-versions), etc.
-
-Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../gnome/gobject-introspection/configure.patch    |   27 ----------------
- .../gnome/gobject-introspection/pathfix.patch      |   27 ----------------
- .../use-usr-bin-env-for-python.patch               |   20 ++++++++++++
- .../gnome/gobject-introspection_git.bb             |   32 +++++++++++--------
- 4 files changed, 38 insertions(+), 68 deletions(-)
- delete mode 100644 meta/recipes-gnome/gnome/gobject-introspection/configure.patch
- delete mode 100644 meta/recipes-gnome/gnome/gobject-introspection/pathfix.patch
- create mode 100644 meta/recipes-gnome/gnome/gobject-introspection/use-usr-bin-env-for-python.patch
+ .../conf/distro/include/distro_tracking_fields.inc |   50 ++++++++++----------
+ 1 files changed, 25 insertions(+), 25 deletions(-)
 
-diff --git a/meta/recipes-gnome/gnome/gobject-introspection/configure.patch b/meta/recipes-gnome/gnome/gobject-introspection/configure.patch
-deleted file mode 100644
-index 5dcd9b0..0000000
---- a/meta/recipes-gnome/gnome/gobject-introspection/configure.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--Upstream-Status: Inappropriate [configuration]
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index 5cd4c37..e15ab20 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -382,6 +382,7 @@ RECIPE_MAINTAINER_pn-libnl = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_LATEST_VERSION_pn-libnl = "2.0"
+ RECIPE_INTEL_SECTION_pn-libnl = "base libs"
+ RECIPE_LATEST_RELEASE_DATE_pn-libnl = "Oct 01, 2010"
++RECIPE_NO_UPDATE_REASON_pn-libnl = "libnl-3.2.2 is incompatible with libnl2, so no Upgrade"
+ 
+ RECIPE_STATUS_pn-zlib = "yellow"  # local config scripts
+ RECIPE_LAST_UPDATE_pn-zlib = "Jun 11, 2010"
+@@ -394,6 +395,7 @@ RECIPE_INTEL_SECTION_pn-zlib = "base libs"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-zlib = "3 months"
+ RECIPE_LATEST_RELEASE_DATE_pn-zlib = "Mar 01, 2010"
+ RECIPE_COMMENTS_pn-zlib = "rconflicts: libxml2 (< 2.7.7) (rbreaks)"
++RECIPE_NO_UPDATE_REASON_pn-zlib = "zlib-1.2.5 is latest, version parser reports 121 in error"
+ 
+ RECIPE_STATUS_pn-libxml2 = "yellow"
+ RECIPE_LAST_UPDATE_pn-libxml2 = "Jun 18, 2010"
+@@ -452,15 +454,15 @@ RECIPE_INTEL_SECTION_pn-lzo = "base libs"
+ RECIPE_LATEST_RELEASE_DATE_pn-lzo = "Oct 01, 2010"
+ 
+ RECIPE_STATUS_pn-libtasn1 = "green"
+-RECIPE_LAST_UPDATE_pn-libtasn1 = "Dec 06, 2010"
++RECIPE_LATEST_VERSION_pn-libtasn1 = "2.10"
++RECIPE_LATEST_RELEASE_DATE_pn-libtasn1 = "Oct 25, 2011"
++RECIPE_LAST_UPDATE_pn-libtasn1 = "Nov 08, 2011"
+ RECIPE_MAINTAINER_pn-libtasn1 = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_DEPENDENCY_CHECK_pn-libtasn1 = "not done"
+-RECIPE_LATEST_VERSION_pn-libtasn1 = "2.9"
+ RECIPE_INTEL_SECTION_pn-libtasn1 = "base libs"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libtasn1 = "1 month"
+-RECIPE_LATEST_RELEASE_DATE_pn-libtasn1 = "Dec 06, 2010"
+ RECIPE_COMMENTS_pn-libtasn1 = ""
+-RECIPE_MANUAL_CHECK_DATE_pn-libtasn1 = "Sep 27, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-libtasn1 = "Nov 08, 2011"
+ 
+ RECIPE_STATUS_pn-openssl = "green"
+ RECIPE_LAST_UPDATE_pn-openssl = "Nov 17, 2010"
+@@ -1318,17 +1320,10 @@ RECIPE_MAINTAINER_pn-psmisc = "Yu Ke <ke.yu@intel.com>"
+ RECIPE_STATUS_pn-boost = "yellow"
+ RECIPE_LATEST_VERSION_pn-boost = "1.47.0"
+ RECIPE_LATEST_RELEASE_DATE_pn-boost = "Jul 12, 2011"
+-RECIPE_LAST_UPDATE_pn-boost = "Aug 19, 2010"
++RECIPE_LAST_UPDATE_pn-boost = "Nov 11, 2010"
+ RECIPE_MANUAL_CHECK_DATE_pn-boost = "Nov 08, 2011"
+ RECIPE_MAINTAINER_pn-boost = "Saul Wold <sgw@linux.intel.com>"
+ 
+-RECIPE_STATUS_pn-boost-jam-native = "green"
+-RECIPE_LATEST_VERSION_pn-boost-jam-native = "3.1.18"
+-RECIPE_LATEST_RELEASE_DATE_pn-boost-jam-native = "Mar 22, 2011"
+-RECIPE_LAST_UPDATE_pn-boost-jam-native = "Aug 19, 2010"
+-RECIPE_MANUAL_CHECK_DATE_pn-boost-jam-native = "Nov 08, 2011"
+-RECIPE_MAINTAINER_pn-boost-jam-native = "Saul Wold <sgw@linux.intel.com>"
 -
--Index: git/common.mk
--===================================================================
----- git.orig/common.mk	2009-08-19 11:11:26.000000000 +0100
--+++ git/common.mk	2009-08-19 11:12:05.000000000 +0100
--@@ -4,7 +4,7 @@
-- 	UNINSTALLED_INTROSPECTION_SRCDIR=$(top_srcdir) \
-- 	UNINSTALLED_INTROSPECTION_BUILDDIR=$(top_builddir)
-- SCANNER_ARGS = -v --add-include-path=$(top_builddir)/gir --add-include-path=.
---SCANNER = $(AM_V_GEN) env LPATH=.libs $(CHECK_DEBUG) $(SCANNER_ENV) $(SCANNER_BIN) $(SCANNER_ARGS)
--+SCANNER = $(AM_V_GEN) env LPATH=.libs $(CHECK_DEBUG) $(SCANNER_ENV) g-ir-scanner $(SCANNER_ARGS)
-- SCANNER_LIBS = \
-- 	$(top_srcdir)/giscanner/*.py \
-- 	$(top_builddir)/giscanner/libgiscanner.la \
--Index: git/configure.ac
--===================================================================
----- git.orig/configure.ac	2009-08-19 11:11:26.000000000 +0100
--+++ git/configure.ac	2009-08-19 11:11:28.000000000 +0100
--@@ -201,7 +201,6 @@
-- 	pyexecdir=`echo $pyexecdir | tr '\\\\' '/'`
-- 	;;
-- esac
---AM_CHECK_PYTHON_HEADERS(,AC_MSG_ERROR([Python headers not found]))
-- 
-- AC_CONFIG_FILES([
-- Makefile
-diff --git a/meta/recipes-gnome/gnome/gobject-introspection/pathfix.patch b/meta/recipes-gnome/gnome/gobject-introspection/pathfix.patch
-deleted file mode 100644
-index a96e4b1..0000000
---- a/meta/recipes-gnome/gnome/gobject-introspection/pathfix.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--Upstream-Status: Pending
--
--Index: git/giscanner/dumper.py
--===================================================================
----- git.orig/giscanner/dumper.py	2010-11-29 15:14:35.000000000 -0800
--+++ git/giscanner/dumper.py	2010-11-29 15:14:57.115747154 -0800
--@@ -82,7 +82,7 @@
--         self._tmpdir = tempfile.mkdtemp('', 'tmp-introspect', dir=os.getcwd())
-- 
--         self._compiler_cmd = os.environ.get('CC', 'gcc')
---        self._linker_cmd = os.environ.get('LD', self._compiler_cmd)
--+        self._linker_cmd = os.environ.get('CCLD', self._compiler_cmd)
--         self._pkgconfig_cmd = os.environ.get('PKG_CONFIG', 'pkg-config')
-- 
--         self._uninst_srcdir = os.environ.get(
--Index: git/giscanner/scannermain.py
--===================================================================
----- git.orig/giscanner/scannermain.py	2010-11-29 15:14:35.000000000 -0800
--+++ git/giscanner/scannermain.py	2010-11-29 15:14:57.120747321 -0800
--@@ -283,6 +283,7 @@
--     shown_include_warning = False
--     for include in options.includes:
--         if os.sep in include:
--+            continue
--             raise ValueError("Invalid include path %r" % (include, ))
--         include_obj = Include.from_string(include)
--         transformer.register_include(include_obj)
-diff --git a/meta/recipes-gnome/gnome/gobject-introspection/use-usr-bin-env-for-python.patch b/meta/recipes-gnome/gnome/gobject-introspection/use-usr-bin-env-for-python.patch
-new file mode 100644
-index 0000000..67b8547
---- /dev/null
-+++ b/meta/recipes-gnome/gnome/gobject-introspection/use-usr-bin-env-for-python.patch
-@@ -0,0 +1,20 @@
-+Index: gobject-introspection-0.9.10/tools/g-ir-annotation-tool.in
-+===================================================================
-+--- gobject-introspection-0.9.10.orig/tools/g-ir-annotation-tool.in
-++++ gobject-introspection-0.9.10/tools/g-ir-annotation-tool.in
-+@@ -1,4 +1,4 @@
-+-#!@PYTHON@
-++#!/usr/bin/env python
-+ # -*- Mode: Python -*-
-+ # GObject-Introspection - a framework for introspecting GObject libraries
-+ # Copyright (C) 2008  Johan Dahlin
-+Index: gobject-introspection-0.9.10/tools/g-ir-scanner.in
-+===================================================================
-+--- gobject-introspection-0.9.10.orig/tools/g-ir-scanner.in
-++++ gobject-introspection-0.9.10/tools/g-ir-scanner.in
-+@@ -1,4 +1,4 @@
-+-#!@PYTHON@
-++#!/usr/bin/env python
-+ # -*- Mode: Python -*-
-+ # GObject-Introspection - a framework for introspecting GObject libraries
-+ # Copyright (C) 2008  Johan Dahlin
-diff --git a/meta/recipes-gnome/gnome/gobject-introspection_git.bb b/meta/recipes-gnome/gnome/gobject-introspection_git.bb
-index 5e37255..8352384 100644
---- a/meta/recipes-gnome/gnome/gobject-introspection_git.bb
-+++ b/meta/recipes-gnome/gnome/gobject-introspection_git.bb
-@@ -1,29 +1,33 @@
--SRC_URI = "git://git.gnome.org/gobject-introspection;protocol=git \
--           file://configure.patch \
--           file://pathfix.patch"
-+# NOTE: WIP! This recipe does not cross-compile atm., only -native
-+DEPENDS = "glib-2.0 libffi python-native gobject-introspection-native"
-+DEPENDS_virtclass-native = "glib-2.0-native libffi-native python-native bison-native flex-native"
-+BBCLASSEXTEND = "native"
+ RECIPE_STATUS_pn-libfribidi = "red"
+ DISTRO_PN_ALIAS_pn-libfribidi = "OpenSuSE=fribidi Ubuntu=fribidi Mandriva=fribidi Debian=fribidi"
+ RECIPE_LATEST_VERSION_pn-libfribidi = "0.19.2"
+@@ -1504,14 +1499,15 @@ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-elfutils="1 month"
+ RECIPE_LATEST_RELEASE_DATE_pn-elfutils="Jun 01, 2010"
  
--SRC_URI_virtclass-native = "git://git.gnome.org/gobject-introspection;protocol=git \
--                            file://pathfix.patch"
-+SRC_URI = "git://git.gnome.org/gobject-introspection;protocol=git \
-+  file://use-usr-bin-env-for-python.patch \
-+"
+ RECIPE_STATUS_pn-pkgconfig = "green"
++RECIPE_LATEST_VERSION_pn-pkgconfig = "0.26"
++RECIPE_LATEST_RELEASE_DATE_pn-pkgconfig = "May 15, 2011"
+ RECIPE_LAST_UPDATE_pn-pkgconfig = "Jul 13, 2010"
+ RECIPE_MAINTAINER_pn-pkgconfig = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_DEPENDENCY_CHECK_pn-pkgconfig = "not done"
+-RECIPE_LATEST_VERSION_pn-pkgconfig = "0.25"
+ RECIPE_INTEL_SECTION_pn-pkgconfig = "base utils"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-pkgconfig = "n/a"
+-RECIPE_LATEST_RELEASE_DATE_pn-pkgconfig = "May 01, 2010"
+-RECIPE_COMMENTS_pn-pkgconfig = "git as candidate, 0.23: Jan 01, 2008, 0.24: 05/2010, 0.25: 05/2010"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-pkgconfig = "1 year"
++RECIPE_COMMENTS_pn-pkgconfig = ""
++RECIPE_NO_UPDATE_REASON_pn-pkgconfig = "0.26 removes glib-conf, adds circular depends"
  
- LICENSE = "GPLv2+ & LGPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING.tools;md5=94d55d512a9ba36caa9b7df079bae19f \
- 		    file://COPYING.lib;md5=3bf50002aefd002f49e7bb854063f7e7"
+ RECIPE_STATUS_pn-less = "green"
+ RECIPE_LAST_UPDATE_pn-less = "May 24, 2011"
+@@ -1548,17 +1544,17 @@ RECIPE_LATEST_RELEASE_DATE_pn-findutils = "Jun 01, 2009"
+ RECIPE_COMMENTS_pn-findutils = ""
  
--SRCREV = "efa7266bcf78478ce62e8dd778a4f0417bfd4d15"
--PV = "0.10.8+git${SRCPV}"
--PR = "r4"
-+SRCREV = "8d64bc23d2b837421ecf9c7b0e4b8d5d95ca0d21"
-+PV = "1.29.0+gitr${SRCPV}"
-+DEFAULT_PREFERENCE = "-1"
+ RECIPE_STATUS_pn-file = "green"
++RECIPE_LATEST_VERSION_pn-file = "5.09"
++RECIPE_LATEST_RELEASE_DATE_pn-file = "Sep 16, 2011"
+ RECIPE_LAST_UPDATE_pn-file = "Jul 12, 2011"
+ RECIPE_MAINTAINER_pn-file = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_DEPENDENCY_CHECK_pn-file = "done"
+-RECIPE_LATEST_VERSION_pn-file = "5.09"
+ RECIPE_PATCH_pn-file+dump = "some new magic data"
+ RECIPE_PATCH_pn-file+filesystems = "some other new magic data"
+ RECIPE_INTEL_SECTION_pn-file = "base utils"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-file = "1-3 months"
+-RECIPE_LATEST_RELEASE_DATE_pn-file = "Sep 16, 2011"
+ RECIPE_COMMENTS_pn-file = "2-clause BSD"
+-RECIPE_MANUAL_CHECK_DATE_pn-file = "Sep 27, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-file = "Nov 08, 2011"
  
- S = "${WORKDIR}/git"
+ RECIPE_STATUS_pn-rsync = "green"
+ RECIPE_LAST_UPDATE_pn-rsync = "Jul 6, 2010"
+@@ -1690,9 +1686,9 @@ RECIPE_LATEST_RELEASE_DATE_pn-strace = "Apr 01, 2010"
+ RECIPE_COMMENTS_pn-strace = "3-clause BSD"
  
--DEPENDS = "libffi python-native gobject-introspection-native"
--DEPENDS_virtclass-native = "libffi-native python-native bison-native flex-native"
--
- inherit autotools
+ RECIPE_STATUS_pn-dhcp = "green"
++RECIPE_LATEST_VERSION_pn-dhcp = "4.2.3
++RECIPE_LATEST_RELEASE_DATE_pn-dhcp = "Oct 19, 2011
+ RECIPE_LAST_UPDATE_pn-dhcp = "Sep 28, 2011"
+-RECIPE_LATEST_VERSION_pn-dhcp = "4.2.2
+-RECIPE_LATEST_RELEASE_DATE_pn-dhcp = "Aug 10, 2011
+ RECIPE_MAINTAINER_pn-dhcp = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_INTEL_SECTION_pn-dhcp = "base utils"
+ RECIPE_COMMENTS_pn-dhcp = "several major release, others are 3.1.3, 4.0.2-P1, need to identify"
+@@ -1929,6 +1925,7 @@ RECIPE_LATEST_VERSION_pn-tiff = "3.9.5"
+ RECIPE_LAST_UPDATE_pn-tiff = "Jul 12, 2011"
+ RECIPE_MAINTAINER_pn-tiff = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_MANUAL_CHECK_DATE_pn-tiff = "Jul 12, 2011"
++RECIPE_NO_UPDATE_REASON_pn-tiff = "Wait until 4.0.0 releases"
  
--TARGET_CFLAGS += "-I${STAGING_INCDIR_NATIVE}/python2.5"
-+BBCLASSEXTEND = "native"
+ RECIPE_STATUS_pn-libexif = "green"
+ RECIPE_LATEST_VERSION_pn-libexif = "0.6.20"
+@@ -3106,10 +3103,10 @@ RECIPE_LATEST_VERSION_pn-unifdef="2.6.18+git"
+ RECIPE_MAINTAINER_pn-unifdef = "Nitin A Kamble <nitin.a.kamble@intel.com>"
  
- do_configure_prepend () {
--	echo "EXTRA_DIST = " > ${S}/gtk-doc.make
-+        echo "EXTRA_DIST = " > ${S}/gtk-doc.make
- }
+ RECIPE_STATUS_pn-gnu-config="green" 
+-RECIPE_LATEST_VERSION_pn-gnu-config="svn"
++RECIPE_LATEST_VERSION_pn-gnu-config="git"
+ DISTRO_PN_ALIAS_pn-gnu-config = "OpenedHand"
+-RECIPE_LAST_UPDATE_pn-gnu-config = "Jun 21, 2010"
+-RECIPE_MANUAL_CHECK_DATE_pn-gnu-config = "Oct 18, 2011" 
++RECIPE_LAST_UPDATE_pn-gnu-config = "Nov 08, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-gnu-config = "Nov 08, 2011"
+ RECIPE_MAINTAINER_pn-gnu-config = "Nitin A Kamble <nitin.a.kamble@intel.com>"
  
--BBCLASSEXTEND = "native"
-+EXTRA_OECONF = "\
-+  --disable-gtk-doc \
-+  --disable-gtk-doc-html \
-+  --disable-gtk-doc-pdf \
-+  --disable-tests \
-+"
+ RECIPE_STATUS_pn-mpfr="green"
+@@ -5137,7 +5134,10 @@ RECIPE_NO_OF_PATCHES_pn-gobject-introspection = "3"
+ RECIPE_INTEL_SECTION_pn-gobject-introspection = "graphic UX"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-gobject-introspection = "1 months"
+ RECIPE_LATEST_RELEASE_DATE_pn-gobject-introspection = "Sep 01, 2010"
+-RECIPE_COMMENTS_pn-gobject-introspection = ""
++RECIPE_COMMENTS_pn-gobject-introspection = "m4 files are used but upstream source is not cross-compile-able"
++RECIPE_NO_UPDATE_REASON_pn-gobject_introspection = "Does not cross-compile"
++RECIPE_MAINTAINER_pn-gobject-introspection = "Kai Kang <kai.kang@windriver.org>"
++
+ RECIPE_LAST_UPDATE_pn-gnome-common = "Jul 7, 2010"
+ RECIPE_MAINTAINER_pn-gnome-common = "Zhai Edwin <edwin.zhai@intel.com>"
+ 
 -- 
 1.7.6.4
 
