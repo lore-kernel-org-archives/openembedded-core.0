@@ -1,27 +1,33 @@
-Received: from mga14.intel.com ([143.182.124.37])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RQHXX-0003dE-VT
-	for openembedded-core@lists.openembedded.org;
-	Tue, 15 Nov 2011 12:51:00 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 15 Nov 2011 03:44:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,514,1315206000"; d="scan'208";a="75055833"
-Received: from unknown (HELO helios.localnet) ([10.252.121.171])
-	by azsmga001.ch.intel.com with ESMTP; 15 Nov 2011 03:44:35 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Tue, 15 Nov 2011 11:44:34 +0000
-Message-ID: <1822275.d3xp7880vj@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.7.3 (Linux/3.0.0-12-generic-pae; KDE/4.7.3; i686; ; )
-In-Reply-To: <20A7BCF2-FB25-4E8F-91A5-00F5234AB184@dominion.thruhere.net>
-References: <cover.1321296476.git.paul.eggleton@linux.intel.com>
-	<1321307338.26881.83.camel@ted>
-	<20A7BCF2-FB25-4E8F-91A5-00F5234AB184@dominion.thruhere.net>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/4] distcc: make distccmon-gnome optional and default to off
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RQHs9-0004qN-Qf for openembedded-core@lists.openembedded.org;
+	Tue, 15 Nov 2011 13:12:18 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAFC5tWd024910
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Nov 2011 12:05:55 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 24447-06 for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Nov 2011 12:05:51 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAFC5mTv024904
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Nov 2011 12:05:49 GMT
+Message-ID: <1321358753.26881.167.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 15 Nov 2011 12:05:53 +0000
+In-Reply-To: <1321330597-12119-1-git-send-email-cwabbott0@gmail.com>
+References: <1321330597-12119-1-git-send-email-cwabbott0@gmail.com>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] mime.bbclass: fix typo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,34 +42,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Nov 2011 11:51:00 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 15 Nov 2011 12:12:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tuesday 15 November 2011 08:58:00 Koen Kooi wrote:
-> Let's move this to the TSC and see if we can get this crap removed. There is
-> already an existing ruling that USEFLAGS should be a last resort. I'm tired
-> of yocto-marketing feel good patches making life harder for people actually
-> using oe-core and its output.
+On Mon, 2011-11-14 at 23:16 -0500, Connor Abbott wrote:
+> Before this patch, nautilus would fail with:
+> ERROR: Error executing a python function in /home/connor/angstrom/sources/meta-openembedded/meta-gnome/recipes-gnome/nautilus/nautilus_2.32.2.bb:
+> NameError: global name 'dgetVar' is not defined
+> Signed-off-by: Connor Abbott <cwabbott0@gmail.com>
+> ---
+>  meta/classes/mime.bbclass |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
 
-Marketing has nothing to do with it. All I really want is to fix the problem 
-that the build blows up if you try to build any image for any of the qemu* 
-machines with x11 removed from DISTRO_FEATURES. I think it would have been 
-nice to also be able to avoid having to build gtk+ and everything it depends 
-upon for all such images regardless of whether or not it is really needed, but 
-I can live without making that further cleanup if it's going to cause such an 
-uproar.
+Merged to master, thanks.
 
-If PACKAGE_CONFIG is not an acceptable solution to this problem I'll accept 
-checking for x11 in DISTRO_FEATURES alone, if that's what it takes to get the 
-real problem fixed.
+Richard
 
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
