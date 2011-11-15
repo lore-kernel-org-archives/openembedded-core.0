@@ -1,23 +1,39 @@
-Received: from smtp2-g21.free.fr ([212.27.42.2])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1RQKA9-0000Ry-KA
-	for openembedded-core@lists.openembedded.org;
-	Tue, 15 Nov 2011 15:39:01 +0100
-Received: from [192.168.1.15] (unknown [82.240.38.71])
-	by smtp2-g21.free.fr (Postfix) with ESMTP id 6A1394B017D
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RQKK3-0000e1-4q for openembedded-core@lists.openembedded.org;
+	Tue, 15 Nov 2011 15:49:15 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAFEgqiV026443
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2011 15:32:37 +0100 (CET)
-Message-ID: <4EC27804.7060902@eukrea.com>
-Date: Tue, 15 Nov 2011 15:32:36 +0100
-From: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111105 Thunderbird/8.0
-MIME-Version: 1.0
+	Tue, 15 Nov 2011 14:42:52 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 26302-02 for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Nov 2011 14:42:48 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAFEgkoB026437
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Nov 2011 14:42:47 GMT
+Message-ID: <1321368170.26881.221.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <4EC24711.2010805@eukrea.com>
-In-Reply-To: <4EC24711.2010805@eukrea.com>
-Subject: Re: Reproducible build problem with BB_NUMBER_THREADS=8
+Date: Tue, 15 Nov 2011 14:42:50 +0000
+In-Reply-To: <543166F7-0EA0-47B3-A7E1-4EE932979710@dominion.thruhere.net>
+References: <cover.1321296476.git.paul.eggleton@linux.intel.com>
+	<1321307338.26881.83.camel@ted>
+	<20A7BCF2-FB25-4E8F-91A5-00F5234AB184@dominion.thruhere.net>
+	<1822275.d3xp7880vj@helios>
+	<64A64AAB-6921-4A47-99FD-26BD1C58D15C@dominion.thruhere.net>
+	<1321364620.26881.211.camel@ted>
+	<543166F7-0EA0-47B3-A7E1-4EE932979710@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 3/4] distcc: make distccmon-gnome optional and default to off
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,33 +48,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Nov 2011 14:39:02 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 15 Nov 2011 14:49:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Le 15/11/2011 12:03, Eric B=E9nard a =E9crit :
-> - log2.txt (plain oe-core + angstrom setup to remove the doubt of my ov=
-erlay
-> being the source of the problem) :
-> directfb fails with
-> mkdgifft.cpp:64:16: fatal error: list: No such file or directory
-> the file exists :
-> build/tmp-angstrom_2010_x-eglibc/sysroots/beagleboard/usr/include/c++/l=
-ist
-> here again, it seems that include/c++ is not in the header search path
-> =3D> I reduced BB_NUMBER_THREADS to 1 and launched again bitbake (build=
- actually
-> in progress).
->
-this build also crashed a few hours later on gnutls with :
-| ./includes/gnutls/gnutlsxx.h:4:21: fatal error: exception: No such file=
- or=20
-directory
+On Tue, 2011-11-15 at 14:59 +0100, Koen Kooi wrote:
+> Op 15 nov. 2011, om 14:43 heeft Richard Purdie het volgende geschreven:
+> > To put this quite simply, I think there is no good reason we shouldn't
+> > use the mechanism we've selected to handle this kind of problem. We
+> > should have defaults the reflect backwards compatibility. Other than
+> > that where is the problem other than a general objection to
+> > PACKAGECONFIG?
+> 
+> It forces a choice when there is a solution where things can coexist.
 
-Here again the only solution is to remove tmp and start again with a redu=
-ced=20
-BB_NUMBER_THREADS.
+There are multiple ways of coexisting and the configuration changing
+based on DISTRO_FEATURES doesn't force a choice either.
 
-Eric
+Bottom line is we discussed and agreed a way of handling this and I'd
+really like to have one preferred way of doing so. IMO the two recipe
+approach duplicates build time and adds complexity into the recipe which
+we can avoid using PACKAGECONFIG. Yes that has complexities of its own
+but the sooner we start experimenting with it, the sooner we'll work
+through any issues. There are certainly ways we can make things neater.
+If it really does turn out to be a bad idea we can come up with good
+reasons why we should get rid of it.
+
+FWIW, if you want an example of how badly wrong a two recipe approach
+can get, see the dpkg/update-alternatives mess I fixed yesterday.
+
+Cheers,
+
+Richard
+
 
 
