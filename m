@@ -1,28 +1,23 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RQKK3-0000e1-4q for openembedded-core@lists.openembedded.org;
-	Tue, 15 Nov 2011 15:49:15 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAFEgqiV026443
+Received: from mail-ww0-f41.google.com ([74.125.82.41])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1RQKWS-0001IV-NR
+	for openembedded-core@lists.openembedded.org;
+	Tue, 15 Nov 2011 16:02:04 +0100
+Received: by wwf25 with SMTP id 25so6317118wwf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2011 14:42:52 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 26302-02 for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2011 14:42:48 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAFEgkoB026437
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2011 14:42:47 GMT
-Message-ID: <1321368170.26881.221.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Nov 2011 14:42:50 +0000
-In-Reply-To: <543166F7-0EA0-47B3-A7E1-4EE932979710@dominion.thruhere.net>
+	Tue, 15 Nov 2011 06:55:42 -0800 (PST)
+Received: by 10.216.154.10 with SMTP id g10mr4420909wek.103.1321368942250;
+	Tue, 15 Nov 2011 06:55:42 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235]) by mx.google.com with ESMTPS id
+	en13sm29094928wbb.22.2011.11.15.06.55.40
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 15 Nov 2011 06:55:41 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1321368170.26881.221.camel@ted>
+Date: Tue, 15 Nov 2011 15:55:38 +0100
+Message-Id: <0B9C45DF-86DC-4D1C-8D66-C59EB17C9D8C@dominion.thruhere.net>
 References: <cover.1321296476.git.paul.eggleton@linux.intel.com>
 	<1321307338.26881.83.camel@ted>
 	<20A7BCF2-FB25-4E8F-91A5-00F5234AB184@dominion.thruhere.net>
@@ -30,9 +25,10 @@ References: <cover.1321296476.git.paul.eggleton@linux.intel.com>
 	<64A64AAB-6921-4A47-99FD-26BD1C58D15C@dominion.thruhere.net>
 	<1321364620.26881.211.camel@ted>
 	<543166F7-0EA0-47B3-A7E1-4EE932979710@dominion.thruhere.net>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
+	<1321368170.26881.221.camel@ted>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1251.1)
 Subject: Re: [PATCH 3/4] distcc: make distccmon-gnome optional and default to off
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -48,38 +44,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Nov 2011 14:49:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 Nov 2011 15:02:04 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2011-11-15 at 14:59 +0100, Koen Kooi wrote:
-> Op 15 nov. 2011, om 14:43 heeft Richard Purdie het volgende geschreven:
-> > To put this quite simply, I think there is no good reason we shouldn't
-> > use the mechanism we've selected to handle this kind of problem. We
-> > should have defaults the reflect backwards compatibility. Other than
-> > that where is the problem other than a general objection to
-> > PACKAGECONFIG?
-> 
-> It forces a choice when there is a solution where things can coexist.
 
-There are multiple ways of coexisting and the configuration changing
-based on DISTRO_FEATURES doesn't force a choice either.
+Op 15 nov. 2011, om 15:42 heeft Richard Purdie het volgende geschreven:
 
-Bottom line is we discussed and agreed a way of handling this and I'd
-really like to have one preferred way of doing so. IMO the two recipe
-approach duplicates build time and adds complexity into the recipe which
-we can avoid using PACKAGECONFIG. Yes that has complexities of its own
-but the sooner we start experimenting with it, the sooner we'll work
-through any issues. There are certainly ways we can make things neater.
-If it really does turn out to be a bad idea we can come up with good
-reasons why we should get rid of it.
+> On Tue, 2011-11-15 at 14:59 +0100, Koen Kooi wrote:
+>> Op 15 nov. 2011, om 14:43 heeft Richard Purdie het volgende =
+geschreven:
+>>> To put this quite simply, I think there is no good reason we =
+shouldn't
+>>> use the mechanism we've selected to handle this kind of problem. We
+>>> should have defaults the reflect backwards compatibility. Other than
+>>> that where is the problem other than a general objection to
+>>> PACKAGECONFIG?
+>>=20
+>> It forces a choice when there is a solution where things can coexist.
+>=20
+> There are multiple ways of coexisting and the configuration changing
+> based on DISTRO_FEATURES doesn't force a choice either.
 
-FWIW, if you want an example of how badly wrong a two recipe approach
-can get, see the dpkg/update-alternatives mess I fixed yesterday.
+It does force a choice, since you don't want to change DISTRO_FEATURES =
+when distributing binaries. If changing it is safe, then it isn't a =
+DISTRO_FEATURE.
 
-Cheers,
+regards,
 
-Richard
-
+Koen=
 
 
