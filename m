@@ -1,32 +1,28 @@
 Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>)
-	id 1RQE0P-0005mn-KW; Tue, 15 Nov 2011 09:04:33 +0100
-Received: by wwp14 with SMTP id 14so5210913wwp.24
-	for <multiple recipients>; Mon, 14 Nov 2011 23:58:11 -0800 (PST)
-Received: by 10.216.177.134 with SMTP id d6mr1814915wem.16.1321343891213;
-	Mon, 14 Nov 2011 23:58:11 -0800 (PST)
+	(envelope-from <koen@dominion.thruhere.net>) id 1RQE3H-0005r9-Mg
+	for openembedded-core@lists.openembedded.org;
+	Tue, 15 Nov 2011 09:07:31 +0100
+Received: by wwp14 with SMTP id 14so5213765wwp.24
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Nov 2011 00:01:06 -0800 (PST)
+Received: by 10.227.206.81 with SMTP id ft17mr15522491wbb.23.1321344066603;
+	Tue, 15 Nov 2011 00:01:06 -0800 (PST)
 Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
 	[84.80.112.235])
-	by mx.google.com with ESMTPS id eu16sm27882337wbb.7.2011.11.14.23.58.09
+	by mx.google.com with ESMTPS id ff6sm27888574wbb.10.2011.11.15.00.01.04
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 14 Nov 2011 23:58:10 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
+	Tue, 15 Nov 2011 00:01:05 -0800 (PST)
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1321307338.26881.83.camel@ted>
-Date: Tue, 15 Nov 2011 08:58:00 +0100
-Message-Id: <20A7BCF2-FB25-4E8F-91A5-00F5234AB184@dominion.thruhere.net>
-References: <cover.1321296476.git.paul.eggleton@linux.intel.com>
-	<2ffb85152b2b9356efeb008891d8ed29f1f35cef.1321296476.git.paul.eggleton@linux.intel.com>
-	<E3435B57-20F8-421E-8E1B-966A1B95CC8F@dominion.thruhere.net>
-	<1321303197.26881.74.camel@ted>
-	<22478035-0923-402B-8617-45F140D38288@dominion.thruhere.net>
-	<1321307338.26881.83.camel@ted>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Tue, 15 Nov 2011 09:00:56 +0100
+In-Reply-To: <1321315894.26881.117.camel@ted>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+References: <4EC1A8A1.5010303@balister.org> <1321315894.26881.117.camel@ted>
+Message-Id: <EE00B0A1-9D71-46B3-9114-44B80A870E85@dominion.thruhere.net>
 X-Mailer: Apple Mail (2.1251.1)
-Cc: tsc@lists.openembedded.org
-Subject: Re: [PATCH 3/4] distcc: make distccmon-gnome optional and default to off
+Subject: Re: Build failure in samba
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,77 +37,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Nov 2011 08:04:33 -0000
-X-Groupsio-MsgNum: 12466
+X-List-Received-Date: Tue, 15 Nov 2011 08:07:32 -0000
+X-Groupsio-MsgNum: 12467
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_924FD739-A688-4EDE-A108-D84FD7F72ED4";
+	boundary="Apple-Mail=_341554A1-E6A7-4BDA-BD9C-767BB6D94757";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_924FD739-A688-4EDE-A108-D84FD7F72ED4
+--Apple-Mail=_341554A1-E6A7-4BDA-BD9C-767BB6D94757
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=us-ascii
 
 
-Op 14 nov. 2011, om 22:48 heeft Richard Purdie het volgende geschreven:
+Op 15 nov. 2011, om 01:11 heeft Richard Purdie het volgende geschreven:
 
-> On Mon, 2011-11-14 at 21:55 +0100, Koen Kooi wrote:
->> Op 14 nov. 2011, om 21:39 heeft Richard Purdie het volgende =
-geschreven:
->>> On Mon, 2011-11-14 at 20:17 +0100, Koen Kooi wrote:
->>>> I think splitting distccmon-gnome into a seperate recipe is a =
-better idea.
->>>=20
->>> I think that makes sense in some cases but I'd hate for it to become =
-the
->>> default approach for issues like this as the duplication of code,
->>> parsing and build time etc. grate on me. Do we really need separate
->>> recipes?
+> On Mon, 2011-11-14 at 18:47 -0500, Philip Balister wrote:
+>> Anyone have an idea about this failure building samba?
 >>=20
->> I think for this case, yes. And I'll happily trade needing extra
->> buildtime for not needing USEFLAGS.
+>> http://pastebin.com/5PGX6MZr
 >>=20
-> The proposals for alternative recipes for the different combinations =
-got
-> voted down and PACKAGECONFIG was the preferred solution. I can't say I
-> personally like everything about the outcome. I do however understand
-> why we've ended up in that position and don't intend to undermine the
-> usefulness of it.
+>> I'm going to look more tomorrow, just hoping someone sees something =
+obvious.
 >=20
->>> I'll probably take this patch as it improves the situation IMO (and
->> is
->>> easy to change the configuration from a distro config if anyone does
->>> have an issue with it being disabled).
->>=20
->> This patch changes the default behaviour in a way that distros need =
-to
->> update their configs in order to keep the status quo. I know I use
->> distccmon-gnome on my boards, but will I remember 2 months from now
->> that this patch went in? I asked this before in a different context,
->> but I'll ask again: do you expect distro maintainers to vet each and
->> every commit that goes into OE-core to find out when default got
->> (silently) changed?
->>=20
->> USEFLAGS should be a last resort when having seperate recipes doesn't
->> work out, not a default cure.=20
+> Maybe this might help:
 >=20
-> The discussion and decision went against this, rightly or wrongly
-> PACKAGECONFIG is here and we should start to use it. In some cases it
-> will help you a lot, in others it will cause you a bit more work. Such
-> is life.
+>=20
+> commit ce064001e628597cab9c5713f1351e03478a4aa5
+> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Date:   Wed Nov 2 14:24:37 2011 +0000
+>=20
+>    samba: Force python disabled for now to avoid host contamination
+>=20
+> diff --git a/recipes-support/samba/samba_3.5.6.bb =
+b/recipes-support/samba/samba_3.5.6.bb
+> index d5945f9..a44ce02 100644
+> --- a/recipes-support/samba/samba_3.5.6.bb
+> +++ b/recipes-support/samba/samba_3.5.6.bb
 
-Let's move this to the TSC and see if we can get this crap removed. =
-There is already an existing ruling that USEFLAGS should be a last =
-resort. I'm tired of yocto-marketing feel good patches making life =
-harder for people actually using oe-core and its output.
+Weird, samba is in recipes-connectivity over here:
+
+koen@dominion:/OE/tentacle/sources/meta-openembedded/meta-oe$ find . | =
+grep samba_3.5.6
+./recipes-connectivity/samba/samba_3.5.6.bb
 
 
 
-
-
-
-
---Apple-Mail=_924FD739-A688-4EDE-A108-D84FD7F72ED4
+--Apple-Mail=_341554A1-E6A7-4BDA-BD9C-767BB6D94757
 Content-Transfer-Encoding: 7bit
 Content-Disposition: inline;
 	filename=signature.asc
@@ -121,9 +92,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 
 -----BEGIN PGP SIGNATURE-----
 
-iEYEARECAAYFAk7CG48ACgkQMkyGM64RGpEecQCfbpVXYJpjdEO/pyKOlFiJfHEy
-QsUAnA2n9z4PPiHrAoL6DqjqGvH1rzQy
-=1sMo
+iEYEARECAAYFAk7CHD8ACgkQMkyGM64RGpEGOgCcCUd+KjoYvX28ManG2LjgGsTZ
+K3sAnjkJ4CReBlsT8fI5eLBCClB7KPcf
+=PmCB
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_924FD739-A688-4EDE-A108-D84FD7F72ED4--
+--Apple-Mail=_341554A1-E6A7-4BDA-BD9C-767BB6D94757--
