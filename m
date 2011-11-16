@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1RQl3P-0007yL-V3
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RQl3Q-0007yL-TA
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 Nov 2011 20:21:52 +0100
+	Wed, 16 Nov 2011 20:21:53 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga101.fm.intel.com with ESMTP; 16 Nov 2011 11:14:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,522,1315206000"; d="scan'208";a="86068970"
+X-IronPort-AV: E=Sophos;i="4.69,522,1315206000"; d="scan'208";a="86068971"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
 	by fmsmga001.fm.intel.com with ESMTP; 16 Nov 2011 11:14:53 -0800
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Nov 2011 11:14:40 -0800
-Message-Id: <0b04b4120dac8dde1a77fdda2367e28096db9e03.1321470759.git.nitin.a.kamble@intel.com>
+Date: Wed, 16 Nov 2011 11:14:41 -0800
+Message-Id: <c5b78d8cb40823d08fe57ac83607e248b323b026.1321470759.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <806c47069d2d344d0fe814b50b495f535de2e924.1321470758.git.nitin.a.kamble@intel.com>
 References: <806c47069d2d344d0fe814b50b495f535de2e924.1321470758.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1321470758.git.nitin.a.kamble@intel.com>
 References: <cover.1321470758.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 5/8] tcl: upgrade from 8.5.10 to 8.5.11
+Subject: [PATCH 6/8] python-gst: upgrade from 0.10.21 to 0.10.22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,34 +33,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Nov 2011 19:21:52 -0000
+X-List-Received-Date: Wed, 16 Nov 2011 19:21:53 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../tcltk/{tcl_8.5.10.bb => tcl_8.5.11.bb}         |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/tcltk/{tcl_8.5.10.bb => tcl_8.5.11.bb} (92%)
+ ...python-gst_0.10.21.bb => python-gst_0.10.22.bb} |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python-gst_0.10.21.bb => python-gst_0.10.22.bb} (82%)
 
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.5.10.bb b/meta/recipes-devtools/tcltk/tcl_8.5.11.bb
-similarity index 92%
-rename from meta/recipes-devtools/tcltk/tcl_8.5.10.bb
-rename to meta/recipes-devtools/tcltk/tcl_8.5.11.bb
-index a9d80af..b1424f4 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.5.10.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.5.11.bb
-@@ -19,8 +19,8 @@ BASE_SRC_URI = "${SOURCEFORGE_MIRROR}/tcl/tcl${PV}-src.tar.gz \
- SRC_URI = "${BASE_SRC_URI} \
- 	   file://fix_non_native_build_issue.patch "
+diff --git a/meta/recipes-devtools/python/python-gst_0.10.21.bb b/meta/recipes-devtools/python/python-gst_0.10.22.bb
+similarity index 82%
+rename from meta/recipes-devtools/python/python-gst_0.10.21.bb
+rename to meta/recipes-devtools/python/python-gst_0.10.22.bb
+index e1b7cc8..baadd41 100644
+--- a/meta/recipes-devtools/python/python-gst_0.10.21.bb
++++ b/meta/recipes-devtools/python/python-gst_0.10.22.bb
+@@ -3,13 +3,13 @@ SECTION = "devel/python"
+ LICENSE = "LGPLv2.1"
+ DEPENDS = "gstreamer gst-plugins-base python-pygobject"
+ RDEPENDS_${PN} += "python-pygtk"
+-PR = "r2"
++PR = "r0"
  
--SRC_URI[md5sum] = "a08eaf8467c0631937067c1948dd326b"
--SRC_URI[sha256sum] = "f582063edd5419a39ee8f7b5c8f95d557b5daad13efb0ed2f0967ca185613bb7"
-+SRC_URI[md5sum] = "b01a9691c83990b3db0ce62d1012ca67"
-+SRC_URI[sha256sum] = "8addc385fa6b5be4605e6d68fbdc4c0e674c5af1dc1c95ec5420390c4b08042a"
+ SRC_URI = "http://gstreamer.freedesktop.org/src/gst-python/gst-python-${PV}.tar.bz2 \
+            file://python-path.patch"
  
- SRC_URI_virtclass-native = "${BASE_SRC_URI}"
+-SRC_URI[md5sum] = "31340ae3e877797a10d088a226d74b16"
+-SRC_URI[sha256sum] = "d5962132c84b88b54d0f63832b8dfcc383a7805827da5abc2d1d215ba86a6f92"
++SRC_URI[md5sum] = "937152fe896241f827689f4b53e79b22"
++SRC_URI[sha256sum] = "8f26f519a5bccd770864317e098e5e307fc5ad1201eb96329634b6508b253178"
+ S = "${WORKDIR}/gst-python-${PV}"
  
+ LIC_FILES_CHKSUM = "file://COPYING;md5=39ff67e932b7bdfa9b78bad67151690b"
 -- 
 1.7.6.4
 
