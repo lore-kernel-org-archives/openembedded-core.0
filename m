@@ -1,24 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1RQYmb-0000Zw-FH
+	(envelope-from <Kai.Kang@windriver.com>) id 1RQYmb-0000Zx-O9
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 Nov 2011 07:15:41 +0100
+	Wed, 16 Nov 2011 07:15:42 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pAG69FE2021850
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pAG69HBv021876
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Nov 2011 22:09:16 -0800 (PST)
+	Tue, 15 Nov 2011 22:09:17 -0800 (PST)
 Received: from localhost.localdomain (128.224.162.225) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.1.255.0; Tue, 15 Nov 2011 22:09:15 -0800
+	(TLS) id 14.1.255.0; Tue, 15 Nov 2011 22:09:17 -0800
 From: Kang Kai <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 16 Nov 2011 14:09:02 +0800
-Message-ID: <cover.1321421127.git.kai.kang@windriver.com>
+Date: Wed, 16 Nov 2011 14:09:03 +0800
+Message-ID: <c7dca7b45c59a9fddbd9551cac5426906a1036c2.1321421127.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <cover.1321421127.git.kai.kang@windriver.com>
+References: <cover.1321421127.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.225]
-Subject: [PATCH 0/1] mesa: fix cross compile failure
+Subject: [PATCH 1/1] mesa: fix cross compile failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,33 +35,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Nov 2011 06:15:41 -0000
+X-List-Received-Date: Wed, 16 Nov 2011 06:15:42 -0000
 Content-Type: text/plain
 
-Hi All, 
+the bin/mklib file in mesa source code uses commands "ar ranlib" on build
+machine, this causes build failed on some platform.
 
-the bin/mklib file in mesa source code uses commands "ar ranlib" on build machine,
-this causes build failed on some platform.
-
-Thanks Khem, Martin and Koen's review for previous version of this serious patch.
-
-The following changes since commit d8193f19fe94224089b0e5fc2026a843f7bd0709:
-
-  opkg: Ensure we use the uname/gname fields when extracting tarballs (2011-11-14 11:15:45 +0000)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib kangkai/distro
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/distro
-
-Kang Kai (1):
-  mesa: fix cross compile failure
-
+Signed-off-by: Kang Kai <kai.kang@windriver.com>
+---
  meta/recipes-graphics/mesa/mesa-7.11.inc           |    1 +
  meta/recipes-graphics/mesa/mesa-common.inc         |    2 +-
  .../mesa/mesa/crossfix-mklib.patch                 |   71 ++++++++++++++++++++
  3 files changed, 73 insertions(+), 1 deletions(-)
  create mode 100644 meta/recipes-graphics/mesa/mesa/crossfix-mklib.patch
 
+diff --git a/meta/recipes-graphics/mesa/mesa-7.11.inc b/meta/recipes-graphics/mesa/mesa-7.11.inc
+index 746b764..2f14ed4 100644
+--- a/meta/recipes-graphics/mesa/mesa-7.11.inc
++++ b/meta/recipes-graphics/mesa/mesa-7.11.inc
+@@ -2,6 +2,7 @@ DEPENDS += "mesa-dri-glsl-native"
+ 
+ SRC_URI += "file://uclibc.patch \
+             file://crossfix.patch \
++            file://crossfix-mklib.patch \
+            "
+ SRC_URI[md5sum] = "ff03aca82d0560009a076a87c888cf13"
+ SRC_URI[sha256sum] = "f8bf37a00882840a3e3d327576bc26a79ae7f4e18fe1f7d5f17a5b1c80dd7acf"
+diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
+index 06ebb75..1d9c894 100644
+--- a/meta/recipes-graphics/mesa/mesa-common.inc
++++ b/meta/recipes-graphics/mesa/mesa-common.inc
+@@ -12,7 +12,7 @@ SECTION = "x11"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://docs/license.html;md5=7a3373c039b6b925c427755a4f779c1d"
+ 
+-INC_PR = "r12"
++INC_PR = "r13"
+ PE = "2"
+ 
+ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2"
+diff --git a/meta/recipes-graphics/mesa/mesa/crossfix-mklib.patch b/meta/recipes-graphics/mesa/mesa/crossfix-mklib.patch
+new file mode 100644
+index 0000000..dc08228
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/mesa/crossfix-mklib.patch
+@@ -0,0 +1,71 @@
++This patch is ported from WindRiver linux and to fix cross compile failure.
++
++And original commits are:
++commit 8d5ccc8113e1b51b0529a00c18a4aba956247e1b
++commit 5c4212084b871a0c0fb7d174280ec9a634637deb
++
++Upstream-Status: Pending
++
++Signed-off-by: Kang Kai <kai.kang@windriver.com>
++
++--- Mesa-7.10.2/bin/mklib.orig	2011-09-28 16:15:34.170000074 +0800
+++++ Mesa-7.10.2/bin/mklib	2011-09-28 16:15:42.370000073 +0800
++@@ -49,8 +49,8 @@
++                     /*) ;;
++                     *)  FILE="$ORIG_DIR/$FILE" ;;
++                 esac
++-                MEMBERS=`ar t $FILE`
++-                ar x $FILE
+++                MEMBERS=`${AR} t $FILE`
+++                ${AR} x $FILE
++                 for MEMBER in $MEMBERS ; do
++                     NEWFILES="$NEWFILES $DIR/$MEMBER"
++                 done
++@@ -77,7 +77,7 @@
++ make_ar_static_lib() {
++     OPTS=$1
++     shift;
++-    RANLIB=$1
+++    USE_RANLIB=$1
++     shift;
++     LIBNAME=$1
++     shift;
++@@ -87,11 +87,11 @@
++     rm -f ${LIBNAME}
++ 
++     # make static lib
++-    ar ${OPTS} ${LIBNAME} ${OBJECTS}
+++    ${AR} ${OPTS} ${LIBNAME} ${OBJECTS}
++ 
++     # run ranlib
++-    if [ ${RANLIB} = 1 ] ; then
++-        ranlib ${LIBNAME}
+++    if [ ${USE_RANLIB} = 1 ] ; then
+++        ${RANLIB} ${LIBNAME}
++     fi
++ 
++     echo ${LIBNAME}
++@@ -313,9 +313,9 @@
++ 	if [ "x$LINK" = "x" ] ; then
++ 	    # -linker was not specified so set default link command now
++             if [ $CPLUSPLUS = 1 ] ; then
++-                LINK=g++
+++                LINK=$CXX
++             else
++-                LINK=gcc
+++                LINK=$CC
++             fi
++ 	fi
++ 
++@@ -531,9 +531,9 @@
++ 	if [ "x$LINK" = "x" ] ; then
++ 	    # -linker was not specified so set default link command now
++             if [ $CPLUSPLUS = 1 ] ; then
++-                LINK=g++
+++                LINK=${CXX}
++             else
++-                LINK=gcc
+++                LINK=${CC}
++             fi
++ 	fi
++ 
 -- 
 1.7.5.4
 
