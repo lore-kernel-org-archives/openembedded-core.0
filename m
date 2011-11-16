@@ -1,48 +1,35 @@
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <heinold@mi.fu-berlin.de>) id 1RQbRH-0004yr-Hc
-	for openembedded-core@lists.openembedded.org;
-	Wed, 16 Nov 2011 10:05:51 +0100
-Received: from relay1.zedat.fu-berlin.de ([130.133.4.67])
-	by outpost1.zedat.fu-berlin.de (Exim 4.69)
-	for openembedded-core@lists.openembedded.org with esmtp
-	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1RQbL8-00079M-AH>; Wed, 16 Nov 2011 09:59:30 +0100
-Received: from hydra.imp.fu-berlin.de ([160.45.117.149]
-	helo=mail.imp.fu-berlin.de) by relay1.zedat.fu-berlin.de (Exim 4.69)
-	for openembedded-core@lists.openembedded.org with esmtp
-	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1RQbL8-0005nG-4I>; Wed, 16 Nov 2011 09:59:30 +0100
-Received: from andorra.imp.fu-berlin.de ([160.45.42.84])
-	by mail.imp.fu-berlin.de with esmtps (Exim 4.72) id 1RQbKh-0006ya-0s
-	(envelope-from <heinold@mi.fu-berlin.de>)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RQcZq-0006et-Qx for openembedded-core@lists.openembedded.org;
+	Wed, 16 Nov 2011 11:18:46 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAGACMBR003153
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Nov 2011 09:59:14 +0100
-Received: from heinold by internal andorra.imp.fu-berlin.de with local (Exim
-	4.72) id 1RQbKb-0003Iu-TR
+	Wed, 16 Nov 2011 10:12:22 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 00303-09 for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Nov 2011 10:12:18 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAGACATX003147
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Nov 2011 09:58:57 +0100
-Date: Wed, 16 Nov 2011 09:58:57 +0100
-From: Henning Heinold <heinold@inf.fu-berlin.de>
+	Wed, 16 Nov 2011 10:12:14 GMT
+Message-ID: <1321438335.26881.232.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111116085857.GA11275@mi.fu-berlin.de>
-References: <cover.1321421127.git.kai.kang@windriver.com>
-	<c7dca7b45c59a9fddbd9551cac5426906a1036c2.1321421127.git.kai.kang@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <c7dca7b45c59a9fddbd9551cac5426906a1036c2.1321421127.git.kai.kang@windriver.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Sender: Henning Heinold <heinold@mi.fu-berlin.de>
-X-Remote-IP: 160.45.42.84
-X-Spam_Score: -4.1
-X-exim-Spam_Score_Int: -40
-X-exim-Spam_Bar: ----
-X-Spam_Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	* -1.2 RP_MATCHES_RCVD Envelope sender domain matches handover relay
-	domain * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-X-Originating-IP: 160.45.117.149
-Subject: Re: [PATCH 1/1] mesa: fix cross compile failure
+Date: Wed, 16 Nov 2011 10:12:15 +0000
+In-Reply-To: <20111115234557.GD3600@jama.jama.net>
+References: <cover.1321028799.git.Martin.Jansa@gmail.com>
+	<d10d38e320b27bfbbf6d069e820a2b6c013bbbdc.1321028799.git.Martin.Jansa@gmail.com>
+	<20111115234557.GD3600@jama.jama.net>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH][oe-core 14/22] libsdl: enable alsa/opengl based on PACKAGECONFIG and respect DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -57,20 +44,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Nov 2011 09:05:51 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 16 Nov 2011 10:18:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 16, 2011 at 02:09:03PM +0800, Kang Kai wrote:
-> the bin/mklib file in mesa source code uses commands "ar ranlib" on build
-> machine, this causes build failed on some platform.
- 
+On Wed, 2011-11-16 at 00:45 +0100, Martin Jansa wrote:
+> On Fri, Nov 11, 2011 at 05:28:50PM +0100, Martin Jansa wrote:
+> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > ---
+> >  meta/recipes-graphics/libsdl/libsdl_1.2.14.bb |   10 +++++++---
+> >  1 files changed, 7 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+> > index 17a3103..2f49f16 100644
+> > --- a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+> > +++ b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+> > @@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=27818cd7fd83877a8e3ef82b82798ef4"
+> >  
+> >  PROVIDES = "virtual/libsdl"
+> >  
+> > -DEPENDS = "${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} virtual/libx11 libxext libxrandr libxrender alsa-lib tslib"
+> > +DEPENDS = "virtual/libx11 libxext libxrandr libxrender tslib"
+> >  DEPENDS_virtclass-nativesdk = "libx11-nativesdk libxrandr-nativesdk libxrender-nativesdk libxext-nativesdk"
+> 
+> As Saul reported PACKAGECONFIG adds build time depends not only to
+> DEPENDS but they also ends in DEPENDS_virtclass-nativesdk and nothing
+> provides virtual/libgl-nativesdk. So I've resend this patch changing
+> only alsa handling to PACKAGECONFIG and keeping opengl as it was.
+> 
+> Cheers,
+> 
+> >  PR = "r1"
+> > @@ -29,17 +29,21 @@ SRC_URI[sha256sum] = "5d927e287034cb6bb0ebccfa382cb1d185cb113c8ab5115a0759798642
+> >  inherit autotools binconfig pkgconfig
+> >  
+> >  EXTRA_OECONF = "--disable-static --disable-debug --enable-cdrom --enable-threads --enable-timers --enable-endian \
+> > -                --enable-file --disable-oss --enable-alsa --disable-esd --disable-arts \
+> > +                --enable-file --disable-oss --disable-esd --disable-arts \
+> >                  --disable-diskaudio --disable-nas --disable-esd-shared --disable-esdtest \
+> >                  --disable-mintaudio --disable-nasm --enable-video-x11 --disable-video-dga \
+> >                  --disable-video-fbcon --disable-video-directfb --disable-video-ps2gs --disable-video-ps3 \
+> >                  --disable-video-xbios --disable-video-gem --disable-video-dummy \
+> >                  --enable-input-events --enable-input-tslib --enable-pthreads \
+> > -		${@base_contains('DISTRO_FEATURES', 'opengl', '--enable-video-opengl', '--disable-video-opengl', d)} \
+> >  		--disable-video-svga \
+> >                  --disable-video-picogui --disable-video-qtopia --enable-dlopen \
+> >                  --disable-rpath"
+> >  
+> > +PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'opengl', 'opengl', '', d)} \
+> > +                   ${@base_contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}"
+> > +PACKAGECONFIG[alsa] = "--enable-alsa,--disable-alsa,alsa-lib,"
+> > +PACKAGECONFIG[opengl] = "--enable-video-opengl,--disable-video-opengl,virtual/libgl,"
+> > +
 
-Hi,
+What we could do is have a 
+PACKAGECONFIG_virtclass-nativesdk = "${@base_contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}" 
+or something like that.
 
-you added CC and CXX variables for linking too, shouldn't that mentioned in the
-commit msg too?
+Cheers,
 
-Bye Henning
+Richard
+
 
 
