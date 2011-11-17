@@ -1,24 +1,35 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jiajun.xu@intel.com>) id 1RQutn-0005Ih-QB
+	(envelope-from <raj.khem@gmail.com>) id 1RQvlV-0006yJ-2y
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 Nov 2011 06:52:36 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 16 Nov 2011 21:45:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="76566351"
-Received: from unknown (HELO localhost) ([10.239.48.201])
-	by orsmga002.jf.intel.com with ESMTP; 16 Nov 2011 21:45:02 -0800
-From: Jiajun Xu <jiajun.xu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Nov 2011 14:05:50 +0800
-Message-Id: <a57410c62ee00cf88d1d09a38fb502ca62d17fab.1321509543.git.jiajun.xu@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <f6328ed6e9a96d7e66d95f479bc1ac8796cbd3e2.1321509543.git.jiajun.xu@intel.com>
-References: <f6328ed6e9a96d7e66d95f479bc1ac8796cbd3e2.1321509543.git.jiajun.xu@intel.com>
-In-Reply-To: <cover.1321509543.git.jiajun.xu@intel.com>
-References: <cover.1321509543.git.jiajun.xu@intel.com>
-Subject: [PATCH 2/2] sanitytest: remove rpm/zypper tests if PACKAGE_CLASSES does not set package_rpm
+	Thu, 17 Nov 2011 07:48:05 +0100
+Received: by faat2 with SMTP id t2so2571430faa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Nov 2011 22:41:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=P5b8mkQfD2Zklr1BAfWNUYrxkut/8WKtHzyhsgCPOSc=;
+	b=DFLzPOplZfooQj6eDFSSP2mk4l/W8lOzcTc2jSucndJPxvHAGttzgeq0nev7l7T+s2
+	F7Hj0vsLpSgrRnNii/xvsq8zH7/xqRCtRZDsVufxHIntr0c0ptWo3UDgnh5QC8jO/4j7
+	8+jIJsoqi1PdEUxZjT9lEAdCm+Q9uja9opM9c=
+Received: by 10.152.102.138 with SMTP id fo10mr22573431lab.44.1321512100101;
+	Wed, 16 Nov 2011 22:41:40 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.152.12.36 with HTTP; Wed, 16 Nov 2011 22:41:09 -0800 (PST)
+In-Reply-To: <1321497356.1264.26.camel@localhost.localdomain>
+References: <4EAE0428.2020209@windriver.com>
+	<CAMKF1spV_BiCTo1YCoKL7XUTqRWtFJFYP4yB16FoyETjYzAuxg@mail.gmail.com>
+	<4EC47257.5030302@windriver.com>
+	<1321497356.1264.26.camel@localhost.localdomain>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 16 Nov 2011 22:41:09 -0800
+Message-ID: <CAMKF1sp4BQc1huW2et1hBUHX-sG9hKh=NA=0ZcFWQVDuyWPRJw@mail.gmail.com>
+To: niqingliang@insigma.com.cn, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Cc: Saul Wold <saul.wold@intel.com>
+Subject: Re: What is the strategy to update eglibc?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,67 +44,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Nov 2011 05:52:36 -0000
+X-List-Received-Date: Thu, 17 Nov 2011 06:48:05 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-If PACKAGE_CLASSES does not set package_rpm as the first item, the root filesystem
-will not be generated based on rpm. We need remove rpm/zypper tests against
-non-rpm filesystem.
+On Wed, Nov 16, 2011 at 6:35 PM, Ni Qingliang
+<niqingliang@insigma.com.cn> wrote:
+> it looks like there is 2.14 bb file already, why the default eglibc stay
+> on 2.13?
 
-[YOCTO #1757]
+2.14 removed some functionality rpc which is used extensively
+alternative to use libtirpc is not sufficient atm. Therefore we
+readded the functionality into 2.14 recipes and they need testing.
+Some distros e.g. angstrom-bleeding use 2.14 but its not default in
+oe-core yet for same reasons that it needs to be
+tested
 
-Signed-off-by: Jiajun Xu <jiajun.xu@intel.com>
----
- meta/classes/imagetest-qemu.bbclass |   25 ++++++++++++++++++++++++-
- 1 files changed, 24 insertions(+), 1 deletions(-)
-
-diff --git a/meta/classes/imagetest-qemu.bbclass b/meta/classes/imagetest-qemu.bbclass
-index de142bc..d01d1f4 100644
---- a/meta/classes/imagetest-qemu.bbclass
-+++ b/meta/classes/imagetest-qemu.bbclass
-@@ -80,9 +80,31 @@ def qemuimagetest_main(d):
-         bb.note("Run %s test in scenario %s" % (case, scen))
-         os.system("%s" % fulltestpath)
-     
-+    """function to check testcase list and remove inappropriate cases"""
-+    def check_list(list):
-+	final_list = []
-+	for test in list:
-+	    (scen, case, fullpath) = test
-+
-+	    """Skip rpm/zypper if package_rpm not set for PACKAGE_CLASSES"""
-+	    if case.find("zypper") != -1 or case.find("rpm") != -1:
-+	        if d.getVar("PACKAGE_CLASSES", True).find("rpm", 0, 11) == -1:
-+            	    bb.note("skip rpm/zypper cases since package_rpm not set in PACKAGE_CLASSES")
-+	 	    continue
-+	        else:
-+		    final_list.append((scen, case, fullpath))
-+	    else:
-+                    final_list.append((scen, case, fullpath))
-+
-+	if not final_list:
-+	    raise bb.build.FuncFailed("There is no suitable testcase for this target")
-+
-+	return final_list
-+
-     """Generate testcase list in runtime"""
-     def generate_list(testlist):
-         list = []
-+	final_list = []
-         if len(testlist) == 0:
-             raise bb.build.FuncFailed("No testcase defined in TEST_SCEN")
- 
-@@ -114,7 +136,8 @@ def qemuimagetest_main(d):
-                        if not os.path.isfile(fulltestcase):
-                             raise bb.build.FuncFailed("Testcase %s not found" % fulltestcase)
-                        list.append((item, casefile, fulltestcase))
--        return list
-+	final_list = check_list(list)
-+        return final_list
- 
-     """Clean tmp folder for testing"""
-     def clean_tmp():
--- 
-1.7.1
-
+>
+> On Thu, 2011-11-17 at 10:32 +0800, Kang Kai wrote:
+>> On 2011=E5=B9=B411=E6=9C=8817=E6=97=A5 05:38, Khem Raj wrote:
+>> > On Sun, Oct 30, 2011 at 7:12 PM, Kang Kai<Kai.Kang@windriver.com> =C2=
+=A0wrote:
+>> >> Hi Saul,
+>> >>
+>> >> I just want to update eglibc but eglibc is using its 2.14 branch and =
+use svn
+>> >> commit revision "15225" as current version. Of course it is behind th=
+e
+>> >> latest svn revision, but I don't quit sure about which is the right r=
+evision
+>> >> to update eglibc.
+>>
+>> Hi Khem,
+>> > since release branches of eglibc only get bug fixes in ideal case it
+>> > should be good at any revision. However if we have bug
+>> > fixes that dont affect us immediately we do not tend to update
+>> > the revision. If you find that some bug fix thats applied upstream is
+>> > needed it certainly can be a reason to bump up srcrev given we do some
+>> > level of build and runtime testing
+>> > with new revision.
+>>
+>> Thanks very much for your detailed explanation.
+>> I check the changelog of eglibc 2.13 branch(latest is 15508), and they
+>> are some tiny updates except the revision 15226 that is same with
+>> current patch
+>>
+>> glibc_bug_fix_12454.patch
+>>
+>> And I made the rough tests of image-sato of qemu-x86 and qemu-arm and
+>> results are fine.
+>>
+>> Regards,
+>> Kai
+>> >
+>> >> Could you give me some guide? Thank you!
+>> >>
+>> >> Regards,
+>> >> Kai
+>> >>
+>> >> _______________________________________________
+>> >> Openembedded-core mailing list
+>> >> Openembedded-core@lists.openembedded.org
+>> >> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>> >>
+>> > _______________________________________________
+>> > Openembedded-core mailing list
+>> > Openembedded-core@lists.openembedded.org
+>> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+> --
+> Yi Qingliang
+> niqingliang@insigma.com.cn
+> https://niqingliang2003.wordpress.com
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
