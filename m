@@ -1,29 +1,20 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RR5Xl-0006Ei-La
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RR6n5-0008M2-TO
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 Nov 2011 18:14:33 +0100
-Received: by wyg8 with SMTP id 8so2350073wyg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2011 09:08:08 -0800 (PST)
-Received: by 10.180.14.129 with SMTP id p1mr41695903wic.8.1321549688465;
-	Thu, 17 Nov 2011 09:08:08 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id e7sm37417944wbh.12.2011.11.17.09.08.05
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 17 Nov 2011 09:08:06 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <ba16511184b69e183eaa2030579183eddb87309b.1321548812.git.nitin.a.kamble@intel.com>
-Date: Thu, 17 Nov 2011 18:08:07 +0100
-Message-Id: <99EB44B0-0033-4DB0-ABCD-BD88EE9921F7@dominion.thruhere.net>
-References: <cover.1321548812.git.nitin.a.kamble@intel.com>
-	<ba16511184b69e183eaa2030579183eddb87309b.1321548812.git.nitin.a.kamble@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH 1/1] gmp: also generate the libgmpcxx library
+	Thu, 17 Nov 2011 19:34:28 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 17 Nov 2011 10:28:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,528,1315206000"; d="scan'208";a="76282013"
+Received: from nbuild0.sc.intel.com ([172.25.110.36])
+	by azsmga001.ch.intel.com with ESMTP; 17 Nov 2011 10:28:01 -0800
+From: nitin.a.kamble@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 Nov 2011 10:27:56 -0800
+Message-Id: <cover.1321554390.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.6.4
+Subject: [PATCH 0/1] reworked gmp commit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,23 +29,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Nov 2011 17:14:33 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 17 Nov 2011 18:34:28 -0000
 
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Op 17 nov. 2011, om 17:55 heeft nitin.a.kamble@intel.com het volgende =
-geschreven:
+Now the generated package names do not get changed.
 
-> From: Nitin A Kamble <nitin.a.kamble@intel.com>
->=20
-> configure runs few checks to make sure c++ compiler and runtime are =
-working as expected
-> with the --enable-cxx=3Ddetect option.
+The following changes since commit 01b645fca1f4816fccf057c6ac95e3ba0877421d:
 
-Has the packaging issue been fixed already (e.g. LEAD_SONAME or a =
-seperate package)?
+  insane.bbclass: avoid errors for x32 kernel (2011-11-16 11:21:40 -0800)
 
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/work
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/work
+
+Nitin A Kamble (1):
+  gmp: also generate the libgmpcxx library
+
+ meta/recipes-support/gmp/gmp.inc      |    4 ++++
+ meta/recipes-support/gmp/gmp_4.2.1.bb |    2 +-
+ meta/recipes-support/gmp/gmp_5.0.2.bb |    2 +-
+ 3 files changed, 6 insertions(+), 2 deletions(-)
+
+-- 
+1.7.6.4
 
 
 
