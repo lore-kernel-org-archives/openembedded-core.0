@@ -1,30 +1,23 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RR2co-0003Kn-Cl for openembedded-core@lists.openembedded.org;
-	Thu, 17 Nov 2011 15:07:34 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAHE1977017389
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2011 14:01:09 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 15957-08 for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2011 14:01:03 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAHE11Bg017383
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2011 14:01:02 GMT
-Message-ID: <1321538466.27449.0.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 17 Nov 2011 14:01:06 +0000
-X-Mailer: Evolution 3.2.1- 
+Received: from mail.gw90.de ([188.40.100.199])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paulepanter@users.sourceforge.net>)
+	id 1RR4tW-0002dg-7P for openembedded-core@lists.openembedded.org;
+	Thu, 17 Nov 2011 17:32:58 +0100
+Received: from f053033195.adsl.alicedsl.de ([78.53.33.195]
+	helo=[192.168.178.21])
+	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
+	id 1RR4nS-00059A-JE for openembedded-core@lists.openembedded.org;
+	Thu, 17 Nov 2011 16:26:42 +0000
+Message-ID: <1321547193.12103.5.camel@mattotaupa>
+From: Paul Menzel <paulepanter@users.sourceforge.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 Nov 2011 17:26:33 +0100
+In-Reply-To: <1321523310-29625-1-git-send-email-heinold@inf.fu-berlin.de>
+References: <1321523310-29625-1-git-send-email-heinold@inf.fu-berlin.de>
+X-Mailer: Evolution 3.0.3-2 
 Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] siggen.py: Include list of variables in hashes
+Subject: Re: [PATCH] useradd.bbclass: do not let depend native packages on base-passwd from target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,32 +32,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Nov 2011 14:07:34 -0000
+X-List-Received-Date: Thu, 17 Nov 2011 16:32:58 -0000
+X-Groupsio-MsgNum: 12580
+Content-Type: multipart/signed; micalg="pgp-sha1";
+	protocol="application/pgp-signature"; 
+	boundary="=-clUGrdEMPW3ikcpmz+NY"
+
+--=-clUGrdEMPW3ikcpmz+NY
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Dear Henning,
+
+
+Am Donnerstag, den 17.11.2011, 10:48 +0100 schrieb Henning Heinold:
+
+> with the setup now in useradd.bbclass, at least dbus-native depends
+> on the base-passwd from target. I think this is not wanted.
+> My patch resets the DEPENDS line for native packages similar to
+> nativesdk.
+
+why do not you use that as the commit message? That would be very
+helpful for me at least. ;-)
+
+
+Thanks,
+
+Paul
+
+--=-clUGrdEMPW3ikcpmz+NY
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
-Ensure that the list of dependencies is included in the hash
-as well as their contents
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
 
-Prior to this, adding or removing dependencies with values
-of "None" would not change the hash, despite diffsigs reporting
-this difference.
+iEYEABECAAYFAk7FNbkACgkQPX1aK2wOHVjmkgCfRCwtvKXKqCoNebOV5JdyW2/Z
+j7gAoIi1IkNJn/GTXGFJSy9krYLMdq3J
+=AO9f
+-----END PGP SIGNATURE-----
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/bitbake/lib/bb/siggen.py b/bitbake/lib/bb/siggen.py
-index 1225791..4ccfc7d 100644
---- a/bitbake/lib/bb/siggen.py
-+++ b/bitbake/lib/bb/siggen.py
-@@ -101,6 +101,7 @@ class SignatureGeneratorBasic(SignatureGenerator):
-             alldeps = seen - self.basewhitelist
- 
-             for dep in sorted(alldeps):
-+                data = data + dep
-                 if dep in lookupcache:
-                     var = lookupcache[dep]
-                 else:
-
-
-
-
+--=-clUGrdEMPW3ikcpmz+NY--
