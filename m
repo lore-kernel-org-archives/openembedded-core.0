@@ -1,30 +1,28 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RQpho-0007Yv-G5 for openembedded-core@lists.openembedded.org;
-	Thu, 17 Nov 2011 01:19:52 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAH0DT5Q009925
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2011 00:13:29 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 09233-06 for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2011 00:13:25 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAH0DKnv009919
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2011 00:13:22 GMT
-Message-ID: <1321488805.18905.5.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 17 Nov 2011 00:13:25 +0000
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] libtool-cross: Upbreak and actually use more of it
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <dvhart@linux.intel.com>) id 1RQqmY-0006CI-KU
+	for openembedded-core@lists.openembedded.org;
+	Thu, 17 Nov 2011 02:28:50 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 16 Nov 2011 17:22:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="76474044"
+Received: from unknown (HELO envy.home) ([10.255.12.86])
+	by orsmga002.jf.intel.com with ESMTP; 16 Nov 2011 17:22:24 -0800
+Message-ID: <4EC461CF.8080501@linux.intel.com>
+Date: Wed, 16 Nov 2011 17:22:23 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	"Zanussi, Tom" <tom.zanussi@intel.com>,
+	"Ashfield, Bruce" <Bruce.Ashfield@windriver.com>, 
+	Mark Hatle <mark.hatle@windriver.com>, "Wold, Saul" <saul.wold@intel.com>
+X-Enigmail-Version: 1.3.3
+Subject: RFC: EFI Support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,73 +37,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Nov 2011 00:19:52 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 17 Nov 2011 01:28:50 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-We should be using libtool-cross for cross compiling but
-were not. This patch sets datadir so libtoolize ends up
-containing correct paths. It then installs libtoolize.
+I'm working to provide EFI boot support for the BSPs in the meta-intel
+layers for the Yocto Project. There are several points to consider and
+before I start work on an implementation, I would appreciate a review of
+this proposal. I'll present the various points to consider, and then
+follow with my proposed solution.
 
-The path ltmain.sh was installed to was incorrect and this is fixed.
+Booting on a pure UEFI system requires an EFI loader. This can currently
+be one of GRUB2, elilo, efilinux, or even a Linux bzImage with the
+experimental EFI_STUB patches applied. Many targets can boot with the
+legacy BIOS services or will need to support both legacy and EFI
+booting, depending on which firmware version is installed on the target.
+This decision is complicated by license issues (GRUB2 is GPLV3),
+functionality issues (efilinux has no UI), and complexity issues (I'd
+rather not introduce yet another bootloader - elilo - into oe-core).
 
-We also now install all the libtool m4 macros.
+Supporting EFI boot has two meanings in my estimation. First, we need a
+recipe for an EFI capable bootloader which can be specified with
+EXTRA_IMAGEDEPENDS in the machine config, in the same way uboot is
+specified by beagelbaord.conf. Second, the live (hddimg) images need to
+be constructed to support EFI. We could build EFI for every live image
+and build universal live images with support for both legacy and EFI
+boot, or we could provide a mechanism to indicate if one or the other
+(or both) mechanisms are required for a given BSP.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-devtools/libtool/libtool-cross_2.4.bb b/meta/recipes-devtools/libtool/libtool-cross_2.4.bb
-index 596528a..4e6e3f2 100644
---- a/meta/recipes-devtools/libtool/libtool-cross_2.4.bb
-+++ b/meta/recipes-devtools/libtool/libtool-cross_2.4.bb
-@@ -1,10 +1,13 @@
- require libtool-${PV}.inc
- 
--PR = "r5"
-+PR = "r7"
- PACKAGES = ""
- SRC_URI += "file://prefix.patch"
- SRC_URI += "file://fixinstall.patch"
- 
-+target_datadir := "${datadir}"
-+datadir = "${STAGING_DIR_TARGET}${target_datadir}"
-+
- do_configure_prepend () {
- 	# Remove any existing libtool m4 since old stale versions would break
- 	# any upgrade
-@@ -13,20 +16,21 @@ do_configure_prepend () {
- }
- 
- do_install () {
--	install -d ${D}${bindir}/
--	install -m 0755 ${HOST_SYS}-libtool ${D}${bindir}/${HOST_SYS}-libtool
--	install -d ${D}${datadir}/libtool/
--	install -d ${D}${datadir}/aclocal/
--	install -c ${S}/libltdl/config/config.guess ${D}${datadir}/libtool/
--	install -c ${S}/libltdl/config/config.sub ${D}${datadir}/libtool/
--	install -c -m 0644 ${S}/libltdl/config/ltmain.sh ${D}${datadir}/libtool/
--	install -c -m 0644 ${S}/libltdl/m4/libtool.m4 ${D}${datadir}/aclocal/
--	install -c -m 0644 ${S}/libltdl/m4/ltdl.m4 ${D}${datadir}/aclocal/
-+	install -d ${D}${bindir_crossscripts}/
-+	install -m 0755 ${HOST_SYS}-libtool ${D}${bindir_crossscripts}/${HOST_SYS}-libtool
-+	install -d ${D}${bindir_crossscripts}/
-+	install -m 0755 libtoolize ${D}${bindir_crossscripts}/
-+	install -d ${D}${target_datadir}/libtool/config/
-+	install -d ${D}${target_datadir}/aclocal/
-+	install -c ${S}/libltdl/config/config.guess ${D}${target_datadir}/libtool/
-+	install -c ${S}/libltdl/config/config.sub ${D}${target_datadir}/libtool/
-+	install -c -m 0644 ${S}/libltdl/config/ltmain.sh ${D}${target_datadir}/libtool/config/
-+	install -c -m 0644 ${S}/libltdl/m4/*.m4 ${D}${target_datadir}/aclocal/
- }
- 
- SYSROOT_PREPROCESS_FUNCS += "libtoolcross_sysroot_preprocess"
- 
- libtoolcross_sysroot_preprocess () {
--	install -d ${SYSROOT_DESTDIR}${bindir_crossscripts}
--	install -m 755 ${D}${bindir}/${HOST_SYS}-libtool ${SYSROOT_DESTDIR}${bindir_crossscripts}/${HOST_SYS}-libtool
-+	sysroot_stage_dir ${D}${bindir_crossscripts} ${SYSROOT_DESTDIR}${bindir_crossscripts}
-+	sysroot_stage_dir ${D}${target_datadir} ${SYSROOT_DESTDIR}${target_datadir}
- }
+As for the selection of an EFI bootloader. For the IA32 BSPs, I intend
+to move to an all Syslinux set of bootloaders eventually. They provide
+all the necessary functionality and are much less complex than GRUB2.
+Unfortunately, Syslinux does not yet support EFI boot. The efilinux
+project does, and I now have working recipes for it, but it does not
+have a UI, and requires either a script, built-in kernel command line,
+or nvram changes in order to boot a kernel with kernel parameters. It
+also has no UI, which would break the existing live image "boot or
+install" boot options. For the time being, I propose building GRUB2 with
+EFI support for BSPs that support it. That limits live images for EFI
+BSPs to GPLV3. When Syslinux has EFI support, I propose switching to
+Syslinux, removing the GPLV3 requirement. This will simplify the images
+as Syslinux can be used for the ISO images, the legacy boot, the EFI
+boot, and the boot after installed to the harddisk. A common menu format
+can be used and provide a much more consistent experience for these BSPs.
 
+As to the mechanism for building the live images, I propose using a set
+of MACHINE_FEATURES values to indicate the type of boot, for example:
+PCBIOS and EFI. Machines wishing to construct live images for both,
+would specify both. The grub2 recipe would then be modified to build the
+efi option if EFI is set. The bootimg and image-live classes would be
+modified to test for PCBIOS and EFI, and prepare the FAT32 hddimg
+accordingly, with either or both boot mechanisms in place. If an
+EFI-only BSP assumes a custom image needs to be created, they add grub2
+to the EXTRA_IMAGEDEPENDS, specify EFI in MACHINE_FEATURES, and drop
+live from the image types.
 
+I believe this approach holds true to the intent of the live images and
+enables EFI systems in the most compatible way, while being minimally
+invasive to oe-core.
+
+Have I overlooked anything? Would I break some use case that I haven't
+thought of? Is there a better mechanism than MACHINE_FEATURES for the
+EFI and PCBIOS flags?
+
+Thanks,
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
