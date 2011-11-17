@@ -1,40 +1,29 @@
-Received: from familie-heinold.de
-	([85.214.48.103] helo=mail.familie-heinold.de ident=postfix)
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <heinold@inf.fu-berlin.de>) id 1RR5QP-0003sl-VO
+	(envelope-from <koen@dominion.thruhere.net>) id 1RR5Xl-0006Ei-La
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 Nov 2011 18:06:59 +0100
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 01706110018B
+	Thu, 17 Nov 2011 18:14:33 +0100
+Received: by wyg8 with SMTP id 8so2350073wyg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2011 18:00:34 +0100 (CET)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 28B691100182
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2011 18:00:33 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	h873313.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.1
-Received: from rhein.familie-heinold.de (g230119040.adsl.alicedsl.de
-	[92.230.119.40]) by mail.familie-heinold.de (Postfix) with ESMTPA
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Nov 2011 18:00:32 +0100 (CET)
-Received: by rhein.familie-heinold.de (Postfix, from userid 1000)
-	id F08573C49D; Thu, 17 Nov 2011 18:00:31 +0100 (CET)
-Date: Thu, 17 Nov 2011 18:00:31 +0100
-From: Henning Heinold <heinold@inf.fu-berlin.de>
+	Thu, 17 Nov 2011 09:08:08 -0800 (PST)
+Received: by 10.180.14.129 with SMTP id p1mr41695903wic.8.1321549688465;
+	Thu, 17 Nov 2011 09:08:08 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id e7sm37417944wbh.12.2011.11.17.09.08.05
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 17 Nov 2011 09:08:06 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <ba16511184b69e183eaa2030579183eddb87309b.1321548812.git.nitin.a.kamble@intel.com>
+Date: Thu, 17 Nov 2011 18:08:07 +0100
+Message-Id: <99EB44B0-0033-4DB0-ABCD-BD88EE9921F7@dominion.thruhere.net>
+References: <cover.1321548812.git.nitin.a.kamble@intel.com>
+	<ba16511184b69e183eaa2030579183eddb87309b.1321548812.git.nitin.a.kamble@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111117170031.GE15601@mail.adw-basketball.de>
-References: <1321523310-29625-1-git-send-email-heinold@inf.fu-berlin.de>
-	<1321547193.12103.5.camel@mattotaupa>
-MIME-Version: 1.0
-In-Reply-To: <1321547193.12103.5.camel@mattotaupa>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Virus-Scanned: ClamAV using ClamSMTP
-Subject: Re: [PATCH] useradd.bbclass: do not let depend native packages on base-passwd from target
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH 1/1] gmp: also generate the libgmpcxx library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,31 +38,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Nov 2011 17:06:59 -0000
+X-List-Received-Date: Thu, 17 Nov 2011 17:14:33 -0000
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 17, 2011 at 05:26:33PM +0100, Paul Menzel wrote:
-> Dear Henning,
-> 
-> 
-> Am Donnerstag, den 17.11.2011, 10:48 +0100 schrieb Henning Heinold:
-> 
-> > with the setup now in useradd.bbclass, at least dbus-native depends
-> > on the base-passwd from target. I think this is not wanted.
-> > My patch resets the DEPENDS line for native packages similar to
-> > nativesdk.
-> 
-> why do not you use that as the commit message? That would be very
-> helpful for me at least. ;-)
 
-Becaus it is not rocket science.
- 
-> 
-> Thanks,
-> 
-> Paul
+Op 17 nov. 2011, om 17:55 heeft nitin.a.kamble@intel.com het volgende =
+geschreven:
 
-Bye Henning
+> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+>=20
+> configure runs few checks to make sure c++ compiler and runtime are =
+working as expected
+> with the --enable-cxx=3Ddetect option.
+
+Has the packaging issue been fixed already (e.g. LEAD_SONAME or a =
+seperate package)?
+
+
 
 
