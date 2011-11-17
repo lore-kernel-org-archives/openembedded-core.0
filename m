@@ -1,25 +1,36 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lei.mei@intel.com>) id 1RQxUo-0004pM-BT
+	(envelope-from <martin.jansa@gmail.com>) id 1RQxsW-0005lu-69
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 Nov 2011 09:38:58 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 17 Nov 2011 00:31:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="76628978"
-Received: from daocaoren-desktop.sh.intel.com (HELO localhost.localdomain)
-	([10.239.47.21])
-	by orsmga002.jf.intel.com with ESMTP; 17 Nov 2011 00:31:30 -0800
-From: Mei Lei <lei.mei@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Nov 2011 16:32:59 +0800
-Message-Id: <ea4995cfbec9d75978131ba7566e30d3a20f99fa.1321516924.git.lei.mei@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1321516924.git.lei.mei@intel.com>
-References: <cover.1321516924.git.lei.mei@intel.com>
-In-Reply-To: <cover.1321516924.git.lei.mei@intel.com>
-References: <cover.1321516924.git.lei.mei@intel.com>
-Subject: [PATCH 1/1] rpm: Flush old logs by change the DB_CONFIG
+	Thu, 17 Nov 2011 10:03:28 +0100
+Received: by bkbzs2 with SMTP id zs2so1684553bkb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Nov 2011 00:57:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=ImSm6RHiw0RMsmQ9Tuj33hPTYICT4VCPxshQGOUPras=;
+	b=YTrHJONHbkM1vapbz8l/UHfD4ZZhH/llen95oOLdbcQmRzWV6Qx3+fTXNG8/ACCCho
+	Q776NGQ0XIUCVoi3MdNirP336tAUQBxPChNFM9aHk6Ig0KLTfcxHWUTzHHn6hSuhNAQE
+	fM5c60Wu2eKhsdoq9rv9Eh2ft8CsWX2YZbUQw=
+Received: by 10.205.120.2 with SMTP id fw2mr24245703bkc.10.1321520223387;
+	Thu, 17 Nov 2011 00:57:03 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id y2sm1490276fag.12.2011.11.17.00.57.01
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 17 Nov 2011 00:57:02 -0800 (PST)
+Date: Thu, 17 Nov 2011 09:56:50 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20111117085650.GA23959@jama.jama.net>
+References: <1321496999.1264.24.camel@localhost.localdomain>
+	<CAEsOVNdL3bTKA9rv6p9SEpvoY+a3b5y6Ftn=ySMVdgkW3nMm3w@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAEsOVNdL3bTKA9rv6p9SEpvoY+a3b5y6Ftn=ySMVdgkW3nMm3w@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: how to exclude files when packaging?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,73 +45,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Nov 2011 08:38:58 -0000
+X-List-Received-Date: Thu, 17 Nov 2011 09:03:28 -0000
+X-Groupsio-MsgNum: 12561
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="IS0zKkzwUGydFO0o"
+Content-Disposition: inline
 
-Fixes [YOCTO #1174]
+--IS0zKkzwUGydFO0o
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Rpm logs will grow indefinitely, so change the config to flush those old logs.
+On Thu, Nov 17, 2011 at 08:14:06AM +0000, McClintock Matthew-B29882 wrote:
+> On Wed, Nov 16, 2011 at 8:29 PM, Ni Qingliang
+> <niqingliang@insigma.com.cn> wrote:
+> > Hello, All:
+> >        I'm working on opensaf, wrote a bb file for it,
+> > and found that the FILES_${PN} has included /usr/lib/${PN}/*.
+> > but there are some .a and .so(symlink) in /usr/lib/${PN}, which will
+> > result QA issue.
+> >        how to exclude some files (e.g. *.a, *.so) in FILES_${PN}?
+> >
+> >        there are some elf in /usr/lib/${PN} whose prefix is not 'lib', =
+so if
+> > no 'exclude' feature, I must redefine FILES_${PN} like this:
+> >        FILES_${PN} =3D "/usr/lib/${PN}/*.so.* \
+> >                       /usr/lib/${PN}/saf* \
+> >                       /usr/lib/${PN}/open* \
+> >                       /usr/lib/${PN}/immload \
+> >                       /usr/lib/${PN}/nid_tipc \
+> >                       /usr/lib/${PN}/smf* \
+> >                       /usr/lib/${PN}/clc-cli/*"
+>=20
+> Explicitly list what you want in FILES_${PN}
+>=20
+> FILES_${PN} =3D /usr/lib/${PN}/saf
+>=20
+> Make another PACKAGE for other files
+>=20
+> PACKAGES =3D+ ${PN}-misc
+> FILES_${PN}-misc =3D /usr/lib/${PN}/saf
+>=20
+> Maybe someone else can chime in if there is a way to mask certain files...
 
-Signed-off-by: Mei Lei <lei.mei@intel.com>
----
- .../recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch |   12 ++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.0.bb             |    5 +++--
- 2 files changed, 15 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch
+Be carefull with order of packages in PACKAGES usually you need it from
+most specific files pattern to less specific and the problem above is
+related to this:
 
-diff --git a/meta/recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch b/meta/recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch
-new file mode 100644
-index 0000000..aafa416
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch
-@@ -0,0 +1,12 @@
-+diff --git a/rpmdb/DB_CONFIG.in b/rpmdb/DB_CONFIG.in
-+index 8b94c94..e0b4689 100644
-+--- a/rpmdb/DB_CONFIG.in
-++++ b/rpmdb/DB_CONFIG.in
-+@@ -4,6 +4,7 @@ set_data_dir		.
-+ set_create_dir		.
-+ set_lg_dir		./log
-+ set_tmp_dir		./tmp
-++set_flags 		db_log_autoremove on
-+ 
-+ # -- thread_count must be >= 8
-+ set_thread_count	64
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-index f8fe836..d14bce4 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-@@ -45,11 +45,12 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
- DEPENDS = "bzip2 zlib db openssl elfutils expat libpcre attr acl popt ${extrarpmdeps}"
- extrarpmdeps = "python perl"
- extrarpmdeps_virtclass-native = "file-native"
--PR = "r23"
-+PR = "r24"
- 
- # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
- # in order to extract the distribution SRPM into a format we can extract...
- SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.0-0.20101229.src.rpm;extract=rpm-5.4.0.tar.gz \
-+	   file://rpm-log-auto-rm.patch \
- 	   file://perfile_rpmdeps.sh \
- 	   file://rpm-autogen.patch \
- 	   file://rpm-libsql-fix.patch \
-@@ -192,6 +193,7 @@ FILES_${PN} = "${bindir}/rpm \
- 		${libdir}/rpm/bin/rpmrepo \
- 		${libdir}/rpm/bin/rpmspecdump \
- 		${libdir}/rpm/bin/wget \
-+		/var/lib/rpm \
- 		"
- 
- #		${libdir}/rpm/magic
-@@ -208,7 +210,6 @@ FILES_${PN}-dbg += "${libdir}/rpm/.debug \
- FILES_${PN}-common = "${bindir}/rpm2cpio \
- 		${bindir}/gendiff \
- 		/etc/rpm \
--		/var/lib/rpm \
- 		/var/spool/repackage \
- 		"
- 
--- 
-1.7.0.4
+http://lists.linuxtogo.org/pipermail/openembedded-core/2011-October/011283.=
+html
 
+which wasn't applied, so yes you have to redefine whole FILES_${PN} or
+the part you need for your app, like I did for syslog-ng
+http://lists.linuxtogo.org/pipermail/openembedded-devel/2011-October/035607=
+=2Ehtml
 
+Regards,
 
+>=20
+> -M
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--IS0zKkzwUGydFO0o
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
+
+iEYEARECAAYFAk7EzFIACgkQN1Ujt2V2gBw6HQCfVFlNE0YQH4b4Zz3e5UM3u0+3
+3RsAoJ+PTIfyoqYyZ9CMkcW/DF9MoteN
+=aI7C
+-----END PGP SIGNATURE-----
+
+--IS0zKkzwUGydFO0o--
