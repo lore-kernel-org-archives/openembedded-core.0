@@ -1,23 +1,20 @@
-Received: from mail.gw90.de ([188.40.100.199])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RR4tW-0002dg-7P for openembedded-core@lists.openembedded.org;
-	Thu, 17 Nov 2011 17:32:58 +0100
-Received: from f053033195.adsl.alicedsl.de ([78.53.33.195]
-	helo=[192.168.178.21])
-	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RR4nS-00059A-JE for openembedded-core@lists.openembedded.org;
-	Thu, 17 Nov 2011 16:26:42 +0000
-Message-ID: <1321547193.12103.5.camel@mattotaupa>
-From: Paul Menzel <paulepanter@users.sourceforge.net>
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RR5LD-0003gL-5S
+	for openembedded-core@lists.openembedded.org;
+	Thu, 17 Nov 2011 18:01:35 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 17 Nov 2011 08:55:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="76944582"
+Received: from nbuild2.sc.intel.com ([172.25.110.37])
+	by orsmga001.jf.intel.com with ESMTP; 17 Nov 2011 08:55:09 -0800
+From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Nov 2011 17:26:33 +0100
-In-Reply-To: <1321523310-29625-1-git-send-email-heinold@inf.fu-berlin.de>
-References: <1321523310-29625-1-git-send-email-heinold@inf.fu-berlin.de>
-X-Mailer: Evolution 3.0.3-2 
-Mime-Version: 1.0
-Subject: Re: [PATCH] useradd.bbclass: do not let depend native packages on base-passwd from target
+Date: Thu, 17 Nov 2011 08:55:07 -0800
+Message-Id: <cover.1321548812.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.4.4
+Subject: [PATCH 0/1] gmp recipe enhancement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,45 +29,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Nov 2011 16:32:58 -0000
-X-Groupsio-MsgNum: 12580
-Content-Type: multipart/signed; micalg="pgp-sha1";
-	protocol="application/pgp-signature"; 
-	boundary="=-clUGrdEMPW3ikcpmz+NY"
+X-List-Received-Date: Thu, 17 Nov 2011 17:01:35 -0000
 
---=-clUGrdEMPW3ikcpmz+NY
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Dear Henning,
+The following changes since commit e7486c3dc7114ef73ff36ce0cbd23eb87f370aa7:
+
+  insane.bbclass: avoid errors for x32 kernel (2011-11-17 08:50:20 -0800)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/work
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/work
+
+Nitin A Kamble (1):
+  gmp: also generate the libgmpcxx library
+
+ meta/recipes-support/gmp/gmp.inc      |    2 ++
+ meta/recipes-support/gmp/gmp_4.2.1.bb |    2 +-
+ 2 files changed, 3 insertions(+), 1 deletions(-)
+
+-- 
+1.7.4.4
 
 
-Am Donnerstag, den 17.11.2011, 10:48 +0100 schrieb Henning Heinold:
 
-> with the setup now in useradd.bbclass, at least dbus-native depends
-> on the base-passwd from target. I think this is not wanted.
-> My patch resets the DEPENDS line for native packages similar to
-> nativesdk.
-
-why do not you use that as the commit message? That would be very
-helpful for me at least. ;-)
-
-
-Thanks,
-
-Paul
-
---=-clUGrdEMPW3ikcpmz+NY
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.11 (GNU/Linux)
-
-iEYEABECAAYFAk7FNbkACgkQPX1aK2wOHVjmkgCfRCwtvKXKqCoNebOV5JdyW2/Z
-j7gAoIi1IkNJn/GTXGFJSy9krYLMdq3J
-=AO9f
------END PGP SIGNATURE-----
-
---=-clUGrdEMPW3ikcpmz+NY--
