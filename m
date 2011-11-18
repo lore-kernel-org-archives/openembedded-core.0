@@ -1,30 +1,34 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RRQX0-0005LB-5g
+	(envelope-from <kergoth@gmail.com>) id 1RRQbK-0005YU-8d
 	for openembedded-core@lists.openembedded.org;
-	Fri, 18 Nov 2011 16:39:10 +0100
-Received: by faat2 with SMTP id t2so4558902faa.6
+	Fri, 18 Nov 2011 16:43:38 +0100
+Received: by eyd9 with SMTP id 9so3357914eyd.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2011 07:32:43 -0800 (PST)
+	Fri, 18 Nov 2011 07:37:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=4R1OzwCsAjk9GyPFXv3sn3gya8WA77PBKOtSpoWfspo=;
-	b=tTOnS4Va6wF1tE9Kxq2xJGLQfDVwdAa/JTuV2qGANO8GUuy+Q6RWOKdC6i7E+3tPlc
-	mmA04y+as4VL4z24g2mCqBTE3w+JJp/Psnub2OhowgSi0exUx6thG7pFxVRZZaci4zri
-	nmmFNAU1y2WdoCU31jutU/fhv7miTKRXM1QJM=
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:content-type
+	:content-transfer-encoding;
+	bh=YxeAHql/dQP/+gdgq/u7Kp8ZYHOHxXQg5HJUR5/S8aU=;
+	b=QGOfdTmhPc2kM5Jf6RB+NxCiH7+Wnf8p64FSSindx3a4fifBkPOnkhg2Ahb0Qj2p8C
+	CpBlQIijlIkC7/I6S/OVovqyfM98cOj7c/vcqvN9cZyAz1SMbIcHtkSIzcKZxt4sCBHC
+	5rjsZkfYIhMUGldCZDDI5y/Wwy0a98zA+l6Ws=
+Received: by 10.180.96.166 with SMTP id dt6mr3644322wib.47.1321630626158; Fri,
+	18 Nov 2011 07:37:06 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.152.102.148 with SMTP id fo20mr2236630lab.51.1321630363783;
-	Fri, 18 Nov 2011 07:32:43 -0800 (PST)
-Received: by 10.152.24.36 with HTTP; Fri, 18 Nov 2011 07:32:43 -0800 (PST)
-In-Reply-To: <1321610734.29435.195.camel@phil-desktop>
-References: <1321575634-24108-1-git-send-email-raj.khem@gmail.com>
-	<1321610734.29435.195.camel@phil-desktop>
-Date: Fri, 18 Nov 2011 07:32:43 -0800
-Message-ID: <CAMKF1spWMzLWp38o45ddf+MFsL+TFsc5X7ANnQixUGwMpOpFcQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
+Sender: kergoth@gmail.com
+Received: by 10.216.28.138 with HTTP; Fri, 18 Nov 2011 07:36:45 -0800 (PST)
+In-Reply-To: <1321626565.15352.18.camel@ted>
+References: <CABcZAN=BW7pRGFfQ5RgeX=rwWWFdWo3iJk2Z4zD1oOapTrpdFQ@mail.gmail.com>
+	<1321626565.15352.18.camel@ted>
+From: Chris Larson <clarson@kergoth.com>
+Date: Fri, 18 Nov 2011 08:36:45 -0700
+X-Google-Sender-Auth: vKBrBUPUzc06Dtn23vpeSMPTnsI
+Message-ID: <CABcZAN=mNmn5SJdAhOZ1otrT3OkTO4Cw91SZBecuHDL2H34pHQ@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-4.6: Fix gcc ICE on qt4-x11-free/armv7-a
+Subject: Re: [PATCH 1/2] bitbake.conf: add a couple explicit vardeps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,58 +43,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Nov 2011 15:39:10 -0000
-Content-Type: multipart/alternative; boundary=f46d040716215b912604b2040c20
-
---f46d040716215b912604b2040c20
+X-List-Received-Date: Fri, 18 Nov 2011 15:43:38 -0000
 Content-Type: text/plain; charset=UTF-8
-
-On Friday, November 18, 2011, Phil Blundell <philb@gnu.org> wrote:
-> On Thu, 2011-11-17 at 16:20 -0800, Khem Raj wrote:
->> Backport fix for PR 47551 fixes the ICE seen on armv7-a/qt4-x11-free
->> Bump up SRCREV past gcc 4.6.2 release
->
-> I thought it was our policy to keep SRCREV aligned with releases as far
-> as possible rather than jumping to some random-ish checkin.  Are you
-> saying that the fix for the ice requires both the patch and the SRCREV
-> update?
-
-Ice fix does not need it but then all the fixes on the branch are PR fixes
-strictly
-It would not deteriorate the quality but make it better
-
->
-> p.
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
---f46d040716215b912604b2040c20
-Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<br><br>On Friday, November 18, 2011, Phil Blundell &lt;<a href=3D"mailto:p=
-hilb@gnu.org">philb@gnu.org</a>&gt; wrote:<br>&gt; On Thu, 2011-11-17 at 16=
-:20 -0800, Khem Raj wrote:<br>&gt;&gt; Backport fix for PR 47551 fixes the =
-ICE seen on armv7-a/qt4-x11-free<br>
-&gt;&gt; Bump up SRCREV past gcc 4.6.2 release<br>&gt;<br>&gt; I thought it=
- was our policy to keep SRCREV aligned with releases as far<br>&gt; as poss=
-ible rather than jumping to some random-ish checkin. =C2=A0Are you<br>&gt; =
-saying that the fix for the ice requires both the patch and the SRCREV<br>
-&gt; update?<br><br>Ice fix does not need it but then all the fixes on the =
-branch are PR fixes strictly<br>It would not deteriorate the quality but ma=
-ke it better<br><br>&gt;<br>&gt; p.<br>&gt;<br>&gt;<br>&gt;<br>&gt; _______=
-________________________________________<br>
-&gt; Openembedded-core mailing list<br>&gt; <a href=3D"mailto:Openembedded-=
-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a><b=
-r>&gt; <a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/opene=
-mbedded-core">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembed=
-ded-core</a><br>
-&gt;
+On Fri, Nov 18, 2011 at 7:29 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Wed, 2011-11-16 at 14:17 -0700, Chris Larson wrote:
+>> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+>> ---
+>> =C2=A0meta/conf/bitbake.conf | =C2=A0 =C2=A02 ++
+>> =C2=A01 files changed, 2 insertions(+), 0 deletions(-)
+>>
+>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>> index 0d6b3b8..c158c61 100644
+>> --- a/meta/conf/bitbake.conf
+>> +++ b/meta/conf/bitbake.conf
+>> @@ -506,6 +506,7 @@ DEBUG_FLAGS ?=3D "-g -feliminate-unused-debug-types"
+>> =C2=A0FULL_OPTIMIZATION =3D "-O2 -pipe ${DEBUG_FLAGS}"
+>> =C2=A0DEBUG_OPTIMIZATION =3D "-O -fno-omit-frame-pointer ${DEBUG_FLAGS} =
+-pipe"
+>> =C2=A0SELECTED_OPTIMIZATION =3D "${@bb.data.getVar(['FULL_OPTIMIZATION',
+>> 'DEBUG_OPTIMIZATION'][d.getVar('DEBUG_BUILD', 1) =3D=3D '1'], d, 1)}"
+>> +SELECTED_OPTIMIZATION[vardeps] +=3D "FULL_OPTIMIZATION DEBUG_OPTIMIZATI=
+ON"
+>> =C2=A0BUILD_OPTIMIZATION =3D "-O2 -pipe"
+>>
+>> =C2=A0##################################################################
+>> @@ -717,6 +718,7 @@ COMBINED_FEATURES =3D "\
+>> =C2=A0 =C2=A0 =C2=A0${@base_both_contain("DISTRO_FEATURES", "MACHINE_FEA=
+TURES",
+>> "usbgadget", d)} \
+>> =C2=A0 =C2=A0 =C2=A0${@base_both_contain("DISTRO_FEATURES", "MACHINE_FEA=
+TURES",
+>> "usbhost", d)} \
+>> =C2=A0 =C2=A0 =C2=A0${@base_both_contain("DISTRO_FEATURES", "MACHINE_FEA=
+TURES", "wifi", d)}"
+>> +COMBINED_FEATURES[vardeps] +=3D "DISTRO_FEATURES MACHINE_FEATURES"
+>>
+>>
+>> =C2=A0# Make sure MACHINE isn't exported
+>
+> I merged this to master but your patch was line wrapped so I had to
+> unmangle it...
 
---f46d040716215b912604b2040c20--
+Yeah, sorry about that. I was getting an inexplicable error from
+send-email, so used imap-send, but forgot that the gmail web interface
+line wraps (stupid thing, they need to add an option to disable that).
+--=20
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+
