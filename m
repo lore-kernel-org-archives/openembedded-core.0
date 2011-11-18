@@ -1,60 +1,32 @@
-Received: from tx2ehsobe002.messaging.microsoft.com ([65.55.88.12]
-	helo=TX2EHSOBE004.bigfish.com)
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RRSk0-0001z6-Fh
+	(envelope-from <philb@gnu.org>) id 1RRTqf-0003oC-P1
 	for openembedded-core@lists.openembedded.org;
-	Fri, 18 Nov 2011 19:00:46 +0100
-Received: from mail96-tx2-R.bigfish.com (10.9.14.249) by
-	TX2EHSOBE004.bigfish.com (10.9.40.24) with Microsoft SMTP Server id
-	14.1.225.22; Fri, 18 Nov 2011 17:53:39 +0000
-Received: from mail96-tx2 (localhost.localdomain [127.0.0.1])	by
-	mail96-tx2-R.bigfish.com (Postfix) with ESMTP id 2F6711100060	for
-	<openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2011 17:53:58 +0000 (UTC)
-X-SpamScore: -6
-X-BigFish: VS-6(zz9371K98dKzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3h61h)
-X-Spam-TCS-SCL: 0:0
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
-	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail96-tx2 (localhost.localdomain [127.0.0.1]) by mail96-tx2
-	(MessageSwitch) id 1321638838126503_20355;
-	Fri, 18 Nov 2011 17:53:58 +0000 (UTC)
-Received: from TX2EHSMHS029.bigfish.com (unknown [10.9.14.249])	by
-	mail96-tx2.bigfish.com (Postfix) with ESMTP id 1A30972804E	for
-	<openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2011 17:53:58 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS029.bigfish.com
-	(10.9.99.129) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Fri, 18 Nov 2011 17:53:37 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.83]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.01.0339.002; Fri, 18 Nov 2011 11:54:11 -0600
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
+	Fri, 18 Nov 2011 20:11:41 +0100
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>)
+	id 1RRTkT-0001Vp-9Q; Fri, 18 Nov 2011 20:05:17 +0100
+From: Phil Blundell <philb@gnu.org>
+To: McClintock Matthew-B29882 <B29882@freescale.com>, Patches and
+	discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] Remove ttyS* from /etc/inittab that are not
-	present
-Thread-Index: AQHMpYhaUdp+eu0WmE6+kG2Z107JFZWyq9EAgACjvoA=
-Date: Fri, 18 Nov 2011 17:54:11 +0000
-Message-ID: <CAEsOVNccy=xs1Fc6MieaanH9zvMFoqq7n-b7ipCXSNLUaVggLw@mail.gmail.com>
+In-Reply-To: <CAEsOVNccy=xs1Fc6MieaanH9zvMFoqq7n-b7ipCXSNLUaVggLw@mail.gmail.com>
 References: <1321570027-29390-1-git-send-email-msm@freescale.com>
 	<CAP9ODKqjGqLg3u-VzFBAqhVSDUBUwG5eFSTtZcv+Zo7mnPLEAQ@mail.gmail.com>
 	<CAEsOVNeb2SLwPX74YDcA4-iFJ6TNm7OAkXUw9Fun-nBkVkhaMA@mail.gmail.com>
 	<1321603664.5276.2.camel@lenovo.internal.reciva.com>
-In-Reply-To: <1321603664.5276.2.camel@lenovo.internal.reciva.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>
+	<CAEsOVNccy=xs1Fc6MieaanH9zvMFoqq7n-b7ipCXSNLUaVggLw@mail.gmail.com>
+Date: Fri, 18 Nov 2011 19:04:31 +0000
+Message-ID: <1321643071.3240.0.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.3 
 Subject: Re: [PATCH] Remove ttyS* from /etc/inittab that are not present
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -65,19 +37,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Nov 2011 18:00:46 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <7E1D98B37CE54D4E880AD6F475451D20@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 18 Nov 2011 19:11:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Nov 18, 2011 at 2:07 AM, Phil Blundell <philb@gnu.org> wrote:
-> if [ true < /dev/ttyS0 ]; then
+On Fri, 2011-11-18 at 17:54 +0000, McClintock Matthew-B29882 wrote:
+> On Fri, Nov 18, 2011 at 2:07 AM, Phil Blundell <philb@gnu.org> wrote:
+> > if [ true < /dev/ttyS0 ]; then
+> 
+> This test returns 0 if the serial node is in my device tree or not
+> (e.g. there or not).
 
-This test returns 0 if the serial node is in my device tree or not
-(e.g. there or not).
+That sounds like a shell bug to me.  What shell are you using?
 
--M=
+p.
+
 
 
 
