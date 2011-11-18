@@ -1,26 +1,60 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from tx2ehsobe002.messaging.microsoft.com ([65.55.88.12]
+	helo=TX2EHSOBE004.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1RRRpE-0000Ff-M0
+	(envelope-from <B29882@freescale.com>) id 1RRSk0-0001z6-Fh
 	for openembedded-core@lists.openembedded.org;
-	Fri, 18 Nov 2011 18:02:04 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 18 Nov 2011 08:55:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="77331582"
-Received: from unknown (HELO localhost) ([10.255.15.232])
-	by orsmga002.jf.intel.com with ESMTP; 18 Nov 2011 08:55:37 -0800
-From: tom.zanussi@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Nov 2011 10:59:07 -0600
-Message-Id: <8b14562502b9ccb4f72807a051e5b195ca31a25c.1321634793.git.tom.zanussi@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1321634793.git.tom.zanussi@intel.com>
-References: <cover.1321634793.git.tom.zanussi@intel.com>
-Subject: [PATCH 1/1] ia32-base.inc: new include file
+	Fri, 18 Nov 2011 19:00:46 +0100
+Received: from mail96-tx2-R.bigfish.com (10.9.14.249) by
+	TX2EHSOBE004.bigfish.com (10.9.40.24) with Microsoft SMTP Server id
+	14.1.225.22; Fri, 18 Nov 2011 17:53:39 +0000
+Received: from mail96-tx2 (localhost.localdomain [127.0.0.1])	by
+	mail96-tx2-R.bigfish.com (Postfix) with ESMTP id 2F6711100060	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 18 Nov 2011 17:53:58 +0000 (UTC)
+X-SpamScore: -6
+X-BigFish: VS-6(zz9371K98dKzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3h61h)
+X-Spam-TCS-SCL: 0:0
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
+	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail96-tx2 (localhost.localdomain [127.0.0.1]) by mail96-tx2
+	(MessageSwitch) id 1321638838126503_20355;
+	Fri, 18 Nov 2011 17:53:58 +0000 (UTC)
+Received: from TX2EHSMHS029.bigfish.com (unknown [10.9.14.249])	by
+	mail96-tx2.bigfish.com (Postfix) with ESMTP id 1A30972804E	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 18 Nov 2011 17:53:58 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS029.bigfish.com
+	(10.9.99.129) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Fri, 18 Nov 2011 17:53:37 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.83]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.01.0339.002; Fri, 18 Nov 2011 11:54:11 -0600
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] Remove ttyS* from /etc/inittab that are not
+	present
+Thread-Index: AQHMpYhaUdp+eu0WmE6+kG2Z107JFZWyq9EAgACjvoA=
+Date: Fri, 18 Nov 2011 17:54:11 +0000
+Message-ID: <CAEsOVNccy=xs1Fc6MieaanH9zvMFoqq7n-b7ipCXSNLUaVggLw@mail.gmail.com>
+References: <1321570027-29390-1-git-send-email-msm@freescale.com>
+	<CAP9ODKqjGqLg3u-VzFBAqhVSDUBUwG5eFSTtZcv+Zo7mnPLEAQ@mail.gmail.com>
+	<CAEsOVNeb2SLwPX74YDcA4-iFJ6TNm7OAkXUw9Fun-nBkVkhaMA@mail.gmail.com>
+	<1321603664.5276.2.camel@lenovo.internal.reciva.com>
+In-Reply-To: <1321603664.5276.2.camel@lenovo.internal.reciva.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>
+Subject: Re: [PATCH] Remove ttyS* from /etc/inittab that are not present
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -31,88 +65,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Nov 2011 17:02:04 -0000
+X-List-Received-Date: Fri, 18 Nov 2011 18:00:46 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <7E1D98B37CE54D4E880AD6F475451D20@freescale.net>
+Content-Transfer-Encoding: quoted-printable
 
-From: Tom Zanussi <tom.zanussi@intel.com>
+On Fri, Nov 18, 2011 at 2:07 AM, Phil Blundell <philb@gnu.org> wrote:
+> if [ true < /dev/ttyS0 ]; then
 
-The meta-intel BSPs currently have a number of machine settings common
-to all - factor these out into a common include file.
+This test returns 0 if the serial node is in my device tree or not
+(e.g. there or not).
 
-Also add several new intel-specific XSERVER variables for building
-XSERVER variables in BSPs.
-
-Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
----
- meta/conf/machine/include/ia32-base.inc |   58 +++++++++++++++++++++++++++++++
- 1 files changed, 58 insertions(+), 0 deletions(-)
- create mode 100644 meta/conf/machine/include/ia32-base.inc
-
-diff --git a/meta/conf/machine/include/ia32-base.inc b/meta/conf/machine/include/ia32-base.inc
-new file mode 100644
-index 0000000..5cf2f4f
---- /dev/null
-+++ b/meta/conf/machine/include/ia32-base.inc
-@@ -0,0 +1,58 @@
-+#
-+# base machine settings for ia32-architecture BSPs
-+#
-+
-+#
-+# common settings for Intel-based machines
-+#
-+MACHINE_FEATURES += "kernel26 screen keyboard pci usbhost ext2 ext3 x86 \
-+                     acpi serial usbgadget"
-+
-+MACHINE_EXTRA_RRECOMMENDS += "kernel-modules eee-acpi-scripts"
-+MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "grub"
-+
-+IMAGE_FSTYPES += "ext3 cpio.gz live"
-+
-+KERNEL_IMAGETYPE ?= "bzImage"
-+
-+SERIAL_CONSOLE ?= "115200 ttyS0"
-+
-+#
-+# glibc-related variables
-+#
-+GLIBC_ADDONS ?= "nptl"
-+GLIBC_EXTRA_OECONF += "--with-tls"
-+
-+#
-+# kernel-related variables
-+#
-+PREFERRED_PROVIDER_virtual/kernel ?= "linux-yocto"
-+PREFERRED_VERSION_linux-yocto ?= "3.0%"
-+PREFERRED_PROVIDER_linux-libc-headers ?= "linux-libc-headers-yocto"
-+
-+#
-+# XSERVER subcomponents, used to build the XSERVER variable
-+#
-+XSERVER_IA32_BASE = "xserver-xorg \
-+           xf86-input-mouse \
-+           xf86-input-keyboard \
-+           xf86-input-evdev \
-+           xf86-input-synaptics \
-+           mesa-dri \
-+           "
-+
-+XSERVER_IA32_EXT = "xserver-xorg-extension-dri \
-+           xserver-xorg-extension-dri2 \
-+           xserver-xorg-extension-glx \
-+           xserver-xorg-extension-extmod \
-+           xserver-xorg-extension-dbe \
-+           xserver-xorg-module-libint10 \
-+           "
-+
-+XSERVER_IA32_I915 = "xf86-video-intel \
-+           mesa-dri-driver-i965 \
-+           "
-+
-+XSERVER_IA32_EMGD = "emgd-driver-bin"
-+
-+XSERVER_IA32_VESA = "xf86-video-vesa"
--- 
-1.7.0.4
+-M=
 
 
 
