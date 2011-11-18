@@ -1,33 +1,27 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RRPZp-0002rF-La for openembedded-core@lists.openembedded.org;
-	Fri, 18 Nov 2011 15:38:12 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAIEVWeL030745
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2011 14:31:33 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 30490-06 for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2011 14:31:27 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAIEVQHS030739
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2011 14:31:26 GMT
-Message-ID: <1321626691.15352.20.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+Received: from mga11.intel.com ([192.55.52.93])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1RRPcJ-0002vy-0k
+	for openembedded-core@lists.openembedded.org;
+	Fri, 18 Nov 2011 15:40:35 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 18 Nov 2011 06:34:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,533,1315206000"; d="scan'208";a="92465956"
+Received: from unknown (HELO helios.localnet) ([10.252.121.185])
+	by fmsmga002.fm.intel.com with ESMTP; 18 Nov 2011 06:34:07 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 18 Nov 2011 14:31:31 +0000
-In-Reply-To: <cover.1321470758.git.nitin.a.kamble@intel.com>
-References: <cover.1321470758.git.nitin.a.kamble@intel.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/8] Recipe upgrades and an x32 fix
+Date: Fri, 18 Nov 2011 14:34:06 +0000
+Message-ID: <1423361.Uzi15gmuni@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.7.3 (Linux/3.0.0-12-generic-pae; KDE/4.7.3; i686; ; )
+In-Reply-To: <CACW_hTYXNDBFWtxOK86fz5P55Va700rQYWpO6thrUH9OQsA+8Q@mail.gmail.com>
+References: <1321625613-30146-1-git-send-email-koen@dominion.thruhere.net>
+	<CACW_hTYXNDBFWtxOK86fz5P55Va700rQYWpO6thrUH9OQsA+8Q@mail.gmail.com>
+MIME-Version: 1.0
+Subject: Re: [PATCH] shared-mime-info: fix ordering of PACKAGES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,38 +36,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Nov 2011 14:38:12 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 18 Nov 2011 14:40:35 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, 2011-11-16 at 11:14 -0800, nitin.a.kamble@intel.com wrote:
-> From: Nitin A Kamble <nitin.a.kamble@intel.com>
-> 
-> The following changes since commit 217a90f2ab02ec3c4e9653b528d7b584f6e37a42:
-> 
->   sanity.bbclass: No need to check for cvs any more (2011-11-16 17:32:46 +0000)
-> 
-> are available in the git repository at:
->   git://git.pokylinux.org/poky-contrib nitin/work
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/work
-> 
-> Nitin A Kamble (8):
->   libpcre: upgrade from 8.12 to 8.20
->   mpfr: upgrade from 3.0.1 to 3.1.0
->   btrfs-tools: update to the latest git commit
->   libtool: upgrade from 2.4 to 2.4.2
->   tcl: upgrade from 8.5.10 to 8.5.11
->   python-gst: upgrade from 0.10.21 to 0.10.22
->   update distro tracking recipe information
->   insane.bbclass: avoid errors for x32 kernel
+On Friday 18 November 2011 15:28:28 Frans Meulenbroeks wrote:
+> Is ordering of PACKAGES relevant? If so, please enlighten me why.
 
-I merged these to master with the exception of the libtool one. We need
-to come up with a definitive set of changes as you, Khem and I all have
-libtool patches pending.
+It is. The packaging code reads this in order and the first package to match a 
+file is the package that the file will go into; thus if you want to add a 
+package that will include files that would normally be in one of the default 
+packages you need to prepend to PACKAGES so that your new package gets the 
+files first.
 
 Cheers,
+Paul
 
-Richard
+-- 
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
