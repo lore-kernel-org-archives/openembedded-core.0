@@ -1,25 +1,31 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RRUh2-0004BA-7D
+	(envelope-from <raj.khem@gmail.com>) id 1RRUwa-0002pF-Ke
 	for openembedded-core@lists.openembedded.org;
-	Fri, 18 Nov 2011 21:05:48 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 18 Nov 2011 11:59:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="77480256"
-Received: from unknown (HELO [10.7.199.102]) ([10.7.199.102])
-	by orsmga001.jf.intel.com with ESMTP; 18 Nov 2011 11:59:20 -0800
-Message-ID: <4EC6B917.90007@linux.intel.com>
-Date: Fri, 18 Nov 2011 11:59:19 -0800
-From: Joshua Lock <josh@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0.1) Gecko/20110930 Thunderbird/7.0.1
+	Fri, 18 Nov 2011 21:21:53 +0100
+Received: by faat2 with SMTP id t2so4906720faa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Nov 2011 12:15:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=jCsfeAJ7DICKjbbN8D8hyPaYwU7LU4sUJeq5lynIZ2c=;
+	b=i9u/npnuF5kaphmw5T/o9dLs90NRx59r8I83zr6poRZJyUsl299DXmQqiO1dp7VPdN
+	jUDDinQROLjqT9uUUyEh9epjIlA1P0PncseluSVFZGE5uN6MqG7hVXmXDOL+tJL8Jodd
+	z1nalR5ExMuptXM57C2SAJv1OsQT9Zo77y9PI=
+Received: by 10.152.102.148 with SMTP id fo20mr2912064lab.51.1321647326223;
+	Fri, 18 Nov 2011 12:15:26 -0800 (PST)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <4EC6B45A.9060107@intel.com>
-	<CAMKF1spQ5roygTCMRtZ5nhfhV+S9520tJYdV5Lyt-MB-Je1XZA@mail.gmail.com>
-In-Reply-To: <CAMKF1spQ5roygTCMRtZ5nhfhV+S9520tJYdV5Lyt-MB-Je1XZA@mail.gmail.com>
-Subject: Re: qemu needs > 2 GB of RAM to build?
+Received: by 10.152.24.36 with HTTP; Fri, 18 Nov 2011 12:14:54 -0800 (PST)
+In-Reply-To: <4E4787E2B8CABC46A0EF2ED925CDD8DD08FF5B@DFLE30.ent.ti.com>
+References: <AcyeIrWWrQbxrcnUTeiV6gfV9UFbBg==>
+	<4E4787E2B8CABC46A0EF2ED925CDD8DD08FF5B@DFLE30.ent.ti.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 18 Nov 2011 12:14:54 -0800
+Message-ID: <CAMKF1sour_8rk2RTEMFPXLjmidmVFcinYVCeCb0AD1XmfAgM3A@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: uClibc Errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,48 +40,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Nov 2011 20:05:48 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 18 Nov 2011 20:21:53 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Nov 8, 2011 at 6:28 AM, Ambrose, Martin <martin@ti.com> wrote:
+> Hello.
+>
+> My goal is to get a baseline uClibc image for an arm architecture.
+> I've tried various mechanisms but eventually end up with build/run-time e=
+rrors.
+>
+> First attempt was to only use oe-core and specify the following in local.=
+conf
+> =C2=A0 =C2=A0TCLIBC =3D "uclibc"
 
+generally above setting should only be what you need.
 
-On 18/11/11 11:49, Khem Raj wrote:
-> On Fri, Nov 18, 2011 at 11:39 AM, Scott Garman <scott.a.garman@intel.com> wrote:
->> Hi all,
->>
->> I'm testing building core-image-minimal in a resource-constrained
->> environment (a VirtualBox VM with 2300 MB of RAM allocated to it). With
->> PARALLEL_MAKE set to -j4 (the VM does have two CPUs allocated), I'm finding
->> that the build of qemu-native fails because the OOM killer steps in and
->> kills gcc. This is happening during the linking phase of building qemu.
+e.g.
 
-What's BB_NUMBER_THREADS set to? I had to reduce to 1 to build
-qemu-native on a laptop with 2GB RAM. iirc it had a habit of linking
-something equally large such as eglibc, qt or the kernel at the same time.
+$ TCLIBC=3Duclibc bitbake core-image-minimal
 
+> =C2=A0 =C2=A0USE_NLS =3D "no"
+> =C2=A0 =C2=A0USE_NLS_glib-2.0 =3D "no"
+> =C2=A0 =C2=A0USE_NLS_glib-2.0-native =3D "yes"
+> =C2=A0 =C2=A0USE_NLS_gcc-cross =3D "no"
+>
+> I try to build core-image-minimal but get an armv5te-oe-linux-uclibceabi/=
+glib-2.0-1_2.30.0-r2/glib-2.30.0 build error:
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0./.libs/libglib-2.0.so: undefined reference to=
+ `qsort_r'
 
-> what distro are you running on guest ? it could be something wrong
-> with the distro gcc or system
+uclibc does not have qsort_r implemented so I think glib is being built wro=
+ngly
 
-I've seen this on F14 (Gnome 2.x) and F15 (Gnome 3) with a laptop with
-only 2GB RAM.
+>
+> I'm surprised this is even trying to build given my settings in local.con=
+f.
+>
+> Next I tried with the meta-micro layer and replace the above conf changes=
+ with just
+> =C2=A0 =C2=A0DISTRO=3D "micro-uclibc"
+>
+> Then build micro-base-image and get this packaging error
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0ERROR: QA Issue: non -dev/-dbg/-nativesdk pack=
+age contains symlink .so: uclibc-thread-db path \
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0'/work/armv5te-oe-linux-uclibceabi/uclibc-0.9.=
+32-r4.3/packages-split/uclibc-thread-db/lib/libthread_db.so'
 
-> 
->> If this is true, I assume it would pretty much mean that no one can build
->> our images without more than 2 GB of RAM. Is this true? Is this something
->> for us to be concerned about?
-> 
-> I have not seen such an error on a system which has 2G RAM all builds
-> qemu-native fine here
+this should be fixed seems like a bug in uclibc packaging
 
-I think BB_NUMBER_THREADS is the key here. And whether you're running
-much in the way of a desktop environment.
+>
+> I worked around this by overriding the OE packaging variables in local.co=
+nf (moved dev-so).
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0WARN_QA =3D "ldflags useless-rpaths rpaths dev=
+-so"
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0ERROR_QA =3D "debug-deps dev-deps debug-files =
+arch la2 pkgconfig la perms"
+>
+> Once built I get an immediate error on boot
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0/sbin/init: can't resolve symbol '__register_f=
+rame_info'
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0Kernel panic - not syncing: Attempted to kill =
+init!
+>
+> I'm wondering if there is a simple mechanism to clean up the unwind bindi=
+ngs via OE settings.
+>
+> In general, is there a "known-good" procedure for building/using uClibc v=
+ia oe-core +/- layers?
 
-Joshua
--- 
-Joshua Lock
-        Yocto Project "Johannes factotum"
-        Intel Open Source Technology Centre
+oe-core should be able to build working images with uclibc for all
+supported architectures like eglibc
+however its not tested as much as eglibc images are. I will try to
+spin builds using uclibc and see
+how it goes.
+
+>
+> Regards,
+> Martin
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
