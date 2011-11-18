@@ -1,32 +1,24 @@
-Received: from mail-gx0-f175.google.com ([209.85.161.175])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrea.adami@gmail.com>) id 1RRPBx-0001wM-Vu
+	(envelope-from <koen@dominion.thruhere.net>) id 1RRPIT-00028T-07
 	for openembedded-core@lists.openembedded.org;
-	Fri, 18 Nov 2011 15:13:22 +0100
-Received: by ggnh4 with SMTP id h4so2525494ggn.6
+	Fri, 18 Nov 2011 15:20:05 +0100
+Received: by wwp14 with SMTP id 14so4350057wwp.24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Nov 2011 06:06:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=UXrTNqFOU2f2+oRA7gfM4/OU5dRZ4lIOO9FLSQqwYbA=;
-	b=HR3hH/w43hb5yNMCPs3NKOUB634Plew4SVhRqKiqfAMxKlu8kYbKoqjG95XUsLvCqa
-	eqfPDVqso+0Cgf5KZbi3hLPH9zO+xE8Z6H1oEJ+YJ/7Lm/0yP2P3BQdxEPE0TUZo1N24
-	jiTXbvehtuxqVqK+QbSzcIfs6Wy7mf5XSJDUs=
-MIME-Version: 1.0
-Received: by 10.236.154.166 with SMTP id h26mr4957884yhk.88.1321625215345;
-	Fri, 18 Nov 2011 06:06:55 -0800 (PST)
-Received: by 10.150.229.21 with HTTP; Fri, 18 Nov 2011 06:06:55 -0800 (PST)
-In-Reply-To: <4EC66414.7010708@gmail.com>
-References: <cover.1320429060.git.paul.eggleton@linux.intel.com>
-	<E2FAFDF6-ABD2-4242-8BAC-8124ED2B1013@dominion.thruhere.net>
-	<4EC22317.1090109@gmail.com> <4407672.GTMaySf1kg@helios>
-	<4EC66414.7010708@gmail.com>
-Date: Fri, 18 Nov 2011 15:06:55 +0100
-Message-ID: <CAAQYJAtCPAAwkEdo0kgkZR415aPQWqiXSOY8woMGC3nTHwEncQ@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] core-image-minimal-initramfs: force IMAGE_FSTYPES
+	Fri, 18 Nov 2011 06:13:39 -0800 (PST)
+Received: by 10.216.139.133 with SMTP id c5mr410906wej.25.1321625618673;
+	Fri, 18 Nov 2011 06:13:38 -0800 (PST)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id co5sm435295wib.8.2011.11.18.06.13.36
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 18 Nov 2011 06:13:37 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 18 Nov 2011 15:13:33 +0100
+Message-Id: <1321625613-30146-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.2.5
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] shared-mime-info: fix ordering of PACKAGES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,57 +33,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Nov 2011 14:13:23 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 18 Nov 2011 14:20:05 -0000
 
-On Fri, Nov 18, 2011 at 2:56 PM, Dmitry Eremin-Solenikov
-<dbaryshkov@gmail.com> wrote:
-> On 11/18/2011 05:55 PM, Paul Eggleton wrote:
->>
->> On Tuesday 15 November 2011 12:30:15 Dmitry Eremin-Solenikov wrote:
->>>
->>> This was merged as IMAGE_FSTYPES =+ "cpio.gz"
->>> Now this brings problems if I have IMAGE_FSTYPES += "live" in my
->>> local.conf / BSP machine.conf.
->>>
->>> 1) OE tries to generate hddimg for this initramfs image, which is
->>> strange idea
->>> 2) If OE is trying to generate bootimg (hddimg) when the kernel is not
->>> yet deployed, building fails (as bootimg can't find a deployed kernel to
->>> put into hddimg).
->>>
->>> Please revert this back to original patch as proposed by Paul.
->>
->> OK, so what are we going to do about this? Do we have to do some filtering
->> of
->> this variable?
->
-> I'd propose to just set it via:
->
-> IMAGE_FSTYPES = "cpio.gz". It is really no point in generating other types
-> of inititramfs images.
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ .../shared-mime-info/shared-mime-info.inc          |    2 +-
+ .../shared-mime-info/shared-mime-info_0.91.bb      |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-In some other initramfs-images "cpio.lzma" is a welcomed option to save size.
+diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info.inc b/meta/recipes-support/shared-mime-info/shared-mime-info.inc
+index 57e829c..d7fa67c 100644
+--- a/meta/recipes-support/shared-mime-info/shared-mime-info.inc
++++ b/meta/recipes-support/shared-mime-info/shared-mime-info.inc
+@@ -19,7 +19,7 @@ FILES_${PN}-dev += "${datadir}/pkgconfig/shared-mime-info.pc"
+ 
+ # freedesktop.org.xml is only required when updating the mime database,
+ # package it separately
+-PACKAGES += "shared-mime-info-data"
++PACKAGES =+ "shared-mime-info-data"
+ FILES_shared-mime-info-data = "${datadir}/mime/packages/freedesktop.org.xml"
+ RDEPENDS_shared-mime-info-data = "shared-mime-info"
+ 
+diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info_0.91.bb b/meta/recipes-support/shared-mime-info/shared-mime-info_0.91.bb
+index bc4a8f7..7ae6e10 100644
+--- a/meta/recipes-support/shared-mime-info/shared-mime-info_0.91.bb
++++ b/meta/recipes-support/shared-mime-info/shared-mime-info_0.91.bb
+@@ -1,5 +1,5 @@
+ require shared-mime-info.inc
+-PR = "r2"
++PR = "r3"
+ 
+ SRC_URI[md5sum] = "982a211560ba4c47dc791ccff34e8fbc"
+ SRC_URI[sha256sum] = "98cfebe1d809afb24934e634373821e2a1dfa86fc6462cab230589a1c80988bd"
+-- 
+1.7.2.5
 
-Regards
-
-Andrea
-
->
->>
->> Cheers,
->> Paul
->>
->
->
-> --
-> With best wishes
-> Dmitry
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
 
