@@ -1,31 +1,48 @@
-Received: from familie-heinold.de ([85.214.48.103]
-	helo=mail.familie-heinold.de) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <heinold@inf.fu-berlin.de>) id 1RRND8-00074B-3d
+Received: from dgate10.ts.fujitsu.com ([80.70.172.49])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Rainer.Koenig@ts.fujitsu.com>) id 1RRNYK-0007jE-MB
 	for openembedded-core@lists.openembedded.org;
-	Fri, 18 Nov 2011 13:06:28 +0100
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 005A2110018B;
-	Fri, 18 Nov 2011 12:59:53 +0100 (CET)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 3D156110017F;
-	Fri, 18 Nov 2011 12:59:51 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	h873313.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
-Received: from rhein.familie-heinold.de (f052065229.adsl.alicedsl.de
-	[78.52.65.229]) by mail.familie-heinold.de (Postfix) with ESMTPA;
-	Fri, 18 Nov 2011 12:59:51 +0100 (CET)
-Received: by rhein.familie-heinold.de (Postfix, from userid 1000)
-	id 5ED323C49D; Fri, 18 Nov 2011 12:59:50 +0100 (CET)
-From: Henning Heinold <heinold@inf.fu-berlin.de>
+	Fri, 18 Nov 2011 13:28:20 +0100
+DomainKey-Signature: s=s1536a; d=ts.fujitsu.com; c=nofws; q=dns;
+	h=X-SBRSScore:X-IronPort-AV:Received:X-IronPort-AV:
+	Received:Message-ID:Date:From:User-Agent:MIME-Version:To:
+	Subject:References:In-Reply-To:X-Enigmail-Version:
+	Content-Type:Content-Transfer-Encoding;
+	b=bojE14wOMNuhhJy1VD8j0m3pUdHmKdOXm4peAPnIFuLEJfQahy65fHfs
+	ahvuBDp4mIzqGOUAJFFTrwBR/45F3C0MblREs5aCltuCPIL92oW18Tv3w
+	OYt9iDbytQtQgS0ifWBbzzvG3v0EQiggqkhkLIxBFoPgHTlvjW8atyYdl
+	IlcF935CqEvrlEl/+bY1COy/iy456M6fuASwZNVge5xy12tHfoBmekioe
+	A41RZkNt496aoNy6plLc5XYoqZSLC;
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=ts.fujitsu.com; i=Rainer.Koenig@ts.fujitsu.com;
+	q=dns/txt; s=s1536b; t=1321618917; x=1353154917;
+	h=message-id:date:from:mime-version:to:subject:references:
+	in-reply-to:content-transfer-encoding;
+	bh=t36M9bUf2vYGrGqGdjT1z8dEupzBWAS/p2FIwMSeALc=;
+	b=nVF4IQanGS4DzUpR7QJlLQ91SaNCEE08o1nMieY+a3e4fDr+dbW8H3nW
+	x63+zjVLA194lOwtSusws8rOblSJKtHv2toPy4uoUsm9KFWcddMgzqxI2
+	rBp8LgIQdB+z4yX4M1wLx+zz1bHRPlv/14BqHrFacs2NfNC6RBWv7Qf5c
+	wTcntZmVt+xFJxRZ0C3xcEybd+Vkb6X7YbFguNlOZ9gyrBcFnMB4SyIFs
+	si9y7cvcHN9gkQbECPMzcHGXkwEXI;
+X-SBRSScore: None
+X-IronPort-AV: E=Sophos;i="4.69,532,1315173600"; d="scan'208";a="93507051"
+Received: from abgdgate30u.abg.fsc.net ([172.25.138.66])
+	by dgate10u.abg.fsc.net with ESMTP; 18 Nov 2011 13:20:54 +0100
+X-IronPort-AV: E=Sophos;i="4.69,532,1315173600"; d="scan'208";a="123313978"
+Received: from abg3595c.abg.fsc.net (HELO [172.25.145.158]) ([172.25.145.158])
+	by abgdgate30u.abg.fsc.net with ESMTP; 18 Nov 2011 13:20:53 +0100
+Message-ID: <4EC64DA5.2020406@ts.fujitsu.com>
+Date: Fri, 18 Nov 2011 13:20:53 +0100
+From: Rainer Koenig <Rainer.Koenig@ts.fujitsu.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.1.16) Gecko/20111110 Icedove/3.0.11
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Nov 2011 12:59:48 +0100
-Message-Id: <1321617588-18376-1-git-send-email-heinold@inf.fu-berlin.de>
-X-Mailer: git-send-email 1.7.7.3
-X-Virus-Scanned: ClamAV using ClamSMTP
-Subject: [PATCH] glib-2.0: fix qsort_t testing for uclibc
+References: <cover.1320799787.git.josh@linux.intel.com>
+	<552def63eb1b587a3f0685c7e604ab1b9a1ac7e5.1320799787.git.josh@linux.intel.com>
+In-Reply-To: <552def63eb1b587a3f0685c7e604ab1b9a1ac7e5.1320799787.git.josh@linux.intel.com>
+X-Enigmail-Version: 1.0.1
+Subject: Re: [PATCH 1/3] shared-mime-info: package runtime data separately
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,135 +57,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Nov 2011 12:06:28 -0000
+X-List-Received-Date: Fri, 18 Nov 2011 12:28:20 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-* instead of disabling the configure test and set it always true
-  use the site files to set it true for glibc/eglibc and false
-  for uclibc
-* remove the patch
-' tested only for uclibc
-* bump PR
+Am 09.11.2011 01:53, schrieb Joshua Lock:
+> The freedesktop.org.xml is required when updating the mime database but
+> otherwise not much use. Therefore package it separately, rather than
+> removing it completely, so that it can be used as required for on-device
+> updates without adding almost 2MB to every image which hase shared-mime-info.
 
-Signed-off-by: Henning Heinold <heinold@inf.fu-berlin.de>
----
- .../glib-2.0/remove.test.for.qsort_r.patch         |   53 --------------------
- meta/recipes-core/glib-2.0/glib-2.0_2.30.0.bb      |    6 +--
- meta/site/common-glibc                             |    1 +
- meta/site/common-uclibc                            |    1 +
- 4 files changed, 3 insertions(+), 58 deletions(-)
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/remove.test.for.qsort_r.patch
+somehow this patch breaks the image creation for systemd-gnome-image.
+Famous last words from bitbake:
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/remove.test.for.qsort_r.patch b/meta/recipes-core/glib-2.0/glib-2.0/remove.test.for.qsort_r.patch
-deleted file mode 100644
-index 5c0a07a..0000000
---- a/meta/recipes-core/glib-2.0/glib-2.0/remove.test.for.qsort_r.patch
-+++ /dev/null
-@@ -1,53 +0,0 @@
--while cross compiling we cannot execute run tests
--
--Upstream-Status: Inappropriate [configuration]
--
----- glib-2.30.0.orig/configure.ac	2011-09-29 16:57:35.000000000 +0200
--+++ glib-2.30.0/configure.ac	2011-09-29 17:00:19.931493488 +0200
--@@ -586,45 +586,7 @@
-- dnl until we have checked this function is actually usable
-- AC_CHECK_FUNC([qsort_r])
-- 
---# BSD has a qsort_r with wrong argument order
---if test x$ac_cv_func_qsort_r = xyes ; then
---  AC_CACHE_CHECK([if qsort_r uses glibc compatible argument order], glib_cv_have_qsort_r, [
---  AC_RUN_IFELSE([AC_LANG_SOURCE([[
---  #define _GNU_SOURCE
---  #include <stdlib.h>
---
---  static int
---  cmp (const void *a, const void *b, void *c)
---  {
---    const int *ia = a;
---    const int *ib = b;
---
---    if (*ia < *ib)
---      return -1;
---    else if (*ia > *ib)
---      return 1;
---    else
---      return 0;
---  }
---
---  int
---  main (int argc, char **argv)
---  {
---    int arr[3] = { 1, 2, 0 };
---    int d = 3;
---
---    qsort_r (arr, 3, sizeof (int), cmp, &d);
---
---    if (arr[0] == 0 && arr[1] == 1 && arr[2] == 2)
---      return 0;
---    else
---      return 1;
---  }]])],[glib_cv_have_qsort_r=yes],[glib_cv_have_qsort_r=no])])
---fi
---
---if test x$glib_cv_have_qsort_r = xyes ; then
---  AC_DEFINE(HAVE_QSORT_R, 1, [Define to 1 if you have the 'qsort_r' function])
---fi
--+AC_DEFINE(HAVE_QSORT_R, 1, [Define to 1 if you have the 'qsort_r' function])
-- 
-- AC_CHECK_SIZEOF(char)
-- AC_CHECK_SIZEOF(short)
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.30.0.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.30.0.bb
-index 634a4e4..50e174e 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.30.0.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.30.0.bb
-@@ -1,6 +1,6 @@
- require glib.inc
- 
--PR = "r3"
-+PR = "r4"
- PE = "1"
- 
- DEPENDS += "libffi python-argparse-native"
-@@ -9,14 +9,10 @@ DEPENDS_virtclass-nativesdk += "libffi-nativesdk python-argparse-native zlib-nat
- 
- SHRT_VER = "${@d.getVar('PV',1).split('.')[0]}.${@d.getVar('PV',1).split('.')[1]}"
- 
--QSORT_PATCH = "file://remove.test.for.qsort_r.patch"
--QSORT_PATCH_virtclass-native = ""
--
- SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.bz2 \
-            file://configure-libtool.patch \
-            file://60_wait-longer-for-threads-to-die.patch \
-            file://g_once_init_enter.patch \
--           ${QSORT_PATCH} \
-           "
- SRC_URI[md5sum] = "fee101d9d7daa8ddfbae00325f307f3b"
- SRC_URI[sha256sum] = "ca9c731017ab370859e847f8b70079bc6dcf389dc0ccb0d0419925aff81b9687"
-diff --git a/meta/site/common-glibc b/meta/site/common-glibc
-index 364ab67..dc69703 100644
---- a/meta/site/common-glibc
-+++ b/meta/site/common-glibc
-@@ -39,6 +39,7 @@ glib_cv_long_long_format=${glib_cv_long_long_format=ll}
- # that to avoid a dependency loop.
- glib_cv___va_copy=${glib_cv___va_copy=yes}
- glib_cv_va_copy=${glib_cv_va_copy=yes}
-+glib_cv_have_qsort_r=${glib_cv_have_qsort_r=yes}
- 
- #dbus-glib
- ac_cv_have_abstract_sockets=${ac_cv_have_abstract_sockets=yes}
-diff --git a/meta/site/common-uclibc b/meta/site/common-uclibc
-index a264765..331c2a2 100644
---- a/meta/site/common-uclibc
-+++ b/meta/site/common-uclibc
-@@ -20,6 +20,7 @@ ac_cv_func_snprintf_c99=${ac_cv_func_snprintf_c99=yes}
- ac_cv_func_vsnprintf_c99=${ac_cv_func_vsnprintf_c99=yes}
- glib_cv_compliant_posix_memalign=${glib_cv_compliant_posix_memalign=1}
- glib_cv_long_long_format=${glib_cv_long_long_format=ll}
-+glib_cv_have_qsort_r=${glib_cv_have_qsort_r=no}
- 
- #dbus-glib
- ac_cv_have_abstract_sockets=${ac_cv_have_abstract_sockets=yes}
--- 
-1.7.7.3
+--------------8<-snip-----------------
+| Collected errors:
+|  * satisfy_dependencies_for: Cannot satisfy the following dependencies
+for task-gnome:
+|  *    shared-mime-info-data *         shared-mime-info-data *
+|  * opkg_install_cmd: Cannot install package task-gnome.
+| ERROR: Function 'do_rootfs' failed (see
+/srv/oe/setup-scripts/build/tmp-angstrom_2010_x-eglibc/work/dm814x_evm-angstrom-linux-gnueabi/systemd-gnome-image-1.0-r0/temp/log.do_rootfs.6501
+for further information)
+NOTE: package systemd-gnome-image-1.0-r0: task do_rootfs: Failed
+ERROR: Task 8
+(/srv/oe/setup-scripts/sources/meta-angstrom/recipes-images/angstrom/systemd-gnome-image.bb,
+do_rootfs) failed with exit code '1'
+ERROR:
+'/srv/oe/setup-scripts/sources/meta-angstrom/recipes-images/angstrom/systemd-gnome-image.bb'
+failed
+--------------8<-snip-----------------
+
+And there is no package names shared-mime-info-data*. :-(
+
+
+> Signed-off-by: Joshua Lock <josh@linux.intel.com>
+> ---
+>  .../shared-mime-info/shared-mime-info.inc          |    9 ++++++---
+>  .../shared-mime-info/shared-mime-info_0.91.bb      |    2 +-
+>  2 files changed, 7 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info.inc b/meta/recipes-support/shared-mime-info/shared-mime-info.inc
+> index c8cab29..57e829c 100644
+> --- a/meta/recipes-support/shared-mime-info/shared-mime-info.inc
+> +++ b/meta/recipes-support/shared-mime-info/shared-mime-info.inc
+> @@ -17,13 +17,16 @@ EXTRA_OECONF = "--disable-update-mimedb"
+>  FILES_${PN} += "${datadir}/mime"
+>  FILES_${PN}-dev += "${datadir}/pkgconfig/shared-mime-info.pc"
+>  
+> +# freedesktop.org.xml is only required when updating the mime database,
+> +# package it separately
+> +PACKAGES += "shared-mime-info-data"
+> +FILES_shared-mime-info-data = "${datadir}/mime/packages/freedesktop.org.xml"
+> +RDEPENDS_shared-mime-info-data = "shared-mime-info"
+> +
+>  do_install () {
+>  	autotools_do_install
+>  
+>  	update-mime-database ${D}${datadir}/mime
+> -
+> -	# we do not need it on device and it is huge
+> -	rm ${D}${datadir}/mime/packages/freedesktop.org.xml
+>  }
+>  
+>  do_install_virtclass-native () {
+> diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info_0.91.bb b/meta/recipes-support/shared-mime-info/shared-mime-info_0.91.bb
+> index 0c3b01c..bc4a8f7 100644
+> --- a/meta/recipes-support/shared-mime-info/shared-mime-info_0.91.bb
+> +++ b/meta/recipes-support/shared-mime-info/shared-mime-info_0.91.bb
+> @@ -1,5 +1,5 @@
+>  require shared-mime-info.inc
+> -PR = "r1"
+> +PR = "r2"
+>  
+>  SRC_URI[md5sum] = "982a211560ba4c47dc791ccff34e8fbc"
+>  SRC_URI[sha256sum] = "98cfebe1d809afb24934e634373821e2a1dfa86fc6462cab230589a1c80988bd"
+
+Regards
+Rainer
 
 
