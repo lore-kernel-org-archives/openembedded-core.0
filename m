@@ -1,25 +1,23 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RRqo9-0003wb-Mt
+	(envelope-from <koen@dominion.thruhere.net>) id 1RRr0L-0004D7-2U
 	for openembedded-core@lists.openembedded.org;
-	Sat, 19 Nov 2011 20:42:37 +0100
-Received: by bkbzs2 with SMTP id zs2so4721669bkb.6
+	Sat, 19 Nov 2011 20:55:13 +0100
+Received: by wwp14 with SMTP id 14so6097000wwp.24
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Nov 2011 11:36:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=oM2feHxr8TlZVg2YTYaSBF7i1tQfkNGEYp2Dw7z27S0=;
-	b=fjp3u2zqWdrVTRFOJIzTe/MhN9kzzk5QtVU8bJZf78DbprOdQ214duUKFmE1d4wDFh
-	WOCoDhs6hXX6OVUPQF1HfdRqOrGmyNqmxtk4bjYDAdfYVje2s0orWa2h2FfPkZVYI6Nz
-	Azi8UEZe2kLw00wpd6oGUl1Y/nSA+ommLE+5w=
-MIME-Version: 1.0
-Received: by 10.205.114.65 with SMTP id ez1mr8079152bkc.99.1321731366299; Sat,
-	19 Nov 2011 11:36:06 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.26.143 with HTTP; Sat, 19 Nov 2011 11:36:06 -0800 (PST)
+	Sat, 19 Nov 2011 11:48:45 -0800 (PST)
+Received: by 10.216.153.137 with SMTP id f9mr1191985wek.4.1321732125316;
+	Sat, 19 Nov 2011 11:48:45 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id l2sm5932064wbn.0.2011.11.19.11.48.43
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 19 Nov 2011 11:48:44 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
 In-Reply-To: <CAEsOVNf_xbHAv22_drG+oXMMOCQCjLNc7tqpSA-N7yjAGEkxbA@mail.gmail.com>
+Date: Sat, 19 Nov 2011 20:48:40 +0100
+Message-Id: <486862D8-72D7-49B1-A5C9-1FDE8B65C16E@dominion.thruhere.net>
 References: <1321570027-29390-1-git-send-email-msm@freescale.com>
 	<CAP9ODKqjGqLg3u-VzFBAqhVSDUBUwG5eFSTtZcv+Zo7mnPLEAQ@mail.gmail.com>
 	<CAEsOVNeb2SLwPX74YDcA4-iFJ6TNm7OAkXUw9Fun-nBkVkhaMA@mail.gmail.com>
@@ -27,13 +25,10 @@ References: <1321570027-29390-1-git-send-email-msm@freescale.com>
 	<CAEsOVNcW=g+cjM9w_tECrmpX0pSoDj80ohtu253PK8h2cVpyRw@mail.gmail.com>
 	<CAP9ODKqyzY706Z+gpD6X2G2JBf6frki6S07=NabBxFMxB5pojg@mail.gmail.com>
 	<CAEsOVNf_xbHAv22_drG+oXMMOCQCjLNc7tqpSA-N7yjAGEkxbA@mail.gmail.com>
-Date: Sat, 19 Nov 2011 17:36:06 -0200
-X-Google-Sender-Auth: NtbDUwTPlCPEX1mKDC6cHIOzL4c
-Message-ID: <CAP9ODKqOrQ0zw=OFJ-OngO0g90paMPLyZ3dN-KcBWBjqLFaU-w@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: McClintock Matthew-B29882 <B29882@freescale.com>, 
+To: McClintock Matthew-B29882 <B29882@freescale.com>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1251.1)
 Subject: Re: [PATCH] Remove ttyS* from /etc/inittab that are not present
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -49,40 +44,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Nov 2011 19:42:37 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sat, 19 Nov 2011 19:55:13 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 19, 2011 at 16:59, McClintock Matthew-B29882
-<B29882@freescale.com> wrote:
+
+Op 19 nov. 2011, om 19:59 heeft McClintock Matthew-B29882 het volgende =
+geschreven:
+
 > On Sat, Nov 19, 2011 at 8:29 AM, Otavio Salvador
 > <otavio@ossystems.com.br> wrote:
 >>> It must be online though in this case?
->>
+>>=20
 >> The code you add needs to be running on target and doesn't work at
 >> rootfs built time. This is bad and adds more complications to
 >> read-only-fs support.
->
+>=20
 > This works *perfectly* with a read only fs. Each time it boots removes
 > the non-working serial ports. One could argue that it does NOT work
 > completely as expected with a writable file system.
-
-It does not. Only if you have tmpfs on it too.
-
+>=20
 >>>> This could be done with a specific package that could mangle the
->>>> image at first boot if really need but doing it by default on oe-core
+>>>> image at first boot if really need but doing it by default on =
+oe-core
 >>>> seems the wrong way.
->>>
+>>>=20
 >>> Isn't that exactly what this is doing?
->>>
->>> Easy enough to add this to a separate recipe or bbapends elsewhere if
+>>>=20
+>>> Easy enough to add this to a separate recipe or bbapends elsewhere =
+if
 >>> there is disagreement.
->>
+>>=20
 >> The need to diverge from machine default is the exception and this
 >> could be handled on the image being built, as post rootfs hook or an
 >> specific package with postinst to be run at target boot to setup it,
 >> and not by default.
->
+>=20
 > This will not work as a post rootfs hook as I've explained before. Let
 > me give you a more concrete example: We have a root file stored in
 > flash. We use it to boot from on a system with 4 serial ports. We use
@@ -90,15 +87,14 @@ It does not. Only if you have tmpfs on it too.
 > have 1 serial port. The kvm instances will have spurious init messages
 > about respawning getty.
 
-This usecase ought to be fulfilled with a specific package our boot
-script that does this setup on runtime. As I said I see the use-case
-but disagree about it being done on oe-core.
+Or you could just ditch sysvinit and switch to systemd. Systemd will =
+only spawn a getty when udev says the device is there. And even better, =
+every getty config is a file you can delete to disable it if for some =
+reason the kernel reports the serial port to be there and you don't want =
+a getty.
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+regards,
+
+Koen=
 
 
