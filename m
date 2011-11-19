@@ -1,42 +1,61 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from ch1ehsobe003.messaging.microsoft.com ([216.32.181.183]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RRmiK-0005me-21
+	(envelope-from <B29882@freescale.com>) id 1RRqEb-00036N-Fw
 	for openembedded-core@lists.openembedded.org;
-	Sat, 19 Nov 2011 16:20:20 +0100
-Received: by faat2 with SMTP id t2so5230395faa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Nov 2011 07:13:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=SHgt50LV7L15JHzxSYbpjXMAf5t186nU/u4oTf10LVk=;
-	b=ZiFxvCwz5HVZvzpPUIjnFFzmnWyZ5OebRL0Wq9lVHYReGBRiVELXpN5K6glrgmMZTB
-	oxjG3kDHHYMpaQiQFNZTCRff5zK2oEum6cUl33c4u2o1o5efFBdSgyZojvBjAJ/5gAdu
-	0Mdn1S9O4+ZnppcGoBcapD7/Ivb5vQnuo9Bw0=
-Received: by 10.152.136.2 with SMTP id pw2mr4779808lab.22.1321715631579;
-	Sat, 19 Nov 2011 07:13:51 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id pi7sm3851492lab.5.2011.11.19.07.13.49
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 19 Nov 2011 07:13:50 -0800 (PST)
-Date: Sat, 19 Nov 2011 16:13:37 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
+	Sat, 19 Nov 2011 20:05:54 +0100
+Received: from mail79-ch1-R.bigfish.com (10.43.68.247) by
+	CH1EHSOBE017.bigfish.com (10.43.70.67) with Microsoft SMTP Server id
+	14.1.225.22; Sat, 19 Nov 2011 18:58:49 +0000
+Received: from mail79-ch1 (localhost [127.0.0.1])	by mail79-ch1-R.bigfish.com
+	(Postfix) with ESMTP id EA79C5A0177	for
+	<openembedded-core@lists.openembedded.org>;
+	Sat, 19 Nov 2011 19:00:12 +0000 (UTC)
+X-SpamScore: -12
+X-BigFish: VS-12(zz9371K1432N98dKzz1202hzzz2dh2a8h668h839h8e2h8e3h)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail79-ch1 (localhost.localdomain [127.0.0.1]) by mail79-ch1
+	(MessageSwitch) id 1321729210832370_16953;
+	Sat, 19 Nov 2011 19:00:10 +0000 (UTC)
+Received: from CH1EHSMHS014.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.251])	by mail79-ch1.bigfish.com (Postfix) with ESMTP id
+	C64574C0043 for <openembedded-core@lists.openembedded.org>;
+	Sat, 19 Nov 2011 19:00:10 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS014.bigfish.com
+	(10.43.70.14) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Sat, 19 Nov 2011 18:58:46 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.83]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.01.0339.002; Sat, 19 Nov 2011 12:59:21 -0600
+From: McClintock Matthew-B29882 <B29882@freescale.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111119151337.GA3384@jama.jama.net>
-References: <1321625613-30146-1-git-send-email-koen@dominion.thruhere.net>
-	<CACW_hTYXNDBFWtxOK86fz5P55Va700rQYWpO6thrUH9OQsA+8Q@mail.gmail.com>
-	<1423361.Uzi15gmuni@helios>
-	<CACW_hTbp2zMZZQw17_-Pd-wSt3qfs1rs-CF8fLTyGssePwLk=A@mail.gmail.com>
+Thread-Topic: [OE-core] [PATCH] Remove ttyS* from /etc/inittab that are not
+	present
+Thread-Index: AQHMpYhaUdp+eu0WmE6+kG2Z107JFZWyK8aAgAAiNgCAAlragIAAS0EA
+Date: Sat, 19 Nov 2011 18:59:20 +0000
+Message-ID: <CAEsOVNf_xbHAv22_drG+oXMMOCQCjLNc7tqpSA-N7yjAGEkxbA@mail.gmail.com>
+References: <1321570027-29390-1-git-send-email-msm@freescale.com>
+	<CAP9ODKqjGqLg3u-VzFBAqhVSDUBUwG5eFSTtZcv+Zo7mnPLEAQ@mail.gmail.com>
+	<CAEsOVNeb2SLwPX74YDcA4-iFJ6TNm7OAkXUw9Fun-nBkVkhaMA@mail.gmail.com>
+	<CAP9ODKpA3smbm3MhiXJCOnFqBOZs7DoSRomE1rZP6Ys0bkW2bQ@mail.gmail.com>
+	<CAEsOVNcW=g+cjM9w_tECrmpX0pSoDj80ohtu253PK8h2cVpyRw@mail.gmail.com>
+	<CAP9ODKqyzY706Z+gpD6X2G2JBf6frki6S07=NabBxFMxB5pojg@mail.gmail.com>
+In-Reply-To: <CAP9ODKqyzY706Z+gpD6X2G2JBf6frki6S07=NabBxFMxB5pojg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
 MIME-Version: 1.0
-In-Reply-To: <CACW_hTbp2zMZZQw17_-Pd-wSt3qfs1rs-CF8fLTyGssePwLk=A@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH] shared-mime-info: fix ordering of PACKAGES
+X-OriginatorOrg: freescale.com
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>
+Subject: Re: [PATCH] Remove ttyS* from /etc/inittab that are not present
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -47,82 +66,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Nov 2011 15:20:20 -0000
-X-Groupsio-MsgNum: 12650
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="4Ckj6UjgE2iN1+kY"
-Content-Disposition: inline
-
---4Ckj6UjgE2iN1+kY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Sat, 19 Nov 2011 19:05:54 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <42B91C218E7DA04D84706666B580BD8F@freescale.net>
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 19, 2011 at 04:02:49PM +0100, Frans Meulenbroeks wrote:
-> 2011/11/18 Paul Eggleton <paul.eggleton@linux.intel.com>
->=20
-> > On Friday 18 November 2011 15:28:28 Frans Meulenbroeks wrote:
-> > > Is ordering of PACKAGES relevant? If so, please enlighten me why.
-> >
-> > It is. The packaging code reads this in order and the first package to
-> > match a
-> > file is the package that the file will go into; thus if you want to add=
- a
-> > package that will include files that would normally be in one of the
-> > default
-> > packages you need to prepend to PACKAGES so that your new package gets =
-the
-> > files first.
-> >
-> > Ah, ok. understood.
-> Not fully sure if the current behaviour is the most desirable one.
-> Is it still possible to put a file into two packages by explicitly adding
-> it to both?
+On Sat, Nov 19, 2011 at 8:29 AM, Otavio Salvador
+<otavio@ossystems.com.br> wrote:
+>> It must be online though in this case?
+>
+> The code you add needs to be running on target and doesn't work at
+> rootfs built time. This is bad and adds more complications to
+> read-only-fs support.
 
-And then make resulting packages RCONFLICTing each other? Imho this is
-bad idea and it's good that this wasn't ever possible afaik.
-=20
-> Also it might be somewhat confusing that a line that adds say a dir to a
-> package does not necessarily get all fies in that dir in the package
-> Personally I think I prefer to have all added in that case, irrespective =
-if
-> a previous package already took a file from it.
+This works *perfectly* with a read only fs. Each time it boots removes
+the non-working serial ports. One could argue that it does NOT work
+completely as expected with a writable file system.
 
-Why confusing?
-should only one package include all /usr/lib/foo and then separte
-subpackages package only some parts of it so we won't pull whole big
-/usr/lib/foo when we need in some image only
-/usr/lib/foo/feature1 and /usr/lib/foo/feature2 in other package? And
-what should shlibs report as feature1 provider? PN_feature1 or PN (which
-also includes all /usr/lib/foo/feature1 files)?
+>>> This could be done with a specific package that could mangle the
+>>> image at first boot if really need but doing it by default on oe-core
+>>> seems the wrong way.
+>>
+>> Isn't that exactly what this is doing?
+>>
+>> Easy enough to add this to a separate recipe or bbapends elsewhere if
+>> there is disagreement.
+>
+> The need to diverge from machine default is the exception and this
+> could be handled on the image being built, as post rootfs hook or an
+> specific package with postinst to be run at target boot to setup it,
+> and not by default.
 
-Sorry but this idea seems wrong to me..
+This will not work as a post rootfs hook as I've explained before. Let
+me give you a more concrete example: We have a root file stored in
+flash. We use it to boot from on a system with 4 serial ports. We use
+the same image again to boot several kvm instances each of which only
+have 1 serial port. The kvm instances will have spurious init messages
+about respawning getty.
 
-> Alternately it could be seen as a QA issue if a file could have been added
-> to two packages (in which case a more strict pattern should have been used
-> somewhere)
->=20
-> Frans
-
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+-M=
 
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---4Ckj6UjgE2iN1+kY
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk7Hx6EACgkQN1Ujt2V2gBy2SACdF+DaNpcrtF1JCt24j7rWR9eu
-sAoAnjDS5L7YuisoHiHSR4ubz9yIrDQZ
-=RZsG
------END PGP SIGNATURE-----
-
---4Ckj6UjgE2iN1+kY--
