@@ -1,35 +1,35 @@
 Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RSBe2-0003Wv-AZ
+	(envelope-from <raj.khem@gmail.com>) id 1RSBdz-0003Wj-Sr
 	for openembedded-core@lists.openembedded.org;
 	Sun, 20 Nov 2011 18:57:34 +0100
-Received: by ywt2 with SMTP id 2so3995670ywt.6
+Received: by ywt2 with SMTP id 2so3995651ywt.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 20 Nov 2011 09:51:05 -0800 (PST)
+	Sun, 20 Nov 2011 09:51:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=5FCoRBq47oGZRwoDNM2aB9P9VxVIob1nGVb3GcWSB/0=;
-	b=RiJhSMFWGHGQLCPiN62UAlfuO4XSJotig9b4Jt3h8CJrP4kP6c0TLzXUqjHFGwO8vI
-	oAEuel9nKMAzaNviasu1Pk5L143MEsqfgdiOwysspH6901E0721xkmH6E9/9Jjtvvp4u
-	SbLHQtnVeOqyIk/NEm9Gb4IkfT6WvYT+ZrjSY=
-Received: by 10.50.77.229 with SMTP id v5mr11545878igw.13.1321811465215;
-	Sun, 20 Nov 2011 09:51:05 -0800 (PST)
+	bh=5Unu7Bd0Gaaq6CxPuY7HTuKcmMEXLBl4gxC+c3JOqJU=;
+	b=a+EU89RP6DeoqWW5Rh2+g52FAguBixjUq4WdMv3O5ou/YtwS9oH6d3GZ65ivA9mkj2
+	YvzDxLPcN/NAkPrYhydAKWukLW1zQo35oiLRNPCzEaAF8MJq/u+9Fv4S0rwrHgt4/amF
+	UOXSpnWxwj63fNIGruCw6iMDX/weXGmljiucA=
+Received: by 10.50.216.137 with SMTP id oq9mr11409218igc.40.1321811462297;
+	Sun, 20 Nov 2011 09:51:02 -0800 (PST)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
-	by mx.google.com with ESMTPS id dd36sm34710971ibb.7.2011.11.20.09.51.03
+	by mx.google.com with ESMTPS id dd36sm34710971ibb.7.2011.11.20.09.51.00
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 20 Nov 2011 09:51:04 -0800 (PST)
+	Sun, 20 Nov 2011 09:51:01 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 20 Nov 2011 09:50:46 -0800
-Message-Id: <1eb02b430c12807824427da5cb5abb586a5be8cb.1321811216.git.raj.khem@gmail.com>
+Date: Sun, 20 Nov 2011 09:50:45 -0800
+Message-Id: <0abcddc2e0bdf826919f7aee820f60fa64024177.1321811216.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <d06edef859ff936294d76bc07523f50eaaa5baf4.1321811216.git.raj.khem@gmail.com>
 References: <d06edef859ff936294d76bc07523f50eaaa5baf4.1321811216.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1321811216.git.raj.khem@gmail.com>
 References: <cover.1321811216.git.raj.khem@gmail.com>
-Subject: [PATCH 4/5] netbase: Update recipe 4.46 -> 4.47
+Subject: [PATCH 3/5] pulseaudio-0.9.23: Fix build on uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,104 +46,72 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 20 Nov 2011 17:57:34 -0000
 
-moreover 4.46 tar is not available on debian pools
+Import patch from oe.dev rev 7c33f2e906a20e139d53b4f2d8fbc2773a4725b3
+to fix bluez build when using uclibc
+
+cgit link here
+
+http://cgit.openembedded.org/cgit.cgi/openembedded/commit/?id=7c33f2e906a20e139d53b4f2d8fbc2773a4725b3
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../netbase/{netbase-4.46 => netbase-4.47}/hosts   |    0
- .../netbase/{netbase-4.46 => netbase-4.47}/init    |    0
- .../{netbase-4.46 => netbase-4.47}/interfaces      |    0
- .../netbase/{netbase-4.46 => netbase-4.47}/nfsroot |    0
- .../qemuarm/interfaces                             |    0
- .../qemuarmv6/interfaces                           |    0
- .../qemuarmv7/interfaces                           |    0
- .../qemumips/interfaces                            |    0
- .../qemuppc/interfaces                             |    0
- .../qemux86-64/interfaces                          |    0
- .../qemux86/interfaces                             |    0
- .../netbase/{netbase_4.46.bb => netbase_4.47.bb}   |    6 +++---
- 12 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/hosts (100%)
- rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/init (100%)
- rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/interfaces (100%)
- rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/nfsroot (100%)
- rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/qemuarm/interfaces (100%)
- rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/qemuarmv6/interfaces (100%)
- rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/qemuarmv7/interfaces (100%)
- rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/qemumips/interfaces (100%)
- rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/qemuppc/interfaces (100%)
- rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/qemux86-64/interfaces (100%)
- rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/qemux86/interfaces (100%)
- rename meta/recipes-core/netbase/{netbase_4.46.bb => netbase_4.47.bb} (92%)
+ .../pulseaudio-0.9.23/fix_bluez_build.patch        |   26 ++++++++++++++++++++
+ .../pulseaudio/pulseaudio_0.9.23.bb                |    3 +-
+ 2 files changed, 28 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/fix_bluez_build.patch
 
-diff --git a/meta/recipes-core/netbase/netbase-4.46/hosts b/meta/recipes-core/netbase/netbase-4.47/hosts
-similarity index 100%
-rename from meta/recipes-core/netbase/netbase-4.46/hosts
-rename to meta/recipes-core/netbase/netbase-4.47/hosts
-diff --git a/meta/recipes-core/netbase/netbase-4.46/init b/meta/recipes-core/netbase/netbase-4.47/init
-similarity index 100%
-rename from meta/recipes-core/netbase/netbase-4.46/init
-rename to meta/recipes-core/netbase/netbase-4.47/init
-diff --git a/meta/recipes-core/netbase/netbase-4.46/interfaces b/meta/recipes-core/netbase/netbase-4.47/interfaces
-similarity index 100%
-rename from meta/recipes-core/netbase/netbase-4.46/interfaces
-rename to meta/recipes-core/netbase/netbase-4.47/interfaces
-diff --git a/meta/recipes-core/netbase/netbase-4.46/nfsroot b/meta/recipes-core/netbase/netbase-4.47/nfsroot
-similarity index 100%
-rename from meta/recipes-core/netbase/netbase-4.46/nfsroot
-rename to meta/recipes-core/netbase/netbase-4.47/nfsroot
-diff --git a/meta/recipes-core/netbase/netbase-4.46/qemuarm/interfaces b/meta/recipes-core/netbase/netbase-4.47/qemuarm/interfaces
-similarity index 100%
-rename from meta/recipes-core/netbase/netbase-4.46/qemuarm/interfaces
-rename to meta/recipes-core/netbase/netbase-4.47/qemuarm/interfaces
-diff --git a/meta/recipes-core/netbase/netbase-4.46/qemuarmv6/interfaces b/meta/recipes-core/netbase/netbase-4.47/qemuarmv6/interfaces
-similarity index 100%
-rename from meta/recipes-core/netbase/netbase-4.46/qemuarmv6/interfaces
-rename to meta/recipes-core/netbase/netbase-4.47/qemuarmv6/interfaces
-diff --git a/meta/recipes-core/netbase/netbase-4.46/qemuarmv7/interfaces b/meta/recipes-core/netbase/netbase-4.47/qemuarmv7/interfaces
-similarity index 100%
-rename from meta/recipes-core/netbase/netbase-4.46/qemuarmv7/interfaces
-rename to meta/recipes-core/netbase/netbase-4.47/qemuarmv7/interfaces
-diff --git a/meta/recipes-core/netbase/netbase-4.46/qemumips/interfaces b/meta/recipes-core/netbase/netbase-4.47/qemumips/interfaces
-similarity index 100%
-rename from meta/recipes-core/netbase/netbase-4.46/qemumips/interfaces
-rename to meta/recipes-core/netbase/netbase-4.47/qemumips/interfaces
-diff --git a/meta/recipes-core/netbase/netbase-4.46/qemuppc/interfaces b/meta/recipes-core/netbase/netbase-4.47/qemuppc/interfaces
-similarity index 100%
-rename from meta/recipes-core/netbase/netbase-4.46/qemuppc/interfaces
-rename to meta/recipes-core/netbase/netbase-4.47/qemuppc/interfaces
-diff --git a/meta/recipes-core/netbase/netbase-4.46/qemux86-64/interfaces b/meta/recipes-core/netbase/netbase-4.47/qemux86-64/interfaces
-similarity index 100%
-rename from meta/recipes-core/netbase/netbase-4.46/qemux86-64/interfaces
-rename to meta/recipes-core/netbase/netbase-4.47/qemux86-64/interfaces
-diff --git a/meta/recipes-core/netbase/netbase-4.46/qemux86/interfaces b/meta/recipes-core/netbase/netbase-4.47/qemux86/interfaces
-similarity index 100%
-rename from meta/recipes-core/netbase/netbase-4.46/qemux86/interfaces
-rename to meta/recipes-core/netbase/netbase-4.47/qemux86/interfaces
-diff --git a/meta/recipes-core/netbase/netbase_4.46.bb b/meta/recipes-core/netbase/netbase_4.47.bb
-similarity index 92%
-rename from meta/recipes-core/netbase/netbase_4.46.bb
-rename to meta/recipes-core/netbase/netbase_4.47.bb
-index b55a8a1..ddfa8ad 100644
---- a/meta/recipes-core/netbase/netbase_4.46.bb
-+++ b/meta/recipes-core/netbase/netbase_4.47.bb
-@@ -17,6 +17,9 @@ SRC_URI = "${DEBIAN_MIRROR}/main/n/netbase/netbase_${PV}.tar.gz \
-            file://interfaces \
-            file://nfsroot"
- 
-+SRC_URI[md5sum] = "fcd87a62f177592724a8066e3774ae97"
-+SRC_URI[sha256sum] = "a7e6525c9a09b00eff3395d09739b3c70a18bff8d13f7daa21fdf81989387726"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/fix_bluez_build.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/fix_bluez_build.patch
+new file mode 100644
+index 0000000..fbb22d7
+--- /dev/null
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/fix_bluez_build.patch
+@@ -0,0 +1,26 @@
++using uClibc $(INTLLIBS) is not empty but set to -lintl
++this means that AM_LIBADD wont be empty as well and hence
++a missing space which otherwise works starts to show up as error
 +
- do_install () {
- 	install -d ${D}${sysconfdir}/init.d \
- 		   ${D}${sbindir} \
-@@ -48,6 +51,3 @@ CONFFILES_${PN} = "${sysconfdir}/hosts ${sysconfdir}/network/interfaces"
- PACKAGE_ARCH_qemuarm = "${MACHINE_ARCH}"
- PACKAGE_ARCH_qemux86 = "${MACHINE_ARCH}"
- PACKAGE_ARCH_qemux86-64 = "${MACHINE_ARCH}"
--
--SRC_URI[md5sum] = "e15762f4a8280a62f7ddfea6093120f1"
--SRC_URI[sha256sum] = "2fdee144112731ee0028fee2584cc82d664857ca7004c2eb59de7bda5b159838"
++| make[4]: *** No rule to make target `-lintl', needed by `libbluetooth-ipc.la'.  Stop.
++| make[4]: Leaving directory `/home/kraj/work/angstrom/sources/openembedded-core/build/tmp-uclibc/work/armv5te-oe-linux-uclibceabi/pulseaudio-0.9.23-r7/pulseaudio-0.9.23/src'
++| make[3]: *** [all-recursive] Error 1
++
++We add missing space
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Upstream-Status: Pending
++Index: pulseaudio-0.9.23/src/Makefile.am
++===================================================================
++--- pulseaudio-0.9.23.orig/src/Makefile.am	2011-06-23 13:18:54.000000000 -0700
+++++ pulseaudio-0.9.23/src/Makefile.am	2011-11-20 09:04:00.986917207 -0800
++@@ -1701,7 +1701,7 @@
++ 
++ libbluetooth_ipc_la_SOURCES = modules/bluetooth/ipc.c modules/bluetooth/ipc.h
++ libbluetooth_ipc_la_LDFLAGS = -avoid-version
++-libbluetooth_ipc_la_LIBADD = $(AM_LIBADD)libpulsecore-@PA_MAJORMINORMICRO@.la libpulsecommon-@PA_MAJORMINORMICRO@.la libpulse.la
+++libbluetooth_ipc_la_LIBADD = $(AM_LIBADD) libpulsecore-@PA_MAJORMINORMICRO@.la libpulsecommon-@PA_MAJORMINORMICRO@.la libpulse.la
++ libbluetooth_ipc_la_CFLAGS = $(AM_CFLAGS)
++ BLUETOOTH_IPC_FILES = $(subst modules/bluetooth/,,$(libbluetooth_ipc_la_SOURCES)) rtp.h
++ 
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
+index 62832d9..e712cab 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
+@@ -1,6 +1,6 @@
+ require pulseaudio.inc
+ 
+-PR = "r7"
++PR = "r8"
+ 
+ DEPENDS += "gdbm speex libxml-parser-perl-native"
+ 
+@@ -12,6 +12,7 @@ SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/pulseaudio-${PV}.
+   file://tls_m4.patch \
+   file://configure_silent_rules.patch \
+   file://volatiles.04_pulse \
++  file://fix_bluez_build.patch \
+ "
+ 
+ SRC_URI[md5sum] = "7391205a337d1e04a9ff38025f684034"
 -- 
 1.7.5.4
 
