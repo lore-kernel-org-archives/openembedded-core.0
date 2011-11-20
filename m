@@ -1,27 +1,30 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RSADC-0001Z8-Kz
+	(envelope-from <raj.khem@gmail.com>) id 1RSBdl-0003T6-D8
 	for openembedded-core@lists.openembedded.org;
-	Sun, 20 Nov 2011 17:25:46 +0100
-Received: by faat2 with SMTP id t2so5515178faa.6
+	Sun, 20 Nov 2011 18:57:17 +0100
+Received: by iahk25 with SMTP id k25so6180037iah.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 20 Nov 2011 08:19:18 -0800 (PST)
+	Sun, 20 Nov 2011 09:50:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:from:date:message-id:subject:to:content-type;
-	bh=+wPlnYKVwx8P/7mCvfOnqDZjnCcu8AYGOrRl05qVTIo=;
-	b=DnJwZSH2EM81hX+aP8mKjc3NYsn52o2N9LH/RDbL2JyE5SIRwEJP9WLE4Hbr5UGSfS
-	2zZ4bXhGmL3q4dYFlLow7fo5+z+bmMHfpXjxEgbjca2AGm3bjVeFOOw5JusXe56rW+sE
-	+DjeCmqgVu4KAAm55Du2Jtui/HjjTYygLAwmQ=
-Received: by 10.152.102.148 with SMTP id fo20mr6796431lab.51.1321805958115;
-	Sun, 20 Nov 2011 08:19:18 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.152.24.36 with HTTP; Sun, 20 Nov 2011 08:18:47 -0800 (PST)
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=2cnPfkUBYJZBRTJ4GgY+799UMAR5JbaVSjww4yUHvNs=;
+	b=MRYg/rwCH9YzZrjLp9x3FVFIEZ+7aJNu/o0qGKSMXU6Tf1Xahk5bgqkARCWic2CfzW
+	ZoGIPa0vLfHOVlKQd4l3ySRuF2OFld97BrpMMfzUo1T/wZwYIQsDVv2LA4fCur4i37wb
+	yU3lYbm+G3iXee4oN9mdMBXCc05+wUWPfR7PE=
+Received: by 10.42.156.9 with SMTP id x9mr10635883icw.42.1321811444624;
+	Sun, 20 Nov 2011 09:50:44 -0800 (PST)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
+	by mx.google.com with ESMTPS id dd36sm34706668ibb.7.2011.11.20.09.50.42
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 20 Nov 2011 09:50:43 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 20 Nov 2011 08:18:47 -0800
-Message-ID: <CAMKF1so8it8VVhVeidcpfmxd-5dgfXvrsX_w3z1U7WbrVpoRqQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Fetch errors from projects.o-hand.com
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 20 Nov 2011 09:50:37 -0800
+Message-Id: <cover.1321811216.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/5] Fixes for uclibc based builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,38 +39,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 20 Nov 2011 16:25:46 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 20 Nov 2011 17:57:17 -0000
 
-Hi
+This pull request has patches needed for core-image-sato to build with uclibc
+gcc update needed for fixes qt4 ICE seen on armv7-a
+Fix to matchbox to get core-image-sato building with gold linker
 
-My build of core-image-sato is failing to fetch tars from projects.o-hand.com
+The following changes since commit 0a9b1f504e685351921e27e42452f51630d64cd3:
 
+  gcc-4.6: Fix gcc ICE on qt4-x11-free/armv7-a (2011-11-20 09:39:36 -0800)
 
- DEBUG: Trying MIRRORS
-| ERROR: Function 'Fetcher failure for URL:
-'http://projects.o-hand.com/matchbox/sources/libmatchbox/1.9/libmatchbox-1.9.tar.gz'.
-Unable to fetch URL
-http://projects.o-hand.com/matchbox/sources/libmatchbox/1.9/libmatchbox-1.9.tar.gz
-from any source.' failed
-NOTE: package libmatchbox-1.9-r8: task do_fetch: Failed
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib kraj/uclibc-updates
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/uclibc-updates
 
+Khem Raj (5):
+  matchbox-stroke: Fix linking error with gold
+  gettext_0.18.1.1: Fix QA Issue
+  pulseaudio-0.9.23: Fix build on uclibc
+  netbase: Update recipe 4.46 -> 4.47
+  gcc-4.6: Fix gcc ICE on qt4-x11-free/armv7-a
 
-| NOTE: fetch http://projects.o-hand.com/matchbox/sources/optional-dependencies/Xsettings-client-0.10.tar.gz
-| DEBUG: executing /usr/bin/env wget -t 5 -q --passive-ftp
---no-check-certificate -P
-/home/kraj/work/angstrom/sources/openembedded-core/build/downloads
-'http://projects.o-hand.com/matchbox/sources/optional-dependencies/Xsettings-client-0.10.tar.gz'
-| DEBUG: Fetcher accessed the network with the command /usr/bin/env
-wget -t 5 -q --passive-ftp --no-check-certificate -P
-/home/kraj/work/angstrom/sources/openembedded-core/build/downloads
-'http://projects.o-hand.com/matchbox/sources/optional-dependencies/Xsettings-client-0.10.tar.gz'
+ meta/recipes-core/gettext/gettext_0.18.1.1.bb      |    5 +-
+ .../netbase/{netbase-4.46 => netbase-4.47}/hosts   |    0
+ .../netbase/{netbase-4.46 => netbase-4.47}/init    |    0
+ .../{netbase-4.46 => netbase-4.47}/interfaces      |    0
+ .../netbase/{netbase-4.46 => netbase-4.47}/nfsroot |    0
+ .../qemuarm/interfaces                             |    0
+ .../qemuarmv6/interfaces                           |    0
+ .../qemuarmv7/interfaces                           |    0
+ .../qemumips/interfaces                            |    0
+ .../qemuppc/interfaces                             |    0
+ .../qemux86-64/interfaces                          |    0
+ .../qemux86/interfaces                             |    0
+ .../netbase/{netbase_4.46.bb => netbase_4.47.bb}   |    6 +-
+ meta/recipes-devtools/gcc/gcc-4.6.inc              |    9 ++-
+ meta/recipes-devtools/gcc/gcc-4.6/pr47551.patch    |   63 ++++++++++++++++++++
+ .../pulseaudio-0.9.23/fix_bluez_build.patch        |   26 ++++++++
+ .../pulseaudio/pulseaudio_0.9.23.bb                |    3 +-
+ .../matchbox-stroke/files/ldadd_libXrender.patch   |   25 ++++++++
+ .../matchbox-stroke/matchbox-stroke_git.bb         |    6 +-
+ 19 files changed, 131 insertions(+), 12 deletions(-)
+ rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/hosts (100%)
+ rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/init (100%)
+ rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/interfaces (100%)
+ rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/nfsroot (100%)
+ rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/qemuarm/interfaces (100%)
+ rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/qemuarmv6/interfaces (100%)
+ rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/qemuarmv7/interfaces (100%)
+ rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/qemumips/interfaces (100%)
+ rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/qemuppc/interfaces (100%)
+ rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/qemux86-64/interfaces (100%)
+ rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/qemux86/interfaces (100%)
+ rename meta/recipes-core/netbase/{netbase_4.46.bb => netbase_4.47.bb} (92%)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6/pr47551.patch
+ create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/fix_bluez_build.patch
+ create mode 100644 meta/recipes-sato/matchbox-stroke/files/ldadd_libXrender.patch
 
-I dont have yocto project mirror in my fallback list.
+-- 
+1.7.5.4
 
-Should these files be fetched from these urls or should urls be
-updated to fetch them from elsewhere ?
-
--Khem
 
 
