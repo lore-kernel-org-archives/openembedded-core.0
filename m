@@ -1,30 +1,32 @@
 Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RSBdl-0003T6-D8
+	(envelope-from <raj.khem@gmail.com>) id 1RSBdr-0003T6-8U
 	for openembedded-core@lists.openembedded.org;
-	Sun, 20 Nov 2011 18:57:17 +0100
-Received: by iahk25 with SMTP id k25so6180037iah.6
+	Sun, 20 Nov 2011 18:57:23 +0100
+Received: by mail-iy0-f175.google.com with SMTP id k25so6180037iah.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 20 Nov 2011 09:50:48 -0800 (PST)
+	Sun, 20 Nov 2011 09:50:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=2cnPfkUBYJZBRTJ4GgY+799UMAR5JbaVSjww4yUHvNs=;
-	b=MRYg/rwCH9YzZrjLp9x3FVFIEZ+7aJNu/o0qGKSMXU6Tf1Xahk5bgqkARCWic2CfzW
-	ZoGIPa0vLfHOVlKQd4l3ySRuF2OFld97BrpMMfzUo1T/wZwYIQsDVv2LA4fCur4i37wb
-	yU3lYbm+G3iXee4oN9mdMBXCc05+wUWPfR7PE=
-Received: by 10.42.156.9 with SMTP id x9mr10635883icw.42.1321811444624;
-	Sun, 20 Nov 2011 09:50:44 -0800 (PST)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=O5gc6vTSwj+s/QN2iCZd5rtRgIIWlQCATFe/xwRGsRc=;
+	b=aFWeGbgy/9w9oUJgND4ztQCcFS1EOUPvtKO99RepCgfwRBAgCuqKvGMgNASqfUi6l4
+	FpTsPLRBFRfm8DAxFfcYI3lXmT/sJNM1pDzIGeW7Mt0TtC5hVMrgj8zM6HcjVqPR0IIy
+	8kEbOluog8yHsOuLA32jayg3TJG9HS9ljjm1E=
+Received: by 10.231.63.212 with SMTP id c20mr2487518ibi.52.1321811455289;
+	Sun, 20 Nov 2011 09:50:55 -0800 (PST)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
-	by mx.google.com with ESMTPS id dd36sm34706668ibb.7.2011.11.20.09.50.42
+	by mx.google.com with ESMTPS id dd36sm34710971ibb.7.2011.11.20.09.50.53
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 20 Nov 2011 09:50:43 -0800 (PST)
+	Sun, 20 Nov 2011 09:50:54 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 20 Nov 2011 09:50:37 -0800
-Message-Id: <cover.1321811216.git.raj.khem@gmail.com>
+Date: Sun, 20 Nov 2011 09:50:43 -0800
+Message-Id: <d06edef859ff936294d76bc07523f50eaaa5baf4.1321811216.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH 0/5] Fixes for uclibc based builds
+In-Reply-To: <cover.1321811216.git.raj.khem@gmail.com>
+References: <cover.1321811216.git.raj.khem@gmail.com>
+Subject: [PATCH 1/5] matchbox-stroke: Fix linking error with gold
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,63 +41,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 20 Nov 2011 17:57:17 -0000
+X-List-Received-Date: Sun, 20 Nov 2011 17:57:23 -0000
 
-This pull request has patches needed for core-image-sato to build with uclibc
-gcc update needed for fixes qt4 ICE seen on armv7-a
-Fix to matchbox to get core-image-sato building with gold linker
+Gold defaults to no-add-needed thetefore
+it does not link with librtaries that are not on cmdline
+it needs libXrender but is not on the linker cmdline
+so add it.
 
-The following changes since commit 0a9b1f504e685351921e27e42452f51630d64cd3:
-
-  gcc-4.6: Fix gcc ICE on qt4-x11-free/armv7-a (2011-11-20 09:39:36 -0800)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib kraj/uclibc-updates
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/uclibc-updates
-
-Khem Raj (5):
-  matchbox-stroke: Fix linking error with gold
-  gettext_0.18.1.1: Fix QA Issue
-  pulseaudio-0.9.23: Fix build on uclibc
-  netbase: Update recipe 4.46 -> 4.47
-  gcc-4.6: Fix gcc ICE on qt4-x11-free/armv7-a
-
- meta/recipes-core/gettext/gettext_0.18.1.1.bb      |    5 +-
- .../netbase/{netbase-4.46 => netbase-4.47}/hosts   |    0
- .../netbase/{netbase-4.46 => netbase-4.47}/init    |    0
- .../{netbase-4.46 => netbase-4.47}/interfaces      |    0
- .../netbase/{netbase-4.46 => netbase-4.47}/nfsroot |    0
- .../qemuarm/interfaces                             |    0
- .../qemuarmv6/interfaces                           |    0
- .../qemuarmv7/interfaces                           |    0
- .../qemumips/interfaces                            |    0
- .../qemuppc/interfaces                             |    0
- .../qemux86-64/interfaces                          |    0
- .../qemux86/interfaces                             |    0
- .../netbase/{netbase_4.46.bb => netbase_4.47.bb}   |    6 +-
- meta/recipes-devtools/gcc/gcc-4.6.inc              |    9 ++-
- meta/recipes-devtools/gcc/gcc-4.6/pr47551.patch    |   63 ++++++++++++++++++++
- .../pulseaudio-0.9.23/fix_bluez_build.patch        |   26 ++++++++
- .../pulseaudio/pulseaudio_0.9.23.bb                |    3 +-
- .../matchbox-stroke/files/ldadd_libXrender.patch   |   25 ++++++++
- .../matchbox-stroke/matchbox-stroke_git.bb         |    6 +-
- 19 files changed, 131 insertions(+), 12 deletions(-)
- rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/hosts (100%)
- rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/init (100%)
- rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/interfaces (100%)
- rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/nfsroot (100%)
- rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/qemuarm/interfaces (100%)
- rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/qemuarmv6/interfaces (100%)
- rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/qemuarmv7/interfaces (100%)
- rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/qemumips/interfaces (100%)
- rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/qemuppc/interfaces (100%)
- rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/qemux86-64/interfaces (100%)
- rename meta/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/qemux86/interfaces (100%)
- rename meta/recipes-core/netbase/{netbase_4.46.bb => netbase_4.47.bb} (92%)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.6/pr47551.patch
- create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/fix_bluez_build.patch
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../matchbox-stroke/files/ldadd_libXrender.patch   |   25 ++++++++++++++++++++
+ .../matchbox-stroke/matchbox-stroke_git.bb         |    6 +++-
+ 2 files changed, 29 insertions(+), 2 deletions(-)
  create mode 100644 meta/recipes-sato/matchbox-stroke/files/ldadd_libXrender.patch
 
+diff --git a/meta/recipes-sato/matchbox-stroke/files/ldadd_libXrender.patch b/meta/recipes-sato/matchbox-stroke/files/ldadd_libXrender.patch
+new file mode 100644
+index 0000000..90d2057
+--- /dev/null
++++ b/meta/recipes-sato/matchbox-stroke/files/ldadd_libXrender.patch
+@@ -0,0 +1,25 @@
++with GNU binutils-gold the
++important difference is that --no-add-needed is the default behavior of GNU
++binutils-gold. Please provide all needed libraries to the linker when building
++your executables.
++
++Otherwise we get link errors like
++
++/home/kraj/work/angstrom/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/usr/libexec/armv5te-angstrom-linux-gnueabi/gcc/arm-angstrom-linux-gnueabi/4.6.2/ld: matchbox-stroke-ui.o: in function mb_stroke_ui_resources_create:matchbox-stroke-ui.c:223: error: undefined reference to 'XRenderCreatePicture'collect2: ld returned 1 exit statusmake[2]: *** [matchbox-stroke] Error 1
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Upstream-Status: Pending
++Index: git/src/Makefile.am
++===================================================================
++--- git.orig/src/Makefile.am	2011-10-22 19:25:52.000000000 -0700
+++++ git/src/Makefile.am	2011-10-22 19:27:07.746428946 -0700
++@@ -6,7 +6,7 @@
++ 
++ bin_PROGRAMS = matchbox-stroke
++ 
++-matchbox_stroke_LDADD = $(MBSTROKE_LIBS) $(EXPAT_LIBS) -lm
+++matchbox_stroke_LDADD = $(MBSTROKE_LIBS) $(EXPAT_LIBS) -lm -lXrender
++ 
++ matchbox_stroke_SOURCES =                                          \
++        matchbox-stroke.h                                           \
+diff --git a/meta/recipes-sato/matchbox-stroke/matchbox-stroke_git.bb b/meta/recipes-sato/matchbox-stroke/matchbox-stroke_git.bb
+index 44b316d..2c2e940 100644
+--- a/meta/recipes-sato/matchbox-stroke/matchbox-stroke_git.bb
++++ b/meta/recipes-sato/matchbox-stroke/matchbox-stroke_git.bb
+@@ -9,11 +9,13 @@ DEPENDS = "libfakekey expat libxft"
+ SECTION = "x11/wm"
+ SRCREV = "8edfd9a2bf1f0d6b28d4afee4bda9d3635f26a0b"
+ PV = "0.0+git${SRCPV}"
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git \
+            file://single-instance.patch \
+-           file://configure_fix.patch;maxrev=1819"
++           file://configure_fix.patch;maxrev=1819 \
++           file://ldadd_libXrender.patch \
++          "
+ 
+ S = "${WORKDIR}/git"
+ 
 -- 
 1.7.5.4
 
