@@ -1,64 +1,28 @@
-Received: from va3ehsobe002.messaging.microsoft.com ([216.32.180.12]
-	helo=VA3EHSOBE002.bigfish.com)
+Received: from mail-ww0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RRr4Q-0004Jh-L6
+	(envelope-from <koen@dominion.thruhere.net>) id 1RS4BF-000542-56
 	for openembedded-core@lists.openembedded.org;
-	Sat, 19 Nov 2011 20:59:27 +0100
-Received: from mail41-va3-R.bigfish.com (10.7.14.246) by
-	VA3EHSOBE002.bigfish.com (10.7.40.22) with Microsoft SMTP Server id
-	14.1.225.22; Sat, 19 Nov 2011 19:37:17 +0000
-Received: from mail41-va3 (localhost [127.0.0.1])	by mail41-va3-R.bigfish.com
-	(Postfix) with ESMTP id 5EA1D440209	for
-	<openembedded-core@lists.openembedded.org>;
-	Sat, 19 Nov 2011 19:37:00 +0000 (UTC)
-X-SpamScore: -17
-X-BigFish: VS-17(zz9371K1447M1432N98dKzz1202hzzz2dh2a8h668h839h8e2h8e3h61h)
-X-Spam-TCS-SCL: 0:0
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail41-va3 (localhost.localdomain [127.0.0.1]) by mail41-va3
-	(MessageSwitch) id 1321731419967245_4725;
-	Sat, 19 Nov 2011 19:36:59 +0000 (UTC)
-Received: from VA3EHSMHS027.bigfish.com (unknown [10.7.14.245])	by
-	mail41-va3.bigfish.com (Postfix) with ESMTP id E792F5C0019	for
-	<openembedded-core@lists.openembedded.org>;
-	Sat, 19 Nov 2011 19:36:59 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS027.bigfish.com
-	(10.7.99.37) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Sat, 19 Nov 2011 19:37:17 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.83]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.01.0339.002; Sat, 19 Nov 2011 13:37:52 -0600
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] Remove ttyS* from /etc/inittab that are not
-	present
-Thread-Index: AQHMpYhaUdp+eu0WmE6+kG2Z107JFZWyK8aAgAAiNgCAAlragIAAS0EAgAAKYwCAAABhAA==
-Date: Sat, 19 Nov 2011 19:37:51 +0000
-Message-ID: <CAEsOVNdpYvmxh3p=vwtE1oMUrOUjtcoR7k808+7mTAs7Zs=oSg@mail.gmail.com>
-References: <1321570027-29390-1-git-send-email-msm@freescale.com>
-	<CAP9ODKqjGqLg3u-VzFBAqhVSDUBUwG5eFSTtZcv+Zo7mnPLEAQ@mail.gmail.com>
-	<CAEsOVNeb2SLwPX74YDcA4-iFJ6TNm7OAkXUw9Fun-nBkVkhaMA@mail.gmail.com>
-	<CAP9ODKpA3smbm3MhiXJCOnFqBOZs7DoSRomE1rZP6Ys0bkW2bQ@mail.gmail.com>
-	<CAEsOVNcW=g+cjM9w_tECrmpX0pSoDj80ohtu253PK8h2cVpyRw@mail.gmail.com>
-	<CAP9ODKqyzY706Z+gpD6X2G2JBf6frki6S07=NabBxFMxB5pojg@mail.gmail.com>
-	<CAEsOVNf_xbHAv22_drG+oXMMOCQCjLNc7tqpSA-N7yjAGEkxbA@mail.gmail.com>
-	<CAP9ODKqOrQ0zw=OFJ-OngO0g90paMPLyZ3dN-KcBWBjqLFaU-w@mail.gmail.com>
-In-Reply-To: <CAP9ODKqOrQ0zw=OFJ-OngO0g90paMPLyZ3dN-KcBWBjqLFaU-w@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>
-Subject: Re: [PATCH] Remove ttyS* from /etc/inittab that are not present
+	Sun, 20 Nov 2011 10:59:21 +0100
+Received: by wwf25 with SMTP id 25so3628449wwf.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 20 Nov 2011 01:52:53 -0800 (PST)
+Received: by 10.180.104.35 with SMTP id gb3mr9992270wib.11.1321782772322;
+	Sun, 20 Nov 2011 01:52:52 -0800 (PST)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id z3sm2009056wid.11.2011.11.20.01.52.50
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 20 Nov 2011 01:52:51 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 20 Nov 2011 10:52:45 +0100
+Message-Id: <1321782765-28952-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.2.5
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] dbus: update to 1.4.16
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -69,28 +33,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Nov 2011 19:59:27 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <17C3DA41C17E6543AD228D402A382D73@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 20 Nov 2011 09:59:21 -0000
 
-On Sat, Nov 19, 2011 at 1:36 PM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
->> This will not work as a post rootfs hook as I've explained before. Let
->> me give you a more concrete example: We have a root file stored in
->> flash. We use it to boot from on a system with 4 serial ports. We use
->> the same image again to boot several kvm instances each of which only
->> have 1 serial port. The kvm instances will have spurious init messages
->> about respawning getty.
->
-> This usecase ought to be fulfilled with a specific package our boot
-> script that does this setup on runtime. As I said I see the use-case
-> but disagree about it being done on oe-core.
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ .../dbus/{dbus-1.4.12 => dbus-1.4.16}/dbus-1.init  |    0
+ .../dbus/{dbus-1.4.12 => dbus-1.4.16}/tmpdir.patch |    0
+ meta/recipes-core/dbus/dbus_1.4.12.bb              |    7 -------
+ meta/recipes-core/dbus/dbus_1.4.16.bb              |    5 +++++
+ 4 files changed, 5 insertions(+), 7 deletions(-)
+ rename meta/recipes-core/dbus/{dbus-1.4.12 => dbus-1.4.16}/dbus-1.init (100%)
+ rename meta/recipes-core/dbus/{dbus-1.4.12 => dbus-1.4.16}/tmpdir.patch (100%)
+ delete mode 100644 meta/recipes-core/dbus/dbus_1.4.12.bb
+ create mode 100644 meta/recipes-core/dbus/dbus_1.4.16.bb
 
-This is fine by me... thanks for the review.
-
--M=
+diff --git a/meta/recipes-core/dbus/dbus-1.4.12/dbus-1.init b/meta/recipes-core/dbus/dbus-1.4.16/dbus-1.init
+similarity index 100%
+rename from meta/recipes-core/dbus/dbus-1.4.12/dbus-1.init
+rename to meta/recipes-core/dbus/dbus-1.4.16/dbus-1.init
+diff --git a/meta/recipes-core/dbus/dbus-1.4.12/tmpdir.patch b/meta/recipes-core/dbus/dbus-1.4.16/tmpdir.patch
+similarity index 100%
+rename from meta/recipes-core/dbus/dbus-1.4.12/tmpdir.patch
+rename to meta/recipes-core/dbus/dbus-1.4.16/tmpdir.patch
+diff --git a/meta/recipes-core/dbus/dbus_1.4.12.bb b/meta/recipes-core/dbus/dbus_1.4.12.bb
+deleted file mode 100644
+index 64cfedd..0000000
+--- a/meta/recipes-core/dbus/dbus_1.4.12.bb
++++ /dev/null
+@@ -1,7 +0,0 @@
+-include dbus.inc
+-
+-PR = "r7"
+-
+-SRC_URI[md5sum] = "104f2ea94c10a896dfb1edecb5714cb1"
+-SRC_URI[sha256sum] = "da3c97fd546610558d588799e27c4fa81101e754acbcd34747a42c131f30dbe7"
+-
+diff --git a/meta/recipes-core/dbus/dbus_1.4.16.bb b/meta/recipes-core/dbus/dbus_1.4.16.bb
+new file mode 100644
+index 0000000..f87f266
+--- /dev/null
++++ b/meta/recipes-core/dbus/dbus_1.4.16.bb
+@@ -0,0 +1,5 @@
++include dbus.inc
++
++SRC_URI[md5sum] = "44a2a10678e7e50460879c3eb4453a65"
++SRC_URI[sha256sum] = "1d8ee6262f8cc2148f06578eee522c755ba0896206b3464ca9bdc84f411b29c6"
++
+-- 
+1.7.2.5
 
 
 
