@@ -1,26 +1,36 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RSSQq-0007lY-R1
+	(envelope-from <otavio.salvador@gmail.com>) id 1RSSgO-0000FV-OF
 	for openembedded-core@lists.openembedded.org;
-	Mon, 21 Nov 2011 12:53:05 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 21 Nov 2011 03:46:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="78347592"
-Received: from unknown (HELO helios.localnet) ([10.252.121.206])
-	by orsmga001.jf.intel.com with ESMTP; 21 Nov 2011 03:46:33 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Nov 2011 11:46:31 +0000
-Message-ID: <2673505.vfujBTNCRF@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.7.3 (Linux/3.0.0-12-generic-pae; KDE/4.7.3; i686; ; )
-In-Reply-To: <CAP9ODKqe8r=PH=uRSo019drokB5qwPVHPrdBcnYWSJ82AkPqBQ@mail.gmail.com>
+	Mon, 21 Nov 2011 13:09:08 +0100
+Received: by faat2 with SMTP id t2so5910928faa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Nov 2011 04:02:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=XgKEsUJAvxxP7KG2Kl+QVjFVs/AWq2LrPsaDfA4bVAQ=;
+	b=GpK6/ZHD6+0fHyAlzgeMNSb1Iflls5EamTdLJn+WkvHbd8e95p7mfY8Tkq2HL/eEMb
+	iqIHCYmuZWP08oDnD4oJrlhTPzZDqoVWgfBHcmz73LsGt+NTIeQ9LlUIaRrjeOqalsZO
+	boSnZtOjESI0OE2A5eK2rMfpu3Bu7WvEKLEPE=
+MIME-Version: 1.0
+Received: by 10.205.118.14 with SMTP id fo14mr14234308bkc.63.1321876959170;
+	Mon, 21 Nov 2011 04:02:39 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.26.143 with HTTP; Mon, 21 Nov 2011 04:02:39 -0800 (PST)
+In-Reply-To: <2673505.vfujBTNCRF@helios>
 References: <cover.1321628513.git.paul.eggleton@linux.intel.com>
 	<1707586.L5PGoRtkiK@helios>
 	<CAP9ODKqe8r=PH=uRSo019drokB5qwPVHPrdBcnYWSJ82AkPqBQ@mail.gmail.com>
-MIME-Version: 1.0
-Cc: Koen Kooi <koen@dominion.thruhere.net>
+	<2673505.vfujBTNCRF@helios>
+Date: Mon, 21 Nov 2011 10:02:39 -0200
+X-Google-Sender-Auth: 1Xaai4nohy7nnSfZAAMa7uyYBOM
+Message-ID: <CAP9ODKonPsF1J6cfyhX_oQQYEn4QrHjMPoyj0ZnD6wsSyEiXVA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core@lists.openembedded.org
 Subject: Re: [RFC PATCH 1/1] qt4: disable pulseaudio
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -36,25 +46,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Nov 2011 11:53:05 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 21 Nov 2011 12:09:09 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Saturday 19 November 2011 12:55:04 Otavio Salvador wrote:
-> I think this needs to be a distro option, not enforced.
-> 
-> I agree this needs to be explicitly added or removed but I'd like it
-> to be optional ... many embedded systems now depends on pulseaudio and
-> if one is using it, phonon ought to use it too.
+On Mon, Nov 21, 2011 at 09:46, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> On Saturday 19 November 2011 12:55:04 Otavio Salvador wrote:
+>> I think this needs to be a distro option, not enforced.
+>>
+>> I agree this needs to be explicitly added or removed but I'd like it
+>> to be optional ... many embedded systems now depends on pulseaudio and
+>> if one is using it, phonon ought to use it too.
+>
+> So, is this a DISTRO_FEATURE? Or do we use PACKAGECONFIG?
 
-So, is this a DISTRO_FEATURE? Or do we use PACKAGECONFIG?
+I'd say it is a distro feature.
 
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
