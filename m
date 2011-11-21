@@ -1,30 +1,27 @@
-Received: from mx.insigma.com.cn ([115.236.48.170] helo=WX-Edge.insigma.com.cn)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <niqingliang@insigma.com.cn>) id 1RSIHT-000583-4c
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RSPNc-000296-SZ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 21 Nov 2011 02:02:43 +0100
-Received: from WX-ExchMB.insigma.com.cn (10.0.1.203) by WX-Edge.insigma.com.cn
-	(10.0.1.205) with Microsoft SMTP Server (TLS) id 8.1.436.0;
-	Mon, 21 Nov 2011 08:56:11 +0800
-Received: from [192.168.0.98] (122.224.76.38) by WX-ExchMB.insigma.com.cn
-	(10.0.1.203) with Microsoft SMTP Server id 8.1.240.5; Mon, 21 Nov 2011
-	08:56:09 +0800
-Message-ID: <1321836895.1264.50.camel@localhost.localdomain>
-From: Ni Qingliang <niqingliang@insigma.com.cn>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 21 Nov 2011 08:54:55 +0800
-In-Reply-To: <4EC6B45A.9060107@intel.com>
-References: <4EC6B45A.9060107@intel.com>
-Organization: Insigma
-X-Mailer: Evolution 3.2.1 
+	Mon, 21 Nov 2011 09:37:33 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pAL8V0Nc019695
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Nov 2011 00:31:01 -0800 (PST)
+Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Mon, 21 Nov 2011 00:31:00 -0800
+Message-ID: <cover.1321862948.git.xiaofeng.yan@windriver.com>
+Old-Date: Mon, 21 Nov 2011 16:09:08 +0800
+Date: Mon, 21 Nov 2011 16:29:32 +0800
+To: <openembedded-core@lists.openembedded.org>
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-Subject: Re: qemu needs > 2 GB of RAM to build?
+Subject: [PATCH 0/1] libx11-trim: update to 1.4.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: niqingliang@insigma.com.cn,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -35,43 +32,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Nov 2011 01:02:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 21 Nov 2011 08:37:34 -0000
+Content-Type: text/plain
 
-I have encountered the same problem on archlinux in VM.
-after googled it, maybe it is GCC's defect
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-On Sat, 2011-11-19 at 03:39 +0800, Scott Garman wrote:
-> Hi all,
-> 
-> I'm testing building core-image-minimal in a resource-constrained
-> environment (a VirtualBox VM with 2300 MB of RAM allocated to it). With
-> PARALLEL_MAKE set to -j4 (the VM does have two CPUs allocated), I'm
-> finding that the build of qemu-native fails because the OOM killer steps
-> in and kills gcc. This is happening during the linking phase of building
-> qemu.
-> 
-> If this is true, I assume it would pretty much mean that no one can
-> build our images without more than 2 GB of RAM. Is this true? Is this
-> something for us to be concerned about?
-> 
-> Scott
-> 
-> --
-> Scott Garman
-> Embedded Linux Engineer - Yocto Project
-> Intel Open Source Technology Center
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Thanks for martin's comment.
+I have modified libx11-trim_1.4.4.bb and don't remove libx11-trim_1.3.4.bb because someone could want to use previous version for some reason. If it is not necessary later, then I will remove the old version.
 
--- 
-Yi Qingliang
-niqingliang@insigma.com.cn
-https://niqingliang2003.wordpress.com
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: xiaofeng/update_libx11-trim
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/update_libx11-trim
+
+Thanks,
+    Xiaofeng Yan <xiaofeng.yan@windriver.com>
+---
+
+
+Xiaofeng Yan (1):
+  blibx11-trim: update to 1.4.4
+
+ .../libx11-trim-1.4.4/keysymdef_include.patch      |   23 ++++++++++
+ .../libx11-trim-1.4.4/makekeys_crosscompile.patch  |   45 ++++++++++++++++++++
+ .../libx11-trim-1.4.4/x11_disable_makekeys.patch   |   29 +++++++++++++
+ .../recipes-graphics/xorg-lib/libx11-trim_1.4.4.bb |   20 +++++++++
+ 4 files changed, 117 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11-trim-1.4.4/keysymdef_include.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11-trim-1.4.4/makekeys_crosscompile.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11-trim-1.4.4/x11_disable_makekeys.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11-trim_1.4.4.bb
 
 
 
