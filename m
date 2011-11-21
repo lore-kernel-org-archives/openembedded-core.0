@@ -1,20 +1,22 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1RSZNh-0006En-B2
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RSZNo-0006FU-5u
 	for openembedded-core@lists.openembedded.org;
-	Mon, 21 Nov 2011 20:18:17 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 21 Nov 2011 11:11:46 -0800
+	Mon, 21 Nov 2011 20:18:24 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 21 Nov 2011 11:11:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="78490943"
+X-IronPort-AV: E=Sophos;i="4.69,548,1315206000"; d="scan'208";a="87818189"
 Received: from nbuild2.sc.intel.com ([172.25.110.37])
-	by orsmga001.jf.intel.com with ESMTP; 21 Nov 2011 11:11:46 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 21 Nov 2011 11:11:53 -0800
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Nov 2011 11:11:43 -0800
-Message-Id: <cover.1321902595.git.nitin.a.kamble@intel.com>
+Date: Mon, 21 Nov 2011 11:11:46 -0800
+Message-Id: <42da19b90f85ae6e3d8e324a7e877c89bb61dd66.1321902595.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.4.4
-Subject: [PATCH 0/1] fix yocto layer
+In-Reply-To: <cover.1321902595.git.nitin.a.kamble@intel.com>
+References: <cover.1321902595.git.nitin.a.kamble@intel.com>
+Subject: [PATCH 1/1] netbase.bbappend: sync up with oecore/yocto layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,29 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Nov 2011 19:18:17 -0000
+X-List-Received-Date: Mon, 21 Nov 2011 19:18:24 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-netbase.bbappend file from meta-yocto layer was lagging behind the meta layer.
-
-The following changes since commit 7022a8f8045bdf82b9209b8cd62fb09c4a7a24f8:
-
-  gcc-4.6: Fix gcc ICE on qt4-x11-free/armv7-a (2011-11-21 16:55:12 +0000)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib nitin/misc
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
-
-Nitin A Kamble (1):
-  netbase.bbappend: sync up with oecore/yocto layer
-
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+---
  .../beagleboard/interfaces                         |    0
  ...netbase_4.46.bbappend => netbase_4.47.bbappend} |    0
  2 files changed, 0 insertions(+), 0 deletions(-)
  rename meta-yocto/recipes-core/netbase/{netbase-4.46 => netbase-4.47}/beagleboard/interfaces (100%)
  rename meta-yocto/recipes-core/netbase/{netbase_4.46.bbappend => netbase_4.47.bbappend} (100%)
 
+diff --git a/meta-yocto/recipes-core/netbase/netbase-4.46/beagleboard/interfaces b/meta-yocto/recipes-core/netbase/netbase-4.47/beagleboard/interfaces
+similarity index 100%
+rename from meta-yocto/recipes-core/netbase/netbase-4.46/beagleboard/interfaces
+rename to meta-yocto/recipes-core/netbase/netbase-4.47/beagleboard/interfaces
+diff --git a/meta-yocto/recipes-core/netbase/netbase_4.46.bbappend b/meta-yocto/recipes-core/netbase/netbase_4.47.bbappend
+similarity index 100%
+rename from meta-yocto/recipes-core/netbase/netbase_4.46.bbappend
+rename to meta-yocto/recipes-core/netbase/netbase_4.47.bbappend
 -- 
 1.7.4.4
 
