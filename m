@@ -1,24 +1,26 @@
 Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RSYSZ-0004jH-38
+	(envelope-from <koen@dominion.thruhere.net>) id 1RSYSa-0004jH-Az
 	for openembedded-core@lists.openembedded.org;
-	Mon, 21 Nov 2011 19:19:15 +0100
-Received: by wwp14 with SMTP id 14so8727400wwp.24
+	Mon, 21 Nov 2011 19:19:16 +0100
+Received: by mail-ww0-f43.google.com with SMTP id 14so8727400wwp.24
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Nov 2011 10:12:44 -0800 (PST)
-Received: by 10.216.221.21 with SMTP id q21mr2294703wep.104.1321899164329;
-	Mon, 21 Nov 2011 10:12:44 -0800 (PST)
+	Mon, 21 Nov 2011 10:12:48 -0800 (PST)
+Received: by 10.216.131.234 with SMTP id m84mr2473717wei.25.1321899168582;
+	Mon, 21 Nov 2011 10:12:48 -0800 (PST)
 Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
-	by mx.google.com with ESMTPS id y3sm5462646wiy.3.2011.11.21.10.12.43
+	by mx.google.com with ESMTPS id z5sm5461879wix.5.2011.11.21.10.12.45
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 21 Nov 2011 10:12:43 -0800 (PST)
+	Mon, 21 Nov 2011 10:12:46 -0800 (PST)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Nov 2011 19:12:34 +0100
-Message-Id: <1321899155-19575-1-git-send-email-koen@dominion.thruhere.net>
+Date: Mon, 21 Nov 2011 19:12:35 +0100
+Message-Id: <1321899155-19575-2-git-send-email-koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.7.2.5
+In-Reply-To: <1321899155-19575-1-git-send-email-koen@dominion.thruhere.net>
+References: <1321899155-19575-1-git-send-email-koen@dominion.thruhere.net>
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [RFC][PATCH 1/2] libjson: add 0.9
+Subject: [RFC][PATCH 2/2] pulseaudio: update to 1.1, delete 0.9.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,33 +35,585 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Nov 2011 18:19:15 -0000
+X-List-Received-Date: Mon, 21 Nov 2011 18:19:16 -0000
 
 Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- meta/recipes-devtools/libjson/libjson_0.9.bb |   13 +++++++++++++
- 1 files changed, 13 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/libjson/libjson_0.9.bb
 
-diff --git a/meta/recipes-devtools/libjson/libjson_0.9.bb b/meta/recipes-devtools/libjson/libjson_0.9.bb
+As indicated in the subject, this is an RFC, please review and test.
+
+1) the ARM_INSTRUCTIONSET workarounds have been removed, so for people using thumb1, please test
+2) this is only buildtested on armv7a, more buildtests and runtime tests are on their way, so please test 
+
+ .../pulseaudio/pulseaudio-0.9.22/armv4+v5asm.patch |   61 --------------------
+ .../pulseaudio-0.9.22/autoconf_version.patch       |   17 ------
+ .../pulseaudio/pulseaudio-0.9.22/buildfix.patch    |   17 ------
+ .../pulseaudio-0.9.22/configure_silent_rules.patch |   33 -----------
+ .../pulseaudio-0.9.22/gcc4-compile-fix.patch       |   22 -------
+ .../pulseaudio/pulseaudio-0.9.22/tls_m4.patch      |   34 -----------
+ .../pulseaudio-0.9.22/volatiles.04_pulse           |    2 -
+ .../pulseaudio-0.9.23/autoconf_version.patch       |   17 ------
+ .../pulseaudio/pulseaudio-0.9.23/buildfix.patch    |   17 ------
+ .../pulseaudio-0.9.23/configure_silent_rules.patch |   33 -----------
+ .../pulseaudio-0.9.23/fix_bluez_build.patch        |   26 --------
+ .../pulseaudio-0.9.23/gcc4-compile-fix.patch       |   22 -------
+ .../pulseaudio/pulseaudio-0.9.23/tls_m4.patch      |   34 -----------
+ .../pulseaudio-0.9.23/volatiles.04_pulse           |    2 -
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    2 +-
+ .../pulseaudio/pulseaudio/volatiles.04_pulse       |    2 +
+ .../pulseaudio/pulseaudio_0.9.22.bb                |   24 --------
+ .../pulseaudio/pulseaudio_0.9.23.bb                |   27 ---------
+ .../pulseaudio/pulseaudio_1.1.bb                   |   19 ++++++
+ 19 files changed, 22 insertions(+), 389 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/armv4+v5asm.patch
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/autoconf_version.patch
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/buildfix.patch
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/configure_silent_rules.patch
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/gcc4-compile-fix.patch
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/tls_m4.patch
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/volatiles.04_pulse
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/autoconf_version.patch
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/buildfix.patch
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/configure_silent_rules.patch
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/fix_bluez_build.patch
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/gcc4-compile-fix.patch
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/tls_m4.patch
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/volatiles.04_pulse
+ create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/volatiles.04_pulse
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
+ create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb
+
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/armv4+v5asm.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/armv4+v5asm.patch
+deleted file mode 100644
+index 4ce5a48..0000000
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/armv4+v5asm.patch
++++ /dev/null
+@@ -1,61 +0,0 @@
+-Derived from OE by Dongxiao Xu <dongxiao.xu@intel.com>
+-
+-Upstream-Status: Inappropriate [embedded specific]
+-
+-Index: pulseaudio-0.9.21/src/pulsecore/svolume_arm.c
+-===================================================================
+---- pulseaudio-0.9.21.orig/src/pulsecore/svolume_arm.c
+-+++ pulseaudio-0.9.21/src/pulsecore/svolume_arm.c
+-@@ -37,6 +37,14 @@
+- 
+- #if defined (__arm__)
+- 
+-+/*
+-+   the code below uses armv6 instructions; we can safely ifdef this away as the code is only
+-+   called if the arm architecture is v6 or higher
+-+*/
+-+#if (!defined (__ARM_ARCH_4__) && !defined (__ARM_ARCH_4T__) \
+-+	&& !defined (__ARM_ARCH_5__)&& !defined (__ARM_ARCH_5E__) && !defined (__ARM_ARCH_5T__) \
+-+	&& !defined (__ARM_ARCH_5TE__) && !defined (__ARM_ARCH_5TEJ__))
+-+
+- #define MOD_INC() \
+-     " subs  r0, r6, %2              \n\t" \
+-     " addcs r0, %1                  \n\t" \
+-@@ -179,11 +187,15 @@ static void run_test (void) {
+- }
+- #endif
+- 
+-+#endif /* (!defined (__ARM_ARCH_4__) && !defined (__ARM_ARCH_4T__) ... */
+- #endif /* defined (__arm__) */
+- 
+- 
+- void pa_volume_func_init_arm (pa_cpu_arm_flag_t flags) {
+- #if defined (__arm__)
+-+#if (!defined (__ARM_ARCH_4__) && !defined (__ARM_ARCH_4T__) \
+-+	&& !defined (__ARM_ARCH_5__)&& !defined (__ARM_ARCH_5E__) && !defined (__ARM_ARCH_5T__) \
+-+	&& !defined (__ARM_ARCH_5TE__) && !defined (__ARM_ARCH_5TEJ__))
+-     pa_log_info("Initialising ARM optimized functions.");
+- 
+- #ifdef RUN_TEST
+-@@ -191,5 +203,6 @@ void pa_volume_func_init_arm (pa_cpu_arm
+- #endif
+- 
+-     pa_set_volume_func (PA_SAMPLE_S16NE,     (pa_do_volume_func_t) pa_volume_s16ne_arm);
+-+#endif /* (!defined (__ARM_ARCH_4__) && !defined (__ARM_ARCH_4T__) ... */
+- #endif /* defined (__arm__) */
+- }
+-Index: pulseaudio-0.9.21/src/modules/bluetooth/sbc_math.h
+-===================================================================
+---- pulseaudio-0.9.21.orig/src/modules/bluetooth/sbc_math.h
+-+++ pulseaudio-0.9.21/src/modules/bluetooth/sbc_math.h
+-@@ -47,7 +47,9 @@ typedef int32_t sbc_fixed_t;
+- 
+- #define SBC_FIXED_0(val) { val = 0; }
+- #define MUL(a, b)        ((a) * (b))
+--#ifdef __arm__
+-+#if (defined(__arm__) && !defined (__ARM_ARCH_4__) && !defined (__ARM_ARCH_4T__) \
+-+	&& !defined (__ARM_ARCH_5__)&& !defined (__ARM_ARCH_5E__) && !defined (__ARM_ARCH_5T__) \
+-+	&& !defined (__ARM_ARCH_5TE__) && !defined (__ARM_ARCH_5TEJ__))
+- #define MULA(a, b, res) ({				\
+- 		int tmp = res;			\
+- 		__asm__(				\
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/autoconf_version.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/autoconf_version.patch
+deleted file mode 100644
+index 86e3972..0000000
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/autoconf_version.patch
++++ /dev/null
+@@ -1,17 +0,0 @@
+-Derived from OE by Dongxiao Xu <dongxiao.xu@intel.com>
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Index: pulseaudio-0.9.15/configure.ac
+-===================================================================
+---- pulseaudio-0.9.15.orig/configure.ac	2009-04-14 00:09:53.000000000 +0100
+-+++ pulseaudio-0.9.15/configure.ac	2009-05-22 11:32:50.000000000 +0100
+-@@ -20,7 +20,7 @@
+- # along with PulseAudio; if not, write to the Free Software Foundation,
+- # Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+- 
+--AC_PREREQ(2.63)
+-+AC_PREREQ(2.61)
+- 
+- m4_define(pa_major, [0])
+- m4_define(pa_minor, [9])
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/buildfix.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/buildfix.patch
+deleted file mode 100644
+index 99ceff8..0000000
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/buildfix.patch
++++ /dev/null
+@@ -1,17 +0,0 @@
+-Derived from OE by Dongxiao Xu <dongxiao.xu@intel.com>
+-
+-Upstream-Status: Pending
+-
+-Index: pulseaudio-0.9.11/src/pulsecore/atomic.h
+-===================================================================
+---- pulseaudio-0.9.11.orig/src/pulsecore/atomic.h
+-+++ pulseaudio-0.9.11/src/pulsecore/atomic.h
+-@@ -40,6 +40,8 @@
+- #error "Please include config.h before including this file!"
+- #endif
+- 
+-+#include "macro.h"
+-+
+- #ifdef HAVE_ATOMIC_BUILTINS
+- 
+- /* __sync based implementation */
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/configure_silent_rules.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/configure_silent_rules.patch
+deleted file mode 100644
+index d4a247a..0000000
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/configure_silent_rules.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-Derived from OE by Dongxiao Xu <dongxiao.xu@intel.com>
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Index: pulseaudio-0.9.19/configure.ac
+-===================================================================
+---- pulseaudio-0.9.19.orig/configure.ac	2009-10-31 11:40:00.000000000 +0000
+-+++ pulseaudio-0.9.19/configure.ac	2009-10-31 11:50:35.000000000 +0000
+-@@ -27,12 +27,13 @@
+- AC_CONFIG_SRCDIR([src/daemon/main.c])
+- AC_CONFIG_MACRO_DIR([m4])
+- AC_CONFIG_HEADERS([config.h])
+--AM_INIT_AUTOMAKE([foreign 1.11 -Wall -Wno-portability silent-rules tar-pax])
+-+AM_INIT_AUTOMAKE([foreign 1.10 -Wall -Wno-portability tar-pax])
+- 
+- m4_define(pa_major, `echo $VERSION | cut -d. -f1 | cut -d- -f1`)
+- m4_define(pa_minor, `echo $VERSION | cut -d. -f2 | cut -d- -f1`)
+- m4_define(pa_micro, `echo $VERSION | cut -d. -f3 | cut -d- -f1`)
+- 
+-+
+- AC_SUBST(PA_MAJOR, pa_major)
+- AC_SUBST(PA_MINOR, pa_minor)
+- AC_SUBST(PA_MICRO, pa_micro)
+-@@ -80,7 +81,8 @@
+-       ;;
+- esac
+- 
+--AM_SILENT_RULES([yes])
+-+# only use if available
+-+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
+- 
+- #### Checks for programs. ####
+- 
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/gcc4-compile-fix.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/gcc4-compile-fix.patch
+deleted file mode 100644
+index f8b07ea..0000000
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/gcc4-compile-fix.patch
++++ /dev/null
+@@ -1,22 +0,0 @@
+-| fix for more strict syntax compliance in gcc4.x
+-| pulsecore/core-util.c: In function 'pa_raise_priority':
+-| pulsecore/core-util.c:547: error: label at end of compound statement
+-| Signed off: mickey@openmoko.org
+-|
+-Derived from OE by Dongxiao Xu <dongxiao.xu@intel.com>
+-
+-Upstream-Status: Pending
+-
+-Index: pulseaudio-0.9.6/src/pulsecore/core-util.c
+-===================================================================
+---- pulseaudio-0.9.6.orig/src/pulsecore/core-util.c
+-+++ pulseaudio-0.9.6/src/pulsecore/core-util.c
+-@@ -535,7 +535,7 @@ void pa_raise_priority(void) {
+-         pa_log_info("Successfully gained high priority class.");
+- #endif
+- 
+--fail:
+-+fail:;
+- 
+- #if defined(HAVE_SYS_CAPABILITY_H)
+-     if (caps) {
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/tls_m4.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/tls_m4.patch
+deleted file mode 100644
+index bae0a25..0000000
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/tls_m4.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-Derived from OE by Dongxiao Xu <dongxiao.xu@intel.com>
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Index: pulseaudio-0.9.15/m4/tls.m4
+-===================================================================
+---- pulseaudio-0.9.15.orig/m4/tls.m4	2008-08-19 23:25:02.000000000 +0200
+-+++ pulseaudio-0.9.15/m4/tls.m4	2009-07-10 09:55:25.266365511 +0200
+-@@ -1,12 +1,19 @@
+- AC_DEFUN([CC_CHECK_TLS], [
+-   AC_CACHE_CHECK([whether $CC knows __thread for Thread-Local Storage],
+-     cc_cv_tls___thread,
+--    [AC_COMPILE_IFELSE(
+--      AC_LANG_PROGRAM(
+--        [[static __thread int a = 6;]],
+--        [[a = 5;]]),
+--      [cc_cv_tls___thread=yes],
+--      [cc_cv_tls___thread=no])
+-+    [AC_LINK_IFELSE([__thread int a; int b; int main() { return a = b; }],
+-+	 [chktls_save_LDFLAGS="$LDFLAGS"
+-+	  LDFLAGS="-shared -Wl,--no-undefined $LDFLAGS"
+-+	  chktls_save_CFLAGS="$CFLAGS"
+-+	  CFLAGS="-fPIC $CFLAGS"
+-+	  dnl If -shared works, test if TLS works in a shared library.
+-+	  AC_LINK_IFELSE([int f() { return 0; }],
+-+	    AC_LINK_IFELSE([__thread int a; int b; int f() { return a = b; }],
+-+	      [cc_cv_tls___thread=yes],
+-+	      [cc_cv_tls___thread=no]),
+-+	    [cc_cv_tls___thread=yes])
+-+	  CFLAGS="$chktls_save_CFLAGS"
+-+	  LDFLAGS="$chktls_save_LDFLAGS"], [cc_cv_tls___thread=no])
+-     ])
+-   
+-   AS_IF([test "x$cc_cv_tls___thread" = "xyes"],
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/volatiles.04_pulse b/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/volatiles.04_pulse
+deleted file mode 100644
+index 5b19980..0000000
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.22/volatiles.04_pulse
++++ /dev/null
+@@ -1,2 +0,0 @@
+-# <type> <owner> <group> <mode> <path> <linksource>
+-d pulse pulse 0755 /var/run/pulse none
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/autoconf_version.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/autoconf_version.patch
+deleted file mode 100644
+index 86e3972..0000000
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/autoconf_version.patch
++++ /dev/null
+@@ -1,17 +0,0 @@
+-Derived from OE by Dongxiao Xu <dongxiao.xu@intel.com>
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Index: pulseaudio-0.9.15/configure.ac
+-===================================================================
+---- pulseaudio-0.9.15.orig/configure.ac	2009-04-14 00:09:53.000000000 +0100
+-+++ pulseaudio-0.9.15/configure.ac	2009-05-22 11:32:50.000000000 +0100
+-@@ -20,7 +20,7 @@
+- # along with PulseAudio; if not, write to the Free Software Foundation,
+- # Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+- 
+--AC_PREREQ(2.63)
+-+AC_PREREQ(2.61)
+- 
+- m4_define(pa_major, [0])
+- m4_define(pa_minor, [9])
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/buildfix.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/buildfix.patch
+deleted file mode 100644
+index 99ceff8..0000000
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/buildfix.patch
++++ /dev/null
+@@ -1,17 +0,0 @@
+-Derived from OE by Dongxiao Xu <dongxiao.xu@intel.com>
+-
+-Upstream-Status: Pending
+-
+-Index: pulseaudio-0.9.11/src/pulsecore/atomic.h
+-===================================================================
+---- pulseaudio-0.9.11.orig/src/pulsecore/atomic.h
+-+++ pulseaudio-0.9.11/src/pulsecore/atomic.h
+-@@ -40,6 +40,8 @@
+- #error "Please include config.h before including this file!"
+- #endif
+- 
+-+#include "macro.h"
+-+
+- #ifdef HAVE_ATOMIC_BUILTINS
+- 
+- /* __sync based implementation */
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/configure_silent_rules.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/configure_silent_rules.patch
+deleted file mode 100644
+index d4a247a..0000000
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/configure_silent_rules.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-Derived from OE by Dongxiao Xu <dongxiao.xu@intel.com>
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Index: pulseaudio-0.9.19/configure.ac
+-===================================================================
+---- pulseaudio-0.9.19.orig/configure.ac	2009-10-31 11:40:00.000000000 +0000
+-+++ pulseaudio-0.9.19/configure.ac	2009-10-31 11:50:35.000000000 +0000
+-@@ -27,12 +27,13 @@
+- AC_CONFIG_SRCDIR([src/daemon/main.c])
+- AC_CONFIG_MACRO_DIR([m4])
+- AC_CONFIG_HEADERS([config.h])
+--AM_INIT_AUTOMAKE([foreign 1.11 -Wall -Wno-portability silent-rules tar-pax])
+-+AM_INIT_AUTOMAKE([foreign 1.10 -Wall -Wno-portability tar-pax])
+- 
+- m4_define(pa_major, `echo $VERSION | cut -d. -f1 | cut -d- -f1`)
+- m4_define(pa_minor, `echo $VERSION | cut -d. -f2 | cut -d- -f1`)
+- m4_define(pa_micro, `echo $VERSION | cut -d. -f3 | cut -d- -f1`)
+- 
+-+
+- AC_SUBST(PA_MAJOR, pa_major)
+- AC_SUBST(PA_MINOR, pa_minor)
+- AC_SUBST(PA_MICRO, pa_micro)
+-@@ -80,7 +81,8 @@
+-       ;;
+- esac
+- 
+--AM_SILENT_RULES([yes])
+-+# only use if available
+-+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
+- 
+- #### Checks for programs. ####
+- 
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/fix_bluez_build.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/fix_bluez_build.patch
+deleted file mode 100644
+index fbb22d7..0000000
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/fix_bluez_build.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-using uClibc $(INTLLIBS) is not empty but set to -lintl
+-this means that AM_LIBADD wont be empty as well and hence
+-a missing space which otherwise works starts to show up as error
+-
+-| make[4]: *** No rule to make target `-lintl', needed by `libbluetooth-ipc.la'.  Stop.
+-| make[4]: Leaving directory `/home/kraj/work/angstrom/sources/openembedded-core/build/tmp-uclibc/work/armv5te-oe-linux-uclibceabi/pulseaudio-0.9.23-r7/pulseaudio-0.9.23/src'
+-| make[3]: *** [all-recursive] Error 1
+-
+-We add missing space
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Upstream-Status: Pending
+-Index: pulseaudio-0.9.23/src/Makefile.am
+-===================================================================
+---- pulseaudio-0.9.23.orig/src/Makefile.am	2011-06-23 13:18:54.000000000 -0700
+-+++ pulseaudio-0.9.23/src/Makefile.am	2011-11-20 09:04:00.986917207 -0800
+-@@ -1701,7 +1701,7 @@
+- 
+- libbluetooth_ipc_la_SOURCES = modules/bluetooth/ipc.c modules/bluetooth/ipc.h
+- libbluetooth_ipc_la_LDFLAGS = -avoid-version
+--libbluetooth_ipc_la_LIBADD = $(AM_LIBADD)libpulsecore-@PA_MAJORMINORMICRO@.la libpulsecommon-@PA_MAJORMINORMICRO@.la libpulse.la
+-+libbluetooth_ipc_la_LIBADD = $(AM_LIBADD) libpulsecore-@PA_MAJORMINORMICRO@.la libpulsecommon-@PA_MAJORMINORMICRO@.la libpulse.la
+- libbluetooth_ipc_la_CFLAGS = $(AM_CFLAGS)
+- BLUETOOTH_IPC_FILES = $(subst modules/bluetooth/,,$(libbluetooth_ipc_la_SOURCES)) rtp.h
+- 
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/gcc4-compile-fix.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/gcc4-compile-fix.patch
+deleted file mode 100644
+index f8b07ea..0000000
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/gcc4-compile-fix.patch
++++ /dev/null
+@@ -1,22 +0,0 @@
+-| fix for more strict syntax compliance in gcc4.x
+-| pulsecore/core-util.c: In function 'pa_raise_priority':
+-| pulsecore/core-util.c:547: error: label at end of compound statement
+-| Signed off: mickey@openmoko.org
+-|
+-Derived from OE by Dongxiao Xu <dongxiao.xu@intel.com>
+-
+-Upstream-Status: Pending
+-
+-Index: pulseaudio-0.9.6/src/pulsecore/core-util.c
+-===================================================================
+---- pulseaudio-0.9.6.orig/src/pulsecore/core-util.c
+-+++ pulseaudio-0.9.6/src/pulsecore/core-util.c
+-@@ -535,7 +535,7 @@ void pa_raise_priority(void) {
+-         pa_log_info("Successfully gained high priority class.");
+- #endif
+- 
+--fail:
+-+fail:;
+- 
+- #if defined(HAVE_SYS_CAPABILITY_H)
+-     if (caps) {
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/tls_m4.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/tls_m4.patch
+deleted file mode 100644
+index bae0a25..0000000
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/tls_m4.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-Derived from OE by Dongxiao Xu <dongxiao.xu@intel.com>
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Index: pulseaudio-0.9.15/m4/tls.m4
+-===================================================================
+---- pulseaudio-0.9.15.orig/m4/tls.m4	2008-08-19 23:25:02.000000000 +0200
+-+++ pulseaudio-0.9.15/m4/tls.m4	2009-07-10 09:55:25.266365511 +0200
+-@@ -1,12 +1,19 @@
+- AC_DEFUN([CC_CHECK_TLS], [
+-   AC_CACHE_CHECK([whether $CC knows __thread for Thread-Local Storage],
+-     cc_cv_tls___thread,
+--    [AC_COMPILE_IFELSE(
+--      AC_LANG_PROGRAM(
+--        [[static __thread int a = 6;]],
+--        [[a = 5;]]),
+--      [cc_cv_tls___thread=yes],
+--      [cc_cv_tls___thread=no])
+-+    [AC_LINK_IFELSE([__thread int a; int b; int main() { return a = b; }],
+-+	 [chktls_save_LDFLAGS="$LDFLAGS"
+-+	  LDFLAGS="-shared -Wl,--no-undefined $LDFLAGS"
+-+	  chktls_save_CFLAGS="$CFLAGS"
+-+	  CFLAGS="-fPIC $CFLAGS"
+-+	  dnl If -shared works, test if TLS works in a shared library.
+-+	  AC_LINK_IFELSE([int f() { return 0; }],
+-+	    AC_LINK_IFELSE([__thread int a; int b; int f() { return a = b; }],
+-+	      [cc_cv_tls___thread=yes],
+-+	      [cc_cv_tls___thread=no]),
+-+	    [cc_cv_tls___thread=yes])
+-+	  CFLAGS="$chktls_save_CFLAGS"
+-+	  LDFLAGS="$chktls_save_LDFLAGS"], [cc_cv_tls___thread=no])
+-     ])
+-   
+-   AS_IF([test "x$cc_cv_tls___thread" = "xyes"],
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/volatiles.04_pulse b/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/volatiles.04_pulse
+deleted file mode 100644
+index 5b19980..0000000
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/volatiles.04_pulse
++++ /dev/null
+@@ -1,2 +0,0 @@
+-# <type> <owner> <group> <mode> <path> <linksource>
+-d pulse pulse 0755 /var/run/pulse none
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 747b650..a94c398 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -68,7 +68,7 @@ FILES_libpulse-mainloop-glib = "${libdir}/libpulse-mainloop-glib.so.*"
+ 				   	 
+ FILES_${PN}-dbg += "${libexecdir}/pulse/.debug \
+                     ${libdir}/pulse-${PV}/modules/.debug"
+-FILES_${PN}-dev += "${libdir}/pulse-${PV}/modules/*.la ${datadir}/vala"		    
++FILES_${PN}-dev += "${libdir}/pulse-${PV}/modules/*.la ${datadir}/vala ${libdir}/cmake"		    
+ FILES_${PN}-conf = "${sysconfdir}"
+ FILES_${PN}-bin = "${bindir}/* \
+                    ${sysconfdir}/default/volatiles/volatiles.04_pulse"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/volatiles.04_pulse b/meta/recipes-multimedia/pulseaudio/pulseaudio/volatiles.04_pulse
 new file mode 100644
-index 0000000..4d609a6
+index 0000000..5b19980
 --- /dev/null
-+++ b/meta/recipes-devtools/libjson/libjson_0.9.bb
-@@ -0,0 +1,13 @@
-+DESCRIPTION = "JSON-C - A JSON implementation in C"
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/volatiles.04_pulse
+@@ -0,0 +1,2 @@
++# <type> <owner> <group> <mode> <path> <linksource>
++d pulse pulse 0755 /var/run/pulse none
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb
+deleted file mode 100644
+index 3067365..0000000
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb
++++ /dev/null
+@@ -1,24 +0,0 @@
+-require pulseaudio.inc
+-
+-PR = "r7"
+-
+-DEPENDS += "gdbm speex"
+-
+-inherit gettext
+-
+-SRC_URI += "\
+-  file://buildfix.patch \
+-  file://autoconf_version.patch \
+-  file://tls_m4.patch \
+-  file://configure_silent_rules.patch \
+-  file://armv4+v5asm.patch \
+-"
+-
+-do_compile_prepend() {
+-    cd ${S}
+-    mkdir -p ${S}/libltdl
+-    cp ${STAGING_LIBDIR}/libltdl* ${S}/libltdl
+-}
+-
+-SRC_URI[md5sum] = "ca85ab470669b05e100861654cf5eb3c"
+-SRC_URI[sha256sum] = "c6019324395117a258c048a6db5e9734551cc2c61dc35b46403ff00d64be55f0"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
+deleted file mode 100644
+index e712cab..0000000
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
++++ /dev/null
+@@ -1,27 +0,0 @@
+-require pulseaudio.inc
+-
+-PR = "r8"
+-
+-DEPENDS += "gdbm speex libxml-parser-perl-native"
+-
+-inherit gettext perlnative
+-
+-SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/pulseaudio-${PV}.tar.gz \
+-  file://buildfix.patch \
+-  file://autoconf_version.patch \
+-  file://tls_m4.patch \
+-  file://configure_silent_rules.patch \
+-  file://volatiles.04_pulse \
+-  file://fix_bluez_build.patch \
+-"
+-
+-SRC_URI[md5sum] = "7391205a337d1e04a9ff38025f684034"
+-SRC_URI[sha256sum] = "af3e84c614cb632fd1f57105489fcd5f93f906da1ce5aa9019492212031fba4e"
+-
+-do_compile_prepend() {
+-    cd ${S}
+-    mkdir -p ${S}/libltdl
+-    cp ${STAGING_LIBDIR}/libltdl* ${S}/libltdl
+-}
+-
+-ARM_INSTRUCTION_SET = "arm"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb
+new file mode 100644
+index 0000000..d97c932
+--- /dev/null
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb
+@@ -0,0 +1,19 @@
++require pulseaudio.inc
 +
-+LICENSE = "MIT/X11"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=30a276a476b02c2dcd0849bde417fb17"
++DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
 +
-+SRC_URI = "http://oss.metaparadigm.com/json-c/json-c-${PV}.tar.gz"
-+SRC_URI[md5sum] = "3a13d264528dcbaf3931b0cede24abae"
-+SRC_URI[sha256sum] = "702a486c9bf8e19137d484ab5c49b4ad314eb5e1fe37062a72c0a0fa39439475"
++inherit gettext perlnative
 +
-+S = "${WORKDIR}/json-c-${PV}"
++SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/pulseaudio-${PV}.tar.xz \
++  file://volatiles.04_pulse \
++"
 +
++SRC_URI[md5sum] = "17d21df798cee407b769c6355fae397a"
++SRC_URI[sha256sum] = "6fe531136f6ebce2d35872a2d2c914278cdc5dcdd5eea516dc52c81f9001f5ee"
 +
-+inherit autotools
++do_compile_prepend() {
++    cd ${S}
++    mkdir -p ${S}/libltdl
++    cp ${STAGING_LIBDIR}/libltdl* ${S}/libltdl
++}
++
 -- 
 1.7.2.5
 
