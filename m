@@ -1,25 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RSPNd-00029A-Hu
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1RSSQq-0007lY-R1
 	for openembedded-core@lists.openembedded.org;
-	Mon, 21 Nov 2011 09:37:33 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pAL8V313019700
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Nov 2011 00:31:03 -0800 (PST)
-Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Mon, 21 Nov 2011 00:31:03 -0800
-Message-ID: <8065e9322196431897b2af285ed49ba7fc2406dc.1321862948.git.xiaofeng.yan@windriver.com>
-In-Reply-To: <cover.1321862948.git.xiaofeng.yan@windriver.com>
-References: <cover.1321862948.git.xiaofeng.yan@windriver.com>
-Old-Date: Mon, 21 Nov 2011 15:42:24 +0800
-Date: Mon, 21 Nov 2011 16:29:34 +0800
-To: <openembedded-core@lists.openembedded.org>
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+	Mon, 21 Nov 2011 12:53:05 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 21 Nov 2011 03:46:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="78347592"
+Received: from unknown (HELO helios.localnet) ([10.252.121.206])
+	by orsmga001.jf.intel.com with ESMTP; 21 Nov 2011 03:46:33 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 21 Nov 2011 11:46:31 +0000
+Message-ID: <2673505.vfujBTNCRF@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.7.3 (Linux/3.0.0-12-generic-pae; KDE/4.7.3; i686; ; )
+In-Reply-To: <CAP9ODKqe8r=PH=uRSo019drokB5qwPVHPrdBcnYWSJ82AkPqBQ@mail.gmail.com>
+References: <cover.1321628513.git.paul.eggleton@linux.intel.com>
+	<1707586.L5PGoRtkiK@helios>
+	<CAP9ODKqe8r=PH=uRSo019drokB5qwPVHPrdBcnYWSJ82AkPqBQ@mail.gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] blibx11-trim: update to 1.4.4
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [RFC PATCH 1/1] qt4: disable pulseaudio
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,173 +36,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Nov 2011 08:37:34 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 21 Nov 2011 11:53:05 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+On Saturday 19 November 2011 12:55:04 Otavio Salvador wrote:
+> I think this needs to be a distro option, not enforced.
+> 
+> I agree this needs to be explicitly added or removed but I'd like it
+> to be optional ... many embedded systems now depends on pulseaudio and
+> if one is using it, phonon ought to use it too.
 
-Some description :
-1 Remove --with-xcb because xcb is necessary item in the new version.
-2 keysymdef_include.patch uses in keeping native directory of X11 as the default configuration. \
-  or else host directory "/usr/include/X11" is selected when running  ./configure.
-3 makekeys_crosscompile.patch avoid host contamination.
-4 x11_disable_makekeys.patch uses in compiling makekey.c needed by makekeys-makekeys.o
+So, is this a DISTRO_FEATURE? Or do we use PACKAGECONFIG?
 
-Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
----
- .../libx11-trim-1.4.4/keysymdef_include.patch      |   23 ++++++++++
- .../libx11-trim-1.4.4/makekeys_crosscompile.patch  |   45 ++++++++++++++++++++
- .../libx11-trim-1.4.4/x11_disable_makekeys.patch   |   29 +++++++++++++
- .../recipes-graphics/xorg-lib/libx11-trim_1.4.4.bb |   20 +++++++++
- 4 files changed, 117 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-graphics/xorg-lib/libx11-trim-1.4.4/keysymdef_include.patch
- create mode 100644 meta/recipes-graphics/xorg-lib/libx11-trim-1.4.4/makekeys_crosscompile.patch
- create mode 100644 meta/recipes-graphics/xorg-lib/libx11-trim-1.4.4/x11_disable_makekeys.patch
- create mode 100644 meta/recipes-graphics/xorg-lib/libx11-trim_1.4.4.bb
+Cheers,
+Paul
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11-trim-1.4.4/keysymdef_include.patch b/meta/recipes-graphics/xorg-lib/libx11-trim-1.4.4/keysymdef_include.patch
-new file mode 100644
-index 0000000..d1bdab9
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libx11-trim-1.4.4/keysymdef_include.patch
-@@ -0,0 +1,23 @@
-+Upstream-Status: Inappropriate [configuration]
-+
-+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-+
-+diff -uNr libX11-1.3.6.orig//configure.ac libX11-1.3.6/configure.ac
-+--- libX11-1.3.6.orig//configure.ac	2010-09-20 08:04:16.000000000 +0200
-++++ libX11-1.3.6/configure.ac	2010-09-28 16:29:26.000000000 +0200
-+@@ -355,7 +355,14 @@
-+ # Find keysymdef.h
-+ #
-+ AC_MSG_CHECKING([keysym definitions])
-+-KEYSYMDEFDIR=`$PKG_CONFIG --variable=includedir xproto`/X11
-++AC_ARG_WITH(keysymdefdir,
-++        AC_HELP_STRING([--with-keysymdefdir=DIR], [The location of keysymdef.h]),
-++        KEYSYMDEFDIR=$withval, KEYSYMDEFDIR="")
-++
-++if test x$KEYSYMDEFDIR = x; then
-++	KEYSYMDEFDIR=`$PKG_CONFIG --variable=includedir xproto`/X11
-++fi
-++
-+ FILES="keysymdef.h XF86keysym.h Sunkeysym.h DECkeysym.h HPkeysym.h"
-+ for i in $FILES; do
-+     if test -f "$KEYSYMDEFDIR/$i"; then
-diff --git a/meta/recipes-graphics/xorg-lib/libx11-trim-1.4.4/makekeys_crosscompile.patch b/meta/recipes-graphics/xorg-lib/libx11-trim-1.4.4/makekeys_crosscompile.patch
-new file mode 100644
-index 0000000..e5eacf0
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libx11-trim-1.4.4/makekeys_crosscompile.patch
-@@ -0,0 +1,45 @@
-+Because the size of "unsigned long" is different between 32-bit
-+and 64-bit, judge whether target is 32-bit or 64-bit and tell
-+"makekey". 
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: dbuitenh@windriver.com
-+
-+--- libX11-1.3.4.orig/src/util/makekeys.c	2010-01-15 09:11:36.000000000 +0800
-++++ libX11-1.3.4/src/util/makekeys.c	2011-05-24 19:04:25.454774908 +0800
-+@@ -33,6 +33,7 @@
-+ #include <X11/keysymdef.h>
-+ #include <stdio.h>
-+ #include <stdlib.h>
-++#include <stdint.h>
-+ 
-+ typedef unsigned long Signature;
-+ 
-+@@ -124,7 +125,12 @@
-+ 	    name = info[i].name;
-+ 	    sig = 0;
-+ 	    while ((c = *name++))
-+-		sig = (sig << 1) + c;
-++#ifdef USE32
-++		sig = (uint32_t)(sig << 1) + c;
-++#else
-++		sig = (uint64_t)(sig << 1) + c;
-++#endif
-++		
-+ 	    first = j = sig % z;
-+ 	    for (k = 0; tab[j]; k++) {
-+ 		j += first + 1;
-+@@ -163,7 +169,11 @@
-+ 	name = info[i].name;
-+ 	sig = 0;
-+ 	while ((c = *name++))
-+-	    sig = (sig << 1) + c;
-++#ifdef USE32
-++	    sig = (uint32_t)(sig << 1) + c;
-++#else
-++	    sig = (uint64_t)(sig << 1) + c;
-++#endif
-+ 	first = j = sig % z;
-+ 	while (offsets[j]) {
-+ 	    j += first + 1;
-diff --git a/meta/recipes-graphics/xorg-lib/libx11-trim-1.4.4/x11_disable_makekeys.patch b/meta/recipes-graphics/xorg-lib/libx11-trim-1.4.4/x11_disable_makekeys.patch
-new file mode 100644
-index 0000000..9763313
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libx11-trim-1.4.4/x11_disable_makekeys.patch
-@@ -0,0 +1,29 @@
-+Index: libX11-1.3.4/src/util/Makefile.am
-+===================================================================
-+--- libX11-1.3.4.orig/src/util/Makefile.am
-++++ libX11-1.3.4/src/util/Makefile.am
-+@@ -1,24 +1 @@
-+-
-+-noinst_PROGRAMS=makekeys
-+-
-+-makekeys_CFLAGS = \
-+-	$(X11_CFLAGS) \
-+-	$(CWARNFLAGS)
-+-
-+-CC = @CC_FOR_BUILD@
-+-CPPFLAGS = @CPPFLAGS_FOR_BUILD@
-+-CFLAGS = @CFLAGS_FOR_BUILD@
-+-LDFLAGS = @LDFLAGS_FOR_BUILD@
-+-
-+ EXTRA_DIST = mkks.sh
-+-
-+-if LINT
-+-# Check source code with tools like lint & sparse
-+-
-+-ALL_LINT_FLAGS=$(LINT_FLAGS) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
-+-		$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS)
-+-
-+-lint:
-+-	$(LINT) $(ALL_LINT_FLAGS) makekeys.c
-+-
-+-endif LINT
-diff --git a/meta/recipes-graphics/xorg-lib/libx11-trim_1.4.4.bb b/meta/recipes-graphics/xorg-lib/libx11-trim_1.4.4.bb
-new file mode 100644
-index 0000000..7aed308
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libx11-trim_1.4.4.bb
-@@ -0,0 +1,20 @@
-+require libx11.inc
-+
-+DESCRIPTION += " Support for XCMS is disabled in this version."
-+
-+LICENSE = "MIT & MIT-style & BSD"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=172255dee66bb0151435b2d5d709fcf7"
-+
-+PR = "r0"
-+
-+DEPENDS += "libxcb xproto xextproto xtrans libxau kbproto inputproto xf86bigfontproto xproto-native"
-+
-+SRC_URI += "file://x11_disable_makekeys.patch \
-+            file://keysymdef_include.patch \
-+            file://makekeys_crosscompile.patch"
-+
-+
-+SRC_URI[md5sum] = "f65c9c7ecbfb64c19dbd7927160d63fd"
-+SRC_URI[sha256sum] = "88d7238ce5f7cd123450567de7a3b56a43556e4ccc45df38b8324147c889a844"
-+
-+EXTRA_OECONF += "--with-keysymdef=${STAGING_INCDIR}/X11/ --disable-xcms "
 -- 
-1.7.0.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
