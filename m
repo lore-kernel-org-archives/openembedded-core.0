@@ -1,26 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RSzGG-00034V-7u
+	(envelope-from <josh@linux.intel.com>) id 1RSzO7-0003b9-Lz
 	for openembedded-core@lists.openembedded.org;
-	Tue, 22 Nov 2011 23:56:20 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 22 Nov 2011 14:49:48 -0800
+	Wed, 23 Nov 2011 00:04:27 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 22 Nov 2011 14:57:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="78968992"
-Received: from unknown (HELO [10.255.12.15]) ([10.255.12.15])
-	by orsmga001.jf.intel.com with ESMTP; 22 Nov 2011 14:49:47 -0800
-Message-ID: <4ECC270B.7030401@linux.intel.com>
-Date: Tue, 22 Nov 2011 14:49:47 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
-MIME-Version: 1.0
+X-IronPort-AV: E=Sophos;i="4.69,556,1315206000"; d="scan'208";a="40292550"
+Received: from unknown (HELO shamshir.amr.corp.intel.com) ([10.255.12.38])
+	by AZSMGA002.ch.intel.com with ESMTP; 22 Nov 2011 14:57:55 -0800
+From: Joshua Lock <josh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <1321568900-19406-1-git-send-email-msm@freescale.com>
-	<4ECBFD16.3020406@linux.intel.com>
-	<CAEsOVNczFsQBHND1ddr-oZW=HkAqoZnVsLQimViqcJD33HjDbw@mail.gmail.com>
-In-Reply-To: <CAEsOVNczFsQBHND1ddr-oZW=HkAqoZnVsLQimViqcJD33HjDbw@mail.gmail.com>
-Subject: Re: [PATCH] Remove EGLIBPARALLELISM from deps for EXTRA_OEMAKE
+Date: Tue, 22 Nov 2011 14:57:43 -0800
+Message-Id: <cover.1322001497.git.josh@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.3
+Subject: [PATCH 00/10] Clutter tidy up & fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,31 +29,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Nov 2011 22:56:20 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 22 Nov 2011 23:04:28 -0000
 
-On 11/22/2011 02:40 PM, McClintock Matthew-B29882 wrote:
-> On Tue, Nov 22, 2011 at 1:50 PM, Saul Wold<sgw@linux.intel.com>  wrote:
->> When possible, please include the recipe or file you are changing as part of
->> the patch subject.
->>
->> For example this would be:
->>
->> eglibc.inc: Remove EGLIBPARALLELISM from deps for EXTRA_OEMAKE
->
-> Sorry. Shall I resubmit or will you handle this?
->
-I will handle this time, should have added that in my email.
+The theme of this series is removing some of the stale clutter recipes.
 
-Sau!
+It also includes fixes for the cogl and clutter_git recipes.
 
-> -M
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Poky maintainers note: this series requires action; either merging my RFC series
+to drop clutter bbappends or a separate patch to remove the 1.6 bbappend.
+
+Cheers,
+Joshua
+
+The following changes since commit 381c7857a5b303bf9eadd7fffc39d17a2b8e31f2:
+
+  matchbox-wm: Fix variable type in _NET_WORKAREA setting (2011-11-22 15:13:16 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib josh/clutter
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/clutter
+
+Joshua Lock (10):
+  mutter: switch to clutter-1.8 to satisfy dependency
+  multilib.conf: update clutter
+  task-core-clutter: use clutter-1.8
+  distro-tracking-fields: add entries for clutter-1.8 recipes
+  clutter-*-1.6: drop clutter 1.6 recipes
+  clutter: PROVIDES clutter-1.6
+  multilibs: remove clutter-1.6 recipes
+  distro_tracking_fields: tidy up and claim clutter recipes
+  cogl: add missing depends on libxcomposite
+  clutter: move STDDEPENDS to inc
+
+ .../conf/distro/include/distro_tracking_fields.inc |   59 +++++++------------
+ meta/conf/multilib.conf                            |    4 +-
+ .../recipes-graphics/clutter/clutter-1.6_1.6.18.bb |   26 ---------
+ meta/recipes-graphics/clutter/clutter-1.8_1.8.0.bb |    4 +-
+ .../clutter/clutter-gst-1.6_1.3.6.bb               |   21 -------
+ meta/recipes-graphics/clutter/clutter.inc          |    3 +-
+ meta/recipes-graphics/clutter/clutter_git.bb       |    4 +-
+ meta/recipes-graphics/clutter/cogl.inc             |    2 +-
+ meta/recipes-graphics/mutter/mutter.inc            |    2 +-
+ meta/recipes-graphics/tasks/task-core-clutter.bb   |    9 ++-
+ 10 files changed, 37 insertions(+), 97 deletions(-)
+ delete mode 100644 meta/recipes-graphics/clutter/clutter-1.6_1.6.18.bb
+ delete mode 100644 meta/recipes-graphics/clutter/clutter-gst-1.6_1.3.6.bb
+
+-- 
+1.7.7.3
+
 
 
