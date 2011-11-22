@@ -1,27 +1,25 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RSuJd-0000Hq-Re
+	(envelope-from <sgw@linux.intel.com>) id 1RSuf4-00019U-1a
 	for openembedded-core@lists.openembedded.org;
-	Tue, 22 Nov 2011 18:39:30 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 22 Nov 2011 09:32:57 -0800
+	Tue, 22 Nov 2011 19:01:38 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 22 Nov 2011 09:55:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,554,1315206000"; d="scan'208";a="40180091"
-Received: from unknown (HELO helios.localnet) ([10.252.121.177])
-	by AZSMGA002.ch.intel.com with ESMTP; 22 Nov 2011 09:32:57 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Koen Kooi <koen@dominion.thruhere.net>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 22 Nov 2011 17:32:56 +0000
-Message-ID: <2298086.Af8fDfZKZy@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.7.3 (Linux/3.0.0-13-generic-pae; KDE/4.7.3; i686; ; )
-In-Reply-To: <503E71C5-C1CA-4A51-82EF-C52CBC2E43C5@dominion.thruhere.net>
-References: <cover.1321972798.git.paul.eggleton@linux.intel.com>
-	<503E71C5-C1CA-4A51-82EF-C52CBC2E43C5@dominion.thruhere.net>
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="78869792"
+Received: from unknown (HELO [10.255.12.15]) ([10.255.12.15])
+	by orsmga001.jf.intel.com with ESMTP; 22 Nov 2011 09:55:05 -0800
+Message-ID: <4ECBE1F9.9010605@linux.intel.com>
+Date: Tue, 22 Nov 2011 09:55:05 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
-Subject: Re: [RFC PATCH 0/1] packagehistory improvement
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1321351373.git.xiaofeng.yan@windriver.com>
+In-Reply-To: <cover.1321351373.git.xiaofeng.yan@windriver.com>
+Subject: Re: [PATCH 0/1] libx11-diet: update to 1.4.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,26 +34,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Nov 2011 17:39:30 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 22 Nov 2011 18:01:38 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tuesday 22 November 2011 18:25:25 Koen Kooi wrote:
-> Does it still suffer from the bug where it will break if you change machine
-> and something goes backward in PV (e.g. gcc 4.6 is used on arm, but 4.5 on
-> ppc)?
+On 11/15/2011 02:07 AM, Xiaofeng Yan wrote:
+> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
+>
+> Hi Saul,
+>
+> I have modified my fault according to your suggestion.
+> Please review it again.
+>
+> Pull URL: git://git.pokylinux.org/poky-contrib.git
+>    Branch: xiaofeng/libx11-diet
+>    Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/libx11-diet
+>
+> Thanks,
+>      Xiaofeng Yan<xiaofeng.yan@windriver.com>
+> ---
+>
+>
+> Xiaofeng Yan (1):
+>    libx11-diet: update to 1.4.4
+>
+>   .../xorg-lib/libx11-diet-1.3/include_fix.patch     |   25 --------------
+>   .../xorg-lib/libx11-diet-1.3/nodolt.patch          |   14 --------
+>   .../libx11-diet-1.3/x11_disable_makekeys.patch     |   31 ------------------
+>   .../X18NCMSstubs.diff                              |    1 +
+>   .../fix-disable-xlocale.diff                       |    1 +
+>   .../fix-utf8-wrong-define.patch                    |    2 +
+>   .../libx11-diet-1.4.4/keysymdef_include.patch      |   23 +++++++++++++
+>   .../libx11-diet-1.4.4/x11_disable_makekeys.patch   |   34 ++++++++++++++++++++
+>   .../{libx11-diet_1.3.bb =>  libx11-diet_1.4.4.bb}   |   17 +++++-----
+>   9 files changed, 70 insertions(+), 78 deletions(-)
+>   delete mode 100644 meta/recipes-graphics/xorg-lib/libx11-diet-1.3/include_fix.patch
+>   delete mode 100644 meta/recipes-graphics/xorg-lib/libx11-diet-1.3/nodolt.patch
+>   delete mode 100644 meta/recipes-graphics/xorg-lib/libx11-diet-1.3/x11_disable_makekeys.patch
+>   rename meta/recipes-graphics/xorg-lib/{libx11-diet-1.3 =>  libx11-diet-1.4.4}/X18NCMSstubs.diff (99%)
+>   rename meta/recipes-graphics/xorg-lib/{libx11-diet-1.3 =>  libx11-diet-1.4.4}/fix-disable-xlocale.diff (90%)
+>   rename meta/recipes-graphics/xorg-lib/{libx11-diet-1.3 =>  libx11-diet-1.4.4}/fix-utf8-wrong-define.patch (88%)
+>   create mode 100644 meta/recipes-graphics/xorg-lib/libx11-diet-1.4.4/keysymdef_include.patch
+>   create mode 100644 meta/recipes-graphics/xorg-lib/libx11-diet-1.4.4/x11_disable_makekeys.patch
+>   rename meta/recipes-graphics/xorg-lib/{libx11-diet_1.3.bb =>  libx11-diet_1.4.4.bb} (51%)
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+Merged into OE-Core
 
-If the package in question is not tied to the machine or the arch that was 
-changed, yes it will still cause do_package to fail. I'd be happy to address 
-this, but my question would be, how do we tell the difference between a 
-legitimate version pinning and when something has gone wrong?
+Thanks
+	Sau!
 
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
