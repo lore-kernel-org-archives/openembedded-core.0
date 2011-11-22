@@ -1,29 +1,29 @@
-Received: from mail-gx0-f175.google.com ([209.85.161.175])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RSvaa-0004W8-Ex
+	(envelope-from <martin.jansa@gmail.com>) id 1RSvbn-0005VO-Jl
 	for openembedded-core@lists.openembedded.org;
-	Tue, 22 Nov 2011 20:01:04 +0100
-Received: by ggnh4 with SMTP id h4so575536ggn.6
+	Tue, 22 Nov 2011 20:02:19 +0100
+Received: by ywb20 with SMTP id 20so381660ywb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Nov 2011 10:54:33 -0800 (PST)
+	Tue, 22 Nov 2011 10:55:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=hg6X0ZiKTBbS4lyO5yoQypvsOU24h8MMHu0RIHSyFAQ=;
-	b=x1Dtc9DbameCYfyLESkZ/urgakfmlXaInm4uhI7Jph60Rv8AATVSTcuIxyBRFFqD8C
-	TRtVxgT7iForpetg3HnBGeN8+sqDYGWtP8VsGifwgkEBeHckPmNi5WjbQZUO0ns7WAxi
-	B69f0702ODUUEyXNaYhJ8zXCPVcfFLNzZLJk0=
-Received: by 10.152.111.170 with SMTP id ij10mr9529422lab.5.1321988072441;
-	Tue, 22 Nov 2011 10:54:32 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id ne3sm13478684lab.7.2011.11.22.10.54.29
+	bh=LNYwlfwg9a1eRMbHKiB4tPlMqewKUeaz5zPaXi7w2O8=;
+	b=Rg6sG1xJpSKBMIImpVSN4Qx9AcNqC5voFUyj9g4+ZkZnzMt9kzRAZsS+UtxsuPd7uP
+	YZSwv5+8z2v4y5p5Tzj7fqa6HZ0HIA2D5ymRjhA/xgZt5IAEscUXb+GP7KFEU1Ibw8fc
+	U5oNY+wu4bCeq5fmVry3D1RKo/gyMv3XZi7M0=
+Received: by 10.152.104.130 with SMTP id ge2mr12786072lab.43.1321988147349;
+	Tue, 22 Nov 2011 10:55:47 -0800 (PST)
+Received: from localhost ([94.230.152.246]) by mx.google.com with ESMTPS id
+	me18sm13475168lab.10.2011.11.22.10.55.45
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 22 Nov 2011 10:54:30 -0800 (PST)
-Date: Tue, 22 Nov 2011 19:54:17 +0100
+	Tue, 22 Nov 2011 10:55:46 -0800 (PST)
+Date: Tue, 22 Nov 2011 19:55:44 +0100
 From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111122185417.GP3565@jama.jama.net>
+Message-ID: <20111122185543.GQ3565@jama.jama.net>
 References: <1321899155-19575-1-git-send-email-koen@dominion.thruhere.net>
 	<1321899155-19575-2-git-send-email-koen@dominion.thruhere.net>
 MIME-Version: 1.0
@@ -45,13 +45,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Nov 2011 19:01:04 -0000
-X-Groupsio-MsgNum: 12738
+X-List-Received-Date: Tue, 22 Nov 2011 19:02:19 -0000
+X-Groupsio-MsgNum: 12739
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="JQ29orswtRjjfiJM"
+	protocol="application/pgp-signature"; boundary="o99acAvKqrTZeiCU"
 Content-Disposition: inline
 
---JQ29orswtRjjfiJM
+--o99acAvKqrTZeiCU
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -64,30 +64,27 @@ On Mon, Nov 21, 2011 at 07:12:35PM +0100, Koen Kooi wrote:
 >=20
 > 1) the ARM_INSTRUCTIONSET workarounds have been removed, so for people us=
 ing thumb1, please test
-
-FWIW all my 5 devices including armv4t and armv5te built it fine today,
-definetely improvement wrt ARM_INSTRUCTION_SET, thanks for update!
-
 > 2) this is only buildtested on armv7a, more buildtests and runtime tests =
 are on their way, so please test=20
 
-I haven't done any runtime test at least yet as I wasn't using pa and
-don't plan to use it soon.
+Ah, please update or drop
+meta/conf/distro/include/default-versions.inc:PREFERRED_VERSION_pulseaudio =
+?=3D "0.9.23"
+with your patchset.
 
-Cheers,
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---JQ29orswtRjjfiJM
+--o99acAvKqrTZeiCU
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.18 (GNU/Linux)
 
-iEYEARECAAYFAk7L79kACgkQN1Ujt2V2gBxoggCfc/aNDiiAkBpwKfkbVzf5ZYOe
-+1AAn2terDzwexbC3vCl5Nr8J3hg3Cxs
-=1UvJ
+iEYEARECAAYFAk7L8C8ACgkQN1Ujt2V2gBz0hwCgjPWLpGNYnx41bX8Q4paVYtBM
+kzwAni206iFj0HS/Kf5/8Z66Dq7FhYOW
+=NNfS
 -----END PGP SIGNATURE-----
 
---JQ29orswtRjjfiJM--
+--o99acAvKqrTZeiCU--
