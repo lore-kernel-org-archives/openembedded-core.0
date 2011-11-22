@@ -1,37 +1,25 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1RSwO7-0004cH-SJ
+	(envelope-from <sgw@linux.intel.com>) id 1RSwPA-0004fl-4o
 	for openembedded-core@lists.openembedded.org;
-	Tue, 22 Nov 2011 20:52:16 +0100
+	Tue, 22 Nov 2011 20:53:20 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 22 Nov 2011 11:45:43 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 22 Nov 2011 11:46:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,554,1315206000"; d="scan'208";a="94213502"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Nov 2011 11:45:43 -0800
-Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
-	orsmsx604.amr.corp.intel.com ([10.250.113.17]) with mapi;
-	Tue, 22 Nov 2011 11:45:42 -0800
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+X-IronPort-AV: E=Sophos;i="4.69,554,1315206000"; d="scan'208";a="94213917"
+Received: from unknown (HELO [10.255.12.15]) ([10.255.12.15])
+	by fmsmga002.fm.intel.com with ESMTP; 22 Nov 2011 11:46:44 -0800
+Message-ID: <4ECBFC24.9060601@linux.intel.com>
+Date: Tue, 22 Nov 2011 11:46:44 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 22 Nov 2011 11:45:41 -0800
-Thread-Topic: [OE-core] [PATCH 4/8] libtool: upgrade from 2.4 to 2.4.2
-Thread-Index: Acykr/y4MIzNcKdxQVq+65uUkVRxzAEnuBPg
-Message-ID: <9DA5872FEF993D41B7173F58FCF6BE94E3BF4C7E@orsmsx504.amr.corp.intel.com>
-References: <cover.1321470758.git.nitin.a.kamble@intel.com>
-	<806c47069d2d344d0fe814b50b495f535de2e924.1321470758.git.nitin.a.kamble@intel.com>
-	<839d81b7f8239d5c3fb01646653d3414ba03dd23.1321470758.git.nitin.a.kamble@intel.com>
-	<CAMKF1srTzN83+xUVu3NJyNacFAXB9Tu82adE9XZwQ6yE_RC2pA@mail.gmail.com>
-	<9DA5872FEF993D41B7173F58FCF6BE94E39E9243@orsmsx504.amr.corp.intel.com>
-	<CAMKF1soWxtrLcydQVq6R5mpCke8tYgO3dzSB_6Jw7sc5W3LcLA@mail.gmail.com>
-In-Reply-To: <CAMKF1soWxtrLcydQVq6R5mpCke8tYgO3dzSB_6Jw7sc5W3LcLA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US
-MIME-Version: 1.0
-Subject: Re: [PATCH 4/8] libtool: upgrade from 2.4 to 2.4.2
+References: <1321523310-29625-1-git-send-email-heinold@inf.fu-berlin.de>
+In-Reply-To: <1321523310-29625-1-git-send-email-heinold@inf.fu-berlin.de>
+Subject: Re: [PATCH] useradd.bbclass: do not let depend native packages on base-passwd from target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,30 +34,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Nov 2011 19:52:16 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 22 Nov 2011 19:53:20 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZS1i
-b3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gW21haWx0bzpvcGVuZW1iZWRkZWQtY29y
-ZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZiBPZg0KPiBLaGVtIFJh
-ag0KPiBTZW50OiBXZWRuZXNkYXksIE5vdmVtYmVyIDE2LCAyMDExIDI6MzQgUE0NCj4gVG86IFBh
-dGNoZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRoZSBvZS1jb3JlIGxheWVyDQo+IFN1YmplY3Q6
-IFJlOiBbT0UtY29yZV0gW1BBVENIIDQvOF0gbGlidG9vbDogdXBncmFkZSBmcm9tIDIuNCB0byAy
-LjQuMg0KPiANCj4gT24gV2VkLCBOb3YgMTYsIDIwMTEgYXQgMjoyNiBQTSwgS2FtYmxlLCBOaXRp
-biBBDQo+IDxuaXRpbi5hLmthbWJsZUBpbnRlbC5jb20+IHdyb3RlOg0KPiA+DQo+ID4gS2hlbSwN
-Cj4gPiDCoCBJIGRpZCBub3Qgc2VlIHRoYXQgY29tbWl0LCBhbmQgSSBmaW5kIHRoZSBvZWNvcmUv
-eW9jdG8gaXMgc3RpbGwNCj4gYmVoaW5kIGZvciB0aGUgdmVyc2lvbiBvZiBsaWJ0b29sIHJlY2lw
-ZS4gQW55IHJlYXNvbiB0aGF0IGNvbW1pdCBpcyBub3QNCj4gaW4gb2Vjb3JlPw0KPiA+DQo+ID4g
-VGhhbmtzLA0KPiANCj4gdGhlcmUgd2VyZSBzb21lIGZlZWRiYWNrIG9uIHRoZSBwYXRjaCBJIGhh
-dmUgdG8gbG9vayB0aHJ1IGl0Lg0KDQoNCkhpIEtoZW0sDQogIEFueSB1cGRhdGUgb24gdGhlIGxp
-YnRvb2wgdXBncmFkZSBjb21taXQ/IFlvdXIgYW5kIG15IGNoYW5nZXMgYXJlIGRvaW5nIHNhbWUg
-dGhpbmdzLCBSaWNoYXJkIGFsc28gaGFzIHNvbWUgY2hhbmdlcyBmb3IgMi40LiBXZSBuZWVkIHRv
-IG1lcmdlIGFsbCB0aGVzZSBjaGFuZ2VzIGZvciB0aGUgbGlidG9vbCB1cGdyYWRlLg0KDQpUaGFu
-a3MsDQpOaXRpbg0KDQoNCj4gDQo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fDQo+IE9wZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KPiBPcGVuZW1i
-ZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IGh0dHA6Ly9saXN0cy5saW51eHRv
-Z28ub3JnL2NnaS1iaW4vbWFpbG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZQ0K
+On 11/17/2011 01:48 AM, Henning Heinold wrote:
+> Hi,
+>
+> with the setup now in useradd.bbclass, at least dbus-native depends
+> on the base-passwd from target. I think this is not wanted.
+> My patch resets the DEPENDS line for native packages similar to
+> nativesdk.
+>
+> Henning Heinold (1):
+>    useradd.bbclass: do not let depend native packages on base-passwd
+>      from target
+>
+>   meta/classes/useradd.bbclass |    1 +
+>   1 files changed, 1 insertions(+), 0 deletions(-)
+>
+
+This was merged into OE-Core by Richard doing it with an updated commit 
+message and adding the SYSROOTFUNC changes he suggested in the thread.
+
+Thanks
+	Sau!
 
 
