@@ -1,25 +1,26 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RSupW-0001Tb-Vl
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1RSurj-0001hF-Pc
 	for openembedded-core@lists.openembedded.org;
-	Tue, 22 Nov 2011 19:12:27 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 22 Nov 2011 10:05:55 -0800
+	Tue, 22 Nov 2011 19:14:44 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 22 Nov 2011 10:08:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="78888231"
-Received: from unknown (HELO [10.255.12.15]) ([10.255.12.15])
-	by orsmga002.jf.intel.com with ESMTP; 22 Nov 2011 10:05:55 -0800
-Message-ID: <4ECBE482.3080807@linux.intel.com>
-Date: Tue, 22 Nov 2011 10:05:54 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="78875761"
+Received: from unknown (HELO helios.localnet) ([10.252.121.177])
+	by orsmga001.jf.intel.com with ESMTP; 22 Nov 2011 10:08:11 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Tue, 22 Nov 2011 18:08:10 +0000
+Message-ID: <2419769.NUvRBCfOV2@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.7.3 (Linux/3.0.0-13-generic-pae; KDE/4.7.3; i686; ; )
+In-Reply-To: <5C583370-13B0-49CD-B3C0-BB4DC3F223A2@dominion.thruhere.net>
+References: <4ECBE307.1080600@linaro.org>
+	<5C583370-13B0-49CD-B3C0-BB4DC3F223A2@dominion.thruhere.net>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1321509543.git.jiajun.xu@intel.com>
-In-Reply-To: <cover.1321509543.git.jiajun.xu@intel.com>
-Subject: Re: [PATCH 0/2] sanitytest: Fix 2 bugs on non-rpm or non-procps installed image
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Getting started on creating a layer for OE-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,42 +35,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Nov 2011 18:12:27 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 22 Nov 2011 18:14:44 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 11/16/2011 10:05 PM, Jiajun Xu wrote:
-> Current sanitytest will report failure on non-rpm or non-procps installed image.
-> Add check for busybox/procps and use different option for different ps command.
-> Remove rpm/zypper tests if image is not based on rpm.
->
-> The following changes since commit da8425174529f10e16cde21fbea7f804284c38ae:
->
->    alsa-lib: add nativesdk BBCLASSEXTEND (2011-11-15 12:22:58 +0000)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib jxu49/oe-contrib
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jxu49/oe-contrib
->
-> Jiajun Xu (2):
->    sanitytest: use different option for command ps from busybox and
->      procps
->    sanitytest: remove rpm/zypper tests if PACKAGE_CLASSES does not set
->      package_rpm
->
->   meta/classes/imagetest-qemu.bbclass           |   25 +++++++++++++++++++++-
->   scripts/qemuimage-tests/tools/connman_test.sh |   28 +++++++++++++++++++++---
->   2 files changed, 48 insertions(+), 5 deletions(-)
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-Merged into OE-Core
+On Tuesday 22 November 2011 19:02:55 Koen Kooi wrote:
+> You do know that the gcc 4.6 in OE-core and gcc 4.5 in meta-oe already have
+> all the linaro patches (minus the ones that introduces bugs), right?
 
-Thanks
-	Sau!
+How would one find that out? I mean, without looking at every patch we have in 
+our toolchain...
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
