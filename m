@@ -1,25 +1,26 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RSwPA-0004fl-4o
+	(envelope-from <sgw@linux.intel.com>) id 1RSwT0-0004sO-O0
 	for openembedded-core@lists.openembedded.org;
-	Tue, 22 Nov 2011 20:53:20 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 22 Nov 2011 11:46:44 -0800
+	Tue, 22 Nov 2011 20:57:18 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 22 Nov 2011 11:50:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,554,1315206000"; d="scan'208";a="94213917"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="78935918"
 Received: from unknown (HELO [10.255.12.15]) ([10.255.12.15])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Nov 2011 11:46:44 -0800
-Message-ID: <4ECBFC24.9060601@linux.intel.com>
-Date: Tue, 22 Nov 2011 11:46:44 -0800
+	by orsmga002.jf.intel.com with ESMTP; 22 Nov 2011 11:50:46 -0800
+Message-ID: <4ECBFD16.3020406@linux.intel.com>
+Date: Tue, 22 Nov 2011 11:50:46 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1321523310-29625-1-git-send-email-heinold@inf.fu-berlin.de>
-In-Reply-To: <1321523310-29625-1-git-send-email-heinold@inf.fu-berlin.de>
-Subject: Re: [PATCH] useradd.bbclass: do not let depend native packages on base-passwd from target
+References: <1321568900-19406-1-git-send-email-msm@freescale.com>
+In-Reply-To: <1321568900-19406-1-git-send-email-msm@freescale.com>
+Cc: Matthew McClintock <msm@freescale.com>
+Subject: Re: [PATCH] Remove EGLIBPARALLELISM from deps for EXTRA_OEMAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,28 +35,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Nov 2011 19:53:20 -0000
+X-List-Received-Date: Tue, 22 Nov 2011 19:57:18 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/17/2011 01:48 AM, Henning Heinold wrote:
-> Hi,
+On 11/17/2011 02:28 PM, Matthew McClintock wrote:
+> Without this simply changing the number of threads via
+> PARALLEL_MAKE can invalidate sstate-cache
 >
-> with the setup now in useradd.bbclass, at least dbus-native depends
-> on the base-passwd from target. I think this is not wanted.
-> My patch resets the DEPENDS line for native packages similar to
-> nativesdk.
->
-> Henning Heinold (1):
->    useradd.bbclass: do not let depend native packages on base-passwd
->      from target
->
->   meta/classes/useradd.bbclass |    1 +
+> Signed-off-by: Matthew McClintock<msm@freescale.com>
+> ---
+>   meta/recipes-core/eglibc/eglibc.inc |    1 +
 >   1 files changed, 1 insertions(+), 0 deletions(-)
 >
+> diff --git a/meta/recipes-core/eglibc/eglibc.inc b/meta/recipes-core/eglibc/eglibc.inc
+> index fe9f8ba..272fcb6 100644
+> --- a/meta/recipes-core/eglibc/eglibc.inc
+> +++ b/meta/recipes-core/eglibc/eglibc.inc
+> @@ -40,6 +40,7 @@ ARM_INSTRUCTION_SET = "arm"
+>   # eglibc uses PARALLELMFLAGS variable to pass parallel build info so transfer
+>   # PARALLEL_MAKE into PARALLELMFLAGS and empty out PARALLEL_MAKE
+>   EGLIBCPARALLELISM := "PARALLELMFLAGS="${PARALLEL_MAKE}""
+> +EXTRA_OEMAKE[vardepsexclude] += "EGLIBCPARALLELISM"
+>   EXTRA_OEMAKE += ${EGLIBCPARALLELISM}
+>   PARALLEL_MAKE = ""
+>
 
-This was merged into OE-Core by Richard doing it with an updated commit 
-message and adding the SYSROOTFUNC changes he suggested in the thread.
+When possible, please include the recipe or file you are changing as 
+part of the patch subject.
+
+For example this would be:
+
+eglibc.inc: Remove EGLIBPARALLELISM from deps for EXTRA_OEMAKE
 
 Thanks
 	Sau!
