@@ -1,34 +1,46 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RT8tm-000674-M9 for openembedded-core@lists.openembedded.org;
-	Wed, 23 Nov 2011 10:13:46 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAN97Fmk032440
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2011 09:07:15 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 31359-10 for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2011 09:07:09 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAN976Rk032433
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2011 09:07:07 GMT
-Message-ID: <1322039233.18926.75.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 23 Nov 2011 09:07:13 +0000
-In-Reply-To: <4ECBFF1A.9060002@linux.intel.com>
-References: <cover.1321921040.git.nitin.a.kamble@intel.com>
-	<4ECBFF1A.9060002@linux.intel.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/1] netbase.bbappend version fix - version 2
+Received: from ch1ehsobe002.messaging.microsoft.com ([216.32.181.182]
+	helo=ch1outboundpool.messaging.microsoft.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <B29882@freescale.com>) id 1RT9Q1-0006s0-Mk
+	for openembedded-core@lists.openembedded.org;
+	Wed, 23 Nov 2011 10:47:06 +0100
+Received: from mail53-ch1-R.bigfish.com (10.43.68.254) by
+	CH1EHSOBE009.bigfish.com (10.43.70.59) with Microsoft SMTP Server id
+	14.1.225.22; Wed, 23 Nov 2011 09:39:47 +0000
+Received: from mail53-ch1 (localhost [127.0.0.1])	by mail53-ch1-R.bigfish.com
+	(Postfix) with ESMTP id 4992AC060B	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed, 23 Nov 2011 09:39:50 +0000 (UTC)
+X-SpamScore: -2
+X-BigFish: VS-2(zzdf9Mzz1202h1082kzz8275bhz2dh2a8h668h839h)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-FB-SS: 13,
+Received: from mail53-ch1 (localhost.localdomain [127.0.0.1]) by mail53-ch1
+	(MessageSwitch) id 1322041190126542_17865;
+	Wed, 23 Nov 2011 09:39:50 +0000 (UTC)
+Received: from CH1EHSMHS034.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.254])	by mail53-ch1.bigfish.com (Postfix) with ESMTP id
+	19FF0200042 for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Nov 2011 09:39:50 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS034.bigfish.com
+	(10.43.70.34) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Wed, 23 Nov 2011 09:39:47 +0000
+Received: from az33smr02.freescale.net (10.64.34.200) by
+	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
+	Server id 14.1.339.2; Wed, 23 Nov 2011 03:40:27 -0600
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
+	by az33smr02.freescale.net (8.13.1/8.13.0) with ESMTP id
+	pAN9eQx5012325	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Nov 2011 03:40:26 -0600 (CST)
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 23 Nov 2011 03:40:26 -0600
+Message-ID: <1322041226-10075-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.6.1
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: [RFC] gcc-cross.inc: Add depedency on BUILD_ARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,40 +55,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2011 09:13:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 23 Nov 2011 09:47:06 -0000
+Content-Type: text/plain
 
-On Tue, 2011-11-22 at 11:59 -0800, Saul Wold wrote:
-> On 11/21/2011 04:18 PM, nitin.a.kamble@intel.com wrote:
-> > From: Nitin A Kamble<nitin.a.kamble@intel.com>
-> >
-> > The following changes since commit 7022a8f8045bdf82b9209b8cd62fb09c4a7a24f8:
-> >
-> >    gcc-4.6: Fix gcc ICE on qt4-x11-free/armv7-a (2011-11-21 16:55:12 +0000)
-> >
-> > are available in the git repository at:
-> >    git://git.pokylinux.org/poky-contrib nitin/misc
-> >    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
-> >
-> > Nitin A Kamble (1):
-> >    netbase.bbappend: sync up with oecore/yocto layer
-> >
-> >   .../beagleboard/interfaces                         |    0
-> >   ...netbase_4.46.bbappend =>  netbase_4.47.bbappend} |    0
-> >   2 files changed, 0 insertions(+), 0 deletions(-)
-> >   rename meta-yocto/recipes-core/netbase/{netbase-4.46 =>  netbase-4.47}/beagleboard/interfaces (100%)
-> >   rename meta-yocto/recipes-core/netbase/{netbase_4.46.bbappend =>  netbase_4.47.bbappend} (100%)
-> >
-> 
-> This should really go to the poky@yoctoproject.org list since it's poky 
-> specific.
+Without some sort of dependency on the HOST arch this "fake"
+target package will be reused on a 32bit system even if it was
+built on a 64bit system.
 
-There has also been a fix for this merged already.
+This new dependecy should prevent that from occuring.
 
-Cheers,
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+Comments? I still this this is VERY BAD since it will trigger
+all TARGET cache to be rebuilt just because we changed ARCH.
+However, it should generate working sstate-cache. Might
+address this issue:
 
-Richard
+| checking for /home/liut/poky/build_p4080ds_release/tmp/work/ppce500mc-fsl-linux/gcc-cross-intermediate-4.6.1+svnr175454-r10/gcc-4_6-branch/build.i686-linux.powerpc-fsl-linux/./gcc/xgcc -B/home/liut/poky/build_p4080ds_release/tmp/work/ppce500mc-fsl-linux/gcc-cross-intermediate-4.6.1+svnr175454-r10/gcc-4_6-branch/build.i686-linux.powerpc-fsl-linux/./gcc/ -m32 -mhard-float  -mcpu=e500mc -isystem/home/liut/poky/build_p4080ds_release/tmp/sysroots/p4080ds/usr/include -B/home/liut/poky/build_p4080ds_release/tmp/sysroots/i686-linux/usr/powerpc-fsl-linux/bin/ -B/home/liut/poky/build_p4080ds_release/tmp/sysroots/i686-linux/usr/powerpc-fsl-linux/lib/ -isystem /home/liut/poky/build_p4080ds_release/tmp/sysroots/i686-linux/usr/powerpc-fsl-linux/include -isystem /home/liut/poky/build_p4080ds_release/tmp/sysroots/i686-linux/usr/powerpc-fsl-linux/sys-include --sysroot=/home/liut/poky/build_p4080ds_release/tmp/sysroots/p4080ds-tcbootstrap   option to accept ISO C89... none needed
+| checking how to run the C preprocessor... /home/liut/poky/build_p4080ds_release/tmp/work/ppce500mc-fsl-linux/gcc-cross-intermediate-4.6.1+svnr175454-r10/gcc-4_6-branch/build.i686-linux.powerpc-fsl-linux/./gcc/xgcc -B/home/liut/poky/build_p4080ds_release/tmp/work/ppce500mc-fsl-linux/gcc-cross-intermediate-4.6.1+svnr175454-r10/gcc-4_6-branch/build.i686-linux.powerpc-fsl-linux/./gcc/ -E
+| configure: error: in `/home/liut/poky/build_p4080ds_release/tmp/work/ppce500mc-fsl-linux/gcc-cross-intermediate-4.6.1+svnr175454-r10/gcc-4_6-branch/build.i686-linux.powerpc-fsl-linux/powerpc-fsl-linux/libgcc':
+| configure: error: C preprocessor "/home/liut/poky/build_p4080ds_release/tmp/work/ppce500mc-fsl-linux/gcc-cross-intermediate-4.6.1+svnr175454-r10/gcc-4_6-branch/build.i686-linux.powerpc-fsl-linux/./gcc/xgcc -B/home/liut/poky/build_p4080ds_release/tmp/work/ppce500mc-fsl-linux/gcc-cross-intermediate-4.6.1+svnr175454-r10/gcc-4_6-branch/build.i686-linux.powerpc-fsl-linux/./gcc/ -E" fails sanity check
+| See `config.log' for more details.
+| make[1]: *** [configure-target-libgcc] Error 1
+| make[1]: Leaving directory `/home/liut/poky/build_p4080ds_release/tmp/work/ppce500mc-fsl-linux/gcc-cross-intermediate-4.6.1+svnr175454-r10/gcc-4_6-branch/build.i686-linux.powerpc-fsl-linux'
+| make: *** [all] Error 2
+| ERROR: oe_runmake failed
+| ERROR: Function 'do_compile' failed (see /home/liut/poky/build_p4080ds_release/tmp/work/ppce500mc-fsl-linux/gcc-cross-intermediate-4.6.1+svnr175454-r10/temp/log.do_compile.27393 for further information)
+
+ meta/recipes-devtools/gcc/gcc-4.6.inc   |    2 +-
+ meta/recipes-devtools/gcc/gcc-cross.inc |   11 +++++++++++
+ 2 files changed, 12 insertions(+), 1 deletions(-)
+
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
+index f7bcf30..ee42fa7 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.6.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
+@@ -1,6 +1,6 @@
+ require gcc-common.inc
+ 
+-PR = "r10"
++PR = "r11"
+ 
+ # Third digit in PV should be incremented after a minor release
+ # happens from this branch on gcc e.g. currently its 4.6.0
+diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
+index 5a796bc..9f6d6ad 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross.inc
+@@ -10,3 +10,14 @@ do_compile () {
+ 	oe_runmake all-host all-target-libgcc
+ }
+ 
++# gcc-cross is special since it builds a HOST binary on
++# as a TARGET recipe. This is a hack to pull in the
++# BUILD_ARCH to the recipe so the sstate-cache is
++# different if the HOST ARCH has changed. By expanding
++# right now we assure it's going to be in the sig
++BUILD_ARCH_EXPANDED := "${BUILD_ARCH}"
++
++# we also add this to the PV so its clear in filenames
++# that this is arch specific even though it's labeled as
++# a target package
++PV .= "+${BUILD_ARCH_EXPANDED}"
+-- 
+1.7.6.1
+
 
 
 
