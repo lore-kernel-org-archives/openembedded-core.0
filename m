@@ -1,36 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RTC5A-0008Hs-NH for openembedded-core@lists.openembedded.org;
-	Wed, 23 Nov 2011 13:37:44 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pANCVCtr011744
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2011 12:31:13 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 32683-06 for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2011 12:31:04 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pANCUvxN011699
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2011 12:30:59 GMT
-Message-ID: <1322051464.18926.76.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 23 Nov 2011 12:31:04 +0000
-In-Reply-To: <CAMKF1sqAuNv+r838gHTi8b0omTQBa7VkjahGAiEzBg137hyhHw@mail.gmail.com>
-References: <cover.1321811216.git.raj.khem@gmail.com>
-	<d06edef859ff936294d76bc07523f50eaaa5baf4.1321811216.git.raj.khem@gmail.com>
-	<1321979300.18926.58.camel@ted>
-	<CAMKF1sqAuNv+r838gHTi8b0omTQBa7VkjahGAiEzBg137hyhHw@mail.gmail.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/5] matchbox-stroke: Fix linking error with gold
+Received: from mga14.intel.com ([143.182.124.37])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1RTCv9-0001W4-FL
+	for openembedded-core@lists.openembedded.org;
+	Wed, 23 Nov 2011 14:31:28 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 23 Nov 2011 05:24:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,559,1315206000"; d="scan'208";a="78372314"
+Received: from unknown (HELO helios.localnet) ([10.252.121.207])
+	by azsmga001.ch.intel.com with ESMTP; 23 Nov 2011 05:24:51 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Wed, 23 Nov 2011 13:24:50 +0000
+Message-ID: <2845140.Nh9cgQnlu0@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.7.3 (Linux/3.0.0-13-generic-pae; KDE/4.7.3; i686; ; )
+In-Reply-To: <503E71C5-C1CA-4A51-82EF-C52CBC2E43C5@dominion.thruhere.net>
+References: <cover.1321972798.git.paul.eggleton@linux.intel.com>
+	<503E71C5-C1CA-4A51-82EF-C52CBC2E43C5@dominion.thruhere.net>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH 0/1] packagehistory improvement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,73 +35,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2011 12:37:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 23 Nov 2011 13:31:28 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, 2011-11-22 at 19:00 -0800, Khem Raj wrote:
-> On Tue, Nov 22, 2011 at 8:28 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Sun, 2011-11-20 at 09:50 -0800, Khem Raj wrote:
-> >> Gold defaults to no-add-needed thetefore
-> >> it does not link with librtaries that are not on cmdline
-> >> it needs libXrender but is not on the linker cmdline
-> >> so add it.
-> >>
-> >> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >> ---
-> >>  .../matchbox-stroke/files/ldadd_libXrender.patch   |   25 ++++++++++++++++++++
-> >>  .../matchbox-stroke/matchbox-stroke_git.bb         |    6 +++-
-> >>  2 files changed, 29 insertions(+), 2 deletions(-)
-> >>  create mode 100644 meta/recipes-sato/matchbox-stroke/files/ldadd_libXrender.patch
-> >>
-> >> diff --git a/meta/recipes-sato/matchbox-stroke/files/ldadd_libXrender.patch b/meta/recipes-sato/matchbox-stroke/files/ldadd_libXrender.patch
-> >> new file mode 100644
-> >> index 0000000..90d2057
-> >> --- /dev/null
-> >> +++ b/meta/recipes-sato/matchbox-stroke/files/ldadd_libXrender.patch
-> >> @@ -0,0 +1,25 @@
-> >> +with GNU binutils-gold the
-> >> +important difference is that --no-add-needed is the default behavior of GNU
-> >> +binutils-gold. Please provide all needed libraries to the linker when building
-> >> +your executables.
-> >> +
-> >> +Otherwise we get link errors like
-> >> +
-> >> +/home/kraj/work/angstrom/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/usr/libexec/armv5te-angstrom-linux-gnueabi/gcc/arm-angstrom-linux-gnueabi/4.6.2/ld: matchbox-stroke-ui.o: in function mb_stroke_ui_resources_create:matchbox-stroke-ui.c:223: error: undefined reference to 'XRenderCreatePicture'collect2: ld returned 1 exit statusmake[2]: *** [matchbox-stroke] Error 1
-> >> +
-> >> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >> +
-> >> +Upstream-Status: Pending
-> >> +Index: git/src/Makefile.am
-> >> +===================================================================
-> >> +--- git.orig/src/Makefile.am 2011-10-22 19:25:52.000000000 -0700
-> >> ++++ git/src/Makefile.am      2011-10-22 19:27:07.746428946 -0700
-> >> +@@ -6,7 +6,7 @@
-> >> +
-> >> + bin_PROGRAMS = matchbox-stroke
-> >> +
-> >> +-matchbox_stroke_LDADD = $(MBSTROKE_LIBS) $(EXPAT_LIBS) -lm
-> >> ++matchbox_stroke_LDADD = $(MBSTROKE_LIBS) $(EXPAT_LIBS) -lm -lXrender
-> >> +
-> >
-> > I had a look at this and -lXrender is listed in MBSTROKE_LIBS. I'm
-> > therefore a little puzzled on why this patch is needed? I appreciate the
-> > commandline is order sensitive but that order should work?
-> 
-> In my case
-> 
-> Makefile:MBSTROKE_LIBS = -lXft -lX11 -lXtst -lfakekey
+On Tuesday 22 November 2011 18:25:25 Koen Kooi wrote:
+> Does it still suffer from the bug where it will break if you change machine
+> and something goes backward in PV (e.g. gcc 4.6 is used on arm, but 4.5 on
+> ppc)?
 
-I can now see why I'm confused:
-
-http://git.yoctoproject.org/cgit.cgi/matchbox-stroke/commit/?id=2b772583b61d2f6e8358e7c80e10293fc27cfcb7
-
-We need to update the SRCREV. I'll push something to take care of this.
+So unless I'm mistaken the fix that you yourself applied to OE in 2009 (and 
+which was included in Poky, and hence OE-core) already works around this 
+specific situation, since the package history is always stored under a 
+BASEPKG_TARGET_SYS directory (or MULTIMACH_TARGET_SYS now with my patch since 
+the former is no longer available). Am I missing something?
 
 Cheers,
+Paul
 
-Richard
+-- 
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
