@@ -1,32 +1,34 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RT8s4-00063U-Ld
-	for openembedded-core@lists.openembedded.org;
-	Wed, 23 Nov 2011 10:12:01 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pAN95Ghl010194
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 23 Nov 2011 01:05:16 -0800 (PST)
-Received: from [128.224.162.146] (128.224.162.146) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 23 Nov 2011 01:05:16 -0800
-Message-ID: <4ECCB70A.3020003@windriver.com>
-Date: Wed, 23 Nov 2011 17:04:10 +0800
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.18) Gecko/20110617 Thunderbird/3.1.11
-MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1321528387.git.xiaofeng.yan@windriver.com>
-	<ad4d06cb79983b6a1a06b5cdd83e565af031b05f.1321528387.git.xiaofeng.yan@windriver.com>
-	<4ECBEED9.5070409@linux.intel.com>
-In-Reply-To: <4ECBEED9.5070409@linux.intel.com>
-X-Originating-IP: [128.224.162.146]
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
-	pAN95Ghl010194
-Cc: Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RT8tm-000674-M9 for openembedded-core@lists.openembedded.org;
+	Wed, 23 Nov 2011 10:13:46 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAN97Fmk032440
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Nov 2011 09:07:15 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 31359-10 for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Nov 2011 09:07:09 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAN976Rk032433
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Nov 2011 09:07:07 GMT
+Message-ID: <1322039233.18926.75.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] gtk+: Have gtk+ pick up ${NM} from the environment
+Date: Wed, 23 Nov 2011 09:07:13 +0000
+In-Reply-To: <4ECBFF1A.9060002@linux.intel.com>
+References: <cover.1321921040.git.nitin.a.kamble@intel.com>
+	<4ECBFF1A.9060002@linux.intel.com>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 0/1] netbase.bbappend version fix - version 2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,90 +43,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2011 09:12:01 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 23 Nov 2011 09:13:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 2011=E5=B9=B411=E6=9C=8823=E6=97=A5 02:50, Saul Wold wrote:
-> On 11/17/2011 03:16 AM, Xiaofeng Yan wrote:
->> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
->>
->> hen gtk+ configures, it should pick up ${NM} from the environment \
->> if it is defined, instead of just looking for "nm".
->>
->> Signed-off-by: Xiaofeng Yan<xiaofeng.yan@windriver.com>
->> ---
->> .../gtk+/gtk+-2.24.6/configure-nm.patch | 14 ++++++++++++++
->> meta/recipes-gnome/gtk+/gtk+_2.24.6.bb | 3 ++-
->> 2 files changed, 16 insertions(+), 1 deletions(-)
->> create mode 100644=20
->> meta/recipes-gnome/gtk+/gtk+-2.24.6/configure-nm.patch
->>
->> diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.6/configure-nm.patch=20
->> b/meta/recipes-gnome/gtk+/gtk+-2.24.6/configure-nm.patch
->> new file mode 100644
->> index 0000000..5aeef50
->> --- /dev/null
->> +++ b/meta/recipes-gnome/gtk+/gtk+-2.24.6/configure-nm.patch
->> @@ -0,0 +1,14 @@
->> +Upstream-Status: Inappropriate [configuration]
-> I am not sure I would agree here, I think that the upstream might be=20
-> interested in having a cross-compilation fix.
->
-> Sau!
->
-Hi Saul,
+On Tue, 2011-11-22 at 11:59 -0800, Saul Wold wrote:
+> On 11/21/2011 04:18 PM, nitin.a.kamble@intel.com wrote:
+> > From: Nitin A Kamble<nitin.a.kamble@intel.com>
+> >
+> > The following changes since commit 7022a8f8045bdf82b9209b8cd62fb09c4a7a24f8:
+> >
+> >    gcc-4.6: Fix gcc ICE on qt4-x11-free/armv7-a (2011-11-21 16:55:12 +0000)
+> >
+> > are available in the git repository at:
+> >    git://git.pokylinux.org/poky-contrib nitin/misc
+> >    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
+> >
+> > Nitin A Kamble (1):
+> >    netbase.bbappend: sync up with oecore/yocto layer
+> >
+> >   .../beagleboard/interfaces                         |    0
+> >   ...netbase_4.46.bbappend =>  netbase_4.47.bbappend} |    0
+> >   2 files changed, 0 insertions(+), 0 deletions(-)
+> >   rename meta-yocto/recipes-core/netbase/{netbase-4.46 =>  netbase-4.47}/beagleboard/interfaces (100%)
+> >   rename meta-yocto/recipes-core/netbase/{netbase_4.46.bbappend =>  netbase_4.47.bbappend} (100%)
+> >
+> 
+> This should really go to the poky@yoctoproject.org list since it's poky 
+> specific.
 
-Thanks for your comment.
+There has also been a fix for this merged already.
 
-gtk use "/usr/bin/nm" at current status by testing. if using=20
-"AC_CHECK_TOOLS(NM, [$NM nm], nm) ", it will use "xxx-nm" under sysroot.=20
-So I think this patch can avoid this problem.
-If you think it is not necessary for OE-core, I will submit this patch=20
-to upstream if possible.
+Cheers,
 
-Thanks
-Yan
->> +Signed-Off-By: Xiaofeng Yan<xiaofeng.yan@windriver.com>
->> +# Pick up ${NM} from the environment
->> +--- a/configure.in
->> ++++ b/configure.in
->> +@@ -190,7 +190,7 @@
->> + AC_SYS_LARGEFILE
->> +
->> + AM_PROG_AS
->> +-AC_PATH_PROG(NM, nm, nm)
->> ++AC_CHECK_TOOLS(NM, [$NM nm], nm)
->> +
->> + dnl Initialize maintainer mode
->> + AM_MAINTAINER_MODE
->> diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.6.bb=20
->> b/meta/recipes-gnome/gtk+/gtk+_2.24.6.bb
->> index cd5c8cb..ade0a2d 100644
->> --- a/meta/recipes-gnome/gtk+/gtk+_2.24.6.bb
->> +++ b/meta/recipes-gnome/gtk+/gtk+_2.24.6.bb
->> @@ -7,6 +7,7 @@ LIC_FILES_CHKSUM =3D=20
->> "file://COPYING;md5=3D3bf50002aefd002f49e7bb854063f7e7 \
->> SRC_URI =3D=20
->> "http://download.gnome.org/sources/gtk+/2.24/gtk+-${PV}.tar.bz2 \
->> file://xsettings.patch \
->> file://run-iconcache.patch \
->> + file://configure-nm.patch \
->> file://hardcoded_libtool.patch \
->> file://no-demos.patch \
->> file://cellrenderer-cairo.patch;striplevel=3D0 \
->> @@ -26,7 +27,7 @@ SRC_URI =3D=20
->> "http://download.gnome.org/sources/gtk+/2.24/gtk+-${PV}.tar.bz2 \
->> # file://combo-arrow-size.patch;striplevel=3D0
->> # file://configurefix.patch
->>
->> -PR =3D "r1"
->> +PR =3D "r2"
->>
->> SRC_URI[md5sum] =3D "421100f6597e613234f8dead6091a9fe"
->> SRC_URI[sha256sum] =3D=20
->> "6f45bdbf9ea27eb3b5f977d7ee2365dede0d0ce454985680c26e5210163bbf37"
->
+Richard
 
 
 
