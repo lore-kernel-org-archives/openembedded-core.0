@@ -1,25 +1,24 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RT6kz-0006Bv-4m
+	(envelope-from <dvhart@linux.intel.com>) id 1RT6wm-00073I-RJ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 23 Nov 2011 07:56:33 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pAN6o1qa013663
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Nov 2011 22:50:01 -0800 (PST)
-Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Tue, 22 Nov 2011 22:50:00 -0800
-Message-ID: <4ab5dfb9e707d9e86d01ab73bce5a60574e12e3e.1322028165.git.xiaofeng.yan@windriver.com>
-In-Reply-To: <cover.1322028165.git.xiaofeng.yan@windriver.com>
-References: <cover.1322028165.git.xiaofeng.yan@windriver.com>
-Old-Date: Wed, 23 Nov 2011 13:37:10 +0800
-Date: Wed, 23 Nov 2011 14:48:09 +0800
-To: <openembedded-core@lists.openembedded.org>
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+	Wed, 23 Nov 2011 08:08:45 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 22 Nov 2011 23:02:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="79120468"
+Received: from unknown (HELO envy.home) ([10.255.12.75])
+	by orsmga002.jf.intel.com with ESMTP; 22 Nov 2011 23:02:12 -0800
+Message-ID: <4ECC9A64.4080009@linux.intel.com>
+Date: Tue, 22 Nov 2011 23:01:56 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
-Subject: [PATCH 9/9] core-image-gtk-directfb.bb: add an image for gtk over directfb
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Enigmail-Version: 1.3.3
+Subject: RFC: grub-efi native tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,50 +33,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2011 06:56:40 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 23 Nov 2011 07:08:45 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+While working towards supporting efi boot in live images, I have been
+refactoring bootimg.bbclass, syslinux.bbclass, and adding recipes and
+classes for grub-efi.
 
-This file can make an image to run gtk over directfb.
+I'd like the seasoned OE experts' opinions on a question of
+implementation. grub-efi seems to require a final step after the normal
+build to assemble the efi image, specifically:
 
-[YOCTO #1674]
+grub-mkimage -p / -d ./grub-core/ -O i386-efi -o ./bootia32.efi \
+             boot linux fat serial part_msdos normal
 
-Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
----
- .../images/core-image-gtk-directfb.bb              |   21 ++++++++++++++++++++
- 1 files changed, 21 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-graphics/images/core-image-gtk-directfb.bb
+grub-mkimage is a tool built during the grub-efi do_compile step, so it
+needs to be native in order to run the above command. So I'm left with a
+few options:
 
-diff --git a/meta/recipes-graphics/images/core-image-gtk-directfb.bb b/meta/recipes-graphics/images/core-image-gtk-directfb.bb
-new file mode 100644
-index 0000000..00ba5cf
---- /dev/null
-+++ b/meta/recipes-graphics/images/core-image-gtk-directfb.bb
-@@ -0,0 +1,21 @@
-+LICENSE = "MIT"
-+PR="r0"
-+
-+LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-+                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+
-+
-+DEPENDS += "task-gtk-directfb"
-+
-+RDEPENDS_${PN} += " \
-+	task-gtk-directfb-base \
-+	"
-+
-+inherit core-image
-+
-+IMAGE_INSTALL += "\
-+	${POKY_BASE_INSTALL} \
-+	task-core-basic \
-+	module-init-tools \
-+	task-gtk-directfb-base \
-+"
+1) Use BBCLASSEXTEND="native" and make grub-efi depend on
+   grub-efi-native so the native grub-mkimage is available.
+   - I'm not sure how to avoid a circular dependency there,
+     other than making an explicit grub-efi-native_1.99.bb.
+   - No component of the grub-efi build needs to be installed
+     on the target rootfs - so perhaps the the target arch version
+     isn't needed at all...
+
+2) Only build grub-efi-native.
+   - The above grub-mkimage command fails with some incorrect elf format
+     error messages on the grub kernel.img file. A similar error was
+     reported on the grub mailing list when compiling with cygwin.
+     Some work may be required to fix GRUB here.
+   - Installing output of -native recipes onto the target seems to be a
+     bit at odds with the existing mechanisms (it doesn't find
+     bootia32.efi when placed in ${STAGING_LIBDIR}/grub by a -native
+     build, for example).
+
+3) Tweak the build so that only the grub-* utilities are built natively.
+   - The Linux kernel build does this for some of the internal
+     tooling required for the build (Kconfig, etc.).
+   - If we did want to install the tools on the target, we wouldn't have
+     the target arch binaries available. Perhaps both could be built.
+
+So there are a number of ways to go about this. If someone can leverage
+some experience with OE to indicate which of these would be met with the
+least resistance, both in terms of implementation as well as upstream
+acceptance, I would appreciate it.
+
+Thanks,
+
 -- 
-1.7.0.4
-
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
