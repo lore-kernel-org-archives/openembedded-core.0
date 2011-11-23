@@ -1,26 +1,28 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RTI5W-0005V7-Oc
+	(envelope-from <sgw@linux.intel.com>) id 1RTIiO-0006U4-6E
 	for openembedded-core@lists.openembedded.org;
-	Wed, 23 Nov 2011 20:02:31 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 23 Nov 2011 10:55:57 -0800
+	Wed, 23 Nov 2011 20:42:40 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 23 Nov 2011 11:36:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="79288918"
+X-IronPort-AV: E=Sophos;i="4.69,560,1315206000"; d="scan'208";a="88612651"
 Received: from unknown (HELO [10.255.12.15]) ([10.255.12.15])
-	by orsmga001.jf.intel.com with ESMTP; 23 Nov 2011 10:55:57 -0800
-Message-ID: <4ECD41BD.5010500@linux.intel.com>
-Date: Wed, 23 Nov 2011 10:55:57 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 23 Nov 2011 11:36:03 -0800
+Message-ID: <4ECD4B23.1010604@linux.intel.com>
+Date: Wed, 23 Nov 2011 11:36:03 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1321313978.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1321313978.git.scott.a.garman@intel.com>
-Cc: Scott Garman <scott.a.garman@intel.com>
-Subject: Re: [PATCH 0/1] Manual recipe version checks
+References: <cover.1322032702.git.xiaofeng.yan@windriver.com>
+	<5a1109761eb7eba8ddd028bea09ec12c63bc6bbb.1322032702.git.xiaofeng.yan@windriver.com>
+	<27383A15-EAE2-4714-8E61-F9B194CFB581@dominion.thruhere.net>
+In-Reply-To: <27383A15-EAE2-4714-8E61-F9B194CFB581@dominion.thruhere.net>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH 1/1] directfb: change check sum
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,32 +37,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2011 19:02:31 -0000
+X-List-Received-Date: Wed, 23 Nov 2011 19:42:40 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/14/2011 03:41 PM, Scott Garman wrote:
-> Here are some updates for the distro_tracking.inc file for recipes that
-> require manual version checks.
+On 11/22/2011 11:37 PM, Koen Kooi wrote:
 >
-> The following changes since commit f2316ff39670ed99382411e15ac035550360fbdd:
+> Op 23 nov. 2011, om 08:21 heeft Xiaofeng Yan het volgende geschreven:
 >
->    opkg: Ensure we use the uname/gname fields when extracting tarballs (2011-11-14 11:15:36 +0000)
+>> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
+>>
+>> Change check sum of directfb. The previous check sum is wrong.
 >
-> are available in the git repository at:
->    git://git.yoctoproject.org/poky-contrib sgarman/recipe-manual-checks
->    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=sgarman/recipe-manual-checks
+> Why is it wrong? What has changed?
 >
-> Scott Garman (1):
->    distro_tracking: update manual checks for various recipes
 >
->   .../conf/distro/include/distro_tracking_fields.inc |    8 ++++++--
->   1 files changed, 6 insertions(+), 2 deletions(-)
->
+Seems that when the recipe update occurred, the checksums where not 
+properly updated at the same time, this is a valid and needed patch as 
+it corrects the checksums for the 1.4.15 tarball.
 
-Merged into OE-Core
+Sau!
 
-Thanks
-	Sau!
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
