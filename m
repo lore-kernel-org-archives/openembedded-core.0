@@ -1,25 +1,25 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RT6kf-0005xa-2W
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RT6kh-0005xz-Fz
 	for openembedded-core@lists.openembedded.org;
-	Wed, 23 Nov 2011 07:56:13 +0100
+	Wed, 23 Nov 2011 07:56:15 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pAN6nfY0013582
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pAN6nhL9013588
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Nov 2011 22:49:41 -0800 (PST)
+	Tue, 22 Nov 2011 22:49:43 -0800 (PST)
 Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Tue, 22 Nov 2011 22:49:40 -0800
-Message-ID: <01bf635c1edc3d89feaf70b38aad5979e3fef578.1322028165.git.xiaofeng.yan@windriver.com>
+	Tue, 22 Nov 2011 22:49:43 -0800
+Message-ID: <fd1c2d559731b3ae223631f14d53c6d3846e6a1c.1322028165.git.xiaofeng.yan@windriver.com>
 In-Reply-To: <cover.1322028165.git.xiaofeng.yan@windriver.com>
 References: <cover.1322028165.git.xiaofeng.yan@windriver.com>
-Old-Date: Wed, 23 Nov 2011 13:24:25 +0800
-Date: Wed, 23 Nov 2011 14:47:49 +0800
+Old-Date: Wed, 23 Nov 2011 13:26:15 +0800
+Date: Wed, 23 Nov 2011 14:47:51 +0800
 To: <openembedded-core@lists.openembedded.org>
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/9] qemu-config: Disable dbus-x11 when no x11 in DISTRO_FEATURES
+Subject: [PATCH 2/9] gconf: Disable dbus-x11 when x11 isn't in DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,44 +34,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2011 06:56:13 -0000
+X-List-Received-Date: Wed, 23 Nov 2011 06:56:16 -0000
 Content-Type: text/plain
 
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-dbus-x11 could be not needed by an image without x11.
-So I modified this bb file to enable dbus-x11 when x11 is in DISTRO_FEATURES and disable \
-dbus-x11 without x11 feature.
+If x11 isn't defined in DISTRO_FEATURES, then an error information "no providers ..." will \
+arise. I modified this bb file to disable "dbus-x11" when x11 isn't in DISTRO_FEATURES.
 
 [YOCTO #1674]
 
 Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 ---
- meta/recipes-bsp/qemu-config/qemu-config.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-gnome/gnome/gconf_3.2.3.bb |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-bsp/qemu-config/qemu-config.bb b/meta/recipes-bsp/qemu-config/qemu-config.bb
-index ebf957a..deaf3a5 100644
---- a/meta/recipes-bsp/qemu-config/qemu-config.bb
-+++ b/meta/recipes-bsp/qemu-config/qemu-config.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa
- 
- COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemumips|qemuppc)"
- 
--PR = "r22"
-+PR = "r23"
- 
- SRC_URI = "file://distcc.sh \
-            file://anjuta-remote-run \
-@@ -37,7 +37,7 @@ pkg_postinst_${PN} () {
-         sed -i $D${datadir}/applications/shutdown.desktop -e 's/^Exec=halt/Exec=reboot/'
+diff --git a/meta/recipes-gnome/gnome/gconf_3.2.3.bb b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
+index 3d3e65f..7feafea 100644
+--- a/meta/recipes-gnome/gnome/gconf_3.2.3.bb
++++ b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
+@@ -30,7 +30,9 @@ do_install_append() {
+ 	rm ${D}${libdir}/gio/*/*.*a
  }
  
--RDEPENDS_${PN} = "distcc dbus-x11 task-core-nfs-server oprofileui-server rsync bash"
-+RDEPENDS_${PN} = "distcc ${@base_contains('DISTRO_FEATURES', 'x11', 'dbus-x11', '', d)}  task-core-nfs-server oprofileui-server rsync bash"
- 
- inherit update-rc.d allarch
- 
+-RDEPENDS_${PN} += "dbus-x11"
++# disable dbus-x11 without x11 feature in DISTRO_FEATURES
++RDEPENDS_${PN} += "${@base_contains('DISTRO_FEATURES', 'x11', 'dbus-x11', '', d)}"
++
+ FILES_${PN} += "${libdir}/GConf/* \
+ 	        ${libdir}/gio/*/*.so \
+ 		${datadir}/polkit* \
 -- 
 1.7.0.4
 
