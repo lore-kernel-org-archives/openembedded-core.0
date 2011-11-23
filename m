@@ -1,23 +1,35 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mx4.leapfrog.com ([63.114.26.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RT1bN-00066N-E2
-	for openembedded-core@openembedded.org; Wed, 23 Nov 2011 02:26:17 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 22 Nov 2011 17:18:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,556,1315206000"; d="scan'208";a="88336258"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.15])
-	by fmsmga001.fm.intel.com with ESMTP; 22 Nov 2011 17:18:31 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@openembedded.org
-Date: Tue, 22 Nov 2011 17:18:28 -0800
-Message-Id: <e72b57460cb7345b954f991d0051d3d0e2f2a01f.1322008856.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.6.4
-In-Reply-To: <cover.1322008856.git.sgw@linux.intel.com>
-References: <cover.1322008856.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1322008856.git.sgw@linux.intel.com>
-References: <cover.1322008856.git.sgw@linux.intel.com>
-Subject: [PATCH 7/7] distro_tracking_fields: Update after Manual Check
+	(envelope-from <dlazzari@leapfrog.com>) id 1RT1gK-0006YV-9S
+	for openembedded-core@lists.openembedded.org;
+	Wed, 23 Nov 2011 02:31:24 +0100
+Received: from mx4.leapfrog.com (localhost [127.0.0.1])
+	by localhost.leapfrog.com (Postfix) with ESMTP id 59BF35EA0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Nov 2011 17:24:49 -0800 (PST)
+Received: from NAEXCHHT01.na.leapfrog.com (unknown [10.15.6.13])
+	by mx4.leapfrog.com (Postfix) with ESMTP id 367015E7C
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Nov 2011 17:24:49 -0800 (PST)
+Received: from NAEMCASHT02.na.leapfrog.com (10.12.2.36) by
+	NAEXCHHT01.na.leapfrog.com (10.15.6.13) with Microsoft SMTP Server
+	(TLS) id 8.2.254.0; Tue, 22 Nov 2011 17:24:48 -0800
+Received: from NAEMMAIL01.na.leapfrog.com ([fe80::252e:28a6:3d8f:6991]) by
+	NAEMCASHT02.na.leapfrog.com ([::1]) with mapi id 14.01.0289.001;
+	Tue, 22 Nov 2011 17:24:48 -0800
+From: Daniel Lazzari <dlazzari@leapfrog.com>
+To: "'openembedded-core@lists.openembedded.org'"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: Overriding a variable only in our layer
+Thread-Index: Acypfq/dic6blehRRZqDGFdgcP2TEw==
+Date: Wed, 23 Nov 2011 01:24:47 +0000
+Message-ID: <E7A9054A5ACABE48B0E540E46E862B0F04246AAE@NAEMMAIL01.na.leapfrog.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.100.2.5]
+MIME-Version: 1.0
+Subject: Overriding a variable only in our layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,130 +44,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2011 01:26:18 -0000
+X-List-Received-Date: Wed, 23 Nov 2011 01:31:24 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_E7A9054A5ACABE48B0E540E46E862B0F04246AAENAEMMAIL01nalea_"
 
-Checked upstream for updates of the following packages:
- - libiconv
- - libxml2
- - sysstat
- - tcp_wrapper
- - texinfo
+--_000_E7A9054A5ACABE48B0E540E46E862B0F04246AAENAEMMAIL01nalea_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../conf/distro/include/distro_tracking_fields.inc |   37 ++++++++++++--------
- 1 files changed, 22 insertions(+), 15 deletions(-)
+Hey everyone,
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 700a8dd..17d9f2f 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -370,16 +370,16 @@ RECIPE_LATEST_RELEASE_DATE_pn-libusb = "May 01, 2010"
- RECIPE_COMMENTS_pn-libusb1 = ""
- 
- RECIPE_STATUS_pn-libusb-compat = "green"
-+RECIPE_LATEST_VERSION_pn-libusb-compat = "0.1.3"
-+RECIPE_LATEST_RELEASE_DATE_pn-libusb-compat = "Jul 08, 2009"
- RECIPE_LAST_UPDATE_pn-libusb-compat = "Jul 16, 2010"
--RECIPE_MAINTAINER_pn-libusb-compat = "Saul Wold <sgw@linux.intel.com>"
-+RECIPE_MANUAL_CHECK_DATE_pn-libusb-compat = "Jun 06, 2011"
- RECIPE_DEPENDENCY_CHECK_pn-libusb-compat = "done"
--RECIPE_LATEST_VERSION_pn-libusb-compat = "0.1.3"
- RECIPE_INTEL_SECTION_pn-libusb-compat = "base utils"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libusb-compat = "stable"
--RECIPE_LATEST_RELEASE_DATE_pn-libusb-compat = "Jul 08, 2009"
- RECIPE_COMMENTS_pn-libusb-compat = "replaces libusb, but doesn't provides libusbpp"
- DISTRO_PN_ALIAS_pn-libusb-compat = "OSPDT"
--RECIPE_MANUAL_CHECK_DATE_pn-libusb-compat = "Jun 06, 2011"
-+RECIPE_MAINTAINER_pn-libusb-compat = "Saul Wold <sgw@linux.intel.com>"
- 
- RECIPE_STATUS_pn-libnl = "green"
- RECIPE_LAST_UPDATE_pn-libnl = "Nov 15, 2010"
-@@ -390,29 +390,29 @@ RECIPE_LATEST_RELEASE_DATE_pn-libnl = "Oct 01, 2010"
- RECIPE_NO_UPDATE_REASON_pn-libnl = "libnl-3.2.2 is incompatible with libnl2, so no Upgrade"
- 
- RECIPE_STATUS_pn-zlib = "yellow"  # local config scripts
-+RECIPE_LATEST_VERSION_pn-zlib = "1.2.5"
-+RECIPE_LATEST_RELEASE_DATE_pn-zlib = "Mar 01, 2010"
- RECIPE_LAST_UPDATE_pn-zlib = "Jun 11, 2010"
- RECIPE_MAINTAINER_pn-zlib = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-zlib = "not done"
--RECIPE_LATEST_VERSION_pn-zlib = "1.2.5"
- RECIPE_PATCH_pn-zlib+configure.ac = "override default build method"
- RECIPE_PATCH_pn-zlib+Makefile.am = "override default build method"
- RECIPE_INTEL_SECTION_pn-zlib = "base libs"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-zlib = "3 months"
--RECIPE_LATEST_RELEASE_DATE_pn-zlib = "Mar 01, 2010"
- RECIPE_COMMENTS_pn-zlib = "rconflicts: libxml2 (< 2.7.7) (rbreaks)"
- RECIPE_NO_UPDATE_REASON_pn-zlib = "zlib-1.2.5 is latest, version parser reports 121 in error"
- 
- RECIPE_STATUS_pn-libxml2 = "yellow"
--RECIPE_LAST_UPDATE_pn-libxml2 = "Jun 18, 2010"
-+RECIPE_LATEST_VERSION_pn-libxml2 = "2.7.8"
-+RECIPE_LATEST_RELEASE_DATE_pn-libxml2 = "Nov 04, 2010"
-+RECIPE_LAST_UPDATE_pn-libxml2 = "Apr 15, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-libxml2 = "Nov 22, 2011"
- RECIPE_MAINTAINER_pn-libxml2 = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-libxml2 = "done"
--RECIPE_LATEST_VERSION_pn-libxml2 = "2.7.8"
- RECIPE_PATCH_pn-libxml2+install = "use poky environment variables"
- RECIPE_INTEL_SECTION_pn-libxml2 = "base libs"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libxml2 = "5 months"
--RECIPE_LATEST_RELEASE_DATE_pn-libxml2 = "Mar 01, 2010"
- RECIPE_COMMENTS_pn-libxml2 = ""
--RECIPE_MANUAL_CHECK_DATE_pn-libxml2 = "Jun 06, 2011"
- 
- RECIPE_STATUS_pn-readline = "green"
- RECIPE_LAST_UPDATE_pn-readline = "May 10, 2011"
-@@ -571,8 +571,8 @@ RECIPE_MAINTAINER_pn-tcp-wrappers = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_LATEST_VERSION_pn-tcp-wrappers = "7.6"
- RECIPE_INTEL_SECTION_pn-tcp-wrappers = "base libs"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-tcp-wrappers = "n/a"
--RECIPE_LATEST_RELEASE_DATE_pn-tcp-wrappers = "Apr 04, 1997"
--RECIPE_MANUAL_CHECK_DATE_pn-tcp-wrappers = "Sep 28, 2011"
-+RECIPE_LATEST_RELEASE_DATE_pn-tcp-wrappers = "Apr 08, 1997"
-+RECIPE_MANUAL_CHECK_DATE_pn-tcp-wrappers = "Nov 22, 2011"
- RECIPE_COMMENTS_pn-tcp-wrappers = "Consider looking at ipv6.4 version"
- RECIPE_NO_UPDATE_REASON_pn-tcp-wrapers = "7.6 is last Stable release"
- 
-@@ -1834,9 +1834,9 @@ DISTRO_PN_ALIAS_pn-zypper = "OpenSuse=zypper Meego=zypper"
- 
- RECIPE_STATUS_pn-sysstat = "green"
- RECIPE_LATEST_VERSION_pn-sysstat = "10.0.2"
--RECIPE_LATEST_RELEASE_DATE_pn-systat = "Aug 28, 2011"
-+RECIPE_LATEST_RELEASE_DATE_pn-sysstat = "Aug 28, 2011"
- RECIPE_LAST_UPDATE_pn-sysstat = "Sep 27, 2011"
--RECIPE_MANUAL_CHECK_DATE_pn-systat = "Nov 8, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-sysstat = "Nov 8, 2011"
- RECIPE_MAINTAINER_pn-sysstat = "Saul Wold <sgw@linux.intel.com>"
- 
- RECIPE_STATUS_pn-sysklogd = "red"    # need upgrade
-@@ -5801,7 +5801,7 @@ RECIPE_MAINTAINER_pn-qmmp = "Xiaofeng Yan <xiaofeng.yan@windriver.com>"
- RECIPE_LATEST_VERSION_pn-texinfo = "4.13a"
- RECIPE_LATEST_RELEASE_DATE_pn-texinfo = "Sep 22, 2008"
- RECIPE_LAST_UPDATE_pn-texinfo = "Sep 16, 2011"
--RECIPE_MANUAL_CHECK_DATE_pn-texinfo = "Sep 28, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-texinfo = "Nov 22, 2011"
- RECIPE_NO_UPDATE_REASON_pn-texinfo = "Checking script parses directory wrong"
- 
- RECIPE_LATEST_VERSION_pn-blktrace = "a788dfde86dfaff8f1c277a233f92c1822e06b76"
-@@ -6055,7 +6055,14 @@ RECIPE_LATEST_VERSION_pn-chkconfig = "1.3.55"
- RECIPE_LAST_UPDATE_pn-chkconfig = "Oct 19, 2011"
- RECIPE_MANUAL_CHECK_DATE_pn-chkconfig = "Oct 25, 2011"
- 
-+RECIPE_STATUS_pn-libiconv = "green"
-+RECIPE_LATEST_VERSION_pn-libiconv = "1.14"
-+RECIPE_LATEST_RELEASE_DATE_pn-libiconv = "Aug 07, 2011"
-+RECIPE_LAST_UPDATE_pn-libiconv = "Oct 19, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-libiconv = "Nov 22, 2011"
- DISTRO_PN_ALIAS_pn-libiconv = "Fedora=mingw-libiconv Opensuse=cross-mingw-libiconv"
-+RECIPE_MAINTAINER_pn-libiconv = "Saul Wold <sgw@linux.intel.com>"
-+
- DISTRO_PN_ALIAS_pn-qt4-native = "Fedora=qt4 Debian=qt4-dev-tools"
- DISTRO_PN_ALIAS_pn-update-alternatives-dpkg = "Opensuse=update-alternatives Mandriva=update-alternatives"
- RECIPE_MAINTAINER_pn-update-alternatives-dpkg = "Dongxiao Xu <dongxiao.xu@intel.com>"
--- 
-1.7.5.4
+I ran into an interesting problem today that I need some help with. I'm not=
+ sure if this is a bitbake issue or an oe-core one so I thought I'd try her=
+e first. We have our own layer that overlays on top of oe-core, meta-oe, an=
+d meta-angstrom. Our layer has a bunch of recipes that pull projects from o=
+ur local SVN, including a recipe for u-boot. We have a build configuration =
+file that has lines like the following:
+
+SRCREV_pn-u-boot =3D "563"
+
+We pull in this conf at build time using bitbake's -R argument. Just recent=
+ly we switched u-boot's SRCREV from ${AUTOREV} to an actual revision number=
+ and bitbake started choking trying to parse recipes. It looks like it chok=
+es while trying to parse oe-core's u-boot git recipe because the SRCREV is =
+meant for SVN, not GIT (even though our PREFERRED_VERSION is set up only to=
+ build our u-boot). Is there a way to override this SRCREV variable only wh=
+en parsing recipes in our layer? I know I can do it directly in the recipe,=
+ but that loses us the advantages of having all of the SRCREVs in one file =
+(which makes specific full rebuilds very easy).
+
+Thanks,
+
+Dan Lazzari Jr.
+Firmware Engineer
+dlazzari@leapfrog.com
 
 
+--_000_E7A9054A5ACABE48B0E540E46E862B0F04246AAENAEMMAIL01nalea_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" xmlns:m=3D"http://schema=
+s.microsoft.com/office/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html=
+40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 12 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri","sans-serif";
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Hey everyone,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">I ran into an interesting problem today that I need =
+some help with. I&#8217;m not sure if this is a bitbake issue or an oe-core=
+ one so I thought I&#8217;d try here first. We have our own layer that over=
+lays on top of oe-core, meta-oe, and meta-angstrom.
+ Our layer has a bunch of recipes that pull projects from our local SVN, in=
+cluding a recipe for u-boot. We have a build configuration file that has li=
+nes like the following:<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">SRCREV_pn-u-boot =3D &#8220;563&#8221;<o:p></o:p></p=
+>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">We pull in this conf at build time using bitbake&#82=
+17;s &#8211;R argument. Just recently we switched u-boot&#8217;s SRCREV fro=
+m ${AUTOREV} to an actual revision number and bitbake started choking tryin=
+g to parse recipes. It looks like it chokes while trying
+ to parse oe-core&#8217;s u-boot git recipe because the SRCREV is meant for=
+ SVN, not GIT (even though our PREFERRED_VERSION is set up only to build ou=
+r u-boot). Is there a way to override this SRCREV variable only when parsin=
+g recipes in our layer? I know I can do
+ it directly in the recipe, but that loses us the advantages of having all =
+of the SRCREVs in one file (which makes specific full rebuilds very easy).<=
+o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Dan Lazzari Jr.<o:p></o:p></p>
+<p class=3D"MsoNormal">Firmware Engineer<o:p></o:p></p>
+<p class=3D"MsoNormal">dlazzari@leapfrog.com<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_E7A9054A5ACABE48B0E540E46E862B0F04246AAENAEMMAIL01nalea_--
