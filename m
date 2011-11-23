@@ -1,31 +1,31 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RTKwn-0003Op-AF
+	(envelope-from <raj.khem@gmail.com>) id 1RTLD3-0003tM-Lv
 	for openembedded-core@lists.openembedded.org;
-	Wed, 23 Nov 2011 23:05:41 +0100
-Received: by wwo1 with SMTP id 1so2222485wwo.24
+	Wed, 23 Nov 2011 23:22:29 +0100
+Received: by ghy10 with SMTP id 10so1917948ghy.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2011 13:59:09 -0800 (PST)
-Received: by 10.216.168.196 with SMTP id k46mr3451990wel.34.1322085549117;
-	Wed, 23 Nov 2011 13:59:09 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id es5sm21847409wbb.11.2011.11.23.13.59.07
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 23 Nov 2011 13:59:08 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Wed, 23 Nov 2011 22:59:01 +0100
-In-Reply-To: <CAMKF1sp2v-vs_S6Tq7kzKvOBhjEsrtE4qDfOE0uzOBn6p6nddQ@mail.gmail.com>
+	Wed, 23 Nov 2011 14:15:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=eVq8LRy6sYOXjotR7xE5PtLyFV43AAr0wy0qidw6rds=;
+	b=sROhulJyWoWYNG6ZbWmLa9BkteiGzsn9sfdChXzZ06SHLKLfMJdx2GshLnwCwGWTq3
+	JO/JibwAGqMOoxz/C1lZQuWnOftGCIxUfRhiBzFyF45IbYSQtUs2xpV5mFUlA9eaKZ6b
+	+EinMkUwfbkjayLA5f1B2u8Pp7BJzQ4lz48kA=
+Received: by 10.152.106.38 with SMTP id gr6mr16296101lab.35.1322086556048;
+	Wed, 23 Nov 2011 14:15:56 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.152.24.36 with HTTP; Wed, 23 Nov 2011 14:15:25 -0800 (PST)
+In-Reply-To: <8065e9322196431897b2af285ed49ba7fc2406dc.1321862948.git.xiaofeng.yan@windriver.com>
+References: <cover.1321862948.git.xiaofeng.yan@windriver.com>
+	<8065e9322196431897b2af285ed49ba7fc2406dc.1321862948.git.xiaofeng.yan@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 23 Nov 2011 14:15:25 -0800
+Message-ID: <CAMKF1sojEYRJE15kic3JHjXCH=MCDUZGhRYKBMSYVmvEhhE_=g@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1320799787.git.josh@linux.intel.com>
-	<552def63eb1b587a3f0685c7e604ab1b9a1ac7e5.1320799787.git.josh@linux.intel.com>
-	<4EC64DA5.2020406@ts.fujitsu.com>
-	<CAMKF1sp2v-vs_S6Tq7kzKvOBhjEsrtE4qDfOE0uzOBn6p6nddQ@mail.gmail.com>
-Message-Id: <309750B0-0A26-48AE-93CA-7F6556AD4880@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH 1/3] shared-mime-info: package runtime data separately
+Subject: Re: [PATCH 1/1] libx11-trim: update to 1.4.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,53 +40,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2011 22:05:41 -0000
-X-Groupsio-MsgNum: 12845
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_E647811A-0DF2-4D5C-B58D-48A8B0A04814";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_E647811A-0DF2-4D5C-B58D-48A8B0A04814
+X-List-Received-Date: Wed, 23 Nov 2011 22:22:29 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+
+On Mon, Nov 21, 2011 at 12:32 AM, Xiaofeng Yan
+<xiaofeng.yan@windriver.com> wrote:
+> +++ b/meta/recipes-graphics/xorg-lib/libx11-trim-1.4.4/makekeys_crosscomp=
+ile.patch
+> @@ -0,0 +1,45 @@
+> +Because the size of "unsigned long" is different between 32-bit
+> +and 64-bit, judge whether target is 32-bit or 64-bit and tell
+> +"makekey".
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: dbuitenh@windriver.com
+> +
+> +--- libX11-1.3.4.orig/src/util/makekeys.c =C2=A0 =C2=A0 =C2=A02010-01-15=
+ 09:11:36.000000000 +0800
+> ++++ libX11-1.3.4/src/util/makekeys.c =C2=A0 2011-05-24 19:04:25.45477490=
+8 +0800
+> +@@ -33,6 +33,7 @@
+> + #include <X11/keysymdef.h>
+> + #include <stdio.h>
+> + #include <stdlib.h>
+> ++#include <stdint.h>
+> +
+> + typedef unsigned long Signature;
+> +
+> +@@ -124,7 +125,12 @@
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name =3D info[i].name;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sig =3D 0;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 while ((c =3D *name++))
+> +- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sig =3D (sig << 1) + c=
+;
+> ++#ifdef USE32
+> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sig =3D (uint32_t)(sig=
+ << 1) + c;
+> ++#else
+> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sig =3D (uint64_t)(sig=
+ << 1) + c;
+> ++#endif
+> ++
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 first =3D j =3D sig % z;
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (k =3D 0; tab[j]; k++) {
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 j +=3D first + 1;
+> +@@ -163,7 +169,11 @@
+> + =C2=A0 =C2=A0 =C2=A0 name =3D info[i].name;
+> + =C2=A0 =C2=A0 =C2=A0 sig =3D 0;
+> + =C2=A0 =C2=A0 =C2=A0 while ((c =3D *name++))
+> +- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sig =3D (sig << 1) + c;
+> ++#ifdef USE32
+> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sig =3D (uint32_t)(sig << 1) + c;
+> ++#else
+> ++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sig =3D (uint64_t)(sig << 1) + c;
+> ++#endif
+> + =C2=A0 =C2=A0 =C2=A0 first =3D j =3D sig % z;
+> + =C2=A0 =C2=A0 =C2=A0 while (offsets[j]) {
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 j +=3D first + 1;
+
+why use USE32 define ? why not use compiler builtin define __LP64__ ?
+is it something a programs that needs to know the bitness of target or
+something ?
 
 
-Op 23 nov. 2011, om 22:45 heeft Khem Raj het volgende geschreven:
-
-> On Fri, Nov 18, 2011 at 4:20 AM, Rainer Koenig
-> <Rainer.Koenig@ts.fujitsu.com> wrote:
->> Am 09.11.2011 01:53, schrieb Joshua Lock:
->>> The freedesktop.org.xml is required when updating the mime database =
-but
->>> otherwise not much use. Therefore package it separately, rather than
->>> removing it completely, so that it can be used as required for =
-on-device
->>> updates without adding almost 2MB to every image which hase =
-shared-mime-info.
->>=20
->> somehow this patch breaks the image creation for systemd-gnome-image.
->> Famous last words from bitbake:
->=20
-> Did you do a clean build ? if not try that
-
-=
-http://cgit.openembedded.org/openembedded-core/commit/?id=3D79ee0f8c849cd5=
-de16b6ae1b3dd6c43bbad472b2=
-
---Apple-Mail=_E647811A-0DF2-4D5C-B58D-48A8B0A04814
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-
-iEUEARECAAYFAk7NbKoACgkQMkyGM64RGpFdEwCfbZJS0gHkvNU/6NFxksVaG9WI
-Il4Alj7qx52T1Zhf/a24ISwaNsXHvis=
-=4i4l
------END PGP SIGNATURE-----
-
---Apple-Mail=_E647811A-0DF2-4D5C-B58D-48A8B0A04814--
