@@ -1,31 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RTG5c-0007Wi-Bt for openembedded-core@lists.openembedded.org;
-	Wed, 23 Nov 2011 17:54:28 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pANGlsW9014546;
-	Wed, 23 Nov 2011 16:47:54 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 13595-10; Wed, 23 Nov 2011 16:47:50 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pANGlmgJ014540
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 23 Nov 2011 16:47:49 GMT
-Message-ID: <1322066874.15626.1.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Julian Pidancet <julian.pidancet@gmail.com>
-Date: Wed, 23 Nov 2011 16:47:54 +0000
-In-Reply-To: <CAKZ=5EXYgDQTO9UQxcEOxxM0LCii2b59097J8k20=u-DgDiFuw@mail.gmail.com>
-References: <689a6fbace429988bf14f144e9a93dc828a7e7bf.1321391467.git.julian.pidancet@gmail.com>
-	<CAKZ=5EXYgDQTO9UQxcEOxxM0LCii2b59097J8k20=u-DgDiFuw@mail.gmail.com>
-X-Mailer: Evolution 3.2.1- 
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <philb@gnu.org>) id 1RTG6c-0007b5-77
+	for openembedded-core@lists.openembedded.org;
+	Wed, 23 Nov 2011 17:55:30 +0100
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RTG0K-0008Hw-BD
+	for openembedded-core@lists.openembedded.org;
+	Wed, 23 Nov 2011 17:49:00 +0100
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 23 Nov 2011 16:48:59 +0000
+In-Reply-To: <3298934.bvzy1dahMQ@helios>
+References: <cover.1322061836.git.paul.eggleton@linux.intel.com>
+	<E459AF7A-6F7C-43F7-85C8-784419C4E6FE@dominion.thruhere.net>
+	<3298934.bvzy1dahMQ@helios>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1322066940.26081.27.camel@phil-desktop>
 Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: B29882@freescale.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] Introduce multiarch DISTRO_FEATURE
+Subject: Re: [PATCH 0/3] Make pulseaudio a DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,48 +35,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2011 16:54:28 -0000
+X-List-Received-Date: Wed, 23 Nov 2011 16:55:30 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-11-23 at 16:39 +0000, Julian Pidancet wrote:
-> On Wed, Nov 16, 2011 at 1:01 AM, Julian Pidancet
-> <julian.pidancet@gmail.com> wrote:
-> > This patch introduces a distro feature which enables gcc to produce
-> > both 32bit and 64bit code, and enables binutils to operate on both
-> > 32bit and 64bit binaries. It differs from multilib toolchains in
-> > that it does not require to compile a version of the libc for each
-> > architecture variant. However, the code produced for the secondary
-> > architecture will not be linkable against the libc.
-> >
-> > v2: - Renamed the feature name from "biarch" to "multiarch". The GCC
-> > installation manual claims that the mips-linux can be made a tri-arch
-> > compiler (http://gcc.gnu.org/install/configure.html)
-> >    - For x86_64, the compiler is made bi-arch by default, so nothing
-> > has to be done in particular.
-> >    - I analyzed the gcc/config.gcc from GCC sources and added in this
-> > patch all the architectures that could be made biarch with the version
-> > of gcc currently used in OE, which are powerpc, and sparc, in addition
-> > to x86. mips and s390 will probably be supported in future versions of
-> > gcc. For x86 and sparc, only the --enable-targets=all option is valid
-> > to make this work (this option doesn't have any other side effects than
-> > making the compiler bi-arch). For powerpc, I used the
-> > --enable-targets=powerpc64 option (although 'all' also works).
-> >
-> > Note: - Untested on powerpc and sparc. But I believe it works the same
-> > as with x86.
-> >      - gcc in meta-toolchain is also made multiarch.
-> >
+On Wed, 2011-11-23 at 16:33 +0000, Paul Eggleton wrote:
+> On Wednesday 23 November 2011 16:59:56 Koen Kooi wrote:
+> > We also agreed that the current behaviour should be retained, so needing to
+> > add pulse to distro features would go against that. Having said that, I
+> > personally would dislike having negative ('nopulseaudio') entries to
+> > address that. Feedback needed :)
 > 
-> Anybody got the time to review this ?
+> I don't see how we can achieve this without making a huge mess. I'm happy to 
+> be proven wrong, but I would really like us to figure this stuff out soon so we 
+> can get the actual problem here fixed.
 
-Funnily enough I was just talking with Saul about this. We're going to
-try and expose this to some extended testing (which we try and do for
-all compiler changes).
+Agreed.  This problem (or variants of it) comes up fairly frequently: we
+had a similar amount of grief when ipv4 and ipv6 became DISTRO_FEATURES
+and everybody who wasn't paying attention found that they suddenly had
+no networking.  But I think it is basically insoluble in the general
+case without any extra stateful mechanics: we need to either:
 
-Cheers,
+a) decide that what we have today, or at some other arbitrary point, is
+the "base configuration" and any departure from that (including
+removals) will now be a DISTRO_FEATURE.  This means accepting things
+like "nopulseaudio" which are, admittedly, ugly; or
 
-Richard
+b) introduce some sort of concept of "feature epochs", where the DISTRO
+gets to declare what epoch it is expecting and the compatibility code
+then backfills DISTRO_FEATURES to take account of things that were
+enabled by default in past epochs but have since been removed.  This
+introduces a certain extra maintenance burden but it means that DISTROs
+will no longer get unpleasant surprises; or
+
+c) just live with the status quo and accept that things will break when
+features are turned off.
+
+My personal preference would be for (b) but I could live with (a) just
+as well.
+
+p.
+
 
 
 
