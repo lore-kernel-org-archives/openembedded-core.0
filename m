@@ -1,35 +1,26 @@
-Received: from mail-vw0-f47.google.com ([209.85.212.47])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <swaplinker@gmail.com>) id 1RTGjI-0001Iy-9j
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1RTGzU-00024G-5s
 	for openembedded-core@lists.openembedded.org;
-	Wed, 23 Nov 2011 18:35:28 +0100
-Received: by vbbfc21 with SMTP id fc21so344019vbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2011 09:28:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type
-	:content-transfer-encoding;
-	bh=RbLPWej6Y1ra5fHznRJOryo7+WiSImIlZxVKOBLM4nI=;
-	b=jwVbTc2tDIlNjq06J1PJSE5SpF0pzu+iK3esrgFSAMxhDMfTjfba7nueWuacMrqMoA
-	ufw3NUoaX8l3LAtRXFJgbbhrkIG4DHaRBoGgn+QTWFdr2G7DYrlxEr0+ktyH4o5EKMCV
-	t6GvA+9c93eJJV4OU/6EY+NFKihE38qeAGntk=
-Received: by 10.52.92.42 with SMTP id cj10mr27751254vdb.62.1322069335076; Wed,
-	23 Nov 2011 09:28:55 -0800 (PST)
+	Wed, 23 Nov 2011 18:52:12 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 23 Nov 2011 09:45:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,560,1315206000"; d="scan'208";a="40591059"
+Received: from unknown (HELO helios.localnet) ([10.252.121.207])
+	by AZSMGA002.ch.intel.com with ESMTP; 23 Nov 2011 09:45:37 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Nov 2011 17:45:35 +0000
+Message-ID: <6713028.ehgggRD6ui@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.7.3 (Linux/3.0.0-13-generic-pae; KDE/4.7.3; i686; ; )
+In-Reply-To: <1322068148.15626.15.camel@ted>
+References: <cover.1322061836.git.paul.eggleton@linux.intel.com>
+	<1322066940.26081.27.camel@phil-desktop>
+	<1322068148.15626.15.camel@ted>
 MIME-Version: 1.0
-Sender: swaplinker@gmail.com
-Received: by 10.52.20.113 with HTTP; Wed, 23 Nov 2011 09:28:34 -0800 (PST)
-In-Reply-To: <1322066874.15626.1.camel@ted>
-References: <689a6fbace429988bf14f144e9a93dc828a7e7bf.1321391467.git.julian.pidancet@gmail.com>
-	<CAKZ=5EXYgDQTO9UQxcEOxxM0LCii2b59097J8k20=u-DgDiFuw@mail.gmail.com>
-	<1322066874.15626.1.camel@ted>
-From: Julian Pidancet <julian.pidancet@gmail.com>
-Date: Wed, 23 Nov 2011 17:28:34 +0000
-X-Google-Sender-Auth: CcaPv38hIGiandVgu2oxPyh7pQQ
-Message-ID: <CAKZ=5EU+4mg0Dq47Pm73A7rvoA7SeX4NxMCSxpdxdEL6KjT0mg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] Introduce multiarch DISTRO_FEATURE
+Subject: Re: [PATCH 0/3] Make pulseaudio a DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,56 +35,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2011 17:35:28 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 23 Nov 2011 17:52:12 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, Nov 23, 2011 at 4:47 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Wed, 2011-11-23 at 16:39 +0000, Julian Pidancet wrote:
->> On Wed, Nov 16, 2011 at 1:01 AM, Julian Pidancet
->> <julian.pidancet@gmail.com> wrote:
->> > This patch introduces a distro feature which enables gcc to produce
->> > both 32bit and 64bit code, and enables binutils to operate on both
->> > 32bit and 64bit binaries. It differs from multilib toolchains in
->> > that it does not require to compile a version of the libc for each
->> > architecture variant. However, the code produced for the secondary
->> > architecture will not be linkable against the libc.
->> >
->> > v2: - Renamed the feature name from "biarch" to "multiarch". The GCC
->> > installation manual claims that the mips-linux can be made a tri-arch
->> > compiler (http://gcc.gnu.org/install/configure.html)
->> > =C2=A0 =C2=A0- For x86_64, the compiler is made bi-arch by default, so=
- nothing
->> > has to be done in particular.
->> > =C2=A0 =C2=A0- I analyzed the gcc/config.gcc from GCC sources and adde=
-d in this
->> > patch all the architectures that could be made biarch with the version
->> > of gcc currently used in OE, which are powerpc, and sparc, in addition
->> > to x86. mips and s390 will probably be supported in future versions of
->> > gcc. For x86 and sparc, only the --enable-targets=3Dall option is vali=
-d
->> > to make this work (this option doesn't have any other side effects tha=
-n
->> > making the compiler bi-arch). For powerpc, I used the
->> > --enable-targets=3Dpowerpc64 option (although 'all' also works).
->> >
->> > Note: - Untested on powerpc and sparc. But I believe it works the same
->> > as with x86.
->> > =C2=A0 =C2=A0 =C2=A0- gcc in meta-toolchain is also made multiarch.
->> >
->>
->> Anybody got the time to review this ?
->
-> Funnily enough I was just talking with Saul about this. We're going to
-> try and expose this to some extended testing (which we try and do for
-> all compiler changes).
->
+On Wednesday 23 November 2011 17:09:08 Richard Purdie wrote:
+> I'm wondering if we can do something in the core like:
+> 
+> DISTRO_FEATURES_BACKFILLOPTS = "pulseaudio"
+> 
+> and have the distro set:
+> 
+> DISTRO_FEATURES_BACKFILLCONSIDERED = ""
+> 
+> and then add some code which looks for anything in
+> DISTRO_FEATURES_BACKFILLOPTS but not in
+> DISTRO_FEATURES_BACKFILLCONSIDERED and adds it to DISTRO_FEATURES.
+> 
+> Distros can then opt out of a given feature by adding it to
+> DISTRO_FEATURES_BACKFILLCONSIDERED.
+> 
+> This would let us maintain compatibility but also move forward and
+> create new settings with names that make sense.
 
-That's good news. In the mean-time, if there is any additional testing
-you'd like me to perform, feel free to ask.
+This will solve the issue, but the more I think about it the more I don't like 
+it - from the perspective of a new user it just puts a fairly arbitrary line 
+between old features and new ones. If you want control over the full range of 
+options you'll need to look at two places.
 
---=20
-Julian
+I think I'm right in assuming that when we introduce a DISTRO_FEATURES feature 
+we are almost always doing it to allow disabling some existing functionality, 
+rather than enabling something new. In that case, should we not be providing 
+the appropriate mechanism so that can exclude the features they don't want 
+rather than including the ones that they do? That would avoid breakage over 
+time in a much simpler way than the above, IMHO. (I'm aware that we have 
+oe_filter_out but I think that's a bit untidy.)
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
