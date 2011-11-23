@@ -1,46 +1,35 @@
-Received: from ch1ehsobe003.messaging.microsoft.com ([216.32.181.183]
-	helo=ch1outboundpool.messaging.microsoft.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RT8GR-0004d5-5V
-	for openembedded-core@lists.openembedded.org;
-	Wed, 23 Nov 2011 09:33:07 +0100
-Received: from mail210-ch1-R.bigfish.com (10.43.68.242) by
-	CH1EHSOBE006.bigfish.com (10.43.70.56) with Microsoft SMTP Server id
-	14.1.225.22; Wed, 23 Nov 2011 08:10:39 +0000
-Received: from mail210-ch1 (localhost [127.0.0.1])	by
-	mail210-ch1-R.bigfish.com (Postfix) with ESMTP id 3F338180053	for
-	<openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2011 08:12:11 +0000 (UTC)
-X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1082kzz8275bh8275dhz2dh2a8h668h839h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 13,
-Received: from mail210-ch1 (localhost.localdomain [127.0.0.1]) by mail210-ch1
-	(MessageSwitch) id 132203593156258_25912;
-	Wed, 23 Nov 2011 08:12:11 +0000 (UTC)
-Received: from CH1EHSMHS030.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.240])	by mail210-ch1.bigfish.com (Postfix) with ESMTP id
-	08E7E400042	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2011 08:12:11 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS030.bigfish.com
-	(10.43.70.30) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Wed, 23 Nov 2011 08:10:38 +0000
-Received: from az33smr01.freescale.net (10.64.34.199) by
-	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
-	Server id 14.1.339.2; Wed, 23 Nov 2011 02:11:18 -0600
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
-	by az33smr01.freescale.net (8.13.1/8.13.0) with ESMTP id
-	pAN8BHg4006143	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2011 02:11:17 -0600 (CST)
-From: Matthew McClintock <msm@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 23 Nov 2011 02:11:17 -0600
-Message-ID: <1322035877-18151-1-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.6.1
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH] rpm_5.4.0.bb: Add xz as rpm DEPENDS
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RT8Ul-00052Z-Av for openembedded-core@lists.openembedded.org;
+	Wed, 23 Nov 2011 09:47:55 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAN8fMer032168
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Nov 2011 08:41:22 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 31500-06 for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Nov 2011 08:41:18 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAN8fElu032162
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Nov 2011 08:41:15 GMT
+Message-ID: <1322037680.18926.72.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 23 Nov 2011 08:41:20 +0000
+In-Reply-To: <E7A9054A5ACABE48B0E540E46E862B0F04246AAE@NAEMMAIL01.na.leapfrog.com>
+References: <E7A9054A5ACABE48B0E540E46E862B0F04246AAE@NAEMMAIL01.na.leapfrog.com>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
+	pAN8fMer032168
+Subject: Re: Overriding a variable only in our layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,63 +44,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2011 08:33:07 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 23 Nov 2011 08:47:55 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This fixes the following issue:
+On Wed, 2011-11-23 at 01:24 +0000, Daniel Lazzari wrote:
+> I ran into an interesting problem today that I need some help with.
+> I=E2=80=99m not sure if this is a bitbake issue or an oe-core one so I =
+thought
+> I=E2=80=99d try here first. We have our own layer that overlays on top =
+of
+> oe-core, meta-oe, and meta-angstrom. Our layer has a bunch of recipes
+> that pull projects from our local SVN, including a recipe for u-boot.
+> We have a build configuration file that has lines like the following:
+>
+> SRCREV_pn-u-boot =3D =E2=80=9C563=E2=80=9D
+> =20
+> We pull in this conf at build time using bitbake=E2=80=99s =E2=80=93R a=
+rgument. Just
+> recently we switched u-boot=E2=80=99s SRCREV from ${AUTOREV} to an actu=
+al
+> revision number and bitbake started choking trying to parse recipes.
+> It looks like it chokes while trying to parse oe-core=E2=80=99s u-boot =
+git
+> recipe because the SRCREV is meant for SVN, not GIT (even though our
+> PREFERRED_VERSION is set up only to build our u-boot). Is there a way
+> to override this SRCREV variable only when parsing recipes in our
+> layer? I know I can do it directly in the recipe, but that loses us
+> the advantages of having all of the SRCREVs in one file (which makes
+> specific full rebuilds very easy).
 
-Log data follows:
-| NOTE: Creating RPM package for perf-dbg
-| NOTE: Creating RPM package for perf
-| NOTE: Creating EMPTY RPM Package for kernel
-| NOTE: Creating EMPTY RPM Package for kernel-3.0.9-00348-gec4b357
-| NOTE: Creating RPM package for kernel-image-3.0.9-00348-gec4b357
-| NOTE: Creating RPM package for kernel-dev
-| NOTE: Creating RPM package for kernel-vmlinux
-| NOTE: Not creating empty RPM package for kernel-misc
-| NOTE: Creating RPM package for kernel-devicetree
-| NOTE: Creating RPM package for kernel-module-libcrc32c
-| NOTE: Creating RPM package for kernel-module-crc-itu-t
-| NOTE: Creating RPM package for kernel-module-sctp
-| NOTE: Creating RPM package for kernel-module-pcbc
-| NOTE: Creating RPM package for kernel-module-crc32c
-| NOTE: Creating RPM package for kernel-module-binfmt-misc
-| NOTE: Creating RPM package for kernel-module-nfsd
-| NOTE: Creating RPM package for kernel-module-exportfs
-| NOTE: Creating RPM package for kernel-module-msdos
-| NOTE: Creating RPM package for kernel-module-nls-utf8
-| NOTE: Creating RPM package for kernel-module-udf
-| NOTE: Creating RPM package for kernel-module-isofs
-| NOTE: Creating RPM package for kernel-module-usbhid
-| NOTE: Creating RPM package for kernel-module-scsi-wait-scan
-| NOTE: Creating EMPTY RPM Package for kernel-modules
-| /local/home/mattsm/git/fsl-local-sdk/build_p4080ds_release/tmp/sysroots/x86_64-linux/usr/bin/rpmbuild.real: error while loading shared libraries: liblzma.so.5: cannot open shared object file: No such file or directory
-| ERROR: Function 'BUILDSPEC' failed (see /local/home/mattsm/git/fsl-local-sdk/build_p4080ds_release/tmp/work/p4080ds-fsl-linux/linux-qoriq-sdk-3.0.6-r2/temp/log.do_package_write_rpm.18943 for further information)
+We've not seen a conflict like that before. I'd suggest two possible
+solutions off the top of my head:
 
-Signed-off-by: Matthew McClintock <msm@freescale.com>
----
- meta/recipes-devtools/rpm/rpm_5.4.0.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+a) Rename your svn recipe to something like "u-boot-svn" so its clear
+which recipe the revision is meant for
 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-index 356512a..87fb833 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-@@ -42,10 +42,10 @@ HOMEPAGE = "http://rpm5.org/"
- LICENSE = "LGPL 2.1"
- LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
- 
--DEPENDS = "bzip2 zlib db openssl elfutils expat libpcre attr acl popt ${extrarpmdeps}"
-+DEPENDS = "bzip2 zlib db openssl elfutils expat libpcre attr acl popt xz ${extrarpmdeps}"
- extrarpmdeps = "python perl"
- extrarpmdeps_virtclass-native = "file-native"
--PR = "r22"
-+PR = "r23"
- 
- # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
- # in order to extract the distribution SRPM into a format we can extract...
--- 
-1.7.6.1
+b) .bbappend the .git recipe and force bitbake to ignore it (variables
+like COMPATIBLE_HOST/COMPATIBLE_MACHINE/BROKEN spring to mind). I do
+wonder if these mechanisms trigger early enough to stop bitbake choking.
+If not, you could set SRCREV_pn-u-boot in the .bbappend to something it
+won't choke on for the git recipe only. Not brilliant but should let you
+maintain your existing file.
+
+Cheers,
+
+Richard
 
 
 
