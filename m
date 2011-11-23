@@ -1,30 +1,30 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RTD7o-0001iq-Hh
-	for openembedded-core@lists.openembedded.org;
-	Wed, 23 Nov 2011 14:44:32 +0100
-Received: by ywb20 with SMTP id 20so1239068ywb.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RTEmM-0005Lc-BE for openembedded-core@lists.openembedded.org;
+	Wed, 23 Nov 2011 16:30:30 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pANFNw1r013592
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2011 05:38:00 -0800 (PST)
-Received: by 10.152.132.39 with SMTP id or7mr14387080lab.14.1322055085979;
-	Wed, 23 Nov 2011 05:31:25 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235]) by mx.google.com with ESMTPS id
-	pw12sm15893626lab.13.2011.11.23.05.31.23
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 23 Nov 2011 05:31:24 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <2845140.Nh9cgQnlu0@helios>
-Date: Wed, 23 Nov 2011 14:31:18 +0100
-Message-Id: <F5794506-A099-4AA8-87ED-98587660C851@dominion.thruhere.net>
-References: <cover.1321972798.git.paul.eggleton@linux.intel.com>
-	<503E71C5-C1CA-4A51-82EF-C52CBC2E43C5@dominion.thruhere.net>
-	<2845140.Nh9cgQnlu0@helios>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Mailer: Apple Mail (2.1251.1)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH 0/1] packagehistory improvement
+	Wed, 23 Nov 2011 15:23:58 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 12455-10 for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Nov 2011 15:23:53 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pANFNnhj013586
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Nov 2011 15:23:50 GMT
+Message-ID: <1322061836.15626.0.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 23 Nov 2011 15:23:56 +0000
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: OE-Core, autobuilder testing and sstate issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,60 +39,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2011 13:44:32 -0000
-X-Groupsio-MsgNum: 12813
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_EF2A4FC4-98D3-4927-B8E0-45A8F4CCE016";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_EF2A4FC4-98D3-4927-B8E0-45A8F4CCE016
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-Op 23 nov. 2011, om 14:24 heeft Paul Eggleton het volgende geschreven:
-
-> On Tuesday 22 November 2011 18:25:25 Koen Kooi wrote:
->> Does it still suffer from the bug where it will break if you change =
-machine
->> and something goes backward in PV (e.g. gcc 4.6 is used on arm, but =
-4.5 on
->> ppc)?
->=20
-> So unless I'm mistaken the fix that you yourself applied to OE in 2009 =
-(and=20
-> which was included in Poky, and hence OE-core) already works around =
-this=20
-> specific situation, since the package history is always stored under a=20=
-
-> BASEPKG_TARGET_SYS directory (or MULTIMACH_TARGET_SYS now with my =
-patch since=20
-> the former is no longer available). Am I missing something?
-
-I'm trying hard to remember why I disabled it last year, I was convinced =
-it was the TARGET_SYS thing, but apparently not. Good to know that I =
-fixed it already :) I'll ask my coworker when he gets back, but I =
-vaguely remember something about it acting funny with nostamp making =
-consecutive runs of 'bitbake some-image' really slow.
-
-regards,
-
-Koen=
-
---Apple-Mail=_EF2A4FC4-98D3-4927-B8E0-45A8F4CCE016
+X-List-Received-Date: Wed, 23 Nov 2011 15:30:30 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
+I just wanted to give people who might be unaware a heads up on what I'm
+trying to get done at the moment and why patches are moving a bit
+slowly.
 
-iEYEARECAAYFAk7M9akACgkQMkyGM64RGpHcogCfTakExojVHscaZrxNGX++TkAX
-82sAoKOSClpELOs7zGb+0y3AFlSGqryq
-=ZguG
------END PGP SIGNATURE-----
+There have been a spate of rather ugly failures on the yocto autobuilder
+and these are badly impacting our ability to feel happy about the state
+of OE-Core. I've therefore been focusing a lot of effort on tracking
+down how and where these issues are coming from and getting them fixed.
 
---Apple-Mail=_EF2A4FC4-98D3-4927-B8E0-45A8F4CCE016--
+The first round of these were problems with useradd.bbclass which then
+uncovered a raft of issues in the package managers (both opkg and rpm)
+which took a while to resolve.
+
+It then appears some are genuine sstate issues which only appear in the
+large autobuilder setup but are much harder to reproduce locally. In the
+past its been easy to just ignore them or wipe out sstate and hope the
+problems go away. This time I've not allowed sstate to be removed from
+the autobuilder until we get to the bottom of the issues.
+
+I want us to get back to a position where patches are flowing as quickly
+as possible. I also want these issues resolved, once and for all. In the
+interests of expediency I've merged some patches fairly quickly,
+particularly a couple related to gconf.
+
+The autobuilder is getting greener all the time and I think we're just
+about there with the issues that were showing up having been resolved
+but the next couple of builds will confirm this.
+
+So sorry for the delays in patches but I do strongly believe these fixes
+will be extremely beneficial in the future and will improve our
+regression spotting since we can iterate over and test changes faster.
+
+Cheers,
+
+Richard
+
+
+
+
