@@ -1,30 +1,31 @@
 Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RTQ61-0005jA-Uo
+	(envelope-from <raj.khem@gmail.com>) id 1RTQ9o-0005nk-Me
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Nov 2011 04:35:34 +0100
-Received: by faat2 with SMTP id t2so2506860faa.6
+	Thu, 24 Nov 2011 04:39:28 +0100
+Received: by faat2 with SMTP id t2so2507974faa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2011 19:29:01 -0800 (PST)
+	Wed, 23 Nov 2011 19:32:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=W0lJzbtQnanz408yOmM/rkCDO4DPdMHD0Wc8cOwL1F0=;
-	b=clIXoQ/QrtzTREANgrNgif8Bi9qhLsd6AWNPsffr+gawYAjhk93k0BhcnHSsYS/Tc+
-	g5qMM7QRZQPQAUasI89JxpzUW82aSV/G43NxDk9jlnmE5DkBzsR9h2c3tYgBLi7t5YPk
-	ZOo5TKjw3BpKiK9JlrwkxJzrOjIlmeIstBtiI=
-Received: by 10.152.111.1 with SMTP id ie1mr3499717lab.7.1322105341117; Wed,
-	23 Nov 2011 19:29:01 -0800 (PST)
+	:cc:content-type:content-transfer-encoding;
+	bh=KLGIzv0tguoA8fXJJ2bqCDcvETMKo+dCo3Yf8Nw2uuQ=;
+	b=xFTt+4vodd42PlCFbACbuyS7IptbYaWtm2u2Lrz4P6cvL2OhwYv/PS9ROIQ3prFESr
+	RYVrz0jA1cx86ZxH7zBaN2IIf/xDLiw2vuj9mlOzrAU4+xXMgYJbwTONAyW4lg2EwCmp
+	5eZTppgZDA7sEF6HtD6zBiw/rPmZt16EKLrXk=
+Received: by 10.152.134.77 with SMTP id pi13mr16524063lab.21.1322105576079;
+	Wed, 23 Nov 2011 19:32:56 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.152.24.36 with HTTP; Wed, 23 Nov 2011 19:28:30 -0800 (PST)
-In-Reply-To: <1322041226-10075-1-git-send-email-msm@freescale.com>
-References: <1322041226-10075-1-git-send-email-msm@freescale.com>
+Received: by 10.152.24.36 with HTTP; Wed, 23 Nov 2011 19:32:25 -0800 (PST)
+In-Reply-To: <689a6fbace429988bf14f144e9a93dc828a7e7bf.1321391467.git.julian.pidancet@gmail.com>
+References: <689a6fbace429988bf14f144e9a93dc828a7e7bf.1321391467.git.julian.pidancet@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 23 Nov 2011 19:28:30 -0800
-Message-ID: <CAMKF1sqdUPP1=3wiAMTD+Jmf8mbJyDXq4GT7Ho06=mBee92pPw@mail.gmail.com>
+Date: Wed, 23 Nov 2011 19:32:25 -0800
+Message-ID: <CAMKF1srTUc=V9-AV-+3bw3QrR747cK-kfYU4sYq+A04ASD06wA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] gcc-cross.inc: Add depedency on BUILD_ARCH
+Cc: B29882@freescale.com, Julian Pidancet <julian.pidancet@gmail.com>
+Subject: Re: [PATCH v2] Introduce multiarch DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,107 +40,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2011 03:35:34 -0000
+X-List-Received-Date: Thu, 24 Nov 2011 03:39:28 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 23, 2011 at 1:40 AM, Matthew McClintock <msm@freescale.com> wro=
-te:
-> Without some sort of dependency on the HOST arch this "fake"
-> target package will be reused on a 32bit system even if it was
-> built on a 64bit system.
+On Tue, Nov 15, 2011 at 5:01 PM, Julian Pidancet
+<julian.pidancet@gmail.com> wrote:
+> This patch introduces a distro feature which enables gcc to produce
+> both 32bit and 64bit code, and enables binutils to operate on both
+> 32bit and 64bit binaries. It differs from multilib toolchains in
+> that it does not require to compile a version of the libc for each
+> architecture variant. However, the code produced for the secondary
+> architecture will not be linkable against the libc.
 >
-> This new dependecy should prevent that from occuring.
+> v2: - Renamed the feature name from "biarch" to "multiarch". The GCC
+> installation manual claims that the mips-linux can be made a tri-arch
+> compiler (http://gcc.gnu.org/install/configure.html)
+> =C2=A0 =C2=A0- For x86_64, the compiler is made bi-arch by default, so no=
+thing
+> has to be done in particular.
+> =C2=A0 =C2=A0- I analyzed the gcc/config.gcc from GCC sources and added i=
+n this
+> patch all the architectures that could be made biarch with the version
+> of gcc currently used in OE, which are powerpc, and sparc, in addition
+> to x86. mips and s390 will probably be supported in future versions of
+> gcc. For x86 and sparc, only the --enable-targets=3Dall option is valid
+> to make this work (this option doesn't have any other side effects than
+> making the compiler bi-arch). For powerpc, I used the
+> --enable-targets=3Dpowerpc64 option (although 'all' also works).
 >
-> Signed-off-by: Matthew McClintock <msm@freescale.com>
+> Note: - Untested on powerpc and sparc. But I believe it works the same
+> as with x86.
+> =C2=A0 =C2=A0 =C2=A0- gcc in meta-toolchain is also made multiarch.
+>
+> Signed-off-by: Julian Pidancet <julian.pidancet@gmail.com>
 > ---
-> Comments? I still this this is VERY BAD since it will trigger
-> all TARGET cache to be rebuilt just because we changed ARCH.
-> However, it should generate working sstate-cache. Might
-> address this issue:
+> =C2=A0meta/recipes-devtools/binutils/binutils-cross.inc =C2=A0| =C2=A0 =
+=C2=A03 ++-
+> =C2=A0meta/recipes-devtools/binutils/binutils.inc =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0| =C2=A0 =C2=A03 ++-
+> =C2=A0meta/recipes-devtools/gcc/gcc-common.inc =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 | =C2=A0 10 ++++++++++
+> =C2=A0meta/recipes-devtools/gcc/gcc-configure-common.inc | =C2=A0 =C2=A03=
+ ++-
+> =C2=A04 files changed, 16 insertions(+), 3 deletions(-)
 >
-> | checking for /home/liut/poky/build_p4080ds_release/tmp/work/ppce500mc-f=
-sl-linux/gcc-cross-intermediate-4.6.1+svnr175454-r10/gcc-4_6-branch/build.i=
-686-linux.powerpc-fsl-linux/./gcc/xgcc -B/home/liut/poky/build_p4080ds_rele=
-ase/tmp/work/ppce500mc-fsl-linux/gcc-cross-intermediate-4.6.1+svnr175454-r1=
-0/gcc-4_6-branch/build.i686-linux.powerpc-fsl-linux/./gcc/ -m32 -mhard-floa=
-t =C2=A0-mcpu=3De500mc -isystem/home/liut/poky/build_p4080ds_release/tmp/sy=
-sroots/p4080ds/usr/include -B/home/liut/poky/build_p4080ds_release/tmp/sysr=
-oots/i686-linux/usr/powerpc-fsl-linux/bin/ -B/home/liut/poky/build_p4080ds_=
-release/tmp/sysroots/i686-linux/usr/powerpc-fsl-linux/lib/ -isystem /home/l=
-iut/poky/build_p4080ds_release/tmp/sysroots/i686-linux/usr/powerpc-fsl-linu=
-x/include -isystem /home/liut/poky/build_p4080ds_release/tmp/sysroots/i686-=
-linux/usr/powerpc-fsl-linux/sys-include --sysroot=3D/home/liut/poky/build_p=
-4080ds_release/tmp/sysroots/p4080ds-tcbootstrap =C2=A0 option to accept ISO=
- C89... none needed
-> | checking how to run the C preprocessor... /home/liut/poky/build_p4080ds=
-_release/tmp/work/ppce500mc-fsl-linux/gcc-cross-intermediate-4.6.1+svnr1754=
-54-r10/gcc-4_6-branch/build.i686-linux.powerpc-fsl-linux/./gcc/xgcc -B/home=
-/liut/poky/build_p4080ds_release/tmp/work/ppce500mc-fsl-linux/gcc-cross-int=
-ermediate-4.6.1+svnr175454-r10/gcc-4_6-branch/build.i686-linux.powerpc-fsl-=
-linux/./gcc/ -E
-> | configure: error: in `/home/liut/poky/build_p4080ds_release/tmp/work/pp=
-ce500mc-fsl-linux/gcc-cross-intermediate-4.6.1+svnr175454-r10/gcc-4_6-branc=
-h/build.i686-linux.powerpc-fsl-linux/powerpc-fsl-linux/libgcc':
-> | configure: error: C preprocessor "/home/liut/poky/build_p4080ds_release=
-/tmp/work/ppce500mc-fsl-linux/gcc-cross-intermediate-4.6.1+svnr175454-r10/g=
-cc-4_6-branch/build.i686-linux.powerpc-fsl-linux/./gcc/xgcc -B/home/liut/po=
-ky/build_p4080ds_release/tmp/work/ppce500mc-fsl-linux/gcc-cross-intermediat=
-e-4.6.1+svnr175454-r10/gcc-4_6-branch/build.i686-linux.powerpc-fsl-linux/./=
-gcc/ -E" fails sanity check
-> | See `config.log' for more details.
-> | make[1]: *** [configure-target-libgcc] Error 1
-> | make[1]: Leaving directory `/home/liut/poky/build_p4080ds_release/tmp/w=
-ork/ppce500mc-fsl-linux/gcc-cross-intermediate-4.6.1+svnr175454-r10/gcc-4_6=
--branch/build.i686-linux.powerpc-fsl-linux'
-> | make: *** [all] Error 2
-> | ERROR: oe_runmake failed
-> | ERROR: Function 'do_compile' failed (see /home/liut/poky/build_p4080ds_=
-release/tmp/work/ppce500mc-fsl-linux/gcc-cross-intermediate-4.6.1+svnr17545=
-4-r10/temp/log.do_compile.27393 for further information)
+> diff --git a/meta/recipes-devtools/binutils/binutils-cross.inc b/meta/rec=
+ipes-devtools/binutils/binutils-cross.inc
+> index 982224f..f07907e 100644
+> --- a/meta/recipes-devtools/binutils/binutils-cross.inc
+> +++ b/meta/recipes-devtools/binutils/binutils-cross.inc
+> @@ -10,7 +10,8 @@ EXTRA_OECONF =3D "--with-sysroot=3D${STAGING_DIR_TARGET=
+} \
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --disable-werror =
+\
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --disable-nls \
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --enable-poison-s=
+ystem-directories \
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@base_contains('DIST=
+RO_FEATURES', 'ld-is-gold', '--enable-gold=3Ddefault', '', d)}"
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@base_contains=
+('DISTRO_FEATURES', 'ld-is-gold', '--enable-gold=3Ddefault', '', d)} \
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@base_contains=
+('DISTRO_FEATURES', 'multiarch', '--enable-64-bit-bfd', '', d)}"
 >
-> =C2=A0meta/recipes-devtools/gcc/gcc-4.6.inc =C2=A0 | =C2=A0 =C2=A02 +-
-> =C2=A0meta/recipes-devtools/gcc/gcc-cross.inc | =C2=A0 11 +++++++++++
-> =C2=A02 files changed, 12 insertions(+), 1 deletions(-)
+> =C2=A0do_install () {
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runmake 'DESTDIR=3D${D}' install
+> diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-d=
+evtools/binutils/binutils.inc
+> index 58fee85..51e4257 100644
+> --- a/meta/recipes-devtools/binutils/binutils.inc
+> +++ b/meta/recipes-devtools/binutils/binutils.inc
+> @@ -49,7 +49,8 @@ B =3D "${S}/build.${HOST_SYS}.${TARGET_SYS}"
 >
-> diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtool=
-s/gcc/gcc-4.6.inc
-> index f7bcf30..ee42fa7 100644
-> --- a/meta/recipes-devtools/gcc/gcc-4.6.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
-> @@ -1,6 +1,6 @@
-> =C2=A0require gcc-common.inc
+> =C2=A0EXTRA_OECONF =3D "--program-prefix=3D${TARGET_PREFIX} \
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --enable-install-=
+libbfd \
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--enable-shared"
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--enable-shared =
+\
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@base_contains=
+('DISTRO_FEATURES', 'multiarch', '--enable-64-bit-bfd', '', d)}"
 >
-> -PR =3D "r10"
-> +PR =3D "r11"
+> =C2=A0EXTRA_OECONF_virtclass-native =3D "--enable-target=3Dall --enable-6=
+4-bit-bfd --enable-install-libbfd"
 >
-> =C2=A0# Third digit in PV should be incremented after a minor release
-> =C2=A0# happens from this branch on gcc e.g. currently its 4.6.0
-> diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devto=
-ols/gcc/gcc-cross.inc
-> index 5a796bc..9f6d6ad 100644
-> --- a/meta/recipes-devtools/gcc/gcc-cross.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-cross.inc
-> @@ -10,3 +10,14 @@ do_compile () {
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runmake all-host all-target-libgcc
-> =C2=A0}
+> diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devt=
+ools/gcc/gcc-common.inc
+> index 69e0213..7ec2f7e 100644
+> --- a/meta/recipes-devtools/gcc/gcc-common.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-common.inc
+> @@ -21,6 +21,16 @@ def get_gcc_mips_plt_setting(bb, d):
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 return "--with-mips-plt"
+> =C2=A0 =C2=A0 return ""
 >
-> +# gcc-cross is special since it builds a HOST binary on
-> +# as a TARGET recipe. This is a hack to pull in the
-> +# BUILD_ARCH to the recipe so the sstate-cache is
-> +# different if the HOST ARCH has changed. By expanding
-> +# right now we assure it's going to be in the sig
-> +BUILD_ARCH_EXPANDED :=3D "${BUILD_ARCH}"
-> +
-> +# we also add this to the PV so its clear in filenames
-> +# that this is arch specific even though it's labeled as
-> +# a target package
-> +PV .=3D "+${BUILD_ARCH_EXPANDED}"
-> --
-> 1.7.6.1
->
+> +def get_gcc_multiarch_setting(bb, d):
+> + =C2=A0 =C2=A0if 'multiarch' in bb.data.getVar('DISTRO_FEATURES',d,1).sp=
+lit() :
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if bb.data.getVar('TARGET_ARCH', d, 1) in [ =
+'i586', 'i686' ] :
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return "--enable-targets=3Dall=
+"
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if bb.data.getVar('TARGET_ARCH', d, 1) in [ =
+'powerpc' ] :
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return "--enable-targets=3Dpow=
+erpc64"
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0if bb.data.getVar('TARGET_ARCH', d, 1) in [ =
+'sparc' ] :
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return "--enable-targets=3Dall=
+"
+> + =C2=A0 =C2=A0return ""
 
-isnt BUILD_ARCH in signature
+
+you forgot mips here
+
+> +
+> =C2=A0# We really need HOST_SYS here for some packages and TARGET_SYS for=
+ others.
+> =C2=A0# For now, libgcc is most important so we fix for that - RP.
+> =C2=A0SHLIBSDIR =3D "${STAGING_DIR_TARGET}/shlibs"
+> diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/re=
+cipes-devtools/gcc/gcc-configure-common.inc
+> index ae23e8e..d014980 100644
+> --- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+> @@ -42,7 +42,8 @@ EXTRA_OECONF =3D "${@['--enable-clocale=3Dgeneric', '']=
+[d.getVar('USE_NLS', 1) !=3D 'n
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${EXTRA_OECONF_BA=
+SE} \
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${EXTRA_OECONF_FP=
+U} \
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${EXTRA_OECONF_PA=
+THS} \
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@get_gcc_mips_=
+plt_setting(bb, d)}"
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@get_gcc_mips_=
+plt_setting(bb, d)} \
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@get_gcc_multi=
+arch_setting(bb, d)}"
+>
+> =C2=A0# Build uclibc compilers without cxa_atexit support
+> =C2=A0EXTRA_OECONF_append_linux =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =3D " --enable-__cxa_atexit"
+> --
+> Julian Pidancet
 >
 >
 > _______________________________________________
