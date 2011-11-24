@@ -1,26 +1,33 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1RTXCO-0005uX-E2
-	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Nov 2011 12:10:36 +0100
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RTX65-0001MD-2u
-	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Nov 2011 12:04:05 +0100
-From: Phil Blundell <philb@gnu.org>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RTXIs-00064H-KE for openembedded-core@lists.openembedded.org;
+	Thu, 24 Nov 2011 12:17:19 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAOBAk5W023888
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Nov 2011 11:10:46 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 23806-01 for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Nov 2011 11:10:42 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAOBAdW7023881
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Nov 2011 11:10:39 GMT
+Message-ID: <1322133045.24143.8.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Nov 2011 11:04:02 +0000
-In-Reply-To: <2C6A2DBB-2756-4475-9BBF-16A2496EB4A3@dominion.thruhere.net>
-References: <cover.1322102636.git.xiaofeng.yan@windriver.com>
-	<20d46c74e1c1de68ca86b5b7eded5ae66a142e85.1322102636.git.xiaofeng.yan@windriver.com>
-	<2C6A2DBB-2756-4475-9BBF-16A2496EB4A3@dominion.thruhere.net>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1322132645.26081.49.camel@phil-desktop>
+Date: Thu, 24 Nov 2011 11:10:45 +0000
+In-Reply-To: <cover.1321811216.git.raj.khem@gmail.com>
+References: <cover.1321811216.git.raj.khem@gmail.com>
+X-Mailer: Evolution 3.2.1- 
 Mime-Version: 1.0
-Subject: Re: [PATCH 3/9] gtk.inc: add directfb DISTRO_FEATURE
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 0/5] Fixes for uclibc based builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,43 +42,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2011 11:10:36 -0000
+X-List-Received-Date: Thu, 24 Nov 2011 11:17:19 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-11-24 at 07:38 +0100, Koen Kooi wrote:
-> Op 24 nov. 2011, om 04:06 heeft Xiaofeng Yan het volgende geschreven:
+On Sun, 2011-11-20 at 09:50 -0800, Khem Raj wrote:
+> This pull request has patches needed for core-image-sato to build with uclibc
+> gcc update needed for fixes qt4 ICE seen on armv7-a
+> Fix to matchbox to get core-image-sato building with gold linker
 > 
-> > From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-> > 
-> > gtk run over x11 at current OE-core. If gtk want to run over directfb, then \
-> > the configuration related to x11 should be disabled and directfb should be enabled.
+> The following changes since commit 0a9b1f504e685351921e27e42452f51630d64cd3:
 > 
-> Apart from this patch is messing with PACKAGES as well, I still don't believe it's true that x11 must be disabled for directfb to work
+>   gcc-4.6: Fix gcc ICE on qt4-x11-free/armv7-a (2011-11-20 09:39:36 -0800)
+> 
+> are available in the git repository at:
+>   git://git.openembedded.org/openembedded-core-contrib kraj/uclibc-updates
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/uclibc-updates
+> 
+> Khem Raj (5):
+>   matchbox-stroke: Fix linking error with gold
+>   gettext_0.18.1.1: Fix QA Issue
+>   pulseaudio-0.9.23: Fix build on uclibc
+>   netbase: Update recipe 4.46 -> 4.47
+>   gcc-4.6: Fix gcc ICE on qt4-x11-free/armv7-a
 
-[...]
+These have merged to master, apart from the matchbox-stroke change where
+I've updated to a new revision of the upstream repo instead which should
+fix the problem.
 
-> +PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
-> +           ${@base_contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)}"
-> +
-> +PACKAGECONFIG[x11] = "--with-x=yes --with-gdktarget=x11,--with-x=no,${X11DEPENDS}"
-> +PACKAGECONFIG[directfb] = "--with-gdktarget=directfb,,directfb"
+Cheers,
 
-If you're using a version of GTK+ which expects the "--with-gdktarget"
-option then I think it is true that X11 and directfb are exclusive since
-you can only have one backend enabled at a time.  There's nothing you
-can do in the recipe that will help with this, though it would be nice
-if you got a sensible diagnostic rather than one of the options just
-being silently ignored.
-
-With newer versions (3.0 and later, I think) there are separate
---enable-FOO-backend options for the different backends and you can turn
-on as many as you want at the same time.  In those versions I don't
-think --with-gdktarget will do anything useful at all so this patch
-won't work.
-
-p.
-
+Richard
 
 
 
