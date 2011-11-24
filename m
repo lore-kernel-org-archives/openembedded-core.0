@@ -1,25 +1,25 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RTPm5-00053S-IS
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RTPm8-00053W-3U
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Nov 2011 04:14:59 +0100
+	Thu, 24 Nov 2011 04:15:00 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pAO38OZY024776
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pAO38R3Y024779
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2011 19:08:24 -0800 (PST)
+	Wed, 23 Nov 2011 19:08:27 -0800 (PST)
 Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 23 Nov 2011 19:08:24 -0800
-Message-ID: <7251d8f56f0e072d3d279732c33b4a34da6ec132.1322102636.git.xiaofeng.yan@windriver.com>
+	Wed, 23 Nov 2011 19:08:26 -0800
+Message-ID: <63229c24881eb4b62f49fa93902ec1b54f089c88.1322102636.git.xiaofeng.yan@windriver.com>
 In-Reply-To: <cover.1322102636.git.xiaofeng.yan@windriver.com>
 References: <cover.1322102636.git.xiaofeng.yan@windriver.com>
-Old-Date: Wed, 23 Nov 2011 13:31:46 +0800
-Date: Thu, 24 Nov 2011 11:06:22 +0800
+Old-Date: Wed, 23 Nov 2011 13:32:36 +0800
+Date: Thu, 24 Nov 2011 11:06:25 +0800
 To: <openembedded-core@lists.openembedded.org>
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 6/9] pango: add directfb DISTRO_FEATURE
+Subject: [PATCH 7/9] directfb-examples: add package directfb-examples to OE-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,73 +34,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2011 03:14:59 -0000
+X-List-Received-Date: Thu, 24 Nov 2011 03:15:00 -0000
 Content-Type: text/plain
 
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-pango run over x11 at current OE-core. If pango want to run over directfb, then \
-the configuration related to x11 should be disabled and directfb should be enabled.
+Add this package for checking whether directfb run rightly or not.
+It also is an useful tool to test directfb.
 
 [YOCTO #1674]
 
 Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 ---
- meta/recipes-graphics/pango/pango.inc |   19 +++++++++++++++----
- 1 files changed, 15 insertions(+), 4 deletions(-)
+ .../directfb/directfb-examples_1.2.0.bb            |   20 ++++++++++++++++++++
+ 1 files changed, 20 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-graphics/directfb/directfb-examples_1.2.0.bb
 
-diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
-index 6d94e02..6822694 100644
---- a/meta/recipes-graphics/pango/pango.inc
-+++ b/meta/recipes-graphics/pango/pango.inc
-@@ -10,14 +10,24 @@ SECTION = "libs"
- LICENSE = "LGPL"
- 
- X11DEPENDS = "virtual/libx11 libxft"
--DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv gtk-doc-native cairo ${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
-+DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv gtk-doc-native cairo "
- 
- PACKAGES_DYNAMIC = "pango-module-*"
- 
- RRECOMMENDS_${PN} = "${@base_contains('DISTRO_FEATURES', 'x11', 'pango-module-basic-x', '', d)} pango-module-basic-fc" 
- 
-+PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
-+           ${@base_contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)}"
-+PACKAGECONFIG[x11] = "--with-x,--without-x,${X11DEPENDS}"
-+PACKAGECONFIG[directfb] = ",,directfb"
+diff --git a/meta/recipes-graphics/directfb/directfb-examples_1.2.0.bb b/meta/recipes-graphics/directfb/directfb-examples_1.2.0.bb
+new file mode 100644
+index 0000000..215426e
+--- /dev/null
++++ b/meta/recipes-graphics/directfb/directfb-examples_1.2.0.bb
+@@ -0,0 +1,20 @@
++DESCRIPTION = "The DirectFB-examples package contains a set of simple DirectFB \
++      applications that can be used to test and demonstrate various DirectFB \
++      features"
++DEPENDS = "directfb"
++SECTION = "libs"
++LICENSE = "MIT"
++PR = "r0"
 +
- inherit gnome
- 
-+# Create a pango-modules package
-+ALLOW_EMPTY_${BPN}-modules = "1"
-+PACKAGES += "${BPN}-modules"
-+RRECOMMENDS_${BPN}-modules =  "${@" ".join([p for p in d.getVar('PACKAGES', True).split() if p.find("pango-module") != -1])}"
++SRC_URI = " \
++           http://www.directfb.org/downloads/Extras/DirectFB-examples-${PV}.tar.gz \
++          "
 +
- EXTRA_AUTORECONF = ""
- 
- # seems to go wrong with default cflags
-@@ -25,17 +35,18 @@ FULL_OPTIMIZATION_arm = "-O2"
- 
- EXTRA_OECONF = "--disable-glibtest \
- 		--enable-explicit-deps=no \
--	        --disable-debug \
--		${@base_contains('DISTRO_FEATURES', 'x11', '--with-x', '--without-x', d)}"
-+	        --disable-debug"
- 
- LEAD_SONAME = "libpango-1.0*"
- LIBV = "1.6.0"
- 
-+# No "etc" in "${D}" except for "usr", So add "/etc/pango" in the following function. \
-+# Because "prologue + 'pango-querymodules > /etc/pango/pango.modules'" use this directory.
- postinst_prologue() {
- if [ "x$D" != "x" ]; then
-   exit 1
- fi
--
-+    [ ! -d "/etc/pango" ] && mkdir -p /etc/pango/
- }
- 
- python populate_packages_prepend () {
++LIC_FILES_CHKSUM = "file://COPYING;md5=ecf6fd2b19915afc4da56043926ca18f"
++
++S = "${WORKDIR}/DirectFB-examples-${PV}"
++
++inherit autotools
++
++SRC_URI[md5sum] = "ce018f681b469a1d72ffc32650304b98"
++SRC_URI[sha256sum] = "830a1bd6775d8680523596a88a72fd8e4c6a74bf886d3e169b06d234a5cf7e3e"
 -- 
 1.7.0.4
 
