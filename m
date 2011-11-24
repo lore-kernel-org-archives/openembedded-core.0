@@ -1,25 +1,25 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RTPm4-00052E-9H
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RTPm5-00053S-IS
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Nov 2011 04:14:57 +0100
+	Thu, 24 Nov 2011 04:14:59 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pAO38LFX024768
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pAO38OZY024776
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2011 19:08:21 -0800 (PST)
+	Wed, 23 Nov 2011 19:08:24 -0800 (PST)
 Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 23 Nov 2011 19:08:21 -0800
-Message-ID: <81d0d209d22437c74be00014c156da0fbffe7041.1322102636.git.xiaofeng.yan@windriver.com>
+	Wed, 23 Nov 2011 19:08:24 -0800
+Message-ID: <7251d8f56f0e072d3d279732c33b4a34da6ec132.1322102636.git.xiaofeng.yan@windriver.com>
 In-Reply-To: <cover.1322102636.git.xiaofeng.yan@windriver.com>
 References: <cover.1322102636.git.xiaofeng.yan@windriver.com>
-Old-Date: Wed, 23 Nov 2011 13:30:48 +0800
-Date: Thu, 24 Nov 2011 11:06:20 +0800
+Old-Date: Wed, 23 Nov 2011 13:31:46 +0800
+Date: Thu, 24 Nov 2011 11:06:22 +0800
 To: <openembedded-core@lists.openembedded.org>
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/9] cairo: add directfb DISTRO_FEATURE
+Subject: [PATCH 6/9] pango: add directfb DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,45 +39,68 @@ Content-Type: text/plain
 
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-cairo run over x11 at current OE-core. If cairo want to run over directfb, then \
+pango run over x11 at current OE-core. If pango want to run over directfb, then \
 the configuration related to x11 should be disabled and directfb should be enabled.
 
 [YOCTO #1674]
 
 Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 ---
- meta/recipes-graphics/cairo/cairo.inc |   12 +++++++++---
- 1 files changed, 9 insertions(+), 3 deletions(-)
+ meta/recipes-graphics/pango/pango.inc |   19 +++++++++++++++----
+ 1 files changed, 15 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-graphics/cairo/cairo.inc
-index 876acad..d7f7347 100644
---- a/meta/recipes-graphics/cairo/cairo.inc
-+++ b/meta/recipes-graphics/cairo/cairo.inc
-@@ -10,14 +10,20 @@ HOMEPAGE = "http://cairographics.org"
- BUGTRACKER = "http://bugs.freedesktop.org"
- SECTION = "libs"
- LICENSE = "MPL-1 & LGPLv2.1"
-+
- X11DEPENDS = "virtual/libx11 libsm libxrender"
--DEPENDS = "libpng fontconfig pixman glib-2.0 ${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
-+DEPENDS = "libpng fontconfig pixman glib-2.0"
+diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
+index 6d94e02..6822694 100644
+--- a/meta/recipes-graphics/pango/pango.inc
++++ b/meta/recipes-graphics/pango/pango.inc
+@@ -10,14 +10,24 @@ SECTION = "libs"
+ LICENSE = "LGPL"
+ 
+ X11DEPENDS = "virtual/libx11 libxft"
+-DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv gtk-doc-native cairo ${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
++DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv gtk-doc-native cairo "
+ 
+ PACKAGES_DYNAMIC = "pango-module-*"
+ 
+ RRECOMMENDS_${PN} = "${@base_contains('DISTRO_FEATURES', 'x11', 'pango-module-basic-x', '', d)} pango-module-basic-fc" 
+ 
 +PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
 +           ${@base_contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)}"
-+PACKAGECONFIG[x11] = "--with-x=yes,--without-x,${X11DEPENDS}"
-+PACKAGECONFIG[directfb] = "--enable-directfb=yes,,directfb"
++PACKAGECONFIG[x11] = "--with-x,--without-x,${X11DEPENDS}"
++PACKAGECONFIG[directfb] = ",,directfb"
 +
+ inherit gnome
  
- #check for TARGET_FPU=soft and inform configure of the result so it can disable some floating points 
- require cairo-fpu.inc
--EXTRA_OECONF += "${@get_cairo_fpu_setting(bb, d)} ${@base_contains('DISTRO_FEATURES', 'x11', '--with-x', '--without-x', d)}"
-+EXTRA_OECONF += "${@get_cairo_fpu_setting(bb, d)}"
++# Create a pango-modules package
++ALLOW_EMPTY_${BPN}-modules = "1"
++PACKAGES += "${BPN}-modules"
++RRECOMMENDS_${BPN}-modules =  "${@" ".join([p for p in d.getVar('PACKAGES', True).split() if p.find("pango-module") != -1])}"
++
+ EXTRA_AUTORECONF = ""
  
- inherit autotools pkgconfig
+ # seems to go wrong with default cflags
+@@ -25,17 +35,18 @@ FULL_OPTIMIZATION_arm = "-O2"
  
- # We don't depend on binutils so we need to disable this
--export ac_cv_lib_bfd_bfd_openr=no
-\ No newline at end of file
-+export ac_cv_lib_bfd_bfd_openr=no
+ EXTRA_OECONF = "--disable-glibtest \
+ 		--enable-explicit-deps=no \
+-	        --disable-debug \
+-		${@base_contains('DISTRO_FEATURES', 'x11', '--with-x', '--without-x', d)}"
++	        --disable-debug"
+ 
+ LEAD_SONAME = "libpango-1.0*"
+ LIBV = "1.6.0"
+ 
++# No "etc" in "${D}" except for "usr", So add "/etc/pango" in the following function. \
++# Because "prologue + 'pango-querymodules > /etc/pango/pango.modules'" use this directory.
+ postinst_prologue() {
+ if [ "x$D" != "x" ]; then
+   exit 1
+ fi
+-
++    [ ! -d "/etc/pango" ] && mkdir -p /etc/pango/
+ }
+ 
+ python populate_packages_prepend () {
 -- 
 1.7.0.4
 
