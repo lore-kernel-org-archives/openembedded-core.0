@@ -1,30 +1,30 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RTVDf-0007gT-7d
+	(envelope-from <koen@dominion.thruhere.net>) id 1RTVFz-0007my-VM
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Nov 2011 10:03:47 +0100
-Received: by ghy10 with SMTP id 10so2311010ghy.6
+	Thu, 24 Nov 2011 10:06:12 +0100
+Received: by lahe6 with SMTP id e6so42100lah.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2011 00:57:13 -0800 (PST)
-Received: by 10.152.104.6 with SMTP id ga6mr16733294lab.45.1322125033086;
-	Thu, 24 Nov 2011 00:57:13 -0800 (PST)
+	Thu, 24 Nov 2011 00:59:39 -0800 (PST)
+Received: by 10.152.135.179 with SMTP id pt19mr16631112lab.47.1322125179116;
+	Thu, 24 Nov 2011 00:59:39 -0800 (PST)
 Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
 	[84.80.112.235])
-	by mx.google.com with ESMTPS id jb5sm18594722lab.15.2011.11.24.00.57.11
+	by mx.google.com with ESMTPS id pc8sm18619471lab.8.2011.11.24.00.59.36
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 24 Nov 2011 00:57:12 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
+	Thu, 24 Nov 2011 00:59:37 -0800 (PST)
 Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Thu, 24 Nov 2011 09:57:07 +0100
-In-Reply-To: <4ECDF204.7000105@windriver.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1322102636.git.xiaofeng.yan@windriver.com>	<20d46c74e1c1de68ca86b5b7eded5ae66a142e85.1322102636.git.xiaofeng.yan@windriver.com>
-	<2C6A2DBB-2756-4475-9BBF-16A2496EB4A3@dominion.thruhere.net>
-	<4ECDF204.7000105@windriver.com>
-Message-Id: <F5319183-E0F5-441F-8F19-6F8EC45D3335@dominion.thruhere.net>
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <d5ab9354f38a3cdecfedaf734ffb48aa969a8541.1322120651.git.dvhart@linux.intel.com>
+Date: Thu, 24 Nov 2011 09:59:34 +0100
+Message-Id: <B17E0298-4C9C-461A-A713-ADEE9771F8F0@dominion.thruhere.net>
+References: <cover.1322120651.git.dvhart@linux.intel.com>
+	<d5ab9354f38a3cdecfedaf734ffb48aa969a8541.1322120651.git.dvhart@linux.intel.com>
+To: Darren Hart <dvhart@linux.intel.com>
 X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH 3/9] gtk.inc: add directfb DISTRO_FEATURE
+Cc: Josef Ahmad <josef.ahmad@intel.com>, Chris Larson <clarson@kergoth.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH 1/5] grub-efi-native: New recipe to build GRUB EFI images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,55 +39,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2011 09:03:47 -0000
-X-Groupsio-MsgNum: 12879
+X-List-Received-Date: Thu, 24 Nov 2011 09:06:12 -0000
+X-Groupsio-MsgNum: 12880
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_783030BA-33CB-45A5-A335-A155107D2D72";
+	boundary="Apple-Mail=_0FB32C37-B96D-488D-BFDB-18E7CD63BB32";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_783030BA-33CB-45A5-A335-A155107D2D72
+--Apple-Mail=_0FB32C37-B96D-488D-BFDB-18E7CD63BB32
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
-	charset=utf-8
+	charset=us-ascii
 
 
-Op 24 nov. 2011, om 08:28 heeft Xiaofeng Yan het volgende geschreven:
+Op 24 nov. 2011, om 09:05 heeft Darren Hart het volgende geschreven:
 
-> On 2011=E5=B9=B411=E6=9C=8824=E6=97=A5 14:38, Koen Kooi wrote:
->> Op 24 nov. 2011, om 04:06 heeft Xiaofeng Yan het volgende geschreven:
->>=20
->>=20
->>> From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
->>>=20
->>>=20
->>> gtk run over x11 at current OE-core. If gtk want to run over =
-directfb, then \
->>> the configuration related to x11 should be disabled and directfb =
-should be enabled.
->>>=20
->> Apart from this patch is messing with PACKAGES as well, I still don't =
-believe it's true that x11 must be disabled for directfb to work
->>=20
->>=20
->>=20
-> As what I explained yesterday, One main goal of this image is to =
-remove the stuff related to x11 because I want to build an image only =
-based on directfb and run gtk over directfb. =20
+> Add a recipe to build the GRUB efi images. This recipe is written as
+> a native recipe as the resulting GRUB utils are required to assemble
+> the final image. Rather than build a native and a target recipe (and
+> increase build times),=20
 
-And you can do that perfectly well without disabling x11.
-
-> you know, directfb as a graphic library is enough in many embedded =
-development. It has many advantages in embedded field like digital =
-television, set-top box, ...  Of course, it has its defect in other =
-aspect. So x11 is not needed in this image.  I just don't want to let =
-user to take too much time for building an image including directfb with =
-no x11 during developing product.=20
-
-I still don't see a decent reason for disabling x11 for directfb
+That's a false dilemma. If you write it as a regular recipe with =
+BBCLASSEXTEND=3Dnative your buildtime doesn't increase and you leave =
+open the option of adding more BBCLASSEXTENDS if someone wants to ship =
+it in an SDK.
 
 
 
---Apple-Mail=_783030BA-33CB-45A5-A335-A155107D2D72
+--Apple-Mail=_0FB32C37-B96D-488D-BFDB-18E7CD63BB32
 Content-Transfer-Encoding: 7bit
 Content-Disposition: inline;
 	filename=signature.asc
@@ -97,9 +75,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 
 -----BEGIN PGP SIGNATURE-----
 
-iEYEARECAAYFAk7OBuYACgkQMkyGM64RGpF4swCbBoyqHjt9tWgPAwogTb28G2wx
-FMwAniE/64b90fsV9bhKRqRU243yfnwv
-=g1YY
+iEYEARECAAYFAk7OB3cACgkQMkyGM64RGpHHXgCeJJ0ueD3QiICfulGbfcy7Ou+1
+QYUAoLzUevxNkyt14ZHB+r3wVc3xfzGP
+=bQ7p
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_783030BA-33CB-45A5-A335-A155107D2D72--
+--Apple-Mail=_0FB32C37-B96D-488D-BFDB-18E7CD63BB32--
