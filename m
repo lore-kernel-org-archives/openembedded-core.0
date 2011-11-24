@@ -1,24 +1,31 @@
-Received: from mail.geekisp.com ([216.168.135.169] helo=starfish.geekisp.com)
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philip@balister.org>) id 1RTckW-0004Bv-8a
+	(envelope-from <dvhart@linux.intel.com>) id 1RTcyt-0004fl-Fj
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Nov 2011 18:06:14 +0100
-Received: (qmail 13333 invoked by uid 1003); 24 Nov 2011 16:59:38 -0000
-Received: from unknown (HELO ?192.168.1.104?) (philip@opensdr.com@96.240.172.5)
-	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
-	24 Nov 2011 16:59:38 -0000
-Message-ID: <4ECE77F9.5090703@balister.org>
-Date: Thu, 24 Nov 2011 11:59:37 -0500
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.24) Gecko/20111108 Fedora/3.1.16-1.fc14 Thunderbird/3.1.16
+	Thu, 24 Nov 2011 18:21:03 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 24 Nov 2011 09:14:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,565,1315206000"; d="scan'208";a="78895914"
+Received: from unknown (HELO envy.home) ([10.255.15.250])
+	by azsmga001.ch.intel.com with ESMTP; 24 Nov 2011 09:14:28 -0800
+Message-ID: <4ECE7B78.706@linux.intel.com>
+Date: Thu, 24 Nov 2011 09:14:32 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <4ECBE307.1080600@linaro.org>
-In-Reply-To: <4ECBE307.1080600@linaro.org>
-X-Enigmail-Version: 1.1.2
-Subject: Re: Getting started on creating a layer for OE-Core
+To: Koen Kooi <koen@dominion.thruhere.net>
+References: <cover.1322120651.git.dvhart@linux.intel.com>
+	<d5ab9354f38a3cdecfedaf734ffb48aa969a8541.1322120651.git.dvhart@linux.intel.com>
+	<B17E0298-4C9C-461A-A713-ADEE9771F8F0@dominion.thruhere.net>
+	<1322133994.24143.15.camel@ted>
+	<EE779348-2CFB-4ABE-BEEE-96E34470DFFD@dominion.thruhere.net>
+In-Reply-To: <EE779348-2CFB-4ABE-BEEE-96E34470DFFD@dominion.thruhere.net>
+X-Enigmail-Version: 1.3.3
+Cc: Josef Ahmad <josef.ahmad@intel.com>, Chris Larson <clarson@kergoth.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH 1/5] grub-efi-native: New recipe to build GRUB EFI images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,35 +40,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2011 17:06:14 -0000
+X-List-Received-Date: Thu, 24 Nov 2011 17:21:03 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On 11/22/2011 12:59 PM, Ken Werner wrote:
-> Hi,
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+
+
+On 11/24/2011 08:51 AM, Koen Kooi wrote:
 > 
-> I'm currently reading the OpenEmbedded User Manual and wondering what's
-> the best way to add a layer for the Linaro toolchain components (Linaro
-> GCC, Linaro GDB). This is my first time with OE. I just setup the
-> environment and started to build an image that targets qemuarm (bitbake
-> is still building). Any suggestions or general help is much appreciated.
+> Op 24 nov. 2011, om 12:26 heeft Richard Purdie het volgende 
+> geschreven:
+> 
+>> On Thu, 2011-11-24 at 09:59 +0100, Koen Kooi wrote:
+>>> Op 24 nov. 2011, om 09:05 heeft Darren Hart het volgende 
+>>> geschreven:
+>>> 
+>>>> Add a recipe to build the GRUB efi images. This recipe is 
+>>>> written as a native recipe as the resulting GRUB utils are 
+>>>> required to assemble the final image. Rather than build a 
+>>>> native and a target recipe (and increase build times),
+>>> 
+>>> That's a false dilemma. If you write it as a regular recipe
+>>> with BBCLASSEXTEND=native your buildtime doesn't increase
+>> 
+>> That isn't true, if you build a target and a native version your 
+>> build time does increase. Using BBCLASSEXTEND does improve
+>> parsing time over having two separate recipes though.
+> 
+> Are you really saying that 'bitbake grub-native' will build both 
+> versions if you use BBCLASSEXTEND!?!?! If not, it remains a false 
+> dilemma.
 
-Can you comment on what you expect to get out of the Linaro toolchain layer?
+No, that isn't it. Because of the way grub builds, you need the utils
+in HOST_ARCH and the grub modules in TARGET_ARCH. Grub has a
+monolithic build system, so in order to do this with BBCLASSEXTEND, we
+would need to have grub-efi depend on grub-efi-native so that the
+final do_mkimage task could use the -native version of grub-mkimage to
+assemble the target-built modules into a final binary.
 
-As had been noted here, OE already has some of the Linaro work in the
-toolchains. However, we have had issues with some patches so we can't
-run a "complete Linaro toolchain". (Toolchain guys, correct me if I am
-wrong)
+This approach builds grub natively and sets the --target to the
+TARGET_ARCH so the modules are built for the target. This is why I'm
+making the distinction between build the grub tools for deployment and
+building the grub efi boot image. The approach to each is different,
+and this recipe generates the boot image for the target.
 
-From my perspective, the Linaro work is great (I primarily use Cortex-A8
-devices), but my understanding is that due to Linaro's focus on advanced
-ARM processors, regressions for other architectures and older arms can
-occur.
 
-So I see the point of a dedicated Linaro tool layer being an excellent
-vehicle for testing Linaro's work on a diverse set of machines to make
-life easier for people using Linaro's work on other architectures.
+- -- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org/
 
-Philip
+iQEcBAEBAgAGBQJOznttAAoJEKbMaAwKp364dG0H/0tScwNt0pc9gHDXDELdhCvp
+JGJ8soO+yWgksG9o/p077oysd7HMm24Tq//m7FuRzgm0D2JymYwPwdLe06mA1ARs
+BpwtvltUW5SLaWzJVeamxeNn5cDpdIcyaa904BdS2Ink/alZgTdoV60qh9LvElIh
+P70Pb/GeV/Po5OLALmnYuEV39JPnRxz7RfaXr7qU/0e0JVGKxXa/hrBp8ZgzpYI4
+WvGns2LrZRPi/Fp93Vc312NfZYa2y/s9H8ji+B2Nvdza99Zo9y4xtWSf9bDRn+4J
+04Kw/CFUe4GqXrIoBATLvm8LmcS/fLaqtVY5Ewz5bSnPFRvXyYApmmNvWpy5hGs=
+=LaXk
+-----END PGP SIGNATURE-----
 
 
