@@ -1,32 +1,24 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail.geekisp.com ([216.168.135.169] helo=starfish.geekisp.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RTccK-0003aY-S7
+	(envelope-from <philip@balister.org>) id 1RTckW-0004Bv-8a
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Nov 2011 17:57:45 +0100
-Received: by bkbzs2 with SMTP id zs2so3001916bkb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2011 08:51:11 -0800 (PST)
-Received: by 10.204.156.12 with SMTP id u12mr22108299bkw.8.1322153471307;
-	Thu, 24 Nov 2011 08:51:11 -0800 (PST)
-Received: from [10.0.2.4] (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
-	by mx.google.com with ESMTPS id g15sm6274263faf.7.2011.11.24.08.51.09
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 24 Nov 2011 08:51:10 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1322133994.24143.15.camel@ted>
-Date: Thu, 24 Nov 2011 17:51:10 +0100
-Message-Id: <EE779348-2CFB-4ABE-BEEE-96E34470DFFD@dominion.thruhere.net>
-References: <cover.1322120651.git.dvhart@linux.intel.com>
-	<d5ab9354f38a3cdecfedaf734ffb48aa969a8541.1322120651.git.dvhart@linux.intel.com>
-	<B17E0298-4C9C-461A-A713-ADEE9771F8F0@dominion.thruhere.net>
-	<1322133994.24143.15.camel@ted>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.1251.1)
-Cc: Josef Ahmad <josef.ahmad@intel.com>, Darren Hart <dvhart@linux.intel.com>,
-	Chris Larson <clarson@kergoth.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH 1/5] grub-efi-native: New recipe to build GRUB EFI images
+	Thu, 24 Nov 2011 18:06:14 +0100
+Received: (qmail 13333 invoked by uid 1003); 24 Nov 2011 16:59:38 -0000
+Received: from unknown (HELO ?192.168.1.104?) (philip@opensdr.com@96.240.172.5)
+	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
+	24 Nov 2011 16:59:38 -0000
+Message-ID: <4ECE77F9.5090703@balister.org>
+Date: Thu, 24 Nov 2011 11:59:37 -0500
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.24) Gecko/20111108 Fedora/3.1.16-1.fc14 Thunderbird/3.1.16
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <4ECBE307.1080600@linaro.org>
+In-Reply-To: <4ECBE307.1080600@linaro.org>
+X-Enigmail-Version: 1.1.2
+Subject: Re: Getting started on creating a layer for OE-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,54 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2011 16:57:45 -0000
-X-Groupsio-MsgNum: 12907
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_D6D7E08D-EA0E-4B0A-A472-8F5B486D8127";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_D6D7E08D-EA0E-4B0A-A472-8F5B486D8127
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-Op 24 nov. 2011, om 12:26 heeft Richard Purdie het volgende geschreven:
-
-> On Thu, 2011-11-24 at 09:59 +0100, Koen Kooi wrote:
->> Op 24 nov. 2011, om 09:05 heeft Darren Hart het volgende geschreven:
->>=20
->>> Add a recipe to build the GRUB efi images. This recipe is written as
->>> a native recipe as the resulting GRUB utils are required to assemble
->>> the final image. Rather than build a native and a target recipe (and
->>> increase build times),=20
->>=20
->> That's a false dilemma. If you write it as a regular recipe with
->> BBCLASSEXTEND=3Dnative your buildtime doesn't increase
->=20
-> That isn't true, if you build a target and a native version your build
-> time does increase. Using BBCLASSEXTEND does improve parsing time over
-> having two separate recipes though.
-
-Are you really saying that 'bitbake grub-native' will build both =
-versions if you use BBCLASSEXTEND!?!?! If not, it remains a false =
-dilemma.
-
-
-
---Apple-Mail=_D6D7E08D-EA0E-4B0A-A472-8F5B486D8127
+X-List-Received-Date: Thu, 24 Nov 2011 17:06:14 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
+On 11/22/2011 12:59 PM, Ken Werner wrote:
+> Hi,
+> 
+> I'm currently reading the OpenEmbedded User Manual and wondering what's
+> the best way to add a layer for the Linaro toolchain components (Linaro
+> GCC, Linaro GDB). This is my first time with OE. I just setup the
+> environment and started to build an image that targets qemuarm (bitbake
+> is still building). Any suggestions or general help is much appreciated.
 
-iEYEARECAAYFAk7Odf8ACgkQMkyGM64RGpEKpgCfbmr/8HDLrLXD/oLaofxt6IFi
-iSIAoJGuYPqVlJe5vYaiLoS+94VCXHW/
-=zu20
------END PGP SIGNATURE-----
+Can you comment on what you expect to get out of the Linaro toolchain layer?
 
---Apple-Mail=_D6D7E08D-EA0E-4B0A-A472-8F5B486D8127--
+As had been noted here, OE already has some of the Linaro work in the
+toolchains. However, we have had issues with some patches so we can't
+run a "complete Linaro toolchain". (Toolchain guys, correct me if I am
+wrong)
+
+From my perspective, the Linaro work is great (I primarily use Cortex-A8
+devices), but my understanding is that due to Linaro's focus on advanced
+ARM processors, regressions for other architectures and older arms can
+occur.
+
+So I see the point of a dedicated Linaro tool layer being an excellent
+vehicle for testing Linaro's work on a diverse set of machines to make
+life easier for people using Linaro's work on other architectures.
+
+Philip
+
+
