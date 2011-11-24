@@ -1,29 +1,35 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RTT3E-0001e4-4P
+	(envelope-from <raj.khem@gmail.com>) id 1RTTjI-0007EC-SQ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Nov 2011 07:44:52 +0100
-Received: by wwo1 with SMTP id 1so2685695wwo.24
+	Thu, 24 Nov 2011 08:28:20 +0100
+Received: by faat2 with SMTP id t2so2616781faa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Nov 2011 22:38:19 -0800 (PST)
-Received: by 10.180.5.234 with SMTP id v10mr27204923wiv.44.1322116699243;
-	Wed, 23 Nov 2011 22:38:19 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id bl10sm9034389wib.15.2011.11.23.22.38.17
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 23 Nov 2011 22:38:18 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Thu, 24 Nov 2011 07:38:13 +0100
-In-Reply-To: <20d46c74e1c1de68ca86b5b7eded5ae66a142e85.1322102636.git.xiaofeng.yan@windriver.com>
-To: Patches and discussions about the oe-core layer
+	Wed, 23 Nov 2011 23:21:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=G4dX9Eb+RnMpZrbxZ0zDlAytPe4STU2qifN4g1+RRlo=;
+	b=Eln6ncKhEo+KnpzS2Vd5muNHGGsZ/nRSinZoWrgMVpo7bntbU6wImPowTWIQrdtof8
+	57txCotJpsuWr3M1O5Dz+cN/1tIL3FpzCYAnVNtbMOpFFVv/UD25n9bweOKWpCxx0ZOV
+	wa7mkGaoSg2Ik/RByugWONKYivJOW8HYVM1g8=
+Received: by 10.152.132.39 with SMTP id or7mr16489628lab.14.1322119308104;
+	Wed, 23 Nov 2011 23:21:48 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.152.24.36 with HTTP; Wed, 23 Nov 2011 23:21:18 -0800 (PST)
+In-Reply-To: <CAEsOVNe-AvQ-DXUH-TMZFtmmAJ0oqSRveh+ovC-qvttrpguARg@mail.gmail.com>
+References: <1322041226-10075-1-git-send-email-msm@freescale.com>
+	<CAMKF1sqdUPP1=3wiAMTD+Jmf8mbJyDXq4GT7Ho06=mBee92pPw@mail.gmail.com>
+	<CAEsOVNd+AuWWwHQAWmeyJ0jnNaVm2522pO_ykVdqzc1X9m96Tg@mail.gmail.com>
+	<CAMKF1sov7U1oRZYDyBdWT3uYr1_P0+pAJxU7kLVsDfngJhG16Q@mail.gmail.com>
+	<CAEsOVNe22kPLsNn0pmkuSycHwNfO6AFgJGxqMb=ex+VamAK9hw@mail.gmail.com>
+	<CAEsOVNe-AvQ-DXUH-TMZFtmmAJ0oqSRveh+ovC-qvttrpguARg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 23 Nov 2011 23:21:18 -0800
+Message-ID: <CAMKF1sr8RdXbS3po2fz+e_Q9oKt133QmdJzs=+idSdeQ7MEWnQ@mail.gmail.com>
+To: McClintock Matthew-B29882 <B29882@freescale.com>, 
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1322102636.git.xiaofeng.yan@windriver.com>
-	<20d46c74e1c1de68ca86b5b7eded5ae66a142e85.1322102636.git.xiaofeng.yan@windriver.com>
-Message-Id: <2C6A2DBB-2756-4475-9BBF-16A2496EB4A3@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH 3/9] gtk.inc: add directfb DISTRO_FEATURE
+Subject: Re: [RFC] gcc-cross.inc: Add depedency on BUILD_ARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,111 +44,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2011 06:44:52 -0000
-X-Groupsio-MsgNum: 12866
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_1416C3C2-AE56-45F0-B34E-35A371ADA20E";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Thu, 24 Nov 2011 07:28:20 -0000
+Content-Type: text/plain; charset=UTF-8
 
---Apple-Mail=_1416C3C2-AE56-45F0-B34E-35A371ADA20E
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+On Wed, Nov 23, 2011 at 7:55 PM, McClintock Matthew-B29882
+<B29882@freescale.com> wrote:
+> On Wed, Nov 23, 2011 at 9:54 PM, Matthew McClintock <msm@freescale.com> wrote:
+>> On Wed, Nov 23, 2011 at 9:37 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>>>> isnt BUILD_ARCH in signature
+>>>>
+>>>> This is a TARGET recipe, so it should *not* be right?
+>>>
+>>> no this is a cross recipe.
+>>
+>> This is built in tmp/work/ppce5500-fsl-linux/gcc-cross-*
+>>
+>> That's a TARGET package, even though it run on on the HOST... changing
+>> from x86 to X86-64 causes problems - hence the whole problem?
+>
+> Actually the reverse causes the problem: x86-64 to x86... because the
+> packages won't be recompiled and the 64bit stuff won't run on 32bit
+> host?
+>
 
-
-Op 24 nov. 2011, om 04:06 heeft Xiaofeng Yan het volgende geschreven:
-
-> From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
->=20
-> gtk run over x11 at current OE-core. If gtk want to run over directfb, =
-then \
-> the configuration related to x11 should be disabled and directfb =
-should be enabled.
-
-Apart from this patch is messing with PACKAGES as well, I still don't =
-believe it's true that x11 must be disabled for directfb to work
-
-
-
->=20
-> [YOCTO #1674]
->=20
-> Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-> ---
-> meta/recipes-gnome/gtk+/gtk+.inc |   20 ++++++++++++++++----
-> 1 files changed, 16 insertions(+), 4 deletions(-)
->=20
-> diff --git a/meta/recipes-gnome/gtk+/gtk+.inc =
-b/meta/recipes-gnome/gtk+/gtk+.inc
-> index 0e5c45c..926f7dd 100644
-> --- a/meta/recipes-gnome/gtk+/gtk+.inc
-> +++ b/meta/recipes-gnome/gtk+/gtk+.inc
-> @@ -9,13 +9,20 @@ LICENSE =3D "LGPLv2 & LGPLv2+ & LGPLv2.1+"
-> LIC_FILES_CHKSUM =3D =
-"file://COPYING;md5=3D3bf50002aefd002f49e7bb854063f7e7"
->=20
-> SECTION =3D "libs"
-> -DEPENDS =3D "glib-2.0 pango atk jpeg libpng libxext libxcursor \
-> -           gtk-doc-native docbook-utils-native libxrandr libgcrypt \
-> -           libxdamage libxrender libxcomposite cairo gdk-pixbuf"
-> +X11DEPENDS =3D "virtual/libx11 libxext libxcursor libxrandr =
-libxdamage libxrender libxcomposite"
-> +
-> +DEPENDS =3D "glib-2.0 pango atk jpeg libpng gtk-doc-native =
-gdk-pixbuf-native docbook-utils-native \
-> +           libgcrypt cairo gdk-pixbuf"
-> +
-> +PACKAGECONFIG ??=3D "${@base_contains('DISTRO_FEATURES', 'x11', =
-'x11', '', d)} \
-> +           ${@base_contains('DISTRO_FEATURES', 'directfb', =
-'directfb', '', d)}"
-> +
-> +PACKAGECONFIG[x11] =3D "--with-x=3Dyes =
---with-gdktarget=3Dx11,--with-x=3Dno,${X11DEPENDS}"
-> +PACKAGECONFIG[directfb] =3D "--with-gdktarget=3Ddirectfb,,directfb"
->=20
-> inherit autotools pkgconfig
->=20
-> -PACKAGES +=3D "libgail"
-> +PACKAGES +=3D "libgail gtk-demo"
->=20
-> FILES_${PN} =3D "${bindir}/gtk-update-icon-cache \
-> 	${bindir}/gtk-query-immodules-2.0 \
-> @@ -40,6 +47,11 @@ FILES_${PN}-dbg +=3D " \
-> 	${libdir}/gtk-2.0/${LIBV}/engines/.debug/* \
-> 	${libdir}/gtk-2.0/${LIBV}/printbackends/.debug/*"
->=20
-> +FILES_gtk-demo =3D " \
-> +        ${datadir}/gtk-2.0/demo/* \
-> +        ${bindir}/gtk-demo \
-> +        "
-> +
-> FILES_libgail =3D " \
-> 	${libdir}/gtk-2.0/modules/libgail.so \
-> 	${libdir}/gtk-2.0/modules/libferret.so \
-> --=20
-> 1.7.0.4
->=20
->=20
+hmmm I guess cross recipes are special they should not have been built
+under target recipes. Adding build arch to package name would be ok
+too but may be if they were built under directory of their own which
+was something like <build>-<host>-<target> then it would also solve
+the problem i think
+> -M
+>
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
---Apple-Mail=_1416C3C2-AE56-45F0-B34E-35A371ADA20E
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-
-iEYEARECAAYFAk7N5lgACgkQMkyGM64RGpFpegCglqcTxGvnvXyLQbPCG2tvP7gW
-cEkAn0f5eSHLgubW7Lfr3Q+WxyvOYkdU
-=dadH
------END PGP SIGNATURE-----
-
---Apple-Mail=_1416C3C2-AE56-45F0-B34E-35A371ADA20E--
