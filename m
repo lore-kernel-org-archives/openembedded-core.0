@@ -1,44 +1,23 @@
-Received: from db3ehsobe002.messaging.microsoft.com ([213.199.154.140]
-	helo=DB3EHSOBE002.bigfish.com)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RTNy0-00011W-Nw
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RTPlq-0004uI-NK
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Nov 2011 02:19:08 +0100
-Received: from mail102-db3-R.bigfish.com (10.3.81.248) by
-	DB3EHSOBE002.bigfish.com (10.3.84.22) with Microsoft SMTP Server id
-	14.1.225.22; Thu, 24 Nov 2011 01:11:55 +0000
-Received: from mail102-db3 (localhost [127.0.0.1])	by
-	mail102-db3-R.bigfish.com (Postfix) with ESMTP id 1F64E2C0195;
-	Thu, 24 Nov 2011 01:12:13 +0000 (UTC)
-X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail102-db3 (localhost.localdomain [127.0.0.1]) by mail102-db3
-	(MessageSwitch) id 132209713338844_15343;
-	Thu, 24 Nov 2011 01:12:13 +0000 (UTC)
-Received: from DB3EHSMHS017.bigfish.com (unknown [10.3.81.240])	by
-	mail102-db3.bigfish.com (Postfix) with ESMTP id 04779340046;
-	Thu, 24 Nov 2011 01:12:13 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS017.bigfish.com
-	(10.3.87.117) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Thu, 24 Nov 2011 01:11:54 +0000
-Received: from az33smr02.freescale.net (10.64.34.200) by
-	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
-	Server id 14.1.339.2; Wed, 23 Nov 2011 19:12:32 -0600
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
-	by az33smr02.freescale.net (8.13.1/8.13.0) with ESMTP id
-	pAO1CVN4014039; Wed, 23 Nov 2011 19:12:31 -0600 (CST)
-From: Matthew McClintock <msm@freescale.com>
-To: <openembedded-core@lists.openembedded.org>, <sgw@linux.intel.com>
-Date: Wed, 23 Nov 2011 19:12:31 -0600
-Message-ID: <1322097151-27144-1-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.6.1
-In-Reply-To: <4ECD94DF.6010506@linux.intel.com>
-References: <4ECD94DF.6010506@linux.intel.com>
+	Thu, 24 Nov 2011 04:14:43 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pAO389Sw024748
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Nov 2011 19:08:09 -0800 (PST)
+Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Wed, 23 Nov 2011 19:08:08 -0800
+Message-ID: <cover.1322102636.git.xiaofeng.yan@windriver.com>
+Old-Date: Thu, 24 Nov 2011 10:43:56 +0800
+Date: Thu, 24 Nov 2011 11:06:07 +0800
+To: <openembedded-core@lists.openembedded.org>
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH] Nothing uses USERNAME, remove it - can cause sstate-cache conflicts
+Subject: [PATCH 0/9] The patches to run gtk over directfb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,33 +32,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2011 01:19:08 -0000
+X-List-Received-Date: Thu, 24 Nov 2011 03:14:43 -0000
 Content-Type: text/plain
 
-USER is the correct variable to use, also this can affect sstate
-cache as well.
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-Signed-off-by: Matthew McClintock <msm@freescale.com>
+Hi Saul,
+
+I fix some problems you raised on the basis of previous submitting.
+1 Ignore PR bumps for some recipes
+  There is no PR in gconf and I add it.
+2 Add discription to directfb-examples and change its license.
+  I read README of directfb-examples and its  license is MIT.
+
+
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: xiaofeng/gtk+-directfb
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/gtk+-directfb
+
+Thanks,
+    Xiaofeng Yan <xiaofeng.yan@windriver.com>
 ---
- meta/conf/bitbake.conf |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 01f064c..cb70a49 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -735,7 +735,7 @@ TRANSLATED_TARGET_ARCH ??= "${@d.getVar('TARGET_ARCH', True).replace("_", "-")}"
- # Setup our default hash policy
- BB_SIGNATURE_HANDLER ?= "basic"
- BB_HASHTASK_WHITELIST ?= "(.*-cross$|.*-native$|.*-cross-initial$|.*-cross-intermediate$|^virtual:native:.*|^virtual:nativesdk:.*)"
--BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM USER FILESPATH USERNAME STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE"
-+BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE"
- 
- MLPREFIX ??= ""
- MULTILIB_VARIANTS ??= ""
--- 
-1.7.6.1
 
+Xiaofeng Yan (9):
+  qemu-config: Disable dbus-x11 when no x11 in DISTRO_FEATURES
+  gconf: Disable dbus-x11 when x11 isn't in DISTRO_FEATURES
+  gtk.inc: add directfb DISTRO_FEATURE
+  gtk+: add demos to the configuation of gtk+
+  cairo: add directfb DISTRO_FEATURE
+  pango: add directfb DISTRO_FEATURE
+  directfb-examples: add package directfb-examples to OE-core
+  task-gtk-directfb.bb: Add task list to run gtk over directfb
+  core-image-gtk-directfb.bb: add an image for gtk over directfb
+
+ meta/recipes-bsp/qemu-config/qemu-config.bb        |    4 +-
+ meta/recipes-gnome/gnome/gconf_3.2.3.bb            |    7 ++++-
+ meta/recipes-gnome/gtk+/gtk+.inc                   |   20 ++++++++++++---
+ meta/recipes-gnome/gtk+/gtk+_2.24.6.bb             |    7 ++++-
+ meta/recipes-graphics/cairo/cairo.inc              |   12 +++++++--
+ .../directfb/directfb-examples_1.2.0.bb            |   20 +++++++++++++++
+ .../images/core-image-gtk-directfb.bb              |   21 ++++++++++++++++
+ meta/recipes-graphics/pango/pango.inc              |   19 +++++++++++---
+ meta/recipes-graphics/tasks/task-gtk-directfb.bb   |   26 ++++++++++++++++++++
+ 9 files changed, 120 insertions(+), 16 deletions(-)
+ create mode 100644 meta/recipes-graphics/directfb/directfb-examples_1.2.0.bb
+ create mode 100644 meta/recipes-graphics/images/core-image-gtk-directfb.bb
+ create mode 100644 meta/recipes-graphics/tasks/task-gtk-directfb.bb
 
 
 
