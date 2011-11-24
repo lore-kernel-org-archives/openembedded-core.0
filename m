@@ -1,30 +1,41 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RTbET-0000Zv-FH for openembedded-core@lists.openembedded.org;
-	Thu, 24 Nov 2011 16:29:01 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAOFMNcs026061
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2011 15:22:23 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 25810-04 for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2011 15:22:18 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAOFMFA0026054
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2011 15:22:16 GMT
-Message-ID: <1322148141.10928.0.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Nov 2011 15:22:21 +0000
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] avahi-ui: Fix packaging and conflict with the avahi recipe
+Received: from mga14.intel.com ([143.182.124.37])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <dexuan.cui@intel.com>) id 1RTbTZ-00018i-Jp
+	for openembedded-core@lists.openembedded.org;
+	Thu, 24 Nov 2011 16:44:37 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 24 Nov 2011 07:38:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,565,1315206000"; d="scan'208";a="40889049"
+Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
+	by AZSMGA002.ch.intel.com with ESMTP; 24 Nov 2011 07:38:02 -0800
+Received: from pgsmsx102.gar.corp.intel.com (10.221.44.80) by
+	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Thu, 24 Nov 2011 23:38:01 +0800
+Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
+	PGSMSX102.gar.corp.intel.com (10.221.44.80) with Microsoft SMTP Server
+	(TLS) id 14.1.355.2; Thu, 24 Nov 2011 23:38:01 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
+	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
+	Thu, 24 Nov 2011 23:38:00 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 24 Nov 2011 23:37:59 +0800
+Thread-Topic: [OE-core] [PATCH 2/4] gcc-package-target.inc: add the symbol
+	link /lib/cpp
+Thread-Index: Acyqm0Nbee7mIZAvQ++MQthQj3hC/gAIOCxA
+Message-ID: <1865303E0DED764181A9D882DEF65FB6E81DE4410E@shsmsx502.ccr.corp.intel.com>
+References: <cover.1322128489.git.dexuan.cui@intel.com>
+	<d4724b4050931ff51499a8808287f04b0091e93e.1322128489.git.dexuan.cui@intel.com>
+	<1322133692.24143.10.camel@ted>
+In-Reply-To: <1322133692.24143.10.camel@ted>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: zh-CN, en-US
+MIME-Version: 1.0
+Subject: Re: [PATCH 2/4] gcc-package-target.inc: add the symbol link /lib/cpp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,82 +50,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2011 15:29:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 24 Nov 2011 15:44:37 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-We need to remove the files from avahi-ui which conflict with the avahi recipe.
-If we don't do this they trigger packaging warnings and can also overwrite
-files in the sysroot unexpectedly causing build failures (if X depends on
-avahi, it expects avahi's files to stay there, not disappear as avahi-ui
-build/stages).
+Richard Purdie wrote on 2011-11-24:
+> On Thu, 2011-11-24 at 18:08 +0800, Dexuan Cui wrote:
+>> --- a/meta/recipes-devtools/gcc/gcc-package-target.inc
+>> +++ b/meta/recipes-devtools/gcc/gcc-package-target.inc
+>> @@ -122,6 +122,8 @@ do_install () {
+>>  	ln -sf ${TARGET_PREFIX}g++ g++
+>>  	ln -sf ${TARGET_PREFIX}gcc gcc
+>>  	ln -sf ${TARGET_PREFIX}cpp cpp
+>> +	install -d ${D}${base_libdir}
+>> +	ln -sf ${bindir}/${TARGET_PREFIX}cpp ${D}${base_libdir}/cpp
+>>  	ln -sf g++ c++
+>>  	ln -sf gcc cc
+>=20
+> Why do we need this change?
+When I was trying self-hosted-image, eglibc's do_install failed in the targ=
+et:
+ERROR: cannot stat bootparam_prot.h: the cause is: rpcgen doesn't work prop=
+erly: rpcgen can't exec /lib/cpp since it doesn't exist.
 
-This patch cleans up the packaging although I wish there were an alternative
-to the do_install which makes my eyes bleed.
+According to http://tldp.org/LDP/Linux-Filesystem-Hierarchy/html/lib.html, =
+ "if a C preprocessor is installed, /lib/cpp must be a reference to it, for=
+ historical reasons. The usual placement of this binary is /usr/bin/cpp".
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-connectivity/avahi/avahi-ui_0.6.30.bb b/meta/recipes-connectivity/avahi/avahi-ui_0.6.30.bb
-index e0733a9..c903087 100644
---- a/meta/recipes-connectivity/avahi/avahi-ui_0.6.30.bb
-+++ b/meta/recipes-connectivity/avahi/avahi-ui_0.6.30.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1 \
- 
- require avahi.inc
- 
--PR = "${INC_PR}.0"
-+PR = "${INC_PR}.1"
- 
- DEPENDS += "avahi gtk+ libglade"
- 
-@@ -14,7 +14,7 @@ AVAHI_GTK = "--enable-gtk --disable-gtk3"
- 
- S = "${WORKDIR}/avahi-${PV}"
- 
--PACKAGES = "${PN} ${PN}-utils ${PN}-dbg ${PN}-dev python-avahi avahi-discover avahi-discover-standalone"
-+PACKAGES = "${PN} ${PN}-utils ${PN}-dbg ${PN}-dev ${PN}-doc python-avahi avahi-discover avahi-discover-standalone"
- 
- FILES_${PN} = "${libdir}/libavahi-ui*.so.*"
- FILES_${PN}-dbg += "${libdir}/.debug/libavah-ui*"
-@@ -25,7 +25,7 @@ FILES_${PN}-utils = "${bindir}/b* ${datadir}/applications/b*"
- FILES_python-avahi = "${PYTHON_SITEPACKAGES_DIR}/avahi/*"
- FILES_avahi-discover = "${bindir}/avahi-discover \
-                         ${datadir}/applications/avahi-discover.desktop \
--                        ${datadir}/avahi/interfaces/avahi-discover.glade"
-+                        ${datadir}/avahi/interfaces/avahi-discover*"
- FILES_avahi-discover-standalone = "${bindir}/avahi-discover-standalone \
-                                    ${datadir}/avahi/interfaces/avahi-discover.glade"
- 
-@@ -35,3 +35,29 @@ RDEPENDS_python-avahi = "python-dbus"
- 
- SRC_URI[md5sum] = "e4db89a2a403ff4c47d66ac66fad1f43"
- SRC_URI[sha256sum] = "f9e4316c2339d0020726edd846d01bee0c39980906db0c247479e5807457ff1f"
-+
-+do_install_append () {
-+	rm ${D}${sysconfdir} -rf
-+	rm ${D}${base_libdir} -rf
-+	rm ${D}${base_libdir} -rf
-+	rm ${D}${bindir}/avahi-b*
-+	rm ${D}${bindir}/avahi-p*
-+	rm ${D}${bindir}/avahi-r*
-+	rm ${D}${bindir}/avahi-s*
-+	rm ${D}${includedir}/avahi-c* -rf
-+	rm ${D}${includedir}/avahi-g* -rf
-+	rm ${D}${libdir}/libavahi-c*
-+	rm ${D}${libdir}/libavahi-g*
-+	rm ${D}${libdir}/pkgconfig/avahi-c*
-+	rm ${D}${libdir}/pkgconfig/avahi-g*
-+	rmdir ${D}${libdir}/avahi
-+	rm ${D}${sbindir} -rf
-+	rm ${D}${datadir}/avahi/a*
-+	rm ${D}${datadir}/avahi/s*
-+	rm ${D}${datadir}/dbus* -rf
-+	rm ${D}${mandir}/man1/a*
-+	rm ${D}${mandir}/man5 -rf
-+	rm ${D}${mandir}/man8 -rf
-+	rmdir ${D}${localstatedir}
-+}
-+
+Typical distros, like Ubuntu, openSuSE, Fedora, RHEL, all comply with the r=
+ule.
+
+Actually in meta/recipes-devtools/gcc/gcc-package-target.inc, we do try to =
+package ${base_libdir}/cpp:
+ FILES_cpp =3D "\
+  ${bindir}/${TARGET_PREFIX}cpp \
+  ${base_libdir}/cpp \
+  ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/cc1"
+But unluckily we didn't to create a symbol link in do_install. This patch a=
+dds the symbol link.
+
+Thanks,
+-- Dexuan
 
 
 
