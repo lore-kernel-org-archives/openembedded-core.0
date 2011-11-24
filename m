@@ -1,28 +1,28 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1RTUPN-0005XN-2I
+	(envelope-from <dvhart@linux.intel.com>) id 1RTUPN-0005XN-RU
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Nov 2011 09:11:49 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 24 Nov 2011 00:05:15 -0800
+	Thu, 24 Nov 2011 09:11:50 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 24 Nov 2011 00:05:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="79466793"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="79535816"
 Received: from unknown (HELO localhost) ([10.255.15.253])
-	by orsmga001.jf.intel.com with ESMTP; 24 Nov 2011 00:05:14 -0800
+	by orsmga002.jf.intel.com with ESMTP; 24 Nov 2011 00:05:15 -0800
 From: Darren Hart <dvhart@linux.intel.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Koen Kooi <koen@dominion.thruhere.net>, Chris Larson <clarson@kergoth.com>,
 	Josef Ahmad <josef.ahmad@intel.com>,
 	openembedded-core@lists.openembedded.org
-Date: Thu, 24 Nov 2011 00:05:07 -0800
-Message-Id: <2f0f0678d5538da2ff34a9bdb82ed140fd0a8b54.1322120651.git.dvhart@linux.intel.com>
+Date: Thu, 24 Nov 2011 00:05:08 -0800
+Message-Id: <0feaad1f538935fed4a126cd753643cbf8505f38.1322120651.git.dvhart@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <d5ab9354f38a3cdecfedaf734ffb48aa969a8541.1322120651.git.dvhart@linux.intel.com>
 References: <d5ab9354f38a3cdecfedaf734ffb48aa969a8541.1322120651.git.dvhart@linux.intel.com>
 In-Reply-To: <cover.1322120651.git.dvhart@linux.intel.com>
 References: <cover.1322120651.git.dvhart@linux.intel.com>
 Cc: Darren Hart <dvhart@linux.intel.com>
-Subject: [RFC PATCH 2/5] bootimg: Refactor build_hddimg and build_iso routines
+Subject: [RFC PATCH 3/5] bootimg: Pull syslinux specific bits into syslinux.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,121 +37,307 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2011 08:11:49 -0000
+X-List-Received-Date: Thu, 24 Nov 2011 08:11:50 -0000
 
-Separate the construction of the ISO image from that of the hddimg.
-This is part of the groundwork for creating a much more flexible
-live image builder.
+Working towards a more generic bootimg.bbclass, pull out all
+syslinux specific bits and let syslinux.bbclass manage them
+directly. This introduces no functional changes to the images
+constructed and the behavior remains unchanged.
 
 Signed-off-by: Darren Hart <dvhart@linux.intel.com>
 ---
- meta/classes/bootimg.bbclass |   82 ++++++++++++++++++++++--------------------
- 1 files changed, 43 insertions(+), 39 deletions(-)
+ meta/classes/bootimg.bbclass  |   74 ++++++++---------------------------
+ meta/classes/syslinux.bbclass |   84 +++++++++++++++++++++++++++++++++--------
+ 2 files changed, 85 insertions(+), 73 deletions(-)
 
 diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
-index 49ee85e..26d2fae 100644
+index 26d2fae..d4da95b 100644
 --- a/meta/classes/bootimg.bbclass
 +++ b/meta/classes/bootimg.bbclass
-@@ -47,7 +47,47 @@ SYSLINUXMENU = "${HDDDIR}/menu"
+@@ -17,36 +17,26 @@
+ # in syslinux. Actions based on the label are then performed (e.g. installing to 
+ # an hdd)
  
+-# External variables
++# External variables (also used by syslinux.bbclass)
+ # ${INITRD} - indicates a filesystem image to use as an initrd (optional)
++# ${NOISO}  - skip building the ISO image if set to 1
+ # ${ROOTFS} - indicates a filesystem image to include as the root filesystem (optional)
+-# ${AUTO_SYSLINUXCFG} - set this to 1 to enable creating an automatic config
+-# ${LABELS} - a list of targets for the automatic config
+-# ${APPEND} - an override list of append strings for each label
+-# ${SYSLINUX_OPTS} - additional options to add to the syslinux file ';' delimited 
+ 
+ do_bootimg[depends] += "dosfstools-native:do_populate_sysroot \
+-                       syslinux:do_populate_sysroot \
+-                       syslinux-native:do_populate_sysroot \
+-		       mtools-native:do_populate_sysroot \
+-		       cdrtools-native:do_populate_sysroot"
++                        mtools-native:do_populate_sysroot \
++                        cdrtools-native:do_populate_sysroot"
+ 
+ PACKAGES = " "
+ EXCLUDE_FROM_WORLD = "1"
+ 
+ HDDDIR = "${S}/hdd/boot"
+-ISODIR = "${S}/cd/isolinux"
++ISODIR = "${S}/cd"
+ 
+ BOOTIMG_VOLUME_ID   ?= "boot"
+ BOOTIMG_EXTRA_SPACE ?= "512"
+ 
+-# Get the build_syslinux_cfg() function from the syslinux class
+-
+-SYSLINUXCFG  = "${HDDDIR}/syslinux.cfg"
+-SYSLINUXMENU = "${HDDDIR}/menu"
+-
  inherit syslinux
- 		
--build_boot_bin() {
-+build_iso() {
-+	# Only create an ISO if we have an INITRD and NOISO was not set
-+	if [ -z "${INITRD}" ] || [ ! -s "${INITRD}" ] || [ "${NOISO}" = "1" ]; then
-+		bbnote "ISO image will not be created."
-+		return
-+	fi
+-		
 +
-+	install -d ${ISODIR}
-+
-+	# Install the kernel
-+	install -m 0644 ${STAGING_DIR_HOST}/kernel/bzImage \
-+	        ${ISODIR}/vmlinuz
-+
-+	# Install the configuration files
-+	cp ${HDDDIR}/syslinux.cfg ${ISODIR}/isolinux.cfg
-+
-+	if [ -f ${SYSLINUXMENU} ]; then
-+		cp ${SYSLINUXMENU} ${ISODIR}
-+	fi
-+
-+	install -m 0644 ${INITRD} ${ISODIR}/initrd
-+
-+	if [ -n "${ROOTFS}" ] && [ -s "${ROOTFS}" ]; then 
-+		install -m 0644 ${ROOTFS} ${ISODIR}/rootfs.img
-+	fi
-+
-+	# And install the syslinux stuff 
-+	cp ${STAGING_LIBDIR}/syslinux/isolinux.bin ${ISODIR}
-+
-+	mkisofs -V ${BOOTIMG_VOLUME_ID} \
-+	-o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.iso \
-+	-b isolinux/isolinux.bin -c isolinux/boot.cat -r \
-+	-no-emul-boot -boot-load-size 4 -boot-info-table \
-+	${S}/cd/
-+
-+	cd ${DEPLOY_DIR_IMAGE}
-+	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.iso
-+	ln -s ${IMAGE_NAME}.iso ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.iso
-+}
-+
-+build_hddimg() {
+ build_iso() {
+ 	# Only create an ISO if we have an INITRD and NOISO was not set
+ 	if [ -z "${INITRD}" ] || [ ! -s "${INITRD}" ] || [ "${NOISO}" = "1" ]; then
+@@ -56,31 +46,12 @@ build_iso() {
+ 
+ 	install -d ${ISODIR}
+ 
+-	# Install the kernel
+-	install -m 0644 ${STAGING_DIR_HOST}/kernel/bzImage \
+-	        ${ISODIR}/vmlinuz
+-
+-	# Install the configuration files
+-	cp ${HDDDIR}/syslinux.cfg ${ISODIR}/isolinux.cfg
+-
+-	if [ -f ${SYSLINUXMENU} ]; then
+-		cp ${SYSLINUXMENU} ${ISODIR}
+-	fi
+-
+-	install -m 0644 ${INITRD} ${ISODIR}/initrd
+-
+-	if [ -n "${ROOTFS}" ] && [ -s "${ROOTFS}" ]; then 
+-		install -m 0644 ${ROOTFS} ${ISODIR}/rootfs.img
+-	fi
+-
+-	# And install the syslinux stuff 
+-	cp ${STAGING_LIBDIR}/syslinux/isolinux.bin ${ISODIR}
++	syslinux_iso_populate
+ 
+ 	mkisofs -V ${BOOTIMG_VOLUME_ID} \
+-	-o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.iso \
+-	-b isolinux/isolinux.bin -c isolinux/boot.cat -r \
+-	-no-emul-boot -boot-load-size 4 -boot-info-table \
+-	${S}/cd/
++	        -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.iso \
++		-b ${ISO_BOOTIMG} -c ${ISO_BOOTCAT} -r \
++		${MKISOFS_OPTIONS} ${ISODIR}
+ 
+ 	cd ${DEPLOY_DIR_IMAGE}
+ 	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.iso
+@@ -89,35 +60,24 @@ build_iso() {
+ 
+ build_hddimg() {
  	install -d ${HDDDIR}
- 	install -m 0644 ${STAGING_DIR_HOST}/kernel/bzImage \
- 	${HDDDIR}/vmlinuz
-@@ -77,48 +117,12 @@ build_boot_bin() {
+-	install -m 0644 ${STAGING_DIR_HOST}/kernel/bzImage \
+-	${HDDDIR}/vmlinuz
+-
+-	if [ -n "${INITRD}" ] && [ -s "${INITRD}" ]; then 
+-    		install -m 0644 ${INITRD} ${HDDDIR}/initrd
+-	fi
+ 
+-	if [ -n "${ROOTFS}" ] && [ -s "${ROOTFS}" ]; then 
+-    		install -m 0644 ${ROOTFS} ${HDDDIR}/rootfs.img
+-	fi
+-
+-	install -m 444 ${STAGING_LIBDIR}/syslinux/ldlinux.sys ${HDDDIR}/ldlinux.sys
++	syslinux_hddimg_populate
+ 
+-	# Do a little math, bash style
+-	#BLOCKS=`du -s ${HDDDIR} | cut -f 1`
++	# Determine the block count for the final image
+ 	BLOCKS=`du -bks ${HDDDIR} | cut -f 1`
+-	SIZE=`expr $BLOCKS + ${BOOTIMG_EXTRA_SPACE}`	
++	SIZE=`expr $BLOCKS + ${BOOTIMG_EXTRA_SPACE}`
+ 
+ 	mkdosfs -n ${BOOTIMG_VOLUME_ID} -d ${HDDDIR} \
+-	-C ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg $SIZE 
++	        -C ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg $SIZE 
++
++	syslinux_hddimg_install
+ 
+-	syslinux ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
+ 	chmod 644 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
+ 
+ 	cd ${DEPLOY_DIR_IMAGE}
  	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hddimg
  	ln -s ${IMAGE_NAME}.hddimg ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hddimg
- 	
--	#Create an ISO if we have an INITRD
--	if [ -n "${INITRD}" ] && [ -s "${INITRD}" ] && [ "${NOISO}" != "1" ] ; then
--		install -d ${ISODIR}
--
--		# Install the kernel
--
--		install -m 0644 ${STAGING_DIR_HOST}/kernel/bzImage \
--		        ${ISODIR}/vmlinuz
--
--		# Install the configuration files
--
--		cp ${HDDDIR}/syslinux.cfg ${ISODIR}/isolinux.cfg
--
--		if [ -f ${SYSLINUXMENU} ]; then
--			cp ${SYSLINUXMENU} ${ISODIR}
--		fi
--
--		install -m 0644 ${INITRD} ${ISODIR}/initrd
--
--		if [ -n "${ROOTFS}" ] && [ -s "${ROOTFS}" ]; then 
--			install -m 0644 ${ROOTFS} ${ISODIR}/rootfs.img
--		fi
--
--		# And install the syslinux stuff 
--		cp ${STAGING_LIBDIR}/syslinux/isolinux.bin ${ISODIR}
--
--		mkisofs -V ${BOOTIMG_VOLUME_ID} \
--		-o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.iso \
--		-b isolinux/isolinux.bin -c isolinux/boot.cat -r \
--		-no-emul-boot -boot-load-size 4 -boot-info-table \
--		${S}/cd/
--
--		cd ${DEPLOY_DIR_IMAGE}
--		rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.iso
--		ln -s ${IMAGE_NAME}.iso ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.iso
--
--	fi
- } 
+-	
+-} 
++}
  
  python do_bootimg() {
  	bb.build.exec_func('build_syslinux_cfg', d)
--	bb.build.exec_func('build_boot_bin', d)
-+	bb.build.exec_func('build_hddimg', d)
-+	bb.build.exec_func('build_iso', d)
- }
+diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
+index fb75974..4acb272 100644
+--- a/meta/classes/syslinux.bbclass
++++ b/meta/classes/syslinux.bbclass
+@@ -2,7 +2,63 @@
+ # Copyright (C) 2004-2006, Advanced Micro Devices, Inc.  All Rights Reserved
+ # Released under the MIT license (see packages/COPYING)
  
- addtask bootimg before do_build
+-# This creates a configuration file suitable for use with syslinux.  
++# Provide syslinux specific functions for building bootable images.
++
++# External variables
++# ${INITRD} - indicates a filesystem image to use as an initrd (optional)
++# ${ROOTFS} - indicates a filesystem image to include as the root filesystem (optional)
++# ${AUTO_SYSLINUXMENU} - set this to 1 to enable creating an automatic menu
++# ${LABELS} - a list of targets for the automatic config
++# ${APPEND} - an override list of append strings for each label
++# ${SYSLINUX_OPTS} - additional options to add to the syslinux file ';' delimited
++
++do_bootimg[depends] += "syslinux:do_populate_sysroot \
++                        syslinux-native:do_populate_sysroot"
++
++SYSLINUXCFG  = "syslinux.cfg"
++SYSLINUXMENU = "menu"
++
++SYSLINUX_ISODIR = "${ISODIR}/isolinux"
++SYSLINUX_HDDDIR = "${HDDDIR}"
++ISO_BOOTIMG = "isolinux/isolinux.bin"
++ISO_BOOTCAT = "isolinux/boot.cat"
++MKISOFS_OPTIONS = "-no-emul-boot -boot-load-size 4 -boot-info-table"
++
++syslinux_populate() {
++	DEST=$1
++	CFGNAME=$2
++
++	install -d ${DEST}
++
++	# Install the kernel, initrd, and rootfs
++	install -m 0644 ${STAGING_DIR_HOST}/kernel/bzImage ${DEST}/vmlinuz
++	if [ -n "${INITRD}" ] && [ -s "${INITRD}" ]; then
++		install -m 0644 ${INITRD} ${DEST}/initrd
++	fi
++	if [ -n "${ROOTFS}" ] && [ -s "${ROOTFS}" ]; then
++		install -m 0644 ${ROOTFS} ${DEST}/rootfs.img
++	fi
++
++	# Install the config files
++	install -m 0644 ${SYSLINUXCFG} ${DEST}/${CFGNAME}
++	if [ -f ${SYSLINUXMENU} ]; then
++		install -m 0644 ${SYSLINUXMENU} ${DEST}
++	fi
++}
++
++syslinux_iso_populate() {
++	syslinux_populate ${SYSLINUX_ISODIR} isolinux.cfg
++	install -m 0644 ${STAGING_LIBDIR}/syslinux/isolinux.bin ${SYSLINUX_ISODIR}
++}
++
++syslinux_hddimg_populate() {
++	syslinux_populate ${SYSLINUX_HDDDIR} syslinux.cfg
++	install -m 0444 ${STAGING_LIBDIR}/syslinux/ldlinux.sys ${SYSLINUX_HDDDIR}/ldlinux.sys
++}
++
++syslinux_hddimg_install() {
++	syslinux ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
++}
+ 
+ python build_syslinux_menu () {
+ 	import copy
+@@ -12,12 +68,12 @@ python build_syslinux_menu () {
+ 	if not workdir:
+ 		bb.error("WORKDIR is not defined")
+ 		return
+-		
++
+ 	labels = bb.data.getVar('LABELS', d, 1)
+ 	if not labels:
+ 		bb.debug(1, "LABELS not defined, nothing to do")
+ 		return
+-	
++
+ 	if labels == []:
+ 		bb.debug(1, "No labels, nothing to do")
+ 		return
+@@ -26,10 +82,8 @@ python build_syslinux_menu () {
+ 	if not cfile:
+ 		raise bb.build.FuncFailed('Unable to read SYSLINUXMENU')
+ 
+-	bb.mkdirhier(os.path.dirname(cfile))
+-
+ 	try:
+- 		cfgfile = file(cfile, 'w')
++		cfgfile = file(cfile, 'w')
+ 	except OSError:
+ 		raise bb.build.funcFailed('Unable to open %s' % (cfile))
+ 
+@@ -49,7 +103,7 @@ python build_syslinux_menu () {
+ 		if not overrides:
+ 			raise bb.build.FuncFailed('OVERRIDES not defined')
+ 		overrides = bb.data.expand(overrides, localdata)
+-	
++
+ 		bb.data.setVar('OVERRIDES', label + ':' + overrides, localdata)
+ 		bb.data.update_data(localdata)
+ 
+@@ -71,12 +125,12 @@ python build_syslinux_cfg () {
+ 	if not workdir:
+ 		bb.error("WORKDIR not defined, unable to package")
+ 		return
+-		
++
+ 	labels = bb.data.getVar('LABELS', d, 1)
+ 	if not labels:
+ 		bb.debug(1, "LABELS not defined, nothing to do")
+ 		return
+-	
++
+ 	if labels == []:
+ 		bb.debug(1, "No labels, nothing to do")
+ 		return
+@@ -85,10 +139,8 @@ python build_syslinux_cfg () {
+ 	if not cfile:
+ 		raise bb.build.FuncFailed('Unable to read SYSLINUXCFG')
+ 
+-	bb.mkdirhier(os.path.dirname(cfile))
+-
+ 	try:
+- 		cfgfile = file(cfile, 'w')
++		cfgfile = file(cfile, 'w')
+ 	except OSError:
+ 		raise bb.build.funcFailed('Unable to open %s' % (cfile))
+ 
+@@ -103,7 +155,7 @@ python build_syslinux_cfg () {
+ 	if opts:
+ 		for opt in opts.split(';'):
+ 			cfgfile.write('%s\n' % opt)
+-		
++
+ 	cfgfile.write('ALLOWOPTIONS 1\n');
+ 	cfgfile.write('DEFAULT %s\n' % (labels.split()[0]))
+ 
+@@ -124,17 +176,17 @@ python build_syslinux_cfg () {
+ 		bb.build.exec_func('build_syslinux_menu', d)
+ 		mfile = bb.data.getVar('SYSLINUXMENU', d, 1)
+ 		cfgfile.write('DISPLAY %s\n' % (mfile.split('/')[-1]) )
+-	
++
+ 	for label in labels.split():
+ 		localdata = bb.data.createCopy(d)
+ 
+ 		overrides = bb.data.getVar('OVERRIDES', localdata, True)
+ 		if not overrides:
+ 			raise bb.build.FuncFailed('OVERRIDES not defined')
+-	
++
+ 		bb.data.setVar('OVERRIDES', label + ':' + overrides, localdata)
+ 		bb.data.update_data(localdata)
+-	
++
+ 		cfgfile.write('LABEL %s\nKERNEL vmlinuz\n' % (label))
+ 
+ 		append = bb.data.getVar('APPEND', localdata, 1)
 -- 
 1.7.6.4
 
