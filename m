@@ -1,29 +1,23 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1RTUYR-00063J-5r
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RTUqK-0006fm-3n
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Nov 2011 09:21:12 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 24 Nov 2011 00:14:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="79468898"
-Received: from unknown (HELO envy.home) ([10.255.15.253])
-	by orsmga001.jf.intel.com with ESMTP; 24 Nov 2011 00:14:30 -0800
-Message-ID: <4ECDFCE9.5080103@linux.intel.com>
-Date: Thu, 24 Nov 2011 00:14:33 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
+	Thu, 24 Nov 2011 09:39:40 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pAO8X6u3025247
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Nov 2011 00:33:06 -0800 (PST)
+Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Thu, 24 Nov 2011 00:33:05 -0800
+Message-ID: <cover.1322123087.git.xiaofeng.yan@windriver.com>
+Old-Date: Thu, 24 Nov 2011 16:24:47 +0800
+Date: Thu, 24 Nov 2011 16:31:01 +0800
+To: <openembedded-core@lists.openembedded.org>
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1322120651.git.dvhart@linux.intel.com>
-In-Reply-To: <cover.1322120651.git.dvhart@linux.intel.com>
-X-Enigmail-Version: 1.3.3
-Cc: Josh Lock <joshua.lock@intel.com>, Koen Kooi <koen@dominion.thruhere.net>,
-	Chris Larson <clarson@kergoth.com>,
-	Josef Ahmad <josef.ahmad@intel.com>, "Wold, Saul" <saul.wold@intel.com>
-Subject: Re: [RFC PATCH 0/5] EFI live image support
+Subject: [PATCH 0/1] distro_tracking_fields: update the status of some packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,25 +32,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2011 08:21:12 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 24 Nov 2011 08:39:40 -0000
+Content-Type: text/plain
 
-On 11/24/2011 12:04 AM, Darren Hart wrote:
-> 
-> Thanks to Koen Kooi, Chris Larson, Richard Purdie, and Josef Ahmad for their
-> contributions of expertise, code, and testing.
-> 
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-The problem of course with listing people, is that you are likely to
-miss some. Especially at midnight prior to a major holiday. My apologies
-to Saul Wold and Joshua Lock who also provided valuable assistance, as
-well as the others whom I shall predictably recall promptly upon
-pressing "Send".
+directfb, libx11-diet and xorg-xserver-lite have updated their version. So I update these changes to  distro_tracking_fields.inc.
 
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: xiaofeng/maintainer
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/maintainer
+
+Thanks,
+    Xiaofeng Yan <xiaofeng.yan@windriver.com>
+---
+
+
+Xiaofeng Yan (1):
+  distro_tracking_fields: update the status
+
+ .../conf/distro/include/distro_tracking_fields.inc |   15 ++++++++++++---
+ 1 files changed, 12 insertions(+), 3 deletions(-)
+
 
 
