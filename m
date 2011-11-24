@@ -1,34 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RThIM-0001KY-FH for openembedded-core@lists.openembedded.org;
-	Thu, 24 Nov 2011 22:57:26 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAOLonDQ030849
+Received: from mail-vx0-f175.google.com ([209.85.220.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <swaplinker@gmail.com>) id 1RTi2W-0003Om-68
+	for openembedded-core@lists.openembedded.org;
+	Thu, 24 Nov 2011 23:45:08 +0100
+Received: by vcge1 with SMTP id e1so308951vcg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2011 21:50:49 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 29743-08 for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2011 21:50:45 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAOLodtE030842
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2011 21:50:40 GMT
-Message-ID: <1322171446.10928.16.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+	Thu, 24 Nov 2011 14:38:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=+l2P/6bYSXPkHIQbS9b3mVhCfC1OUC6Im+FmiYNdDO8=;
+	b=LyTGSl49nwdP+Aj8Zy/cjkIyQ77vVMqYsc2b25f0F8sl4OMYF6vhAtB4/PZCLvz1o/
+	Dr8HcXhuBB7jtxhZMraeMXowcPIKJb5OLqdxZ75FPvt24S/290KEgzBvOjOOXBS6IByi
+	+9LCIP5YVN08V0UQkOZ0WH7MKn59VkKH1Q7Yw=
+Received: by 10.220.107.82 with SMTP id a18mr2608834vcp.79.1322174314072; Thu,
+	24 Nov 2011 14:38:34 -0800 (PST)
+MIME-Version: 1.0
+Sender: swaplinker@gmail.com
+Received: by 10.52.20.113 with HTTP; Thu, 24 Nov 2011 14:38:13 -0800 (PST)
+In-Reply-To: <20111124173621.GB28572@sakrah.homelinux.org>
+References: <689a6fbace429988bf14f144e9a93dc828a7e7bf.1321391467.git.julian.pidancet@gmail.com>
+	<CAMKF1srTUc=V9-AV-+3bw3QrR747cK-kfYU4sYq+A04ASD06wA@mail.gmail.com>
+	<CAKZ=5EV8Qwh0gzmW6mS+hZB7HpEgDWuscO7_mhDEVsCffWmP2A@mail.gmail.com>
+	<20111124173621.GB28572@sakrah.homelinux.org>
+From: Julian Pidancet <julian.pidancet@gmail.com>
+Date: Thu, 24 Nov 2011 22:38:13 +0000
+X-Google-Sender-Auth: shBEbsDrCKEXpUgI6p6_0MzWYWc
+Message-ID: <CAKZ=5EV48wp05vBfewe1vXV7CoZu3ksxgCxugCGSRCaWtX1B=w@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: B29882@freescale.com, Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Nov 2011 21:50:46 +0000
-In-Reply-To: <1a0942490d103eab0a5041806613ae16b963ae1b.1322128489.git.dexuan.cui@intel.com>
-References: <cover.1322128489.git.dexuan.cui@intel.com>
-	<1a0942490d103eab0a5041806613ae16b963ae1b.1322128489.git.dexuan.cui@intel.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/4] runqemu: look for *image* to be more flexible for image names
+Subject: Re: [PATCH v2] Introduce multiarch DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,40 +45,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2011 21:57:26 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 24 Nov 2011 22:45:08 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, 2011-11-24 at 18:08 +0800, Dexuan Cui wrote:
-> From: Saul Wold <sgw@linux.intel.com>
-> 
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  scripts/runqemu |    4 ++--
->  1 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index 31e9822..a9a362f 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -114,7 +114,7 @@ while [ $i -le $# ]; do
->                  usage
->              fi
->              ;;
-> -        *-image-*)
-> +        *image*)
->              if [ -z "$ROOTFS" ]; then
->                  if [ -f "$arg" ]; then
->                      process_filename $arg
-As I mentioned to Saul, this is a bad idea since its very close to
-matching things like bzImage. I seem to remember something with a
-*image* name being in deploy before and having problems with that.
+On Thu, Nov 24, 2011 at 5:36 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>
+> and we also need multiarch support in gdb recipes as well.
+>
 
-Cheers,
+Support for Biarch exists in gdb for x86 since May 2009, and it is
+enabled by default as far as I can tell.
+I managed to dig up the exact commit in the gdb sources:
+http://sourceware.org/git/?p=gdb.git;a=commit;h=5d008094095c4a6f5ccc522abac263d6bc52738b
 
-Richard
+Regarding powerpc, it seems that gdb can only be made biarch when
+configured for a powerpc64 machine.
 
-
-
+-- 
+Julian
 
 
