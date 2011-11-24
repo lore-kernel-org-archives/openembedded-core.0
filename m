@@ -1,24 +1,24 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1RTWKO-0005kb-OA
+	(envelope-from <dexuan.cui@intel.com>) id 1RTWKO-0005qt-SI
 	for openembedded-core@lists.openembedded.org;
 	Thu, 24 Nov 2011 11:14:49 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 24 Nov 2011 02:08:14 -0800
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 24 Nov 2011 02:08:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,564,1315206000"; d="scan'208";a="94942818"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="79496860"
 Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.36.50])
-	by fmsmga002.fm.intel.com with ESMTP; 24 Nov 2011 02:08:13 -0800
+	by orsmga001.jf.intel.com with ESMTP; 24 Nov 2011 02:08:14 -0800
 From: Dexuan Cui <dexuan.cui@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Nov 2011 18:08:11 +0800
-Message-Id: <1a0942490d103eab0a5041806613ae16b963ae1b.1322128489.git.dexuan.cui@intel.com>
+Date: Thu, 24 Nov 2011 18:08:12 +0800
+Message-Id: <d4724b4050931ff51499a8808287f04b0091e93e.1322128489.git.dexuan.cui@intel.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <cover.1322128489.git.dexuan.cui@intel.com>
 References: <cover.1322128489.git.dexuan.cui@intel.com>
 In-Reply-To: <cover.1322128489.git.dexuan.cui@intel.com>
 References: <cover.1322128489.git.dexuan.cui@intel.com>
-Subject: [PATCH 1/4] runqemu: look for *image* to be more flexible for image names
+Subject: [PATCH 2/4] gcc-package-target.inc: add the symbol link /lib/cpp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,35 +35,37 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 24 Nov 2011 10:14:49 -0000
 
-From: Saul Wold <sgw@linux.intel.com>
-
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- scripts/runqemu |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/gcc/gcc-4.6.inc            |    2 +-
+ meta/recipes-devtools/gcc/gcc-package-target.inc |    2 ++
+ 2 files changed, 3 insertions(+), 1 deletions(-)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 31e9822..a9a362f 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -114,7 +114,7 @@ while [ $i -le $# ]; do
-                 usage
-             fi
-             ;;
--        *-image-*)
-+        *image*)
-             if [ -z "$ROOTFS" ]; then
-                 if [ -f "$arg" ]; then
-                     process_filename $arg
-@@ -307,7 +307,7 @@ findimage() {
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
+index 7bf14e3..7cd0850 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.6.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
+@@ -1,6 +1,6 @@
+ require gcc-common.inc
  
-     # Sort rootfs candidates by modification time - the most
-     # recently created one is the one we most likely want to boot.
--    filenames=`ls -t $where/*core-image*$machine.$extension 2>/dev/null | xargs`
-+    filenames=`ls -t $where/*image*$machine.$extension 2>/dev/null | xargs`
-     for name in $filenames; do
-         if [[ "$name" =~ core-image-sato-sdk ||
-               "$name" =~ core-image-sato     ||
+-PR = "r17"
++PR = "r18"
+ 
+ # Third digit in PV should be incremented after a minor release
+ # happens from this branch on gcc e.g. currently its 4.6.0
+diff --git a/meta/recipes-devtools/gcc/gcc-package-target.inc b/meta/recipes-devtools/gcc/gcc-package-target.inc
+index f0f1a04..3076670 100644
+--- a/meta/recipes-devtools/gcc/gcc-package-target.inc
++++ b/meta/recipes-devtools/gcc/gcc-package-target.inc
+@@ -122,6 +122,8 @@ do_install () {
+ 	ln -sf ${TARGET_PREFIX}g++ g++
+ 	ln -sf ${TARGET_PREFIX}gcc gcc
+ 	ln -sf ${TARGET_PREFIX}cpp cpp
++	install -d ${D}${base_libdir}
++	ln -sf ${bindir}/${TARGET_PREFIX}cpp ${D}${base_libdir}/cpp
+ 	ln -sf g++ c++
+ 	ln -sf gcc cc
+ 
 -- 
 1.7.6
 
