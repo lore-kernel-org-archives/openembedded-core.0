@@ -1,25 +1,30 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RTUqL-0006fn-O6
+	(envelope-from <koen@dominion.thruhere.net>) id 1RTVDf-0007gT-7d
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Nov 2011 09:39:42 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pAO8X8iJ025265
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 24 Nov 2011 10:03:47 +0100
+Received: by ghy10 with SMTP id 10so2311010ghy.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2011 00:33:08 -0800 (PST)
-Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Thu, 24 Nov 2011 00:33:08 -0800
-Message-ID: <3d097c4971548fc21af4b28c3ab02887668949f3.1322123087.git.xiaofeng.yan@windriver.com>
-In-Reply-To: <cover.1322123087.git.xiaofeng.yan@windriver.com>
-References: <cover.1322123087.git.xiaofeng.yan@windriver.com>
-Old-Date: Thu, 24 Nov 2011 15:47:13 +0800
-Date: Thu, 24 Nov 2011 16:31:04 +0800
-To: <openembedded-core@lists.openembedded.org>
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] distro_tracking_fields: update the status
+	Thu, 24 Nov 2011 00:57:13 -0800 (PST)
+Received: by 10.152.104.6 with SMTP id ga6mr16733294lab.45.1322125033086;
+	Thu, 24 Nov 2011 00:57:13 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id jb5sm18594722lab.15.2011.11.24.00.57.11
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 24 Nov 2011 00:57:12 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Thu, 24 Nov 2011 09:57:07 +0100
+In-Reply-To: <4ECDF204.7000105@windriver.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1322102636.git.xiaofeng.yan@windriver.com>	<20d46c74e1c1de68ca86b5b7eded5ae66a142e85.1322102636.git.xiaofeng.yan@windriver.com>
+	<2C6A2DBB-2756-4475-9BBF-16A2496EB4A3@dominion.thruhere.net>
+	<4ECDF204.7000105@windriver.com>
+Message-Id: <F5319183-E0F5-441F-8F19-6F8EC45D3335@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH 3/9] gtk.inc: add directfb DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,57 +39,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2011 08:39:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 24 Nov 2011 09:03:47 -0000
+X-Groupsio-MsgNum: 12879
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_783030BA-33CB-45A5-A335-A155107D2D72";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+--Apple-Mail=_783030BA-33CB-45A5-A335-A155107D2D72
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-directfb to 1.4.15
-xorg-xserver-lite to 1.11.1
-libx11-diet to 1.4.4
 
-Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
----
- .../conf/distro/include/distro_tracking_fields.inc |   15 ++++++++++++---
- 1 files changed, 12 insertions(+), 3 deletions(-)
+Op 24 nov. 2011, om 08:28 heeft Xiaofeng Yan het volgende geschreven:
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 17d9f2f..d334ef7 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -4656,9 +4656,15 @@ RECIPE_MAINTAINER_pn-libx11 = "Dexuan Cui <dexuan.cui@intel.com>"
- 
- RECIPE_STATUS_pn-libx11-diet = "green"
- DISTRO_PN_ALIAS_pn-libx11-diet = "Debian=libx11-6 Fedora=libX11 Ubuntu=libx11-6 OpenSuSE=xorg-x11-libX11"
-+RECIPE_LATEST_VERSION_pn-libx11-diet = "1.4.4"
-+RECIPE_LATEST_RELEASE_DATE_pn-libx11-diet = "Jul 28,2011"
-+RECIPE_LAST_UPDATE_pn-libx11-diet = " Nov 22, 2011"
- RECIPE_MAINTAINER_pn-libx11-diet = "Xiaofeng Yan <xiaofeng.yan@windriver.com>"
- 
--RECIPE_STATUS_pn-directfb = "red"
-+RECIPE_STATUS_pn-directfb = "green"
-+RECIPE_LATEST_VERSION_pn-directfb = "1.5.3"
-+RECIPE_LATEST_RELEASE_DATE_pn-direcfb = "Aug 9,2011"
-+RECIPE_LAST_UPDATE_pn-directfb = "Nov 7, 2011"
- RECIPE_MAINTAINER_pn-directfb = "Xiaofeng Yan <xiaofeng.yan@windriver.com>"
- 
- RECIPE_STATUS_pn-libarchive  = "green"
-@@ -4670,8 +4676,11 @@ RECIPE_MAINTAINER_pn-libarchive  = "Xiaofeng Yan <xiaofeng.yan@windriver.com>"
- RECIPE_STATUS_pn-xserver-kdrive  = "red"
- RECIPE_MAINTAINER_pn-xserver-kdrive  = "Xiaofeng Yan <xiaofeng.yan@windriver.com>"
- 
--RECIPE_STATUS_pn-xserver-xf86-lite  = "red"
--RECIPE_MAINTAINER_pn-xserver-xf86-lite  = "Xiaofeng Yan <xiaofeng.yan@windriver.com>"
-+RECIPE_STATUS_pn-xserver-xorg-lite  = "green"
-+RECIPE_LATEST_VERSION_pn-xserver-xorg-lite = "1.11.1"
-+RECIPE_LATEST_RELEASE_DATE_pn-xserver-xorg-lite = "Sept 24, 2011"
-+RECIPE_LAST_UPDATE_pn-xserver-xorg-lite = " Sep 30,2011"
-+RECIPE_MAINTAINER_pn-xserver-xorg-lite  = "Xiaofeng Yan <xiaofeng.yan@windriver.com>"
- 
- RECIPE_STATUS_pn-libx11-trim = "green"
- DISTRO_PN_ALIAS_pn-libx11-trim = "Debian=libx11-6 Fedora=libX11 Ubuntu=libx11-6 OpenSuSE=xorg-x11-libX11"
--- 
-1.7.0.4
+> On 2011=E5=B9=B411=E6=9C=8824=E6=97=A5 14:38, Koen Kooi wrote:
+>> Op 24 nov. 2011, om 04:06 heeft Xiaofeng Yan het volgende geschreven:
+>>=20
+>>=20
+>>> From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+>>>=20
+>>>=20
+>>> gtk run over x11 at current OE-core. If gtk want to run over =
+directfb, then \
+>>> the configuration related to x11 should be disabled and directfb =
+should be enabled.
+>>>=20
+>> Apart from this patch is messing with PACKAGES as well, I still don't =
+believe it's true that x11 must be disabled for directfb to work
+>>=20
+>>=20
+>>=20
+> As what I explained yesterday, One main goal of this image is to =
+remove the stuff related to x11 because I want to build an image only =
+based on directfb and run gtk over directfb. =20
+
+And you can do that perfectly well without disabling x11.
+
+> you know, directfb as a graphic library is enough in many embedded =
+development. It has many advantages in embedded field like digital =
+television, set-top box, ...  Of course, it has its defect in other =
+aspect. So x11 is not needed in this image.  I just don't want to let =
+user to take too much time for building an image including directfb with =
+no x11 during developing product.=20
+
+I still don't see a decent reason for disabling x11 for directfb
 
 
 
+--Apple-Mail=_783030BA-33CB-45A5-A335-A155107D2D72
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAk7OBuYACgkQMkyGM64RGpF4swCbBoyqHjt9tWgPAwogTb28G2wx
+FMwAniE/64b90fsV9bhKRqRU243yfnwv
+=g1YY
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_783030BA-33CB-45A5-A335-A155107D2D72--
