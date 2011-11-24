@@ -1,40 +1,53 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RTiuJ-0005ll-MK for openembedded-core@lists.openembedded.org;
-	Fri, 25 Nov 2011 00:40:43 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAONY9kr032117;
-	Thu, 24 Nov 2011 23:34:09 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 31842-03; Thu, 24 Nov 2011 23:34:05 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAONY1ao032111
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Thu, 24 Nov 2011 23:34:02 GMT
-Message-ID: <1322177647.10928.27.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Cui, Dexuan" <dexuan.cui@intel.com>
-Date: Thu, 24 Nov 2011 23:34:07 +0000
-In-Reply-To: <1865303E0DED764181A9D882DEF65FB6E81DE44122@shsmsx502.ccr.corp.intel.com>
-References: <cover.1322128489.git.dexuan.cui@intel.com>
-	<d4724b4050931ff51499a8808287f04b0091e93e.1322128489.git.dexuan.cui@intel.com>
-	<1322133692.24143.10.camel@ted>
-	<1865303E0DED764181A9D882DEF65FB6E81DE4410E@shsmsx502.ccr.corp.intel.com>
-	<1322151795.10928.4.camel@ted>
-	<1865303E0DED764181A9D882DEF65FB6E81DE44122@shsmsx502.ccr.corp.intel.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4] gcc-package-target.inc: add the symbol link /lib/cpp
+Received: from va3ehsobe002.messaging.microsoft.com ([216.32.180.12]
+	helo=VA3EHSOBE002.bigfish.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <B29882@freescale.com>) id 1RTjGP-0006i5-H6
+	for openembedded-core@lists.openembedded.org;
+	Fri, 25 Nov 2011 01:03:33 +0100
+Received: from mail48-va3-R.bigfish.com (10.7.14.252) by
+	VA3EHSOBE002.bigfish.com (10.7.40.22) with Microsoft SMTP Server id
+	14.1.225.22; Thu, 24 Nov 2011 23:56:16 +0000
+Received: from mail48-va3 (localhost [127.0.0.1])	by mail48-va3-R.bigfish.com
+	(Postfix) with ESMTP id 6154A600255;
+	Thu, 24 Nov 2011 23:56:56 +0000 (UTC)
+X-SpamScore: -6
+X-BigFish: VS-6(zz9371K98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail48-va3 (localhost.localdomain [127.0.0.1]) by mail48-va3
+	(MessageSwitch) id 1322179016307283_23617;
+	Thu, 24 Nov 2011 23:56:56 +0000 (UTC)
+Received: from VA3EHSMHS010.bigfish.com (unknown [10.7.14.236])	by
+	mail48-va3.bigfish.com (Postfix) with ESMTP id 3AA076E0227;
+	Thu, 24 Nov 2011 23:56:56 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS010.bigfish.com
+	(10.7.99.20) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Thu, 24 Nov 2011 23:56:14 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.83]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.01.0339.002; Thu, 24 Nov 2011 17:56:56 -0600
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [RFC] gcc-cross.inc: Add depedency on BUILD_ARCH
+Thread-Index: AQHMqwS+vCtx6Pv4A0Kv3YkijylUDw==
+Date: Thu, 24 Nov 2011 23:56:56 +0000
+Message-ID: <CAEsOVNe6ywzXK2b483FA-2T3A8x6-OwQXWKnsdMVWq5QTKh7sw@mail.gmail.com>
+References: <1322041226-10075-1-git-send-email-msm@freescale.com>
+In-Reply-To: <1322041226-10075-1-git-send-email-msm@freescale.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: [RFC] gcc-cross.inc: Add depedency on BUILD_ARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -45,61 +58,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2011 23:40:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 25 Nov 2011 00:03:33 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <86C7C2027A4A9F45AA2ED709AEEE0928@freescale.net>
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2011-11-25 at 07:09 +0800, Cui, Dexuan wrote:
-> Richard Purdie wrote on 2011-11-25:
-> > On Thu, 2011-11-24 at 23:37 +0800, Cui, Dexuan wrote:
-> >> Richard Purdie wrote on 2011-11-24:
-> >>> On Thu, 2011-11-24 at 18:08 +0800, Dexuan Cui wrote:
-> >>>> --- a/meta/recipes-devtools/gcc/gcc-package-target.inc
-> >>>> +++ b/meta/recipes-devtools/gcc/gcc-package-target.inc
-> >>>> @@ -122,6 +122,8 @@ do_install () {
-> >>>>  	ln -sf ${TARGET_PREFIX}g++ g++
-> >>>>  	ln -sf ${TARGET_PREFIX}gcc gcc
-> >>>>  	ln -sf ${TARGET_PREFIX}cpp cpp
-> >>>> +	install -d ${D}${base_libdir}
-> >>>> +	ln -sf ${bindir}/${TARGET_PREFIX}cpp ${D}${base_libdir}/cpp
-> >>>>  	ln -sf g++ c++
-> >>>>  	ln -sf gcc cc
-> >>> 
-> >>> Why do we need this change?
-> >> When I was trying self-hosted-image, eglibc's do_install failed in the
-> >> target: ERROR: cannot stat bootparam_prot.h: the cause is: rpcgen
-> >> doesn't work properly: rpcgen can't exec /lib/cpp since it doesn't
-> >> exist.
-> >> 
-> >> According to
-> >> http://tldp.org/LDP/Linux-Filesystem-Hierarchy/html/lib.html,
-> > "if a C preprocessor is installed, /lib/cpp must be a reference to it,
-> > for historical reasons. The usual placement of this binary is /usr/bin/cpp".
-> >> 
-> >> Typical distros, like Ubuntu, openSuSE, Fedora, RHEL, all comply with
-> >> the rule.
-> >> 
-> >> Actually in meta/recipes-devtools/gcc/gcc-package-target.inc, we do
-> >> try to
-> > package ${base_libdir}/cpp:
-> >>  FILES_cpp = "\
-> >>   ${bindir}/${TARGET_PREFIX}cpp \
-> >>   ${base_libdir}/cpp \
-> >>   ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/cc1"
-> >> But unluckily we didn't to create a symbol link in do_install. This
-> >> patch
-> > adds the symbol link.
-> > 
-> > Ok, this sounds great. Put this in the commit message though please!
-> Hi RP,
-> Please use the new commit(the only change is the updated commit message):
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=dcui/self-hosted-v2&id=f6001f0b12cb561f5e08d3a5b0d61ab5fa924f40
+On Wed, Nov 23, 2011 at 3:40 AM, Matthew McClintock <msm@freescale.com> wro=
+te:
+> +# we also add this to the PV so its clear in filenames
+> +# that this is arch specific even though it's labeled as
+> +# a target package
+> +PV .=3D "+${BUILD_ARCH_EXPANDED}"
 
-Thanks, I've merged this patch to master.
+Seems like based on discussion this should be the following instead:
 
-Cheers,
+PN .=3D "-{BUILD_ARCH}-${TARGET_ARCH}"
 
-Richard
+-M=
 
 
 
