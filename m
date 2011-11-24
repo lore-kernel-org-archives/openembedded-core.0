@@ -1,30 +1,24 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail-vw0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RTVFz-0007my-VM
+	(envelope-from <koen@dominion.thruhere.net>) id 1RTVY5-0008Sn-9x
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Nov 2011 10:06:12 +0100
-Received: by lahe6 with SMTP id e6so42100lah.6
+	Thu, 24 Nov 2011 10:24:53 +0100
+Received: by vbbfc21 with SMTP id fc21so920661vbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Nov 2011 00:59:39 -0800 (PST)
-Received: by 10.152.135.179 with SMTP id pt19mr16631112lab.47.1322125179116;
-	Thu, 24 Nov 2011 00:59:39 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id pc8sm18619471lab.8.2011.11.24.00.59.36
+	Thu, 24 Nov 2011 01:18:20 -0800 (PST)
+Received: by 10.52.65.1 with SMTP id t1mr28937311vds.121.1322126299877;
+	Thu, 24 Nov 2011 01:18:19 -0800 (PST)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id ey9sm28112143vdc.19.2011.11.24.01.18.18
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 24 Nov 2011 00:59:37 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
+	Thu, 24 Nov 2011 01:18:19 -0800 (PST)
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <d5ab9354f38a3cdecfedaf734ffb48aa969a8541.1322120651.git.dvhart@linux.intel.com>
-Date: Thu, 24 Nov 2011 09:59:34 +0100
-Message-Id: <B17E0298-4C9C-461A-A713-ADEE9771F8F0@dominion.thruhere.net>
-References: <cover.1322120651.git.dvhart@linux.intel.com>
-	<d5ab9354f38a3cdecfedaf734ffb48aa969a8541.1322120651.git.dvhart@linux.intel.com>
-To: Darren Hart <dvhart@linux.intel.com>
-X-Mailer: Apple Mail (2.1251.1)
-Cc: Josef Ahmad <josef.ahmad@intel.com>, Chris Larson <clarson@kergoth.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH 1/5] grub-efi-native: New recipe to build GRUB EFI images
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 24 Nov 2011 10:18:11 +0100
+Message-Id: <1322126292-25928-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.2.5
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCHv2 1/2] libjson: add 0.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,45 +33,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Nov 2011 09:06:12 -0000
-X-Groupsio-MsgNum: 12880
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_0FB32C37-B96D-488D-BFDB-18E7CD63BB32";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Thu, 24 Nov 2011 09:24:53 -0000
 
---Apple-Mail=_0FB32C37-B96D-488D-BFDB-18E7CD63BB32
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+
+Changes since v1:
+	* fix LICENSE
+
+ meta/recipes-devtools/libjson/libjson_0.9.bb |   14 ++++++++++++++
+ 1 files changed, 14 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-devtools/libjson/libjson_0.9.bb
+
+diff --git a/meta/recipes-devtools/libjson/libjson_0.9.bb b/meta/recipes-devtools/libjson/libjson_0.9.bb
+new file mode 100644
+index 0000000..e4951a8
+--- /dev/null
++++ b/meta/recipes-devtools/libjson/libjson_0.9.bb
+@@ -0,0 +1,14 @@
++DESCRIPTION = "JSON-C - A JSON implementation in C"
++HOMEPAGE = "http://oss.metaparadigm.com/json-c/"
++
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://COPYING;md5=30a276a476b02c2dcd0849bde417fb17"
++
++SRC_URI = "http://oss.metaparadigm.com/json-c/json-c-${PV}.tar.gz"
++SRC_URI[md5sum] = "3a13d264528dcbaf3931b0cede24abae"
++SRC_URI[sha256sum] = "702a486c9bf8e19137d484ab5c49b4ad314eb5e1fe37062a72c0a0fa39439475"
++
++S = "${WORKDIR}/json-c-${PV}"
++
++
++inherit autotools
+-- 
+1.7.2.5
 
 
-Op 24 nov. 2011, om 09:05 heeft Darren Hart het volgende geschreven:
 
-> Add a recipe to build the GRUB efi images. This recipe is written as
-> a native recipe as the resulting GRUB utils are required to assemble
-> the final image. Rather than build a native and a target recipe (and
-> increase build times),=20
-
-That's a false dilemma. If you write it as a regular recipe with =
-BBCLASSEXTEND=3Dnative your buildtime doesn't increase and you leave =
-open the option of adding more BBCLASSEXTENDS if someone wants to ship =
-it in an SDK.
-
-
-
---Apple-Mail=_0FB32C37-B96D-488D-BFDB-18E7CD63BB32
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-
-iEYEARECAAYFAk7OB3cACgkQMkyGM64RGpHHXgCeJJ0ueD3QiICfulGbfcy7Ou+1
-QYUAoLzUevxNkyt14ZHB+r3wVc3xfzGP
-=bQ7p
------END PGP SIGNATURE-----
-
---Apple-Mail=_0FB32C37-B96D-488D-BFDB-18E7CD63BB32--
