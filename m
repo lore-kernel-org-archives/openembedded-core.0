@@ -1,29 +1,33 @@
-Received: from mga01.intel.com ([192.55.52.88])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1RU4pV-0003UF-7h
-	for openembedded-core@lists.openembedded.org;
-	Sat, 26 Nov 2011 00:05:14 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 25 Nov 2011 14:57:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,573,1315206000"; d="scan'208";a="89236019"
-Received: from unknown (HELO envy.home) ([10.255.15.250])
-	by fmsmga001.fm.intel.com with ESMTP; 25 Nov 2011 14:57:25 -0800
-Message-ID: <4ED01D59.8020301@linux.intel.com>
-Date: Fri, 25 Nov 2011 14:57:29 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RU5Tg-0004sF-R8 for openembedded-core@lists.openembedded.org;
+	Sat, 26 Nov 2011 00:46:45 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAPNe9Va009257;
+	Fri, 25 Nov 2011 23:40:09 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 08413-03; Fri, 25 Nov 2011 23:40:05 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAPNdwjI009238
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 25 Nov 2011 23:39:59 GMT
+Message-ID: <1322264404.25382.4.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: McClintock Matthew-B29882 <B29882@freescale.com>, Patches and
+	discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1322120651.git.dvhart@linux.intel.com>
-	<d5ab9354f38a3cdecfedaf734ffb48aa969a8541.1322120651.git.dvhart@linux.intel.com>
-In-Reply-To: <d5ab9354f38a3cdecfedaf734ffb48aa969a8541.1322120651.git.dvhart@linux.intel.com>
-X-Enigmail-Version: 1.3.3
-Cc: Josef Ahmad <josef.ahmad@intel.com>, Koen Kooi <koen@dominion.thruhere.net>,
-	Chris Larson <clarson@kergoth.com>
-Subject: Re: [RFC PATCH 1/5] grub-efi-native: New recipe to build GRUB EFI images
+Date: Fri, 25 Nov 2011 23:40:04 +0000
+In-Reply-To: <CAEsOVNfoFW+3G-bSYiOy4p-Pa_bDShY_c3hutpA+THDO8hUrvg@mail.gmail.com>
+References: <5ca10bdeed6e90862311b8417c0e6de353d1dc70.1322223227.git.julian.pidancet@gmail.com>
+	<CAEsOVNfoFW+3G-bSYiOy4p-Pa_bDShY_c3hutpA+THDO8hUrvg@mail.gmail.com>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Julian Pidancet <julian.pidancet@gmail.com>
+Subject: Re: [PATCH v3] Introduce multiarch DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,131 +42,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Nov 2011 23:05:14 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 25 Nov 2011 23:46:45 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-
-
-On 11/24/2011 12:05 AM, Darren Hart wrote:
-> Add a recipe to build the GRUB efi images. This recipe is written as
-> a native recipe as the resulting GRUB utils are required to assemble
-> the final image. Rather than build a native and a target recipe (and
-> increase build times), this recipe builds the utils for the host and
-> passes an appropriate --target argument to the GRUB configure script
-> to build the modules for the target arch. The only output of this
-> recipe is an EFI image in the deploy directory.
-
-The grub-help list came through with an alternative approach:
-
-"./configure CC=powerpc-linux-gcc  --host=ppc-linux-gnu --target=i386
---with-platform=pc TARGET_CC=i386-linux-gcc"
-
-This would allow for building on a host of arch ppc for a target of arch
-i386.
-
-Would it be preferable then to build this as a target package and
-manipuate the configure flags to use the BUILD_CC ? I presume a similar
-PN rename would be desirable to account for the HOST component of the
-build as I used here for the TARGET on the -native version?
-
---
-Darren
-
+On Fri, 2011-11-25 at 19:07 +0000, McClintock Matthew-B29882 wrote:
+> On Fri, Nov 25, 2011 at 6:29 AM, Julian Pidancet
+> <julian.pidancet@gmail.com> wrote:
+> > This patch introduces a distro feature which enables gcc to produce
+> > both 32bit and 64bit code, and enables binutils to operate on both
+> > 32bit and 64bit binaries.
+> >
+> > v3: - Make get_gcc_multiarch_setting more elegant. Use a dictionnary
+> > to store the config options and replace bb.data.getVar with d.getVar.
+> >    - Remove i686 from the architecture list because it doesn't seem
+> > to be a valid TARGET_ARCH any more in OE.
+> >    - Configure gdb (gdb and gdb-cross) with --enable-64-bit-bfd if
+> > multiarch DISTRO_FEATURE is present
+> >
+> > Signed-off-by: Julian Pidancet <julian.pidancet@gmail.com>
 > 
-> Care is taken to ensure changing targets will force a rebuild of this
-> native recipe by including the target arch in the PN.
-> 
-> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-> ---
->  meta/recipes-bsp/grub/grub-efi-native_1.99.bb |   74 +++++++++++++++++++++++++
->  1 files changed, 74 insertions(+), 0 deletions(-)
->  create mode 100644 meta/recipes-bsp/grub/grub-efi-native_1.99.bb
-> 
-> diff --git a/meta/recipes-bsp/grub/grub-efi-native_1.99.bb b/meta/recipes-bsp/grub/grub-efi-native_1.99.bb
-> new file mode 100644
-> index 0000000..3c52ec9
-> --- /dev/null
-> +++ b/meta/recipes-bsp/grub/grub-efi-native_1.99.bb
-> @@ -0,0 +1,74 @@
-> +SUMMARY = "GRUB2 is the next-generation GRand Unified Bootloader"
-> +
-> +DESCRIPTION = "GRUB2 is the next generaion of a GPLed bootloader \
-> +intended to unify bootloading across x86 operating systems. In \
-> +addition to loading the Linux kernel, it implements the Multiboot \
-> +standard, which allows for flexible loading of multiple boot images. \
-> +This recipe builds an EFI binary for the target. It does not install \
-> +or package anything, it only deploys a target-arch GRUB EFI image."
-> +
-> +HOMEPAGE = "http://www.gnu.org/software/grub/"
-> +SECTION = "bootloaders"
-> +PRIORITY = "optional"
-> +
-> +LICENSE = "GPLv3"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
-> +
-> +# FIXME: We should be able to optionally drop freetype as a dependency
-> +DEPENDS = "help2man-native"
-> +RDEPENDS_${PN} = "diffutils freetype"
-> +PR = "r1"
-> +
-> +# Native packages do not normally rebuild when the target changes.
-> +# Ensure this is built once per HOST-TARGET pair.
-> +PN := "grub-efi-${TRANSLATED_TARGET_ARCH}-native"
-> +
-> +SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz"
-> +
-> +SRC_URI[md5sum] = "ca9f2a2d571b57fc5c53212d1d22e2b5"
-> +SRC_URI[sha256sum] = "b91f420f2c51f6155e088e34ff99bea09cc1fb89585cf7c0179644e57abd28ff"
-> +
-> +COMPATIBLE_HOST = '(x86_64.*|i.86.*)-(linux|freebsd.*)'
-> +
-> +S = "${WORKDIR}/grub-${PV}"
-> +
-> +# Determine the target arch for the grub modules before the native class
-> +# clobbers TARGET_ARCH.
-> +ORIG_TARGET_ARCH := ${TARGET_ARCH}
-> +python __anonymous () {
-> +    import re
-> +    target = d.getVar('ORIG_TARGET_ARCH', True)
-> +    if target == "x86_64":
-> +        grubtarget = 'x86_64'
-> +        grubimage = "bootx64.efi"
-> +    elif re.match('i.86', target):
-> +        grubtarget = 'i386'
-> +        grubimage = "bootia32.efi"
-> +    else:
-> +        raise bb.parse.SkipPackage("grub-efi is incompatible with target %s" % target)
-> +    d.setVar("GRUB_TARGET", grubtarget)
-> +    d.setVar("GRUB_IMAGE", grubimage)
-> +}
-> +
-> +inherit autotools
-> +inherit gettext
-> +inherit native
-> +inherit deploy
-> +
-> +EXTRA_OECONF = "--with-platform=efi --disable-grub-mkfont \
-> +                --target=${GRUB_TARGET} --enable-efiemu=no --program-prefix=''"
-> +
-> +do_mkimage() {
-> +	./grub-mkimage -p / -d ./grub-core/ \
-> +		       -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
-> +	               boot linux fat serial part_msdos normal
-> +}
-> +addtask mkimage after do_compile before do_install
-> +
-> +do_deploy() {
-> +	install -m 644 ${S}/${GRUB_IMAGE} ${DEPLOYDIR}
-> +}
-> +addtask deploy after do_install before do_build
-> +
-> +do_install[noexec] = "1"
-> +do_populate_sysroot[noexec] = "1"
+> I'm not sure if this is the correct spot to bring this up, but how
+> should we go about building a 32-bit and 64-bit libgcc?
 
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+This is firmly in multilib territory as its not just libgcc but libc as
+well and so it goes on.
+
+One of the reasons I'm nervous of the patch you're replying to is that
+people are now going to try and cross the two and we'll end up with a
+mess :(.
+
+Trying to build just libgcc from the gcc tree is a nightmare and when we
+last tried it, caused no end of problems.
+
+What specific problem are you trying to solve?
+
+Cheers,
+
+Richard
+
+
+
 
 
