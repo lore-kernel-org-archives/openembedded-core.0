@@ -1,26 +1,35 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RTxxk-0006p4-LX
-	for openembedded-core@lists.openembedded.org;
-	Fri, 25 Nov 2011 16:45:19 +0100
-Received: by bkbzs2 with SMTP id zs2so4263510bkb.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RTz8H-0002uz-59 for openembedded-core@lists.openembedded.org;
+	Fri, 25 Nov 2011 18:00:16 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAPGrc7L006917
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Nov 2011 07:38:38 -0800 (PST)
-Received: by 10.205.139.65 with SMTP id iv1mr22048698bkc.34.1322235518252;
-	Fri, 25 Nov 2011 07:38:38 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id f14sm19129974bkv.3.2011.11.25.07.38.37
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 25 Nov 2011 07:38:37 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Fri, 25 Nov 2011 16:38:34 +0100
-Message-Id: <27A3051A-BC1D-4937-B936-42760021F584@dominion.thruhere.net>
+	Fri, 25 Nov 2011 16:53:38 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 06345-04 for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Nov 2011 16:53:35 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAPGrUOt006911
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Nov 2011 16:53:31 GMT
+Message-ID: <1322240018.24330.37.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-X-Mailer: Apple Mail (2.1251.1)
-Subject: opkg-make-index cache failing
+Date: Fri, 25 Nov 2011 16:53:38 +0000
+In-Reply-To: <27A3051A-BC1D-4937-B936-42760021F584@dominion.thruhere.net>
+References: <27A3051A-BC1D-4937-B936-42760021F584@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
+	pAPGrc7L006917
+Subject: Re: opkg-make-index cache failing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,48 +44,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Nov 2011 15:45:19 -0000
-X-Groupsio-MsgNum: 12957
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_7CDD4098-F928-4082-9EF7-948D6FD30999";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_7CDD4098-F928-4082-9EF7-948D6FD30999
+X-List-Received-Date: Fri, 25 Nov 2011 17:00:16 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=iso-8859-1
 
-Hi,
+On Fri, 2011-11-25 at 16:38 +0100, Koen Kooi wrote:
+> In OE-classic the opkg-make-index cache was working pretty well,
+> do_rootfs only spent a few seconds doing opkg-make-index on
+> incremental builds. In the OE-core world the situation is different,
+> opkg-make-index will reindex every package on each do_rootfs run, so
+> after a while building images starts taking *really* long, on my
+> systemd (work/ on ssd, deploy on rotating media) it now takes
+> =C2=B17minutes just do refresh the opkg indices.
+>=20
+> Since I can't blame sstate for this I suspect that pseudo gets in the
+> way of the naive caching logic. Is there a simple way to turn off
+> pseudo when running opkg-make-index?
 
-In OE-classic the opkg-make-index cache was working pretty well, =
-do_rootfs only spent a few seconds doing opkg-make-index on incremental =
-builds. In the OE-core world the situation is different, opkg-make-index =
-will reindex every package on each do_rootfs run, so after a while =
-building images starts taking *really* long, on my systemd (work/ on =
-ssd, deploy on rotating media) it now takes =B17minutes just do refresh =
-the opkg indices.
+You could try:
 
-Since I can't blame sstate for this I suspect that pseudo gets in the =
-way of the naive caching logic. Is there a simple way to turn off pseudo =
-when running opkg-make-index?
+PSEUDO_DISABLED=3D1 opkg-make-index
 
-regards,
+or even
 
-Koen=
+PSEUDO_UNLOAD=3D1 opkg-make-index
 
---Apple-Mail=_7CDD4098-F928-4082-9EF7-948D6FD30999
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+although the latter is a sledge hammer to crack a nut approach...
 
------BEGIN PGP SIGNATURE-----
+Cheers,
 
-iEYEARECAAYFAk7Ptn0ACgkQMkyGM64RGpFoPACeLUXoTWEAVXFY7R9NAbOT/qxL
-Am0AnjeNe+JEGdpNilMPmIShFXhuRhFT
-=rsRm
------END PGP SIGNATURE-----
+Richard
 
---Apple-Mail=_7CDD4098-F928-4082-9EF7-948D6FD30999--
+
+
