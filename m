@@ -1,23 +1,30 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RTuJD-0003eO-CL
+	(envelope-from <philb@gnu.org>) id 1RTuVy-0004Kp-Lp
 	for openembedded-core@lists.openembedded.org;
-	Fri, 25 Nov 2011 12:51:12 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 25 Nov 2011 03:44:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="79906318"
-Received: from unknown (HELO helios.localnet) ([10.252.121.214])
-	by orsmga002.jf.intel.com with ESMTP; 25 Nov 2011 03:44:23 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org, koen@dominion.thruhere.net,
-	elizabeth.flanagan@intel.com
-Date: Fri, 25 Nov 2011 11:44:22 +0000
-Message-ID: <1812495.zPKFoIJV0g@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.7.3 (Linux/3.0.0-13-generic-pae; KDE/4.7.3; i686; ; )
-MIME-Version: 1.0
-Subject: Image history (testlab)
+	Fri, 25 Nov 2011 13:04:22 +0100
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RTuPe-0002ss-Eb
+	for openembedded-core@lists.openembedded.org;
+	Fri, 25 Nov 2011 12:57:50 +0100
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 25 Nov 2011 11:57:49 +0000
+In-Reply-To: <1322219300.10928.60.camel@ted>
+References: <cover.1321969615.git.otavio@ossystems.com.br>
+	<65caf0c80f03e4fd3710b708541b0a7dd8f310ba.1321969615.git.otavio@ossystems.com.br>
+	<1321982105.29435.302.camel@phil-desktop>
+	<CAP9ODKrBxULKL=3ZHhGiOU4g7+uM=ke+43sDU=h67CvU_q7bAA@mail.gmail.com>
+	<1322179246.10928.38.camel@ted>
+	<1322219018.26081.70.camel@phil-desktop>
+	<1322219300.10928.60.camel@ted>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1322222270.26081.73.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/1] xserver-xorg: do not disable-dga as VESA driver requires it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,33 +39,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Nov 2011 11:51:12 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 25 Nov 2011 12:04:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Koen / Beth / all,
+On Fri, 2011-11-25 at 11:08 +0000, Richard Purdie wrote:
+> The vesa driver looks like its using DGA APIs to expose mode setting. A
+> comment to that end is also in a TODO list at the top of the file.
 
-Following on from my work extending packagehistory (which is still under 
-review), I'm looking at tracking history of the content of images so we can 
-get warnings about regressions. Thanks to Koen we've had this capability via 
-testlab.bbclass in OE for some time now, and from there into meta-oe, but what 
-I'd like to do now is bring this into OE-core and extend it so that it 
-supports rpm (or even better, all of the package backends we support.) This 
-could involve abstracting the package backend functionality out into 
-rootfs_*.bbclass.
+Ah, I see.  I guess that can just be turned off for non-DGA builds then.
+As you say, making it use Xrandr would be a better solution in the long
+term but it doesn't seem all that likely that anybody is going to have
+much enthusiasm for enhancing the VESA driver at this point.
 
-It also looks like testlab.bbclass in meta-oe has some license dumping 
-functionality. Beth, does that mesh with what you've been working on / 
-preparing for Yocto 1.2?
+p.
 
-Thoughts?
 
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
