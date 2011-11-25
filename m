@@ -1,53 +1,40 @@
-Received: from va3ehsobe002.messaging.microsoft.com ([216.32.180.12]
-	helo=VA3EHSOBE002.bigfish.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RTjGP-0006i5-H6
-	for openembedded-core@lists.openembedded.org;
-	Fri, 25 Nov 2011 01:03:33 +0100
-Received: from mail48-va3-R.bigfish.com (10.7.14.252) by
-	VA3EHSOBE002.bigfish.com (10.7.40.22) with Microsoft SMTP Server id
-	14.1.225.22; Thu, 24 Nov 2011 23:56:16 +0000
-Received: from mail48-va3 (localhost [127.0.0.1])	by mail48-va3-R.bigfish.com
-	(Postfix) with ESMTP id 6154A600255;
-	Thu, 24 Nov 2011 23:56:56 +0000 (UTC)
-X-SpamScore: -6
-X-BigFish: VS-6(zz9371K98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail48-va3 (localhost.localdomain [127.0.0.1]) by mail48-va3
-	(MessageSwitch) id 1322179016307283_23617;
-	Thu, 24 Nov 2011 23:56:56 +0000 (UTC)
-Received: from VA3EHSMHS010.bigfish.com (unknown [10.7.14.236])	by
-	mail48-va3.bigfish.com (Postfix) with ESMTP id 3AA076E0227;
-	Thu, 24 Nov 2011 23:56:56 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS010.bigfish.com
-	(10.7.99.20) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Thu, 24 Nov 2011 23:56:14 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.83]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.01.0339.002; Thu, 24 Nov 2011 17:56:56 -0600
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [RFC] gcc-cross.inc: Add depedency on BUILD_ARCH
-Thread-Index: AQHMqwS+vCtx6Pv4A0Kv3YkijylUDw==
-Date: Thu, 24 Nov 2011 23:56:56 +0000
-Message-ID: <CAEsOVNe6ywzXK2b483FA-2T3A8x6-OwQXWKnsdMVWq5QTKh7sw@mail.gmail.com>
-References: <1322041226-10075-1-git-send-email-msm@freescale.com>
-In-Reply-To: <1322041226-10075-1-git-send-email-msm@freescale.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [RFC] gcc-cross.inc: Add depedency on BUILD_ARCH
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RTjK3-0006qt-9y for openembedded-core@lists.openembedded.org;
+	Fri, 25 Nov 2011 01:07:19 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAP00lsd032416
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Nov 2011 00:00:47 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 31749-07 for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Nov 2011 00:00:43 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAP00epr032409
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Nov 2011 00:00:41 GMT
+Message-ID: <1322179246.10928.38.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 25 Nov 2011 00:00:46 +0000
+In-Reply-To: <CAP9ODKrBxULKL=3ZHhGiOU4g7+uM=ke+43sDU=h67CvU_q7bAA@mail.gmail.com>
+References: <cover.1321969615.git.otavio@ossystems.com.br>
+	<65caf0c80f03e4fd3710b708541b0a7dd8f310ba.1321969615.git.otavio@ossystems.com.br>
+	<1321982105.29435.302.camel@phil-desktop>
+	<CAP9ODKrBxULKL=3ZHhGiOU4g7+uM=ke+43sDU=h67CvU_q7bAA@mail.gmail.com>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 1/1] xserver-xorg: do not disable-dga as VESA driver requires it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -58,24 +45,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Nov 2011 00:03:33 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <86C7C2027A4A9F45AA2ED709AEEE0928@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 25 Nov 2011 00:07:19 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 23, 2011 at 3:40 AM, Matthew McClintock <msm@freescale.com> wro=
-te:
-> +# we also add this to the PV so its clear in filenames
-> +# that this is arch specific even though it's labeled as
-> +# a target package
-> +PV .=3D "+${BUILD_ARCH_EXPANDED}"
+On Tue, 2011-11-22 at 15:24 -0200, Otavio Salvador wrote:
+> On Tue, Nov 22, 2011 at 15:14, Phil Blundell <philb@gnu.org> wrote:
+>         On Tue, 2011-11-22 at 13:47 +0000, Otavio Salvador wrote:
+>         > Xorg VESA driver calls DGAInit enforcing this symbol to be
+>         available
+>         > to the driver to work.
+>
+>         Maybe it would be better to patch vesa.c to not require this
+>         symbol
+>         rather than forcing it on in the server for everyone.  Or
+>         alternatively,
+>         if you genuinely want DGA, maybe make it a PACKAGECONFIG
+>         option.
+>
+> What worries me is that this changed lately as it were working fine.
+>
+> When xserver-xorg were update to 1.11 this has changed behind the
+> scenes. This used to be disabled on lite flavour only.
 
-Seems like based on discussion this should be the following instead:
+Looking at vesa.c, there is quite a chunk of code in there depending on
+DGA.
 
-PN .=3D "-{BUILD_ARCH}-${TARGET_ARCH}"
+Is there any harm to building DGA apart from an extra package? Its a
+self contained module isn't it?
 
--M=
+If so, we should just be able to turn it on, package it separately and
+forget about it?
+
+Of course the ideal solution would be for someone to convert the vesa
+driver to use the xrandr API...
+
+Cheers,
+
+Richard
+
+
+
+
+
 
 
 
