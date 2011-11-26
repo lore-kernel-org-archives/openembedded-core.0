@@ -1,24 +1,28 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RUKjV-0001hA-Im
+	(envelope-from <koen@dominion.thruhere.net>) id 1RUKqg-0001zW-Oc
 	for openembedded-core@lists.openembedded.org;
-	Sat, 26 Nov 2011 17:04:05 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 26 Nov 2011 07:57:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="80041228"
-Received: from unknown (HELO helios.localnet) ([10.252.121.196])
-	by orsmga001.jf.intel.com with ESMTP; 26 Nov 2011 07:57:28 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Sat, 26 Nov 2011 17:11:32 +0100
+Received: by wwo1 with SMTP id 1so6531923wwo.24
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 26 Nov 2011 08:04:55 -0800 (PST)
+Received: by 10.216.132.130 with SMTP id o2mr676103wei.69.1322323495137;
+	Sat, 26 Nov 2011 08:04:55 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id m25sm31970523wbp.6.2011.11.26.08.04.52
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 26 Nov 2011 08:04:53 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Sat, 26 Nov 2011 17:04:48 +0100
+In-Reply-To: <9797167.RyKc3zgMV3@helios>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Sat, 26 Nov 2011 15:57:27 +0000
-Message-ID: <9797167.RyKc3zgMV3@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.7.3 (Linux/3.0.0-13-generic-pae; KDE/4.7.3; i686; ; )
-In-Reply-To: <1322300849-28059-1-git-send-email-koen@dominion.thruhere.net>
 References: <1322300849-28059-1-git-send-email-koen@dominion.thruhere.net>
-MIME-Version: 1.0
+	<9797167.RyKc3zgMV3@helios>
+Message-Id: <3E601943-4F32-4D38-932B-C6D89AB35FF5@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1251.1)
 Subject: Re: [PATCH] opkg-utils: handle 6 digit UID fields properly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -34,22 +38,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Nov 2011 16:04:05 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Sat, 26 Nov 2011 16:11:33 -0000
+X-Groupsio-MsgNum: 12973
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_DF8B4D93-1771-4AC6-BD52-1DC2EAF23F5C";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-On Saturday 26 November 2011 10:47:29 Koen Kooi wrote:
-> +Upsteam-status: Pending (there is no upstream after openmoko imploded)
-
-Not an issue with the patch, but I don't think this is completely true. AFAIK 
-Graham Gower is still maintaining opkg.
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+--Apple-Mail=_DF8B4D93-1771-4AC6-BD52-1DC2EAF23F5C
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+Op 26 nov. 2011, om 16:57 heeft Paul Eggleton het volgende geschreven:
+
+> On Saturday 26 November 2011 10:47:29 Koen Kooi wrote:
+>> +Upsteam-status: Pending (there is no upstream after openmoko =
+imploded)
+>=20
+> Not an issue with the patch, but I don't think this is completely =
+true. AFAIK=20
+> Graham Gower is still maintaining opkg.
+
+Opkg yes,  opkg-utils no. Speaking of opkg, when are the OE-core patches =
+to opkg getting pushed upstream?
+
+regards,
+
+Koen=
+
+--Apple-Mail=_DF8B4D93-1771-4AC6-BD52-1DC2EAF23F5C
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAk7RDiMACgkQMkyGM64RGpEOIQCfZcxWPp85QxFY37mKbpQTXHvW
+eNgAn01IbuHr9WAR1TLDMaOzb8uLE4r4
+=36Ik
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_DF8B4D93-1771-4AC6-BD52-1DC2EAF23F5C--
