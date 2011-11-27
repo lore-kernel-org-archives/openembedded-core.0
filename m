@@ -1,31 +1,34 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RUQFH-0004iw-AJ
-	for openembedded-core@lists.openembedded.org;
-	Sat, 26 Nov 2011 22:57:15 +0100
-Received: by faat2 with SMTP id t2so3882804faa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Nov 2011 13:50:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=BX0S+uUfUH4WlSzM4Uko0oKgVAvPcZrQR2ls6I7/aLc=;
-	b=Exaa+IShQhMsouSSmiNjqD68fKBGfbnMpz/IndHnM9XGn+QWdeDZmoqXiDz+jpL0c/
-	jwpPWTAePQYwNBobF8BFXCLbtKvMFMtrGJDN0H1sKB/Gxw6V40yS3aAqpCNvuTNob7eM
-	KpYNVxMFCmrdM0fu4Yq1+FIz15cXmGvQs6CZE=
-Received: by 10.152.105.226 with SMTP id gp2mr23657741lab.28.1322344239048;
-	Sat, 26 Nov 2011 13:50:39 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.152.24.36 with HTTP; Sat, 26 Nov 2011 13:50:08 -0800 (PST)
-In-Reply-To: <1322302567.25382.6.camel@ted>
-References: <1322233577.22654.0.camel@ted>
-	<CAMKF1sqynERGyJ_1AGVkqjvEwswoC1w6BuEVJyuKiX=HMmMzhA@mail.gmail.com>
-	<1322302567.25382.6.camel@ted>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 26 Nov 2011 13:50:08 -0800
-Message-ID: <CAMKF1sr93K9y0=eLh_TFdhXai3FyV1aG44JGx625=EV1F_2oxg@mail.gmail.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RUd9i-0005EI-89 for openembedded-core@lists.openembedded.org;
+	Sun, 27 Nov 2011 12:44:22 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pARBbhhC021506;
+	Sun, 27 Nov 2011 11:37:43 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 21291-02; Sun, 27 Nov 2011 11:37:37 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pARBbVoV021499
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Sun, 27 Nov 2011 11:37:32 GMT
+Message-ID: <1322393859.4798.13.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ghostscript-native: Ensure the sys/time/h fix is applied for native builds
+Date: Sun, 27 Nov 2011 11:37:39 +0000
+In-Reply-To: <CAMKF1spYAcXRg3of=P-bjoZmb11HhnaDztomSBMCjPFx=zsGRw@mail.gmail.com>
+References: <cover.1322095568.git.sgw@linux.intel.com>
+	<f8e475e6907d1ad9bfb93ec4c37a0876bc5ed90f.1322095568.git.sgw@linux.intel.com>
+	<CAMKF1srOcDxn+y3JaLrN=PCyeHYdhp45ypSy-g4NUc5=uMGwzQ@mail.gmail.com>
+	<4ED134CF.70706@linux.intel.com>
+	<CAMKF1spYAcXRg3of=P-bjoZmb11HhnaDztomSBMCjPFx=zsGRw@mail.gmail.com>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 1/1] intltool: remove XML::Parser check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,45 +43,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Nov 2011 21:57:15 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 27 Nov 2011 11:44:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sat, Nov 26, 2011 at 2:16 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2011-11-25 at 18:39 -0800, Khem Raj wrote:
->> On Fri, Nov 25, 2011 at 7:06 AM, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->> > On my system, the sys/time.h header is in a subdir off /usr/include
->> > which causes a build failure. Apply the target CFLAGS fix to native
->> > builds as well to address this.
->>
->> hmmm I thought CFLAGS would be automtically translated with
->> BBCLASSEXTEND = "native"
->
-> For native recipes, CFLAGS is replaced by BUILD_CFLAGS...
+On Sat, 2011-11-26 at 13:36 -0800, Khem Raj wrote:
+> Hi Saul
+> 
+> On Sat, Nov 26, 2011 at 10:49 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> > On 11/24/2011 11:37 AM, Khem Raj wrote:
+> >>
+> >> On Thu, Nov 24, 2011 at 10:29 AM, Saul Wold<sgw@linux.intel.com>  wrote:
+> >>>
+> >>> Add Patch to disable the XML::Parser check in the target
+> >>> intltool.m4, this check will find the host (not native)
+> >>> XML::Parser if it's installed possibly causing Host
+> >>> contamination, but will also fail configuration if XML::Parser
+> >>> is not installed on the host.
+> >>>
+> >>> Since we know that XML::Parser is installed on the image, we don't
+> >>> really need this check, so comment it out.
+> >>
+> >> if it is installed then why does it fail to detect it ?
+> >>
+> > Because the recipes that depend on intltool do not inherit perlnative, the
+> > recipes in question are gconf and shared-mime-info.  They depend on
+> > intltool, but do not need to directly inherit perlnative (at least according
+> > to RP).
+> 
+> why dont they need to inherit perlnative ? If they depend on intltool which
+> expects that its dependees inherit perlnative. I am just worried where this
+> may cause issues. There might be other recipes which should need XML parser
+> and may not get it since we remove the test here.
 
-yes I see. A little niggle I was thinking of is that at present for a
-target recipe if something gets changed in CFLAGS or TARGET_CFLAGS
-that makes to the compile phase as combined CFLAGS
+All of the intltool scripts have the correct paths to perl already
+embedded into them and can find perl fine. If the recipe needs perl for
+some other reason than intltool, it needs perlnative but it if only
+needs perl for intltool, we shouldn't need the dependency. The .m4 macro
+checks are well intended but don't fit the way we use perl. I really
+don't want to end up in a position where intltool automatically means we
+have to add perlnative as a dependency and we've previously seen many
+problems related to that.
 
-for native we rewrite CFLAGS = BUILD_CFLAGS
+Cheers,
 
-So either CFLAGS += BUILD_FLAGS for native CFLAGS += TARGET_CFLAGS
-will make it consistent or just override CFLAGS with BUILD_CFLAGS or
-TARGET_CFLAGS depending on recipe type
+Richard
 
 
-
->
-> Cheers,
->
-> Richard
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
 
