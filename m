@@ -1,55 +1,40 @@
-Received: from am1ehsobe004.messaging.microsoft.com ([213.199.154.207]
-	helo=AM1EHSOBE004.bigfish.com)
+Received: from mail-vx0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RV97I-0000wQ-DJ
+	(envelope-from <swaplinker@gmail.com>) id 1RV9Zk-0002So-V6
 	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Nov 2011 22:52:01 +0100
-Received: from mail35-am1-R.bigfish.com (10.3.201.252) by
-	AM1EHSOBE004.bigfish.com (10.3.204.24) with Microsoft SMTP Server id
-	14.1.225.22; Mon, 28 Nov 2011 21:29:18 +0000
-Received: from mail35-am1 (localhost [127.0.0.1])	by mail35-am1-R.bigfish.com
-	(Postfix) with ESMTP id 7842E140399;
-	Mon, 28 Nov 2011 21:29:17 +0000 (UTC)
-X-SpamScore: -12
-X-BigFish: VS-12(zz9371K1432N98dKzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 13,
-Received: from mail35-am1 (localhost.localdomain [127.0.0.1]) by mail35-am1
-	(MessageSwitch) id 1322515692985528_20743;
-	Mon, 28 Nov 2011 21:28:12 +0000 (UTC)
-Received: from AM1EHSMHS020.bigfish.com (unknown [10.3.201.249])	by
-	mail35-am1.bigfish.com (Postfix) with ESMTP id 4798280056;
-	Mon, 28 Nov 2011 21:28:11 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS020.bigfish.com
-	(10.3.206.23) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Mon, 28 Nov 2011 21:28:08 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.83]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.01.0339.002; Mon, 28 Nov 2011 15:28:54 -0600
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH] rpm_5.4.0.bb: Add xz as rpm DEPENDS
-Thread-Index: AQHMrhS6xOfQA1VQb0e5kjrRVLfhsw==
-Date: Mon, 28 Nov 2011 21:28:53 +0000
-Message-ID: <CAEsOVNeCt0x9Rf5FPp-HH47mn_fdYsbAfkX6QaX0kiRahv5OHg@mail.gmail.com>
-References: <1322035877-18151-1-git-send-email-msm@freescale.com>
-	<1322070364.15626.17.camel@ted>
-In-Reply-To: <1322070364.15626.17.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
+	Mon, 28 Nov 2011 23:21:25 +0100
+Received: by vcbfo13 with SMTP id fo13so2310455vcb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Nov 2011 14:14:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=NC+qZ9gAk4onw7U5ontsVcTrtZQdKrbQ4sWQ3MMiie4=;
+	b=e+prTSa4yvpbiX6I0g5X7RaR9KPOSY/nXkhXiL7FBYvqn+v1czdA7HPOsnpnBwA37k
+	JmOjMXOeGyjrcv9hMaRUq8/5Gu57cqy5GzZy4fwKBKJLl8xv03ZE4+9KVB1HsKC58FHB
+	EEX6ivlGMHtnbM1mp3DpeUMrUAbJuq1Tk/WN4=
+Received: by 10.220.195.68 with SMTP id eb4mr5363496vcb.23.1322518486172; Mon,
+	28 Nov 2011 14:14:46 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH] rpm_5.4.0.bb: Add xz as rpm DEPENDS
+Sender: swaplinker@gmail.com
+Received: by 10.52.93.47 with HTTP; Mon, 28 Nov 2011 14:14:25 -0800 (PST)
+In-Reply-To: <CAEsOVNcAR_N2LszE41fTaA=FGXMgtOdnCTLvdMxyYC5+GkTkKg@mail.gmail.com>
+References: <5ca10bdeed6e90862311b8417c0e6de353d1dc70.1322223227.git.julian.pidancet@gmail.com>
+	<CAEsOVNfoFW+3G-bSYiOy4p-Pa_bDShY_c3hutpA+THDO8hUrvg@mail.gmail.com>
+	<1322264404.25382.4.camel@ted>
+	<CAEsOVNcAR_N2LszE41fTaA=FGXMgtOdnCTLvdMxyYC5+GkTkKg@mail.gmail.com>
+From: Julian Pidancet <julian.pidancet@gmail.com>
+Date: Mon, 28 Nov 2011 22:14:25 +0000
+X-Google-Sender-Auth: QQ8EaRw4N51XPFiuKEF01S1ewVM
+Message-ID: <CAKZ=5EV8s7GQRPbUcXj44nDZK1xf=qBT3mvUZEb9+v5jGz3+9Q@mail.gmail.com>
+To: McClintock Matthew-B29882 <B29882@freescale.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] Introduce multiarch DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -60,47 +45,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Nov 2011 21:52:01 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <3E5C249821B1514292E289E2BD9B05C8@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 28 Nov 2011 22:21:25 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, Nov 23, 2011 at 11:46 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->> =A01 files changed, 2 insertions(+), 2 deletions(-)DISTRO_FEATURES_BACKF=
-ILLCONSIDERED
+On Mon, Nov 28, 2011 at 9:32 PM, McClintock Matthew-B29882
+<B29882@freescale.com> wrote:
+> On Fri, Nov 25, 2011 at 5:40 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>> This is firmly in multilib territory as its not just libgcc but libc as
+>> well and so it goes on.
 >>
->> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb b/meta/recipes-devto=
-ols/rpm/rpm_5.4.0.bb
->> index 356512a..87fb833 100644
->> --- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
->> +++ b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
->> @@ -42,10 +42,10 @@ HOMEPAGE =3D "http://rpm5.org/"
->> =A0LICENSE =3D "LGPL 2.1"
->> =A0LIC_FILES_CHKSUM =3D "file://COPYING.LIB;md5=3D2d5025d4aa3495befef8f1=
-7206a5b0a1"
+>> One of the reasons I'm nervous of the patch you're replying to is that
+>> people are now going to try and cross the two and we'll end up with a
+>> mess :(.
 >>
->> -DEPENDS =3D "bzip2 zlib db openssl elfutils expat libpcre attr acl popt=
- ${extrarpmdeps}"
->> +DEPENDS =3D "bzip2 zlib db openssl elfutils expat libpcre attr acl popt=
- xz ${extrarpmdeps}"
->> =A0extrarpmdeps =3D "python perl"
->> =A0extrarpmdeps_virtclass-native =3D "file-native"
->> -PR =3D "r22"
->> +PR =3D "r23"
+>> Trying to build just libgcc from the gcc tree is a nightmare and when we
+>> last tried it, caused no end of problems.
 >>
->> =A0# rpm2cpio is a shell script, which is part of the rpm src.rpm. =A0It=
- is needed
->> =A0# in order to extract the distribution SRPM into a format we can extr=
-act...
+>> What specific problem are you trying to solve?
 >
-> If we don't need xy (we don't as far as I know?), could we just disable
-> it instead?
+> The specific issue I'm having is for our 64-bit part that still uses a
+> 32-bit u-boot. Not sure the best approach really is...
+>
+> I've tried utilizing multilib by adding the following to my u-boot
+> recipe, but it's just hacky...
+>
+> DEPENDS_e5500-64b_append = " lib32-gcc"
+> CC_e5500-64b = "powerpc-poky-linux-gcc -m32"
+>
+> I'd rather NOT recompile gcc/eglibc/etc just for this 32-bit build of
+> u-boot where we don't need libc. I'd rather just have a functional
+> 32bit/64bit compiler for our 64-bit target.
+>
+> Looking forward farther, I would like to have one toolchain
+> ("meta-toolchain") that can produce target code for multiple targets
+> also.
+>
 
-Updated patch sent to list...
+Does u-boot really need to compile against libgcc ? I'm just curious.
 
--M=
+Unfortunately I believe that producing one libgcc per bit format is a
+multilib use-case, not a bi-arch use-case.
 
+Richard, regarding your concerns about people mixing up bi-arch and
+multilib. Isn't there any way we could make these two things mutually
+exclusive ?
+
+-- 
+Julian
+
+
+-- 
+Julian
 
 
