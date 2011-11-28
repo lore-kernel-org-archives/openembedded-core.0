@@ -1,53 +1,50 @@
-Received: from ch1ehsobe005.messaging.microsoft.com ([216.32.181.185]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from db3ehsobe002.messaging.microsoft.com ([213.199.154.140]
+	helo=DB3EHSOBE002.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RVAHt-00032W-A4
+	(envelope-from <B29882@freescale.com>) id 1RVAWj-0005Dg-4b
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 00:07:01 +0100
-Received: from mail170-ch1-R.bigfish.com (10.43.68.247) by
-	CH1EHSOBE017.bigfish.com (10.43.70.67) with Microsoft SMTP Server id
-	14.1.225.22; Mon, 28 Nov 2011 22:59:35 +0000
-Received: from mail170-ch1 (localhost [127.0.0.1])	by
-	mail170-ch1-R.bigfish.com (Postfix) with ESMTP id 7533124019E;
-	Mon, 28 Nov 2011 22:59:36 +0000 (UTC)
-X-SpamScore: -21
-X-BigFish: VS-21(zz9371K936eK179dN1432N98dKzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3h)
+	Tue, 29 Nov 2011 00:22:21 +0100
+Received: from mail53-db3-R.bigfish.com (10.3.81.246) by
+	DB3EHSOBE002.bigfish.com (10.3.84.22) with Microsoft SMTP Server id
+	14.1.225.22; Mon, 28 Nov 2011 23:14:51 +0000
+Received: from mail53-db3 (localhost [127.0.0.1])	by mail53-db3-R.bigfish.com
+	(Postfix) with ESMTP id BD81E801FD	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon, 28 Nov 2011 23:14:51 +0000 (UTC)
+X-SpamScore: -14
+X-BigFish: VS-14(zz9371K168aJ1432N98dKzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3h)
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
 	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail170-ch1 (localhost.localdomain [127.0.0.1]) by mail170-ch1
-	(MessageSwitch) id 1322521174390851_26625;
-	Mon, 28 Nov 2011 22:59:34 +0000 (UTC)
-Received: from CH1EHSMHS019.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.245])	by mail170-ch1.bigfish.com (Postfix) with ESMTP id
-	5A6CC4A0042;	Mon, 28 Nov 2011 22:59:34 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS019.bigfish.com
-	(10.43.70.19) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Mon, 28 Nov 2011 22:59:33 +0000
+Received: from mail53-db3 (localhost.localdomain [127.0.0.1]) by mail53-db3
+	(MessageSwitch) id 1322522091651562_3285;
+	Mon, 28 Nov 2011 23:14:51 +0000 (UTC)
+Received: from DB3EHSMHS009.bigfish.com (unknown [10.3.81.246])	by
+	mail53-db3.bigfish.com (Postfix) with ESMTP id 90E711C0046	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon, 28 Nov 2011 23:14:51 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS009.bigfish.com
+	(10.3.87.109) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Mon, 28 Nov 2011 23:14:50 +0000
 Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.83]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.01.0339.002; Mon, 28 Nov 2011 17:00:18 -0600
+	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
+	14.01.0339.002; Mon, 28 Nov 2011 17:15:36 -0600
 From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v3] Introduce multiarch DISTRO_FEATURE
-Thread-Index: AQHMq6VsUO05bOO/C0G8siH7/g/4OJW+pGYAgASTS4CAABdtAIAAAQ+A
-Date: Mon, 28 Nov 2011 23:00:18 +0000
-Message-ID: <CAEsOVNcCc5ZOT6wi_0pwkrFsJWmCGGS_Co-uA-z=oeFCYSDe8g@mail.gmail.com>
-References: <5ca10bdeed6e90862311b8417c0e6de353d1dc70.1322223227.git.julian.pidancet@gmail.com>
-	<CAEsOVNfoFW+3G-bSYiOy4p-Pa_bDShY_c3hutpA+THDO8hUrvg@mail.gmail.com>
-	<1322264404.25382.4.camel@ted>
-	<CAEsOVNcAR_N2LszE41fTaA=FGXMgtOdnCTLvdMxyYC5+GkTkKg@mail.gmail.com>
-	<1322520968.30225.23.camel@ted>
-In-Reply-To: <1322520968.30225.23.camel@ted>
+Thread-Topic: [OE-core] [PATCH] eglibc-initial: Fix kernel headers symlink
+	being wrong
+Thread-Index: AQHMriOiYVdQUcvPuEGVPKfctrXILQ==
+Date: Mon, 28 Nov 2011 23:15:36 +0000
+Message-ID: <CAEsOVNfRuMJfh3HW-6=0ivjngv+e8Dxk7fKo_ySUSgB4EYDrLg@mail.gmail.com>
+References: <1322521031-26849-1-git-send-email-msm@freescale.com>
+In-Reply-To: <1322521031-26849-1-git-send-email-msm@freescale.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [99.47.177.27]
 MIME-Version: 1.0
 X-OriginatorOrg: freescale.com
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Julian Pidancet <julian.pidancet@gmail.com>
-Subject: Re: [PATCH v3] Introduce multiarch DISTRO_FEATURE
+Subject: Re: [PATCH] eglibc-initial: Fix kernel headers symlink being wrong
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -63,41 +60,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Nov 2011 23:07:01 -0000
+X-List-Received-Date: Mon, 28 Nov 2011 23:22:21 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <4454CC2A18AB2F4783443695B7D2CF17@freescale.net>
+Content-ID: <7EEFC70701AE7842986441962E66BB06@freescale.net>
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 28, 2011 at 4:56 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Mon, 2011-11-28 at 21:32 +0000, McClintock Matthew-B29882 wrote:
->> On Fri, Nov 25, 2011 at 5:40 PM, Richard Purdie
->> > What specific problem are you trying to solve?
->>
->> The specific issue I'm having is for our 64-bit part that still uses a
->> 32-bit u-boot. Not sure the best approach really is...
+On Mon, Nov 28, 2011 at 4:57 PM, Matthew McClintock <msm@freescale.com> wro=
+te:
+> symlinks to the kernel headers were pointing at the wrong
+> location when being used from cache. Just copy the kernel
+> headers instead
 >
-> Hmm, does it really need libgcc?
-
-I pretty sure... I don't think it uses much though.
-
+> Signed-off-by: Matthew McClintock <msm@freescale.com>
+> ---
+> Do we need something to depend on the kernel version too since we
+> are copying instead of symlinking? Something like:
 >
->> I've tried utilizing multilib by adding the following to my u-boot
->> recipe, but it's just hacky...
->>
->> DEPENDS_e5500-64b_append =3D " lib32-gcc"
->> CC_e5500-64b =3D "powerpc-poky-linux-gcc -m32"
->>
->> I'd rather NOT recompile gcc/eglibc/etc just for this 32-bit build of
->> u-boot where we don't need libc. I'd rather just have a functional
->> 32bit/64bit compiler for our 64-bit target.
+> do_install[vardeps] +=3D "virtual/kernel:do_populate_sysroot"
 >
-> The trouble is that you need glibc-intermediate to build gcc-cross
-> (which builds a functional libgcc). You therefore can't short circuit
-> this as much as you think :/.
+> =A0meta/recipes-core/eglibc/eglibc-common.inc =A0| =A0 =A02 +-
+> =A0meta/recipes-core/eglibc/eglibc-initial.inc | =A0 =A02 +-
+> =A02 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-core/eglibc/eglibc-common.inc b/meta/recipes-co=
+re/eglibc/eglibc-common.inc
+> index 4fa6488..6a93968 100644
+> --- a/meta/recipes-core/eglibc/eglibc-common.inc
+> +++ b/meta/recipes-core/eglibc/eglibc-common.inc
+> @@ -3,7 +3,7 @@ DESCRIPTION =3D "Embedded GLIBC (EGLIBC) is a variant of =
+the GNU C Library (GLIBC)
+> =A0HOMEPAGE =3D "http://www.eglibc.org/home"
+> =A0SECTION =3D "libs"
+> =A0LICENSE =3D "GPLv2 & LGPLv2.1"
+> -INC_PR =3D "r11"
+> +INC_PR =3D "r12"
+> =A0LIC_FILES_CHKSUM ?=3D "file://LICENSES;md5=3D07a394b26e0902b9ffdec0376=
+5209770 \
+> =A0 =A0 =A0 file://COPYING;md5=3D393a5ca445f6965873eca0259a17f833 \
+> =A0 =A0 =A0 file://posix/rxspencer/COPYRIGHT;md5=3Ddc5485bb394a13b2332ec1=
+c785f5d83a \
+> diff --git a/meta/recipes-core/eglibc/eglibc-initial.inc b/meta/recipes-c=
+ore/eglibc/eglibc-initial.inc
+> index 448f73a..f154d64 100644
+> --- a/meta/recipes-core/eglibc/eglibc-initial.inc
+> +++ b/meta/recipes-core/eglibc/eglibc-initial.inc
+> @@ -48,7 +48,7 @@ do_install () {
+>
+> =A0 =A0 =A0 =A0# add links to linux-libc-headers: gcc-{cross,crossdk}-int=
+ermediate need this.
+> =A0 =A0 =A0 =A0for t in linux asm asm-generic; do
+> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 ln -s ${STAGING_DIR_TARGET}${includedir}/$t=
+ ${D}${includedir}/
+> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 cp -ar ${STAGING_DIR_TARGET}${includedir}/$=
+t ${D}${includedir}/
 
-Is there a way to skip eglibc then? That would make things much better.
+For reference, it looked something like this when used from cache:
+
+/home/mattsm/git/poky/build/tmp/sysroots/${MACHINE_A}-tcbootstrap/usr/inclu=
+de/linux:
+broken symbolic link to
+`../../../..//sysroots/${MACHINE_B}/usr/include/linux'
+
+And ${MACHINE_B} did not exist...
 
 -M=
 
