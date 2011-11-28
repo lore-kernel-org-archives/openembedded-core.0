@@ -1,25 +1,23 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Wenzong.Fan@windriver.com>) id 1RUwEg-0000nj-Sw
-	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Nov 2011 09:06:47 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pAS808Ew023072
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2011 00:00:08 -0800 (PST)
-Received: from localhost.localdomain (128.224.162.28) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Mon, 28 Nov 2011 00:00:08 -0800
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 28 Nov 2011 15:57:15 +0800
-Message-ID: <7edbc8ee33ddd7e93f1eb741efe8f0f1d0f8d51b.1322466046.git.wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1322466046.git.wenzong.fan@windriver.com>
-References: <cover.1322466046.git.wenzong.fan@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] distro_tracking: update tracking fields for gettext and eds-tools
+	(envelope-from <philb@gnu.org>)
+	id 1RUyHd-0008Sg-5y; Mon, 28 Nov 2011 11:17:57 +0100
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>)
+	id 1RUyBF-00071b-KT; Mon, 28 Nov 2011 11:11:21 +0100
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 28 Nov 2011 10:11:20 +0000
+In-Reply-To: <CA+YB3rZzq1zu9UCqZo4H4OypRdPyRObzahLjejp-qxXbzum+aw@mail.gmail.com>
+References: <CA+YB3rZzq1zu9UCqZo4H4OypRdPyRObzahLjejp-qxXbzum+aw@mail.gmail.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1322475081.26081.79.camel@phil-desktop>
+Mime-Version: 1.0
+Cc: tsc <tsc@lists.openembedded.org>, openembedded-devel@lists.openembedded.org
+Subject: Re: OpenEmbedded TSC Meeting 17-Nov-2011
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,53 +32,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Nov 2011 08:06:47 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 28 Nov 2011 10:17:57 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
+On Wed, 2011-11-23 at 10:18 -0800, Jeff Osier-Mixon wrote:
+> berlios disappearing
 
-Add maintainer and update manual_check_date, status fields.
+Just as an observation, this business of "berlios going away at the end
+of the year" seems to crop up in the TSC minutes fairly often but
+appears to be incorrect (or at least outdated).  According to the
+berlios website, it doesn't appear that there is an imminent threat of
+it disappearing.
 
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
----
- .../conf/distro/include/distro_tracking_fields.inc |   11 ++++++-----
- 1 files changed, 6 insertions(+), 5 deletions(-)
+That's not to say that I think moving bitbake off berlios and onto
+oe.org wouldn't be a good thing, but perhaps it isn't as urgent as all
+that.
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index d84b1b3..2ce9f40 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -5697,10 +5697,10 @@ DISTRO_PN_ALIAS_pn-table = "Intel"
- 
- RECIPE_STATUS_pn-eds-tools = "red"
- DISTRO_PN_ALIAS_pn-eds-tools = "OpenedHand"
--RECIPE_LATEST_VERSION_pn-eds-tools = "bzr"
-+RECIPE_LATEST_VERSION_pn-eds-tools = "git"
- RECIPE_LAST_UPDATE_pn-eds-tools = "Sep 12, 2007"
--RECIPE_MANUAL_CHECK_DATE_pn-eds-tools = "Nov 08, 2011"
--RECIPE_NO_UPDATE_REASON_pn-eds-tools = "Possibly convert to GIT based fetch"
-+RECIPE_MANUAL_CHECK_DATE_pn-eds-tools = "Nov 25, 2011"
-+RECIPE_MAINTAINER_pn-eds-tools = "Wenzong Fan <wenzong.fan@windriver.com>"
- 
- RECIPE_STATUS_pn-abiword-embedded = "red"
- DISTRO_PN_ALIAS_pn-abiword-embedded = "Fedora=abiword Ubuntu=abiword"
-@@ -6007,11 +6007,12 @@ RECIPE_LATEST_VERSION_pn-mesa-demos = "8.0.1"
- RECIPE_LAST_UPDATE_pn-mesa-demos = "Jul 13, 2010"
- RECIPE_MANUAL_CHECK_DATE_pn-mesa-demos = "Jun 7, 2011" 
- 
--RECIPE_STATUS_pn-gettext = "red"
-+RECIPE_STATUS_pn-gettext = "green"
- RECIPE_LATEST_VERSION_pn-gettext = "0.18.1.1"
- RECIPE_LATEST_RELEASE_DATE_pn-gettext = "Jun 06, 2010"
- RECIPE_LAST_UPDATE_pn-gettext = "May 24, 2011"
--RECIPE_MANUAL_CHECK_DATE_pn-gettext = "Sep 29, 2011" 
-+RECIPE_MANUAL_CHECK_DATE_pn-gettext = "Nov 25, 2011"
-+RECIPE_MAINTAINER_pn-gettext = "Wenzong Fan <wenzong.fan@windriver.com>"
- 
- RECIPE_STATUS_pn-pseudo = "green"
- RECIPE_LATEST_VERSION_pn-pseudo = "1.2"
--- 
-1.7.0.4
+p.
+
+
 
 
 
