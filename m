@@ -1,35 +1,46 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RVADp-0000O3-Q4 for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 00:02:51 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pASMuAjM004817;
-	Mon, 28 Nov 2011 22:56:10 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 03924-08; Mon, 28 Nov 2011 22:56:06 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pASMu1hH004811
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 28 Nov 2011 22:56:01 GMT
-Message-ID: <1322520968.30225.23.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: McClintock Matthew-B29882 <B29882@freescale.com>, Patches and
-	discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 28 Nov 2011 22:56:08 +0000
-In-Reply-To: <CAEsOVNcAR_N2LszE41fTaA=FGXMgtOdnCTLvdMxyYC5+GkTkKg@mail.gmail.com>
-References: <5ca10bdeed6e90862311b8417c0e6de353d1dc70.1322223227.git.julian.pidancet@gmail.com>
-	<CAEsOVNfoFW+3G-bSYiOy4p-Pa_bDShY_c3hutpA+THDO8hUrvg@mail.gmail.com>
-	<1322264404.25382.4.camel@ted>
-	<CAEsOVNcAR_N2LszE41fTaA=FGXMgtOdnCTLvdMxyYC5+GkTkKg@mail.gmail.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Julian Pidancet <julian.pidancet@gmail.com>
-Subject: Re: [PATCH v3] Introduce multiarch DISTRO_FEATURE
+Received: from va3ehsobe006.messaging.microsoft.com ([216.32.180.16]
+	helo=VA3EHSOBE009.bigfish.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <B29882@freescale.com>) id 1RVAEq-0001n3-MM
+	for openembedded-core@lists.openembedded.org;
+	Tue, 29 Nov 2011 00:03:58 +0100
+Received: from mail60-va3-R.bigfish.com (10.7.14.239) by
+	VA3EHSOBE009.bigfish.com (10.7.40.29) with Microsoft SMTP Server id
+	14.1.225.22; Mon, 28 Nov 2011 22:56:27 +0000
+Received: from mail60-va3 (localhost [127.0.0.1])	by mail60-va3-R.bigfish.com
+	(Postfix) with ESMTP id 11B4854032F	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon, 28 Nov 2011 22:56:27 +0000 (UTC)
+X-SpamScore: 1
+X-BigFish: VS1(zz168aJzz1202h1082kzz8275bh8275dhz2dh2a8h668h839h61h)
+X-Spam-TCS-SCL: 0:0
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail60-va3 (localhost.localdomain [127.0.0.1]) by mail60-va3
+	(MessageSwitch) id 1322520986900625_14869;
+	Mon, 28 Nov 2011 22:56:26 +0000 (UTC)
+Received: from VA3EHSMHS013.bigfish.com (unknown [10.7.14.235])	by
+	mail60-va3.bigfish.com (Postfix) with ESMTP id D36E82C0047	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon, 28 Nov 2011 22:56:26 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS013.bigfish.com
+	(10.7.99.23) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Mon, 28 Nov 2011 22:56:26 +0000
+Received: from az33smr01.freescale.net (10.64.34.199) by
+	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
+	Server id 14.1.339.2; Mon, 28 Nov 2011 16:57:12 -0600
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
+	by az33smr01.freescale.net (8.13.1/8.13.0) with ESMTP id
+	pASMvBIX021747	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Nov 2011 16:57:11 -0600 (CST)
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 28 Nov 2011 16:57:11 -0600
+Message-ID: <1322521031-26849-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.6.1
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: [PATCH] eglibc-initial: Fix kernel headers symlink being wrong
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,44 +55,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Nov 2011 23:02:52 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Nov 2011 23:04:02 -0000
+Content-Type: text/plain
 
-On Mon, 2011-11-28 at 21:32 +0000, McClintock Matthew-B29882 wrote:
-> On Fri, Nov 25, 2011 at 5:40 PM, Richard Purdie
-> > What specific problem are you trying to solve?
-> 
-> The specific issue I'm having is for our 64-bit part that still uses a
-> 32-bit u-boot. Not sure the best approach really is...
+symlinks to the kernel headers were pointing at the wrong
+location when being used from cache. Just copy the kernel
+headers instead
 
-Hmm, does it really need libgcc?
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+Do we need something to depend on the kernel version too since we
+are copying instead of symlinking? Something like:
 
-> I've tried utilizing multilib by adding the following to my u-boot
-> recipe, but it's just hacky...
-> 
-> DEPENDS_e5500-64b_append = " lib32-gcc"
-> CC_e5500-64b = "powerpc-poky-linux-gcc -m32"
-> 
-> I'd rather NOT recompile gcc/eglibc/etc just for this 32-bit build of
-> u-boot where we don't need libc. I'd rather just have a functional
-> 32bit/64bit compiler for our 64-bit target.
+do_install[vardeps] += "virtual/kernel:do_populate_sysroot"
 
-The trouble is that you need glibc-intermediate to build gcc-cross
-(which builds a functional libgcc). You therefore can't short circuit
-this as much as you think :/.
+ meta/recipes-core/eglibc/eglibc-common.inc  |    2 +-
+ meta/recipes-core/eglibc/eglibc-initial.inc |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-> Looking forward farther, I would like to have one toolchain
-> ("meta-toolchain") that can produce target code for multiple targets
-> also.
+diff --git a/meta/recipes-core/eglibc/eglibc-common.inc b/meta/recipes-core/eglibc/eglibc-common.inc
+index 4fa6488..6a93968 100644
+--- a/meta/recipes-core/eglibc/eglibc-common.inc
++++ b/meta/recipes-core/eglibc/eglibc-common.inc
+@@ -3,7 +3,7 @@ DESCRIPTION = "Embedded GLIBC (EGLIBC) is a variant of the GNU C Library (GLIBC)
+ HOMEPAGE = "http://www.eglibc.org/home"
+ SECTION = "libs"
+ LICENSE = "GPLv2 & LGPLv2.1"
+-INC_PR = "r11"
++INC_PR = "r12"
+ LIC_FILES_CHKSUM ?= "file://LICENSES;md5=07a394b26e0902b9ffdec03765209770 \
+       file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
+       file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
+diff --git a/meta/recipes-core/eglibc/eglibc-initial.inc b/meta/recipes-core/eglibc/eglibc-initial.inc
+index 448f73a..f154d64 100644
+--- a/meta/recipes-core/eglibc/eglibc-initial.inc
++++ b/meta/recipes-core/eglibc/eglibc-initial.inc
+@@ -48,7 +48,7 @@ do_install () {
+ 
+ 	# add links to linux-libc-headers: gcc-{cross,crossdk}-intermediate need this.
+ 	for t in linux asm asm-generic; do
+-		ln -s ${STAGING_DIR_TARGET}${includedir}/$t ${D}${includedir}/
++		cp -ar ${STAGING_DIR_TARGET}${includedir}/$t ${D}${includedir}/
+ 	done
+ }
+ 
+-- 
+1.7.6.1
 
-This is easier since we would just add lib32-gcc and lib-gcc to the
-sysroot. It then becomes a case of just ensuring gcc is configured
-correctly.
-
-Cheers,
-
-Richard
 
 
 
