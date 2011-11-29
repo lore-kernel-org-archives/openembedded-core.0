@@ -1,31 +1,23 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RVWje-0001LO-P4
-	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Nov 2011 00:05:10 +0100
-Received: by lagj5 with SMTP id j5so28426lag.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2011 14:58:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=z/ctiT2hDBA+vdvxTISLMKQO0MOfgQZ4IVnlw6xPtsQ=;
-	b=eOw0EU2eZW7OwRL8KrsTJbCC+yawqITGZKDacocgRBjqgtRnOLgY9n/gSNui59Z7JR
-	UxI4LfXWF1t0YbX+EwIdLUkaSUk6vCHjnnjFDenCm/oM7rNHndzDGGKg3zDxkXrgVmr5
-	AAZCHV514haY7ZJUjmKfFFk47Wzm1fl+A/yus=
-Received: by 10.152.111.1 with SMTP id ie1mr20383825lab.7.1322607511097; Tue,
-	29 Nov 2011 14:58:31 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.152.24.36 with HTTP; Tue, 29 Nov 2011 14:58:00 -0800 (PST)
-In-Reply-To: <1321908500.3347.4.camel@lenovo.internal.reciva.com>
-References: <1321906980-16016-1-git-send-email-raj.khem@gmail.com>
-	<1321908500.3347.4.camel@lenovo.internal.reciva.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 29 Nov 2011 14:58:00 -0800
-Message-ID: <CAMKF1sqeJYheY+9a3XqnO7sSj4B7u-9naj7S9zSa_owixb5Tvw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] alsa-lib: Unbreak native build when using TCLIBC=uclibc
+	(envelope-from <sgw@linux.intel.com>) id 1RVWm0-0001Ov-28
+	for openembedded-core@openembedded.org; Wed, 30 Nov 2011 00:07:36 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2011 15:00:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,594,1315206000"; d="scan'208";a="96720811"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.251])
+	by fmsmga002.fm.intel.com with ESMTP; 29 Nov 2011 15:00:32 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@openembedded.org
+Date: Tue, 29 Nov 2011 15:00:20 -0800
+Message-Id: <63a8312e843e78942030e19786cc34ee752c851c.1322607016.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.6.4
+In-Reply-To: <cover.1322607016.git.sgw@linux.intel.com>
+References: <cover.1322607016.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1322607016.git.sgw@linux.intel.com>
+References: <cover.1322607016.git.sgw@linux.intel.com>
+Subject: [PATCH 20/26] libiconv: Update to 1.14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,39 +32,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 23:05:10 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 29 Nov 2011 23:07:36 -0000
 
-On Mon, Nov 21, 2011 at 12:48 PM, Phil Blundell <philb@gnu.org> wrote:
-> On Mon, 2011-11-21 at 12:23 -0800, Khem Raj wrote:
->> A recent change introduced EXTRA_OECONF_append_libc-uclibc =3D "
->> --with-versioned=3Dno " this change has a side effect when
->> building alsa-lib-native using TCLIBC=3Duclibc the override
->> kicks in uninvited and hence build the native package without symbol
->> version information. This mean libasound.so which is needed by other
->> packages from build host e.g. libSDL.so does not have required symbols
->> and linking with libSDL fails, one such case ends in SDL support
->> in qemu-native being silently disabled.
->>
->> We make sure that override is only enabled for target recipe
->
-> This seems like the wrong solution to the problem. =C2=A0Shouldn't you be
-> inhibiting the libc-uclibc OVERRIDE at source for native builds
-> (assuming the host system isn't using uClibc)?
->
-> It also seems as though there ought to be a more generic place to encode
-> the knowledge that uClibc doesn't do symbol versioning. =C2=A0Having to h=
-ack
-> it into EXTRA_OECONF for every recipe seems... suboptimal.
->
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ .../{libiconv_1.13.1.bb => libiconv_1.14.bb}       |    3 ---
+ 1 files changed, 0 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/libiconv/{libiconv_1.13.1.bb => libiconv_1.14.bb} (88%)
 
-I have posted another patch which is broader in impact and solves
-these kind of problems
-here http://lists.linuxtogo.org/pipermail/openembedded-core/2011-November/0=
-13375.html
+diff --git a/meta/recipes-support/libiconv/libiconv_1.13.1.bb b/meta/recipes-support/libiconv/libiconv_1.14.bb
+similarity index 88%
+rename from meta/recipes-support/libiconv/libiconv_1.13.1.bb
+rename to meta/recipes-support/libiconv/libiconv_1.14.bb
+index 6471e32..3b0196d 100644
+--- a/meta/recipes-support/libiconv/libiconv_1.13.1.bb
++++ b/meta/recipes-support/libiconv/libiconv_1.14.bb
+@@ -13,9 +13,6 @@ SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
+            file://autoconf.patch \
+           "
+ 
+-SRC_URI[md5sum] = "7ab33ebd26687c744a37264a330bbe9a"
+-SRC_URI[sha256sum] = "55a36168306089009d054ccdd9d013041bfc3ab26be7033d107821f1c4949a49"
+-
+ S = "${WORKDIR}/libiconv-${PV}"
+ 
+ inherit autotools pkgconfig gettext
+-- 
+1.7.6.4
 
-Thanks
--Khem
 
 
