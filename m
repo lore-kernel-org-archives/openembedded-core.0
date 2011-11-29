@@ -1,61 +1,45 @@
-Received: from ch1ehsobe005.messaging.microsoft.com ([216.32.181.185]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RVQN8-00011o-4E
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RVQrM-0001f6-2e
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 17:17:31 +0100
-Received: from mail19-ch1-R.bigfish.com (10.43.68.250) by
-	CH1EHSOBE014.bigfish.com (10.43.70.64) with Microsoft SMTP Server id
-	14.1.225.22; Tue, 29 Nov 2011 16:10:02 +0000
-Received: from mail19-ch1 (localhost [127.0.0.1])	by mail19-ch1-R.bigfish.com
-	(Postfix) with ESMTP id D81724A035C;
-	Tue, 29 Nov 2011 16:10:06 +0000 (UTC)
-X-SpamScore: -16
-X-BigFish: VS-16(zz9371K1432N98dK4015Lzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 13,
-Received: from mail19-ch1 (localhost.localdomain [127.0.0.1]) by mail19-ch1
-	(MessageSwitch) id 1322583006773682_22941;
-	Tue, 29 Nov 2011 16:10:06 +0000 (UTC)
-Received: from CH1EHSMHS026.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.252])	by mail19-ch1.bigfish.com (Postfix) with ESMTP id
-	AF811700049;	Tue, 29 Nov 2011 16:10:06 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS026.bigfish.com
-	(10.43.70.26) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Tue, 29 Nov 2011 16:09:58 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.83]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.01.0339.002; Tue, 29 Nov 2011 10:10:43 -0600
-From: McClintock Matthew-B29882 <B29882@freescale.com>
+	Tue, 29 Nov 2011 17:48:44 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 29 Nov 2011 08:42:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,592,1315206000"; d="scan'208";a="90228493"
+Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
+	by fmsmga001.fm.intel.com with ESMTP; 29 Nov 2011 08:42:03 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.226.213) by
+	orsmsx604.amr.corp.intel.com (10.22.226.87) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Tue, 29 Nov 2011 08:42:02 -0800
+Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
+	orsmsx601.amr.corp.intel.com ([10.22.226.213]) with mapi;
+	Tue, 29 Nov 2011 08:42:04 -0800
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v3] Introduce multiarch DISTRO_FEATURE
-Thread-Index: AQHMq6VsUO05bOO/C0G8siH7/g/4OJW+pGYAgASTS4CAABdtAIAAAQ+AgADiWwCAAD2DAA==
-Date: Tue, 29 Nov 2011 16:10:43 +0000
-Message-ID: <CAEsOVNf7hckDk4i8gHx4_jXvzKzRxPkGfT4jP9ORSJvn_t=r=g@mail.gmail.com>
-References: <5ca10bdeed6e90862311b8417c0e6de353d1dc70.1322223227.git.julian.pidancet@gmail.com>
-	<CAEsOVNfoFW+3G-bSYiOy4p-Pa_bDShY_c3hutpA+THDO8hUrvg@mail.gmail.com>
-	<1322264404.25382.4.camel@ted>
-	<CAEsOVNcAR_N2LszE41fTaA=FGXMgtOdnCTLvdMxyYC5+GkTkKg@mail.gmail.com>
-	<1322520968.30225.23.camel@ted>
-	<CAEsOVNcCc5ZOT6wi_0pwkrFsJWmCGGS_Co-uA-z=oeFCYSDe8g@mail.gmail.com>
-	<1322569804.3166.5.camel@ted>
-In-Reply-To: <1322569804.3166.5.camel@ted>
+Date: Tue, 29 Nov 2011 08:42:02 -0800
+Thread-Topic: [OE-core] [PATCH 3/4] gmp: also generate the libgmpcxx library
+	& package it properly
+Thread-Index: AcyubPXGvTAKcm7MQfuBRLcTN3YeqgASI2Ew
+Message-ID: <9DA5872FEF993D41B7173F58FCF6BE94E3D06A4F@orsmsx504.amr.corp.intel.com>
+References: <cover.1322526931.git.nitin.a.kamble@intel.com>
+	<6b7fb8503d66ee4d4c3d43f3c368b8aa2d010add.1322526931.git.nitin.a.kamble@intel.com>
+	<4f8425c0c7856dba2b3765407a97754c7b06aeb5.1322526931.git.nitin.a.kamble@intel.com>
+	<CAP9ODKpm7jB4FhBuNC7biDyuhVg8Kdxf5wEcm+WwsAyRtZR+WQ@mail.gmail.com>
+	<9DA5872FEF993D41B7173F58FCF6BE94E3D06804@orsmsx504.amr.corp.intel.com>
+	<1322553613.3077.10.camel@lenovo.internal.reciva.com>
+In-Reply-To: <1322553613.3077.10.camel@lenovo.internal.reciva.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
+acceptlanguage: en-US
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Julian Pidancet <julian.pidancet@gmail.com>
-Subject: Re: [PATCH v3] Introduce multiarch DISTRO_FEATURE
+Subject: Re: [PATCH 3/4] gmp: also generate the libgmpcxx library & package it properly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -66,22 +50,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 16:17:31 -0000
+X-List-Received-Date: Tue, 29 Nov 2011 16:48:44 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <D429A9FB84919B48A1DB506804FFB53B@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Tue, Nov 29, 2011 at 6:30 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> If you depend just on lib32-libgcc:do_populate_sysroot, it shouldn't
-> build eglibc. You can do that with something like:
->
-> do_compile[depends] +=3D "lib32-libgcc:do_populate_sysroot"
-
-Thanks, I'll give this a try.
-
--M=
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogb3BlbmVtYmVkZGVkLWNv
+cmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFttYWlsdG86b3BlbmVtYmVkZGVk
+LWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYgT2YNCj4gUGhp
+bCBCbHVuZGVsbA0KPiBTZW50OiBUdWVzZGF5LCBOb3ZlbWJlciAyOSwgMjAxMSAxMjowMCBBTQ0K
+PiBUbzogUGF0Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQgdGhlIG9lLWNvcmUgbGF5ZXINCj4g
+U3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMy80XSBnbXA6IGFsc28gZ2VuZXJhdGUgdGhl
+IGxpYmdtcGN4eA0KPiBsaWJyYXJ5ICYgcGFja2FnZSBpdCBwcm9wZXJseQ0KPiANCj4gT24gTW9u
+LCAyMDExLTExLTI4IGF0IDE3OjUyIC0wODAwLCBLYW1ibGUsIE5pdGluIEEgd3JvdGU6DQo+IA0K
+PiA+IEJlZm9yZSB0aGUgZ2VuZXJhdGlvbiBvZiBsaWJnbXB4eCBsaWJyYXJ5LCB0aGVyZSB3YXMg
+b25seSBvbmUNCj4gbGlicmFyeSwNCj4gPiBsaWJnbXAsIGFuZCBpdCB3YXMgZ2V0dGluZyBwYWNr
+YWdlZCBpbnRvIGxpYmdtcDEwIHBhY2thZ2UuIEFmdGVyDQo+ID4gYWRkaXRpb24gb2YgdGhlIGxp
+YmdtcHh4IGxpYnJhcnkgdGhlIHBhY2thZ2UgbmFtZSBjaGFuZ2VkIHRvIHRoZQ0KPiA+IHJlY2lw
+ZSBuYW1lIChnbXApLCBpbiBvcmRlciB0byBwcmVzZXJ2ZSB0aGUgcHJldmlvdXMgcGFja2FnZSBu
+YW1lKGZvcg0KPiA+IGRpc3RybyB1cGdyYWRlcyksIGFuZCB0byBsZXQgcGVvcGxlIGF2b2lkIGlu
+c3RhbGxhdGlvbiBvZiBsaWJnbXB4eCBpZg0KPiA+IHRoZXkgZG9u4oCZdCBuZWVkIGl0IGluIG9y
+ZGVyIHRvIHNhdmUgdGhlIHNwYWNlIG9uIHRhcmdldCwgdHdvIHBhY2thZ2VzDQo+ID4gYXJlIGdl
+bmVyYXRlZCBmb3IgZWFjaCBsaWJyYXJ5IHdpdGggdGhpcyBzY2hlbWUuDQo+IA0KPiBSaWdodCwg
+YnV0IHRoYXQncyBub3QgcmVhbGx5IHRoZSBwb2ludC4gIEkgdGhpbmsgd2hhdCBPdGF2aW8gd2Fz
+IHRyeWluZw0KPiB0byBhc2sgd2FzLCB3aHkgZGlkbid0IHlvdSBqdXN0IGRvOg0KPiANCj4gUEFD
+S0FHRVMgPSsgImxpYmdtcHh4Ig0KPiBGSUxFU19saWJnbXB4eCA9ICIke2xpYmRpcn0vbGliZ21w
+eHgke1NPTElCU30iDQo+IA0KPiA/ICBJIHRoaW5rIHRoZSB3YXkgeW91IGhhdmUgZG9uZSBpdCB3
+aWxsIGNhdXNlIHRoZSBsaWJnbXAgcGFja2FnZSBuYW1lDQo+IHRvIGNoYW5nZSBmb3IgcGVvcGxl
+IG5vdCB1c2luZyBkZWJpYW4uYmJjbGFzcywgd2hpY2ggaXMgcHJvYmFibHkgYSBiYWQNCj4gdGhp
+bmcuDQo+IA0KPiBwLg0KDQpUaGFua3MgUGhpbCwNCiAgVGhpcyB3YXMgYWxzbyB3b3JrcyB0aGUg
+c2FtZS4gQW5kIHByb2R1Y2luZyBzYW1lIHJwbSBwYWNrYWdlcyBhcyBwcmV2aW91cyBvbmUuIFNv
+IEkgYW0gaGFwcHkgdG8gYWNjZXB0IHRoaXMgY2hhbmdlIGlmIGl0IGhlbHBzIHRoZSBkZWIgcGFj
+a2FnZXMuIFdpbGwgcmVzZW5kIHRoZSBjb21taXQuDQpOaXRpbg0KDQo+IA0KPiANCj4gDQo+IA0K
+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPiBPcGVu
+ZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxpc3QNCj4gT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZw0KPiBodHRwOi8vbGlzdHMubGludXh0b2dvLm9yZy9jZ2ktYmluL21haWxt
+YW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUNCg==
 
 
