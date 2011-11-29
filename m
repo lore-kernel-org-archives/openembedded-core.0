@@ -1,34 +1,34 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RVHnH-00036Q-IJ
+	(envelope-from <martin.jansa@gmail.com>) id 1RVHnO-000367-Qr
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 08:07:55 +0100
-Received: by faar15 with SMTP id r15so568113faa.6
+	Tue, 29 Nov 2011 08:08:02 +0100
+Received: by mail-bw0-f47.google.com with SMTP id zs2so8947887bkb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2011 23:01:17 -0800 (PST)
+	Mon, 28 Nov 2011 23:01:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=P6qlc+FmqYagr7eO8WoGAK1DC51d2pgLCPwQFs2KRPw=;
-	b=u+wzWR+DNADHfkfTVG2CtNCQ9K9nvUOMUqKN4U/Uw+LQP9OdM/BUcb8s6TTuHTmVef
-	J3NMbypr38kkFsJDxhm1F+Up0DJfAV+tOuyJ7N5Er/1uK5hQcFm7pAijytmT8MpKefm3
-	tR/cTccNy8EaOa9GURPhWTf5UjHqUm+tpPbvA=
-Received: by 10.204.149.212 with SMTP id u20mr3211430bkv.120.1322550076863;
-	Mon, 28 Nov 2011 23:01:16 -0800 (PST)
+	bh=kIkLml6teyz5KKRWdG4qzeZGfHZTj9yk9EPsJLViPv8=;
+	b=F9IBilj2DsgG88g7bYGMCoUQY1kM59brTcr//SFTnVOYjGs9BPpsYCyT15HyzuPoQy
+	Rot2J20DD7blGCwZwkeTfEYs87HKPmRd9OBDjKPlQBdW194deMTcTfvvUtSF6u4sVeZE
+	VFqDAjt1yqAhm6QbfUc8VteTWYH7ZhAOWmZlo=
+Received: by 10.205.128.19 with SMTP id hc19mr49640134bkc.9.1322550084838;
+	Mon, 28 Nov 2011 23:01:24 -0800 (PST)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id jf4sm29392829bkc.5.2011.11.28.23.01.15
+	by mx.google.com with ESMTPS id d2sm11567961bky.11.2011.11.28.23.01.22
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 28 Nov 2011 23:01:16 -0800 (PST)
+	Mon, 28 Nov 2011 23:01:23 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Nov 2011 08:00:52 +0100
-Message-Id: <3203398eecfc0215abbca487c516006bca4305ef.1322549636.git.Martin.Jansa@gmail.com>
+Date: Tue, 29 Nov 2011 08:00:53 +0100
+Message-Id: <0a551c0551391cf10a1b12d53d9223e3dc0fc4d1.1322549636.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.8.rc3
 In-Reply-To: <475348b418f9ebf0a395de9a0ec42ee91d541dc8.1322549636.git.Martin.Jansa@gmail.com>
 References: <475348b418f9ebf0a395de9a0ec42ee91d541dc8.1322549636.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1322549636.git.Martin.Jansa@gmail.com>
 References: <cover.1322549636.git.Martin.Jansa@gmail.com>
-Subject: [oe-core 02/10] util-linux: use u-a to provide /sbin/getty from util-linux-agetty
+Subject: [oe-core 03/10] mingetty: use u-a to provide /sbin/getty (also provided by util-linux-agetty and tinylogin)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,46 +43,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 07:07:55 -0000
-
-* inittab and systemd-serialgetty expects /sbin/getty not agetty
+X-List-Received-Date: Tue, 29 Nov 2011 07:08:02 -0000
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc       |    8 ++++++++
- meta/recipes-core/util-linux/util-linux_2.19.1.bb |    2 +-
- 2 files changed, 9 insertions(+), 1 deletions(-)
+ meta/recipes-extended/mingetty/mingetty_1.08.bb |    9 ++++++++-
+ 1 files changed, 8 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 855a545..acc4a39 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -236,6 +236,14 @@ pkg_prerm_util-linux-fdisk () {
- 	update-alternatives --remove fdisk fdisk.${PN}
- }
+diff --git a/meta/recipes-extended/mingetty/mingetty_1.08.bb b/meta/recipes-extended/mingetty/mingetty_1.08.bb
+index ce4b3d4..fed5dfd 100644
+--- a/meta/recipes-extended/mingetty/mingetty_1.08.bb
++++ b/meta/recipes-extended/mingetty/mingetty_1.08.bb
+@@ -2,7 +2,7 @@ DESCRIPTION = " A compact getty program for virtual consoles only"
+ SECTION = "console/utils"
+ HOMEPAGE = "http://sourceforge.net/projects/mingetty/"
+ LICENSE = "GPLv2"
+-PR = "r0"
++PR = "r1"
  
-+pkg_postinst_util-linux-agetty () {
-+	update-alternatives --install ${base_sbindir}/getty getty agetty 100
-+}
-+
-+pkg_prerm_util-linux-agetty () {
-+	update-alternatives --remove getty agetty
-+}
-+
- pkg_postinst_util-linux-mount () {
- 	update-alternatives --install ${base_bindir}/mount mount mount.${PN} 100
+ LIC_FILES_CHKSUM = "file://COPYING;md5=0c56db0143f4f80c369ee3af7425af6e"
+ SRC_URI = "http://cdnetworks-kr-1.dl.sourceforge.net/project/mingetty/mingetty/${PV}/mingetty-${PV}.tar.gz"
+@@ -17,3 +17,10 @@ do_install(){
+     mkdir -p ${D}/sbin
+     oe_runmake install DESTDIR=${D}
  }
-diff --git a/meta/recipes-core/util-linux/util-linux_2.19.1.bb b/meta/recipes-core/util-linux/util-linux_2.19.1.bb
-index b65e761..82040ef 100644
---- a/meta/recipes-core/util-linux/util-linux_2.19.1.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.19.1.bb
-@@ -1,5 +1,5 @@
- MAJOR_VERSION = "2.19"
--PR = "r11"
-+PR = "r12"
- require util-linux.inc
- 
- # note that `lscpu' is under GPLv3+
++
++inherit update-alternatives
++
++ALTERNATIVE_NAME = "getty"
++ALTERNATIVE_LINK = "${base_sbindir}/getty"
++ALTERNATIVE_PATH = "${base_sbindir}/mingetty"
++ALTERNATIVE_PRIORITY = "50"
 -- 
 1.7.8.rc3
 
