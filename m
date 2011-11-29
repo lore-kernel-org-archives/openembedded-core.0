@@ -1,40 +1,46 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from va3ehsobe005.messaging.microsoft.com ([216.32.180.31]
+	helo=VA3EHSOBE005.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RVVLe-00068I-Fu
+	(envelope-from <B29882@freescale.com>) id 1RVVPd-0006El-9i
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 22:36:18 +0100
-Received: by faar15 with SMTP id r15so185083faa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2011 13:29:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=Nhxijn60tI+f8hNT6zeUgnQz7GsFvgHc82jC0Uhw1Ts=;
-	b=DmTXKlDQ2gelthtGtQtN6st7y00A/XZ/P+7Mq8E/6U8DByNWtsUMOFUadJYY8Q30xU
-	aO0xHBvz2neGmM370v7EI1k5WJhZ0P6jwHIaRW+08Zt5umAaKmhpOmW5L+V54CmNg+u+
-	llvryyTMZtLZFO2BPPfbBJQlwFkv4rN2QpgxU=
-Received: by 10.204.131.88 with SMTP id w24mr52066324bks.113.1322602178867;
-	Tue, 29 Nov 2011 13:29:38 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id h7sm39748343bkw.12.2011.11.29.13.29.36
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 29 Nov 2011 13:29:37 -0800 (PST)
-Date: Tue, 29 Nov 2011 22:29:25 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Message-ID: <20111129212925.GJ7441@jama.jama.net>
-References: <cover.1322549636.git.Martin.Jansa@gmail.com>
-	<eb7aab8096dac4fc73520c17e0edd4ac689c1cda.1322549636.git.Martin.Jansa@gmail.com>
-	<2752f234bc996b128d06ad63bf5ad36e00a3d3ea.1322549636.git.Martin.Jansa@gmail.com>
-	<4ED53FCA.8000509@linux.intel.com>
-	<20111129204308.GI7441@jama.jama.net>
-	<4ED5453C.5090704@linux.intel.com>
+	Tue, 29 Nov 2011 22:40:25 +0100
+Received: from mail66-va3-R.bigfish.com (10.7.14.241) by
+	VA3EHSOBE005.bigfish.com (10.7.40.25) with Microsoft SMTP Server id
+	14.1.225.22; Tue, 29 Nov 2011 21:32:54 +0000
+Received: from mail66-va3 (localhost [127.0.0.1])	by mail66-va3-R.bigfish.com
+	(Postfix) with ESMTP id 51E92660291	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 29 Nov 2011 21:32:55 +0000 (UTC)
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839h61h)
+X-Spam-TCS-SCL: 0:0
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail66-va3 (localhost.localdomain [127.0.0.1]) by mail66-va3
+	(MessageSwitch) id 1322602375203259_5663;
+	Tue, 29 Nov 2011 21:32:55 +0000 (UTC)
+Received: from VA3EHSMHS016.bigfish.com (unknown [10.7.14.241])	by
+	mail66-va3.bigfish.com (Postfix) with ESMTP id 29D233A0049	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 29 Nov 2011 21:32:55 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS016.bigfish.com
+	(10.7.99.26) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Tue, 29 Nov 2011 21:32:49 +0000
+Received: from az33smr02.freescale.net (10.64.34.200) by
+	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
+	Server id 14.1.339.2; Tue, 29 Nov 2011 15:33:36 -0600
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
+	by az33smr02.freescale.net (8.13.1/8.13.0) with ESMTP id
+	pATLXaSd018097	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Nov 2011 15:33:36 -0600 (CST)
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 29 Nov 2011 15:33:35 -0600
+Message-ID: <1322602415-24735-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.6.1
 MIME-Version: 1.0
-In-Reply-To: <4ED5453C.5090704@linux.intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-core 10/10] gconf: add polkit to DEPENDS
+X-OriginatorOrg: freescale.com
+Subject: [PATCH] bitbake.conf: Ignore MACHINE as dep for MACHINEOVERRIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,109 +55,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 21:36:18 -0000
-X-Groupsio-MsgNum: 13172
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Xssso5lpTBgMxDfe"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 29 Nov 2011 21:40:25 -0000
+Content-Type: text/plain
 
---Xssso5lpTBgMxDfe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This dependency causes binutils to get rebuilt for some of
+our parts that are the same TARGET_ARCH but different
+MACHINE.
 
-On Tue, Nov 29, 2011 at 12:49:00PM -0800, Saul Wold wrote:
-> On 11/29/2011 12:43 PM, Martin Jansa wrote:
-> > On Tue, Nov 29, 2011 at 12:25:46PM -0800, Saul Wold wrote:
-> >> On 11/29/2011 06:09 AM, Martin Jansa wrote:
-> >>> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
-> >>> ---
-> >>>    meta/recipes-gnome/gnome/gconf_3.2.3.bb |    2 +-
-> >>>    1 files changed, 1 insertions(+), 1 deletions(-)
-> >>>
-> >>> diff --git a/meta/recipes-gnome/gnome/gconf_3.2.3.bb b/meta/recipes-g=
-nome/gnome/gconf_3.2.3.bb
-> >>> index aa9da78..907f0ba 100644
-> >>> --- a/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-> >>> +++ b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-> >>> @@ -3,7 +3,7 @@ SECTION =3D "x11/gnome"
-> >>>    LICENSE =3D "LGPLv2+"
-> >>>    LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D55ca817ccb7d5b5b6635569=
-0e9abc605"
-> >>>
-> >>> -DEPENDS =3D "glib-2.0 dbus dbus-glib libxml2 intltool-native"
-> >>> +DEPENDS =3D "glib-2.0 dbus dbus-glib libxml2 intltool-native polkit"
-> >>>
-> >>>    PR =3D "r1"
-> >>>
-> >>
-> >> What is this solving? This also would require polkit to have a
-> >> BBCLASSEXTEND with native.
-> >
-> > gconf-defaults.c:40:27: fatal error: polkit/polkit.h: No such file or d=
-irectory
-> >
-> > most people have polkit build in sysroot and then if you upgrade gconf
-> > and polkit at the same time you can get it autodetected in
-> > gconf's do_configure and later removed from sysroot while polkit itself
-> > is being upgraded.
-> >
-> > And we probably don't want to disable defaults_service for gconf to for=
-ce polkit
-> > dependency off.
-> >
-> > HAVE_POLKIT=3Dno
-> > AC_ARG_ENABLE(defaults_service,
-> >    AS_HELP_STRING([--enable-defaults-service],
-> >      [build the defaults DBus service @<:@default=3Dauto@:>@]),
-> >    , enable_defaults_service=3Dauto)
-> >
-> > if test "x$enable_defaults_service" !=3D "xno" ; then
-> >    PKG_CHECK_MODULES(DEFAULTS, glib-2.0 gthread-2.0 gobject-2.0 dbus-1 =
-dbus-glib-1 polkit-gobject-1, HAVE_POLKIT=3Dyes, HAVE_POLKIT=3Dno)
-> >    if test "x$HAVE_POLKIT" =3D "xno"; then
-> >      if test "x$enable_defaults_service" =3D "xyes" ; then
-> >        AC_MSG_ERROR([[
-> > *** Could not find PolicyKit.]])
-> >      else
-> >        enable_defaults_service=3Dno
-> >      fi
-> >    else
-> >      enable_defaults_service=3Dyes
-> >    fi
-> > fi
-> >
-> > Weird it didn't fail for me without polkit-native (there isn't .bbappen=
-d in any of
-> > my layers and I've even tested it in distro less oe-core), but you're r=
-ight, we should
-> > provide polkit-native or disable defaults_service for native gconf.
-> >
-> I think it would be best to disable the default_services for native=20
-> gconf, a patch for that would be great, thanks
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+Comments on this? It seems like it might be better to some do this
+in the actual recipes (binutils, gcc-cross, etc) and not globally.
+However, I'm not really sure what goes in MACHINEOVERIDES in
+general and if it could be something that would cause sstate-cache
+to be invalid althogh I could image some scenarios.
 
-Ah, now I know why I haven't seen that in normal builds
-/OE/shr-core/meta-openembedded/meta-gnome/recipes-gnome/gconf/gconf-native_=
-2.6.1.bb
+ meta/conf/bitbake.conf |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-and nothing in my oe-core-only builds was depending on gconf-native
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index b4335c9..48ae458 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -659,6 +659,7 @@ AUTO_LIBNAME_PKGS = "${PACKAGES}"
+ OVERRIDES = "${TARGET_OS}:${TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:forcevariable"
+ DISTROOVERRIDES ?= "${DISTRO}"
+ MACHINEOVERRIDES ?= "${MACHINE}"
++MACHINEOVERRIDES[vardepsexclude] += "MACHINE"
+ 
+ CPU_FEATURES ?= ""
+ CPU_FEATURES_arm ?= "vfp"
+-- 
+1.7.6.1
 
-I'll send updated patch after few more tests..
 
-Cheers,
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---Xssso5lpTBgMxDfe
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk7VTrUACgkQN1Ujt2V2gBwu1wCff79biYYEFDh0w/doe9QW4mTH
-te4AoJu9o6KS6N8rjfdJi8BArpOqFPCD
-=T/c3
------END PGP SIGNATURE-----
-
---Xssso5lpTBgMxDfe--
