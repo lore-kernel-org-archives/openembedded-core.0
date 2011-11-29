@@ -1,35 +1,26 @@
-Received: from 3.mo3.mail-out.ovh.net ([46.105.44.175]
-	helo=mo3.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1RVPrd-0007xj-NR
+Received: from sirius.lasnet.de ([78.47.116.19])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <stefan@datenfreihafen.org>) id 1RVPs5-000801-BZ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 16:44:57 +0100
-Received: from mail171.ha.ovh.net (b6.ovh.net [213.186.33.56])
-	by mo3.mail-out.ovh.net (Postfix) with SMTP id CBD1C1028386
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2011 11:55:51 +0100 (CET)
-Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
-	by b0.ovh.net with SMTP; 29 Nov 2011 12:49:15 +0200
-Received: from pac33-2-82-240-38-71.fbx.proxad.net (HELO
-	localhost.localdomain) (ebenard%eukrea.com@82.240.38.71)
-	by ns0.ovh.net with SMTP; 29 Nov 2011 12:49:13 +0200
-From: =?UTF-8?q?Eric=20B=C3=A9nard?= <eric@eukrea.com>
+	Tue, 29 Nov 2011 16:45:26 +0100
+Received: from [2001:638:602:1183:f2de:f1ff:fe62:28f7]
+	(helo=novatech.datenfreihafen.org) by sirius.lasnet.de with esmtpsa 
+	(Cipher TLS1.0:RSA_AES_256_CBC_SHA1:32) (Exim 4.69 #1)
+	id 1RVPAB-0001Sm-TH by authid <stefan@sostec.de> with srv_auth_cram_md5;
+	Tue, 29 Nov 2011 16:00:10 +0100
+Received: from stefan by novatech.datenfreihafen.org with local (Exim 4.77)
+	(envelope-from <stefan@novatech.datenfreihafen.org>)
+	id 1RVPAi-0002Xg-LB; Tue, 29 Nov 2011 16:00:36 +0100
+From: Stefan Schmidt <stefan@datenfreihafen.org>
 To: openembedded-core@lists.openembedded.org
-X-Ovh-Mailout: 178.32.228.3 (mo3.mail-out.ovh.net)
-Date: Tue, 29 Nov 2011 11:48:41 +0100
-Message-Id: <1322563721-7576-1-git-send-email-eric@eukrea.com>
-X-Mailer: git-send-email 1.7.0.4
-MIME-Version: 1.0
-X-Ovh-Tracer-Id: 13306166574933847490
-X-Ovh-Remote: 82.240.38.71 (pac33-2-82-240-38-71.fbx.proxad.net)
-X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
-X-OVH-SPAMSTATE: OK
-X-OVH-SPAMSCORE: 0
-X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeefiedrudejucetggdotefuucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefgrhhitgcuueornhgrrhguuceovghrihgtsegvuhhkrhgvrgdrtghomheqnecuffhomhgrihhnpeen
-X-Spam-Check: DONE|U 0.5/N
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeefhedrtdelucetggdotefuucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenuc
-Subject: [PATCH] base-passwd: fix race between the populate_sysroot and package
+Date: Tue, 29 Nov 2011 16:00:33 +0100
+Message-Id: <1322578833-9741-1-git-send-email-stefan@datenfreihafen.org>
+X-Mailer: git-send-email 1.7.7.3
+X-Spam-Checker-Version: SpamAssassin 3.2.5 (2008-06-10) on sirius.lasnet.de
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,NO_RELAYS
+	autolearn=ham version=3.2.5
+Subject: [PATCH] logrotate: Add dependency on popt lib.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,49 +35,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 15:44:57 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 29 Nov 2011 15:45:26 -0000
 
-without this fix, we get :
-ERROR: Error executing a python function in sources/openembedded-core/met=
-a/recipes-core/base-passwd/base-passwd_3.5.22.bb:
-IOError: [Errno 2] No such file or directory: 'tmp-angstrom_2010_x-eglibc=
-/sysroots/PROJECT-board/usr/share/base-passwd/passwd.master'
+Without this logrotate may fail like this:
+ compilation terminated.
+| config.c:9:18: fatal error: popt.h: No such file or directory
 
-Signed-off-by: Eric B=C3=A9nard <eric@eukrea.com>
+Signed-off-by: Stefan Schmidt <stefan@datenfreihafen.org>
 ---
- .../recipes-core/base-passwd/base-passwd_3.5.22.bb |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
+ meta/recipes-extended/logrotate/logrotate_3.7.9.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb b/meta/r=
-ecipes-core/base-passwd/base-passwd_3.5.22.bb
-index 5feb924..62847d9 100644
---- a/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb
-+++ b/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb
-@@ -1,7 +1,7 @@
- SUMMARY =3D "Base system master password/group files."
- DESCRIPTION =3D "The master copies of the user database files (/etc/pass=
-wd and /etc/group).  The update-passwd tool is also provided to keep the =
-system databases synchronized with these master files."
- SECTION =3D "base"
--PR =3D "r9"
-+PR =3D "r10"
- LICENSE =3D "GPLv2+"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Deb723b61539feef013de476e68b5c=
-50a"
-=20
-@@ -23,6 +23,8 @@ ALLOW_EMPTY_${PN} =3D "1"
-=20
- SSTATEPOSTINSTFUNCS +=3D "base_passwd_sstate_postinst"
-=20
-+addtask package after do_populate_sysroot
-+
- do_install () {
- 	install -d -m 755 ${D}${sbindir}
- 	install -o root -g root -p -m 755 update-passwd ${D}${sbindir}/
---=20
-1.7.0.4
+diff --git a/meta/recipes-extended/logrotate/logrotate_3.7.9.bb b/meta/recipes-extended/logrotate/logrotate_3.7.9.bb
+index b736593..8dc0504 100644
+--- a/meta/recipes-extended/logrotate/logrotate_3.7.9.bb
++++ b/meta/recipes-extended/logrotate/logrotate_3.7.9.bb
+@@ -2,9 +2,9 @@ DESCRIPTION = "Rotates, compresses, removes and mails system log files"
+ SECTION = "console/utils"
+ HOMEPAGE = "https://fedorahosted.org/releases/l/o/logrotate"
+ LICENSE = "GPLv2"
+-PR = "r0"
++PR = "r1"
+ 
+-DEPENDS="coreutils"
++DEPENDS="coreutils popt"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
+ 
+-- 
+1.7.7.3
 
 
 
