@@ -1,35 +1,25 @@
-Received: from mail-vx0-f175.google.com ([209.85.220.175])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <swaplinker@gmail.com>) id 1RVQBk-0000ZF-2j
+	(envelope-from <sgw@linux.intel.com>) id 1RVQCv-0000cg-8C
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 17:05:44 +0100
-Received: by vcbfo13 with SMTP id fo13so2965936vcb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2011 07:59:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type
-	:content-transfer-encoding;
-	bh=eQFYv03PYKMTnDgeOz9R9+k2QvgUwoslwuo0pfdNpoY=;
-	b=f071Yk+1VVN/nb2Gmb2bhb5BI6S7EhJvArYKhE07p8dxUbRmUT8DtPjh2SEAAtsXZp
-	bpDbFRhtugEKKK1daHOyOwtOHAJCc8824fmgxdFzS67mM9M5MgyC5mqs2P0Rw0qNT/vC
-	FVcGCZWo2JQvKXFauksvW62vMsBRP570zwGWg=
-Received: by 10.220.150.212 with SMTP id z20mr6120649vcv.58.1322582341263;
-	Tue, 29 Nov 2011 07:59:01 -0800 (PST)
+	Tue, 29 Nov 2011 17:06:57 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 29 Nov 2011 08:00:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="81173516"
+Received: from unknown (HELO [10.255.15.251]) ([10.255.15.251])
+	by orsmga002.jf.intel.com with ESMTP; 29 Nov 2011 08:00:11 -0800
+Message-ID: <4ED5018B.8050508@linux.intel.com>
+Date: Tue, 29 Nov 2011 08:00:11 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
-Sender: swaplinker@gmail.com
-Received: by 10.52.93.47 with HTTP; Tue, 29 Nov 2011 07:58:41 -0800 (PST)
-In-Reply-To: <4ED4FEB9.4010704@linux.intel.com>
-References: <5ca10bdeed6e90862311b8417c0e6de353d1dc70.1322223227.git.julian.pidancet@gmail.com>
-	<4ED4FEB9.4010704@linux.intel.com>
-From: Julian Pidancet <julian.pidancet@gmail.com>
-Date: Tue, 29 Nov 2011 15:58:41 +0000
-X-Google-Sender-Auth: uAj0SIGSzrreXHYgXXW5Csh5YUo
-Message-ID: <CAKZ=5EU9M+ncN8L-t3gKaax2Kwj-mZCwhnO_mD4GkvFRmWB5HQ@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] Introduce multiarch DISTRO_FEATURE
+References: <cover.1321862948.git.xiaofeng.yan@windriver.com>
+In-Reply-To: <cover.1321862948.git.xiaofeng.yan@windriver.com>
+Subject: Re: [PATCH 0/1] libx11-trim: update to 1.4.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,28 +34,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 16:05:44 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 29 Nov 2011 16:06:57 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 29, 2011 at 3:48 PM, Saul Wold <sgw@linux.intel.com> wrote:
+On 11/21/2011 12:29 AM, Xiaofeng Yan wrote:
+> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
 >
-> Julian,
+> Thanks for martin's comment.
+> I have modified libx11-trim_1.4.4.bb and don't remove libx11-trim_1.3.4.bb because someone could want to use previous version for some reason. If it is not necessary later, then I will remove the old version.
 >
-> Thanks for your patience, this is merged into OE-Core
+> Pull URL: git://git.pokylinux.org/poky-contrib.git
+>    Branch: xiaofeng/update_libx11-trim
+>    Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/update_libx11-trim
 >
-> Thanks
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0Sau!
+> Thanks,
+>      Xiaofeng Yan<xiaofeng.yan@windriver.com>
+> ---
+>
+>
+> Xiaofeng Yan (1):
+>    blibx11-trim: update to 1.4.4
+>
+>   .../libx11-trim-1.4.4/keysymdef_include.patch      |   23 ++++++++++
+>   .../libx11-trim-1.4.4/makekeys_crosscompile.patch  |   45 ++++++++++++++++++++
+>   .../libx11-trim-1.4.4/x11_disable_makekeys.patch   |   29 +++++++++++++
+>   .../recipes-graphics/xorg-lib/libx11-trim_1.4.4.bb |   20 +++++++++
+>   4 files changed, 117 insertions(+), 0 deletions(-)
+>   create mode 100644 meta/recipes-graphics/xorg-lib/libx11-trim-1.4.4/keysymdef_include.patch
+>   create mode 100644 meta/recipes-graphics/xorg-lib/libx11-trim-1.4.4/makekeys_crosscompile.patch
+>   create mode 100644 meta/recipes-graphics/xorg-lib/libx11-trim-1.4.4/x11_disable_makekeys.patch
+>   create mode 100644 meta/recipes-graphics/xorg-lib/libx11-trim_1.4.4.bb
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
 
-Saul, I believe you applied the wrong version of the patch.
-According to:
-http://git.openembedded.org/openembedded-core/commit/?id=3D99e295ef30ba02db=
-3966c66619807c037ef5089f
+Merged into OE-Core
 
-This is v2 instead of v3.
-
---=20
-Julian
+Thanks
+	Sau!
 
 
