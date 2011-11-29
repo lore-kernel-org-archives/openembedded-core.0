@@ -1,23 +1,23 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RVJ8J-0005pY-7j
-	for openembedded-core@openembedded.org; Tue, 29 Nov 2011 09:33:43 +0100
+	(envelope-from <sgw@linux.intel.com>) id 1RVJ8K-0005pY-8Q
+	for openembedded-core@openembedded.org; Tue, 29 Nov 2011 09:33:44 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2011 00:26:59 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2011 00:27:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,590,1315206000"; d="scan'208";a="96419477"
+X-IronPort-AV: E=Sophos;i="4.69,590,1315206000"; d="scan'208";a="96419486"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.251])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Nov 2011 00:26:58 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 29 Nov 2011 00:27:00 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@openembedded.org
-Date: Tue, 29 Nov 2011 00:26:50 -0800
-Message-Id: <1c24266b12142a2b5d728760d8acc4ebe7d57704.1322554983.git.sgw@linux.intel.com>
+Date: Tue, 29 Nov 2011 00:26:54 -0800
+Message-Id: <fbb50acee4ee9a29ca8374c2661a17a0c890280d.1322554983.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1322554983.git.sgw@linux.intel.com>
 References: <cover.1322554983.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1322554983.git.sgw@linux.intel.com>
 References: <cover.1322554983.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 19/23] coreutils: build and install hostname
+Subject: [CONSOLIDATED PULL 23/23] eglibc-initial: Fix kernel headers symlink being wrong
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,111 +32,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 08:33:44 -0000
+X-List-Received-Date: Tue, 29 Nov 2011 08:33:45 -0000
 
-From: Dexuan Cui <dexuan.cui@intel.com>
+From: Matthew McClintock <msm@freescale.com>
 
-busybox's hostname doesn't work with pseudo somehow, so let's use the version
-of coreutils. This is needed for the self-hosted-image work.
+symlinks to the kernel headers were pointing at the wrong
+location when being used from cache. Just copy the kernel
+headers instead
 
-Also add a patch to disable building the doc and manual: we don't really need
-them and this causes compilation error in the cross-compiling case.
-
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+Signed-off-by: Matthew McClintock <msm@freescale.com>
 ---
- .../coreutils/coreutils-8.14/disable_doc_man.patch |   36 ++++++++++++++++++++
- meta/recipes-core/coreutils/coreutils_8.14.bb      |    9 +++--
- 2 files changed, 41 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-core/coreutils/coreutils-8.14/disable_doc_man.patch
+ meta/recipes-core/eglibc/eglibc-common.inc  |    2 +-
+ meta/recipes-core/eglibc/eglibc-initial.inc |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/coreutils/coreutils-8.14/disable_doc_man.patch b/meta/recipes-core/coreutils/coreutils-8.14/disable_doc_man.patch
-new file mode 100644
-index 0000000..c9dc92c
---- /dev/null
-+++ b/meta/recipes-core/coreutils/coreutils-8.14/disable_doc_man.patch
-@@ -0,0 +1,36 @@
-+Upstream-Status: Inappropriate [embedded specific]
-+
-+We don't really need to build the doc and manual.
-+
-+Morever, we get this failure in do_compile:
-+help2man: can't get `--help' info from hostname.td/hostname
-+
-+This is because help2man tries to invoke "hostname --help", but in the
-+cross-compile case, the target binary may not be execuable on the host.
-+
-+Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
-+
-+diff -Nru coreutils-8.14/Makefile.am coreutils-8.14/Makefile.am
-+--- coreutils-8.14.orig/Makefile.am	2011-10-10 15:30:55.000000000 +0800
-++++ coreutils-8.14/Makefile.am	2011-11-24 17:29:26.398593744 +0800
-+@@ -17,7 +17,7 @@
-+ 
-+ ALL_RECURSIVE_TARGETS =
-+ 
-+-SUBDIRS = lib src doc man po tests gnulib-tests
-++SUBDIRS = lib src po tests gnulib-tests
-+ 
-+ changelog_etc =				\
-+   ChangeLog-2005			\
-+diff -Nru coreutils-8.14.orig/Makefile.in coreutils-8.14/Makefile.in
-+--- coreutils-8.14.orig/Makefile.in	2011-10-12 17:21:46.000000000 +0800
-++++ coreutils-8.14/Makefile.in	2011-11-24 17:29:14.868593748 +0800
-+@@ -1453,7 +1453,7 @@
-+ 
-+ # Some tests always need root privileges, others need them only sometimes.
-+ ALL_RECURSIVE_TARGETS = install-root check-root distcheck-hook
-+-SUBDIRS = lib src doc man po tests gnulib-tests
-++SUBDIRS = lib src po tests gnulib-tests
-+ changelog_etc = \
-+   ChangeLog-2005			\
-+   ChangeLog-2006			\
-diff --git a/meta/recipes-core/coreutils/coreutils_8.14.bb b/meta/recipes-core/coreutils/coreutils_8.14.bb
-index 01face0..ec41fe2 100644
---- a/meta/recipes-core/coreutils/coreutils_8.14.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.14.bb
-@@ -7,7 +7,7 @@ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
- LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
-                     file://src/ls.c;startline=5;endline=16;md5=e1a509558876db58fb6667ba140137ad"
--PR = "r1"
-+PR = "r2"
- DEPENDS = "gmp"
- DEPENDS_virtclass-native = ""
+diff --git a/meta/recipes-core/eglibc/eglibc-common.inc b/meta/recipes-core/eglibc/eglibc-common.inc
+index 4fa6488..6a93968 100644
+--- a/meta/recipes-core/eglibc/eglibc-common.inc
++++ b/meta/recipes-core/eglibc/eglibc-common.inc
+@@ -3,7 +3,7 @@ DESCRIPTION = "Embedded GLIBC (EGLIBC) is a variant of the GNU C Library (GLIBC)
+ HOMEPAGE = "http://www.eglibc.org/home"
+ SECTION = "libs"
+ LICENSE = "GPLv2 & LGPLv2.1"
+-INC_PR = "r11"
++INC_PR = "r12"
+ LIC_FILES_CHKSUM ?= "file://LICENSES;md5=07a394b26e0902b9ffdec03765209770 \
+       file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
+       file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
+diff --git a/meta/recipes-core/eglibc/eglibc-initial.inc b/meta/recipes-core/eglibc/eglibc-initial.inc
+index 448f73a..f154d64 100644
+--- a/meta/recipes-core/eglibc/eglibc-initial.inc
++++ b/meta/recipes-core/eglibc/eglibc-initial.inc
+@@ -48,7 +48,7 @@ do_install () {
  
-@@ -15,10 +15,13 @@ inherit autotools gettext
- 
- SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
-            file://remove-usr-local-lib-from-m4.patch \
-+           file://disable_doc_man.patch \
-           "
- SRC_URI[md5sum] = "bcb135ce553493a45aba01b39eb3920a"
- SRC_URI[sha256sum] = "0d120817c19292edb19e92ae6b8eac9020e03d51e0af9cb116cf82b65d18b02d"
- 
-+EXTRA_OECONF += "--enable-install-program=hostname"
-+
- EXTRA_OECONF_virtclass-native = "--without-gmp"
- 
- # [ gets a special treatment and is not included in this
-@@ -29,9 +32,8 @@ bindir_progs = "base64 basename chcon cksum comm csplit cut dir dircolors dirnam
-                 sha384sum sha512sum shred shuf sort split stat stdbuf sum tac tail tee test timeout\
-                 tr truncate tsort tty unexpand uniq unlink uptime users vdir wc who whoami yes df"
- 
--# hostname gets a special treatment and is not included in this
- base_bindir_progs = "cat chgrp chmod chown cp date dd echo false kill ln ls mkdir \
--                     mknod mv pwd rm rmdir sleep stty sync touch true uname"
-+                     mknod mv pwd rm rmdir sleep stty sync touch true uname hostname"
- 
- sbindir_progs= "chroot"
- 
-@@ -71,7 +73,6 @@ pkg_prerm_${PN} () {
- 	for i in ${sbindir_progs}; do update-alternatives --remove $i $i.${PN}; done
- 
- 	# The special cases
--	update-alternatives --remove hostname hostname.${PN}
- 	update-alternatives --remove uptime uptime.${PN}
- 	update-alternatives --remove '[' 'lbracket.${PN}'
+ 	# add links to linux-libc-headers: gcc-{cross,crossdk}-intermediate need this.
+ 	for t in linux asm asm-generic; do
+-		ln -s ${STAGING_DIR_TARGET}${includedir}/$t ${D}${includedir}/
++		cp -ar ${STAGING_DIR_TARGET}${includedir}/$t ${D}${includedir}/
+ 	done
  }
+ 
 -- 
 1.7.6.4
 
