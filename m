@@ -1,27 +1,28 @@
-Received: from smtprelay-b11.telenor.se ([62.127.194.20])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ulf@emagii.com>) id 1RVIQ6-0004Ax-3O
+	(envelope-from <philb@gnu.org>) id 1RVIdJ-0004uW-IC
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 08:48:02 +0100
-Received: from ipb1.telenor.se (ipb1.telenor.se [195.54.127.164])
-	by smtprelay-b11.telenor.se (Postfix) with ESMTP id 25649D2B1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2011 08:21:56 +0100 (CET)
-X-SENDER-IP: [83.227.56.19]
-X-LISTENER: [smtp.bredband.net]
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: AudIAHSH1E5T4zgTPGdsb2JhbABDqnYZAQEBATcygXIBXCMwH0sKLYgHBrcth1+DFQSUS4kIgVGHNQ
-X-IronPort-AV: E=Sophos;i="4.69,590,1315173600"; d="scan'208";a="225326204"
-Received: from c-1338e353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
-	theoden.atmel.com) ([83.227.56.19])
-	by ipb1.telenor.se with ESMTP; 29 Nov 2011 08:21:56 +0100
-From: ulf@emagii.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Nov 2011 08:21:51 +0100
-Message-Id: <1322551311-2797-1-git-send-email-ulf@emagii.com>
-X-Mailer: git-send-email 1.7.4.1
-Cc: Ulf Samuelsson <ulf@emagii.com>
-Subject: [PATCH] KERNELORG_MIRROR: add a mirror which still has auxiliary tarballs
+	Tue, 29 Nov 2011 09:01:41 +0100
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>)
+	id 1RVIWu-0008NC-36; Tue, 29 Nov 2011 08:55:04 +0100
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <20111129070444.GA3653@ad.chargestorm.se>
+References: <cover.1321972428.git.anders@chargestorm.se>
+	<4ECC07D8.2070104@linux.intel.com>
+	<20111123085906.GA16705@ad.chargestorm.se>
+	<4ED47205.6050608@linux.intel.com>
+	<20111129070444.GA3653@ad.chargestorm.se>
+Date: Tue, 29 Nov 2011 07:54:58 +0000
+Message-ID: <1322553298.3077.8.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.3 
+Cc: g@ad.chargestorm.se
+Subject: Re: [PATCH v2 0/1] busybox: update to 1.19.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,29 +37,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 07:48:02 -0000
+X-List-Received-Date: Tue, 29 Nov 2011 08:01:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Ulf Samuelsson <ulf@emagii.com>
+On Tue, 2011-11-29 at 08:04 +0100, Anders Darander wrote:
+> Any more comment on this one? Otavio replied earlier that if it was a
+> small cost, he would prefer to have it on by default. Otherwise, any
+> suggestions for DISTRO/IMAGE_FEATURE?
 
-Signed-off-by: Ulf Samuelsson <ulf@emagii.com>
----
- meta/classes/mirrors.bbclass |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+We've talked about this a few times in the past and it's never seemed as
+though this would buy much in relation to busybox.  The busybox
+configuration is so highly specific that each DISTRO is probably going
+to end up wanting its own custom configuration file and it isn't obvious
+that there is going to be much/any commonality between them.  That being
+the case it seems as though it's easier for the distros to actually ship
+the config files themselves, rather than try to translate every
+conceivable option into PACKAGE_CONFIG and then express them that way.
 
-diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
-index 2146087..67a8fb9 100644
---- a/meta/classes/mirrors.bbclass
-+++ b/meta/classes/mirrors.bbclass
-@@ -28,6 +28,7 @@ ${KERNELORG_MIRROR}	ftp://ftp.uk.kernel.org/pub \n \
- ${KERNELORG_MIRROR}	ftp://ftp.hk.kernel.org/pub \n \
- ${KERNELORG_MIRROR}	ftp://ftp.au.kernel.org/pub \n \
- ${KERNELORG_MIRROR}	ftp://ftp.jp.kernel.org/pub \n \
-+${KERNELORG_MIRROR}	http://mirror.anl.gov/pub \n \
- ftp://ftp.gnupg.org/gcrypt/     ftp://ftp.franken.de/pub/crypt/mirror/ftp.gnupg.org/gcrypt/ \n \
- ftp://ftp.gnupg.org/gcrypt/     ftp://ftp.surfnet.nl/pub/security/gnupg/ \n \
- ftp://ftp.gnupg.org/gcrypt/     http://gulus.USherbrooke.ca/pub/appl/GnuPG/ \n \
--- 
-1.7.4.1
+I guess the other thing that naturally follows from this is that there
+probably aren't very many people using the actual defconfig that oe-core
+provides, and hence it probably doesn't matter all that much what is and
+isn't enabled in it.  Enabling FEATURE_SYSTEMD seems like a reasonable
+idea if there is already the mechanism in oe-core to make use of it, but
+probably just a waste of space otherwise.
+
+p.
+
 
 
 
