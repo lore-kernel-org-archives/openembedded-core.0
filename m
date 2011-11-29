@@ -1,36 +1,30 @@
-Received: from smtprelay-b11.telenor.se ([62.127.194.20])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <openembedded-core@emagii.com>) id 1RVVB7-0005oq-Fy
+	(envelope-from <koen@dominion.thruhere.net>) id 1RVVHJ-0005wV-IF
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 22:25:25 +0100
-Received: from ipb1.telenor.se (ipb1.telenor.se [195.54.127.164])
-	by smtprelay-b11.telenor.se (Postfix) with ESMTP id 3E05DD3A7
+	Tue, 29 Nov 2011 22:31:49 +0100
+Received: by eaad13 with SMTP id d13so3685959eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2011 22:18:37 +0100 (CET)
-X-SENDER-IP: [83.227.56.19]
-X-LISTENER: [smtp.bredband.net]
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: AtUcAD5L1U5T4zgTPGdsb2JhbAAMLwiJSqFNAQEBATeCJAEBAQECAThAEQshFg8JAwIBAgExFAYNCAEBiAG3RoNphASDMQSUVJIS
-X-IronPort-AV: E=Sophos;i="4.69,593,1315173600"; d="scan'208";a="225866297"
-Received: from c-1338e353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
-	[10.175.196.244]) ([83.227.56.19])
-	by ipb1.telenor.se with ESMTP; 29 Nov 2011 22:18:37 +0100
-Message-ID: <4ED54C2B.2060505@emagii.com>
-Date: Tue, 29 Nov 2011 22:18:35 +0100
-From: Ulf Samuelsson <openembedded-core@emagii.com>
-Organization: eMagii
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.23) Gecko/20110922 Thunderbird/3.1.15
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <4ED0CC76.4040606@emagii.com> <1322579029.7964.0.camel@ted>
-In-Reply-To: <1322579029.7964.0.camel@ted>
-Subject: Re: Feedback on building openembedded-core for qemuarm. Excerpts from buildlog
+	Tue, 29 Nov 2011 13:25:10 -0800 (PST)
+Received: by 10.213.3.73 with SMTP id 9mr1561029ebm.133.1322601910004;
+	Tue, 29 Nov 2011 13:25:10 -0800 (PST)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id s44sm76693356eef.11.2011.11.29.13.25.08
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 29 Nov 2011 13:25:09 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 29 Nov 2011 22:24:59 +0100
+Message-Id: <1322601901-26195-2-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.2.5
+In-Reply-To: <1322601901-26195-1-git-send-email-koen@dominion.thruhere.net>
+References: <1322601901-26195-1-git-send-email-koen@dominion.thruhere.net>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [RFC 2/4] pulseaudio 1.1: replace hardcoded /etc with ${sysconfdir}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ulf@emagii.com, Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -41,35 +35,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 21:25:25 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 29 Nov 2011 21:31:49 -0000
 
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    8 ++++----
+ .../pulseaudio/pulseaudio_1.1.bb                   |    2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
->> Seen a couple of errors as well.
->>
->> 1.    ERROR: Function 'useradd_sysroot' failed
->>           Tried to access "/etc/group" but this was locked.
->>           Problem disappeared the next time I rebuilt.
-> Can you file a bug about this problem please. I think we need to go
-> through the code paths in shadow and ensure its locking is sane. I took
-> a quick look at the code and was left wondering what lckpwdf() does for
-> example. Scott, could you take a look at this?
-
-Bugzilla is out of service, so bugs cannot be filed.
-
-Haven't seen the issue since then so it is hard to give any details.
-I used very high BB_NUMBER_THREADS = 24.
-
-This machine (Ubuntu 11.10 /x64) gets stuck in building C++
-programs at the moment, so I am considering resinstalling with
-Ubuntu 11.04 to get something done.
-
-
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 6cd6d16..131d659 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -90,13 +90,13 @@ pkg_postinst_${PN}-server() {
+         if [ "x$D" != "x" ]; then
+                 exit 1
+         fi
+-        grep -q pulse: /etc/group || addgroup pulse
+-        grep -q pulse: /etc/passwd || \
++        grep -q pulse: ${sysconfdir}/group || addgroup pulse
++        grep -q pulse: ${sysconfdir}/passwd || \
+             adduser --disabled-password --home=/var/run/pulse --system \
+                     --ingroup pulse --no-create-home -g "Pulse audio daemon" pulse
+         addgroup pulse audio
+-        if [ -e /etc/init.d/populate-volatile.sh ] ; then
+-            /etc/init.d/populate-volatile.sh update
++        if [ -e ${sysconfdir}/init.d/populate-volatile.sh ] ; then
++            ${sysconfdir}/init.d/populate-volatile.sh update
+         fi
+ }
+ 
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb
+index df3a53e..576d2b7 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb
+@@ -1,6 +1,6 @@
+ require pulseaudio.inc
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
+ 
 -- 
-Best Regards
-Ulf Samuelsson
-eMagii
+1.7.2.5
 
 
 
