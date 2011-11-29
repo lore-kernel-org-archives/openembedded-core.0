@@ -1,23 +1,23 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RVJ8I-0005pV-JX
-	for openembedded-core@openembedded.org; Tue, 29 Nov 2011 09:33:42 +0100
+	(envelope-from <sgw@linux.intel.com>) id 1RVJ8J-0005pT-0P
+	for openembedded-core@openembedded.org; Tue, 29 Nov 2011 09:33:43 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2011 00:26:58 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2011 00:26:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,590,1315206000"; d="scan'208";a="96419473"
+X-IronPort-AV: E=Sophos;i="4.69,590,1315206000"; d="scan'208";a="96419475"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.251])
 	by fmsmga002.fm.intel.com with ESMTP; 29 Nov 2011 00:26:58 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@openembedded.org
-Date: Tue, 29 Nov 2011 00:26:48 -0800
-Message-Id: <6588094111c5771ba86920f4880c3ee1016d110a.1322554983.git.sgw@linux.intel.com>
+Date: Tue, 29 Nov 2011 00:26:49 -0800
+Message-Id: <27a640323b8dbff0ddac3ff91c7b1fd123c39927.1322554983.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1322554983.git.sgw@linux.intel.com>
 References: <cover.1322554983.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1322554983.git.sgw@linux.intel.com>
 References: <cover.1322554983.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 17/23] intltool: remove XML::Parser check
+Subject: [CONSOLIDATED PULL 18/23] Self Hosted Image: Added Task and Images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,95 +32,219 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 08:33:42 -0000
+X-List-Received-Date: Tue, 29 Nov 2011 08:33:43 -0000
 
-Add Patch to disable the XML::Parser check in the target
-intltool.m4, this check will find the host (not native)
-XML::Parser if it's installed possibly causing Host
-contamination, but will also fail configuration if XML::Parser
-is not installed on the host.
-
-Since we know that XML::Parser is installed on the image, we don't
-really need this check, so comment it out.
-
-From RP in mail thread:
-> If the recipe needs perl for
-> some other reason than intltool, it needs perlnative but it if only
-> needs perl for intltool, we shouldn't need the dependency. The .m4 macro
-> checks are well intended but don't fit the way we use perl. I really
-> don't want to end up in a position where intltool automatically means we
-> have to add perlnative as a dependency and we've previously seen many
-> problems related to that.
+This is the first pass of creating a self hosted image, this task
+and image can pass bitbake's sanity check (if modified to remove the
+cvs check) and can build psuedo, albit very slowly on qemu.
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
 ---
- .../intltool-0.40.6/remove-xml-check.patch         |   29 ++++++++++++++++++++
- meta/recipes-devtools/intltool/intltool_0.40.6.bb  |   11 +++++--
- 2 files changed, 37 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-devtools/intltool/intltool-0.40.6/remove-xml-check.patch
+ meta/recipes-core/images/self-hosted-image.bb |   11 ++
+ meta/recipes-core/tasks/task-self-hosted.bb   |  174 +++++++++++++++++++++++++
+ 2 files changed, 185 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-core/images/self-hosted-image.bb
+ create mode 100644 meta/recipes-core/tasks/task-self-hosted.bb
 
-diff --git a/meta/recipes-devtools/intltool/intltool-0.40.6/remove-xml-check.patch b/meta/recipes-devtools/intltool/intltool-0.40.6/remove-xml-check.patch
+diff --git a/meta/recipes-core/images/self-hosted-image.bb b/meta/recipes-core/images/self-hosted-image.bb
 new file mode 100644
-index 0000000..476d091
+index 0000000..7ddba9c
 --- /dev/null
-+++ b/meta/recipes-devtools/intltool/intltool-0.40.6/remove-xml-check.patch
-@@ -0,0 +1,29 @@
-+Index: intltool-0.40.6/intltool.m4
-+===================================================================
-+--- intltool-0.40.6.orig/intltool.m4	2009-02-14 14:12:28.000000000 -0800
-++++ intltool-0.40.6/intltool.m4	2011-11-23 15:39:34.689561872 -0800
-+@@ -122,14 +122,16 @@
-+    IT_PERL_VERSION="`$INTLTOOL_PERL -e \"printf '%vd', $^V\"`"
-+    AC_MSG_RESULT([$IT_PERL_VERSION])
-+ fi
-+-if test "x$2" != "xno-xml"; then
-+-   AC_MSG_CHECKING([for XML::Parser])
-+-   if `$INTLTOOL_PERL -e "require XML::Parser" 2>/dev/null`; then
-+-       AC_MSG_RESULT([ok])
-+-   else
-+-       AC_MSG_ERROR([XML::Parser perl module is required for intltool])
-+-   fi
-+-fi
-++
-++# Disable this check since we know XML::Parser is installed
-++#if test "x$2" != "xno-xml"; then
-++#   AC_MSG_CHECKING([for XML::Parser])
-++#   if `$INTLTOOL_PERL -e "require XML::Parser" 2>/dev/null`; then
-++#       AC_MSG_RESULT([ok])
-++#   else
-++#       AC_MSG_ERROR([XML::Parser perl module is required for intltool])
-++#   fi
-++#fi
-+ 
-+ # Substitute ALL_LINGUAS so we can use it in po/Makefile
-+ AC_SUBST(ALL_LINGUAS)
-diff --git a/meta/recipes-devtools/intltool/intltool_0.40.6.bb b/meta/recipes-devtools/intltool/intltool_0.40.6.bb
-index e9871fc..c820f11 100644
---- a/meta/recipes-devtools/intltool/intltool_0.40.6.bb
-+++ b/meta/recipes-devtools/intltool/intltool_0.40.6.bb
-@@ -1,14 +1,19 @@
- require intltool.inc
- LICENSE="GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
--PR = "r5"
-+PR = "r6"
- 
- SRC_URI_append = " file://intltool-nowarn-0.40.0.patch \
-                    ${NATIVEPATCHES} \
-                  "
- 
--NATIVEPATCHES = "file://noperlcheck.patch"
--NATIVEPATCHES_virtclass-native = "file://use-nativeperl.patch"
++++ b/meta/recipes-core/images/self-hosted-image.bb
+@@ -0,0 +1,11 @@
++IMAGE_INSTALL = "task-core-boot task-core-apps-console task-core-ssh-openssh task-self-hosted"
++
++POKY_EXTRA_INSTALL = "\
++    task-self-hosted \
++    "
++
++IMAGE_ROOTFS_EXTRA_SPACE = "1048576"
++
++inherit core-image
++
++PR = "r0"
+diff --git a/meta/recipes-core/tasks/task-self-hosted.bb b/meta/recipes-core/tasks/task-self-hosted.bb
+new file mode 100644
+index 0000000..c218f43
+--- /dev/null
++++ b/meta/recipes-core/tasks/task-self-hosted.bb
+@@ -0,0 +1,174 @@
 +#
-+# All of the intltool scripts have the correct paths to perl already
-+# embedded into them and can find perl fine, so we add the remove xml-check
-+# in the intltool.m4 via the remove-xml-check.patch
-+NATIVEPATCHES = "file://noperlcheck.patch \
-+                 file://remove-xml-check.patch"
-+NATIVEPATCHES_virtclass-native = "file://use-nativeperl.patch" 
- 
- SRC_URI[md5sum] = "69bc0353323112f42ad4f9cf351bc3e5"
- SRC_URI[sha256sum] = "4d1e5f8561f09c958e303d4faa885079a5e173a61d28437d0013ff5efc9e3b64"
++# Copyright (C) 2010 Intel Corporation
++#
++
++DESCRIPTION = "Create Basic Image Tasks"
++PR = "r0"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
++                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++
++PACKAGES = "\
++    task-self-hosted \
++    task-self-hosted-debug \
++    task-self-hosted-sdk \
++    task-self-hosted-extended \
++    task-self-hosted-graphics \
++    "
++
++ALLOW_EMPTY = "1"
++
++RDEPENDS_task-self-hosted = "\
++    task-self-hosted-debug \
++    task-self-hosted-sdk \
++    task-self-hosted-extended \
++    task-self-hosted-graphics \
++    "
++
++# eglibc-utils: for rpcgen
++RDEPENDS_task-self-hosted-sdk = "\
++    sed \
++    mktemp \
++    eglibc-utils \
++    autoconf \
++    automake \
++    binutils-symlinks \
++    binutils \
++    cpp \
++    cpp-symlinks \
++    ccache \
++    gcc \
++    gcc-symlinks \
++    g++ \
++    g++-symlinks \
++    gettext \
++    make \
++    intltool \
++    libstdc++ \
++    libstdc++-dev \
++    libtool \
++    perl-module-re \
++    perl-module-text-wrap \
++    coreutils \
++    diffutils \
++    pkgconfig \
++    findutils \
++    quilt \
++    less \
++    distcc \
++    ldd \
++    file \
++    tcl \
++    "
++
++RDEPENDS_task-self-hosted-debug = " \
++    gdb \
++    gdbserver \
++    tcf-agent \
++    rsync \
++    strace"
++
++
++RDEPENDS_task-self-hosted-extended = "\
++    binutils \
++    bzip2 \
++    chkconfig \
++    chrpath \
++    curl \
++    dhcp-client \
++    diffstat \
++    diffutils \
++    elfutils \
++    expat \
++    gamin \
++    gdbm \
++    git \
++    gettext \
++    gettext-runtime \
++    grep \
++    groff \
++    gawk \
++    hdparm \
++    libaio \
++    libxml2 \
++    libusb1 \
++    lrzsz \
++    lsof \
++    lzo \
++    man \
++    man-pages \
++    mc \
++    mdadm \
++    minicom \
++    mtools \
++    ncurses \
++    neon \
++    openssl \
++    opkg \
++    opkg-utils \
++    parted \
++    patch \
++    perl \
++    perl-modules \
++    perl-dev \
++    pth \
++    python \
++    python-compile \
++    python-compiler \
++    python-core \
++    python-curses \
++    python-datetime \
++    python-distutils \
++    python-elementtree \
++    python-fcntl \
++    python-logging \
++    python-misc \
++    python-multiprocessing \
++    python-netclient \
++    python-netserver \
++    python-pickle \
++    python-re \
++    python-rpm \
++    python-shell \
++    python-sqlite3 \
++    python-subprocess \
++    python-textutils \
++    python-xmlrpc \
++    python-email \
++    python-unixadmin \
++    python-compression \
++    quota \
++    readline \
++    rpm \
++    screen \
++    setserial \
++    strace \
++    subversion \
++    sysstat \
++    tar \
++    gzip \
++    tcl \
++    texi2html \
++    texinfo \
++    usbutils \
++    unzip \
++    watchdog \
++    wget \
++    which \
++    xinetd \
++    zip \
++    zlib \
++    cpio \
++    "
++
++
++RDEPENDS_task-self-hosted-graphics = "\
++    python-pygtk \
++    mesa-dri \
++    mesa-dri-dev \
++    libglu \
++    libglu-dev \
++    libsdl \
++    libsdl-dev \
++    libx11-dev \
++    "
 -- 
 1.7.6.4
 
