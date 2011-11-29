@@ -1,57 +1,52 @@
-Received: from tx2ehsobe005.messaging.microsoft.com ([65.55.88.15]
-	helo=TX2EHSOBE010.bigfish.com)
+Received: from tx2ehsobe001.messaging.microsoft.com ([65.55.88.11]
+	helo=TX2EHSOBE002.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RVVdl-0006hb-Kr
+	(envelope-from <B29882@freescale.com>) id 1RVVek-0006lf-BP
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 22:55:01 +0100
-Received: from mail153-tx2-R.bigfish.com (10.9.14.235) by
-	TX2EHSOBE010.bigfish.com (10.9.40.30) with Microsoft SMTP Server id
-	14.1.225.22; Tue, 29 Nov 2011 21:47:24 +0000
-Received: from mail153-tx2 (localhost [127.0.0.1])	by
-	mail153-tx2-R.bigfish.com (Postfix) with ESMTP id 5AA12480334;
-	Tue, 29 Nov 2011 21:47:27 +0000 (UTC)
-X-SpamScore: -16
-X-BigFish: VS-16(zz9371K1432N98dK4015Lzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3h61h)
+	Tue, 29 Nov 2011 22:56:02 +0100
+Received: from mail61-tx2-R.bigfish.com (10.9.14.235) by
+	TX2EHSOBE002.bigfish.com (10.9.40.22) with Microsoft SMTP Server id
+	14.1.225.22; Tue, 29 Nov 2011 21:48:34 +0000
+Received: from mail61-tx2 (localhost [127.0.0.1])	by mail61-tx2-R.bigfish.com
+	(Postfix) with ESMTP id 4FFE85800D9	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 29 Nov 2011 21:49:22 +0000 (UTC)
+X-SpamScore: -15
+X-BigFish: VS-15(zz9371K103dK1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h61h)
 X-Spam-TCS-SCL: 0:0
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
 	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail153-tx2 (localhost.localdomain [127.0.0.1]) by mail153-tx2
-	(MessageSwitch) id 1322603247267849_19843;
-	Tue, 29 Nov 2011 21:47:27 +0000 (UTC)
-Received: from TX2EHSMHS024.bigfish.com (unknown [10.9.14.237])	by
-	mail153-tx2.bigfish.com (Postfix) with ESMTP id 39E87340042;
-	Tue, 29 Nov 2011 21:47:27 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS024.bigfish.com
-	(10.9.99.124) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Tue, 29 Nov 2011 21:47:22 +0000
+Received: from mail61-tx2 (localhost.localdomain [127.0.0.1]) by mail61-tx2
+	(MessageSwitch) id 1322603362188616_30928;
+	Tue, 29 Nov 2011 21:49:22 +0000 (UTC)
+Received: from TX2EHSMHS033.bigfish.com (unknown [10.9.14.251])	by
+	mail61-tx2.bigfish.com (Postfix) with ESMTP id 26C29640043	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 29 Nov 2011 21:49:22 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS033.bigfish.com
+	(10.9.99.133) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Tue, 29 Nov 2011 21:48:31 +0000
 Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.83]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.01.0339.002; Tue, 29 Nov 2011 15:48:07 -0600
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.01.0339.002; Tue, 29 Nov 2011 15:49:19 -0600
 From: McClintock Matthew-B29882 <B29882@freescale.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v3] Introduce multiarch DISTRO_FEATURE
-Thread-Index: AQHMq6VsUO05bOO/C0G8siH7/g/4OJW+pGYAgASTS4CAABdtAIAAAQ+AgADiWwCAAD2DAIAAXkuA
-Date: Tue, 29 Nov 2011 21:48:06 +0000
-Message-ID: <CAEsOVNfFGfisoxEgvWig66TqBUvCBBbvEg3rVYztN4qQCwN7vg@mail.gmail.com>
-References: <5ca10bdeed6e90862311b8417c0e6de353d1dc70.1322223227.git.julian.pidancet@gmail.com>
-	<CAEsOVNfoFW+3G-bSYiOy4p-Pa_bDShY_c3hutpA+THDO8hUrvg@mail.gmail.com>
-	<1322264404.25382.4.camel@ted>
-	<CAEsOVNcAR_N2LszE41fTaA=FGXMgtOdnCTLvdMxyYC5+GkTkKg@mail.gmail.com>
-	<1322520968.30225.23.camel@ted>
-	<CAEsOVNcCc5ZOT6wi_0pwkrFsJWmCGGS_Co-uA-z=oeFCYSDe8g@mail.gmail.com>
-	<1322569804.3166.5.camel@ted>
-	<CAEsOVNf7hckDk4i8gHx4_jXvzKzRxPkGfT4jP9ORSJvn_t=r=g@mail.gmail.com>
-In-Reply-To: <CAEsOVNf7hckDk4i8gHx4_jXvzKzRxPkGfT4jP9ORSJvn_t=r=g@mail.gmail.com>
+Thread-Topic: [OE-core] [PATCH] bitbake.conf: Ignore MACHINE as dep for
+	MACHINEOVERRIDES
+Thread-Index: AQHMruC/bb5iwoPv0kGSZbZ2PZnrnw==
+Date: Tue, 29 Nov 2011 21:49:19 +0000
+Message-ID: <CAEsOVNdmqqLWO_p711MN3fTCJnZHoTpN0Wagx_M=8JrNnveLrg@mail.gmail.com>
+References: <1322602415-24735-1-git-send-email-msm@freescale.com>
+	<20111129214007.GK7441@jama.jama.net>
+In-Reply-To: <20111129214007.GK7441@jama.jama.net>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [99.47.177.27]
 MIME-Version: 1.0
 X-OriginatorOrg: freescale.com
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Julian Pidancet <julian.pidancet@gmail.com>
-Subject: Re: [PATCH v3] Introduce multiarch DISTRO_FEATURE
+Subject: Re: [PATCH] bitbake.conf: Ignore MACHINE as dep for MACHINEOVERRIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -67,27 +62,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 21:55:02 -0000
+X-List-Received-Date: Tue, 29 Nov 2011 21:56:02 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <1228A1342E71114CB2F976D022FCFFAE@freescale.net>
+Content-ID: <6B8A64C1804C674EB964611592ED1335@freescale.net>
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 29, 2011 at 10:10 AM, Matthew McClintock <msm@freescale.com> wr=
-ote:
-> On Tue, Nov 29, 2011 at 6:30 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> If you depend just on lib32-libgcc:do_populate_sysroot, it shouldn't
->> build eglibc. You can do that with something like:
+On Tue, Nov 29, 2011 at 3:40 PM, Martin Jansa <martin.jansa@gmail.com> wrot=
+e:
+> On Tue, Nov 29, 2011 at 03:33:35PM -0600, Matthew McClintock wrote:
+>> This dependency causes binutils to get rebuilt for some of
+>> our parts that are the same TARGET_ARCH but different
+>> MACHINE.
 >>
->> do_compile[depends] +=3D "lib32-libgcc:do_populate_sysroot"
+>> Signed-off-by: Matthew McClintock <msm@freescale.com>
+>> ---
+>> Comments on this? It seems like it might be better to some do this
+>> in the actual recipes (binutils, gcc-cross, etc) and not globally.
+>> However, I'm not really sure what goes in MACHINEOVERIDES in
+>> general and if it could be something that would cause sstate-cache
+>> to be invalid althogh I could image some scenarios.
+>>
+>> =A0meta/conf/bitbake.conf | =A0 =A01 +
+>> =A01 files changed, 1 insertions(+), 0 deletions(-)
+>>
+>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>> index b4335c9..48ae458 100644
+>> --- a/meta/conf/bitbake.conf
+>> +++ b/meta/conf/bitbake.conf
+>> @@ -659,6 +659,7 @@ AUTO_LIBNAME_PKGS =3D "${PACKAGES}"
+>> =A0OVERRIDES =3D "${TARGET_OS}:${TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}=
+:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:forcevariable"
+>> =A0DISTROOVERRIDES ?=3D "${DISTRO}"
+>> =A0MACHINEOVERRIDES ?=3D "${MACHINE}"
+>> +MACHINEOVERRIDES[vardepsexclude] +=3D "MACHINE"
+>>
+>> =A0CPU_FEATURES ?=3D ""
+>> =A0CPU_FEATURES_arm ?=3D "vfp"
+>> --
+>> 1.7.6.1
 >
-> Thanks, I'll give this a try.
+> is this of oe-core/master?
+>
+> I see similar commit in 362512b83775ad7020e5870a594f0e7ca9ef83ba
 
-This is building some eglibc stuff...
-
-NOTE: package lib32-eglibc-initial-2.13-r15+svnr14157: task
-do_populate_sysroot: Succeeded
+It appears this has already been fixed. I was working on edison 1.1. Thanks=
+!
 
 -M=
 
