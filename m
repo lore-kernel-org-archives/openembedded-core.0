@@ -1,30 +1,38 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RVUiL-0004Mj-E8
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RVV1D-0005Vn-Q8
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 21:55:41 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 29 Nov 2011 12:49:01 -0800
+	Tue, 29 Nov 2011 22:15:12 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 29 Nov 2011 13:08:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,593,1315206000"; d="scan'208";a="42237558"
-Received: from unknown (HELO [10.255.15.251]) ([10.255.15.251])
-	by AZSMGA002.ch.intel.com with ESMTP; 29 Nov 2011 12:49:00 -0800
-Message-ID: <4ED5453C.5090704@linux.intel.com>
-Date: Tue, 29 Nov 2011 12:49:00 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
-MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1322549636.git.Martin.Jansa@gmail.com>
-	<eb7aab8096dac4fc73520c17e0edd4ac689c1cda.1322549636.git.Martin.Jansa@gmail.com>
-	<2752f234bc996b128d06ad63bf5ad36e00a3d3ea.1322549636.git.Martin.Jansa@gmail.com>
-	<4ED53FCA.8000509@linux.intel.com>
-	<20111129204308.GI7441@jama.jama.net>
-In-Reply-To: <20111129204308.GI7441@jama.jama.net>
-Cc: Patches and discussions about the oe-core layer
+X-IronPort-AV: E=Sophos;i="4.69,593,1315206000"; d="scan'208";a="80365922"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.226.211])
+	by azsmga001.ch.intel.com with ESMTP; 29 Nov 2011 13:08:30 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.226.213) by
+	orsmsx602.amr.corp.intel.com (10.22.226.211) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Tue, 29 Nov 2011 13:08:30 -0800
+Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
+	orsmsx601.amr.corp.intel.com ([10.22.226.213]) with mapi;
+	Tue, 29 Nov 2011 13:08:30 -0800
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-core 10/10] gconf: add polkit to DEPENDS
+Date: Tue, 29 Nov 2011 13:08:30 -0800
+Thread-Topic: [OE-core] [PATCH 1/4] gmp: also generate the libgmpcxx library
+	& package it properly
+Thread-Index: Acyu1GT9xcjRtFnZSc6++CXnwvHxOAABo9iA
+Message-ID: <9DA5872FEF993D41B7173F58FCF6BE94E3D9E7EE@orsmsx504.amr.corp.intel.com>
+References: <cover.1322594901.git.nitin.a.kamble@intel.com>
+	<48bd68cce53c87c7f9296a0a0ad5286efef7d5cc.1322594901.git.nitin.a.kamble@intel.com>
+	<1322598026.3077.11.camel@lenovo.internal.reciva.com>
+In-Reply-To: <1322598026.3077.11.camel@lenovo.internal.reciva.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/4] gmp: also generate the libgmpcxx library & package it properly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,74 +47,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 20:55:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 29 Nov 2011 21:15:12 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 11/29/2011 12:43 PM, Martin Jansa wrote:
-> On Tue, Nov 29, 2011 at 12:25:46PM -0800, Saul Wold wrote:
->> On 11/29/2011 06:09 AM, Martin Jansa wrote:
->>> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
->>> ---
->>>    meta/recipes-gnome/gnome/gconf_3.2.3.bb |    2 +-
->>>    1 files changed, 1 insertions(+), 1 deletions(-)
->>>
->>> diff --git a/meta/recipes-gnome/gnome/gconf_3.2.3.bb b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
->>> index aa9da78..907f0ba 100644
->>> --- a/meta/recipes-gnome/gnome/gconf_3.2.3.bb
->>> +++ b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
->>> @@ -3,7 +3,7 @@ SECTION = "x11/gnome"
->>>    LICENSE = "LGPLv2+"
->>>    LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
->>>
->>> -DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native"
->>> +DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native polkit"
->>>
->>>    PR = "r1"
->>>
->>
->> What is this solving? This also would require polkit to have a
->> BBCLASSEXTEND with native.
->
-> gconf-defaults.c:40:27: fatal error: polkit/polkit.h: No such file or directory
->
-> most people have polkit build in sysroot and then if you upgrade gconf
-> and polkit at the same time you can get it autodetected in
-> gconf's do_configure and later removed from sysroot while polkit itself
-> is being upgraded.
->
-> And we probably don't want to disable defaults_service for gconf to force polkit
-> dependency off.
->
-> HAVE_POLKIT=no
-> AC_ARG_ENABLE(defaults_service,
->    AS_HELP_STRING([--enable-defaults-service],
->      [build the defaults DBus service @<:@default=auto@:>@]),
->    , enable_defaults_service=auto)
->
-> if test "x$enable_defaults_service" != "xno" ; then
->    PKG_CHECK_MODULES(DEFAULTS, glib-2.0 gthread-2.0 gobject-2.0 dbus-1 dbus-glib-1 polkit-gobject-1, HAVE_POLKIT=yes, HAVE_POLKIT=no)
->    if test "x$HAVE_POLKIT" = "xno"; then
->      if test "x$enable_defaults_service" = "xyes" ; then
->        AC_MSG_ERROR([[
-> *** Could not find PolicyKit.]])
->      else
->        enable_defaults_service=no
->      fi
->    else
->      enable_defaults_service=yes
->    fi
-> fi
->
-> Weird it didn't fail for me without polkit-native (there isn't .bbappend in any of
-> my layers and I've even tested it in distro less oe-core), but you're right, we should
-> provide polkit-native or disable defaults_service for native gconf.
->
-I think it would be best to disable the default_services for native 
-gconf, a patch for that would be great, thanks
 
-Sau!
 
-> Cheers,
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Phil Blundell
+> Sent: Tuesday, November 29, 2011 12:20 PM
+> To: Patches and discussions about the oe-core layer
+> Subject: Re: [OE-core] [PATCH 1/4] gmp: also generate the libgmpcxx
+> library & package it properly
+>=20
+> On Tue, 2011-11-29 at 11:30 -0800, nitin.a.kamble@intel.com wrote:
+> > From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> >
+> > configure runs few checks to make sure c++ compiler and runtime are
+> working
+> > as expected with the --enable-cxx=3Ddetect option. And it enables
+> building
+> > of libgmpxx library.
+> >
+> > Same as earlier the libgmp.so.10.x file is packaged in the libgmp10
+> package,
+> > and a new package named libgmpxx4 is added for libgmpxx.so.4.x file.
+> >
+> > Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> > Signed-off-by: Phil Blundell <philb@gnu.org>
+>=20
+> Um, why does this patch have my name in Signed-off-by?
+>=20
+> p.
+
+Because I took the code from your email.
+
+Nitin
+
+>=20
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
