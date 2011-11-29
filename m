@@ -1,27 +1,40 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RVGeD-0000ga-E2
+	(envelope-from <martin.jansa@gmail.com>) id 1RVHfT-0002Pg-Bz
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 06:54:29 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 28 Nov 2011 21:47:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,589,1315206000"; d="scan'208";a="80081329"
-Received: from unknown (HELO [10.255.15.251]) ([10.255.15.251])
-	by azsmga001.ch.intel.com with ESMTP; 28 Nov 2011 21:47:49 -0800
-Message-ID: <4ED47205.6050608@linux.intel.com>
-Date: Mon, 28 Nov 2011 21:47:49 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
+	Tue, 29 Nov 2011 07:59:51 +0100
+Received: by bkbzs2 with SMTP id zs2so8940179bkb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Nov 2011 22:53:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=2MCrynzOEqdmgU1EgKCRCgWRS6dxa3MEhV+sNH2uo3s=;
+	b=tJ3WWRamDWUFH61draJuwvh/kZOlSSd5pYHi25PaQx+5yU+LXcMBLogG+o47Wj8uZX
+	AL09uSX7HE2FatjlMehYR1wQdkvJbc3Maqvahe8QrpxkbJW9z41w9OT/jpnQHDPpsaPY
+	5mI2ZpSqY7z6UskUQu0jgqcaOD2/UV1EaTR1g=
+Received: by 10.205.137.135 with SMTP id io7mr50021565bkc.88.1322549591713;
+	Mon, 28 Nov 2011 22:53:11 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id x14sm34942621bkf.10.2011.11.28.22.53.08
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 28 Nov 2011 22:53:10 -0800 (PST)
+Date: Tue, 29 Nov 2011 07:52:57 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Message-ID: <20111129065257.GB7441@jama.jama.net>
+References: <cover.1321028799.git.Martin.Jansa@gmail.com>
+	<d10d38e320b27bfbbf6d069e820a2b6c013bbbdc.1321028799.git.Martin.Jansa@gmail.com>
+	<20111115234557.GD3600@jama.jama.net>
+	<1321438335.26881.232.camel@ted>
+	<20111125075121.GX3565@jama.jama.net>
+	<4ED46F00.20700@linux.intel.com>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+In-Reply-To: <4ED46F00.20700@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1321972428.git.anders@chargestorm.se>
-	<4ECC07D8.2070104@linux.intel.com>
-	<20111123085906.GA16705@ad.chargestorm.se>
-In-Reply-To: <20111123085906.GA16705@ad.chargestorm.se>
-Subject: Re: [PATCH v2 0/1] busybox: update to 1.19.3
+Subject: Re: [PATCH][oe-core 14/22] libsdl: enable alsa/opengl based on PACKAGECONFIG and respect DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,125 +49,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 05:54:29 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 29 Nov 2011 06:59:51 -0000
+X-Groupsio-MsgNum: 13020
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="GRPZ8SYKNexpdSJ7"
+Content-Disposition: inline
 
-On 11/23/2011 12:59 AM, Anders Darander wrote:
-> * Saul Wold<sgw@linux.intel.com>  [111122 21:36]:
->> On 11/22/2011 06:34 AM, Anders Darander wrote:
->>> This updates busybox to the latest stable, 1.19.3.
->
->>> Among other things, there should be rudimentary support in syslogd for
->>> systemd, by enabling CONFIG_FEATURE_SYSTEMD.
->
->> How much size does this add to busybox by having it enabled by default?
->
-> Enabling FEATURE_SYSTEMD in busybox costs 192 bytes in my tests in
-> qemux86.
->
->> Is it possible to conditional add a config fragment if systemd is
->> enabled ad the DISTRO/IMAGE_FEATURE level?
->
->> More info is required.
->
->>> It has been tested and verified on qemux86 and on our local arm-based system.
->
->>> However, the patch busybox-udhcpc-no_deconfig.patch has been modified to
->>> apply, but hasn't really been tested. As we're currently mostly running static
->>> configurations, we've only verified that udhcpc works to the extent that we
->>> get the network up and running, not how it behaves during dhcp renewal.
->>> Thus I'm starting this as an RFC.
->
->>> Changes:
->>> v2: * Checked the new defconfig (removed settings implying CFLAGS and
->>>       ARCH). The new defconfig should be as close as possible to the old one,
->>>       with the exception of some new utils/options.
->> Can you clearly enumerate what new utils and options and what their size
->> impact on the busybox image is.
->
-> Apart from the FEATURE_SYSTEMD discussed above, these are the other new
-> options that I kept the new busybox default on (i.e. these are enabled,
-> while I turned of quite a few other options that automatically got
-> enabled). All costs are evaluted using qemux86, and the busybox binary
-> size is checked in the packages-split/busybox/bin directory.
->
-> I don't mind disabling any of these feature in a v3, if
-> desired/requested. Anyway, I'm running a completely custom config for my
-> normal uses...
->
-> FEATURE_RTMINMAX, support RTMIN[+n] RTMAX[-n] signals, claimed to cost
-> ~250 bytes
->
-I can see these being useful
+--GRPZ8SYKNexpdSJ7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> FEATURE_REVERSE_SEARCH claimed to cost ~0.5k
->
-Why is this needed?
+On Mon, Nov 28, 2011 at 09:34:56PM -0800, Saul Wold wrote:
+> On 11/24/2011 11:51 PM, Martin Jansa wrote:
+> > On Wed, Nov 16, 2011 at 10:12:15AM +0000, Richard Purdie wrote:
+> >> On Wed, 2011-11-16 at 00:45 +0100, Martin Jansa wrote:
+> >>> On Fri, Nov 11, 2011 at 05:28:50PM +0100, Martin Jansa wrote:
+> >>>> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
+> >>>> ---
+> >>>>   meta/recipes-graphics/libsdl/libsdl_1.2.14.bb |   10 +++++++---
+> >>>>   1 files changed, 7 insertions(+), 3 deletions(-)
+> >>>>
+> >>>> diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb b/meta/re=
+cipes-graphics/libsdl/libsdl_1.2.14.bb
+> >>>> index 17a3103..2f49f16 100644
+> >>>> --- a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+> >>>> +++ b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+> >>>> @@ -12,7 +12,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D27818cd=
+7fd83877a8e3ef82b82798ef4"
+> >>>>
+> >>>>   PROVIDES =3D "virtual/libsdl"
+> >>>>
+> >>>> -DEPENDS =3D "${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual=
+/libgl', '', d)} virtual/libx11 libxext libxrandr libxrender alsa-lib tslib"
+> >>>> +DEPENDS =3D "virtual/libx11 libxext libxrandr libxrender tslib"
+> >>>>   DEPENDS_virtclass-nativesdk =3D "libx11-nativesdk libxrandr-native=
+sdk libxrender-nativesdk libxext-nativesdk"
+> >>>
+> >>> As Saul reported PACKAGECONFIG adds build time depends not only to
+> >>> DEPENDS but they also ends in DEPENDS_virtclass-nativesdk and nothing
+> >>> provides virtual/libgl-nativesdk. So I've resend this patch changing
+> >>> only alsa handling to PACKAGECONFIG and keeping opengl as it was.
+> >>>
+> >>> Cheers,
+> >>>
+> >>>>   PR =3D "r1"
+> >>>> @@ -29,17 +29,21 @@ SRC_URI[sha256sum] =3D "5d927e287034cb6bb0ebccfa=
+382cb1d185cb113c8ab5115a0759798642
+> >>>>   inherit autotools binconfig pkgconfig
+> >>>>
+> >>>>   EXTRA_OECONF =3D "--disable-static --disable-debug --enable-cdrom =
+--enable-threads --enable-timers --enable-endian \
+> >>>> -                --enable-file --disable-oss --enable-alsa --disable=
+-esd --disable-arts \
+> >>>> +                --enable-file --disable-oss --disable-esd --disable=
+-arts \
+> >>>>                   --disable-diskaudio --disable-nas --disable-esd-sh=
+ared --disable-esdtest \
+> >>>>                   --disable-mintaudio --disable-nasm --enable-video-=
+x11 --disable-video-dga \
+> >>>>                   --disable-video-fbcon --disable-video-directfb --d=
+isable-video-ps2gs --disable-video-ps3 \
+> >>>>                   --disable-video-xbios --disable-video-gem --disabl=
+e-video-dummy \
+> >>>>                   --enable-input-events --enable-input-tslib --enabl=
+e-pthreads \
+> >>>> -		${@base_contains('DISTRO_FEATURES', 'opengl', '--enable-video-ope=
+ngl', '--disable-video-opengl', d)} \
+> >>>>   		--disable-video-svga \
+> >>>>                   --disable-video-picogui --disable-video-qtopia --e=
+nable-dlopen \
+> >>>>                   --disable-rpath"
+> >>>>
+> >>>> +PACKAGECONFIG ??=3D "${@base_contains('DISTRO_FEATURES', 'opengl', =
+'opengl', '', d)} \
+> >>>> +                   ${@base_contains('DISTRO_FEATURES', 'alsa', 'als=
+a', '', d)}"
+> >>>> +PACKAGECONFIG[alsa] =3D "--enable-alsa,--disable-alsa,alsa-lib,"
+> >>>> +PACKAGECONFIG[opengl] =3D "--enable-video-opengl,--disable-video-op=
+engl,virtual/libgl,"
+> >>>> +
+> >>
+> >> What we could do is have a
+> >> PACKAGECONFIG_virtclass-nativesdk =3D "${@base_contains('DISTRO_FEATUR=
+ES', 'alsa', 'alsa', '', d)}"
+> >> or something like that.
+> >
+> > We've discussed this on IRC and just to be sure, do you want me to add
+> > this first or can this patch go in now when builder is greener? The
+> > jansa/pull branch has the version using PACKAGECONFIG only for alsa and
+> > keeping opengl mangling as it was.
+> >
+> > http://git.openembedded.org/openembedded-core-contrib/commit/?h=3Djansa=
+/pull&id=3Daafe9d871bcbdf6995432e2c8404a6c49ba942b5
+> >
+> Martin,
+>=20
+> Where are we with this one?  I was a way for a bit at LinuxCon Brazil,=20
+> do you have a respun and tested patch set (tested against building the=20
+> SDK and meta-toolchian...)?
 
-> FEATURE_SKIP_ROOTFS ignore rootfs entry in mount table (tools like df
-> etc will ignore it).
->
-OK
+Yes the version with PACKAGECONFIG used only for alsa (not for opengl)
+is tested and works
+http://lists.linuxtogo.org/pipermail/openembedded-core/2011-November/012691=
+=2Ehtml
 
-> FEATURE_AR_CREATE, enable ar to create files, ~2.5k
->
-> FEATURE_SEAMLESS_XZ enable xz compression in tar, no measured cost.
->
-> XZ and UNXZ, enable xz compression, 8k
->
-This is the one and the ar create above that sticks out, are these 
-needed in the general case or just for your config?
+jansa/pull branch was also updated
 
-> FGCONSOLE, print active console number, 128 bytes
->
-> FEATURE_LOADFONT_PSF2, FEATURE_LOADFONT_RAW, cost 576 bytes
->
-Seems resonable, but why did we not need this before, what changed?
+>=20
+> Thanks
+> 	Sau!
+>=20
+> > Regards,
+> >
+> >>
+> >> Cheers,
+> >>
+> >> Richard
+> >>
+> >>
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> >
+> >
+> >
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-> FEATURE_VI_ASK_TERMINAL, last resort to find terminal size, 352 bytes
->
-Not sure about this and the FGCONSOLE above.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-> BLOCKDEV, perform some ioctls with block devices, cost 480 bytes
->
-Again is this useful in the general case?
+--GRPZ8SYKNexpdSJ7
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-> FDISK_SUPPORT_LARGE_DISKS, is disabled, it no longer wants to play with
-> LFS (both were enabled previously).
->
-OK
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
 
-> FEATURE_MOUNT_LOOP_CREATE, create new loopback devices if needed,
-> couldn't see any cost
->
-OK
+iEYEARECAAYFAk7UgUkACgkQN1Ujt2V2gBzbSQCfWSI6tN3ua7X7yxcSPOl10+bS
+6y8An3uO80SBKtUQ8cLl4NTP+khrhkHg
+=UtzR
+-----END PGP SIGNATURE-----
 
-> FEATURE_WGET_TIMEOUT, no visible cost
->
-OK
-
-> FEATURE_SH_HISTFILESIZE, use $HISTFILESIZE (still max limited by
-> config), no visible cost
->
-OK
-
-> FEATURE_SYSLOGD_CFG, support syslog.conf, no visible cost
->
-OK
-
-> FEATURE_SYSLOGD_READ_BUFFER_SIZE, defines the size of the read buffer,
-> not measured
->
-OK
-
-> FEATURE_KLOGD_KLOGCTL, let klogd use the klogctl() interface, no visible
-> cost
-OK
-
->
-> Cheers,
-> Anders
->
-
-
+--GRPZ8SYKNexpdSJ7--
