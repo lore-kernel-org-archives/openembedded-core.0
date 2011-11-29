@@ -1,34 +1,35 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RVOU7-0005BT-Sq
+	(envelope-from <martin.jansa@gmail.com>) id 1RVOUO-0005Gd-M7
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 15:16:35 +0100
-Received: by mail-fx0-f47.google.com with SMTP id r15so771878faa.6
+	Tue, 29 Nov 2011 15:16:52 +0100
+Received: by ghrr13 with SMTP id r13so1717911ghr.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2011 06:09:59 -0800 (PST)
+	Tue, 29 Nov 2011 06:10:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=H0hfmQ7FXQfSkUP/tJEJkAe1L6Yp1VVDehjRPZfiPnw=;
-	b=Gl45XrS4H5Iphsh16vM1hDOat/3fPWe659KRkVduOaHrRGctpCae8yCxo+AzHL3FVx
-	qO9zRoDKwCBLw6v43oa0U7C2fonzDLKNhndug7C/nhYxzyMgNP3tNCpmcu/qWkQujOgc
-	XgmMMXcjavWf0GVfgUI/349vjk+m1cbtDDcCY=
-Received: by 10.204.157.156 with SMTP id b28mr49469647bkx.133.1322575798853;
-	Tue, 29 Nov 2011 06:09:58 -0800 (PST)
+	bh=OH3RnMYNs/oCE0kaU1AGxaO2gi7liFBlwR+lmFmVprM=;
+	b=CfT9bh1m2Bx8fJIXCMGAg9JBr5geY5z2NBzyeNk6hGxFksj42NCC2P/Fjivx1STFYI
+	dGatiu0nYIlE6RSN4So/9A4Aj2fyadem7WaMj1OBJUC4g2S0//o+rTRAyB7sQ4j6Uijh
+	/E+HsKb+5Qpbgcgcl+23j7xJ9E96i6QjMQTWQ=
+Received: by 10.205.126.130 with SMTP id gw2mr50461720bkc.59.1322575809420;
+	Tue, 29 Nov 2011 06:10:09 -0800 (PST)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id iu9sm3561784bkc.0.2011.11.29.06.09.57
+	by mx.google.com with ESMTPS id cc2sm37270164bkb.8.2011.11.29.06.10.08
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 29 Nov 2011 06:09:58 -0800 (PST)
+	Tue, 29 Nov 2011 06:10:08 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Nov 2011 15:09:47 +0100
-Message-Id: <eb7aab8096dac4fc73520c17e0edd4ac689c1cda.1322549636.git.Martin.Jansa@gmail.com>
+Date: Tue, 29 Nov 2011 15:09:48 +0100
+Message-Id: <d0f9182a8ce3305f1fbafe5c5789cd97fe9373a4.1322549636.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.8.rc4
+In-Reply-To: <eb7aab8096dac4fc73520c17e0edd4ac689c1cda.1322549636.git.Martin.Jansa@gmail.com>
+References: <cover.1322549636.git.Martin.Jansa@gmail.com>
+	<eb7aab8096dac4fc73520c17e0edd4ac689c1cda.1322549636.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1322549636.git.Martin.Jansa@gmail.com>
 References: <cover.1322549636.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1322549636.git.Martin.Jansa@gmail.com>
-References: <cover.1322549636.git.Martin.Jansa@gmail.com>
-Subject: [oe-core 08/10] libid3tag: add gperf to DEPENDS
+Subject: [oe-core 09/10] gst-plugins-ugly: bump PR to rebuild after libid3tag fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,30 +44,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 14:16:36 -0000
-
-* see http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=270449
+X-List-Received-Date: Tue, 29 Nov 2011 14:16:52 -0000
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../libid3tag/libid3tag_0.15.1b.bb                 |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ .../gstreamer/gst-plugins-ugly_0.10.17.bb          |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb b/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
-index 4faa981..05e566e 100644
---- a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
-+++ b/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
-@@ -6,8 +6,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- 			file://COPYRIGHT;md5=5e6279efb87c26c6e5e7a68317a6a87a \
- 			file://version.h;beginline=1;endline=8;md5=86ac68b67f054b7afde9e149bbc3fe63"
- SECTION = "libs"
--DEPENDS = "zlib"
--PR = "r3"
-+DEPENDS = "zlib gperf-native"
-+PR = "r4"
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb
+index 2a79c2a..26bc0ba 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+                     file://gst/mpegstream/gstmpegparse.h;beginline=1;endline=18;md5=ff65467b0c53cdfa98d0684c1bc240a9"
  
- SRC_URI = "ftp://ftp.mars.org/pub/mpeg/libid3tag-${PV}.tar.gz \
-            file://addpkgconfig.patch"
+ DEPENDS += "gst-plugins-base libid3tag libmad mpeg2dec liba52 lame"
+-PR = "r1"
++PR = "r2"
+ 
+ inherit gettext
+ 
 -- 
 1.7.8.rc3
 
