@@ -1,39 +1,34 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RVKBu-0004os-Ew for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 10:41:31 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAT9YqT1011265
+Received: from smtprelay-h21.telenor.se ([195.54.99.196])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <openembedded-core@emagii.com>) id 1RVKmB-00054r-PZ
+	for openembedded-core@lists.openembedded.org;
+	Tue, 29 Nov 2011 11:19:00 +0100
+Received: from ipb5.telenor.se (ipb5.telenor.se [195.54.127.168])
+	by smtprelay-h21.telenor.se (Postfix) with ESMTP id 08570DAF5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2011 09:34:52 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 10747-06 for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2011 09:34:48 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAT9YgCv011257
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2011 09:34:43 GMT
-Message-ID: <1322559291.2140.2.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 29 Nov 2011 09:34:51 +0000
-In-Reply-To: <4ED4A49D.7040806@eukrea.com>
-References: <4ED4A49D.7040806@eukrea.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
-	pAT9YqT1011265
-Subject: Re: base-passwd problem : No such file or directory
+	Tue, 29 Nov 2011 11:12:20 +0100 (CET)
+X-SENDER-IP: [83.227.56.19]
+X-LISTENER: [smtp.bredband.net]
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: AkIcAJ2v1E5T4zgTPGdsb2JhbAAMN4lKoUMBAQEBN4JjQD0WGAMCAQIBMScIAQG/T4gJgxUElFSJDIkG
+X-IronPort-AV: E=Sophos;i="4.69,590,1315173600"; 
+   d="scan'208";a="4578349"
+Received: from c-1338e353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
+	[10.175.196.244]) ([83.227.56.19])
+	by ipb5.telenor.se with ESMTP; 29 Nov 2011 11:12:05 +0100
+Message-ID: <4ED4AFF4.8020506@emagii.com>
+Date: Tue, 29 Nov 2011 11:12:04 +0100
+From: Ulf Samuelsson <openembedded-core@emagii.com>
+Organization: eMagii
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.23) Gecko/20110922 Thunderbird/3.1.15
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+Subject: Whitespace not allowed in COMPATIBLE_MACHINE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: ulf@emagii.com, Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -44,37 +39,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 09:41:31 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 29 Nov 2011 10:19:00 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-11-29 at 10:23 +0100, Eric B=C3=A9nard wrote:
-> Hi,
->=20
-> while building an image (.bb attached), I new get the following problem=
-=20
-> (reproduced on 3 different hosts) :
->=20
-> ERROR: Error executing a python function in=20
-> /home/ebenard/WORK/PROJECT/setup-scripts/sources/openembedded-core/meta=
-/recipes-core/base-passwd/base-passwd_3.5.22.bb:
-> IOError: [Errno 2] No such file or directory:=20
-> '/home/ebenard/WORK/PROJECT/setup-scripts/build/tmp-angstrom_2010_x-egl=
-ibc/sysroots/PROJECT-board/usr/share/base-passwd/passwd.master'
->=20
-> Log is attached.
+Have had a lot of problems trying to get a recipe running.
+I finally discovered that "COMPATIBLE_MACHINE" is sensitive to whitespace.
 
-A way to reproduce this easily is:
+Working:
+COMPATIBLE_MACHINE = "machine1"
+COMPATIBLE_MACHINE = "machine1|machine2"
+COMPATIBLE_MACHINE = "(machine1)"
+COMPATIBLE_MACHINE = "(machine1|machine2)"
 
-bitbake base-passwd -c clean
-bitbake base-passwd -c package
+COMPATIBLE_MACHINE = "machine1"
+COMPATIBLE_MACHINE += "|machine2"
 
-since it looks like a race between the populate_sysroot and package
-tasks of this specific recipe...
+Not Working:
+COMPATIBLE_MACHINE = " machine1"
+COMPATIBLE_MACHINE = "machine1 "
+COMPATIBLE_MACHINE = "machine1|machine2"
+COMPATIBLE_MACHINE = "machine1 |machine2"
+COMPATIBLE_MACHINE = "machine1| machine2"
+COMPATIBLE_MACHINE = "machine1 | machine2"
+COMPATIBLE_MACHINE = " (machine1)"
+COMPATIBLE_MACHINE = "(machine1|machine2) "
+etc.
 
-Cheers,
+This is a real PITA expecially since COMPATIBLE_MACHINE is yet to be 
+documented in the manual
 
-Richard
+
+-- 
+
+Best Regards
+Ulf Samuelsson
+eMagii
 
 
 
