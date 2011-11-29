@@ -1,41 +1,29 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1RVQrM-0001f6-2e
+	(envelope-from <mark.hatle@windriver.com>) id 1RVQwu-0001mU-Dt
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 17:48:44 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 29 Nov 2011 08:42:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,592,1315206000"; d="scan'208";a="90228493"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
-	by fmsmga001.fm.intel.com with ESMTP; 29 Nov 2011 08:42:03 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.226.213) by
-	orsmsx604.amr.corp.intel.com (10.22.226.87) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Tue, 29 Nov 2011 08:42:02 -0800
-Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
-	orsmsx601.amr.corp.intel.com ([10.22.226.213]) with mapi;
-	Tue, 29 Nov 2011 08:42:04 -0800
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 29 Nov 2011 08:42:02 -0800
-Thread-Topic: [OE-core] [PATCH 3/4] gmp: also generate the libgmpcxx library
-	& package it properly
-Thread-Index: AcyubPXGvTAKcm7MQfuBRLcTN3YeqgASI2Ew
-Message-ID: <9DA5872FEF993D41B7173F58FCF6BE94E3D06A4F@orsmsx504.amr.corp.intel.com>
-References: <cover.1322526931.git.nitin.a.kamble@intel.com>
-	<6b7fb8503d66ee4d4c3d43f3c368b8aa2d010add.1322526931.git.nitin.a.kamble@intel.com>
-	<4f8425c0c7856dba2b3765407a97754c7b06aeb5.1322526931.git.nitin.a.kamble@intel.com>
-	<CAP9ODKpm7jB4FhBuNC7biDyuhVg8Kdxf5wEcm+WwsAyRtZR+WQ@mail.gmail.com>
-	<9DA5872FEF993D41B7173F58FCF6BE94E3D06804@orsmsx504.amr.corp.intel.com>
-	<1322553613.3077.10.camel@lenovo.internal.reciva.com>
-In-Reply-To: <1322553613.3077.10.camel@lenovo.internal.reciva.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US
+	Tue, 29 Nov 2011 17:54:29 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pATGllR4004095
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Nov 2011 08:47:47 -0800 (PST)
+Received: from Macintosh-5.local (172.25.36.232) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 29 Nov 2011 08:47:47 -0800
+Message-ID: <4ED50CB2.4060409@windriver.com>
+Date: Tue, 29 Nov 2011 10:47:46 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:8.0) Gecko/20111105 Thunderbird/8.0
 MIME-Version: 1.0
-Subject: Re: [PATCH 3/4] gmp: also generate the libgmpcxx library & package it properly
+To: <openembedded-core@lists.openembedded.org>
+References: <1322070364.15626.17.camel@ted>
+	<1322515367-22100-1-git-send-email-msm@freescale.com>
+	<4ED502CA.7070505@linux.intel.com>
+In-Reply-To: <4ED502CA.7070505@linux.intel.com>
+Subject: Re: [PATCH] rpm_5.4.0.bb: Build rpm without xz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,41 +38,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 16:48:44 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 29 Nov 2011 16:54:29 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogb3BlbmVtYmVkZGVkLWNv
-cmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFttYWlsdG86b3BlbmVtYmVkZGVk
-LWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYgT2YNCj4gUGhp
-bCBCbHVuZGVsbA0KPiBTZW50OiBUdWVzZGF5LCBOb3ZlbWJlciAyOSwgMjAxMSAxMjowMCBBTQ0K
-PiBUbzogUGF0Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQgdGhlIG9lLWNvcmUgbGF5ZXINCj4g
-U3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMy80XSBnbXA6IGFsc28gZ2VuZXJhdGUgdGhl
-IGxpYmdtcGN4eA0KPiBsaWJyYXJ5ICYgcGFja2FnZSBpdCBwcm9wZXJseQ0KPiANCj4gT24gTW9u
-LCAyMDExLTExLTI4IGF0IDE3OjUyIC0wODAwLCBLYW1ibGUsIE5pdGluIEEgd3JvdGU6DQo+IA0K
-PiA+IEJlZm9yZSB0aGUgZ2VuZXJhdGlvbiBvZiBsaWJnbXB4eCBsaWJyYXJ5LCB0aGVyZSB3YXMg
-b25seSBvbmUNCj4gbGlicmFyeSwNCj4gPiBsaWJnbXAsIGFuZCBpdCB3YXMgZ2V0dGluZyBwYWNr
-YWdlZCBpbnRvIGxpYmdtcDEwIHBhY2thZ2UuIEFmdGVyDQo+ID4gYWRkaXRpb24gb2YgdGhlIGxp
-YmdtcHh4IGxpYnJhcnkgdGhlIHBhY2thZ2UgbmFtZSBjaGFuZ2VkIHRvIHRoZQ0KPiA+IHJlY2lw
-ZSBuYW1lIChnbXApLCBpbiBvcmRlciB0byBwcmVzZXJ2ZSB0aGUgcHJldmlvdXMgcGFja2FnZSBu
-YW1lKGZvcg0KPiA+IGRpc3RybyB1cGdyYWRlcyksIGFuZCB0byBsZXQgcGVvcGxlIGF2b2lkIGlu
-c3RhbGxhdGlvbiBvZiBsaWJnbXB4eCBpZg0KPiA+IHRoZXkgZG9u4oCZdCBuZWVkIGl0IGluIG9y
-ZGVyIHRvIHNhdmUgdGhlIHNwYWNlIG9uIHRhcmdldCwgdHdvIHBhY2thZ2VzDQo+ID4gYXJlIGdl
-bmVyYXRlZCBmb3IgZWFjaCBsaWJyYXJ5IHdpdGggdGhpcyBzY2hlbWUuDQo+IA0KPiBSaWdodCwg
-YnV0IHRoYXQncyBub3QgcmVhbGx5IHRoZSBwb2ludC4gIEkgdGhpbmsgd2hhdCBPdGF2aW8gd2Fz
-IHRyeWluZw0KPiB0byBhc2sgd2FzLCB3aHkgZGlkbid0IHlvdSBqdXN0IGRvOg0KPiANCj4gUEFD
-S0FHRVMgPSsgImxpYmdtcHh4Ig0KPiBGSUxFU19saWJnbXB4eCA9ICIke2xpYmRpcn0vbGliZ21w
-eHgke1NPTElCU30iDQo+IA0KPiA/ICBJIHRoaW5rIHRoZSB3YXkgeW91IGhhdmUgZG9uZSBpdCB3
-aWxsIGNhdXNlIHRoZSBsaWJnbXAgcGFja2FnZSBuYW1lDQo+IHRvIGNoYW5nZSBmb3IgcGVvcGxl
-IG5vdCB1c2luZyBkZWJpYW4uYmJjbGFzcywgd2hpY2ggaXMgcHJvYmFibHkgYSBiYWQNCj4gdGhp
-bmcuDQo+IA0KPiBwLg0KDQpUaGFua3MgUGhpbCwNCiAgVGhpcyB3YXMgYWxzbyB3b3JrcyB0aGUg
-c2FtZS4gQW5kIHByb2R1Y2luZyBzYW1lIHJwbSBwYWNrYWdlcyBhcyBwcmV2aW91cyBvbmUuIFNv
-IEkgYW0gaGFwcHkgdG8gYWNjZXB0IHRoaXMgY2hhbmdlIGlmIGl0IGhlbHBzIHRoZSBkZWIgcGFj
-a2FnZXMuIFdpbGwgcmVzZW5kIHRoZSBjb21taXQuDQpOaXRpbg0KDQo+IA0KPiANCj4gDQo+IA0K
-PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPiBPcGVu
-ZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxpc3QNCj4gT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZw0KPiBodHRwOi8vbGlzdHMubGludXh0b2dvLm9yZy9jZ2ktYmluL21haWxt
-YW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUNCg==
+Sorry, I didn't see this earlier.  We may need XZ support, externally, to work 
+with packages from folks like Red Hat.
+
+I'm not asking to revert this change.. just pointing out that people who are 
+using RPM functionality should watch and see if this causes any negative impacts 
+on their systems.
+
+--Mark
+
+On 11/29/11 10:05 AM, Saul Wold wrote:
+> On 11/28/2011 01:22 PM, Matthew McClintock wrote:
+>> This fixes the following issue:
+>>
+>> Log data follows:
+>> | NOTE: Creating RPM package for perf-dbg
+>> | NOTE: Creating RPM package for perf
+>> | NOTE: Creating EMPTY RPM Package for kernel
+>> | NOTE: Creating EMPTY RPM Package for kernel-3.0.9-00348-gec4b357
+>> | NOTE: Creating RPM package for kernel-image-3.0.9-00348-gec4b357
+>> | NOTE: Creating RPM package for kernel-dev
+>> | NOTE: Creating RPM package for kernel-vmlinux
+>> | NOTE: Not creating empty RPM package for kernel-misc
+>> | NOTE: Creating RPM package for kernel-devicetree
+>> | NOTE: Creating RPM package for kernel-module-libcrc32c
+>> | NOTE: Creating RPM package for kernel-module-crc-itu-t
+>> | NOTE: Creating RPM package for kernel-module-sctp
+>> | NOTE: Creating RPM package for kernel-module-pcbc
+>> | NOTE: Creating RPM package for kernel-module-crc32c
+>> | NOTE: Creating RPM package for kernel-module-binfmt-misc
+>> | NOTE: Creating RPM package for kernel-module-nfsd
+>> | NOTE: Creating RPM package for kernel-module-exportfs
+>> | NOTE: Creating RPM package for kernel-module-msdos
+>> | NOTE: Creating RPM package for kernel-module-nls-utf8
+>> | NOTE: Creating RPM package for kernel-module-udf
+>> | NOTE: Creating RPM package for kernel-module-isofs
+>> | NOTE: Creating RPM package for kernel-module-usbhid
+>> | NOTE: Creating RPM package for kernel-module-scsi-wait-scan
+>> | NOTE: Creating EMPTY RPM Package for kernel-modules
+>> | /local/home/mattsm/git/fsl-local-sdk/build_p4080ds_release/tmp/sysroots/x86_64-linux/usr/bin/rpmbuild.real: error while loading shared libraries: liblzma.so.5: cannot open shared object file: No such file or directory
+>> | ERROR: Function 'BUILDSPEC' failed (see /local/home/mattsm/git/fsl-local-sdk/build_p4080ds_release/tmp/work/p4080ds-fsl-linux/linux-qoriq-sdk-3.0.6-r2/temp/log.do_package_write_rpm.18943 for further information)
+>>
+>> Signed-off-by: Matthew McClintock<msm@freescale.com>
+>> ---
+>> v2: changed from having xz in deps to just disabling xz
+>>
+>>    meta/recipes-devtools/rpm/rpm_5.4.0.bb |    3 ++-
+>>    1 files changed, 2 insertions(+), 1 deletions(-)
+>>
+>> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
+>> index f8fe836..77f0aba 100644
+>> --- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
+>> +++ b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
+>> @@ -45,7 +45,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
+>>    DEPENDS = "bzip2 zlib db openssl elfutils expat libpcre attr acl popt ${extrarpmdeps}"
+>>    extrarpmdeps = "python perl"
+>>    extrarpmdeps_virtclass-native = "file-native"
+>> -PR = "r23"
+>> +PR = "r24"
+>>
+>>    # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
+>>    # in order to extract the distribution SRPM into a format we can extract...
+>> @@ -156,6 +156,7 @@ EXTRA_OECONF = "--verbose \
+>>    		--with-build-extlibdep \
+>>    		--with-build-maxextlibdep \
+>>    		--without-valgrind \
+>> +		--without-xz \
+>>    		--disable-openmp \
+>>    		--enable-build-pic \
+>>    		--enable-build-versionscript \
+>
+> Merged this into OE-Core
+>
+> Thanks
+> 	Sau!
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 
 
