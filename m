@@ -1,30 +1,27 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RVGRu-0000R1-7D
+	(envelope-from <sgw@linux.intel.com>) id 1RVGeD-0000ga-E2
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 06:41:46 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 28 Nov 2011 21:34:57 -0800
+	Tue, 29 Nov 2011 06:54:29 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 28 Nov 2011 21:47:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="80738868"
+X-IronPort-AV: E=Sophos;i="4.69,589,1315206000"; d="scan'208";a="80081329"
 Received: from unknown (HELO [10.255.15.251]) ([10.255.15.251])
-	by orsmga001.jf.intel.com with ESMTP; 28 Nov 2011 21:34:56 -0800
-Message-ID: <4ED46F00.20700@linux.intel.com>
-Date: Mon, 28 Nov 2011 21:34:56 -0800
+	by azsmga001.ch.intel.com with ESMTP; 28 Nov 2011 21:47:49 -0800
+Message-ID: <4ED47205.6050608@linux.intel.com>
+Date: Mon, 28 Nov 2011 21:47:49 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1321028799.git.Martin.Jansa@gmail.com>
-	<d10d38e320b27bfbbf6d069e820a2b6c013bbbdc.1321028799.git.Martin.Jansa@gmail.com>
-	<20111115234557.GD3600@jama.jama.net>
-	<1321438335.26881.232.camel@ted>
-	<20111125075121.GX3565@jama.jama.net>
-In-Reply-To: <20111125075121.GX3565@jama.jama.net>
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: Re: [PATCH][oe-core 14/22] libsdl: enable alsa/opengl based on PACKAGECONFIG and respect DISTRO_FEATURES
+References: <cover.1321972428.git.anders@chargestorm.se>
+	<4ECC07D8.2070104@linux.intel.com>
+	<20111123085906.GA16705@ad.chargestorm.se>
+In-Reply-To: <20111123085906.GA16705@ad.chargestorm.se>
+Subject: Re: [PATCH v2 0/1] busybox: update to 1.19.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,99 +36,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 05:41:46 -0000
+X-List-Received-Date: Tue, 29 Nov 2011 05:54:29 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/24/2011 11:51 PM, Martin Jansa wrote:
-> On Wed, Nov 16, 2011 at 10:12:15AM +0000, Richard Purdie wrote:
->> On Wed, 2011-11-16 at 00:45 +0100, Martin Jansa wrote:
->>> On Fri, Nov 11, 2011 at 05:28:50PM +0100, Martin Jansa wrote:
->>>> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
->>>> ---
->>>>   meta/recipes-graphics/libsdl/libsdl_1.2.14.bb |   10 +++++++---
->>>>   1 files changed, 7 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
->>>> index 17a3103..2f49f16 100644
->>>> --- a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
->>>> +++ b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
->>>> @@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=27818cd7fd83877a8e3ef82b82798ef4"
->>>>
->>>>   PROVIDES = "virtual/libsdl"
->>>>
->>>> -DEPENDS = "${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} virtual/libx11 libxext libxrandr libxrender alsa-lib tslib"
->>>> +DEPENDS = "virtual/libx11 libxext libxrandr libxrender tslib"
->>>>   DEPENDS_virtclass-nativesdk = "libx11-nativesdk libxrandr-nativesdk libxrender-nativesdk libxext-nativesdk"
->>>
->>> As Saul reported PACKAGECONFIG adds build time depends not only to
->>> DEPENDS but they also ends in DEPENDS_virtclass-nativesdk and nothing
->>> provides virtual/libgl-nativesdk. So I've resend this patch changing
->>> only alsa handling to PACKAGECONFIG and keeping opengl as it was.
->>>
->>> Cheers,
->>>
->>>>   PR = "r1"
->>>> @@ -29,17 +29,21 @@ SRC_URI[sha256sum] = "5d927e287034cb6bb0ebccfa382cb1d185cb113c8ab5115a0759798642
->>>>   inherit autotools binconfig pkgconfig
->>>>
->>>>   EXTRA_OECONF = "--disable-static --disable-debug --enable-cdrom --enable-threads --enable-timers --enable-endian \
->>>> -                --enable-file --disable-oss --enable-alsa --disable-esd --disable-arts \
->>>> +                --enable-file --disable-oss --disable-esd --disable-arts \
->>>>                   --disable-diskaudio --disable-nas --disable-esd-shared --disable-esdtest \
->>>>                   --disable-mintaudio --disable-nasm --enable-video-x11 --disable-video-dga \
->>>>                   --disable-video-fbcon --disable-video-directfb --disable-video-ps2gs --disable-video-ps3 \
->>>>                   --disable-video-xbios --disable-video-gem --disable-video-dummy \
->>>>                   --enable-input-events --enable-input-tslib --enable-pthreads \
->>>> -		${@base_contains('DISTRO_FEATURES', 'opengl', '--enable-video-opengl', '--disable-video-opengl', d)} \
->>>>   		--disable-video-svga \
->>>>                   --disable-video-picogui --disable-video-qtopia --enable-dlopen \
->>>>                   --disable-rpath"
->>>>
->>>> +PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'opengl', 'opengl', '', d)} \
->>>> +                   ${@base_contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}"
->>>> +PACKAGECONFIG[alsa] = "--enable-alsa,--disable-alsa,alsa-lib,"
->>>> +PACKAGECONFIG[opengl] = "--enable-video-opengl,--disable-video-opengl,virtual/libgl,"
->>>> +
->>
->> What we could do is have a
->> PACKAGECONFIG_virtclass-nativesdk = "${@base_contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}"
->> or something like that.
+On 11/23/2011 12:59 AM, Anders Darander wrote:
+> * Saul Wold<sgw@linux.intel.com>  [111122 21:36]:
+>> On 11/22/2011 06:34 AM, Anders Darander wrote:
+>>> This updates busybox to the latest stable, 1.19.3.
 >
-> We've discussed this on IRC and just to be sure, do you want me to add
-> this first or can this patch go in now when builder is greener? The
-> jansa/pull branch has the version using PACKAGECONFIG only for alsa and
-> keeping opengl mangling as it was.
+>>> Among other things, there should be rudimentary support in syslogd for
+>>> systemd, by enabling CONFIG_FEATURE_SYSTEMD.
 >
-> http://git.openembedded.org/openembedded-core-contrib/commit/?h=jansa/pull&id=aafe9d871bcbdf6995432e2c8404a6c49ba942b5
+>> How much size does this add to busybox by having it enabled by default?
 >
-Martin,
+> Enabling FEATURE_SYSTEMD in busybox costs 192 bytes in my tests in
+> qemux86.
+>
+>> Is it possible to conditional add a config fragment if systemd is
+>> enabled ad the DISTRO/IMAGE_FEATURE level?
+>
+>> More info is required.
+>
+>>> It has been tested and verified on qemux86 and on our local arm-based system.
+>
+>>> However, the patch busybox-udhcpc-no_deconfig.patch has been modified to
+>>> apply, but hasn't really been tested. As we're currently mostly running static
+>>> configurations, we've only verified that udhcpc works to the extent that we
+>>> get the network up and running, not how it behaves during dhcp renewal.
+>>> Thus I'm starting this as an RFC.
+>
+>>> Changes:
+>>> v2: * Checked the new defconfig (removed settings implying CFLAGS and
+>>>       ARCH). The new defconfig should be as close as possible to the old one,
+>>>       with the exception of some new utils/options.
+>> Can you clearly enumerate what new utils and options and what their size
+>> impact on the busybox image is.
+>
+> Apart from the FEATURE_SYSTEMD discussed above, these are the other new
+> options that I kept the new busybox default on (i.e. these are enabled,
+> while I turned of quite a few other options that automatically got
+> enabled). All costs are evaluted using qemux86, and the busybox binary
+> size is checked in the packages-split/busybox/bin directory.
+>
+> I don't mind disabling any of these feature in a v3, if
+> desired/requested. Anyway, I'm running a completely custom config for my
+> normal uses...
+>
+> FEATURE_RTMINMAX, support RTMIN[+n] RTMAX[-n] signals, claimed to cost
+> ~250 bytes
+>
+I can see these being useful
 
-Where are we with this one?  I was a way for a bit at LinuxCon Brazil, 
-do you have a respun and tested patch set (tested against building the 
-SDK and meta-toolchian...)?
+> FEATURE_REVERSE_SEARCH claimed to cost ~0.5k
+>
+Why is this needed?
 
-Thanks
-	Sau!
+> FEATURE_SKIP_ROOTFS ignore rootfs entry in mount table (tools like df
+> etc will ignore it).
+>
+OK
 
-> Regards,
+> FEATURE_AR_CREATE, enable ar to create files, ~2.5k
 >
->>
->> Cheers,
->>
->> Richard
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> FEATURE_SEAMLESS_XZ enable xz compression in tar, no measured cost.
 >
+> XZ and UNXZ, enable xz compression, 8k
 >
+This is the one and the ar create above that sticks out, are these 
+needed in the general case or just for your config?
+
+> FGCONSOLE, print active console number, 128 bytes
 >
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> FEATURE_LOADFONT_PSF2, FEATURE_LOADFONT_RAW, cost 576 bytes
+>
+Seems resonable, but why did we not need this before, what changed?
+
+> FEATURE_VI_ASK_TERMINAL, last resort to find terminal size, 352 bytes
+>
+Not sure about this and the FGCONSOLE above.
+
+> BLOCKDEV, perform some ioctls with block devices, cost 480 bytes
+>
+Again is this useful in the general case?
+
+> FDISK_SUPPORT_LARGE_DISKS, is disabled, it no longer wants to play with
+> LFS (both were enabled previously).
+>
+OK
+
+> FEATURE_MOUNT_LOOP_CREATE, create new loopback devices if needed,
+> couldn't see any cost
+>
+OK
+
+> FEATURE_WGET_TIMEOUT, no visible cost
+>
+OK
+
+> FEATURE_SH_HISTFILESIZE, use $HISTFILESIZE (still max limited by
+> config), no visible cost
+>
+OK
+
+> FEATURE_SYSLOGD_CFG, support syslog.conf, no visible cost
+>
+OK
+
+> FEATURE_SYSLOGD_READ_BUFFER_SIZE, defines the size of the read buffer,
+> not measured
+>
+OK
+
+> FEATURE_KLOGD_KLOGCTL, let klogd use the klogctl() interface, no visible
+> cost
+OK
+
+>
+> Cheers,
+> Anders
+>
 
 
