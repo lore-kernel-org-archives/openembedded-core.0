@@ -1,23 +1,23 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RVWm2-0001Ov-3F
-	for openembedded-core@openembedded.org; Wed, 30 Nov 2011 00:07:39 +0100
+	(envelope-from <sgw@linux.intel.com>) id 1RVWm4-0001PH-Ud
+	for openembedded-core@openembedded.org; Wed, 30 Nov 2011 00:07:41 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2011 15:00:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,594,1315206000"; d="scan'208";a="96720812"
+X-IronPort-AV: E=Sophos;i="4.69,594,1315206000"; d="scan'208";a="96720814"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.251])
 	by fmsmga002.fm.intel.com with ESMTP; 29 Nov 2011 15:00:32 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@openembedded.org
-Date: Tue, 29 Nov 2011 15:00:21 -0800
-Message-Id: <2a815ec68240ad45d8beaf6bfb87baa50db87e6a.1322607016.git.sgw@linux.intel.com>
+Date: Tue, 29 Nov 2011 15:00:23 -0800
+Message-Id: <43a056ca6c59adaecc28aa6b6a8d6e38439b6210.1322607016.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1322607016.git.sgw@linux.intel.com>
 References: <cover.1322607016.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1322607016.git.sgw@linux.intel.com>
 References: <cover.1322607016.git.sgw@linux.intel.com>
-Subject: [PATCH 21/26] coreutils: build and install hostname
+Subject: [PATCH 23/26] openssl-0.9.8: move parallel-make fix to 0.9.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,58 +32,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 23:07:39 -0000
+X-List-Received-Date: Tue, 29 Nov 2011 23:07:41 -0000
 
-busybox's hostname doesn't work with pseudo somehow, so let's use the version
-of coreutils. This is needed for the self-hosted-image work.
-
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-core/coreutils/coreutils_8.14.bb |    8 ++++----
- 1 files changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-connectivity/openssl/openssl.inc      |    1 -
+ .../recipes-connectivity/openssl/openssl_0.9.8r.bb |    3 ++-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/coreutils/coreutils_8.14.bb b/meta/recipes-core/coreutils/coreutils_8.14.bb
-index 01face0..15ed38a 100644
---- a/meta/recipes-core/coreutils/coreutils_8.14.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.14.bb
-@@ -7,7 +7,7 @@ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
- LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
-                     file://src/ls.c;startline=5;endline=16;md5=e1a509558876db58fb6667ba140137ad"
--PR = "r1"
-+PR = "r2"
- DEPENDS = "gmp"
- DEPENDS_virtclass-native = ""
+diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+index f3ada13..f1c1961 100644
+--- a/meta/recipes-connectivity/openssl/openssl.inc
++++ b/meta/recipes-connectivity/openssl/openssl.inc
+@@ -11,7 +11,6 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
+ DEPENDS = "perl-native-runtime"
  
-@@ -19,6 +19,8 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
- SRC_URI[md5sum] = "bcb135ce553493a45aba01b39eb3920a"
- SRC_URI[sha256sum] = "0d120817c19292edb19e92ae6b8eac9020e03d51e0af9cb116cf82b65d18b02d"
+ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+-           file://parallel-make-fix.patch \
+           "
+ S = "${WORKDIR}/openssl-${PV}"
  
-+EXTRA_OECONF += "--enable-install-program=hostname"
-+
- EXTRA_OECONF_virtclass-native = "--without-gmp"
+diff --git a/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb b/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb
+index 555bacf..4c6cad3 100644
+--- a/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb
++++ b/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb
+@@ -25,6 +25,7 @@ SRC_URI[md5sum] = "0352932ea863bc02b056cda7c9ac5b79"
+ SRC_URI[sha256sum] = "42b2368f786b05ed3be846838dce126b4e8e3dba8fb2e0ce83102df28c102fad"
  
- # [ gets a special treatment and is not included in this
-@@ -29,9 +31,8 @@ bindir_progs = "base64 basename chcon cksum comm csplit cut dir dircolors dirnam
-                 sha384sum sha512sum shred shuf sort split stat stdbuf sum tac tail tee test timeout\
-                 tr truncate tsort tty unexpand uniq unlink uptime users vdir wc who whoami yes df"
+ SRC_URI += "file://configure-targets.patch \
+-            file://shared-libs.patch"
++            file://shared-libs.patch \
++            file://parallel-make-fix.patch"
  
--# hostname gets a special treatment and is not included in this
- base_bindir_progs = "cat chgrp chmod chown cp date dd echo false kill ln ls mkdir \
--                     mknod mv pwd rm rmdir sleep stty sync touch true uname"
-+                     mknod mv pwd rm rmdir sleep stty sync touch true uname hostname"
- 
- sbindir_progs= "chroot"
- 
-@@ -71,7 +72,6 @@ pkg_prerm_${PN} () {
- 	for i in ${sbindir_progs}; do update-alternatives --remove $i $i.${PN}; done
- 
- 	# The special cases
--	update-alternatives --remove hostname hostname.${PN}
- 	update-alternatives --remove uptime uptime.${PN}
- 	update-alternatives --remove '[' 'lbracket.${PN}'
- }
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 1.7.6.4
 
