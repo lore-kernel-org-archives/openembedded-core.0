@@ -1,23 +1,23 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RVJ8F-0005pP-LI
+	(envelope-from <sgw@linux.intel.com>) id 1RVJ8G-0005pV-DO
 	for openembedded-core@openembedded.org; Tue, 29 Nov 2011 09:33:40 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2011 00:26:56 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2011 00:26:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,590,1315206000"; d="scan'208";a="96419448"
+X-IronPort-AV: E=Sophos;i="4.69,590,1315206000"; d="scan'208";a="96419451"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.251])
 	by fmsmga002.fm.intel.com with ESMTP; 29 Nov 2011 00:26:56 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@openembedded.org
-Date: Tue, 29 Nov 2011 00:26:36 -0800
-Message-Id: <9b13b9024d24953dedb35f62d3d8b06a29036992.1322554983.git.sgw@linux.intel.com>
+Date: Tue, 29 Nov 2011 00:26:38 -0800
+Message-Id: <99e295ef30ba02db3966c66619807c037ef5089f.1322554983.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1322554983.git.sgw@linux.intel.com>
 References: <cover.1322554983.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1322554983.git.sgw@linux.intel.com>
 References: <cover.1322554983.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 05/23] python-native: Fix gcc compiler detecting logic
+Subject: [CONSOLIDATED PULL 07/23] Introduce multiarch DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,77 +34,104 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 29 Nov 2011 08:33:40 -0000
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Julian Pidancet <julian.pidancet@gmail.com>
 
-We have a patch unixccompiler.patch where we try to throw away
-everything except first element of CC string but this does not
-work if gcc is prepended with something e.g. CC="ccache gcc"
-then the logic fails and it ends up in some modules failing on
-you silently (_sqlite3) in my case.
-The fix here is to drop basename so we keep the whole
-string as it is and then the detection function searches
-for gcc string in the whole CC. This works in both cases
-one the original intent of the patch and the second described
-above. One place where it will fail is if someone has non-gcc
-compiler installed in some subdir which has gcc in it e.g.
-/usr/gcc/fakecc but for OE this should never happen. Ideally
-the the detection logic should have tried to execute gcc
-and then parsed --version output or something.
+This patch introduces a distro feature which enables gcc to produce
+both 32bit and 64bit code, and enables binutils to operate on both
+32bit and 64bit binaries. It differs from multilib toolchains in
+that it does not require to compile a version of the libc for each
+architecture variant. However, the code produced for the secondary
+architecture will not be linkable against the libc.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+v2: - Renamed the feature name from "biarch" to "multiarch". The GCC
+installation manual claims that the mips-linux can be made a tri-arch
+compiler (http://gcc.gnu.org/install/configure.html)
+    - For x86_64, the compiler is made bi-arch by default, so nothing
+has to be done in particular.
+    - I analyzed the gcc/config.gcc from GCC sources and added in this
+patch all the architectures that could be made biarch with the version
+of gcc currently used in OE, which are powerpc, and sparc, in addition
+to x86. mips and s390 will probably be supported in future versions of
+gcc. For x86 and sparc, only the --enable-targets=all option is valid
+to make this work (this option doesn't have any other side effects than
+making the compiler bi-arch). For powerpc, I used the
+--enable-targets=powerpc64 option (although 'all' also works).
+
+Note: - Untested on powerpc and sparc. But I believe it works the same
+as with x86.
+      - gcc in meta-toolchain is also made multiarch.
+
+Signed-off-by: Julian Pidancet <julian.pidancet@gmail.com>
 ---
- .../python/python-native/unixccompiler.patch       |   22 ++++++++++----------
- .../recipes-devtools/python/python-native_2.7.2.bb |    2 +-
- 2 files changed, 12 insertions(+), 12 deletions(-)
+ meta/recipes-devtools/binutils/binutils-cross.inc  |    3 ++-
+ meta/recipes-devtools/binutils/binutils.inc        |    3 ++-
+ meta/recipes-devtools/gcc/gcc-common.inc           |   10 ++++++++++
+ meta/recipes-devtools/gcc/gcc-configure-common.inc |    3 ++-
+ 4 files changed, 16 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-native/unixccompiler.patch b/meta/recipes-devtools/python/python-native/unixccompiler.patch
-index 10a9baf..4502829 100644
---- a/meta/recipes-devtools/python/python-native/unixccompiler.patch
-+++ b/meta/recipes-devtools/python/python-native/unixccompiler.patch
-@@ -1,20 +1,20 @@
--Upstream-Status: Inappropriate [embedded specific]
-+Upstream-Status: Pending
+diff --git a/meta/recipes-devtools/binutils/binutils-cross.inc b/meta/recipes-devtools/binutils/binutils-cross.inc
+index 982224f..f07907e 100644
+--- a/meta/recipes-devtools/binutils/binutils-cross.inc
++++ b/meta/recipes-devtools/binutils/binutils-cross.inc
+@@ -10,7 +10,8 @@ EXTRA_OECONF = "--with-sysroot=${STAGING_DIR_TARGET} \
+                 --disable-werror \
+                 --disable-nls \
+                 --enable-poison-system-directories \
+-		${@base_contains('DISTRO_FEATURES', 'ld-is-gold', '--enable-gold=default', '', d)}"
++                ${@base_contains('DISTRO_FEATURES', 'ld-is-gold', '--enable-gold=default', '', d)} \
++                ${@base_contains('DISTRO_FEATURES', 'multiarch', '--enable-64-bit-bfd', '', d)}"
  
--# The CC variable,sometimes like:"x86_64-poky-linux-gcc   -m64 --sysroot=/${TMPDIR}/sysroots/qemux86-64", contains option information. 
--# This will lead to wrong compiler name "qemux86-64" rather than "x86_64-poky-linux-gcc" when python finding the compiler name.
-+The CC variable,sometimes like:"x86_64-poky-linux-gcc   -m64 --sysroot=/${TMPDIR}/sysroots/qemux86-64", contains option information. 
-+This will lead to wrong compiler name "qemux86-64" rather than "x86_64-poky-linux-gcc" when python finding the compiler name.
+ do_install () {
+ 	oe_runmake 'DESTDIR=${D}' install
+diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
+index 58fee85..51e4257 100644
+--- a/meta/recipes-devtools/binutils/binutils.inc
++++ b/meta/recipes-devtools/binutils/binutils.inc
+@@ -49,7 +49,8 @@ B = "${S}/build.${HOST_SYS}.${TARGET_SYS}"
  
--#Signed-off-by: Mei Lei <lei.mei@intel.com>
--
--diff --git Python-2.6.6/Lib/distutils/unixccompiler.py Python-2.6.6/Lib/distutils/unixccompiler.py
--index 6d0b84d..aaf49cb 100644
----- Python-2.6.6/Lib/distutils/unixccompiler.py
--+++ Python-2.6.6/Lib/distutils/unixccompiler.py
--@@ -282,7 +282,7 @@ class UnixCCompiler(CCompiler):
-+Signed-off-by: Mei Lei <lei.mei@intel.com>
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Index: Python-2.7.2/Lib/distutils/unixccompiler.py
-+===================================================================
-+--- Python-2.7.2.orig/Lib/distutils/unixccompiler.py	2011-11-24 13:51:10.539998722 -0800
-++++ Python-2.7.2/Lib/distutils/unixccompiler.py	2011-11-24 15:54:36.872137766 -0800
-+@@ -282,7 +282,7 @@
-          # this time, there's no way to determine this information from
-          # the configuration data stored in the Python installation, so
-          # we use this hack.
- -        compiler = os.path.basename(sysconfig.get_config_var("CC"))
--+        compiler = os.path.basename(sysconfig.get_config_var("CC").split()[0])
-++        compiler = sysconfig.get_config_var("CC")
-          if sys.platform[:6] == "darwin":
-              # MacOSX's linker doesn't understand the -R flag at all
-              return "-L" + dir
-diff --git a/meta/recipes-devtools/python/python-native_2.7.2.bb b/meta/recipes-devtools/python/python-native_2.7.2.bb
-index 6b90d5b..d036eca 100644
---- a/meta/recipes-devtools/python/python-native_2.7.2.bb
-+++ b/meta/recipes-devtools/python/python-native_2.7.2.bb
-@@ -1,6 +1,6 @@
- require python.inc
- DEPENDS = "openssl-native bzip2-full-native zlib-native readline-native sqlite3-native"
--PR = "${INC_PR}.0"
-+PR = "${INC_PR}.1"
+ EXTRA_OECONF = "--program-prefix=${TARGET_PREFIX} \
+                 --enable-install-libbfd \
+-                --enable-shared"
++                --enable-shared \
++                ${@base_contains('DISTRO_FEATURES', 'multiarch', '--enable-64-bit-bfd', '', d)}"
  
- SRC_URI += "file://04-default-is-optimized.patch \
-            file://05-enable-ctypes-cross-build.patch \
+ EXTRA_OECONF_virtclass-native = "--enable-target=all --enable-64-bit-bfd --enable-install-libbfd"
+ 
+diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
+index 69e0213..7ec2f7e 100644
+--- a/meta/recipes-devtools/gcc/gcc-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-common.inc
+@@ -21,6 +21,16 @@ def get_gcc_mips_plt_setting(bb, d):
+         return "--with-mips-plt"
+     return ""
+ 
++def get_gcc_multiarch_setting(bb, d):
++    if 'multiarch' in bb.data.getVar('DISTRO_FEATURES',d,1).split() :
++        if bb.data.getVar('TARGET_ARCH', d, 1) in [ 'i586', 'i686' ] :
++            return "--enable-targets=all"
++        if bb.data.getVar('TARGET_ARCH', d, 1) in [ 'powerpc' ] :
++            return "--enable-targets=powerpc64"
++        if bb.data.getVar('TARGET_ARCH', d, 1) in [ 'sparc' ] :
++            return "--enable-targets=all"
++    return ""
++
+ # We really need HOST_SYS here for some packages and TARGET_SYS for others.
+ # For now, libgcc is most important so we fix for that - RP.
+ SHLIBSDIR = "${STAGING_DIR_TARGET}/shlibs"
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+index ae23e8e..d014980 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+@@ -42,7 +42,8 @@ EXTRA_OECONF = "${@['--enable-clocale=generic', ''][d.getVar('USE_NLS', 1) != 'n
+                 ${EXTRA_OECONF_BASE} \
+                 ${EXTRA_OECONF_FPU} \
+                 ${EXTRA_OECONF_PATHS} \
+-                ${@get_gcc_mips_plt_setting(bb, d)}"
++                ${@get_gcc_mips_plt_setting(bb, d)} \
++                ${@get_gcc_multiarch_setting(bb, d)}"
+ 
+ # Build uclibc compilers without cxa_atexit support
+ EXTRA_OECONF_append_linux               = " --enable-__cxa_atexit"
 -- 
 1.7.6.4
 
