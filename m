@@ -1,28 +1,28 @@
 Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1RVIdJ-0004uW-IC
+	(envelope-from <philb@gnu.org>) id 1RVIiN-00051t-T9
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 09:01:41 +0100
+	Tue, 29 Nov 2011 09:06:55 +0100
 Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
 	helo=[192.168.114.3])
 	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1RVIWu-0008NC-36; Tue, 29 Nov 2011 08:55:04 +0100
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RVIbz-0008Na-FD
+	for openembedded-core@lists.openembedded.org;
+	Tue, 29 Nov 2011 09:00:19 +0100
 From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <20111129070444.GA3653@ad.chargestorm.se>
-References: <cover.1321972428.git.anders@chargestorm.se>
-	<4ECC07D8.2070104@linux.intel.com>
-	<20111123085906.GA16705@ad.chargestorm.se>
-	<4ED47205.6050608@linux.intel.com>
-	<20111129070444.GA3653@ad.chargestorm.se>
-Date: Tue, 29 Nov 2011 07:54:58 +0000
-Message-ID: <1322553298.3077.8.camel@lenovo.internal.reciva.com>
+In-Reply-To: <9DA5872FEF993D41B7173F58FCF6BE94E3D06804@orsmsx504.amr.corp.intel.com>
+References: <cover.1322526931.git.nitin.a.kamble@intel.com>
+	<6b7fb8503d66ee4d4c3d43f3c368b8aa2d010add.1322526931.git.nitin.a.kamble@intel.com>
+	<4f8425c0c7856dba2b3765407a97754c7b06aeb5.1322526931.git.nitin.a.kamble@intel.com>
+	<CAP9ODKpm7jB4FhBuNC7biDyuhVg8Kdxf5wEcm+WwsAyRtZR+WQ@mail.gmail.com>
+	<9DA5872FEF993D41B7173F58FCF6BE94E3D06804@orsmsx504.amr.corp.intel.com>
+Date: Tue, 29 Nov 2011 08:00:13 +0000
+Message-ID: <1322553613.3077.10.camel@lenovo.internal.reciva.com>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.3 
-Cc: g@ad.chargestorm.se
-Subject: Re: [PATCH v2 0/1] busybox: update to 1.19.3
+Subject: Re: [PATCH 3/4] gmp: also generate the libgmpcxx library & package it properly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,32 +37,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 08:01:41 -0000
+X-List-Received-Date: Tue, 29 Nov 2011 08:06:56 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2011-11-29 at 08:04 +0100, Anders Darander wrote:
-> Any more comment on this one? Otavio replied earlier that if it was a
-> small cost, he would prefer to have it on by default. Otherwise, any
-> suggestions for DISTRO/IMAGE_FEATURE?
+On Mon, 2011-11-28 at 17:52 -0800, Kamble, Nitin A wrote:
 
-We've talked about this a few times in the past and it's never seemed as
-though this would buy much in relation to busybox.  The busybox
-configuration is so highly specific that each DISTRO is probably going
-to end up wanting its own custom configuration file and it isn't obvious
-that there is going to be much/any commonality between them.  That being
-the case it seems as though it's easier for the distros to actually ship
-the config files themselves, rather than try to translate every
-conceivable option into PACKAGE_CONFIG and then express them that way.
+> Before the generation of libgmpxx library, there was only one library,
+> libgmp, and it was getting packaged into libgmp10 package. After
+> addition of the libgmpxx library the package name changed to the
+> recipe name (gmp), in order to preserve the previous package name(for
+> distro upgrades), and to let people avoid installation of libgmpxx if
+> they don=E2=80=99t need it in order to save the space on target, two pack=
+ages
+> are generated for each library with this scheme.
 
-I guess the other thing that naturally follows from this is that there
-probably aren't very many people using the actual defconfig that oe-core
-provides, and hence it probably doesn't matter all that much what is and
-isn't enabled in it.  Enabling FEATURE_SYSTEMD seems like a reasonable
-idea if there is already the mechanism in oe-core to make use of it, but
-probably just a waste of space otherwise.
+Right, but that's not really the point.  I think what Otavio was trying
+to ask was, why didn't you just do:
+
+PACKAGES =3D+ "libgmpxx"
+FILES_libgmpxx =3D "${libdir}/libgmpxx${SOLIBS}"
+
+?  I think the way you have done it will cause the libgmp package name
+to change for people not using debian.bbclass, which is probably a bad
+thing.
 
 p.
+
 
 
 
