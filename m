@@ -1,25 +1,28 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1RVUGk-0003fv-Cu
+	(envelope-from <sgw@linux.intel.com>) id 1RVUMA-0003oT-JQ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 21:27:10 +0100
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.3])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RVUAL-0001vm-Av
-	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 21:20:33 +0100
-From: Phil Blundell <philb@gnu.org>
+	Tue, 29 Nov 2011 21:32:47 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 29 Nov 2011 12:25:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,593,1315206000"; d="scan'208";a="96671591"
+Received: from unknown (HELO [10.255.15.251]) ([10.255.15.251])
+	by fmsmga002.fm.intel.com with ESMTP; 29 Nov 2011 12:25:46 -0800
+Message-ID: <4ED53FCA.8000509@linux.intel.com>
+Date: Tue, 29 Nov 2011 12:25:46 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <48bd68cce53c87c7f9296a0a0ad5286efef7d5cc.1322594901.git.nitin.a.kamble@intel.com>
-References: <cover.1322594901.git.nitin.a.kamble@intel.com>
-	<48bd68cce53c87c7f9296a0a0ad5286efef7d5cc.1322594901.git.nitin.a.kamble@intel.com>
-Date: Tue, 29 Nov 2011 20:20:26 +0000
-Message-ID: <1322598026.3077.11.camel@lenovo.internal.reciva.com>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.3 
-Subject: Re: [PATCH 1/4] gmp: also generate the libgmpcxx library & package it properly
+References: <cover.1322549636.git.Martin.Jansa@gmail.com>
+	<eb7aab8096dac4fc73520c17e0edd4ac689c1cda.1322549636.git.Martin.Jansa@gmail.com>
+	<2752f234bc996b128d06ad63bf5ad36e00a3d3ea.1322549636.git.Martin.Jansa@gmail.com>
+In-Reply-To: <2752f234bc996b128d06ad63bf5ad36e00a3d3ea.1322549636.git.Martin.Jansa@gmail.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: [oe-core 10/10] gconf: add polkit to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,27 +37,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 20:27:10 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 29 Nov 2011 20:32:47 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-11-29 at 11:30 -0800, nitin.a.kamble@intel.com wrote:
-> From: Nitin A Kamble <nitin.a.kamble@intel.com>
-> 
-> configure runs few checks to make sure c++ compiler and runtime are working
-> as expected with the --enable-cxx=detect option. And it enables building
-> of libgmpxx library.
-> 
-> Same as earlier the libgmp.so.10.x file is packaged in the libgmp10 package,
-> and a new package named libgmpxx4 is added for libgmpxx.so.4.x file.
-> 
-> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> Signed-off-by: Phil Blundell <philb@gnu.org>
+On 11/29/2011 06:09 AM, Martin Jansa wrote:
+> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
+> ---
+>   meta/recipes-gnome/gnome/gconf_3.2.3.bb |    2 +-
+>   1 files changed, 1 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/recipes-gnome/gnome/gconf_3.2.3.bb b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
+> index aa9da78..907f0ba 100644
+> --- a/meta/recipes-gnome/gnome/gconf_3.2.3.bb
+> +++ b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
+> @@ -3,7 +3,7 @@ SECTION = "x11/gnome"
+>   LICENSE = "LGPLv2+"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
+>
+> -DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native"
+> +DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native polkit"
+>
+>   PR = "r1"
+>
 
-Um, why does this patch have my name in Signed-off-by?
+What is this solving? This also would require polkit to have a 
+BBCLASSEXTEND with native.
 
-p.
-
-
+Sau!
 
 
