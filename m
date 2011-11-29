@@ -1,35 +1,31 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1RVP5F-0006WW-8u
-	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 15:54:57 +0100
-Received: by eekc1 with SMTP id c1so1117862eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2011 06:48:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding;
-	bh=Bif9i2Yt2vNTIkh8Q3jYoLXu8kBRsxqBlHMg0VnEfYg=;
-	b=F++Yh5oZWK1q3ngWQl924ceZ2FnpXCV/2vQCOOO3YvTKh0TR5HioZJyb4K4It60xdg
-	O0dL10zztc4p+TonQXmCEwwFnfmyGBQ52h33Wn+WX+PVSdnNkNzyrn1ItLnvIDUAdm/4
-	E2LyBMatOZCcSnYfGDGkp9NRcRMp1auu10ThE=
-Received: by 10.216.176.14 with SMTP id a14mr36081wem.14.1322578098263; Tue,
-	29 Nov 2011 06:48:18 -0800 (PST)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.216.167.79 with HTTP; Tue, 29 Nov 2011 06:47:56 -0800 (PST)
-In-Reply-To: <4ED4E793.2080605@emagii.com>
-References: <4ED4AFF4.8020506@emagii.com>
-	<1322564887.26081.131.camel@phil-desktop>
-	<4ED4E793.2080605@emagii.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Tue, 29 Nov 2011 07:47:56 -0700
-X-Google-Sender-Auth: wGXgXoUxSx8QwKZTv8jVAyOzh7U
-Message-ID: <CABcZANnktCoqMEQi0n3=GcdH07a9dV7Qg088pFaW0wjHkAgXWw@mail.gmail.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RVPKK-0007F1-PH for openembedded-core@lists.openembedded.org;
+	Tue, 29 Nov 2011 16:10:32 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pATF3omq014700;
+	Tue, 29 Nov 2011 15:03:50 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 14023-08; Tue, 29 Nov 2011 15:03:45 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pATF3eGk014694
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 29 Nov 2011 15:03:42 GMT
+Message-ID: <1322579029.7964.0.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: ulf@emagii.com, Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Whitespace not allowed in COMPATIBLE_MACHINE
+Date: Tue, 29 Nov 2011 15:03:49 +0000
+In-Reply-To: <4ED0CC76.4040606@emagii.com>
+References: <4ED0CC76.4040606@emagii.com>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: "Garman, Scott A" <scott.a.garman@intel.com>
+Subject: Re: Feedback on building openembedded-core for qemuarm. Excerpts from buildlog
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,51 +40,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 14:54:57 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 29 Nov 2011 15:10:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 29, 2011 at 7:09 AM, Ulf Samuelsson
-<openembedded-core@emagii.com> wrote:
->
->>> Working:
->>> COMPATIBLE_MACHINE =3D "machine1"
->>> COMPATIBLE_MACHINE =3D "machine1|machine2"
->>> COMPATIBLE_MACHINE =3D "(machine1)"
->>> COMPATIBLE_MACHINE =3D "(machine1|machine2)"
->>>
->>> COMPATIBLE_MACHINE =3D "machine1"
->>> COMPATIBLE_MACHINE +=3D "|machine2"
->>
->> I'm slightly surprised that this last example would work. =C2=A0It ought=
- to
->> be equivalent to...
->>
->
-> It seems to work for me.
->
-> I have in my U-Boot recipe:
-> COMPATIBLE_MACHINE =C2=A0 =C2=A0 =3D
-> "at91sam9260ek|at91sam9xeek|at91sam9g20ek|at91sam9g20ek_2mmc"
-> COMPATIBLE_MACHINE =C2=A0 =C2=A0+=3D "|at91sam9261ek|at91sam9g10ek"
-> COMPATIBLE_MACHINE =C2=A0 =C2=A0+=3D "|at91sam9263ek"
-> COMPATIBLE_MACHINE =C2=A0 =C2=A0+=3D
-> "|at91sam9g45ek|at91sam9g45ekes|at91sam9m10ekes|at91sam9m10g45ek"
-> COMPATIBLE_MACHINE =C2=A0 =C2=A0+=3D
-> "|at91sam9g15ek|at91sam9g25ek|at91sam9g35ek|at91sam9x25ek|at91sam9x35ek"
-> COMPATIBLE_MACHINE =C2=A0 =C2=A0+=3D "|at91sam9rlek"
->
-> MACHINE =3D =C2=A0"at91sam9g35ek"
-> If I add a space in the COMPATIBLE_MACHINE definition somewhere,
-> then the recipe is not used.
+On Sat, 2011-11-26 at 12:24 +0100, Ulf Samuelsson wrote:
+> Downloaded the latest, and tried building console-image for qemuarm.
+> Host = Ubuntu 11.04 i686.
+> 
+> Looked through the build log, and thought I'd share it with the list.
 
-As Phil points out, +=3D results in a space separator. If you want
-direct concatenation without a separator, use .=3D.
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Thanks for doing this, its valuable feedback.
+
+> A number of warnings (see below)
+
+We're trying to work through addressing those. Some of them are from
+versions in meta-oe where there is a fix for the error in OECore (such
+as the libgcc linker hash style).
+
+> Seen a couple of errors as well.
+> 
+> 1.    ERROR: Function 'useradd_sysroot' failed
+>          Tried to access "/etc/group" but this was locked.
+>          Problem disappeared the next time I rebuilt.
+
+Can you file a bug about this problem please. I think we need to go
+through the code paths in shadow and ensure its locking is sane. I took
+a quick look at the code and was left wondering what lckpwdf() does for
+example. Scott, could you take a look at this?
+
+> 2.    "ftp://elsie.nci.nih.gov/pub/tzcode2011i.tar.gz" is no longer 
+> available.
+>          tzdata , same problem.
+>          The recipe is located in two places.
+>          meta-openembedded/meta-oe/recipes-extended/tz*/tz*.bb have the 
+> problem
+>          This is what the build uses.
+
+This is something to raise with the meta-oe maintainers. I think there
+isn't a problem in OECore.
+
+> 3.    When I ran into this problem, I exited with ctrl-C.
+>          This left some recipes in the middle of a fetch ,and the build 
+> could not continue.
+>          I had to "bitbake -c clean <package>" on all problematic 
+> packages to recover.
+>          Seems a little bit fragile to me.
+
+Yes, this isn't good. Could you file a bug report on this please?
+
+> 4.     linux-3.0 recipe in meta-ti does not build (On Ubuntu 11.10 x64).
+>          Fails in the fetch stage.
+>          I removed the layer, since it was not needed for qemuarm.
+
+Makes sense and its something raise with the meta-ti layer maintainers
+which I think I've seen elsewhere.
+
+> 5.    When compiling on a Ubuntu 11.10 x64 host  (linux 3.x host)
+>          tiff won't build.
+>          Did:
+>              bitbake console-image"
+>              bitbake -c clean tiff
+>              bitbake  tiff
+>          - No luck
+>          Reading through the mailing list, I found someone which deleted
+>          $TMPDIR and then
+>              bitbake tiff
+>              bitbake console-image
+>          That worked for me as well once, second time, same problem.
+>          Problem is that #include <iostream> fails.
+> 
+>          I noted that "iostream" is built and available in 
+> <sysroot>/usr/include/c++
+>          On the host, it is located in /usr/incolude/c++/<version>
+>          "tiff" build seems to be OK with Ubuntu 11.04 i686.
+
+I think these errors should be fixed by recent changes. If not I'd be
+interested in the full console log please.
+
+Cheers,
+
+Richard
+
+
 
 
