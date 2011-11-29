@@ -1,24 +1,29 @@
-Received: from smtp2-g21.free.fr ([212.27.42.2])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1RVJT1-0007T7-Fd
+	(envelope-from <koen@dominion.thruhere.net>) id 1RVJTr-0007Wl-Mr
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 09:55:07 +0100
-Received: from [192.168.1.15] (unknown [82.240.38.71])
-	by smtp2-g21.free.fr (Postfix) with ESMTP id 0B9244B054E
+	Tue, 29 Nov 2011 09:55:59 +0100
+Received: by eaad13 with SMTP id d13so2791992eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2011 09:48:21 +0100 (CET)
-Message-ID: <4ED49C54.8030300@eukrea.com>
-Date: Tue, 29 Nov 2011 09:48:20 +0100
-From: =?UTF-8?B?RXJpYyBCw6luYXJk?= <eric@eukrea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111105 Thunderbird/8.0
-MIME-Version: 1.0
+	Tue, 29 Nov 2011 00:49:20 -0800 (PST)
+Received: by 10.227.206.66 with SMTP id ft2mr5031565wbb.8.1322556560695;
+	Tue, 29 Nov 2011 00:49:20 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id fg15sm18421472wbb.7.2011.11.29.00.49.19
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 29 Nov 2011 00:49:19 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Tue, 29 Nov 2011 09:49:17 +0100
+In-Reply-To: <647b040f65373d5f2922a381f3515c62471773c8.1322554339.git.wenzong.fan@windriver.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <4ED0CC76.4040606@emagii.com> <4ED0DDBF.9000104@eukrea.com>
-	<1322394029.4798.16.camel@ted>
-In-Reply-To: <1322394029.4798.16.camel@ted>
-Subject: Re: Feedback on building openembedded-core for qemuarm. Excerpts from buildlog
+References: <cover.1322554339.git.wenzong.fan@windriver.com>
+	<647b040f65373d5f2922a381f3515c62471773c8.1322554339.git.wenzong.fan@windriver.com>
+Message-Id: <928A241D-6223-4A84-9681-A4472F0DFC01@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH 4/5] autoconf: Extend to provide nativesdk recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,20 +38,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 08:55:07 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-List-Received-Date: Tue, 29 Nov 2011 08:55:59 -0000
+X-Groupsio-MsgNum: 13074
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_25C68527-3A69-4DD0-9D47-B92EF90A64A9";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_25C68527-3A69-4DD0-9D47-B92EF90A64A9
 Content-Transfer-Encoding: quoted-printable
-
-Le 27/11/2011 12:40, Richard Purdie a =C3=A9crit :
-> To help me get further data points on this issue, are you using rm_work=
-?
-> Do the recent changes in master help (the bitbake sstate/task_skip()
-> ones in particular)? I've not been able to reproduce this :(
->
-OK I don't seem to reproduce it with head (but I now meet a new problem w=
-ith=20
-base-passwd, see coming mail).
-
-Eric
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+Op 29 nov. 2011, om 09:39 heeft <wenzong.fan@windriver.com> =
+<wenzong.fan@windriver.com> het volgende geschreven:
+
+> From: Wenzong Fan <wenzong.fan@windriver.com>
+>=20
+> [YOCTO #1603]
+
+For every recipe: what is '[yocto #1603]'?=
+
+--Apple-Mail=_25C68527-3A69-4DD0-9D47-B92EF90A64A9
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAk7UnI8ACgkQMkyGM64RGpEaSQCbBznPxOBQMFoGqkxq78lgVxPu
+L48AniiwUEHOpHSzcEeGqUXScTKaT9QM
+=3Cpn
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_25C68527-3A69-4DD0-9D47-B92EF90A64A9--
