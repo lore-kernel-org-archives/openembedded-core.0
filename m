@@ -1,25 +1,24 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from smtp2-g21.free.fr ([212.27.42.2])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Wenzong.Fan@windriver.com>) id 1RVJMx-0007AY-7W
+	(envelope-from <eric@eukrea.com>) id 1RVJT1-0007T7-Fd
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 09:48:51 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pAT8gBua015764
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 29 Nov 2011 09:55:07 +0100
+Received: from [192.168.1.15] (unknown [82.240.38.71])
+	by smtp2-g21.free.fr (Postfix) with ESMTP id 0B9244B054E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2011 00:42:12 -0800 (PST)
-Received: from localhost.localdomain (128.224.162.28) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Tue, 29 Nov 2011 00:42:11 -0800
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 29 Nov 2011 16:39:02 +0800
-Message-ID: <fac0655c4196ef515e14ffcca14fcb9de4cb0505.1322554339.git.wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1322554339.git.wenzong.fan@windriver.com>
-References: <cover.1322554339.git.wenzong.fan@windriver.com>
+	Tue, 29 Nov 2011 09:48:21 +0100 (CET)
+Message-ID: <4ED49C54.8030300@eukrea.com>
+Date: Tue, 29 Nov 2011 09:48:20 +0100
+From: =?UTF-8?B?RXJpYyBCw6luYXJk?= <eric@eukrea.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:8.0) Gecko/20111105 Thunderbird/8.0
 MIME-Version: 1.0
-Subject: [PATCH 5/5] task-sdk-host-nativesdk: add autotools nativesdk to meta-toolchain
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <4ED0CC76.4040606@emagii.com> <4ED0DDBF.9000104@eukrea.com>
+	<1322394029.4798.16.camel@ted>
+In-Reply-To: <1322394029.4798.16.camel@ted>
+Subject: Re: Feedback on building openembedded-core for qemuarm. Excerpts from buildlog
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,44 +33,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 08:48:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 29 Nov 2011 08:55:07 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
+Le 27/11/2011 12:40, Richard Purdie a =C3=A9crit :
+> To help me get further data points on this issue, are you using rm_work=
+?
+> Do the recent changes in master help (the bitbake sstate/task_skip()
+> ones in particular)? I've not been able to reproduce this :(
+>
+OK I don't seem to reproduce it with head (but I now meet a new problem w=
+ith=20
+base-passwd, see coming mail).
 
-[YOCTO #1603]
-
-Add automake-nativesdk and autoconf-nationsdk into meta-toolchain.
-
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
----
- meta/recipes-core/tasks/task-sdk-host-nativesdk.bb |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-core/tasks/task-sdk-host-nativesdk.bb b/meta/recipes-core/tasks/task-sdk-host-nativesdk.bb
-index 5ec40b1..920f359 100644
---- a/meta/recipes-core/tasks/task-sdk-host-nativesdk.bb
-+++ b/meta/recipes-core/tasks/task-sdk-host-nativesdk.bb
-@@ -3,7 +3,7 @@
- #
- 
- DESCRIPTION = "Host packages for the standalone SDK or external toolchain"
--PR = "r10"
-+PR = "r11"
- LICENSE = "MIT"
- ALLOW_EMPTY = "1"
- 
-@@ -22,6 +22,8 @@ RDEPENDS_${PN} = "\
-     unfs-server-nativesdk \
-     opkg-nativesdk \
-     libtool-nativesdk \
-+    autoconf-nativesdk \
-+    automake-nativesdk \
-     "
- 
- RDEPENDS_${PN}_darwin8 = "\
--- 
-1.7.0.4
-
+Eric
 
 
