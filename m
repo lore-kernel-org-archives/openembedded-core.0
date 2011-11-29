@@ -1,37 +1,39 @@
-Received: from smtprelay-b11.telenor.se ([62.127.194.20])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <openembedded-core@emagii.com>) id 1RVOw7-0006HT-RR
+	(envelope-from <kergoth@gmail.com>) id 1RVP5F-0006WW-8u
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 15:45:32 +0100
-Received: from ipb5.telenor.se (ipb5.telenor.se [195.54.127.168])
-	by smtprelay-b11.telenor.se (Postfix) with ESMTP id E52CED43F
+	Tue, 29 Nov 2011 15:54:57 +0100
+Received: by eekc1 with SMTP id c1so1117862eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2011 15:09:24 +0100 (CET)
-X-SENDER-IP: [83.227.56.19]
-X-LISTENER: [smtp.bredband.net]
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: At0dAOHm1E5T4zgTPGdsb2JhbAAMN6sRAQEBATeCJAEBAQECAQEBATUPJwoRCxgJFg8JAwIBAgEVARsUEwYCAQGIAQipAo4oix4EkjOCIYkMiQY
-X-IronPort-AV: E=Sophos;i="4.69,591,1315173600"; 
-   d="scan'208";a="4760485"
-Received: from c-1338e353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
-	[10.175.196.244]) ([83.227.56.19])
-	by ipb5.telenor.se with ESMTP; 29 Nov 2011 15:09:24 +0100
-Message-ID: <4ED4E793.2080605@emagii.com>
-Date: Tue, 29 Nov 2011 15:09:23 +0100
-From: Ulf Samuelsson <openembedded-core@emagii.com>
-Organization: eMagii
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.23) Gecko/20110922 Thunderbird/3.1.15
+	Tue, 29 Nov 2011 06:48:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:content-type
+	:content-transfer-encoding;
+	bh=Bif9i2Yt2vNTIkh8Q3jYoLXu8kBRsxqBlHMg0VnEfYg=;
+	b=F++Yh5oZWK1q3ngWQl924ceZ2FnpXCV/2vQCOOO3YvTKh0TR5HioZJyb4K4It60xdg
+	O0dL10zztc4p+TonQXmCEwwFnfmyGBQ52h33Wn+WX+PVSdnNkNzyrn1ItLnvIDUAdm/4
+	E2LyBMatOZCcSnYfGDGkp9NRcRMp1auu10ThE=
+Received: by 10.216.176.14 with SMTP id a14mr36081wem.14.1322578098263; Tue,
+	29 Nov 2011 06:48:18 -0800 (PST)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+Sender: kergoth@gmail.com
+Received: by 10.216.167.79 with HTTP; Tue, 29 Nov 2011 06:47:56 -0800 (PST)
+In-Reply-To: <4ED4E793.2080605@emagii.com>
 References: <4ED4AFF4.8020506@emagii.com>
 	<1322564887.26081.131.camel@phil-desktop>
-In-Reply-To: <1322564887.26081.131.camel@phil-desktop>
+	<4ED4E793.2080605@emagii.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Tue, 29 Nov 2011 07:47:56 -0700
+X-Google-Sender-Auth: wGXgXoUxSx8QwKZTv8jVAyOzh7U
+Message-ID: <CABcZANnktCoqMEQi0n3=GcdH07a9dV7Qg088pFaW0wjHkAgXWw@mail.gmail.com>
+To: ulf@emagii.com, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: Whitespace not allowed in COMPATIBLE_MACHINE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ulf@emagii.com, Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -42,112 +44,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 14:45:32 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 29 Nov 2011 14:54:57 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 2011-11-29 12:08, Phil Blundell wrote:
-> On Tue, 2011-11-29 at 11:12 +0100, Ulf Samuelsson wrote:
->> Have had a lot of problems trying to get a recipe running.
->> I finally discovered that "COMPATIBLE_MACHINE" is sensitive to whitespace.
->> This is a real PITA expecially since COMPATIBLE_MACHINE is yet to be
->> documented in the manual
-> Indeed, it's a regular expression.  This is mentioned in
-> documentation.conf:
+On Tue, Nov 29, 2011 at 7:09 AM, Ulf Samuelsson
+<openembedded-core@emagii.com> wrote:
 >
-> COMPATIBLE_MACHINE[doc] = "A regular expression which matches the
-> MACHINES support by the package/file. Failure to match will cause the
-> file to be skipped by the parser."
->
-> If you think the description can be improved then I'm sure patches would
-> be welcome.
-
-Its pretty clear, but this assumes that you are aware of the file itself.
-Have just started looking into openembedded-core, so I didnt even know 
-the file existed.
-Is this file mentioned anywhere?
-
-I was looking at the openembedded "manual" in the home page
-where COMPATIBLE_MACHINE is mentioned, but not much else.
-
-Is there a reason to use a regular expression?
-Why not a list of compatible machines?
-
-Obviously you can have
-COMPATIBLE_MACHINE = "at91*"
-but if you need to list machines, and you have plenty of them
-you have one very long line...
-
->> Working:
->> COMPATIBLE_MACHINE = "machine1"
->> COMPATIBLE_MACHINE = "machine1|machine2"
->> COMPATIBLE_MACHINE = "(machine1)"
->> COMPATIBLE_MACHINE = "(machine1|machine2)"
+>>> Working:
+>>> COMPATIBLE_MACHINE =3D "machine1"
+>>> COMPATIBLE_MACHINE =3D "machine1|machine2"
+>>> COMPATIBLE_MACHINE =3D "(machine1)"
+>>> COMPATIBLE_MACHINE =3D "(machine1|machine2)"
+>>>
+>>> COMPATIBLE_MACHINE =3D "machine1"
+>>> COMPATIBLE_MACHINE +=3D "|machine2"
 >>
->> COMPATIBLE_MACHINE = "machine1"
->> COMPATIBLE_MACHINE += "|machine2"
-> I'm slightly surprised that this last example would work.  It ought to
-> be equivalent to...
+>> I'm slightly surprised that this last example would work. =C2=A0It ought=
+ to
+>> be equivalent to...
+>>
 >
-
-It seems to work for me.
-
-I have in my U-Boot recipe:
-COMPATIBLE_MACHINE     = 
-"at91sam9260ek|at91sam9xeek|at91sam9g20ek|at91sam9g20ek_2mmc"
-COMPATIBLE_MACHINE    += "|at91sam9261ek|at91sam9g10ek"
-COMPATIBLE_MACHINE    += "|at91sam9263ek"
-COMPATIBLE_MACHINE    += 
-"|at91sam9g45ek|at91sam9g45ekes|at91sam9m10ekes|at91sam9m10g45ek"
-COMPATIBLE_MACHINE    += 
-"|at91sam9g15ek|at91sam9g25ek|at91sam9g35ek|at91sam9x25ek|at91sam9x35ek"
-COMPATIBLE_MACHINE    += "|at91sam9rlek"
-
-MACHINE =  "at91sam9g35ek"
-If I add a space in the COMPATIBLE_MACHINE definition somewhere,
-then the recipe is not used.
-
-Hmm, I just realized why it will work.
-If I try to build for "at91sam9263ek" then the regexp becomes 
-"at91sam963ek " (with a space),
-so it will only work for machines which are not at the end of a line...
-
-If I want to split into several lines, then I guess an ugly hack would be.
-COMPATIBLE_MACHINE     = 
-"at91sam9260ek|at91sam9xeek|at91sam9g20ek|at91sam9g20ek_2mmc|            
-                XX1"
-COMPATIBLE_MACHINE    += "|at91sam9261ek|at91sam9g10ek|                
-                                                                         
-XX2"
-COMPATIBLE_MACHINE    += "|at91sam9263ek|                               
-                                                                        
-              XX3"
-COMPATIBLE_MACHINE    += 
-"|at91sam9g45ek|at91sam9g45ekes|at91sam9m10ekes|at91sam9m10g45ek|       
-             XX4"
-COMPATIBLE_MACHINE    += 
-"|at91sam9g15ek|at91sam9g25ek|at91sam9g35ek|at91sam9x25ek|at91sam9x35ek|    
-     XX5"
-COMPATIBLE_MACHINE    += "|at91sam9rlek"
-
-BR
-Ulf Samuelsson
-
->> COMPATIBLE_MACHINE = "machine1 |machine2"
-> p.
+> It seems to work for me.
 >
+> I have in my U-Boot recipe:
+> COMPATIBLE_MACHINE =C2=A0 =C2=A0 =3D
+> "at91sam9260ek|at91sam9xeek|at91sam9g20ek|at91sam9g20ek_2mmc"
+> COMPATIBLE_MACHINE =C2=A0 =C2=A0+=3D "|at91sam9261ek|at91sam9g10ek"
+> COMPATIBLE_MACHINE =C2=A0 =C2=A0+=3D "|at91sam9263ek"
+> COMPATIBLE_MACHINE =C2=A0 =C2=A0+=3D
+> "|at91sam9g45ek|at91sam9g45ekes|at91sam9m10ekes|at91sam9m10g45ek"
+> COMPATIBLE_MACHINE =C2=A0 =C2=A0+=3D
+> "|at91sam9g15ek|at91sam9g25ek|at91sam9g35ek|at91sam9x25ek|at91sam9x35ek"
+> COMPATIBLE_MACHINE =C2=A0 =C2=A0+=3D "|at91sam9rlek"
 >
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> MACHINE =3D =C2=A0"at91sam9g35ek"
+> If I add a space in the COMPATIBLE_MACHINE definition somewhere,
+> then the recipe is not used.
 
-
--- 
-Best Regards
-Ulf Samuelsson
-eMagii
-
+As Phil points out, +=3D results in a space separator. If you want
+direct concatenation without a separator, use .=3D.
+--=20
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
 
