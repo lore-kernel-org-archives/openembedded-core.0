@@ -1,26 +1,35 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-vx0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RVQ3p-0008QV-DG
+	(envelope-from <swaplinker@gmail.com>) id 1RVQBk-0000ZF-2j
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 16:57:33 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 29 Nov 2011 07:50:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="80920838"
-Received: from unknown (HELO [10.255.15.251]) ([10.255.15.251])
-	by orsmga001.jf.intel.com with ESMTP; 29 Nov 2011 07:50:53 -0800
-Message-ID: <4ED4FF5D.8030401@linux.intel.com>
-Date: Tue, 29 Nov 2011 07:50:53 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
+	Tue, 29 Nov 2011 17:05:44 +0100
+Received: by vcbfo13 with SMTP id fo13so2965936vcb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Nov 2011 07:59:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type
+	:content-transfer-encoding;
+	bh=eQFYv03PYKMTnDgeOz9R9+k2QvgUwoslwuo0pfdNpoY=;
+	b=f071Yk+1VVN/nb2Gmb2bhb5BI6S7EhJvArYKhE07p8dxUbRmUT8DtPjh2SEAAtsXZp
+	bpDbFRhtugEKKK1daHOyOwtOHAJCc8824fmgxdFzS67mM9M5MgyC5mqs2P0Rw0qNT/vC
+	FVcGCZWo2JQvKXFauksvW62vMsBRP570zwGWg=
+Received: by 10.220.150.212 with SMTP id z20mr6120649vcv.58.1322582341263;
+	Tue, 29 Nov 2011 07:59:01 -0800 (PST)
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+Sender: swaplinker@gmail.com
+Received: by 10.52.93.47 with HTTP; Tue, 29 Nov 2011 07:58:41 -0800 (PST)
+In-Reply-To: <4ED4FEB9.4010704@linux.intel.com>
+References: <5ca10bdeed6e90862311b8417c0e6de353d1dc70.1322223227.git.julian.pidancet@gmail.com>
+	<4ED4FEB9.4010704@linux.intel.com>
+From: Julian Pidancet <julian.pidancet@gmail.com>
+Date: Tue, 29 Nov 2011 15:58:41 +0000
+X-Google-Sender-Auth: uAj0SIGSzrreXHYgXXW5Csh5YUo
+Message-ID: <CAKZ=5EU9M+ncN8L-t3gKaax2Kwj-mZCwhnO_mD4GkvFRmWB5HQ@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1322300849-28059-1-git-send-email-koen@dominion.thruhere.net>
-In-Reply-To: <1322300849-28059-1-git-send-email-koen@dominion.thruhere.net>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH] opkg-utils: handle 6 digit UID fields properly
+Subject: Re: [PATCH v3] Introduce multiarch DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,74 +44,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 15:57:33 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 29 Nov 2011 16:05:44 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 11/26/2011 01:47 AM, Koen Kooi wrote:
-> Signed-off-by: Koen Kooi<koen@dominion.thruhere.net>
-> ---
->   .../opkg-utils/arfile_header_split.patch           |   27 ++++++++++++++++++++
->   meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb |    3 +-
->   2 files changed, 29 insertions(+), 1 deletions(-)
->   create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/arfile_header_split.patch
+On Tue, Nov 29, 2011 at 3:48 PM, Saul Wold <sgw@linux.intel.com> wrote:
 >
-> diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/arfile_header_split.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/arfile_header_split.patch
-> new file mode 100644
-> index 0000000..435e74e
-> --- /dev/null
-> +++ b/meta/recipes-devtools/opkg-utils/opkg-utils/arfile_header_split.patch
-> @@ -0,0 +1,27 @@
-> +From: Scott Anderson<o2e@saaworld.com>
-> +Subject: ipkg-utils: Make arfile.py handle six digit UIDs
-> +
-> +    Essentially, the problem is that arfile.py is splitting the ar header with
-> +    white-space instead of fixed-width fields, so two fields would get treated
-> +    as a single field.  This makes things better than before as it now honors
-> +    the fixed field widths.
-> +
-> +Upsteam-status: Pending (there is no upstream after openmoko imploded)
-> +
-> +--- ipkg-utils/arfile.py.orig	2010-09-29 13:38:15.000000000 -0700
-> ++++ ipkg-utils/arfile.py	2010-10-01 16:06:00.000000000 -0700
-> +@@ -74,7 +74,12 @@
-> +             if l == "\n":
-> +                 l = self.f.readline()
-> +                 if not l: break
-> +             l = l.replace('`', '')
-> +-            descriptor = l.split()
-> ++            # Field lengths from /usr/include/ar.h:
-> ++            ar_field_lens = [ 16, 12, 6, 6, 8, 10, 2 ]
-> ++            descriptor = []
-> ++            for field_len in ar_field_lens:
-> ++                descriptor.append(l[:field_len].strip())
-> ++                l = l[field_len:]
-> + #            print descriptor
-> +             size = int(descriptor[5])
-> +             memberName = descriptor[0][:-1]
-> diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
-> index e04b74a..9b94aff 100644
-> --- a/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
-> +++ b/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
-> @@ -8,12 +8,13 @@ RDEPENDS_${PN} = "python"
->   RDEPENDS_${PN}_virtclass-native = ""
->   SRCREV = "4747"
->   PV = "0.1.8+svnr${SRCPV}"
-> -PR = "r5"
-> +PR = "r6"
+> Julian,
 >
->   SRC_URI = "svn://svn.openmoko.org/trunk/src/host/;module=opkg-utils;proto=http \
->              file://index-ignore-filenotfound.patch \
->              file://mtime-int.patch \
->              file://add-license-field.patch \
-> +           file://arfile_header_split.patch \
->              "
+> Thanks for your patience, this is merged into OE-Core
 >
->   S = "${WORKDIR}/opkg-utils"
+> Thanks
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0Sau!
+>
 
-Merged into OE-Core
+Saul, I believe you applied the wrong version of the patch.
+According to:
+http://git.openembedded.org/openembedded-core/commit/?id=3D99e295ef30ba02db=
+3966c66619807c037ef5089f
 
-Thanks
-	Sau!
+This is v2 instead of v3.
+
+--=20
+Julian
 
 
