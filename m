@@ -1,23 +1,23 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RVJ8J-0005pT-0P
+	(envelope-from <sgw@linux.intel.com>) id 1RVJ8J-0005pP-AU
 	for openembedded-core@openembedded.org; Tue, 29 Nov 2011 09:33:43 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2011 00:26:59 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2011 00:27:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,590,1315206000"; d="scan'208";a="96419475"
+X-IronPort-AV: E=Sophos;i="4.69,590,1315206000"; d="scan'208";a="96419482"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.251])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Nov 2011 00:26:58 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 29 Nov 2011 00:27:00 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@openembedded.org
-Date: Tue, 29 Nov 2011 00:26:49 -0800
-Message-Id: <27a640323b8dbff0ddac3ff91c7b1fd123c39927.1322554983.git.sgw@linux.intel.com>
+Date: Tue, 29 Nov 2011 00:26:53 -0800
+Message-Id: <632cf10553c053770f37eca56013c319c613abcf.1322554983.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1322554983.git.sgw@linux.intel.com>
 References: <cover.1322554983.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1322554983.git.sgw@linux.intel.com>
 References: <cover.1322554983.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 18/23] Self Hosted Image: Added Task and Images
+Subject: [CONSOLIDATED PULL 22/23] distro-tracking: update information for binutils & libtool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,219 +32,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 08:33:43 -0000
+X-List-Received-Date: Tue, 29 Nov 2011 08:33:44 -0000
 
-This is the first pass of creating a self hosted image, this task
-and image can pass bitbake's sanity check (if modified to remove the
-cvs check) and can build psuedo, albit very slowly on qemu.
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- meta/recipes-core/images/self-hosted-image.bb |   11 ++
- meta/recipes-core/tasks/task-self-hosted.bb   |  174 +++++++++++++++++++++++++
- 2 files changed, 185 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-core/images/self-hosted-image.bb
- create mode 100644 meta/recipes-core/tasks/task-self-hosted.bb
+ .../conf/distro/include/distro_tracking_fields.inc |   10 +++++-----
+ 1 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-core/images/self-hosted-image.bb b/meta/recipes-core/images/self-hosted-image.bb
-new file mode 100644
-index 0000000..7ddba9c
---- /dev/null
-+++ b/meta/recipes-core/images/self-hosted-image.bb
-@@ -0,0 +1,11 @@
-+IMAGE_INSTALL = "task-core-boot task-core-apps-console task-core-ssh-openssh task-self-hosted"
-+
-+POKY_EXTRA_INSTALL = "\
-+    task-self-hosted \
-+    "
-+
-+IMAGE_ROOTFS_EXTRA_SPACE = "1048576"
-+
-+inherit core-image
-+
-+PR = "r0"
-diff --git a/meta/recipes-core/tasks/task-self-hosted.bb b/meta/recipes-core/tasks/task-self-hosted.bb
-new file mode 100644
-index 0000000..c218f43
---- /dev/null
-+++ b/meta/recipes-core/tasks/task-self-hosted.bb
-@@ -0,0 +1,174 @@
-+#
-+# Copyright (C) 2010 Intel Corporation
-+#
-+
-+DESCRIPTION = "Create Basic Image Tasks"
-+PR = "r0"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-+                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+
-+PACKAGES = "\
-+    task-self-hosted \
-+    task-self-hosted-debug \
-+    task-self-hosted-sdk \
-+    task-self-hosted-extended \
-+    task-self-hosted-graphics \
-+    "
-+
-+ALLOW_EMPTY = "1"
-+
-+RDEPENDS_task-self-hosted = "\
-+    task-self-hosted-debug \
-+    task-self-hosted-sdk \
-+    task-self-hosted-extended \
-+    task-self-hosted-graphics \
-+    "
-+
-+# eglibc-utils: for rpcgen
-+RDEPENDS_task-self-hosted-sdk = "\
-+    sed \
-+    mktemp \
-+    eglibc-utils \
-+    autoconf \
-+    automake \
-+    binutils-symlinks \
-+    binutils \
-+    cpp \
-+    cpp-symlinks \
-+    ccache \
-+    gcc \
-+    gcc-symlinks \
-+    g++ \
-+    g++-symlinks \
-+    gettext \
-+    make \
-+    intltool \
-+    libstdc++ \
-+    libstdc++-dev \
-+    libtool \
-+    perl-module-re \
-+    perl-module-text-wrap \
-+    coreutils \
-+    diffutils \
-+    pkgconfig \
-+    findutils \
-+    quilt \
-+    less \
-+    distcc \
-+    ldd \
-+    file \
-+    tcl \
-+    "
-+
-+RDEPENDS_task-self-hosted-debug = " \
-+    gdb \
-+    gdbserver \
-+    tcf-agent \
-+    rsync \
-+    strace"
-+
-+
-+RDEPENDS_task-self-hosted-extended = "\
-+    binutils \
-+    bzip2 \
-+    chkconfig \
-+    chrpath \
-+    curl \
-+    dhcp-client \
-+    diffstat \
-+    diffutils \
-+    elfutils \
-+    expat \
-+    gamin \
-+    gdbm \
-+    git \
-+    gettext \
-+    gettext-runtime \
-+    grep \
-+    groff \
-+    gawk \
-+    hdparm \
-+    libaio \
-+    libxml2 \
-+    libusb1 \
-+    lrzsz \
-+    lsof \
-+    lzo \
-+    man \
-+    man-pages \
-+    mc \
-+    mdadm \
-+    minicom \
-+    mtools \
-+    ncurses \
-+    neon \
-+    openssl \
-+    opkg \
-+    opkg-utils \
-+    parted \
-+    patch \
-+    perl \
-+    perl-modules \
-+    perl-dev \
-+    pth \
-+    python \
-+    python-compile \
-+    python-compiler \
-+    python-core \
-+    python-curses \
-+    python-datetime \
-+    python-distutils \
-+    python-elementtree \
-+    python-fcntl \
-+    python-logging \
-+    python-misc \
-+    python-multiprocessing \
-+    python-netclient \
-+    python-netserver \
-+    python-pickle \
-+    python-re \
-+    python-rpm \
-+    python-shell \
-+    python-sqlite3 \
-+    python-subprocess \
-+    python-textutils \
-+    python-xmlrpc \
-+    python-email \
-+    python-unixadmin \
-+    python-compression \
-+    quota \
-+    readline \
-+    rpm \
-+    screen \
-+    setserial \
-+    strace \
-+    subversion \
-+    sysstat \
-+    tar \
-+    gzip \
-+    tcl \
-+    texi2html \
-+    texinfo \
-+    usbutils \
-+    unzip \
-+    watchdog \
-+    wget \
-+    which \
-+    xinetd \
-+    zip \
-+    zlib \
-+    cpio \
-+    "
-+
-+
-+RDEPENDS_task-self-hosted-graphics = "\
-+    python-pygtk \
-+    mesa-dri \
-+    mesa-dri-dev \
-+    libglu \
-+    libglu-dev \
-+    libsdl \
-+    libsdl-dev \
-+    libx11-dev \
-+    "
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index df776c9..c07341e 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -2944,9 +2944,9 @@ RECIPE_LAST_UPDATE_pn-sysprof = "Dec 8, 2010"
+ RECIPE_MAINTAINER_pn-sysprof = "Tom Zanussi <tom.zanussi@intel.com>"
+ 
+ RECIPE_STATUS_pn-binutils="green"
+-RECIPE_LATEST_VERSION_pn-binutils="2.21.1a"
+-RECIPE_LAST_UPDATE_pn-binutils = "Aug 29, 2011"
+-RECIPE_MANUAL_CHECK_DATE_pn-binutils = "Aug 29, 2011"
++RECIPE_LATEST_VERSION_pn-binutils="2.22"
++RECIPE_LAST_UPDATE_pn-binutils = "Nov 23, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-binutils = "Nov 23, 2011"
+ RECIPE_MAINTAINER_pn-binutils = "Nitin A Kamble <nitin.a.kamble@intel.com>"
+ 
+ RECIPE_STATUS_pn-ldconfig-native = "red"
+@@ -3015,8 +3015,8 @@ RECIPE_MAINTAINER_pn-intltool = "Nitin A Kamble <nitin.a.kamble@intel.com>"
+ 
+ RECIPE_STATUS_pn-libtool="green" 
+ RECIPE_LATEST_VERSION_pn-libtool="2.4.2"
+-RECIPE_LAST_UPDATE_pn-libtool = "Nov 16, 2011"
+-RECIPE_MANUAL_CHECK_DATE_pn-libtool = "Nov 16, 2011" 
++RECIPE_LAST_UPDATE_pn-libtool = "Nov 28, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-libtool = "Nov 28, 2011" 
+ RECIPE_MAINTAINER_pn-libtool = "Nitin A Kamble <nitin.a.kamble@intel.com>"
+ 
+ RECIPE_STATUS_pn-linux-libc-headers="green" 
 -- 
 1.7.6.4
 
