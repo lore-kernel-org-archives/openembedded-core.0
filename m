@@ -1,25 +1,25 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Wenzong.Fan@windriver.com>) id 1RVJMt-0007A2-PK
+	(envelope-from <Wenzong.Fan@windriver.com>) id 1RVJMu-0007A3-Tz
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 09:48:48 +0100
+	Tue, 29 Nov 2011 09:48:49 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pAT8g8Fb015747
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pAT8g9Q2015751
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2011 00:42:08 -0800 (PST)
+	Tue, 29 Nov 2011 00:42:09 -0800 (PST)
 Received: from localhost.localdomain (128.224.162.28) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Tue, 29 Nov 2011 00:42:08 -0800
+	14.1.255.0; Tue, 29 Nov 2011 00:42:09 -0800
 From: <wenzong.fan@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 29 Nov 2011 16:38:59 +0800
-Message-ID: <ba86babf9425bb34f62c879e2c44febf7308a543.1322554339.git.wenzong.fan@windriver.com>
+Date: Tue, 29 Nov 2011 16:39:00 +0800
+Message-ID: <555b0bde6753decc15052179d5559f3cfcd5d48b.1322554339.git.wenzong.fan@windriver.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <cover.1322554339.git.wenzong.fan@windriver.com>
 References: <cover.1322554339.git.wenzong.fan@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/5] m4: Add m4-nativesdk recipes
+Subject: [PATCH 3/5] automake: Extend to provide nativesdk recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,59 +34,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 08:48:48 -0000
+X-List-Received-Date: Tue, 29 Nov 2011 08:48:49 -0000
 Content-Type: text/plain
 
 From: Wenzong Fan <wenzong.fan@windriver.com>
 
 [YOCTO #1603]
 
-m4-nativesdk is required by autoconf-nativesdk.
+automake-nativesdk should be added into meta-toolchain.
 
 Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
 ---
- meta/recipes-devtools/m4/m4-nativesdk_1.4.16.bb |   12 ++++++++++++
- meta/recipes-devtools/m4/m4-nativesdk_1.4.9.bb  |   12 ++++++++++++
- 2 files changed, 24 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/m4/m4-nativesdk_1.4.16.bb
- create mode 100644 meta/recipes-devtools/m4/m4-nativesdk_1.4.9.bb
+ meta/recipes-devtools/automake/automake.inc       |    2 +-
+ meta/recipes-devtools/automake/automake_1.11.1.bb |    3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/m4/m4-nativesdk_1.4.16.bb b/meta/recipes-devtools/m4/m4-nativesdk_1.4.16.bb
-new file mode 100644
-index 0000000..f1be0c8
---- /dev/null
-+++ b/meta/recipes-devtools/m4/m4-nativesdk_1.4.16.bb
-@@ -0,0 +1,12 @@
-+require m4_${PV}.bb
-+inherit nativesdk
-+
-+INHIBIT_AUTOTOOLS_DEPS = "1"
-+DEPENDS += "gnu-config-nativesdk"
-+
-+do_configure()  {
-+	install -m 0644 ${STAGING_DATADIR}/gnu-config/config.sub .
-+	install -m 0644 ${STAGING_DATADIR}/gnu-config/config.guess .
-+	oe_runconf
-+}
-+
-diff --git a/meta/recipes-devtools/m4/m4-nativesdk_1.4.9.bb b/meta/recipes-devtools/m4/m4-nativesdk_1.4.9.bb
-new file mode 100644
-index 0000000..f1be0c8
---- /dev/null
-+++ b/meta/recipes-devtools/m4/m4-nativesdk_1.4.9.bb
-@@ -0,0 +1,12 @@
-+require m4_${PV}.bb
-+inherit nativesdk
-+
-+INHIBIT_AUTOTOOLS_DEPS = "1"
-+DEPENDS += "gnu-config-nativesdk"
-+
-+do_configure()  {
-+	install -m 0644 ${STAGING_DATADIR}/gnu-config/config.sub .
-+	install -m 0644 ${STAGING_DATADIR}/gnu-config/config.guess .
-+	oe_runconf
-+}
-+
+diff --git a/meta/recipes-devtools/automake/automake.inc b/meta/recipes-devtools/automake/automake.inc
+index 370a972..25b0c0e 100644
+--- a/meta/recipes-devtools/automake/automake.inc
++++ b/meta/recipes-devtools/automake/automake.inc
+@@ -4,7 +4,7 @@ Standards. Automake requires the use of Autoconf."
+ LICENSE = "GPLv2"
+ HOMEPAGE = "http://www.gnu.org/software/automake/"
+ SECTION = "devel"
+-PR = "r4"
++PR = "r5"
+ 
+ SRC_URI = "${GNU_MIRROR}/automake/automake-${PV}.tar.bz2 "
+ 
+diff --git a/meta/recipes-devtools/automake/automake_1.11.1.bb b/meta/recipes-devtools/automake/automake_1.11.1.bb
+index 18450a0..ff8353f 100644
+--- a/meta/recipes-devtools/automake/automake_1.11.1.bb
++++ b/meta/recipes-devtools/automake/automake_1.11.1.bb
+@@ -31,6 +31,7 @@ RDEPENDS_automake-native = "autoconf-native perl-native-runtime"
+ 
+ PATHFIXPATCH = "file://path_prog_fixes.patch"
+ PATHFIXPATCH_virtclass-native = ""
++PATHFIXPATCH_virtclass-nativesdk = ""
+ 
+ SRC_URI += "${PATHFIXPATCH} \
+ 	    file://prefer-cpio-over-pax-for-ustar-archives.patch \
+@@ -44,4 +45,4 @@ do_install () {
+ 	install -d ${D}${datadir}
+ }
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
 -- 
 1.7.0.4
 
