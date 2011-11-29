@@ -1,28 +1,27 @@
-Received: from smtprelay-h22.telenor.se ([195.54.99.197])
+Received: from smtprelay-b11.telenor.se ([62.127.194.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ulf@emagii.com>) id 1RVIFz-0003vc-7W
+	(envelope-from <ulf@emagii.com>) id 1RVIQ6-0004Ax-3O
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 08:37:35 +0100
-Received: from ipb3.telenor.se (ipb3.telenor.se [195.54.127.166])
-	by smtprelay-h22.telenor.se (Postfix) with ESMTP id DB217EBF02
+	Tue, 29 Nov 2011 08:48:02 +0100
+Received: from ipb1.telenor.se (ipb1.telenor.se [195.54.127.164])
+	by smtprelay-b11.telenor.se (Postfix) with ESMTP id 25649D2B1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2011 08:07:51 +0100 (CET)
+	Tue, 29 Nov 2011 08:21:56 +0100 (CET)
 X-SENDER-IP: [83.227.56.19]
 X-LISTENER: [smtp.bredband.net]
 X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: AmBQAD6E1E5T4zgTPGdsb2JhbABDiUqhLRkBAQEBNzKBcgFcIzAfSwotiAcGtymHX4MVBJRLiQiJBg
-X-IronPort-AV: E=Sophos;i="4.69,590,1315173600"; 
-   d="scan'208";a="4565592"
+X-IronPort-Anti-Spam-Result: AudIAHSH1E5T4zgTPGdsb2JhbABDqnYZAQEBATcygXIBXCMwH0sKLYgHBrcth1+DFQSUS4kIgVGHNQ
+X-IronPort-AV: E=Sophos;i="4.69,590,1315173600"; d="scan'208";a="225326204"
 Received: from c-1338e353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
 	theoden.atmel.com) ([83.227.56.19])
-	by ipb3.telenor.se with ESMTP; 29 Nov 2011 08:07:51 +0100
+	by ipb1.telenor.se with ESMTP; 29 Nov 2011 08:21:56 +0100
 From: ulf@emagii.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Nov 2011 08:07:22 +0100
-Message-Id: <1322550442-2325-1-git-send-email-ulf@emagii.com>
+Date: Tue, 29 Nov 2011 08:21:51 +0100
+Message-Id: <1322551311-2797-1-git-send-email-ulf@emagii.com>
 X-Mailer: git-send-email 1.7.4.1
 Cc: Ulf Samuelsson <ulf@emagii.com>
-Subject: [PATCH] meta-ti u-boot: Add COMPATIBLE_MACHINE to avoid disturbing other builds
+Subject: [PATCH] KERNELORG_MIRROR: add a mirror which still has auxiliary tarballs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,27 +36,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 07:37:35 -0000
+X-List-Received-Date: Tue, 29 Nov 2011 07:48:02 -0000
 
 From: Ulf Samuelsson <ulf@emagii.com>
 
 Signed-off-by: Ulf Samuelsson <ulf@emagii.com>
 ---
- recipes-bsp/u-boot/u-boot_git.bb |    1 +
+ meta/classes/mirrors.bbclass |    1 +
  1 files changed, 1 insertions(+), 0 deletions(-)
 
-diff --git a/recipes-bsp/u-boot/u-boot_git.bb b/recipes-bsp/u-boot/u-boot_git.bb
-index 022d7fc..2d39523 100644
---- a/recipes-bsp/u-boot/u-boot_git.bb
-+++ b/recipes-bsp/u-boot/u-boot_git.bb
-@@ -5,6 +5,7 @@ DEFAULT_PREFERENCE_ti814x = "-1"
- DEFAULT_PREFERENCE_ti816x = "-1"
- 
- FILESPATHPKG =. "u-boot-git:"
-+COMPATIBLE_MACHINE = "(beagleboard)"
- 
- SRC_URI_beagleboard = "git://www.denx.de/git/u-boot.git;protocol=git \
-                        file://0001-OMAP3-Beagle-Pin-Mux-initialization-glitch-fix.patch \
+diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
+index 2146087..67a8fb9 100644
+--- a/meta/classes/mirrors.bbclass
++++ b/meta/classes/mirrors.bbclass
+@@ -28,6 +28,7 @@ ${KERNELORG_MIRROR}	ftp://ftp.uk.kernel.org/pub \n \
+ ${KERNELORG_MIRROR}	ftp://ftp.hk.kernel.org/pub \n \
+ ${KERNELORG_MIRROR}	ftp://ftp.au.kernel.org/pub \n \
+ ${KERNELORG_MIRROR}	ftp://ftp.jp.kernel.org/pub \n \
++${KERNELORG_MIRROR}	http://mirror.anl.gov/pub \n \
+ ftp://ftp.gnupg.org/gcrypt/     ftp://ftp.franken.de/pub/crypt/mirror/ftp.gnupg.org/gcrypt/ \n \
+ ftp://ftp.gnupg.org/gcrypt/     ftp://ftp.surfnet.nl/pub/security/gnupg/ \n \
+ ftp://ftp.gnupg.org/gcrypt/     http://gulus.USherbrooke.ca/pub/appl/GnuPG/ \n \
 -- 
 1.7.4.1
 
