@@ -1,23 +1,23 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RVJ8J-0005pV-8y
+	(envelope-from <sgw@linux.intel.com>) id 1RVJ8J-0005pY-7j
 	for openembedded-core@openembedded.org; Tue, 29 Nov 2011 09:33:43 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2011 00:26:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,590,1315206000"; d="scan'208";a="96419478"
+X-IronPort-AV: E=Sophos;i="4.69,590,1315206000"; d="scan'208";a="96419477"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.251])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Nov 2011 00:26:59 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 29 Nov 2011 00:26:58 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@openembedded.org
-Date: Tue, 29 Nov 2011 00:26:51 -0800
-Message-Id: <986b2e3870b2f152b6ceecca4f0418c79edf9a4c.1322554983.git.sgw@linux.intel.com>
+Date: Tue, 29 Nov 2011 00:26:50 -0800
+Message-Id: <1c24266b12142a2b5d728760d8acc4ebe7d57704.1322554983.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1322554983.git.sgw@linux.intel.com>
 References: <cover.1322554983.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1322554983.git.sgw@linux.intel.com>
 References: <cover.1322554983.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 20/23] distro_tracking: update tracking fields for gettext and eds-tools
+Subject: [CONSOLIDATED PULL 19/23] coreutils: build and install hostname
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,48 +34,109 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 29 Nov 2011 08:33:44 -0000
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
+From: Dexuan Cui <dexuan.cui@intel.com>
 
-Add maintainer and update manual_check_date, status fields.
+busybox's hostname doesn't work with pseudo somehow, so let's use the version
+of coreutils. This is needed for the self-hosted-image work.
 
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+Also add a patch to disable building the doc and manual: we don't really need
+them and this causes compilation error in the cross-compiling case.
+
+Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |   11 ++++++-----
- 1 files changed, 6 insertions(+), 5 deletions(-)
+ .../coreutils/coreutils-8.14/disable_doc_man.patch |   36 ++++++++++++++++++++
+ meta/recipes-core/coreutils/coreutils_8.14.bb      |    9 +++--
+ 2 files changed, 41 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-core/coreutils/coreutils-8.14/disable_doc_man.patch
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index b95578c..df776c9 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -5707,10 +5707,10 @@ DISTRO_PN_ALIAS_pn-table = "Intel"
+diff --git a/meta/recipes-core/coreutils/coreutils-8.14/disable_doc_man.patch b/meta/recipes-core/coreutils/coreutils-8.14/disable_doc_man.patch
+new file mode 100644
+index 0000000..c9dc92c
+--- /dev/null
++++ b/meta/recipes-core/coreutils/coreutils-8.14/disable_doc_man.patch
+@@ -0,0 +1,36 @@
++Upstream-Status: Inappropriate [embedded specific]
++
++We don't really need to build the doc and manual.
++
++Morever, we get this failure in do_compile:
++help2man: can't get `--help' info from hostname.td/hostname
++
++This is because help2man tries to invoke "hostname --help", but in the
++cross-compile case, the target binary may not be execuable on the host.
++
++Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
++
++diff -Nru coreutils-8.14/Makefile.am coreutils-8.14/Makefile.am
++--- coreutils-8.14.orig/Makefile.am	2011-10-10 15:30:55.000000000 +0800
+++++ coreutils-8.14/Makefile.am	2011-11-24 17:29:26.398593744 +0800
++@@ -17,7 +17,7 @@
++ 
++ ALL_RECURSIVE_TARGETS =
++ 
++-SUBDIRS = lib src doc man po tests gnulib-tests
+++SUBDIRS = lib src po tests gnulib-tests
++ 
++ changelog_etc =				\
++   ChangeLog-2005			\
++diff -Nru coreutils-8.14.orig/Makefile.in coreutils-8.14/Makefile.in
++--- coreutils-8.14.orig/Makefile.in	2011-10-12 17:21:46.000000000 +0800
+++++ coreutils-8.14/Makefile.in	2011-11-24 17:29:14.868593748 +0800
++@@ -1453,7 +1453,7 @@
++ 
++ # Some tests always need root privileges, others need them only sometimes.
++ ALL_RECURSIVE_TARGETS = install-root check-root distcheck-hook
++-SUBDIRS = lib src doc man po tests gnulib-tests
+++SUBDIRS = lib src po tests gnulib-tests
++ changelog_etc = \
++   ChangeLog-2005			\
++   ChangeLog-2006			\
+diff --git a/meta/recipes-core/coreutils/coreutils_8.14.bb b/meta/recipes-core/coreutils/coreutils_8.14.bb
+index 01face0..ec41fe2 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.14.bb
++++ b/meta/recipes-core/coreutils/coreutils_8.14.bb
+@@ -7,7 +7,7 @@ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
+ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
+                     file://src/ls.c;startline=5;endline=16;md5=e1a509558876db58fb6667ba140137ad"
+-PR = "r1"
++PR = "r2"
+ DEPENDS = "gmp"
+ DEPENDS_virtclass-native = ""
  
- RECIPE_STATUS_pn-eds-tools = "red"
- DISTRO_PN_ALIAS_pn-eds-tools = "OpenedHand"
--RECIPE_LATEST_VERSION_pn-eds-tools = "bzr"
-+RECIPE_LATEST_VERSION_pn-eds-tools = "git"
- RECIPE_LAST_UPDATE_pn-eds-tools = "Sep 12, 2007"
--RECIPE_MANUAL_CHECK_DATE_pn-eds-tools = "Nov 08, 2011"
--RECIPE_NO_UPDATE_REASON_pn-eds-tools = "Possibly convert to GIT based fetch"
-+RECIPE_MANUAL_CHECK_DATE_pn-eds-tools = "Nov 25, 2011"
-+RECIPE_MAINTAINER_pn-eds-tools = "Wenzong Fan <wenzong.fan@windriver.com>"
+@@ -15,10 +15,13 @@ inherit autotools gettext
  
- RECIPE_STATUS_pn-abiword-embedded = "red"
- DISTRO_PN_ALIAS_pn-abiword-embedded = "Fedora=abiword Ubuntu=abiword"
-@@ -6017,11 +6017,12 @@ RECIPE_LATEST_VERSION_pn-mesa-demos = "8.0.1"
- RECIPE_LAST_UPDATE_pn-mesa-demos = "Jul 13, 2010"
- RECIPE_MANUAL_CHECK_DATE_pn-mesa-demos = "Jun 7, 2011" 
+ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+            file://remove-usr-local-lib-from-m4.patch \
++           file://disable_doc_man.patch \
+           "
+ SRC_URI[md5sum] = "bcb135ce553493a45aba01b39eb3920a"
+ SRC_URI[sha256sum] = "0d120817c19292edb19e92ae6b8eac9020e03d51e0af9cb116cf82b65d18b02d"
  
--RECIPE_STATUS_pn-gettext = "red"
-+RECIPE_STATUS_pn-gettext = "green"
- RECIPE_LATEST_VERSION_pn-gettext = "0.18.1.1"
- RECIPE_LATEST_RELEASE_DATE_pn-gettext = "Jun 06, 2010"
- RECIPE_LAST_UPDATE_pn-gettext = "May 24, 2011"
--RECIPE_MANUAL_CHECK_DATE_pn-gettext = "Sep 29, 2011" 
-+RECIPE_MANUAL_CHECK_DATE_pn-gettext = "Nov 25, 2011"
-+RECIPE_MAINTAINER_pn-gettext = "Wenzong Fan <wenzong.fan@windriver.com>"
++EXTRA_OECONF += "--enable-install-program=hostname"
++
+ EXTRA_OECONF_virtclass-native = "--without-gmp"
  
- RECIPE_STATUS_pn-pseudo = "green"
- RECIPE_LATEST_VERSION_pn-pseudo = "1.2"
+ # [ gets a special treatment and is not included in this
+@@ -29,9 +32,8 @@ bindir_progs = "base64 basename chcon cksum comm csplit cut dir dircolors dirnam
+                 sha384sum sha512sum shred shuf sort split stat stdbuf sum tac tail tee test timeout\
+                 tr truncate tsort tty unexpand uniq unlink uptime users vdir wc who whoami yes df"
+ 
+-# hostname gets a special treatment and is not included in this
+ base_bindir_progs = "cat chgrp chmod chown cp date dd echo false kill ln ls mkdir \
+-                     mknod mv pwd rm rmdir sleep stty sync touch true uname"
++                     mknod mv pwd rm rmdir sleep stty sync touch true uname hostname"
+ 
+ sbindir_progs= "chroot"
+ 
+@@ -71,7 +73,6 @@ pkg_prerm_${PN} () {
+ 	for i in ${sbindir_progs}; do update-alternatives --remove $i $i.${PN}; done
+ 
+ 	# The special cases
+-	update-alternatives --remove hostname hostname.${PN}
+ 	update-alternatives --remove uptime uptime.${PN}
+ 	update-alternatives --remove '[' 'lbracket.${PN}'
+ }
 -- 
 1.7.6.4
 
