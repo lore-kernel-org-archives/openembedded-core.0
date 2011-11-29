@@ -1,55 +1,24 @@
-Received: from db3ehsobe002.messaging.microsoft.com ([213.199.154.140]
-	helo=DB3EHSOBE002.bigfish.com)
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RVAWj-0005Dg-4b
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RVBn0-0002i2-AC
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 00:22:21 +0100
-Received: from mail53-db3-R.bigfish.com (10.3.81.246) by
-	DB3EHSOBE002.bigfish.com (10.3.84.22) with Microsoft SMTP Server id
-	14.1.225.22; Mon, 28 Nov 2011 23:14:51 +0000
-Received: from mail53-db3 (localhost [127.0.0.1])	by mail53-db3-R.bigfish.com
-	(Postfix) with ESMTP id BD81E801FD	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2011 23:14:51 +0000 (UTC)
-X-SpamScore: -14
-X-BigFish: VS-14(zz9371K168aJ1432N98dKzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail53-db3 (localhost.localdomain [127.0.0.1]) by mail53-db3
-	(MessageSwitch) id 1322522091651562_3285;
-	Mon, 28 Nov 2011 23:14:51 +0000 (UTC)
-Received: from DB3EHSMHS009.bigfish.com (unknown [10.3.81.246])	by
-	mail53-db3.bigfish.com (Postfix) with ESMTP id 90E711C0046	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2011 23:14:51 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS009.bigfish.com
-	(10.3.87.109) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Mon, 28 Nov 2011 23:14:50 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.83]) by
-	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
-	14.01.0339.002; Mon, 28 Nov 2011 17:15:36 -0600
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] eglibc-initial: Fix kernel headers symlink
-	being wrong
-Thread-Index: AQHMriOiYVdQUcvPuEGVPKfctrXILQ==
-Date: Mon, 28 Nov 2011 23:15:36 +0000
-Message-ID: <CAEsOVNfRuMJfh3HW-6=0ivjngv+e8Dxk7fKo_ySUSgB4EYDrLg@mail.gmail.com>
-References: <1322521031-26849-1-git-send-email-msm@freescale.com>
-In-Reply-To: <1322521031-26849-1-git-send-email-msm@freescale.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH] eglibc-initial: Fix kernel headers symlink being wrong
+	Tue, 29 Nov 2011 01:43:14 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 28 Nov 2011 16:36:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="80668295"
+Received: from nbuild0.sc.intel.com ([172.25.110.36])
+	by orsmga001.jf.intel.com with ESMTP; 28 Nov 2011 16:36:34 -0800
+From: nitin.a.kamble@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 28 Nov 2011 16:36:32 -0800
+Message-Id: <cover.1322526931.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.6.4
+Subject: [PATCH 0/4] Misc recipe upgrades & fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -60,71 +29,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Nov 2011 23:22:21 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <7EEFC70701AE7842986441962E66BB06@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 29 Nov 2011 00:43:14 -0000
 
-On Mon, Nov 28, 2011 at 4:57 PM, Matthew McClintock <msm@freescale.com> wro=
-te:
-> symlinks to the kernel headers were pointing at the wrong
-> location when being used from cache. Just copy the kernel
-> headers instead
->
-> Signed-off-by: Matthew McClintock <msm@freescale.com>
-> ---
-> Do we need something to depend on the kernel version too since we
-> are copying instead of symlinking? Something like:
->
-> do_install[vardeps] +=3D "virtual/kernel:do_populate_sysroot"
->
-> =A0meta/recipes-core/eglibc/eglibc-common.inc =A0| =A0 =A02 +-
-> =A0meta/recipes-core/eglibc/eglibc-initial.inc | =A0 =A02 +-
-> =A02 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-core/eglibc/eglibc-common.inc b/meta/recipes-co=
-re/eglibc/eglibc-common.inc
-> index 4fa6488..6a93968 100644
-> --- a/meta/recipes-core/eglibc/eglibc-common.inc
-> +++ b/meta/recipes-core/eglibc/eglibc-common.inc
-> @@ -3,7 +3,7 @@ DESCRIPTION =3D "Embedded GLIBC (EGLIBC) is a variant of =
-the GNU C Library (GLIBC)
-> =A0HOMEPAGE =3D "http://www.eglibc.org/home"
-> =A0SECTION =3D "libs"
-> =A0LICENSE =3D "GPLv2 & LGPLv2.1"
-> -INC_PR =3D "r11"
-> +INC_PR =3D "r12"
-> =A0LIC_FILES_CHKSUM ?=3D "file://LICENSES;md5=3D07a394b26e0902b9ffdec0376=
-5209770 \
-> =A0 =A0 =A0 file://COPYING;md5=3D393a5ca445f6965873eca0259a17f833 \
-> =A0 =A0 =A0 file://posix/rxspencer/COPYRIGHT;md5=3Ddc5485bb394a13b2332ec1=
-c785f5d83a \
-> diff --git a/meta/recipes-core/eglibc/eglibc-initial.inc b/meta/recipes-c=
-ore/eglibc/eglibc-initial.inc
-> index 448f73a..f154d64 100644
-> --- a/meta/recipes-core/eglibc/eglibc-initial.inc
-> +++ b/meta/recipes-core/eglibc/eglibc-initial.inc
-> @@ -48,7 +48,7 @@ do_install () {
->
-> =A0 =A0 =A0 =A0# add links to linux-libc-headers: gcc-{cross,crossdk}-int=
-ermediate need this.
-> =A0 =A0 =A0 =A0for t in linux asm asm-generic; do
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 ln -s ${STAGING_DIR_TARGET}${includedir}/$t=
- ${D}${includedir}/
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 cp -ar ${STAGING_DIR_TARGET}${includedir}/$=
-t ${D}${includedir}/
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-For reference, it looked something like this when used from cache:
+The following changes since commit 4cd96710785eb05abeff1f281878655118d4a7dd:
 
-/home/mattsm/git/poky/build/tmp/sysroots/${MACHINE_A}-tcbootstrap/usr/inclu=
-de/linux:
-broken symbolic link to
-`../../../..//sysroots/${MACHINE_B}/usr/include/linux'
+  bitbake: Update users of getVar/setVar to use the data store functions directly (2011-11-27 10:35:30 +0000)
 
-And ${MACHINE_B} did not exist...
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/misc
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
 
--M=
+Nitin A Kamble (4):
+  binutils: upgrade from 2.21.1a to 2.22
+  libtool: Upgrade from 2.4 -> 2.4.2
+  gmp: also generate the libgmpcxx library & package it properly
+  distro-tracking: update information for binutils & libtool
+
+ .../conf/distro/include/distro_tracking_fields.inc |   10 +-
+ meta/conf/distro/include/tcmode-default.inc        |    2 +-
+ ..._2.21.1a.bb => binutils-cross-canadian_2.22.bb} |    2 +-
+ ...ils-cross_2.21.1a.bb => binutils-cross_2.22.bb} |    0
+ ...osssdk_2.21.1a.bb => binutils-crosssdk_2.22.bb} |    2 +-
+ .../binutils/binutils/110-arm-eabi-conf.patch      |   24 -
+ .../binutils/binutils-2.19.1-ld-sysroot.patch      |   10 +-
+ .../binutils/binutils/binutils-poison.patch        |   84 ++-
+ .../binutils/binutils/binutils-powerpc-e5500.patch |   52 +-
+ .../binutils/binutils-uclibc-100-uclibc-conf.patch |   40 +-
+ ...binutils-uclibc-300-001_ld_makefile_patch.patch |   16 +-
+ ...binutils-uclibc-300-006_better_file_error.patch |    9 +-
+ ...ils-uclibc-300-012_check_ldrunpath_length.patch |   12 +-
+ .../binutils/binutils-uclibc-gas-needs-libm.patch  |   11 +-
+ .../binutils/binutils-x86_64_i386_biarch.patch     |   10 +-
+ .../binutils/binutils/clone-shadow.patch           |   18 +-
+ .../binutils/binutils/libiberty_path_fix.patch     |    8 +-
+ .../binutils/binutils/libtool-2.4-update.patch     |  803 ++++++++++----------
+ .../binutils/binutils/libtool-rpath-fix.patch      |   11 +-
+ .../{binutils_2.21.1a.bb => binutils_2.22.bb}      |    7 +-
+ .../libtool/{libtool.inc => libtool-2.4.2.inc}     |   26 +-
+ meta/recipes-devtools/libtool/libtool-2.4.inc      |   13 -
+ ...libtool-cross_2.4.bb => libtool-cross_2.4.2.bb} |    2 +-
+ ...btool-native_2.4.bb => libtool-native_2.4.2.bb} |    2 +-
+ ...nativesdk_2.4.bb => libtool-nativesdk_2.4.2.bb} |    2 +-
+ .../avoid_absolute_paths_for_general_utils.patch   |    8 +-
+ .../libtool/libtool/fix-final-rpath.patch          |   10 +-
+ .../libtool/libtool/fix-rpath.patch                |   12 +-
+ .../libtool/libtool/prefix-manpage-fix.patch       |   10 +-
+ meta/recipes-devtools/libtool/libtool/prefix.patch |   42 +-
+ .../libtool/libtool/rename-with-sysroot.patch      |  194 +++---
+ .../libtool/libtool/resolve-sysroot.patch          |   42 -
+ .../libtool/libtool/trailingslash.patch            |   10 +-
+ .../libtool/libtool/use-sysroot-in-libpath.patch   |    8 +-
+ .../libtool/{libtool_2.4.bb => libtool_2.4.2.bb}   |    2 +-
+ meta/recipes-support/gmp/gmp.inc                   |    6 +
+ meta/recipes-support/gmp/gmp_5.0.2.bb              |    2 +-
+ 37 files changed, 726 insertions(+), 796 deletions(-)
+ rename meta/recipes-devtools/binutils/{binutils-cross-canadian_2.21.1a.bb => binutils-cross-canadian_2.22.bb} (86%)
+ rename meta/recipes-devtools/binutils/{binutils-cross_2.21.1a.bb => binutils-cross_2.22.bb} (100%)
+ rename meta/recipes-devtools/binutils/{binutils-crosssdk_2.21.1a.bb => binutils-crosssdk_2.22.bb} (96%)
+ delete mode 100644 meta/recipes-devtools/binutils/binutils/110-arm-eabi-conf.patch
+ rename meta/recipes-devtools/binutils/{binutils_2.21.1a.bb => binutils_2.22.bb} (84%)
+ rename meta/recipes-devtools/libtool/{libtool.inc => libtool-2.4.2.inc} (57%)
+ delete mode 100644 meta/recipes-devtools/libtool/libtool-2.4.inc
+ rename meta/recipes-devtools/libtool/{libtool-cross_2.4.bb => libtool-cross_2.4.2.bb} (98%)
+ rename meta/recipes-devtools/libtool/{libtool-native_2.4.bb => libtool-native_2.4.2.bb} (96%)
+ rename meta/recipes-devtools/libtool/{libtool-nativesdk_2.4.bb => libtool-nativesdk_2.4.2.bb} (97%)
+ delete mode 100644 meta/recipes-devtools/libtool/libtool/resolve-sysroot.patch
+ rename meta/recipes-devtools/libtool/{libtool_2.4.bb => libtool_2.4.2.bb} (94%)
+
+-- 
+1.7.6.4
 
 
 
