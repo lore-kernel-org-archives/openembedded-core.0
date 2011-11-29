@@ -1,23 +1,23 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RVWm0-0001Ov-28
-	for openembedded-core@openembedded.org; Wed, 30 Nov 2011 00:07:36 +0100
+	(envelope-from <sgw@linux.intel.com>) id 1RVWm3-0001PH-22
+	for openembedded-core@openembedded.org; Wed, 30 Nov 2011 00:07:39 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2011 15:00:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,594,1315206000"; d="scan'208";a="96720811"
+X-IronPort-AV: E=Sophos;i="4.69,594,1315206000"; d="scan'208";a="96720813"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.251])
 	by fmsmga002.fm.intel.com with ESMTP; 29 Nov 2011 15:00:32 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@openembedded.org
-Date: Tue, 29 Nov 2011 15:00:20 -0800
-Message-Id: <63a8312e843e78942030e19786cc34ee752c851c.1322607016.git.sgw@linux.intel.com>
+Date: Tue, 29 Nov 2011 15:00:22 -0800
+Message-Id: <d35b587f669a4b2304a0349ededd7cac315ea97c.1322607016.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1322607016.git.sgw@linux.intel.com>
 References: <cover.1322607016.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1322607016.git.sgw@linux.intel.com>
 References: <cover.1322607016.git.sgw@linux.intel.com>
-Subject: [PATCH 20/26] libiconv: Update to 1.14
+Subject: [PATCH 22/26] ocf-linux: Add ocf-linux to support openssl 1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,31 +32,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 23:07:36 -0000
+X-List-Received-Date: Tue, 29 Nov 2011 23:07:39 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../{libiconv_1.13.1.bb => libiconv_1.14.bb}       |    3 ---
- 1 files changed, 0 insertions(+), 3 deletions(-)
- rename meta/recipes-support/libiconv/{libiconv_1.13.1.bb => libiconv_1.14.bb} (88%)
+ meta/recipes-connectivity/openssl/ocf-linux.inc    |   25 ++++++++++++++++++++
+ .../openssl/ocf-linux_20100325.bb                  |    6 ++++
+ 2 files changed, 31 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssl/ocf-linux.inc
+ create mode 100644 meta/recipes-connectivity/openssl/ocf-linux_20100325.bb
 
-diff --git a/meta/recipes-support/libiconv/libiconv_1.13.1.bb b/meta/recipes-support/libiconv/libiconv_1.14.bb
-similarity index 88%
-rename from meta/recipes-support/libiconv/libiconv_1.13.1.bb
-rename to meta/recipes-support/libiconv/libiconv_1.14.bb
-index 6471e32..3b0196d 100644
---- a/meta/recipes-support/libiconv/libiconv_1.13.1.bb
-+++ b/meta/recipes-support/libiconv/libiconv_1.14.bb
-@@ -13,9 +13,6 @@ SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
-            file://autoconf.patch \
-           "
- 
--SRC_URI[md5sum] = "7ab33ebd26687c744a37264a330bbe9a"
--SRC_URI[sha256sum] = "55a36168306089009d054ccdd9d013041bfc3ab26be7033d107821f1c4949a49"
--
- S = "${WORKDIR}/libiconv-${PV}"
- 
- inherit autotools pkgconfig gettext
+diff --git a/meta/recipes-connectivity/openssl/ocf-linux.inc b/meta/recipes-connectivity/openssl/ocf-linux.inc
+new file mode 100644
+index 0000000..f4ec7c9
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/ocf-linux.inc
+@@ -0,0 +1,25 @@
++DESCRIPTION = "Install required headers to enable OCF Linux support"
++LICENSE = "BSD"
++
++LIC_FILES_CHKSUM = "file://README;md5=b02a793c9b7893b4ce1f39f0b231ccd7"
++ 
++INC_PR = "r3"
++
++SRC_URI = "http://sourceforge.net/projects/ocf-linux/files/ocf-linux/${PV}/ocf-linux-${PV}.tar.gz"
++
++S = "${WORKDIR}/ocf-linux-${PV}"
++
++# Need to unpack the the ocf-linux.tar.gz file contained inside the
++# downloaded tarball
++# Install the OCF Linux headers so that other packages such as openssl
++# can find them.  The headers must be in a crypto directory according to
++# the README file.
++do_install() {
++    cd ${S}
++    tar xzf ocf-linux.tar.gz
++    install -d ${D}${includedir}/crypto
++    install -m 0644 ${S}/ocf/*.h ${D}${includedir}/crypto/
++}
++
++ALLOW_EMPTY = "1"
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-connectivity/openssl/ocf-linux_20100325.bb b/meta/recipes-connectivity/openssl/ocf-linux_20100325.bb
+new file mode 100644
+index 0000000..9dccc3c
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/ocf-linux_20100325.bb
+@@ -0,0 +1,6 @@
++require ocf-linux.inc
++
++PR = "${INC_PR}.0"
++
++SRC_URI[md5sum] = "ce5ad54aa94226d496df1f0f3cf0c11f"
++SRC_URI[sha256sum] = "9d17cbd13849939c70699b520280e3b94cf77401cdc131108d4aeaaeea587f6b"
 -- 
 1.7.6.4
 
