@@ -1,29 +1,31 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RVHhW-0002vN-IE
+	(envelope-from <martin.jansa@gmail.com>) id 1RVHnA-000367-3D
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 08:01:59 +0100
-Received: by bkbzs2 with SMTP id zs2so8942107bkb.6
+	Tue, 29 Nov 2011 08:07:51 +0100
+Received: by bkbzs2 with SMTP id zs2so8947887bkb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Nov 2011 22:55:19 -0800 (PST)
+	Mon, 28 Nov 2011 23:01:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=AL/1GWHsjOQ8y9OyLHl6YI91WHAX1cl93cPGaqwwauI=;
-	b=OMV0tA73in3xrsvMNx0RRQeGw1ECXW/SBWKT3YvZBFds+7QeNqBSXOWG+cVKqA23Ft
-	tmpAIy/YWMNzGl6CCbNPDh47dbnhKPjJdFDRwC3HiOazN7pIKfMze+emGfVX6HW9F7yG
-	SiNZSfqYVDkdpyacJaD05YFj9W7flxfr/xk9I=
-Received: by 10.205.112.6 with SMTP id eq6mr49522578bkc.16.1322549719340;
-	Mon, 28 Nov 2011 22:55:19 -0800 (PST)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=6OHq3LQQDOJJs+DAvM2KhRGuWsg6l3IsKLPhXMaViYU=;
+	b=b/1d9vWzefabSQakkrTFz7wt858vrqsRUNny48VIIhjuDAUuhuiWHOuIuIh0Oqn2w+
+	MLzSox9ZaUmg1950nDBIFIfB3P93u96LBps14tSZ1y3UYSK3A+nWhfN2sSefTCuZpygZ
+	88u0sFWtYtaNKzXM4CuclnKR+aYnpAfHJyWd0=
+Received: by 10.204.41.66 with SMTP id n2mr49524972bke.77.1322550069348;
+	Mon, 28 Nov 2011 23:01:09 -0800 (PST)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id fa8sm26737462bkc.14.2011.11.28.22.55.16
+	by mx.google.com with ESMTPS id q6sm34992075bka.6.2011.11.28.23.01.07
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 28 Nov 2011 22:55:17 -0800 (PST)
+	Mon, 28 Nov 2011 23:01:07 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Nov 2011 07:55:09 +0100
-Message-Id: <cover.1322549636.git.Martin.Jansa@gmail.com>
+Date: Tue, 29 Nov 2011 08:00:51 +0100
+Message-Id: <475348b418f9ebf0a395de9a0ec42ee91d541dc8.1322549636.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.8.rc3
-Subject: [oe-core 00/10] Small fixes
+In-Reply-To: <cover.1322549636.git.Martin.Jansa@gmail.com>
+References: <cover.1322549636.git.Martin.Jansa@gmail.com>
+Subject: [oe-core 01/10] tinylogin: use u-a for getty so we can provide /sbin/getty from util-linux-agetty too
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,46 +40,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 07:01:59 -0000
+X-List-Received-Date: Tue, 29 Nov 2011 07:07:51 -0000
 
-The following changes since commit 2864ff6a4b3c3f9b3bbb6d2597243cc5d3715939:
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-core/tinylogin/tinylogin_1.4.bb |   13 ++++++++++++-
+ 1 files changed, 12 insertions(+), 1 deletions(-)
 
-  getVar/setVar cleanups (2011-11-26 22:42:00 +0000)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib jansa/pull2
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/pull2
-
-Denis 'GNUtoo' Carikli (1):
-  libical: add version 0.47
-
-Martin Jansa (9):
-  tinylogin: use u-a for getty so we can provide /sbin/getty from
-    util-linux-agetty too
-  util-linux: use u-a to provide /sbin/getty from util-linux-agetty
-  mingetty: use u-a to provide /sbin/getty (also provided by
-    util-linux-agetty and tinylogin)
-  cronie: use useradd.bbclass instead of hardcoded groupadd calls
-  ppp-dialin: use useradd.bbclass instead of hardcoded adduser/deluser
-    calls
-  libical: drop older version 0.46
-  libid3tag: add gperf to DEPENDS
-  gst-plugins-ugly: bump PR to rebuild after libid3tag fix
-  gconf: add polkit to DEPENDS
-
- .../ppp-dialin/ppp-dialin_0.1.bb                   |   23 +++----------
- meta/recipes-core/tinylogin/tinylogin_1.4.bb       |   13 +++++++-
- meta/recipes-core/util-linux/util-linux.inc        |    8 +++++
- meta/recipes-core/util-linux/util-linux_2.19.1.bb  |    2 +-
- meta/recipes-extended/cronie/cronie_1.4.8.bb       |   33 +++++++++-----------
- meta/recipes-extended/mingetty/mingetty_1.08.bb    |    9 +++++-
- meta/recipes-gnome/gnome/gconf_3.2.3.bb            |    2 +-
- .../gstreamer/gst-plugins-ugly_0.10.17.bb          |    2 +-
- .../libid3tag/libid3tag_0.15.1b.bb                 |    4 +-
- .../libical/{libical_0.46.bb => libical_0.47.bb}   |   11 +++---
- 10 files changed, 59 insertions(+), 48 deletions(-)
- rename meta/recipes-sato/libical/{libical_0.46.bb => libical_0.47.bb} (41%)
-
+diff --git a/meta/recipes-core/tinylogin/tinylogin_1.4.bb b/meta/recipes-core/tinylogin/tinylogin_1.4.bb
+index bad918c..478f69b 100644
+--- a/meta/recipes-core/tinylogin/tinylogin_1.4.bb
++++ b/meta/recipes-core/tinylogin/tinylogin_1.4.bb
+@@ -7,7 +7,9 @@ and groups on an embedded system."
+ HOMEPAGE = "http://tinylogin.busybox.net/"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM="file://LICENSE;md5=f1060fa3a366f098b5b1d8c2077ba269"
+-PR = "r7"
++PR = "r8"
++
++inherit update-alternatives
+ 
+ SRC_URI = "http://www.angstrom-distribution.org/unstable/sources/tinylogin-${PV}.tar.bz2 \
+ 	file://cvs-20040608.patch \
+@@ -35,3 +37,12 @@ do_install () {
+ 		ln -sf /bin/tinylogin ${D}$i
+ 	done
+ }
++
++do_install_append () {
++        mv ${D}${base_sbindir}/getty ${D}${base_sbindir}/getty.${PN}
++}
++
++ALTERNATIVE_NAME = "getty"
++ALTERNATIVE_LINK = "${base_sbindir}/getty"
++ALTERNATIVE_PATH = "${base_sbindir}/getty.${PN}"
++ALTERNATIVE_PRIORITY = "80"
 -- 
 1.7.8.rc3
 
