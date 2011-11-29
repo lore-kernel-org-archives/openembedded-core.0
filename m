@@ -1,37 +1,30 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RVMw6-0001Rq-0v
-	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 13:37:22 +0100
-Received: by bkbzs2 with SMTP id zs2so9289786bkb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2011 04:30:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=UvxPCSs6nUa6FUOKIRUN57XSKMpRTxEH5CVYt+D/BR8=;
-	b=gukrCnIBhzFzU6HYMmG+u7yDND1xVq75YFdK9QqtDwOaow/wCRaSVJ39Tr/mx1n5Ha
-	4N0CE7DwgSD/Ven5MGbDI/EisPE8Scs4C0SqacPz0DoPc3G1hFyp9V4O+C+nRqTGftSv
-	ou1aEQIaRcc/GLiBDHuoOGdAIBlT/pg3Sd2oo=
-Received: by 10.204.149.215 with SMTP id u23mr51234989bkv.105.1322569842760;
-	Tue, 29 Nov 2011 04:30:42 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id c4sm36702719bkk.13.2011.11.29.04.30.38
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 29 Nov 2011 04:30:39 -0800 (PST)
-Date: Tue, 29 Nov 2011 13:30:27 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RVNBg-0001v9-0V; Tue, 29 Nov 2011 13:53:28 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pATCkopl012966;
+	Tue, 29 Nov 2011 12:46:50 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 12383-07; Tue, 29 Nov 2011 12:46:45 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pATCkhMl012960
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 29 Nov 2011 12:46:44 GMT
+Message-ID: <1322570811.3166.8.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111129123027.GF7441@jama.jama.net>
-References: <1322521031-26849-1-git-send-email-msm@freescale.com>
-	<CAEsOVNfRuMJfh3HW-6=0ivjngv+e8Dxk7fKo_ySUSgB4EYDrLg@mail.gmail.com>
-	<1322569564.3166.1.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1322569564.3166.1.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>
-Subject: Re: [PATCH] eglibc-initial: Ensure symlinks point to the correct location when built from sstate cache
+Date: Tue, 29 Nov 2011 12:46:51 +0000
+In-Reply-To: <cover.1322554983.git.sgw@linux.intel.com>
+References: <cover.1322554983.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@openembedded.org
+Subject: Re: [CONSOLIDATED PULL 00/23] Scooping up Patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,77 +39,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 12:37:22 -0000
-X-Groupsio-MsgNum: 13096
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="QXO0/MSS4VvK6f+D"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 29 Nov 2011 12:53:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---QXO0/MSS4VvK6f+D
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for putting this together Saul.
 
-On Tue, Nov 29, 2011 at 12:26:04PM +0000, Richard Purdie wrote:
-> If the sstate files are installed into a sysroot from the sstate cache,
-> the directory to the main sysroot can change and the symlinks aren't
-> adjusted to account for this. This is a problem specific to the toolchain
-> bootstrap process. This patch adds up a function to recreate the
-> symlinks, hence ensuring they always point at the correct location.
+> The following changes since commit 2864ff6a4b3c3f9b3bbb6d2597243cc5d3715939:
+> 
+>   getVar/setVar cleanups (2011-11-26 22:42:00 +0000)
+> 
+> are available in the git repository at:
+>   git://git.openembedded.org/openembedded-core-contrib sgw/stage
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+> 
+> Dexuan Cui (1):
+>   coreutils: build and install hostname
 
-Similar issue is IMHO in python and apr (and probably more)
-http://lists.linuxtogo.org/pipermail/openembedded-core/2011-November/012149=
-=2Ehtml
+This needs to be split up so I didn't take it.
+
+> Julian Pidancet (1):
+>   Introduce multiarch DISTRO_FEATURE
+> 
+> Khem Raj (3):
+>   default-distrovars: Define SDK_VERSION and DISTRO_VERSION
+>   toolchain-scripts.bbclass: Make it work when TCLIBC=uclibc
+>   python-native: Fix gcc compiler detecting logic
+> 
+> Koen Kooi (3):
+>   libjson: add 0.9
+>   pulseaudio: update to 1.1, delete 0.9.x
+>   opkg-utils: handle 6 digit UID fields properly
+> 
+> Martin Jansa (2):
+>   mesa: package gl/egl/osmesa to separate packages
+
+I took the above.
+
+>   mesa-common: install internal GL headers to libgl-dev
+
+I didn't take this, its a nasty hack.
+
+> Matthew McClintock (2):
+>   rpm_5.4.0.bb: Build rpm without xz
+
+I took this.
+
+>   eglibc-initial: Fix kernel headers symlink being wrong
+
+I've fixed the latter differently.
+
+> Nitin A Kamble (2):
+>   binutils: upgrade from 2.21.1a to 2.22
+>   distro-tracking: update information for binutils & libtool
+> 
+> Otavio Salvador (1):
+>   xserver-xorg: only use --disable-dga in xserver-xorg-lite
+> 
+> Saul Wold (5):
+>   runqemu: look for *-image* to be more flexible for image names
+>   distro_tracking: Update manual check dates (readline, gcrypt)
+>   tzdata/tzcode: Update tzdata to 2011n
+>   intltool: remove XML::Parser check
+>   Self Hosted Image: Added Task and Images
+> 
+> Wenzong Fan (1):
+>   distro_tracking: update tracking fields for gettext and eds-tools
+> 
+> Xiaofeng Yan (2):
+>   libx11-trim: update to 1.4.4
+>   distro_tracking_fields: update the status
+
+I took these.
 
 Cheers,
 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/recipes-core/eglibc/eglibc-initial.inc b/meta/recipes-c=
-ore/eglibc/eglibc-initial.inc
-> index 448f73a..9062516 100644
-> --- a/meta/recipes-core/eglibc/eglibc-initial.inc
-> +++ b/meta/recipes-core/eglibc/eglibc-initial.inc
-> @@ -60,4 +60,16 @@ do_siteconfig () {
->  	:
->  }
-> =20
-> +SSTATEPOSTINSTFUNCS +=3D "eglibcinitial_sstate_postinst"
-> +eglibcinitial_sstate_postinst() {
-> +	if [ "${BB_CURRENTTASK}" =3D "populate_sysroot" -o "${BB_CURRENTTASK}" =
-=3D "populate_sysroot_setscene" ]
-> +	then
-> +		# Recreate the symlinks to ensure they point to the correct location
-> +		for t in linux asm asm-generic; do
-> +			rm -f ${STAGING_DIR_TCBOOTSTRAP}${includedir}/$t
-> +			ln -s ${STAGING_DIR_TARGET}${includedir}/$t ${STAGING_DIR_TCBOOTSTRAP=
-}${includedir}/
-> +		done
-> +	fi
-> +}
-> +
->  do_populate_sysroot[sstate-outputdirs] =3D "${STAGING_DIR_TCBOOTSTRAP}"
->=20
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Richard
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---QXO0/MSS4VvK6f+D
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk7U0GMACgkQN1Ujt2V2gBzxVgCffBxtrn37pmGlO9Qbzv1Wwh8y
-XTAAnip76zRIjMyXE3Kxc5n4A+V5VLws
-=W7wC
------END PGP SIGNATURE-----
-
---QXO0/MSS4VvK6f+D--
