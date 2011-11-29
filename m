@@ -1,23 +1,23 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RVJ8I-0005pY-9q
+	(envelope-from <sgw@linux.intel.com>) id 1RVJ8I-0005pV-JX
 	for openembedded-core@openembedded.org; Tue, 29 Nov 2011 09:33:42 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2011 00:26:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,590,1315206000"; d="scan'208";a="96419468"
+X-IronPort-AV: E=Sophos;i="4.69,590,1315206000"; d="scan'208";a="96419473"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.251])
 	by fmsmga002.fm.intel.com with ESMTP; 29 Nov 2011 00:26:58 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@openembedded.org
-Date: Tue, 29 Nov 2011 00:26:45 -0800
-Message-Id: <1b0811e1547c7b7e81372248e233867a7df2e2e4.1322554983.git.sgw@linux.intel.com>
+Date: Tue, 29 Nov 2011 00:26:48 -0800
+Message-Id: <6588094111c5771ba86920f4880c3ee1016d110a.1322554983.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1322554983.git.sgw@linux.intel.com>
 References: <cover.1322554983.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1322554983.git.sgw@linux.intel.com>
 References: <cover.1322554983.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 14/23] mesa: package gl/egl/osmesa to separate packages
+Subject: [CONSOLIDATED PULL 17/23] intltool: remove XML::Parser check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,36 +34,93 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 29 Nov 2011 08:33:42 -0000
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+Add Patch to disable the XML::Parser check in the target
+intltool.m4, this check will find the host (not native)
+XML::Parser if it's installed possibly causing Host
+contamination, but will also fail configuration if XML::Parser
+is not installed on the host.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Since we know that XML::Parser is installed on the image, we don't
+really need this check, so comment it out.
+
+From RP in mail thread:
+> If the recipe needs perl for
+> some other reason than intltool, it needs perlnative but it if only
+> needs perl for intltool, we shouldn't need the dependency. The .m4 macro
+> checks are well intended but don't fit the way we use perl. I really
+> don't want to end up in a position where intltool automatically means we
+> have to add perlnative as a dependency and we've previously seen many
+> problems related to that.
+
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-graphics/mesa/mesa-common.inc |   13 +++++++++++--
- 1 files changed, 11 insertions(+), 2 deletions(-)
+ .../intltool-0.40.6/remove-xml-check.patch         |   29 ++++++++++++++++++++
+ meta/recipes-devtools/intltool/intltool_0.40.6.bb  |   11 +++++--
+ 2 files changed, 37 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-devtools/intltool/intltool-0.40.6/remove-xml-check.patch
 
-diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
-index 1d9c894..7d729b4 100644
---- a/meta/recipes-graphics/mesa/mesa-common.inc
-+++ b/meta/recipes-graphics/mesa/mesa-common.inc
-@@ -38,7 +38,16 @@ EXTRA_OECONF = "--enable-glu \
- # Multiple virtual/gl providers being built breaks staging
- EXCLUDE_FROM_WORLD = "1"
+diff --git a/meta/recipes-devtools/intltool/intltool-0.40.6/remove-xml-check.patch b/meta/recipes-devtools/intltool/intltool-0.40.6/remove-xml-check.patch
+new file mode 100644
+index 0000000..476d091
+--- /dev/null
++++ b/meta/recipes-devtools/intltool/intltool-0.40.6/remove-xml-check.patch
+@@ -0,0 +1,29 @@
++Index: intltool-0.40.6/intltool.m4
++===================================================================
++--- intltool-0.40.6.orig/intltool.m4	2009-02-14 14:12:28.000000000 -0800
+++++ intltool-0.40.6/intltool.m4	2011-11-23 15:39:34.689561872 -0800
++@@ -122,14 +122,16 @@
++    IT_PERL_VERSION="`$INTLTOOL_PERL -e \"printf '%vd', $^V\"`"
++    AC_MSG_RESULT([$IT_PERL_VERSION])
++ fi
++-if test "x$2" != "xno-xml"; then
++-   AC_MSG_CHECKING([for XML::Parser])
++-   if `$INTLTOOL_PERL -e "require XML::Parser" 2>/dev/null`; then
++-       AC_MSG_RESULT([ok])
++-   else
++-       AC_MSG_ERROR([XML::Parser perl module is required for intltool])
++-   fi
++-fi
+++
+++# Disable this check since we know XML::Parser is installed
+++#if test "x$2" != "xno-xml"; then
+++#   AC_MSG_CHECKING([for XML::Parser])
+++#   if `$INTLTOOL_PERL -e "require XML::Parser" 2>/dev/null`; then
+++#       AC_MSG_RESULT([ok])
+++#   else
+++#       AC_MSG_ERROR([XML::Parser perl module is required for intltool])
+++#   fi
+++#fi
++ 
++ # Substitute ALL_LINGUAS so we can use it in po/Makefile
++ AC_SUBST(ALL_LINGUAS)
+diff --git a/meta/recipes-devtools/intltool/intltool_0.40.6.bb b/meta/recipes-devtools/intltool/intltool_0.40.6.bb
+index e9871fc..c820f11 100644
+--- a/meta/recipes-devtools/intltool/intltool_0.40.6.bb
++++ b/meta/recipes-devtools/intltool/intltool_0.40.6.bb
+@@ -1,14 +1,19 @@
+ require intltool.inc
+ LICENSE="GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+-PR = "r5"
++PR = "r6"
  
--PACKAGES =+ "libglu libglu-dev"
--
-+PACKAGES =+ "libegl libegl-dev libegl-dbg libglu libglu-dev libosmesa libosmesa-dev libgl libgl-dev"
-+FILES_libegl = "${libdir}/libEGL.so.* ${libdir}/egl/*.so"
-+FILES_libgl = "${libdir}/libGL.so.*"
- FILES_libglu = "${libdir}/libGLU.so.*"
-+FILES_libosmesa = "${libdir}/libOSMesa.so.*"
-+
-+FILES_libegl-dev = "${libdir}/libEGL.* ${includedir}/EGL"
-+FILES_libgl-dev = "${libdir}/libGL.* ${includedir}/GL"
- FILES_libglu-dev = "${libdir}/libGLU.* ${includedir}/GL/glu*.h"
-+FILES_libosmesa-dev = "${libdir}/libOSMesa.* ${includedir}/osmesa.h"
-+
-+FILES_${PN}-dbg += "${libdir}/dri/.debug/*"
-+FILES_libegl-dbg += "${libdir}/egl/.debug/*"
+ SRC_URI_append = " file://intltool-nowarn-0.40.0.patch \
+                    ${NATIVEPATCHES} \
+                  "
+ 
+-NATIVEPATCHES = "file://noperlcheck.patch"
+-NATIVEPATCHES_virtclass-native = "file://use-nativeperl.patch"
++#
++# All of the intltool scripts have the correct paths to perl already
++# embedded into them and can find perl fine, so we add the remove xml-check
++# in the intltool.m4 via the remove-xml-check.patch
++NATIVEPATCHES = "file://noperlcheck.patch \
++                 file://remove-xml-check.patch"
++NATIVEPATCHES_virtclass-native = "file://use-nativeperl.patch" 
+ 
+ SRC_URI[md5sum] = "69bc0353323112f42ad4f9cf351bc3e5"
+ SRC_URI[sha256sum] = "4d1e5f8561f09c958e303d4faa885079a5e173a61d28437d0013ff5efc9e3b64"
 -- 
 1.7.6.4
 
