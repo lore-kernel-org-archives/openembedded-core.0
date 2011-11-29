@@ -1,29 +1,26 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RVIvi-0005Ns-5I
+	(envelope-from <sgw@linux.intel.com>) id 1RVIxN-0005Rf-2i
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 09:20:42 +0100
+	Tue, 29 Nov 2011 09:22:25 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 29 Nov 2011 00:13:59 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 29 Nov 2011 00:15:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,590,1315206000"; d="scan'208";a="90089049"
+X-IronPort-AV: E=Sophos;i="4.69,590,1315206000"; d="scan'208";a="90089529"
 Received: from unknown (HELO [10.255.15.251]) ([10.255.15.251])
-	by fmsmga001.fm.intel.com with ESMTP; 29 Nov 2011 00:13:59 -0800
-Message-ID: <4ED49447.9070805@linux.intel.com>
-Date: Tue, 29 Nov 2011 00:13:59 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 29 Nov 2011 00:15:45 -0800
+Message-ID: <4ED494B1.5030302@linux.intel.com>
+Date: Tue, 29 Nov 2011 00:15:45 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
-To: g@ad.chargestorm.se, Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1321972428.git.anders@chargestorm.se>
-	<4ECC07D8.2070104@linux.intel.com>
-	<20111123085906.GA16705@ad.chargestorm.se>
-	<4ED47205.6050608@linux.intel.com>
-	<20111129070444.GA3653@ad.chargestorm.se>
-In-Reply-To: <20111129070444.GA3653@ad.chargestorm.se>
-Subject: Re: [PATCH v2 0/1] busybox: update to 1.19.3
+References: <cover.1322128489.git.dexuan.cui@intel.com>
+	<581c2b3527336aaa4430c74f11b10a83bf996426.1322128490.git.dexuan.cui@intel.com>
+In-Reply-To: <581c2b3527336aaa4430c74f11b10a83bf996426.1322128490.git.dexuan.cui@intel.com>
+Subject: Re: [PATCH 4/4] coreutils: build and install hostname
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,120 +35,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 08:20:42 -0000
+X-List-Received-Date: Tue, 29 Nov 2011 08:22:25 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/28/2011 11:04 PM, Anders Darander wrote:
-> * Saul Wold<sgw@linux.intel.com>  [111129 06:47]:
->> On 11/23/2011 12:59 AM, Anders Darander wrote:
->>> * Saul Wold<sgw@linux.intel.com>   [111122 21:36]:
->>>> On 11/22/2011 06:34 AM, Anders Darander wrote:
->>>>> This updates busybox to the latest stable, 1.19.3.
+On 11/24/2011 02:08 AM, Dexuan Cui wrote:
+> busybox's hostname doesn't work with pseudo somehow, so let's use the version
+> of coreutils. This is needed for the self-hosted-image work.
 >
->>>>> Among other things, there should be rudimentary support in syslogd for
->>>>> systemd, by enabling CONFIG_FEATURE_SYSTEMD.
+> Also add a patch to disable building the doc and manual: we don't really need
+> them and this causes compilation error in the cross-compiling case.
 >
->>>> How much size does this add to busybox by having it enabled by default?
->
->>> Enabling FEATURE_SYSTEMD in busybox costs 192 bytes in my tests in
->>> qemux86.
->
->>>> Is it possible to conditional add a config fragment if systemd is
->>>> enabled ad the DISTRO/IMAGE_FEATURE level?
->
->>>> More info is required.
->
-> Any more comment on this one? Otavio replied earlier that if it was a
-> small cost, he would prefer to have it on by default. Otherwise, any
-> suggestions for DISTRO/IMAGE_FEATURE?
->
-Sorry for not being clear on this on, yes to the SYSTEMD change, it's 
-small enough and something we are considering. As Phil points out in the 
-follow-up to this, most are using custom defconfig's that we should just 
-go ahead and enable this for future flexibility.
-
->>>>> Changes:
->>>>> v2: * Checked the new defconfig (removed settings implying CFLAGS and
->>>>>        ARCH). The new defconfig should be as close as possible to the old one,
->>>>>        with the exception of some new utils/options.
->>>> Can you clearly enumerate what new utils and options and what their size
->>>> impact on the busybox image is.
->
-> I'll remove all features that you didn't OK (see below), unless we get
-> some more replies/wishes in the next day. (Thus I plan to send a v3 this
-> week, if times allow it).
->
-> Just to clarify it once more, the choice of which new features to enable
-> was done by trying to judge if they were reasonable, or seemed
-> helpfull/usefull enough. I'm not normally running with the defconfig
-> (apart from testing this patch), I'm using a heavily customized and
-> often minimized defconfig.
->
->>> Apart from the FEATURE_SYSTEMD discussed above, these are the other new
->>> options that I kept the new busybox default on (i.e. these are enabled,
->>> while I turned of quite a few other options that automatically got
->>> enabled). All costs are evaluted using qemux86, and the busybox binary
->>> size is checked in the packages-split/busybox/bin directory.
->
->>> I don't mind disabling any of these feature in a v3, if
->>> desired/requested. Anyway, I'm running a completely custom config for my
->>> normal uses...
->
->>> FEATURE_RTMINMAX, support RTMIN[+n] RTMAX[-n] signals, claimed to cost
->>> ~250 bytes
->
->> I can see these being useful
->
->>> FEATURE_REVERSE_SEARCH claimed to cost ~0.5k
->
->> Why is this needed?
->
-> Not needed, just nice to have. But I'll remove it in v3.
->
->>> FEATURE_AR_CREATE, enable ar to create files, ~2.5k
->
->>> FEATURE_SEAMLESS_XZ enable xz compression in tar, no measured cost.
->
->>> XZ and UNXZ, enable xz compression, 8k
->
->> This is the one and the ar create above that sticks out, are these
->> needed in the general case or just vfor your config?
->
-> Shouldn't be needed. I just left it enabled as all other
-> FEATURE_SEAMLESS's was enabled. I'll disable these two in v3.
->
->>> FGCONSOLE, print active console number, 128 bytes
->
->>> FEATURE_LOADFONT_PSF2, FEATURE_LOADFONT_RAW, cost 576 bytes
->
->> Seems resonable, but why did we not need this before, what changed?
->
-> Not really sure what the change is (normally I'm only working on
-> headless systems, thus no need for fonts). The two FEATURE_LOADFONT_*
-> options were not available in the old defconfig. I'll leave these two in
-> v3, as you thought the seemd reasonable.
->
-For minimal, it's good to assume headless, then we should not need the 
-LOADFONT. I thought it was needed for headless as well.
-
->>> FEATURE_VI_ASK_TERMINAL, last resort to find terminal size, 352 bytes
->
->> Not sure about this and the FGCONSOLE above.
->
-> Sure, I'll remove these two.
->
->>> BLOCKDEV, perform some ioctls with block devices, cost 480 bytes
->
->> Again is this useful in the general case?
->
-> Same as previously, an arbitrary choice. I'll remove it in v3.
->
->
-Thanks for your efforts.
+Upon further review and thoughts about this, it's not idea to remove 
+docs and manual's, I will take this patch for now, but we need to file a 
+bug and find a better solution that will re-enable the docs and manual 
+creation.
 
 Sau!
 
+> Signed-off-by: Dexuan Cui<dexuan.cui@intel.com>
+> ---
+>   .../coreutils/coreutils-8.14/disable_doc_man.patch |   36 ++++++++++++++++++++
+>   meta/recipes-core/coreutils/coreutils_8.14.bb      |    9 +++--
+>   2 files changed, 41 insertions(+), 4 deletions(-)
+>   create mode 100644 meta/recipes-core/coreutils/coreutils-8.14/disable_doc_man.patch
 >
+> diff --git a/meta/recipes-core/coreutils/coreutils-8.14/disable_doc_man.patch b/meta/recipes-core/coreutils/coreutils-8.14/disable_doc_man.patch
+> new file mode 100644
+> index 0000000..c9dc92c
+> --- /dev/null
+> +++ b/meta/recipes-core/coreutils/coreutils-8.14/disable_doc_man.patch
+> @@ -0,0 +1,36 @@
+> +Upstream-Status: Inappropriate [embedded specific]
+> +
+> +We don't really need to build the doc and manual.
+> +
+> +Morever, we get this failure in do_compile:
+> +help2man: can't get `--help' info from hostname.td/hostname
+> +
+> +This is because help2man tries to invoke "hostname --help", but in the
+> +cross-compile case, the target binary may not be execuable on the host.
+> +
+> +Signed-off-by: Dexuan Cui<dexuan.cui@intel.com>
+> +
+> +diff -Nru coreutils-8.14/Makefile.am coreutils-8.14/Makefile.am
+> +--- coreutils-8.14.orig/Makefile.am	2011-10-10 15:30:55.000000000 +0800
+> ++++ coreutils-8.14/Makefile.am	2011-11-24 17:29:26.398593744 +0800
+> +@@ -17,7 +17,7 @@
+> +
+> + ALL_RECURSIVE_TARGETS =
+> +
+> +-SUBDIRS = lib src doc man po tests gnulib-tests
+> ++SUBDIRS = lib src po tests gnulib-tests
+> +
+> + changelog_etc =				\
+> +   ChangeLog-2005			\
+> +diff -Nru coreutils-8.14.orig/Makefile.in coreutils-8.14/Makefile.in
+> +--- coreutils-8.14.orig/Makefile.in	2011-10-12 17:21:46.000000000 +0800
+> ++++ coreutils-8.14/Makefile.in	2011-11-24 17:29:14.868593748 +0800
+> +@@ -1453,7 +1453,7 @@
+> +
+> + # Some tests always need root privileges, others need them only sometimes.
+> + ALL_RECURSIVE_TARGETS = install-root check-root distcheck-hook
+> +-SUBDIRS = lib src doc man po tests gnulib-tests
+> ++SUBDIRS = lib src po tests gnulib-tests
+> + changelog_etc = \
+> +   ChangeLog-2005			\
+> +   ChangeLog-2006			\
+> diff --git a/meta/recipes-core/coreutils/coreutils_8.14.bb b/meta/recipes-core/coreutils/coreutils_8.14.bb
+> index 01face0..ec41fe2 100644
+> --- a/meta/recipes-core/coreutils/coreutils_8.14.bb
+> +++ b/meta/recipes-core/coreutils/coreutils_8.14.bb
+> @@ -7,7 +7,7 @@ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
+>   LICENSE = "GPLv3+"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
+>                       file://src/ls.c;startline=5;endline=16;md5=e1a509558876db58fb6667ba140137ad"
+> -PR = "r1"
+> +PR = "r2"
+>   DEPENDS = "gmp"
+>   DEPENDS_virtclass-native = ""
+>
+> @@ -15,10 +15,13 @@ inherit autotools gettext
+>
+>   SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+>              file://remove-usr-local-lib-from-m4.patch \
+> +           file://disable_doc_man.patch \
+>             "
+>   SRC_URI[md5sum] = "bcb135ce553493a45aba01b39eb3920a"
+>   SRC_URI[sha256sum] = "0d120817c19292edb19e92ae6b8eac9020e03d51e0af9cb116cf82b65d18b02d"
+>
+> +EXTRA_OECONF += "--enable-install-program=hostname"
+> +
+>   EXTRA_OECONF_virtclass-native = "--without-gmp"
+>
+>   # [ gets a special treatment and is not included in this
+> @@ -29,9 +32,8 @@ bindir_progs = "base64 basename chcon cksum comm csplit cut dir dircolors dirnam
+>                   sha384sum sha512sum shred shuf sort split stat stdbuf sum tac tail tee test timeout\
+>                   tr truncate tsort tty unexpand uniq unlink uptime users vdir wc who whoami yes df"
+>
+> -# hostname gets a special treatment and is not included in this
+>   base_bindir_progs = "cat chgrp chmod chown cp date dd echo false kill ln ls mkdir \
+> -                     mknod mv pwd rm rmdir sleep stty sync touch true uname"
+> +                     mknod mv pwd rm rmdir sleep stty sync touch true uname hostname"
+>
+>   sbindir_progs= "chroot"
+>
+> @@ -71,7 +73,6 @@ pkg_prerm_${PN} () {
+>   	for i in ${sbindir_progs}; do update-alternatives --remove $i $i.${PN}; done
+>
+>   	# The special cases
+> -	update-alternatives --remove hostname hostname.${PN}
+>   	update-alternatives --remove uptime uptime.${PN}
+>   	update-alternatives --remove '[' 'lbracket.${PN}'
+>   }
 
 
