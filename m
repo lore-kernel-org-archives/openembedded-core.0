@@ -1,25 +1,26 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RVQ2C-0008Gi-H7
+	(envelope-from <sgw@linux.intel.com>) id 1RVQ34-0008JS-Bp
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 16:55:52 +0100
+	Tue, 29 Nov 2011 16:56:46 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 29 Nov 2011 07:49:11 -0800
+	by orsmga102.jf.intel.com with ESMTP; 29 Nov 2011 07:49:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="80920416"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="80920552"
 Received: from unknown (HELO [10.255.15.251]) ([10.255.15.251])
-	by orsmga001.jf.intel.com with ESMTP; 29 Nov 2011 07:49:11 -0800
-Message-ID: <4ED4FEF7.4020800@linux.intel.com>
-Date: Tue, 29 Nov 2011 07:49:11 -0800
+	by orsmga001.jf.intel.com with ESMTP; 29 Nov 2011 07:49:52 -0800
+Message-ID: <4ED4FF20.2050001@linux.intel.com>
+Date: Tue, 29 Nov 2011 07:49:52 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1322444142.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1322444142.git.raj.khem@gmail.com>
-Subject: Re: [PATCH 0/3] Fixes for python-native and runqemu with uclibc
+References: <1322126292-25928-1-git-send-email-koen@dominion.thruhere.net>
+In-Reply-To: <1322126292-25928-1-git-send-email-koen@dominion.thruhere.net>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCHv2 1/2] libjson: add 0.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,33 +35,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 15:55:52 -0000
+X-List-Received-Date: Tue, 29 Nov 2011 15:56:46 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/27/2011 05:46 PM, Khem Raj wrote:
-> These patches fix a problem with python-native
-> and other patches to get runqemu working with uclibc
+On 11/24/2011 01:18 AM, Koen Kooi wrote:
+> Signed-off-by: Koen Kooi<koen@dominion.thruhere.net>
+> ---
 >
-> The following changes since commit a14b41f4de3ea6c3f00ff7a1d0441483e40b28de:
+> Changes since v1:
+> 	* fix LICENSE
 >
->    default-distrovars: Define SDK_VERSION and DISTRO_VERSION (2011-11-27 17:32:00 -0800)
+>   meta/recipes-devtools/libjson/libjson_0.9.bb |   14 ++++++++++++++
+>   1 files changed, 14 insertions(+), 0 deletions(-)
+>   create mode 100644 meta/recipes-devtools/libjson/libjson_0.9.bb
 >
-> are available in the git repository at:
->    git://git.openembedded.org/openembedded-core-contrib kraj/misc
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/misc
->
-> Khem Raj (3):
->    default-distrovars: Define SDK_VERSION and DISTRO_VERSION
->    toolchain-scripts.bbclass: Make it work when TCLIBC=uclibc
->    python-native: Fix gcc compiler detecting logic
->
->   meta/classes/toolchain-scripts.bbclass             |    8 +++++-
->   meta/conf/distro/include/default-distrovars.inc    |    3 +-
->   .../python/python-native/unixccompiler.patch       |   22 ++++++++++----------
->   .../recipes-devtools/python/python-native_2.7.2.bb |    2 +-
->   4 files changed, 20 insertions(+), 15 deletions(-)
->
+> diff --git a/meta/recipes-devtools/libjson/libjson_0.9.bb b/meta/recipes-devtools/libjson/libjson_0.9.bb
+> new file mode 100644
+> index 0000000..e4951a8
+> --- /dev/null
+> +++ b/meta/recipes-devtools/libjson/libjson_0.9.bb
+> @@ -0,0 +1,14 @@
+> +DESCRIPTION = "JSON-C - A JSON implementation in C"
+> +HOMEPAGE = "http://oss.metaparadigm.com/json-c/"
+> +
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=30a276a476b02c2dcd0849bde417fb17"
+> +
+> +SRC_URI = "http://oss.metaparadigm.com/json-c/json-c-${PV}.tar.gz"
+> +SRC_URI[md5sum] = "3a13d264528dcbaf3931b0cede24abae"
+> +SRC_URI[sha256sum] = "702a486c9bf8e19137d484ab5c49b4ad314eb5e1fe37062a72c0a0fa39439475"
+> +
+> +S = "${WORKDIR}/json-c-${PV}"
+> +
+> +
+> +inherit autotools
 
 Merged into OE-Core
 
