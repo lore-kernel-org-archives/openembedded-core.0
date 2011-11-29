@@ -1,25 +1,32 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RVQFy-0000lf-3B
-	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Nov 2011 17:10:06 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 29 Nov 2011 08:03:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="81175340"
-Received: from unknown (HELO [10.255.15.251]) ([10.255.15.251])
-	by orsmga002.jf.intel.com with ESMTP; 29 Nov 2011 08:03:26 -0800
-Message-ID: <4ED5024D.9070005@linux.intel.com>
-Date: Tue, 29 Nov 2011 08:03:25 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
-MIME-Version: 1.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RVQG5-0000ma-59 for openembedded-core@lists.openembedded.org;
+	Tue, 29 Nov 2011 17:10:14 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pATG3Vvb015562;
+	Tue, 29 Nov 2011 16:03:31 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 14826-09; Tue, 29 Nov 2011 16:03:26 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pATG3OWr015556
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 29 Nov 2011 16:03:25 GMT
+Message-ID: <1322582613.7964.3.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1322074182.git.otavio@ossystems.com.br>
-In-Reply-To: <cover.1322074182.git.otavio@ossystems.com.br>
-Subject: Re: [PATCH 0/1] Xorg fix
+Date: Tue, 29 Nov 2011 16:03:33 +0000
+In-Reply-To: <FBD66FA7-8184-4933-AB82-124F18225ECF@dominion.thruhere.net>
+References: <4ED0CC76.4040606@emagii.com> <1322579029.7964.0.camel@ted>
+	<FBD66FA7-8184-4933-AB82-124F18225ECF@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: ulf@emagii.com, "Garman, Scott A" <scott.a.garman@intel.com>
+Subject: Re: Feedback on building openembedded-core for qemuarm. Excerpts from buildlog
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,31 +41,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Nov 2011 16:10:07 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Tue, 29 Nov 2011 16:10:18 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 11/23/2011 10:50 AM, Otavio Salvador wrote:
-> The following changes since commit b7ffe94a17df389644bc216c56f4b339fcb06362:
->
->    distro_tracking_fields: Update after Manual Check (2011-11-23 16:14:19 +0000)
->
-> are available in the git repository at:
->    git://github.com/OSSystems/oe-core master
->    https://github.com/OSSystems/oe-core/tree/HEAD
->
-> Otavio Salvador (1):
->    xserver-xorg: only use --disable-dga in xserver-xorg-lite
->
->   .../xorg-xserver/xserver-xorg-1.11.1.inc           |    2 +-
->   .../xorg-xserver/xserver-xorg-common.inc           |    1 -
->   .../xorg-xserver/xserver-xorg-lite.inc             |    1 +
->   3 files changed, 2 insertions(+), 2 deletions(-)
->
+On Tue, 2011-11-29 at 16:50 +0100, Koen Kooi wrote:
+> Op 29 nov. 2011, om 16:03 heeft Richard Purdie het volgende geschreven:
+> 
+> > On Sat, 2011-11-26 at 12:24 +0100, Ulf Samuelsson wrote:
+> >> Downloaded the latest, and tried building console-image for qemuarm.
+> >> Host = Ubuntu 11.04 i686.
+> >> 
+> >> Looked through the build log, and thought I'd share it with the list.
+> > 
+> > Thanks for doing this, its valuable feedback.
+> > 
+> >> A number of warnings (see below)
+> > 
+> > We're trying to work through addressing those. Some of them are from
+> > versions in meta-oe where there is a fix for the error in OECore (such
+> > as the libgcc linker hash style).
+> 
+> Assuming your statement is true, why isn't the hash style fixed in
+> the .inc? Meta-oe uses the ones from OE-core, so if the include files
+> are sane, the toolchain for meta-oe is sane.
 
-Merged into OE-Core
+Its fixed by a patch so someone needs to backport that patch to the gcc
+4.5 patch set.
 
-Thanks
-	Sau!
+Cheers,
+
+Richard
+
 
 
