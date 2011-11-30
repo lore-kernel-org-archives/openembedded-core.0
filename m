@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lei.mei@intel.com>) id 1RVdJU-0007g2-B8
-	for openembedded-core@openembedded.org; Wed, 30 Nov 2011 07:06:36 +0100
+	(envelope-from <lei.mei@intel.com>) id 1RVdJV-0007g2-11
+	for openembedded-core@openembedded.org; Wed, 30 Nov 2011 07:06:37 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2011 21:58:41 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2011 21:58:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,595,1315206000"; d="scan'208";a="90460106"
+X-IronPort-AV: E=Sophos;i="4.69,595,1315206000"; d="scan'208";a="90460149"
 Received: from daocaoren-desktop.sh.intel.com (HELO localhost.localdomain)
 	([10.239.47.21])
-	by fmsmga001.fm.intel.com with ESMTP; 29 Nov 2011 21:58:41 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 29 Nov 2011 21:58:49 -0800
 From: Mei Lei <lei.mei@intel.com>
 To: openembedded-core@openembedded.org
-Date: Wed, 30 Nov 2011 13:57:52 +0800
-Message-Id: <a9afa90f134542ef604a459363c49da76024d031.1322619553.git.lei.mei@intel.com>
+Date: Wed, 30 Nov 2011 13:57:54 +0800
+Message-Id: <f51667062ba70fd10984b2fe7aefca0927cbbd96.1322619553.git.lei.mei@intel.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <cover.1322619553.git.lei.mei@intel.com>
 References: <cover.1322619553.git.lei.mei@intel.com>
 In-Reply-To: <cover.1322619553.git.lei.mei@intel.com>
 References: <cover.1322619553.git.lei.mei@intel.com>
-Subject: [PATCH 1/3] iproute2: Upgrade from 3.0.0 to 3.1.0
+Subject: [PATCH 3/3] distro_tracking_fields.inc: Update dropbear, iproute2, net-tools tracking information.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,37 +33,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 06:06:36 -0000
+X-List-Received-Date: Wed, 30 Nov 2011 06:06:37 -0000
 
 Signed-off-by: Mei Lei <lei.mei@intel.com>
 ---
- .../configure-cross.patch                          |    0
- .../{iproute2_3.0.0.bb => iproute2_3.1.0.bb}       |    4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/iproute2/{iproute2-3.0.0 => iproute2-3.1.0}/configure-cross.patch (100%)
- rename meta/recipes-connectivity/iproute2/{iproute2_3.0.0.bb => iproute2_3.1.0.bb} (72%)
+ .../conf/distro/include/distro_tracking_fields.inc |   20 ++++++++++----------
+ 1 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2-3.0.0/configure-cross.patch b/meta/recipes-connectivity/iproute2/iproute2-3.1.0/configure-cross.patch
-similarity index 100%
-rename from meta/recipes-connectivity/iproute2/iproute2-3.0.0/configure-cross.patch
-rename to meta/recipes-connectivity/iproute2/iproute2-3.1.0/configure-cross.patch
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_3.0.0.bb b/meta/recipes-connectivity/iproute2/iproute2_3.1.0.bb
-similarity index 72%
-rename from meta/recipes-connectivity/iproute2/iproute2_3.0.0.bb
-rename to meta/recipes-connectivity/iproute2/iproute2_3.1.0.bb
-index 8d1db85..0b47046 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_3.0.0.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_3.1.0.bb
-@@ -1,7 +1,7 @@
- require iproute2.inc
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index c07341e..d94e1c5 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -846,14 +846,15 @@ DISTRO_PN_ALIAS_pn-blktool = "Debian=blktool Mandriva=blktool"
  
--#v3.0.0 tag
--SRCREV = "ce691fb5ce78b2c75243c60a757a3990ae09681c"
-+#v3.1.0 tag
-+SRCREV = "9cbe6bc337a35b91882f92599eefeb161f3e776e"
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/shemminger/iproute2.git \
-            file://configure-cross.patch"
- S = "${WORKDIR}/git"
+ RECIPE_STATUS_pn-iproute2 = "green"
+ RECIPE_DEPENDENCY_CHECK_pn-iproute2 = "not done"
+-RECIPE_LATEST_VERSION_pn-iproute2 = "2.6.34"
++RECIPE_LATEST_VERSION_pn-iproute2 = "3.1.0"
+ RECIPE_PATCH_pn-iproute2+configure-cross = "to be pushed upstream"
+ RECIPE_INTEL_SECTION_pn-iproute2 = "base utils"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-iproute2 = "3 months"
+-RECIPE_LATEST_RELEASE_DATE_pn-iproute2 = "May 01, 2010"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-iproute2 = "1 months"
++RECIPE_LATEST_RELEASE_DATE_pn-iproute2 = "Nov 17, 2011"
++RECIPE_NO_UPDATE_REASON_pn-iproute2="3.1.0 is the latest version, not 760"
+ RECIPE_COMMENTS_pn-iproute2 = ""
+ DISTRO_PN_ALIAS_pn-iproute2 = "OSPDT"
+-RECIPE_LAST_UPDATE_pn-iproute2 = "Nov 10, 2010"
++RECIPE_LAST_UPDATE_pn-iproute2 = "Nov 29, 2011"
+ RECIPE_MAINTAINER_pn-iproute2 = "Dongxiao Xu <dongxiao.xu@intel.com>"
+ 
+ RECIPE_STATUS_pn-netbase = "green"
+@@ -1060,6 +1061,7 @@ RECIPE_MAINTAINER_pn-ethtool = "Zhai Edwin <edwin.zhai@intel.com>"
+ RECIPE_STATUS_pn-net-tools = "green"
+ RECIPE_LAST_UPDATE_pn-net-tools = "Aug 16, 2010"
+ RECIPE_LATEST_VERSION_pn-net-tools = "1.60-23"
++RECIPE_NO_UPDATE_REASON_pn-net-tools="1.60 is the latest version, 1.60-23 just its patch version"
+ RECIPE_MAINTAINER_pn-net-tools = "Dongxiao Xu <dongxiao.xu@intel.com>"
+ RECIPE_LATEST_VERSION_pn-net-tools = "1.60-23"
+ 
+@@ -1603,21 +1605,19 @@ RECIPE_COMMENTS_pn-nfs-utils = ""
+ 
+ RECIPE_STATUS_pn-dropbear = "green"
+ DISTRO_PN_ALIAS_pn-dropbear = "Debian=dropbear Ubuntu=dropbear"
+-RECIPE_LAST_UPDATE_pn-dropbear = "Sep 30, 2011"
++RECIPE_LAST_UPDATE_pn-dropbear = "Nov 29, 2011"
+ RECIPE_MAINTAINER_pn-dropbear = "Mei Lei <lei.mei@intel.com>"
+ RECIPE_DEPENDENCY_CHECK_pn-dropbear = "not done"
+-RECIPE_LATEST_VERSION_pn-dropbear = "0.53.1"
++RECIPE_LATEST_VERSION_pn-dropbear = "2011.54"
+ RECIPE_PATCH_pn-dropbear+urandom-xauth-changes-to-options.h = "xauth path change"
+ RECIPE_PATCH_pn-dropbear+configure = "use configure cache value for cross compiling"
+ RECIPE_PATCH_pn-dropbear+fix-skb-keys = "enlarge key buffer size"
+-RECIPE_PATCH_pn-dropbear+allow-nopw = "allow login with no password, applied on in occasions"
+ RECIPE_PATCH_pn-dropbear+init = "init script"
+ RECIPE_PATCH_pn-dropbear+dropbear-0.53.1-static_build_fix = "fix link error in 0.53.1 release"
+ RECIPE_INTEL_SECTION_pn-dropbear = "base utils"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-dropbear = "1 month"
+-RECIPE_LATEST_RELEASE_DATE_pn-dropbear = "Mar 01, 2011"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-dropbear = "8 month"
++RECIPE_LATEST_RELEASE_DATE_pn-dropbear = "Nov 08, 2011"
+ RECIPE_COMMENTS_pn-dropbear = ""
+-RECIPE_NO_UPDATE_REASON_pn-dropbear="0.53.1 is the latest version,not 0.255"
+ 
+ RECIPE_STATUS_pn-hal = "green"
+ RECIPE_LAST_UPDATE_pn-hal = "Jul 20, 2010"
 -- 
 1.7.0.4
 
