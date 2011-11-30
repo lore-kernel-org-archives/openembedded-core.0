@@ -1,24 +1,24 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RVYDv-0008Eo-NF
+	(envelope-from <josh@linux.intel.com>) id 1RVYDv-0008Ez-U2
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Nov 2011 01:40:31 +0100
+	Wed, 30 Nov 2011 01:40:32 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 29 Nov 2011 16:33:50 -0800
+	by orsmga101.jf.intel.com with ESMTP; 29 Nov 2011 16:33:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="81378104"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="81378111"
 Received: from unknown (HELO shamshir.amr.corp.intel.com) ([10.255.15.149])
-	by orsmga002.jf.intel.com with ESMTP; 29 Nov 2011 16:33:50 -0800
+	by orsmga002.jf.intel.com with ESMTP; 29 Nov 2011 16:33:51 -0800
 From: Joshua Lock <josh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Nov 2011 16:33:44 -0800
-Message-Id: <0aaf7849338974834bc560e3c7b57fc110631c03.1322606832.git.josh@linux.intel.com>
+Date: Tue, 29 Nov 2011 16:33:47 -0800
+Message-Id: <ada3c6d12ad82d651f25c5f2ea41e971c1cc5fb3.1322606832.git.josh@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.3
 In-Reply-To: <cover.1322606832.git.josh@linux.intel.com>
 References: <cover.1322606832.git.josh@linux.intel.com>
 In-Reply-To: <cover.1322606832.git.josh@linux.intel.com>
 References: <cover.1322606832.git.josh@linux.intel.com>
-Subject: [PATCH 08/11] clutter-box2d: Update git recipe
+Subject: [PATCH 11/11] distro-tracking-fields: update entries for clutter recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,35 +35,117 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 30 Nov 2011 00:40:32 -0000
 
-Several changes and fixes exist unreleased in git with version 0.12.1,
-update to build the latest available.
+Tidy up entries for clutter related recipes
+* Update to 1.8 namespace
+* Move to same section of file for easier maintenance as a unit
+* Update for recent recipe upgrades
+* Assign myself as maintainer
 
 Signed-off-by: Joshua Lock <josh@linux.intel.com>
 ---
- meta/recipes-graphics/clutter/clutter-box2d_git.bb |    7 ++++---
- 1 files changed, 4 insertions(+), 3 deletions(-)
+ .../conf/distro/include/distro_tracking_fields.inc |   68 ++++++++-----------
+ 1 files changed, 29 insertions(+), 39 deletions(-)
 
-diff --git a/meta/recipes-graphics/clutter/clutter-box2d_git.bb b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
-index bfd46b2..554ce81 100644
---- a/meta/recipes-graphics/clutter/clutter-box2d_git.bb
-+++ b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
-@@ -2,12 +2,13 @@ require clutter-box2d.inc
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index c07341e..4661264 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -2391,7 +2391,7 @@ RECIPE_LATEST_VERSION_pn-task-core-clutter="1.0"
+ RECIPE_NO_OF_PATCHES_pn-task-core-clutter="0"
+ RECIPE_LATEST_RELEASE_DATE_pn-task-core-clutter="n/a"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-task-core-clutter="n/a"
+-RECIPE_MAINTAINER_pn-task-core-clutter = "Dongxiao Xu <dongxiao.xu@intel.com>"
++RECIPE_MAINTAINER_pn-task-core-clutter = "Joshua Lock <josh@linux.intel.com>"
+ DISTRO_PN_ALIAS_pn-task-core-clutter = "OE-Core"
  
- LIC_FILES_CHKSUM = "file://box2d/License.txt;md5=e5d39ad91f7dc4692dcdb1d85139ec6b"
+ RECIPE_STATUS_pn-task-core-boot="green"
+@@ -2705,12 +2705,6 @@ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libmusicbrainz="2 years"
+ RECIPE_LAST_UPDATE_pn-libmusicbrainz = "Nov 16, 2010"
+ RECIPE_MAINTAINER_pn-libmusicbrainz = "Dongxiao Xu <dongxiao.xu@intel.com>"
  
--SRCREV = "4799ac10ae8cb7da936a2b999aba58fe62eb1ee3"
--PV = "0.10.1+git${SRCPV}"
-+SRCREV = "de5452e56b537a11fd7f9453d048ff4b4793b5a2"
-+PV = "0.12.1+git${SRCPV}"
- PR = "r0"
+-RECIPE_STATUS_pn-clutter-gst-1.6 = "red"
+-DISTRO_PN_ALIAS_pn-clutter-gst-1.6 = "Fedora=clutter-gst Debian=libclutter-gst"
+-RECIPE_LATEST_VERSION_pn-clutter-gst-1.6 = "1.3.8"
+-RECIPE_LAST_UPDATE_pn-clutter-gst-1.6 = "Mar 28, 2011"
+-RECIPE_MAINTAINER_pn-clutter-gst-1.6 = "Dongxiao Xu <dongxiao.xu@intel.com>"
+-
+ RECIPE_STATUS_pn-farsight2 = "red"
+ RECIPE_LATEST_VERSION_pn-farsight2 = "0.0.20"
+ RECIPE_LAST_UPDATE_pn-farsight2 = "Aug 19, 2009"
+@@ -5445,26 +5439,6 @@ RECIPE_LAST_UPDATE_pn-gtk-engines = "Dec 1, 2010"
+ RECIPE_NO_UPDATE_REASON_pn-gtk-engines = "Do not upgrade to version: 2.91.1 because prefer stable tree"
+ RECIPE_MAINTAINER_pn-gtk-engines = "Zhai Edwin <edwin.zhai@intel.com>"
  
- SRC_URI = "git://git.gnome.org/clutter-box2d.git"
+-RECIPE_STATUS_pn-clutter-box2d-1.6 = "red"
+-RECIPE_LATEST_VERSION_pn-clutter-box2d-1.6 = "0.10.0"
+-RECIPE_MANUAL_CHECK_DATE_pn-clutter-box2d-1.6 = "Jun 28, 2011"
+-RECIPE_LAST_UPDATE_pn-clutter-box2d-1.6 = "Mar 28, 2011"
+-RECIPE_MAINTAINER_pn-clutter-box2d-1.6 = "Zhai Edwin <edwin.zhai@intel.com>"
+-DISTRO_PN_ALIAS_pn-clutter-box2d-1.6 = "OpenedHand"
+-
+-RECIPE_STATUS_pn-clutter-box2d = "red"
+-RECIPE_LATEST_VERSION_pn-clutter-box2d = "0.10.0"
+-RECIPE_MANUAL_CHECK_DATE_pn-clutter-box2d = "Jun 28, 2011"
+-RECIPE_LAST_UPDATE_pn-clutter-box2d = "Mar 28, 2011"
+-RECIPE_MAINTAINER_pn-clutter-box2d = "Zhai Edwin <edwin.zhai@intel.com>"
+-DISTRO_PN_ALIAS_pn-clutter-box2d = "OpenedHand"
+-
+-
+-RECIPE_STATUS_pn-clutter-gtk-1.4 = "red"
+-DISTRO_PN_ALIAS_pn-clutter-gtk-1.4 = "Fedora=clutter-gtk OpenSuSE=clutter-gtk Ubuntu=clutter-gtk-0.10 Mandriva=clutter-gtk Debian=clutter-gtk"
+-RECIPE_LATEST_VERSION_pn-clutter-gtk-1.4 = "0.90.0+git0+e8d828ba1d87937baa571e68fdff22f3e2d79ca8"
+-RECIPE_MAINTAINER_pn-clutter-gtk-1.4 = "Zhai Edwin <edwin.zhai@intel.com>"
+-
+ RECIPE_STATUS_pn-tidy = "red"
+ RECIPE_LATEST_VERSION_pn-tidy = "0.1.0+git0+e25416e1293e1074bfa6727c80527dcff5b1f3cb"
+ RECIPE_LAST_UPDATE_pn-tidy = "Dec 18, 2008"
+@@ -5480,18 +5454,34 @@ RECIPE_LATEST_VERSION_pn-libgalago = "0.5.2"
+ RECIPE_LAST_UPDATE_pn-libgalago = "Apr 11, 2007"
+ RECIPE_MAINTAINER_pn-libgalago = "Zhai Edwin <edwin.zhai@intel.com>"
  
- S = "${WORKDIR}/git"
+-RECIPE_STATUS_pn-clutter-1.6 = "red"
+-DISTRO_PN_ALIAS_pn-clutter-1.6 = "Fedora=clutter OpenSuse=clutter Ubuntu=clutter-1.0 Mandriva=clutter Debian=clutter"
+-RECIPE_LATEST_VERSION_pn-clutter-1.6 = "1.6.14"
+-RECIPE_MANUAL_CHECK_DATE_pn-clutter-1.6 = "Jun 28, 2011"
+-RECIPE_LAST_UPDATE_pn-clutter-1.6 = "Apr 19, 2011"
+-RECIPE_MAINTAINER_pn-clutter-1.6 = "Zhai Edwin <edwin.zhai@intel.com>"
+-
+-RECIPE_STATUS_pn-clutter = "red"
+-DISTRO_PN_ALIAS_pn-clutter = "Fedora=clutter-gtk OpenSuSE=clutter-gtk Ubuntu=clutter-gtk-0.10 Mandriva=clutter-gtk Debian=clutter-gtk"
+-RECIPE_LATEST_VERSION_pn-clutter = "1.6.14"
+-RECIPE_MANUAL_CHECK_DATE_pn-clutter = "Jun 28, 2011"
+-RECIPE_MAINTAINER_pn-clutter = "Zhai Edwin <edwin.zhai@intel.com>"
++RECIPE_STATUS_pn-cogl = "green"
++DISTRO_PN_ALIAS_pn-cogl = "Fedora=cogl OpenSuse=cogl Ubuntu=cogl Mandriva=cogl Debian=cogl"
++RECIPE_LATEST_VERSION_pn-cogl = "1.8.0"
++RECIPE_MANUAL_CHECK_DATE_pn-cogl = "Nov 9, 2011"
++RECIPE_LAST_UPDATE_pn-cogl = "Nov 9, 2011"
++
++RECIPE_STATUS_pn-clutter-1.8 = "green"
++DISTRO_PN_ALIAS_pn-clutter-1.8 = "Fedora=clutter OpenSuse=clutter Ubuntu=clutter-1.0 Mandriva=clutter Debian=clutter"
++RECIPE_LATEST_VERSION_pn-clutter-1.8 = "1.8.0"
++RECIPE_MANUAL_CHECK_DATE_pn-clutter-1.8 = "Nov 9, 2011"
++RECIPE_LAST_UPDATE_pn-clutter-1.8 = "Nov 9, 2011"
++RECIPE_MAINTAINER_pn-clutter-1.8 = "Joshua Lock <josh@linux.intel.com>"
++
++RECIPE_STATUS_pn-clutter-gtk-1.8 = "red"
++DISTRO_PN_ALIAS_pn-clutter-gtk-1.8 = "Fedora=clutter-gtk OpenSuSE=clutter-gtk Ubuntu=clutter-gtk-0.10 Mandriva=clutter-gtk Debian=clutter-gtk"
++RECIPE_LATEST_VERSION_pn-clutter-gtk-1.8 = "0.11.4"
++RECIPE_MAINTAINER_pn-clutter-gtk-1.8 = "Joshua Lock <josh@linux.intel.com>"
++
++RECIPE_STATUS_pn-clutter-gst-1.8 = "red"
++DISTRO_PN_ALIAS_pn-clutter-gst-1.8 = "Fedora=clutter-gst Debian=libclutter-gst"
++RECIPE_LATEST_VERSION_pn-clutter-gst-1.8 = "1.4.2"
++RECIPE_LAST_UPDATE_pn-clutter-gst-1.8 = "Nov 09, 2011"
++RECIPE_MAINTAINER_pn-clutter-gst-1.8 = "Joshua Lock <josh@linux.intel.com>"
++
++RECIPE_STATUS_pn-clutter-box2d = "red"
++RECIPE_LATEST_VERSION_pn-clutter-box2d = "10.0.0"
++RECIPE_LAST_UPDATE_pn-clutter-box2d = "Nov 29, 2011"
++RECIPE_MAINTAINER_pn-clutter-box2d = "Joshua Lock <josh@linux.intel.com>"
  
--DEPENDS += "clutter-1.6"
-+DEPENDS += "clutter-1.8"
-+PROVIDES = "clutter-box2d-1.6"
+ RECIPE_STATUS_pn-libgnomekbd = "red"
+ RECIPE_LATEST_VERSION_pn-libgnomekbd = "2.31.1"
 -- 
 1.7.7.3
 
