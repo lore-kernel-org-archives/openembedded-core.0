@@ -1,33 +1,32 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RVsne-0001kZ-Bt
-	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Nov 2011 23:38:46 +0100
-Received: by lagj5 with SMTP id j5so473086lag.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2011 14:32:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=yxbZgsU/Gw/r/6xU/mCEE4QqHBNVQsPPjQ7U6zCJ+T8=;
-	b=xSP10VOnDdc5Xln6LoUdpo3/qsFqvbkg7Nz8WKv58oGnd7G0Xa/T5CCGzktbMGMO4z
-	EY8IUdNWvifEALSWNOhxekBCiFMliQGSybM1880p7VIE3bndFrqkJpy6KjRnfAG/rRcg
-	3W5f7VnJjERR0U0vPLtnVn9KZO2EkfLyHPDIA=
-Received: by 10.152.104.20 with SMTP id ga20mr2868373lab.13.1322692322621;
-	Wed, 30 Nov 2011 14:32:02 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.152.24.36 with HTTP; Wed, 30 Nov 2011 14:31:30 -0800 (PST)
-In-Reply-To: <6e118d2846f5606561b4ae1f3c3ae93fd69bc360.1322689519.git.darren@dvhart.com>
-References: <cover.1322689519.git.darren@dvhart.com>
-	<e7ca852c4e673a6b32be203109a704202aeace3a.1322689519.git.darren@dvhart.com>
-	<6e118d2846f5606561b4ae1f3c3ae93fd69bc360.1322689519.git.darren@dvhart.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 30 Nov 2011 14:31:30 -0800
-Message-ID: <CAMKF1sotPRfvMtbMYRBCtqpAj7CfYMzOzh1EORaOtBajzywwkA@mail.gmail.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RVsqR-0001ri-LC for openembedded-core@lists.openembedded.org;
+	Wed, 30 Nov 2011 23:41:40 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAUMYwvG006564;
+	Wed, 30 Nov 2011 22:34:58 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 05846-10; Wed, 30 Nov 2011 22:34:54 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAUMYoMu006558
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 30 Nov 2011 22:34:51 GMT
+Message-ID: <1322692498.17484.65.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: Darren Hart <dvhart@linux.intel.com>
-Subject: Re: [PATCH 2/4] autotools.bbclass: Report the missing configure path
+Date: Wed, 30 Nov 2011 22:34:58 +0000
+In-Reply-To: <4A209D73-09F9-45B2-9C5C-F87766C15286@dominion.thruhere.net>
+References: <1322665120-29586-1-git-send-email-koen@dominion.thruhere.net>
+	<CAMKF1srx1t4d1c6JNV0gS_+Kaa6KR50DfmgP=+ETrm-2BX+HUQ@mail.gmail.com>
+	<4A209D73-09F9-45B2-9C5C-F87766C15286@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] webkit-gtk svn: update to r101488
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,63 +41,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 22:38:46 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 30 Nov 2011 22:41:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 30, 2011 at 1:49 PM, Darren Hart <darren@dvhart.com> wrote:
-> From: Darren Hart <dvhart@linux.intel.com>
->
-> If the configure script isn't found, report the explicit path tried.
-> This can help debug subtle errors where the ${S} sourcedir may not
-> be exactly what is expected.
->
-> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-> ---
-> =C2=A0meta/classes/autotools.bbclass | =C2=A0 =C2=A09 +++++----
-> =C2=A01 files changed, 5 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbcl=
-ass
-> index 37e7d4b..7536bac 100644
-> --- a/meta/classes/autotools.bbclass
-> +++ b/meta/classes/autotools.bbclass
-> @@ -70,11 +70,12 @@ CONFIGUREOPT_DEPTRACK =3D "--disable-dependency-track=
-ing"
->
->
-> =C2=A0oe_runconf () {
-> - =C2=A0 =C2=A0 =C2=A0 if [ -x ${S}/configure ] ; then
-> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bbnote "Running ${S}/c=
-onfigure ${CONFIGUREOPTS} ${EXTRA_OECONF} $@"
-> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${S}/configure ${CONFI=
-GUREOPTS} ${EXTRA_OECONF} "$@" || bbfatal "oe_runconf failed"
-> + =C2=A0 =C2=A0 =C2=A0 cfgscript=3D"${S}/configure"
-> + =C2=A0 =C2=A0 =C2=A0 if [ -x "$cfgscript" ] ; then
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bbnote "Running $cfgsc=
-ript ${CONFIGUREOPTS} ${EXTRA_OECONF} $@"
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 $cfgscript ${CONFIGURE=
-OPTS} ${EXTRA_OECONF} "$@" || bbfatal "oe_runconf failed"
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0else
-> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bbfatal "no configure =
-script found"
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bbfatal "no configure =
-script found at $cfgscript"
+On Wed, 2011-11-30 at 23:27 +0100, Koen Kooi wrote:
+> Op 30 nov. 2011, om 23:20 heeft Khem Raj het volgende geschreven:
+> > On Wed, Nov 30, 2011 at 6:58 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
 
-why not just do one line change something like
+> >> -DEPENDS = "enchant gnome-keyring libsoup-2.4 curl icu libxml2 cairo libxslt libxt libidn gnutls gtk+ gstreamer gst-plugins-base flex-native gperf-native perl-native-runtime sqlite3"
+> >> +DEPENDS = "zlib enchant gnome-keyring libsoup-2.4 curl icu libxml2 cairo libxslt libxt libidn gnutls gtk+ gstreamer gst-plugins-base flex-native gperf-native perl-native-runtime sqlite3"
+> > 
+> > is zlib a new dep or was it missing ?
+> 
+> Not sure, but configure.ac wants it, so I added it explicitly.
 
-bbfatal "configure script ${S}/configure not found"
+Consider trimming down quoted email to what is relevant please. The
+above is perfectly legible and much shorter than the original two
+replies.
 
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0fi
-> =C2=A0}
->
-> --
-> 1.7.6.4
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Cheers,
+
+Richard
+
 
 
