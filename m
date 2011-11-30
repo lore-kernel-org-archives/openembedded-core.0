@@ -1,28 +1,34 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1RVoPo-0006E3-Bw
-	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Nov 2011 18:57:52 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pAUHpAN1003251
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RVoPx-0006GO-S7 for openembedded-core@lists.openembedded.org;
+	Wed, 30 Nov 2011 18:58:02 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAUHpLkZ002531
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2011 09:51:10 -0800 (PST)
-Received: from Macintosh-5.local (172.25.36.232) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 30 Nov 2011 09:51:09 -0800
-Message-ID: <4ED66D0D.5000801@windriver.com>
-Date: Wed, 30 Nov 2011 11:51:09 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:8.0) Gecko/20111105 Thunderbird/8.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1322641493-5889-1-git-send-email-koen@dominion.thruhere.net>
-	<1322674730.17484.15.camel@ted>
-In-Reply-To: <1322674730.17484.15.camel@ted>
-Subject: Re: [PATCH] consolekit: package /var/log/Consolekit
+	Wed, 30 Nov 2011 17:51:21 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 02034-07 for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2011 17:51:16 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAUHpEmS002525
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2011 17:51:15 GMT
+Message-ID: <1322675483.17484.19.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 30 Nov 2011 17:51:23 +0000
+In-Reply-To: <4b27ade78ff28010687e1a50ee2ea108040dfd04.1322639391.git.xiaofeng.yan@windriver.com>
+References: <cover.1322639391.git.xiaofeng.yan@windriver.com>
+	<4b27ade78ff28010687e1a50ee2ea108040dfd04.1322639391.git.xiaofeng.yan@windriver.com>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 1/1] libx11-trim: Change checksum
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,75 +43,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 17:57:52 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Wed, 30 Nov 2011 17:58:02 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 11/30/11 11:38 AM, Richard Purdie wrote:
-> On Wed, 2011-11-30 at 09:24 +0100, Koen Kooi wrote:
->> This fixes startup issues like this:
->>
->> 2011-11-30T09:02:10+01:00 beaglebone ck-log-system-start[91]: **
->> (process:91): WARNING **: Couldn't create log
->> file /var/log/ConsoleKit/history (No such file or directory)
->>
->> Signed-off-by: Koen Kooi<koen@dominion.thruhere.net>
->> ---
->>   .../recipes-support/consolekit/consolekit_0.4.5.bb |    4 ++--
->>   1 files changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/recipes-support/consolekit/consolekit_0.4.5.bb b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
->> index 562dfb3..a02203c 100644
->> --- a/meta/recipes-support/consolekit/consolekit_0.4.5.bb
->> +++ b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
->> @@ -2,7 +2,7 @@ DESCRIPTION = "ConsoleKit is a framework for defining and tracking users, login
->>   HOMEPAGE="http://www.freedesktop.org/wiki/Software/ConsoleKit"
->>   BUGTRACKER="https://bugs.freedesktop.org/buglist.cgi?query_format=specific&product=ConsoleKit"
->>
->> -PR = "r5"
->> +PR = "r6"
->>
->>   LICENSE = "GPLv2+"
->>   LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
->> @@ -23,7 +23,7 @@ EXTRA_OECONF = "--with-systemdsystemunitdir=${base_libdir}/systemd/system/ \
->>                   ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam-module --with-pam-module-dir=${base_libdir}/security', '--disable-pam-module', d)} \
->>                  "
->>
->> -FILES_${PN} += "${libdir}/ConsoleKit ${base_libdir} ${datadir}/dbus-1 ${datadir}/PolicyKit ${datadir}/polkit*"
->> +FILES_${PN} += "${localstatedir}/log/ConsoleKit ${libdir}/ConsoleKit ${base_libdir} ${datadir}/dbus-1 ${datadir}/PolicyKit ${datadir}/polkit*"
->>   FILES_${PN}-dbg += "${base_libdir}/security/.debug"
->>
->>   PACKAGES =+ "pam-plugin-ck-connector"
->
-> Looks like this is breaking builds:
->
-> | consolekit                  ##################################################
-> | error: unpacking of archive failed on file /var/log: cpio: rename failed - Invalid argument
+On Wed, 2011-11-30 at 15:55 +0800, Xiaofeng Yan wrote:
+> From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+> 
+> Correct checksum because checksum error for libx11-trim arise when compiling.
+> 
+> Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+> ---
+>  .../recipes-graphics/xorg-lib/libx11-trim_1.4.4.bb |    4 ++--
+>  1 files changed, 2 insertions(+), 2 deletions(-)
 
-This is a bit of an obscure error, but what it really means is that something 
-created a directory called /var/log, while something else created a symlink 
-called /var/log.  The directory owner was installed before the symlink owner.. 
-so when the symlink was being installed cpio went "huh?!"  (note: the problem 
-could be /var... hard to tell)
+Merged to master, thanks.
 
-This is one of the situations that the system wide directory "fixing" in 
-packages.bbclass is support to resolve.
-
---Mark
-
-> :(
->
-> http://autobuilder.pokylinux.org:8010/builders/nightly-x86-64/builds/197/steps/shell_30/logs/stdio
->
-> Cheers,
->
-> Richard
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Richard
 
 
 
