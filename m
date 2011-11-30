@@ -1,27 +1,29 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RVt4j-0002Mq-Re
+	(envelope-from <martin.jansa@gmail.com>) id 1RVtBj-00031I-Ax
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Nov 2011 23:56:26 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 30 Nov 2011 14:49:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,273,1320652800"; d="scan'208";a="80840803"
-Received: from unknown (HELO [10.255.12.113]) ([10.255.12.113])
-	by azsmga001.ch.intel.com with ESMTP; 30 Nov 2011 14:49:44 -0800
-Message-ID: <4ED6B308.1010802@linux.intel.com>
-Date: Wed, 30 Nov 2011 14:49:44 -0800
-From: Joshua Lock <josh@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111115 Thunderbird/8.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1322608290.git.josh@linux.intel.com>
-	<b1b16d8377588138a5e1111452c7937979297c5f.1322608290.git.josh@linux.intel.com>
-	<4ED69FCB.5030809@linux.intel.com>
-In-Reply-To: <4ED69FCB.5030809@linux.intel.com>
-Subject: Re: [PATCH 4/4] distro_tracking_fields: additions and updates
+	Thu, 01 Dec 2011 00:03:39 +0100
+Received: by bkbzv15 with SMTP id zv15so839230bkb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2011 14:56:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=M7yjR6Sqjy+EegFcRcFYz4DWQNByeGPAw0hJmy7mTuo=;
+	b=mvg2gCQQbAh7r1JkOpnmGvH+klpjM8LYVoOludq9SeopHRAs5tvBK65EqKwKKo6qxk
+	ZMJk/oIwt5J6tFfg8/t4owhToJLHmoM03cVAfn7NTnIkW1bVsGqgYmjGAm8j0/0kDe1v
+	RXm7sga6ImgETc1YemWROqQpSkBVByAKHdlxg=
+Received: by 10.204.152.25 with SMTP id e25mr4587047bkw.51.1322693818471;
+	Wed, 30 Nov 2011 14:56:58 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id e18sm7113075bkr.15.2011.11.30.14.56.56
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 30 Nov 2011 14:56:57 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 30 Nov 2011 23:56:50 +0100
+Message-Id: <cover.1322693708.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.rc4
+Subject: [PATCH][oe-core 0/3] Small fixes sysstat, squashfs-tools, gconf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,62 +38,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 22:56:26 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 Nov 2011 23:03:39 -0000
 
-On 30/11/11 13:27, Saul Wold wrote:
-> On 11/29/2011 03:14 PM, Joshua Lock wrote:
->> Update tracking info for gthumb and add untracked recipes mx, json-glib
->> and xdg-utils.
->>
->> Signed-off-by: Joshua Lock<josh@linux.intel.com>
->> ---
->>   .../conf/distro/include/distro_tracking_fields.inc |   14
->> +++++++++++++-
->>   1 files changed, 13 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta/conf/distro/include/distro_tracking_fields.inc
->> b/meta/conf/distro/include/distro_tracking_fields.inc
->> index c07341e..9338b30 100644
->> --- a/meta/conf/distro/include/distro_tracking_fields.inc
->> +++ b/meta/conf/distro/include/distro_tracking_fields.inc
->> @@ -5790,8 +5790,20 @@ DISTRO_PN_ALIAS_pn-lsbsetup = "Windriver"
->>
->>   RECIPE_LATEST_VERSION_pn-libxml-simple-perl = "2.18"
->>   RECIPE_LATEST_VERSION_pn-talloc = "2.0.5"
->> +
->>   RECIPE_STATUS_pn-gthumb = "red"
->> -RECIPE_LATEST_VERSION_pn-gthumb = "2.12.2"
->> +RECIPE_LATEST_VERSION_pn-gthumb = "2.12.3"
->> +RECIPE_LAST_UPDATE_pn-gthumb = "Nov 16, 2011"
->> +
->> +RECIPE_LATEST_VERSION_pn-mx = "1.3.2"
->> +RECIPE_LAST_UPDATE_pn-mx = "Nov 16, 2011"
->> +
->> +RECIPE_LATEST_VERSION_pn-json-glib = "0.14.2"
->> +RECIPE_LAST_UPDATE_pn-json-glib = "Nov 16, 2011"
->> +
->> +RECIPE_LATEST_VERSION_pn-xdg-utils = "1.0.2"
->> +RECIPE_LAST_UPDATE_pn-xdg-utils = "Nov 16, 2011"
->> +RECIPE_NO_UPDATE_REASON_pn-xdg-utils = "Latest release is a release
->> candidate - 1.1.0rc1"
->>
->>   RECIPE_LATEST_VERSION_pn-libtheora = "1.2.0"
->>   RECIPE_NO_UPDATE_REASON_pn-libtheora = "1.1.1 is latest stable
->> release not 1.2.0alpha1"
-> 
-> Josh,
-> 
-> if you are picking up maintence of these recipes please add a
-> RECIPE_MAINTAINER_pn- field.
+The following changes since commit 36654d6d393cb8c8a545835184a96be4ae0c885d:
 
-Updated series submitted.
+  grub: Use COMPATIBLE_HOST (2011-11-30 22:21:53 +0000)
 
-Joshua
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib jansa/pull
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/pull
+
+Martin Jansa (3):
+  sysstat: don't run populate-volatile.sh update in do_rootfs or
+    without populate-volatile.sh
+  squashfs-tools: fix PR, those should start with 'r'
+  gconf: add polkit to DEPENDS only for target recipe and disable
+    default-service for native
+
+ .../squashfs-tools/squashfs-tools_4.2.bb           |    2 +-
+ meta/recipes-extended/sysstat/sysstat.inc          |    6 +++++-
+ meta/recipes-extended/sysstat/sysstat_10.0.2.bb    |    2 +-
+ meta/recipes-gnome/gnome/gconf_3.2.3.bb            |   10 +++++++---
+ 4 files changed, 14 insertions(+), 6 deletions(-)
+
 -- 
-Joshua Lock
-        Yocto Project "Johannes factotum"
-        Intel Open Source Technology Centre
+1.7.8.rc4
+
 
 
