@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lei.mei@intel.com>) id 1RVdJV-0007g2-11
+	(envelope-from <lei.mei@intel.com>) id 1RVdJV-0007g3-2S
 	for openembedded-core@openembedded.org; Wed, 30 Nov 2011 07:06:37 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2011 21:58:50 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2011 21:58:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,595,1315206000"; d="scan'208";a="90460149"
+X-IronPort-AV: E=Sophos;i="4.69,595,1315206000"; d="scan'208";a="90460129"
 Received: from daocaoren-desktop.sh.intel.com (HELO localhost.localdomain)
 	([10.239.47.21])
-	by fmsmga001.fm.intel.com with ESMTP; 29 Nov 2011 21:58:49 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 29 Nov 2011 21:58:45 -0800
 From: Mei Lei <lei.mei@intel.com>
 To: openembedded-core@openembedded.org
-Date: Wed, 30 Nov 2011 13:57:54 +0800
-Message-Id: <f51667062ba70fd10984b2fe7aefca0927cbbd96.1322619553.git.lei.mei@intel.com>
+Date: Wed, 30 Nov 2011 13:57:53 +0800
+Message-Id: <d2556a3bcd208b2d6a8c02332b26b6e808632d7c.1322619553.git.lei.mei@intel.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <cover.1322619553.git.lei.mei@intel.com>
 References: <cover.1322619553.git.lei.mei@intel.com>
 In-Reply-To: <cover.1322619553.git.lei.mei@intel.com>
 References: <cover.1322619553.git.lei.mei@intel.com>
-Subject: [PATCH 3/3] distro_tracking_fields.inc: Update dropbear, iproute2, net-tools tracking information.
+Subject: [PATCH 2/3] dropbear: Upgrade from 0.53.1 to 2011.54
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,67 +37,117 @@ X-List-Received-Date: Wed, 30 Nov 2011 06:06:37 -0000
 
 Signed-off-by: Mei Lei <lei.mei@intel.com>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |   20 ++++++++++----------
- 1 files changed, 10 insertions(+), 10 deletions(-)
+ .../configure.patch                                |    0
+ meta/recipes-core/dropbear/dropbear.inc            |    8 ----
+ .../dropbear/dropbear/allow-nopw.patch             |   40 --------------------
+ meta/recipes-core/dropbear/dropbear_0.53.1.bb      |    6 ---
+ meta/recipes-core/dropbear/dropbear_2011.54.bb     |    6 +++
+ 5 files changed, 6 insertions(+), 54 deletions(-)
+ rename meta/recipes-core/dropbear/{dropbear-0.53.1 => dropbear-2011.54}/configure.patch (100%)
+ delete mode 100644 meta/recipes-core/dropbear/dropbear/allow-nopw.patch
+ delete mode 100644 meta/recipes-core/dropbear/dropbear_0.53.1.bb
+ create mode 100644 meta/recipes-core/dropbear/dropbear_2011.54.bb
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index c07341e..d94e1c5 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -846,14 +846,15 @@ DISTRO_PN_ALIAS_pn-blktool = "Debian=blktool Mandriva=blktool"
+diff --git a/meta/recipes-core/dropbear/dropbear-0.53.1/configure.patch b/meta/recipes-core/dropbear/dropbear-2011.54/configure.patch
+similarity index 100%
+rename from meta/recipes-core/dropbear/dropbear-0.53.1/configure.patch
+rename to meta/recipes-core/dropbear/dropbear-2011.54/configure.patch
+diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
+index 1894715..9de13f0 100644
+--- a/meta/recipes-core/dropbear/dropbear.inc
++++ b/meta/recipes-core/dropbear/dropbear.inc
+@@ -16,7 +16,6 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.gz \
+ 		 file://dropbear-0.53.1-static_build_fix.patch \
+ 	         file://configure.patch \
+ 	         file://fix-2kb-keys.patch \
+-	         file://allow-nopw.patch;apply=no \
+ 	         file://init \
+                  ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} "
  
- RECIPE_STATUS_pn-iproute2 = "green"
- RECIPE_DEPENDENCY_CHECK_pn-iproute2 = "not done"
--RECIPE_LATEST_VERSION_pn-iproute2 = "2.6.34"
-+RECIPE_LATEST_VERSION_pn-iproute2 = "3.1.0"
- RECIPE_PATCH_pn-iproute2+configure-cross = "to be pushed upstream"
- RECIPE_INTEL_SECTION_pn-iproute2 = "base utils"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-iproute2 = "3 months"
--RECIPE_LATEST_RELEASE_DATE_pn-iproute2 = "May 01, 2010"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-iproute2 = "1 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-iproute2 = "Nov 17, 2011"
-+RECIPE_NO_UPDATE_REASON_pn-iproute2="3.1.0 is the latest version, not 760"
- RECIPE_COMMENTS_pn-iproute2 = ""
- DISTRO_PN_ALIAS_pn-iproute2 = "OSPDT"
--RECIPE_LAST_UPDATE_pn-iproute2 = "Nov 10, 2010"
-+RECIPE_LAST_UPDATE_pn-iproute2 = "Nov 29, 2011"
- RECIPE_MAINTAINER_pn-iproute2 = "Dongxiao Xu <dongxiao.xu@intel.com>"
+@@ -40,13 +39,6 @@ EXTRA_OECONF += "\
  
- RECIPE_STATUS_pn-netbase = "green"
-@@ -1060,6 +1061,7 @@ RECIPE_MAINTAINER_pn-ethtool = "Zhai Edwin <edwin.zhai@intel.com>"
- RECIPE_STATUS_pn-net-tools = "green"
- RECIPE_LAST_UPDATE_pn-net-tools = "Aug 16, 2010"
- RECIPE_LATEST_VERSION_pn-net-tools = "1.60-23"
-+RECIPE_NO_UPDATE_REASON_pn-net-tools="1.60 is the latest version, 1.60-23 just its patch version"
- RECIPE_MAINTAINER_pn-net-tools = "Dongxiao Xu <dongxiao.xu@intel.com>"
- RECIPE_LATEST_VERSION_pn-net-tools = "1.60-23"
+ DISTRO_TYPE ?= "${@base_contains("IMAGE_FEATURES", "debug-tweaks", "debug", "",d)}"
  
-@@ -1603,21 +1605,19 @@ RECIPE_COMMENTS_pn-nfs-utils = ""
+-do_debug_patch() {
+-	if [ "${DISTRO_TYPE}" = "debug" ]; then
+-		bbnote "WARNING: applying allow-nopw.patch which allows password-less logins!"
+-		patch -p1 < ${WORKDIR}/allow-nopw.patch
+-	fi
+-}
+-
+ addtask do_debug_patch after do_patch before do_configure
  
- RECIPE_STATUS_pn-dropbear = "green"
- DISTRO_PN_ALIAS_pn-dropbear = "Debian=dropbear Ubuntu=dropbear"
--RECIPE_LAST_UPDATE_pn-dropbear = "Sep 30, 2011"
-+RECIPE_LAST_UPDATE_pn-dropbear = "Nov 29, 2011"
- RECIPE_MAINTAINER_pn-dropbear = "Mei Lei <lei.mei@intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-dropbear = "not done"
--RECIPE_LATEST_VERSION_pn-dropbear = "0.53.1"
-+RECIPE_LATEST_VERSION_pn-dropbear = "2011.54"
- RECIPE_PATCH_pn-dropbear+urandom-xauth-changes-to-options.h = "xauth path change"
- RECIPE_PATCH_pn-dropbear+configure = "use configure cache value for cross compiling"
- RECIPE_PATCH_pn-dropbear+fix-skb-keys = "enlarge key buffer size"
--RECIPE_PATCH_pn-dropbear+allow-nopw = "allow login with no password, applied on in occasions"
- RECIPE_PATCH_pn-dropbear+init = "init script"
- RECIPE_PATCH_pn-dropbear+dropbear-0.53.1-static_build_fix = "fix link error in 0.53.1 release"
- RECIPE_INTEL_SECTION_pn-dropbear = "base utils"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-dropbear = "1 month"
--RECIPE_LATEST_RELEASE_DATE_pn-dropbear = "Mar 01, 2011"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-dropbear = "8 month"
-+RECIPE_LATEST_RELEASE_DATE_pn-dropbear = "Nov 08, 2011"
- RECIPE_COMMENTS_pn-dropbear = ""
--RECIPE_NO_UPDATE_REASON_pn-dropbear="0.53.1 is the latest version,not 0.255"
- 
- RECIPE_STATUS_pn-hal = "green"
- RECIPE_LAST_UPDATE_pn-hal = "Jul 20, 2010"
+ do_install() {
+diff --git a/meta/recipes-core/dropbear/dropbear/allow-nopw.patch b/meta/recipes-core/dropbear/dropbear/allow-nopw.patch
+deleted file mode 100644
+index 3909ef2..0000000
+--- a/meta/recipes-core/dropbear/dropbear/allow-nopw.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-Upstream-Status: Inappropriate [embedded specific]
+-
+-diff --git a/svr-auth.c b/svr-auth.c
+-index 87e3c5e..3e78c1a 100644
+---- a/svr-auth.c
+-+++ b/svr-auth.c
+-@@ -250,6 +250,7 @@ static int checkusername(unsigned char *username, unsigned int userlen) {
+- 	}
+- 
+- 	/* check for an empty password */
+-+#ifdef DISALLOW_EMPTY_PW
+- 	if (ses.authstate.pw_passwd[0] == '\0') {
+- 		TRACE(("leave checkusername: empty pword"))
+- 		dropbear_log(LOG_WARNING, "User '%s' has blank password, rejected",
+-@@ -257,6 +258,7 @@ static int checkusername(unsigned char *username, unsigned int userlen) {
+- 		send_msg_userauth_failure(0, 1);
+- 		return DROPBEAR_FAILURE;
+- 	}
+-+#endif
+- 
+- 	TRACE(("shell is %s", ses.authstate.pw_shell))
+- 
+-diff --git a/svr-authpasswd.c b/svr-authpasswd.c
+-index a29fd63..6a3c7e9 100644
+---- a/svr-authpasswd.c
+-+++ b/svr-authpasswd.c
+-@@ -64,9 +64,13 @@ void svr_auth_password() {
+- 	 * since the shadow password may differ to that tested
+- 	 * in auth.c */
+- 	if (passwdcrypt[0] == '\0') {
+-+#ifdef DISALLOW_EMPTY_PASSWD
+- 		dropbear_log(LOG_WARNING, "User '%s' has blank password, rejected",
+- 				ses.authstate.pw_name);
+- 		send_msg_userauth_failure(0, 1);
+-+#else
+-+               send_msg_userauth_success();
+-+#endif
+- 		return;
+- 	}
+- 
+diff --git a/meta/recipes-core/dropbear/dropbear_0.53.1.bb b/meta/recipes-core/dropbear/dropbear_0.53.1.bb
+deleted file mode 100644
+index 54f86e8..0000000
+--- a/meta/recipes-core/dropbear/dropbear_0.53.1.bb
++++ /dev/null
+@@ -1,6 +0,0 @@
+-require dropbear.inc
+-
+-SRC_URI[md5sum] = "6b8d901859d9b8a18e2f6bfe0a892a03"
+-SRC_URI[sha256sum] = "192538ca2a9ee778f12a2e8ddb6f098fa85dcb6457adc1cb40dd94b3c28f4df6"
+-
+-PR = "r0"
+diff --git a/meta/recipes-core/dropbear/dropbear_2011.54.bb b/meta/recipes-core/dropbear/dropbear_2011.54.bb
+new file mode 100644
+index 0000000..b7b4b83
+--- /dev/null
++++ b/meta/recipes-core/dropbear/dropbear_2011.54.bb
+@@ -0,0 +1,6 @@
++require dropbear.inc
++
++SRC_URI[md5sum] = "ce1e236c4a8df0cb95253defee6716b5"
++SRC_URI[sha256sum] = "a5fe60fa9c11e7b0f6a21ef6e86a53ce3d55236548901905070ff1c1716fbf47"
++
++PR = "r0"
 -- 
 1.7.0.4
 
