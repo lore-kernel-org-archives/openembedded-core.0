@@ -1,29 +1,31 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RVtBj-00031I-Ax
+	(envelope-from <martin.jansa@gmail.com>) id 1RVtC0-00031I-8i
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Dec 2011 00:03:39 +0100
-Received: by bkbzv15 with SMTP id zv15so839230bkb.6
+	Thu, 01 Dec 2011 00:03:56 +0100
+Received: by mail-bw0-f47.google.com with SMTP id zv15so839230bkb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2011 14:56:58 -0800 (PST)
+	Wed, 30 Nov 2011 14:57:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=M7yjR6Sqjy+EegFcRcFYz4DWQNByeGPAw0hJmy7mTuo=;
-	b=mvg2gCQQbAh7r1JkOpnmGvH+klpjM8LYVoOludq9SeopHRAs5tvBK65EqKwKKo6qxk
-	ZMJk/oIwt5J6tFfg8/t4owhToJLHmoM03cVAfn7NTnIkW1bVsGqgYmjGAm8j0/0kDe1v
-	RXm7sga6ImgETc1YemWROqQpSkBVByAKHdlxg=
-Received: by 10.204.152.25 with SMTP id e25mr4587047bkw.51.1322693818471;
-	Wed, 30 Nov 2011 14:56:58 -0800 (PST)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=TIkVUIULpTJlVhteRU0XZGKCqMMmOCikVlAyJDmfKA4=;
+	b=CYl/JLUif1ydJF9YUwBimbyZWDMvWLF00xdF67IY73H8623G2jaE5WIQ+pnZ/UqsNd
+	DLxRVGM9NZaeBiG9pG8RQatIFoFjFJTxtxzbE/A/MRLl7sgJGvOU0xLKW78V708A+Y/z
+	mlDOiSQszoVSQyVfLQw0ipc32SwkLTrxA6azo=
+Received: by 10.205.127.139 with SMTP id ha11mr4524016bkc.111.1322693837250;
+	Wed, 30 Nov 2011 14:57:17 -0800 (PST)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id e18sm7113075bkr.15.2011.11.30.14.56.56
+	by mx.google.com with ESMTPS id fa8sm7122137bkc.14.2011.11.30.14.57.15
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 30 Nov 2011 14:56:57 -0800 (PST)
+	Wed, 30 Nov 2011 14:57:15 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Nov 2011 23:56:50 +0100
-Message-Id: <cover.1322693708.git.Martin.Jansa@gmail.com>
+Date: Wed, 30 Nov 2011 23:56:59 +0100
+Message-Id: <6d1a17a6a97b72caa8790538af19ba2c942c91ff.1322693708.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.8.rc4
-Subject: [PATCH][oe-core 0/3] Small fixes sysstat, squashfs-tools, gconf
+In-Reply-To: <cover.1322693708.git.Martin.Jansa@gmail.com>
+References: <cover.1322693708.git.Martin.Jansa@gmail.com>
+Subject: [PATCH][oe-core 1/3] sysstat: don't run populate-volatile.sh update in do_rootfs or without populate-volatile.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,29 +40,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 23:03:39 -0000
+X-List-Received-Date: Wed, 30 Nov 2011 23:03:56 -0000
 
-The following changes since commit 36654d6d393cb8c8a545835184a96be4ae0c885d:
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-extended/sysstat/sysstat.inc       |    6 +++++-
+ meta/recipes-extended/sysstat/sysstat_10.0.2.bb |    2 +-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-  grub: Use COMPATIBLE_HOST (2011-11-30 22:21:53 +0000)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib jansa/pull
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/pull
-
-Martin Jansa (3):
-  sysstat: don't run populate-volatile.sh update in do_rootfs or
-    without populate-volatile.sh
-  squashfs-tools: fix PR, those should start with 'r'
-  gconf: add polkit to DEPENDS only for target recipe and disable
-    default-service for native
-
- .../squashfs-tools/squashfs-tools_4.2.bb           |    2 +-
- meta/recipes-extended/sysstat/sysstat.inc          |    6 +++++-
- meta/recipes-extended/sysstat/sysstat_10.0.2.bb    |    2 +-
- meta/recipes-gnome/gnome/gconf_3.2.3.bb            |   10 +++++++---
- 4 files changed, 14 insertions(+), 6 deletions(-)
-
+diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
+index 2936f96..5e0f7af 100644
+--- a/meta/recipes-extended/sysstat/sysstat.inc
++++ b/meta/recipes-extended/sysstat/sysstat.inc
+@@ -22,7 +22,11 @@ do_install() {
+ }
+ 
+ pkg_postinst_${PN} () {
+-        /etc/init.d/populate-volatile.sh update
++        if [ "x$D" != "x" ]; then
++                if [ -e /etc/init.d/populate-volatile.sh ]; then
++                        /etc/init.d/populate-volatile.sh update
++                fi
++        fi
+ }
+ 
+ 
+diff --git a/meta/recipes-extended/sysstat/sysstat_10.0.2.bb b/meta/recipes-extended/sysstat/sysstat_10.0.2.bb
+index bd559d8..7b57bc8 100644
+--- a/meta/recipes-extended/sysstat/sysstat_10.0.2.bb
++++ b/meta/recipes-extended/sysstat/sysstat_10.0.2.bb
+@@ -2,7 +2,7 @@ require sysstat.inc
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ 
+ 
 -- 
 1.7.8.rc4
 
