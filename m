@@ -1,24 +1,26 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1RVoMb-0005rU-NH
+	(envelope-from <dvhart@linux.intel.com>) id 1RVoMg-0005vH-Fh
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Nov 2011 18:54:33 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 30 Nov 2011 09:47:52 -0800
+	Wed, 30 Nov 2011 18:54:38 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 30 Nov 2011 09:47:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="81677874"
+X-IronPort-AV: E=Sophos;i="4.69,597,1315206000"; d="scan'208";a="42580070"
 Received: from unknown (HELO localhost) ([10.255.12.165])
-	by orsmga002.jf.intel.com with ESMTP; 30 Nov 2011 09:47:51 -0800
+	by AZSMGA002.ch.intel.com with ESMTP; 30 Nov 2011 09:47:56 -0800
 From: Darren Hart <darren@dvhart.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Koen Kooi <koen@dominion.thruhere.net>, Chris Larson <clarson@kergoth.com>,
 	Josef Ahmad <josef.ahmad@intel.com>, Joshua Lock <josh@linux.intel.com,
 	Saul Wold <sgw@linux.intel.com>, openembedded-core@lists.openembedded.org
-Date: Wed, 30 Nov 2011 09:47:48 -0800
-Message-Id: <cover.1322674459.git.darren@dvhart.com>
+Date: Wed, 30 Nov 2011 09:47:53 -0800
+Message-Id: <adc1fd7a25a8bbcb5b51899adc5685ead8b27c09.1322674459.git.darren@dvhart.com>
 X-Mailer: git-send-email 1.7.6.4
+In-Reply-To: <cover.1322674459.git.darren@dvhart.com>
+References: <cover.1322674459.git.darren@dvhart.com>
 Cc: Darren Hart <dvhart@linux.intel.com>
-Subject: [PATCH 0/5] EFI live image support
+Subject: [PATCH 1/5] grub-efi-native: New recipe to build GRUB EFI images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,63 +35,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 17:54:33 -0000
+X-List-Received-Date: Wed, 30 Nov 2011 17:54:38 -0000
 
-This series provides optional support for EFI boot for live images, both hddimg
-and ISO, on ia32 platforms. It creates a new grub-efi-native recipe to create
-the boot image. bootimg.bbclass has been refactored and syslinux support has
-been made optional. The new live images can be built as PCBIOS-legacy (the
-original type), EFI, or both. The MACHINE_FEATURES values "pcbios" and "efi"
-dictate this behavior, if neither are specified, it defaults to PCBIOS-legacy
-only to maintain current behavior.
+From: Darren Hart <dvhart@linux.intel.com>
 
-It is careful not to add unecessary dependencies to the build by dynamically
-including only the necessary bootloader classes (syslinux and/or grub-efi).
+Add a recipe to build the GRUB efi images. This recipe is written as
+a native recipe as the resulting GRUB utils are required to assemble
+the final image. Rather than build a native and a target recipe (and
+increase build times), this recipe builds the utils for the host and
+passes an appropriate --target argument to the GRUB configure script
+to build the modules for the target arch. The only output of this
+recipe is an EFI image in the deploy directory.
 
-EFI hddimg's do not install into /EFI/BOOT as is proper due to a bug in the
-dosfstools: http://bugzilla.yoctoproject.org/show_bug.cgi?id=1783. For now, the
-files are installed in the root directory and users will need to update their
-firmware or use a startup.nsh script for pure EFI booting, or move them to
-/EFI/BOOT manually.
+Care is taken to ensure changing targets will force a rebuild of this
+native recipe by including the target arch in the PN.
 
-Testing performed includes verification of the images built for the n450 BSP
-with all combinations of the MACHINE_FEATURES. The syslinux and grub-efi boot
-methods were validated on the n450 hardware as well. EFI-only ISO images are
-untested, help here would be appreciated.
-
-While the "install" target is preserved for the EFI boot, it will perform the
-same install as it does currently - namely a GRUB legacy boot mechanism. Support
-for EFI boot post install will follow in another patch series.
-
-Thanks to Koen Kooi, Chris Larson, Richard Purdie, Josef Ahmad, Saul Wold, and
-Joshua Lock for their contributions of expertise, code, and testing.
-
-
-The following changes since commit 2864ff6a4b3c3f9b3bbb6d2597243cc5d3715939:
-
-  getVar/setVar cleanups (2011-11-26 22:42:00 +0000)
-
-are available in the git repository at:
-  git://git.yoctoproject.org/user-contrib/dvhart/oe-core efi/v1
-  http://git.yoctoproject.org/cgit.cgi/user-contrib/dvhart/oe-core/log/?h=efi/v1
-
-Darren Hart (5):
-  grub-efi-native: New recipe to build GRUB EFI images
-  bootimg: Refactor build_hddimg and build_iso routines
-  bootimg: Pull syslinux specific bits into syslinux.bbclass
-  bootimg: Add grub-efi support
-  bootimg: Allow for EFI-only boot images
-
- meta/classes/bootimg.bbclass                  |  148 +++++++++++++------------
- meta/classes/dummy.bbclass                    |    2 +
- meta/classes/grub-efi.bbclass                 |  140 +++++++++++++++++++++++
- meta/classes/syslinux.bbclass                 |   68 ++++++++++--
- meta/recipes-bsp/grub/grub-efi-native_1.99.bb |   74 ++++++++++++
- 5 files changed, 353 insertions(+), 79 deletions(-)
- create mode 100644 meta/classes/dummy.bbclass
- create mode 100644 meta/classes/grub-efi.bbclass
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+---
+ meta/recipes-bsp/grub/grub-efi-native_1.99.bb |   74 +++++++++++++++++++++++++
+ 1 files changed, 74 insertions(+), 0 deletions(-)
  create mode 100644 meta/recipes-bsp/grub/grub-efi-native_1.99.bb
 
+diff --git a/meta/recipes-bsp/grub/grub-efi-native_1.99.bb b/meta/recipes-bsp/grub/grub-efi-native_1.99.bb
+new file mode 100644
+index 0000000..3c52ec9
+--- /dev/null
++++ b/meta/recipes-bsp/grub/grub-efi-native_1.99.bb
+@@ -0,0 +1,74 @@
++SUMMARY = "GRUB2 is the next-generation GRand Unified Bootloader"
++
++DESCRIPTION = "GRUB2 is the next generaion of a GPLed bootloader \
++intended to unify bootloading across x86 operating systems. In \
++addition to loading the Linux kernel, it implements the Multiboot \
++standard, which allows for flexible loading of multiple boot images. \
++This recipe builds an EFI binary for the target. It does not install \
++or package anything, it only deploys a target-arch GRUB EFI image."
++
++HOMEPAGE = "http://www.gnu.org/software/grub/"
++SECTION = "bootloaders"
++PRIORITY = "optional"
++
++LICENSE = "GPLv3"
++LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
++
++# FIXME: We should be able to optionally drop freetype as a dependency
++DEPENDS = "help2man-native"
++RDEPENDS_${PN} = "diffutils freetype"
++PR = "r1"
++
++# Native packages do not normally rebuild when the target changes.
++# Ensure this is built once per HOST-TARGET pair.
++PN := "grub-efi-${TRANSLATED_TARGET_ARCH}-native"
++
++SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz"
++
++SRC_URI[md5sum] = "ca9f2a2d571b57fc5c53212d1d22e2b5"
++SRC_URI[sha256sum] = "b91f420f2c51f6155e088e34ff99bea09cc1fb89585cf7c0179644e57abd28ff"
++
++COMPATIBLE_HOST = '(x86_64.*|i.86.*)-(linux|freebsd.*)'
++
++S = "${WORKDIR}/grub-${PV}"
++
++# Determine the target arch for the grub modules before the native class
++# clobbers TARGET_ARCH.
++ORIG_TARGET_ARCH := ${TARGET_ARCH}
++python __anonymous () {
++    import re
++    target = d.getVar('ORIG_TARGET_ARCH', True)
++    if target == "x86_64":
++        grubtarget = 'x86_64'
++        grubimage = "bootx64.efi"
++    elif re.match('i.86', target):
++        grubtarget = 'i386'
++        grubimage = "bootia32.efi"
++    else:
++        raise bb.parse.SkipPackage("grub-efi is incompatible with target %s" % target)
++    d.setVar("GRUB_TARGET", grubtarget)
++    d.setVar("GRUB_IMAGE", grubimage)
++}
++
++inherit autotools
++inherit gettext
++inherit native
++inherit deploy
++
++EXTRA_OECONF = "--with-platform=efi --disable-grub-mkfont \
++                --target=${GRUB_TARGET} --enable-efiemu=no --program-prefix=''"
++
++do_mkimage() {
++	./grub-mkimage -p / -d ./grub-core/ \
++		       -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
++	               boot linux fat serial part_msdos normal
++}
++addtask mkimage after do_compile before do_install
++
++do_deploy() {
++	install -m 644 ${S}/${GRUB_IMAGE} ${DEPLOYDIR}
++}
++addtask deploy after do_install before do_build
++
++do_install[noexec] = "1"
++do_populate_sysroot[noexec] = "1"
 -- 
 1.7.6.4
 
