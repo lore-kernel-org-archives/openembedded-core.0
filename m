@@ -1,24 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1RVl0L-0000H4-Ap
+	(envelope-from <koen@dominion.thruhere.net>) id 1RVliw-0004RY-RG
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Nov 2011 15:19:21 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 30 Nov 2011 06:12:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,597,1315206000"; d="scan'208";a="96985674"
-Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.36.50])
-	by fmsmga002.fm.intel.com with ESMTP; 30 Nov 2011 06:12:41 -0800
-From: Dexuan Cui <dexuan.cui@intel.com>
+	Wed, 30 Nov 2011 16:05:26 +0100
+Received: by eaad13 with SMTP id d13so776510eaa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2011 06:58:46 -0800 (PST)
+Received: by 10.213.15.136 with SMTP id k8mr489779eba.33.1322665125674;
+	Wed, 30 Nov 2011 06:58:45 -0800 (PST)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id a60sm6987910eeb.4.2011.11.30.06.58.44
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 30 Nov 2011 06:58:44 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Nov 2011 22:12:34 +0800
-Message-Id: <3c37c899db753474c2c0878f1d5bcc8c4ddc1e74.1322662245.git.dexuan.cui@intel.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <cover.1322662245.git.dexuan.cui@intel.com>
-References: <cover.1322662245.git.dexuan.cui@intel.com>
-In-Reply-To: <cover.1322662245.git.dexuan.cui@intel.com>
-References: <cover.1322662245.git.dexuan.cui@intel.com>
-Subject: [PATCH 8/8] distro_tracking_fields.inc: update the info
+Date: Wed, 30 Nov 2011 15:58:40 +0100
+Message-Id: <1322665120-29586-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.2.5
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] webkit-gtk svn: update to r101488
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,169 +33,922 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 14:19:22 -0000
+X-List-Received-Date: Wed, 30 Nov 2011 15:05:27 -0000
 
-pixman
-libxrandr
-lzo
-libxfont
-libxcursor
-xcb-util
-inputproto
-liberation-fonts
+tested on beagleboard/angstrom with midori and epiphany browsers
 
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |   66 ++++++++++---------
- 1 files changed, 35 insertions(+), 31 deletions(-)
+ meta/recipes-sato/webkit/files/GNUmakefile.am |   37 ++-
+ meta/recipes-sato/webkit/files/autogen.sh     |    1 -
+ meta/recipes-sato/webkit/files/configure.ac   |  395 ++++++++++++-------------
+ meta/recipes-sato/webkit/webkit-gtk_svn.bb    |    9 +-
+ 4 files changed, 232 insertions(+), 210 deletions(-)
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 8477e94..323f150 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -453,11 +453,14 @@ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-gnutls = "4 months"
- RECIPE_COMMENTS_pn-gnutls = "requires libtasn1, but has an internal copy"
+diff --git a/meta/recipes-sato/webkit/files/GNUmakefile.am b/meta/recipes-sato/webkit/files/GNUmakefile.am
+index fb10790..4d2785f 100644
+--- a/meta/recipes-sato/webkit/files/GNUmakefile.am
++++ b/meta/recipes-sato/webkit/files/GNUmakefile.am
+@@ -27,7 +27,8 @@ VPATH = @srcdir@
  
- RECIPE_STATUS_pn-lzo = "green"
--RECIPE_LAST_UPDATE_pn-lzo = "Dec 31, 2010"
-+RECIPE_LATEST_VERSION_pn-lzo = "2.06"
-+RECIPE_NO_OF_PATCHES_pn-lzo="1"
-+RECIPE_PATCH_pn-lzo+autoconf = "a workaround for autoconf"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-lzo="4 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-lzo = "Aug 12, 2011"
-+RECIPE_LAST_UPDATE_pn-lzo = "Nov 30, 2011"
- RECIPE_MAINTAINER_pn-lzo = "Dexuan Cui <dexuan.cui@intel.com>"
--RECIPE_LATEST_VERSION_pn-lzo = "2.04"
- RECIPE_INTEL_SECTION_pn-lzo = "base libs"
--RECIPE_LATEST_RELEASE_DATE_pn-lzo = "Oct 01, 2010"
+ DISTCHECK_CONFIGURE_FLAGS = \
+ 	--enable-introspection	\
+-	--enable-gtk-doc
++	--enable-gtk-doc \
++	--enable-webkit2
  
- RECIPE_STATUS_pn-libtasn1 = "green"
- RECIPE_LATEST_VERSION_pn-libtasn1 = "2.10"
-@@ -3953,13 +3956,14 @@ RECIPE_MAINTAINER_pn-glproto = "Dexuan Cui <dexuan.cui@intel.com>"
- RECIPE_STATUS_pn-inputproto = "green"
- DISTRO_PN_ALIAS_pn-inputproto = "Meego=xorg-x11-proto-inputproto"
- RECIPE_DEPENDENCY_CHECK_pn-inputproto = "not done"
--RECIPE_LATEST_VERSION_pn-inputproto = "2.0.2"
-+RECIPE_LATEST_VERSION_pn-inputproto = "2.1.99.2"
- RECIPE_NO_OF_PATCHES_pn-inputproto = "0"
-+RECIPE_NO_UPDATE_REASON_pn-libunique = "Do not upgrade to version: 2.1.99.2 that has unstable code"
- RECIPE_INTEL_SECTION_pn-inputproto = "x11/libs"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-inputproto = "7 months"
--RECIPE_LATEST_RELEASE_DATE_pn-inputproto = "Jun 7, 2011"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-inputproto = "2 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-inputproto = "Nov 10, 2011"
- RECIPE_COMMENTS_pn-inputproto = ""
--RECIPE_LAST_UPDATE_pn-inputproto = "Jun 13, 2011"
-+RECIPE_LAST_UPDATE_pn-inputproto = "Nov 30, 2011"
- RECIPE_MAINTAINER_pn-inputproto = "Dexuan Cui <dexuan.cui@intel.com>"
+ # Directory for autogenerated sources
+ GENSOURCES := $(top_builddir)/DerivedSources
+@@ -40,10 +41,13 @@ GENSOURCES_INSPECTOR := $(GENPROGRAMS)/resources/inspector
+ WebCore := $(srcdir)/Source/WebCore
+ WebKit := $(srcdir)/Source/WebKit/gtk
+ WebKit2 := $(srcdir)/Source/WebKit2
++pkgconfigdir := $(libdir)/pkgconfig
++libwebkitgtkincludedir := $(prefix)/include/webkitgtk-@WEBKITGTK_API_VERSION@
  
- RECIPE_STATUS_pn-kbproto = "green"
-@@ -4270,15 +4274,15 @@ RECIPE_MAINTAINER_pn-xproto = "Dexuan Cui <dexuan.cui@intel.com>"
+ # Libraries and support components
+ bin_PROGRAMS :=
+ noinst_PROGRAMS :=
++libexec_PROGRAMS :=
+ noinst_HEADERS :=
+ noinst_LTLIBRARIES :=
+ lib_LTLIBRARIES :=
+@@ -73,6 +77,8 @@ webkitgtk_gdom_built_sources :=
+ webkitgtk_built_sources :=
+ webkitgtk_built_nosources :=
+ webkit2_built_sources :=
++webkit2_plugin_process_built_sources :=
++webkittestrunner_built_sources :=
+ libwebcoreinternals_built_sources :=
+ global_cppflags :=
+ global_cflags :=
+@@ -85,8 +91,10 @@ typelibs_DATA :=
+ EXTRA_DIST :=
+ BUILT_SOURCES :=
+ CLEANFILES :=
++DOMAIN :=
+ DISTCLEANFILES :=
+ MAINTAINERCLEANFILES :=
++pkgconfig_DATA :=
  
- RECIPE_STATUS_pn-liberation-fonts = "green"
- RECIPE_DEPENDENCY_CHECK_pn-liberation-fonts = "not done"
--RECIPE_LATEST_VERSION_pn-liberation-fonts = "1.07.0"
--RECIPE_MANUAL_CHECK_DATE_pn-liberation-fonts = "Jun 13, 2011"
--RECIPE_NO_UPDATE_REASON_pn-liberation-fonts = "Do not upgrade to version: 1.07.0 because before doing that, we need adding new native packages like libungif_4.1.3, libspiro and fontforge first"
-+RECIPE_LATEST_VERSION_pn-liberation-fonts = "1.07.1"
-+RECIPE_MANUAL_CHECK_DATE_pn-liberation-fonts = "Nov 30, 2011"
-+RECIPE_NO_UPDATE_REASON_pn-liberation-fonts = "Do not upgrade to version: 1.07.1 because before doing that, we need adding new native packages like libungif_4.1.3, libspiro and fontforge first"
- RECIPE_NO_OF_PATCHES_pn-liberation-fonts = "0"
- RECIPE_INTEL_SECTION_pn-liberation-fonts = "x11/fonts"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-liberation-fonts = "10 months"
--RECIPE_LATEST_RELEASE_DATE_pn-liberation-fonts = "May 30, 2011"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-liberation-fonts = "4 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-liberation-fonts = "Sep 21, 2011"
- RECIPE_COMMENTS_pn-liberation-fonts = "current version 1.04 released open source under GPLv2 with exceptions"
--RECIPE_LAST_UPDATE_pn-liberation-fonts = "Jun 13, 2011"
-+RECIPE_LAST_UPDATE_pn-liberation-fonts = "Nov 30, 2011"
- RECIPE_MAINTAINER_pn-liberation-fonts = "Dexuan Cui <dexuan.cui@intel.com>"
+ # We do not care at all about this implicit built-in make rules,
+ # disable them to save some build time
+@@ -187,11 +195,13 @@ endif
  
- RECIPE_STATUS_pn-libfontenc = "green"
-@@ -4294,13 +4298,13 @@ RECIPE_MAINTAINER_pn-libfontenc = "Dexuan Cui <dexuan.cui@intel.com>"
+ EXTRA_DIST += \
+ 	$(srcdir)/Source/autotools/symbols.filter \
+-	$(srcdir)/gtk-doc.make \
+ 	$(srcdir)/Source/WebKit/LICENSE
  
- RECIPE_STATUS_pn-libxfont = "green"
- RECIPE_DEPENDENCY_CHECK_pn-libxfont = "not done"
--RECIPE_LATEST_VERSION_pn-libxfont = "1.4.2"
-+RECIPE_LATEST_VERSION_pn-libxfont = "1.4.4"
- RECIPE_NO_OF_PATCHES_pn-libxfont = "0"
- RECIPE_INTEL_SECTION_pn-libxfont = "x11/libs"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libxfont = "8 months"
--RECIPE_LATEST_RELEASE_DATE_pn-libxfont = "Oct 01, 2009"
--RECIPE_COMMENTS_pn-libxfont = "the recipe file has a commented-out no-scalable-crash.patch"
--RECIPE_LAST_UPDATE_pn-libxfont = "Nov 24, 2010"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libxfont = "10 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-libxfont = "Aug 10, 2011"
-+RECIPE_COMMENTS_pn-libxfont = ""
-+RECIPE_LAST_UPDATE_pn-libxfont = "Nov 30, 2011"
- RECIPE_MAINTAINER_pn-libxfont = "Dexuan Cui <dexuan.cui@intel.com>"
+ # Include module makefiles
++if USE_JSC
+ include Source/JavaScriptCore/GNUmakefile.am
++endif
++
+ include Source/WebCore/GNUmakefile.am
+ include Source/WebKit/gtk/GNUmakefile.am
+ include Source/WebCore/bindings/gobject/GNUmakefile.am
+@@ -201,6 +211,7 @@ include Tools/DumpRenderTree/gtk/GNUmakefile.ImageDiff.am
  
- RECIPE_STATUS_pn-libice = "green"
-@@ -4374,13 +4378,13 @@ RECIPE_MAINTAINER_pn-libxcomposite = "Dexuan Cui <dexuan.cui@intel.com>"
+ if ENABLE_WEBKIT2
+ include Source/WebKit2/GNUmakefile.am
++include Source/WebKit2/UIProcess/API/gtk/tests/GNUmakefile.am
+ include Tools/MiniBrowser/gtk/GNUmakefile.am
+ include Tools/WebKitTestRunner/GNUmakefile.am
+ # [GTK] Refactor the translations now that we have webkit2
+@@ -209,13 +220,17 @@ endif
  
- RECIPE_STATUS_pn-libxrandr = "green"
- RECIPE_DEPENDENCY_CHECK_pn-libxrandr = "not done"
--RECIPE_LATEST_VERSION_pn-libxrandr = "1.3.0"
-+RECIPE_LATEST_VERSION_pn-libxrandr = "1.3.2"
- RECIPE_NO_OF_PATCHES_pn-libxrandr = "0"
- RECIPE_INTEL_SECTION_pn-libxrandr = "x11/libs"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libxrandr = "4 months"
--RECIPE_LATEST_RELEASE_DATE_pn-libxrandr = "Mar 01, 2009"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libxrandr = "8 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-libxrandr = "Jun 29, 2011"
- RECIPE_COMMENTS_pn-libxrandr = ""
--RECIPE_LAST_UPDATE_pn-libxrandr = "Nov 24, 2010"
-+RECIPE_LAST_UPDATE_pn-libxrandr = "Nov 30, 2011"
- RECIPE_MAINTAINER_pn-libxrandr = "Dexuan Cui <dexuan.cui@intel.com>"
+ # Autogenerated sources
+ BUILT_SOURCES += \
+-	$(javascriptcore_built_sources) \
+-	$(javascriptcore_built_nosources) \
+ 	$(webcore_built_sources) \
+ 	$(webcore_built_nosources) \
+ 	$(webkitgtk_built_sources) \
+ 	$(webkitgtk_built_nosources)
  
- RECIPE_STATUS_pn-libxrender = "green"
-@@ -4462,13 +4466,13 @@ RECIPE_MAINTAINER_pn-libxxf86vm = "Dexuan Cui <dexuan.cui@intel.com>"
++if USE_JSC
++BUILT_SOURCES += \
++	$(javascriptcore_built_sources) \
++	$(javascriptcore_built_nosources)
++endif
++
+ DISTCLEANFILES += \
+ 	$(CLEANFILES) \
+ 	$(builddir)/doltcompile \
+@@ -249,3 +264,17 @@ clean-local:
+ maintainer-clean-local: distclean-local
+ distclean-local:
+ 	-rm -rf $(GENSOURCES) $(GENPROGRAMS)
++
++dist-hook: doc-dist-hook
++doc-dist-hook: docs-build.stamp
++	cp $(WebKit)/NEWS $(distdir)
++	@mkdir -p $(distdir)/Documentation/webkitgtk/html
++	@mkdir -p $(distdir)/Documentation/webkitgtk/tmpl
++	@-cp ./Documentation/webkitgtk/tmpl/*.sgml $(distdir)/Documentation/webkitgtk/tmpl
++	@cp ./Documentation/webkitgtk/html/* $(distdir)/Documentation/webkitgtk/html
++if ENABLE_WEBKIT2
++	@mkdir -p $(distdir)/Documentation/webkit2gtk/html
++	@mkdir -p $(distdir)/Documentation/webkit2gtk/tmpl
++	@-cp ./Documentation/webkit2gtk/tmpl/*.sgml $(distdir)/Documentation/webkit2gtk/tmpl
++	@cp ./Documentation/webkit2gtk/html/* $(distdir)/Documentation/webkit2gtk/html
++endif
+diff --git a/meta/recipes-sato/webkit/files/autogen.sh b/meta/recipes-sato/webkit/files/autogen.sh
+index 23639e8..bb7779d 100755
+--- a/meta/recipes-sato/webkit/files/autogen.sh
++++ b/meta/recipes-sato/webkit/files/autogen.sh
+@@ -12,7 +12,6 @@ rm -f $top_srcdir/autom4te.cache
  
- RECIPE_STATUS_pn-libxcursor = "green"
- RECIPE_DEPENDENCY_CHECK_pn-libxcursor = "not done"
--RECIPE_LATEST_VERSION_pn-libxcursor = "1.1.10"
-+RECIPE_LATEST_VERSION_pn-libxcursor = "1.1.12"
- RECIPE_NO_OF_PATCHES_pn-libxcursor = "0"
- RECIPE_INTEL_SECTION_pn-libxcursor = "x11/libs"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libxcursor = "2 years"
--RECIPE_LATEST_RELEASE_DATE_pn-libxcursor = "Aug 01, 2009"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libxcursor = "8 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-libxcursor = "Jun 30, 2011"
- RECIPE_COMMENTS_pn-libxcursor = ""
--RECIPE_LAST_UPDATE_pn-libxcursor = "Nov 24, 2010"
-+RECIPE_LAST_UPDATE_pn-libxcursor = "Nov 30, 2011"
- RECIPE_MAINTAINER_pn-libxcursor = "Dexuan Cui <dexuan.cui@intel.com>"
+ touch README INSTALL
  
- RECIPE_STATUS_pn-libxdamage = "green"
-@@ -4540,13 +4544,13 @@ RECIPE_MAINTAINER_pn-libxkbfile = "Dexuan Cui <dexuan.cui@intel.com>"
+-gtkdocize --copy > /dev/null 2>&1 || echo "Warning: not running gtk-docize."
+ if test -z `which autoreconf`; then
+     echo "Error: autoreconf not found, please install it."
+     exit 1
+diff --git a/meta/recipes-sato/webkit/files/configure.ac b/meta/recipes-sato/webkit/files/configure.ac
+index 9d8ad90..65176ae 100644
+--- a/meta/recipes-sato/webkit/files/configure.ac
++++ b/meta/recipes-sato/webkit/files/configure.ac
+@@ -1,15 +1,15 @@
+ AC_PREREQ(2.59)
  
- RECIPE_STATUS_pn-pixman = "green"
- RECIPE_DEPENDENCY_CHECK_pn-pixman = "not done"
--RECIPE_LATEST_VERSION_pn-pixman = "0.22.0"
-+RECIPE_LATEST_VERSION_pn-pixman = "0.24.0"
- RECIPE_NO_OF_PATCHES_pn-pixman = "0"
- RECIPE_INTEL_SECTION_pn-pixman = "x11/libs"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-pixman = "14 days"
--RECIPE_LATEST_RELEASE_DATE_pn-pixman = "May 2, 2011"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-pixman = "8 days"
-+RECIPE_LATEST_RELEASE_DATE_pn-pixman = "Nov 06, 2011"
- RECIPE_COMMENTS_pn-pixman = ""
--RECIPE_LAST_UPDATE_pn-pixman = "Jun 13, 2011"
-+RECIPE_LAST_UPDATE_pn-pixman = "Nov 30, 2011"
- RECIPE_MAINTAINER_pn-pixman = "Dexuan Cui <dexuan.cui@intel.com>"
+ m4_define([webkit_major_version], [1])
+-m4_define([webkit_minor_version], [5])
+-m4_define([webkit_micro_version], [1])
++m4_define([webkit_minor_version], [7])
++m4_define([webkit_micro_version], [2])
  
- RECIPE_STATUS_pn-xtrans = "green"
-@@ -4717,7 +4721,7 @@ RECIPE_INTEL_SECTION_pn-xcb-util = "x11/libs"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-xcb-util = "1+ years"
- RECIPE_LATEST_RELEASE_DATE_pn-xcb-util = "Apr 25, 2011"
- RECIPE_COMMENTS_pn-xcb-util = ""
--RECIPE_LAST_UPDATE_pn-xcb-util = "Jun 13, 2011"
-+RECIPE_LAST_UPDATE_pn-xcb-util = "Nov 30, 2011"
- RECIPE_MAINTAINER_pn-xcb-util = "Dexuan Cui <dexuan.cui@intel.com>"
+ # This is the version we'll be using as part of our User-Agent string
+ # e.g., AppleWebKit/$(webkit_user_agent_version) ...
+ #
+ # Sourced from Source/WebCore/Configurations/Version.xcconfig
+-m4_define([webkit_user_agent_major_version], [534])
+-m4_define([webkit_user_agent_minor_version], [26])
++m4_define([webkit_user_agent_major_version], [535])
++m4_define([webkit_user_agent_minor_version], [10])
  
- RECIPE_STATUS_pn-startup-notification = "green"
+ AC_INIT([WebKit],[webkit_major_version.webkit_minor_version.webkit_micro_version],[http://bugs.webkit.org/])
+ 
+@@ -35,10 +35,10 @@ AC_CONFIG_SRCDIR([Source/WebCore/config.h])
+ 
+ dnl # Libtool library version, not to confuse with API version
+ dnl # see http://www.gnu.org/software/libtool/manual/html_node/Libtool-versioning.html
+-LIBWEBKITGTK_VERSION=8:0:8
++LIBWEBKITGTK_VERSION=11:2:11
+ AC_SUBST([LIBWEBKITGTK_VERSION])
+ 
+-AM_INIT_AUTOMAKE([foreign subdir-objects tar-ustar])
++AM_INIT_AUTOMAKE([foreign subdir-objects dist-xz no-dist-gzip tar-ustar])
+ 
+ # Use AM_SILENT_RULES if present
+ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
+@@ -111,6 +111,9 @@ if test "$os_win32" = "no"; then
+ AC_CHECK_HEADERS([pthread.h],
+                  AC_DEFINE([HAVE_PTHREAD_H],[1],[Define if pthread exists]),
+                  AC_MSG_ERROR([pthread support is required to build WebKit]))
++AC_CHECK_LIB(pthread, pthread_rwlock_init,
++                 AC_DEFINE([HAVE_PTHREAD_RWLOCK],[1],[Define if pthread rwlock is present]),
++                 AC_MSG_WARN([pthread rwlock support is not available]))
+ fi
+ 
+ # check for libjpeg the way Gtk does it.
+@@ -188,32 +191,37 @@ AC_SUBST([OLE32_LIBS])
+ # determine the GTK+ version to use
+ AC_MSG_CHECKING([the GTK+ version to use])
+ AC_ARG_WITH([gtk],
+-        [AS_HELP_STRING([--with-gtk=2.0|3.0], [the GTK+ version to use (default: 2.0)])],
++        [AS_HELP_STRING([--with-gtk=2.0|3.0], [the GTK+ version to use (default: 3.0)])],
+         [case "$with_gtk" in
+         2.0|3.0) ;;
+         *) AC_MSG_ERROR([invalid GTK+ version specified]) ;;
+         esac],
+-        [with_gtk=2.0])
++        [with_gtk=3.0])
+ AC_MSG_RESULT([$with_gtk])
+ 
++GTK2_REQUIRED_VERSION=2.10
++GAIL2_REQUIRED_VERSION=1.8
++GTK3_REQUIRED_VERSION=3.0
++GAIL3_REQUIRED_VERSION=3.0
++
+ case "$with_gtk" in
+-     2.0) GTK_REQUIRED_VERSION=2.10
++     2.0) GTK_REQUIRED_VERSION=$GTK2_REQUIRED_VERSION
+           GTK_API_VERSION=2.0
+           WEBKITGTK_API_MAJOR_VERSION=1
+           WEBKITGTK_API_MINOR_VERSION=0
+           WEBKITGTK_API_VERSION=1.0
+           WEBKITGTK_PC_NAME=webkit
+           GAIL_PC_NAME=gail
+-          GAIL_REQUIRED_VERSION=1.8
++          GAIL_REQUIRED_VERSION=$GAIL2_REQUIRED_VERSION
+           ;;
+-     3.0) GTK_REQUIRED_VERSION=3.0
++     3.0) GTK_REQUIRED_VERSION=$GTK3_REQUIRED_VERSION
+           GTK_API_VERSION=3.0
+           WEBKITGTK_API_MAJOR_VERSION=3
+           WEBKITGTK_API_MINOR_VERSION=0
+           WEBKITGTK_API_VERSION=3.0
+           WEBKITGTK_PC_NAME=webkitgtk
+           GAIL_PC_NAME=gail-3.0
+-          GAIL_REQUIRED_VERSION=3.0
++          GAIL_REQUIRED_VERSION=$GAIL3_REQUIRED_VERSION
+           ;;
+ esac
+ 
+@@ -267,8 +275,9 @@ PANGO_REQUIRED_VERSION=1.12
+ LIBXSLT_REQUIRED_VERSION=1.1.7
+ SQLITE_REQUIRED_VERSION=3.0
+ GSTREAMER_REQUIRED_VERSION=0.10
+-GSTREAMER_PLUGINS_BASE_REQUIRED_VERSION=0.10.25
++GSTREAMER_PLUGINS_BASE_REQUIRED_VERSION=0.10.30
+ ENCHANT_REQUIRED_VERSION=0.22
++LIBFFTW_REQUIRED_VERSION=3.2.2
+ 
+ # Available modules
+ #
+@@ -373,15 +382,14 @@ AC_MSG_RESULT([$enable_3d_rendering])
+ # check whether to enable WebGL support
+ AC_MSG_CHECKING([whether to enable WebGL support])
+ AC_ARG_ENABLE(webgl,
+-              AC_HELP_STRING([--enable-webgl],
+-                             [enable support for WebGL (experimental) [default=no]]),
+-              [], [enable_webgl="no"])
++              AC_HELP_STRING([--enable-webgl], [enable support for WebGL [default=yes]]),
++              [], [if test "$with_target" = "x11"; then enable_webgl="yes"; else enable_webgl="no"; fi])
+ AC_MSG_RESULT([$enable_webgl])
+ 
+ if test "$enable_webgl" = "yes"; then
+     AC_CHECK_HEADERS([GL/gl.h], [], AC_MSG_ERROR([OpenGL header not found]))
+     AC_CHECK_HEADERS([GL/glx.h], [], AC_MSG_ERROR([GLX header not found]))
+-    OPENGL_LIBS=-lGL
++    OPENGL_LIBS="-lGL -ldl"
+ fi
+ AC_SUBST([OPENGL_LIBS])
+ 
+@@ -409,6 +417,14 @@ AC_ARG_ENABLE(meter_tag,
+               [],[enable_meter_tag="yes"])
+ AC_MSG_RESULT([$enable_meter_tag])
+ 
++# check whether to enable HTML5 Microdata support
++AC_MSG_CHECKING([whether to enable HTML5 Microdata support])
++AC_ARG_ENABLE(microdata,
++              AC_HELP_STRING([--enable-microdata],
++                             [enable HTML5 microdata support [default=no]]),
++              [],[enable_microdata="no"])
++AC_MSG_RESULT([$enable_microdata])
++
+ # check whether to enable page visibility API.
+ AC_MSG_CHECKING([whether to enable Page Visibility API support])
+ AC_ARG_ENABLE(page_visibility_api,
+@@ -433,6 +449,14 @@ AC_ARG_ENABLE(javascript_debugger,
+               [],[enable_javascript_debugger="yes"])
+ AC_MSG_RESULT([$enable_javascript_debugger])
+ 
++# check whether to enable Gamepad support
++AC_MSG_CHECKING([whether to enable Gamepad support])
++AC_ARG_ENABLE(gamepad,
++              AC_HELP_STRING([--enable-gamepad],
++                             [enable Gamepad support [default=no]]),
++              [],[enable_gamepad="no"])
++AC_MSG_RESULT([$enable_gamepad])
++
+ # check whether to build with datagrid support
+ AC_MSG_CHECKING([whether to enable HTML5 datagrid support])
+ AC_ARG_ENABLE(datagrid,
+@@ -449,13 +473,13 @@ AC_ARG_ENABLE(data_transfer_items,
+               [],[enable_data_transfer_items="no"])
+ AC_MSG_RESULT([$enable_data_transfer_items])
+ 
+-# check whether to enable HTML5 Offline Web Applications support
+-AC_MSG_CHECKING([whether to enable HTML5 offline web applications support])
+-AC_ARG_ENABLE(offline_web_applications,
+-              AC_HELP_STRING([--enable-offline-web-applications],
+-                             [enable HTML5 offline web applications support [default=yes]]),
+-              [],[enable_offline_web_applications="yes"])
+-AC_MSG_RESULT([$enable_offline_web_applications])
++# check whether to enable DOM mutation observer support
++AC_MSG_CHECKING([whether to enable DOM mutation observer support])
++AC_ARG_ENABLE(mutation_observers,
++              AC_HELP_STRING([--enable-mutation-observers],
++                             [enable DOM mutation observer support [default=no]]),
++              [],[enable_mutation_observers="no"])
++AC_MSG_RESULT([$enable_mutation_observers])
+ 
+ # check whether to enable HTML5 client-side session and persitent storage support
+ AC_MSG_CHECKING([whether to enable HTML5 client-side session and persistent storage support])
+@@ -489,21 +513,13 @@ AC_ARG_ENABLE(input_speech,
+               [],[enable_input_speech="no"])
+ AC_MSG_RESULT([$enable_input_speech])
+ 
+-# check whether to build with database support
+-AC_MSG_CHECKING([whether to enable HTML5 client-side database storage support])
+-AC_ARG_ENABLE(database,
+-              AC_HELP_STRING([--enable-database],
+-                             [enable HTML5 client-side database storage support [default=yes]]),
+-              [],[enable_database="yes"])
+-AC_MSG_RESULT([$enable_database])
+-
+-# check whether to build with server-sent events support
+-AC_MSG_CHECKING([whether to enable HTML5 server-sent events support])
+-AC_ARG_ENABLE(eventsource,
+-              AC_HELP_STRING([--enable-eventsource],
+-                             [enable HTML5 server-sent events support [default=yes]]),
+-              [],[enable_eventsource="yes"])
+-AC_MSG_RESULT([$enable_eventsource])
++# check whether to build with SQL database support
++AC_MSG_CHECKING([whether to enable SQL client-side database storage support])
++AC_ARG_ENABLE(sql_database,
++              AC_HELP_STRING([--enable-sql-database],
++                             [enable SQL client-side database storage support [default=yes]]),
++              [],[enable_sql_database="yes"])
++AC_MSG_RESULT([$enable_sql_database])
+ 
+ # check whether to build with icon database support
+ AC_MSG_CHECKING([whether to enable icon database support])
+@@ -554,10 +570,18 @@ fi
+ AC_MSG_CHECKING([whether to enable HTML5 video track support])
+ AC_ARG_ENABLE(video_track,
+               AC_HELP_STRING([--enable-video-track],
+-                             [enable HTML5 video track support [default=yes]]),
+-              [],[enable_video_track="yes"])
++                             [enable HTML5 video track support [default=no]]),
++              [],[enable_video_track="no"])
+ AC_MSG_RESULT([$enable_video_track])
+ 
++# check whether to enable media source support
++AC_MSG_CHECKING([whether to enable media source support])
++AC_ARG_ENABLE(media_source,
++              AC_HELP_STRING([--enable-media-source],
++                             [enable support for media source [default=no]]),
++              [], [enable_media_source="no"])
++AC_MSG_RESULT([$enable_media_source])
++
+ # check whether to enable media statistics support
+ AC_MSG_CHECKING([whether to enable media statistics support])
+ AC_ARG_ENABLE(media_statistics,
+@@ -582,22 +606,6 @@ AC_ARG_ENABLE(media_stream,
+               [],[enable_media_stream="no"])
+ AC_MSG_RESULT([$enable_media_stream])
+ 
+-# check whether to enable XHTML-MP support
+-AC_MSG_CHECKING([whether to enable XHTML-MP support])
+-AC_ARG_ENABLE(xhtmlmp,
+-              AC_HELP_STRING([--enable-xhtmlmp],
+-                             [enable support for XHTML-MP [default=no]]),
+-              [],[enable_xhtmlmp="no"])
+-AC_MSG_RESULT([$enable_xhtmlmp])
+-
+-# check whether to enable XPath support
+-AC_MSG_CHECKING([whether to enable XPath support])
+-AC_ARG_ENABLE(xpath,
+-              AC_HELP_STRING([--enable-xpath],
+-                             [enable support for XPath [default=yes]]),
+-              [],[enable_xpath="yes"])
+-AC_MSG_RESULT([$enable_xpath])
+-
+ # check whether to enable XSLT support
+ AC_MSG_CHECKING([whether to enable XSLT support])
+ AC_ARG_ENABLE(xslt,
+@@ -614,14 +622,6 @@ AC_ARG_ENABLE(geolocation,
+               [],[enable_geolocation="no"])
+ AC_MSG_RESULT([$enable_geolocation])
+ 
+-# check whether to enable client-based geolocation support
+-AC_MSG_CHECKING([whether to enable client-based geolocation support])
+-AC_ARG_ENABLE(client_based_geolocation,
+-              AC_HELP_STRING([--enable-client-based-geolocation],
+-                             [enable support for client-based geolocation [default=no]]),
+-              [],[enable_client_based_geolocation="no"])
+-AC_MSG_RESULT([$enable_client_based_geolocation])
+-
+ # check whether to enable MathML support
+ AC_MSG_CHECKING([whether to enable MathML support])
+ AC_ARG_ENABLE(mathml,
+@@ -638,14 +638,6 @@ AC_ARG_ENABLE(svg,
+               [],[enable_svg="yes"])
+ AC_MSG_RESULT([$enable_svg])
+ 
+-# check whether to enable WCSS support
+-AC_MSG_CHECKING([whether to enable WCSS support])
+-AC_ARG_ENABLE(wcss,
+-              AC_HELP_STRING([--enable-wcss],
+-                             [enable support for WCSS [default=no]]),
+-              [],[enable_wcss="no"])
+-AC_MSG_RESULT([$enable_wcss])
+-
+ # check whether to enable SharedWorkers support
+ AC_MSG_CHECKING([whether to enable SharedWorkers support])
+ AC_ARG_ENABLE(shared_workers,
+@@ -678,6 +670,14 @@ AC_ARG_ENABLE(file_system,
+               [], [enable_file_system="no"])
+ AC_MSG_RESULT([$enable_file_system])
+ 
++# check whether to enable HTML5 <style scoped> support
++AC_MSG_CHECKING([whether to enable HTML5 <style scoped> support])
++AC_ARG_ENABLE(file_system,
++              AC_HELP_STRING([--enable-style-scoped],
++                             [enable support for HTML5 <style scoped> [default=no]]),
++              [], [enable_style_scoped="no"])
++AC_MSG_RESULT([$enable_style_scoped])
++
+ # check whether to enable Quota API support
+ AC_MSG_CHECKING([whether to enable Quota API support])
+ AC_ARG_ENABLE(quota,
+@@ -688,21 +688,9 @@ AC_MSG_RESULT([$enable_quota])
+ 
+ # turn off svg features if --disable-svg is requested
+ if test "$enable_svg" = "no"; then
+-   enable_svg_animation=no
+    enable_svg_fonts=no
+-   enable_svg_foreign_object=no
+-   enable_svg_as_image=no
+-   enable_svg_use=no
+ fi
+ 
+-# check whether to enable support for SVG animation
+-AC_MSG_CHECKING([whether to enable support for SVG animation])
+-AC_ARG_ENABLE(svg_animation,
+-              AC_HELP_STRING([--enable-svg-animation],
+-                             [enable support for SVG animation (experimental) [default=yes]]),
+-              [],[enable_svg_animation="yes"])
+-AC_MSG_RESULT([$enable_svg_animation])
+-
+ # check whether to enable support for filters
+ AC_MSG_CHECKING([whether to enable support for filters])
+ AC_ARG_ENABLE(filters,
+@@ -719,36 +707,8 @@ AC_ARG_ENABLE(svg_fonts,
+               [],[enable_svg_fonts="yes"])
+ AC_MSG_RESULT([$enable_svg_fonts])
+ 
+-# check whether to enable foreign objects support for SVG
+-AC_MSG_CHECKING([whether to enable support for SVG foreign objects])
+-AC_ARG_ENABLE(svg_foreign_object,
+-              AC_HELP_STRING([--enable-svg-foreign-object],
+-                             [enable support for SVG foreign objects (experimental) [default=yes]]),
+-              [],[enable_svg_foreign_object="yes"])
+-AC_MSG_RESULT([$enable_svg_foreign_object])
+-
+-# check whether to enable SVG As Image support
+-AC_MSG_CHECKING([whether to enable SVG as Image support])
+-AC_ARG_ENABLE(svg_as_image,
+-              AC_HELP_STRING([--enable-svg-as-image],
+-                             [enable SVG as Image support (experimental) [default=yes]]),
+-              [],[enable_svg_as_image="yes"])
+-AC_MSG_RESULT([$enable_svg_as_image])
+-
+-# check whether to enable SVG USE element support
+-AC_MSG_CHECKING([whether to enable support for SVG use element])
+-AC_ARG_ENABLE(svg_use,
+-              AC_HELP_STRING([--enable-svg-use],
+-                             [enable SVG use element support (experimental) [default=yes]]),
+-              [],[enable_svg_use="yes"])
+-AC_MSG_RESULT([$enable_svg_use])
+-
+ # check for SVG features, enabling SVG if necessary
+-if test "$enable_svg_animation" = "yes" || \
+-   test "$enable_svg_fonts" = "yes" || \
+-   test "$enable_svg_foreign_object" = "yes" || \
+-   test "$enable_svg_as_image" = "yes" || \
+-   test "$enable_svg_use" = "yes"; then
++if test "$enable_svg_fonts" = "yes"; then
+    svg_flags=yes
+    if test "$enable_svg" = "no"; then
+        AC_MSG_WARN([SVG feature(s) requested but SVG is disabled.. Enabling SVG support])
+@@ -765,11 +725,7 @@ AC_ARG_ENABLE(web_sockets,
+ AC_MSG_RESULT([$enable_web_sockets])
+ 
+ # check whether to enable Web Audio support
+-AC_MSG_CHECKING([whether to enable Web Audio support])
+-AC_ARG_ENABLE(web_audio,
+-              AC_HELP_STRING([--enable-web-audio],
+-                             [enable support for Web Audio [default=no]]),
+-              [],[enable_web_audio="no"])
++enable_web_audio=no
+ AC_MSG_RESULT([$enable_web_audio])
+ 
+ # check whether to enable Web Timing support
+@@ -828,48 +784,67 @@ AC_ARG_ENABLE(debug_features,
+               [],[if test "$enable_debug" = "yes"; then enable_debug_features="yes"; else enable_debug_features="no"; fi])
+ AC_MSG_RESULT([$enable_debug_features])
+ 
+-AC_MSG_CHECKING([whether to enable JIT compilation])
+-AC_ARG_ENABLE([jit],
+-              AC_HELP_STRING([--enable-jit],
+-                             [Enable JIT compilation default=yes]),
+-              [],[enable_jit="yes"])
+-if test "$enable_jit" = "yes"; then
+-    case "$host_cpu" in
+-        arm*)
+-            AC_DEFINE([ENABLE_JIT], [1], [Define to enable JIT])
+-            AC_DEFINE([ENABLE_YARR], [1], [Define to enable YARR])
+-            AC_DEFINE([ENABLE_YARR_JIT], [1], [Define to enable YARR JIT])
+-        ;;
+-        i*86|x86_64)
+-            AC_DEFINE([ENABLE_JIT], [1], [Define to enable JIT])
+-            AC_DEFINE([ENABLE_YARR], [1], [Define to enable YARR])
+-            AC_DEFINE([ENABLE_YARR_JIT], [1], [Define to enable YARR JIT])
+-            AC_DEFINE([ENABLE_JIT_OPTIMIZE_CALL], [1], [Define to enable optimizing calls])
+-            AC_DEFINE([ENABLE_JIT_OPTIMIZE_PROPERTY_ACCESS], [1], [Define to enable optimized property access])
+-            AC_DEFINE([ENABLE_JIT_OPTIMIZE_ARITHMETIC], [1], [Define to enable optimized arithmetic])
+-            case "$host_cpu" in
+-                i*86)
+-                    AC_DEFINE([WTF_USE_JIT_STUB_ARGUMENT_VA_LIST], [1], [Use stub va_list])
+-                ;;
+-                x86_64)
+-                    AC_DEFINE([WTF_USE_JIT_STUB_ARGUMENT_REGISTER], [1], [Use stub register])
+-                    AC_DEFINE([WTF_USE_ALTERNATE_JSIMMEDIATE], [1], [Use alternate JSImmediate])
+-                ;;
+-            esac
+-        ;;
+-        sh4)
+-            AC_DEFINE([ENABLE_YARR], [1], [Define to enable YARR])
+-            AC_DEFINE([ENABLE_YARR_JIT], [1], [Define to enable YARR JIT])
+-            AC_DEFINE([ENABLE_JIT], [1], [Define to enable JIT])
+-            AC_DEFINE([WTF_USE_JIT_STUB_ARGUMENT_REGISTER], [1], [Use stub register])
+-        ;;
+-        *)
+-            enable_jit="no (CPU '$host_cpu' not supported)"
+-        ;;
+-    esac
++# Determine JavaScript engine to use.
++AC_MSG_CHECKING([Javascript engine])
++AC_ARG_WITH(jsengine,
++            AC_HELP_STRING([--with-jsengine=@<:@jsc@:>@],
++                           [Select Javascript engine [default=jsc]]),
++            [],[with_jsengine="jsc"])
++
++case "$with_jsengine" in
++     jsc) ;;
++     *) AC_MSG_ERROR([Invalid JS engine: Must be jsc]) ;;
++esac
++AC_MSG_RESULT([$with_jsengine])
++
++if test "$with_jsengine" = "jsc"; then
++    AC_MSG_CHECKING([whether to enable JIT compilation])
++    AC_ARG_ENABLE([jit],
++                  AC_HELP_STRING([--enable-jit],
++                                 [Enable JIT compilation default=yes]),
++                  [],[enable_jit="yes"])
++    if test "$enable_jit" = "yes"; then
++        case "$host_cpu" in
++            arm*)
++                AC_DEFINE([ENABLE_JIT], [1], [Define to enable JIT])
++                AC_DEFINE([ENABLE_YARR], [1], [Define to enable YARR])
++                AC_DEFINE([ENABLE_YARR_JIT], [1], [Define to enable YARR JIT])
++            ;;
++            i*86|x86_64)
++                AC_DEFINE([ENABLE_JIT], [1], [Define to enable JIT])
++                AC_DEFINE([ENABLE_YARR], [1], [Define to enable YARR])
++                AC_DEFINE([ENABLE_YARR_JIT], [1], [Define to enable YARR JIT])
++                AC_DEFINE([ENABLE_JIT_OPTIMIZE_CALL], [1], [Define to enable optimizing calls])
++                AC_DEFINE([ENABLE_JIT_OPTIMIZE_PROPERTY_ACCESS], [1], [Define to enable optimized property access])
++                AC_DEFINE([ENABLE_JIT_OPTIMIZE_ARITHMETIC], [1], [Define to enable optimized arithmetic])
++                case "$host_cpu" in
++                    i*86)
++                        AC_DEFINE([WTF_USE_JIT_STUB_ARGUMENT_VA_LIST], [1], [Use stub va_list])
++                    ;;
++                    x86_64)
++                        AC_DEFINE([WTF_USE_JIT_STUB_ARGUMENT_REGISTER], [1], [Use stub register])
++                        AC_DEFINE([WTF_USE_ALTERNATE_JSIMMEDIATE], [1], [Use alternate JSImmediate])
++                    ;;
++                esac
++            ;;
++            sh4)
++                AC_DEFINE([ENABLE_YARR], [1], [Define to enable YARR])
++                AC_DEFINE([ENABLE_YARR_JIT], [1], [Define to enable YARR JIT])
++                AC_DEFINE([ENABLE_JIT], [1], [Define to enable JIT])
++                AC_DEFINE([WTF_USE_JIT_STUB_ARGUMENT_REGISTER], [1], [Use stub register])
++            ;;
++            *)
++                enable_jit="no (CPU '$host_cpu' not supported)"
++            ;;
++        esac
++    else
++            AC_DEFINE([ENABLE_JIT], [0], [Define to enable JIT])
++    fi
+ else
+-        AC_DEFINE([ENABLE_JIT], [0], [Define to enable JIT])
++    AC_DEFINE([ENABLE_JIT], [0], [Define to enable JIT])
++    enable_jit="no"
+ fi
++
+ AC_MSG_RESULT([$enable_jit])
+ 
+ # Opcode stats
+@@ -912,6 +887,14 @@ AC_ARG_ENABLE(animation_api,
+               [], [enable_animation_api="no"])
+ AC_MSG_RESULT([$enable_animation_api])
+ 
++# check whether to enable requestAnimationFrame support
++AC_MSG_CHECKING([whether to enable requestAnimationFrame support])
++AC_ARG_ENABLE(request_animation_frame,
++              AC_HELP_STRING([--enable-request-animation-frame],
++                             [enable support for requestAnimationFrame (experimental) [default=no]]),
++              [],[enable_request_animation_frame="no"])
++AC_MSG_RESULT([$enable_request_animation_frame])
++
+ # check whether to enable touch icon loading 
+ AC_MSG_CHECKING([whether to enable touch icon loading])
+ AC_ARG_ENABLE(touch_icon_loading,
+@@ -1029,10 +1012,7 @@ fi
+ AC_SUBST([SQLITE3_CFLAGS])
+ AC_SUBST([SQLITE3_LIBS])
+ 
+-if (test "$sqlite3_found" = "no") && (test "$enable_icon_database" = "yes" || \
+-   test "$enable_database" = "yes" || \
+-   test "$enable_offline_web_applications" = "yes" || \
+-   test "$enable_dom_storage" = "yes"); then
++if (test "$sqlite3_found" = "no"); then
+    AC_MSG_ERROR([SQLite3 is required for the Database related features])
+ fi
+ 
+@@ -1059,10 +1039,11 @@ if test "$os_win32" = "no"; then
+ fi
+ 
+ # check if gstreamer is available
+-if test "$enable_video" = "yes"; then
++if test "$enable_video" = "yes" || test "$enable_web_audio" = "yes"; then
+    PKG_CHECK_MODULES([GSTREAMER],
+                      [gstreamer-0.10 >= $GSTREAMER_REQUIRED_VERSION
+                      gstreamer-app-0.10
++                     gstreamer-audio-0.10
+                      gstreamer-base-0.10
+                      gstreamer-interfaces-0.10
+                      gstreamer-pbutils-0.10
+@@ -1074,6 +1055,17 @@ if test "$enable_video" = "yes"; then
+    AC_SUBST([GSTREAMER_LIBS])
+ fi
+ 
++# check if libfftw is available
++if test "$enable_web_audio" = "yes"; then
++   PKG_CHECK_MODULES([LIBFFTW],
++                     [fftw3 >= $LIBFFTW_REQUIRED_VERSION
++                     fftw3f >= $LIBFFTW_REQUIRED_VERSION],
++                     [have_fftw=yes])
++
++    AC_SUBST([LIBFFTW_CFLAGS])
++    AC_SUBST([LIBFFTW_LIBS])
++fi
++
+ # check for code coverage support
+ if test "$enable_coverage" = "yes"; then
+    COVERAGE_CFLAGS="-MD"
+@@ -1090,9 +1082,8 @@ fi
+ # WebKit2
+ AC_MSG_CHECKING([whether to build Webkit2])
+ AC_ARG_ENABLE(webkit2,
+-            AC_HELP_STRING([--enable-webkit2],
+-                [build webkit2 [default=no]]),
+-                [], [enable_webkit2="no"])
++    AC_HELP_STRING([--enable-webkit2], [build webkit2 [default=no]]),
++    [], [enable_webkit2="no"])
+ AC_MSG_RESULT([$enable_webkit2])
+ if test "$enable_webkit2" = "yes"; then
+    if test "$GTK_API_VERSION" = "2.0"; then
+@@ -1103,14 +1094,21 @@ fi
+ # Plugin Process
+ AC_MSG_CHECKING([whether to build plugin process for WebKit2])
+ AC_ARG_ENABLE(plugin_process,
+-            AC_HELP_STRING([--enable-plugin-process],
+-                           [build plugin process for WebKit2 [default=yes]]),
+-                           [], [enable_plugin_process="no"])
+-# Build the plugin process only when building webkit2.
++            AC_HELP_STRING([--enable-plugin-process], [build plugin process for WebKit2 [default=yes]]),
++                           [], [enable_plugin_process="yes"])
++AC_MSG_RESULT([$enable_plugin_process])
++
++# Build the plugin process only when building Webkit2.
+ if test "$enable_webkit2" = "no"; then
+     enable_plugin_process=no
+ fi
+-AC_MSG_RESULT([$enable_plugin_process])
++
++# Make sure we have GTK+ 2.x to build the plugin process.
++if test "$enable_plugin_process" = "yes"; then
++   PKG_CHECK_MODULES(GTK2, gtk+-2.0 >= $GTK2_REQUIRED_VERSION gail >= $GAIL2_REQUIRED_VERSION)
++fi
++AC_SUBST(GTK2_CFLAGS)
++AC_SUBST(GTK2_LIBS)
+ 
+ GTK_DOC_CHECK([1.10])
+ 
+@@ -1127,6 +1125,9 @@ AM_CONDITIONAL([TARGET_WIN32], [test "$with_target" = "win32"])
+ AM_CONDITIONAL([TARGET_QUARTZ], [test "$with_target" = "quartz"])
+ AM_CONDITIONAL([TARGET_DIRECTFB], [test "$with_target" = "directfb"])
+ 
++# JS engine conditionals
++AM_CONDITIONAL([USE_JSC], [test "$with_jsengine" = "jsc"])
++
+ # Unicode backend conditionals
+ AM_CONDITIONAL([USE_ICU_UNICODE], [test "$with_unicode_backend" = "icu"])
+ AM_CONDITIONAL([USE_GLIB_UNICODE], [test "$with_unicode_backend" = "glib"])
+@@ -1144,36 +1145,34 @@ AM_CONDITIONAL([ENABLE_3D_RENDERING],[test "$enable_3d_rendering" = "yes"])
+ AM_CONDITIONAL([ENABLE_WEBGL],[test "$enable_webgl" = "yes"])
+ AM_CONDITIONAL([ENABLE_BLOB],[test "$enable_blob" = "yes"])
+ AM_CONDITIONAL([ENABLE_METER_TAG],[test "$enable_meter_tag" = "yes"])
++AM_CONDITIONAL([ENABLE_MICRODATA],[test "$enable_microdata" = "yes"])
+ AM_CONDITIONAL([ENABLE_PAGE_VISIBILITY_API],[test "$enable_page_visibility_api" = "yes"])
+ AM_CONDITIONAL([ENABLE_PROGRESS_TAG],[test "$enable_progress_tag" = "yes"])
+ AM_CONDITIONAL([ENABLE_CHANNEL_MESSAGING],[test "$enable_channel_messaging" = "yes"])
+ AM_CONDITIONAL([ENABLE_JAVASCRIPT_DEBUGGER],[test "$enable_javascript_debugger" = "yes"])
+-AM_CONDITIONAL([ENABLE_OFFLINE_WEB_APPLICATIONS],[test "$enable_offline_web_applications" = "yes"])
++AM_CONDITIONAL([ENABLE_GAMEPAD],[test "$enable_gamepad" = "yes"])
+ AM_CONDITIONAL([ENABLE_DIRECTORY_UPLOAD],[test "$enable_directory_upload" = "yes"])
+ AM_CONDITIONAL([ENABLE_DATAGRID],[test "$enable_datagrid" = "yes"])
+ AM_CONDITIONAL([ENABLE_DATA_TRANSFER_ITEMS],[test "$enable_data_transfer_items" = "yes"])
+-AM_CONDITIONAL([ENABLE_DOM_STORAGE],[test "$enable_dom_storage" = "yes"])
+-AM_CONDITIONAL([ENABLE_DATABASE],[test "$enable_database" = "yes"])
++AM_CONDITIONAL([ENABLE_SQL_DATABASE],[test "$enable_sql_database" = "yes"])
+ AM_CONDITIONAL([ENABLE_DATALIST],[test "$enable_datalist" = "yes"])
+ AM_CONDITIONAL([ENABLE_DETAILS],[test "$enable_details" = "yes"])
+-AM_CONDITIONAL([ENABLE_EVENTSOURCE],[test "$enable_eventsource" = "yes"])
+ AM_CONDITIONAL([ENABLE_FAST_MOBILE_SCROLLING],[test "$enable_fast_mobile_scrolling" = "yes"])
+ AM_CONDITIONAL([ENABLE_FILE_SYSTEM],[test "$enable_file_system" = "yes"])
++AM_CONDITIONAL([ENABLE_STYLE_SCOPED],[test "$enable_style_scoped" = "yes"])
+ AM_CONDITIONAL([ENABLE_QUOTA],[test "$enable_quota" = "yes"])
+ AM_CONDITIONAL([ENABLE_ICONDATABASE],[test "$enable_icon_database" = "yes"])
+ AM_CONDITIONAL([ENABLE_IMAGE_RESIZER],[test "$enable_image_resizer" = "yes"])
+ AM_CONDITIONAL([ENABLE_INDEXED_DATABASE],[test "$enable_indexed_database" = "yes"])
+ AM_CONDITIONAL([ENABLE_INPUT_COLOR],[test "$enable_input_color" = "yes"])
+ AM_CONDITIONAL([ENABLE_INPUT_SPEECH],[test "$enable_input_speech" = "yes"])
+-AM_CONDITIONAL([ENABLE_XHTMLMP],[test "$enable_xhtmlmp" = "yes"])
+-AM_CONDITIONAL([ENABLE_XPATH],[test "$enable_xpath" = "yes"])
+ AM_CONDITIONAL([ENABLE_XSLT],[test "$enable_xslt" = "yes"])
+ AM_CONDITIONAL([ENABLE_FILTERS],[test "$enable_filters" = "yes"])
+ AM_CONDITIONAL([ENABLE_GEOLOCATION], [test "$enable_geolocation" = "yes"])
+-AM_CONDITIONAL([ENABLE_CLIENT_BASED_GEOLOCATION], [test "$enable_client_based_geolocation" = "yes"])
+ AM_CONDITIONAL([ENABLE_MATHML], [test "$enable_mathml" = "yes"])
+ AM_CONDITIONAL([ENABLE_MHTML], [test "$enable_mhtml" = "yes"])
+ AM_CONDITIONAL([ENABLE_VIDEO],[test "$enable_video" = "yes"])
++AM_CONDITIONAL([ENABLE_MEDIA_SOURCE],[test "$enable_media_source" = "yes"])
+ AM_CONDITIONAL([ENABLE_MEDIA_STATISTICS],[test "$enable_media_statistics" = "yes"])
+ AM_CONDITIONAL([ENABLE_VIDEO_TRACK],[test "$enable_video_track" = "yes"])
+ AM_CONDITIONAL([ENABLE_FULLSCREEN_API],[test "$enable_fullscreen_api" = "yes"])
+@@ -1181,14 +1180,9 @@ AM_CONDITIONAL([ENABLE_MEDIA_STREAM],[test "$enable_media_stream" = "yes"])
+ AM_CONDITIONAL([ENABLE_NOTIFICATIONS],[test "$enable_notifications" = "yes"])
+ AM_CONDITIONAL([ENABLE_ORIENTATION_EVENTS],[test "$enable_orientation_events" = "yes"])
+ AM_CONDITIONAL([ENABLE_SVG],[test "$enable_svg" = "yes"])
+-AM_CONDITIONAL([ENABLE_SVG_ANIMATION],[test "$enable_svg_animation" = "yes"])
+ AM_CONDITIONAL([ENABLE_SVG_FONTS],[test "$enable_svg_fonts" = "yes"])
+-AM_CONDITIONAL([ENABLE_SVG_FOREIGN_OBJECT],[test "$enable_svg_foreign_object" = "yes"])
+-AM_CONDITIONAL([ENABLE_SVG_AS_IMAGE],[test "$enable_svg_as_image" = "yes"])
+-AM_CONDITIONAL([ENABLE_SVG_USE],[test "$enable_svg_use" = "yes"])
+ AM_CONDITIONAL([ENABLE_COVERAGE],[test "$enable_coverage" = "yes"])
+ AM_CONDITIONAL([ENABLE_FAST_MALLOC],[test "$enable_fast_malloc" = "yes"])
+-AM_CONDITIONAL([ENABLE_WCSS],[test "$enable_wcss" = "yes"])
+ AM_CONDITIONAL([ENABLE_WORKERS],[test "$enable_workers" = "yes"])
+ AM_CONDITIONAL([ENABLE_SHARED_WORKERS],[test "$enable_shared_workers" = "yes"])
+ AM_CONDITIONAL([SVG_FLAGS],[test "$svg_flags" = "yes"])
+@@ -1201,9 +1195,11 @@ AM_CONDITIONAL([ENABLE_WEBKIT2],[test "$enable_webkit2" = "yes"])
+ AM_CONDITIONAL([ENABLE_PLUGIN_PROCESS],[test "$enable_plugin_process" = "yes"])
+ AM_CONDITIONAL([ENABLE_SPELLCHECK],[test "$enable_spellcheck" = "yes"])
+ AM_CONDITIONAL([ENABLE_ANIMATION_API],[test "$enable_animation_api" = "yes"])
++AM_CONDITIONAL([ENABLE_REQUEST_ANIMATION_FRAME],[test "$enable_request_animation_frame" = "yes"])
+ AM_CONDITIONAL([ENABLE_TOUCH_ICON_LOADING],[test "$enable_touch_icon_loading" = "yes"])
+ AM_CONDITIONAL([ENABLE_REGISTER_PROTOCOL_HANDLER],[test "$enable_register_protocol_handler" = "yes"])
+ AM_CONDITIONAL([ENABLE_DEVICE_ORIENTATION],[test "$enable_device_orientation" = "yes"])
++AM_CONDITIONAL([ENABLE_MUTATION_OBSERVERS],[test "$enable_mutation_observers" = "yes"])
+ 
+ # Gtk conditionals
+ AM_CONDITIONAL([ENABLE_INTROSPECTION],[test "$enable_introspection" = "yes"])
+@@ -1215,22 +1211,21 @@ GNUmakefile
+ 
+ AC_CONFIG_FILES([
+ Source/WebKit/gtk/webkit/webkitversion.h
+-Source/WebKit/gtk/docs/GNUmakefile
+-Source/WebKit/gtk/docs/version.xml
+ ])
+ 
+ AC_CONFIG_FILES([
+ Source/WebKit/gtk/${WEBKITGTK_PC_NAME}-${WEBKITGTK_API_VERSION}.pc:Source/WebKit/gtk/webkit.pc.in
+ Source/WebKit/gtk/JSCore-${WEBKITGTK_API_VERSION}.gir:Source/WebKit/gtk/JSCore.gir.in
+ Source/WebKit/gtk/org.webkitgtk-${WEBKITGTK_API_VERSION}.gschema.xml:Source/WebKit/gtk/org.webkitgtk.gschema.xml.in
+-Source/WebKit/gtk/javascriptcoregtk-${WEBKITGTK_API_VERSION}.pc:Source/WebKit/gtk/javascriptcoregtk.pc.in
++Source/JavaScriptCore/javascriptcoregtk-${WEBKITGTK_API_VERSION}.pc:Source/JavaScriptCore/javascriptcoregtk.pc.in
+ ]
+ ,[WEBKITGTK_API_VERSION=$WEBKITGTK_API_VERSION,WEBKITGTK_PC_NAME=$WEBKITGTK_PC_NAME]
+ )
+ 
++
+ if test "$enable_webkit2" = "yes"; then
+     AC_CONFIG_FILES([
+-    Source/WebKit2/gtk/${WEBKITGTK_PC_NAME}2-${WEBKITGTK_API_VERSION}.pc:Source/WebKit2/gtk/webkit2.pc.in
++    Source/WebKit2/webkit2gtk-${WEBKITGTK_API_VERSION}.pc:Source/WebKit2/webkit2gtk.pc.in
+     ]
+     ,[WEBKITGTK_API_VERSION=$WEBKITGTK_API_VERSION,WEBKITGTK_PC_NAME=$WEBKITGTK_PC_NAME]
+     )
+@@ -1250,33 +1245,36 @@ Build configuration:
+  Unicode backend                                          : $with_unicode_backend
+  Font backend                                             : $with_font_backend
+  Optimized memory allocator                               : $enable_fast_malloc
++ JavaScript Engine                                        : $with_jsengine
++
+ Features:
+  3D Rendering                                             : $enable_3d_rendering
+  WebGL                                                    : $enable_webgl
+  Blob support                                             : $enable_blob
++ DOM mutation observer support                            : $enable_mutation_observers
+  DeviceOrientation support                                : $enable_device_orientation
+  Directory upload                                         : $enable_directory_upload
+  Fast Mobile Scrolling                                    : $enable_fast_mobile_scrolling
+  JIT compilation                                          : $enable_jit
+  Filters support                                          : $enable_filters
+  Geolocation support                                      : $enable_geolocation
+- Client-based geolocation support                         : $enable_client_based_geolocation
+  JavaScript debugger/profiler support                     : $enable_javascript_debugger
++ Gamepad support                                          : $enable_gamepad
+  MathML support                                           : $enable_mathml
++ Media source                                             : $enable_media_source
+  Media statistics                                         : $enable_media_statistics
+- HTML5 offline web applications support                   : $enable_offline_web_applications
+  HTML5 channel messaging support                          : $enable_channel_messaging
+  HTML5 meter element support                              : $enable_meter_tag
++ HTML5 microdata support                                  : $enable_microdata
+  Page Visibility API support                              : $enable_page_visibility_api
+  HTML5 progress element support                           : $enable_progress_tag
+  HTML5 client-side session and persistent storage support : $enable_dom_storage
+- HTML5 client-side database storage support               : $enable_database
++ SQL client-side database storage support                 : $enable_sql_database
+  HTML5 datagrid support                                   : $enable_datagrid
+  HTML5 data transfer items support                        : $enable_data_transfer_items
+  HTML5 FileSystem API support                             : $enable_file_system
+  Quota API support                                        : $enable_quota
+  HTML5 sandboxed iframe support                           : $enable_sandbox
+- HTML5 server-sent events support                         : $enable_eventsource
+  HTML5 video element support                              : $enable_video
+  HTML5 track element support                              : $enable_video_track
+  Fullscreen API support                                   : $enable_fullscreen_api
+@@ -1289,31 +1287,26 @@ Features:
+  Color input support                                      : $enable_input_color
+  Speech input support                                     : $enable_input_speech
+  SVG support                                              : $enable_svg
+- SVG animation support                                    : $enable_svg_animation
+  SVG fonts support                                        : $enable_svg_fonts
+- SVG foreign object support                               : $enable_svg_foreign_object
+- SVG as image support                                     : $enable_svg_as_image
+- SVG use element support                                  : $enable_svg_use
+- WCSS support                                             : $enable_wcss
+  Web Audio support                                        : $enable_web_audio
+  Web Sockets support                                      : $enable_web_sockets
+  Web Timing support                                       : $enable_web_timing
+  Web Workers support                                      : $enable_workers
+- XHTML-MP support                                         : $enable_xhtmlmp
+- XPATH support                                            : $enable_xpath
+  XSLT support                                             : $enable_xslt
+  Spellcheck support                                       : $enable_spellcheck
+  Animation API                                            : $enable_animation_api
++ RequestAnimationFrame support                            : $enable_request_animation_frame
+  Touch Icon Loading support                               : $enable_touch_icon_loading
+  Register Protocol Handler support                        : $enable_register_protocol_handler
++ WebKit2 support                                          : $enable_webkit2
++ WebKit2 plugin process                                   : $enable_plugin_process
+ 
+ GTK+ configuration:
+  GTK+ version                                             : $with_gtk
+  GDK target                                               : $with_target
+  Hildon UI extensions                                     : $with_hildon
+  Introspection support                                    : $enable_introspection
+- WebKit2 support                                          : $enable_webkit2
+- WebKit2 plugin process                                   : $enable_plugin_process
++ Generate documentation                                   : $enable_gtk_doc
+ "
+ if test "$with_unicode_backend" = "glib"; then
+    echo "     >> WARNING: the glib-based unicode backend is slow and incomplete <<"
+diff --git a/meta/recipes-sato/webkit/webkit-gtk_svn.bb b/meta/recipes-sato/webkit/webkit-gtk_svn.bb
+index 92b2df1..9652953 100644
+--- a/meta/recipes-sato/webkit/webkit-gtk_svn.bb
++++ b/meta/recipes-sato/webkit/webkit-gtk_svn.bb
+@@ -7,14 +7,14 @@ LIC_FILES_CHKSUM = "file://Source/WebCore/rendering/RenderApplet.h;endline=22;md
+                     file://Source/WebKit/gtk/webkit/webkit.h;endline=21;md5=b4fbe9f4a944f1d071dba1d2c76b3351 \
+                     file://Source/JavaScriptCore/parser/Parser.h;endline=23;md5=2f3cff0ad0a9c486da5a376928973a90"
+ 
+-DEPENDS = "enchant gnome-keyring libsoup-2.4 curl icu libxml2 cairo libxslt libxt libidn gnutls gtk+ gstreamer gst-plugins-base flex-native gperf-native perl-native-runtime sqlite3"
++DEPENDS = "zlib enchant gnome-keyring libsoup-2.4 curl icu libxml2 cairo libxslt libxt libidn gnutls gtk+ gstreamer gst-plugins-base flex-native gperf-native perl-native-runtime sqlite3"
+ DEPENDS_darwin8 = "curl icu libxml2 cairo libxslt libidn gnutls gtk+ gstreamer flex-native gperf-native perl-native-runtime sqlite3"
+ 
+ SRCREV_FORMAT = "source"
+ 
+-SRCREV = "90727"
+-PV = "1.5.1+svnr${SRCPV}"
+-PR = "r1"
++SRCREV = "101488"
++PV = "1.7.2+svnr${SRCPV}"
++PR = "r0"
+ 
+ SRC_URI = "\
+   svn://svn.webkit.org/repository/webkit/trunk/;module=Source;proto=http;name=source \
+@@ -40,6 +40,7 @@ EXTRA_OECONF = "\
+                 --enable-fullscreen-api \
+                 --enable-image-resizer \
+                 --enable-link-prefetch \
++                --with-gtk=2.0 \
+                 UNICODE_CFLAGS=-D_REENTRANT \
+                "
+ 
 -- 
-1.7.6
+1.7.2.5
 
 
 
