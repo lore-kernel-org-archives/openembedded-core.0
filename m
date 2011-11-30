@@ -1,56 +1,34 @@
-Received: from ch1ehsobe003.messaging.microsoft.com ([216.32.181.183]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RVo1H-00054C-0b
+	(envelope-from <scott.a.garman@intel.com>) id 1RVo5s-0005GQ-KO
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Nov 2011 18:32:32 +0100
-Received: from mail150-ch1-R.bigfish.com (10.43.68.240) by
-	CH1EHSOBE017.bigfish.com (10.43.70.67) with Microsoft SMTP Server id
-	14.1.225.22; Wed, 30 Nov 2011 17:25:49 +0000
-Received: from mail150-ch1 (localhost [127.0.0.1])	by
-	mail150-ch1-R.bigfish.com (Postfix) with ESMTP id 006172C036C	for
-	<openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2011 17:25:48 +0000 (UTC)
-X-SpamScore: 1
-X-BigFish: VS1(z2e28uz9371K1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail150-ch1 (localhost.localdomain [127.0.0.1]) by mail150-ch1
-	(MessageSwitch) id 1322673946919073_18491;
-	Wed, 30 Nov 2011 17:25:46 +0000 (UTC)
-Received: from CH1EHSMHS001.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.241])	by mail150-ch1.bigfish.com (Postfix) with ESMTP id
-	D2AC2580045	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2011 17:25:46 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS001.bigfish.com
-	(10.43.70.1) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Wed, 30 Nov 2011 17:25:46 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.83]) by
-	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
-	14.01.0339.002; Wed, 30 Nov 2011 11:25:46 -0600
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] siggen.py: If both sigs have a variable in
-	it's whitelist then don't say it's changed
-Thread-Index: AQHMr4UYdq8RZuzYlk6o3byHbpkEYQ==
-Date: Wed, 30 Nov 2011 17:25:46 +0000
-Message-ID: <CAEsOVNfc2zZysjq6HdxQJpccCE5vw8HxmthCC2SKGkVDwy_R+w@mail.gmail.com>
-References: <1322639707-7798-1-git-send-email-msm@freescale.com>
-	<1322639707-7798-2-git-send-email-msm@freescale.com>
-In-Reply-To: <1322639707-7798-2-git-send-email-msm@freescale.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
+	Wed, 30 Nov 2011 18:37:17 +0100
+Received: from mail-yw0-f52.google.com ([209.85.213.52])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 30 Nov 2011 09:30:33 -0800
+Received: by ywn1 with SMTP id 1so2302289ywn.25
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2011 09:30:32 -0800 (PST)
+Received: by 10.50.10.163 with SMTP id j3mr3741923igb.15.1322674231977;
+	Wed, 30 Nov 2011 09:30:31 -0800 (PST)
+Received: from [10.1.10.192] (c-67-170-181-205.hsd1.or.comcast.net.
+	[67.170.181.205])
+	by mx.google.com with ESMTPS id jm11sm10375246ibb.1.2011.11.30.09.30.30
+	(version=SSLv3 cipher=OTHER); Wed, 30 Nov 2011 09:30:31 -0800 (PST)
+Message-ID: <4ED66835.3050400@intel.com>
+Date: Wed, 30 Nov 2011 09:30:29 -0800
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:8.0) Gecko/20111124 Thunderbird/8.0
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH] siggen.py: If both sigs have a variable in it's whitelist then don't say it's changed
+To: openembedded-core@lists.openembedded.org
+References: <4ED0CC76.4040606@emagii.com> <1322579029.7964.0.camel@ted>
+	<4ED54C2B.2060505@emagii.com>
+In-Reply-To: <4ED54C2B.2060505@emagii.com>
+Subject: Re: Feedback on building openembedded-core for qemuarm. Excerpts from buildlog
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -61,23 +39,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 17:32:32 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <C391E81EE582924FA4BE45F727FF7E1F@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 30 Nov 2011 17:37:17 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 30, 2011 at 1:55 AM, Matthew McClintock <msm@freescale.com> wro=
-te:
-> Some BB_HASHBASE_WHITELIST variables are in the lists of variable
-> dependencies for signatures. Ignore those differences in lists
-> since this difference does not matter
+On 11/29/2011 01:18 PM, Ulf Samuelsson wrote:
 >
-> Signed-off-by: Matthew McClintock <msm@freescale.com>
+>>> Seen a couple of errors as well.
+>>>
+>>> 1. ERROR: Function 'useradd_sysroot' failed
+>>> Tried to access "/etc/group" but this was locked.
+>>> Problem disappeared the next time I rebuilt.
+>> Can you file a bug about this problem please. I think we need to go
+>> through the code paths in shadow and ensure its locking is sane. I took
+>> a quick look at the code and was left wondering what lckpwdf() does for
+>> example. Scott, could you take a look at this?
+>
+> Bugzilla is out of service, so bugs cannot be filed.
 
-Sent this to bitbake mailing list where it belongs.
+I have filed a bug for this, and have been trying to reproduce it 
+without success:
 
--M=
+http://bugzilla.pokylinux.org/show_bug.cgi?id=1794
 
+> Haven't seen the issue since then so it is hard to give any details.
+> I used very high BB_NUMBER_THREADS = 24.
+
+I do have access to a system with a lot of cores, and have been doing 
+builds on it.
+
+I'd just like to confirm that when you saw this, it was a build from 
+scratch (e.g, not using sstate cache from a previous build). And also, 
+you *weren't* building this from a remote filesystem (NFS), correct?
+
+Thanks,
+
+Scott
+
+-- 
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
