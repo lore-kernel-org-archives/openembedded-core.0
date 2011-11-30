@@ -1,29 +1,45 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from tx2ehsobe003.messaging.microsoft.com ([65.55.88.13]
+	helo=TX2EHSOBE006.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RVelR-0005ml-CW
+	(envelope-from <B29882@freescale.com>) id 1RVf73-0006sp-L7
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Nov 2011 08:39:33 +0100
-Received: by eekc1 with SMTP id c1so130678eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2011 23:32:53 -0800 (PST)
-Received: by 10.14.17.80 with SMTP id i56mr101380eei.173.1322638373049;
-	Tue, 29 Nov 2011 23:32:53 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id a60sm3302679eeb.4.2011.11.29.23.32.51
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 29 Nov 2011 23:32:52 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Wed, 30 Nov 2011 08:32:50 +0100
-In-Reply-To: <d2556a3bcd208b2d6a8c02332b26b6e808632d7c.1322619553.git.lei.mei@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1322619553.git.lei.mei@intel.com>
-	<d2556a3bcd208b2d6a8c02332b26b6e808632d7c.1322619553.git.lei.mei@intel.com>
-Message-Id: <F563ADF0-C759-47DC-AFCF-8973856C1266@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH 2/3] dropbear: Upgrade from 0.53.1 to 2011.54
+	Wed, 30 Nov 2011 09:01:53 +0100
+Received: from mail95-tx2-R.bigfish.com (10.9.14.237) by
+	TX2EHSOBE006.bigfish.com (10.9.40.26) with Microsoft SMTP Server id
+	14.1.225.22; Wed, 30 Nov 2011 07:55:09 +0000
+Received: from mail95-tx2 (localhost [127.0.0.1])	by mail95-tx2-R.bigfish.com
+	(Postfix) with ESMTP id AFF4F460390	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2011 07:55:09 +0000 (UTC)
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839h)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail95-tx2 (localhost.localdomain [127.0.0.1]) by mail95-tx2
+	(MessageSwitch) id 1322639709585002_26623;
+	Wed, 30 Nov 2011 07:55:09 +0000 (UTC)
+Received: from TX2EHSMHS012.bigfish.com (unknown [10.9.14.254])	by
+	mail95-tx2.bigfish.com (Postfix) with ESMTP id 7E35D700042	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2011 07:55:09 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS012.bigfish.com
+	(10.9.99.112) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Wed, 30 Nov 2011 07:55:09 +0000
+Received: from az33smr01.freescale.net (10.64.34.199) by
+	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
+	Server id 14.1.339.2; Wed, 30 Nov 2011 01:55:09 -0600
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
+	by az33smr01.freescale.net (8.13.1/8.13.0) with ESMTP id
+	pAU7t80Q014042	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2011 01:55:08 -0600 (CST)
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 30 Nov 2011 01:55:06 -0600
+Message-ID: <1322639707-7798-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.6.1
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: [PATCH] image_types.bbclass: add xz-native to deps for lzma ext2.lzma images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,75 +54,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 07:39:33 -0000
-X-Groupsio-MsgNum: 13251
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_44A81C69-205D-4AFF-AEC7-6C56540F5886";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Wed, 30 Nov 2011 08:01:53 -0000
+Content-Type: text/plain
 
---Apple-Mail=_44A81C69-205D-4AFF-AEC7-6C56540F5886
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+ meta/classes/image_types.bbclass |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 2260915..aed5a85 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -142,7 +142,7 @@ IMAGE_DEPENDS_cramfs = "cramfs-native"
+ IMAGE_DEPENDS_ext2 = "genext2fs-native"
+ IMAGE_DEPENDS_ext2.gz = "genext2fs-native"
+ IMAGE_DEPENDS_ext2.bz2 = "genext2fs-native"
+-IMAGE_DEPENDS_ext2.lzma = "genext2fs-native"
++IMAGE_DEPENDS_ext2.lzma = "genext2fs-native xz-native"
+ IMAGE_DEPENDS_ext3 = "genext2fs-native e2fsprogs-native"
+ IMAGE_DEPENDS_ext3.gz = "genext2fs-native e2fsprogs-native"
+ IMAGE_DEPENDS_ext4 = "genext2fs-native e2fsprogs-native"
+-- 
+1.7.6.1
 
 
-Op 30 nov. 2011, om 06:57 heeft Mei Lei het volgende geschreven:
 
-> Signed-off-by: Mei Lei <lei.mei@intel.com>
 
-So the commit summary says 'upgrade', but look here:
-
-> --- a/meta/recipes-core/dropbear/dropbear.inc
-> +++ b/meta/recipes-core/dropbear/dropbear.inc
-> @@ -16,7 +16,6 @@ SRC_URI =3D =
-"http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.gz \
-> 		 file://dropbear-0.53.1-static_build_fix.patch \
-> 	         file://configure.patch \
-> 	         file://fix-2kb-keys.patch \
-> -	         file://allow-nopw.patch;apply=3Dno \
-
-Why did you remove that?
-
-> 	         file://init \
->                  ${@base_contains('DISTRO_FEATURES', 'pam', =
-'${PAM_SRC_URI}', '', d)} "
->=20
-> @@ -40,13 +39,6 @@ EXTRA_OECONF +=3D "\
->=20
-> DISTRO_TYPE ?=3D "${@base_contains("IMAGE_FEATURES", "debug-tweaks", =
-"debug", "",d)}"
->=20
-> -do_debug_patch() {
-> -	if [ "${DISTRO_TYPE}" =3D "debug" ]; then
-> -		bbnote "WARNING: applying allow-nopw.patch which allows =
-password-less logins!"
-> -		patch -p1 < ${WORKDIR}/allow-nopw.patch
-> -	fi
-> -}
-> -
-
-And why did you remove that as well?
-
-> addtask do_debug_patch after do_patch before do_configure
-
-After removing the previous 2, why did you leave this one in?
-
-Why are you breaking passwwdless logins without mentioning it in the =
-commit summary!?!?!?=
-
---Apple-Mail=_44A81C69-205D-4AFF-AEC7-6C56540F5886
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-
-iEYEARECAAYFAk7V3CIACgkQMkyGM64RGpHgUACgsBdwdc/I9xtHUSy9sNtntqgA
-ZuAAoKv9xRsPq/TG5pR1PvKbJYEaB6fa
-=HWWx
------END PGP SIGNATURE-----
-
---Apple-Mail=_44A81C69-205D-4AFF-AEC7-6C56540F5886--
