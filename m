@@ -1,33 +1,29 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RVsK0-0008WC-Oh
+	(envelope-from <dvhart@linux.intel.com>) id 1RVsMY-0000G3-Q2
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Nov 2011 23:08:09 +0100
-Received: by lagj5 with SMTP id j5so462287lag.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2011 14:01:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=29+GMs9WmkR6Pav7HpDx8F+7UyZ1D8KSEU45EWs98ZU=;
-	b=ouyMRgYDp9MIHqsgMjtjsj5eUtc/sKcqH18nOfnOSe46eGaOsQNqqf89Uer5ZrORIm
-	la89k9mpsErJn4QAR2rfAcCQjg7yHPcMVQbsUiPsrzgfc6kqPn8zzieLga/ybNdxbj8b
-	VfUiEbUd/QBlYy8nj8jxIM7jB2us5E2/xz8vQ=
-Received: by 10.152.104.206 with SMTP id gg14mr2774406lab.41.1322690478297;
-	Wed, 30 Nov 2011 14:01:18 -0800 (PST)
+	Wed, 30 Nov 2011 23:10:47 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 30 Nov 2011 14:04:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,272,1320652800"; d="scan'208";a="42669066"
+Received: from unknown (HELO envy.home) ([10.255.12.165])
+	by AZSMGA002.ch.intel.com with ESMTP; 30 Nov 2011 14:04:05 -0800
+Message-ID: <4ED6A859.3080300@linux.intel.com>
+Date: Wed, 30 Nov 2011 14:04:09 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
-Received: by 10.152.24.36 with HTTP; Wed, 30 Nov 2011 14:00:46 -0800 (PST)
-In-Reply-To: <1322569564.3166.1.camel@ted>
-References: <1322521031-26849-1-git-send-email-msm@freescale.com>
-	<CAEsOVNfRuMJfh3HW-6=0ivjngv+e8Dxk7fKo_ySUSgB4EYDrLg@mail.gmail.com>
-	<1322569564.3166.1.camel@ted>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 30 Nov 2011 14:00:46 -0800
-Message-ID: <CAMKF1srOoaQa2eLg4xkroaYXjJ+gB4dF64X4=zG6Vj-GPFEf2A@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
+To: Koen Kooi <koen@dominion.thruhere.net>
+References: <e7ca852c4e673a6b32be203109a704202aeace3a.1322689519.git.darren@dvhart.com>
+	<d66f152cffd363fe56c6f58e9559288020524d83.1322689519.git.darren@dvhart.com>
+	<9AF2AA1C-18ED-477E-86BF-E31899BDE666@dominion.thruhere.net>
+In-Reply-To: <9AF2AA1C-18ED-477E-86BF-E31899BDE666@dominion.thruhere.net>
+X-Enigmail-Version: 1.3.3
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>
-Subject: Re: [PATCH] eglibc-initial: Ensure symlinks point to the correct location when built from sstate cache
+Subject: Re: [PATCH 3/4] grub: Use COMPATIBLE_MACHINE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,48 +38,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 22:08:09 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 30 Nov 2011 22:10:47 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 29, 2011 at 4:26 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> If the sstate files are installed into a sysroot from the sstate cache,
-> the directory to the main sysroot can change and the symlinks aren't
-> adjusted to account for this. This is a problem specific to the toolchain
-> bootstrap process. This patch adds up a function to recreate the
-> symlinks, hence ensuring they always point at the correct location.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/recipes-core/eglibc/eglibc-initial.inc b/meta/recipes-c=
-ore/eglibc/eglibc-initial.inc
-> index 448f73a..9062516 100644
-> --- a/meta/recipes-core/eglibc/eglibc-initial.inc
-> +++ b/meta/recipes-core/eglibc/eglibc-initial.inc
-> @@ -60,4 +60,16 @@ do_siteconfig () {
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0:
-> =C2=A0}
->
-> +SSTATEPOSTINSTFUNCS +=3D "eglibcinitial_sstate_postinst"
-> +eglibcinitial_sstate_postinst() {
-> + =C2=A0 =C2=A0 =C2=A0 if [ "${BB_CURRENTTASK}" =3D "populate_sysroot" -o=
- "${BB_CURRENTTASK}" =3D "populate_sysroot_setscene" ]
-> + =C2=A0 =C2=A0 =C2=A0 then
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Recreate the symlink=
-s to ensure they point to the correct location
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for t in linux asm asm=
--generic; do
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 rm -f ${STAGING_DIR_TCBOOTSTRAP}${includedir}/$t
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 ln -s ${STAGING_DIR_TARGET}${includedir}/$t ${STAGING_DIR_TCBOOTSTRA=
-P}${includedir}/
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 done
-> + =C2=A0 =C2=A0 =C2=A0 fi
-> +}
-> +
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
 
-you could do ln -sf here
+On 11/30/2011 01:57 PM, Koen Kooi wrote:
+> 
+> Op 30 nov. 2011, om 22:49 heeft Darren Hart het volgende
+> geschreven:
+> 
+>> From: Darren Hart <dvhart@linux.intel.com>
+>> 
+>> Drop the anonymous python block in favor of the much simpler 
+>> COMPATIBLE_MACHINE mechanism.
+> 
+> minor nit: when I read the subject my first thought was "please
+> use COMPATIBLE_HOST instead", but the actual patch is doing the
+> right thing. Could you please amend the commit summary to has HOST
+> instead of MACHINE?
+
+Thanks for the catch Koen!
+
+I've rebased and pushed this series to the same location:
+
+http://git.yoctoproject.org/cgit.cgi/user-contrib/dvhart/oe-core/commit/?h=cleanup&id=46d4be3925dec1c9b6fd228b0fd603e8f2416ed5
+
+
+- -- 
+Darren "Dufus" Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org/
+
+iQEcBAEBAgAGBQJO1qhZAAoJEKbMaAwKp364fxwH/0/8mhWaZkm3xu8+PRZxpCle
+8lSiLZ8unO4qfUtXdXG96tlAHWlhAQfl1y3Zo4EoKcXoiSnV6rQX67nFrRnUAdge
++E0uLYYJlLQUa9Yrbt8NbuR7TktiP28AK9/An7ljk/hNbyDEQQDTDwac02IhJmaC
+rBc1L3P/c6LuiN8hqCdZu4OXfahMndMkK3lzXaU0TVddfNr5o+jYiPmDRL9Dn0/W
+b75ogSHpKAzHhFEsOf563DPpdfagiz2e0B4t6SMBIxRDcgHQHmNIo6lvjfDfzFYc
+e7B3rA3nmWnHctkrDjs4GTO5wecfO1Xj31bpsPX6C7jW4f0BKrmdpk+PV/TGeUA=
+=Ingz
+-----END PGP SIGNATURE-----
 
 
