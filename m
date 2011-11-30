@@ -1,30 +1,33 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RVsGj-0008Nj-W0
+	(envelope-from <raj.khem@gmail.com>) id 1RVsK0-0008WC-Oh
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Nov 2011 23:04:46 +0100
-Received: by eaad13 with SMTP id d13so1319961eaa.6
+	Wed, 30 Nov 2011 23:08:09 +0100
+Received: by lagj5 with SMTP id j5so462287lag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2011 13:58:04 -0800 (PST)
-Received: by 10.213.22.6 with SMTP id l6mr699390ebb.138.1322690284726;
-	Wed, 30 Nov 2011 13:58:04 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id z58sm10672235eea.3.2011.11.30.13.58.03
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 30 Nov 2011 13:58:04 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <d66f152cffd363fe56c6f58e9559288020524d83.1322689519.git.darren@dvhart.com>
-Date: Wed, 30 Nov 2011 22:57:58 +0100
-Message-Id: <9AF2AA1C-18ED-477E-86BF-E31899BDE666@dominion.thruhere.net>
-References: <e7ca852c4e673a6b32be203109a704202aeace3a.1322689519.git.darren@dvhart.com>
-	<d66f152cffd363fe56c6f58e9559288020524d83.1322689519.git.darren@dvhart.com>
+	Wed, 30 Nov 2011 14:01:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=29+GMs9WmkR6Pav7HpDx8F+7UyZ1D8KSEU45EWs98ZU=;
+	b=ouyMRgYDp9MIHqsgMjtjsj5eUtc/sKcqH18nOfnOSe46eGaOsQNqqf89Uer5ZrORIm
+	la89k9mpsErJn4QAR2rfAcCQjg7yHPcMVQbsUiPsrzgfc6kqPn8zzieLga/ybNdxbj8b
+	VfUiEbUd/QBlYy8nj8jxIM7jB2us5E2/xz8vQ=
+Received: by 10.152.104.206 with SMTP id gg14mr2774406lab.41.1322690478297;
+	Wed, 30 Nov 2011 14:01:18 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.152.24.36 with HTTP; Wed, 30 Nov 2011 14:00:46 -0800 (PST)
+In-Reply-To: <1322569564.3166.1.camel@ted>
+References: <1322521031-26849-1-git-send-email-msm@freescale.com>
+	<CAEsOVNfRuMJfh3HW-6=0ivjngv+e8Dxk7fKo_ySUSgB4EYDrLg@mail.gmail.com>
+	<1322569564.3166.1.camel@ted>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 30 Nov 2011 14:00:46 -0800
+Message-ID: <CAMKF1srOoaQa2eLg4xkroaYXjJ+gB4dF64X4=zG6Vj-GPFEf2A@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1251.1)
-Cc: Darren Hart <dvhart@linux.intel.com>
-Subject: Re: [PATCH 3/4] grub: Use COMPATIBLE_MACHINE
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>
+Subject: Re: [PATCH] eglibc-initial: Ensure symlinks point to the correct location when built from sstate cache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,47 +42,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 22:04:46 -0000
-X-Groupsio-MsgNum: 13331
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_54A042E7-4DEF-487A-B61F-61BBD6760BEF";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_54A042E7-4DEF-487A-B61F-61BBD6760BEF
+X-List-Received-Date: Wed, 30 Nov 2011 22:08:09 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+
+On Tue, Nov 29, 2011 at 4:26 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> If the sstate files are installed into a sysroot from the sstate cache,
+> the directory to the main sysroot can change and the symlinks aren't
+> adjusted to account for this. This is a problem specific to the toolchain
+> bootstrap process. This patch adds up a function to recreate the
+> symlinks, hence ensuring they always point at the correct location.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> diff --git a/meta/recipes-core/eglibc/eglibc-initial.inc b/meta/recipes-c=
+ore/eglibc/eglibc-initial.inc
+> index 448f73a..9062516 100644
+> --- a/meta/recipes-core/eglibc/eglibc-initial.inc
+> +++ b/meta/recipes-core/eglibc/eglibc-initial.inc
+> @@ -60,4 +60,16 @@ do_siteconfig () {
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0:
+> =C2=A0}
+>
+> +SSTATEPOSTINSTFUNCS +=3D "eglibcinitial_sstate_postinst"
+> +eglibcinitial_sstate_postinst() {
+> + =C2=A0 =C2=A0 =C2=A0 if [ "${BB_CURRENTTASK}" =3D "populate_sysroot" -o=
+ "${BB_CURRENTTASK}" =3D "populate_sysroot_setscene" ]
+> + =C2=A0 =C2=A0 =C2=A0 then
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Recreate the symlink=
+s to ensure they point to the correct location
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for t in linux asm asm=
+-generic; do
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 rm -f ${STAGING_DIR_TCBOOTSTRAP}${includedir}/$t
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 ln -s ${STAGING_DIR_TARGET}${includedir}/$t ${STAGING_DIR_TCBOOTSTRA=
+P}${includedir}/
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 done
+> + =C2=A0 =C2=A0 =C2=A0 fi
+> +}
+> +
+
+you could do ln -sf here
 
 
-Op 30 nov. 2011, om 22:49 heeft Darren Hart het volgende geschreven:
-
-> From: Darren Hart <dvhart@linux.intel.com>
->=20
-> Drop the anonymous python block in favor of the much simpler
-> COMPATIBLE_MACHINE mechanism.
-
-minor nit: when I read the subject my first thought was "please use =
-COMPATIBLE_HOST instead", but the actual patch is doing the right thing. =
-Could you please amend the commit summary to has HOST instead of =
-MACHINE?
-
-regards,
-
-Koen=
-
---Apple-Mail=_54A042E7-4DEF-487A-B61F-61BBD6760BEF
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-
-iEYEARECAAYFAk7WpukACgkQMkyGM64RGpHL+wCdETjDn7rXMj8jkfWojGy6n3hl
-crAAmwZANyoPgTmJYwv0LXkpUKHtvxSI
-=t9lT
------END PGP SIGNATURE-----
-
---Apple-Mail=_54A042E7-4DEF-487A-B61F-61BBD6760BEF--
