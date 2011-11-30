@@ -1,25 +1,24 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RVfBW-000767-VV
+	(envelope-from <koen@dominion.thruhere.net>) id 1RVfZs-00010u-JM
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Nov 2011 09:06:31 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pAU7xo5w011492
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 30 Nov 2011 09:31:40 +0100
+Received: by eekc1 with SMTP id c1so159505eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2011 23:59:50 -0800 (PST)
-Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Tue, 29 Nov 2011 23:59:05 -0800
-Message-ID: <4b27ade78ff28010687e1a50ee2ea108040dfd04.1322639391.git.xiaofeng.yan@windriver.com>
-In-Reply-To: <cover.1322639391.git.xiaofeng.yan@windriver.com>
-References: <cover.1322639391.git.xiaofeng.yan@windriver.com>
-Old-Date: Wed, 30 Nov 2011 15:42:10 +0800
-Date: Wed, 30 Nov 2011 15:55:50 +0800
-To: <openembedded-core@lists.openembedded.org>
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] libx11-trim: Change checksum
+	Wed, 30 Nov 2011 00:25:00 -0800 (PST)
+Received: by 10.14.4.196 with SMTP id 44mr123225eej.224.1322641500760;
+	Wed, 30 Nov 2011 00:25:00 -0800 (PST)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id c9sm1814569eeb.0.2011.11.30.00.24.59
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 30 Nov 2011 00:25:00 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 30 Nov 2011 09:24:53 +0100
+Message-Id: <1322641493-5889-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.2.5
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] consolekit: package /var/log/Consolekit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,34 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 08:06:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 30 Nov 2011 08:31:40 -0000
 
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+This fixes startup issues like this:
 
-Correct checksum because checksum error for libx11-trim arise when compiling.
+2011-11-30T09:02:10+01:00 beaglebone ck-log-system-start[91]: ** (process:91): WARNING **: Couldn't create log file /var/log/ConsoleKit/history (No such file or directory)
 
-Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- .../recipes-graphics/xorg-lib/libx11-trim_1.4.4.bb |    4 ++--
+ .../recipes-support/consolekit/consolekit_0.4.5.bb |    4 ++--
  1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11-trim_1.4.4.bb b/meta/recipes-graphics/xorg-lib/libx11-trim_1.4.4.bb
-index 7aed308..32d025f 100644
---- a/meta/recipes-graphics/xorg-lib/libx11-trim_1.4.4.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11-trim_1.4.4.bb
-@@ -14,7 +14,7 @@ SRC_URI += "file://x11_disable_makekeys.patch \
-             file://makekeys_crosscompile.patch"
+diff --git a/meta/recipes-support/consolekit/consolekit_0.4.5.bb b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+index 562dfb3..a02203c 100644
+--- a/meta/recipes-support/consolekit/consolekit_0.4.5.bb
++++ b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+@@ -2,7 +2,7 @@ DESCRIPTION = "ConsoleKit is a framework for defining and tracking users, login
+ HOMEPAGE="http://www.freedesktop.org/wiki/Software/ConsoleKit"
+ BUGTRACKER="https://bugs.freedesktop.org/buglist.cgi?query_format=specific&product=ConsoleKit"
  
+-PR = "r5"
++PR = "r6"
  
--SRC_URI[md5sum] = "f65c9c7ecbfb64c19dbd7927160d63fd"
--SRC_URI[sha256sum] = "88d7238ce5f7cd123450567de7a3b56a43556e4ccc45df38b8324147c889a844"
-+SRC_URI[md5sum] = "ed7c382cbf8c13425b6a66bcac0ca5d9"
-+SRC_URI[sha256sum] = "7fe62180f08ef5f0a0062fb444591e349cae2ab5af6ad834599f5c654e6c840d"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+@@ -23,7 +23,7 @@ EXTRA_OECONF = "--with-systemdsystemunitdir=${base_libdir}/systemd/system/ \
+                 ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam-module --with-pam-module-dir=${base_libdir}/security', '--disable-pam-module', d)} \
+                "
  
- EXTRA_OECONF += "--with-keysymdef=${STAGING_INCDIR}/X11/ --disable-xcms "
+-FILES_${PN} += "${libdir}/ConsoleKit ${base_libdir} ${datadir}/dbus-1 ${datadir}/PolicyKit ${datadir}/polkit*"
++FILES_${PN} += "${localstatedir}/log/ConsoleKit ${libdir}/ConsoleKit ${base_libdir} ${datadir}/dbus-1 ${datadir}/PolicyKit ${datadir}/polkit*"
+ FILES_${PN}-dbg += "${base_libdir}/security/.debug"
+ 
+ PACKAGES =+ "pam-plugin-ck-connector"
 -- 
-1.7.0.4
+1.7.2.5
 
 
 
