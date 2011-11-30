@@ -1,32 +1,33 @@
-Received: from mail-qw0-f54.google.com ([209.85.216.54])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1RVlvu-0005o8-Cb
-	for openembedded-core@openembedded.org; Wed, 30 Nov 2011 16:18:50 +0100
-Received: by qadc10 with SMTP id c10so466139qad.6
-	for <openembedded-core@openembedded.org>;
-	Wed, 30 Nov 2011 07:12:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=GRThumVPP36h5ZIAgFbHRMT0wQ7iav4zSSiNuUri+xw=;
-	b=OeSDWcw/HrNECc1vwEqiCLhiawh6t2vVWjvwl4NmXXsJ8wxoLzz1o5G/0C8ZIjBE51
-	reCjD3K1SIENYqVL5zzLbuoZ4tSr0RwvfWPTdaMEHDDt9Ng4lvPNhPSa0jAf3tVmS20w
-	hG4zeqGHTiWNr7dljusAg9I0qpLjDEIG9F8Do=
-Received: by 10.229.46.8 with SMTP id h8mr402774qcf.86.1322665929655; Wed, 30
-	Nov 2011 07:12:09 -0800 (PST)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.229.73.200 with HTTP; Wed, 30 Nov 2011 07:11:48 -0800 (PST)
-In-Reply-To: <4ED6070C.20904@emagii.com>
-References: <4ED6070C.20904@emagii.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Wed, 30 Nov 2011 08:11:48 -0700
-X-Google-Sender-Auth: r0ql_05A4bAQeB7xOFGir5-H6t4
-Message-ID: <CABcZANm-jdT1wz9MCnW5fYns506+_HHautSxCo_S__T3kPCHYA@mail.gmail.com>
-To: ulf@emagii.com, Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RVmM1-0000KB-9f for openembedded-core@lists.openembedded.org;
+	Wed, 30 Nov 2011 16:45:49 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAUFd91C001130
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2011 15:39:09 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 00935-02 for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2011 15:39:04 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAUFd1OM001124
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2011 15:39:01 GMT
+Message-ID: <1322667550.17484.0.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: openembedded-core@openembedded.org
-Subject: Re: Adding kernel patches using "git am"?
+Date: Wed, 30 Nov 2011 15:39:10 +0000
+In-Reply-To: <cover.1322549636.git.Martin.Jansa@gmail.com>
+References: <cover.1322549636.git.Martin.Jansa@gmail.com>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [oe-core 00/10] Small fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,37 +42,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 15:18:50 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 30 Nov 2011 15:45:49 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 30, 2011 at 3:35 AM, Ulf Samuelsson
-<openembedded-core@emagii.com> wrote:
-> Is there a reason for using "patch" instead of "git am" on let's say the
-> kernel.
->
-> If I want to do some modification, of the kernel, I can like Graeme
-> description at
-> http://www.slimlogic.co.uk/2011/05/openembeddedangstrom-kernel-workflow/
-> do
-> bitbake -c configure virtual/kernel
->
-> and then have an initialized git tree ready to be modified.
->
-> "git am" is of course more sensitive to the patch quality than "patch"
-> but that has some advantages as well.
->
-> It also makes the recipe more complex at this stage.
+On Tue, 2011-11-29 at 07:55 +0100, Martin Jansa wrote:
+> The following changes since commit 2864ff6a4b3c3f9b3bbb6d2597243cc5d3715939:
+> 
+>   getVar/setVar cleanups (2011-11-26 22:42:00 +0000)
+> 
+> are available in the git repository at:
+>   git://git.openembedded.org/openembedded-core-contrib jansa/pull2
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/pull2
+> 
+> Denis 'GNUtoo' Carikli (1):
+>   libical: add version 0.47
+> 
+> Martin Jansa (9):
+>   tinylogin: use u-a for getty so we can provide /sbin/getty from
+>     util-linux-agetty too
+>   util-linux: use u-a to provide /sbin/getty from util-linux-agetty
+>   mingetty: use u-a to provide /sbin/getty (also provided by
+>     util-linux-agetty and tinylogin)
+>   cronie: use useradd.bbclass instead of hardcoded groupadd calls
+>   ppp-dialin: use useradd.bbclass instead of hardcoded adduser/deluser
+>     calls
+>   libical: drop older version 0.46
+>   libid3tag: add gperf to DEPENDS
+>   gst-plugins-ugly: bump PR to rebuild after libid3tag fix
+>   gconf: add polkit to DEPENDS
 
-echo PATCHTOOL_pn-linux = "git" >> conf/local.conf # (note, uses
-git-apply, not git-am, but it's a step in the direction you want,
-anyway, and by inspecting patch.bbclass and lib/oe/patch.py and
-looking for that patch tool, you can see how you'd go about adding one
-for git-am if you desired it)
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+I took these with the exception of the gconf change which I know there
+is an updated patch for.
+
+Cheers,
+
+Richard
+
 
 
