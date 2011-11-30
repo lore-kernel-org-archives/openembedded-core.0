@@ -1,33 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RVmM1-0000KB-9f for openembedded-core@lists.openembedded.org;
-	Wed, 30 Nov 2011 16:45:49 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAUFd91C001130
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1RVmPy-0000VQ-M9
+	for openembedded-core@lists.openembedded.org;
+	Wed, 30 Nov 2011 16:49:54 +0100
+Received: by eaad13 with SMTP id d13so834567eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2011 15:39:09 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 00935-02 for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2011 15:39:04 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAUFd1OM001124
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2011 15:39:01 GMT
-Message-ID: <1322667550.17484.0.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Nov 2011 15:39:10 +0000
-In-Reply-To: <cover.1322549636.git.Martin.Jansa@gmail.com>
-References: <cover.1322549636.git.Martin.Jansa@gmail.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [oe-core 00/10] Small fixes
+	Wed, 30 Nov 2011 07:43:10 -0800 (PST)
+Received: by 10.213.33.75 with SMTP id g11mr520238ebd.2.1322667789826;
+	Wed, 30 Nov 2011 07:43:09 -0800 (PST)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id 8sm7327803eei.8.2011.11.30.07.43.08
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 30 Nov 2011 07:43:09 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 30 Nov 2011 16:43:04 +0100
+Message-Id: <1322667784-23451-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.2.5
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [Proof of concept] patch.bbclass: add incredibly naive 'git am' mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,42 +33,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 15:45:49 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 Nov 2011 15:49:54 -0000
 
-On Tue, 2011-11-29 at 07:55 +0100, Martin Jansa wrote:
-> The following changes since commit 2864ff6a4b3c3f9b3bbb6d2597243cc5d3715939:
-> 
->   getVar/setVar cleanups (2011-11-26 22:42:00 +0000)
-> 
-> are available in the git repository at:
->   git://git.openembedded.org/openembedded-core-contrib jansa/pull2
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/pull2
-> 
-> Denis 'GNUtoo' Carikli (1):
->   libical: add version 0.47
-> 
-> Martin Jansa (9):
->   tinylogin: use u-a for getty so we can provide /sbin/getty from
->     util-linux-agetty too
->   util-linux: use u-a to provide /sbin/getty from util-linux-agetty
->   mingetty: use u-a to provide /sbin/getty (also provided by
->     util-linux-agetty and tinylogin)
->   cronie: use useradd.bbclass instead of hardcoded groupadd calls
->   ppp-dialin: use useradd.bbclass instead of hardcoded adduser/deluser
->     calls
->   libical: drop older version 0.46
->   libid3tag: add gperf to DEPENDS
->   gst-plugins-ugly: bump PR to rebuild after libid3tag fix
->   gconf: add polkit to DEPENDS
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/classes/patch.bbclass |    1 +
+ meta/lib/oe/patch.py       |   14 ++++++++++++++
+ 2 files changed, 15 insertions(+), 0 deletions(-)
 
-I took these with the exception of the gconf change which I know there
-is an updated patch for.
-
-Cheers,
-
-Richard
+diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
+index ac6c1ce..9f99e38 100644
+--- a/meta/classes/patch.bbclass
++++ b/meta/classes/patch.bbclass
+@@ -18,6 +18,7 @@ python patch_do_patch() {
+ 		"patch": oe.patch.PatchTree,
+ 		"quilt": oe.patch.QuiltTree,
+ 		"git": oe.patch.GitApplyTree,
++		"gitam": oe.patch.GitAmTree,
+ 	}
+ 
+ 	cls = patchsetmap[d.getVar('PATCHTOOL', 1) or 'quilt']
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index f4ccb3e..06965ba 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -176,6 +176,20 @@ class GitApplyTree(PatchTree):
+ 
+         return runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
+ 
++class GitAmTree(PatchTree):
++    def __init__(self, dir, d):
++        PatchTree.__init__(self, dir, d)
++
++    def _applypatch(self, patch, force = False, reverse = False, run = True):
++        shellcmd = ["git", "am"]
++
++        shellcmd.append(patch['file'])
++
++        if not run:
++            return "sh" + "-c" + " ".join(shellcmd)
++
++        return runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
++
+ 
+ class QuiltTree(PatchSet):
+     def _runcmd(self, args, run = True):
+-- 
+1.7.2.5
 
 
 
