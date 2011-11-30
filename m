@@ -1,27 +1,24 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bruce.Ashfield@windriver.com>) id 1RVpbe-0000qt-O3
+	(envelope-from <koen@dominion.thruhere.net>) id 1RVpdZ-0000yq-4G
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Nov 2011 20:14:11 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pAUJ7Prl026153
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 30 Nov 2011 11:07:26 -0800 (PST)
-Received: from [128.224.21.144] (128.224.21.144) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 30 Nov 2011 11:07:25 -0800
-Message-ID: <4ED67EEA.4080800@windriver.com>
-Date: Wed, 30 Nov 2011 14:07:22 -0500
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.23) Gecko/20110922 Thunderbird/3.1.15
-MIME-Version: 1.0
-To: <ulf@emagii.com>, Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <4ED6070C.20904@emagii.com>
-In-Reply-To: <4ED6070C.20904@emagii.com>
-Cc: openembedded-core@openembedded.org
-Subject: Re: Adding kernel patches using "git am"?
+	Wed, 30 Nov 2011 20:16:09 +0100
+Received: by eaad13 with SMTP id d13so1115144eaa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2011 11:09:28 -0800 (PST)
+Received: by 10.213.29.20 with SMTP id o20mr54352ebc.71.1322680168346;
+	Wed, 30 Nov 2011 11:09:28 -0800 (PST)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id a60sm9129685eeb.4.2011.11.30.11.09.27
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 30 Nov 2011 11:09:27 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 30 Nov 2011 20:09:20 +0100
+Message-Id: <1322680162-24126-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.2.5
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH 1/3] gdbm 1.10: use lib_package.bbclass to match packaging with 1.8.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,47 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 19:14:11 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 Nov 2011 19:16:09 -0000
 
-On 11-11-30 05:35 AM, Ulf Samuelsson wrote:
-> Is there a reason for using "patch" instead of "git am" on let's say the
-> kernel.
->
-> If I want to do some modification, of the kernel, I can like Graeme
-> description at
-> http://www.slimlogic.co.uk/2011/05/openembeddedangstrom-kernel-workflow/ do
-> bitbake -c configure virtual/kernel
->
-> and then have an initialized git tree ready to be modified.
->
-> "git am" is of course more sensitive to the patch quality than "patch"
-> but that has some advantages as well.
+SOVERSION changed from 3 to 4, so PR bump for dependant recipes (perl, pulseaudio) are needed as well)
 
-Not answering the question directly, but if you use the linux-yocto
-kernel and related infrastructure, patch is not used to apply changes
-to the tree. It is done under the covers with guilt or git am applying
-changes to the tree (along with other git operations for more complex 
-situations).
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-support/gdbm/gdbm_1.10.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-Cheers,
-
-Bruce
-
->
-> It also makes the recipe more complex at this stage.
->
-> --
-> Best Regards
-> Ulf Samuelsson
-> eMagii
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-support/gdbm/gdbm_1.10.bb b/meta/recipes-support/gdbm/gdbm_1.10.bb
+index 4ed5881..9b2fde4 100644
+--- a/meta/recipes-support/gdbm/gdbm_1.10.bb
++++ b/meta/recipes-support/gdbm/gdbm_1.10.bb
+@@ -4,13 +4,13 @@ SECTION = "libs"
+ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=241da1b9fe42e642cbb2c24d5e0c4d24"
+ 
+-PR = "r0" 
++PR = "r1" 
+ 
+ SRC_URI = "${GNU_MIRROR}/gdbm/gdbm-${PV}.tar.gz"
+ 
+ SRC_URI[md5sum] = "88770493c2559dc80b561293e39d3570"
+ SRC_URI[sha256sum] = "23f8134c5b94bbfb06d756a6b78f074fba6e6028cf2fe01341d40b26db773441"
+ 
+-inherit autotools gettext
++inherit autotools gettext lib_package
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+1.7.2.5
 
 
 
