@@ -1,40 +1,56 @@
-Received: from mail-vw0-f47.google.com ([209.85.212.47])
+Received: from ch1ehsobe003.messaging.microsoft.com ([216.32.181.183]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mario.goulart@gmail.com>) id 1RVmZt-0001SF-3A
+	(envelope-from <B29882@freescale.com>) id 1RVo1H-00054C-0b
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Nov 2011 17:00:09 +0100
-Received: by vbbfc21 with SMTP id fc21so463272vbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2011 07:53:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:references:date:in-reply-to:message-id
-	:user-agent:mime-version:content-type;
-	bh=WIuNgeenvnU+to7VP7ZZvhJqvXk0OY1mZpIkBaNNYy8=;
-	b=xdHpEX13kXBccUEmTr3zwZyqDH3uC+QF/LyZwcr6KxUSO1aqKGlgz0WF6TV9/ax3wK
-	0O4QbYOkG1WGeuZtF7nkPNFE6WVw4XRQ/79SJ3zKlJVRkYC94F1tOsGuOzwlH2wUrPl5
-	rDoU+9M/OssRtZ5i/+asGglAtPhq3OYyN1WvQ=
-Received: by 10.52.37.129 with SMTP id y1mr2545531vdj.23.1322668408047;
-	Wed, 30 Nov 2011 07:53:28 -0800 (PST)
-Received: from cl-t066-141cl.privatedns.com.gmail.com ([67.205.85.241])
-	by mx.google.com with ESMTPS id p17sm2967135vdj.4.2011.11.30.07.53.26
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 30 Nov 2011 07:53:27 -0800 (PST)
-From: Mario Domenech Goulart <mario.goulart@gmail.com>
-To: Patches and discussions about the oe-core layer
+	Wed, 30 Nov 2011 18:32:32 +0100
+Received: from mail150-ch1-R.bigfish.com (10.43.68.240) by
+	CH1EHSOBE017.bigfish.com (10.43.70.67) with Microsoft SMTP Server id
+	14.1.225.22; Wed, 30 Nov 2011 17:25:49 +0000
+Received: from mail150-ch1 (localhost [127.0.0.1])	by
+	mail150-ch1-R.bigfish.com (Postfix) with ESMTP id 006172C036C	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2011 17:25:48 +0000 (UTC)
+X-SpamScore: 1
+X-BigFish: VS1(z2e28uz9371K1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail150-ch1 (localhost.localdomain [127.0.0.1]) by mail150-ch1
+	(MessageSwitch) id 1322673946919073_18491;
+	Wed, 30 Nov 2011 17:25:46 +0000 (UTC)
+Received: from CH1EHSMHS001.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.241])	by mail150-ch1.bigfish.com (Postfix) with ESMTP id
+	D2AC2580045	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2011 17:25:46 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS001.bigfish.com
+	(10.43.70.1) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Wed, 30 Nov 2011 17:25:46 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.83]) by
+	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
+	14.01.0339.002; Wed, 30 Nov 2011 11:25:46 -0600
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-References: <1322667784-23451-1-git-send-email-koen@dominion.thruhere.net>
-Date: Wed, 30 Nov 2011 10:40:34 -0500
-In-Reply-To: <1322667784-23451-1-git-send-email-koen@dominion.thruhere.net>
-	(Koen Kooi's message of "Wed, 30 Nov 2011 16:43:04 +0100")
-Message-ID: <8562i1k499.fsf@cl-t066-141cl.privatedns.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1.91 (gnu/linux)
+Thread-Topic: [OE-core] [PATCH] siggen.py: If both sigs have a variable in
+	it's whitelist then don't say it's changed
+Thread-Index: AQHMr4UYdq8RZuzYlk6o3byHbpkEYQ==
+Date: Wed, 30 Nov 2011 17:25:46 +0000
+Message-ID: <CAEsOVNfc2zZysjq6HdxQJpccCE5vw8HxmthCC2SKGkVDwy_R+w@mail.gmail.com>
+References: <1322639707-7798-1-git-send-email-msm@freescale.com>
+	<1322639707-7798-2-git-send-email-msm@freescale.com>
+In-Reply-To: <1322639707-7798-2-git-send-email-msm@freescale.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
 MIME-Version: 1.0
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [Proof of concept] patch.bbclass: add incredibly naive 'git am' mode
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH] siggen.py: If both sigs have a variable in it's whitelist then don't say it's changed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -45,71 +61,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 16:00:09 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Wed, 30 Nov 2011 17:32:32 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <C391E81EE582924FA4BE45F727FF7E1F@freescale.net>
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On Wed, 30 Nov 2011 16:43:04 +0100 Koen Kooi <koen@dominion.thruhere.net> wrote:
-
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> ---
->  meta/classes/patch.bbclass |    1 +
->  meta/lib/oe/patch.py       |   14 ++++++++++++++
->  2 files changed, 15 insertions(+), 0 deletions(-)
+On Wed, Nov 30, 2011 at 1:55 AM, Matthew McClintock <msm@freescale.com> wro=
+te:
+> Some BB_HASHBASE_WHITELIST variables are in the lists of variable
+> dependencies for signatures. Ignore those differences in lists
+> since this difference does not matter
 >
-> diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
-> index ac6c1ce..9f99e38 100644
-> --- a/meta/classes/patch.bbclass
-> +++ b/meta/classes/patch.bbclass
-> @@ -18,6 +18,7 @@ python patch_do_patch() {
->  		"patch": oe.patch.PatchTree,
->  		"quilt": oe.patch.QuiltTree,
->  		"git": oe.patch.GitApplyTree,
-> +		"gitam": oe.patch.GitAmTree,
->  	}
->  
->  	cls = patchsetmap[d.getVar('PATCHTOOL', 1) or 'quilt']
-> diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-> index f4ccb3e..06965ba 100644
-> --- a/meta/lib/oe/patch.py
-> +++ b/meta/lib/oe/patch.py
-> @@ -176,6 +176,20 @@ class GitApplyTree(PatchTree):
->  
->          return runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
->  
-> +class GitAmTree(PatchTree):
-> +    def __init__(self, dir, d):
-> +        PatchTree.__init__(self, dir, d)
-> +
-> +    def _applypatch(self, patch, force = False, reverse = False, run = True):
-> +        shellcmd = ["git", "am"]
-> +
-> +        shellcmd.append(patch['file'])
-> +
-> +        if not run:
-> +            return "sh" + "-c" + " ".join(shellcmd)
+> Signed-off-by: Matthew McClintock <msm@freescale.com>
 
-That'd result in
+Sent this to bitbake mailing list where it belongs.
 
-    'sh-cgit am'
+-M=
 
-Maybe you mean something like
-
-    " ".join(["sh", "-c"] + shellcmd)
-
-?
-
-> +
-> +        return runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
-> +
->  
->  class QuiltTree(PatchSet):
->      def _runcmd(self, args, run = True):
-
-Best wishes.
-Mario
--- 
-http://parenteses.org/mario
 
 
