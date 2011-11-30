@@ -1,33 +1,31 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RVsWb-0000e8-C0 for openembedded-core@lists.openembedded.org;
-	Wed, 30 Nov 2011 23:21:09 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAUMEAsX006115;
-	Wed, 30 Nov 2011 22:14:10 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 05846-04; Wed, 30 Nov 2011 22:14:05 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAUME2rr006109
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 30 Nov 2011 22:14:03 GMT
-Message-ID: <1322691251.17484.59.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Darren Hart <darren@dvhart.com>
-Date: Wed, 30 Nov 2011 22:14:11 +0000
-In-Reply-To: <cover.1322674459.git.darren@dvhart.com>
-References: <cover.1322674459.git.darren@dvhart.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	openembedded-core@lists.openembedded.org,
-	Chris Larson <clarson@kergoth.com>, Josef Ahmad <josef.ahmad@intel.com>,
-	Darren Hart <dvhart@linux.intel.com>
-Subject: Re: [PATCH 0/5] EFI live image support
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1RVsXa-0000hH-H5
+	for openembedded-core@lists.openembedded.org;
+	Wed, 30 Nov 2011 23:22:10 +0100
+Received: by lagj5 with SMTP id j5so467664lag.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2011 14:15:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=lwKTImvIxoHUTgOYKY4vAl06wtYaLInoOE1Indrf9hI=;
+	b=KN89kxaPzgWImhc0osxc00yB9jmDwwbvFtlbpuOzp5CvspobZQl+l+5kGSUXGuKzhW
+	O17cGbHpxBQ79TtGOvAEON1mc6p+JswNQojJ8eQ4A9VohJS+5TFiSWoY5LsL7i/FQ6Xo
+	yzF/aAFA6kpoU0dDX5ryPA2gpftUSlkavU6xA=
+Received: by 10.152.104.206 with SMTP id gg14mr2801876lab.41.1322691329301;
+	Wed, 30 Nov 2011 14:15:29 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.152.24.36 with HTTP; Wed, 30 Nov 2011 14:14:58 -0800 (PST)
+In-Reply-To: <685dc1375188fc90c1b3f8fd3b38442ec9bafddc.1322662245.git.dexuan.cui@intel.com>
+References: <cover.1322662245.git.dexuan.cui@intel.com>
+	<685dc1375188fc90c1b3f8fd3b38442ec9bafddc.1322662245.git.dexuan.cui@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 30 Nov 2011 14:14:58 -0800
+Message-ID: <CAMKF1soKtwMPU_fs3ZBjMG4sxq5xRnPKqD1s--nDa5KLH-h9Cg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/8] lzo: upgrade from 2.05 to the latest version 2.06
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,69 +40,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 22:21:09 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 Nov 2011 22:22:11 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2011-11-30 at 09:47 -0800, Darren Hart wrote:
-> This series provides optional support for EFI boot for live images, both hddimg
-> and ISO, on ia32 platforms. It creates a new grub-efi-native recipe to create
-> the boot image. bootimg.bbclass has been refactored and syslinux support has
-> been made optional. The new live images can be built as PCBIOS-legacy (the
-> original type), EFI, or both. The MACHINE_FEATURES values "pcbios" and "efi"
-> dictate this behavior, if neither are specified, it defaults to PCBIOS-legacy
-> only to maintain current behavior.
-> 
-> It is careful not to add unecessary dependencies to the build by dynamically
-> including only the necessary bootloader classes (syslinux and/or grub-efi).
-> 
-> EFI hddimg's do not install into /EFI/BOOT as is proper due to a bug in the
-> dosfstools: http://bugzilla.yoctoproject.org/show_bug.cgi?id=1783. For now, the
-> files are installed in the root directory and users will need to update their
-> firmware or use a startup.nsh script for pure EFI booting, or move them to
-> /EFI/BOOT manually.
-> 
-> Testing performed includes verification of the images built for the n450 BSP
-> with all combinations of the MACHINE_FEATURES. The syslinux and grub-efi boot
-> methods were validated on the n450 hardware as well. EFI-only ISO images are
-> untested, help here would be appreciated.
-> 
-> While the "install" target is preserved for the EFI boot, it will perform the
-> same install as it does currently - namely a GRUB legacy boot mechanism. Support
-> for EFI boot post install will follow in another patch series.
-> 
-> Thanks to Koen Kooi, Chris Larson, Richard Purdie, Josef Ahmad, Saul Wold, and
-> Joshua Lock for their contributions of expertise, code, and testing.
-> 
-> 
-> The following changes since commit 2864ff6a4b3c3f9b3bbb6d2597243cc5d3715939:
-> 
->   getVar/setVar cleanups (2011-11-26 22:42:00 +0000)
-> 
-> are available in the git repository at:
->   git://git.yoctoproject.org/user-contrib/dvhart/oe-core efi/v1
->   http://git.yoctoproject.org/cgit.cgi/user-contrib/dvhart/oe-core/log/?h=efi/v1
-> 
-> Darren Hart (5):
->   grub-efi-native: New recipe to build GRUB EFI images
->   bootimg: Refactor build_hddimg and build_iso routines
->   bootimg: Pull syslinux specific bits into syslinux.bbclass
->   bootimg: Add grub-efi support
->   bootimg: Allow for EFI-only boot images
+On Wed, Nov 30, 2011 at 6:12 AM, Dexuan Cui <dexuan.cui@intel.com> wrote:
+> Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+> ---
+> =C2=A0.../lzo/{lzo-2.05 =3D> lzo-2.06}/acinclude.m4 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0| =C2=A0 =C2=A00
+> =C2=A0.../lzo/{lzo-2.05 =3D> lzo-2.06}/autoconf.patch =C2=A0 =C2=A0 =C2=
+=A0| =C2=A0 =C2=A09 ++++++++-
+> =C2=A0.../lzo/{lzo_2.05.bb =3D> lzo_2.06.bb} =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A04 ++--
+> =C2=A03 files changed, 10 insertions(+), 3 deletions(-)
+> =C2=A0rename meta/recipes-support/lzo/{lzo-2.05 =3D> lzo-2.06}/acinclude.=
+m4 (100%)
+> =C2=A0rename meta/recipes-support/lzo/{lzo-2.05 =3D> lzo-2.06}/autoconf.p=
+atch (79%)
+> =C2=A0rename meta/recipes-support/lzo/{lzo_2.05.bb =3D> lzo_2.06.bb} (81%=
+)
+>
+> diff --git a/meta/recipes-support/lzo/lzo-2.05/acinclude.m4 b/meta/recipe=
+s-support/lzo/lzo-2.06/acinclude.m4
+> similarity index 100%
+> rename from meta/recipes-support/lzo/lzo-2.05/acinclude.m4
+> rename to meta/recipes-support/lzo/lzo-2.06/acinclude.m4
+> diff --git a/meta/recipes-support/lzo/lzo-2.05/autoconf.patch b/meta/reci=
+pes-support/lzo/lzo-2.06/autoconf.patch
+> similarity index 79%
+> rename from meta/recipes-support/lzo/lzo-2.05/autoconf.patch
+> rename to meta/recipes-support/lzo/lzo-2.06/autoconf.patch
+> index dbd2072..63c1d2d 100644
+> --- a/meta/recipes-support/lzo/lzo-2.05/autoconf.patch
+> +++ b/meta/recipes-support/lzo/lzo-2.06/autoconf.patch
+> @@ -5,6 +5,13 @@ to pass build
+> =C2=A0Upstream-Status: Inappropriate [workaround]
+>
+> =C2=A0Signed-off-by: Qing He <qing.he@intel.com>
+> +
+> +
+> +
+> +Wed Nov 30 14:42:01 CST 2011
+> +Rebase to lzo-2.06.
+> +Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+> +
+> =C2=A0---
+> =C2=A0diff --git a/configure.ac b/configure.ac
+> =C2=A0index 650749a..2a78845 100644
+> @@ -16,6 +23,6 @@ index 650749a..2a78845 100644
+>
+> =C2=A0-AC_PREREQ(2.67)
+> =C2=A0+AC_PREREQ(2.65)
 
-Thanks for this, I know its taken a bit of work!
+is this patch needed still. We use newer autoconf so why do we go back
+to 2.65 in this case ?
 
-I'm a little frustrated we have to jump through the dummy class hoop but
-that isn't your fault and we need to improve bitbake to better deal with
-it. Some of the syntax in places isn't ideal either but I can't come up
-with anything much better.
-
-I'm going to merge it on the grounds this provides a good starting point
-and if we find improvements we can make them on top of this.
-
-Cheers
-
-Richard
-
+> - AC_INIT([LZO],[2.05],[markus@oberhumer.com],[lzo],[http://www.oberhumer=
+.com/opensource/lzo/])
+> + AC_INIT([LZO],[2.06],[markus@oberhumer.com],[lzo],[http://www.oberhumer=
+.com/opensource/lzo/])
+> =C2=A0AC_MSG_NOTICE([Configuring LZO $PACKAGE_VERSION])
+> =C2=A0AC_CONFIG_SRCDIR(src/lzo_init.c)
+> diff --git a/meta/recipes-support/lzo/lzo_2.05.bb b/meta/recipes-support/=
+lzo/lzo_2.06.bb
+> similarity index 81%
+> rename from meta/recipes-support/lzo/lzo_2.05.bb
+> rename to meta/recipes-support/lzo/lzo_2.06.bb
+> index c49e94a..b2cc171 100644
+> --- a/meta/recipes-support/lzo/lzo_2.05.bb
+> +++ b/meta/recipes-support/lzo/lzo_2.06.bb
+> @@ -11,8 +11,8 @@ SRC_URI =3D "http://www.oberhumer.com/opensource/lzo/do=
+wnload/lzo-${PV}.tar.gz \
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://acinclude.m4 \
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0"
+>
+> -SRC_URI[md5sum] =3D "c67cda5fa191bab761c7cb06fe091e36"
+> -SRC_URI[sha256sum] =3D "449f98186d76ba252cd17ff1241ca2a96b7f62e0d3e4766f=
+88730dab0ea5f333"
+> +SRC_URI[md5sum] =3D "95380bd4081f85ef08c5209f4107e9f8"
+> +SRC_URI[sha256sum] =3D "ff79e6f836d62d3f86ef6ce893ed65d07e638ef4d3cb9529=
+63471b4234d43e73"
+>
+> =C2=A0inherit autotools
+>
+> --
+> 1.7.6
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
