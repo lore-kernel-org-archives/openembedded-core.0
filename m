@@ -1,32 +1,20 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1RVtCU-0003B9-WB
+	(envelope-from <dongxiao.xu@intel.com>) id 1RVtGK-0003KA-PL
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Dec 2011 00:04:27 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 30 Nov 2011 14:57:45 -0800
+	Thu, 01 Dec 2011 00:08:24 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 30 Nov 2011 15:01:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,273,1320652800"; d="scan'208";a="97190068"
-Received: from unknown (HELO envy.home) ([10.255.12.165])
-	by fmsmga002.fm.intel.com with ESMTP; 30 Nov 2011 14:57:45 -0800
-Message-ID: <4ED6B4EE.6000703@linux.intel.com>
-Date: Wed, 30 Nov 2011 14:57:50 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
-MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1322689519.git.darren@dvhart.com>
-	<e7ca852c4e673a6b32be203109a704202aeace3a.1322689519.git.darren@dvhart.com>
-	<6e118d2846f5606561b4ae1f3c3ae93fd69bc360.1322689519.git.darren@dvhart.com>
-	<CAMKF1sotPRfvMtbMYRBCtqpAj7CfYMzOzh1EORaOtBajzywwkA@mail.gmail.com>
-	<4ED6B025.1060705@linux.intel.com>
-	<CAMKF1sojotYjyRDVaVu0poUDRpTYMhA_9sX7sNvLQW7n-bL5Uw@mail.gmail.com>
-In-Reply-To: <CAMKF1sojotYjyRDVaVu0poUDRpTYMhA_9sX7sNvLQW7n-bL5Uw@mail.gmail.com>
-X-Enigmail-Version: 1.3.3
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4] autotools.bbclass: Report the missing configure path
+X-IronPort-AV: E=Sophos;i="4.71,272,1320652800"; d="scan'208";a="42685917"
+Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
+	by AZSMGA002.ch.intel.com with ESMTP; 30 Nov 2011 15:01:42 -0800
+From: Dongxiao Xu <dongxiao.xu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Dec 2011 07:21:34 +0800
+Message-Id: <cover.1322695203.git.dongxiao.xu@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/5][PULL] Recipe upgrades for glib and telepathy-*.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,39 +29,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 23:04:27 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 Nov 2011 23:08:25 -0000
 
+Hi Saul,
 
+This pull request upgrades some recipes.
+Please help to review and pull.
 
-On 11/30/2011 02:48 PM, Khem Raj wrote:
->>>> -               bbfatal "no configure script found"
->>>> +               bbfatal "no configure script found at $cfgscript"
->>>
->>> why not just do one line change something like
->>>
->>> bbfatal "configure script ${S}/configure not found"
->>
->> I prefer to use a variable when I need a value more than once. It avoids
->> future bugs where one is changed and the others were missed. As this
->> string is used 4 times, it seemed like the right call.
-> 
-> ok with variable still the cfgscript itself is the script and the
-> message "no configure script found at $cfgscript"
-> seems like $cfgscript is a location. you may want to make it
-> "$cfgscript configure script not found" or something
+Thanks,
+Dongxiao
 
-I can see that (although I think can be argued this is correct as well -
-a path with a filename is still a location). I was copying the language
-used elsewhere... but from where is eluding my search at the moment. RP
-has pulled these already I believe, so if the language here truly
-bothers you, we can address it in a follow-on. Personally I don't think
-it's really worth the trouble.
+The following changes since commit 36654d6d393cb8c8a545835184a96be4ae0c885d:
 
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+  grub: Use COMPATIBLE_HOST (2011-11-30 22:21:53 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dxu4/upgrade
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/upgrade
+
+Dongxiao Xu (5):
+  telepathy-idle: upgrade to version 0.1.11
+  telepathy-glib: upgrade to version 0.17.0
+  glib-2.0: upgrade to version 2.30.1
+  telepathy-mission-control: upgrade to version 5.10.1
+  distro_trakcing_fields: update for glib, telepathy-idle, etc
+
+ .../conf/distro/include/distro_tracking_fields.inc |   26 ++++++++++----------
+ ...thy-glib_0.16.0.bb => telepathy-glib_0.17.0.bb} |    4 +-
+ ...thy-idle_0.1.10.bb => telepathy-idle_0.1.11.bb} |    4 +-
+ ....9.3.bb => telepathy-mission-control_5.10.1.bb} |    4 +-
+ .../{glib-2.0_2.30.0.bb => glib-2.0_2.30.1.bb}     |    6 ++--
+ 5 files changed, 22 insertions(+), 22 deletions(-)
+ rename meta/recipes-connectivity/telepathy/{telepathy-glib_0.16.0.bb => telepathy-glib_0.17.0.bb} (80%)
+ rename meta/recipes-connectivity/telepathy/{telepathy-idle_0.1.10.bb => telepathy-idle_0.1.11.bb} (81%)
+ rename meta/recipes-connectivity/telepathy/{telepathy-mission-control_5.9.3.bb => telepathy-mission-control_5.10.1.bb} (92%)
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.30.0.bb => glib-2.0_2.30.1.bb} (91%)
+
 
 
