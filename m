@@ -1,27 +1,36 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Wenzong.Fan@windriver.com>) id 1RVZV7-0002NE-B9
+	(envelope-from <dexuan.cui@intel.com>) id 1RVcLi-0001HW-6O
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Nov 2011 03:02:22 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pAU1te2p014119
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Nov 2011 17:55:40 -0800 (PST)
-Received: from [128.224.162.191] (128.224.162.191) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 29 Nov 2011 17:55:40 -0800
-Message-ID: <4ED58D1D.6060903@windriver.com>
-Date: Wed, 30 Nov 2011 09:55:41 +0800
-From: wenzong fan <wenzong.fan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.1.11) Gecko/20100713 Thunderbird/3.0.6
+	Wed, 30 Nov 2011 06:04:50 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2011 20:58:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.69,595,1315206000"; d="scan'208";a="96817704"
+Received: from pgsmsx603.gar.corp.intel.com ([10.221.43.87])
+	by fmsmga002.fm.intel.com with ESMTP; 29 Nov 2011 20:58:08 -0800
+Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
+	pgsmsx603.gar.corp.intel.com (10.221.43.87) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 30 Nov 2011 12:56:34 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
+	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
+	Wed, 30 Nov 2011 12:56:33 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 30 Nov 2011 12:56:32 +0800
+Thread-Topic: [OE-core] [CONSOLIDATED PULL 00/23] Scooping up Patches
+Thread-Index: AcyulQC8f4CPRyE8R0GXQoAm4z4ZLwAhZc6w
+Message-ID: <1865303E0DED764181A9D882DEF65FB6E8EDF39B50@shsmsx502.ccr.corp.intel.com>
+References: <cover.1322554983.git.sgw@linux.intel.com>
+	<1322570811.3166.8.camel@ted>
+In-Reply-To: <1322570811.3166.8.camel@ted>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: zh-CN, en-US
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1322554339.git.wenzong.fan@windriver.com>	<ba86babf9425bb34f62c879e2c44febf7308a543.1322554339.git.wenzong.fan@windriver.com>	<CAEsOVNcZYhLayMYXcwm8fYFpqJ=dVTfbyDjvM+Ox_qqVOmEn_w@mail.gmail.com>
-	<1322589860.7964.7.camel@ted>
-In-Reply-To: <1322589860.7964.7.camel@ted>
-Subject: Re: [PATCH 2/5] m4: Add m4-nativesdk recipes
+Subject: Re: [CONSOLIDATED PULL 00/23] Scooping up Patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,52 +45,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 02:02:22 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 Nov 2011 05:04:50 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 11/30/2011 02:04 AM, Richard Purdie wrote:
-> On Tue, 2011-11-29 at 17:48 +0000, McClintock Matthew-B29882 wrote:
->    
->> On Tue, Nov 29, 2011 at 2:38 AM,<wenzong.fan@windriver.com>  wrote:
->>      
->>> From: Wenzong Fan<wenzong.fan@windriver.com>
->>>
->>> [YOCTO #1603]
->>>
->>> m4-nativesdk is required by autoconf-nativesdk.
->>>        
->> Is there a reason we don't just extend the m4 recipe for native and
->> nativesdk? (I'm just curious)
->>      
-> Its a good question, BBCLASSEXTEND = "nativesdk" should really work and
-> those recipes look wrong (they shouldn't need to set
-> INHIBIT_AUTOTOOLS_DEPS = "1" or have the custom do_configure).
->    
+Richard Purdie wrote on 2011-11-29:
+>> The following changes since commit
+>> 2864ff6a4b3c3f9b3bbb6d2597243cc5d3715939:
+>>=20
+>>   getVar/setVar cleanups (2011-11-26 22:42:00 +0000)
+>> are available in the git repository at:
+>>   git://git.openembedded.org/openembedded-core-contrib sgw/stage
+> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h =
+=3D
+> sgw/stage
+>>=20
+>> Dexuan Cui (1):
+>>   coreutils: build and install hostname
+Hi RP, Saul,
+Please don't pull the patch -- I don't think we should use it now:
+The purpose of the patch is to use the hostname of coreutils version rather=
+ than that of busybox version:
+IIRC, because of http://bugzilla.pokylinux.org/show_bug.cgi?id=3D1784 (busy=
+box not working with pseudo:libpseudo.so cannot be preloaded: ignored), bus=
+ybox's hostname causes a non-fatal warning message in some package's do_con=
+figure's log (at this moment, I don't remember the package's name...), but,=
+ I think actually we can safely ignore the warning msg.
 
-Ah, this works. I'll extend the m4 recipe to support 'nativesdk'
-> The m4-native recipe is a little tricker as its one of the early
-> bootstrap dependencies required by autotools. This is why it does need
-> the INHIBIT_AUTOTOOLS_DEPS and custom do_configure line although those
-> should be possible with modern BBCLASSEXTEND...
->
->    
+hostname of coreutils version has 2 issues: 1) need to disable doc/man gene=
+ration to make do_compile pass; 2) it doesn't support -F : http://git.opene=
+mbedded.org/openembedded/commit/?id=3Df2e1da7559d1798ae8314d8824c8d53da0b35=
+06b so we have to fix(or hack) poky's meta/recipes-core/initscripts/initscr=
+ipts-1.0/hostname.sh if we decide to use it.
 
-Thanks for let me know the story, this really confused me when I 
-deciding copy/extend for the m4-nativesdk.
+After discussed with Saul, I think we may as well choose to do nothing to c=
+oreutils and endure the warning caused by busybox's hostname.
 
-Wenzong
-> Cheers,
->
-> Richard
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->    
+Thanks,
+-- Dexuan
+
 
 
 
