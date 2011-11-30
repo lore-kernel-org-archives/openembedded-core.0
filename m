@@ -1,32 +1,31 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RVtnU-0004Os-8U for openembedded-core@lists.openembedded.org;
-	Thu, 01 Dec 2011 00:42:40 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAUNZwp3007863;
-	Wed, 30 Nov 2011 23:35:58 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 07331-07; Wed, 30 Nov 2011 23:35:54 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAUNZoYI007857
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 30 Nov 2011 23:35:51 GMT
-Message-ID: <1322696158.17484.85.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Nov 2011 23:35:58 +0000
-In-Reply-To: <262b7b5f2bc5cf31b54a7f5d3ff27306a6a45de8.1322697616.git.julian.pidancet@gmail.com>
-References: <4ED69E46.3030808@linux.intel.com>
-	<262b7b5f2bc5cf31b54a7f5d3ff27306a6a45de8.1322697616.git.julian.pidancet@gmail.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Julian Pidancet <julian.pidancet@gmail.com>
-Subject: Re: [PATCH] Fix multiarch DISTRO_FEATURE
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1RVu1d-0004nQ-Hw
+	for openembedded-core@lists.openembedded.org;
+	Thu, 01 Dec 2011 00:57:17 +0100
+Received: by bkbzv15 with SMTP id zv15so899317bkb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2011 15:50:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=qTOR0jZNJV2KAHBZTFf0gf5dOBzPdWuQ9SQ9P3EOoVo=;
+	b=o/eHWSONx2ChcdWQcxZi/RPhdDo52RFhNQdyWczZPtQL+iywzpDtVOwJ6J5uqbqChn
+	lvejr3HnccwDWwJlWMjOW+O8yzVzLwWHeeQUZnu8PklgIxKZlPePfdL/ENVKfM6hJ2Aq
+	pVdwIvEctcN14SlwabmpycS9JLp2ZLl6tH/H0=
+Received: by 10.204.154.1 with SMTP id m1mr4576331bkw.107.1322697036836;
+	Wed, 30 Nov 2011 15:50:36 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id jf4sm7426725bkc.5.2011.11.30.15.50.33
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 30 Nov 2011 15:50:36 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Dec 2011 00:50:25 +0100
+Message-Id: <1322697025-22754-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.rc4
+In-Reply-To: <1322696033.17484.84.camel@ted>
+References: <1322696033.17484.84.camel@ted>
+Subject: [PATCH] sysstat: don't run populate-volatile.sh update in do_rootfs or without populate-volatile.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,29 +40,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 23:42:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 Nov 2011 23:57:17 -0000
 
-On Thu, 2011-12-01 at 00:01 +0000, Julian Pidancet wrote:
-> Make get_gcc_multiarch_setting more elegant. Use a dictionnary
-> to store the config options and replace bb.data.getVar with d.getVar.
-> Remove i686 from the architecture list because it doesn't seem
-> to be a valid TARGET_ARCH any more in OE.
-> Configure gdb (gdb and gdb-cross) with --enable-64-bit-bfd if
-> multiarch DISTRO_FEATURE is present
-> 
-> Signed-off-by: Julian Pidancet <julian.pidancet@gmail.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-common.inc |   17 ++++++++++-------
->  meta/recipes-devtools/gdb/gdb-common.inc |    1 +
->  2 files changed, 11 insertions(+), 7 deletions(-)
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-extended/sysstat/sysstat.inc       |    7 ++++++-
+ meta/recipes-extended/sysstat/sysstat_10.0.2.bb |    2 +-
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
-Applied to master, thanks and sorry about the mixup with the patches.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
+index 2936f96..ca40ab5 100644
+--- a/meta/recipes-extended/sysstat/sysstat.inc
++++ b/meta/recipes-extended/sysstat/sysstat.inc
+@@ -22,7 +22,12 @@ do_install() {
+ }
+ 
+ pkg_postinst_${PN} () {
+-        /etc/init.d/populate-volatile.sh update
++        if [ -n "$D" ]; then
++                exit 1
++        fi
++        if [ -e /etc/init.d/populate-volatile.sh ]; then
++                /etc/init.d/populate-volatile.sh update
++        fi
+ }
+ 
+ 
+diff --git a/meta/recipes-extended/sysstat/sysstat_10.0.2.bb b/meta/recipes-extended/sysstat/sysstat_10.0.2.bb
+index bd559d8..7b57bc8 100644
+--- a/meta/recipes-extended/sysstat/sysstat_10.0.2.bb
++++ b/meta/recipes-extended/sysstat/sysstat_10.0.2.bb
+@@ -2,7 +2,7 @@ require sysstat.inc
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ 
+ 
+-- 
+1.7.8.rc4
 
 
 
