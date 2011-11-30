@@ -1,36 +1,20 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1RVcLi-0001HW-6O
-	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Nov 2011 06:04:50 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2011 20:58:09 -0800
+	(envelope-from <lei.mei@intel.com>) id 1RVdJT-0007g2-KZ
+	for openembedded-core@openembedded.org; Wed, 30 Nov 2011 07:06:35 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2011 21:58:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.69,595,1315206000"; d="scan'208";a="96817704"
-Received: from pgsmsx603.gar.corp.intel.com ([10.221.43.87])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Nov 2011 20:58:08 -0800
-Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
-	pgsmsx603.gar.corp.intel.com (10.221.43.87) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Wed, 30 Nov 2011 12:56:34 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
-	Wed, 30 Nov 2011 12:56:33 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Nov 2011 12:56:32 +0800
-Thread-Topic: [OE-core] [CONSOLIDATED PULL 00/23] Scooping up Patches
-Thread-Index: AcyulQC8f4CPRyE8R0GXQoAm4z4ZLwAhZc6w
-Message-ID: <1865303E0DED764181A9D882DEF65FB6E8EDF39B50@shsmsx502.ccr.corp.intel.com>
-References: <cover.1322554983.git.sgw@linux.intel.com>
-	<1322570811.3166.8.camel@ted>
-In-Reply-To: <1322570811.3166.8.camel@ted>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
-MIME-Version: 1.0
-Subject: Re: [CONSOLIDATED PULL 00/23] Scooping up Patches
+X-IronPort-AV: E=Sophos;i="4.69,595,1315206000"; d="scan'208";a="90460091"
+Received: from daocaoren-desktop.sh.intel.com (HELO localhost.localdomain)
+	([10.239.47.21])
+	by fmsmga001.fm.intel.com with ESMTP; 29 Nov 2011 21:58:37 -0800
+From: Mei Lei <lei.mei@intel.com>
+To: openembedded-core@openembedded.org
+Date: Wed, 30 Nov 2011 13:57:51 +0800
+Message-Id: <cover.1322619553.git.lei.mei@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+Subject: [PATCH 0/3] Recipes upgrade for dropbear,iproute2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,46 +29,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 05:04:50 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 30 Nov 2011 06:06:35 -0000
 
-Richard Purdie wrote on 2011-11-29:
->> The following changes since commit
->> 2864ff6a4b3c3f9b3bbb6d2597243cc5d3715939:
->>=20
->>   getVar/setVar cleanups (2011-11-26 22:42:00 +0000)
->> are available in the git repository at:
->>   git://git.openembedded.org/openembedded-core-contrib sgw/stage
-> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h =
-=3D
-> sgw/stage
->>=20
->> Dexuan Cui (1):
->>   coreutils: build and install hostname
-Hi RP, Saul,
-Please don't pull the patch -- I don't think we should use it now:
-The purpose of the patch is to use the hostname of coreutils version rather=
- than that of busybox version:
-IIRC, because of http://bugzilla.pokylinux.org/show_bug.cgi?id=3D1784 (busy=
-box not working with pseudo:libpseudo.so cannot be preloaded: ignored), bus=
-ybox's hostname causes a non-fatal warning message in some package's do_con=
-figure's log (at this moment, I don't remember the package's name...), but,=
- I think actually we can safely ignore the warning msg.
-
-hostname of coreutils version has 2 issues: 1) need to disable doc/man gene=
-ration to make do_compile pass; 2) it doesn't support -F : http://git.opene=
-mbedded.org/openembedded/commit/?id=3Df2e1da7559d1798ae8314d8824c8d53da0b35=
-06b so we have to fix(or hack) poky's meta/recipes-core/initscripts/initscr=
-ipts-1.0/hostname.sh if we decide to use it.
-
-After discussed with Saul, I think we may as well choose to do nothing to c=
-oreutils and endure the warning caused by busybox's hostname.
+Hi Saul,
+	These patches upgraded dropbear and iproute2, and update the distro tracking information for dropbear, iproute2 and net-tools. Please help to review and pull.
 
 Thanks,
--- Dexuan
+Lei
 
+The following changes since commit 177df2c51927f44e3536856f4604364b38695bc2:
+  Richard Purdie (1):
+        qt-mobility: Add missing patch
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib lmei3/upgrade1129
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=lmei3/upgrade1129
+
+Mei Lei (3):
+  iproute2: Upgrade from 3.0.0 to 3.1.0
+  dropbear: Upgrade from 0.53.1 to 2011.54
+  distro_tracking_fields.inc: Update dropbear,iproute2,net-tools
+    tracking information.
+
+ .../conf/distro/include/distro_tracking_fields.inc |   20 +++++-----
+ .../configure-cross.patch                          |    0
+ .../{iproute2_3.0.0.bb => iproute2_3.1.0.bb}       |    4 +-
+ .../configure.patch                                |    0
+ meta/recipes-core/dropbear/dropbear.inc            |    8 ----
+ .../dropbear/dropbear/allow-nopw.patch             |   40 --------------------
+ meta/recipes-core/dropbear/dropbear_0.53.1.bb      |    6 ---
+ meta/recipes-core/dropbear/dropbear_2011.54.bb     |    6 +++
+ 8 files changed, 18 insertions(+), 66 deletions(-)
+ rename meta/recipes-connectivity/iproute2/{iproute2-3.0.0 => iproute2-3.1.0}/configure-cross.patch (100%)
+ rename meta/recipes-connectivity/iproute2/{iproute2_3.0.0.bb => iproute2_3.1.0.bb} (72%)
+ rename meta/recipes-core/dropbear/{dropbear-0.53.1 => dropbear-2011.54}/configure.patch (100%)
+ delete mode 100644 meta/recipes-core/dropbear/dropbear/allow-nopw.patch
+ delete mode 100644 meta/recipes-core/dropbear/dropbear_0.53.1.bb
+ create mode 100644 meta/recipes-core/dropbear/dropbear_2011.54.bb
 
 
 
