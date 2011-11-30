@@ -1,24 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RVYDv-0008Ez-U2
+	(envelope-from <josh@linux.intel.com>) id 1RVYDw-0008Er-IG
 	for openembedded-core@lists.openembedded.org;
 	Wed, 30 Nov 2011 01:40:32 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 29 Nov 2011 16:33:51 -0800
+	by orsmga102.jf.intel.com with ESMTP; 29 Nov 2011 16:33:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="81378111"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="81378110"
 Received: from unknown (HELO shamshir.amr.corp.intel.com) ([10.255.15.149])
-	by orsmga002.jf.intel.com with ESMTP; 29 Nov 2011 16:33:51 -0800
+	by orsmga002.jf.intel.com with ESMTP; 29 Nov 2011 16:33:50 -0800
 From: Joshua Lock <josh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Nov 2011 16:33:47 -0800
-Message-Id: <ada3c6d12ad82d651f25c5f2ea41e971c1cc5fb3.1322606832.git.josh@linux.intel.com>
+Date: Tue, 29 Nov 2011 16:33:46 -0800
+Message-Id: <49c3923f2be40289ece9867af1cbbe9d199acc60.1322606832.git.josh@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.3
 In-Reply-To: <cover.1322606832.git.josh@linux.intel.com>
 References: <cover.1322606832.git.josh@linux.intel.com>
 In-Reply-To: <cover.1322606832.git.josh@linux.intel.com>
 References: <cover.1322606832.git.josh@linux.intel.com>
-Subject: [PATCH 11/11] distro-tracking-fields: update entries for clutter recipes
+Subject: [PATCH 10/11] clutter-box2d: drop unbuildable clutter-box2d-1.6_0.10.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,119 +33,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 00:40:32 -0000
+X-List-Received-Date: Wed, 30 Nov 2011 00:40:33 -0000
 
-Tidy up entries for clutter related recipes
-* Update to 1.8 namespace
-* Move to same section of file for easier maintenance as a unit
-* Update for recent recipe upgrades
-* Assign myself as maintainer
+It's very old at this point and doesn't build with recent clutter
 
 Signed-off-by: Joshua Lock <josh@linux.intel.com>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |   68 ++++++++-----------
- 1 files changed, 29 insertions(+), 39 deletions(-)
+ meta/conf/multilib.conf                            |    2 +-
+ meta/recipes-core/tasks/task-core-tools.bb         |    4 +-
+ .../clutter/clutter-box2d-1.6_0.10.0.bb            |   24 ----------------
+ .../clutter-box2d/fix-disable-introspection.patch  |   30 --------------------
+ .../clutter/clutter-box2d/isfinite.patch           |   19 ------------
+ 5 files changed, 3 insertions(+), 76 deletions(-)
+ delete mode 100644 meta/recipes-graphics/clutter/clutter-box2d-1.6_0.10.0.bb
+ delete mode 100644 meta/recipes-graphics/clutter/clutter-box2d/fix-disable-introspection.patch
+ delete mode 100644 meta/recipes-graphics/clutter/clutter-box2d/isfinite.patch
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index c07341e..4661264 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -2391,7 +2391,7 @@ RECIPE_LATEST_VERSION_pn-task-core-clutter="1.0"
- RECIPE_NO_OF_PATCHES_pn-task-core-clutter="0"
- RECIPE_LATEST_RELEASE_DATE_pn-task-core-clutter="n/a"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-task-core-clutter="n/a"
--RECIPE_MAINTAINER_pn-task-core-clutter = "Dongxiao Xu <dongxiao.xu@intel.com>"
-+RECIPE_MAINTAINER_pn-task-core-clutter = "Joshua Lock <josh@linux.intel.com>"
- DISTRO_PN_ALIAS_pn-task-core-clutter = "OE-Core"
+diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
+index 3689482..1540f9c 100644
+--- a/meta/conf/multilib.conf
++++ b/meta/conf/multilib.conf
+@@ -42,9 +42,9 @@ BBCLASSEXTEND_append_pn-cairo = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-calibrateproto = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-chkconfig = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-clutter-1.8 = " ${MULTILIBS}"
+-BBCLASSEXTEND_append_pn-clutter-box2d-1.6 = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-clutter-gst-1.8 = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-clutter-gtk-1.8 = " ${MULTILIBS}"
++BBCLASSEXTEND_append_pn-clutter-box2d = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-compositeproto = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-connman-gnome = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-connman = " ${MULTILIBS}"
+diff --git a/meta/recipes-core/tasks/task-core-tools.bb b/meta/recipes-core/tasks/task-core-tools.bb
+index 3159e06..12d4ff9 100644
+--- a/meta/recipes-core/tasks/task-core-tools.bb
++++ b/meta/recipes-core/tasks/task-core-tools.bb
+@@ -6,7 +6,7 @@ DESCRIPTION = "Tools tasks for OE-Core"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+-PR = "r12"
++PR = "r13"
  
- RECIPE_STATUS_pn-task-core-boot="green"
-@@ -2705,12 +2705,6 @@ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libmusicbrainz="2 years"
- RECIPE_LAST_UPDATE_pn-libmusicbrainz = "Nov 16, 2010"
- RECIPE_MAINTAINER_pn-libmusicbrainz = "Dongxiao Xu <dongxiao.xu@intel.com>"
- 
--RECIPE_STATUS_pn-clutter-gst-1.6 = "red"
--DISTRO_PN_ALIAS_pn-clutter-gst-1.6 = "Fedora=clutter-gst Debian=libclutter-gst"
--RECIPE_LATEST_VERSION_pn-clutter-gst-1.6 = "1.3.8"
--RECIPE_LAST_UPDATE_pn-clutter-gst-1.6 = "Mar 28, 2011"
--RECIPE_MAINTAINER_pn-clutter-gst-1.6 = "Dongxiao Xu <dongxiao.xu@intel.com>"
+ PACKAGES = "\
+     task-core-tools-debug \
+@@ -97,5 +97,5 @@ RDEPENDS_task-core-tools-testapps = "\
+     xwininfo \
+     xprop \
+     xvideo-tests \
+-    clutter-box2d-1.6 \
++    clutter-box2d \
+     "
+diff --git a/meta/recipes-graphics/clutter/clutter-box2d-1.6_0.10.0.bb b/meta/recipes-graphics/clutter/clutter-box2d-1.6_0.10.0.bb
+deleted file mode 100644
+index a0024d0..0000000
+--- a/meta/recipes-graphics/clutter/clutter-box2d-1.6_0.10.0.bb
++++ /dev/null
+@@ -1,24 +0,0 @@
+-require clutter-box2d.inc
 -
- RECIPE_STATUS_pn-farsight2 = "red"
- RECIPE_LATEST_VERSION_pn-farsight2 = "0.0.20"
- RECIPE_LAST_UPDATE_pn-farsight2 = "Aug 19, 2009"
-@@ -5445,26 +5439,6 @@ RECIPE_LAST_UPDATE_pn-gtk-engines = "Dec 1, 2010"
- RECIPE_NO_UPDATE_REASON_pn-gtk-engines = "Do not upgrade to version: 2.91.1 because prefer stable tree"
- RECIPE_MAINTAINER_pn-gtk-engines = "Zhai Edwin <edwin.zhai@intel.com>"
- 
--RECIPE_STATUS_pn-clutter-box2d-1.6 = "red"
--RECIPE_LATEST_VERSION_pn-clutter-box2d-1.6 = "0.10.0"
--RECIPE_MANUAL_CHECK_DATE_pn-clutter-box2d-1.6 = "Jun 28, 2011"
--RECIPE_LAST_UPDATE_pn-clutter-box2d-1.6 = "Mar 28, 2011"
--RECIPE_MAINTAINER_pn-clutter-box2d-1.6 = "Zhai Edwin <edwin.zhai@intel.com>"
--DISTRO_PN_ALIAS_pn-clutter-box2d-1.6 = "OpenedHand"
+-PR = "r1"
 -
--RECIPE_STATUS_pn-clutter-box2d = "red"
--RECIPE_LATEST_VERSION_pn-clutter-box2d = "0.10.0"
--RECIPE_MANUAL_CHECK_DATE_pn-clutter-box2d = "Jun 28, 2011"
--RECIPE_LAST_UPDATE_pn-clutter-box2d = "Mar 28, 2011"
--RECIPE_MAINTAINER_pn-clutter-box2d = "Zhai Edwin <edwin.zhai@intel.com>"
--DISTRO_PN_ALIAS_pn-clutter-box2d = "OpenedHand"
+-DEPENDS += "clutter-1.6"
 -
+-SRC_URI = "http://source.clutter-project.org/sources/clutter-box2d/0.10/clutter-box2d-${PV}.tar.bz2 \
+-           file://fix-disable-introspection.patch \
+-           file://isfinite.patch \
+-          "
 -
--RECIPE_STATUS_pn-clutter-gtk-1.4 = "red"
--DISTRO_PN_ALIAS_pn-clutter-gtk-1.4 = "Fedora=clutter-gtk OpenSuSE=clutter-gtk Ubuntu=clutter-gtk-0.10 Mandriva=clutter-gtk Debian=clutter-gtk"
--RECIPE_LATEST_VERSION_pn-clutter-gtk-1.4 = "0.90.0+git0+e8d828ba1d87937baa571e68fdff22f3e2d79ca8"
--RECIPE_MAINTAINER_pn-clutter-gtk-1.4 = "Zhai Edwin <edwin.zhai@intel.com>"
+-S = "${WORKDIR}/clutter-box2d-${PV}"
 -
- RECIPE_STATUS_pn-tidy = "red"
- RECIPE_LATEST_VERSION_pn-tidy = "0.1.0+git0+e25416e1293e1074bfa6727c80527dcff5b1f3cb"
- RECIPE_LAST_UPDATE_pn-tidy = "Dec 18, 2008"
-@@ -5480,18 +5454,34 @@ RECIPE_LATEST_VERSION_pn-libgalago = "0.5.2"
- RECIPE_LAST_UPDATE_pn-libgalago = "Apr 11, 2007"
- RECIPE_MAINTAINER_pn-libgalago = "Zhai Edwin <edwin.zhai@intel.com>"
- 
--RECIPE_STATUS_pn-clutter-1.6 = "red"
--DISTRO_PN_ALIAS_pn-clutter-1.6 = "Fedora=clutter OpenSuse=clutter Ubuntu=clutter-1.0 Mandriva=clutter Debian=clutter"
--RECIPE_LATEST_VERSION_pn-clutter-1.6 = "1.6.14"
--RECIPE_MANUAL_CHECK_DATE_pn-clutter-1.6 = "Jun 28, 2011"
--RECIPE_LAST_UPDATE_pn-clutter-1.6 = "Apr 19, 2011"
--RECIPE_MAINTAINER_pn-clutter-1.6 = "Zhai Edwin <edwin.zhai@intel.com>"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
 -
--RECIPE_STATUS_pn-clutter = "red"
--DISTRO_PN_ALIAS_pn-clutter = "Fedora=clutter-gtk OpenSuSE=clutter-gtk Ubuntu=clutter-gtk-0.10 Mandriva=clutter-gtk Debian=clutter-gtk"
--RECIPE_LATEST_VERSION_pn-clutter = "1.6.14"
--RECIPE_MANUAL_CHECK_DATE_pn-clutter = "Jun 28, 2011"
--RECIPE_MAINTAINER_pn-clutter = "Zhai Edwin <edwin.zhai@intel.com>"
-+RECIPE_STATUS_pn-cogl = "green"
-+DISTRO_PN_ALIAS_pn-cogl = "Fedora=cogl OpenSuse=cogl Ubuntu=cogl Mandriva=cogl Debian=cogl"
-+RECIPE_LATEST_VERSION_pn-cogl = "1.8.0"
-+RECIPE_MANUAL_CHECK_DATE_pn-cogl = "Nov 9, 2011"
-+RECIPE_LAST_UPDATE_pn-cogl = "Nov 9, 2011"
-+
-+RECIPE_STATUS_pn-clutter-1.8 = "green"
-+DISTRO_PN_ALIAS_pn-clutter-1.8 = "Fedora=clutter OpenSuse=clutter Ubuntu=clutter-1.0 Mandriva=clutter Debian=clutter"
-+RECIPE_LATEST_VERSION_pn-clutter-1.8 = "1.8.0"
-+RECIPE_MANUAL_CHECK_DATE_pn-clutter-1.8 = "Nov 9, 2011"
-+RECIPE_LAST_UPDATE_pn-clutter-1.8 = "Nov 9, 2011"
-+RECIPE_MAINTAINER_pn-clutter-1.8 = "Joshua Lock <josh@linux.intel.com>"
-+
-+RECIPE_STATUS_pn-clutter-gtk-1.8 = "red"
-+DISTRO_PN_ALIAS_pn-clutter-gtk-1.8 = "Fedora=clutter-gtk OpenSuSE=clutter-gtk Ubuntu=clutter-gtk-0.10 Mandriva=clutter-gtk Debian=clutter-gtk"
-+RECIPE_LATEST_VERSION_pn-clutter-gtk-1.8 = "0.11.4"
-+RECIPE_MAINTAINER_pn-clutter-gtk-1.8 = "Joshua Lock <josh@linux.intel.com>"
-+
-+RECIPE_STATUS_pn-clutter-gst-1.8 = "red"
-+DISTRO_PN_ALIAS_pn-clutter-gst-1.8 = "Fedora=clutter-gst Debian=libclutter-gst"
-+RECIPE_LATEST_VERSION_pn-clutter-gst-1.8 = "1.4.2"
-+RECIPE_LAST_UPDATE_pn-clutter-gst-1.8 = "Nov 09, 2011"
-+RECIPE_MAINTAINER_pn-clutter-gst-1.8 = "Joshua Lock <josh@linux.intel.com>"
-+
-+RECIPE_STATUS_pn-clutter-box2d = "red"
-+RECIPE_LATEST_VERSION_pn-clutter-box2d = "10.0.0"
-+RECIPE_LAST_UPDATE_pn-clutter-box2d = "Nov 29, 2011"
-+RECIPE_MAINTAINER_pn-clutter-box2d = "Joshua Lock <josh@linux.intel.com>"
- 
- RECIPE_STATUS_pn-libgnomekbd = "red"
- RECIPE_LATEST_VERSION_pn-libgnomekbd = "2.31.1"
+-BASE_CONF += "--disable-introspection"
+-
+-do_configure_prepend () {
+-	# Disable DOLT
+-	sed -i -e 's/^DOLT//' ${S}/configure.ac
+-}
+-
+-SRC_URI[md5sum] = "51618976ca6a5d536c4eac5f0e120d9d"
+-SRC_URI[sha256sum] = "1e42d0cea429e4dc953a1f652672dbd322b3938846e99bab35f463de6fd8ae7f"
+diff --git a/meta/recipes-graphics/clutter/clutter-box2d/fix-disable-introspection.patch b/meta/recipes-graphics/clutter/clutter-box2d/fix-disable-introspection.patch
+deleted file mode 100644
+index 58f2729..0000000
+--- a/meta/recipes-graphics/clutter/clutter-box2d/fix-disable-introspection.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-Even with introspection disabled clutter-box2d would try to install the gir
+-files.
+-This patch ignored the while introspection related section of the Makefile if
+-introspection is disabled.
+-
+-JL 28/03/11
+-josh@linux.intel.com
+-
+-Upstream-Status: Inappropriate [configuration] 
+-
+-Index: clutter-box2d-0.10.0/clutter-box2d/Makefile.am
+-===================================================================
+---- clutter-box2d-0.10.0.orig/clutter-box2d/Makefile.am
+-+++ clutter-box2d-0.10.0/clutter-box2d/Makefile.am
+-@@ -41,6 +41,8 @@ EXTRA_DIST = \
+- 
+- BUILT_GIRSOURCES =
+- 
+-+if HAVE_INTROSPECTION
+-+
+- ClutterBox2D-@CLUTTER_BOX2D_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libclutter-box2d-@CLUTTER_BOX2D_API_VERSION@.la
+- 	$(QUIET_GEN)$(INTROSPECTION_SCANNER) -v \
+- 		--namespace ClutterBox2D --nsversion=@CLUTTER_BOX2D_API_VERSION@ \
+-@@ -70,3 +72,5 @@ typelibs_DATA = $(BUILT_GIRSOURCES:.gir=
+- 
+- CLEANFILES=
+- CLEANFILES += $(BUILT_GIRSOURCES) $(typelibs_DATA)
+-+
+-+endif
+-\ No newline at end of file
+diff --git a/meta/recipes-graphics/clutter/clutter-box2d/isfinite.patch b/meta/recipes-graphics/clutter/clutter-box2d/isfinite.patch
+deleted file mode 100644
+index bcdbe24..0000000
+--- a/meta/recipes-graphics/clutter/clutter-box2d/isfinite.patch
++++ /dev/null
+@@ -1,19 +0,0 @@
+-_finite is obsoleted and C99 has isfinite instead so we should use it
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Upstream-Status: Pending
+-
+-Index: clutter-box2d-0.10.0/box2d/Source/Common/b2Math.h
+-===================================================================
+---- clutter-box2d-0.10.0.orig/box2d/Source/Common/b2Math.h	2008-12-16 06:42:10.000000000 -0800
+-+++ clutter-box2d-0.10.0/box2d/Source/Common/b2Math.h	2011-07-20 16:41:02.046430743 -0700
+-@@ -60,7 +60,7 @@
+- #ifdef _MSC_VER
+- 	return _finite(x) != 0;
+- #else
+--	return finite(x) != 0;
+-+	return std::isfinite(x) != 0;
+- #endif
+- }
+- 
 -- 
 1.7.7.3
 
