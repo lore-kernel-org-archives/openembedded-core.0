@@ -1,27 +1,34 @@
-Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
+Received: from sirius.lasnet.de ([78.47.116.19])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1RVjEu-0004HU-Hg
+	(envelope-from <stefan@datenfreihafen.org>) id 1RVjVx-0004tb-8y
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Nov 2011 13:26:16 +0100
-Received: by mail.chez-thomas.org (Postfix, from userid 999)
-	id BD93F1660837; Wed, 30 Nov 2011 05:19:36 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from hermes.chez-thomas.org (localhost.localdomain [127.0.0.1])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 18C781660836;
-	Wed, 30 Nov 2011 05:19:34 -0700 (MST)
-Message-ID: <4ED61F56.8050409@mlbassoc.com>
-Date: Wed, 30 Nov 2011 05:19:34 -0700
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:7.0.1) Gecko/20110930 Thunderbird/7.0.1
+	Wed, 30 Nov 2011 13:43:53 +0100
+Received: from p4fc77270.dip.t-dialin.net ([79.199.114.112]
+	helo=novatech.datenfreihafen.org) by sirius.lasnet.de with esmtpsa 
+	(Cipher TLS1.0:RSA_AES_256_CBC_SHA1:32) (Exim 4.69 #1)
+	id 1RVjPS-0006ar-8i by authid <stefan@sostec.de> with srv_auth_cram_md5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2011 13:37:15 +0100
+Received: from stefan by novatech.datenfreihafen.org with local (Exim 4.77)
+	(envelope-from <stefan@novatech.datenfreihafen.org>)
+	id 1RVjPz-00077X-Ly for openembedded-core@lists.openembedded.org;
+	Wed, 30 Nov 2011 13:37:43 +0100
+Date: Wed, 30 Nov 2011 13:37:43 +0100
+From: Stefan Schmidt <stefan@datenfreihafen.org>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20111130123743.GA27310@novatech.datenfreihafen.org>
+References: <4ED61F56.8050409@mlbassoc.com>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: [PATCH] Alter order of file systems tried by mount
+In-Reply-To: <4ED61F56.8050409@mlbassoc.com>
+X-Mailer: Mutt http://www.mutt.org/
+X-KeyID: 0xDDF51665
+X-Website: http://www.datenfreihafen.org/
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Spam-Checker-Version: SpamAssassin 3.2.5 (2008-06-10) on sirius.lasnet.de
+X-Spam-Level: 
+X-Spam-Status: No, score=-4.5 required=5.0 tests=ALL_TRUSTED,AWL,BAYES_00
+	autolearn=ham version=3.2.5
+Subject: Re: [PATCH] Alter order of file systems tried by mount
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,54 +43,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 12:26:16 -0000
-Content-Type: text/plain; charset=KOI8-R; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 Nov 2011 12:43:53 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-  The file /etc/filesystems is used by busybox 'mount' when
-  attempting to mount a file system when the type is not
-  specified.  This change alters the order so that more
-  capable systems are tried first.  Without this change, an
-  EXT3 system will mount as EXT2 which disables many of the
-  EXT3 features.  With the change, EXT3 systems are mounted
-  properly.
+Hello.
 
-Signed-off-by: Gary Thomas <gary@mlbassoc.com>
----
-  .../recipes-core/base-files/base-files/filesystems |    8 ++++----
-  meta/recipes-core/base-files/base-files_3.0.14.bb  |    2 +-
-  2 files changed, 5 insertions(+), 5 deletions(-)
+On Wed, 2011-11-30 at 05:19, Gary Thomas wrote:
+>  The file /etc/filesystems is used by busybox 'mount' when
+>  attempting to mount a file system when the type is not
+>  specified.  This change alters the order so that more
+>  capable systems are tried first.  Without this change, an
+>  EXT3 system will mount as EXT2 which disables many of the
+>  EXT3 features.  With the change, EXT3 systems are mounted
+>  properly.
+> 
+> Signed-off-by: Gary Thomas <gary@mlbassoc.com>
+> ---
+>  .../recipes-core/base-files/base-files/filesystems |    8 ++++----
+>  meta/recipes-core/base-files/base-files_3.0.14.bb  |    2 +-
+>  2 files changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/meta/recipes-core/base-files/base-files/filesystems b/meta/recipes-core/base-files/base-files/filesystems
+> index 2af6a7e..14f5abb 100644
+> --- a/meta/recipes-core/base-files/base-files/filesystems
+> +++ b/meta/recipes-core/base-files/base-files/filesystems
+> @@ -1,7 +1,7 @@
+> -minix
+> -fat
+> -vfat
+> -ext2
+>  ext3
+> +ext2
+> +vfat
+> +fat
+>  btrfs
+> +minix
 
-diff --git a/meta/recipes-core/base-files/base-files/filesystems b/meta/recipes-core/base-files/base-files/filesystems
-index 2af6a7e..14f5abb 100644
---- a/meta/recipes-core/base-files/base-files/filesystems
-+++ b/meta/recipes-core/base-files/base-files/filesystems
-@@ -1,7 +1,7 @@
--minix
--fat
--vfat
--ext2
-  ext3
-+ext2
-+vfat
-+fat
-  btrfs
-+minix
-  *
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index 8f5313b..c860d70 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -1,7 +1,7 @@
-  SUMMARY = "Miscellaneous files for the base system."
-  DESCRIPTION = "The base-files package creates the basic system directory structure and provides a small set of key configuration files for the system."
-  SECTION = "base"
--PR = "r69"
-+PR = "r70"
-  LICENSE = "GPLv2"
-  LIC_FILES_CHKSUM = "file://licenses/GPL-2;md5=94d55d512a9ba36caa9b7df079bae19f"
-  SRC_URI = "file://rotation \
--- 
-1.7.6.4
+In the commit message you explain the problem with ext2/3. And I agree
+that it makes sense to start with ext3. Actually, adding ext4 would
+make sense, too.
+
+What is the deal with the re-ordering of fat/vfat/minix though? Looks
+unrelated to me.
+
+regards
+Stefan Schmidt
 
 
