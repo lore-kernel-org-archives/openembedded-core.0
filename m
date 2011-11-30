@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RVYDu-0008Eo-Sq
+	(envelope-from <josh@linux.intel.com>) id 1RVYDv-0008Er-14
 	for openembedded-core@lists.openembedded.org;
 	Wed, 30 Nov 2011 01:40:31 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 29 Nov 2011 16:33:49 -0800
+	by orsmga102.jf.intel.com with ESMTP; 29 Nov 2011 16:33:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="81378099"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="81378100"
 Received: from unknown (HELO shamshir.amr.corp.intel.com) ([10.255.15.149])
 	by orsmga002.jf.intel.com with ESMTP; 29 Nov 2011 16:33:49 -0800
 From: Joshua Lock <josh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Nov 2011 16:33:41 -0800
-Message-Id: <2c00a8a8a50021a77446a8dfd92622a0b0140547.1322606832.git.josh@linux.intel.com>
+Date: Tue, 29 Nov 2011 16:33:42 -0800
+Message-Id: <14836f729f5a81c789a3085d5a86c9534c6d26aa.1322606832.git.josh@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.3
 In-Reply-To: <cover.1322606832.git.josh@linux.intel.com>
 References: <cover.1322606832.git.josh@linux.intel.com>
 In-Reply-To: <cover.1322606832.git.josh@linux.intel.com>
 References: <cover.1322606832.git.josh@linux.intel.com>
-Subject: [PATCH 05/11] clutter-*-1.6: drop clutter 1.6 recipes
+Subject: [PATCH 06/11] cogl: add missing depends on libxcomposite
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,78 +35,26 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 30 Nov 2011 00:40:31 -0000
 
-Clutter 1.8 is API and ABI compatible with Clutter 1.6 according to the
-release notes so there's no need to keep these recipes around.
-
-www.clutter-project.org/blogs/archive/2011-09/clutter-1.8.0-stable-release
+Cogl checks for libxcomposite at configure time.
 
 Signed-off-by: Joshua Lock <josh@linux.intel.com>
 ---
- .../recipes-graphics/clutter/clutter-1.6_1.6.18.bb |   26 --------------------
- .../clutter/clutter-gst-1.6_1.3.6.bb               |   21 ----------------
- 2 files changed, 0 insertions(+), 47 deletions(-)
- delete mode 100644 meta/recipes-graphics/clutter/clutter-1.6_1.6.18.bb
- delete mode 100644 meta/recipes-graphics/clutter/clutter-gst-1.6_1.3.6.bb
+ meta/recipes-graphics/clutter/cogl.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-graphics/clutter/clutter-1.6_1.6.18.bb b/meta/recipes-graphics/clutter/clutter-1.6_1.6.18.bb
-deleted file mode 100644
-index 9c32efd..0000000
---- a/meta/recipes-graphics/clutter/clutter-1.6_1.6.18.bb
-+++ /dev/null
-@@ -1,26 +0,0 @@
--require recipes-graphics/clutter/clutter.inc
--
--PR = "r2"
--
--# Internal json-glib was removed in Clutter 1.5.2
--STDDEPENDS += "json-glib"
--
--PACKAGES =+ "${PN}-examples"
--FILES_${PN}-examples = "${bindir}/test-* ${pkgdatadir}/redhand.png"
--
--SRC_URI = "http://source.clutter-project.org/sources/clutter/1.6/clutter-${PV}.tar.bz2 \
--           file://enable_tests-1.4.patch \
--           file://update_gettext_macro_version.patch"
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
--S = "${WORKDIR}/clutter-${PV}"
--
--BASE_CONF += "--disable-introspection"
--
--do_configure_prepend () {
--	# Disable DOLT
--	sed -i -e 's/^DOLT//' ${S}/configure.ac
--}
--
--SRC_URI[md5sum] = "7302513c96b00588b7779918fae0b33b"
--SRC_URI[sha256sum] = "d849f92944be193e9d8e707f1371e6bab7fca473e09a492265e2e2296febd749"
-diff --git a/meta/recipes-graphics/clutter/clutter-gst-1.6_1.3.6.bb b/meta/recipes-graphics/clutter/clutter-gst-1.6_1.3.6.bb
-deleted file mode 100644
-index cf1da04..0000000
---- a/meta/recipes-graphics/clutter/clutter-gst-1.6_1.3.6.bb
-+++ /dev/null
-@@ -1,21 +0,0 @@
--require clutter-gst.inc
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34 \
--                    file://clutter-gst/clutter-gst.h;beginline=1;endline=24;md5=95baacba194e814c110ea3bdf25ddbf4"
--
--DEPENDS += "clutter-1.6"
--
--PR = "r1"
--
--SRC_URI = "http://source.clutter-project.org/sources/clutter-gst/1.3/clutter-gst-${PV}.tar.bz2 \
--           file://enable_tests.patch"
--
--SRC_URI[md5sum] = "5ec828cd10713c1c32996e5fa65aa956"
--SRC_URI[sha256sum] = "68c79596ae46ed54885409cac1eeeaf6819673e2f41ee3014fe9705dfbbc1b5a"
--
--S = "${WORKDIR}/clutter-gst-${PV}"
--
--do_configure_prepend () {
--       # Disable DOLT
--       sed -i -e 's/^DOLT//' ${S}/configure.ac
--}
+diff --git a/meta/recipes-graphics/clutter/cogl.inc b/meta/recipes-graphics/clutter/cogl.inc
+index f264151..81317c6 100644
+--- a/meta/recipes-graphics/clutter/cogl.inc
++++ b/meta/recipes-graphics/clutter/cogl.inc
+@@ -5,7 +5,7 @@ LICENSE = "LGPL"
+ STDDEPENDS = "virtual/libx11 gtk-doc-native pango glib-2.0 libxfixes gdk-pixbuf libxi"
+ BASE_CONF = "--disable-gtk-doc ${@get_clutter_fpu_setting(bb, d)}"
+ 
+-DEPENDS = "${STDDEPENDS} virtual/libgl"
++DEPENDS = "${STDDEPENDS} virtual/libgl libxcomposite"
+ EXTRA_OECONF = "${BASE_CONF} --with-flavour=glx"
+ 
+ FILESPATH = "${FILE_DIRNAME}/cogl"
 -- 
 1.7.7.3
 
