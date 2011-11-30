@@ -1,63 +1,31 @@
-Received: from am1ehsobe003.messaging.microsoft.com ([213.199.154.206]
-	helo=AM1EHSOBE003.bigfish.com)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RVYiT-0007pV-Oq
+	(envelope-from <Wenzong.Fan@windriver.com>) id 1RVZV7-0002NE-B9
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Nov 2011 02:12:05 +0100
-Received: from mail50-am1-R.bigfish.com (10.3.201.251) by
-	AM1EHSOBE003.bigfish.com (10.3.204.23) with Microsoft SMTP Server id
-	14.1.225.22; Wed, 30 Nov 2011 01:05:25 +0000
-Received: from mail50-am1 (localhost [127.0.0.1])	by mail50-am1-R.bigfish.com
-	(Postfix) with ESMTP id 7619D802A2;
-	Wed, 30 Nov 2011 01:05:25 +0000 (UTC)
-X-SpamScore: -16
-X-BigFish: VS-16(zz9371K1432N98dK4015Lzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 13,
-Received: from mail50-am1 (localhost.localdomain [127.0.0.1]) by mail50-am1
-	(MessageSwitch) id 1322615125393851_31770;
-	Wed, 30 Nov 2011 01:05:25 +0000 (UTC)
-Received: from AM1EHSMHS003.bigfish.com (unknown [10.3.201.250])	by
-	mail50-am1.bigfish.com (Postfix) with ESMTP id 5A96120043;
-	Wed, 30 Nov 2011 01:05:25 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS003.bigfish.com
-	(10.3.207.103) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Wed, 30 Nov 2011 01:05:41 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.83]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.01.0339.002; Tue, 29 Nov 2011 19:05:24 -0600
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v3] Introduce multiarch DISTRO_FEATURE
-Thread-Index: AQHMq6VsUO05bOO/C0G8siH7/g/4OJW+pGYAgASTS4CAABdtAIAAAQ+AgADiWwCAAD2DAIAAXkuAgAA3HYA=
-Date: Wed, 30 Nov 2011 01:05:23 +0000
-Message-ID: <CAEsOVNf+3KfLUAoEJKAjAFQqwMVKPaWBYZ9tYRpwxzhEOZatQg@mail.gmail.com>
-References: <5ca10bdeed6e90862311b8417c0e6de353d1dc70.1322223227.git.julian.pidancet@gmail.com>
-	<CAEsOVNfoFW+3G-bSYiOy4p-Pa_bDShY_c3hutpA+THDO8hUrvg@mail.gmail.com>
-	<1322264404.25382.4.camel@ted>
-	<CAEsOVNcAR_N2LszE41fTaA=FGXMgtOdnCTLvdMxyYC5+GkTkKg@mail.gmail.com>
-	<1322520968.30225.23.camel@ted>
-	<CAEsOVNcCc5ZOT6wi_0pwkrFsJWmCGGS_Co-uA-z=oeFCYSDe8g@mail.gmail.com>
-	<1322569804.3166.5.camel@ted>
-	<CAEsOVNf7hckDk4i8gHx4_jXvzKzRxPkGfT4jP9ORSJvn_t=r=g@mail.gmail.com>
-	<CAEsOVNfFGfisoxEgvWig66TqBUvCBBbvEg3rVYztN4qQCwN7vg@mail.gmail.com>
-In-Reply-To: <CAEsOVNfFGfisoxEgvWig66TqBUvCBBbvEg3rVYztN4qQCwN7vg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
+	Wed, 30 Nov 2011 03:02:22 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pAU1te2p014119
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Nov 2011 17:55:40 -0800 (PST)
+Received: from [128.224.162.191] (128.224.162.191) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 29 Nov 2011 17:55:40 -0800
+Message-ID: <4ED58D1D.6060903@windriver.com>
+Date: Wed, 30 Nov 2011 09:55:41 +0800
+From: wenzong fan <wenzong.fan@windriver.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.1.11) Gecko/20100713 Thunderbird/3.0.6
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Julian Pidancet <julian.pidancet@gmail.com>
-Subject: Re: [PATCH v3] Introduce multiarch DISTRO_FEATURE
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1322554339.git.wenzong.fan@windriver.com>	<ba86babf9425bb34f62c879e2c44febf7308a543.1322554339.git.wenzong.fan@windriver.com>	<CAEsOVNcZYhLayMYXcwm8fYFpqJ=dVTfbyDjvM+Ox_qqVOmEn_w@mail.gmail.com>
+	<1322589860.7964.7.camel@ted>
+In-Reply-To: <1322589860.7964.7.camel@ted>
+Subject: Re: [PATCH 2/5] m4: Add m4-nativesdk recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -68,50 +36,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 01:12:05 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <ED8ED4E5DFB67E479EEC18B4C1AD543A@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 30 Nov 2011 02:02:22 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 29, 2011 at 3:47 PM, Matthew McClintock <msm@freescale.com> wro=
-te:
-> On Tue, Nov 29, 2011 at 10:10 AM, Matthew McClintock <msm@freescale.com> =
-wrote:
->> On Tue, Nov 29, 2011 at 6:30 AM, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->>> If you depend just on lib32-libgcc:do_populate_sysroot, it shouldn't
->>> build eglibc. You can do that with something like:
+On 11/30/2011 02:04 AM, Richard Purdie wrote:
+> On Tue, 2011-11-29 at 17:48 +0000, McClintock Matthew-B29882 wrote:
+>    
+>> On Tue, Nov 29, 2011 at 2:38 AM,<wenzong.fan@windriver.com>  wrote:
+>>      
+>>> From: Wenzong Fan<wenzong.fan@windriver.com>
 >>>
->>> do_compile[depends] +=3D "lib32-libgcc:do_populate_sysroot"
->>
->> Thanks, I'll give this a try.
+>>> [YOCTO #1603]
+>>>
+>>> m4-nativesdk is required by autoconf-nativesdk.
+>>>        
+>> Is there a reason we don't just extend the m4 recipe for native and
+>> nativesdk? (I'm just curious)
+>>      
+> Its a good question, BBCLASSEXTEND = "nativesdk" should really work and
+> those recipes look wrong (they shouldn't need to set
+> INHIBIT_AUTOTOOLS_DEPS = "1" or have the custom do_configure).
+>    
+
+Ah, this works. I'll extend the m4 recipe to support 'nativesdk'
+> The m4-native recipe is a little tricker as its one of the early
+> bootstrap dependencies required by autotools. This is why it does need
+> the INHIBIT_AUTOTOOLS_DEPS and custom do_configure line although those
+> should be possible with modern BBCLASSEXTEND...
 >
-> This is building some eglibc stuff...
+>    
+
+Thanks for let me know the story, this really confused me when I 
+deciding copy/extend for the m4-nativesdk.
+
+Wenzong
+> Cheers,
 >
-> NOTE: package lib32-eglibc-initial-2.13-r15+svnr14157: task
-> do_populate_sysroot: Succeeded
-
-Richard,
-
-Also for u-boot I have:
-
-PACKAGE_ARCH =3D "${MACHINE}"
-
-Which prevents me from doing 'bitbake lib32-u-boot', I've hacked
-around this and gotten a 'bitbake u-boot' to use the multilib compiler
-but it's not pretty. Maybe we need an 'inherit multilib' or something
-which let's a recipe use a multilib compiler environment?
-
-Also doing a
-
-do_compile[depends] +=3D "lib32-gcc-cross:do_populate_sysroot"
-
-Causes eglibc to get built...
-
--M
-
--M=
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>    
 
 
 
