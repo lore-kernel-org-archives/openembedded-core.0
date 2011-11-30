@@ -1,31 +1,33 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RVsZT-0000nn-PX
-	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Nov 2011 23:24:08 +0100
-Received: by lagj5 with SMTP id j5so468359lag.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RVsZw-0000qJ-1f for openembedded-core@lists.openembedded.org;
+	Wed, 30 Nov 2011 23:24:36 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAUMHtuV006276
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2011 14:17:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=GbYY7bsA6r+UGWO3aRgyK6kZLjjvtER7gyxy0PlSvzU=;
-	b=Ry8sf5hLuY0JyJIcsd6FMzRiAy+8QVTJlDRdSZnvIgqwZAPary+VkPx3JbSRFmcuO1
-	p3ni+iNKxpChxT5aJQn+HmdXMJqwRMZR0ElR1zuozTrwDJMVYfhJRaIcSnt5mEpnXK+H
-	baSMnke6ddJ5rvk758Zd9D/3vAzsFRtOtvayA=
-Received: by 10.152.105.67 with SMTP id gk3mr2794426lab.48.1322691441338; Wed,
-	30 Nov 2011 14:17:21 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.152.24.36 with HTTP; Wed, 30 Nov 2011 14:16:50 -0800 (PST)
-In-Reply-To: <05e28e6a8cd5c930a0c538121ced79d008f0fdf3.1322662245.git.dexuan.cui@intel.com>
-References: <cover.1322662245.git.dexuan.cui@intel.com>
-	<05e28e6a8cd5c930a0c538121ced79d008f0fdf3.1322662245.git.dexuan.cui@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 30 Nov 2011 14:16:50 -0800
-Message-ID: <CAMKF1srX6OY7OEUdTggi-26v3zdN5-s0imC4_tMC88sRymc4=g@mail.gmail.com>
+	Wed, 30 Nov 2011 22:17:55 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 05846-06 for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2011 22:17:51 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAUMHkKS006269
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2011 22:17:47 GMT
+Message-ID: <1322691475.17484.61.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/8] xcb-util: upgrade from 0.3.6 to 0.3.8
+Date: Wed, 30 Nov 2011 22:17:55 +0000
+In-Reply-To: <cover.1322662245.git.dexuan.cui@intel.com>
+References: <cover.1322662245.git.dexuan.cui@intel.com>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 0/8] [Dexuan]: upgrades for 7 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,94 +42,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 22:24:08 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 30 Nov 2011 22:24:36 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 30, 2011 at 6:12 AM, Dexuan Cui <dexuan.cui@intel.com> wrote:
-> updated LIC_FILES_CHKSUM since the code was re-organized, but the license
-> remains the same.
->
-> Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
-> ---
-> =C2=A0meta/recipes-graphics/xcb/xcb-util_0.3.6.bb | =C2=A0 18 -----------=
--------
-> =C2=A0meta/recipes-graphics/xcb/xcb-util_0.3.8.bb | =C2=A0 =C2=A09 ++++++=
-+++
-> =C2=A02 files changed, 9 insertions(+), 18 deletions(-)
-> =C2=A0delete mode 100644 meta/recipes-graphics/xcb/xcb-util_0.3.6.bb
-> =C2=A0create mode 100644 meta/recipes-graphics/xcb/xcb-util_0.3.8.bb
->
-> diff --git a/meta/recipes-graphics/xcb/xcb-util_0.3.6.bb b/meta/recipes-g=
-raphics/xcb/xcb-util_0.3.6.bb
-> deleted file mode 100644
-> index 1057b34..0000000
-> --- a/meta/recipes-graphics/xcb/xcb-util_0.3.6.bb
-> +++ /dev/null
-> @@ -1,18 +0,0 @@
-> -require xcb-util.inc
-> -
-> -LICENSE =3D "MIT"
-> -LIC_FILES_CHKSUM =3D "file://xcb-util-common.h;endline=3D30;md5=3D6c7459=
-5925fd773cc8cf387ff7bc53c7 \
-> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi=
-le://reply/reply.c;endline=3D27;md5=3Df9a1d6b55bba632d349949cbf33cd635 \
-> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi=
-le://aux/xcb_aux.c;endline=3D30;md5=3Dae305b9c2a38f9ba27060191046a6460 \
-> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi=
-le://renderutil/xcb_renderutil.h;endline=3D24;md5=3Dd0ddab3052dd4949c93cfcb=
-0891c96df \
-> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi=
-le://event/xcb_event.h;endline=3D27;md5=3D627be355aee59e1b8ade80d5bd90fad9 =
-\
-> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi=
-le://property/xcb_property.h;endline=3D27;md5=3Df5890866ee0c655c36ef1c6c738=
-fee6b \
-> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi=
-le://keysyms/keysyms.c;endline=3D30;md5=3D2f8de023ed823bb92f0b47900574ea9e =
-\
-> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi=
-le://image/xcb_pixel.h;beginline=3D4;endline=3D27;md5=3D48cd25ae55e7de525fe=
-1e1a3a7672e1c"
-> -
-> -
-> -PR =3D "r0"
-> -
-> -
-> -SRC_URI[md5sum] =3D "dd8968b8ee613cb027a8ef1fcbdc8fc9"
-> -SRC_URI[sha256sum] =3D "ffb8ee11ab015858a970ab7edd56bd2436b281657596561d=
-8429d4a90df60e57"
-> diff --git a/meta/recipes-graphics/xcb/xcb-util_0.3.8.bb b/meta/recipes-g=
-raphics/xcb/xcb-util_0.3.8.bb
-> new file mode 100644
-> index 0000000..b7eff29
-> --- /dev/null
-> +++ b/meta/recipes-graphics/xcb/xcb-util_0.3.8.bb
-> @@ -0,0 +1,9 @@
-> +require xcb-util.inc
-> +
-> +LICENSE =3D "MIT"
-> +LIC_FILES_CHKSUM =3D "file://src/xcb_aux.c;endline=3D30;md5=3Dae305b9c2a=
-38f9ba27060191046a6460 \
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi=
-le://src/xcb_event.h;endline=3D27;md5=3D627be355aee59e1b8ade80d5bd90fad9"
+On Wed, 2011-11-30 at 22:12 +0800, Dexuan Cui wrote:
+> The following changes since commit 00d121aad3a4263bc0e3a004a3a479e6352e063d:
+> 
+>   clutter-box2d: drop unbuildable clutter-box2d-1.6_0.10.0 (2011-11-30 22:06:00 +0800)
+> 
+> are available in the git repository at:
+>   git://git.pokylinux.org/poky-contrib dcui/master
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dcui/master
+> 
+> Dexuan Cui (8):
+>   pixman: upgrade from 0.22.0 to the latest stable 0.24.0
+>   libxrandr: upgrade from 1.3.1 to the latest version 1.3.2
+>   lzo: upgrade from 2.05 to the latest version 2.06
+>   libxfont: upgrade from 1.4.3 to 1.4.4
+>   libxcursor: upgrade from 1.1.11 to 1.1.12
+>   xcb-util: upgrade from 0.3.6 to 0.3.8
 
-if license remains same then why do we not check for the remaining
-files from there new location wherever they moved to
-after code reorg ?
+I merged these, thanks.
 
-> +PR =3D "r0"
-> +
-> +SRC_URI[md5sum] =3D "8ce019c4bbf20dce246b98f177cfccff"
-> +SRC_URI[sha256sum] =3D "c1eed9284750bc09352e60654df77bb585dbbe7673fdcc67=
-5e58b7f3a0b447b9"
-> --
-> 1.7.6
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>   inputproto: upgrade from 2.0.2 to the latest stable 2.0.99.1
+
+I was a bit worried about this one - is 20.0.99.1 stable or a prerelease
+version? Should we just wait for the final release of that one?
+
+>   distro_tracking_fields.inc: update the info
+
+This failed to apply. Could you rebase and resubmit please?
+
+Cheers,
+
+Richard
+
 
 
