@@ -1,29 +1,33 @@
-Received: from stoexhubfe02.domain01.net ([83.145.59.141])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>)
-	id 1RVprd-0001ax-Ho; Wed, 30 Nov 2011 20:30:41 +0100
-Received: from STOEXMBXC01.domain01.net
-	([fe80:0000:0000:0000:8caa:b43d:115.41.221.224]) by
-	stoexhubfe02.domain01.net
-	([10.12.10.7]) with mapi; Wed, 30 Nov 2011 20:23:15 +0100
-From: Anders Darander <anders@chargestorm.se>
-To: Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RVqjo-00040V-Gy for openembedded-core@lists.openembedded.org;
+	Wed, 30 Nov 2011 21:26:40 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAUKK0ph004493;
+	Wed, 30 Nov 2011 20:20:00 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 03889-05; Wed, 30 Nov 2011 20:19:56 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAUKJoSN004487
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 30 Nov 2011 20:19:51 GMT
+Message-ID: <1322684398.17484.31.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Wed, 30 Nov 2011 20:19:58 +0000
+In-Reply-To: <F82CA009-53D5-45C1-AD7B-E0168518436F@dominion.thruhere.net>
+References: <1322641493-5889-1-git-send-email-koen@dominion.thruhere.net>
+	<1322674730.17484.15.camel@ted>
+	<F82CA009-53D5-45C1-AD7B-E0168518436F@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Nov 2011 20:23:15 +0100
-Thread-Topic: [OE-core] [PATCH 8/8] busybox: Upgrade to 1.19.3
-Thread-Index: AcyvlYHQ5f52HpKdQhi8LwzFCNQy/Q==
-Message-ID: <93D301EA-8039-4D91-B7E4-1A00A0895F30@chargestorm.se>
-References: <cover.1322608823.git.edwin.zhai@intel.com>
-	<402e5d95c06f6a8c55ffb198b72d91faf135ed30.1322608823.git.edwin.zhai@intel.com>
-In-Reply-To: <402e5d95c06f6a8c55ffb198b72d91faf135ed30.1322608823.git.edwin.zhai@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US
-MIME-Version: 1.0
-Subject: Re: [PATCH 8/8] busybox: Upgrade to 1.19.3
+Subject: Re: [PATCH] consolekit: package /var/log/Consolekit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,38 +42,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 19:30:42 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 30 Nov 2011 20:26:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-DQoNCi0tIA0KQW5kZXJzIERhcmFuZGVyDQpDaGFyZ2VTdG9ybSBBQiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIFRlbDogKzQ2IDcwIDI0NCA4NDM2DQpMYXhob2xtc3Rvcmdl
-dCAzICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRW1haWw6IGFuZGVyc0Bj
-aGFyZ2VzdG9ybS5zZQ0KNjAyIDIxIE5vcnJrw7ZwaW5nLCBTd2VkZW4gICAgICAgICAgICAgICAg
-ICAgICAgIFdlYjogaHR0cDovL3d3dy5jaGFyZ2VzdG9ybS5zZQ0KDQpPbiAzMCBub3YgMjAxMSwg
-YXQgMDA6MzAsICJlZHdpbi56aGFpQGludGVsLmNvbSIgPGVkd2luLnpoYWlAaW50ZWwuY29tPiB3
-cm90ZToNCg0KPiBGcm9tOiBaaGFpIEVkd2luIDxlZHdpbi56aGFpQGludGVsLmNvbT4NCj4gDQo+
-IFNpZ25lZC1vZmYtYnk6IFpoYWkgRWR3aW4gPGVkd2luLnpoYWlAaW50ZWwuY29tPg0KPiAtLS0N
-Cj4gLi4uL0I5MjE2MDAucGF0Y2ggICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAg
-ICAwDQo+IC4uLi9idXN5Ym94LWFwcGxldGxpYi1kZXBlbmRlbmN5LnBhdGNoICAgICAgICAgICAg
-IHwgICAgMA0KPiAuLi4vYnVzeWJveC11ZGhjcGMtbm9fZGVjb25maWcucGF0Y2ggICAgICAgICAg
-ICAgICB8ICAgNTEgKysrKysrKysrKy0tLS0tLS0tLS0NCj4gLi4uL3tidXN5Ym94LTEuMTguNSA9
-PiBidXN5Ym94LTEuMTkuM30vZGVmY29uZmlnICAgfCAgICAwDQoNCkp1c3QgbW92aW5nIHRoZSBv
-bGQgZGVmY29uZmlnIG1lYW5zIHRoYXQgd2UgZG9uJ3QgaGF2ZSBhbnkgZXhwbGljaXQgY29udHJv
-bCBvZiBob3cgYnVzeWJveCBpcyBidWlsdC4gKEl0J3MgbGVmdCB0byB0aGUgZGVmYXVsdCBpbiBi
-dXN5Ym94IGZvciBhbGwgbmV3L3JlbmFtZWQgZmVhdHVyZXMpLiBTZWUgZS5nLiBodHRwOi8vbGlz
-dHMubGludXh0b2dvLm9yZy9waXBlcm1haWwvb3BlbmVtYmVkZGVkLWNvcmUvMjAxMS1Ob3ZlbWJl
-ci8wMTI5ODYuaHRtbCBmb3IgYSBkaXNjdXNzaW9uIG9mIHNvbWUgb2YgdGhlIG5ldyBmZWF0dXJl
-cyB0aGF0IHdpbGwgYmUgZW5hYmxlZCBieSBkZWZhdWx0LiBSZW1lbWJlciB0aG91Z2gsIHRoYXQg
-YSBudW1iZXIgb2YgbmV3IGZlYXR1cmVzIGhhZCBhbHJlYWR5IGJlZW4gZGlzYWJsZWQgcHJpb3Ig
-dG8gdGhlIGNyZWF0aW9uIG9mIHRoZSBsaXN0IGJlaW5nIGRpc2N1c3NlZCBpbiB0aGF0IGVtYWls
-Lg0KDQovQW5kZXJzDQoNCj4gLi4uL2dldF9oZWFkZXJfdGFyLnBhdGNoICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgfCAgICAwDQo+IC4uLi9ydW4tcGFydHMuaW4udXNyLWJpbi5wYXRjaCAgICAg
-ICAgICAgICAgICAgICAgIHwgICAyNSArKysrKy0tLS0tDQo+IC4uLi91ZGhjcGMtZml4LW5mc3Jv
-b3QucGF0Y2ggICAgICAgICAgICAgICAgICAgICAgIHwgICAgMA0KPiAuLi4vdWRoY3BzY3JpcHQu
-cGF0Y2ggICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgIDANCj4gLi4uL3tidXN5Ym94
-XzEuMTguNS5iYiA9PiBidXN5Ym94XzEuMTkuMy5iYn0gICAgICAgfCAgICA2ICstDQo+IDkgZmls
-ZXMgY2hhbmdlZCwgNDIgaW5zZXJ0aW9ucygrKSwgNDAgZGVsZXRpb25zKC0pDQoNCg0K
+On Wed, 2011-11-30 at 18:50 +0100, Koen Kooi wrote:
+> Op 30 nov. 2011, om 18:38 heeft Richard Purdie het volgende geschreven:
+> 
+> > On Wed, 2011-11-30 at 09:24 +0100, Koen Kooi wrote:
+> >> This fixes startup issues like this:
+> >> 
+> >> 2011-11-30T09:02:10+01:00 beaglebone ck-log-system-start[91]: **
+> >> (process:91): WARNING **: Couldn't create log
+> >> file /var/log/ConsoleKit/history (No such file or directory)
+> >> 
+> >> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> >> ---
+> >> .../recipes-support/consolekit/consolekit_0.4.5.bb |    4 ++--
+> >> 1 files changed, 2 insertions(+), 2 deletions(-)
+> >> 
+> >> diff --git a/meta/recipes-support/consolekit/consolekit_0.4.5.bb b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+> >> index 562dfb3..a02203c 100644
+> >> --- a/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+> >> +++ b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+> >> @@ -2,7 +2,7 @@ DESCRIPTION = "ConsoleKit is a framework for defining and tracking users, login
+> >> HOMEPAGE="http://www.freedesktop.org/wiki/Software/ConsoleKit"
+> >> BUGTRACKER="https://bugs.freedesktop.org/buglist.cgi?query_format=specific&product=ConsoleKit"
+> >> 
+> >> -PR = "r5"
+> >> +PR = "r6"
+> >> 
+> >> LICENSE = "GPLv2+"
+> >> LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+> >> @@ -23,7 +23,7 @@ EXTRA_OECONF = "--with-systemdsystemunitdir=${base_libdir}/systemd/system/ \
+> >>                 ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam-module --with-pam-module-dir=${base_libdir}/security', '--disable-pam-module', d)} \
+> >>                "
+> >> 
+> >> -FILES_${PN} += "${libdir}/ConsoleKit ${base_libdir} ${datadir}/dbus-1 ${datadir}/PolicyKit ${datadir}/polkit*"
+> >> +FILES_${PN} += "${localstatedir}/log/ConsoleKit ${libdir}/ConsoleKit ${base_libdir} ${datadir}/dbus-1 ${datadir}/PolicyKit ${datadir}/polkit*"
+> >> FILES_${PN}-dbg += "${base_libdir}/security/.debug"
+> >> 
+> >> PACKAGES =+ "pam-plugin-ck-connector"
+> > 
+> > Looks like this is breaking builds:
+> > 
+> > | consolekit                  ##################################################
+> > | error: unpacking of archive failed on file /var/log: cpio: rename failed - Invalid argument
+> > 
+> > :(
+> > 
+> > http://autobuilder.pokylinux.org:8010/builders/nightly-x86-64/builds/197/steps/shell_30/logs/stdio
+> 
+> I suspect that's another victim of fs-perms.txt and rpm, it seems to
+> break if /var/log is a symlink in other packages. I am going to argue
+> that the breakage isn't a bug in consolekit :)
+
+I really don't care whether its a bug in consolekit or not. The point is
+that builds that were working before this change are now broken and we
+have a regression.
+
+Who is going to fix the regression?
+
+Someone told me the answer is easy, I just revert the appropriate patch.
+I tend to take on a lot of these types of issues and silently fix them
+but I really need some help with it...
+
+Cheers,
+
+Richard
+
+
 
 
