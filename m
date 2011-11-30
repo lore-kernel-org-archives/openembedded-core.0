@@ -1,24 +1,24 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RVkVk-0007KA-6i
+	(envelope-from <dexuan.cui@intel.com>) id 1RVl0F-0000H5-98
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Nov 2011 14:47:44 +0100
-Received: by eekc1 with SMTP id c1so350284eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2011 05:41:03 -0800 (PST)
-Received: by 10.14.8.16 with SMTP id 16mr278408eeq.246.1322660463548;
-	Wed, 30 Nov 2011 05:41:03 -0800 (PST)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
-	by mx.google.com with ESMTPS id a60sm6341283eeb.4.2011.11.30.05.41.02
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 30 Nov 2011 05:41:02 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
+	Wed, 30 Nov 2011 15:19:15 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 30 Nov 2011 06:12:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="81325194"
+Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.36.50])
+	by orsmga001.jf.intel.com with ESMTP; 30 Nov 2011 06:12:33 -0800
+From: Dexuan Cui <dexuan.cui@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Nov 2011 14:40:59 +0100
-Message-Id: <1322660459-333-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.7.2.5
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] zlib 1.2.5: install pkgconfig file, needed for e.g. modern webkit
+Date: Wed, 30 Nov 2011 22:12:28 +0800
+Message-Id: <1e50f486faa8f8306cf8a785e45b225a640c812d.1322662245.git.dexuan.cui@intel.com>
+X-Mailer: git-send-email 1.7.6
+In-Reply-To: <cover.1322662245.git.dexuan.cui@intel.com>
+References: <cover.1322662245.git.dexuan.cui@intel.com>
+In-Reply-To: <cover.1322662245.git.dexuan.cui@intel.com>
+References: <cover.1322662245.git.dexuan.cui@intel.com>
+Subject: [PATCH 2/8] libxrandr: upgrade from 1.3.1 to the latest version 1.3.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,66 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 13:47:44 -0000
+X-List-Received-Date: Wed, 30 Nov 2011 14:19:15 -0000
 
-Upstream has grown cmake support which would allow us to dump the OE autotools hack, but the cmakefile doesn't install the .pc file either and breaks with zlib-native
-
-Also remove unused site config file
-
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- meta/recipes-core/zlib/site_config/headers |    1 -
- meta/recipes-core/zlib/zlib_1.2.5.bb       |   18 ++++++++++++++++--
- 2 files changed, 16 insertions(+), 3 deletions(-)
- delete mode 100644 meta/recipes-core/zlib/site_config/headers
+ .../{libxrandr_1.3.1.bb => libxrandr_1.3.2.bb}     |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxrandr_1.3.1.bb => libxrandr_1.3.2.bb} (80%)
 
-diff --git a/meta/recipes-core/zlib/site_config/headers b/meta/recipes-core/zlib/site_config/headers
-deleted file mode 100644
-index 5026891..0000000
---- a/meta/recipes-core/zlib/site_config/headers
-+++ /dev/null
-@@ -1 +0,0 @@
--zlib.h
-diff --git a/meta/recipes-core/zlib/zlib_1.2.5.bb b/meta/recipes-core/zlib/zlib_1.2.5.bb
-index bca400c..b5756d9 100644
---- a/meta/recipes-core/zlib/zlib_1.2.5.bb
-+++ b/meta/recipes-core/zlib/zlib_1.2.5.bb
-@@ -7,12 +7,12 @@ LICENSE = "Zlib"
- LIC_FILES_CHKSUM = "file://zlib.h;beginline=4;endline=23;md5=084e9c30e4e6272c3b057b13c6467f3d"
+diff --git a/meta/recipes-graphics/xorg-lib/libxrandr_1.3.1.bb b/meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb
+similarity index 80%
+rename from meta/recipes-graphics/xorg-lib/libxrandr_1.3.1.bb
+rename to meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb
+index 616ac68..7bc805f 100644
+--- a/meta/recipes-graphics/xorg-lib/libxrandr_1.3.1.bb
++++ b/meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb
+@@ -13,12 +13,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4c5c132d3690478179d78ec3bf064584"
  
- DEPENDS = "libtool-cross"
+ DEPENDS += "virtual/libx11 randrproto libxrender libxext"
+ 
 -PR = "r1"
-+PR = "r3"
++PR = "r0"
+ PE = "1"
  
- SRC_URI = "http://www.zlib.net/${BPN}-${PV}.tar.bz2 \
-            file://configure.ac \
-            file://Makefile.am \
--	   file://fix.inverted.LFS.logic.patch"
-+           file://fix.inverted.LFS.logic.patch"
+ XORG_PN = "libXrandr"
  
- SRC_URI[md5sum] = "be1e89810e66150f5b0327984d8625a0"
- SRC_URI[sha256sum] = "239aead2f22f16bfcfa6a6a5150dcbd6d6f2e4d1eaa8727b5769ea014120b307"
-@@ -24,4 +24,18 @@ do_configure_prepend () {
- 	cp ${WORKDIR}/Makefile.am ${S}/
- }
+ BBCLASSEXTEND = "nativesdk"
  
-+do_install_append () {
-+	sed \
-+		-e 's:@prefix@:${prefix}:' \
-+		-e 's:@exec_prefix@:${exec_prefix}:' \
-+		-e 's:@libdir@:${libdir}:' \
-+		-e 's:@sharedlibdir@:${libdir}:' \
-+		-e 's:@includedir@:${includedir}:' \
-+		-e 's:@VERSION@:${PV}:' \
-+		zlib.pc.in > zlib.pc
-+
-+	install -d ${D}${libdir}/pkgconfig
-+	install -m 0644 zlib.pc ${D}${libdir}/pkgconfig/
-+}
-+
- BBCLASSEXTEND = "native nativesdk"
+-SRC_URI[md5sum] = "7785c3f7cff2735c94657e8f87ed8ad3"
+-SRC_URI[sha256sum] = "62bba708649c04cbbc2f5de910942a01cc727b27225bc06169af8a89b957c661"
++SRC_URI[md5sum] = "92473da2fccf5fac665be4fa4f2037fa"
++SRC_URI[sha256sum] = "7eaca216ab5233d7396119eb87c1989d350a3efead104d54b55f22cdd1d99b81"
 -- 
-1.7.2.5
+1.7.6
 
 
 
