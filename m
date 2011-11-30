@@ -1,33 +1,37 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RVtdt-00044z-IH for openembedded-core@lists.openembedded.org;
-	Thu, 01 Dec 2011 00:32:45 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAUNQ6VW007635
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1RVteT-00047Z-0S
+	for openembedded-core@lists.openembedded.org;
+	Thu, 01 Dec 2011 00:33:21 +0100
+Received: by lagj5 with SMTP id j5so489830lag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2011 23:26:06 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 07559-01 for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2011 23:26:01 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAUNPx3H007629
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2011 23:26:01 GMT
-Message-ID: <1322695568.17484.82.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+	Wed, 30 Nov 2011 15:26:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=OYJRxc5AaTM4b9cM8QXygONODhgXt1h/iGaz4Bfn/SY=;
+	b=dkZZgSQzM2l4ynt1xJ6qGcRFIJpDYYbxAQmKQk3IEP1bMSLHrvmuicPru2gRm3FjPO
+	Y5d1c2YPXIJzvI/an2AGiBmL3Lb1uqwWxX8qpAxmsN5Ja5k8QRZNIbZnBWIPNK2+rl9Q
+	UAcC8YWa+JgkbYSZNwQ1y7UUY1d8GRz2iOQEk=
+Received: by 10.152.104.20 with SMTP id ga20mr2964141lab.13.1322695600278;
+	Wed, 30 Nov 2011 15:26:40 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.152.24.36 with HTTP; Wed, 30 Nov 2011 15:26:09 -0800 (PST)
+In-Reply-To: <4ED6B4EE.6000703@linux.intel.com>
+References: <cover.1322689519.git.darren@dvhart.com>
+	<e7ca852c4e673a6b32be203109a704202aeace3a.1322689519.git.darren@dvhart.com>
+	<6e118d2846f5606561b4ae1f3c3ae93fd69bc360.1322689519.git.darren@dvhart.com>
+	<CAMKF1sotPRfvMtbMYRBCtqpAj7CfYMzOzh1EORaOtBajzywwkA@mail.gmail.com>
+	<4ED6B025.1060705@linux.intel.com>
+	<CAMKF1sojotYjyRDVaVu0poUDRpTYMhA_9sX7sNvLQW7n-bL5Uw@mail.gmail.com>
+	<4ED6B4EE.6000703@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 30 Nov 2011 15:26:09 -0800
+Message-ID: <CAMKF1sp6m_9ifGNqVQEzmY+b0G=5FNysqdM1KmsA1oTtti_MWQ@mail.gmail.com>
+To: Darren Hart <dvhart@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Nov 2011 23:26:08 +0000
-In-Reply-To: <1322606818-2817-1-git-send-email-raj.khem@gmail.com>
-References: <1322606818-2817-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] classes: Apply libc-${LIBC} overrides to target recipes only
+Subject: Re: [PATCH 2/4] autotools.bbclass: Report the missing configure path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,42 +46,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 23:32:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 Nov 2011 23:33:21 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, 2011-11-29 at 14:46 -0800, Khem Raj wrote:
-> Currently these overrides are enabled for native and nativesdk
-> recipes as well when inheriting native and nativesdk classes. This patch
-> filters these from OVERRIDES variables for native and nativesdk
-> recipes.
-> 
-> oe_filter_out and oe_filter functions currently only operated on
-> space separated strings. Since OVERRIDES are separated using ':'
-> these functions are enhanced to take and additional parameter
-> called 'sep' which defaults to None if not specified which means we keep
-> the existing behaviour.
-> 
-> Drop the last parameter 'd' from filter functions since it was not being
-> used.
+> I can see that (although I think can be argued this is correct as well -
+> a path with a filename is still a location). I was copying the language
+> used elsewhere... but from where is eluding my search at the moment. RP
+> has pulled these already I believe, so if the language here truly
+> bothers you, we can address it in a follow-on. Personally I don't think
+> it's really worth the trouble.
 
-This last piece worries me a lot. It requires a flag day where everyone
-changes, particularly layers. I don't think that is something that is
-acceptable.
-
-I'd like to think simpler. How about we change tclibc*.inc to do
-something like:
-
-LIBCOVERRIDE = ":libc-glibc"
-OVERRIDES .= "${LIBCOVERRIDE}"
-
-and then native.bbclass can just do:
-
-LIBCOVERRIDE = ""
-
-Cheers,
-
-Richard
-
+yeah its fine
 
 
