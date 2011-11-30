@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RVYDv-0008Ew-KN
+	(envelope-from <josh@linux.intel.com>) id 1RVYDv-0008Eo-NF
 	for openembedded-core@lists.openembedded.org;
 	Wed, 30 Nov 2011 01:40:31 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga102.jf.intel.com with ESMTP; 29 Nov 2011 16:33:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="81378102"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="81378104"
 Received: from unknown (HELO shamshir.amr.corp.intel.com) ([10.255.15.149])
 	by orsmga002.jf.intel.com with ESMTP; 29 Nov 2011 16:33:50 -0800
 From: Joshua Lock <josh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Nov 2011 16:33:43 -0800
-Message-Id: <47900a2181fd194383bcf4f6f72469e1c166635a.1322606832.git.josh@linux.intel.com>
+Date: Tue, 29 Nov 2011 16:33:44 -0800
+Message-Id: <0aaf7849338974834bc560e3c7b57fc110631c03.1322606832.git.josh@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.3
 In-Reply-To: <cover.1322606832.git.josh@linux.intel.com>
 References: <cover.1322606832.git.josh@linux.intel.com>
 In-Reply-To: <cover.1322606832.git.josh@linux.intel.com>
 References: <cover.1322606832.git.josh@linux.intel.com>
-Subject: [PATCH 07/11] clutter: move STDDEPENDS to inc
+Subject: [PATCH 08/11] clutter-box2d: Update git recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,62 +35,35 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 30 Nov 2011 00:40:32 -0000
 
-We only build clutter-1.8 now so move the additional STDDEPENDS from the
-recipe to the inc file. This has the added benefit of fixing
-clutter_git.
-
-This patch also fixes the LIC_FILES_CHKSUM for clutter_git
+Several changes and fixes exist unreleased in git with version 0.12.1,
+update to build the latest available.
 
 Signed-off-by: Joshua Lock <josh@linux.intel.com>
 ---
- meta/recipes-graphics/clutter/clutter-1.8_1.8.0.bb |    3 ---
- meta/recipes-graphics/clutter/clutter.inc          |    3 ++-
- meta/recipes-graphics/clutter/clutter_git.bb       |    4 +---
- 3 files changed, 3 insertions(+), 7 deletions(-)
+ meta/recipes-graphics/clutter/clutter-box2d_git.bb |    7 ++++---
+ 1 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/clutter/clutter-1.8_1.8.0.bb b/meta/recipes-graphics/clutter/clutter-1.8_1.8.0.bb
-index c67ea2a..690a161 100644
---- a/meta/recipes-graphics/clutter/clutter-1.8_1.8.0.bb
-+++ b/meta/recipes-graphics/clutter/clutter-1.8_1.8.0.bb
-@@ -5,9 +5,6 @@ PR = "r2"
- # We're API/ABI compatible and this may make things easier for layers
- PROVIDES += "clutter-1.6"
+diff --git a/meta/recipes-graphics/clutter/clutter-box2d_git.bb b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
+index bfd46b2..554ce81 100644
+--- a/meta/recipes-graphics/clutter/clutter-box2d_git.bb
++++ b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
+@@ -2,12 +2,13 @@ require clutter-box2d.inc
  
--# Internal json-glib was removed in Clutter 1.5.2
--STDDEPENDS += "json-glib cogl atk"
--
- PACKAGES =+ "${PN}-examples"
- FILES_${PN}-examples = "${bindir}/test-* ${pkgdatadir}/redhand.png"
+ LIC_FILES_CHKSUM = "file://box2d/License.txt;md5=e5d39ad91f7dc4692dcdb1d85139ec6b"
  
-diff --git a/meta/recipes-graphics/clutter/clutter.inc b/meta/recipes-graphics/clutter/clutter.inc
-index 54f65c5..24cb30d 100644
---- a/meta/recipes-graphics/clutter/clutter.inc
-+++ b/meta/recipes-graphics/clutter/clutter.inc
-@@ -2,7 +2,8 @@ DESCRIPTION = "Clutter graphics library"
- HOMEPAGE = "http://www.clutter-project.org/"
- LICENSE = "LGPL"
+-SRCREV = "4799ac10ae8cb7da936a2b999aba58fe62eb1ee3"
+-PV = "0.10.1+git${SRCPV}"
++SRCREV = "de5452e56b537a11fd7f9453d048ff4b4793b5a2"
++PV = "0.12.1+git${SRCPV}"
+ PR = "r0"
  
--STDDEPENDS = "virtual/libx11 gtk-doc-native pango glib-2.0 libxfixes gtk+ libxi"
-+# Internal json-glib was removed in Clutter 1.5.2, cogl was removed in 1.8, atk required since 1.8
-+STDDEPENDS = "virtual/libx11 gtk-doc-native pango glib-2.0 libxfixes libxi json-glib cogl atk"
- BASE_CONF = "--disable-gtk-doc ${@get_clutter_fpu_setting(bb, d)}"
+ SRC_URI = "git://git.gnome.org/clutter-box2d.git"
  
- DEPENDS = "${STDDEPENDS} virtual/libgl"
-diff --git a/meta/recipes-graphics/clutter/clutter_git.bb b/meta/recipes-graphics/clutter/clutter_git.bb
-index 897f5ff..db8c712 100644
---- a/meta/recipes-graphics/clutter/clutter_git.bb
-+++ b/meta/recipes-graphics/clutter/clutter_git.bb
-@@ -1,9 +1,7 @@
- require clutter.inc
- require clutter-package.inc
+ S = "${WORKDIR}/git"
  
--LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
--
--DEPENDS += "cogl"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- 
- SRCREV = "39db46123ed6bbbc3e6ad359a64d4d344ca9e11b"
- PV = "1.8.0+git${SRCPV}"
+-DEPENDS += "clutter-1.6"
++DEPENDS += "clutter-1.8"
++PROVIDES = "clutter-box2d-1.6"
 -- 
 1.7.7.3
 
