@@ -1,24 +1,33 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RVmPy-0000VQ-M9
-	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Nov 2011 16:49:54 +0100
-Received: by eaad13 with SMTP id d13so834567eaa.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RVmZG-00013p-Ms for openembedded-core@lists.openembedded.org;
+	Wed, 30 Nov 2011 16:59:30 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAUFqoa1001313
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2011 07:43:10 -0800 (PST)
-Received: by 10.213.33.75 with SMTP id g11mr520238ebd.2.1322667789826;
-	Wed, 30 Nov 2011 07:43:09 -0800 (PST)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
-	by mx.google.com with ESMTPS id 8sm7327803eei.8.2011.11.30.07.43.08
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 30 Nov 2011 07:43:09 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Nov 2011 16:43:04 +0100
-Message-Id: <1322667784-23451-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.7.2.5
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [Proof of concept] patch.bbclass: add incredibly naive 'git am' mode
+	Wed, 30 Nov 2011 15:52:50 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 00935-04 for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2011 15:52:46 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAUFqe7p001306
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2011 15:52:41 GMT
+Message-ID: <1322668369.17484.2.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 30 Nov 2011 15:52:49 +0000
+In-Reply-To: <cover.1322606832.git.josh@linux.intel.com>
+References: <cover.1322606832.git.josh@linux.intel.com>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 00/11] Clutter tidy-up and fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,53 +42,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 15:49:54 -0000
+X-List-Received-Date: Wed, 30 Nov 2011 15:59:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/classes/patch.bbclass |    1 +
- meta/lib/oe/patch.py       |   14 ++++++++++++++
- 2 files changed, 15 insertions(+), 0 deletions(-)
+On Tue, 2011-11-29 at 16:33 -0800, Joshua Lock wrote:
+> All,
+> 
+> This is the third attempt at this series. Since the v2 I've:
+> * Squashed the distro_tracking_fields changes together (Note: I'm claiming
+> I maintain clutter* now).
+> * Fixed clutter-box2d by dropping the extremely old clutter-box2d-1.6 and
+> updating the clutter-box2_git recipe.
+> 
+> Note: Poky maintainers, without my RFC patch to drop the clutter bbappends this
+> series will introduce failures at parse time for Poky.
+> 
+> Cheers,
+> Joshua
+> 
+> The following changes since commit 177df2c51927f44e3536856f4604364b38695bc2:
+> 
+>   qt-mobility: Add missing patch (2011-11-29 14:36:09 +0000)
+> 
+> are available in the git repository at:
+>   git://git.openembedded.org/openembedded-core-contrib josh/clutter
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/clutter
+> 
+> Joshua Lock (11):
+>   multilib.conf: remove clutter-1.6 and add clutter-1.8
+>   clutter: PROVIDES clutter-1.6
+>   task-core-clutter: use clutter-1.8
+>   mutter: switch to clutter-1.8 to satisfy dependency
+>   clutter-*-1.6: drop clutter 1.6 recipes
+>   cogl: add missing depends on libxcomposite
+>   clutter: move STDDEPENDS to inc
+>   clutter-box2d: Update git recipe
+>   clutter-box2d: fix LICENSE field - LGPL-2.1
+>   clutter-box2d: drop unbuildable clutter-box2d-1.6_0.10.0
+>   distro-tracking-fields: update entries for clutter recipes
 
-diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
-index ac6c1ce..9f99e38 100644
---- a/meta/classes/patch.bbclass
-+++ b/meta/classes/patch.bbclass
-@@ -18,6 +18,7 @@ python patch_do_patch() {
- 		"patch": oe.patch.PatchTree,
- 		"quilt": oe.patch.QuiltTree,
- 		"git": oe.patch.GitApplyTree,
-+		"gitam": oe.patch.GitAmTree,
- 	}
- 
- 	cls = patchsetmap[d.getVar('PATCHTOOL', 1) or 'quilt']
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index f4ccb3e..06965ba 100644
---- a/meta/lib/oe/patch.py
-+++ b/meta/lib/oe/patch.py
-@@ -176,6 +176,20 @@ class GitApplyTree(PatchTree):
- 
-         return runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
- 
-+class GitAmTree(PatchTree):
-+    def __init__(self, dir, d):
-+        PatchTree.__init__(self, dir, d)
-+
-+    def _applypatch(self, patch, force = False, reverse = False, run = True):
-+        shellcmd = ["git", "am"]
-+
-+        shellcmd.append(patch['file'])
-+
-+        if not run:
-+            return "sh" + "-c" + " ".join(shellcmd)
-+
-+        return runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
-+
- 
- class QuiltTree(PatchSet):
-     def _runcmd(self, args, run = True):
--- 
-1.7.2.5
+Merged to master, thanks.
+
+Richard
 
 
 
