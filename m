@@ -1,36 +1,24 @@
-Received: from sirius.lasnet.de ([78.47.116.19])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <stefan@datenfreihafen.org>) id 1RVjlH-0005Tt-ME
+	(envelope-from <koen@dominion.thruhere.net>) id 1RVkVk-0007KA-6i
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Nov 2011 13:59:43 +0100
-Received: from p4fc77270.dip.t-dialin.net ([79.199.114.112]
-	helo=novatech.datenfreihafen.org) by sirius.lasnet.de with esmtpsa 
-	(Cipher TLS1.0:RSA_AES_256_CBC_SHA1:32) (Exim 4.69 #1)
-	id 1RVjem-0006l0-4p by authid <stefan@sostec.de> with srv_auth_cram_md5;
-	Wed, 30 Nov 2011 13:53:05 +0100
-Received: from stefan by novatech.datenfreihafen.org with local (Exim 4.77)
-	(envelope-from <stefan@novatech.datenfreihafen.org>)
-	id 1RVjfJ-000265-QO; Wed, 30 Nov 2011 13:53:33 +0100
-Date: Wed, 30 Nov 2011 13:53:33 +0100
-From: Stefan Schmidt <stefan@datenfreihafen.org>
-To: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <20111130125333.GB27310@novatech.datenfreihafen.org>
-References: <4ED61F56.8050409@mlbassoc.com>
-	<20111130123743.GA27310@novatech.datenfreihafen.org>
-	<4ED624C6.5070505@mlbassoc.com>
-MIME-Version: 1.0
-In-Reply-To: <4ED624C6.5070505@mlbassoc.com>
-X-Mailer: Mutt http://www.mutt.org/
-X-KeyID: 0xDDF51665
-X-Website: http://www.datenfreihafen.org/
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Spam-Checker-Version: SpamAssassin 3.2.5 (2008-06-10) on sirius.lasnet.de
-X-Spam-Level: 
-X-Spam-Status: No, score=-4.5 required=5.0 tests=ALL_TRUSTED,AWL,BAYES_00
-	autolearn=ham version=3.2.5
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Alter order of file systems tried by mount
+	Wed, 30 Nov 2011 14:47:44 +0100
+Received: by eekc1 with SMTP id c1so350284eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2011 05:41:03 -0800 (PST)
+Received: by 10.14.8.16 with SMTP id 16mr278408eeq.246.1322660463548;
+	Wed, 30 Nov 2011 05:41:03 -0800 (PST)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id a60sm6341283eeb.4.2011.11.30.05.41.02
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 30 Nov 2011 05:41:02 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 30 Nov 2011 14:40:59 +0100
+Message-Id: <1322660459-333-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.2.5
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] zlib 1.2.5: install pkgconfig file, needed for e.g. modern webkit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,64 +33,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 12:59:43 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 30 Nov 2011 13:47:44 -0000
 
-Hello.
+Upstream has grown cmake support which would allow us to dump the OE autotools hack, but the cmakefile doesn't install the .pc file either and breaks with zlib-native
 
-On Wed, 2011-11-30 at 05:42, Gary Thomas wrote:
-> On 2011-11-30 05:37, Stefan Schmidt wrote:
-> >On Wed, 2011-11-30 at 05:19, Gary Thomas wrote:
-> >>  The file /etc/filesystems is used by busybox 'mount' when
-> >>  attempting to mount a file system when the type is not
-> >>  specified.  This change alters the order so that more
-> >>  capable systems are tried first.  Without this change, an
-> >>  EXT3 system will mount as EXT2 which disables many of the
-> >>  EXT3 features.  With the change, EXT3 systems are mounted
-> >>  properly.
-> >>
-> >>Signed-off-by: Gary Thomas<gary@mlbassoc.com>
-> >>---
-> >>  .../recipes-core/base-files/base-files/filesystems |    8 ++++----
-> >>  meta/recipes-core/base-files/base-files_3.0.14.bb  |    2 +-
-> >>  2 files changed, 5 insertions(+), 5 deletions(-)
-> >>
-> >>diff --git a/meta/recipes-core/base-files/base-files/filesystems b/meta/recipes-core/base-files/base-files/filesystems
-> >>index 2af6a7e..14f5abb 100644
-> >>--- a/meta/recipes-core/base-files/base-files/filesystems
-> >>+++ b/meta/recipes-core/base-files/base-files/filesystems
-> >>@@ -1,7 +1,7 @@
-> >>-minix
-> >>-fat
-> >>-vfat
-> >>-ext2
-> >>  ext3
-> >>+ext2
-> >>+vfat
-> >>+fat
-> >>  btrfs
-> >>+minix
-> >
-> >In the commit message you explain the problem with ext2/3. And I agree
-> >that it makes sense to start with ext3. Actually, adding ext4 would
-> >make sense, too.
-> 
-> Agreed.
+Also remove unused site config file
 
-In the mood to add it and send an updated version of this patch? :)
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-core/zlib/site_config/headers |    1 -
+ meta/recipes-core/zlib/zlib_1.2.5.bb       |   18 ++++++++++++++++--
+ 2 files changed, 16 insertions(+), 3 deletions(-)
+ delete mode 100644 meta/recipes-core/zlib/site_config/headers
 
-> >What is the deal with the re-ordering of fat/vfat/minix though? Looks
-> >unrelated to me.
-> 
-> Same argument as above - try more capable file systems first.
-> I also moved minix to the end as it is rarely, if ever, used.
+diff --git a/meta/recipes-core/zlib/site_config/headers b/meta/recipes-core/zlib/site_config/headers
+deleted file mode 100644
+index 5026891..0000000
+--- a/meta/recipes-core/zlib/site_config/headers
++++ /dev/null
+@@ -1 +0,0 @@
+-zlib.h
+diff --git a/meta/recipes-core/zlib/zlib_1.2.5.bb b/meta/recipes-core/zlib/zlib_1.2.5.bb
+index bca400c..b5756d9 100644
+--- a/meta/recipes-core/zlib/zlib_1.2.5.bb
++++ b/meta/recipes-core/zlib/zlib_1.2.5.bb
+@@ -7,12 +7,12 @@ LICENSE = "Zlib"
+ LIC_FILES_CHKSUM = "file://zlib.h;beginline=4;endline=23;md5=084e9c30e4e6272c3b057b13c6467f3d"
+ 
+ DEPENDS = "libtool-cross"
+-PR = "r1"
++PR = "r3"
+ 
+ SRC_URI = "http://www.zlib.net/${BPN}-${PV}.tar.bz2 \
+            file://configure.ac \
+            file://Makefile.am \
+-	   file://fix.inverted.LFS.logic.patch"
++           file://fix.inverted.LFS.logic.patch"
+ 
+ SRC_URI[md5sum] = "be1e89810e66150f5b0327984d8625a0"
+ SRC_URI[sha256sum] = "239aead2f22f16bfcfa6a6a5150dcbd6d6f2e4d1eaa8727b5769ea014120b307"
+@@ -24,4 +24,18 @@ do_configure_prepend () {
+ 	cp ${WORKDIR}/Makefile.am ${S}/
+ }
+ 
++do_install_append () {
++	sed \
++		-e 's:@prefix@:${prefix}:' \
++		-e 's:@exec_prefix@:${exec_prefix}:' \
++		-e 's:@libdir@:${libdir}:' \
++		-e 's:@sharedlibdir@:${libdir}:' \
++		-e 's:@includedir@:${includedir}:' \
++		-e 's:@VERSION@:${PV}:' \
++		zlib.pc.in > zlib.pc
++
++	install -d ${D}${libdir}/pkgconfig
++	install -m 0644 zlib.pc ${D}${libdir}/pkgconfig/
++}
++
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+1.7.2.5
 
-Ah, now I see that you also moved vfat before fat. Missed that before.
-
-Acked-by: Stefan Schmidt <stefan@datenfreihafen.org>
-
-regards
-Stefan Schmidt
 
 
