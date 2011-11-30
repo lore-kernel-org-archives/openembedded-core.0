@@ -1,30 +1,32 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RVtld-0004Kl-Up
-	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Dec 2011 00:40:46 +0100
-Received: by lagj5 with SMTP id j5so491840lag.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2011 15:34:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=C7hfmhV6ZLebG9xzIbJWP04PxYRTFP/l5ePHlTgqyGQ=;
-	b=NLNK+xBHoWuc9bc/zhmfBuvsulfHlr89HL49ZahnE4pHqN4xE1nk+4kyIxSUWAWOf6
-	lb1B+A8F8/FKEa70aZCOfw58Uz6eP1FI6sxP/ZDDZGJOXwocSbt/TETxsonwZv6rUWBX
-	9rdsCvRyEPxz77MDejIsnw+GbAsnsto9dMAp0=
-Received: by 10.152.106.115 with SMTP id gt19mr2952502lab.27.1322696045344;
-	Wed, 30 Nov 2011 15:34:05 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.152.24.36 with HTTP; Wed, 30 Nov 2011 15:33:34 -0800 (PST)
-In-Reply-To: <1322695568.17484.82.camel@ted>
-References: <1322606818-2817-1-git-send-email-raj.khem@gmail.com>
-	<1322695568.17484.82.camel@ted>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 30 Nov 2011 15:33:34 -0800
-Message-ID: <CAMKF1srY+NV83Y4uv5QQxq8_AAr_cJ3J8h3+9s1C9YsMxD2nRw@mail.gmail.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RVtnU-0004Os-8U for openembedded-core@lists.openembedded.org;
+	Thu, 01 Dec 2011 00:42:40 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAUNZwp3007863;
+	Wed, 30 Nov 2011 23:35:58 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 07331-07; Wed, 30 Nov 2011 23:35:54 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pAUNZoYI007857
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 30 Nov 2011 23:35:51 GMT
+Message-ID: <1322696158.17484.85.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] classes: Apply libc-${LIBC} overrides to target recipes only
+Date: Wed, 30 Nov 2011 23:35:58 +0000
+In-Reply-To: <262b7b5f2bc5cf31b54a7f5d3ff27306a6a45de8.1322697616.git.julian.pidancet@gmail.com>
+References: <4ED69E46.3030808@linux.intel.com>
+	<262b7b5f2bc5cf31b54a7f5d3ff27306a6a45de8.1322697616.git.julian.pidancet@gmail.com>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Julian Pidancet <julian.pidancet@gmail.com>
+Subject: Re: [PATCH] Fix multiarch DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,21 +41,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 23:40:46 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 30 Nov 2011 23:42:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 30, 2011 at 3:26 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> I'd like to think simpler. How about we change tclibc*.inc to do
-> something like:
->
-> LIBCOVERRIDE = ":libc-glibc"
-> OVERRIDES .= "${LIBCOVERRIDE}"
->
-> and then native.bbclass can just do:
->
-> LIBCOVERRIDE = ""
+On Thu, 2011-12-01 at 00:01 +0000, Julian Pidancet wrote:
+> Make get_gcc_multiarch_setting more elegant. Use a dictionnary
+> to store the config options and replace bb.data.getVar with d.getVar.
+> Remove i686 from the architecture list because it doesn't seem
+> to be a valid TARGET_ARCH any more in OE.
+> Configure gdb (gdb and gdb-cross) with --enable-64-bit-bfd if
+> multiarch DISTRO_FEATURE is present
+> 
+> Signed-off-by: Julian Pidancet <julian.pidancet@gmail.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-common.inc |   17 ++++++++++-------
+>  meta/recipes-devtools/gdb/gdb-common.inc |    1 +
+>  2 files changed, 11 insertions(+), 7 deletions(-)
 
-OK let me experiment with this.
+Applied to master, thanks and sorry about the mixup with the patches.
+
+Cheers,
+
+Richard
+
 
 
