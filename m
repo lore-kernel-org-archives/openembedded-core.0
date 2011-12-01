@@ -1,35 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RW4ET-0000nP-Un for openembedded-core@lists.openembedded.org;
-	Thu, 01 Dec 2011 11:51:14 +0100
+	id 1RW4FH-0000zu-QC for openembedded-core@lists.openembedded.org;
+	Thu, 01 Dec 2011 11:52:04 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB1AiVSG013281
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB1AjMJl013317
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Dec 2011 10:44:31 GMT
+	Thu, 1 Dec 2011 10:45:22 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 12488-08 for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Dec 2011 10:44:27 +0000 (GMT)
+	id 12698-06 for <openembedded-core@lists.openembedded.org>;
+	Thu,  1 Dec 2011 10:45:17 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB1AiMta013275
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB1AjE0K013311
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Dec 2011 10:44:23 GMT
-Message-ID: <1322736272.17484.100.camel@ted>
+	Thu, 1 Dec 2011 10:45:15 GMT
+Message-ID: <1322736324.17484.101.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 01 Dec 2011 10:44:32 +0000
-In-Reply-To: <EE02ECC0-4FA3-4A4E-8AEE-54DBF3B631D4@dominion.thruhere.net>
+Date: Thu, 01 Dec 2011 10:45:24 +0000
+In-Reply-To: <243c4b2329a95b3488f9c43e8f361095a686f925.1322731182.git.dexuan.cui@intel.com>
 References: <cover.1322731182.git.dexuan.cui@intel.com>
-	<f0005eed49592dca75bd49a1cfc043d8dc252b37.1322731182.git.dexuan.cui@intel.com>
-	<EE02ECC0-4FA3-4A4E-8AEE-54DBF3B631D4@dominion.thruhere.net>
+	<243c4b2329a95b3488f9c43e8f361095a686f925.1322731182.git.dexuan.cui@intel.com>
 X-Mailer: Evolution 3.2.1- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/3] make: expand MAKEFLAGS before we re-exec after rebuilding makefiles.
+Subject: Re: [PATCH 2/3] task-self-hosted: install sudo, tun.ko, iptables, libgl and libgl-dev into the target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,36 +43,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2011 10:51:14 -0000
+X-List-Received-Date: Thu, 01 Dec 2011 10:52:04 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-12-01 at 10:22 +0100, Koen Kooi wrote:
-> Op 1 dec. 2011, om 10:21 heeft Dexuan Cui het volgende geschreven:
+On Thu, 2011-12-01 at 17:21 +0800, Dexuan Cui wrote:
+> sudo, kernel-module-tun and iptables are needed by runqemu.
+> strace has appeared in RDEPENDS_task-self-hosted-debug, so let's remove it
+> from RDEPENDS_task-self-hosted-extended.
+> install libglu and libgl-dev rather than mesa-dri and mesa-dri-dev due to the
+> recent commit "mesa: package gl/egl/osmesa to separate packages".
 > 
-> > This patch was got from the upstream cvs repo of make to fix the bug of
-> > make-3.82: http://savannah.gnu.org/bugs/?30723
-> > 
-> > Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
-> > ---
-> > .../make/make-3.82/expand_MAKEFLAGS.patch          |   39 ++++++++++++++++++++
-> > meta/recipes-devtools/make/make_3.82.bb            |    4 ++-
-> > 2 files changed, 42 insertions(+), 1 deletions(-)
-> > create mode 100644 meta/recipes-devtools/make/make-3.82/expand_MAKEFLAGS.patch
-> > 
-> > diff --git a/meta/recipes-devtools/make/make-3.82/expand_MAKEFLAGS.patch b/meta/recipes-devtools/make/make-3.82/expand_MAKEFLAGS.patch
-> > new file mode 100644
-> > index 0000000..4184937
-> > --- /dev/null
-> > +++ b/meta/recipes-devtools/make/make-3.82/expand_MAKEFLAGS.patch
-> > @@ -0,0 +1,39 @@
-> > +Upstream-Status: Inappropriate [The fix is already in upstream cvs repo, but not in the stable release]
-> 
-> Isn't 'backport' a better description than 'inappropriate'?
+> Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+> Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+> ---
+>  meta/recipes-core/tasks/task-self-hosted.bb |   14 ++++++++++----
+>  1 files changed, 10 insertions(+), 4 deletions(-)
 
-Agreed, I've taken this patch but changed the patch status to backport.
-
-Cheers,
+Merged to master, thanks.
 
 Richard
 
