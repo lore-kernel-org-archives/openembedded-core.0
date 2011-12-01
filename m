@@ -1,41 +1,59 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from am1ehsobe005.messaging.microsoft.com ([213.199.154.208]
+	helo=AM1EHSOBE005.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RWCQK-00052u-6A
+	(envelope-from <B29882@freescale.com>) id 1RWCrz-0006qE-MG
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Dec 2011 20:36:00 +0100
-Received: by faaa19 with SMTP id a19so1546444faa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Dec 2011 11:29:18 -0800 (PST)
-Received: by 10.180.90.195 with SMTP id by3mr5789851wib.30.1322767758468;
-	Thu, 01 Dec 2011 11:29:18 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id d17sm6849087wbh.19.2011.12.01.11.29.17
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 01 Dec 2011 11:29:17 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Thu, 1 Dec 2011 20:29:13 +0100
-In-Reply-To: <4ED7C95A.4060701@linux.intel.com>
+	Thu, 01 Dec 2011 21:04:35 +0100
+Received: from mail59-am1-R.bigfish.com (10.3.201.250) by
+	AM1EHSOBE005.bigfish.com (10.3.204.25) with Microsoft SMTP Server id
+	14.1.225.22; Thu, 1 Dec 2011 19:57:51 +0000
+Received: from mail59-am1 (localhost [127.0.0.1])	by mail59-am1-R.bigfish.com
+	(Postfix) with ESMTP id 86F1734043D	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu,  1 Dec 2011 19:57:51 +0000 (UTC)
+X-SpamScore: -12
+X-BigFish: VS-12(zz9371K1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-FB-SS: 13,
+Received: from mail59-am1 (localhost.localdomain [127.0.0.1]) by mail59-am1
+	(MessageSwitch) id 1322769471475388_23189;
+	Thu,  1 Dec 2011 19:57:51 +0000 (UTC)
+Received: from AM1EHSMHS019.bigfish.com (unknown [10.3.201.250])	by
+	mail59-am1.bigfish.com (Postfix) with ESMTP id 6E3CB180049	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu,  1 Dec 2011 19:57:51 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS019.bigfish.com
+	(10.3.206.22) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Thu, 1 Dec 2011 19:57:49 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.83]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.01.0339.002; Thu, 1 Dec 2011 13:57:51 -0600
+From: McClintock Matthew-B29882 <B29882@freescale.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1322594901.git.nitin.a.kamble@intel.com>
-	<48bd68cce53c87c7f9296a0a0ad5286efef7d5cc.1322594901.git.nitin.a.kamble@intel.com>
-	<1322598026.3077.11.camel@lenovo.internal.reciva.com>
-	<9DA5872FEF993D41B7173F58FCF6BE94E3D9E7EE@orsmsx504.amr.corp.intel.com>
-	<1322604347.3077.18.camel@lenovo.internal.reciva.com>
-	<9DA5872FEF993D41B7173F58FCF6BE94E3D9E9B9@orsmsx504.amr.corp.intel.com>
-	<1322758679.26081.242.camel@phil-desktop>
-	<1322759839.17484.141.camel@ted>
-	<1791C583-61A2-4087-8250-255FA25DAB22@dominion.thruhere.net>
-	<4ED7C95A.4060701@linux.intel.com>
-Message-Id: <7B66F8A5-9248-461A-BE54-0A1B65C22CE4@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH 1/4] gmp: also generate the libgmpcxx library & package it properly
+Thread-Topic: [OE-core] Coordinating inter-layer dependencies
+Thread-Index: AQHMsGOBwn2MhPc9yk+RQspKeHgOJw==
+Date: Thu, 1 Dec 2011 19:57:50 +0000
+Message-ID: <CAEsOVNcN84sbX3prmmyo-B0E=QfKQD2GOtE7uWHWxhP6uvn2kA@mail.gmail.com>
+References: <95547EE2-9E3E-4FB6-AA2A-A9653029F971@dominion.thruhere.net>
+	<20111201122407.GB19917@jama.jama.net> <1322743071.17484.119.camel@ted>
+	<CAP9ODKpnTxcRDJxZKe0bue4RDqydJ44TmEf0ukv43ATgBcDV7Q@mail.gmail.com>
+	<1322744558.17484.126.camel@ted> <20111201131337.GG19917@jama.jama.net>
+	<CABcZANmi7pgkZeHo4+if-cxXtrZDR_Gd_uZ-mMiM_CG9Czc-MA@mail.gmail.com>
+In-Reply-To: <CABcZANmi7pgkZeHo4+if-cxXtrZDR_Gd_uZ-mMiM_CG9Czc-MA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: Coordinating inter-layer dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -46,78 +64,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2011 19:36:00 -0000
-X-Groupsio-MsgNum: 13474
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_0D15251C-9834-45B2-9E92-47E064C85B0C";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_0D15251C-9834-45B2-9E92-47E064C85B0C
+X-List-Received-Date: Thu, 01 Dec 2011 20:04:35 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <C29CF95CAE25FE47A41FB8D5ECF69533@freescale.net>
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+
+On Thu, Dec 1, 2011 at 8:33 AM, Chris Larson <clarson@kergoth.com> wrote:
+>>> > This is even worse; you end up with a package without the changes don=
+e
+>>> > on the bbappend and as most bbappend files do not change PR, adding i=
+t
+>>> > later won't force a package update.
+>
+> People use bbappends without changing PR? I've been doing a PR .=3D ".1"
+> or whatever in every bbappend I've created since they were added to
+> bitbake, and used to do the same with amend.inc. It can result in some
+> long PR values, but I'd rather that than the alternative..
+
+It would be nice to have something that WARNS or FATALS if there is no
+PR modification in the bbappend. This should be required IMO but I
+guess there could be some other issues that this would cause.
+
+-M=
 
 
-Op 1 dec. 2011, om 19:37 heeft Joshua Lock het volgende geschreven:
 
->=20
->=20
-> On 01/12/11 09:26, Koen Kooi wrote:
->>=20
->> Op 1 dec. 2011, om 18:17 heeft Richard Purdie het volgende =
-geschreven:
->>=20
->>> On Thu, 2011-12-01 at 16:57 +0000, Phil Blundell wrote:
->>>> On Tue, 2011-11-29 at 14:51 -0800, Kamble, Nitin A wrote:
->>>>> Thank you for the explanation. BTW where can I find official rules =
-about signed-off-by line
->>>>=20
->>>> The "Signed-off-by" idiom originated with the kernel people and
->>>> Documentation/SubmittingPatches in the linux source tree contains a
->>>> fairly good description of what it means to them.
->>>>=20
->>>> I'm not sure that there are any official rules about its use in OE =
-apart
->>>> from what's in the Commit Patch Message Guidelines (see the wiki).
->>>=20
->>> The yocto docs do mention what the specific meaning of the line is.
->>=20
->> <pedantic mode>But this is oe-core.</pedantic mode>. Shall we all =
-agree it's the same for OE-core as well?
->=20
-> Isn't that the standard mode? ;-)
-
-It actually is, glad someone noticed :)
-
-> I expect folks have the same understanding as stated in the kernel and
-> Yocto docs when using SOB - I see no reason for OE Core to introduce
-> ambiguity.
->=20
-> Joshua
-> --=20
-> Joshua Lock
->        Yocto Project "Johannes factotum"
->        Intel Open Source Technology Centre
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
---Apple-Mail=_0D15251C-9834-45B2-9E92-47E064C85B0C
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-
-iEYEARECAAYFAk7X1YsACgkQMkyGM64RGpHv6ACfQoIkyZnc2eVwReyXOoR7+tTK
-Cm0An3Ye1foQfehc6XOL3lMsAuuqFbzb
-=OCRa
------END PGP SIGNATURE-----
-
---Apple-Mail=_0D15251C-9834-45B2-9E92-47E064C85B0C--
