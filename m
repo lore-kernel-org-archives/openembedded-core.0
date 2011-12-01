@@ -1,23 +1,23 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RWGV0-0007bT-0x
+	(envelope-from <sgw@linux.intel.com>) id 1RWGV0-0007ba-3j
 	for openembedded-core@openembedded.org; Fri, 02 Dec 2011 00:57:06 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 01 Dec 2011 15:50:20 -0800
+	by azsmga101.ch.intel.com with ESMTP; 01 Dec 2011 15:50:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,281,1320652800"; d="scan'208";a="81299159"
+X-IronPort-AV: E=Sophos;i="4.71,281,1320652800"; d="scan'208";a="81299163"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.251])
 	by azsmga001.ch.intel.com with ESMTP; 01 Dec 2011 15:50:20 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@openembedded.org
-Date: Thu,  1 Dec 2011 15:50:16 -0800
-Message-Id: <f81967a138a74bdf7f2f3e8aa56ec1f634d2c57c.1322783370.git.sgw@linux.intel.com>
+Date: Thu,  1 Dec 2011 15:50:17 -0800
+Message-Id: <4f9e948a62581821139bfe81b3b38c0a700137ba.1322783370.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1322783370.git.sgw@linux.intel.com>
 References: <cover.1322783370.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1322783370.git.sgw@linux.intel.com>
 References: <cover.1322783370.git.sgw@linux.intel.com>
-Subject: [PATCH 4/6] sqlite3: Update to 3.7.9
+Subject: [PATCH 5/6] less: Update to 444
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,45 +36,29 @@ X-List-Received-Date: Thu, 01 Dec 2011 23:57:06 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-support/sqlite/sqlite3_3.7.7.1.bb |   10 ----------
- meta/recipes-support/sqlite/sqlite3_3.7.9.bb   |   11 +++++++++++
- 2 files changed, 11 insertions(+), 10 deletions(-)
- delete mode 100644 meta/recipes-support/sqlite/sqlite3_3.7.7.1.bb
- create mode 100644 meta/recipes-support/sqlite/sqlite3_3.7.9.bb
+ .../less/{less_443.bb => less_444.bb}              |    5 ++---
+ 1 files changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/less/{less_443.bb => less_444.bb} (87%)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.7.7.1.bb b/meta/recipes-support/sqlite/sqlite3_3.7.7.1.bb
-deleted file mode 100644
-index fd03780..0000000
---- a/meta/recipes-support/sqlite/sqlite3_3.7.7.1.bb
-+++ /dev/null
-@@ -1,10 +0,0 @@
--require sqlite3.inc
+diff --git a/meta/recipes-extended/less/less_443.bb b/meta/recipes-extended/less/less_444.bb
+similarity index 87%
+rename from meta/recipes-extended/less/less_443.bb
+rename to meta/recipes-extended/less/less_444.bb
+index 0928ad4..c78dbaa 100644
+--- a/meta/recipes-extended/less/less_443.bb
++++ b/meta/recipes-extended/less/less_444.bb
+@@ -15,9 +15,8 @@ PR = "r0"
+ 
+ SRC_URI = "http://www.greenwoodsoftware.com/${BPN}/${BPN}-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "47db098fb3cdaf847b3c4be05ee954fc"
+-SRC_URI[sha256sum] = "a4c3e8af81fd0944941ee7c74eecc7759422a227df52335e899e69de5eae30ca"
 -
--LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=65f0a57ca6928710b418c094b3570bb0"
--
--SRC_URI = "http://www.sqlite.org/sqlite-autoconf-3070701.tar.gz"
--S = "${WORKDIR}/sqlite-autoconf-3070701"
--PR = "r1"
--
--SRC_URI[md5sum] = "554026fe7fac47b1cf61c18d5fe43419"
--SRC_URI[sha256sum] = "7dcc36b25f7bcbe2938d0ea2baea5b706f0af93473d02a3f612d7ab39e386edf"
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.7.9.bb b/meta/recipes-support/sqlite/sqlite3_3.7.9.bb
-new file mode 100644
-index 0000000..f6c2f9e
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3_3.7.9.bb
-@@ -0,0 +1,11 @@
-+require sqlite3.inc
-+
-+PR = "r0"
-+
-+LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=65f0a57ca6928710b418c094b3570bb0"
-+
-+SRC_URI = "http://www.sqlite.org/sqlite-autoconf-3070900.tar.gz"
-+S = "${WORKDIR}/sqlite-autoconf-3070900"
-+
-+SRC_URI[md5sum] = "dce303524736fe89a76b8ed29d566352"
-+SRC_URI[sha256sum] = "7be6cdb375505e5d9a4aee88b2ddb6ea0d9d29c9545114ff77b345e1fa812439"
++SRC_URI[md5sum] = "56f9f76ffe13f70155f47f6b3c87d421"
++SRC_URI[sha256sum] = "be64ad3e22d6d4aa19fe7024d998563a1ce1671ee3625f8851d26b16dedcdeeb"
+ 
+ inherit autotools update-alternatives
+ 
 -- 
 1.7.6.4
 
