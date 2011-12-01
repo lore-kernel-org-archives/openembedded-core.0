@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RWGao-00005F-Sd
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1RWGaq-00005F-1s
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Dec 2011 01:03:07 +0100
+	Fri, 02 Dec 2011 01:03:08 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 01 Dec 2011 15:56:21 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 01 Dec 2011 15:56:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,281,1320652800"; d="scan'208";a="97666305"
+X-IronPort-AV: E=Sophos;i="4.71,281,1320652800"; d="scan'208";a="97666310"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.234])
-	by fmsmga002.fm.intel.com with ESMTP; 01 Dec 2011 15:56:20 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 01 Dec 2011 15:56:21 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Dec 2011 23:56:01 +0000
-Message-Id: <8cc5f124fb791a762bf6aace3a9bf8c1d1c39dd1.1322782677.git.paul.eggleton@linux.intel.com>
+Date: Thu,  1 Dec 2011 23:56:02 +0000
+Message-Id: <8afb5fd67ea37c1ff2ff4513f797f409a0e8a556.1322782677.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <cover.1322782677.git.paul.eggleton@linux.intel.com>
 References: <cover.1322782677.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1322782677.git.paul.eggleton@linux.intel.com>
 References: <cover.1322782677.git.paul.eggleton@linux.intel.com>
-Subject: [RFC PATCH 1/2] classes/buildhistory: add new output history collection class
+Subject: [RFC PATCH 2/2] classes/buildhistory: merge in package history functionality
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,241 +33,303 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Dec 2011 00:03:07 -0000
+X-List-Received-Date: Fri, 02 Dec 2011 00:03:08 -0000
 
-Create a new build output history reporting class, using testlab.bbclass
-from meta-oe as a base. This records information from images produced by
-the build process in text files structured suitably for tracking within
-a git repository, thus enabling monitoring of changes over time.
+Include package history collection from packagehistory.bbclass (thus
+superseding it), with the following changes:
 
-Build history collection can be enabled simply by adding the following
-to your local.conf:
+* Store package history under BUILDHISTORY_DIR/packages
+* Disable storing package history as version named files unless
+  BUILDHISTORY_KEEP_VERSIONS is set to 1; otherwise the adds of these
+  files that duplicate what is already in git anyway is just noise in
+  the git log.
+* Rename emit_pkghistory to buildhistory_emit_pkghistory
 
-INHERIT += "buildhistory"
-
-The output after a build can then be found in BUILDHISTORY_DIR (defaults to
-TMPDIR/buildhistory). If you set up this directory as a git repository and
-set BUILDHISTORY_COMMIT to "1" in local.conf, the build history data will
-be committed on every build.
+Implements [YOCTO #1565].
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/classes/buildhistory.bbclass |  105 +++++++++++++++++++++++++++++++++++++
- meta/classes/rootfs_ipk.bbclass   |   27 +++++++++-
- meta/classes/rootfs_rpm.bbclass   |   41 +++++++++++++--
- 3 files changed, 167 insertions(+), 6 deletions(-)
- create mode 100644 meta/classes/buildhistory.bbclass
+ meta/classes/buildhistory.bbclass |  256 ++++++++++++++++++++++++++++++++++++-
+ 1 files changed, 255 insertions(+), 1 deletions(-)
 
 diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-new file mode 100644
-index 0000000..79a074c
---- /dev/null
+index 79a074c..9303486 100644
+--- a/meta/classes/buildhistory.bbclass
 +++ b/meta/classes/buildhistory.bbclass
-@@ -0,0 +1,105 @@
+@@ -1,7 +1,7 @@
+ #
+ # Records history of build output in order to detect regressions
+ #
+-# Based in part on testlab.bbclass
++# Based in part on testlab.bbclass and packagehistory.bbclass
+ #
+ # Copyright (C) 2011 Intel Corporation
+ # Copyright (C) 2007, 2008 Koen Kooi <koen@openembedded.org>
+@@ -9,10 +9,264 @@
+ 
+ BUILDHISTORY_DIR ?= "${TMPDIR}/buildhistory"
+ BUILDHISTORY_DIR_IMAGE = "${BUILDHISTORY_DIR}/images/${MACHINE_ARCH}/${TCLIBC}/${IMAGE_BASENAME}"
++BUILDHISTORY_DIR_PACKAGE = "${BUILDHISTORY_DIR}/packages/${MULTIMACH_TARGET_SYS}/${PN}"
+ BUILDHISTORY_COMMIT ?= "0"
+ BUILDHISTORY_COMMIT_AUTHOR ?= "buildhistory <buildhistory@${DISTRO}>"
+ BUILDHISTORY_PUSH_REPO ?= ""
+ 
++# Must inherit package first before changing PACKAGEFUNCS
++inherit package
++PACKAGEFUNCS += "buildhistory_emit_pkghistory"
++
 +#
-+# Records history of build output in order to detect regressions
++# Called during do_package to write out metadata about this package
++# for comparision when writing future packages
 +#
-+# Based in part on testlab.bbclass
-+#
-+# Copyright (C) 2011 Intel Corporation
-+# Copyright (C) 2007, 2008 Koen Kooi <koen@openembedded.org>
-+#
++python buildhistory_emit_pkghistory() {
++	import re
 +
-+BUILDHISTORY_DIR ?= "${TMPDIR}/buildhistory"
-+BUILDHISTORY_DIR_IMAGE = "${BUILDHISTORY_DIR}/images/${MACHINE_ARCH}/${TCLIBC}/${IMAGE_BASENAME}"
-+BUILDHISTORY_COMMIT ?= "0"
-+BUILDHISTORY_COMMIT_AUTHOR ?= "buildhistory <buildhistory@${DISTRO}>"
-+BUILDHISTORY_PUSH_REPO ?= ""
++	pkghistdir = d.getVar('BUILDHISTORY_DIR_PACKAGE', True)
 +
-+buildhistory_get_image_installed() {
-+	# Anything requiring the use of the packaging system should be done in here
-+	# in case the packaging files are going to be removed for this image
++	class RecipeInfo:
++		def __init__(self, name):
++			self.name = name
++			self.pe = "0"
++			self.pv = "0"
++			self.pr = "r0"
++			self.depends = ""
++			self.packages = ""
 +
-+	mkdir -p ${BUILDHISTORY_DIR_IMAGE}
++	class PackageInfo:
++		def __init__(self, name):
++			self.name = name
++			self.pe = "0"
++			self.pv = "0"
++			self.pr = "r0"
++			self.size = 0
++			self.depends = ""
++			self.rdepends = ""
++			self.rrecommends = ""
++			self.files = ""
++			self.filelist = ""
 +
-+	# Get list of installed packages
-+	list_installed_packages | sort > ${BUILDHISTORY_DIR_IMAGE}/installed-package-names.txt
-+	INSTALLED_PKGS=`cat ${BUILDHISTORY_DIR_IMAGE}/installed-package-names.txt`
++	# Should check PACKAGES here to see if anything removed
 +
-+	# Produce installed package file and size lists and dependency graph
-+	echo -n > ${BUILDHISTORY_DIR_IMAGE}/installed-packages.txt
-+	echo -n > ${BUILDHISTORY_DIR_IMAGE}/installed-package-sizes.tmp
-+	echo -e "digraph depends {\n    node [shape=plaintext]" > ${BUILDHISTORY_DIR_IMAGE}/depends.dot
-+	for pkg in $INSTALLED_PKGS; do
-+		pkgfile=`get_package_filename $pkg`
-+		echo `basename $pkgfile` >> ${BUILDHISTORY_DIR_IMAGE}/installed-packages.txt
-+		if [ -f $pkgfile ] ; then
-+			pkgsize=`du -k $pkgfile | head -n1 | awk '{ print $1 }'`
-+			echo $pkgsize $pkg >> ${BUILDHISTORY_DIR_IMAGE}/installed-package-sizes.tmp
-+		fi
++	def getpkgvar(pkg, var):
++		val = bb.data.getVar('%s_%s' % (var, pkg), d, 1)
++		if val:
++			return val
++		val = bb.data.getVar('%s' % (var), d, 1)
 +
-+		deps=`list_package_depends $pkg`
-+		for dep in $deps ; do
-+			echo "$pkg OPP $dep;" | sed -e 's:-:_:g' -e 's:\.:_:g' -e 's:+::g' | sed 's:OPP:->:g' >> ${BUILDHISTORY_DIR_IMAGE}/depends.dot
-+		done
++		return val
 +
-+		recs=`list_package_recommends $pkg`
-+		for rec in $recs ; do
-+			echo "$pkg OPP $rec [style=dotted];" | sed -e 's:-:_:g' -e 's:\.:_:g' -e 's:+::g' | sed 's:OPP:->:g' >> ${BUILDHISTORY_DIR_IMAGE}/depends.dot
-+		done
-+	done
-+	echo "}" >>  ${BUILDHISTORY_DIR_IMAGE}/depends.dot
++	def readRecipeInfo(pn, histfile):
++		rcpinfo = RecipeInfo(pn)
++		f = open(histfile, "r")
++		try:
++			for line in f:
++				lns = line.split('=')
++				name = lns[0].strip()
++				value = lns[1].strip(" \t\r\n").strip('"')
++				if name == "PE":
++					rcpinfo.pe = value
++				elif name == "PV":
++					rcpinfo.pv = value
++				elif name == "PR":
++					rcpinfo.pr = value
++				elif name == "DEPENDS":
++					rcpinfo.depends = value
++				elif name == "PACKAGES":
++					rcpinfo.packages = value
++		finally:
++			f.close()
++		return rcpinfo
 +
-+	cat ${BUILDHISTORY_DIR_IMAGE}/installed-package-sizes.tmp | sort -n -r | awk '{print $1 "\tKiB " $2}' > ${BUILDHISTORY_DIR_IMAGE}/installed-package-sizes.txt
-+	rm ${BUILDHISTORY_DIR_IMAGE}/installed-package-sizes.tmp
++	def readPackageInfo(pkg, histfile):
++		pkginfo = PackageInfo(pkg)
++		f = open(histfile, "r")
++		try:
++			for line in f:
++				lns = line.split('=')
++				name = lns[0].strip()
++				value = lns[1].strip(" \t\r\n").strip('"')
++				if name == "PE":
++					pkginfo.pe = value
++				elif name == "PV":
++					pkginfo.pv = value
++				elif name == "PR":
++					pkginfo.pr = value
++				elif name == "RDEPENDS":
++					pkginfo.rdepends = value
++				elif name == "RRECOMMENDS":
++					pkginfo.rrecommends = value
++				elif name == "PKGSIZE":
++					pkginfo.size = long(value)
++				elif name == "FILES":
++					pkginfo.files = value
++				elif name == "FILELIST":
++					pkginfo.filelist = value
++		finally:
++			f.close()
++		return pkginfo
 +
-+	# Produce some cut-down graphs (for readability)
-+	grep -v kernel_image ${BUILDHISTORY_DIR_IMAGE}/depends.dot | grep -v kernel_2 | grep -v kernel_3 > ${BUILDHISTORY_DIR_IMAGE}/depends-nokernel.dot
-+	grep -v libc6 ${BUILDHISTORY_DIR_IMAGE}/depends-nokernel.dot | grep -v libgcc > ${BUILDHISTORY_DIR_IMAGE}/depends-nokernel-nolibc.dot
-+	grep -v update_ ${BUILDHISTORY_DIR_IMAGE}/depends-nokernel-nolibc.dot > ${BUILDHISTORY_DIR_IMAGE}/depends-nokernel-nolibc-noupdate.dot
-+	grep -v kernel_module ${BUILDHISTORY_DIR_IMAGE}/depends-nokernel-nolibc-noupdate.dot > ${BUILDHISTORY_DIR_IMAGE}/depends-nokernel-nolibc-noupdate-nomodules.dot
++	def getlastrecipeversion(pn):
++		try:
++			histfile = os.path.join(pkghistdir, "latest")
++			return readRecipeInfo(pn, histfile)
++		except EnvironmentError:
++			return None
 +
-+	# Workaround for broken shell function dependencies
-+	if false ; then
-+		get_package_filename
-+		list_package_depends
-+		list_package_recommends
-+	fi
++	def getlastpkgversion(pkg):
++		try:
++			histfile = os.path.join(pkghistdir, pkg, "latest")
++			return readPackageInfo(pkg, histfile)
++		except EnvironmentError:
++			return None
++
++	def squashspaces(string):
++		return re.sub("\s+", " ", string)
++
++	pn = d.getVar('PN', True)
++	pe = d.getVar('PE', True) or "0"
++	pv = d.getVar('PV', True)
++	pr = d.getVar('PR', True)
++	packages = squashspaces(d.getVar('PACKAGES', True))
++
++	rcpinfo = RecipeInfo(pn)
++	rcpinfo.pe = pe
++	rcpinfo.pv = pv
++	rcpinfo.pr = pr
++	rcpinfo.depends = squashspaces(d.getVar('DEPENDS', True) or "")
++	rcpinfo.packages = packages
++	write_recipehistory(rcpinfo, d)
++	write_latestlink(None, pe, pv, pr, d)
++
++	# Apparently the version can be different on a per-package basis (see Python)
++	pkgdest = d.getVar('PKGDEST', True)
++	for pkg in packages.split():
++		pe = getpkgvar(pkg, 'PE') or "0"
++		pv = getpkgvar(pkg, 'PV')
++		pr = getpkgvar(pkg, 'PR')
++		#
++		# Find out what the last version was
++		# Make sure the version did not decrease
++		#
++		lastversion = getlastpkgversion(pkg)
++		if lastversion:
++			last_pe = lastversion.pe
++			last_pv = lastversion.pv
++			last_pr = lastversion.pr
++			r = bb.utils.vercmp((pe, pv, pr), (last_pe, last_pv, last_pr))
++			if r < 0:
++				bb.fatal("Package version for package %s went backwards which would break package feeds from (%s:%s-%s to %s:%s-%s)" % (pkg, last_pe, last_pv, last_pr, pe, pv, pr))
++
++		pkginfo = PackageInfo(pkg)
++		pkginfo.pe = pe
++		pkginfo.pv = pv
++		pkginfo.pr = pr
++		pkginfo.rdepends = squashspaces(getpkgvar(pkg, 'RDEPENDS') or "")
++		pkginfo.rrecommends = squashspaces(getpkgvar(pkg, 'RRECOMMENDS') or "")
++		pkginfo.files = squashspaces(getpkgvar(pkg, 'FILES') or "")
++
++		# Gather information about packaged files
++		pkgdestpkg = os.path.join(pkgdest, pkg)
++		filelist = []
++		pkginfo.size = 0
++		for root, dirs, files in os.walk(pkgdestpkg):
++			relpth = os.path.relpath(root, pkgdestpkg)
++			for f in files:
++				fstat = os.lstat(os.path.join(root, f))
++				pkginfo.size += fstat.st_size
++				filelist.append(os.sep + os.path.join(relpth, f))
++		pkginfo.filelist = " ".join(filelist)
++
++		write_pkghistory(pkginfo, d)
++
++		if lastversion:
++			check_pkghistory(pkginfo, lastversion)
++
++		write_latestlink(pkg, pe, pv, pr, d)
 +}
 +
-+buildhistory_get_imageinfo() {
-+	# List the files in the image, but exclude date/time etc.
-+	# This awk script is somewhat messy, but handles where the size is not printed for device files under pseudo
-+	find ${IMAGE_ROOTFS} -ls | awk '{ if ( $7 ~ /[0-9]/ ) printf "%s %10-s %10-s %10s %s %s %s\n", $3, $5, $6, $7, $11, $12, $13 ; else printf "%s %10-s %10-s %10s %s %s %s\n", $3, $5, $6, 0, $10, $11, $12 }' > ${BUILDHISTORY_DIR_IMAGE}/files-in-image.txt
 +
-+	# Add some configuration information
-+	echo "${MACHINE}: ${IMAGE_BASENAME} configured for ${DISTRO} ${DISTRO_VERSION}" > ${BUILDHISTORY_DIR_IMAGE}/build-id
-+	echo "${@buildhistory_get_layers(d)}" >> ${BUILDHISTORY_DIR_IMAGE}/build-id
-+}
++def check_pkghistory(pkginfo, lastversion):
 +
-+# By prepending we get in before the removal of packaging files
-+ROOTFS_POSTPROCESS_COMMAND =+ "buildhistory_get_image_installed ; "
-+
-+IMAGE_POSTPROCESS_COMMAND += " buildhistory_get_imageinfo ; "
-+
-+def buildhistory_get_layers(d):
-+	layertext = "Configured metadata layers:\n%s\n" % '\n'.join(get_layers_branch_rev(d))
-+	return layertext
++	bb.debug(2, "Checking package history")
++	# RDEPENDS removed?
++	# PKG changed?
++	# Each file list of each package for file removals?
 +
 +
-+buildhistory_commit() {
-+	( cd ${BUILDHISTORY_DIR}/
-+		git add ${BUILDHISTORY_DIR}/*
-+		git commit ${BUILDHISTORY_DIR}/ -m "Build ${BUILDNAME} for machine ${MACHINE} configured for ${DISTRO} ${DISTRO_VERSION}" --author "${BUILDHISTORY_COMMIT_AUTHOR}" > /dev/null
-+		if [ "${BUILDHISTORY_PUSH_REPO}" != "" ] ; then
-+			git push -q ${BUILDHISTORY_PUSH_REPO}
-+		fi) || true
-+}
++def write_recipehistory(rcpinfo, d):
++	bb.debug(2, "Writing recipe history")
 +
-+python buildhistory_eventhandler() {
-+	import bb.build
-+	import bb.event
++	pkghistdir = d.getVar('BUILDHISTORY_DIR_PACKAGE', True)
 +
-+	if isinstance(e, bb.event.BuildCompleted):
-+		if e.data.getVar("BUILDHISTORY_COMMIT", True) == "1":
-+			bb.build.exec_func("buildhistory_commit", e.data)
-+}
++	if not os.path.exists(pkghistdir):
++		os.makedirs(pkghistdir)
 +
-+addhandler buildhistory_eventhandler
-diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
-index 4a5a2dd..b4b95c5 100644
---- a/meta/classes/rootfs_ipk.bbclass
-+++ b/meta/classes/rootfs_ipk.bbclass
-@@ -143,11 +143,36 @@ remove_packaging_data_files() {
-         mkdir ${IMAGE_ROOTFS}${opkglibdir}
- }
- 
-+list_installed_packages() {
-+	grep ^Package: ${IMAGE_ROOTFS}${opkglibdir}/status | sed "s/^Package: //"
-+}
++	verfile = os.path.join(pkghistdir, "%s:%s-%s" % (rcpinfo.pe, rcpinfo.pv, rcpinfo.pr))
++	f = open(verfile, "w")
++	try:
++		if rcpinfo.pe != "0":
++			f.write("PE = %s\n" %  rcpinfo.pe)
++		f.write("PV = %s\n" %  rcpinfo.pv)
++		f.write("PR = %s\n" %  rcpinfo.pr)
++		f.write("DEPENDS = %s\n" %  rcpinfo.depends)
++		f.write("PACKAGES = %s\n" %  rcpinfo.packages)
++	finally:
++		f.close()
 +
-+get_package_filename() {
-+	name=`opkg-cl ${IPKG_ARGS} info $1 | grep -B 7 -A 7 "^Status.* \(\(installed\)\|\(unpacked\)\)" | awk '/^Package/ {printf $2"_"}'`
-+	name=$name`opkg-cl ${IPKG_ARGS} info $1 | grep -B 7 -A 7 "^Status.* \(\(installed\)\|\(unpacked\)\)" | awk -F: '/^Version/ {printf $NF"_"}' | sed 's/^\s*//g'`
-+	name=$name`opkg-cl ${IPKG_ARGS} info $1 | grep -B 7 -A 7 "^Status.* \(\(installed\)\|\(unpacked\)\)" | awk '/^Archi/ {print $2".ipk"}'`
 +
-+	fullname=`find ${DEPLOY_DIR_IPK} -name "$name" || true`
-+	if [ "$fullname" = "" ] ; then
-+		echo $name
-+	else
-+		echo $fullname
-+	fi
-+}
++def write_pkghistory(pkginfo, d):
++	bb.debug(2, "Writing package history")
 +
-+list_package_depends() {
-+	opkg-cl ${IPKG_ARGS} info $1 | grep ^Depends | sed -e 's/^Depends: //' -e 's/,//g' -e 's:([=<>]* [0-9a-zA-Z.~\-]*)::g'
-+}
++	pkghistdir = d.getVar('BUILDHISTORY_DIR_PACKAGE', True)
 +
-+list_package_recommends() {
-+	opkg-cl ${IPKG_ARGS} info $1 | grep ^Recommends | sed -e 's/^Recommends: //' -e 's/,//g' -e 's:([=<>]* [0-9a-zA-Z.~\-]*)::g'
-+}
++	verpath = os.path.join(pkghistdir, pkginfo.name)
++	if not os.path.exists(verpath):
++		os.makedirs(verpath)
 +
- install_all_locales() {
- 
-     PACKAGES_TO_INSTALL=""
- 
--    INSTALLED_PACKAGES=`grep ^Package: ${IMAGE_ROOTFS}${opkglibdir}/status |sed "s/^Package: //"|egrep -v -- "(-locale-|-dev$|-doc$|^kernel|^glibc|^ttf|^task|^perl|^python)"`
-+    INSTALLED_PACKAGES=`list_installed_packages | egrep -v -- "(-locale-|-dev$|-doc$|^kernel|^glibc|^ttf|^task|^perl|^python)"`
- 
-     for pkg in $INSTALLED_PACKAGES
-     do
-diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-index 6973008..5fd45d7 100644
---- a/meta/classes/rootfs_rpm.bbclass
-+++ b/meta/classes/rootfs_rpm.bbclass
-@@ -160,16 +160,47 @@ remove_packaging_data_files() {
- 	rm -rf ${IMAGE_ROOTFS}${opkglibdir}
- }
- 
-+RPM_QUERY_CMD = '${RPM} --root ${IMAGE_ROOTFS} -D "_dbpath ${rpmlibdir}" \
-+		-D "__dbi_txn create nofsync private"'
++	verfile = os.path.join(verpath, "%s:%s-%s" % (pkginfo.pe, pkginfo.pv, pkginfo.pr))
++	f = open(verfile, "w")
++	try:
++		if pkginfo.pe != "0":
++			f.write("PE = %s\n" %  pkginfo.pe)
++		f.write("PV = %s\n" %  pkginfo.pv)
++		f.write("PR = %s\n" %  pkginfo.pr)
++		f.write("RDEPENDS = %s\n" %  pkginfo.rdepends)
++		f.write("RRECOMMENDS = %s\n" %  pkginfo.rrecommends)
++		f.write("PKGSIZE = %d\n" %  pkginfo.size)
++		f.write("FILES = %s\n" %  pkginfo.files)
++		f.write("FILELIST = %s\n" %  pkginfo.filelist)
++	finally:
++		f.close()
 +
-+list_installed_packages() {
-+	${RPM_QUERY_CMD} -qa --qf "[%{NAME}\n]"
-+}
 +
-+get_package_filename() {
-+	resolve_package_rpm ${RPMCONF_TARGET_BASE}-base_archs.conf $1
-+}
++def write_latestlink(pkg, pe, pv, pr, d):
++	import shutil
 +
-+list_package_depends() {
-+	pkglist=`list_installed_packages`
++	pkghistdir = d.getVar('BUILDHISTORY_DIR_PACKAGE', True)
 +
-+	for req in `${RPM_QUERY_CMD} -q --qf "[%{REQUIRES}\n]" $1`; do
-+		if echo "$req" | grep -q "^rpmlib" ; then continue ; fi
++	def rm_link(path):
++		try:
++			os.unlink(path)
++		except OSError:
++			return
 +
-+		realpkg=""
-+		for dep in $pkglist; do
-+			if [ "$dep" = "$req" ] ; then
-+				realpkg="1"
-+				echo $req
-+				break
-+			fi
-+		done
++	if pkg:
++		filedir = os.path.join(pkghistdir, pkg)
++	else:
++		filedir = pkghistdir
++	latest_file = os.path.join(filedir, "latest")
++	ver_file = os.path.join(filedir, "%s:%s-%s" % (pe, pv, pr))
++	rm_link(latest_file)
++	if d.getVar('BUILDHISTORY_KEEP_VERSIONS', True) == '1':
++		shutil.copy(ver_file, latest_file)
++	else:
++		shutil.move(ver_file, latest_file)
 +
-+		if [ "$realdep" = "" ] ; then
-+			${RPM_QUERY_CMD} -q --whatprovides $req --qf "%{NAME}\n"
-+		fi
-+	done
-+}
 +
-+list_package_recommends() {
-+	:
-+}
- 
- install_all_locales() {
- 	PACKAGES_TO_INSTALL=""
- 
- 	# Generate list of installed packages...
--	INSTALLED_PACKAGES=$( \
--		${RPM} --root ${IMAGE_ROOTFS} -D "_dbpath ${rpmlibdir}" \
--		-D "__dbi_txn create nofsync private" \
--		-qa --qf "[%{NAME}\n]" | egrep -v -- "(-locale-|-dev$|-doc$|^kernel|^glibc|^ttf|^task|^perl|^python)" \
--	)
-+	INSTALLED_PACKAGES=`list_installed_packages | egrep -v -- "(-locale-|-dev$|-doc$|^kernel|^glibc|^ttf|^task|^perl|^python)"`
- 
- 	# This would likely be faster if we did it in one transaction
- 	# but this should be good enough for the few users of this function...
+ buildhistory_get_image_installed() {
+ 	# Anything requiring the use of the packaging system should be done in here
+ 	# in case the packaging files are going to be removed for this image
 -- 
 1.7.5.4
 
