@@ -1,29 +1,34 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RW2xP-0006pB-TV
-	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Dec 2011 10:29:32 +0100
-Received: by eaad13 with SMTP id d13so1907705eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Dec 2011 01:22:51 -0800 (PST)
-Received: by 10.213.21.145 with SMTP id j17mr913685ebb.136.1322731370836;
-	Thu, 01 Dec 2011 01:22:50 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id 8sm15588823ees.2.2011.12.01.01.22.49
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 01 Dec 2011 01:22:50 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Thu, 1 Dec 2011 10:22:49 +0100
-In-Reply-To: <f0005eed49592dca75bd49a1cfc043d8dc252b37.1322731182.git.dexuan.cui@intel.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RW31J-00071B-3q for openembedded-core@lists.openembedded.org;
+	Thu, 01 Dec 2011 10:33:33 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB19QnYS012695;
+	Thu, 1 Dec 2011 09:26:49 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 11727-09; Thu,  1 Dec 2011 09:26:45 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB19QdYE012689
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 1 Dec 2011 09:26:40 GMT
+Message-ID: <1322731606.17484.88.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1322731182.git.dexuan.cui@intel.com>
-	<f0005eed49592dca75bd49a1cfc043d8dc252b37.1322731182.git.dexuan.cui@intel.com>
-Message-Id: <EE02ECC0-4FA3-4A4E-8AEE-54DBF3B631D4@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH 1/3] make: expand MAKEFLAGS before we re-exec after rebuilding makefiles.
+Date: Thu, 01 Dec 2011 09:26:46 +0000
+In-Reply-To: <20111201015251.GA30618@sakrah.homelinux.org>
+References: <4ED0CC76.4040606@emagii.com> <1322579029.7964.0.camel@ted>
+	<FBD66FA7-8184-4933-AB82-124F18225ECF@dominion.thruhere.net>
+	<1322582613.7964.3.camel@ted>
+	<20111201015251.GA30618@sakrah.homelinux.org>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: ulf@emagii.com, "Garman, Scott A" <scott.a.garman@intel.com>
+Subject: Re: Feedback on building openembedded-core for qemuarm. Excerpts from buildlog
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,63 +43,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2011 09:29:32 -0000
-X-Groupsio-MsgNum: 13399
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_6A0A25D6-0F6A-497F-A9C3-E6F36A4C0DC0";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_6A0A25D6-0F6A-497F-A9C3-E6F36A4C0DC0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-Op 1 dec. 2011, om 10:21 heeft Dexuan Cui het volgende geschreven:
-
-> This patch was got from the upstream cvs repo of make to fix the bug =
-of
-> make-3.82: http://savannah.gnu.org/bugs/?30723
->=20
-> Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
-> ---
-> .../make/make-3.82/expand_MAKEFLAGS.patch          |   39 =
-++++++++++++++++++++
-> meta/recipes-devtools/make/make_3.82.bb            |    4 ++-
-> 2 files changed, 42 insertions(+), 1 deletions(-)
-> create mode 100644 =
-meta/recipes-devtools/make/make-3.82/expand_MAKEFLAGS.patch
->=20
-> diff --git =
-a/meta/recipes-devtools/make/make-3.82/expand_MAKEFLAGS.patch =
-b/meta/recipes-devtools/make/make-3.82/expand_MAKEFLAGS.patch
-> new file mode 100644
-> index 0000000..4184937
-> --- /dev/null
-> +++ b/meta/recipes-devtools/make/make-3.82/expand_MAKEFLAGS.patch
-> @@ -0,0 +1,39 @@
-> +Upstream-Status: Inappropriate [The fix is already in upstream cvs =
-repo, but not in the stable release]
-
-Isn't 'backport' a better description than 'inappropriate'?
-
-regards,
-
-Koen=
-
---Apple-Mail=_6A0A25D6-0F6A-497F-A9C3-E6F36A4C0DC0
+X-List-Received-Date: Thu, 01 Dec 2011 09:33:33 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
+On Wed, 2011-11-30 at 17:52 -0800, Khem Raj wrote:
+> On (29/11/11 16:03), Richard Purdie wrote:
+> > > Assuming your statement is true, why isn't the hash style fixed in
+> > > the .inc? Meta-oe uses the ones from OE-core, so if the include files
+> > > are sane, the toolchain for meta-oe is sane.
+> > 
+> > Its fixed by a patch so someone needs to backport that patch to the gcc
+> > 4.5 patch set.
+> 
+> I have intentionally not ported the patch back to 4.5 but let me see if
+> I can find some spare hours
 
-iEYEARECAAYFAk7XR2kACgkQMkyGM64RGpEqTACgsKfa2OsGmA9eK77kEbp48z2e
-AooAnR0cAqxcHqAiVE6RaJ40DsgNSUWD
-=lul2
------END PGP SIGNATURE-----
+Don't take my comments as a request to do so btw, personally speaking I
+don't see it as a problem. I just wanted to be clear about what was
+missing.
 
---Apple-Mail=_6A0A25D6-0F6A-497F-A9C3-E6F36A4C0DC0--
+Cheers,
+
+Richard
+
+
+
