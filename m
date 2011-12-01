@@ -1,50 +1,55 @@
-Received: from db3ehsobe001.messaging.microsoft.com ([213.199.154.139]
-	helo=DB3EHSOBE001.bigfish.com)
+Received: from ch1ehsobe002.messaging.microsoft.com ([216.32.181.182]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RWGER-0006t3-0b
+	(envelope-from <B29882@freescale.com>) id 1RWGGm-0006zq-8h
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Dec 2011 00:39:59 +0100
-Received: from mail106-db3-R.bigfish.com (10.3.81.241) by
-	DB3EHSOBE001.bigfish.com (10.3.84.21) with Microsoft SMTP Server id
-	14.1.225.22; Thu, 1 Dec 2011 23:33:13 +0000
-Received: from mail106-db3 (localhost [127.0.0.1])	by
-	mail106-db3-R.bigfish.com (Postfix) with ESMTP id E0C7E3403C4	for
+	Fri, 02 Dec 2011 00:42:24 +0100
+Received: from mail62-ch1-R.bigfish.com (10.43.68.253) by
+	CH1EHSOBE004.bigfish.com (10.43.70.54) with Microsoft SMTP Server id
+	14.1.225.22; Thu, 1 Dec 2011 23:35:38 +0000
+Received: from mail62-ch1 (localhost [127.0.0.1])	by mail62-ch1-R.bigfish.com
+	(Postfix) with ESMTP id CF335140635	for
 	<openembedded-core@lists.openembedded.org>;
-	Thu,  1 Dec 2011 23:33:13 +0000 (UTC)
-X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839h)
+	Thu,  1 Dec 2011 23:35:38 +0000 (UTC)
+X-SpamScore: -12
+X-BigFish: VS-12(zz9371K1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h)
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
 	H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 13,
-Received: from mail106-db3 (localhost.localdomain [127.0.0.1]) by mail106-db3
-	(MessageSwitch) id 1322782393773504_31101;
-	Thu,  1 Dec 2011 23:33:13 +0000 (UTC)
-Received: from DB3EHSMHS004.bigfish.com (unknown [10.3.81.247])	by
-	mail106-db3.bigfish.com (Postfix) with ESMTP id B85991C0045	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu,  1 Dec 2011 23:33:13 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS004.bigfish.com
-	(10.3.87.104) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Thu, 1 Dec 2011 23:33:12 +0000
-Received: from az33smr01.freescale.net (10.64.34.199) by
-	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
-	Server id 14.1.339.2; Thu, 1 Dec 2011 17:33:14 -0600
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
-	by az33smr01.freescale.net (8.13.1/8.13.0) with ESMTP id
-	pB1NXDtB000075	for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Dec 2011 17:33:13 -0600 (CST)
-From: Matthew McClintock <msm@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 1 Dec 2011 17:33:13 -0600
-Message-ID: <1322782393-31385-1-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.6.1
+Received: from mail62-ch1 (localhost.localdomain [127.0.0.1]) by mail62-ch1
+	(MessageSwitch) id 1322782536773829_9203;
+	Thu,  1 Dec 2011 23:35:36 +0000 (UTC)
+Received: from CH1EHSMHS021.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.246])	by mail62-ch1.bigfish.com (Postfix) with ESMTP id
+	AEBD82C0046 for <openembedded-core@lists.openembedded.org>;
+	Thu,  1 Dec 2011 23:35:36 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS021.bigfish.com
+	(10.43.70.21) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Thu, 1 Dec 2011 23:35:36 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.83]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.01.0339.002; Thu, 1 Dec 2011 17:35:38 -0600
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] sstate.bbclass: add option to use alternate
+	compression in lieu of gzip
+Thread-Index: AQHMsIHubSj7nhLymk2r8DI/1uMsfg==
+Date: Thu, 1 Dec 2011 23:35:37 +0000
+Message-ID: <CAEsOVNe8RPoKqokyxoJTFQBm=g+EZ+0LkCmsnhBDMQ0uemepcA@mail.gmail.com>
+References: <1322782393-31385-1-git-send-email-msm@freescale.com>
+In-Reply-To: <1322782393-31385-1-git-send-email-msm@freescale.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
 MIME-Version: 1.0
 X-OriginatorOrg: freescale.com
-Subject: [PATCH] sstate.bbclass: add option to use alternate compression in lieu of gzip
+Subject: Re: [PATCH] sstate.bbclass: add option to use alternate compression in lieu of gzip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -55,103 +60,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2011 23:39:59 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 01 Dec 2011 23:42:24 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <DD1D67E03A054745B59B8121791A05A2@freescale.net>
+Content-Transfer-Encoding: quoted-printable
 
-The savings can be substantial. The resutls below are for a
-core-image-minimal type image:
+On Thu, Dec 1, 2011 at 5:33 PM, Matthew McClintock <msm@freescale.com> wrot=
+e:
+> The savings can be substantial. The resutls below are for a
+> core-image-minimal type image:
+>
+> gzip: =A0 =A01.1G =A0 sstate-cache
+> xz =A0 =A0 =A0 714M =A0 sstate-cache
+>
+> Signed-off-by: Matthew McClintock <msm@freescale.com>
 
-gzip:    1.1G	sstate-cache
-xz       714M	sstate-cache
+Ugh, ignore this it does not actually work...
 
-Signed-off-by: Matthew McClintock <msm@freescale.com>
----
- meta/classes/sstate.bbclass |   19 +++++++++++--------
- 1 files changed, 11 insertions(+), 8 deletions(-)
-
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 3d259f0..16c4b43 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -18,6 +18,9 @@ SSTATE_MANMACH ?= "${SSTATE_PKGARCH}"
- 
- SSTATEPOSTINSTFUNCS ?= ""
- 
-+SSTATE_PKG_SUFFIX = "tgz"
-+SSTATE_PKG_TAROPT = "z"
-+
- python () {
-     if bb.data.inherits_class('native', d):
-         bb.data.setVar('SSTATE_PKGARCH', bb.data.getVar('BUILD_ARCH', d), d)
-@@ -155,7 +158,7 @@ def sstate_installpkg(ss, d):
-         oe.path.remove(dir)
- 
-     sstateinst = bb.data.expand("${WORKDIR}/sstate-install-%s/" % ss['name'], d)
--    sstatepkg = bb.data.getVar('SSTATE_PKG', d, True) + '_' + ss['name'] + ".tgz"
-+    sstatepkg = bb.data.getVar('SSTATE_PKG', d, True) + '_' + ss['name'] + ".${SSTATE_PKG_SUFFIX}"
- 
-     if not os.path.exists(sstatepkg):
-        pstaging_fetch(sstatepkg, d)
-@@ -206,7 +209,7 @@ def sstate_clean_cachefile(ss, d):
-     import oe.path
- 
-     sstatepkgdir = bb.data.getVar('SSTATE_DIR', d, True)
--    sstatepkgfile = sstatepkgdir + '/' + bb.data.getVar('SSTATE_PKGSPEC', d, True) + "*_" + ss['name'] + ".tgz*"
-+    sstatepkgfile = sstatepkgdir + '/' + bb.data.getVar('SSTATE_PKGSPEC', d, True) + "*_" + ss['name'] + ".${SSTATE_PKG_SUFFIX}*"
-     bb.note("Removing %s" % sstatepkgfile)
-     oe.path.remove(sstatepkgfile)
- 
-@@ -351,7 +354,7 @@ def sstate_package(ss, d):
-     tmpdir = bb.data.getVar('TMPDIR', d, True)
- 
-     sstatebuild = bb.data.expand("${WORKDIR}/sstate-build-%s/" % ss['name'], d)
--    sstatepkg = bb.data.getVar('SSTATE_PKG', d, True) + '_'+ ss['name'] + ".tgz"
-+    sstatepkg = bb.data.getVar('SSTATE_PKG', d, True) + '_'+ ss['name'] + ".${SSTATE_PKG_SUFFIX}"
-     bb.mkdirhier(sstatebuild)
-     bb.mkdirhier(os.path.dirname(sstatepkg))
-     for state in ss['dirs']:
-@@ -448,9 +451,9 @@ sstate_create_package () {
- 	cd ${SSTATE_BUILDDIR}
- 	# Need to handle empty directories
- 	if [ "$(ls -A)" ]; then
--		tar -czf ${SSTATE_PKG} *
-+		tar -cf${SSTATE_PKG_TAROPT} ${SSTATE_PKG} *
- 	else
--		tar -cz --file=${SSTATE_PKG} --files-from=/dev/null
-+		tar -c${SSTATE_PKG_TAROPT} --file=${SSTATE_PKG} --files-from=/dev/null
- 	fi
- 
- 	cd ${WORKDIR}
-@@ -463,7 +466,7 @@ sstate_create_package () {
- sstate_unpack_package () {
- 	mkdir -p ${SSTATE_INSTDIR}
- 	cd ${SSTATE_INSTDIR}
--	tar -xvzf ${SSTATE_PKG}
-+	tar -xvf${SSTATE_PKG_TAROPT}  ${SSTATE_PKG}
- }
- 
- BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
-@@ -483,7 +486,7 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
-     }
- 
-     for task in range(len(sq_fn)):
--        sstatefile = bb.data.expand("${SSTATE_DIR}/" + sq_hashfn[task] + "_" + mapping[sq_task[task]] + ".tgz", d)
-+        sstatefile = bb.data.expand("${SSTATE_DIR}/" + sq_hashfn[task] + "_" + mapping[sq_task[task]] + ".${SSTATE_PKG_SUFFIX}", d)
-         sstatefile = sstatefile.replace("${BB_TASKHASH}", sq_hash[task])
-         if os.path.exists(sstatefile):
-             bb.debug(2, "SState: Found valid sstate file %s" % sstatefile)
-@@ -508,7 +511,7 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
-             if task in ret:
-                 continue
- 
--            sstatefile = bb.data.expand("${SSTATE_DIR}/" + sq_hashfn[task] + "_" + mapping[sq_task[task]] + ".tgz", d)
-+            sstatefile = bb.data.expand("${SSTATE_DIR}/" + sq_hashfn[task] + "_" + mapping[sq_task[task]] + ".${SSTATE_PKG_SUFFIX}", d)
-             sstatefile = sstatefile.replace("${BB_TASKHASH}", sq_hash[task])
- 
-             srcuri = "file://" + os.path.basename(sstatefile)
--- 
-1.7.6.1
-
+-M=
 
 
 
