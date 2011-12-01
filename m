@@ -1,40 +1,38 @@
-Received: from mail-qw0-f54.google.com ([209.85.216.54])
+Received: from smtprelay-h22.telenor.se ([195.54.99.197])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1RW7o1-0000p0-Tf
+	(envelope-from <openembedded-core@emagii.com>) id 1RW83A-000193-Ta
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Dec 2011 15:40:10 +0100
-Received: by qadc10 with SMTP id c10so1623846qad.6
+	Thu, 01 Dec 2011 15:55:49 +0100
+Received: from ipb4.telenor.se (ipb4.telenor.se [195.54.127.167])
+	by smtprelay-h22.telenor.se (Postfix) with ESMTP id 9F268E095
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Dec 2011 06:33:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding;
-	bh=6FG4GCDzkbDT5dgj9Aopwkd5V4ZzCFGXW4LHInnhjBg=;
-	b=wQvr1tDN9IQnFuII8yxJlFP/iPXu0Vmmn38YE3YeIvii2iRM/m1qxYiXDuhzMDre4x
-	91X6gGTdN9pwgRSSylIxNWdPZO87oOEZRaEyEogStpDDIGQxO0pPgj5Crs3KRoGaeC13
-	Hw192QUadVVHcI2Cc0tk90Nunbz14f/gEM6QE=
-Received: by 10.229.46.8 with SMTP id h8mr1357133qcf.86.1322750007424; Thu, 01
-	Dec 2011 06:33:27 -0800 (PST)
+	Thu,  1 Dec 2011 15:49:07 +0100 (CET)
+X-SENDER-IP: [83.227.56.19]
+X-LISTENER: [smtp.bredband.net]
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: ArEcANeS105T4zgTPGdsb2JhbAAMMAirEQEBAQE3giQBAQEBAzhAEQsYCRYPCQMCAQIBMRQGDQgBAYgLuAKDbIQDgzEElFeSEw
+X-IronPort-AV: E=Sophos;i="4.71,278,1320620400"; d="scan'208";a="1767235375"
+Received: from c-1338e353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
+	[10.175.196.244]) ([83.227.56.19])
+	by ipb4.telenor.se with ESMTP; 01 Dec 2011 15:49:07 +0100
+Message-ID: <4ED793E2.5070205@emagii.com>
+Date: Thu, 01 Dec 2011 15:49:06 +0100
+From: Ulf Samuelsson <openembedded-core@emagii.com>
+Organization: eMagii
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.23) Gecko/20110922 Thunderbird/3.1.15
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.229.73.200 with HTTP; Thu, 1 Dec 2011 06:33:06 -0800 (PST)
-In-Reply-To: <20111201131337.GG19917@jama.jama.net>
-References: <95547EE2-9E3E-4FB6-AA2A-A9653029F971@dominion.thruhere.net>
-	<20111201122407.GB19917@jama.jama.net> <1322743071.17484.119.camel@ted>
-	<CAP9ODKpnTxcRDJxZKe0bue4RDqydJ44TmEf0ukv43ATgBcDV7Q@mail.gmail.com>
-	<1322744558.17484.126.camel@ted> <20111201131337.GG19917@jama.jama.net>
-From: Chris Larson <clarson@kergoth.com>
-Date: Thu, 1 Dec 2011 07:33:06 -0700
-X-Google-Sender-Auth: WnNyDrl0UethF4yr9YBx4z763S4
-Message-ID: <CABcZANmi7pgkZeHo4+if-cxXtrZDR_Gd_uZ-mMiM_CG9Czc-MA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Coordinating inter-layer dependencies
+References: <4ED0CC76.4040606@emagii.com>
+	<1322579029.7964.0.camel@ted>	<4ED54C2B.2060505@emagii.com>
+	<4ED66835.3050400@intel.com>
+In-Reply-To: <4ED66835.3050400@intel.com>
+Subject: Re: Feedback on building openembedded-core for qemuarm. Excerpts from buildlog
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: ulf@emagii.com, Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -45,48 +43,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2011 14:40:10 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 01 Dec 2011 14:55:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Dec 1, 2011 at 6:13 AM, Martin Jansa <martin.jansa@gmail.com> wrote=
-:
-> On Thu, Dec 01, 2011 at 01:02:38PM +0000, Richard Purdie wrote:
->> On Thu, 2011-12-01 at 10:59 -0200, Otavio Salvador wrote:
->> > On Thu, Dec 1, 2011 at 10:37, Richard Purdie
->> > <richard.purdie@linuxfoundation.org> wrote:
->> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 On Thu, 2011-12-01 at 13:24 +0100, Martin =
-Jansa wrote:
->> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 > A while back I've proposed to make .bbap=
-pend without
->> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 corresponding .bb
->> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 > only big fat warning, but not fatal to p=
-arse. Now you cannot
->> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 even build
->> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 > eglibc if there is libdrm bbappend you d=
-on't care at all
->> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 about..
->> >
->> >
->> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 You can do this by setting:
->> >
->> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 BB_DANGLINGAPPENDS_WARNONLY
+On 2011-11-30 18:30, Scott Garman wrote:
+> On 11/29/2011 01:18 PM, Ulf Samuelsson wrote:
+>>
+>>>> Seen a couple of errors as well.
+>>>>
+>>>> 1. ERROR: Function 'useradd_sysroot' failed
+>>>> Tried to access "/etc/group" but this was locked.
+>>>> Problem disappeared the next time I rebuilt.
+>>> Can you file a bug about this problem please. I think we need to go
+>>> through the code paths in shadow and ensure its locking is sane. I took
+>>> a quick look at the code and was left wondering what lckpwdf() does for
+>>> example. Scott, could you take a look at this?
+>>
+>> Bugzilla is out of service, so bugs cannot be filed.
 >
-> Good to know, thanks.
+> I have filed a bug for this, and have been trying to reproduce it 
+> without success:
 >
->> > This is even worse; you end up with a package without the changes done
->> > on the bbappend and as most bbappend files do not change PR, adding it
->> > later won't force a package update.
+> http://bugzilla.pokylinux.org/show_bug.cgi?id=1794
+>
+>> Haven't seen the issue since then so it is hard to give any details.
+>> I used very high BB_NUMBER_THREADS = 24.
+>
+> I do have access to a system with a lot of cores, and have been doing 
+> builds on it.
+>
+> I'd just like to confirm that when you saw this, it was a build from 
+> scratch (e.g, not using sstate cache from a previous build). And also, 
+> you *weren't* building this from a remote filesystem (NFS), correct?
+>
+> Thanks,
+>
+> Scott
+>
+No NFS for sure.
 
-People use bbappends without changing PR? I've been doing a PR .=3D ".1"
-or whatever in every bbappend I've created since they were added to
-bitbake, and used to do the same with amend.inc. It can result in some
-long PR values, but I'd rather that than the alternative..
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+I think this was the first build, but only 99% sure.
+It disappered when I restarted the build.
+
+Have not seen this problem repeated, but then, the build on this
+machine has other problems
+
+Packages tend to fail since the c++ compiler seems to ignore "--sysroot"
+
+Machine = Ubuntu-11.10 x64.
+
+This is with BB_NUMBER_THREADS = "4"
+If I change this, then the same problem occur, but in a different package.
+(Tried with "4" AND "24")
+
+BR
+Ulf
+
+
+
+-- 
+Best Regards
+Ulf Samuelsson
+eMagii
+
 
 
