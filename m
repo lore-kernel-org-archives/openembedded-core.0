@@ -1,31 +1,35 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RW8o1-0002sR-QT
-	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Dec 2011 16:44:15 +0100
-Received: by eekc1 with SMTP id c1so1334342eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Dec 2011 07:37:32 -0800 (PST)
-Received: by 10.14.3.224 with SMTP id 72mr872284eeh.116.1322753852440;
-	Thu, 01 Dec 2011 07:37:32 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id 8sm18672009ees.2.2011.12.01.07.37.31
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 01 Dec 2011 07:37:31 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Thu, 1 Dec 2011 16:37:30 +0100
-In-Reply-To: <4ED77E14.1080309@balister.org>
-To: Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RW8w6-0003A5-Rm for openembedded-core@lists.openembedded.org;
+	Thu, 01 Dec 2011 16:52:37 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB1Fjpiq016971;
+	Thu, 1 Dec 2011 15:45:51 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 15777-08; Thu,  1 Dec 2011 15:45:47 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB1FjgEE016965
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 1 Dec 2011 15:45:43 GMT
+Message-ID: <1322754351.17484.138.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Thu, 01 Dec 2011 15:45:51 +0000
+In-Reply-To: <EA746CBB-C2AC-4DD2-83AB-880B4E2F96F9@dominion.thruhere.net>
+References: <1322660459-333-1-git-send-email-koen@dominion.thruhere.net>
+	<1322675553.17484.20.camel@ted>
+	<F9E3D91B-529C-4E90-BF2F-DEB5E372BECE@dominion.thruhere.net>
+	<1322744495.17484.125.camel@ted>
+	<EA746CBB-C2AC-4DD2-83AB-880B4E2F96F9@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <4ED0CC76.4040606@emagii.com>
-	<1322579029.7964.0.camel@ted>	<4ED53438.9040903@emagii.com>
-	<7E3B66F1-28FC-45D4-BA89-193D9EA6DCA6@dominion.thruhere.net>
-	<4ED77E14.1080309@balister.org>
-Message-Id: <878817F5-05C7-4749-BA0A-7ED04EE884BB@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: Feedback on building openembedded-core for qemuarm. Excerpts from buildlog
+Subject: Re: [PATCH] zlib 1.2.5: install pkgconfig file, needed for e.g. modern webkit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,84 +44,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2011 15:44:15 -0000
-X-Groupsio-MsgNum: 13450
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_2CC22757-FFCA-4FD5-882A-8B733B4EF6EB";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_2CC22757-FFCA-4FD5-882A-8B733B4EF6EB
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-Op 1 dec. 2011, om 14:16 heeft Philip Balister het volgende geschreven:
-
-> On 11/29/2011 03:06 PM, Koen Kooi wrote:
->>=20
->> Op 29 nov. 2011, om 20:36 heeft Ulf Samuelsson het volgende =
-geschreven:
->>=20
->>> On 2011-11-29 16:03, Richard Purdie wrote:
->>>>=20
->>>>> 2.    "ftp://elsie.nci.nih.gov/pub/tzcode2011i.tar.gz" is no =
-longer
->>>>> available.
->>>>>         tzdata , same problem.
->>>>>         The recipe is located in two places.
->>>>>         meta-openembedded/meta-oe/recipes-extended/tz*/tz*.bb have =
-the
->>>>> problem
->>>>>         This is what the build uses.
->>>> This is something to raise with the meta-oe maintainers. I think =
-there
->>>> isn't a problem in OECore.
->>>=20
->>> Since we now have a large number of layers, maybe it is a good
->>> idea to define in each layer,  how the "git send email" should =
-behave in
->>> by providing a better ".git/config" file in the trunk?
->>>=20
->>>=20
->>> I.E:
->>>=20
->>> [sendemail]
->>>   to =3D openembedded-core@lists.openembedded.org
->>>=20
->>> or
->>> meta-angstrom/.git/config
->>> [sendemail]
->>>   to =3D angstrom-distro-devel@linuxtogo.org
->>> [format]
->>>   subjectprefix =3D "[meta-angstrom]"
->>>=20
->>>=20
->>> No need to look in the README file with this.
->>=20
->> That assumes git-send-email is the preferred way, which it isn;'t for =
-a lot of layers
->=20
-> Even if it is not the preferred way, it would direct the discussion to
-> the appropriate list. This would reduce the number of mis-directed
-> emails to this list.
-
-You can't fix stupid, sadly.
-
-
---Apple-Mail=_2CC22757-FFCA-4FD5-882A-8B733B4EF6EB
+X-List-Received-Date: Thu, 01 Dec 2011 15:52:37 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
+On Thu, 2011-12-01 at 15:58 +0100, Koen Kooi wrote:
+> Op 1 dec. 2011, om 14:01 heeft Richard Purdie het volgende geschreven:
+> 
+> > On Wed, 2011-11-30 at 19:15 +0100, Koen Kooi wrote:
+> >> Op 30 nov. 2011, om 18:52 heeft Richard Purdie het volgende geschreven:
+> >> 
+> >>> On Wed, 2011-11-30 at 14:40 +0100, Koen Kooi wrote:
+> >>>> Upstream has grown cmake support which would allow us to dump the OE
+> >>>> autotools hack, but the cmakefile doesn't install the .pc file either
+> >>>> and breaks with zlib-native
+> >>>> 
+> >>>> Also remove unused site config file
+> >>> 
+> >>> How did you determine this was unused?
+> >> 
+> >> By removing it and rebuilding zlib(-native) and zlib dependant apps.
+> >> In case it does turn out to be needed we should switch to cmake. I'm
+> >> OK with having a OE hack for autotools, but a broken OE hack....
+> > 
+> > I don't think you understand what that site_config file triggers. It
+> > triggers code in siteconfig.bbclass which saves the *results* of the
+> > zlib configure for use in speeding up subsequent configure tasks.
+> > 
+> > Does that change the need to remove it?
+> 
+> I honestly don't know, I've never dealt with that part of siteconfig.
+> If the file is needed I'll gladly respin the patch.
 
-iEYEARECAAYFAk7XnzoACgkQMkyGM64RGpEJqwCeP77J06fTNb9i4759aAqU0dsH
-6woAn2Yq+Hlw+hpOUM0AZIPkNHhcJKl5
-=ssAm
------END PGP SIGNATURE-----
+That file does make sense so please do :)
 
---Apple-Mail=_2CC22757-FFCA-4FD5-882A-8B733B4EF6EB--
+Cheers,
+
+Richard
+
+
+
