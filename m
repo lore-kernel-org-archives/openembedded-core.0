@@ -1,24 +1,29 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1RW2w7-0006aH-8i
+	(envelope-from <koen@dominion.thruhere.net>) id 1RW2wg-0006i3-BU
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Dec 2011 10:28:11 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 01 Dec 2011 01:21:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="81968140"
-Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.36.50])
-	by orsmga002.jf.intel.com with ESMTP; 01 Dec 2011 01:21:28 -0800
-From: Dexuan Cui <dexuan.cui@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Dec 2011 17:21:27 +0800
-Message-Id: <7c75cf6a7d4a3c102f1f44eca16eb5c43c530391.1322731182.git.dexuan.cui@intel.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <cover.1322731182.git.dexuan.cui@intel.com>
-References: <cover.1322731182.git.dexuan.cui@intel.com>
-In-Reply-To: <cover.1322731182.git.dexuan.cui@intel.com>
-References: <cover.1322731182.git.dexuan.cui@intel.com>
-Subject: [PATCH 3/3] runqemu-ifup, runqemu-internal: be wiser when locating the network tools
+	Thu, 01 Dec 2011 10:28:46 +0100
+Received: by eaad13 with SMTP id d13so1906954eaa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 01 Dec 2011 01:22:03 -0800 (PST)
+Received: by 10.213.7.195 with SMTP id e3mr967071ebe.57.1322731323050;
+	Thu, 01 Dec 2011 01:22:03 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id 8sm15588823ees.2.2011.12.01.01.22.01
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 01 Dec 2011 01:22:01 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Thu, 1 Dec 2011 10:21:57 +0100
+In-Reply-To: <ec329e79d07e83cb240dda3988017741c597b566.1322729357.git.lei.mei@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1322729357.git.lei.mei@intel.com>
+	<ec329e79d07e83cb240dda3988017741c597b566.1322729357.git.lei.mei@intel.com>
+Message-Id: <28033128-9503-4399-B3A6-48B15F4427B4@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH 1/1] Fix some recipes upstream version check issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,72 +38,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2011 09:28:11 -0000
+X-List-Received-Date: Thu, 01 Dec 2011 09:28:46 -0000
+X-Groupsio-MsgNum: 13397
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_2A933C50-DBA4-40CC-84D1-ACCF676B13AA";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-When working on the self-hosted-image work, I found the PATH variable in the
-Level-1 target doesn't have /sbin and /usr/sbin, so "runqemu" can't
-run properly since the tools are installeld at
-/sbin/ifconfig
-/sbin/route
-/usr/sbin/iptables
-
-The patch is used to fix the issue by setting a temp PATH when running which.
-
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
----
- scripts/runqemu-ifup     |    8 +++++---
- scripts/runqemu-internal |    3 ++-
- 2 files changed, 7 insertions(+), 4 deletions(-)
-
-diff --git a/scripts/runqemu-ifup b/scripts/runqemu-ifup
-index 870cb6b..9e697a8 100755
---- a/scripts/runqemu-ifup
-+++ b/scripts/runqemu-ifup
-@@ -64,7 +64,9 @@ if [ $STATUS -ne 0 ]; then
- 	exit 1
- fi
- 
--IFCONFIG=`which ifconfig 2> /dev/null`
-+PATH_TMP="/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin"
-+
-+IFCONFIG=`{ PATH=$PATH:$PATH_TMP; which ifconfig 2> /dev/null; }`
- if [ "x$IFCONFIG" = "x" ]; then
- 	# better than nothing...
- 	IFCONFIG=/sbin/ifconfig
-@@ -74,7 +76,7 @@ if [ ! -x "$IFCONFIG" ]; then
- 	exit 1
- fi
- 
--ROUTE=`which route`
-+ROUTE=`{ PATH=$PATH:$PATH_TMP; which route 2>/dev/null; }`
- if [ "x$ROUTE" = "x" ]; then
- 	# better than nothing...
- 	ROUTE=/sbin/route
-@@ -84,7 +86,7 @@ if [ ! -x "$ROUTE" ]; then
- 	exit 1
- fi
- 
--IPTABLES=`which iptables 2> /dev/null`
-+IPTABLES=`{ PATH=$PATH:$PATH_TMP; which iptables 2> /dev/null; }`
- if [ "x$IPTABLES" = "x" ]; then
- 	IPTABLES=/sbin/iptables
- fi
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index 2968ed9..3214fde 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -141,7 +141,8 @@ if [ ! -d "$LOCKDIR" ]; then
-     chmod 777 $LOCKDIR
- fi
- 
--IFCONFIG=`which ifconfig 2> /dev/null`
-+PATH_TMP="/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin"
-+IFCONFIG=`{ PATH=$PATH:$PATH_TMP; which ifconfig 2> /dev/null; }`
- if [ -z "$IFCONFIG" ]; then
-     IFCONFIG=/sbin/ifconfig
- fi
--- 
-1.7.6
+--Apple-Mail=_2A933C50-DBA4-40CC-84D1-ACCF676B13AA
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+Op 1 dec. 2011, om 09:54 heeft Mei Lei het volgende geschreven:
 
+> Some recipes didn't declare what protocal they use to check the =
+upstream version, this will due to some errors.
+> Fix this by add the protocal at the end of the SRC_URI.
+>=20
+> Signed-off-by: Mei Lei <lei.mei@intel.com>
+
+Which version of bitbake are you usung? IIRC the default was changed =
+from rsync to git a few weeks ago.
+
+regards,
+
+Koen=
+
+--Apple-Mail=_2A933C50-DBA4-40CC-84D1-ACCF676B13AA
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAk7XRzcACgkQMkyGM64RGpHdPgCeNposzdM5GfGQh3idsqYEC1UB
+zGkAn0LaNufwvKdcLk3wspZFn64OSQat
+=Fhmv
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_2A933C50-DBA4-40CC-84D1-ACCF676B13AA--
