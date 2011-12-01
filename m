@@ -1,31 +1,28 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1RW9lS-0005wm-QV
+	(envelope-from <koen@dominion.thruhere.net>) id 1RW9sb-0005ou-KD
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Dec 2011 17:45:39 +0100
-Received: by iahk25 with SMTP id k25so2711755iah.6
+	Thu, 01 Dec 2011 17:53:03 +0100
+Received: by eaad13 with SMTP id d13so2428701eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Dec 2011 08:38:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject
-	:content-type:content-transfer-encoding;
-	bh=i9/8QQA7/UHvTzhExZtCc8rr+EyoWJs6x7Ql/viS5ZY=;
-	b=lFc5sbm5XGTkFidIiW7GNkbPpqSauOHJRwHMCRNBZsatZs3w8XcXRv7BTA7x4AAi+x
-	S4ULy6t5ZlHAKiomXOvrDLB46wyifxDpN9WkeeLdn0xL/LvXMsrcOTfIULlWiouGNJAt
-	Ks7E7Lo0pFGwP2fzD36p91dp8LxaLqbVKDDiI=
-Received: by 10.42.153.5 with SMTP id k5mr4992071icw.46.1322757536378;
-	Thu, 01 Dec 2011 08:38:56 -0800 (PST)
-Received: from [192.168.1.101] (ip24-251-167-38.ph.ph.cox.net. [24.251.167.38])
-	by mx.google.com with ESMTPS id jm11sm23261791ibb.1.2011.12.01.08.38.54
-	(version=SSLv3 cipher=OTHER); Thu, 01 Dec 2011 08:38:55 -0800 (PST)
-Message-ID: <4ED7AD99.3060302@gmail.com>
-Date: Thu, 01 Dec 2011 08:38:49 -0800
-From: Christopher Larson <kergoth@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:8.0) Gecko/20111124 Thunderbird/8.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] lzop-1.03: add recipe
+	Thu, 01 Dec 2011 08:46:15 -0800 (PST)
+Received: by 10.213.3.73 with SMTP id 9mr635181ebm.133.1322757975019;
+	Thu, 01 Dec 2011 08:46:15 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id 58sm14483257eet.11.2011.12.01.08.46.13
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 01 Dec 2011 08:46:14 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Thu, 1 Dec 2011 17:46:12 +0100
+In-Reply-To: <4ED7AD99.3060302@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <4ED7AD99.3060302@gmail.com>
+Message-Id: <116BB784-D819-4E20-AA54-999AFD65D943@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH] lzop-1.03: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,479 +37,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2011 16:45:39 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 01 Dec 2011 16:53:03 -0000
+X-Groupsio-MsgNum: 13463
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_D254B97E-A2C2-4CB4-BE40-50C2ABB25A03";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-This is needed by some kernels when CONFIG_KERNEL_LZO=y (specifically, given
-the current defconfig, this affects linux-omap4 2.6 in the meta-ti layer).
+--Apple-Mail=_D254B97E-A2C2-4CB4-BE40-50C2ABB25A03
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
-  meta/recipes-support/lzop/lzop/acinclude.m4 |  390 
+
+Op 1 dec. 2011, om 17:38 heeft Christopher Larson het volgende =
+geschreven:
+
+> This is needed by some kernels when CONFIG_KERNEL_LZO=3Dy =
+(specifically, given
+> the current defconfig, this affects linux-omap4 2.6 in the meta-ti =
+layer).
+>=20
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+> ---
+> meta/recipes-support/lzop/lzop/acinclude.m4 |  390 =
 +++++++++++++++++++++++++++
-  meta/recipes-support/lzop/lzop_1.03.bb      |   25 ++
-  2 files changed, 415 insertions(+), 0 deletions(-)
-  create mode 100644 meta/recipes-support/lzop/lzop/acinclude.m4
-  create mode 100644 meta/recipes-support/lzop/lzop_1.03.bb
-
-diff --git a/meta/recipes-support/lzop/lzop/acinclude.m4 
-b/meta/recipes-support/lzop/lzop/acinclude.m4
-new file mode 100644
-index 0000000..0029c19
---- /dev/null
-+++ b/meta/recipes-support/lzop/lzop/acinclude.m4
-@@ -0,0 +1,390 @@
-+
-+AC_DEFUN([mfx_ACC_CHECK_ENDIAN], [
-+AC_C_BIGENDIAN([AC_DEFINE(ACC_ABI_BIG_ENDIAN,1,[Define to 1 if your 
-machine is big endian.])],[AC_DEFINE(ACC_ABI_LITTLE_ENDIAN,1,[Define to 
-1 if your machine is little endian.])])
-+])#
-+
-+AC_DEFUN([mfx_ACC_CHECK_HEADERS], [
-+AC_HEADER_TIME
-+AC_CHECK_HEADERS([assert.h ctype.h dirent.h errno.h fcntl.h float.h 
-limits.h malloc.h memory.h setjmp.h signal.h stdarg.h stddef.h stdint.h 
-stdio.h stdlib.h string.h strings.h time.h unistd.h utime.h sys/stat.h 
-sys/time.h sys/types.h sys/wait.h])
-+])#
-+
-+AC_DEFUN([mfx_ACC_CHECK_FUNCS], [
-+AC_CHECK_FUNCS(access alloca atexit atoi atol chmod chown ctime 
-difftime fstat gettimeofday gmtime localtime longjmp lstat memcmp memcpy 
-memmove memset mktime qsort raise setjmp signal snprintf strcasecmp 
-strchr strdup strerror strftime stricmp strncasecmp strnicmp strrchr 
-strstr time umask utime vsnprintf)
-+])#
-+
-+
-+AC_DEFUN([mfx_ACC_CHECK_SIZEOF], [
-+AC_CHECK_SIZEOF(short)
-+AC_CHECK_SIZEOF(int)
-+AC_CHECK_SIZEOF(long)
-+
-+AC_CHECK_SIZEOF(long long)
-+AC_CHECK_SIZEOF(__int16)
-+AC_CHECK_SIZEOF(__int32)
-+AC_CHECK_SIZEOF(__int64)
-+
-+AC_CHECK_SIZEOF(void *)
-+AC_CHECK_SIZEOF(size_t)
-+AC_CHECK_SIZEOF(ptrdiff_t)
-+])#
-+
-+
-+# /***********************************************************************
-+# // Check for ACC_conformance
-+# ************************************************************************/
-+
-+AC_DEFUN([mfx_ACC_ACCCHK], [
-+mfx_tmp=$1
-+mfx_save_CPPFLAGS=$CPPFLAGS
-+dnl in Makefile.in $(INCLUDES) will be before $(CPPFLAGS), so we mimic 
-this here
-+test "X$mfx_tmp" = "X" || CPPFLAGS="$mfx_tmp $CPPFLAGS"
-+
-+AC_MSG_CHECKING([whether your compiler passes the ACC conformance test])
-+
-+AC_LANG_CONFTEST([AC_LANG_PROGRAM(
-+[[#define ACC_CONFIG_NO_HEADER 1
-+#include "acc/acc.h"
-+#include "acc/acc_incd.h"
-+#undef ACCCHK_ASSERT
-+#define ACCCHK_ASSERT(expr)     ACC_COMPILE_TIME_ASSERT_HEADER(expr)
-+#include "acc/acc_chk.ch"
-+#undef ACCCHK_ASSERT
-+static void test_acc_compile_time_assert(void) {
-+#define ACCCHK_ASSERT(expr)     ACC_COMPILE_TIME_ASSERT(expr)
-+#include "acc/acc_chk.ch"
-+#undef ACCCHK_ASSERT
-+}
-+#undef NDEBUG
-+#include <assert.h>
-+static int test_acc_run_time_assert(int r) {
-+#define ACCCHK_ASSERT(expr)     assert(expr);
-+#include "acc/acc_chk.ch"
-+#undef ACCCHK_ASSERT
-+return r;
-+}
-+]], [[
-+test_acc_compile_time_assert();
-+if (test_acc_run_time_assert(1) != 1) return 1;
-+]]
-+)])
-+
-+mfx_tmp=FAILED
-+_AC_COMPILE_IFELSE([], [mfx_tmp=yes])
-+rm -f conftest.$ac_ext conftest.$ac_objext
-+
-+CPPFLAGS=$mfx_save_CPPFLAGS
-+
-+AC_MSG_RESULT([$mfx_tmp])
-+case x$mfx_tmp in
-+  xpassed | xyes) ;;
-+  *)
-+    AC_MSG_NOTICE([])
-+    AC_MSG_NOTICE([Your compiler failed the ACC conformance test - for 
-details see ])
-+    AC_MSG_NOTICE([`config.log'. Please check that log file and 
-consider sending])
-+    AC_MSG_NOTICE([a patch or bug-report to <${PACKAGE_BUGREPORT}>.])
-+    AC_MSG_NOTICE([Thanks for your support.])
-+    AC_MSG_NOTICE([])
-+    AC_MSG_ERROR([ACC conformance test failed. Stop.])
-+dnl    AS_EXIT
-+    ;;
-+esac
-+])# mfx_ACC_ACCCHK
-+
-+
-+# /***********************************************************************
-+# // Check for ACC_conformance
-+# ************************************************************************/
-+
-+AC_DEFUN([mfx_MINIACC_ACCCHK], [
-+mfx_tmp=$1
-+mfx_save_CPPFLAGS=$CPPFLAGS
-+dnl in Makefile.in $(INCLUDES) will be before $(CPPFLAGS), so we mimic 
-this here
-+test "X$mfx_tmp" = "X" || CPPFLAGS="$mfx_tmp $CPPFLAGS"
-+
-+AC_MSG_CHECKING([whether your compiler passes the ACC conformance test])
-+
-+AC_LANG_CONFTEST([AC_LANG_PROGRAM(
-+[[#define ACC_CONFIG_NO_HEADER 1
-+#define ACC_WANT_ACC_INCD_H 1
-+#include $2
-+
-+#define ACC_WANT_ACC_CHK_CH 1
-+#undef ACCCHK_ASSERT
-+#define ACCCHK_ASSERT(expr)     ACC_COMPILE_TIME_ASSERT_HEADER(expr)
-+#include $2
-+
-+#define ACC_WANT_ACC_CHK_CH 1
-+#undef ACCCHK_ASSERT
-+#define ACCCHK_ASSERT(expr)     ACC_COMPILE_TIME_ASSERT(expr)
-+static void test_acc_compile_time_assert(void) {
-+#include $2
-+}
-+
-+#undef NDEBUG
-+#include <assert.h>
-+#define ACC_WANT_ACC_CHK_CH 1
-+#undef ACCCHK_ASSERT
-+#define ACCCHK_ASSERT(expr)  assert(expr);
-+static int test_acc_run_time_assert(int r) {
-+#include $2
-+return r;
-+}
-+]], [[
-+test_acc_compile_time_assert();
-+if (test_acc_run_time_assert(1) != 1) return 1;
-+]]
-+)])
-+
-+mfx_tmp=FAILED
-+_AC_COMPILE_IFELSE([], [mfx_tmp=yes])
-+rm -f conftest.$ac_ext conftest.$ac_objext
-+
-+CPPFLAGS=$mfx_save_CPPFLAGS
-+
-+AC_MSG_RESULT([$mfx_tmp])
-+case x$mfx_tmp in
-+  xpassed | xyes) ;;
-+  *)
-+    AC_MSG_NOTICE([])
-+    AC_MSG_NOTICE([Your compiler failed the ACC conformance test - for 
-details see ])
-+    AC_MSG_NOTICE([`config.log'. Please check that log file and 
-consider sending])
-+    AC_MSG_NOTICE([a patch or bug-report to <${PACKAGE_BUGREPORT}>.])
-+    AC_MSG_NOTICE([Thanks for your support.])
-+    AC_MSG_NOTICE([])
-+    AC_MSG_ERROR([ACC conformance test failed. Stop.])
-+dnl    AS_EXIT
-+    ;;
-+esac
-+])# mfx_MINIACC_ACCCHK
-+
-+
-+
-+# serial 1
-+
-+AC_DEFUN([mfx_PROG_CPPFLAGS], [
-+AC_MSG_CHECKING([whether the C preprocessor needs special flags])
-+
-+AC_LANG_CONFTEST([AC_LANG_PROGRAM(
-+[[#include <limits.h>
-+#if (32767 >= 4294967295ul) || (65535u >= 4294967295ul)
-+#  include "your C preprocessor is broken 1"
-+#elif (0xffffu == 0xfffffffful)
-+#  include "your C preprocessor is broken 2"
-+#elif (32767 >= ULONG_MAX) || (65535u >= ULONG_MAX)
-+#  include "your C preprocessor is broken 3"
-+#endif
-+]], [[ ]]
-+)])
-+
-+mfx_save_CPPFLAGS=$CPPFLAGS
-+mfx_tmp=ERROR
-+for mfx_arg in "" -no-cpp-precomp
-+do
-+  CPPFLAGS="$mfx_arg $mfx_save_CPPFLAGS"
-+  _AC_COMPILE_IFELSE([],
-+[mfx_tmp=$mfx_arg
-+break])
-+done
-+CPPFLAGS=$mfx_save_CPPFLAGS
-+rm -f conftest.$ac_ext conftest.$ac_objext
-+case x$mfx_tmp in
-+  x)
-+    AC_MSG_RESULT([none needed]) ;;
-+  xERROR)
-+    AC_MSG_RESULT([ERROR])
-+    AC_MSG_ERROR([your C preprocessor is broken - for details see 
-config.log])
-+    ;;
-+  *)
-+    AC_MSG_RESULT([$mfx_tmp])
-+    CPPFLAGS="$mfx_tmp $CPPFLAGS"
-+    ;;
-+esac
-+])# mfx_PROG_CPPFLAGS
-+
-+
-+
-+# serial 3
-+
-+AC_DEFUN([mfx_CHECK_HEADER_SANE_LIMITS_H], [
-+AC_CACHE_CHECK([whether limits.h is sane],
-+mfx_cv_header_sane_limits_h,
-+[AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <limits.h>
-+#if (32767 >= 4294967295ul) || (65535u >= 4294967295ul)
-+#  if defined(__APPLE__) && defined(__GNUC__)
-+#    error "your preprocessor is broken - use compiler option 
--no-cpp-precomp"
-+#  else
-+#    include "your preprocessor is broken"
-+#  endif
-+#endif
-+#define MFX_0xffff          0xffff
-+#define MFX_0xffffffffL     4294967295ul
-+#if !defined(CHAR_BIT) || (CHAR_BIT != 8)
-+#  include "error CHAR_BIT"
-+#endif
-+#if !defined(UCHAR_MAX)
-+#  include "error UCHAR_MAX 1"
-+#endif
-+#if !defined(USHRT_MAX)
-+#  include "error USHRT_MAX 1"
-+#endif
-+#if !defined(UINT_MAX)
-+#  include "error UINT_MAX 1"
-+#endif
-+#if !defined(ULONG_MAX)
-+#  include "error ULONG_MAX 1"
-+#endif
-+#if !defined(SHRT_MAX)
-+#  include "error SHRT_MAX 1"
-+#endif
-+#if !defined(INT_MAX)
-+#  include "error INT_MAX 1"
-+#endif
-+#if !defined(LONG_MAX)
-+#  include "error LONG_MAX 1"
-+#endif
-+#if (UCHAR_MAX < 1)
-+#  include "error UCHAR_MAX 2"
-+#endif
-+#if (USHRT_MAX < 1)
-+#  include "error USHRT_MAX 2"
-+#endif
-+#if (UINT_MAX < 1)
-+#  include "error UINT_MAX 2"
-+#endif
-+#if (ULONG_MAX < 1)
-+#  include "error ULONG_MAX 2"
-+#endif
-+#if (UCHAR_MAX < 0xff)
-+#  include "error UCHAR_MAX 3"
-+#endif
-+#if (USHRT_MAX < MFX_0xffff)
-+#  include "error USHRT_MAX 3"
-+#endif
-+#if (UINT_MAX < MFX_0xffff)
-+#  include "error UINT_MAX 3"
-+#endif
-+#if (ULONG_MAX < MFX_0xffffffffL)
-+#  include "error ULONG_MAX 3"
-+#endif
-+#if (USHRT_MAX > UINT_MAX)
-+#  include "error USHRT_MAX vs UINT_MAX"
-+#endif
-+#if (UINT_MAX > ULONG_MAX)
-+#  include "error UINT_MAX vs ULONG_MAX"
-+#endif
-+]], [[
-+#if (USHRT_MAX == MFX_0xffff)
-+{ typedef char a_short2a[1 - 2 * !(sizeof(short) == 2)]; }
-+#elif (USHRT_MAX >= MFX_0xffff)
-+{ typedef char a_short2b[1 - 2 * !(sizeof(short) > 2)]; }
-+#endif
-+#if (UINT_MAX == MFX_0xffff)
-+{ typedef char a_int2a[1 - 2 * !(sizeof(int) == 2)]; }
-+#elif (UINT_MAX >= MFX_0xffff)
-+{ typedef char a_int2b[1 - 2 * !(sizeof(int) > 2)]; }
-+#endif
-+#if (ULONG_MAX == MFX_0xffff)
-+{ typedef char a_long2a[1 - 2 * !(sizeof(long) == 2)]; }
-+#elif (ULONG_MAX >= MFX_0xffff)
-+{ typedef char a_long2b[1 - 2 * !(sizeof(long) > 2)]; }
-+#endif
-+#if (USHRT_MAX == MFX_0xffffffffL)
-+{ typedef char a_short4a[1 - 2 * !(sizeof(short) == 4)]; }
-+#elif (USHRT_MAX >= MFX_0xffffffffL)
-+{ typedef char a_short4b[1 - 2 * !(sizeof(short) > 4)]; }
-+#endif
-+#if (UINT_MAX == MFX_0xffffffffL)
-+{ typedef char a_int4a[1 - 2 * !(sizeof(int) == 4)]; }
-+#elif (UINT_MAX >= MFX_0xffffffffL)
-+{ typedef char a_int4b[1 - 2 * !(sizeof(int) > 4)]; }
-+#endif
-+#if (ULONG_MAX == MFX_0xffffffffL)
-+{ typedef char a_long4a[1 - 2 * !(sizeof(long) == 4)]; }
-+#elif (ULONG_MAX >= MFX_0xffffffffL)
-+{ typedef char a_long4b[1 - 2 * !(sizeof(long) > 4)]; }
-+#endif
-+]])],
-+[mfx_cv_header_sane_limits_h=yes],
-+[mfx_cv_header_sane_limits_h=no])])
-+])
-+
-+# /***********************************************************************
-+# // standard
-+# ************************************************************************/
-+
-+AC_DEFUN([mfx_LZO_CHECK_ENDIAN], [
-+AC_C_BIGENDIAN([AC_DEFINE(LZO_ABI_BIG_ENDIAN,1,[Define to 1 if your 
-machine is big endian.])],[AC_DEFINE(LZO_ABI_LITTLE_ENDIAN,1,[Define to 
-1 if your machine is little endian.])])
-+])#
-+
-+
-+# /***********************************************************************
-+# //
-+# ************************************************************************/
-+
-+dnl more types which are not yet covered by ACC
-+
-+AC_DEFUN([mfx_CHECK_SIZEOF], [
-+AC_CHECK_SIZEOF(__int32)
-+AC_CHECK_SIZEOF(intmax_t)
-+AC_CHECK_SIZEOF(uintmax_t)
-+AC_CHECK_SIZEOF(intptr_t)
-+AC_CHECK_SIZEOF(uintptr_t)
-+
-+AC_CHECK_SIZEOF(float)
-+AC_CHECK_SIZEOF(double)
-+AC_CHECK_SIZEOF(long double)
-+
-+AC_CHECK_SIZEOF(dev_t)
-+AC_CHECK_SIZEOF(fpos_t)
-+AC_CHECK_SIZEOF(mode_t)
-+AC_CHECK_SIZEOF(off_t)
-+AC_CHECK_SIZEOF(ssize_t)
-+AC_CHECK_SIZEOF(time_t)
-+])#
-+
-+
-+
-+AC_DEFUN([mfx_CHECK_LIB_WINMM], [
-+if test "X$GCC" = Xyes; then
-+case $host_os in
-+cygwin* | mingw* | pw32*)
-+     test "X$LIBS" != "X" && LIBS="$LIBS "
-+     LIBS="${LIBS}-lwinmm" ;;
-+*)
-+     ;;
-+esac
-+fi
-+])#
-+
-+#serial 6
-+
-+dnl From Paul Eggert.
-+
-+# Define ST_MTIM_NSEC to be the nanoseconds member of struct stat's 
-st_mtim,
-+# if it exists.
-+
-+AC_DEFUN([AC_STRUCT_ST_MTIM_NSEC],
-+ [AC_CACHE_CHECK([for nanoseconds member of struct stat.st_mtim],
-+   ac_cv_struct_st_mtim_nsec,
-+   [ac_save_CPPFLAGS="$CPPFLAGS"
-+    ac_cv_struct_st_mtim_nsec=no
-+    # tv_nsec -- the usual case
-+    # _tv_nsec -- Solaris 2.6, if
-+    #	(defined _XOPEN_SOURCE && _XOPEN_SOURCE_EXTENDED == 1
-+    #	 && !defined __EXTENSIONS__)
-+    # st__tim.tv_nsec -- UnixWare 2.1.2
-+    for ac_val in tv_nsec _tv_nsec st__tim.tv_nsec; do
-+      CPPFLAGS="$ac_save_CPPFLAGS -DST_MTIM_NSEC=$ac_val"
-+      AC_TRY_COMPILE([#include <sys/types.h>
-+#include <sys/stat.h>], [struct stat s; s.st_mtim.ST_MTIM_NSEC;],
-+        [ac_cv_struct_st_mtim_nsec=$ac_val; break])
-+    done
-+    CPPFLAGS="$ac_save_CPPFLAGS"])
-+
-+  if test $ac_cv_struct_st_mtim_nsec != no; then
-+    AC_DEFINE_UNQUOTED(ST_MTIM_NSEC, $ac_cv_struct_st_mtim_nsec,
-+      [Define to be the nanoseconds member of struct stat's st_mtim,
-+       if it exists.])
-+  fi
-+ ]
-+)
-diff --git a/meta/recipes-support/lzop/lzop_1.03.bb 
+> meta/recipes-support/lzop/lzop_1.03.bb      |   25 ++
+> 2 files changed, 415 insertions(+), 0 deletions(-)
+> create mode 100644 meta/recipes-support/lzop/lzop/acinclude.m4
+> create mode 100644 meta/recipes-support/lzop/lzop_1.03.bb
+>=20
+> diff --git a/meta/recipes-support/lzop/lzop_1.03.bb =
 b/meta/recipes-support/lzop/lzop_1.03.bb
-new file mode 100644
-index 0000000..02a5590
---- /dev/null
-+++ b/meta/recipes-support/lzop/lzop_1.03.bb
-@@ -0,0 +1,25 @@
-+inherit autotools
-+
-+SUMMARY = "Real-time file compressor"
-+DESCRIPTION = "lzop is a compression utility which is designed to be a 
-companion to gzip. \n\
-+It is based on the LZO data compression library and its main advantages 
-over \n\
-+gzip are much higher compression and decompression speed at the cost of 
-some \n\
-+compression ratio. The lzop compression utility was designed with the 
+> new file mode 100644
+> index 0000000..02a5590
+> --- /dev/null
+> +++ b/meta/recipes-support/lzop/lzop_1.03.bb
+> @@ -0,0 +1,25 @@
+> +inherit autotools
+
+That should go below SUMMARY/DESCRIPTION/DEPENDS
+
+> +SUMMARY =3D "Real-time file compressor"
+> +DESCRIPTION =3D "lzop is a compression utility which is designed to =
+be a companion to gzip. \n\
+> +It is based on the LZO data compression library and its main =
+advantages over \n\
+> +gzip are much higher compression and decompression speed at the cost =
+of some \n\
+> +compression ratio. The lzop compression utility was designed with the =
 goals \n\
-+of reliability, speed, portability and with reasonable drop-in 
+> +of reliability, speed, portability and with reasonable drop-in =
 compatibility \n\
-+to gzip."
-+DEPENDS += "lzo"
-+PR = "r0"
-+
-+LICENSE = "GPLv2+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=dfeaf3dc4beef4f5a7bdbc35b197f39e \
-+ 
-file://src/lzop.c;beginline=5;endline=21;md5=6797bd3ed0a1a49327b7ebf9366ebd86"
-+
-+SRC_URI = "http://www.lzop.org/download/${BP}.tar.gz \
-+           file://acinclude.m4"
-+
-+do_configure () {
-+    ln -sf ../acinclude.m4
-+    autotools_do_configure
-+}
-+
-+BBCLASSEXTEND += "native"
--- 
-1.7.7
+> +to gzip."
+> +DEPENDS +=3D "lzo"
+
+I see the DEPENDS +=3D pattern a lot, what are we prepending to? =
+Especially with the inherit going below this assignemnt.
 
 
+> +PR =3D "r0"
+> +
+> +LICENSE =3D "GPLv2+"
+> +LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3Ddfeaf3dc4beef4f5a7bdbc35b197f39e \
+> + =
+file://src/lzop.c;beginline=3D5;endline=3D21;md5=3D6797bd3ed0a1a49327b7ebf=
+9366ebd86"
+> +
+> +SRC_URI =3D "http://www.lzop.org/download/${BP}.tar.gz \
+> +           file://acinclude.m4"
+> +
+> +do_configure () {
+> +    ln -sf ../acinclude.m4
+> +    autotools_do_configure
+> +}
+> +
+> +BBCLASSEXTEND +=3D "native"
 
+nativesdk as well I guess.
+
+regards,
+
+Koen=
+
+--Apple-Mail=_D254B97E-A2C2-4CB4-BE40-50C2ABB25A03
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAk7Xr1QACgkQMkyGM64RGpE0rQCePCS/aQ7ksRT10g5opF8u58po
+YnQAniDgzQAGCPp+bclNzO75C83S+q4Z
+=l2sE
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_D254B97E-A2C2-4CB4-BE40-50C2ABB25A03--
