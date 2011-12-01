@@ -1,38 +1,34 @@
-Received: from smtprelay-h22.telenor.se ([195.54.99.197])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <openembedded-core@emagii.com>) id 1RW83A-000193-Ta
+	(envelope-from <koen@dominion.thruhere.net>) id 1RW8Aj-0001fY-Vq
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Dec 2011 15:55:49 +0100
-Received: from ipb4.telenor.se (ipb4.telenor.se [195.54.127.167])
-	by smtprelay-h22.telenor.se (Postfix) with ESMTP id 9F268E095
+	Thu, 01 Dec 2011 16:03:38 +0100
+Received: by eekc1 with SMTP id c1so1300899eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Dec 2011 15:49:07 +0100 (CET)
-X-SENDER-IP: [83.227.56.19]
-X-LISTENER: [smtp.bredband.net]
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: ArEcANeS105T4zgTPGdsb2JhbAAMMAirEQEBAQE3giQBAQEBAzhAEQsYCRYPCQMCAQIBMRQGDQgBAYgLuAKDbIQDgzEElFeSEw
-X-IronPort-AV: E=Sophos;i="4.71,278,1320620400"; d="scan'208";a="1767235375"
-Received: from c-1338e353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
-	[10.175.196.244]) ([83.227.56.19])
-	by ipb4.telenor.se with ESMTP; 01 Dec 2011 15:49:07 +0100
-Message-ID: <4ED793E2.5070205@emagii.com>
-Date: Thu, 01 Dec 2011 15:49:06 +0100
-From: Ulf Samuelsson <openembedded-core@emagii.com>
-Organization: eMagii
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.23) Gecko/20110922 Thunderbird/3.1.15
-MIME-Version: 1.0
+	Thu, 01 Dec 2011 06:56:53 -0800 (PST)
+Received: by 10.14.3.140 with SMTP id 12mr977675eeh.183.1322751413560;
+	Thu, 01 Dec 2011 06:56:53 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id x12sm18284019eef.9.2011.12.01.06.56.51
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 01 Dec 2011 06:56:52 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Thu, 1 Dec 2011 15:56:48 +0100
+In-Reply-To: <20111201130112.GE19917@jama.jama.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <4ED0CC76.4040606@emagii.com>
-	<1322579029.7964.0.camel@ted>	<4ED54C2B.2060505@emagii.com>
-	<4ED66835.3050400@intel.com>
-In-Reply-To: <4ED66835.3050400@intel.com>
-Subject: Re: Feedback on building openembedded-core for qemuarm. Excerpts from buildlog
+References: <20110906092043.GI31057@jama.jama.net>
+	<1315333831.3091.6.camel@lenovo.internal.reciva.com>
+	<20111201130112.GE19917@jama.jama.net>
+Message-Id: <9CB6D7AB-B515-49C1-9948-62C0D7729089@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: Tinylogin or shadow?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ulf@emagii.com, Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -43,69 +39,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2011 14:55:49 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 01 Dec 2011 15:03:38 -0000
+X-Groupsio-MsgNum: 13447
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_0A3BD2E4-E36F-422D-AA9B-24C9BA11D888";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_0A3BD2E4-E36F-422D-AA9B-24C9BA11D888
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=iso-8859-1
+
+
+Op 1 dec. 2011, om 14:01 heeft Martin Jansa het volgende geschreven:
+
+> On Tue, Sep 06, 2011 at 07:30:31PM +0100, Phil Blundell wrote:
+>> On Tue, 2011-09-06 at 11:20 +0200, Martin Jansa wrote:
+>>> Hi,
+>>>=20
+>>> if someone wants to use only shadow as login manager, then all =
+postinst
+>>> calling adduser (instead of useradd) are failing ie:
+>>>=20
+>>> recipes-connectivity/avahi/avahi.inc:   grep "^avahi:" /etc/passwd > =
+/dev/null || adduser --disabled-password --system --home =
+/var/run/avahi-daemon --no-create-home avahi --ingroup avahi -g Avahi
+>>> recipes-connectivity/avahi/avahi.inc:   grep "^avahi-autoipd:" =
+/etc/passwd > /dev/null || adduser --disabled-password --system --home =
+/var/lib/avahi-autoipd --no-create-home avahi-autoipd --ingroup =
+avahi-autoipd -g "Avahi autoip daemon"
+>>> recipes-connectivity/openssh/openssh_5.8p2.bb:          adduser =
+--system --home /var/run/sshd --no-create-home --disabled-password =
+--ingroup sshd -s /bin/false sshd
+>>> recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb:      adduser =
+--system --home /dev/null --no-create-home --empty-password --ingroup =
+nogroup -s ${sbindir}/ppp-dialin ppp
+>>> recipes-core/dbus/dbus.inc:             adduser --system --home =
+"$MESSAGEHOME" --no-create-home --disabled-password \
+>>> recipes-devtools/distcc/distcc_2.18.3.bb:               grep distcc =
+/etc/passwd || adduser --system --home /dev/null --no-create-home =
+--empty-password --ingroup nogroup distcc
+>>> recipes-graphics/x11-common/xserver-nodm-init.bb:        adduser =
+--disabled-password $username
+>>> recipes-multimedia/pulseaudio/pulseaudio.inc:            adduser =
+--disabled-password --home=3D/var/run/pulse --system \
+>>> recipes-support/hal/hal.inc:    grep haldaemon /etc/passwd || =
+adduser --disabled-password --system --home /var/run/hald =
+--no-create-home haldaemon --ingroup haldaemon -g HAL
+>>>=20
+>>> What is preferred fix,
+>>=20
+>> I guess the first part of any preferred fix is going to have to be to
+>> get the postinsts to be consistent about what mechanism they use for
+>> adding users, rather than the m=E9lange of different approaches that =
+we
+>> seem to have today.  Ideally I think that would be by means of making
+>> the recipes in question use useradd.bbclass.  It might also be
+>> reasonable to extend useradd.bbclass to work with tinylogin and/or
+>> busybox's implementations of useradd if it doesn't already.
+>>=20
+>> If there are recipes which can't use useradd.bbclass for whatever =
+reason
+>> then I guess they should be adjusted to call useradd rather than
+>> adduser, since the former is the more standardized of the two.
+>>=20
+>> As for tinylogin's adduser, I am inclined to say that it should =
+probably
+>> just go away in favour of a wrapper around (ideally a generic) =
+useradd.
+>=20
+> just small update on this, from my original list only 2 recipes are
+> still not using useradd.bbclass:
+>=20
+> recipes-connectivity/avahi/avahi.inc:   grep "^avahi:" /etc/passwd > =
+/dev/null || adduser --disabled-password --system --home =
+/var/run/avahi-daemon --no-create-home avahi --ingroup avahi -g Avahi
+> recipes-connectivity/avahi/avahi.inc:   grep "^avahi-autoipd:" =
+/etc/passwd > /dev/null || adduser --disabled-password --system --home =
+/var/lib/avahi-autoipd --no-create-home avahi-autoipd --ingroup =
+avahi-autoipd -g "Avahi autoip daemon"
+> recipes-devtools/distcc/distcc_2.18.3.bb:               grep distcc =
+/etc/passwd || adduser --system --home /dev/null --no-create-home =
+--empty-password --ingroup nogroup distcc
+>=20
+> Is someone using them? Any volunteer to migrate them and test them?
+
+I'm in java hell right now, but I'll try to fix those after that. But it =
+would be nice if someone beats me to it :)
+
+regards,
+
+Koen=
+
+--Apple-Mail=_0A3BD2E4-E36F-422D-AA9B-24C9BA11D888
 Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
-On 2011-11-30 18:30, Scott Garman wrote:
-> On 11/29/2011 01:18 PM, Ulf Samuelsson wrote:
->>
->>>> Seen a couple of errors as well.
->>>>
->>>> 1. ERROR: Function 'useradd_sysroot' failed
->>>> Tried to access "/etc/group" but this was locked.
->>>> Problem disappeared the next time I rebuilt.
->>> Can you file a bug about this problem please. I think we need to go
->>> through the code paths in shadow and ensure its locking is sane. I took
->>> a quick look at the code and was left wondering what lckpwdf() does for
->>> example. Scott, could you take a look at this?
->>
->> Bugzilla is out of service, so bugs cannot be filed.
->
-> I have filed a bug for this, and have been trying to reproduce it 
-> without success:
->
-> http://bugzilla.pokylinux.org/show_bug.cgi?id=1794
->
->> Haven't seen the issue since then so it is hard to give any details.
->> I used very high BB_NUMBER_THREADS = 24.
->
-> I do have access to a system with a lot of cores, and have been doing 
-> builds on it.
->
-> I'd just like to confirm that when you saw this, it was a build from 
-> scratch (e.g, not using sstate cache from a previous build). And also, 
-> you *weren't* building this from a remote filesystem (NFS), correct?
->
-> Thanks,
->
-> Scott
->
-No NFS for sure.
+-----BEGIN PGP SIGNATURE-----
 
-I think this was the first build, but only 99% sure.
-It disappered when I restarted the build.
+iEYEARECAAYFAk7XlbIACgkQMkyGM64RGpFlVwCgtJq1Y3bqy5QFaadqwBy76XZV
+8HQAn3XAfL18tEWAJMNU5k03N2IgXF4Y
+=vbRT
+-----END PGP SIGNATURE-----
 
-Have not seen this problem repeated, but then, the build on this
-machine has other problems
-
-Packages tend to fail since the c++ compiler seems to ignore "--sysroot"
-
-Machine = Ubuntu-11.10 x64.
-
-This is with BB_NUMBER_THREADS = "4"
-If I change this, then the same problem occur, but in a different package.
-(Tried with "4" AND "24")
-
-BR
-Ulf
-
-
-
--- 
-Best Regards
-Ulf Samuelsson
-eMagii
-
-
-
+--Apple-Mail=_0A3BD2E4-E36F-422D-AA9B-24C9BA11D888--
