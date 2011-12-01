@@ -1,36 +1,25 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RVu37-0004qu-DQ
+	(envelope-from <Bruce.Ashfield@windriver.com>) id 1RVukP-0006Kc-IH
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Dec 2011 00:58:49 +0100
-Received: by bkbzv15 with SMTP id zv15so900639bkb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Nov 2011 15:52:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=tL5ixIzNpH//Xs6N5ghMYM+ttNDko/5sPvpn8yuvxX4=;
-	b=PVLA5MBNDpIOdmUmoyoApT5bbUmtipKM43wxUb7edYVzQZ0xUHrN8BRlMmNAMeBf++
-	b4kLCvW2xUn0UHT61JcyzxhrsUPqwgyh1XJYShmKw6jqEVl8dwhcN/nVO//BW+6+L3a4
-	QMHX0C5bZm+uyd32Js2qBw+kRZ696j5S2MEyM=
-Received: by 10.205.129.148 with SMTP id hi20mr4118703bkc.25.1322697128153;
-	Wed, 30 Nov 2011 15:52:08 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id h7sm7394666bkw.12.2011.11.30.15.52.06
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 30 Nov 2011 15:52:07 -0800 (PST)
-Date: Thu, 1 Dec 2011 00:51:54 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111130235154.GC29875@jama.jama.net>
-References: <cover.1322693708.git.Martin.Jansa@gmail.com>
-	<6d1a17a6a97b72caa8790538af19ba2c942c91ff.1322693708.git.Martin.Jansa@gmail.com>
-	<1322696033.17484.84.camel@ted>
+	Thu, 01 Dec 2011 01:43:33 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pB10anQq027811
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 30 Nov 2011 16:36:49 -0800 (PST)
+Received: from [128.224.21.135] (128.224.21.135) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 30 Nov 2011 16:36:49 -0800
+Message-ID: <4ED6CC1E.5040504@windriver.com>
+Date: Wed, 30 Nov 2011 19:36:46 -0500
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.23) Gecko/20110922 Thunderbird/3.1.15
 MIME-Version: 1.0
-In-Reply-To: <1322696033.17484.84.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH][oe-core 1/3] sysstat: don't run populate-volatile.sh update in do_rootfs or without populate-volatile.sh
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Tom, Darren Hart <dvhart@linux.intel.com>,
+	openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,72 +34,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 23:58:49 -0000
-X-Groupsio-MsgNum: 13373
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="sHrvAb52M6C8blB9"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 01 Dec 2011 00:43:33 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---sHrvAb52M6C8blB9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Richard/Saul,
 
-On Wed, Nov 30, 2011 at 11:33:53PM +0000, Richard Purdie wrote:
-> On Wed, 2011-11-30 at 23:56 +0100, Martin Jansa wrote:
-> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > ---
-> >  meta/recipes-extended/sysstat/sysstat.inc       |    6 +++++-
-> >  meta/recipes-extended/sysstat/sysstat_10.0.2.bb |    2 +-
-> >  2 files changed, 6 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-e=
-xtended/sysstat/sysstat.inc
-> > index 2936f96..5e0f7af 100644
-> > --- a/meta/recipes-extended/sysstat/sysstat.inc
-> > +++ b/meta/recipes-extended/sysstat/sysstat.inc
-> > @@ -22,7 +22,11 @@ do_install() {
-> >  }
-> > =20
-> >  pkg_postinst_${PN} () {
-> > -        /etc/init.d/populate-volatile.sh update
-> > +        if [ "x$D" !=3D "x" ]; then
->=20
-> Is that really what you mean?
+FYI: I can't get git-send email to work over the hotel wifi, so
+I can't chain the patches to this email. If you want me to send
+the patches separately, let me know. But for now, this is the
+best I can do.
 
-Ah, sorry, you're right. Fixed in branch and sent here.
+This pull request represents a collection of changes that were
+part of yocto M1 work, and that set the stage for more updates
+that will follow in the not too distant future.
 
->=20
-> > +                if [ -e /etc/init.d/populate-volatile.sh ]; then
-> > +                        /etc/init.d/populate-volatile.sh update
-> > +                fi
-> > +        fi
-> >  }
-> > =20
->=20
-> Cheers,
->=20
-> Richard
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+I've bumped the 3.0 kernel to the 3.0.10 baseline (3.0.11 is
+out, but not in this merge request) and updated our -rt patches
+to the latest upstream -rt series.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+This also drops the 2.6.34 recipe and leaves it to be supported
+in previous releases. If there's somewhere else I should be
+putting it, let me know and I'll put it there.
 
---sHrvAb52M6C8blB9
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+The kernel revision updates have been built and boot tested by
+Tom and myself. And we have't seen any problems.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
+Also included in this are some changes to kernel tools that
+prepare to move the kernel tools into the kernel tree itself.
+They also move us to doing configuration auditing using the
+merge_config script that Darren and John Stultz have been
+working on.
 
-iEYEARECAAYFAk7WwZoACgkQN1Ujt2V2gBxK1ACcC4VTPoCAvGkAHcTUYG2WPrKa
-tU8An3pnJc9rsgZMTO5MwrNp6ydgNJkX
-=4cIw
------END PGP SIGNATURE-----
+And finally there's a small tweak to install the kernel tools
+via Makefile in the package itself, something that I recall
+Richard mentioning to me over 2 years ago a meeting .. so I thought
+I'd finally get to it.
+						
+Cheers,
 
---sHrvAb52M6C8blB9--
+Brucedvhart@linux.intel.com
+
+cc: Tom Zanussi <tom.zanussi@intel.com>
+cc: Darren Hart <dvhart@linux.intel.com>
+
+The following changes since commit d7cd934376ae1edaf7055ec635eb3c85fdbf58b3:
+
+   squashfs-tools: fix PR, those should start with 'r' (2011-11-30 
+23:37:44 +0000)
+
+are available in the git repository at:
+   git://git.pokylinux.org/poky-contrib zedd/kernel
+   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (7):
+   kern-tools: add pre_config and merge_config.sh to the list of tools
+   kernel-yocto: support allnoconfig base configuration
+   linux-yocto: remove 2.6.34 recipes
+   linux-yocto: v3.0.9 + enhancements
+   linux-yocto: v3.0.10 + rt27
+   linux-yocto: prefer in-tree tools to external ones
+   kern-tools: use Makefile provided install rules
+
+  meta/classes/kernel-yocto.bbclass                  |   24 +++++++++-
+  .../kern-tools/kern-tools-native_git.bb            |   15 ++----
+  meta/recipes-kernel/linux/linux-yocto-rt_2.6.34.bb |   38 ---------------
+  meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb    |    8 ++--
+  meta/recipes-kernel/linux/linux-yocto_2.6.34.bb    |   49 
+--------------------
+  meta/recipes-kernel/linux/linux-yocto_3.0.bb       |   18 ++++----
+  6 files changed, 39 insertions(+), 113 deletions(-)
+  delete mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_2.6.34.bb
+  delete mode 100644 meta/recipes-kernel/linux/linux-yocto_2.6.34.bb
+
+
