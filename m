@@ -1,34 +1,35 @@
-Received: from mail-qw0-f47.google.com ([209.85.216.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1RWDM8-0004Cg-E6
-	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Dec 2011 21:35:44 +0100
-Received: by qaea17 with SMTP id a17so5081297qae.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RWDQf-0005Mh-LJ for openembedded-core@lists.openembedded.org;
+	Thu, 01 Dec 2011 21:40:25 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB1KXiCD019963
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Dec 2011 12:29:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding;
-	bh=RNcGHdEPQXTv/c9xjLkJm8H3sjGy7B7Vn8GtzWatqBE=;
-	b=pJIemKRxrGsBoMUy5Zle5KmenUdXVL3Rm/3A0wpMWRg2mtaAVx8f/bANe4HIp5MDJP
-	z6aeZS0EEFZ2w1OUiseJn8oaZBXFGaOWAvqlhvW2qOF+UfbJw58Y50S1G3H5oKyN+150
-	c+0eQWjlQfM7AvvcG7wSHLNENkBu6imCLLwbs=
-Received: by 10.224.111.136 with SMTP id s8mr413832qap.98.1322771341887; Thu,
-	01 Dec 2011 12:29:01 -0800 (PST)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.229.73.200 with HTTP; Thu, 1 Dec 2011 12:28:40 -0800 (PST)
-In-Reply-To: <CAEsOVNcBUYn3K2hBoSGcGW5f4tqqn1rYg9w2U3u6RcdThgA6=g@mail.gmail.com>
-References: <95547EE2-9E3E-4FB6-AA2A-A9653029F971@dominion.thruhere.net>
-	<CAEsOVNcBUYn3K2hBoSGcGW5f4tqqn1rYg9w2U3u6RcdThgA6=g@mail.gmail.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Thu, 1 Dec 2011 13:28:40 -0700
-X-Google-Sender-Auth: xPj-IXH02E6gUDcsEMJnD0A-6n0
-Message-ID: <CABcZAN=-Zjx3iepqyS9KXFTwGLe67ayOrFvP0t6+DP8aWnG33w@mail.gmail.com>
-To: McClintock Matthew-B29882 <B29882@freescale.com>, 
-	Patches and discussions about the oe-core layer
+	Thu, 1 Dec 2011 20:33:44 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 19009-06 for <openembedded-core@lists.openembedded.org>;
+	Thu,  1 Dec 2011 20:33:40 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB1KXZ8V019957
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 1 Dec 2011 20:33:36 GMT
+Message-ID: <1322771625.17484.149.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+Date: Thu, 01 Dec 2011 20:33:45 +0000
+In-Reply-To: <20111201130733.GF19917@jama.jama.net>
+References: <95547EE2-9E3E-4FB6-AA2A-A9653029F971@dominion.thruhere.net>
+	<20111201122407.GB19917@jama.jama.net> <1322743071.17484.119.camel@ted>
+	<CAP9ODKpnTxcRDJxZKe0bue4RDqydJ44TmEf0ukv43ATgBcDV7Q@mail.gmail.com>
+	<20111201130733.GF19917@jama.jama.net>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
 Subject: Re: Coordinating inter-layer dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -44,38 +45,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2011 20:35:44 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 01 Dec 2011 20:40:25 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Dec 1, 2011 at 12:55 PM, McClintock Matthew-B29882
-<B29882@freescale.com> wrote:
->> To avoid stressing out RP and Sau! I would strongly urge layer maintaine=
-rs to respond to recipe update patches with "I have a bbappend, but my revi=
-ew process needs time, please use the above proposal" if you need time to t=
-est and update =C2=A0your bbappends.
->>
->> We're all human in the end and timezone differences aren't always helpin=
-g with these kinds of problems, so let's work together to minimize parsing =
-breakage.
->>
->> Related to that: Please include information on how to send patches upstr=
-eam in your layer/repo README. The meta-intel/emenlow lacks that and the to=
-p level README doesn't mention that there are sublevel READMEs.
->
-> Why don't we make a version of bbappend that applies to all packages
-> with the same name? This would fix the constant changing
-> netbase_vXYZ.bbappend issue.
+On Thu, 2011-12-01 at 14:07 +0100, Martin Jansa wrote:
+> On Thu, Dec 01, 2011 at 10:59:03AM -0200, Otavio Salvador wrote:
+> > On Thu, Dec 1, 2011 at 10:37, Richard Purdie <
+> > richard.purdie@linuxfoundation.org> wrote:
+> > 
+> > > On Thu, 2011-12-01 at 13:24 +0100, Martin Jansa wrote:
+> > > > A while back I've proposed to make .bbappend without corresponding .bb
+> > > > only big fat warning, but not fatal to parse. Now you cannot even build
+> > > > eglibc if there is libdrm bbappend you don't care at all about..
+> > >
+> > > You can do this by setting:
+> > >
+> > > BB_DANGLINGAPPENDS_WARNONLY
+> > >
+> > 
+> > This is even worse; you end up with a package without the changes done on
+> > the bbappend and as most bbappend files do not change PR, adding it later
+> > won't force a package update.
+> 
+> If we find a way to allow PRINC in multiple bbappends for same .bb then
+> we can say that every .bbappend should use PRINC.
+> 
+> For record I'll include my discussion about PRINC with RP and kergoth:
+> 10:47 < JaMa> RP__: is there any way to improve PRINC concept to allow multiple increments for same recipe while parsing multiple layers?
+> 10:48 < RP__> JaMa: PRINC_append = ".1" ?
+> 10:49 < JaMa> RP__: ie when meta-openmoko sets PRINC = "1" and meta-shr sets PRINC = "2" then if you're unlucky meta-openmoko is parsed later and bumping PRINC in meta-shr won't help
+> 10:49 < RP__> JaMa: I wonder if you could do PRINC := "${PRINC + 1}"
+> 10:50 < JaMa> and do we have default PRINC = 0 somewhere?
+> 10:50 < RP__> JaMa: you might need to add that
+> 10:50 < JaMa> ok, I'll try this, thanks
+> 10:51 < JaMa> currently I'm moving PRINC only to meta-shr layer.. but that breaks stuff if someone is using any BSP layer from meta-smartphone..
+> 
+> 14:53 < JaMa> RP__: btw that PRINC trick didn't work (int type didn't like expresion :/)
+> 15:13 < RP__> JaMa: ah, try PRINC := "${int(PRINC) + 1}"
+> 15:21 < JaMa> RP__: still ValueError: invalid literal for int() with base 10: '${int(PRINC) + 1}'
+> 15:21 < JaMa> with added PRINC := 0 to bitbake.conf
+> 15:22 < RP__> PRINC := "${int(d.getVar(PRINC)) + 1}" ? :/
+> 15:22 < JaMa> whole log http://paste.pocoo.org/show/514437/
+> 15:22  * RP__ was trying to be too clever I suspect
+> 15:23 < JaMa> ValueError: invalid literal for int() with base 10: '${int(d.getVar(PRINC)) + 1}'
+> 15:41 < kergoth> PRINC is unquoted there, so it tries to get a value for a key of None
+> 16:24 < RP__> kergoth: right, trying to do too many things at once :/
+> 16:24 < RP__> kergoth: any thoughts on that knotty change to add the footer?
+> 17:05 < JaMa> kergoth: something like this? ValueError: invalid literal for int() with base 10: "${int(d.getVar('PRINC')) + 1}"
+> 
+> Maybe someone else has better idea?
 
-I'm pretty sure going by filename was a conscious design decision in
-bitbake, to keep things simple and avoid the need to parse up front
-before being able to determine the appends to use. RP would know the
-details.
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Looking at that I was missing something obvious. Try:
+
+PRINC := "${@int(PRINC) + 1}"
+
+Cheers,
+
+Richard
+
 
 
