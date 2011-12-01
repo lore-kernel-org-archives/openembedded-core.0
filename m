@@ -1,33 +1,34 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RW6Ep-00066E-8v for openembedded-core@lists.openembedded.org;
-	Thu, 01 Dec 2011 13:59:44 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB1Cr2bZ015316
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1RW6Ki-0006dr-5o
+	for openembedded-core@lists.openembedded.org;
+	Thu, 01 Dec 2011 14:05:48 +0100
+Received: by faaa19 with SMTP id a19so1065200faa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Dec 2011 12:53:02 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 14989-04 for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Dec 2011 12:52:58 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB1CquVm015310
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Dec 2011 12:52:57 GMT
-Message-ID: <1322743985.17484.122.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Thu, 01 Dec 2011 04:59:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=q89rhWGw68AqYxBqcI9PATuzA+OYLcSOI6G/pPfUGgI=;
+	b=i3OioQNrKKJJVxxx2bReWIjeJlCv6/vTy1FBIhj5fsEcaIq0oXrI8/srJAXaeh6X4q
+	ao2jZqSZcIMuBfGGZ91Kn+ZVSaa/h0Qu39O72AdhWpXgrDOeLWnFrOI+eqVB0QdTxjoM
+	XJF3Z/y7YPnkxKbOlKQIS9oh51CbLkJNHW468=
+MIME-Version: 1.0
+Received: by 10.204.12.68 with SMTP id w4mr7133660bkw.31.1322744343962; Thu,
+	01 Dec 2011 04:59:03 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.54.74 with HTTP; Thu, 1 Dec 2011 04:59:03 -0800 (PST)
+In-Reply-To: <1322743071.17484.119.camel@ted>
+References: <95547EE2-9E3E-4FB6-AA2A-A9653029F971@dominion.thruhere.net>
+	<20111201122407.GB19917@jama.jama.net>
+	<1322743071.17484.119.camel@ted>
+Date: Thu, 1 Dec 2011 10:59:03 -0200
+X-Google-Sender-Auth: iW2XIsrI0Z0HasF_yC295E9mt-E
+Message-ID: <CAP9ODKpnTxcRDJxZKe0bue4RDqydJ44TmEf0ukv43ATgBcDV7Q@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 01 Dec 2011 12:53:05 +0000
-In-Reply-To: <1322708827-27449-1-git-send-email-raj.khem@gmail.com>
-References: <1322708827-27449-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] classes, conf: Exclude native and nativesdk recipes from libc specific override
+Subject: Re: Coordinating inter-layer dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,29 +43,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2011 12:59:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 01 Dec 2011 13:05:48 -0000
+Content-Type: multipart/alternative; boundary=0003255581c2c0246504b3076a80
 
-On Wed, 2011-11-30 at 19:07 -0800, Khem Raj wrote:
-> Based on suggestions from RP
-> 
-> libc-uclibc and libc-glibc overrides are for denoting
-> system C library in use on the target and not for the
-> host therefore we make sure that the override only takes
-> effect for target recipes only.
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/classes/native.bbclass                |    3 +++
->  meta/classes/nativesdk.bbclass             |    3 +++
->  meta/conf/distro/include/tclibc-eglibc.inc |    3 ++-
->  meta/conf/distro/include/tclibc-uclibc.inc |    3 ++-
->  4 files changed, 10 insertions(+), 2 deletions(-)
+--0003255581c2c0246504b3076a80
+Content-Type: text/plain; charset=ISO-8859-1
 
-Merged to master, thanks.
+On Thu, Dec 1, 2011 at 10:37, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Richard
+> On Thu, 2011-12-01 at 13:24 +0100, Martin Jansa wrote:
+> > A while back I've proposed to make .bbappend without corresponding .bb
+> > only big fat warning, but not fatal to parse. Now you cannot even build
+> > eglibc if there is libdrm bbappend you don't care at all about..
+>
+> You can do this by setting:
+>
+> BB_DANGLINGAPPENDS_WARNONLY
+>
 
+This is even worse; you end up with a package without the changes done on
+the bbappend and as most bbappend files do not change PR, adding it later
+won't force a package update.
 
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
+--0003255581c2c0246504b3076a80
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div class=3D"gmail_quote">On Thu, Dec 1, 2011 at 10:37, Richard Purdie <sp=
+an dir=3D"ltr">&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">ri=
+chard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex;">
+<div class=3D"im">On Thu, 2011-12-01 at 13:24 +0100, Martin Jansa wrote:<br=
+>
+&gt; A while back I&#39;ve proposed to make .bbappend without corresponding=
+ .bb<br>
+&gt; only big fat warning, but not fatal to parse. Now you cannot even buil=
+d<br>
+&gt; eglibc if there is libdrm bbappend you don&#39;t care at all about..<b=
+r>
+<br>
+</div>You can do this by setting:<br>
+<br>
+BB_DANGLINGAPPENDS_WARNONLY<br></blockquote><div><br></div><div>This is eve=
+n worse; you end up with a package without the changes done on the bbappend=
+ and as most bbappend files do not change PR, adding it later won&#39;t for=
+ce a package update.</div>
+<div>=A0</div></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio=
+@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=
+=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com=
+.br</a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
+
+--0003255581c2c0246504b3076a80--
