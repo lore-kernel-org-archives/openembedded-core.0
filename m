@@ -1,28 +1,30 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RW2wg-0006i3-BU
-	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Dec 2011 10:28:46 +0100
-Received: by eaad13 with SMTP id d13so1906954eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Dec 2011 01:22:03 -0800 (PST)
-Received: by 10.213.7.195 with SMTP id e3mr967071ebe.57.1322731323050;
-	Thu, 01 Dec 2011 01:22:03 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id 8sm15588823ees.2.2011.12.01.01.22.01
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 01 Dec 2011 01:22:01 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Thu, 1 Dec 2011 10:21:57 +0100
-In-Reply-To: <ec329e79d07e83cb240dda3988017741c597b566.1322729357.git.lei.mei@intel.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RW2wz-0006jv-HN; Thu, 01 Dec 2011 10:29:05 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB19MPZp012365;
+	Thu, 1 Dec 2011 09:22:25 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 11261-08; Thu,  1 Dec 2011 09:22:22 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB19MF7J012359
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 1 Dec 2011 09:22:17 GMT
+Message-ID: <1322731343.17484.86.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+Date: Thu, 01 Dec 2011 09:22:23 +0000
+In-Reply-To: <ec329e79d07e83cb240dda3988017741c597b566.1322729357.git.lei.mei@intel.com>
 References: <cover.1322729357.git.lei.mei@intel.com>
 	<ec329e79d07e83cb240dda3988017741c597b566.1322729357.git.lei.mei@intel.com>
-Message-Id: <28033128-9503-4399-B3A6-48B15F4427B4@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1251.1)
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@openembedded.org
 Subject: Re: [PATCH 1/1] Fix some recipes upstream version check issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -38,46 +40,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2011 09:28:46 -0000
-X-Groupsio-MsgNum: 13397
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_2A933C50-DBA4-40CC-84D1-ACCF676B13AA";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_2A933C50-DBA4-40CC-84D1-ACCF676B13AA
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-Op 1 dec. 2011, om 09:54 heeft Mei Lei het volgende geschreven:
-
-> Some recipes didn't declare what protocal they use to check the =
-upstream version, this will due to some errors.
-> Fix this by add the protocal at the end of the SRC_URI.
->=20
-> Signed-off-by: Mei Lei <lei.mei@intel.com>
-
-Which version of bitbake are you usung? IIRC the default was changed =
-from rsync to git a few weeks ago.
-
-regards,
-
-Koen=
-
---Apple-Mail=_2A933C50-DBA4-40CC-84D1-ACCF676B13AA
+X-List-Received-Date: Thu, 01 Dec 2011 09:29:05 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
+On Thu, 2011-12-01 at 16:54 +0800, Mei Lei wrote:
+> Some recipes didn't declare what protocal they use to check the upstream version, this will due to some errors.
+> Fix this by add the protocal at the end of the SRC_URI.
 
-iEYEARECAAYFAk7XRzcACgkQMkyGM64RGpHdPgCeNposzdM5GfGQh3idsqYEC1UB
-zGkAn0LaNufwvKdcLk3wspZFn64OSQat
-=Fhmv
------END PGP SIGNATURE-----
+What errors does this give? We should be defaulting to git these days.
+lib/bb/fetch2/git.py says:
 
---Apple-Mail=_2A933C50-DBA4-40CC-84D1-ACCF676B13AA--
+        if 'protocol' in ud.parm:
+            ud.proto = ud.parm['protocol']
+        elif not ud.host:
+            ud.proto = 'file'
+        else:
+            ud.proto = "git"
+
+?
+
+Cheers,
+
+Richard
+
+> Signed-off-by: Mei Lei <lei.mei@intel.com>
+> ---
+>  .../iproute2/iproute2_3.1.0.bb                     |    2 +-
+>  meta/recipes-graphics/clutter/clutter-box2d_git.bb |    2 +-
+>  meta/recipes-rt/rt-tests/rt-tests_0.83.bb          |    2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/recipes-connectivity/iproute2/iproute2_3.1.0.bb b/meta/recipes-connectivity/iproute2/iproute2_3.1.0.bb
+> index 0b47046..52e40e1 100644
+> --- a/meta/recipes-connectivity/iproute2/iproute2_3.1.0.bb
+> +++ b/meta/recipes-connectivity/iproute2/iproute2_3.1.0.bb
+> @@ -2,7 +2,7 @@ require iproute2.inc
+>  
+>  #v3.1.0 tag
+>  SRCREV = "9cbe6bc337a35b91882f92599eefeb161f3e776e"
+> -SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/shemminger/iproute2.git \
+> +SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/shemminger/iproute2.git;protocol=git \
+>             file://configure-cross.patch"
+>  S = "${WORKDIR}/git"
+>  
+> diff --git a/meta/recipes-graphics/clutter/clutter-box2d_git.bb b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
+> index 554ce81..7a1dc8e 100644
+> --- a/meta/recipes-graphics/clutter/clutter-box2d_git.bb
+> +++ b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
+> @@ -6,7 +6,7 @@ SRCREV = "de5452e56b537a11fd7f9453d048ff4b4793b5a2"
+>  PV = "0.12.1+git${SRCPV}"
+>  PR = "r0"
+>  
+> -SRC_URI = "git://git.gnome.org/clutter-box2d.git"
+> +SRC_URI = "git://git.gnome.org/clutter-box2d.git;protocol=git"
+>  
+>  S = "${WORKDIR}/git"
+>  
+> diff --git a/meta/recipes-rt/rt-tests/rt-tests_0.83.bb b/meta/recipes-rt/rt-tests/rt-tests_0.83.bb
+> index 78d51b3..7e64032 100644
+> --- a/meta/recipes-rt/rt-tests/rt-tests_0.83.bb
+> +++ b/meta/recipes-rt/rt-tests/rt-tests_0.83.bb
+> @@ -12,7 +12,7 @@ SRCREV = "5f1e84f8b015df3ff950056494134eca3f640d70"
+>  # git -> 0.83 needs a PE bump
+>  PE = "1"
+>  
+> -SRC_URI = "git://github.com/clrkwllms/rt-tests.git"
+> +SRC_URI = "git://github.com/clrkwllms/rt-tests.git;protocol=git"
+>  
+>  S = "${WORKDIR}/git"
+>  
+
+
+
+
