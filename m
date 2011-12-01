@@ -1,31 +1,32 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RW2Oa-00053V-S8
+	(envelope-from <martin.jansa@gmail.com>) id 1RW2Oh-00053y-K8
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Dec 2011 09:53:33 +0100
-Received: by eekc1 with SMTP id c1so1042748eek.6
+	Thu, 01 Dec 2011 09:53:39 +0100
+Received: by eaad13 with SMTP id d13so1870623eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Dec 2011 00:46:51 -0800 (PST)
+	Thu, 01 Dec 2011 00:46:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=QVrCwMupwWQTPl2czlWSwegna8nT52FTQdXavP4VHZU=;
-	b=ELtumFzuxWunDWtJ0f6SLB0nQaht0ULyptl2AX3zzTKvaoX0wEZwkXCXPTkXxP3SGg
-	HqWwQTYrV0OoiPgu+DupBsXYM6rmZV1yhUdxVOg3UMlFrAJommHFx3o/EaEPm4lZoldx
-	pP29G5x4yGRuis+etqAr3lgz4j9HXfrSpTtGY=
-Received: by 10.14.20.9 with SMTP id o9mr729244eeo.28.1322729210979;
-	Thu, 01 Dec 2011 00:46:50 -0800 (PST)
+	bh=3T0mnXuobqlQ/73Gok7bySGwoe0K8Pi5AD84PfsytmU=;
+	b=TwPCOfwu8AWYFN8cBNBf2COoJT+/5+X6BS7w1e8slWAfqTx1gQmD/OAWCMxmwWhZ32
+	A7vaa8W8LbUsrpwOVnhLdyEfj43MqAYyibRBUeFrIJ75RygBzjYJ2FCnQgcUgFdQU84J
+	Y1OSaK959jBUE8jhTKs7pB26+I8KuNPa8uJ5M=
+Received: by 10.213.113.198 with SMTP id b6mr907797ebq.140.1322729218473;
+	Thu, 01 Dec 2011 00:46:58 -0800 (PST)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id 8sm15259918eei.8.2011.12.01.00.46.49
+	by mx.google.com with ESMTPS id v3sm15268556eej.7.2011.12.01.00.46.57
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 01 Dec 2011 00:46:50 -0800 (PST)
+	Thu, 01 Dec 2011 00:46:57 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Dec 2011 09:46:39 +0100
-Message-Id: <1322729201-11290-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Thu,  1 Dec 2011 09:46:40 +0100
+Message-Id: <1322729201-11290-2-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.8.rc4
-In-Reply-To: <20111201080213.GE29875@jama.jama.net>
+In-Reply-To: <1322729201-11290-1-git-send-email-Martin.Jansa@gmail.com>
 References: <20111201080213.GE29875@jama.jama.net>
-Subject: [PATCH][oe-core 1/3] startup-notification: bump PR, because of xcb-util was renamed to libxcb-util0
+	<1322729201-11290-1-git-send-email-Martin.Jansa@gmail.com>
+Subject: [PATCH][oe-core 2/3] matchbox-panel-2: bump PR, because of xcb-util was renamed to libxcb-util0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,26 +41,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2011 08:53:33 -0000
+X-List-Received-Date: Thu, 01 Dec 2011 08:53:39 -0000
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../startup-notification_0.12.bb                   |    2 +-
+ .../matchbox-panel-2/matchbox-panel-2_git.bb       |    2 +-
  1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-graphics/startup-notification/startup-notification_0.12.bb b/meta/recipes-graphics/startup-notification/startup-notification_0.12.bb
-index d3a9576..0fc18b1 100644
---- a/meta/recipes-graphics/startup-notification/startup-notification_0.12.bb
-+++ b/meta/recipes-graphics/startup-notification/startup-notification_0.12.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a2ae2cd47d6d2f238410f5364dfbc0f2 \
-                     file://libsn/sn-common.h;endline=23;md5=6d05bc0ebdcf5513a6e77cb26e8cd7e2 \
-                     file://test/test-boilerplate.h;endline=23;md5=923e706b2a70586176eead261cc5bb98"
+diff --git a/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_git.bb b/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_git.bb
+index c1da0cf..41ba8e1 100644
+--- a/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_git.bb
++++ b/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_git.bb
+@@ -13,7 +13,7 @@ DEPENDS += " ${@base_contains("MACHINE_FEATURES", "apm", "apmd", "",d)}"
  
+ SRCREV = "cdf7a22716b87468f10573f622d5c7a58a684e35"
+ PV = "0.0+git${SRCPV}"
 -PR = "r0"
 +PR = "r1"
  
- SECTION = "libs"
- 
+ RPROVIDES_${PN} = "matchbox-panel"
+ RREPLACES_${PN} = "matchbox-panel"
 -- 
 1.7.8.rc4
 
