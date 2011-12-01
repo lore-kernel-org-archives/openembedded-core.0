@@ -1,24 +1,34 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1RVtGR-0003Kh-C8
+	(envelope-from <julian.pidancet@gmail.com>) id 1RVtPO-0003fT-Ri
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Dec 2011 00:08:31 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 30 Nov 2011 15:01:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,273,1320652800"; d="scan'208";a="90788555"
-Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by fmsmga001.fm.intel.com with ESMTP; 30 Nov 2011 15:01:49 -0800
-From: Dongxiao Xu <dongxiao.xu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Dec 2011 07:21:39 +0800
-Message-Id: <dea69a9b71691c8a6714401e07a2c4c5436704b6.1322695203.git.dongxiao.xu@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1322695203.git.dongxiao.xu@intel.com>
-References: <cover.1322695203.git.dongxiao.xu@intel.com>
-In-Reply-To: <cover.1322695203.git.dongxiao.xu@intel.com>
-References: <cover.1322695203.git.dongxiao.xu@intel.com>
-Subject: [PATCH 5/5] distro_trakcing_fields: update for glib, telepathy-idle, etc
+	Thu, 01 Dec 2011 00:17:46 +0100
+Received: by eekc1 with SMTP id c1so763174eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Nov 2011 15:11:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=6M12g+pYHhN1Z4Pup7RMWh+nRCUoF9TdumaJ5yirEX4=;
+	b=Rwx5uc1QYG268eYUAIWBN22OgEBMd42EdPgfT1Fn4TvGlC94/laIW3/990P6/Tctse
+	SFLHB4cZv/JD7gZL/t4DBMfLxF8/yIUag1c8BTfxf+RPCEHzSHs9SAim91/Flhu9ykvI
+	mt1fEcxsTJM1madvRN+iThqd25P2waDVhgASs=
+Received: by 10.227.206.129 with SMTP id fu1mr1790604wbb.22.1322694666213;
+	Wed, 30 Nov 2011 15:11:06 -0800 (PST)
+Received: from localhost.localdomain (188-223-88-44.zone14.bethere.co.uk.
+	[188.223.88.44])
+	by mx.google.com with ESMTPS id gg1sm3719426wbb.17.2011.11.30.15.11.04
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 30 Nov 2011 15:11:05 -0800 (PST)
+From: Julian Pidancet <julian.pidancet@gmail.com>
+To: sgw@linux.intel.com
+Date: Thu,  1 Dec 2011 00:01:56 +0000
+Message-Id: <262b7b5f2bc5cf31b54a7f5d3ff27306a6a45de8.1322697616.git.julian.pidancet@gmail.com>
+X-Mailer: git-send-email 1.7.3.4
+In-Reply-To: <4ED69E46.3030808@linux.intel.com>
+References: <4ED69E46.3030808@linux.intel.com>
+Cc: Julian Pidancet <julian.pidancet@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Subject: [PATCH] Fix multiarch DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,84 +43,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Nov 2011 23:08:31 -0000
+X-List-Received-Date: Wed, 30 Nov 2011 23:17:46 -0000
 
- - glib-2.0
- - telepathy-glib
- - telepathy-idle
- - telepathy-mission-control
+Make get_gcc_multiarch_setting more elegant. Use a dictionnary
+to store the config options and replace bb.data.getVar with d.getVar.
+Remove i686 from the architecture list because it doesn't seem
+to be a valid TARGET_ARCH any more in OE.
+Configure gdb (gdb and gdb-cross) with --enable-64-bit-bfd if
+multiarch DISTRO_FEATURE is present
 
-Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+Signed-off-by: Julian Pidancet <julian.pidancet@gmail.com>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |   26 ++++++++++----------
- 1 files changed, 13 insertions(+), 13 deletions(-)
+ meta/recipes-devtools/gcc/gcc-common.inc |   17 ++++++++++-------
+ meta/recipes-devtools/gdb/gdb-common.inc |    1 +
+ 2 files changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 785114d..60256fd 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -169,15 +169,15 @@ RECIPE_MAINTAINER_pn-libdaemon = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_STATUS_pn-glib-2.0 = "green"
- DISTRO_PN_ALIAS_pn-glib-2.0 = "Meego=glib2 Fedora=glib2 OpenSuSE=glib2 Ubuntu=glib2.0 Mandriva=glib2.0 Debian=glib2.0"
- RECIPE_DEPENDENCY_CHECK_pn-glib-2.0 = "not done"
--RECIPE_LATEST_VERSION_pn-glib-2.0 = "2.28.6"
-+RECIPE_LATEST_VERSION_pn-glib-2.0 = "2.30.1"
- RECIPE_PATCH_pn-glib-2.0+60_wait-longer-for-threads-to-die = "to be pushed upstream"
- RECIPE_PATCH_pn-glib-2.0+configure-libtool = "local"
- RECIPE_PATCH_pn-glib-2.0+glib-gettextize-dir = "marked as REMOVAL"
- RECIPE_INTEL_SECTION_pn-glib-2.0 = "base libs"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-glib-2.0 = "15 days"
--RECIPE_LATEST_RELEASE_DATE_pn-glib-2.0 = "Apr 14, 2011"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-glib-2.0 = "20 days"
-+RECIPE_LATEST_RELEASE_DATE_pn-glib-2.0 = "Oct 14, 2011"
- RECIPE_COMMENTS_pn-glib-2.0 = ""
--RECIPE_LAST_UPDATE_pn-glib-2.0 = "Apr 26, 2011"
-+RECIPE_LAST_UPDATE_pn-glib-2.0 = "Dec 1, 2011"
- RECIPE_MAINTAINER_pn-glib-2.0 = "Dongxiao Xu <dongxiao.xu@intel.com>"
+diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
+index 7ec2f7e..fe112d9 100644
+--- a/meta/recipes-devtools/gcc/gcc-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-common.inc
+@@ -22,13 +22,16 @@ def get_gcc_mips_plt_setting(bb, d):
+     return ""
  
- RECIPE_STATUS_pn-libpam = "green"
-@@ -2258,18 +2258,18 @@ RECIPE_MAINTAINER_pn-telepathy-gabble = "Dongxiao Xu <dongxiao.xu@intel.com>"
+ def get_gcc_multiarch_setting(bb, d):
+-    if 'multiarch' in bb.data.getVar('DISTRO_FEATURES',d,1).split() :
+-        if bb.data.getVar('TARGET_ARCH', d, 1) in [ 'i586', 'i686' ] :
+-            return "--enable-targets=all"
+-        if bb.data.getVar('TARGET_ARCH', d, 1) in [ 'powerpc' ] :
+-            return "--enable-targets=powerpc64"
+-        if bb.data.getVar('TARGET_ARCH', d, 1) in [ 'sparc' ] :
+-            return "--enable-targets=all"
++    target_arch = d.getVar('TARGET_ARCH', True)
++    multiarch_options = {
++        "i586":    "--enable-targets=all",
++        "powerpc": "--enable-targets=powerpc64",
++        "sparc":   "--enable-targets=all",
++    }
++
++    if 'multiarch' in d.getVar('DISTRO_FEATURES', True).split() :
++        if target_arch in multiarch_options :
++            return multiarch_options[target_arch]
+     return ""
  
- RECIPE_STATUS_pn-telepathy-glib = "green"
- RECIPE_NO_OF_PATCHES_pn-telepathy-glib ="0"
--RECIPE_LATEST_RELEASE_DATE_pn-telepathy-glib = "Oct 14, 2011"
--RECIPE_LATEST_VERSION_pn-telepathy-glib = "0.16.0"
-+RECIPE_LATEST_RELEASE_DATE_pn-telepathy-glib = "Nov 8, 2011"
-+RECIPE_LATEST_VERSION_pn-telepathy-glib = "0.17.0"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-telepathy-glib = "10 days"
--RECIPE_LAST_UPDATE_pn-telepathy-glib = "Oct 28, 2011"
-+RECIPE_LAST_UPDATE_pn-telepathy-glib = "Dec 1, 2011"
- RECIPE_MAINTAINER_pn-telepathy-glib = "Dongxiao Xu <dongxiao.xu@intel.com>"
+ # We really need HOST_SYS here for some packages and TARGET_SYS for others.
+diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
+index e01b57c..d728139 100644
+--- a/meta/recipes-devtools/gdb/gdb-common.inc
++++ b/meta/recipes-devtools/gdb/gdb-common.inc
+@@ -41,6 +41,7 @@ EXPAT = "--without-expat"
+ EXTRA_OECONF = "--disable-gdbtk --disable-tui --disable-x \
+                 --with-curses --disable-multilib --with-system-readline --disable-sim \
+                 ${GDBPROPREFIX} --with-libelf=${STAGING_DIR_TARGET} ${EXPAT} \
++                ${@base_contains('DISTRO_FEATURES', 'multiarch', '--enable-64-bit-bfd', '', d)} \
+                "
  
- RECIPE_STATUS_pn-telepathy-idle = "green"
- RECIPE_NO_OF_PATCHES_pn-telepathy-idle ="0"
--RECIPE_LATEST_RELEASE_DATE_pn-telepathy-glib ="May 11, 2011"
-+RECIPE_LATEST_RELEASE_DATE_pn-telepathy-glib ="Oct 28, 2011"
- RECIPE_LATEST_VERSION_pn-telepathy-idle = "0.1.10"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-telepathy-idle = "1 months"
--RECIPE_LAST_UPDATE_pn-telepathy-idle = "Oct 28, 2011"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-telepathy-idle = "5 months"
-+RECIPE_LAST_UPDATE_pn-telepathy-idle = "Dec 1, 2011"
- RECIPE_MAINTAINER_pn-telepathy-idle = "Dongxiao Xu <dongxiao.xu@intel.com>"
- 
- RECIPE_STATUS_pn-telepathy-python = "green"
-@@ -2333,11 +2333,11 @@ RECIPE_LAST_UPDATE_pn-libsyncml = "Jul 31, 2009"
- RECIPE_MAINTAINER_pn-libsyncml = "Dongxiao Xu <dongxiao.xu@intel.com>"
- 
- RECIPE_STATUS_pn-telepathy-mission-control = "green"
--RECIPE_LATEST_VERSION_pn-telepathy-mission-control = "5.9.3"
-+RECIPE_LATEST_VERSION_pn-telepathy-mission-control = "5.10.1"
- RECIPE_NO_OF_PATCHES_pn-telepathy-mission-control ="0"
--RECIPE_LATEST_RELEASE_DATE_pn-telepathy-mission-control ="Apr 10, 2011"
-+RECIPE_LATEST_RELEASE_DATE_pn-telepathy-mission-control ="Nov 8, 2011"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-telepathy-mission-control ="1 months"
--RECIPE_LAST_UPDATE_pn-telepathy-mission-control = "Oct 28, 2011"
-+RECIPE_LAST_UPDATE_pn-telepathy-mission-control = "Dec 1, 2011"
- RECIPE_MAINTAINER_pn-telepathy-mission-control = "Dongxiao Xu <dongxiao.xu@intel.com>"
- 
- RECIPE_STATUS_pn-libetpan = "red"
+ GDBPROPREFIX = "--program-prefix=''"
 -- 
-1.7.1
+Julian Pidancet
 
 
 
