@@ -1,28 +1,35 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RW4Cd-0000gT-Qq
-	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Dec 2011 11:49:20 +0100
-Received: by eekc1 with SMTP id c1so1119358eek.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RW4ET-0000nP-Un for openembedded-core@lists.openembedded.org;
+	Thu, 01 Dec 2011 11:51:14 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB1AiVSG013281
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Dec 2011 02:42:38 -0800 (PST)
-Received: by 10.14.14.4 with SMTP id c4mr846516eec.129.1322736158065;
-	Thu, 01 Dec 2011 02:42:38 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id a60sm16222785eeb.4.2011.12.01.02.42.36
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 01 Dec 2011 02:42:36 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Thu, 1 Dec 2011 11:42:34 +0100
-In-Reply-To: <1322601901-26195-3-git-send-email-koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-References: <1322601901-26195-1-git-send-email-koen@dominion.thruhere.net>
-	<1322601901-26195-3-git-send-email-koen@dominion.thruhere.net>
-Message-Id: <B9F05701-3AF2-45DB-8049-030C93599107@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [RFC 3/4] pulseaudio 1.1: convert to useradd.bbclass
+	Thu, 1 Dec 2011 10:44:31 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 12488-08 for <openembedded-core@lists.openembedded.org>;
+	Thu,  1 Dec 2011 10:44:27 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB1AiMta013275
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 1 Dec 2011 10:44:23 GMT
+Message-ID: <1322736272.17484.100.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 01 Dec 2011 10:44:32 +0000
+In-Reply-To: <EE02ECC0-4FA3-4A4E-8AEE-54DBF3B631D4@dominion.thruhere.net>
+References: <cover.1322731182.git.dexuan.cui@intel.com>
+	<f0005eed49592dca75bd49a1cfc043d8dc252b37.1322731182.git.dexuan.cui@intel.com>
+	<EE02ECC0-4FA3-4A4E-8AEE-54DBF3B631D4@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 1/3] make: expand MAKEFLAGS before we re-exec after rebuilding makefiles.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,50 +44,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2011 10:49:20 -0000
-X-Groupsio-MsgNum: 13405
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_38BBEF5D-CCC8-466D-92A2-D08796A7B7F5";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_38BBEF5D-CCC8-466D-92A2-D08796A7B7F5
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-Op 29 nov. 2011, om 22:25 heeft Koen Kooi het volgende geschreven:
-
-> The only thing that got lost in the conversion is the "Pulse Audio =
-daemon" description:
->=20
-> root@beagleboard:~# grep pulse /etc/passwd /etc/group
-> /etc/passwd:pulse:x:999:1000::/var/run/pulse:/bin/false
-> /etc/group:audio:x:29:pulse
-> /etc/group:pulse:x:1000:pulse
->=20
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-
-No objections in the past 2 days, so I guess it's ready to go in. I'll =
-send a rebased v2 in a minute.
-
-regards,
-
-Koen=
-
---Apple-Mail=_38BBEF5D-CCC8-466D-92A2-D08796A7B7F5
+X-List-Received-Date: Thu, 01 Dec 2011 10:51:14 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
+On Thu, 2011-12-01 at 10:22 +0100, Koen Kooi wrote:
+> Op 1 dec. 2011, om 10:21 heeft Dexuan Cui het volgende geschreven:
+> 
+> > This patch was got from the upstream cvs repo of make to fix the bug of
+> > make-3.82: http://savannah.gnu.org/bugs/?30723
+> > 
+> > Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+> > ---
+> > .../make/make-3.82/expand_MAKEFLAGS.patch          |   39 ++++++++++++++++++++
+> > meta/recipes-devtools/make/make_3.82.bb            |    4 ++-
+> > 2 files changed, 42 insertions(+), 1 deletions(-)
+> > create mode 100644 meta/recipes-devtools/make/make-3.82/expand_MAKEFLAGS.patch
+> > 
+> > diff --git a/meta/recipes-devtools/make/make-3.82/expand_MAKEFLAGS.patch b/meta/recipes-devtools/make/make-3.82/expand_MAKEFLAGS.patch
+> > new file mode 100644
+> > index 0000000..4184937
+> > --- /dev/null
+> > +++ b/meta/recipes-devtools/make/make-3.82/expand_MAKEFLAGS.patch
+> > @@ -0,0 +1,39 @@
+> > +Upstream-Status: Inappropriate [The fix is already in upstream cvs repo, but not in the stable release]
+> 
+> Isn't 'backport' a better description than 'inappropriate'?
 
-iEYEARECAAYFAk7XWhoACgkQMkyGM64RGpFI4wCdFEAgQ47yUbYBEIn6bT44/oMo
-5TIAoLVtbrOb9t+Wwtr9yW1houmldMzR
-=v+JM
------END PGP SIGNATURE-----
+Agreed, I've taken this patch but changed the patch status to backport.
 
---Apple-Mail=_38BBEF5D-CCC8-466D-92A2-D08796A7B7F5--
+Cheers,
+
+Richard
+
+
+
