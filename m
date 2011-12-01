@@ -1,31 +1,26 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>) id 1RW4T5-00027k-2W
+	(envelope-from <koen@dominion.thruhere.net>) id 1RW4pv-0002kp-R6
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Dec 2011 12:06:19 +0100
-Received: by bkbzv15 with SMTP id zv15so1529897bkb.6
+	Thu, 01 Dec 2011 12:29:55 +0100
+Received: by eaad13 with SMTP id d13so2039482eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Dec 2011 02:59:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=uhpW51jFcN0Zcdzb+YZIwaGnjXa6MGh/hKhrgv/JRLE=;
-	b=gzST54i73jokWKJ/QyWttno+ikofO02J3U5WyKil1ccuvK8TJVfn6EpEyoKGHYJT0s
-	U9F9s1HmZwhQegEBepfKry+qB3nZG/UrTA14wljwQARFfc+JCdy0lT5ehzCyl+z6lNrk
-	T2Lf68g8sN7HK7jxcd7kRFajWMOh05JM4HmEo=
-MIME-Version: 1.0
-Received: by 10.204.152.83 with SMTP id f19mr6775037bkw.90.1322737177905; Thu,
-	01 Dec 2011 02:59:37 -0800 (PST)
-Received: by 10.223.73.197 with HTTP; Thu, 1 Dec 2011 02:59:37 -0800 (PST)
-In-Reply-To: <528C3B90-90CF-48F7-AD32-0200B1F16F82@dominion.thruhere.net>
-References: <CAGiJk9dH=1aV-YFkcr8aAkNsMq+dM4625FuOJHF_et4bYBPA+A@mail.gmail.com>
-	<528C3B90-90CF-48F7-AD32-0200B1F16F82@dominion.thruhere.net>
-Date: Thu, 1 Dec 2011 11:59:37 +0100
-Message-ID: <CAGiJk9e1hij=EsWo8=nTmZxNjvptXMGjFRumKSJ3mKYf6-t3QA@mail.gmail.com>
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
+	Thu, 01 Dec 2011 03:23:14 -0800 (PST)
+Received: by 10.14.9.130 with SMTP id 2mr850515eet.201.1322738594650;
+	Thu, 01 Dec 2011 03:23:14 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id 58sm11792652eet.11.2011.12.01.03.23.12
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 01 Dec 2011 03:23:13 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Thu, 1 Dec 2011 12:23:08 +0100
+Message-Id: <95547EE2-9E3E-4FB6-AA2A-A9653029F971@dominion.thruhere.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: On-screen- / virtual-keyboard
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Coordinating inter-layer dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,74 +35,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2011 11:06:19 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 01 Dec 2011 11:29:55 -0000
+X-Groupsio-MsgNum: 13419
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_DD6682E9-BB66-4315-AFFC-72FF408384A0";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-2011/12/1 Koen Kooi <koen@dominion.thruhere.net>:
->
-> Op 1 dec. 2011, om 11:47 heeft Samuel Stirtzel het volgende geschreven:
->
->> Hi,
->> some devices like the Nokia N900 or the OpenPandora provide a hardware
->> keyboard,
->> other devices need USB keyboards to operate, but how could a user
->> input text into a touchscreen-only device?
->>
->>
->> #1. The situation
->>
->> Portable devices with a touchscreen usually provide virtual keyboards,
->> looking around in OE-dev and OE-Core,
->> there is illume-keyboard but i doubt it can be used with XFCE that easily.
->>
->> To tell the user that he has to buy a (small) hardware keyboard to use
->> a touchscreen device isn't an "appropriate" solution,
->> if you know what I mean ;)
->>
->>
->>
->> #2. What was already discovered
->>
->> There are plenty of virtual keyboards out there, for example:
->> -gok (gnome on-screen keyboard) [1]
->> -kvkbd (kde virtual keyboard) [2]
->> -illume-keyboard (e17 enlightenment on-screen-keyboard add-on) [3]
->> -onboard (generic on-screen keyboard) [4]
->> -(Qt) Colibri (in application virtual keyboard) [5]
->> -(Qt/Gtk2/Gtk3) Maliit (in application virtual keyboard) [6]
->
-> Don't forget matchbox-keyboard and matchbox-keyboard2 :)
+--Apple-Mail=_DD6682E9-BB66-4315-AFFC-72FF408384A0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-Right I forgot about it, sorry.
+Hi,
 
-So the new list is as follows:
+During the past month there have been a number of updates to OE-core =
+recipes that triggered parsing errors due to bbappend in other layers. A =
+small seleciton:
 
-#2. What was already discovered
+* netbase
+* libdrm
+* xserver-xorg
+* clutter
 
-There are plenty of virtual keyboards out there, for example:
--gok (gnome on-screen keyboard) [1]
--kvkbd (kde virtual keyboard) [2]
--illume-keyboard (e17 enlightenment on-screen-keyboard add-on) [3]
--onboard (generic on-screen keyboard) [4]
- -(Qt) Colibri (in application virtual keyboard) [5]
--(Qt/Gtk2/Gtk3) Maliit (in application virtual keyboard) [6]
--matchbox-keyboards (matchbox wm virtual keyboard) [7]
+My view is that layer maintainers need to keep an eye on potential =
+breakage and have updates ready when patches land into OE-core. Looking =
+back I can see that while the situation is improving a bit, it's still =
+not working. The problem with slow updates to layers is that (with my =
+angstrom hat on) users (and with my TI hat on) customers and coworkers =
+can't do builds without rm'ing the bbappends or disabling the layer.
 
-#5. Appendix
+This is bad for a number of reasons:
 
-[1] gok: http://www.gok.ca/
-[2] kvkbd: http://kde-apps.org/content/show.php?content=94374
-[3] illume: http://wiki.openmoko.org/wiki/Illume
-[4] onboard: https://launchpad.net/onboard
-[5] colibri: https://projects.developer.nokia.com/colibri (note: site
-currently in maintenance)
-[6] maliit: https://wiki.maliit.org/Main_Page
-[7] matchbox-keyboard: http://matchbox-project.org/ (note: the site
-seems to currently get reworked, so I got no direct link)
+1) It creates unmanaged local diffs
+2) it can cause PR to fluctuate back and forth if you rm is a bit =
+overzealous or if you disable the complete layer.
 
+My proposal is that OE-core recipe upgrades with known bbappends look =
+like this:
 
--- 
-Regards
-Samuel
+1) add new version with a warning about bbappends
+2) wait a N days (2 < N < 7)
+3) delete old version
 
+To avoid stressing out RP and Sau! I would strongly urge layer =
+maintainers to respond to recipe update patches with "I have a bbappend, =
+but my review process needs time, please use the above proposal" if you =
+need time to test and update  your bbappends.
 
+We're all human in the end and timezone differences aren't always =
+helping with these kinds of problems, so let's work together to minimize =
+parsing breakage.
+
+Related to that: Please include information on how to send patches =
+upstream in your layer/repo README. The meta-intel/emenlow lacks that =
+and the top level README doesn't mention that there are sublevel =
+READMEs.
+
+regards,
+
+Koen=
+
+--Apple-Mail=_DD6682E9-BB66-4315-AFFC-72FF408384A0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAk7XY58ACgkQMkyGM64RGpHj4ACghE9jsX6XWGY3jgdZx6FI/LW1
+HG0An2gZGJ8ubNBBQQHafuZupM0da4XT
+=SpmZ
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_DD6682E9-BB66-4315-AFFC-72FF408384A0--
