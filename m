@@ -1,40 +1,35 @@
-Received: from smtprelay-h22.telenor.se ([195.54.99.197])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <openembedded-core@emagii.com>) id 1RW9ee-00052U-DK
+	(envelope-from <kergoth@gmail.com>) id 1RW9lS-0005wm-QV
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Dec 2011 17:38:37 +0100
-Received: from ipb3.telenor.se (ipb3.telenor.se [195.54.127.166])
-	by smtprelay-h22.telenor.se (Postfix) with ESMTP id E8158DFC8
+	Thu, 01 Dec 2011 17:45:39 +0100
+Received: by iahk25 with SMTP id k25so2711755iah.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Dec 2011 17:31:54 +0100 (CET)
-X-SENDER-IP: [83.227.56.19]
-X-LISTENER: [smtp.bredband.net]
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: ArMcAKyr105T4zgTPGdsb2JhbAAMOKsRAQEBATeCJAEBAQEDAQEBawoRCxgJFg8JAwIBAgEVARsUBg0GAgEBiAu3f4sgBJI2giGSEw
-X-IronPort-AV: E=Sophos;i="4.71,279,1320620400"; d="scan'208,217";a="6548480"
-Received: from c-1338e353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
-	[10.175.196.235]) ([83.227.56.19])
-	by ipb3.telenor.se with ESMTP; 01 Dec 2011 17:31:54 +0100
-Message-ID: <4ED7ABF9.5000109@emagii.com>
-Date: Thu, 01 Dec 2011 17:31:53 +0100
-From: Ulf Samuelsson <openembedded-core@emagii.com>
-Organization: eMagii
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	Thu, 01 Dec 2011 08:38:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:subject
+	:content-type:content-transfer-encoding;
+	bh=i9/8QQA7/UHvTzhExZtCc8rr+EyoWJs6x7Ql/viS5ZY=;
+	b=lFc5sbm5XGTkFidIiW7GNkbPpqSauOHJRwHMCRNBZsatZs3w8XcXRv7BTA7x4AAi+x
+	S4ULy6t5ZlHAKiomXOvrDLB46wyifxDpN9WkeeLdn0xL/LvXMsrcOTfIULlWiouGNJAt
+	Ks7E7Lo0pFGwP2fzD36p91dp8LxaLqbVKDDiI=
+Received: by 10.42.153.5 with SMTP id k5mr4992071icw.46.1322757536378;
+	Thu, 01 Dec 2011 08:38:56 -0800 (PST)
+Received: from [192.168.1.101] (ip24-251-167-38.ph.ph.cox.net. [24.251.167.38])
+	by mx.google.com with ESMTPS id jm11sm23261791ibb.1.2011.12.01.08.38.54
+	(version=SSLv3 cipher=OTHER); Thu, 01 Dec 2011 08:38:55 -0800 (PST)
+Message-ID: <4ED7AD99.3060302@gmail.com>
+Date: Thu, 01 Dec 2011 08:38:49 -0800
+From: Christopher Larson <kergoth@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:8.0) Gecko/20111124 Thunderbird/8.0
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <4ED0CC76.4040606@emagii.com>
-	<1322579029.7964.0.camel@ted>	<4ED53438.9040903@emagii.com>
-	<7E3B66F1-28FC-45D4-BA89-193D9EA6DCA6@dominion.thruhere.net>
-	<4ED77E14.1080309@balister.org>
-	<878817F5-05C7-4749-BA0A-7ED04EE884BB@dominion.thruhere.net>
-In-Reply-To: <878817F5-05C7-4749-BA0A-7ED04EE884BB@dominion.thruhere.net>
-Subject: Re: Feedback on building openembedded-core for qemuarm. Excerpts from buildlog
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] lzop-1.03: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ulf@emagii.com, Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -45,221 +40,479 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2011 16:38:38 -0000
-Content-Type: multipart/alternative;
-	boundary="------------060408020901060109080608"
-
---------------060408020901060109080608
+X-List-Received-Date: Thu, 01 Dec 2011 16:45:39 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-2011-12-01 16:37, Koen Kooi skrev:
-> Op 1 dec. 2011, om 14:16 heeft Philip Balister het volgende geschreven:
->
->> On 11/29/2011 03:06 PM, Koen Kooi wrote:
->>> Op 29 nov. 2011, om 20:36 heeft Ulf Samuelsson het volgende geschreven:
->>>
->>>> On 2011-11-29 16:03, Richard Purdie wrote:
->>>>>> 2.    "ftp://elsie.nci.nih.gov/pub/tzcode2011i.tar.gz" is no longer
->>>>>> available.
->>>>>>          tzdata , same problem.
->>>>>>          The recipe is located in two places.
->>>>>>          meta-openembedded/meta-oe/recipes-extended/tz*/tz*.bb have the
->>>>>> problem
->>>>>>          This is what the build uses.
->>>>> This is something to raise with the meta-oe maintainers. I think there
->>>>> isn't a problem in OECore.
->>>> Since we now have a large number of layers, maybe it is a good
->>>> idea to define in each layer,  how the "git send email" should behave in
->>>> by providing a better ".git/config" file in the trunk?
->>>>
->>>>
->>>> I.E:
->>>>
->>>> [sendemail]
->>>>    to = openembedded-core@lists.openembedded.org
->>>>
->>>> or
->>>> meta-angstrom/.git/config
->>>> [sendemail]
->>>>    to = angstrom-distro-devel@linuxtogo.org
->>>> [format]
->>>>    subjectprefix = "[meta-angstrom]"
->>>>
->>>>
->>>> No need to look in the README file with this.
->>> That assumes git-send-email is the preferred way, which it isn;'t for a lot of layers
->> Even if it is not the preferred way, it would direct the discussion to
->> the appropriate list. This would reduce the number of mis-directed
->> emails to this list.
-> You can't fix stupid, sadly.
+This is needed by some kernels when CONFIG_KERNEL_LZO=y (specifically, given
+the current defconfig, this affects linux-omap4 2.6 in the meta-ti layer).
 
-Tend to disagree.
-The whole purpose of OE is to make it possible for people,
-stupid or not, to go off and make things which they would
-not be able to do on their own.
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+  meta/recipes-support/lzop/lzop/acinclude.m4 |  390 
++++++++++++++++++++++++++++
+  meta/recipes-support/lzop/lzop_1.03.bb      |   25 ++
+  2 files changed, 415 insertions(+), 0 deletions(-)
+  create mode 100644 meta/recipes-support/lzop/lzop/acinclude.m4
+  create mode 100644 meta/recipes-support/lzop/lzop_1.03.bb
 
-As I see it, it is no real drawback of adding this, and at least some 
-benefit.
-
-As for not beeing the preferred way, I think that people that engage 
-themselves
-in a layer should adopt the preferred way.
-
-Anyone seeing a bad layer, applicable only to a small subset of users,
-interfering with their build should not be expected
-to put a lof of effort into the fix, except reporting it.
-Then the mailing list is probably the easiest thing to use.
-
-If this is not there, expect them to send it to the official list.
-BR
-Ulf
-
-
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
-
+diff --git a/meta/recipes-support/lzop/lzop/acinclude.m4 
+b/meta/recipes-support/lzop/lzop/acinclude.m4
+new file mode 100644
+index 0000000..0029c19
+--- /dev/null
++++ b/meta/recipes-support/lzop/lzop/acinclude.m4
+@@ -0,0 +1,390 @@
++
++AC_DEFUN([mfx_ACC_CHECK_ENDIAN], [
++AC_C_BIGENDIAN([AC_DEFINE(ACC_ABI_BIG_ENDIAN,1,[Define to 1 if your 
+machine is big endian.])],[AC_DEFINE(ACC_ABI_LITTLE_ENDIAN,1,[Define to 
+1 if your machine is little endian.])])
++])#
++
++AC_DEFUN([mfx_ACC_CHECK_HEADERS], [
++AC_HEADER_TIME
++AC_CHECK_HEADERS([assert.h ctype.h dirent.h errno.h fcntl.h float.h 
+limits.h malloc.h memory.h setjmp.h signal.h stdarg.h stddef.h stdint.h 
+stdio.h stdlib.h string.h strings.h time.h unistd.h utime.h sys/stat.h 
+sys/time.h sys/types.h sys/wait.h])
++])#
++
++AC_DEFUN([mfx_ACC_CHECK_FUNCS], [
++AC_CHECK_FUNCS(access alloca atexit atoi atol chmod chown ctime 
+difftime fstat gettimeofday gmtime localtime longjmp lstat memcmp memcpy 
+memmove memset mktime qsort raise setjmp signal snprintf strcasecmp 
+strchr strdup strerror strftime stricmp strncasecmp strnicmp strrchr 
+strstr time umask utime vsnprintf)
++])#
++
++
++AC_DEFUN([mfx_ACC_CHECK_SIZEOF], [
++AC_CHECK_SIZEOF(short)
++AC_CHECK_SIZEOF(int)
++AC_CHECK_SIZEOF(long)
++
++AC_CHECK_SIZEOF(long long)
++AC_CHECK_SIZEOF(__int16)
++AC_CHECK_SIZEOF(__int32)
++AC_CHECK_SIZEOF(__int64)
++
++AC_CHECK_SIZEOF(void *)
++AC_CHECK_SIZEOF(size_t)
++AC_CHECK_SIZEOF(ptrdiff_t)
++])#
++
++
++# /***********************************************************************
++# // Check for ACC_conformance
++# ************************************************************************/
++
++AC_DEFUN([mfx_ACC_ACCCHK], [
++mfx_tmp=$1
++mfx_save_CPPFLAGS=$CPPFLAGS
++dnl in Makefile.in $(INCLUDES) will be before $(CPPFLAGS), so we mimic 
+this here
++test "X$mfx_tmp" = "X" || CPPFLAGS="$mfx_tmp $CPPFLAGS"
++
++AC_MSG_CHECKING([whether your compiler passes the ACC conformance test])
++
++AC_LANG_CONFTEST([AC_LANG_PROGRAM(
++[[#define ACC_CONFIG_NO_HEADER 1
++#include "acc/acc.h"
++#include "acc/acc_incd.h"
++#undef ACCCHK_ASSERT
++#define ACCCHK_ASSERT(expr)     ACC_COMPILE_TIME_ASSERT_HEADER(expr)
++#include "acc/acc_chk.ch"
++#undef ACCCHK_ASSERT
++static void test_acc_compile_time_assert(void) {
++#define ACCCHK_ASSERT(expr)     ACC_COMPILE_TIME_ASSERT(expr)
++#include "acc/acc_chk.ch"
++#undef ACCCHK_ASSERT
++}
++#undef NDEBUG
++#include <assert.h>
++static int test_acc_run_time_assert(int r) {
++#define ACCCHK_ASSERT(expr)     assert(expr);
++#include "acc/acc_chk.ch"
++#undef ACCCHK_ASSERT
++return r;
++}
++]], [[
++test_acc_compile_time_assert();
++if (test_acc_run_time_assert(1) != 1) return 1;
++]]
++)])
++
++mfx_tmp=FAILED
++_AC_COMPILE_IFELSE([], [mfx_tmp=yes])
++rm -f conftest.$ac_ext conftest.$ac_objext
++
++CPPFLAGS=$mfx_save_CPPFLAGS
++
++AC_MSG_RESULT([$mfx_tmp])
++case x$mfx_tmp in
++  xpassed | xyes) ;;
++  *)
++    AC_MSG_NOTICE([])
++    AC_MSG_NOTICE([Your compiler failed the ACC conformance test - for 
+details see ])
++    AC_MSG_NOTICE([`config.log'. Please check that log file and 
+consider sending])
++    AC_MSG_NOTICE([a patch or bug-report to <${PACKAGE_BUGREPORT}>.])
++    AC_MSG_NOTICE([Thanks for your support.])
++    AC_MSG_NOTICE([])
++    AC_MSG_ERROR([ACC conformance test failed. Stop.])
++dnl    AS_EXIT
++    ;;
++esac
++])# mfx_ACC_ACCCHK
++
++
++# /***********************************************************************
++# // Check for ACC_conformance
++# ************************************************************************/
++
++AC_DEFUN([mfx_MINIACC_ACCCHK], [
++mfx_tmp=$1
++mfx_save_CPPFLAGS=$CPPFLAGS
++dnl in Makefile.in $(INCLUDES) will be before $(CPPFLAGS), so we mimic 
+this here
++test "X$mfx_tmp" = "X" || CPPFLAGS="$mfx_tmp $CPPFLAGS"
++
++AC_MSG_CHECKING([whether your compiler passes the ACC conformance test])
++
++AC_LANG_CONFTEST([AC_LANG_PROGRAM(
++[[#define ACC_CONFIG_NO_HEADER 1
++#define ACC_WANT_ACC_INCD_H 1
++#include $2
++
++#define ACC_WANT_ACC_CHK_CH 1
++#undef ACCCHK_ASSERT
++#define ACCCHK_ASSERT(expr)     ACC_COMPILE_TIME_ASSERT_HEADER(expr)
++#include $2
++
++#define ACC_WANT_ACC_CHK_CH 1
++#undef ACCCHK_ASSERT
++#define ACCCHK_ASSERT(expr)     ACC_COMPILE_TIME_ASSERT(expr)
++static void test_acc_compile_time_assert(void) {
++#include $2
++}
++
++#undef NDEBUG
++#include <assert.h>
++#define ACC_WANT_ACC_CHK_CH 1
++#undef ACCCHK_ASSERT
++#define ACCCHK_ASSERT(expr)  assert(expr);
++static int test_acc_run_time_assert(int r) {
++#include $2
++return r;
++}
++]], [[
++test_acc_compile_time_assert();
++if (test_acc_run_time_assert(1) != 1) return 1;
++]]
++)])
++
++mfx_tmp=FAILED
++_AC_COMPILE_IFELSE([], [mfx_tmp=yes])
++rm -f conftest.$ac_ext conftest.$ac_objext
++
++CPPFLAGS=$mfx_save_CPPFLAGS
++
++AC_MSG_RESULT([$mfx_tmp])
++case x$mfx_tmp in
++  xpassed | xyes) ;;
++  *)
++    AC_MSG_NOTICE([])
++    AC_MSG_NOTICE([Your compiler failed the ACC conformance test - for 
+details see ])
++    AC_MSG_NOTICE([`config.log'. Please check that log file and 
+consider sending])
++    AC_MSG_NOTICE([a patch or bug-report to <${PACKAGE_BUGREPORT}>.])
++    AC_MSG_NOTICE([Thanks for your support.])
++    AC_MSG_NOTICE([])
++    AC_MSG_ERROR([ACC conformance test failed. Stop.])
++dnl    AS_EXIT
++    ;;
++esac
++])# mfx_MINIACC_ACCCHK
++
++
++
++# serial 1
++
++AC_DEFUN([mfx_PROG_CPPFLAGS], [
++AC_MSG_CHECKING([whether the C preprocessor needs special flags])
++
++AC_LANG_CONFTEST([AC_LANG_PROGRAM(
++[[#include <limits.h>
++#if (32767 >= 4294967295ul) || (65535u >= 4294967295ul)
++#  include "your C preprocessor is broken 1"
++#elif (0xffffu == 0xfffffffful)
++#  include "your C preprocessor is broken 2"
++#elif (32767 >= ULONG_MAX) || (65535u >= ULONG_MAX)
++#  include "your C preprocessor is broken 3"
++#endif
++]], [[ ]]
++)])
++
++mfx_save_CPPFLAGS=$CPPFLAGS
++mfx_tmp=ERROR
++for mfx_arg in "" -no-cpp-precomp
++do
++  CPPFLAGS="$mfx_arg $mfx_save_CPPFLAGS"
++  _AC_COMPILE_IFELSE([],
++[mfx_tmp=$mfx_arg
++break])
++done
++CPPFLAGS=$mfx_save_CPPFLAGS
++rm -f conftest.$ac_ext conftest.$ac_objext
++case x$mfx_tmp in
++  x)
++    AC_MSG_RESULT([none needed]) ;;
++  xERROR)
++    AC_MSG_RESULT([ERROR])
++    AC_MSG_ERROR([your C preprocessor is broken - for details see 
+config.log])
++    ;;
++  *)
++    AC_MSG_RESULT([$mfx_tmp])
++    CPPFLAGS="$mfx_tmp $CPPFLAGS"
++    ;;
++esac
++])# mfx_PROG_CPPFLAGS
++
++
++
++# serial 3
++
++AC_DEFUN([mfx_CHECK_HEADER_SANE_LIMITS_H], [
++AC_CACHE_CHECK([whether limits.h is sane],
++mfx_cv_header_sane_limits_h,
++[AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <limits.h>
++#if (32767 >= 4294967295ul) || (65535u >= 4294967295ul)
++#  if defined(__APPLE__) && defined(__GNUC__)
++#    error "your preprocessor is broken - use compiler option 
+-no-cpp-precomp"
++#  else
++#    include "your preprocessor is broken"
++#  endif
++#endif
++#define MFX_0xffff          0xffff
++#define MFX_0xffffffffL     4294967295ul
++#if !defined(CHAR_BIT) || (CHAR_BIT != 8)
++#  include "error CHAR_BIT"
++#endif
++#if !defined(UCHAR_MAX)
++#  include "error UCHAR_MAX 1"
++#endif
++#if !defined(USHRT_MAX)
++#  include "error USHRT_MAX 1"
++#endif
++#if !defined(UINT_MAX)
++#  include "error UINT_MAX 1"
++#endif
++#if !defined(ULONG_MAX)
++#  include "error ULONG_MAX 1"
++#endif
++#if !defined(SHRT_MAX)
++#  include "error SHRT_MAX 1"
++#endif
++#if !defined(INT_MAX)
++#  include "error INT_MAX 1"
++#endif
++#if !defined(LONG_MAX)
++#  include "error LONG_MAX 1"
++#endif
++#if (UCHAR_MAX < 1)
++#  include "error UCHAR_MAX 2"
++#endif
++#if (USHRT_MAX < 1)
++#  include "error USHRT_MAX 2"
++#endif
++#if (UINT_MAX < 1)
++#  include "error UINT_MAX 2"
++#endif
++#if (ULONG_MAX < 1)
++#  include "error ULONG_MAX 2"
++#endif
++#if (UCHAR_MAX < 0xff)
++#  include "error UCHAR_MAX 3"
++#endif
++#if (USHRT_MAX < MFX_0xffff)
++#  include "error USHRT_MAX 3"
++#endif
++#if (UINT_MAX < MFX_0xffff)
++#  include "error UINT_MAX 3"
++#endif
++#if (ULONG_MAX < MFX_0xffffffffL)
++#  include "error ULONG_MAX 3"
++#endif
++#if (USHRT_MAX > UINT_MAX)
++#  include "error USHRT_MAX vs UINT_MAX"
++#endif
++#if (UINT_MAX > ULONG_MAX)
++#  include "error UINT_MAX vs ULONG_MAX"
++#endif
++]], [[
++#if (USHRT_MAX == MFX_0xffff)
++{ typedef char a_short2a[1 - 2 * !(sizeof(short) == 2)]; }
++#elif (USHRT_MAX >= MFX_0xffff)
++{ typedef char a_short2b[1 - 2 * !(sizeof(short) > 2)]; }
++#endif
++#if (UINT_MAX == MFX_0xffff)
++{ typedef char a_int2a[1 - 2 * !(sizeof(int) == 2)]; }
++#elif (UINT_MAX >= MFX_0xffff)
++{ typedef char a_int2b[1 - 2 * !(sizeof(int) > 2)]; }
++#endif
++#if (ULONG_MAX == MFX_0xffff)
++{ typedef char a_long2a[1 - 2 * !(sizeof(long) == 2)]; }
++#elif (ULONG_MAX >= MFX_0xffff)
++{ typedef char a_long2b[1 - 2 * !(sizeof(long) > 2)]; }
++#endif
++#if (USHRT_MAX == MFX_0xffffffffL)
++{ typedef char a_short4a[1 - 2 * !(sizeof(short) == 4)]; }
++#elif (USHRT_MAX >= MFX_0xffffffffL)
++{ typedef char a_short4b[1 - 2 * !(sizeof(short) > 4)]; }
++#endif
++#if (UINT_MAX == MFX_0xffffffffL)
++{ typedef char a_int4a[1 - 2 * !(sizeof(int) == 4)]; }
++#elif (UINT_MAX >= MFX_0xffffffffL)
++{ typedef char a_int4b[1 - 2 * !(sizeof(int) > 4)]; }
++#endif
++#if (ULONG_MAX == MFX_0xffffffffL)
++{ typedef char a_long4a[1 - 2 * !(sizeof(long) == 4)]; }
++#elif (ULONG_MAX >= MFX_0xffffffffL)
++{ typedef char a_long4b[1 - 2 * !(sizeof(long) > 4)]; }
++#endif
++]])],
++[mfx_cv_header_sane_limits_h=yes],
++[mfx_cv_header_sane_limits_h=no])])
++])
++
++# /***********************************************************************
++# // standard
++# ************************************************************************/
++
++AC_DEFUN([mfx_LZO_CHECK_ENDIAN], [
++AC_C_BIGENDIAN([AC_DEFINE(LZO_ABI_BIG_ENDIAN,1,[Define to 1 if your 
+machine is big endian.])],[AC_DEFINE(LZO_ABI_LITTLE_ENDIAN,1,[Define to 
+1 if your machine is little endian.])])
++])#
++
++
++# /***********************************************************************
++# //
++# ************************************************************************/
++
++dnl more types which are not yet covered by ACC
++
++AC_DEFUN([mfx_CHECK_SIZEOF], [
++AC_CHECK_SIZEOF(__int32)
++AC_CHECK_SIZEOF(intmax_t)
++AC_CHECK_SIZEOF(uintmax_t)
++AC_CHECK_SIZEOF(intptr_t)
++AC_CHECK_SIZEOF(uintptr_t)
++
++AC_CHECK_SIZEOF(float)
++AC_CHECK_SIZEOF(double)
++AC_CHECK_SIZEOF(long double)
++
++AC_CHECK_SIZEOF(dev_t)
++AC_CHECK_SIZEOF(fpos_t)
++AC_CHECK_SIZEOF(mode_t)
++AC_CHECK_SIZEOF(off_t)
++AC_CHECK_SIZEOF(ssize_t)
++AC_CHECK_SIZEOF(time_t)
++])#
++
++
++
++AC_DEFUN([mfx_CHECK_LIB_WINMM], [
++if test "X$GCC" = Xyes; then
++case $host_os in
++cygwin* | mingw* | pw32*)
++     test "X$LIBS" != "X" && LIBS="$LIBS "
++     LIBS="${LIBS}-lwinmm" ;;
++*)
++     ;;
++esac
++fi
++])#
++
++#serial 6
++
++dnl From Paul Eggert.
++
++# Define ST_MTIM_NSEC to be the nanoseconds member of struct stat's 
+st_mtim,
++# if it exists.
++
++AC_DEFUN([AC_STRUCT_ST_MTIM_NSEC],
++ [AC_CACHE_CHECK([for nanoseconds member of struct stat.st_mtim],
++   ac_cv_struct_st_mtim_nsec,
++   [ac_save_CPPFLAGS="$CPPFLAGS"
++    ac_cv_struct_st_mtim_nsec=no
++    # tv_nsec -- the usual case
++    # _tv_nsec -- Solaris 2.6, if
++    #	(defined _XOPEN_SOURCE && _XOPEN_SOURCE_EXTENDED == 1
++    #	 && !defined __EXTENSIONS__)
++    # st__tim.tv_nsec -- UnixWare 2.1.2
++    for ac_val in tv_nsec _tv_nsec st__tim.tv_nsec; do
++      CPPFLAGS="$ac_save_CPPFLAGS -DST_MTIM_NSEC=$ac_val"
++      AC_TRY_COMPILE([#include <sys/types.h>
++#include <sys/stat.h>], [struct stat s; s.st_mtim.ST_MTIM_NSEC;],
++        [ac_cv_struct_st_mtim_nsec=$ac_val; break])
++    done
++    CPPFLAGS="$ac_save_CPPFLAGS"])
++
++  if test $ac_cv_struct_st_mtim_nsec != no; then
++    AC_DEFINE_UNQUOTED(ST_MTIM_NSEC, $ac_cv_struct_st_mtim_nsec,
++      [Define to be the nanoseconds member of struct stat's st_mtim,
++       if it exists.])
++  fi
++ ]
++)
+diff --git a/meta/recipes-support/lzop/lzop_1.03.bb 
+b/meta/recipes-support/lzop/lzop_1.03.bb
+new file mode 100644
+index 0000000..02a5590
+--- /dev/null
++++ b/meta/recipes-support/lzop/lzop_1.03.bb
+@@ -0,0 +1,25 @@
++inherit autotools
++
++SUMMARY = "Real-time file compressor"
++DESCRIPTION = "lzop is a compression utility which is designed to be a 
+companion to gzip. \n\
++It is based on the LZO data compression library and its main advantages 
+over \n\
++gzip are much higher compression and decompression speed at the cost of 
+some \n\
++compression ratio. The lzop compression utility was designed with the 
+goals \n\
++of reliability, speed, portability and with reasonable drop-in 
+compatibility \n\
++to gzip."
++DEPENDS += "lzo"
++PR = "r0"
++
++LICENSE = "GPLv2+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=dfeaf3dc4beef4f5a7bdbc35b197f39e \
++ 
+file://src/lzop.c;beginline=5;endline=21;md5=6797bd3ed0a1a49327b7ebf9366ebd86"
++
++SRC_URI = "http://www.lzop.org/download/${BP}.tar.gz \
++           file://acinclude.m4"
++
++do_configure () {
++    ln -sf ../acinclude.m4
++    autotools_do_configure
++}
++
++BBCLASSEXTEND += "native"
 -- 
-Best Regards
-Ulf Samuelsson
-eMagii
+1.7.7
 
 
---------------060408020901060109080608
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
 
-<html>
-  <head>
-    <meta content="text/html; charset=ISO-8859-1"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    2011-12-01 16:37, Koen Kooi skrev:
-    <blockquote
-      cite="mid:878817F5-05C7-4749-BA0A-7ED04EE884BB@dominion.thruhere.net"
-      type="cite">
-      <pre wrap="">
-Op 1 dec. 2011, om 14:16 heeft Philip Balister het volgende geschreven:
-
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">On 11/29/2011 03:06 PM, Koen Kooi wrote:
-</pre>
-        <blockquote type="cite">
-          <pre wrap="">
-Op 29 nov. 2011, om 20:36 heeft Ulf Samuelsson het volgende geschreven:
-
-</pre>
-          <blockquote type="cite">
-            <pre wrap="">On 2011-11-29 16:03, Richard Purdie wrote:
-</pre>
-            <blockquote type="cite">
-              <pre wrap="">
-</pre>
-              <blockquote type="cite">
-                <pre wrap="">2.    <a class="moz-txt-link-rfc2396E" href="ftp://elsie.nci.nih.gov/pub/tzcode2011i.tar.gz">"ftp://elsie.nci.nih.gov/pub/tzcode2011i.tar.gz"</a> is no longer
-available.
-        tzdata , same problem.
-        The recipe is located in two places.
-        meta-openembedded/meta-oe/recipes-extended/tz*/tz*.bb have the
-problem
-        This is what the build uses.
-</pre>
-              </blockquote>
-              <pre wrap="">This is something to raise with the meta-oe maintainers. I think there
-isn't a problem in OECore.
-</pre>
-            </blockquote>
-            <pre wrap="">
-Since we now have a large number of layers, maybe it is a good
-idea to define in each layer,  how the "git send email" should behave in
-by providing a better ".git/config" file in the trunk?
-
-
-I.E:
-
-[sendemail]
-  to = <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core@lists.openembedded.org">openembedded-core@lists.openembedded.org</a>
-
-or
-meta-angstrom/.git/config
-[sendemail]
-  to = <a class="moz-txt-link-abbreviated" href="mailto:angstrom-distro-devel@linuxtogo.org">angstrom-distro-devel@linuxtogo.org</a>
-[format]
-  subjectprefix = "[meta-angstrom]"
-
-
-No need to look in the README file with this.
-</pre>
-          </blockquote>
-          <pre wrap="">
-That assumes git-send-email is the preferred way, which it isn;'t for a lot of layers
-</pre>
-        </blockquote>
-        <pre wrap="">
-Even if it is not the preferred way, it would direct the discussion to
-the appropriate list. This would reduce the number of mis-directed
-emails to this list.
-</pre>
-      </blockquote>
-      <pre wrap="">
-You can't fix stupid, sadly.
-</pre>
-    </blockquote>
-    <br>
-    Tend to disagree.<br>
-    The whole purpose of OE is to make it possible for people,<br>
-    stupid or not, to go off and make things which they would<br>
-    not be able to do on their own.<br>
-    <br>
-    As I see it, it is no real drawback of adding this, and at least
-    some benefit.<br>
-    <br>
-    As for not beeing the preferred way, I think that people that engage
-    themselves<br>
-    in a layer should adopt the preferred way.<br>
-    <br>
-    Anyone seeing a bad layer, applicable only to a small subset of
-    users,<br>
-    interfering with their build should not be expected<br>
-    to put a lof of effort into the fix, except reporting it.<br>
-    Then the mailing list is probably the easiest thing to use.<br>
-    <br>
-    If this is not there, expect them to send it to the official list.<br>
-    BR<br>
-    Ulf<br>
-    <br>
-    <br>
-    <blockquote
-      cite="mid:878817F5-05C7-4749-BA0A-7ED04EE884BB@dominion.thruhere.net"
-      type="cite">
-      <pre wrap="">
-</pre>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-      <pre wrap="">_______________________________________________
-Openembedded-core mailing list
-<a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a>
-<a class="moz-txt-link-freetext" href="http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core</a>
-</pre>
-    </blockquote>
-    <br>
-    <br>
-    <br>
-    <pre class="moz-signature" cols="72">-- 
-Best Regards
-Ulf Samuelsson
-eMagii
-</pre>
-  </body>
-</html>
-
---------------060408020901060109080608--
