@@ -1,26 +1,28 @@
 Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RW4IM-0001Aa-Az
+	(envelope-from <koen@dominion.thruhere.net>) id 1RW4JY-0001Ds-1V
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Dec 2011 11:55:14 +0100
-Received: by faaa19 with SMTP id a19so955360faa.6
+	Thu, 01 Dec 2011 11:56:28 +0100
+Received: by faaa19 with SMTP id a19so955879faa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Dec 2011 02:48:33 -0800 (PST)
-Received: by 10.180.81.73 with SMTP id y9mr4474878wix.37.1322736513285;
-	Thu, 01 Dec 2011 02:48:33 -0800 (PST)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
-	by mx.google.com with ESMTPS id w8sm1464439wiz.4.2011.12.01.02.48.31
+	Thu, 01 Dec 2011 02:49:47 -0800 (PST)
+Received: by 10.180.88.106 with SMTP id bf10mr4461872wib.25.1322736586985;
+	Thu, 01 Dec 2011 02:49:46 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id o3sm262608wiy.14.2011.12.01.02.49.45
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 01 Dec 2011 02:48:32 -0800 (PST)
+	Thu, 01 Dec 2011 02:49:46 -0800 (PST)
 From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Dec 2011 11:48:25 +0100
-Message-Id: <1322736505-13901-2-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <1322736505-13901-1-git-send-email-koen@dominion.thruhere.net>
-References: <1322736505-13901-1-git-send-email-koen@dominion.thruhere.net>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 2/2] pulseaudio 1.1: add filter-apply and filter-heuristics to pulseaudio-server RDEPENDS, it won't start without
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Thu, 1 Dec 2011 11:49:44 +0100
+In-Reply-To: <CAGiJk9dH=1aV-YFkcr8aAkNsMq+dM4625FuOJHF_et4bYBPA+A@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <CAGiJk9dH=1aV-YFkcr8aAkNsMq+dM4625FuOJHF_et4bYBPA+A@mail.gmail.com>
+Message-Id: <528C3B90-90CF-48F7-AD32-0200B1F16F82@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: RFC: On-screen- / virtual-keyboard
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,41 +37,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2011 10:55:15 -0000
+X-List-Received-Date: Thu, 01 Dec 2011 10:56:28 -0000
+X-Groupsio-MsgNum: 13412
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_7AC34358-70A6-4F74-889A-DEE91562BB5D";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    2 ++
- .../pulseaudio/pulseaudio_1.1.bb                   |    2 +-
- 2 files changed, 3 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index 4170857..38ecba5 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -112,6 +112,8 @@ python populate_packages_prepend() {
- 
- RDEPENDS_pulseaudio-module-console-kit =+ "consolekit"
- RDEPENDS_pulseaudio-server = " \
-+    pulseaudio-module-filter-apply \
-+    pulseaudio-module-filter-heuristics \
-     pulseaudio-module-udev-detect \
-     pulseaudio-module-null-sink \
-     pulseaudio-module-device-restore \
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb
-index 7fa5799..4c8b46f 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb
-@@ -1,6 +1,6 @@
- require pulseaudio.inc
- 
--PR = "r3"
-+PR = "r4"
- 
- DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
- 
--- 
-1.7.2.5
+--Apple-Mail=_7AC34358-70A6-4F74-889A-DEE91562BB5D
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+Op 1 dec. 2011, om 11:47 heeft Samuel Stirtzel het volgende geschreven:
 
+> Hi,
+> some devices like the Nokia N900 or the OpenPandora provide a hardware
+> keyboard,
+> other devices need USB keyboards to operate, but how could a user
+> input text into a touchscreen-only device?
+> 
+> 
+> #1. The situation
+> 
+> Portable devices with a touchscreen usually provide virtual keyboards,
+> looking around in OE-dev and OE-Core,
+> there is illume-keyboard but i doubt it can be used with XFCE that easily.
+> 
+> To tell the user that he has to buy a (small) hardware keyboard to use
+> a touchscreen device isn't an "appropriate" solution,
+> if you know what I mean ;)
+> 
+> 
+> 
+> #2. What was already discovered
+> 
+> There are plenty of virtual keyboards out there, for example:
+> -gok (gnome on-screen keyboard) [1]
+> -kvkbd (kde virtual keyboard) [2]
+> -illume-keyboard (e17 enlightenment on-screen-keyboard add-on) [3]
+> -onboard (generic on-screen keyboard) [4]
+> -(Qt) Colibri (in application virtual keyboard) [5]
+> -(Qt/Gtk2/Gtk3) Maliit (in application virtual keyboard) [6]
+
+Don't forget matchbox-keyboard and matchbox-keyboard2 :)
+
+
+
+--Apple-Mail=_7AC34358-70A6-4F74-889A-DEE91562BB5D
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAk7XW8gACgkQMkyGM64RGpF+sgCdFq05F+xa6cUusIwJSRGfv7aH
+nYAAn1Cl4oyodEXuIRrJfE4ujCYb7Ez7
+=EKCz
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_7AC34358-70A6-4F74-889A-DEE91562BB5D--
