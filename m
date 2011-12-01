@@ -1,35 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RWE7I-0007FY-Lw for openembedded-core@lists.openembedded.org;
-	Thu, 01 Dec 2011 22:24:29 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB1LHcGX020292;
-	Thu, 1 Dec 2011 21:17:38 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 19509-06; Thu,  1 Dec 2011 21:17:33 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB1LHUnJ020286
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Thu, 1 Dec 2011 21:17:31 GMT
-Message-ID: <1322774259.14052.0.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1RWEQ3-0007us-1h
+	for openembedded-core@lists.openembedded.org;
+	Thu, 01 Dec 2011 22:43:51 +0100
+Received: by iahk25 with SMTP id k25so3068260iah.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 01 Dec 2011 13:37:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=HmplU9muWMrPhPqFH0c03GyQAG2NigJ0BNOx9JiOR1Q=;
+	b=AyZDiglkeLyx6j7L6ZLI9EVA+bkEjnpusXauUj8jx6CjkQjTv/IDn3FiWmTiOns8BI
+	hjiThHuKY3/akAvgIsDyo87s96EaBtHQUvTa8ndJLFJ8vPffdcGTiJHf5Dto+9Yz79/n
+	Ko+6bBvS/rLdai1iUg1IfZmFuJfCxoznYF9e8=
+Received: by 10.43.132.201 with SMTP id hv9mr10165512icc.42.1322775428641;
+	Thu, 01 Dec 2011 13:37:08 -0800 (PST)
+Received: from sakrah.homelinux.org
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
+	by mx.google.com with ESMTPS id wo4sm13925033igc.5.2011.12.01.13.37.06
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 01 Dec 2011 13:37:06 -0800 (PST)
+Date: Thu, 1 Dec 2011 13:45:13 -0800
+From: Khem Raj <raj.khem@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 01 Dec 2011 21:17:39 +0000
-In-Reply-To: <20111201173429.GC4447@mail.familie-heinold.de>
-References: <4EC24711.2010805@eukrea.com>
-	<CAOd_LFzLRF3VvbQqrGekjtLSvfyXHQHeKyd=QcnAUFQpaGg8uA@mail.gmail.com>
-	<1322743693.17484.120.camel@ted>
-	<CAOd_LFwOiy9hR0M9FjRE5xRdN-HLwQUpMsWqiNKppr6QjvjzKw@mail.gmail.com>
-	<4ED7A46E.2030603@emagii.com>
-	<20111201173429.GC4447@mail.familie-heinold.de>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: Reproducible build problem with BB_NUMBER_THREADS=8
+Message-ID: <20111201214513.GA9685@sakrah.homelinux.org>
+References: <cover.1322526931.git.nitin.a.kamble@intel.com>
+	<6b7fb8503d66ee4d4c3d43f3c368b8aa2d010add.1322526931.git.nitin.a.kamble@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <6b7fb8503d66ee4d4c3d43f3c368b8aa2d010add.1322526931.git.nitin.a.kamble@intel.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: [PATCH 1/4] binutils: upgrade from 2.21.1a to 2.22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,32 +45,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Dec 2011 21:24:29 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 01 Dec 2011 21:43:51 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 2011-12-01 at 18:34 +0100, Henning Heinold wrote:
-> > #	source='libcg_ba.cpp' object='libcg_ba.o' libtool=no 
-> > arm-angstrom-linux-gnueabi-g++  -march=armv5te  -mno-thumb -mthumb-interwork  -mtune=arm926ej-s -mthumb-interwork -mno-thumb --sysroot=/media/SSD/OE_core/setup-scripts/build/tmp-angstrom_2010_x-eglibc/sysroots/qemuarm -DHAVE_CONFIG_H -I. -I.. -I../include    -O2 -pipe -g -feliminate-unused-debug-types -fpermissive -fvisibility-inlines-hidden -fvisibility-inlines-hidden -c -o libcg_ba.o libcg_ba.cpp
-> > libcg_ba.cpp:18:18: fatal error: string: No such file or directory
-> > compilation terminated.
-> that does not look like the BB_THREAD bug.  It is more the wrong c++ include dir bug, when --sysroot is not used.
+On (28/11/11 16:36), nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble <nitin.a.kamble@intel.com>
 > 
-> Problem is in gcc-cross-configure.inc:
+> And rebase the patches to the newer source code
 > 
-> EXTRA_OECONF_PATHS = "--with-local-prefix=${STAGING_DIR_TARGET}${target_exec_prefix} \
->                       --with-gxx-include-dir=${target_includedir}/c++ \
+> This patch is upstream hence deleting it from the recipe.
+> 	binutils/110-arm-eabi-conf.patch
 > 
-> which results in c++ defaultheadersearchdir "...../usr/bin/usr/include/c++" and so the the string c++ header is not found.
+> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> ---
+>  meta/conf/distro/include/tcmode-default.inc        |    2 +-
+>  ..._2.21.1a.bb => binutils-cross-canadian_2.22.bb} |    2 +-
+>  ...ils-cross_2.21.1a.bb => binutils-cross_2.22.bb} |    0
+>  ...osssdk_2.21.1a.bb => binutils-crosssdk_2.22.bb} |    2 +-
+>  .../binutils/binutils/110-arm-eabi-conf.patch      |   24 -
+>  .../binutils/binutils-2.19.1-ld-sysroot.patch      |   10 +-
+>  .../binutils/binutils/binutils-poison.patch        |   84 ++-
+>  .../binutils/binutils/binutils-powerpc-e5500.patch |   52 +-
+>  .../binutils/binutils-uclibc-100-uclibc-conf.patch |   40 +-
+>  ...binutils-uclibc-300-001_ld_makefile_patch.patch |   16 +-
+>  ...binutils-uclibc-300-006_better_file_error.patch |    9 +-
+>  ...ils-uclibc-300-012_check_ldrunpath_length.patch |   12 +-
+>  .../binutils/binutils-uclibc-gas-needs-libm.patch  |   11 +-
+>  .../binutils/binutils-x86_64_i386_biarch.patch     |   10 +-
+>  .../binutils/binutils/clone-shadow.patch           |   18 +-
+>  .../binutils/binutils/libiberty_path_fix.patch     |    8 +-
+>  .../binutils/binutils/libtool-2.4-update.patch     |  803 ++++++++++----------
+>  .../binutils/binutils/libtool-rpath-fix.patch      |   11 +-
+>  .../{binutils_2.21.1a.bb => binutils_2.22.bb}      |    7 +-
+>  19 files changed, 543 insertions(+), 578 deletions(-)
+>  rename meta/recipes-devtools/binutils/{binutils-cross-canadian_2.21.1a.bb => binutils-cross-canadian_2.22.bb} (86%)
+>  rename meta/recipes-devtools/binutils/{binutils-cross_2.21.1a.bb => binutils-cross_2.22.bb} (100%)
+>  rename meta/recipes-devtools/binutils/{binutils-crosssdk_2.21.1a.bb => binutils-crosssdk_2.22.bb} (96%)
+>  delete mode 100644 meta/recipes-devtools/binutils/binutils/110-arm-eabi-conf.patch
+>  rename meta/recipes-devtools/binutils/{binutils_2.21.1a.bb => binutils_2.22.bb} (84%)
+> 
+> diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+> index ed722be..c22e7dc 100644
+> --- a/meta/conf/distro/include/tcmode-default.inc
+> +++ b/meta/conf/distro/include/tcmode-default.inc
+> @@ -18,7 +18,7 @@ PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
+>  
+>  GCCVERSION ?= "4.6%"
+>  SDKGCCVERSION ?= "4.6%"
+> -BINUVERSION ?= "2.21.1a"
+> +BINUVERSION ?= "2.22"
+>  EGLIBCVERSION ?= "2.13"
+>  UCLIBCVERSION ?= "0.9.32"
+>  LINUXLIBCVERSION ?= "3.1"
 
-but in the above, --sysroot is clearly being specified?
 
-I don't understand why it sometimes fails and sometimes does not :/
+What changes does 2.22 bring in, it would be nice to have a little
+summary e.g.
 
-Cheers,
+http://cygwin.com/ml/binutils/2011-08/msg00129.html
 
-Richard
+changes default behaviour of linker which needs some mention in such
+upgrades since it will bite many packages which dont have proper
+dependencies specified.
 
+And I think it would be better to leave the older release recipes in for a while
+for at least toolchain components while the new versions gets soaked
+in. Given now we have layers its better that way to give some time for
+other layers also to test the new version
+
+Thanks
+
+-Khem
 
 
 
