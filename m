@@ -1,29 +1,56 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from am1ehsobe004.messaging.microsoft.com ([213.199.154.207]
+	helo=AM1EHSOBE004.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RWWJw-000723-Eq
+	(envelope-from <B29882@freescale.com>) id 1RWWuk-0008Ac-MZ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Dec 2011 17:50:44 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 02 Dec 2011 08:44:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,284,1320652800"; d="scan'208";a="91607402"
-Received: from unknown (HELO [10.255.15.251]) ([10.255.15.251])
-	by fmsmga001.fm.intel.com with ESMTP; 02 Dec 2011 08:43:59 -0800
-Message-ID: <4ED9004F.8040409@linux.intel.com>
-Date: Fri, 02 Dec 2011 08:43:59 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
-MIME-Version: 1.0
+	Fri, 02 Dec 2011 18:28:46 +0100
+Received: from mail109-am1-R.bigfish.com (10.3.201.249) by
+	AM1EHSOBE004.bigfish.com (10.3.204.24) with Microsoft SMTP Server id
+	14.1.225.22; Fri, 2 Dec 2011 17:22:00 +0000
+Received: from mail109-am1 (localhost [127.0.0.1])	by
+	mail109-am1-R.bigfish.com (Postfix) with ESMTP id CE34850061A	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri,  2 Dec 2011 17:22:00 +0000 (UTC)
+X-SpamScore: -12
+X-BigFish: VS-12(z21eNz9371K98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-FB-SS: 13,
+Received: from mail109-am1 (localhost.localdomain [127.0.0.1]) by mail109-am1
+	(MessageSwitch) id 1322846520783391_30534;
+	Fri,  2 Dec 2011 17:22:00 +0000 (UTC)
+Received: from AM1EHSMHS016.bigfish.com (unknown [10.3.201.243])	by
+	mail109-am1.bigfish.com (Postfix) with ESMTP id AF08F340043	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri,  2 Dec 2011 17:22:00 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS016.bigfish.com
+	(10.3.207.154) with Microsoft SMTP Server (TLS) id 14.1.225.22;
+	Fri, 2 Dec 2011 17:21:58 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.83]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.01.0339.002; Fri, 2 Dec 2011 11:21:57 -0600
+From: McClintock Matthew-B29882 <B29882@freescale.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1322578833-9741-1-git-send-email-stefan@datenfreihafen.org>
-In-Reply-To: <1322578833-9741-1-git-send-email-stefan@datenfreihafen.org>
-Subject: Re: [PATCH] logrotate: Add dependency on popt lib.
+Thread-Topic: [OE-core] [PATCH 3/4] x11vnc: Upgrade to 0.9.13
+Thread-Index: AQHMsRbkJE9esUIF0ES5QwysDRlZJg==
+Date: Fri, 2 Dec 2011 17:21:57 +0000
+Message-ID: <CAEsOVNdALC9P7rqrDpo4upMiT_VX6BaE5nJY0c0OrkWW+Bmusg@mail.gmail.com>
+References: <cover.1322812458.git.edwin.zhai@intel.com>
+	<2fe1910927e5741631767ed3611e361749c75d3c.1322812458.git.edwin.zhai@intel.com>
+In-Reply-To: <2fe1910927e5741631767ed3611e361749c75d3c.1322812458.git.edwin.zhai@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH 3/4] x11vnc: Upgrade to 0.9.13
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -34,40 +61,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Dec 2011 16:50:44 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 02 Dec 2011 17:28:46 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <CE8E4D60F9297444B93F9517AC5716D2@freescale.net>
+Content-Transfer-Encoding: quoted-printable
 
-On 11/29/2011 07:00 AM, Stefan Schmidt wrote:
-> Without this logrotate may fail like this:
->   compilation terminated.
-> | config.c:9:18: fatal error: popt.h: No such file or directory
->
-> Signed-off-by: Stefan Schmidt<stefan@datenfreihafen.org>
-> ---
->   meta/recipes-extended/logrotate/logrotate_3.7.9.bb |    4 ++--
->   1 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-extended/logrotate/logrotate_3.7.9.bb b/meta/recipes-extended/logrotate/logrotate_3.7.9.bb
-> index b736593..8dc0504 100644
-> --- a/meta/recipes-extended/logrotate/logrotate_3.7.9.bb
-> +++ b/meta/recipes-extended/logrotate/logrotate_3.7.9.bb
-> @@ -2,9 +2,9 @@ DESCRIPTION = "Rotates, compresses, removes and mails system log files"
->   SECTION = "console/utils"
->   HOMEPAGE = "https://fedorahosted.org/releases/l/o/logrotate"
->   LICENSE = "GPLv2"
-> -PR = "r0"
-> +PR = "r1"
->
-> -DEPENDS="coreutils"
-> +DEPENDS="coreutils popt"
->
->   LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
->
-Merged into OE-Core
+On Fri, Dec 2, 2011 at 1:55 AM,  <edwin.zhai@intel.com> wrote:
+> -PR =3D "r2"
+> +PR =3D "r0"
 
-Thanks
+Isn't this wrong?
 
-	Sau!
+-M=
+
 
 
