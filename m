@@ -1,33 +1,20 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RWV8a-00040K-LX for openembedded-core@lists.openembedded.org;
-	Fri, 02 Dec 2011 16:34:56 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB2FSEkW031035
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 2 Dec 2011 15:28:14 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 30424-08 for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Dec 2011 15:28:05 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB2FS25Y031023
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 2 Dec 2011 15:28:03 GMT
-Message-ID: <1322839692.18900.30.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 02 Dec 2011 15:28:12 +0000
-In-Reply-To: <cover.1322796369.git.dexuan.cui@intel.com>
-References: <cover.1322796369.git.dexuan.cui@intel.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/3] 3 patches: lzo, libxfont, distro_tracking_fields.inc
+Received: from mga03.intel.com ([143.182.124.21])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <jiajun.xu@intel.com>) id 1RWV8p-00041o-Ob
+	for openembedded-core@lists.openembedded.org;
+	Fri, 02 Dec 2011 16:35:12 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 02 Dec 2011 07:27:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,284,1320652800"; d="scan'208";a="81549107"
+Received: from unknown (HELO localhost) ([10.239.48.201])
+	by azsmga001.ch.intel.com with ESMTP; 02 Dec 2011 07:27:21 -0800
+From: Jiajun Xu <jiajun.xu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  2 Dec 2011 23:48:37 +0800
+Message-Id: <cover.1322840490.git.jiajun.xu@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/3] ltp: Add recipe from OE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,27 +29,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Dec 2011 15:34:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 02 Dec 2011 15:35:12 -0000
 
-On Fri, 2011-12-02 at 11:26 +0800, Dexuan Cui wrote:
-> The following changes since commit 9d6790c4409dee4d08fe6a47450125c406d0ba32:
-> 
->   cooker.py: Allow the -e option to work with virtual classes and -b (2011-12-01 23:14:05 +0000)
-> 
-> are available in the git repository at:
->   git://git.pokylinux.org/poky-contrib dcui/distro
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dcui/distro
-> 
-> Dexuan Cui (3):
->   libxfont: remove the unused no-scalable-crash.patch
->   lzo: remove the uncessary autoconf.patch
->   distro_tracking_fields.inc: update the info
+The pull request is to address [YOCTO #1568] - "Add recipe for ltp/posix tests and automate test".
+ltp is ported from OE and updated to latest version(20110915). Testcases are installed 
+to ${D}/opt/ltp and POISX test suite is also copied into ${D}/opt/ltp/testcases folder. 
+Include ltp to testapps list.
 
-Merged to master, thanks.
+Note that some cases are removed from ltp since they depend on expect. Currently
+there is no expect recipe in OE and we will add it for enhancement next.
 
-Richard
+The following changes since commit e57935dc18d576feb1003b48e7cdc72a444131b8:
+
+  Revert "classes/buildhistory: add new output history collection class" (2011-12-01 23:00:52 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib jxu49/oe-contrib
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jxu49/oe-contrib
+
+Jiajun Xu (3):
+  ltp: Add recipe from OE
+  distro_tracking_fields: add information for ltp
+  task-core-tools: add ltp to testapps list
+
+ .../conf/distro/include/distro_tracking_fields.inc |    8 +++
+ meta/recipes-core/tasks/task-core-tools.bb         |    3 +-
+ meta/recipes-extended/ltp/ltp_20110915.bb          |   67 ++++++++++++++++++++
+ 3 files changed, 77 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-extended/ltp/ltp_20110915.bb
 
 
 
