@@ -1,24 +1,33 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from tritech.se ([46.59.120.190])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1RWOAm-0005qD-HK
+	(envelope-from <Mats.Karrman@tritech.se>) id 1RWOyQ-0007Kl-78
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Dec 2011 09:08:44 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 02 Dec 2011 00:00:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,282,1320652800"; d="scan'208";a="81422791"
-Received: from yocto-build3.sh.intel.com ([10.239.48.58])
-	by azsmga001.ch.intel.com with ESMTP; 02 Dec 2011 00:00:56 -0800
-From: edwin.zhai@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Dec 2011 15:55:58 +0800
-Message-Id: <a03cfe06e1b32332835aa707d183b7826955461a.1322812458.git.edwin.zhai@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1322812458.git.edwin.zhai@intel.com>
-References: <cover.1322812458.git.edwin.zhai@intel.com>
-In-Reply-To: <cover.1322812458.git.edwin.zhai@intel.com>
-References: <cover.1322812458.git.edwin.zhai@intel.com>
-Subject: [PATCH 4/4] distro-tracking: Update info after last upgrade
+	Fri, 02 Dec 2011 10:00:02 +0100
+Received: from post.tritech.se (post.tritech.se [10.75.60.100])
+	by tritech.se (8.14.3/8.14.3) with ESMTP id pB28ki5R005247
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 2 Dec 2011 09:46:49 +0100
+Received: from POST.tritech.se ([fe80::b4fc:968e:bbef:54cb]) by
+	post.tritech.se ([fe80::b4fc:968e:bbef:54cb%11]) with mapi id
+	14.01.0270.001; Fri, 2 Dec 2011 09:46:44 +0100
+From: =?iso-8859-1?Q?Mats_K=E4rrman?= <Mats.Karrman@tritech.se>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] Coordinating inter-layer dependencies
+Thread-Index: AQHMsGiFaImQ9oKiA02Wci/z9HMLkJXILfFk
+Date: Fri, 2 Dec 2011 08:46:43 +0000
+Message-ID: <ED3E0BCACD909541BA94A34C4A164D4C401A404C@post.tritech.se>
+References: <95547EE2-9E3E-4FB6-AA2A-A9653029F971@dominion.thruhere.net>
+	<20111201122407.GB19917@jama.jama.net> <1322743071.17484.119.camel@ted>
+	<CAP9ODKpnTxcRDJxZKe0bue4RDqydJ44TmEf0ukv43ATgBcDV7Q@mail.gmail.com>
+	<20111201130733.GF19917@jama.jama.net>, <1322771625.17484.149.camel@ted>
+In-Reply-To: <1322771625.17484.149.camel@ted>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [194.132.137.34]
+MIME-Version: 1.0
+Subject: Re: Coordinating inter-layer dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,158 +42,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Dec 2011 08:08:44 -0000
+X-List-Received-Date: Fri, 02 Dec 2011 09:00:02 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-From: Zhai Edwin <edwin.zhai@intel.com>
-
-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
----
- .../conf/distro/include/distro_tracking_fields.inc |   54 ++++++++++----------
- 1 files changed, 27 insertions(+), 27 deletions(-)
-
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 073521f..e254938 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -1093,14 +1093,14 @@ RECIPE_LATEST_RELEASE_DATE_pn-libuser = "Jan 01, 2011"
- RECIPE_COMMENTS_pn-libuser = ""
- 
- RECIPE_STATUS_pn-xz = "green"
--RECIPE_LAST_UPDATE_pn-xz = "Nov 19, 2010"
-+RECIPE_LAST_UPDATE_pn-xz = "Nov 29, 2011"
- RECIPE_MAINTAINER_pn-xz = "Zhai Edwin <edwin.zhai@intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-xz = "not done"
--RECIPE_LATEST_VERSION_pn-xz = "5.0.0"
-+RECIPE_LATEST_VERSION_pn-xz = "5.0.3"
- RECIPE_NO_OF_PATCHES_pn-xz = "0"
- RECIPE_INTEL_SECTION_pn-xz = "base utils"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-xz = "n/a"
--RECIPE_LATEST_RELEASE_DATE_pn-xz = "Oct 01, 2010"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-xz = "1 month"
-+RECIPE_LATEST_RELEASE_DATE_pn-xz = "May 21, 2011"
- RECIPE_COMMENTS_pn-xz = ""
- 
- RECIPE_STATUS_pn-bc = "green"
-@@ -1208,8 +1208,8 @@ RECIPE_MANUAL_CHECK_DATE_pn-dosfstools = "Nov 14, 2011"
- RECIPE_MAINTAINER_pn-dosfstools = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-eee-acpi-scripts = "green"
--RECIPE_LATEST_VERSION_pn-eee-acpi-scripts = "1.1.11+e224937ba51165e2a52252f9a113c8a82c01bb36"
--RECIPE_LAST_UPDATE_pn-eee-acpi-scripts = "Nov 28, 2010"
-+RECIPE_LATEST_VERSION_pn-eee-acpi-scripts = "1.1.12+9d4cdedca25b396405f8587f9c4fbf8229e041c2"
-+RECIPE_LAST_UPDATE_pn-eee-acpi-scripts = "Nov 29, 2011"
- RECIPE_MAINTAINER_pn-eee-acpi-scripts = "Zhai Edwin <edwin.zhai@intel.com>"
- DISTRO_PN_ALIAS_pn-eee-acpi-scripts = "Debian=eeepc-acpi-scripts Ubuntu=eeepc-acpi-scripts"
- 
-@@ -3254,15 +3254,15 @@ RECIPE_MAINTAINER_pn-gnome-terminal = "Zhai Edwin <edwin.zhai@intel.com>"
- 
- RECIPE_STATUS_pn-puzzles = "red"
- DISTRO_PN_ALIAS_pn-puzzles = "Debian=sgt-puzzles"
--RECIPE_LATEST_VERSION_pn-puzzles = "r9175"
-+RECIPE_LATEST_VERSION_pn-puzzles = "r9306"
- RECIPE_MANUAL_CHECK_DATE_pn-puzzles = "Nov 22, 2011"
- RECIPE_LAST_UPDATE_pn-puzzles = "May 31, 2011"
- RECIPE_MAINTAINER_pn-puzzles = "Zhai Edwin <edwin.zhai@intel.com>"
- DISTRO_PN_ALIAS_pn-puzzles = "Debian=sgt-puzzles Fedora=puzzles"
- 
- RECIPE_STATUS_pn-x11perf = "green"
--RECIPE_LATEST_VERSION_pn-x11perf = "1.5.2"
--RECIPE_LAST_UPDATE_pn-x11perf = "Nov 30, 2010"
-+RECIPE_LATEST_VERSION_pn-x11perf = "1.5.4"
-+RECIPE_LAST_UPDATE_pn-x11perf = "Nov 29, 2011"
- RECIPE_MAINTAINER_pn-x11perf = "Zhai Edwin <edwin.zhai@intel.com>"
- DISTRO_PN_ALIAS_pn-x11perf = "Fedora=xorg-x11-apps Ubuntu=x11-apps"
- 
-@@ -5109,13 +5109,13 @@ RECIPE_MAINTAINER_pn-dates = "Zhai Edwin <edwin.zhai@intel.com>"
- 
- RECIPE_STATUS_pn-libcroco = "green"
- RECIPE_DEPENDENCY_CHECK_pn-libcroco = "not done"
--RECIPE_LATEST_VERSION_pn-libcroco = "0.6.2"
-+RECIPE_LATEST_VERSION_pn-libcroco = "0.6.3"
- RECIPE_NO_OF_PATCHES_pn-libcroco = "1"
- RECIPE_INTEL_SECTION_pn-libcroco = "graphic UX"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libcroco = "35 months"
--RECIPE_LATEST_RELEASE_DATE_pn-libcroco = "Feb 01, 2009"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libcroco = "33 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-libcroco = "Nov 14, 2011"
- RECIPE_COMMENTS_pn-libcroco = ""
--RECIPE_LAST_UPDATE_pn-libcroco = "Jun 25, 2010"
-+RECIPE_LAST_UPDATE_pn-libcroco = "Nov 29, 2011"
- RECIPE_MAINTAINER_pn-libcroco = "Zhai Edwin <edwin.zhai@intel.com>"
- 
- RECIPE_STATUS_pn-leafpad = "green"
-@@ -5143,13 +5143,13 @@ RECIPE_MAINTAINER_pn-atk = "Zhai Edwin <edwin.zhai@intel.com>"
- RECIPE_STATUS_pn-gtk+ = "green"
- DISTRO_PN_ALIAS_pn-gtk+ = "Meego=gtk2 Fedora=gtk2 OpenSuSE=gtk2 Ubuntu=gtk+2.0 Mandriva=gtk+2.0 Debian=gtk+2.0"
- RECIPE_DEPENDENCY_CHECK_pn-gtk+ = "not done"
--RECIPE_LATEST_VERSION_pn-gtk+ = "2.22.1"
-+RECIPE_LATEST_VERSION_pn-gtk+ = "2.24.8"
- RECIPE_NO_OF_PATCHES_pn-gtk+ = "0"
- RECIPE_INTEL_SECTION_pn-gtk+ = "graphic UX"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-gtk+ = "2 months"
--RECIPE_LATEST_RELEASE_DATE_pn-gtk+ = "Nov 01, 2010"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-gtk+ = "1 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-gtk+ = "Nov 10, 2011"
- RECIPE_COMMENTS_pn-gtk+ = ""
--RECIPE_LAST_UPDATE_pn-gtk+ = "Jan 24, 2011"
-+RECIPE_LAST_UPDATE_pn-gtk+ = "Nov 29, 2011"
- RECIPE_NO_UPDATE_REASON_pn-gtk+ = "Do not upgrade to version: 2.99.2 because prefer stable tree"
- RECIPE_MAINTAINER_pn-gtk+ = "Zhai Edwin <edwin.zhai@intel.com>"
- 
-@@ -5199,14 +5199,14 @@ RECIPE_MAINTAINER_pn-gnome-common = "Zhai Edwin <edwin.zhai@intel.com>"
- RECIPE_STATUS_pn-webkit-gtk = "green"
- DISTRO_PN_ALIAS_pn-webkit-gtk = "Fedora=webkitgtk"
- RECIPE_DEPENDENCY_CHECK_pn-webkit-gtk = "not done"
--RECIPE_LATEST_VERSION_pn-webkit-gtk = "1.3.7+svnr89887"
--RECIPE_MANUAL_CHECK_DATE_pn-webkit-gtk = "Jun 28, 2011"
-+RECIPE_LATEST_VERSION_pn-webkit-gtk = "1.6.1+svnr101367"
-+RECIPE_MANUAL_CHECK_DATE_pn-webkit-gtk = "Dec 2, 2011"
- RECIPE_NO_OF_PATCHES_pn-webkit-gtk = "1"
- RECIPE_INTEL_SECTION_pn-webkit-gtk = "graphic UX"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-webkit-gtk = "1 month"
- RECIPE_LATEST_RELEASE_DATE_pn-webkit-gtk = "Jun 01, 2011"
- RECIPE_COMMENTS_pn-webkit-gtk = ""
--RECIPE_LAST_UPDATE_pn-webkit-gtk = "Jan 14, 2011"
-+RECIPE_LAST_UPDATE_pn-webkit-gtk = "Jul 11, 2011"
- RECIPE_MAINTAINER_pn-webkit-gtk = "Zhai Edwin <edwin.zhai@intel.com>"
- DISTRO_PN_ALIAS_pn-webkit-gtk = "Fedora=webkitgtk Ubuntu=libwebkit"
- 
-@@ -5296,13 +5296,13 @@ RECIPE_MAINTAINER_pn-libglade = "Zhai Edwin <edwin.zhai@intel.com>"
- RECIPE_STATUS_pn-libsoup-2.4 = "green"
- DISTRO_PN_ALIAS_pn-libsoup-2.4 = "Meego=libsoup Fedora=libsoup OpenSuSE=libsoup Ubuntu=libsoup2.4 Mandriva=libsoup Debian=libsoup2.4"
- RECIPE_DEPENDENCY_CHECK_pn-libsoup-2.4 = "not done"
--RECIPE_LATEST_VERSION_pn-libsoup-2.4 = "2.34.2"
-+RECIPE_LATEST_VERSION_pn-libsoup-2.4 = "2.36.1"
- RECIPE_NO_OF_PATCHES_pn-libsoup-2.4 = "0"
- RECIPE_INTEL_SECTION_pn-libsoup-2.4 = "graphic UX"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libsoup-2.4 = "1 month"
--RECIPE_LATEST_RELEASE_DATE_pn-libsoup-2.4 = "Aug 01, 2011"
-+RECIPE_LATEST_RELEASE_DATE_pn-libsoup-2.4 = "Oct 18, 2011"
- RECIPE_COMMENTS_pn-libsoup-2.4 = ""
--RECIPE_LAST_UPDATE_pn-libsoup-2.4 = "Jul 28, 2011"
-+RECIPE_LAST_UPDATE_pn-libsoup-2.4 = "Nov 29, 2011"
- RECIPE_MAINTAINER_pn-libsoup-2.4 = "Zhai Edwin <edwin.zhai@intel.com>"
- 
- RECIPE_STATUS_pn-libxslt = "green"
-@@ -5552,12 +5552,12 @@ RECIPE_MAINTAINER_pn-metacity = "Zhai Edwin <edwin.zhai@intel.com>"
- 
- RECIPE_STATUS_pn-polkit-gnome = "green"
- RECIPE_DEPENDENCY_CHECK_pn-polkit-gnome = "not done"
--RECIPE_LATEST_VERSION_pn-polkit-gnome = "0.99"
-+RECIPE_LATEST_VERSION_pn-polkit-gnome = "0.102"
- RECIPE_INTEL_SECTION_pn-polkit-gnome = "base utils"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-polkit-gnome = "1 months"
--RECIPE_LATEST_RELEASE_DATE_pn-polkit-gnome = "Sep 15, 2010"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-polkit-gnome = "5 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-polkit-gnome = "Aug 16, 2011"
- RECIPE_COMMENTS_pn-polkit-gnome = ""
--RECIPE_LAST_UPDATE_pn-polkit-gnome = "Nov 18, 2010"
-+RECIPE_LAST_UPDATE_pn-polkit-gnome = "Nov 29, 2011"
- RECIPE_MAINTAINER_pn-polkit-gnome = "Zhai Edwin <edwin.zhai@intel.com>"
- 
- RECIPE_STATUS_pn-pong-clock = "red"
--- 
-1.7.1
-
+> From: openembedded-core-bounces@lists.openembedded.org [openembedded-core=
+-bounces@lists.openembedded.org] on behalf of Richard Purdie [richard.purdi=
+e@linuxfoundation.org]=0A=
+> Sent: Thursday, December 01, 2011 9:33 PM=0A=
+> To: Patches and discussions about the oe-core layer=0A=
+> Subject: Re: [OE-core] Coordinating inter-layer dependencies=0A=
+> =0A=
+> On Thu, 2011-12-01 at 14:07 +0100, Martin Jansa wrote:=0A=
+> > On Thu, Dec 01, 2011 at 10:59:03AM -0200, Otavio Salvador wrote:=0A=
+> > > On Thu, Dec 1, 2011 at 10:37, Richard Purdie <=0A=
+> > > richard.purdie@linuxfoundation.org> wrote:=0A=
+> > >=0A=
+> > > > On Thu, 2011-12-01 at 13:24 +0100, Martin Jansa wrote:=0A=
+> > > > > A while back I've proposed to make .bbappend without correspondin=
+g .bb=0A=
+> > > > > only big fat warning, but not fatal to parse. Now you cannot even=
+ build=0A=
+> > > > > eglibc if there is libdrm bbappend you don't care at all about..=
+=0A=
+> > > >=0A=
+> > > > You can do this by setting:=0A=
+> > > >=0A=
+> > > > BB_DANGLINGAPPENDS_WARNONLY=0A=
+> > > >=0A=
+> > >=0A=
+> > > This is even worse; you end up with a package without the changes don=
+e on=0A=
+> > > the bbappend and as most bbappend files do not change PR, adding it l=
+ater=0A=
+> > > won't force a package update.=0A=
+> >=0A=
+> > If we find a way to allow PRINC in multiple bbappends for same .bb then=
+=0A=
+> > we can say that every .bbappend should use PRINC.=0A=
+> >=0A=
+> > For record I'll include my discussion about PRINC with RP and kergoth:=
+=0A=
+> > 10:47 < JaMa> RP__: is there any way to improve PRINC concept to allow =
+multiple increments for same recipe while parsing multiple layers?=0A=
+> > 10:48 < RP__> JaMa: PRINC_append =3D ".1" ?=0A=
+> > 10:49 < JaMa> RP__: ie when meta-openmoko sets PRINC =3D "1" and meta-s=
+hr sets PRINC =3D "2" then if you're unlucky meta-openmoko is parsed later =
+and bumping PRINC in meta-shr won't help=0A=
+> > 10:49 < RP__> JaMa: I wonder if you could do PRINC :=3D "${PRINC + 1}"=
+=0A=
+> > 10:50 < JaMa> and do we have default PRINC =3D 0 somewhere?=0A=
+> > 10:50 < RP__> JaMa: you might need to add that=0A=
+> > 10:50 < JaMa> ok, I'll try this, thanks=0A=
+> > 10:51 < JaMa> currently I'm moving PRINC only to meta-shr layer.. but t=
+hat breaks stuff if someone is using any BSP layer from meta-smartphone..=
+=0A=
+> >=0A=
+> > 14:53 < JaMa> RP__: btw that PRINC trick didn't work (int type didn't l=
+ike expresion :/)=0A=
+> > 15:13 < RP__> JaMa: ah, try PRINC :=3D "${int(PRINC) + 1}"=0A=
+> > 15:21 < JaMa> RP__: still ValueError: invalid literal for int() with ba=
+se 10: '${int(PRINC) + 1}'=0A=
+> > 15:21 < JaMa> with added PRINC :=3D 0 to bitbake.conf=0A=
+> > 15:22 < RP__> PRINC :=3D "${int(d.getVar(PRINC)) + 1}" ? :/=0A=
+> > 15:22 < JaMa> whole log http://paste.pocoo.org/show/514437/=0A=
+> > 15:22  * RP__ was trying to be too clever I suspect=0A=
+> > 15:23 < JaMa> ValueError: invalid literal for int() with base 10: '${in=
+t(d.getVar(PRINC)) + 1}'=0A=
+> > 15:41 < kergoth> PRINC is unquoted there, so it tries to get a value fo=
+r a key of None=0A=
+> > 16:24 < RP__> kergoth: right, trying to do too many things at once :/=
+=0A=
+> > 16:24 < RP__> kergoth: any thoughts on that knotty change to add the fo=
+oter?=0A=
+> > 17:05 < JaMa> kergoth: something like this? ValueError: invalid literal=
+ for int() with base 10: "${int(d.getVar('PRINC')) + 1}"=0A=
+> >=0A=
+> > Maybe someone else has better idea?=0A=
+> =0A=
+> Looking at that I was missing something obvious. Try:=0A=
+> =0A=
+> PRINC :=3D "${@int(PRINC) + 1}"=0A=
+> =0A=
+> Cheers,=0A=
+> =0A=
+> Richard=0A=
+> =0A=
+=0A=
+As I understand it, the PRINC increases the PR of the appended recipe. Then=
+ the resulting package will have a version that is the same as "the next" v=
+ersion of the base recipe. Since many people (me included) hardly remember =
+what they did a month ago, isn't there a big risk of confusion in your depl=
+oyed systems if packages are upgraded there?=0A=
+=0A=
+I do something like  PR .=3D ".local0"  where "local" is the name of the la=
+yer containing the .bbappend.=0A=
+Of course this will create extensive version strings if multiple .bbappends=
+ are applied but the alternative is that you have no idea what layers that =
+appended and what the the base version of the recipe really was.=0A=
+=0A=
+// Mats=0A=
 
 
