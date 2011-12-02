@@ -1,25 +1,25 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1RWZhA-0002KN-EZ
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RWZhB-0002KL-6P
 	for openembedded-core@lists.openembedded.org;
 	Fri, 02 Dec 2011 21:26:57 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
 	by azsmga102.ch.intel.com with ESMTP; 02 Dec 2011 12:20:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,285,1320652800"; d="scan'208";a="43396283"
+X-IronPort-AV: E=Sophos;i="4.71,285,1320652800"; d="scan'208";a="43396284"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
-	by AZSMGA002.ch.intel.com with ESMTP; 02 Dec 2011 12:20:11 -0800
+	by AZSMGA002.ch.intel.com with ESMTP; 02 Dec 2011 12:20:12 -0800
 From: nitin.a.kamble@intel.com
 To: hjl.tools@gmail.com,
 	openembedded-core@lists.openembedded.org
-Date: Fri,  2 Dec 2011 12:20:01 -0800
-Message-Id: <d34dc8aff5aafa1aceb9cceb8d06b5b4eff1a675.1322856805.git.nitin.a.kamble@intel.com>
+Date: Fri,  2 Dec 2011 12:20:02 -0800
+Message-Id: <394a7e8600d83b69623bf9e07a933e2d1035e4b2.1322856805.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <a92d45d71d2d4aec2774e8feb23fcfdffaa8b2bc.1322856805.git.nitin.a.kamble@intel.com>
 References: <a92d45d71d2d4aec2774e8feb23fcfdffaa8b2bc.1322856805.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1322856805.git.nitin.a.kamble@intel.com>
 References: <cover.1322856805.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 03/11] openssl-1.0.0e: fix to wotk with x32 toolchain
+Subject: [PATCH 04/11] gmp: fix the recipe for x32 target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,176 +38,188 @@ X-List-Received-Date: Fri, 02 Dec 2011 20:26:57 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Add BN_ADDR for address type instead of using BN_ULONG or unsigned long:
-   1. For W64, address type is unsigned long long, not unsigned long.
-   2. For x32, address type is unsigned long , not BN_ULONG.
-
-Added a new targetlinux-x32 in the config file
-
-The do_install() code to move lib/* to lib64 is not needed now with the
-enhanced multilib support.
-
-Make the x86-64 assembly syntax compatible with x32 compiler.
+Add support for building with x32 toolchain.
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 ---
- .../openssl-1.0.0e/openssl_fix_for_x32.patch       |   90 ++++++++++++++++++++
- meta/recipes-connectivity/openssl/openssl.inc      |   15 ++--
- .../recipes-connectivity/openssl/openssl_1.0.0e.bb |    3 +-
- 3 files changed, 98 insertions(+), 10 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.0e/openssl_fix_for_x32.patch
+ meta/recipes-support/gmp/gmp/gmp_bugfix.patch      |   94 ++++++++++++++++++++
+ meta/recipes-support/gmp/gmp/gmp_fix_for_x32.patch |   45 +++++++++
+ meta/recipes-support/gmp/gmp_5.0.2.bb              |    6 +-
+ 3 files changed, 143 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-support/gmp/gmp/gmp_bugfix.patch
+ create mode 100644 meta/recipes-support/gmp/gmp/gmp_fix_for_x32.patch
 
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0e/openssl_fix_for_x32.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0e/openssl_fix_for_x32.patch
+diff --git a/meta/recipes-support/gmp/gmp/gmp_bugfix.patch b/meta/recipes-support/gmp/gmp/gmp_bugfix.patch
 new file mode 100644
-index 0000000..10de986
+index 0000000..a96136f
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl-1.0.0e/openssl_fix_for_x32.patch
-@@ -0,0 +1,90 @@
++++ b/meta/recipes-support/gmp/gmp/gmp_bugfix.patch
+@@ -0,0 +1,94 @@
 +UpstreamStatus: Pending
 +
-+Received from H J Liu @ Intel
-+Make the assembly syntax compatible with x32 gcc. Othewise x32 gcc throws errors.
-+Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com> 2011/07/13
++When LONG_MIN is passed to val, -val is undefined.  This patch fixes
++it.  See for details: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=50066
 +
-+ported the patch to the 1.0.0e version
++Received this patch from H.J. Lu <hjl.tools@gmail.com>
++
 +Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com> 2011/12/01
-+Index: openssl-1.0.0e/Configure
-+===================================================================
-+--- openssl-1.0.0e.orig/Configure
-++++ openssl-1.0.0e/Configure
-+@@ -393,6 +393,7 @@ my %table=(
-+ "linux-ia64-ecc","ecc:-DL_ENDIAN -DTERMIO -O2 -Wall -no_cpprt::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC4_CHUNK DES_INT:${ia64_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-+ "linux-ia64-icc","icc:-DL_ENDIAN -DTERMIO -O2 -Wall -no_cpprt::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC4_CHUNK DES_RISC1 DES_INT:${ia64_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-+ "linux-x86_64",	"gcc:-m64 -DL_ENDIAN -DTERMIO -O3 -Wall -DMD32_REG_T=int::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC4_CHUNK DES_INT DES_UNROLL:${x86_64_asm}:elf:dlfcn:linux-shared:-fPIC:-m64:.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR):::64",
-++"linux-x32",	"gcc:-DL_ENDIAN 	-DTERMIO -O2 -pipe -g -feliminate-unused-debug-types -Wall -DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT RC4_CHUNK DES_INT DES_UNROLL:${x86_64_asm}:elf:dlfcn:linux-shared:-fPIC:-mx32:.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-+ "linux-s390x",	"gcc:-m64 -DB_ENDIAN -DTERMIO -O3 -Wall::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL:${s390x_asm}:dlfcn:linux-shared:-fPIC:-m64:.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR):::64",
-+ #### SPARC Linux setups
-+ # Ray Miller <ray.miller@computing-services.oxford.ac.uk> has patiently
-+Index: openssl-1.0.0e/crypto/bn/asm/x86_64-gcc.c
-+===================================================================
-+--- openssl-1.0.0e.orig/crypto/bn/asm/x86_64-gcc.c
-++++ openssl-1.0.0e/crypto/bn/asm/x86_64-gcc.c
-+@@ -55,7 +55,7 @@
-+  *    machine.
-+  */
++
++--- gmp-4.3.2/mpf/iset_si.c.ll	2010-01-07 12:09:03.000000000 -0800
+++++ gmp-4.3.2/mpf/iset_si.c	2011-11-30 16:42:35.827944358 -0800
++@@ -31,7 +31,7 @@ mpf_init_set_si (mpf_ptr r, long int val
++   r->_mp_prec = prec;
++   r->_mp_d = (mp_ptr) (*__gmp_allocate_func) ((prec + 1) * BYTES_PER_MP_LIMB);
 + 
-+-#ifdef _WIN64
-++#if defined _WIN64 || !defined __LP64__
-+ #define BN_ULONG unsigned long long
-+ #else
-+ #define BN_ULONG unsigned long
-+@@ -192,9 +192,9 @@ BN_ULONG bn_add_words (BN_ULONG *rp, con
-+ 	asm (
-+ 	"	subq	%2,%2		\n"
-+ 	".p2align 4			\n"
-+-	"1:	movq	(%4,%2,8),%0	\n"
-+-	"	adcq	(%5,%2,8),%0	\n"
-+-	"	movq	%0,(%3,%2,8)	\n"
-++	"1:	movq	(%q4,%2,8),%0	\n"
-++	"	adcq	(%q5,%2,8),%0	\n"
-++	"	movq	%0,(%q3,%2,8)	\n"
-+ 	"	leaq	1(%2),%2	\n"
-+ 	"	loop	1b		\n"
-+ 	"	sbbq	%0,%0		\n"
-+@@ -215,9 +215,9 @@ BN_ULONG bn_sub_words (BN_ULONG *rp, con
-+ 	asm (
-+ 	"	subq	%2,%2		\n"
-+ 	".p2align 4			\n"
-+-	"1:	movq	(%4,%2,8),%0	\n"
-+-	"	sbbq	(%5,%2,8),%0	\n"
-+-	"	movq	%0,(%3,%2,8)	\n"
-++	"1:	movq	(%q4,%2,8),%0	\n"
-++	"	sbbq	(%q5,%2,8),%0	\n"
-++	"	movq	%0,(%q3,%2,8)	\n"
-+ 	"	leaq	1(%2),%2	\n"
-+ 	"	loop	1b		\n"
-+ 	"	sbbq	%0,%0		\n"
-+Index: openssl-1.0.0e/crypto/bn/bn.h
-+===================================================================
-+--- openssl-1.0.0e.orig/crypto/bn/bn.h
-++++ openssl-1.0.0e/crypto/bn/bn.h
-+@@ -172,6 +172,13 @@ extern "C" {
-+ # endif
-+ #endif
++-  vl = (mp_limb_t) (unsigned long int) (val >= 0 ? val : -val);
+++  vl = (mp_limb_t) (val >= 0 ? (unsigned long int) val : -(unsigned long int) val);
 + 
-++/* Address type.  */
-++#ifdef _WIN64
-++#define BN_ADDR unsigned long long
-++#else
-++#define BN_ADDR unsigned long
-++#endif
++   r->_mp_d[0] = vl & GMP_NUMB_MASK;
++   size = vl != 0;
++--- gmp-4.3.2/mpf/set_si.c.ll	2010-01-07 12:09:03.000000000 -0800
+++++ gmp-4.3.2/mpf/set_si.c	2011-11-30 16:42:47.823878367 -0800
++@@ -27,7 +27,7 @@ mpf_set_si (mpf_ptr dest, long val)
++   mp_size_t size;
++   mp_limb_t vl;
++ 
++-  vl = (mp_limb_t) (unsigned long int) (val >= 0 ? val : -val);
+++  vl = (mp_limb_t) (val >= 0 ? (unsigned long int) val : -(unsigned long int) val);
++ 
++   dest->_mp_d[0] = vl & GMP_NUMB_MASK;
++   size = vl != 0;
++--- gmp-4.3.2/mpz/cmp_si.c.ll	2010-01-07 12:09:03.000000000 -0800
+++++ gmp-4.3.2/mpz/cmp_si.c	2011-11-30 13:44:25.923319700 -0800
++@@ -27,7 +27,7 @@ _mpz_cmp_si (mpz_srcptr u, signed long i
++ {
++   mp_size_t usize = u->_mp_size;
++   mp_size_t vsize;
++-  mp_limb_t u_digit;
+++  mp_limb_t u_digit, vl_digit;
++ 
++ #if GMP_NAIL_BITS != 0
++   /* FIXME.  This isn't very pretty.  */
++@@ -41,11 +41,14 @@ _mpz_cmp_si (mpz_srcptr u, signed long i
++ 
++   vsize = 0;
++   if (v_digit > 0)
++-    vsize = 1;
+++    {
+++      vsize = 1;
+++      vl_digit = (mp_limb_t) (unsigned long) v_digit;
+++    }
++   else if (v_digit < 0)
++     {
++       vsize = -1;
++-      v_digit = -v_digit;
+++      vl_digit = (mp_limb_t) -(unsigned long) v_digit;
++     }
++ 
++   if (usize != vsize)
++@@ -56,10 +59,10 @@ _mpz_cmp_si (mpz_srcptr u, signed long i
++ 
++   u_digit = u->_mp_d[0];
++ 
++-  if (u_digit == (mp_limb_t) (unsigned long) v_digit)
+++  if (u_digit == vl_digit)
++     return 0;
++ 
++-  if (u_digit > (mp_limb_t) (unsigned long) v_digit)
+++  if (u_digit > vl_digit)
++     return usize;
++   else
++     return -usize;
++--- gmp-4.3.2/mpz/iset_si.c.ll	2010-01-07 12:09:03.000000000 -0800
+++++ gmp-4.3.2/mpz/iset_si.c	2011-11-30 13:44:25.924319695 -0800
++@@ -31,7 +31,7 @@ mpz_init_set_si (mpz_ptr dest, signed lo
++   dest->_mp_alloc = 1;
++   dest->_mp_d = (mp_ptr) (*__gmp_allocate_func) (BYTES_PER_MP_LIMB);
++ 
++-  vl = (mp_limb_t) (unsigned long int) (val >= 0 ? val : -val);
+++  vl = (mp_limb_t) (val >= 0 ? (unsigned long int) val : -(unsigned long int) val);
++ 
++   dest->_mp_d[0] = vl & GMP_NUMB_MASK;
++   size = vl != 0;
++--- gmp-4.3.2/mpz/set_si.c.ll	2010-01-07 12:09:03.000000000 -0800
+++++ gmp-4.3.2/mpz/set_si.c	2011-11-30 13:44:25.947319574 -0800
++@@ -27,7 +27,7 @@ mpz_set_si (mpz_ptr dest, signed long in
++   mp_size_t size;
++   mp_limb_t vl;
++ 
++-  vl = (mp_limb_t) (unsigned long int) (val >= 0 ? val : -val);
+++  vl = (mp_limb_t) (val >= 0 ? (unsigned long int) val : -(unsigned long int) val);
++ 
++   dest->_mp_d[0] = vl & GMP_NUMB_MASK;
++   size = vl != 0;
+diff --git a/meta/recipes-support/gmp/gmp/gmp_fix_for_x32.patch b/meta/recipes-support/gmp/gmp/gmp_fix_for_x32.patch
+new file mode 100644
+index 0000000..aa5641c
+--- /dev/null
++++ b/meta/recipes-support/gmp/gmp/gmp_fix_for_x32.patch
+@@ -0,0 +1,45 @@
++Upstream-Status: Pending
++
++Add X32 support in gmp configure.
++
++Patch Originator: H J Lu @ Intel
++Patch modified for Yocto by Nitin Kamble
++Signed Off By: Nitin A Kamble <nitin.a.kamble@intel.com> 2011/11/21
++
++--- gmp-4.3.2/configure.in.x32	2011-08-12 15:03:06.143548291 -0700
+++++ gmp-4.3.2/configure.in	2011-08-12 15:06:20.580595316 -0700
++@@ -1499,6 +1499,25 @@ case $host in
++ 	    path_64="x86_64/atom x86_64"
++ 	    ;;
++ 	esac
 ++
-+ /* assuming long is 64bit - this is the DEC Alpha
-+  * unsigned long long is only 64 bits :-(, don't define
-+  * BN_LLONG for the DEC Alpha */
-+Index: openssl-1.0.0e/crypto/bn/bn_exp.c
-+===================================================================
-+--- openssl-1.0.0e.orig/crypto/bn/bn_exp.c
-++++ openssl-1.0.0e/crypto/bn/bn_exp.c
-+@@ -561,7 +561,7 @@ static int MOD_EXP_CTIME_COPY_FROM_PREBU
-+ 
-+ /* Given a pointer value, compute the next address that is a cache line multiple. */
-+ #define MOD_EXP_CTIME_ALIGN(x_) \
-+-	((unsigned char*)(x_) + (MOD_EXP_CTIME_MIN_CACHE_LINE_WIDTH - (((BN_ULONG)(x_)) & (MOD_EXP_CTIME_MIN_CACHE_LINE_MASK))))
-++	((unsigned char*)(x_) + (MOD_EXP_CTIME_MIN_CACHE_LINE_WIDTH - (((BN_ADDR)(x_)) & (MOD_EXP_CTIME_MIN_CACHE_LINE_MASK))))
-+ 
-+ /* This variant of BN_mod_exp_mont() uses fixed windows and the special
-+  * precomputation memory layout to limit data-dependency to a minimum
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index c717fee..771f146 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -82,6 +82,12 @@ do_configure () {
- 	linux-i686)
- 		target=debian-i386-i686/cmov
- 		;;
-+	linux-gnux32-x86_64)
-+		target=linux-x32
-+		;;
-+	linux-gnu64-x86_64)
-+		target=linux-x86_64
-+		;;
- 	linux-mips)
- 		target=debian-mips
- 		;;
-@@ -123,15 +129,6 @@ do_compile () {
- do_install () {
- 	oe_runmake INSTALL_PREFIX="${D}" MANDIR="${mandir}" install
+++	# X32 support.
+++	case x"$path_64" in
+++	  xx86_64*)
+++	    case x"$CC $CFLAGS" in
+++	      x*-mx32*)
+++		abilist="x32 64 32"
+++		path_x32="$path_64"
+++		limb_x32=longlong
+++		cclist_x32="gcc"
+++		gcc_x32_cflags="-O2 -mx32"
+++		any_x32_testlist="sizeof-long-4"
+++		CALLING_CONVENTIONS_OBJS_x32='amd64call.lo amd64check$U.lo'
+++		SPEED_CYCLECOUNTER_OBJ_x32=x86_64.lo
+++		cyclecounter_size_x32=2
+++		;;
+++	    esac
+++	    ;;
+++	esac
++ 	;;
++     esac
++     ;;
++@@ -3039,7 +3058,7 @@ if test "$gmp_asm_syntax_testing" != no;
++ 	      GMP_INCLUDE_MPN(x86/darwin.m4) ;;
++ 	  esac
++           ;;
++-        64)
+++        64|x32)
++           GMP_INCLUDE_MPN(x86_64/x86_64-defs.m4)
++ 	  case $host in
++ 	    *-*-darwin*)
+diff --git a/meta/recipes-support/gmp/gmp_5.0.2.bb b/meta/recipes-support/gmp/gmp_5.0.2.bb
+index 873fc3e..c28e745 100644
+--- a/meta/recipes-support/gmp/gmp_5.0.2.bb
++++ b/meta/recipes-support/gmp/gmp_5.0.2.bb
+@@ -2,10 +2,12 @@ require gmp.inc
+ LICENSE="LGPLv3&GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+ 		    file://version.c;endline=18;md5=d8c56b52b9092346b9f93b4da65ef790"
+-PR = "r2"
++PR = "r3"
  
--	# On x86_64, move lib/* to lib64
--	if [ "${libdir}" != "${prefix}/lib" ]
--	then
--		install -m 0755 ${D}${libdir} ${D}${libdir}/pkgconfig
--		mv ${D}${prefix}/lib/lib* ${D}${libdir}
--		mv ${D}${prefix}/lib/pkgconfig/*.pc ${D}${libdir}/pkgconfig
--		chmod 644 ${D}${libdir}/pkgconfig/openssl.pc
--	fi
--
- 	oe_libinstall -so libcrypto ${D}${libdir}
- 	oe_libinstall -so libssl ${D}${libdir}
+ SRC_URI_append += "file://sh4-asmfix.patch \
+-                   file://use-includedir.patch "
++                   file://gmp_bugfix.patch \
++                   file://use-includedir.patch \
++                   file://gmp_fix_for_x32.patch"
  
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.0e.bb b/meta/recipes-connectivity/openssl/openssl_1.0.0e.bb
-index 38f38e3..e29740b 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.0e.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.0e.bb
-@@ -6,7 +6,7 @@ DEPENDS += "ocf-linux"
+ export CC_FOR_BUILD = "${BUILD_CC}"
  
- CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
- 
--PR = "${INC_PR}.0"
-+PR = "${INC_PR}.2"
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
- 
-@@ -29,6 +29,7 @@ SRC_URI += "file://configure-targets.patch \
-             file://debian/pkg-config.patch \
-             file://debian/no-symbolic.patch \
-             file://debian/debian-targets.patch \
-+            file://openssl_fix_for_x32.patch \
-            "
- 
- SRC_URI[md5sum] = "7040b89c4c58c7a1016c0dfa6e821c86"
 -- 
 1.7.6.4
 
