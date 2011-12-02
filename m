@@ -1,31 +1,20 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1RWO4R-0005Xf-Dy
+	(envelope-from <edwin.zhai@intel.com>) id 1RWOAj-0005q6-Nh
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Dec 2011 09:02:12 +0100
-Received: by dake40 with SMTP id e40so803749dak.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Dec 2011 23:55:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=hgHw0ExUdFqk3xsxFGYMQQc/ptj15OZOTNTY3MzwbCs=;
-	b=AHKwBrgaQkBiDJKKAF5Y6AvfTMbKbKh1Iby4APTSuCXe1zT8Pu1Fsjp/72++0Gj6Xa
-	eYpsubZUMwU3iH0on3abnXKy7WSRAel1IfkMP9yxWwWQxs76Yh6BccDW3nv35xsAPkkz
-	kNjkPV/nCh5FMa/PwTuVOMHX47CbX2d4lIQKg=
-MIME-Version: 1.0
-Received: by 10.68.73.98 with SMTP id k2mr12441145pbv.2.1322812527991; Thu, 01
-	Dec 2011 23:55:27 -0800 (PST)
-Received: by 10.142.121.40 with HTTP; Thu, 1 Dec 2011 23:55:27 -0800 (PST)
-In-Reply-To: <1322783543-4287-1-git-send-email-sgw@linux.intel.com>
-References: <1322783543-4287-1-git-send-email-sgw@linux.intel.com>
-Date: Fri, 2 Dec 2011 02:55:27 -0500
-Message-ID: <CADkTA4OHdySvTJ6Ffisa6A1Uv+MEhzK8uEVeXPXfpWN4gkd5eA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: openembedded-core@openembedded.org
-Subject: Re: [PATCH 1/3] kernel-yocto: fix extra CR in do_kernel_checkout
+	Fri, 02 Dec 2011 09:08:42 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 02 Dec 2011 00:00:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,282,1320652800"; d="scan'208";a="81422776"
+Received: from yocto-build3.sh.intel.com ([10.239.48.58])
+	by azsmga001.ch.intel.com with ESMTP; 02 Dec 2011 00:00:53 -0800
+From: edwin.zhai@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  2 Dec 2011 15:55:54 +0800
+Message-Id: <cover.1322812458.git.edwin.zhai@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/4] Packages Upgrade, Dec2, 2011
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,50 +29,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Dec 2011 08:02:12 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 02 Dec 2011 08:08:42 -0000
 
-On Thu, Dec 1, 2011 at 6:52 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
-> =A0meta/classes/kernel-yocto.bbclass | =A0 =A03 +--
-> =A01 files changed, 1 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yoct=
-o.bbclass
-> index ad14aac..79f82e3 100644
-> --- a/meta/classes/kernel-yocto.bbclass
-> +++ b/meta/classes/kernel-yocto.bbclass
-> @@ -53,8 +53,7 @@ do_patch() {
-> =A0}
->
-> =A0do_kernel_checkout() {
-> - =A0 =A0 =A0 if [ -d $
-> -{WORKDIR}/git/.git/refs/remotes/origin ]; then
-> + =A0 =A0 =A0 if [ -d ${WORKDIR}/git/.git/refs/remotes/origin ]; then
+From: Zhai Edwin <edwin.zhai@intel.com>
 
-Ouch. Thanks for the fix. Working in hotels .. is less than ideal.
+All,
+These are upgrade for libfm, pcmanfm and x11vnc. Pls. help review and pull.
 
-Bruce
+The following changes since commit 9d6790c4409dee4d08fe6a47450125c406d0ba32:
 
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0echo "Fixing up git directory for ${LINUX_=
-KERNEL_TYPE}/${KMACHINE}"
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0rm -rf ${S}
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0mkdir ${S}
-> --
-> 1.7.6.4
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+  cooker.py: Allow the -e option to work with virtual classes and -b (2011-12-01 23:14:05 +0000)
 
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib gzhai/master2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/master2
 
+Zhai Edwin (4):
+  libfm: Upgrade to 0.1.17
+  pcmanfm: Upgrade to 0.9.10
+  x11vnc: Upgrade to 0.9.13
+  distro-tracking: Update info after last upgrade
 
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+ .../conf/distro/include/distro_tracking_fields.inc |   54 ++++++++++----------
+ .../x11vnc/{x11vnc_0.9.12.bb => x11vnc_0.9.13.bb}  |    8 ++--
+ .../{pcmanfm_0.9.9.bb => pcmanfm_0.9.10.bb}        |    4 +-
+ .../configure_fix.patch                            |    0
+ .../libfm/{libfm_0.1.16.bb => libfm_0.1.17.bb}     |    7 +--
+ 5 files changed, 36 insertions(+), 37 deletions(-)
+ rename meta/recipes-graphics/x11vnc/{x11vnc_0.9.12.bb => x11vnc_0.9.13.bb} (66%)
+ rename meta/recipes-sato/pcmanfm/{pcmanfm_0.9.9.bb => pcmanfm_0.9.10.bb} (88%)
+ rename meta/recipes-support/libfm/{libfm-0.1.16 => libfm-0.1.17}/configure_fix.patch (100%)
+ rename meta/recipes-support/libfm/{libfm_0.1.16.bb => libfm_0.1.17.bb} (67%)
+
 
 
