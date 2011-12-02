@@ -1,27 +1,40 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RWHOg-0001zd-2g
+	(envelope-from <dexuan.cui@intel.com>) id 1RWHjJ-000376-MM
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Dec 2011 01:54:38 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 01 Dec 2011 16:47:55 -0800
+	Fri, 02 Dec 2011 02:15:57 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 01 Dec 2011 17:09:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,281,1320652800"; d="scan'208";a="91313935"
-Received: from unknown (HELO [10.255.15.251]) ([10.255.15.251])
-	by fmsmga001.fm.intel.com with ESMTP; 01 Dec 2011 16:47:55 -0800
-Message-ID: <4ED8203B.7050609@linux.intel.com>
-Date: Thu, 01 Dec 2011 16:47:55 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
-MIME-Version: 1.0
+X-IronPort-AV: E=Sophos;i="4.71,281,1320652800"; d="scan'208";a="97691757"
+Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
+	by fmsmga002.fm.intel.com with ESMTP; 01 Dec 2011 17:09:14 -0800
+Received: from pgsmsx104.gar.corp.intel.com (10.221.44.91) by
+	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Fri, 2 Dec 2011 09:09:13 +0800
+Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
+	PGSMSX104.gar.corp.intel.com (10.221.44.91) with Microsoft SMTP Server
+	(TLS) id 14.1.355.2; Fri, 2 Dec 2011 09:09:13 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
+	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi; Fri, 2 Dec 2011
+	09:09:10 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <4ED6CC1E.5040504@windriver.com> <4ED70FBF.6020308@intel.com>
-	<CADkTA4O44WnWUuVsAAtBiOTUA=fzYft7yoG=f+bwPZn63Vcqkw@mail.gmail.com>
-In-Reply-To: <CADkTA4O44WnWUuVsAAtBiOTUA=fzYft7yoG=f+bwPZn63Vcqkw@mail.gmail.com>
-Cc: Darren Hart <dvhart@linux.intel.com>
-Subject: Re: linux-yocto: consolidated pull request
+Date: Fri, 2 Dec 2011 09:09:09 +0800
+Thread-Topic: [OE-core] [PATCH 4/8] libxfont: upgrade from 1.4.3 to 1.4.4
+Thread-Index: AcyvrU5q5W5pqN42SgKVuaWOlsPssQA4AhBA
+Message-ID: <1865303E0DED764181A9D882DEF65FB6E8EDF3A6A4@shsmsx502.ccr.corp.intel.com>
+References: <cover.1322662245.git.dexuan.cui@intel.com>
+	<7b66253699b50888fa21d9e79bc1d1e6898ff40a.1322662245.git.dexuan.cui@intel.com>
+	<CAMKF1spEcQKvCHsBY68MQfPMXR8E-w7W9kyQrcbKq2RqvPVeCw@mail.gmail.com>
+In-Reply-To: <CAMKF1spEcQKvCHsBY68MQfPMXR8E-w7W9kyQrcbKq2RqvPVeCw@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: zh-CN, en-US
+MIME-Version: 1.0
+Subject: Re: [PATCH 4/8] libxfont: upgrade from 1.4.3 to 1.4.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,129 +49,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Dec 2011 00:54:38 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 02 Dec 2011 01:15:57 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 12/01/2011 01:58 PM, Bruce Ashfield wrote:
-> On Thu, Dec 1, 2011 at 12:25 AM, Saul Wold<saul.wold@intel.com>  wrote:
->> On 11/30/2011 04:36 PM, Bruce Ashfield wrote:
->>>
->>> Richard/Saul,
->>>
->>> FYI: I can't get git-send email to work over the hotel wifi, so
->>> I can't chain the patches to this email. If you want me to send
->>> the patches separately, let me know. But for now, this is the
->>> best I can do.
->>>
->>> This pull request represents a collection of changes that were
->>> part of yocto M1 work, and that set the stage for more updates
->>> that will follow in the not too distant future.
->>>
->>> I've bumped the 3.0 kernel to the 3.0.10 baseline (3.0.11 is
->>> out, but not in this merge request) and updated our -rt patches
->>> to the latest upstream -rt series.
->>>
->>> This also drops the 2.6.34 recipe and leaves it to be supported
->>> in previous releases. If there's somewhere else I should be
->>> putting it, let me know and I'll put it there.
->>>
->>> The kernel revision updates have been built and boot tested by
->>> Tom and myself. And we have't seen any problems.
->>>
->>> Also included in this are some changes to kernel tools that
->>> prepare to move the kernel tools into the kernel tree itself.
->>> They also move us to doing configuration auditing using the
->>> merge_config script that Darren and John Stultz have been
->>> working on.
->>>
->>> And finally there's a small tweak to install the kernel tools
->>> via Makefile in the package itself, something that I recall
->>> Richard mentioning to me over 2 years ago a meeting .. so I thought
->>> I'd finally get to it.
->>>
->>> Cheers,
->>>
->>> Brucedvhart@linux.intel.com
->>>
->>> cc: Tom Zanussi<tom.zanussi@intel.com>
->>> cc: Darren Hart<dvhart@linux.intel.com>
->>>
->>> The following changes since commit
->>> d7cd934376ae1edaf7055ec635eb3c85fdbf58b3:
->>>
->>> squashfs-tools: fix PR, those should start with 'r' (2011-11-30 23:37:44
->>> +0000)
->>>
->>> are available in the git repository at:
->>> git://git.pokylinux.org/poky-contrib zedd/kernel
->>> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
->>>
->>> Bruce Ashfield (7):
->>> kern-tools: add pre_config and merge_config.sh to the list of tools
->>> kernel-yocto: support allnoconfig base configuration
->>> linux-yocto: remove 2.6.34 recipes
->>> linux-yocto: v3.0.9 + enhancements
->>> linux-yocto: v3.0.10 + rt27
->>> linux-yocto: prefer in-tree tools to external ones
->>> kern-tools: use Makefile provided install rules
->>>
->>> meta/classes/kernel-yocto.bbclass | 24 +++++++++-
->>> .../kern-tools/kern-tools-native_git.bb | 15 ++----
->>> meta/recipes-kernel/linux/linux-yocto-rt_2.6.34.bb | 38 ---------------
->>> meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb | 8 ++--
->>> meta/recipes-kernel/linux/linux-yocto_2.6.34.bb | 49 --------------------
->>> meta/recipes-kernel/linux/linux-yocto_3.0.bb | 18 ++++----
->>> 6 files changed, 39 insertions(+), 113 deletions(-)
->>> delete mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_2.6.34.bb
->>> delete mode 100644 meta/recipes-kernel/linux/linux-yocto_2.6.34.bb
->>>
->>
->> I had a problem with this change set, it gave me the following:
->>
->> NOTE: Error expanding variable do_kernel_checkout               | ETA:
->> 00:00:07
->> ERROR: Unable to parse
->> /intel/poky/distro/meta/recipes-kernel/linux-libc-headers/linux-libc-headers-yocto_git.bb
->
-> Looking at this some more before I head for travel, I can't see how my
-> change set
-> caused this. I haven't touched the 2.6.37 kernel (where that SRC_URI points by
-> default) and I haven't touched any of the include files that it depends on.
->
-> What machine were you building for ? I can't reproduce it here, so I'm
-> looking for
-> more information to properly debug the problem!
->
-
-Problem found and solved, I will be sending this patchset in later today 
-with a consolidated pull.
-
-Sau!
-
-> Cheers,
->
-> Bruce
->
->>
->> during parsing.
->>
->> Sau!
->>
->>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
->
+S2hlbSBSYWogd3JvdGUgb24gMjAxMS0xMi0wMToNCj4gT24gV2VkLCBOb3YgMzAsIDIwMTEgYXQg
+NjoxMiBBTSwgRGV4dWFuIEN1aSA8ZGV4dWFuLmN1aUBpbnRlbC5jb20+DQo+IHdyb3RlOg0KPj4g
+dXBkYXRlZCBMSUNfRklMRVNfQ0hLU1VNOg0KPj4gb25seSBDb3B5cmlnaHQgaG9sZGVyIGNoYW5n
+ZSBpbiBDT1BZSU5HIC0tIG5vIGFjdHVhbCBsaWNlbnNlIGNoYW5nZS4NCj4+IA0KPj4gU2lnbmVk
+LW9mZi1ieTogRGV4dWFuIEN1aSA8ZGV4dWFuLmN1aUBpbnRlbC5jb20+IC0tLQ0KPj4gwqAuLi4v
+e2xpYnhmb250XzEuNC4zLmJiID0+IGxpYnhmb250XzEuNC40LmJifSDCoCDCoCDCoCB8IMKgIMKg
+OCArKystLS0tLSDCoDENCj4+IGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgNSBkZWxl
+dGlvbnMoLSkgwqByZW5hbWUNCj4+IG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi97bGli
+eGZvbnRfMS40LjMuYmIgPT4gbGlieGZvbnRfMS40LjQuYmJ9DQo+PiAoNjIlKQ0KPj4gDQo+PiBk
+aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhmb250XzEuNC4z
+LmJiDQo+PiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4Zm9udF8xLjQuNC5i
+YiBzaW1pbGFyaXR5IGluZGV4IDYyJQ0KPj4gcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL3hvcmctbGliL2xpYnhmb250XzEuNC4zLmJiIHJlbmFtZSB0bw0KPj4gbWV0YS9yZWNpcGVz
+LWdyYXBoaWNzL3hvcmctbGliL2xpYnhmb250XzEuNC40LmJiIGluZGV4IDQzYTYyOGUuLjhhZjBh
+YzkNCj4+IDEwMDY0NCAtLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlieGZv
+bnRfMS40LjMuYmIgKysrDQo+PiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4
+Zm9udF8xLjQuNC5iYiBAQCAtNyw3ICs3LDcgQEAgc3VjaA0KPj4gYXMgZnJlZXR5cGUpLiIgwqBy
+ZXF1aXJlIHhvcmctbGliLWNvbW1vbi5pbmMNCj4+IA0KPj4gwqBMSUNFTlNFPSAiTUlUICYgTUlU
+LXN0eWxlICYgQlNEIiAtTElDX0ZJTEVTX0NIS1NVTSA9DQo+PiAiZmlsZTovL0NPUFlJTkc7bWQ1
+PWRlZWVlMWMyOWYzMmNhNzc0Y2VjZjBjODNiNDZiYjVjIiArTElDX0ZJTEVTX0NIS1NVTQ0KPj4g
+PSAiZmlsZTovL0NPUFlJTkc7bWQ1PWE0NmM4MDQwZjJmNzM3YmNkMGM0MzVmZWIyYWIxYzJjIg0K
+Pj4gDQo+PiDCoERFUEVORFMgKz0gImZyZWV0eXBlIGZvbnRjYWNoZXByb3RvIHh0cmFucyBmb250
+c3Byb3RvIGxpYmZvbnRlbmMiDQo+PiDCoFBST1ZJREVTID0gInhmb250Ig0KPj4gQEAgLTE1LDEx
+ICsxNSw5IEBAIFBST1ZJREVTID0gInhmb250Ig0KPj4gwqBQUiA9ICJyMCINCj4+IMKgUEUgPSAi
+MSINCj4+IA0KPj4gLSNTUkNfVVJJICs9ICJmaWxlOi8vbm8tc2NhbGFibGUtY3Jhc2gucGF0Y2gi
+DQo+PiAtDQo+IA0KPiBQbGVhc2Ugcm0gdGhlIHBhdGNoIGFzIHdlbGwuDQogDQpUaGFua3MgZm9y
+IHRoZSByZW1pbmRlciEgIEkgZGlkbid0IGZpbmQgdGhlIHBhdGNoIHNvbWVob3cuLi4gc29ycnku
+DQpJJ2xsIHNlbmQgYSBuZXcgY29tbWl0IHRvIHJlbW92ZSB0aGUgcGF0Y2guDQoNClRoYW5rcywN
+Ci0tIERleHVhbg0KDQo=
 
 
