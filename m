@@ -1,33 +1,34 @@
-Received: from tritech.se ([46.59.120.190])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Mats.Karrman@tritech.se>) id 1RWOyQ-0007Kl-78
+	(envelope-from <fransmeulenbroeks@gmail.com>) id 1RWPoA-0002GS-1i
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Dec 2011 10:00:02 +0100
-Received: from post.tritech.se (post.tritech.se [10.75.60.100])
-	by tritech.se (8.14.3/8.14.3) with ESMTP id pB28ki5R005247
+	Fri, 02 Dec 2011 10:53:31 +0100
+Received: by bkbzv15 with SMTP id zv15so2847046bkb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 2 Dec 2011 09:46:49 +0100
-Received: from POST.tritech.se ([fe80::b4fc:968e:bbef:54cb]) by
-	post.tritech.se ([fe80::b4fc:968e:bbef:54cb%11]) with mapi id
-	14.01.0270.001; Fri, 2 Dec 2011 09:46:44 +0100
-From: =?iso-8859-1?Q?Mats_K=E4rrman?= <Mats.Karrman@tritech.se>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] Coordinating inter-layer dependencies
-Thread-Index: AQHMsGiFaImQ9oKiA02Wci/z9HMLkJXILfFk
-Date: Fri, 2 Dec 2011 08:46:43 +0000
-Message-ID: <ED3E0BCACD909541BA94A34C4A164D4C401A404C@post.tritech.se>
-References: <95547EE2-9E3E-4FB6-AA2A-A9653029F971@dominion.thruhere.net>
-	<20111201122407.GB19917@jama.jama.net> <1322743071.17484.119.camel@ted>
-	<CAP9ODKpnTxcRDJxZKe0bue4RDqydJ44TmEf0ukv43ATgBcDV7Q@mail.gmail.com>
-	<20111201130733.GF19917@jama.jama.net>, <1322771625.17484.149.camel@ted>
-In-Reply-To: <1322771625.17484.149.camel@ted>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [194.132.137.34]
+	Fri, 02 Dec 2011 01:46:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=60xXi/1d2fcBlICtx1uUva+5dV1N8Ah/OGbyC/vKzj0=;
+	b=v9aqi2bFZUk5FJYDShvq1rd5BSpRRnsboXv0iHUlSsplVXnBTCEvl7U8+4a7ljcOR9
+	tO/YETwBn+vSvI4RhEXmcCho3rE0DtiCKRy3ioNjKTakO4ZXb1e5Brv9MDz667YfRHsy
+	vfGg0vs4EN+iLGBnRwUnyN8b61yyKw//mS34k=
 MIME-Version: 1.0
-Subject: Re: Coordinating inter-layer dependencies
+Received: by 10.180.106.70 with SMTP id gs6mr4233304wib.41.1322819207687; Fri,
+	02 Dec 2011 01:46:47 -0800 (PST)
+Received: by 10.180.8.199 with HTTP; Fri, 2 Dec 2011 01:46:47 -0800 (PST)
+In-Reply-To: <4ED7ABF9.5000109@emagii.com>
+References: <4ED0CC76.4040606@emagii.com> <1322579029.7964.0.camel@ted>
+	<4ED53438.9040903@emagii.com>
+	<7E3B66F1-28FC-45D4-BA89-193D9EA6DCA6@dominion.thruhere.net>
+	<4ED77E14.1080309@balister.org>
+	<878817F5-05C7-4749-BA0A-7ED04EE884BB@dominion.thruhere.net>
+	<4ED7ABF9.5000109@emagii.com>
+Date: Fri, 2 Dec 2011 10:46:47 +0100
+Message-ID: <CACW_hTZcKvb3cvzvy=mq5=pGo2bWn0=iMaPQa-CU-wJR070vUw@mail.gmail.com>
+From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
+To: ulf@emagii.com, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Feedback on building openembedded-core for qemuarm. Excerpts from buildlog
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,106 +43,226 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Dec 2011 09:00:02 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Fri, 02 Dec 2011 09:53:33 -0000
+Content-Type: multipart/alternative; boundary=f46d0444ef2df9edb804b318d8a2
+
+--f46d0444ef2df9edb804b318d8a2
+Content-Type: text/plain; charset=ISO-8859-1
+
+2011/12/1 Ulf Samuelsson <openembedded-core@emagii.com>
+
+>  2011-12-01 16:37, Koen Kooi skrev:
+>
+> Op 1 dec. 2011, om 14:16 heeft Philip Balister het volgende geschreven:
+>
+>
+>  On 11/29/2011 03:06 PM, Koen Kooi wrote:
+>
+>  Op 29 nov. 2011, om 20:36 heeft Ulf Samuelsson het volgende geschreven:
+>
+>
+>  On 2011-11-29 16:03, Richard Purdie wrote:
+>
+>   2.    "ftp://elsie.nci.nih.gov/pub/tzcode2011i.tar.gz" <ftp://elsie.nci.nih.gov/pub/tzcode2011i.tar.gz> is no longer
+> available.
+>         tzdata , same problem.
+>         The recipe is located in two places.
+>         meta-openembedded/meta-oe/recipes-extended/tz*/tz*.bb have the
+> problem
+>         This is what the build uses.
+>
+>  This is something to raise with the meta-oe maintainers. I think there
+> isn't a problem in OECore.
+>
+>  Since we now have a large number of layers, maybe it is a good
+> idea to define in each layer,  how the "git send email" should behave in
+> by providing a better ".git/config" file in the trunk?
+>
+>
+> I.E:
+>
+> [sendemail]
+>   to = openembedded-core@lists.openembedded.org
+>
+> or
+> meta-angstrom/.git/config
+> [sendemail]
+>   to = angstrom-distro-devel@linuxtogo.org
+> [format]
+>   subjectprefix = "[meta-angstrom]"
+>
+>
+> No need to look in the README file with this.
+>
+>  That assumes git-send-email is the preferred way, which it isn;'t for a lot of layers
+>
+>  Even if it is not the preferred way, it would direct the discussion to
+> the appropriate list. This would reduce the number of mis-directed
+> emails to this list.
+>
+>  You can't fix stupid, sadly.
+>
+>
+> Tend to disagree.
+> The whole purpose of OE is to make it possible for people,
+> stupid or not, to go off and make things which they would
+> not be able to do on their own.
+>
+> As I see it, it is no real drawback of adding this, and at least some
+> benefit.
+>
+> As for not beeing the preferred way, I think that people that engage
+> themselves
+> in a layer should adopt the preferred way.
+>
+> Anyone seeing a bad layer, applicable only to a small subset of users,
+> interfering with their build should not be expected
+> to put a lof of effort into the fix, except reporting it.
+> Then the mailing list is probably the easiest thing to use.
+>
+> If this is not there, expect them to send it to the official list.
+> BR
+> Ulf
+>
+
+My two cents:
+If I see a small problem in a layer that I am not working on and submitting
+a patch is easy (e.g. committing the patch, doing a send-email) I would
+probably do so.
+If it becomes harder (since I have to find what list it needs to be send
+to) chances that the effort is made become smaller and actually depending
+on the time at hand
+If i have to set up a git mirror just for this single patch, forget it.
+
+I think if we want to encourage people fixing and submitting patches it
+helps to have a mailing address in the config file.
+But of course if you prefer to do maintenance only with the happy few, this
+is less desirable (but then you should probably consider not accepting
+mailed patches at all)
+
+frans
+
+--f46d0444ef2df9edb804b318d8a2
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-> From: openembedded-core-bounces@lists.openembedded.org [openembedded-core=
--bounces@lists.openembedded.org] on behalf of Richard Purdie [richard.purdi=
-e@linuxfoundation.org]=0A=
-> Sent: Thursday, December 01, 2011 9:33 PM=0A=
-> To: Patches and discussions about the oe-core layer=0A=
-> Subject: Re: [OE-core] Coordinating inter-layer dependencies=0A=
-> =0A=
-> On Thu, 2011-12-01 at 14:07 +0100, Martin Jansa wrote:=0A=
-> > On Thu, Dec 01, 2011 at 10:59:03AM -0200, Otavio Salvador wrote:=0A=
-> > > On Thu, Dec 1, 2011 at 10:37, Richard Purdie <=0A=
-> > > richard.purdie@linuxfoundation.org> wrote:=0A=
-> > >=0A=
-> > > > On Thu, 2011-12-01 at 13:24 +0100, Martin Jansa wrote:=0A=
-> > > > > A while back I've proposed to make .bbappend without correspondin=
-g .bb=0A=
-> > > > > only big fat warning, but not fatal to parse. Now you cannot even=
- build=0A=
-> > > > > eglibc if there is libdrm bbappend you don't care at all about..=
-=0A=
-> > > >=0A=
-> > > > You can do this by setting:=0A=
-> > > >=0A=
-> > > > BB_DANGLINGAPPENDS_WARNONLY=0A=
-> > > >=0A=
-> > >=0A=
-> > > This is even worse; you end up with a package without the changes don=
-e on=0A=
-> > > the bbappend and as most bbappend files do not change PR, adding it l=
-ater=0A=
-> > > won't force a package update.=0A=
-> >=0A=
-> > If we find a way to allow PRINC in multiple bbappends for same .bb then=
-=0A=
-> > we can say that every .bbappend should use PRINC.=0A=
-> >=0A=
-> > For record I'll include my discussion about PRINC with RP and kergoth:=
-=0A=
-> > 10:47 < JaMa> RP__: is there any way to improve PRINC concept to allow =
-multiple increments for same recipe while parsing multiple layers?=0A=
-> > 10:48 < RP__> JaMa: PRINC_append =3D ".1" ?=0A=
-> > 10:49 < JaMa> RP__: ie when meta-openmoko sets PRINC =3D "1" and meta-s=
-hr sets PRINC =3D "2" then if you're unlucky meta-openmoko is parsed later =
-and bumping PRINC in meta-shr won't help=0A=
-> > 10:49 < RP__> JaMa: I wonder if you could do PRINC :=3D "${PRINC + 1}"=
-=0A=
-> > 10:50 < JaMa> and do we have default PRINC =3D 0 somewhere?=0A=
-> > 10:50 < RP__> JaMa: you might need to add that=0A=
-> > 10:50 < JaMa> ok, I'll try this, thanks=0A=
-> > 10:51 < JaMa> currently I'm moving PRINC only to meta-shr layer.. but t=
-hat breaks stuff if someone is using any BSP layer from meta-smartphone..=
-=0A=
-> >=0A=
-> > 14:53 < JaMa> RP__: btw that PRINC trick didn't work (int type didn't l=
-ike expresion :/)=0A=
-> > 15:13 < RP__> JaMa: ah, try PRINC :=3D "${int(PRINC) + 1}"=0A=
-> > 15:21 < JaMa> RP__: still ValueError: invalid literal for int() with ba=
-se 10: '${int(PRINC) + 1}'=0A=
-> > 15:21 < JaMa> with added PRINC :=3D 0 to bitbake.conf=0A=
-> > 15:22 < RP__> PRINC :=3D "${int(d.getVar(PRINC)) + 1}" ? :/=0A=
-> > 15:22 < JaMa> whole log http://paste.pocoo.org/show/514437/=0A=
-> > 15:22  * RP__ was trying to be too clever I suspect=0A=
-> > 15:23 < JaMa> ValueError: invalid literal for int() with base 10: '${in=
-t(d.getVar(PRINC)) + 1}'=0A=
-> > 15:41 < kergoth> PRINC is unquoted there, so it tries to get a value fo=
-r a key of None=0A=
-> > 16:24 < RP__> kergoth: right, trying to do too many things at once :/=
-=0A=
-> > 16:24 < RP__> kergoth: any thoughts on that knotty change to add the fo=
-oter?=0A=
-> > 17:05 < JaMa> kergoth: something like this? ValueError: invalid literal=
- for int() with base 10: "${int(d.getVar('PRINC')) + 1}"=0A=
-> >=0A=
-> > Maybe someone else has better idea?=0A=
-> =0A=
-> Looking at that I was missing something obvious. Try:=0A=
-> =0A=
-> PRINC :=3D "${@int(PRINC) + 1}"=0A=
-> =0A=
-> Cheers,=0A=
-> =0A=
-> Richard=0A=
-> =0A=
-=0A=
-As I understand it, the PRINC increases the PR of the appended recipe. Then=
- the resulting package will have a version that is the same as "the next" v=
-ersion of the base recipe. Since many people (me included) hardly remember =
-what they did a month ago, isn't there a big risk of confusion in your depl=
-oyed systems if packages are upgraded there?=0A=
-=0A=
-I do something like  PR .=3D ".local0"  where "local" is the name of the la=
-yer containing the .bbappend.=0A=
-Of course this will create extensive version strings if multiple .bbappends=
- are applied but the alternative is that you have no idea what layers that =
-appended and what the the base version of the recipe really was.=0A=
-=0A=
-// Mats=0A=
+<br><br><div class=3D"gmail_quote">2011/12/1 Ulf Samuelsson <span dir=3D"lt=
+r">&lt;<a href=3D"mailto:openembedded-core@emagii.com">openembedded-core@em=
+agii.com</a>&gt;</span><br><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex;">
+
+ =20
+   =20
+ =20
+  <div bgcolor=3D"#FFFFFF" text=3D"#000000">
+    2011-12-01 16:37, Koen Kooi skrev:
+    <div><div></div><div class=3D"h5"><blockquote type=3D"cite">
+      <pre>Op 1 dec. 2011, om 14:16 heeft Philip Balister het volgende gesc=
+hreven:
+
+</pre>
+      <blockquote type=3D"cite">
+        <pre>On 11/29/2011 03:06 PM, Koen Kooi wrote:
+</pre>
+        <blockquote type=3D"cite">
+          <pre>Op 29 nov. 2011, om 20:36 heeft Ulf Samuelsson het volgende =
+geschreven:
+
+</pre>
+          <blockquote type=3D"cite">
+            <pre>On 2011-11-29 16:03, Richard Purdie wrote:
+</pre>
+            <blockquote type=3D"cite">
+              <pre></pre>
+              <blockquote type=3D"cite">
+                <pre>2.    <a href=3D"ftp://elsie.nci.nih.gov/pub/tzcode201=
+1i.tar.gz" target=3D"_blank">&quot;ftp://elsie.nci.nih.gov/pub/tzcode2011i.=
+tar.gz&quot;</a> is no longer
+available.
+        tzdata , same problem.
+        The recipe is located in two places.
+        meta-openembedded/meta-oe/recipes-extended/tz*/tz*.bb have the
+problem
+        This is what the build uses.
+</pre>
+              </blockquote>
+              <pre>This is something to raise with the meta-oe maintainers.=
+ I think there
+isn&#39;t a problem in OECore.
+</pre>
+            </blockquote>
+            <pre>Since we now have a large number of layers, maybe it is a =
+good
+idea to define in each layer,  how the &quot;git send email&quot; should be=
+have in
+by providing a better &quot;.git/config&quot; file in the trunk?
 
 
+I.E:
+
+[sendemail]
+  to =3D <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
+=3D"_blank">openembedded-core@lists.openembedded.org</a>
+
+or
+meta-angstrom/.git/config
+[sendemail]
+  to =3D <a href=3D"mailto:angstrom-distro-devel@linuxtogo.org" target=3D"_=
+blank">angstrom-distro-devel@linuxtogo.org</a>
+[format]
+  subjectprefix =3D &quot;[meta-angstrom]&quot;
+
+
+No need to look in the README file with this.
+</pre>
+          </blockquote>
+          <pre>That assumes git-send-email is the preferred way, which it i=
+sn;&#39;t for a lot of layers
+</pre>
+        </blockquote>
+        <pre>Even if it is not the preferred way, it would direct the discu=
+ssion to
+the appropriate list. This would reduce the number of mis-directed
+emails to this list.
+</pre>
+      </blockquote>
+      <pre>You can&#39;t fix stupid, sadly.
+</pre>
+    </blockquote>
+    <br></div></div>
+    Tend to disagree.<br>
+    The whole purpose of OE is to make it possible for people,<br>
+    stupid or not, to go off and make things which they would<br>
+    not be able to do on their own.<br>
+    <br>
+    As I see it, it is no real drawback of adding this, and at least
+    some benefit.<br>
+    <br>
+    As for not beeing the preferred way, I think that people that engage
+    themselves<br>
+    in a layer should adopt the preferred way.<br>
+    <br>
+    Anyone seeing a bad layer, applicable only to a small subset of
+    users,<br>
+    interfering with their build should not be expected<br>
+    to put a lof of effort into the fix, except reporting it.<br>
+    Then the mailing list is probably the easiest thing to use.<br>
+    <br>
+    If this is not there, expect them to send it to the official list.<br>
+    BR<br><font color=3D"#888888">
+    Ulf</font><br></div></blockquote></div><br>My two cents:<br>If I see a =
+small problem in a layer that I am not working on and submitting a patch is=
+ easy (e.g. committing the patch, doing a send-email) I would probably do s=
+o.<br>
+If it becomes harder (since I have to find what list it needs to be send to=
+) chances that the effort is made become smaller and actually depending on =
+the time at hand<br>If i have to set up a git mirror just for this single p=
+atch, forget it.<br>
+<br>I think if we want to encourage people fixing and submitting patches it=
+ helps to have a mailing address in the config file.<br>But of course if yo=
+u prefer to do maintenance only with the happy few, this is less desirable =
+(but then you should probably consider not accepting mailed patches at all)=
+<br>
+<br>frans<br>
+
+--f46d0444ef2df9edb804b318d8a2--
