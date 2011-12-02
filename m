@@ -1,23 +1,23 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RWN8n-0002ay-Qm
+	(envelope-from <sgw@linux.intel.com>) id 1RWN8o-0002b8-63
 	for openembedded-core@openembedded.org; Fri, 02 Dec 2011 08:02:38 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 01 Dec 2011 22:55:51 -0800
+	by azsmga101.ch.intel.com with ESMTP; 01 Dec 2011 22:55:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,282,1320652800"; d="scan'208";a="43189763"
+X-IronPort-AV: E=Sophos;i="4.71,282,1320652800"; d="scan'208";a="43189766"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.251])
-	by AZSMGA002.ch.intel.com with ESMTP; 01 Dec 2011 22:55:50 -0800
+	by AZSMGA002.ch.intel.com with ESMTP; 01 Dec 2011 22:55:51 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@openembedded.org
-Date: Thu,  1 Dec 2011 22:55:33 -0800
-Message-Id: <483abca9a5875b3e6ff5048121ee0f4cec188e7b.1322808632.git.sgw@linux.intel.com>
+Date: Thu,  1 Dec 2011 22:55:35 -0800
+Message-Id: <92a6f28181d892192bb6d36b2327028bcd0b33e9.1322808632.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1322808632.git.sgw@linux.intel.com>
 References: <cover.1322808632.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1322808632.git.sgw@linux.intel.com>
 References: <cover.1322808632.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 02/18] logrotate: Add dependency on popt lib.
+Subject: [CONSOLIDATED PULL 04/18] resolvconf: Update to 1.62
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,33 +34,41 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 02 Dec 2011 07:02:38 -0000
 
-From: Stefan Schmidt <stefan@datenfreihafen.org>
+ * remove unneeded directory that does not get packaged
 
-Without this logrotate may fail like this:
- compilation terminated.
-| config.c:9:18: fatal error: popt.h: No such file or directory
-
-Signed-off-by: Stefan Schmidt <stefan@datenfreihafen.org>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-extended/logrotate/logrotate_3.7.9.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ .../{resolvconf_1.61.bb => resolvconf_1.62.bb}     |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-connectivity/resolvconf/{resolvconf_1.61.bb => resolvconf_1.62.bb} (78%)
 
-diff --git a/meta/recipes-extended/logrotate/logrotate_3.7.9.bb b/meta/recipes-extended/logrotate/logrotate_3.7.9.bb
-index b736593..8dc0504 100644
---- a/meta/recipes-extended/logrotate/logrotate_3.7.9.bb
-+++ b/meta/recipes-extended/logrotate/logrotate_3.7.9.bb
-@@ -2,9 +2,9 @@ DESCRIPTION = "Rotates, compresses, removes and mails system log files"
- SECTION = "console/utils"
- HOMEPAGE = "https://fedorahosted.org/releases/l/o/logrotate"
- LICENSE = "GPLv2"
--PR = "r0"
-+PR = "r1"
+diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.61.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.62.bb
+similarity index 78%
+rename from meta/recipes-connectivity/resolvconf/resolvconf_1.61.bb
+rename to meta/recipes-connectivity/resolvconf/resolvconf_1.62.bb
+index c924fe0..af72199 100644
+--- a/meta/recipes-connectivity/resolvconf/resolvconf_1.61.bb
++++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.62.bb
+@@ -14,8 +14,8 @@ PR = "r0"
  
--DEPENDS="coreutils"
-+DEPENDS="coreutils popt"
+ SRC_URI = "${DEBIAN_MIRROR}/main/r/resolvconf/resolvconf_${PV}.tar.gz"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
+-SRC_URI[md5sum] = "ac1cfa1abc7c690f1d8917f746ad80a5"
+-SRC_URI[sha256sum] = "0eaa97fa29f8e30a541d549abe76766e5e4edfa841721529c85616d7c0089908"
++SRC_URI[md5sum] = "5d9656c9d7a2e1304d9d41ed13cf54a4"
++SRC_URI[sha256sum] = "cd00b3757fc73d2729be6e2532ca033ddd5542c4deff451929695bcc3af97c61"
  
+ inherit allarch
+ 
+@@ -24,7 +24,7 @@ do_compile () {
+ }
+ 
+ do_install () {
+-	install -d ${D}${sysconfdir} ${D}${sbindir} ${D}${base_sbindir} ${D}${localstatedir}/volatile/run/resolvconf/interface
++	install -d ${D}${sysconfdir} ${D}${base_sbindir} ${D}${localstatedir}/volatile/run/resolvconf/interface
+ 	install -d ${D}${mandir}/man8 ${D}${docdir}/${P}
+ 	cp -pPR etc/* ${D}${sysconfdir}/
+ 	chown -R root:root ${D}${sysconfdir}/
 -- 
 1.7.6.4
 
