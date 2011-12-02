@@ -1,32 +1,28 @@
 Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RWPrC-0002P0-O8
+	(envelope-from <koen@dominion.thruhere.net>) id 1RWQ4T-00035L-Qa
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Dec 2011 10:56:38 +0100
-Received: by eekc1 with SMTP id c1so1821025eek.6
+	Fri, 02 Dec 2011 11:10:21 +0100
+Received: by eekc1 with SMTP id c1so1823623eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Dec 2011 01:49:56 -0800 (PST)
-Received: by 10.14.10.85 with SMTP id 61mr1383022eeu.26.1322819395402;
-	Fri, 02 Dec 2011 01:49:55 -0800 (PST)
+	Fri, 02 Dec 2011 02:03:39 -0800 (PST)
+Received: by 10.14.9.164 with SMTP id 36mr1400682eet.33.1322820219010;
+	Fri, 02 Dec 2011 02:03:39 -0800 (PST)
 Received: from [172.20.1.19] (ip5451781a.direct-adsl.nl. [84.81.120.26])
-	by mx.google.com with ESMTPS id 17sm15137506eej.3.2011.12.02.01.49.54
+	by mx.google.com with ESMTPS id z54sm26444154eeh.5.2011.12.02.02.03.37
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 02 Dec 2011 01:49:54 -0800 (PST)
+	Fri, 02 Dec 2011 02:03:38 -0800 (PST)
 From: Koen Kooi <koen@dominion.thruhere.net>
 Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Fri, 2 Dec 2011 10:49:52 +0100
-In-Reply-To: <4ED7ABF9.5000109@emagii.com>
-To: ulf@emagii.com, Patches and discussions about the oe-core layer
+Date: Fri, 2 Dec 2011 11:03:34 +0100
+In-Reply-To: <8cc5f124fb791a762bf6aace3a9bf8c1d1c39dd1.1322782677.git.paul.eggleton@linux.intel.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <4ED0CC76.4040606@emagii.com>
-	<1322579029.7964.0.camel@ted>	<4ED53438.9040903@emagii.com>
-	<7E3B66F1-28FC-45D4-BA89-193D9EA6DCA6@dominion.thruhere.net>
-	<4ED77E14.1080309@balister.org>
-	<878817F5-05C7-4749-BA0A-7ED04EE884BB@dominion.thruhere.net>
-	<4ED7ABF9.5000109@emagii.com>
-Message-Id: <5D177C90-C498-49C3-8FE3-AE1589ADB5A3@dominion.thruhere.net>
+References: <cover.1322782677.git.paul.eggleton@linux.intel.com>
+	<8cc5f124fb791a762bf6aace3a9bf8c1d1c39dd1.1322782677.git.paul.eggleton@linux.intel.com>
+Message-Id: <7F3E05BB-DED9-441F-B557-4076C78DB63B@dominion.thruhere.net>
 X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: Feedback on building openembedded-core for qemuarm. Excerpts from buildlog
+Subject: Re: [RFC PATCH 1/2] classes/buildhistory: add new output history collection class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,97 +37,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Dec 2011 09:56:38 -0000
-X-Groupsio-MsgNum: 13546
+X-List-Received-Date: Fri, 02 Dec 2011 10:10:22 -0000
+X-Groupsio-MsgNum: 13547
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_E6B40F08-FA3F-414E-BEED-7161748ECC33";
+	boundary="Apple-Mail=_E8380C45-3A2B-4103-A7FC-92B40784B985";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_E6B40F08-FA3F-414E-BEED-7161748ECC33
+--Apple-Mail=_E8380C45-3A2B-4103-A7FC-92B40784B985
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
-	charset=iso-8859-1
+	charset=us-ascii
 
 
-Op 1 dec. 2011, om 17:31 heeft Ulf Samuelsson het volgende geschreven:
+Op 2 dec. 2011, om 00:56 heeft Paul Eggleton het volgende geschreven:
 
-> 2011-12-01 16:37, Koen Kooi skrev:
->> Op 1 dec. 2011, om 14:16 heeft Philip Balister het volgende =
-geschreven:
->>=20
->>=20
->>> On 11/29/2011 03:06 PM, Koen Kooi wrote:
->>>=20
->>>> Op 29 nov. 2011, om 20:36 heeft Ulf Samuelsson het volgende =
-geschreven:
->>>>=20
->>>>=20
->>>>> On 2011-11-29 16:03, Richard Purdie wrote:
->>>>>=20
->>>>>>> 2.    "ftp://elsie.nci.nih.gov/pub/tzcode2011i.tar.gz"
->>>>>>>  is no longer
->>>>>>> available.
->>>>>>>         tzdata , same problem.
->>>>>>>         The recipe is located in two places.
->>>>>>>         meta-openembedded/meta-oe/recipes-extended/tz*/tz*.bb =
-have the
->>>>>>> problem
->>>>>>>         This is what the build uses.
->>>>>>>=20
->>>>>> This is something to raise with the meta-oe maintainers. I think =
-there
->>>>>> isn't a problem in OECore.
->>>>>>=20
->>>>> Since we now have a large number of layers, maybe it is a good
->>>>> idea to define in each layer,  how the "git send email" should =
-behave in
->>>>> by providing a better ".git/config" file in the trunk?
->>>>>=20
->>>>>=20
->>>>> I.E:
->>>>>=20
->>>>> [sendemail]
->>>>>   to =3D=20
->>>>> openembedded-core@lists.openembedded.org
->>>>>=20
->>>>>=20
->>>>> or
->>>>> meta-angstrom/.git/config
->>>>> [sendemail]
->>>>>   to =3D=20
->>>>> angstrom-distro-devel@linuxtogo.org
->>>>>=20
->>>>> [format]
->>>>>   subjectprefix =3D "[meta-angstrom]"
->>>>>=20
->>>>>=20
->>>>> No need to look in the README file with this.
->>>>>=20
->>>> That assumes git-send-email is the preferred way, which it isn;'t =
-for a lot of layers
->>>>=20
->>> Even if it is not the preferred way, it would direct the discussion =
-to
->>> the appropriate list. This would reduce the number of mis-directed
->>> emails to this list.
->>>=20
->> You can't fix stupid, sadly.
->>=20
+> Create a new build output history reporting class, using =
+testlab.bbclass
+> from meta-oe as a base. This records information from images produced =
+by
+> the build process in text files structured suitably for tracking =
+within
+> a git repository, thus enabling monitoring of changes over time.
 >=20
-> Tend to disagree.
-> The whole purpose of OE is to make it possible for people,
-> stupid or not, to go off and make things which they would
-> not be able to do on their own.
+> Build history collection can be enabled simply by adding the following
+> to your local.conf:
 >=20
-> As I see it, it is no real drawback of adding this, and at least some =
-benefit.
+> INHERIT +=3D "buildhistory"
+>=20
+> The output after a build can then be found in BUILDHISTORY_DIR =
+(defaults to
+> TMPDIR/buildhistory). If you set up this directory as a git repository =
+and
+> set BUILDHISTORY_COMMIT to "1" in local.conf, the build history data =
+will
+> be committed on every build.
+>=20
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+> meta/classes/buildhistory.bbclass |  105 =
++++++++++++++++++++++++++++++++++++++
+> meta/classes/rootfs_ipk.bbclass   |   27 +++++++++-
+> meta/classes/rootfs_rpm.bbclass   |   41 +++++++++++++--
+> 3 files changed, 167 insertions(+), 6 deletions(-)
+> create mode 100644 meta/classes/buildhistory.bbclass
+>=20
+> diff --git a/meta/classes/buildhistory.bbclass =
+b/meta/classes/buildhistory.bbclass
+> new file mode 100644
+> index 0000000..79a074c
+> --- /dev/null
+> +++ b/meta/classes/buildhistory.bbclass
+> @@ -0,0 +1,105 @@
+> +#
+> +# Records history of build output in order to detect regressions
+> +#
+> +# Based in part on testlab.bbclass
+> +#
+> +# Copyright (C) 2011 Intel Corporation
+> +# Copyright (C) 2007, 2008 Koen Kooi <koen@openembedded.org>
 
-The drawback is that people will postpone reading the README even =
-longer.
+I know I forgot to update it, but that should be: 2007 - 2011
 
-Why are you so dead against having people read the README?=
+regards,
 
---Apple-Mail=_E6B40F08-FA3F-414E-BEED-7161748ECC33
+Koen=
+
+--Apple-Mail=_E8380C45-3A2B-4103-A7FC-92B40784B985
 Content-Transfer-Encoding: 7bit
 Content-Disposition: inline;
 	filename=signature.asc
@@ -141,9 +112,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 
 -----BEGIN PGP SIGNATURE-----
 
-iEYEARECAAYFAk7Yn0AACgkQMkyGM64RGpGfDQCeNNCQLR5sVJ9zIIYqbf6eV2Bo
-KQ0AnjoSTYrpVZYlly+MwwtqsgrhHFKX
-=0uzQ
+iEYEARECAAYFAk7YongACgkQMkyGM64RGpEuuACeKvCqU4cTOtKjh0dcypM7AyzP
+BNwAn3uns2Wuceuty2Qn9iZphv6Gu7+N
+=NeSD
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_E6B40F08-FA3F-414E-BEED-7161748ECC33--
+--Apple-Mail=_E8380C45-3A2B-4103-A7FC-92B40784B985--
