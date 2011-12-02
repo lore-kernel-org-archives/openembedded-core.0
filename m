@@ -1,39 +1,25 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1RWJjh-0006ps-6x
+	(envelope-from <dvhart@linux.intel.com>) id 1RWJm5-0006wD-3X
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Dec 2011 04:24:29 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 01 Dec 2011 19:17:44 -0800
+	Fri, 02 Dec 2011 04:26:57 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 01 Dec 2011 19:20:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="82372145"
-Received: from pgsmsx603.gar.corp.intel.com ([10.221.43.87])
-	by orsmga002.jf.intel.com with ESMTP; 01 Dec 2011 19:17:44 -0800
-Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
-	pgsmsx603.gar.corp.intel.com (10.221.43.87) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Fri, 2 Dec 2011 11:17:11 +0800
-Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
-	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Fri, 2 Dec 2011 11:17:11 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi; Fri, 2 Dec 2011
-	11:17:10 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 2 Dec 2011 11:17:09 +0800
-Thread-Topic: [OE-core] [PATCH 0/8] [Dexuan]: upgrades for 7 recipes
-Thread-Index: Acyvrf3rIKf4AXLOSQy5pMUBu6oPKAA8DyuA
-Message-ID: <1865303E0DED764181A9D882DEF65FB6E8EDF3A845@shsmsx502.ccr.corp.intel.com>
-References: <cover.1322662245.git.dexuan.cui@intel.com>
-	<1322691475.17484.61.camel@ted>
-In-Reply-To: <1322691475.17484.61.camel@ted>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
-MIME-Version: 1.0
-Subject: Re: [PATCH 0/8] [Dexuan]: upgrades for 7 recipes
+X-IronPort-AV: E=Sophos;i="4.71,281,1320652800"; d="scan'208";a="81358025"
+Received: from unknown (HELO localhost) ([10.255.12.185])
+	by azsmga001.ch.intel.com with ESMTP; 01 Dec 2011 19:20:13 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Thu,  1 Dec 2011 19:20:15 -0800
+Message-Id: <4ef49c1f45f1d61be02121e755546ca10e4668a1.1322795646.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.7.6.4
+In-Reply-To: <cover.1322795646.git.dvhart@linux.intel.com>
+References: <cover.1322795646.git.dvhart@linux.intel.com>
+In-Reply-To: <cover.1322795646.git.dvhart@linux.intel.com>
+References: <cover.1322795646.git.dvhart@linux.intel.com>
+Subject: [PATCH 1/1] bootimage: Use ${S} explicitly for generated config files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,56 +34,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Dec 2011 03:24:29 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 02 Dec 2011 03:26:57 -0000
 
-Richard Purdie wrote on 2011-12-01:
-> On Wed, 2011-11-30 at 22:12 +0800, Dexuan Cui wrote:
->> The following changes since commit
->> 00d121aad3a4263bc0e3a004a3a479e6352e063d:
->>=20
->>   clutter-box2d: drop unbuildable clutter-box2d-1.6_0.10.0
->> (2011-11-30 22:06:00 +0800)
->>=20
->> are available in the git repository at:
->>   git://git.pokylinux.org/poky-contrib dcui/master
->>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Ddcui/master
->> Dexuan Cui (8):
->>   pixman: upgrade from 0.22.0 to the latest stable 0.24.0
->>   libxrandr: upgrade from 1.3.1 to the latest version 1.3.2
->>   lzo: upgrade from 2.05 to the latest version 2.06
->>   libxfont: upgrade from 1.4.3 to 1.4.4
->>   libxcursor: upgrade from 1.1.11 to 1.1.12
->>   xcb-util: upgrade from 0.3.6 to 0.3.8
->=20
-> I merged these, thanks.
->=20
->>   inputproto: upgrade from 2.0.2 to the latest stable 2.0.99.1
->=20
-> I was a bit worried about this one - is 20.0.99.1 stable or a prerelease =
-version?
-> Should we just wait for the final release of that one?
-Thanks for the remind!=20
-It's a development snapshot of 2.1.
-2.1.x (like 2.1.99.1) is not stable yet, either.
-So, I think we can use the current 2.0.2 until 2.2 is out.
-I'll update the RECIPE_NO_UPDATE_REASON field in distro_tracking_fields.inc=
-.
+The syslinux and grub-efi classes were generating config files in the current
+working directory. This caused a failure due to a race in the creation of the
+directories leading to cwd changing and the build failing to find the config
+files. While this has been addressed in bitbake, it is better to use an
+explicit path.
 
->=20
->>   distro_tracking_fields.inc: update the info
->=20
-> This failed to apply. Could you rebase and resubmit please?
-I don't know the cause, but it did apply in my side, against poky master, o=
-r oe-core master.
-Anyway, I'll rebase it against poky master(I'll also ensure it can apply fi=
-ne against oe-core master).
+While ${WORKDIR} may seem a more appropriate place, the recipe
+already uses ${S} for the "hdd" and "cd" construction, so we use ${S}
+here to keep things consolidated and consistent and address the issue
+with minimal change.
 
-Thanks,
--- Dexuan
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+---
+ meta/classes/grub-efi.bbclass |    8 +++-----
+ meta/classes/syslinux.bbclass |    4 ++--
+ 2 files changed, 5 insertions(+), 7 deletions(-)
 
+diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
+index 333e6c5..36b5831 100644
+--- a/meta/classes/grub-efi.bbclass
++++ b/meta/classes/grub-efi.bbclass
+@@ -16,7 +16,7 @@
+ 
+ do_bootimg[depends] += "grub-efi-${TARGET_ARCH}-native:do_deploy"
+ 
+-GRUBCFG = "grub.cfg"
++GRUBCFG = "${S}/grub.cfg"
+ GRUB_TIMEOUT ?= "10"
+ #FIXME: build this from the machine config
+ GRUB_OPTS ?= "serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1"
+@@ -56,7 +56,7 @@ grubefi_iso_populate() {
+ 
+ 	# FIXUP the <EFIDIR> token in the config
+ 	# FIXME: This can be dropped once mkdosfs is fixed
+-	sed -i "s@<EFIDIR>@${EFIDIR}@g" ${GRUB_ISODIR}/${GRUBCFG}
++	sed -i "s@<EFIDIR>@${EFIDIR}@g" ${GRUB_ISODIR}/$(basename "${GRUBCFG}")
+ }
+ 
+ grubefi_hddimg_populate() {
+@@ -64,7 +64,7 @@ grubefi_hddimg_populate() {
+ 
+ 	# FIXUP the <EFIDIR> token in the config
+ 	# FIXME: This can be dropped once mkdosfs is fixed
+-	sed -i "s@<EFIDIR>@@g" ${GRUB_HDDDIR}/${GRUBCFG}
++	sed -i "s@<EFIDIR>@@g" ${GRUB_HDDDIR}/$(basename "${GRUBCFG}")
+ }
+ 
+ # FIXME: The <EFIDIR> token can be replaced with ${EFIDIR} once the
+@@ -90,8 +90,6 @@ python build_grub_cfg() {
+     if not cfile:
+         raise bb.build.FuncFailed('Unable to read GRUBCFG')
+ 
+-    #bb.mkdirhier(os.path.dirname(cfile))
+-
+     try:
+          cfgfile = file(cfile, 'w')
+     except OSError:
+diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
+index 6eb804b..91c4275 100644
+--- a/meta/classes/syslinux.bbclass
++++ b/meta/classes/syslinux.bbclass
+@@ -15,8 +15,8 @@
+ do_bootimg[depends] += "syslinux:do_populate_sysroot \
+                         syslinux-native:do_populate_sysroot"
+ 
+-SYSLINUXCFG  = "syslinux.cfg"
+-SYSLINUXMENU = "menu"
++SYSLINUXCFG  = "${S}/syslinux.cfg"
++SYSLINUXMENU = "${S}/menu"
+ 
+ SYSLINUX_ISODIR = "${ISODIR}/isolinux"
+ SYSLINUX_HDDDIR = "${HDDDIR}"
+-- 
+1.7.6.4
 
 
 
