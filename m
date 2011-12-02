@@ -1,37 +1,27 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RWH20-0001Jl-10
+	(envelope-from <sgw@linux.intel.com>) id 1RWHOg-0001zd-2g
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Dec 2011 01:31:12 +0100
-Received: by bkbzv15 with SMTP id zv15so2427224bkb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Dec 2011 16:24:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=FMFhhhomlmgbN5mL7BQLQDN5ME28qhJXuhSr0JyN8XU=;
-	b=Ww+eRQcbsVrpHeUrF+0DNo+YHnxufwZtq1s1EEy642rWwZn+iaNIxVlbcjCu5l2kjo
-	UIxftu2fkSgM5LjfT+rGL4pzhLXDcppzbk8Pk53/196UQshaDSNDUpjLBRh4gs0IF+B3
-	d0SR9kMddXH2qmjKmr/dguxOLM+3qC/6hTVS4=
-Received: by 10.204.50.88 with SMTP id y24mr9798005bkf.53.1322785469863;
-	Thu, 01 Dec 2011 16:24:29 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id q6sm15112697bka.6.2011.12.01.16.24.28
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 01 Dec 2011 16:24:28 -0800 (PST)
-Date: Fri, 2 Dec 2011 01:24:17 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
+	Fri, 02 Dec 2011 01:54:38 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 01 Dec 2011 16:47:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,281,1320652800"; d="scan'208";a="91313935"
+Received: from unknown (HELO [10.255.15.251]) ([10.255.15.251])
+	by fmsmga001.fm.intel.com with ESMTP; 01 Dec 2011 16:47:55 -0800
+Message-ID: <4ED8203B.7050609@linux.intel.com>
+Date: Thu, 01 Dec 2011 16:47:55 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111202002416.GF32202@jama.jama.net>
-References: <cover.1322740824.git.Martin.Jansa@gmail.com>
-	<9f1d39eb3edbde086f99f084c2e88d5e9fc21332.1322740824.git.Martin.Jansa@gmail.com>
-	<1322741889.17484.115.camel@ted>
-	<20111201124146.GD19917@jama.jama.net>
-MIME-Version: 1.0
-In-Reply-To: <20111201124146.GD19917@jama.jama.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH][oe-core 1/4] sysstat: don't run populate-volatile.sh update in do_rootfs or without populate-volatile.sh
+References: <4ED6CC1E.5040504@windriver.com> <4ED70FBF.6020308@intel.com>
+	<CADkTA4O44WnWUuVsAAtBiOTUA=fzYft7yoG=f+bwPZn63Vcqkw@mail.gmail.com>
+In-Reply-To: <CADkTA4O44WnWUuVsAAtBiOTUA=fzYft7yoG=f+bwPZn63Vcqkw@mail.gmail.com>
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: Re: linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,124 +36,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Dec 2011 00:31:12 -0000
-X-Groupsio-MsgNum: 13501
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="/8E7gjuj425jZz9t"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 02 Dec 2011 00:54:38 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---/8E7gjuj425jZz9t
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 12/01/2011 01:58 PM, Bruce Ashfield wrote:
+> On Thu, Dec 1, 2011 at 12:25 AM, Saul Wold<saul.wold@intel.com>  wrote:
+>> On 11/30/2011 04:36 PM, Bruce Ashfield wrote:
+>>>
+>>> Richard/Saul,
+>>>
+>>> FYI: I can't get git-send email to work over the hotel wifi, so
+>>> I can't chain the patches to this email. If you want me to send
+>>> the patches separately, let me know. But for now, this is the
+>>> best I can do.
+>>>
+>>> This pull request represents a collection of changes that were
+>>> part of yocto M1 work, and that set the stage for more updates
+>>> that will follow in the not too distant future.
+>>>
+>>> I've bumped the 3.0 kernel to the 3.0.10 baseline (3.0.11 is
+>>> out, but not in this merge request) and updated our -rt patches
+>>> to the latest upstream -rt series.
+>>>
+>>> This also drops the 2.6.34 recipe and leaves it to be supported
+>>> in previous releases. If there's somewhere else I should be
+>>> putting it, let me know and I'll put it there.
+>>>
+>>> The kernel revision updates have been built and boot tested by
+>>> Tom and myself. And we have't seen any problems.
+>>>
+>>> Also included in this are some changes to kernel tools that
+>>> prepare to move the kernel tools into the kernel tree itself.
+>>> They also move us to doing configuration auditing using the
+>>> merge_config script that Darren and John Stultz have been
+>>> working on.
+>>>
+>>> And finally there's a small tweak to install the kernel tools
+>>> via Makefile in the package itself, something that I recall
+>>> Richard mentioning to me over 2 years ago a meeting .. so I thought
+>>> I'd finally get to it.
+>>>
+>>> Cheers,
+>>>
+>>> Brucedvhart@linux.intel.com
+>>>
+>>> cc: Tom Zanussi<tom.zanussi@intel.com>
+>>> cc: Darren Hart<dvhart@linux.intel.com>
+>>>
+>>> The following changes since commit
+>>> d7cd934376ae1edaf7055ec635eb3c85fdbf58b3:
+>>>
+>>> squashfs-tools: fix PR, those should start with 'r' (2011-11-30 23:37:44
+>>> +0000)
+>>>
+>>> are available in the git repository at:
+>>> git://git.pokylinux.org/poky-contrib zedd/kernel
+>>> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+>>>
+>>> Bruce Ashfield (7):
+>>> kern-tools: add pre_config and merge_config.sh to the list of tools
+>>> kernel-yocto: support allnoconfig base configuration
+>>> linux-yocto: remove 2.6.34 recipes
+>>> linux-yocto: v3.0.9 + enhancements
+>>> linux-yocto: v3.0.10 + rt27
+>>> linux-yocto: prefer in-tree tools to external ones
+>>> kern-tools: use Makefile provided install rules
+>>>
+>>> meta/classes/kernel-yocto.bbclass | 24 +++++++++-
+>>> .../kern-tools/kern-tools-native_git.bb | 15 ++----
+>>> meta/recipes-kernel/linux/linux-yocto-rt_2.6.34.bb | 38 ---------------
+>>> meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb | 8 ++--
+>>> meta/recipes-kernel/linux/linux-yocto_2.6.34.bb | 49 --------------------
+>>> meta/recipes-kernel/linux/linux-yocto_3.0.bb | 18 ++++----
+>>> 6 files changed, 39 insertions(+), 113 deletions(-)
+>>> delete mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_2.6.34.bb
+>>> delete mode 100644 meta/recipes-kernel/linux/linux-yocto_2.6.34.bb
+>>>
+>>
+>> I had a problem with this change set, it gave me the following:
+>>
+>> NOTE: Error expanding variable do_kernel_checkout               | ETA:
+>> 00:00:07
+>> ERROR: Unable to parse
+>> /intel/poky/distro/meta/recipes-kernel/linux-libc-headers/linux-libc-headers-yocto_git.bb
+>
+> Looking at this some more before I head for travel, I can't see how my
+> change set
+> caused this. I haven't touched the 2.6.37 kernel (where that SRC_URI points by
+> default) and I haven't touched any of the include files that it depends on.
+>
+> What machine were you building for ? I can't reproduce it here, so I'm
+> looking for
+> more information to properly debug the problem!
+>
 
-On Thu, Dec 01, 2011 at 01:41:46PM +0100, Martin Jansa wrote:
-> On Thu, Dec 01, 2011 at 12:18:09PM +0000, Richard Purdie wrote:
-> > On Thu, 2011-12-01 at 13:02 +0100, Martin Jansa wrote:
-> > > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > > ---
-> > >  meta/recipes-extended/sysstat/sysstat.inc       |    7 ++++++-
-> > >  meta/recipes-extended/sysstat/sysstat_10.0.2.bb |    2 +-
-> > >  2 files changed, 7 insertions(+), 2 deletions(-)
-> > >=20
-> > > diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes=
--extended/sysstat/sysstat.inc
-> > > index 2936f96..ca40ab5 100644
-> > > --- a/meta/recipes-extended/sysstat/sysstat.inc
-> > > +++ b/meta/recipes-extended/sysstat/sysstat.inc
-> > > @@ -22,7 +22,12 @@ do_install() {
-> > >  }
-> > > =20
-> > >  pkg_postinst_${PN} () {
-> > > -        /etc/init.d/populate-volatile.sh update
-> > > +        if [ -n "$D" ]; then
-> > > +                exit 1
-> > > +        fi
-> >=20
-> > I'm confused. Can't we exit 0 here since the system will have run
-> > populate-volatile.sh update at rootfs time or first boot as needed so we
-> > don't need to run it again?
-> >=20
-> > See recipes-core/dbus/dbus.inc or pulseaudio for similar examples.
->=20
-> Ah I didn't know about importance of return value in this case and I was
-> looking at=20
-> meta/classes/module.bbclass
-> meta/recipes-connectivity/avahi/avahi.inc
-> for similar examples.
->=20
-> I'll learn how it's changing behavior and why avahi has exit 1 in 2/3
-> and exit 0 in 1/3 postinst and then I'll send updated patch if needed,
-> but now I'm 5 hours late to daywork.. :).
+Problem found and solved, I will be sending this patchset in later today 
+with a consolidated pull.
 
-Now after reading
-3.1.6. Post Install Scripts
-in manual
-http://www.yoctoproject.org/docs/1.1/poky-ref-manual/poky-ref-manual.html#u=
-singpoky-extend-addpkg-postinstalls
+Sau!
 
-I'm confused too and wondering if dbus and pulseaudio are best examples..
-dbus:
-pkg_postinst_dbus() {
-        if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
-                /etc/init.d/populate-volatile.sh update
-        fi
-}
+> Cheers,
+>
+> Bruce
+>
+>>
+>> during parsing.
+>>
+>> Sau!
+>>
+>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>>
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+>
 
-so it this will succeed every time in do_rootfs (even with test expression =
-false), so it will be marked as installed=20
-and postinst won't be called on first boot, but will be called after every =
-upgrade. Is that what we really want?
 
-pulseaudio:
-pkg_postinst_${PN}-server() {
-        # can't do this offline
-        if [ "x$D" !=3D "x" ]; then
-                exit 1
-        fi
-
-        if [ -e ${sysconfdir}/init.d/populate-volatile.sh ] ; then
-            ${sysconfdir}/init.d/populate-volatile.sh update
-        fi
-}
-
-this looks the same as my postinst in sysstat (only difference is '"x$D" !=
-=3D "x"' instead of shorter '-n "$D"')
-and if I understand it right now, then this is better then what's in dbus.i=
-nc, because
-during rootfs we maybe have /etc/init.d/populate-volatile.sh in $D but do w=
-e want to call=20
-/etc/init.d/populate-volatile.sh on host? Or does it automagically prepend =
-$D to every path=20
-when it's executing postinst scripts in do_rootfs or does it some sort of c=
-hroot to $D?
-
-Even if we prefix the path with $D in postinst like:
-$D${sysconfdir}/init.d/populate-volatile.sh update
-the populate-volatile.sh script has hardcoded paths like '/etc/volatile.cac=
-he' and '/etc/ld.so.cache'
-inside, so it won't work very well when executed on host (without chrooting=
-) and we should postpone it=20
-to be executed really on target and that's why we need 'exit 1'.
-
-If I'm wrong please correct me and update "3.1.6. Post Install Scripts" to =
-be more clear about this issues.
-
-Cheers,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---/8E7gjuj425jZz9t
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk7YGrAACgkQN1Ujt2V2gBwRUgCfYDs4onPVBlVH30SNx4JKwC+g
-8aEAn3qzw3SQDJzWRjwJRG0zjV0kj0qO
-=P7o6
------END PGP SIGNATURE-----
-
---/8E7gjuj425jZz9t--
