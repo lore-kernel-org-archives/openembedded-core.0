@@ -1,23 +1,23 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RWN8o-0002b8-63
-	for openembedded-core@openembedded.org; Fri, 02 Dec 2011 08:02:38 +0100
+	(envelope-from <sgw@linux.intel.com>) id 1RWN8o-0002b8-VY
+	for openembedded-core@openembedded.org; Fri, 02 Dec 2011 08:02:39 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
 	by azsmga101.ch.intel.com with ESMTP; 01 Dec 2011 22:55:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,282,1320652800"; d="scan'208";a="43189766"
+X-IronPort-AV: E=Sophos;i="4.71,282,1320652800"; d="scan'208";a="43189769"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.15.251])
-	by AZSMGA002.ch.intel.com with ESMTP; 01 Dec 2011 22:55:51 -0800
+	by AZSMGA002.ch.intel.com with ESMTP; 01 Dec 2011 22:55:52 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@openembedded.org
-Date: Thu,  1 Dec 2011 22:55:35 -0800
-Message-Id: <92a6f28181d892192bb6d36b2327028bcd0b33e9.1322808632.git.sgw@linux.intel.com>
+Date: Thu,  1 Dec 2011 22:55:37 -0800
+Message-Id: <a52c38063de5e9acdd8e83f6629d45457cc29a3a.1322808632.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1322808632.git.sgw@linux.intel.com>
 References: <cover.1322808632.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1322808632.git.sgw@linux.intel.com>
 References: <cover.1322808632.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 04/18] resolvconf: Update to 1.62
+Subject: [CONSOLIDATED PULL 06/18] sysstat: Update to 10.0.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,43 +32,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Dec 2011 07:02:38 -0000
-
- * remove unneeded directory that does not get packaged
+X-List-Received-Date: Fri, 02 Dec 2011 07:02:39 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../{resolvconf_1.61.bb => resolvconf_1.62.bb}     |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-connectivity/resolvconf/{resolvconf_1.61.bb => resolvconf_1.62.bb} (78%)
+ .../{sysstat_10.0.2.bb => sysstat_10.0.3.bb}       |    6 ++----
+ 1 files changed, 2 insertions(+), 4 deletions(-)
+ rename meta/recipes-extended/sysstat/{sysstat_10.0.2.bb => sysstat_10.0.3.bb} (42%)
 
-diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.61.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.62.bb
-similarity index 78%
-rename from meta/recipes-connectivity/resolvconf/resolvconf_1.61.bb
-rename to meta/recipes-connectivity/resolvconf/resolvconf_1.62.bb
-index c924fe0..af72199 100644
---- a/meta/recipes-connectivity/resolvconf/resolvconf_1.61.bb
-+++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.62.bb
-@@ -14,8 +14,8 @@ PR = "r0"
+diff --git a/meta/recipes-extended/sysstat/sysstat_10.0.2.bb b/meta/recipes-extended/sysstat/sysstat_10.0.3.bb
+similarity index 42%
+rename from meta/recipes-extended/sysstat/sysstat_10.0.2.bb
+rename to meta/recipes-extended/sysstat/sysstat_10.0.3.bb
+index bd559d8..d445e88 100644
+--- a/meta/recipes-extended/sysstat/sysstat_10.0.2.bb
++++ b/meta/recipes-extended/sysstat/sysstat_10.0.3.bb
+@@ -4,7 +4,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
  
- SRC_URI = "${DEBIAN_MIRROR}/main/r/resolvconf/resolvconf_${PV}.tar.gz"
+ PR = "r0"
  
--SRC_URI[md5sum] = "ac1cfa1abc7c690f1d8917f746ad80a5"
--SRC_URI[sha256sum] = "0eaa97fa29f8e30a541d549abe76766e5e4edfa841721529c85616d7c0089908"
-+SRC_URI[md5sum] = "5d9656c9d7a2e1304d9d41ed13cf54a4"
-+SRC_URI[sha256sum] = "cd00b3757fc73d2729be6e2532ca033ddd5542c4deff451929695bcc3af97c61"
- 
- inherit allarch
- 
-@@ -24,7 +24,7 @@ do_compile () {
- }
- 
- do_install () {
--	install -d ${D}${sysconfdir} ${D}${sbindir} ${D}${base_sbindir} ${D}${localstatedir}/volatile/run/resolvconf/interface
-+	install -d ${D}${sysconfdir} ${D}${base_sbindir} ${D}${localstatedir}/volatile/run/resolvconf/interface
- 	install -d ${D}${mandir}/man8 ${D}${docdir}/${P}
- 	cp -pPR etc/* ${D}${sysconfdir}/
- 	chown -R root:root ${D}${sysconfdir}/
+-
+-
+-SRC_URI[md5sum] = "0253058fed65e9394c49255821b8803e"
+-SRC_URI[sha256sum] = "c89c7baa904f47aa62f3829a90f87509207bfc26ce11c3c4ec415d027ed3f78a"
++SRC_URI[md5sum] = "0e1ed5200f31f69a3b90ff1e81c07745"
++SRC_URI[sha256sum] = "7c0dd172f09edaff100b33db29ef502e15e71867b505c6d519f76a24fabcc1f5"
 -- 
 1.7.6.4
 
