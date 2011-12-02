@@ -1,22 +1,24 @@
-Received: from mail-vx0-f175.google.com ([209.85.220.175])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <fransmeulenbroeks@gmail.com>) id 1RWTM9-0007G7-NW
+	(envelope-from <otavio.salvador@gmail.com>) id 1RWUMt-00014I-Oz
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Dec 2011 14:40:49 +0100
-Received: by vcbfo13 with SMTP id fo13so2324402vcb.6
+	Fri, 02 Dec 2011 15:45:39 +0100
+Received: by bkbzv15 with SMTP id zv15so3145317bkb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Dec 2011 05:34:06 -0800 (PST)
+	Fri, 02 Dec 2011 06:38:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=DZj4IPd9/1tcsI4mVEUsAsw8M09Bwvd7SEoXm4jV7WQ=;
-	b=iL9uWX0PHf/IR6kOZ3CpVqIf+1UWt9v/V0V1R/8vMUYSmZ1g8+bpWrZM9Kmqsjs74E
-	+cksZHBw6KpucfgPCC5KKi6D9YOX+E8Z/4ZtOkaj35bpOTDAKQaO1rTYmvyfhAjyG+/I
-	kiFByXLNzBKiqHMqHrbppvlkKmmixdlKF0Yq8=
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=FMGs01oYD7bhs10byz+nfAeHY28XxJEb9rn5nrQiwH8=;
+	b=R7Lz0e7LYbR9fVK+0RM680a0v6Vd4CdCY8n/Mpom/4oZJNPy5snAQLPhlGTDkykQud
+	tmI6Dg0D9P7o1v6wtidJNMxaOa6jnZsh+1gB+xgDv816DUkGbeS2bXyYwrSeod0BvDAT
+	Sw3R2Pri9hoAWo6uV2yJNbBoSa3auk6KofOsE=
 MIME-Version: 1.0
-Received: by 10.52.72.227 with SMTP id g3mr9246503vdv.10.1322832845865; Fri,
-	02 Dec 2011 05:34:05 -0800 (PST)
-Received: by 10.52.28.238 with HTTP; Fri, 2 Dec 2011 05:34:05 -0800 (PST)
-In-Reply-To: <ED3E0BCACD909541BA94A34C4A164D4C401A404C@post.tritech.se>
+Received: by 10.204.133.207 with SMTP id g15mr10803342bkt.139.1322836735164;
+	Fri, 02 Dec 2011 06:38:55 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.54.74 with HTTP; Fri, 2 Dec 2011 06:38:55 -0800 (PST)
+In-Reply-To: <CACW_hTauUH+MErYe+AEMYNtJZ0rZ8D6ROS7-t8q=+4t23jwrqw@mail.gmail.com>
 References: <95547EE2-9E3E-4FB6-AA2A-A9653029F971@dominion.thruhere.net>
 	<20111201122407.GB19917@jama.jama.net>
 	<1322743071.17484.119.camel@ted>
@@ -24,9 +26,11 @@ References: <95547EE2-9E3E-4FB6-AA2A-A9653029F971@dominion.thruhere.net>
 	<20111201130733.GF19917@jama.jama.net>
 	<1322771625.17484.149.camel@ted>
 	<ED3E0BCACD909541BA94A34C4A164D4C401A404C@post.tritech.se>
-Date: Fri, 2 Dec 2011 14:34:05 +0100
-Message-ID: <CACW_hTauUH+MErYe+AEMYNtJZ0rZ8D6ROS7-t8q=+4t23jwrqw@mail.gmail.com>
-From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
+	<CACW_hTauUH+MErYe+AEMYNtJZ0rZ8D6ROS7-t8q=+4t23jwrqw@mail.gmail.com>
+Date: Fri, 2 Dec 2011 12:38:55 -0200
+X-Google-Sender-Auth: O4d45DKk8yJ5h-3bPZ5Im4J1fI8
+Message-ID: <CAP9ODKqrW+QW=0eVXJ64hXaDnMDs7AdHv+50XzcQXLPzSDjFiA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: Coordinating inter-layer dependencies
@@ -44,58 +48,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Dec 2011 13:40:49 -0000
-Content-Type: multipart/alternative; boundary=bcaec5016525e0036204b31c0573
+X-List-Received-Date: Fri, 02 Dec 2011 14:45:39 -0000
+Content-Type: multipart/alternative; boundary=0015175cd088b2030a04b31ced63
 
---bcaec5016525e0036204b31c0573
+--0015175cd088b2030a04b31ced63
 Content-Type: text/plain; charset=ISO-8859-1
 
-Ideally a specific revision of a layer should specify on which revision it
-depends on/was tested with, so people can reproduce that same setup.
+On Fri, Dec 2, 2011 at 11:34, Frans Meulenbroeks <
+fransmeulenbroeks@gmail.com> wrote:
 
-Randomly mixing revisions is a recipe for problems.
-Expecting that a layer informs its users that something is changing is
-probably not workable. How would a layer maintainer know what layers are
-actually depending on it (especially for things like oe-core)?
+> Ideally a specific revision of a layer should specify on which revision it
+> depends on/was tested with, so people can reproduce that same setup.
+>
 
-If one is using the head of a layer one is living on the bleeding edge (and
-hence sometimes one bleeds) (and doing production work based on that seems
-unwise).
+I've been using combo-layer to this to work here at O.S. Systems and this
+has been very easy to handle.
 
-Then again, I seem to recall that somewhere in the spring we agreed on a
-deprecation policy where "high impact changes" like for toolchain would be
-done like:
-- commit new version
-- wait a while (2 weeks?)
-- remove old version
+I made an internal repository that has oe-core and the layers I need so
+co-workers can get it and trust it will work; the person doing the update
+on the layers is expected to do a build before pushing it onto our internal
+repository and thus this works very well.
 
-thus giving people a chance to migrate.
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
-Frans.
-
-(PS: of course it is also possible to proceed in a perfectly synchronised
-lockstep, but that probably requires some central coordination and some
-staging trees or so to test against before the lockstep is performed)
-
---bcaec5016525e0036204b31c0573
+--0015175cd088b2030a04b31ced63
 Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
+<div class=3D"gmail_quote">On Fri, Dec 2, 2011 at 11:34, Frans Meulenbroeks=
+ <span dir=3D"ltr">&lt;<a href=3D"mailto:fransmeulenbroeks@gmail.com">frans=
+meulenbroeks@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_=
+quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
+ex;">
 Ideally a specific revision of a layer should specify on which revision it =
-depends on/was tested with, so people can reproduce that same setup.<br><br=
->Randomly mixing revisions is a recipe for problems. <br>Expecting that a l=
-ayer informs its users that something is changing is probably not workable.=
- How would a layer maintainer know what layers are actually depending on it=
- (especially for things like oe-core)?<br>
-<br>If one is using the head of a layer one is living on the bleeding edge =
-(and hence sometimes one bleeds) (and doing production work based on that s=
-eems unwise).<br><br>Then again, I seem to recall that somewhere in the spr=
-ing we agreed on a deprecation policy where &quot;high impact changes&quot;=
- like for toolchain would be done like:<br>
-- commit new version<br>- wait a while (2 weeks?)<br>- remove old version<b=
-r><br>thus giving people a chance to migrate.<br><br>Frans.<br><br>(PS: of =
-course it is also possible to proceed in a perfectly synchronised lockstep,=
- but that probably requires some central coordination and some staging tree=
-s or so to test against before the lockstep is performed)<br>
+depends on/was tested with, so people can reproduce that same setup.<br></b=
+lockquote><div><br></div><div>I&#39;ve been using combo-layer to this to wo=
+rk here at O.S. Systems and this has been very easy to handle.</div>
+<div><br></div><div>I made an internal repository that has oe-core and the =
+layers I need so co-workers can get it and trust it will work; the person d=
+oing the update on the layers is expected to do a build before pushing it o=
+nto our internal repository and thus this works very well.</div>
+<div>=A0</div></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio=
+@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=
+=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com=
+.br</a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
 
---bcaec5016525e0036204b31c0573--
+--0015175cd088b2030a04b31ced63--
