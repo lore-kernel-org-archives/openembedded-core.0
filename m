@@ -1,27 +1,30 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RWRdx-00077O-I9
+	(envelope-from <koen@dominion.thruhere.net>) id 1RWRgG-0007Cu-H4
 	for openembedded-core@lists.openembedded.org;
-	Fri, 02 Dec 2011 12:51:05 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 02 Dec 2011 03:44:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="82535356"
-Received: from unknown (HELO helios.localnet) ([10.252.121.254])
-	by orsmga002.jf.intel.com with ESMTP; 02 Dec 2011 03:44:21 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Fri, 02 Dec 2011 11:44:20 +0000
-Message-ID: <1805208.6B34s2ac97@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.7.3 (Linux/3.0.0-13-generic-pae; KDE/4.7.3; i686; ; )
-In-Reply-To: <7F3E05BB-DED9-441F-B557-4076C78DB63B@dominion.thruhere.net>
+	Fri, 02 Dec 2011 12:53:28 +0100
+Received: by bkbzv15 with SMTP id zv15so2964982bkb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 02 Dec 2011 03:46:46 -0800 (PST)
+Received: by 10.204.136.200 with SMTP id s8mr10631063bkt.49.1322826406028;
+	Fri, 02 Dec 2011 03:46:46 -0800 (PST)
+Received: from [172.20.1.19] (ip5451781a.direct-adsl.nl. [84.81.120.26])
+	by mx.google.com with ESMTPS id n14sm940196bkn.13.2011.12.02.03.46.44
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 02 Dec 2011 03:46:45 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <4517756.DZJl4RxAdk@helios>
+Date: Fri, 2 Dec 2011 12:46:40 +0100
+Message-Id: <188E020B-4FA5-4554-A145-E7581C3001A3@dominion.thruhere.net>
 References: <cover.1322782677.git.paul.eggleton@linux.intel.com>
-	<8cc5f124fb791a762bf6aace3a9bf8c1d1c39dd1.1322782677.git.paul.eggleton@linux.intel.com>
-	<7F3E05BB-DED9-441F-B557-4076C78DB63B@dominion.thruhere.net>
-MIME-Version: 1.0
+	<8afb5fd67ea37c1ff2ff4513f797f409a0e8a556.1322782677.git.paul.eggleton@linux.intel.com>
+	<95561DFA-A2E5-43AD-B83D-A83F3D329077@dominion.thruhere.net>
+	<4517756.DZJl4RxAdk@helios>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Mailer: Apple Mail (2.1251.1)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH 1/2] classes/buildhistory: add new output history collection class
+Subject: Re: [RFC PATCH 2/2] classes/buildhistory: merge in package history functionality
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,21 +39,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Dec 2011 11:51:05 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 02 Dec 2011 11:53:28 -0000
+X-Groupsio-MsgNum: 13554
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_448A2C24-128E-433F-BDE4-E1FAB93E6D8D";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-On Friday 02 December 2011 11:03:34 Koen Kooi wrote:
-> I know I forgot to update it, but that should be: 2007 - 2011
-
-OK, I have updated this in the branch.
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+--Apple-Mail=_448A2C24-128E-433F-BDE4-E1FAB93E6D8D
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+Op 2 dec. 2011, om 12:35 heeft Paul Eggleton het volgende geschreven:
+
+> On Friday 02 December 2011 11:15:31 Koen Kooi wrote:
+>> Does this do a commit per build as well?
+>=20
+> Yes, since the commit occurs when bitbake completes (in response to =
+the=20
+> BuildCompleted event).
+
+I noticed the extra bitbake spew :) =
+https://github.com/Angstrom-distribution/buildhistory/commits/master
+
+regards,
+
+Koen=
+
+--Apple-Mail=_448A2C24-128E-433F-BDE4-E1FAB93E6D8D
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAk7YuqMACgkQMkyGM64RGpGJcQCgkIQXlVMQlelJJErE6B2xoq7U
+ZZsAnR354pq6MEoJMocNN3LW131ayTzw
+=zWH+
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_448A2C24-128E-433F-BDE4-E1FAB93E6D8D--
