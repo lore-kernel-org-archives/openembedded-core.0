@@ -1,34 +1,32 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RWeVk-0004zN-Jv
+	(envelope-from <raj.khem@gmail.com>) id 1RWtso-0002J5-20
 	for openembedded-core@lists.openembedded.org;
-	Sat, 03 Dec 2011 02:35:29 +0100
-Received: by wgbds11 with SMTP id ds11so1941527wgb.24
+	Sat, 03 Dec 2011 19:00:18 +0100
+Received: by lagj5 with SMTP id j5so1679236lag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Dec 2011 17:28:44 -0800 (PST)
+	Sat, 03 Dec 2011 09:53:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=VycHqSJ9cLg5uhzwR63Wi9T38QJNY+EV+j89uaCMZ7o=;
-	b=gv2aJCQeggPSiWPgGxyG1OsJYm7qHX5C0wfxkGCRc4NgtudggWXJ5yirbtd8nOxtBZ
-	//cr8xNorrofePyqYyHi7OxPFZerqk9Wv6N6IrjGuANNeEc6BkD2yDcEbnmPA/+sBCCj
-	BzXkfuJDI4FmwirH9kxTYXQGsouY3CZXdyPDg=
-Received: by 10.227.208.133 with SMTP id gc5mr252229wbb.25.1322875724486;
-	Fri, 02 Dec 2011 17:28:44 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id 28sm10299887wby.3.2011.12.02.17.28.42
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 02 Dec 2011 17:28:43 -0800 (PST)
-Date: Sat, 3 Dec 2011 02:28:31 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=GaVIaZHDDjyX/RdMxeG/BEvHWuWkVxmCIlIU4fu8jdI=;
+	b=mnPxcxkP80QsKC6836fMnxCjtq0ADdXWRDCMkL5jJHo2ebqPd2n95uU+OZzbmhS0oX
+	8hEoAW9uNEgZVfv/ljN5vSMC/jhinWNOTfY1WrrUFpfjQR55pQnKJKvfyMjUqrCscIUT
+	mjs9e+9AZU5DzQCLTKeWymznzQuobCD1G4jUc=
+Received: by 10.152.105.67 with SMTP id gk3mr1909803lab.48.1322934811437; Sat,
+	03 Dec 2011 09:53:31 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.152.24.36 with HTTP; Sat, 3 Dec 2011 09:53:00 -0800 (PST)
+In-Reply-To: <a92d45d71d2d4aec2774e8feb23fcfdffaa8b2bc.1322856805.git.nitin.a.kamble@intel.com>
+References: <cover.1322856805.git.nitin.a.kamble@intel.com>
+	<a92d45d71d2d4aec2774e8feb23fcfdffaa8b2bc.1322856805.git.nitin.a.kamble@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 3 Dec 2011 09:53:00 -0800
+Message-ID: <CAMKF1spYoZgjmUDiiLnRL_8E6WBFxr8gyMi7zmPPvzLwke36vg@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111203012831.GA3797@jama.jama.net>
-References: <201112030111.04094.schnitzeltony@gmx.de>
-MIME-Version: 1.0
-In-Reply-To: <201112030111.04094.schnitzeltony@gmx.de>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: Parse error with empty builddir
+Cc: hjl.tools@gmail.com
+Subject: Re: [PATCH 01/11] gst-fluendo-mpegdemux: rework the CC hack
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,65 +41,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Dec 2011 01:35:29 -0000
-X-Groupsio-MsgNum: 13596
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="MGYHOYXEY6WxJCY8"
-Content-Disposition: inline
-
---MGYHOYXEY6WxJCY8
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+X-List-Received-Date: Sat, 03 Dec 2011 18:00:19 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Dec 03, 2011 at 01:11:03AM +0100, Andreas M=FCller wrote:
-> Hi
->=20
-> after pulling latest sources (angstrom environment) I get:
->=20
-> Pseudo is not present but is required, building this first before the mai=
-n build
-> NOTE: angstrom DOES NOT support libiconv because the eglibc provided icon=
-v=20
-> library is used                                                          =
-                                             =20
-> | ETA:  00:01:10
-> NOTE: angstrom DOES NOT support libiconv because the eglibc provided icon=
-v=20
-> library is used
-> ERROR: Failure expanding variable PRINC[:=3D], expression was ${@int(PRIN=
-C) + 1}=20
-> which triggered exception NameError: name 'PRINC' is not defined         =
-                                         =20
-> | ETA:  00:00:44
-> ERROR: Command execution failed: Exited with 1
-> [Superandy@localhost oe-core]$ grep -r PRINC *
->=20
-> It seems contstructs like ${@int(PRINC) + 1}  are common and found in sev=
-eral=20
-> recipes (outside of oe-core). I was out last week and still checking mail=
-s: did=20
-> I miss something?
+On Fri, Dec 2, 2011 at 12:19 PM,  <nitin.a.kamble@intel.com> wrote:
+> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+>
+> This fixes bug: [YOCTO #1403]
+>
+> Earlier hack was breaking compiler parameters set by tune settings. And t=
+hat caused x32
+> build failure. Now previous CC parameters are kept intact while adding ne=
+w -L parameter.
+>
+> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> ---
+> =C2=A0meta/recipes-multimedia/gstreamer/gst-fluendo.inc | =C2=A0 =C2=A02 =
++-
+> =C2=A01 files changed, 1 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-fluendo.inc b/meta/rec=
+ipes-multimedia/gstreamer/gst-fluendo.inc
+> index 203bdba..9615454 100644
+> --- a/meta/recipes-multimedia/gstreamer/gst-fluendo.inc
+> +++ b/meta/recipes-multimedia/gstreamer/gst-fluendo.inc
+> @@ -14,5 +14,5 @@ FILES_${PN}-dev +=3D "${libdir}/gstreamer-0.10/*.la ${l=
+ibdir}/gstreamer-0.10/*.a"
+> =C2=A0EXTRA_OECONF =3D "--disable-debug --disable-valgrind"
+>
+> =C2=A0# Hack to get STAGING_LIBDIR into the linker path when building
+> -CC =3D "${CCACHE} ${HOST_PREFIX}gcc -L${STAGING_LIBDIR}"
+> +CC +=3D "-L${STAGING_LIBDIR}"
 
-Apply this:
-http://lists.linuxtogo.org/pipermail/openembedded-core/2011-December/013779=
-=2Ehtml
+This looks like part of LDFLAGS more than CC to me.
 
-Cheers,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---MGYHOYXEY6WxJCY8
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk7Zez8ACgkQN1Ujt2V2gBySowCgr2/GANXDLwWisCIfywdX+GKI
-EroAn068L52nyMwCeUIpyVJB9oZWwwjz
-=T2a9
------END PGP SIGNATURE-----
-
---MGYHOYXEY6WxJCY8--
