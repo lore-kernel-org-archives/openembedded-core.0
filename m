@@ -1,38 +1,33 @@
-Received: from smtprelay-h21.telenor.se ([195.54.99.196])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <openembedded-core@emagii.com>) id 1RWvur-0005iR-4P
+	(envelope-from <raj.khem@gmail.com>) id 1RWvv8-0005jF-HX
 	for openembedded-core@lists.openembedded.org;
-	Sat, 03 Dec 2011 21:10:33 +0100
-Received: from ipb5.telenor.se (ipb5.telenor.se [195.54.127.168])
-	by smtprelay-h21.telenor.se (Postfix) with ESMTP id 3E541C84F
+	Sat, 03 Dec 2011 21:10:50 +0100
+Received: by lagj5 with SMTP id j5so1701052lag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 Dec 2011 21:03:46 +0100 (CET)
-X-SENDER-IP: [83.227.56.19]
-X-LISTENER: [smtp.bredband.net]
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: AlAbAEiA2k5T4zgTPGdsb2JhbAAMMAiqRwEBAQE3giQBAQEBAzhAEQsYCRYPCQMCAQIBMRQGDQgBAYgLtTSDbYQDgzEElFySGQ
-X-IronPort-AV: E=Sophos;i="4.71,290,1320620400"; 
-   d="scan'208";a="7432159"
-Received: from c-1338e353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
-	[10.175.196.242]) ([83.227.56.19])
-	by ipb5.telenor.se with ESMTP; 03 Dec 2011 21:03:45 +0100
-Message-ID: <4EDA80A2.5070303@emagii.com>
-Date: Sat, 03 Dec 2011 21:03:46 +0100
-From: Ulf Samuelsson <openembedded-core@emagii.com>
-Organization: eMagii
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.23) Gecko/20110922 Thunderbird/3.1.15
+	Sat, 03 Dec 2011 12:04:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=wtbOBl6mpL8UjhiEFQahH4zM8s8ry2QGIMZYo4VSzXU=;
+	b=bvKKR7Ylk308NQuSF79zBZLSXPHny7E7nt9R9z/XA3hJ/2bTI6qhPjQ19GIgm0A9S1
+	6oj3Ae6JGqO/5rzgGVOyVmc/y8OJdgo9zN+LKebr7AmZJhJfvz5dOhoHBH8kiLK4e4dP
+	yzoxXzqxMJn/fhMmsgl4Qo+btgHKCXoUybdAs=
+Received: by 10.152.106.115 with SMTP id gt19mr2175315lab.27.1322942645462;
+	Sat, 03 Dec 2011 12:04:05 -0800 (PST)
 MIME-Version: 1.0
-To: ulf@emagii.com, Patches and discussions about the oe-core layer
+Received: by 10.152.24.36 with HTTP; Sat, 3 Dec 2011 12:03:34 -0800 (PST)
+In-Reply-To: <4EC6B45A.9060107@intel.com>
+References: <4EC6B45A.9060107@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 3 Dec 2011 12:03:34 -0800
+Message-ID: <CAMKF1soKb__tnx5z-A5-P9nxxzbMayeW1_WqR72YbKLw0vPDSw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <4ED0CC76.4040606@emagii.com>	<1322579029.7964.0.camel@ted>	<4ED54C2B.2060505@emagii.com>	<4ED66835.3050400@intel.com>
-	<4ED793E2.5070205@emagii.com>
-In-Reply-To: <4ED793E2.5070205@emagii.com>
-Subject: Re: Feedback on building openembedded-core for qemuarm. Excerpts from buildlog
+Subject: Re: qemu needs > 2 GB of RAM to build?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ulf@emagii.com, Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -43,91 +38,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Dec 2011 20:10:33 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 03 Dec 2011 20:10:50 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 2011-12-01 15:49, Ulf Samuelsson wrote:
-> On 2011-11-30 18:30, Scott Garman wrote:
->> On 11/29/2011 01:18 PM, Ulf Samuelsson wrote:
->>>
->>>>> Seen a couple of errors as well.
->>>>>
->>>>> 1. ERROR: Function 'useradd_sysroot' failed
->>>>> Tried to access "/etc/group" but this was locked.
->>>>> Problem disappeared the next time I rebuilt.
->>>> Can you file a bug about this problem please. I think we need to go
->>>> through the code paths in shadow and ensure its locking is sane. I 
->>>> took
->>>> a quick look at the code and was left wondering what lckpwdf() does 
->>>> for
->>>> example. Scott, could you take a look at this?
->>>
->>> Bugzilla is out of service, so bugs cannot be filed.
->>
->> I have filed a bug for this, and have been trying to reproduce it 
->> without success:
->>
->> http://bugzilla.pokylinux.org/show_bug.cgi?id=1794
->>
->>> Haven't seen the issue since then so it is hard to give any details.
->>> I used very high BB_NUMBER_THREADS = 24.
->>
->> I do have access to a system with a lot of cores, and have been doing 
->> builds on it.
->>
->> I'd just like to confirm that when you saw this, it was a build from 
->> scratch (e.g, not using sstate cache from a previous build). And 
->> also, you *weren't* building this from a remote filesystem (NFS), 
->> correct?
->>
->> Thanks,
->>
->> Scott
->>
-> No NFS for sure.
+On Fri, Nov 18, 2011 at 11:39 AM, Scott Garman <scott.a.garman@intel.com> wrote:
+> Hi all,
 >
-> I think this was the first build, but only 99% sure.
-> It disappered when I restarted the build.
+> I'm testing building core-image-minimal in a resource-constrained
+> environment (a VirtualBox VM with 2300 MB of RAM allocated to it). With
+> PARALLEL_MAKE set to -j4 (the VM does have two CPUs allocated), I'm finding
+> that the build of qemu-native fails because the OOM killer steps in and
+> kills gcc. This is happening during the linking phase of building qemu.
 >
-> Have not seen this problem repeated, but then, the build on this
-> machine has other problems
+> If this is true, I assume it would pretty much mean that no one can build
+> our images without more than 2 GB of RAM. Is this true? Is this something
+> for us to be concerned about?
 >
-> Packages tend to fail since the c++ compiler seems to ignore "--sysroot"
->
-> Machine = Ubuntu-11.10 x64.
->
-> This is with BB_NUMBER_THREADS = "4"
-> If I change this, then the same problem occur, but in a different 
-> package.
-> (Tried with "4" AND "24")
->
-Have made some further tests with the same machine, but now running 
-Ubuntu 11.04 x64
 
-bitbake console-image
+I think this could be because of gcc bug
+http://gcc.gnu.org/bugzilla/show_bug.cgi?id=48190
+that bug has now been fixed and backported to gcc-4.5 and gcc 4.6
+branches as well
+however this fix has to go into the gcc in distro that you are running
+on build host
+we will get this fix into oe-core gcc as well but that may not help
+with qemu-native
 
-     PARALLEL_TASKS        BB_NUMBER_TASKS        BUILD TIME
-     2                                  2                                
-       1:24:16
-     4                                  4                                
-       0:48:22
-     6                                  6                                
-       0:45:00
-     24                                24                                
-     C++ compiler fails with --sysroot problem
-                                                                         
-         after ~2200 out of 2400 tasks.
-
-
-
-BR
-Ulf
-
--- 
-Best Regards
-Ulf Samuelsson
-eMagii
-
+-Khem
 
 
