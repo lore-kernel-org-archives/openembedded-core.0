@@ -1,28 +1,38 @@
-Received: from mail.gw90.de ([188.40.100.199])
+Received: from smtprelay-h21.telenor.se ([195.54.99.196])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RWu73-0002cb-N6 for openembedded-core@lists.openembedded.org;
-	Sat, 03 Dec 2011 19:15:01 +0100
-Received: from f053044125.adsl.alicedsl.de ([78.53.44.125]
-	helo=[192.168.178.21])
-	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RWu0m-0007v4-5z for openembedded-core@lists.openembedded.org;
-	Sat, 03 Dec 2011 18:08:32 +0000
-Message-ID: <1322935698.3532.21.camel@mattotaupa>
-From: Paul Menzel <paulepanter@users.sourceforge.net>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 03 Dec 2011 19:08:18 +0100
-In-Reply-To: <b224881df056580c35e265c2b3db311a1f366409.1322856805.git.nitin.a.kamble@intel.com>
-References: <a92d45d71d2d4aec2774e8feb23fcfdffaa8b2bc.1322856805.git.nitin.a.kamble@intel.com>
-	<b224881df056580c35e265c2b3db311a1f366409.1322856805.git.nitin.a.kamble@intel.com>
-X-Mailer: Evolution 3.0.3-2 
-Mime-Version: 1.0
-Subject: Re: [PATCH 02/11] mdadm: fix CC definition in the Makefile
+	(envelope-from <openembedded-core@emagii.com>) id 1RWvur-0005iR-4P
+	for openembedded-core@lists.openembedded.org;
+	Sat, 03 Dec 2011 21:10:33 +0100
+Received: from ipb5.telenor.se (ipb5.telenor.se [195.54.127.168])
+	by smtprelay-h21.telenor.se (Postfix) with ESMTP id 3E541C84F
+	for <openembedded-core@lists.openembedded.org>;
+	Sat,  3 Dec 2011 21:03:46 +0100 (CET)
+X-SENDER-IP: [83.227.56.19]
+X-LISTENER: [smtp.bredband.net]
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: AlAbAEiA2k5T4zgTPGdsb2JhbAAMMAiqRwEBAQE3giQBAQEBAzhAEQsYCRYPCQMCAQIBMRQGDQgBAYgLtTSDbYQDgzEElFySGQ
+X-IronPort-AV: E=Sophos;i="4.71,290,1320620400"; 
+   d="scan'208";a="7432159"
+Received: from c-1338e353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
+	[10.175.196.242]) ([83.227.56.19])
+	by ipb5.telenor.se with ESMTP; 03 Dec 2011 21:03:45 +0100
+Message-ID: <4EDA80A2.5070303@emagii.com>
+Date: Sat, 03 Dec 2011 21:03:46 +0100
+From: Ulf Samuelsson <openembedded-core@emagii.com>
+Organization: eMagii
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.23) Gecko/20110922 Thunderbird/3.1.15
+MIME-Version: 1.0
+To: ulf@emagii.com, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <4ED0CC76.4040606@emagii.com>	<1322579029.7964.0.camel@ted>	<4ED54C2B.2060505@emagii.com>	<4ED66835.3050400@intel.com>
+	<4ED793E2.5070205@emagii.com>
+In-Reply-To: <4ED793E2.5070205@emagii.com>
+Subject: Re: Feedback on building openembedded-core for qemuarm. Excerpts from buildlog
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: ulf@emagii.com, Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -33,106 +43,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Dec 2011 18:15:01 -0000
-X-Groupsio-MsgNum: 13598
-Content-Type: multipart/signed; micalg="pgp-sha1";
-	protocol="application/pgp-signature"; 
-	boundary="=-3xFadeE3Xd/nylwfvHM7"
-
---=-3xFadeE3Xd/nylwfvHM7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Dear Nitin,
-
-
-thank you for your patch.
-
-Am Freitag, den 02.12.2011, 12:20 -0800 schrieb nitin.a.kamble@intel.com:
-> From: Nitin A Kamble <nitin.a.kamble@intel.com>
->=20
-> By hardcoding CC's definition in the Makefile, all the gcc parameters
-> set by tune settings are lost. Causing compile failure with x32 toolchain
->=20
-> As the bitbake defined CC is good, there is no need to redfine CC in the
-
-red*e*fine
-
-> make file, hence removed it to fix the issue.
->=20
-> This fixes bug: [YOCTO #1414]
->=20
-> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> ---
->  .../mdadm/files/mdadm_fix_for_x32.patch            |   24 ++++++++++++++=
-++++++
->  meta/recipes-extended/mdadm/mdadm_3.2.2.bb         |    3 +-
->  2 files changed, 26 insertions(+), 1 deletions(-)
->  create mode 100644 meta/recipes-extended/mdadm/files/mdadm_fix_for_x32.p=
-atch
->=20
-> diff --git a/meta/recipes-extended/mdadm/files/mdadm_fix_for_x32.patch b/=
-meta/recipes-extended/mdadm/files/mdadm_fix_for_x32.patch
-> new file mode 100644
-> index 0000000..898e70b
-> --- /dev/null
-> +++ b/meta/recipes-extended/mdadm/files/mdadm_fix_for_x32.patch
-> @@ -0,0 +1,24 @@
-> +UpstreamStatus: pending
-> +
-> +By hardcoding CC's definition in the Makefile, all the gcc parameters=
-=20
-> +set by tune settings are lost. Causing compile failure with x32 toolchai=
-n
-> +
-> +As the bitbake defined CC is good, there is no need to redfine CC in the=
-=20
-> +make file, hence removed it to fix the issue.
-> +
-> +Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
-> +2011/12/01
-> +
-> +Index: mdadm-3.2.2/Makefile
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +--- mdadm-3.2.2.orig/Makefile
-> ++++ mdadm-3.2.2/Makefile
-> +@@ -40,7 +40,7 @@ KLIBC=3D/home/src/klibc/klibc-0.77
-> +=20
-> + KLIBC_GCC =3D gcc -nostdinc -iwithprefix include -I$(KLIBC)/klibc/inclu=
-de -I$(KLIBC)/linux/include -I$(KLIBC)/klibc/arch/i386/include -I$(KLIBC)/k=
-libc/include/bits32
-> +=20
-> +-CC =3D $(CROSS_COMPILE)gcc
-> ++#CC =3D $(CROSS_COMPILE)gcc
-
-I would prefer to fix this the way it can be applied upstream. I could
-even ask them to apply it.
-
-> + CXFLAGS =3D -ggdb
-> + CWFLAGS =3D -Wall -Werror -Wstrict-prototypes -Wextra -Wno-unused-param=
-eter
-> + ifdef WARN_UNUSED
-
-[=E2=80=A6]
-
-
-Thanks,
-
-Paul
-
---=-3xFadeE3Xd/nylwfvHM7
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+X-List-Received-Date: Sat, 03 Dec 2011 20:10:33 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.11 (GNU/Linux)
+On 2011-12-01 15:49, Ulf Samuelsson wrote:
+> On 2011-11-30 18:30, Scott Garman wrote:
+>> On 11/29/2011 01:18 PM, Ulf Samuelsson wrote:
+>>>
+>>>>> Seen a couple of errors as well.
+>>>>>
+>>>>> 1. ERROR: Function 'useradd_sysroot' failed
+>>>>> Tried to access "/etc/group" but this was locked.
+>>>>> Problem disappeared the next time I rebuilt.
+>>>> Can you file a bug about this problem please. I think we need to go
+>>>> through the code paths in shadow and ensure its locking is sane. I 
+>>>> took
+>>>> a quick look at the code and was left wondering what lckpwdf() does 
+>>>> for
+>>>> example. Scott, could you take a look at this?
+>>>
+>>> Bugzilla is out of service, so bugs cannot be filed.
+>>
+>> I have filed a bug for this, and have been trying to reproduce it 
+>> without success:
+>>
+>> http://bugzilla.pokylinux.org/show_bug.cgi?id=1794
+>>
+>>> Haven't seen the issue since then so it is hard to give any details.
+>>> I used very high BB_NUMBER_THREADS = 24.
+>>
+>> I do have access to a system with a lot of cores, and have been doing 
+>> builds on it.
+>>
+>> I'd just like to confirm that when you saw this, it was a build from 
+>> scratch (e.g, not using sstate cache from a previous build). And 
+>> also, you *weren't* building this from a remote filesystem (NFS), 
+>> correct?
+>>
+>> Thanks,
+>>
+>> Scott
+>>
+> No NFS for sure.
+>
+> I think this was the first build, but only 99% sure.
+> It disappered when I restarted the build.
+>
+> Have not seen this problem repeated, but then, the build on this
+> machine has other problems
+>
+> Packages tend to fail since the c++ compiler seems to ignore "--sysroot"
+>
+> Machine = Ubuntu-11.10 x64.
+>
+> This is with BB_NUMBER_THREADS = "4"
+> If I change this, then the same problem occur, but in a different 
+> package.
+> (Tried with "4" AND "24")
+>
+Have made some further tests with the same machine, but now running 
+Ubuntu 11.04 x64
 
-iEYEABECAAYFAk7aZZIACgkQPX1aK2wOHVgT3ACeN7jrZrHcuTuf71lJVqT/koK9
-/5wAniGYCv44X6YDIM67h1mlFLJDbJXz
-=p8N8
------END PGP SIGNATURE-----
+bitbake console-image
 
---=-3xFadeE3Xd/nylwfvHM7--
+     PARALLEL_TASKS        BB_NUMBER_TASKS        BUILD TIME
+     2                                  2                                
+       1:24:16
+     4                                  4                                
+       0:48:22
+     6                                  6                                
+       0:45:00
+     24                                24                                
+     C++ compiler fails with --sysroot problem
+                                                                         
+         after ~2200 out of 2400 tasks.
+
+
+
+BR
+Ulf
+
+-- 
+Best Regards
+Ulf Samuelsson
+eMagii
+
+
+
