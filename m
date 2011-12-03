@@ -1,33 +1,53 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from tx2ehsobe001.messaging.microsoft.com ([65.55.88.11]
+	helo=TX2EHSOBE001.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RWvv8-0005jF-HX
+	(envelope-from <B29882@freescale.com>) id 1RWwDg-0006FS-94
 	for openembedded-core@lists.openembedded.org;
-	Sat, 03 Dec 2011 21:10:50 +0100
-Received: by lagj5 with SMTP id j5so1701052lag.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 03 Dec 2011 12:04:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=wtbOBl6mpL8UjhiEFQahH4zM8s8ry2QGIMZYo4VSzXU=;
-	b=bvKKR7Ylk308NQuSF79zBZLSXPHny7E7nt9R9z/XA3hJ/2bTI6qhPjQ19GIgm0A9S1
-	6oj3Ae6JGqO/5rzgGVOyVmc/y8OJdgo9zN+LKebr7AmZJhJfvz5dOhoHBH8kiLK4e4dP
-	yzoxXzqxMJn/fhMmsgl4Qo+btgHKCXoUybdAs=
-Received: by 10.152.106.115 with SMTP id gt19mr2175315lab.27.1322942645462;
-	Sat, 03 Dec 2011 12:04:05 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.152.24.36 with HTTP; Sat, 3 Dec 2011 12:03:34 -0800 (PST)
-In-Reply-To: <4EC6B45A.9060107@intel.com>
-References: <4EC6B45A.9060107@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 3 Dec 2011 12:03:34 -0800
-Message-ID: <CAMKF1soKb__tnx5z-A5-P9nxxzbMayeW1_WqR72YbKLw0vPDSw@mail.gmail.com>
+	Sat, 03 Dec 2011 21:30:00 +0100
+Received: from mail55-tx2-R.bigfish.com (10.9.14.248) by
+	TX2EHSOBE001.bigfish.com (10.9.40.21) with Microsoft SMTP Server id
+	14.1.225.23; Sat, 3 Dec 2011 20:23:13 +0000
+Received: from mail55-tx2 (localhost [127.0.0.1])	by mail55-tx2-R.bigfish.com
+	(Postfix) with ESMTP id 228405A01CE	for
+	<openembedded-core@lists.openembedded.org>;
+	Sat,  3 Dec 2011 20:23:12 +0000 (UTC)
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1202hzzz2dh2a8h668h839h8e2h8e3h67h)
+X-Spam-TCS-SCL: 6:0
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail55-tx2 (localhost.localdomain [127.0.0.1]) by mail55-tx2
+	(MessageSwitch) id 132294379239426_3062; Sat,  3 Dec 2011 20:23:12 +0000
+	(UTC)
+Received: from TX2EHSMHS027.bigfish.com (unknown [10.9.14.237])	by
+	mail55-tx2.bigfish.com (Postfix) with ESMTP id DE91D620046	for
+	<openembedded-core@lists.openembedded.org>;
+	Sat,  3 Dec 2011 20:23:11 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS027.bigfish.com
+	(10.9.99.127) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Sat, 3 Dec 2011 20:23:11 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.83]) by
+	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
+	14.01.0339.002; Sat, 3 Dec 2011 14:23:11 -0600
+From: McClintock Matthew-B29882 <B29882@freescale.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: qemu needs > 2 GB of RAM to build?
+Thread-Topic: meta-environment.bb: nostamp?
+Thread-Index: AQHMsflfSpSkeW2T10exyT87jqKaNQ==
+Date: Sat, 3 Dec 2011 20:23:10 +0000
+Message-ID: <CAEsOVNekYJtuSGfjb_gr8qS4veGgQOR1VgWkfHzCqds2Oe-6qg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: meta-environment.bb: nostamp?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -38,32 +58,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Dec 2011 20:10:50 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 03 Dec 2011 20:30:00 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <0C3F88A5730DDF498BDAA00CCF584C9D@freescale.net>
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 18, 2011 at 11:39 AM, Scott Garman <scott.a.garman@intel.com> wrote:
-> Hi all,
->
-> I'm testing building core-image-minimal in a resource-constrained
-> environment (a VirtualBox VM with 2300 MB of RAM allocated to it). With
-> PARALLEL_MAKE set to -j4 (the VM does have two CPUs allocated), I'm finding
-> that the build of qemu-native fails because the OOM killer steps in and
-> kills gcc. This is happening during the linking phase of building qemu.
->
-> If this is true, I assume it would pretty much mean that no one can build
-> our images without more than 2 GB of RAM. Is this true? Is this something
-> for us to be concerned about?
->
+Why do we have no stamps generated here for certain tasks? I'm getting
+sstate-cache generated twice for this recipe, but I can't debug past
+the step below because the stamps are not generated!
 
-I think this could be because of gcc bug
-http://gcc.gnu.org/bugzilla/show_bug.cgi?id=48190
-that bug has now been fixed and backported to gcc-4.5 and gcc 4.6
-branches as well
-however this fix has to go into the gcc in distro that you are running
-on build host
-we will get this fix into oe-core gcc as well but that may not help
-with qemu-native
+$ bitbake-diffsigs
+x86_64-nativesdk-fslsdk-linux/meta-environment-powerpc-1.0-r7.do_package.si=
+gdata.*
+Hash for dependent task meta-environment.bb.do_install changed from
+0cb26d08ac9e0ead20f5dd7865bc43e3 to c2165531ac95edd49188597bae81a70d
 
--Khem
+-M=
+
 
 
