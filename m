@@ -1,57 +1,49 @@
-Received: from ch1ehsobe005.messaging.microsoft.com ([216.32.181.185]
+Received: from ch1ehsobe004.messaging.microsoft.com ([216.32.181.184]
 	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RXHxJ-0003aU-Ha
+	(envelope-from <B29882@freescale.com>) id 1RXITl-0006Cf-2U
 	for openembedded-core@lists.openembedded.org;
-	Sun, 04 Dec 2011 20:42:33 +0100
-Received: from mail189-ch1-R.bigfish.com (10.43.68.248) by
-	CH1EHSOBE002.bigfish.com (10.43.70.52) with Microsoft SMTP Server id
-	14.1.225.23; Sun, 4 Dec 2011 19:35:47 +0000
-Received: from mail189-ch1 (localhost [127.0.0.1])	by
-	mail189-ch1-R.bigfish.com (Postfix) with ESMTP id A4E6F62023E	for
+	Sun, 04 Dec 2011 21:16:05 +0100
+Received: from mail195-ch1-R.bigfish.com (10.43.68.252) by
+	CH1EHSOBE018.bigfish.com (10.43.70.68) with Microsoft SMTP Server id
+	14.1.225.23; Sun, 4 Dec 2011 20:09:19 +0000
+Received: from mail195-ch1 (localhost [127.0.0.1])	by
+	mail195-ch1-R.bigfish.com (Postfix) with ESMTP id 48ACF54019E	for
 	<openembedded-core@lists.openembedded.org>;
-	Sun,  4 Dec 2011 19:35:47 +0000 (UTC)
-X-SpamScore: -12
-X-BigFish: VS-12(zz9371K1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h)
+	Sun,  4 Dec 2011 19:21:40 +0000 (UTC)
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839h)
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
 	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail189-ch1 (localhost.localdomain [127.0.0.1]) by mail189-ch1
-	(MessageSwitch) id 1323027345585252_26073;
-	Sun,  4 Dec 2011 19:35:45 +0000 (UTC)
-Received: from CH1EHSMHS008.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.246])	by mail189-ch1.bigfish.com (Postfix) with ESMTP id
-	899D020117 for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Dec 2011 19:35:45 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS008.bigfish.com
-	(10.43.70.8) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Sun, 4 Dec 2011 19:35:41 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.83]) by
-	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
-	14.01.0339.002; Sun, 4 Dec 2011 13:35:40 -0600
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] do_populate_lic_setscene when building LSB on edison
-Thread-Index: AQHMsrTI+sIH3mCgFEC3XmCMc1OGDZXMdg2AgAAAqgCAAAAnAA==
-Date: Sun, 4 Dec 2011 19:35:39 +0000
-Message-ID: <CAEsOVNd6g1Vn6TgzJ1ppPYY5vq0T4F=EXdDqtQB7L5C1z28VJg@mail.gmail.com>
-References: <CAEsOVNceh3VcNJ9P=mhFnwOPn_w=QrRMPNTZkdnwf5dsapFfaA@mail.gmail.com>
-	<CAPhnLPBwuKWbVXrk9feYzcxQOogtif7As+BgFqT-s1njDtJSKA@mail.gmail.com>
-	<CAEsOVNdFw+8Wis4jO8TT5zkzs=j4p7NWF1HpZhyzfjLBEMWvBA@mail.gmail.com>
-In-Reply-To: <CAEsOVNdFw+8Wis4jO8TT5zkzs=j4p7NWF1HpZhyzfjLBEMWvBA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
+Received: from mail195-ch1 (localhost.localdomain [127.0.0.1]) by mail195-ch1
+	(MessageSwitch) id 1323026498205681_29049;
+	Sun,  4 Dec 2011 19:21:38 +0000 (UTC)
+Received: from CH1EHSMHS034.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.241])	by mail195-ch1.bigfish.com (Postfix) with ESMTP id
+	2D6922C0043	for <openembedded-core@lists.openembedded.org>;
+	Sun,  4 Dec 2011 19:21:38 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS034.bigfish.com
+	(10.43.70.34) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Sun, 4 Dec 2011 20:09:17 +0000
+Received: from az33smr01.freescale.net (10.64.34.199) by
+	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
+	Server id 14.1.339.2; Sun, 4 Dec 2011 14:09:15 -0600
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
+	by az33smr01.freescale.net (8.13.1/8.13.0) with ESMTP id
+	pB4K9Fah025077	for <openembedded-core@lists.openembedded.org>;
+	Sun, 4 Dec 2011 14:09:15 -0600 (CST)
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 4 Dec 2011 14:09:14 -0600
+Message-ID: <1323029354-14952-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.6.1
 MIME-Version: 1.0
 X-OriginatorOrg: freescale.com
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>
-Subject: Re: do_populate_lic_setscene when building LSB on edison
+Subject: [PATCH] openjade-native_1.3.2.bb: remove CONFIGUREOPTS as vardep for do_configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -62,38 +54,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Dec 2011 19:42:34 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <94CE470BC7E07D429D09986D68968263@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 04 Dec 2011 20:16:05 -0000
+Content-Type: text/plain
 
-On Sun, Dec 4, 2011 at 1:34 PM, Matthew McClintock <msm@freescale.com> wrot=
-e:
-> On Sun, Dec 4, 2011 at 1:32 PM, Flanagan, Elizabeth
-> <elizabeth.flanagan@intel.com> wrote:
->> On Sun, Dec 4, 2011 at 10:44 AM, McClintock Matthew-B29882
->> <B29882@freescale.com> wrote:
->>>
->>> Can anyone comment if this issue has been resolved on master? It's
->>> very random which package it occurs on, it only seems to happen when
->>> building the LSB target, and it also appears to happen on my CentOS 5
->>> box and not my Ubuntu box (at least less often)... sometimes it
->>> happens only on one package in a build, sometimes it's 5-10
->>> packages...
->>>
->>
->> I haven't run across this. Is this from a clean sstate-cache? I'm assumi=
-ng
->> this is from an older release (as bind is now at 9.8.1).
->
-> This is on our last release (edison, 1.1) from a full sstate-cache
-> rebuild. It's an sstate-cache issue...
+This variable was being expanded immediately and pulling in
+paths to the variable dependecies which causes it's sstate-cache
+to never be reused
 
-I'll add that it's edison with a handful of fixes pulled from master.
-Looking more like our 1.1.1 release.
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+ .../openjade/openjade-native_1.3.2.bb              |    5 +++++
+ 1 files changed, 5 insertions(+), 0 deletions(-)
 
--M=
+diff --git a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+index 6cc6bb5..72f5bb2 100644
+--- a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
++++ b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+@@ -28,6 +28,11 @@ EXTRA_OECONF = "--enable-spincludedir=${STAGING_INCDIR}/OpenSP \
+ # results in it being specified twice when configure is run.
+ CONFIGUREOPTS := "${@d.getVar('CONFIGUREOPTS', True).replace('--datadir=${datadir}', '--datadir=${STAGING_DATADIR}/sgml/openjade-${PV}')}"
+ 
++# CONFIGUREOPTS has hard coded paths so we need to ignore it's vardeps
++# there are other bits in there too but they are picked up by other variable
++# dependencies so it all works out
++do_configure[vardepsexclude] += "CONNFIGUREOPTS"
++
+ CFLAGS =+ "-I${S}/include"
+ 
+ SSTATEPOSTINSTFUNCS += "openjade_sstate_postinst"
+-- 
+1.7.6.1
+
 
 
 
