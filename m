@@ -1,45 +1,28 @@
-Received: from ch1ehsobe004.messaging.microsoft.com ([216.32.181.184]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RXITl-0006Cf-2U
+	(envelope-from <jay@jay-tech.ru>) id 1RXImf-0006YI-Bd
 	for openembedded-core@lists.openembedded.org;
-	Sun, 04 Dec 2011 21:16:05 +0100
-Received: from mail195-ch1-R.bigfish.com (10.43.68.252) by
-	CH1EHSOBE018.bigfish.com (10.43.70.68) with Microsoft SMTP Server id
-	14.1.225.23; Sun, 4 Dec 2011 20:09:19 +0000
-Received: from mail195-ch1 (localhost [127.0.0.1])	by
-	mail195-ch1-R.bigfish.com (Postfix) with ESMTP id 48ACF54019E	for
-	<openembedded-core@lists.openembedded.org>;
-	Sun,  4 Dec 2011 19:21:40 +0000 (UTC)
-X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail195-ch1 (localhost.localdomain [127.0.0.1]) by mail195-ch1
-	(MessageSwitch) id 1323026498205681_29049;
-	Sun,  4 Dec 2011 19:21:38 +0000 (UTC)
-Received: from CH1EHSMHS034.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.241])	by mail195-ch1.bigfish.com (Postfix) with ESMTP id
-	2D6922C0043	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Dec 2011 19:21:38 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS034.bigfish.com
-	(10.43.70.34) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Sun, 4 Dec 2011 20:09:17 +0000
-Received: from az33smr01.freescale.net (10.64.34.199) by
-	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
-	Server id 14.1.339.2; Sun, 4 Dec 2011 14:09:15 -0600
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
-	by az33smr01.freescale.net (8.13.1/8.13.0) with ESMTP id
-	pB4K9Fah025077	for <openembedded-core@lists.openembedded.org>;
-	Sun, 4 Dec 2011 14:09:15 -0600 (CST)
-From: Matthew McClintock <msm@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 4 Dec 2011 14:09:14 -0600
-Message-ID: <1323029354-14952-1-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.6.1
+	Sun, 04 Dec 2011 21:35:37 +0100
+Received: by eekc50 with SMTP id c50so186033eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 04 Dec 2011 12:28:52 -0800 (PST)
+Received: by 10.14.9.163 with SMTP id 35mr495752eet.234.1323030530309; Sun, 04
+	Dec 2011 12:28:50 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH] openjade-native_1.3.2.bb: remove CONFIGUREOPTS as vardep for do_configure
+Sender: jay@jay-tech.ru
+Received: by 10.213.9.144 with HTTP; Sun, 4 Dec 2011 12:28:28 -0800 (PST)
+X-Originating-IP: [78.106.255.1]
+In-Reply-To: <CAGiJk9e1hij=EsWo8=nTmZxNjvptXMGjFRumKSJ3mKYf6-t3QA@mail.gmail.com>
+References: <CAGiJk9dH=1aV-YFkcr8aAkNsMq+dM4625FuOJHF_et4bYBPA+A@mail.gmail.com>
+	<528C3B90-90CF-48F7-AD32-0200B1F16F82@dominion.thruhere.net>
+	<CAGiJk9e1hij=EsWo8=nTmZxNjvptXMGjFRumKSJ3mKYf6-t3QA@mail.gmail.com>
+From: Yury Bushmelev <jay4mail@gmail.com>
+Date: Sun, 4 Dec 2011 23:28:28 +0300
+X-Google-Sender-Auth: eLu4OkupMq7JS6n_Z1M2smiQMtY
+Message-ID: <CAJG6M_OAw=jfmJJzAc98_XSbcX8ki29Oz1G6zhk+3hSkQXSwdw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: RFC: On-screen- / virtual-keyboard
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,37 +37,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Dec 2011 20:16:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 04 Dec 2011 20:35:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-This variable was being expanded immediately and pulling in
-paths to the variable dependecies which causes it's sstate-cache
-to never be reused
+2011/12/1 Samuel Stirtzel <s.stirtzel@googlemail.com>:
+> 2011/12/1 Koen Kooi <koen@dominion.thruhere.net>:
+>>
+>> Op 1 dec. 2011, om 11:47 heeft Samuel Stirtzel het volgende geschreven:
+>>
+>>> Hi,
+>>> some devices like the Nokia N900 or the OpenPandora provide a hardware
+>>> keyboard,
+>>> other devices need USB keyboards to operate, but how could a user
+>>> input text into a touchscreen-only device?
+>>>
+>>>
+>>> #1. The situation
+>>>
+>>> Portable devices with a touchscreen usually provide virtual keyboards,
+>>> looking around in OE-dev and OE-Core,
+>>> there is illume-keyboard but i doubt it can be used with XFCE that easi=
+ly.
+>>>
+>>> To tell the user that he has to buy a (small) hardware keyboard to use
+>>> a touchscreen device isn't an "appropriate" solution,
+>>> if you know what I mean ;)
+>>>
+>>>
+>>>
+>>> #2. What was already discovered
+>>>
+>>> There are plenty of virtual keyboards out there, for example:
+>>> -gok (gnome on-screen keyboard) [1]
+>>> -kvkbd (kde virtual keyboard) [2]
+>>> -illume-keyboard (e17 enlightenment on-screen-keyboard add-on) [3]
+>>> -onboard (generic on-screen keyboard) [4]
+>>> -(Qt) Colibri (in application virtual keyboard) [5]
+>>> -(Qt/Gtk2/Gtk3) Maliit (in application virtual keyboard) [6]
+>>
+>> Don't forget matchbox-keyboard and matchbox-keyboard2 :)
+>
+> Right I forgot about it, sorry.
+>
+> So the new list is as follows:
+>
+> #2. What was already discovered
+>
+> There are plenty of virtual keyboards out there, for example:
+> -gok (gnome on-screen keyboard) [1]
+> -kvkbd (kde virtual keyboard) [2]
+> -illume-keyboard (e17 enlightenment on-screen-keyboard add-on) [3]
+> -onboard (generic on-screen keyboard) [4]
+> =A0-(Qt) Colibri (in application virtual keyboard) [5]
+> -(Qt/Gtk2/Gtk3) Maliit (in application virtual keyboard) [6]
+> -matchbox-keyboards (matchbox wm virtual keyboard) [7]
+>
+> #5. Appendix
+>
+> [1] gok: http://www.gok.ca/
+> [2] kvkbd: http://kde-apps.org/content/show.php?content=3D94374
+> [3] illume: http://wiki.openmoko.org/wiki/Illume
+> [4] onboard: https://launchpad.net/onboard
+> [5] colibri: https://projects.developer.nokia.com/colibri (note: site
+> currently in maintenance)
+> [6] maliit: https://wiki.maliit.org/Main_Page
+> [7] matchbox-keyboard: http://matchbox-project.org/ (note: the site
+> seems to currently get reworked, so I got no direct link)
 
-Signed-off-by: Matthew McClintock <msm@freescale.com>
----
- .../openjade/openjade-native_1.3.2.bb              |    5 +++++
- 1 files changed, 5 insertions(+), 0 deletions(-)
+My list of virtual keyboards includes also:
+* xvkbd http://homepage3.nifty.com/tsato/xvkbd/
+* qvkeyboard http://qt-apps.org/content/show.php/QVKeyboard?content=3D77983
+* Florence http://florence.sourceforge.net/english.html
+* GTKeyboard http://www.gnu.org/software/gtkeyboard/gtkeyboard.html
+* Literki http://wiki.openmoko.org/wiki/Literki
 
-diff --git a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-index 6cc6bb5..72f5bb2 100644
---- a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-+++ b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-@@ -28,6 +28,11 @@ EXTRA_OECONF = "--enable-spincludedir=${STAGING_INCDIR}/OpenSP \
- # results in it being specified twice when configure is run.
- CONFIGUREOPTS := "${@d.getVar('CONFIGUREOPTS', True).replace('--datadir=${datadir}', '--datadir=${STAGING_DATADIR}/sgml/openjade-${PV}')}"
- 
-+# CONFIGUREOPTS has hard coded paths so we need to ignore it's vardeps
-+# there are other bits in there too but they are picked up by other variable
-+# dependencies so it all works out
-+do_configure[vardepsexclude] += "CONNFIGUREOPTS"
-+
- CFLAGS =+ "-I${S}/include"
- 
- SSTATEPOSTINSTFUNCS += "openjade_sstate_postinst"
--- 
-1.7.6.1
+And "hybrid" input methods:
+* Dasher http://www.inference.phy.cam.ac.uk/dasher/
+* QWO http://www.nongnu.org/qwo/
 
-
+--=20
+Yury Bushmelev
 
 
