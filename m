@@ -1,37 +1,53 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RXASA-0002EC-Cx; Sun, 04 Dec 2011 12:41:54 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB4BZ8kH014429;
-	Sun, 4 Dec 2011 11:35:08 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 14294-01; Sun,  4 Dec 2011 11:35:04 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB4BYw9c014408
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Sun, 4 Dec 2011 11:34:59 GMT
-Message-ID: <1322998509.25960.55.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from tx2ehsobe003.messaging.microsoft.com ([65.55.88.13]
+	helo=TX2EHSOBE006.bigfish.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <B29882@freescale.com>) id 1RXH9r-0007ts-Vn
+	for openembedded-core@lists.openembedded.org;
+	Sun, 04 Dec 2011 19:51:31 +0100
+Received: from mail81-tx2-R.bigfish.com (10.9.14.252) by
+	TX2EHSOBE006.bigfish.com (10.9.40.26) with Microsoft SMTP Server id
+	14.1.225.23; Sun, 4 Dec 2011 18:44:41 +0000
+Received: from mail81-tx2 (localhost [127.0.0.1])	by mail81-tx2-R.bigfish.com
+	(Postfix) with ESMTP id B43093C0145	for
+	<openembedded-core@lists.openembedded.org>;
+	Sun,  4 Dec 2011 18:44:41 +0000 (UTC)
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1202hzzz2dh2a8h668h839h8e2h8e3h62h)
+X-Spam-TCS-SCL: 1:0
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail81-tx2 (localhost.localdomain [127.0.0.1]) by mail81-tx2
+	(MessageSwitch) id 1323024281590049_30630;
+	Sun,  4 Dec 2011 18:44:41 +0000 (UTC)
+Received: from TX2EHSMHS042.bigfish.com (unknown [10.9.14.241])	by
+	mail81-tx2.bigfish.com (Postfix) with ESMTP id 8937B700019	for
+	<openembedded-core@lists.openembedded.org>;
+	Sun,  4 Dec 2011 18:44:41 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS042.bigfish.com
+	(10.9.99.142) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Sun, 4 Dec 2011 18:44:41 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.83]) by
+	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
+	14.01.0339.002; Sun, 4 Dec 2011 12:44:41 -0600
+From: McClintock Matthew-B29882 <B29882@freescale.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Sun, 04 Dec 2011 11:35:09 +0000
-In-Reply-To: <20111204112019.GB4871@rhein.zuhause.netz>
-References: <4ED0CC76.4040606@emagii.com> <1322579029.7964.0.camel@ted>
-	<4ED54C2B.2060505@emagii.com> <4ED66835.3050400@intel.com>
-	<4ED793E2.5070205@emagii.com> <4EDA80A2.5070303@emagii.com>
-	<20111204112019.GB4871@rhein.zuhause.netz>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-devel@lists.openembedded.org, ulf@emagii.com
-Subject: Re: Feedback on building openembedded-core for qemuarm. Excerpts from buildlog
+Thread-Topic: do_populate_lic_setscene when building LSB on edison
+Thread-Index: AQHMsrTI+sIH3mCgFEC3XmCMc1OGDQ==
+Date: Sun, 4 Dec 2011 18:44:41 +0000
+Message-ID: <CAEsOVNceh3VcNJ9P=mhFnwOPn_w=QrRMPNTZkdnwf5dsapFfaA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: do_populate_lic_setscene when building LSB on edison
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -42,47 +58,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Dec 2011 11:41:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 04 Dec 2011 18:51:31 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <9D3B56E283208749B52D669000AB706C@freescale.net>
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 2011-12-04 at 12:20 +0100, Henning Heinold wrote:
-> On Sat, Dec 03, 2011 at 09:03:46PM +0100, Ulf Samuelsson wrote:
-> > Have made some further tests with the same machine, but now running
-> > Ubuntu 11.04 x64
-> > 
-> > bitbake console-image
-> > 
-> >     PARALLEL_TASKS        BB_NUMBER_TASKS        BUILD TIME
-> >     2                                  2
-> > 1:24:16
-> >     4                                  4
-> > 0:48:22
-> >     6                                  6
-> > 0:45:00
-> >     24                                24
-> > C++ compiler fails with --sysroot problem
-> >         after ~2200 out of 2400 tasks.
-> > 
-> > 
-> > 
-> > BR
-> > Ulf
-> 
-> Hi Ulf,
-> 
-> can you try the attached patch if it solves the problem?
+Can anyone comment if this issue has been resolved on master? It's
+very random which package it occurs on, it only seems to happen when
+building the LSB target, and it also appears to happen on my CentOS 5
+box and not my Ubuntu box (at least less often)... sometimes it
+happens only on one package in a build, sometimes it's 5-10
+packages...
 
-Can someone please explain to me how this would fix the problem?
+ERROR: Task 3209
+(/opt/yocto/cache-test/p2041rdb/meta/recipes-graphics/freetype/freetype_2.4=
+.6.bb,
+do_populate_lic_setscene) failed with exit code '1'
+ERROR: Task 3125
+(/opt/yocto/cache-test/p2041rdb/meta/recipes-extended/augeas/augeas_0.8.1.b=
+b,
+do_populate_sysroot_setscene) failed with exit code '1'
+ERROR: Task 3106
+(/opt/yocto/cache-test/p2041rdb/meta/recipes-support/icu/icu_3.6.bb,
+do_package_setscene) failed with exit code '1'
+ERROR: Task 3147
+(/opt/yocto/cache-test/p2041rdb/meta/recipes-extended/newt/libnewt_0.52.13.=
+bb,
+do_populate_sysroot_setscene) failed with exit code '1'
+ERROR: Task 3120
+(/opt/yocto/cache-test/p2041rdb/meta/recipes-extended/libzypp/libzypp_git.b=
+b,
+do_populate_lic_setscene) failed with exit code '1'
+ERROR: Task 3164
+(/opt/yocto/cache-test/p2041rdb/meta/recipes-connectivity/bind/bind_9.7.2-P=
+3.bb,
+do_populate_lic_setscene) failed with exit code '1'
 
-If this were the issue shouldn't it either always work or always fail?
-
-I'm worried that even if this does "fix" the problem, there is a deeper
-issue lurking somewhere :(
-
-Cheers,
-
-Richard
+-M=
 
 
 
