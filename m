@@ -1,34 +1,33 @@
-Received: from mga02.intel.com ([134.134.136.20])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1RXTCl-0001y7-AH
-	for openembedded-core@lists.openembedded.org;
-	Mon, 05 Dec 2011 08:43:15 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 04 Dec 2011 23:36:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="83437039"
-Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by orsmga002.jf.intel.com with ESMTP; 04 Dec 2011 23:36:27 -0800
-Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
-	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Mon, 5 Dec 2011 15:35:46 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi; Mon, 5 Dec 2011
-	15:35:45 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RXU2v-0007Vo-JO for openembedded-core@lists.openembedded.org;
+	Mon, 05 Dec 2011 09:37:09 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB58UMLR020706
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 5 Dec 2011 08:30:22 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 16218-10 for <openembedded-core@lists.openembedded.org>;
+	Mon,  5 Dec 2011 08:30:18 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB58UDqV020700
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 5 Dec 2011 08:30:14 GMT
+Message-ID: <1323073824.25960.87.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 5 Dec 2011 15:35:44 +0800
-Thread-Topic: meta-toolchain-gmae can't build:  Cannot create symlink from
-	./var/log to 'volatile/log': File exists
-Thread-Index: AcyzIH92U6F1JlMCSZuyEihmeeUXDg==
-Message-ID: <1865303E0DED764181A9D882DEF65FB6E8EDFF05C0@shsmsx502.ccr.corp.intel.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
-MIME-Version: 1.0
-Subject: meta-toolchain-gmae can't build: Cannot create symlink from ./var/log to 'volatile/log': File exists
+Date: Mon, 05 Dec 2011 08:30:24 +0000
+In-Reply-To: <1865303E0DED764181A9D882DEF65FB6E8EDFF05C0@shsmsx502.ccr.corp.intel.com>
+References: <1865303E0DED764181A9D882DEF65FB6E8EDFF05C0@shsmsx502.ccr.corp.intel.com>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: meta-toolchain-gmae can't build: Cannot create symlink from ./var/log to 'volatile/log': File exists
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,31 +42,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Dec 2011 07:43:15 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 05 Dec 2011 08:37:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi, recently, I found meta-toolchain-gmae failed to build on poky master if=
- I use ipk packaging(I didn't try rpm/deb):
+On Mon, 2011-12-05 at 15:35 +0800, Cui, Dexuan wrote:
+> Hi, recently, I found meta-toolchain-gmae failed to build on poky master if I use ipk packaging(I didn't try rpm/deb):
+> 
+> task do_populate_sdk: Failed
+> 
+> | Configuring avahi-dev.
+> | Configuring task-core-standalone-gmae-sdk-target.
+> | Configuring libtelepathy-dbg.
+> | Configuring task-core-standalone-gmae-sdk-target-dbg.
+> | Configuring util-linux-blkid.
+> | Collected errors:
+> |  * extract_archive: Cannot create symlink from ./var/log to 'volatile/log': File exists.
+> ERROR: Function 'do_populate_sdk' failed 
+> 
+> Now I have no time to look into this issue at once. It would be great, if somebody can give some quick hint.
 
-task do_populate_sdk: Failed
+Is this with the latest master?
 
-| Configuring avahi-dev.
-| Configuring task-core-standalone-gmae-sdk-target.
-| Configuring libtelepathy-dbg.
-| Configuring task-core-standalone-gmae-sdk-target-dbg.
-| Configuring util-linux-blkid.
-| Collected errors:
-|  * extract_archive: Cannot create symlink from ./var/log to 'volatile/log=
-': File exists.
-ERROR: Function 'do_populate_sdk' failed=20
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=f340e3937fd5ac3963de6c6b29d56dd92d962864
 
-Now I have no time to look into this issue at once. It would be great, if s=
-omebody can give some quick hint.
+was added to avoid an error very like this that was showing up with
+rpm...
 
-Thanks,
--- Dexuan
+Cheers,
+
+Richard
 
 
 
