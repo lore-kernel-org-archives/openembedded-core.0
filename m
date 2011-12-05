@@ -1,45 +1,32 @@
-Received: from ch1ehsobe001.messaging.microsoft.com ([216.32.181.181]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RXfh3-0005zq-IL
+	(envelope-from <kergoth@gmail.com>) id 1RXg0a-0008Qh-K8
 	for openembedded-core@lists.openembedded.org;
-	Mon, 05 Dec 2011 22:03:21 +0100
-Received: from mail202-ch1-R.bigfish.com (10.43.68.252) by
-	CH1EHSOBE008.bigfish.com (10.43.70.58) with Microsoft SMTP Server id
-	14.1.225.23; Mon, 5 Dec 2011 20:56:34 +0000
-Received: from mail202-ch1 (localhost [127.0.0.1])	by
-	mail202-ch1-R.bigfish.com (Postfix) with ESMTP id 1E904440281	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon,  5 Dec 2011 20:56:34 +0000 (UTC)
-X-SpamScore: 0
-X-BigFish: VS0(zz98bKzz1202h1082kzz8275bhz2dh2a8h668h839h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail202-ch1 (localhost.localdomain [127.0.0.1]) by mail202-ch1
-	(MessageSwitch) id 1323118591909564_6868;
-	Mon,  5 Dec 2011 20:56:31 +0000 (UTC)
-Received: from CH1EHSMHS016.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.244])	by mail202-ch1.bigfish.com (Postfix) with ESMTP id
-	D98C5C0042 for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Dec 2011 20:56:31 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS016.bigfish.com
-	(10.43.70.16) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Mon, 5 Dec 2011 20:56:29 +0000
-Received: from az33smr01.freescale.net (10.64.34.199) by
-	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
-	Server id 14.1.339.2; Mon, 5 Dec 2011 14:56:28 -0600
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
-	by az33smr01.freescale.net (8.13.1/8.13.0) with ESMTP id
-	pB5KuRN9027120	for <openembedded-core@lists.openembedded.org>;
-	Mon, 5 Dec 2011 14:56:28 -0600 (CST)
-From: Matthew McClintock <msm@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 5 Dec 2011 14:56:27 -0600
-Message-ID: <1323118587-17891-1-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.6.1
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH] populate_sdk.bbclass: remap packages when generating sdk tarball
+	Mon, 05 Dec 2011 22:23:32 +0100
+Received: by ywb20 with SMTP id 20so4737701ywb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 05 Dec 2011 13:16:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=hom7fwyXUEdEIgrsqbb/Hx60bL5aJoU50VLhtDpnjdA=;
+	b=jEMxp+YyRKn/a8QGmmr1syOWqWZQJBNKp77wtgGm7YuUn4PPvOcrzS2WlZVhiozmn5
+	h0WVwBBE1Ge2/f9YG8wPiIvuR0dLU08K/vnRkiu/p6KB3zZlWLMbWzg5HO08hXG1JSkH
+	FeWonbjXqezLILgFo1gvxebqOYIw8zjLCP6/k=
+Received: by 10.236.180.101 with SMTP id i65mr15169577yhm.21.1323119805558;
+	Mon, 05 Dec 2011 13:16:45 -0800 (PST)
+Received: from auron.mgc.mentorg.com (ip24-251-167-38.ph.ph.cox.net.
+	[24.251.167.38])
+	by mx.google.com with ESMTPS id i22sm33253970yhm.10.2011.12.05.13.16.44
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 05 Dec 2011 13:16:45 -0800 (PST)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  5 Dec 2011 14:16:28 -0700
+Message-Id: <1323119789-23067-3-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 1.7.8
+In-Reply-To: <1323119789-23067-1-git-send-email-kergoth@gmail.com>
+References: <1323119789-23067-1-git-send-email-kergoth@gmail.com>
+Subject: [PATCH 3/4] oe.license: add license flattening code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,59 +41,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Dec 2011 21:03:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 05 Dec 2011 21:23:33 -0000
 
-This fixes the issue below:
+This flattens a license tree by selecting one side of each OR operation
+(chosen via the user supplied function).
 
-| Generating solve db for /local/home/mattsm/git/poky/build_p4080ds_release/tmp/deploy/rpm/all...
-|    total:               1      0.000000 MB      0.093784 secs
-|    fingerprint:         9      0.000012 MB      0.000252 secs
-|    install:             3      0.000000 MB      0.039092 secs
-|    dbadd:               3      0.000000 MB      0.034837 secs
-|    dbget:              12      0.000000 MB      0.000062 secs
-|    dbput:               3      0.009532 MB      0.002731 secs
-|    readhdr:            31      0.019160 MB      0.000084 secs
-|    hdrload:            15      0.027924 MB      0.000116 secs
-|    hdrget:            494      0.000000 MB      0.000691 secs
-| Processing task-core-standalone-sdk-target...
-| Processing glib-2.0...
-| Unable to find package glib-2.0 (glib-2.0)!
-| ERROR: Function 'do_populate_sdk' failed (see /local/home/mattsm/git/poky/build_p4080ds_release/tmp/work/ppce500mc-fsl-linux/fsl-toolchain-1.0-r6/temp/log.do_populate_sdk.16975 for further information)
-
-If you have:
-
-TOOLCHAIN_TARGET_TASK += "glib-2.0"
-
-The package name was not getting remapped correctly for the do_populate_sdk
-case.
-
-Signed-off-by: Matthew McClintock <msm@freescale.com>
+Signed-off-by: Christopher Larson <kergoth@gmail.com>
 ---
- meta/classes/populate_sdk.bbclass |    7 +++++++
- 1 files changed, 7 insertions(+), 0 deletions(-)
+ meta/lib/oe/license.py            |   30 ++++++++++++++++++++++++++++++
+ meta/lib/oe/tests/test_license.py |   30 ++++++++++++++++++++++++++++++
+ 2 files changed, 60 insertions(+), 0 deletions(-)
 
-diff --git a/meta/classes/populate_sdk.bbclass b/meta/classes/populate_sdk.bbclass
-index 1ef72cf..5aa8e92 100644
---- a/meta/classes/populate_sdk.bbclass
-+++ b/meta/classes/populate_sdk.bbclass
-@@ -18,6 +18,13 @@ PID = "${@os.getpid()}"
+diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
+index b230d3e..7ab66e7 100644
+--- a/meta/lib/oe/license.py
++++ b/meta/lib/oe/license.py
+@@ -30,3 +30,33 @@ class LicenseVisitor(ast.NodeVisitor):
+             new_elements.append(element)
  
- EXCLUDE_FROM_WORLD = "1"
- 
-+python () {
-+    # If we don't do this we try and run the mapping hooks while parsing which is slow
-+    # bitbake should really provide something to let us know this...
-+    if bb.data.getVar('BB_WORKERCONTEXT', d, True) is not None:
-+        runtime_mapping_rename("TOOLCHAIN_TARGET_TASK", d)
-+}
+         self.visit(ast.parse(' '.join(new_elements)))
 +
- fakeroot do_populate_sdk() {
- 	rm -rf ${SDK_OUTPUT}
- 	mkdir -p ${SDK_OUTPUT}
++class FlattenVisitor(LicenseVisitor):
++    """Flatten a license tree (parsed from a string) by selecting one of each
++    set of OR options, in the way the user specifies"""
++    def __init__(self, choose_licenses):
++        self.choose_licenses = choose_licenses
++        self.licenses = []
++        LicenseVisitor.__init__(self)
++
++    def visit_Str(self, node):
++        self.licenses.append(node.s)
++
++    def visit_BinOp(self, node):
++        if isinstance(node.op, ast.BitOr):
++            left = FlattenVisitor(self.choose_licenses)
++            left.visit(node.left)
++
++            right = FlattenVisitor(self.choose_licenses)
++            right.visit(node.right)
++
++            selected = self.choose_licenses(left.licenses, right.licenses)
++            self.licenses.extend(selected)
++        else:
++            self.generic_visit(node)
++
++def flattened_licenses(licensestr, choose_licenses):
++    """Given a license string and choose_licenses function, return a flat list of licenses"""
++    flatten = FlattenVisitor(choose_licenses)
++    flatten.visit_string(licensestr)
++    return flatten.licenses
+diff --git a/meta/lib/oe/tests/test_license.py b/meta/lib/oe/tests/test_license.py
+index cb949fc..c388886 100644
+--- a/meta/lib/oe/tests/test_license.py
++++ b/meta/lib/oe/tests/test_license.py
+@@ -36,3 +36,33 @@ class TestSingleLicense(unittest.TestCase):
+             with self.assertRaises(oe.license.InvalidLicense) as cm:
+                 self.parse(license)
+             self.assertEqual(cm.exception.license, license)
++
++class TestSimpleCombinations(unittest.TestCase):
++    tests = {
++        "FOO&BAR": ["FOO", "BAR"],
++        "BAZ & MOO": ["BAZ", "MOO"],
++        "ALPHA|BETA": ["ALPHA"],
++        "BAZ&MOO|FOO": ["FOO"],
++        "FOO&BAR|BAZ": ["FOO", "BAR"],
++    }
++    preferred = ["ALPHA", "FOO", "BAR"]
++
++    def test_tests(self):
++        def choose(a, b):
++            if all(lic in self.preferred for lic in b):
++                return b
++            else:
++                return a
++
++        for license, expected in self.tests.items():
++            licenses = oe.license.flattened_licenses(license, choose)
++            self.assertListEqual(licenses, expected)
++
++class TestComplexCombinations(TestSimpleCombinations):
++    tests = {
++        "FOO & (BAR | BAZ)&MOO": ["FOO", "BAR", "MOO"],
++        "(ALPHA|(BETA&THETA)|OMEGA)&DELTA": ["OMEGA", "DELTA"],
++        "((ALPHA|BETA)&FOO)|BAZ": ["BETA", "FOO"],
++        "(GPL-2.0|Proprietary)&BSD-4-clause&MIT": ["GPL-2.0", "BSD-4-clause", "MIT"],
++    }
++    preferred = ["BAR", "OMEGA", "BETA", "GPL-2.0"]
 -- 
-1.7.6.1
-
+1.7.8
 
 
 
