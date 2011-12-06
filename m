@@ -1,34 +1,39 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RXrEz-0003PM-UN
+	(envelope-from <lei.mei@intel.com>) id 1RXrFP-0003RB-RQ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 06 Dec 2011 10:23:10 +0100
-Received: by eeav2 with SMTP id v2so873775eea.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Dec 2011 01:16:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=g3VlAiOKq+LHdN6bUbRk17Ftv5eZYxNEK7RSJIWl5co=;
-	b=xXJdZqy5KWOd7UL5QtoMiThpjYWeZ/IXjEkJj+I7s6ay6UCjEn4UcLamlB2d5vLwxR
-	5jffC5SOHyoYOsKSBb8+g2xQ5EX4j7bM803xCE/Km5SL79517qO6bCWNP0r+d5CpdCRt
-	Ur2EZBl13Pb4S/AYqc9E8h7H363mUAIa0rjyA=
-Received: by 10.14.3.98 with SMTP id 74mr2159224eeg.159.1323162974947;
-	Tue, 06 Dec 2011 01:16:14 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id x12sm68931654eef.9.2011.12.06.01.16.13
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 06 Dec 2011 01:16:13 -0800 (PST)
-Date: Tue, 6 Dec 2011 10:16:01 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20111206091601.GA5456@jama.jama.net>
-References: <cover.1323160412.git.Martin.Jansa@gmail.com>
-	<7bf394a40453afe887753dea6879a5f01a6b3fcc.1323160412.git.Martin.Jansa@gmail.com>
+	Tue, 06 Dec 2011 10:23:36 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 06 Dec 2011 01:15:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,304,1320652800"; d="scan'208";a="99095951"
+Received: from pgsmsx603.gar.corp.intel.com ([10.221.43.87])
+	by fmsmga002.fm.intel.com with ESMTP; 06 Dec 2011 01:15:33 -0800
+Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
+	pgsmsx603.gar.corp.intel.com (10.221.43.87) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Tue, 6 Dec 2011 17:15:19 +0800
+Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
+	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi; Tue, 6 Dec 2011
+	17:15:17 +0800
+From: "Mei, Lei" <lei.mei@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Tue, 6 Dec 2011 17:15:17 +0800
+Thread-Topic: [OE-core] [PATCH 1/1] Fix some recipes upstream version check
+	issue
+Thread-Index: AcywCsmZtUBGViYPR6ms+wRG6y3UrgD6SXOA
+Message-ID: <749B9D3DBF0F054390025D9EAFF47F2212D5FD5AE0@shsmsx501.ccr.corp.intel.com>
+References: <cover.1322729357.git.lei.mei@intel.com>
+	<ec329e79d07e83cb240dda3988017741c597b566.1322729357.git.lei.mei@intel.com>
+	<1322731343.17484.86.camel@ted>
+In-Reply-To: <1322731343.17484.86.camel@ted>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: zh-CN, en-US
 MIME-Version: 1.0
-In-Reply-To: <7bf394a40453afe887753dea6879a5f01a6b3fcc.1323160412.git.Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH][oe-core 2/3] subversion: update 1.7.0 to 1.7.1 and force libtool recreation
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] Fix some recipes upstream version check issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,103 +48,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2011 09:23:10 -0000
-X-Groupsio-MsgNum: 13663
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="EVF5PPMfhYS0aIcm"
-Content-Disposition: inline
-
---EVF5PPMfhYS0aIcm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 06 Dec 2011 09:23:36 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 06, 2011 at 09:35:20AM +0100, Martin Jansa wrote:
-> From: Klaus Kurzmann <mok@fluxnetz.de>
->=20
-> * subversion-1.7.* had libtool-2.4, oe-core now has 2.4.2 and it was
->   failing:
->   x86_64-linux-libtool: Version mismatch error.  This is libtool 2.4.2, b=
-ut the
->   x86_64-linux-libtool: definition of this LT_INIT comes from libtool 2.4.
->   x86_64-linux-libtool: You should recreate aclocal.m4 with macros from l=
-ibtool 2.4.2
->   x86_64-linux-libtool: and run autoconf again.
 
-Hmm, subversion-1.7.2 was released yesterday evening and 1.7.1 tar.bz2
-removed (moved to archive). I'll retest with 1.7.2 and send updated
-patch.
 
-Cheers,
+>-----Original Message-----
+>From: openembedded-core-bounces@lists.openembedded.org
+>[mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+>Richard Purdie
+>Sent: Thursday, December 01, 2011 5:22 PM
+>To: Patches and discussions about the oe-core layer
+>Cc: openembedded-core@openembedded.org
+>Subject: Re: [OE-core] [PATCH 1/1] Fix some recipes upstream version check
+>issue
+>
+>On Thu, 2011-12-01 at 16:54 +0800, Mei Lei wrote:
+>> Some recipes didn't declare what protocal they use to check the upstream
+>version, this will due to some errors.
+>> Fix this by add the protocal at the end of the SRC_URI.
+>
+>What errors does this give? We should be defaulting to git these days.
+>lib/bb/fetch2/git.py says:
+>
+>        if 'protocol' in ud.parm:
+>            ud.proto =3D ud.parm['protocol']
+>        elif not ud.host:
+>            ud.proto =3D 'file'
+>        else:
+>            ud.proto =3D "git"
+>
 
->=20
-> Signed-off-by: Klaus Kurzmann <mok@fluxnetz.de>
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  .../libtool2.patch                                 |    0
->  .../{subversion_1.7.0.bb =3D> subversion_1.7.1.bb}   |    7 ++++---
->  2 files changed, 4 insertions(+), 3 deletions(-)
->  rename meta/recipes-devtools/subversion/{subversion-1.7.0 =3D> subversio=
-n-1.7.1}/libtool2.patch (100%)
->  rename meta/recipes-devtools/subversion/{subversion_1.7.0.bb =3D> subver=
-sion_1.7.1.bb} (75%)
->=20
-> diff --git a/meta/recipes-devtools/subversion/subversion-1.7.0/libtool2.p=
-atch b/meta/recipes-devtools/subversion/subversion-1.7.1/libtool2.patch
-> similarity index 100%
-> rename from meta/recipes-devtools/subversion/subversion-1.7.0/libtool2.pa=
-tch
-> rename to meta/recipes-devtools/subversion/subversion-1.7.1/libtool2.patch
-> diff --git a/meta/recipes-devtools/subversion/subversion_1.7.0.bb b/meta/=
-recipes-devtools/subversion/subversion_1.7.1.bb
-> similarity index 75%
-> rename from meta/recipes-devtools/subversion/subversion_1.7.0.bb
-> rename to meta/recipes-devtools/subversion/subversion_1.7.1.bb
-> index 396b35b..a99e087 100644
-> --- a/meta/recipes-devtools/subversion/subversion_1.7.0.bb
-> +++ b/meta/recipes-devtools/subversion/subversion_1.7.1.bb
-> @@ -14,8 +14,8 @@ DEFAULT_PREFERENCE =3D "-1"
->  SRC_URI =3D "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
->             file://libtool2.patch \
->  "
-> -SRC_URI[md5sum] =3D "930e6644a1b6094efd268fde6a318f04"
-> -SRC_URI[sha256sum] =3D "64fd5f263a80e609717a3ca42f1f2625606a5c4a40a85716=
-f82c866033780978"
-> +SRC_URI[md5sum] =3D "8a4fa74385df85a9702141b6b68b8307"
-> +SRC_URI[sha256sum] =3D "d34bde626fac1aa553f5c9aeedf961999a77cc31540ace18=
-da5aeacdd03d6608"
-> =20
->  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D4a14fd2da3134e40a087eb4326a4e=
-cd4"
-> =20
-> @@ -32,6 +32,7 @@ acpaths =3D "-I build/ -I build/ac-macros/"
-> =20
->  do_configure_prepend () {
->  	rm -f ${S}/libtool
-> -	rm -f ${S}/build/libtool.m4
-> +	rm -f ${S}/build/libtool.m4 ${S}/build/ltmain.sh ${S}/build/ltoptions.m=
-4 ${S}/build/ltsugar.m4 ${S}/build/ltversion.m4 ${S}/build/lt~obsolete.m4
-> +	rm -f ${S}/aclocal.m4
->  	sed -i -e 's:with_sasl=3D"/usr/local":with_sasl=3D"${STAGING_DIR}":' ${=
-S}/build/ac-macros/sasl.m4
->  }
-> --=20
-> 1.7.8
->=20
+Oh, yes, but when check upstream version, we didn't use git.py, we still us=
+e rsync as the default protocol in distrodata.bbclass for those git recipes=
+.
+So I sent a new patch to change the default protocol in distrodata.bbclass:
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Dlmei3/fi=
+x-protocal&id=3D2fba54d2f6ada2272efaf8cd50b137bb7d2eaf26
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Please ignore this patch.
+Thank you for your reminder.
 
---EVF5PPMfhYS0aIcm
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Thanks,
+Lei
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
 
-iEYEARECAAYFAk7d3VEACgkQN1Ujt2V2gBwYvACfX2Q/6IX7jjPEmi6lvcnAiKWO
-2mkAn0w3KYBbgpItzOzyOA/wwbznCBMB
-=aeae
------END PGP SIGNATURE-----
 
---EVF5PPMfhYS0aIcm--
+>?
+>
+>Cheers,
+>
+>Richard
+>
+>> Signed-off-by: Mei Lei <lei.mei@intel.com>
+>> ---
+>>  .../iproute2/iproute2_3.1.0.bb                     |    2 +-
+>>  meta/recipes-graphics/clutter/clutter-box2d_git.bb |    2 +-
+>>  meta/recipes-rt/rt-tests/rt-tests_0.83.bb          |    2 +-
+>>  3 files changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/meta/recipes-connectivity/iproute2/iproute2_3.1.0.bb
+>b/meta/recipes-connectivity/iproute2/iproute2_3.1.0.bb
+>> index 0b47046..52e40e1 100644
+>> --- a/meta/recipes-connectivity/iproute2/iproute2_3.1.0.bb
+>> +++ b/meta/recipes-connectivity/iproute2/iproute2_3.1.0.bb
+>> @@ -2,7 +2,7 @@ require iproute2.inc
+>>
+>>  #v3.1.0 tag
+>>  SRCREV =3D "9cbe6bc337a35b91882f92599eefeb161f3e776e"
+>> -SRC_URI =3D
+>"git://git.kernel.org/pub/scm/linux/kernel/git/shemminger/iproute2.git \
+>> +SRC_URI =3D
+>"git://git.kernel.org/pub/scm/linux/kernel/git/shemminger/iproute2.git;pro=
+toco
+>l=3Dgit \
+>>             file://configure-cross.patch"
+>>  S =3D "${WORKDIR}/git"
+>>
+>> diff --git a/meta/recipes-graphics/clutter/clutter-box2d_git.bb
+>b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
+>> index 554ce81..7a1dc8e 100644
+>> --- a/meta/recipes-graphics/clutter/clutter-box2d_git.bb
+>> +++ b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
+>> @@ -6,7 +6,7 @@ SRCREV =3D
+>"de5452e56b537a11fd7f9453d048ff4b4793b5a2"
+>>  PV =3D "0.12.1+git${SRCPV}"
+>>  PR =3D "r0"
+>>
+>> -SRC_URI =3D "git://git.gnome.org/clutter-box2d.git"
+>> +SRC_URI =3D "git://git.gnome.org/clutter-box2d.git;protocol=3Dgit"
+>>
+>>  S =3D "${WORKDIR}/git"
+>>
+>> diff --git a/meta/recipes-rt/rt-tests/rt-tests_0.83.bb
+>b/meta/recipes-rt/rt-tests/rt-tests_0.83.bb
+>> index 78d51b3..7e64032 100644
+>> --- a/meta/recipes-rt/rt-tests/rt-tests_0.83.bb
+>> +++ b/meta/recipes-rt/rt-tests/rt-tests_0.83.bb
+>> @@ -12,7 +12,7 @@ SRCREV =3D
+>"5f1e84f8b015df3ff950056494134eca3f640d70"
+>>  # git -> 0.83 needs a PE bump
+>>  PE =3D "1"
+>>
+>> -SRC_URI =3D "git://github.com/clrkwllms/rt-tests.git"
+>> +SRC_URI =3D "git://github.com/clrkwllms/rt-tests.git;protocol=3Dgit"
+>>
+>>  S =3D "${WORKDIR}/git"
+>>
+>
+>
+>
+>_______________________________________________
+>Openembedded-core mailing list
+>Openembedded-core@lists.openembedded.org
+>http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
