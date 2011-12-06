@@ -1,33 +1,30 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sledz@dresearch-fe.de>) id 1RXpEd-0007dP-Up
+	(envelope-from <koen@dominion.thruhere.net>) id 1RXpOy-0007rv-04
 	for openembedded-core@lists.openembedded.org;
-	Tue, 06 Dec 2011 08:14:40 +0100
-Received: by eeav2 with SMTP id v2so795918eea.6
+	Tue, 06 Dec 2011 08:25:20 +0100
+Received: by eaac1 with SMTP id c1so1269286eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Dec 2011 23:07:50 -0800 (PST)
-Received: by 10.14.2.212 with SMTP id 60mr1967910eef.204.1323155268884;
-	Mon, 05 Dec 2011 23:07:48 -0800 (PST)
-Received: from fensuse.internal.dresearch-fe.de
-	(pd95cb174.dip0.t-ipconnect.de. [217.92.177.116])
-	by mx.google.com with ESMTPS id c9sm65860621eeb.0.2011.12.05.23.07.47
-	(version=SSLv3 cipher=OTHER); Mon, 05 Dec 2011 23:07:47 -0800 (PST)
-Message-ID: <4EDDBF42.4070501@dresearch-fe.de>
-Date: Tue, 06 Dec 2011 08:07:46 +0100
-From: Steffen Sledz <sledz@dresearch-fe.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111105 Thunderbird/8.0
-MIME-Version: 1.0
+	Mon, 05 Dec 2011 23:18:33 -0800 (PST)
+Received: by 10.213.22.133 with SMTP id n5mr677874ebb.128.1323155912798;
+	Mon, 05 Dec 2011 23:18:32 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id d6sm67871838eec.10.2011.12.05.23.18.31
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 05 Dec 2011 23:18:31 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Tue, 6 Dec 2011 08:18:30 +0100
+In-Reply-To: <4EDD7A54.5070707@linux.intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <4ECF768A.4060108@dresearch-fe.de>
-	<95977E6E-2138-4CEA-B7C6-FC8A248F9C95@dominion.thruhere.net>
-	<4ECF7C0E.304@dresearch-fe.de>
-	<CAMKF1spxSD4pG1x4Z30ATfMKWKcjoFJJxW4r0pguM0rybcyHaw@mail.gmail.com>
-In-Reply-To: <CAMKF1spxSD4pG1x4Z30ATfMKWKcjoFJJxW4r0pguM0rybcyHaw@mail.gmail.com>
-X-Enigmail-Version: 1.3.3
-Cc: Tom King <ka6sox@gmail.com>
-Subject: Re: Uncommon source deployment policy of live555
+References: <cover.1322853315.git.josh@linux.intel.com>
+	<1323125404.25960.107.camel@ted> <4EDD4BD2.7010703@linux.intel.com>
+	<4EDD7A54.5070707@linux.intel.com>
+Message-Id: <D6858D6A-D1B0-40B2-AA2A-71F7AA5FD0FC@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH 0/1] Make missing checksums an error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,58 +39,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2011 07:14:40 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 06 Dec 2011 07:25:20 -0000
+X-Groupsio-MsgNum: 13654
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_D8F06E7C-10B3-4197-BC87-3D848585DA87";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-On 26.11.2011 06:49, Khem Raj wrote:
-> On Fri, Nov 25, 2011 at 3:29 AM, Steffen Sledz <sledz@dresearch-fe.de> wrote:
->> On 25.11.2011 12:21, Koen Kooi wrote:
->>>
->>> Op 25 nov. 2011, om 12:05 heeft Steffen Sledz het volgende geschreven:
->>>
->>>> The LIVE555 project has a really uncommon source deployment policy. :(
->>>>
->>>> They publish *only* the latest tarball of their code [1]. And they don't make the code available under a source code repository [2].
->>>>
->>>> I've asked to change this policy but they are not willing to do that [3].
->>>>
->>>> How can we handle this?
->>>> Does OE provides a "mirror" server to provide the versions we're referencing?
->>>
->>> Angstrom has had such a mirror ever since it started and it has the following live555 releases:
->>
->> Great.
->>
->> So there's no need to change the recipes. This server is used automatically. Right?
->>
-> 
-> for angstrom yes the mirror is a fallback
-> 
-> 
->>> live.2009.06.02.tar.gz
->>> live.2010.04.09.tar.gz
->>> live.2010.05.29.tar.gz
->>> live.2010.10.15.tar.gz
->>> live.2011.01.10.tar.gz
->>> live.2011.03.14.tar.gz
->>
->> I'd like to see the current live.2011.11.20.tar.gz there too. Who's maintaining such requests?
-> 
-> as another backup you can also put this up on
-> sources.openemebedded.org, send it to ka6sox
-
-I did not get an answer from ka6sox to my upload request until now. Can anybody else make to upload to sources.openemebedded.org?
-
-Steffen
-
--- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
+--Apple-Mail=_D8F06E7C-10B3-4197-BC87-3D848585DA87
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+Op 6 dec. 2011, om 03:13 heeft Joshua Lock het volgende geschreven:
+
+>=20
+>=20
+> On 05/12/11 14:55, Joshua Lock wrote:
+>> On 05/12/11 14:50, Richard Purdie wrote:
+>>> On Fri, 2011-12-02 at 11:20 -0800, Joshua Lock wrote:
+>>>> NOTE: this requires a patch I sent to the BitBake list[1] to error =
+cleanly,
+>>>> otherwise you'll see a Python backtrace and the build fail...
+>>>>=20
+>>>> Per some discussion on the list recently this patch sets =
+BB_STRICT_CHECKSUM
+>>>> in the default-distrovars.inc so that missing checksums in recipes =
+raises an
+>>>> error.
+>>>>=20
+>>>> Cheers,
+>>>> Joshua
+>>>=20
+>>> What's the state of master? If I merge this, how badly do things
+>>> explode?
+>>=20
+>> Let me run a universe fetchall and get back to you...
+>=20
+> Two recipes in oe-core require checksums adding, puzzles and
+> omap3-sgx-modules - a v2 of this request with those patches is =
+incoming.
+
+Omap3-sgx-modules has no place in OE-core, so it should get deleted.
+
+regards,
+
+KOen=
+
+--Apple-Mail=_D8F06E7C-10B3-4197-BC87-3D848585DA87
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAk7dwcgACgkQMkyGM64RGpEYzgCglIP23tQ9WGFdgS4R91w6lRm2
+JnUAn0Dy8Nr39ixrUhm1jhk8SdTPdue8
+=96sV
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_D8F06E7C-10B3-4197-BC87-3D848585DA87--
