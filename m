@@ -1,35 +1,20 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RY3XE-0005cF-Hv for openembedded-core@lists.openembedded.org;
-	Tue, 06 Dec 2011 23:30:48 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB6MO0mA008312
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 Dec 2011 22:24:00 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 07721-02 for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2011 22:23:56 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB6MNpmO008306
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 Dec 2011 22:23:53 GMT
-Message-ID: <1323210242.19363.46.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 06 Dec 2011 22:24:02 +0000
-In-Reply-To: <20111206172306.GC5456@jama.jama.net>
-References: <1323163736-18065-1-git-send-email-Martin.Jansa@gmail.com>
-	<CABcZANk4oH-dDHDZHW+ioRi13AXCS3rBNiUeUZGRZisg56fQfw@mail.gmail.com>
-	<20111206172306.GC5456@jama.jama.net>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] bitbake.conf: change APACHE_MIRROR to use archive site
+Received: from smtp205.alice.it ([82.57.200.101])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <andrea.adami@gmail.com>) id 1RY4Xo-0007bg-H0
+	for openembedded-core@lists.openembedded.org;
+	Wed, 07 Dec 2011 00:35:28 +0100
+Received: from mizar.localdomain (87.14.251.117) by smtp205.alice.it
+	(8.6.023.02) id 4ECA5FDA02EDBB16; Wed, 7 Dec 2011 00:23:20 +0100
+From: Andrea Adami <andrea.adami@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  7 Dec 2011 00:23:06 +0100
+Message-Id: <68e1fafa3ed455dd26cfbfe2a76b3cbdb5b7bfc2.1323212403.git.andrea.adami@gmail.com>
+X-Mailer: git-send-email 1.7.3.4
+In-Reply-To: <cover.1323212403.git.andrea.adami@gmail.com>
+References: <cover.1323212403.git.andrea.adami@gmail.com>
+In-Reply-To: <cover.1323212403.git.andrea.adami@gmail.com>
+References: <cover.1323212403.git.andrea.adami@gmail.com>
+Subject: [PATCH 1/2] image_types.bbclass: implement jffs2 summary images (sum.jffs2)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,34 +29,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2011 22:30:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 06 Dec 2011 23:35:28 -0000
 
-On Tue, 2011-12-06 at 18:23 +0100, Martin Jansa wrote:
-> On Tue, Dec 06, 2011 at 07:15:57AM -0700, Chris Larson wrote:
-> > On Tue, Dec 6, 2011 at 2:28 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> > > * there are newest as well as older releases, so the SRC_URIs are valid longer
-> > > * someone with fast line should try to redownload world to see if the
-> > >  structure is the same for all projects (checked for subversion)
-> > 
-> > Would it not be better to do what we do for other projects, and add
-> > the archive URI to either the global MIRRORS for fallback, or prepend
-> > to MIRRORS in the appropriate .inc?
-> 
-> You're right, it's even there already (I didn't know).. but it didn't work for me with subversion...
-> 
-> somehow it managed to append subversion-1.7.1.tar.bz2 twice
+* Building the jffs2 filesystem to include summary information speeds up
+* the mount process considerably at the cost of increased size.
+* The rate of speedup is generally higher on NAND chips and on the chips
+* where the erase block size is large.
 
-Try:
+Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
+---
+ meta/classes/image_types.bbclass |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
 
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=rpurdie/useradd4&id=1b4003386bb1849d115f9b2f90594a60fbbf56cc
-
-We really need a regression test for that function, its horrible...
-
-Cheers,
-
-Richard
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 29b6380..bd4b7bc 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -35,6 +35,8 @@ XZ_COMPRESSION_LEVEL ?= "-e -9"
+ XZ_INTEGRITY_CHECK ?= "crc32"
+ 
+ IMAGE_CMD_jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime --output=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2 ${EXTRA_IMAGECMD}"
++IMAGE_CMD_sum.jffs2 = "${IMAGE_CMD_jffs2} && sumtool -i ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2 \
++	-o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.sum.jffs2 ${EXTRA_IMAGECMD}"
+ 
+ IMAGE_CMD_cramfs = "mkcramfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cramfs ${EXTRA_IMAGECMD}"
+ 
+@@ -138,6 +140,7 @@ EXTRA_IMAGECMD_btrfs ?= ""
+ 
+ IMAGE_DEPENDS = ""
+ IMAGE_DEPENDS_jffs2 = "mtd-utils-native"
++IMAGE_DEPENDS_sum.jffs2 = "mtd-utils-native"
+ IMAGE_DEPENDS_cramfs = "cramfs-native"
+ IMAGE_DEPENDS_ext2 = "genext2fs-native"
+ IMAGE_DEPENDS_ext2.gz = "genext2fs-native"
+@@ -157,4 +160,4 @@ IMAGE_DEPENDS_ubi = "mtd-utils-native"
+ IMAGE_DEPENDS_ubifs = "mtd-utils-native"
+ 
+ # This variable is available to request which values are suitable for IMAGE_FSTYPES
+-IMAGE_TYPES = "jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma"
++IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma"
+-- 
+1.7.3.4
 
 
 
