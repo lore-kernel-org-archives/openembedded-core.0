@@ -1,23 +1,23 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RXoRk-0005Om-6x
-	for openembedded-core@openembedded.org; Tue, 06 Dec 2011 07:24:08 +0100
+	(envelope-from <sgw@linux.intel.com>) id 1RXoRl-0005Om-0v
+	for openembedded-core@openembedded.org; Tue, 06 Dec 2011 07:24:09 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP; 05 Dec 2011 22:16:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="83881065"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="83881066"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.199])
-	by orsmga002.jf.intel.com with ESMTP; 05 Dec 2011 22:16:14 -0800
+	by orsmga002.jf.intel.com with ESMTP; 05 Dec 2011 22:16:15 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@openembedded.org
-Date: Mon,  5 Dec 2011 22:16:12 -0800
-Message-Id: <afc70a8e7218041b31a53ef558904a912c23555f.1323148082.git.sgw@linux.intel.com>
+Date: Mon,  5 Dec 2011 22:16:13 -0800
+Message-Id: <db3b3f53175b5b3d502e194f31ac07b73d7839e8.1323148082.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1323148082.git.sgw@linux.intel.com>
 References: <cover.1323148082.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1323148082.git.sgw@linux.intel.com>
 References: <cover.1323148082.git.sgw@linux.intel.com>
-Subject: [PATCH 1/2] distro_tracking: fix manual entries
+Subject: [PATCH 2/2] wget: Fix wget alternative path to be /usr/bin not /bin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,35 +32,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2011 06:24:08 -0000
+X-List-Received-Date: Tue, 06 Dec 2011 06:24:09 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-extended/wget/wget.inc |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 3d502ee..f53fffa 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -5734,7 +5734,7 @@ RECIPE_NO_UPDATE_REASON_pn-groff = "1.18.1.4 is latest GPLv2 Version no 1.21"
- RECIPE_STATUS_pn-eglibc = "red"
- RECIPE_LATEST_VERSION_pn-eglibc = "2.13-r15508"
- RECIPE_LAST_UPDATE_pn-eglibc = "Nov 16, 2011"
--RECIPE_MANUAL_CHECK_DATE_pn = "Nov 16, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-eglibc = "Nov 16, 2011"
+diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/wget/wget.inc
+index d9eee80..91400cc 100644
+--- a/meta/recipes-extended/wget/wget.inc
++++ b/meta/recipes-extended/wget/wget.inc
+@@ -3,7 +3,7 @@ SECTION = "console/network"
+ LICENSE = "GPL"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
  
- RECIPE_STATUS_pn-lighttpd = "red"
- RECIPE_LAST_UPDATE_pn-lighttpd = "Jul 28, 2011"
-@@ -5999,7 +5999,7 @@ RECIPE_STATUS_pn-ghostscript = "red"
- RECIPE_LATEST_VERSION_pn-ghostscript = "9.04"
- RECIPE_MAINTAINER_pn-ghostscript = "Kai Kang <kai.kang@windriver.com>"
- RECIPE_LAST_UPDATE_pn-ghostscript = "Oct 19, 2011"
--RECIPE_MANUAL_CHECK_DATE_pn = "Oct 19, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-ghostscript = "Oct 19, 2011"
+-INC_PR = "r10"
++INC_PR = "r11"
  
- RECIPE_STATUS_pn-createrepo = "green"
- RECIPE_LATEST_VERSION_pn-createrepo = "0.9.9"
+ inherit autotools gettext update-alternatives
+ 
+@@ -15,6 +15,6 @@ do_install_append () {
+ }
+ 
+ ALTERNATIVE_NAME = "wget"
+-ALTERNATIVE_LINK = "${base_bindir}/wget"
+-ALTERNATIVE_PATH = "${base_bindir}/wget.${PN}"
++ALTERNATIVE_LINK = "${bindir}/wget"
++ALTERNATIVE_PATH = "${bindir}/wget.${PN}"
+ ALTERNATIVE_PRIORITY = "100"
 -- 
 1.7.6.4
 
