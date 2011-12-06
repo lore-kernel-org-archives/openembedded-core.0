@@ -1,29 +1,27 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RXrRI-0003gX-LD
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1RXsRM-0006eh-07
 	for openembedded-core@lists.openembedded.org;
-	Tue, 06 Dec 2011 10:35:52 +0100
-Received: by eeav2 with SMTP id v2so882269eea.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Dec 2011 01:29:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=A3CSxKVMnRZaGQ8LpLSGePHi6XZTjtj2mlfEF+1sTRk=;
-	b=Qmhyy7c0cCe+IrznzaAqVSz82J9MmW15QHj9yWY6xh+9XnEqcL9SzaN6AxAQznFlKH
-	dLqkCzhrFT9Lihq+x66AJm1W8UqSXiW5K1l9Ed4HOXLUx/GozqymFhAyzk/YHV3+0NXJ
-	yopnUfRK50M99bIMpIoNahvCo+bZFLHKHOA0Y=
-Received: by 10.14.14.80 with SMTP id c56mr2119462eec.197.1323163745715;
-	Tue, 06 Dec 2011 01:29:05 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id 65sm44793319eeg.8.2011.12.06.01.29.04
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 06 Dec 2011 01:29:05 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Dec 2011 10:28:56 +0100
-Message-Id: <1323163736-18065-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8
-Subject: [PATCH] bitbake.conf: change APACHE_MIRROR to use archive site
+	Tue, 06 Dec 2011 11:40:00 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 06 Dec 2011 02:33:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="83382551"
+Received: from unknown (HELO helios.localnet) ([10.252.121.246])
+	by orsmga001.jf.intel.com with ESMTP; 06 Dec 2011 02:33:08 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Tue, 06 Dec 2011 10:33:06 +0000
+Message-ID: <9065883.5eRBUehvGq@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.7.3 (Linux/3.0.0-13-generic-pae; KDE/4.7.3; i686; ; )
+In-Reply-To: <D6858D6A-D1B0-40B2-AA2A-71F7AA5FD0FC@dominion.thruhere.net>
+References: <cover.1322853315.git.josh@linux.intel.com>
+	<4EDD7A54.5070707@linux.intel.com>
+	<D6858D6A-D1B0-40B2-AA2A-71F7AA5FD0FC@dominion.thruhere.net>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/1] Make missing checksums an error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,32 +36,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2011 09:35:52 -0000
+X-List-Received-Date: Tue, 06 Dec 2011 10:40:00 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-* there are newest as well as older releases, so the SRC_URIs are valid longer
-* someone with fast line should try to redownload world to see if the
-  structure is the same for all projects (checked for subversion)
+On Tuesday 06 December 2011 08:18:30 Koen Kooi wrote:
+> Omap3-sgx-modules has no place in OE-core, so it should get deleted.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/conf/bitbake.conf |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+Sounds good, would you mind sending a patch that does that?
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 4e2f924..68eecb7 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -528,7 +528,7 @@ export palmqtdir = "${palmtopdir}"
- ##################################################################
- 
- ADOBE_MIRROR = "http://fpdownload.macromedia.com/get/flashplayer/current/"
--APACHE_MIRROR = "http://www.apache.org/dist"
-+APACHE_MIRROR = "http://archive.apache.org/dist"
- DEBIAN_MIRROR = "ftp://ftp.debian.org/debian/pool"
- E_MIRROR = "http://download.enlightenment.org/releases"
- E_SVN = "svn://svn.enlightenment.org/svn/e"
+Cheers,
+Paul
+
 -- 
-1.7.8
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
