@@ -1,57 +1,34 @@
-Received: from ch1ehsobe001.messaging.microsoft.com ([216.32.181.181]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mail-gx0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RXxT0-0004Wh-2j
+	(envelope-from <otavio.salvador@gmail.com>) id 1RXxf4-0004iL-T1
 	for openembedded-core@lists.openembedded.org;
-	Tue, 06 Dec 2011 17:02:02 +0100
-Received: from mail51-ch1-R.bigfish.com (10.43.68.244) by
-	CH1EHSOBE006.bigfish.com (10.43.70.56) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 6 Dec 2011 15:55:14 +0000
-Received: from mail51-ch1 (localhost [127.0.0.1])	by mail51-ch1-R.bigfish.com
-	(Postfix) with ESMTP id 21EE61C027A	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2011 15:55:14 +0000 (UTC)
-X-SpamScore: -12
-X-BigFish: VS-12(zz9371K1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 13,
-Received: from mail51-ch1 (localhost.localdomain [127.0.0.1]) by mail51-ch1
-	(MessageSwitch) id 132318691464327_20622;
-	Tue,  6 Dec 2011 15:55:14 +0000 (UTC)
-Received: from CH1EHSMHS017.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.248])	by mail51-ch1.bigfish.com (Postfix) with ESMTP id
-	0A233200045 for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Dec 2011 15:55:14 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS017.bigfish.com
-	(10.43.70.17) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 6 Dec 2011 15:55:12 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.83]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.01.0339.002; Tue, 6 Dec 2011 09:55:11 -0600
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v2] sstate.bbclass: add option to use
-	alternate compression in lieu of gzip
-Thread-Index: AQHMtC9voGJr1bmO1EaKUiEnkw7t8g==
-Date: Tue, 6 Dec 2011 15:55:11 +0000
-Message-ID: <CAEsOVNdDP0oEUi3HbrgTZTGbE4r1DS53gE66wR6kXs5-MkUX6Q@mail.gmail.com>
-References: <CAEsOVNe8RPoKqokyxoJTFQBm=g+EZ+0LkCmsnhBDMQ0uemepcA@mail.gmail.com>
-	<1322846687-13057-1-git-send-email-msm@freescale.com>
-In-Reply-To: <1322846687-13057-1-git-send-email-msm@freescale.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH v2] sstate.bbclass: add option to use alternate compression in lieu of gzip
+	Tue, 06 Dec 2011 17:14:31 +0100
+Received: by ggnh1 with SMTP id h1so6444446ggn.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 06 Dec 2011 08:07:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=sender:from:to:subject:date:message-id:x-mailer;
+	bh=cxSkwaP44M/XHfNJ7nEBxxxnAw87a0b3/B7C4gHXpZA=;
+	b=B9LoDOoWzN71LcmqWk3d4fnijDwG+AY/1wpJ2Dq0UtrTCrDnYDvV/MbXz/WxSbIrRr
+	fqtQmey3zCGEuVHJYxqQbBTdVgL5I66aEe3edfUfu8j/dN7bnv9eeWDZXJu6kjpUBBlM
+	vhubhFMu0uc06hZKRRh8TiuO9Fuz4qrH1YjP4=
+Received: by 10.236.176.3 with SMTP id a3mr9022189yhm.111.1323187662431;
+	Tue, 06 Dec 2011 08:07:42 -0800 (PST)
+Received: from localhost.localdomain ([189.114.111.55])
+	by mx.google.com with ESMTPS id l27sm62085463ani.21.2011.12.06.08.07.40
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 06 Dec 2011 08:07:41 -0800 (PST)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  6 Dec 2011 16:07:26 +0000
+Message-Id: <cover.1323187516.git.otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+Subject: [PATCH 0/5] Provides a framework and initial modules for initramfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -62,39 +39,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2011 16:02:02 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <D8D706A70AAD6A4CBE66F4A2F7E7312B@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 06 Dec 2011 16:14:31 -0000
 
-On Fri, Dec 2, 2011 at 11:24 AM, Matthew McClintock <msm@freescale.com> wro=
-te:
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 tar -czf ${SSTATE_PKG} *
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 tar -${SSTATE_PKG_TAROPT}cf ${SSTATE_PKG} *
-> =A0 =A0 =A0 =A0else
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 tar -cz --file=3D${SSTATE_PKG} --files-from=
-=3D/dev/null
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 tar -${SSTATE_PKG_TAROPT}c --file=3D${SSTAT=
-E_PKG} --files-from=3D/dev/null
-> =A0 =A0 =A0 =A0fi
->
-> =A0 =A0 =A0 =A0cd ${WORKDIR}
-> @@ -463,7 +466,7 @@ sstate_create_package () {
-> =A0sstate_unpack_package () {
-> =A0 =A0 =A0 =A0mkdir -p ${SSTATE_INSTDIR}
-> =A0 =A0 =A0 =A0cd ${SSTATE_INSTDIR}
-> - =A0 =A0 =A0 tar -xvzf ${SSTATE_PKG}
-> + =A0 =A0 =A0 tar -${SSTATE_PKG_TAROPT}xvf =A0${SSTATE_PKG}
+This patchset adds a very flexible and powerful initramfs framework
+together with a small set of modules using it. Please refer to each
+commit for the respective documentation.
 
-I'm going to respin this to look more like:
+The following changes since commit fb642d21111691b9302e16e984aff9d8fb18c431:
 
-tar -cvf - | "$SSTATE_PKG_TARCOMPRESSION"
+  buildhistory bbclass: avoid absolute paths for files-in-image.txt to avoid diff churn when relocating TMPDIR (2011-12-06 14:40:00 +0000)
 
-such that we don't depend on newer versions of tar for specific types
-of compression.
+are available in the git repository at:
+  git://github.com/OSSystems/oe-core master
+  https://github.com/OSSystems/oe-core/tree/HEAD
 
--M=
+Otavio Salvador (5):
+  initramfs-base: provides the base for a modular initramfs
+  initramfs-module-debug: add
+  initramfs-module-mdev: add
+  initramfs-module-e2fs: add
+  initramfs-module-udev: add
+
+ .../initrdscripts/initramfs-base/finish            |   42 ++++++
+ .../recipes-core/initrdscripts/initramfs-base/init |  136 ++++++++++++++++++++
+ .../initrdscripts/initramfs-base_1.0.bb            |   17 +++
+ .../initrdscripts/initramfs-module-debug/debug     |   82 ++++++++++++
+ .../initrdscripts/initramfs-module-debug_1.0.bb    |   15 ++
+ .../initrdscripts/initramfs-module-e2fs/e2fs       |   28 ++++
+ .../initrdscripts/initramfs-module-e2fs_1.0.bb     |   15 ++
+ .../initrdscripts/initramfs-module-mdev/mdev       |   30 +++++
+ .../initrdscripts/initramfs-module-mdev_1.0.bb     |   16 +++
+ .../initrdscripts/initramfs-module-udev/udev       |   22 +++
+ .../initrdscripts/initramfs-module-udev_1.0.bb     |   16 +++
+ 11 files changed, 419 insertions(+), 0 deletions(-)
+ create mode 100755 meta/recipes-core/initrdscripts/initramfs-base/finish
+ create mode 100755 meta/recipes-core/initrdscripts/initramfs-base/init
+ create mode 100644 meta/recipes-core/initrdscripts/initramfs-base_1.0.bb
+ create mode 100644 meta/recipes-core/initrdscripts/initramfs-module-debug/debug
+ create mode 100644 meta/recipes-core/initrdscripts/initramfs-module-debug_1.0.bb
+ create mode 100755 meta/recipes-core/initrdscripts/initramfs-module-e2fs/e2fs
+ create mode 100644 meta/recipes-core/initrdscripts/initramfs-module-e2fs_1.0.bb
+ create mode 100644 meta/recipes-core/initrdscripts/initramfs-module-mdev/mdev
+ create mode 100644 meta/recipes-core/initrdscripts/initramfs-module-mdev_1.0.bb
+ create mode 100644 meta/recipes-core/initrdscripts/initramfs-module-udev/udev
+ create mode 100644 meta/recipes-core/initrdscripts/initramfs-module-udev_1.0.bb
+
+-- 
+1.7.2.5
 
 
 
