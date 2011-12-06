@@ -1,35 +1,26 @@
-Received: from mail-gx0-f175.google.com ([209.85.161.175])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RXxfE-0004iL-QY
-	for openembedded-core@lists.openembedded.org;
-	Tue, 06 Dec 2011 17:14:40 +0100
-Received: by mail-gx0-f175.google.com with SMTP id h1so6444446ggn.6
+	(envelope-from <sidebranch.openembedded@gmail.com>)
+	id 1RXyGU-0005g6-Va for openembedded-core@lists.openembedded.org;
+	Tue, 06 Dec 2011 17:53:11 +0100
+Received: by eeav2 with SMTP id v2so1301073eea.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Dec 2011 08:07:55 -0800 (PST)
+	Tue, 06 Dec 2011 08:46:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references;
-	bh=+9Pcvh7OCosTYMH/RP5Oa/F+D9PyMsxR+m8EtRq1bRg=;
-	b=PSEjEJTN4psxWNyYKJ9cVPLH9eVKon2o3jBaDdYcrFK1U8ZPpDHSW7orAYKsQf3xGs
-	aOAe0KxWtldk54ecp7ueNd6YwgH/41pNMnscUnMmDhugs2AwSUata3L8roBHcU5pQ4hX
-	byB8OnHqe1MsgWxXAFXuATOHDrqNm7NaQuhjY=
-Received: by 10.236.179.2 with SMTP id g2mr20374077yhm.27.1323187675211;
-	Tue, 06 Dec 2011 08:07:55 -0800 (PST)
-Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id l27sm62085463ani.21.2011.12.06.08.07.53
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 06 Dec 2011 08:07:54 -0800 (PST)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=C6l25o7USU/2EHapZhpq32e5SKB+giEa4rfbhysjWuU=;
+	b=CQgIJZRsAqH++k15kgleagqJpSpwYTohyCFdPzmouwWSY4/I/s6DuKsP0jdeOGQkch
+	WTZlB2cZ9x+VXTSfMV46M4/+du0ycQoQESL8MfyDfwXrMt76cx1Y4TMfrl1g5hVQ3wyS
+	EIdCayIdWad9m0ZN7qJ0AQ6Q8MhtWk/2e4V9o=
+MIME-Version: 1.0
+Received: by 10.14.17.211 with SMTP id j59mr2830011eej.138.1323189982340; Tue,
+	06 Dec 2011 08:46:22 -0800 (PST)
+Received: by 10.204.185.76 with HTTP; Tue, 6 Dec 2011 08:46:22 -0800 (PST)
+Date: Tue, 6 Dec 2011 17:46:22 +0100
+Message-ID: <CAMvUbCxsL0hLMcThgR6=1-Vu3tfkOh6Jwr3FP95T_ssPFOMd9g@mail.gmail.com>
+From: Leon Woestenberg <sidebranch.openembedded@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Dec 2011 16:07:31 +0000
-Message-Id: <eeec6f5e18bc04d5463be1e18331e08923f6afc1.1323187516.git.otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <cover.1323187516.git.otavio@ossystems.com.br>
-References: <cover.1323187516.git.otavio@ossystems.com.br>
-In-Reply-To: <cover.1323187516.git.otavio@ossystems.com.br>
-References: <cover.1323187516.git.otavio@ossystems.com.br>
-Subject: [PATCH 5/5] initramfs-module-udev: add
+Subject: [RFC] Move package-split of kexec-tools (kdump/kexec) into oe-core?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,68 +35,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2011 16:14:41 -0000
+X-List-Received-Date: Tue, 06 Dec 2011 16:53:11 -0000
+Content-Type: multipart/alternative; boundary=0016e659f280de27ac04b36f2c97
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- .../initrdscripts/initramfs-module-udev/udev       |   22 ++++++++++++++++++++
- .../initrdscripts/initramfs-module-udev_1.0.bb     |   16 ++++++++++++++
- 2 files changed, 38 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-core/initrdscripts/initramfs-module-udev/udev
- create mode 100644 meta/recipes-core/initrdscripts/initramfs-module-udev_1.0.bb
+--0016e659f280de27ac04b36f2c97
+Content-Type: text/plain; charset=ISO-8859-1
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-module-udev/udev b/meta/recipes-core/initrdscripts/initramfs-module-udev/udev
-new file mode 100644
-index 0000000..9ea8aa3
---- /dev/null
-+++ b/meta/recipes-core/initrdscripts/initramfs-module-udev/udev
-@@ -0,0 +1,22 @@
-+#!/bin/sh
-+# Copyright (C) 2011 O.S. Systems Software LTDA.
-+# Licensed on MIT
-+
-+udev_enabled() {
-+	if [ ! -e /sbin/udevd ]; then
-+		debug "/sbin/udev doesn't exist"
-+		return 1
-+	fi
-+
-+	return 0
-+}
-+
-+udev_run() {
-+	mkdir -p /run
-+
-+	udevd --daemon > /dev/null
-+	udevadm trigger --action=add
-+	udevadm settle
-+
-+	killall udevd 2>/dev/null
-+}
-diff --git a/meta/recipes-core/initrdscripts/initramfs-module-udev_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-udev_1.0.bb
-new file mode 100644
-index 0000000..a3fcba0
---- /dev/null
-+++ b/meta/recipes-core/initrdscripts/initramfs-module-udev_1.0.bb
-@@ -0,0 +1,16 @@
-+DESCRIPTION = "initramfs support for udev"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+RDEPENDS = "initramfs-base udev udev-utils"
-+RCONFLICTS = "initramfs-module-mdev"
-+
-+inherit allarch
-+
-+SRC_URI = "file://udev"
-+
-+do_install() {
-+    install -d ${D}/init.d
-+    install -m 0755 ${WORKDIR}/udev ${D}/init.d/01-udev
-+}
-+
-+FILES_${PN} = "/init.d/*"
--- 
-1.7.2.5
+Hello all,
 
 
+meta-openembedded uses .bbappend to change the package-split-up of
+"kexec-tools" (as in openembedded-core) into "kexec" and "kdump" packages
+(this was classic OE behaviour).
 
+http://cgit.openembedded.org/meta-openembedded/commit/meta-oe/recipes-kernel/kexec/kexec-tools_2.0.2.bbappend?id=0c6d03335c117d24096598a3415ba22f74ec4f6e
+
+However, in openembedded-core we have a dependency on kexec-tools, thus
+this error results:
+
+|  * satisfy_dependencies_for: Cannot satisfy the following dependencies
+for task-core-tools-testapps:
+|  *     kexec-tools *
+|  * opkg_install_cmd: Cannot install package task-core-tools-testapps.
+
+
+So the use of meta-openembedded as a layer breaks openembedded-core.
+
+As a solution, can we move this package-split into openembedded-core?
+
+
+Other (neat!) solutions at hand? Maybe a meta-package?
+
+
+Regards,
+
+Leon.
+
+thanks 'ant_work' for the pointer to bbappend.
+
+--0016e659f280de27ac04b36f2c97
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+Hello all,<br><br><br>meta-openembedded uses .bbappend to change the packag=
+e-split-up of &quot;kexec-tools&quot; (as in openembedded-core) into &quot;=
+kexec&quot; and &quot;kdump&quot; packages (this was classic OE behaviour).=
+<br>
+<br><a href=3D"http://cgit.openembedded.org/meta-openembedded/commit/meta-o=
+e/recipes-kernel/kexec/kexec-tools_2.0.2.bbappend?id=3D0c6d03335c117d240965=
+98a3415ba22f74ec4f6e">http://cgit.openembedded.org/meta-openembedded/commit=
+/meta-oe/recipes-kernel/kexec/kexec-tools_2.0.2.bbappend?id=3D0c6d03335c117=
+d24096598a3415ba22f74ec4f6e</a><br>
+<br>However, in openembedded-core we have a dependency on kexec-tools, thus=
+ this error results:<br><br>|=A0 * satisfy_dependencies_for: Cannot satisfy=
+ the following dependencies for task-core-tools-testapps:<br>|=A0 * =A0=A0=
+=A0 kexec-tools *<br>
+|=A0 * opkg_install_cmd: Cannot install package task-core-tools-testapps.<b=
+r><br><br>So the use of meta-openembedded as a layer breaks openembedded-co=
+re.<br><br>As a solution, can we move this package-split into openembedded-=
+core?<br>
+<br><br>Other (neat!) solutions at hand? Maybe a meta-package?<br><br><br>R=
+egards,<br><br>Leon.<br><br>thanks &#39;ant_work&#39; for the pointer to bb=
+append.<br><br>
+
+--0016e659f280de27ac04b36f2c97--
