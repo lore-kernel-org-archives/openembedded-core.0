@@ -1,27 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RXsRM-0006eh-07
+	(envelope-from <koen@dominion.thruhere.net>) id 1RXsX3-0007Gu-KL
 	for openembedded-core@lists.openembedded.org;
-	Tue, 06 Dec 2011 11:40:00 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 06 Dec 2011 02:33:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="83382551"
-Received: from unknown (HELO helios.localnet) ([10.252.121.246])
-	by orsmga001.jf.intel.com with ESMTP; 06 Dec 2011 02:33:08 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Tue, 06 Dec 2011 10:33:06 +0000
-Message-ID: <9065883.5eRBUehvGq@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.7.3 (Linux/3.0.0-13-generic-pae; KDE/4.7.3; i686; ; )
-In-Reply-To: <D6858D6A-D1B0-40B2-AA2A-71F7AA5FD0FC@dominion.thruhere.net>
-References: <cover.1322853315.git.josh@linux.intel.com>
-	<4EDD7A54.5070707@linux.intel.com>
-	<D6858D6A-D1B0-40B2-AA2A-71F7AA5FD0FC@dominion.thruhere.net>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1] Make missing checksums an error
+	Tue, 06 Dec 2011 11:45:53 +0100
+Received: by eeav2 with SMTP id v2so934127eea.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 06 Dec 2011 02:39:06 -0800 (PST)
+Received: by 10.14.0.10 with SMTP id 10mr2257683eea.157.1323167946566;
+	Tue, 06 Dec 2011 02:39:06 -0800 (PST)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id z7sm33745048bka.1.2011.12.06.02.39.05
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 06 Dec 2011 02:39:05 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  6 Dec 2011 11:39:01 +0100
+Message-Id: <1323167941-25751-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.2.5
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] omap3-sgx-modules: drop from oe-core, it lives in the meta-ti BSP nowadays
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,21 +33,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Dec 2011 10:40:00 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 06 Dec 2011 10:45:53 -0000
 
-On Tuesday 06 December 2011 08:18:30 Koen Kooi wrote:
-> Omap3-sgx-modules has no place in OE-core, so it should get deleted.
+OE-core only support qemu based machines, so BSP type recipe should be moved to their respective BSPs
 
-Sounds good, would you mind sending a patch that does that?
+omap3-sgx-modules can be found in the meta-ti BSP: http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/meta-texasinstruments/
 
-Cheers,
-Paul
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ .../omap3-sgx-modules_1.3.13.1397.bb               |   17 -----------------
+ 1 files changed, 0 insertions(+), 17 deletions(-)
+ delete mode 100644 meta/recipes-bsp/powervr-drivers/omap3-sgx-modules_1.3.13.1397.bb
 
+diff --git a/meta/recipes-bsp/powervr-drivers/omap3-sgx-modules_1.3.13.1397.bb b/meta/recipes-bsp/powervr-drivers/omap3-sgx-modules_1.3.13.1397.bb
+deleted file mode 100644
+index 0e850bc..0000000
+--- a/meta/recipes-bsp/powervr-drivers/omap3-sgx-modules_1.3.13.1397.bb
++++ /dev/null
+@@ -1,17 +0,0 @@
+-DESCRIPTION = "Kernel drivers for the PowerVR SGX chipset found in the omap3 SoCs"
+-LICENSE = "GPLv2"
+-
+-inherit module
+-
+-SRC_URI = "http://dominion.thruhere.net/koen/OE/omap3-sgx-modules-1.3.13.1397.tar.bz2"
+-
+-S = ${WORKDIR}/${BPN}-${PV}/eurasiacon/build/linux/omap3430_linux/kbuild/
+-
+-MAKE_TARGETS = "BUILD=debug"
+-
+-COMPATIBLE_MACHINE = "(omap-3430ldp|omap-3430sdp|beagleboard|overo)"
+-
+-do_install() {
+-	mkdir -p ${D}/lib/modules/${KERNEL_VERSION}/drivers/gpu
+-	cp ${WORKDIR}/${BPN}-${PV}/eurasiacon/binary_omap3430_linux_debug/*.ko ${D}/lib/modules/${KERNEL_VERSION}/drivers/gpu	
+-}
 -- 
+1.7.2.5
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
