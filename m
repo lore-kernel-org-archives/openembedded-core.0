@@ -1,37 +1,39 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from smtprelay-b11.telenor.se ([62.127.194.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RYIcU-0004fn-PF
+	(envelope-from <openembedded-core@emagii.com>) id 1RYIeB-0004jj-I2
 	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Dec 2011 15:37:14 +0100
-Received: by eekb15 with SMTP id b15so477085eek.6
+	Wed, 07 Dec 2011 15:38:59 +0100
+Received: from ipb4.telenor.se (ipb4.telenor.se [195.54.127.167])
+	by smtprelay-b11.telenor.se (Postfix) with ESMTP id 23E2BCD19
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Dec 2011 06:30:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type;
-	bh=7KhgbPG6ImCSJq/h8pQPkK4M9PUSDtiIPOP74SJEKLY=;
-	b=TnJil9s448NFJdhQaW9cKBzmNMa9SnoatEBKO3ZOzUugMQC+tzbgFIX8zsBr51julb
-	TptzWNsOQgwqhTjSR6mi63pYzxo5wTIUjQD47UNGxJYD1r1gp098L1or2zUOh4wpWlpd
-	K8jLJb8lNOJYlJLk/H6TzwfOqbMEOlwtXBgac=
+	Wed,  7 Dec 2011 15:32:07 +0100 (CET)
+X-SENDER-IP: [83.227.56.19]
+X-LISTENER: [smtp.bredband.net]
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: AngbAIt4305T4zgTPGdsb2JhbAAMN6prAQEBATeCJAEBAQEDAQEBaxsLGAklDwIWARsUBg0GAgEBiAu2LIs0BJJHgiSSJA
+X-IronPort-AV: E=Sophos;i="4.71,313,1320620400"; 
+	d="scan'208,217";a="1770415373"
+Received: from c-1338e353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
+	[10.175.196.242]) ([83.227.56.19])
+	by ipb4.telenor.se with ESMTP; 07 Dec 2011 15:30:38 +0100
+Message-ID: <4EDF788E.60804@emagii.com>
+Date: Wed, 07 Dec 2011 15:30:38 +0100
+From: Ulf Samuelsson <openembedded-core@emagii.com>
+Organization: eMagii
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.23) Gecko/20110922 Thunderbird/3.1.15
 MIME-Version: 1.0
-Received: by 10.14.2.3 with SMTP id 3mr3479368eee.155.1323268226164; Wed, 07
-	Dec 2011 06:30:26 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.113.132 with HTTP; Wed, 7 Dec 2011 06:30:26 -0800 (PST)
-In-Reply-To: <1323261242.19363.86.camel@ted>
-References: <cover.1323187516.git.otavio@ossystems.com.br>
-	<1323261242.19363.86.camel@ted>
-Date: Wed, 7 Dec 2011 12:30:26 -0200
-X-Google-Sender-Auth: Y_LGqXwLpSa946geAuVc9l2QT_g
-Message-ID: <CAP9ODKqYNbmHDFYxXXG_5xGC4KY6rYQEWXw6QHAkWbnqD+tF+A@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/5] Provides a framework and initial modules for initramfs
+References: <4EDF2360.7090402@emagii.com>
+	<1323249403.19363.66.camel@ted>	<4EDF4D98.7060803@emagii.com>
+	<E5CF0974-DCA6-4DAA-859C-ED40990CC11E@dominion.thruhere.net>
+In-Reply-To: <E5CF0974-DCA6-4DAA-859C-ED40990CC11E@dominion.thruhere.net>
+Subject: Re: Possible stale tags in the download directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: ulf@emagii.com, Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -42,51 +44,186 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2011 14:37:14 -0000
-Content-Type: multipart/alternative; boundary=0016363ba55a9028cf04b3816441
+X-List-Received-Date: Wed, 07 Dec 2011 14:38:59 -0000
+Content-Type: multipart/alternative;
+	boundary="------------030702090106020308050206"
 
---0016363ba55a9028cf04b3816441
-Content-Type: text/plain; charset=ISO-8859-1
+--------------030702090106020308050206
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Dec 7, 2011 at 10:34, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> Rather than add five different recipes for this, could we have one
-> recipe with five different packages? I'm a little bit sensitive to
-> parsing speed and whilst its a detail, small details add up :)
+On 2011-12-07 13:00, Koen Kooi wrote:
+> Op 7 dec. 2011, om 12:27 heeft Ulf Samuelsson het volgende geschreven:
 >
+>> On 2011-12-07 10:16, Richard Purdie wrote:
+>>> On Wed, 2011-12-07 at 09:27 +0100, Ulf Samuelsson wrote:
+>>>> When I look at the "downloads" location I find a lot of files called.
+>>>>
+>>>> "11_usagi_fix.patch.done"
+>>>>
+>>>> but no  "11_usagi_fix.patch" file in the directory.
+>>>>
+>>>> If this is a indication of that a patch has been downloaded,
+>>>> what happens if you for some reason or other delete your
+>>>> OE-core directory and keep the downloads directory.
+>>>>
+>>>> When you start from fresh, all the tags are then stale.
+>>>>
+>>>> (Deleting the "downloads" directory seems a bad idea)
+>>>>
+>>>> I think that if there should be tags in the "downloads" directory,
+>>>> they should only reflect things which are downloaded to the
+>>>> "downloads" directory, and nothing else.
+>>>>
+>>>> As for the tags in the directory, I think a better approach
+>>>> is to download a file "tarball.tar.bz2" to a different filename first
+>>>> I.E: "tarball.tar.bz2.in-progress"  and if the download completes
+>>>> then move the file to "tarball.tar.bz2".
+>>>> Should remove a lot of clutter from the "downloads" directory.
+>>> What we've tried to do is simplify the fetcher code paths in fetch2.
+>>> There were some many corner/special cases and different code paths it
+>>> was near impossible to tell what was going on. One of the side effects
+>>> is that local file:// urls do touch the done stamp in the same way as
+>>> other downloads. The main reason for those files is now checksum
+>>> tracking. If the done stamps were part of tmpdir, we'd keep checksumming
+>>> the contents of the downloads at each build rather than once after the
+>>> download. The way the implementation works, there is very little risk
+>>> from stale stamps, it would just mean the checksum code wouldn't get
+>>> triggered and that is likely unneeded for a local file:// url anyway.
+>>>
+>>> So yes, its not ideal but looking at the code I'd be surprised if a
+>>> build ever broke due to it.
+>>>
+>> Maybe I am paranoid, but I think I remember seeing tarballs developing
+>> bit rot when moved between different machines.
+> And that's why checksums are checked before do_unpack.
 
-Yes; that works for me.
+Richard says that if the *.done file is there, then the checksum is not 
+calculated.
+Or that is at least how I interpret his comment.
 
-Besides that, are you OK with that?
+If the check is always there, why the tag?
+
+
+
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 
 -- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+Best Regards
+Ulf Samuelsson
+eMagii
 
---0016363ba55a9028cf04b3816441
+
+--------------030702090106020308050206
 Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-<div class=3D"gmail_quote">On Wed, Dec 7, 2011 at 10:34, Richard Purdie <sp=
-an dir=3D"ltr">&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">ri=
-chard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex;">
-<div class=3D"im">Rather than add five different recipes for this, could we=
- have one</div>
-recipe with five different packages? I&#39;m a little bit sensitive to<br>
-parsing speed and whilst its a detail, small details add up :)<br></blockqu=
-ote><div><br></div><div>Yes; that works for me.</div><div><br></div><div>Be=
-sides that, are you OK with that?=A0</div></div><div><br></div>-- <br>Otavi=
-o Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. S=
-ystems<br>
-E-mail: <a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio=
-@ossystems.com.br</a>=A0 <a href=3D"http://www.ossystems.com.br" target=3D"=
-_blank">http://www.ossystems.com.br</a><br>Mobile: +55 53 9981-7854=A0 =A0 =
-=A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://projetos.ossystems.com.br" target=
-=3D"_blank">http://projetos.ossystems.com.br</a><br>
-<br>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+    <title></title>
+  </head>
+  <body bgcolor="#ffffff" text="#000000">
+    On 2011-12-07 13:00, Koen Kooi wrote:
+    <blockquote
+      cite="mid:E5CF0974-DCA6-4DAA-859C-ED40990CC11E@dominion.thruhere.net"
+      type="cite">
+      <pre wrap="">
+Op 7 dec. 2011, om 12:27 heeft Ulf Samuelsson het volgende geschreven:
 
---0016363ba55a9028cf04b3816441--
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">On 2011-12-07 10:16, Richard Purdie wrote:
+</pre>
+        <blockquote type="cite">
+          <pre wrap="">On Wed, 2011-12-07 at 09:27 +0100, Ulf Samuelsson wrote:
+</pre>
+          <blockquote type="cite">
+            <pre wrap="">When I look at the "downloads" location I find a lot of files called.
+
+"11_usagi_fix.patch.done"
+
+but no  "11_usagi_fix.patch" file in the directory.
+
+If this is a indication of that a patch has been downloaded,
+what happens if you for some reason or other delete your
+OE-core directory and keep the downloads directory.
+
+When you start from fresh, all the tags are then stale.
+
+(Deleting the "downloads" directory seems a bad idea)
+
+I think that if there should be tags in the "downloads" directory,
+they should only reflect things which are downloaded to the
+"downloads" directory, and nothing else.
+
+As for the tags in the directory, I think a better approach
+is to download a file "tarball.tar.bz2" to a different filename first
+I.E: "tarball.tar.bz2.in-progress"  and if the download completes
+then move the file to "tarball.tar.bz2".
+Should remove a lot of clutter from the "downloads" directory.
+</pre>
+          </blockquote>
+          <pre wrap="">What we've tried to do is simplify the fetcher code paths in fetch2.
+There were some many corner/special cases and different code paths it
+was near impossible to tell what was going on. One of the side effects
+is that local <a class="moz-txt-link-freetext" href="file://">file://</a> urls do touch the done stamp in the same way as
+other downloads. The main reason for those files is now checksum
+tracking. If the done stamps were part of tmpdir, we'd keep checksumming
+the contents of the downloads at each build rather than once after the
+download. The way the implementation works, there is very little risk
+from stale stamps, it would just mean the checksum code wouldn't get
+triggered and that is likely unneeded for a local <a class="moz-txt-link-freetext" href="file://">file://</a> url anyway.
+
+So yes, its not ideal but looking at the code I'd be surprised if a
+build ever broke due to it.
+
+</pre>
+        </blockquote>
+        <pre wrap="">Maybe I am paranoid, but I think I remember seeing tarballs developing
+bit rot when moved between different machines.
+</pre>
+      </blockquote>
+      <pre wrap="">
+And that's why checksums are checked before do_unpack.
+</pre>
+    </blockquote>
+    <br>
+    Richard says that if the *.done file is there, then the checksum is
+    not calculated.<br>
+    Or that is at least how I interpret his comment.<br>
+    <br>
+    If the check is always there, why the tag?<br>
+    <br>
+    <br>
+    <br>
+    <blockquote
+      cite="mid:E5CF0974-DCA6-4DAA-859C-ED40990CC11E@dominion.thruhere.net"
+      type="cite">
+      <pre wrap=""></pre>
+      <pre wrap="">
+<fieldset class="mimeAttachmentHeader"></fieldset>
+_______________________________________________
+Openembedded-core mailing list
+<a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a>
+<a class="moz-txt-link-freetext" href="http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core</a>
+</pre>
+    </blockquote>
+    <br>
+    <br>
+    <pre class="moz-signature" cols="72">-- 
+Best Regards
+Ulf Samuelsson
+eMagii
+</pre>
+  </body>
+</html>
+
+--------------030702090106020308050206--
