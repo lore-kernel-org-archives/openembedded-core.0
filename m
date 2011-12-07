@@ -1,26 +1,39 @@
-Received: from mail.gw90.de ([188.40.100.199])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RYPKp-0002mk-MY for openembedded-core@lists.openembedded.org;
-	Wed, 07 Dec 2011 22:47:27 +0100
-Received: from f053037255.adsl.alicedsl.de ([78.53.37.255]
-	helo=[192.168.178.21])
-	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RYPEN-00051t-JK for openembedded-core@lists.openembedded.org;
-	Wed, 07 Dec 2011 21:40:47 +0000
-Message-ID: <1323294040.4065.45.camel@mattotaupa>
-From: Paul Menzel <paulepanter@users.sourceforge.net>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 07 Dec 2011 22:40:40 +0100
-In-Reply-To: <4EDFDAF5.2080901@linux.intel.com>
-References: <025adb591e6811bcd1bc5480d6c297015d373a02.1323286080.git.elizabeth.flanagan@intel.com>
-	<38bec96fcbe89f8dc264c8889f69e4f5afff35ad.1323286080.git.elizabeth.flanagan@intel.com>
-	<1323292609.4065.42.camel@mattotaupa>
-	<4EDFDAF5.2080901@linux.intel.com>
-X-Mailer: Evolution 3.0.3-2 
-Mime-Version: 1.0
-Subject: Re: Abbreviation of OpenEmbedded-Core
+	(envelope-from <raj.khem@gmail.com>) id 1RYPNn-0002qu-Ds
+	for openembedded-core@lists.openembedded.org;
+	Wed, 07 Dec 2011 22:50:31 +0100
+Received: by iadj38 with SMTP id j38so1501650iad.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 07 Dec 2011 13:43:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=UEVYZA3LtBTFgVJhSSlzEuUtyZEV+4gtFNkT+f4P72Q=;
+	b=GDQp9SCxgVdO9ny0bTdOmPdQjBXn946poV574B6w0hOoNMtV0VT+ZP5v7+pmES+r75
+	9M4bqNfetQS84JpozwCwtEXO5D+loufcZx2D9J3qGzrwzg66QC60fVjXOi/szlgNxBfF
+	89UaF8MdzR39qo41fT+DxwbNdKc2t4JGj48bk=
+Received: by 10.231.8.139 with SMTP id h11mr82473ibh.1.1323294221391;
+	Wed, 07 Dec 2011 13:43:41 -0800 (PST)
+Received: from sakrah.homelinux.org
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
+	by mx.google.com with ESMTPS id mb4sm5998711igc.1.2011.12.07.13.43.39
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 07 Dec 2011 13:43:40 -0800 (PST)
+Date: Wed, 7 Dec 2011 13:43:17 -0800
+From: Khem Raj <raj.khem@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20111207214317.GC6351@sakrah.homelinux.org>
+References: <4EDF2360.7090402@emagii.com>
+	<E5CF0974-DCA6-4DAA-859C-ED40990CC11E@dominion.thruhere.net>
+	<4EDF788E.60804@emagii.com> <3741284.XQAanrv0Ii@helios>
+	<1323270054.30601.26.camel@ted>
+MIME-Version: 1.0
+In-Reply-To: <1323270054.30601.26.camel@ted>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: ulf@emagii.com
+Subject: Re: Possible stale tags in the download directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,69 +48,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2011 21:47:27 -0000
-X-Groupsio-MsgNum: 13783
-Content-Type: multipart/signed; micalg="pgp-sha1";
-	protocol="application/pgp-signature"; 
-	boundary="=-ZMzDuTUYR2l7PJJmBIOq"
+X-List-Received-Date: Wed, 07 Dec 2011 21:50:31 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---=-ZMzDuTUYR2l7PJJmBIOq
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On (07/12/11 15:00), Richard Purdie wrote:
+> On Wed, 2011-12-07 at 14:37 +0000, Paul Eggleton wrote:
+> > On Wednesday 07 December 2011 15:30:38 Ulf Samuelsson wrote:
+> > > Richard says that if the *.done file is there, then the checksum is not
+> > > calculated.
+> > > Or that is at least how I interpret his comment.
+> > > 
+> > > If the check is always there, why the tag?
+> > 
+> > That's not what my reading of the bitbake source says. 
+> > bitbake/lib/bb/fetch2/__init__.py contains the only references to .done files 
+> > and all it does is make sure the done file gets "touched" whenever a fetch for 
+> > the associated file occurs; it does not otherwise check for its existence.
+> 
+> It does two things, one is an activity marker useful for seeing whether
+> files are in active use and the second is for the checksum calculation
+> which only ever happens once after download due to the file (see
+> verify_checksum() in that file).
 
-Am Mittwoch, den 07.12.2011, 13:30 -0800 schrieb Joshua Lock:
-> On 07/12/11 13:16, Paul Menzel wrote:
-> > Dear OE folks,
->=20
-> OE-Core folks?
+when do we create .done files? if I am in middle of download of a tar
+file and I cancel it and restart it does not fetch the file again but
+tried to use the corrupt file. 
 
-I still would call the community OpenEmbedded community.
+Is it a big build time hit if checksums are verified all the time ?
 
-> > Am Mittwoch, den 07.12.2011, 11:34 -0800 schrieb Beth Flanagan:
-> >> From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
-> >>
-> >> This is a quick audit of only the most obviously wrong licenses
-> >> found within OECore. These fixes fall into four areas:
-> >=20
-> > could we agree on the spelling of the abbreviation of OpenEmbedded-Core=
-?
-> >=20
-> > In the files in the repository everything is spelled OE-Core so I guess
-> > that should be it. The Wiki uses OE-Core [1] and Elisabeth=E2=80=99s co=
-mmit
-
-I meant the Wiki uses OE-core.
-
-> > message uses OECore.
->=20
-> I think we do have an accord here. Consistent usage in the 'code' and
-> documentation emphasises that. What makes you think we don't agree?
->
-> It's probably that Elizabeth's commit message was a typo. I certainly
-> make enough of those.
-
-Sorry for the confusion. The spelling is (pairwise) different in the
-three examples I have given.
-
-Oh, now I see the mailing list tag is OE-core. So this should all be
-unified.
+-- 
+-Khem
 
 
-Thanks,
-
-Paul
-
---=-ZMzDuTUYR2l7PJJmBIOq
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.11 (GNU/Linux)
-
-iEYEABECAAYFAk7f3VgACgkQPX1aK2wOHVh3WQCeJZpeinOgBf5BoT8LpYIbpq+A
-kb4An3LDIQ0NcL2X5sBJVqHjs7V2JQnn
-=9gOg
------END PGP SIGNATURE-----
-
---=-ZMzDuTUYR2l7PJJmBIOq--
