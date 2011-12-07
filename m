@@ -1,35 +1,40 @@
-Received: from smtprelay-b21.telenor.se ([195.54.99.212])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <openembedded-core@emagii.com>) id 1RYK2O-00024a-ON
+	(envelope-from <raj.khem@gmail.com>) id 1RYKL7-0002Qe-DE
 	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Dec 2011 17:08:04 +0100
-Received: from ipb1.telenor.se (ipb1.telenor.se [195.54.127.164])
-	by smtprelay-b21.telenor.se (Postfix) with ESMTP id 11750C129
+	Wed, 07 Dec 2011 17:27:25 +0100
+Received: by lahd3 with SMTP id d3so281428lah.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Dec 2011 16:36:28 +0100 (CET)
-X-SENDER-IP: [83.227.56.19]
-X-LISTENER: [smtp.bredband.net]
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: AngbANWH305T4zgTPGdsb2JhbAAMN6prAQEBATeCJAEBAQECAThABgsLGAkWDwkDAgECATEUEwgBAYgDCLZGiByDGASUa4kViQ8
-X-IronPort-AV: E=Sophos;i="4.71,314,1320620400"; d="scan'208";a="230306849"
-Received: from c-1338e353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
-	[10.175.196.242]) ([83.227.56.19])
-	by ipb1.telenor.se with ESMTP; 07 Dec 2011 16:36:17 +0100
-Message-ID: <4EDF87F2.4000908@emagii.com>
-Date: Wed, 07 Dec 2011 16:36:18 +0100
-From: Ulf Samuelsson <openembedded-core@emagii.com>
-Organization: eMagii
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.23) Gecko/20110922 Thunderbird/3.1.15
+	Wed, 07 Dec 2011 08:20:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=w5oHPdl8xE0NI8WZ3ZKk3Cyq0/1zOdV5VSNL70BuUJY=;
+	b=mKoKeXah10XeNZlTemFi7OHU2saBZ3k4R0pMbfrAMNyF+KVDfJffBhQ0B4DMIe0l0w
+	V/Tlsg9FPUb/99xfU7KHsae8fK+gusezDuZ09DnA0h+Ow3ykjXtvdTczW7CcMddIw5hG
+	Ekrbi9KVsRlJx1QfX1OdRVOITXEVuoX8ZDwZ0=
+Received: by 10.152.104.206 with SMTP id gg14mr12215193lab.41.1323274835584;
+	Wed, 07 Dec 2011 08:20:35 -0800 (PST)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <4EDF7A02.1070000@emagii.com>
-In-Reply-To: <4EDF7A02.1070000@emagii.com>
-Subject: Re: connman-gnome_0.5.bb fails: connman-gnome.git is empty
+Received: by 10.152.24.36 with HTTP; Wed, 7 Dec 2011 08:20:01 -0800 (PST)
+In-Reply-To: <4EDF6F0D.1000306@dresearch-fe.de>
+References: <4ECF768A.4060108@dresearch-fe.de>
+	<95977E6E-2138-4CEA-B7C6-FC8A248F9C95@dominion.thruhere.net>
+	<4ECF7C0E.304@dresearch-fe.de>
+	<CAMKF1spxSD4pG1x4Z30ATfMKWKcjoFJJxW4r0pguM0rybcyHaw@mail.gmail.com>
+	<4EDDBF42.4070501@dresearch-fe.de> <4EDF6F0D.1000306@dresearch-fe.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 7 Dec 2011 08:20:01 -0800
+Message-ID: <CAMKF1sraVBhmaSg00hZ-Md9f=JzHy6+=vp2GtT0y-Ep=7P+XSw@mail.gmail.com>
+To: Steffen Sledz <sledz@dresearch-fe.de>
+Cc: Tom King <ka6sox@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Uncommon source deployment policy of live555
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ulf@emagii.com, Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -40,44 +45,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2011 16:08:04 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 07 Dec 2011 16:27:25 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 2011-12-07 15:36, Ulf Samuelsson wrote:
-> git://git.kernel.org/pub/scm/network/connman/connman-gnome.git;protocol=git 
+On Wed, Dec 7, 2011 at 5:50 AM, Steffen Sledz <sledz@dresearch-fe.de> wrote:
 >
->     is empty.    The repo exists, but no content.
+> Ping!
 >
-> Building "connman-gnome_0.5.bb" thus fails.
-> Needed by "core-image-sato"
->
-> There is a "connman-gnome-m" project on gitorious.
-> This seems to be based on the above source package.
->
-> Will try it out, but if anyone already tried this?
->
-> Any other recommended sources for connman-gnome?
->
-Found:
-http://autobuilder.yoctoproject.org/pub/sources/git2_git.kernel.org.pub.scm.network.connman.connman-gnome.git.tar.gz 
+> There's a commit pending requiring this tarball. :(
 
-in an old email to the list from Richard Purdie (before I started 
-subscribing).
+Hi Steffen
 
-so I think I am going to download this and set up a git on github so the 
-build does
-not require a manual download.
+It should be there now
 
-> Since I am just trying out OE-core, I could build another image.
-> What would be close to x11[-gpe]-image.bb from openembedded classic?
->
-
-
--- 
-Best Regards
-Ulf Samuelsson
-eMagii
-
+Thanks
+-Khem
 
 
