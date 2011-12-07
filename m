@@ -1,34 +1,33 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sledz@dresearch-fe.de>) id 1RYHzV-0005x1-PC
+	(envelope-from <otavio.salvador@gmail.com>) id 1RYIcU-0004fn-PF
 	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Dec 2011 14:56:58 +0100
-Received: by eaao14 with SMTP id o14so436937eaa.6
+	Wed, 07 Dec 2011 15:37:14 +0100
+Received: by eekb15 with SMTP id b15so477085eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Dec 2011 05:50:09 -0800 (PST)
-Received: by 10.213.112.200 with SMTP id x8mr548906ebp.12.1323265809247;
-	Wed, 07 Dec 2011 05:50:09 -0800 (PST)
-Received: from fensuse.internal.dresearch-fe.de
-	(pd95cb174.dip0.t-ipconnect.de. [217.92.177.116])
-	by mx.google.com with ESMTPS id a60sm5861081eeb.4.2011.12.07.05.50.06
-	(version=SSLv3 cipher=OTHER); Wed, 07 Dec 2011 05:50:07 -0800 (PST)
-Message-ID: <4EDF6F0D.1000306@dresearch-fe.de>
-Date: Wed, 07 Dec 2011 14:50:05 +0100
-From: Steffen Sledz <sledz@dresearch-fe.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111105 Thunderbird/8.0
+	Wed, 07 Dec 2011 06:30:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=7KhgbPG6ImCSJq/h8pQPkK4M9PUSDtiIPOP74SJEKLY=;
+	b=TnJil9s448NFJdhQaW9cKBzmNMa9SnoatEBKO3ZOzUugMQC+tzbgFIX8zsBr51julb
+	TptzWNsOQgwqhTjSR6mi63pYzxo5wTIUjQD47UNGxJYD1r1gp098L1or2zUOh4wpWlpd
+	K8jLJb8lNOJYlJLk/H6TzwfOqbMEOlwtXBgac=
 MIME-Version: 1.0
+Received: by 10.14.2.3 with SMTP id 3mr3479368eee.155.1323268226164; Wed, 07
+	Dec 2011 06:30:26 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.113.132 with HTTP; Wed, 7 Dec 2011 06:30:26 -0800 (PST)
+In-Reply-To: <1323261242.19363.86.camel@ted>
+References: <cover.1323187516.git.otavio@ossystems.com.br>
+	<1323261242.19363.86.camel@ted>
+Date: Wed, 7 Dec 2011 12:30:26 -0200
+X-Google-Sender-Auth: Y_LGqXwLpSa946geAuVc9l2QT_g
+Message-ID: <CAP9ODKqYNbmHDFYxXXG_5xGC4KY6rYQEWXw6QHAkWbnqD+tF+A@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <4ECF768A.4060108@dresearch-fe.de>
-	<95977E6E-2138-4CEA-B7C6-FC8A248F9C95@dominion.thruhere.net>
-	<4ECF7C0E.304@dresearch-fe.de>
-	<CAMKF1spxSD4pG1x4Z30ATfMKWKcjoFJJxW4r0pguM0rybcyHaw@mail.gmail.com>
-	<4EDDBF42.4070501@dresearch-fe.de>
-In-Reply-To: <4EDDBF42.4070501@dresearch-fe.de>
-X-Enigmail-Version: 1.3.3
-Cc: Tom King <ka6sox@gmail.com>
-Subject: Re: Uncommon source deployment policy of live555
+Subject: Re: [PATCH 0/5] Provides a framework and initial modules for initramfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,61 +42,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2011 13:56:58 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 07 Dec 2011 14:37:14 -0000
+Content-Type: multipart/alternative; boundary=0016363ba55a9028cf04b3816441
 
-On 06.12.2011 08:07, Steffen Sledz wrote:
-> On 26.11.2011 06:49, Khem Raj wrote:
->> On Fri, Nov 25, 2011 at 3:29 AM, Steffen Sledz <sledz@dresearch-fe.de> wrote:
->>> On 25.11.2011 12:21, Koen Kooi wrote:
->>>>
->>>> Op 25 nov. 2011, om 12:05 heeft Steffen Sledz het volgende geschreven:
->>>>
->>>>> The LIVE555 project has a really uncommon source deployment policy. :(
->>>>>
->>>>> They publish *only* the latest tarball of their code [1]. And they don't make the code available under a source code repository [2].
->>>>>
->>>>> I've asked to change this policy but they are not willing to do that [3].
->>>>>
->>>>> How can we handle this?
->>>>> Does OE provides a "mirror" server to provide the versions we're referencing?
->>>>
->>>> Angstrom has had such a mirror ever since it started and it has the following live555 releases:
->>>
->>> Great.
->>>
->>> So there's no need to change the recipes. This server is used automatically. Right?
->>>
->>
->> for angstrom yes the mirror is a fallback
->>
->>
->>>> live.2009.06.02.tar.gz
->>>> live.2010.04.09.tar.gz
->>>> live.2010.05.29.tar.gz
->>>> live.2010.10.15.tar.gz
->>>> live.2011.01.10.tar.gz
->>>> live.2011.03.14.tar.gz
->>>
->>> I'd like to see the current live.2011.11.20.tar.gz there too. Who's maintaining such requests?
->>
->> as another backup you can also put this up on
->> sources.openemebedded.org, send it to ka6sox
-> 
-> I did not get an answer from ka6sox to my upload request until now. Can anybody else make to upload to sources.openemebedded.org?
+--0016363ba55a9028cf04b3816441
+Content-Type: text/plain; charset=ISO-8859-1
 
-Ping!
+On Wed, Dec 7, 2011 at 10:34, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-There's a commit pending requiring this tarball. :(
+> Rather than add five different recipes for this, could we have one
+> recipe with five different packages? I'm a little bit sensitive to
+> parsing speed and whilst its a detail, small details add up :)
+>
+
+Yes; that works for me.
+
+Besides that, are you OK with that?
 
 -- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
+--0016363ba55a9028cf04b3816441
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div class=3D"gmail_quote">On Wed, Dec 7, 2011 at 10:34, Richard Purdie <sp=
+an dir=3D"ltr">&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">ri=
+chard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex;">
+<div class=3D"im">Rather than add five different recipes for this, could we=
+ have one</div>
+recipe with five different packages? I&#39;m a little bit sensitive to<br>
+parsing speed and whilst its a detail, small details add up :)<br></blockqu=
+ote><div><br></div><div>Yes; that works for me.</div><div><br></div><div>Be=
+sides that, are you OK with that?=A0</div></div><div><br></div>-- <br>Otavi=
+o Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. S=
+ystems<br>
+E-mail: <a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio=
+@ossystems.com.br</a>=A0 <a href=3D"http://www.ossystems.com.br" target=3D"=
+_blank">http://www.ossystems.com.br</a><br>Mobile: +55 53 9981-7854=A0 =A0 =
+=A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://projetos.ossystems.com.br" target=
+=3D"_blank">http://projetos.ossystems.com.br</a><br>
+<br>
+
+--0016363ba55a9028cf04b3816441--
