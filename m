@@ -1,29 +1,34 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RYLy2-0005N1-2D
-	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Dec 2011 19:11:42 +0100
-Received: by eaao14 with SMTP id o14so720768eaa.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RYMGR-0005mh-BZ for openembedded-core@lists.openembedded.org;
+	Wed, 07 Dec 2011 19:30:43 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB7INs2o018146
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Dec 2011 10:04:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=yr7AT87GJGAgDgOCOUrXzgOrCc0oxORgEufJzQbceNU=;
-	b=J7pg2No1RZeGqKivD5HiRQjxO9ArExWJ9Swrp0TvlqgtdtWHsWi89MJnnJYduz7w+2
-	cD1X6zlWhKYqxQ1i/CdKypDxohgv615B0fcHoxrkED1cfTDb3ISoD484b4WR2vTYI6lO
-	g+MdGyu+BGb2zPCITOfXeBaQzy7pn/sFVXLUw=
-Received: by 10.213.29.202 with SMTP id r10mr783822ebc.52.1323281092774;
-	Wed, 07 Dec 2011 10:04:52 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id 49sm8632227eec.1.2011.12.07.10.04.51
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 07 Dec 2011 10:04:51 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Dec 2011 19:04:44 +0100
-Message-Id: <1323281084-30590-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8
-Subject: [PATCH][RFC] conf/machine/include/arm add extra MACHINEOVERRIDES like x86 does
+	Wed, 7 Dec 2011 18:23:54 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 17238-09 for <openembedded-core@lists.openembedded.org>;
+	Wed,  7 Dec 2011 18:23:49 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB7INkxS018140
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 7 Dec 2011 18:23:47 GMT
+Message-ID: <1323282237.30601.52.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 07 Dec 2011 18:23:57 +0000
+In-Reply-To: <4EDF991D.1010601@balister.org>
+References: <1323273568-31152-1-git-send-email-philip@balister.org>
+	<1323276042.30601.42.camel@ted> <4EDF991D.1010601@balister.org>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 1/2] boost : Add icu to DEPENDS to fix a build failure.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,83 +43,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2011 18:11:42 -0000
+X-List-Received-Date: Wed, 07 Dec 2011 18:30:43 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* motivated by this NAK
-  http://patchwork.openembedded.org/patch/15777/
-  and today's discussion on #yocto I hope it's worth it to send this RFC
+On Wed, 2011-12-07 at 11:49 -0500, Philip Balister wrote:
+> On 12/07/2011 11:40 AM, Richard Purdie wrote:
+> > On Wed, 2011-12-07 at 10:59 -0500, Philip Balister wrote:
+> >> Part of boost needs libraries from icu. Without this, either the build or
+> >> image construction fails. (I forget exactly which)
+> > 
+> > That is a fairly heavy dependency to add and we're not seeing builds or
+> > images fail due to this being missing as far as I can tell. Do you have
+> > any further information on this?
+> 
+> Googling gets me this page:
+> 
+> http://www.boost.org/doc/libs/1_41_0/libs/regex/doc/html/boost_regex/ref/non_std_strings/icu/intro.html
+> 
+> I'm no expert at this unicode stuff, maybe we need to nuild boost
+> without unicode?
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/conf/machine/include/arm/arch-armv4.inc  |    1 +
- meta/conf/machine/include/arm/arch-armv5.inc  |    1 +
- meta/conf/machine/include/arm/arch-armv6.inc  |    1 +
- meta/conf/machine/include/arm/arch-armv7.inc  |    1 +
- meta/conf/machine/include/arm/arch-armv7a.inc |    1 +
- 5 files changed, 5 insertions(+), 0 deletions(-)
+That sounds preferable since I can't see how we can be using it at
+present anyway. I'm hoping we can just disable that bit of boost until
+somebody needs it...
 
-diff --git a/meta/conf/machine/include/arm/arch-armv4.inc b/meta/conf/machine/include/arm/arch-armv4.inc
-index c014d20..a09c323 100644
---- a/meta/conf/machine/include/arm/arch-armv4.inc
-+++ b/meta/conf/machine/include/arm/arch-armv4.inc
-@@ -4,6 +4,7 @@ ARMPKGARCH ?= "armv4"
- 
- TUNEVALID[armv4] = "Enable instructions for ARMv4"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "armv4", "-march=armv4${ARMPKGSFX_THUMB}", "", d)}"
-+MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "armv4", ":armv4", "" ,d)}"
- 
- require conf/machine/include/arm/arch-arm.inc
- require conf/machine/include/arm/feature-arm-thumb.inc
-diff --git a/meta/conf/machine/include/arm/arch-armv5.inc b/meta/conf/machine/include/arm/arch-armv5.inc
-index 55cbe03..fd3490f 100644
---- a/meta/conf/machine/include/arm/arch-armv5.inc
-+++ b/meta/conf/machine/include/arm/arch-armv5.inc
-@@ -5,6 +5,7 @@ ARMPKGARCH ?= "armv5"
- TUNEVALID[armv5] = "Enable instructions for ARMv5"
- TUNE_CONFLICTS[armv5] = "armv4"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "armv5", "-march=armv5${ARMPKGSFX_THUMB}${ARMPKGSFX_DSP}", "", d)}"
-+MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "armv5", ":armv5", "" ,d)}"
- 
- ARMPKGSFX_DSP = "${@bb.utils.contains("TUNE_FEATURES", [ "armv5", "dsp" ], "e", "", d)}"
- 
-diff --git a/meta/conf/machine/include/arm/arch-armv6.inc b/meta/conf/machine/include/arm/arch-armv6.inc
-index 9f2e9ac..da8274e 100644
---- a/meta/conf/machine/include/arm/arch-armv6.inc
-+++ b/meta/conf/machine/include/arm/arch-armv6.inc
-@@ -5,6 +5,7 @@ ARMPKGARCH ?= "armv6"
- TUNEVALID[armv6] = "Enable instructions for ARMv6"
- TUNE_CONFLICTS[armv6] = "armv4 armv5"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "armv6", "-march=armv6", "", d)}"
-+MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "armv6", ":armv6", "" ,d)}"
- 
- require conf/machine/include/arm/arch-armv5-dsp.inc
- 
-diff --git a/meta/conf/machine/include/arm/arch-armv7.inc b/meta/conf/machine/include/arm/arch-armv7.inc
-index 8bc8d10..98481aa 100644
---- a/meta/conf/machine/include/arm/arch-armv7.inc
-+++ b/meta/conf/machine/include/arm/arch-armv7.inc
-@@ -5,6 +5,7 @@ ARMPKGARCH ?= "armv7"
- TUNEVALID[armv7] = "Enable instructions for ARMv7"
- TUNE_CONFLICTS[armv7] = "armv4 armv5 armv6"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "armv7", "-march=armv7", "", d)}"
-+MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "armv7", ":armv7", "" ,d)}"
- 
- require conf/machine/include/arm/arch-armv6.inc
- require conf/machine/include/arm/feature-arm-neon.inc
-diff --git a/meta/conf/machine/include/arm/arch-armv7a.inc b/meta/conf/machine/include/arm/arch-armv7a.inc
-index d508352..de39cb5 100644
---- a/meta/conf/machine/include/arm/arch-armv7a.inc
-+++ b/meta/conf/machine/include/arm/arch-armv7a.inc
-@@ -5,6 +5,7 @@ ARMPKGARCH ?= "armv7a"
- TUNEVALID[armv7-a] = "Enable instructions for ARMv7-a"
- TUNE_CONFLICTS[armv7a] = "armv4 armv5 armv6 armv7"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "armv7a", "-march=armv7-a -fno-tree-vectorize", "", d)}"
-+MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "armv7a", ":armv7a", "" ,d)}"
- 
- require conf/machine/include/arm/arch-armv7.inc
- 
--- 
-1.7.8
+Cheers,
+
+Richard
 
 
 
