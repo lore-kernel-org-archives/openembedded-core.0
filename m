@@ -1,34 +1,30 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RYKdx-0002uN-9M
-	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Dec 2011 17:46:53 +0100
-Received: by eaao14 with SMTP id o14so626188eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Dec 2011 08:40:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=fnV1PGV1/dIYuBeNo1Y1fLgM+DAuPfhrKXFnRQvBEUI=;
-	b=u9zAChloaYUoC6Eu8reGOkNCv4bsRgXLFL2oLXlY1Oddz4v7mmp93/mkKbw1qOtykR
-	hghWnc5E01ovaSrYCZLJ5ls3sxwlasTlT3+r4AOR+xToxf5z4Khcnc+CXm89/d53o//C
-	5aZUyZH+7eBUti/gdWaB03tAgySRh2qe/9U9Q=
-Received: by 10.213.29.68 with SMTP id p4mr710793ebc.41.1323276004612;
-	Wed, 07 Dec 2011 08:40:04 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id 65sm7609813eeg.8.2011.12.07.08.40.01
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 07 Dec 2011 08:40:02 -0800 (PST)
-Date: Wed, 7 Dec 2011 17:39:50 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: ulf@emagii.com, Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RYKeV-0002wm-Ai; Wed, 07 Dec 2011 17:47:27 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB7GedKL016797;
+	Wed, 7 Dec 2011 16:40:39 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 16346-05; Wed,  7 Dec 2011 16:40:34 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB7GeVGk016791
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 7 Dec 2011 16:40:32 GMT
+Message-ID: <1323276042.30601.42.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111207163950.GH3897@jama.jama.net>
-References: <4EDF9468.309@emagii.com>
-MIME-Version: 1.0
-In-Reply-To: <4EDF9468.309@emagii.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: bitbake core-image-sato fails:
+Date: Wed, 07 Dec 2011 16:40:42 +0000
+In-Reply-To: <1323273568-31152-1-git-send-email-philip@balister.org>
+References: <1323273568-31152-1-git-send-email-philip@balister.org>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@openembedded.org
+Subject: Re: [PATCH 1/2] boost : Add icu to DEPENDS to fix a build failure.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,61 +39,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2011 16:46:53 -0000
-X-Groupsio-MsgNum: 13753
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="/Gk0KcsbyUMelFU1"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 07 Dec 2011 16:47:27 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---/Gk0KcsbyUMelFU1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 2011-12-07 at 10:59 -0500, Philip Balister wrote:
+> Part of boost needs libraries from icu. Without this, either the build or
+> image construction fails. (I forget exactly which)
 
-On Wed, Dec 07, 2011 at 05:29:28PM +0100, Ulf Samuelsson wrote:
-> Got the following error message when building core-image-sato:
->=20
-> | Collected errors:
-> |  * satisfy_dependencies_for: Cannot satisfy the following dependencies=
-=20
-> for task-core-x11-sato:
-> |  *     ofono *
-> |  * opkg_install_cmd: Cannot install package task-core-x11-sato.
-> NOTE: package core-image-sato-1.0-r0: task do_rootfs: Failed
-> ERROR: Task 8=20
-> (/home/ulf/projects/OE_atmel/sources/openembedded-core/meta/recipes-sato/=
-images/core-image-sato.bb,=20
-> do_rootfs) failed with exit code '1'
->=20
-> I then did
->=20
-> $ bitbake ofono
->=20
-> which built without problem.
->=20
-> Repeated
->=20
-> $ bitbake core-image-sato
->=20
-> which then succeeded.
-
-I can confirm, the same here (every time).
+That is a fairly heavy dependency to add and we're not seeing builds or
+images fail due to this being missing as far as I can tell. Do you have
+any further information on this?
 
 Cheers,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Richard
 
---/Gk0KcsbyUMelFU1
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+> Signed-off-by: Philip Balister <philip@balister.org>
+> ---
+>  meta/recipes-support/boost/boost.inc |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
+> 
+> diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+> index fecdb97..a1499f6 100644
+> --- a/meta/recipes-support/boost/boost.inc
+> +++ b/meta/recipes-support/boost/boost.inc
+> @@ -6,7 +6,7 @@
+>  DESCRIPTION = "Free peer-reviewed portable C++ source libraries"
+>  HOMEPAGE = "http://www.boost.org/"
+>  SECTION = "libs"
+> -DEPENDS = "boost-native zlib"
+> +DEPENDS = "boost-native zlib icu"
+>  DEPENDS_virtclass-native = ""
+>  LICENSE = "Boost"
+>  
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
 
-iEYEARECAAYFAk7fltYACgkQN1Ujt2V2gBzzsQCfTdtq8Nucc+owsViwCwTbXuMi
-l2IAn2iNsvwVHjsuTLkxwgNznMZhdo9H
-=0NTg
------END PGP SIGNATURE-----
 
---/Gk0KcsbyUMelFU1--
+
