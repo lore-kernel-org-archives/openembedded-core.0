@@ -1,33 +1,33 @@
-Received: from smtprelay-b11.telenor.se ([62.127.194.20])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <openembedded-core@emagii.com>) id 1RYCwz-00037a-JN
+	(envelope-from <koen@dominion.thruhere.net>) id 1RYDJs-0004M9-8G
 	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Dec 2011 09:34:01 +0100
-Received: from ipb4.telenor.se (ipb4.telenor.se [195.54.127.167])
-	by smtprelay-b11.telenor.se (Postfix) with ESMTP id 8C3E4141FC
+	Wed, 07 Dec 2011 09:57:40 +0100
+Received: by eekb15 with SMTP id b15so202394eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Dec 2011 09:27:13 +0100 (CET)
-X-SENDER-IP: [83.227.56.19]
-X-LISTENER: [smtp.bredband.net]
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: ApAbAPki305T4zgTPGdsb2JhbAAMN4lNoSwBAQEBN4JjQD0WGAMCAQIBMScIAQG9VIgagxgElGaSIQ
-X-IronPort-AV: E=Sophos;i="4.71,313,1320620400"; d="scan'208";a="1770043647"
-Received: from c-1338e353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
-	[10.175.196.242]) ([83.227.56.19])
-	by ipb4.telenor.se with ESMTP; 07 Dec 2011 09:27:13 +0100
-Message-ID: <4EDF2360.7090402@emagii.com>
-Date: Wed, 07 Dec 2011 09:27:12 +0100
-From: Ulf Samuelsson <openembedded-core@emagii.com>
-Organization: eMagii
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.23) Gecko/20110922 Thunderbird/3.1.15
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-Subject: Possible stale tags in the download directory
+	Wed, 07 Dec 2011 00:50:52 -0800 (PST)
+Received: by 10.14.17.92 with SMTP id i68mr3361340eei.67.1323247851947;
+	Wed, 07 Dec 2011 00:50:51 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id q28sm3320843eea.6.2011.12.07.00.50.49
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 07 Dec 2011 00:50:50 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Wed, 7 Dec 2011 09:50:51 +0100
+In-Reply-To: <8cc5f124fb791a762bf6aace3a9bf8c1d1c39dd1.1322782677.git.paul.eggleton@linux.intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1322782677.git.paul.eggleton@linux.intel.com>
+	<8cc5f124fb791a762bf6aace3a9bf8c1d1c39dd1.1322782677.git.paul.eggleton@linux.intel.com>
+Message-Id: <225B79C8-8CC0-429B-B4B8-95360FD4B07E@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [RFC PATCH 1/2] classes/buildhistory: add new output history collection class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ulf@emagii.com, Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -38,39 +38,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2011 08:34:01 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 07 Dec 2011 08:57:40 -0000
+X-Groupsio-MsgNum: 13709
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_CD1C7ED5-6BB3-4D5A-AABB-B49BD4E95017";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_CD1C7ED5-6BB3-4D5A-AABB-B49BD4E95017
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+
+Op 2 dec. 2011, om 00:56 heeft Paul Eggleton het volgende geschreven:
+
+>=20
+> +buildhistory_commit() {
+> +	( cd ${BUILDHISTORY_DIR}/
+> +		git add ${BUILDHISTORY_DIR}/*
+> +		git commit ${BUILDHISTORY_DIR}/ -m "Build ${BUILDNAME} =
+for machine ${MACHINE} configured for ${DISTRO} ${DISTRO_VERSION}" =
+--author "${BUILDHISTORY_COMMIT_AUTHOR}" > /dev/null
+> +		if [ "${BUILDHISTORY_PUSH_REPO}" !=3D "" ] ; then
+> +			git push -q ${BUILDHISTORY_PUSH_REPO}
+> +		fi) || true
+> +}
+
+One of the big problems with the old testlab code was that using =
+multiple buildslaves created a huge mess for the git repo. What do you =
+think about doing this the following before the 'git add'?
+
+git pull -q -s recursive -X theirs ${BUILDHISTORY_PULL_REPO}
+
+I'm not sure what the right incantation is to ensure git updates the =
+current branch, but the point is mainly about using the 'theirs' =
+strategy.
+
+regards,
+
+Koen=
+
+--Apple-Mail=_CD1C7ED5-6BB3-4D5A-AABB-B49BD4E95017
 Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
+-----BEGIN PGP SIGNATURE-----
 
-When I look at the "downloads" location I find a lot of files called.
+iEYEARECAAYFAk7fKO0ACgkQMkyGM64RGpFXBACfbk24QH8NHXKFkcPgJiJhisjX
++KEAnR6RDTsgJK/DEtvEeC2LgWkthJ9w
+=vy8j
+-----END PGP SIGNATURE-----
 
-"11_usagi_fix.patch.done"
-
-but no  "11_usagi_fix.patch" file in the directory.
-
-If this is a indication of that a patch has been downloaded,
-what happens if you for some reason or other delete your
-OE-core directory and keep the downloads directory.
-
-When you start from fresh, all the tags are then stale.
-
-(Deleting the "downloads" directory seems a bad idea)
-
-I think that if there should be tags in the "downloads" directory,
-they should only reflect things which are downloaded to the
-"downloads" directory, and nothing else.
-
-As for the tags in the directory, I think a better approach
-is to download a file "tarball.tar.bz2" to a different filename first
-I.E: "tarball.tar.bz2.in-progress"  and if the download completes
-then move the file to "tarball.tar.bz2".
-Should remove a lot of clutter from the "downloads" directory.
-
--- 
-Best Regards
-Ulf Samuelsson
-eMagii
-
-
-
+--Apple-Mail=_CD1C7ED5-6BB3-4D5A-AABB-B49BD4E95017--
