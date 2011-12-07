@@ -1,36 +1,31 @@
-Received: from smtprelay-b12.telenor.se ([62.127.194.21])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <openembedded-core@emagii.com>) id 1RYRKQ-0006EW-IU
+Received: from mailout-de.gmx.net ([213.165.64.22])
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <schnitzeltony@gmx.de>) id 1RYRP0-0006JS-UL
 	for openembedded-core@lists.openembedded.org;
-	Thu, 08 Dec 2011 00:55:10 +0100
-Received: from ipb4.telenor.se (ipb4.telenor.se [195.54.127.167])
-	by smtprelay-b12.telenor.se (Postfix) with ESMTP id D94AFCDFC
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Dec 2011 00:48:21 +0100 (CET)
-X-SENDER-IP: [83.227.56.19]
-X-LISTENER: [smtp.bredband.net]
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: AkAhAFz6305T4zgTPGdsb2JhbAAMN6puAQEBATeCJAEBAQECAQEBATU2CgYLCxgJFg8JAwIBAgEVARsUEwYCAQEVh24ItmqIHIMYBJJHgiSJFYkP
-X-IronPort-AV: E=Sophos;i="4.71,316,1320620400"; d="scan'208";a="1770668307"
-Received: from c-1338e353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
-	[10.175.196.242]) ([83.227.56.19])
-	by ipb4.telenor.se with ESMTP; 08 Dec 2011 00:48:21 +0100
-Message-ID: <4EDFFB47.9080605@emagii.com>
-Date: Thu, 08 Dec 2011 00:48:23 +0100
-From: Ulf Samuelsson <openembedded-core@emagii.com>
-Organization: eMagii
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.23) Gecko/20110922 Thunderbird/3.1.15
+	Thu, 08 Dec 2011 00:59:55 +0100
+Received: (qmail invoked by alias); 07 Dec 2011 23:53:05 -0000
+Received: from p4FDF0CDD.dip.t-dialin.net (EHLO localhost.localdomain)
+	[79.223.12.221]
+	by mail.gmx.net (mp010) with SMTP; 08 Dec 2011 00:53:05 +0100
+X-Authenticated: #62780362
+X-Provags-ID: V01U2FsdGVkX18VuKsEdNQVpKWgQokQt1sPdD1xMBxaKaan6sFK01
+	NQgwfedTER7yzg
+From: Andreas =?iso-8859-1?q?M=FCller?= <schnitzeltony@gmx.de>
+To: "Patches and discussions about the oe-core layer"
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 8 Dec 2011 00:53:11 +0100
+User-Agent: KMail/1.13.7 (Linux/2.6.35.14-103.fc14.x86_64; KDE/4.6.5; x86_64; ;
+	)
+References: <1323279247.30601.51.camel@ted>
+In-Reply-To: <1323279247.30601.51.camel@ted>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <4EDF7A02.1070000@emagii.com> <4EDF87F2.4000908@emagii.com>
-	<1323276208.30601.45.camel@ted>
-In-Reply-To: <1323276208.30601.45.camel@ted>
-Subject: Re: connman-gnome_0.5.bb fails: connman-gnome.git is empty
+Message-Id: <201112080053.11966.schnitzeltony@gmx.de>
+X-Y-GMX-Trusted: 0
+Subject: Re: [PATCH] bitbake.conf/image.bbclass: Ensure images use the correct passwd/group files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ulf@emagii.com, Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -41,64 +36,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2011 23:55:10 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 07 Dec 2011 23:59:55 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On 2011-12-07 17:43, Richard Purdie wrote:
-> On Wed, 2011-12-07 at 16:36 +0100, Ulf Samuelsson wrote:
->> On 2011-12-07 15:36, Ulf Samuelsson wrote:
->>> git://git.kernel.org/pub/scm/network/connman/connman-gnome.git;protocol=git
->>>
->>>      is empty.    The repo exists, but no content.
->>>
->>> Building "connman-gnome_0.5.bb" thus fails.
->>> Needed by "core-image-sato"
->>>
->>> There is a "connman-gnome-m" project on gitorious.
->>> This seems to be based on the above source package.
->>>
->>> Will try it out, but if anyone already tried this?
->>>
->>> Any other recommended sources for connman-gnome?
->>>
->> Found:
->> http://autobuilder.yoctoproject.org/pub/sources/git2_git.kernel.org.pub.scm.network.connman.connman-gnome.git.tar.gz
->>
->> in an old email to the list from Richard Purdie (before I started
->> subscribing).
->>
->> so I think I am going to download this and set up a git on github so the
->> build does
->> not require a manual download.
-> This is a real source of frustration to me. The TSC voted against having
-> any mirror sources in its out the box configuration for OE-Core itself.
-> If you use angstrom or Poky you wouldn't see this since they configure
-> source mirrors out the box.
->
-> I stated at the time I thought this was crazy and making life
-> unnecessarily hard for users. I was outvoted. I still think having more
-> default mirrors in OE-Core might be a good idea but its going to take
-> representation to the TSC to change that.
+On Wednesday, December 07, 2011 06:34:07 PM Richard Purdie wrote:
+> We need pseudo to use the rootfs passwd/group files belonging to the
+> rootfs when building images. This patch ensures that we use the rootfs
+> files instead of those in the sysroot which can lead to incorrect file
+> ownership issues.
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> 
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index 4642fa6..865d430 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -121,6 +121,8 @@ IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
+> 
+>  LINGUAS_INSTALL = "${@" ".join(map(lambda s: "locale-base-%s" % s,
+> d.getVar('IMAGE_LINGUAS', 1).split()))}"
+> 
+> +PSEUDO_PASSWD = "${IMAGE_ROOTFS}"
+> +
+>  do_rootfs[nostamp] = "1"
+>  do_rootfs[dirs] = "${TOPDIR}"
+>  do_rootfs[lockfiles] += "${IMAGE_ROOTFS}.lock"
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index e80cc32..eeb1fc4 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -580,11 +580,12 @@ SRC_URI = "file://${FILE}"
+> 
+>  # Use pseudo as the fakeroot implementation
+>  PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
+> +PSEUDO_PASSWD ?= "${STAGING_DIR_TARGET}"
+>  export PSEUDO_DISABLED = "1"
+>  #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
+>  #export PSEUDO_BINDIR = "${STAGING_DIR_NATIVE}${bindir_native}"
+>  #export PSEUDO_LIBDIR =
+> "${STAGING_DIR_NATIVE}$PSEUDOBINDIR/../lib/pseudo/lib -FAKEROOTENV =
+> "PSEUDO_PREFIX=${STAGING_DIR_NATIVE}${prefix_native}
+> PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR}
+> PSEUDO_PASSWD=${STAGING_DIR_TARGET} PSEUDO_NOSYMLINKEXP=1
+> PSEUDO_DISABLED=0" +FAKEROOTENV =
+> "PSEUDO_PREFIX=${STAGING_DIR_NATIVE}${prefix_native}
+> PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR}
+> PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1 PSEUDO_DISABLED=0"
+> FAKEROOTNOENV = "PSEUDO_UNLOAD=1"
+>  FAKEROOTDIRS = "${PSEUDO_LOCALSTATEDIR}"
+>  PREFERRED_PROVIDER_virtual/fakeroot-native ?= "pseudo-native"
+dbus still needs manual call of 
 
-BTW: Mirrors of the empty git repo at kernel.org won't help of course.
+	chown messagebus:messagebus /var/run/dbus /var/lib/dbus
 
+( it is root:root on my image) and
 
-> Cheers,
->
-> Richard
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+	chown root:messagebus /usr/libexec/dbus-daemon-launch-helper
 
+( it is avahi:netdev on my image )
 
--- 
-Best Regards
-Ulf Samuelsson
-eMagii
+Does this one fix it?
+To test: Is it enough to rebuild dbus?
 
+Andreas
 
 
