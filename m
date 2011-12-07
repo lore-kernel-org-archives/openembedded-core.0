@@ -1,26 +1,30 @@
-Received: from mga11.intel.com ([192.55.52.93])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1RYLRx-0004LG-C6
-	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Dec 2011 18:38:34 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 07 Dec 2011 09:31:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="93560528"
-Received: from unknown (HELO helios.localnet) ([10.252.122.2])
-	by fmsmga001.fm.intel.com with ESMTP; 07 Dec 2011 09:31:42 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 07 Dec 2011 17:31:41 +0000
-Message-ID: <5339040.yv4EciDLZK@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.7.3 (Linux/3.0.0-13-generic-pae; KDE/4.7.3; i686; ; )
-In-Reply-To: <4EDF97DA.1070009@balister.org>
-References: <1323273568-31152-1-git-send-email-philip@balister.org>
-	<DCF0DA43-34BE-4AD2-8E13-536E6DCDF49A@dominion.thruhere.net>
-	<4EDF97DA.1070009@balister.org>
-MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] qt4.inc : Add uic, moc, rcc, and lrelease to tools package.
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RYLUB-0004PX-9C for openembedded-core@lists.openembedded.org;
+	Wed, 07 Dec 2011 18:40:51 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB7HY4AK017564
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 7 Dec 2011 17:34:04 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 17173-04 for <openembedded-core@lists.openembedded.org>;
+	Wed,  7 Dec 2011 17:34:00 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB7HXve2017558
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 7 Dec 2011 17:33:58 GMT
+Message-ID: <1323279247.30601.51.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 07 Dec 2011 17:34:07 +0000
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] bitbake.conf/image.bbclass: Ensure images use the correct passwd/group files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,91 +39,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2011 17:38:34 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 07 Dec 2011 17:40:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wednesday 07 December 2011 11:44:10 Philip Balister wrote:
-> On 12/07/2011 11:23 AM, Koen Kooi wrote:
-> > Op 7 dec. 2011, om 16:59 heeft Philip Balister het volgende geschreven:
-> >> These binaries are needed in the target tools package so we can build
-> >> qt apps on the target. You also need to install qmake from meta-oe.
-> >> 
-> >> Test by building gnuradio on the USRP e100 with qt support.
-> >> 
-> >> Signed-off-by: Philip Balister <philip@balister.org>
-> >> ---
-> >> meta/recipes-qt/qt4/qt4.inc |    9 ++-------
-> >> 1 files changed, 2 insertions(+), 7 deletions(-)
-> >> 
-> >> diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
-> >> index bec81b4..2638249 100644
-> >> --- a/meta/recipes-qt/qt4/qt4.inc
-> >> +++ b/meta/recipes-qt/qt4/qt4.inc
-> >> @@ -138,8 +138,8 @@ RRECOMMENDS_${QT_BASE_NAME}-qmlviewer += " \
-> >> RRECOMMENDS_${QT_BASE_NAME}-doc += " \
-> >> 
-> >>             ${QT_BASE_NAME}-demos-doc"
-> >> 
-> >> -FILES_${QT_BASE_NAME}-tools                = "${bindir}/qttracereplay
-> >> ${bindir}/qdoc*" -FILES_${QT_BASE_NAME}-tools-dbg            =
-> >> "${bindir}/.debug/qttracereplay ${bindir}/.debug/qdoc*"
-> >> +FILES_${QT_BASE_NAME}-tools                =
-> >> "${bindir}/qttracereplay ${bindir}/qdoc* ${bindir}/moc ${bindir}/uic*
-> >> ${bindir}/rcc" +FILES_${QT_BASE_NAME}-tools-dbg            =
-> >> "${bindir}/.debug/qttracereplay ${bindir}/.debug/qdoc*
-> >> ${bindir}/.debug/uic* ${bindir}/.debug/moc ${bindir}/.debug/rcc"
-> >> FILES_${QT_BASE_NAME}-assistant            = "${bindir}/*assistant*
-> >> ${bindir}/qcollectiongenerator ${bindir}/qhelpconverter
-> >> ${bindir}/qhelpgenerator" FILES_${QT_BASE_NAME}-assistant-dbg       
-> >> = "${bindir}/.debug/*assistant* ${bindir}/.debug/qcollectiongenerator
-> >> ${bindir}/.debug/qhelpconverter ${bindir}/.debug/qhelpgenerator"
-> >> FILES_${QT_BASE_NAME}-common               = "${bindir}/qtconfig" @@
-> >> -287,11 +287,6 @@ do_install() {
-> >> 
-> >> 	# These are host binaries, we should only use them in staging
-> >> 	rm ${D}/${bindir}/qmake
-> >> 
-> >> -	rm -f ${D}/${bindir}/uic
-> >> -	rm -f ${D}/${bindir}/uic3
-> >> -	rm ${D}/${bindir}/moc
-> >> -	rm ${D}/${bindir}/rcc
-> >> -	rm -f ${D}/${bindir}/lrelease
-> > 
-> > Can you verify that those are actually target binaries and not x86 ones?
-> 
-> root@usrp-e1xx:~# file /usr/bin/lrelease
-> /usr/bin/lrelease: ELF 32-bit LSB executable, ARM, version 1 (SYSV),
-> dynamically linked (uses shared libs), for GNU/Linux 2.6.16, stripped
-> 
-> root@usrp-e1xx:~# file /usr/bin/rcc
-> /usr/bin/rcc: ELF 32-bit LSB executable, ARM, version 1 (SYSV),
-> dynamically linked (uses shared libs), for GNU/Linux 2.6.16, stripp
-> 
-> root@usrp-e1xx:~# file /usr/bin/moc
-> /usr/bin/moc: ELF 32-bit LSB executable, ARM, version 1 (SYSV),
-> dynamically linked (uses shared libs), for GNU/Linux 2.6.16, stripped
-> 
-> root@usrp-e1xx:~# file /usr/bin/uic3
-> /usr/bin/uic3: ELF 32-bit LSB executable, ARM, version 1 (SYSV),
-> dynamically linked (uses shared libs), for GNU/Linux 2.6.16, stripp
-> 
-> root@usrp-e1xx:~# file /usr/bin/uic
-> /usr/bin/uic: ELF 32-bit LSB executable, ARM, version 1 (SYSV),
-> dynamically linked (uses shared libs), for GNU/Linux 2.6.16, stripped
+We need pseudo to use the rootfs passwd/group files belonging to the
+rootfs when building images. This patch ensures that we use the rootfs
+files instead of those in the sysroot which can lead to incorrect file
+ownership issues.
 
-I thought this sounded strange when we talked about it on IRC, and looking 
-back through the history, commit 69eeb3d2276e5b10d084b47d308ecfc8daf8b467 (by 
-me as it happens) added these lines because we were getting architecture 
-warnings at packaging time for qt4-x11-free for these specific files. If that's 
-no longer the case I'd like to understand why.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Cheers,
-Paul
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 4642fa6..865d430 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -121,6 +121,8 @@ IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
+ 
+ LINGUAS_INSTALL = "${@" ".join(map(lambda s: "locale-base-%s" % s, d.getVar('IMAGE_LINGUAS', 1).split()))}"
+ 
++PSEUDO_PASSWD = "${IMAGE_ROOTFS}"
++
+ do_rootfs[nostamp] = "1"
+ do_rootfs[dirs] = "${TOPDIR}"
+ do_rootfs[lockfiles] += "${IMAGE_ROOTFS}.lock"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index e80cc32..eeb1fc4 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -580,11 +580,12 @@ SRC_URI = "file://${FILE}"
+ 
+ # Use pseudo as the fakeroot implementation
+ PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
++PSEUDO_PASSWD ?= "${STAGING_DIR_TARGET}"
+ export PSEUDO_DISABLED = "1"
+ #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
+ #export PSEUDO_BINDIR = "${STAGING_DIR_NATIVE}${bindir_native}"
+ #export PSEUDO_LIBDIR = "${STAGING_DIR_NATIVE}$PSEUDOBINDIR/../lib/pseudo/lib
+-FAKEROOTENV = "PSEUDO_PREFIX=${STAGING_DIR_NATIVE}${prefix_native} PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_PASSWD=${STAGING_DIR_TARGET} PSEUDO_NOSYMLINKEXP=1 PSEUDO_DISABLED=0"
++FAKEROOTENV = "PSEUDO_PREFIX=${STAGING_DIR_NATIVE}${prefix_native} PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1 PSEUDO_DISABLED=0"
+ FAKEROOTNOENV = "PSEUDO_UNLOAD=1"
+ FAKEROOTDIRS = "${PSEUDO_LOCALSTATEDIR}"
+ PREFERRED_PROVIDER_virtual/fakeroot-native ?= "pseudo-native"
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
