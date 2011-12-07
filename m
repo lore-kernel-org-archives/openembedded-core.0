@@ -1,25 +1,29 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RYDVy-00059i-SR
+	(envelope-from <koen@dominion.thruhere.net>) id 1RYDXF-0005Fr-CE
 	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Dec 2011 10:10:11 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pB793Mne010558
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 07 Dec 2011 10:11:29 +0100
+Received: by eaao14 with SMTP id o14so210486eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 7 Dec 2011 01:03:22 -0800 (PST)
-Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 7 Dec 2011 01:03:22 -0800
-Message-ID: <b4dbdce923e9f18aadac6c0eb449452a3c4c39ff.1323246565.git.xiaofeng.yan@windriver.com>
-In-Reply-To: <cover.1323246565.git.xiaofeng.yan@windriver.com>
+	Wed, 07 Dec 2011 01:04:41 -0800 (PST)
+Received: by 10.213.101.17 with SMTP id a17mr292024ebo.78.1323248680968;
+	Wed, 07 Dec 2011 01:04:40 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id 65sm3421142eeg.8.2011.12.07.01.04.39
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 07 Dec 2011 01:04:40 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Wed, 7 Dec 2011 10:04:41 +0100
+In-Reply-To: <7ceb01f6db6edfad6c78c5a7ebc685c23bb11358.1323246565.git.xiaofeng.yan@windriver.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 References: <cover.1323246565.git.xiaofeng.yan@windriver.com>
-Old-Date: Mon, 5 Dec 2011 15:15:52 +0800
-Date: Wed, 7 Dec 2011 16:58:43 +0800
-To: <openembedded-core@lists.openembedded.org>
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 10/10] core-image-gtk-directfb.bb: add an image for gtk over directfb
+	<7ceb01f6db6edfad6c78c5a7ebc685c23bb11358.1323246565.git.xiaofeng.yan@windriver.com>
+Message-Id: <BA8945E1-B3F9-4232-A633-7852415851E2@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH 04/10] gtk.inc: add feature based on directfb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,50 +38,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2011 09:10:11 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 07 Dec 2011 09:11:29 -0000
+X-Groupsio-MsgNum: 13721
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_779DCCAC-C506-4231-9BFE-D6A6B91B4AA5";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+--Apple-Mail=_779DCCAC-C506-4231-9BFE-D6A6B91B4AA5
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-This file can make an image to run gtk over directfb.
 
-[YOCTO #1674]
+Op 7 dec. 2011, om 09:58 heeft Xiaofeng Yan het volgende geschreven:
 
-Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
----
- .../images/core-image-gtk-directfb.bb              |   21 ++++++++++++++++++++
- 1 files changed, 21 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-graphics/images/core-image-gtk-directfb.bb
+> From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+>=20
+> gtk run over x11 at current OE-core. If gtk want to run over directfb, =
+then \
+> the configuration related to x11 should be disabled and directfb =
+should be enabled.
 
-diff --git a/meta/recipes-graphics/images/core-image-gtk-directfb.bb b/meta/recipes-graphics/images/core-image-gtk-directfb.bb
-new file mode 100644
-index 0000000..b0ae469
---- /dev/null
-+++ b/meta/recipes-graphics/images/core-image-gtk-directfb.bb
-@@ -0,0 +1,21 @@
-+LICENSE = "MIT"
-+PR="r0"
-+
-+LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-+                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+
-+
-+DEPENDS += "task-core-gtk-directfb"
-+
-+RDEPENDS_${PN} += " \
-+	task-core-gtk-directfb-base \
-+	"
-+
-+inherit core-image
-+
-+IMAGE_INSTALL += "\
-+	${POKY_BASE_INSTALL} \
-+	task-core-basic \
-+	module-init-tools \
-+	task-core-gtk-directfb-base \
-+"
--- 
-1.7.0.4
+So what happens when I put both directfb and x11 in DISTRO_FEATURES?
 
 
 
+--Apple-Mail=_779DCCAC-C506-4231-9BFE-D6A6B91B4AA5
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAk7fLCsACgkQMkyGM64RGpHI1wCgoNrLslY1sAxjv/tskUj9v5Ev
+dGIAnjP0OytETjZUd2ra5/+pw6RHacsN
+=LnPB
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_779DCCAC-C506-4231-9BFE-D6A6B91B4AA5--
