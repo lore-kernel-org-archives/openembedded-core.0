@@ -1,29 +1,33 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RYGHf-0001Ej-Pr
-	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Dec 2011 13:07:35 +0100
-Received: by eaao14 with SMTP id o14so341008eaa.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RYGnn-0001eR-Lw for openembedded-core@lists.openembedded.org;
+	Wed, 07 Dec 2011 13:40:47 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB7CXx8C012969
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Dec 2011 04:00:47 -0800 (PST)
-Received: by 10.213.26.10 with SMTP id b10mr474416ebc.38.1323259247085;
-	Wed, 07 Dec 2011 04:00:47 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id 49sm4961654eec.1.2011.12.07.04.00.45
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 07 Dec 2011 04:00:46 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Wed, 7 Dec 2011 13:00:41 +0100
-In-Reply-To: <4EDF4D98.7060803@emagii.com>
-To: ulf@emagii.com, Patches and discussions about the oe-core layer
+	Wed, 7 Dec 2011 12:33:59 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 11699-03 for <openembedded-core@lists.openembedded.org>;
+	Wed,  7 Dec 2011 12:33:55 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB7CXpea012963
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 7 Dec 2011 12:33:53 GMT
+Message-ID: <1323261242.19363.86.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <4EDF2360.7090402@emagii.com> <1323249403.19363.66.camel@ted>
-	<4EDF4D98.7060803@emagii.com>
-Message-Id: <E5CF0974-DCA6-4DAA-859C-ED40990CC11E@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: Possible stale tags in the download directory
+Date: Wed, 07 Dec 2011 12:34:02 +0000
+In-Reply-To: <cover.1323187516.git.otavio@ossystems.com.br>
+References: <cover.1323187516.git.otavio@ossystems.com.br>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 0/5] Provides a framework and initial modules for initramfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,79 +42,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2011 12:07:35 -0000
-X-Groupsio-MsgNum: 13726
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_01D282CD-C412-483A-B0A1-309D895D85F8";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_01D282CD-C412-483A-B0A1-309D895D85F8
+X-List-Received-Date: Wed, 07 Dec 2011 12:40:47 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain;
-	charset=us-ascii
 
+On Tue, 2011-12-06 at 16:07 +0000, Otavio Salvador wrote:
+> This patchset adds a very flexible and powerful initramfs framework
+> together with a small set of modules using it. Please refer to each
+> commit for the respective documentation.
+> 
+> The following changes since commit fb642d21111691b9302e16e984aff9d8fb18c431:
+> 
+>   buildhistory bbclass: avoid absolute paths for files-in-image.txt to avoid diff churn when relocating TMPDIR (2011-12-06 14:40:00 +0000)
+> 
+> are available in the git repository at:
+>   git://github.com/OSSystems/oe-core master
+>   https://github.com/OSSystems/oe-core/tree/HEAD
+> 
+> Otavio Salvador (5):
+>   initramfs-base: provides the base for a modular initramfs
+>   initramfs-module-debug: add
+>   initramfs-module-mdev: add
+>   initramfs-module-e2fs: add
+>   initramfs-module-udev: add
+> 
 
-Op 7 dec. 2011, om 12:27 heeft Ulf Samuelsson het volgende geschreven:
+Rather than add five different recipes for this, could we have one
+recipe with five different packages? I'm a little bit sensitive to
+parsing speed and whilst its a detail, small details add up :)
 
-> On 2011-12-07 10:16, Richard Purdie wrote:
->> On Wed, 2011-12-07 at 09:27 +0100, Ulf Samuelsson wrote:
->>> When I look at the "downloads" location I find a lot of files called.
->>> 
->>> "11_usagi_fix.patch.done"
->>> 
->>> but no  "11_usagi_fix.patch" file in the directory.
->>> 
->>> If this is a indication of that a patch has been downloaded,
->>> what happens if you for some reason or other delete your
->>> OE-core directory and keep the downloads directory.
->>> 
->>> When you start from fresh, all the tags are then stale.
->>> 
->>> (Deleting the "downloads" directory seems a bad idea)
->>> 
->>> I think that if there should be tags in the "downloads" directory,
->>> they should only reflect things which are downloaded to the
->>> "downloads" directory, and nothing else.
->>> 
->>> As for the tags in the directory, I think a better approach
->>> is to download a file "tarball.tar.bz2" to a different filename first
->>> I.E: "tarball.tar.bz2.in-progress"  and if the download completes
->>> then move the file to "tarball.tar.bz2".
->>> Should remove a lot of clutter from the "downloads" directory.
->> What we've tried to do is simplify the fetcher code paths in fetch2.
->> There were some many corner/special cases and different code paths it
->> was near impossible to tell what was going on. One of the side effects
->> is that local file:// urls do touch the done stamp in the same way as
->> other downloads. The main reason for those files is now checksum
->> tracking. If the done stamps were part of tmpdir, we'd keep checksumming
->> the contents of the downloads at each build rather than once after the
->> download. The way the implementation works, there is very little risk
->> from stale stamps, it would just mean the checksum code wouldn't get
->> triggered and that is likely unneeded for a local file:// url anyway.
->> 
->> So yes, its not ideal but looking at the code I'd be surprised if a
->> build ever broke due to it.
->> 
-> Maybe I am paranoid, but I think I remember seeing tarballs developing
-> bit rot when moved between different machines.
+Cheers,
 
-And that's why checksums are checked before do_unpack.
+Richard
 
 
 
---Apple-Mail=_01D282CD-C412-483A-B0A1-309D895D85F8
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
-
-iEYEARECAAYFAk7fVWsACgkQMkyGM64RGpGPVgCfcKITnx0HGdkFnDww9QCPTt4Z
-MqwAnA5VxV4iNfysaLEv5K+/+pwJ0+bW
-=GuGP
------END PGP SIGNATURE-----
-
---Apple-Mail=_01D282CD-C412-483A-B0A1-309D895D85F8--
