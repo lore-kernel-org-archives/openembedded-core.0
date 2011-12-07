@@ -1,25 +1,25 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RYDVt-00053g-Qr
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RYDVw-00057c-Da
 	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Dec 2011 10:10:06 +0100
+	Wed, 07 Dec 2011 10:10:08 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pB793HtK010533
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pB793JTt010547
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 7 Dec 2011 01:03:17 -0800 (PST)
+	Wed, 7 Dec 2011 01:03:19 -0800 (PST)
 Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 7 Dec 2011 01:03:17 -0800
-Message-ID: <ac00cc8a41fa23b44d8e8dae90347dc0f424da18.1323246565.git.xiaofeng.yan@windriver.com>
+	Wed, 7 Dec 2011 01:03:19 -0800
+Message-ID: <4649bccebec33283dd02651baa4ba5ee418ee3ec.1323246565.git.xiaofeng.yan@windriver.com>
 In-Reply-To: <cover.1323246565.git.xiaofeng.yan@windriver.com>
 References: <cover.1323246565.git.xiaofeng.yan@windriver.com>
-Old-Date: Mon, 5 Dec 2011 15:09:15 +0800
-Date: Wed, 7 Dec 2011 16:58:37 +0800
+Old-Date: Mon, 5 Dec 2011 15:14:28 +0800
+Date: Wed, 7 Dec 2011 16:58:40 +0800
 To: <openembedded-core@lists.openembedded.org>
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 08/10] directfb-examples: add package directfb-examples to OE-core
+Subject: [PATCH 09/10] task-core-gtk-directfb.bb: Add task list to run gtk over directfb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,48 +34,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2011 09:10:06 -0000
+X-List-Received-Date: Wed, 07 Dec 2011 09:10:09 -0000
 Content-Type: text/plain
 
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-Add this package for checking whether directfb run rightly or not.
-It also is an useful tool to test directfb.
+Add task-core-gtk-directfb.bb to OE core for running gtk over directfb.
 
 [YOCTO #1674]
 
 Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 ---
- .../directfb/directfb-examples_1.2.0.bb            |   20 ++++++++++++++++++++
- 1 files changed, 20 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-graphics/directfb/directfb-examples_1.2.0.bb
+ .../tasks/task-core-gtk-directfb.bb                |   26 ++++++++++++++++++++
+ 1 files changed, 26 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-graphics/tasks/task-core-gtk-directfb.bb
 
-diff --git a/meta/recipes-graphics/directfb/directfb-examples_1.2.0.bb b/meta/recipes-graphics/directfb/directfb-examples_1.2.0.bb
+diff --git a/meta/recipes-graphics/tasks/task-core-gtk-directfb.bb b/meta/recipes-graphics/tasks/task-core-gtk-directfb.bb
 new file mode 100644
-index 0000000..215426e
+index 0000000..239e0c1
 --- /dev/null
-+++ b/meta/recipes-graphics/directfb/directfb-examples_1.2.0.bb
-@@ -0,0 +1,20 @@
-+DESCRIPTION = "The DirectFB-examples package contains a set of simple DirectFB \
-+      applications that can be used to test and demonstrate various DirectFB \
-+      features"
-+DEPENDS = "directfb"
-+SECTION = "libs"
-+LICENSE = "MIT"
++++ b/meta/recipes-graphics/tasks/task-core-gtk-directfb.bb
+@@ -0,0 +1,26 @@
++DESCRIPTION = "gkt+ over directfb without x11"
 +PR = "r0"
++LICENSE = "MIT"
 +
-+SRC_URI = " \
-+           http://www.directfb.org/downloads/Extras/DirectFB-examples-${PV}.tar.gz \
-+          "
++LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
++                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 +
-+LIC_FILES_CHKSUM = "file://COPYING;md5=ecf6fd2b19915afc4da56043926ca18f"
++inherit task
 +
-+S = "${WORKDIR}/DirectFB-examples-${PV}"
++TOUCH = ' ${@base_contains("MACHINE_FEATURES", "touchscreen", "tslib tslib-calibrate tslib-tests", "",d)}'
 +
-+inherit autotools
++PACKAGES += " \
++	${PN}-base \
++"
 +
-+SRC_URI[md5sum] = "ce018f681b469a1d72ffc32650304b98"
-+SRC_URI[sha256sum] = "830a1bd6775d8680523596a88a72fd8e4c6a74bf886d3e169b06d234a5cf7e3e"
++RDEPENDS_${PN}-base = " \
++		directfb \
++		directfb-examples \
++		pango \
++		pango-modules \
++		fontconfig \
++		gtk+ \
++		gtk-demo \
++		dropbear \
++		${TOUCH} \
++"
 -- 
 1.7.0.4
 
