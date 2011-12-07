@@ -1,34 +1,32 @@
 Received: from smtprelay-b12.telenor.se ([62.127.194.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <openembedded-core@emagii.com>) id 1RYRIr-0006BO-94
+	(envelope-from <openembedded-core@emagii.com>) id 1RYRKQ-0006EW-IU
 	for openembedded-core@lists.openembedded.org;
-	Thu, 08 Dec 2011 00:53:33 +0100
+	Thu, 08 Dec 2011 00:55:10 +0100
 Received: from ipb4.telenor.se (ipb4.telenor.se [195.54.127.167])
-	by smtprelay-b12.telenor.se (Postfix) with ESMTP id 9512DCE10
+	by smtprelay-b12.telenor.se (Postfix) with ESMTP id D94AFCDFC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Dec 2011 00:46:44 +0100 (CET)
+	Thu,  8 Dec 2011 00:48:21 +0100 (CET)
 X-SENDER-IP: [83.227.56.19]
 X-LISTENER: [smtp.bredband.net]
 X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: AiIkAFz6305T4zgTPGdsb2JhbAAMN4lNnlKCTwEBAQE3giQBAQEBAzhAEQsYCRYPCQMCAQIBMRQGDQgBAb51g3SHQASUa5Ik
-X-IronPort-AV: E=Sophos;i="4.71,316,1320620400"; d="scan'208";a="1770667984"
+X-IronPort-Anti-Spam-Result: AkAhAFz6305T4zgTPGdsb2JhbAAMN6puAQEBATeCJAEBAQECAQEBATU2CgYLCxgJFg8JAwIBAgEVARsUEwYCAQEVh24ItmqIHIMYBJJHgiSJFYkP
+X-IronPort-AV: E=Sophos;i="4.71,316,1320620400"; d="scan'208";a="1770668307"
 Received: from c-1338e353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
 	[10.175.196.242]) ([83.227.56.19])
-	by ipb4.telenor.se with ESMTP; 08 Dec 2011 00:46:44 +0100
-Message-ID: <4EDFFAE5.2040705@emagii.com>
-Date: Thu, 08 Dec 2011 00:46:45 +0100
+	by ipb4.telenor.se with ESMTP; 08 Dec 2011 00:48:21 +0100
+Message-ID: <4EDFFB47.9080605@emagii.com>
+Date: Thu, 08 Dec 2011 00:48:23 +0100
 From: Ulf Samuelsson <openembedded-core@emagii.com>
 Organization: eMagii
 User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 	rv:1.9.2.23) Gecko/20110922 Thunderbird/3.1.15
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <4EDF2360.7090402@emagii.com>	<E5CF0974-DCA6-4DAA-859C-ED40990CC11E@dominion.thruhere.net>	<4EDF788E.60804@emagii.com>
-	<3741284.XQAanrv0Ii@helios>	<1323270054.30601.26.camel@ted>
-	<20111207214317.GC6351@sakrah.homelinux.org>
-In-Reply-To: <20111207214317.GC6351@sakrah.homelinux.org>
-Subject: Re: Possible stale tags in the download directory
+To: openembedded-core@lists.openembedded.org
+References: <4EDF7A02.1070000@emagii.com> <4EDF87F2.4000908@emagii.com>
+	<1323276208.30601.45.camel@ted>
+In-Reply-To: <1323276208.30601.45.camel@ted>
+Subject: Re: connman-gnome_0.5.bb fails: connman-gnome.git is empty
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,35 +41,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2011 23:53:33 -0000
+X-List-Received-Date: Wed, 07 Dec 2011 23:55:10 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 2011-12-07 22:43, Khem Raj wrote:
-> On (07/12/11 15:00), Richard Purdie wrote:
->> On Wed, 2011-12-07 at 14:37 +0000, Paul Eggleton wrote:
->>> On Wednesday 07 December 2011 15:30:38 Ulf Samuelsson wrote:
->>>> Richard says that if the *.done file is there, then the checksum is not
->>>> calculated.
->>>> Or that is at least how I interpret his comment.
->>>>
->>>> If the check is always there, why the tag?
->>> That's not what my reading of the bitbake source says.
->>> bitbake/lib/bb/fetch2/__init__.py contains the only references to .done files
->>> and all it does is make sure the done file gets "touched" whenever a fetch for
->>> the associated file occurs; it does not otherwise check for its existence.
->> It does two things, one is an activity marker useful for seeing whether
->> files are in active use and the second is for the checksum calculation
->> which only ever happens once after download due to the file (see
->> verify_checksum() in that file).
-> when do we create .done files? if I am in middle of download of a tar
-> file and I cancel it and restart it does not fetch the file again but
-> tried to use the corrupt file.
+On 2011-12-07 17:43, Richard Purdie wrote:
+> On Wed, 2011-12-07 at 16:36 +0100, Ulf Samuelsson wrote:
+>> On 2011-12-07 15:36, Ulf Samuelsson wrote:
+>>> git://git.kernel.org/pub/scm/network/connman/connman-gnome.git;protocol=git
+>>>
+>>>      is empty.    The repo exists, but no content.
+>>>
+>>> Building "connman-gnome_0.5.bb" thus fails.
+>>> Needed by "core-image-sato"
+>>>
+>>> There is a "connman-gnome-m" project on gitorious.
+>>> This seems to be based on the above source package.
+>>>
+>>> Will try it out, but if anyone already tried this?
+>>>
+>>> Any other recommended sources for connman-gnome?
+>>>
+>> Found:
+>> http://autobuilder.yoctoproject.org/pub/sources/git2_git.kernel.org.pub.scm.network.connman.connman-gnome.git.tar.gz
+>>
+>> in an old email to the list from Richard Purdie (before I started
+>> subscribing).
+>>
+>> so I think I am going to download this and set up a git on github so the
+>> build does
+>> not require a manual download.
+> This is a real source of frustration to me. The TSC voted against having
+> any mirror sources in its out the box configuration for OE-Core itself.
+> If you use angstrom or Poky you wouldn't see this since they configure
+> source mirrors out the box.
 >
-> Is it a big build time hit if checksums are verified all the time ?
->
+> I stated at the time I thought this was crazy and making life
+> unnecessarily hard for users. I was outvoted. I still think having more
+> default mirrors in OE-Core might be a good idea but its going to take
+> representation to the TSC to change that.
 
-I have seen the same problem.
+BTW: Mirrors of the empty git repo at kernel.org won't help of course.
+
+
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 
 -- 
 Best Regards
