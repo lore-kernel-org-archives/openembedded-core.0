@@ -1,31 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RYJ9l-0006As-Hc for openembedded-core@lists.openembedded.org;
-	Wed, 07 Dec 2011 16:11:37 +0100
+	id 1RYJpn-0000e9-BY for openembedded-core@lists.openembedded.org;
+	Wed, 07 Dec 2011 16:55:06 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB7F4ilW015522;
-	Wed, 7 Dec 2011 15:04:44 GMT
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB7FmDKw015877
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 7 Dec 2011 15:48:13 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 15455-01; Wed,  7 Dec 2011 15:04:40 +0000 (GMT)
+	id 15436-04 for <openembedded-core@lists.openembedded.org>;
+	Wed,  7 Dec 2011 15:48:08 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB7F4ZSX015516
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 7 Dec 2011 15:04:36 GMT
-Message-ID: <1323270287.30601.30.camel@ted>
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB7Fm3ac015871
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 7 Dec 2011 15:48:05 GMT
+Message-ID: <1323272894.30601.31.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ulf@emagii.com, Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 07 Dec 2011 15:04:47 +0000
-In-Reply-To: <4EDF4D98.7060803@emagii.com>
-References: <4EDF2360.7090402@emagii.com> <1323249403.19363.66.camel@ted>
-	<4EDF4D98.7060803@emagii.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 07 Dec 2011 15:48:14 +0000
 X-Mailer: Evolution 3.2.1- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: Possible stale tags in the download directory
+Subject: [PATCH] dpkg: Fix preinst execution
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,81 +39,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2011 15:11:37 -0000
+X-List-Received-Date: Wed, 07 Dec 2011 15:55:06 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-12-07 at 12:27 +0100, Ulf Samuelsson wrote:
-> On 2011-12-07 10:16, Richard Purdie wrote:
-> > On Wed, 2011-12-07 at 09:27 +0100, Ulf Samuelsson wrote:
-> >> When I look at the "downloads" location I find a lot of files called.
-> >>
-> >> "11_usagi_fix.patch.done"
-> >>
-> >> but no  "11_usagi_fix.patch" file in the directory.
-> >>
-> >> If this is a indication of that a patch has been downloaded,
-> >> what happens if you for some reason or other delete your
-> >> OE-core directory and keep the downloads directory.
-> >>
-> >> When you start from fresh, all the tags are then stale.
-> >>
-> >> (Deleting the "downloads" directory seems a bad idea)
-> >>
-> >> I think that if there should be tags in the "downloads" directory,
-> >> they should only reflect things which are downloaded to the
-> >> "downloads" directory, and nothing else.
-> >>
-> >> As for the tags in the directory, I think a better approach
-> >> is to download a file "tarball.tar.bz2" to a different filename first
-> >> I.E: "tarball.tar.bz2.in-progress"  and if the download completes
-> >> then move the file to "tarball.tar.bz2".
-> >> Should remove a lot of clutter from the "downloads" directory.
-> > What we've tried to do is simplify the fetcher code paths in fetch2.
-> > There were some many corner/special cases and different code paths it
-> > was near impossible to tell what was going on. One of the side effects
-> > is that local file:// urls do touch the done stamp in the same way as
-> > other downloads. The main reason for those files is now checksum
-> > tracking. If the done stamps were part of tmpdir, we'd keep checksumming
-> > the contents of the downloads at each build rather than once after the
-> > download. The way the implementation works, there is very little risk
-> > from stale stamps, it would just mean the checksum code wouldn't get
-> > triggered and that is likely unneeded for a local file:// url anyway.
-> >
-> > So yes, its not ideal but looking at the code I'd be surprised if a
-> > build ever broke due to it.
-> >
-> Maybe I am paranoid, but I think I remember seeing tarballs developing
-> bit rot when moved between different machines.
+Add a patch to fix exeuction of pre/post install scripts. See the patch
+header for more details.
 
-I don't understand what you mean here. If your process for copying files
-between machines corrupts files, you have bigger problems. You can just
-rm *.done at the same time if that is an issue.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/recipes-devtools/dpkg/dpkg/preinst.patch
+b/meta/recipes-devtools/dpkg/dpkg/preinst.patch
+new file mode 100644
+index 0000000..06d2aac
+--- a/dev/null
++++ b/meta/recipes-devtools/dpkg/dpkg/preinst.patch
+@@ -0,0 +1,46 @@
++Our pre/postinsts expect $D to be set when running in a sysroot and
++don't expect a chroot. This matches up our system expectations with
++what dpkg does.
++
++Upstream-Status: Inappropriate [OE Specific]
++
++RP 2011/12/07
++
++Index: dpkg-1.15.8.7/src/help.c
++===================================================================
++--- dpkg-1.15.8.7.orig/src/help.c	2010-12-20 01:25:36.000000000 +0000
+++++ dpkg-1.15.8.7/src/help.c	2011-12-07 14:51:02.783461487 +0000
++@@ -181,30 +181,9 @@
++    * FIXME: none of the stuff here will work if admindir isn't inside
++    * instdir as expected.
++    */
++-  size_t instdirl;
++-
++-  if (*instdir) {
++-    if (chroot(instdir)) ohshite(_("failed to chroot to `
+%.250s'"),instdir);
++-    if (chdir("/"))
++-      ohshite(_("failed to chdir to `%.255s'"), "/");
++-  }
++-  if (f_debug & dbg_scripts) {
++-    struct varbuf args = VARBUF_INIT;
++-    const char **argv = cmd->argv;
++-
++-    while (*++argv) {
++-      varbufaddc(&args, ' ');
++-      varbufaddstr(&args, *argv);
++-    }
++-    varbufaddc(&args, '\0');
++-    debug(dbg_scripts, "fork/exec %s (%s )", cmd->filename, args.buf);
++-    varbuf_destroy(&args);
++-  }
++-  instdirl= strlen(instdir);
++-  if (!instdirl)
++-    return cmd->filename;
++-  assert(strlen(cmd->filename) >= instdirl);
++-  return cmd->filename + instdirl;
+++  if (*instdir)
+++    setenv("D", instdir, 1);
+++  return cmd->filename;
++ }  
++ 
++ void
+diff --git a/meta/recipes-devtools/dpkg/dpkg_1.15.8.7.bb
+b/meta/recipes-devtools/dpkg/dpkg_1.15.8.7.bb
+index f1a0eeb..f1030fa 100644
+--- a/meta/recipes-devtools/dpkg/dpkg_1.15.8.7.bb
++++ b/meta/recipes-devtools/dpkg/dpkg_1.15.8.7.bb
+@@ -4,10 +4,11 @@ LIC_FILES_CHKSUM =
+"file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ SRC_URI += "file://noman.patch \
+             file://check_snprintf.patch \
+             file://check_version.patch \
+-            file://perllibdir.patch"
++            file://perllibdir.patch \
++            file://preinst.patch"
+ 
+ SRC_URI[md5sum] = "d1731d4147c1ea3b537a4d094519a6dc"
+ SRC_URI[sha256sum] =
+"1ec1376471b04717a4497e5d7a27cd545248c92116898ce0c53ced8ea94267b5"
+ 
+-PR = "${INC_PR}.1"
++PR = "${INC_PR}.3"
+ 
 
-> Could of course clean out the downloads directory, but it would be
-> nice if the stamps would be in a different directory.
-> Then I just delete the directory when I move the tarballs.
-> 
-> I tend to use the "downloads" directory for other build systems as well,
-> to avoid duplication, and having stamps in the directory could have
-> real bad effects.
-> 
-> I agree that recomputing checksums for each build is not so good,
-> but doing it once after moving to a new machine, or for each new user
-> is acceptable (at least to me).
-> 
-> The stamps could be stored in a central location.
-> 
->      "~/.oe/downloads"  ?
-
-I believe the data the .done files represent is directly related to the
-files themselves and they should be kept together.
-
-Nothing said here is convincing me there is a real world problem...
-
-Cheers,
-
-Richard
 
 
 
