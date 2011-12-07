@@ -1,36 +1,32 @@
-Received: from mail-qy0-f175.google.com ([209.85.216.175])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RYP1H-0002Ln-Ez
+	(envelope-from <otavio.salvador@gmail.com>) id 1RYP3z-0002Rj-2K
 	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Dec 2011 22:27:15 +0100
-Received: by qcqw6 with SMTP id w6so819102qcq.6
+	Wed, 07 Dec 2011 22:30:03 +0100
+Received: by yenm12 with SMTP id m12so837338yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Dec 2011 13:20:26 -0800 (PST)
+	Wed, 07 Dec 2011 13:23:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=sm5qu/UjXIqa82Fb0VIzXlCHnk6U6g13kOoq56UKYug=;
-	b=oKFIrLd8kpbmSQB7on+ynlbDbxxH8nGdbMVNg0pTp4eNCvwP4DWNeIq8/emcF1Ijo8
-	Afo3VM+HSOy9gosXFRc7MXUmd1EPm8MxLMOsOm38O1A0r+IlMzS+MDuM003vHuF4X0yG
-	lYTJDlwV5hIPfuPd/y48Yf6AF0mHly4w/yi9Y=
-Received: by 10.50.242.1 with SMTP id wm1mr778588igc.30.1323292826117;
-	Wed, 07 Dec 2011 13:20:26 -0800 (PST)
-Received: from sakrah.homelinux.org
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
-	by mx.google.com with ESMTPS id j1sm5884474igq.2.2011.12.07.13.20.24
+	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
+	:references; bh=72dKE+UvOIiqOHLJ9HAmHpT7WOQpaBQ8azysvVQr9Ys=;
+	b=wCzyAgUDeAYcjzeKL/j6Pza/HhJp0HbDXMP3tnBq53uC2Pzn4nUUjUKT0JgWgfxebe
+	GdBsFXB6DQ2hKrMGRusWnjOenPnYOrwVYIbgzMJfAN16mUcVnTNYz7epTcR2GijxKnF1
+	/df19Jpq6IF7381S2iyMRy5LHD5gFHBaeRgUU=
+Received: by 10.236.123.107 with SMTP id u71mr83333yhh.130.1323292993395;
+	Wed, 07 Dec 2011 13:23:13 -0800 (PST)
+Received: from localhost.localdomain ([189.114.111.55])
+	by mx.google.com with ESMTPS id 32sm8214336anu.10.2011.12.07.13.23.11
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 07 Dec 2011 13:20:24 -0800 (PST)
-Date: Wed, 7 Dec 2011 13:19:56 -0800
-From: Khem Raj <raj.khem@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111207211956.GA6351@sakrah.homelinux.org>
-References: <CA+chaQfBfNs57Be9N-T1QzfZ=aXzDMN7QjKeKV8ZGnULORZjng@mail.gmail.com>
-	<1323174430-24886-1-git-send-email-Martin.Jansa@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <1323174430-24886-1-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: [PATCH] ppl: fix libgmp paths
+	Wed, 07 Dec 2011 13:23:12 -0800 (PST)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  7 Dec 2011 21:23:00 +0000
+Message-Id: <0ab4225dfaee3c59d5200f9d73d75e4b44f3a498.1323292966.git.otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+In-Reply-To: <cover.1323292966.git.otavio@ossystems.com.br>
+References: <cover.1323292966.git.otavio@ossystems.com.br>
+Subject: [PATCH 1/1] initramfs-framework: provides a modular initramfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,42 +41,484 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2011 21:27:15 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 07 Dec 2011 21:30:03 -0000
 
-On (06/12/11 13:27), Martin Jansa wrote:
-> configure:10654: checking how to link with libgmpxx
-> configure:11127: result: /OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libgmpxx.so /OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libgmp.so -Wl,-rpath -Wl,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib -Wl,-rpath -Wl,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib
-> 
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/recipes-support/ppl/ppl_0.11.2.bb |    6 +++++-
->  1 files changed, 5 insertions(+), 1 deletions(-)
-> 
-> diff --git a/meta/recipes-support/ppl/ppl_0.11.2.bb b/meta/recipes-support/ppl/ppl_0.11.2.bb
-> index 7536364..b31fc4d 100644
-> --- a/meta/recipes-support/ppl/ppl_0.11.2.bb
-> +++ b/meta/recipes-support/ppl/ppl_0.11.2.bb
-> @@ -11,6 +11,10 @@ SRC_URI[sha256sum] = "e3fbd1c19ef44c6f020951807cdb6fc6a8153cd3a5c53b0ab9cf4c4f6e
->  S = "${WORKDIR}/ppl-${PV}"
->  BBCLASSEXTEND = "native nativesdk"
->  
-> -EXTRA_OECONF = "--enable-watchdog --disable-debugging --disable-assertions --disable-ppl_lcdd --disable-ppl_lpsol --disable-ppl_pips --enable-interfaces='c cxx'"
-> +# do we have something shorter then this? or can native.bbclass overwrite STAGING_DIR_HOST like nativesdk does?
-> +GMP_PREFIX = "${STAGING_DIR_HOST}"
-> +GMP_PREFIX_virtclass-native = "${STAGING_DIR_NATIVE}"
-> +
+Provides the API and modules for a modular initramfs. The currently
+included modules are:
 
-I think we should override STAGING_DIR_HOST in native class as well.
-Since we do install native packages into local sysroot before populating
-the global native sysroot. The comment in class code seems that since
-we installed the native packages in position it was needed to be unset
-that may not be the case now.
+ * initramfs-module-debug adds support to dynamic debugging of
+   initramfs using bootparams
 
-RP thoughts ?
+ * initramfs-module-udev: enables udev usage
 
+ * initramfs-module-mdev: enables mdev usage
+
+ * initramfs-module-e2fs: adds support for ext4, ext3 and ext2
+   filesystems
+
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ .../initrdscripts/initramfs-framework/debug        |   82 ++++++++++++
+ .../initrdscripts/initramfs-framework/e2fs         |   28 ++++
+ .../initrdscripts/initramfs-framework/finish       |   46 +++++++
+ .../initrdscripts/initramfs-framework/init         |  136 ++++++++++++++++++++
+ .../initrdscripts/initramfs-framework/mdev         |   30 +++++
+ .../initrdscripts/initramfs-framework/udev         |   22 +++
+ .../initrdscripts/initramfs-framework_1.0.bb       |   57 ++++++++
+ 7 files changed, 401 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-core/initrdscripts/initramfs-framework/debug
+ create mode 100755 meta/recipes-core/initrdscripts/initramfs-framework/e2fs
+ create mode 100755 meta/recipes-core/initrdscripts/initramfs-framework/finish
+ create mode 100755 meta/recipes-core/initrdscripts/initramfs-framework/init
+ create mode 100644 meta/recipes-core/initrdscripts/initramfs-framework/mdev
+ create mode 100644 meta/recipes-core/initrdscripts/initramfs-framework/udev
+ create mode 100644 meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/debug b/meta/recipes-core/initrdscripts/initramfs-framework/debug
+new file mode 100644
+index 0000000..00bfd7d
+--- /dev/null
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/debug
+@@ -0,0 +1,82 @@
++#!/bin/sh
++# Copyright (C) 2011 O.S. Systems Software LTDA.
++# Licensed on MIT
++
++# Adds support to dynamic debugging of initramfs using bootparam in
++# following format:
++#   shell                 : starts a shell before and after each module
++#   shell=before:<module> : starts a shell before <module> is loaded and run
++#   shell=after:<module>  : starts a shell after <module> is loaded and run
++#
++#   shell-debug                 : run set -x as soon as possible
++#   shell-debug=before:<module> : run set -x before <module> is loaded and run
++#   shell-debug=after:<module>  : run set -x after <module> is loaded and run
++
++DEBUG_SHELL="false"
++
++debug_hook_handler() {
++	status=$1
++	module=$2
++
++	if [ -n "$bootparam_shell" ] && [ "$bootparam_shell" != "true" ]; then
++		shell_wanted_status=`expr $bootparam_shell : '\(.*\):.*'`
++		shell_wanted_module=`expr $bootparam_shell : '.*:\(.*\)'`
++
++		if [ "$shell_wanted_status" = "before" ]; then
++			shell_wanted_status=pre
++		else
++			shell_wanted_status=post
++		fi
++	fi
++
++	if [ "$bootparam_shell" = "true" ] ||
++		( [ "$status" = "$shell_wanted_status" ] &&
++			[ "$module" = "$shell_wanted_module" ] ); then
++		if [ "$status" = "pre" ]; then
++			status_msg="before"
++		else
++			status_msg="after"
++		fi
++
++		msg "Starting shell $status_msg $module..."
++		sh
++	fi
++
++	if [ -n "$bootparam_shell_debug" ] && [ "$bootparam_shell_debug" != "true" ]; then
++		shell_debug_wanted_status=`expr $bootparam_shell_debug : '\(.*\):.*'`
++		shell_debug_wanted_module=`expr $bootparam_shell_debug : '.*:\(.*\)'`
++
++		if [ "$shell_debug_wanted_status" = "before" ]; then
++			shell_debug_wanted_status=pre
++		else
++			shell_debug_wanted_status=post
++		fi
++	fi
++
++	if [ "$bootparam_shell_debug" = "true" ] ||
++		( [ "$status" = "$shell_debug_wanted_status" ] &&
++			[ "$module" = "$shell_debug_wanted_module" ] ); then
++		if [ "$DEBUG_SHELL" = "true" ]; then
++			return 0
++		fi
++
++		if [ "$status" = "pre" ]; then
++			status_msg="before"
++		else
++			status_msg="after"
++		fi
++
++		msg "Starting shell debugging $status_msg $module..."
++		DEBUG_SHELL="true"
++		set -x
++	fi
++}
++
++debug_enabled() {
++	return 0
++}
++
++debug_run() {
++	add_module_pre_hook "debug_hook_handler"
++	add_module_post_hook "debug_hook_handler"
++}
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/e2fs b/meta/recipes-core/initrdscripts/initramfs-framework/e2fs
+new file mode 100755
+index 0000000..29f801a
+--- /dev/null
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/e2fs
+@@ -0,0 +1,28 @@
++#!/bin/sh
++# Copyright (C) 2011 O.S. Systems Software LTDA.
++# Licensed on MIT
++
++e2fs_enabled() {
++	return 0
++}
++
++e2fs_run() {
++	filesystems="ext4 ext3 ext2"
++
++	# load modules
++	for fs in $filesystems; do
++		load_kernel_module $fs
++	done
++
++	for fs in $filesystems; do
++		eval "fs_options=\$bootparam_${fs}"
++		if [ -n "$fs_options" ]; then
++		    dev=`expr "$fs_options" : '\([^:]*\).*'`
++		    path=`expr "$fs_options" : '[^:]*:\([^:]*\).*'`
++
++		    info "Mounting $dev as $fs on $path as $fs..."
++			mkdir -p $path
++		    mount -t $fs $dev $path
++		fi
++	done
++}
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/finish b/meta/recipes-core/initrdscripts/initramfs-framework/finish
+new file mode 100755
+index 0000000..bedd803
+--- /dev/null
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/finish
+@@ -0,0 +1,46 @@
++#!/bin/sh
++# Copyright (C) 2011 O.S. Systems Software LTDA.
++# Licensed on MIT
++
++finish_enabled() {
++	return 0
++}
++
++finish_run() {
++	if [ -n "$ROOTFS_DIR" ]; then
++		if [ -n "$bootparam_rootdelay" ]; then
++			debug "Sleeping for $rootdelay second(s) to wait root to settle..."
++			sleep $bootparam_rootdelay
++		fi
++
++		if [ -n "$bootparam_root" ]; then
++			debug "No e2fs compatible filesystem has been mounted, mounting $bootparam_root..."
++
++			if [ "${bootparam_root:0:5}" = "UUID=" ]; then
++				bootparam_root="/dev/disk/by-uuid/${bootparam_root/UUID=/}"
++			fi
++
++			if [ -e "$bootparam_root" ]; then
++				mount $bootparam_root $ROOTFS_DIR
++			else
++				debug "root '$bootparam_root' doesn't exist."
++			fi
++		fi
++
++		if [ ! -d $ROOTFS_DIR/dev ]; then
++			fatal "ERROR: There's no '/dev' on rootfs."
++		fi
++
++		info "Switching root to '$ROOTFS_DIR'..."
++
++		debug "Moving /dev, /proc and /sys onto rootfs..."
++		mount --move /dev $ROOTFS_DIR/dev
++		mount --move /proc $ROOTFS_DIR/proc
++		mount --move /sys $ROOTFS_DIR/sys
++
++		cd $ROOTFS_DIR
++		exec switch_root -c /dev/console $ROOTFS_DIR /sbin/init
++	else
++		debug "No rootfs has been set"
++	fi
++}
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/init b/meta/recipes-core/initrdscripts/initramfs-framework/init
+new file mode 100755
+index 0000000..fc4b0db
+--- /dev/null
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/init
+@@ -0,0 +1,136 @@
++#!/bin/sh
++# Copyright (C) 2011 O.S. Systems Software LTDA.
++# Licensed on MIT
++#
++# Provides the API to be used by the initramfs modules
++#
++# Modules need to provide the following functions:
++#
++# <module>_enabled : check if the module ought to run (return 1 to skip)
++# <module>_run     : do what is need
++#
++# Boot parameters are available on environment in the as:
++#
++# 'foo=value' as 'bootparam_foo=value'
++# 'foo' as 'bootparam_foo=true'
++
++# Register a function to be called before running a module
++# The hook is called as:
++#   <function> pre <module>
++add_module_pre_hook() {
++	MODULE_PRE_HOOKS="$MODULE_PRE_HOOKS $1"
++}
++
++# Register a function to be called after running a module
++# The hook is called as:
++#   <function> post <module>
++add_module_post_hook() {
++	MODULE_POST_HOOKS="$MODULE_POST_HOOKS $1"
++}
++
++# Load kernel module
++load_kernel_module() {
++	if modprobe $1 >/dev/null 2>&1; then
++		info "Loaded module $1"
++	else
++		debug "Failed to load module $1"
++	fi
++}
++
++# Prints information
++msg() {
++	echo "$@" >/dev/console
++}
++
++# Prints information if verbose bootparam is used
++info() {
++	[ -n "$bootparam_verbose" ] && echo "$@" >/dev/console
++}
++
++# Prints information if debug bootparam is used
++debug() {
++	[ -n "$bootparam_debug" ] && echo "DEBUG: $@" >/dev/console
++}
++
++# Prints a message and start a endless loop
++fatal() {
++    echo $1 >/dev/console
++    echo >/dev/console
++
++	while [ "true" ]; do
++		sleep 3600
++	done
++}
++
++# Variables shared amoung modules
++ROOTFS_DIR="/rootfs" # where to do the switch root
++MODULE_PRE_HOOKS=""  # functions to call before running each module
++MODULE_POST_HOOKS="" # functions to call after running each module
++MODULES_DIR=/init.d  # place to look for modules
++
++# initialize /proc and /sys
++mkdir -p /proc /sys
++mount -t proc proc /proc
++mount -t sysfs sysfs /sys
++
++# populate bootparam environment
++for p in `cat /proc/cmdline`; do
++	opt="${p%%=*}"
++	opt=${opt/-/_}
++	if [ "${p/=/}" = "$p" ]; then
++		eval "bootparam_${opt}=true"
++	else
++		eval "bootparam_${opt}=\"${p#*=}\""
++	fi
++done
++
++# use /dev with devtmpfs
++if grep -q devtmpfs /proc/filesystems; then
++	mkdir -p /dev
++	mount -t devtmpfs devtmpfs /dev
++else
++	if [ ! -d /dev ]; then
++		fatal "ERROR: /dev doesn't exist and kernel doesn't has devtmpfs enabled."
++	fi
++fi
++
++mkdir $ROOTFS_DIR
++
++# Load and run modules
++for m in $MODULES_DIR/*; do
++	# Skip backup files
++	if [ "${m/\~/}" != "$m" ]; then
++		continue
++	fi
++
++	module=`basename $m | cut -d'-' -f 2`
++	debug "Loading module $module"
++
++	# pre hooks
++	for h in $MODULE_PRE_HOOKS; do
++		debug "Calling module hook (pre): $h"
++		eval "$h pre $module"
++		debug "Finished module hook (pre): $h"
++	done
++
++	# process module
++	source $m
++
++	if ! eval "${module}_enabled"; then
++		debug "Skipping module $module"
++		continue
++	fi
++
++	debug "Running ${module}_run"
++	eval "${module}_run"
++
++	# post hooks
++	for h in $MODULE_POST_HOOKS; do
++		debug "Calling module hook (post): $h"
++		eval "$h post $module"
++		debug "Finished module hook (post): $h"
++	done
++done
++
++# Catch all
++fatal "ERROR: Initramfs failed to initialize the system."
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/mdev b/meta/recipes-core/initrdscripts/initramfs-framework/mdev
+new file mode 100644
+index 0000000..a5df1d7
+--- /dev/null
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/mdev
+@@ -0,0 +1,30 @@
++#!/bin/sh
++# Copyright (C) 2011 O.S. Systems Software LTDA.
++# Licensed on MIT
++
++mdev_enabled() {
++	if [ ! -e /sbin/mdev ]; then
++		debug "/sbin/mdev doesn't exist"
++		return 1
++	fi
++
++	return 0
++}
++
++mdev_run() {
++	# setup the environment
++	mount -t tmpfs tmpfs /dev
++
++	mkdir -m 1777 /dev/shm
++
++	mkdir -m 0755 /dev/pts
++	mount -t devpts devpts /dev/pts
++
++	echo /sbin/mdev > /proc/sys/kernel/hotplug
++	mdev -s
++
++	# load modules for devices
++	find /sys -name modalias | while read m; do
++		load_kernel_module $(cat $m)
++	done
++}
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/udev b/meta/recipes-core/initrdscripts/initramfs-framework/udev
+new file mode 100644
+index 0000000..9ea8aa3
+--- /dev/null
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/udev
+@@ -0,0 +1,22 @@
++#!/bin/sh
++# Copyright (C) 2011 O.S. Systems Software LTDA.
++# Licensed on MIT
++
++udev_enabled() {
++	if [ ! -e /sbin/udevd ]; then
++		debug "/sbin/udev doesn't exist"
++		return 1
++	fi
++
++	return 0
++}
++
++udev_run() {
++	mkdir -p /run
++
++	udevd --daemon > /dev/null
++	udevadm trigger --action=add
++	udevadm settle
++
++	killall udevd 2>/dev/null
++}
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+new file mode 100644
+index 0000000..58e41d4
+--- /dev/null
++++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+@@ -0,0 +1,57 @@
++DESCRIPTION = "initramfs modular system"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++RDEPENDS = "busybox"
++
++inherit allarch
++
++SRC_URI = "file://init \
++           file://finish \
++           file://mdev \
++           file://udev \
++           file://e2fs \
++           file://debug"
++
++do_install() {
++    install -d ${D}/init.d
++
++    # base
++    install -m 0755 ${WORKDIR}/init ${D}/init
++    install -m 0755 ${WORKDIR}/finish ${D}/init.d/99-finish
++
++    # mdev
++    install -m 0755 ${WORKDIR}/mdev ${D}/init.d/01-mdev
++
++    # udev
++    install -m 0755 ${WORKDIR}/udev ${D}/init.d/01-udev
++
++    # e2fs
++    install -m 0755 ${WORKDIR}/e2fs ${D}/init.d/10-e2fs
++
++    # debug
++    install -m 0755 ${WORKDIR}/debug ${D}/init.d/00-debug
++}
++
++PACKAGES = "${PN}-base \
++            initramfs-module-mdev \
++            initramfs-module-udev \
++            initramfs-module-e2fs \
++            initramfs-module-debug"
++
++FILES_${PN}-base = "/init /init.d/99-finish"
++
++DESCRIPTION_initramfs-module-mdev = "initramfs support for mdev"
++RDEPENDS_initramfs-module-mdev = "${PN}-base"
++FILES_initramfs-module-mdev = "/init.d/01-mdev"
++
++DESCRIPTION_initramfs-module-udev = "initramfs support for udev"
++RDEPENDS_initramfs-module-udev = "${PN}-base udev udev-utils"
++FILES_initramfs-module-udev = "/init.d/01-udev"
++
++DESCRIPTION_initramfs-module-e2fs = "initramfs support for ext4/ext3/ext2 filesystems"
++RDEPENDS_initramfs-module-e2fs = "${PN}-base"
++FILES_initramfs-module-e2fs = "/init.d/10-e2fs"
++
++DESCRIPTION_initramfs-module-debug = "initramfs dynamic debug support"
++RDEPENDS_initramfs-module-debug = "${PN}-base"
++FILES_initramfs-module-debug = "/init.d/00-debug"
 -- 
--Khem
+1.7.2.5
+
 
 
