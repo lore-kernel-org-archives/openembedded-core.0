@@ -1,36 +1,29 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RYKL7-0002Qe-DE
+	(envelope-from <koen@dominion.thruhere.net>) id 1RYKO4-0002Vg-6i
 	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Dec 2011 17:27:25 +0100
-Received: by lahd3 with SMTP id d3so281428lah.6
+	Wed, 07 Dec 2011 17:30:28 +0100
+Received: by eaao14 with SMTP id o14so606854eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Dec 2011 08:20:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=w5oHPdl8xE0NI8WZ3ZKk3Cyq0/1zOdV5VSNL70BuUJY=;
-	b=mKoKeXah10XeNZlTemFi7OHU2saBZ3k4R0pMbfrAMNyF+KVDfJffBhQ0B4DMIe0l0w
-	V/Tlsg9FPUb/99xfU7KHsae8fK+gusezDuZ09DnA0h+Ow3ykjXtvdTczW7CcMddIw5hG
-	Ekrbi9KVsRlJx1QfX1OdRVOITXEVuoX8ZDwZ0=
-Received: by 10.152.104.206 with SMTP id gg14mr12215193lab.41.1323274835584;
-	Wed, 07 Dec 2011 08:20:35 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.152.24.36 with HTTP; Wed, 7 Dec 2011 08:20:01 -0800 (PST)
-In-Reply-To: <4EDF6F0D.1000306@dresearch-fe.de>
-References: <4ECF768A.4060108@dresearch-fe.de>
-	<95977E6E-2138-4CEA-B7C6-FC8A248F9C95@dominion.thruhere.net>
-	<4ECF7C0E.304@dresearch-fe.de>
-	<CAMKF1spxSD4pG1x4Z30ATfMKWKcjoFJJxW4r0pguM0rybcyHaw@mail.gmail.com>
-	<4EDDBF42.4070501@dresearch-fe.de> <4EDF6F0D.1000306@dresearch-fe.de>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 7 Dec 2011 08:20:01 -0800
-Message-ID: <CAMKF1sraVBhmaSg00hZ-Md9f=JzHy6+=vp2GtT0y-Ep=7P+XSw@mail.gmail.com>
-To: Steffen Sledz <sledz@dresearch-fe.de>
-Cc: Tom King <ka6sox@gmail.com>,
-	Patches and discussions about the oe-core layer
+	Wed, 07 Dec 2011 08:23:39 -0800 (PST)
+Received: by 10.213.3.214 with SMTP id 22mr3589971ebo.60.1323275019589;
+	Wed, 07 Dec 2011 08:23:39 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id 65sm7421771eeg.8.2011.12.07.08.23.38
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 07 Dec 2011 08:23:38 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Wed, 7 Dec 2011 17:23:37 +0100
+In-Reply-To: <1323273568-31152-2-git-send-email-philip@balister.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Uncommon source deployment policy of live555
+References: <1323273568-31152-1-git-send-email-philip@balister.org>
+	<1323273568-31152-2-git-send-email-philip@balister.org>
+Message-Id: <DCF0DA43-34BE-4AD2-8E13-536E6DCDF49A@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH 2/2] qt4.inc : Add uic, moc, rcc, and lrelease to tools package.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,20 +38,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2011 16:27:25 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 07 Dec 2011 16:30:28 -0000
+X-Groupsio-MsgNum: 13751
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_71C2BCE7-38EE-4187-9625-0CAA8EE3ADF8";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-On Wed, Dec 7, 2011 at 5:50 AM, Steffen Sledz <sledz@dresearch-fe.de> wrote:
->
-> Ping!
->
-> There's a commit pending requiring this tarball. :(
-
-Hi Steffen
-
-It should be there now
-
-Thanks
--Khem
+--Apple-Mail=_71C2BCE7-38EE-4187-9625-0CAA8EE3ADF8
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+Op 7 dec. 2011, om 16:59 heeft Philip Balister het volgende geschreven:
+
+> These binaries are needed in the target tools package so we can build
+> qt apps on the target. You also need to install qmake from meta-oe.
+>=20
+> Test by building gnuradio on the USRP e100 with qt support.
+>=20
+> Signed-off-by: Philip Balister <philip@balister.org>
+> ---
+> meta/recipes-qt/qt4/qt4.inc |    9 ++-------
+> 1 files changed, 2 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
+> index bec81b4..2638249 100644
+> --- a/meta/recipes-qt/qt4/qt4.inc
+> +++ b/meta/recipes-qt/qt4/qt4.inc
+> @@ -138,8 +138,8 @@ RRECOMMENDS_${QT_BASE_NAME}-qmlviewer +=3D " \
+> RRECOMMENDS_${QT_BASE_NAME}-doc +=3D " \
+>             ${QT_BASE_NAME}-demos-doc"
+>=20
+> -FILES_${QT_BASE_NAME}-tools                =3D =
+"${bindir}/qttracereplay ${bindir}/qdoc*"
+> -FILES_${QT_BASE_NAME}-tools-dbg            =3D =
+"${bindir}/.debug/qttracereplay ${bindir}/.debug/qdoc*"
+> +FILES_${QT_BASE_NAME}-tools                =3D =
+"${bindir}/qttracereplay ${bindir}/qdoc* ${bindir}/moc ${bindir}/uic* =
+${bindir}/rcc"
+> +FILES_${QT_BASE_NAME}-tools-dbg            =3D =
+"${bindir}/.debug/qttracereplay ${bindir}/.debug/qdoc* =
+${bindir}/.debug/uic* ${bindir}/.debug/moc ${bindir}/.debug/rcc"
+> FILES_${QT_BASE_NAME}-assistant            =3D "${bindir}/*assistant* =
+${bindir}/qcollectiongenerator ${bindir}/qhelpconverter =
+${bindir}/qhelpgenerator"
+> FILES_${QT_BASE_NAME}-assistant-dbg        =3D =
+"${bindir}/.debug/*assistant* ${bindir}/.debug/qcollectiongenerator =
+${bindir}/.debug/qhelpconverter ${bindir}/.debug/qhelpgenerator"
+> FILES_${QT_BASE_NAME}-common               =3D "${bindir}/qtconfig"
+> @@ -287,11 +287,6 @@ do_install() {
+>=20
+> 	# These are host binaries, we should only use them in staging
+> 	rm ${D}/${bindir}/qmake
+> -	rm -f ${D}/${bindir}/uic
+> -	rm -f ${D}/${bindir}/uic3
+> -	rm ${D}/${bindir}/moc
+> -	rm ${D}/${bindir}/rcc
+> -	rm -f ${D}/${bindir}/lrelease
+
+Can you verify that those are actually target binaries and not x86 ones?
+
+regards,
+
+Koen=20=
+
+--Apple-Mail=_71C2BCE7-38EE-4187-9625-0CAA8EE3ADF8
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAk7fkwkACgkQMkyGM64RGpF/dwCfbxB7sFR1DyoEga6KkOeL9y32
+RF8AoJJjAsWssZgSe+HRvcKywSzZyTTr
+=3Lu9
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_71C2BCE7-38EE-4187-9625-0CAA8EE3ADF8--
