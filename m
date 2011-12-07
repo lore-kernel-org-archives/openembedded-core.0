@@ -1,33 +1,32 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RYGnn-0001eR-Lw for openembedded-core@lists.openembedded.org;
-	Wed, 07 Dec 2011 13:40:47 +0100
+	id 1RYGvm-0001lW-3f for openembedded-core@lists.openembedded.org;
+	Wed, 07 Dec 2011 13:49:02 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB7CXx8C012969
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 7 Dec 2011 12:33:59 GMT
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB7CgB7Q013011;
+	Wed, 7 Dec 2011 12:42:11 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 11699-03 for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Dec 2011 12:33:55 +0000 (GMT)
+	id 11271-08; Wed,  7 Dec 2011 12:42:05 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB7CXpea012963
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 7 Dec 2011 12:33:53 GMT
-Message-ID: <1323261242.19363.86.camel@ted>
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB7Cg12J013005
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 7 Dec 2011 12:42:01 GMT
+Message-ID: <1323261732.30601.1.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 07 Dec 2011 12:34:02 +0000
-In-Reply-To: <cover.1323187516.git.otavio@ossystems.com.br>
-References: <cover.1323187516.git.otavio@ossystems.com.br>
+Date: Wed, 07 Dec 2011 12:42:12 +0000
+In-Reply-To: <1323178995-12270-1-git-send-email-Martin.Jansa@gmail.com>
+References: <20111206091601.GA5456@jama.jama.net>
+	<1323178995-12270-1-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: Evolution 3.2.1- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/5] Provides a framework and initial modules for initramfs
+Cc: Klaus Kurzmann <mok@fluxnetz.de>
+Subject: Re: [PATCH] subversion: update 1.7.0 to 1.7.2 and force libtool recreation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,39 +41,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2011 12:40:47 -0000
+X-List-Received-Date: Wed, 07 Dec 2011 12:49:02 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-12-06 at 16:07 +0000, Otavio Salvador wrote:
-> This patchset adds a very flexible and powerful initramfs framework
-> together with a small set of modules using it. Please refer to each
-> commit for the respective documentation.
+On Tue, 2011-12-06 at 14:43 +0100, Martin Jansa wrote:
+> From: Klaus Kurzmann <mok@fluxnetz.de>
 > 
-> The following changes since commit fb642d21111691b9302e16e984aff9d8fb18c431:
+> * subversion-1.7.* had libtool-2.4, oe-core now has 2.4.2 and it was
+>   failing:
+>   x86_64-linux-libtool: Version mismatch error.  This is libtool 2.4.2, but the
+>   x86_64-linux-libtool: definition of this LT_INIT comes from libtool 2.4.
+>   x86_64-linux-libtool: You should recreate aclocal.m4 with macros from libtool 2.4.2
+>   x86_64-linux-libtool: and run autoconf again.
 > 
->   buildhistory bbclass: avoid absolute paths for files-in-image.txt to avoid diff churn when relocating TMPDIR (2011-12-06 14:40:00 +0000)
-> 
-> are available in the git repository at:
->   git://github.com/OSSystems/oe-core master
->   https://github.com/OSSystems/oe-core/tree/HEAD
-> 
-> Otavio Salvador (5):
->   initramfs-base: provides the base for a modular initramfs
->   initramfs-module-debug: add
->   initramfs-module-mdev: add
->   initramfs-module-e2fs: add
->   initramfs-module-udev: add
-> 
+> Signed-off-by: Klaus Kurzmann <mok@fluxnetz.de>
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  .../subversion/subversion-1.7.0/libtool2.patch     |   15 --------
+>  .../subversion/subversion-1.7.2/libtool2.patch     |   15 ++++++++
+>  .../subversion/subversion_1.7.0.bb                 |   37 -------------------
+>  .../subversion/subversion_1.7.2.bb                 |   38 ++++++++++++++++++++
+>  4 files changed, 53 insertions(+), 52 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/subversion/subversion-1.7.0/libtool2.patch
+>  create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.2/libtool2.patch
+>  delete mode 100644 meta/recipes-devtools/subversion/subversion_1.7.0.bb
+>  create mode 100644 meta/recipes-devtools/subversion/subversion_1.7.2.bb
 
-Rather than add five different recipes for this, could we have one
-recipe with five different packages? I'm a little bit sensitive to
-parsing speed and whilst its a detail, small details add up :)
-
-Cheers,
+Merged to master, thanks.
 
 Richard
-
 
 
 
