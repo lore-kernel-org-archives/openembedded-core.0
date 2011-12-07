@@ -1,35 +1,41 @@
-Received: from mail-qw0-f47.google.com ([209.85.216.47])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1RYQR8-00050P-L3
-	for openembedded-core@lists.openembedded.org;
-	Wed, 07 Dec 2011 23:58:02 +0100
-Received: by qadb17 with SMTP id b17so45781qad.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Dec 2011 14:51:13 -0800 (PST)
+	(envelope-from <raj.khem@gmail.com>)
+	id 1RYQRU-00051m-5x; Wed, 07 Dec 2011 23:58:24 +0100
+Received: by iadj38 with SMTP id j38so1583473iad.6
+	for <multiple recipients>; Wed, 07 Dec 2011 14:51:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding;
-	bh=wuh25O9syqUPq6QuPACLEcaYD4S3Abg7Sj7T6Q72yNU=;
-	b=Gp8OKpREYpNzwfrR9HGldQCybLjujB36+BY+bBgTUvrKZkoomK8Goj1O8HtkBGEGbw
-	1YJKi4SJUcgClqp/SAORfEjghbXSGVwQpHsalgHnmqJu+jR+fP2x/aj7i8F0pKRh9FgK
-	IMPO7aI577dkuqwqDcy60d+0K+w+V9QDScfcY=
-Received: by 10.224.203.202 with SMTP id fj10mr398463qab.66.1323298273303;
-	Wed, 07 Dec 2011 14:51:13 -0800 (PST)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.229.73.200 with HTTP; Wed, 7 Dec 2011 14:50:52 -0800 (PST)
-In-Reply-To: <20111207215306.GE6351@sakrah.homelinux.org>
-References: <cover.1323286080.git.elizabeth.flanagan@intel.com>
-	<6c65669e1c223d59020c581750599c11ee222063.1323286080.git.elizabeth.flanagan@intel.com>
-	<20111207215306.GE6351@sakrah.homelinux.org>
-From: Chris Larson <clarson@kergoth.com>
-Date: Wed, 7 Dec 2011 15:50:52 -0700
-X-Google-Sender-Auth: AOprIaiAvkYYW3vZJzf9nXn-NKk
-Message-ID: <CABcZANnKdH1M-BykE0bgQ9BzcmeMC9=jb1NeXH0seBa4SwW7rw@mail.gmail.com>
+	h=date:from:to:cc:subject:message-id:mail-followup-to:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=sOvrCifdvEsVbhwf2gwwTfP3XJTcubSUM+4SfgqOt5E=;
+	b=G3U5gGPR6QqMe/BJR+JCLgtbi58GrJC7WQsxGWo5Ttt5rHyOwXXnXmBagiNvNdC8xZ
+	z+RT+SH6hYvaJ/fNEr+skqDkIfY6UZRUWfYoptr0nhtK45UIwk6994H8wIP41hbno4jP
+	lKkNuxWhRsP/A8QL+4/saGez70BrLp2jVNDpQ=
+Received: by 10.42.157.137 with SMTP id d9mr937767icx.31.1323298292868;
+	Wed, 07 Dec 2011 14:51:32 -0800 (PST)
+Received: from sakrah.homelinux.org
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
+	by mx.google.com with ESMTPS id v18sm11712761ibh.4.2011.12.07.14.51.30
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 07 Dec 2011 14:51:31 -0800 (PST)
+Date: Wed, 7 Dec 2011 14:51:08 -0800
+From: Khem Raj <raj.khem@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/8] Add copyleft compliance class
+Message-ID: <20111207225108.GB7003@sakrah.homelinux.org>
+Mail-Followup-To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	openembedded-devel@lists.openembedded.org, ulf@emagii.com
+References: <4ED0CC76.4040606@emagii.com> <1322579029.7964.0.camel@ted>
+	<4ED54C2B.2060505@emagii.com> <4ED66835.3050400@intel.com>
+	<4ED793E2.5070205@emagii.com> <4EDA80A2.5070303@emagii.com>
+	<20111204112019.GB4871@rhein.zuhause.netz>
+	<1322998509.25960.55.camel@ted>
+MIME-Version: 1.0
+In-Reply-To: <1322998509.25960.55.camel@ted>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembedded-devel@lists.openembedded.org, ulf@emagii.com
+Subject: Re: Feedback on building openembedded-core for qemuarm. Excerpts from buildlog
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,66 +50,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Dec 2011 22:58:02 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 07 Dec 2011 22:58:24 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Dec 7, 2011 at 2:53 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> diff --git a/meta/classes/copyleft_compliance.bbclass b/meta/classes/cop=
-yleft_compliance.bbclass
->> new file mode 100644
->> index 0000000..5d9ab11
->> --- /dev/null
->> +++ b/meta/classes/copyleft_compliance.bbclass
->> @@ -0,0 +1,94 @@
->> +# Deploy sources for recipes for compliance with copyleft-style license=
-s
->> +# Defaults to using symlinks, as it's a quick operation, and one can ea=
-sily
->> +# follow the links when making use of the files (e.g. tar with the -h a=
-rg).
->> +#
->> +# By default, includes all GPL and LGPL, and excludes CLOSED and Propri=
-etary.
->> +#
->> +# vi:sts=3D4:sw=3D4:et
->> +
->> +COPYLEFT_SOURCES_DIR ?=3D '${DEPLOY_DIR}/copyleft_sources'
->> +
->> +COPYLEFT_LICENSE_INCLUDE ?=3D 'GPL* LGPL*'
->> +COPYLEFT_LICENSE_INCLUDE[type] =3D 'list'
->> +COPYLEFT_LICENSE_INCLUDE[doc] =3D 'Space separated list of globs which =
-include licenses'
->> +
->> +COPYLEFT_LICENSE_EXCLUDE ?=3D 'CLOSED Proprietary'
->> +COPYLEFT_LICENSE_EXCLUDE[type] =3D 'list'
->> +COPYLEFT_LICENSE_INCLUDE[doc] =3D 'Space separated list of globs which =
-exclude licenses'
->> +
->> +
->> +def copyleft_should_include(d):
->> + =C2=A0 =C2=A0"""Determine if this recipe's sources should be deployed =
-for compliance"""
->> + =C2=A0 =C2=A0import ast
->> + =C2=A0 =C2=A0import oe.license
->> + =C2=A0 =C2=A0from fnmatch import fnmatchcase as fnmatch
->> +
->> + =C2=A0 =C2=A0if oe.utils.inherits(d, 'native', 'nativesdk', 'cross', '=
-crossdk'):
->
-> we do ship some of them in SDK so IMO they should not be excluded.
+On (04/12/11 11:35), Richard Purdie wrote:
+> On Sun, 2011-12-04 at 12:20 +0100, Henning Heinold wrote:
+> > On Sat, Dec 03, 2011 at 09:03:46PM +0100, Ulf Samuelsson wrote:
+> > > Have made some further tests with the same machine, but now running
+> > > Ubuntu 11.04 x64
+> > > 
+> > > bitbake console-image
+> > > 
+> > >     PARALLEL_TASKS        BB_NUMBER_TASKS        BUILD TIME
+> > >     2                                  2
+> > > 1:24:16
+> > >     4                                  4
+> > > 0:48:22
+> > >     6                                  6
+> > > 0:45:00
+> > >     24                                24
+> > > C++ compiler fails with --sysroot problem
+> > >         after ~2200 out of 2400 tasks.
+> > > 
+> > > 
+> > > 
+> > > BR
+> > > Ulf
+> > 
+> > Hi Ulf,
+> > 
+> > can you try the attached patch if it solves the problem?
 
-Fair enough. It'd probably be useful to hook something in to use the
-output of this class to produce a tree of just the sources that went
-into a given image or sdk, to go alongside the new manifests. I think
-this is good to go in though, I'll submit a second patch in the next
-day or two to enhance it to cover more, unless someone disagrees with
-that approach.
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Does this really fix the problem.
+
+> 
+> Can someone please explain to me how this would fix the problem?
+> 
+> If this were the issue shouldn't it either always work or always fail?
+> 
+> I'm worried that even if this does "fix" the problem, there is a deeper
+> issue lurking somewhere :(
+
+We use --with-local-prefix and then also --with-gxx-include-dir which
+points to /usr/include/c++ 
+
+Now the documentation says that --with-gxx-include-dir is an absolute
+path but if sysroot gets prepended to it or not I am not clear yet
+if sysroot gets prepended to it then we should be in safe spot
+
+
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+-- 
+-Khem
 
 
