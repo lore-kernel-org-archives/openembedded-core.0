@@ -1,36 +1,35 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RYRXP-0006nc-0F for openembedded-core@lists.openembedded.org;
-	Thu, 08 Dec 2011 01:08:35 +0100
+	id 1RYRhK-0006uv-LD for openembedded-core@lists.openembedded.org;
+	Thu, 08 Dec 2011 01:18:50 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB801j73021227
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB80C1Ps021314
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 8 Dec 2011 00:01:45 GMT
+	Thu, 8 Dec 2011 00:12:01 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 20748-05 for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Dec 2011 00:01:40 +0000 (GMT)
+	id 20748-06 for <openembedded-core@lists.openembedded.org>;
+	Thu,  8 Dec 2011 00:11:57 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB801bla021221
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB80BqUx021308
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 8 Dec 2011 00:01:38 GMT
-Message-ID: <1323302508.971.0.camel@ted>
+	Thu, 8 Dec 2011 00:11:53 GMT
+Message-ID: <1323303124.971.2.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 08 Dec 2011 00:01:48 +0000
-In-Reply-To: <201112080053.11966.schnitzeltony@gmx.de>
-References: <1323279247.30601.51.camel@ted>
-	<201112080053.11966.schnitzeltony@gmx.de>
+Date: Thu, 08 Dec 2011 00:12:04 +0000
+In-Reply-To: <20111207211956.GA6351@sakrah.homelinux.org>
+References: <CA+chaQfBfNs57Be9N-T1QzfZ=aXzDMN7QjKeKV8ZGnULORZjng@mail.gmail.com>
+	<1323174430-24886-1-git-send-email-Martin.Jansa@gmail.com>
+	<20111207211956.GA6351@sakrah.homelinux.org>
 X-Mailer: Evolution 3.2.1- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
-	pB801j73021227
-Subject: Re: [PATCH] bitbake.conf/image.bbclass: Ensure images use the correct passwd/group files
+Subject: Re: [PATCH] ppl: fix libgmp paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,79 +44,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2011 00:08:35 -0000
+X-List-Received-Date: Thu, 08 Dec 2011 00:18:50 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-12-08 at 00:53 +0100, Andreas M=C3=BCller wrote:
-> On Wednesday, December 07, 2011 06:34:07 PM Richard Purdie wrote:
-> > We need pseudo to use the rootfs passwd/group files belonging to the
-> > rootfs when building images. This patch ensures that we use the rootf=
-s
-> > files instead of those in the sysroot which can lead to incorrect fil=
-e
-> > ownership issues.
-> >=20
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> >=20
-> > diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> > index 4642fa6..865d430 100644
-> > --- a/meta/classes/image.bbclass
-> > +++ b/meta/classes/image.bbclass
-> > @@ -121,6 +121,8 @@ IMAGE_LINGUAS ?=3D "de-de fr-fr en-gb"
-> >=20
-> >  LINGUAS_INSTALL =3D "${@" ".join(map(lambda s: "locale-base-%s" % s,
-> > d.getVar('IMAGE_LINGUAS', 1).split()))}"
-> >=20
-> > +PSEUDO_PASSWD =3D "${IMAGE_ROOTFS}"
+On Wed, 2011-12-07 at 13:19 -0800, Khem Raj wrote:
+> On (06/12/11 13:27), Martin Jansa wrote:
+> > configure:10654: checking how to link with libgmpxx
+> > configure:11127: result: /OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libgmpxx.so /OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libgmp.so -Wl,-rpath -Wl,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib -Wl,-rpath -Wl,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib
+> > 
+> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > ---
+> >  meta/recipes-support/ppl/ppl_0.11.2.bb |    6 +++++-
+> >  1 files changed, 5 insertions(+), 1 deletions(-)
+> > 
+> > diff --git a/meta/recipes-support/ppl/ppl_0.11.2.bb b/meta/recipes-support/ppl/ppl_0.11.2.bb
+> > index 7536364..b31fc4d 100644
+> > --- a/meta/recipes-support/ppl/ppl_0.11.2.bb
+> > +++ b/meta/recipes-support/ppl/ppl_0.11.2.bb
+> > @@ -11,6 +11,10 @@ SRC_URI[sha256sum] = "e3fbd1c19ef44c6f020951807cdb6fc6a8153cd3a5c53b0ab9cf4c4f6e
+> >  S = "${WORKDIR}/ppl-${PV}"
+> >  BBCLASSEXTEND = "native nativesdk"
+> >  
+> > -EXTRA_OECONF = "--enable-watchdog --disable-debugging --disable-assertions --disable-ppl_lcdd --disable-ppl_lpsol --disable-ppl_pips --enable-interfaces='c cxx'"
+> > +# do we have something shorter then this? or can native.bbclass overwrite STAGING_DIR_HOST like nativesdk does?
+> > +GMP_PREFIX = "${STAGING_DIR_HOST}"
+> > +GMP_PREFIX_virtclass-native = "${STAGING_DIR_NATIVE}"
 > > +
-> >  do_rootfs[nostamp] =3D "1"
-> >  do_rootfs[dirs] =3D "${TOPDIR}"
-> >  do_rootfs[lockfiles] +=3D "${IMAGE_ROOTFS}.lock"
-> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> > index e80cc32..eeb1fc4 100644
-> > --- a/meta/conf/bitbake.conf
-> > +++ b/meta/conf/bitbake.conf
-> > @@ -580,11 +580,12 @@ SRC_URI =3D "file://${FILE}"
-> >=20
-> >  # Use pseudo as the fakeroot implementation
-> >  PSEUDO_LOCALSTATEDIR ?=3D "${WORKDIR}/pseudo/"
-> > +PSEUDO_PASSWD ?=3D "${STAGING_DIR_TARGET}"
-> >  export PSEUDO_DISABLED =3D "1"
-> >  #export PSEUDO_PREFIX =3D "${STAGING_DIR_NATIVE}${prefix_native}"
-> >  #export PSEUDO_BINDIR =3D "${STAGING_DIR_NATIVE}${bindir_native}"
-> >  #export PSEUDO_LIBDIR =3D
-> > "${STAGING_DIR_NATIVE}$PSEUDOBINDIR/../lib/pseudo/lib -FAKEROOTENV =3D
-> > "PSEUDO_PREFIX=3D${STAGING_DIR_NATIVE}${prefix_native}
-> > PSEUDO_LOCALSTATEDIR=3D${PSEUDO_LOCALSTATEDIR}
-> > PSEUDO_PASSWD=3D${STAGING_DIR_TARGET} PSEUDO_NOSYMLINKEXP=3D1
-> > PSEUDO_DISABLED=3D0" +FAKEROOTENV =3D
-> > "PSEUDO_PREFIX=3D${STAGING_DIR_NATIVE}${prefix_native}
-> > PSEUDO_LOCALSTATEDIR=3D${PSEUDO_LOCALSTATEDIR}
-> > PSEUDO_PASSWD=3D${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=3D1 PSEUDO_DISAB=
-LED=3D0"
-> > FAKEROOTNOENV =3D "PSEUDO_UNLOAD=3D1"
-> >  FAKEROOTDIRS =3D "${PSEUDO_LOCALSTATEDIR}"
-> >  PREFERRED_PROVIDER_virtual/fakeroot-native ?=3D "pseudo-native"
-> dbus still needs manual call of=20
->=20
-> 	chown messagebus:messagebus /var/run/dbus /var/lib/dbus
->=20
-> ( it is root:root on my image) and
->=20
-> 	chown root:messagebus /usr/libexec/dbus-daemon-launch-helper
->=20
-> ( it is avahi:netdev on my image )
->=20
-> Does this one fix it?
-> To test: Is it enough to rebuild dbus?
+> 
+> I think we should override STAGING_DIR_HOST in native class as well.
+> Since we do install native packages into local sysroot before populating
+> the global native sysroot. The comment in class code seems that since
+> we installed the native packages in position it was needed to be unset
+> that may not be the case now.
+> 
+> RP thoughts ?
 
-It could well do. You just need to apply the patch and rebuild the
-image.
+native.bbclass already sets STAGING_DIR_HOST correctly to be empty. It
+looks wrong but its correct when you think about it since the installed
+binaries are at their final location where we intent to execute them (in
+${prefix}).
 
 Cheers,
 
 Richard
+
+
 
 
 
