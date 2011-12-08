@@ -1,35 +1,29 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RYmzU-0007O9-Ju for openembedded-core@lists.openembedded.org;
-	Fri, 09 Dec 2011 00:03:01 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB8MuA64009734;
-	Thu, 8 Dec 2011 22:56:10 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 08226-04; Thu,  8 Dec 2011 22:56:06 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB8Mtxie009722
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Thu, 8 Dec 2011 22:56:01 GMT
-Message-ID: <1323384970.5309.92.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ulf@emagii.com, Patches and discussions about the oe-core layer
+Received: from mailout-de.gmx.net ([213.165.64.22])
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <schnitzeltony@gmx.de>) id 1RYnO5-0007oG-AV
+	for openembedded-core@lists.openembedded.org;
+	Fri, 09 Dec 2011 00:28:25 +0100
+Received: (qmail invoked by alias); 08 Dec 2011 23:21:35 -0000
+Received: from p5B0A2C51.dip.t-dialin.net (EHLO localhost.localdomain)
+	[91.10.44.81]
+	by mail.gmx.net (mp070) with SMTP; 09 Dec 2011 00:21:35 +0100
+X-Authenticated: #62780362
+X-Provags-ID: V01U2FsdGVkX18TIPRpqkMTyF/gUsi7XV4rrK3lu49ZaqFQ6Xl6aC
+	JN2bDlaIPm272V
+From: Andreas =?iso-8859-1?q?M=FCller?= <schnitzeltony@gmx.de>
+To: "Patches and discussions about the oe-core layer"
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 08 Dec 2011 22:56:10 +0000
-In-Reply-To: <4EE13D86.6020203@emagii.com>
-References: <cover.1323212403.git.andrea.adami@gmail.com>
-	<68e1fafa3ed455dd26cfbfe2a76b3cbdb5b7bfc2.1323212403.git.andrea.adami@gmail.com>
-	<CA+M6bXmdt7UE+-HkLva9snnv=AJhhh0sxKSKCJhQOb58bNKGJQ@mail.gmail.com>
-	<20111208151026.GC3761@jama.jama.net>
-	<CAAQYJAuHVLo6A_cGXBVoq+3Tj863LRH+hu-6GtZeqo3_aJWYQA@mail.gmail.com>
-	<4EE13D86.6020203@emagii.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/2] image_types.bbclass: implement jffs2 summary images (sum.jffs2)
+Date: Fri, 9 Dec 2011 00:21:41 +0100
+User-Agent: KMail/1.13.7 (Linux/2.6.35.14-103.fc14.x86_64; KDE/4.6.5; x86_64; ;
+	)
+References: <1323279247.30601.51.camel@ted>
+	<20111208070548.GB3761@jama.jama.net>
+	<4EE0DA76.8060807@windriver.com>
+In-Reply-To: <4EE0DA76.8060807@windriver.com>
+MIME-Version: 1.0
+Message-Id: <201112090021.41843.schnitzeltony@gmx.de>
+X-Y-GMX-Trusted: 0
+Subject: Re: [PATCH] bitbake.conf/image.bbclass: Ensure images use the correct passwd/group files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,33 +38,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2011 23:03:01 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 08 Dec 2011 23:28:25 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-12-08 at 23:43 +0100, Ulf Samuelsson wrote:
-> Not sure exactly what sumtools does,
-> but as I understood it, it does things which
-> the targets need to be doing at first startup otherwise.
+On Thursday, December 08, 2011 04:40:38 PM Mark Hatle wrote:
+> Andreas: What packaging type are you using?
 > 
-> Does that not mean that the target rootfs will grow
-> from 44 MB to 57 MB during that process?
+> I know that RPM never uses the uid/gid, it always does a look up.  If the
+> look up fails it then falls back to "root".  So you should never see
+> something like a 70, unless there is a manual chown/grp somewhere making
+> the change.
 > 
-> If it does, you never want to have the non-sumtool version.
-> (I guess if you downloaded the file over a 20 bps channel to
-> a nuclear submarine, you would disagree)
+> opkg had a bug before where it only used the uid/gid number, I know Richard
+> patched that -- but I'm not sure what happens if the look up fails.  It may
+> fall back to the embedded numeric ids.  If that is the case, the real
+> issue may simply be that the uname/gname hasn't yet made it into the
+> passwd/group files.
+> 
+> If you are using opkg, try switching to RPM and see if the behavior on
+> these files changes, if it does what the new value is.
+I am using opkg - will try RPM when I have time next week.
 
-It doesn't. It will compute all this data into memory at each boot
-increasing boot time but it won't write it back to the flash.
-
-The sum images just mean the data can be directly loaded without
-computation and reading a lot more of the flash.
-
-Cheers,
-
-Richard
-
-
-
+Andreas
 
 
