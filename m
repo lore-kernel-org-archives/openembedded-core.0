@@ -1,35 +1,33 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RYhMd-0001cL-Pj for openembedded-core@lists.openembedded.org;
-	Thu, 08 Dec 2011 18:02:31 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB8Gth90031021
+Received: from mail-qy0-f175.google.com ([209.85.216.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <kergoth@gmail.com>) id 1RYhNA-0001ez-4B
+	for openembedded-core@lists.openembedded.org;
+	Thu, 08 Dec 2011 18:03:04 +0100
+Received: by qcqw6 with SMTP id w6so1434465qcq.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 8 Dec 2011 16:55:43 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 30454-06 for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Dec 2011 16:55:39 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB8GtZ0O031015
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 8 Dec 2011 16:55:36 GMT
-Message-ID: <1323363345.5309.42.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+	Thu, 08 Dec 2011 08:56:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=i3og1UaYzJVzkFupLBc6GkadOYJD9nXCua+vh9xmses=;
+	b=pB8DG5t0oJurtycpZIG3rJCJ2fgJ2EtVPU9PJkrhs0Ghtk1h3Akwgj+u2Ghx5I5huO
+	ZNl3GDdgRqJ/bJqhWnvCxX41lnbaQIwzARIj+2qmp0YO9838bcnkJFyU8tM4klQ37vCL
+	Cl/HHE1JD9ibjBcMpCNybOd9GaGtLEruhjR5E=
+Received: by 10.229.231.12 with SMTP id jo12mr842078qcb.258.1323363373472;
+	Thu, 08 Dec 2011 08:56:13 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.229.73.200 with HTTP; Thu, 8 Dec 2011 08:55:52 -0800 (PST)
+In-Reply-To: <4EE0EA8B.6010103@linux.intel.com>
+References: <1323123226-24719-1-git-send-email-kergoth@gmail.com>
+	<4EE0EA8B.6010103@linux.intel.com>
+From: Chris Larson <kergoth@gmail.com>
+Date: Thu, 8 Dec 2011 09:55:52 -0700
+Message-ID: <CABcZANnO4_t7HxV5BuTNSjjaK=QOGCh2iKxYSkES33Qw7-eHzA@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 08 Dec 2011 16:55:45 +0000
-In-Reply-To: <67C6F211-C6C2-4655-889A-A254F4E0D7D9@dominion.thruhere.net>
-References: <cover.1323327959.git.xiaofeng.yan@windriver.com>
-	<7ceb01f6db6edfad6c78c5a7ebc685c23bb11358.1323327959.git.xiaofeng.yan@windriver.com>
-	<67C6F211-C6C2-4655-889A-A254F4E0D7D9@dominion.thruhere.net>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 04/10] gtk.inc: add feature based on directfb
+Subject: Re: [PATCH v2] lzop-1.03: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,47 +42,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2011 17:02:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 08 Dec 2011 17:03:04 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2011-12-08 at 11:14 +0100, Koen Kooi wrote:
-> Op 8 dec. 2011, om 10:34 heeft Xiaofeng Yan het volgende geschreven:
-> 
-> > From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-> > 
-> > gtk run over x11 at current OE-core. If gtk want to run over directfb, then \
-> > the configuration related to x11 should be disabled and directfb should be enabled.
-> 
-> Since I still can't get an answer to "what happens when you enable
-> both x11 and directfb as distro features", let me ask a different
-> question:
+On Thu, Dec 8, 2011 at 9:49 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 12/05/2011 02:13 PM, Christopher Larson wrote:
+>>
+>> From: Christopher Larson<chris_larson@mentor.com>
+>>
+>> This is needed by some kernels when CONFIG_KERNEL_LZO=3Dy (specifically,
+>> given
+>> the current defconfig, this affects linux-omap4 2.6 in the meta-ti layer=
+).
+>>
+>> Signed-off-by: Christopher Larson<chris_larson@mentor.com>
+>> ---
+>> =C2=A0meta/recipes-support/lzop/lzop/acinclude.m4 | =C2=A0390
+>> +++++++++++++++++++++++++++
+>> =C2=A0meta/recipes-support/lzop/lzop_1.03.bb =C2=A0 =C2=A0 =C2=A0| =C2=
+=A0 25 ++
+>> =C2=A02 files changed, 415 insertions(+), 0 deletions(-)
+>> =C2=A0create mode 100644 meta/recipes-support/lzop/lzop/acinclude.m4
+>> =C2=A0create mode 100644 meta/recipes-support/lzop/lzop_1.03.bb
+>>
 >
-> Why don't you do it like we did for gtk-directfb in OE-classic? add a
-> cairo-directfb and a gtk-directfb, done.
+> <SNIP>
+>
+>
+>> diff --git a/meta/recipes-support/lzop/lzop_1.03.bb
+>> b/meta/recipes-support/lzop/lzop_1.03.bb
+>> new file mode 100644
+>> index 0000000..d0cb842
+>> --- /dev/null
+>> +++ b/meta/recipes-support/lzop/lzop_1.03.bb
+>> @@ -0,0 +1,25 @@
+>> +SUMMARY =3D "Real-time file compressor"
+>> +DESCRIPTION =3D "lzop is a compression utility which is designed to be =
+a
+>> companion to gzip. \n\
+>> +It is based on the LZO data compression library and its main advantages
+>> over \n\
+>> +gzip are much higher compression and decompression speed at the cost of
+>> some \n\
+>> +compression ratio. The lzop compression utility was designed with the
+>> goals \n\
+>> +of reliability, speed, portability and with reasonable drop-in
+>> compatibility \n\
+>> +to gzip."
+>> +DEPENDS +=3D "lzo"
+>> +PR =3D "r0"
+>> +
+>> +LICENSE =3D "GPLv2+"
+>> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Ddfeaf3dc4beef4f5a7bdbc35b197=
+f39e \
+>> +
+>> =C2=A0file://src/lzop.c;beginline=3D5;endline=3D21;md5=3D6797bd3ed0a1a49=
+327b7ebf9366ebd86"
+>> +
+>> +SRC_URI =3D "http://www.lzop.org/download/${BP}.tar.gz \
+>
+> I think this ------------------------------- ^^
+> should really be ${BPN}-${PV} which make is much easier to do updates wit=
+h
+> by just changing the file name.
 
-This comes down to a policy decision I guess and I'm not sure there is a
-clear cut answer.
-
-The question is whether it makes sense to have directfb and X based gtk
-in the same builds and package feeds or not. I can see that it might be
-desired and that it likely is possible.
-
-My personal take on that is that it depends how ugly the result is and
-what demand there is for it. I do consider having the separate -directfb
-recipes to be ugly and if we only need a cairo variant that might be ok,
-if we need a ton of recipe forks I'd be much less keen. Doing separate
-recipes like that is error prone and often not done well.
-
-So can anyone tell me for sure exactly how many recipes would need
--directfb variants?
-
-Cheers,
-
-Richard
+I think you're confused. BP *is* ${BPN}-${PV}. What exactly is the
+problem with using it?
 
 
+>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://acinclude.m4"
+>> +
+>
+> NO SRC_URI Checksums!
 
-
+Gah, damnit.
+--=20
+Christopher Larson
+clarson at kergoth dot com
+Senior Software Engineer, Mentor Graphics
 
 
