@@ -1,36 +1,32 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RYdk2-0006ur-MA for openembedded-core@lists.openembedded.org;
-	Thu, 08 Dec 2011 14:10:26 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB8D3Z3j028023
+Received: from mail-ww0-f41.google.com ([74.125.82.41])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <s.stirtzel@googlemail.com>) id 1RYe2M-0007AN-Cd
+	for openembedded-core@lists.openembedded.org;
+	Thu, 08 Dec 2011 14:29:22 +0100
+Received: by wgbdt12 with SMTP id dt12so1458272wgb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 8 Dec 2011 13:03:35 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 26934-06 for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Dec 2011 13:03:31 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB8D3RRl028016
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 8 Dec 2011 13:03:29 GMT
-Message-ID: <1323349418.971.15.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Thu, 08 Dec 2011 05:22:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=4ejxB9w4amAbkS/80t8x1rZS1L3mRg26+Wdg+v3T6tY=;
+	b=eF7bMQXUxSlajHR2zHA+dIiba4SdSc7cqR6sTDedDr48IBrNawi1iFjkxbEzXu76I6
+	ctegwHN6Nd2Wt1HwEIaZQxRgi8uO1Z1vcNBGyXvQ8Vw0sGmFm54JDIXmd31+VkR67psU
+	bIL1LwPis5/Luipu7lN80YQZr3HJJVj6k0gf0=
+MIME-Version: 1.0
+Received: by 10.180.81.163 with SMTP id b3mr5393564wiy.20.1323350552349; Thu,
+	08 Dec 2011 05:22:32 -0800 (PST)
+Received: by 10.223.69.133 with HTTP; Thu, 8 Dec 2011 05:22:31 -0800 (PST)
+In-Reply-To: <03a910e12b1619fc40345c2cfa31afb428bd777f.1323327959.git.xiaofeng.yan@windriver.com>
+References: <cover.1323327959.git.xiaofeng.yan@windriver.com>
+	<03a910e12b1619fc40345c2cfa31afb428bd777f.1323327959.git.xiaofeng.yan@windriver.com>
+Date: Thu, 8 Dec 2011 14:22:31 +0100
+Message-ID: <CAGiJk9f3t11NUCXeekteMe_V2O0R36b3pdzhJOGX3Dvq1nm9YA@mail.gmail.com>
+From: Samuel Stirtzel <s.stirtzel@googlemail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 08 Dec 2011 13:03:38 +0000
-In-Reply-To: <20B8F1DB-384B-41D7-B219-EFCF6F70C822@dominion.thruhere.net>
-References: <cover.1323160412.git.Martin.Jansa@gmail.com>
-	<822c669a79e5f30bda467bc3a6f7b3c92377af22.1323160412.git.Martin.Jansa@gmail.com>
-	<1323262134.30601.7.camel@ted>
-	<20B8F1DB-384B-41D7-B219-EFCF6F70C822@dominion.thruhere.net>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH][oe-core 1/3] sysstat: don't run populate-volatile.sh update in do_rootfs or without populate-volatile.sh
+Subject: Re: [PATCH 10/10] core-image-gtk-directfb.bb: add an image for gtk over directfb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,51 +41,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2011 13:10:26 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 08 Dec 2011 13:29:22 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2011-12-07 at 13:50 +0100, Koen Kooi wrote:
-> Op 7 dec. 2011, om 13:48 heeft Richard Purdie het volgende geschreven:
-> 
-> > On Tue, 2011-12-06 at 09:35 +0100, Martin Jansa wrote:
-> >> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> >> ---
-> >> meta/recipes-extended/sysstat/sysstat.inc       |    7 ++++++-
-> >> meta/recipes-extended/sysstat/sysstat_10.0.3.bb |    2 +-
-> >> 2 files changed, 7 insertions(+), 2 deletions(-)
-> >> 
-> >> diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
-> >> index 2936f96..ca40ab5 100644
-> >> --- a/meta/recipes-extended/sysstat/sysstat.inc
-> >> +++ b/meta/recipes-extended/sysstat/sysstat.inc
-> >> @@ -22,7 +22,12 @@ do_install() {
-> >> }
-> >> 
-> >> pkg_postinst_${PN} () {
-> >> -        /etc/init.d/populate-volatile.sh update
-> >> +        if [ -n "$D" ]; then
-> >> +                exit 1
-> >> +        fi
-> >> +        if [ -e /etc/init.d/populate-volatile.sh ]; then
-> >> +                /etc/init.d/populate-volatile.sh update
-> >> +        fi
-> >> }
-> > 
-> > The subject commit message and the code match now, thanks :)
-> > 
-> > My only other question is whether we need to run this at first boot
-> > time? At first boot after rootfs, populate-volatile will run anyway. We
-> > therefore don't need to run the update as a postinst on device as part
-> > of first boot as well as it will always be covered if present.
-> 
-> How does that interact with the volatiles caching logic?
+Hi,
 
-It should be fine as far as I can tell...
+2011/12/8 Xiaofeng Yan <xiaofeng.yan@windriver.com>:
+[snip]
+> +IMAGE_INSTALL +=3D "\
+> + =C2=A0 =C2=A0 =C2=A0 ${POKY_BASE_INSTALL} \
 
-Cheers,
+I'm just curious, is this a legitimate OE-Core variable?
 
-Richard
 
+--=20
+Regards
+Samuel
 
 
