@@ -1,48 +1,51 @@
-Received: from tx2ehsobe002.messaging.microsoft.com ([65.55.88.12]
-	helo=TX2EHSOBE003.bigfish.com)
+Received: from ch1ehsobe004.messaging.microsoft.com ([216.32.181.184]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RYlP1-0008AJ-LF
+	(envelope-from <B29882@freescale.com>) id 1RYlX0-0008KD-3U
 	for openembedded-core@lists.openembedded.org;
-	Thu, 08 Dec 2011 22:21:16 +0100
-Received: from mail16-tx2-R.bigfish.com (10.9.14.241) by
-	TX2EHSOBE003.bigfish.com (10.9.40.23) with Microsoft SMTP Server id
-	14.1.225.23; Thu, 8 Dec 2011 21:14:09 +0000
-Received: from mail16-tx2 (localhost [127.0.0.1])	by mail16-tx2-R.bigfish.com
-	(Postfix) with ESMTP id 3DAF74404F6;
-	Thu,  8 Dec 2011 21:14:22 +0000 (UTC)
-X-SpamScore: -10
-X-BigFish: VS-10(zz9371I1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h61h)
-X-Spam-TCS-SCL: 0:0
+	Thu, 08 Dec 2011 22:29:30 +0100
+Received: from mail217-ch1-R.bigfish.com (10.43.68.247) by
+	CH1EHSOBE012.bigfish.com (10.43.70.62) with Microsoft SMTP Server id
+	14.1.225.23; Thu, 8 Dec 2011 21:07:11 +0000
+Received: from mail217-ch1 (localhost [127.0.0.1])	by
+	mail217-ch1-R.bigfish.com (Postfix) with ESMTP id 0190150010A	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu,  8 Dec 2011 21:07:20 +0000 (UTC)
+X-SpamScore: -13
+X-BigFish: VS-13(zz9371I936eK1432N98dKzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3h)
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
 	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail16-tx2 (localhost.localdomain [127.0.0.1]) by mail16-tx2
-	(MessageSwitch) id 132337886213343_548;
-	Thu,  8 Dec 2011 21:14:22 +0000 (UTC)
-Received: from TX2EHSMHS042.bigfish.com (unknown [10.9.14.235])	by
-	mail16-tx2.bigfish.com (Postfix) with ESMTP id DACDC4C0042;
-	Thu,  8 Dec 2011 21:14:21 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS042.bigfish.com
-	(10.9.99.142) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Thu, 8 Dec 2011 21:14:04 +0000
+X-FB-SS: 13,
+Received: from mail217-ch1 (localhost.localdomain [127.0.0.1]) by mail217-ch1
+	(MessageSwitch) id 1323378439910964_29299;
+	Thu,  8 Dec 2011 21:07:19 +0000 (UTC)
+Received: from CH1EHSMHS015.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.241])	by mail217-ch1.bigfish.com (Postfix) with ESMTP id
+	CD3964A0045	for <openembedded-core@lists.openembedded.org>;
+	Thu,  8 Dec 2011 21:07:19 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS015.bigfish.com
+	(10.43.70.15) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Thu, 8 Dec 2011 21:07:08 +0000
 Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.83]) by
-	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
-	14.01.0339.002; Thu, 8 Dec 2011 15:14:18 -0600
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.01.0339.002; Thu, 8 Dec 2011 15:07:21 -0600
 From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: "ulf@emagii.com" <ulf@emagii.com>, Patches and discussions about the
-	oe-core layer <openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] bitbake core-image-sato fails:
-Thread-Index: AQHMte5Y5dRBJsGR2UGv4LCctNZe3g==
-Date: Thu, 8 Dec 2011 21:14:17 +0000
-Message-ID: <CAEsOVNfs+HayYVZ3Mm=k=ubnmUBeO88OKj1fKzZE0R5+Uw=6tQ@mail.gmail.com>
-References: <4EDF9468.309@emagii.com>
-In-Reply-To: <4EDF9468.309@emagii.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] Coordinating inter-layer dependencies
+Thread-Index: AQHMte1fupm4FwcSGUOFKunAq7T74Q==
+Date: Thu, 8 Dec 2011 21:07:20 +0000
+Message-ID: <CAEsOVNfcoryUNUgE43YmoT9T+_NG4BMP4owXZP=HmzJ0n+Q=gw@mail.gmail.com>
+References: <95547EE2-9E3E-4FB6-AA2A-A9653029F971@dominion.thruhere.net>
+	<1323303457.971.5.camel@ted>
+In-Reply-To: <1323303457.971.5.camel@ted>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [99.47.177.27]
 MIME-Version: 1.0
 X-OriginatorOrg: freescale.com
-Subject: Re: bitbake core-image-sato fails:
+Subject: Re: Coordinating inter-layer dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -58,32 +61,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2011 21:21:16 -0000
+X-List-Received-Date: Thu, 08 Dec 2011 21:29:30 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <62998D7283EA664683A258D3B9446905@freescale.net>
+Content-ID: <25BCA4F100DA6D4ABD8074BA401FB696@freescale.net>
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 7, 2011 at 10:29 AM, Ulf Samuelsson
-<openembedded-core@emagii.com> wrote:
-> Got the following error message when building core-image-sato:
+On Wed, Dec 7, 2011 at 6:17 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Thu, 2011-12-01 at 12:23 +0100, Koen Kooi wrote:
+>> During the past month there have been a number of updates to OE-core
+>> recipes that triggered parsing errors due to bbappend in other layers.
+>> A small seleciton:
+>>
+>> * netbase
+>> * libdrm
+>> * xserver-xorg
+>> * clutter
+>>
+>> My view is that layer maintainers need to keep an eye on potential
+>> breakage and have updates ready when patches land into OE-core.
+>> Looking back I can see that while the situation is improving a bit,
+>> it's still not working. The problem with slow updates to layers is
+>> that (with my angstrom hat on) users (and with my TI hat on) customers
+>> and coworkers can't do builds without rm'ing the bbappends or
+>> disabling the layer.
 >
-> | Collected errors:
-> | =A0* satisfy_dependencies_for: Cannot satisfy the following dependencie=
-s for
-> task-core-x11-sato:
-> | =A0* =A0 =A0 ofono *
-> | =A0* opkg_install_cmd: Cannot install package task-core-x11-sato.
-> NOTE: package core-image-sato-1.0-r0: task do_rootfs: Failed
-> ERROR: Task 8
-> (/home/ulf/projects/OE_atmel/sources/openembedded-core/meta/recipes-sato/=
-images/core-image-sato.bb,
-> do_rootfs) failed with exit code '1'
+>
+> I've been thinking about this. I wondered if the notion of wildcards
+> for .bbappend might help, e.g. a file called:
+>
+> netbase_%.bbappend
+>
+> would match all versions of the netbase recipe.
+>
+> The % is consistent with PREFERRED_VERSION, I'm a little reluctant to
+> use * since its a shell quoting mess.
+>
+> It wouldn't be hard to allow bitbake to support this and would solve
+> some of the issues we've been having...
 
-The rpm for ofono was not generated, and something in
-task-core-x11-sato depends on it. So rpm goes and tries to resolve its
-dependency (which adds other packages) and it can't find one for
-ofono. Some recipe in this task needs a DEPENDS +=3D "ofono"
+For what it's worth, I like the wild card idea.
 
 -M=
 
