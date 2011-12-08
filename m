@@ -1,38 +1,38 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ningx.ma@intel.com>) id 1RYSCR-0007QZ-AR
+	(envelope-from <ningx.ma@intel.com>) id 1RYSWz-00081g-3b
 	for openembedded-core@lists.openembedded.org;
-	Thu, 08 Dec 2011 01:51:01 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 07 Dec 2011 16:43:04 -0800
+	Thu, 08 Dec 2011 02:12:14 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 07 Dec 2011 17:04:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="99872602"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="84112829"
 Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by fmsmga002.fm.intel.com with ESMTP; 07 Dec 2011 16:43:03 -0800
-Received: from pgsmsx101.gar.corp.intel.com (10.221.44.78) by
+	by orsmga001.jf.intel.com with ESMTP; 07 Dec 2011 17:04:17 -0800
+Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
 	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 8 Dec 2011 08:42:21 +0800
-Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
-	PGSMSX101.gar.corp.intel.com (10.221.44.78) with Microsoft SMTP Server
-	(TLS) id 14.1.355.2; Thu, 8 Dec 2011 08:42:20 +0800
+	(TLS) id 8.2.255.0; Thu, 8 Dec 2011 09:04:05 +0800
+Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
+	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Thu, 8 Dec 2011 09:04:04 +0800
 Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
-	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi; Thu, 8 Dec 2011
-	08:42:19 +0800
+	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi; Thu, 8 Dec 2011
+	09:04:03 +0800
 From: "Ma, NingX" <ningx.ma@intel.com>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 8 Dec 2011 08:42:18 +0800
-Thread-Topic: Openembedded-core Digest, Vol 11, Issue 64
-Thread-Index: Acy1JnqMGbL3UgPuQH2CzZ8kNOP4kAAG7+9Q
-Message-ID: <789F9655DD1B8F43B48D77C5D306597312D5997F11@shsmsx501.ccr.corp.intel.com>
-References: <mailman.813.1323293404.26642.openembedded-core@lists.openembedded.org>
-In-Reply-To: <mailman.813.1323293404.26642.openembedded-core@lists.openembedded.org>
+Date: Thu, 8 Dec 2011 09:03:25 +0800
+Thread-Topic: Openembedded-core Digest, Vol 11, Issue 66
+Thread-Index: Acy1QryiLBzn5iirT66rCNc26m6CRwAAm/kw
+Message-ID: <789F9655DD1B8F43B48D77C5D306597312D5997F48@shsmsx501.ccr.corp.intel.com>
+References: <mailman.823.1323305461.26642.openembedded-core@lists.openembedded.org>
+In-Reply-To: <mailman.823.1323305461.26642.openembedded-core@lists.openembedded.org>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 acceptlanguage: en-US
 MIME-Version: 1.0
-Subject: Re: Openembedded-core Digest, Vol 11, Issue 64
+Subject: Re: Openembedded-core Digest, Vol 11, Issue 66
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,10 +47,410 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2011 00:51:01 -0000
+X-List-Received-Date: Thu, 08 Dec 2011 01:12:14 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+
+
+
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of openembedded-core-reques=
+t@lists.openembedded.org
+Sent: Thursday, December 08, 2011 8:51 AM
+To: openembedded-core@lists.openembedded.org
+Subject: Openembedded-core Digest, Vol 11, Issue 66
+
+Send Openembedded-core mailing list submissions to
+        openembedded-core@lists.openembedded.org
+
+To subscribe or unsubscribe via the World Wide Web, visit
+        http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-co=
+re
+or, via email, send a message with subject or body 'help' to
+        openembedded-core-request@lists.openembedded.org
+
+You can reach the person managing the list at
+        openembedded-core-owner@lists.openembedded.org
+
+When replying, please edit your Subject line so it is more specific
+than "Re: Contents of Openembedded-core digest..."
+
+
+Today's Topics:
+
+   1. Re: connman-gnome_0.5.bb fails: connman-gnome.git is empty
+      (Ulf Samuelsson)
+   2. Re: [PATCH] bitbake.conf/image.bbclass: Ensure images use the
+      correct passwd/group files (Andreas M?ller)
+   3. Re: [PATCH] bitbake.conf/image.bbclass: Ensure images use the
+      correct passwd/group files (Richard Purdie)
+   4. Re: [PATCH] ppl: fix libgmp paths (Richard Purdie)
+   5. Re: Coordinating inter-layer dependencies (Richard Purdie)
+   6. Re: Openembedded-core Digest, Vol 11, Issue 64 (Ma, NingX)
+
+
+----------------------------------------------------------------------
+
+Message: 1
+Date: Thu, 08 Dec 2011 00:48:23 +0100
+From: Ulf Samuelsson <openembedded-core@emagii.com>
+Subject: Re: [OE-core] connman-gnome_0.5.bb fails: connman-gnome.git
+        is empty
+To: openembedded-core@lists.openembedded.org
+Message-ID: <4EDFFB47.9080605@emagii.com>
+Content-Type: text/plain; charset=3DISO-8859-1; format=3Dflowed
+
+On 2011-12-07 17:43, Richard Purdie wrote:
+> On Wed, 2011-12-07 at 16:36 +0100, Ulf Samuelsson wrote:
+>> On 2011-12-07 15:36, Ulf Samuelsson wrote:
+>>> git://git.kernel.org/pub/scm/network/connman/connman-gnome.git;protocol=
+=3Dgit
+>>>
+>>>      is empty.    The repo exists, but no content.
+>>>
+>>> Building "connman-gnome_0.5.bb" thus fails.
+>>> Needed by "core-image-sato"
+>>>
+>>> There is a "connman-gnome-m" project on gitorious.
+>>> This seems to be based on the above source package.
+>>>
+>>> Will try it out, but if anyone already tried this?
+>>>
+>>> Any other recommended sources for connman-gnome?
+>>>
+>> Found:
+>> http://autobuilder.yoctoproject.org/pub/sources/git2_git.kernel.org.pub.=
+scm.network.connman.connman-gnome.git.tar.gz
+>>
+>> in an old email to the list from Richard Purdie (before I started
+>> subscribing).
+>>
+>> so I think I am going to download this and set up a git on github so the
+>> build does
+>> not require a manual download.
+> This is a real source of frustration to me. The TSC voted against having
+> any mirror sources in its out the box configuration for OE-Core itself.
+> If you use angstrom or Poky you wouldn't see this since they configure
+> source mirrors out the box.
+>
+> I stated at the time I thought this was crazy and making life
+> unnecessarily hard for users. I was outvoted. I still think having more
+> default mirrors in OE-Core might be a good idea but its going to take
+> representation to the TSC to change that.
+
+BTW: Mirrors of the empty git repo at kernel.org won't help of course.
+
+
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
+--
+Best Regards
+Ulf Samuelsson
+eMagii
+
+
+
+
+------------------------------
+
+Message: 2
+Date: Thu, 8 Dec 2011 00:53:11 +0100
+From: Andreas M?ller <schnitzeltony@gmx.de>
+Subject: Re: [OE-core] [PATCH] bitbake.conf/image.bbclass: Ensure
+        images use      the correct passwd/group files
+To: "Patches and discussions about the oe-core layer"
+        <openembedded-core@lists.openembedded.org>
+Message-ID: <201112080053.11966.schnitzeltony@gmx.de>
+Content-Type: Text/Plain;  charset=3D"iso-8859-1"
+
+On Wednesday, December 07, 2011 06:34:07 PM Richard Purdie wrote:
+> We need pseudo to use the rootfs passwd/group files belonging to the
+> rootfs when building images. This patch ensures that we use the rootfs
+> files instead of those in the sysroot which can lead to incorrect file
+> ownership issues.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index 4642fa6..865d430 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -121,6 +121,8 @@ IMAGE_LINGUAS ?=3D "de-de fr-fr en-gb"
+>
+>  LINGUAS_INSTALL =3D "${@" ".join(map(lambda s: "locale-base-%s" % s,
+> d.getVar('IMAGE_LINGUAS', 1).split()))}"
+>
+> +PSEUDO_PASSWD =3D "${IMAGE_ROOTFS}"
+> +
+>  do_rootfs[nostamp] =3D "1"
+>  do_rootfs[dirs] =3D "${TOPDIR}"
+>  do_rootfs[lockfiles] +=3D "${IMAGE_ROOTFS}.lock"
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index e80cc32..eeb1fc4 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -580,11 +580,12 @@ SRC_URI =3D "file://${FILE}"
+>
+>  # Use pseudo as the fakeroot implementation
+>  PSEUDO_LOCALSTATEDIR ?=3D "${WORKDIR}/pseudo/"
+> +PSEUDO_PASSWD ?=3D "${STAGING_DIR_TARGET}"
+>  export PSEUDO_DISABLED =3D "1"
+>  #export PSEUDO_PREFIX =3D "${STAGING_DIR_NATIVE}${prefix_native}"
+>  #export PSEUDO_BINDIR =3D "${STAGING_DIR_NATIVE}${bindir_native}"
+>  #export PSEUDO_LIBDIR =3D
+> "${STAGING_DIR_NATIVE}$PSEUDOBINDIR/../lib/pseudo/lib -FAKEROOTENV =3D
+> "PSEUDO_PREFIX=3D${STAGING_DIR_NATIVE}${prefix_native}
+> PSEUDO_LOCALSTATEDIR=3D${PSEUDO_LOCALSTATEDIR}
+> PSEUDO_PASSWD=3D${STAGING_DIR_TARGET} PSEUDO_NOSYMLINKEXP=3D1
+> PSEUDO_DISABLED=3D0" +FAKEROOTENV =3D
+> "PSEUDO_PREFIX=3D${STAGING_DIR_NATIVE}${prefix_native}
+> PSEUDO_LOCALSTATEDIR=3D${PSEUDO_LOCALSTATEDIR}
+> PSEUDO_PASSWD=3D${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=3D1 PSEUDO_DISABLED=
+=3D0"
+> FAKEROOTNOENV =3D "PSEUDO_UNLOAD=3D1"
+>  FAKEROOTDIRS =3D "${PSEUDO_LOCALSTATEDIR}"
+>  PREFERRED_PROVIDER_virtual/fakeroot-native ?=3D "pseudo-native"
+dbus still needs manual call of
+
+        chown messagebus:messagebus /var/run/dbus /var/lib/dbus
+
+( it is root:root on my image) and
+
+        chown root:messagebus /usr/libexec/dbus-daemon-launch-helper
+
+( it is avahi:netdev on my image )
+
+Does this one fix it?
+To test: Is it enough to rebuild dbus?
+
+Andreas
+
+
+
+------------------------------
+
+Message: 3
+Date: Thu, 08 Dec 2011 00:01:48 +0000
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] bitbake.conf/image.bbclass: Ensure
+        images use the correct passwd/group files
+To: Patches and discussions about the oe-core layer
+        <openembedded-core@lists.openembedded.org>
+Message-ID: <1323302508.971.0.camel@ted>
+Content-Type: text/plain; charset=3D"UTF-8"
+
+On Thu, 2011-12-08 at 00:53 +0100, Andreas M?ller wrote:
+> On Wednesday, December 07, 2011 06:34:07 PM Richard Purdie wrote:
+> > We need pseudo to use the rootfs passwd/group files belonging to the
+> > rootfs when building images. This patch ensures that we use the rootfs
+> > files instead of those in the sysroot which can lead to incorrect file
+> > ownership issues.
+> >
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> >
+> > diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> > index 4642fa6..865d430 100644
+> > --- a/meta/classes/image.bbclass
+> > +++ b/meta/classes/image.bbclass
+> > @@ -121,6 +121,8 @@ IMAGE_LINGUAS ?=3D "de-de fr-fr en-gb"
+> >
+> >  LINGUAS_INSTALL =3D "${@" ".join(map(lambda s: "locale-base-%s" % s,
+> > d.getVar('IMAGE_LINGUAS', 1).split()))}"
+> >
+> > +PSEUDO_PASSWD =3D "${IMAGE_ROOTFS}"
+> > +
+> >  do_rootfs[nostamp] =3D "1"
+> >  do_rootfs[dirs] =3D "${TOPDIR}"
+> >  do_rootfs[lockfiles] +=3D "${IMAGE_ROOTFS}.lock"
+> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> > index e80cc32..eeb1fc4 100644
+> > --- a/meta/conf/bitbake.conf
+> > +++ b/meta/conf/bitbake.conf
+> > @@ -580,11 +580,12 @@ SRC_URI =3D "file://${FILE}"
+> >
+> >  # Use pseudo as the fakeroot implementation
+> >  PSEUDO_LOCALSTATEDIR ?=3D "${WORKDIR}/pseudo/"
+> > +PSEUDO_PASSWD ?=3D "${STAGING_DIR_TARGET}"
+> >  export PSEUDO_DISABLED =3D "1"
+> >  #export PSEUDO_PREFIX =3D "${STAGING_DIR_NATIVE}${prefix_native}"
+> >  #export PSEUDO_BINDIR =3D "${STAGING_DIR_NATIVE}${bindir_native}"
+> >  #export PSEUDO_LIBDIR =3D
+> > "${STAGING_DIR_NATIVE}$PSEUDOBINDIR/../lib/pseudo/lib -FAKEROOTENV =3D
+> > "PSEUDO_PREFIX=3D${STAGING_DIR_NATIVE}${prefix_native}
+> > PSEUDO_LOCALSTATEDIR=3D${PSEUDO_LOCALSTATEDIR}
+> > PSEUDO_PASSWD=3D${STAGING_DIR_TARGET} PSEUDO_NOSYMLINKEXP=3D1
+> > PSEUDO_DISABLED=3D0" +FAKEROOTENV =3D
+> > "PSEUDO_PREFIX=3D${STAGING_DIR_NATIVE}${prefix_native}
+> > PSEUDO_LOCALSTATEDIR=3D${PSEUDO_LOCALSTATEDIR}
+> > PSEUDO_PASSWD=3D${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=3D1 PSEUDO_DISABLE=
+D=3D0"
+> > FAKEROOTNOENV =3D "PSEUDO_UNLOAD=3D1"
+> >  FAKEROOTDIRS =3D "${PSEUDO_LOCALSTATEDIR}"
+> >  PREFERRED_PROVIDER_virtual/fakeroot-native ?=3D "pseudo-native"
+> dbus still needs manual call of
+>
+>       chown messagebus:messagebus /var/run/dbus /var/lib/dbus
+>
+> ( it is root:root on my image) and
+>
+>       chown root:messagebus /usr/libexec/dbus-daemon-launch-helper
+>
+> ( it is avahi:netdev on my image )
+>
+> Does this one fix it?
+> To test: Is it enough to rebuild dbus?
+
+It could well do. You just need to apply the patch and rebuild the
+image.
+
+Cheers,
+
+Richard
+
+
+
+
+------------------------------
+
+Message: 4
+Date: Thu, 08 Dec 2011 00:12:04 +0000
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] ppl: fix libgmp paths
+To: Patches and discussions about the oe-core layer
+        <openembedded-core@lists.openembedded.org>
+Message-ID: <1323303124.971.2.camel@ted>
+Content-Type: text/plain; charset=3D"UTF-8"
+
+On Wed, 2011-12-07 at 13:19 -0800, Khem Raj wrote:
+> On (06/12/11 13:27), Martin Jansa wrote:
+> > configure:10654: checking how to link with libgmpxx
+> > configure:11127: result: /OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/=
+usr/lib/libgmpxx.so /OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/l=
+ibgmp.so -Wl,-rpath -Wl,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/l=
+ib -Wl,-rpath -Wl,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib
+> >
+> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > ---
+> >  meta/recipes-support/ppl/ppl_0.11.2.bb |    6 +++++-
+> >  1 files changed, 5 insertions(+), 1 deletions(-)
+> >
+> > diff --git a/meta/recipes-support/ppl/ppl_0.11.2.bb b/meta/recipes-supp=
+ort/ppl/ppl_0.11.2.bb
+> > index 7536364..b31fc4d 100644
+> > --- a/meta/recipes-support/ppl/ppl_0.11.2.bb
+> > +++ b/meta/recipes-support/ppl/ppl_0.11.2.bb
+> > @@ -11,6 +11,10 @@ SRC_URI[sha256sum] =3D "e3fbd1c19ef44c6f020951807cdb=
+6fc6a8153cd3a5c53b0ab9cf4c4f6e
+> >  S =3D "${WORKDIR}/ppl-${PV}"
+> >  BBCLASSEXTEND =3D "native nativesdk"
+> >
+> > -EXTRA_OECONF =3D "--enable-watchdog --disable-debugging --disable-asse=
+rtions --disable-ppl_lcdd --disable-ppl_lpsol --disable-ppl_pips --enable-i=
+nterfaces=3D'c cxx'"
+> > +# do we have something shorter then this? or can native.bbclass overwr=
+ite STAGING_DIR_HOST like nativesdk does?
+> > +GMP_PREFIX =3D "${STAGING_DIR_HOST}"
+> > +GMP_PREFIX_virtclass-native =3D "${STAGING_DIR_NATIVE}"
+> > +
+>
+> I think we should override STAGING_DIR_HOST in native class as well.
+> Since we do install native packages into local sysroot before populating
+> the global native sysroot. The comment in class code seems that since
+> we installed the native packages in position it was needed to be unset
+> that may not be the case now.
+>
+> RP thoughts ?
+
+native.bbclass already sets STAGING_DIR_HOST correctly to be empty. It
+looks wrong but its correct when you think about it since the installed
+binaries are at their final location where we intent to execute them (in
+${prefix}).
+
+Cheers,
+
+Richard
+
+
+
+
+
+
+------------------------------
+
+Message: 5
+Date: Thu, 08 Dec 2011 00:17:37 +0000
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: Re: [OE-core] Coordinating inter-layer dependencies
+To: Patches and discussions about the oe-core layer
+        <openembedded-core@lists.openembedded.org>
+Message-ID: <1323303457.971.5.camel@ted>
+Content-Type: text/plain; charset=3D"UTF-8"
+
+On Thu, 2011-12-01 at 12:23 +0100, Koen Kooi wrote:
+> During the past month there have been a number of updates to OE-core
+> recipes that triggered parsing errors due to bbappend in other layers.
+> A small seleciton:
+>
+> * netbase
+> * libdrm
+> * xserver-xorg
+> * clutter
+>
+> My view is that layer maintainers need to keep an eye on potential
+> breakage and have updates ready when patches land into OE-core.
+> Looking back I can see that while the situation is improving a bit,
+> it's still not working. The problem with slow updates to layers is
+> that (with my angstrom hat on) users (and with my TI hat on) customers
+> and coworkers can't do builds without rm'ing the bbappends or
+> disabling the layer.
+
+
+I've been thinking about this. I wondered if the notion of wildcards
+for .bbappend might help, e.g. a file called:
+
+netbase_%.bbappend
+
+would match all versions of the netbase recipe.
+
+The % is consistent with PREFERRED_VERSION, I'm a little reluctant to
+use * since its a shell quoting mess.
+
+It wouldn't be hard to allow bitbake to support this and would solve
+some of the issues we've been having...
+
+Cheers,
+
+Richard
+
+
+
+
+
+
+------------------------------
+
+Message: 6
+Date: Thu, 8 Dec 2011 08:42:18 +0800
+From: "Ma, NingX" <ningx.ma@intel.com>
+Subject: Re: [OE-core] Openembedded-core Digest, Vol 11, Issue 64
+To: "openembedded-core@lists.openembedded.org"
+        <openembedded-core@lists.openembedded.org>
+Message-ID:
+        <789F9655DD1B8F43B48D77C5D306597312D5997F11@shsmsx501.ccr.corp.inte=
+l.com>
+
+Content-Type: text/plain; charset=3D"us-ascii"
 
 
 
@@ -1031,6 +1431,19 @@ http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 End of Openembedded-core Digest, Vol 11, Issue 64
+*************************************************
+
+
+
+------------------------------
+
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
+End of Openembedded-core Digest, Vol 11, Issue 66
 *************************************************
 
 
