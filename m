@@ -1,37 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RYm6U-0000vZ-MG for openembedded-core@lists.openembedded.org;
-	Thu, 08 Dec 2011 23:06:10 +0100
+	id 1RYmGG-00019w-8D for openembedded-core@lists.openembedded.org;
+	Thu, 08 Dec 2011 23:16:16 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB8LxLvT006623
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB8M9R9N007123
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 8 Dec 2011 21:59:21 GMT
+	Thu, 8 Dec 2011 22:09:27 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 02430-05 for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Dec 2011 21:59:16 +0000 (GMT)
+	id 02430-06 for <openembedded-core@lists.openembedded.org>;
+	Thu,  8 Dec 2011 22:09:23 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB8LxDDx006613
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB8M9Iwg007111
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 8 Dec 2011 21:59:14 GMT
-Message-ID: <1323381564.5309.65.camel@ted>
+	Thu, 8 Dec 2011 22:09:18 GMT
+Message-ID: <1323382168.5309.71.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 08 Dec 2011 21:59:24 +0000
-In-Reply-To: <1323364334.26081.383.camel@phil-desktop>
-References: <cover.1323327959.git.xiaofeng.yan@windriver.com>
-	<7ceb01f6db6edfad6c78c5a7ebc685c23bb11358.1323327959.git.xiaofeng.yan@windriver.com>
-	<67C6F211-C6C2-4655-889A-A254F4E0D7D9@dominion.thruhere.net>
-	<1323363345.5309.42.camel@ted>
-	<1323364334.26081.383.camel@phil-desktop>
+Date: Thu, 08 Dec 2011 22:09:28 +0000
+In-Reply-To: <ce8ae4f8f6647b3b81e1346d43f0f785a9098425.1323358819.git.otavio@ossystems.com.br>
+References: <cover.1323358819.git.otavio@ossystems.com.br>
+	<ce8ae4f8f6647b3b81e1346d43f0f785a9098425.1323358819.git.otavio@ossystems.com.br>
 X-Mailer: Evolution 3.2.1- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 04/10] gtk.inc: add feature based on directfb
+Subject: Re: [PATCH 1/3] cross.bbclass: add virtclass handler
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,54 +43,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2011 22:06:10 -0000
+X-List-Received-Date: Thu, 08 Dec 2011 22:16:16 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-12-08 at 17:12 +0000, Phil Blundell wrote:
-> On Thu, 2011-12-08 at 16:55 +0000, Richard Purdie wrote:
-> > The question is whether it makes sense to have directfb and X based gtk
-> > in the same builds and package feeds or not. I can see that it might be
-> > desired and that it likely is possible.
+On Thu, 2011-12-08 at 15:40 +0000, Otavio Salvador wrote:
+> Allow use of BBCLASSEXTEND with 'cross' and use of virtclass-cross in
+> recipes.
 > 
-> This is true, though there's nothing to stop a distro that particularly
-> wants this from inventing their own stub recipes which just set
-> PACKAGECONFIG appropriately and then require the generic version.  So
-> it's really just a question of what we want to be the default in
-> oe-core.
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+>  meta/classes/cross.bbclass |   50 ++++++++++++++++++++++++++++++++++++++++++++
+>  1 files changed, 50 insertions(+), 0 deletions(-)
 > 
-> Also note that, although you can parallel install multiple versions of
-> the gtk+ runtime on the target system, if you want the build system to
-> be deterministic then (in the absence of per-recipe sysroot
-> construction) you need some way to decide which one gets to provide the
-> gtk+-2.0.pc that other recipes will build against.  (The different
-> targets have different library sonames so you can't just swap them out
-> at run time: a given binary will remain coupled to the particular Gtk
-> variant that it was compiled against.)  And if the two variants could
-> conceivably be different versions of GTK then you also need a way to
-> deconflict ${includedir}/gtk-2.0.  
-> 
-> So it isn't quite as simple as just having the two recipes, there is a
-> bit of extra policy involved as well.  And of course there would be all
-> the normal overhead in terms of parse time, memory footprint and
-> maintenance burden associated with having more recipes.  
+> diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
+> index 5681ab9..a3b8e10 100644
+> --- a/meta/classes/cross.bbclass
+> +++ b/meta/classes/cross.bbclass
+> @@ -55,6 +55,56 @@ libexecdir = "${exec_prefix}/libexec/${CROSS_TARGET_SYS_DIR}"
+>  
+>  do_populate_sysroot[sstate-inputdirs] = "${SYSROOT_DESTDIR}/${STAGING_DIR_NATIVE}"
+>  
+> +python cross_virtclass_handler () {
+> +    if not isinstance(e, bb.event.RecipePreFinalise):
+> +        return
+> +
+> +    classextend = e.data.getVar('BBCLASSEXTEND', True) or ""
+> +    if "cross" not in classextend:
+> +        return
+> +
+> +    pn = e.data.getVar("PN", True)
+> +    if not pn.endswith("-cross"):
+> +        return
+> +
+> +    def map_dependencies(varname, d, suffix = ""):
+> +        if suffix:
+> +            varname = varname + "_" + suffix
+> +        deps = d.getVar(varname, True)
+> +        if not deps:
+> +            return
+> +        deps = bb.utils.explode_deps(deps)
+> +        newdeps = []
+> +        for dep in deps:
+> +            if dep.endswith("-cross"):
+> +                newdeps.append(dep.replace("-cross", "-cross"))
 
-This is the key detail I was missing. I thought they just might have
-been a drop in replacement.
+I know you did a copy, search, replace and paste from native.bbclass but
+you could at least sanity check the result :)
 
-That isn't the case so this makes the choice easier, I think separate
-recipes don't make sense based on this.
+> +            elif not dep.endswith("-cross"):
+> +                newdeps.append(dep + "-cross")
+> +            else:
+> +                newdeps.append(dep)
+> +        bb.data.setVar(varname, " ".join(newdeps), d)
 
-> So, in light of all the above plus the fact that everything is different
-> with Gtk+3 anyway, my preference for supporting directfb on gtk+2 in
-> oe-core would be to use PACKAGECONFIG and not have separate recipe
-> files.
+The logic here is just totally wrong. You can't ever hit the else case
+and the paths you do hit are nonsensical.
 
-Agreed, given the above.
+> +
+> +    map_dependencies("DEPENDS", e.data)
+> +    for pkg in (e.data.getVar("PACKAGES", True).split() + [""]):
+> +        map_dependencies("RDEPENDS", e.data, pkg)
+> +        map_dependencies("RRECOMMENDS", e.data, pkg)
+> +        map_dependencies("RSUGGESTS", e.data, pkg)
+> +        map_dependencies("RPROVIDES", e.data, pkg)
+> +        map_dependencies("RREPLACES", e.data, pkg)
+> +
+> +    provides = e.data.getVar("PROVIDES", True)
+> +    for prov in provides.split():
+> +        if prov.find(pn) != -1:
+> +            continue
+> +        if not prov.endswith("-cross"):
+> +            provides = provides.replace(prov, prov + "-cross")
+> +    e.data.setVar("PROVIDES", provides)
+
+My suggestion is that you should just remove the DEPENDS and PROVIDES
+mapping code above and do it manually using the virtclass-cross override
+in the recipe. The above code can't have been doing much that is
+sensible anyway.
 
 Cheers,
 
 Richard
+
+> +    bb.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + ":virtclass-cross", e.data)
+> +}
+> +
+> +addhandler cross_virtclass_handler
+> +
+>  do_install () {
+>  	oe_runmake 'DESTDIR=${D}' install
+>  }
+
 
 
 
