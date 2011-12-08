@@ -1,27 +1,40 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1RYanZ-0002DX-Vr
+	(envelope-from <lei.mei@intel.com>) id 1RYaxT-0002SG-C9
 	for openembedded-core@lists.openembedded.org;
-	Thu, 08 Dec 2011 11:01:53 +0100
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RYah0-00019g-CA
-	for openembedded-core@lists.openembedded.org;
-	Thu, 08 Dec 2011 10:55:06 +0100
-From: Phil Blundell <philb@gnu.org>
+	Thu, 08 Dec 2011 11:12:07 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 08 Dec 2011 02:05:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="93883753"
+Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
+	by fmsmga001.fm.intel.com with ESMTP; 08 Dec 2011 02:05:16 -0800
+Received: from pgsmsx101.gar.corp.intel.com (10.221.44.78) by
+	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Thu, 8 Dec 2011 18:05:15 +0800
+Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
+	PGSMSX101.gar.corp.intel.com (10.221.44.78) with Microsoft SMTP Server
+	(TLS) id 14.1.355.2; Thu, 8 Dec 2011 18:05:15 +0800
+Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
+	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi; Thu, 8 Dec 2011
+	18:05:14 +0800
+From: "Mei, Lei" <lei.mei@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 08 Dec 2011 09:55:05 +0000
-In-Reply-To: <4EE06925.3050205@windriver.com>
-References: <cover.1323246565.git.xiaofeng.yan@windriver.com>
-	<697ca68b7e47d0392273fa5a07df0e4396e709bf.1323246565.git.xiaofeng.yan@windriver.com>
-	<1323253643.26081.311.camel@phil-desktop>
-	<4EE06925.3050205@windriver.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1323338106.26081.332.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: [PATCH 07/10] pango: add directfb DISTRO_FEATURE
+Date: Thu, 8 Dec 2011 18:05:13 +0800
+Thread-Topic: [OE-core] [PATCH 0/1]Fix inappropriate default protocal in
+	distrodata.bbclass
+Thread-Index: Acy0IyopkZqCuO+wRke232MykBhTygBbVvtw
+Message-ID: <749B9D3DBF0F054390025D9EAFF47F2212D60348EE@shsmsx501.ccr.corp.intel.com>
+References: <cover.1323162150.git.lei.mei@intel.com>
+	<1323181630.19363.3.camel@ted>
+In-Reply-To: <1323181630.19363.3.camel@ted>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: zh-CN, en-US
+MIME-Version: 1.0
+Subject: Re: [PATCH 0/1]Fix inappropriate default protocal in distrodata.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,35 +49,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2011 10:01:54 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 08 Dec 2011 10:12:07 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2011-12-08 at 15:37 +0800, Xiaofeng Yan wrote:
-> On 2011=E5=B9=B412=E6=9C=8807=E6=97=A5 18:27, Phil Blundell wrote:
-> > On Wed, 2011-12-07 at 16:58 +0800, Xiaofeng Yan wrote:
-> >> +PACKAGECONFIG ??=3D "${@base_contains('DISTRO_FEATURES', 'x11', 'x11'=
-, '', d)} \
-> >> +           ${@base_contains('DISTRO_FEATURES', 'directfb', 'directfb'=
-, '', d)}"
-> >> +PACKAGECONFIG[x11] =3D "--with-x,--without-x,${X11DEPENDS}"
-> >> +PACKAGECONFIG[directfb] =3D ",,directfb"
-> > Hm, really?  I didn't think pango had any inbuilt support for DirectFB.
-> > Does this really accomplish anything?
-> >
-> pango hadn't any inbuilt support for DirectFB.
-> PACKAGECONFIG[directfb] =3D ",,directfb" just express that directfb is=
-=20
-> built by dependence relationship when building an image based on directfb=
-.
-
-Well, right, but if pango isn't using directfb itself then it doesn't
-need directfb in its DEPENDS any more than, say, busybox does.  DirectFB
-will be brought in by the dependency chains for gtk, cairo or whatever
-other recipes are actually using it.
-
-p.
 
 
+>-----Original Message-----
+>From: openembedded-core-bounces@lists.openembedded.org
+>[mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+>Richard Purdie
+>Sent: Tuesday, December 06, 2011 10:27 PM
+>To: Patches and discussions about the oe-core layer
+>Subject: Re: [OE-core] [PATCH 0/1]Fix inappropriate default protocal in
+>distrodata.bbclass
+>
+>On Tue, 2011-12-06 at 17:09 +0800, Mei Lei wrote:
+>> Hi all,
+>> 	Some git repo recipes use rsync protocal as their default protocal, thi=
+s will
+>lead errors when checking upstreawm version.
+>> 	Change default protocal from rsync to git for those git recipes.
+>>
+>> Thanks,
+>> Lei
+>>
+>> The following changes since commit
+>0a7a8597be05c8def8af58eecab49d963dc9d757:
+>>   Richard Purdie (1):
+>>         libsdl: Disable pulseaudio explicitly
+>>
+>> are available in the git repository at:
+>>
+>>   git://git.pokylinux.org/poky-contrib lmei3/fix-protocal
+>>
+>> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dlmei3/fix-protoc
+>> al
+>>
+>> Mei Lei (1):
+>>   distrodata.bbclass:Fix some recipes upstream version check issue.
+>
+>Merged to master, thanks.
+>
+>I believe I have previously asked we look at getting fetcher like function=
+ality
+>merged into the fetchers and I'd like to mention this again and ensure its=
+ not
+>forgotten. Perhaps we need to file an enhancement bug in the bugzilla for =
+this?
+
+Yes, I also think so, I filed a new bug for this enhancement:
+http://bugzilla.pokylinux.org/show_bug.cgi?id=3D1813
+
+
+Thanks,
+Lei
+
+>
+>Cheers,
+>
+>Richard
+>
+>
+>_______________________________________________
+>Openembedded-core mailing list
+>Openembedded-core@lists.openembedded.org
+>http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
