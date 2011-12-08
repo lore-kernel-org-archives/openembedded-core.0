@@ -1,25 +1,26 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RYib7-0003kL-Qj
-	for openembedded-core@openembedded.org; Thu, 08 Dec 2011 19:21:34 +0100
+	(envelope-from <sgw@linux.intel.com>) id 1RYibr-0003ot-7H
+	for openembedded-core@lists.openembedded.org;
+	Thu, 08 Dec 2011 19:22:20 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 08 Dec 2011 10:14:43 -0800
+	by orsmga102.jf.intel.com with ESMTP; 08 Dec 2011 10:15:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="84396128"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="84396453"
 Received: from unknown (HELO [10.255.12.35]) ([10.255.12.35])
-	by orsmga001.jf.intel.com with ESMTP; 08 Dec 2011 10:14:42 -0800
-Message-ID: <4EE0FE92.6090407@linux.intel.com>
-Date: Thu, 08 Dec 2011 10:14:42 -0800
+	by orsmga001.jf.intel.com with ESMTP; 08 Dec 2011 10:15:28 -0800
+Message-ID: <4EE0FEC0.9060901@linux.intel.com>
+Date: Thu, 08 Dec 2011 10:15:28 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1323272370.git.lei.mei@intel.com>
-In-Reply-To: <cover.1323272370.git.lei.mei@intel.com>
-Cc: openembedded-core@openembedded.org
-Subject: Re: [PATCH 0/2]dropbear:Upgrade from 0.53.1 to 2011.54
+References: <cover.1323279373.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1323279373.git.paul.eggleton@linux.intel.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH 0/2] Qt4 fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,46 +35,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2011 18:21:34 -0000
+X-List-Received-Date: Thu, 08 Dec 2011 18:22:20 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12/07/2011 07:49 AM, Mei Lei wrote:
-> Hi all,
-> 	This patch upgrade dropbear from 0.53.1 to 2011.54. The new release added ALLOW_BLANK_PASSWORD option, we can enable empty passwd login funciton in options.h.
-> 	So change the allow-nopw.patch content to enable this function.
-> 	Please review it.
-> Thanks,
-> Lei
+On 12/07/2011 09:39 AM, Paul Eggleton wrote:
+> A couple of fixes that I took the opportunity to do while I was testing
+> building Qt 4.8.0 RC1. (Incidentally I will post the 4.8.0 recipes once
+> the release is final, which reportedly should be within the next few
+> weeks.)
+>
 > The following changes since commit 493746f1d7f1410284880203c1ac462d61ab5299:
->    Martin Jansa (1):
->          matchbox-session-sato: respect VIRTUAL-RUNTIME_initscripts settings
+>
+>    matchbox-session-sato: respect VIRTUAL-RUNTIME_initscripts settings (2011-12-07 12:42:22 +0000)
 >
 > are available in the git repository at:
+>    git://git.openembedded.org/openembedded-core-contrib paule/qt4-debug
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/qt4-debug
 >
->    git://git.pokylinux.org/poky-contrib lmei3/dropbear
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=lmei3/dropbear
+> Paul Eggleton (2):
+>    qt4: fix debug symbol stripping
+>    qt4: various tidy-ups
 >
-> Mei Lei (2):
->    dropbear: Upgrade from 0.53.1 to 2011.54
->    distro_tracking_fields.inc: Update dropbear,iproute2,net-tools
->      tracking information.
->
->   .../conf/distro/include/distro_tracking_fields.inc |   19 ++++---
->   .../configure.patch                                |    0
->   .../dropbear/dropbear/allow-nopw.patch             |   55 ++++++--------------
->   meta/recipes-core/dropbear/dropbear_0.53.1.bb      |    6 --
->   meta/recipes-core/dropbear/dropbear_2011.54.bb     |    6 ++
->   5 files changed, 33 insertions(+), 53 deletions(-)
->   rename meta/recipes-core/dropbear/{dropbear-0.53.1 =>  dropbear-2011.54}/configure.patch (100%)
->   delete mode 100644 meta/recipes-core/dropbear/dropbear_0.53.1.bb
->   create mode 100644 meta/recipes-core/dropbear/dropbear_2011.54.bb
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>   .../qt4/files/add_nostrip_for_debug_packages.diff  |   23 ++++++++++++++++++++
+>   meta/recipes-qt/qt4/qt-4.7.4.inc                   |    4 +--
+>   meta/recipes-qt/qt4/qt4-embedded.inc               |    3 +-
+>   meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb          |    2 +-
+>   meta/recipes-qt/qt4/qt4-native.inc                 |    3 +-
+>   meta/recipes-qt/qt4/qt4-native_4.7.4.bb            |    2 -
+>   meta/recipes-qt/qt4/qt4-x11-free.inc               |    4 +-
+>   meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb          |    2 +-
+>   meta/recipes-qt/qt4/qt4.inc                        |    6 ++++-
+>   9 files changed, 36 insertions(+), 13 deletions(-)
+>   create mode 100644 meta/recipes-qt/qt4/files/add_nostrip_for_debug_packages.diff
 >
 Merged into OE-Core
 
