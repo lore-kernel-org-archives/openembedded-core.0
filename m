@@ -1,27 +1,29 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1RYhcc-000265-94
+	(envelope-from <sgw@linux.intel.com>) id 1RYhlU-0002EU-VI
 	for openembedded-core@lists.openembedded.org;
-	Thu, 08 Dec 2011 18:19:02 +0100
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RYhW2-0001Un-NA
-	for openembedded-core@lists.openembedded.org;
-	Thu, 08 Dec 2011 18:12:14 +0100
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
+	Thu, 08 Dec 2011 18:28:13 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 08 Dec 2011 09:21:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="83688141"
+Received: from unknown (HELO [10.255.12.35]) ([10.255.12.35])
+	by azsmga001.ch.intel.com with ESMTP; 08 Dec 2011 09:21:21 -0800
+Message-ID: <4EE0F211.7000402@linux.intel.com>
+Date: Thu, 08 Dec 2011 09:21:21 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
+MIME-Version: 1.0
+To: Chris Larson <kergoth@gmail.com>
+References: <1323123226-24719-1-git-send-email-kergoth@gmail.com>
+	<4EE0EA8B.6010103@linux.intel.com>
+	<CABcZANnO4_t7HxV5BuTNSjjaK=QOGCh2iKxYSkES33Qw7-eHzA@mail.gmail.com>
+In-Reply-To: <CABcZANnO4_t7HxV5BuTNSjjaK=QOGCh2iKxYSkES33Qw7-eHzA@mail.gmail.com>
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 08 Dec 2011 17:12:13 +0000
-In-Reply-To: <1323363345.5309.42.camel@ted>
-References: <cover.1323327959.git.xiaofeng.yan@windriver.com>
-	<7ceb01f6db6edfad6c78c5a7ebc685c23bb11358.1323327959.git.xiaofeng.yan@windriver.com>
-	<67C6F211-C6C2-4655-889A-A254F4E0D7D9@dominion.thruhere.net>
-	<1323363345.5309.42.camel@ted>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1323364334.26081.383.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: [PATCH 04/10] gtk.inc: add feature based on directfb
+Subject: Re: [PATCH v2] lzop-1.03: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,44 +38,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2011 17:19:02 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 08 Dec 2011 17:28:13 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-12-08 at 16:55 +0000, Richard Purdie wrote:
-> The question is whether it makes sense to have directfb and X based gtk
-> in the same builds and package feeds or not. I can see that it might be
-> desired and that it likely is possible.
+On 12/08/2011 08:55 AM, Chris Larson wrote:
+> On Thu, Dec 8, 2011 at 9:49 AM, Saul Wold<sgw@linux.intel.com>  wrote:
+>> On 12/05/2011 02:13 PM, Christopher Larson wrote:
+>>>
+>>> From: Christopher Larson<chris_larson@mentor.com>
+>>>
+>>> This is needed by some kernels when CONFIG_KERNEL_LZO=y (specifically,
+>>> given
+>>> the current defconfig, this affects linux-omap4 2.6 in the meta-ti layer).
+>>>
+>>> Signed-off-by: Christopher Larson<chris_larson@mentor.com>
+>>> ---
+>>>   meta/recipes-support/lzop/lzop/acinclude.m4 |  390
+>>> +++++++++++++++++++++++++++
+>>>   meta/recipes-support/lzop/lzop_1.03.bb      |   25 ++
+>>>   2 files changed, 415 insertions(+), 0 deletions(-)
+>>>   create mode 100644 meta/recipes-support/lzop/lzop/acinclude.m4
+>>>   create mode 100644 meta/recipes-support/lzop/lzop_1.03.bb
+>>>
+>>
+>> <SNIP>
+>>
+>>
+>>> diff --git a/meta/recipes-support/lzop/lzop_1.03.bb
+>>> b/meta/recipes-support/lzop/lzop_1.03.bb
+>>> new file mode 100644
+>>> index 0000000..d0cb842
+>>> --- /dev/null
+>>> +++ b/meta/recipes-support/lzop/lzop_1.03.bb
+>>> @@ -0,0 +1,25 @@
+>>> +SUMMARY = "Real-time file compressor"
+>>> +DESCRIPTION = "lzop is a compression utility which is designed to be a
+>>> companion to gzip. \n\
+>>> +It is based on the LZO data compression library and its main advantages
+>>> over \n\
+>>> +gzip are much higher compression and decompression speed at the cost of
+>>> some \n\
+>>> +compression ratio. The lzop compression utility was designed with the
+>>> goals \n\
+>>> +of reliability, speed, portability and with reasonable drop-in
+>>> compatibility \n\
+>>> +to gzip."
+>>> +DEPENDS += "lzo"
+>>> +PR = "r0"
+>>> +
+>>> +LICENSE = "GPLv2+"
+>>> +LIC_FILES_CHKSUM = "file://COPYING;md5=dfeaf3dc4beef4f5a7bdbc35b197f39e \
+>>> +
+>>>   file://src/lzop.c;beginline=5;endline=21;md5=6797bd3ed0a1a49327b7ebf9366ebd86"
+>>> +
+>>> +SRC_URI = "http://www.lzop.org/download/${BP}.tar.gz \
+>>
+>> I think this ------------------------------- ^^
+>> should really be ${BPN}-${PV} which make is much easier to do updates with
+>> by just changing the file name.
+>
+> I think you're confused. BP *is* ${BPN}-${PV}. What exactly is the
+> problem with using it?
+>
+My bad, I thought it was something else, thanks for continuing my training!
 
-This is true, though there's nothing to stop a distro that particularly
-wants this from inventing their own stub recipes which just set
-PACKAGECONFIG appropriately and then require the generic version.  So
-it's really just a question of what we want to be the default in
-oe-core.
-
-Also note that, although you can parallel install multiple versions of
-the gtk+ runtime on the target system, if you want the build system to
-be deterministic then (in the absence of per-recipe sysroot
-construction) you need some way to decide which one gets to provide the
-gtk+-2.0.pc that other recipes will build against.  (The different
-targets have different library sonames so you can't just swap them out
-at run time: a given binary will remain coupled to the particular Gtk
-variant that it was compiled against.)  And if the two variants could
-conceivably be different versions of GTK then you also need a way to
-deconflict ${includedir}/gtk-2.0.  
-
-So it isn't quite as simple as just having the two recipes, there is a
-bit of extra policy involved as well.  And of course there would be all
-the normal overhead in terms of parse time, memory footprint and
-maintenance burden associated with having more recipes.  
-
-So, in light of all the above plus the fact that everything is different
-with Gtk+3 anyway, my preference for supporting directfb on gtk+2 in
-oe-core would be to use PACKAGECONFIG and not have separate recipe
-files.
-
-p.
-
-
+Sau!
+>
+>>> +           file://acinclude.m4"
+>>> +
+>>
+>> NO SRC_URI Checksums!
+>
+> Gah, damnit.
 
 
