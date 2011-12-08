@@ -1,23 +1,34 @@
-Received: from mga11.intel.com ([192.55.52.93])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RYZhL-0007fJ-LH
-	for openembedded-core@openembedded.org; Thu, 08 Dec 2011 09:51:23 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 08 Dec 2011 00:44:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="99987725"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.35])
-	by fmsmga002.fm.intel.com with ESMTP; 08 Dec 2011 00:44:22 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@openembedded.org
-Date: Thu,  8 Dec 2011 00:44:17 -0800
-Message-Id: <744c3cb0900eecc34b50195a9c1eb89d616f33cc.1323333676.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.6.4
-In-Reply-To: <cover.1323333676.git.sgw@linux.intel.com>
-References: <cover.1323333676.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1323333676.git.sgw@linux.intel.com>
-References: <cover.1323333676.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 17/17] ncurses: libcurses.so should link to libncurses.so
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RYa43-0000bh-CE for openembedded-core@lists.openembedded.org;
+	Thu, 08 Dec 2011 10:14:51 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB898153025980;
+	Thu, 8 Dec 2011 09:08:01 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 25841-01; Thu,  8 Dec 2011 09:07:57 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB897qKa025974
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 8 Dec 2011 09:07:53 GMT
+Message-ID: <1323335282.971.11.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 08 Dec 2011 09:08:02 +0000
+In-Reply-To: <CAMKF1spqOpuz-M7e-F5Cwgx_ufQ4m7MTfBv05StCCXE3e5zV4w@mail.gmail.com>
+References: <cover.1323323130.git.nitin.a.kamble@intel.com>
+	<664f652792df901dbc42d813b299093fa719a66a.1323323130.git.nitin.a.kamble@intel.com>
+	<7e5d0671426509d061abbe8b320f65f2cfb3a8a0.1323323130.git.nitin.a.kamble@intel.com>
+	<CAMKF1spqOpuz-M7e-F5Cwgx_ufQ4m7MTfBv05StCCXE3e5zV4w@mail.gmail.com>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: hjl.tools@gmail.com
+Subject: Re: [PATCH 05/11] findutils: Fix compilation for x32 toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,44 +43,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2011 08:51:23 -0000
+X-List-Received-Date: Thu, 08 Dec 2011 09:14:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The current libcurses (backward compat) links to libncurses.so.5.9,
-this causes a problem since this library also needs libtinfo, the
-libncurses.so, uses a "ld script" to include both, libcurses.so
-should point to libncurses.so (the script) not the library.
+On Wed, 2011-12-07 at 23:14 -0800, Khem Raj wrote:
+> On Wed, Dec 7, 2011 at 9:48 PM,  <nitin.a.kamble@intel.com> wrote:
+> > From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> >
+> > Work around gnulib time_t assumption in findutils for x32
+> 
+> if its a workaround can it be applied only to x32 with help of overrides please
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-core/ncurses/ncurses.inc |    6 +++++-
- 1 files changed, 5 insertions(+), 1 deletions(-)
+Its not a workaround, the patch looks like a generic reasonable fix to
+correct assumptions made by the program that aren't true?
 
-diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-index df9252a..54876ca 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://ncurses/base/version.c;beginline=1;endline=27;md5=cbc
- SECTION = "libs"
- DEPENDS = "ncurses-native"
- DEPENDS_virtclass-native = ""
--INC_PR = "r2"
-+INC_PR = "r3"
- 
- inherit autotools binconfig multilib_header
- 
-@@ -161,6 +161,10 @@ do_install() {
-                 echo '/* GNU ld script */'  >$f
-                 echo "INPUT($i.so.5 AS_NEEDED(-ltinfo))" >>$f
-         done
-+	# Make sure that libcurses is linked so that it gets -ltinfo
-+	# also, this should be addressed upstream really.
-+	rm -f ${D}${libdir}/libcurses.so
-+	ln -s ${D}${libdir}/libncurses.so ${D}${libdir}/libcurses.so
- 
-         # create libtermcap.so linker script for backward compatibility
-         f=${D}${libdir}/libtermcap.so
--- 
-1.7.6.4
+Cheers,
+
+Richard
+
 
 
 
