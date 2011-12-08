@@ -1,32 +1,37 @@
-Received: from [213.180.93.183] (helo=www.emagii.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ulf@emagii.com>) id 1RYnZK-00082g-RY
-	for openembedded-core@lists.openembedded.org;
-	Fri, 09 Dec 2011 00:40:02 +0100
-Received: from www.emagii.com (localhost.localdomain [127.0.0.1])
-	by www.emagii.com (Postfix) with ESMTP id 96A0428C21AE;
-	Fri,  9 Dec 2011 00:24:15 +0100 (CET)
-Received: from [10.175.196.242]
-	(c-1338e353.011-39-73746f12.cust.bredbandsbolaget.se [83.227.56.19])
-	by www.emagii.com (Postfix) with ESMTPSA;
-	Fri,  9 Dec 2011 00:24:15 +0100 (CET)
-Message-ID: <4EE14724.7010202@emagii.com>
-Date: Fri, 09 Dec 2011 00:24:20 +0100
-From: Ulf Samuelsson <ulf@emagii.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.23) Gecko/20110922 Thunderbird/3.1.15
-MIME-Version: 1.0
-To: McClintock Matthew-B29882 <B29882@freescale.com>
-References: <4EDF9468.309@emagii.com>
-	<CAEsOVNfs+HayYVZ3Mm=k=ubnmUBeO88OKj1fKzZE0R5+Uw=6tQ@mail.gmail.com>
-In-Reply-To: <CAEsOVNfs+HayYVZ3Mm=k=ubnmUBeO88OKj1fKzZE0R5+Uw=6tQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RYnhR-0008Cz-4n for openembedded-core@lists.openembedded.org;
+	Fri, 09 Dec 2011 00:48:25 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB8NfZQs013189
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 8 Dec 2011 23:41:35 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 08226-08 for <openembedded-core@lists.openembedded.org>;
+	Thu,  8 Dec 2011 23:41:31 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB8NfQoo013171
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 8 Dec 2011 23:41:27 GMT
+Message-ID: <1323387698.5309.114.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: bitbake core-image-sato fails:
+Date: Thu, 08 Dec 2011 23:41:38 +0000
+In-Reply-To: <cover.1323246565.git.xiaofeng.yan@windriver.com>
+References: <cover.1323246565.git.xiaofeng.yan@windriver.com>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 00/10]gtk+-directfb: The patches to run gtk over directfb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ulf@emagii.com, Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -37,44 +42,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2011 23:40:02 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 08 Dec 2011 23:48:25 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 2011-12-08 22:14, McClintock Matthew-B29882 wrote:
-> On Wed, Dec 7, 2011 at 10:29 AM, Ulf Samuelsson
-> <openembedded-core@emagii.com>  wrote:
->> Got the following error message when building core-image-sato:
->>
->> | Collected errors:
->> |  * satisfy_dependencies_for: Cannot satisfy the following dependencies for
->> task-core-x11-sato:
->> |  *     ofono *
->> |  * opkg_install_cmd: Cannot install package task-core-x11-sato.
->> NOTE: package core-image-sato-1.0-r0: task do_rootfs: Failed
->> ERROR: Task 8
->> (/home/ulf/projects/OE_atmel/sources/openembedded-core/meta/recipes-sato/images/core-image-sato.bb,
->> do_rootfs) failed with exit code '1'
-> The rpm for ofono was not generated, and something in
-> task-core-x11-sato depends on it. So rpm goes and tries to resolve its
-> dependency (which adds other packages) and it can't find one for
-> ofono. Some recipe in this task needs a DEPENDS += "ofono"
->
-> -M
+Just to summarise where we are with this patch set:
 
-task-core-x11-sato contains:
+On Wed, 2011-12-07 at 16:58 +0800, Xiaofeng Yan wrote:
+> Xiaofeng Yan (10):
+>   qemu-config: Disable dbus-x11 when no x11 in DISTRO_FEATURES
+>   gconf: Disable dbus-x11 when x11 isn't in DISTRO_FEATURES
+>   gtk.inc: ship gtk-demo to independent package
 
-NETWORK_MANAGER ?= "connman-gnome"
+I pulled in the first three of these patches since they look fine.
 
-and connman-gnome contains references to ofono,
-so this is probably a good candidate.
+>   gtk.inc: add feature based on directfb
 
-connman-gnome is not building at the moment, due
-to the empty repo at kernel.org so I am going to
-try adding it in the debug layer I have on top of OE.
+I think this one is ready to go in, I'm just going to wait a few hours
+to see if there is any further discussion.
 
-BR
-Ulf
+>   gtk: add demos to the configuation of gtk+
+
+I had a question on this one.
+
+>   cairo: add directfb DISTRO_FEATURE
+
+This is fine to go in (but why the added whitespace?)
+
+>   pango: add directfb DISTRO_FEATURE
+
+Phil had some comments on this, I agree we don't need directfb there.
+
+>   directfb-examples: add package directfb-examples to OE-core
+
+This is fine to go in.
+
+>   task-core-gtk-directfb.bb: Add task list to run gtk over directfb
+
+dropbear looks out of place here
+
+>   core-image-gtk-directfb.bb: add an image for gtk over directfb
+
+This is probably ok.
+
+Cheers,
+
+Richard
 
 
 
