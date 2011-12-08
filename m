@@ -1,33 +1,24 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RYgK5-0007ws-GH
+	(envelope-from <mark.hatle@windriver.com>) id 1RYgSl-0008Us-6l
 	for openembedded-core@lists.openembedded.org;
-	Thu, 08 Dec 2011 16:55:50 +0100
-Received: by eekb15 with SMTP id b15so1123728eek.6
+	Thu, 08 Dec 2011 17:04:47 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pB8Fvuk3020726
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Dec 2011 07:49:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=TM/ME8mV78ylzJYkgOK9tjzuhX6DoEbUOht49fhxOuk=;
-	b=t/6nQauw5AUI6axfQT4EPQGfP5xVcB19almfXosBZBbWw1tdR67gZeJKIeccHtVF8v
-	TXLIawO0wmjQfStBR6v46SUTMGdArljDvoI/3UuY9DKwvWUEXFCMd6099PIlk4t5MEbv
-	K4C0YOrfxxcfooyJLS+/EdR0xCRbK+MuvGX2I=
-Received: by 10.14.20.5 with SMTP id o5mr276831eeo.152.1323359335100;
-	Thu, 08 Dec 2011 07:48:55 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id 49sm19154992eec.1.2011.12.08.07.48.52
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 08 Dec 2011 07:48:53 -0800 (PST)
-Date: Thu, 8 Dec 2011 16:48:40 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20111208154840.GD3761@jama.jama.net>
-References: <1323281084-30590-1-git-send-email-Martin.Jansa@gmail.com>
+	Thu, 8 Dec 2011 07:57:56 -0800 (PST)
+Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Thu, 8 Dec 2011 07:57:56 -0800
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 8 Dec 2011 10:03:52 -0600
+Message-ID: <cover.1323360188.git.mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-In-Reply-To: <1323281084-30590-1-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH][RFC] conf/machine/include/arm add extra MACHINEOVERRIDES like x86 does
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH 0/1] Rename references to POKY_*_INSTALL to OE..
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,56 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2011 15:55:50 -0000
-X-Groupsio-MsgNum: 13871
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="hoZxPH4CaxYzWscb"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 08 Dec 2011 16:04:47 -0000
+Content-Type: text/plain
 
---hoZxPH4CaxYzWscb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit 60f0b866b4b7c4aa337a2ff764455741a73665da:
 
-On Wed, Dec 07, 2011 at 07:04:44PM +0100, Martin Jansa wrote:
-> * motivated by this NAK
->   http://patchwork.openembedded.org/patch/15777/
->   and today's discussion on #yocto I hope it's worth it to send this RFC
+  package.bbclass: Adding license collection (2011-12-08 15:23:58 +0000)
 
-FWIW some armv6/armv7a overrides are already used in oe-core=20
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib mhatle/poky-rename
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/poky-rename
 
-meta/conf/bitbake.conf:QEMU_OPTIONS_armv6   =3D "-cpu arm1136"
-meta/conf/bitbake.conf:QEMU_OPTIONS_armv7a   =3D "-cpu cortex-a8"
-meta/recipes-devtools/python/python_2.7.2.bb:TARGET_CC_ARCH_append_armv6 =
-=3D " -D__SOFTFP__"
-meta/recipes-devtools/python/python_2.7.2.bb:TARGET_CC_ARCH_append_armv7a =
-=3D " -D__SOFTFP__"
-meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb:EXTRA_OECONF_arm=
-v7a =3D " --enable-neon "
-meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb:do_compile_prepe=
-nd_armv7a () {
+Mark Hatle (1):
+  Rename leftover POKY references to OE in image variables
 
-And also armv6-vfp
-meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb:QT_CONFIG_FLAGS_append_armv6-vfp =
-=3D " -no-neon "
-meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb:QT_CONFIG_FLAGS_append_armv6-vfp =
-=3D " -no-neon "
+ meta/classes/core-image.bbclass                    |    8 ++++----
+ meta/recipes-core/images/core-image-minimal.bb     |    2 +-
+ meta/recipes-core/images/self-hosted-image.bb      |    2 +-
+ meta/recipes-extended/images/core-image-basic.bb   |    2 +-
+ meta/recipes-extended/images/core-image-lsb-dev.bb |    2 +-
+ meta/recipes-extended/images/core-image-lsb-sdk.bb |    2 +-
+ meta/recipes-extended/images/core-image-lsb.bb     |    2 +-
+ meta/recipes-graphics/images/core-image-clutter.bb |    2 +-
+ meta/recipes-qt/images/qt4e-demo-image.bb          |    2 +-
+ 9 files changed, 12 insertions(+), 12 deletions(-)
 
-Cheers,
+-- 
+1.7.3.4
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---hoZxPH4CaxYzWscb
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk7g3FgACgkQN1Ujt2V2gBz0TACgkYZXsKwoFM7xYlAOIX6sJAe0
-bh0AoKlSO99ipK53dEGSt4sJM1FC6+Kc
-=EWs4
------END PGP SIGNATURE-----
-
---hoZxPH4CaxYzWscb--
