@@ -1,38 +1,38 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ningx.ma@intel.com>) id 1RYSWz-00081g-3b
+	(envelope-from <ningx.ma@intel.com>) id 1RYSaV-00085c-9R
 	for openembedded-core@lists.openembedded.org;
-	Thu, 08 Dec 2011 02:12:14 +0100
+	Thu, 08 Dec 2011 02:15:52 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 07 Dec 2011 17:04:19 -0800
+	by orsmga102.jf.intel.com with ESMTP; 07 Dec 2011 17:09:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="84112829"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="84113905"
 Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by orsmga001.jf.intel.com with ESMTP; 07 Dec 2011 17:04:17 -0800
-Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
+	by orsmga001.jf.intel.com with ESMTP; 07 Dec 2011 17:09:00 -0800
+Received: from pgsmsx151.gar.corp.intel.com (172.30.236.41) by
 	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 8 Dec 2011 09:04:05 +0800
-Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
-	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 8 Dec 2011 09:04:04 +0800
+	(TLS) id 8.2.255.0; Thu, 8 Dec 2011 09:08:04 +0800
+Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
+	PGSMSX151.gar.corp.intel.com (172.30.236.41) with Microsoft SMTP Server
+	(TLS) id 14.1.355.2; Thu, 8 Dec 2011 09:08:03 +0800
 Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
-	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi; Thu, 8 Dec 2011
-	09:04:03 +0800
+	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi; Thu, 8 Dec 2011
+	09:08:02 +0800
 From: "Ma, NingX" <ningx.ma@intel.com>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 8 Dec 2011 09:03:25 +0800
-Thread-Topic: Openembedded-core Digest, Vol 11, Issue 66
-Thread-Index: Acy1QryiLBzn5iirT66rCNc26m6CRwAAm/kw
-Message-ID: <789F9655DD1B8F43B48D77C5D306597312D5997F48@shsmsx501.ccr.corp.intel.com>
-References: <mailman.823.1323305461.26642.openembedded-core@lists.openembedded.org>
-In-Reply-To: <mailman.823.1323305461.26642.openembedded-core@lists.openembedded.org>
+Date: Thu, 8 Dec 2011 09:08:01 +0800
+Thread-Topic: Openembedded-core Digest, Vol 11, Issue 67
+Thread-Index: Acy1RX7gSKWLOqAhQrix7y/kmjrXFQAAFC1A
+Message-ID: <789F9655DD1B8F43B48D77C5D306597312D5997F4E@shsmsx501.ccr.corp.intel.com>
+References: <mailman.825.1323306735.26642.openembedded-core@lists.openembedded.org>
+In-Reply-To: <mailman.825.1323306735.26642.openembedded-core@lists.openembedded.org>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 acceptlanguage: en-US
 MIME-Version: 1.0
-Subject: Re: Openembedded-core Digest, Vol 11, Issue 66
+Subject: Re: Openembedded-core Digest, Vol 11, Issue 67
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,10 +47,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2011 01:12:14 -0000
+X-List-Received-Date: Thu, 08 Dec 2011 01:15:52 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+
+
+
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of openembedded-core-reques=
+t@lists.openembedded.org
+Sent: Thursday, December 08, 2011 9:12 AM
+To: openembedded-core@lists.openembedded.org
+Subject: Openembedded-core Digest, Vol 11, Issue 67
+
+Send Openembedded-core mailing list submissions to
+        openembedded-core@lists.openembedded.org
+
+To subscribe or unsubscribe via the World Wide Web, visit
+        http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-co=
+re
+or, via email, send a message with subject or body 'help' to
+        openembedded-core-request@lists.openembedded.org
+
+You can reach the person managing the list at
+        openembedded-core-owner@lists.openembedded.org
+
+When replying, please edit your Subject line so it is more specific
+than "Re: Contents of Openembedded-core digest..."
+
+
+Today's Topics:
+
+   1. Re: Openembedded-core Digest, Vol 11, Issue 66 (Ma, NingX)
+
+
+----------------------------------------------------------------------
+
+Message: 1
+Date: Thu, 8 Dec 2011 09:03:25 +0800
+From: "Ma, NingX" <ningx.ma@intel.com>
+Subject: Re: [OE-core] Openembedded-core Digest, Vol 11, Issue 66
+To: "openembedded-core@lists.openembedded.org"
+        <openembedded-core@lists.openembedded.org>
+Message-ID:
+        <789F9655DD1B8F43B48D77C5D306597312D5997F48@shsmsx501.ccr.corp.inte=
+l.com>
+
+Content-Type: text/plain; charset=3D"us-ascii"
 
 
 
@@ -1444,6 +1489,19 @@ http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 End of Openembedded-core Digest, Vol 11, Issue 66
+*************************************************
+
+
+
+------------------------------
+
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
+End of Openembedded-core Digest, Vol 11, Issue 67
 *************************************************
 
 
