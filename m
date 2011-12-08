@@ -1,56 +1,37 @@
-Received: from ch1ehsobe004.messaging.microsoft.com ([216.32.181.184]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RYlX0-0008KD-3U
+	(envelope-from <andrea.adami@gmail.com>) id 1RYlec-0008Ut-Hm
 	for openembedded-core@lists.openembedded.org;
-	Thu, 08 Dec 2011 22:29:30 +0100
-Received: from mail217-ch1-R.bigfish.com (10.43.68.247) by
-	CH1EHSOBE012.bigfish.com (10.43.70.62) with Microsoft SMTP Server id
-	14.1.225.23; Thu, 8 Dec 2011 21:07:11 +0000
-Received: from mail217-ch1 (localhost [127.0.0.1])	by
-	mail217-ch1-R.bigfish.com (Postfix) with ESMTP id 0190150010A	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu,  8 Dec 2011 21:07:20 +0000 (UTC)
-X-SpamScore: -13
-X-BigFish: VS-13(zz9371I936eK1432N98dKzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 13,
-Received: from mail217-ch1 (localhost.localdomain [127.0.0.1]) by mail217-ch1
-	(MessageSwitch) id 1323378439910964_29299;
-	Thu,  8 Dec 2011 21:07:19 +0000 (UTC)
-Received: from CH1EHSMHS015.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.241])	by mail217-ch1.bigfish.com (Postfix) with ESMTP id
-	CD3964A0045	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Dec 2011 21:07:19 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS015.bigfish.com
-	(10.43.70.15) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Thu, 8 Dec 2011 21:07:08 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.83]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.01.0339.002; Thu, 8 Dec 2011 15:07:21 -0600
-From: McClintock Matthew-B29882 <B29882@freescale.com>
+	Thu, 08 Dec 2011 22:37:22 +0100
+Received: by dake40 with SMTP id e40so1936666dak.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 08 Dec 2011 13:30:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=DfIllhSUW9iFiPRVD77NUDfwxRzl/tQsBTaQ/wtCP+o=;
+	b=tmc7QRUtnEDbt5iW96Ab2N0Hn4LriqmMhTMPFUI+oeScaMDnAf4Z2+D/5MbTm+HIFk
+	Ql7ooD+47tN/ZRh6yCvqNrAb4iBI5sFoMhME249Xcg6lF09rmXUxKeeqvuuxYLNvv37Y
+	RtHh5zX/mHM+LiD6pbHWjtXYI7Qk0NYFyc0ec=
+MIME-Version: 1.0
+Received: by 10.68.73.228 with SMTP id o4mr548579pbv.34.1323379827892; Thu, 08
+	Dec 2011 13:30:27 -0800 (PST)
+Received: by 10.143.164.4 with HTTP; Thu, 8 Dec 2011 13:30:27 -0800 (PST)
+In-Reply-To: <20111208151026.GC3761@jama.jama.net>
+References: <cover.1323212403.git.andrea.adami@gmail.com>
+	<68e1fafa3ed455dd26cfbfe2a76b3cbdb5b7bfc2.1323212403.git.andrea.adami@gmail.com>
+	<CA+M6bXmdt7UE+-HkLva9snnv=AJhhh0sxKSKCJhQOb58bNKGJQ@mail.gmail.com>
+	<20111208151026.GC3761@jama.jama.net>
+Date: Thu, 8 Dec 2011 22:30:27 +0100
+Message-ID: <CAAQYJAuHVLo6A_cGXBVoq+3Tj863LRH+hu-6GtZeqo3_aJWYQA@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] Coordinating inter-layer dependencies
-Thread-Index: AQHMte1fupm4FwcSGUOFKunAq7T74Q==
-Date: Thu, 8 Dec 2011 21:07:20 +0000
-Message-ID: <CAEsOVNfcoryUNUgE43YmoT9T+_NG4BMP4owXZP=HmzJ0n+Q=gw@mail.gmail.com>
-References: <95547EE2-9E3E-4FB6-AA2A-A9653029F971@dominion.thruhere.net>
-	<1323303457.971.5.camel@ted>
-In-Reply-To: <1323303457.971.5.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: Coordinating inter-layer dependencies
+Subject: Re: [PATCH 1/2] image_types.bbclass: implement jffs2 summary images (sum.jffs2)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -61,49 +42,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2011 21:29:30 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <25BCA4F100DA6D4ABD8074BA401FB696@freescale.net>
+X-List-Received-Date: Thu, 08 Dec 2011 21:37:22 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 7, 2011 at 6:17 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Thu, 2011-12-01 at 12:23 +0100, Koen Kooi wrote:
->> During the past month there have been a number of updates to OE-core
->> recipes that triggered parsing errors due to bbappend in other layers.
->> A small seleciton:
+On Thu, Dec 8, 2011 at 4:10 PM, Martin Jansa <martin.jansa@gmail.com> wrote=
+:
+> On Thu, Dec 08, 2011 at 07:57:52AM -0700, Tom Rini wrote:
+>> On Tue, Dec 6, 2011 at 4:23 PM, Andrea Adami <andrea.adami@gmail.com> wr=
+ote:
+>> > * Building the jffs2 filesystem to include summary information speeds =
+up
+>> > * the mount process considerably at the cost of increased size.
+>> > * The rate of speedup is generally higher on NAND chips and on the chi=
+ps
+>> > * where the erase block size is large.
+>> >
+>> > Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
+>
+> I'll repeat my comment from yesterday, but IMHO it would be easier to
+> see the difference between those 2 images if the IMAGE_CMD_jffs2 output i=
+s
+> renamed to .jffs2.nosummary and IMAGE_CMD_sum.jffs2 (or renamed IMAGE_CMD=
+_jffs2.summary)
+> produces .jffs2.summary (or even just .jffs2 if we can agree that .summar=
+y is
+> what enduser wants by default)
+
+I tried to keep the patch not too invasive and did not introduce a
+special EXTRA string for sumtool.
+The most widely used options (-p -l -e) are common, though.
+
+Unfortunately summary means we have a bigger image:
+44M Dec  8 16:14 core-image-sato-c7x0-20111208151047.rootfs.jffs2
+57M Dec  8 16:14 core-image-sato-c7x0-20111208151047.rootfs.sum.jffs2
+
+Being some devices have strict size requirements I think it is better
+to build both kind of images.
+
+Cheers
+
+Andrea
+
+>
+> But other than that it looks fine and will make my IMAGE_DEPENDS_jffs2 a
+> bit shorter.
+>
+> Regards,
+>
 >>
->> * netbase
->> * libdrm
->> * xserver-xorg
->> * clutter
+>> Acked-by: Tom Rini <tom.rini@gmail.com>
 >>
->> My view is that layer maintainers need to keep an eye on potential
->> breakage and have updates ready when patches land into OE-core.
->> Looking back I can see that while the situation is improving a bit,
->> it's still not working. The problem with slow updates to layers is
->> that (with my angstrom hat on) users (and with my TI hat on) customers
->> and coworkers can't do builds without rm'ing the bbappends or
->> disabling the layer.
+>> > ---
+>> > =A0meta/classes/image_types.bbclass | =A0 =A05 ++++-
+>> > =A01 files changed, 4 insertions(+), 1 deletions(-)
+>> >
+>> > diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_typ=
+es.bbclass
+>> > index 29b6380..bd4b7bc 100644
+>> > --- a/meta/classes/image_types.bbclass
+>> > +++ b/meta/classes/image_types.bbclass
+>> > @@ -35,6 +35,8 @@ XZ_COMPRESSION_LEVEL ?=3D "-e -9"
+>> > =A0XZ_INTEGRITY_CHECK ?=3D "crc32"
+>> >
+>> > =A0IMAGE_CMD_jffs2 =3D "mkfs.jffs2 --root=3D${IMAGE_ROOTFS} --faketime=
+ --output=3D${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2 ${EXTRA_IMAGECMD=
+}"
+>> > +IMAGE_CMD_sum.jffs2 =3D "${IMAGE_CMD_jffs2} && sumtool -i ${DEPLOY_DI=
+R_IMAGE}/${IMAGE_NAME}.rootfs.jffs2 \
+>> > + =A0 =A0 =A0 -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.sum.jffs2 ${=
+EXTRA_IMAGECMD}"
+>> >
+>> > =A0IMAGE_CMD_cramfs =3D "mkcramfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/=
+${IMAGE_NAME}.rootfs.cramfs ${EXTRA_IMAGECMD}"
+>> >
+>> > @@ -138,6 +140,7 @@ EXTRA_IMAGECMD_btrfs ?=3D ""
+>> >
+>> > =A0IMAGE_DEPENDS =3D ""
+>> > =A0IMAGE_DEPENDS_jffs2 =3D "mtd-utils-native"
+>> > +IMAGE_DEPENDS_sum.jffs2 =3D "mtd-utils-native"
+>> > =A0IMAGE_DEPENDS_cramfs =3D "cramfs-native"
+>> > =A0IMAGE_DEPENDS_ext2 =3D "genext2fs-native"
+>> > =A0IMAGE_DEPENDS_ext2.gz =3D "genext2fs-native"
+>> > @@ -157,4 +160,4 @@ IMAGE_DEPENDS_ubi =3D "mtd-utils-native"
+>> > =A0IMAGE_DEPENDS_ubifs =3D "mtd-utils-native"
+>> >
+>> > =A0# This variable is available to request which values are suitable f=
+or IMAGE_FSTYPES
+>> > -IMAGE_TYPES =3D "jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2=
+.lzma live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.g=
+z cpio.xz cpio.lzma"
+>> > +IMAGE_TYPES =3D "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ex=
+t3.gz ext2.lzma live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz c=
+pio cpio.gz cpio.xz cpio.lzma"
+>> > --
+>> > 1.7.3.4
+>> >
+>> >
+>> > _______________________________________________
+>> > Openembedded-core mailing list
+>> > Openembedded-core@lists.openembedded.org
+>> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>>
+>>
+>> --
+>> Tom
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
+> --
+> Martin 'JaMa' Jansa =A0 =A0 jabber: Martin.Jansa@gmail.com
 >
-> I've been thinking about this. I wondered if the notion of wildcards
-> for .bbappend might help, e.g. a file called:
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
-> netbase_%.bbappend
->
-> would match all versions of the netbase recipe.
->
-> The % is consistent with PREFERRED_VERSION, I'm a little reluctant to
-> use * since its a shell quoting mess.
->
-> It wouldn't be hard to allow bitbake to support this and would solve
-> some of the issues we've been having...
-
-For what it's worth, I like the wild card idea.
-
--M=
-
 
 
