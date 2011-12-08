@@ -1,40 +1,29 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lei.mei@intel.com>) id 1RYaxT-0002SG-C9
+	(envelope-from <koen@dominion.thruhere.net>) id 1RYb6Y-0002mT-Pe
 	for openembedded-core@lists.openembedded.org;
-	Thu, 08 Dec 2011 11:12:07 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 08 Dec 2011 02:05:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="93883753"
-Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by fmsmga001.fm.intel.com with ESMTP; 08 Dec 2011 02:05:16 -0800
-Received: from pgsmsx101.gar.corp.intel.com (10.221.44.78) by
-	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 8 Dec 2011 18:05:15 +0800
-Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
-	PGSMSX101.gar.corp.intel.com (10.221.44.78) with Microsoft SMTP Server
-	(TLS) id 14.1.355.2; Thu, 8 Dec 2011 18:05:15 +0800
-Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
-	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi; Thu, 8 Dec 2011
-	18:05:14 +0800
-From: "Mei, Lei" <lei.mei@intel.com>
+	Thu, 08 Dec 2011 11:21:30 +0100
+Received: by bkbzt4 with SMTP id zt4so1469464bkb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 08 Dec 2011 02:14:41 -0800 (PST)
+Received: by 10.181.11.226 with SMTP id el2mr3875445wid.64.1323339280898;
+	Thu, 08 Dec 2011 02:14:40 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id j5sm7814599wix.20.2011.12.08.02.14.39
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 08 Dec 2011 02:14:39 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Thu, 8 Dec 2011 11:14:35 +0100
+In-Reply-To: <7ceb01f6db6edfad6c78c5a7ebc685c23bb11358.1323327959.git.xiaofeng.yan@windriver.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 8 Dec 2011 18:05:13 +0800
-Thread-Topic: [OE-core] [PATCH 0/1]Fix inappropriate default protocal in
-	distrodata.bbclass
-Thread-Index: Acy0IyopkZqCuO+wRke232MykBhTygBbVvtw
-Message-ID: <749B9D3DBF0F054390025D9EAFF47F2212D60348EE@shsmsx501.ccr.corp.intel.com>
-References: <cover.1323162150.git.lei.mei@intel.com>
-	<1323181630.19363.3.camel@ted>
-In-Reply-To: <1323181630.19363.3.camel@ted>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
-MIME-Version: 1.0
-Subject: Re: [PATCH 0/1]Fix inappropriate default protocal in distrodata.bbclass
+References: <cover.1323327959.git.xiaofeng.yan@windriver.com>
+	<7ceb01f6db6edfad6c78c5a7ebc685c23bb11358.1323327959.git.xiaofeng.yan@windriver.com>
+Message-Id: <67C6F211-C6C2-4655-889A-A254F4E0D7D9@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH 04/10] gtk.inc: add feature based on directfb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,72 +38,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2011 10:12:07 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 08 Dec 2011 10:21:30 -0000
+X-Groupsio-MsgNum: 13851
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_1985D80A-D833-4B99-A9FE-5D84FD7348FB";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_1985D80A-D833-4B99-A9FE-5D84FD7348FB
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+Op 8 dec. 2011, om 10:34 heeft Xiaofeng Yan het volgende geschreven:
+
+> From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+>=20
+> gtk run over x11 at current OE-core. If gtk want to run over directfb, =
+then \
+> the configuration related to x11 should be disabled and directfb =
+should be enabled.
+
+Since I still can't get an answer to "what happens when you enable both =
+x11 and directfb as distro features", let me ask a different question:
+
+Why don't you do it like we did for gtk-directfb in OE-classic? add a =
+cairo-directfb and a gtk-directfb, done.
 
 
-
->-----Original Message-----
->From: openembedded-core-bounces@lists.openembedded.org
->[mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
->Richard Purdie
->Sent: Tuesday, December 06, 2011 10:27 PM
->To: Patches and discussions about the oe-core layer
->Subject: Re: [OE-core] [PATCH 0/1]Fix inappropriate default protocal in
->distrodata.bbclass
->
->On Tue, 2011-12-06 at 17:09 +0800, Mei Lei wrote:
->> Hi all,
->> 	Some git repo recipes use rsync protocal as their default protocal, thi=
-s will
->lead errors when checking upstreawm version.
->> 	Change default protocal from rsync to git for those git recipes.
->>
->> Thanks,
->> Lei
->>
->> The following changes since commit
->0a7a8597be05c8def8af58eecab49d963dc9d757:
->>   Richard Purdie (1):
->>         libsdl: Disable pulseaudio explicitly
->>
->> are available in the git repository at:
->>
->>   git://git.pokylinux.org/poky-contrib lmei3/fix-protocal
->>
->> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dlmei3/fix-protoc
->> al
->>
->> Mei Lei (1):
->>   distrodata.bbclass:Fix some recipes upstream version check issue.
->
->Merged to master, thanks.
->
->I believe I have previously asked we look at getting fetcher like function=
-ality
->merged into the fetchers and I'd like to mention this again and ensure its=
- not
->forgotten. Perhaps we need to file an enhancement bug in the bugzilla for =
-this?
-
-Yes, I also think so, I filed a new bug for this enhancement:
-http://bugzilla.pokylinux.org/show_bug.cgi?id=3D1813
-
-
-Thanks,
-Lei
-
->
->Cheers,
->
->Richard
->
->
->_______________________________________________
->Openembedded-core mailing list
->Openembedded-core@lists.openembedded.org
->http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>=20
+> [YOCTO #1674]
+>=20
+> Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+> ---
+> meta/recipes-gnome/gtk+/gtk+.inc |   13 ++++++++++---
+> 1 files changed, 10 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/meta/recipes-gnome/gtk+/gtk+.inc =
+b/meta/recipes-gnome/gtk+/gtk+.inc
+> index 1d8f4a6..0319916 100644
+> --- a/meta/recipes-gnome/gtk+/gtk+.inc
+> +++ b/meta/recipes-gnome/gtk+/gtk+.inc
+> @@ -9,9 +9,16 @@ LICENSE =3D "LGPLv2 & LGPLv2+ & LGPLv2.1+"
+> LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3D3bf50002aefd002f49e7bb854063f7e7"
+>=20
+> SECTION =3D "libs"
+> -DEPENDS =3D "glib-2.0 pango atk jpeg libpng libxext libxcursor \
+> -           gtk-doc-native docbook-utils-native libxrandr libgcrypt \
+> -           libxdamage libxrender libxcomposite cairo gdk-pixbuf"
+> +
+> +X11DEPENDS =3D "virtual/libx11 libxext libxcursor libxrandr =
+libxdamage libxrender libxcomposite"
+> +DEPENDS =3D "glib-2.0 pango atk jpeg libpng gtk-doc-native =
+gdk-pixbuf-native docbook-utils-native \
+> + libgcrypt cairo gdk-pixbuf"
+> +
+> +PACKAGECONFIG ??=3D "${@base_contains('DISTRO_FEATURES', 'x11', =
+'x11', '', d)} \
+> + ${@base_contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)}"
+> +
+> +PACKAGECONFIG[x11] =3D "--with-x=3Dyes =
+--with-gdktarget=3Dx11,--with-x=3Dno,${X11DEPENDS}"
+> +PACKAGECONFIG[directfb] =3D "--with-gdktarget=3Ddirectfb,,directfb"
+>=20
+> inherit autotools pkgconfig
+>=20
+> --=20
+> 1.7.0.4
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
+--Apple-Mail=_1985D80A-D833-4B99-A9FE-5D84FD7348FB
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAk7gjg4ACgkQMkyGM64RGpGNmgCgqfVWOp/0X7LdlqCHrTEeNYd7
+l4MAoKyhThoO0TkLeFSXf9hyMLAQdDNb
+=q/Sn
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_1985D80A-D833-4B99-A9FE-5D84FD7348FB--
