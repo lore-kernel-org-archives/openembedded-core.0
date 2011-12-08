@@ -1,44 +1,37 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from smtprelay-b11.telenor.se ([62.127.194.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1RYmmZ-0006jV-B4
+	(envelope-from <openembedded-core@emagii.com>) id 1RYmnr-0006mN-NR
 	for openembedded-core@lists.openembedded.org;
-	Thu, 08 Dec 2011 23:49:39 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 08 Dec 2011 14:42:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="84480193"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.226.49])
-	by orsmga001.jf.intel.com with ESMTP; 08 Dec 2011 14:42:48 -0800
-Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
-	orsmsx603.amr.corp.intel.com ([10.22.226.49]) with mapi; Thu, 8 Dec 2011
-	14:42:47 -0800
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+	Thu, 08 Dec 2011 23:50:59 +0100
+Received: from ipb1.telenor.se (ipb1.telenor.se [195.54.127.164])
+	by smtprelay-b11.telenor.se (Postfix) with ESMTP id 4BABCE564
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  8 Dec 2011 23:44:09 +0100 (CET)
+X-SENDER-IP: [83.227.56.19]
+X-LISTENER: [smtp.bredband.net]
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: AnIcAOQ84U5T4zgTPGdsb2JhbAAMN6sCAQEBATeCJAEBAQECAQEBATU2CgYLCxgJFg8JAwIBAgEPBgEbFAYNBgIBAYgDCLdYizsEkkeCJIkWgVOHPg
+X-IronPort-AV: E=Sophos;i="4.71,322,1320620400"; d="scan'208";a="233686046"
+Received: from c-1338e353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
+	[10.175.196.244]) ([83.227.56.19])
+	by ipb1.telenor.se with ESMTP; 08 Dec 2011 23:43:19 +0100
+Message-ID: <4EE13D86.6020203@emagii.com>
+Date: Thu, 08 Dec 2011 23:43:18 +0100
+From: Ulf Samuelsson <openembedded-core@emagii.com>
+Organization: eMagii
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.23) Gecko/20110922 Thunderbird/3.1.15
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 8 Dec 2011 14:42:46 -0800
-Thread-Topic: [OE-core] [PATCH 05/11] findutils: Fix compilation for x32
-	toolchain
-Thread-Index: Acy16mRKlE5ggGI3T42jdFfLIsS2ZwAEEFrw
-Message-ID: <9DA5872FEF993D41B7173F58FCF6BE94E3FA7EAA@orsmsx504.amr.corp.intel.com>
-References: <cover.1323323130.git.nitin.a.kamble@intel.com>
-	<664f652792df901dbc42d813b299093fa719a66a.1323323130.git.nitin.a.kamble@intel.com>
-	<7e5d0671426509d061abbe8b320f65f2cfb3a8a0.1323323130.git.nitin.a.kamble@intel.com>
-	<CAMKF1spqOpuz-M7e-F5Cwgx_ufQ4m7MTfBv05StCCXE3e5zV4w@mail.gmail.com>
-	<1323335282.971.11.camel@ted>
-	<9DA5872FEF993D41B7173F58FCF6BE94E3FA7B5E@orsmsx504.amr.corp.intel.com>
-	<CAMKF1sobk3Yu2RjRLDBP58bQj+5nZjva9LQMicDLC+2xfQsC_g@mail.gmail.com>
-In-Reply-To: <CAMKF1sobk3Yu2RjRLDBP58bQj+5nZjva9LQMicDLC+2xfQsC_g@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US
-MIME-Version: 1.0
-Cc: "hjl.tools@gmail.com" <hjl.tools@gmail.com>
-Subject: Re: [PATCH 05/11] findutils: Fix compilation for x32	toolchain
+References: <cover.1323212403.git.andrea.adami@gmail.com>	<68e1fafa3ed455dd26cfbfe2a76b3cbdb5b7bfc2.1323212403.git.andrea.adami@gmail.com>	<CA+M6bXmdt7UE+-HkLva9snnv=AJhhh0sxKSKCJhQOb58bNKGJQ@mail.gmail.com>	<20111208151026.GC3761@jama.jama.net>
+	<CAAQYJAuHVLo6A_cGXBVoq+3Tj863LRH+hu-6GtZeqo3_aJWYQA@mail.gmail.com>
+In-Reply-To: <CAAQYJAuHVLo6A_cGXBVoq+3Tj863LRH+hu-6GtZeqo3_aJWYQA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] image_types.bbclass: implement jffs2 summary images (sum.jffs2)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: ulf@emagii.com, Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -49,46 +42,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2011 22:49:39 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 08 Dec 2011 22:50:59 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogb3BlbmVtYmVkZGVkLWNv
-cmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFttYWlsdG86b3BlbmVtYmVkZGVk
-LWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYgT2YNCj4gS2hl
-bSBSYWoNCj4gU2VudDogVGh1cnNkYXksIERlY2VtYmVyIDA4LCAyMDExIDEyOjQ1IFBNDQo+IFRv
-OiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllcg0KPiBDYzog
-aGpsLnRvb2xzQGdtYWlsLmNvbQ0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCAwNS8x
-MV0gZmluZHV0aWxzOiBGaXggY29tcGlsYXRpb24gZm9yIHgzMg0KPiB0b29sY2hhaW4NCj4gDQo+
-IE9uIFRodSwgRGVjIDgsIDIwMTEgYXQgMTA6MzcgQU0sIEthbWJsZSwgTml0aW4gQQ0KPiA8bml0
-aW4uYS5rYW1ibGVAaW50ZWwuY29tPiB3cm90ZToNCj4gPg0KPiA+DQo+ID4+IC0tLS0tT3JpZ2lu
-YWwgTWVzc2FnZS0tLS0tDQo+ID4+IEZyb206IG9wZW5lbWJlZGRlZC1jb3JlLWJvdW5jZXNAbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+PiBbbWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlLWJvdW5j
-ZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZ10gT24gQmVoYWxmDQo+IE9mDQo+ID4+IFJpY2hhcmQg
-UHVyZGllDQo+ID4+IFNlbnQ6IFRodXJzZGF5LCBEZWNlbWJlciAwOCwgMjAxMSAxOjA4IEFNDQo+
-ID4+IFRvOiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllcg0K
-PiA+PiBDYzogaGpsLnRvb2xzQGdtYWlsLmNvbQ0KPiA+PiBTdWJqZWN0OiBSZTogW09FLWNvcmVd
-IFtQQVRDSCAwNS8xMV0gZmluZHV0aWxzOiBGaXggY29tcGlsYXRpb24gZm9yDQo+IHgzMg0KPiA+
-PiB0b29sY2hhaW4NCj4gPj4NCj4gPj4gT24gV2VkLCAyMDExLTEyLTA3IGF0IDIzOjE0IC0wODAw
-LCBLaGVtIFJhaiB3cm90ZToNCj4gPj4gPiBPbiBXZWQsIERlYyA3LCAyMDExIGF0IDk6NDggUE0s
-IMKgPG5pdGluLmEua2FtYmxlQGludGVsLmNvbT4gd3JvdGU6DQo+ID4+ID4gPiBGcm9tOiBOaXRp
-biBBIEthbWJsZSA8bml0aW4uYS5rYW1ibGVAaW50ZWwuY29tPg0KPiA+PiA+ID4NCj4gPj4gPiA+
-IFdvcmsgYXJvdW5kIGdudWxpYiB0aW1lX3QgYXNzdW1wdGlvbiBpbiBmaW5kdXRpbHMgZm9yIHgz
-Mg0KPiA+PiA+DQo+ID4+ID4gaWYgaXRzIGEgd29ya2Fyb3VuZCBjYW4gaXQgYmUgYXBwbGllZCBv
-bmx5IHRvIHgzMiB3aXRoIGhlbHAgb2YNCj4gPj4gb3ZlcnJpZGVzIHBsZWFzZQ0KPiA+Pg0KPiA+
-PiBJdHMgbm90IGEgd29ya2Fyb3VuZCwgdGhlIHBhdGNoIGxvb2tzIGxpa2UgYSBnZW5lcmljIHJl
-YXNvbmFibGUgZml4DQo+IHRvDQo+ID4+IGNvcnJlY3QgYXNzdW1wdGlvbnMgbWFkZSBieSB0aGUg
-cHJvZ3JhbSB0aGF0IGFyZW4ndCB0cnVlPw0KPiA+DQo+ID4NCj4gPiBFdmVuIHRob3VnaCB4MzIg
-Y2F1Z2h0IHRoZSBpc3N1ZSwgdGhlIGlzc3VlIGlzIG5vdCB4MzIgc3BlY2lmaWMuIEFuZA0KPiBh
-bHNvDQo+ID4gb3RoZXIgYXJjaGVzIGFyZSBidWlsZGluZyBmaW5lIHdpdGggdGhlIGNoYW5nZS4g
-U28gSSB0aGluayBpdCBpcw0KPiBiZXR0ZXINCj4gPiB0byBrZWVwIHRoaXMgcGF0Y2ggaW4gb2Vj
-b3JlLg0KPiANCj4gT0sgdGhlbiBjaGFuZ2UgdGhlIGNvbW1pdCBtZXNzYWdlIGl0cyBjb25mdXNp
-bmcuDQoNCk9rLCBJIGNoYW5nZWQgdGhlIGNvbW1pdCBtZXNzYWdlIGluIHRoZSBjb250cmliLiBi
-cmFuY2ggbml0aW4veDMyLg0KTml0aW4NCg0KPiANCj4gX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18NCj4gT3BlbmVtYmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0
-DQo+IE9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gaHR0cDovL2xp
-c3RzLmxpbnV4dG9nby5vcmcvY2dpLWJpbi9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1j
-b3JlDQo=
+On 2011-12-08 22:30, Andrea Adami wrote:
+> On Thu, Dec 8, 2011 at 4:10 PM, Martin Jansa<martin.jansa@gmail.com>  wrote:
+>> On Thu, Dec 08, 2011 at 07:57:52AM -0700, Tom Rini wrote:
+>>> On Tue, Dec 6, 2011 at 4:23 PM, Andrea Adami<andrea.adami@gmail.com>  wrote:
+>>>> * Building the jffs2 filesystem to include summary information speeds up
+>>>> * the mount process considerably at the cost of increased size.
+>>>> * The rate of speedup is generally higher on NAND chips and on the chips
+>>>> * where the erase block size is large.
+>>>>
+>>>> Signed-off-by: Andrea Adami<andrea.adami@gmail.com>
+>> I'll repeat my comment from yesterday, but IMHO it would be easier to
+>> see the difference between those 2 images if the IMAGE_CMD_jffs2 output is
+>> renamed to .jffs2.nosummary and IMAGE_CMD_sum.jffs2 (or renamed IMAGE_CMD_jffs2.summary)
+>> produces .jffs2.summary (or even just .jffs2 if we can agree that .summary is
+>> what enduser wants by default)
+> I tried to keep the patch not too invasive and did not introduce a
+> special EXTRA string for sumtool.
+> The most widely used options (-p -l -e) are common, though.
+>
+> Unfortunately summary means we have a bigger image:
+> 44M Dec  8 16:14 core-image-sato-c7x0-20111208151047.rootfs.jffs2
+> 57M Dec  8 16:14 core-image-sato-c7x0-20111208151047.rootfs.sum.jffs2
+>
+> Being some devices have strict size requirements I think it is better
+> to build both kind of images.
+>
+Not sure exactly what sumtools does,
+but as I understood it, it does things which
+the targets need to be doing at first startup otherwise.
+
+Does that not mean that the target rootfs will grow
+from 44 MB to 57 MB during that process?
+
+If it does, you never want to have the non-sumtool version.
+(I guess if you downloaded the file over a 20 bps channel to
+a nuclear submarine, you would disagree)
+
+BR
+Ulf
+
+
+
+
+> Cheers
+>
+> Andrea
+>
+>> But other than that it looks fine and will make my IMAGE_DEPENDS_jffs2 a
+>> bit shorter.
+>>
+>> Regards,
+>>
+>>> Acked-by: Tom Rini<tom.rini@gmail.com>
+>>>
+>>>> ---
+>>>>   meta/classes/image_types.bbclass |    5 ++++-
+>>>>   1 files changed, 4 insertions(+), 1 deletions(-)
+>>>>
+>>>> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+>>>> index 29b6380..bd4b7bc 100644
+>>>> --- a/meta/classes/image_types.bbclass
+>>>> +++ b/meta/classes/image_types.bbclass
+>>>> @@ -35,6 +35,8 @@ XZ_COMPRESSION_LEVEL ?= "-e -9"
+>>>>   XZ_INTEGRITY_CHECK ?= "crc32"
+>>>>
+>>>>   IMAGE_CMD_jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime --output=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2 ${EXTRA_IMAGECMD}"
+>>>> +IMAGE_CMD_sum.jffs2 = "${IMAGE_CMD_jffs2}&&  sumtool -i ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2 \
+>>>> +       -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.sum.jffs2 ${EXTRA_IMAGECMD}"
+>>>>
+>>>>   IMAGE_CMD_cramfs = "mkcramfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cramfs ${EXTRA_IMAGECMD}"
+>>>>
+>>>> @@ -138,6 +140,7 @@ EXTRA_IMAGECMD_btrfs ?= ""
+>>>>
+>>>>   IMAGE_DEPENDS = ""
+>>>>   IMAGE_DEPENDS_jffs2 = "mtd-utils-native"
+>>>> +IMAGE_DEPENDS_sum.jffs2 = "mtd-utils-native"
+>>>>   IMAGE_DEPENDS_cramfs = "cramfs-native"
+>>>>   IMAGE_DEPENDS_ext2 = "genext2fs-native"
+>>>>   IMAGE_DEPENDS_ext2.gz = "genext2fs-native"
+>>>> @@ -157,4 +160,4 @@ IMAGE_DEPENDS_ubi = "mtd-utils-native"
+>>>>   IMAGE_DEPENDS_ubifs = "mtd-utils-native"
+>>>>
+>>>>   # This variable is available to request which values are suitable for IMAGE_FSTYPES
+>>>> -IMAGE_TYPES = "jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma"
+>>>> +IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma"
+>>>> --
+>>>> 1.7.3.4
+>>>>
+>>>>
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>>
+>>>
+>>> --
+>>> Tom
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>> --
+>> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
+-- 
+Best Regards
+Ulf Samuelsson
+eMagii
+
 
 
