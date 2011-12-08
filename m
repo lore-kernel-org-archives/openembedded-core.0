@@ -1,23 +1,23 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RYZhG-0007dK-Cw
+	(envelope-from <sgw@linux.intel.com>) id 1RYZhH-0007dd-F6
 	for openembedded-core@openembedded.org; Thu, 08 Dec 2011 09:51:19 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga102.fm.intel.com with ESMTP; 08 Dec 2011 00:44:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="99987709"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="99987712"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.35])
 	by fmsmga002.fm.intel.com with ESMTP; 08 Dec 2011 00:44:20 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@openembedded.org
-Date: Thu,  8 Dec 2011 00:44:07 -0800
-Message-Id: <7f85cde542803dd0ab27cdc17d4c8b685a330f57.1323333676.git.sgw@linux.intel.com>
+Date: Thu,  8 Dec 2011 00:44:09 -0800
+Message-Id: <aaf7c9c2dd5bba64dbd89a2b807ce6bb28f81bef.1323333676.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1323333676.git.sgw@linux.intel.com>
 References: <cover.1323333676.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1323333676.git.sgw@linux.intel.com>
 References: <cover.1323333676.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 07/17] distro_tracking_fields.inc: Update dropbear, iproute2, net-tools tracking information.
+Subject: [CONSOLIDATED PULL 09/17] qt4: fix debug symbol stripping
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,71 +34,88 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 08 Dec 2011 08:51:19 -0000
 
-From: Mei Lei <lei.mei@intel.com>
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-Signed-off-by: Mei Lei <lei.mei@intel.com>
+Adds a patch imported from Debian to not strip the executables as part
+of the Qt build process. This fixes the warnings shown at packaging
+stage as well as the content of the debug symbol packages.
+
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |   19 ++++++++++---------
- 1 files changed, 10 insertions(+), 9 deletions(-)
+ .../qt4/files/add_nostrip_for_debug_packages.diff  |   23 ++++++++++++++++++++
+ meta/recipes-qt/qt4/qt-4.7.4.inc                   |    1 +
+ meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb          |    2 +-
+ meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb          |    2 +-
+ 4 files changed, 26 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-qt/qt4/files/add_nostrip_for_debug_packages.diff
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index f53fffa..890340b 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -848,14 +848,15 @@ DISTRO_PN_ALIAS_pn-blktool = "Debian=blktool Mandriva=blktool"
+diff --git a/meta/recipes-qt/qt4/files/add_nostrip_for_debug_packages.diff b/meta/recipes-qt/qt4/files/add_nostrip_for_debug_packages.diff
+new file mode 100644
+index 0000000..774cb99
+--- /dev/null
++++ b/meta/recipes-qt/qt4/files/add_nostrip_for_debug_packages.diff
+@@ -0,0 +1,23 @@
++author: Fathi Boudra <fabo@debian.org>
++
++Qt is built in release mode and strip files by default.
++Set CONFIG+=nostrip to avoid the stripping and
++let dh_strip do it to generate debug packages.
++
++Upstream-Status: Inappropriate [Configuration]
++
++---
++ configure |    2 ++
++ 1 file changed, 2 insertions(+)
++
++--- a/configure
+++++ b/configure
++@@ -627,6 +627,8 @@ mkdir -p "$outpath/config.tests"
++ rm -f "$outpath/config.tests/.qmake.cache"
++ cp "$QMAKE_VARS_FILE" "$outpath/config.tests/.qmake.cache"
++ 
+++QMakeVar add CONFIG nostrip
+++
++ QMakeVar add styles "cde mac motif plastique cleanlooks windows"
++ QMakeVar add decorations "default windows styled"
++ QMakeVar add mouse-drivers "pc"
+diff --git a/meta/recipes-qt/qt4/qt-4.7.4.inc b/meta/recipes-qt/qt4/qt-4.7.4.inc
+index bc33b6b..7a3ba54 100644
+--- a/meta/recipes-qt/qt4/qt-4.7.4.inc
++++ b/meta/recipes-qt/qt4/qt-4.7.4.inc
+@@ -14,6 +14,7 @@ SRC_URI = "http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${PV}.
+            file://0001-Added-Openembedded-crossarch-option.patch \
+            file://blacklist-diginotar-certs.diff \
+            file://fix-translations.patch \
++           file://add_nostrip_for_debug_packages.diff \
+            file://g++.conf \
+            file://linux.conf \
+            file://fix-qtbug-20925.patch \
+diff --git a/meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb b/meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb
+index e34ec8d..6b9f97a 100644
+--- a/meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb
++++ b/meta/recipes-qt/qt4/qt4-embedded_4.7.4.bb
+@@ -1,7 +1,7 @@
+ require qt-${PV}.inc
+ require qt4-embedded.inc
  
- RECIPE_STATUS_pn-iproute2 = "green"
- RECIPE_DEPENDENCY_CHECK_pn-iproute2 = "not done"
--RECIPE_LATEST_VERSION_pn-iproute2 = "2.6.34"
-+RECIPE_LATEST_VERSION_pn-iproute2 = "3.1.0"
- RECIPE_PATCH_pn-iproute2+configure-cross = "to be pushed upstream"
- RECIPE_INTEL_SECTION_pn-iproute2 = "base utils"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-iproute2 = "3 months"
--RECIPE_LATEST_RELEASE_DATE_pn-iproute2 = "May 01, 2010"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-iproute2 = "1 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-iproute2 = "Nov 17, 2011"
-+RECIPE_NO_UPDATE_REASON_pn-iproute2="3.1.0 is the latest version, not 050607"
- RECIPE_COMMENTS_pn-iproute2 = ""
- DISTRO_PN_ALIAS_pn-iproute2 = "OSPDT"
--RECIPE_LAST_UPDATE_pn-iproute2 = "Nov 10, 2010"
-+RECIPE_LAST_UPDATE_pn-iproute2 = "Nov 29, 2011"
- RECIPE_MAINTAINER_pn-iproute2 = "Dongxiao Xu <dongxiao.xu@intel.com>"
+-PR = "${INC_PR}.3"
++PR = "${INC_PR}.4"
  
- RECIPE_STATUS_pn-netbase = "green"
-@@ -1062,6 +1063,7 @@ RECIPE_MAINTAINER_pn-ethtool = "Zhai Edwin <edwin.zhai@intel.com>"
- RECIPE_STATUS_pn-net-tools = "green"
- RECIPE_LAST_UPDATE_pn-net-tools = "Aug 16, 2010"
- RECIPE_LATEST_VERSION_pn-net-tools = "1.60-23"
-+RECIPE_NO_UPDATE_REASON_pn-net-tools="1.60 is the latest version, 1.60-23 just its patch version"
- RECIPE_MAINTAINER_pn-net-tools = "Dongxiao Xu <dongxiao.xu@intel.com>"
- RECIPE_LATEST_VERSION_pn-net-tools = "1.60-23"
+ QT_CONFIG_FLAGS_append_armv6-vfp = " -no-neon "
  
-@@ -1608,10 +1610,10 @@ RECIPE_COMMENTS_pn-nfs-utils = ""
+diff --git a/meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb b/meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb
+index 8c48936..0db090f 100644
+--- a/meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb
++++ b/meta/recipes-qt/qt4/qt4-x11-free_4.7.4.bb
+@@ -1,7 +1,7 @@
+ require qt4-x11-free.inc
+ require qt-${PV}.inc
  
- RECIPE_STATUS_pn-dropbear = "green"
- DISTRO_PN_ALIAS_pn-dropbear = "Debian=dropbear Ubuntu=dropbear"
--RECIPE_LAST_UPDATE_pn-dropbear = "Sep 30, 2011"
-+RECIPE_LAST_UPDATE_pn-dropbear = "Nov 29, 2011"
- RECIPE_MAINTAINER_pn-dropbear = "Mei Lei <lei.mei@intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-dropbear = "not done"
--RECIPE_LATEST_VERSION_pn-dropbear = "0.53.1"
-+RECIPE_LATEST_VERSION_pn-dropbear = "2011.54"
- RECIPE_PATCH_pn-dropbear+urandom-xauth-changes-to-options.h = "xauth path change"
- RECIPE_PATCH_pn-dropbear+configure = "use configure cache value for cross compiling"
- RECIPE_PATCH_pn-dropbear+fix-skb-keys = "enlarge key buffer size"
-@@ -1619,10 +1621,9 @@ RECIPE_PATCH_pn-dropbear+allow-nopw = "allow login with no password, applied on
- RECIPE_PATCH_pn-dropbear+init = "init script"
- RECIPE_PATCH_pn-dropbear+dropbear-0.53.1-static_build_fix = "fix link error in 0.53.1 release"
- RECIPE_INTEL_SECTION_pn-dropbear = "base utils"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-dropbear = "1 month"
--RECIPE_LATEST_RELEASE_DATE_pn-dropbear = "Mar 01, 2011"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-dropbear = "8 month"
-+RECIPE_LATEST_RELEASE_DATE_pn-dropbear = "Nov 08, 2011"
- RECIPE_COMMENTS_pn-dropbear = ""
--RECIPE_NO_UPDATE_REASON_pn-dropbear="0.53.1 is the latest version,not 0.255"
+-PR = "${INC_PR}.3"
++PR = "${INC_PR}.4"
  
- RECIPE_STATUS_pn-hal = "green"
- RECIPE_LAST_UPDATE_pn-hal = "Jul 20, 2010"
+ QT_CONFIG_FLAGS_append_armv6-vfp = " -no-neon "
+ 
 -- 
 1.7.6.4
 
