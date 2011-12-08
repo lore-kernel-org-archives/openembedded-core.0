@@ -1,23 +1,23 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RYZhF-0007dK-L4
-	for openembedded-core@openembedded.org; Thu, 08 Dec 2011 09:51:17 +0100
+	(envelope-from <sgw@linux.intel.com>) id 1RYZhG-0007dd-G1
+	for openembedded-core@openembedded.org; Thu, 08 Dec 2011 09:51:18 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 08 Dec 2011 00:44:19 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 08 Dec 2011 00:44:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="99987702"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="99987705"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.35])
-	by fmsmga002.fm.intel.com with ESMTP; 08 Dec 2011 00:44:19 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 08 Dec 2011 00:44:20 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@openembedded.org
-Date: Thu,  8 Dec 2011 00:44:04 -0800
-Message-Id: <ac7d24d94d80e51041728c3b34c328ceb5215513.1323333676.git.sgw@linux.intel.com>
+Date: Thu,  8 Dec 2011 00:44:06 -0800
+Message-Id: <2640dc20f6d42e54b863c64e2bfb94a08bfc86a4.1323333676.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1323333676.git.sgw@linux.intel.com>
 References: <cover.1323333676.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1323333676.git.sgw@linux.intel.com>
 References: <cover.1323333676.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 04/17] sysstat: don't run populate-volatile.sh update in do_rootfs or without populate-volatile.sh
+Subject: [CONSOLIDATED PULL 06/17] dropbear: Upgrade from 0.53.1 to 2011.54
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,47 +32,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2011 08:51:17 -0000
+X-List-Received-Date: Thu, 08 Dec 2011 08:51:19 -0000
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+From: Mei Lei <lei.mei@intel.com>
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+This new version added ALLOW_BLANK_PASSWORD option. So change the allow-nopw.patch content to enable this function.
+
+Signed-off-by: Mei Lei <lei.mei@intel.com>
 ---
- meta/recipes-extended/sysstat/sysstat.inc       |    7 ++++++-
- meta/recipes-extended/sysstat/sysstat_10.0.3.bb |    2 +-
- 2 files changed, 7 insertions(+), 2 deletions(-)
+ .../configure.patch                                |    0
+ .../dropbear/dropbear/allow-nopw.patch             |   55 ++++++--------------
+ meta/recipes-core/dropbear/dropbear_0.53.1.bb      |    6 --
+ meta/recipes-core/dropbear/dropbear_2011.54.bb     |    6 ++
+ 4 files changed, 23 insertions(+), 44 deletions(-)
+ rename meta/recipes-core/dropbear/{dropbear-0.53.1 => dropbear-2011.54}/configure.patch (100%)
+ delete mode 100644 meta/recipes-core/dropbear/dropbear_0.53.1.bb
+ create mode 100644 meta/recipes-core/dropbear/dropbear_2011.54.bb
 
-diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
-index 2936f96..ca40ab5 100644
---- a/meta/recipes-extended/sysstat/sysstat.inc
-+++ b/meta/recipes-extended/sysstat/sysstat.inc
-@@ -22,7 +22,12 @@ do_install() {
- }
+diff --git a/meta/recipes-core/dropbear/dropbear-0.53.1/configure.patch b/meta/recipes-core/dropbear/dropbear-2011.54/configure.patch
+similarity index 100%
+rename from meta/recipes-core/dropbear/dropbear-0.53.1/configure.patch
+rename to meta/recipes-core/dropbear/dropbear-2011.54/configure.patch
+diff --git a/meta/recipes-core/dropbear/dropbear/allow-nopw.patch b/meta/recipes-core/dropbear/dropbear/allow-nopw.patch
+index 3909ef2..a175ee1 100644
+--- a/meta/recipes-core/dropbear/dropbear/allow-nopw.patch
++++ b/meta/recipes-core/dropbear/dropbear/allow-nopw.patch
+@@ -1,40 +1,19 @@
+-Upstream-Status: Inappropriate [embedded specific]
++Enable blank password login function for new release dropbear.
  
- pkg_postinst_${PN} () {
--        /etc/init.d/populate-volatile.sh update
-+        if [ -n "$D" ]; then
-+                exit 1
-+        fi
-+        if [ -e /etc/init.d/populate-volatile.sh ]; then
-+                /etc/init.d/populate-volatile.sh update
-+        fi
- }
- 
- 
-diff --git a/meta/recipes-extended/sysstat/sysstat_10.0.3.bb b/meta/recipes-extended/sysstat/sysstat_10.0.3.bb
-index d445e88..7ef6c60 100644
---- a/meta/recipes-extended/sysstat/sysstat_10.0.3.bb
-+++ b/meta/recipes-extended/sysstat/sysstat_10.0.3.bb
-@@ -2,7 +2,7 @@ require sysstat.inc
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
- 
+-diff --git a/svr-auth.c b/svr-auth.c
+-index 87e3c5e..3e78c1a 100644
+---- a/svr-auth.c
+-+++ b/svr-auth.c
+-@@ -250,6 +250,7 @@ static int checkusername(unsigned char *username, unsigned int userlen) {
+- 	}
+- 
+- 	/* check for an empty password */
+-+#ifdef DISALLOW_EMPTY_PW
+- 	if (ses.authstate.pw_passwd[0] == '\0') {
+- 		TRACE(("leave checkusername: empty pword"))
+- 		dropbear_log(LOG_WARNING, "User '%s' has blank password, rejected",
+-@@ -257,6 +258,7 @@ static int checkusername(unsigned char *username, unsigned int userlen) {
+- 		send_msg_userauth_failure(0, 1);
+- 		return DROPBEAR_FAILURE;
+- 	}
+-+#endif
+- 
+- 	TRACE(("shell is %s", ses.authstate.pw_shell))
+- 
+-diff --git a/svr-authpasswd.c b/svr-authpasswd.c
+-index a29fd63..6a3c7e9 100644
+---- a/svr-authpasswd.c
+-+++ b/svr-authpasswd.c
+-@@ -64,9 +64,13 @@ void svr_auth_password() {
+- 	 * since the shadow password may differ to that tested
+- 	 * in auth.c */
+- 	if (passwdcrypt[0] == '\0') {
+-+#ifdef DISALLOW_EMPTY_PASSWD
+- 		dropbear_log(LOG_WARNING, "User '%s' has blank password, rejected",
+- 				ses.authstate.pw_name);
+- 		send_msg_userauth_failure(0, 1);
+-+#else
+-+               send_msg_userauth_success();
+-+#endif
+- 		return;
+- 	}
++Upstream-Status: Inappropriate [configuration]
++
++Signed-off-by: Mei Lei <lei.mei@intel.com>
++
++diff --git a/options.h b/options.h
++index 73689ad..041ddaa 100644
++--- a/options.h
+++++ b/options.h
++@@ -180,7 +180,7 @@ much traffic. */
++  * Public key logins are allowed for blank-password accounts regardless of this
++  * setting.  PAM is not affected by this setting, it uses the normal pam.d
++  * settings ('nullok' option) */
++-/* #define ALLOW_BLANK_PASSWORD */
+++#define ALLOW_BLANK_PASSWORD
+  
++ #define ENABLE_CLI_PASSWORD_AUTH
++ #define ENABLE_CLI_PUBKEY_AUTH
+diff --git a/meta/recipes-core/dropbear/dropbear_0.53.1.bb b/meta/recipes-core/dropbear/dropbear_0.53.1.bb
+deleted file mode 100644
+index 54f86e8..0000000
+--- a/meta/recipes-core/dropbear/dropbear_0.53.1.bb
++++ /dev/null
+@@ -1,6 +0,0 @@
+-require dropbear.inc
+-
+-SRC_URI[md5sum] = "6b8d901859d9b8a18e2f6bfe0a892a03"
+-SRC_URI[sha256sum] = "192538ca2a9ee778f12a2e8ddb6f098fa85dcb6457adc1cb40dd94b3c28f4df6"
+-
 -PR = "r0"
-+PR = "r1"
- 
- SRC_URI[md5sum] = "0e1ed5200f31f69a3b90ff1e81c07745"
- SRC_URI[sha256sum] = "7c0dd172f09edaff100b33db29ef502e15e71867b505c6d519f76a24fabcc1f5"
+diff --git a/meta/recipes-core/dropbear/dropbear_2011.54.bb b/meta/recipes-core/dropbear/dropbear_2011.54.bb
+new file mode 100644
+index 0000000..b7b4b83
+--- /dev/null
++++ b/meta/recipes-core/dropbear/dropbear_2011.54.bb
+@@ -0,0 +1,6 @@
++require dropbear.inc
++
++SRC_URI[md5sum] = "ce1e236c4a8df0cb95253defee6716b5"
++SRC_URI[sha256sum] = "a5fe60fa9c11e7b0f6a21ef6e86a53ce3d55236548901905070ff1c1716fbf47"
++
++PR = "r0"
 -- 
 1.7.6.4
 
