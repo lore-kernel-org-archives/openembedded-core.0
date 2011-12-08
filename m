@@ -1,24 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1RYhbw-0001yO-Cf
+	(envelope-from <philb@gnu.org>) id 1RYhcc-000265-94
 	for openembedded-core@lists.openembedded.org;
-	Thu, 08 Dec 2011 18:18:20 +0100
-Received: from yow-bashfiel-l1.corp.ad.wrs.com
-	(dhcp-145-187.ottawa.windriver.com [128.224.145.187])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pB8HBPDn004053;
-	Thu, 8 Dec 2011 09:11:28 -0800 (PST)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Thu,  8 Dec 2011 12:11:23 -0500
-Message-Id: <7e660f0052162b3c3d61c3153d637cb38669fde6.1323364091.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1323364091.git.bruce.ashfield@windriver.com>
-References: <cover.1323364091.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1323364091.git.bruce.ashfield@windriver.com>
-References: <cover.1323364091.git.bruce.ashfield@windriver.com>
-Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
-	saul.wold@intel.com
-Subject: [PATCH 3/3] linux-yocto: update rt branches to 3.0.12 + rt30
+	Thu, 08 Dec 2011 18:19:02 +0100
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RYhW2-0001Un-NA
+	for openembedded-core@lists.openembedded.org;
+	Thu, 08 Dec 2011 18:12:14 +0100
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 08 Dec 2011 17:12:13 +0000
+In-Reply-To: <1323363345.5309.42.camel@ted>
+References: <cover.1323327959.git.xiaofeng.yan@windriver.com>
+	<7ceb01f6db6edfad6c78c5a7ebc685c23bb11358.1323327959.git.xiaofeng.yan@windriver.com>
+	<67C6F211-C6C2-4655-889A-A254F4E0D7D9@dominion.thruhere.net>
+	<1323363345.5309.42.camel@ted>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1323364334.26081.383.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [PATCH 04/10] gtk.inc: add feature based on directfb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,36 +36,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2011 17:18:20 -0000
+X-List-Received-Date: Thu, 08 Dec 2011 17:19:02 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Updating the SRCREVs to v3.0.12 and the rt30 patch.
+On Thu, 2011-12-08 at 16:55 +0000, Richard Purdie wrote:
+> The question is whether it makes sense to have directfb and X based gtk
+> in the same builds and package feeds or not. I can see that it might be
+> desired and that it likely is possible.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
+This is true, though there's nothing to stop a distro that particularly
+wants this from inventing their own stub recipes which just set
+PACKAGECONFIG appropriately and then require the generic version.  So
+it's really just a question of what we want to be the default in
+oe-core.
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-index e5af2cc..6c9917f 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-@@ -11,11 +11,11 @@ KMACHINE_qemumips = "mti-malta32-be"
- KBRANCH = "yocto/standard/preempt-rt/base"
- KBRANCH_qemuppc = "yocto/standard/preempt-rt/qemu-ppc32"
- 
--LINUX_VERSION ?= "3.0.10"
-+LINUX_VERSION ?= "3.0.12"
- LINUX_KERNEL_TYPE = "preempt-rt"
- 
--SRCREV_machine ?= "bffda9207cdc3b309bfa7b3e23eb7dc838f50223"
--SRCREV_machine_qemuppc ?= "f02dda1ccaf95f10a1e65359184e90484a5fd0d9"
-+SRCREV_machine ?= "6e96ccbbf19a4a7b67d98fdcd74d2c9da2c7c463"
-+SRCREV_machine_qemuppc ?= "8ea61de7fd201ff0001a039f2fda8ec2e4a562a1"
- SRCREV_meta ?= "caa74f86f42f6ecc22c3e9f380176b2695579e18"
- 
- PR = "r1"
--- 
-1.7.4.1
+Also note that, although you can parallel install multiple versions of
+the gtk+ runtime on the target system, if you want the build system to
+be deterministic then (in the absence of per-recipe sysroot
+construction) you need some way to decide which one gets to provide the
+gtk+-2.0.pc that other recipes will build against.  (The different
+targets have different library sonames so you can't just swap them out
+at run time: a given binary will remain coupled to the particular Gtk
+variant that it was compiled against.)  And if the two variants could
+conceivably be different versions of GTK then you also need a way to
+deconflict ${includedir}/gtk-2.0.  
+
+So it isn't quite as simple as just having the two recipes, there is a
+bit of extra policy involved as well.  And of course there would be all
+the normal overhead in terms of parse time, memory footprint and
+maintenance burden associated with having more recipes.  
+
+So, in light of all the above plus the fact that everything is different
+with Gtk+3 anyway, my preference for supporting directfb on gtk+2 in
+oe-core would be to use PACKAGECONFIG and not have separate recipe
+files.
+
+p.
+
 
 
 
