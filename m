@@ -1,35 +1,17 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from bluegiga.fi ([194.100.31.45] helo=blue-gw.bluegiga.fi)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RYYA2-0005Iy-1D
+	(envelope-from <lauri.hintsala@bluegiga.com>) id 1RYYBm-0005M3-6v
 	for openembedded-core@lists.openembedded.org;
-	Thu, 08 Dec 2011 08:12:54 +0100
-Received: by eekb15 with SMTP id b15so935436eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Dec 2011 23:06:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=+TPXWOLX37TuUaiaAHxGyxS9UwN2rLI19PC/+trFV90=;
-	b=x2Lx9wZMc3z8yo7btPYy8NP5Y94xoi4Kpwu2MxS4IpWetnHaE9OFwvnr868YdKHrxX
-	L0jdmpMuff9rXdBFOrgWVUmMY1aJwAKNmxVE3E1ul3Ppri/BVkcIpv7uh8GiamMu3wi2
-	j0gUOidAfn1autyetCfFNblslzdnrrd1FlQ2k=
-Received: by 10.14.14.160 with SMTP id d32mr11385eed.223.1323327962716;
-	Wed, 07 Dec 2011 23:06:02 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id 65sm14520021eeg.8.2011.12.07.23.06.00
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 07 Dec 2011 23:06:00 -0800 (PST)
-Date: Thu, 8 Dec 2011 08:05:49 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111208070548.GB3761@jama.jama.net>
-References: <1323279247.30601.51.camel@ted>
-	<201112080053.11966.schnitzeltony@gmx.de>
-MIME-Version: 1.0
-In-Reply-To: <201112080053.11966.schnitzeltony@gmx.de>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] bitbake.conf/image.bbclass: Ensure images use the correct passwd/group files
+	Thu, 08 Dec 2011 08:14:42 +0100
+Received: from bgtlh.bgt.local (unknown [10.1.1.28])
+	by blue-gw.bluegiga.fi (Postfix) with ESMTP id 833717BE289;
+	Thu,  8 Dec 2011 09:07:54 +0200 (EET)
+From: Lauri Hintsala <lauri.hintsala@bluegiga.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  8 Dec 2011 09:07:25 +0200
+Message-Id: <1323328045-26145-1-git-send-email-lauri.hintsala@bluegiga.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH] initscripts: fix timestamp check at bootmisc.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,99 +26,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Dec 2011 07:12:54 -0000
-X-Groupsio-MsgNum: 13812
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="KFztAG8eRSV9hGtP"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 08 Dec 2011 07:14:42 -0000
 
---KFztAG8eRSV9hGtP
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+cc: sgw@linux.intel.com
+cc: gary@mlbassoc.com
+Signed-off-by: Lauri Hintsala <lauri.hintsala@bluegiga.com>
+---
 
-On Thu, Dec 08, 2011 at 12:53:11AM +0100, Andreas M=FCller wrote:
-> On Wednesday, December 07, 2011 06:34:07 PM Richard Purdie wrote:
-> > We need pseudo to use the rootfs passwd/group files belonging to the
-> > rootfs when building images. This patch ensures that we use the rootfs
-> > files instead of those in the sysroot which can lead to incorrect file
-> > ownership issues.
-> >=20
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> >=20
-> > diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> > index 4642fa6..865d430 100644
-> > --- a/meta/classes/image.bbclass
-> > +++ b/meta/classes/image.bbclass
-> > @@ -121,6 +121,8 @@ IMAGE_LINGUAS ?=3D "de-de fr-fr en-gb"
-> >=20
-> >  LINGUAS_INSTALL =3D "${@" ".join(map(lambda s: "locale-base-%s" % s,
-> > d.getVar('IMAGE_LINGUAS', 1).split()))}"
-> >=20
-> > +PSEUDO_PASSWD =3D "${IMAGE_ROOTFS}"
-> > +
-> >  do_rootfs[nostamp] =3D "1"
-> >  do_rootfs[dirs] =3D "${TOPDIR}"
-> >  do_rootfs[lockfiles] +=3D "${IMAGE_ROOTFS}.lock"
-> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> > index e80cc32..eeb1fc4 100644
-> > --- a/meta/conf/bitbake.conf
-> > +++ b/meta/conf/bitbake.conf
-> > @@ -580,11 +580,12 @@ SRC_URI =3D "file://${FILE}"
-> >=20
-> >  # Use pseudo as the fakeroot implementation
-> >  PSEUDO_LOCALSTATEDIR ?=3D "${WORKDIR}/pseudo/"
-> > +PSEUDO_PASSWD ?=3D "${STAGING_DIR_TARGET}"
-> >  export PSEUDO_DISABLED =3D "1"
-> >  #export PSEUDO_PREFIX =3D "${STAGING_DIR_NATIVE}${prefix_native}"
-> >  #export PSEUDO_BINDIR =3D "${STAGING_DIR_NATIVE}${bindir_native}"
-> >  #export PSEUDO_LIBDIR =3D
-> > "${STAGING_DIR_NATIVE}$PSEUDOBINDIR/../lib/pseudo/lib -FAKEROOTENV =3D
-> > "PSEUDO_PREFIX=3D${STAGING_DIR_NATIVE}${prefix_native}
-> > PSEUDO_LOCALSTATEDIR=3D${PSEUDO_LOCALSTATEDIR}
-> > PSEUDO_PASSWD=3D${STAGING_DIR_TARGET} PSEUDO_NOSYMLINKEXP=3D1
-> > PSEUDO_DISABLED=3D0" +FAKEROOTENV =3D
-> > "PSEUDO_PREFIX=3D${STAGING_DIR_NATIVE}${prefix_native}
-> > PSEUDO_LOCALSTATEDIR=3D${PSEUDO_LOCALSTATEDIR}
-> > PSEUDO_PASSWD=3D${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=3D1 PSEUDO_DISABLE=
-D=3D0"
-> > FAKEROOTNOENV =3D "PSEUDO_UNLOAD=3D1"
-> >  FAKEROOTDIRS =3D "${PSEUDO_LOCALSTATEDIR}"
-> >  PREFERRED_PROVIDER_virtual/fakeroot-native ?=3D "pseudo-native"
-> dbus still needs manual call of=20
->=20
-> 	chown messagebus:messagebus /var/run/dbus /var/lib/dbus
->=20
-> ( it is root:root on my image) and
->=20
-> 	chown root:messagebus /usr/libexec/dbus-daemon-launch-helper
->=20
-> ( it is avahi:netdev on my image )
->=20
-> Does this one fix it?
+Hello guys,
 
-It did for me, see:
-http://bugzilla.pokylinux.org/show_bug.cgi?id=3D1711
+It seems that timestamp checking has been broken by the commit
+2078af333d704fd894a2dedbc19cef5775cdadbb. Some notes about following
+lines.
 
-> To test: Is it enough to rebuild dbus?
+meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh:
 
-I had right owners in dbus package, wrong only in rootfs, so your issue
-could be different.
+/etc/init.d/hwclock.sh start
+if test -e /etc/timestamp
+then
+	SYSTEMDATE=`date -u +%2m%2d%2H%2M`
+	read TIMESTAMP < /etc/timestamp
+	# Remove year from timestamp.
+	TMP=`echo $TIMESTAMP | cut -c -8`
+	NEEDUPDATE=`expr \( $TMP \> $SYSTEMDATE + 10000 \)`
+	if [ $NEEDUPDATE -eq 1 ]; then
+		date -u $TIMESTAMP
+		/etc/init.d/hwclock.sh stop
+	fi
+fi
 
-Regards,
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+1. Overflow happens in expr command of busybox if the length of number
+   is over 10 digits (now the length is 12 digits). This could be fixed
+   enabling flag CONFIG_EXPR_MATH_SUPPORT_64 from busybox config.
 
---KFztAG8eRSV9hGtP
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+$ expr 120808302011 + 10000
+-2147473649
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
+2. Expression is adding +1 to minutes, not to days as supposed.
+   If that form is used "100000000" should be added instead of "10000".
 
-iEYEARECAAYFAk7gYcwACgkQN1Ujt2V2gBzf1QCgjdDPtSSmzB4Vq+LLKeFLRRvA
-jNkAmQFWoZ/hogyM7yT72sSH8hgcHdDf
-=nt34
------END PGP SIGNATURE-----
+3. The year is at the end of timestamp (last 4 least significant digits)
+   so it doesn't matter if it is there or not. So I decided to remove
+   year from the timestamp we are comparing. Then it is not needed to
+   attend to my note number 1.
 
---KFztAG8eRSV9hGtP--
+BR,
+Lauri Hintsala
+---
+ .../initscripts/initscripts-1.0/bootmisc.sh        |    8 +++++---
+ 1 files changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
+index 03fd67c..e97b5f8 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
+@@ -67,10 +67,12 @@ fi
+ /etc/init.d/hwclock.sh start
+ if test -e /etc/timestamp
+ then
+-	SYSTEMDATE=`date  -u +%2m%2d%2H%2M%4Y`
++	SYSTEMDATE=`date -u +%2m%2d%2H%2M`
+ 	read TIMESTAMP < /etc/timestamp
+-        NEEDUPDATE=`expr \( $TIMESTAMP \> $SYSTEMDATE + 10000 \)`
+-        if [ $NEEDUPDATE -eq 1 ]; then 
++	# Remove year from timestamp.
++	TMP=`echo $TIMESTAMP | cut -c -8`
++	NEEDUPDATE=`expr \( $TMP \> $SYSTEMDATE + 10000 \)`
++	if [ $NEEDUPDATE -eq 1 ]; then
+ 		date -u $TIMESTAMP
+ 		/etc/init.d/hwclock.sh stop
+ 	fi
+-- 
+1.7.4.1
+
+
+
