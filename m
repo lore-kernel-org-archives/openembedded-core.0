@@ -1,23 +1,23 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RZ5Da-00049A-Jt
+	(envelope-from <sgw@linux.intel.com>) id 1RZ5Da-000497-LH
 	for openembedded-core@openembedded.org; Fri, 09 Dec 2011 19:30:46 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 09 Dec 2011 10:23:50 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 09 Dec 2011 10:23:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="100564231"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="100564244"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.35])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Dec 2011 10:23:50 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 09 Dec 2011 10:23:51 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@openembedded.org
-Date: Fri,  9 Dec 2011 10:23:35 -0800
-Message-Id: <e079fc3617e1c508de82bddc81b8587ffb498ba7.1323454935.git.sgw@linux.intel.com>
+Date: Fri,  9 Dec 2011 10:23:41 -0800
+Message-Id: <5aa11ec2b6b5e04608c63c14490373af32cbb8ed.1323454935.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1323454935.git.sgw@linux.intel.com>
 References: <cover.1323454935.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1323454935.git.sgw@linux.intel.com>
 References: <cover.1323454935.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 02/15] ncurses: libcurses.so should link to libncurses.so
+Subject: [CONSOLIDATED PULL 08/15] findutils: Fix compilation for x32 toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,40 +34,80 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 09 Dec 2011 18:30:46 -0000
 
-The current libcurses (backward compat) links to libncurses.so.5.9,
-this causes a problem since this library also needs libtinfo, the
-libncurses.so, uses a "ld script" to include both, libcurses.so
-should point to libncurses.so (the script) not the library.
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+time_t is 64bit and long int is 32bit on x32.  But gnulib used in
+findutils assumes time_t values fit into long int.  Such assumption is
+invalid for x32 and should be removed.
+
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+Signed-Off-By: H.J. Lu <hjl.tools@gmail.com>
 ---
- meta/recipes-core/ncurses/ncurses.inc |    6 +++++-
- 1 files changed, 5 insertions(+), 1 deletions(-)
+ .../findutils-4.4.2_fix_for_x32.patch              |   36 ++++++++++++++++++++
+ meta/recipes-extended/findutils/findutils_4.4.2.bb |    5 ++-
+ 2 files changed, 39 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/findutils/findutils-4.4.2/findutils-4.4.2_fix_for_x32.patch
 
-diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-index df9252a..b591686 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://ncurses/base/version.c;beginline=1;endline=27;md5=cbc
- SECTION = "libs"
- DEPENDS = "ncurses-native"
- DEPENDS_virtclass-native = ""
--INC_PR = "r2"
-+INC_PR = "r3"
+diff --git a/meta/recipes-extended/findutils/findutils-4.4.2/findutils-4.4.2_fix_for_x32.patch b/meta/recipes-extended/findutils/findutils-4.4.2/findutils-4.4.2_fix_for_x32.patch
+new file mode 100644
+index 0000000..484f8a4
+--- /dev/null
++++ b/meta/recipes-extended/findutils/findutils-4.4.2/findutils-4.4.2_fix_for_x32.patch
+@@ -0,0 +1,36 @@
++UpstreamStatus: Pending
++
++Author: H.J. Lu <hjl.tools@gmail.com>
++
++time_t is 64bit and long int is 32bit on x32.  But gnulib used in
++findutils assumes time_t values fit into long int.  Such assumption is
++invalid for x32 and should be removed.
++
++Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com> 2011/12/05
++
++
++Index: findutils-4.4.2/gnulib/lib/getdate.y
++===================================================================
++--- findutils-4.4.2.orig/gnulib/lib/getdate.y
+++++ findutils-4.4.2/gnulib/lib/getdate.y
++@@ -114,7 +114,6 @@
++    wraps around, but there's no portable way to check for that at
++    compile-time.  */
++ verify (TYPE_IS_INTEGER (time_t));
++-verify (LONG_MIN <= TYPE_MINIMUM (time_t) && TYPE_MAXIMUM (time_t) <= LONG_MAX);
++ 
++ /* An integer value, and the number of digits in its textual
++    representation.  */
++Index: findutils-4.4.2/gnulib/lib/mktime.c
++===================================================================
++--- findutils-4.4.2.orig/gnulib/lib/mktime.c
+++++ findutils-4.4.2/gnulib/lib/mktime.c
++@@ -166,7 +166,7 @@ ydhms_diff (long int year1, long int yda
++ {
++   verify (C99_integer_division, -1 / 2 == 0);
++   verify (long_int_year_and_yday_are_wide_enough,
++-	  INT_MAX <= LONG_MAX / 2 || TIME_T_MAX <= UINT_MAX);
+++	  INT_MAX <= TIME_T_MAX / 2 || TIME_T_MAX <= UINT_MAX);
++ 
++   /* Compute intervening leap days correctly even if year is negative.
++      Take care to avoid integer overflow here.  */
+diff --git a/meta/recipes-extended/findutils/findutils_4.4.2.bb b/meta/recipes-extended/findutils/findutils_4.4.2.bb
+index cfc6546..af9649e 100644
+--- a/meta/recipes-extended/findutils/findutils_4.4.2.bb
++++ b/meta/recipes-extended/findutils/findutils_4.4.2.bb
+@@ -1,10 +1,11 @@
+ require findutils.inc
  
- inherit autotools binconfig multilib_header
+-PR = "r0"
++PR = "r1"
  
-@@ -161,6 +161,10 @@ do_install() {
-                 echo '/* GNU ld script */'  >$f
-                 echo "INPUT($i.so.5 AS_NEEDED(-ltinfo))" >>$f
-         done
-+	# Make sure that libcurses is linked so that it gets -ltinfo
-+	# also, this should be addressed upstream really.
-+	rm -f ${D}${libdir}/libcurses.so
-+	ln -s libncurses.so ${D}${libdir}/libcurses.so
+ SRC_URI += "file://01-27017.patch \
+             file://02-28824.patch \
+-            file://03-28872.patch"
++            file://03-28872.patch \
++            file://findutils-4.4.2_fix_for_x32.patch "
  
-         # create libtermcap.so linker script for backward compatibility
-         f=${D}${libdir}/libtermcap.so
+ SRC_URI[md5sum] = "351cc4adb07d54877fa15f75fb77d39f"
+ SRC_URI[sha256sum] = "434f32d171cbc0a5e72cfc5372c6fc4cb0e681f8dce566a0de5b6fccd702b62a"
 -- 
 1.7.6.4
 
