@@ -1,31 +1,30 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-gx0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1RZ5d3-0005Ew-3I
+	(envelope-from <otavio.salvador@gmail.com>) id 1RZ5gx-0005hL-Hp
 	for openembedded-core@lists.openembedded.org;
-	Fri, 09 Dec 2011 19:57:05 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pB9IoCig014991
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 09 Dec 2011 20:01:07 +0100
+Received: by ggnh1 with SMTP id h1so3539746ggn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 9 Dec 2011 10:50:12 -0800 (PST)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 9 Dec 2011 10:50:12 -0800
-Message-ID: <4EE25863.20906@windriver.com>
-Date: Fri, 9 Dec 2011 12:50:11 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:8.0) Gecko/20111105 Thunderbird/8.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1322607016.git.sgw@linux.intel.com>
-	<234071f22c2183ea28cda55bac8f68cb47e8f0e1.1322607016.git.sgw@linux.intel.com>
-	<1323456167.25802.5.camel@mattotaupa>
-In-Reply-To: <1323456167.25802.5.camel@mattotaupa>
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
-	pB9IoCig014991
-Subject: Re: [PATCH 06/26] xinit: Update to 1.3.1
+	Fri, 09 Dec 2011 10:54:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=5ZBPyA2L9qrS+/aWBTnRWxeQiLugc12ScEL5BMH8DTQ=;
+	b=nzNPEmX2/M2UiJ9R85rFPbG0Q+Ffep5bA5lj14RhTVZbGgMzEb96oyfUduv7VVfeZU
+	CNk0H3pueO+SP1E8HLSMqcIZ7ktzk8ljYxGQtM5j7WhUe+dXbeSlJ9Ikx8iklpJkbJRF
+	RgIgb1dv/212hJlN2gxAm6mi5Z2yFl8HiPvmU=
+Received: by 10.101.182.16 with SMTP id j16mr2218263anp.37.1323456853165;
+	Fri, 09 Dec 2011 10:54:13 -0800 (PST)
+Received: from localhost.localdomain ([189.114.111.55])
+	by mx.google.com with ESMTPS id 39sm26237714anu.6.2011.12.09.10.54.11
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 09 Dec 2011 10:54:12 -0800 (PST)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  9 Dec 2011 18:54:02 +0000
+Message-Id: <1323456842-16941-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+Subject: [PATCH] connman: disable ntp support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,80 +39,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2011 18:57:05 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 09 Dec 2011 19:01:07 -0000
 
-On 12/9/11 12:42 PM, Paul Menzel wrote:
-> Dear Saul,
->
->
-> Am Dienstag, den 29.11.2011, 15:00 -0800 schrieb Saul Wold:
->> Signed-off-by: Saul Wold<sgw@linux.intel.com>
->> ---
->>   .../xorg-app/{xinit_1.3.0.bb =3D>  xinit_1.3.1.bb}    |    6 +++---
->>   1 files changed, 3 insertions(+), 3 deletions(-)
->>   rename meta/recipes-graphics/xorg-app/{xinit_1.3.0.bb =3D>  xinit_1.=
-3.1.bb} (80%)
->>
->> diff --git a/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb b/meta/reci=
-pes-graphics/xorg-app/xinit_1.3.1.bb
->> similarity index 80%
->> rename from meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
->> rename to meta/recipes-graphics/xorg-app/xinit_1.3.1.bb
->> index 08dfe12..2ddebe6 100644
->> --- a/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
->> +++ b/meta/recipes-graphics/xorg-app/xinit_1.3.1.bb
->> @@ -13,11 +13,11 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D0d4b5ee=
-f75f1584ccbdc5e4a34314407"
->>   PR =3D "r2"
->
-> when upgrading recipes please remember to reset `PR` to 0. I just
-> spotted that now when looking through the =93recent=94 changes [1].
+OE-Core does not provide ntpd at this moment and as there's no known
+user of this plugin at this moment we are disabling it.
 
-I have not been doing that.  When I asked a while back the response I got=
- was=20
-mixed and what I took from it is that PR (on a package upgrade) is up to =
-the=20
-discretion of the person performing the upgrade.
+[YOCTO #1817]
 
-If reseting to 0 is/should be the official policy, then we really need to=
-=20
-document it as part of the patch/update guidelines..
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/recipes-connectivity/connman/connman.inc     |    6 ++----
+ meta/recipes-connectivity/connman/connman_0.78.bb |    2 +-
+ 2 files changed, 3 insertions(+), 5 deletions(-)
 
---Mark
-
->>   PE =3D "1"
->>
->> +SRC_URI[md5sum] =3D "ee234056d8a3dbf37b61b4bcb35b88e4"
->> +SRC_URI[sha256sum] =3D "c7468dfae94bdb42785d79623c27156dc4bf379d83729=
-92830482cb04d8439b0"
->> +
->>   EXTRA_OECONF =3D "ac_cv_path_MCOOKIE=3D${bindir}/mcookie"
->>
->>   RDEPENDS_${PN} +=3D "util-linux-mcookie"
->>
->>   FILES_${PN} +=3D "${libdir}X11/xinit"
->> -
->> -SRC_URI[md5sum] =3D "bc4e8b7d1919597cc37a0d24aa149dda"
->> -SRC_URI[sha256sum] =3D "ba76e36e1a42a7cf76505b7e6fc4777f5d14f45ddff74=
-341abfb7dd10d5fe04c"
->
->
-> Thanks,
->
-> Paul
->
->
-> [1] http://git.openembedded.org/openembedded-core/commit/?id=3D234071f2=
-2c2183ea28cda55bac8f68cb47e8f0e1
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index e90aa4b..d695fee 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+                     file://src/main.c;beginline=1;endline=20;md5=4b55b550fa6b33cc2055ef30dd262b3e"
+ 
+ # we need to define the depends here, the dynamic stuff is too late
+-DEPENDS  = "dbus glib-2.0 ppp iptables gnutls ntp \
++DEPENDS  = "dbus glib-2.0 ppp iptables gnutls \
+             ${@base_contains('DISTRO_FEATURES', 'bluetooth','bluez4', '', d)} \
+             ${@base_contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
+             "
+@@ -36,8 +36,7 @@ EXTRA_OECONF += "\
+     --disable-polkit \
+     --enable-client \
+     --enable-fake \
+-    --enable-ntpd \
+-    --with-ntpd=${bindir}/ntpd \
++    --disable-ntpd \
+ "
+ 
+ INITSCRIPT_NAME = "connman"
+@@ -72,7 +71,6 @@ python populate_packages_prepend() {
+ 	               wifi="wpa-supplicant",
+ 	               resolvconf="resolvconf",
+ 	               bluetooth="bluez4",
+-	               ntpd="ntp",
+ 	               ofono="ofono" )
+ 	packages = []
+ 	multilib_prefix = (d.getVar("MLPREFIX", True) or "")
+diff --git a/meta/recipes-connectivity/connman/connman_0.78.bb b/meta/recipes-connectivity/connman/connman_0.78.bb
+index cc23c28..5ea2bb7 100644
+--- a/meta/recipes-connectivity/connman/connman_0.78.bb
++++ b/meta/recipes-connectivity/connman/connman_0.78.bb
+@@ -1,6 +1,6 @@
+ require connman.inc
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ # 0.78 tag
+ SRCREV = "02f5d5fe2d7c71514a6387ba2b772b42d8e8d297"
+-- 
+1.7.2.5
 
 
 
