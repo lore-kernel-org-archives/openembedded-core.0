@@ -1,35 +1,30 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RZ3pw-0001or-B4 for openembedded-core@lists.openembedded.org;
-	Fri, 09 Dec 2011 18:02:16 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB9GtMcG002509
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1RZ4LI-0002Op-9z
+	for openembedded-core@lists.openembedded.org;
+	Fri, 09 Dec 2011 18:34:41 +0100
+Received: by yenm12 with SMTP id m12so2538752yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 9 Dec 2011 16:55:22 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 01776-06 for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Dec 2011 16:55:16 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB9GtEPx002503
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 9 Dec 2011 16:55:15 GMT
-Message-ID: <1323449725.5309.187.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 09 Dec 2011 16:55:25 +0000
-In-Reply-To: <CAP9ODKpvAYr7e+9bS4Uyq8F_nsVdjoBchZPttqbcJGsoZDfCiQ@mail.gmail.com>
-References: <1323427912-10122-1-git-send-email-otavio@ossystems.com.br>
-	<1323440295.5309.164.camel@ted>
-	<CAP9ODKpvAYr7e+9bS4Uyq8F_nsVdjoBchZPttqbcJGsoZDfCiQ@mail.gmail.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] connman: update to 0.78
+	Fri, 09 Dec 2011 09:27:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=sender:from:to:subject:date:message-id:x-mailer;
+	bh=rMT5dSpfM0IRcCFTg2orofJlnGRbN7E6xcwKQMhmAXw=;
+	b=yEW/BYOKmeFKqSOkTa82vGwYbXYtE5g76gf1EXLFMhMjGdBTn+6Cl9jFy0dkQfAFG1
+	RiQsWcPDNaGaYf88UBEcGvZCosU9RLj8DLTinZfJDXkHo6QQ5qhQjvXEBcDaoBYgP0NR
+	EMk0x47IsdVT4hgm1mu0yc+ye3QjBuICOeY74=
+Received: by 10.236.91.67 with SMTP id g43mr13175033yhf.68.1323451668477;
+	Fri, 09 Dec 2011 09:27:48 -0800 (PST)
+Received: from localhost.localdomain ([189.114.111.55])
+	by mx.google.com with ESMTPS id l11sm25562627anm.22.2011.12.09.09.27.46
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 09 Dec 2011 09:27:47 -0800 (PST)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  9 Dec 2011 17:27:30 +0000
+Message-Id: <cover.1323451575.git.otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+Subject: [PATCH 0/5] ConnMan improvements and misc fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,45 +39,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2011 17:02:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 09 Dec 2011 17:34:41 -0000
 
-On Fri, 2011-12-09 at 14:38 -0200, Otavio Salvador wrote:
-> On Fri, Dec 9, 2011 at 12:18, Richard Purdie:
+The following changes since commit 4a13766c7b223d82e8cf682db999a135d2b8412c:
 
->  
->         f) Reorder variables in the file so as to make the diff
->         unreadable and
->           hard to review
->
-> This was indeed done and I am sorry but it does seems more easy to
-> follow now.
+  gtk.inc: ship gtk-demo to independent package (2011-12-08 16:58:41 +0000)
 
-In future please do this as a separate commit which just changes the
-order. I will start just outright rejecting patches which combine code
-changes and unrelated ordering changes since it makes the patches
-unnecessarily hard to review.
- 
->         So all things considered, this kind of change is a nightmare
->         to review
->         in this form and the commit message only covers half the
->         changes it
->         makes. We need to do better than this...
-> 
-> 
-> Not easy to accomplish as the difference between meta-oe and oe-core
-> on this was huge. It could have been  done better, sure ... and a v2
-> patch will come shortly.
+are available in the git repository at:
+  git://github.com/OSSystems/oe-core master
+  https://github.com/OSSystems/oe-core/tree/HEAD
 
-Thanks. I think the best way to improve this in future would be to keep
-code changes and ordering (or whitespace) changes in separate commits
-(and also enable rename detection on the change you send).
+Otavio Salvador (5):
+  dosfstools: update native to 2.11
+  scripts/send-pull-request: allow sending of patches without a cover
+    letter
+  connman: drop git version
+  connman: move files from connman-0.75 to connman dir
+  connman: update to 0.78
 
-Cheers,
+ .../connman/connman-0.75/dbusperms.patch           |   14 ---
+ .../connman/connman-0.75/xtables_version.patch     |   64 -------------
+ meta/recipes-connectivity/connman/connman.inc      |   96 ++++++++++++++------
+ .../add_xuser_dbus_permission.patch                |    0
+ .../connman/{connman-0.75 => connman}/connman      |    0
+ meta/recipes-connectivity/connman/connman_0.75.bb  |   29 ------
+ meta/recipes-connectivity/connman/connman_0.78.bb  |   10 ++
+ meta/recipes-connectivity/connman/connman_git.bb   |   11 ---
+ .../dosfstools/dosfstools-native_2.10.bb           |   19 ----
+ .../dosfstools/dosfstools/2.6.20-syscall.patch     |   72 ---------------
+ .../dosfstools/dosfstools-2.10-kernel-2.6.patch    |   74 ---------------
+ .../dosfstools/dosfstools/mkdosfs-bootcode.patch   |   68 +++++++--------
+ .../dosfstools/dosfstools/mkdosfs-dir.patch        |   62 ++++++-------
+ .../recipes-devtools/dosfstools/dosfstools_2.10.bb |   24 -----
+ .../recipes-devtools/dosfstools/dosfstools_2.11.bb |   11 ++-
+ scripts/send-pull-request                          |   21 +++--
+ 16 files changed, 160 insertions(+), 415 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/connman/connman-0.75/dbusperms.patch
+ delete mode 100644 meta/recipes-connectivity/connman/connman-0.75/xtables_version.patch
+ rename meta/recipes-connectivity/connman/{connman-0.75 => connman}/add_xuser_dbus_permission.patch (100%)
+ rename meta/recipes-connectivity/connman/{connman-0.75 => connman}/connman (100%)
+ delete mode 100644 meta/recipes-connectivity/connman/connman_0.75.bb
+ create mode 100644 meta/recipes-connectivity/connman/connman_0.78.bb
+ delete mode 100644 meta/recipes-connectivity/connman/connman_git.bb
+ delete mode 100644 meta/recipes-devtools/dosfstools/dosfstools-native_2.10.bb
+ delete mode 100644 meta/recipes-devtools/dosfstools/dosfstools/2.6.20-syscall.patch
+ delete mode 100644 meta/recipes-devtools/dosfstools/dosfstools/dosfstools-2.10-kernel-2.6.patch
+ delete mode 100644 meta/recipes-devtools/dosfstools/dosfstools_2.10.bb
 
-Richard
-
+-- 
+1.7.2.5
 
 
 
