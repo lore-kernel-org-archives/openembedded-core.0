@@ -1,33 +1,27 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RZ6ks-0000Au-3u
+	(envelope-from <josh@linux.intel.com>) id 1RZ6lK-0000DY-Ig
 	for openembedded-core@lists.openembedded.org;
-	Fri, 09 Dec 2011 21:09:14 +0100
-Received: by lahd3 with SMTP id d3so1256199lah.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Dec 2011 12:02:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=fpTRJmKI2nuBr/fsLCHc5Sjk6yJmV5PwBJQhoUOfDdo=;
-	b=I/vQlkDBHDYbfNJORR/gtH0n7hLPIJOp/HFDQtSLEVEZ+WQfi4sem6qK6pGTRNJ1j0
-	rtMqBB1r2FiB0zxYWc6BZj/SBQRxY5mpnKER3CHAPPOySy1DkiXkzAP0nENWUwa7Dd1v
-	DKtAw0Qe15bWvTTh1P7R0CQJlLjgPqW0rD6aQ=
-Received: by 10.152.134.179 with SMTP id pl19mr5884512lab.13.1323460942328;
-	Fri, 09 Dec 2011 12:02:22 -0800 (PST)
+	Fri, 09 Dec 2011 21:09:42 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 09 Dec 2011 12:02:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="85530766"
+Received: from unknown (HELO [10.255.13.9]) ([10.255.13.9])
+	by orsmga002.jf.intel.com with ESMTP; 09 Dec 2011 12:02:50 -0800
+Message-ID: <4EE2696A.3090605@linux.intel.com>
+Date: Fri, 09 Dec 2011 12:02:50 -0800
+From: Joshua Lock <josh@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:8.0) Gecko/20111115 Thunderbird/8.0
 MIME-Version: 1.0
-Received: by 10.152.24.36 with HTTP; Fri, 9 Dec 2011 12:01:51 -0800 (PST)
-In-Reply-To: <CAGiJk9c-Mw7ip+RbJCU9pupBoV+O5A0rE9kXH9OTynPPsygWHg@mail.gmail.com>
-References: <CAGiJk9dH=1aV-YFkcr8aAkNsMq+dM4625FuOJHF_et4bYBPA+A@mail.gmail.com>
-	<528C3B90-90CF-48F7-AD32-0200B1F16F82@dominion.thruhere.net>
-	<CAGiJk9e1hij=EsWo8=nTmZxNjvptXMGjFRumKSJ3mKYf6-t3QA@mail.gmail.com>
-	<CAJG6M_OAw=jfmJJzAc98_XSbcX8ki29Oz1G6zhk+3hSkQXSwdw@mail.gmail.com>
-	<CAGiJk9c-Mw7ip+RbJCU9pupBoV+O5A0rE9kXH9OTynPPsygWHg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 9 Dec 2011 12:01:51 -0800
-Message-ID: <CAMKF1sqj7y4geCm+UNSxt=PAHqExHUxLE3hUMw_CKhXBB0uFzA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: On-screen- / virtual-keyboard
+To: openembedded-core@lists.openembedded.org
+References: <cover.1323286080.git.elizabeth.flanagan@intel.com>
+	<b3e01cfa4f1561a77b07e3365459e9498d8c4585.1323286080.git.elizabeth.flanagan@intel.com>
+	<1323437428.5309.154.camel@ted>
+	<CAMKF1sp3MfaSGpAQMiafWxJw8VEv9_BNNVEpzzYcBQbsxpihdg@mail.gmail.com>
+In-Reply-To: <CAMKF1sp3MfaSGpAQMiafWxJw8VEv9_BNNVEpzzYcBQbsxpihdg@mail.gmail.com>
+Subject: Re: [PATCH 6/8] [YOCTO #1776] license: manifest and license path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,21 +36,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2011 20:09:14 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 09 Dec 2011 20:09:42 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Fri, Dec 9, 2011 at 3:35 AM, Samuel Stirtzel
-<s.stirtzel@googlemail.com> wrote:
-> I've made a recipe for Florence, and run tested it with xfce-nm-image
-> on an overo gumstix.
-> It works with some issues but they are gconf related (more info in the
-> coming patch).
->
-> Now the question to the layer maintainers is,
-> do you want the recipe in openembedded-core or meta-openembedded?
->
+On 09/12/11 11:57, Khem Raj wrote:
+> On Fri, Dec 9, 2011 at 5:30 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>>
+>> The above line is a bashism and is breaking builds with dash
+>> as /bin/sh :(
+> 
+> I thought bashism was too deep in oe. I can certainly revert to using dash if
+> thats no longer the case.
 
-put it in meta-oe and if its used more commonly it will be pulled into oe-core
-from there.
+Richard made a concerted effort to enable Dash recently based on
+feedback we received for the Yocto Project. I certainly think we should
+strive to be POSIX shell compatible where possible.
+
+Regards,
+Joshua
+-- 
+Joshua Lock
+        Yocto Project "Johannes factotum"
+        Intel Open Source Technology Centre
 
 
