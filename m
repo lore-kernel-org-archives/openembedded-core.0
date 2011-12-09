@@ -1,34 +1,29 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RZ64d-0006hv-Jq
+	(envelope-from <dvhart@linux.intel.com>) id 1RZ66i-0006my-Ei
 	for openembedded-core@lists.openembedded.org;
-	Fri, 09 Dec 2011 20:25:35 +0100
-Received: by bkbzt4 with SMTP id zt4so3371270bkb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Dec 2011 11:18:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=HyOsW7kHkPcPk5Iy6Hzehr1WHP1C74bT/08q+2W6Tu4=;
-	b=HPcbgYRcJw4ewEoAalMek8vmtsq12nqVbnO7qu6cfcM4TbYfuggmDip7QPZUD+On6E
-	3+7lAsIL+7IHLNJUz87m2CsMlzIWm8b1EMUEkMu7QChi7cME7Vo2+skfvhQ6RajXD2LY
-	Z9bd3tsQtNMbNPsjLjilorAi5jCqS6BP2izxE=
+	Fri, 09 Dec 2011 20:27:45 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 09 Dec 2011 11:20:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="94472207"
+Received: from unknown (HELO envy.home) ([10.255.12.30])
+	by fmsmga001.fm.intel.com with ESMTP; 09 Dec 2011 11:20:49 -0800
+Message-ID: <4EE25FA0.2050500@linux.intel.com>
+Date: Fri, 09 Dec 2011 11:21:04 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
-Received: by 10.205.128.3 with SMTP id hc3mr1646345bkc.29.1323458324681; Fri,
-	09 Dec 2011 11:18:44 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.113.132 with HTTP; Fri, 9 Dec 2011 11:18:44 -0800 (PST)
-In-Reply-To: <4EE25DB2.3060803@linux.intel.com>
-References: <1323456842-16941-1-git-send-email-otavio@ossystems.com.br>
-	<4EE25DB2.3060803@linux.intel.com>
-Date: Fri, 9 Dec 2011 17:18:44 -0200
-X-Google-Sender-Auth: NEZ_-rGshldjeJPkHQNchisyUC4
-Message-ID: <CAP9ODKrpm3oRSby5=biozhr8k5=bvVAjqkxh7w7_2r21bNp_rA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Darren Hart <dvhart@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] connman: disable ntp support
+References: <cover.1323358819.git.otavio@ossystems.com.br>
+	<e27fba3b38877fb7420c58a3e35cdbcef1cb767a.1323358819.git.otavio@ossystems.com.br>
+	<4EE25E38.3060704@linux.intel.com>
+	<CAP9ODKpr=xgxfJcrzsbv8q+VQh8oQOdKjQurev7hVjiMAv1PkA@mail.gmail.com>
+In-Reply-To: <CAP9ODKpr=xgxfJcrzsbv8q+VQh8oQOdKjQurev7hVjiMAv1PkA@mail.gmail.com>
+X-Enigmail-Version: 1.3.3
+Subject: Re: [PATCH 2/3] dosfstools: update native to 2.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,57 +38,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2011 19:25:35 -0000
-Content-Type: multipart/alternative; boundary=000e0cdfc8365153c904b3ada753
-
---000e0cdfc8365153c904b3ada753
+X-List-Received-Date: Fri, 09 Dec 2011 19:27:45 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Fri, Dec 9, 2011 at 17:12, Darren Hart <dvhart@linux.intel.com> wrote:
 
-> | checking linux/if_alg.h usability... no
-> | checking linux/if_alg.h presence... no
-> | checking for linux/if_alg.h... no
-> | configure: error: User-space algorithm header files are required
-> | ERROR: oe_runconf failed
-> NOTE: package connman-0.78-r2: task do_configure: Failed
->
-> Not sure if it's related, but connman still doesn't build for me with
-> this patch applied.
->
 
-It builds fine for x86 and arm7 here.
+On 12/09/2011 11:17 AM, Otavio Salvador wrote:
+> On Fri, Dec 9, 2011 at 17:15, Darren Hart <dvhart@linux.intel.com
+> <mailto:dvhart@linux.intel.com>> wrote:
+> 
+>     What are these licensing issues, and are they no longer an issue?
+> 
+> 
+> Newer dosfstools is GPLv3.
+
+So pulling this in would mean we can't build live images when building
+non GPLv3 images? We are looking to revamp the image creation, but until
+then I can't agree to this.
 
 -- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
---000e0cdfc8365153c904b3ada753
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<div class=3D"gmail_quote">On Fri, Dec 9, 2011 at 17:12, Darren Hart <span =
-dir=3D"ltr">&lt;<a href=3D"mailto:dvhart@linux.intel.com">dvhart@linux.inte=
-l.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex;">
-<div class=3D"im">| checking linux/if_alg.h usability... no</div>
-| checking linux/if_alg.h presence... no<br>
-| checking for linux/if_alg.h... no<br>
-| configure: error: User-space algorithm header files are required<br>
-| ERROR: oe_runconf failed<br>
-NOTE: package connman-0.78-r2: task do_configure: Failed<br>
-<br>
-Not sure if it&#39;s related, but connman still doesn&#39;t build for me wi=
-th<br>
-this patch applied.<br></blockquote><div><br></div><div>It builds fine for =
-x86 and arm7 here.</div><div>=A0</div></div>-- <br>Otavio Salvador=A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: =
-<a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@ossyste=
-ms.com.br</a>=A0 <a href=3D"http://www.ossystems.com.br" target=3D"_blank">=
-http://www.ossystems.com.br</a><br>
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
-jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
-/a><br><br>
-
---000e0cdfc8365153c904b3ada753--
