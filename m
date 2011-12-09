@@ -1,23 +1,31 @@
-Received: from mail.gw90.de ([188.40.100.199])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RZ5ZQ-00058b-SV for openembedded-core@lists.openembedded.org;
-	Fri, 09 Dec 2011 19:53:20 +0100
-Received: from f053037064.adsl.alicedsl.de ([78.53.37.64]
-	helo=[192.168.178.21])
-	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RZ5Sy-0002uZ-8p; Fri, 09 Dec 2011 18:46:40 +0000
-Message-ID: <1323456388.25802.8.camel@mattotaupa>
-From: Paul Menzel <paulepanter@users.sourceforge.net>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 09 Dec 2011 19:46:28 +0100
-In-Reply-To: <2f2356128ec56b43a886c8004ad5c8aafb433153.1323454935.git.sgw@linux.intel.com>
-References: <cover.1323454935.git.sgw@linux.intel.com>
-	<2f2356128ec56b43a886c8004ad5c8aafb433153.1323454935.git.sgw@linux.intel.com>
-X-Mailer: Evolution 3.0.3-2 
-Mime-Version: 1.0
-Subject: Re: [CONSOLIDATED PULL 06/15] pulseaudio: fix compilation with x32 toolchain
+	(envelope-from <mark.hatle@windriver.com>) id 1RZ5d3-0005Ew-3I
+	for openembedded-core@lists.openembedded.org;
+	Fri, 09 Dec 2011 19:57:05 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pB9IoCig014991
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 9 Dec 2011 10:50:12 -0800 (PST)
+Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Fri, 9 Dec 2011 10:50:12 -0800
+Message-ID: <4EE25863.20906@windriver.com>
+Date: Fri, 9 Dec 2011 12:50:11 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:8.0) Gecko/20111105 Thunderbird/8.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1322607016.git.sgw@linux.intel.com>
+	<234071f22c2183ea28cda55bac8f68cb47e8f0e1.1322607016.git.sgw@linux.intel.com>
+	<1323456167.25802.5.camel@mattotaupa>
+In-Reply-To: <1323456167.25802.5.camel@mattotaupa>
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
+	pB9IoCig014991
+Subject: Re: [PATCH 06/26] xinit: Update to 1.3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,76 +40,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2011 18:53:20 -0000
-X-Groupsio-MsgNum: 13969
-Content-Type: multipart/signed; micalg="pgp-sha1";
-	protocol="application/pgp-signature"; 
-	boundary="=-U6S8FUxenGi+jk2846Qx"
-
---=-U6S8FUxenGi+jk2846Qx
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 09 Dec 2011 18:57:05 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-Dear Nitin,
+On 12/9/11 12:42 PM, Paul Menzel wrote:
+> Dear Saul,
+>
+>
+> Am Dienstag, den 29.11.2011, 15:00 -0800 schrieb Saul Wold:
+>> Signed-off-by: Saul Wold<sgw@linux.intel.com>
+>> ---
+>>   .../xorg-app/{xinit_1.3.0.bb =3D>  xinit_1.3.1.bb}    |    6 +++---
+>>   1 files changed, 3 insertions(+), 3 deletions(-)
+>>   rename meta/recipes-graphics/xorg-app/{xinit_1.3.0.bb =3D>  xinit_1.=
+3.1.bb} (80%)
+>>
+>> diff --git a/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb b/meta/reci=
+pes-graphics/xorg-app/xinit_1.3.1.bb
+>> similarity index 80%
+>> rename from meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
+>> rename to meta/recipes-graphics/xorg-app/xinit_1.3.1.bb
+>> index 08dfe12..2ddebe6 100644
+>> --- a/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
+>> +++ b/meta/recipes-graphics/xorg-app/xinit_1.3.1.bb
+>> @@ -13,11 +13,11 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D0d4b5ee=
+f75f1584ccbdc5e4a34314407"
+>>   PR =3D "r2"
+>
+> when upgrading recipes please remember to reset `PR` to 0. I just
+> spotted that now when looking through the =93recent=94 changes [1].
+
+I have not been doing that.  When I asked a while back the response I got=
+ was=20
+mixed and what I took from it is that PR (on a package upgrade) is up to =
+the=20
+discretion of the person performing the upgrade.
+
+If reseting to 0 is/should be the official policy, then we really need to=
+=20
+document it as part of the patch/update guidelines..
+
+--Mark
+
+>>   PE =3D "1"
+>>
+>> +SRC_URI[md5sum] =3D "ee234056d8a3dbf37b61b4bcb35b88e4"
+>> +SRC_URI[sha256sum] =3D "c7468dfae94bdb42785d79623c27156dc4bf379d83729=
+92830482cb04d8439b0"
+>> +
+>>   EXTRA_OECONF =3D "ac_cv_path_MCOOKIE=3D${bindir}/mcookie"
+>>
+>>   RDEPENDS_${PN} +=3D "util-linux-mcookie"
+>>
+>>   FILES_${PN} +=3D "${libdir}X11/xinit"
+>> -
+>> -SRC_URI[md5sum] =3D "bc4e8b7d1919597cc37a0d24aa149dda"
+>> -SRC_URI[sha256sum] =3D "ba76e36e1a42a7cf76505b7e6fc4777f5d14f45ddff74=
+341abfb7dd10d5fe04c"
+>
+>
+> Thanks,
+>
+> Paul
+>
+>
+> [1] http://git.openembedded.org/openembedded-core/commit/?id=3D234071f2=
+2c2183ea28cda55bac8f68cb47e8f0e1
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
-Am Freitag, den 09.12.2011, 10:23 -0800 schrieb Saul Wold:
-> From: Nitin A Kamble <nitin.a.kamble@intel.com>
->=20
-> This commit makes assembly syntax compatible with x32 toolchain
-> to avoid x32 gcc errors.
->=20
-> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> ---
->  .../pulseaudio/pulseaudo_fix_for_x32.patch         |  225 ++++++++++++++=
-++++++
->  .../pulseaudio/pulseaudio_1.1.bb                   |    3 +-
->  2 files changed, 227 insertions(+), 1 deletions(-)
->  create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/pulseau=
-do_fix_for_x32.patch
->=20
-> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/pulseaudo_fix_=
-for_x32.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/pulseaudo_fix=
-_for_x32.patch
-> new file mode 100644
-> index 0000000..22fe2e7
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/pulseaudo_fix_for_x32=
-.patch
-> @@ -0,0 +1,225 @@
-> +UpstreamStatus: Pending
-> +
-> +This patch makes assembly syntax compatible to the x32 toolchain.
-> +
-> +This fixes compilations errors with x32 gcc.
 
-I would volunteer to send this patch upstream. A more elaborate commit
-message also suited for non-OE users would be helpful. That means what
-does the x32 tool chain do and a paste of the errors you got.
-
-> +Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com> 2011/12/03
-> +Index: pulseaudio-1.1/src/pulsecore/svolume_mmx.c
-
-[=E2=80=A6]
-
-Please only merge this, when this has been improved.
-
-
-Thanks,
-
-Paul
-
---=-U6S8FUxenGi+jk2846Qx
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.11 (GNU/Linux)
-
-iEYEABECAAYFAk7iV4QACgkQPX1aK2wOHVjrkQCeIa8+PqOPqYL9Iwqo6wqpLkqm
-17oAn31Su1kp1aq7aHXEhtQgI4+cEqZv
-=e5k9
------END PGP SIGNATURE-----
-
---=-U6S8FUxenGi+jk2846Qx--
