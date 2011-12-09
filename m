@@ -1,31 +1,30 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RZ0dc-0001Jt-AN for openembedded-core@lists.openembedded.org;
-	Fri, 09 Dec 2011 14:37:20 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB9DUPIR000685;
-	Fri, 9 Dec 2011 13:30:25 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 32751-08; Fri,  9 Dec 2011 13:30:21 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB9DUHwf000679
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 9 Dec 2011 13:30:18 GMT
-Message-ID: <1323437428.5309.154.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1RZ0rP-0001dd-VC
+	for openembedded-core@lists.openembedded.org;
+	Fri, 09 Dec 2011 14:51:36 +0100
+Received: by wgbds11 with SMTP id ds11so4940687wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 09 Dec 2011 05:44:45 -0800 (PST)
+Received: by 10.227.204.208 with SMTP id fn16mr7241755wbb.6.1323438285278;
+	Fri, 09 Dec 2011 05:44:45 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id z35sm12599806wbm.12.2011.12.09.05.44.44
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 09 Dec 2011 05:44:44 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Fri, 9 Dec 2011 14:44:42 +0100
+In-Reply-To: <20111208070548.GB3761@jama.jama.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 09 Dec 2011 13:30:28 +0000
-In-Reply-To: <b3e01cfa4f1561a77b07e3365459e9498d8c4585.1323286080.git.elizabeth.flanagan@intel.com>
-References: <cover.1323286080.git.elizabeth.flanagan@intel.com>
-	<b3e01cfa4f1561a77b07e3365459e9498d8c4585.1323286080.git.elizabeth.flanagan@intel.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 6/8] [YOCTO #1776] license: manifest and license path
+References: <1323279247.30601.51.camel@ted>
+	<201112080053.11966.schnitzeltony@gmx.de>
+	<20111208070548.GB3761@jama.jama.net>
+Message-Id: <0B087DB2-2C7F-4A0B-A0D1-7E38D9E28807@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH] bitbake.conf/image.bbclass: Ensure images use the correct passwd/group files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,37 +39,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2011 13:37:20 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 09 Dec 2011 13:51:36 -0000
+X-Groupsio-MsgNum: 13935
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_84490545-128A-419A-9B3E-D9183AB546C3";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_84490545-128A-419A-9B3E-D9183AB546C3
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=iso-8859-1
+
+
+Op 8 dec. 2011, om 08:05 heeft Martin Jansa het volgende geschreven:
+
+> On Thu, Dec 08, 2011 at 12:53:11AM +0100, Andreas M=FCller wrote:
+>> On Wednesday, December 07, 2011 06:34:07 PM Richard Purdie wrote:
+>>> We need pseudo to use the rootfs passwd/group files belonging to the
+>>> rootfs when building images. This patch ensures that we use the =
+rootfs
+>>> files instead of those in the sysroot which can lead to incorrect =
+file
+>>> ownership issues.
+>>>=20
+>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>>=20
+>>> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+>>> index 4642fa6..865d430 100644
+>>> --- a/meta/classes/image.bbclass
+>>> +++ b/meta/classes/image.bbclass
+>>> @@ -121,6 +121,8 @@ IMAGE_LINGUAS ?=3D "de-de fr-fr en-gb"
+>>>=20
+>>> LINGUAS_INSTALL =3D "${@" ".join(map(lambda s: "locale-base-%s" % s,
+>>> d.getVar('IMAGE_LINGUAS', 1).split()))}"
+>>>=20
+>>> +PSEUDO_PASSWD =3D "${IMAGE_ROOTFS}"
+>>> +
+>>> do_rootfs[nostamp] =3D "1"
+>>> do_rootfs[dirs] =3D "${TOPDIR}"
+>>> do_rootfs[lockfiles] +=3D "${IMAGE_ROOTFS}.lock"
+>>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>>> index e80cc32..eeb1fc4 100644
+>>> --- a/meta/conf/bitbake.conf
+>>> +++ b/meta/conf/bitbake.conf
+>>> @@ -580,11 +580,12 @@ SRC_URI =3D "file://${FILE}"
+>>>=20
+>>> # Use pseudo as the fakeroot implementation
+>>> PSEUDO_LOCALSTATEDIR ?=3D "${WORKDIR}/pseudo/"
+>>> +PSEUDO_PASSWD ?=3D "${STAGING_DIR_TARGET}"
+>>> export PSEUDO_DISABLED =3D "1"
+>>> #export PSEUDO_PREFIX =3D "${STAGING_DIR_NATIVE}${prefix_native}"
+>>> #export PSEUDO_BINDIR =3D "${STAGING_DIR_NATIVE}${bindir_native}"
+>>> #export PSEUDO_LIBDIR =3D
+>>> "${STAGING_DIR_NATIVE}$PSEUDOBINDIR/../lib/pseudo/lib -FAKEROOTENV =3D=
+
+>>> "PSEUDO_PREFIX=3D${STAGING_DIR_NATIVE}${prefix_native}
+>>> PSEUDO_LOCALSTATEDIR=3D${PSEUDO_LOCALSTATEDIR}
+>>> PSEUDO_PASSWD=3D${STAGING_DIR_TARGET} PSEUDO_NOSYMLINKEXP=3D1
+>>> PSEUDO_DISABLED=3D0" +FAKEROOTENV =3D
+>>> "PSEUDO_PREFIX=3D${STAGING_DIR_NATIVE}${prefix_native}
+>>> PSEUDO_LOCALSTATEDIR=3D${PSEUDO_LOCALSTATEDIR}
+>>> PSEUDO_PASSWD=3D${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=3D1 =
+PSEUDO_DISABLED=3D0"
+>>> FAKEROOTNOENV =3D "PSEUDO_UNLOAD=3D1"
+>>> FAKEROOTDIRS =3D "${PSEUDO_LOCALSTATEDIR}"
+>>> PREFERRED_PROVIDER_virtual/fakeroot-native ?=3D "pseudo-native"
+>> dbus still needs manual call of=20
+>>=20
+>> 	chown messagebus:messagebus /var/run/dbus /var/lib/dbus
+>>=20
+>> ( it is root:root on my image) and
+>>=20
+>> 	chown root:messagebus /usr/libexec/dbus-daemon-launch-helper
+>>=20
+>> ( it is avahi:netdev on my image )
+>>=20
+>> Does this one fix it?
+>=20
+> It did for me, see:
+> http://bugzilla.pokylinux.org/show_bug.cgi?id=3D1711
+>=20
+>> To test: Is it enough to rebuild dbus?
+>=20
+> I had right owners in dbus package, wrong only in rootfs, so your =
+issue
+> could be different.
+
+I've also started seeing this issue recently, I wonder if it's due to =
+switching MACHINEs and sstate invalidation.
+
+regards,
+
+Koen=
+
+--Apple-Mail=_84490545-128A-419A-9B3E-D9183AB546C3
 Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
-On Wed, 2011-12-07 at 11:34 -0800, Beth Flanagan wrote:
-> +
-> +license_create_manifest() {
-> +    mkdir -p ${LICENSE_DIRECTORY}/${IMAGE_NAME}
-> +    # Get list of installed packages
-> +    list_installed_packages | grep -v "locale" |sort > ${LICENSE_DIRECTORY}/${IMAGE_NAME}/package.manifest
-> +    INSTALLED_PKGS=`cat ${LICENSE_DIRECTORY}/${IMAGE_NAME}/package.manifest`
-> +    # list of installed packages is broken for deb
-> +    if [ ${IMAGE_PKGTYPE} != "deb" ]; then
-> +
-> +        for pkg in ${INSTALLED_PKGS}; do
-> +            # not the best way to do this but licenses are not arch dependant iirc
-> +            files=`find ${TMPDIR}/pkgdata/*/runtime -name ${pkg}| head -1`
-> +            for filename in $files; do
-> +                pkged_pn="$(sed -n 's/^PN: //p' ${filename})"
-> +                pkged_lic="$(sed -n '/^LICENSE: /{ s/^LICENSE: //; s/[+|&()*]/ /g; s/  */ /g; p }' ${filename})"
-> +                # check to see if the package name exists in the manifest. if so, bail.
-> +                if ! grep -q "PACKAGE NAME: ${pkg}" ${filename}; then
-> +                    # exclude local recipes
-> +                    if [ ! ${pkged_pn} == "*locale*" ]; then
+-----BEGIN PGP SIGNATURE-----
 
-The above line is a bashism and is breaking builds with dash
-as /bin/sh :(
+iEYEARECAAYFAk7iEMoACgkQMkyGM64RGpH2nwCgk85hubjnbd/1TsTnJB0Yb5dJ
+2+4An39o3pPTQKbFfQUoSpIluWlPE74e
+=T2Tf
+-----END PGP SIGNATURE-----
 
-Cheers,
-
-Richard
-
-
-
+--Apple-Mail=_84490545-128A-419A-9B3E-D9183AB546C3--
