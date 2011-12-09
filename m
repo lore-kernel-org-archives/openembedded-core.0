@@ -1,29 +1,31 @@
 Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RZ6GH-00071o-Pz
+	(envelope-from <raj.khem@gmail.com>) id 1RZ6GO-00071o-0x
 	for openembedded-core@lists.openembedded.org;
-	Fri, 09 Dec 2011 20:37:38 +0100
-Received: by iadj38 with SMTP id j38so4678110iad.6
+	Fri, 09 Dec 2011 20:37:44 +0100
+Received: by mail-iy0-f175.google.com with SMTP id j38so4678110iad.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Dec 2011 11:30:44 -0800 (PST)
+	Fri, 09 Dec 2011 11:30:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=ka7Vtxb218wtjKyHYoncDgltB387K5/ztoVdo2wofUQ=;
-	b=OEAzTg1Pn0uqrUAb2tSfiZS0pDNwGQx22TXoBwRD3GorRhGoYR7BF9VHU/4AgrRLnc
-	he9Wlpl6icxxk/M4fSnEQucQLHPhyc3o1heoVm6cDJiZ5+uWfaanV6PrVj+C+fNcEtH1
-	RG9qo/AA1Z/5fBw8fRvLz26jgInsZX57VWU4Y=
-Received: by 10.42.137.197 with SMTP id z5mr4040401ict.5.1323459042636;
-	Fri, 09 Dec 2011 11:30:42 -0800 (PST)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=qoTSlaEU7YIuic0jCQ4Kyb5s+qd2ToXG3+9Ex57/6lY=;
+	b=I3ufoYcnvMBCRc8Ib7gD+1xL9YcXegmOEmTT3nIJLihd2y52NwBRP3jOx/NghMnHxr
+	q+wh677F52N/RB5HTK2zE6fxKvrICv9YlF9zttu9Ks+sznUeIyEGQfyBykcFgvScGBUr
+	bBRSntoiGvw+1wuEDrPJLRB+zhniK6IeucOcc=
+Received: by 10.42.76.66 with SMTP id d2mr3753253ick.7.1323459054953;
+	Fri, 09 Dec 2011 11:30:54 -0800 (PST)
 Received: from localhost.localdomain (natint3.juniper.net. [66.129.224.36])
-	by mx.google.com with ESMTPS id ew6sm19306820igc.4.2011.12.09.11.30.39
+	by mx.google.com with ESMTPS id wo4sm19305554igc.5.2011.12.09.11.30.52
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 09 Dec 2011 11:30:40 -0800 (PST)
+	Fri, 09 Dec 2011 11:30:53 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Dec 2011 11:30:35 -0800
-Message-Id: <cover.1323458858.git.raj.khem@gmail.com>
+Date: Fri,  9 Dec 2011 11:30:45 -0800
+Message-Id: <66bfa997b04bc6dc4c77c5e87f38c86ac3f30d0a.1323458858.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH 0/3] Update QEMU and add support for eglibc testing
+In-Reply-To: <cover.1323458858.git.raj.khem@gmail.com>
+References: <cover.1323458858.git.raj.khem@gmail.com>
+Subject: [PATCH 1/3] qemu-0.15.1: Bump recipes from 0.15.0 to 0.15.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,33 +40,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2011 19:37:38 -0000
+X-List-Received-Date: Fri, 09 Dec 2011 19:37:44 -0000
 
-Minor release 0.15.1 of 0.15 branch is available for QEMU
+No other changes (except checksum updates) then git mv were needed
 
-Generate a testing script to help with eglibc cross testing
-
-Add nfs-utils-client to nfs-server package group so when we
-have server, we can also have client, helps in eglibc cross testing
-
-The following changes since commit 86d174648b0fe770ac0dddbee08ecfd94cc13ec8:
-
-  eglibc: Generate cross testing script during install (2011-12-09 11:24:43 -0800)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib kraj/eglibc-testing
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/eglibc-testing
-
-Khem Raj (3):
-  qemu-0.15.1: Bump recipes from 0.15.0 to 0.15.1
-  task-core-nfs: Add nfs-utils-client to RDEPENDS
-  eglibc: Generate cross testing script during install
-
- meta/recipes-core/eglibc/eglibc-common.inc         |    1 -
- meta/recipes-core/eglibc/eglibc-package.inc        |   46 ++++++++++++++++++++
- meta/recipes-core/eglibc/eglibc_2.13.bb            |    2 +-
- meta/recipes-core/eglibc/eglibc_2.14.bb            |    2 +-
- meta/recipes-core/tasks/task-core-nfs.bb           |    6 ++-
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
  .../{qemu-0.15.0 => qemu-0.15.1}/arm-bgr.patch     |    0
  .../enable-i386-linux-user.patch                   |    0
  .../fallback-to-safe-mmap_min_addr.patch           |    0
@@ -81,8 +62,8 @@ Khem Raj (3):
  .../qemu-vmware-vga-depth.patch                    |    0
  .../qemugl-allow-glxcontext-release.patch          |    0
  .../{qemu-0.15.0 => qemu-0.15.1}/qemugl-fix.patch  |    0
- .../qemu/{qemu_0.15.0.bb => qemu_0.15.1.bb}        |    6 +--
- 22 files changed, 54 insertions(+), 9 deletions(-)
+ .../qemu/{qemu_0.15.0.bb => qemu_0.15.1.bb}        |    6 ++----
+ 17 files changed, 2 insertions(+), 4 deletions(-)
  rename meta/recipes-devtools/qemu/{qemu-0.15.0 => qemu-0.15.1}/arm-bgr.patch (100%)
  rename meta/recipes-devtools/qemu/{qemu-0.15.0 => qemu-0.15.1}/enable-i386-linux-user.patch (100%)
  rename meta/recipes-devtools/qemu/{qemu-0.15.0 => qemu-0.15.1}/fallback-to-safe-mmap_min_addr.patch (100%)
@@ -101,6 +82,96 @@ Khem Raj (3):
  rename meta/recipes-devtools/qemu/{qemu-0.15.0 => qemu-0.15.1}/qemugl-fix.patch (100%)
  rename meta/recipes-devtools/qemu/{qemu_0.15.0.bb => qemu_0.15.1.bb} (88%)
 
+diff --git a/meta/recipes-devtools/qemu/qemu-0.15.0/arm-bgr.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/arm-bgr.patch
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu-0.15.0/arm-bgr.patch
+rename to meta/recipes-devtools/qemu/qemu-0.15.1/arm-bgr.patch
+diff --git a/meta/recipes-devtools/qemu/qemu-0.15.0/enable-i386-linux-user.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/enable-i386-linux-user.patch
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu-0.15.0/enable-i386-linux-user.patch
+rename to meta/recipes-devtools/qemu/qemu-0.15.1/enable-i386-linux-user.patch
+diff --git a/meta/recipes-devtools/qemu/qemu-0.15.0/fallback-to-safe-mmap_min_addr.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/fallback-to-safe-mmap_min_addr.patch
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu-0.15.0/fallback-to-safe-mmap_min_addr.patch
+rename to meta/recipes-devtools/qemu/qemu-0.15.1/fallback-to-safe-mmap_min_addr.patch
+diff --git a/meta/recipes-devtools/qemu/qemu-0.15.0/fix-configure-checks.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/fix-configure-checks.patch
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu-0.15.0/fix-configure-checks.patch
+rename to meta/recipes-devtools/qemu/qemu-0.15.1/fix-configure-checks.patch
+diff --git a/meta/recipes-devtools/qemu/qemu-0.15.0/fix-nogl.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/fix-nogl.patch
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu-0.15.0/fix-nogl.patch
+rename to meta/recipes-devtools/qemu/qemu-0.15.1/fix-nogl.patch
+diff --git a/meta/recipes-devtools/qemu/qemu-0.15.0/glflags.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/glflags.patch
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu-0.15.0/glflags.patch
+rename to meta/recipes-devtools/qemu/qemu-0.15.1/glflags.patch
+diff --git a/meta/recipes-devtools/qemu/qemu-0.15.0/init-info.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/init-info.patch
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu-0.15.0/init-info.patch
+rename to meta/recipes-devtools/qemu/qemu-0.15.1/init-info.patch
+diff --git a/meta/recipes-devtools/qemu/qemu-0.15.0/larger_default_ram_size.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/larger_default_ram_size.patch
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu-0.15.0/larger_default_ram_size.patch
+rename to meta/recipes-devtools/qemu/qemu-0.15.1/larger_default_ram_size.patch
+diff --git a/meta/recipes-devtools/qemu/qemu-0.15.0/linker-flags.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/linker-flags.patch
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu-0.15.0/linker-flags.patch
+rename to meta/recipes-devtools/qemu/qemu-0.15.1/linker-flags.patch
+diff --git a/meta/recipes-devtools/qemu/qemu-0.15.0/no-strip.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/no-strip.patch
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu-0.15.0/no-strip.patch
+rename to meta/recipes-devtools/qemu/qemu-0.15.1/no-strip.patch
+diff --git a/meta/recipes-devtools/qemu/qemu-0.15.0/opengl-sdl-fix.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/opengl-sdl-fix.patch
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu-0.15.0/opengl-sdl-fix.patch
+rename to meta/recipes-devtools/qemu/qemu-0.15.1/opengl-sdl-fix.patch
+diff --git a/meta/recipes-devtools/qemu/qemu-0.15.0/powerpc_rom.bin b/meta/recipes-devtools/qemu/qemu-0.15.1/powerpc_rom.bin
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu-0.15.0/powerpc_rom.bin
+rename to meta/recipes-devtools/qemu/qemu-0.15.1/powerpc_rom.bin
+diff --git a/meta/recipes-devtools/qemu/qemu-0.15.0/qemu-git-qemugl-host.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/qemu-git-qemugl-host.patch
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu-0.15.0/qemu-git-qemugl-host.patch
+rename to meta/recipes-devtools/qemu/qemu-0.15.1/qemu-git-qemugl-host.patch
+diff --git a/meta/recipes-devtools/qemu/qemu-0.15.0/qemu-vmware-vga-depth.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/qemu-vmware-vga-depth.patch
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu-0.15.0/qemu-vmware-vga-depth.patch
+rename to meta/recipes-devtools/qemu/qemu-0.15.1/qemu-vmware-vga-depth.patch
+diff --git a/meta/recipes-devtools/qemu/qemu-0.15.0/qemugl-allow-glxcontext-release.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/qemugl-allow-glxcontext-release.patch
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu-0.15.0/qemugl-allow-glxcontext-release.patch
+rename to meta/recipes-devtools/qemu/qemu-0.15.1/qemugl-allow-glxcontext-release.patch
+diff --git a/meta/recipes-devtools/qemu/qemu-0.15.0/qemugl-fix.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/qemugl-fix.patch
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu-0.15.0/qemugl-fix.patch
+rename to meta/recipes-devtools/qemu/qemu-0.15.1/qemugl-fix.patch
+diff --git a/meta/recipes-devtools/qemu/qemu_0.15.0.bb b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
+similarity index 88%
+rename from meta/recipes-devtools/qemu/qemu_0.15.0.bb
+rename to meta/recipes-devtools/qemu/qemu_0.15.1.bb
+index e2e1340..7eea924 100644
+--- a/meta/recipes-devtools/qemu/qemu_0.15.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
+@@ -3,8 +3,6 @@ require qemu.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
+ 
+-PR = "r1"
+-
+ FILESPATH = "${FILE_DIRNAME}/qemu-${PV}"
+ FILESDIR = "${WORKDIR}"
+ 
+@@ -39,7 +37,7 @@ SRC_URI_append_virtclass-nativesdk = "\
+     ${QEMUGLPATCHES} \
+     file://glflags.patch \
+     "
+-SRC_URI[md5sum] = "dbc55b014bcd21b98e347f6a90f7fb6d"
+-SRC_URI[sha256sum] = "0197e52dba07aeb6dfe0343b0c2ae08ed374d2cb0af3bb9ec73fed5baa0cb74d"
++SRC_URI[md5sum] = "34f17737baaf1b3495c89cd6d4a607ed"
++SRC_URI[sha256sum] = "7705b14d9b8e4df4a0b1790980e618084261e8daef0672a1aa7a830a0f3db5ba"
+ 
+ S = "${WORKDIR}/qemu-${PV}"
 -- 
 1.7.5.4
 
