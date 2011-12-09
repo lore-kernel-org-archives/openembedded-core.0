@@ -1,34 +1,37 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from smtprelay-b21.telenor.se ([195.54.99.212])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RZ0rP-0001dd-VC
+	(envelope-from <openembedded-core@emagii.com>) id 1RZ0t3-0001gP-Sc
 	for openembedded-core@lists.openembedded.org;
-	Fri, 09 Dec 2011 14:51:36 +0100
-Received: by wgbds11 with SMTP id ds11so4940687wgb.24
+	Fri, 09 Dec 2011 14:53:17 +0100
+Received: from ipb5.telenor.se (ipb5.telenor.se [195.54.127.168])
+	by smtprelay-b21.telenor.se (Postfix) with ESMTP id 38D52CD5C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Dec 2011 05:44:45 -0800 (PST)
-Received: by 10.227.204.208 with SMTP id fn16mr7241755wbb.6.1323438285278;
-	Fri, 09 Dec 2011 05:44:45 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id z35sm12599806wbm.12.2011.12.09.05.44.44
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 09 Dec 2011 05:44:44 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Fri, 9 Dec 2011 14:44:42 +0100
-In-Reply-To: <20111208070548.GB3761@jama.jama.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1323279247.30601.51.camel@ted>
-	<201112080053.11966.schnitzeltony@gmx.de>
-	<20111208070548.GB3761@jama.jama.net>
-Message-Id: <0B087DB2-2C7F-4A0B-A0D1-7E38D9E28807@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH] bitbake.conf/image.bbclass: Ensure images use the correct passwd/group files
+	Fri,  9 Dec 2011 14:46:27 +0100 (CET)
+X-SENDER-IP: [83.227.56.19]
+X-LISTENER: [smtp.bredband.net]
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: AroeAFsQ4k5T4zgTPGdsb2JhbAAMN6sRAQEBATeCJAEBAQECAQEBATU2CgYLCxUDCRYPCQMCAQIBDwYBGxQTBgIBAYgDCLYbiFiDGgSSS4IlimqHPg
+X-IronPort-AV: E=Sophos;i="4.71,326,1320620400"; 
+   d="scan'208";a="9292909"
+Received: from c-1338e353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
+	[10.175.196.242]) ([83.227.56.19])
+	by ipb5.telenor.se with ESMTP; 09 Dec 2011 14:46:26 +0100
+Message-ID: <4EE21138.8070609@emagii.com>
+Date: Fri, 09 Dec 2011 14:46:32 +0100
+From: Ulf Samuelsson <openembedded-core@emagii.com>
+Organization: eMagii
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.23) Gecko/20110922 Thunderbird/3.1.15
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <cover.1323286080.git.elizabeth.flanagan@intel.com>	<6c65669e1c223d59020c581750599c11ee222063.1323286080.git.elizabeth.flanagan@intel.com>	<20111207215306.GE6351@sakrah.homelinux.org>	<4EE170C6.2070201@emagii.com>
+	<1323431158.5309.126.camel@ted>
+In-Reply-To: <1323431158.5309.126.camel@ted>
+Subject: Re: [PATCH 4/8] Add copyleft compliance class --- MAJOR BREAKAGE!!!!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: ulf@emagii.com, Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -39,112 +42,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2011 13:51:36 -0000
-X-Groupsio-MsgNum: 13935
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_84490545-128A-419A-9B3E-D9183AB546C3";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_84490545-128A-419A-9B3E-D9183AB546C3
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=iso-8859-1
-
-
-Op 8 dec. 2011, om 08:05 heeft Martin Jansa het volgende geschreven:
-
-> On Thu, Dec 08, 2011 at 12:53:11AM +0100, Andreas M=FCller wrote:
->> On Wednesday, December 07, 2011 06:34:07 PM Richard Purdie wrote:
->>> We need pseudo to use the rootfs passwd/group files belonging to the
->>> rootfs when building images. This patch ensures that we use the =
-rootfs
->>> files instead of those in the sysroot which can lead to incorrect =
-file
->>> ownership issues.
->>>=20
->>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>>=20
->>> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
->>> index 4642fa6..865d430 100644
->>> --- a/meta/classes/image.bbclass
->>> +++ b/meta/classes/image.bbclass
->>> @@ -121,6 +121,8 @@ IMAGE_LINGUAS ?=3D "de-de fr-fr en-gb"
->>>=20
->>> LINGUAS_INSTALL =3D "${@" ".join(map(lambda s: "locale-base-%s" % s,
->>> d.getVar('IMAGE_LINGUAS', 1).split()))}"
->>>=20
->>> +PSEUDO_PASSWD =3D "${IMAGE_ROOTFS}"
->>> +
->>> do_rootfs[nostamp] =3D "1"
->>> do_rootfs[dirs] =3D "${TOPDIR}"
->>> do_rootfs[lockfiles] +=3D "${IMAGE_ROOTFS}.lock"
->>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
->>> index e80cc32..eeb1fc4 100644
->>> --- a/meta/conf/bitbake.conf
->>> +++ b/meta/conf/bitbake.conf
->>> @@ -580,11 +580,12 @@ SRC_URI =3D "file://${FILE}"
->>>=20
->>> # Use pseudo as the fakeroot implementation
->>> PSEUDO_LOCALSTATEDIR ?=3D "${WORKDIR}/pseudo/"
->>> +PSEUDO_PASSWD ?=3D "${STAGING_DIR_TARGET}"
->>> export PSEUDO_DISABLED =3D "1"
->>> #export PSEUDO_PREFIX =3D "${STAGING_DIR_NATIVE}${prefix_native}"
->>> #export PSEUDO_BINDIR =3D "${STAGING_DIR_NATIVE}${bindir_native}"
->>> #export PSEUDO_LIBDIR =3D
->>> "${STAGING_DIR_NATIVE}$PSEUDOBINDIR/../lib/pseudo/lib -FAKEROOTENV =3D=
-
->>> "PSEUDO_PREFIX=3D${STAGING_DIR_NATIVE}${prefix_native}
->>> PSEUDO_LOCALSTATEDIR=3D${PSEUDO_LOCALSTATEDIR}
->>> PSEUDO_PASSWD=3D${STAGING_DIR_TARGET} PSEUDO_NOSYMLINKEXP=3D1
->>> PSEUDO_DISABLED=3D0" +FAKEROOTENV =3D
->>> "PSEUDO_PREFIX=3D${STAGING_DIR_NATIVE}${prefix_native}
->>> PSEUDO_LOCALSTATEDIR=3D${PSEUDO_LOCALSTATEDIR}
->>> PSEUDO_PASSWD=3D${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=3D1 =
-PSEUDO_DISABLED=3D0"
->>> FAKEROOTNOENV =3D "PSEUDO_UNLOAD=3D1"
->>> FAKEROOTDIRS =3D "${PSEUDO_LOCALSTATEDIR}"
->>> PREFERRED_PROVIDER_virtual/fakeroot-native ?=3D "pseudo-native"
->> dbus still needs manual call of=20
->>=20
->> 	chown messagebus:messagebus /var/run/dbus /var/lib/dbus
->>=20
->> ( it is root:root on my image) and
->>=20
->> 	chown root:messagebus /usr/libexec/dbus-daemon-launch-helper
->>=20
->> ( it is avahi:netdev on my image )
->>=20
->> Does this one fix it?
->=20
-> It did for me, see:
-> http://bugzilla.pokylinux.org/show_bug.cgi?id=3D1711
->=20
->> To test: Is it enough to rebuild dbus?
->=20
-> I had right owners in dbus package, wrong only in rootfs, so your =
-issue
-> could be different.
-
-I've also started seeing this issue recently, I wonder if it's due to =
-switching MACHINEs and sstate invalidation.
-
-regards,
-
-Koen=
-
---Apple-Mail=_84490545-128A-419A-9B3E-D9183AB546C3
+X-List-Received-Date: Fri, 09 Dec 2011 13:53:18 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
+On 2011-12-09 12:45, Richard Purdie wrote:
+> On Fri, 2011-12-09 at 03:21 +0100, Ulf Samuelsson wrote:
+>> On 2011-12-07 22:53, Khem Raj wrote:
+>>> On (07/12/11 11:34), Beth Flanagan wrote:
+>>>> From: Christopher Larson<kergoth@gmail.com>
+>>>>
+>>>> Deploys sources for recipes for compliance with copyleft-style licenses
+>>>> Defaults to using symlinks, as it's a quick operation, and one can easily
+>>>> follow the links when making use of the files (e.g. tar with the -h arg).
+>>>>
+>>>> By default, includes all GPL and LGPL, and excludes CLOSED and Proprietary.
+>>>>
+>>>> Signed-off-by: Christopher Larson<kergoth@gmail.com>
+>>>> ---
+>>>>    meta/classes/copyleft_compliance.bbclass |   94 ++++++++++++++++++++++++++++++
+>>>>    1 files changed, 94 insertions(+), 0 deletions(-)
+>>>>    create mode 100644 meta/classes/copyleft_compliance.bbclass
+>>>>
+>>>> diff --git a/meta/classes/copyleft_compliance.bbclass b/meta/classes/copyleft_compliance.bbclass
+>>>> new file mode 100644
+>>>> index 0000000..5d9ab11
+>>>> --- /dev/null
+>>>> +++ b/meta/classes/copyleft_compliance.bbclass
+>>>> @@ -0,0 +1,94 @@
+>>>> +# Deploy sources for recipes for compliance with copyleft-style licenses
+>>>> +# Defaults to using symlinks, as it's a quick operation, and one can easily
+>>>> +# follow the links when making use of the files (e.g. tar with the -h arg).
+>>>> +#
+>>>> +# By default, includes all GPL and LGPL, and excludes CLOSED and Proprietary.
+>>>> +#
+>>>> +# vi:sts=4:sw=4:et
+>>>> +
+>>>> +COPYLEFT_SOURCES_DIR ?= '${DEPLOY_DIR}/copyleft_sources'
+>>>> +
+>>>> +COPYLEFT_LICENSE_INCLUDE ?= 'GPL* LGPL*'
+>>>> +COPYLEFT_LICENSE_INCLUDE[type] = 'list'
+>>>> +COPYLEFT_LICENSE_INCLUDE[doc] = 'Space separated list of globs which include licenses'
+>> If the Ampersand is not accepted in the LICENSE string, then the recipes
+>> below are broken.
+>>
+>>   From my latest build, at least recipes with "&&" fail...
+>> This means that nothing really completes that I have tested.
+>>
+>> MAJOR BREAKAGE!!!!
+>>
+>> I think it would be better FIRST to fix the recipes, and then introduce
+>> checking.
+> I think the single ampersand is accepted, the double might no longer be.
+Yes, the single ampersand works, but the double ampersand will break the 
+build
+as well as the slash '/'.
 
-iEYEARECAAYFAk7iEMoACgkQMkyGM64RGpH2nwCgk85hubjnbd/1TsTnJB0Yb5dJ
-2+4An39o3pPTQKbFfQUoSpIluWlPE74e
-=T2Tf
------END PGP SIGNATURE-----
 
---Apple-Mail=_84490545-128A-419A-9B3E-D9183AB546C3--
+> Certainly oe-core does continue to work. I hadn't realised there were
+> incompatibilities introduced by this patch :(
+>
+> Not sure what we should do about this at this point, probably fix the
+> layers :/.
+>
+True, question is who and when ?
+
+> Cheers,
+>
+> Richard
+>
+
+
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
+-- 
+Best Regards
+Ulf Samuelsson
+eMagii
+
+
+
