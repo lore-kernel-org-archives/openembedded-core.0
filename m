@@ -1,24 +1,23 @@
 Received: from mail.gw90.de ([188.40.100.199])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RZ5Vv-00052y-SR for openembedded-core@lists.openembedded.org;
-	Fri, 09 Dec 2011 19:49:43 +0100
+	id 1RZ5ZQ-00058b-SV for openembedded-core@lists.openembedded.org;
+	Fri, 09 Dec 2011 19:53:20 +0100
 Received: from f053037064.adsl.alicedsl.de ([78.53.37.64]
 	helo=[192.168.178.21])
 	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RZ5PV-0002tv-9b for openembedded-core@lists.openembedded.org;
-	Fri, 09 Dec 2011 18:43:05 +0000
-Message-ID: <1323456167.25802.5.camel@mattotaupa>
+	id 1RZ5Sy-0002uZ-8p; Fri, 09 Dec 2011 18:46:40 +0000
+Message-ID: <1323456388.25802.8.camel@mattotaupa>
 From: Paul Menzel <paulepanter@users.sourceforge.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 09 Dec 2011 19:42:47 +0100
-In-Reply-To: <234071f22c2183ea28cda55bac8f68cb47e8f0e1.1322607016.git.sgw@linux.intel.com>
-References: <cover.1322607016.git.sgw@linux.intel.com>
-	<234071f22c2183ea28cda55bac8f68cb47e8f0e1.1322607016.git.sgw@linux.intel.com>
+Date: Fri, 09 Dec 2011 19:46:28 +0100
+In-Reply-To: <2f2356128ec56b43a886c8004ad5c8aafb433153.1323454935.git.sgw@linux.intel.com>
+References: <cover.1323454935.git.sgw@linux.intel.com>
+	<2f2356128ec56b43a886c8004ad5c8aafb433153.1323454935.git.sgw@linux.intel.com>
 X-Mailer: Evolution 3.0.3-2 
 Mime-Version: 1.0
-Subject: Re: [PATCH 06/26] xinit: Update to 1.3.1
+Subject: Re: [CONSOLIDATED PULL 06/15] pulseaudio: fix compilation with x32 toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,69 +32,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2011 18:49:44 -0000
-X-Groupsio-MsgNum: 13968
+X-List-Received-Date: Fri, 09 Dec 2011 18:53:20 -0000
+X-Groupsio-MsgNum: 13969
 Content-Type: multipart/signed; micalg="pgp-sha1";
 	protocol="application/pgp-signature"; 
-	boundary="=-WtNJDZWWWXy9U8UJnUsu"
+	boundary="=-U6S8FUxenGi+jk2846Qx"
 
---=-WtNJDZWWWXy9U8UJnUsu
+--=-U6S8FUxenGi+jk2846Qx
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Dear Saul,
+Dear Nitin,
 
 
-Am Dienstag, den 29.11.2011, 15:00 -0800 schrieb Saul Wold:
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  .../xorg-app/{xinit_1.3.0.bb =3D> xinit_1.3.1.bb}    |    6 +++---
->  1 files changed, 3 insertions(+), 3 deletions(-)
->  rename meta/recipes-graphics/xorg-app/{xinit_1.3.0.bb =3D> xinit_1.3.1.b=
-b} (80%)
+Am Freitag, den 09.12.2011, 10:23 -0800 schrieb Saul Wold:
+> From: Nitin A Kamble <nitin.a.kamble@intel.com>
 >=20
-> diff --git a/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb b/meta/recipes=
--graphics/xorg-app/xinit_1.3.1.bb
-> similarity index 80%
-> rename from meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
-> rename to meta/recipes-graphics/xorg-app/xinit_1.3.1.bb
-> index 08dfe12..2ddebe6 100644
-> --- a/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
-> +++ b/meta/recipes-graphics/xorg-app/xinit_1.3.1.bb
-> @@ -13,11 +13,11 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D0d4b5eef75=
-f1584ccbdc5e4a34314407"
->  PR =3D "r2"
-
-when upgrading recipes please remember to reset `PR` to 0. I just
-spotted that now when looking through the =E2=80=9Crecent=E2=80=9D changes =
-[1].
-
->  PE =3D "1"
-> =20
-> +SRC_URI[md5sum] =3D "ee234056d8a3dbf37b61b4bcb35b88e4"
-> +SRC_URI[sha256sum] =3D "c7468dfae94bdb42785d79623c27156dc4bf379d83729928=
-30482cb04d8439b0"
+> This commit makes assembly syntax compatible with x32 toolchain
+> to avoid x32 gcc errors.
+>=20
+> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> ---
+>  .../pulseaudio/pulseaudo_fix_for_x32.patch         |  225 ++++++++++++++=
+++++++
+>  .../pulseaudio/pulseaudio_1.1.bb                   |    3 +-
+>  2 files changed, 227 insertions(+), 1 deletions(-)
+>  create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/pulseau=
+do_fix_for_x32.patch
+>=20
+> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/pulseaudo_fix_=
+for_x32.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/pulseaudo_fix=
+_for_x32.patch
+> new file mode 100644
+> index 0000000..22fe2e7
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/pulseaudo_fix_for_x32=
+.patch
+> @@ -0,0 +1,225 @@
+> +UpstreamStatus: Pending
 > +
->  EXTRA_OECONF =3D "ac_cv_path_MCOOKIE=3D${bindir}/mcookie"
-> =20
->  RDEPENDS_${PN} +=3D "util-linux-mcookie"
-> =20
->  FILES_${PN} +=3D "${libdir}X11/xinit"
-> -
-> -SRC_URI[md5sum] =3D "bc4e8b7d1919597cc37a0d24aa149dda"
-> -SRC_URI[sha256sum] =3D "ba76e36e1a42a7cf76505b7e6fc4777f5d14f45ddff74341=
-abfb7dd10d5fe04c"
+> +This patch makes assembly syntax compatible to the x32 toolchain.
+> +
+> +This fixes compilations errors with x32 gcc.
+
+I would volunteer to send this patch upstream. A more elaborate commit
+message also suited for non-OE users would be helpful. That means what
+does the x32 tool chain do and a paste of the errors you got.
+
+> +Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com> 2011/12/03
+> +Index: pulseaudio-1.1/src/pulsecore/svolume_mmx.c
+
+[=E2=80=A6]
+
+Please only merge this, when this has been improved.
 
 
 Thanks,
 
 Paul
 
-
-[1] http://git.openembedded.org/openembedded-core/commit/?id=3D234071f22c21=
-83ea28cda55bac8f68cb47e8f0e1
-
---=-WtNJDZWWWXy9U8UJnUsu
+--=-U6S8FUxenGi+jk2846Qx
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
@@ -103,9 +99,9 @@ Content-Transfer-Encoding: 7bit
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.11 (GNU/Linux)
 
-iEYEABECAAYFAk7iVqcACgkQPX1aK2wOHViBBACdEFxTqRlMgBzs0Q5vXoC6aLwW
-QlUAn3sjx8jHFneqSIZsQi6DXE8LoPKD
-=7G5i
+iEYEABECAAYFAk7iV4QACgkQPX1aK2wOHVjrkQCeIa8+PqOPqYL9Iwqo6wqpLkqm
+17oAn31Su1kp1aq7aHXEhtQgI4+cEqZv
+=e5k9
 -----END PGP SIGNATURE-----
 
---=-WtNJDZWWWXy9U8UJnUsu--
+--=-U6S8FUxenGi+jk2846Qx--
