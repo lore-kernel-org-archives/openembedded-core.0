@@ -1,23 +1,23 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RZ5Dg-000497-Gd
+	(envelope-from <sgw@linux.intel.com>) id 1RZ5Dh-0004B1-Ao
 	for openembedded-core@openembedded.org; Fri, 09 Dec 2011 19:30:53 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga102.fm.intel.com with ESMTP; 09 Dec 2011 10:23:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="100564259"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="100564262"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.35])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Dec 2011 10:23:52 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 09 Dec 2011 10:23:53 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@openembedded.org
-Date: Fri,  9 Dec 2011 10:23:47 -0800
-Message-Id: <19eb3ab81b1c2011d2525b8569b7097b706047fb.1323454935.git.sgw@linux.intel.com>
+Date: Fri,  9 Dec 2011 10:23:48 -0800
+Message-Id: <f83bbfca3bcc303532b83659afb11b16cb36f5a8.1323454935.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1323454935.git.sgw@linux.intel.com>
 References: <cover.1323454935.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1323454935.git.sgw@linux.intel.com>
 References: <cover.1323454935.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 14/15] x86 tune: fix TUNE_PKGARCH definition for proper PACKAGE_ARCH
+Subject: [CONSOLIDATED PULL 15/15] u-boot: renamed dir from uboot to the more appropriate u-boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,66 +32,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2011 18:30:53 -0000
+X-List-Received-Date: Fri, 09 Dec 2011 18:30:54 -0000
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
 
-rpmbuild can not handle the PACKAGE_ARCH of these kinds:
-	x86_64-x32, core2-64, core2-64-x32
+recipe dirs normally have the name of the (main) package and the official name is u-boot
 
-With these kinds of PACKAGE_ARCH the --target parameter of rpmbuild
-becomes like: core2-64-x32-poky-linux-gnux32 ; And rpmbuild extracts
-%_target (arch) wrongly as core2 generating these kinds of rpms with
-incorrect filenames: zip-3.0-r0.core2.rpm
-
-So this commit fixes the issue by making PACKAGE_ARCH like this:
-	x86_64_x32, core2_64, core2_64_x32
-Now --target parameter of rpmbuild becomes like:
-core2_64_x32-poky-linux-gnux32 ; And rpmbuild extracts %_target (arch)
-correctly as core2_64_x32 generating these kinds of rpms with correct
-filenames: zip-3.0-r0.core2_64_x32.rpm
-
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+Signed-off-by: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
 ---
- meta/conf/machine/include/ia32/arch-ia32.inc |    4 ++--
- meta/conf/machine/include/tune-core2.inc     |    6 +++---
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ .../{uboot => u-boot}/files/fix-arm920t-eabi.patch |    0
+ ...Drop-config.h-include-in-tools-imximage.h.patch |    0
+ ...ove-LDSCRIPT-processing-to-the-top-level-.patch |    0
+ ...Drop-config.h-include-in-tools-imximage.h.patch |    0
+ ...ove-LDSCRIPT-processing-to-the-top-level-.patch |    0
+ .../{uboot => u-boot}/u-boot-mkimage_2011.03.bb    |    0
+ .../{uboot => u-boot}/u-boot-mkimage_2011.06.bb    |    0
+ meta/recipes-bsp/{uboot => u-boot}/u-boot.inc      |    0
+ .../{uboot => u-boot}/u-boot_2011.03.bb            |    0
+ .../{uboot => u-boot}/u-boot_2011.06.bb            |    0
+ 10 files changed, 0 insertions(+), 0 deletions(-)
+ rename meta/recipes-bsp/{uboot => u-boot}/files/fix-arm920t-eabi.patch (100%)
+ rename meta/recipes-bsp/{uboot => u-boot}/u-boot-mkimage-2011.03/0001-Drop-config.h-include-in-tools-imximage.h.patch (100%)
+ rename meta/recipes-bsp/{uboot => u-boot}/u-boot-mkimage-2011.03/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch (100%)
+ rename meta/recipes-bsp/{uboot => u-boot}/u-boot-mkimage/0001-Drop-config.h-include-in-tools-imximage.h.patch (100%)
+ rename meta/recipes-bsp/{uboot => u-boot}/u-boot-mkimage/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch (100%)
+ rename meta/recipes-bsp/{uboot => u-boot}/u-boot-mkimage_2011.03.bb (100%)
+ rename meta/recipes-bsp/{uboot => u-boot}/u-boot-mkimage_2011.06.bb (100%)
+ rename meta/recipes-bsp/{uboot => u-boot}/u-boot.inc (100%)
+ rename meta/recipes-bsp/{uboot => u-boot}/u-boot_2011.03.bb (100%)
+ rename meta/recipes-bsp/{uboot => u-boot}/u-boot_2011.06.bb (100%)
 
-diff --git a/meta/conf/machine/include/ia32/arch-ia32.inc b/meta/conf/machine/include/ia32/arch-ia32.inc
-index ee91983..0931c26 100644
---- a/meta/conf/machine/include/ia32/arch-ia32.inc
-+++ b/meta/conf/machine/include/ia32/arch-ia32.inc
-@@ -45,5 +45,5 @@ PACKAGE_EXTRA_ARCHS_tune-x86-64 = "x86_64"
- AVAILTUNES += "x86-64-x32"
- TUNE_FEATURES_tune-x86-64-x32 ?= "mx32"
- BASE_LIB_tune-x86-64-x32 ?= "libx32"
--PACKAGE_EXTRA_ARCHS_tune-x86-64-x32 = "x86_64-x32"
--TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "mx32", "-x32", "", d)}"
-+PACKAGE_EXTRA_ARCHS_tune-x86-64-x32 = "x86_64_x32"
-+TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "mx32", "_x32", "", d)}"
-diff --git a/meta/conf/machine/include/tune-core2.inc b/meta/conf/machine/include/tune-core2.inc
-index 565a39c..7cde511 100644
---- a/meta/conf/machine/include/tune-core2.inc
-+++ b/meta/conf/machine/include/tune-core2.inc
-@@ -1,5 +1,5 @@
- DEFAULTTUNE ?= "core2"
--TUNE_PKGARCH ?= "${@bb.utils.contains("TUNE_FEATURES", "m32", "core2", "core2-64", d)}"
-+TUNE_PKGARCH ?= "${@bb.utils.contains("TUNE_FEATURES", "m32", "core2", "core2_64", d)}"
- 
- require conf/machine/include/tune-i586.inc
- 
-@@ -16,9 +16,9 @@ PACKAGE_EXTRA_ARCHS_tune-core2 = "${PACKAGE_EXTRA_ARCHS_tune-x86} i386 i486 i586
- AVAILTUNES += "core2-64"
- TUNE_FEATURES_tune-core2-64 ?= "${TUNE_FEATURES_tune-x86-64} core2"
- BASE_LIB_tune-core2-64 ?= "lib64"
--PACKAGE_EXTRA_ARCHS_tune-core2-64 = "${PACKAGE_EXTRA_ARCHS_tune-x86-64} core2-64"
-+PACKAGE_EXTRA_ARCHS_tune-core2-64 = "${PACKAGE_EXTRA_ARCHS_tune-x86-64} core2_64"
- 
- AVAILTUNES += "core2-64-x32"
- TUNE_FEATURES_tune-core2-64-x32 ?= "${TUNE_FEATURES_tune-x86-64-x32} core2"
- BASE_LIB_tune-core2-64-x32 ?= "libx32"
--PACKAGE_EXTRA_ARCHS_tune-core2-64-x32 = "${PACKAGE_EXTRA_ARCHS_tune-x86-64-x32} core2-64-x32"
-+PACKAGE_EXTRA_ARCHS_tune-core2-64-x32 = "${PACKAGE_EXTRA_ARCHS_tune-x86-64-x32} core2_64_x32"
+diff --git a/meta/recipes-bsp/uboot/files/fix-arm920t-eabi.patch b/meta/recipes-bsp/u-boot/files/fix-arm920t-eabi.patch
+similarity index 100%
+rename from meta/recipes-bsp/uboot/files/fix-arm920t-eabi.patch
+rename to meta/recipes-bsp/u-boot/files/fix-arm920t-eabi.patch
+diff --git a/meta/recipes-bsp/uboot/u-boot-mkimage-2011.03/0001-Drop-config.h-include-in-tools-imximage.h.patch b/meta/recipes-bsp/u-boot/u-boot-mkimage-2011.03/0001-Drop-config.h-include-in-tools-imximage.h.patch
+similarity index 100%
+rename from meta/recipes-bsp/uboot/u-boot-mkimage-2011.03/0001-Drop-config.h-include-in-tools-imximage.h.patch
+rename to meta/recipes-bsp/u-boot/u-boot-mkimage-2011.03/0001-Drop-config.h-include-in-tools-imximage.h.patch
+diff --git a/meta/recipes-bsp/uboot/u-boot-mkimage-2011.03/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch b/meta/recipes-bsp/u-boot/u-boot-mkimage-2011.03/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch
+similarity index 100%
+rename from meta/recipes-bsp/uboot/u-boot-mkimage-2011.03/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch
+rename to meta/recipes-bsp/u-boot/u-boot-mkimage-2011.03/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch
+diff --git a/meta/recipes-bsp/uboot/u-boot-mkimage/0001-Drop-config.h-include-in-tools-imximage.h.patch b/meta/recipes-bsp/u-boot/u-boot-mkimage/0001-Drop-config.h-include-in-tools-imximage.h.patch
+similarity index 100%
+rename from meta/recipes-bsp/uboot/u-boot-mkimage/0001-Drop-config.h-include-in-tools-imximage.h.patch
+rename to meta/recipes-bsp/u-boot/u-boot-mkimage/0001-Drop-config.h-include-in-tools-imximage.h.patch
+diff --git a/meta/recipes-bsp/uboot/u-boot-mkimage/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch b/meta/recipes-bsp/u-boot/u-boot-mkimage/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch
+similarity index 100%
+rename from meta/recipes-bsp/uboot/u-boot-mkimage/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch
+rename to meta/recipes-bsp/u-boot/u-boot-mkimage/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch
+diff --git a/meta/recipes-bsp/uboot/u-boot-mkimage_2011.03.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.03.bb
+similarity index 100%
+rename from meta/recipes-bsp/uboot/u-boot-mkimage_2011.03.bb
+rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2011.03.bb
+diff --git a/meta/recipes-bsp/uboot/u-boot-mkimage_2011.06.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.06.bb
+similarity index 100%
+rename from meta/recipes-bsp/uboot/u-boot-mkimage_2011.06.bb
+rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2011.06.bb
+diff --git a/meta/recipes-bsp/uboot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+similarity index 100%
+rename from meta/recipes-bsp/uboot/u-boot.inc
+rename to meta/recipes-bsp/u-boot/u-boot.inc
+diff --git a/meta/recipes-bsp/uboot/u-boot_2011.03.bb b/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
+similarity index 100%
+rename from meta/recipes-bsp/uboot/u-boot_2011.03.bb
+rename to meta/recipes-bsp/u-boot/u-boot_2011.03.bb
+diff --git a/meta/recipes-bsp/uboot/u-boot_2011.06.bb b/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
+similarity index 100%
+rename from meta/recipes-bsp/uboot/u-boot_2011.06.bb
+rename to meta/recipes-bsp/u-boot/u-boot_2011.06.bb
 -- 
 1.7.6.4
 
