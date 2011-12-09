@@ -1,33 +1,31 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RZ71p-0000iK-Fo
-	for openembedded-core@lists.openembedded.org;
-	Fri, 09 Dec 2011 21:26:47 +0100
-Received: by bkbzt4 with SMTP id zt4so3438428bkb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Dec 2011 12:19:49 -0800 (PST)
+	(envelope-from <raj.khem@gmail.com>) id 1RZ73Z-0000nV-FJ
+	for openembedded-core@openembedded.org; Fri, 09 Dec 2011 21:28:33 +0100
+Received: by lahd3 with SMTP id d3so1262230lah.6
+	for <openembedded-core@openembedded.org>;
+	Fri, 09 Dec 2011 12:21:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type;
-	bh=3sqzj51XgoJXQ2QBm5c/qdlgQrVRJQaTJpWJksfrQuQ=;
-	b=Ao+6FqGtMzTZ3q/YbH7jx2hNuibQgdZQPnNUClY2b3/GnZy9YzrNQTST+EwDfeq/hr
-	cvJD4AxoSkhaMmVhhPFE3RnwowB8g7jYb3qcPoZNv+0YJ16Lv3m5siRowLSsCpZmeWJO
-	zGY6OY0x6vT4yJkHFfCvh3kEqkcrTi1cncE70=
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=G4AWCF0ecNNtieYh6KXL3w9Kvdko65pF5cg07y/CifM=;
+	b=k68b9gkW7rv/1ODWevaSJNBvHTAgZgpMPZ5k884yuPzpmtw/AaAab9yjSTFeBu1aLs
+	UdyJdSu2s16PUOs0rWR/kcIOV680H2Rp3YQRlxZzVp+Gc9i/5EktKUT2HQ7SHtYEVhIz
+	FS3pMg0DZu6zYv7JZ/PA8VpMgmGP0nVqtsiCU=
+Received: by 10.152.106.115 with SMTP id gt19mr5880344lab.27.1323462102331;
+	Fri, 09 Dec 2011 12:21:42 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.204.150.9 with SMTP id w9mr4782466bkv.65.1323461987487; Fri,
-	09 Dec 2011 12:19:47 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.113.132 with HTTP; Fri, 9 Dec 2011 12:19:47 -0800 (PST)
-In-Reply-To: <CAMKF1spbr_wVbi7tLToDF3bPhg28cAGz_JVVWFg59iGHEM5quA@mail.gmail.com>
-References: <1323460893-30873-1-git-send-email-otavio@ossystems.com.br>
-	<CAMKF1spbr_wVbi7tLToDF3bPhg28cAGz_JVVWFg59iGHEM5quA@mail.gmail.com>
-Date: Fri, 9 Dec 2011 18:19:47 -0200
-X-Google-Sender-Auth: HQOnIQHosGVxW7MW20ggVijcz50
-Message-ID: <CAP9ODKozBigWbmZZFX9AESZpms+4cNWKUx20uhZsfCYjURNHZA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by 10.152.24.36 with HTTP; Fri, 9 Dec 2011 12:21:11 -0800 (PST)
+In-Reply-To: <94eb40ea45e45387d28fc04e3929f1044188b589.1323333676.git.sgw@linux.intel.com>
+References: <cover.1323333676.git.sgw@linux.intel.com>
+	<94eb40ea45e45387d28fc04e3929f1044188b589.1323333676.git.sgw@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 9 Dec 2011 12:21:11 -0800
+Message-ID: <CAMKF1sru2cSoejrGD6OEDxvYeoD7XzrrkzhApZJqWWjukjL6fA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] connman: avoid checking for linux/if_alg.h header
+Cc: openembedded-core@openembedded.org
+Subject: Re: [CONSOLIDATED PULL 15/17] wget: enable https and openssl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,72 +40,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2011 20:26:47 -0000
-Content-Type: multipart/alternative; boundary=000e0ce0d9c6a34e6104b3ae81ea
-
---000e0ce0d9c6a34e6104b3ae81ea
-Content-Type: text/plain; charset=ISO-8859-1
-
-On Fri, Dec 9, 2011 at 18:14, Khem Raj <raj.khem@gmail.com> wrote:
-
-> On Fri, Dec 9, 2011 at 12:01 PM, Otavio Salvador
-> <otavio@ossystems.com.br> wrote:
-> > +# alg-test doesn't build, so disable that and test
-> > +# for if_alg.h as this header is only in 2.6.39
-> > +do_configure_prepend() {
-> > +       sed -i 's:tools/alg-test ::g' Makefile.am
-> > +       sed -i 's:AC_CHECK_HEADERS(linux/if_alg.h, dummy=yes,::g;
-> > +               s:AC_MSG_ERROR(User-space algorithm header files are
-> required))::g' configure.ac
-> > +}
-> > +
->
-> may be you can cache that in site files instead of this.
->
-
-I'm willing to try to drop this in a next patch but I'd prefer this to get
-in before and get connman in a working shape again before focusing on
-improvements for it.
-
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
-
---000e0ce0d9c6a34e6104b3ae81ea
-Content-Type: text/html; charset=ISO-8859-1
+X-List-Received-Date: Fri, 09 Dec 2011 20:28:33 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div class=3D"gmail_quote">On Fri, Dec 9, 2011 at 18:14, Khem Raj <span dir=
-=3D"ltr">&lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex;">
-<div class=3D"im">On Fri, Dec 9, 2011 at 12:01 PM, Otavio Salvador<br>
-&lt;<a href=3D"mailto:otavio@ossystems.com.br">otavio@ossystems.com.br</a>&=
-gt; wrote:<br>
-&gt; +# alg-test doesn&#39;t build, so disable that and test<br>
-&gt; +# for if_alg.h as this header is only in 2.6.39<br>
-&gt; +do_configure_prepend() {<br>
-&gt; + =A0 =A0 =A0 sed -i &#39;s:tools/alg-test ::g&#39; Makefile.am<br>
-&gt; + =A0 =A0 =A0 sed -i &#39;s:AC_CHECK_HEADERS(linux/if_alg.h, dummy=3Dy=
-es,::g;<br>
-&gt; + =A0 =A0 =A0 =A0 =A0 =A0 =A0 s:AC_MSG_ERROR(User-space algorithm head=
-er files are required))::g&#39; <a href=3D"http://configure.ac" target=3D"_=
-blank">configure.ac</a><br>
-&gt; +}<br>
-&gt; +<br>
-<br>
-</div>may be you can cache that in site files instead of this.<br></blockqu=
-ote><div><br></div><div>I&#39;m willing to try to drop this in a next patch=
- but I&#39;d prefer this to get in before and get connman in a working shap=
-e again before focusing on improvements for it.</div>
-<div>=A0</div></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio=
-@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=
-=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com=
-.br</a><br>
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
-jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
-/a><br><br>
+On Thu, Dec 8, 2011 at 12:44 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+> =C2=A0meta/recipes-extended/wget/wget.inc | =C2=A0 =C2=A06 +++---
+> =C2=A01 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/=
+wget/wget.inc
+> index 91400cc..7083569 100644
+> --- a/meta/recipes-extended/wget/wget.inc
+> +++ b/meta/recipes-extended/wget/wget.inc
+> @@ -2,13 +2,13 @@ DESCRIPTION =3D "A console URL download utility featuri=
+ng HTTP, FTP, and more."
+> =C2=A0SECTION =3D "console/network"
+> =C2=A0LICENSE =3D "GPL"
+> =C2=A0LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd32239bcb673463ab874e80d=
+47fae504"
+> +DEPENDS =3D "openssl"
+>
+> -INC_PR =3D "r11"
+> +INC_PR =3D "r12"
+>
+> =C2=A0inherit autotools gettext update-alternatives
+>
+> -# Disable checking for SSL since that searches the system paths
+> -EXTRA_OECONF =3D "--with-libc --enable-ipv6 --without-ssl"
+> +EXTRA_OECONF =3D "--with-libc --enable-ipv6 --with-ssl=3Dopenssl"
 
---000e0ce0d9c6a34e6104b3ae81ea--
+this deserves to be a configurable thing IMO
+
+
