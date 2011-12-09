@@ -1,23 +1,23 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RZ5Da-000497-LH
-	for openembedded-core@openembedded.org; Fri, 09 Dec 2011 19:30:46 +0100
+	(envelope-from <sgw@linux.intel.com>) id 1RZ5Db-000496-1v
+	for openembedded-core@openembedded.org; Fri, 09 Dec 2011 19:30:47 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Dec 2011 10:23:51 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 09 Dec 2011 10:23:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="100564244"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="100564236"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.35])
 	by fmsmga002.fm.intel.com with ESMTP; 09 Dec 2011 10:23:51 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@openembedded.org
-Date: Fri,  9 Dec 2011 10:23:41 -0800
-Message-Id: <5aa11ec2b6b5e04608c63c14490373af32cbb8ed.1323454935.git.sgw@linux.intel.com>
+Date: Fri,  9 Dec 2011 10:23:38 -0800
+Message-Id: <95e41971f592641477358620c7d82f9af5817808.1323454935.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1323454935.git.sgw@linux.intel.com>
 References: <cover.1323454935.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1323454935.git.sgw@linux.intel.com>
 References: <cover.1323454935.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 08/15] findutils: Fix compilation for x32 toolchain
+Subject: [CONSOLIDATED PULL 05/15] mdadm: Make custom CC definition conditional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,82 +32,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2011 18:30:46 -0000
+X-List-Received-Date: Fri, 09 Dec 2011 18:30:47 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-time_t is 64bit and long int is 32bit on x32.  But gnulib used in
-findutils assumes time_t values fit into long int.  Such assumption is
-invalid for x32 and should be removed.
+By hardcoding CC's definition in the Makefile, all the gcc parameters
+set by tune settings are lost. Causing compile failure with x32 toolchain
+
+As the bitbake defined CC is good, there is no need to redfine CC in the
+make file, hence making the CC definition in the Makefile conditional.
+
+This fixes bug: [YOCTO #1414]
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-Signed-Off-By: H.J. Lu <hjl.tools@gmail.com>
 ---
- .../findutils-4.4.2_fix_for_x32.patch              |   36 ++++++++++++++++++++
- meta/recipes-extended/findutils/findutils_4.4.2.bb |    5 ++-
- 2 files changed, 39 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/findutils/findutils-4.4.2/findutils-4.4.2_fix_for_x32.patch
+ .../mdadm/files/mdadm-3.2.2_fix_for_x32.patch      |   24 ++++++++++++++++++++
+ meta/recipes-extended/mdadm/mdadm_3.2.2.bb         |    4 +-
+ 2 files changed, 26 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/mdadm/files/mdadm-3.2.2_fix_for_x32.patch
 
-diff --git a/meta/recipes-extended/findutils/findutils-4.4.2/findutils-4.4.2_fix_for_x32.patch b/meta/recipes-extended/findutils/findutils-4.4.2/findutils-4.4.2_fix_for_x32.patch
+diff --git a/meta/recipes-extended/mdadm/files/mdadm-3.2.2_fix_for_x32.patch b/meta/recipes-extended/mdadm/files/mdadm-3.2.2_fix_for_x32.patch
 new file mode 100644
-index 0000000..484f8a4
+index 0000000..79ba2cf
 --- /dev/null
-+++ b/meta/recipes-extended/findutils/findutils-4.4.2/findutils-4.4.2_fix_for_x32.patch
-@@ -0,0 +1,36 @@
-+UpstreamStatus: Pending
++++ b/meta/recipes-extended/mdadm/files/mdadm-3.2.2_fix_for_x32.patch
+@@ -0,0 +1,24 @@
++UpstreamStatus: pending
 +
-+Author: H.J. Lu <hjl.tools@gmail.com>
++By hardcoding CC's definition in the Makefile, all the gcc parameters 
++set by tune settings are lost. Causing compile failure with x32 toolchain
 +
-+time_t is 64bit and long int is 32bit on x32.  But gnulib used in
-+findutils assumes time_t values fit into long int.  Such assumption is
-+invalid for x32 and should be removed.
++As the bitbake defined CC is good, there is no need to redfine CC in the 
++make file, hence making the CC definition in the Makefile conditional.
 +
-+Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com> 2011/12/05
++Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com> 2011/12/07
 +
-+
-+Index: findutils-4.4.2/gnulib/lib/getdate.y
++Index: mdadm-3.2.2/Makefile
 +===================================================================
-+--- findutils-4.4.2.orig/gnulib/lib/getdate.y
-++++ findutils-4.4.2/gnulib/lib/getdate.y
-+@@ -114,7 +114,6 @@
-+    wraps around, but there's no portable way to check for that at
-+    compile-time.  */
-+ verify (TYPE_IS_INTEGER (time_t));
-+-verify (LONG_MIN <= TYPE_MINIMUM (time_t) && TYPE_MAXIMUM (time_t) <= LONG_MAX);
++--- mdadm-3.2.2.orig/Makefile
+++++ mdadm-3.2.2/Makefile
++@@ -40,7 +40,8 @@ KLIBC=/home/src/klibc/klibc-0.77
 + 
-+ /* An integer value, and the number of digits in its textual
-+    representation.  */
-+Index: findutils-4.4.2/gnulib/lib/mktime.c
-+===================================================================
-+--- findutils-4.4.2.orig/gnulib/lib/mktime.c
-++++ findutils-4.4.2/gnulib/lib/mktime.c
-+@@ -166,7 +166,7 @@ ydhms_diff (long int year1, long int yda
-+ {
-+   verify (C99_integer_division, -1 / 2 == 0);
-+   verify (long_int_year_and_yday_are_wide_enough,
-+-	  INT_MAX <= LONG_MAX / 2 || TIME_T_MAX <= UINT_MAX);
-++	  INT_MAX <= TIME_T_MAX / 2 || TIME_T_MAX <= UINT_MAX);
++ KLIBC_GCC = gcc -nostdinc -iwithprefix include -I$(KLIBC)/klibc/include -I$(KLIBC)/linux/include -I$(KLIBC)/klibc/arch/i386/include -I$(KLIBC)/klibc/include/bits32
 + 
-+   /* Compute intervening leap days correctly even if year is negative.
-+      Take care to avoid integer overflow here.  */
-diff --git a/meta/recipes-extended/findutils/findutils_4.4.2.bb b/meta/recipes-extended/findutils/findutils_4.4.2.bb
-index cfc6546..af9649e 100644
---- a/meta/recipes-extended/findutils/findutils_4.4.2.bb
-+++ b/meta/recipes-extended/findutils/findutils_4.4.2.bb
-@@ -1,10 +1,11 @@
- require findutils.inc
++-CC = $(CROSS_COMPILE)gcc
+++CC ?= $(CROSS_COMPILE)gcc
+++
++ CXFLAGS = -ggdb
++ CWFLAGS = -Wall -Werror -Wstrict-prototypes -Wextra -Wno-unused-parameter
++ ifdef WARN_UNUSED
+diff --git a/meta/recipes-extended/mdadm/mdadm_3.2.2.bb b/meta/recipes-extended/mdadm/mdadm_3.2.2.bb
+index 97878ed..02109e3 100644
+--- a/meta/recipes-extended/mdadm/mdadm_3.2.2.bb
++++ b/meta/recipes-extended/mdadm/mdadm_3.2.2.bb
+@@ -8,10 +8,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+                     file://mdmon.c;beginline=4;endline=18;md5=af7d8444d9c4d3e5c7caac0d9d34039d \
+                     file://mdadm.h;beglinlne=4;endline=22;md5=462bc9936ac0d3da110191a3f9994161"
  
--PR = "r0"
-+PR = "r1"
+-PR = "r2"
++PR = "r3"
  
- SRC_URI += "file://01-27017.patch \
-             file://02-28824.patch \
--            file://03-28872.patch"
-+            file://03-28872.patch \
-+            file://findutils-4.4.2_fix_for_x32.patch "
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.bz2 \
+ 	    file://0001-mdadm-fix-build-failures-ppc64.patch \
++	    file://mdadm-3.2.2_fix_for_x32.patch \
+ 	  "
  
- SRC_URI[md5sum] = "351cc4adb07d54877fa15f75fb77d39f"
- SRC_URI[sha256sum] = "434f32d171cbc0a5e72cfc5372c6fc4cb0e681f8dce566a0de5b6fccd702b62a"
+ SRC_URI[md5sum] = "12ee2fbf3beddb60601fb7a4c4905651"
+@@ -22,7 +23,6 @@ CFLAGS += "-fno-strict-aliasing"
+ inherit autotools
+ 
+ do_compile() {
+-	export CROSS_COMPILE="${TARGET_PREFIX}"
+ 	oe_runmake
+ }
+ 
 -- 
 1.7.6.4
 
