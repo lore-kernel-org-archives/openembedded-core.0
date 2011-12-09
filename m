@@ -1,29 +1,32 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RZ75z-0000wn-DV
+	(envelope-from <otavio.salvador@gmail.com>) id 1RZ7Bt-000190-Vg
 	for openembedded-core@lists.openembedded.org;
-	Fri, 09 Dec 2011 21:31:03 +0100
-Received: by lahd3 with SMTP id d3so1262907lah.6
+	Fri, 09 Dec 2011 21:37:10 +0100
+Received: by bkbzt4 with SMTP id zt4so3449328bkb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Dec 2011 12:24:09 -0800 (PST)
+	Fri, 09 Dec 2011 12:30:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=ylDelSrBC3ja3F3KdD9n+xKmwHKeTqhWvd4RqABxLl8=;
-	b=kZ+yHdxFGs9t6XcmDClcLwSdRpAQLLXOn5lxm8uGCAg9JmxOBrfYKiDWPU5nO2C4tB
-	0fC89oVD0XmeSqLXEEUAEjlqsUxCRCD5wcpeqC/wedljEluyAwKvWAToHIMjW/MXxFgn
-	yoM4WPs8l8x+UQW6Lcjd8KoaBIvhTsDimVuK4=
-Received: by 10.152.104.206 with SMTP id gg14mr5850799lab.41.1323462249323;
-	Fri, 09 Dec 2011 12:24:09 -0800 (PST)
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=Qg6LmpyUdRGCSo3BYx1jJ4T6sBedv2RbnNzSSAkO+rs=;
+	b=ZufJ2n5WsKtiPMFkL50NbiGTe6fZQbyO5ju1ySNhDg7A5o1cpxEhcy0crtYcsfho8j
+	g173I5j3Gu0Wki2I5vHla001CGtLRw4gFcWPRparlDeO13r1/GjqgTmjSvsUJl44vlWg
+	UesMLL/2sDnIcSZi2aME04raLBuSd4o8QrKOk=
 MIME-Version: 1.0
-Received: by 10.152.24.36 with HTTP; Fri, 9 Dec 2011 12:23:37 -0800 (PST)
-In-Reply-To: <CAP9ODKozBigWbmZZFX9AESZpms+4cNWKUx20uhZsfCYjURNHZA@mail.gmail.com>
+Received: by 10.205.142.4 with SMTP id jg4mr4873404bkc.119.1323462617459; Fri,
+	09 Dec 2011 12:30:17 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.113.132 with HTTP; Fri, 9 Dec 2011 12:30:17 -0800 (PST)
+In-Reply-To: <CAMKF1sqk78Du5cphwfusxFOjpGBrOpOXtK2zpn-6AmToBav-BQ@mail.gmail.com>
 References: <1323460893-30873-1-git-send-email-otavio@ossystems.com.br>
 	<CAMKF1spbr_wVbi7tLToDF3bPhg28cAGz_JVVWFg59iGHEM5quA@mail.gmail.com>
 	<CAP9ODKozBigWbmZZFX9AESZpms+4cNWKUx20uhZsfCYjURNHZA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 9 Dec 2011 12:23:37 -0800
-Message-ID: <CAMKF1sqk78Du5cphwfusxFOjpGBrOpOXtK2zpn-6AmToBav-BQ@mail.gmail.com>
+	<CAMKF1sqk78Du5cphwfusxFOjpGBrOpOXtK2zpn-6AmToBav-BQ@mail.gmail.com>
+Date: Fri, 9 Dec 2011 18:30:17 -0200
+X-Google-Sender-Auth: sULBA9hUjxM2cCClMIB3X3xd-wU
+Message-ID: <CAP9ODKoRr9nQwrjEj=uTASq38P5_U_K0EXAu_D5TfapJQa1J4g@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] connman: avoid checking for linux/if_alg.h header
@@ -41,36 +44,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2011 20:31:03 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 09 Dec 2011 20:37:10 -0000
+Content-Type: multipart/alternative; boundary=e0cb4efe30522febd204b3aea78f
+
+--e0cb4efe30522febd204b3aea78f
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Fri, Dec 9, 2011 at 18:23, Khem Raj <raj.khem@gmail.com> wrote:
+
+> > I'm willing to try to drop this in a next patch but I'd prefer this to
+> get
+> > in before and get connman in a working shape again before focusing on
+> > improvements for it.
+>
+> your patch is already available for who are in hurry.
+
+
+The problem is that fails to build for some people (it works for me) and
+thus I would prefer it to be in a working state before doing more cleanups.
+
+This was being done on meta-oe so connman works fine and we are using it
+here with this change. As I said I will fix it soon.
+
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+
+--e0cb4efe30522febd204b3aea78f
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 9, 2011 at 12:19 PM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
-> On Fri, Dec 9, 2011 at 18:14, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> On Fri, Dec 9, 2011 at 12:01 PM, Otavio Salvador
->> <otavio@ossystems.com.br> wrote:
->> > +# alg-test doesn't build, so disable that and test
->> > +# for if_alg.h as this header is only in 2.6.39
->> > +do_configure_prepend() {
->> > + =C2=A0 =C2=A0 =C2=A0 sed -i 's:tools/alg-test ::g' Makefile.am
->> > + =C2=A0 =C2=A0 =C2=A0 sed -i 's:AC_CHECK_HEADERS(linux/if_alg.h, dumm=
-y=3Dyes,::g;
->> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s:AC_MSG_ERROR(User=
--space algorithm header files are
->> > required))::g' configure.ac
->> > +}
->> > +
->>
->> may be you can cache that in site files instead of this.
->
->
-> I'm willing to try to drop this in a next patch but I'd prefer this to ge=
-t
-> in before and get connman in a working shape again before focusing on
-> improvements for it.
+<div class=3D"gmail_quote">On Fri, Dec 9, 2011 at 18:23, Khem Raj <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex;">
+<div class=3D"im">&gt; I&#39;m willing to try to drop this in a next patch =
+but I&#39;d prefer this to get<br>
+&gt; in before and get connman in a working shape again before focusing on<=
+br>
+&gt; improvements for it.<br>
+<br>
+</div>your patch is already available for who are in hurry.</blockquote><di=
+v><br></div><div>The problem is that fails to build for some people (it wor=
+ks for me) and thus I would prefer it to be in a working state before doing=
+ more cleanups.</div>
+<div><br></div><div>This was being done on meta-oe so connman works fine an=
+d we are using it here with this change. As I said I will fix it soon.</div=
+><div>=A0</div></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>
+E-mail: <a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio=
+@ossystems.com.br</a>=A0 <a href=3D"http://www.ossystems.com.br" target=3D"=
+_blank">http://www.ossystems.com.br</a><br>Mobile: +55 53 9981-7854=A0 =A0 =
+=A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://projetos.ossystems.com.br" target=
+=3D"_blank">http://projetos.ossystems.com.br</a><br>
+<br>
 
-your patch is already available for who are in hurry.
-
-
+--e0cb4efe30522febd204b3aea78f--
