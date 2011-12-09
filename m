@@ -1,28 +1,36 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RZ5wG-0006K8-DL
+	(envelope-from <nitin.a.kamble@intel.com>) id 1RZ5y4-0006OP-Nn
 	for openembedded-core@lists.openembedded.org;
-	Fri, 09 Dec 2011 20:16:56 +0100
-Received: by eekb15 with SMTP id b15so1680687eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Dec 2011 11:10:04 -0800 (PST)
-Received: by 10.213.29.130 with SMTP id q2mr1879176ebc.85.1323457804704;
-	Fri, 09 Dec 2011 11:10:04 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id c9sm34631788eeb.0.2011.12.09.11.10.03
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 09 Dec 2011 11:10:03 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Fri, 9 Dec 2011 20:09:59 +0100
-In-Reply-To: <1323456842-16941-1-git-send-email-otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
+	Fri, 09 Dec 2011 20:18:50 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 09 Dec 2011 11:11:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="94468939"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.226.49])
+	by fmsmga001.fm.intel.com with ESMTP; 09 Dec 2011 11:11:50 -0800
+Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
+	orsmsx603.amr.corp.intel.com ([10.22.226.49]) with mapi; Fri, 9 Dec 2011
+	11:11:50 -0800
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: Paul Menzel <paulepanter@users.sourceforge.net>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-References: <1323456842-16941-1-git-send-email-otavio@ossystems.com.br>
-Message-Id: <E768E333-CE1B-457E-B3F9-2690AE11326C@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH] connman: disable ntp support
+Date: Fri, 9 Dec 2011 11:11:49 -0800
+Thread-Topic: [OE-core] [CONSOLIDATED PULL 06/15] pulseaudio: fix
+	compilation with x32 toolchain
+Thread-Index: Acy2ouDs74fBkNPVQ2KTm2gq9Mv8BwAA1Otw
+Message-ID: <9DA5872FEF993D41B7173F58FCF6BE94E3FA863A@orsmsx504.amr.corp.intel.com>
+References: <cover.1323454935.git.sgw@linux.intel.com>
+	<2f2356128ec56b43a886c8004ad5c8aafb433153.1323454935.git.sgw@linux.intel.com>
+	<1323456388.25802.8.camel@mattotaupa>
+In-Reply-To: <1323456388.25802.8.camel@mattotaupa>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+Subject: Re: [CONSOLIDATED PULL 06/15] pulseaudio: fix compilation with x32 toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,118 +45,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2011 19:16:56 -0000
-X-Groupsio-MsgNum: 13976
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_A3D96508-7030-4E1A-AB55-A2FD4D563E17";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Fri, 09 Dec 2011 19:18:50 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
---Apple-Mail=_A3D96508-7030-4E1A-AB55-A2FD4D563E17
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-Op 9 dec. 2011, om 19:54 heeft Otavio Salvador het volgende geschreven:
-
-> OE-Core does not provide ntpd at this moment and as there's no known
-> user of this plugin at this moment we are disabling it.
-
-Ehm:
-
-koen@dominion:/OE/tentacle/sources/meta-angstrom$ git grep =
-connman-plugin-ntpd
-recipes-angstrom/tasks/angstrom-task-gnome.bb:  connman-gnome =
-connman-plugin-ntpd \
-recipes-angstrom/tasks/angstrom-task-gnome3.bb:  connman-gnome =
-connman-plugin-ntpd \
-
-That being said, the upcoming simplentpd conmman feature is a lot =
-better. But I'd appreciate a patch for meta-angstrom to remove the ntp =
-plugin :)
-
->=20
-> [YOCTO #1817]
->=20
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
-> meta/recipes-connectivity/connman/connman.inc     |    6 ++----
-> meta/recipes-connectivity/connman/connman_0.78.bb |    2 +-
-> 2 files changed, 3 insertions(+), 5 deletions(-)
->=20
-> diff --git a/meta/recipes-connectivity/connman/connman.inc =
-b/meta/recipes-connectivity/connman/connman.inc
-> index e90aa4b..d695fee 100644
-> --- a/meta/recipes-connectivity/connman/connman.inc
-> +++ b/meta/recipes-connectivity/connman/connman.inc
-> @@ -14,7 +14,7 @@ LIC_FILES_CHKSUM =3D =
-"file://COPYING;md5=3D12f884d2ae1ff87c09e5b7ccc2c4ca7e \
->                     =
-file://src/main.c;beginline=3D1;endline=3D20;md5=3D4b55b550fa6b33cc2055ef3=
-0dd262b3e"
->=20
-> # we need to define the depends here, the dynamic stuff is too late
-> -DEPENDS  =3D "dbus glib-2.0 ppp iptables gnutls ntp \
-> +DEPENDS  =3D "dbus glib-2.0 ppp iptables gnutls \
->             ${@base_contains('DISTRO_FEATURES', 'bluetooth','bluez4', =
-'', d)} \
->             ${@base_contains('DISTRO_FEATURES', =
-'wifi','wpa-supplicant', '', d)} \
->             "
-> @@ -36,8 +36,7 @@ EXTRA_OECONF +=3D "\
->     --disable-polkit \
->     --enable-client \
->     --enable-fake \
-> -    --enable-ntpd \
-> -    --with-ntpd=3D${bindir}/ntpd \
-> +    --disable-ntpd \
-> "
->=20
-> INITSCRIPT_NAME =3D "connman"
-> @@ -72,7 +71,6 @@ python populate_packages_prepend() {
-> 	               wifi=3D"wpa-supplicant",
-> 	               resolvconf=3D"resolvconf",
-> 	               bluetooth=3D"bluez4",
-> -	               ntpd=3D"ntp",
-> 	               ofono=3D"ofono" )
-> 	packages =3D []
-> 	multilib_prefix =3D (d.getVar("MLPREFIX", True) or "")
-> diff --git a/meta/recipes-connectivity/connman/connman_0.78.bb =
-b/meta/recipes-connectivity/connman/connman_0.78.bb
-> index cc23c28..5ea2bb7 100644
-> --- a/meta/recipes-connectivity/connman/connman_0.78.bb
-> +++ b/meta/recipes-connectivity/connman/connman_0.78.bb
-> @@ -1,6 +1,6 @@
-> require connman.inc
->=20
-> -PR =3D "r1"
-> +PR =3D "r2"
->=20
-> # 0.78 tag
-> SRCREV =3D "02f5d5fe2d7c71514a6387ba2b772b42d8e8d297"
-> --=20
-> 1.7.2.5
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGF1bCBNZW56ZWwgW21h
+aWx0bzpwYXVsZXBhbnRlckB1c2Vycy5zb3VyY2Vmb3JnZS5uZXRdDQo+IFNlbnQ6IEZyaWRheSwg
+RGVjZW1iZXIgMDksIDIwMTEgMTA6NDYgQU0NCj4gVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmcNCj4gQ2M6IEthbWJsZSwgTml0aW4gQQ0KPiBTdWJqZWN0OiBSZTog
+W09FLWNvcmVdIFtDT05TT0xJREFURUQgUFVMTCAwNi8xNV0gcHVsc2VhdWRpbzogZml4DQo+IGNv
+bXBpbGF0aW9uIHdpdGggeDMyIHRvb2xjaGFpbg0KPiANCj4gRGVhciBOaXRpbiwNCj4gDQo+IA0K
+PiBBbSBGcmVpdGFnLCBkZW4gMDkuMTIuMjAxMSwgMTA6MjMgLTA4MDAgc2NocmllYiBTYXVsIFdv
+bGQ6DQo+ID4gRnJvbTogTml0aW4gQSBLYW1ibGUgPG5pdGluLmEua2FtYmxlQGludGVsLmNvbT4N
+Cj4gPg0KPiA+IFRoaXMgY29tbWl0IG1ha2VzIGFzc2VtYmx5IHN5bnRheCBjb21wYXRpYmxlIHdp
+dGggeDMyIHRvb2xjaGFpbiB0bw0KPiA+IGF2b2lkIHgzMiBnY2MgZXJyb3JzLg0KPiA+DQo+ID4g
+U2lnbmVkLW9mZi1ieTogTml0aW4gQSBLYW1ibGUgPG5pdGluLmEua2FtYmxlQGludGVsLmNvbT4N
+Cj4gPiAtLS0NCj4gPiAgLi4uL3B1bHNlYXVkaW8vcHVsc2VhdWRvX2ZpeF9mb3JfeDMyLnBhdGNo
+ICAgICAgICAgfCAgMjI1DQo+ICsrKysrKysrKysrKysrKysrKysrDQo+ID4gIC4uLi9wdWxzZWF1
+ZGlvL3B1bHNlYXVkaW9fMS4xLmJiICAgICAgICAgICAgICAgICAgIHwgICAgMyArLQ0KPiA+ICAy
+IGZpbGVzIGNoYW5nZWQsIDIyNyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9ucygtKSAgY3JlYXRl
+IG1vZGUNCj4gPiAxMDA2NDQNCj4gPiBtZXRhL3JlY2lwZXMtDQo+IG11bHRpbWVkaWEvcHVsc2Vh
+dWRpby9wdWxzZWF1ZGlvL3B1bHNlYXVkb19maXhfZm9yX3gzMi5wYQ0KPiA+IHRjaA0KPiA+DQo+
+ID4gZGlmZiAtLWdpdA0KPiA+IGEvbWV0YS9yZWNpcGVzLQ0KPiBtdWx0aW1lZGlhL3B1bHNlYXVk
+aW8vcHVsc2VhdWRpby9wdWxzZWF1ZG9fZml4X2Zvcl94MzIuDQo+ID4gcGF0Y2gNCj4gPiBiL21l
+dGEvcmVjaXBlcy0NCj4gbXVsdGltZWRpYS9wdWxzZWF1ZGlvL3B1bHNlYXVkaW8vcHVsc2VhdWRv
+X2ZpeF9mb3JfeDMyLg0KPiA+IHBhdGNoDQo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBp
+bmRleCAwMDAwMDAwLi4yMmZlMmU3DQo+ID4gLS0tIC9kZXYvbnVsbA0KPiA+ICsrKyBiL21ldGEv
+cmVjaXBlcy0NCj4gbXVsdGltZWRpYS9wdWxzZWF1ZGlvL3B1bHNlYXVkaW8vcHVsc2VhdWRvX2Zp
+eF9mb3JfDQo+ID4gKysrIHgzMi5wYXRjaA0KPiA+IEBAIC0wLDAgKzEsMjI1IEBADQo+ID4gK1Vw
+c3RyZWFtU3RhdHVzOiBQZW5kaW5nDQo+ID4gKw0KPiA+ICtUaGlzIHBhdGNoIG1ha2VzIGFzc2Vt
+Ymx5IHN5bnRheCBjb21wYXRpYmxlIHRvIHRoZSB4MzIgdG9vbGNoYWluLg0KPiA+ICsNCj4gPiAr
+VGhpcyBmaXhlcyBjb21waWxhdGlvbnMgZXJyb3JzIHdpdGggeDMyIGdjYy4NCj4gDQo+IEkgd291
+bGQgdm9sdW50ZWVyIHRvIHNlbmQgdGhpcyBwYXRjaCB1cHN0cmVhbS4gQSBtb3JlIGVsYWJvcmF0
+ZSBjb21taXQNCj4gbWVzc2FnZSBhbHNvIHN1aXRlZCBmb3Igbm9uLU9FIHVzZXJzIHdvdWxkIGJl
+IGhlbHBmdWwuIFRoYXQgbWVhbnMgd2hhdA0KPiBkb2VzIHRoZSB4MzIgdG9vbCBjaGFpbiBkbyBh
+bmQgYSBwYXN0ZSBvZiB0aGUgZXJyb3JzIHlvdSBnb3QuDQoNClRoYW5rIHlvdSBmb3Igdm9sdW50
+ZWVyaW5nIGZvciBwdXNoaW5nIGl0IHVwc3RyZWFtLg0KDQo+IA0KPiA+ICtTaWduZWQtT2ZmLUJ5
+OiBOaXRpbiBBIEthbWJsZSA8bml0aW4uYS5rYW1ibGVAaW50ZWwuY29tPiAyMDExLzEyLzAzDQo+
+ID4gK0luZGV4OiBwdWxzZWF1ZGlvLTEuMS9zcmMvcHVsc2Vjb3JlL3N2b2x1bWVfbW14LmMNCj4g
+DQo+IFvigKZdDQo+IA0KPiBQbGVhc2Ugb25seSBtZXJnZSB0aGlzLCB3aGVuIHRoaXMgaGFzIGJl
+ZW4gaW1wcm92ZWQuDQoNCg0KSW1wcm92ZWQgY29tbWl0IGhhcyBiZWVuIHB1c2hlZCB0byB0aGUg
+bml0aW4veDMyIGNvbnRyaWIgYnJhbmNoLg0KDQpOaXRpbg0KDQo+IA0KPiANCj4gVGhhbmtzLA0K
+PiANCj4gUGF1bA0K
 
 
---Apple-Mail=_A3D96508-7030-4E1A-AB55-A2FD4D563E17
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-
-iEYEARECAAYFAk7iXQoACgkQMkyGM64RGpGjzQCfdBZkSYruLTB7zfO1gBTd/Eju
-G44AoImmaPsaaPNWxrckvXZIiKe8F2nW
-=GeH4
------END PGP SIGNATURE-----
-
---Apple-Mail=_A3D96508-7030-4E1A-AB55-A2FD4D563E17--
