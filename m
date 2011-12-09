@@ -1,31 +1,31 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1RZ6Rk-0007U1-B1
-	for openembedded-core@lists.openembedded.org;
-	Fri, 09 Dec 2011 20:49:28 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 09 Dec 2011 11:42:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="84119936"
-Received: from unknown (HELO envy.home) ([10.255.12.30])
-	by azsmga001.ch.intel.com with ESMTP; 09 Dec 2011 11:42:36 -0800
-Message-ID: <4EE264BB.6060306@linux.intel.com>
-Date: Fri, 09 Dec 2011 11:42:51 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
+	(envelope-from <raj.khem@gmail.com>) id 1RZ6Sb-0007XD-Ga
+	for openembedded-core@openembedded.org; Fri, 09 Dec 2011 20:50:21 +0100
+Received: by lahd3 with SMTP id d3so1249740lah.6
+	for <openembedded-core@openembedded.org>;
+	Fri, 09 Dec 2011 11:43:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=G9yTNgoCPQ4QPTiZHTO2gyHH3linaGvK3FnRRTQQDJ0=;
+	b=qt8C4pbqWBrN4md/v8vo8kbCU5Bwwj37fk/dRefP3XibZ2subdwZIG3hMsK1yUuxzD
+	cUeztDF1LpaiMExC4i59FFdz0UZRmGpgIpYRbyKgq9ftig6JLFAqbeuHQ9mo3HMZ7AHp
+	y9//YJAW2seM+h+tEHLo8UfmXjiTLPQMU7L98=
+Received: by 10.152.145.233 with SMTP id sx9mr5799645lab.6.1323459810325; Fri,
+	09 Dec 2011 11:43:30 -0800 (PST)
 MIME-Version: 1.0
+Received: by 10.152.24.36 with HTTP; Fri, 9 Dec 2011 11:42:59 -0800 (PST)
+In-Reply-To: <e079fc3617e1c508de82bddc81b8587ffb498ba7.1323454935.git.sgw@linux.intel.com>
+References: <cover.1323454935.git.sgw@linux.intel.com>
+	<e079fc3617e1c508de82bddc81b8587ffb498ba7.1323454935.git.sgw@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 9 Dec 2011 11:42:59 -0800
+Message-ID: <CAMKF1sqMye1-OOY8OEj2yr96_bV__2tY8rHOwK1N9Q8j3JSxew@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1323358819.git.otavio@ossystems.com.br>
-	<e27fba3b38877fb7420c58a3e35cdbcef1cb767a.1323358819.git.otavio@ossystems.com.br>
-	<4EE25E38.3060704@linux.intel.com>
-	<CAP9ODKpr=xgxfJcrzsbv8q+VQh8oQOdKjQurev7hVjiMAv1PkA@mail.gmail.com>
-	<4EE25FA0.2050500@linux.intel.com>
-	<CAP9ODKrMGQbcQaNiwcDKUv6q06Bn5Cy7MEvJ4nMipsG9UOAhSA@mail.gmail.com>
-In-Reply-To: <CAP9ODKrMGQbcQaNiwcDKUv6q06Bn5Cy7MEvJ4nMipsG9UOAhSA@mail.gmail.com>
-X-Enigmail-Version: 1.3.3
-Subject: Re: [PATCH 2/3] dosfstools: update native to 2.11
+Cc: openembedded-core@openembedded.org
+Subject: Re: [CONSOLIDATED PULL 02/15] ncurses: libcurses.so should link to libncurses.so
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,33 +40,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2011 19:49:28 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 09 Dec 2011 19:50:21 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Dec 9, 2011 at 10:23 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> + =C2=A0 =C2=A0 =C2=A0 # Make sure that libcurses is linked so that it ge=
+ts -ltinfo
+> + =C2=A0 =C2=A0 =C2=A0 # also, this should be addressed upstream really.
+> + =C2=A0 =C2=A0 =C2=A0 rm -f ${D}${libdir}/libcurses.so
+> + =C2=A0 =C2=A0 =C2=A0 ln -s libncurses.so ${D}${libdir}/libcurses.so
+>
 
-
-On 12/09/2011 11:35 AM, Otavio Salvador wrote:
-> On Fri, Dec 9, 2011 at 17:21, Darren Hart <dvhart@linux.intel.com
-> <mailto:dvhart@linux.intel.com>> wrote:
-> 
->     So pulling this in would mean we can't build live images when building
->     non GPLv3 images? We are looking to revamp the image creation, but until
->     then I can't agree to this.
-> 
-> 
-> NO. This is 2.11 release.
-> 
-> The GPLv3 versions are the 3.0.x (now it is at 3.0.12).
-
-Ah, this should be fine then. Otavio says the llseek patch which had the
-comment regarding licensing is in 2.11.
-
-No objection your honor.
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+you could do ln -sf libncurses.so ${D}${libdir}/libcurses.so and be
+done in one go
 
 
