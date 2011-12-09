@@ -1,23 +1,23 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RZ5Dg-0004B1-6H
-	for openembedded-core@openembedded.org; Fri, 09 Dec 2011 19:30:52 +0100
+	(envelope-from <sgw@linux.intel.com>) id 1RZ5Dg-000497-Gd
+	for openembedded-core@openembedded.org; Fri, 09 Dec 2011 19:30:53 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Dec 2011 10:23:52 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 09 Dec 2011 10:23:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="100564257"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="100564259"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.35])
 	by fmsmga002.fm.intel.com with ESMTP; 09 Dec 2011 10:23:52 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@openembedded.org
-Date: Fri,  9 Dec 2011 10:23:46 -0800
-Message-Id: <769d183966fd33df7273d488cd867ab6a3a7bb10.1323454935.git.sgw@linux.intel.com>
+Date: Fri,  9 Dec 2011 10:23:47 -0800
+Message-Id: <19eb3ab81b1c2011d2525b8569b7097b706047fb.1323454935.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1323454935.git.sgw@linux.intel.com>
 References: <cover.1323454935.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1323454935.git.sgw@linux.intel.com>
 References: <cover.1323454935.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 13/15] openssl-1.0.0e: Update x32 Configure
+Subject: [CONSOLIDATED PULL 14/15] x86 tune: fix TUNE_PKGARCH definition for proper PACKAGE_ARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,35 +34,64 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 09 Dec 2011 18:30:53 -0000
 
-From: "H.J. Lu" <hjl.tools@gmail.com>
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Make linux-x32 as close to linux-x86_64 as possible:
+rpmbuild can not handle the PACKAGE_ARCH of these kinds:
+	x86_64-x32, core2-64, core2-64-x32
 
-1. Add -mx32 -DMD32_REG_T=int.
-2. Changed to -O3.
-3. Remove -pipe -g -feliminate-unused-debug-types.
-4. Remove -DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS.
-5. Add :::x32 for multilib.
+With these kinds of PACKAGE_ARCH the --target parameter of rpmbuild
+becomes like: core2-64-x32-poky-linux-gnux32 ; And rpmbuild extracts
+%_target (arch) wrongly as core2 generating these kinds of rpms with
+incorrect filenames: zip-3.0-r0.core2.rpm
 
-Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
-Signed-Off-By: H.J. Lu <hjl.tools@gmail.com>
+So this commit fixes the issue by making PACKAGE_ARCH like this:
+	x86_64_x32, core2_64, core2_64_x32
+Now --target parameter of rpmbuild becomes like:
+core2_64_x32-poky-linux-gnux32 ; And rpmbuild extracts %_target (arch)
+correctly as core2_64_x32 generating these kinds of rpms with correct
+filenames: zip-3.0-r0.core2_64_x32.rpm
+
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../openssl-1.0.0e/openssl_fix_for_x32.patch       |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/conf/machine/include/ia32/arch-ia32.inc |    4 ++--
+ meta/conf/machine/include/tune-core2.inc     |    6 +++---
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0e/openssl_fix_for_x32.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0e/openssl_fix_for_x32.patch
-index 10de986..2dbcd01 100644
---- a/meta/recipes-connectivity/openssl/openssl-1.0.0e/openssl_fix_for_x32.patch
-+++ b/meta/recipes-connectivity/openssl/openssl-1.0.0e/openssl_fix_for_x32.patch
-@@ -14,7 +14,7 @@ Index: openssl-1.0.0e/Configure
-  "linux-ia64-ecc","ecc:-DL_ENDIAN -DTERMIO -O2 -Wall -no_cpprt::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC4_CHUNK DES_INT:${ia64_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-  "linux-ia64-icc","icc:-DL_ENDIAN -DTERMIO -O2 -Wall -no_cpprt::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC4_CHUNK DES_RISC1 DES_INT:${ia64_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-  "linux-x86_64",	"gcc:-m64 -DL_ENDIAN -DTERMIO -O3 -Wall -DMD32_REG_T=int::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC4_CHUNK DES_INT DES_UNROLL:${x86_64_asm}:elf:dlfcn:linux-shared:-fPIC:-m64:.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR):::64",
--+"linux-x32",	"gcc:-DL_ENDIAN 	-DTERMIO -O2 -pipe -g -feliminate-unused-debug-types -Wall -DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT RC4_CHUNK DES_INT DES_UNROLL:${x86_64_asm}:elf:dlfcn:linux-shared:-fPIC:-mx32:.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-++"linux-x32", "gcc:-mx32 -DL_ENDIAN -DTERMIO -O3 -Wall -DMD32_REG_T=int::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT RC4_CHUNK DES_INT DES_UNROLL:${x86_64_asm}:elf:dlfcn:linux-shared:-fPIC:-mx32:.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR):::x32",
-  "linux-s390x",	"gcc:-m64 -DB_ENDIAN -DTERMIO -O3 -Wall::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL:${s390x_asm}:dlfcn:linux-shared:-fPIC:-m64:.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR):::64",
-  #### SPARC Linux setups
-  # Ray Miller <ray.miller@computing-services.oxford.ac.uk> has patiently
+diff --git a/meta/conf/machine/include/ia32/arch-ia32.inc b/meta/conf/machine/include/ia32/arch-ia32.inc
+index ee91983..0931c26 100644
+--- a/meta/conf/machine/include/ia32/arch-ia32.inc
++++ b/meta/conf/machine/include/ia32/arch-ia32.inc
+@@ -45,5 +45,5 @@ PACKAGE_EXTRA_ARCHS_tune-x86-64 = "x86_64"
+ AVAILTUNES += "x86-64-x32"
+ TUNE_FEATURES_tune-x86-64-x32 ?= "mx32"
+ BASE_LIB_tune-x86-64-x32 ?= "libx32"
+-PACKAGE_EXTRA_ARCHS_tune-x86-64-x32 = "x86_64-x32"
+-TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "mx32", "-x32", "", d)}"
++PACKAGE_EXTRA_ARCHS_tune-x86-64-x32 = "x86_64_x32"
++TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "mx32", "_x32", "", d)}"
+diff --git a/meta/conf/machine/include/tune-core2.inc b/meta/conf/machine/include/tune-core2.inc
+index 565a39c..7cde511 100644
+--- a/meta/conf/machine/include/tune-core2.inc
++++ b/meta/conf/machine/include/tune-core2.inc
+@@ -1,5 +1,5 @@
+ DEFAULTTUNE ?= "core2"
+-TUNE_PKGARCH ?= "${@bb.utils.contains("TUNE_FEATURES", "m32", "core2", "core2-64", d)}"
++TUNE_PKGARCH ?= "${@bb.utils.contains("TUNE_FEATURES", "m32", "core2", "core2_64", d)}"
+ 
+ require conf/machine/include/tune-i586.inc
+ 
+@@ -16,9 +16,9 @@ PACKAGE_EXTRA_ARCHS_tune-core2 = "${PACKAGE_EXTRA_ARCHS_tune-x86} i386 i486 i586
+ AVAILTUNES += "core2-64"
+ TUNE_FEATURES_tune-core2-64 ?= "${TUNE_FEATURES_tune-x86-64} core2"
+ BASE_LIB_tune-core2-64 ?= "lib64"
+-PACKAGE_EXTRA_ARCHS_tune-core2-64 = "${PACKAGE_EXTRA_ARCHS_tune-x86-64} core2-64"
++PACKAGE_EXTRA_ARCHS_tune-core2-64 = "${PACKAGE_EXTRA_ARCHS_tune-x86-64} core2_64"
+ 
+ AVAILTUNES += "core2-64-x32"
+ TUNE_FEATURES_tune-core2-64-x32 ?= "${TUNE_FEATURES_tune-x86-64-x32} core2"
+ BASE_LIB_tune-core2-64-x32 ?= "libx32"
+-PACKAGE_EXTRA_ARCHS_tune-core2-64-x32 = "${PACKAGE_EXTRA_ARCHS_tune-x86-64-x32} core2-64-x32"
++PACKAGE_EXTRA_ARCHS_tune-core2-64-x32 = "${PACKAGE_EXTRA_ARCHS_tune-x86-64-x32} core2_64_x32"
 -- 
 1.7.6.4
 
