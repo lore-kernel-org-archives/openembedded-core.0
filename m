@@ -1,23 +1,23 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RZ5Dd-000496-Dg
+	(envelope-from <sgw@linux.intel.com>) id 1RZ5Dc-00049A-Iy
 	for openembedded-core@openembedded.org; Fri, 09 Dec 2011 19:30:50 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 09 Dec 2011 10:23:51 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 09 Dec 2011 10:23:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="100564234"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="100564233"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.35])
 	by fmsmga002.fm.intel.com with ESMTP; 09 Dec 2011 10:23:50 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@openembedded.org
-Date: Fri,  9 Dec 2011 10:23:37 -0800
-Message-Id: <296b00baa2e6fc43e97c44a768b06f92c72a208e.1323454935.git.sgw@linux.intel.com>
+Date: Fri,  9 Dec 2011 10:23:36 -0800
+Message-Id: <89418aefadacbe017087a3c8c0e4932232818d9e.1323454935.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1323454935.git.sgw@linux.intel.com>
 References: <cover.1323454935.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1323454935.git.sgw@linux.intel.com>
 References: <cover.1323454935.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 04/15] gst-fluendo.inc: remove unneccessary hack
+Subject: [CONSOLIDATED PULL 03/15] self-hosted: Add ext2 utilites and perl-pod for building
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,31 +34,159 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 09 Dec 2011 18:30:50 -0000
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+Add self-hosted-host-tools for non-build related tools
 
-This fixes bug: [YOCTO #1403]
-
-the custom definition of CC was causing build isuses with x32 toolchain.
-And also I found out that the hack is not neccessary anymore. the
-affected gst-fluendo-mpegdemux recipe builds fine without the CC hack.
-
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-multimedia/gstreamer/gst-fluendo.inc |    4 ----
- 1 files changed, 0 insertions(+), 4 deletions(-)
+ meta/recipes-core/tasks/task-self-hosted.bb |   54 +++++++++++++++-----------
+ 1 files changed, 31 insertions(+), 23 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-fluendo.inc b/meta/recipes-multimedia/gstreamer/gst-fluendo.inc
-index 203bdba..8b24cf7 100644
---- a/meta/recipes-multimedia/gstreamer/gst-fluendo.inc
-+++ b/meta/recipes-multimedia/gstreamer/gst-fluendo.inc
-@@ -12,7 +12,3 @@ FILES_${PN}-dbg += "${libdir}/gstreamer-0.10/.debug"
- FILES_${PN}-dev += "${libdir}/gstreamer-0.10/*.la ${libdir}/gstreamer-0.10/*.a"
+diff --git a/meta/recipes-core/tasks/task-self-hosted.bb b/meta/recipes-core/tasks/task-self-hosted.bb
+index b3a68b4..b9bdd21 100644
+--- a/meta/recipes-core/tasks/task-self-hosted.bb
++++ b/meta/recipes-core/tasks/task-self-hosted.bb
+@@ -3,7 +3,7 @@
+ #
  
- EXTRA_OECONF = "--disable-debug --disable-valgrind"
--
--# Hack to get STAGING_LIBDIR into the linker path when building
--CC = "${CCACHE} ${HOST_PREFIX}gcc -L${STAGING_LIBDIR}"
--
+ DESCRIPTION = "Create Basic Image Tasks"
+-PR = "r1"
++PR = "r2"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+@@ -14,6 +14,7 @@ PACKAGES = "\
+     task-self-hosted-sdk \
+     task-self-hosted-extended \
+     task-self-hosted-graphics \
++    task-self-hosted-host-tools \
+     "
+ 
+ ALLOW_EMPTY = "1"
+@@ -23,13 +24,26 @@ RDEPENDS_task-self-hosted = "\
+     task-self-hosted-sdk \
+     task-self-hosted-extended \
+     task-self-hosted-graphics \
++    task-self-hosted-host-tools \
++    "
++
++RDEPENDS_task-self-hosted-host-tools = "\
++    e2fsprogs \
++    dhcp-client \
++    genext2fs \
++    hdparm \
++    iptables \
++    kernel-module-tun \
++    kernel-module-iptable-raw \
++    kernel-module-iptable-nat \
++    kernel-module-iptable-mangle \
++    kernel-module-iptable-filter \
++    mc \
++    screen \
+     "
+ 
+ # eglibc-utils: for rpcgen
+ RDEPENDS_task-self-hosted-sdk = "\
+-    sed \
+-    mktemp \
+-    eglibc-utils \
+     autoconf \
+     automake \
+     binutils-symlinks \
+@@ -37,27 +51,30 @@ RDEPENDS_task-self-hosted-sdk = "\
+     cpp \
+     cpp-symlinks \
+     ccache \
++    coreutils \
++    diffutils \
++    distcc \
++    eglibc-utils \
++    file \
++    findutils \
+     gcc \
+     gcc-symlinks \
+     g++ \
+     g++-symlinks \
+     gettext \
+-    make \
+     intltool \
++    ldd \
++    less \
+     libstdc++ \
+     libstdc++-dev \
+     libtool \
++    make \
++    mktemp \
+     perl-module-re \
+     perl-module-text-wrap \
+-    coreutils \
+-    diffutils \
+     pkgconfig \
+-    findutils \
+     quilt \
+-    less \
+-    distcc \
+-    ldd \
+-    file \
++    sed \
+     tcl \
+     "
+ 
+@@ -74,8 +91,8 @@ RDEPENDS_task-self-hosted-extended = "\
+     bzip2 \
+     chkconfig \
+     chrpath \
++    cpio \
+     curl \
+-    dhcp-client \
+     diffstat \
+     diffutils \
+     elfutils \
+@@ -88,7 +105,6 @@ RDEPENDS_task-self-hosted-extended = "\
+     grep \
+     groff \
+     gawk \
+-    hdparm \
+     libaio \
+     libxml2 \
+     libusb1 \
+@@ -97,7 +113,6 @@ RDEPENDS_task-self-hosted-extended = "\
+     lzo \
+     man \
+     man-pages \
+-    mc \
+     mdadm \
+     minicom \
+     mtools \
+@@ -111,6 +126,7 @@ RDEPENDS_task-self-hosted-extended = "\
+     perl \
+     perl-modules \
+     perl-dev \
++    perl-pod \
+     pth \
+     python \
+     python-compile \
+@@ -140,7 +156,6 @@ RDEPENDS_task-self-hosted-extended = "\
+     quota \
+     readline \
+     rpm \
+-    screen \
+     setserial \
+     subversion \
+     sudo \
+@@ -158,13 +173,6 @@ RDEPENDS_task-self-hosted-extended = "\
+     xinetd \
+     zip \
+     zlib \
+-    cpio \
+-    iptables \
+-    kernel-module-tun \
+-    kernel-module-iptable-raw \
+-    kernel-module-iptable-nat \
+-    kernel-module-iptable-mangle \
+-    kernel-module-iptable-filter \
+     "
+ 
+ 
 -- 
 1.7.6.4
 
