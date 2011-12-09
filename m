@@ -1,32 +1,33 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RZ2Cc-0003kL-4e
+	(envelope-from <otavio.salvador@gmail.com>) id 1RZ3ZA-0001BW-BH
 	for openembedded-core@lists.openembedded.org;
-	Fri, 09 Dec 2011 16:17:34 +0100
-Received: by eekb15 with SMTP id b15so1575478eek.6
+	Fri, 09 Dec 2011 17:44:56 +0100
+Received: by bkbzt4 with SMTP id zt4so3185217bkb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Dec 2011 07:10:43 -0800 (PST)
-Received: by 10.14.35.101 with SMTP id t77mr906566eea.216.1323443443052;
-	Fri, 09 Dec 2011 07:10:43 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id 65sm32116096eeg.8.2011.12.09.07.10.40
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 09 Dec 2011 07:10:42 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Fri, 9 Dec 2011 16:10:36 +0100
-In-Reply-To: <1323443103.5309.178.camel@ted>
+	Fri, 09 Dec 2011 08:38:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=2hWPLAZsQIEs3nARXx0FTsq22YOj1k77b8VI0jbu3m4=;
+	b=qwf6anmgqzzFp5pSk19GGnvkJO34A+w+g+DDaXWuxySLUXj4w3Z+wNUq/SbUukYcvX
+	mm5c3GYkjadQVAg+e+BJBRJOIq51tn9mETvEIx4MvpP5FRQGCUoU1lFvM7iOgJft8Tm2
+	BlLTtHnNVvJf1v2Fm0fbfZVtKmaft/vdPqORM=
+MIME-Version: 1.0
+Received: by 10.204.150.9 with SMTP id w9mr4292816bkv.65.1323448680084; Fri,
+	09 Dec 2011 08:38:00 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.113.132 with HTTP; Fri, 9 Dec 2011 08:38:00 -0800 (PST)
+In-Reply-To: <1323440295.5309.164.camel@ted>
+References: <1323427912-10122-1-git-send-email-otavio@ossystems.com.br>
+	<1323440295.5309.164.camel@ted>
+Date: Fri, 9 Dec 2011 14:38:00 -0200
+X-Google-Sender-Auth: 4ALt4_hD37B5iqrHrafmA5pBNKs
+Message-ID: <CAP9ODKpvAYr7e+9bS4Uyq8F_nsVdjoBchZPttqbcJGsoZDfCiQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1323279247.30601.51.camel@ted>
-	<201112080053.11966.schnitzeltony@gmx.de>
-	<20111208070548.GB3761@jama.jama.net>
-	<0B087DB2-2C7F-4A0B-A0D1-7E38D9E28807@dominion.thruhere.net>
-	<1323443103.5309.178.camel@ted>
-Message-Id: <57952375-D968-4AC3-BAF0-88B571479CDB@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH] bitbake.conf/image.bbclass: Ensure images use the correct passwd/group files
+Subject: Re: [PATCH] connman: update to 0.78
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,130 +42,172 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2011 15:17:34 -0000
-X-Groupsio-MsgNum: 13940
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_6D7C69AE-F33F-4F08-A9E5-2F9FAF9AF8D7";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Fri, 09 Dec 2011 16:44:56 -0000
+Content-Type: multipart/alternative; boundary=000e0ce0d9c674761c04b3ab68b8
 
---Apple-Mail=_6D7C69AE-F33F-4F08-A9E5-2F9FAF9AF8D7
+--000e0ce0d9c674761c04b3ab68b8
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Fri, Dec 9, 2011 at 12:18, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> This patch appears to:
+>
+> a) Remove multilib support from the recipe
+>
+
+Fixed.
+
+
+> b) Drop the git version of the recipe (no mention of this above?)
+>
+
+I moved it to another commit.
+
+
+> c) Add a pointless rdepends = d.getVar( "RDEPENDS_%s" % package)
+>
+
+Fixed.
+
+
+> d) Remove the dnsproxy, dhclient and test options
+>
+
+Fixed.
+
+
+> e) Add the tools, fake and ntpd options
+>
+
+Fixed.
+
+
+> f) Reorder variables in the file so as to make the diff unreadable and
+>   hard to review
+>
+
+This was indeed done and I am sorry but it does seems more easy to follow
+now.
+
+
+> g) Change the contents of the ${PN}-scripts package
+>
+
+
+
+
+> h) Add tools and tests packages
+>
+
+
+> i) Add a dependeny on ntp
+>
+
+Fixed.
+
+
+> j) Uses bitbake master funtionality (d.expand()) which will break on
+> older versions of bitbake (we need to increase the bitbake minimum
+> version)
+>
+
+Fixed adding a commit that bumps it.
+
+
+> k) Drops the python scripts dependency
+>
+
+Fixed.
+
+
+> So all things considered, this kind of change is a nightmare to review
+> in this form and the commit message only covers half the changes it
+> makes. We need to do better than this...
+
+
+Not easy to accomplish as the difference between meta-oe and oe-core on
+this was huge. It could have been  done better, sure ... and a v2 patch
+will come shortly.
+
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+
+--000e0ce0d9c674761c04b3ab68b8
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=iso-8859-1
+
+<div class=3D"gmail_quote">On Fri, Dec 9, 2011 at 12:18, Richard Purdie <sp=
+an dir=3D"ltr">&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" ta=
+rget=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br=
+><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
+px #ccc solid;padding-left:1ex">
+
+<div>This patch appears to:</div>
+<br>
+a) Remove multilib support from the recipe<br></blockquote><div><br></div><=
+div>Fixed.</div><div>=A0</div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+b) Drop the git version of the recipe (no mention of this above?)<br></bloc=
+kquote><div><br></div><div>I moved it to another commit.</div><div>=A0</div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
+px #ccc solid;padding-left:1ex">
 
 
-Op 9 dec. 2011, om 16:05 heeft Richard Purdie het volgende geschreven:
-
-> On Fri, 2011-12-09 at 14:44 +0100, Koen Kooi wrote:
->> Op 8 dec. 2011, om 08:05 heeft Martin Jansa het volgende geschreven:
->>=20
->>> On Thu, Dec 08, 2011 at 12:53:11AM +0100, Andreas M=FCller wrote:
->>>> On Wednesday, December 07, 2011 06:34:07 PM Richard Purdie wrote:
->>>>> We need pseudo to use the rootfs passwd/group files belonging to =
-the
->>>>> rootfs when building images. This patch ensures that we use the =
-rootfs
->>>>> files instead of those in the sysroot which can lead to incorrect =
-file
->>>>> ownership issues.
->>>>>=20
->>>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>>>>=20
->>>>> diff --git a/meta/classes/image.bbclass =
-b/meta/classes/image.bbclass
->>>>> index 4642fa6..865d430 100644
->>>>> --- a/meta/classes/image.bbclass
->>>>> +++ b/meta/classes/image.bbclass
->>>>> @@ -121,6 +121,8 @@ IMAGE_LINGUAS ?=3D "de-de fr-fr en-gb"
->>>>>=20
->>>>> LINGUAS_INSTALL =3D "${@" ".join(map(lambda s: "locale-base-%s" % =
-s,
->>>>> d.getVar('IMAGE_LINGUAS', 1).split()))}"
->>>>>=20
->>>>> +PSEUDO_PASSWD =3D "${IMAGE_ROOTFS}"
->>>>> +
->>>>> do_rootfs[nostamp] =3D "1"
->>>>> do_rootfs[dirs] =3D "${TOPDIR}"
->>>>> do_rootfs[lockfiles] +=3D "${IMAGE_ROOTFS}.lock"
->>>>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
->>>>> index e80cc32..eeb1fc4 100644
->>>>> --- a/meta/conf/bitbake.conf
->>>>> +++ b/meta/conf/bitbake.conf
->>>>> @@ -580,11 +580,12 @@ SRC_URI =3D "file://${FILE}"
->>>>>=20
->>>>> # Use pseudo as the fakeroot implementation
->>>>> PSEUDO_LOCALSTATEDIR ?=3D "${WORKDIR}/pseudo/"
->>>>> +PSEUDO_PASSWD ?=3D "${STAGING_DIR_TARGET}"
->>>>> export PSEUDO_DISABLED =3D "1"
->>>>> #export PSEUDO_PREFIX =3D "${STAGING_DIR_NATIVE}${prefix_native}"
->>>>> #export PSEUDO_BINDIR =3D "${STAGING_DIR_NATIVE}${bindir_native}"
->>>>> #export PSEUDO_LIBDIR =3D
->>>>> "${STAGING_DIR_NATIVE}$PSEUDOBINDIR/../lib/pseudo/lib -FAKEROOTENV =
-=3D
->>>>> "PSEUDO_PREFIX=3D${STAGING_DIR_NATIVE}${prefix_native}
->>>>> PSEUDO_LOCALSTATEDIR=3D${PSEUDO_LOCALSTATEDIR}
->>>>> PSEUDO_PASSWD=3D${STAGING_DIR_TARGET} PSEUDO_NOSYMLINKEXP=3D1
->>>>> PSEUDO_DISABLED=3D0" +FAKEROOTENV =3D
->>>>> "PSEUDO_PREFIX=3D${STAGING_DIR_NATIVE}${prefix_native}
->>>>> PSEUDO_LOCALSTATEDIR=3D${PSEUDO_LOCALSTATEDIR}
->>>>> PSEUDO_PASSWD=3D${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=3D1 =
-PSEUDO_DISABLED=3D0"
->>>>> FAKEROOTNOENV =3D "PSEUDO_UNLOAD=3D1"
->>>>> FAKEROOTDIRS =3D "${PSEUDO_LOCALSTATEDIR}"
->>>>> PREFERRED_PROVIDER_virtual/fakeroot-native ?=3D "pseudo-native"
->>>> dbus still needs manual call of=20
->>>>=20
->>>> 	chown messagebus:messagebus /var/run/dbus /var/lib/dbus
->>>>=20
->>>> ( it is root:root on my image) and
->>>>=20
->>>> 	chown root:messagebus /usr/libexec/dbus-daemon-launch-helper
->>>>=20
->>>> ( it is avahi:netdev on my image )
->>>>=20
->>>> Does this one fix it?
->>>=20
->>> It did for me, see:
->>> http://bugzilla.pokylinux.org/show_bug.cgi?id=3D1711
->>>=20
->>>> To test: Is it enough to rebuild dbus?
->>>=20
->>> I had right owners in dbus package, wrong only in rootfs, so your =
-issue
->>> could be different.
->>=20
->> I've also started seeing this issue recently, I wonder if it's due to =
-switching MACHINEs and sstate invalidation.
->=20
-> Has it continued since the above patch was merged or not?
->=20
-> What we really need at this point is a clear reproducer for the bug.
-
-I'm seeing it in a filesystem I built yesterday from an incremental =
-build:
-
-commit 493746f1d7f1410284880203c1ac462d61ab5299
-Author: Martin Jansa <martin.jansa@gmail.com>
-Date:   Tue Dec 6 09:35:21 2011 +0100
+c) Add a pointless rdepends =3D d.getVar( &quot;RDEPENDS_%s&quot; % package=
+)<br></blockquote><div><br></div><div>Fixed.</div><div>=A0</div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
+d;padding-left:1ex">
 
 
-regards,
+d) Remove the dnsproxy, dhclient and test options<br></blockquote><div><br>=
+</div><div>Fixed.</div><div>=A0</div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+e) Add the tools, fake and ntpd options<br></blockquote><div><br></div><div=
+>Fixed.</div><div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+f) Reorder variables in the file so as to make the diff unreadable and<br>
+ =A0 hard to review<br></blockquote><div><br></div><div>This was indeed don=
+e and I am sorry but it does seems more easy to follow now.</div><div>=A0</=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
+t:1px #ccc solid;padding-left:1ex">
 
-Koen=
 
---Apple-Mail=_6D7C69AE-F33F-4F08-A9E5-2F9FAF9AF8D7
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+g) Change the contents of the ${PN}-scripts package<br></blockquote><div><b=
+r></div><div><br></div><div>=A0</div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+h) Add tools and tests packages<br></blockquote><div>=A0</div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;=
+padding-left:1ex">
+i) Add a dependeny on ntp<br></blockquote><div><br></div><div>Fixed.</div><=
+div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex">
+j) Uses bitbake master funtionality (d.expand()) which will break on<br>
+older versions of bitbake (we need to increase the bitbake minimum<br>
+version)<br></blockquote><div><br></div><div>Fixed adding a commit that bum=
+ps it.</div><div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+k) Drops the python scripts dependency<br></blockquote><div><br></div><div>=
+Fixed.</div><div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+So all things considered, this kind of change is a nightmare to review<br>
+in this form and the commit message only covers half the changes it<br>
+makes. We need to do better than this...</blockquote><div><br></div><div>No=
+t easy to accomplish as the difference between meta-oe and oe-core on this =
+was huge. It could have been =A0done better, sure ... and a v2 patch will c=
+ome shortly.</div>
+<div>=A0</div></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio=
+@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=
+=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com=
+.br</a><br>
 
------BEGIN PGP SIGNATURE-----
+Mobile: <a href=3D"tel:%2B55%2053%209981-7854" value=3D"+555399817854" targ=
+et=3D"_blank">+55 53 9981-7854</a>=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"=
+http://projetos.ossystems.com.br" target=3D"_blank">http://projetos.ossyste=
+ms.com.br</a><br><br>
 
-iEYEARECAAYFAk7iJO8ACgkQMkyGM64RGpEzfQCcDXLf37NNDmpfrFyPoGsc6xM7
-K/YAoIOI4ngkl7dMGtNBr7T5SjtiZ8y0
-=e9yY
------END PGP SIGNATURE-----
 
---Apple-Mail=_6D7C69AE-F33F-4F08-A9E5-2F9FAF9AF8D7--
+--000e0ce0d9c674761c04b3ab68b8--
