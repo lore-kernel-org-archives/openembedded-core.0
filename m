@@ -1,33 +1,33 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>) id 1RYypx-0006c1-SG
-	for openembedded-core@lists.openembedded.org;
-	Fri, 09 Dec 2011 12:41:57 +0100
-Received: by faaa20 with SMTP id a20so636077faa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Dec 2011 03:35:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=FGn8nUZkUHEts+OkBwJhXhAYz9sTqGOG+lmRDzK0wHg=;
-	b=JRlitOVaip/gstpUJFdKopbBVrK6eRni+iDJojxUwXZ6PzqObJJEbZWZzcfwHxzvt8
-	D/RU3ipmO0mUHhgUGDwd2Ekd9vpuDV7wZFbOKZglPm+H7Fk3My8TT8+TGolK1oWCnvdL
-	CmTov8DqCVStKWck1JeKdIDoyvRs/AM9ociBg=
-MIME-Version: 1.0
-Received: by 10.180.98.138 with SMTP id ei10mr224596wib.52.1323430506263; Fri,
-	09 Dec 2011 03:35:06 -0800 (PST)
-Received: by 10.223.69.133 with HTTP; Fri, 9 Dec 2011 03:35:05 -0800 (PST)
-In-Reply-To: <CAJG6M_OAw=jfmJJzAc98_XSbcX8ki29Oz1G6zhk+3hSkQXSwdw@mail.gmail.com>
-References: <CAGiJk9dH=1aV-YFkcr8aAkNsMq+dM4625FuOJHF_et4bYBPA+A@mail.gmail.com>
-	<528C3B90-90CF-48F7-AD32-0200B1F16F82@dominion.thruhere.net>
-	<CAGiJk9e1hij=EsWo8=nTmZxNjvptXMGjFRumKSJ3mKYf6-t3QA@mail.gmail.com>
-	<CAJG6M_OAw=jfmJJzAc98_XSbcX8ki29Oz1G6zhk+3hSkQXSwdw@mail.gmail.com>
-Date: Fri, 9 Dec 2011 12:35:05 +0100
-Message-ID: <CAGiJk9c-Mw7ip+RbJCU9pupBoV+O5A0rE9kXH9OTynPPsygWHg@mail.gmail.com>
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
-To: Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RYz0R-0006lP-67; Fri, 09 Dec 2011 12:52:47 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB9BjubI032178;
+	Fri, 9 Dec 2011 11:45:56 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 31402-07; Fri,  9 Dec 2011 11:45:52 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pB9BjmPG032172
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 9 Dec 2011 11:45:49 GMT
+Message-ID: <1323431158.5309.126.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: ulf@emagii.com, Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: On-screen- / virtual-keyboard
+Date: Fri, 09 Dec 2011 11:45:58 +0000
+In-Reply-To: <4EE170C6.2070201@emagii.com>
+References: <cover.1323286080.git.elizabeth.flanagan@intel.com>
+	<6c65669e1c223d59020c581750599c11ee222063.1323286080.git.elizabeth.flanagan@intel.com>
+	<20111207215306.GE6351@sakrah.homelinux.org>
+	<4EE170C6.2070201@emagii.com>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@openembedded.org
+Subject: Re: [PATCH 4/8] Add copyleft compliance class --- MAJOR BREAKAGE!!!!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,49 +42,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2011 11:41:57 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 09 Dec 2011 11:52:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Fri, 2011-12-09 at 03:21 +0100, Ulf Samuelsson wrote:
+> On 2011-12-07 22:53, Khem Raj wrote:
+> > On (07/12/11 11:34), Beth Flanagan wrote:
+> >> From: Christopher Larson<kergoth@gmail.com>
+> >>
+> >> Deploys sources for recipes for compliance with copyleft-style licenses
+> >> Defaults to using symlinks, as it's a quick operation, and one can easily
+> >> follow the links when making use of the files (e.g. tar with the -h arg).
+> >>
+> >> By default, includes all GPL and LGPL, and excludes CLOSED and Proprietary.
+> >>
+> >> Signed-off-by: Christopher Larson<kergoth@gmail.com>
+> >> ---
+> >>   meta/classes/copyleft_compliance.bbclass |   94 ++++++++++++++++++++++++++++++
+> >>   1 files changed, 94 insertions(+), 0 deletions(-)
+> >>   create mode 100644 meta/classes/copyleft_compliance.bbclass
+> >>
+> >> diff --git a/meta/classes/copyleft_compliance.bbclass b/meta/classes/copyleft_compliance.bbclass
+> >> new file mode 100644
+> >> index 0000000..5d9ab11
+> >> --- /dev/null
+> >> +++ b/meta/classes/copyleft_compliance.bbclass
+> >> @@ -0,0 +1,94 @@
+> >> +# Deploy sources for recipes for compliance with copyleft-style licenses
+> >> +# Defaults to using symlinks, as it's a quick operation, and one can easily
+> >> +# follow the links when making use of the files (e.g. tar with the -h arg).
+> >> +#
+> >> +# By default, includes all GPL and LGPL, and excludes CLOSED and Proprietary.
+> >> +#
+> >> +# vi:sts=4:sw=4:et
+> >> +
+> >> +COPYLEFT_SOURCES_DIR ?= '${DEPLOY_DIR}/copyleft_sources'
+> >> +
+> >> +COPYLEFT_LICENSE_INCLUDE ?= 'GPL* LGPL*'
+> >> +COPYLEFT_LICENSE_INCLUDE[type] = 'list'
+> >> +COPYLEFT_LICENSE_INCLUDE[doc] = 'Space separated list of globs which include licenses'
+> If the Ampersand is not accepted in the LICENSE string, then the recipes 
+> below are broken.
+> 
+>  From my latest build, at least recipes with "&&" fail...
+> This means that nothing really completes that I have tested.
+> 
+> MAJOR BREAKAGE!!!!
+> 
+> I think it would be better FIRST to fix the recipes, and then introduce 
+> checking.
 
-2011/12/4 Yury Bushmelev <jay4mail@gmail.com>:
-[snip]
->
-> My list of virtual keyboards includes also:
-> * xvkbd http://homepage3.nifty.com/tsato/xvkbd/
-> * qvkeyboard http://qt-apps.org/content/show.php/QVKeyboard?content=77983
-> * Florence http://florence.sourceforge.net/english.html
+I think the single ampersand is accepted, the double might no longer be.
+Certainly oe-core does continue to work. I hadn't realised there were
+incompatibilities introduced by this patch :(
 
-I've made a recipe for Florence, and run tested it with xfce-nm-image
-on an overo gumstix.
-It works with some issues but they are gconf related (more info in the
-coming patch).
+Not sure what we should do about this at this point, probably fix the
+layers :/.
 
-Now the question to the layer maintainers is,
-do you want the recipe in openembedded-core or meta-openembedded?
+Cheers,
 
-> * GTKeyboard http://www.gnu.org/software/gtkeyboard/gtkeyboard.html
-> * Literki http://wiki.openmoko.org/wiki/Literki
->
-> And "hybrid" input methods:
-> * Dasher http://www.inference.phy.cam.ac.uk/dasher/
-This is a very interesting concept,
-as a technology enthusiast I see an use-case for writing text via
-alternative input methods like eye tracking or Microsoft Kinect.
-
-> * QWO http://www.nongnu.org/qwo/
->
-> --
-> Yury Bushmelev
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Richard
 
 
--- 
-Regards
-Samuel
+
 
 
