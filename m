@@ -1,23 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail.gw90.de ([188.40.100.199])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RZ5Dh-0004B1-Ao
-	for openembedded-core@openembedded.org; Fri, 09 Dec 2011 19:30:53 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Dec 2011 10:23:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="100564262"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.35])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Dec 2011 10:23:53 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@openembedded.org
-Date: Fri,  9 Dec 2011 10:23:48 -0800
-Message-Id: <f83bbfca3bcc303532b83659afb11b16cb36f5a8.1323454935.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.6.4
-In-Reply-To: <cover.1323454935.git.sgw@linux.intel.com>
-References: <cover.1323454935.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1323454935.git.sgw@linux.intel.com>
-References: <cover.1323454935.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 15/15] u-boot: renamed dir from uboot to the more appropriate u-boot
+	(envelope-from <paulepanter@users.sourceforge.net>)
+	id 1RZ5Vv-00052y-SR for openembedded-core@lists.openembedded.org;
+	Fri, 09 Dec 2011 19:49:43 +0100
+Received: from f053037064.adsl.alicedsl.de ([78.53.37.64]
+	helo=[192.168.178.21])
+	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
+	id 1RZ5PV-0002tv-9b for openembedded-core@lists.openembedded.org;
+	Fri, 09 Dec 2011 18:43:05 +0000
+Message-ID: <1323456167.25802.5.camel@mattotaupa>
+From: Paul Menzel <paulepanter@users.sourceforge.net>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 09 Dec 2011 19:42:47 +0100
+In-Reply-To: <234071f22c2183ea28cda55bac8f68cb47e8f0e1.1322607016.git.sgw@linux.intel.com>
+References: <cover.1322607016.git.sgw@linux.intel.com>
+	<234071f22c2183ea28cda55bac8f68cb47e8f0e1.1322607016.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.0.3-2 
+Mime-Version: 1.0
+Subject: Re: [PATCH 06/26] xinit: Update to 1.3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,78 +33,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2011 18:30:54 -0000
+X-List-Received-Date: Fri, 09 Dec 2011 18:49:44 -0000
+X-Groupsio-MsgNum: 13968
+Content-Type: multipart/signed; micalg="pgp-sha1";
+	protocol="application/pgp-signature"; 
+	boundary="=-WtNJDZWWWXy9U8UJnUsu"
 
-From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
+--=-WtNJDZWWWXy9U8UJnUsu
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-recipe dirs normally have the name of the (main) package and the official name is u-boot
-
-Signed-off-by: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
----
- .../{uboot => u-boot}/files/fix-arm920t-eabi.patch |    0
- ...Drop-config.h-include-in-tools-imximage.h.patch |    0
- ...ove-LDSCRIPT-processing-to-the-top-level-.patch |    0
- ...Drop-config.h-include-in-tools-imximage.h.patch |    0
- ...ove-LDSCRIPT-processing-to-the-top-level-.patch |    0
- .../{uboot => u-boot}/u-boot-mkimage_2011.03.bb    |    0
- .../{uboot => u-boot}/u-boot-mkimage_2011.06.bb    |    0
- meta/recipes-bsp/{uboot => u-boot}/u-boot.inc      |    0
- .../{uboot => u-boot}/u-boot_2011.03.bb            |    0
- .../{uboot => u-boot}/u-boot_2011.06.bb            |    0
- 10 files changed, 0 insertions(+), 0 deletions(-)
- rename meta/recipes-bsp/{uboot => u-boot}/files/fix-arm920t-eabi.patch (100%)
- rename meta/recipes-bsp/{uboot => u-boot}/u-boot-mkimage-2011.03/0001-Drop-config.h-include-in-tools-imximage.h.patch (100%)
- rename meta/recipes-bsp/{uboot => u-boot}/u-boot-mkimage-2011.03/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch (100%)
- rename meta/recipes-bsp/{uboot => u-boot}/u-boot-mkimage/0001-Drop-config.h-include-in-tools-imximage.h.patch (100%)
- rename meta/recipes-bsp/{uboot => u-boot}/u-boot-mkimage/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch (100%)
- rename meta/recipes-bsp/{uboot => u-boot}/u-boot-mkimage_2011.03.bb (100%)
- rename meta/recipes-bsp/{uboot => u-boot}/u-boot-mkimage_2011.06.bb (100%)
- rename meta/recipes-bsp/{uboot => u-boot}/u-boot.inc (100%)
- rename meta/recipes-bsp/{uboot => u-boot}/u-boot_2011.03.bb (100%)
- rename meta/recipes-bsp/{uboot => u-boot}/u-boot_2011.06.bb (100%)
-
-diff --git a/meta/recipes-bsp/uboot/files/fix-arm920t-eabi.patch b/meta/recipes-bsp/u-boot/files/fix-arm920t-eabi.patch
-similarity index 100%
-rename from meta/recipes-bsp/uboot/files/fix-arm920t-eabi.patch
-rename to meta/recipes-bsp/u-boot/files/fix-arm920t-eabi.patch
-diff --git a/meta/recipes-bsp/uboot/u-boot-mkimage-2011.03/0001-Drop-config.h-include-in-tools-imximage.h.patch b/meta/recipes-bsp/u-boot/u-boot-mkimage-2011.03/0001-Drop-config.h-include-in-tools-imximage.h.patch
-similarity index 100%
-rename from meta/recipes-bsp/uboot/u-boot-mkimage-2011.03/0001-Drop-config.h-include-in-tools-imximage.h.patch
-rename to meta/recipes-bsp/u-boot/u-boot-mkimage-2011.03/0001-Drop-config.h-include-in-tools-imximage.h.patch
-diff --git a/meta/recipes-bsp/uboot/u-boot-mkimage-2011.03/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch b/meta/recipes-bsp/u-boot/u-boot-mkimage-2011.03/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch
-similarity index 100%
-rename from meta/recipes-bsp/uboot/u-boot-mkimage-2011.03/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch
-rename to meta/recipes-bsp/u-boot/u-boot-mkimage-2011.03/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch
-diff --git a/meta/recipes-bsp/uboot/u-boot-mkimage/0001-Drop-config.h-include-in-tools-imximage.h.patch b/meta/recipes-bsp/u-boot/u-boot-mkimage/0001-Drop-config.h-include-in-tools-imximage.h.patch
-similarity index 100%
-rename from meta/recipes-bsp/uboot/u-boot-mkimage/0001-Drop-config.h-include-in-tools-imximage.h.patch
-rename to meta/recipes-bsp/u-boot/u-boot-mkimage/0001-Drop-config.h-include-in-tools-imximage.h.patch
-diff --git a/meta/recipes-bsp/uboot/u-boot-mkimage/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch b/meta/recipes-bsp/u-boot/u-boot-mkimage/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch
-similarity index 100%
-rename from meta/recipes-bsp/uboot/u-boot-mkimage/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch
-rename to meta/recipes-bsp/u-boot/u-boot-mkimage/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch
-diff --git a/meta/recipes-bsp/uboot/u-boot-mkimage_2011.03.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.03.bb
-similarity index 100%
-rename from meta/recipes-bsp/uboot/u-boot-mkimage_2011.03.bb
-rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2011.03.bb
-diff --git a/meta/recipes-bsp/uboot/u-boot-mkimage_2011.06.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.06.bb
-similarity index 100%
-rename from meta/recipes-bsp/uboot/u-boot-mkimage_2011.06.bb
-rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2011.06.bb
-diff --git a/meta/recipes-bsp/uboot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-similarity index 100%
-rename from meta/recipes-bsp/uboot/u-boot.inc
-rename to meta/recipes-bsp/u-boot/u-boot.inc
-diff --git a/meta/recipes-bsp/uboot/u-boot_2011.03.bb b/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
-similarity index 100%
-rename from meta/recipes-bsp/uboot/u-boot_2011.03.bb
-rename to meta/recipes-bsp/u-boot/u-boot_2011.03.bb
-diff --git a/meta/recipes-bsp/uboot/u-boot_2011.06.bb b/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
-similarity index 100%
-rename from meta/recipes-bsp/uboot/u-boot_2011.06.bb
-rename to meta/recipes-bsp/u-boot/u-boot_2011.06.bb
--- 
-1.7.6.4
+Dear Saul,
 
 
+Am Dienstag, den 29.11.2011, 15:00 -0800 schrieb Saul Wold:
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  .../xorg-app/{xinit_1.3.0.bb =3D> xinit_1.3.1.bb}    |    6 +++---
+>  1 files changed, 3 insertions(+), 3 deletions(-)
+>  rename meta/recipes-graphics/xorg-app/{xinit_1.3.0.bb =3D> xinit_1.3.1.b=
+b} (80%)
+>=20
+> diff --git a/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb b/meta/recipes=
+-graphics/xorg-app/xinit_1.3.1.bb
+> similarity index 80%
+> rename from meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
+> rename to meta/recipes-graphics/xorg-app/xinit_1.3.1.bb
+> index 08dfe12..2ddebe6 100644
+> --- a/meta/recipes-graphics/xorg-app/xinit_1.3.0.bb
+> +++ b/meta/recipes-graphics/xorg-app/xinit_1.3.1.bb
+> @@ -13,11 +13,11 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D0d4b5eef75=
+f1584ccbdc5e4a34314407"
+>  PR =3D "r2"
 
+when upgrading recipes please remember to reset `PR` to 0. I just
+spotted that now when looking through the =E2=80=9Crecent=E2=80=9D changes =
+[1].
+
+>  PE =3D "1"
+> =20
+> +SRC_URI[md5sum] =3D "ee234056d8a3dbf37b61b4bcb35b88e4"
+> +SRC_URI[sha256sum] =3D "c7468dfae94bdb42785d79623c27156dc4bf379d83729928=
+30482cb04d8439b0"
+> +
+>  EXTRA_OECONF =3D "ac_cv_path_MCOOKIE=3D${bindir}/mcookie"
+> =20
+>  RDEPENDS_${PN} +=3D "util-linux-mcookie"
+> =20
+>  FILES_${PN} +=3D "${libdir}X11/xinit"
+> -
+> -SRC_URI[md5sum] =3D "bc4e8b7d1919597cc37a0d24aa149dda"
+> -SRC_URI[sha256sum] =3D "ba76e36e1a42a7cf76505b7e6fc4777f5d14f45ddff74341=
+abfb7dd10d5fe04c"
+
+
+Thanks,
+
+Paul
+
+
+[1] http://git.openembedded.org/openembedded-core/commit/?id=3D234071f22c21=
+83ea28cda55bac8f68cb47e8f0e1
+
+--=-WtNJDZWWWXy9U8UJnUsu
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+
+iEYEABECAAYFAk7iVqcACgkQPX1aK2wOHViBBACdEFxTqRlMgBzs0Q5vXoC6aLwW
+QlUAn3sjx8jHFneqSIZsQi6DXE8LoPKD
+=7G5i
+-----END PGP SIGNATURE-----
+
+--=-WtNJDZWWWXy9U8UJnUsu--
