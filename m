@@ -1,34 +1,33 @@
 Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RZ6XY-0007lD-Rs
+	(envelope-from <raj.khem@gmail.com>) id 1RZ6cO-0008Gk-Fk
 	for openembedded-core@lists.openembedded.org;
-	Fri, 09 Dec 2011 20:55:28 +0100
-Received: by lahd3 with SMTP id d3so1251444lah.6
+	Fri, 09 Dec 2011 21:00:28 +0100
+Received: by lahd3 with SMTP id d3so1253300lah.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Dec 2011 11:48:37 -0800 (PST)
+	Fri, 09 Dec 2011 11:53:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=QFo/LiO2J/CvSw52MIcmCAZUZpF9lR6lATjmFNjDj3c=;
-	b=ffiUx7tpUJZ/+ZwJnlOiHGPaLE8tAAp4Py4tFAq+hKXLj/vBJxTP8FQXaLiF7YrwKK
-	BDLL3emW1aumaaKbIynmWNXsBZVSNJQ9uYQ77RIUUWaCXw3PtC6x1f3S8sPmNkuTYSPR
-	4DomQCcQY92mzyny8nJPHv2PPrwqUt3x43YWs=
-Received: by 10.152.104.103 with SMTP id gd7mr5733864lab.34.1323460117308;
-	Fri, 09 Dec 2011 11:48:37 -0800 (PST)
+	:content-type; bh=NAjC4fcJzMytZmUzScNH49T1JHY7jL4TPrr7KvA/PRE=;
+	b=F0YLn5vsaumXAfMtYnmnk2LsGBfk+siqu5LM4Lg2eRWS1lkM2ecSTn1K2pI4nAyfeD
+	8O0seYxxevz7rLoJUCay48vosjWA8lsygsRrDA74s0iSWti5+FVKn8o0qMMAUNrauDI1
+	xv1AQoCjXqDLx3IuqZZNsZEv9zvMAeiEb817o=
+Received: by 10.152.111.136 with SMTP id ii8mr5849698lab.20.1323460414328;
+	Fri, 09 Dec 2011 11:53:34 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.152.24.36 with HTTP; Fri, 9 Dec 2011 11:48:06 -0800 (PST)
-In-Reply-To: <4EE2656D.7090706@linux.intel.com>
-References: <cover.1323358819.git.otavio@ossystems.com.br>
-	<abe8db681be0a2ec0ada964957236a5f0511d746.1323358819.git.otavio@ossystems.com.br>
-	<CAMKF1spMGdCj6-hU96gfvvQOgUwOerRtNGgFZk=5jDhAD96tTQ@mail.gmail.com>
-	<CAP9ODKrH8hZ=fiD82vJMMopJ1grKEcZw07pPy7a1PNFtb_gq0w@mail.gmail.com>
-	<4EE2656D.7090706@linux.intel.com>
+Received: by 10.152.24.36 with HTTP; Fri, 9 Dec 2011 11:53:02 -0800 (PST)
+In-Reply-To: <4EE21138.8070609@emagii.com>
+References: <cover.1323286080.git.elizabeth.flanagan@intel.com>
+	<6c65669e1c223d59020c581750599c11ee222063.1323286080.git.elizabeth.flanagan@intel.com>
+	<20111207215306.GE6351@sakrah.homelinux.org>
+	<4EE170C6.2070201@emagii.com>
+	<1323431158.5309.126.camel@ted> <4EE21138.8070609@emagii.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 9 Dec 2011 11:48:06 -0800
-Message-ID: <CAMKF1spCaqApQttDA_vR7FwVy4KLOmTQY3u4XPGF+whUk2k9AQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
+Date: Fri, 9 Dec 2011 11:53:02 -0800
+Message-ID: <CAMKF1spawg-a2JvxHB4h5MbzcpO0O_cnTbwwcsMRCX2r2_qp8Q@mail.gmail.com>
+To: ulf@emagii.com, Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] scripts/send-pull-request: allow sending of patches without a cover letter
+Subject: Re: [PATCH 4/8] Add copyleft compliance class --- MAJOR BREAKAGE!!!!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,38 +42,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Dec 2011 19:55:29 -0000
+X-List-Received-Date: Fri, 09 Dec 2011 20:00:28 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 9, 2011 at 11:45 AM, Darren Hart <dvhart@linux.intel.com> wrote=
-:
-> On 12/09/2011 11:36 AM, Otavio Salvador wrote:
->> On Fri, Dec 9, 2011 at 17:34, Khem Raj <raj.khem@gmail.com
->> <mailto:raj.khem@gmail.com>> wrote:
+>> Certainly oe-core does continue to work. I hadn't realised there were
+>> incompatibilities introduced by this patch :(
 >>
->> =C2=A0 =C2=A0 why do you want to avoid cover letter ? or is it for other=
- layers
->> =C2=A0 =C2=A0 other than oe-core
+>> Not sure what we should do about this at this point, probably fix the
+>> layers :/.
 >>
->>
->> When it is a single patch makes no sense to send a cover letter that
->> most of time we just write the same of first commit.
+> True, question is who and when ?
 >
-> Well, you could just use git-send-email when there is only 1 patch.
 
-right
-
- I
-> had considered having the tool create only a single email if there was
-> only 1 patch. However, in the end, I just send the cover letter with the
-> pull requrest and let the single patch follow. It works fine and is
-> consistent with the other patches, even if it is a degenerate case.
->
-> So I don't think this is necessary really, but if it works for you and
-> doesn't get abused, I'm fine with it. Perhaps only allowing this if
-> there is indeed only 1 patch would be better.
-
-if its possible it will happen abuse that is
+layer maintainers. I think this change deserved an early warning so
+layer maintainers
+could have buckled up.
 
 
