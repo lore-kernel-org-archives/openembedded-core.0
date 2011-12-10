@@ -1,28 +1,26 @@
-Received: from mailout-de.gmx.net ([213.165.64.23])
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <schnitzeltony@gmx.de>) id 1RZBGf-0000yn-19
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <darren.hart@intel.com>) id 1RZBWC-0001dK-8Q
 	for openembedded-core@lists.openembedded.org;
-	Sat, 10 Dec 2011 01:58:21 +0100
-Received: (qmail invoked by alias); 10 Dec 2011 00:51:29 -0000
-Received: from p5B0A26D1.dip.t-dialin.net (EHLO localhost.localdomain)
-	[91.10.38.209]
-	by mail.gmx.net (mp071) with SMTP; 10 Dec 2011 01:51:29 +0100
-X-Authenticated: #62780362
-X-Provags-ID: V01U2FsdGVkX1+uzVY25ACu5f3jr7xcUoxjuEKTV4GmciSoEEi/rk
-	5bu7qYBolpAzMz
-From: Andreas =?iso-8859-1?q?M=FCller?= <schnitzeltony@gmx.de>
-To: "Patches and discussions about the oe-core layer"
-	<openembedded-core@lists.openembedded.org>
-Date: Sat, 10 Dec 2011 01:51:38 +0100
-User-Agent: KMail/1.13.7 (Linux/2.6.35.14-103.fc14.x86_64; KDE/4.6.5; x86_64; ;
-	)
-References: <95547EE2-9E3E-4FB6-AA2A-A9653029F971@dominion.thruhere.net>
-	<1323303457.971.5.camel@ted>
-In-Reply-To: <1323303457.971.5.camel@ted>
+	Sat, 10 Dec 2011 02:14:24 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 09 Dec 2011 17:06:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="85617440"
+Received: from unknown (HELO envy.home) ([10.255.12.30])
+	by orsmga002.jf.intel.com with ESMTP; 09 Dec 2011 17:06:21 -0800
+Message-ID: <4EE2B09D.4030509@intel.com>
+Date: Fri, 09 Dec 2011 17:06:37 -0800
+From: Darren Hart <darren.hart@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
-Message-Id: <201112100151.39198.schnitzeltony@gmx.de>
-X-Y-GMX-Trusted: 0
-Subject: Re: Coordinating inter-layer dependencies
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1323477267.5309.206.camel@ted>
+In-Reply-To: <1323477267.5309.206.camel@ted>
+Cc: "Ashfield, Bruce" <Bruce.Ashfield@windriver.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel.bbclass: Allow do_compile_kernelmodules to use PARALLEL_MAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,50 +35,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Dec 2011 00:58:21 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
+X-List-Received-Date: Sat, 10 Dec 2011 01:14:24 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Thursday, December 08, 2011 01:17:37 AM Richard Purdie wrote:
-> On Thu, 2011-12-01 at 12:23 +0100, Koen Kooi wrote:
-> > During the past month there have been a number of updates to OE-core
-> > recipes that triggered parsing errors due to bbappend in other layers.
-> > A small seleciton:
-> > 
-> > * netbase
-> > * libdrm
-> > * xserver-xorg
-> > * clutter
-> > 
-> > My view is that layer maintainers need to keep an eye on potential
-> > breakage and have updates ready when patches land into OE-core.
-> > Looking back I can see that while the situation is improving a bit,
-> > it's still not working. The problem with slow updates to layers is
-> > that (with my angstrom hat on) users (and with my TI hat on) customers
-> > and coworkers can't do builds without rm'ing the bbappends or
-> > disabling the layer.
+On 12/09/2011 04:34 PM, Richard Purdie wrote:
+> Without this we don't take advantage of any configured multiple CPU
+> cores which seems a shame.
 > 
-> I've been thinking about this. I wondered if the notion of wildcards
-> for .bbappend might help, e.g. a file called:
-> 
-> netbase_%.bbappend
-> 
-> would match all versions of the netbase recipe.
-> 
-> The % is consistent with PREFERRED_VERSION, I'm a little reluctant to
-> use * since its a shell quoting mess.
-> 
-> It wouldn't be hard to allow bitbake to support this and would solve
-> some of the issues we've been having...
-> 
-If being used in sub layers parse errors (weekend breakers) would turn into
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-* no issue
-* build error
+Thanks RP,
 
-which are both enhancing current situation.
+Acked-by: Darren Hart <dvhart@linux.intel.com>
 
-Andreas
+> ---
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index d0cc279..120a524 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -89,7 +89,7 @@ kernel_do_compile() {
+>  do_compile_kernelmodules() {
+>  	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+>  	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+> -		oe_runmake modules  CC="${KERNEL_CC}" LD="${KERNEL_LD}"
+> +		oe_runmake ${PARALLEL_MAKE} modules  CC="${KERNEL_CC}" LD="${KERNEL_LD}"
+>  	else
+>  		bbnote "no modules to compile"
+>  	fi
+> 
+> 
+
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
