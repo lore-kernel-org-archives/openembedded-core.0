@@ -1,26 +1,31 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <darren.hart@intel.com>) id 1RZBWC-0001dK-8Q
+	(envelope-from <koen@dominion.thruhere.net>) id 1RZIDr-0007fn-44
 	for openembedded-core@lists.openembedded.org;
-	Sat, 10 Dec 2011 02:14:24 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 09 Dec 2011 17:06:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="85617440"
-Received: from unknown (HELO envy.home) ([10.255.12.30])
-	by orsmga002.jf.intel.com with ESMTP; 09 Dec 2011 17:06:21 -0800
-Message-ID: <4EE2B09D.4030509@intel.com>
-Date: Fri, 09 Dec 2011 17:06:37 -0800
-From: Darren Hart <darren.hart@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1323477267.5309.206.camel@ted>
-In-Reply-To: <1323477267.5309.206.camel@ted>
-Cc: "Ashfield, Bruce" <Bruce.Ashfield@windriver.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel.bbclass: Allow do_compile_kernelmodules to use PARALLEL_MAKE
+	Sat, 10 Dec 2011 09:23:55 +0100
+Received: by wgbds11 with SMTP id ds11so6175976wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 10 Dec 2011 00:17:03 -0800 (PST)
+Received: by 10.180.94.71 with SMTP id da7mr13927812wib.29.1323505018727;
+	Sat, 10 Dec 2011 00:16:58 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id d17sm15373574wbh.19.2011.12.10.00.16.56
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 10 Dec 2011 00:16:57 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Sat, 10 Dec 2011 09:16:55 +0100
+In-Reply-To: <CAMKF1sp3MfaSGpAQMiafWxJw8VEv9_BNNVEpzzYcBQbsxpihdg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1323286080.git.elizabeth.flanagan@intel.com>
+	<b3e01cfa4f1561a77b07e3365459e9498d8c4585.1323286080.git.elizabeth.flanagan@intel.com>
+	<1323437428.5309.154.camel@ted>
+	<CAMKF1sp3MfaSGpAQMiafWxJw8VEv9_BNNVEpzzYcBQbsxpihdg@mail.gmail.com>
+Message-Id: <FB606EB2-C1A7-4264-ACEF-543155D48AF7@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH 6/8] [YOCTO #1776] license: manifest and license path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,41 +40,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Dec 2011 01:14:24 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 10 Dec 2011 08:23:55 -0000
+X-Groupsio-MsgNum: 14023
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_4819B791-4214-4F52-876C-1F5496418D8E";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_4819B791-4214-4F52-876C-1F5496418D8E
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+
+Op 9 dec. 2011, om 20:57 heeft Khem Raj het volgende geschreven:
+
+> On Fri, Dec 9, 2011 at 5:30 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>>=20
+>> The above line is a bashism and is breaking builds with dash
+>> as /bin/sh :(
+>=20
+> I thought bashism was too deep in oe. I can certainly revert to using =
+dash if
+> thats no longer the case.
+
+We try to keep OE itself free of bashisms. The biggest problem is =
+package authors using them like the libtool/gtk bashism interaction.
+
+regards,
+
+Koen=
+
+--Apple-Mail=_4819B791-4214-4F52-876C-1F5496418D8E
 Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
-On 12/09/2011 04:34 PM, Richard Purdie wrote:
-> Without this we don't take advantage of any configured multiple CPU
-> cores which seems a shame.
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-----BEGIN PGP SIGNATURE-----
 
-Thanks RP,
+iEYEARECAAYFAk7jFXkACgkQMkyGM64RGpH/dgCgote0gAYwe+eAwbX1sURQjOl4
+eWoAnA2y6R+h/wzB3NQEnhntnwKwOp78
+=m3S8
+-----END PGP SIGNATURE-----
 
-Acked-by: Darren Hart <dvhart@linux.intel.com>
-
-> ---
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index d0cc279..120a524 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -89,7 +89,7 @@ kernel_do_compile() {
->  do_compile_kernelmodules() {
->  	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
->  	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
-> -		oe_runmake modules  CC="${KERNEL_CC}" LD="${KERNEL_LD}"
-> +		oe_runmake ${PARALLEL_MAKE} modules  CC="${KERNEL_CC}" LD="${KERNEL_LD}"
->  	else
->  		bbnote "no modules to compile"
->  	fi
-> 
-> 
-
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
-
-
+--Apple-Mail=_4819B791-4214-4F52-876C-1F5496418D8E--
