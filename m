@@ -1,30 +1,20 @@
-Received: from mail-gx0-f175.google.com ([209.85.161.175])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RZPLf-0000G7-Fp
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1RZQRZ-00030X-4X
 	for openembedded-core@lists.openembedded.org;
-	Sat, 10 Dec 2011 17:00:27 +0100
-Received: by ggnh1 with SMTP id h1so4216253ggn.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Dec 2011 07:53:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=sender:from:to:cc:subject:date:message-id:x-mailer;
-	bh=Bw3Q0owH/BqtTeO3QE4zttYJNG5RJC8vEppKfqXtKKE=;
-	b=E9jfSBLkUxFYh05V9yH5BFMu5jz5t+fRsUdnPh4MSfb4+QeuJ2ZPy2Gbki5zP6gD8S
-	Hj0LlKE23wqHTmpVR2bXlK9LvyCGWxWBcKoI5ePb95vcdxD09m+KP6xtqnWvvK9rqXJD
-	6JF6W/GHIq7BrWHgMQ/T7zz2wwqt+FeYAZ8i0=
-Received: by 10.101.157.1 with SMTP id j1mr2876376ano.15.1323532414833;
-	Sat, 10 Dec 2011 07:53:34 -0800 (PST)
-Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id 11sm22889515anp.13.2011.12.10.07.53.31
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 10 Dec 2011 07:53:34 -0800 (PST)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+	Sat, 10 Dec 2011 18:10:37 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 10 Dec 2011 09:03:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="84333961"
+Received: from unknown (HELO cenodoxus.amr.corp.intel.com) ([10.255.15.144])
+	by azsmga001.ch.intel.com with ESMTP; 10 Dec 2011 09:03:43 -0800
+From: Beth Flanagan <elizabeth.flanagan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 10 Dec 2011 15:53:12 +0000
-Message-Id: <1323532392-15760-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-Subject: [PATCH] scripts/send-pull-request: fix typo
+Date: Sat, 10 Dec 2011 09:03:34 -0800
+Message-Id: <cover.1323536396.git.elizabeth.flanagan@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/1] [YOCTO #1819] License addtask PR bump failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,30 +29,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Dec 2011 16:00:27 -0000
+X-List-Received-Date: Sat, 10 Dec 2011 17:10:37 -0000
 
-s/No cover letter will be send./No cover letter will be sent./
+Changing back addtask of do_populate_lic as it does not need to be 
+before do_compile and the change causes updated recipes to fail,
+requiring a clean.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- scripts/send-pull-request |    2 +-
+The following changes since commit 924b1e47ab7895e42dd6a56952beb2ef2f61e4fe:
+
+  license/copyleft: exception for ast parse (2011-12-10 00:18:15 +0000)
+
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib eflanagan/license_1819
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=eflanagan/license_1819
+
+Elizabeth Flanagan (1):
+  [YOCTO #1819] license: PR bump failure
+
+ meta/classes/license.bbclass |    2 +-
  1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/scripts/send-pull-request b/scripts/send-pull-request
-index 8d51ce2..09f4245 100755
---- a/scripts/send-pull-request
-+++ b/scripts/send-pull-request
-@@ -118,7 +118,7 @@ if [ -e $PDIR/0000-cover-letter.patch ]; then
- 		fi
- 	done
- else
--	echo "WARNING: No cover letter will be send."
-+	echo "WARNING: No cover letter will be sent."
- fi
- 
- # Harvest emails from the generated patches and populate AUTO_CC.
--- 
-1.7.2.5
 
 
 
