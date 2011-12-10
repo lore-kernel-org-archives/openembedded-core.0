@@ -1,38 +1,34 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RZKd4-0003oV-UM
+	(envelope-from <otavio.salvador@gmail.com>) id 1RZPJw-0008HO-1L
 	for openembedded-core@lists.openembedded.org;
-	Sat, 10 Dec 2011 11:58:08 +0100
-Received: by eaal1 with SMTP id l1so417043eaa.6
+	Sat, 10 Dec 2011 16:58:40 +0100
+Received: by bkbzt4 with SMTP id zt4so3950687bkb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Dec 2011 02:51:14 -0800 (PST)
+	Sat, 10 Dec 2011 07:51:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=0nd4tAPge7hUmpV09PqQ2bOwfjM/sA9LtU05U3ujeIw=;
-	b=mA3/PruQiAVlWoGy9cAclCaHlPGy7dqH3QzE+fZSNQx0/Nk6CG5QLL9MuTchMAWq7B
-	EaZ3dpZvlITAvYNJ/jzaq8wccyg4Ta49vZDqi0XBf/vb4Bggci4pgABPaxAR7V3SurUr
-	gzBWponja+4TBdUpiNSzMDUTV9Clm56QZz5YI=
-Received: by 10.213.113.142 with SMTP id a14mr672332ebq.92.1323514274392;
-	Sat, 10 Dec 2011 02:51:14 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id q28sm43960646eea.6.2011.12.10.02.51.12
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 10 Dec 2011 02:51:13 -0800 (PST)
-Date: Sat, 10 Dec 2011 11:51:01 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Wolfgang Denk <wd@denx.de>
-Message-ID: <20111210105101.GB3986@jama.jama.net>
-References: <1323415475-21361-1-git-send-email-fransmeulenbroeks@gmail.com>
-	<20111209075504.GA4082@ad.chargestorm.se>
-	<20111209080731.GB3848@jama.jama.net>
-	<20111209233058.E7DC41926E19@gemini.denx.de>
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=+RubmlKWuMq27fUTGk4jNj/Hh1Pw+xG+kdwzlsRj1wU=;
+	b=wSlvxYp/vtN0nppXOFqNM5tNZvKgzhIkuG3Xmp5KqmcGC7t2ZmLNLyA7K6mozD/6da
+	duZNzzvp6+VBd6ZntnMcwS3+qPq5UVUeMKV2spI3MjY3pi1OQ1c8bg8bMOTLKE0enGJV
+	l2Bvl6EaFl2PvV6aRB+GXSV45xwNPflIiItRQ=
 MIME-Version: 1.0
-In-Reply-To: <20111209233058.E7DC41926E19@gemini.denx.de>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Patches and discussions about the oe-core layer
+Received: by 10.204.9.209 with SMTP id m17mr6195162bkm.101.1323532306043; Sat,
+	10 Dec 2011 07:51:46 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.113.132 with HTTP; Sat, 10 Dec 2011 07:51:45 -0800 (PST)
+In-Reply-To: <1323475621.5309.198.camel@ted>
+References: <cover.1323358819.git.otavio@ossystems.com.br>
+	<abe8db681be0a2ec0ada964957236a5f0511d746.1323358819.git.otavio@ossystems.com.br>
+	<4EE25F11.80200@linux.intel.com> <1323475621.5309.198.camel@ted>
+Date: Sat, 10 Dec 2011 13:51:45 -0200
+X-Google-Sender-Auth: Zo-5SGOMUow36u01Afye6xLp0IA
+Message-ID: <CAP9ODKqq1ZNJinzKxBrfNVXVFuiOyttq3rdh3rAi6YRE15fY_w@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: renamed dir from uboot to the more appropriate u-boot
+Subject: Re: [PATCH 3/3] scripts/send-pull-request: allow sending of patches without a cover letter
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,72 +43,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Dec 2011 10:58:08 -0000
-X-Groupsio-MsgNum: 14025
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="1LKvkjL3sHcu1TtY"
-Content-Disposition: inline
+X-List-Received-Date: Sat, 10 Dec 2011 15:58:40 -0000
+Content-Type: multipart/alternative; boundary=0015175cd884f354fd04b3bee093
 
---1LKvkjL3sHcu1TtY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--0015175cd884f354fd04b3bee093
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Fri, Dec 9, 2011 at 22:07, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> Hmm, this has just merged with the typo, sorry (it had been around a
+> while with no comments). Can someone sent a follow up please?
+>
+
+I will send a patch fixing it.
+
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+
+--0015175cd884f354fd04b3bee093
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Dec 10, 2011 at 12:30:58AM +0100, Wolfgang Denk wrote:
-> Dear Martin Jansa,
->=20
-> In message <20111209080731.GB3848@jama.jama.net> you wrote:
-> >=20
-> > On Fri, Dec 09, 2011 at 08:55:05AM +0100, Anders Darander wrote:
-> > > * Frans Meulenbroeks <fransmeulenbroeks@gmail.com> [111209 08:25]:
-> > >=20
-> > > > recipe dirs normally have the name of the (main) package and the of=
-ficial name is u-boot
-> > >=20
-> > > From this I guess that there aren't any other changes in the patch,
-> > > apart from the renames?
-> > >=20
-> > > Next time, could you add '-M' to `git format-patch`, to make git dete=
-ct
-> > > renames? That results in smaller and easier to review patches.
-> >
-> > Just because of "Coordinating inter-layer dependencies" thread I have to
-> > say, that this will break parsing for people using ie meta-openmoko and
-> > meta-nokia BSP layers:
-> >
-> > meta-nokia/recipes-bsp/uboot/u-boot_git.bb:require recipes-bsp/uboot/u-=
-boot> .inc
-> > meta-openmoko/recipes-bsp/uboot/u-boot_git.bb:require recipes-bsp/uboot=
-/u-b> oot.inc
-> >
-> > But I'll try to update meta-smartphone layers as soon as this change is
-> > applied in oe-core..
-> >
-> > meta-ti is already using recipes-bsp/u-boot so I guess it's worth
-> > renaming.
->=20
-> It's highly advisable to perform the rename ASAP. There is an
-> Austrian lawyer who claims to have IP rights on the name "uboot".
->=20
-> We had to sign a Cease and Desist Notice and update all web pages to
-> change all ocurrences of "uboot" into "u-boot" (which actually
-> required extensions to the wiki we used).
+<div class=3D"gmail_quote">On Fri, Dec 9, 2011 at 22:07, Richard Purdie <sp=
+an dir=3D"ltr">&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">ri=
+chard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex">
+<div class=3D"im">Hmm, this has just merged with the typo, sorry (it had be=
+en around a</div>
+while with no comments). Can someone sent a follow up please?<br></blockquo=
+te><div><br></div><div>I will send a patch fixing it.</div><div>=A0</div></=
+div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio@ossystems.com.b=
+r" target=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=3D"http://www.o=
+ssystems.com.br" target=3D"_blank">http://www.ossystems.com.br</a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
 
-OK thanks for info, renamed in meta-smartphone and shr branches.
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---1LKvkjL3sHcu1TtY
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk7jOZQACgkQN1Ujt2V2gBxF9gCeLcpkVilqn/BlMiY86zP1jly+
-zzQAoKgcrb6QNk+bRdSwL2QEzf1UHd1e
-=rrHC
------END PGP SIGNATURE-----
-
---1LKvkjL3sHcu1TtY--
+--0015175cd884f354fd04b3bee093--
