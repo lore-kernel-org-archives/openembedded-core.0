@@ -1,24 +1,29 @@
-Received: from mail.gw90.de ([188.40.100.199])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RZda7-0006KM-RQ for openembedded-core@lists.openembedded.org;
-	Sun, 11 Dec 2011 08:12:19 +0100
-Received: from f053043131.adsl.alicedsl.de ([78.53.43.131]
-	helo=[192.168.178.21])
-	by mail.gw90.de with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <paulepanter@users.sourceforge.net>)
-	id 1RZdTi-0007nq-O9 for openembedded-core@lists.openembedded.org;
-	Sun, 11 Dec 2011 07:05:43 +0000
-Message-ID: <1323587119.8919.4.camel@mattotaupa>
-From: Paul Menzel <paulepanter@users.sourceforge.net>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 11 Dec 2011 08:05:19 +0100
-In-Reply-To: <71f6cb63e711721a1a03cfc1c0f1d054472241fe.1323554268.git.sgw@linux.intel.com>
+	(envelope-from <koen@dominion.thruhere.net>) id 1RZfFa-0008RQ-CR
+	for openembedded-core@lists.openembedded.org;
+	Sun, 11 Dec 2011 09:59:14 +0100
+Received: by wgbds11 with SMTP id ds11so7620002wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 11 Dec 2011 00:52:21 -0800 (PST)
+Received: by 10.180.6.71 with SMTP id y7mr17282577wiy.67.1323593539293;
+	Sun, 11 Dec 2011 00:52:19 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id p2sm6335270wbh.22.2011.12.11.00.52.17
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 11 Dec 2011 00:52:18 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Sun, 11 Dec 2011 09:52:15 +0100
+In-Reply-To: <2fd890beaefd817feed03ef17b630a9af8aa465c.1323554268.git.sgw@linux.intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 References: <cover.1323554268.git.sgw@linux.intel.com>
-	<71f6cb63e711721a1a03cfc1c0f1d054472241fe.1323554268.git.sgw@linux.intel.com>
-X-Mailer: Evolution 3.0.3-2 
-Mime-Version: 1.0
-Subject: Re: [PATCH 3/5] self-hosted: Add ext2 utilites and perl-pod for building
+	<2fd890beaefd817feed03ef17b630a9af8aa465c.1323554268.git.sgw@linux.intel.com>
+Message-Id: <4C7FA566-48B4-4F91-B705-F3F7DB3D9082@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH 2/5] gdk-pixbuf: Add hicolor-icon-theme as RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,106 +38,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 Dec 2011 07:12:19 -0000
-X-Groupsio-MsgNum: 14041
-Content-Type: multipart/signed; micalg="pgp-sha1";
-	protocol="application/pgp-signature"; 
-	boundary="=-tGVvlFcNvD9wD3X/ztrP"
+X-List-Received-Date: Sun, 11 Dec 2011 08:59:14 -0000
+X-Groupsio-MsgNum: 14042
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_ADE2A3E3-D73A-43C3-9E5B-3B6B500AC1C4";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---=-tGVvlFcNvD9wD3X/ztrP
-Content-Type: text/plain; charset="UTF-8"
+--Apple-Mail=_ADE2A3E3-D73A-43C3-9E5B-3B6B500AC1C4
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-Dear Saul,
 
+Op 10 dec. 2011, om 23:01 heeft Saul Wold het volgende geschreven:
 
-Am Samstag, den 10.12.2011, 14:01 -0800 schrieb Saul Wold:
-> Add self-hosted-host-tools for non-build related tools
->=20
 > Signed-off-by: Saul Wold <sgw@linux.intel.com>
 > ---
->  meta/recipes-core/tasks/task-self-hosted.bb |   54 +++++++++++++++------=
------
->  1 files changed, 31 insertions(+), 23 deletions(-)
+> meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.0.bb |    4 ++++
+> 1 files changed, 4 insertions(+), 0 deletions(-)
 >=20
-> diff --git a/meta/recipes-core/tasks/task-self-hosted.bb b/meta/recipes-c=
-ore/tasks/task-self-hosted.bb
-> index b3a68b4..b9bdd21 100644
-> --- a/meta/recipes-core/tasks/task-self-hosted.bb
-> +++ b/meta/recipes-core/tasks/task-self-hosted.bb
-> @@ -3,7 +3,7 @@
->  #
-> =20
->  DESCRIPTION =3D "Create Basic Image Tasks"
-> -PR =3D "r1"
-> +PR =3D "r2"
->  LICENSE =3D "MIT"
->  LIC_FILES_CHKSUM =3D "file://${COREBASE}/LICENSE;md5=3D3f40d799439710928=
-5ec7b81fdeb3b58 \
->                      file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbcb7=
-88c80a0384361b4de20420"
-> @@ -14,6 +14,7 @@ PACKAGES =3D "\
->      task-self-hosted-sdk \
->      task-self-hosted-extended \
->      task-self-hosted-graphics \
-> +    task-self-hosted-host-tools \
->      "
-> =20
->  ALLOW_EMPTY =3D "1"
-> @@ -23,13 +24,26 @@ RDEPENDS_task-self-hosted =3D "\
->      task-self-hosted-sdk \
->      task-self-hosted-extended \
->      task-self-hosted-graphics \
-> +    task-self-hosted-host-tools \
-> +    "
-> +
-> +RDEPENDS_task-self-hosted-host-tools =3D "\
-> +    e2fsprogs \
-> +    dhcp-client \
-> +    genext2fs \
-> +    hdparm \
-> +    iptables \
-> +    kernel-module-tun \
-> +    kernel-module-iptable-raw \
-> +    kernel-module-iptable-nat \
-> +    kernel-module-iptable-mangle \
-> +    kernel-module-iptable-filter \
-> +    mc \
-> +    screen \
->      "
+> +RDEPENDS =3D "hicolor-icon-theme"
 
-[=E2=80=A6]
+Are you sure this is the right place? gdk-pixbuf are just the image =
+loaders, they shouldn't have a hard dependency on a bunch of icons... As =
+for the apps, gtk-icon-cache.bbclass should be adding the hicolor dep =
+automatically.
 
-I find this patch quite hard to review, since it reorders the
-variables(?). Is there a trick to review this or are two separate
-patches better.
+regards,
 
-Could you also please check your pull request script to send
-
-    <openembedded-core@lists.openembedded.org>
-
-instead of
-
-    <openembedded-core@openembedded.org>
-
-and therefore answering to all messages are sent twice to the list.
+Koen
 
 
-Thanks,
-
-Paul
-
---=-tGVvlFcNvD9wD3X/ztrP
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+--Apple-Mail=_ADE2A3E3-D73A-43C3-9E5B-3B6B500AC1C4
 Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.11 (GNU/Linux)
 
-iEYEABECAAYFAk7kVjAACgkQPX1aK2wOHVhYIACeLFgYCRsQtcZjDsES26We3IDQ
-1RIAn33zMANBqCMaWh0Y3LxX2oIb5d9H
-=uaBp
+iEYEARECAAYFAk7kb0EACgkQMkyGM64RGpFoaACgqZd2FERGKeMfWafZnnK8D5c6
+jt4Amwf9zCUsS2IvAqrmzXFRWgnyUsCO
+=QJ9t
 -----END PGP SIGNATURE-----
 
---=-tGVvlFcNvD9wD3X/ztrP--
+--Apple-Mail=_ADE2A3E3-D73A-43C3-9E5B-3B6B500AC1C4--
