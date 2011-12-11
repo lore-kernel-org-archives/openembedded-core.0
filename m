@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RZsIF-0003rc-Uo
+	(envelope-from <sgw@linux.intel.com>) id 1RZsIG-0003re-FZ
 	for openembedded-core@lists.openembedded.org;
 	Sun, 11 Dec 2011 23:54:52 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 11 Dec 2011 14:47:55 -0800
+	by orsmga101.jf.intel.com with ESMTP; 11 Dec 2011 14:47:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="86045440"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="86045442"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.46])
-	by orsmga002.jf.intel.com with ESMTP; 11 Dec 2011 14:47:55 -0800
+	by orsmga002.jf.intel.com with ESMTP; 11 Dec 2011 14:47:56 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 11 Dec 2011 14:47:29 -0800
-Message-Id: <6991ac18f02252dfe74b8211fa3b968b38f19256.1323643433.git.sgw@linux.intel.com>
+Date: Sun, 11 Dec 2011 14:47:30 -0800
+Message-Id: <64cfe3359b13a4fadb832c6ce02833161fce99ac.1323643433.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1323643433.git.sgw@linux.intel.com>
 References: <cover.1323643433.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1323643433.git.sgw@linux.intel.com>
 References: <cover.1323643433.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 02/26] bitbake.conf: remove texinfo-native from ASSUME_PROVIDED
+Subject: [CONSOLIDATED PULL 03/26] texinfo: fix compile failure due target makedoc binary being used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,26 +35,102 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 11 Dec 2011 22:54:52 -0000
 
-We need to build texinfo-native to get and install the makedoc tool
+Need to have the texinfo-native build and install a host sysroot makedoc
+binary and then patch the target build to use this binary. This requires
+that we don't ASSUME_PROVIDED texinfo-native any longer since we need to
+install this makedoc tool which is not part of the normal distrubtion.
 
 [YOCTO #1664]
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/conf/bitbake.conf |    1 -
- 1 files changed, 0 insertions(+), 1 deletions(-)
+ .../texinfo/texinfo-4.13a/use_host_makedoc.patch   |   37 ++++++++++++++++++++
+ meta/recipes-extended/texinfo/texinfo_4.13a.bb     |   11 +++++-
+ 2 files changed, 46 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/texinfo/texinfo-4.13a/use_host_makedoc.patch
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index eeb1fc4..f79e3f7 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -156,7 +156,6 @@ ASSUME_PROVIDED = "\
-     python-native-runtime \
-     subversion-native \
-     tar-native \
--    texinfo-native \
-     virtual/libintl-native \
-     "
+diff --git a/meta/recipes-extended/texinfo/texinfo-4.13a/use_host_makedoc.patch b/meta/recipes-extended/texinfo/texinfo-4.13a/use_host_makedoc.patch
+new file mode 100644
+index 0000000..db41f1a
+--- /dev/null
++++ b/meta/recipes-extended/texinfo/texinfo-4.13a/use_host_makedoc.patch
+@@ -0,0 +1,37 @@
++This patch requires that we also enable building of the
++texinfo-native recipe which will install the makedoc tool 
++for the host machine.
++
++This patch simply uses the newly installed makedoc tool from
++sysroot.
++
++Upstream-Status: Inappropriate [OE-Specific]
++
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++
++Index: texinfo-4.13/info/Makefile.am
++===================================================================
++--- texinfo-4.13.orig/info/Makefile.am	2008-05-22 05:11:33.000000000 -0700
+++++ texinfo-4.13/info/Makefile.am	2011-12-10 12:55:53.604440118 -0800
++@@ -75,7 +75,7 @@
++ # more than once.
++ funs.h: makedoc$(EXEEXT) $(cmd_sources)
++ 	rm -f $(generated_sources)
++-	$(top_builddir)/$(native_tools)/info/makedoc $(cmd_sources)
+++	makedoc $(cmd_sources)
++ 
++ # The following hack is necessary to hint make before the automatic
++ # dependencies are built.
++Index: texinfo-4.13/doc/Makefile.am
++===================================================================
++--- texinfo-4.13.orig/doc/Makefile.am	2008-09-18 11:31:56.000000000 -0700
+++++ texinfo-4.13/doc/Makefile.am	2011-12-10 13:04:09.216457601 -0800
++@@ -19,7 +19,7 @@
++ 
++ # Use the programs built in our distribution, taking account of possible
++ # cross-compiling.
++-MAKEINFO = $(top_builddir)/$(native_tools)/makeinfo/makeinfo
+++MAKEINFO = makeinfo
++ 
++ # We'd also like to use something like this, but Automake calls
++ # "install-info" directly.
+diff --git a/meta/recipes-extended/texinfo/texinfo_4.13a.bb b/meta/recipes-extended/texinfo/texinfo_4.13a.bb
+index 9f1c04a..f205d4e 100644
+--- a/meta/recipes-extended/texinfo/texinfo_4.13a.bb
++++ b/meta/recipes-extended/texinfo/texinfo_4.13a.bb
+@@ -6,11 +6,14 @@ HOMEPAGE = "http://www.gnu.org/software/texinfo/"
+ SECTION = "console/utils"
+ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=adefda309052235aa5d1e99ce7557010"
+-PR = "r1"
++PR = "r2"
+ 
+ DEPENDS = "zlib ncurses texinfo-native"
+ DEPENDS_virtclass-native = "zlib-native ncurses-native"
+ 
++TARGET_PATCH = "file://use_host_makedoc.patch"
++TARGET_PATCH_virtclass-native = ""
++
+ SRC_URI = "${GNU_MIRROR}/texinfo/texinfo-${PV}.tar.gz \
+            file://texinfo-4.12-zlib.patch \
+            file://texinfo-4.13a-data_types.patch \
+@@ -19,7 +22,8 @@ SRC_URI = "${GNU_MIRROR}/texinfo/texinfo-${PV}.tar.gz \
+            file://texinfo-4.13a-help-index-segfault.patch \
+            file://disable-native-tools.patch \
+            file://link-zip.patch \
+-           file://gettext-macros.patch"
++           file://gettext-macros.patch \
++           ${TARGET_PATCH}"
+ 
+ SRC_URI[md5sum] = "71ba711519209b5fb583fed2b3d86fcb"
+ SRC_URI[sha256sum] = "1303e91a1c752b69a32666a407e9fbdd6e936def4b09bc7de30f416301530d68"
+@@ -39,6 +43,9 @@ do_install_append() {
+ 	mkdir -p ${D}${datadir}/${tex_texinfo}
+ 	install -p -m644 doc/texinfo.tex doc/txi-??.tex ${D}${datadir}/${tex_texinfo} 	
+ }
++do_install_append_virtclass-native() {
++	install -m 755 info/makedoc ${D}${bindir}
++}
+ 
+ PACKAGES += "info info-doc"
  
 -- 
 1.7.6.4
