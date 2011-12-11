@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RZsIH-0003rc-DD
+	(envelope-from <sgw@linux.intel.com>) id 1RZsIH-0003rn-Ku
 	for openembedded-core@lists.openembedded.org;
 	Sun, 11 Dec 2011 23:54:53 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP; 11 Dec 2011 14:47:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="86045446"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="86045447"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.46])
-	by orsmga002.jf.intel.com with ESMTP; 11 Dec 2011 14:47:56 -0800
+	by orsmga002.jf.intel.com with ESMTP; 11 Dec 2011 14:47:57 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 11 Dec 2011 14:47:33 -0800
-Message-Id: <b0187ef99c845115c5bd1574253c851ba4297c07.1323643433.git.sgw@linux.intel.com>
+Date: Sun, 11 Dec 2011 14:47:34 -0800
+Message-Id: <4489fe8ad4fa2af5fb6f26397baf17ca6a9625b9.1323643433.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1323643433.git.sgw@linux.intel.com>
 References: <cover.1323643433.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1323643433.git.sgw@linux.intel.com>
 References: <cover.1323643433.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 06/26] task-self-hosted: Add host-tools task
+Subject: [CONSOLIDATED PULL 07/26] task-self-hosted: Move tools to host-tools task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,44 +35,81 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 11 Dec 2011 22:54:53 -0000
 
-Added tools to create and manage ext* partitions
-e2fs*, parted
+Moved kernel modules for iptable and tun, along with
+dhcp-client iptables, mc, screen to host-tools as they
+are not sdk.
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-core/tasks/task-self-hosted.bb |   12 ++++++++++++
- 1 files changed, 12 insertions(+), 0 deletions(-)
+ meta/recipes-core/tasks/task-self-hosted.bb |   20 ++++++++++----------
+ 1 files changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/meta/recipes-core/tasks/task-self-hosted.bb b/meta/recipes-core/tasks/task-self-hosted.bb
-index 4288499..69b9276 100644
+index 69b9276..077193b 100644
 --- a/meta/recipes-core/tasks/task-self-hosted.bb
 +++ b/meta/recipes-core/tasks/task-self-hosted.bb
-@@ -14,6 +14,7 @@ PACKAGES = "\
-     task-self-hosted-sdk \
-     task-self-hosted-extended \
-     task-self-hosted-graphics \
-+    task-self-hosted-host-tools \
+@@ -28,13 +28,23 @@ RDEPENDS_task-self-hosted = "\
      "
  
- ALLOW_EMPTY = "1"
-@@ -23,6 +24,17 @@ RDEPENDS_task-self-hosted = "\
-     task-self-hosted-sdk \
-     task-self-hosted-extended \
-     task-self-hosted-graphics \
-+    task-self-hosted-host-tools \
-+    "
-+
-+RDEPENDS_task-self-hosted-host-tools = "\
-+    e2fsprogs \
-+    e2fsprogs-e2fsck \
-+    e2fsprogs-fsck \
-+    e2fsprogs-mke2fs \
-+    e2fsprogs-tune2fs \
-+    genext2fs \
-+    parted \
+ RDEPENDS_task-self-hosted-host-tools = "\
++    dhcp-client \
+     e2fsprogs \
+     e2fsprogs-e2fsck \
+     e2fsprogs-fsck \
+     e2fsprogs-mke2fs \
+     e2fsprogs-tune2fs \
+     genext2fs \
++    hdparm \
++    iptables \
++    kernel-module-tun \
++    kernel-module-iptable-raw \
++    kernel-module-iptable-nat \
++    kernel-module-iptable-mangle \
++    kernel-module-iptable-filter \
++    mc \
+     parted \
++    screen \
      "
  
  # eglibc-utils: for rpcgen
+@@ -88,7 +98,6 @@ RDEPENDS_task-self-hosted-extended = "\
+     chrpath \
+     cpio \
+     curl \
+-    dhcp-client \
+     diffstat \
+     diffutils \
+     elfutils \
+@@ -101,13 +110,6 @@ RDEPENDS_task-self-hosted-extended = "\
+     grep \
+     groff \
+     gawk \
+-    hdparm \
+-    iptables \
+-    kernel-module-tun \
+-    kernel-module-iptable-raw \
+-    kernel-module-iptable-nat \
+-    kernel-module-iptable-mangle \
+-    kernel-module-iptable-filter \
+     libaio \
+     libxml2 \
+     libusb1 \
+@@ -116,7 +118,6 @@ RDEPENDS_task-self-hosted-extended = "\
+     lzo \
+     man \
+     man-pages \
+-    mc \
+     mdadm \
+     minicom \
+     mtools \
+@@ -160,7 +161,6 @@ RDEPENDS_task-self-hosted-extended = "\
+     quota \
+     readline \
+     rpm \
+-    screen \
+     setserial \
+     subversion \
+     sudo \
 -- 
 1.7.6.4
 
