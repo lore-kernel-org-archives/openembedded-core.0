@@ -1,29 +1,31 @@
 Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RZfFa-0008RQ-CR
+	(envelope-from <koen@dominion.thruhere.net>) id 1RZfJT-0000Qs-Ex
 	for openembedded-core@lists.openembedded.org;
-	Sun, 11 Dec 2011 09:59:14 +0100
-Received: by wgbds11 with SMTP id ds11so7620002wgb.24
+	Sun, 11 Dec 2011 10:03:16 +0100
+Received: by wgbds11 with SMTP id ds11so7623676wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Dec 2011 00:52:21 -0800 (PST)
-Received: by 10.180.6.71 with SMTP id y7mr17282577wiy.67.1323593539293;
-	Sun, 11 Dec 2011 00:52:19 -0800 (PST)
+	Sun, 11 Dec 2011 00:56:19 -0800 (PST)
+Received: by 10.216.14.37 with SMTP id c37mr1227493wec.86.1323593779519;
+	Sun, 11 Dec 2011 00:56:19 -0800 (PST)
 Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
 	[84.80.112.235])
-	by mx.google.com with ESMTPS id p2sm6335270wbh.22.2011.12.11.00.52.17
+	by mx.google.com with ESMTPS id dd4sm20964168wib.1.2011.12.11.00.56.17
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 11 Dec 2011 00:52:18 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
+	Sun, 11 Dec 2011 00:56:18 -0800 (PST)
 Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Sun, 11 Dec 2011 09:52:15 +0100
-In-Reply-To: <2fd890beaefd817feed03ef17b630a9af8aa465c.1323554268.git.sgw@linux.intel.com>
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAMKF1sre0Wk1C_m6sS8yM4-apZYeOYp=Va-Mm19jpXqukUjFBA@mail.gmail.com>
+Date: Sun, 11 Dec 2011 09:56:17 +0100
+Message-Id: <4672BCAC-24D2-42DA-8EE5-76965C027DCD@dominion.thruhere.net>
+References: <1323477267.5309.206.camel@ted>
+	<CAMKF1sre0Wk1C_m6sS8yM4-apZYeOYp=Va-Mm19jpXqukUjFBA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1323554268.git.sgw@linux.intel.com>
-	<2fd890beaefd817feed03ef17b630a9af8aa465c.1323554268.git.sgw@linux.intel.com>
-Message-Id: <4C7FA566-48B4-4F91-B705-F3F7DB3D9082@dominion.thruhere.net>
 X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH 2/5] gdk-pixbuf: Add hicolor-icon-theme as RDEPENDS
+Cc: "Ashfield, Bruce" <Bruce.Ashfield@windriver.com>, "Hart,
+	Darren" <darren.hart@intel.com>
+Subject: Re: [PATCH] kernel.bbclass: Allow do_compile_kernelmodules to use PARALLEL_MAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,38 +40,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 Dec 2011 08:59:14 -0000
-X-Groupsio-MsgNum: 14042
+X-List-Received-Date: Sun, 11 Dec 2011 09:03:16 -0000
+X-Groupsio-MsgNum: 14043
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_ADE2A3E3-D73A-43C3-9E5B-3B6B500AC1C4";
+	boundary="Apple-Mail=_1DA88941-C3F5-43F5-A87E-7C857F1EFF7D";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_ADE2A3E3-D73A-43C3-9E5B-3B6B500AC1C4
+--Apple-Mail=_1DA88941-C3F5-43F5-A87E-7C857F1EFF7D
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=us-ascii
 
 
-Op 10 dec. 2011, om 23:01 heeft Saul Wold het volgende geschreven:
+Op 11 dec. 2011, om 00:28 heeft Khem Raj het volgende geschreven:
 
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
-> meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.0.bb |    4 ++++
-> 1 files changed, 4 insertions(+), 0 deletions(-)
+> On Fri, Dec 9, 2011 at 4:34 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>> Without this we don't take advantage of any configured multiple CPU
+>> cores which seems a shame.
+>>=20
+>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> ---
+>> diff --git a/meta/classes/kernel.bbclass =
+b/meta/classes/kernel.bbclass
+>> index d0cc279..120a524 100644
+>> --- a/meta/classes/kernel.bbclass
+>> +++ b/meta/classes/kernel.bbclass
+>> @@ -89,7 +89,7 @@ kernel_do_compile() {
+>>  do_compile_kernelmodules() {
+>>        unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+>>        if (grep -q -i -e '^CONFIG_MODULES=3Dy$' .config); then
+>> -               oe_runmake modules  CC=3D"${KERNEL_CC}" =
+LD=3D"${KERNEL_LD}"
+>> +               oe_runmake ${PARALLEL_MAKE} modules  =
+CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}"
+>>        else
+>>                bbnote "no modules to compile"
+>>        fi
 >=20
-> +RDEPENDS =3D "hicolor-icon-theme"
+>=20
+> in base.bbclass oe_runmake says
+>=20
+> ${MAKE} ${EXTRA_OEMAKE} "$@"
+>=20
+> and
+>=20
+> conf/bitbake.conf says
+>=20
+> EXTRA_OEMAKE_prepend_task-compile =3D "${PARALLEL_MAKE} "
+>=20
+> hmmm so we dont parallel make if task is not called do_compile ?
 
-Are you sure this is the right place? gdk-pixbuf are just the image =
-loaders, they shouldn't have a hard dependency on a bunch of icons... As =
-for the apps, gtk-icon-cache.bbclass should be adding the hicolor dep =
-automatically.
+Correct, that's why I did the following in meta-ti a while ago:
+
+commit c62d16735db1beecd47a0ea3c4c51ddd29a1aeeb
+Author: Koen Kooi <koen@dominion.thruhere.net>
+Date:   Thu Jul 21 13:38:33 2011 +0200
+
+    linux.inc: enable parallel make for modules as well
+   =20
+    Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+
+diff --git a/recipes-kernel/linux/linux.inc =
+b/recipes-kernel/linux/linux.inc
+index 77e3179..9650e68 100644
+--- a/recipes-kernel/linux/linux.inc
++++ b/recipes-kernel/linux/linux.inc
+@@ -228,6 +228,10 @@ do_configure_append() {
+        fi
+ }
+=20
++# bitbake.conf only prepends PARALLEL make in tasks called do_compile, =
+which isn't the case for compile_modules
++# So explicitly enable it for that in here
++EXTRA_OEMAKE =3D "${PARALLEL_MAKE} "
++
+ do_install_append() {
+        oe_runmake headers_install =
+INSTALL_HDR_PATH=3D${D}${exec_prefix}/src/linux-${KERNEL_VERSION} =
+ARCH=3D$ARCH
+ }
 
 regards,
 
 Koen
 
 
---Apple-Mail=_ADE2A3E3-D73A-43C3-9E5B-3B6B500AC1C4
+
+--Apple-Mail=_1DA88941-C3F5-43F5-A87E-7C857F1EFF7D
 Content-Transfer-Encoding: 7bit
 Content-Disposition: inline;
 	filename=signature.asc
@@ -79,9 +137,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 
 -----BEGIN PGP SIGNATURE-----
 
-iEYEARECAAYFAk7kb0EACgkQMkyGM64RGpFoaACgqZd2FERGKeMfWafZnnK8D5c6
-jt4Amwf9zCUsS2IvAqrmzXFRWgnyUsCO
-=QJ9t
+iEYEARECAAYFAk7kcDEACgkQMkyGM64RGpFtLwCfWS2TpM4uJo8se/KfJVPbEAsR
+bhAAoLjIrWUD/7TWYw5pUNWe3ISssNdv
+=fAlm
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_ADE2A3E3-D73A-43C3-9E5B-3B6B500AC1C4--
+--Apple-Mail=_1DA88941-C3F5-43F5-A87E-7C857F1EFF7D--
