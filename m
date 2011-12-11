@@ -1,32 +1,30 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RZWS8-0007aU-9y
+	(envelope-from <sgw@linux.intel.com>) id 1RZXgf-0001Av-5f
 	for openembedded-core@lists.openembedded.org;
-	Sun, 11 Dec 2011 00:35:36 +0100
-Received: by lahd3 with SMTP id d3so1501082lah.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Dec 2011 15:28:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=0qBvxsaWOGUimcVfTxkFS6eTlY3PdFVaUVlXQG32TNE=;
-	b=Pg2c3rYgUCXBT0zfW4ePUfgr8UyC5LVQcc0XC7MH/6o7nu9zLMWqGEtg0YwRvnYSOQ
-	qSDPepenwg2FlcKrMPYVb0U9VbbjjJOUq4WZ3RMI6exA2KDxLo7K6kegMz1mzgSVnBE5
-	Hle29se4dhf1Mh+MRH61IuVpsMvj4HSPGa1hY=
-Received: by 10.152.134.179 with SMTP id pl19mr8545631lab.13.1323559723322;
-	Sat, 10 Dec 2011 15:28:43 -0800 (PST)
+	Sun, 11 Dec 2011 01:54:41 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 10 Dec 2011 16:47:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="84397370"
+Received: from unknown (HELO [10.255.12.35]) ([10.255.12.35])
+	by azsmga001.ch.intel.com with ESMTP; 10 Dec 2011 16:47:47 -0800
+Message-ID: <4EE3FDB2.5060107@linux.intel.com>
+Date: Sat, 10 Dec 2011 16:47:46 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
-Received: by 10.152.24.36 with HTTP; Sat, 10 Dec 2011 15:28:12 -0800 (PST)
-In-Reply-To: <1323477267.5309.206.camel@ted>
-References: <1323477267.5309.206.camel@ted>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 10 Dec 2011 15:28:12 -0800
-Message-ID: <CAMKF1sre0Wk1C_m6sS8yM4-apZYeOYp=Va-Mm19jpXqukUjFBA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
+To: Wolfgang Denk <wd@denx.de>
+References: <cover.1323554268.git.sgw@linux.intel.com>
+	<cover.1323554268.git.sgw@linux.intel.com>
+	<71f6cb63e711721a1a03cfc1c0f1d054472241fe.1323554268.git.sgw@linux.intel.com>
+	<20111210232420.9B0B61F4E08@gemini.denx.de>
+In-Reply-To: <20111210232420.9B0B61F4E08@gemini.denx.de>
+Cc: openembedded-core@openembedded.org,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: "Ashfield, Bruce" <Bruce.Ashfield@windriver.com>, "Hart,
-	Darren" <darren.hart@intel.com>
-Subject: Re: [PATCH] kernel.bbclass: Allow do_compile_kernelmodules to use PARALLEL_MAKE
+Subject: Re: [PATCH 3/5] self-hosted: Add ext2 utilites and perl-pod for building
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,46 +39,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Dec 2011 23:35:36 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 11 Dec 2011 00:54:41 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Dec 9, 2011 at 4:34 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> Without this we don't take advantage of any configured multiple CPU
-> cores which seems a shame.
+On 12/10/2011 03:24 PM, Wolfgang Denk wrote:
+> Dear Saul Wold,
 >
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index d0cc279..120a524 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -89,7 +89,7 @@ kernel_do_compile() {
-> =C2=A0do_compile_kernelmodules() {
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0if (grep -q -i -e '^CONFIG_MODULES=3Dy$' .conf=
-ig); then
-> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 oe_runmake modules =C2=
-=A0CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}"
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 oe_runmake ${PARALLEL_=
-MAKE} modules =C2=A0CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}"
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0else
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bbnote "no modules=
- to compile"
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0fi
+> In message<71f6cb63e711721a1a03cfc1c0f1d054472241fe.1323554268.git.sgw@linux.intel.com>  you wrote:
+>> Add self-hosted-host-tools for non-build related tools
+> ...
+>> +    e2fsprogs \
+> ...
+>> +    genext2fs \
+>
+> It's certainly nice to have the ext2 tools then, but would it not also
+> make a lot of sense to include mtd-utils (so we can erase flash and
+> create UBI volumes / UBIFS file system images) and eventually even
+> dosfstools?
+>
+> Most embedded systems come with NAND these days, and a lot of them use
+> UBI/UBIFS...
+>
+Great point Wolfgang, this is an evolving item, please feel free to 
+submit the appropriate patches!
 
+Sau!
 
-in base.bbclass oe_runmake says
-
-${MAKE} ${EXTRA_OEMAKE} "$@"
-
-and
-
-conf/bitbake.conf says
-
-EXTRA_OEMAKE_prepend_task-compile =3D "${PARALLEL_MAKE} "
-
-hmmm so we dont parallel make if task is not called do_compile ?
+> Best regards,
+>
+> Wolfgang Denk
+>
 
 
