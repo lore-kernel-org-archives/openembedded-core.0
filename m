@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RZsIJ-0003re-8D
+	(envelope-from <sgw@linux.intel.com>) id 1RZsIJ-0003rn-UN
 	for openembedded-core@lists.openembedded.org;
-	Sun, 11 Dec 2011 23:54:55 +0100
+	Sun, 11 Dec 2011 23:54:56 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 11 Dec 2011 14:47:58 -0800
+	by orsmga101.jf.intel.com with ESMTP; 11 Dec 2011 14:47:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="86045454"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="86045456"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.46])
-	by orsmga002.jf.intel.com with ESMTP; 11 Dec 2011 14:47:58 -0800
+	by orsmga002.jf.intel.com with ESMTP; 11 Dec 2011 14:47:59 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 11 Dec 2011 14:47:39 -0800
-Message-Id: <6487d9b35148c438fdfe16ec90c45f7189416399.1323643433.git.sgw@linux.intel.com>
+Date: Sun, 11 Dec 2011 14:47:41 -0800
+Message-Id: <f61d41cd916af676785a0dea48aaa985f2201e44.1323643433.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1323643433.git.sgw@linux.intel.com>
 References: <cover.1323643433.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1323643433.git.sgw@linux.intel.com>
 References: <cover.1323643433.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 12/26] mdadm: Make custom CC definition conditional
+Subject: [CONSOLIDATED PULL 14/26] libacpi: Fix libdir for x32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,80 +33,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 Dec 2011 22:54:55 -0000
+X-List-Received-Date: Sun, 11 Dec 2011 22:54:57 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-By hardcoding CC's definition in the Makefile, all the gcc parameters
-set by tune settings are lost. Causing compile failure with x32 toolchain
-
-As the bitbake defined CC is good, there is no need to redfine CC in the
-make file, hence making the CC definition in the Makefile conditional.
-
-This fixes bug: [YOCTO #1414]
+libacpi doesn't use base_libdir for install.  This patch adds
+base_libdir support so that x32 libraries are installed properly.
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 ---
- .../mdadm/files/mdadm-3.2.2_fix_for_x32.patch      |   24 ++++++++++++++++++++
- meta/recipes-extended/mdadm/mdadm_3.2.2.bb         |    4 +-
- 2 files changed, 26 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/mdadm/files/mdadm-3.2.2_fix_for_x32.patch
+ .../libacpi/files/libacpi_fix_for_x32.patch        |   47 ++++++++++++++++++++
+ meta/recipes-bsp/libacpi/libacpi_0.2.bb            |    5 +-
+ 2 files changed, 50 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-bsp/libacpi/files/libacpi_fix_for_x32.patch
 
-diff --git a/meta/recipes-extended/mdadm/files/mdadm-3.2.2_fix_for_x32.patch b/meta/recipes-extended/mdadm/files/mdadm-3.2.2_fix_for_x32.patch
+diff --git a/meta/recipes-bsp/libacpi/files/libacpi_fix_for_x32.patch b/meta/recipes-bsp/libacpi/files/libacpi_fix_for_x32.patch
 new file mode 100644
-index 0000000..79ba2cf
+index 0000000..5f2d034
 --- /dev/null
-+++ b/meta/recipes-extended/mdadm/files/mdadm-3.2.2_fix_for_x32.patch
-@@ -0,0 +1,24 @@
-+UpstreamStatus: pending
++++ b/meta/recipes-bsp/libacpi/files/libacpi_fix_for_x32.patch
+@@ -0,0 +1,47 @@
++UpstreamStatus: Pending
 +
-+By hardcoding CC's definition in the Makefile, all the gcc parameters 
-+set by tune settings are lost. Causing compile failure with x32 toolchain
++Fix libacpi for x32
++    
++    libacpi doesn't use base_libdir for install.  This patch adds
++    base_libdir support so that x32 libraries are installed properly.
 +
-+As the bitbake defined CC is good, there is no need to redfine CC in the 
-+make file, hence making the CC definition in the Makefile conditional.
++Patch Received from:  H.J. Lu <hjl.tools@gmail.com>
 +
-+Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com> 2011/12/07
++Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com> 2011/12/05
 +
-+Index: mdadm-3.2.2/Makefile
++Index: libacpi-0.2/Makefile
 +===================================================================
-+--- mdadm-3.2.2.orig/Makefile
-++++ mdadm-3.2.2/Makefile
-+@@ -40,7 +40,8 @@ KLIBC=/home/src/klibc/klibc-0.77
++--- libacpi-0.2.orig/Makefile
+++++ libacpi-0.2/Makefile
++@@ -8,6 +8,10 @@ SRC_test = test-libacpi.c libacpi.c list
++ OBJ = ${SRC:.c=.o}
++ OBJ_test = ${SRC_test:.c=.o}
 + 
-+ KLIBC_GCC = gcc -nostdinc -iwithprefix include -I$(KLIBC)/klibc/include -I$(KLIBC)/linux/include -I$(KLIBC)/klibc/arch/i386/include -I$(KLIBC)/klibc/include/bits32
-+ 
-+-CC = $(CROSS_COMPILE)gcc
-++CC ?= $(CROSS_COMPILE)gcc
+++ifndef base_libdir
+++base_libdir=/lib
+++endif
 ++
-+ CXFLAGS = -ggdb
-+ CWFLAGS = -Wall -Werror -Wstrict-prototypes -Wextra -Wno-unused-parameter
-+ ifdef WARN_UNUSED
-diff --git a/meta/recipes-extended/mdadm/mdadm_3.2.2.bb b/meta/recipes-extended/mdadm/mdadm_3.2.2.bb
-index 97878ed..02109e3 100644
---- a/meta/recipes-extended/mdadm/mdadm_3.2.2.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_3.2.2.bb
-@@ -8,10 +8,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
-                     file://mdmon.c;beginline=4;endline=18;md5=af7d8444d9c4d3e5c7caac0d9d34039d \
-                     file://mdadm.h;beglinlne=4;endline=22;md5=462bc9936ac0d3da110191a3f9994161"
- 
++ all: options libacpi.a libacpi.so test-libacpi
++ 
++ options:
++@@ -42,13 +46,13 @@ install: all
++ 	@mkdir -p ${DESTDIR}${PREFIX}/include
++ 	@cp -f libacpi.h ${DESTDIR}${PREFIX}/include
++ 	@chmod 644 ${DESTDIR}${PREFIX}/include/libacpi.h
++-	@echo installing library to ${DESTDIR}${PREFIX}/lib
++-	@mkdir -p ${DESTDIR}${PREFIX}/lib
++-	@cp -f libacpi.a ${DESTDIR}${PREFIX}/lib
++-	@chmod 644 ${DESTDIR}${PREFIX}/lib/libacpi.a
++-	@cp -f ${SONAME} ${DESTDIR}${PREFIX}/lib/
++-	@chmod 644 ${DESTDIR}${PREFIX}/lib/${SONAME}
++-	@ln -s ${SONAME} ${DESTDIR}${PREFIX}/lib/libacpi.so
+++	@echo installing library to ${DESTDIR}${PREFIX}${base_libdir}
+++	@mkdir -p ${DESTDIR}${PREFIX}${base_libdir}
+++	@cp -f libacpi.a ${DESTDIR}${PREFIX}${base_libdir}
+++	@chmod 644 ${DESTDIR}${PREFIX}${base_libdir}/libacpi.a
+++	@cp -f ${SONAME} ${DESTDIR}${PREFIX}${base_libdir}/
+++	@chmod 644 ${DESTDIR}${PREFIX}${base_libdir}/${SONAME}
+++	@ln -s ${SONAME} ${DESTDIR}${PREFIX}${base_libdir}/libacpi.so
++ 	@echo installing test-libacpi to ${DESTDIR}${PREFIX}/bin
++ 	@mkdir -p ${DESTDIR}${PREFIX}/bin
++ 	@cp -f test-libacpi ${DESTDIR}${PREFIX}/bin
+diff --git a/meta/recipes-bsp/libacpi/libacpi_0.2.bb b/meta/recipes-bsp/libacpi/libacpi_0.2.bb
+index 7c5095d..82fe8f8 100644
+--- a/meta/recipes-bsp/libacpi/libacpi_0.2.bb
++++ b/meta/recipes-bsp/libacpi/libacpi_0.2.bb
+@@ -5,10 +5,11 @@ SECTION = "base"
+ HOMEPAGE = "http://www.ngolde.de/libacpi.html"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=fec17f82f16630adf2dfb7d2a46f21c5"
 -PR = "r2"
 +PR = "r3"
  
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.bz2 \
- 	    file://0001-mdadm-fix-build-failures-ppc64.patch \
-+	    file://mdadm-3.2.2_fix_for_x32.patch \
- 	  "
+ SRC_URI = "http://www.ngolde.de/download/libacpi-${PV}.tar.gz \
+-	   file://makefile-fix.patch "
++	   file://makefile-fix.patch \
++	   file://libacpi_fix_for_x32.patch "
  
- SRC_URI[md5sum] = "12ee2fbf3beddb60601fb7a4c4905651"
-@@ -22,7 +23,6 @@ CFLAGS += "-fno-strict-aliasing"
- inherit autotools
- 
- do_compile() {
--	export CROSS_COMPILE="${TARGET_PREFIX}"
- 	oe_runmake
- }
- 
+ SRC_URI[md5sum] = "05b53dd7bead66dda35fec502b91066c"
+ SRC_URI[sha256sum] = "13086e31d428b9c125954d48ac497b754bbbce2ef34ea29ecd903e82e25bad29"
 -- 
 1.7.6.4
 
