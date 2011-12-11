@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RZsIN-0003rc-7B
+	(envelope-from <sgw@linux.intel.com>) id 1RZsIN-0003re-TJ
 	for openembedded-core@lists.openembedded.org;
-	Sun, 11 Dec 2011 23:54:59 +0100
+	Sun, 11 Dec 2011 23:55:00 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP; 11 Dec 2011 14:48:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="86045459"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="86045460"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.46])
 	by orsmga002.jf.intel.com with ESMTP; 11 Dec 2011 14:48:00 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 11 Dec 2011 14:47:44 -0800
-Message-Id: <3a4afa9fbf06c39a5286941bca7cf78b36fefa58.1323643433.git.sgw@linux.intel.com>
+Date: Sun, 11 Dec 2011 14:47:45 -0800
+Message-Id: <246aadbef55304abd18f434adc414148ae02d04d.1323643433.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1323643433.git.sgw@linux.intel.com>
 References: <cover.1323643433.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1323643433.git.sgw@linux.intel.com>
 References: <cover.1323643433.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 17/26] pax: fix compilation with x32 toolchain
+Subject: [CONSOLIDATED PULL 18/26] siteinfo: create a new siteinfo for x32-linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,229 +35,49 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 11 Dec 2011 22:55:00 -0000
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+From: "H.J. Lu" <hjl.tools@gmail.com>
 
-off_t is 8byte for x32.  We need to check both _FILE_OFFSET_BITS and
-size of off_t to see if file offset is 64bit.  This patch adds
-AC_CHECK_SIZEOF(off_t) and checks SIZEOF_OFF_T == 8.
+X32 has different sizes for many types:
 
-Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
+1. off_t and ino_t are 8 byte, instead of 4 byte.
+2. pthread_mutex_t is 32byte, instead of 24 byte.
+
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 ---
- .../pax/pax/pax-3.4_fix_for_x32.patch              |  185 ++++++++++++++++++++
- meta/recipes-extended/pax/pax_3.4.bb               |    5 +-
- 2 files changed, 188 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/pax/pax/pax-3.4_fix_for_x32.patch
+ meta/classes/siteinfo.bbclass |    2 +-
+ meta/site/x32-linux           |    9 +++++++++
+ 2 files changed, 10 insertions(+), 1 deletions(-)
+ create mode 100644 meta/site/x32-linux
 
-diff --git a/meta/recipes-extended/pax/pax/pax-3.4_fix_for_x32.patch b/meta/recipes-extended/pax/pax/pax-3.4_fix_for_x32.patch
+diff --git a/meta/classes/siteinfo.bbclass b/meta/classes/siteinfo.bbclass
+index 604c6ba..bf6af2b 100644
+--- a/meta/classes/siteinfo.bbclass
++++ b/meta/classes/siteinfo.bbclass
+@@ -76,7 +76,7 @@ def siteinfo_data(d):
+         "x86_64-linux": "bit-64",
+         "x86_64-linux-uclibc": "bit-64",
+         "x86_64-linux-gnu": "bit-64 x86_64-linux",
+-        "x86_64-linux-gnux32": "bit-32 ix86-common",
++        "x86_64-linux-gnux32": "bit-32 ix86-common x32-linux",
+         "x86_64-mingw32": "bit-64",
+     }
+ 
+diff --git a/meta/site/x32-linux b/meta/site/x32-linux
 new file mode 100644
-index 0000000..11dfa0f
+index 0000000..7ce6551
 --- /dev/null
-+++ b/meta/recipes-extended/pax/pax/pax-3.4_fix_for_x32.patch
-@@ -0,0 +1,185 @@
-+UpstreamStatus: Pending
++++ b/meta/site/x32-linux
+@@ -0,0 +1,9 @@
++# general
++ac_cv_sizeof_long_double=${ac_cv_sizeof_long_double=16}
++ac_cv_sizeof_off_t=${ac_cv_sizeof_off_t=8}
++ac_cv_sizeof_ino_t=${ac_cv_sizeof_ino_t=8}
++ac_cv_sizeof_dev_t=${ac_cv_sizeof_dev_t=8}
++ac_cv_sys_file_offset_bits=${ac_cv_sys_file_offset_bits=64}
 +
-+Author: H.J. Lu <hjl.tools@gmail.com>
-+Date:   Tue Dec 6 10:34:53 2011 -0800
-+
-+    Fix pax-3.4 build for x32
-+    
-+    off_t is 8byte for x32.  We need to check both _FILE_OFFSET_BITS and
-+    size of off_t to see if file offset is 64bit.  This patch adds
-+    AC_CHECK_SIZEOF(off_t) and checks SIZEOF_OFF_T == 8.
-+
-+Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com> 2011/12/06
-+
-+Index: pax-3.4/configure.in
-+===================================================================
-+--- pax-3.4.orig/configure.in
-++++ pax-3.4/configure.in
-+@@ -33,4 +33,7 @@ dnl Checks for header files.
-+ dnl Checks for typedefs, structures, and compiler characteristics.
-+ AC_C_CONST
-+ 
-++AC_CHECK_SIZEOF(off_t)
-++AC_CHECK_SIZEOF(long)
-++
-+ AC_OUTPUT([Makefile lib/Makefile src/Makefile])
-+Index: pax-3.4/src/ar_io.c
-+===================================================================
-+--- pax-3.4.orig/src/ar_io.c
-++++ pax-3.4/src/ar_io.c
-+@@ -378,7 +378,8 @@ ar_close(void)
-+ 	 * could have written anything yet.
-+ 	 */
-+ 	if (frmt == NULL) {
-+-#if defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64
-++#if (SIZEOF_LONG == 4 && SIZEOF_OFF_T == 8) \
-++    || (defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64)
-+ 		(void)fprintf(listf, "%s: unknown format, %qu bytes skipped.\n",
-+ #else
-+ 		(void)fprintf(listf, "%s: unknown format, %lu bytes skipped.\n",
-+@@ -391,7 +392,8 @@ ar_close(void)
-+ 
-+ 	if (strcmp(NM_CPIO, argv0) == 0)
-+ 		(void)fprintf(listf,
-+-#if defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64
-++#if (SIZEOF_LONG == 4 && SIZEOF_OFF_T == 8) \
-++    || (defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64)
-+ 		    "%qu blocks\n",
-+ #else
-+ 		    "%lu blocks\n",
-+@@ -399,7 +401,8 @@ ar_close(void)
-+ 			(rdcnt ? rdcnt : wrcnt) / 5120);
-+ 	else if (strcmp(NM_TAR, argv0) != 0)
-+ 		(void)fprintf(listf,
-+-#if defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64
-++#if (SIZEOF_LONG == 4 && SIZEOF_OFF_T == 8) \
-++    || (defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64)
-+ 		    "%s: %s vol %d, %lu files, %qu bytes read, %qu bytes written.\n",
-+ #else
-+ 		    "%s: %s vol %d, %lu files, %lu bytes read, %lu bytes written.\n",
-+Index: pax-3.4/src/cpio.c
-+===================================================================
-+--- pax-3.4.orig/src/cpio.c
-++++ pax-3.4/src/cpio.c
-+@@ -218,7 +218,8 @@ rd_ln_nm (ARCHD *arcn)
-+ 	 */
-+ 	if ((arcn->sb.st_size == 0) ||
-+ 	    (arcn->sb.st_size >= (off_t) sizeof(arcn->ln_name))) {
-+-#if defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64
-++#if (SIZEOF_LONG == 4 && SIZEOF_OFF_T == 8) \
-++    || (defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64)
-+ 		paxwarn (1, "Cpio link name length is invalid: %qu",
-+ 			 arcn->sb.st_size);
-+ #else
-+Index: pax-3.4/src/gen_subs.c
-+===================================================================
-+--- pax-3.4.orig/src/gen_subs.c
-++++ pax-3.4/src/gen_subs.c
-+@@ -133,7 +133,8 @@ ls_list (ARCHD *arcn, time_t now, FILE *
-+    * print device id's for devices, or sizes for other nodes
-+    */
-+   if ((arcn->type == PAX_CHR) || (arcn->type == PAX_BLK))
-+-#if defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64
-++#if (SIZEOF_LONG == 4 && SIZEOF_OFF_T == 8) \
-++    || (defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64)
-+     (void) fprintf (fp, "%4lu,%4lu ", (unsigned long) MAJOR (sbp->st_rdev),
-+ 		    (unsigned long) MINOR (sbp->st_rdev));
-+ #else
-+@@ -142,7 +143,8 @@ ls_list (ARCHD *arcn, time_t now, FILE *
-+ #endif
-+   else
-+     {
-+-#if defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64
-++#if (SIZEOF_LONG == 4 && SIZEOF_OFF_T == 8) \
-++    || (defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64)
-+       (void) fprintf (fp, "%9qu ", sbp->st_size);
-+ #else
-+       (void) fprintf (fp, "%9lu ", sbp->st_size);
-+@@ -334,7 +336,8 @@ ul_asc (u_long val, char *str, int len, 
-+   return (0);
-+ }
-+ 
-+-#if defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64
-++#if (SIZEOF_LONG == 4 && SIZEOF_OFF_T == 8) \
-++    || (defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64)
-+ /*
-+  * asc_uqd()
-+  *	convert hex/octal character string into a u_quad_t. We do not have to
-+Index: pax-3.4/src/options.c
-+===================================================================
-+--- pax-3.4.orig/src/options.c
-++++ pax-3.4/src/options.c
-+@@ -1545,7 +1545,8 @@ str_offt (char *val)
-+   char *expr;
-+   off_t num, t;
-+ 
-+-#if defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64
-++#if (SIZEOF_LONG == 4 && SIZEOF_OFF_T == 8) \
-++    || (defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64)
-+   num = strtoq (val, &expr, 0);
-+   if ((num == LONG_LONG_MAX) || (num <= 0) || (expr == val))
-+ #else
-+Index: pax-3.4/src/tar.c
-+===================================================================
-+--- pax-3.4.orig/src/tar.c
-++++ pax-3.4/src/tar.c
-+@@ -58,7 +58,8 @@
-+ static unsigned long tar_chksm (char *, int);
-+ static char *name_split (char *, int);
-+ static int ul_oct (u_long, char *, int, int);
-+-#if defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64
-++#if (SIZEOF_LONG == 4 && SIZEOF_OFF_T == 8) \
-++    || (defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64)
-+ static int uqd_oct (u_quad_t, char *, int, int);
-+ #endif
-+ 
-+@@ -196,7 +197,8 @@ ul_oct (u_long val, register char *str, 
-+   return (0);
-+ }
-+ 
-+-#if defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64
-++#if (SIZEOF_LONG == 4 && SIZEOF_OFF_T == 8) \
-++    || (defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64)
-+ /*
-+  * uqd_oct()
-+  *	convert an u_quad_t to an octal string. one of many oddball field
-+@@ -427,7 +429,8 @@ tar_rd (ARCHD *arcn, char *buf)
-+ 			       0xfff);
-+   arcn->sb.st_uid = (uid_t) asc_ul (hd->uid, sizeof (hd->uid), OCT);
-+   arcn->sb.st_gid = (gid_t) asc_ul (hd->gid, sizeof (hd->gid), OCT);
-+-#if defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64
-++#if (SIZEOF_LONG == 4 && SIZEOF_OFF_T == 8) \
-++    || (defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64)
-+   arcn->sb.st_size = (off_t) asc_uqd (hd->size, sizeof (hd->size), OCT);
-+ #else
-+   arcn->sb.st_size = (off_t) asc_ul (hd->size, sizeof (hd->size), OCT);
-+@@ -659,7 +662,8 @@ tar_wr (register ARCHD * arcn)
-+        * data follows this file, so set the pad
-+        */
-+       hd->linkflag = AREGTYPE;
-+-#if defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64
-++#if (SIZEOF_LONG == 4 && SIZEOF_OFF_T == 8) \
-++    || (defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64)
-+       if (uqd_oct ((u_quad_t) arcn->sb.st_size, hd->size,
-+ 		   sizeof (hd->size), 1))
-+ #else
-+@@ -834,7 +838,8 @@ ustar_rd (ARCHD *arcn, char *buf)
-+    */
-+   arcn->sb.st_mode = (mode_t) (asc_ul (hd->mode, sizeof (hd->mode), OCT) &
-+ 			       0xfff);
-+-#if defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64
-++#if (SIZEOF_LONG == 4 && SIZEOF_OFF_T == 8) \
-++    || (defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64)
-+   arcn->sb.st_size = (off_t) asc_uqd (hd->size, sizeof (hd->size), OCT);
-+ #else
-+   arcn->sb.st_size = (off_t) asc_ul (hd->size, sizeof (hd->size), OCT);
-+@@ -1081,7 +1086,8 @@ ustar_wr (register ARCHD * arcn)
-+       else
-+ 	hd->typeflag = REGTYPE;
-+       arcn->pad = TAR_PAD (arcn->sb.st_size);
-+-#if defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64
-++#if (SIZEOF_LONG == 4 && SIZEOF_OFF_T == 8) \
-++    || (defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64)
-+       if (uqd_oct ((u_quad_t) arcn->sb.st_size, hd->size,
-+ 		   sizeof (hd->size), 3))
-+ 	{
-diff --git a/meta/recipes-extended/pax/pax_3.4.bb b/meta/recipes-extended/pax/pax_3.4.bb
-index e9c70d6..0c10688 100644
---- a/meta/recipes-extended/pax/pax_3.4.bb
-+++ b/meta/recipes-extended/pax/pax_3.4.bb
-@@ -10,10 +10,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4b0b674dfdc56daa3832d4069b820ea0 \
-                     file://lib/vis.h;endline=40;md5=b283f759abd4a5ad7e014b80f51fc053"
- 
- SECTION = "base"
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "ftp://ftp.suse.com/pub/people/kukuk/pax/pax-${PV}.tar.bz2 \
--	file://fix_for_compile_with_gcc-4.6.0.patch"
-+	file://fix_for_compile_with_gcc-4.6.0.patch \
-+	file://pax-3.4_fix_for_x32.patch"
- 
- SRC_URI[md5sum] = "fbd9023b590b45ac3ade95870702a0d6"
- SRC_URI[sha256sum] = "ac3c06048e02828077cf7757d3d142241429238893b91d529af29a2e8cc5623b"
++# glib
++glib_cv_sizeof_gmutex=${glib_cv_sizeof_gmutex=32}
 -- 
 1.7.6.4
 
