@@ -1,25 +1,25 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1Ra4Fw-00011r-M0
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1Ra4Fz-000126-2h
 	for openembedded-core@lists.openembedded.org;
-	Mon, 12 Dec 2011 12:41:17 +0100
+	Mon, 12 Dec 2011 12:41:19 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pBCBYLDc018447
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pBCBYOLs018454
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2011 03:34:22 -0800 (PST)
+	Mon, 12 Dec 2011 03:34:24 -0800 (PST)
 Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Mon, 12 Dec 2011 03:34:21 -0800
-Message-ID: <ed69ab4404b203386817674220400f9ca3a27343.1323688579.git.xiaofeng.yan@windriver.com>
+	Mon, 12 Dec 2011 03:34:24 -0800
+Message-ID: <61a75afbd61385304998452a5c4cd2e12659e12b.1323688579.git.xiaofeng.yan@windriver.com>
 In-Reply-To: <cover.1323688579.git.xiaofeng.yan@windriver.com>
 References: <cover.1323688579.git.xiaofeng.yan@windriver.com>
-Old-Date: Mon, 12 Dec 2011 19:02:10 +0800
-Date: Mon, 12 Dec 2011 19:28:42 +0800
+Old-Date: Mon, 12 Dec 2011 18:52:12 +0800
+Date: Mon, 12 Dec 2011 19:28:44 +0800
 To: <openembedded-core@lists.openembedded.org>
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/7] gtk: add demos to the configuation of gtk+
+Subject: [PATCH 5/7] directfb-examples: add package directfb-examples to OE-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,47 +34,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Dec 2011 11:41:17 -0000
+X-List-Received-Date: Mon, 12 Dec 2011 11:41:19 -0000
 Content-Type: text/plain
 
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-Add demos for checking whether gtk+ run over directfb successfully or not.
+Add this package for checking whether directfb run rightly or not.
+It also is an useful tool to test directfb.
 
 [YOCTO #1674]
 
 Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 ---
- meta/recipes-gnome/gtk+/gtk+_2.24.8.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ .../directfb/directfb-examples_1.2.0.bb            |   20 ++++++++++++++++++++
+ 1 files changed, 20 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-graphics/directfb/directfb-examples_1.2.0.bb
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.8.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.8.bb
-index fb88979..ec827a7 100644
---- a/meta/recipes-gnome/gtk+/gtk+_2.24.8.bb
-+++ b/meta/recipes-gnome/gtk+/gtk+_2.24.8.bb
-@@ -9,12 +9,12 @@ SRC_URI = "http://download.gnome.org/sources/gtk+/2.24/gtk+-${PV}.tar.bz2 \
-            file://run-iconcache.patch \
-            file://configure-nm.patch \
-            file://hardcoded_libtool.patch \
--           file://no-demos.patch \
-            file://cellrenderer-cairo.patch;striplevel=0 \
-            file://toggle-font.diff;striplevel=0 \
-            file://0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch \
-            file://doc-fixes.patch \
- 	  "
+diff --git a/meta/recipes-graphics/directfb/directfb-examples_1.2.0.bb b/meta/recipes-graphics/directfb/directfb-examples_1.2.0.bb
+new file mode 100644
+index 0000000..215426e
+--- /dev/null
++++ b/meta/recipes-graphics/directfb/directfb-examples_1.2.0.bb
+@@ -0,0 +1,20 @@
++DESCRIPTION = "The DirectFB-examples package contains a set of simple DirectFB \
++      applications that can be used to test and demonstrate various DirectFB \
++      features"
++DEPENDS = "directfb"
++SECTION = "libs"
++LICENSE = "MIT"
++PR = "r0"
 +
- # TO MERGE
- #           file://entry-cairo.patch;striplevel=0
- #           file://filesystem-volumes.patch
-@@ -27,7 +27,7 @@ SRC_URI = "http://download.gnome.org/sources/gtk+/2.24/gtk+-${PV}.tar.bz2 \
- #        file://combo-arrow-size.patch;striplevel=0
- #            file://configurefix.patch
- 
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI[md5sum] = "0413187f7e596aef00ccd1b54776ff03"
- SRC_URI[sha256sum] = "ac2325a65312922a6722a7c02a389f3f4072d79e13131485cc7b7226e2537043"
++SRC_URI = " \
++           http://www.directfb.org/downloads/Extras/DirectFB-examples-${PV}.tar.gz \
++          "
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=ecf6fd2b19915afc4da56043926ca18f"
++
++S = "${WORKDIR}/DirectFB-examples-${PV}"
++
++inherit autotools
++
++SRC_URI[md5sum] = "ce018f681b469a1d72ffc32650304b98"
++SRC_URI[sha256sum] = "830a1bd6775d8680523596a88a72fd8e4c6a74bf886d3e169b06d234a5cf7e3e"
 -- 
 1.7.0.4
 
