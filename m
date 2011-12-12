@@ -1,57 +1,37 @@
-Received: from ch1ehsobe005.messaging.microsoft.com ([216.32.181.185]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RZtdg-0007SP-74
+	(envelope-from <raj.khem@gmail.com>) id 1RZuXR-0000VA-2e
 	for openembedded-core@lists.openembedded.org;
-	Mon, 12 Dec 2011 01:21:04 +0100
-Received: from mail62-ch1-R.bigfish.com (10.43.68.245) by
-	CH1EHSOBE009.bigfish.com (10.43.70.59) with Microsoft SMTP Server id
-	14.1.225.23; Mon, 12 Dec 2011 00:13:59 +0000
-Received: from mail62-ch1 (localhost [127.0.0.1])	by mail62-ch1-R.bigfish.com
-	(Postfix) with ESMTP id BB27C140295	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2011 00:13:59 +0000 (UTC)
-X-SpamScore: -10
-X-BigFish: VS-10(zz9371I1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail62-ch1 (localhost.localdomain [127.0.0.1]) by mail62-ch1
-	(MessageSwitch) id 1323648837462816_25106;
-	Mon, 12 Dec 2011 00:13:57 +0000 (UTC)
-Received: from CH1EHSMHS007.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.243])	by mail62-ch1.bigfish.com (Postfix) with ESMTP id
-	6B9FE2C0047 for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2011 00:13:57 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS007.bigfish.com
-	(10.43.70.7) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Mon, 12 Dec 2011 00:13:52 +0000
-Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.28]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.01.0355.003; Sun, 11 Dec 2011 18:13:52 -0600
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] inheirt multi bbclass using variable
-Thread-Index: AQHMuF709y+usLyeVkKtYW4/7KTlY5XXuMWAgAAA0oA=
-Date: Mon, 12 Dec 2011 00:13:52 +0000
-Message-ID: <CAEsOVNf1qaYLPhMfJvR=0WCgwjFa85DWTyqQ6hb=x15ZYuDmYA@mail.gmail.com>
+	Mon, 12 Dec 2011 02:18:41 +0100
+Received: by lahd3 with SMTP id d3so1674819lah.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 11 Dec 2011 17:11:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=EQKH9a/uLPJfbnDppXaCXiXdyTn7fOKVZYhl8699bGU=;
+	b=gJ8DdErazHqWHkC7zQaQehdvjmxBI8O3CvCNGaUEqyPBI3METRObRB1D95fMxozwcz
+	Fv2gs7SmfmZCLt67M9o+Xelv7qNk7QxaP92nEbQEL938Eub2j22bWmsuiz96lAtx3td/
+	o268ATIPyl5vs2U5fLYfNUSbve3jlAzXslR7M=
+Received: by 10.152.106.115 with SMTP id gt19mr10722948lab.27.1323652303403;
+	Sun, 11 Dec 2011 17:11:43 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.152.24.36 with HTTP; Sun, 11 Dec 2011 17:11:12 -0800 (PST)
+In-Reply-To: <CAEsOVNf1qaYLPhMfJvR=0WCgwjFa85DWTyqQ6hb=x15ZYuDmYA@mail.gmail.com>
 References: <1323419740.1294.70.camel@localhost.localdomain>
 	<CAEsOVNd8AsZNrzcsP4RsK0zURAkkh7hJ6W=BwNKVRnkADxDEhg@mail.gmail.com>
 	<CABcZANnsd0srVep_NSsuFZrGrF2KZocP1EUw3U+fMtTMPpWfvg@mail.gmail.com>
-In-Reply-To: <CABcZANnsd0srVep_NSsuFZrGrF2KZocP1EUw3U+fMtTMPpWfvg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>
+	<CAEsOVNf1qaYLPhMfJvR=0WCgwjFa85DWTyqQ6hb=x15ZYuDmYA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 11 Dec 2011 17:11:12 -0800
+Message-ID: <CAMKF1soD62qmg6yQsyQQHWndAjADzntz-J3UcUkvDHcrvabZgA@mail.gmail.com>
+To: McClintock Matthew-B29882 <B29882@freescale.com>, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: inheirt multi bbclass using variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -62,29 +42,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Dec 2011 00:21:04 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <AC9EF3C2E55EF649849168B05F5B6A88@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 12 Dec 2011 01:18:41 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Sun, Dec 11, 2011 at 6:10 PM, Chris Larson <clarson@kergoth.com> wrote:
->> There are some issues with inherit. I've seen a similar issue with:
->>
->> IMAGE_EXTRA_CLASSES =3D ""
->> inherit ${IMAGE_EXTRA_CLASSES}
->>
->> ERROR: Could not inherit file classes/.bbclass
+On Sun, Dec 11, 2011 at 4:13 PM, McClintock Matthew-B29882
+<B29882@freescale.com> wrote:
 >
-> To be fair, in this case, it's doing exactly what you told it to do --
-> inherit an empty string.
+> To clarify, my case was more like this:
+>
+> IMAGE_EXTRA_CLASSES = "${SOME_CFG_VAR}"
+> inherit some_class.bbclass ${IMAGE_EXTRA_CLASSES}
 
-To clarify, my case was more like this:
-
-IMAGE_EXTRA_CLASSES =3D "${SOME_CFG_VAR}"
-inherit some_class.bbclass ${IMAGE_EXTRA_CLASSES}
-
--M=
-
+I think you are expecting C like behavour where variables/macros are
+expanded before keywords
 
 
