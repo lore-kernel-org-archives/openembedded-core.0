@@ -1,35 +1,23 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1Ra1pU-00025Y-9Y; Mon, 12 Dec 2011 10:05:49 +0100
-Received: by eekb15 with SMTP id b15so2442374eek.6
-	for <multiple recipients>; Mon, 12 Dec 2011 00:58:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=gw6p7AEuoSqw6uSzFQuz+OnDLbgceORVXGzVczYbqYA=;
-	b=wLOkqJswKEgEZwLGyh/rJovoiJ513+qEyOwg5yCdKmMpKOYYL84UAWmCV9rCygkP8L
-	hUUatf0LJuzQVKdzDZuUHj4tGMTpId7NnT0t3a2KVyyyyvI/9Oku0sFlp4uLxmYDuMpU
-	GTLjeeWMjc5fjDj1cDnN79F6DgM7G+s3xdJRY=
-Received: by 10.14.10.93 with SMTP id 69mr2434332eeu.201.1323680333706;
-	Mon, 12 Dec 2011 00:58:53 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id 58sm72842072eet.11.2011.12.12.00.58.52
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 12 Dec 2011 00:58:52 -0800 (PST)
-Date: Mon, 12 Dec 2011 09:58:51 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111212085851.GE3783@jama.jama.net>
-References: <20111212084206.608CB10332@opal>
-	<20111212084731.GD3783@jama.jama.net>
-	<3658FA4C-A757-40C6-B6CC-CB4A925103A4@dominion.thruhere.net>
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1Ra4Fn-0000wG-EB
+	for openembedded-core@lists.openembedded.org;
+	Mon, 12 Dec 2011 12:41:07 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pBCBYB4k018426
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Dec 2011 03:34:12 -0800 (PST)
+Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Mon, 12 Dec 2011 03:34:11 -0800
+Message-ID: <cover.1323688579.git.xiaofeng.yan@windriver.com>
+Old-Date: Mon, 12 Dec 2011 19:16:19 +0800
+Date: Mon, 12 Dec 2011 19:28:32 +0800
+To: <openembedded-core@lists.openembedded.org>
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <3658FA4C-A757-40C6-B6CC-CB4A925103A4@dominion.thruhere.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-devel@lists.openembedded.org
-Subject: Re: Kernel version has extra '+' when kernel is built from git
+Subject: [PATCH 0/7] gtk+-directfb: The patches to run gtk over directfb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,101 +32,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Dec 2011 09:05:49 -0000
-X-Groupsio-MsgNum: 14082
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="M/SuVGWktc5uNpra"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 12 Dec 2011 11:41:07 -0000
+Content-Type: text/plain
 
---M/SuVGWktc5uNpra
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-On Mon, Dec 12, 2011 at 09:53:47AM +0100, Koen Kooi wrote:
->=20
-> Op 12 dec. 2011, om 09:47 heeft Martin Jansa het volgende geschreven:
->=20
-> > On Mon, Dec 12, 2011 at 08:42:06AM +0000, git@git.openembedded.org wrot=
-e:
-> >> Module: meta-openembedded.git
-> >> Branch: master
-> >> Commit: c486dfa4013b37972c1a1e4df8616eb6f49de498
-> >> URL:    http://git.openembedded.org/?p=3Dmeta-openembedded.git&a=3Dcom=
-mit;h=3Dc486dfa4013b37972c1a1e4df8616eb6f49de498
-> >>=20
-> >> Author: Koen Kooi <koen@dominion.thruhere.net>
-> >> Date:   Sun Dec 11 09:46:28 2011 +0100
-> >>=20
-> >> kernel bbclass: sync with OE-core
-> >>=20
-> >> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> >=20
-> > If you're working on shared linux.inc in meta-oe, could you please
-> > integrate this:
-> >=20
-> > do_configure_prepend() {
-> > #otherwise it gets extra '+' "2.6.37+"
-> > #because:
-> > #$ scripts/setlocalversion . =3D> +
-> > #$ make kernelversion =3D> 2.6.37
-> > #$ make kernelrelease =3D> 2.6.37+
-> >  rm -rf ${S}/.git
-> > }
->=20
-> That would break the following:
->=20
-> koen@dominion:/OE/tentacle$ tail conf/local.conf -n15 | head -n4
-> ASSUME_PROVIDED +=3D "gitam-native"
-> PATCHTOOL_pn-linux-ti33x-psp =3D "gitam"
-> PATCHTOOL_pn-linux =3D "gitam"
-> PATCHTOOL_pn-u-boot =3D "gitam"
->=20
->=20
-> > I have to do this in every git recipe as I don't like dirs like
-> > /lib/modules/2.6.37+
->=20
->=20
-> > Maybe it should be fixed on kernel.bbclass level, because linux-yocto
-> > suffers the same ie /lib/modules/3.0.12-yocto-standard+
-> >=20
-> > Ccing oe-core for that..
->=20
->=20
-> I had a patch for scripts/setlocalversion that got rid of the '+', but I =
-stopped caring after a while. We could just run sed in kernel.bbclass to fi=
-x the script.
+Hi Phil, Koen & Richard,
 
-Even better than removing .git.
+Thanks for your good suggestion. I have modified my patches according to your suggestion.
+1 Remove patch no-demo.patch from gtk+_2.24.8(Richard's suggestion)
+2 Use gtk-directfb in DISTRO_FEATURES(Koen's suggestion)
+3 Remvoe PACKAGECONFIG[directfb] for pango(Phil's suggestion)
 
-Regards,
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: xiaofeng/gtk-directfb
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/gtk-directfb
 
->=20
-> regards,
->=20
-> Koen
+Thanks,
+    Xiaofeng Yan <xiaofeng.yan@windriver.com>
+---
+
+
+Xiaofeng Yan (7):
+  cairo: add directfb DISTRO_FEATURE
+  pango: Disable x11 when pango doesn't run over x11
+  gtk.inc: add feature based on directfb
+  gtk: add demos to the configuation of gtk+
+  directfb-examples: add package directfb-examples to OE-core
+  task-core-gtk-directfb.bb: Add task list to run gtk over directfb
+  core-image-gtk-directfb.bb: add an image for gtk over directfb
+
+ meta/recipes-gnome/gtk+/gtk+.inc                   |   16 ++++++++++--
+ meta/recipes-gnome/gtk+/gtk+_2.24.8.bb             |    4 +-
+ meta/recipes-graphics/cairo/cairo.inc              |   11 ++++++--
+ .../directfb/directfb-examples_1.2.0.bb            |   20 +++++++++++++++
+ .../images/core-image-gtk-directfb.bb              |   21 ++++++++++++++++
+ meta/recipes-graphics/pango/pango.inc              |   16 +++++++++---
+ .../tasks/task-core-gtk-directfb.bb                |   26 ++++++++++++++++++++
+ 7 files changed, 102 insertions(+), 12 deletions(-)
+ create mode 100644 meta/recipes-graphics/directfb/directfb-examples_1.2.0.bb
+ create mode 100644 meta/recipes-graphics/images/core-image-gtk-directfb.bb
+ create mode 100644 meta/recipes-graphics/tasks/task-core-gtk-directfb.bb
 
 
 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---M/SuVGWktc5uNpra
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk7lwksACgkQN1Ujt2V2gBwNFQCfamuaPGYADmbZEXAaD4AGSxI/
-0iAAn3pDpHrPQeTly1mLm8uRM1dGqg7V
-=QNHr
------END PGP SIGNATURE-----
-
---M/SuVGWktc5uNpra--
