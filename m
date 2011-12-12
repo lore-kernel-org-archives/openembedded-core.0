@@ -1,24 +1,31 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1RaAbg-0002si-KV
+	(envelope-from <raj.khem@gmail.com>) id 1RaAlu-0003hp-7n
 	for openembedded-core@lists.openembedded.org;
-	Mon, 12 Dec 2011 19:28:08 +0100
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RaAV2-0000Ew-1n
-	for openembedded-core@lists.openembedded.org;
-	Mon, 12 Dec 2011 19:21:16 +0100
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 12 Dec 2011 18:21:15 +0000
-In-Reply-To: <CAMKF1sre0Wk1C_m6sS8yM4-apZYeOYp=Va-Mm19jpXqukUjFBA@mail.gmail.com>
+	Mon, 12 Dec 2011 19:38:42 +0100
+Received: by lami14 with SMTP id i14so52867lam.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Dec 2011 10:31:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=YIAFPFgkFllzf9DEwDETQodOl8btzFDfZ7+Froa2Jxk=;
+	b=MZmeNv1MBu/2JgY8Sww35gODky607dnuQZwPIRtD3YhNm/wYDECsj+gaDt/ZasQsxA
+	imK05+H4rjwvKNjYZYRqkVVavzlpA4vWTAEKZ9QU4UeqChPL7358nt1d7FwPWQnLjlfu
+	dSr0Lx+4WxdDBGYyNJSIoE6G0ZA0oAxGJkk00=
+Received: by 10.152.104.206 with SMTP id gg14mr12798585lab.41.1323714704354;
+	Mon, 12 Dec 2011 10:31:44 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.152.24.36 with HTTP; Mon, 12 Dec 2011 10:31:13 -0800 (PST)
+In-Reply-To: <1323714076.24417.100.camel@phil-desktop>
 References: <1323477267.5309.206.camel@ted>
 	<CAMKF1sre0Wk1C_m6sS8yM4-apZYeOYp=Va-Mm19jpXqukUjFBA@mail.gmail.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1323714076.24417.100.camel@phil-desktop>
-Mime-Version: 1.0
+	<1323714076.24417.100.camel@phil-desktop>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 12 Dec 2011 10:31:13 -0800
+Message-ID: <CAMKF1srN_+EJcqT_UjOB4gM9RKsMNn4-LyZVa5iN08xBD7FW1g@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] kernel.bbclass: Allow do_compile_kernelmodules to use PARALLEL_MAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -34,32 +41,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Dec 2011 18:28:08 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 12 Dec 2011 18:38:42 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 2011-12-10 at 15:28 -0800, Khem Raj wrote:
-> in base.bbclass oe_runmake says
-> 
-> ${MAKE} ${EXTRA_OEMAKE} "$@"
-> 
-> and
-> 
-> conf/bitbake.conf says
-> 
-> EXTRA_OEMAKE_prepend_task-compile = "${PARALLEL_MAKE} "
-> 
-> hmmm so we dont parallel make if task is not called do_compile ?
+On Mon, Dec 12, 2011 at 10:21 AM, Phil Blundell <philb@gnu.org> wrote:
+> Indeed. =C2=A0It's been that way basically forever; I think this was to a=
+void
+> a class of problems caused by trying to run "make install" with -j.
 
-Indeed.  It's been that way basically forever; I think this was to avoid
-a class of problems caused by trying to run "make install" with -j.  
-
-It's possible that the general situation has improved a bit since that
-code was written and it might be interesting to try enabling it for
-install as well and see what happens.
-
-p.
-
-
+correct I wanted to highlight it since its important to know when we
+write recipes
+and have special compile steps
 
 
