@@ -1,33 +1,30 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RaDtw-0004mf-Tv for openembedded-core@lists.openembedded.org;
-	Mon, 12 Dec 2011 22:59:13 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBCLqHwH001584
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2011 21:52:17 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 00461-05 for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2011 21:52:12 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBCLq7t9001578
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2011 21:52:08 GMT
-Message-ID: <1323726727.2731.16.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 12 Dec 2011 21:52:07 +0000
-In-Reply-To: <cover.1323643433.git.sgw@linux.intel.com>
-References: <cover.1323643433.git.sgw@linux.intel.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [CONSOLIDATED PULL 00/26] Round up of patches and pull
+Received: from mail-qw0-f54.google.com ([209.85.216.54])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <philip.balister@gmail.com>) id 1RaE09-0005O5-IY
+	for openembedded-core@openembedded.org; Mon, 12 Dec 2011 23:05:38 +0100
+Received: by qabg14 with SMTP id g14so4862305qab.6
+	for <openembedded-core@openembedded.org>;
+	Mon, 12 Dec 2011 13:58:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=LBhsSYRC4nNbPov2ZZZFLXlwFoXIPY1ed11MsSQGjyA=;
+	b=mLHLF0dDHV/+Fd30BF1Pk3ifDcJ3MWhgZxwCPLLVPcpwc+Bytxu11WKlv/hK4NSeJA
+	1y6e45XHY8CwApBBY0A96yji+L1nLsWy4ujzLMQMXrTTjM32YTWBmJckdXeSDzK3FVVa
+	vT9zC8WJi46Vn24CczcIMyEYsO+vOtZz3odGI=
+Received: by 10.224.106.5 with SMTP id v5mr19150750qao.74.1323727122363;
+	Mon, 12 Dec 2011 13:58:42 -0800 (PST)
+Received: from localhost.localdomain
+	(pool-96-240-172-5.ronkva.east.verizon.net. [96.240.172.5])
+	by mx.google.com with ESMTPS id ff9sm36758410qab.16.2011.12.12.13.58.41
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 12 Dec 2011 13:58:42 -0800 (PST)
+Sender: Philip Balister <philip.balister@gmail.com>
+From: Philip Balister <philip@balister.org>
+To: openembedded-core@openembedded.org
+Date: Mon, 12 Dec 2011 16:58:36 -0500
+Message-Id: <1323727116-10292-1-git-send-email-philip@balister.org>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [PATCH] boost : Do not use icu when building boost.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,81 +39,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Dec 2011 21:59:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 12 Dec 2011 22:05:38 -0000
 
-On Sun, 2011-12-11 at 14:47 -0800, Saul Wold wrote:
-> Richard,
-> 
-> This is a round of of patches and pulls from last week, built
-> locally and on AB.
-> 
-> Includes Nitin's X32 changes along with fixes noticed while doing
-> self-hosted work (address comments from Paul earlier).
-> 
-> Sau!
-> 
-> 
-> The following changes since commit 07f94fa1d661d38b775ce2d99b84e5610c369392:
-> 
->   license/copyleft: exception for ast parse (2011-12-10 00:17:25 +0000)
-> 
-> are available in the git repository at:
->   git://git.openembedded.org/openembedded-core-contrib sgw/stage
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-> 
-> Christopher Larson (1):
->   lzop-1.03: add recipe
-> 
-> Elizabeth Flanagan (1):
->   license: PR bump failure
-> 
-> Frans Meulenbroeks (1):
->   u-boot: renamed dir from uboot to the more appropriate u-boot
-> 
-> H.J. Lu (3):
->   mesa: Properly create share library for x32
->   siteinfo: create a new siteinfo for x32-linux
->   openssl-1.0.0e: Update x32 Configure
-> 
-> Khem Raj (3):
->   qemu-0.15.1: Bump recipes from 0.15.0 to 0.15.1
->   task-core-nfs: Add nfs-utils-client to RDEPENDS
->   eglibc: Generate cross testing script during install
-> 
-> Nitin A Kamble (8):
->   gst-fluendo.inc: remove unneccessary hack
->   mdadm: Make custom CC definition conditional
->   pulseaudio: fix compilation with x32 toolchain
->   libacpi: Fix libdir for x32
->   findutils: Fix compilation for x32 toolchain
->   pax: fix compilation with x32 toolchain
->   libacpi: Use the cross strip instead of host strip
->   x86 tune: fix TUNE_PKGARCH definition for proper PACKAGE_ARCH
-> 
-> Otavio Salvador (2):
->   dosfstools: update native to 2.11
->   scripts/send-pull-request: fix typo
-> 
-> Saul Wold (7):
->   ncurses: libcurses.so should link to libncurses.so
->   bitbake.conf: remove texinfo-native from ASSUME_PROVIDED
->   texinfo: fix compile failure due target makedoc binary being used
->   task-self-hosted: Reorder by Alpha
->   task-self-hosted: Added perl-pod (slight reorder)
->   task-self-hosted: Add host-tools task
->   task-self-hosted: Move tools to host-tools task
+Without this, boost needs to build icu to create images using
+boost regex. RP inidicated he would rather disable icu, than add an
+extra dependency to the recipe.
 
-Thanks Saul, these look good. I took all except the uboot one which
-needs careful timing, I'll merge that tomorrow morning my time when
-maintainers likely to be affected are likely awake.
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ meta/recipes-support/boost/boost.inc |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
-Cheers,
-
-Richard
-
-
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index cc26ef9..aa577b3 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -16,7 +16,7 @@ BOOST_VER = "${@"_".join(d.getVar("PV",1).split("."))}"
+ BOOST_MAJ = "${@"_".join(d.getVar("PV",1).split(".")[0:2])}"
+ BOOST_P = "boost_${BOOST_VER}"
+ 
+-INC_PR = "r1"
++INC_PR = "r2"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BOOST_P}.tar.bz2"
+ 
+@@ -127,6 +127,7 @@ BJAM_TOOLS   = "-sTOOLS=gcc \
+ BJAM_OPTS    = '${BJAM_TOOLS} \
+ 		--builddir=${S}/${TARGET_SYS} \
+ 		--with-python-root=${PYTHON_ROOT} \
++		--without-icu \
+ 		${BJAM_EXTRA}'
+ 
+ 
+-- 
+1.7.3.4
 
 
 
