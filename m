@@ -1,25 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1Ra4G5-00016m-Cb
+	(envelope-from <otavio.salvador@gmail.com>) id 1Ra4Lg-0001Kk-RA
 	for openembedded-core@lists.openembedded.org;
-	Mon, 12 Dec 2011 12:41:25 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pBCBYT1O018464
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 12 Dec 2011 12:47:12 +0100
+Received: by bkbzt4 with SMTP id zt4so5108229bkb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2011 03:34:29 -0800 (PST)
-Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Mon, 12 Dec 2011 03:34:28 -0800
-Message-ID: <fbfec531140ee0c6848402faf94ba93b903d02ef.1323688580.git.xiaofeng.yan@windriver.com>
-In-Reply-To: <cover.1323688579.git.xiaofeng.yan@windriver.com>
-References: <cover.1323688579.git.xiaofeng.yan@windriver.com>
-Old-Date: Mon, 12 Dec 2011 18:54:01 +0800
-Date: Mon, 12 Dec 2011 19:28:49 +0800
-To: <openembedded-core@lists.openembedded.org>
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+	Mon, 12 Dec 2011 03:40:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=Sbgd0xacx1elzYT6HA9wxK0Nz/8xbXc4aMotqeQ/kKI=;
+	b=ph1jManxmWKA52SdMXhqp4idOJ5wjSpkNIbOY6A9RXNAaefN8+k4DUOgUjynZT2g/S
+	qK04gkHxLo0D4e5cVV2bUYPGad9k/M7NzqUTnWgF1ZmdkjRJGJy1TnVZxOCXWcG03+p0
+	ODYuxcx+3qW32CiMYsK2QkdJdylkn92beZ35Q=
 MIME-Version: 1.0
-Subject: [PATCH 7/7] core-image-gtk-directfb.bb: add an image for gtk over directfb
+Received: by 10.205.125.10 with SMTP id gq10mr4457540bkc.11.1323690016027;
+	Mon, 12 Dec 2011 03:40:16 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.113.132 with HTTP; Mon, 12 Dec 2011 03:40:15 -0800 (PST)
+In-Reply-To: <fbfec531140ee0c6848402faf94ba93b903d02ef.1323688580.git.xiaofeng.yan@windriver.com>
+References: <cover.1323688579.git.xiaofeng.yan@windriver.com>
+	<fbfec531140ee0c6848402faf94ba93b903d02ef.1323688580.git.xiaofeng.yan@windriver.com>
+Date: Mon, 12 Dec 2011 09:40:15 -0200
+X-Google-Sender-Auth: UDasd0I36lyO2Gbl20LQFrLhHLw
+Message-ID: <CAP9ODKrGOc27fxR74Ops4YjF+vLAwU5kZRZFW4XZjiFBaS=hig@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 7/7] core-image-gtk-directfb.bb: add an image for gtk over directfb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,50 +42,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Dec 2011 11:41:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 12 Dec 2011 11:47:13 -0000
+Content-Type: multipart/alternative; boundary=000e0ce0b5b432b64304b3e3997d
 
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+--000e0ce0b5b432b64304b3e3997d
+Content-Type: text/plain; charset=ISO-8859-1
 
-This file can make an image to run gtk over directfb.
+On Mon, Dec 12, 2011 at 09:28, Xiaofeng Yan <xiaofeng.yan@windriver.com>wrote:
 
-[YOCTO #1674]
+> From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+>
+> This file can make an image to run gtk over directfb.
+>
 
-Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
----
- .../images/core-image-gtk-directfb.bb              |   21 ++++++++++++++++++++
- 1 files changed, 21 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-graphics/images/core-image-gtk-directfb.bb
+I think this ought to be done on core-image-gtk not a specific one for
+directfb as it depends on a distro feature and you can't just generate an
+image with this, if the distro has no directfb feature enabled.
 
-diff --git a/meta/recipes-graphics/images/core-image-gtk-directfb.bb b/meta/recipes-graphics/images/core-image-gtk-directfb.bb
-new file mode 100644
-index 0000000..b0ae469
---- /dev/null
-+++ b/meta/recipes-graphics/images/core-image-gtk-directfb.bb
-@@ -0,0 +1,21 @@
-+LICENSE = "MIT"
-+PR="r0"
-+
-+LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-+                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+
-+
-+DEPENDS += "task-core-gtk-directfb"
-+
-+RDEPENDS_${PN} += " \
-+	task-core-gtk-directfb-base \
-+	"
-+
-+inherit core-image
-+
-+IMAGE_INSTALL += "\
-+	${POKY_BASE_INSTALL} \
-+	task-core-basic \
-+	module-init-tools \
-+	task-core-gtk-directfb-base \
-+"
 -- 
-1.7.0.4
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
+--000e0ce0b5b432b64304b3e3997d
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div class=3D"gmail_quote">On Mon, Dec 12, 2011 at 09:28, Xiaofeng Yan <spa=
+n dir=3D"ltr">&lt;<a href=3D"mailto:xiaofeng.yan@windriver.com">xiaofeng.ya=
+n@windriver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" =
+style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+From: Xiaofeng Yan &lt;<a href=3D"mailto:xiaofeng.yan@windriver.com">xiaofe=
+ng.yan@windriver.com</a>&gt;<br>
+<br>
+This file can make an image to run gtk over directfb.<br></blockquote><div>=
+<br></div><div>I think this ought to be done on core-image-gtk not a specif=
+ic one for directfb as it depends on a distro feature and you can&#39;t jus=
+t generate an image with this, if the distro has no directfb feature enable=
+d.</div>
+<div>=A0</div></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio=
+@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=
+=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com=
+.br</a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
 
+--000e0ce0b5b432b64304b3e3997d--
