@@ -1,25 +1,25 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1Ra4Fp-0000wO-58
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1Ra4Fr-0000wX-JF
 	for openembedded-core@lists.openembedded.org;
-	Mon, 12 Dec 2011 12:41:09 +0100
+	Mon, 12 Dec 2011 12:41:11 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pBCBYEEL018433
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pBCBYGHM018438
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2011 03:34:14 -0800 (PST)
+	Mon, 12 Dec 2011 03:34:16 -0800 (PST)
 Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Mon, 12 Dec 2011 03:34:14 -0800
-Message-ID: <9c74fc014ba1aff0037afc8e18886ff4b1416c30.1323688579.git.xiaofeng.yan@windriver.com>
+	Mon, 12 Dec 2011 03:34:16 -0800
+Message-ID: <0735e96bce118cc52204124b417fdc6c437dbcfd.1323688579.git.xiaofeng.yan@windriver.com>
 In-Reply-To: <cover.1323688579.git.xiaofeng.yan@windriver.com>
 References: <cover.1323688579.git.xiaofeng.yan@windriver.com>
-Old-Date: Mon, 12 Dec 2011 18:47:55 +0800
-Date: Mon, 12 Dec 2011 19:28:34 +0800
+Old-Date: Mon, 12 Dec 2011 18:49:05 +0800
+Date: Mon, 12 Dec 2011 19:28:37 +0800
 To: <openembedded-core@lists.openembedded.org>
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/7] cairo: add directfb DISTRO_FEATURE
+Subject: [PATCH 2/7] pango: Disable x11 when pango doesn't run over x11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,48 +34,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Dec 2011 11:41:09 -0000
+X-List-Received-Date: Mon, 12 Dec 2011 11:41:12 -0000
 Content-Type: text/plain
 
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-cairo run over x11 at current OE-core. If cairo want to run over directfb, then \
-the configuration related to x11 should be disabled and directfb should be enabled.
+pango run over x11 at current OE-core. If pango want to run over non-x11, then \
+the configuration related to x11 should be disabled.
 
 [YOCTO #1674]
 
 Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 ---
- meta/recipes-graphics/cairo/cairo.inc |   11 ++++++++---
- 1 files changed, 8 insertions(+), 3 deletions(-)
+ meta/recipes-graphics/pango/pango.inc |   16 ++++++++++++----
+ 1 files changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-graphics/cairo/cairo.inc
-index 876acad..5f8f7b6 100644
---- a/meta/recipes-graphics/cairo/cairo.inc
-+++ b/meta/recipes-graphics/cairo/cairo.inc
-@@ -11,13 +11,18 @@ BUGTRACKER = "http://bugs.freedesktop.org"
- SECTION = "libs"
- LICENSE = "MPL-1 & LGPLv2.1"
- X11DEPENDS = "virtual/libx11 libsm libxrender"
--DEPENDS = "libpng fontconfig pixman glib-2.0 ${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
-+DEPENDS = "libpng fontconfig pixman glib-2.0"
-+PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
-+           ${@base_contains('DISTRO_FEATURES', 'gtk-directfb', 'directfb', '', d)}"
-+PACKAGECONFIG[x11] = "--with-x=yes,--without-x,${X11DEPENDS}"
-+PACKAGECONFIG[gtk-directfb] = "--enable-directfb=yes,,directfb"
+diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
+index 6d94e02..ff5a73a 100644
+--- a/meta/recipes-graphics/pango/pango.inc
++++ b/meta/recipes-graphics/pango/pango.inc
+@@ -10,13 +10,22 @@ SECTION = "libs"
+ LICENSE = "LGPL"
  
- #check for TARGET_FPU=soft and inform configure of the result so it can disable some floating points 
- require cairo-fpu.inc
--EXTRA_OECONF += "${@get_cairo_fpu_setting(bb, d)} ${@base_contains('DISTRO_FEATURES', 'x11', '--with-x', '--without-x', d)}"
-+EXTRA_OECONF += "${@get_cairo_fpu_setting(bb, d)} "
+ X11DEPENDS = "virtual/libx11 libxft"
+-DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv gtk-doc-native cairo ${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
++DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv gtk-doc-native cairo "
++
++PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
++PACKAGECONFIG[x11] = "--with-x,--without-x,${X11DEPENDS}"
 +
  
- inherit autotools pkgconfig
+ PACKAGES_DYNAMIC = "pango-module-*"
  
- # We don't depend on binutils so we need to disable this
--export ac_cv_lib_bfd_bfd_openr=no
-\ No newline at end of file
-+export ac_cv_lib_bfd_bfd_openr=no
+ RRECOMMENDS_${PN} = "${@base_contains('DISTRO_FEATURES', 'x11', 'pango-module-basic-x', '', d)} pango-module-basic-fc" 
+ 
+ inherit gnome
++# Create a pango-modules package
++ALLOW_EMPTY_${BPN}-modules = "1"
++PACKAGES += "${BPN}-modules"
++RRECOMMENDS_${BPN}-modules =  "${@" ".join([p for p in d.getVar('PACKAGES', True).split() if p.find("pango-module") != -1])}"
++
+ 
+ EXTRA_AUTORECONF = ""
+ 
+@@ -25,8 +34,7 @@ FULL_OPTIMIZATION_arm = "-O2"
+ 
+ EXTRA_OECONF = "--disable-glibtest \
+ 		--enable-explicit-deps=no \
+-	        --disable-debug \
+-		${@base_contains('DISTRO_FEATURES', 'x11', '--with-x', '--without-x', d)}"
++	        --disable-debug"
+ 
+ LEAD_SONAME = "libpango-1.0*"
+ LIBV = "1.6.0"
+@@ -46,6 +54,6 @@ python populate_packages_prepend () {
+ 	do_split_packages(d, modules_root, '^pango-(.*)\.so$', 'pango-module-%s', 'Pango module %s', prologue + 'pango-querymodules > /etc/pango/pango.modules')
+ }
+ 
+-FILES_${PN} = "/etc ${bindir}/* ${libdir}/libpango*${SOLIBS}"
++FILES_${PN} = "/etc/pango/* ${bindir}/* ${libdir}/libpango*${SOLIBS}"
+ FILES_${PN}-dbg += "${libdir}/pango/${LIBV}/modules/.debug"
+ FILES_${PN}-dev += "${libdir}/pango/${LIBV}/modules/*.la"
 -- 
 1.7.0.4
 
