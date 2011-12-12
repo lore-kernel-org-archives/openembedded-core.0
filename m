@@ -1,25 +1,25 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1Ra4Fu-0000xk-57
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1Ra4Fw-00011r-M0
 	for openembedded-core@lists.openembedded.org;
-	Mon, 12 Dec 2011 12:41:14 +0100
+	Mon, 12 Dec 2011 12:41:17 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pBCBYJH4018441
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pBCBYLDc018447
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2011 03:34:19 -0800 (PST)
+	Mon, 12 Dec 2011 03:34:22 -0800 (PST)
 Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Mon, 12 Dec 2011 03:34:19 -0800
-Message-ID: <3eaccbb5057fb6d80a1124f227c57bad66710cc8.1323688579.git.xiaofeng.yan@windriver.com>
+	Mon, 12 Dec 2011 03:34:21 -0800
+Message-ID: <ed69ab4404b203386817674220400f9ca3a27343.1323688579.git.xiaofeng.yan@windriver.com>
 In-Reply-To: <cover.1323688579.git.xiaofeng.yan@windriver.com>
 References: <cover.1323688579.git.xiaofeng.yan@windriver.com>
-Old-Date: Mon, 12 Dec 2011 18:50:36 +0800
-Date: Mon, 12 Dec 2011 19:28:39 +0800
+Old-Date: Mon, 12 Dec 2011 19:02:10 +0800
+Date: Mon, 12 Dec 2011 19:28:42 +0800
 To: <openembedded-core@lists.openembedded.org>
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/7] gtk.inc: add feature based on directfb
+Subject: [PATCH 4/7] gtk: add demos to the configuation of gtk+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,48 +34,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Dec 2011 11:41:14 -0000
+X-List-Received-Date: Mon, 12 Dec 2011 11:41:17 -0000
 Content-Type: text/plain
 
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-gtk run over x11 at current OE-core. If gtk want to run over directfb, then \
-the configuration related to x11 should be disabled and directfb should be enabled.
+Add demos for checking whether gtk+ run over directfb successfully or not.
 
 [YOCTO #1674]
 
 Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 ---
- meta/recipes-gnome/gtk+/gtk+.inc |   16 +++++++++++++---
- 1 files changed, 13 insertions(+), 3 deletions(-)
+ meta/recipes-gnome/gtk+/gtk+_2.24.8.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+.inc b/meta/recipes-gnome/gtk+/gtk+.inc
-index 1d8f4a6..5eb7eb1 100644
---- a/meta/recipes-gnome/gtk+/gtk+.inc
-+++ b/meta/recipes-gnome/gtk+/gtk+.inc
-@@ -9,9 +9,19 @@ LICENSE = "LGPLv2 & LGPLv2+ & LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
- 
- SECTION = "libs"
--DEPENDS = "glib-2.0 pango atk jpeg libpng libxext libxcursor \
--           gtk-doc-native docbook-utils-native libxrandr libgcrypt \
--           libxdamage libxrender libxcomposite cairo gdk-pixbuf"
+diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.8.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.8.bb
+index fb88979..ec827a7 100644
+--- a/meta/recipes-gnome/gtk+/gtk+_2.24.8.bb
++++ b/meta/recipes-gnome/gtk+/gtk+_2.24.8.bb
+@@ -9,12 +9,12 @@ SRC_URI = "http://download.gnome.org/sources/gtk+/2.24/gtk+-${PV}.tar.bz2 \
+            file://run-iconcache.patch \
+            file://configure-nm.patch \
+            file://hardcoded_libtool.patch \
+-           file://no-demos.patch \
+            file://cellrenderer-cairo.patch;striplevel=0 \
+            file://toggle-font.diff;striplevel=0 \
+            file://0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch \
+            file://doc-fixes.patch \
+ 	  "
 +
-+X11DEPENDS = "virtual/libx11 libxext libxcursor libxrandr libxdamage libxrender libxcomposite"
-+DEPENDS = "glib-2.0 pango atk jpeg libpng gtk-doc-native gdk-pixbuf-native docbook-utils-native \
-+ libgcrypt cairo gdk-pixbuf"
-+
-+PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
-+ ${@base_contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)}"
-+
-+# for gtk+ 2.x, have to pick either x11 or directfb not both
-+# for gtk+ 3.x, PACKAGECONFIG[gtk-directfb] should be removed because directfb will not be support as
-+# a backend.
-+PACKAGECONFIG[x11] = "--with-x=yes --with-gdktarget=x11,--with-x=no,${X11DEPENDS}"
-+PACKAGECONFIG[gtk-directfb] = "--with-gdktarget=directfb,,directfb"
+ # TO MERGE
+ #           file://entry-cairo.patch;striplevel=0
+ #           file://filesystem-volumes.patch
+@@ -27,7 +27,7 @@ SRC_URI = "http://download.gnome.org/sources/gtk+/2.24/gtk+-${PV}.tar.bz2 \
+ #        file://combo-arrow-size.patch;striplevel=0
+ #            file://configurefix.patch
  
- inherit autotools pkgconfig
+-PR = "r0"
++PR = "r1"
  
+ SRC_URI[md5sum] = "0413187f7e596aef00ccd1b54776ff03"
+ SRC_URI[sha256sum] = "ac2325a65312922a6722a7c02a389f3f4072d79e13131485cc7b7226e2537043"
 -- 
 1.7.0.4
 
