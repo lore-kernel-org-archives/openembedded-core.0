@@ -1,32 +1,20 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RaAlu-0003hp-7n
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1RaB2K-00061V-9W
 	for openembedded-core@lists.openembedded.org;
-	Mon, 12 Dec 2011 19:38:42 +0100
-Received: by lami14 with SMTP id i14so52867lam.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2011 10:31:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=YIAFPFgkFllzf9DEwDETQodOl8btzFDfZ7+Froa2Jxk=;
-	b=MZmeNv1MBu/2JgY8Sww35gODky607dnuQZwPIRtD3YhNm/wYDECsj+gaDt/ZasQsxA
-	imK05+H4rjwvKNjYZYRqkVVavzlpA4vWTAEKZ9QU4UeqChPL7358nt1d7FwPWQnLjlfu
-	dSr0Lx+4WxdDBGYyNJSIoE6G0ZA0oAxGJkk00=
-Received: by 10.152.104.206 with SMTP id gg14mr12798585lab.41.1323714704354;
-	Mon, 12 Dec 2011 10:31:44 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.152.24.36 with HTTP; Mon, 12 Dec 2011 10:31:13 -0800 (PST)
-In-Reply-To: <1323714076.24417.100.camel@phil-desktop>
-References: <1323477267.5309.206.camel@ted>
-	<CAMKF1sre0Wk1C_m6sS8yM4-apZYeOYp=Va-Mm19jpXqukUjFBA@mail.gmail.com>
-	<1323714076.24417.100.camel@phil-desktop>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 12 Dec 2011 10:31:13 -0800
-Message-ID: <CAMKF1srN_+EJcqT_UjOB4gM9RKsMNn4-LyZVa5iN08xBD7FW1g@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel.bbclass: Allow do_compile_kernelmodules to use PARALLEL_MAKE
+	Mon, 12 Dec 2011 19:55:40 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 12 Dec 2011 10:48:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="101352758"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.29])
+	by fmsmga002.fm.intel.com with ESMTP; 12 Dec 2011 10:48:36 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Dec 2011 18:48:33 +0000
+Message-Id: <cover.1323715541.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/1] re-enable packaging of qt4 tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,17 +29,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Dec 2011 18:38:42 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 12 Dec 2011 18:55:41 -0000
 
-On Mon, Dec 12, 2011 at 10:21 AM, Phil Blundell <philb@gnu.org> wrote:
-> Indeed. =C2=A0It's been that way basically forever; I think this was to a=
-void
-> a class of problems caused by trying to run "make install" with -j.
+I'm still unable to explain why we were getting architecture warnings
+about these binaries before and we don't now. It could be something to
+do with the updated version of Qt we are building, or it could be
+something else. In any case building for two architectures produced
+no warnings and the binaries are in the correct format.
 
-correct I wanted to highlight it since its important to know when we
-write recipes
-and have special compile steps
+The following changes since commit c9a420be15d54a8494cb45d6c932b86895e94e13:
+
+  connman: Default to enabling ethernet interfaces (2011-12-12 16:50:21 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/qt4-tools
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/qt4-tools
+
+Philip Balister (1):
+  qt4.inc : Add uic, moc, rcc, and lrelease to tools package.
+
+ meta/recipes-qt/qt4/qt4-embedded.inc |    2 +-
+ meta/recipes-qt/qt4/qt4-x11-free.inc |    2 +-
+ meta/recipes-qt/qt4/qt4.inc          |    9 ++-------
+ 3 files changed, 4 insertions(+), 9 deletions(-)
+
+-- 
+1.7.5.4
+
 
 
