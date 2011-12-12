@@ -1,38 +1,57 @@
-Received: from mail-qy0-f175.google.com ([209.85.216.175])
+Received: from ch1ehsobe005.messaging.microsoft.com ([216.32.181.185]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1RZtaW-0007LH-KL
+	(envelope-from <B29882@freescale.com>) id 1RZtdg-0007SP-74
 	for openembedded-core@lists.openembedded.org;
-	Mon, 12 Dec 2011 01:17:48 +0100
-Received: by qcqw6 with SMTP id w6so3170251qcq.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Dec 2011 16:10:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=CkMhS2yZlKVv3rSb29vYAr1tIqNZek4IiBk4UkWhD4o=;
-	b=Oc6OlK/YDuEIVhU2sDXd4JBlP5ghqnPjlNHQ/VlYB6Le9hydkIXfjYTk6EhiN/vxMO
-	0rCYYY+LgJ0OfQBwr7CBUxMKxc8EBiyYBrggA1kx7EfL0Rr6O+gjAexPlk60Oy5d/Lk9
-	4lvKEB5ZXeJJyMVt/4VsoFi3aZMS4BrU96dS8=
-Received: by 10.224.203.202 with SMTP id fj10mr15208438qab.66.1323648654331;
-	Sun, 11 Dec 2011 16:10:54 -0800 (PST)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.229.73.200 with HTTP; Sun, 11 Dec 2011 16:10:33 -0800 (PST)
-In-Reply-To: <CAEsOVNd8AsZNrzcsP4RsK0zURAkkh7hJ6W=BwNKVRnkADxDEhg@mail.gmail.com>
+	Mon, 12 Dec 2011 01:21:04 +0100
+Received: from mail62-ch1-R.bigfish.com (10.43.68.245) by
+	CH1EHSOBE009.bigfish.com (10.43.70.59) with Microsoft SMTP Server id
+	14.1.225.23; Mon, 12 Dec 2011 00:13:59 +0000
+Received: from mail62-ch1 (localhost [127.0.0.1])	by mail62-ch1-R.bigfish.com
+	(Postfix) with ESMTP id BB27C140295	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon, 12 Dec 2011 00:13:59 +0000 (UTC)
+X-SpamScore: -10
+X-BigFish: VS-10(zz9371I1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail62-ch1 (localhost.localdomain [127.0.0.1]) by mail62-ch1
+	(MessageSwitch) id 1323648837462816_25106;
+	Mon, 12 Dec 2011 00:13:57 +0000 (UTC)
+Received: from CH1EHSMHS007.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.243])	by mail62-ch1.bigfish.com (Postfix) with ESMTP id
+	6B9FE2C0047 for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Dec 2011 00:13:57 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS007.bigfish.com
+	(10.43.70.7) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Mon, 12 Dec 2011 00:13:52 +0000
+Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.28]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.01.0355.003; Sun, 11 Dec 2011 18:13:52 -0600
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] inheirt multi bbclass using variable
+Thread-Index: AQHMuF709y+usLyeVkKtYW4/7KTlY5XXuMWAgAAA0oA=
+Date: Mon, 12 Dec 2011 00:13:52 +0000
+Message-ID: <CAEsOVNf1qaYLPhMfJvR=0WCgwjFa85DWTyqQ6hb=x15ZYuDmYA@mail.gmail.com>
 References: <1323419740.1294.70.camel@localhost.localdomain>
 	<CAEsOVNd8AsZNrzcsP4RsK0zURAkkh7hJ6W=BwNKVRnkADxDEhg@mail.gmail.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Sun, 11 Dec 2011 17:10:33 -0700
-X-Google-Sender-Auth: w4Q_rdJZ3UmpwxqmoxSpkHPONtY
-Message-ID: <CABcZANnsd0srVep_NSsuFZrGrF2KZocP1EUw3U+fMtTMPpWfvg@mail.gmail.com>
-To: McClintock Matthew-B29882 <B29882@freescale.com>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	<CABcZANnsd0srVep_NSsuFZrGrF2KZocP1EUw3U+fMtTMPpWfvg@mail.gmail.com>
+In-Reply-To: <CABcZANnsd0srVep_NSsuFZrGrF2KZocP1EUw3U+fMtTMPpWfvg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [99.47.177.27]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>
 Subject: Re: inheirt multi bbclass using variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -43,34 +62,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Dec 2011 00:17:48 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 12 Dec 2011 00:21:04 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <AC9EF3C2E55EF649849168B05F5B6A88@freescale.net>
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Dec 11, 2011 at 4:45 PM, McClintock Matthew-B29882
-<B29882@freescale.com> wrote:
-> On Fri, Dec 9, 2011 at 2:35 AM, Ni Qingliang <niqingliang@insigma.com.cn> wrote:
->> I'm trying to inherit multi bbclass using variable:
+On Sun, Dec 11, 2011 at 6:10 PM, Chris Larson <clarson@kergoth.com> wrote:
+>> There are some issues with inherit. I've seen a similar issue with:
 >>
->> IMAGE_EXTRA_CLASSES = "image-timezone image-clearboot image-prd"
+>> IMAGE_EXTRA_CLASSES =3D ""
 >> inherit ${IMAGE_EXTRA_CLASSES}
 >>
->> and got error:
->> ERROR: Could not inherit file classes/image-timezone image-clearboot
->> image-prd.bbclass
->>
->> why it treat the variable as a single class?
->> how to resolve the problem?
+>> ERROR: Could not inherit file classes/.bbclass
 >
-> There are some issues with inherit. I've seen a similar issue with:
->
-> IMAGE_EXTRA_CLASSES = ""
-> inherit ${IMAGE_EXTRA_CLASSES}
->
-> ERROR: Could not inherit file classes/.bbclass
+> To be fair, in this case, it's doing exactly what you told it to do --
+> inherit an empty string.
 
-To be fair, in this case, it's doing exactly what you told it to do --
-inherit an empty string.
--- 
-Christopher Larson
+To clarify, my case was more like this:
+
+IMAGE_EXTRA_CLASSES =3D "${SOME_CFG_VAR}"
+inherit some_class.bbclass ${IMAGE_EXTRA_CLASSES}
+
+-M=
+
 
 
