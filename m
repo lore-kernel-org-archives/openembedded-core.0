@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RaNbr-0007YW-7p
+	(envelope-from <sgw@linux.intel.com>) id 1RaNbr-0007Yf-Bs
 	for openembedded-core@lists.openembedded.org;
 	Tue, 13 Dec 2011 09:21:11 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga102.jf.intel.com with ESMTP; 13 Dec 2011 00:14:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="86612759"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="86612761"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.219])
-	by orsmga002.jf.intel.com with ESMTP; 13 Dec 2011 00:14:14 -0800
+	by orsmga002.jf.intel.com with ESMTP; 13 Dec 2011 00:14:15 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Dec 2011 00:14:05 -0800
-Message-Id: <94208f209b4ad15a88e9ebcc5d3675b6f9f93407.1323763897.git.sgw@linux.intel.com>
+Date: Tue, 13 Dec 2011 00:14:06 -0800
+Message-Id: <35aebea11605920bc877c97fbb36c24d0da02702.1323763897.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1323763897.git.sgw@linux.intel.com>
 References: <cover.1323763897.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1323763897.git.sgw@linux.intel.com>
 References: <cover.1323763897.git.sgw@linux.intel.com>
-Subject: [PATCH 06/10] gzip: Add SRC_URI Checksums for GPLv2
+Subject: [PATCH 07/10] sed: Add SRC_URI Checksums for GPLv2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,23 +37,23 @@ X-List-Received-Date: Tue, 13 Dec 2011 08:21:11 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-extended/gzip/gzip_1.3.12.bb |    3 +++
+ meta/recipes-extended/sed/sed_4.1.2.bb |    3 +++
  1 files changed, 3 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-extended/gzip/gzip_1.3.12.bb b/meta/recipes-extended/gzip/gzip_1.3.12.bb
-index f0752e4..2836942 100644
---- a/meta/recipes-extended/gzip/gzip_1.3.12.bb
-+++ b/meta/recipes-extended/gzip/gzip_1.3.12.bb
-@@ -13,6 +13,9 @@ SRC_URI = "${GNU_MIRROR}/gzip/gzip-${PV}.tar.gz \
-            file://m4-extensions-fix.patch \
-            file://dup-def-fix.patch"
+diff --git a/meta/recipes-extended/sed/sed_4.1.2.bb b/meta/recipes-extended/sed/sed_4.1.2.bb
+index 89b1f34..713524c 100644
+--- a/meta/recipes-extended/sed/sed_4.1.2.bb
++++ b/meta/recipes-extended/sed/sed_4.1.2.bb
+@@ -9,6 +9,9 @@ PR = "r5"
+ SRC_URI = "${GNU_MIRROR}/sed/sed-${PV}.tar.gz \
+            file://fix_return_type.patch"
  
-+SRC_URI[md5sum] = "b5bac2d21840ae077e0217bc5e4845b1"
-+SRC_URI[sha256sum] = "3f565be05f7f3d1aff117c030eb7c738300510b7d098cedea796ca8e4cd587af"
++SRC_URI[md5sum] = "928f0e06422f414091917401f1a834d0"
++SRC_URI[sha256sum] = "638e837ba765d5da0a30c98b57c2953cecea96827882f594612acace93ceeeab"
 +
- PR = "r0"
+ inherit autotools update-alternatives gettext
  
- inherit autotools
+ do_install () {
 -- 
 1.7.6.4
 
