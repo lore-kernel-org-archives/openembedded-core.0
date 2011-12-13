@@ -1,30 +1,30 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dbaryshkov@gmail.com>) id 1RaVDB-0000sc-VH
+	(envelope-from <dbaryshkov@gmail.com>) id 1RaVDC-0000sV-Dg
 	for openembedded-core@lists.openembedded.org;
 	Tue, 13 Dec 2011 17:28:14 +0100
-Received: by faaa20 with SMTP id a20so338376faa.6
+Received: by mail-ww0-f43.google.com with SMTP id ds11so12054547wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2011 08:21:18 -0800 (PST)
+	Tue, 13 Dec 2011 08:21:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=LaBMHIiO20U9Zd+TIQg9AeGL5GndHFEKGvVmwd/pkWE=;
-	b=STUU1ka0Y/bchg2YNt5LPPshLedazy9MsdG9WFg9BqoUMe3+qUbdAyxYl/vUY3rTss
-	0n9k+krnHRbuiYmpT0wC/oDkNtZJEUaJl/HpRprdK5Q68NjWauLWJjAAerRg/3WFTFV2
-	JJ1NtT1pDJytx9/ywScZE7k5rPtBTRO6ucGBo=
-Received: by 10.180.0.100 with SMTP id 4mr26307942wid.48.1323793278294;
-	Tue, 13 Dec 2011 08:21:18 -0800 (PST)
+	bh=rc5r+I1vDA4XmSNHBDld9GvEpGVDy2UyakSaMZCzt/0=;
+	b=n8JaeXKy8kMjqhl0F+yhNqjXdUlKpNwRVP3GNmSCC4zqfNBa++Sna7AV/ffU1Fakam
+	zaJ6qcdwiaktsdE+MPeBve3XT0sdgb7h1O4avWxdgCzBx9Tgn0lb6VJgE4mUmDamxAVk
+	z4tKz76mhA2xcLmHgeoNrRYjKRN6sbQgHs84s=
+Received: by 10.227.60.14 with SMTP id n14mr17187452wbh.5.1323793280170;
+	Tue, 13 Dec 2011 08:21:20 -0800 (PST)
 Received: from fangorn.rup.mentorg.com (nat-rup.mentorg.com. [139.181.168.34])
-	by mx.google.com with ESMTPS id 28sm27231923wby.3.2011.12.13.08.21.16
-	(version=SSLv3 cipher=OTHER); Tue, 13 Dec 2011 08:21:17 -0800 (PST)
+	by mx.google.com with ESMTPS id 28sm27231923wby.3.2011.12.13.08.21.18
+	(version=SSLv3 cipher=OTHER); Tue, 13 Dec 2011 08:21:19 -0800 (PST)
 From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Dec 2011 20:19:46 +0400
-Message-Id: <1323793193-31090-2-git-send-email-dbaryshkov@gmail.com>
+Date: Tue, 13 Dec 2011 20:19:47 +0400
+Message-Id: <1323793193-31090-3-git-send-email-dbaryshkov@gmail.com>
 X-Mailer: git-send-email 1.7.7.3
 In-Reply-To: <1323793193-31090-1-git-send-email-dbaryshkov@gmail.com>
 References: <1323793193-31090-1-git-send-email-dbaryshkov@gmail.com>
-Subject: [PATCH 2/9] kernel.bbclass: move uImage handling to separate task
+Subject: [PATCH 3/9] bitbake.conf, core-image-minimal-initramfs: add INITRAMFS_FSTYPES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,78 +41,46 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 13 Dec 2011 16:28:14 -0000
 
-As per org.oe.dev and meta-oe's kernel.bbclass move uImage creation to
-separate task from do_deploy. This way the do_install task can also
-benefit from generated uImage.
-
-The only major feature of oe-core's version (not to recreate uImage
-if it exists) is retained in this patch. On the contra, as this version
-was merged from meta-oe/org.oe.dev, new function has another feature:
-it permits overriding the u-boot entrypoint via u-boot symbol.
+Initramfs images don't benefit from usual IMAGE_FSTYPES overrides. The
+only sane values for them are "cpio.XXX". If IMAGE_FSTYPES is set to
+include 'live', building core-image-minimal-initramfs can result in
+build error, if the image is built before the kernel. To stop initramfs
+images from responding on IMAGE_FSTYPES settings, but still allow
+users/developers to override defaults (e.g. to generate "cpio.lzma"
+initramfs), introduce INITRAMFS_FSTYPES variable, by default set to
+"cpio.gz".
 
 Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 ---
- meta/classes/kernel.bbclass |   40 ++++++++++++++++++++++++----------------
- 1 files changed, 24 insertions(+), 16 deletions(-)
+ meta/conf/bitbake.conf                             |    1 +
+ .../images/core-image-minimal-initramfs.bb         |    2 +-
+ 2 files changed, 2 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index a75c199..db00d2d 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -485,6 +485,30 @@ do_sizecheck() {
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index f79e3f7..1c21616 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -673,6 +673,7 @@ require conf/abi_version.conf
+ DL_DIR ?= "${TOPDIR}/downloads"
+ SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
+ IMAGE_FSTYPES ?= "tar.gz"
++INITRAMFS_FSTYPES ?= "cpio.gz"
+ PCMCIA_MANAGER ?= "pcmcia-cs"
+ DEFAULT_TASK_PROVIDER ?= "task-base"
+ MACHINE_TASK_PROVIDER ?= "${DEFAULT_TASK_PROVIDER}"
+diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+index d078c10..5149f31 100644
+--- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
++++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+@@ -10,7 +10,7 @@ IMAGE_LINGUAS = ""
  
- addtask sizecheck before do_install after do_compile
+ LICENSE = "MIT"
  
-+do_uboot_mkimage() {
-+    if test "x${KERNEL_IMAGETYPE}" = "xuImage" -a \
-+            ! -e arch/${ARCH}/boot/uImage ; then
-+        ENTRYPOINT=${UBOOT_ENTRYPOINT}
-+        if test -n "${UBOOT_ENTRYSYMBOL}"; then
-+            ENTRYPOINT=`${HOST_PREFIX}nm ${S}/vmlinux | \
-+                   awk '$3=="${UBOOT_ENTRYSYMBOL}" {print $1}'`
-+        fi
-+        if test -e arch/${ARCH}/boot/compressed/vmlinux ; then
-+            ${OBJCOPY} -O binary -R .note -R .comment -S arch/${ARCH}/boot/compressed/vmlinux linux.bin
-+            uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C none -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin arch/${ARCH}/boot/uImage
-+            rm -f linux.bin
-+        else
-+            ${OBJCOPY} -O binary -R .note -R .comment -S vmlinux linux.bin
-+            rm -f linux.bin.gz
-+            gzip -9 linux.bin
-+            uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C gzip -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin.gz arch/${ARCH}/boot/uImage
-+            rm -f linux.bin.gz
-+        fi
-+    fi
-+}
-+
-+addtask uboot_mkimage before do_install after do_compile
-+
- KERNEL_IMAGE_BASE_NAME ?= "${KERNEL_IMAGETYPE}-${PV}-${PR}-${MACHINE}-${DATETIME}"
- # Don't include the DATETIME variable in the sstate package signatures
- KERNEL_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
-@@ -496,22 +520,6 @@ kernel_do_deploy() {
- 		tar -cvzf ${DEPLOYDIR}/modules-${KERNEL_VERSION}-${PR}-${MACHINE}.tgz -C ${D} lib
- 	fi
++IMAGE_FSTYPES = "${INITRAMFS_FSTYPES}"
+ inherit core-image
  
--	if test "x${KERNEL_IMAGETYPE}" = "xuImage" ; then 
--		if test -e arch/${ARCH}/boot/uImage ; then
--			cp arch/${ARCH}/boot/uImage ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
--		elif test -e arch/${ARCH}/boot/compressed/vmlinux ; then
--			${OBJCOPY} -O binary -R .note -R .comment -S arch/${ARCH}/boot/compressed/vmlinux linux.bin
--			uboot-mkimage -A ${ARCH} -O linux -T kernel -C none -a ${UBOOT_ENTRYPOINT} -e ${UBOOT_ENTRYPOINT} -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
--			rm -f linux.bin
--		else
--			${OBJCOPY} -O binary -R .note -R .comment -S vmlinux linux.bin
--			rm -f linux.bin.gz
--			gzip -9 linux.bin
--			uboot-mkimage -A ${ARCH} -O linux -T kernel -C gzip -a ${UBOOT_ENTRYPOINT} -e ${UBOOT_ENTRYPOINT} -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin.gz ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
--			rm -f linux.bin.gz
--		fi
--	fi
--
- 	cd ${DEPLOYDIR}
- 	rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.bin
- 	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGE_SYMLINK_NAME}.bin
+ IMAGE_ROOTFS_SIZE = "8192"
+-IMAGE_FSTYPES =+ "cpio.gz"
 -- 
 1.7.7.3
 
