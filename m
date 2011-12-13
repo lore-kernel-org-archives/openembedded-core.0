@@ -1,33 +1,37 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>) id 1RaQjn-0007WT-Cu
-	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Dec 2011 12:41:35 +0100
-Received: by bkbzt4 with SMTP id zt4so6503454bkb.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RaREu-0000ag-Vu for openembedded-core@lists.openembedded.org;
+	Tue, 13 Dec 2011 13:13:45 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBDC6mpk008475
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2011 03:34:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=RJ1AO3cMhM59H7WCIGML/D+hYjhMxIC5B37RTWv1vb4=;
-	b=BMy8Vu9prCU/fjfMV4dV8D6Yg9J4zUkuw9cJZpw1NaReGjrBDIYfkmnB8jnjiiHab4
-	6x9emZlPEBeb3CcXRSw11LlxE2XuMKcEEU7j6YbSsMoi3PJPNOeChz7zl2Ij+Oxr6Fkp
-	c/P/iSibxHj2uMUfPjJUW5tuXbLb7Vj7Ktvh8=
-MIME-Version: 1.0
-Received: by 10.180.104.41 with SMTP id gb9mr33436617wib.9.1323776064478; Tue,
-	13 Dec 2011 03:34:24 -0800 (PST)
-Received: by 10.223.69.133 with HTTP; Tue, 13 Dec 2011 03:34:24 -0800 (PST)
-In-Reply-To: <CAGiJk9eeFGqwtTmbasesoZ5NP_kv2QR6pZJ4xQTqWm4O7X_QOw@mail.gmail.com>
-References: <CAGiJk9cfqfhg6DqY4hMBVXnABaCw1Ff9Gbojoa1B=+TvWvU9DA@mail.gmail.com>
-	<1323771701.2731.43.camel@ted>
-	<CAGiJk9eeFGqwtTmbasesoZ5NP_kv2QR6pZJ4xQTqWm4O7X_QOw@mail.gmail.com>
-Date: Tue, 13 Dec 2011 12:34:24 +0100
-Message-ID: <CAGiJk9eo1wzZcQT0MUnaRqG6Tmqg9+dhj8i_dAAmQ9Q8EjG6zg@mail.gmail.com>
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
+	Tue, 13 Dec 2011 12:06:48 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 07989-03 for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Dec 2011 12:06:44 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBDC6eq6008469
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Dec 2011 12:06:41 GMT
+Message-ID: <1323778000.2731.54.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Dependency resolving ignores changed sstate-cache?
+Date: Tue, 13 Dec 2011 12:06:40 +0000
+In-Reply-To: <CAP9ODKoU+nN0h62xiPxU2=NP-xi7b+6jOZqLJTmRzwv4GH8YYQ@mail.gmail.com>
+References: <cover.1323688579.git.xiaofeng.yan@windriver.com>
+	<fbfec531140ee0c6848402faf94ba93b903d02ef.1323688580.git.xiaofeng.yan@windriver.com>
+	<CAP9ODKrGOc27fxR74Ops4YjF+vLAwU5kZRZFW4XZjiFBaS=hig@mail.gmail.com>
+	<4EE72E39.9000103@windriver.com>
+	<CAP9ODKoU+nN0h62xiPxU2=NP-xi7b+6jOZqLJTmRzwv4GH8YYQ@mail.gmail.com>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 7/7] core-image-gtk-directfb.bb: add an image for gtk over directfb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,41 +46,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2011 11:41:35 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 13 Dec 2011 12:13:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-2011/12/13 Samuel Stirtzel <s.stirtzel@googlemail.com>:
-> 2011/12/13 Richard Purdie <richard.purdie@linuxfoundation.org>:
-> [snip]
->> Usually the above is a sign of a dependency bitbake has not been aware
->> of. Could you see which .ipk has the dependency on fbset?
+On Tue, 2011-12-13 at 08:57 -0200, Otavio Salvador wrote:
+> On Tue, Dec 13, 2011 at 08:51, Xiaofeng Yan
+> <xiaofeng.yan@windriver.com> wrote:
+>         ... 
+>         IMAGE_INSTALL += "\
+>             ${POKY_BASE_INSTALL} \
+>             task-core-basic \
+>             module-init-tools \
+>             task-core-gtk-directfb-base \
+>         "
+>         Do you have any comment about above method ?
 >
-> It looks like this is the ipk:
-> | Installing qt4-x11-free (4.7.4-r33.3) to root...
-> | Downloading file:/work/oe-core/tmp-eglibc/deploy/ipk/armv7a/qt4-x11-fre=
-e_4.7.4-r33.3_armv7a.ipk.
+> All is fine except I don't see the need of having one specific image
+> for gtk-directfb use. The case, in case it is required, you might
+> include in case gtk-directfb feature is listed, avoiding an image
+> specific to this.
 >
->
-> This article may be related?
-> http://labs.qt.nokia.com/2009/11/20/building-qt-to-make-use-of-the-beagle=
--boards-sgx-gpu/
->
-> --
-> Regards
-> Samuel
+> Why do you want a specific image for it?
 
-it seems that my citation paste got lost:
-"=C3=85ngstr=C3=B6m is busybox based, and the fbset command you will need t=
-o set 32
-bit color depths on the console will not work with the default fbset
-busybox symlink. You will therefore have to install and use fbset(.real)
-in order to get 32bit color depths, which is a simple opkg install away for
-the connected Beagle board and a bitbake away for the stranded."
+To put what Otavio is asking in different words, couldn't we have a
+generic "gtk test" image which would work with both directfb and x11?
+
+I think the problem is that such an image gets tricky to construct as X
+requires a lot of extras such as an xserver, a general directfb image
+has a much simpler content and is quite a different entity. I can
+therefore see why a separate image has been created and whilst I agree
+its not ideal, I think the alternatives are worse.
+
+I think Yan's patch with the anonymous python is along the right lines
+but please lookup SkipPackage() instead of using getpid and kill!
+
+Cheers,
+
+Richard
 
 
---=20
-Regards
-Samuel
+
+
 
 
