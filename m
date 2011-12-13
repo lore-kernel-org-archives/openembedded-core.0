@@ -1,31 +1,33 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RaN9w-0006Ep-FN
+	(envelope-from <martin.jansa@gmail.com>) id 1RaNYs-0007IV-Ac
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Dec 2011 08:52:20 +0100
-Received: by eekb15 with SMTP id b15so2899286eek.6
+	Tue, 13 Dec 2011 09:18:06 +0100
+Received: by eaal1 with SMTP id l1so1480584eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Dec 2011 23:45:22 -0800 (PST)
-Received: by 10.14.35.163 with SMTP id u35mr2379213eea.195.1323762321822;
-	Mon, 12 Dec 2011 23:45:21 -0800 (PST)
-Received: from [212.238.50.153] (ip212-238-50-153.hotspotsvankpn.com.
-	[212.238.50.153])
-	by mx.google.com with ESMTPS id 17sm85937018eej.3.2011.12.12.23.45.18
+	Tue, 13 Dec 2011 00:11:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=keBrc7CjN95x1ZBoghGoQabKZ5kaLVNZ4CtxA/ZiLA4=;
+	b=Ujkwc01Dt4KC7iHTDtmh1vCfwZp7HfiPyn23fYpaFzw/vAguHwyFO7HAQFakJGXqf5
+	geNYN6LH2ylqsvqeNIaLHb17Pth7nAn2sSf9h0QOe/Qo9rArai/Fl1slFRS85IBWJYMC
+	TgY82cDn5xXjB2ycGNOwIZJyThaeNhBNCmcjI=
+Received: by 10.14.9.201 with SMTP id 49mr3749222eet.199.1323763871032;
+	Tue, 13 Dec 2011 00:11:11 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id z54sm86182462eeh.5.2011.12.13.00.11.08
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 12 Dec 2011 23:45:20 -0800 (PST)
-References: <1323328045-26145-1-git-send-email-lauri.hintsala@bluegiga.com>
-	<1323759539-23945-1-git-send-email-lauri.hintsala@bluegiga.com>
-In-Reply-To: <1323759539-23945-1-git-send-email-lauri.hintsala@bluegiga.com>
-Mime-Version: 1.0 (1.0)
-Message-Id: <CCC5D6B0-34D4-445E-A0A6-FED2FEF1CF7A@dominion.thruhere.net>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: iPhone Mail (9A405)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Tue, 13 Dec 2011 08:45:29 +0100
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] initscripts: fix timestamp check at bootmisc.sh
+	Tue, 13 Dec 2011 00:11:09 -0800 (PST)
+Date: Tue, 13 Dec 2011 09:10:57 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20111213081057.GA3944@jama.jama.net>
+References: <1323281084-30590-1-git-send-email-Martin.Jansa@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <1323281084-30590-1-git-send-email-Martin.Jansa@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH][RFC] conf/machine/include/arm add extra MACHINEOVERRIDES like x86 does
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,75 +42,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2011 07:52:20 -0000
+X-List-Received-Date: Tue, 13 Dec 2011 08:18:06 -0000
+X-Groupsio-MsgNum: 14109
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="mP3DRpeJDSE+ciuQ"
+Content-Disposition: inline
+
+--mP3DRpeJDSE+ciuQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
+On Wed, Dec 07, 2011 at 07:04:44PM +0100, Martin Jansa wrote:
+> * motivated by this NAK
+>   http://patchwork.openembedded.org/patch/15777/
+>   and today's discussion on #yocto I hope it's worth it to send this RFC
 
+ping?
 
-Op 13 dec. 2011 om 07:58 heeft Lauri Hintsala <lauri.hintsala@bluegiga.com> h=
-et volgende geschreven:
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-> Timestamp checking has been broken by the commit
-> 2078af333d704fd894a2dedbc19cef5775cdadbb. Fix timestamp checking
-> and clean the code.
->=20
-> cc: sgw@linux.intel.com
-> cc: gary@mlbassoc.com
->=20
-> Signed-off-by: Lauri Hintsala <lauri.hintsala@bluegiga.com>
-> ---
-> .../initscripts/initscripts-1.0/bootmisc.sh        |   12 ++++++------
-> 1 files changed, 6 insertions(+), 6 deletions(-)
->=20
-> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh b/m=
-eta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-> index 03fd67c..6d68b35 100755
-> --- a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-> +++ b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-> @@ -62,16 +62,16 @@ then
-> fi
->=20
-> # Set the system clock from hardware clock
-> -# If the timestamp is 1 day or more recent than the current time,
-> +# If the timestamp is more recent than the current time,
-> # use the timestamp instead.
-> /etc/init.d/hwclock.sh start
-> if test -e /etc/timestamp
-> then
-> -    SYSTEMDATE=3D`date  -u +%2m%2d%2H%2M%4Y`
-> -    read TIMESTAMP < /etc/timestamp
-> -        NEEDUPDATE=3D`expr \( $TIMESTAMP \> $SYSTEMDATE + 10000 \)`
-> -        if [ $NEEDUPDATE -eq 1 ]; then=20
-> -        date -u $TIMESTAMP
-> +    SYSTEMDATE=3D`date -u +%4Y%2m%2d`
-> +    TIMESTAMP=3D`cat /etc/timestamp | awk '{ print substr($0,9,4) substr(=
-$0,1,4); }'`
-> +    NEEDUPDATE=3D`expr \( $TIMESTAMP \> $SYSTEMDATE \)`
-> +    if [ $NEEDUPDATE -eq 1 ]; then
-> +        date -u `cat /etc/timestamp`
->        /etc/init.d/hwclock.sh stop
->    fi
-> fi
+--mP3DRpeJDSE+ciuQ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-This changes the format of timestamp, which breaks the code in image.bbclass=
-.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
 
-Have a look at http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/meta-an=
-gstrom/commit/?id=3De003be8cba3d387f44a502fdbebf58e774afd677 for backwards c=
-ompatible Logic=20
+iEYEARECAAYFAk7nCJAACgkQN1Ujt2V2gBxlagCglj5JLPDV1/c8SotXhCg5AqjL
+FcYAoJ2+HKD8kK1asz9E0q2emqU+t39Y
+=e7xr
+-----END PGP SIGNATURE-----
 
-
-
-
-> --=20
-> 1.7.4.1
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
+--mP3DRpeJDSE+ciuQ--
