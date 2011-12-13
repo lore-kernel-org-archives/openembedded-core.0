@@ -1,33 +1,33 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RaRbw-0001k0-2x for openembedded-core@lists.openembedded.org;
-	Tue, 13 Dec 2011 13:37:32 +0100
+	id 1RaRcc-0001mm-SP for openembedded-core@lists.openembedded.org;
+	Tue, 13 Dec 2011 13:38:15 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBDCUbJl008740
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBDCVJ4h008826
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2011 12:30:37 GMT
+	Tue, 13 Dec 2011 12:31:19 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 07920-07 for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2011 12:30:32 +0000 (GMT)
+	id 07989-08 for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Dec 2011 12:31:13 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBDCUSbv008734
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBDCVA1a008814
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2011 12:30:29 GMT
-Message-ID: <1323779428.2731.65.camel@ted>
+	Tue, 13 Dec 2011 12:31:11 GMT
+Message-ID: <1323779470.2731.66.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Dec 2011 12:30:28 +0000
-In-Reply-To: <cover.1323763897.git.sgw@linux.intel.com>
-References: <cover.1323763897.git.sgw@linux.intel.com>
+Date: Tue, 13 Dec 2011 12:31:10 +0000
+In-Reply-To: <1323281084-30590-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1323281084-30590-1-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: Evolution 3.2.1- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 00/10] Add missing SRC_URI checksums
+Subject: Re: [PATCH][RFC] conf/machine/include/arm add extra MACHINEOVERRIDES like x86 does
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,41 +42,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2011 12:37:32 -0000
+X-List-Received-Date: Tue, 13 Dec 2011 12:38:15 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-12-13 at 00:13 -0800, Saul Wold wrote:
-> Richard,
+On Wed, 2011-12-07 at 19:04 +0100, Martin Jansa wrote:
+> * motivated by this NAK
+>   http://patchwork.openembedded.org/patch/15777/
+>   and today's discussion on #yocto I hope it's worth it to send this RFC
 > 
-> Add missing checksums for non-GPLv3 recipes since we enabled
-> the error.  Also fix the ed recipe to remove an not-yet supported
-> option.
-> 
-> Sau!
-> 
-> 
-> The following changes since commit 9244a3b0565fd52d7973fda42a4f706b16240316:
-> 
->   eglibc: Generate cross testing script during install (2011-12-12 21:50:10 +0000)
-> 
-> are available in the git repository at:
->   git://git.openembedded.org/openembedded-core-contrib sgw/fix
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
-> 
-> Saul Wold (10):
->   coreutils: Add SRC_URI Checksums for GPLv2
->   readline: Add SRC_URI Checksums for GPLv2
->   ed: Add SRC_URI Checksums for GPLv2
->   findutils: Add SRC_URI Checksums for GPLv2
->   gawk: Add SRC_URI Checksums for GPLv2
->   gzip: Add SRC_URI Checksums for GPLv2
->   sed: Add SRC_URI Checksums for GPLv2
->   gmp: Add SRC_URI Checksums for GPLv2
->   bash: Add SRC_URI Checksums for GPLv2
->   ed: remove unsupported option
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/conf/machine/include/arm/arch-armv4.inc  |    1 +
+>  meta/conf/machine/include/arm/arch-armv5.inc  |    1 +
+>  meta/conf/machine/include/arm/arch-armv6.inc  |    1 +
+>  meta/conf/machine/include/arm/arch-armv7.inc  |    1 +
+>  meta/conf/machine/include/arm/arch-armv7a.inc |    1 +
+>  5 files changed, 5 insertions(+), 0 deletions(-)
 
 Merged to master, thanks.
+
+I assume you'll follow up and tweak the overrides in OE-Core to match
+this?
+
+Cheers,
 
 Richard
 
