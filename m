@@ -1,33 +1,32 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RaPbK-0004Bs-7p for openembedded-core@lists.openembedded.org;
-	Tue, 13 Dec 2011 11:28:46 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBDALp5k007692
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1RaPuH-0004wd-W1
+	for openembedded-core@lists.openembedded.org;
+	Tue, 13 Dec 2011 11:48:22 +0100
+Received: by yenm12 with SMTP id m12so4872402yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2011 10:21:51 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 06635-07 for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2011 10:21:47 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBDALgbj007686
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2011 10:21:43 GMT
-Message-ID: <1323771701.2731.43.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Dec 2011 10:21:41 +0000
-In-Reply-To: <CAGiJk9cfqfhg6DqY4hMBVXnABaCw1Ff9Gbojoa1B=+TvWvU9DA@mail.gmail.com>
-References: <CAGiJk9cfqfhg6DqY4hMBVXnABaCw1Ff9Gbojoa1B=+TvWvU9DA@mail.gmail.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: Dependency resolving ignores changed sstate-cache?
+	Tue, 13 Dec 2011 02:41:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
+	:references; bh=R3wbQDys0empy0HYyhQ/Z4NDhfD1hc8YNH2GSwuSYkQ=;
+	b=CgaBz4K0/ueyA1uL248G19kcE/XM81qRMqR9kSHAYLPPCH3aA6lsJRMxyw1iWoS4lp
+	5UDSWXfPqNu36wKubzYW7j6st+aX1bgekVLnx7OevTM3SzJ0cfr/xRvoLK5OeXXG1Ag7
+	1lfzz8ECMwBQsatnUJWj8ycA+Z5mcPjGPrF/8=
+Received: by 10.236.131.1 with SMTP id l1mr2657861yhi.82.1323772886124;
+	Tue, 13 Dec 2011 02:41:26 -0800 (PST)
+Received: from localhost.localdomain ([189.114.111.55])
+	by mx.google.com with ESMTPS id 5sm8144235anz.14.2011.12.13.02.41.23
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 13 Dec 2011 02:41:24 -0800 (PST)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Dec 2011 10:41:14 +0000
+Message-Id: <b2df27e3b60bc584dab08c25232f87b7f3a7e8db.1323772851.git.otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+In-Reply-To: <cover.1323772851.git.otavio@ossystems.com.br>
+References: <cover.1323772851.git.otavio@ossystems.com.br>
+Subject: [PATCH 1/1] connman: improve packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,60 +41,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2011 10:28:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 13 Dec 2011 10:48:22 -0000
 
-On Tue, 2011-12-13 at 10:30 +0100, Samuel Stirtzel wrote:
-> it seems that I accidentally deleted fbset from my
-> .../tmp-eglibc/work/... dir while cleaning out old builds for another
-> recipe.
-> For some reason I had a r0 directory from the past of the recipe which
-> is now r1.
-> So I deleted it manually and fbset too, but I didn't notice.
-> 
-> Thereafter I built an image that has been already built before,
-> but it had some IMAGE_INSTALL changes.
-> Everything was alright until opkg encountered the following error:
-> | Collected errors:
-> |  * satisfy_dependencies_for: Cannot satisfy the following
-> dependencies for qt4-x11-free:
-> |  *    fbset *
-> |  * opkg_install_cmd: Cannot install package qt4-x11-free.
-> 
-> Of course it could not find fbset, as it was deleted previously,
-> so I did a "bitbake -ccleansstate fbset" but the error still occurred.
-> 
-> 
-> This leads me to the conclusion, that the sstate-cache change was not
-> noticed by bitbake?
-> Or is there higher cache instance file that makes bitbake believe that
-> fbset was built?
-> 
-> After I built fbset with bitbake manually everything went back to normal,
-> so there is no problem just confusion :)
-> 
-> 
-> 
-> For the reason of understanding it, is there any recent documentation
-> about the dependency caching of bitbake?
+The scripts being included on connman-scripts was the test utility and
+thus we are moving them with the rest of test utilities in
+'connman-tests'. A runtime dependency on python-dbus were missing as
+well as those scripts uses it.
 
-Usually the above is a sign of a dependency bitbake has not been aware
-of. Could you see which .ipk has the dependency on fbset?
+As no dhclient, resolvconf and udhcpc plugins are being generated the
+respective dependency map entries were also removed.
 
-Its likely some recipe doesn't have fbset in DEPENDS but is somehow
-depending on it if it happened to be built before that recipe and was
-present in the sysroot. Usually this happens with libraries so I'm a
-little puzzled why it would happen with a binary unless there is a lib
-in that package too.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/recipes-connectivity/connman/connman.inc     |   14 ++++++--------
+ meta/recipes-connectivity/connman/connman_0.78.bb |    2 +-
+ 2 files changed, 7 insertions(+), 9 deletions(-)
 
-Cheers,
-
-Richard
-
-
-
-
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index 503bf1c..bb1b279 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -68,16 +68,16 @@ do_install_append() {
+ 	install -d ${D}${bindir}
+ 	install -m 0755 ${S}/tools/*-test ${D}${bindir}
+ 	install -m 0755 ${S}/tools/wispr ${D}${bindir}
++
++	# We don't need to package an empty directory
++	rmdir ${D}${libdir}/connman/scripts
+ }
+ 
+ PACKAGES_DYNAMIC = "${PN}-plugin-*"
+ 
+ python populate_packages_prepend() {
+ 	depmap = dict( pppd="ppp",
+-	               udhcp="busybox connman-scripts",
+-	               dhclient="dhcp-client",
+ 	               wifi="wpa-supplicant",
+-	               resolvconf="resolvconf",
+ 	               bluetooth="bluez4",
+ 	               ofono="ofono" )
+ 	packages = []
+@@ -94,14 +94,12 @@ python populate_packages_prepend() {
+ 			d.setVar("RDEPENDS_%s" % package, " ".join(rdepends))
+ }
+ 
+-PACKAGES =+ "${PN}-scripts ${PN}-tools ${PN}-tests"
++PACKAGES =+ "${PN}-tools ${PN}-tests"
+ 
+ FILES_${PN}-tools = "${bindir}/wispr"
+ 
+-FILES_${PN}-tests = "${bindir}/*-test"
+-
+-FILES_${PN}-scripts += "${libdir}/${PN}/test/* ${libdir}/connman/scripts"
+-RDEPENDS_${PN}-scripts = "python"
++FILES_${PN}-tests = "${bindir}/*-test ${libdir}/${PN}/test/*"
++RDEPENDS_${PN}-tests = "python-dbus"
+ 
+ FILES_${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*.so.* \
+             ${sysconfdir} ${sharedstatedir} ${localstatedir} \
+diff --git a/meta/recipes-connectivity/connman/connman_0.78.bb b/meta/recipes-connectivity/connman/connman_0.78.bb
+index f36f670..74c102b 100644
+--- a/meta/recipes-connectivity/connman/connman_0.78.bb
++++ b/meta/recipes-connectivity/connman/connman_0.78.bb
+@@ -1,6 +1,6 @@
+ require connman.inc
+ 
+-PR = "r4"
++PR = "r5"
+ 
+ # 0.78 tag
+ SRCREV = "02f5d5fe2d7c71514a6387ba2b772b42d8e8d297"
+-- 
+1.7.2.5
 
 
 
