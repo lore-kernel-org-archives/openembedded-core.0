@@ -1,33 +1,33 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RaRai-0001ge-MH for openembedded-core@lists.openembedded.org;
-	Tue, 13 Dec 2011 13:36:16 +0100
+	id 1RaRbw-0001k0-2x for openembedded-core@lists.openembedded.org;
+	Tue, 13 Dec 2011 13:37:32 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBDCTLU8008718
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBDCUbJl008740
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2011 12:29:21 GMT
+	Tue, 13 Dec 2011 12:30:37 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 07989-06 for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2011 12:29:17 +0000 (GMT)
+	id 07920-07 for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Dec 2011 12:30:32 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBDCTBiV008712
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBDCUSbv008734
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2011 12:29:12 GMT
-Message-ID: <1323779351.2731.64.camel@ted>
+	Tue, 13 Dec 2011 12:30:29 GMT
+Message-ID: <1323779428.2731.65.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Dec 2011 12:29:11 +0000
-In-Reply-To: <cover.1323688579.git.xiaofeng.yan@windriver.com>
-References: <cover.1323688579.git.xiaofeng.yan@windriver.com>
+Date: Tue, 13 Dec 2011 12:30:28 +0000
+In-Reply-To: <cover.1323763897.git.sgw@linux.intel.com>
+References: <cover.1323763897.git.sgw@linux.intel.com>
 X-Mailer: Evolution 3.2.1- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/7] gtk+-directfb: The patches to run gtk over directfb
+Subject: Re: [PATCH 00/10] Add missing SRC_URI checksums
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,45 +42,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2011 12:36:16 -0000
+X-List-Received-Date: Tue, 13 Dec 2011 12:37:32 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2011-12-12 at 19:28 +0800, Xiaofeng Yan wrote:
-> From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+On Tue, 2011-12-13 at 00:13 -0800, Saul Wold wrote:
+> Richard,
 > 
-> Hi Phil, Koen & Richard,
+> Add missing checksums for non-GPLv3 recipes since we enabled
+> the error.  Also fix the ed recipe to remove an not-yet supported
+> option.
 > 
-> Thanks for your good suggestion. I have modified my patches according to your suggestion.
-> 1 Remove patch no-demo.patch from gtk+_2.24.8(Richard's suggestion)
-> 2 Use gtk-directfb in DISTRO_FEATURES(Koen's suggestion)
-> 3 Remvoe PACKAGECONFIG[directfb] for pango(Phil's suggestion)
-> 
-> Pull URL: git://git.pokylinux.org/poky-contrib.git
->   Branch: xiaofeng/gtk-directfb
->   Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/gtk-directfb
-> 
-> Thanks,
->     Xiaofeng Yan <xiaofeng.yan@windriver.com>
-> ---
+> Sau!
 > 
 > 
-> Xiaofeng Yan (7):
->   cairo: add directfb DISTRO_FEATURE
->   pango: Disable x11 when pango doesn't run over x11
->   gtk.inc: add feature based on directfb
->   gtk: add demos to the configuation of gtk+
->   directfb-examples: add package directfb-examples to OE-core
->   task-core-gtk-directfb.bb: Add task list to run gtk over directfb
+> The following changes since commit 9244a3b0565fd52d7973fda42a4f706b16240316:
+> 
+>   eglibc: Generate cross testing script during install (2011-12-12 21:50:10 +0000)
+> 
+> are available in the git repository at:
+>   git://git.openembedded.org/openembedded-core-contrib sgw/fix
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
+> 
+> Saul Wold (10):
+>   coreutils: Add SRC_URI Checksums for GPLv2
+>   readline: Add SRC_URI Checksums for GPLv2
+>   ed: Add SRC_URI Checksums for GPLv2
+>   findutils: Add SRC_URI Checksums for GPLv2
+>   gawk: Add SRC_URI Checksums for GPLv2
+>   gzip: Add SRC_URI Checksums for GPLv2
+>   sed: Add SRC_URI Checksums for GPLv2
+>   gmp: Add SRC_URI Checksums for GPLv2
+>   bash: Add SRC_URI Checksums for GPLv2
+>   ed: remove unsupported option
 
-I've merged these, thanks.
-
->   core-image-gtk-directfb.bb: add an image for gtk over directfb
-
-I think this one needs a piece of anonymous python as mentioned in my
-reply.
-
-Cheers,
+Merged to master, thanks.
 
 Richard
 
