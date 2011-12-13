@@ -1,34 +1,30 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RaYRg-0002vJ-1U for openembedded-core@lists.openembedded.org;
-	Tue, 13 Dec 2011 20:55:24 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBDJmSIS013702
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1RaYeO-0003jl-Cd
+	for openembedded-core@lists.openembedded.org;
+	Tue, 13 Dec 2011 21:08:32 +0100
+Received: by lami14 with SMTP id i14so26836lam.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2011 19:48:28 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 13216-06 for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2011 19:48:24 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBDJmIi2013696
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2011 19:48:19 GMT
-Message-ID: <1323805698.25491.12.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Tue, 13 Dec 2011 12:01:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=uRfABZAp/MbhjwasFCPh0ItEA8ffOzvbG6Qt997lRys=;
+	b=ZuJMxseyeXTAaYs6ZG12P3aS8Qmnjc97v5iBO/v2dqIDnxVSJF7zatoZK0vIUeQkfa
+	hXk+C4pbqkqLaWn9NK4lVjNpn5cL+gxZDpkkIOTaMQZOYx8WiTT0oTZ72GlLj4UGw4pK
+	SShAUSgcFkyI9xstkaPE6DRCP4XOTy9b9xGRI=
+Received: by 10.152.103.51 with SMTP id ft19mr16363480lab.42.1323806496289;
+	Tue, 13 Dec 2011 12:01:36 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.152.24.36 with HTTP; Tue, 13 Dec 2011 12:01:05 -0800 (PST)
+In-Reply-To: <20111208154840.GD3761@jama.jama.net>
+References: <1323281084-30590-1-git-send-email-Martin.Jansa@gmail.com>
+	<20111208154840.GD3761@jama.jama.net>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 13 Dec 2011 12:01:05 -0800
+Message-ID: <CAMKF1spHhLbMLtY9VhgrgQ4QwO06HEcnGSZrWj3mXLuif5gmFg@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Dec 2011 19:48:18 +0000
-In-Reply-To: <1323793193-31090-9-git-send-email-dbaryshkov@gmail.com>
-References: <1323793193-31090-1-git-send-email-dbaryshkov@gmail.com>
-	<1323793193-31090-9-git-send-email-dbaryshkov@gmail.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 9/9] libatomic-ops: drop directory with documentation to remove QA warning
+Subject: Re: [PATCH][RFC] conf/machine/include/arm add extra MACHINEOVERRIDES like x86 does
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,35 +39,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2011 19:55:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 13 Dec 2011 20:08:32 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, 2011-12-13 at 20:19 +0400, Dmitry Eremin-Solenikov wrote:
-> Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-> ---
->  .../pulseaudio/libatomics-ops_1.2.bb               |    3 ++-
->  1 files changed, 2 insertions(+), 1 deletions(-)
-> 
-> diff --git a/meta/recipes-multimedia/pulseaudio/libatomics-ops_1.2.bb b/meta/recipes-multimedia/pulseaudio/libatomics-ops_1.2.bb
-> index 184c167..f81aeb6 100644
-> --- a/meta/recipes-multimedia/pulseaudio/libatomics-ops_1.2.bb
-> +++ b/meta/recipes-multimedia/pulseaudio/libatomics-ops_1.2.bb
-> @@ -26,5 +26,6 @@ ARM_INSTRUCTION_SET = "arm"
->  inherit autotools pkgconfig
->  
->  do_install_append() {
-> -	mv ${D}${datadir}/libatomic_ops ${D}${datadir}/libatomic-ops || true
-> +	# those contain only docs, not necessary for now.
-> +	rm -rf ${D}${datadir}/libatomic_ops || true
->  }
+On Thu, Dec 8, 2011 at 7:48 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+>
+> meta/recipes-devtools/python/python_2.7.2.bb:TARGET_CC_ARCH_append_armv6 = " -D__SOFTFP__"
+> meta/recipes-devtools/python/python_2.7.2.bb:TARGET_CC_ARCH_append_armv7a = " -D__SOFTFP__"
 
-Shouldn't we move that to docdir/${PN}?
+hmmm will this work if we have armv7-a + hard float ABI ?
 
-Cheers,
-
-Richard
-
-
+> meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb:EXTRA_OECONF_armv7a = " --enable-neon "
 
 
