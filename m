@@ -1,34 +1,31 @@
-Received: from lo.gmane.org ([80.91.229.12])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1RaVis-0003Ox-NM for openembedded-core@lists.openembedded.org;
-	Tue, 13 Dec 2011 18:00:59 +0100
-Received: from list by lo.gmane.org with local (Exim 4.69)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1RaVcB-0001YW-JW for openembedded-core@lists.openembedded.org;
-	Tue, 13 Dec 2011 17:54:03 +0100
-Received: from nat-rup.mentorg.com ([139.181.168.34])
-	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
-	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2011 17:54:03 +0100
-Received: from dbaryshkov by nat-rup.mentorg.com with local (Gmexim 0.1
-	(Debian)) id 1AlnuQ-0007hv-00
+	(envelope-from <raj.khem@gmail.com>) id 1RaYNK-0002fT-Gy
+	for openembedded-core@lists.openembedded.org;
+	Tue, 13 Dec 2011 20:50:54 +0100
+Received: by lami14 with SMTP id i14so18921lam.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2011 17:54:03 +0100
-X-Injected-Via-Gmane: http://gmane.org/
-To: openembedded-core@lists.openembedded.org
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Date: Tue, 13 Dec 2011 20:52:35 +0400
-Message-ID: <jc7vut$8c2$1@dough.gmane.org>
+	Tue, 13 Dec 2011 11:43:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=mDkohJUmIc+DAX92SDOBAkYgflbA4aYpArrXvtA50bY=;
+	b=CqSzL4AG9iCZjF//TtsSUvwtxVvawDtT0X/5FXka7o21q1jt2hQLZs9o4SEVtKBxC/
+	AO/IunBHroM7oXkhMwngGt/WCRL/wLYhyyL6IsuiFJRaeo7HnmcMUdyY5XU1k8BeGG6/
+	JvqSJOXud5OXhh+0j+f0YcDRSweLUOlE5wDe8=
+Received: by 10.152.130.232 with SMTP id oh8mr5822975lab.6.1323805438439; Tue,
+	13 Dec 2011 11:43:58 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.152.24.36 with HTTP; Tue, 13 Dec 2011 11:43:27 -0800 (PST)
+In-Reply-To: <1323793193-31090-7-git-send-email-dbaryshkov@gmail.com>
 References: <1323793193-31090-1-git-send-email-dbaryshkov@gmail.com>
-	<1323793193-31090-5-git-send-email-dbaryshkov@gmail.com>
-	<1323793676.24417.165.camel@phil-desktop>
-Mime-Version: 1.0
-X-Complaints-To: usenet@dough.gmane.org
-X-Gmane-NNTP-Posting-Host: nat-rup.mentorg.com
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:8.0) Gecko/20111109 Icedove/8.0
-In-Reply-To: <1323793676.24417.165.camel@phil-desktop>
-Subject: Re: [PATCH 5/9] Move check that all installed files are shipped into insane.bbclass
+	<1323793193-31090-7-git-send-email-dbaryshkov@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 13 Dec 2011 11:43:27 -0800
+Message-ID: <CAMKF1spnEw6tUBv+BYxSC4Wtw6Qi14gYHDRhm61n7NgNJMCmPQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 7/9] ncurses: drop empty dir to remove QA warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,38 +40,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2011 17:00:59 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 13 Dec 2011 19:50:54 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 12/13/2011 08:27 PM, Phil Blundell wrote:
-> On Tue, 2011-12-13 at 20:19 +0400, Dmitry Eremin-Solenikov wrote:
->> +def packages_qa_unshipped_files(d):
->> +    skip = (d.getVar('INSANE_SKIP_${PN}', True) or "").split()
->> +    if "unshipped" in skip:
->> +        return False
-
-Hmm. This really should be "return True". Should I send the fixed 
-version of this patch or this change will be picked by appliers?
-
+On Tue, Dec 13, 2011 at 8:19 AM, Dmitry Eremin-Solenikov
+<dbaryshkov@gmail.com> wrote:
+> ncurses doesn't install any files in ${libdir}/terminfo, drop that direct=
+ory.
 >
-> 	[...]
->
->> +    if not packages_qa_unshipped_files(d):
->> +        shipped_sane = False
->>
->> -    if not walk_sane or not rdepends_sane:
->> +    if not walk_sane or not rdepends_sane or not shipped_sane:
->>           bb.fatal("QA run found fatal errors. Please consider fixing them.")
->
-> Is that really what you want?
->
-> p.
 
+its a symlink terminfo -> ../share/terminfo
+and in my case
 
--- 
-With best wishes
-Dmitry
+$ ls ../share/terminfo/
+.  ..  1  2  3  4  5  6  7  8  9  a  A  b  c  d  e  E  f  g  h  i  j
+k  l  L  m  M  n  N  o  p  P  q  Q  r  s  t  u  v  w  x  X  z
 
+> Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+> ---
+> =C2=A0meta/recipes-core/ncurses/ncurses.inc | =C2=A0 =C2=A02 ++
+> =C2=A01 files changed, 2 insertions(+), 0 deletions(-)
+>
+> diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/nc=
+urses/ncurses.inc
+> index 98f45a4..1449f34 100644
+> --- a/meta/recipes-core/ncurses/ncurses.inc
+> +++ b/meta/recipes-core/ncurses/ncurses.inc
+> @@ -171,6 +171,8 @@ do_install() {
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 echo 'INPUT(AS_NEEDED(-ltinfo))' >>$f
+>
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0oe_multilib_header curses.h
+> +
+> + =C2=A0 =C2=A0 =C2=A0 rm ${D}${libdir}/terminfo
+> =C2=A0}
+>
+> =C2=A0python populate_packages_prepend () {
+> --
+> 1.7.7.3
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
