@@ -1,30 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RaRdD-0001pV-8s; Tue, 13 Dec 2011 13:38:51 +0100
+	id 1RaRdX-0001ta-4u for openembedded-core@lists.openembedded.org;
+	Tue, 13 Dec 2011 13:39:11 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBDCVts8008836;
-	Tue, 13 Dec 2011 12:31:55 GMT
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBDCWGQE008845
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Dec 2011 12:32:16 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 07920-09; Tue, 13 Dec 2011 12:31:50 +0000 (GMT)
+	id 07989-09 for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Dec 2011 12:32:11 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBDCVk7l008830
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 13 Dec 2011 12:31:47 GMT
-Message-ID: <1323779507.2731.67.camel@ted>
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBDCW7lS008839
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Dec 2011 12:32:08 GMT
+Message-ID: <1323779527.2731.68.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Dec 2011 12:31:47 +0000
-In-Reply-To: <1323727116-10292-1-git-send-email-philip@balister.org>
-References: <1323727116-10292-1-git-send-email-philip@balister.org>
+Date: Tue, 13 Dec 2011 12:32:07 +0000
+In-Reply-To: <cda94110e16a2fb5d760fd728435b7cbb4142392.1323715541.git.paul.eggleton@linux.intel.com>
+References: <cover.1323715541.git.paul.eggleton@linux.intel.com>
+	<cda94110e16a2fb5d760fd728435b7cbb4142392.1323715541.git.paul.eggleton@linux.intel.com>
 X-Mailer: Evolution 3.2.1- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@openembedded.org
-Subject: Re: [PATCH] boost : Do not use icu when building boost.
+Subject: Re: [PATCH 1/1] qt4.inc : Add uic, moc, rcc, and lrelease to tools package.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,19 +43,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2011 12:38:51 -0000
+X-List-Received-Date: Tue, 13 Dec 2011 12:39:11 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2011-12-12 at 16:58 -0500, Philip Balister wrote:
-> Without this, boost needs to build icu to create images using
-> boost regex. RP inidicated he would rather disable icu, than add an
-> extra dependency to the recipe.
+On Mon, 2011-12-12 at 18:48 +0000, Paul Eggleton wrote:
+> From: Philip Balister <philip@balister.org>
+> 
+> These binaries are needed in the target tools package so we can build
+> qt apps on the target. You also need to install qmake from meta-oe.
+> 
+> Tested by building gnuradio on the USRP e100 with qt support.
+> 
+> (This effectively reverses OE-core rev
+> 69eeb3d2276e5b10d084b47d308ecfc8daf8b467, however test builds for
+> qemux86 and qemumips produced no packaging warnings such as those
+> described in that commit, and the architecture of the executables is
+> correct.)
 > 
 > Signed-off-by: Philip Balister <philip@balister.org>
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 > ---
->  meta/recipes-support/boost/boost.inc |    3 ++-
->  1 files changed, 2 insertions(+), 1 deletions(-)
+>  meta/recipes-qt/qt4/qt4-embedded.inc |    2 +-
+>  meta/recipes-qt/qt4/qt4-x11-free.inc |    2 +-
+>  meta/recipes-qt/qt4/qt4.inc          |    9 ++-------
+>  3 files changed, 4 insertions(+), 9 deletions(-)
 
 Merged to master, thanks.
 
