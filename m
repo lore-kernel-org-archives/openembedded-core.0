@@ -1,34 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RaRdX-0001ta-4u for openembedded-core@lists.openembedded.org;
-	Tue, 13 Dec 2011 13:39:11 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBDCWGQE008845
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2011 12:32:16 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 07989-09 for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2011 12:32:11 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBDCW7lS008839
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2011 12:32:08 GMT
-Message-ID: <1323779527.2731.68.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <philb@gnu.org>) id 1RaRhX-000258-JA
+	for openembedded-core@lists.openembedded.org;
+	Tue, 13 Dec 2011 13:43:19 +0100
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RaRas-0001Kt-AV
+	for openembedded-core@lists.openembedded.org;
+	Tue, 13 Dec 2011 13:36:26 +0100
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Dec 2011 12:32:07 +0000
-In-Reply-To: <cda94110e16a2fb5d760fd728435b7cbb4142392.1323715541.git.paul.eggleton@linux.intel.com>
-References: <cover.1323715541.git.paul.eggleton@linux.intel.com>
-	<cda94110e16a2fb5d760fd728435b7cbb4142392.1323715541.git.paul.eggleton@linux.intel.com>
-X-Mailer: Evolution 3.2.1- 
+Date: Tue, 13 Dec 2011 12:36:25 +0000
+In-Reply-To: <1323779213.2731.63.camel@ted>
+References: <1323328045-26145-1-git-send-email-lauri.hintsala@bluegiga.com>
+	<1323759539-23945-1-git-send-email-lauri.hintsala@bluegiga.com>
+	<1323779213.2731.63.camel@ted>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1323779786.24417.140.camel@phil-desktop>
 Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/1] qt4.inc : Add uic, moc, rcc, and lrelease to tools package.
+Subject: Re: [PATCH v2] initscripts: fix timestamp check at bootmisc.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,35 +35,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2011 12:39:11 -0000
+X-List-Received-Date: Tue, 13 Dec 2011 12:43:19 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2011-12-12 at 18:48 +0000, Paul Eggleton wrote:
-> From: Philip Balister <philip@balister.org>
+On Tue, 2011-12-13 at 12:26 +0000, Richard Purdie wrote:
+> On Tue, 2011-12-13 at 08:58 +0200, Lauri Hintsala wrote:
+> >  # Set the system clock from hardware clock
+> > -# If the timestamp is 1 day or more recent than the current time,
+> > +# If the timestamp is more recent than the current time,
+> >  # use the timestamp instead.
+> >  /etc/init.d/hwclock.sh start
+> >  if test -e /etc/timestamp
+> >  then
+> > -	SYSTEMDATE=`date  -u +%2m%2d%2H%2M%4Y`
+> > -	read TIMESTAMP < /etc/timestamp
+> > -        NEEDUPDATE=`expr \( $TIMESTAMP \> $SYSTEMDATE + 10000 \)`
+> > -        if [ $NEEDUPDATE -eq 1 ]; then 
+> > -		date -u $TIMESTAMP
+> > +	SYSTEMDATE=`date -u +%4Y%2m%2d`
+> > +	TIMESTAMP=`cat /etc/timestamp | awk '{ print substr($0,9,4) substr($0,1,4); }'`
+> > +	NEEDUPDATE=`expr \( $TIMESTAMP \> $SYSTEMDATE \)`
+> > +	if [ $NEEDUPDATE -eq 1 ]; then
+> > +		date -u `cat /etc/timestamp`
+> >  		/etc/init.d/hwclock.sh stop
+> >  	fi
+> >  fi
 > 
-> These binaries are needed in the target tools package so we can build
-> qt apps on the target. You also need to install qmake from meta-oe.
 > 
-> Tested by building gnuradio on the USRP e100 with qt support.
+> For reference, the code in the boot process is trying not to cause
+> fork/exec calls. This is why it does:
 > 
-> (This effectively reverses OE-core rev
-> 69eeb3d2276e5b10d084b47d308ecfc8daf8b467, however test builds for
-> qemux86 and qemumips produced no packaging warnings such as those
-> described in that commit, and the architecture of the executables is
-> correct.)
+> read TIMESTAMP < /etc/timestamp
 > 
-> Signed-off-by: Philip Balister <philip@balister.org>
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> ---
->  meta/recipes-qt/qt4/qt4-embedded.inc |    2 +-
->  meta/recipes-qt/qt4/qt4-x11-free.inc |    2 +-
->  meta/recipes-qt/qt4/qt4.inc          |    9 ++-------
->  3 files changed, 4 insertions(+), 9 deletions(-)
+> since this is faster than forking to run cat. Could we fix this in a
+> different way to avoid the fork/execs?
 
-Merged to master, thanks.
+For the same reason it would probably be nice to replace that call to
+"expr" (which was in the old version too) with a shell expansion.
 
-Richard
+p.
+
 
 
 
