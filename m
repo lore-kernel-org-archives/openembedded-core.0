@@ -1,23 +1,28 @@
-Received: from bluegiga.fi ([194.100.31.45] helo=darkblue.bluegiga.com)
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Lauri.Hintsala@bluegiga.com>) id 1RaNnU-0008EU-On
+	(envelope-from <s.stirtzel@googlemail.com>) id 1RaOni-0002AA-0l
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Dec 2011 09:33:12 +0100
-Received: from [10.1.1.28] ([10.1.1.28]) by darkblue.bluegiga.com with
-	Microsoft SMTPSVC(6.0.3790.4675); Tue, 13 Dec 2011 10:26:19 +0200
-Message-ID: <4EE70C29.3070407@bluegiga.com>
-Date: Tue, 13 Dec 2011 10:26:17 +0200
-From: Lauri Hintsala <lauri.hintsala@bluegiga.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.23) Gecko/20110922 Lightning/1.0b2 Thunderbird/3.1.15
+	Tue, 13 Dec 2011 10:37:30 +0100
+Received: by bkbzt4 with SMTP id zt4so6378572bkb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Dec 2011 01:30:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=gamma;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=v3U/m59KQsKMfNT0VMnvv5hZlYNWMHgw1XSiidDA9Ro=;
+	b=u0MgJUzTnLvG0n73MTI4E6yzf4WNHinhdYDKzPNcylzizFQ3oYS7QoyQdZeLP4v5ry
+	r6D9+ZOYskoiCtHzfr2Qk6Np7eaZDZ0sDnXVuz6I7UoO/eKJT1l/iKhjJabOkgaRCIew
+	7+GNJfkFNRSXBxhUYJaoPttcBewORfXHJ5djc=
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1323328045-26145-1-git-send-email-lauri.hintsala@bluegiga.com>	<1323759539-23945-1-git-send-email-lauri.hintsala@bluegiga.com>
-	<CCC5D6B0-34D4-445E-A0A6-FED2FEF1CF7A@dominion.thruhere.net>
-In-Reply-To: <CCC5D6B0-34D4-445E-A0A6-FED2FEF1CF7A@dominion.thruhere.net>
-X-OriginalArrivalTime: 13 Dec 2011 08:26:19.0116 (UTC)
-	FILETIME=[E37F7AC0:01CCB970]
-Subject: Re: [PATCH v2] initscripts: fix timestamp check at	bootmisc.sh
+Received: by 10.180.104.41 with SMTP id gb9mr32872864wib.9.1323768634562; Tue,
+	13 Dec 2011 01:30:34 -0800 (PST)
+Received: by 10.223.69.133 with HTTP; Tue, 13 Dec 2011 01:30:34 -0800 (PST)
+Date: Tue, 13 Dec 2011 10:30:34 +0100
+Message-ID: <CAGiJk9cfqfhg6DqY4hMBVXnABaCw1Ff9Gbojoa1B=+TvWvU9DA@mail.gmail.com>
+From: Samuel Stirtzel <s.stirtzel@googlemail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Dependency resolving ignores changed sstate-cache?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,62 +37,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2011 08:33:13 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 13 Dec 2011 09:37:30 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 12/13/2011 09:45 AM, Koen Kooi wrote:
->
->
-> Op 13 dec. 2011 om 07:58 heeft Lauri
-> Hintsala<lauri.hintsala@bluegiga.com>  het volgende geschreven:
->
->> Timestamp checking has been broken by the commit
->> 2078af333d704fd894a2dedbc19cef5775cdadbb. Fix timestamp checking
->> and clean the code.
->>
->> cc: sgw@linux.intel.com cc: gary@mlbassoc.com
->>
->> Signed-off-by: Lauri Hintsala<lauri.hintsala@bluegiga.com> ---
->> .../initscripts/initscripts-1.0/bootmisc.sh        |   12
->> ++++++------ 1 files changed, 6 insertions(+), 6 deletions(-)
->>
->> diff --git
->> a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
->> b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh index
->> 03fd67c..6d68b35 100755 ---
->> a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh +++
->> b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh @@
->> -62,16 +62,16 @@ then fi
->>
->> # Set the system clock from hardware clock -# If the timestamp is 1
->> day or more recent than the current time, +# If the timestamp is
->> more recent than the current time, # use the timestamp instead.
->> /etc/init.d/hwclock.sh start if test -e /etc/timestamp then -
->> SYSTEMDATE=`date  -u +%2m%2d%2H%2M%4Y` -    read TIMESTAMP<
->> /etc/timestamp -        NEEDUPDATE=`expr \( $TIMESTAMP \>
->> $SYSTEMDATE + 10000 \)` -        if [ $NEEDUPDATE -eq 1 ]; then -
->> date -u $TIMESTAMP +    SYSTEMDATE=`date -u +%4Y%2m%2d` +
->> TIMESTAMP=`cat /etc/timestamp | awk '{ print substr($0,9,4)
->> substr($0,1,4); }'` +    NEEDUPDATE=`expr \( $TIMESTAMP \>
->> $SYSTEMDATE \)` +    if [ $NEEDUPDATE -eq 1 ]; then +        date
->> -u `cat /etc/timestamp` /etc/init.d/hwclock.sh stop fi fi
->
-> This changes the format of timestamp, which breaks the code in
-> image.bbclass.
+Hi,
+it seems that I accidentally deleted fbset from my
+.../tmp-eglibc/work/... dir while cleaning out old builds for another
+recipe.
+For some reason I had a r0 directory from the past of the recipe which
+is now r1.
+So I deleted it manually and fbset too, but I didn't notice.
 
-No. Patch doesn't change the format of timestamp file. Format 
-"+%4Y%2m%2d" is used only for comparing system date and timestamp file.
+Thereafter I built an image that has been already built before,
+but it had some IMAGE_INSTALL changes.
+Everything was alright until opkg encountered the following error:
+| Collected errors:
+|  * satisfy_dependencies_for: Cannot satisfy the following
+dependencies for qt4-x11-free:
+|  *    fbset *
+|  * opkg_install_cmd: Cannot install package qt4-x11-free.
+
+Of course it could not find fbset, as it was deleted previously,
+so I did a "bitbake -ccleansstate fbset" but the error still occurred.
 
 
-> Have a look at
-> http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/meta-angstrom/commit/?id=e003be8cba3d387f44a502fdbebf58e774afd677
-> for backwards compatible Logic
+This leads me to the conclusion, that the sstate-cache change was not
+noticed by bitbake?
+Or is there higher cache instance file that makes bitbake believe that
+fbset was built?
 
-Timestamp file is still saved by save-rtc.sh script and it is untouched.
+After I built fbset with bitbake manually everything went back to normal,
+so there is no problem just confusion :)
 
 
-Lauri Hintsala
 
+For the reason of understanding it, is there any recent documentation
+about the dependency caching of bitbake?
+
+-- 
+Regards
+Samuel
 
 
