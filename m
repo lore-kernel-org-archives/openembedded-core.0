@@ -1,34 +1,34 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RaT05-00065X-6y
-	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Dec 2011 15:06:33 +0100
-Received: by mail-ey0-f175.google.com with SMTP id l1so1585883eaa.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RaU2c-0000kY-S7 for openembedded-core@lists.openembedded.org;
+	Tue, 13 Dec 2011 16:13:15 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBDF6JPQ010353
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2011 05:59:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=hqOLPZ7ERuRGTCubQhmL7kcOpuey22HajJbWhNKPt3g=;
-	b=ZTrK8ZMmtcb2Kx7i0V29fuLjEZMNvV5yEmwRlZa88rxMdHLaf2om97fWjG70ZdYhyk
-	cUawLWTUL1xJDPbGhB1H8Pm/ev7n4tf7r+2NVRtpNqsuRdCmh95AHrjjZQ5QDpZi6ojG
-	OXmWveWUppwByrPtPNwPLtClkFp0oxqVLhng0=
-Received: by 10.14.18.83 with SMTP id k59mr4321667eek.105.1323784779950;
-	Tue, 13 Dec 2011 05:59:39 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id z54sm89352495eeh.5.2011.12.13.05.59.38
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 13 Dec 2011 05:59:38 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Dec 2011 14:59:15 +0100
-Message-Id: <ebac301a84eeb403360b8fc268aaab4e94be126b.1323784347.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8
-In-Reply-To: <f62734520b4996df6a49cc7be7d60e2af934447e.1323784347.git.Martin.Jansa@gmail.com>
-References: <f62734520b4996df6a49cc7be7d60e2af934447e.1323784347.git.Martin.Jansa@gmail.com>
+	Tue, 13 Dec 2011 15:06:19 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 09849-04 for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Dec 2011 15:06:15 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBDF6AHW010347
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Dec 2011 15:06:11 GMT
+Message-ID: <1323788769.2731.69.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 13 Dec 2011 15:06:09 +0000
 In-Reply-To: <cover.1323784347.git.Martin.Jansa@gmail.com>
-References: <cover.1323784347.git.Martin.Jansa@gmail.com>
-Subject: [PATCH][oe-core 3/3] python: bump PR due to arm OVERRIDES change
+References: <1323779470.2731.66.camel@ted>
+	<cover.1323784347.git.Martin.Jansa@gmail.com>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH][oe-core 0/3] PR bumps and arm OVERRIDE fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,28 +43,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2011 14:06:33 -0000
+X-List-Received-Date: Tue, 13 Dec 2011 15:13:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-devtools/python/python_2.7.2.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+On Tue, 2011-12-13 at 14:59 +0100, Martin Jansa wrote:
+> The following changes since commit f60417055f869acb871be1f01c6900fdf685d71a:
+> 
+>   boost : Do not use icu when building boost. (2011-12-13 12:21:05 +0000)
+> 
+> are available in the git repository at:
+>   git://git.openembedded.org/openembedded-core-contrib jansa/pull
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/pull
+> 
+> Martin Jansa (3):
+>   qt4: use armv6 override instead of armv6-vfp
+>   xf86-video-omapfb: bump PR due to arm OVERRIDES change
+>   python: bump PR due to arm OVERRIDES change
 
-diff --git a/meta/recipes-devtools/python/python_2.7.2.bb b/meta/recipes-devtools/python/python_2.7.2.bb
-index 5417d5e..5e8e0d7 100644
---- a/meta/recipes-devtools/python/python_2.7.2.bb
-+++ b/meta/recipes-devtools/python/python_2.7.2.bb
-@@ -1,7 +1,7 @@
- require python.inc
- DEPENDS = "python-native db gdbm openssl readline sqlite3 zlib"
- DEPENDS_sharprom = "python-native db readline zlib gdbm openssl"
--PR = "${INC_PR}.3"
-+PR = "${INC_PR}.4"
- 
- DISTRO_SRC_URI ?= "file://sitecustomize.py"
- DISTRO_SRC_URI_linuxstdbase = ""
--- 
-1.7.8
+Merged to master, thanks.
+
+Richard
 
 
 
