@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RaNbr-0007YT-Oq
+	(envelope-from <sgw@linux.intel.com>) id 1RaNbu-0007Yf-28
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Dec 2011 09:21:14 +0100
+	Tue, 13 Dec 2011 09:21:15 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 13 Dec 2011 00:14:15 -0800
+	by orsmga102.jf.intel.com with ESMTP; 13 Dec 2011 00:14:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="86612764"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="86612769"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.219])
-	by orsmga002.jf.intel.com with ESMTP; 13 Dec 2011 00:14:15 -0800
+	by orsmga002.jf.intel.com with ESMTP; 13 Dec 2011 00:14:16 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Dec 2011 00:14:07 -0800
-Message-Id: <9898a22716eab82a411f1440bcd7fc96c235f874.1323763897.git.sgw@linux.intel.com>
+Date: Tue, 13 Dec 2011 00:14:09 -0800
+Message-Id: <13a2307ec7b321687a0c3a814be66d88dc50f11c.1323763897.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
 In-Reply-To: <cover.1323763897.git.sgw@linux.intel.com>
 References: <cover.1323763897.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1323763897.git.sgw@linux.intel.com>
 References: <cover.1323763897.git.sgw@linux.intel.com>
-Subject: [PATCH 08/10] gmp: Add SRC_URI Checksums for GPLv2
+Subject: [PATCH 10/10] ed: remove unsupported option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,21 +37,20 @@ X-List-Received-Date: Tue, 13 Dec 2011 08:21:17 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-support/gmp/gmp_4.2.1.bb |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
+ meta/recipes-extended/ed/ed_0.5.bb |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-support/gmp/gmp_4.2.1.bb b/meta/recipes-support/gmp/gmp_4.2.1.bb
-index 74da6b8..5f3929f 100644
---- a/meta/recipes-support/gmp/gmp_4.2.1.bb
-+++ b/meta/recipes-support/gmp/gmp_4.2.1.bb
-@@ -11,4 +11,7 @@ PR = "r0"
- SRC_URI = "${GNU_MIRROR}/gmp/${BP}.tar.bz2 \
-            file://disable-stdc.patch"
+diff --git a/meta/recipes-extended/ed/ed_0.5.bb b/meta/recipes-extended/ed/ed_0.5.bb
+index 706c0af..205822f 100644
+--- a/meta/recipes-extended/ed/ed_0.5.bb
++++ b/meta/recipes-extended/ed/ed_0.5.bb
+@@ -13,4 +13,6 @@ SRC_URI[sha256sum] = "edef2bbde0fbf0d88232782a0eded323f483a0519d6fde9a3b1809056f
  
-+SRC_URI[md5sum] = "091c56e0e1cca6b09b17b69d47ef18e3"
-+SRC_URI[sha256sum] = "d07ffcb37eecec35c5ec72516d10b35fdf6e6fef1fcf1dcd37e30b8cbf8bf941"
-+
  inherit autotools
+ 
++CONFIGUREOPTS := "${@d.getVar('CONFIGUREOPTS', True).replace('--disable-dependency-tracking', ' ')}"
+ CONFIGUREOPTS := "${@d.getVar('CONFIGUREOPTS', True).replace('--disable-silent-rules', ' ')}"
++
 -- 
 1.7.6.4
 
