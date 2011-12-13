@@ -1,26 +1,19 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from bluegiga.fi ([194.100.31.45] helo=blue-gw.bluegiga.fi)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RaFCT-0008Qs-Rr
+	(envelope-from <lauri.hintsala@bluegiga.com>) id 1RaMRY-00058B-6V
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Dec 2011 00:22:26 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 12 Dec 2011 15:15:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="86465061"
-Received: from unknown (HELO [10.255.12.64]) ([10.255.12.64])
-	by orsmga002.jf.intel.com with ESMTP; 12 Dec 2011 15:15:29 -0800
-Message-ID: <4EE68B10.8010201@linux.intel.com>
-Date: Mon, 12 Dec 2011 15:15:28 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1323358819.git.otavio@ossystems.com.br>
-	<e27fba3b38877fb7420c58a3e35cdbcef1cb767a.1323358819.git.otavio@ossystems.com.br>
-In-Reply-To: <e27fba3b38877fb7420c58a3e35cdbcef1cb767a.1323358819.git.otavio@ossystems.com.br>
-Subject: Re: [PATCH 2/3] dosfstools: update native to 2.11
+	Tue, 13 Dec 2011 08:06:28 +0100
+Received: from bgtlh.bgt.local (unknown [10.1.1.28])
+	by blue-gw.bluegiga.fi (Postfix) with ESMTP id 663E47BE2C1;
+	Tue, 13 Dec 2011 08:59:31 +0200 (EET)
+From: Lauri Hintsala <lauri.hintsala@bluegiga.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Dec 2011 08:58:59 +0200
+Message-Id: <1323759539-23945-1-git-send-email-lauri.hintsala@bluegiga.com>
+X-Mailer: git-send-email 1.7.4.1
+In-Reply-To: <1323328045-26145-1-git-send-email-lauri.hintsala@bluegiga.com>
+References: <1323328045-26145-1-git-send-email-lauri.hintsala@bluegiga.com>
+Subject: [PATCH v2] initscripts: fix timestamp check at bootmisc.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,33 +28,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Dec 2011 23:22:26 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 13 Dec 2011 07:06:28 -0000
 
-On 12/08/2011 07:40 AM, Otavio Salvador wrote:
-> This unify recipes for target and native builds and also drops the the
-> already merged patches.
->
-> Signed-off-by: Otavio Salvador<otavio@ossystems.com.br>
-> ---
->   .../dosfstools/dosfstools-native_2.10.bb           |   19 -----
->   .../dosfstools/dosfstools/2.6.20-syscall.patch     |   72 -------------------
->   .../dosfstools/dosfstools-2.10-kernel-2.6.patch    |   74 --------------------
->   .../dosfstools/dosfstools/mkdosfs-bootcode.patch   |   68 ++++++++----------
->   .../dosfstools/dosfstools/mkdosfs-dir.patch        |   62 ++++++++---------
->   .../recipes-devtools/dosfstools/dosfstools_2.10.bb |   24 ------
->   .../recipes-devtools/dosfstools/dosfstools_2.11.bb |   11 ++-
->   7 files changed, 69 insertions(+), 261 deletions(-)
->   delete mode 100644 meta/recipes-devtools/dosfstools/dosfstools-native_2.10.bb
->   delete mode 100644 meta/recipes-devtools/dosfstools/dosfstools/2.6.20-syscall.patch
->   delete mode 100644 meta/recipes-devtools/dosfstools/dosfstools/dosfstools-2.10-kernel-2.6.patch
->   delete mode 100644 meta/recipes-devtools/dosfstools/dosfstools_2.10.bb
+Timestamp checking has been broken by the commit
+2078af333d704fd894a2dedbc19cef5775cdadbb. Fix timestamp checking
+and clean the code.
 
-Merged into OE-Core
+cc: sgw@linux.intel.com
+cc: gary@mlbassoc.com
 
-Thanks
-	Sau!
+Signed-off-by: Lauri Hintsala <lauri.hintsala@bluegiga.com>
+---
+ .../initscripts/initscripts-1.0/bootmisc.sh        |   12 ++++++------
+ 1 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
+index 03fd67c..6d68b35 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
+@@ -62,16 +62,16 @@ then
+ fi
+ 
+ # Set the system clock from hardware clock
+-# If the timestamp is 1 day or more recent than the current time,
++# If the timestamp is more recent than the current time,
+ # use the timestamp instead.
+ /etc/init.d/hwclock.sh start
+ if test -e /etc/timestamp
+ then
+-	SYSTEMDATE=`date  -u +%2m%2d%2H%2M%4Y`
+-	read TIMESTAMP < /etc/timestamp
+-        NEEDUPDATE=`expr \( $TIMESTAMP \> $SYSTEMDATE + 10000 \)`
+-        if [ $NEEDUPDATE -eq 1 ]; then 
+-		date -u $TIMESTAMP
++	SYSTEMDATE=`date -u +%4Y%2m%2d`
++	TIMESTAMP=`cat /etc/timestamp | awk '{ print substr($0,9,4) substr($0,1,4); }'`
++	NEEDUPDATE=`expr \( $TIMESTAMP \> $SYSTEMDATE \)`
++	if [ $NEEDUPDATE -eq 1 ]; then
++		date -u `cat /etc/timestamp`
+ 		/etc/init.d/hwclock.sh stop
+ 	fi
+ fi
+-- 
+1.7.4.1
 
 
 
