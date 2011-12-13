@@ -1,30 +1,30 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dbaryshkov@gmail.com>) id 1RaVDC-0000sV-Dg
+	(envelope-from <dbaryshkov@gmail.com>) id 1RaVDG-0000sc-2W
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Dec 2011 17:28:14 +0100
-Received: by mail-ww0-f43.google.com with SMTP id ds11so12054547wgb.24
+	Tue, 13 Dec 2011 17:28:18 +0100
+Received: by mail-fx0-f47.google.com with SMTP id a20so338376faa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2011 08:21:21 -0800 (PST)
+	Tue, 13 Dec 2011 08:21:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=rc5r+I1vDA4XmSNHBDld9GvEpGVDy2UyakSaMZCzt/0=;
-	b=n8JaeXKy8kMjqhl0F+yhNqjXdUlKpNwRVP3GNmSCC4zqfNBa++Sna7AV/ffU1Fakam
-	zaJ6qcdwiaktsdE+MPeBve3XT0sdgb7h1O4avWxdgCzBx9Tgn0lb6VJgE4mUmDamxAVk
-	z4tKz76mhA2xcLmHgeoNrRYjKRN6sbQgHs84s=
-Received: by 10.227.60.14 with SMTP id n14mr17187452wbh.5.1323793280170;
-	Tue, 13 Dec 2011 08:21:20 -0800 (PST)
+	bh=OfYPDJ89sn9MlL2QWg5d9u67O5DlblRMlDFS0AU6ir0=;
+	b=NlZngQpi48gsJuXE27oSSHMs9GMMbae1WnfIv7afuVhkFh3Vy7DgqM9hGHKBsJIg4E
+	AfdjW//+q7hrJAxEEEeHtrgSOvNCVxAF+Zt9zqiJCF5FzfvRayknr0BAGi4fuO/ilSEc
+	UBJhI2OmB0+MiatVBZVD9D57sSU6yxJjm8Yzs=
+Received: by 10.216.30.144 with SMTP id k16mr214428wea.76.1323793284414;
+	Tue, 13 Dec 2011 08:21:24 -0800 (PST)
 Received: from fangorn.rup.mentorg.com (nat-rup.mentorg.com. [139.181.168.34])
-	by mx.google.com with ESMTPS id 28sm27231923wby.3.2011.12.13.08.21.18
-	(version=SSLv3 cipher=OTHER); Tue, 13 Dec 2011 08:21:19 -0800 (PST)
+	by mx.google.com with ESMTPS id 28sm27231923wby.3.2011.12.13.08.21.22
+	(version=SSLv3 cipher=OTHER); Tue, 13 Dec 2011 08:21:23 -0800 (PST)
 From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Dec 2011 20:19:47 +0400
-Message-Id: <1323793193-31090-3-git-send-email-dbaryshkov@gmail.com>
+Date: Tue, 13 Dec 2011 20:19:49 +0400
+Message-Id: <1323793193-31090-5-git-send-email-dbaryshkov@gmail.com>
 X-Mailer: git-send-email 1.7.7.3
 In-Reply-To: <1323793193-31090-1-git-send-email-dbaryshkov@gmail.com>
 References: <1323793193-31090-1-git-send-email-dbaryshkov@gmail.com>
-Subject: [PATCH 3/9] bitbake.conf, core-image-minimal-initramfs: add INITRAMFS_FSTYPES
+Subject: [PATCH 5/9] Move check that all installed files are shipped into insane.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,48 +39,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2011 16:28:14 -0000
+X-List-Received-Date: Tue, 13 Dec 2011 16:28:18 -0000
 
-Initramfs images don't benefit from usual IMAGE_FSTYPES overrides. The
-only sane values for them are "cpio.XXX". If IMAGE_FSTYPES is set to
-include 'live', building core-image-minimal-initramfs can result in
-build error, if the image is built before the kernel. To stop initramfs
-images from responding on IMAGE_FSTYPES settings, but still allow
-users/developers to override defaults (e.g. to generate "cpio.lzma"
-initramfs), introduce INITRAMFS_FSTYPES variable, by default set to
-"cpio.gz".
+Checking that all installed files are shipped is in reality a QA check.
+It would benefit from mechanisms like ERROR_QA/WARNING_QA. So move it
+into insane.bbclass. If some of the files are installed but should not
+be shipped for some reasons, one can add them to the variable
+IGNORE_UNSHIPPED_FILES.
 
 Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 ---
- meta/conf/bitbake.conf                             |    1 +
- .../images/core-image-minimal-initramfs.bb         |    2 +-
- 2 files changed, 2 insertions(+), 1 deletions(-)
+ meta/classes/insane.bbclass  |   49 ++++++++++++++++++++++++++++++++++++++++-
+ meta/classes/package.bbclass |   15 ------------
+ 2 files changed, 47 insertions(+), 17 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index f79e3f7..1c21616 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -673,6 +673,7 @@ require conf/abi_version.conf
- DL_DIR ?= "${TOPDIR}/downloads"
- SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
- IMAGE_FSTYPES ?= "tar.gz"
-+INITRAMFS_FSTYPES ?= "cpio.gz"
- PCMCIA_MANAGER ?= "pcmcia-cs"
- DEFAULT_TASK_PROVIDER ?= "task-base"
- MACHINE_TASK_PROVIDER ?= "${DEFAULT_TASK_PROVIDER}"
-diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-index d078c10..5149f31 100644
---- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
-+++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-@@ -10,7 +10,7 @@ IMAGE_LINGUAS = ""
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 5726e69..7a8643a 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -100,7 +100,7 @@ def package_qa_get_machine_dict():
  
- LICENSE = "MIT"
  
-+IMAGE_FSTYPES = "${INITRAMFS_FSTYPES}"
- inherit core-image
+ # Currently not being used by default "desktop"
+-WARN_QA ?= "ldflags useless-rpaths rpaths"
++WARN_QA ?= "ldflags useless-rpaths rpaths unshipped"
+ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch la2 pkgconfig la perms"
  
- IMAGE_ROOTFS_SIZE = "8192"
--IMAGE_FSTYPES =+ "cpio.gz"
+ def package_qa_clean_path(path,d):
+@@ -485,6 +485,48 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, d):
+ 
+     return sane
+ 
++IGNORE_UNSHIPPED_FILES ??= ""
++
++def packages_qa_unshipped_files(d):
++    skip = (d.getVar('INSANE_SKIP_${PN}', True) or "").split()
++    if "unshipped" in skip:
++        return False
++
++    seen = d.getVar('IGNORE_UNSHIPPED_FILES', True).split()
++    unshipped = []
++    dvar = d.getVar('PKGD', True)
++    destvar = d.getVar('PKGDEST', True)
++    packages = d.getVar('PACKAGES', True).split()
++    for p in packages:
++        pdir = os.path.join(destvar, p)
++        for root, dirs, files in os.walk(pdir):
++            dir = root[len(pdir):]
++            if not dir:
++                dir = os.sep
++            for f in (files + dirs):
++                path = os.path.join(dir, f)
++                if path not in seen:
++                    seen.append(path)
++
++    for root, dirs, files in os.walk(dvar):
++        dir = root[len(dvar):]
++        if not dir:
++            dir = os.sep
++        for f in (files + dirs):
++            path = os.path.join(dir, f)
++            if path not in seen:
++                unshipped.append(path)
++
++    pn = d.getVar('PN', True)
++
++    if unshipped == []:
++        return True
++
++    ret = package_qa_handle_error("unshipped", "For recipe %s, the following files/directories were installed but not shipped in any package:" % pn, d)
++    for f in unshipped:
++        package_qa_handle_error("unshipped", f, d)
++    return ret
++
+ # The PACKAGE FUNC to scan each package
+ python do_package_qa () {
+     bb.note("DO PACKAGE QA")
+@@ -522,6 +564,7 @@ python do_package_qa () {
+     g = globals()
+     walk_sane = True
+     rdepends_sane = True
++    shipped_sane = True
+     for package in packages.split():
+         skip = (d.getVar('INSANE_SKIP_' + package, True) or "").split()
+         if skip:
+@@ -546,8 +589,10 @@ python do_package_qa () {
+         if not package_qa_check_rdepends(package, pkgdest, skip, d):
+             rdepends_sane = False
+ 
++    if not packages_qa_unshipped_files(d):
++        shipped_sane = False
+ 
+-    if not walk_sane or not rdepends_sane:
++    if not walk_sane or not rdepends_sane or not shipped_sane:
+         bb.fatal("QA run found fatal errors. Please consider fixing them.")
+     bb.note("DONE with PACKAGE QA")
+ }
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 39c1d4b..fbea9c6 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -957,21 +957,6 @@ python populate_packages () {
+ 		del localdata
+ 	os.chdir(workdir)
+ 
+-	unshipped = []
+-	for root, dirs, files in os.walk(dvar):
+-		dir = root[len(dvar):]
+-		if not dir:
+-			dir = os.sep
+-		for f in (files + dirs):
+-			path = os.path.join(dir, f)
+-			if ('.' + path) not in seen:
+-				unshipped.append(path)
+-
+-	if unshipped != []:
+-		bb.warn("For recipe %s, the following files/directories were installed but not shipped in any package:" % pn)
+-		for f in unshipped:
+-			bb.warn("  " + f)
+-
+ 	bb.build.exec_func("package_name_hook", d)
+ 
+ 	for pkg in package_list:
 -- 
 1.7.7.3
 
