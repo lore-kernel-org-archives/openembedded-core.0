@@ -1,60 +1,32 @@
-Received: from va3ehsobe006.messaging.microsoft.com ([216.32.180.16]
-	helo=VA3EHSOBE009.bigfish.com)
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1RacEb-0008Bk-Tk
+	(envelope-from <dvhart@linux.intel.com>) id 1RaccE-0001B8-Gi
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Dec 2011 00:58:10 +0100
-Received: from mail196-va3-R.bigfish.com (10.7.14.244) by
-	VA3EHSOBE009.bigfish.com (10.7.40.29) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 13 Dec 2011 23:51:11 +0000
-Received: from mail196-va3 (localhost [127.0.0.1])	by
-	mail196-va3-R.bigfish.com (Postfix) with ESMTP id C5EE0240075	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2011 23:51:11 +0000 (UTC)
-X-SpamScore: -10
-X-BigFish: VS-10(zz9371I1432N98dKzz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h61h)
-X-Spam-TCS-SCL: 0:0
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail196-va3 (localhost.localdomain [127.0.0.1]) by mail196-va3
-	(MessageSwitch) id 1323820271381504_12859;
-	Tue, 13 Dec 2011 23:51:11 +0000 (UTC)
-Received: from VA3EHSMHS008.bigfish.com (unknown [10.7.14.242])	by
-	mail196-va3.bigfish.com (Postfix) with ESMTP id 5687B3A0139	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2011 23:51:11 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS008.bigfish.com
-	(10.7.99.18) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 13 Dec 2011 23:51:11 +0000
-Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.28]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.01.0355.003; Tue, 13 Dec 2011 17:51:09 -0600
-From: McClintock Matthew-B29882 <B29882@freescale.com>
+	Wed, 14 Dec 2011 01:22:34 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 13 Dec 2011 16:15:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="101893169"
+Received: from unknown (HELO envy.home) ([10.255.12.211])
+	by fmsmga002.fm.intel.com with ESMTP; 13 Dec 2011 16:15:37 -0800
+Message-ID: <4EE7EA96.4080806@linux.intel.com>
+Date: Tue, 13 Dec 2011 16:15:18 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] inheirt multi bbclass using variable
-Thread-Index: AQHMuF709y+usLyeVkKtYW4/7KTlY5XXuMWAgAAA0oCAABAgAIADDjAA
-Date: Tue, 13 Dec 2011 23:51:08 +0000
-Message-ID: <CAEsOVNdtvufP4GxQ7ti4EiXrBuQcQNHqKPr6s64U1TMkU3qTpg@mail.gmail.com>
-References: <1323419740.1294.70.camel@localhost.localdomain>
-	<CAEsOVNd8AsZNrzcsP4RsK0zURAkkh7hJ6W=BwNKVRnkADxDEhg@mail.gmail.com>
-	<CABcZANnsd0srVep_NSsuFZrGrF2KZocP1EUw3U+fMtTMPpWfvg@mail.gmail.com>
-	<CAEsOVNf1qaYLPhMfJvR=0WCgwjFa85DWTyqQ6hb=x15ZYuDmYA@mail.gmail.com>
-	<CAMKF1soD62qmg6yQsyQQHWndAjADzntz-J3UcUkvDHcrvabZgA@mail.gmail.com>
-In-Reply-To: <CAMKF1soD62qmg6yQsyQQHWndAjADzntz-J3UcUkvDHcrvabZgA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [99.47.177.27]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>
-Subject: Re: inheirt multi bbclass using variable
+References: <1323793193-31090-1-git-send-email-dbaryshkov@gmail.com>
+In-Reply-To: <1323793193-31090-1-git-send-email-dbaryshkov@gmail.com>
+X-Enigmail-Version: 1.3.3
+Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>,
+	Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH 1/9] kernel.bbclass: compile kernel and modules in a single task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -65,30 +37,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2011 23:58:10 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <0039A958B982F94C9B173BF70F50273E@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 14 Dec 2011 00:22:34 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Sun, Dec 11, 2011 at 7:11 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> To clarify, my case was more like this:
->>
->> IMAGE_EXTRA_CLASSES =3D "${SOME_CFG_VAR}"
->> inherit some_class.bbclass ${IMAGE_EXTRA_CLASSES}
->
-> I think you are expecting C like behavour where variables/macros are
-> expanded before keywords
 
-Does that mean this would work:
 
-IMAGE_EXTRA_CLASSES :=3D "${SOME_CFG_VAR}"
-inherit some_class.bbclass ${IMAGE_EXTRA_CLASSES}
+On 12/13/2011 08:19 AM, Dmitry Eremin-Solenikov wrote:
+> There is no point in compiling kernel modules in a separate task, run
+> right after do_compile. On the other hand merging those tasks will e.g.
+> make icecc used also for modules compilation, etc.
 
-I just assumed if ${IMAGE_EXTRA_CLASSES} was blank the above inherit would =
-work.
+This split was done intentionally to allow tasks to be inserted between
+compile and compile_kernelmodules. See:
 
--M=
+commit 509364eb634cf148b6ac1fb5f51924f4eb6a8991
+Author: Koen Kooi <koen@dominion.thruhere.net>
+Date:   Tue Mar 15 11:25:01 2011 +0100
 
+    kernel bbclass: split do_compile into do_compile and do_compile_modules
+
+    This allows recipes to insert a custom task in between building
+*Image and modules
+
+    >From OE .dev revision 615876fe218dc3feb4a3df9e6546a7b1a6376800
+
+    (From OE-Core rev: a2cc999d663407d17f41e1b0344361944993fa86)
+
+    Signed-off-by: Koen Kooi <koen@openembedded.org>
+    Acked-by: Graeme Gregory <dp@xora.org.uk>
+    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+If you want to be able to use icecc, can you pull the necessary logic
+into compile_kernelmodules rather than reverting Koen's patch?
+
+Thanks,
+
+Darren
+
+> 
+> Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+> ---
+>  meta/classes/kernel.bbclass |    6 +-----
+>  1 files changed, 1 insertions(+), 5 deletions(-)
+> 
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 3f2f75a..a75c199 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -89,17 +89,13 @@ kernel_do_compile() {
+>  	if test "${KERNEL_IMAGETYPE_FOR_MAKE}.gz" = "${KERNEL_IMAGETYPE}"; then
+>  		gzip -9c < "${KERNEL_IMAGETYPE_FOR_MAKE}" > "${KERNEL_OUTPUT}"
+>  	fi
+> -}
+>  
+> -do_compile_kernelmodules() {
+> -	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+>  	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+> -		oe_runmake ${PARALLEL_MAKE} modules  CC="${KERNEL_CC}" LD="${KERNEL_LD}"
+> +		oe_runmake modules  CC="${KERNEL_CC}" LD="${KERNEL_LD}"
+>  	else
+>  		bbnote "no modules to compile"
+>  	fi
+>  }
+> -addtask compile_kernelmodules after do_compile before do_install
+>  
+>  kernel_do_install() {
+>  	#
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
