@@ -1,35 +1,35 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RadWf-00057D-F6
+	(envelope-from <otavio.salvador@gmail.com>) id 1RadWf-00057U-Ch
 	for openembedded-core@lists.openembedded.org;
 	Wed, 14 Dec 2011 02:20:53 +0100
-Received: by mail-gy0-f175.google.com with SMTP id r15so256527ghr.6
+Received: by yenm12 with SMTP id m12so269282yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Dec 2011 17:13:59 -0800 (PST)
+	Tue, 13 Dec 2011 17:13:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
 	:references:in-reply-to:references;
-	bh=kq25CetSuk0AH6Z4w8LojrTGt6Byue3J8SQQAkYARgY=;
-	b=rv6RMPtT4b0ktvjG2p/xR+fm3+0DPA0LhLv4IyJpRQSVIg6FFMDkAxgvVzxEz4bV0J
-	sjy3ClN8RhBifLl48KqQmcU8aJMTP/YiEzeFB60774NM33OTBSyoq+MXC7y4k+v4+KvZ
-	osKN7f0Ombjp7aH6Xuxm5BX4rHXQijdMzEONo=
-Received: by 10.236.190.196 with SMTP id e44mr7671275yhn.95.1323825239440;
-	Tue, 13 Dec 2011 17:13:59 -0800 (PST)
+	bh=4GVG/5sazOIGOhtyZfE4Jf8PZikx59TdhghR9ZhucAc=;
+	b=EwB+iRYkhC2C1w0NsG7OVHEwu5EF6slQGocqQVuoKGUu/SP6K3qeBy8rSayQ9en7/L
+	JSQNwJsx2HlOY1HVDxDZiHgbh+zxSOgq5359Rojc9P9bVp0im6Pg3X6rgTmVvuJAPONP
+	5EiZN3rVUjQbscGBcuZLDVlONrP3vlXlYjN40=
+Received: by 10.236.197.2 with SMTP id s2mr7667090yhn.123.1323825237003;
+	Tue, 13 Dec 2011 17:13:57 -0800 (PST)
 Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id q52sm1308849yhh.3.2011.12.13.17.13.57
+	by mx.google.com with ESMTPS id q52sm1308849yhh.3.2011.12.13.17.13.55
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 13 Dec 2011 17:13:58 -0800 (PST)
+	Tue, 13 Dec 2011 17:13:56 -0800 (PST)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Dec 2011 01:13:39 +0000
-Message-Id: <10234dfb0f1dfe3f641facf76ce290c3d19bdeae.1323825176.git.otavio@ossystems.com.br>
+Date: Wed, 14 Dec 2011 01:13:38 +0000
+Message-Id: <4ed51d32094e65ce805de4fdaa1cd50c76ec920b.1323825176.git.otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.7.2.5
 In-Reply-To: <cover.1323825176.git.otavio@ossystems.com.br>
 References: <cover.1323825176.git.otavio@ossystems.com.br>
 In-Reply-To: <cover.1323825176.git.otavio@ossystems.com.br>
 References: <cover.1323825176.git.otavio@ossystems.com.br>
-Subject: [PATCH 3/3] icecc-create-env-native_0.1.bb: drop 'PRIORITY = "optional"' as it is the default
+Subject: [PATCH 2/3] grub_1.99.bb: drop 'PRIORITY = "optional"' as it is the default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,21 +48,21 @@ X-List-Received-Date: Wed, 14 Dec 2011 01:20:53 -0000
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- .../icecc-create-env-native_0.1.bb                 |    1 -
+ meta/recipes-bsp/grub/grub_1.99.bb |    1 -
  1 files changed, 0 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-devtools/icecc-create-env/icecc-create-env-native_0.1.bb b/meta/recipes-devtools/icecc-create-env/icecc-create-env-native_0.1.bb
-index 6213843..7db3978 100644
---- a/meta/recipes-devtools/icecc-create-env/icecc-create-env-native_0.1.bb
-+++ b/meta/recipes-devtools/icecc-create-env/icecc-create-env-native_0.1.bb
-@@ -1,7 +1,6 @@
- DESCRIPTION = "This is a modified version of the icecc-create-env script in order to\
- make it work with OE."
- SECTION = "base"
+diff --git a/meta/recipes-bsp/grub/grub_1.99.bb b/meta/recipes-bsp/grub/grub_1.99.bb
+index 8fe2be8..ac66e83 100644
+--- a/meta/recipes-bsp/grub/grub_1.99.bb
++++ b/meta/recipes-bsp/grub/grub_1.99.bb
+@@ -7,7 +7,6 @@ standard, which allows for flexible loading of multiple boot images."
+ 
+ HOMEPAGE = "http://www.gnu.org/software/grub/"
+ SECTION = "bootloaders"
 -PRIORITY = "optional"
- # source file has just a "GPL" word, but upstream is GPLv2+.
- # most probably just GPL would be a mistake
- LICENSE = "GPLv2+"
+ 
+ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 -- 
 1.7.2.5
 
