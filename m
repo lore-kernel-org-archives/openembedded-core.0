@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RbKs4-0005Es-N8
+	(envelope-from <josh@linux.intel.com>) id 1RbKs5-0005Ea-BK
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Dec 2011 00:37:52 +0100
+	Fri, 16 Dec 2011 00:37:53 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 15 Dec 2011 15:30:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="87086689"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="87086690"
 Received: from unknown (HELO shamshir.jf.intel.com) ([10.7.199.105])
 	by orsmga001.jf.intel.com with ESMTP; 15 Dec 2011 15:30:45 -0800
 From: Joshua Lock <josh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Dec 2011 15:30:41 -0800
-Message-Id: <35d3dfdcbc7291c8556e90d67a0f349c8f7caa03.1323991540.git.josh@linux.intel.com>
+Date: Thu, 15 Dec 2011 15:30:42 -0800
+Message-Id: <fcb48b7e581dc934a8e43428216249fd5893d15d.1323991540.git.josh@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.4
 In-Reply-To: <cover.1323991540.git.josh@linux.intel.com>
 References: <cover.1323991540.git.josh@linux.intel.com>
 In-Reply-To: <cover.1323991540.git.josh@linux.intel.com>
 References: <cover.1323991540.git.josh@linux.intel.com>
-Subject: [PATCH 08/10] pango: clarify LICENSE is LGPL-2.0+
+Subject: [PATCH 09/10] matchbox-desktop: clarify LICENSE is GPL-2.0+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,26 +33,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2011 23:37:53 -0000
+X-List-Received-Date: Thu, 15 Dec 2011 23:37:54 -0000
 
 Signed-off-by: Joshua Lock <josh@linux.intel.com>
 ---
- meta/recipes-graphics/pango/pango.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ .../matchbox-desktop/matchbox-desktop_0.9.1.bb     |    2 +-
+ .../matchbox-desktop/matchbox-desktop_2.0.bb       |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
-index ff5a73a..922425c 100644
---- a/meta/recipes-graphics/pango/pango.inc
-+++ b/meta/recipes-graphics/pango/pango.inc
-@@ -7,7 +7,7 @@ core of text and font handling for GTK+-2.x."
- HOMEPAGE = "http://www.pango.org/"
- BUGTRACKER = "http://bugzilla.gnome.org"
- SECTION = "libs"
--LICENSE = "LGPL"
-+LICENSE = "LGPL-2.0+"
+diff --git a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_0.9.1.bb b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_0.9.1.bb
+index 0a02bb9..d633040 100644
+--- a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_0.9.1.bb
++++ b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_0.9.1.bb
+@@ -1,5 +1,5 @@
+ DESCRIPTION = "Matchbox Window Manager Desktop"
+-LICENSE = "GPL"
++LICENSE = "GPL-2.0+"
+ DEPENDS = "libmatchbox startup-notification"
+ SECTION = "x11/wm"
  
- X11DEPENDS = "virtual/libx11 libxft"
- DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv gtk-doc-native cairo "
+diff --git a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.0.bb b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.0.bb
+index 2943e4d..f1dde66 100644
+--- a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.0.bb
++++ b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.0.bb
+@@ -1,5 +1,5 @@
+ DESCRIPTION = "Matchbox Window Manager Desktop"
+-LICENSE = "GPL"
++LICENSE = "GPL-2.0+"
+ DEPENDS = "gtk+ startup-notification"
+ SECTION = "x11/wm"
+ PR = "r2"
 -- 
 1.7.7.4
 
