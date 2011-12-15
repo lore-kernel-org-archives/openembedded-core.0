@@ -1,41 +1,25 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1RbEBy-0001qi-12
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1RbFvU-0006IA-T8
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Dec 2011 17:29:58 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 15 Dec 2011 08:22:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="86938537"
-Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by orsmga001.jf.intel.com with ESMTP; 15 Dec 2011 08:22:25 -0800
-Received: from pgsmsx151.gar.corp.intel.com (172.30.236.41) by
-	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Fri, 16 Dec 2011 00:20:28 +0800
-Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
-	PGSMSX151.gar.corp.intel.com (172.30.236.41) with Microsoft SMTP Server
-	(TLS) id 14.1.355.2; Fri, 16 Dec 2011 00:20:28 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
-	Fri, 16 Dec 2011 00:20:27 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
+	Thu, 15 Dec 2011 19:21:05 +0100
+Received: from mail-iy0-f180.google.com ([209.85.210.180])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 15 Dec 2011 10:14:05 -0800
+Received: by iazz13 with SMTP id z13so1373688iaz.25
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Dec 2011 10:14:05 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.50.184.168 with SMTP id ev8mr3857289igc.62.1323972844770; Thu,
+	15 Dec 2011 10:14:04 -0800 (PST)
+Received: by 10.50.66.2 with HTTP; Thu, 15 Dec 2011 10:14:04 -0800 (PST)
+In-Reply-To: <alpine.DEB.2.00.1112150931060.350@entw48>
+References: <alpine.DEB.2.00.1112150931060.350@entw48>
+Date: Thu, 15 Dec 2011 10:14:04 -0800
+Message-ID: <CAPhnLPAu-EJ_t4FzE8FJUiB8oAri-+11=pzRYJkxf4Y0uW-cKQ@mail.gmail.com>
+From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Dec 2011 00:20:26 +0800
-Thread-Topic: [OE-core] [PATCH 4/9] consolekit: fix sdk generation issues
-Thread-Index: Acy7OiEqPcvpFWkBTZ+CLCe2IIp1TwAChnLA
-Message-ID: <1865303E0DED764181A9D882DEF65FB6EA436A83B6@shsmsx502.ccr.corp.intel.com>
-References: <1323793193-31090-1-git-send-email-dbaryshkov@gmail.com>
-	<1323793193-31090-4-git-send-email-dbaryshkov@gmail.com>
-	<1323961117.4568.41.camel@ted>
-In-Reply-To: <1323961117.4568.41.camel@ted>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
-MIME-Version: 1.0
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH 4/9] consolekit: fix sdk generation issues
+Subject: Re: SPDX vs LICENSE field valid licenses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,52 +34,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2011 16:29:58 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 15 Dec 2011 18:21:05 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Richard Purdie wrote on 2011-12-15:
-> On Tue, 2011-12-13 at 20:19 +0400, Dmitry Eremin-Solenikov wrote:
->> Currently sdk generation might fail with the following error:
->> | Collected errors:
->> |  * extract_archive: Cannot create symlink from ./var/log to
->> 'volatile/log': File exists.
->> ERROR: Function 'do_populate_sdk' failed
->>=20
->> This happens as consolekit package will include both
->> /var/log/ConsoleKit and /var/volatile/log/ConsoleKit files:
->> lumag@fangorn:~/OE-scripts$ dpkg-deb -c
-> build/tmp--eglibc/deploy/ipk/core2/consolekit_0.4.5-r7_core2.ipk  |
-> grep var
->> drwxr-xr-x root/root         0 2011-12-07 22:12 ./var/ drwxr-xr-x
->> root/root         0 2011-12-07 22:12 ./var/log/ drwxr-xr-x root/root  =20
->>      0 2011-12-07 22:12 ./var/log/ConsoleKit/ lrwxrwxrwx root/root    =20
->>    0 2011-12-07 22:12 ./var/run -> volatile/run drwxr-xr-x root/root  =20
->>      0 2011-12-07 22:12 ./var/volatile/ drwxr-xr-x root/root         0
->> 2011-12-07 22:12 ./var/volatile/log/ drwxr-xr-x root/root         0
->> 2011-12-07 22:12 ./var/volatile/log/ConsoleKit/ drwxr-xr-x root/root  =20
->>      0 2011-12-07 22:12 ./var/volatile/run/ drwxr-xr-x root/root      =20
->>  0 2011-12-07 22:12 ./var/volatile/run/ConsoleKit/
->>=20
->> Inclusion of both log directories causes this error. Drop the
->> /var/log/ConsoleKit in favour of /var/volatile/log
-Hi Dmitry,
-Could you please explain how and where the extract_archive error is caused?
-Where is /var/log linked to /var/volatile/log?
+On Thu, Dec 15, 2011 at 12:36 AM, Bernhard Guillon
+<Bernhard.Guillon@hale.at> wrote:
+> Hi all,
+> I want to ask which license style is currently the preferred one? At
+> license.bbclass this comment appears:
+>
+> # Standards are great! Everyone has their own. In an effort to standardize
+> licensing
+> # names, common-licenses will use the SPDX standard license names. In order
+> to not
+> # break the non-standardized license names that we find in LICENSE, we'll
+> set
+> # up a bunch of VarFlags to accomodate non-SPDX license names.
+> #
+> # We should really discuss standardizing this field, but that's a longer
+> term goal.
+> # For now, we can do this and it should grab the most common LICENSE naming
+> variations.
+>
+> So the valide license names for recipes are e.g. MPLv1 while the SPDX
+> license is MPL-1. Why are we not using MPL-1 at the LICENSE field from
+> recipes?
 
-Do you mean RP's patch "consolekit: Fix ${localstatedir} race" didn't fix t=
-he issue?
-(I suspect so)
-=20
-> This effectively reverts:
-> http://git.openembedded.org/openembedded-core/commit/?id=3D5608a748
-> af2c754f60137ab7c3010ccce6bf9e40 so I think this fixes one problem at
-> the expense of causing another. Koen: Any comments?
+Bernhard,
+
+I'm writing an RFC for this both with a suggestion for a naming
+convention, the field's format and some issues I've found with the
+current model (mainly around most recipes having LICENSE as a recipe
+value when in practice, it should be assigned to the package).
+
+With all the OE-Core recipes out there, changing those fields without
+a documented agreed upon standard would be the wrong thing to do. I've
+been trying to make all the license.bbclass work compatible with OE
+LICENSE values that have traditionally been there.
+
+So, for example, I want to support both MPLv1.0 and MPL-1.0 in order
+to be backwards compatible.  However, certain values (GPL, MPL, LGPL)
+have no actual meaning due to missing version indicators. Those need
+to be fixed.
+
+I'll have a draft for this early next week.
 
 Thanks,
--- Dexuan
+
+-b
+
+>
+> Best regrads,
+> Bernhard Guillon
+>
+>
+> --
+> Scanned by MailScanner.
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
+
+-- 
+Elizabeth Flanagan
+Yocto Project
+Build and Release
 
 
