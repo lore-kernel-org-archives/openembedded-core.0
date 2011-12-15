@@ -1,26 +1,25 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RbGv3-0000Xn-Ie
+	(envelope-from <sgw@linux.intel.com>) id 1RbGwn-0000d2-0U
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Dec 2011 20:24:41 +0100
+	Thu, 15 Dec 2011 20:26:29 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 15 Dec 2011 11:17:28 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 15 Dec 2011 11:19:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="96643837"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="96644408"
 Received: from unknown (HELO [10.255.12.229]) ([10.255.12.229])
-	by fmsmga001.fm.intel.com with ESMTP; 15 Dec 2011 11:17:28 -0800
-Message-ID: <4EEA47C8.9030900@linux.intel.com>
-Date: Thu, 15 Dec 2011 11:17:28 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 15 Dec 2011 11:19:29 -0800
+Message-ID: <4EEA4841.6000204@linux.intel.com>
+Date: Thu, 15 Dec 2011 11:19:29 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1323328045-26145-1-git-send-email-lauri.hintsala@bluegiga.com>
-	<1323844047-16390-1-git-send-email-lauri.hintsala@bluegiga.com>
-In-Reply-To: <1323844047-16390-1-git-send-email-lauri.hintsala@bluegiga.com>
-Subject: Re: [PATCH v3] initscripts: fix timestamp checking at bootmisc.sh
+References: <1323853725-7979-1-git-send-email-raj.khem@gmail.com>
+In-Reply-To: <1323853725-7979-1-git-send-email-raj.khem@gmail.com>
+Subject: Re: [PATCH] cross-recipes: Disable nls in gettext bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,48 +34,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2011 19:24:41 -0000
+X-List-Received-Date: Thu, 15 Dec 2011 19:26:29 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12/13/2011 10:27 PM, Lauri Hintsala wrote:
-> Timestamp checking has been broken by the commit
-> 2078af333d704fd894a2dedbc19cef5775cdadbb. Currently the RTC time
-> is always overwritten with the time from /etc/timestmap. Fix timestamp
-> checking and clean the code.
+On 12/14/2011 01:08 AM, Khem Raj wrote:
+> Right now for cross recipes e.g. gcc-cross and binutils-cross
+> we specify --disable-nls .... --enable-nls on configure cmdline
+> the --enable-nls coming from gettext bbclass.
 >
-> Signed-off-by: Lauri Hintsala<lauri.hintsala@bluegiga.com>
+> So we disable nls for all cross inheriting recipes in gettext
+> bbclass and then we remove the extra --disable-nls in gcc-cross
+> and binutils-cross
 >
+> This patch needs testing. Please help
+>
+> Signed-off-by: Khem Raj<raj.khem@gmail.com>
 > ---
-> changes since V2
-> * reduce number of forks/execs
-> ---
->   .../initscripts/initscripts-1.0/bootmisc.sh        |    7 +++----
->   1 files changed, 3 insertions(+), 4 deletions(-)
+>   meta/classes/gettext.bbclass                       |    6 +++---
+>   meta/recipes-devtools/binutils/binutils-cross.inc  |    1 -
+>   meta/recipes-devtools/gcc/gcc-configure-cross.inc  |    1 -
+>   meta/recipes-devtools/gcc/gcc-cross-initial.inc    |    1 -
+>   .../gcc/gcc-cross-intermediate.inc                 |    1 -
+>   5 files changed, 3 insertions(+), 7 deletions(-)
 >
-> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-> index 03fd67c..ab18ad9 100755
-> --- a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-> +++ b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-> @@ -62,15 +62,14 @@ then
->   fi
+> diff --git a/meta/classes/gettext.bbclass b/meta/classes/gettext.bbclass
+> index 1793748..89faa30 100644
+> --- a/meta/classes/gettext.bbclass
+> +++ b/meta/classes/gettext.bbclass
+> @@ -3,15 +3,15 @@ def gettext_dependencies(d):
+>           return ""
+>       if d.getVar('INHIBIT_DEFAULT_DEPS', True) and not oe.utils.inherits(d, 'cross-canadian'):
+>           return ""
+> -    if oe.utils.inherits(d, 'native'):
+> +    if oe.utils.inherits(d, 'native', 'cross'):
+>           return "gettext-minimal-native"
+>       return d.getVar('DEPENDS_GETTEXT', False)
 >
->   # Set the system clock from hardware clock
-> -# If the timestamp is 1 day or more recent than the current time,
-> +# If the timestamp is more recent than the current time,
->   # use the timestamp instead.
->   /etc/init.d/hwclock.sh start
->   if test -e /etc/timestamp
->   then
-> -	SYSTEMDATE=`date  -u +%2m%2d%2H%2M%4Y`
-> +	SYSTEMDATE=`date -u +%4Y%2m%2d`
->   	read TIMESTAMP<  /etc/timestamp
-> -        NEEDUPDATE=`expr \( $TIMESTAMP \>  $SYSTEMDATE + 10000 \)`
-> -        if [ $NEEDUPDATE -eq 1 ]; then
-> +	if [ ${TIMESTAMP#????????}${TIMESTAMP%????????} -gt $SYSTEMDATE ]; then
->   		date -u $TIMESTAMP
->   		/etc/init.d/hwclock.sh stop
->   	fi
+>   def gettext_oeconf(d):
+> -    if oe.utils.inherits(d, 'native'):
+> +    if oe.utils.inherits(d, 'native', 'cross'):
+>           return '--disable-nls'
+>       # Remove the NLS bits if USE_NLS is no.
+> -    if d.getVar('USE_NLS', True) == 'no' and not oe.utils.inherits(d, 'native', 'nativesdk', 'cross', 'cross-canadian'):
+> +    if d.getVar('USE_NLS', True) == 'no' and not oe.utils.inherits(d, 'nativesdk', 'cross-canadian'):
+>           return '--disable-nls'
+>       return "--enable-nls"
+>
+> diff --git a/meta/recipes-devtools/binutils/binutils-cross.inc b/meta/recipes-devtools/binutils/binutils-cross.inc
+> index f07907e..80152a9 100644
+> --- a/meta/recipes-devtools/binutils/binutils-cross.inc
+> +++ b/meta/recipes-devtools/binutils/binutils-cross.inc
+> @@ -8,7 +8,6 @@ EXTRA_OECONF = "--with-sysroot=${STAGING_DIR_TARGET} \
+>                   --program-prefix=${TARGET_PREFIX} \
+>                   --disable-install-libbfd \
+>                   --disable-werror \
+> -                --disable-nls \
+>                   --enable-poison-system-directories \
+>                   ${@base_contains('DISTRO_FEATURES', 'ld-is-gold', '--enable-gold=default', '', d)} \
+>                   ${@base_contains('DISTRO_FEATURES', 'multiarch', '--enable-64-bit-bfd', '', d)}"
+> diff --git a/meta/recipes-devtools/gcc/gcc-configure-cross.inc b/meta/recipes-devtools/gcc/gcc-configure-cross.inc
+> index 5816768..774dadb 100644
+> --- a/meta/recipes-devtools/gcc/gcc-configure-cross.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-configure-cross.inc
+> @@ -4,7 +4,6 @@ USE_NLS = '${@base_conditional( "TARGET_OS", "linux-uclibc", "no", "", d )}'
+>
+>   EXTRA_OECONF += " --enable-poison-system-directories \
+>   		  --with-headers=${STAGING_DIR_TARGET}${SYSTEMHEADERS} \
+> -                  --disable-nls \
+>   		"
+>
+>   INHIBIT_DEFAULT_DEPS = "1"
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial.inc b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
+> index d58bf70..f0e7810 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross-initial.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
+> @@ -14,7 +14,6 @@ EXTRA_OECONF = "--with-local-prefix=${STAGING_DIR_TARGET}${target_prefix} \
+>   		--without-headers \
+>   		--disable-shared \
+>   		--disable-threads \
+> -		--disable-nls \
+>   		--disable-multilib \
+>   		--disable-__cxa_atexit \
+>   		--enable-languages=c \
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc b/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
+> index f368ae9..ea105e6 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
+> @@ -16,7 +16,6 @@ CROSS_TARGET_SYS_DIR_append = ".${PN}"
+>   # preferred linker.
+>   EXTRA_OECONF = "--with-local-prefix=${STAGING_DIR_TARGET}${target_prefix} \
+>   		--enable-shared \
+> -		--disable-nls \
+>   		--disable-multilib \
+>   		--disable-threads \
+>   		--enable-languages=c \
+
 Merged into OE-Core
 
 Thanks
