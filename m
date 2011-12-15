@@ -1,35 +1,33 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1RbBv5-00046e-4E
-	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Dec 2011 15:04:23 +0100
-Received: by pbcc11 with SMTP id c11so1096574pbc.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RbCgf-00063x-8V for openembedded-core@lists.openembedded.org;
+	Thu, 15 Dec 2011 15:53:33 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBFEkZ4r005085
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2011 05:57:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=xXHFI0WkDhnK6FISGTAuFOHMUSVqtmhsfpv+buDvPIA=;
-	b=kU0PsPN7alUcOT513JtgM5Kdxb3cPcWHbll73UCR4Xyavp5GEByMSWVC8nb1qEplp1
-	04EOxhRqC2wmaRfUasIMCBbhMTKgK2bYVAG61AtQjR9Yib7SaA1M4IIEUTvhWrKLf/E/
-	uahskdbHKbWxFfyIHReMAa8QjYFwuRqYY2kAs=
-MIME-Version: 1.0
-Received: by 10.68.211.225 with SMTP id nf1mr10122193pbc.47.1323957444521;
-	Thu, 15 Dec 2011 05:57:24 -0800 (PST)
-Received: by 10.142.110.13 with HTTP; Thu, 15 Dec 2011 05:57:24 -0800 (PST)
-In-Reply-To: <CA067797-AB29-4EBA-8561-5ED321E9D0A8@dominion.thruhere.net>
-References: <1323793193-31090-1-git-send-email-dbaryshkov@gmail.com>
-	<4EE7EA96.4080806@linux.intel.com>
-	<CALT56yNAeCns9Ft4yr9fH2tnWtW-WERiJ=soKOqJGbHEJjVA4Q@mail.gmail.com>
-	<CA067797-AB29-4EBA-8561-5ED321E9D0A8@dominion.thruhere.net>
-Date: Thu, 15 Dec 2011 08:57:24 -0500
-Message-ID: <CADkTA4MQ62VZj5Nd_d0pL0BQgNo=E0HwcZdRyPdO=QoGNB179w@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+	Thu, 15 Dec 2011 14:46:35 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 04434-07 for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Dec 2011 14:46:30 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBFEkQrk005078
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Dec 2011 14:46:27 GMT
+Message-ID: <1323960387.4568.35.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>,
-	Darren Hart <dvhart@linux.intel.com>
-Subject: Re: [PATCH 1/9] kernel.bbclass: compile kernel and modules in a single task
+Date: Thu, 15 Dec 2011 14:46:27 +0000
+In-Reply-To: <cover.1323911699.git.sgw@linux.intel.com>
+References: <cover.1323911699.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 0/7] SSTATE_SCAN_FILES Fix with non-gplv3 and World fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,56 +42,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2011 14:04:23 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 15 Dec 2011 14:53:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Dec 15, 2011 at 4:27 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
->
-> Op 14 dec. 2011, om 01:17 heeft Dmitry Eremin-Solenikov het volgende geschreven:
->
->> On Wed, Dec 14, 2011 at 4:15 AM, Darren Hart <dvhart@linux.intel.com> wrote:
->>>
->>>
->>> On 12/13/2011 08:19 AM, Dmitry Eremin-Solenikov wrote:
->>>> There is no point in compiling kernel modules in a separate task, run
->>>> right after do_compile. On the other hand merging those tasks will e.g.
->>>> make icecc used also for modules compilation, etc.
->>>
->>> This split was done intentionally to allow tasks to be inserted between
->>> compile and compile_kernelmodules. See:
->>
->> Could you (or Koen) name any tasks that have to be inserted between kernel
->> and modules compilation please?
->
-> Building external modules that are referenced by internal ones for example. But besides that, this also allows me to build just *Image quickly and not having to wait for the modules to build.
+On Wed, 2011-12-14 at 17:50 -0800, Saul Wold wrote:
+> Richard,
+> 
+> This patch contains a couple of fixes for world and non-gplv3 along
+> with the sstate fix for ensure we mangle (or "fixmepath") files that
+> do not fall into the standard set.
+> 
+> SSTATE_SCAN_FILES is defaulted to "*.la and *-configs", recipes can
+> append to it with SSTATE_SCAN_FILES += "<filename>".
+> 
+> 
+> The following changes since commit b9dfccc018f32a47fc045f35d5f53d7269d791ed:
+> 
+>   gdk-pixbuf: Ensure the binaries can be relocated (2011-12-13 18:00:18 +0000)
+> 
+> are available in the git repository at:
+>   git://git.openembedded.org/openembedded-core-contrib sgw/fix
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
+> 
+> Saul Wold (7):
+>   qt-mobility: Fix QA error for debug files
 
-I've had the same thing here, just building the main image and not
-wanting to wait for
-kernel modules to compile. More of an incremental ad-hoc, scp and reboot sort of
-workflow, but only building what you need in that situation is just
-what a person wants.
+Missing PR bump
+
+>   ed: Fix EXTRA_OECONF to ensure right compiler is found
+
+This has a question. I think the answer is that it doesn't use real
+autoconf and had special issues of its own. I haven't checked yet though
+so I've left this patch as queued.
+
+>   sstate: Add SSTATE_SCAN_FILES
+
+I've updated the above patch with some better syntax I came up with.
+
+>   icu: Add Makefile.inc to SSTATE_SCAN_FILES
+>   gmp: Add gmp.h to SSTATE_SCAN_FILES
+>   libtool-cross: Add libtool & libtoolize to SSTATE_SCAN_FILES
+>   perl: add .pl, pm, pod, sh files to SSTATE_SCANE_FILES
+
+These are fine but needed better commit descriptions.
+
+I made the above tweaks and merged these along with some of the other
+commits batched up in MUT (already been on the list for a while). The
+MUT build on the autobuilder was not in a good state due to the directfb
+change. I've therefore selectively pulled in pieces of MUT into master
+and restarted a test against master.
 
 Cheers,
 
-Bruce
+Richard
 
-> -----BEGIN PGP SIGNATURE-----
->
-> iEYEARECAAYFAk7pvXkACgkQMkyGM64RGpE2pwCdFjZuuNW4ler8ES4OsKddTaB2
-> JnIAn0ME2FOwLyXeCS2DDBsTwKBFUKDt
-> =l9hr
-> -----END PGP SIGNATURE-----
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
 
