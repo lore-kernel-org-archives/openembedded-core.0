@@ -1,26 +1,38 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mailbackup.inode.at ([213.229.60.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Rb6wJ-0004f0-IB
+	(envelope-from <Bernhard.Guillon@hale.at>) id 1Rb70G-0004qP-9b
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Dec 2011 09:45:19 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 15 Dec 2011 00:38:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="87571660"
-Received: from unknown (HELO [10.255.12.219]) ([10.255.12.219])
-	by orsmga002.jf.intel.com with ESMTP; 15 Dec 2011 00:38:20 -0800
-Message-ID: <4EE9B1FC.4090503@linux.intel.com>
-Date: Thu, 15 Dec 2011 00:38:20 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
+	Thu, 15 Dec 2011 09:49:24 +0100
+Received: from [62.99.145.3] (port=19654 helo=mx.inode.at)
+	by mailbackup.inode.at with esmtp (Exim 4.76)
+	(envelope-from <Bernhard.Guillon@hale.at>) id 1Rb6ng-0005iv-G1
+	for openembedded-core@lists.openembedded.org;
+	Thu, 15 Dec 2011 09:36:24 +0100
+Received: from [83.64.51.210] (port=7014 helo=gateway1.hale)
+	by smartmx-03.inode.at with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <Bernhard.Guillon@hale.at>)
+	id 1Rb6ne-0004M5-If for openembedded-core@lists.openembedded.org;
+	Thu, 15 Dec 2011 09:36:22 +0100
+Received: from mail1.hale.at (mail2.hale [192.168.100.12])
+	by gateway1.hale (8.13.8/8.13.7) with ESMTP id pBF8aPPs031807
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Dec 2011 09:36:25 +0100
+Received: from entw48 ([192.168.100.138]) by hale.at with MailEnable ESMTP;
+	Thu, 15 Dec 2011 09:36:15 +0100
+Date: Thu, 15 Dec 2011 09:36:07 +0100 (CET)
+From: Bernhard Guillon <Bernhard.Guillon@hale.at>
+X-X-Sender: guib@entw48
+To: openembedded-core@lists.openembedded.org
+Message-ID: <alpine.DEB.2.00.1112150931060.350@entw48>
+User-Agent: Alpine 2.00 (DEB 1167 2008-08-23)
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1323911699.git.sgw@linux.intel.com>
-	<54c5ffb66f2e947b81d7cdbb8e8c34c51b38770f.1323911699.git.sgw@linux.intel.com>
-In-Reply-To: <54c5ffb66f2e947b81d7cdbb8e8c34c51b38770f.1323911699.git.sgw@linux.intel.com>
-Subject: Re: [PATCH 3/7] sstate: Add SSTATE_SCAN_FILES
+X-HALE-MailScanner-Information: Please contact the ISP for more information
+X-MailScanner-ID: pBF8aPPs031807
+X-HALE-MailScanner: Found to be clean
+X-HALE-MailScanner-From: bernhard.guillon@hale.at
+MailScanner-NULL-Check: 1324542986.46736@VNpxSZT8RJyR6uFOXDRJRg
+X-Spam-Status: No
+Subject: SPDX vs LICENSE field valid licenses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,61 +47,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2011 08:45:19 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 15 Dec 2011 08:49:24 -0000
+Content-Type: TEXT/PLAIN; format=flowed; charset=US-ASCII
 
-On 12/14/2011 05:50 PM, Saul Wold wrote:
-> This allows recipes to specify files that may be outside the normal set
-> for inclusion when there are hardcoded paths that need to be fixmepathed
-> to work correctly.
->
-> Signed-off-by: Saul Wold<sgw@linux.intel.com>
-> ---
->   meta/classes/sstate.bbclass |   11 ++++++++++-
->   1 files changed, 10 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-> index 504b099..5452a43 100644
-> --- a/meta/classes/sstate.bbclass
-> +++ b/meta/classes/sstate.bbclass
-> @@ -10,7 +10,8 @@ SSTATE_PKGSPEC    = "sstate-${PN}-${PACKAGE_ARCH}${TARGET_VENDOR}-${TARGET_OS}-$
->   SSTATE_PKGNAME    = "${SSTATE_PKGSPEC}${BB_TASKHASH}"
->   SSTATE_PKG        = "${SSTATE_DIR}/${SSTATE_PKGNAME}"
->
-> -SSTATE_SCAN_CMD ?= "find ${SSTATE_BUILDDIR} \( -name "*.la" -o -name "*-config" \) -type f"
-> +SSTATE_SCAN_FILES ?= "*.la *-config"
-> +SSTATE_SCAN_CMD ?= "find ${SSTATE_BUILDDIR} \( ${SSTATE_FIND_CMD_FILES} \) -type f"
->
->   BB_HASHFILENAME = "${SSTATE_PKGNAME}"
->
-> @@ -33,6 +34,13 @@ python () {
->       else:
->           d.setVar('SSTATE_MANMACH', bb.data.expand("${MACHINE}", d))
->
-> +    find_cmd_files = ""
-> +    for file in d.getVar('SSTATE_SCAN_FILES', True).split():
-> +        find_file = "-o -name \"" + file + "\""
-> +        find_cmd_files = find_cmd_files + " " + find_file
-> +    d.setVar('SSTATE_FIND_CMD_FILES', find_cmd_files.replace("-o ", "", 1))
-> +    bb.note("FIND_CMD_FILES = %s" % find_cmd_files)
-> +
-Just realized I left some debugging stuff here and below, this is fixed 
-in the bracnh
->       # These classes encode staging paths into their scripts data so can only be
->       # reused if we manipulate the paths
->       if bb.data.inherits_class('native', d) or bb.data.inherits_class('cross', d) or bb.data.inherits_class('sdk', d) or bb.data.inherits_class('crosssdk', d):
-> @@ -299,6 +307,7 @@ def sstate_hardcode_path(d):
->   	# Need to remove hardcoded paths and fix these when we install the
->   	# staging packages.
->   	sstate_scan_cmd = d.getVar('SSTATE_SCAN_CMD', True)
-> +        bb.note("SCAN_CMD = %s" % sstate_scan_cmd)
-Bad Sau! left debugging!
+Hi all,
+I want to ask which license style is currently the preferred one? At 
+license.bbclass this comment appears:
 
-Sau!
+# Standards are great! Everyone has their own. In an effort to standardize 
+licensing
+# names, common-licenses will use the SPDX standard license names. In 
+order to not
+# break the non-standardized license names that we find in LICENSE, we'll 
+set
+# up a bunch of VarFlags to accomodate non-SPDX license names.
+#
+# We should really discuss standardizing this field, but that's a longer 
+term goal.
+# For now, we can do this and it should grab the most common LICENSE 
+naming variations.
 
->   	p = os.popen("%s" % sstate_scan_cmd)
->   	file_list = p.read()
->
+So the valide license names for recipes are e.g. MPLv1 while the SPDX 
+license is MPL-1. Why are we not using MPL-1 at the LICENSE field from 
+recipes?
+
+Best regrads,
+Bernhard Guillon
+
+
+--
+Scanned by MailScanner.
+
 
 
