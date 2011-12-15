@@ -1,37 +1,20 @@
-Received: from mailbackup.inode.at ([213.229.60.24])
+Received: from smtp2-g21.free.fr ([212.27.42.2])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bernhard.Guillon@hale.at>) id 1RbDSX-0008Ab-LY
+	(envelope-from <eric@eukrea.com>) id 1RbDVj-0008LL-3z
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Dec 2011 16:43:02 +0100
-Received: from [62.99.145.21] (port=27524 helo=mx.inode.at)
-	by mailbackup.inode.at with esmtp (Exim 4.76)
-	(envelope-from <Bernhard.Guillon@hale.at>) id 1RbDLp-0006Zs-Up
-	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Dec 2011 16:36:05 +0100
-Received: from [83.64.51.210] (port=12111 helo=gateway1.hale)
-	by smartmx-19.inode.at with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <Bernhard.Guillon@hale.at>)
-	id 1RbDLk-0002oc-PA for openembedded-core@lists.openembedded.org;
-	Thu, 15 Dec 2011 16:36:00 +0100
-Received: from mail1.hale.at (mail2.hale [192.168.100.12])
-	by gateway1.hale (8.13.8/8.13.7) with ESMTP id pBFFa29f021485
+	Thu, 15 Dec 2011 16:46:19 +0100
+Received: from [192.168.1.15] (unknown [82.240.38.71])
+	by smtp2-g21.free.fr (Postfix) with ESMTP id 673C44B043E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2011 16:36:02 +0100
-Received: from localhost.localdomain ([192.168.100.138]) by hale.at with
-	MailEnable ESMTP; Thu, 15 Dec 2011 16:35:52 +0100
-From: Bernhard Guillon <Bernhard.Guillon@hale.at>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Dec 2011 16:35:38 +0100
-Message-Id: <1323963338-21505-1-git-send-email-Bernhard.Guillon@hale.at>
-X-Mailer: git-send-email 1.7.0.4
+	Thu, 15 Dec 2011 16:39:17 +0100 (CET)
+Message-ID: <4EEA14A3.8070400@eukrea.com>
+Date: Thu, 15 Dec 2011 16:39:15 +0100
+From: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:8.0) Gecko/20111105 Thunderbird/8.0
 MIME-Version: 1.0
-X-HALE-MailScanner-Information: Please contact the ISP for more information
-X-MailScanner-ID: pBFFa29f021485
-X-HALE-MailScanner: Found to be clean
-X-HALE-MailScanner-From: bernhard.guillon@hale.at
-MailScanner-NULL-Check: 1324568163.19952@PzOzxXd6rHwoVG4QKeB1bw
-X-Spam-Status: No
-Subject: [PATCH] update-rc.d.bbclass: override UPDATERCD for nativesdk
+To: openembedded-core@lists.openembedded.org
+Subject: meta-toolchain problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,38 +29,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2011 15:43:02 -0000
+X-List-Received-Date: Thu, 15 Dec 2011 15:46:19 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Override UPDATERCD for nativesdk.
-Without, update-rc.d is installed to /usr/sbin/update-rc.d
-with meta-toolchain if nativesdk recipe inherits update-rc.d. An
-example recipe for this is dbus.
+Hi,
 
-Signed-off-by: Bernhard Guillon <Bernhard.Guillon@hale.at>
----
- meta/classes/update-rc.d.bbclass |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
+while building for 3 different arm platform (armv5, armv6 & armv7), using 
+oe-core + meta-oe + meta-angstrom I notice a problem when building 
+meta-toolchain-qte or meta-toolchain :
+in the armv7a-toolchain, I find 
+./usr/local/angstrom-eglibc-x86_64-armv5te/sysroot/x86_64-angstromsdk-linux/usr/bin/ 
+which contains native tools, while 
+./usr/local/angstrom-eglibc-x86_64-armv7a/sysroots/x86_64-angstromsdk-linux/usr/bin/ 
+is empty.
+and I notice the same thing in armv6 meta-toolchain-qte.
 
-diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
-index 492c5fb..304decf 100644
---- a/meta/classes/update-rc.d.bbclass
-+++ b/meta/classes/update-rc.d.bbclass
-@@ -3,6 +3,8 @@ UPDATERCPN ?= "${PN}"
- DEPENDS_append = " update-rc.d-native"
- UPDATERCD = "update-rc.d"
- UPDATERCD_virtclass-native = ""
-+UPDATERCD_virtclass-nativesdk = ""
-+
- RDEPENDS_${UPDATERCPN}_append = " ${UPDATERCD}"
- 
- INITSCRIPT_PARAMS ?= "defaults"
--- 
-1.7.1
+It seems all the native packages installed in the 3 sdk are using path of the 
+1st built sdk (armv5 in the present case) which seems wrong.
 
+Do you have an idea of where to start looking for the reason of this problem ?
 
+Thanks,
+Eric
 
---
-Scanned by MailScanner.
 
 
 
