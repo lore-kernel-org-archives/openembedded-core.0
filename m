@@ -1,27 +1,37 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mailbackup.inode.at ([213.229.60.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RbD9J-0007UH-Ee
+	(envelope-from <Bernhard.Guillon@hale.at>) id 1RbDSX-0008Ab-LY
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Dec 2011 16:23:09 +0100
-Received: by faaa20 with SMTP id a20so2410967faa.6
+	Thu, 15 Dec 2011 16:43:02 +0100
+Received: from [62.99.145.21] (port=27524 helo=mx.inode.at)
+	by mailbackup.inode.at with esmtp (Exim 4.76)
+	(envelope-from <Bernhard.Guillon@hale.at>) id 1RbDLp-0006Zs-Up
+	for openembedded-core@lists.openembedded.org;
+	Thu, 15 Dec 2011 16:36:05 +0100
+Received: from [83.64.51.210] (port=12111 helo=gateway1.hale)
+	by smartmx-19.inode.at with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <Bernhard.Guillon@hale.at>)
+	id 1RbDLk-0002oc-PA for openembedded-core@lists.openembedded.org;
+	Thu, 15 Dec 2011 16:36:00 +0100
+Received: from mail1.hale.at (mail2.hale [192.168.100.12])
+	by gateway1.hale (8.13.8/8.13.7) with ESMTP id pBFFa29f021485
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2011 07:16:11 -0800 (PST)
-Received: by 10.180.75.204 with SMTP id e12mr5494152wiw.61.1323962171659;
-	Thu, 15 Dec 2011 07:16:11 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id k5sm8706535wiz.9.2011.12.15.07.16.10
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 15 Dec 2011 07:16:10 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Thu, 15 Dec 2011 16:16:17 +0100
-In-Reply-To: <1322665120-29586-1-git-send-email-koen@dominion.thruhere.net>
+	Thu, 15 Dec 2011 16:36:02 +0100
+Received: from localhost.localdomain ([192.168.100.138]) by hale.at with
+	MailEnable ESMTP; Thu, 15 Dec 2011 16:35:52 +0100
+From: Bernhard Guillon <Bernhard.Guillon@hale.at>
 To: openembedded-core@lists.openembedded.org
-References: <1322665120-29586-1-git-send-email-koen@dominion.thruhere.net>
-Message-Id: <D72EA3E2-0752-4F03-875F-77F5764313B1@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH] webkit-gtk svn: update to r101488
+Date: Thu, 15 Dec 2011 16:35:38 +0100
+Message-Id: <1323963338-21505-1-git-send-email-Bernhard.Guillon@hale.at>
+X-Mailer: git-send-email 1.7.0.4
+MIME-Version: 1.0
+X-HALE-MailScanner-Information: Please contact the ISP for more information
+X-MailScanner-ID: pBFFa29f021485
+X-HALE-MailScanner: Found to be clean
+X-HALE-MailScanner-From: bernhard.guillon@hale.at
+MailScanner-NULL-Check: 1324568163.19952@PzOzxXd6rHwoVG4QKeB1bw
+X-Spam-Status: No
+Subject: [PATCH] update-rc.d.bbclass: override UPDATERCD for nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,47 +46,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2011 15:23:09 -0000
-X-Groupsio-MsgNum: 14261
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_B54787F2-AF40-49EB-9E7D-7DE915110428";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Thu, 15 Dec 2011 15:43:02 -0000
 
---Apple-Mail=_B54787F2-AF40-49EB-9E7D-7DE915110428
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+Override UPDATERCD for nativesdk.
+Without, update-rc.d is installed to /usr/sbin/update-rc.d
+with meta-toolchain if nativesdk recipe inherits update-rc.d. An
+example recipe for this is dbus.
 
-ping
+Signed-off-by: Bernhard Guillon <Bernhard.Guillon@hale.at>
+---
+ meta/classes/update-rc.d.bbclass |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-Op 30 nov. 2011, om 15:58 heeft Koen Kooi het volgende geschreven:
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+index 492c5fb..304decf 100644
+--- a/meta/classes/update-rc.d.bbclass
++++ b/meta/classes/update-rc.d.bbclass
+@@ -3,6 +3,8 @@ UPDATERCPN ?= "${PN}"
+ DEPENDS_append = " update-rc.d-native"
+ UPDATERCD = "update-rc.d"
+ UPDATERCD_virtclass-native = ""
++UPDATERCD_virtclass-nativesdk = ""
++
+ RDEPENDS_${UPDATERCPN}_append = " ${UPDATERCD}"
+ 
+ INITSCRIPT_PARAMS ?= "defaults"
+-- 
+1.7.1
 
-> tested on beagleboard/angstrom with midori and epiphany browsers
->=20
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> ---
-> meta/recipes-sato/webkit/files/GNUmakefile.am |   37 ++-
-> meta/recipes-sato/webkit/files/autogen.sh     |    1 -
-> meta/recipes-sato/webkit/files/configure.ac   |  395 =
-++++++++++++-------------
-> meta/recipes-sato/webkit/webkit-gtk_svn.bb    |    9 +-
-> 4 files changed, 232 insertions(+), 210 deletions(-)
->=20
 
 
---Apple-Mail=_B54787F2-AF40-49EB-9E7D-7DE915110428
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+--
+Scanned by MailScanner.
 
------BEGIN PGP SIGNATURE-----
 
-iEYEARECAAYFAk7qD0EACgkQMkyGM64RGpFdRwCfb7EINOXwxzdLZEyYBht2lhga
-0IoAoI55N5JHFR2hsW7X9ex/wrU5hkxC
-=dTUv
------END PGP SIGNATURE-----
 
---Apple-Mail=_B54787F2-AF40-49EB-9E7D-7DE915110428--
