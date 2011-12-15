@@ -1,33 +1,30 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RbB9J-0008Ax-RO for openembedded-core@lists.openembedded.org;
-	Thu, 15 Dec 2011 14:15:02 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBFD859a003970
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1RbBAB-00025K-IJ
+	for openembedded-core@lists.openembedded.org;
+	Thu, 15 Dec 2011 14:15:55 +0100
+Received: by ghrr15 with SMTP id r15so1481955ghr.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2011 13:08:05 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 03588-03 for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2011 13:08:00 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBFD7vqB003964
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2011 13:07:58 GMT
-Message-ID: <1323954476.4568.23.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 15 Dec 2011 13:07:56 +0000
-In-Reply-To: <cover.1323825176.git.otavio@ossystems.com.br>
-References: <cover.1323825176.git.otavio@ossystems.com.br>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/3] Remove PRIORITY field set as optional as it is the default
+	Thu, 15 Dec 2011 05:08:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=inbxLjpfshij9U44681AHySzsObU9T3T2RfqqJGFEEQ=;
+	b=Zup4zolQ/iK9cH/sMqWGLtSly52PCOMJ+AhrLidcKtZ5uw1Tkjrnph7XrdtCpunq70
+	xQvhsZJioQ28P+kKVrpJxTiM5g/bVOn9mV/imxlF54yMTl5QYmXdZkBdkHqry7oPetHe
+	clhpU4rlE8aIhS8OxszzoL1yVDuITjZ+YaYCE=
+Received: by 10.236.123.108 with SMTP id u72mr4940109yhh.45.1323954537311;
+	Thu, 15 Dec 2011 05:08:57 -0800 (PST)
+Received: from localhost.localdomain ([189.114.111.55])
+	by mx.google.com with ESMTPS id a11sm10142868anc.11.2011.12.15.05.08.54
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 15 Dec 2011 05:08:56 -0800 (PST)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Dec 2011 13:08:35 +0000
+Message-Id: <1323954515-15604-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+Subject: [PATCH] dropbear: bump epoch to fix upgrade path in meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,29 +39,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2011 13:15:03 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 15 Dec 2011 13:15:55 -0000
 
-On Wed, 2011-12-14 at 01:13 +0000, Otavio Salvador wrote:
-> The following changes since commit b9dfccc018f32a47fc045f35d5f53d7269d791ed:
-> 
->   gdk-pixbuf: Ensure the binaries can be relocated (2011-12-13 18:00:18 +0000)
-> 
-> are available in the git repository at:
->   git://github.com/OSSystems/oe-core master
->   https://github.com/OSSystems/oe-core/tree/HEAD
-> 
-> Otavio Salvador (3):
->   grub-efi-native_1.99.bb: drop 'PRIORITY = "optional"' as it is the
->     default
->   grub_1.99.bb: drop 'PRIORITY = "optional"' as it is the default
->   icecc-create-env-native_0.1.bb: drop 'PRIORITY = "optional"' as it is
->     the default
+There was a 'dropbear-systemd' binary package on meta-oe versioned as
+'v1' and it has been merged on dropbear's bbappend; to fix the upgrade
+path for the dropbear-systemd package on meta-oe we need to bump epoch
+and to avoid messing it up this needs to go into OE-Core.
 
-Merged to master, thanks.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/recipes-core/dropbear/dropbear.inc |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-Richard
+diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
+index 1894715..073ac13 100644
+--- a/meta/recipes-core/dropbear/dropbear.inc
++++ b/meta/recipes-core/dropbear/dropbear.inc
+@@ -11,6 +11,8 @@ DEPENDS = "zlib"
+ RPROVIDES = "ssh sshd"
+ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ 
++PE = "1"
++
+ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.gz \
+ 	         file://urandom-xauth-changes-to-options.h.patch \
+ 		 file://dropbear-0.53.1-static_build_fix.patch \
+-- 
+1.7.2.5
 
 
 
