@@ -1,27 +1,21 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1Rb04g-0002DQ-4x
+	(envelope-from <nitin.a.kamble@intel.com>) id 1Rb0WX-0002x7-6m
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Dec 2011 02:25:30 +0100
-Received: from mail-iy0-f180.google.com ([209.85.210.180])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 14 Dec 2011 17:18:31 -0800
-Received: by iazz13 with SMTP id z13so200098iaz.25
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Dec 2011 17:18:30 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.50.186.165 with SMTP id fl5mr830536igc.86.1323911910716; Wed,
-	14 Dec 2011 17:18:30 -0800 (PST)
-Received: by 10.50.66.2 with HTTP; Wed, 14 Dec 2011 17:18:30 -0800 (PST)
-In-Reply-To: <1323878772.24417.183.camel@phil-desktop>
-References: <025adb591e6811bcd1bc5480d6c297015d373a02.1323286080.git.elizabeth.flanagan@intel.com>
-	<38bec96fcbe89f8dc264c8889f69e4f5afff35ad.1323286080.git.elizabeth.flanagan@intel.com>
-	<1323878772.24417.183.camel@phil-desktop>
-Date: Wed, 14 Dec 2011 17:18:30 -0800
-Message-ID: <CAPhnLPBkYypd_S6-UcZ61UGy2kxG+=bQ56N179fmD5e6g0cLhQ@mail.gmail.com>
-From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 7/8] OECore license fixes: meta/*
+	Thu, 15 Dec 2011 02:54:17 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 14 Dec 2011 17:47:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="85863762"
+Received: from nbuild0.sc.intel.com ([172.25.110.36])
+	by azsmga001.ch.intel.com with ESMTP; 14 Dec 2011 17:47:18 -0800
+From: nitin.a.kamble@intel.com
+To: dvhart@linux.intel.com,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 14 Dec 2011 17:47:14 -0800
+Message-Id: <cover.1323913192.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.6.4
+Subject: [PATCH 0/1] mkdosfs populated image creation fix version:2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,60 +30,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2011 01:25:30 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 15 Dec 2011 01:54:17 -0000
 
-On Wed, Dec 14, 2011 at 8:06 AM, Phil Blundell <philb@gnu.org> wrote:
-> On Wed, 2011-12-07 at 11:34 -0800, Beth Flanagan wrote:
->> diff --git a/meta/recipes-extended/less/less_444.bb b/meta/recipes-exten=
-ded/less/less_444.bb
->> index c78dbaa..f198692 100644
->> --- a/meta/recipes-extended/less/less_444.bb
->> +++ b/meta/recipes-extended/less/less_444.bb
->> @@ -7,11 +7,14 @@ SECTION =3D "console/utils"
->>
->> =A0# (GPLv2+ (<< 418), GPLv3+ (>=3D 418)) | less
->> =A0# less is a 2-clause BSD-like permissive license
->> -LICENSE =3D "GPLv3+ | less"
->> +# Reading LICENSE and COPYING indicate that GPL-3+ is suffient.
->> +# openSuse .spec and Debian seem to agree here. setting to GPL-3+
->> +
->> +LICENSE =3D "GPLv3+"
->
-> This change is rather misleading. =A0The point of the "Less
-> License" (effectively 2-clause BSD) option given by the README is that
-> it provides a non-GPLv3 route for distributing the binaries -- i.e.
-> makes the package usable by people who can't tolerate GPLv3 for whatever
-> reason. =A0If the recipe is marked as simply GPLv3+ then it will appear
-> unusable to those folks.
->
-> If we have to pick just a single license for less then it seems that the
-> BSD one would be a better choice than GPLv3+.
->
-> p.
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-I have an email out to the author to verify if it would be ok to use
-BSD-2-Clause. If so, we can switch it to that. If not, we'll add less
-as a license type.
+This has enhanced the commit for fixing mkdosfs. We noticed some 
+issues with the generated image with the earlier sent-out commit. 
+This version 2 commit has improved the the mkdosfs further. Now 
+the outstanding issues in the image are fixable by dosfsck.
+  More details are in the patch documentation.
 
-Sound ok?
+Thanks,
+Nitin
 
--b
+The following changes since commit 9d136b2db8f906c562cbdb23a9b238f0e237074b:
 
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+  gdk-pixbuf: Ensure the binaries can be relocated (2011-12-13 18:00:25 +0000)
 
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/bugfix
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/bugfix
 
+Nitin A Kamble (1):
+  dosfstools: fix populated image creation with dirs
 
---=20
-Elizabeth Flanagan
-Yocto Project
-Build and Release
+ .../dosfstools/fix_populated_dosfs_creation.patch  |  489 ++++++++++++++++++++
+ .../recipes-devtools/dosfstools/dosfstools_2.11.bb |    5 +-
+ 2 files changed, 492 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/dosfstools/dosfstools/fix_populated_dosfs_creation.patch
+
+-- 
+1.7.6.4
+
 
 
