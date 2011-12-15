@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RbKs3-0005Es-Mb
+	(envelope-from <josh@linux.intel.com>) id 1RbKs4-0005Ea-HE
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Dec 2011 00:37:51 +0100
+	Fri, 16 Dec 2011 00:37:52 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 15 Dec 2011 15:30:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="87086686"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="87086688"
 Received: from unknown (HELO shamshir.jf.intel.com) ([10.7.199.105])
 	by orsmga001.jf.intel.com with ESMTP; 15 Dec 2011 15:30:45 -0800
 From: Joshua Lock <josh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Dec 2011 15:30:38 -0800
-Message-Id: <4109f2838503acc390adc95ac571187d6f9abb10.1323991540.git.josh@linux.intel.com>
+Date: Thu, 15 Dec 2011 15:30:40 -0800
+Message-Id: <1a44b7bbab559b9ff3d0678935b59b47c6a16471.1323991540.git.josh@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.4
 In-Reply-To: <cover.1323991540.git.josh@linux.intel.com>
 References: <cover.1323991540.git.josh@linux.intel.com>
 In-Reply-To: <cover.1323991540.git.josh@linux.intel.com>
 References: <cover.1323991540.git.josh@linux.intel.com>
-Subject: [PATCH 05/10] clutter: clarify LICENSE as LGPL-2.1
+Subject: [PATCH 07/10] matchbox-wm: clarify LICENSE as GPL-2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,21 +37,21 @@ X-List-Received-Date: Thu, 15 Dec 2011 23:37:52 -0000
 
 Signed-off-by: Joshua Lock <josh@linux.intel.com>
 ---
- meta/recipes-graphics/clutter/clutter.inc |    2 +-
+ .../matchbox-wm/matchbox-wm_1.2.bb                 |    2 +-
  1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-graphics/clutter/clutter.inc b/meta/recipes-graphics/clutter/clutter.inc
-index 24cb30d..9e9c955 100644
---- a/meta/recipes-graphics/clutter/clutter.inc
-+++ b/meta/recipes-graphics/clutter/clutter.inc
+diff --git a/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.bb b/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.bb
+index 63829ec..87794c8 100644
+--- a/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.bb
++++ b/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.bb
 @@ -1,6 +1,6 @@
- DESCRIPTION = "Clutter graphics library"
- HOMEPAGE = "http://www.clutter-project.org/"
--LICENSE = "LGPL"
-+LICENSE = "LGPL-2.1"
+ SECTION = "x11/wm"
+ DESCRIPTION = "Matchbox window manager"
+-LICENSE = "GPL"
++LICENSE = "GPL-2.0"
+ DEPENDS = "libmatchbox virtual/libx11 libxext libxcomposite libxfixes xdamage libxrender startup-notification expat"
+ PR = "r4"
  
- # Internal json-glib was removed in Clutter 1.5.2, cogl was removed in 1.8, atk required since 1.8
- STDDEPENDS = "virtual/libx11 gtk-doc-native pango glib-2.0 libxfixes libxi json-glib cogl atk"
 -- 
 1.7.7.4
 
