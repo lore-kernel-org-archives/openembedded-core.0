@@ -1,25 +1,29 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1RbFvU-0006IA-T8
+	(envelope-from <martin.jansa@gmail.com>) id 1RbGCB-0006tU-2Q
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Dec 2011 19:21:05 +0100
-Received: from mail-iy0-f180.google.com ([209.85.210.180])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 15 Dec 2011 10:14:05 -0800
-Received: by iazz13 with SMTP id z13so1373688iaz.25
+	Thu, 15 Dec 2011 19:38:19 +0100
+Received: by eekb15 with SMTP id b15so2111561eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2011 10:14:05 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.50.184.168 with SMTP id ev8mr3857289igc.62.1323972844770; Thu,
-	15 Dec 2011 10:14:04 -0800 (PST)
-Received: by 10.50.66.2 with HTTP; Thu, 15 Dec 2011 10:14:04 -0800 (PST)
-In-Reply-To: <alpine.DEB.2.00.1112150931060.350@entw48>
-References: <alpine.DEB.2.00.1112150931060.350@entw48>
-Date: Thu, 15 Dec 2011 10:14:04 -0800
-Message-ID: <CAPhnLPAu-EJ_t4FzE8FJUiB8oAri-+11=pzRYJkxf4Y0uW-cKQ@mail.gmail.com>
-From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: SPDX vs LICENSE field valid licenses
+	Thu, 15 Dec 2011 10:31:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=wcFCkvxB8vHqGmztwJpqIvsbCZ2MgTlN/FtBglyyO7Q=;
+	b=pjdAJLlObKpi6KVaNAx/AQjpOndSKqADza7lHjh8mXudp4NA6nsmpYhRkJ4gpdrJyc
+	yWqQq6u32ACxLLNaNNyb5cUiHfRDBxeBabJaswlD7aM8pT5G0aA38uVI3aWDKv6CC2r2
+	XqYMjK4idqLPSCS5p+NRx1tL3AB9sHqMJbCes=
+Received: by 10.213.22.140 with SMTP id n12mr708429ebb.53.1323973880896;
+	Thu, 15 Dec 2011 10:31:20 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id a60sm27091220eeb.4.2011.12.15.10.31.19
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 15 Dec 2011 10:31:20 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Dec 2011 19:31:09 +0100
+Message-Id: <1323973869-25458-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8
+Subject: [PATCH] sstate.bbclass: allow to disable sstate package creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,74 +38,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2011 18:21:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 15 Dec 2011 18:38:19 -0000
 
-On Thu, Dec 15, 2011 at 12:36 AM, Bernhard Guillon
-<Bernhard.Guillon@hale.at> wrote:
-> Hi all,
-> I want to ask which license style is currently the preferred one? At
-> license.bbclass this comment appears:
->
-> # Standards are great! Everyone has their own. In an effort to standardize
-> licensing
-> # names, common-licenses will use the SPDX standard license names. In order
-> to not
-> # break the non-standardized license names that we find in LICENSE, we'll
-> set
-> # up a bunch of VarFlags to accomodate non-SPDX license names.
-> #
-> # We should really discuss standardizing this field, but that's a longer
-> term goal.
-> # For now, we can do this and it should grab the most common LICENSE naming
-> variations.
->
-> So the valide license names for recipes are e.g. MPLv1 while the SPDX
-> license is MPL-1. Why are we not using MPL-1 at the LICENSE field from
-> recipes?
+* building core-image-minimal-mtdutils with and without sstate packages enabled:
+          with   without
+  real     98m       95m
+  user    212m      208m
+  sys      26m       25m
 
-Bernhard,
+* but this was tested on fast machine with TMPDIR on fast raid0 array
+  so the impact is not so bad on simple image, but stuff like qt4 takes
+  ages on our slow buildhost
 
-I'm writing an RFC for this both with a suggestion for a naming
-convention, the field's format and some issues I've found with the
-current model (mainly around most recipes having LICENSE as a recipe
-value when in practice, it should be assigned to the package).
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/sstate.bbclass |   10 +++++++---
+ 1 files changed, 7 insertions(+), 3 deletions(-)
 
-With all the OE-Core recipes out there, changing those fields without
-a documented agreed upon standard would be the wrong thing to do. I've
-been trying to make all the license.bbclass work compatible with OE
-LICENSE values that have traditionally been there.
-
-So, for example, I want to support both MPLv1.0 and MPL-1.0 in order
-to be backwards compatible.  However, certain values (GPL, MPL, LGPL)
-have no actual meaning due to missing version indicators. Those need
-to be fixed.
-
-I'll have a draft for this early next week.
-
-Thanks,
-
--b
-
->
-> Best regrads,
-> Bernhard Guillon
->
->
-> --
-> Scanned by MailScanner.
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
-
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 0f88a23..22ce653 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -13,6 +13,8 @@ SSTATE_PKG        = "${SSTATE_DIR}/${SSTATE_PKGNAME}"
+ SSTATE_SCAN_FILES ?= "*.la *-config"
+ SSTATE_SCAN_CMD ?= 'find ${SSTATE_BUILDDIR} \( -name "${@"\" -o -name \"".join(d.getVar("SSTATE_SCAN_FILES", True).split())}" \) -type f'
+ 
++SSTATE_CREATE_PKG ?= "1"
++
+ BB_HASHFILENAME = "${SSTATE_PKGNAME}"
+ 
+ SSTATE_MANMACH ?= "${SSTATE_PKGARCH}"
+@@ -436,9 +438,11 @@ python sstate_task_prefunc () {
+ python sstate_task_postfunc () {
+     shared_state = sstate_state_fromvars(d)
+     sstate_install(shared_state, d)
+-    for intercept in shared_state['interceptfuncs']:
+-        bb.build.exec_func(intercept, d)
+-    sstate_package(shared_state, d)
++    enabled = d.getVar('SSTATE_CREATE_PKG', True)
++    if enabled and enabled == "1":
++        for intercept in shared_state['interceptfuncs']:
++            bb.build.exec_func(intercept, d)
++        sstate_package(shared_state, d)
+ }
+   
+ 
 -- 
-Elizabeth Flanagan
-Yocto Project
-Build and Release
+1.7.8
+
 
 
