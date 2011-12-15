@@ -1,28 +1,26 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1RbH0a-0000so-TC
+	(envelope-from <sgw@linux.intel.com>) id 1RbH5S-0001Cv-Gj
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Dec 2011 20:30:25 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 15 Dec 2011 11:23:26 -0800
+	Thu, 15 Dec 2011 20:35:26 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 15 Dec 2011 11:28:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="87799008"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="96647422"
 Received: from unknown (HELO [10.255.12.229]) ([10.255.12.229])
-	by orsmga002.jf.intel.com with ESMTP; 15 Dec 2011 11:23:25 -0800
-Message-ID: <4EEA492D.9060707@linux.intel.com>
-Date: Thu, 15 Dec 2011 11:23:25 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 15 Dec 2011 11:28:16 -0800
+Message-ID: <4EEA4A4F.4090102@linux.intel.com>
+Date: Thu, 15 Dec 2011 11:28:15 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1323911699.git.sgw@linux.intel.com>
-	<7645ba6589957af6afa3fbe8766fb1ca6f1b004f.1323911699.git.sgw@linux.intel.com>
-	<CAMKF1sqUViQRC4G6rZi_szkCbbC5-juiTAJsF=U8iBusrm3LJA@mail.gmail.com>
-	<4EE9B1B6.8050007@linux.intel.com>
-In-Reply-To: <4EE9B1B6.8050007@linux.intel.com>
-Subject: Re: [PATCH 2/7] ed: Fix EXTRA_OECONF to ensure right compiler is found
+References: <cover.1323913192.git.nitin.a.kamble@intel.com>
+In-Reply-To: <cover.1323913192.git.nitin.a.kamble@intel.com>
+Cc: dvhart@linux.intel.com
+Subject: Re: [PATCH 0/1] mkdosfs populated image creation fix version:2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,45 +35,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2011 19:30:25 -0000
+X-List-Received-Date: Thu, 15 Dec 2011 19:35:26 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12/15/2011 12:37 AM, Saul Wold wrote:
-> On 12/14/2011 10:56 PM, Khem Raj wrote:
->> On Wed, Dec 14, 2011 at 5:50 PM, Saul Wold<sgw@linux.intel.com> wrote:
->>>
->>> +EXTRA_OECONF = "'CC=${CC}' 'CXX=${CXX}' 'CFLAGS=${CFLAGS}'
->>> 'CXXFLAGS=${CXXFLAGS}' 'CPPFLAGS=${CPPFLAGS}' 'LDFLAGS=${LDFLAGS}'"
->>> +
->>
->> hmm why doesnt it pick it from environment in configure ?
->>
-> That's a really good question! But it does not seem to, when I do the
-> build with non-gplv3, it gets CC=/usr/bin/gcc! So clearly it's not
-> getting the environment, otherwise I would not have made this patch.
+On 12/14/2011 05:47 PM, nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble<nitin.a.kamble@intel.com>
 >
-> This is an old-school configure script.
+> This has enhanced the commit for fixing mkdosfs. We noticed some
+> issues with the generated image with the earlier sent-out commit.
+> This version 2 commit has improved the the mkdosfs further. Now
+> the outstanding issues in the image are fixable by dosfsck.
+>    More details are in the patch documentation.
 >
-Just a further explanation of this comment, the configure script in ed 
-is a very old script, not autotools based at all.  It hard codes the 
-CC="" in the script so the environment is not picked up correct, but it 
-does read those properly from the command line.
+> Thanks,
+> Nitin
+>
+> The following changes since commit 9d136b2db8f906c562cbdb23a9b238f0e237074b:
+>
+>    gdk-pixbuf: Ensure the binaries can be relocated (2011-12-13 18:00:25 +0000)
+>
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib nitin/bugfix
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/bugfix
+>
+> Nitin A Kamble (1):
+>    dosfstools: fix populated image creation with dirs
+>
+>   .../dosfstools/fix_populated_dosfs_creation.patch  |  489 ++++++++++++++++++++
+>   .../recipes-devtools/dosfstools/dosfstools_2.11.bb |    5 +-
+>   2 files changed, 492 insertions(+), 2 deletions(-)
+>   create mode 100644 meta/recipes-devtools/dosfstools/dosfstools/fix_populated_dosfs_creation.patch
+>
+Merged into OE-Core
 
-Sau!
-
-> Sau!
->
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Thanks
+	Sau!
 
 
