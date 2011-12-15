@@ -1,34 +1,35 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Rb9xo-0004R6-9D for openembedded-core@lists.openembedded.org;
-	Thu, 15 Dec 2011 12:59:04 +0100
+	id 1RbAM1-0006BX-Uy for openembedded-core@lists.openembedded.org;
+	Thu, 15 Dec 2011 13:24:06 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBFBq6gY003147
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBFCH8gI003357
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2011 11:52:07 GMT
+	Thu, 15 Dec 2011 12:17:08 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 02440-10 for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2011 11:52:02 +0000 (GMT)
+	id 03150-01 for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Dec 2011 12:17:04 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBFBpwJU003141
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBFCGwoH003351
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2011 11:51:59 GMT
-Message-ID: <1323949918.4568.12.camel@ted>
+	Thu, 15 Dec 2011 12:16:59 GMT
+Message-ID: <1323951419.4568.17.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 15 Dec 2011 11:51:58 +0000
-In-Reply-To: <006b4308dc652187daa0a84726b969a67eb6d6f0.1323864630.git.xiaofeng.yan@windriver.com>
-References: <cover.1323864630.git.xiaofeng.yan@windriver.com>
-	<006b4308dc652187daa0a84726b969a67eb6d6f0.1323864630.git.xiaofeng.yan@windriver.com>
+Date: Thu, 15 Dec 2011 12:16:59 +0000
+In-Reply-To: <CAMKF1sqLHP1cWfBswrqnwhAPj4Tt3XCV8GpQv7Dm71PX3F=rAw@mail.gmail.com>
+References: <1323851280-6342-1-git-send-email-raj.khem@gmail.com>
+	<1323856946.25491.31.camel@ted>
+	<CAMKF1sqLHP1cWfBswrqnwhAPj4Tt3XCV8GpQv7Dm71PX3F=rAw@mail.gmail.com>
 X-Mailer: Evolution 3.2.1- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/2] gtk-directfb: add bbclass gtk-directfb
+Subject: Re: [PATCH] gcc-4.6: Let G++ relocate gxx-include-dir when using --sysroot option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,58 +44,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2011 11:59:04 -0000
+X-List-Received-Date: Thu, 15 Dec 2011 12:24:06 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-12-14 at 20:18 +0800, Xiaofeng Yan wrote:
-> From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+On Wed, 2011-12-14 at 07:49 -0800, Khem Raj wrote:
+> On Wed, Dec 14, 2011 at 2:02 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > Hi Khem,
+> >
+> > What's puzzling me is that reading through this patch, we already do
+> > what this patch is doing?
+> >
+> > Where is the difference which this patch is fixing?
+> >
 > 
-> This file remind user to add "gtk-directfb" to DISTRO_FEATURES and remove "x11" \
-> when building core-image-gtk-directfb.
-> 
-> [YOCTO #1674]
-> 
-> Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-> ---
->  meta/classes/gtk-directfb.bbclass |   12 ++++++++++++
->  1 files changed, 12 insertions(+), 0 deletions(-)
->  create mode 100644 meta/classes/gtk-directfb.bbclass
-> 
-> diff --git a/meta/classes/gtk-directfb.bbclass b/meta/classes/gtk-directfb.bbclass
-> new file mode 100644
-> index 0000000..b65b787
-> --- /dev/null
-> +++ b/meta/classes/gtk-directfb.bbclass
-> @@ -0,0 +1,12 @@
-> +# gtk can only run a backend at a time (directfb or x11) for gtk-2.x. 
-> +# So if you want to get an image of gtk running directfb. 
-> +# Please remove x11 from DISTRO_FEATURES
-> +python () {
-> +	import sys
-> +	import logging
-> +	logger = logging.getLogger('BitBake.Event')
-> +	packages = d.getVar('DISTRO_FEATURES', 1).split()
-> +	for pkg in packages:
-> +		if pkg == "x11":
-> +			bb.fatal("FEATURE \"x11\" is in DISTRO_FEATURES, Please remove x11 from DISTRO_FEATURES, use \"gtk-directfb\" instead of it\n")
-> +}
+> this does essentially what we were doing earlier but this one is going
+> to go upstream
 
-Some improvements I'd like to suggest please:
+Yes, that is good and I'm fine with the patch for that reason.
 
-* Put this in the image .bb file, we don't need a generic class for 
-  this in the core, at least at this point
-* Don't import things you don't need (logging, sys)
-* Use something like 'if "x11" in packages' instead for that for loop
-* Use SkipPackage instead of bb.fatal like I suggested (grep will show 
-  some examples)
-* Use True instead of 1
-* Rename the variables to be meaningful (packages is confusing here)
+> 
+> > I appreciate that patch adds in the prefix to the --with-gxx-include-dir
+> > option but it then removes it again during configure so this should be a
+> > null op. Both versions of the patch set the "1" bit in gcc/cppdefault.c.
+> >
+> > So where is the change this patch makes which fixes things?
+> 
+> changing --with-gxx-include-dir to be within sysroot triggers the
+> relocation code.
+
+But we were already triggering the relocation code?
+
+I can't see *any* functionality difference between these, they should
+both just give the same result as far as I can tell...
+
+Claiming it fixes things is therefore concerning me.
 
 Cheers,
 
 Richard
-
 
 
 
