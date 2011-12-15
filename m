@@ -1,33 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RbCgf-00063x-8V for openembedded-core@lists.openembedded.org;
-	Thu, 15 Dec 2011 15:53:33 +0100
+	id 1RbCp4-0006ia-F5 for openembedded-core@lists.openembedded.org;
+	Thu, 15 Dec 2011 16:02:14 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBFEkZ4r005085
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBFEtHwV005219
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2011 14:46:35 GMT
+	Thu, 15 Dec 2011 14:55:17 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 04434-07 for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2011 14:46:30 +0000 (GMT)
+	id 04899-03 for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Dec 2011 14:55:12 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBFEkQrk005078
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBFEt8i2005213
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2011 14:46:27 GMT
-Message-ID: <1323960387.4568.35.camel@ted>
+	Thu, 15 Dec 2011 14:55:09 GMT
+Message-ID: <1323960908.4568.39.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 15 Dec 2011 14:46:27 +0000
-In-Reply-To: <cover.1323911699.git.sgw@linux.intel.com>
-References: <cover.1323911699.git.sgw@linux.intel.com>
+Date: Thu, 15 Dec 2011 14:55:08 +0000
+In-Reply-To: <1323793193-31090-5-git-send-email-dbaryshkov@gmail.com>
+References: <1323793193-31090-1-git-send-email-dbaryshkov@gmail.com>
+	<1323793193-31090-5-git-send-email-dbaryshkov@gmail.com>
 X-Mailer: Evolution 3.2.1- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/7] SSTATE_SCAN_FILES Fix with non-gplv3 and World fixes
+Subject: Re: [PATCH 5/9] Move check that all installed files are shipped into insane.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,56 +43,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2011 14:53:33 -0000
+X-List-Received-Date: Thu, 15 Dec 2011 15:02:14 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-12-14 at 17:50 -0800, Saul Wold wrote:
-> Richard,
+On Tue, 2011-12-13 at 20:19 +0400, Dmitry Eremin-Solenikov wrote:
+> Checking that all installed files are shipped is in reality a QA check.
+> It would benefit from mechanisms like ERROR_QA/WARNING_QA. So move it
+> into insane.bbclass. If some of the files are installed but should not
+> be shipped for some reasons, one can add them to the variable
+> IGNORE_UNSHIPPED_FILES.
 > 
-> This patch contains a couple of fixes for world and non-gplv3 along
-> with the sstate fix for ensure we mangle (or "fixmepath") files that
-> do not fall into the standard set.
+> Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+> ---
+>  meta/classes/insane.bbclass  |   49 ++++++++++++++++++++++++++++++++++++++++-
+>  meta/classes/package.bbclass |   15 ------------
+>  2 files changed, 47 insertions(+), 17 deletions(-)
+
+I like the patch and have been thinking we should do something like
+this. One minor comment below.
+
+> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> index 5726e69..7a8643a 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -100,7 +100,7 @@ def package_qa_get_machine_dict():
+>  
 > 
-> SSTATE_SCAN_FILES is defaulted to "*.la and *-configs", recipes can
-> append to it with SSTATE_SCAN_FILES += "<filename>".
-> 
-> 
-> The following changes since commit b9dfccc018f32a47fc045f35d5f53d7269d791ed:
-> 
->   gdk-pixbuf: Ensure the binaries can be relocated (2011-12-13 18:00:18 +0000)
-> 
-> are available in the git repository at:
->   git://git.openembedded.org/openembedded-core-contrib sgw/fix
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
-> 
-> Saul Wold (7):
->   qt-mobility: Fix QA error for debug files
+>  # Currently not being used by default "desktop"
+> -WARN_QA ?= "ldflags useless-rpaths rpaths"
+> +WARN_QA ?= "ldflags useless-rpaths rpaths unshipped"
+>  ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch la2 pkgconfig la perms"
+>  
+>  def package_qa_clean_path(path,d):
+> @@ -485,6 +485,48 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, d):
+>  
+>      return sane
+>  
+> +IGNORE_UNSHIPPED_FILES ??= ""
+> +
+> +def packages_qa_unshipped_files(d):
+> +    skip = (d.getVar('INSANE_SKIP_${PN}', True) or "").split()
+> +    if "unshipped" in skip:
+> +        return False
 
-Missing PR bump
+How about just check for unshipped in QA_WARN and QA_ERROR here and if
+not in either, just return? You cover handling ignoring files just
+below.
 
->   ed: Fix EXTRA_OECONF to ensure right compiler is found
-
-This has a question. I think the answer is that it doesn't use real
-autoconf and had special issues of its own. I haven't checked yet though
-so I've left this patch as queued.
-
->   sstate: Add SSTATE_SCAN_FILES
-
-I've updated the above patch with some better syntax I came up with.
-
->   icu: Add Makefile.inc to SSTATE_SCAN_FILES
->   gmp: Add gmp.h to SSTATE_SCAN_FILES
->   libtool-cross: Add libtool & libtoolize to SSTATE_SCAN_FILES
->   perl: add .pl, pm, pod, sh files to SSTATE_SCANE_FILES
-
-These are fine but needed better commit descriptions.
-
-I made the above tweaks and merged these along with some of the other
-commits batched up in MUT (already been on the list for a while). The
-MUT build on the autobuilder was not in a good state due to the directfb
-change. I've therefore selectively pulled in pieces of MUT into master
-and restarted a test against master.
+> +    seen = d.getVar('IGNORE_UNSHIPPED_FILES', True).split()
+> +    unshipped = []
+> +    dvar = d.getVar('PKGD', True)
+> +    destvar = d.getVar('PKGDEST', True)
+> +    packages = d.getVar('PACKAGES', True).split()
+> +    for p in packages:
 
 Cheers,
 
