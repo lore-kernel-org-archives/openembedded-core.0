@@ -1,38 +1,32 @@
-Received: from mailbackup.inode.at ([213.229.60.24])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bernhard.Guillon@hale.at>) id 1Rb70G-0004qP-9b
+	(envelope-from <koen@dominion.thruhere.net>) id 1Rb7he-0006ho-Eo
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Dec 2011 09:49:24 +0100
-Received: from [62.99.145.3] (port=19654 helo=mx.inode.at)
-	by mailbackup.inode.at with esmtp (Exim 4.76)
-	(envelope-from <Bernhard.Guillon@hale.at>) id 1Rb6ng-0005iv-G1
-	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Dec 2011 09:36:24 +0100
-Received: from [83.64.51.210] (port=7014 helo=gateway1.hale)
-	by smartmx-03.inode.at with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <Bernhard.Guillon@hale.at>)
-	id 1Rb6ne-0004M5-If for openembedded-core@lists.openembedded.org;
-	Thu, 15 Dec 2011 09:36:22 +0100
-Received: from mail1.hale.at (mail2.hale [192.168.100.12])
-	by gateway1.hale (8.13.8/8.13.7) with ESMTP id pBF8aPPs031807
+	Thu, 15 Dec 2011 10:34:14 +0100
+Received: by faaa20 with SMTP id a20so2046818faa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2011 09:36:25 +0100
-Received: from entw48 ([192.168.100.138]) by hale.at with MailEnable ESMTP;
-	Thu, 15 Dec 2011 09:36:15 +0100
-Date: Thu, 15 Dec 2011 09:36:07 +0100 (CET)
-From: Bernhard Guillon <Bernhard.Guillon@hale.at>
-X-X-Sender: guib@entw48
-To: openembedded-core@lists.openembedded.org
-Message-ID: <alpine.DEB.2.00.1112150931060.350@entw48>
-User-Agent: Alpine 2.00 (DEB 1167 2008-08-23)
-MIME-Version: 1.0
-X-HALE-MailScanner-Information: Please contact the ISP for more information
-X-MailScanner-ID: pBF8aPPs031807
-X-HALE-MailScanner: Found to be clean
-X-HALE-MailScanner-From: bernhard.guillon@hale.at
-MailScanner-NULL-Check: 1324542986.46736@VNpxSZT8RJyR6uFOXDRJRg
-X-Spam-Status: No
-Subject: SPDX vs LICENSE field valid licenses
+	Thu, 15 Dec 2011 01:27:16 -0800 (PST)
+Received: by 10.180.92.234 with SMTP id cp10mr3289088wib.28.1323941236046;
+	Thu, 15 Dec 2011 01:27:16 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id hn15sm7389169wib.22.2011.12.15.01.27.14
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 15 Dec 2011 01:27:14 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CALT56yNAeCns9Ft4yr9fH2tnWtW-WERiJ=soKOqJGbHEJjVA4Q@mail.gmail.com>
+Date: Thu, 15 Dec 2011 10:27:21 +0100
+Message-Id: <CA067797-AB29-4EBA-8561-5ED321E9D0A8@dominion.thruhere.net>
+References: <1323793193-31090-1-git-send-email-dbaryshkov@gmail.com>
+	<4EE7EA96.4080806@linux.intel.com>
+	<CALT56yNAeCns9Ft4yr9fH2tnWtW-WERiJ=soKOqJGbHEJjVA4Q@mail.gmail.com>
+To: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+X-Mailer: Apple Mail (2.1251.1)
+Cc: Darren Hart <dvhart@linux.intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/9] kernel.bbclass: compile kernel and modules in a single task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,36 +41,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2011 08:49:24 -0000
-Content-Type: TEXT/PLAIN; format=flowed; charset=US-ASCII
+X-List-Received-Date: Thu, 15 Dec 2011 09:34:14 -0000
+X-Groupsio-MsgNum: 14235
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_A67B5CE2-CA23-476F-ABD0-3AF0116A5007";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-Hi all,
-I want to ask which license style is currently the preferred one? At 
-license.bbclass this comment appears:
-
-# Standards are great! Everyone has their own. In an effort to standardize 
-licensing
-# names, common-licenses will use the SPDX standard license names. In 
-order to not
-# break the non-standardized license names that we find in LICENSE, we'll 
-set
-# up a bunch of VarFlags to accomodate non-SPDX license names.
-#
-# We should really discuss standardizing this field, but that's a longer 
-term goal.
-# For now, we can do this and it should grab the most common LICENSE 
-naming variations.
-
-So the valide license names for recipes are e.g. MPLv1 while the SPDX 
-license is MPL-1. Why are we not using MPL-1 at the LICENSE field from 
-recipes?
-
-Best regrads,
-Bernhard Guillon
+--Apple-Mail=_A67B5CE2-CA23-476F-ABD0-3AF0116A5007
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=iso-8859-1
 
 
---
-Scanned by MailScanner.
+Op 14 dec. 2011, om 01:17 heeft Dmitry Eremin-Solenikov het volgende =
+geschreven:
 
+> On Wed, Dec 14, 2011 at 4:15 AM, Darren Hart <dvhart@linux.intel.com> =
+wrote:
+>>=20
+>>=20
+>> On 12/13/2011 08:19 AM, Dmitry Eremin-Solenikov wrote:
+>>> There is no point in compiling kernel modules in a separate task, =
+run
+>>> right after do_compile. On the other hand merging those tasks will =
+e.g.
+>>> make icecc used also for modules compilation, etc.
+>>=20
+>> This split was done intentionally to allow tasks to be inserted =
+between
+>> compile and compile_kernelmodules. See:
+>=20
+> Could you (or Koen) name any tasks that have to be inserted between =
+kernel
+> and modules compilation please?
 
+Building external modules that are referenced by internal ones for =
+example. But besides that, this also allows me to build just *Image =
+quickly and not having to wait for the modules to build.=20=
 
+--Apple-Mail=_A67B5CE2-CA23-476F-ABD0-3AF0116A5007
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAk7pvXkACgkQMkyGM64RGpE2pwCdFjZuuNW4ler8ES4OsKddTaB2
+JnIAn0ME2FOwLyXeCS2DDBsTwKBFUKDt
+=l9hr
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_A67B5CE2-CA23-476F-ABD0-3AF0116A5007--
