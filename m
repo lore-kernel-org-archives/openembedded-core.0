@@ -1,34 +1,34 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RbBjE-0003N8-7Q
+	(envelope-from <bruce.ashfield@gmail.com>) id 1RbBta-0003yo-9O
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Dec 2011 14:52:08 +0100
-Received: by eaal1 with SMTP id l1so1891844eaa.6
+	Thu, 15 Dec 2011 15:02:50 +0100
+Received: by pbcc11 with SMTP id c11so1095969pbc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2011 05:45:10 -0800 (PST)
+	Thu, 15 Dec 2011 05:55:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type;
-	bh=snan6VK+GHha3+6nhI3DTG12pCzDhPmVWcroIiruQnI=;
-	b=on7ZY5kl6Cz9z4q24KSa1M5oleUNpFVbmYN9kTqll6MDFGXBB308KfeZPNla0vMGsS
-	AbZQk0Bej2TjpZC1RMVHqEGYd16eLnoP7pw1DHpIvbFbCGg3AwwneRBDJ0x7krAynFSl
-	dg+G550eiGY6+u72Q7Y5ZJ3HzlJ+bQnQR2Zro=
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=DinwfNu/X0Z7Gm5vUXG8zzSrVd/P8xMn2LIADMINRRM=;
+	b=tUjs21yt79QobmpbmKkwsl96zUCa5dbnuMTDosJ3mvVvK5WwakLp8LeOOxtacQ9+pp
+	dspsXiEez8O0iBgvFlwJ61ZVQZvmAthErE1YgkoCd0S89dNAhTlS/4jkZrwHRdWDG0lN
+	YuHAW8dSf8ZjdBRQI1Zsz2h2iRQepKlVfehDE=
 MIME-Version: 1.0
-Received: by 10.205.131.13 with SMTP id ho13mr1025870bkc.41.1323956710445;
-	Thu, 15 Dec 2011 05:45:10 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.162.76 with HTTP; Thu, 15 Dec 2011 05:45:10 -0800 (PST)
-In-Reply-To: <CAP9ODKp-444E+GJO+sqTqu2tvZv-VpwAd+jQ2MyzD7_r3yEufQ@mail.gmail.com>
-References: <1323954515-15604-1-git-send-email-otavio@ossystems.com.br>
-	<1323954698.24417.211.camel@phil-desktop>
-	<CAP9ODKp-444E+GJO+sqTqu2tvZv-VpwAd+jQ2MyzD7_r3yEufQ@mail.gmail.com>
-Date: Thu, 15 Dec 2011 11:45:10 -0200
-X-Google-Sender-Auth: h4m7-YGlSFgHOViSAW4miBXahEA
-Message-ID: <CAP9ODKoN0rdOC6E4QA0=280JEOtMf41OUoT0LBS_VKtX4OzpLA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by 10.68.192.74 with SMTP id he10mr10154344pbc.13.1323957350747;
+	Thu, 15 Dec 2011 05:55:50 -0800 (PST)
+Received: by 10.142.110.13 with HTTP; Thu, 15 Dec 2011 05:55:50 -0800 (PST)
+In-Reply-To: <4EE99252.9060308@gmail.com>
+References: <1323793193-31090-1-git-send-email-dbaryshkov@gmail.com>
+	<1323793193-31090-2-git-send-email-dbaryshkov@gmail.com>
+	<CD461DDE-5A9A-4194-9043-A692EB22A9E8@dominion.thruhere.net>
+	<4EE99252.9060308@gmail.com>
+Date: Thu, 15 Dec 2011 08:55:50 -0500
+Message-ID: <CADkTA4NvaiQRmQB__vphWG2BF=e3rX4n++gTuRT7WjDeLhnOng@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] dropbear: bump epoch to fix upgrade path in meta-oe
+Cc: Koen Kooi <public-koen-QLwJDigV5abLmq1fohREcCpxlwaOVQ5f@lo.gmane.org>
+Subject: Re: [PATCH 2/9] kernel.bbclass: move uImage handling to separate task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,65 +43,226 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2011 13:52:08 -0000
-Content-Type: multipart/alternative; boundary=000e0cdfd6466c928504b421b1c3
-
---000e0cdfd6466c928504b421b1c3
+X-List-Received-Date: Thu, 15 Dec 2011 14:02:50 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-
-On Thu, Dec 15, 2011 at 11:14, Otavio Salvador <otavio@ossystems.com.br>wrote:
-
-> On Thu, Dec 15, 2011 at 11:11, Phil Blundell <philb@gnu.org> wrote:
->>
->> If it's just a single output binary at issue then setting PKGE for that
->> one package would be less disruptive.  I must admit I don't fully
->> understand why this needs to be in oe-core at all though: what exactly
->> is the "messing up" that would happen otherwise?
->>
->
-> I didn't know about PKGE; this works for this case :-D
->
-
-It seems setting:
-
-PKGE_${PN}-systemd = "1" in the bbappend doesn't work.
-
-Any clue?
-
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
-
---000e0cdfd6466c928504b421b1c3
-Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-<div class=3D"gmail_quote">On Thu, Dec 15, 2011 at 11:14, Otavio Salvador <=
-span dir=3D"ltr">&lt;<a href=3D"mailto:otavio@ossystems.com.br">otavio@ossy=
-stems.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<div class=3D"gmail_quote"><div class=3D"im">On Thu, Dec 15, 2011 at 11:11,=
- Phil Blundell <span dir=3D"ltr">&lt;<a href=3D"mailto:philb@gnu.org" targe=
-t=3D"_blank">philb@gnu.org</a>&gt;</span> wrote:<blockquote class=3D"gmail_=
-quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
-ex">
-If it&#39;s just a single output binary at issue then setting PKGE for that=
-<br>
-one package would be less disruptive. =A0I must admit I don&#39;t fully<br>
-understand why this needs to be in oe-core at all though: what exactly<br>
-is the &quot;messing up&quot; that would happen otherwise?<br></blockquote>=
-<div><br></div></div><div>I didn&#39;t know about PKGE; this works for this=
- case :-D</div></div></blockquote><div><br></div><div>It seems setting:</di=
-v>
-<div><br></div><div>PKGE_${PN}-systemd =3D &quot;1&quot; in the bbappend do=
-esn&#39;t work.</div><div><br></div><div>Any clue?</div><div>=A0</div></div=
->-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio@ossystems.com.br" t=
-arget=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=3D"http://www.ossys=
-tems.com.br" target=3D"_blank">http://www.ossystems.com.br</a><br>
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
-jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
-/a><br><br>
+On Thu, Dec 15, 2011 at 1:23 AM, Dmitry Eremin-Solenikov
+<dbaryshkov@gmail.com> wrote:
+> On 12/15/2011 01:20 AM, Koen Kooi wrote:
+>>
+>>
+>> Op 13 dec. 2011, om 16:19 heeft Dmitry Eremin-Solenikov het volgende
+>> geschreven:
+>>
+>>> As per org.oe.dev and meta-oe's kernel.bbclass move uImage creation to
+>>> separate task from do_deploy. This way the do_install task can also
+>>> benefit from generated uImage.
+>>>
+>>> The only major feature of oe-core's version (not to recreate uImage
+>>> if it exists) is retained in this patch
+>>
+>>
+>> The whole point of the OE uImage handling is that in general we know
+>> better than the kernel and can apply fixups if needed (turning on/off
+>> compression, etc)
+>
+>
+> Please check the history of OE-core uImage handling. Initially uImage was
+> always recreated (as it's currently done in meta-oe). Then (422a017e6 on =
+Oct
+> 29, 2010) OE-core kernel.bbclass was changed to default to not to recreat=
+e
+> uImage if it was created by kbuild (IIRC it was done so, because recreate=
+d
+> uImages weren't always booting as they required more setup). I don't know
+> which way is correct. Maybe we should add a hook that will tell if
+> kernel.bbclass should prefer to recreate uImage or to use kernel one. Wou=
+ld
+> you like such variable?
 
---000e0cdfd6466c928504b421b1c3--
+If no one minds the tiny bit of extra complexity, this was the approach tha=
+t I
+was thinking about when reading this thread.
+
+I can report for fact, that the uImages that were being generated by
+the existing
+rules were binary blobs of silent boot death on the powerpc boards that I w=
+as
+using during initial development. The in tree images worked perfectly.
+
+For everything I've done in the past, I've always used in tree uImages
+or patched the
+kernel tree itself to generated images that worked for the board in questio=
+n.
+
+The difference in approach could likely be chalked up to a guy just
+trying to get a
+kernel to boot, and someone working more closely with the bootloader -> ker=
+nel
+handoff.
+
+I think a variable, or some other switch, to support the two workflows
+is a reasonable
+compromise.
+
+Cheers,
+
+Bruce
+
+>
+> Another point (that I probably failed to emphasize): currently do_install
+> and do_deploy will use different uImages. The image in /boot on rootfs mi=
+ght
+> be different from uImage really in deploy dir. I would assume that this i=
+s
+> not the expected way to do things.
+>
+>
+>>
+>>> . On the contra, as this version
+>>> was merged from meta-oe/org.oe.dev, new function has another feature:
+>>> it permits overriding the u-boot entrypoint via u-boot symbol.
+>>
+>>
+>> Not if uimage exists, see above
+>
+>
+> Of course.
+>
+>
+>>
+>>>
+>>> Signed-off-by: Dmitry Eremin-Solenikov<dbaryshkov@gmail.com>
+>>> ---
+>>> meta/classes/kernel.bbclass | =A0 40
+>>> ++++++++++++++++++++++++----------------
+>>> 1 files changed, 24 insertions(+), 16 deletions(-)
+>>>
+>>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+>>> index a75c199..db00d2d 100644
+>>> --- a/meta/classes/kernel.bbclass
+>>> +++ b/meta/classes/kernel.bbclass
+>>> @@ -485,6 +485,30 @@ do_sizecheck() {
+>>>
+>>> addtask sizecheck before do_install after do_compile
+>>>
+>>> +do_uboot_mkimage() {
+>>> + =A0 =A0if test "x${KERNEL_IMAGETYPE}" =3D "xuImage" -a \
+>>> + =A0 =A0 =A0 =A0 =A0 =A0! -e arch/${ARCH}/boot/uImage ; then
+>>> + =A0 =A0 =A0 =A0ENTRYPOINT=3D${UBOOT_ENTRYPOINT}
+>>> + =A0 =A0 =A0 =A0if test -n "${UBOOT_ENTRYSYMBOL}"; then
+>>> + =A0 =A0 =A0 =A0 =A0 =A0ENTRYPOINT=3D`${HOST_PREFIX}nm ${S}/vmlinux | =
+\
+>>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 awk '$3=3D=3D"${UBOOT_ENTRYSYMBOL=
+}" {print $1}'`
+>>> + =A0 =A0 =A0 =A0fi
+>>> + =A0 =A0 =A0 =A0if test -e arch/${ARCH}/boot/compressed/vmlinux ; then
+>>> + =A0 =A0 =A0 =A0 =A0 =A0${OBJCOPY} -O binary -R .note -R .comment -S
+>>> arch/${ARCH}/boot/compressed/vmlinux linux.bin
+>>> + =A0 =A0 =A0 =A0 =A0 =A0uboot-mkimage -A ${UBOOT_ARCH} -O linux -T ker=
+nel -C none -a
+>>> ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}=
+" -d
+>>> linux.bin arch/${ARCH}/boot/uImage
+>>> + =A0 =A0 =A0 =A0 =A0 =A0rm -f linux.bin
+>>> + =A0 =A0 =A0 =A0else
+>>> + =A0 =A0 =A0 =A0 =A0 =A0${OBJCOPY} -O binary -R .note -R .comment -S v=
+mlinux
+>>> linux.bin
+>>> + =A0 =A0 =A0 =A0 =A0 =A0rm -f linux.bin.gz
+>>> + =A0 =A0 =A0 =A0 =A0 =A0gzip -9 linux.bin
+>>> + =A0 =A0 =A0 =A0 =A0 =A0uboot-mkimage -A ${UBOOT_ARCH} -O linux -T ker=
+nel -C gzip -a
+>>> ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}=
+" -d
+>>> linux.bin.gz arch/${ARCH}/boot/uImage
+>>> + =A0 =A0 =A0 =A0 =A0 =A0rm -f linux.bin.gz
+>>> + =A0 =A0 =A0 =A0fi
+>>> + =A0 =A0fi
+>>> +}
+>>> +
+>>> +addtask uboot_mkimage before do_install after do_compile
+>>> +
+>>> KERNEL_IMAGE_BASE_NAME ?=3D
+>>> "${KERNEL_IMAGETYPE}-${PV}-${PR}-${MACHINE}-${DATETIME}"
+>>> # Don't include the DATETIME variable in the sstate package signatures
+>>> KERNEL_IMAGE_BASE_NAME[vardepsexclude] =3D "DATETIME"
+>>> @@ -496,22 +520,6 @@ kernel_do_deploy() {
+>>> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0tar -cvzf
+>>> ${DEPLOYDIR}/modules-${KERNEL_VERSION}-${PR}-${MACHINE}.tgz -C ${D} lib
+>>> =A0 =A0 =A0 =A0fi
+>>>
+>>> - =A0 =A0 =A0 if test "x${KERNEL_IMAGETYPE}" =3D "xuImage" ; then
+>>> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 if test -e arch/${ARCH}/boot/uImage ; the=
+n
+>>> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 cp arch/${ARCH}/boot/uIma=
+ge
+>>> ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
+>>> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 elif test -e arch/${ARCH}/boot/compressed=
+/vmlinux ; then
+>>> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 ${OBJCOPY} -O binary -R .=
+note -R .comment -S
+>>> arch/${ARCH}/boot/compressed/vmlinux linux.bin
+>>> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 uboot-mkimage -A ${ARCH} =
+-O linux -T kernel -C
+>>> none -a ${UBOOT_ENTRYPOINT} -e ${UBOOT_ENTRYPOINT} -n
+>>> "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin
+>>> ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
+>>> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 rm -f linux.bin
+>>> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 else
+>>> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 ${OBJCOPY} -O binary -R .=
+note -R .comment -S
+>>> vmlinux linux.bin
+>>> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 rm -f linux.bin.gz
+>>> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 gzip -9 linux.bin
+>>> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 uboot-mkimage -A ${ARCH} =
+-O linux -T kernel -C
+>>> gzip -a ${UBOOT_ENTRYPOINT} -e ${UBOOT_ENTRYPOINT} -n
+>>> "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin.gz
+>>> ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
+>>> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 rm -f linux.bin.gz
+>>> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 fi
+>>> - =A0 =A0 =A0 fi
+>>> -
+>>> =A0 =A0 =A0 =A0cd ${DEPLOYDIR}
+>>> =A0 =A0 =A0 =A0rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.bin
+>>> =A0 =A0 =A0 =A0ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin
+>>> ${KERNEL_IMAGE_SYMLINK_NAME}.bin
+>>> --
+>>> 1.7.7.3
+>>>
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>>
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+>
+> --
+> With best wishes
+> Dmitry
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
+
+--=20
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
+
+
