@@ -1,32 +1,30 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Rb7he-0006ho-Eo
+	(envelope-from <koen@dominion.thruhere.net>) id 1Rb7jW-0006pm-IG
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Dec 2011 10:34:14 +0100
-Received: by faaa20 with SMTP id a20so2046818faa.6
+	Thu, 15 Dec 2011 10:36:10 +0100
+Received: by wgbds11 with SMTP id ds11so3063563wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Dec 2011 01:27:16 -0800 (PST)
-Received: by 10.180.92.234 with SMTP id cp10mr3289088wib.28.1323941236046;
-	Thu, 15 Dec 2011 01:27:16 -0800 (PST)
+	Thu, 15 Dec 2011 01:29:12 -0800 (PST)
+Received: by 10.216.132.105 with SMTP id n83mr397528wei.16.1323941352880;
+	Thu, 15 Dec 2011 01:29:12 -0800 (PST)
 Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
 	[84.80.112.235])
-	by mx.google.com with ESMTPS id hn15sm7389169wib.22.2011.12.15.01.27.14
+	by mx.google.com with ESMTPS id fy13sm8293730wbb.18.2011.12.15.01.29.11
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 15 Dec 2011 01:27:14 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
+	Thu, 15 Dec 2011 01:29:11 -0800 (PST)
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CALT56yNAeCns9Ft4yr9fH2tnWtW-WERiJ=soKOqJGbHEJjVA4Q@mail.gmail.com>
-Date: Thu, 15 Dec 2011 10:27:21 +0100
-Message-Id: <CA067797-AB29-4EBA-8561-5ED321E9D0A8@dominion.thruhere.net>
-References: <1323793193-31090-1-git-send-email-dbaryshkov@gmail.com>
-	<4EE7EA96.4080806@linux.intel.com>
-	<CALT56yNAeCns9Ft4yr9fH2tnWtW-WERiJ=soKOqJGbHEJjVA4Q@mail.gmail.com>
-To: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-X-Mailer: Apple Mail (2.1251.1)
-Cc: Darren Hart <dvhart@linux.intel.com>,
-	Patches and discussions about the oe-core layer
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Thu, 15 Dec 2011 10:29:17 +0100
+In-Reply-To: <CAMKF1spHhLbMLtY9VhgrgQ4QwO06HEcnGSZrWj3mXLuif5gmFg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/9] kernel.bbclass: compile kernel and modules in a single task
+References: <1323281084-30590-1-git-send-email-Martin.Jansa@gmail.com>
+	<20111208154840.GD3761@jama.jama.net>
+	<CAMKF1spHhLbMLtY9VhgrgQ4QwO06HEcnGSZrWj3mXLuif5gmFg@mail.gmail.com>
+Message-Id: <A2CA7F01-3A24-487E-AD78-C59389F667EB@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH][RFC] conf/machine/include/arm add extra MACHINEOVERRIDES like x86 does
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,45 +39,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Dec 2011 09:34:14 -0000
-X-Groupsio-MsgNum: 14235
+X-List-Received-Date: Thu, 15 Dec 2011 09:36:10 -0000
+X-Groupsio-MsgNum: 14236
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_A67B5CE2-CA23-476F-ABD0-3AF0116A5007";
+	boundary="Apple-Mail=_CDCD7B6C-FBEA-441D-A9B6-3A90235E971E";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_A67B5CE2-CA23-476F-ABD0-3AF0116A5007
+--Apple-Mail=_CDCD7B6C-FBEA-441D-A9B6-3A90235E971E
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
-	charset=iso-8859-1
+	charset=us-ascii
 
 
-Op 14 dec. 2011, om 01:17 heeft Dmitry Eremin-Solenikov het volgende =
-geschreven:
+Op 13 dec. 2011, om 21:01 heeft Khem Raj het volgende geschreven:
 
-> On Wed, Dec 14, 2011 at 4:15 AM, Darren Hart <dvhart@linux.intel.com> =
+> On Thu, Dec 8, 2011 at 7:48 AM, Martin Jansa <martin.jansa@gmail.com> =
 wrote:
 >>=20
->>=20
->> On 12/13/2011 08:19 AM, Dmitry Eremin-Solenikov wrote:
->>> There is no point in compiling kernel modules in a separate task, =
-run
->>> right after do_compile. On the other hand merging those tasks will =
-e.g.
->>> make icecc used also for modules compilation, etc.
->>=20
->> This split was done intentionally to allow tasks to be inserted =
-between
->> compile and compile_kernelmodules. See:
+>> =
+meta/recipes-devtools/python/python_2.7.2.bb:TARGET_CC_ARCH_append_armv6 =
+=3D " -D__SOFTFP__"
+>> =
+meta/recipes-devtools/python/python_2.7.2.bb:TARGET_CC_ARCH_append_armv7a =
+=3D " -D__SOFTFP__"
 >=20
-> Could you (or Koen) name any tasks that have to be inserted between =
-kernel
-> and modules compilation please?
+> hmmm will this work if we have armv7-a + hard float ABI ?
 
-Building external modules that are referenced by internal ones for =
-example. But besides that, this also allows me to build just *Image =
-quickly and not having to wait for the modules to build.=20=
+Or a better question: is it still needed or is ffi still broken?
 
---Apple-Mail=_A67B5CE2-CA23-476F-ABD0-3AF0116A5007
+
+>=20
+>> =
+meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb:EXTRA_OECONF_ar=
+mv7a =3D " --enable-neon "
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_CDCD7B6C-FBEA-441D-A9B6-3A90235E971E
 Content-Transfer-Encoding: 7bit
 Content-Disposition: inline;
 	filename=signature.asc
@@ -89,9 +89,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 
 -----BEGIN PGP SIGNATURE-----
 
-iEYEARECAAYFAk7pvXkACgkQMkyGM64RGpE2pwCdFjZuuNW4ler8ES4OsKddTaB2
-JnIAn0ME2FOwLyXeCS2DDBsTwKBFUKDt
-=l9hr
+iEYEARECAAYFAk7pve4ACgkQMkyGM64RGpEbtwCeL1nGXKY1MsYXzo5e0AXHR6CQ
+ls4AnRnleu+raPJF9DqpigoJk2RasJuq
+=ncnR
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_A67B5CE2-CA23-476F-ABD0-3AF0116A5007--
+--Apple-Mail=_CDCD7B6C-FBEA-441D-A9B6-3A90235E971E--
