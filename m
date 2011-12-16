@@ -1,26 +1,29 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1RbRWn-0000g1-0R
+	(envelope-from <koen@dominion.thruhere.net>) id 1RbSMZ-0002xe-28
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Dec 2011 07:44:21 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 15 Dec 2011 22:37:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="102854622"
-Received: from unknown (HELO envy.home) ([10.255.12.224])
-	by fmsmga002.fm.intel.com with ESMTP; 15 Dec 2011 22:37:20 -0800
-Message-ID: <4EEAE704.9060003@linux.intel.com>
-Date: Thu, 15 Dec 2011 22:36:52 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:7.0) Gecko/20110927 Thunderbird/7.0
-MIME-Version: 1.0
-To: Darren Hart <dvhart@linux.intel.com>
-References: <cover.1324015563.git.dvhart@linux.intel.com>
-In-Reply-To: <cover.1324015563.git.dvhart@linux.intel.com>
-X-Enigmail-Version: 1.3.3
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/2] Drop dosfstools -d feature in favor of mtools mcopy
+	Fri, 16 Dec 2011 08:37:51 +0100
+Received: by werm13 with SMTP id m13so341068wer.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Dec 2011 23:30:52 -0800 (PST)
+Received: by 10.216.139.195 with SMTP id c45mr188724wej.18.1324020652272;
+	Thu, 15 Dec 2011 23:30:52 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id k5sm11910570wiz.9.2011.12.15.23.30.50
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 15 Dec 2011 23:30:51 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Fri, 16 Dec 2011 08:30:51 +0100
+In-Reply-To: <35d3dfdcbc7291c8556e90d67a0f349c8f7caa03.1323991540.git.josh@linux.intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1323991540.git.josh@linux.intel.com>
+	<35d3dfdcbc7291c8556e90d67a0f349c8f7caa03.1323991540.git.josh@linux.intel.com>
+Message-Id: <51B87129-E8A1-4358-BA5A-7090EA679925@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH 08/10] pango: clarify LICENSE is LGPL-2.0+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,31 +38,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2011 06:44:21 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 16 Dec 2011 07:37:51 -0000
+X-Groupsio-MsgNum: 14303
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_5C2580B8-3856-4F34-A27F-9ABD7C2FCA21";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_5C2580B8-3856-4F34-A27F-9ABD7C2FCA21
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+
+Op 16 dec. 2011, om 00:30 heeft Joshua Lock het volgende geschreven:
+
+> Signed-off-by: Joshua Lock <josh@linux.intel.com>
+> ---
+> meta/recipes-graphics/pango/pango.inc |    2 +-
+> 1 files changed, 1 insertions(+), 1 deletions(-)
+>=20
+> diff --git a/meta/recipes-graphics/pango/pango.inc =
+b/meta/recipes-graphics/pango/pango.inc
+> index ff5a73a..922425c 100644
+> --- a/meta/recipes-graphics/pango/pango.inc
+> +++ b/meta/recipes-graphics/pango/pango.inc
+> @@ -7,7 +7,7 @@ core of text and font handling for GTK+-2.x."
+> HOMEPAGE =3D "http://www.pango.org/"
+> BUGTRACKER =3D "http://bugzilla.gnome.org"
+> SECTION =3D "libs"
+> -LICENSE =3D "LGPL"
+> +LICENSE =3D "LGPL-2.0+"
+
+In the past we agreed to use LGLPv2+ for that, has that changed?=
+
+--Apple-Mail=_5C2580B8-3856-4F34-A27F-9ABD7C2FCA21
 Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
+-----BEGIN PGP SIGNATURE-----
 
+iEYEARECAAYFAk7q86wACgkQMkyGM64RGpHo7wCgjRjYb5n3hkeqTYQgyybTJZ8E
+KHQAniFe1SY14IEUBOT/PXMJ4ffSdRw7
+=WRe0
+-----END PGP SIGNATURE-----
 
-On 12/15/2011 10:14 PM, Darren Hart wrote:
-> The dosfstools -d feature has been shown to be buggy, and even with Nitin's
-> fixes applied to get directory hierarchies working, it still generates
-> images that fail dosfsck and don't work with FAT32.
-> 
-> This series presents an alternative means of populating our live images
-> using mcopy from mtools.
-> 
-> Applies on top of my earlier pull request:
-> [PATCH 0/4] Fix grub efi menu, kernel messages, and live image dosfsck
-
-I should add that I've built this with the fri2 BSP from the meta-intel
-layer and tested EFI booting on 3 different platforms and legacy
-SYSLINUX booting on 2 platforms - all using the same core-image-minimal
-hddimg.
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
-
-
+--Apple-Mail=_5C2580B8-3856-4F34-A27F-9ABD7C2FCA21--
