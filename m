@@ -1,32 +1,20 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Rbabl-0002nJ-Qp for openembedded-core@lists.openembedded.org;
-	Fri, 16 Dec 2011 17:26:05 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBGGJ3M5019796;
-	Fri, 16 Dec 2011 16:19:03 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 19538-06; Fri, 16 Dec 2011 16:18:58 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBGGIuhp019790
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 16 Dec 2011 16:18:57 GMT
-Message-ID: <1324052337.4568.110.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Dec 2011 16:18:57 +0000
-In-Reply-To: <33febd68cae9e482a7d35c230a0b875849e86669.1324015563.git.dvhart@linux.intel.com>
-References: <cover.1324015563.git.dvhart@linux.intel.com>
-	<33febd68cae9e482a7d35c230a0b875849e86669.1324015563.git.dvhart@linux.intel.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Darren Hart <dvhart@linux.intel.com>
-Subject: Re: [PATCH 1/2] bootimg: Use mcopy to construct the hddimg
+Received: from mga14.intel.com ([143.182.124.37])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1Rbazv-0003tu-Qa
+	for openembedded-core@lists.openembedded.org;
+	Fri, 16 Dec 2011 17:51:04 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 16 Dec 2011 08:44:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="86504177"
+Received: from unknown (HELO cenodoxus.amr.corp.intel.com) ([10.255.15.176])
+	by azsmga001.ch.intel.com with ESMTP; 16 Dec 2011 08:44:02 -0800
+From: Beth Flanagan <elizabeth.flanagan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 16 Dec 2011 08:44:00 -0800
+Message-Id: <cover.1324053729.git.elizabeth.flanagan@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/1] Remove manifest creation bashism.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,45 +29,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2011 16:26:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 16 Dec 2011 16:51:04 -0000
 
-On Thu, 2011-12-15 at 22:14 -0800, Darren Hart wrote:
-> The initial directory support (-d) added to mkdosfs has proven to be incomplete
-> and non-compliant with FAT. Rather than continue to maintain this feature and
-> work around the various issues, we can use mcopy to construct the image.
-> 
-> bootimg.bbclass already depends on mtools-native (although it may not have
-> needed to previously). No new dependencies are introduced. The image created
-> passes dosfsck cleanly. Remove the call to dosfsck.
-> 
-> mcopy reported an error with the image we were creating:
-> Total number of sectors (107574) not a multiple of sectors per track (32)!
-> 
-> Add some logic to ensure the total sector count is an integral number of sectors
-> per track, including forcing the logical sector size to 512 in the mkdosfs
-> command.
-> 
-> The du -bks arguments are contradictory, -b is equivalent to "--apparent-size
-> --block-size=1" and -k is --block-size=1K. If reordered, -kbs will report the
-> disk usage in bytes insteadk of 1k blocks. Eliminate the ambiguity by using:
-> du --apparent-size -ks
-> 
-> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-> CC: Nitin A. Kamble <nitin.a.kamble@intel.com>
-> ---
->  meta/classes/bootimg.bbclass |   18 +++++++++++++-----
->  1 files changed, 13 insertions(+), 5 deletions(-)
+Quick fix to a bashism that dumps cruft into rootfs log.
 
-Merged into master, thanks.
+The following changes since commit cdba3979b9c59a653f9c0e6e779d11c5ff58bb17:
 
-I'm going to hold off 2/2 to give other users a chance to migrate to
-mcopy.
+  readline: drop empty dir to shut up QA warning (2011-12-16 16:19:28 +0000)
 
-Cheers,
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib eflanagan/license_dash
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=eflanagan/license_dash
 
-Richard
+Elizabeth Flanagan (1):
+  license.bbclass: remove bashism
+
+ meta/classes/license.bbclass |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
 
 
