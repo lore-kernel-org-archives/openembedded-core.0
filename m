@@ -1,25 +1,25 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RbU6N-0008Tt-Nm
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RbU6Q-0008U6-6Y
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Dec 2011 10:29:16 +0100
+	Fri, 16 Dec 2011 10:29:18 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pBG9MGj6021613
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pBG9MIYb021619
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2011 01:22:16 -0800 (PST)
+	Fri, 16 Dec 2011 01:22:18 -0800 (PST)
 Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Fri, 16 Dec 2011 01:22:16 -0800
-Message-ID: <e9b09040a8b888e263e1975675cfd0386953a916.1324025415.git.xiaofeng.yan@windriver.com>
+	Fri, 16 Dec 2011 01:22:18 -0800
+Message-ID: <c028203a732e19a12804c479dfcdbf7f61b75767.1324025415.git.xiaofeng.yan@windriver.com>
 In-Reply-To: <cover.1324025415.git.xiaofeng.yan@windriver.com>
 References: <cover.1324025415.git.xiaofeng.yan@windriver.com>
-Old-Date: Fri, 16 Dec 2011 16:22:49 +0800
-Date: Fri, 16 Dec 2011 17:15:50 +0800
+Old-Date: Fri, 16 Dec 2011 16:34:35 +0800
+Date: Fri, 16 Dec 2011 17:15:52 +0800
 To: <openembedded-core@lists.openembedded.org>
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/3] udev: add a link between /dev/input/event* with keyboard
+Subject: [PATCH 2/3] x11-common: Change drive mode of Xfbdev when xserver using framebuffer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,31 +34,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2011 09:29:16 -0000
+X-List-Received-Date: Fri, 16 Dec 2011 09:29:18 -0000
 Content-Type: text/plain
 
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-keyboard device could be one of event*.
-For getting keyboard device to user easier, I make a link between the event of keyboard \
-with keyboard0.
+The previous mode of starting X is as follow:
+$Xfbdev :0 -keybd keyboard -mouse tslib
+This mode cause that some keys can't be mapped rightly. \
+for example "Down" have the same function with "Enter".
+
+another drive mode "evdev" can work rightly in new version.
+$Xfbdev :0 -keybd evdev,,device=/dev/input/event0 -mouse tslib
+
+So I select drive mode "evdev".
 
 Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 ---
- meta/recipes-core/udev/udev-164/local.rules |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+ .../x11-common/x11-common/etc/X11/Xserver          |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-core/udev/udev-164/local.rules b/meta/recipes-core/udev/udev-164/local.rules
-index 625e49a..d96f840 100644
---- a/meta/recipes-core/udev/udev-164/local.rules
-+++ b/meta/recipes-core/udev/udev-164/local.rules
-@@ -32,4 +32,5 @@ ACTION=="add", DEVPATH=="/devices/*", ENV{MODALIAS}=="?*", RUN+="/sbin/modprobe
+diff --git a/meta/recipes-graphics/x11-common/x11-common/etc/X11/Xserver b/meta/recipes-graphics/x11-common/x11-common/etc/X11/Xserver
+index 57923e6..d1e17fb 100644
+--- a/meta/recipes-graphics/x11-common/x11-common/etc/X11/Xserver
++++ b/meta/recipes-graphics/x11-common/x11-common/etc/X11/Xserver
+@@ -28,11 +28,13 @@ module_id() {
  
- # Create a symlink to any touchscreen input device
- SUBSYSTEM=="input", KERNEL=="event[0-9]*", ATTRS{modalias}=="input:*-e0*,3,*a0,1,*18,*", SYMLINK+="input/touchscreen0"
--
-+# Create a symlink to any keyboard input device
-+SUBSYSTEM=="input", KERNEL=="event[0-9]*", ATTRS{name}=="*keyboard", SYMLINK+="input/keyboard0"
+ ARGS=" -br -pn"
+ 
++KD_DRIVE_KEYBOARD="-keybd keyboard"
++KD_DRIVE_EVDEV="-keybd evdev,,device=/dev/input/keyboard0"
+ if [ "$XSERVER" != "/usr/bin/Xorg" ]; then
+ 
+         . /etc/formfactor/config
+ 
+-        ARGS="$ARGS -keybd keyboard"
++        ARGS="$ARGS $KD_DRIVE_EVDEV"
+ 
+         # use usb mouse if present
+         if [ -z "$TSLIB_TSDEVICE" ] && [ -e /dev/input/mice ]; then
 -- 
 1.7.0.4
 
