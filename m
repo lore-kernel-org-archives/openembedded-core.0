@@ -1,23 +1,51 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from db3ehsobe006.messaging.microsoft.com ([213.199.154.144]
+	helo=DB3EHSOBE006.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RbT7Y-0005nY-0O
+	(envelope-from <B19537@freescale.com>) id 1RbTHq-0006Kg-Sd
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Dec 2011 09:26:24 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pBG8J1aP013752
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2011 00:19:01 -0800 (PST)
-Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Fri, 16 Dec 2011 00:19:01 -0800
-Message-ID: <cover.1324022816.git.xiaofeng.yan@windriver.com>
-Old-Date: Fri, 16 Dec 2011 16:06:56 +0800
-Date: Fri, 16 Dec 2011 16:12:36 +0800
-To: <openembedded-core@lists.openembedded.org>
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+	Fri, 16 Dec 2011 09:37:03 +0100
+Received: from mail11-db3-R.bigfish.com (10.3.81.250) by
+	DB3EHSOBE006.bigfish.com (10.3.84.26) with Microsoft SMTP Server id
+	14.1.225.23; Fri, 16 Dec 2011 08:14:55 +0000
+Received: from mail11-db3 (localhost [127.0.0.1])	by mail11-db3-R.bigfish.com
+	(Postfix) with ESMTP id 725213605F9	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 16 Dec 2011 08:15:03 +0000 (UTC)
+X-SpamScore: -12
+X-BigFish: VS-12(zz9371I542M1432Nzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3h944h)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+Received: from mail11-db3 (localhost.localdomain [127.0.0.1]) by mail11-db3
+	(MessageSwitch) id 1324023303396910_4988;
+	Fri, 16 Dec 2011 08:15:03 +0000 (UTC)
+Received: from DB3EHSMHS010.bigfish.com (unknown [10.3.81.248])	by
+	mail11-db3.bigfish.com (Postfix) with ESMTP id 5C057400042	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 16 Dec 2011 08:15:03 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS010.bigfish.com
+	(10.3.87.110) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Fri, 16 Dec 2011 08:14:54 +0000
+Received: from 039-SN2MPN1-022.039d.mgd.msft.net ([169.254.2.68]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.01.0355.003; Fri, 16 Dec 2011 02:14:53 -0600
+From: Luo Zhenhua-B19537 <B19537@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] after modifying source code in work/, how to rebuild
+	package?
+Thread-Index: AQHMu8po2jDAegODPkOdRryE3MnfgpXegjEA//+bmKA=
+Date: Fri, 16 Dec 2011 08:14:53 +0000
+Message-ID: <CA452391058F6D4E9715FB2C29D9312A02CDF4@039-SN2MPN1-022.039d.mgd.msft.net>
+References: <CAMvUbCzceL3owJH51JnUYYC90ExEHkbEOcd4887sjWAKEV83=A@mail.gmail.com>
+	<4EEAFD28.1060609@bluegiga.com> <4EEAFDAA.7000100@bluegiga.com>
+In-Reply-To: <4EEAFDAA.7000100@bluegiga.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.192.208.114]
 MIME-Version: 1.0
-Subject: [PATCH 0/1] core-image-gtk-directfb: add a bb file to build an image for gtk over
+X-OriginatorOrg: freescale.com
+Subject: Re: after modifying source code in work/, how to rebuild package?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,31 +60,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2011 08:26:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 16 Dec 2011 08:37:03 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedd=
+ed-
+> core-bounces@lists.openembedded.org] On Behalf Of Lauri Hintsala
+> Sent: Friday, December 16, 2011 4:14 PM
+> To: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] after modifying source code in work/, how to rebui=
+ld
+> package?
+>=20
+> Sorry, this workflow will clean all your changes. How about that:
+>=20
+> bitbake projectname -c compile -f
+> bitbake projectname
+[Luo Zhenhua-B19537] Those commands should work.=20
 
-Hi Richard,
 
-I have modified my patches according to your suggestion. Please review it again. 
+Best Regards,
 
-Pull URL: git://git.pokylinux.org/poky-contrib.git
-  Branch: xiaofeng/gtk-directfb
-  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/gtk-directfb
+Zhenhua
 
-Thanks,
-    Xiaofeng Yan <xiaofeng.yan@windriver.com>
----
-
-
-Xiaofeng Yan (1):
-  core-image-gtk-directfb: add a bb file to build an image for gtk over
-    directfb
-
- .../images/core-image-gtk-directfb.bb              |   28 ++++++++++++++++++++
- 1 files changed, 28 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-graphics/images/core-image-gtk-directfb.bb
 
 
 
