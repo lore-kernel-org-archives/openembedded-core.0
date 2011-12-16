@@ -1,18 +1,18 @@
 Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1RbgVg-0002yv-9y
+	(envelope-from <scott.a.garman@intel.com>) id 1RbgVj-00030e-F3
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Dec 2011 23:44:15 +0100
+	Fri, 16 Dec 2011 23:44:19 +0100
 Received: from localhost (c-76-115-40-64.hsd1.or.comcast.net [76.115.40.64])
 	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
 	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 5B5352FF5E
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 92D4E2FF5D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2011 17:37:09 -0500 (EST)
+	Fri, 16 Dec 2011 17:37:12 -0500 (EST)
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Dec 2011 14:36:32 -0800
-Message-Id: <ed8d5542588cfcfc33d2d5de383c0f709188c785.1324074313.git.scott.a.garman@intel.com>
+Date: Fri, 16 Dec 2011 14:36:33 -0800
+Message-Id: <671866f3cd08dd822aca22032bacc24b1509afeb.1324074313.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <cover.1324074313.git.scott.a.garman@intel.com>
 References: <cover.1324074313.git.scott.a.garman@intel.com>
@@ -20,12 +20,12 @@ In-Reply-To: <cover.1324074313.git.scott.a.garman@intel.com>
 References: <cover.1324074313.git.scott.a.garman@intel.com>
 X-MasterFoo-MailScanner-Information: Please contact the ISP for more
 	information
-X-MailScanner-ID: 5B5352FF5E.7994C
+X-MailScanner-ID: 92D4E2FF5D.59069
 X-MasterFoo-MailScanner: Found to be clean
 X-MasterFoo-MailScanner-SpamCheck: not spam
 X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
 X-Spam-Status: No
-Subject: [PATCH 7/8] prelink: update to latest git version
+Subject: [PATCH 8/8] insane.bbclass: add QA tests for unsafe references to exec_prefix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,58 +40,173 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2011 22:44:15 -0000
+X-List-Received-Date: Fri, 16 Dec 2011 22:44:20 -0000
 
-New version includes:
+Files under exec_prefix (commonly /usr) may not be available during
+system recovery. exec_prefix may also be kept on a separate partition
+that is mounted late in the boot process.
 
-2011-12-08 Mark Hatle <mark.hatle@windriver.com>
-    * rtld/rtld.c: Fix an issue where missing objects would trigger
-      an assert in dl-version.c
-    * rtld/rtld.h: Add _dl_new_object prototype
-    * rtld/rtld.c: Add support for $ORIGIN, $PLATFORM and $LIB.
-      Note: $PLATFORM = ""
+This QA test throws an warning if a binary in base_[bindir|sbindir|libdir]
+is dynamically linked to a file under exec_prefix. The intention is to
+turn this into an error in the near future.
 
-These fixes are needed to prevent prelink-rtld from crashing when
-running the new unsafe-references-in-binaries QA test.
+It also checks executable non-binaries (e.g, shell scripts) in the above
+base directories with a simple grep test to look for references to
+exec_prefix. This test only produces a warning, since false positives
+are likely.
+
+This fixes [YOCTO #1008]
 
 Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |    8 ++++----
- meta/recipes-devtools/prelink/prelink_git.bb       |    2 +-
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ meta/classes/insane.bbclass |  111 ++++++++++++++++++++++++++++++++++++++++++-
+ 1 files changed, 109 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index f2b7d4b..fe7cb44 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -3067,10 +3067,10 @@ RECIPE_LAST_UPDATE_pn-perl = "Oct 22, 2011"
- RECIPE_MANUAL_CHECK_DATE_pn-perl = "Nov 16, 2011"
- RECIPE_MAINTAINER_pn-perl = "Nitin A Kamble <nitin.a.kamble@intel.com>"
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 5726e69..b8d4507 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -11,6 +11,10 @@
+ #  -Check if packages contains .debug directories or .so files
+ #   where they should be in -dev or -dbg
+ #  -Check if config.log contains traces to broken autoconf tests
++#  -Ensure that binaries in base_[bindir|sbindir|libdir] do not link
++#   into exec_prefix
++#  -Check that scripts in base_[bindir|sbindir|libdir] do not reference
++#   files under exec_prefix
  
--RECIPE_STATUS_pn-prelink="red" 
--RECIPE_LATEST_VERSION_pn-prelink="1.0+git0+0x909470ee441237563d6236c505cb2d02ddc48704"
--RECIPE_LAST_UPDATE_pn-prelink = "Jul 23, 2010"
--RECIPE_MANUAL_CHECK_DATE_pn-prelink = "Dec 01, 2011"
-+RECIPE_STATUS_pn-prelink="green" 
-+RECIPE_LATEST_VERSION_pn-prelink="1.0+git0+0xbb1b660c5e3859b6c5a2ac8d739713e9989a4dd7"
-+RECIPE_LAST_UPDATE_pn-prelink = "Dec 15, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-prelink = "Dec 15, 2011"
- RECIPE_MAINTAINER_pn-prelink = "Mark Hatle <mark.hatle@windriver.com>"
  
- RECIPE_STATUS_pn-python-dbus="green" 
-diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
-index af6de8e..31c22ef 100644
---- a/meta/recipes-devtools/prelink/prelink_git.bb
-+++ b/meta/recipes-devtools/prelink/prelink_git.bb
-@@ -8,7 +8,7 @@ and executables, so that far fewer relocations need to be resolved at \
- runtime and thus programs come up faster."
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c93c0550bd3173f4504b2cbd8991e50b"
--SRCREV = "3e3f9b0876aa5ac83a783a95b8bab52cb38ed785"
-+SRCREV = "bb1b660c5e3859b6c5a2ac8d739713e9989a4dd7"
- PV = "1.0+git${SRCPV}"
- PR = "r7"
+ #
+@@ -19,9 +23,14 @@
+ # The package.bbclass can help us here.
+ #
+ inherit package
+-PACKAGE_DEPENDS += "pax-utils-native desktop-file-utils-native"
++PACKAGE_DEPENDS += "pax-utils-native desktop-file-utils-native ${QADEPENDS}"
+ PACKAGEFUNCS += " do_package_qa "
  
++# unsafe-references-in-binaries requires prelink-rtld from
++# prelink-native, but we don't want this DEPENDS for -native builds
++QADEPENDS = "prelink-native"
++QADEPENDS_virtclass-native = ""
++QADEPENDS_virtclass-nativesdk = ""
+ 
+ #
+ # dictionary for elf headers
+@@ -100,7 +109,7 @@ def package_qa_get_machine_dict():
+ 
+ 
+ # Currently not being used by default "desktop"
+-WARN_QA ?= "ldflags useless-rpaths rpaths"
++WARN_QA ?= "ldflags useless-rpaths rpaths unsafe-references-in-binaries unsafe-references-in-scripts"
+ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch la2 pkgconfig la perms"
+ 
+ def package_qa_clean_path(path,d):
+@@ -201,6 +210,104 @@ def package_qa_check_perm(path,name,d, elf, messages):
+     """
+     return
+ 
++QAPATHTEST[unsafe-references-in-binaries] = "package_qa_check_unsafe_references_in_binaries"
++def package_qa_check_unsafe_references_in_binaries(path, name, d, elf, messages):
++	"""
++	Ensure binaries in base_[bindir|sbindir|libdir] do not link to files under exec_prefix
++	"""
++	if unsafe_references_skippable(path, name, d):
++		return
++
++	if elf:
++		import subprocess as sub
++		pn = d.getVar('PN', True)
++
++		exec_prefix = d.getVar('exec_prefix', True)
++		sysroot_path = d.getVar('STAGING_DIR_TARGET', True)
++		sysroot_path_usr = sysroot_path + exec_prefix
++
++		try:
++			ldd_output = sub.check_output(["prelink-rtld", "--root", sysroot_path, path])
++		except sub.CalledProcessError as e:
++			if e.returncode != 127:
++				error_msg = pn + ": prelink-rtld aborted when processing %s" % path
++				package_qa_handle_error("unsafe-references-in-binaries", error_msg, d)
++				return False
++			else:
++				# Sometimes this is done deliberately (e.g, e2fsprogs), so only warn
++				bb.warn("%s has missing library dependencies" % path)
++				return
++		if sysroot_path_usr in ldd_output:
++			error_msg = pn + ": %s links to something under exec_prefix" % path
++			package_qa_handle_error("unsafe-references-in-binaries", error_msg, d)
++			error_msg = "ldd reports: %s" % ldd_output
++			package_qa_handle_error("unsafe-references-in-binaries", error_msg, d)
++			return False
++
++QAPATHTEST[unsafe-references-in-scripts] = "package_qa_check_unsafe_references_in_scripts"
++def package_qa_check_unsafe_references_in_scripts(path, name, d, elf, messages):
++	"""
++	Warn if scripts in base_[bindir|sbindir|libdir] reference files under exec_prefix
++	"""
++	if unsafe_references_skippable(path, name, d):
++		return
++
++	if not elf:
++		import stat
++		pn = d.getVar('PN', True)
++
++		# Ensure we're checking an executable script
++		statinfo = os.stat(path)
++		if bool(statinfo.st_mode & stat.S_IXUSR):
++			# grep shell scripts for possible references to /exec_prefix/
++			exec_prefix = d.getVar('exec_prefix', True)
++			statement = "grep -e '%s/' %s > /dev/null" % (exec_prefix, path)
++			if os.system(statement) == 0:
++				error_msg = pn + ": Found a reference to %s/ in %s" % (exec_prefix, path)
++				package_qa_handle_error("unsafe-references-in-scripts", error_msg, d)
++				error_msg = "Shell scripts in base_bindir and base_sbindir should not reference anything in exec_prefix"
++				package_qa_handle_error("unsafe-references-in-scripts", error_msg, d)
++
++def unsafe_references_skippable(path, name, d):
++	if bb.data.inherits_class('native', d) or bb.data.inherits_class('nativesdk', d):
++		return True
++
++	if "-dbg" in name or "-dev" in name:
++		return True
++
++	# Other package names to skip:
++	if name.startswith("kernel-module-"):
++		return True
++
++	# Skip symlinks
++	if os.path.islink(path):
++		return True
++
++	# Skip unusual rootfs layouts which make these tests irrelevant
++	exec_prefix = d.getVar('exec_prefix', True)
++	if exec_prefix == "":
++		return True
++
++	pkgdest = d.getVar('PKGDEST', True)
++	pkgdest = pkgdest + "/" + name
++	pkgdest = os.path.abspath(pkgdest)
++	base_bindir = pkgdest + d.getVar('base_bindir', True)
++	base_sbindir = pkgdest + d.getVar('base_sbindir', True)
++	base_libdir = pkgdest + d.getVar('base_libdir', True)
++	bindir = pkgdest + d.getVar('bindir', True)
++	sbindir = pkgdest + d.getVar('sbindir', True)
++	libdir = pkgdest + d.getVar('libdir', True)
++
++	if base_bindir == bindir and base_sbindir == sbindir and base_libdir == libdir:
++		return True
++
++	# Skip files not in base_[bindir|sbindir|libdir]
++	path = os.path.abspath(path)
++	if not (base_bindir in path or base_sbindir in path or base_libdir in path):
++		return True
++
++	return False
++
+ QAPATHTEST[arch] = "package_qa_check_arch"
+ def package_qa_check_arch(path,name,d, elf, messages):
+     """
 -- 
 1.7.5.4
 
