@@ -1,36 +1,30 @@
-Received: from lo.gmane.org ([80.91.229.12])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1RbaRo-000246-Om for openembedded-core@lists.openembedded.org;
-	Fri, 16 Dec 2011 17:15:49 +0100
-Received: from list by lo.gmane.org with local (Exim 4.69)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1RbaL4-0004ys-Dj for openembedded-core@lists.openembedded.org;
-	Fri, 16 Dec 2011 17:08:50 +0100
-Received: from nat-rup.mentorg.com ([139.181.168.34])
-	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
-	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2011 17:08:50 +0100
-Received: from dbaryshkov by nat-rup.mentorg.com with local (Gmexim 0.1
-	(Debian)) id 1AlnuQ-0007hv-00
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2011 17:08:50 +0100
-X-Injected-Via-Gmane: http://gmane.org/
-To: openembedded-core@lists.openembedded.org
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Date: Fri, 16 Dec 2011 20:07:14 +0400
-Message-ID: <jcfqe3$oif$1@dough.gmane.org>
-References: <1323793193-31090-1-git-send-email-dbaryshkov@gmail.com>
-	<1323793193-31090-4-git-send-email-dbaryshkov@gmail.com>
-	<1323961117.4568.41.camel@ted>
-	<1865303E0DED764181A9D882DEF65FB6EA436A83B6@shsmsx502.ccr.corp.intel.com>
-	<jcfeeh$ub8$1@dough.gmane.org> <1324049140.4568.98.camel@ted>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RbaTl-00028W-LH for openembedded-core@lists.openembedded.org;
+	Fri, 16 Dec 2011 17:17:50 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBGGAo6V019460;
+	Fri, 16 Dec 2011 16:10:50 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 18830-08; Fri, 16 Dec 2011 16:10:46 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBGGAgOb019454
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 16 Dec 2011 16:10:43 GMT
+Message-ID: <1324051843.4568.102.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 16 Dec 2011 16:10:43 +0000
+In-Reply-To: <1323946873-28584-1-git-send-email-stefan@datenfreihafen.org>
+References: <1323946873-28584-1-git-send-email-stefan@datenfreihafen.org>
+X-Mailer: Evolution 3.2.1- 
 Mime-Version: 1.0
-X-Complaints-To: usenet@dough.gmane.org
-X-Gmane-NNTP-Posting-Host: nat-rup.mentorg.com
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:8.0) Gecko/20111109 Icedove/8.0
-In-Reply-To: <1324049140.4568.98.camel@ted>
-Subject: Re: [PATCH 4/9] consolekit: fix sdk generation issues
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] u-boot-xilinx: Update inc file path after oe-core change
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,71 +39,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2011 16:15:50 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 16 Dec 2011 16:17:50 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 12/16/2011 07:25 PM, Richard Purdie wrote:
-> On Fri, 2011-12-16 at 16:42 +0400, Dmitry Eremin-Solenikov wrote:
->> On 12/15/2011 08:20 PM, Cui, Dexuan wrote:
->>> Richard Purdie wrote on 2011-12-15:
->>>> On Tue, 2011-12-13 at 20:19 +0400, Dmitry Eremin-Solenikov wrote:
->>>>> Currently sdk generation might fail with the following error:
->>>>> | Collected errors:
->>>>> |  * extract_archive: Cannot create symlink from ./var/log to
->>>>> 'volatile/log': File exists.
->>>>> ERROR: Function 'do_populate_sdk' failed
->>>>>
->>>>> This happens as consolekit package will include both
->>>>> /var/log/ConsoleKit and /var/volatile/log/ConsoleKit files:
->>>>> lumag@fangorn:~/OE-scripts$ dpkg-deb -c
->>>> build/tmp--eglibc/deploy/ipk/core2/consolekit_0.4.5-r7_core2.ipk  |
->>>> grep var
->>>>> drwxr-xr-x root/root         0 2011-12-07 22:12 ./var/ drwxr-xr-x
->>>>> root/root         0 2011-12-07 22:12 ./var/log/ drwxr-xr-x root/root
->>>>>        0 2011-12-07 22:12 ./var/log/ConsoleKit/ lrwxrwxrwx root/root
->>>>>      0 2011-12-07 22:12 ./var/run ->   volatile/run drwxr-xr-x root/root
->>>>>        0 2011-12-07 22:12 ./var/volatile/ drwxr-xr-x root/root         0
->>>>> 2011-12-07 22:12 ./var/volatile/log/ drwxr-xr-x root/root         0
->>>>> 2011-12-07 22:12 ./var/volatile/log/ConsoleKit/ drwxr-xr-x root/root
->>>>>        0 2011-12-07 22:12 ./var/volatile/run/ drwxr-xr-x root/root
->>>>>    0 2011-12-07 22:12 ./var/volatile/run/ConsoleKit/
->>>>>
->>>>> Inclusion of both log directories causes this error. Drop the
->>>>> /var/log/ConsoleKit in favour of /var/volatile/log
->>> Hi Dmitry,
->>> Could you please explain how and where the extract_archive error is caused?
->>> Where is /var/log linked to /var/volatile/log?
->>
->> I have tried building meta-toolchain-qte... and I got exactly the error
->> from my original message.
->>
->>>
->>> Do you mean RP's patch "consolekit: Fix ${localstatedir} race" didn't fix the issue?
->>> (I suspect so)
->>
->> Yes, I still had the issues even after PR's patch.
->>
->>>
->>>> This effectively reverts:
->>>> http://git.openembedded.org/openembedded-core/commit/?id=5608a748
->>>> af2c754f60137ab7c3010ccce6bf9e40 so I think this fixes one problem at
->>>> the expense of causing another. Koen: Any comments?
->>>
->>> Thanks,
->>> -- Dexuan
->
-> I believe this is an installation ordering problem in opkg. If you apply
-> my opkg patch (and the nativesdk one I just posted), I don't see this
-> problem with meta-toolchain-gmae.
+On Thu, 2011-12-15 at 12:01 +0100, Stefan Schmidt wrote:
+> Signed-off-by: Stefan Schmidt <stefan@datenfreihafen.org>
+> ---
+>  recipes-bsp/uboot/u-boot-xilinx_git.bb |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
 
-I still see one problem. Without my patch I have both 
-/var/volatile/log/ConsoleKit and /var/log/ConsoleKit in consolekit 
-package. Won't that cause troubles?
+I've merged this to the repository.
 
--- 
-With best wishes
-Dmitry
+Cheers,
+
+Richard
 
 
 
