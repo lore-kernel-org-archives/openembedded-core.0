@@ -1,39 +1,26 @@
-Received: from familie-heinold.de
-	([85.214.48.103] helo=mail.familie-heinold.de ident=postfix)
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <heinold@inf.fu-berlin.de>) id 1RbbpE-0006AT-QS
+	(envelope-from <sgw@linux.intel.com>) id 1Rbc3l-0006jd-CA
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Dec 2011 18:44:05 +0100
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id A5EAD110018A
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2011 18:37:06 +0100 (CET)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id CC55C11000B0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2011 18:37:05 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	h873313.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.1
-Received: from rhein.familie-heinold.de (g229045197.adsl.alicedsl.de
-	[92.229.45.197]) by mail.familie-heinold.de (Postfix) with ESMTPA
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2011 18:37:05 +0100 (CET)
-Received: by rhein.familie-heinold.de (Postfix, from userid 1000)
-	id 9BFCE3C49C; Fri, 16 Dec 2011 18:37:04 +0100 (CET)
-Date: Fri, 16 Dec 2011 18:37:04 +0100
-From: Henning Heinold <heinold@inf.fu-berlin.de>
+	Fri, 16 Dec 2011 18:59:06 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 16 Dec 2011 09:52:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="103038438"
+Received: from unknown (HELO [10.255.12.77]) ([10.255.12.77])
+	by fmsmga002.fm.intel.com with ESMTP; 16 Dec 2011 09:52:05 -0800
+Message-ID: <4EEB8544.3030901@linux.intel.com>
+Date: Fri, 16 Dec 2011 09:52:04 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111216173704.GA3744@rhein.zuhause.netz>
-References: <CAMvUbCzceL3owJH51JnUYYC90ExEHkbEOcd4887sjWAKEV83=A@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAMvUbCzceL3owJH51JnUYYC90ExEHkbEOcd4887sjWAKEV83=A@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Virus-Scanned: ClamAV using ClamSMTP
-Subject: Re: after modifying source code in work/, how to rebuild package?
+References: <cover.1324021777.git.edwin.zhai@intel.com>
+	<684530c1b7e5aab3e0f3f6f8bbe64b5fb839eff3.1324021777.git.edwin.zhai@intel.com>
+In-Reply-To: <684530c1b7e5aab3e0f3f6f8bbe64b5fb839eff3.1324021777.git.edwin.zhai@intel.com>
+Subject: Re: [PATCH 1/2] xserver-nodm-init: Fix xuser creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,37 +35,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2011 17:44:05 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 16 Dec 2011 17:59:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Dec 16, 2011 at 08:55:05AM +0100, Leon Woestenberg wrote:
-> Hello all,
-> 
-> 
-> after modifying source code in the work directory, what is the set of
-> commands to rebuild the package (from the compile stage and further)?
-> 
-> Under classic OpenEmbedded, I removed the compile, install, package stages
-> stamp files and ran bitbake. However, shared staging "broke" that workflow.
-> 
-> Is there an equivalent approach with OpenEmbedded Core?  Possibly disabling
-> 'sstage' on a per build, or per package basis?
-> 
-> 
-> Thanks,
-> 
-> Leon.
+On 12/15/2011 11:53 PM, edwin.zhai@intel.com wrote:
+> From: Zhai Edwin<edwin.zhai@intel.com>
+>
+> Rootless X start fail as xuser has no home and shell. This patch fix it.
+>
+> Signed-off-by: Zhai Edwin<edwin.zhai@intel.com>
+> ---
+>   .../x11-common/xserver-nodm-init.bb                |    6 +++---
+>   1 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init.bb b/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
+> index dbc1c42..99ef72e 100644
+> --- a/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
+> +++ b/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
+> @@ -2,7 +2,7 @@ DESCRIPTION = "Simple Xserver Init Script (no dm)"
+>   LICENSE = "GPLv2"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+>   SECTION = "x11"
+> -PR = "r28"
+> +PR = "r29"
+>   RDEPENDS_${PN} = "sudo"
+>
+>   SRC_URI = "file://xserver-nodm \
+> @@ -31,7 +31,7 @@ INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
+>   # Use fixed Xusername of xuser for now, this will need to be
+>   # fixed if the Xusername changes from xuser
+>   USERADD_PACKAGES = "${PN}"
+> -USERADD_PARAM_${PN} = "--system --no-create-home \
+> -                       --shell /bin/false --groups video,tty,audio \
+> +USERADD_PARAM_${PN} = "--create-home \
+> +                       --groups video,tty,audio \
+>                          --user-group xuser"
+>
+I think that this should still be a --system account, I missed that when 
+I first looked at this patch.
 
-
-try the devshell
-
-bitbake -c devshell
-
-and 
-
-than tmp/run.do_compile
-
-Bye Henning
+Sau!
 
 
