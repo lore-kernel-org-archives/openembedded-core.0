@@ -1,35 +1,24 @@
-Received: from sirius.lasnet.de ([78.47.116.19])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <stefan@datenfreihafen.org>) id 1RbcOb-00082N-SN
+	(envelope-from <dvhart@linux.intel.com>) id 1RbcfW-00005u-IA
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Dec 2011 19:20:37 +0100
-Received: from [2001:638:602:1183:f2de:f1ff:fe62:28f7]
-	(helo=novatech.datenfreihafen.org) by sirius.lasnet.de with esmtpsa 
-	(Cipher TLS1.0:RSA_AES_256_CBC_SHA1:32) (Exim 4.69 #1)
-	id 1RbcHr-00024l-21 by authid <stefan@sostec.de> with srv_auth_cram_md5;
-	Fri, 16 Dec 2011 19:13:40 +0100
-Received: from stefan by novatech.datenfreihafen.org with local (Exim 4.77)
-	(envelope-from <stefan@novatech.datenfreihafen.org>)
-	id 1RbcIb-0006PC-9H; Fri, 16 Dec 2011 19:14:25 +0100
-Date: Fri, 16 Dec 2011 19:14:25 +0100
-From: Stefan Schmidt <stefan@datenfreihafen.org>
-To: Saul Wold <sgw@linux.intel.com>
-Message-ID: <20111216181425.GE11682@novatech.datenfreihafen.org>
-References: <1323946873-28584-1-git-send-email-stefan@datenfreihafen.org>
-	<4EEB8669.30900@linux.intel.com>
+	Fri, 16 Dec 2011 19:38:06 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 16 Dec 2011 10:31:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="87375678"
+Received: from unknown (HELO envy.home) ([10.255.12.232])
+	by orsmga001.jf.intel.com with ESMTP; 16 Dec 2011 10:31:06 -0800
+Message-ID: <4EEB8E58.3030806@linux.intel.com>
+Date: Fri, 16 Dec 2011 10:30:48 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
-In-Reply-To: <4EEB8669.30900@linux.intel.com>
-X-Mailer: Mutt http://www.mutt.org/
-X-KeyID: 0xDDF51665
-X-Website: http://www.datenfreihafen.org/
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Spam-Checker-Version: SpamAssassin 3.2.5 (2008-06-10) on sirius.lasnet.de
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,NO_RELAYS
-	autolearn=ham version=3.2.5
-Cc: Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot-xilinx: Update inc file path after oe-core change
+X-Enigmail-Version: 1.3.3
+Subject: Can we drop eglibc-utils from LIBC_DEPENDENCIES?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,25 +33,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2011 18:20:37 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 16 Dec 2011 18:38:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Hello.
+I'm working on a minimal distro definition, and found that eglibc-utils
+pulls in bash (needed for tzconfig and xtrace apparently) which pulls in
+gettext, which requires wchar support. I'd like to remove eglibc-utils
+from my distro definition. I could override the default I suspect, but I
+wonder if eglibc-utils should be made an optional package that distro
+definitions, images, or users should specifically add if needed?
 
-On Fri, 2011-12-16 at 09:56, Saul Wold wrote:
-> On 12/15/2011 03:01 AM, Stefan Schmidt wrote:
-> >Signed-off-by: Stefan Schmidt<stefan@datenfreihafen.org>
-> >---
-> >  recipes-bsp/uboot/u-boot-xilinx_git.bb |    2 +-
-> >  1 files changed, 1 insertions(+), 1 deletions(-)
-> >
-> Does this directory need to be renamed also?
+The relevant bit of code appears to be:
 
-Good point. Also a patch is named uboot instead of u-boot. All changed
-in a new patch just send to the ml.
+meta/conf/distro/include/tclibc-eglibc.inc
 
-regards
-Stefan Schmidt
+LIBC_DEPENDENCIES = "libsegfault \
+		     eglibc \
+    		     eglibc-dbg \
+    		     eglibc-dev \
+    		     eglibc-utils \
+    		     eglibc-thread-db \
+    		     eglibc-localedata-i18n \
+    		     eglibc-gconv-ibm850 \
+    		     eglibc-gconv-cp1252 \
+    		     eglibc-gconv-iso8859-1 \
+    		     eglibc-gconv-iso8859-15 \
+    		     locale-base-en-us \
+    		     locale-base-en-gb "
+
+eglibc-dbg and eglibc-dev also seem like they could be made optional.
+
+Thoughts? Would anyone object to me removing at least eglibc-utils from
+LIBC_DEPENDENCIES?
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
