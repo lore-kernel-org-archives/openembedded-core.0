@@ -1,34 +1,39 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Rbb6s-0004Da-2w for openembedded-core@lists.openembedded.org;
-	Fri, 16 Dec 2011 17:58:14 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBGGpCtK020329
+Received: from familie-heinold.de
+	([85.214.48.103] helo=mail.familie-heinold.de ident=postfix)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <heinold@inf.fu-berlin.de>) id 1RbbpE-0006AT-QS
+	for openembedded-core@lists.openembedded.org;
+	Fri, 16 Dec 2011 18:44:05 +0100
+Received: from mail.familie-heinold.de (localhost [127.0.0.1])
+	by mail.familie-heinold.de (Postfix) with ESMTP id A5EAD110018A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2011 16:51:12 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 20203-02 for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2011 16:51:08 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBGGp3Ts020323
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	Fri, 16 Dec 2011 18:37:06 +0100 (CET)
+Received: from mail.familie-heinold.de (localhost [127.0.0.1])
+	by mail.familie-heinold.de (Postfix) with ESMTP id CC55C11000B0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2011 16:51:04 GMT
-Message-ID: <1324054264.4568.115.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 16 Dec 2011 18:37:05 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	h873313.serverkompetenz.net
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.1
+Received: from rhein.familie-heinold.de (g229045197.adsl.alicedsl.de
+	[92.229.45.197]) by mail.familie-heinold.de (Postfix) with ESMTPA
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Dec 2011 18:37:05 +0100 (CET)
+Received: by rhein.familie-heinold.de (Postfix, from userid 1000)
+	id 9BFCE3C49C; Fri, 16 Dec 2011 18:37:04 +0100 (CET)
+Date: Fri, 16 Dec 2011 18:37:04 +0100
+From: Henning Heinold <heinold@inf.fu-berlin.de>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Dec 2011 16:51:04 +0000
-In-Reply-To: <568afc1a01d9a6674e5109abce6dd5996b6c59e9.1324053729.git.elizabeth.flanagan@intel.com>
-References: <cover.1324053729.git.elizabeth.flanagan@intel.com>
-	<568afc1a01d9a6674e5109abce6dd5996b6c59e9.1324053729.git.elizabeth.flanagan@intel.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/1] license.bbclass: remove bashism
+Message-ID: <20111216173704.GA3744@rhein.zuhause.netz>
+References: <CAMvUbCzceL3owJH51JnUYYC90ExEHkbEOcd4887sjWAKEV83=A@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAMvUbCzceL3owJH51JnUYYC90ExEHkbEOcd4887sjWAKEV83=A@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Virus-Scanned: ClamAV using ClamSMTP
+Subject: Re: after modifying source code in work/, how to rebuild package?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,23 +48,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2011 16:58:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 16 Dec 2011 17:44:05 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 2011-12-16 at 08:44 -0800, Beth Flanagan wrote:
-> From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
+On Fri, Dec 16, 2011 at 08:55:05AM +0100, Leon Woestenberg wrote:
+> Hello all,
 > 
-> Removing a bashism that was dumping errors into rootfs log.
 > 
-> Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
-> ---
->  meta/classes/license.bbclass |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
+> after modifying source code in the work directory, what is the set of
+> commands to rebuild the package (from the compile stage and further)?
+> 
+> Under classic OpenEmbedded, I removed the compile, install, package stages
+> stamp files and ran bitbake. However, shared staging "broke" that workflow.
+> 
+> Is there an equivalent approach with OpenEmbedded Core?  Possibly disabling
+> 'sstage' on a per build, or per package basis?
+> 
+> 
+> Thanks,
+> 
+> Leon.
 
-Merged to master, thanks.
 
-Richard
+try the devshell
 
+bitbake -c devshell
+
+and 
+
+than tmp/run.do_compile
+
+Bye Henning
 
 
