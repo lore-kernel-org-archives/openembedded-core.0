@@ -1,23 +1,25 @@
-Received: from bluegiga.fi ([194.100.31.45] helo=darkblue.bluegiga.com)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Lauri.Hintsala@bluegiga.com>) id 1RbT1p-0005Wq-Ir
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1RbT7V-0005nb-V7
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Dec 2011 09:20:29 +0100
-Received: from [10.1.1.28] ([10.1.1.28]) by darkblue.bluegiga.com with
-	Microsoft SMTPSVC(6.0.3790.4675); Fri, 16 Dec 2011 10:13:32 +0200
-Message-ID: <4EEAFDAA.7000100@bluegiga.com>
-Date: Fri, 16 Dec 2011 10:13:30 +0200
-From: Lauri Hintsala <lauri.hintsala@bluegiga.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.23) Gecko/20110922 Lightning/1.0b2 Thunderbird/3.1.15
+	Fri, 16 Dec 2011 09:26:22 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id pBG8J4WA013759
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Dec 2011 00:19:04 -0800 (PST)
+Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Fri, 16 Dec 2011 00:19:03 -0800
+Message-ID: <f3e64282a610ee0dc8b4190e936709f909491d8c.1324022816.git.xiaofeng.yan@windriver.com>
+In-Reply-To: <cover.1324022816.git.xiaofeng.yan@windriver.com>
+References: <cover.1324022816.git.xiaofeng.yan@windriver.com>
+Old-Date: Fri, 16 Dec 2011 15:59:14 +0800
+Date: Fri, 16 Dec 2011 16:12:38 +0800
+To: <openembedded-core@lists.openembedded.org>
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <CAMvUbCzceL3owJH51JnUYYC90ExEHkbEOcd4887sjWAKEV83=A@mail.gmail.com>
-	<4EEAFD28.1060609@bluegiga.com>
-In-Reply-To: <4EEAFD28.1060609@bluegiga.com>
-X-OriginalArrivalTime: 16 Dec 2011 08:13:32.0757 (UTC)
-	FILETIME=[99F3A050:01CCBBCA]
-Subject: Re: after modifying source code in work/, how to rebuild package?
+Subject: [PATCH 1/1] core-image-gtk-directfb: add a bb file to build an image for gtk over directfb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,57 +34,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2011 08:20:29 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 16 Dec 2011 08:26:22 -0000
+Content-Type: text/plain
 
-Sorry, this workflow will clean all your changes. How about that:
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-bitbake projectname -c compile -f
-bitbake projectname
+This file can make an image to run gtk over directfb.
 
-Lauri
+[YOCTO #1674]
 
-On 12/16/2011 10:11 AM, Lauri Hintsala wrote:
-> bitbake projectname -c cleanall
-> bitbake projectname
->
-> Cleanall command will clean the workdir and sstatefiles from sstate folder.
->
-> BR,
-> Lauri Hintsala
->
->
-> On 12/16/2011 09:55 AM, Leon Woestenberg wrote:
->> Hello all,
->>
->>
->> after modifying source code in the work directory, what is the set of
->> commands to rebuild the package (from the compile stage and further)?
->>
->> Under classic OpenEmbedded, I removed the compile, install, package
->> stages stamp files and ran bitbake. However, shared staging "broke" that
->> workflow.
->>
->> Is there an equivalent approach with OpenEmbedded Core? Possibly
->> disabling 'sstage' on a per build, or per package basis?
->>
->>
->> Thanks,
->>
->> Leon.
->>
->>
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+---
+ .../images/core-image-gtk-directfb.bb              |   28 ++++++++++++++++++++
+ 1 files changed, 28 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-graphics/images/core-image-gtk-directfb.bb
+
+diff --git a/meta/recipes-graphics/images/core-image-gtk-directfb.bb b/meta/recipes-graphics/images/core-image-gtk-directfb.bb
+new file mode 100644
+index 0000000..87b3a86
+--- /dev/null
++++ b/meta/recipes-graphics/images/core-image-gtk-directfb.bb
+@@ -0,0 +1,28 @@
++LICENSE = "MIT"
++PR="r0"
++
++
++LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
++                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++
++
++DEPENDS += "task-core-gtk-directfb"
++
++RDEPENDS_${PN} += " \
++	task-core-gtk-directfb-base \
++	"
++
++inherit core-image
++
++IMAGE_INSTALL += "\
++	${POKY_BASE_INSTALL} \
++	task-core-basic \
++	module-init-tools \
++	task-core-gtk-directfb-base \
++"
++
++python __anonymous () {
++	packages = d.getVar('DISTRO_FEATURES', True).split()
++	if "x11" in packages:
++		raise bb.parse.SkipPackage("FEATURE \"x11\" is in DISTRO_FEATURES, Please remove \"x11\" from DISTRO_FEATURES, use \"gtk-directfb\" instead of it\n")
++}
+-- 
+1.7.0.4
+
 
 
