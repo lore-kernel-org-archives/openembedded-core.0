@@ -1,37 +1,35 @@
 Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RbgSQ-0002U2-Bl
+	(envelope-from <raj.khem@gmail.com>) id 1RbgST-0002U2-3z
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Dec 2011 23:40:51 +0100
+	Fri, 16 Dec 2011 23:40:53 +0100
 Received: by mail-iy0-f175.google.com with SMTP id h37so1565894iak.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2011 14:33:52 -0800 (PST)
+	Fri, 16 Dec 2011 14:33:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references:mime-version:content-type
-	:content-transfer-encoding;
-	bh=1IWt/oiqL84Plze+WmrRjeSsDnxT03YBwxe181JkVqE=;
-	b=wt0gjKKaWaEUKDGnd/NqYK3hMqlHIWd8QRoOwb78CKeZIayb3gITJgd0A73dHngXwu
-	mSc7STEfHp0h0v9d1Kj8x702y2wyogYzP/M9Pt/qCRKJ6PmhbCDY86ni0GvSvs6l/hz2
-	ixultunKwEzD5W/jx/pI/7coMEzdktmVAHtEI=
-Received: by 10.50.153.133 with SMTP id vg5mr11467344igb.80.1324074832851;
-	Fri, 16 Dec 2011 14:33:52 -0800 (PST)
+	:in-reply-to:references;
+	bh=Pd4lY5IQ3VKc8QPX6PS9GPqSPQz0cp+UIknW1W9S7gg=;
+	b=nqu6nLNfr3eRhSPCd6/8a7Qb1/c15s1L094n2oHHs5pc9ZF+4WMlDGdAOK8ujT9L4e
+	kRpv1l5Yc3dtfmgiiIsd9raiBFnPuRis9r22+ZefgqZPxp+lFEXOhGVsjR/xo9o2z5yJ
+	06V1J445ad8RorWiV9ZH6+/Z0oTypVmBJcrVw=
+Received: by 10.50.237.5 with SMTP id uy5mr11209686igc.50.1324074835191;
+	Fri, 16 Dec 2011 14:33:55 -0800 (PST)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
-	by mx.google.com with ESMTPS id e2sm37152455ibe.0.2011.12.16.14.33.50
+	by mx.google.com with ESMTPS id e2sm37152455ibe.0.2011.12.16.14.33.52
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 16 Dec 2011 14:33:51 -0800 (PST)
+	Fri, 16 Dec 2011 14:33:53 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Dec 2011 14:33:36 -0800
-Message-Id: <bb128743c5e45050900739e39f65ae6d50fd919d.1324074518.git.raj.khem@gmail.com>
+Date: Fri, 16 Dec 2011 14:33:37 -0800
+Message-Id: <0769032d34ec3b6f8af018d7c35fd671f5607dbc.1324074518.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <afc34eae803b41745a8731bd29c93bb4558ba87d.1324074518.git.raj.khem@gmail.com>
 References: <afc34eae803b41745a8731bd29c93bb4558ba87d.1324074518.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1324074518.git.raj.khem@gmail.com>
 References: <cover.1324074518.git.raj.khem@gmail.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/4] gcc-cross: Add cross testing driver for running regression testsuites
+Subject: [PATCH 3/4] gcc-4.6: Let G++ relocate gxx-include-dir when using --sysroot option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,127 +44,343 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2011 22:40:52 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 16 Dec 2011 22:40:54 -0000
 
-This script will be generated into the build directory of gcc-cross
-It should be testing gcc and g++. libstdc++ tests are not run since
-we build them as part of gcc-runtime but we can test them here by
-building them with 'make all' and then running the tests
+Currently we have a problem in our cross compiler since we use
+/usr/include/c++ to be default gxx-include-dir and then expect
+the patch we did to do the relocation w.r.t. sysroot however it
+does not quite work so and we end up gxx-include-dirs not respecting
+sysroot. A small test case would be
 
-The script expects passwordless ssh access to target and is used
-in form
+tst-unique4.cc
 
-./arm-oe-linux-gnueabi-testgcc kraj@192.168.7.2
+and it would fails like
 
-inside the builddir of gcc-cross
+tst-unique4.cc:1:18: fatal error: cstdio: No such file or directory
+compilation terminated.
+
+weather we use --sysroot or not it does not matter
+
+arm-oe-linux-gnueabi-g++ -S tst-unique4.cc
+--sysroot=/home/kraj/work/angstrom/sources/openembedded-core/build/tmp-eglibc/sysroots/qemuarm
+
+failed in same way.
+
+so we redo the GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch based on upstream
+submitted patch which tries to relocate the gxx-include-dir and to
+achieve the relocation it has to be specified w.r.t to --with-sysroot
+directory. e.g.
+
+--with-sysroot=${SYSROOT}
+--with-gxx-include-dir=${SYSROOT}/usr/include/c++
+
+if we configure gcc like above then it becomes relocatable when
+we run the compiler and specify --sysroot=<blah> then g++ will search
+for gxx-headers under <blah>/usr/include/c++
+
+if sysroot is not defined then it will use the default sysroot
+and gxx-include-dir will be w.r.t. default sysroot.
+
+Tested on qemuarm
+
+/arm-oe-linux-gnueabi-g++ -S tst-unique4.cc
+--sysroot=/home/kraj/work/angstrom/sources/openembedded-core/build/tmp-eglibc/sysroots/qemuarm
+-v
+...
+ /home/kraj/work/angstrom/sources/openembedded-core/build/tmp-eglibc/sysroots/qemuarm/usr/include/c++
+ /home/kraj/work/angstrom/sources/openembedded-core/build/tmp-eglibc/sysroots/qemuarm/usr/include/c++/arm-oe-linux-gnueabi
+ /home/kraj/work/angstrom/sources/openembedded-core/build/tmp-eglibc/sysroots/qemuarm/usr/include/c++/backward
+...
+
+and if I now change --sysroot to something else
+
+/arm-oe-linux-gnueabi-g++ -S tst-unique4.cc
+--sysroot=/home/kraj/work/angstrom/sources/openembedded-core/build/tmp-eglibc/sysroots/qemuarm4
+-v
+...
+
+ignoring nonexistent directory
+"/home/kraj/work/angstrom/sources/openembedded-core/build/tmp-eglibc/sysroots/qemuarm4/usr/include/c++"
+ignoring nonexistent directory
+"/home/kraj/work/angstrom/sources/openembedded-core/build/tmp-eglibc/sysroots/qemuarm4/usr/include/c++/arm-oe-linux-gnueabi"
+ignoring nonexistent directory
+"/home/kraj/work/angstrom/sources/openembedded-core/build/tmp-eglibc/sysroots/qemuarm4/usr/include/c++/backward"
+...
+
+See now its looking for them in 'qemuarm4' sysroot
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-cross.inc |   91 ++++++++++++++++++++++++++++++-
- 1 files changed, 90 insertions(+), 1 deletions(-)
+ meta/recipes-devtools/gcc/gcc-4.6.inc              |    4 +-
+ .../GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch       |  189 ++++++++++++++++++--
+ meta/recipes-devtools/gcc/gcc-configure-cross.inc  |    2 +-
+ meta/recipes-devtools/gcc/gcc-configure-sdk.inc    |    2 +-
+ 4 files changed, 174 insertions(+), 23 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
-index 5a796bc..0b31a8c 100644
---- a/meta/recipes-devtools/gcc/gcc-cross.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross.inc
-@@ -8,5 +8,94 @@ require gcc-package-cross.inc
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
+index 18e0536..4bbb2d2 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.6.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
+@@ -1,6 +1,6 @@
+ require gcc-common.inc
  
- do_compile () {
- 	oe_runmake all-host all-target-libgcc
--}
-+	# now generate script to drive testing
-+	echo "#!/usr/bin/env sh" >${B}/${TARGET_PREFIX}testgcc
-+	set >> ${B}/${TARGET_PREFIX}testgcc
-+	# prune out the unneeded vars
-+	sed -i -e "/^BASH/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^USER/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^OPT/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^DIRSTACK/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^EUID/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^FUNCNAME/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^GROUPS/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^HOST/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^HOME/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^IFS/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^LC_ALL/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^LOGNAME/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^MACHTYPE/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^OSTYPE/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^PIPE/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^SHELL/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^'/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^UID/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^TERM/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^PATCH_GET/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^PKG_/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^POSIXLY_/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^PPID/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^PS4/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^Q/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^SHLVL/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^STAGING/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^LD_LIBRARY_PATH/d" ${B}/${TARGET_PREFIX}testgcc
-+	sed -i -e "/^PSEUDO/d" ${B}/${TARGET_PREFIX}testgcc
-+
-+	# append execution part of the script
-+cat >> ${B}/${TARGET_PREFIX}testgcc << STOP
-+target="\$1"
-+shift
-+usage () {
-+	echo "Usage:"
-+	echo "\$0 user@target 'extra options to dejagnu'"
-+	echo "\$0 target 'extra options to dejagnu'"
-+	echo "\$0 target"
-+	echo "e.g. \$0 192.168.7.2 ' dg.exp=visibility-d.c'"
-+	echo "will only run visibility-d.c test case"
-+	echo "e.g. \$0 192.168.7.2 '/-mthumb dg.exp=visibility-d.c'"
-+	echo "will only run visibility-d.c test case in thumb mode"
-+	echo "You need to have dejagnu autogen expect installed"
-+	echo "on the build host"
-+    }
-+if [ "x\$target" = "x" ]
-+then
-+	echo "Please specify the target machine and remote user in form of user@target"
-+	usage
-+	exit 1;
-+fi
-+
-+echo "\$target" | grep −q "@" >& /dev/null
-+if [ "x\$?" = "x0" ]
-+then
-+   user=echo \$target | cut -d '@' -f 1
-+   target=echo \$target | cut -d '@' -f 2
-+else
-+   user=\$USER
-+fi
-+ssh \$user@\$target date >& /dev/null
-+if [ "x\$?" != "x0" ]
-+then
-+	echo "Failed connecting to \$user@\$target it could be because"
-+	echo "you don't have passwordless ssh setup to access \$target"
-+	echo "or sometimes host key has been changed"
-+	echo "in such case do something like below on build host"
-+	echo "ssh-keygen -f "~/.ssh/known_hosts" -R \$target"
-+	echo "and then try ssh \$user@\$target"
-+
-+	usage
-+	exit 1
-+fi
-+	echo "lappend boards_dir [pwd]/../../.." > ${B}/site.exp
-+	echo "load_generic_config \"unix\"" > ${B}/${MACHINE_ARCH}.exp
-+	echo "set_board_info username \$user" >> ${B}/${MACHINE_ARCH}.exp
-+	echo "set_board_info rsh_prog ssh" >> ${B}/${MACHINE_ARCH}.exp
-+	echo "set_board_info rcp_prog scp" >> ${B}/${MACHINE_ARCH}.exp
-+	echo "set_board_info hostname \$target" >> ${B}/${MACHINE_ARCH}.exp
-+	DEJAGNU=${B}/site.exp make -k check RUNTESTFLAGS="--target_board=${MACHINE_ARCH}\$@"
+-PR = "r19"
++PR = "r20"
  
-+STOP
+ # Third digit in PV should be incremented after a minor release
+ # happens from this branch on gcc e.g. currently its 4.6.0
+@@ -62,7 +62,6 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
+ 	   file://64bithack.patch \
+ 	   file://optional_libstdc.patch \
+ 	   file://disable_relax_pic_calls_flag.patch \
+-	   file://GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch \
+ 	   file://COLLECT_GCC_OPTIONS.patch \
+            file://volatile_access_backport.patch \
+            file://use-defaults.h-and-t-oe-in-B.patch \
+@@ -73,6 +72,7 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
+ 	   file://pr32219.patch \
+ 	   file://pr47551.patch \
+ 	   file://gcc-arm-set-cost.patch \
++	   file://GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch \
+ 	  "
+ 
+ SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch "
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6/GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch b/meta/recipes-devtools/gcc/gcc-4.6/GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch
+index 05b2fa9..6ccbeea 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.6/GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch
++++ b/meta/recipes-devtools/gcc/gcc-4.6/GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch
+@@ -1,35 +1,186 @@
+-Upstream-Status: Pending
+-
+-# by default c++ include directories are not relative to "--sysroot"
+-# which brings one trouble when using the toolchain in an environment
+-# where the build directory generating that toolchain doesn't exist,
+-# e.g. in sstate, machine specific sysroot and relocatable SDK
+-# toolchain. This patch now enables c++ include paths under sysroot.
+-# This way it's enough as long as "--sysroot" is correctly enabled
+-# in the new environment.
+-#
+-# Signed-off-by Kevin Tian <kevin.tian@intel.com>, 2010-12-30
+-
+-Index: gcc-4.6.0/gcc/cppdefault.c
++source: http://patchwork.ozlabs.org/patch/129800/
++Upstream-Status: Submitted
 +
-+	chmod +x ${B}/${TARGET_PREFIX}testgcc
++ChangeLog
++        * Makefile.in (gcc_gxx_include_dir_add_sysroot): New.
++          (PREPROCESSOR_DEFINES): Define GPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT.
 +
-+}
++        * cppdefault.c (cpp_include_defaults): replace hard coded "1" with
++          GPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT for "add_sysroot" field.
++
++        * configure.ac (AC_SUBST): Add gcc_gxx_include_dir_add_sysroot to
++          control whether sysroot should be prepended to gxx include dir.
++
++        * configure: Regenerate.
++
++Hi, this is a follow up for issue "http://codereview.appspot.com/4641076".
++
++The rationale for the patch copied from previous thread:
++=======================================
++The setup:
++
++Configuring a toolchain targeting x86-64 GNU Linux (Ubuntu Lucid), as a
++cross-compiler.  Using a sysroot to provide the Lucid headers+libraries,
++with the sysroot path being within the GCC install tree.  Want to use the
++Lucid system libstdc++ and headers, which means that I'm not
++building/installing libstdc++-v3.
++
++So, configuring with:
++  --with-sysroot="$SYSROOT"
++  --disable-libstdc++-v3 \
++  --with-gxx-include-dir="$SYSROOT/usr/include/c++/4.4" \
++(among other options).
++
++Hoping to support two usage models with this configuration, w.r.t. use of
++the sysroot:
++
++(1) somebody installs the sysroot in the normal location relative to the
++GCC install, and relocates the whole bundle (sysroot+GCC).  This works
++great AFAICT, GCC finds its includes (including the C++ includes) thanks
++to the add_standard_paths iprefix handling.
++
++(2) somebody installs the sysroot in a non-standard location, and uses
++--sysroot to try to access it.  This works fine for the C headers, but
++doesn't work.
++
++For the C headers, add_standard_paths prepends the sysroot location to
++the /usr/include path (since that's what's specified in cppdefault.c for
++that path).  It doesn't do the same for the C++ include path, though
++(again, as specified in cppdefault.c).
++
++add_standard_paths doesn't attempt to relocate built-in include paths that
++start with the compiled-in sysroot location (e.g., the g++ include dir, in
++this case).  This isn't surprising really: normally you either prepend the
++sysroot location or you don't (as specified by cppdefault.c); none of the
++built-in paths normally *start* with the sysroot location and need to be
++relocated.  However, in this odd-ball case of trying to use the C++ headers
++from the sysroot, one of the paths *does* need to be relocated in this way.
++===========================
++Index: gcc-4_6-branch/gcc/Makefile.in
++===================================================================
++--- gcc-4_6-branch.orig/gcc/Makefile.in	2011-12-13 22:52:15.000000000 -0800
+++++ gcc-4_6-branch/gcc/Makefile.in	2011-12-13 22:52:21.933635767 -0800
++@@ -587,6 +587,7 @@
++ build_tooldir = $(exec_prefix)/$(target_noncanonical)
++ # Directory in which the compiler finds target-independent g++ includes.
++ gcc_gxx_include_dir = @gcc_gxx_include_dir@
+++gcc_gxx_include_dir_add_sysroot = @gcc_gxx_include_dir_add_sysroot@
++ # Directory to search for site-specific includes.
++ local_includedir = $(local_prefix)/include
++ includedir = $(prefix)/include
++@@ -3964,6 +3965,7 @@
++   -DGCC_INCLUDE_DIR=\"$(libsubdir)/include\" \
++   -DFIXED_INCLUDE_DIR=\"$(libsubdir)/include-fixed\" \
++   -DGPLUSPLUS_INCLUDE_DIR=\"$(gcc_gxx_include_dir)\" \
+++  -DGPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT=$(gcc_gxx_include_dir_add_sysroot) \
++   -DGPLUSPLUS_TOOL_INCLUDE_DIR=\"$(gcc_gxx_include_dir)/$(target_noncanonical)\" \
++   -DGPLUSPLUS_BACKWARD_INCLUDE_DIR=\"$(gcc_gxx_include_dir)/backward\" \
++   -DLOCAL_INCLUDE_DIR=\"$(local_includedir)\" \
++Index: gcc-4_6-branch/gcc/configure.ac
+ ===================================================================
+---- gcc-4.6.0.orig/gcc/cppdefault.c
+-+++ gcc-4.6.0/gcc/cppdefault.c
+-@@ -48,15 +48,15 @@ const struct default_include cpp_include
++--- gcc-4_6-branch.orig/gcc/configure.ac	2011-12-13 22:52:15.000000000 -0800
+++++ gcc-4_6-branch/gcc/configure.ac	2011-12-13 22:52:21.937635526 -0800
++@@ -144,6 +144,15 @@
++   fi
++ fi
++ 
+++gcc_gxx_include_dir_add_sysroot=0
+++if test "${with_sysroot+set}" = set; then :
+++  gcc_gxx_without_sysroot=`expr "${gcc_gxx_include_dir}" : "${with_sysroot}"'\(.*\)'`
+++  if test "${gcc_gxx_without_sysroot}"; then :
+++    gcc_gxx_include_dir="${gcc_gxx_without_sysroot}"
+++    gcc_gxx_include_dir_add_sysroot=1
+++  fi
+++fi
+++
++ AC_ARG_WITH(cpp_install_dir,
++ [  --with-cpp-install-dir=DIR
++                           install the user visible C preprocessor in DIR
++@@ -4737,6 +4746,7 @@
++ AC_SUBST(float_h_file)
++ AC_SUBST(gcc_config_arguments)
++ AC_SUBST(gcc_gxx_include_dir)
+++AC_SUBST(gcc_gxx_include_dir_add_sysroot)
++ AC_SUBST(host_exeext)
++ AC_SUBST(host_xm_file_list)
++ AC_SUBST(host_xm_include_list)
++Index: gcc-4_6-branch/gcc/cppdefault.c
++===================================================================
++--- gcc-4_6-branch.orig/gcc/cppdefault.c	2011-12-13 22:51:28.000000000 -0800
+++++ gcc-4_6-branch/gcc/cppdefault.c	2011-12-13 22:52:21.937635526 -0800
++@@ -48,15 +48,18 @@
+  = {
+  #ifdef GPLUSPLUS_INCLUDE_DIR
+      /* Pick up GNU C++ generic include files.  */
+ -    { GPLUSPLUS_INCLUDE_DIR, "G++", 1, 1, 0, 0 },
+-+    { GPLUSPLUS_INCLUDE_DIR, "G++", 1, 1, 1, 0 },
+++    { GPLUSPLUS_INCLUDE_DIR, "G++", 1, 1,
+++      GPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT, 0 },
+  #endif
+  #ifdef GPLUSPLUS_TOOL_INCLUDE_DIR
+      /* Pick up GNU C++ target-dependent include files.  */
+ -    { GPLUSPLUS_TOOL_INCLUDE_DIR, "G++", 1, 1, 0, 1 },
+-+    { GPLUSPLUS_TOOL_INCLUDE_DIR, "G++", 1, 1, 1, 1 },
+++    { GPLUSPLUS_TOOL_INCLUDE_DIR, "G++", 1, 1,
+++      GPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT, 1 },
+  #endif
+  #ifdef GPLUSPLUS_BACKWARD_INCLUDE_DIR
+      /* Pick up GNU C++ backward and deprecated include files.  */
+ -    { GPLUSPLUS_BACKWARD_INCLUDE_DIR, "G++", 1, 1, 0, 0 },
+-+    { GPLUSPLUS_BACKWARD_INCLUDE_DIR, "G++", 1, 1, 1, 0 },
+++    { GPLUSPLUS_BACKWARD_INCLUDE_DIR, "G++", 1, 1,
+++      GPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT, 0 },
+  #endif
+  #ifdef GCC_INCLUDE_DIR
+      /* This is the dir for gcc's private headers.  */
++Index: gcc-4_6-branch/gcc/configure
++===================================================================
++--- gcc-4_6-branch.orig/gcc/configure	2011-12-13 22:52:15.000000000 -0800
+++++ gcc-4_6-branch/gcc/configure	2011-12-13 22:52:33.185690436 -0800
++@@ -636,6 +636,7 @@
++ host_xm_include_list
++ host_xm_file_list
++ host_exeext
+++gcc_gxx_include_dir_add_sysroot
++ gcc_gxx_include_dir
++ gcc_config_arguments
++ float_h_file
++@@ -3313,6 +3314,15 @@
++   fi
++ fi
++ 
+++gcc_gxx_include_dir_add_sysroot=0
+++if test "${with_sysroot+set}" = set; then :
+++  gcc_gxx_without_sysroot=`expr "${gcc_gxx_include_dir}" : "${with_sysroot}"'\(.*\)'`
+++  if test "${gcc_gxx_without_sysroot}"; then :
+++    gcc_gxx_include_dir="${gcc_gxx_without_sysroot}"
+++    gcc_gxx_include_dir_add_sysroot=1
+++  fi
+++fi
+++
++ 
++ # Check whether --with-cpp_install_dir was given.
++ if test "${with_cpp_install_dir+set}" = set; then :
++@@ -17514,7 +17524,7 @@
++   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
++   lt_status=$lt_dlunknown
++   cat > conftest.$ac_ext <<_LT_EOF
++-#line 17517 "configure"
+++#line 17527 "configure"
++ #include "confdefs.h"
++ 
++ #if HAVE_DLFCN_H
++@@ -17620,7 +17630,7 @@
++   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
++   lt_status=$lt_dlunknown
++   cat > conftest.$ac_ext <<_LT_EOF
++-#line 17623 "configure"
+++#line 17633 "configure"
++ #include "confdefs.h"
++ 
++ #if HAVE_DLFCN_H
++@@ -26151,6 +26161,7 @@
++ 
++ 
++ 
+++
++ 
++ 
++ 
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-cross.inc b/meta/recipes-devtools/gcc/gcc-configure-cross.inc
+index 3e37423..774dadb 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-cross.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-cross.inc
+@@ -9,7 +9,7 @@ EXTRA_OECONF += " --enable-poison-system-directories \
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+ EXTRA_OECONF_PATHS = "--with-local-prefix=${STAGING_DIR_TARGET}${target_exec_prefix} \
+-		      --with-gxx-include-dir=${target_includedir}/c++ \
++		      --with-gxx-include-dir=${STAGING_DIR_TARGET}${target_includedir}/c++ \
+                       --with-sysroot=${STAGING_DIR_TARGET} \
+                       --with-build-sysroot=${STAGING_DIR_TARGET}"
+ 
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-sdk.inc b/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
+index f130b47..eb6757c 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
+@@ -5,7 +5,7 @@ USE_NLS = '${@base_conditional( "TARGET_OS", "linux-uclibc", "no", "", d )}'
+ USE_NLS = '${@base_conditional( "TARGET_OS", "linux-uclibceabi", "no", "", d )}'
+ 
+ EXTRA_OECONF_PATHS = "--with-local-prefix=${SDKPATH}/sysroots/${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}${target_exec_prefix} \
+-                      --with-gxx-include-dir=${target_includedir}/c++ \
++                      --with-gxx-include-dir=${SDKPATH}/sysroots/${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}${target_includedir}/c++ \
+                       --with-build-time-tools=${STAGING_DIR_NATIVE}${prefix_native}/${TARGET_SYS}/bin \
+                       --with-sysroot=${SDKPATH}/sysroots/${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS} \
+                       --with-build-sysroot=${STAGING_DIR_TARGET}"
 -- 
 1.7.5.4
 
