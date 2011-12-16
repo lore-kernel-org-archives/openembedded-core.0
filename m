@@ -1,35 +1,35 @@
 Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RbgST-0002U2-3z
+	(envelope-from <raj.khem@gmail.com>) id 1RbgSV-0002U2-3J
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Dec 2011 23:40:53 +0100
+	Fri, 16 Dec 2011 23:40:55 +0100
 Received: by mail-iy0-f175.google.com with SMTP id h37so1565894iak.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2011 14:33:55 -0800 (PST)
+	Fri, 16 Dec 2011 14:33:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=Pd4lY5IQ3VKc8QPX6PS9GPqSPQz0cp+UIknW1W9S7gg=;
-	b=nqu6nLNfr3eRhSPCd6/8a7Qb1/c15s1L094n2oHHs5pc9ZF+4WMlDGdAOK8ujT9L4e
-	kRpv1l5Yc3dtfmgiiIsd9raiBFnPuRis9r22+ZefgqZPxp+lFEXOhGVsjR/xo9o2z5yJ
-	06V1J445ad8RorWiV9ZH6+/Z0oTypVmBJcrVw=
-Received: by 10.50.237.5 with SMTP id uy5mr11209686igc.50.1324074835191;
-	Fri, 16 Dec 2011 14:33:55 -0800 (PST)
+	bh=xF1qGPIiQ4vMYjxLBRAvw0FWIxgHmFpGK62k8ur+WjQ=;
+	b=HVME77Bg6KcKNbWblEfaP9gKdnFHic2ccWCX1ICHe3U+e+ghidHcc9gQXQf6mC2Og8
+	MRicZ/QYdzg5AhPtB51u6bQMsRmwhXf11aE2WUUh6ePS+rJVCEwQgZCQfDHJCXkUqPri
+	tdWfbpOT02HbY/lc0QPgDjxecAhrRRJ2WKP+4=
+Received: by 10.50.160.134 with SMTP id xk6mr10991919igb.59.1324074837542;
+	Fri, 16 Dec 2011 14:33:57 -0800 (PST)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net. [99.57.141.118])
-	by mx.google.com with ESMTPS id e2sm37152455ibe.0.2011.12.16.14.33.52
+	by mx.google.com with ESMTPS id e2sm37152455ibe.0.2011.12.16.14.33.55
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 16 Dec 2011 14:33:53 -0800 (PST)
+	Fri, 16 Dec 2011 14:33:56 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Dec 2011 14:33:37 -0800
-Message-Id: <0769032d34ec3b6f8af018d7c35fd671f5607dbc.1324074518.git.raj.khem@gmail.com>
+Date: Fri, 16 Dec 2011 14:33:38 -0800
+Message-Id: <ba562cb8461b23e9bdc8c9606e8ac39404e7a2d3.1324074518.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <afc34eae803b41745a8731bd29c93bb4558ba87d.1324074518.git.raj.khem@gmail.com>
 References: <afc34eae803b41745a8731bd29c93bb4558ba87d.1324074518.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1324074518.git.raj.khem@gmail.com>
 References: <cover.1324074518.git.raj.khem@gmail.com>
-Subject: [PATCH 3/4] gcc-4.6: Let G++ relocate gxx-include-dir when using --sysroot option
+Subject: [PATCH 4/4] eglibc: Fixes for running regression tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,343 +44,371 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2011 22:40:54 -0000
+X-List-Received-Date: Fri, 16 Dec 2011 22:40:55 -0000
 
-Currently we have a problem in our cross compiler since we use
-/usr/include/c++ to be default gxx-include-dir and then expect
-the patch we did to do the relocation w.r.t. sysroot however it
-does not quite work so and we end up gxx-include-dirs not respecting
-sysroot. A small test case would be
+Override cxx-sysincludes along with CC and CXX
+since it contains path pointing to tcbootstrap
+sysroot which does not have c++ headers and libraries
 
-tst-unique4.cc
+Drop shorten-build-commands patch since it
+did not override the include flags for c++ headers
+when tests written in c++ are executed the @includes file
+does not get updated to add c++ header paths
+This patch only reduced the build output anyway
 
-and it would fails like
-
-tst-unique4.cc:1:18: fatal error: cstdio: No such file or directory
-compilation terminated.
-
-weather we use --sysroot or not it does not matter
-
-arm-oe-linux-gnueabi-g++ -S tst-unique4.cc
---sysroot=/home/kraj/work/angstrom/sources/openembedded-core/build/tmp-eglibc/sysroots/qemuarm
-
-failed in same way.
-
-so we redo the GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch based on upstream
-submitted patch which tries to relocate the gxx-include-dir and to
-achieve the relocation it has to be specified w.r.t to --with-sysroot
-directory. e.g.
-
---with-sysroot=${SYSROOT}
---with-gxx-include-dir=${SYSROOT}/usr/include/c++
-
-if we configure gcc like above then it becomes relocatable when
-we run the compiler and specify --sysroot=<blah> then g++ will search
-for gxx-headers under <blah>/usr/include/c++
-
-if sysroot is not defined then it will use the default sysroot
-and gxx-include-dir will be w.r.t. default sysroot.
-
-Tested on qemuarm
-
-/arm-oe-linux-gnueabi-g++ -S tst-unique4.cc
---sysroot=/home/kraj/work/angstrom/sources/openembedded-core/build/tmp-eglibc/sysroots/qemuarm
--v
-...
- /home/kraj/work/angstrom/sources/openembedded-core/build/tmp-eglibc/sysroots/qemuarm/usr/include/c++
- /home/kraj/work/angstrom/sources/openembedded-core/build/tmp-eglibc/sysroots/qemuarm/usr/include/c++/arm-oe-linux-gnueabi
- /home/kraj/work/angstrom/sources/openembedded-core/build/tmp-eglibc/sysroots/qemuarm/usr/include/c++/backward
-...
-
-and if I now change --sysroot to something else
-
-/arm-oe-linux-gnueabi-g++ -S tst-unique4.cc
---sysroot=/home/kraj/work/angstrom/sources/openembedded-core/build/tmp-eglibc/sysroots/qemuarm4
--v
-...
-
-ignoring nonexistent directory
-"/home/kraj/work/angstrom/sources/openembedded-core/build/tmp-eglibc/sysroots/qemuarm4/usr/include/c++"
-ignoring nonexistent directory
-"/home/kraj/work/angstrom/sources/openembedded-core/build/tmp-eglibc/sysroots/qemuarm4/usr/include/c++/arm-oe-linux-gnueabi"
-ignoring nonexistent directory
-"/home/kraj/work/angstrom/sources/openembedded-core/build/tmp-eglibc/sysroots/qemuarm4/usr/include/c++/backward"
-...
-
-See now its looking for them in 'qemuarm4' sysroot
+Add a patch to point eglibc to look into c++
+headers the way OE installs them its not standard
+install e.g. usr/include/c++/GCC_VER but instead
+usr/include/c++. This lets g++ find the headers
+in right place when compiling c++ testcases
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-4.6.inc              |    4 +-
- .../GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch       |  189 ++++++++++++++++++--
- meta/recipes-devtools/gcc/gcc-configure-cross.inc  |    2 +-
- meta/recipes-devtools/gcc/gcc-configure-sdk.inc    |    2 +-
- 4 files changed, 174 insertions(+), 23 deletions(-)
+ .../eglibc-2.13/shorten-build-commands.patch       |   82 --------------------
+ .../eglibc-2.13/use-sysroot-cxx-headers.patch      |   36 +++++++++
+ .../eglibc-2.14/shorten-build-commands.patch       |   82 --------------------
+ .../eglibc-2.14/use-sysroot-cxx-headers.patch      |   36 +++++++++
+ meta/recipes-core/eglibc/eglibc-testing.inc        |    4 +-
+ meta/recipes-core/eglibc/eglibc_2.13.bb            |    4 +-
+ meta/recipes-core/eglibc/eglibc_2.14.bb            |    4 +-
+ 7 files changed, 77 insertions(+), 171 deletions(-)
+ delete mode 100644 meta/recipes-core/eglibc/eglibc-2.13/shorten-build-commands.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.13/use-sysroot-cxx-headers.patch
+ delete mode 100644 meta/recipes-core/eglibc/eglibc-2.14/shorten-build-commands.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.14/use-sysroot-cxx-headers.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
-index 18e0536..4bbb2d2 100644
---- a/meta/recipes-devtools/gcc/gcc-4.6.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
-@@ -1,6 +1,6 @@
- require gcc-common.inc
- 
--PR = "r19"
-+PR = "r20"
- 
- # Third digit in PV should be incremented after a minor release
- # happens from this branch on gcc e.g. currently its 4.6.0
-@@ -62,7 +62,6 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
- 	   file://64bithack.patch \
- 	   file://optional_libstdc.patch \
- 	   file://disable_relax_pic_calls_flag.patch \
--	   file://GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch \
- 	   file://COLLECT_GCC_OPTIONS.patch \
-            file://volatile_access_backport.patch \
-            file://use-defaults.h-and-t-oe-in-B.patch \
-@@ -73,6 +72,7 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
- 	   file://pr32219.patch \
- 	   file://pr47551.patch \
- 	   file://gcc-arm-set-cost.patch \
-+	   file://GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch \
- 	  "
- 
- SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch "
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6/GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch b/meta/recipes-devtools/gcc/gcc-4.6/GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch
-index 05b2fa9..6ccbeea 100644
---- a/meta/recipes-devtools/gcc/gcc-4.6/GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch
-+++ b/meta/recipes-devtools/gcc/gcc-4.6/GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch
-@@ -1,35 +1,186 @@
+diff --git a/meta/recipes-core/eglibc/eglibc-2.13/shorten-build-commands.patch b/meta/recipes-core/eglibc/eglibc-2.13/shorten-build-commands.patch
+deleted file mode 100644
+index 080568d..0000000
+--- a/meta/recipes-core/eglibc/eglibc-2.13/shorten-build-commands.patch
++++ /dev/null
+@@ -1,82 +0,0 @@
+-
+-Source: http://sourceware.org/ml/libc-alpha/2010-03/msg00064.html
+-
+-This patch scratches an itch.  Each individual gcc command in the
+-glibc build is over 1K, which means it takes up a good chunk of my
+-terminal.  Most of that is include paths.  Any version of GCC new
+-enough to build glibc supports response files, which were added in
+-2005.  So use a response file for the static list of include paths.
+-Now the build commands are a lot shorter, and easier to use when
+-developing glibc.
+-
+-Tested on x86_64-linux-gnu.  Please apply if acceptable.
+-
+--- 
+-Daniel Jacobowitz
+-CodeSourcery
+-
+-2010-03-30  Daniel Jacobowitz  <dan@codesourcery.com>
+-
+-	* Makeconfig (+common-includes): Define.
+-	(+includes): Use @$(common-objpfx)includes.
+-	* Makefile (postclean): Remove includes and includes.mk.
+-	* Makerules ($(common-objpfx)includes.mk): Include and create
+-	includes.mk.  Create includes.
+-
 -Upstream-Status: Pending
 -
--# by default c++ include directories are not relative to "--sysroot"
--# which brings one trouble when using the toolchain in an environment
--# where the build directory generating that toolchain doesn't exist,
--# e.g. in sstate, machine specific sysroot and relocatable SDK
--# toolchain. This patch now enables c++ include paths under sysroot.
--# This way it's enough as long as "--sysroot" is correctly enabled
--# in the new environment.
--#
--# Signed-off-by Kevin Tian <kevin.tian@intel.com>, 2010-12-30
+-Index: libc/Makeconfig
+-===================================================================
+---- libc.orig/Makeconfig	2009-10-13 22:55:12.000000000 -0700
+-+++ libc/Makeconfig	2010-03-31 16:02:37.120489733 -0700
+-@@ -678,9 +678,10 @@ endif	# $(+cflags) == ""
+- # library source directory, in the include directory, and in the
+- # current directory.
+- +sysdep-includes = $(addprefix -I,$(+sysdep_dirs))
+-++common-includes = $(+sysdep-includes) $(includes) $(sysincludes)
+- +includes = -I$(..)include $(if $(subdir),$(objpfx:%/=-I%)) \
+--	    $(+sysdep-includes) $(includes) \
+--	    $(patsubst %/,-I%,$(..)) $(libio-include) -I. $(sysincludes)
+-+	    @$(common-objpfx)includes \
+-+	    $(patsubst %/,-I%,$(..)) $(libio-include) -I.
+- 
+- # Since libio has several internal header files, we use a -I instead
+- # of many little headers in the include directory.
+-Index: libc/Makefile
+-===================================================================
+---- libc.orig/Makefile	2009-12-09 12:06:28.000000000 -0800
+-+++ libc/Makefile	2010-03-31 16:02:37.132481508 -0700
+-@@ -247,7 +247,7 @@ parent-mostlyclean: common-mostlyclean #
+- parent-clean: parent-mostlyclean common-clean
+- 
+- postclean = $(addprefix $(common-objpfx),$(postclean-generated)) \
+--	    $(addprefix $(objpfx),sysd-dirs sysd-rules) \
+-+	    $(addprefix $(objpfx),sysd-dirs sysd-rules includes includes.mk) \
+- 	    $(addprefix $(objpfx),sysd-sorted soversions.mk soversions.i)
+- 
+- clean: parent-clean
+-Index: libc/Makerules
+-===================================================================
+---- libc.orig/Makerules	2009-12-09 12:06:28.000000000 -0800
+-+++ libc/Makerules	2010-03-31 16:02:37.140481645 -0700
+-@@ -254,6 +254,20 @@ ifndef sysd-rules-done
+- no_deps=t
+- endif
+- 
+-+-include $(common-objpfx)includes.mk
+-+ifneq ($(+common-includes),$(saved-includes))
+-+# Recreate includes.mk (and includes).
+-+includes-force = FORCE
+-+FORCE:
+-+endif
+-+$(common-objpfx)includes.mk: $(includes-force)
+-+	-@rm -f $@T $(common-objpfx)includesT
+-+	for inc in $(+common-includes); do echo "$$inc"; done \
+-+	  > $(common-objpfx)includesT
+-+	mv -f $(common-objpfx)includesT $(common-objpfx)includes
+-+	echo 'saved-includes := $(+common-includes)' > $@T
+-+	mv -f $@T $@
+-+
+- define o-iterator-doit
+- $(objpfx)%$o: %.S $(before-compile); $$(compile-command.S)
+- endef
+diff --git a/meta/recipes-core/eglibc/eglibc-2.13/use-sysroot-cxx-headers.patch b/meta/recipes-core/eglibc/eglibc-2.13/use-sysroot-cxx-headers.patch
+new file mode 100644
+index 0000000..c06eebf
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-2.13/use-sysroot-cxx-headers.patch
+@@ -0,0 +1,36 @@
++build system of glibc currently adds the cxx headers path by detecting
++it using provided CXX and expects that they are installed w.r.t to standard
++installation location but in OE we install and use cxx headers from target
++sysroot therefore that code needs to be adapted for OE
++
++Upstream-Status: Inappropriate [OE-specific]
++
++-Khem
++
++
++--- a/configure.in
+++++ b/configure.in
++@@ -1118,9 +1118,8 @@ if test -n "$sysheaders"; then
++   SYSINCLUDES="$SYSINCLUDES \
++ -isystem `echo $sysheaders | sed 's/:/ -isystem /g'`"
++   if test -n "$CXX"; then
++-    cxxversion=`$CXX -dumpversion 2>&AS_MESSAGE_LOG_FD` &&
++     cxxmachine=`$CXX -dumpmachine 2>&AS_MESSAGE_LOG_FD` &&
++-    cxxheaders=`$CXX -print-file-name=../../../../include/c++/`"$cxxversion" &&
+++    cxxheaders=`$CXX -print-sysroot`"$prefix/include/c++" &&
++     CXX_SYSINCLUDES="-isystem $cxxheaders \
++ -isystem $cxxheaders/$cxxmachine -isystem $cxxheaders/backward"
++   fi
++--- a/configure
+++++ b/configure
++@@ -5544,9 +5544,8 @@ if test -n "$sysheaders"; then
++   SYSINCLUDES="$SYSINCLUDES \
++ -isystem `echo $sysheaders | sed 's/:/ -isystem /g'`"
++   if test -n "$CXX"; then
++-    cxxversion=`$CXX -dumpversion 2>&5` &&
++     cxxmachine=`$CXX -dumpmachine 2>&5` &&
++-    cxxheaders=`$CXX -print-file-name=../../../../include/c++/`"$cxxversion" &&
+++    cxxheaders=`$CXX -print-sysroot`"$prefix/include/c++" &&
++     CXX_SYSINCLUDES="-isystem $cxxheaders \
++ -isystem $cxxheaders/$cxxmachine -isystem $cxxheaders/backward"
++   fi
+diff --git a/meta/recipes-core/eglibc/eglibc-2.14/shorten-build-commands.patch b/meta/recipes-core/eglibc/eglibc-2.14/shorten-build-commands.patch
+deleted file mode 100644
+index 080568d..0000000
+--- a/meta/recipes-core/eglibc/eglibc-2.14/shorten-build-commands.patch
++++ /dev/null
+@@ -1,82 +0,0 @@
 -
--Index: gcc-4.6.0/gcc/cppdefault.c
-+source: http://patchwork.ozlabs.org/patch/129800/
-+Upstream-Status: Submitted
+-Source: http://sourceware.org/ml/libc-alpha/2010-03/msg00064.html
+-
+-This patch scratches an itch.  Each individual gcc command in the
+-glibc build is over 1K, which means it takes up a good chunk of my
+-terminal.  Most of that is include paths.  Any version of GCC new
+-enough to build glibc supports response files, which were added in
+-2005.  So use a response file for the static list of include paths.
+-Now the build commands are a lot shorter, and easier to use when
+-developing glibc.
+-
+-Tested on x86_64-linux-gnu.  Please apply if acceptable.
+-
+--- 
+-Daniel Jacobowitz
+-CodeSourcery
+-
+-2010-03-30  Daniel Jacobowitz  <dan@codesourcery.com>
+-
+-	* Makeconfig (+common-includes): Define.
+-	(+includes): Use @$(common-objpfx)includes.
+-	* Makefile (postclean): Remove includes and includes.mk.
+-	* Makerules ($(common-objpfx)includes.mk): Include and create
+-	includes.mk.  Create includes.
+-
+-Upstream-Status: Pending
+-
+-Index: libc/Makeconfig
+-===================================================================
+---- libc.orig/Makeconfig	2009-10-13 22:55:12.000000000 -0700
+-+++ libc/Makeconfig	2010-03-31 16:02:37.120489733 -0700
+-@@ -678,9 +678,10 @@ endif	# $(+cflags) == ""
+- # library source directory, in the include directory, and in the
+- # current directory.
+- +sysdep-includes = $(addprefix -I,$(+sysdep_dirs))
+-++common-includes = $(+sysdep-includes) $(includes) $(sysincludes)
+- +includes = -I$(..)include $(if $(subdir),$(objpfx:%/=-I%)) \
+--	    $(+sysdep-includes) $(includes) \
+--	    $(patsubst %/,-I%,$(..)) $(libio-include) -I. $(sysincludes)
+-+	    @$(common-objpfx)includes \
+-+	    $(patsubst %/,-I%,$(..)) $(libio-include) -I.
+- 
+- # Since libio has several internal header files, we use a -I instead
+- # of many little headers in the include directory.
+-Index: libc/Makefile
+-===================================================================
+---- libc.orig/Makefile	2009-12-09 12:06:28.000000000 -0800
+-+++ libc/Makefile	2010-03-31 16:02:37.132481508 -0700
+-@@ -247,7 +247,7 @@ parent-mostlyclean: common-mostlyclean #
+- parent-clean: parent-mostlyclean common-clean
+- 
+- postclean = $(addprefix $(common-objpfx),$(postclean-generated)) \
+--	    $(addprefix $(objpfx),sysd-dirs sysd-rules) \
+-+	    $(addprefix $(objpfx),sysd-dirs sysd-rules includes includes.mk) \
+- 	    $(addprefix $(objpfx),sysd-sorted soversions.mk soversions.i)
+- 
+- clean: parent-clean
+-Index: libc/Makerules
+-===================================================================
+---- libc.orig/Makerules	2009-12-09 12:06:28.000000000 -0800
+-+++ libc/Makerules	2010-03-31 16:02:37.140481645 -0700
+-@@ -254,6 +254,20 @@ ifndef sysd-rules-done
+- no_deps=t
+- endif
+- 
+-+-include $(common-objpfx)includes.mk
+-+ifneq ($(+common-includes),$(saved-includes))
+-+# Recreate includes.mk (and includes).
+-+includes-force = FORCE
+-+FORCE:
+-+endif
+-+$(common-objpfx)includes.mk: $(includes-force)
+-+	-@rm -f $@T $(common-objpfx)includesT
+-+	for inc in $(+common-includes); do echo "$$inc"; done \
+-+	  > $(common-objpfx)includesT
+-+	mv -f $(common-objpfx)includesT $(common-objpfx)includes
+-+	echo 'saved-includes := $(+common-includes)' > $@T
+-+	mv -f $@T $@
+-+
+- define o-iterator-doit
+- $(objpfx)%$o: %.S $(before-compile); $$(compile-command.S)
+- endef
+diff --git a/meta/recipes-core/eglibc/eglibc-2.14/use-sysroot-cxx-headers.patch b/meta/recipes-core/eglibc/eglibc-2.14/use-sysroot-cxx-headers.patch
+new file mode 100644
+index 0000000..c06eebf
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-2.14/use-sysroot-cxx-headers.patch
+@@ -0,0 +1,36 @@
++build system of glibc currently adds the cxx headers path by detecting
++it using provided CXX and expects that they are installed w.r.t to standard
++installation location but in OE we install and use cxx headers from target
++sysroot therefore that code needs to be adapted for OE
 +
-+ChangeLog
-+        * Makefile.in (gcc_gxx_include_dir_add_sysroot): New.
-+          (PREPROCESSOR_DEFINES): Define GPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT.
++Upstream-Status: Inappropriate [OE-specific]
 +
-+        * cppdefault.c (cpp_include_defaults): replace hard coded "1" with
-+          GPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT for "add_sysroot" field.
++-Khem
 +
-+        * configure.ac (AC_SUBST): Add gcc_gxx_include_dir_add_sysroot to
-+          control whether sysroot should be prepended to gxx include dir.
 +
-+        * configure: Regenerate.
-+
-+Hi, this is a follow up for issue "http://codereview.appspot.com/4641076".
-+
-+The rationale for the patch copied from previous thread:
-+=======================================
-+The setup:
-+
-+Configuring a toolchain targeting x86-64 GNU Linux (Ubuntu Lucid), as a
-+cross-compiler.  Using a sysroot to provide the Lucid headers+libraries,
-+with the sysroot path being within the GCC install tree.  Want to use the
-+Lucid system libstdc++ and headers, which means that I'm not
-+building/installing libstdc++-v3.
-+
-+So, configuring with:
-+  --with-sysroot="$SYSROOT"
-+  --disable-libstdc++-v3 \
-+  --with-gxx-include-dir="$SYSROOT/usr/include/c++/4.4" \
-+(among other options).
-+
-+Hoping to support two usage models with this configuration, w.r.t. use of
-+the sysroot:
-+
-+(1) somebody installs the sysroot in the normal location relative to the
-+GCC install, and relocates the whole bundle (sysroot+GCC).  This works
-+great AFAICT, GCC finds its includes (including the C++ includes) thanks
-+to the add_standard_paths iprefix handling.
-+
-+(2) somebody installs the sysroot in a non-standard location, and uses
-+--sysroot to try to access it.  This works fine for the C headers, but
-+doesn't work.
-+
-+For the C headers, add_standard_paths prepends the sysroot location to
-+the /usr/include path (since that's what's specified in cppdefault.c for
-+that path).  It doesn't do the same for the C++ include path, though
-+(again, as specified in cppdefault.c).
-+
-+add_standard_paths doesn't attempt to relocate built-in include paths that
-+start with the compiled-in sysroot location (e.g., the g++ include dir, in
-+this case).  This isn't surprising really: normally you either prepend the
-+sysroot location or you don't (as specified by cppdefault.c); none of the
-+built-in paths normally *start* with the sysroot location and need to be
-+relocated.  However, in this odd-ball case of trying to use the C++ headers
-+from the sysroot, one of the paths *does* need to be relocated in this way.
-+===========================
-+Index: gcc-4_6-branch/gcc/Makefile.in
-+===================================================================
-+--- gcc-4_6-branch.orig/gcc/Makefile.in	2011-12-13 22:52:15.000000000 -0800
-++++ gcc-4_6-branch/gcc/Makefile.in	2011-12-13 22:52:21.933635767 -0800
-+@@ -587,6 +587,7 @@
-+ build_tooldir = $(exec_prefix)/$(target_noncanonical)
-+ # Directory in which the compiler finds target-independent g++ includes.
-+ gcc_gxx_include_dir = @gcc_gxx_include_dir@
-++gcc_gxx_include_dir_add_sysroot = @gcc_gxx_include_dir_add_sysroot@
-+ # Directory to search for site-specific includes.
-+ local_includedir = $(local_prefix)/include
-+ includedir = $(prefix)/include
-+@@ -3964,6 +3965,7 @@
-+   -DGCC_INCLUDE_DIR=\"$(libsubdir)/include\" \
-+   -DFIXED_INCLUDE_DIR=\"$(libsubdir)/include-fixed\" \
-+   -DGPLUSPLUS_INCLUDE_DIR=\"$(gcc_gxx_include_dir)\" \
-++  -DGPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT=$(gcc_gxx_include_dir_add_sysroot) \
-+   -DGPLUSPLUS_TOOL_INCLUDE_DIR=\"$(gcc_gxx_include_dir)/$(target_noncanonical)\" \
-+   -DGPLUSPLUS_BACKWARD_INCLUDE_DIR=\"$(gcc_gxx_include_dir)/backward\" \
-+   -DLOCAL_INCLUDE_DIR=\"$(local_includedir)\" \
-+Index: gcc-4_6-branch/gcc/configure.ac
- ===================================================================
----- gcc-4.6.0.orig/gcc/cppdefault.c
--+++ gcc-4.6.0/gcc/cppdefault.c
--@@ -48,15 +48,15 @@ const struct default_include cpp_include
-+--- gcc-4_6-branch.orig/gcc/configure.ac	2011-12-13 22:52:15.000000000 -0800
-++++ gcc-4_6-branch/gcc/configure.ac	2011-12-13 22:52:21.937635526 -0800
-+@@ -144,6 +144,15 @@
++--- a/configure.in
+++++ b/configure.in
++@@ -1118,9 +1118,8 @@ if test -n "$sysheaders"; then
++   SYSINCLUDES="$SYSINCLUDES \
++ -isystem `echo $sysheaders | sed 's/:/ -isystem /g'`"
++   if test -n "$CXX"; then
++-    cxxversion=`$CXX -dumpversion 2>&AS_MESSAGE_LOG_FD` &&
++     cxxmachine=`$CXX -dumpmachine 2>&AS_MESSAGE_LOG_FD` &&
++-    cxxheaders=`$CXX -print-file-name=../../../../include/c++/`"$cxxversion" &&
+++    cxxheaders=`$CXX -print-sysroot`"$prefix/include/c++" &&
++     CXX_SYSINCLUDES="-isystem $cxxheaders \
++ -isystem $cxxheaders/$cxxmachine -isystem $cxxheaders/backward"
 +   fi
-+ fi
-+ 
-++gcc_gxx_include_dir_add_sysroot=0
-++if test "${with_sysroot+set}" = set; then :
-++  gcc_gxx_without_sysroot=`expr "${gcc_gxx_include_dir}" : "${with_sysroot}"'\(.*\)'`
-++  if test "${gcc_gxx_without_sysroot}"; then :
-++    gcc_gxx_include_dir="${gcc_gxx_without_sysroot}"
-++    gcc_gxx_include_dir_add_sysroot=1
-++  fi
-++fi
-++
-+ AC_ARG_WITH(cpp_install_dir,
-+ [  --with-cpp-install-dir=DIR
-+                           install the user visible C preprocessor in DIR
-+@@ -4737,6 +4746,7 @@
-+ AC_SUBST(float_h_file)
-+ AC_SUBST(gcc_config_arguments)
-+ AC_SUBST(gcc_gxx_include_dir)
-++AC_SUBST(gcc_gxx_include_dir_add_sysroot)
-+ AC_SUBST(host_exeext)
-+ AC_SUBST(host_xm_file_list)
-+ AC_SUBST(host_xm_include_list)
-+Index: gcc-4_6-branch/gcc/cppdefault.c
-+===================================================================
-+--- gcc-4_6-branch.orig/gcc/cppdefault.c	2011-12-13 22:51:28.000000000 -0800
-++++ gcc-4_6-branch/gcc/cppdefault.c	2011-12-13 22:52:21.937635526 -0800
-+@@ -48,15 +48,18 @@
-  = {
-  #ifdef GPLUSPLUS_INCLUDE_DIR
-      /* Pick up GNU C++ generic include files.  */
- -    { GPLUSPLUS_INCLUDE_DIR, "G++", 1, 1, 0, 0 },
--+    { GPLUSPLUS_INCLUDE_DIR, "G++", 1, 1, 1, 0 },
-++    { GPLUSPLUS_INCLUDE_DIR, "G++", 1, 1,
-++      GPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT, 0 },
-  #endif
-  #ifdef GPLUSPLUS_TOOL_INCLUDE_DIR
-      /* Pick up GNU C++ target-dependent include files.  */
- -    { GPLUSPLUS_TOOL_INCLUDE_DIR, "G++", 1, 1, 0, 1 },
--+    { GPLUSPLUS_TOOL_INCLUDE_DIR, "G++", 1, 1, 1, 1 },
-++    { GPLUSPLUS_TOOL_INCLUDE_DIR, "G++", 1, 1,
-++      GPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT, 1 },
-  #endif
-  #ifdef GPLUSPLUS_BACKWARD_INCLUDE_DIR
-      /* Pick up GNU C++ backward and deprecated include files.  */
- -    { GPLUSPLUS_BACKWARD_INCLUDE_DIR, "G++", 1, 1, 0, 0 },
--+    { GPLUSPLUS_BACKWARD_INCLUDE_DIR, "G++", 1, 1, 1, 0 },
-++    { GPLUSPLUS_BACKWARD_INCLUDE_DIR, "G++", 1, 1,
-++      GPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT, 0 },
-  #endif
-  #ifdef GCC_INCLUDE_DIR
-      /* This is the dir for gcc's private headers.  */
-+Index: gcc-4_6-branch/gcc/configure
-+===================================================================
-+--- gcc-4_6-branch.orig/gcc/configure	2011-12-13 22:52:15.000000000 -0800
-++++ gcc-4_6-branch/gcc/configure	2011-12-13 22:52:33.185690436 -0800
-+@@ -636,6 +636,7 @@
-+ host_xm_include_list
-+ host_xm_file_list
-+ host_exeext
-++gcc_gxx_include_dir_add_sysroot
-+ gcc_gxx_include_dir
-+ gcc_config_arguments
-+ float_h_file
-+@@ -3313,6 +3314,15 @@
++--- a/configure
+++++ b/configure
++@@ -5544,9 +5544,8 @@ if test -n "$sysheaders"; then
++   SYSINCLUDES="$SYSINCLUDES \
++ -isystem `echo $sysheaders | sed 's/:/ -isystem /g'`"
++   if test -n "$CXX"; then
++-    cxxversion=`$CXX -dumpversion 2>&5` &&
++     cxxmachine=`$CXX -dumpmachine 2>&5` &&
++-    cxxheaders=`$CXX -print-file-name=../../../../include/c++/`"$cxxversion" &&
+++    cxxheaders=`$CXX -print-sysroot`"$prefix/include/c++" &&
++     CXX_SYSINCLUDES="-isystem $cxxheaders \
++ -isystem $cxxheaders/$cxxmachine -isystem $cxxheaders/backward"
 +   fi
-+ fi
-+ 
-++gcc_gxx_include_dir_add_sysroot=0
-++if test "${with_sysroot+set}" = set; then :
-++  gcc_gxx_without_sysroot=`expr "${gcc_gxx_include_dir}" : "${with_sysroot}"'\(.*\)'`
-++  if test "${gcc_gxx_without_sysroot}"; then :
-++    gcc_gxx_include_dir="${gcc_gxx_without_sysroot}"
-++    gcc_gxx_include_dir_add_sysroot=1
-++  fi
-++fi
-++
-+ 
-+ # Check whether --with-cpp_install_dir was given.
-+ if test "${with_cpp_install_dir+set}" = set; then :
-+@@ -17514,7 +17524,7 @@
-+   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
-+   lt_status=$lt_dlunknown
-+   cat > conftest.$ac_ext <<_LT_EOF
-+-#line 17517 "configure"
-++#line 17527 "configure"
-+ #include "confdefs.h"
-+ 
-+ #if HAVE_DLFCN_H
-+@@ -17620,7 +17630,7 @@
-+   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
-+   lt_status=$lt_dlunknown
-+   cat > conftest.$ac_ext <<_LT_EOF
-+-#line 17623 "configure"
-++#line 17633 "configure"
-+ #include "confdefs.h"
-+ 
-+ #if HAVE_DLFCN_H
-+@@ -26151,6 +26161,7 @@
-+ 
-+ 
-+ 
-++
-+ 
-+ 
-+ 
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-cross.inc b/meta/recipes-devtools/gcc/gcc-configure-cross.inc
-index 3e37423..774dadb 100644
---- a/meta/recipes-devtools/gcc/gcc-configure-cross.inc
-+++ b/meta/recipes-devtools/gcc/gcc-configure-cross.inc
-@@ -9,7 +9,7 @@ EXTRA_OECONF += " --enable-poison-system-directories \
- INHIBIT_DEFAULT_DEPS = "1"
+diff --git a/meta/recipes-core/eglibc/eglibc-testing.inc b/meta/recipes-core/eglibc/eglibc-testing.inc
+index 2cd7c6a..c30409f 100644
+--- a/meta/recipes-core/eglibc/eglibc-testing.inc
++++ b/meta/recipes-core/eglibc/eglibc-testing.inc
+@@ -66,10 +66,8 @@ fi
+ 	echo "# we test using cross compiler from real sysroot therefore override the" > ${B}/configparms
+ 	echo "# definitions that come from ${B}/config.make" >> ${B}/configparms
  
- EXTRA_OECONF_PATHS = "--with-local-prefix=${STAGING_DIR_TARGET}${target_exec_prefix} \
--		      --with-gxx-include-dir=${target_includedir}/c++ \
-+		      --with-gxx-include-dir=${STAGING_DIR_TARGET}${target_includedir}/c++ \
-                       --with-sysroot=${STAGING_DIR_TARGET} \
-                       --with-build-sysroot=${STAGING_DIR_TARGET}"
+-	echo "CC = ${CC}" >> ${B}/configparms
+-	echo "CXX = ${CXX}" >> ${B}/configparms
++	fgrep tcbootstrap ${B}/config.make > ${B}/configparms
+ 	sed -i -e "s/\-tcbootstrap//g" ${B}/configparms
+-
+ wrapper="${S}/scripts/cross-test-ssh.sh \$target"
+ localedef="${STAGING_BINDIR_NATIVE}/cross-localedef --little-endian --uint32-align=4"
+ make tests-clean
+diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
+index 9d3ec85..8555985 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.13.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
+@@ -3,14 +3,13 @@ require eglibc.inc
+ SRCREV = "15508"
  
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-sdk.inc b/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
-index f130b47..eb6757c 100644
---- a/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
-+++ b/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
-@@ -5,7 +5,7 @@ USE_NLS = '${@base_conditional( "TARGET_OS", "linux-uclibc", "no", "", d )}'
- USE_NLS = '${@base_conditional( "TARGET_OS", "linux-uclibceabi", "no", "", d )}'
+ DEPENDS += "gperf-native"
+-PR = "r19"
++PR = "r20"
+ PR_append = "+svnr${SRCPV}"
  
- EXTRA_OECONF_PATHS = "--with-local-prefix=${SDKPATH}/sysroots/${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}${target_exec_prefix} \
--                      --with-gxx-include-dir=${target_includedir}/c++ \
-+                      --with-gxx-include-dir=${SDKPATH}/sysroots/${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}${target_includedir}/c++ \
-                       --with-build-time-tools=${STAGING_DIR_NATIVE}${prefix_native}/${TARGET_SYS}/bin \
-                       --with-sysroot=${SDKPATH}/sysroots/${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS} \
-                       --with-build-sysroot=${STAGING_DIR_TARGET}"
+ EGLIBC_BRANCH="eglibc-2_13"
+ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http \
+            file://eglibc-svn-arm-lowlevellock-include-tls.patch \
+            file://IO-acquire-lock-fix.patch \
+-           file://shorten-build-commands.patch \
+            file://mips-rld-map-check.patch \
+            file://stack-protector-test.patch \
+            file://armv4-eabi-compile-fix.patch \
+@@ -18,6 +17,7 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http
+            file://generate-supported.mk \
+            file://ppc-sqrt.patch \
+            file://multilib_readlib.patch \
++           file://use-sysroot-cxx-headers.patch \
+ 	   "
+ LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
+       file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
+diff --git a/meta/recipes-core/eglibc/eglibc_2.14.bb b/meta/recipes-core/eglibc/eglibc_2.14.bb
+index 8553106..ad2161e 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.14.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.14.bb
+@@ -3,14 +3,13 @@ require eglibc.inc
+ SRCREV = "15870"
+ 
+ DEPENDS += "gperf-native"
+-PR = "r2"
++PR = "r3"
+ PR_append = "+svnr${SRCPV}"
+ 
+ EGLIBC_BRANCH="eglibc-2_14"
+ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http \
+            file://eglibc-svn-arm-lowlevellock-include-tls.patch \
+            file://IO-acquire-lock-fix.patch \
+-           file://shorten-build-commands.patch \
+            file://mips-rld-map-check.patch \
+            file://stack-protector-test.patch \
+            file://armv4-eabi-compile-fix.patch \
+@@ -20,6 +19,7 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http
+            file://multilib_readlib.patch \
+            file://eglibc-rpc-export-again.patch \
+            file://glibc-2.14-libdl-crash.patch \
++           file://use-sysroot-cxx-headers.patch \
+           "
+ LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
+       file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
 -- 
 1.7.5.4
 
