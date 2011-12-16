@@ -1,25 +1,21 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1RbR9D-0007xE-Av
+	(envelope-from <dvhart@linux.intel.com>) id 1RbRAn-00089v-Ix
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Dec 2011 07:20:02 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 15 Dec 2011 22:12:51 -0800
+	Fri, 16 Dec 2011 07:21:37 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 15 Dec 2011 22:14:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="102849183"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="47811189"
 Received: from unknown (HELO localhost) ([10.255.15.170])
-	by fmsmga002.fm.intel.com with ESMTP; 15 Dec 2011 22:12:51 -0800
+	by AZSMGA002.ch.intel.com with ESMTP; 15 Dec 2011 22:14:37 -0800
 From: Darren Hart <dvhart@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Dec 2011 22:12:31 -0800
-Message-Id: <91e14125b3e90601742f705d2556f5f05e20b944.1324015417.git.dvhart@linux.intel.com>
+Date: Thu, 15 Dec 2011 22:14:15 -0800
+Message-Id: <cover.1324015563.git.dvhart@linux.intel.com>
 X-Mailer: git-send-email 1.7.6.4
-In-Reply-To: <089ed32e1415e3133606078604acfc20c5423752.1324015417.git.dvhart@linux.intel.com>
-References: <089ed32e1415e3133606078604acfc20c5423752.1324015417.git.dvhart@linux.intel.com>
-In-Reply-To: <cover.1324015417.git.dvhart@linux.intel.com>
-References: <cover.1324015417.git.dvhart@linux.intel.com>
 Cc: Darren Hart <dvhart@linux.intel.com>
-Subject: [PATCH 4/4] bootimg: Use dosfsck to clean up the generated live image
+Subject: [PATCH 0/2] Drop dosfstools -d feature in favor of mtools mcopy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,65 +30,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2011 06:20:02 -0000
+X-List-Received-Date: Fri, 16 Dec 2011 06:21:37 -0000
 
-The generated filesystem has some errors that dosfsck is able to repair:
+The dosfstools -d feature has been shown to be buggy, and even with Nitin's
+fixes applied to get directory hierarchies working, it still generates
+images that fail dosfsck and don't work with FAT32.
 
-dosfsck 2.11, 12 Mar 2005, FAT32, LFN
-Checking file /ldlinux.sys (LDLINUX.SYS)
-Checking file /initrd (INITRD)
-Checking file /syslinux.cfg (SYSLINUX.CFG)
-Checking file /EFI (EFI)
-Checking file /vmlinuz (VMLINUZ)
-Checking file /rootfs.img (ROOTFS.IMG)
-/vmlinuz
-  File size is 4144896 bytes, cluster chain length is > 4145152 bytes.
-  Truncating file to 4144896 bytes.
-Checking file /EFI/.. (..)
-Checking file /EFI/BOOT (BOOT)
-Checking file /EFI/. (.)
-/EFI/..
-  Start (16022) does not point to .. (0)
-/EFI/.
-  Start (0) does not point to parent (16022)
-Checking file /EFI/BOOT/.. (..)
-Checking file /EFI/BOOT/. (.)
-Checking file /EFI/BOOT/initrd (INITRD)
-Checking file /EFI/BOOT/grub.cfg (GRUB.CFG)
-Checking file /EFI/BOOT/bootia32.efi (BOOTIA32.EFI)
-Checking file /EFI/BOOT/vmlinuz (VMLINUZ)
-Checking file /EFI/BOOT/rootfs.img (ROOTFS.IMG)
-/EFI/BOOT/..
-  Start (16021) does not point to .. (16022)
-/EFI/BOOT/.
-  Start (0) does not point to parent (16021)
-/EFI/BOOT/vmlinuz
-  File size is 4144896 bytes, cluster chain length is > 4145152 bytes.
-  Truncating file to 4144896 bytes.
-Performing changes.
-/build/poky/fri2/tmp/deploy/images/core-image-minimal-fri2-noemgd-20111216000605.hddimg:
-12 files, 26635/26828 clusters
+This series presents an alternative means of populating our live images
+using mcopy from mtools.
 
-Add a dosfsck command following the mkdosfs command to correct these.
+Applies on top of my earlier pull request:
+[PATCH 0/4] Fix grub efi menu, kernel messages, and live image dosfsck
 
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-CC: Nitin A Kamble <nitin.a.kamble@intel.com>
----
- meta/classes/bootimg.bbclass |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+The following changes since commit 91e14125b3e90601742f705d2556f5f05e20b944:
 
-diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
-index 0d06351..8ec07a0 100644
---- a/meta/classes/bootimg.bbclass
-+++ b/meta/classes/bootimg.bbclass
-@@ -109,6 +109,7 @@ build_hddimg() {
- 
- 		mkdosfs -n ${BOOTIMG_VOLUME_ID} -d ${HDDDIR} \
- 		        -C ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg $SIZE
-+		dosfsck -a -l ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg || true
- 
- 		if [ "${PCBIOS}" = "1" ]; then
- 			syslinux_hddimg_install
+  bootimg: Use dosfsck to clean up the generated live image (2011-12-15 22:02:11 -0800)
+
+are available in the git repository at:
+  git://git.yoctoproject.org/user-contrib/dvhart/oe-core dvhart/mtools
+  http://git.yoctoproject.org/cgit.cgi/user-contrib/dvhart/oe-core/log/?h=dvhart/mtools
+
+Darren Hart (2):
+  bootimg: Use mcopy to construct the hddimg
+  dosfstools: Remove initial directory contents feature
+
+ meta/classes/bootimg.bbclass                       |   18 +-
+ .../dosfstools/fix_populated_dosfs_creation.patch  |  489 ---------------
+ .../dosfstools/dosfstools/mkdosfs-dir.patch        |  639 --------------------
+ .../dosfstools/dosfstools/nofat32_autoselect.patch |   27 -
+ .../recipes-devtools/dosfstools/dosfstools_2.11.bb |    7 +-
+ 5 files changed, 15 insertions(+), 1165 deletions(-)
+ delete mode 100644 meta/recipes-devtools/dosfstools/dosfstools/fix_populated_dosfs_creation.patch
+ delete mode 100644 meta/recipes-devtools/dosfstools/dosfstools/mkdosfs-dir.patch
+ delete mode 100644 meta/recipes-devtools/dosfstools/dosfstools/nofat32_autoselect.patch
+
 -- 
 1.7.6.4
 
