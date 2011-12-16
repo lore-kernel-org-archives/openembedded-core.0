@@ -1,30 +1,28 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sidebranch.openembedded@gmail.com>)
-	id 1RbgmX-00044E-20 for openembedded-core@lists.openembedded.org;
-	Sat, 17 Dec 2011 00:01:37 +0100
-Received: by eaal1 with SMTP id l1so3368609eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2011 14:54:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=1zTVUcZjBo9IzJZE4Z2VOMD1P9ADwIIWhMdYSjbj6QI=;
-	b=qyMCm1zwyuJv0IwO2p4QFSzrCmYT65+2rzuBfrhcUbBOMWSSw9p4M2BpjIsmr5juPQ
-	npGUVFYcjDpLfxQ1tLWnGeAewnu1sioqBL3trUAu+hifP2YqFi7sNCWTYa96QP0SlQYg
-	uVlAxOuJ2QQoh8Rs4sHx8Y7bmOgieyhVQEh28=
+	(envelope-from <dvhart@linux.intel.com>) id 1RbhC0-0005A9-PR
+	for openembedded-core@lists.openembedded.org;
+	Sat, 17 Dec 2011 00:27:57 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 16 Dec 2011 15:20:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="48074285"
+Received: from unknown (HELO envy.home) ([10.255.12.232])
+	by AZSMGA002.ch.intel.com with ESMTP; 16 Dec 2011 15:20:55 -0800
+Message-ID: <4EEBD245.5060103@linux.intel.com>
+Date: Fri, 16 Dec 2011 15:20:37 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:7.0) Gecko/20110927 Thunderbird/7.0
 MIME-Version: 1.0
-Received: by 10.205.81.141 with SMTP id zy13mr3403428bkb.50.1324076077283;
-	Fri, 16 Dec 2011 14:54:37 -0800 (PST)
-Received: by 10.204.185.76 with HTTP; Fri, 16 Dec 2011 14:54:37 -0800 (PST)
-In-Reply-To: <4EEAFDAA.7000100@bluegiga.com>
-References: <CAMvUbCzceL3owJH51JnUYYC90ExEHkbEOcd4887sjWAKEV83=A@mail.gmail.com>
-	<4EEAFD28.1060609@bluegiga.com> <4EEAFDAA.7000100@bluegiga.com>
-Date: Fri, 16 Dec 2011 23:54:37 +0100
-Message-ID: <CAMvUbCy5hDTbMjt-zzKueVpJNHyUyZyiBZ8o9rytVofaucgpjA@mail.gmail.com>
-From: Leon Woestenberg <sidebranch.openembedded@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: after modifying source code in work/, how to rebuild package?
+References: <4EEB8E58.3030806@linux.intel.com>
+	<59473640-1B02-42F9-A44D-6747552F80DE@dominion.thruhere.net>
+In-Reply-To: <59473640-1B02-42F9-A44D-6747552F80DE@dominion.thruhere.net>
+X-Enigmail-Version: 1.3.3
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: Can we drop eglibc-utils from LIBC_DEPENDENCIES?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,43 +37,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2011 23:01:37 -0000
-Content-Type: multipart/alternative; boundary=bcaec554ded83dfb7e04b43d7c37
-
---bcaec554ded83dfb7e04b43d7c37
+X-List-Received-Date: Fri, 16 Dec 2011 23:27:57 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Lauri en Luo,
 
-On Fri, Dec 16, 2011 at 9:13 AM, Lauri Hintsala <lauri.hintsala@bluegiga.com
-> wrote:
 
-> Sorry, this workflow will clean all your changes. How about that:
->
-> bitbake projectname -c compile -f
-> bitbake projectname
->
->
-Thank you. This works.
+On 12/16/2011 01:07 PM, Koen Kooi wrote:
+> 
+> Op 16 dec. 2011, om 19:30 heeft Darren Hart het volgende geschreven:
+> 
+>> I'm working on a minimal distro definition, and found that eglibc-utils
+>> pulls in bash (needed for tzconfig and xtrace apparently)
+> 
+> My first thought is: fix the bashisms in those scripts, I bet ubuntu/fedora/arch/gentoo have patches for that,
 
-Regards
 
-Leon.
+Agreed, this would be a good thing to do. However, I still shouldn't
+need to include this in a "tiny" distribution.
 
---bcaec554ded83dfb7e04b43d7c37
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-Lauri en Luo,<br><br><div class=3D"gmail_quote">On Fri, Dec 16, 2011 at 9:1=
-3 AM, Lauri Hintsala <span dir=3D"ltr">&lt;<a href=3D"mailto:lauri.hintsala=
-@bluegiga.com">lauri.hintsala@bluegiga.com</a>&gt;</span> wrote:<br><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex">
-Sorry, this workflow will clean all your changes. How about that:<br>
-<br>
-bitbake projectname -c compile -f<br>
-bitbake projectname<br><font color=3D"#888888">
-<br></font></blockquote><div><br></div></div>Thank you. This works.<br><br>=
-Regards<br><br>Leon.<br>
+>> which pulls in
+>> gettext, which requires wchar support. I'd like to remove eglibc-utils
+>> from my distro definition. I could override the default I suspect, but I
+>> wonder if eglibc-utils should be made an optional package that distro
+>> definitions, images, or users should specifically add if needed?
+>>
+>> The relevant bit of code appears to be:
+>>
+>> meta/conf/distro/include/tclibc-eglibc.inc
+>>
+>> LIBC_DEPENDENCIES = "libsegfault \
+>> 		     eglibc \
+>>    		     eglibc-dbg \
+>>    		     eglibc-dev \
+>>    		     eglibc-utils \
+>>    		     eglibc-thread-db \
+>>    		     eglibc-localedata-i18n \
+>>    		     eglibc-gconv-ibm850 \
+>>    		     eglibc-gconv-cp1252 \
+>>    		     eglibc-gconv-iso8859-1 \
+>>    		     eglibc-gconv-iso8859-15 \
+>>    		     locale-base-en-us \
+>>    		     locale-base-en-gb "
+>>
+>> eglibc-dbg and eglibc-dev also seem like they could be made optional.
+>>
+>> Thoughts? Would anyone object to me removing at least eglibc-utils from
+>> LIBC_DEPENDENCIES?
+> 
+> I did a little digging:
+> 
+> koen@dominion:/OE/tentacle/sources/openembedded-core$ git grep LIBC_DEPENDENCIES
+> meta/conf/distro/include/tclibc-eglibc.inc:LIBC_DEPENDENCIES = "libsegfault \
+> meta/conf/distro/include/tclibc-uclibc.inc:LIBC_DEPENDENCIES = "\
+> meta/recipes-core/tasks/task-core-nfs.bb:GLIBC_DEPENDENCIES = "glibc-utils"
+> meta/recipes-core/tasks/task-core-nfs.bb:RRECOMMENDS_task-core-nfs-server_append_libc-glibc = " ${GLIBC_DEPENDENCIES}"
+> meta/recipes-core/tasks/task-core-standalone-sdk-target.bb:    ${LIBC_DEPENDENCIES} \
+> 
+> So it's only used for debug and/or SDK uses. I am going to argue that if you're going to support debug and SDK you're not minimal anymore and can live with bash/gettext/etc.
 
---bcaec554ded83dfb7e04b43d7c37--
+Well, nfs isn't SDK only, there are valid deployment uses for that. But
+otherwise, agreed.
+
+> 
+> Since I was bored I dug up an OE-classic:
+> 
+> koen@dominion:/OE/org.openembedded.dev$ git blame  recipes/tasks/task-sdk-bare.bb
+> 749310c7 packages/tasks/task-sdk-bare.bb (Koen Kooi 2008-07-07 21:24:38 +0000  1) DESCRIPTION = "Packages for a standalone  SDK or external toolchain"
+> [..]
+> 9bff47f7 packages/tasks/task-sdk-bare.bb (Tom Rini  2008-11-26 13:16:21 -0500  8) GLIBC_PKGS = "\
+> 749310c7 packages/tasks/task-sdk-bare.bb (Koen Kooi 2008-07-07 21:24:38 +0000  9)     glibc \
+> 749310c7 packages/tasks/task-sdk-bare.bb (Koen Kooi 2008-07-07 21:24:38 +0000 10)     glibc-dbg \
+> 86fa8521 packages/tasks/task-sdk-bare.bb (Tom Rini  2009-02-04 02:07:47 -0500 11)     virtual-libc-dev \
+> 749310c7 packages/tasks/task-sdk-bare.bb (Koen Kooi 2008-07-07 21:24:38 +0000 12)     glibc-utils \
+> 749310c7 packages/tasks/task-sdk-bare.bb (Koen Kooi 2008-07-07 21:24:38 +0000 13)     libsegfault \
+> 749310c7 packages/tasks/task-sdk-bare.bb (Koen Kooi 2008-07-07 21:24:38 +0000 14)     glibc-thread-db \
+> f18a05e2 recipes/tasks/task-sdk-bare.bb  (Tom Rini  2010-02-09 16:43:45 -0700 15) "
+> 9bff47f7 packages/tasks/task-sdk-bare.bb (Tom Rini  2008-11-26 13:16:21 -0500 16) 
+> edd3a1de recipes/tasks/task-sdk-bare.bb  (Tom Rini  2011-01-18 17:56:52 -0700 17) LIBC_PKGS_libc-glibc = "${GLIBC_PKGS}"
+> edd3a1de recipes/tasks/task-sdk-bare.bb  (Tom Rini  2011-01-18 17:56:52 -0700 18) LIBC_PKGS_libc-uclibc = "uclibc uclibc-dev uclibc-thread-db"
+
+Was this list used in the same way as LIBC_DEPENDENCIES above?
+
+> 
+> So a few years ago that list of packages was only meant for SDK usage.
+> 
+> If you meant GLIBC_DEPENDENCIES (note the extra 'G'), then you need
+> to
+> check if they are still needed for NFS operation. If so I am going to
+> argue that the dependencies should move to the recipes in question
+> instead of hiding in the task.
+
+Right, that makes sense.
+
+> If it's just a convenience package go
+> ahead and remove it, people wanting it can create a new task :)
+
+Agreed as well.
+
+I ran into an interesting issue. If I remove eglibc-utils from
+LIBC_DEPENDENCIES, it still seems to be getting pulled in, as do bash
+and gettext. Still digging to sort out why...
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
+
+
