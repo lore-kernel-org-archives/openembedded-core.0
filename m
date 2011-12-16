@@ -1,20 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1RbSr7-0004o5-KW
+	(envelope-from <edwin.zhai@intel.com>) id 1RbSr8-0004o5-BK
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Dec 2011 09:09:25 +0100
+	Fri, 16 Dec 2011 09:09:26 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 16 Dec 2011 00:01:21 -0800
+	by orsmga102.jf.intel.com with ESMTP; 16 Dec 2011 00:01:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="87202609"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="87202612"
 Received: from yocto-build3.sh.intel.com ([10.239.48.58])
-	by orsmga001.jf.intel.com with ESMTP; 16 Dec 2011 00:01:20 -0800
+	by orsmga001.jf.intel.com with ESMTP; 16 Dec 2011 00:01:21 -0800
 From: edwin.zhai@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Dec 2011 15:53:21 +0800
-Message-Id: <cover.1324021777.git.edwin.zhai@intel.com>
+Date: Fri, 16 Dec 2011 15:53:22 +0800
+Message-Id: <684530c1b7e5aab3e0f3f6f8bbe64b5fb839eff3.1324021777.git.edwin.zhai@intel.com>
 X-Mailer: git-send-email 1.7.1
-Subject: [PATCH 0/2] Some bug fixing, Edwin, Dec16, 2011
+In-Reply-To: <cover.1324021777.git.edwin.zhai@intel.com>
+References: <cover.1324021777.git.edwin.zhai@intel.com>
+In-Reply-To: <cover.1324021777.git.edwin.zhai@intel.com>
+References: <cover.1324021777.git.edwin.zhai@intel.com>
+Subject: [PATCH 1/2] xserver-nodm-init: Fix xuser creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,33 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2011 08:09:25 -0000
+X-List-Received-Date: Fri, 16 Dec 2011 08:09:26 -0000
 
 From: Zhai Edwin <edwin.zhai@intel.com>
 
-all,
-    These patches fix rootless X start failure and dates launch hang. Pls. pull.
+Rootless X start fail as xuser has no home and shell. This patch fix it.
 
-Thanks,
-Edwin
+Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+---
+ .../x11-common/xserver-nodm-init.bb                |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
 
-The following changes since commit 6036845d1c07420a99b78421bb3479adf7d754e7:
-
-  Patch Upstream Status Updates (2011-12-15 14:36:26 +0000)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib gzhai/master2
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/master2
-
-Zhai Edwin (2):
-  xserver-nodm-init: Fix xuser creation
-  libical: Fix deadlock in pthread
-
- .../x11-common/xserver-nodm-init.bb                |    6 +-
- meta/recipes-sato/libical/files/pthread-fix.patch  |   52 ++++++++++++++++++++
- meta/recipes-sato/libical/libical_0.47.bb          |    5 ++-
- 3 files changed, 59 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-sato/libical/files/pthread-fix.patch
+diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init.bb b/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
+index dbc1c42..99ef72e 100644
+--- a/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
++++ b/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
+@@ -2,7 +2,7 @@ DESCRIPTION = "Simple Xserver Init Script (no dm)"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ SECTION = "x11"
+-PR = "r28"
++PR = "r29"
+ RDEPENDS_${PN} = "sudo"
+ 
+ SRC_URI = "file://xserver-nodm \
+@@ -31,7 +31,7 @@ INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
+ # Use fixed Xusername of xuser for now, this will need to be
+ # fixed if the Xusername changes from xuser
+ USERADD_PACKAGES = "${PN}"
+-USERADD_PARAM_${PN} = "--system --no-create-home \
+-                       --shell /bin/false --groups video,tty,audio \
++USERADD_PARAM_${PN} = "--create-home \
++                       --groups video,tty,audio \
+                        --user-group xuser"
+ 
+-- 
+1.7.1
 
 
 
