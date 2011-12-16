@@ -1,31 +1,30 @@
-Received: from masterfoo.zenlinux.com ([207.192.74.254])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1RbgVj-00030e-F3
-	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Dec 2011 23:44:19 +0100
-Received: from localhost (c-76-115-40-64.hsd1.or.comcast.net [76.115.40.64])
-	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 92D4E2FF5D
+	(envelope-from <sidebranch.openembedded@gmail.com>)
+	id 1RbgmX-00044E-20 for openembedded-core@lists.openembedded.org;
+	Sat, 17 Dec 2011 00:01:37 +0100
+Received: by eaal1 with SMTP id l1so3368609eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Dec 2011 17:37:12 -0500 (EST)
-From: Scott Garman <scott.a.garman@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Dec 2011 14:36:33 -0800
-Message-Id: <671866f3cd08dd822aca22032bacc24b1509afeb.1324074313.git.scott.a.garman@intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1324074313.git.scott.a.garman@intel.com>
-References: <cover.1324074313.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1324074313.git.scott.a.garman@intel.com>
-References: <cover.1324074313.git.scott.a.garman@intel.com>
-X-MasterFoo-MailScanner-Information: Please contact the ISP for more
-	information
-X-MailScanner-ID: 92D4E2FF5D.59069
-X-MasterFoo-MailScanner: Found to be clean
-X-MasterFoo-MailScanner-SpamCheck: not spam
-X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
-X-Spam-Status: No
-Subject: [PATCH 8/8] insane.bbclass: add QA tests for unsafe references to exec_prefix
+	Fri, 16 Dec 2011 14:54:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=1zTVUcZjBo9IzJZE4Z2VOMD1P9ADwIIWhMdYSjbj6QI=;
+	b=qyMCm1zwyuJv0IwO2p4QFSzrCmYT65+2rzuBfrhcUbBOMWSSw9p4M2BpjIsmr5juPQ
+	npGUVFYcjDpLfxQ1tLWnGeAewnu1sioqBL3trUAu+hifP2YqFi7sNCWTYa96QP0SlQYg
+	uVlAxOuJ2QQoh8Rs4sHx8Y7bmOgieyhVQEh28=
+MIME-Version: 1.0
+Received: by 10.205.81.141 with SMTP id zy13mr3403428bkb.50.1324076077283;
+	Fri, 16 Dec 2011 14:54:37 -0800 (PST)
+Received: by 10.204.185.76 with HTTP; Fri, 16 Dec 2011 14:54:37 -0800 (PST)
+In-Reply-To: <4EEAFDAA.7000100@bluegiga.com>
+References: <CAMvUbCzceL3owJH51JnUYYC90ExEHkbEOcd4887sjWAKEV83=A@mail.gmail.com>
+	<4EEAFD28.1060609@bluegiga.com> <4EEAFDAA.7000100@bluegiga.com>
+Date: Fri, 16 Dec 2011 23:54:37 +0100
+Message-ID: <CAMvUbCy5hDTbMjt-zzKueVpJNHyUyZyiBZ8o9rytVofaucgpjA@mail.gmail.com>
+From: Leon Woestenberg <sidebranch.openembedded@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: after modifying source code in work/, how to rebuild package?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,175 +39,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2011 22:44:20 -0000
+X-List-Received-Date: Fri, 16 Dec 2011 23:01:37 -0000
+Content-Type: multipart/alternative; boundary=bcaec554ded83dfb7e04b43d7c37
 
-Files under exec_prefix (commonly /usr) may not be available during
-system recovery. exec_prefix may also be kept on a separate partition
-that is mounted late in the boot process.
+--bcaec554ded83dfb7e04b43d7c37
+Content-Type: text/plain; charset=ISO-8859-1
 
-This QA test throws an warning if a binary in base_[bindir|sbindir|libdir]
-is dynamically linked to a file under exec_prefix. The intention is to
-turn this into an error in the near future.
+Lauri en Luo,
 
-It also checks executable non-binaries (e.g, shell scripts) in the above
-base directories with a simple grep test to look for references to
-exec_prefix. This test only produces a warning, since false positives
-are likely.
+On Fri, Dec 16, 2011 at 9:13 AM, Lauri Hintsala <lauri.hintsala@bluegiga.com
+> wrote:
 
-This fixes [YOCTO #1008]
+> Sorry, this workflow will clean all your changes. How about that:
+>
+> bitbake projectname -c compile -f
+> bitbake projectname
+>
+>
+Thank you. This works.
 
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
----
- meta/classes/insane.bbclass |  111 ++++++++++++++++++++++++++++++++++++++++++-
- 1 files changed, 109 insertions(+), 2 deletions(-)
+Regards
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 5726e69..b8d4507 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -11,6 +11,10 @@
- #  -Check if packages contains .debug directories or .so files
- #   where they should be in -dev or -dbg
- #  -Check if config.log contains traces to broken autoconf tests
-+#  -Ensure that binaries in base_[bindir|sbindir|libdir] do not link
-+#   into exec_prefix
-+#  -Check that scripts in base_[bindir|sbindir|libdir] do not reference
-+#   files under exec_prefix
- 
- 
- #
-@@ -19,9 +23,14 @@
- # The package.bbclass can help us here.
- #
- inherit package
--PACKAGE_DEPENDS += "pax-utils-native desktop-file-utils-native"
-+PACKAGE_DEPENDS += "pax-utils-native desktop-file-utils-native ${QADEPENDS}"
- PACKAGEFUNCS += " do_package_qa "
- 
-+# unsafe-references-in-binaries requires prelink-rtld from
-+# prelink-native, but we don't want this DEPENDS for -native builds
-+QADEPENDS = "prelink-native"
-+QADEPENDS_virtclass-native = ""
-+QADEPENDS_virtclass-nativesdk = ""
- 
- #
- # dictionary for elf headers
-@@ -100,7 +109,7 @@ def package_qa_get_machine_dict():
- 
- 
- # Currently not being used by default "desktop"
--WARN_QA ?= "ldflags useless-rpaths rpaths"
-+WARN_QA ?= "ldflags useless-rpaths rpaths unsafe-references-in-binaries unsafe-references-in-scripts"
- ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch la2 pkgconfig la perms"
- 
- def package_qa_clean_path(path,d):
-@@ -201,6 +210,104 @@ def package_qa_check_perm(path,name,d, elf, messages):
-     """
-     return
- 
-+QAPATHTEST[unsafe-references-in-binaries] = "package_qa_check_unsafe_references_in_binaries"
-+def package_qa_check_unsafe_references_in_binaries(path, name, d, elf, messages):
-+	"""
-+	Ensure binaries in base_[bindir|sbindir|libdir] do not link to files under exec_prefix
-+	"""
-+	if unsafe_references_skippable(path, name, d):
-+		return
-+
-+	if elf:
-+		import subprocess as sub
-+		pn = d.getVar('PN', True)
-+
-+		exec_prefix = d.getVar('exec_prefix', True)
-+		sysroot_path = d.getVar('STAGING_DIR_TARGET', True)
-+		sysroot_path_usr = sysroot_path + exec_prefix
-+
-+		try:
-+			ldd_output = sub.check_output(["prelink-rtld", "--root", sysroot_path, path])
-+		except sub.CalledProcessError as e:
-+			if e.returncode != 127:
-+				error_msg = pn + ": prelink-rtld aborted when processing %s" % path
-+				package_qa_handle_error("unsafe-references-in-binaries", error_msg, d)
-+				return False
-+			else:
-+				# Sometimes this is done deliberately (e.g, e2fsprogs), so only warn
-+				bb.warn("%s has missing library dependencies" % path)
-+				return
-+		if sysroot_path_usr in ldd_output:
-+			error_msg = pn + ": %s links to something under exec_prefix" % path
-+			package_qa_handle_error("unsafe-references-in-binaries", error_msg, d)
-+			error_msg = "ldd reports: %s" % ldd_output
-+			package_qa_handle_error("unsafe-references-in-binaries", error_msg, d)
-+			return False
-+
-+QAPATHTEST[unsafe-references-in-scripts] = "package_qa_check_unsafe_references_in_scripts"
-+def package_qa_check_unsafe_references_in_scripts(path, name, d, elf, messages):
-+	"""
-+	Warn if scripts in base_[bindir|sbindir|libdir] reference files under exec_prefix
-+	"""
-+	if unsafe_references_skippable(path, name, d):
-+		return
-+
-+	if not elf:
-+		import stat
-+		pn = d.getVar('PN', True)
-+
-+		# Ensure we're checking an executable script
-+		statinfo = os.stat(path)
-+		if bool(statinfo.st_mode & stat.S_IXUSR):
-+			# grep shell scripts for possible references to /exec_prefix/
-+			exec_prefix = d.getVar('exec_prefix', True)
-+			statement = "grep -e '%s/' %s > /dev/null" % (exec_prefix, path)
-+			if os.system(statement) == 0:
-+				error_msg = pn + ": Found a reference to %s/ in %s" % (exec_prefix, path)
-+				package_qa_handle_error("unsafe-references-in-scripts", error_msg, d)
-+				error_msg = "Shell scripts in base_bindir and base_sbindir should not reference anything in exec_prefix"
-+				package_qa_handle_error("unsafe-references-in-scripts", error_msg, d)
-+
-+def unsafe_references_skippable(path, name, d):
-+	if bb.data.inherits_class('native', d) or bb.data.inherits_class('nativesdk', d):
-+		return True
-+
-+	if "-dbg" in name or "-dev" in name:
-+		return True
-+
-+	# Other package names to skip:
-+	if name.startswith("kernel-module-"):
-+		return True
-+
-+	# Skip symlinks
-+	if os.path.islink(path):
-+		return True
-+
-+	# Skip unusual rootfs layouts which make these tests irrelevant
-+	exec_prefix = d.getVar('exec_prefix', True)
-+	if exec_prefix == "":
-+		return True
-+
-+	pkgdest = d.getVar('PKGDEST', True)
-+	pkgdest = pkgdest + "/" + name
-+	pkgdest = os.path.abspath(pkgdest)
-+	base_bindir = pkgdest + d.getVar('base_bindir', True)
-+	base_sbindir = pkgdest + d.getVar('base_sbindir', True)
-+	base_libdir = pkgdest + d.getVar('base_libdir', True)
-+	bindir = pkgdest + d.getVar('bindir', True)
-+	sbindir = pkgdest + d.getVar('sbindir', True)
-+	libdir = pkgdest + d.getVar('libdir', True)
-+
-+	if base_bindir == bindir and base_sbindir == sbindir and base_libdir == libdir:
-+		return True
-+
-+	# Skip files not in base_[bindir|sbindir|libdir]
-+	path = os.path.abspath(path)
-+	if not (base_bindir in path or base_sbindir in path or base_libdir in path):
-+		return True
-+
-+	return False
-+
- QAPATHTEST[arch] = "package_qa_check_arch"
- def package_qa_check_arch(path,name,d, elf, messages):
-     """
--- 
-1.7.5.4
+Leon.
 
+--bcaec554ded83dfb7e04b43d7c37
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+Lauri en Luo,<br><br><div class=3D"gmail_quote">On Fri, Dec 16, 2011 at 9:1=
+3 AM, Lauri Hintsala <span dir=3D"ltr">&lt;<a href=3D"mailto:lauri.hintsala=
+@bluegiga.com">lauri.hintsala@bluegiga.com</a>&gt;</span> wrote:<br><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex">
+Sorry, this workflow will clean all your changes. How about that:<br>
+<br>
+bitbake projectname -c compile -f<br>
+bitbake projectname<br><font color=3D"#888888">
+<br></font></blockquote><div><br></div></div>Thank you. This works.<br><br>=
+Regards<br><br>Leon.<br>
 
+--bcaec554ded83dfb7e04b43d7c37--
