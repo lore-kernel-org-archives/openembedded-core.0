@@ -1,32 +1,34 @@
-Received: from mail-gx0-f175.google.com ([209.85.161.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1RbsgV-0001W3-6c
-	for openembedded-core@lists.openembedded.org;
-	Sat, 17 Dec 2011 12:44:11 +0100
-Received: by ggnh1 with SMTP id h1so3501659ggn.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Dec 2011 03:37:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=1X2ogjL8R6298S/v1cBAqXMRb149MlCQFXGTQ1nbnbY=;
-	b=DZqrwvFWe9iNJWQX9krnrhlw8mxvRKyjEZufVs4MJVCyPCCcSEHtuPjRkOYUOwKc1b
-	ytcFILyy2XEJ4vkoeYqytCpDu/XiAHR8MlY+skDVbkFIiMZohM3+T6O4bcYR5VGQUvIh
-	5jdkiU5aNrOfAsQcIVaqDUs6LrjKOBIb3St4Q=
-Received: by 10.101.11.28 with SMTP id o28mr5315959ani.68.1324121827403;
-	Sat, 17 Dec 2011 03:37:07 -0800 (PST)
-Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id 5sm28482923anz.14.2011.12.17.03.37.04
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 17 Dec 2011 03:37:06 -0800 (PST)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 17 Dec 2011 11:36:56 +0000
-Message-Id: <20d7007632dde53f3a868e8374a45619319213c2.1324121807.git.otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <cover.1324121806.git.otavio@ossystems.com.br>
-References: <cover.1324121806.git.otavio@ossystems.com.br>
-Subject: [PATCH 1/1] connman: disable 'alg-test' building
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RbsvL-0001sk-Uy for openembedded-core@lists.openembedded.org;
+	Sat, 17 Dec 2011 12:59:32 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBHBqUxO028323;
+	Sat, 17 Dec 2011 11:52:30 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 26464-05; Sat, 17 Dec 2011 11:52:26 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBHBqO9v028317
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Sat, 17 Dec 2011 11:52:25 GMT
+Message-ID: <1324122745.4568.136.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Sat, 17 Dec 2011 11:52:25 +0000
+In-Reply-To: <20111217103429.GG3997@jama.jama.net>
+References: <1323983329.4568.63.camel@ted>
+	<20111217011658.GE3997@jama.jama.net> <1324085548.4568.121.camel@ted>
+	<20111217092041.GF3997@jama.jama.net> <1324117321.4568.128.camel@ted>
+	<20111217103429.GG3997@jama.jama.net>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Graham Gower <graham.gower@gmail.com>
+Subject: Re: opkg: Update svn 625 -> 633 and fix preinst issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,110 +43,139 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Dec 2011 11:44:11 -0000
+X-List-Received-Date: Sat, 17 Dec 2011 11:59:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-'alg-test' requires 'linux/if_alg.h' header enforcing a dependency on
-linux-libc-headers 2.6.39 or newer.
+On Sat, 2011-12-17 at 11:34 +0100, Martin Jansa wrote:
+> On Sat, Dec 17, 2011 at 10:22:01AM +0000, Richard Purdie wrote:
+> > On Sat, 2011-12-17 at 10:20 +0100, Martin Jansa wrote:
+> > > On Sat, Dec 17, 2011 at 01:32:28AM +0000, Richard Purdie wrote:
+> > > I've tried to build image with SRCREV=633 and it built image fine
+> > > then I tried to apply your patch but without installorder.patch to
+> > > confirm that the issue with circular depending packages is really cause
+> > > by that only and then try to fix installorder.patch to work even with
+> > > such packages, but I got many postinst errors :(. 
+> > > 
+> > > From your description I understood that postinst execution should be
+> > > almost the same only more logic is moved from rootfs_ipk.bbclass to opkg
+> > > itself.
+> > > 
+> > > | Collected errors:
+> > > |  * pkg_run_script: package "pam-plugin-unix" postinst script returned status 1.
+> > > |  * opkg_configure: pam-plugin-unix.postinst returned 1.
+> > > |  * pkg_run_script: package "pango-module-basic-x" postinst script returned status 1.
+> > > |  * opkg_configure: pango-module-basic-x.postinst returned 1.
+> > > |  * pkg_run_script: package "pango-module-basic-fc" postinst script returned status 1.
+> > > |  * opkg_configure: pango-module-basic-fc.postinst returned 1.
+> > > |  * pkg_run_script: package "update-modules" postinst script returned status 1.
+> > > |  * opkg_configure: update-modules.postinst returned 1.
+> > > |  * pkg_run_script: package "gdk-pixbuf-loader-png" postinst script returned status 1.
+> > > |  * opkg_configure: gdk-pixbuf-loader-png.postinst returned 1.
+> > > |  * pkg_run_script: package "gdk-pixbuf-loader-jpeg" postinst script returned status 1.
+> > > |  * opkg_configure: gdk-pixbuf-loader-jpeg.postinst returned 1.
+> > > |  * pkg_run_script: package "liberation-fonts" postinst script returned status 1.
+> > > |  * opkg_configure: liberation-fonts.postinst returned 1.
+> > > |  * pkg_run_script: package "gdk-pixbuf-loader-xpm" postinst script returned status 1.
+> > > |  * opkg_configure: gdk-pixbuf-loader-xpm.postinst returned 1.
+> > > |  * pkg_run_script: package "gdk-pixbuf-loader-gif" postinst script returned status 1.
+> > > |  * opkg_configure: gdk-pixbuf-loader-gif.postinst returned 1.
+> > > |  * pkg_run_script: package "ppp" postinst script returned status 1.
+> > > |  * opkg_configure: ppp.postinst returned 1.
+> > > |  * pkg_run_script: package "ttf-dejavu-common" postinst script returned status 127.
+> > > |  * opkg_configure: ttf-dejavu-common.postinst returned 127.
+> > > |  * pkg_run_script: package "ttf-dejavu-sans" postinst script returned status 127.
+> > > |  * opkg_configure: ttf-dejavu-sans.postinst returned 127.
+> > > |  * pkg_run_script: package "ffalarms" postinst script returned status 127.
+> > > |  * opkg_configure: ffalarms.postinst returned 127.
+> > > |  * pkg_run_script: package "rsyslog" postinst script returned status 1.
+> > > |  * opkg_configure: rsyslog.postinst returned 1.
+> > > |  * pkg_run_script: package "ttf-dejavu-sans-mono" postinst script returned status 127.
+> > > |  * opkg_configure: ttf-dejavu-sans-mono.postinst returned 127.
+> > > |  * pkg_run_script: package "matchbox-keyboard-im" postinst script returned status 1.
+> > > |  * opkg_configure: matchbox-keyboard-im.postinst returned 1.
+> > > |  * pkg_run_script: package "hicolor-icon-theme" postinst script returned status 1.
+> > > |  * opkg_configure: hicolor-icon-theme.postinst returned 1.
+> > > |  * pkg_run_script: packaERROR: Function 'do_rootfs' failed (see /OE/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/shr-l
+> > > ite-image/2.0-r20/temp/log.do_rootfs.10063 for further information)
+> > > | ge "ttf-liberation-mono" postinst script returned status 127.
+> > > |  * opkg_configure: ttf-liberation-mono.postinst returned 127.
+> > > |  * pkg_run_script: package "gtk-immodule-xim" postinst script returned status 1.
+> > > |  * opkg_configure: gtk-immodule-xim.postinst returned 1.
+> > > |  * pkg_run_script: package "ca-certificates" postinst script returned status 1.
+> > > |  * opkg_configure: ca-certificates.postinst returned 1.
+> > > NOTE: package shr-lite-image-2.0-r20: task do_rootfs: Failed
+> > > ERROR: Task 9 (/OE/shr-core/meta-smartphone/meta-shr/recipes-shr/images/shr-lite-image.bb, do_rootfs) failed with exit code '
+> > > 1'
+> > 
+> > This looks like you don't have the offline_postinstall patch applied?
+> 
+> I have
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/recipes-connectivity/connman/connman.inc      |    8 ---
- .../connman/connman/disable_alg-test.patch         |   46 ++++++++++++++++++++
- meta/recipes-connectivity/connman/connman_0.78.bb  |    3 +-
- 3 files changed, 48 insertions(+), 9 deletions(-)
- create mode 100644 meta/recipes-connectivity/connman/connman/disable_alg-test.patch
+Please double check. That patch does things like:
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index bb1b279..d1bf7cd 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -49,14 +49,6 @@ USERADD_PARAM_${PN} = "--system --no-create-home \
+Index: trunk/libopkg/pkg.c
+===================================================================
+--- trunk.orig/libopkg/pkg.c	2011-12-15 15:58:39.000000000 +0000
++++ trunk/libopkg/pkg.c	2011-12-15 20:04:50.109992736 +0000
+@@ -1297,8 +1297,9 @@
+      free(cmd);
  
- inherit autotools pkgconfig update-rc.d useradd
+      if (err) {
+-	  opkg_msg(ERROR, "package \"%s\" %s script returned status %d.\n", 
+-               pkg->name, script, err);
++          if (!conf->offline_root)
++	       opkg_msg(ERROR, "package \"%s\" %s script returned status %d.\n", 
++                    pkg->name, script, err);
+ 	  return err;
+      }
  
--# alg-test doesn't build, so disable that and test
--# for if_alg.h as this header is only in 2.6.39
--do_configure_prepend() {
--	sed -i 's:tools/alg-test ::g' Makefile.am
--	sed -i 's:AC_CHECK_HEADERS(linux/if_alg.h, dummy=yes,::g;
--	        s:AC_MSG_ERROR(User-space algorithm header files are required))::g' configure.ac
--}
--
- do_compile_append() {
- 	sed -i -e s:deny:allow:g src/connman-dbus.conf
- }
-diff --git a/meta/recipes-connectivity/connman/connman/disable_alg-test.patch b/meta/recipes-connectivity/connman/connman/disable_alg-test.patch
-new file mode 100644
-index 0000000..c231d75
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/disable_alg-test.patch
-@@ -0,0 +1,46 @@
-+From b9a20c8eb61b600ced284646a1bea588fdd8a5ea Mon Sep 17 00:00:00 2001
-+From: Otavio Salvador <otavio@ossystems.com.br>
-+Date: Fri, 16 Dec 2011 19:31:59 -0200
-+Subject: [PATCH] Disable building of alg-test
-+
-+alg-test utility depends on linux/if_alg.h header that is only
-+available on kernels >= 2.6.39.
-+
-+Upstream Status: Inappropriate [configuration]
-+
-+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-+---
-+ Makefile.am  |    2 +-
-+ configure.ac |    3 ---
-+ 2 files changed, 1 insertions(+), 4 deletions(-)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index d5a76f9..d42a766 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -144,7 +144,7 @@ noinst_PROGRAMS += tools/wispr tools/supplicant-test \
-+ 			tools/dbus-test tools/polkit-test \
-+ 			tools/iptables-test tools/tap-test tools/wpad-test \
-+ 			tools/stats-tool tools/private-network-test \
-+-			tools/alg-test unit/test-session
-++			unit/test-session
-+ 
-+ tools_wispr_SOURCES = $(gweb_sources) tools/wispr.c
-+ tools_wispr_LDADD = @GLIB_LIBS@ @GNUTLS_LIBS@ -lresolv
-+diff --git a/configure.ac b/configure.ac
-+index f63fea8..67bfe85 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -437,9 +437,6 @@ if (test "${enable_tools}" = "yes"); then
-+ 				AC_MSG_ERROR(GnuTLS library is required))
-+ 	AC_SUBST(GNUTLS_CFLAGS)
-+ 	AC_SUBST(GNUTLS_LIBS)
-+-
-+-	AC_CHECK_HEADERS(linux/if_alg.h, dummy=yes,
-+-		AC_MSG_ERROR(User-space algorithm header files are required))
-+ fi
-+ AM_CONDITIONAL(TOOLS, test "${enable_tools}" = "yes")
-+ 
-+-- 
-+1.7.7.3
-+
-diff --git a/meta/recipes-connectivity/connman/connman_0.78.bb b/meta/recipes-connectivity/connman/connman_0.78.bb
-index 74c102b..c73cad9 100644
---- a/meta/recipes-connectivity/connman/connman_0.78.bb
-+++ b/meta/recipes-connectivity/connman/connman_0.78.bb
-@@ -1,11 +1,12 @@
- require connman.inc
+and these are clearly showing up as ERRORs above. This means that:
+
+a) offline_root isn't set (extremely unlikely for do_rootfs to work)
+b) the patch isn't applied
+
+> > opkg revision 633 will not build correct metadata without the patches
+> > included.
+> 
+> Only patch not included in my opkg build was the installorder one.
+
+I have my doubts about this, sorry...
  
--PR = "r5"
-+PR = "r6"
- 
- # 0.78 tag
- SRCREV = "02f5d5fe2d7c71514a6387ba2b772b42d8e8d297"
- SRC_URI  = "git://git.kernel.org/pub/scm/network/connman/connman.git \
-             file://add_xuser_dbus_permission.patch \
-             file://ethernet_default.patch \
-+            file://disable_alg-test.patch \
-             file://connman"
- S = "${WORKDIR}/git"
--- 
-1.7.2.5
+> > > > The question is whether circular depends are something opkg should
+> > > > support or not? What's debian's behaviour in that regard?
+> > > 
+> > > Well, it did work before and from quick search it looks that such circular dependencies are 
+> > > quite common in our metadata.
+> > 
+> > Do you have some examples? I couldn't find any in OE-Core?
+> 
+> I'll try.
+> 
+> > >  So I agree that this patch is really needed to fix dbus owner,
+> > > but in case there is circular dependency we shouldn't be so strict about order of installs.
+> > 
+> > So how you you handle A depends on B which depends on A and be strict
+> > about dependency order?
+> 
+> The problem with dbus/base-passwd can be fixed by this patch, but for
+> fsogsmd* modules the order is not so important, so I think that when there
+> is circular dependency detected the order _shouldn't_ be so strict and
+> maybe warning can be shown, but it shouldn't be fatal.
+
+Looking at fsogsmd, that specific packages split doesn't really make
+sense. fsogsmd depends on fsogsmd-connman and fsogsmd-connman depends on
+fsogsmd. This means that both or neither can be installed but never
+either of them singly so the split is just a waste of space.
+
+I agree we need to improve that patch to detect loops but I'm not sure a
+warning makes sense as we can't tell the difference between a case where
+we don't care and a case where the resulting image is corrupt...
+
+Cheers,
+
+Richard
+
 
 
 
