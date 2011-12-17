@@ -1,37 +1,32 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RbqYe-0006D9-RA
-	for openembedded-core@lists.openembedded.org;
-	Sat, 17 Dec 2011 10:27:56 +0100
-Received: by eeit10 with SMTP id t10so380720eei.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Dec 2011 01:20:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=oNMxRKq+0nGmAcnF6O8da63en3oatwXIoM2zLJ0XDgU=;
-	b=CW70P/9OsIDjaX9/3w/FhteVp1pulU9EKGaRAqs5Xk9sAGgpOM2fh0C0UI/oQjDHgT
-	PS0SHHgdWtLEcLzPQzkIRFT5YWkAKGi4GfhJPkpmGr5oIhZHkp8/1qXsWWKX2ke2rk32
-	Nyu6ph7FjI3a6dNngIEuSF7nHv8CnlD+7fYEA=
-Received: by 10.14.29.14 with SMTP id h14mr915161eea.70.1324113655573;
-	Sat, 17 Dec 2011 01:20:55 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id 58sm10731402eet.11.2011.12.17.01.20.52
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 17 Dec 2011 01:20:54 -0800 (PST)
-Date: Sat, 17 Dec 2011 10:20:41 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RbrS8-0007ve-Vu for openembedded-core@lists.openembedded.org;
+	Sat, 17 Dec 2011 11:25:17 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBHAICSs027756;
+	Sat, 17 Dec 2011 10:18:12 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 26464-02; Sat, 17 Dec 2011 10:18:08 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBHAI1rq027750
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Sat, 17 Dec 2011 10:18:03 GMT
+Message-ID: <1324117082.4568.124.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Darren Hart <dvhart@linux.intel.com>
+Date: Sat, 17 Dec 2011 10:18:02 +0000
+In-Reply-To: <4EEC1C8E.1070205@linux.intel.com>
+References: <4EEC1C8E.1070205@linux.intel.com>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: "Wold, Saul" <saul.wold@intel.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111217092041.GF3997@jama.jama.net>
-References: <1323983329.4568.63.camel@ted>
-	<20111217011658.GE3997@jama.jama.net>
-	<1324085548.4568.121.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1324085548.4568.121.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Graham Gower <graham.gower@gmail.com>
-Subject: Re: opkg: Update svn 625 -> 633 and fix preinst issues
+Subject: [PATCH] native.bbclass: Fix variable remapping coverage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,221 +41,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Dec 2011 09:27:57 -0000
-X-Groupsio-MsgNum: 14376
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Y/WcH0a6A93yCHGr"
-Content-Disposition: inline
+X-List-Received-Date: Sat, 17 Dec 2011 10:25:17 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---Y/WcH0a6A93yCHGr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+When looking for RDEPENDS to process, bitbake iterates through PACKAGES
+*and* PN. Since native.bbclass sets PACKAGES to be empty, its pointless
+remapping the list of PACKAGES since this does nothing. There is a problem
+since *_${PN} are used by bitbake but not remapped by the native.bbclass
+class extension code.
 
-On Sat, Dec 17, 2011 at 01:32:28AM +0000, Richard Purdie wrote:
-> On Sat, 2011-12-17 at 02:16 +0100, Martin Jansa wrote:
-> > On Thu, Dec 15, 2011 at 09:08:49PM +0000, Richard Purdie wrote:
-> > > There is a major issue with opkg images at the moment as preinst
-> > > functions are not being executed before their dependencies are instal=
-led
-> > > and this is leading to corruption of images containing avahi/dbus in
-> > > particular.
-> > >=20
-> > > There are various changes in upstream opkg in the last 8 revisions wh=
-ich
-> > > make changes in this area but sadly these aren't enough to get things
-> > > working for us. I've updated to the latest svn revision with this pat=
-ch
-> > > since it makes sense to pull in those changes first and then suppleme=
-nt
-> > > them with the attached patches.
-> > >=20
-> > > There is a full description of the patches in the patch headers but in
-> > > summary they:
-> > >=20
-> > > a) Ensure preinst functions execute with their dependencies installed.
-> > >    This is a pretty invasive change as it changes the package install
-> > >    ordering in general.
-> > > b) Ensure opkg sets $D, not $PKG_ROOT which we don't use
-> > > c) Change opkg to allow execution of postinstall functions which fail
-> > >    resulting in execution on the target device as rootfs_ipk.bbclass
-> > >    currently does manually.
-> > >=20
-> > > The remaining changes interface this with the rest of the OE build
-> > > infrastructure, adding in the option to tell opkg to run the preinst =
-and
-> > > postinst functions, ensure the correct environment is present for the
-> > > postinst scripts and removing the now unneeded rootfs_ipk class code
-> > > which opkg now does itself.
-> > >=20
-> > > [YOCTO #1711]
-> >=20
-> > Hi,
-> >=20
-> > today I got image build failing with this and it seems like some kind of
-> > circular dependency or something.
-> >=20
-> > In fsogsmd_git.bb we have:
-> > PACKAGES =3D+ "${PN}-connman ${PN}-connman-dev ${PN}-connman-dbg"
-> > RDEPENDS_${PN} +=3D "${PN}-connman"
-> >=20
-> > and there is also fsogsmd-connman dependency on fsogsmd (because of shl=
-ibs),
-> > so it's really circular dependency between runtime packages and new opk=
-g cannot
-> > deal with it.
-> >=20
-> > Then in log.do_rootfs
-> > Installing fsogsmd (1:0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc56d087c6=
-c528-r6.7) to root...
-> > Downloading file:/OE/shr-core/tmp-eglibc/deploy/ipk/qemuarm/fsogsmd_0.5=
-=2E0+gitr20+96698077b6ccd5fc1222e0b2b9fc56d087c6c528-r6.7_qemuarm.ipk.
-> > Installing fsogsmd-connman (1:0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc=
-56d087c6c528-r6.7) to root...
-> > Downloading file:/OE/shr-core/tmp-eglibc/deploy/ipk/qemuarm/fsogsmd-con=
-nman_0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc56d087c6c528-r6.7_qemuarm.ipk.
-> > Installing fsogsmd (1:0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc56d087c6=
-c528-r6.7) to root...
-> > Installing fsogsmd-connman (1:0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc=
-56d087c6c528-r6.7) to root...
-> > and then this last 2 lines 1794/2 times
-> > Installing fsogsmd (1:0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc56d087c6=
-c528-r6.7) to root...
-> > Installing fsogsmd-connman (1:0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc=
-56d087c6c528-r6.7) to root...
-> > Installing task-core-ssh-openssh (1.0-r0) to root...
-> > Downloading file:/OE/shr-core/tmp-eglibc/deploy/ipk/armv5te/task-core-s=
-sh-openssh_1.0-r0_armv5te.ipk.
-> > ...
-> > and in the end:
-> > ERROR: Function 'do_rootfs' failed (see /OE/shr-core/tmp-eglibc/work/qe=
-muarm-oe-linux-gnueabi/shr-lite-image/2.0-r20/temp/log.do_rootfs.20387 for =
-further information)
-> > Collected errors:
-> >  * gz_close: Unzip process killed by signal 11.
-> >=20
-> >  * pkg_get_installed_files: Error extracting file list from /tmp/opkg-T=
-7G08e/fsogsmd-connman_0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc56d087c6c528=
--r6.7_qemuarm.ipk.
-> >  * opkg_install_cmd: Cannot install package task-shr-minimal-apps.
-> >=20
-> > Reverting this patch and rebuilding opkg before running image build hel=
-ps.
-> >=20
-> > I'll try to upgrade only opkg without your patches first, but I guess i=
-t's
-> > because of fix_installorder.patch, can we teach it to break circular de=
-pendencies
-> > or should I fix it in metadata? It seem that longer cycles like
-> >=20
-> > fsogsmd-config -> fsogsmd-module-modem-ti-calypso -> fsogsmd -> fsogsmd=
--config
-> >=20
-> > does work.
->=20
-> This is likely as a result of the installorder patch :/. Sadly if we
-> want the postinstalls to be installed in order we do need that patch.
+This changes the code to remap _${PN} in both expanded and unexpanded
+forms. We use the unexpanded form since d.expandkeys() has not been called 
+at the point this code executes. Remapping the expanded form is belt and braces
+to cover any case where the unexpanded key form may not be present.
 
-I've tried to build image with SRCREV=3D633 and it built image fine
-then I tried to apply your patch but without installorder.patch to
-confirm that the issue with circular depending packages is really cause
-by that only and then try to fix installorder.patch to work even with
-such packages, but I got many postinst errors :(.=20
+As a result of this, various surprising dependencies are uncovered
+and the patch rectifies those. These are real bugs since they're injecting
+unneeded (unremapped) dependencies into the dependency chain. Workarounds
+for this kind of problem in autoconf are removed.
 
-=46rom your description I understood that postinst execution should be
-almost the same only more logic is moved from rootfs_ipk.bbclass to opkg
-itself.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+index 49823d6..00196ba 100644
+--- a/meta/classes/native.bbclass
++++ b/meta/classes/native.bbclass
+@@ -127,7 +127,7 @@ python native_virtclass_handler () {
+         d.setVar(varname, " ".join(newdeps))
+ 
+     map_dependencies("DEPENDS", e.data)
+-    for pkg in (e.data.getVar("PACKAGES", True).split() + [""]):
++    for pkg in [e.data.getVar("PN", True), "", "${PN}"]:
+         map_dependencies("RDEPENDS", e.data, pkg)
+         map_dependencies("RRECOMMENDS", e.data, pkg)
+         map_dependencies("RSUGGESTS", e.data, pkg)
+diff --git a/meta/recipes-devtools/autoconf/autoconf.inc b/meta/recipes-devtools/autoconf/autoconf.inc
+index 08a1b02..1d0cf90 100644
+--- a/meta/recipes-devtools/autoconf/autoconf.inc
++++ b/meta/recipes-devtools/autoconf/autoconf.inc
+@@ -6,6 +6,8 @@ LICENSE = "GPLv3"
+ HOMEPAGE = "http://www.gnu.org/software/autoconf/"
+ SECTION = "devel"
+ DEPENDS += "m4-native"
++DEPENDS_virtclass-native = "m4-native gnu-config-native"
++DEPENDS_virtclass-nativesdk = "m4-nativesdk gnu-config-nativesdk"
+ RDEPENDS_${PN} = "m4 gnu-config"
+ 
+ SRC_URI = "${GNU_MIRROR}/autoconf/autoconf-${PV}.tar.bz2 \
+diff --git a/meta/recipes-devtools/autoconf/autoconf_2.68.bb b/meta/recipes-devtools/autoconf/autoconf_2.68.bb
+index 9028e83..84eb182 100644
+--- a/meta/recipes-devtools/autoconf/autoconf_2.68.bb
++++ b/meta/recipes-devtools/autoconf/autoconf_2.68.bb
+@@ -4,8 +4,6 @@ PR = "r4"
+ 
+ PARALLEL_MAKE = ""
+ 
+-DEPENDS += "m4-native"
+-RDEPENDS_${PN} = "m4 gnu-config"
+ LICENSE = "GPLv2 & GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+ 		    file://COPYINGv3;md5=d32239bcb673463ab874e80d47fae504"
+@@ -22,12 +20,6 @@ SRC_URI += "file://autoreconf-include.patch \
+ SRC_URI[md5sum] = "864d785215aa60d627c91fcb21b05b07"
+ SRC_URI[sha256sum] = "c491fb273fd6d4ca925e26ceed3d177920233c76d542b150ff35e571454332c8"
+ 
+-DEPENDS_virtclass-native = "m4-native gnu-config-native"
+-RDEPENDS_${PN}_virtclass-native = "m4-native gnu-config-native"
+-
+-DEPENDS_virtclass-nativesdk = "m4-nativesdk gnu-config-nativesdk"
+-RDEPENDS_${PN}_virtclass-nativesdk = "m4-nativesdk gnu-config-nativesdk"
+-
+ SRC_URI_append_virtclass-native = " file://fix_path_xtra.patch"
+ 
+ EXTRA_OECONF += "ac_cv_path_M4=m4"
+diff --git a/meta/recipes-devtools/automake/automake_1.11.1.bb b/meta/recipes-devtools/automake/automake_1.11.1.bb
+index ff8353f..6bffecf 100644
+--- a/meta/recipes-devtools/automake/automake_1.11.1.bb
++++ b/meta/recipes-devtools/automake/automake_1.11.1.bb
+@@ -3,7 +3,7 @@ LICENSE="GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe" 
+ DEPENDS_virtclass-native = "autoconf-native"
+ 
+-RDEPENDS_automake += "\
++RDEPENDS_${PN} += "\
+     autoconf \
+     perl \
+     perl-module-bytes \
+@@ -27,7 +27,7 @@ RDEPENDS_automake += "\
+     perl-module-text-parsewords \
+     perl-module-vars "
+ 
+-RDEPENDS_automake-native = "autoconf-native perl-native-runtime"
++RDEPENDS_${PN}_virtclass-native = "autoconf-native perl-native-runtime"
+ 
+ PATHFIXPATCH = "file://path_prog_fixes.patch"
+ PATHFIXPATCH_virtclass-native = ""
+diff --git a/meta/recipes-devtools/python/python-native_2.7.2.bb b/meta/recipes-devtools/python/python-native_2.7.2.bb
+index d036eca..10bfa6c 100644
+--- a/meta/recipes-devtools/python/python-native_2.7.2.bb
++++ b/meta/recipes-devtools/python/python-native_2.7.2.bb
+@@ -16,6 +16,8 @@ S = "${WORKDIR}/Python-${PV}"
+ 
+ inherit native
+ 
++RPROVIDES += "python-distutils-native python-compression-native python-textutils-native"
++
+ EXTRA_OEMAKE = '\
+   BUILD_SYS="" \
+   HOST_SYS="" \
+diff --git a/meta/recipes-gnome/gnome/gconf_3.2.3.bb b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
+index 9d327fc..f7d3594 100644
+--- a/meta/recipes-gnome/gnome/gconf_3.2.3.bb
++++ b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
+@@ -39,6 +39,7 @@ do_install_append() {
+ 
+ # disable dbus-x11 when x11 isn't in DISTRO_FEATURES
+ RDEPENDS_${PN} += "${@base_contains('DISTRO_FEATURES', 'x11', 'dbus-x11', '', d)}"
++RDEPENDS_${PN}_virtclass-native = ""
+ 
+ FILES_${PN} += "${libdir}/GConf/* \
+ 	        ${libdir}/gio/*/*.so \
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index aa577b3..fc417c9 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -74,6 +74,7 @@ FILES_${PN}-dev = "${includedir} ${libdir}/libboost_*.so ${libdir}/libboost_*.a"
+ # "boost" is a metapackage which pulls in all boost librabries
+ PACKAGES += "${PN}"
+ RRECOMMENDS_${PN} += "${BOOST_PACKAGES}"
++RRECOMMENDS_${PN}_virtclass-native = ""
+ ALLOW_EMPTY_${PN} = "1"
+ 
+ # to avoid GNU_HASH QA errors added LDFLAGS to ARCH; a little bit dirty but at least it works
 
-| Collected errors:
-|  * pkg_run_script: package "pam-plugin-unix" postinst script returned sta=
-tus 1.
-|  * opkg_configure: pam-plugin-unix.postinst returned 1.
-|  * pkg_run_script: package "pango-module-basic-x" postinst script returne=
-d status 1.
-|  * opkg_configure: pango-module-basic-x.postinst returned 1.
-|  * pkg_run_script: package "pango-module-basic-fc" postinst script return=
-ed status 1.
-|  * opkg_configure: pango-module-basic-fc.postinst returned 1.
-|  * pkg_run_script: package "update-modules" postinst script returned stat=
-us 1.
-|  * opkg_configure: update-modules.postinst returned 1.
-|  * pkg_run_script: package "gdk-pixbuf-loader-png" postinst script return=
-ed status 1.
-|  * opkg_configure: gdk-pixbuf-loader-png.postinst returned 1.
-|  * pkg_run_script: package "gdk-pixbuf-loader-jpeg" postinst script retur=
-ned status 1.
-|  * opkg_configure: gdk-pixbuf-loader-jpeg.postinst returned 1.
-|  * pkg_run_script: package "liberation-fonts" postinst script returned st=
-atus 1.
-|  * opkg_configure: liberation-fonts.postinst returned 1.
-|  * pkg_run_script: package "gdk-pixbuf-loader-xpm" postinst script return=
-ed status 1.
-|  * opkg_configure: gdk-pixbuf-loader-xpm.postinst returned 1.
-|  * pkg_run_script: package "gdk-pixbuf-loader-gif" postinst script return=
-ed status 1.
-|  * opkg_configure: gdk-pixbuf-loader-gif.postinst returned 1.
-|  * pkg_run_script: package "ppp" postinst script returned status 1.
-|  * opkg_configure: ppp.postinst returned 1.
-|  * pkg_run_script: package "ttf-dejavu-common" postinst script returned s=
-tatus 127.
-|  * opkg_configure: ttf-dejavu-common.postinst returned 127.
-|  * pkg_run_script: package "ttf-dejavu-sans" postinst script returned sta=
-tus 127.
-|  * opkg_configure: ttf-dejavu-sans.postinst returned 127.
-|  * pkg_run_script: package "ffalarms" postinst script returned status 127.
-|  * opkg_configure: ffalarms.postinst returned 127.
-|  * pkg_run_script: package "rsyslog" postinst script returned status 1.
-|  * opkg_configure: rsyslog.postinst returned 1.
-|  * pkg_run_script: package "ttf-dejavu-sans-mono" postinst script returne=
-d status 127.
-|  * opkg_configure: ttf-dejavu-sans-mono.postinst returned 127.
-|  * pkg_run_script: package "matchbox-keyboard-im" postinst script returne=
-d status 1.
-|  * opkg_configure: matchbox-keyboard-im.postinst returned 1.
-|  * pkg_run_script: package "hicolor-icon-theme" postinst script returned =
-status 1.
-|  * opkg_configure: hicolor-icon-theme.postinst returned 1.
-|  * pkg_run_script: packaERROR: Function 'do_rootfs' failed (see /OE/shr-c=
-ore/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/shr-l
-ite-image/2.0-r20/temp/log.do_rootfs.10063 for further information)
-| ge "ttf-liberation-mono" postinst script returned status 127.
-|  * opkg_configure: ttf-liberation-mono.postinst returned 127.
-|  * pkg_run_script: package "gtk-immodule-xim" postinst script returned st=
-atus 1.
-|  * opkg_configure: gtk-immodule-xim.postinst returned 1.
-|  * pkg_run_script: package "ca-certificates" postinst script returned sta=
-tus 1.
-|  * opkg_configure: ca-certificates.postinst returned 1.
-NOTE: package shr-lite-image-2.0-r20: task do_rootfs: Failed
-ERROR: Task 9 (/OE/shr-core/meta-smartphone/meta-shr/recipes-shr/images/shr=
--lite-image.bb, do_rootfs) failed with exit code '
-1'
 
-> The question is whether circular depends are something opkg should
-> support or not? What's debian's behaviour in that regard?
 
-Well, it did work before and from quick search it looks that such circular =
-dependencies are=20
-quite common in our metadata. So I agree that this patch is really needed t=
-o fix dbus owner,
-but in case there is circular dependency we shouldn't be so strict about or=
-der of installs.
 
-Regards,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---Y/WcH0a6A93yCHGr
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk7sXukACgkQN1Ujt2V2gBzG0QCfQV5ZQS1udIDKdUte6bTTHUnh
-MzcAoKwj8EndQHqeWqlm7k5NAGhJSFdN
-=mq4P
------END PGP SIGNATURE-----
-
---Y/WcH0a6A93yCHGr--
