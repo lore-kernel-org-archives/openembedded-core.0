@@ -1,33 +1,32 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RbjCV-0002DD-0H for openembedded-core@lists.openembedded.org;
-	Sat, 17 Dec 2011 02:36:39 +0100
+	id 1RbjFQ-0002Hy-Md for openembedded-core@lists.openembedded.org;
+	Sat, 17 Dec 2011 02:39:37 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBH1TZ5d025141;
-	Sat, 17 Dec 2011 01:29:35 GMT
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBH1WaJd025201;
+	Sat, 17 Dec 2011 01:32:36 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 24494-04; Sat, 17 Dec 2011 01:29:31 +0000 (GMT)
+	id 24494-05; Sat, 17 Dec 2011 01:32:31 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBH1TRRR025135
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBH1WS6b025195
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Sat, 17 Dec 2011 01:29:28 GMT
-Message-ID: <1324085367.4568.119.camel@ted>
+	Sat, 17 Dec 2011 01:32:29 GMT
+Message-ID: <1324085548.4568.121.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Sat, 17 Dec 2011 01:29:27 +0000
-In-Reply-To: <4EEBD57F.6030903@linux.intel.com>
-References: <4EEB8E58.3030806@linux.intel.com>
-	<59473640-1B02-42F9-A44D-6747552F80DE@dominion.thruhere.net>
-	<4EEBD245.5060103@linux.intel.com> <4EEBD57F.6030903@linux.intel.com>
+Date: Sat, 17 Dec 2011 01:32:28 +0000
+In-Reply-To: <20111217011658.GE3997@jama.jama.net>
+References: <1323983329.4568.63.camel@ted>
+	<20111217011658.GE3997@jama.jama.net>
 X-Mailer: Evolution 3.2.1- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: Can we drop eglibc-utils from LIBC_DEPENDENCIES?
+Cc: Graham Gower <graham.gower@gmail.com>
+Subject: Re: opkg: Update svn 625 -> 633 and fix preinst issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,134 +41,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Dec 2011 01:36:39 -0000
+X-List-Received-Date: Sat, 17 Dec 2011 01:39:37 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-12-16 at 15:34 -0800, Darren Hart wrote:
+On Sat, 2011-12-17 at 02:16 +0100, Martin Jansa wrote:
+> On Thu, Dec 15, 2011 at 09:08:49PM +0000, Richard Purdie wrote:
+> > There is a major issue with opkg images at the moment as preinst
+> > functions are not being executed before their dependencies are installed
+> > and this is leading to corruption of images containing avahi/dbus in
+> > particular.
+> > 
+> > There are various changes in upstream opkg in the last 8 revisions which
+> > make changes in this area but sadly these aren't enough to get things
+> > working for us. I've updated to the latest svn revision with this patch
+> > since it makes sense to pull in those changes first and then supplement
+> > them with the attached patches.
+> > 
+> > There is a full description of the patches in the patch headers but in
+> > summary they:
+> > 
+> > a) Ensure preinst functions execute with their dependencies installed.
+> >    This is a pretty invasive change as it changes the package install
+> >    ordering in general.
+> > b) Ensure opkg sets $D, not $PKG_ROOT which we don't use
+> > c) Change opkg to allow execution of postinstall functions which fail
+> >    resulting in execution on the target device as rootfs_ipk.bbclass
+> >    currently does manually.
+> > 
+> > The remaining changes interface this with the rest of the OE build
+> > infrastructure, adding in the option to tell opkg to run the preinst and
+> > postinst functions, ensure the correct environment is present for the
+> > postinst scripts and removing the now unneeded rootfs_ipk class code
+> > which opkg now does itself.
+> > 
+> > [YOCTO #1711]
 > 
-> On 12/16/2011 03:20 PM, Darren Hart wrote:
-> > 
-> > 
-> > On 12/16/2011 01:07 PM, Koen Kooi wrote:
-> >>
-> >> Op 16 dec. 2011, om 19:30 heeft Darren Hart het volgende geschreven:
-> >>
-> >>> I'm working on a minimal distro definition, and found that eglibc-utils
-> >>> pulls in bash (needed for tzconfig and xtrace apparently)
-> >>
-> >> My first thought is: fix the bashisms in those scripts, I bet ubuntu/fedora/arch/gentoo have patches for that,
-> > 
-> > 
-> > Agreed, this would be a good thing to do. However, I still shouldn't
-> > need to include this in a "tiny" distribution.
-> > 
-> > 
-> >>> which pulls in
-> >>> gettext, which requires wchar support. I'd like to remove eglibc-utils
-> >>> from my distro definition. I could override the default I suspect, but I
-> >>> wonder if eglibc-utils should be made an optional package that distro
-> >>> definitions, images, or users should specifically add if needed?
-> >>>
-> >>> The relevant bit of code appears to be:
-> >>>
-> >>> meta/conf/distro/include/tclibc-eglibc.inc
-> >>>
-> >>> LIBC_DEPENDENCIES = "libsegfault \
-> >>> 		     eglibc \
-> >>>    		     eglibc-dbg \
-> >>>    		     eglibc-dev \
-> >>>    		     eglibc-utils \
-> >>>    		     eglibc-thread-db \
-> >>>    		     eglibc-localedata-i18n \
-> >>>    		     eglibc-gconv-ibm850 \
-> >>>    		     eglibc-gconv-cp1252 \
-> >>>    		     eglibc-gconv-iso8859-1 \
-> >>>    		     eglibc-gconv-iso8859-15 \
-> >>>    		     locale-base-en-us \
-> >>>    		     locale-base-en-gb "
-> >>>
-> >>> eglibc-dbg and eglibc-dev also seem like they could be made optional.
-> >>>
-> >>> Thoughts? Would anyone object to me removing at least eglibc-utils from
-> >>> LIBC_DEPENDENCIES?
-> >>
-> >> I did a little digging:
-> >>
-> >> koen@dominion:/OE/tentacle/sources/openembedded-core$ git grep LIBC_DEPENDENCIES
-> >> meta/conf/distro/include/tclibc-eglibc.inc:LIBC_DEPENDENCIES = "libsegfault \
-> >> meta/conf/distro/include/tclibc-uclibc.inc:LIBC_DEPENDENCIES = "\
-> >> meta/recipes-core/tasks/task-core-nfs.bb:GLIBC_DEPENDENCIES = "glibc-utils"
-> >> meta/recipes-core/tasks/task-core-nfs.bb:RRECOMMENDS_task-core-nfs-server_append_libc-glibc = " ${GLIBC_DEPENDENCIES}"
-> >> meta/recipes-core/tasks/task-core-standalone-sdk-target.bb:    ${LIBC_DEPENDENCIES} \
-> >>
-> >> So it's only used for debug and/or SDK uses. I am going to argue that if you're going to support debug and SDK you're not minimal anymore and can live with bash/gettext/etc.
-> > 
-> > Well, nfs isn't SDK only, there are valid deployment uses for that. But
-> > otherwise, agreed.
-> > 
-> >>
-> >> Since I was bored I dug up an OE-classic:
-> >>
-> >> koen@dominion:/OE/org.openembedded.dev$ git blame  recipes/tasks/task-sdk-bare.bb
-> >> 749310c7 packages/tasks/task-sdk-bare.bb (Koen Kooi 2008-07-07 21:24:38 +0000  1) DESCRIPTION = "Packages for a standalone  SDK or external toolchain"
-> >> [..]
-> >> 9bff47f7 packages/tasks/task-sdk-bare.bb (Tom Rini  2008-11-26 13:16:21 -0500  8) GLIBC_PKGS = "\
-> >> 749310c7 packages/tasks/task-sdk-bare.bb (Koen Kooi 2008-07-07 21:24:38 +0000  9)     glibc \
-> >> 749310c7 packages/tasks/task-sdk-bare.bb (Koen Kooi 2008-07-07 21:24:38 +0000 10)     glibc-dbg \
-> >> 86fa8521 packages/tasks/task-sdk-bare.bb (Tom Rini  2009-02-04 02:07:47 -0500 11)     virtual-libc-dev \
-> >> 749310c7 packages/tasks/task-sdk-bare.bb (Koen Kooi 2008-07-07 21:24:38 +0000 12)     glibc-utils \
-> >> 749310c7 packages/tasks/task-sdk-bare.bb (Koen Kooi 2008-07-07 21:24:38 +0000 13)     libsegfault \
-> >> 749310c7 packages/tasks/task-sdk-bare.bb (Koen Kooi 2008-07-07 21:24:38 +0000 14)     glibc-thread-db \
-> >> f18a05e2 recipes/tasks/task-sdk-bare.bb  (Tom Rini  2010-02-09 16:43:45 -0700 15) "
-> >> 9bff47f7 packages/tasks/task-sdk-bare.bb (Tom Rini  2008-11-26 13:16:21 -0500 16) 
-> >> edd3a1de recipes/tasks/task-sdk-bare.bb  (Tom Rini  2011-01-18 17:56:52 -0700 17) LIBC_PKGS_libc-glibc = "${GLIBC_PKGS}"
-> >> edd3a1de recipes/tasks/task-sdk-bare.bb  (Tom Rini  2011-01-18 17:56:52 -0700 18) LIBC_PKGS_libc-uclibc = "uclibc uclibc-dev uclibc-thread-db"
-> > 
-> > Was this list used in the same way as LIBC_DEPENDENCIES above?
-> > 
-> >>
-> >> So a few years ago that list of packages was only meant for SDK usage.
-> >>
-> >> If you meant GLIBC_DEPENDENCIES (note the extra 'G'), then you need
-> >> to
-> >> check if they are still needed for NFS operation. If so I am going to
-> >> argue that the dependencies should move to the recipes in question
-> >> instead of hiding in the task.
-> > 
-> > Right, that makes sense.
-> > 
-> >> If it's just a convenience package go
-> >> ahead and remove it, people wanting it can create a new task :)
-> > 
-> > Agreed as well.
-> > 
-> > I ran into an interesting issue. If I remove eglibc-utils from
-> > LIBC_DEPENDENCIES, it still seems to be getting pulled in, as do bash
-> > and gettext. Still digging to sort out why...
+> Hi,
 > 
-> It would appear that removing it from LIBC_DEPENDENCIES prevents it from
-> being installed, but it is still built and, worse, so are all of it's
-> RDEPENDS, which pull in bash and gettext and then break on a small libc
-> with no widechar support.
+> today I got image build failing with this and it seems like some kind of
+> circular dependency or something.
 > 
-> So, is it correct behavior to build RDEPENDS for packages that will not
-> be installed?
+> In fsogsmd_git.bb we have:
+> PACKAGES =+ "${PN}-connman ${PN}-connman-dev ${PN}-connman-dbg"
+> RDEPENDS_${PN} += "${PN}-connman"
 > 
-> If so, I gather my fix is to remove eglibc-utils from the packages
-> generated by the eglibc recipe when building with my tiny distro?
+> and there is also fsogsmd-connman dependency on fsogsmd (because of shlibs),
+> so it's really circular dependency between runtime packages and new opkg cannot
+> deal with it.
+> 
+> Then in log.do_rootfs
+> Installing fsogsmd (1:0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc56d087c6c528-r6.7) to root...
+> Downloading file:/OE/shr-core/tmp-eglibc/deploy/ipk/qemuarm/fsogsmd_0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc56d087c6c528-r6.7_qemuarm.ipk.
+> Installing fsogsmd-connman (1:0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc56d087c6c528-r6.7) to root...
+> Downloading file:/OE/shr-core/tmp-eglibc/deploy/ipk/qemuarm/fsogsmd-connman_0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc56d087c6c528-r6.7_qemuarm.ipk.
+> Installing fsogsmd (1:0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc56d087c6c528-r6.7) to root...
+> Installing fsogsmd-connman (1:0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc56d087c6c528-r6.7) to root...
+> and then this last 2 lines 1794/2 times
+> Installing fsogsmd (1:0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc56d087c6c528-r6.7) to root...
+> Installing fsogsmd-connman (1:0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc56d087c6c528-r6.7) to root...
+> Installing task-core-ssh-openssh (1.0-r0) to root...
+> Downloading file:/OE/shr-core/tmp-eglibc/deploy/ipk/armv5te/task-core-ssh-openssh_1.0-r0_armv5te.ipk.
+> ...
+> and in the end:
+> ERROR: Function 'do_rootfs' failed (see /OE/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/shr-lite-image/2.0-r20/temp/log.do_rootfs.20387 for further information)
+> Collected errors:
+>  * gz_close: Unzip process killed by signal 11.
+> 
+>  * pkg_get_installed_files: Error extracting file list from /tmp/opkg-T7G08e/fsogsmd-connman_0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc56d087c6c528-r6.7_qemuarm.ipk.
+>  * opkg_install_cmd: Cannot install package task-shr-minimal-apps.
+> 
+> Reverting this patch and rebuilding opkg before running image build helps.
+> 
+> I'll try to upgrade only opkg without your patches first, but I guess it's
+> because of fix_installorder.patch, can we teach it to break circular dependencies
+> or should I fix it in metadata? It seem that longer cycles like
+> 
+> fsogsmd-config -> fsogsmd-module-modem-ti-calypso -> fsogsmd -> fsogsmd-config
+> 
+> does work.
 
-What I suspect you're seeing is something like a recipe which does:
+This is likely as a result of the installorder patch :/. Sadly if we
+want the postinstalls to be installed in order we do need that patch.
 
-PACKAGES = "A B"
-RDEPENDS_A = "1 2 3"
-RDEPENDS_B = "2 3 4"
-
-and that you're using A but not B. Since the build system needs to build
-A and B at the same time as they're part of the same recipe, it will
-build 1-4. It won't necessarily install them.
-
-Usually, if this is causing conflict we'd split the recipe up.
+The question is whether circular depends are something opkg should
+support or not? What's debian's behaviour in that regard?
 
 Cheers,
 
