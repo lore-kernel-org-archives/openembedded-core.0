@@ -1,32 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RbjFQ-0002Hy-Md for openembedded-core@lists.openembedded.org;
-	Sat, 17 Dec 2011 02:39:37 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBH1WaJd025201;
-	Sat, 17 Dec 2011 01:32:36 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 24494-05; Sat, 17 Dec 2011 01:32:31 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBH1WS6b025195
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Sat, 17 Dec 2011 01:32:29 GMT
-Message-ID: <1324085548.4568.121.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Sat, 17 Dec 2011 01:32:28 +0000
-In-Reply-To: <20111217011658.GE3997@jama.jama.net>
-References: <1323983329.4568.63.camel@ted>
-	<20111217011658.GE3997@jama.jama.net>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Graham Gower <graham.gower@gmail.com>
-Subject: Re: opkg: Update svn 625 -> 633 and fix preinst issues
+Received: from mailout-de.gmx.net ([213.165.64.23])
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <schnitzeltony@gmx.de>) id 1Rbjdn-0003dx-UP
+	for openembedded-core@lists.openembedded.org;
+	Sat, 17 Dec 2011 03:04:52 +0100
+Received: (qmail invoked by alias); 17 Dec 2011 01:57:48 -0000
+Received: from p4FDF1017.dip.t-dialin.net (EHLO localhost.localdomain)
+	[79.223.16.23]
+	by mail.gmx.net (mp023) with SMTP; 17 Dec 2011 02:57:48 +0100
+X-Authenticated: #62780362
+X-Provags-ID: V01U2FsdGVkX1/+DaQ2q27+ZSG/OWBx0KhEXt8SveqdSsEb7UTe6B
+	2klORgQ7nW08/H
+From: Andreas =?iso-8859-1?q?M=FCller?= <schnitzeltony@gmx.de>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 17 Dec 2011 02:58:09 +0100
+User-Agent: KMail/1.13.7 (Linux/2.6.35.14-106.fc14.x86_64; KDE/4.6.5; x86_64; ;
+	)
+MIME-Version: 1.0
+Message-Id: <201112170258.10212.schnitzeltony@gmx.de>
+X-Y-GMX-Trusted: 0
+Subject: require *.bbappend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,96 +33,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Dec 2011 01:39:37 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 17 Dec 2011 02:04:53 -0000
+Content-Type: Text/Plain;
+  charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Sat, 2011-12-17 at 02:16 +0100, Martin Jansa wrote:
-> On Thu, Dec 15, 2011 at 09:08:49PM +0000, Richard Purdie wrote:
-> > There is a major issue with opkg images at the moment as preinst
-> > functions are not being executed before their dependencies are installed
-> > and this is leading to corruption of images containing avahi/dbus in
-> > particular.
-> > 
-> > There are various changes in upstream opkg in the last 8 revisions which
-> > make changes in this area but sadly these aren't enough to get things
-> > working for us. I've updated to the latest svn revision with this patch
-> > since it makes sense to pull in those changes first and then supplement
-> > them with the attached patches.
-> > 
-> > There is a full description of the patches in the patch headers but in
-> > summary they:
-> > 
-> > a) Ensure preinst functions execute with their dependencies installed.
-> >    This is a pretty invasive change as it changes the package install
-> >    ordering in general.
-> > b) Ensure opkg sets $D, not $PKG_ROOT which we don't use
-> > c) Change opkg to allow execution of postinstall functions which fail
-> >    resulting in execution on the target device as rootfs_ipk.bbclass
-> >    currently does manually.
-> > 
-> > The remaining changes interface this with the rest of the OE build
-> > infrastructure, adding in the option to tell opkg to run the preinst and
-> > postinst functions, ensure the correct environment is present for the
-> > postinst scripts and removing the now unneeded rootfs_ipk class code
-> > which opkg now does itself.
-> > 
-> > [YOCTO #1711]
-> 
-> Hi,
-> 
-> today I got image build failing with this and it seems like some kind of
-> circular dependency or something.
-> 
-> In fsogsmd_git.bb we have:
-> PACKAGES =+ "${PN}-connman ${PN}-connman-dev ${PN}-connman-dbg"
-> RDEPENDS_${PN} += "${PN}-connman"
-> 
-> and there is also fsogsmd-connman dependency on fsogsmd (because of shlibs),
-> so it's really circular dependency between runtime packages and new opkg cannot
-> deal with it.
-> 
-> Then in log.do_rootfs
-> Installing fsogsmd (1:0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc56d087c6c528-r6.7) to root...
-> Downloading file:/OE/shr-core/tmp-eglibc/deploy/ipk/qemuarm/fsogsmd_0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc56d087c6c528-r6.7_qemuarm.ipk.
-> Installing fsogsmd-connman (1:0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc56d087c6c528-r6.7) to root...
-> Downloading file:/OE/shr-core/tmp-eglibc/deploy/ipk/qemuarm/fsogsmd-connman_0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc56d087c6c528-r6.7_qemuarm.ipk.
-> Installing fsogsmd (1:0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc56d087c6c528-r6.7) to root...
-> Installing fsogsmd-connman (1:0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc56d087c6c528-r6.7) to root...
-> and then this last 2 lines 1794/2 times
-> Installing fsogsmd (1:0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc56d087c6c528-r6.7) to root...
-> Installing fsogsmd-connman (1:0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc56d087c6c528-r6.7) to root...
-> Installing task-core-ssh-openssh (1.0-r0) to root...
-> Downloading file:/OE/shr-core/tmp-eglibc/deploy/ipk/armv5te/task-core-ssh-openssh_1.0-r0_armv5te.ipk.
-> ...
-> and in the end:
-> ERROR: Function 'do_rootfs' failed (see /OE/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/shr-lite-image/2.0-r20/temp/log.do_rootfs.20387 for further information)
-> Collected errors:
->  * gz_close: Unzip process killed by signal 11.
-> 
->  * pkg_get_installed_files: Error extracting file list from /tmp/opkg-T7G08e/fsogsmd-connman_0.5.0+gitr20+96698077b6ccd5fc1222e0b2b9fc56d087c6c528-r6.7_qemuarm.ipk.
->  * opkg_install_cmd: Cannot install package task-shr-minimal-apps.
-> 
-> Reverting this patch and rebuilding opkg before running image build helps.
-> 
-> I'll try to upgrade only opkg without your patches first, but I guess it's
-> because of fix_installorder.patch, can we teach it to break circular dependencies
-> or should I fix it in metadata? It seem that longer cycles like
-> 
-> fsogsmd-config -> fsogsmd-module-modem-ti-calypso -> fsogsmd -> fsogsmd-config
-> 
-> does work.
+Hi
 
-This is likely as a result of the installorder patch :/. Sadly if we
-want the postinstalls to be installed in order we do need that patch.
+I have the following use case:
 
-The question is whether circular depends are something opkg should
-support or not? What's debian's behaviour in that regard?
+In my working layer I would like to have a recipe adding functionality to a 
+recipe from another layer (e.g systemd-image.bb from angstrom) with a different 
+name ( -> no bbappend ). How about
 
-Cheers,
+* create systemd-image.bbapend with just 'FILESEXTRAPATHS := "${THISDIR}"' to 
+get it into the scope of my layer
+* create a recipe  which contains 'require systemd-image.bbappend'
 
-Richard
+Currently parser complains that systemd-image.bbappend is not a BitBake file. 
 
+Would a modification be possible or is there another way to solve?
 
+Andreas
 
 
