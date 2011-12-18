@@ -1,28 +1,37 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RcQfj-0007mo-CR for openembedded-core@lists.openembedded.org;
-	Mon, 19 Dec 2011 01:01:40 +0100
+	id 1RcQkn-0007ty-BT for openembedded-core@lists.openembedded.org;
+	Mon, 19 Dec 2011 01:06:53 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBINsbZL008556;
-	Sun, 18 Dec 2011 23:54:37 GMT
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBINxqrC008617
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 18 Dec 2011 23:59:52 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 06963-06; Sun, 18 Dec 2011 23:54:33 +0000 (GMT)
+	id 06963-07 for <openembedded-core@lists.openembedded.org>;
+	Sun, 18 Dec 2011 23:59:48 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBINsTj8008550
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Sun, 18 Dec 2011 23:54:30 GMT
-Message-ID: <1324252470.4568.156.camel@ted>
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBINxgZM008611
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 18 Dec 2011 23:59:43 GMT
+Message-ID: <1324252783.4568.159.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 18 Dec 2011 23:54:30 +0000
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Sun, 18 Dec 2011 23:59:43 +0000
+In-Reply-To: <201112181244.47897.schnitzeltony@gmx.de>
+References: <1323983329.4568.63.camel@ted> <1324122745.4568.136.camel@ted>
+	<20111218110042.GK3997@jama.jama.net>
+	<201112181244.47897.schnitzeltony@gmx.de>
 X-Mailer: Evolution 3.2.1- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: "graham.gower" <graham.gower@gmail.com>
-Subject: [PATCH] opkg: Add logic to detect and creak circular dependencies
+X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
+	pBINxqrC008617
+Subject: Re: opkg: Update svn 625 -> 633 and fix preinst issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,141 +46,226 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2011 00:01:41 -0000
+X-List-Received-Date: Mon, 19 Dec 2011 00:06:53 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-This addresses some of the concerns about the previous opkg changes
-allowing it to break out of circular dependency loops with just a notice
-in the logs rather than effectively going OOM.
-    
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+On Sun, 2011-12-18 at 12:44 +0100, Andreas M=C3=BCller wrote:
+> On Sunday, December 18, 2011 12:00:42 PM Martin Jansa wrote:
+> > On Sat, Dec 17, 2011 at 11:52:25AM +0000, Richard Purdie wrote:
+> > > On Sat, 2011-12-17 at 11:34 +0100, Martin Jansa wrote:
+> > > > On Sat, Dec 17, 2011 at 10:22:01AM +0000, Richard Purdie wrote:
+> > > > > On Sat, 2011-12-17 at 10:20 +0100, Martin Jansa wrote:
+> > > > > > On Sat, Dec 17, 2011 at 01:32:28AM +0000, Richard Purdie wrot=
+e:
+> > > > > > I've tried to build image with SRCREV=3D633 and it built imag=
+e fine
+> > > > > > then I tried to apply your patch but without installorder.pat=
+ch to
+> > > > > > confirm that the issue with circular depending packages is re=
+ally
+> > > > > > cause by that only and then try to fix installorder.patch to =
+work
+> > > > > > even with such packages, but I got many postinst errors :(.
+> > > > > >=20
+> > > > > > From your description I understood that postinst execution sh=
+ould
+> > > > > > be almost the same only more logic is moved from
+> > > > > > rootfs_ipk.bbclass to opkg itself.
+> > > > > >=20
+> > > > > > | Collected errors:
+> > > > > > |  * pkg_run_script: package "pam-plugin-unix" postinst scrip=
+t
+> > > > > > |  returned status 1. * opkg_configure: pam-plugin-unix.posti=
+nst
+> > > > > > |  returned 1.
+> > > > > > |  * pkg_run_script: package "pango-module-basic-x" postinst =
+script
+> > > > > > |  returned status 1. * opkg_configure:
+> > > > > > |  pango-module-basic-x.postinst returned 1. * pkg_run_script=
+:
+> > > > > > |  package "pango-module-basic-fc" postinst script returned s=
+tatus
+> > > > > > |  1. * opkg_configure: pango-module-basic-fc.postinst return=
+ed 1.
+> > > > > > |  * pkg_run_script: package "update-modules" postinst script
+> > > > > > |  returned status 1. * opkg_configure: update-modules.postin=
+st
+> > > > > > |  returned 1.
+> > > > > > |  * pkg_run_script: package "gdk-pixbuf-loader-png" postinst
+> > > > > > |  script returned status 1. * opkg_configure:
+> > > > > > |  gdk-pixbuf-loader-png.postinst returned 1. * pkg_run_scrip=
+t:
+> > > > > > |  package "gdk-pixbuf-loader-jpeg" postinst script returned
+> > > > > > |  status 1. * opkg_configure: gdk-pixbuf-loader-jpeg.postins=
+t
+> > > > > > |  returned 1. * pkg_run_script: package "liberation-fonts"
+> > > > > > |  postinst script returned status 1. * opkg_configure:
+> > > > > > |  liberation-fonts.postinst returned 1. * pkg_run_script: pa=
+ckage
+> > > > > > |  "gdk-pixbuf-loader-xpm" postinst script returned status 1.=
+ *
+> > > > > > |  opkg_configure: gdk-pixbuf-loader-xpm.postinst returned 1.=
+ *
+> > > > > > |  pkg_run_script: package "gdk-pixbuf-loader-gif" postinst s=
+cript
+> > > > > > |  returned status 1. * opkg_configure:
+> > > > > > |  gdk-pixbuf-loader-gif.postinst returned 1. * pkg_run_scrip=
+t:
+> > > > > > |  package "ppp" postinst script returned status 1. *
+> > > > > > |  opkg_configure: ppp.postinst returned 1.
+> > > > > > |  * pkg_run_script: package "ttf-dejavu-common" postinst scr=
+ipt
+> > > > > > |  returned status 127. * opkg_configure:
+> > > > > > |  ttf-dejavu-common.postinst returned 127. * pkg_run_script:
+> > > > > > |  package "ttf-dejavu-sans" postinst script returned status =
+127.
+> > > > > > |  * opkg_configure: ttf-dejavu-sans.postinst returned 127. *
+> > > > > > |  pkg_run_script: package "ffalarms" postinst script returne=
+d
+> > > > > > |  status 127. * opkg_configure: ffalarms.postinst returned 1=
+27.
+> > > > > > |  * pkg_run_script: package "rsyslog" postinst script return=
+ed
+> > > > > > |  status 1. * opkg_configure: rsyslog.postinst returned 1.
+> > > > > > |  * pkg_run_script: package "ttf-dejavu-sans-mono" postinst =
+script
+> > > > > > |  returned status 127. * opkg_configure:
+> > > > > > |  ttf-dejavu-sans-mono.postinst returned 127. * pkg_run_scri=
+pt:
+> > > > > > |  package "matchbox-keyboard-im" postinst script returned st=
+atus
+> > > > > > |  1. * opkg_configure: matchbox-keyboard-im.postinst returne=
+d 1.
+> > > > > > |  * pkg_run_script: package "hicolor-icon-theme" postinst sc=
+ript
+> > > > > > |  returned status 1. * opkg_configure:
+> > > > > > |  hicolor-icon-theme.postinst returned 1. * pkg_run_script:
+> > > > > > |  packaERROR: Function 'do_rootfs' failed (see
+> > > > > > |  /OE/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/shr-=
+l
+> > > > > >=20
+> > > > > > ite-image/2.0-r20/temp/log.do_rootfs.10063 for further inform=
+ation)
+> > > > > >=20
+> > > > > > | ge "ttf-liberation-mono" postinst script returned status 12=
+7.
+> > > > > > |=20
+> > > > > > |  * opkg_configure: ttf-liberation-mono.postinst returned 12=
+7.
+> > > > > > |  * pkg_run_script: package "gtk-immodule-xim" postinst scri=
+pt
+> > > > > > |  returned status 1. * opkg_configure: gtk-immodule-xim.post=
+inst
+> > > > > > |  returned 1. * pkg_run_script: package "ca-certificates"
+> > > > > > |  postinst script returned status 1. * opkg_configure:
+> > > > > > |  ca-certificates.postinst returned 1.
+> > > > > >=20
+> > > > > > NOTE: package shr-lite-image-2.0-r20: task do_rootfs: Failed
+> > > > > > ERROR: Task 9
+> > > > > > (/OE/shr-core/meta-smartphone/meta-shr/recipes-shr/images/shr=
+-lite
+> > > > > > -image.bb, do_rootfs) failed with exit code ' 1'
+> > > > >=20
+> > > > > This looks like you don't have the offline_postinstall patch ap=
+plied?
+> > > >=20
+> > > > I have
+> > >=20
+> > > Please double check. That patch does things like:
+> > >=20
+> > > Index: trunk/libopkg/pkg.c
+> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > --- trunk.orig/libopkg/pkg.c	2011-12-15 15:58:39.000000000 +0000
+> > > +++ trunk/libopkg/pkg.c	2011-12-15 20:04:50.109992736 +0000
+> > > @@ -1297,8 +1297,9 @@
+> > >=20
+> > >       free(cmd);
+> > >      =20
+> > >       if (err) {
+> > >=20
+> > > -	  opkg_msg(ERROR, "package \"%s\" %s script returned status %d.\n=
+",
+> > > -               pkg->name, script, err);
+> > > +          if (!conf->offline_root)
+> > > +	       opkg_msg(ERROR, "package \"%s\" %s script returned status
+> > > %d.\n", +                    pkg->name, script, err);
+> > >=20
+> > >  	  return err;
+> > >  	 =20
+> > >       }
+> > >=20
+> > > and these are clearly showing up as ERRORs above. This means that:
+> > >=20
+> > > a) offline_root isn't set (extremely unlikely for do_rootfs to work=
+)
+> > > b) the patch isn't applied
+> > >=20
+> > > > > opkg revision 633 will not build correct metadata without the p=
+atches
+> > > > > included.
+> > > >=20
+> > > > Only patch not included in my opkg build was the installorder one.
+> > >=20
+> > > I have my doubts about this, sorry...
+> >=20
+> > With runtime circular dependencies broken by RRECOMMENDS I managed to
+> > build an image, but there is problem in target opkg
+> >=20
+> > $D is not empty anymore (it's set to /), so all postinst scripts are
+> > executing the variant for do_rootfs not for target, e.g.
+> >=20
+> > Configuring opkg.
+> > //var/lib/opkg/info/opkg.postinst: line 3: install: command not found
+> > update-alternatives: Linking //usr/bin/opkg to /usr/bin/opkg-cl
+> > Configuring kernel-module-fat.
+> > //var/lib/opkg/info/kernel-module-fat.postinst: line 3:
+> > arm-oe-linux-gnueabi-depmod: command not found
+> >=20
+> Apart from circular dependencies my experiences with this patch is:
+>=20
+> 1. dbus dir ownership: Most ownerships are correct now. Only /var/run/d=
+bus is=20
+> still root:root ( at angstrom with custom fs-perms ).
 
-diff --git a/meta/recipes-devtools/opkg/opkg/track_parents.patch b/meta/recipes-devtools/opkg/opkg/track_parents.patch
-new file mode 100644
-index 0000000..1f54256
---- /dev/null
-+++ b/meta/recipes-devtools/opkg/opkg/track_parents.patch
-@@ -0,0 +1,99 @@
-+Add logic to detect circular dependencies. If we see any dependency from any
-+given parent twice, ignore it the second time and print a notice message
-+that we did so.
-+
-+Upstream-Status: Pending
-+RP 2011/12/18
-+
-+Index: trunk/libopkg/opkg_install.c
-+===================================================================
-+--- trunk.orig/libopkg/opkg_install.c	2011-12-18 11:15:17.320725365 +0000
-++++ trunk/libopkg/opkg_install.c	2011-12-18 12:38:54.980609225 +0000
-+@@ -84,8 +84,14 @@
-+ 	       /* The package was uninstalled when we started, but another
-+ 	          dep earlier in this loop may have depended on it and pulled
-+ 	          it in, so check first. */
-++               if (is_pkg_in_pkg_vec(dep->wanted_by, pkg)) {
-++		    opkg_msg(NOTICE,"Breaking cicular dependency on %s for %s.\n", pkg->name, dep->name);
-++	            continue;
-++               }
-+ 	       if ((dep->state_status != SS_INSTALLED) && (dep->state_status != SS_UNPACKED)) {
-+ 		    opkg_msg(DEBUG2,"Calling opkg_install_pkg.\n");
-++                    if (!is_pkg_in_pkg_vec(dep->wanted_by, pkg))
-++     	                 pkg_vec_insert(dep->wanted_by, pkg);
-+ 		    err = opkg_install_pkg(dep, 0);
-+ 		    /* mark this package as having been automatically installed to
-+ 		     * satisfy a dependancy */
-+@@ -115,6 +121,8 @@
-+ 	  /* The package was uninstalled when we started, but another
-+ 	     dep earlier in this loop may have depended on it and pulled
-+ 	     it in, so check first. */
-++          if (!is_pkg_in_pkg_vec(dep->wanted_by, pkg))
-++	       pkg_vec_insert(dep->wanted_by, pkg);
-+ 	  if ((dep->state_status != SS_INSTALLED)
-+ 	      && (dep->state_status != SS_UNPACKED)) {
-+                opkg_msg(DEBUG2,"Calling opkg_install_pkg.\n");
-+Index: trunk/libopkg/pkg.c
-+===================================================================
-+--- trunk.orig/libopkg/pkg.c	2011-12-18 11:12:39.976729002 +0000
-++++ trunk/libopkg/pkg.c	2011-12-18 11:22:34.528715535 +0000
-+@@ -86,6 +86,7 @@
-+      pkg->section = NULL;
-+      pkg->description = NULL;
-+      pkg->state_want = SW_UNKNOWN;
-++     pkg->wanted_by = pkg_vec_alloc();
-+      pkg->state_flag = SF_OK;
-+      pkg->state_status = SS_NOT_INSTALLED;
-+      pkg->depends_str = NULL;
-+@@ -191,6 +192,7 @@
-+ 	pkg->description = NULL;
-+ 
-+ 	pkg->state_want = SW_UNKNOWN;
-++	pkg_vec_free(pkg->wanted_by);
-+ 	pkg->state_flag = SF_OK;
-+ 	pkg->state_status = SS_NOT_INSTALLED;
-+ 
-+Index: trunk/libopkg/pkg.h
-+===================================================================
-+--- trunk.orig/libopkg/pkg.h	2011-12-18 11:12:37.120728742 +0000
-++++ trunk/libopkg/pkg.h	2011-12-18 11:15:39.080725150 +0000
-+@@ -129,6 +129,7 @@
-+      char *description;
-+      char *tags;
-+      pkg_state_want_t state_want;
-++     pkg_vec_t *wanted_by;
-+      pkg_state_flag_t state_flag;
-+      pkg_state_status_t state_status;
-+      char **depends_str;
-+Index: trunk/libopkg/pkg_depends.c
-+===================================================================
-+--- trunk.orig/libopkg/pkg_depends.c	2011-12-18 11:14:24.464726569 +0000
-++++ trunk/libopkg/pkg_depends.c	2011-12-18 11:30:32.516704127 +0000
-+@@ -30,7 +30,6 @@
-+ static depend_t * depend_init(void);
-+ static char ** add_unresolved_dep(pkg_t * pkg, char ** the_lost, int ref_ndx);
-+ static char ** merge_unresolved(char ** oldstuff, char ** newstuff);
-+-static int is_pkg_in_pkg_vec(pkg_vec_t * vec, pkg_t * pkg);
-+ 
-+ static int pkg_installed_and_constraint_satisfied(pkg_t *pkg, void *cdata)
-+ {
-+@@ -531,7 +530,7 @@
-+      return 0;
-+ }
-+ 
-+-static int is_pkg_in_pkg_vec(pkg_vec_t * vec, pkg_t * pkg)
-++int is_pkg_in_pkg_vec(pkg_vec_t * vec, pkg_t * pkg)
-+ {
-+     int i;
-+     pkg_t ** pkgs = vec->pkgs;
-+Index: trunk/libopkg/pkg_depends.h
-+===================================================================
-+--- trunk.orig/libopkg/pkg_depends.h	2011-12-18 11:28:51.960706484 +0000
-++++ trunk/libopkg/pkg_depends.h	2011-12-18 11:29:19.400705862 +0000
-+@@ -87,5 +87,6 @@
-+ int pkg_dependence_satisfiable(depend_t *depend);
-+ int pkg_dependence_satisfied(depend_t *depend);
-+ const char* constraint_to_str(enum version_constraint c);
-++int is_pkg_in_pkg_vec(pkg_vec_t * vec, pkg_t * pkg);
-+ 
-+ #endif
-diff --git a/meta/recipes-devtools/opkg/opkg_svn.bb b/meta/recipes-devtools/opkg/opkg_svn.bb
-index 2645d52..dbdfc7e 100644
---- a/meta/recipes-devtools/opkg/opkg_svn.bb
-+++ b/meta/recipes-devtools/opkg/opkg_svn.bb
-@@ -15,13 +15,14 @@ SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;proto=http \
-            file://fix_installorder.patch \
-            file://offline_postinstall.patch\
-            file://offlineroot_varname.patch \
-+           file://track_parents.patch \
- "
- 
- S = "${WORKDIR}/trunk"
- 
- SRCREV = "633"
- PV = "0.1.8+svnr${SRCPV}"
--PR = "r2"
-+PR = "r3"
- 
- PACKAGES =+ "libopkg${PKGSUFFIX}-dev libopkg${PKGSUFFIX} update-alternatives-cworth${PKGSUFFIX}"
- 
+I think the volatile handling is different in angstrom so I'm not sure
+quite what is at fault here...
+
+> 2. First boot is VERY fast now. Not that I have a problem with being fa=
+st - but=20
+> I see many lines like
+> | S98configure[77]: * pkg_run_script: package "update-modules" postinst=
+ script=20
+> returned status 1.
+> | S98configure[77]: * opkg_configure: update-modules.postinst returned =
+1.
+> | S98configure[77]: * pkg_run_script: package "hicolor-icon-theme" post=
+inst=20
+> script returned status 1.
+> | S98configure[77]: * opkg_configure: hicolor-icon-theme.postinst retur=
+ned 1.
+> | S98configure[77]: * pkg_run_script: package "pango-module-basic-x" po=
+stinst=20
+> script returned status 1.
+> | S98configure[77]: * opkg_configure: pango-module-basic-x.postinst ret=
+urned 1.
+> Many (all?) of these packages do not extend postinst.
+>=20
+> 3. xfce gui I usually use is far from working (only mouse pointer that'=
+s it)
+
+I'm pretty sure these last two are the on device postinstalls not
+working as Martin mentions. We should just remove the
+offlineroot_varname patch as the easiest fix. I did this in the hope we
+could kill off some of the variables in the bbclass files but it doesn't
+look like such a good idea now :/. I'll remove that patch is nobody
+objects.
+
+Cheers,
+
+Richard
 
 
 
