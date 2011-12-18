@@ -1,36 +1,29 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RcFf8-0005y5-0M
+	(envelope-from <dbaryshkov@gmail.com>) id 1RcMqB-0000fc-8Q
 	for openembedded-core@lists.openembedded.org;
-	Sun, 18 Dec 2011 13:16:18 +0100
-Received: by eeit10 with SMTP id t10so874156eei.6
+	Sun, 18 Dec 2011 20:56:11 +0100
+Received: by iakh37 with SMTP id h37so3846499iak.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Dec 2011 04:09:16 -0800 (PST)
+	Sun, 18 Dec 2011 11:49:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=LB5NzJ11l0ERYQDvtjzXM6NdV/4Tk32qM1/MR2gHPPg=;
-	b=Kwp3VshsxM4BS9hPsfklVLGZfd9fcaTtXOdySlNMrjeDrVJotk7UgLXpeESTb4zXDw
-	N/XC70T70jR0A5RXarjl80wZWjUsFxMWWB3kZibRdGIDSULHLJqO48lihXqhRymtjrYt
-	lj6JT30UgltYefVfBiMQ1UUefTv78UtsnFi14=
-Received: by 10.14.32.19 with SMTP id n19mr2501536eea.41.1324210156156;
-	Sun, 18 Dec 2011 04:09:16 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id 13sm8758932eeu.1.2011.12.18.04.09.14
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 18 Dec 2011 04:09:15 -0800 (PST)
-Date: Sun, 18 Dec 2011 13:09:03 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111218120903.GM3997@jama.jama.net>
-References: <1323983329.4568.63.camel@ted> <1324122745.4568.136.camel@ted>
-	<20111218110042.GK3997@jama.jama.net>
-	<201112181244.47897.schnitzeltony@gmx.de>
-MIME-Version: 1.0
-In-Reply-To: <201112181244.47897.schnitzeltony@gmx.de>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: opkg: Update svn 625 -> 633 and fix preinst issues
+	h=from:to:subject:date:message-id:x-mailer;
+	bh=fWm5ZUjYOR6PHfXf7njikgT6a66oHki1eId+B/WVkU8=;
+	b=ZS6LVhp7/sg+CykhwQJ7dlIGlaOAftAQnmaMSZFQhZYg1MFpODKMP6O97beaHfAGW2
+	07UF0InoWYBjVGs13AiqRJGELbb1OnzF+6kju8njHiA1VwhP1g/uDIIc07T7n78oDJt+
+	D0LPWEE77qsLPXIfA+3PcZbhubGHohFtqLIV4=
+Received: by 10.50.87.234 with SMTP id bb10mr23404269igb.81.1324237748426;
+	Sun, 18 Dec 2011 11:49:08 -0800 (PST)
+Received: from fangorn.rup.mentorg.com (nat-rup.mentorg.com. [139.181.168.34])
+	by mx.google.com with ESMTPS id
+	cv10sm10929303igc.0.2011.12.18.11.49.05 (version=SSLv3 cipher=OTHER);
+	Sun, 18 Dec 2011 11:49:07 -0800 (PST)
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 18 Dec 2011 23:47:28 +0400
+Message-Id: <1324237652-15618-1-git-send-email-dbaryshkov@gmail.com>
+X-Mailer: git-send-email 1.7.7.3
+Subject: [PATCH 1/5] kernel.bbclass: move uImage handling to separate task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,227 +38,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 18 Dec 2011 12:16:18 -0000
-X-Groupsio-MsgNum: 14402
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Kc9HNjpzOXVc7FFU"
-Content-Disposition: inline
+X-List-Received-Date: Sun, 18 Dec 2011 19:56:11 -0000
 
---Kc9HNjpzOXVc7FFU
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+As per org.oe.dev and meta-oe's kernel.bbclass move uImage creation to
+separate task from do_deploy. This way the do_install task can also
+benefit from generated uImage.
 
-On Sun, Dec 18, 2011 at 12:44:47PM +0100, Andreas M=FCller wrote:
-> On Sunday, December 18, 2011 12:00:42 PM Martin Jansa wrote:
-> > On Sat, Dec 17, 2011 at 11:52:25AM +0000, Richard Purdie wrote:
-> > > On Sat, 2011-12-17 at 11:34 +0100, Martin Jansa wrote:
-> > > > On Sat, Dec 17, 2011 at 10:22:01AM +0000, Richard Purdie wrote:
-> > > > > On Sat, 2011-12-17 at 10:20 +0100, Martin Jansa wrote:
-> > > > > > On Sat, Dec 17, 2011 at 01:32:28AM +0000, Richard Purdie wrote:
-> > > > > > I've tried to build image with SRCREV=3D633 and it built image =
-fine
-> > > > > > then I tried to apply your patch but without installorder.patch=
- to
-> > > > > > confirm that the issue with circular depending packages is real=
-ly
-> > > > > > cause by that only and then try to fix installorder.patch to wo=
-rk
-> > > > > > even with such packages, but I got many postinst errors :(.
-> > > > > >=20
-> > > > > > From your description I understood that postinst execution shou=
-ld
-> > > > > > be almost the same only more logic is moved from
-> > > > > > rootfs_ipk.bbclass to opkg itself.
-> > > > > >=20
-> > > > > > | Collected errors:
-> > > > > > |  * pkg_run_script: package "pam-plugin-unix" postinst script
-> > > > > > |  returned status 1. * opkg_configure: pam-plugin-unix.postinst
-> > > > > > |  returned 1.
-> > > > > > |  * pkg_run_script: package "pango-module-basic-x" postinst sc=
-ript
-> > > > > > |  returned status 1. * opkg_configure:
-> > > > > > |  pango-module-basic-x.postinst returned 1. * pkg_run_script:
-> > > > > > |  package "pango-module-basic-fc" postinst script returned sta=
-tus
-> > > > > > |  1. * opkg_configure: pango-module-basic-fc.postinst returned=
- 1.
-> > > > > > |  * pkg_run_script: package "update-modules" postinst script
-> > > > > > |  returned status 1. * opkg_configure: update-modules.postinst
-> > > > > > |  returned 1.
-> > > > > > |  * pkg_run_script: package "gdk-pixbuf-loader-png" postinst
-> > > > > > |  script returned status 1. * opkg_configure:
-> > > > > > |  gdk-pixbuf-loader-png.postinst returned 1. * pkg_run_script:
-> > > > > > |  package "gdk-pixbuf-loader-jpeg" postinst script returned
-> > > > > > |  status 1. * opkg_configure: gdk-pixbuf-loader-jpeg.postinst
-> > > > > > |  returned 1. * pkg_run_script: package "liberation-fonts"
-> > > > > > |  postinst script returned status 1. * opkg_configure:
-> > > > > > |  liberation-fonts.postinst returned 1. * pkg_run_script: pack=
-age
-> > > > > > |  "gdk-pixbuf-loader-xpm" postinst script returned status 1. *
-> > > > > > |  opkg_configure: gdk-pixbuf-loader-xpm.postinst returned 1. *
-> > > > > > |  pkg_run_script: package "gdk-pixbuf-loader-gif" postinst scr=
-ipt
-> > > > > > |  returned status 1. * opkg_configure:
-> > > > > > |  gdk-pixbuf-loader-gif.postinst returned 1. * pkg_run_script:
-> > > > > > |  package "ppp" postinst script returned status 1. *
-> > > > > > |  opkg_configure: ppp.postinst returned 1.
-> > > > > > |  * pkg_run_script: package "ttf-dejavu-common" postinst script
-> > > > > > |  returned status 127. * opkg_configure:
-> > > > > > |  ttf-dejavu-common.postinst returned 127. * pkg_run_script:
-> > > > > > |  package "ttf-dejavu-sans" postinst script returned status 12=
-7.
-> > > > > > |  * opkg_configure: ttf-dejavu-sans.postinst returned 127. *
-> > > > > > |  pkg_run_script: package "ffalarms" postinst script returned
-> > > > > > |  status 127. * opkg_configure: ffalarms.postinst returned 127.
-> > > > > > |  * pkg_run_script: package "rsyslog" postinst script returned
-> > > > > > |  status 1. * opkg_configure: rsyslog.postinst returned 1.
-> > > > > > |  * pkg_run_script: package "ttf-dejavu-sans-mono" postinst sc=
-ript
-> > > > > > |  returned status 127. * opkg_configure:
-> > > > > > |  ttf-dejavu-sans-mono.postinst returned 127. * pkg_run_script:
-> > > > > > |  package "matchbox-keyboard-im" postinst script returned stat=
-us
-> > > > > > |  1. * opkg_configure: matchbox-keyboard-im.postinst returned =
-1.
-> > > > > > |  * pkg_run_script: package "hicolor-icon-theme" postinst scri=
-pt
-> > > > > > |  returned status 1. * opkg_configure:
-> > > > > > |  hicolor-icon-theme.postinst returned 1. * pkg_run_script:
-> > > > > > |  packaERROR: Function 'do_rootfs' failed (see
-> > > > > > |  /OE/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/shr-l
-> > > > > >=20
-> > > > > > ite-image/2.0-r20/temp/log.do_rootfs.10063 for further informat=
-ion)
-> > > > > >=20
-> > > > > > | ge "ttf-liberation-mono" postinst script returned status 127.
-> > > > > > |=20
-> > > > > > |  * opkg_configure: ttf-liberation-mono.postinst returned 127.
-> > > > > > |  * pkg_run_script: package "gtk-immodule-xim" postinst script
-> > > > > > |  returned status 1. * opkg_configure: gtk-immodule-xim.postin=
-st
-> > > > > > |  returned 1. * pkg_run_script: package "ca-certificates"
-> > > > > > |  postinst script returned status 1. * opkg_configure:
-> > > > > > |  ca-certificates.postinst returned 1.
-> > > > > >=20
-> > > > > > NOTE: package shr-lite-image-2.0-r20: task do_rootfs: Failed
-> > > > > > ERROR: Task 9
-> > > > > > (/OE/shr-core/meta-smartphone/meta-shr/recipes-shr/images/shr-l=
-ite
-> > > > > > -image.bb, do_rootfs) failed with exit code ' 1'
-> > > > >=20
-> > > > > This looks like you don't have the offline_postinstall patch appl=
-ied?
-> > > >=20
-> > > > I have
-> > >=20
-> > > Please double check. That patch does things like:
-> > >=20
-> > > Index: trunk/libopkg/pkg.c
-> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > --- trunk.orig/libopkg/pkg.c	2011-12-15 15:58:39.000000000 +0000
-> > > +++ trunk/libopkg/pkg.c	2011-12-15 20:04:50.109992736 +0000
-> > > @@ -1297,8 +1297,9 @@
-> > >=20
-> > >       free(cmd);
-> > >      =20
-> > >       if (err) {
-> > >=20
-> > > -	  opkg_msg(ERROR, "package \"%s\" %s script returned status %d.\n",
-> > > -               pkg->name, script, err);
-> > > +          if (!conf->offline_root)
-> > > +	       opkg_msg(ERROR, "package \"%s\" %s script returned status
-> > > %d.\n", +                    pkg->name, script, err);
-> > >=20
-> > >  	  return err;
-> > >  	 =20
-> > >       }
-> > >=20
-> > > and these are clearly showing up as ERRORs above. This means that:
-> > >=20
-> > > a) offline_root isn't set (extremely unlikely for do_rootfs to work)
-> > > b) the patch isn't applied
-> > >=20
-> > > > > opkg revision 633 will not build correct metadata without the pat=
-ches
-> > > > > included.
-> > > >=20
-> > > > Only patch not included in my opkg build was the installorder one.
-> > >=20
-> > > I have my doubts about this, sorry...
-> >=20
-> > With runtime circular dependencies broken by RRECOMMENDS I managed to
-> > build an image, but there is problem in target opkg
-> >=20
-> > $D is not empty anymore (it's set to /), so all postinst scripts are
-> > executing the variant for do_rootfs not for target, e.g.
-> >=20
-> > Configuring opkg.
-> > //var/lib/opkg/info/opkg.postinst: line 3: install: command not found
-> > update-alternatives: Linking //usr/bin/opkg to /usr/bin/opkg-cl
-> > Configuring kernel-module-fat.
-> > //var/lib/opkg/info/kernel-module-fat.postinst: line 3:
-> > arm-oe-linux-gnueabi-depmod: command not found
-> >=20
-> Apart from circular dependencies my experiences with this patch is:
->=20
-> 1. dbus dir ownership: Most ownerships are correct now. Only /var/run/dbu=
-s is=20
-> still root:root ( at angstrom with custom fs-perms ).
+The only major feature of oe-core's version (not to recreate uImage
+if it exists) is retained in this patch. On the contra, as this version
+was merged from meta-oe/org.oe.dev, new function has another feature:
+it permits overriding the u-boot entrypoint via u-boot symbol.
 
-after rebuilding dbus I even got some images with messagebus completely
-missing in packaged /etc/group (and the helper owned by sshd or
-somethig)
+Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+---
+ meta/classes/kernel.bbclass |   43 +++++++++++++++++++++++++++----------------
+ 1 files changed, 27 insertions(+), 16 deletions(-)
 
-> 2. First boot is VERY fast now. Not that I have a problem with being fast=
- - but=20
-> I see many lines like
-> | S98configure[77]: * pkg_run_script: package "update-modules" postinst s=
-cript=20
-> returned status 1.
-> | S98configure[77]: * opkg_configure: update-modules.postinst returned 1.
-> | S98configure[77]: * pkg_run_script: package "hicolor-icon-theme" postin=
-st=20
-> script returned status 1.
-> | S98configure[77]: * opkg_configure: hicolor-icon-theme.postinst returne=
-d 1.
-> | S98configure[77]: * pkg_run_script: package "pango-module-basic-x" post=
-inst=20
-> script returned status 1.
-> | S98configure[77]: * opkg_configure: pango-module-basic-x.postinst retur=
-ned 1.
-> Many (all?) of these packages do not extend postinst.
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 3f2f75a..8832a77 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -489,6 +489,33 @@ do_sizecheck() {
+ 
+ addtask sizecheck before do_install after do_compile
+ 
++# Define to 1 to force kernel.bbclass to recreate uImage for you
++KERNEL_RECREATE_UIMAGE ?= "0"
++
++do_uboot_mkimage() {
++    test "x${KERNEL_IMAGETYPE}" = "xuImage" || return 0
++    test "x${KERNEL_RECREATE_UIMAGE}" = "x1" -o ! -e arch/${ARCH}/boot/uImage || return 0
++
++    ENTRYPOINT=${UBOOT_ENTRYPOINT}
++    if test -n "${UBOOT_ENTRYSYMBOL}"; then
++        ENTRYPOINT=`${HOST_PREFIX}nm ${S}/vmlinux | \
++               awk '$3=="${UBOOT_ENTRYSYMBOL}" {print $1}'`
++    fi
++    if test -e arch/${ARCH}/boot/compressed/vmlinux ; then
++        ${OBJCOPY} -O binary -R .note -R .comment -S arch/${ARCH}/boot/compressed/vmlinux linux.bin
++        uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C none -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin arch/${ARCH}/boot/uImage
++        rm -f linux.bin
++    else
++        ${OBJCOPY} -O binary -R .note -R .comment -S vmlinux linux.bin
++        rm -f linux.bin.gz
++        gzip -9 linux.bin
++        uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C gzip -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin.gz arch/${ARCH}/boot/uImage
++        rm -f linux.bin.gz
++    fi
++}
++
++addtask uboot_mkimage before do_install after do_compile
++
+ KERNEL_IMAGE_BASE_NAME ?= "${KERNEL_IMAGETYPE}-${PV}-${PR}-${MACHINE}-${DATETIME}"
+ # Don't include the DATETIME variable in the sstate package signatures
+ KERNEL_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
+@@ -500,22 +527,6 @@ kernel_do_deploy() {
+ 		tar -cvzf ${DEPLOYDIR}/modules-${KERNEL_VERSION}-${PR}-${MACHINE}.tgz -C ${D} lib
+ 	fi
+ 
+-	if test "x${KERNEL_IMAGETYPE}" = "xuImage" ; then 
+-		if test -e arch/${ARCH}/boot/uImage ; then
+-			cp arch/${ARCH}/boot/uImage ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
+-		elif test -e arch/${ARCH}/boot/compressed/vmlinux ; then
+-			${OBJCOPY} -O binary -R .note -R .comment -S arch/${ARCH}/boot/compressed/vmlinux linux.bin
+-			uboot-mkimage -A ${ARCH} -O linux -T kernel -C none -a ${UBOOT_ENTRYPOINT} -e ${UBOOT_ENTRYPOINT} -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
+-			rm -f linux.bin
+-		else
+-			${OBJCOPY} -O binary -R .note -R .comment -S vmlinux linux.bin
+-			rm -f linux.bin.gz
+-			gzip -9 linux.bin
+-			uboot-mkimage -A ${ARCH} -O linux -T kernel -C gzip -a ${UBOOT_ENTRYPOINT} -e ${UBOOT_ENTRYPOINT} -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin.gz ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
+-			rm -f linux.bin.gz
+-		fi
+-	fi
+-
+ 	cd ${DEPLOYDIR}
+ 	rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.bin
+ 	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGE_SYMLINK_NAME}.bin
+-- 
+1.7.7.3
 
-this is probably cause by D=3D/ on target.. in contrib/jansa/test there is
-untested patch for this, but I wont be available until tomorrow to
-report if it works.
->=20
-> 3. xfce gui I usually use is far from working (only mouse pointer that's =
-it)
->=20
-> Andreas
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---Kc9HNjpzOXVc7FFU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
-
-iEYEARECAAYFAk7t198ACgkQN1Ujt2V2gBzFmwCgunNfhm3EnSBGqDOapocW0DVz
-+RMAnA45DDK2260I8C105CgZsfk0jrOy
-=vh2Q
------END PGP SIGNATURE-----
-
---Kc9HNjpzOXVc7FFU--
