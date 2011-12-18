@@ -1,34 +1,29 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RcDV8-0000DQ-Ie
+	(envelope-from <koen@dominion.thruhere.net>) id 1RcDfL-0000lV-0j
 	for openembedded-core@lists.openembedded.org;
-	Sun, 18 Dec 2011 10:57:50 +0100
-Received: by eeit10 with SMTP id t10so824302eei.6
+	Sun, 18 Dec 2011 11:08:23 +0100
+Received: by werm13 with SMTP id m13so894174wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Dec 2011 01:50:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=96xr78EOORL2hANxFQHXgUYO/1hMuQTb016OdHXdLE0=;
-	b=r+9rlYyDVeX/rwLbH9NszGF9pIDvxv+fEM6tj9c0Y5Ho9Z/Z+u7Ziwc8yIaWZSTkFw
-	tj35nyCnzPKyd9edqSHgh5Jo1hH8FzcHUwYa9IsKRpiQpCYfGP1JCBlyyNHDNsfVXTFz
-	QodpmECKP9HVoUpm1I8o61gQahwWwwc+sVA1c=
-Received: by 10.14.28.14 with SMTP id f14mr2343676eea.93.1324201849372;
-	Sun, 18 Dec 2011 01:50:49 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id z43sm27558045eef.7.2011.12.18.01.50.47
+	Sun, 18 Dec 2011 02:01:21 -0800 (PST)
+Received: by 10.216.143.206 with SMTP id l56mr2928612wej.46.1324202481829;
+	Sun, 18 Dec 2011 02:01:21 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id ff1sm21429480wbb.5.2011.12.18.02.01.20
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 18 Dec 2011 01:50:48 -0800 (PST)
-Date: Sun, 18 Dec 2011 10:50:36 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20111218095036.GJ3997@jama.jama.net>
+	Sun, 18 Dec 2011 02:01:20 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <20111218095036.GJ3997@jama.jama.net>
+Date: Sun, 18 Dec 2011 11:01:16 +0100
+Message-Id: <9D71C9FD-B142-42B1-9485-04AD5AD70AB7@dominion.thruhere.net>
 References: <1324200731-10753-1-git-send-email-koen@dominion.thruhere.net>
-MIME-Version: 1.0
-In-Reply-To: <1324200731-10753-1-git-send-email-koen@dominion.thruhere.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Koen Kooi <koen@dominion.thruhere.net>
+	<20111218095036.GJ3997@jama.jama.net>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Mailer: Apple Mail (2.1251.1)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] libsdl 1.2.14: fix packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -44,85 +39,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 18 Dec 2011 09:57:50 -0000
-X-Groupsio-MsgNum: 14396
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="fU0UwhtRbpo05rnG"
-Content-Disposition: inline
+X-List-Received-Date: Sun, 18 Dec 2011 10:08:23 -0000
+X-Groupsio-MsgNum: 14397
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_CB807DC2-2F8D-4ECE-AE37-B154180338CD";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---fU0UwhtRbpo05rnG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--Apple-Mail=_CB807DC2-2F8D-4ECE-AE37-B154180338CD
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-On Sun, Dec 18, 2011 at 10:32:11AM +0100, Koen Kooi wrote:
-> For some reason the -config script was shipped in ${PN} leading to shlibs=
- renaming issues:
->=20
-> What we want, and how meta-oe used to do it:
-> 	libsdl-1.2-0_1.2.14-r0.0_armv7a.ipk
->=20
-> Current OE-core status:
-> 	libsdl_1.2.14-r2_armv7a.ipk
->=20
-> With this commit we get both proper shlib renaming and the -dev package n=
-ow has all the dev files
->=20
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> ---
->  meta/recipes-graphics/libsdl/libsdl_1.2.14.bb |    4 +++-
->  1 files changed, 3 insertions(+), 1 deletions(-)
->=20
-> diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb b/meta/recipes=
--graphics/libsdl/libsdl_1.2.14.bb
-> index a28a88a..761995e 100644
-> --- a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
-> +++ b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
-> @@ -15,7 +15,7 @@ PROVIDES =3D "virtual/libsdl"
->  DEPENDS =3D "${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libg=
-l', '', d)} virtual/libx11 libxext libxrandr libxrender tslib"
->  DEPENDS_virtclass-nativesdk =3D "libx11-nativesdk libxrandr-nativesdk li=
-bxrender-nativesdk libxext-nativesdk"
-> =20
-> -PR =3D "r2"
-> +PR =3D "r3"
-> =20
->  SRC_URI =3D "http://www.libsdl.org/release/SDL-${PV}.tar.gz \
->             file://configure_tweak.patch \
-> @@ -57,4 +57,6 @@ do_configure_prepend() {
->          export SYSROOT=3D$PKG_CONFIG_SYSROOT_DIR
->  }
-> =20
-> +FILES_${PN}-dev +=3D "${bindir}/sdl-config""
 
-Looks like extra quote                      ^
+Op 18 dec. 2011, om 10:50 heeft Martin Jansa het volgende geschreven:
 
-Cheers,
-
-> +
->  BBCLASSEXTEND =3D "nativesdk"
-> --=20
-> 1.7.2.5
+> On Sun, Dec 18, 2011 at 10:32:11AM +0100, Koen Kooi wrote:
+>> For some reason the -config script was shipped in ${PN} leading to =
+shlibs renaming issues:
+>>=20
+>> What we want, and how meta-oe used to do it:
+>> 	libsdl-1.2-0_1.2.14-r0.0_armv7a.ipk
+>>=20
+>> Current OE-core status:
+>> 	libsdl_1.2.14-r2_armv7a.ipk
+>>=20
+>> With this commit we get both proper shlib renaming and the -dev =
+package now has all the dev files
+>>=20
+>> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+>> ---
+>> meta/recipes-graphics/libsdl/libsdl_1.2.14.bb |    4 +++-
+>> 1 files changed, 3 insertions(+), 1 deletions(-)
+>>=20
+>> diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb =
+b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+>> index a28a88a..761995e 100644
+>> --- a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+>> +++ b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+>> @@ -15,7 +15,7 @@ PROVIDES =3D "virtual/libsdl"
+>> DEPENDS =3D "${@base_contains('DISTRO_FEATURES', 'opengl', =
+'virtual/libgl', '', d)} virtual/libx11 libxext libxrandr libxrender =
+tslib"
+>> DEPENDS_virtclass-nativesdk =3D "libx11-nativesdk libxrandr-nativesdk =
+libxrender-nativesdk libxext-nativesdk"
+>>=20
+>> -PR =3D "r2"
+>> +PR =3D "r3"
+>>=20
+>> SRC_URI =3D "http://www.libsdl.org/release/SDL-${PV}.tar.gz \
+>>            file://configure_tweak.patch \
+>> @@ -57,4 +57,6 @@ do_configure_prepend() {
+>>         export SYSROOT=3D$PKG_CONFIG_SYSROOT_DIR
+>> }
+>>=20
+>> +FILES_${PN}-dev +=3D "${bindir}/sdl-config""
 >=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> Looks like extra quote                      ^
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+indeed and I have a better fix for the packaging problem, v2 coming up.=
 
---fU0UwhtRbpo05rnG
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+--Apple-Mail=_CB807DC2-2F8D-4ECE-AE37-B154180338CD
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.18 (GNU/Linux)
 
-iEYEARECAAYFAk7tt2wACgkQN1Ujt2V2gBxDaQCdH2kGBt705uhsfdlxSzkjtvrv
-+U8AoIueLqjvMgdjrB6+2gWERJZslztf
-=1h9G
+iEYEARECAAYFAk7tufAACgkQMkyGM64RGpHyBACcD+qM5OCZHy25KllqFetPR199
+yrkAoLkTGAvBJklvLvUHqGpwazx4EjP6
+=ozCq
 -----END PGP SIGNATURE-----
 
---fU0UwhtRbpo05rnG--
+--Apple-Mail=_CB807DC2-2F8D-4ECE-AE37-B154180338CD--
