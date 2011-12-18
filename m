@@ -1,31 +1,28 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dbaryshkov@gmail.com>) id 1RcMqG-0000fg-NP
+	(envelope-from <koen@dominion.thruhere.net>) id 1RcNED-0001gz-KN
 	for openembedded-core@lists.openembedded.org;
-	Sun, 18 Dec 2011 20:56:17 +0100
-Received: by mail-iy0-f175.google.com with SMTP id h37so3846543iak.6
+	Sun, 18 Dec 2011 21:21:01 +0100
+Received: by wgbds11 with SMTP id ds11so8031633wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Dec 2011 11:49:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=d6Cge7NhdznsbNqnWNHQcOw+Tp9SCcysZL5qvOBQEk4=;
-	b=bf3Jg5D1h0BhlpZR+KUoeyxcsdRnDI/SjYckCAKHRmcruStrSNwKqUv49QqEUW01K9
-	NEnCPvMeFfvpVpIee6cIvww1O+bdrQw17Fhp7TaZHCbSxXUMHZCHEMeIQ0Z643GI0F+z
-	Pt97joHTihjyfUgaYqeo0EK0gtRmF2gC9cYPY=
-Received: by 10.50.161.132 with SMTP id xs4mr15854891igb.61.1324237757031;
-	Sun, 18 Dec 2011 11:49:17 -0800 (PST)
-Received: from fangorn.rup.mentorg.com (nat-rup.mentorg.com. [139.181.168.34])
-	by mx.google.com with ESMTPS id
-	cv10sm10929303igc.0.2011.12.18.11.49.15 (version=SSLv3 cipher=OTHER);
-	Sun, 18 Dec 2011 11:49:16 -0800 (PST)
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 18 Dec 2011 23:47:32 +0400
-Message-Id: <1324237652-15618-5-git-send-email-dbaryshkov@gmail.com>
-X-Mailer: git-send-email 1.7.7.3
+	Sun, 18 Dec 2011 12:13:53 -0800 (PST)
+Received: by 10.227.204.9 with SMTP id fk9mr10302882wbb.5.1324239233471;
+	Sun, 18 Dec 2011 12:13:53 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235]) by mx.google.com with ESMTPS id
+	ca18sm22726046wib.13.2011.12.18.12.13.52
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 18 Dec 2011 12:13:52 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Sun, 18 Dec 2011 21:13:49 +0100
 In-Reply-To: <1324237652-15618-1-git-send-email-dbaryshkov@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 References: <1324237652-15618-1-git-send-email-dbaryshkov@gmail.com>
-Subject: [PATCH 5/5] icecc.bbclass: also use icecc for kernel modules compilation
+Message-Id: <5C0105D4-44BE-4584-9ED9-36970B91A34C@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH 1/5] kernel.bbclass: move uImage handling to separate task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,30 +37,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 18 Dec 2011 19:56:17 -0000
+X-List-Received-Date: Sun, 18 Dec 2011 20:21:01 -0000
+X-Groupsio-MsgNum: 14408
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_A1B6B3B5-C702-4A93-9BA3-F6B6F47FAF85";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
----
- meta/classes/icecc.bbclass |    4 ++++
- 1 files changed, 4 insertions(+), 0 deletions(-)
-
-diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-index 7e3676a..a14e02d 100644
---- a/meta/classes/icecc.bbclass
-+++ b/meta/classes/icecc.bbclass
-@@ -211,6 +211,10 @@ do_compile_prepend() {
-     set_icecc_env
- }
- 
-+do_compile_kernelmodules_prepend() {
-+    set_icecc_env
-+}
-+
- #do_install_prepend() {
- #    set_icecc_env
- #}
--- 
-1.7.7.3
+--Apple-Mail=_A1B6B3B5-C702-4A93-9BA3-F6B6F47FAF85
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+Op 18 dec. 2011, om 20:47 heeft Dmitry Eremin-Solenikov het volgende =
+geschreven:
 
+> As per org.oe.dev and meta-oe's kernel.bbclass move uImage creation to
+> separate task from do_deploy. This way the do_install task can also
+> benefit from generated uImage.
+>=20
+> The only major feature of oe-core's version (not to recreate uImage
+> if it exists) is retained in this patch.
+
+I still don't agree with that behaviour. The in-kernel uImage code is =
+just like the in-kernel defconfigs: useless for people who aren't kernel =
+developers.
+
+> On the contra, as this version
+> was merged from meta-oe/org.oe.dev, new function has another feature:
+> it permits overriding the u-boot entrypoint via u-boot symbol.
+
+No it doesn't, since it doesn't recreate uImage.=
+
+--Apple-Mail=_A1B6B3B5-C702-4A93-9BA3-F6B6F47FAF85
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAk7uSX8ACgkQMkyGM64RGpGCLwCgtXQaYv3fu3891FMVs9AK8hK7
+z8QAniVSDXosv3RBKp0GYUnqfCXck2bD
+=UYJG
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_A1B6B3B5-C702-4A93-9BA3-F6B6F47FAF85--
