@@ -1,33 +1,40 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1RcEGb-0001YM-Qj
+	(envelope-from <martin.jansa@gmail.com>) id 1RcEaz-0002JP-9Z
 	for openembedded-core@lists.openembedded.org;
-	Sun, 18 Dec 2011 11:46:54 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with SMTP id pBIAbIR9015819
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	Sun, 18 Dec 2011 12:07:57 +0100
+Received: by eeit10 with SMTP id t10so846975eei.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Dec 2011 11:37:22 +0100
-Received: by ensc-virt.intern.sigma-chemnitz.de (sSMTP sendmail emulation);
-	Sun, 18 Dec 2011 11:37:31 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
+	Sun, 18 Dec 2011 03:00:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=RqJCxSYgch2SULUEAaDiSKEGu0ub5krI2pcVMfBtjgM=;
+	b=PWwgQOtoP/M9qy0b50K6/56e5o+sMEhJkkyi0FMH5qhKnjwfMHDFiWUzNW7xRRXHsA
+	j+giDoDY8f3CP1B+JjGsuPj7jMoIbQEhOFMAMpMURaoYjuqGiCvPMge8okQfXpTwxs6F
+	gmAMC1IMhMQ3UnAOIDYkaVBglZAItvkn0wHds=
+Received: by 10.213.32.142 with SMTP id c14mr3958495ebd.77.1324206055146;
+	Sun, 18 Dec 2011 03:00:55 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id q28sm28348928eea.6.2011.12.18.03.00.53
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 18 Dec 2011 03:00:54 -0800 (PST)
+Date: Sun, 18 Dec 2011 12:00:42 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20111218110042.GK3997@jama.jama.net>
 References: <1323983329.4568.63.camel@ted>
-	<20111217011658.GE3997@jama.jama.net> <1324085548.4568.121.camel@ted>
-Date: Sun, 18 Dec 2011 11:37:31 +0100
-In-Reply-To: <1324085548.4568.121.camel@ted> (Richard Purdie's message of
-	"Sat, 17 Dec 2011 01:32:28 +0000")
-Message-ID: <lyehw2kvx0.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.3 (gnu/linux)
+	<20111217011658.GE3997@jama.jama.net>
+	<1324085548.4568.121.camel@ted>
+	<20111217092041.GF3997@jama.jama.net>
+	<1324117321.4568.128.camel@ted>
+	<20111217103429.GG3997@jama.jama.net>
+	<1324122745.4568.136.camel@ted>
 MIME-Version: 1.0
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -6.9
-X-Spam-Level: ------
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.72 on 62.153.82.30
+In-Reply-To: <1324122745.4568.136.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Graham Gower <graham.gower@gmail.com>
 Subject: Re: opkg: Update svn 625 -> 633 and fix preinst issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -43,43 +50,211 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 18 Dec 2011 10:46:54 -0000
+X-List-Received-Date: Sun, 18 Dec 2011 11:07:57 -0000
+X-Groupsio-MsgNum: 14400
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="uuKVzAmB+c+zQlhu"
+Content-Disposition: inline
+
+--uuKVzAmB+c+zQlhu
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Richard Purdie
-<richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
-writes:
+On Sat, Dec 17, 2011 at 11:52:25AM +0000, Richard Purdie wrote:
+> On Sat, 2011-12-17 at 11:34 +0100, Martin Jansa wrote:
+> > On Sat, Dec 17, 2011 at 10:22:01AM +0000, Richard Purdie wrote:
+> > > On Sat, 2011-12-17 at 10:20 +0100, Martin Jansa wrote:
+> > > > On Sat, Dec 17, 2011 at 01:32:28AM +0000, Richard Purdie wrote:
+> > > > I've tried to build image with SRCREV=3D633 and it built image fine
+> > > > then I tried to apply your patch but without installorder.patch to
+> > > > confirm that the issue with circular depending packages is really c=
+ause
+> > > > by that only and then try to fix installorder.patch to work even wi=
+th
+> > > > such packages, but I got many postinst errors :(.=20
+> > > >=20
+> > > > From your description I understood that postinst execution should be
+> > > > almost the same only more logic is moved from rootfs_ipk.bbclass to=
+ opkg
+> > > > itself.
+> > > >=20
+> > > > | Collected errors:
+> > > > |  * pkg_run_script: package "pam-plugin-unix" postinst script retu=
+rned status 1.
+> > > > |  * opkg_configure: pam-plugin-unix.postinst returned 1.
+> > > > |  * pkg_run_script: package "pango-module-basic-x" postinst script=
+ returned status 1.
+> > > > |  * opkg_configure: pango-module-basic-x.postinst returned 1.
+> > > > |  * pkg_run_script: package "pango-module-basic-fc" postinst scrip=
+t returned status 1.
+> > > > |  * opkg_configure: pango-module-basic-fc.postinst returned 1.
+> > > > |  * pkg_run_script: package "update-modules" postinst script retur=
+ned status 1.
+> > > > |  * opkg_configure: update-modules.postinst returned 1.
+> > > > |  * pkg_run_script: package "gdk-pixbuf-loader-png" postinst scrip=
+t returned status 1.
+> > > > |  * opkg_configure: gdk-pixbuf-loader-png.postinst returned 1.
+> > > > |  * pkg_run_script: package "gdk-pixbuf-loader-jpeg" postinst scri=
+pt returned status 1.
+> > > > |  * opkg_configure: gdk-pixbuf-loader-jpeg.postinst returned 1.
+> > > > |  * pkg_run_script: package "liberation-fonts" postinst script ret=
+urned status 1.
+> > > > |  * opkg_configure: liberation-fonts.postinst returned 1.
+> > > > |  * pkg_run_script: package "gdk-pixbuf-loader-xpm" postinst scrip=
+t returned status 1.
+> > > > |  * opkg_configure: gdk-pixbuf-loader-xpm.postinst returned 1.
+> > > > |  * pkg_run_script: package "gdk-pixbuf-loader-gif" postinst scrip=
+t returned status 1.
+> > > > |  * opkg_configure: gdk-pixbuf-loader-gif.postinst returned 1.
+> > > > |  * pkg_run_script: package "ppp" postinst script returned status =
+1.
+> > > > |  * opkg_configure: ppp.postinst returned 1.
+> > > > |  * pkg_run_script: package "ttf-dejavu-common" postinst script re=
+turned status 127.
+> > > > |  * opkg_configure: ttf-dejavu-common.postinst returned 127.
+> > > > |  * pkg_run_script: package "ttf-dejavu-sans" postinst script retu=
+rned status 127.
+> > > > |  * opkg_configure: ttf-dejavu-sans.postinst returned 127.
+> > > > |  * pkg_run_script: package "ffalarms" postinst script returned st=
+atus 127.
+> > > > |  * opkg_configure: ffalarms.postinst returned 127.
+> > > > |  * pkg_run_script: package "rsyslog" postinst script returned sta=
+tus 1.
+> > > > |  * opkg_configure: rsyslog.postinst returned 1.
+> > > > |  * pkg_run_script: package "ttf-dejavu-sans-mono" postinst script=
+ returned status 127.
+> > > > |  * opkg_configure: ttf-dejavu-sans-mono.postinst returned 127.
+> > > > |  * pkg_run_script: package "matchbox-keyboard-im" postinst script=
+ returned status 1.
+> > > > |  * opkg_configure: matchbox-keyboard-im.postinst returned 1.
+> > > > |  * pkg_run_script: package "hicolor-icon-theme" postinst script r=
+eturned status 1.
+> > > > |  * opkg_configure: hicolor-icon-theme.postinst returned 1.
+> > > > |  * pkg_run_script: packaERROR: Function 'do_rootfs' failed (see /=
+OE/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/shr-l
+> > > > ite-image/2.0-r20/temp/log.do_rootfs.10063 for further information)
+> > > > | ge "ttf-liberation-mono" postinst script returned status 127.
+> > > > |  * opkg_configure: ttf-liberation-mono.postinst returned 127.
+> > > > |  * pkg_run_script: package "gtk-immodule-xim" postinst script ret=
+urned status 1.
+> > > > |  * opkg_configure: gtk-immodule-xim.postinst returned 1.
+> > > > |  * pkg_run_script: package "ca-certificates" postinst script retu=
+rned status 1.
+> > > > |  * opkg_configure: ca-certificates.postinst returned 1.
+> > > > NOTE: package shr-lite-image-2.0-r20: task do_rootfs: Failed
+> > > > ERROR: Task 9 (/OE/shr-core/meta-smartphone/meta-shr/recipes-shr/im=
+ages/shr-lite-image.bb, do_rootfs) failed with exit code '
+> > > > 1'
+> > >=20
+> > > This looks like you don't have the offline_postinstall patch applied?
+> >=20
+> > I have
+>=20
+> Please double check. That patch does things like:
+>=20
+> Index: trunk/libopkg/pkg.c
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> --- trunk.orig/libopkg/pkg.c	2011-12-15 15:58:39.000000000 +0000
+> +++ trunk/libopkg/pkg.c	2011-12-15 20:04:50.109992736 +0000
+> @@ -1297,8 +1297,9 @@
+>       free(cmd);
+> =20
+>       if (err) {
+> -	  opkg_msg(ERROR, "package \"%s\" %s script returned status %d.\n",=20
+> -               pkg->name, script, err);
+> +          if (!conf->offline_root)
+> +	       opkg_msg(ERROR, "package \"%s\" %s script returned status %d.\n"=
+,=20
+> +                    pkg->name, script, err);
+>  	  return err;
+>       }
+> =20
+> and these are clearly showing up as ERRORs above. This means that:
+>=20
+> a) offline_root isn't set (extremely unlikely for do_rootfs to work)
+> b) the patch isn't applied
+>=20
+> > > opkg revision 633 will not build correct metadata without the patches
+> > > included.
+> >=20
+> > Only patch not included in my opkg build was the installorder one.
+>=20
+> I have my doubts about this, sorry...
 
-> This is likely as a result of the installorder patch :/. Sadly if we
-> want the postinstalls to be installed in order we do need that patch.
->
-> The question is whether circular depends are something opkg should
-> support or not?
+With runtime circular dependencies broken by RRECOMMENDS I managed to
+build an image, but there is problem in target opkg
 
-I think, circular dependencies should (and must) be supported. It is
-nearly impossible to avoid them and other package managers (rpm, dpkg)
-work fine with them.
+$D is not empty anymore (it's set to /), so all postinst scripts are
+executing the variant for do_rootfs not for target, e.g.
 
-Forbidding them would require a large rewrite of oe recipes; e.g. the
-autogenerated perl deps cause a circle leading to
+Configuring opkg.
+//var/lib/opkg/info/opkg.postinst: line 3: install: command not found
+update-alternatives: Linking //usr/bin/opkg to /usr/bin/opkg-cl
+Configuring kernel-module-fat.
+//var/lib/opkg/info/kernel-module-fat.postinst: line 3: arm-oe-linux-gnueab=
+i-depmod: command not found
+=20
+> =20
+> > > > > The question is whether circular depends are something opkg should
+> > > > > support or not? What's debian's behaviour in that regard?
+> > > >=20
+> > > > Well, it did work before and from quick search it looks that such c=
+ircular dependencies are=20
+> > > > quite common in our metadata.
+> > >=20
+> > > Do you have some examples? I couldn't find any in OE-Core?
+> >=20
+> > I'll try.
+> >=20
+> > > >  So I agree that this patch is really needed to fix dbus owner,
+> > > > but in case there is circular dependency we shouldn't be so strict =
+about order of installs.
+> > >=20
+> > > So how you you handle A depends on B which depends on A and be strict
+> > > about dependency order?
+> >=20
+> > The problem with dbus/base-passwd can be fixed by this patch, but for
+> > fsogsmd* modules the order is not so important, so I think that when th=
+ere
+> > is circular dependency detected the order _shouldn't_ be so strict and
+> > maybe warning can be shown, but it shouldn't be fatal.
+>=20
+> Looking at fsogsmd, that specific packages split doesn't really make
+> sense. fsogsmd depends on fsogsmd-connman and fsogsmd-connman depends on
+> fsogsmd. This means that both or neither can be installed but never
+> either of them singly so the split is just a waste of space.
+>=20
+> I agree we need to improve that patch to detect loops but I'm not sure a
+> warning makes sense as we can't tell the difference between a case where
+> we don't care and a case where the resulting image is corrupt...
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-| Installing perl-module-extutils-makemaker (5.14.2-r2) to root...
-| Installing perl-module-extutils-my (5.14.2-r2) to root...
-| Installing perl-module-extutils-mm (5.14.2-r2) to root...
-| Installing perl-module-extutils-makemaker (5.14.2-r2) to root...
-| Installing perl-module-extutils-my (5.14.2-r2) to root...
-| Installing perl-module-extutils-mm (5.14.2-r2) to root...
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-loops.
+--uuKVzAmB+c+zQlhu
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.18 (GNU/Linux)
 
-> What's debian's behaviour in that regard?
+iEYEARECAAYFAk7tx9oACgkQN1Ujt2V2gByTKQCdHwlLgZvY+s7GImhYG2MmSvDo
+ehUAnR8UyQ8mBSvx4xVobJb4DNSBlO3U
+=5pym
+-----END PGP SIGNATURE-----
 
-afais, dpkg supports a 'Pre-Depends' field which breaks the dependency
-circles.  rpm supports more finegrained 'Requires(preinst/postinst)'
-tags too.
-
-
-Enrico
-
-
+--uuKVzAmB+c+zQlhu--
