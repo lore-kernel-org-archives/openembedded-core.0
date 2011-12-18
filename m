@@ -1,30 +1,27 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RcOG2-0003Zh-Rt
+	(envelope-from <scott.a.garman@intel.com>) id 1RcPva-0006Rd-Cn
 	for openembedded-core@lists.openembedded.org;
-	Sun, 18 Dec 2011 22:26:58 +0100
-Received: by werm13 with SMTP id m13so1058390wer.6
+	Mon, 19 Dec 2011 00:13:58 +0100
+Received: from localhost (c-76-115-40-64.hsd1.or.comcast.net [76.115.40.64])
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 0C7BC2FE8A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Dec 2011 13:19:56 -0800 (PST)
-Received: by 10.216.139.155 with SMTP id c27mr5887629wej.37.1324243196795;
-	Sun, 18 Dec 2011 13:19:56 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235]) by mx.google.com with ESMTPS id
-	fy13sm23209384wbb.18.2011.12.18.13.19.55
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 18 Dec 2011 13:19:56 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Sun, 18 Dec 2011 22:19:53 +0100
-In-Reply-To: <CADkTA4OLwUcM86JbCXDOPXUOb1hH+vvKfShjaAsXP3e9Ek0f=A@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1324237652-15618-1-git-send-email-dbaryshkov@gmail.com>
-	<5C0105D4-44BE-4584-9ED9-36970B91A34C@dominion.thruhere.net>
-	<CADkTA4OLwUcM86JbCXDOPXUOb1hH+vvKfShjaAsXP3e9Ek0f=A@mail.gmail.com>
-Message-Id: <FB6AAD0F-5F91-48D3-8D02-FCBEC19A4B9E@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH 1/5] kernel.bbclass: move uImage handling to separate task
+	Sun, 18 Dec 2011 18:06:52 -0500 (EST)
+From: Scott Garman <scott.a.garman@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 18 Dec 2011 15:06:56 -0800
+Message-Id: <cover.1324249522.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.5.4
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: 0C7BC2FE8A.EAD0D
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Subject: [PATCH 0/1] Add missing SUMMARY fields to various recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,57 +36,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 18 Dec 2011 21:26:59 -0000
-X-Groupsio-MsgNum: 14410
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_DD359FA1-B1E0-477A-8985-9C45B09E11BD";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Sun, 18 Dec 2011 23:13:59 -0000
 
---Apple-Mail=_DD359FA1-B1E0-477A-8985-9C45B09E11BD
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+Hello,
+
+In response to Shane's request for recipe maintainers to update recipes
+missing SUMMARY fields, this should take care of my list.
+
+Scott
+
+The following changes since commit 3e05acab1c119a3b2a4703ea8729cc768935d36e:
+
+  license.bbclass: remove bashism (2011-12-16 16:50:39 +0000)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib sgarman/update-summary-final
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/update-summary-final
+
+Scott Garman (1):
+  Add missing SUMMARY fields to various recipes
+
+ .../nfs-utils/libnfsidmap_0.24.bb                  |    3 ++-
+ .../recipes-devtools/dosfstools/dosfstools_2.11.bb |    2 +-
+ .../qemu/qemu-helper-nativesdk_1.0.bb              |    3 ++-
+ meta/recipes-extended/grep/grep_2.9.bb             |    1 +
+ meta/recipes-support/icu/icu-3.6.inc               |    1 +
+ meta/recipes-support/libevent/libevent_1.4.14b.bb  |    3 ++-
+ 6 files changed, 9 insertions(+), 4 deletions(-)
+
+-- 
+1.7.5.4
 
 
-Op 18 dec. 2011, om 21:27 heeft Bruce Ashfield het volgende geschreven:
 
-> On Sun, Dec 18, 2011 at 3:13 PM, Koen Kooi =
-<koen@dominion.thruhere.net> wrote:
->>=20
->> Op 18 dec. 2011, om 20:47 heeft Dmitry Eremin-Solenikov het volgende =
-geschreven:
->>=20
->>> As per org.oe.dev and meta-oe's kernel.bbclass move uImage creation =
-to
->>> separate task from do_deploy. This way the do_install task can also
->>> benefit from generated uImage.
->>>=20
->>> The only major feature of oe-core's version (not to recreate uImage
->>> if it exists) is retained in this patch.
->>=20
->> I still don't agree with that behaviour. The in-kernel uImage code is =
-just like the in-kernel defconfigs: useless for people who aren't kernel =
-developers.
->=20
-> In that case, shouldn't people doing u-boot development (or other
-> non-kernel developers),
-> be building a uImage via something that isn't in kernel.bbclass ?
-
-I use the kernel.bbclass in meta-oe, that does what I need.=
-
---Apple-Mail=_DD359FA1-B1E0-477A-8985-9C45B09E11BD
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-
-iEYEARECAAYFAk7uWPsACgkQMkyGM64RGpHe8ACdEdFi1Nh17keaiRxAAWQI3Rh6
-2CYAoKcYow2t+pnGOlJs7teSNB4IQARn
-=3QuN
------END PGP SIGNATURE-----
-
---Apple-Mail=_DD359FA1-B1E0-477A-8985-9C45B09E11BD--
