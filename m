@@ -1,28 +1,25 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RcD1b-0007ra-P7
+	(envelope-from <koen@dominion.thruhere.net>) id 1RcDDX-00088x-RH
 	for openembedded-core@lists.openembedded.org;
-	Sun, 18 Dec 2011 10:27:20 +0100
-Received: by wgbds11 with SMTP id ds11so7570580wgb.24
+	Sun, 18 Dec 2011 10:39:39 +0100
+Received: by werm13 with SMTP id m13so888580wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Dec 2011 01:20:15 -0800 (PST)
-Received: by 10.180.92.197 with SMTP id co5mr2199268wib.7.1324200015038;
-	Sun, 18 Dec 2011 01:20:15 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235]) by mx.google.com with ESMTPS id
-	bl10sm20710502wib.15.2011.12.18.01.20.13
+	Sun, 18 Dec 2011 01:32:38 -0800 (PST)
+Received: by 10.216.134.91 with SMTP id r69mr2852272wei.1.1324200757234;
+	Sun, 18 Dec 2011 01:32:37 -0800 (PST)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id
+	fy13sm21317767wbb.18.2011.12.18.01.32.35
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 18 Dec 2011 01:20:14 -0800 (PST)
+	Sun, 18 Dec 2011 01:32:36 -0800 (PST)
 From: Koen Kooi <koen@dominion.thruhere.net>
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-Date: Sun, 18 Dec 2011 10:20:12 +0100
-In-Reply-To: <1324170197-10720-1-git-send-email-schnitzeltony@gmx.de>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1324170197-10720-1-git-send-email-schnitzeltony@gmx.de>
-Message-Id: <DEFC46C0-A381-485A-BABF-711F2A56A8A1@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1251.1)
-Subject: Re: [PATCH] xorg-font-common.inc: break runtime dependency loop
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 18 Dec 2011 10:32:11 +0100
+Message-Id: <1324200731-10753-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.2.5
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] libsdl 1.2.14: fix packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,79 +34,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 18 Dec 2011 09:27:20 -0000
-X-Groupsio-MsgNum: 14392
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_B7FC2A02-6B9F-49FB-9BD2-5982885A265C";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Sun, 18 Dec 2011 09:39:40 -0000
 
---Apple-Mail=_B7FC2A02-6B9F-49FB-9BD2-5982885A265C
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=iso-8859-1
+For some reason the -config script was shipped in ${PN} leading to shlibs renaming issues:
 
+What we want, and how meta-oe used to do it:
+	libsdl-1.2-0_1.2.14-r0.0_armv7a.ipk
 
-Op 18 dec. 2011, om 02:03 heeft Andreas M=FCller het volgende =
-geschreven:
+Current OE-core status:
+	libsdl_1.2.14-r2_armv7a.ipk
 
-> required since opkg update [1]
->=20
-> [1] =
-http://cgit.openembedded.org/openembedded-core/commit/?id=3D2feba313c99117=
-0747381c7cf821a45c2cd04632
->=20
-> Signed-off-by: Andreas M=FCller <schnitzeltony@gmx.de>
+With this commit we get both proper shlib renaming and the -dev package now has all the dev files
 
-I was planning to send something reallly similar looking on monday :)
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-graphics/libsdl/libsdl_1.2.14.bb |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
 
-Acked-by: Koen Kooi <koen@dominion.thruhere.net>
-
-> ---
-> .../xorg-font/xorg-font-common.inc                 |    4 ++--
-> 1 files changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-graphics/xorg-font/xorg-font-common.inc =
-b/meta/recipes-graphics/xorg-font/xorg-font-common.inc
-> index d93b4ee..5a8ae56 100644
-> --- a/meta/recipes-graphics/xorg-font/xorg-font-common.inc
-> +++ b/meta/recipes-graphics/xorg-font/xorg-font-common.inc
-> @@ -5,10 +5,10 @@ SECTION =3D "x11/fonts"
-> LICENSE =3D "MIT-X"
->=20
-> DEPENDS =3D " encodings font-alias font-util-native mkfontdir-native =
-mkfontscale-native"
-> -RDEPENDS_${PN} =3D "encodings font-util font-alias"
-> +RRECOMMENDS_${PN} =3D "encodings font-util font-alias"
->=20
-> XORG_PN =3D "${BPN}"
-> -INC_PR =3D "r2"
-> +INC_PR =3D "r3"
->=20
-> SRC_URI =3D "${XORG_MIRROR}/individual/font/${XORG_PN}-${PV}.tar.bz2"
-> S =3D "${WORKDIR}/${XORG_PN}-${PV}"
-> --=20
-> 1.7.4.4
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+index a28a88a..761995e 100644
+--- a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
++++ b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
+@@ -15,7 +15,7 @@ PROVIDES = "virtual/libsdl"
+ DEPENDS = "${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} virtual/libx11 libxext libxrandr libxrender tslib"
+ DEPENDS_virtclass-nativesdk = "libx11-nativesdk libxrandr-nativesdk libxrender-nativesdk libxext-nativesdk"
+ 
+-PR = "r2"
++PR = "r3"
+ 
+ SRC_URI = "http://www.libsdl.org/release/SDL-${PV}.tar.gz \
+            file://configure_tweak.patch \
+@@ -57,4 +57,6 @@ do_configure_prepend() {
+         export SYSROOT=$PKG_CONFIG_SYSROOT_DIR
+ }
+ 
++FILES_${PN}-dev += "${bindir}/sdl-config""
++
+ BBCLASSEXTEND = "nativesdk"
+-- 
+1.7.2.5
 
 
---Apple-Mail=_B7FC2A02-6B9F-49FB-9BD2-5982885A265C
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
-
-iEYEARECAAYFAk7tsE4ACgkQMkyGM64RGpGwzACeIVAfRODRJw79/pvCnaDPhyQm
-vskAn3gcPEUGleQTNYag72zMsqgu2hs/
-=BjwW
------END PGP SIGNATURE-----
-
---Apple-Mail=_B7FC2A02-6B9F-49FB-9BD2-5982885A265C--
