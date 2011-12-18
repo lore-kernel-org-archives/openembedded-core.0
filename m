@@ -1,29 +1,31 @@
 Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dbaryshkov@gmail.com>) id 1RcMqB-0000fc-8Q
+	(envelope-from <dbaryshkov@gmail.com>) id 1RcMqC-0000fc-TO
 	for openembedded-core@lists.openembedded.org;
-	Sun, 18 Dec 2011 20:56:11 +0100
-Received: by iakh37 with SMTP id h37so3846499iak.6
+	Sun, 18 Dec 2011 20:56:13 +0100
+Received: by mail-iy0-f175.google.com with SMTP id h37so3846499iak.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Dec 2011 11:49:08 -0800 (PST)
+	Sun, 18 Dec 2011 11:49:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:subject:date:message-id:x-mailer;
-	bh=fWm5ZUjYOR6PHfXf7njikgT6a66oHki1eId+B/WVkU8=;
-	b=ZS6LVhp7/sg+CykhwQJ7dlIGlaOAftAQnmaMSZFQhZYg1MFpODKMP6O97beaHfAGW2
-	07UF0InoWYBjVGs13AiqRJGELbb1OnzF+6kju8njHiA1VwhP1g/uDIIc07T7n78oDJt+
-	D0LPWEE77qsLPXIfA+3PcZbhubGHohFtqLIV4=
-Received: by 10.50.87.234 with SMTP id bb10mr23404269igb.81.1324237748426;
-	Sun, 18 Dec 2011 11:49:08 -0800 (PST)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=7LFCuVLi6gJVAeGVc6uzUs5IfHsvxXievr1SiMLuiOo=;
+	b=CtWz+14QADrzaXAJkojlvARupmNCBS7AxWLW3Bmn6e385r2uvenfT7dhtHnoUKW5hP
+	f/9bMbznB6hLHN0xN4FcOVGnU76FnhIN5LFs7uh3JfSLWd3o3m5ZBxp1fGJniF/+RInv
+	feJj/mxO5Rsgu/R2JXJNmEJJnUi4yy/1Beejs=
+Received: by 10.50.12.161 with SMTP id z1mr22730868igb.85.1324237752861;
+	Sun, 18 Dec 2011 11:49:12 -0800 (PST)
 Received: from fangorn.rup.mentorg.com (nat-rup.mentorg.com. [139.181.168.34])
 	by mx.google.com with ESMTPS id
-	cv10sm10929303igc.0.2011.12.18.11.49.05 (version=SSLv3 cipher=OTHER);
-	Sun, 18 Dec 2011 11:49:07 -0800 (PST)
+	cv10sm10929303igc.0.2011.12.18.11.49.11 (version=SSLv3 cipher=OTHER);
+	Sun, 18 Dec 2011 11:49:12 -0800 (PST)
 From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 18 Dec 2011 23:47:28 +0400
-Message-Id: <1324237652-15618-1-git-send-email-dbaryshkov@gmail.com>
+Date: Sun, 18 Dec 2011 23:47:30 +0400
+Message-Id: <1324237652-15618-3-git-send-email-dbaryshkov@gmail.com>
 X-Mailer: git-send-email 1.7.7.3
-Subject: [PATCH 1/5] kernel.bbclass: move uImage handling to separate task
+In-Reply-To: <1324237652-15618-1-git-send-email-dbaryshkov@gmail.com>
+References: <1324237652-15618-1-git-send-email-dbaryshkov@gmail.com>
+Subject: [PATCH 3/5] ncurses: drop compatibility symlink to remove QA warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,83 +40,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 18 Dec 2011 19:56:11 -0000
+X-List-Received-Date: Sun, 18 Dec 2011 19:56:13 -0000
 
-As per org.oe.dev and meta-oe's kernel.bbclass move uImage creation to
-separate task from do_deploy. This way the do_install task can also
-benefit from generated uImage.
-
-The only major feature of oe-core's version (not to recreate uImage
-if it exists) is retained in this patch. On the contra, as this version
-was merged from meta-oe/org.oe.dev, new function has another feature:
-it permits overriding the u-boot entrypoint via u-boot symbol.
+ncurses doesn't use ${libdir}/terminfo. It is a backwards-compatibility
+symlink to ${datadir}/terminfo. It is not installed by ncurses recipe.
+Drop it to drop QA warning.
 
 Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 ---
- meta/classes/kernel.bbclass |   43 +++++++++++++++++++++++++++----------------
- 1 files changed, 27 insertions(+), 16 deletions(-)
+ meta/recipes-core/ncurses/ncurses.inc |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 3f2f75a..8832a77 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -489,6 +489,33 @@ do_sizecheck() {
+diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+index 98f45a4..1449f34 100644
+--- a/meta/recipes-core/ncurses/ncurses.inc
++++ b/meta/recipes-core/ncurses/ncurses.inc
+@@ -171,6 +171,8 @@ do_install() {
+         echo 'INPUT(AS_NEEDED(-ltinfo))' >>$f
  
- addtask sizecheck before do_install after do_compile
+ 	oe_multilib_header curses.h
++
++	rm ${D}${libdir}/terminfo
+ }
  
-+# Define to 1 to force kernel.bbclass to recreate uImage for you
-+KERNEL_RECREATE_UIMAGE ?= "0"
-+
-+do_uboot_mkimage() {
-+    test "x${KERNEL_IMAGETYPE}" = "xuImage" || return 0
-+    test "x${KERNEL_RECREATE_UIMAGE}" = "x1" -o ! -e arch/${ARCH}/boot/uImage || return 0
-+
-+    ENTRYPOINT=${UBOOT_ENTRYPOINT}
-+    if test -n "${UBOOT_ENTRYSYMBOL}"; then
-+        ENTRYPOINT=`${HOST_PREFIX}nm ${S}/vmlinux | \
-+               awk '$3=="${UBOOT_ENTRYSYMBOL}" {print $1}'`
-+    fi
-+    if test -e arch/${ARCH}/boot/compressed/vmlinux ; then
-+        ${OBJCOPY} -O binary -R .note -R .comment -S arch/${ARCH}/boot/compressed/vmlinux linux.bin
-+        uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C none -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin arch/${ARCH}/boot/uImage
-+        rm -f linux.bin
-+    else
-+        ${OBJCOPY} -O binary -R .note -R .comment -S vmlinux linux.bin
-+        rm -f linux.bin.gz
-+        gzip -9 linux.bin
-+        uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C gzip -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin.gz arch/${ARCH}/boot/uImage
-+        rm -f linux.bin.gz
-+    fi
-+}
-+
-+addtask uboot_mkimage before do_install after do_compile
-+
- KERNEL_IMAGE_BASE_NAME ?= "${KERNEL_IMAGETYPE}-${PV}-${PR}-${MACHINE}-${DATETIME}"
- # Don't include the DATETIME variable in the sstate package signatures
- KERNEL_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
-@@ -500,22 +527,6 @@ kernel_do_deploy() {
- 		tar -cvzf ${DEPLOYDIR}/modules-${KERNEL_VERSION}-${PR}-${MACHINE}.tgz -C ${D} lib
- 	fi
- 
--	if test "x${KERNEL_IMAGETYPE}" = "xuImage" ; then 
--		if test -e arch/${ARCH}/boot/uImage ; then
--			cp arch/${ARCH}/boot/uImage ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
--		elif test -e arch/${ARCH}/boot/compressed/vmlinux ; then
--			${OBJCOPY} -O binary -R .note -R .comment -S arch/${ARCH}/boot/compressed/vmlinux linux.bin
--			uboot-mkimage -A ${ARCH} -O linux -T kernel -C none -a ${UBOOT_ENTRYPOINT} -e ${UBOOT_ENTRYPOINT} -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
--			rm -f linux.bin
--		else
--			${OBJCOPY} -O binary -R .note -R .comment -S vmlinux linux.bin
--			rm -f linux.bin.gz
--			gzip -9 linux.bin
--			uboot-mkimage -A ${ARCH} -O linux -T kernel -C gzip -a ${UBOOT_ENTRYPOINT} -e ${UBOOT_ENTRYPOINT} -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin.gz ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
--			rm -f linux.bin.gz
--		fi
--	fi
--
- 	cd ${DEPLOYDIR}
- 	rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.bin
- 	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGE_SYMLINK_NAME}.bin
+ python populate_packages_prepend () {
 -- 
 1.7.7.3
 
