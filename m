@@ -1,25 +1,33 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RcDDX-00088x-RH
-	for openembedded-core@lists.openembedded.org;
-	Sun, 18 Dec 2011 10:39:39 +0100
-Received: by werm13 with SMTP id m13so888580wer.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1RcDIY-0008GJ-RC for openembedded-core@lists.openembedded.org;
+	Sun, 18 Dec 2011 10:44:50 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBI9bo1M003337
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Dec 2011 01:32:38 -0800 (PST)
-Received: by 10.216.134.91 with SMTP id r69mr2852272wei.1.1324200757234;
-	Sun, 18 Dec 2011 01:32:37 -0800 (PST)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
-	by mx.google.com with ESMTPS id
-	fy13sm21317767wbb.18.2011.12.18.01.32.35
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 18 Dec 2011 01:32:36 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 18 Dec 2011 10:32:11 +0100
-Message-Id: <1324200731-10753-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.7.2.5
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] libsdl 1.2.14: fix packaging
+	Sun, 18 Dec 2011 09:37:50 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 30371-08 for <openembedded-core@lists.openembedded.org>;
+	Sun, 18 Dec 2011 09:37:43 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBI9bfPO003329
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 18 Dec 2011 09:37:42 GMT
+Message-ID: <1324201062.4568.145.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Sun, 18 Dec 2011 09:37:42 +0000
+In-Reply-To: <1324059204-24547-1-git-send-email-stefan@datenfreihafen.org>
+References: <1324059204-24547-1-git-send-email-stefan@datenfreihafen.org>
+X-Mailer: Evolution 3.2.1- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [meta-xilinx] u-boot-xilinx: Rename folder and patch name as well to u-boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,45 +42,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 18 Dec 2011 09:39:40 -0000
+X-List-Received-Date: Sun, 18 Dec 2011 09:44:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-For some reason the -config script was shipped in ${PN} leading to shlibs renaming issues:
+On Fri, 2011-12-16 at 19:13 +0100, Stefan Schmidt wrote:
+> For consistency and perhaps trademark reasons rename all u-boot references from
+> uboot to u-boot.
+> 
+> Signed-off-by: Stefan Schmidt <stefan@datenfreihafen.org>
 
-What we want, and how meta-oe used to do it:
-	libsdl-1.2-0_1.2.14-r0.0_armv7a.ipk
+Merged, thanks.
 
-Current OE-core status:
-	libsdl_1.2.14-r2_armv7a.ipk
-
-With this commit we get both proper shlib renaming and the -dev package now has all the dev files
-
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/recipes-graphics/libsdl/libsdl_1.2.14.bb |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
-index a28a88a..761995e 100644
---- a/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
-+++ b/meta/recipes-graphics/libsdl/libsdl_1.2.14.bb
-@@ -15,7 +15,7 @@ PROVIDES = "virtual/libsdl"
- DEPENDS = "${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} virtual/libx11 libxext libxrandr libxrender tslib"
- DEPENDS_virtclass-nativesdk = "libx11-nativesdk libxrandr-nativesdk libxrender-nativesdk libxext-nativesdk"
- 
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "http://www.libsdl.org/release/SDL-${PV}.tar.gz \
-            file://configure_tweak.patch \
-@@ -57,4 +57,6 @@ do_configure_prepend() {
-         export SYSROOT=$PKG_CONFIG_SYSROOT_DIR
- }
- 
-+FILES_${PN}-dev += "${bindir}/sdl-config""
-+
- BBCLASSEXTEND = "nativesdk"
--- 
-1.7.2.5
+Richard
 
 
 
