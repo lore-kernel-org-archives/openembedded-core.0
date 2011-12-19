@@ -1,46 +1,34 @@
-Received: from ch1ehsobe005.messaging.microsoft.com ([216.32.181.185]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from lo.gmane.org ([80.91.229.12])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B19537@freescale.com>) id 1Rccey-0006t9-PW
-	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Dec 2011 13:51:41 +0100
-Received: from mail149-ch1-R.bigfish.com (10.43.68.253) by
-	CH1EHSOBE004.bigfish.com (10.43.70.54) with Microsoft SMTP Server id
-	14.1.225.23; Mon, 19 Dec 2011 12:24:13 +0000
-Received: from mail149-ch1 (localhost [127.0.0.1])	by
-	mail149-ch1-R.bigfish.com (Postfix) with ESMTP id 37D9D2C01A1	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2011 12:24:35 +0000 (UTC)
-X-SpamScore: 1
-X-BigFish: VS1(zzzz1202hzz8275bh8275dhz2dh2a8h668h839hb79i)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-FB-SS: 0,
-Received: from mail149-ch1 (localhost.localdomain [127.0.0.1]) by mail149-ch1
-	(MessageSwitch) id 1324297473126115_13776;
-	Mon, 19 Dec 2011 12:24:33 +0000 (UTC)
-Received: from CH1EHSMHS029.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.243])	by mail149-ch1.bigfish.com (Postfix) with ESMTP id
-	167BD400043	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2011 12:24:33 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS029.bigfish.com
-	(10.43.70.29) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Mon, 19 Dec 2011 12:24:11 +0000
-Received: from az33smr01.freescale.net (10.64.34.199) by
-	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
-	Server id 14.1.355.3; Mon, 19 Dec 2011 06:24:15 -0600
-Received: from localhost.localdomain
-	(bjsimics-desktop-010192208197.ap.freescale.net [10.192.208.197])	by
-	az33smr01.freescale.net (8.13.1/8.13.0) with ESMTP id pBJCOD9S002544;
-	Mon, 19 Dec 2011 06:24:14 -0600 (CST)
-From: <b19537@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 19 Dec 2011 20:27:11 +0800
-Message-ID: <1324297631-11187-1-git-send-email-b19537@freescale.com>
-X-Mailer: git-send-email 1.7.0.4
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH oe-core v2] valgrind: remove COMPATIBLE_HOST to extend the supported arch
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1Rcckz-0007EA-EC for openembedded-core@lists.openembedded.org;
+	Mon, 19 Dec 2011 13:55:54 +0100
+Received: from list by lo.gmane.org with local (Exim 4.69)
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1RcceC-000656-Cb for openembedded-core@lists.openembedded.org;
+	Mon, 19 Dec 2011 13:48:52 +0100
+Received: from nat-rup.mentorg.com ([139.181.168.34])
+	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
+	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Dec 2011 13:48:52 +0100
+Received: from dbaryshkov by nat-rup.mentorg.com with local (Gmexim 0.1
+	(Debian)) id 1AlnuQ-0007hv-00
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Dec 2011 13:48:52 +0100
+X-Injected-Via-Gmane: http://gmane.org/
+To: openembedded-core@lists.openembedded.org
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Date: Mon, 19 Dec 2011 16:47:10 +0400
+Message-ID: <4EEF324E.8060203@gmail.com>
+References: <1324237652-15618-1-git-send-email-dbaryshkov@gmail.com>
+	<5C0105D4-44BE-4584-9ED9-36970B91A34C@dominion.thruhere.net>
+Mime-Version: 1.0
+X-Complaints-To: usenet@dough.gmane.org
+X-Gmane-NNTP-Posting-Host: nat-rup.mentorg.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:8.0) Gecko/20111109 Icedove/8.0
+In-Reply-To: <5C0105D4-44BE-4584-9ED9-36970B91A34C@dominion.thruhere.net>
+Cc: Koen Kooi <public-koen-QLwJDigV5abLmq1fohREcCpxlwaOVQ5f@lo.gmane.org>
+Subject: Re: [PATCH 1/5] kernel.bbclass: move uImage handling to separate task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,41 +43,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2011 12:51:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 19 Dec 2011 12:55:54 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Zhenhua Luo <b19537@freescale.com>
+On 12/19/2011 12:13 AM, Koen Kooi wrote:
+>
+> Op 18 dec. 2011, om 20:47 heeft Dmitry Eremin-Solenikov het volgende geschreven:
+>
+>> As per org.oe.dev and meta-oe's kernel.bbclass move uImage creation to
+>> separate task from do_deploy. This way the do_install task can also
+>> benefit from generated uImage.
+>>
+>> The only major feature of oe-core's version (not to recreate uImage
+>> if it exists) is retained in this patch.
+>
+> I still don't agree with that behaviour. The in-kernel uImage code is just like the in-kernel defconfigs: useless for people who aren't kernel developers.
 
-Signed-off-by: Zhenhua Luo <b19537@freescale.com>
----
- meta/recipes-devtools/valgrind/valgrind_3.6.1.bb |    4 +---
- 1 files changed, 1 insertions(+), 3 deletions(-)
+Koen, that was addressed with KERNEL_RECREATE_UIMAGE variable.
+Probably I should document it somewhere (in the commit message?
+documentation.conf? smwh. else?). Would you agree with this patch + docs?
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.6.1.bb b/meta/recipes-devtools/valgrind/valgrind_3.6.1.bb
-index 021caa8..0a09ea1 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.6.1.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.6.1.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c46082167a314d785d012a244748d803 \
-                     file://include/valgrind.h;beginline=1;endline=56;md5=13a71cedba99112334d8596162aec37e \
-                     file://COPYING.DOCS;md5=8fdeb5abdb235a08e76835f8f3260215"
- DEPENDS = "virtual/libx11"
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
- 	   file://fix_issue_caused_by_ccache.patch \
-@@ -17,8 +17,6 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
- SRC_URI[md5sum] = "2c3aa122498baecc9d69194057ca88f5"
- SRC_URI[sha256sum] = "49bdcc4fbcf060049b5f0dcfd8a187a6e90e0b0e57309f633b64e44430726a0e"
- 
--COMPATIBLE_HOST = '(i.86|x86_64).*-linux'
--
- inherit autotools
- 
- EXTRA_OECONF = "--enable-tls"
+>
+>> On the contra, as this version
+>> was merged from meta-oe/org.oe.dev, new function has another feature:
+>> it permits overriding the u-boot entrypoint via u-boot symbol.
+>
+> No it doesn't, since it doesn't recreate uImage.
+
+It does.
+
+BTW: I don't have much experience of uImage usage on ARM SoCs (I used
+them only on Atmel boards, where things usually 'just worked' regarding 
+Kernel load address & Ko). On PowerPC I also didn't have too much 
+problems with upstream kernels (both from Linus'es tree and from 
+Freescale's one).
+
+I understand your concern, that for your tasks, you have to recreate 
+uImage using your sane values. However for some people sane values are 
+ones present in upstream tree. Moreover, if you care about history, it 
+was specially changed in oe-core not to recreate uImage, as it caused 
+problems for some of the users.
+
 -- 
-1.7.0.4
-
+With best wishes
+Dmitry
 
 
 
