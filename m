@@ -1,42 +1,27 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1RcWbh-0004Nu-LL
+Received: from mailout-de.gmx.net ([213.165.64.22])
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <schnitzeltony@gmx.de>) id 1RcY1n-0006Zh-6Z
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Dec 2011 07:21:54 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 18 Dec 2011 22:14:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="87967668"
-Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by orsmga001.jf.intel.com with ESMTP; 18 Dec 2011 22:14:49 -0800
-Received: from pgsmsx102.gar.corp.intel.com (10.221.44.80) by
-	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Mon, 19 Dec 2011 14:13:52 +0800
-Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
-	PGSMSX102.gar.corp.intel.com (10.221.44.80) with Microsoft SMTP Server
-	(TLS) id 14.1.355.2; Mon, 19 Dec 2011 14:13:52 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
-	Mon, 19 Dec 2011 14:13:50 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: =?iso-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
-Date: Mon, 19 Dec 2011 14:13:49 +0800
-Thread-Topic: [OE-core] [PATCH 1/1] wget: fix a host intrusion issue
-	introduced by adding --with-ssl=openssl.
-Thread-Index: Acy+EEUC59JfiuX3RNWS35gmPMa5fQABHBiA
-Message-ID: <1865303E0DED764181A9D882DEF65FB6EA8B6E0FA7@shsmsx502.ccr.corp.intel.com>
-References: <cover.1324271587.git.dexuan.cui@intel.com>
-	<33eb9cf534f8e946cf8cb2d67d64b47f193a89e7.1324271587.git.dexuan.cui@intel.com>
-	<4EEECD7D.7030807@eukrea.com>
-In-Reply-To: <4EEECD7D.7030807@eukrea.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
+	Mon, 19 Dec 2011 08:52:55 +0100
+Received: (qmail invoked by alias); 19 Dec 2011 07:45:52 -0000
+Received: from p5B0A29E0.dip.t-dialin.net (EHLO localhost.localdomain)
+	[91.10.41.224]
+	by mail.gmx.net (mp066) with SMTP; 19 Dec 2011 08:45:52 +0100
+X-Authenticated: #62780362
+X-Provags-ID: V01U2FsdGVkX1/2C6waTwv2/8wDyCyW50SLPAWg3oGYetgjAd5QVT
+	cSMob/uzaGpAn8
+From: Andreas =?iso-8859-1?q?M=FCller?= <schnitzeltony@gmx.de>
+To: "Patches and discussions about the oe-core layer"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] wget: fix a host intrusion issue introduced by adding --with-ssl=openssl.
+Date: Mon, 19 Dec 2011 08:46:32 +0100
+User-Agent: KMail/1.13.7 (Linux/2.6.35.14-106.fc14.x86_64; KDE/4.6.5; x86_64; ;
+	)
+References: <1324252470.4568.156.camel@ted>
+In-Reply-To: <1324252470.4568.156.camel@ted>
+MIME-Version: 1.0
+Message-Id: <201112190846.32828.schnitzeltony@gmx.de>
+X-Y-GMX-Trusted: 0
+Subject: Re: [PATCH] opkg: Add logic to detect and creak circular dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,32 +36,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2011 06:21:54 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Mon, 19 Dec 2011 07:52:55 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-Eric B=E9nard wrote on 2011-12-19:
->>   inherit autotools gettext update-alternatives
->> -EXTRA_OECONF =3D "--with-libc --enable-ipv6 --with-ssl=3Dopenssl"
->> +EXTRA_OECONF =3D "--with-libc --enable-ipv6
->> --with-libssl-prefix=3D${STAGING_DIR_HOST} --with-ssl=3Dopenssl"
->>=20
->>   do_install_append () {
->>   	mv ${D}${bindir}/wget ${D}${bindir}/wget.${PN}
+On Monday, December 19, 2011 12:54:30 AM Richard Purdie wrote:
+> This addresses some of the concerns about the previous opkg changes
+> allowing it to break out of circular dependency loops with just a notice
+> in the logs rather than effectively going OOM.
 >=20
-> this also fix a problem I just met (angstrom, armv5 target) :
->   | configure: error: --with-ssl=3Dopenssl was given, but SSL is not avai=
-lable.
-> Tested-by: Eric B=E9nard <eric@eukrea.com>
-Hi Eric,
-This is actually the same issue Steve and I met with. :-)
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>=20
+This saves my circular dependenciy victims (xfwm4 / font-util). Build from=
+=20
+scratch tested. Thanks.
 
-Eric and Steve, thank you both for the testings!
-
-Thanks,
--- Dexuan
-
+Acked-by: Andreas M=FCller <schnitzeltony@gmx.de>
 
 
 
