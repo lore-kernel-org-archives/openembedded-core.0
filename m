@@ -1,28 +1,27 @@
-Received: from mailout-de.gmx.net ([213.165.64.22])
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <schnitzeltony@gmx.de>) id 1RclRB-0001AP-5f
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <josh@linux.intel.com>) id 1RclUh-0001Fp-LN
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Dec 2011 23:12:01 +0100
-Received: (qmail invoked by alias); 19 Dec 2011 22:04:55 -0000
-Received: from p5B0A29E0.dip.t-dialin.net (EHLO localhost.localdomain)
-	[91.10.41.224]
-	by mail.gmx.net (mp032) with SMTP; 19 Dec 2011 23:04:55 +0100
-X-Authenticated: #62780362
-X-Provags-ID: V01U2FsdGVkX1/bBy560knbYxFIa7Z069I12uwA+AkQRZc2euY+hO
-	8taBQooDCfI7kr
-From: Andreas =?iso-8859-1?q?M=FCller?= <schnitzeltony@gmx.de>
-To: "Patches and discussions about the oe-core layer"
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 19 Dec 2011 23:05:35 +0100
-User-Agent: KMail/1.13.7 (Linux/2.6.35.14-106.fc14.x86_64; KDE/4.6.5; x86_64; ;
-	)
-References: <201112170258.10212.schnitzeltony@gmx.de>
-	<4EEF8199.9090007@linux.intel.com>
-In-Reply-To: <4EEF8199.9090007@linux.intel.com>
+	Mon, 19 Dec 2011 23:15:39 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 19 Dec 2011 14:08:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="89249809"
+Received: from rmoore1-desk5.amr.corp.intel.com (HELO [10.7.199.156])
+	([10.7.199.156])
+	by orsmga002.jf.intel.com with ESMTP; 19 Dec 2011 14:08:35 -0800
+Message-ID: <4EEFB5E1.7040204@linux.intel.com>
+Date: Mon, 19 Dec 2011 14:08:33 -0800
+From: Joshua Lock <josh@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:8.0) Gecko/20111115 Thunderbird/8.0
 MIME-Version: 1.0
-Message-Id: <201112192305.35700.schnitzeltony@gmx.de>
-X-Y-GMX-Trusted: 0
-Subject: Re: require *.bbappend
+To: openembedded-core@lists.openembedded.org
+References: <cover.1323991540.git.josh@linux.intel.com>
+	<35d3dfdcbc7291c8556e90d67a0f349c8f7caa03.1323991540.git.josh@linux.intel.com>
+	<51B87129-E8A1-4358-BA5A-7090EA679925@dominion.thruhere.net>
+In-Reply-To: <51B87129-E8A1-4358-BA5A-7090EA679925@dominion.thruhere.net>
+Subject: Re: [PATCH 08/10] pango: clarify LICENSE is LGPL-2.0+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,36 +36,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2011 22:12:01 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 19 Dec 2011 22:15:39 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Monday, December 19, 2011 07:25:29 PM Joshua Lock wrote:
-> On 16/12/11 17:58, Andreas M=FCller wrote:
-> > Hi
-> >=20
-> > I have the following use case:
-> >=20
-> > In my working layer I would like to have a recipe adding functionality =
-to
-> > a recipe from another layer (e.g systemd-image.bb from angstrom) with a
-> > different name ( -> no bbappend ). How about
-> >=20
-> > * create systemd-image.bbapend with just 'FILESEXTRAPATHS :=3D
-> > "${THISDIR}"' to get it into the scope of my layer
-> > * create a recipe  which contains 'require systemd-image.bbappend'
-> >=20
-> > Currently parser complains that systemd-image.bbappend is not a BitBake
-> > file.
->=20
-> I think this should work and the issue you're seeing is that require
-> wants a relative PATH from BBPATH.
->=20
-> i.e. require recipes-images/angstrom/systemd-image.bb
->=20
-AArgh - thanks for helping me out of quirks by such simple solution :)
+On 15/12/11 23:30, Koen Kooi wrote:
+> 
+> Op 16 dec. 2011, om 00:30 heeft Joshua Lock het volgende geschreven:
+> 
+>> Signed-off-by: Joshua Lock <josh@linux.intel.com>
+>> ---
+>> meta/recipes-graphics/pango/pango.inc |    2 +-
+>> 1 files changed, 1 insertions(+), 1 deletions(-)
+>>
+>> diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
+>> index ff5a73a..922425c 100644
+>> --- a/meta/recipes-graphics/pango/pango.inc
+>> +++ b/meta/recipes-graphics/pango/pango.inc
+>> @@ -7,7 +7,7 @@ core of text and font handling for GTK+-2.x."
+>> HOMEPAGE = "http://www.pango.org/"
+>> BUGTRACKER = "http://bugzilla.gnome.org"
+>> SECTION = "libs"
+>> -LICENSE = "LGPL"
+>> +LICENSE = "LGPL-2.0+"
+> 
+> In the past we agreed to use LGLPv2+ for that, has that changed?
 
-Andreas
+My bad, I saw the modified license handling code was mapping to SPDX
+values and opted to just do that. You're right though, current
+convention is the v notation.
+
+I've respun the patch series.
+
+Cheers,
+Joshua
+-- 
+Joshua Lock
+        Yocto Project "Johannes factotum"
+        Intel Open Source Technology Centre
 
 
