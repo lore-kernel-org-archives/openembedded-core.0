@@ -1,32 +1,33 @@
 Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RcVHG-0006Pp-SK
+	(envelope-from <raj.khem@gmail.com>) id 1RcVXh-00072k-41
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Dec 2011 05:56:42 +0100
-Received: by lami14 with SMTP id i14so2016720lam.6
+	Mon, 19 Dec 2011 06:13:41 +0100
+Received: by lami14 with SMTP id i14so2018928lam.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Dec 2011 20:49:40 -0800 (PST)
+	Sun, 18 Dec 2011 21:06:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=9XP5+F5wE7VfXjv/7iW7aMIhhZqQWokNyXtEVfJ+07c=;
-	b=BvKOEaYbdCyhih5W4VZd1t0eqYIqkx+ld9ojTnFqt4Qqm4a9jkaTfHjr5DXrJ9CgAw
-	pj9GxZdS7S1CRWeWjCeVvwRIy4l+hGEuOInoasaiTX0wpkrMhjSGiKZ3TfCUv2WElIzC
-	6uLfJfJ8/3lTmR+c48TQ5AdX+WQU6NzKAZaYQ=
-Received: by 10.152.104.206 with SMTP id gg14mr15014425lab.41.1324270180357;
-	Sun, 18 Dec 2011 20:49:40 -0800 (PST)
+	:content-type; bh=oWFqMD03L9x+wpIqd0LUMSTOjuxINBtNS1v4DkjHaPY=;
+	b=RdKlTXfVEjEqciL1x4JDJpuv1VwynRLFASWDrdCpSplxxfSOBYWk0OEsj82KKli7LU
+	y7EmTsIew/oPnsbI1QjPidWDePDBzz406ekO+++RLy0reOnnsyyRxBq6PS7DWVe72RvL
+	lwY98+NVONQKHj8JVPHK6v4PQB4aBpeTkDOow=
+Received: by 10.152.111.136 with SMTP id ii8mr15102834lab.20.1324271195381;
+	Sun, 18 Dec 2011 21:06:35 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.152.36.198 with HTTP; Sun, 18 Dec 2011 20:49:09 -0800 (PST)
-In-Reply-To: <1324252928.4568.161.camel@ted>
+Received: by 10.152.36.198 with HTTP; Sun, 18 Dec 2011 21:06:04 -0800 (PST)
+In-Reply-To: <CADkTA4Nx9Z_3iFzd6FbkbwiYANUL6B4BXsW7_4LngeqcED7DRQ@mail.gmail.com>
 References: <1324237652-15618-1-git-send-email-dbaryshkov@gmail.com>
-	<1324237652-15618-2-git-send-email-dbaryshkov@gmail.com>
-	<CAMKF1sofqczGSZg47zkRdFU+f-FntO4-Tms_pi9kTs=3cs_kVw@mail.gmail.com>
-	<1324252928.4568.161.camel@ted>
+	<5C0105D4-44BE-4584-9ED9-36970B91A34C@dominion.thruhere.net>
+	<CADkTA4OLwUcM86JbCXDOPXUOb1hH+vvKfShjaAsXP3e9Ek0f=A@mail.gmail.com>
+	<FB6AAD0F-5F91-48D3-8D02-FCBEC19A4B9E@dominion.thruhere.net>
+	<CADkTA4Nx9Z_3iFzd6FbkbwiYANUL6B4BXsW7_4LngeqcED7DRQ@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 18 Dec 2011 20:49:09 -0800
-Message-ID: <CAMKF1spKGrk=9o7hxjrji4sCu0SRuhY1SbnrH-=r8GtsMe3hbQ@mail.gmail.com>
+Date: Sun, 18 Dec 2011 21:06:04 -0800
+Message-ID: <CAMKF1spq-m3dYd2nNhAH8CrZsvjmQrcoWa8Na8g1zng=DBJTgw@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] Move check that all installed files are shipped into insane.bbclass
+Subject: Re: [PATCH 1/5] kernel.bbclass: move uImage handling to separate task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,43 +42,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2011 04:56:43 -0000
+X-List-Received-Date: Mon, 19 Dec 2011 05:13:41 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Sun, Dec 18, 2011 at 4:02 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Sun, 2011-12-18 at 15:29 -0800, Khem Raj wrote:
->> On Sunday, December 18, 2011, Dmitry Eremin-Solenikov
->> <dbaryshkov@gmail.com> wrote:
->> > Checking that all installed files are shipped is in reality a QA
->> check.
->> > It would benefit from mechanisms like ERROR_QA/WARNING_QA. So move
->> it
->> > into insane.bbclass. If some of the files are installed but should
->> not
->> > be shipped for some reasons, one can add them to the variable
->> > IGNORE_UNSHIPPED_FILES.
->> >
->> This needs to be documented somewhere too and may be added to
->> sample.conf.extended
->
-> This doesn't make sense for sample.conf.extended. We're talking about a
-> recipe specific configuration variable, not distro/machine/conf config
-> which is more appropriate there.
+On Sun, Dec 18, 2011 at 5:39 PM, Bruce Ashfield
+<bruce.ashfield@gmail.com> wrote:
+> On Sun, Dec 18, 2011 at 4:19 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>>
+>> Op 18 dec. 2011, om 21:27 heeft Bruce Ashfield het volgende geschreven:
+>>
+>>> On Sun, Dec 18, 2011 at 3:13 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>>>>
+>>>> Op 18 dec. 2011, om 20:47 heeft Dmitry Eremin-Solenikov het volgende geschreven:
+>>>>
+>>>>> As per org.oe.dev and meta-oe's kernel.bbclass move uImage creation to
+>>>>> separate task from do_deploy. This way the do_install task can also
+>>>>> benefit from generated uImage.
+>>>>>
+>>>>> The only major feature of oe-core's version (not to recreate uImage
+>>>>> if it exists) is retained in this patch.
+>>>>
+>>>> I still don't agree with that behaviour. The in-kernel uImage code is just like the in-kernel defconfigs: useless for people who aren't kernel developers.
+>>>
+>>> In that case, shouldn't people doing u-boot development (or other
+>>> non-kernel developers),
+>>> be building a uImage via something that isn't in kernel.bbclass ?
+>>
 
-yes forgot that
+i think we have UBOOT_ENTRYPOINT, UBOOT_ENTRYSYMBOL and
+UBOOT_LOADADDRESS which are then used to generate the uImage
+and sometimes defaults from kernel build system may not be usable as
+it might be generating the image using some other values and we are not
+able to control the image generation. Now is that fixable in kernel I guess
+it could be but why not have flexibility of generating the image.
 
+>> I use the kernel.bbclass in meta-oe, that does what I need.
 >
-> I'd suggest adding to documentation.conf and/or the various manuals.
->
-> Cheers,
->
-> Richard
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
