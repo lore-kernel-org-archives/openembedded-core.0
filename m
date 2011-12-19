@@ -1,32 +1,27 @@
-Received: from mail-ww0-f41.google.com ([74.125.82.41])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1RciNP-00041A-Jq
+	(envelope-from <josh@linux.intel.com>) id 1RciNR-00041B-S3
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Dec 2011 19:55:55 +0100
-Received: by wgbdt12 with SMTP id dt12so8890236wgb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2011 10:48:53 -0800 (PST)
-Received: by 10.180.83.69 with SMTP id o5mr1303806wiy.1.1324320532957;
-	Mon, 19 Dec 2011 10:48:52 -0800 (PST)
-Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id n9sm26718459wbo.16.2011.12.19.10.48.51
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 19 Dec 2011 10:48:52 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1251.1)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4077851.vBmcQh9dAf@helios>
-Date: Mon, 19 Dec 2011 19:48:48 +0100
-Message-Id: <756581D3-FAA6-48FC-9ECE-0B7CC1262A5D@dominion.thruhere.net>
-References: <cover.1324316137.git.paul.eggleton@linux.intel.com>
-	<1817157.LPoMfdErnK@helios>
-	<7B929D63-E14F-44F8-81B2-49AA90181BA0@dominion.thruhere.net>
-	<4077851.vBmcQh9dAf@helios>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Mailer: Apple Mail (2.1251.1)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] psplash fixes
+	Mon, 19 Dec 2011 19:55:58 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 19 Dec 2011 10:48:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="89184045"
+Received: from rmoore1-desk5.amr.corp.intel.com (HELO [10.7.199.156])
+	([10.7.199.156])
+	by orsmga002.jf.intel.com with ESMTP; 19 Dec 2011 10:48:54 -0800
+Message-ID: <4EEF8714.70001@linux.intel.com>
+Date: Mon, 19 Dec 2011 10:48:52 -0800
+From: Joshua Lock <josh@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:8.0) Gecko/20111115 Thunderbird/8.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <cover.1323991540.git.josh@linux.intel.com>
+	<eec8014c76be16e9a58c34f5a448231a74abd445.1323991540.git.josh@linux.intel.com>
+	<CAMKF1soSb-Gh+UD-aZe31cGm=+nQY2SXk-GfRwW3Er35N0z7yQ@mail.gmail.com>
+In-Reply-To: <CAMKF1soSb-Gh+UD-aZe31cGm=+nQY2SXk-GfRwW3Er35N0z7yQ@mail.gmail.com>
+Subject: Re: [PATCH 02/10] udev: fix LICENSE fields to be SPDX compliant
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,86 +36,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2011 18:55:55 -0000
-X-Groupsio-MsgNum: 14487
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_315A5776-4E2F-42B5-BAA6-8DD223359B8E";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_315A5776-4E2F-42B5-BAA6-8DD223359B8E
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-Op 19 dec. 2011, om 19:32 heeft Paul Eggleton het volgende geschreven:
-
-> On Monday 19 December 2011 19:27:06 Koen Kooi wrote:
->> Op 19 dec. 2011, om 19:22 heeft Paul Eggleton het volgende =
-geschreven:
->>> On Monday 19 December 2011 18:50:35 Koen Kooi wrote:
->>>> Op 19 dec. 2011, om 18:43 heeft Paul Eggleton het volgende =
-geschreven:
->>>>> Set the default psplash image to the OpenEmbedded logo, and =
-provide
->>>>> a
->>>>> script to allow people to use their own custom image.
->>>>=20
->>>> What I did in OE-classic and meta-angstrom is to use
->>>> update-alternatives to provide different psplash images. This way =
-you
->>>> can choose a different splash for each image instead of having a
->>>> distro wide one. Is something like that suitable for oe-core as =
-well?
->>>=20
->>> Sounds like a useful capability, however, does this mean that when =
-you
->>> want to override it in the image you end up with both psplash =
-versions
->>> installed?
->> in a splashless image you can just do 'IMAGE_INSTALL +=3D =
-psplash-angstrom and
->> it will only install that one. If you want to reuse an existing, =
-unmodified
->> image with psplash and add your own, then you will end up with both.
->=20
-> Although I guess another way to do it would be to do a VIRTUAL-RUNTIME =
-type=20
-> thing like we do for other such selections. At the moment in OE-core, =
-psplash=20
-> is brought in via task-core-console, and whilst it is a separate =
-variable that=20
-> could be overridden it's a task which once built really makes it =
-impossible to=20
-> customise per-image.
->=20
-> What about a "splash" IMAGE_FEATURE and then a VIRTUAL-RUNTIME_splash =
-to=20
-> select which psplash to install?
-
-I will say again: I absolutely HATE that virtual-runtime nonsense. If =
-you need to change a task, change the task, don't introduce things that =
-make it non deterministic. Guess what happens when you change a =
-virtual-runtime *after* you have built the task already.
-
-> Would update-alternatives be needed at all in=20
-> that case?
-
-It would if you want to change it after booting :)=
-
---Apple-Mail=_315A5776-4E2F-42B5-BAA6-8DD223359B8E
+X-List-Received-Date: Mon, 19 Dec 2011 18:55:58 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
+On 15/12/11 23:36, Khem Raj wrote:
+> 
+> 
+> On Thursday, December 15, 2011, Joshua Lock <josh@linux.intel.com
+> <mailto:josh@linux.intel.com>> wrote:
+>> Additionally I'm not sure where the LGPL license came from, the COPYING
+>> file and Fedora both say GPL v2 or later so drop the LGPL entry for now.
 
-iEYEARECAAYFAk7vhxIACgkQMkyGM64RGpF+XACeNGbONpfkt0n5u5TRqTArNIBn
-9rYAn1ZM3ZuDE09D6WakxJ2IdrDLvfbe
-=syFJ
------END PGP SIGNATURE-----
+Of course, the LGPL is for libudev!
 
---Apple-Mail=_315A5776-4E2F-42B5-BAA6-8DD223359B8E--
+>>
+>> Signed-off-by: Joshua Lock <josh@linux.intel.com
+> <mailto:josh@linux.intel.com>>
+>> ---
+>>  meta/recipes-core/udev/udev-new.inc |    2 +-
+>>  meta/recipes-core/udev/udev.inc     |    4 ++--
+>>  2 files changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/udev/udev-new.inc
+> b/meta/recipes-core/udev/udev-new.inc
+>> index eac7903..769d54a 100644
+>> --- a/meta/recipes-core/udev/udev-new.inc
+>> +++ b/meta/recipes-core/udev/udev-new.inc
+>> @@ -2,7 +2,7 @@ SUMMARY = "/dev/ and hotplug management daemon"
+>>  DESCRIPTION = "udev is a daemon which dynamically creates and removes
+> device nodes from \
+>>  /dev/, handles hotplug events and loads drivers at boot time."
+>>  HOMEPAGE =
+> "http://www.kernel.org/pub/linux/utils/kernel/hotplug/udev.html"
+>> -LICENSE = "GPLv2+ & LGPLv2.1+"
+>> +LICENSE = "GPL-2.0+"
+>>  LICENSE_${PN} = "GPLv2+
+> 
+> Why two notations for Gpl v2 above
+
+Good catch, thanks!
+
+I'll get an updated patch series out.
+
+Cheers,
+Joshua
+-- 
+Joshua Lock
+        Yocto Project "Johannes factotum"
+        Intel Open Source Technology Centre
+
+
