@@ -1,21 +1,25 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RclWt-0001JE-AF
+	(envelope-from <josh@linux.intel.com>) id 1RclWu-0001JE-0m
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Dec 2011 23:17:55 +0100
+	Mon, 19 Dec 2011 23:17:56 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP; 19 Dec 2011 14:10:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="88245193"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="88245194"
 Received: from rmoore1-desk5.amr.corp.intel.com (HELO shamshir.jf.intel.com)
 	([10.7.199.156])
 	by orsmga001.jf.intel.com with ESMTP; 19 Dec 2011 14:10:51 -0800
 From: Joshua Lock <josh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Dec 2011 14:10:38 -0800
-Message-Id: <cover.1324332440.git.josh@linux.intel.com>
+Date: Mon, 19 Dec 2011 14:10:39 -0800
+Message-Id: <471373c7d4ff82844d381d3094b74763f10491f1.1324332440.git.josh@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.4
-Subject: [PATCH 00/10] Various license clarifications v2
+In-Reply-To: <cover.1324332440.git.josh@linux.intel.com>
+References: <cover.1324332440.git.josh@linux.intel.com>
+In-Reply-To: <cover.1324332440.git.josh@linux.intel.com>
+References: <cover.1324332440.git.josh@linux.intel.com>
+Subject: [PATCH 01/10] gypsy: fix LICENSE field
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,51 +34,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2011 22:17:55 -0000
+X-List-Received-Date: Mon, 19 Dec 2011 22:17:56 -0000
 
-This series is a v2 of an earlier series. It includes a few metadata
-massages to ensure LICENSE fields specify the correct license version.
+Gypsy binaries are Gplv2.0 and the libraries LGPLv2.1
 
-Since v1 I've used the same notation as common convention and further
-clarified some of the GPL licenses which have an or later clause.
+Signed-off-by: Joshua Lock <josh@linux.intel.com>
+---
+ meta/recipes-connectivity/gypsy/gypsy.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-Regards,
-Joshua
-
-The following changes since commit ae4118a1f78f113c3d687c3aa6a86007cf977cae:
-
-  libsdl 1.2.14: fix packaging (2011-12-19 12:17:36 +0000)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib josh/updates
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/updates
-
-Joshua Lock (10):
-  gypsy: fix LICENSE field
-  udev: tidy the LICENSE fields
-  apt: clarify LICENSE as GPLv2.0
-  dpkg: clarify LICENSE as GPLv2.0
-  clutter: clarify LICENSE as LGPLv2.1
-  cogl: clarify LICENSE as LGPLv2.1 and fix metadata
-  matchbox-wm: clarify LICENSE as GPLv2.0
-  pango: clarify LICENSE is LGPLv2.0+
-  matchbox-desktop: clarify LICENSE is GPLv2.0+
-  matchbox-session-sato: clarify LICENSE in GPLv2.0
-
- meta/recipes-connectivity/gypsy/gypsy.inc          |    2 +-
- meta/recipes-core/udev/udev-new.inc                |    4 ++--
- meta/recipes-core/udev/udev.inc                    |    4 ++--
- meta/recipes-devtools/apt/apt.inc                  |    2 +-
- meta/recipes-devtools/dpkg/dpkg.inc                |    2 +-
- meta/recipes-graphics/clutter/clutter.inc          |    2 +-
- meta/recipes-graphics/clutter/cogl.inc             |    6 +++---
- .../matchbox-wm/matchbox-wm_1.2.bb                 |    2 +-
- meta/recipes-graphics/pango/pango.inc              |    2 +-
- .../matchbox-desktop/matchbox-desktop_0.9.1.bb     |    2 +-
- .../matchbox-desktop/matchbox-desktop_2.0.bb       |    2 +-
- .../matchbox-sato/matchbox-session-sato_0.1.bb     |    2 +-
- 12 files changed, 16 insertions(+), 16 deletions(-)
-
+diff --git a/meta/recipes-connectivity/gypsy/gypsy.inc b/meta/recipes-connectivity/gypsy/gypsy.inc
+index 9b1c97e..11a7204 100644
+--- a/meta/recipes-connectivity/gypsy/gypsy.inc
++++ b/meta/recipes-connectivity/gypsy/gypsy.inc
+@@ -4,7 +4,7 @@ multiple clients to access GPS data from multiple GPS sources \
+ concurrently.  Gypsy also hides the details of parsing NMEA from the \
+ client applications, passing the data as simple values for the clients \
+ to use."
+-LICENSE = "GPL"
++LICENSE = "GPLv2.0 & LGPLv2.1"
+ SECTION = "x11"
+ DEPENDS = "glib-2.0 dbus bluez4 dbus-glib"
+ 
 -- 
 1.7.7.4
 
