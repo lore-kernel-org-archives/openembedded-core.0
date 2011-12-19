@@ -1,31 +1,29 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1RcYJk-0007Or-6L
+	(envelope-from <koen@dominion.thruhere.net>) id 1RcZ8w-0000Fq-Ji
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Dec 2011 09:11:28 +0100
-Received: by eeit10 with SMTP id t10so1400816eei.6
+	Mon, 19 Dec 2011 10:04:22 +0100
+Received: by wgbds11 with SMTP id ds11so8614093wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2011 00:04:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=6TyIeNPgBGBnkSGNeAvta6zXGWsLrhLf0xlzoDuOog0=;
-	b=km7OBZ4khKSOllL8pXIVj9M55ah404y66MYcHLgphxsaXKDohBlxHCgdYgLYQyaxvz
-	FzhsdukL6Jyr6mC25nWUfrIdr53jiEB23NmsuI2xXjexZ/3TgitgSLbmnIlFQG6FyEdt
-	3wueVZal4REQMV2Hq6yp8jmVLFwNOZWYfug40=
-Received: by 10.14.39.140 with SMTP id d12mr3686183eeb.54.1324281866010;
-	Mon, 19 Dec 2011 00:04:26 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id t1sm41571249eeb.3.2011.12.19.00.04.24
+	Mon, 19 Dec 2011 00:57:20 -0800 (PST)
+Received: by 10.180.107.231 with SMTP id hf7mr24544240wib.68.1324285040069;
+	Mon, 19 Dec 2011 00:57:20 -0800 (PST)
+Received: from [172.20.1.19] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id k5sm24847181wiz.9.2011.12.19.00.57.18
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 19 Dec 2011 00:04:25 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Dec 2011 09:04:17 +0100
-Message-Id: <1324281857-5159-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8
-In-Reply-To: <20111219055401.GO3997@jama.jama.net>
-References: <20111219055401.GO3997@jama.jama.net>
-Subject: [PATCH] opkg: add patch to make sure that D is empty when executing postinst scripts on target
+	Mon, 19 Dec 2011 00:57:19 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Mime-Version: 1.0 (Apple Message framework v1251.1)
+Date: Mon, 19 Dec 2011 09:57:17 +0100
+In-Reply-To: <5f5f0083a3fa9afa2081b1cca3dfda03b0fb7f76.1324272052.git.dexuan.cui@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1324272052.git.dexuan.cui@intel.com>
+	<5f5f0083a3fa9afa2081b1cca3dfda03b0fb7f76.1324272052.git.dexuan.cui@intel.com>
+Message-Id: <9D240952-C22F-4CC9-8BF8-CFBA5D21F372@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1251.1)
+Subject: Re: [PATCH 1/1] socat: add the latest stable version 1.7.2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,88 +38,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2011 08:11:28 -0000
+X-List-Received-Date: Mon, 19 Dec 2011 09:04:22 -0000
+X-Groupsio-MsgNum: 14438
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_FE5D6D58-E334-4B62-87E1-84A92C41A752";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- .../opkg/opkg/offlineroot_varname.patch            |   33 +++++++++++++++-----
- meta/recipes-devtools/opkg/opkg_svn.bb             |    4 +-
- 2 files changed, 27 insertions(+), 10 deletions(-)
-
-diff --git a/meta/recipes-devtools/opkg/opkg/offlineroot_varname.patch b/meta/recipes-devtools/opkg/opkg/offlineroot_varname.patch
-index a67f389..73600e3 100644
---- a/meta/recipes-devtools/opkg/opkg/offlineroot_varname.patch
-+++ b/meta/recipes-devtools/opkg/opkg/offlineroot_varname.patch
-@@ -1,20 +1,37 @@
- OE uses D as the offline install directory in its scripts, not PKG_ROOT.
-+D is expected to be empty on when offline_root is not used.
- 
- Upstream-Status: Inappropriate [OE specific usage]
- 
- RP 2011/12/15
- 
--Index: trunk/libopkg/pkg.c
--===================================================================
----- trunk.orig/libopkg/pkg.c	2011-12-15 15:58:39.000000000 +0000
--+++ trunk/libopkg/pkg.c	2011-12-15 20:04:50.109992736 +0000
--@@ -1280,7 +1280,7 @@
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+
-+diff --git a/libopkg/pkg.c b/libopkg/pkg.c
-+index 6ccbde2..7d16f84 100644
-+--- a/libopkg/pkg.c
-++++ b/libopkg/pkg.c
-+@@ -1250,6 +1250,7 @@ pkg_run_script(pkg_t *pkg, const char *script, const char *args)
-+      int err;
-+      char *path;
-+      char *cmd;
-++     char *pkg_root;
-+ 
-+      if (conf->noaction)
-+ 	     return 0;
-+@@ -1280,8 +1281,13 @@ pkg_run_script(pkg_t *pkg, const char *script, const char *args)
-  
-       opkg_msg(INFO, "Running script %s.\n", path);
-  
- -     setenv("PKG_ROOT",
--+     setenv("D",
-- 	    pkg->dest ? pkg->dest->root_dir : conf->default_dest->root_dir, 1);
-+-	    pkg->dest ? pkg->dest->root_dir : conf->default_dest->root_dir, 1);
-++     pkg_root=pkg->dest ? pkg->dest->root_dir : conf->default_dest->root_dir;
-++     setenv("PKG_ROOT", pkg_root, 1);
-++     if (conf->offline_root) {
-++       setenv("D", pkg_root, 1);
-++     } else {
-++       setenv("D", "", 1);
-++     }
-  
-       if (! file_exists(path)) {
--
-+ 	  free(path);
-diff --git a/meta/recipes-devtools/opkg/opkg_svn.bb b/meta/recipes-devtools/opkg/opkg_svn.bb
-index dbdfc7e..065a2cb 100644
---- a/meta/recipes-devtools/opkg/opkg_svn.bb
-+++ b/meta/recipes-devtools/opkg/opkg_svn.bb
-@@ -13,7 +13,7 @@ SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;proto=http \
-            file://add_vercmp.patch \
-            file://add_uname_support.patch \
-            file://fix_installorder.patch \
--           file://offline_postinstall.patch\
-+           file://offline_postinstall.patch \
-            file://offlineroot_varname.patch \
-            file://track_parents.patch \
- "
-@@ -22,7 +22,7 @@ S = "${WORKDIR}/trunk"
- 
- SRCREV = "633"
- PV = "0.1.8+svnr${SRCPV}"
--PR = "r3"
-+PR = "r4"
- 
- PACKAGES =+ "libopkg${PKGSUFFIX}-dev libopkg${PKGSUFFIX} update-alternatives-cworth${PKGSUFFIX}"
- 
--- 
-1.7.8
+--Apple-Mail=_FE5D6D58-E334-4B62-87E1-84A92C41A752
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+Op 19 dec. 2011, om 06:22 heeft Dexuan Cui het volgende geschreven:
 
+> +DEPENDS =3D "openssl"
+> +
+> +LICENSE =3D "GPLv2+"
+
+Linking GPL and openssl is not allowed due to the advertising clause in =
+BSD. The socat people realized that and say:
+
+license
+-------
+
+socat is distributed under the terms of the GNU GPL;
+except for install-sh, which is copyright MIT, with its own license;
+
+In addition, as a special exception, the copyright holder
+gives permission to link the code of this program with
+any version of the OpenSSL library which is distributed
+under a license identical to that listed in the included
+COPYING.OpenSSL file, and distribute linked combinations
+including the two. You must obey the GNU General Public
+License in all respects for all of the code used other
+than OpenSSL. If you modify this file, you may extend this
+exception to your version of the file, but you are not
+obligated to do so. If you do not wish to do so, delete
+this exception statement from your version.
+
+regards,
+
+Koen=
+
+--Apple-Mail=_FE5D6D58-E334-4B62-87E1-84A92C41A752
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAk7u/G4ACgkQMkyGM64RGpGf1ACdFEDOmApCOn5LZLbGrIgpRiVO
+N6cAoLvaHLhnwLKLgrInqTXKtIV4+xM+
+=saLP
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_FE5D6D58-E334-4B62-87E1-84A92C41A752--
