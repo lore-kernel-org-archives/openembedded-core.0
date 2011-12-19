@@ -1,27 +1,24 @@
-Received: from mailout-de.gmx.net ([213.165.64.22])
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <schnitzeltony@gmx.de>) id 1RcY1n-0006Zh-6Z
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <philb@gnu.org>) id 1RcY32-0006dL-Im
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Dec 2011 08:52:55 +0100
-Received: (qmail invoked by alias); 19 Dec 2011 07:45:52 -0000
-Received: from p5B0A29E0.dip.t-dialin.net (EHLO localhost.localdomain)
-	[91.10.41.224]
-	by mail.gmx.net (mp066) with SMTP; 19 Dec 2011 08:45:52 +0100
-X-Authenticated: #62780362
-X-Provags-ID: V01U2FsdGVkX1/2C6waTwv2/8wDyCyW50SLPAWg3oGYetgjAd5QVT
-	cSMob/uzaGpAn8
-From: Andreas =?iso-8859-1?q?M=FCller?= <schnitzeltony@gmx.de>
-To: "Patches and discussions about the oe-core layer"
+	Mon, 19 Dec 2011 08:54:12 +0100
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1RcXwG-0001ZB-HA
+	for openembedded-core@lists.openembedded.org;
+	Mon, 19 Dec 2011 08:47:12 +0100
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 19 Dec 2011 08:46:32 +0100
-User-Agent: KMail/1.13.7 (Linux/2.6.35.14-106.fc14.x86_64; KDE/4.6.5; x86_64; ;
-	)
-References: <1324252470.4568.156.camel@ted>
-In-Reply-To: <1324252470.4568.156.camel@ted>
-MIME-Version: 1.0
-Message-Id: <201112190846.32828.schnitzeltony@gmx.de>
-X-Y-GMX-Trusted: 0
-Subject: Re: [PATCH] opkg: Add logic to detect and creak circular dependencies
+In-Reply-To: <CAGDS+nkN7ZySZE7wNjX0Wmz1hS1h2j29oibD1__6nzKzy3BDfg@mail.gmail.com>
+References: <CAGDS+nkN7ZySZE7wNjX0Wmz1hS1h2j29oibD1__6nzKzy3BDfg@mail.gmail.com>
+Date: Mon, 19 Dec 2011 07:47:05 +0000
+Message-ID: <1324280825.4492.8.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.3 
+Subject: Re: Time for kernel26 MACHINE_FEATURES to go away?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,23 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2011 07:52:55 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 19 Dec 2011 07:54:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Monday, December 19, 2011 12:54:30 AM Richard Purdie wrote:
-> This addresses some of the concerns about the previous opkg changes
-> allowing it to break out of circular dependency loops with just a notice
-> in the logs rather than effectively going OOM.
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->=20
-This saves my circular dependenciy victims (xfwm4 / font-util). Build from=
-=20
-scratch tested. Thanks.
+On Sun, 2011-12-18 at 21:15 -0800, Steve Sakoman wrote:
+> I was preparing a bsp layer today and discovered that my new machine
+> needed kernel26 in the MACHINE_FEATURES list or update-modules would
+> fail during a kernel build.
+> 
+> The kernel26 feature is only referenced in a few places in oe-core:
+> 
+> meta/conf/bitbake.conf:MACHINE_FEATURES ?= "kernel26"
+> meta/conf/machine/include/qemu.inc:MACHINE_FEATURES = "kernel26 apm
+> alsa pcmcia bluetooth irda usbgadget screen"
+> meta/recipes-kernel/update-modules/update-modules_1.0.bb:RDEPENDS_${PN}
+> = "${@base_contains("MACHINE_FEATURES", "kernel26",
+> "module-init-tools-depmod","modutils-depmod",d)} "
+> 
+> Perhaps it might be a good time to retire kernel26?
 
-Acked-by: Andreas M=FCller <schnitzeltony@gmx.de>
+I thought we'd done this ages ago.  I think the bit in update-modules
+must just be some ancient relic.  Please do send a patch to remove it.
+
+p.
+
 
 
 
