@@ -1,34 +1,30 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail-vx0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1RcVnq-0002u4-TR
+	(envelope-from <sakoman@gmail.com>) id 1RcVrk-00031P-6z
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Dec 2011 06:30:23 +0100
-Received: by dake40 with SMTP id e40so2954344dak.6
+	Mon, 19 Dec 2011 06:34:24 +0100
+Received: by vcbf1 with SMTP id f1so2915022vcb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Dec 2011 21:23:19 -0800 (PST)
+	Sun, 18 Dec 2011 21:27:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=kDWJxjrKt0wN5nLkri8EjE2x1H5GkJdM1+Hdf6LYXfk=;
-	b=M90QiPIf6lVkzUtCDgL7PvaChbNfNGqpzZuUo0K/En6t0uwsENzdjjtS3kV77SFDQL
-	Fdg0P1miRdpbVPQey4fBAex4bzq87O/9UTlh3AN5dFhX3BZo5/XwysTDt1L6aHS1p19x
-	24Pwj6+zf7rNrrW6w0NCiEas/193QVuSkXYZY=
+	:content-type:content-transfer-encoding;
+	bh=2yqIid5Farv23f79aIJMq7fCt4+p8SLFXGwUxZpz+/I=;
+	b=IayXMhtbwBi9hjJgVNXLgKysY5UCLTuEBmtNRQGSMmyG3gpgobePtlhEXCP/HIJ6lL
+	OaPRnZeifbRGawwO8D81Z5+IDhYrVSKVlQfPd3jLhU3ex3mQ+2IZQK/kovs73vb5IJXd
+	f+6Xnzh5S2b5Fq23VLcCl2d5k9nPHc8Fo1ma4=
 MIME-Version: 1.0
-Received: by 10.68.74.98 with SMTP id s2mr36815506pbv.46.1324272199076; Sun,
-	18 Dec 2011 21:23:19 -0800 (PST)
-Received: by 10.143.18.10 with HTTP; Sun, 18 Dec 2011 21:23:19 -0800 (PST)
-In-Reply-To: <CAMKF1spq-m3dYd2nNhAH8CrZsvjmQrcoWa8Na8g1zng=DBJTgw@mail.gmail.com>
-References: <1324237652-15618-1-git-send-email-dbaryshkov@gmail.com>
-	<5C0105D4-44BE-4584-9ED9-36970B91A34C@dominion.thruhere.net>
-	<CADkTA4OLwUcM86JbCXDOPXUOb1hH+vvKfShjaAsXP3e9Ek0f=A@mail.gmail.com>
-	<FB6AAD0F-5F91-48D3-8D02-FCBEC19A4B9E@dominion.thruhere.net>
-	<CADkTA4Nx9Z_3iFzd6FbkbwiYANUL6B4BXsW7_4LngeqcED7DRQ@mail.gmail.com>
-	<CAMKF1spq-m3dYd2nNhAH8CrZsvjmQrcoWa8Na8g1zng=DBJTgw@mail.gmail.com>
-Date: Mon, 19 Dec 2011 00:23:19 -0500
-Message-ID: <CADkTA4Oxj9AMymZ0vNBOEYA5YHJOZmhkd9JyfqkqK3643o2JYQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/5] kernel.bbclass: move uImage handling to separate task
+Received: by 10.220.106.207 with SMTP id y15mr8663993vco.69.1324272440503;
+	Sun, 18 Dec 2011 21:27:20 -0800 (PST)
+Received: by 10.52.89.99 with HTTP; Sun, 18 Dec 2011 21:27:20 -0800 (PST)
+In-Reply-To: <33eb9cf534f8e946cf8cb2d67d64b47f193a89e7.1324271587.git.dexuan.cui@intel.com>
+References: <cover.1324271587.git.dexuan.cui@intel.com>
+	<33eb9cf534f8e946cf8cb2d67d64b47f193a89e7.1324271587.git.dexuan.cui@intel.com>
+Date: Sun, 18 Dec 2011 21:27:20 -0800
+Message-ID: <CAGDS+n=JdLTOhNH3vgBV9RfqbMROe5DpQ6OsvvNjOpPCVsx=sQ@mail.gmail.com>
+From: Steve Sakoman <sakoman@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] wget: fix a host intrusion issue introduced by adding --with-ssl=openssl.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,66 +39,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2011 05:30:23 -0000
+X-List-Received-Date: Mon, 19 Dec 2011 05:34:24 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 19, 2011 at 12:06 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Sun, Dec 18, 2011 at 5:39 PM, Bruce Ashfield
-> <bruce.ashfield@gmail.com> wrote:
->> On Sun, Dec 18, 2011 at 4:19 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
->>>
->>> Op 18 dec. 2011, om 21:27 heeft Bruce Ashfield het volgende geschreven:
->>>
->>>> On Sun, Dec 18, 2011 at 3:13 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
->>>>>
->>>>> Op 18 dec. 2011, om 20:47 heeft Dmitry Eremin-Solenikov het volgende geschreven:
->>>>>
->>>>>> As per org.oe.dev and meta-oe's kernel.bbclass move uImage creation to
->>>>>> separate task from do_deploy. This way the do_install task can also
->>>>>> benefit from generated uImage.
->>>>>>
->>>>>> The only major feature of oe-core's version (not to recreate uImage
->>>>>> if it exists) is retained in this patch.
->>>>>
->>>>> I still don't agree with that behaviour. The in-kernel uImage code is just like the in-kernel defconfigs: useless for people who aren't kernel developers.
->>>>
->>>> In that case, shouldn't people doing u-boot development (or other
->>>> non-kernel developers),
->>>> be building a uImage via something that isn't in kernel.bbclass ?
->>>
+On Sun, Dec 18, 2011 at 9:14 PM, Dexuan Cui <dexuan.cui@intel.com> wrote:
+> On my x86-64 Ubuntu 11.04, with MACHINE=3Dqemux86, "bitbake wget" fails. =
+The
+> config.log shows:
 >
-> i think we have UBOOT_ENTRYPOINT, UBOOT_ENTRYSYMBOL and
-> UBOOT_LOADADDRESS which are then used to generate the uImage
-> and sometimes defaults from kernel build system may not be usable as
-> it might be generating the image using some other values and we are not
-> able to control the image generation. Now is that fixable in kernel I guess
-> it could be but why not have flexibility of generating the image.
-
-I'm all for flexibility (see my comments earlier in the thread), have a variable
-or some other construct that specifies how you'd like to construct the uImage
-(kernel vs non-kernel, as a basic attempt to differentiate the two).
-
-I'm just driving for the details to see if we can remedy the situation in the
-medium to long term, since burying the details of how to construct any sort
-of image in multiple places .. is not ideal (but I state the obvious).
-
-Cheers,
-
-Bruce
-
+> configure:30072: i586-poky-linux-gcc =A0-m32 =A0 -march=3Di586
+> =A0--sysroot=3D/distro/dcui/1212/p1/build/tmp/sysroots/qemux86 -o conftes=
+t -O2
+> =A0-pipe -g -feliminate-unused-debug-types =A0-Wl,-O1 -Wl,--hash-style=3D=
+gnu
+> =A0-Wl,--as-needed conftest.c -ldl -lz =A0/usr/lib/libssl.so /usr/lib/lib=
+crypto.so
+> =A0-lz >&5
+> /usr/lib/libssl.so: could not read symbols: File in wrong format
 >
->>> I use the kernel.bbclass in meta-oe, that does what I need.
->>
+> The patch fixes the issue by specifying libssl-prefix.
 >
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+
+I can verify that this patch fixes my build failure.
+
+Tested-by: Steve Sakoman <steve@sakoman.com>
+
+Steve
 
 
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+> =A0meta/recipes-extended/wget/wget.inc | =A0 =A04 ++--
+> =A01 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/=
+wget/wget.inc
+> index 7083569..25f36c8 100644
+> --- a/meta/recipes-extended/wget/wget.inc
+> +++ b/meta/recipes-extended/wget/wget.inc
+> @@ -4,11 +4,11 @@ LICENSE =3D "GPL"
+> =A0LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd32239bcb673463ab874e80d47f=
+ae504"
+> =A0DEPENDS =3D "openssl"
+>
+> -INC_PR =3D "r12"
+> +INC_PR =3D "r13"
+>
+> =A0inherit autotools gettext update-alternatives
+>
+> -EXTRA_OECONF =3D "--with-libc --enable-ipv6 --with-ssl=3Dopenssl"
+> +EXTRA_OECONF =3D "--with-libc --enable-ipv6 --with-libssl-prefix=3D${STA=
+GING_DIR_HOST} --with-ssl=3Dopenssl"
+>
+> =A0do_install_append () {
+> =A0 =A0 =A0 =A0mv ${D}${bindir}/wget ${D}${bindir}/wget.${PN}
+> --
+> 1.7.6
+>
 
 
