@@ -1,25 +1,27 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-vw0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1RcVfb-0007Ca-QR
+	(envelope-from <sakoman@gmail.com>) id 1RcVgW-0007H2-U2
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Dec 2011 06:21:51 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 18 Dec 2011 21:14:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="87955977"
-Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.36.50])
-	by orsmga001.jf.intel.com with ESMTP; 18 Dec 2011 21:14:48 -0800
-From: Dexuan Cui <dexuan.cui@intel.com>
-To: openembedded-core@lists.openembedded.org,
-	sakoman@gmail.com
-Date: Mon, 19 Dec 2011 13:14:49 +0800
-Message-Id: <33eb9cf534f8e946cf8cb2d67d64b47f193a89e7.1324271587.git.dexuan.cui@intel.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <cover.1324271587.git.dexuan.cui@intel.com>
-References: <cover.1324271587.git.dexuan.cui@intel.com>
-In-Reply-To: <cover.1324271587.git.dexuan.cui@intel.com>
-References: <cover.1324271587.git.dexuan.cui@intel.com>
-Subject: [PATCH 1/1] wget: fix a host intrusion issue introduced by adding --with-ssl=openssl.
+	Mon, 19 Dec 2011 06:22:49 +0100
+Received: by vbbfc21 with SMTP id fc21so3842350vbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 18 Dec 2011 21:15:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=LSlC6WU2cBX+L8QPPbxNdeLSHiKHdXJnu68CsnQwpGA=;
+	b=A+0Ss+KZ3JWfUm31Tga3F+kV5ma7QYdo+oAE1DAeSncTjFr9oTgivcbsxMKMPuTZx4
+	SXwzYJsgkGWjyiX7g6rX6Hy212BAjOccRxJKIzvZIbsUVA9HyVyGvB+00pNmOA8pzzub
+	s3NsO59QUu1yLQdHz7M/XNS28IFLZUtQHy1xg=
+MIME-Version: 1.0
+Received: by 10.52.36.112 with SMTP id p16mr10495459vdj.31.1324271745568; Sun,
+	18 Dec 2011 21:15:45 -0800 (PST)
+Received: by 10.52.89.99 with HTTP; Sun, 18 Dec 2011 21:15:45 -0800 (PST)
+Date: Sun, 18 Dec 2011 21:15:45 -0800
+Message-ID: <CAGDS+nkN7ZySZE7wNjX0Wmz1hS1h2j29oibD1__6nzKzy3BDfg@mail.gmail.com>
+From: Steve Sakoman <sakoman@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Time for kernel26 MACHINE_FEATURES to go away?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,45 +36,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2011 05:21:52 -0000
+X-List-Received-Date: Mon, 19 Dec 2011 05:22:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On my x86-64 Ubuntu 11.04, with MACHINE=qemux86, "bitbake wget" fails. The
-config.log shows:
+I was preparing a bsp layer today and discovered that my new machine
+needed kernel26 in the MACHINE_FEATURES list or update-modules would
+fail during a kernel build.
 
-configure:30072: i586-poky-linux-gcc  -m32   -march=i586
- --sysroot=/distro/dcui/1212/p1/build/tmp/sysroots/qemux86 -o conftest -O2
- -pipe -g -feliminate-unused-debug-types  -Wl,-O1 -Wl,--hash-style=gnu
- -Wl,--as-needed conftest.c -ldl -lz  /usr/lib/libssl.so /usr/lib/libcrypto.so
- -lz >&5
-/usr/lib/libssl.so: could not read symbols: File in wrong format
+The kernel26 feature is only referenced in a few places in oe-core:
 
-The patch fixes the issue by specifying libssl-prefix.
+meta/conf/bitbake.conf:MACHINE_FEATURES ?= "kernel26"
+meta/conf/machine/include/qemu.inc:MACHINE_FEATURES = "kernel26 apm
+alsa pcmcia bluetooth irda usbgadget screen"
+meta/recipes-kernel/update-modules/update-modules_1.0.bb:RDEPENDS_${PN}
+= "${@base_contains("MACHINE_FEATURES", "kernel26",
+"module-init-tools-depmod","modutils-depmod",d)} "
 
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
----
- meta/recipes-extended/wget/wget.inc |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+Perhaps it might be a good time to retire kernel26?
 
-diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/wget/wget.inc
-index 7083569..25f36c8 100644
---- a/meta/recipes-extended/wget/wget.inc
-+++ b/meta/recipes-extended/wget/wget.inc
-@@ -4,11 +4,11 @@ LICENSE = "GPL"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- DEPENDS = "openssl"
- 
--INC_PR = "r12"
-+INC_PR = "r13"
- 
- inherit autotools gettext update-alternatives
- 
--EXTRA_OECONF = "--with-libc --enable-ipv6 --with-ssl=openssl"
-+EXTRA_OECONF = "--with-libc --enable-ipv6 --with-libssl-prefix=${STAGING_DIR_HOST} --with-ssl=openssl"
- 
- do_install_append () {
- 	mv ${D}${bindir}/wget ${D}${bindir}/wget.${PN}
--- 
-1.7.6
-
+Steve
 
 
