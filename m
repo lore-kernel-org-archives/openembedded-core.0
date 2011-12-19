@@ -1,34 +1,41 @@
-Received: from lo.gmane.org ([80.91.229.12])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1Rcckz-0007EA-EC for openembedded-core@lists.openembedded.org;
-	Mon, 19 Dec 2011 13:55:54 +0100
-Received: from list by lo.gmane.org with local (Exim 4.69)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1RcceC-000656-Cb for openembedded-core@lists.openembedded.org;
-	Mon, 19 Dec 2011 13:48:52 +0100
-Received: from nat-rup.mentorg.com ([139.181.168.34])
-	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
-	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2011 13:48:52 +0100
-Received: from dbaryshkov by nat-rup.mentorg.com with local (Gmexim 0.1
-	(Debian)) id 1AlnuQ-0007hv-00
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2011 13:48:52 +0100
-X-Injected-Via-Gmane: http://gmane.org/
-To: openembedded-core@lists.openembedded.org
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Date: Mon, 19 Dec 2011 16:47:10 +0400
-Message-ID: <4EEF324E.8060203@gmail.com>
-References: <1324237652-15618-1-git-send-email-dbaryshkov@gmail.com>
-	<5C0105D4-44BE-4584-9ED9-36970B91A34C@dominion.thruhere.net>
-Mime-Version: 1.0
-X-Complaints-To: usenet@dough.gmane.org
-X-Gmane-NNTP-Posting-Host: nat-rup.mentorg.com
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:8.0) Gecko/20111109 Icedove/8.0
-In-Reply-To: <5C0105D4-44BE-4584-9ED9-36970B91A34C@dominion.thruhere.net>
-Cc: Koen Kooi <public-koen-QLwJDigV5abLmq1fohREcCpxlwaOVQ5f@lo.gmane.org>
-Subject: Re: [PATCH 1/5] kernel.bbclass: move uImage handling to separate task
+	(envelope-from <dongxiao.xu@intel.com>) id 1RccyP-0007xX-8C
+	for openembedded-core@lists.openembedded.org;
+	Mon, 19 Dec 2011 14:09:45 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 19 Dec 2011 05:02:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="89044784"
+Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
+	by orsmga002.jf.intel.com with ESMTP; 19 Dec 2011 05:02:18 -0800
+Received: from pgsmsx103.gar.corp.intel.com (10.221.44.82) by
+	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Mon, 19 Dec 2011 21:02:17 +0800
+Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
+	PGSMSX103.gar.corp.intel.com (10.221.44.82) with Microsoft SMTP Server
+	(TLS) id 14.1.355.2; Mon, 19 Dec 2011 21:02:17 +0800
+Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
+	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
+	Mon, 19 Dec 2011 21:02:16 +0800
+From: "Xu, Dongxiao" <dongxiao.xu@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 19 Dec 2011 21:02:14 +0800
+Thread-Topic: [OE-core] [PATCH 1/1] initramfs-framework: provides a modular
+	initramfs
+Thread-Index: Acy11ZIava+jvR6BThCuymIRntM39AIeGFZg
+Message-ID: <D5AB6E638E5A3E4B8F4406B113A5A19A12ED44B60F@shsmsx501.ccr.corp.intel.com>
+References: <cover.1323292966.git.otavio@ossystems.com.br>
+	<0ab4225dfaee3c59d5200f9d73d75e4b44f3a498.1323292966.git.otavio@ossystems.com.br>
+	<4EE0FEEA.7080806@linux.intel.com>
+In-Reply-To: <4EE0FEEA.7080806@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/1] initramfs-framework: provides a modular initramfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,51 +50,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2011 12:55:54 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 19 Dec 2011 13:09:45 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/19/2011 12:13 AM, Koen Kooi wrote:
->
-> Op 18 dec. 2011, om 20:47 heeft Dmitry Eremin-Solenikov het volgende geschreven:
->
->> As per org.oe.dev and meta-oe's kernel.bbclass move uImage creation to
->> separate task from do_deploy. This way the do_install task can also
->> benefit from generated uImage.
->>
->> The only major feature of oe-core's version (not to recreate uImage
->> if it exists) is retained in this patch.
->
-> I still don't agree with that behaviour. The in-kernel uImage code is just like the in-kernel defconfigs: useless for people who aren't kernel developers.
+Hi Otavio and Saul,
 
-Koen, that was addressed with KERNEL_RECREATE_UIMAGE variable.
-Probably I should document it somewhere (in the commit message?
-documentation.conf? smwh. else?). Would you agree with this patch + docs?
+I tried to build initramfs-framework in Yocto master, and it reports the fo=
+llowing multiple provider issue:
 
->
->> On the contra, as this version
->> was merged from meta-oe/org.oe.dev, new function has another feature:
->> it permits overriding the u-boot entrypoint via u-boot symbol.
->
-> No it doesn't, since it doesn't recreate uImage.
+ERROR: Multiple .bb files are due to be built which each provide udev (/hom=
+e/dongxiao/poky/meta/recipes-core/udev/udev_164.bb /home/dongxiao/poky/meta=
+/recipes-core/udev/udev_145.bb).
 
-It does.
+I saw initramfs-framework RDEPENDS on package udev-utils, which doesn't exi=
+st in latest udev-164, thus it will try to include udev-145. This caused th=
+e multiple provider issue.
 
-BTW: I don't have much experience of uImage usage on ARM SoCs (I used
-them only on Atmel boards, where things usually 'just worked' regarding 
-Kernel load address & Ko). On PowerPC I also didn't have too much 
-problems with upstream kernels (both from Linus'es tree and from 
-Freescale's one).
+Could you help to have a look at that?
 
-I understand your concern, that for your tasks, you have to recreate 
-uImage using your sane values. However for some people sane values are 
-ones present in upstream tree. Moreover, if you care about history, it 
-was specially changed in oe-core not to recreate uImage, as it caused 
-problems for some of the users.
+Thanks,
+Dongxiao
 
--- 
-With best wishes
-Dmitry
-
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Saul Wold
+> Sent: Friday, December 09, 2011 2:16 AM
+> To: Patches and discussions about the oe-core layer
+> Subject: Re: [OE-core] [PATCH 1/1] initramfs-framework: provides a modula=
+r
+> initramfs
+>=20
+> On 12/07/2011 01:23 PM, Otavio Salvador wrote:
+> > Provides the API and modules for a modular initramfs. The currently
+> > included modules are:
+> >
+> >   * initramfs-module-debug adds support to dynamic debugging of
+> >     initramfs using bootparams
+> >
+> >   * initramfs-module-udev: enables udev usage
+> >
+> >   * initramfs-module-mdev: enables mdev usage
+> >
+> >   * initramfs-module-e2fs: adds support for ext4, ext3 and ext2
+> >     filesystems
+> >
+> > Signed-off-by: Otavio Salvador<otavio@ossystems.com.br>
+> > ---
+> >   .../initrdscripts/initramfs-framework/debug        |   82
+> ++++++++++++
+> >   .../initrdscripts/initramfs-framework/e2fs         |   28 ++++
+> >   .../initrdscripts/initramfs-framework/finish       |   46 +++++++
+> >   .../initrdscripts/initramfs-framework/init         |  136
+> ++++++++++++++++++++
+> >   .../initrdscripts/initramfs-framework/mdev         |   30 +++++
+> >   .../initrdscripts/initramfs-framework/udev         |   22 +++
+> >   .../initrdscripts/initramfs-framework_1.0.bb       |   57 ++++++++
+> >   7 files changed, 401 insertions(+), 0 deletions(-)
+> >   create mode 100644
+> meta/recipes-core/initrdscripts/initramfs-framework/debug
+> >   create mode 100755
+> meta/recipes-core/initrdscripts/initramfs-framework/e2fs
+> >   create mode 100755
+> meta/recipes-core/initrdscripts/initramfs-framework/finish
+> >   create mode 100755
+> meta/recipes-core/initrdscripts/initramfs-framework/init
+> >   create mode 100644
+> meta/recipes-core/initrdscripts/initramfs-framework/mdev
+> >   create mode 100644
+> meta/recipes-core/initrdscripts/initramfs-framework/udev
+> >   create mode 100644
+> > meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+> >
+>=20
+> Merged to OE-Core
+>=20
+> Thanks
+> 	Sau!
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
