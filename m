@@ -1,27 +1,21 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1RclUh-0001Fp-LN
+	(envelope-from <josh@linux.intel.com>) id 1RclWt-0001JE-AF
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Dec 2011 23:15:39 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 19 Dec 2011 14:08:35 -0800
+	Mon, 19 Dec 2011 23:17:55 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 19 Dec 2011 14:10:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="89249809"
-Received: from rmoore1-desk5.amr.corp.intel.com (HELO [10.7.199.156])
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="88245193"
+Received: from rmoore1-desk5.amr.corp.intel.com (HELO shamshir.jf.intel.com)
 	([10.7.199.156])
-	by orsmga002.jf.intel.com with ESMTP; 19 Dec 2011 14:08:35 -0800
-Message-ID: <4EEFB5E1.7040204@linux.intel.com>
-Date: Mon, 19 Dec 2011 14:08:33 -0800
+	by orsmga001.jf.intel.com with ESMTP; 19 Dec 2011 14:10:51 -0800
 From: Joshua Lock <josh@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:8.0) Gecko/20111115 Thunderbird/8.0
-MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-References: <cover.1323991540.git.josh@linux.intel.com>
-	<35d3dfdcbc7291c8556e90d67a0f349c8f7caa03.1323991540.git.josh@linux.intel.com>
-	<51B87129-E8A1-4358-BA5A-7090EA679925@dominion.thruhere.net>
-In-Reply-To: <51B87129-E8A1-4358-BA5A-7090EA679925@dominion.thruhere.net>
-Subject: Re: [PATCH 08/10] pango: clarify LICENSE is LGPL-2.0+
+Date: Mon, 19 Dec 2011 14:10:38 -0800
+Message-Id: <cover.1324332440.git.josh@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.4
+Subject: [PATCH 00/10] Various license clarifications v2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,43 +30,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2011 22:15:39 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 19 Dec 2011 22:17:55 -0000
 
-On 15/12/11 23:30, Koen Kooi wrote:
-> 
-> Op 16 dec. 2011, om 00:30 heeft Joshua Lock het volgende geschreven:
-> 
->> Signed-off-by: Joshua Lock <josh@linux.intel.com>
->> ---
->> meta/recipes-graphics/pango/pango.inc |    2 +-
->> 1 files changed, 1 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
->> index ff5a73a..922425c 100644
->> --- a/meta/recipes-graphics/pango/pango.inc
->> +++ b/meta/recipes-graphics/pango/pango.inc
->> @@ -7,7 +7,7 @@ core of text and font handling for GTK+-2.x."
->> HOMEPAGE = "http://www.pango.org/"
->> BUGTRACKER = "http://bugzilla.gnome.org"
->> SECTION = "libs"
->> -LICENSE = "LGPL"
->> +LICENSE = "LGPL-2.0+"
-> 
-> In the past we agreed to use LGLPv2+ for that, has that changed?
+This series is a v2 of an earlier series. It includes a few metadata
+massages to ensure LICENSE fields specify the correct license version.
 
-My bad, I saw the modified license handling code was mapping to SPDX
-values and opted to just do that. You're right though, current
-convention is the v notation.
+Since v1 I've used the same notation as common convention and further
+clarified some of the GPL licenses which have an or later clause.
 
-I've respun the patch series.
-
-Cheers,
+Regards,
 Joshua
+
+The following changes since commit ae4118a1f78f113c3d687c3aa6a86007cf977cae:
+
+  libsdl 1.2.14: fix packaging (2011-12-19 12:17:36 +0000)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib josh/updates
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/updates
+
+Joshua Lock (10):
+  gypsy: fix LICENSE field
+  udev: tidy the LICENSE fields
+  apt: clarify LICENSE as GPLv2.0
+  dpkg: clarify LICENSE as GPLv2.0
+  clutter: clarify LICENSE as LGPLv2.1
+  cogl: clarify LICENSE as LGPLv2.1 and fix metadata
+  matchbox-wm: clarify LICENSE as GPLv2.0
+  pango: clarify LICENSE is LGPLv2.0+
+  matchbox-desktop: clarify LICENSE is GPLv2.0+
+  matchbox-session-sato: clarify LICENSE in GPLv2.0
+
+ meta/recipes-connectivity/gypsy/gypsy.inc          |    2 +-
+ meta/recipes-core/udev/udev-new.inc                |    4 ++--
+ meta/recipes-core/udev/udev.inc                    |    4 ++--
+ meta/recipes-devtools/apt/apt.inc                  |    2 +-
+ meta/recipes-devtools/dpkg/dpkg.inc                |    2 +-
+ meta/recipes-graphics/clutter/clutter.inc          |    2 +-
+ meta/recipes-graphics/clutter/cogl.inc             |    6 +++---
+ .../matchbox-wm/matchbox-wm_1.2.bb                 |    2 +-
+ meta/recipes-graphics/pango/pango.inc              |    2 +-
+ .../matchbox-desktop/matchbox-desktop_0.9.1.bb     |    2 +-
+ .../matchbox-desktop/matchbox-desktop_2.0.bb       |    2 +-
+ .../matchbox-sato/matchbox-session-sato_0.1.bb     |    2 +-
+ 12 files changed, 16 insertions(+), 16 deletions(-)
+
 -- 
-Joshua Lock
-        Yocto Project "Johannes factotum"
-        Intel Open Source Technology Centre
+1.7.7.4
+
 
 
