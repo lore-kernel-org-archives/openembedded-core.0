@@ -1,33 +1,21 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1RcVXh-00072k-41
+	(envelope-from <dexuan.cui@intel.com>) id 1RcVfa-0007CZ-Jo
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Dec 2011 06:13:41 +0100
-Received: by lami14 with SMTP id i14so2018928lam.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 Dec 2011 21:06:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=oWFqMD03L9x+wpIqd0LUMSTOjuxINBtNS1v4DkjHaPY=;
-	b=RdKlTXfVEjEqciL1x4JDJpuv1VwynRLFASWDrdCpSplxxfSOBYWk0OEsj82KKli7LU
-	y7EmTsIew/oPnsbI1QjPidWDePDBzz406ekO+++RLy0reOnnsyyRxBq6PS7DWVe72RvL
-	lwY98+NVONQKHj8JVPHK6v4PQB4aBpeTkDOow=
-Received: by 10.152.111.136 with SMTP id ii8mr15102834lab.20.1324271195381;
-	Sun, 18 Dec 2011 21:06:35 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.152.36.198 with HTTP; Sun, 18 Dec 2011 21:06:04 -0800 (PST)
-In-Reply-To: <CADkTA4Nx9Z_3iFzd6FbkbwiYANUL6B4BXsW7_4LngeqcED7DRQ@mail.gmail.com>
-References: <1324237652-15618-1-git-send-email-dbaryshkov@gmail.com>
-	<5C0105D4-44BE-4584-9ED9-36970B91A34C@dominion.thruhere.net>
-	<CADkTA4OLwUcM86JbCXDOPXUOb1hH+vvKfShjaAsXP3e9Ek0f=A@mail.gmail.com>
-	<FB6AAD0F-5F91-48D3-8D02-FCBEC19A4B9E@dominion.thruhere.net>
-	<CADkTA4Nx9Z_3iFzd6FbkbwiYANUL6B4BXsW7_4LngeqcED7DRQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 18 Dec 2011 21:06:04 -0800
-Message-ID: <CAMKF1spq-m3dYd2nNhAH8CrZsvjmQrcoWa8Na8g1zng=DBJTgw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/5] kernel.bbclass: move uImage handling to separate task
+	Mon, 19 Dec 2011 06:21:50 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 18 Dec 2011 21:14:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="88914483"
+Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.36.50])
+	by orsmga002.jf.intel.com with ESMTP; 18 Dec 2011 21:14:46 -0800
+From: Dexuan Cui <dexuan.cui@intel.com>
+To: openembedded-core@lists.openembedded.org,
+	sakoman@gmail.com
+Date: Mon, 19 Dec 2011 13:14:48 +0800
+Message-Id: <cover.1324271587.git.dexuan.cui@intel.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [PATCH 0/1] fix wget build issue: /usr/lib/libssl.so: could not read symbols
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,41 +30,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2011 05:13:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 19 Dec 2011 05:21:51 -0000
 
-On Sun, Dec 18, 2011 at 5:39 PM, Bruce Ashfield
-<bruce.ashfield@gmail.com> wrote:
-> On Sun, Dec 18, 2011 at 4:19 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
->>
->> Op 18 dec. 2011, om 21:27 heeft Bruce Ashfield het volgende geschreven:
->>
->>> On Sun, Dec 18, 2011 at 3:13 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
->>>>
->>>> Op 18 dec. 2011, om 20:47 heeft Dmitry Eremin-Solenikov het volgende geschreven:
->>>>
->>>>> As per org.oe.dev and meta-oe's kernel.bbclass move uImage creation to
->>>>> separate task from do_deploy. This way the do_install task can also
->>>>> benefit from generated uImage.
->>>>>
->>>>> The only major feature of oe-core's version (not to recreate uImage
->>>>> if it exists) is retained in this patch.
->>>>
->>>> I still don't agree with that behaviour. The in-kernel uImage code is just like the in-kernel defconfigs: useless for people who aren't kernel developers.
->>>
->>> In that case, shouldn't people doing u-boot development (or other
->>> non-kernel developers),
->>> be building a uImage via something that isn't in kernel.bbclass ?
->>
+The following changes since commit b281fd127bac9ba77ab63a5c2b812ddd5d56df37:
 
-i think we have UBOOT_ENTRYPOINT, UBOOT_ENTRYSYMBOL and
-UBOOT_LOADADDRESS which are then used to generate the uImage
-and sometimes defaults from kernel build system may not be usable as
-it might be generating the image using some other values and we are not
-able to control the image generation. Now is that fixable in kernel I guess
-it could be but why not have flexibility of generating the image.
+  documentation/poky-ref-manual/technical-details.xml: edits per Richard Purdie (2011-12-16 16:58:41 +0000)
 
->> I use the kernel.bbclass in meta-oe, that does what I need.
->
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dcui/wget
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dcui/wget
+
+Dexuan Cui (1):
+  wget: fix a host intrusion issue introduced by adding
+    --with-ssl=openssl.
+
+ meta/recipes-extended/wget/wget.inc |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+-- 
+1.7.6
+
 
 
