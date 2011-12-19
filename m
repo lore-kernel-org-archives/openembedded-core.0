@@ -1,35 +1,27 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1RcQn5-0007zB-UB for openembedded-core@lists.openembedded.org;
-	Mon, 19 Dec 2011 01:09:16 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBJ02EPq008680
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2011 00:02:14 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 06963-08 for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2011 00:02:09 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id pBJ027li008674
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Dec 2011 00:02:08 GMT
-Message-ID: <1324252928.4568.161.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+Received: from mailout-de.gmx.net ([213.165.64.23])
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <schnitzeltony@gmx.de>) id 1RcRV1-0000Ut-T4
+	for openembedded-core@lists.openembedded.org;
+	Mon, 19 Dec 2011 01:54:39 +0100
+Received: (qmail invoked by alias); 19 Dec 2011 00:47:37 -0000
+Received: from p4FDF03DA.dip.t-dialin.net (EHLO localhost.localdomain)
+	[79.223.3.218]
+	by mail.gmx.net (mp071) with SMTP; 19 Dec 2011 01:47:37 +0100
+X-Authenticated: #62780362
+X-Provags-ID: V01U2FsdGVkX19I0oUzXJhIWv7t6N2lS3pGhqKvuc6nccwWekPOKE
+	MH5Exb/z9y6my0
+From: Andreas =?utf-8?q?M=C3=BCller?= <schnitzeltony@gmx.de>
+To: "Patches and discussions about the oe-core layer"
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 19 Dec 2011 00:02:08 +0000
-In-Reply-To: <CAMKF1sofqczGSZg47zkRdFU+f-FntO4-Tms_pi9kTs=3cs_kVw@mail.gmail.com>
-References: <1324237652-15618-1-git-send-email-dbaryshkov@gmail.com>
-	<1324237652-15618-2-git-send-email-dbaryshkov@gmail.com>
-	<CAMKF1sofqczGSZg47zkRdFU+f-FntO4-Tms_pi9kTs=3cs_kVw@mail.gmail.com>
-X-Mailer: Evolution 3.2.1- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 2/5] Move check that all installed files are shipped into insane.bbclass
+Date: Mon, 19 Dec 2011 01:48:15 +0100
+User-Agent: KMail/1.13.7 (Linux/2.6.35.14-106.fc14.x86_64; KDE/4.6.5; x86_64; ;
+	)
+References: <1324170197-10720-1-git-send-email-schnitzeltony@gmx.de>
+In-Reply-To: <1324170197-10720-1-git-send-email-schnitzeltony@gmx.de>
+MIME-Version: 1.0
+Message-Id: <201112190148.16063.schnitzeltony@gmx.de>
+X-Y-GMX-Trusted: 0
+Subject: Re: [PATCH] xorg-font-common.inc: break runtime dependency loop
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,34 +36,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2011 00:09:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 19 Dec 2011 00:54:40 -0000
+Content-Type: Text/Plain;
+  charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 2011-12-18 at 15:29 -0800, Khem Raj wrote:
-> On Sunday, December 18, 2011, Dmitry Eremin-Solenikov
-> <dbaryshkov@gmail.com> wrote:
-> > Checking that all installed files are shipped is in reality a QA
-> check.
-> > It would benefit from mechanisms like ERROR_QA/WARNING_QA. So move
-> it
-> > into insane.bbclass. If some of the files are installed but should
-> not
-> > be shipped for some reasons, one can add them to the variable
-> > IGNORE_UNSHIPPED_FILES.
-> >
-> This needs to be documented somewhere too and may be added to
-> sample.conf.extended
+On Sunday, December 18, 2011 02:03:17 AM Andreas M=C3=BCller wrote:
+> required since opkg update [1]
+>=20
+Hope there is no need to apply this one. Will test RP's patch tomorrow
 
-This doesn't make sense for sample.conf.extended. We're talking about a
-recipe specific configuration variable, not distro/machine/conf config
-which is more appropriate there.
-
-I'd suggest adding to documentation.conf and/or the various manuals.
-
-Cheers,
-
-Richard
-
+Andreas
 
 
