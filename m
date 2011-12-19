@@ -1,44 +1,46 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from am1ehsobe006.messaging.microsoft.com ([213.199.154.209]
+	helo=AM1EHSOBE006.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1Rca2t-000288-CU
+	(envelope-from <B19537@freescale.com>) id 1RcaVE-0002zO-6V
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Dec 2011 11:02:12 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 19 Dec 2011 01:55:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="87179488"
-Received: from pgsmsx603.gar.corp.intel.com ([10.221.43.87])
-	by azsmga001.ch.intel.com with ESMTP; 19 Dec 2011 01:55:07 -0800
-Received: from pgsmsx103.gar.corp.intel.com (10.221.44.82) by
-	pgsmsx603.gar.corp.intel.com (10.221.43.87) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Mon, 19 Dec 2011 17:54:08 +0800
-Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
-	PGSMSX103.gar.corp.intel.com (10.221.44.82) with Microsoft SMTP Server
-	(TLS) id 14.1.355.2; Mon, 19 Dec 2011 17:54:07 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
-	Mon, 19 Dec 2011 17:54:06 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Mon, 19 Dec 2011 17:54:05 +0800
-Thread-Topic: [OE-core] [PATCH 1/1] socat: add the latest stable version
-	1.7.2.0
-Thread-Index: Acy+MaHra00uvjOfTfuy1ZBOI78TlgAAk05w
-Message-ID: <1865303E0DED764181A9D882DEF65FB6EA8B6E116C@shsmsx502.ccr.corp.intel.com>
-References: <cover.1324272052.git.dexuan.cui@intel.com>
-	<5f5f0083a3fa9afa2081b1cca3dfda03b0fb7f76.1324272052.git.dexuan.cui@intel.com>
-	<9D240952-C22F-4CC9-8BF8-CFBA5D21F372@dominion.thruhere.net>
-	<1865303E0DED764181A9D882DEF65FB6EA8B6E113E@shsmsx502.ccr.corp.intel.com>
-	<A35AA859-7150-4E0C-AEF0-A3B2FD044796@dominion.thruhere.net>
-In-Reply-To: <A35AA859-7150-4E0C-AEF0-A3B2FD044796@dominion.thruhere.net>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
+	Mon, 19 Dec 2011 11:31:28 +0100
+Received: from mail73-am1-R.bigfish.com (10.3.201.251) by
+	AM1EHSOBE006.bigfish.com (10.3.204.26) with Microsoft SMTP Server id
+	14.1.225.23; Mon, 19 Dec 2011 10:08:58 +0000
+Received: from mail73-am1 (localhost [127.0.0.1])	by mail73-am1-R.bigfish.com
+	(Postfix) with ESMTP id C22D61C0236	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon, 19 Dec 2011 10:09:00 +0000 (UTC)
+X-SpamScore: 1
+X-BigFish: VS1(zzzz1202hzz8275bh8275dhz2dh2a8h668h839hb79i)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-FB-SS: 13,
+Received: from mail73-am1 (localhost.localdomain [127.0.0.1]) by mail73-am1
+	(MessageSwitch) id 1324289340690787_1764;
+	Mon, 19 Dec 2011 10:09:00 +0000 (UTC)
+Received: from AM1EHSMHS012.bigfish.com (unknown [10.3.201.245])	by
+	mail73-am1.bigfish.com (Postfix) with ESMTP id A4169500063	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon, 19 Dec 2011 10:09:00 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS012.bigfish.com
+	(10.3.207.112) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Mon, 19 Dec 2011 10:08:58 +0000
+Received: from az33smr02.freescale.net (10.64.34.200) by
+	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
+	Server id 14.1.355.3; Mon, 19 Dec 2011 04:09:02 -0600
+Received: from localhost.localdomain
+	(bjsimics-desktop-010192208197.ap.freescale.net [10.192.208.197])	by
+	az33smr02.freescale.net (8.13.1/8.13.0) with ESMTP id pBJA90bh020945;
+	Mon, 19 Dec 2011 04:09:01 -0600 (CST)
+From: <b19537@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 19 Dec 2011 18:12:01 +0800
+Message-ID: <1324289521-10140-1-git-send-email-b19537@freescale.com>
+X-Mailer: git-send-email 1.7.0.4
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] socat: add the latest stable version 1.7.2.0
+X-OriginatorOrg: freescale.com
+Subject: [PATCH oe-core] valgrind: add powerpc into the compatible host list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,77 +55,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2011 10:02:12 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 19 Dec 2011 10:31:28 -0000
+Content-Type: text/plain
 
-Koen Kooi wrote on 2011-12-19:
->=20
-> Op 19 dec. 2011, om 10:16 heeft Cui, Dexuan het volgende geschreven:
->=20
->> Koen Kooi wrote on 2011-12-19:
->>>=20
->>> Op 19 dec. 2011, om 06:22 heeft Dexuan Cui het volgende geschreven:
->>>=20
->>>> +DEPENDS =3D "openssl"
->>>> +
->>>> +LICENSE =3D "GPLv2+"
->> Hi Koen,
->> Thanks very much for the comment!
->>=20
->>> Linking GPL and openssl is not allowed due to the advertising clause=20
->>> in BSD. The socat people realized that and say:
->> "the advertising clause in BSD"?
->> I suppose you meant "the advertising clause in openssl license"?
->=20
-> Yes, indeed
->=20
->>=20
->>> license
->>> -------
->>>=20
->>> socat is distributed under the terms of the GNU GPL; except for=20
->>> install-sh, which is copyright MIT, with its own license;
->>>=20
->>> In addition, as a special exception, the copyright holder gives=20
->>> permission to link the code of this program with any version of the=20
->>> OpenSSL library which is distributed under a license identical to=20
->>> that listed in the included COPYING.OpenSSL file, and distribute=20
->>> linked combinations including the two. You must obey the GNU General=20
->>> Public License in all respects for all of the code used other than Open=
-SSL.
->>> If you modify this file, you may extend this exception to your=20
->>> version of the file, but you are not obligated to do so. If you do=20
->>> not wish to do so, delete this exception statement from your version.
->> My understanding is: the author of socat allows us to link socat to=20
->> the lib openssl?
->=20
-> Correct. I don't know what happens when you include socat in a GPL=20
-> product, but that's for other people to worry about :)
->=20
->> Koen,
->> I'm really not good at the license stuff at all. Could you please=20
->> explain the situation in more details?
->=20
-> From what I've understood the advertising clause is consired a=20
-> "restriction" by the GPL and hence incompatible. Since openssl is so=20
-> widespread and gnutls so buggy the exception was invented to allow openss=
-l to link with gpl software.
->=20
->> What need we do if we want to add the socat recipe into poky? It has=20
->> already been in OE for a long period of time.
->=20
-> Some googling suggests that 'GPL-2.0+-with-OpenSSL-exception' is SPDX=20
-> compatible, so we could put that in LICENSE.
-Thanks a lot for the suggestion!
+From: Zhenhua Luo <b19537@freescale.com>
 
-Please review/use the new patch:
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Ddcui/soc=
-at-v2&id=3D896e5e9f9ca387d832d423a1e16ad918d473c4cc
+    add powerpc/powerpc64/ppc/ppc64 in COMPATIBLE_HOST variable
 
-Thanks,
--- Dexuan
+Signed-off-by: Zhenhua Luo <b19537@freescale.com>
+---
+ meta/recipes-devtools/valgrind/valgrind_3.6.1.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.6.1.bb b/meta/recipes-devtools/valgrind/valgrind_3.6.1.bb
+index 021caa8..c09fc41 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.6.1.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.6.1.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c46082167a314d785d012a244748d803 \
+                     file://include/valgrind.h;beginline=1;endline=56;md5=13a71cedba99112334d8596162aec37e \
+                     file://COPYING.DOCS;md5=8fdeb5abdb235a08e76835f8f3260215"
+ DEPENDS = "virtual/libx11"
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+ 	   file://fix_issue_caused_by_ccache.patch \
+@@ -17,7 +17,7 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+ SRC_URI[md5sum] = "2c3aa122498baecc9d69194057ca88f5"
+ SRC_URI[sha256sum] = "49bdcc4fbcf060049b5f0dcfd8a187a6e90e0b0e57309f633b64e44430726a0e"
+ 
+-COMPATIBLE_HOST = '(i.86|x86_64).*-linux'
++COMPATIBLE_HOST = '(i.86|x86_64|powerpc|powerpc64|ppc|ppc64).*-linux'
+ 
+ inherit autotools
+ 
+-- 
+1.7.0.4
 
 
 
