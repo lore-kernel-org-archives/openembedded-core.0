@@ -1,22 +1,28 @@
-Received: from mga02.intel.com ([134.134.136.20])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1RclP2-00015l-Ra
+Received: from mailout-de.gmx.net ([213.165.64.22])
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <schnitzeltony@gmx.de>) id 1RclRB-0001AP-5f
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Dec 2011 23:09:49 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 19 Dec 2011 14:02:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="89247824"
-Received: from envy.jf.intel.com ([10.7.201.175])
-	by orsmga002.jf.intel.com with ESMTP; 19 Dec 2011 14:02:25 -0800
-From: Beth Flanagan <elizabeth.flanagan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Dec 2011 13:50:25 -0800
-Message-Id: <b680bbc0f8d2672fc03433c9e6911c0a04eb20c1.1324331298.git.elizabeth.flanagan@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1324331298.git.elizabeth.flanagan@intel.com>
-References: <cover.1324331298.git.elizabeth.flanagan@intel.com>
-Subject: [PATCH 1/1] license: Fix manifest conditional
+	Mon, 19 Dec 2011 23:12:01 +0100
+Received: (qmail invoked by alias); 19 Dec 2011 22:04:55 -0000
+Received: from p5B0A29E0.dip.t-dialin.net (EHLO localhost.localdomain)
+	[91.10.41.224]
+	by mail.gmx.net (mp032) with SMTP; 19 Dec 2011 23:04:55 +0100
+X-Authenticated: #62780362
+X-Provags-ID: V01U2FsdGVkX1/bBy560knbYxFIa7Z069I12uwA+AkQRZc2euY+hO
+	8taBQooDCfI7kr
+From: Andreas =?iso-8859-1?q?M=FCller?= <schnitzeltony@gmx.de>
+To: "Patches and discussions about the oe-core layer"
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 19 Dec 2011 23:05:35 +0100
+User-Agent: KMail/1.13.7 (Linux/2.6.35.14-106.fc14.x86_64; KDE/4.6.5; x86_64; ;
+	)
+References: <201112170258.10212.schnitzeltony@gmx.de>
+	<4EEF8199.9090007@linux.intel.com>
+In-Reply-To: <4EEF8199.9090007@linux.intel.com>
+MIME-Version: 1.0
+Message-Id: <201112192305.35700.schnitzeltony@gmx.de>
+X-Y-GMX-Trusted: 0
+Subject: Re: require *.bbappend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,36 +37,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2011 22:09:49 -0000
+X-List-Received-Date: Mon, 19 Dec 2011 22:12:01 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-The manifest conditionals COPY_LIC_MANIFEST and COPY_LIC_DIRS
-were returning true due to missing quotes in the bash test. This
-made images larger than expected.
+On Monday, December 19, 2011 07:25:29 PM Joshua Lock wrote:
+> On 16/12/11 17:58, Andreas M=FCller wrote:
+> > Hi
+> >=20
+> > I have the following use case:
+> >=20
+> > In my working layer I would like to have a recipe adding functionality =
+to
+> > a recipe from another layer (e.g systemd-image.bb from angstrom) with a
+> > different name ( -> no bbappend ). How about
+> >=20
+> > * create systemd-image.bbapend with just 'FILESEXTRAPATHS :=3D
+> > "${THISDIR}"' to get it into the scope of my layer
+> > * create a recipe  which contains 'require systemd-image.bbappend'
+> >=20
+> > Currently parser complains that systemd-image.bbappend is not a BitBake
+> > file.
+>=20
+> I think this should work and the issue you're seeing is that require
+> wants a relative PATH from BBPATH.
+>=20
+> i.e. require recipes-images/angstrom/systemd-image.bb
+>=20
+AArgh - thanks for helping me out of quirks by such simple solution :)
 
-Signed-off-by: Beth Flanagan <elizabeth.flanagan@intel.com>
----
- meta/classes/license.bbclass |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 6e82bd9..d351b5a 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -110,10 +110,10 @@ license_create_manifest() {
-     # if you are concerned about license compliance 
-     # and delivery this should cover all your bases
- 
--    if [ -n ${COPY_LIC_MANIFEST} ]; then
-+    if [ -n "${COPY_LIC_MANIFEST}" ]; then
-         mkdir -p ${IMAGE_ROOTFS}/usr/share/common-licenses/
-         cp ${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest ${IMAGE_ROOTFS}/usr/share/common-licenses/license.manifest
--        if [ -n ${COPY_LIC_DIRS} ]; then
-+        if [ -n "${COPY_LIC_DIRS}" ]; then
-             for pkg in ${INSTALLED_PKGS}; do
-                 mkdir -p ${IMAGE_ROOTFS}/usr/share/common-licenses/${pkg}
-                 for lic in `ls ${LICENSE_DIRECTORY}/${pkged_pn}`; do
--- 
-1.7.1
-
+Andreas
 
 
