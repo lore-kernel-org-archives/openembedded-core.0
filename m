@@ -1,35 +1,34 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1Rd56Z-0005Cd-Vc
+	(envelope-from <raj.khem@gmail.com>) id 1Rd5xs-00074v-Rt
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Dec 2011 20:12:04 +0100
-Received: by mail-yw0-f47.google.com with SMTP id o47so4599160yho.6
+	Tue, 20 Dec 2011 21:07:08 +0100
+Received: by lami14 with SMTP id i14so2615517lam.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Dec 2011 11:05:02 -0800 (PST)
+	Tue, 20 Dec 2011 12:00:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references;
-	bh=0+S8UlMO+/V8UUE5QaxWhVaK9iq4nJ3RJjn5FVFp7Wk=;
-	b=FlsXecRmo/9TARIPcOuRMbSZVKYOmbEyqgd3ZP3ixX1BleLsXZgvv+zCtGdEkuYDIy
-	AYOinzRVd+m7R3YOTEAnxPQoIct7Z/FJDMclw9ghWETPsOMWqDMcaecipEjHNTnLnVgI
-	lXrml0XUysz4AhqyXClxK5uZgZY2sqopt+cvE=
-Received: by 10.236.128.197 with SMTP id f45mr5865102yhi.44.1324407901999;
-	Tue, 20 Dec 2011 11:05:01 -0800 (PST)
-Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id o50sm4771379yhl.9.2011.12.20.11.04.59
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 20 Dec 2011 11:05:01 -0800 (PST)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Dec 2011 19:04:15 +0000
-Message-Id: <444cb0c0c2b99cac90d3b9964d44021c08b1a774.1324407759.git.otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <cover.1324407759.git.otavio@ossystems.com.br>
-References: <cover.1324407759.git.otavio@ossystems.com.br>
-In-Reply-To: <cover.1324407759.git.otavio@ossystems.com.br>
-References: <cover.1324407759.git.otavio@ossystems.com.br>
-Subject: [PATCH 9/9] udev: split utilities onto udev-utils
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=lreghlIQyNhLO20xbAPeY3ch+sIwkqzOvs5hHW5SBGM=;
+	b=vTL0u9tiE76UH+Wt/vk/1OEilN1RM7ctasIR+ePrObAggVM9u8E6tnPdPNd1833rwS
+	Oao5uJTHj+Lv5uTflkqWOWAAuWYkoMYTqBShJt8NZ+VxB3MjSSPYdgz9CGv56UOZfZ6s
+	Q9B68tq+p5Gev9yontoCZj6kCr6pcjapq8A9g=
+Received: by 10.152.128.98 with SMTP id nn2mr3411672lab.14.1324411204296; Tue,
+	20 Dec 2011 12:00:04 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.152.10.3 with HTTP; Tue, 20 Dec 2011 11:59:33 -0800 (PST)
+In-Reply-To: <4EF02CDA.8070707@eukrea.com>
+References: <1323851280-6342-1-git-send-email-raj.khem@gmail.com>
+	<1323856946.25491.31.camel@ted> <4EE8E607.5080207@emagii.com>
+	<CAMKF1sqgzc=RK4G2yMahvFrTAGSwH40fxjCy=tifrMU=isdO+w@mail.gmail.com>
+	<4EF02CDA.8070707@eukrea.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 20 Dec 2011 11:59:33 -0800
+Message-ID: <CAMKF1soiqXt3dcJea5o=54bTaJNGUxRDHBoHe6TWa-hEx=AgHw@mail.gmail.com>
+To: =?UTF-8?B?RXJpYyBCw6luYXJk?= <eric@eukrea.com>
+Cc: ulf@emagii.com, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc-4.6: Let G++ relocate gxx-include-dir when using --sysroot option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,59 +43,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Dec 2011 19:12:04 -0000
+X-List-Received-Date: Tue, 20 Dec 2011 20:07:09 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/recipes-core/udev/udev.inc    |    6 +++++-
- meta/recipes-core/udev/udev_164.bb |    2 +-
- 2 files changed, 6 insertions(+), 2 deletions(-)
+On Mon, Dec 19, 2011 at 10:36 PM, Eric B=C3=A9nard <eric@eukrea.com> wrote:
+> Hi, Khem,
+>
+> Le 14/12/2011 19:38, Khem Raj a =C3=A9crit :
+>
+>> On Wed, Dec 14, 2011 at 10:08 AM, Ulf Samuelsson
+>> <openembedded-core@emagii.com> =C2=A0wrote:
+>>>>
+>>>>
+>>>>
+>>> Not familiar with gcc internals, but just want to reiterate the point
+>>> that the problem occured (the one I saw) only when I had
+>>> BB_NUMBER_THREADS at a high value, so WHEN things are done seems to be
+>>> important.
+>>
+>>
+> Seems more complicated than this. A customeer reproduced it with BB_THREA=
+D=3D2
+> and PARALLEL=3Dj3 ... (I never reproduced in with BB_THREAD < 5)
+>
 
-diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
-index 7b6ed64..8343eaf 100644
---- a/meta/recipes-core/udev/udev.inc
-+++ b/meta/recipes-core/udev/udev.inc
-@@ -36,7 +36,7 @@ libexecdir = "${base_libdir}/udev"
- EXTRA_OECONF = "--disable-introspection --with-rootlibdir=${base_libdir} \
-                 --with-pci-ids-path=${datadir}/pci.ids"
- 
--PACKAGES =+ "udev-acl udev-consolekit"
-+PACKAGES =+ "udev-acl udev-consolekit udev-utils"
- PACKAGES =+ "udev-cache libudev libudev-dev libudev-dbg"
- PACKAGES =+ "libgudev libgudev-dev libgudev-dbg"
- 
-@@ -47,6 +47,8 @@ INITSCRIPT_NAME_udev-cache = "udev-cache"
- INITSCRIPT_PARAMS_udev-cache = "start 36 S ."
- 
- FILES_${PN} += "${libexecdir} ${libdir}/ConsoleKit"
-+RRECOMMENDS_${PN} += "udev-utils"
-+
- FILES_${PN}-dbg += "${libexecdir}/.debug"
- FILES_${PN}-dev = "${datadir}/pkgconfig/udev.pc"
- FILES_libudev = "${base_libdir}/libudev.so.*"
-@@ -61,6 +63,8 @@ FILES_udev-cache = "${sysconfdir}/init.d/udev-cache ${sysconfdir}/default/udev-c
- 
- FILES_udev-acl = "${base_libdir}/udev/udev-acl ${base_libdir}/udev/rules.d/70-acl.rules"
- 
-+FILES_udev-utils = "${bindir}/udevinfo ${bindir}/udevtest ${base_sbindir}/udevadm"
-+
- RDEPENDS_udev-consolekit += "udev-acl"
- FILES_udev-consolekit = "${libdir}/ConsoleKit"
- 
-diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
-index b993a13..d661044 100644
---- a/meta/recipes-core/udev/udev_164.bb
-+++ b/meta/recipes-core/udev/udev_164.bb
-@@ -1,6 +1,6 @@
- include udev.inc
- 
--PR = "r11"
-+PR = "r12"
- 
- SRC_URI += "file://udev-166-v4l1-1.patch"
- 
--- 
-1.7.2.5
+Can you see when gcc-runtime was finished building and staging w.r.t
+to the failing app
 
+>
+>> could you test out this patch in your configuration and see if you still
+>> see the problem ?
+>>
+> I reproduced the problem with this patch and BB_THREAD=3D8 so this patch
+> doesn't
+> improve the current behaviour.
+
+thats was my original expectation
+
+>
+> Eric
 
 
